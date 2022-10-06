@@ -43,8 +43,14 @@ public class FluidDuctBase extends BlockContainer implements IBlockFluidDuct {
 					}
 				}
 			} else {
-				changeTypeRecursively(world, x, y, z, type, 64);
-				return true;
+				
+				TileEntity te = world.getTileEntity(x, y, z);
+				
+				if(te instanceof TileEntityPipeBaseNT) {
+					TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
+					changeTypeRecursively(world, x, y, z, pipe.getType(), type, 64);
+					return true;
+				}
 			}
 		}
 		
@@ -52,14 +58,14 @@ public class FluidDuctBase extends BlockContainer implements IBlockFluidDuct {
 	}
 
 	@Override
-	public void changeTypeRecursively(World world, int x, int y, int z, FluidType type, int loopsRemaining) {
+	public void changeTypeRecursively(World world, int x, int y, int z, FluidType prevType, FluidType type, int loopsRemaining) {
 		
 		TileEntity te = world.getTileEntity(x, y, z);
 		
 		if(te instanceof TileEntityPipeBaseNT) {
 			TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
 			
-			if(pipe.getType() != type) {
+			if(pipe.getType() == prevType && pipe.getType() != type) {
 				pipe.setType(type);
 				
 				if(loopsRemaining > 0) {
@@ -67,7 +73,7 @@ public class FluidDuctBase extends BlockContainer implements IBlockFluidDuct {
 						Block b = world.getBlock(x, y, z);
 						
 						if(b instanceof IBlockFluidDuct) {
-							((IBlockFluidDuct) b).changeTypeRecursively(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, type, loopsRemaining - 1);
+							((IBlockFluidDuct) b).changeTypeRecursively(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, prevType, type, loopsRemaining - 1);
 						}
 					}
 				}

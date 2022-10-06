@@ -139,6 +139,11 @@ public class EntitySiegeCraft extends EntityUFOBase implements IBossDisplayData 
 	}
 
 	@Override
+	protected int getScanRange() {
+		return 100;
+	}
+
+	@Override
 	protected int targetHeightOffset() {
 		return 7 + rand.nextInt(5);
 	}

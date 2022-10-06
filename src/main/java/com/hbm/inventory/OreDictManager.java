@@ -9,13 +9,16 @@ import java.util.List;
 import static com.hbm.items.ModItems.*;
 import static com.hbm.blocks.ModBlocks.*;
 import static com.hbm.inventory.OreDictManager.DictFrame.*;
+import static com.hbm.inventory.OreNames.*;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.hazard.HazardData;
 import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.inventory.material.MatDistribution;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.main.MainRegistry;
@@ -73,7 +76,7 @@ public class OreDictManager {
 	public static final String KEY_COAL_TAR = "coaltar";
 
 	public static final String KEY_UNIVERSAL_TANK = "ntmuniversaltank";
-	public static final String KEY_HAZARD_TANK = "ntmuhazardtank";
+	public static final String KEY_HAZARD_TANK = "ntmhazardtank";
 	public static final String KEY_UNIVERSAL_BARREL = "ntmuniversalbarrel";
 
 	public static final String KEY_TOOL_SCREWDRIVER = "ntmscrewdriver";
@@ -81,23 +84,6 @@ public class OreDictManager {
 	public static final String KEY_TOOL_CHEMISTRYSET = "ntmchemistryset";
 
 	public static final String KEY_CIRCUIT_BISMUTH = "circuitVersatile";
-	
-	/*
-	 * PREFIXES
-	 */
-	public static final String ANY = "any";
-	public static final String NUGGET = "nugget";
-	public static final String TINY = "tiny";
-	public static final String INGOT = "ingot";
-	public static final String DUSTTINY = "dustTiny";
-	public static final String DUST = "dust";
-	public static final String GEM = "gem";
-	public static final String CRYSTAL = "crystal";
-	public static final String PLATE = "plate";
-	public static final String BILLET = "billet";
-	public static final String BLOCK = "block";
-	public static final String ORE = "ore";
-	public static final String ORENETHER = "oreNether";
 
 	/*
 	 * MATERIALS
@@ -162,6 +148,7 @@ public class OreDictManager {
 	/** LEAD */ 
 	public static final DictFrame PB = new DictFrame("Lead");
 	//public static final DictFrame BI = new DictFrame("Bismuth");
+	public static final DictFrame AS = new DictFrame("Arsenic");
 	/** TANTALUM */ 
 	public static final DictFrame TA = new DictFrame("Tantalum");
 	public static final DictFrame COLTAN = new DictFrame("Coltan");
@@ -183,6 +170,7 @@ public class OreDictManager {
 	public static final DictFrame DESH = new DictFrame("WorkersAlloy");
 	public static final DictFrame STAR = new DictFrame("Starmetal");
 	public static final DictFrame BIGMT = new DictFrame("Saturnite");
+	public static final DictFrame FERRO = new DictFrame("Ferrouranium");
 	public static final DictFrame EUPH = new DictFrame("Euphemium");
 	public static final DictFrame DNT = new DictFrame("Dineutronium");
 	public static final DictFrame FIBER = new DictFrame("Fiberglass");
@@ -261,14 +249,21 @@ public class OreDictManager {
 	/*
 	 * COLLECTIONS
 	 */
+	/** Any post oil polymer like teflon ("polymer") or bakelite */
 	public static final DictGroup ANY_PLASTIC = new DictGroup("AnyPlastic", POLYMER, BAKELITE);		//using the Any prefix means that it's just the secondary prefix, and that shape prefixes are applicable
+	/** Any "powder" propellant like gunpowder, ballistite and cordite */
 	public static final DictFrame ANY_GUNPOWDER = new DictFrame("AnyPropellant");
+	/** Any smokeless powder like ballistite and cordite */
 	public static final DictFrame ANY_SMOKELESS = new DictFrame("AnySmokeless");
+	/** Any plastic explosive like semtex H or C-4 */
 	public static final DictFrame ANY_PLASTICEXPLOSIVE = new DictFrame("AnyPlasticexplosive");
+	/** Any higher tier high explosive (therefore excluding dynamite) like TNT */
 	public static final DictFrame ANY_HIGHEXPLOSIVE = new DictFrame("AnyHighexplosive");
 	public static final DictFrame ANY_COKE = new DictFrame("AnyCoke", "Coke");
 	public static final DictFrame ANY_CONCRETE = new DictFrame("Concrete");			//no any prefix means that any has to be appended with the any() or anys() getters, registering works with the any (i.e. no shape) setter
 	public static final DictGroup ANY_TAR = new DictGroup("Tar", KEY_OIL_TAR, KEY_COAL_TAR, KEY_CRACK_TAR);
+	/** Any special psot-RBMK gating material, namely bismuth and arsenic */
+	public static final DictFrame ANY_BISMOID = new DictFrame("AnyBismoid");
 	
 	public static void registerOres() {
 
@@ -286,33 +281,33 @@ public class OreDictManager {
 		/*
 		 * RADIOACTIVE
 		 */
-		U		.rad(HazardRegistry.u)						.nugget(nugget_uranium)		.billet(billet_uranium)		.ingot(ingot_uranium)		.dust(powder_uranium)									.block(block_uranium)		.ore(ore_uranium, ore_uranium_scorched, ore_gneiss_uranium, ore_gneiss_uranium_scorched, ore_nether_uranium, ore_nether_uranium_scorched, ore_meteor_uranium)	.oreNether(ore_nether_uranium, ore_nether_uranium_scorched);
-		U233	.rad(HazardRegistry.u233)					.nugget(nugget_u233)		.billet(billet_u233)		.ingot(ingot_u233)																	.block(block_u233);
-		U235	.rad(HazardRegistry.u235)					.nugget(nugget_u235)		.billet(billet_u235)		.ingot(ingot_u235)																	.block(block_u235);
-		U238	.rad(HazardRegistry.u238)					.nugget(nugget_u238)		.billet(billet_u238)		.ingot(ingot_u238)																	.block(block_u238);
-		TH232	.rad(HazardRegistry.th232)					.nugget(nugget_th232)		.billet(billet_th232)		.ingot(ingot_th232)			.dust(powder_thorium)									.block(block_thorium)		.ore(ore_thorium, ore_meteor_thorium);
-		PU		.rad(HazardRegistry.pu)						.nugget(nugget_plutonium)	.billet(billet_plutonium)	.ingot(ingot_plutonium)		.dust(powder_plutonium)									.block(block_plutonium)		.ore(ore_nether_plutonium)	.oreNether(ore_nether_plutonium);
-		PURG	.rad(HazardRegistry.purg)					.nugget(nugget_pu_mix)		.billet(billet_pu_mix)		.ingot(ingot_pu_mix)																.block(block_pu_mix);
-		PU238	.rad(HazardRegistry.pu238)	.hot(3F)		.nugget(nugget_pu238)		.billet(billet_pu238)		.ingot(ingot_pu238)																	.block(block_pu238);
-		PU239	.rad(HazardRegistry.pu239)					.nugget(nugget_pu239)		.billet(billet_pu239)		.ingot(ingot_pu239)																	.block(block_pu239);
-		PU240	.rad(HazardRegistry.pu240)					.nugget(nugget_pu240)		.billet(billet_pu240)		.ingot(ingot_pu240)																	.block(block_pu240);
-		PU241	.rad(HazardRegistry.pu241)					.nugget(nugget_pu241)		.billet(billet_pu241)		.ingot(ingot_pu241);																//.block(block_pu241);
-		AM241	.rad(HazardRegistry.am241)					.nugget(nugget_am241)		.billet(billet_am241)		.ingot(ingot_am241);
-		AM242	.rad(HazardRegistry.am242)					.nugget(nugget_am242)		.billet(billet_am242)		.ingot(ingot_am242);
-		AMRG	.rad(HazardRegistry.amrg)					.nugget(nugget_am_mix)		.billet(billet_am_mix)		.ingot(ingot_am_mix);
-		NP237	.rad(HazardRegistry.np237)					.nugget(nugget_neptunium)	.billet(billet_neptunium)	.ingot(ingot_neptunium)		.dust(powder_neptunium)									.block(block_neptunium);
-		PO210	.rad(HazardRegistry.po210)	.hot(3)			.nugget(nugget_polonium)	.billet(billet_polonium)	.ingot(ingot_polonium)		.dust(powder_polonium)									.block(block_polonium);
-		TC99	.rad(HazardRegistry.tc99)					.nugget(nugget_technetium)	.billet(billet_technetium)	.ingot(ingot_technetium);
-		RA226	.rad(HazardRegistry.ra226)					.nugget(nugget_ra226)		.billet(billet_ra226)		.ingot(ingot_ra226)			.dust(powder_ra226)										.block(block_ra226);
-		AC227	.rad(HazardRegistry.ac227)					.nugget(nugget_actinium)	.billet(billet_actinium)	.ingot(ingot_actinium)		.dust(powder_actinium)									.block(block_actinium)		.dustSmall(powder_actinium_tiny);
-		CO60	.rad(HazardRegistry.co60)	.hot(1)			.nugget(nugget_co60)		.billet(billet_co60)		.ingot(ingot_co60)			.dust(powder_co60);
-		AU198	.rad(HazardRegistry.au198)	.hot(5)			.nugget(nugget_au198)		.billet(billet_au198)		.ingot(ingot_au198)			.dust(powder_au198);
-		PB209	.rad(HazardRegistry.pb209)	.blinding(50F)	.hot(7)						.nugget(nugget_pb209)		.billet(billet_pb209)		.ingot(ingot_pb209);
-		SA326	.rad(HazardRegistry.sa326)	.blinding(50F)	.nugget(nugget_schrabidium)	.billet(billet_schrabidium)	.ingot(ingot_schrabidium)	.dust(powder_schrabidium)	.plate(plate_schrabidium)	.block(block_schrabidium)	.ore(ore_schrabidium, ore_gneiss_schrabidium, ore_nether_schrabidium)	.oreNether(ore_nether_schrabidium);
-		SA327	.rad(HazardRegistry.sa327)	.blinding(50F)	.nugget(nugget_solinium)	.billet(billet_solinium)	.ingot(ingot_solinium)																.block(block_solinium);
-		SBD		.rad(HazardRegistry.sb)		.blinding(50F)															.ingot(ingot_schrabidate)	.dust(powder_schrabidate)								.block(block_schrabidate);
-		SRN		.rad(HazardRegistry.sr)		.blinding(50F)															.ingot(ingot_schraranium)															.block(block_schraranium);
-		GH336	.rad(HazardRegistry.gh336)					.nugget(nugget_gh336)		.billet(billet_gh336)		.ingot(ingot_gh336);
+		U		.rad(HazardRegistry.u)								.nugget(nugget_uranium)		.billet(billet_uranium)		.ingot(ingot_uranium)		.dust(powder_uranium)									.block(block_uranium)		.ore(ore_uranium, ore_uranium_scorched, ore_gneiss_uranium, ore_gneiss_uranium_scorched, ore_nether_uranium, ore_nether_uranium_scorched, ore_meteor_uranium)	.oreNether(ore_nether_uranium, ore_nether_uranium_scorched);
+		U233	.rad(HazardRegistry.u233)							.nugget(nugget_u233)		.billet(billet_u233)		.ingot(ingot_u233)																	.block(block_u233);
+		U235	.rad(HazardRegistry.u235)							.nugget(nugget_u235)		.billet(billet_u235)		.ingot(ingot_u235)																	.block(block_u235);
+		U238	.rad(HazardRegistry.u238)							.nugget(nugget_u238)		.billet(billet_u238)		.ingot(ingot_u238)																	.block(block_u238);
+		TH232	.rad(HazardRegistry.th232)							.nugget(nugget_th232)		.billet(billet_th232)		.ingot(ingot_th232)			.dust(powder_thorium)									.block(block_thorium)		.ore(ore_thorium, ore_meteor_thorium);
+		PU		.rad(HazardRegistry.pu)								.nugget(nugget_plutonium)	.billet(billet_plutonium)	.ingot(ingot_plutonium)		.dust(powder_plutonium)									.block(block_plutonium)		.ore(ore_nether_plutonium)	.oreNether(ore_nether_plutonium);
+		PURG	.rad(HazardRegistry.purg)							.nugget(nugget_pu_mix)		.billet(billet_pu_mix)		.ingot(ingot_pu_mix)																.block(block_pu_mix);
+		PU238	.rad(HazardRegistry.pu238)	.hot(3F)				.nugget(nugget_pu238)		.billet(billet_pu238)		.ingot(ingot_pu238)																	.block(block_pu238);
+		PU239	.rad(HazardRegistry.pu239)							.nugget(nugget_pu239)		.billet(billet_pu239)		.ingot(ingot_pu239)																	.block(block_pu239);
+		PU240	.rad(HazardRegistry.pu240)							.nugget(nugget_pu240)		.billet(billet_pu240)		.ingot(ingot_pu240)																	.block(block_pu240);
+		PU241	.rad(HazardRegistry.pu241)							.nugget(nugget_pu241)		.billet(billet_pu241)		.ingot(ingot_pu241);																//.block(block_pu241);
+		AM241	.rad(HazardRegistry.am241)							.nugget(nugget_am241)		.billet(billet_am241)		.ingot(ingot_am241);
+		AM242	.rad(HazardRegistry.am242)							.nugget(nugget_am242)		.billet(billet_am242)		.ingot(ingot_am242);
+		AMRG	.rad(HazardRegistry.amrg)							.nugget(nugget_am_mix)		.billet(billet_am_mix)		.ingot(ingot_am_mix);
+		NP237	.rad(HazardRegistry.np237)							.nugget(nugget_neptunium)	.billet(billet_neptunium)	.ingot(ingot_neptunium)		.dust(powder_neptunium)									.block(block_neptunium);
+		PO210	.rad(HazardRegistry.po210)	.hot(3)					.nugget(nugget_polonium)	.billet(billet_polonium)	.ingot(ingot_polonium)		.dust(powder_polonium)									.block(block_polonium);
+		TC99	.rad(HazardRegistry.tc99)							.nugget(nugget_technetium)	.billet(billet_technetium)	.ingot(ingot_technetium);
+		RA226	.rad(HazardRegistry.ra226)							.nugget(nugget_ra226)		.billet(billet_ra226)		.ingot(ingot_ra226)			.dust(powder_ra226)										.block(block_ra226);
+		AC227	.rad(HazardRegistry.ac227)							.nugget(nugget_actinium)	.billet(billet_actinium)	.ingot(ingot_actinium)		.dust(powder_actinium)									.block(block_actinium)		.dustSmall(powder_actinium_tiny);
+		CO60	.rad(HazardRegistry.co60)	.hot(1)					.nugget(nugget_co60)		.billet(billet_co60)		.ingot(ingot_co60)			.dust(powder_co60);
+		AU198	.rad(HazardRegistry.au198)	.hot(5)					.nugget(nugget_au198)		.billet(billet_au198)		.ingot(ingot_au198)			.dust(powder_au198);
+		PB209	.rad(HazardRegistry.pb209)	.blinding(50F)	.hot(7)	.nugget(nugget_pb209)		.billet(billet_pb209)		.ingot(ingot_pb209);
+		SA326	.rad(HazardRegistry.sa326)	.blinding(50F)			.nugget(nugget_schrabidium)	.billet(billet_schrabidium)	.ingot(ingot_schrabidium)	.dust(powder_schrabidium)	.plate(plate_schrabidium)	.block(block_schrabidium)	.ore(ore_schrabidium, ore_gneiss_schrabidium, ore_nether_schrabidium)	.oreNether(ore_nether_schrabidium);
+		SA327	.rad(HazardRegistry.sa327)	.blinding(50F)			.nugget(nugget_solinium)	.billet(billet_solinium)	.ingot(ingot_solinium)																.block(block_solinium);
+		SBD		.rad(HazardRegistry.sb)		.blinding(50F)																	.ingot(ingot_schrabidate)	.dust(powder_schrabidate)								.block(block_schrabidate);
+		SRN		.rad(HazardRegistry.sr)		.blinding(50F)																	.ingot(ingot_schraranium)															.block(block_schraranium);
+		GH336	.rad(HazardRegistry.gh336)							.nugget(nugget_gh336)		.billet(billet_gh336)		.ingot(ingot_gh336);
 		
 		/*
 		 * STABLE
@@ -327,6 +322,7 @@ public class OreDictManager {
 		TCALLOY																.ingot(ingot_tcalloy)												.dust(powder_tcalloy);
 		PB			.nugget(nugget_lead)									.ingot(ingot_lead)													.dust(powder_lead)				.plate(plate_lead)				.block(block_lead)			.ore(ore_lead, ore_meteor_lead);
 		//BI		.nugget(nugget_bismuth)									.ingot(ingot_bismuth); THAT'S WHAT YOU THOUGHT!
+		AS			.nugget(nugget_arsenic)									.ingot(ingot_arsenic);
 		TA			.nugget(nugget_tantalium)	.gem(gem_tantalium)			.ingot(ingot_tantalium)												.dust(powder_tantalium)											.block(block_tantalium);
 		COLTAN																.ingot(fragment_coltan)												.dust(powder_coltan_ore)										.block(block_coltan)		.ore(ore_coltan);
 		NB			.nugget(fragment_niobium)								.ingot(ingot_niobium)			.dustSmall(powder_niobium_tiny)		.dust(powder_niobium)											.block(block_niobium);
@@ -343,6 +339,7 @@ public class OreDictManager {
 		DESH		.nugget(nugget_desh)									.ingot(ingot_desh)													.dust(powder_desh)												.block(block_desh);
 		STAR																.ingot(ingot_starmetal)																												.block(block_starmetal)		.ore(ore_meteor_starmetal);
 		BIGMT																.ingot(ingot_saturnite)																				.plate(plate_saturnite);
+		FERRO																.ingot(ingot_ferrouranium);
 		EUPH		.nugget(nugget_euphemium)								.ingot(ingot_euphemium)												.dust(powder_euphemium)											.block(block_euphemium);
 		DNT			.nugget(nugget_dineutronium)							.ingot(ingot_dineutronium)											.dust(powder_dineutronium)										.block(block_dineutronium);
 		FIBER																.ingot(ingot_fiberglass)																											.block(block_fiberglass);
@@ -418,8 +415,10 @@ public class OreDictManager {
 		ANY_SMOKELESS			.dust(ballistite, cordite);
 		ANY_PLASTICEXPLOSIVE	.ingot(ingot_semtex, ingot_c4);
 		ANY_HIGHEXPLOSIVE		.ingot(ball_tnt);
-		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_colored, concrete_asbestos, ducrete, ducrete_smooth);
+		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_asbestos, ducrete, ducrete_smooth);
+		for(int i = 0; i < 16; i++) { ANY_CONCRETE.any(new ItemStack(ModBlocks.concrete_colored, 1, i)); }
 		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class));
+		ANY_BISMOID				.ingot(ingot_bismuth, ingot_arsenic).nugget(nugget_bismuth, nugget_arsenic).block(block_bismuth);
 
 		OreDictionary.registerOre(KEY_OIL_TAR, fromOne(oil_tar, EnumTarType.CRUDE));
 		OreDictionary.registerOre(KEY_CRACK_TAR, fromOne(oil_tar, EnumTarType.CRACK));
@@ -480,6 +479,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockGlassLime", glass_trinitite);
 		OreDictionary.registerOre("blockGlassRed", glass_polonium);
 		OreDictionary.registerOre("blockGlassBlack", glass_ash);
+		
+		MatDistribution.register(); //TEMP
 	}
 	
 	public static String getReflector() {
@@ -514,7 +515,7 @@ public class OreDictManager {
 	}
 	
 	public static class DictFrame {
-		String[] mats;
+		public String[] mats;
 		float hazMult = 1.0F;
 		List<HazardEntry> hazards = new ArrayList();
 		
@@ -673,6 +674,7 @@ public class OreDictManager {
 		
 		public void registerStack(String tag, ItemStack stack) {
 			for(String mat : mats) {
+				
 				OreDictionary.registerOre(tag + mat, stack);
 				
 				if(!hazards.isEmpty() && hazMult > 0F) {
@@ -684,6 +686,16 @@ public class OreDictManager {
 					
 					HazardSystem.register(tag + mat, data);
 				}
+			}
+			
+			/*
+			 * Fix for a small oddity in nuclearcraft: many radioactive elements do not have an ore prefix and the sizes
+			 * seem generally inconsistent (TH and U are 20 "tiny"s per ingot while boron is 12), so we assume those to be ingots.
+			 * Therefore we register all ingots a second time but without prefix. TODO: add a config option to disable this compat.
+			 * I'd imagine greg's OD system might not like things without prefixes.
+			 */
+			if("ingot".equals(tag)) {
+				registerStack("", stack);
 			}
 		}
 	}

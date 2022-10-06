@@ -78,6 +78,7 @@ public class Library {
 	public static String the_NCR = "28ae585f-4431-4491-9ce8-3def6126e3c6";
 	public static String Barnaby99_x = "711aaf78-a862-4b7e-921a-216349716e9a";
 	public static String Ma118 = "1121cb7a-8773-491f-8e2b-221290c93d81";
+	public static String Adam29Adam29 = "bbae7bfa-0eba-40ac-a0dd-f3b715e73e61";
 
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
@@ -299,12 +300,12 @@ public class Library {
         return player.worldObj.func_147447_a(vec3, vec32, false, false, true);
 	}
 	
-	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation, boolean liquids, boolean entity, boolean allowZeroLength) {
+	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation, boolean allowLiquids, boolean disallowNonCollidingBlocks, boolean mopOnMiss) {
         Vec3 vec3 = getPosition(interpolation, player);
         vec3.yCoord += player.eyeHeight;
         Vec3 vec31 = player.getLook(interpolation);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
-        return player.worldObj.func_147447_a(vec3, vec32, liquids, entity, allowZeroLength);
+        return player.worldObj.func_147447_a(vec3, vec32, allowLiquids, disallowNonCollidingBlocks, mopOnMiss);
 	}
 	
     public static Vec3 getPosition(float interpolation, EntityPlayer player) {
@@ -354,15 +355,6 @@ public class Library {
 			power -= toCharge;
 			
 			battery.chargeBattery(slots[index], toCharge);
-
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_desh_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_schrabidium_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_euphemium_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);
 		}
 		
 		return power;
@@ -448,23 +440,6 @@ public class Library {
 		if(block == ModBlocks.reactor_hatch && worldObj.getBlock(x - 2, y, z) == ModBlocks.reactor_computer)
 		{
 			tileentity = worldObj.getTileEntity(x - 2, y, z);
-		}
-		//Large Fusion Reactor
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x, y, z + 8) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z + 8);
-		}
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x, y, z - 8) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z - 8);
-		}
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x + 8, y, z) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x + 8, y, z);
-		}
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x - 8, y, z) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x - 8, y, z);
 		}
 		//FWatz Reactor
 		if(block == ModBlocks.fwatz_hatch && worldObj.getBlock(x, y + 11, z + 9) == ModBlocks.fwatz_core)

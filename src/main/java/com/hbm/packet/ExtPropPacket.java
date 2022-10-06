@@ -3,6 +3,7 @@ package com.hbm.packet;
 import java.io.IOException;
 
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.HbmPlayerProps;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -64,7 +65,9 @@ public class ExtPropPacket implements IMessage {
 				
 				NBTTagCompound nbt = m.buffer.readNBTTagCompoundFromBuffer();
 				HbmLivingProps props = HbmLivingProps.getData(Minecraft.getMinecraft().thePlayer);
+				HbmPlayerProps pprps = HbmPlayerProps.getData(Minecraft.getMinecraft().thePlayer);
 				props.loadNBTData(nbt);
+				pprps.loadNBTData(nbt);
 				
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -12,7 +12,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemBlockLore extends ItemBlock {
+public class ItemBlockLore extends ItemBlockBase {
 
 	public ItemBlockLore(Block p_i45328_1_) {
 		super(p_i45328_1_);
@@ -20,6 +20,7 @@ public class ItemBlockLore extends ItemBlock {
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+		super.addInformation(itemstack, player, list, bool);
 		
 		if(this.field_150939_a instanceof RedBarrel) {
 			list.add("Static fluid barrel");

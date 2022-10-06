@@ -28,7 +28,6 @@ import net.minecraft.world.World;
 public class MachineDiFurnace extends BlockContainer {
 
     private final Random field_149933_a = new Random();
-	private Random rand;
 	private final boolean isActive;
 	private static boolean keepInventory;
 	
@@ -39,7 +38,6 @@ public class MachineDiFurnace extends BlockContainer {
 
 	public MachineDiFurnace(boolean blockState) {
 		super(Material.iron);
-		rand = new Random();
 		isActive = blockState;
 	}
 	

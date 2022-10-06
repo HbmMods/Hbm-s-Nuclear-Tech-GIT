@@ -23,9 +23,12 @@ public abstract class TileEntityPileBase extends TileEntity {
 	protected void castRay(int flux, int range) {
 		
 		Random rand = worldObj.rand;
-		Vec3 vec = Vec3.createVectorHelper(1, 0, 0);
+		int[] vecVals = { 0, 0, 0,};
+		vecVals[rand.nextInt(3)] = 1;
+		Vec3 vec = Vec3.createVectorHelper(vecVals[0], vecVals[1], vecVals[2]);
 		vec.rotateAroundZ((float)(rand.nextDouble() * Math.PI * 2D));
 		vec.rotateAroundY((float)(rand.nextDouble() * Math.PI * 2D));
+		vec.rotateAroundX((float)(rand.nextDouble() * Math.PI * 2D));
 		
 		int prevX = xCoord;
 		int prevY = yCoord;
@@ -44,6 +47,16 @@ public abstract class TileEntityPileBase extends TileEntity {
 			prevY = y;
 			prevZ = z;
 			
+			/*if(i == range) {
+				NBTTagCompound data2 = new NBTTagCompound();
+				data2.setString("type", "vanillaExt");
+				data2.setString("mode", "greendust");
+				data2.setDouble("posX", xCoord + 0.5 + vec.xCoord * range);
+				data2.setDouble("posY", yCoord + 0.5 + vec.yCoord * range);
+				data2.setDouble("posZ", zCoord + 0.5 + vec.zCoord * range);
+				MainRegistry.proxy.effectNT(data2);
+			}*/
+			
 			Block b = worldObj.getBlock(x, y, z);
 			
 			if(b == ModBlocks.concrete || b == ModBlocks.concrete_smooth || b == ModBlocks.concrete_asbestos || b == ModBlocks.concrete_colored || b == ModBlocks.brick_concrete)
@@ -54,20 +67,23 @@ public abstract class TileEntityPileBase extends TileEntity {
 			
 			int meta = worldObj.getBlockMetadata(x, y, z);
 			
-			if(b == ModBlocks.block_graphite_rod && (meta & 4) == 0)
+			if(b == ModBlocks.block_graphite_rod && (meta & 8) == 0)
 				return;
 			
 			TileEntity te = worldObj.getTileEntity(x, y, z);
 			
 			if(te instanceof IPileNeutronReceiver) {
 				
-				//this part throttles neutron efficiency for reactions that are way too close, efficiency reaches 100% after 2.5 meters
-				float mult = Math.min((float)range / 1.5F, 1F);
-				int n = (int)(flux * mult);
+				//this part throttles neutron efficiency for reactions that are way too close, efficiency reaches 100% after 1.5 meters
+				//This entire time, this multiplier has been using the max distance, not the actual one, meaning efficency has always been 100%
+				//float mult = Math.min((float)i / 1.5F, 1F);
+				//int n = (int)(flux * mult);
 				
 				IPileNeutronReceiver rec = (IPileNeutronReceiver) te;
-				rec.receiveNeutrons(n);
-				return;
+				rec.receiveNeutrons(flux);
+				
+				if(b != ModBlocks.block_graphite_detector || (meta & 8) == 0)
+					return;
 			}
 			
 			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x + 0.5, y + 0.5, z + 0.5, x + 0.5, y + 0.5, z + 0.5));

@@ -1,9 +1,11 @@
 package com.hbm.crafting;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumCokeType;
+import com.hbm.items.ItemEnums.EnumPlantType;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemHot;
@@ -107,9 +109,11 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.tank_waste, new ItemStack(ModItems.tank_waste), 0.0F);
 		GameRegistry.addSmelting(ModItems.rag_damp, new ItemStack(ModItems.rag), 0.1F);
 		GameRegistry.addSmelting(ModItems.rag_piss, new ItemStack(ModItems.rag), 0.1F);
+		GameRegistry.addSmelting(DictFrame.fromOne(ModBlocks.plant_flower, EnumFlowerType.TOBACCO), DictFrame.fromOne(ModItems.plant_item, EnumPlantType.TOBACCO), 0.1F);
+		GameRegistry.addSmelting(ModItems.ball_fireclay, new ItemStack(ModItems.ingot_firebrick), 0.1F);
 		
-		GameRegistry.addSmelting(Items.bone, new ItemStack(Items.slime_ball, 3), 0.0F);
-		GameRegistry.addSmelting(new ItemStack(Items.dye, 1, 15), new ItemStack(Items.slime_ball, 1), 0.0F);
+		//GameRegistry.addSmelting(Items.bone, new ItemStack(Items.slime_ball, 3), 0.0F);
+		//GameRegistry.addSmelting(new ItemStack(Items.dye, 1, 15), new ItemStack(Items.slime_ball, 1), 0.0F);
 		GameRegistry.addSmelting(new ItemStack(Blocks.gravel, 1), new ItemStack(Blocks.cobblestone, 1), 0.0F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.gravel_obsidian), new ItemStack(Blocks.obsidian), 0.0F);
 		GameRegistry.addSmelting(new ItemStack(ModBlocks.gravel_diamond), new ItemStack(Items.diamond), 3.0F);

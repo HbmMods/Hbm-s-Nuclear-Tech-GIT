@@ -43,7 +43,7 @@ public class RenderBigTurbine extends TileEntitySpecialRenderer {
         GL11.glRotatef(turbine.lastRotor + (turbine.rotor - turbine.lastRotor) * f, 0, 0, 1);
         GL11.glTranslated(0, -1, 0);
         
-        bindTexture(ResourceManager.turbofan_blades_tex);
+        bindTexture(ResourceManager.universal_bright);
         ResourceManager.turbine.renderPart("Blades");
         
         GL11.glEnable(GL11.GL_CULL_FACE);

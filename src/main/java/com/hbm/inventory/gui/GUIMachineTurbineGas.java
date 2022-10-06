@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerMachineTurbineGas;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.gui.GuiInfoContainer.NumberDisplay;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;

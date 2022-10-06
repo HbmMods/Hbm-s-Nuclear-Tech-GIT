@@ -141,7 +141,9 @@ public class ArmorDNT extends ArmorFSBPowered {
 					return;
 				}
 
-				e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
+				//e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
+				HbmPlayerProps.plink(player, "random.break", 0.5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
+				
 				event.setCanceled(true);
 			}
 		}

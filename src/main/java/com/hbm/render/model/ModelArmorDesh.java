@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.loader.ModelRendererObj;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 
 public class ModelArmorDesh extends ModelArmorBase {
@@ -32,23 +31,23 @@ public class ModelArmorDesh extends ModelArmorBase {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
 		if(type == 0) {
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.steamsuit_helmet);
+			bindTexture(ResourceManager.steamsuit_helmet);
 			head.render(par7);
 		}
 		if(type == 1) {
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.steamsuit_chest);
+			bindTexture(ResourceManager.steamsuit_chest);
 			body.render(par7);
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.steamsuit_arm);
+			bindTexture(ResourceManager.steamsuit_arm);
 			leftArm.render(par7);
 			rightArm.render(par7);
 		}
 		if(type == 2) {
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.steamsuit_leg);
+			bindTexture(ResourceManager.steamsuit_leg);
 			leftLeg.render(par7);
 			rightLeg.render(par7);
 		}
 		if(type == 3) {
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.steamsuit_leg);
+			bindTexture(ResourceManager.steamsuit_leg);
 			leftFoot.render(par7);
 			rightFoot.render(par7);
 		}

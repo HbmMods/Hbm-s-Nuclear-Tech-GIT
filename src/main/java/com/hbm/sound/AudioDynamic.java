@@ -28,7 +28,7 @@ public class AudioDynamic extends MovingSound {
 
 	@Override
 	public void update() {
-		
+
 		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
 		float f = 0;
 		
@@ -59,7 +59,7 @@ public class AudioDynamic extends MovingSound {
 	public float func(float f, float v) {
 		return (f / v) * -2 + 2;
 	}
-	
+
 	public boolean isPlaying() {
 		return Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(this);
 	}

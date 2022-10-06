@@ -15,22 +15,42 @@ public class PlayerInformPacket implements IMessage {
 
 	boolean fancy;
 	private String dmesg = "";
+	private int id;
 	private IChatComponent component;
+	private int millis = 0;
 
 	public PlayerInformPacket() { }
 
-	public PlayerInformPacket(String dmesg) {
+	public PlayerInformPacket(String dmesg, int id) {
 		this.fancy = false;
 		this.dmesg = dmesg;
+		this.id = id;
 	}
 
-	public PlayerInformPacket(IChatComponent component) {
+	public PlayerInformPacket(IChatComponent component, int id) {
 		this.fancy = true;
 		this.component = component;
+		this.id = id;
+	}
+
+	public PlayerInformPacket(String dmesg, int id, int millis) {
+		this.fancy = false;
+		this.dmesg = dmesg;
+		this.millis = millis;
+		this.id = id;
+	}
+
+	public PlayerInformPacket(IChatComponent component, int id, int millis) {
+		this.fancy = true;
+		this.component = component;
+		this.millis = millis;
+		this.id = id;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
+		id = buf.readInt();
+		millis = buf.readInt();
 		fancy = buf.readBoolean();
 		
 		if(!fancy) {
@@ -42,6 +62,8 @@ public class PlayerInformPacket implements IMessage {
 
 	@Override
 	public void toBytes(ByteBuf buf) {
+		buf.writeInt(id);
+		buf.writeInt(millis);
 		buf.writeBoolean(fancy);
 		if(!fancy) {
 			ByteBufUtils.writeUTF8String(buf, dmesg);
@@ -57,7 +79,10 @@ public class PlayerInformPacket implements IMessage {
 		public IMessage onMessage(PlayerInformPacket m, MessageContext ctx) {
 			try {
 				
-				MainRegistry.proxy.displayTooltip(m.fancy ? m.component.getFormattedText() : m.dmesg);
+				if(m.millis == 0)
+					MainRegistry.proxy.displayTooltip(m.fancy ? m.component.getFormattedText() : m.dmesg, m.id);
+				else
+					MainRegistry.proxy.displayTooltip(m.fancy ? m.component.getFormattedText() : m.dmesg, m.millis, m.id);
 				
 			} catch (Exception x) { }
 			return null;

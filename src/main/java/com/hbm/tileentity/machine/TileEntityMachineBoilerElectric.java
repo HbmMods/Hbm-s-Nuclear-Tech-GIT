@@ -8,9 +8,9 @@ import com.hbm.blocks.machine.MachineBoiler;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -20,6 +20,7 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -30,7 +31,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyUser {
+public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyUser, IFluidStandardTransceiver {
 
 	private ItemStack slots[];
 	
@@ -41,10 +42,6 @@ public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implem
 	public int age = 0;
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank[] tanks;
-	
-	private static final int[] slots_top = new int[] {4};
-	private static final int[] slots_bottom = new int[] {6};
-	private static final int[] slots_side = new int[] {4};
 	
 	private String customName;
 	
@@ -198,14 +195,13 @@ public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implem
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-    }
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[0];
+	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
+		return false;
 	}
 
 	@Override
@@ -229,6 +225,8 @@ public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implem
 		if(!worldObj.isRemote)
 		{
 			this.updateConnections();
+			this.subscribeToAllAround(tanks[0].getTankType(), this);
+			this.sendFluidToAll(tanks[1].getTankType(), this);
 			
 			age++;
 			if(age >= 20)
@@ -414,5 +412,20 @@ public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implem
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks[1]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0]};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

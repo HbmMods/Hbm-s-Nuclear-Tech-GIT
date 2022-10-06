@@ -29,7 +29,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ReactorResearch extends BlockDummyable implements IMultiblock {
+public class ReactorResearch extends BlockDummyable {
 
 	public ReactorResearch(Material mat) {
 		super(mat);

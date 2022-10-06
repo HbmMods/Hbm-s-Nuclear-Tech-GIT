@@ -23,10 +23,6 @@ public abstract class BlockMulti extends BlockBase implements IBlockMulti {
 	public int damageDropped(int meta) {
 		return rectify(meta);
 	}
-	
-	protected int rectify(int meta) {
-		return Math.abs(meta % getSubCount());
-	}
 
 	@Override
 	@SideOnly(Side.CLIENT)

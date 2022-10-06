@@ -4,15 +4,14 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.sound.AudioWrapper;
 
-import api.hbm.energy.ILoadedTile;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTank;
 
@@ -24,6 +23,10 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	
 	public TileEntityMachineBase(int scount) {
 		slots = new ItemStack[scount];
+	}
+	
+	public void markChanged() {
+		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 	}
 
 	@Override
@@ -217,5 +220,14 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		float volume = 1 - (countMufflers() / (float)toSilence);
 		
 		return Math.max(volume, 0);
+	}
+	
+	public AudioWrapper createAudioLoop() { return null; }
+	
+	public AudioWrapper rebootAudio(AudioWrapper wrapper) {
+		wrapper.stopSound();
+		AudioWrapper audio = createAudioLoop();
+		audio.startSound();
+		return audio;
 	}
 }

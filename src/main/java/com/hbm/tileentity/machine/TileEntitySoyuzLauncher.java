@@ -7,9 +7,9 @@ import com.hbm.handler.MissileStruct;
 import com.hbm.entity.missile.EntitySoyuz;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -106,9 +106,11 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			} else if(countdown > 0) {
 
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio = this.createAudioLoop();
 					audio.updateVolume(100);
 					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
 				}
 				
 				countdown--;
@@ -130,6 +132,11 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 				MainRegistry.proxy.effectNT(data);
 			}
 		}
+	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 1.0F, 1.0F);
 	}
 	
     public void onChunkUnload() {

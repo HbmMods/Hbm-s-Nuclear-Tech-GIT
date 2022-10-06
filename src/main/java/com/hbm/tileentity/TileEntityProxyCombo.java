@@ -7,6 +7,8 @@ import com.hbm.inventory.fluid.FluidType;
 
 import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidConnector;
+import api.hbm.tile.IHeatSource;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -14,12 +16,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyUser, IFluidAcceptor, ISidedInventory {
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyUser, IFluidAcceptor, ISidedInventory, IFluidConnector, IHeatSource {
 	
 	TileEntity tile;
 	boolean inventory;
 	boolean power;
 	boolean fluid;
+	boolean heat;
 	
 	public TileEntityProxyCombo() { }
 	
@@ -27,6 +30,26 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		this.inventory = inventory;
 		this.power = power;
 		this.fluid = fluid;
+	}
+	
+	public TileEntityProxyCombo inventory() {
+		this.inventory = true;
+		return this;
+	}
+	
+	public TileEntityProxyCombo power() {
+		this.power = true;
+		return this;
+	}
+	
+	public TileEntityProxyCombo fluid() {
+		this.fluid = true;
+		return this;
+	}
+	
+	public TileEntityProxyCombo heatSource() {
+		this.heat = true;
+		return this;
 	}
 	
 	//fewer messy recursive operations
@@ -175,13 +198,13 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	public long transferPower(long power) {
 		
 		if(!this.power)
-			return 0;
+			return power;
 		
 		if(getTile() instanceof IEnergyConnector) {
 			return ((IEnergyConnector)getTile()).transferPower(power);
 		}
 		
-		return 0;
+		return power;
 	}
 
 	@Override
@@ -390,6 +413,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		this.inventory = nbt.getBoolean("inv");
 		this.power = nbt.getBoolean("power");
 		this.fluid = nbt.getBoolean("fluid");
+		this.heat = nbt.getBoolean("heat");
 	}
 	
 	@Override
@@ -399,5 +423,66 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		nbt.setBoolean("inv", inventory);
 		nbt.setBoolean("power", power);
 		nbt.setBoolean("fluid", fluid);
+		nbt.setBoolean("heat", heat);
+	}
+
+	@Override
+	public long transferFluid(FluidType type, long fluid) {
+		
+		if(!this.fluid)
+			return fluid;
+		
+		if(getTile() instanceof IFluidConnector) {
+			return ((IFluidConnector)getTile()).transferFluid(type, fluid);
+		}
+		return fluid;
+	}
+
+	@Override
+	public long getDemand(FluidType type) {
+		
+		if(!this.fluid)
+			return 0;
+		
+		if(getTile() instanceof IFluidConnector) {
+			return ((IFluidConnector)getTile()).getDemand(type);
+		}
+		return 0;
+	}
+	
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		
+		if(!this.fluid)
+			return false;
+		
+		if(getTile() instanceof IFluidConnector) {
+			return ((IFluidConnector)getTile()).canConnect(type, dir);
+		}
+		return false;
+	}
+
+	@Override
+	public int getHeatStored() {
+		
+		if(!this.heat)
+			return 0;
+		
+		if(getTile() instanceof IHeatSource) {
+			return ((IHeatSource)getTile()).getHeatStored();
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public void useUpHeat(int heat) {
+		
+		if(!this.heat)
+			return;
+		
+		if(getTile() instanceof IHeatSource) {
+			((IHeatSource)getTile()).useUpHeat(heat);
+		}
 	}
 }

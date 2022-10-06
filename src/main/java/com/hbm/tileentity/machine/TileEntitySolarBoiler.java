@@ -1,17 +1,17 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,7 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 
-public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor, IFluidSource {
+public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
 
 	private FluidTank water;
 	private FluidTank steam;
@@ -40,10 +40,13 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 		if(!worldObj.isRemote) {
 			
 			//if(worldObj.getTotalWorldTime() % 5 == 0) {
-				fillFluidInit(Fluids.STEAM);
+			fillFluidInit(Fluids.STEAM);
 			//}
+
+			this.trySubscribe(water.getTankType(), worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
+			this.trySubscribe(water.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			
-			int process = heat / 10;
+			int process = heat / 20;
 			process = Math.min(process, water.getFill());
 			process = Math.min(process, (steam.getMaxFill() - steam.getFill()) / 100);
 			
@@ -52,9 +55,9 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 
 			water.setFill(water.getFill() - process);
 			steam.setFill(steam.getFill() + process * 100);
-			
-			//if(steam.getFill() > steam.getMaxFill() * 0.9)
-			//	System.out.println("*" + steam.getFill());
+
+			this.sendFluid(steam.getTankType(), worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
+			this.sendFluid(steam.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			
 			heat = 0;
 		} else {
@@ -175,5 +178,20 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { steam };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { water };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { water, steam };
 	}
 }

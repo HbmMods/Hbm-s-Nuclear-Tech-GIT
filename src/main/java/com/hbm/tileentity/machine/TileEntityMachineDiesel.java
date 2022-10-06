@@ -1,28 +1,27 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.FluidTypeCombustible;
-import com.hbm.inventory.fluid.FluidTypeCombustible.FuelGrade;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardReceiver;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDiesel extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineDiesel extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver {
 
 	public long power;
 	public int soundCycle = 0;
@@ -104,9 +103,12 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 
 			//Tank Management
-			tank.setType(3, 4, slots);
+			FluidType last = tank.getTankType();
+			if(tank.setType(3, 4, slots)) this.unsubscribeToAllAround(last, this);
 			tank.loadTank(0, 1, slots);
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			
+			this.subscribeToAllAround(tank.getTankType(), this);
 
 			FluidType type = tank.getTankType();
 			if(type == Fluids.NITAN)
@@ -150,8 +152,8 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	
 	public static long getHEFromFuel(FluidType type) {
 		
-		if(type instanceof FluidTypeCombustible) {
-			FluidTypeCombustible fuel = (FluidTypeCombustible) type;
+		if(type.hasTrait(FT_Combustible.class)) {
+			FT_Combustible fuel = type.getTrait(FT_Combustible.class);
 			FuelGrade grade = fuel.getGrade();
 			double efficiency = fuelEfficiency.containsKey(grade) ? fuelEfficiency.get(grade) : 0;
 			
@@ -228,5 +230,15 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	public void setFluidFill(int i, FluidType type) {
 		if(type == tank.getTankType())
 			tank.setFill(i);
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
 	}
 }

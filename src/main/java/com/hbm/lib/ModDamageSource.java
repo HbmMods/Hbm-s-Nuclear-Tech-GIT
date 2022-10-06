@@ -65,6 +65,8 @@ public class ModDamageSource extends DamageSource {
 	public static final String s_immolator = "plasma";
 	public static final String s_cryolator = "ice";
 	public static final String s_laser = "laser";
+	public static final String s_boil = "boil";
+	public static final String s_acid = "acidPlayer";
 
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);

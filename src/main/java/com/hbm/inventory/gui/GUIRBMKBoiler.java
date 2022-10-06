@@ -2,7 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerRBMKBoiler;
+import com.hbm.inventory.container.ContainerRBMKGeneric;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
@@ -22,9 +22,9 @@ public class GUIRBMKBoiler extends GuiInfoContainer {
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/reactors/gui_rbmk_boiler.png");
 	private TileEntityRBMKBoiler boiler;
 
-	public GUIRBMKBoiler(InventoryPlayer invPlayer, TileEntityRBMKBoiler tedf) {
-		super(new ContainerRBMKBoiler(invPlayer, tedf));
-		boiler = tedf;
+	public GUIRBMKBoiler(InventoryPlayer invPlayer, TileEntityRBMKBoiler tile) {
+		super(new ContainerRBMKGeneric(invPlayer));
+		boiler = tile;
 		
 		this.xSize = 176;
 		this.ySize = 186;

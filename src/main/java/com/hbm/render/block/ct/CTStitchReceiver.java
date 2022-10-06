@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.util.IIcon;
-import net.minecraftforge.client.event.TextureStitchEvent;
 
 public class CTStitchReceiver {
 	

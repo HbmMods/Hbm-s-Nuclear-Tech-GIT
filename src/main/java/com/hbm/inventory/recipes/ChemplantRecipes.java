@@ -1,9 +1,14 @@
 package com.hbm.inventory.recipes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.FluidStack;
@@ -12,13 +17,15 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-public class ChemplantRecipes {
+public class ChemplantRecipes extends SerializableRecipe {
 	
 	/**
 	 * Nice order: The order in which the ChemRecipe are added to the recipes list
@@ -28,7 +35,8 @@ public class ChemplantRecipes {
 	public static HashMap<Integer, ChemRecipe> indexMapping = new HashMap();
 	public static List<ChemRecipe> recipes = new ArrayList();
 	
-	public static void register() {
+	@Override
+	public void registerDefaults() {
 		
 		registerFuelProcessing();
 		//6-30, formerly oil cracking, coal liquefaction and solidifciation
@@ -45,7 +53,7 @@ public class ChemplantRecipes {
 		recipes.add(new ChemRecipe(38, "DESH", 300)
 				.inputItems(new ComparableStack(ModItems.powder_desh_mix))
 				.inputFluids(
-						GeneralConfig.enableBabyMode ?
+						(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) ?
 								new FluidStack[] {new FluidStack(Fluids.LIGHTOIL, 200)} :
 								new FluidStack[] {new FluidStack(Fluids.MERCURY, 200), new FluidStack(Fluids.LIGHTOIL, 200)})
 				.outputItems(new ItemStack(ModItems.ingot_desh)));
@@ -134,44 +142,15 @@ public class ChemplantRecipes {
 						new OreDictStack(S.dust(), 2))
 				.inputFluids(new FluidStack(Fluids.ACID, 2000))
 				.outputFluids(new FluidStack(Fluids.SAS3, 1000)));
-		recipes.add(new ChemRecipe(50, "DYN_SCHRAB", 1200)
-				.inputItems(
-						new ComparableStack(ModItems.dynosphere_desh_charged, 3),
-						new OreDictStack(U.ingot()),
-						new ComparableStack(ModItems.catalyst_clay, 8))
-				.outputItems(
-						new ItemStack(ModItems.ingot_schrabidium),
-						new ItemStack(ModItems.powder_desh),
-						new ItemStack(ModItems.powder_desh_mix))
-				.outputFluids(new FluidStack(Fluids.WATZ, 50)));
-		recipes.add(new ChemRecipe(51, "DYN_EUPH", 3600)
-				.inputItems(
-						new ComparableStack(ModItems.dynosphere_schrabidium_charged, 1),
-						new OreDictStack(PU.ingot()),
-						new ComparableStack(ModItems.catalyst_clay, 16),
-						new OreDictStack(EUPH.ingot()))
-				.outputItems(
-						new ItemStack(ModItems.nugget_euphemium, 12),
-						new ItemStack(ModItems.powder_schrabidium, 4),
-						new ItemStack(ModItems.powder_power, 4))
-				.outputFluids(new FluidStack(Fluids.WATZ, 100)));
-		recipes.add(new ChemRecipe(52, "DYN_DNT", 6000)
-				.inputItems(
-						new ComparableStack(ModItems.dynosphere_euphemium_charged, 2),
-						new ComparableStack(ModItems.powder_spark_mix),
-						new ComparableStack(ModItems.ingot_starmetal),
-						new ComparableStack(ModItems.catalyst_clay, 32))
-				.outputItems(
-						new ItemStack(ModItems.ingot_dineutronium),
-						new ItemStack(ModItems.powder_euphemium, 8),
-						new ItemStack(ModItems.powder_nitan_mix, 8))
-				.outputFluids(new FluidStack(Fluids.WATZ, 150)));
 		recipes.add(new ChemRecipe(53, "CORDITE", 40)
 				.inputItems(
 						new OreDictStack(KNO.dust(), 2),
 						new OreDictStack(KEY_PLANKS),
 						new ComparableStack(Items.sugar))
-				.inputFluids(new FluidStack(Fluids.HEATINGOIL, 200))
+				.inputFluids(
+						(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) ?
+								new FluidStack(Fluids.HEATINGOIL, 200) :
+								new FluidStack(Fluids.GAS, 200))
 				.outputItems(new ItemStack(ModItems.cordite, 4)));
 		recipes.add(new ChemRecipe(54, "KEVLAR", 40)
 				.inputItems(
@@ -190,7 +169,9 @@ public class ChemplantRecipes {
 				.inputItems(
 						new ComparableStack(Blocks.gravel, 2),
 						new ComparableStack(Blocks.sand, 2),
-						new OreDictStack(ASBESTOS.ingot(), 4))
+						(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) ?
+								new OreDictStack(ASBESTOS.ingot(), 1) :
+								new OreDictStack(ASBESTOS.ingot(), 4))
 				.inputFluids(new FluidStack(Fluids.WATER, 2000))
 				.outputItems(new ItemStack(ModBlocks.concrete_asbestos, 16)));
 		recipes.add(new ChemRecipe(79, "DUCRETE", 150)
@@ -224,7 +205,9 @@ public class ChemplantRecipes {
 						new OreDictStack(P_RED.dust()))
 				.inputFluids(
 						new FluidStack(Fluids.ACID, 100),
-						new FluidStack(Fluids.MERCURY, 50))
+						(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) ?
+								new FluidStack(Fluids.WATER, 200) :
+								new FluidStack(Fluids.MERCURY, 50))
 				.outputItems(new ItemStack(ModItems.ingot_saturnite, 2)));
 		recipes.add(new ChemRecipe(62, "BALEFIRE", 100)
 				.inputItems(new ComparableStack(ModItems.egg_balefire_shard))
@@ -359,7 +342,6 @@ public class ChemplantRecipes {
 				.inputItems(new OreDictStack(DIAMOND.dust(), 1))
 				.inputFluids(new FluidStack(Fluids.XPJUICE, 500))
 				.outputFluids(new FluidStack(Fluids.ENDERJUICE, 100)));
-		
 	}
 	
 	public static void registerFuelProcessing() {
@@ -465,5 +447,71 @@ public class ChemplantRecipes {
 		public int getDuration() {
 			return this.duration;
 		}
+	}
+
+	@Override
+	public String getFileName() {
+		return "hbmChemplant.json";
+	}
+
+	@Override
+	public Object getRecipeObject() {
+		return this.recipes;
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		int id = obj.get("id").getAsInt();
+		String name = obj.get("name").getAsString();
+		int duration = obj.get("duration").getAsInt();
+		
+		recipes.add(new ChemRecipe(id, name, duration)
+				.inputFluids(	this.readFluidArray(		(JsonArray) obj.get("fluidInput")))
+				.inputItems(	this.readAStackArray(		(JsonArray) obj.get("itemInput")))
+				.outputFluids(	this.readFluidArray(		(JsonArray) obj.get("fluidOutput")))
+				.outputItems(	this.readItemStackArray(	(JsonArray) obj.get("itemOutput"))));
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		try {
+		ChemRecipe chem = (ChemRecipe) recipe;
+		writer.name("id").value(chem.id);
+		writer.name("name").value(chem.name);
+		writer.name("duration").value(chem.duration);
+		//Fluid IN
+		writer.name("fluidInput").beginArray();
+		for(FluidStack input : chem.inputFluids) { if(input != null) this.writeFluidStack(input, writer); }
+		writer.endArray();
+		//Item IN
+		writer.name("itemInput").beginArray();
+		for(AStack input : chem.inputs) { if(input != null) this.writeAStack(input, writer); }
+		writer.endArray();
+		//Fluid OUT
+		writer.name("fluidOutput").beginArray();
+		for(FluidStack output : chem.outputFluids) { if(output != null) this.writeFluidStack(output, writer); }
+		writer.endArray();
+		//Item OUT
+		writer.name("itemOutput").beginArray();
+		for(ItemStack output : chem.outputs) { if(output != null) this.writeItemStack(output, writer); }
+		writer.endArray();
+		} catch(Exception ex) {
+			MainRegistry.logger.error(ex);
+			ex.printStackTrace();
+		}
+	}
+	
+	public String getComment() {
+		return "Rules: All in- and output arrays need to be present, even if empty. IDs need to be unique, but not sequential. It's safe if you add your own"
+				+ " recipes starting with ID 1000. Template order depends on the order of the recipes in this JSON file. The 'name' field is responsible for"
+				+ " the texture being loaded for the template. Custom dynamic texture generation is not yet implemented, you will have to throw the texture into"
+				+ " the JAR manually.";
+	}
+
+	@Override
+	public void deleteRecipes() {
+		this.indexMapping.clear();
+		this.recipes.clear();
 	}
 }

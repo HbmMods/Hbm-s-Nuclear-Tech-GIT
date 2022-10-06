@@ -42,22 +42,14 @@ public class ItemGeigerCounter extends Item {
 			if(x > 1E-5) {
 				List<Integer> list = new ArrayList<Integer>();
 
-				if(x < 1)
-					list.add(0);
-				if(x < 5)
-					list.add(0);
-				if(x < 10)
-					list.add(1);
-				if(x > 5 && x < 15)
-					list.add(2);
-				if(x > 10 && x < 20)
-					list.add(3);
-				if(x > 15 && x < 25)
-					list.add(4);
-				if(x > 20 && x < 30)
-					list.add(5);
-				if(x > 25)
-					list.add(6);
+				if(x < 1) list.add(0);
+				if(x < 5) list.add(0);
+				if(x < 10) list.add(1);
+				if(x > 5 && x < 15) list.add(2);
+				if(x > 10 && x < 20) list.add(3);
+				if(x > 15 && x < 25) list.add(4);
+				if(x > 20 && x < 30) list.add(5);
+				if(x > 25) list.add(6);
 			
 				int r = list.get(rand.nextInt(list.size()));
 				

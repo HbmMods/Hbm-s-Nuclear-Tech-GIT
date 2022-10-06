@@ -110,7 +110,7 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 		TileEntityDiode diode = (TileEntityDiode) te;
 		
 		List<String> text = new ArrayList();
-		text.add("Max.: " + BobMathUtil.getShortNumber(diode.getMaxPower()) + "HE/pulse");
+		text.add("Max.: " + BobMathUtil.getShortNumber(diode.getMaxPower()) + "HE/t");
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
@@ -168,6 +168,9 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 		
 		private boolean recursionBrake = false;
 		private long subBuffer;
+		private long contingent = 0;
+		private long lastTransfer = 0;
+		private int pulses = 0;
 
 		@Override
 		public long transferPower(long power) {
@@ -175,9 +178,20 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 			if(recursionBrake)
 				return power;
 			
+			pulses++;
+			
+			if(lastTransfer != worldObj.getTotalWorldTime()) {
+				lastTransfer = worldObj.getTotalWorldTime();
+				contingent = getMaxPower();
+				pulses = 0;
+			}
+			
+			if(contingent <= 0 || pulses > 10)
+				return power;
+			
 			//this part turns "maxPower" from a glorified transfer weight into an actual transfer cap
-			long overShoot = Math.max(0, power - getMaxPower());
-			power = Math.min(power, getMaxPower());
+			long overShoot = Math.max(0, power - contingent);
+			power = Math.min(power, contingent);
 			
 			recursionBrake = true;
 			this.subBuffer = power;
@@ -185,6 +199,9 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 			ForgeDirection dir = getDir();
 			this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			long ret = this.subBuffer;
+			
+			long sent = power - ret;
+			contingent -= sent;
 			
 			this.subBuffer = 0;
 			recursionBrake = false;

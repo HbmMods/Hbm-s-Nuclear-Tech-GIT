@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import java.io.IOException;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -8,6 +9,8 @@ import com.hbm.items.tool.ItemLock;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
+import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
+import com.hbm.tileentity.machine.storage.TileEntityCrateDesh;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 import com.hbm.tileentity.machine.storage.TileEntityCrateTungsten;
@@ -26,8 +29,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -56,9 +62,17 @@ public class BlockStorageCrate extends BlockContainer {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":crate_tungsten_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":crate_tungsten_side");
 		}
+		if(this == ModBlocks.crate_desh) {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":crate_desh_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":crate_desh_side");
+		}
 		if(this == ModBlocks.safe) {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":safe_front");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":safe_side");
+		}
+		if(this == ModBlocks.mass_storage) {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side");
 		}
 	}
 
@@ -74,14 +88,11 @@ public class BlockStorageCrate extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		if(this == ModBlocks.crate_iron)
-			return new TileEntityCrateIron();
-		if(this == ModBlocks.crate_steel)
-			return new TileEntityCrateSteel();
-		if(this == ModBlocks.crate_tungsten)
-			return new TileEntityCrateTungsten();
-		if(this == ModBlocks.safe)
-			return new TileEntitySafe();
+		if(this == ModBlocks.crate_iron) return new TileEntityCrateIron();
+		if(this == ModBlocks.crate_steel) return new TileEntityCrateSteel();
+		if(this == ModBlocks.crate_desh) return new TileEntityCrateDesh();
+		if(this == ModBlocks.crate_tungsten) return new TileEntityCrateTungsten();
+		if(this == ModBlocks.safe) return new TileEntitySafe();
 		return null;
 	}
 	
@@ -122,6 +133,16 @@ public class BlockStorageCrate extends BlockContainer {
 			
 			if(!nbt.hasNoTags()) {
 				drop.stackTagCompound = nbt;
+				
+				try {
+					byte[] abyte = CompressedStreamTools.compress(nbt);
+					
+					if(abyte.length > 6000) {
+						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
+						return world.setBlockToAir(x, y, z);
+					}
+					
+				} catch(IOException e) { }
 			}
 			
 			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, drop));
@@ -143,17 +164,8 @@ public class BlockStorageCrate extends BlockContainer {
 
 		} else if(!player.isSneaking()) {
 			TileEntity entity = world.getTileEntity(x, y, z);
-			if(entity instanceof TileEntityCrateIron && ((TileEntityCrateIron) entity).canAccess(player)) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_crate_iron, world, x, y, z);
-			}
-			if(entity instanceof TileEntityCrateSteel && ((TileEntityCrateSteel) entity).canAccess(player)) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_crate_steel, world, x, y, z);
-			}
-			if(entity instanceof TileEntityCrateTungsten && ((TileEntityCrateTungsten) entity).canAccess(player)) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_crate_tungsten, world, x, y, z);
-			}
-			if(entity instanceof TileEntitySafe && ((TileEntitySafe) entity).canAccess(player)) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_safe, world, x, y, z);
+			if(entity instanceof TileEntityCrateBase && ((TileEntityCrateBase) entity).canAccess(player)) {
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

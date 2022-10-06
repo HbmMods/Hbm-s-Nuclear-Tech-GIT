@@ -45,6 +45,7 @@ import com.hbm.items.armor.IDamageHandler;
 import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.ItemModRevive;
 import com.hbm.items.armor.ItemModShackles;
+import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
@@ -178,7 +179,13 @@ public class ModEventHandler {
 			}
 			
 			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
-				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!"), (EntityPlayerMP) event.player);
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", MainRegistry.proxy.ID_DUCK, 30_000), (EntityPlayerMP) event.player);
+			
+			if(event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasGuide")) {
+				event.player.inventory.addItemStackToInventory(new ItemStack(ModItems.book_guide, 1, BookType.STARTER.ordinal()));
+				event.player.inventoryContainer.detectAndSendChanges();
+				event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("hasGuide", true);
+			}
 		}
 	}
 	
@@ -903,7 +910,7 @@ public class ModEventHandler {
 			EntityPlayer player = (EntityPlayer) e;
 			
 			if(ArmorUtil.checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {
-				e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
+				HbmPlayerProps.plink(player, "random.break", 0.5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
 				event.setCanceled(true);
 			}
 			
@@ -922,6 +929,19 @@ public class ModEventHandler {
 	public void onEntityDamaged(LivingHurtEvent event) {
 		
 		EntityLivingBase e = event.entityLiving;
+		
+		if(e instanceof EntityPlayer) {
+			
+			EntityPlayer player = (EntityPlayer) e;
+			
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			if(props.shield > 0) {
+				float reduce = Math.min(props.shield, event.ammount);
+				props.shield -= reduce;
+				event.ammount -= reduce;
+			}
+			props.lastDamage = player.ticksExisted;
+		}
 		
 		if(HbmLivingProps.getContagion(e) > 0 && event.ammount < 100)
 			event.ammount *= 2F;
@@ -1285,6 +1305,8 @@ public class ModEventHandler {
 	public void onItemPickup(PlayerEvent.ItemPickupEvent event) {
 		if(event.pickedUp.getEntityItem().getItem() == ModItems.canned_jizz)
 			event.player.triggerAchievement(MainRegistry.achC20_5);
+		if(event.pickedUp.getEntityItem().getItem() == Items.slime_ball)
+			event.player.triggerAchievement(MainRegistry.achSlimeball);
 	}
 	
 	@SubscribeEvent
@@ -1310,16 +1332,11 @@ public class ModEventHandler {
 					event.world.setBlock(x, y, z, ModBlocks.gas_coal);
 			}
 		}
-		
-		if(event.block == ModBlocks.pink_log && !((EntityPlayerMP) event.getPlayer()).func_147099_x().hasAchievementUnlocked(MainRegistry.achImpossible)) {
-			event.getPlayer().triggerAchievement(MainRegistry.achImpossible);
-			event.setExpToDrop(3000);
-		}
 	}
 	
 	private static final String hash = "41eb77f138ce350932e33b6b26b233df9aad0c0c80c6a49cb9a54ddd8fae3f83";
 	
-	@SubscribeEvent
+	//@SubscribeEvent
 	public void onClickSign(PlayerInteractEvent event) {
 
 		int x = event.x;
@@ -1507,6 +1524,26 @@ public class ModEventHandler {
 			if(stack.hasTagCompound() && stack.getTagCompound().getBoolean("ntmCyanide")) {
 				for(int i = 0; i < 10; i++) {
 					event.entityPlayer.attackEntityFrom(rand.nextBoolean() ? ModDamageSource.euthanizedSelf : ModDamageSource.euthanizedSelf2, 1000);
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void filterBrokenEntity(EntityJoinWorldEvent event) {
+		
+		Entity entity = event.entity;
+		Entity[] parts = entity.getParts();
+		
+		//MainRegistry.logger.error("Trying to spawn entity " + entity.getClass().getCanonicalName());
+		
+		if(parts != null) {
+			
+			for(int i = 0; i < parts.length; i++) {
+				if(parts[i] == null) {
+					MainRegistry.logger.error("Prevented spawning of multipart entity " + entity.getClass().getCanonicalName() + " due to parts being null!");
+					event.setCanceled(true);
+					return;
 				}
 			}
 		}

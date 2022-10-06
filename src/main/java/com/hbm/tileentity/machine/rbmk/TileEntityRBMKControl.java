@@ -6,7 +6,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase implements SimpleComponent {
 
 	@SideOnly(Side.CLIENT)
 	public double lastLevel;
@@ -104,5 +111,41 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setDouble("level", this.level);
 		return data;
+	}
+	
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "rbmk_control_rod";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getLevel(Context context, Arguments args) {
+		return new Object[] {getMult()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getTargetLevel(Context context, Arguments args) {
+		return new Object[] {targetLevel};
+	}
+
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getHeat(Context context, Arguments args) {
+		return new Object[] {heat};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setLevel(Context context, Arguments args) {
+		double newLevel = Double.parseDouble(args.checkString(0))/100.0;
+		if (newLevel > 1) { // check if its above 100 so the control rod wont do funny things
+			newLevel = 1;
+		}
+		targetLevel = newLevel;
+		return new Object[] {};
 	}
 }

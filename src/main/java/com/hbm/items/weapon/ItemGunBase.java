@@ -16,6 +16,7 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -248,7 +249,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		EntityBulletBase bullet = new EntityBulletBase(world, config, player);
 		world.spawnEntityInWorld(bullet);
 		
-		if(this.mainConfig.animations.containsKey(AnimType.CYCLE) && player instanceof EntityPlayerMP)
+		if(player instanceof EntityPlayerMP)
 			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
 			
 	}
@@ -272,13 +273,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		}
 	}
 	
-	//called on click (client side, called by update cylce)
+	//called on click (client side, called by mouse click event)
 	public void startActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) { }
 	
 	//called on click release (server side, called by mouse packet) for release actions like charged shots
 	public void endAction(ItemStack stack, World world, EntityPlayer player, boolean main) { }
 	
-	//called on click release (client side, called by update cylce)
+	//called on click release (client side, called by update cycle)
 	public void endActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) { }
 	
 	//reload action, if existent
@@ -768,6 +769,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		if(type == ElementType.HOTBAR) {
 			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(stack)));
 			
+			if(bcfg == null) {
+				return;
+			}
+			
 			Item ammo = bcfg.ammo;
 			int count = ItemGunBase.getMag(stack);
 			int max = gcfg.ammoCap;
@@ -781,7 +786,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			
 			int dura = ItemGunBase.getItemWear(stack) * 50 / gcfg.durability;
 			
-			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, dura, showammo);
+			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, new ItemStack(ammo), count, max, dura, showammo);
 			
 			if(gun.altConfig != null && gun.altConfig.reloadType == GunConfiguration.RELOAD_NONE) {
 				Item oldAmmo = ammo;
@@ -789,7 +794,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 				
 				if(ammo != oldAmmo) {
 					count = ItemGunBase.getBeltSize(player, ammo);
-					RenderScreenOverlay.renderAmmoAlt(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count);
+					RenderScreenOverlay.renderAmmoAlt(event.resolution, Minecraft.getMinecraft().ingameGUI, new ItemStack(ammo), count);
 				}
 			}
 		}
@@ -803,5 +808,11 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			else
 				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, Crosshair.NONE);
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public BusAnimation getAnimation(ItemStack stack, AnimType type) {
+		GunConfiguration config = ((ItemGunBase) stack.getItem()).mainConfig;
+		return config.animations.get(type);
 	}
 }

@@ -37,6 +37,8 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Delay -" + (15 * this.tier) + "% / Consumption +" + (300 * this.tier) + "HE/t");
 			list.add(EnumChatFormatting.RED + "Laser Miner:");
 			list.add("Delay ÷" + (1 + this.tier) + " / Consumption +" + (625 * this.tier) + "HE/t");
+			list.add(EnumChatFormatting.RED + "Electric Furnace:");
+			list.add("Delay -" + (25 * this.tier) + "% / Consumption +" + (50 * this.tier) + "HE/t");
 			list.add(EnumChatFormatting.RED + "Assembly Machine:");
 			list.add("Delay -" + (25 * this.tier) + "% / Consumption +" + (300 * this.tier) + "HE/t");
 			list.add(EnumChatFormatting.RED + "Chemical Plant:");
@@ -46,6 +48,8 @@ public class ItemMachineUpgrade extends Item {
 			list.add(EnumChatFormatting.RED + "Crystallizer:");
 			list.add("Delay -" + (20 * this.tier) + "% / Consumption +" + (1000 * this.tier) + "HE/t");
 			list.add(EnumChatFormatting.RED + "Cyclotron:");
+			list.add("Speed x" + (1 + this.tier));
+			list.add(EnumChatFormatting.RED + "Flare Stack:");
 			list.add("Speed x" + (1 + this.tier));
 			list.add(EnumChatFormatting.RED + "Maxwell:");
 			list.add("Damage +" + (0.25 * (double)this.tier) + "dmg/t");
@@ -58,6 +62,8 @@ public class ItemMachineUpgrade extends Item {
 			list.add("+" + (5 * this.tier) + "% chance of not consuming an item / Acid consumption +" + (1000 * this.tier) + "mB");
 			list.add(EnumChatFormatting.RED + "Cyclotron:");
 			list.add("-" + (100 - 100 / (this.tier + 1)) + "% chance of incrementing overheat counter");
+			list.add(EnumChatFormatting.RED + "Flare Stack:");
+			list.add("+" + (100 * this.tier / 3) + "% power production");
 			list.add(EnumChatFormatting.RED + "Maxwell:");
 			list.add("Range +" + (3 * this.tier) + "m");
 		}
@@ -65,6 +71,8 @@ public class ItemMachineUpgrade extends Item {
 		if(this.type == UpgradeType.POWER) {
 			list.add(EnumChatFormatting.RED + "Mining Drill:");
 			list.add("Consumption -" + (30 * this.tier) + "HE/t / Delay +" + (5 * this.tier) + "%");
+			list.add(EnumChatFormatting.RED + "Electric Furnace:");
+			list.add("Consumption -" + (15 * this.tier) + "HE/t / Delay +" + (10 * this.tier) + "%");
 			list.add(EnumChatFormatting.RED + "Assembly Machine:");
 			list.add("Consumption -" + (30 * this.tier) + "HE/t / Delay +" + (5 * this.tier) + "%");
 			list.add(EnumChatFormatting.RED + "Chemical Plant:");
@@ -93,31 +101,13 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Fortune +3 / Delay +45");
 		}
 		
-		if(this == ModItems.upgrade_afterburn_1) {
+		if(this.type == UpgradeType.AFTERBURN) {
 			list.add(EnumChatFormatting.RED + "Turbofan:");
-			list.add("Production x2 / Consumption x2.5");
+			list.add("Production x" + (this.tier + 1) + " / Consumption x" + (this.tier + 2));
 			list.add(EnumChatFormatting.RED + "Maxwell:");
-			list.add("Afterburn +3s");
+			list.add("Afterburn +" + (this.tier * 3) + "s");
 			list.add(EnumChatFormatting.RED + "Oil Wells:");
-			list.add("Burn 10mB of gas for 50HE/t");
-		}
-		
-		if(this == ModItems.upgrade_afterburn_2) {
-			list.add(EnumChatFormatting.RED + "Turbofan:");
-			list.add("Production x3 / Consumption x5");
-			list.add(EnumChatFormatting.RED + "Maxwell:");
-			list.add("Afterburn +6s");
-			list.add(EnumChatFormatting.RED + "Oil Wells:");
-			list.add("Burn 20mB of gas for 100HE/t");
-		}
-		
-		if(this == ModItems.upgrade_afterburn_3) {
-			list.add(EnumChatFormatting.RED + "Turbofan:");
-			list.add("Production x4 / Consumption x7.5");
-			list.add(EnumChatFormatting.RED + "Maxwell:");
-			list.add("Afterburn +9s");
-			list.add(EnumChatFormatting.RED + "Oil Wells:");
-			list.add("Burn 30mB of gas for 150HE/t");
+			list.add("Burn " + (this.tier * 10) + "mB of gas for " + (this.tier * 50) + "HE/t");
 		}
 		
 		if(this == ModItems.upgrade_radius) {

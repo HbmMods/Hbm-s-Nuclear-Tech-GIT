@@ -53,15 +53,21 @@ public class ContainerMachineOilWell extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= 5) {
-				if(!this.mergeItemStack(var5, 6, this.inventorySlots.size(), true)) {
+			if(par2 <= 7) {
+				if(!this.mergeItemStack(var5, 8, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(var5, 0, 2, false)) {
+			} else {
 				
 				if(var5.getItem() instanceof ItemMachineUpgrade) {
 					if(!this.mergeItemStack(var5, 5, 8, true)) {
 						return null;
+					}
+				} else {
+					if(!this.mergeItemStack(var5, 0, 2, false)) {
+						if(!this.mergeItemStack(var5, 3, 4, false)) {
+							return null;
+						}
 					}
 				}
 			}

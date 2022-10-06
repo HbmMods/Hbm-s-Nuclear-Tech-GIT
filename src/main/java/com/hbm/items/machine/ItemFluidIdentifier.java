@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import com.hbm.interfaces.IFluidDuct;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -86,6 +85,11 @@ public class ItemFluidIdentifier extends Item implements IItemFluidIdentifier {
 	}
 
 	@Override
+	public boolean doesSneakBypassUse(World world, int x, int y, int z, EntityPlayer player) {
+		return true;
+	}
+
+	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f1, float f2, float f3) {
 		TileEntity te = world.getTileEntity(x, y, z);
 		if(te instanceof TileEntityFluidDuctSimple) {
@@ -139,7 +143,7 @@ public class ItemFluidIdentifier extends Item implements IItemFluidIdentifier {
 				if (te instanceof TileEntityFluidDuctSimple && ((TileEntityFluidDuctSimple) te).getType() == oldType) {
 					
 					TileEntityFluidDuctSimple nextDuct = (TileEntityFluidDuctSimple) te;
-					long connectionsCount = Arrays.stream(nextDuct.connections).filter(Objects::nonNull).count();
+					long connectionsCount = Arrays.stream(nextDuct.connections).filter(Objects::nonNull).count(); // (o -> Objects.nonNull(o))
 					
 					if (connectionsCount > 1) {
 						markDuctsRecursively(world, nextX, nextY, nextZ, type, maxRecursion - currentRecursion);

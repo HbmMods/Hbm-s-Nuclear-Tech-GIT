@@ -21,6 +21,7 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 		if(!worldObj.isRemote) {
 			dissipateHeat();
 			react();
+			transmute();
 			
 			if(this.heat >= this.maxHeat) {
 				worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 4, true, true);
@@ -28,13 +29,13 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 			}
 			
 			if(this.progress >= this.maxProgress) {
-				worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.block_graphite_plutonium, this.getBlockMetadata(), 3);
+				worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.block_graphite_plutonium, this.getBlockMetadata() & 7, 3);
 			}
 		}
 	}
 	
 	private void dissipateHeat() {
-		this.heat -= heat * 0.05; //remove 5% of the stored heat per tick
+		this.heat -= (this.getBlockMetadata() & 4) == 4 ? heat * 0.065 : heat * 0.05; //remove 5% of the stored heat per tick; 6.5% for windscale
 	}
 	
 	private void react() {
@@ -42,7 +43,7 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 		int reaction = (int) (this.neutrons * (1D - ((double)this.heat / (double)this.maxHeat) * 0.5D)); //max heat reduces reaction by 50% due to thermal expansion
 		
 		this.lastNeutrons = this.neutrons;
-		this.neutrons = 0;;
+		this.neutrons = 0;
 		
 		this.progress += reaction;
 		
@@ -51,8 +52,21 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 		
 		this.heat += reaction;
 		
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 12; i++)
 			this.castRay((int) Math.max(reaction * 0.25, 1), 5);
+	}
+	
+	private void transmute() {
+		
+		if((this.getBlockMetadata() & 8) == 8) {
+			if(this.progress < this.maxProgress - 1000) //Might be subject to change, but 1000 seems like a good number.
+				this.progress = maxProgress - 1000;
+			
+			return;
+		} else if(this.progress >= maxProgress - 1000) {
+			worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, this.getBlockMetadata() | 8, 3);
+			return;
+		}
 	}
 
 	@Override

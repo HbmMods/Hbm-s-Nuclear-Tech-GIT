@@ -1,6 +1,11 @@
 package com.hbm.render.tileentity;
 
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
+
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
@@ -11,6 +16,7 @@ import com.hbm.render.util.BeamPronter.EnumWaveType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -168,23 +174,64 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         GL11.glDepthMask(true);
         
         GL11.glShadeModel(GL11.GL_FLAT);*/
-
-        GL11.glShadeModel(GL11.GL_SMOOTH);
-
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glEnable(GL11.GL_LIGHTING);
-
-        bindTexture(ResourceManager.soyuz_module_dome_tex);
-        ResourceManager.soyuz_module.renderPart("Dome");
-        bindTexture(ResourceManager.soyuz_module_lander_tex);
-        ResourceManager.soyuz_module.renderPart("Capsule");
-        bindTexture(ResourceManager.soyuz_module_propulsion_tex);
-        ResourceManager.soyuz_module.renderPart("Propulsion");
-        bindTexture(ResourceManager.soyuz_module_solar_tex);
-        ResourceManager.soyuz_module.renderPart("Solar");
         
-        GL11.glShadeModel(GL11.GL_FLAT);
-        
+        GL11.glTranslated(0D, 4D, 0D);
+        GL11.glRotated(System.currentTimeMillis() % 3600 / 10D, 0, 0, 1);
+        GL11.glTranslated(0D, -4D, 0D);
+        GL11.glRotated(System.currentTimeMillis() % 3600 / 10D, 0, 1, 0);
+
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		
+		//GL11.glDisable(GL11.GL_TEXTURE_2D);
+		RenderHelper.disableStandardItemLighting();
+		RenderHelper.enableStandardItemLighting();
+		GL11.glColor4d(1, 1, 1, 1);
+		GL11.glClearColor(0, 0, 0, 0);
+
+		float amb = 2F;
+		float dif = 2F;
+		float spe = 2F;
+		float shi = 1F;
+		FloatBuffer iamb = (FloatBuffer) BufferUtils.createFloatBuffer(8).put(new float[] { amb, amb, amb, 1F }).flip();
+		FloatBuffer idif = (FloatBuffer) BufferUtils.createFloatBuffer(8).put(new float[] { dif, dif, dif, 1F }).flip();
+		FloatBuffer ispe = (FloatBuffer) BufferUtils.createFloatBuffer(8).put(new float[] { spe, spe, spe, 1F }).flip();
+		FloatBuffer mamb = (FloatBuffer) BufferUtils.createFloatBuffer(8).put(new float[] { amb, amb, amb, 1F }).flip();
+		FloatBuffer mdif = (FloatBuffer) BufferUtils.createFloatBuffer(8).put(new float[] { dif, dif, dif, 1F }).flip();
+		FloatBuffer mspe = (FloatBuffer) BufferUtils.createFloatBuffer(8).put(new float[] { spe, spe, spe, 1F }).flip();
+		float msh = 128F * shi;
+		FloatBuffer mem = (FloatBuffer) BufferUtils.createFloatBuffer(8).put(new float[] { 1F, 1F, 1F, 1F }).flip();
+		
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glLight(GL11.GL_LIGHT0, GL11.GL_AMBIENT, iamb);
+		GL11.glLight(GL11.GL_LIGHT0, GL11.GL_DIFFUSE, idif);
+		GL11.glLight(GL11.GL_LIGHT0, GL11.GL_SPECULAR, ispe);
+		GL11.glLight(GL11.GL_LIGHT1, GL11.GL_AMBIENT, iamb);
+		GL11.glLight(GL11.GL_LIGHT1, GL11.GL_DIFFUSE, idif);
+		GL11.glLight(GL11.GL_LIGHT1, GL11.GL_SPECULAR, ispe);
+		GL11.glMaterial(GL11.GL_FRONT, GL11.GL_AMBIENT, mamb);
+		GL11.glMaterial(GL11.GL_FRONT, GL11.GL_DIFFUSE, mdif);
+		GL11.glMaterial(GL11.GL_FRONT, GL11.GL_SPECULAR, mspe);
+		GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS, msh);
+		GL11.glMaterial(GL11.GL_FRONT, GL11.GL_EMISSION, mem); 
+		GL11.glLightModeli(GL12.GL_LIGHT_MODEL_COLOR_CONTROL, GL12.GL_SEPARATE_SPECULAR_COLOR);
+		
+		
+		bindTexture(ResourceManager.soyuz_module_dome_tex);
+		ResourceManager.soyuz_module.renderPart("Dome");
+		bindTexture(ResourceManager.soyuz_module_lander_tex);
+		ResourceManager.soyuz_module.renderPart("Capsule");
+		bindTexture(ResourceManager.soyuz_module_propulsion_tex);
+		ResourceManager.soyuz_module.renderPart("Propulsion");
+		bindTexture(ResourceManager.soyuz_module_solar_tex);
+		ResourceManager.soyuz_module.renderPart("Solar");
+
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glColor3f(1F, 1F, 1F);
+
         /*GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glShadeModel(GL11.GL_SMOOTH);
         
@@ -282,6 +329,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         }*/
         
         GL11.glPopMatrix();
+        RenderHelper.enableStandardItemLighting();
     }
 
 }

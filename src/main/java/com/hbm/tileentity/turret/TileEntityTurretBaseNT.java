@@ -209,19 +209,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			
 			this.power = Library.chargeTEFromItems(slots, 10, this.power, this.getMaxPower());
 			
-			NBTTagCompound data = new NBTTagCompound();
-			if(this.tPos != null) {
-				data.setDouble("tX", this.tPos.xCoord);
-				data.setDouble("tY", this.tPos.yCoord);
-				data.setDouble("tZ", this.tPos.zCoord);
-			}
-			data.setLong("power", this.power);
-			data.setBoolean("isOn", this.isOn);
-			data.setBoolean("targetPlayers", this.targetPlayers);
-			data.setBoolean("targetAnimals", this.targetAnimals);
-			data.setBoolean("targetMobs", this.targetMobs);
-			data.setBoolean("targetMachines", this.targetMachines);
-			data.setInteger("stattrak", this.stattrak);
+			NBTTagCompound data = this.writePacket();
 			this.networkPack(data, 250);
 			
 		} else {
@@ -241,7 +229,26 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		}
 	}
 	
-	private void updateConnections() {
+	protected NBTTagCompound writePacket() {
+		
+		NBTTagCompound data = new NBTTagCompound();
+		if(this.tPos != null) {
+			data.setDouble("tX", this.tPos.xCoord);
+			data.setDouble("tY", this.tPos.yCoord);
+			data.setDouble("tZ", this.tPos.zCoord);
+		}
+		data.setLong("power", this.power);
+		data.setBoolean("isOn", this.isOn);
+		data.setBoolean("targetPlayers", this.targetPlayers);
+		data.setBoolean("targetAnimals", this.targetAnimals);
+		data.setBoolean("targetMobs", this.targetMobs);
+		data.setBoolean("targetMachines", this.targetMachines);
+		data.setInteger("stattrak", this.stattrak);
+		
+		return data;
+	}
+	
+	protected void updateConnections() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
@@ -454,16 +461,21 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	 * Turns the turret towards the specified position
 	 */
 	public void turnTowards(Vec3 ent) {
-		
-		double turnYaw = Math.toRadians(this.getTurretYawSpeed());
-		double turnPitch = Math.toRadians(this.getTurretPitchSpeed());
-		double pi2 = Math.PI * 2;
 
 		Vec3 pos = this.getTurretPos();
 		Vec3 delta = Vec3.createVectorHelper(ent.xCoord - pos.xCoord, ent.yCoord - pos.yCoord, ent.zCoord - pos.zCoord);
 		
 		double targetPitch = Math.asin(delta.yCoord / delta.lengthVector());
 		double targetYaw = -Math.atan2(delta.xCoord, delta.zCoord);
+		
+		this.turnTowardsAngle(targetPitch, targetYaw);
+	}
+	
+	public void turnTowardsAngle(double targetPitch, double targetYaw) {
+		
+		double turnYaw = Math.toRadians(this.getTurretYawSpeed());
+		double turnPitch = Math.toRadians(this.getTurretPitchSpeed());
+		double pi2 = Math.PI * 2;
 		
 		//if we are about to overshoot the target by turning, just snap to the correct rotation
 		if(Math.abs(this.rotationPitch - targetPitch) < turnPitch || Math.abs(this.rotationPitch - targetPitch) > pi2 - turnPitch) {
@@ -728,6 +740,28 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	 * @return
 	 */
 	protected abstract List<Integer> getAmmoList();
+	
+	@SideOnly(Side.CLIENT)
+	protected List<ItemStack> ammoStacks;
+
+	@SideOnly(Side.CLIENT)
+	public List<ItemStack> getAmmoTypesForDisplay() {
+		
+		if(ammoStacks != null)
+			return ammoStacks;
+		
+		ammoStacks = new ArrayList();
+		
+		for(Integer i : getAmmoList()) {
+			BulletConfiguration config = BulletConfigSyncingUtil.pullConfig(i);
+			
+			if(config != null && config.ammo != null) {
+				ammoStacks.add(new ItemStack(config.ammo));
+			}
+		}
+		
+		return ammoStacks;
+	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
@@ -767,11 +801,20 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public void openInventory() {
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.openC", 1.0F, 1.0F);
+	}
+
+	@Override
+	public void closeInventory() {
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.closeC", 1.0F, 1.0F);
 	}
 }

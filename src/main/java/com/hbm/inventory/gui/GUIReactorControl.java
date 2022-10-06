@@ -1,18 +1,12 @@
 package com.hbm.inventory.gui;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerReactorControl;
-import com.hbm.inventory.gui.GuiInfoContainer.NumberDisplay;
 import com.hbm.lib.RefStrings;
+import com.hbm.module.NumberDisplay;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityReactorControl;
@@ -38,9 +32,9 @@ public class GUIReactorControl extends GuiInfoContainer {
 	public GUIReactorControl(InventoryPlayer invPlayer, TileEntityReactorControl tedf) {
 		super(new ContainerReactorControl(invPlayer, tedf));
 		control = tedf;
-		displays[0] = new NumberDisplay(6, 20, 0x08FF00).setDigitLength(3);
-		displays[1] = new NumberDisplay(66, 20, 0x08FF00).setDigitLength(4);
-		displays[2] = new NumberDisplay(126, 20, 0x08FF00).setDigitLength(3);
+		displays[0] = new NumberDisplay(this, 6, 20, 0x08FF00).setDigitLength(3);
+		displays[1] = new NumberDisplay(this, 66, 20, 0x08FF00).setDigitLength(4);
+		displays[2] = new NumberDisplay(this, 126, 20, 0x08FF00).setDigitLength(3);
 
 		fields = new GuiTextField[4];
 

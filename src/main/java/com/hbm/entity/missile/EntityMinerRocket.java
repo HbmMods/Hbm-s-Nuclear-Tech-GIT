@@ -1,8 +1,8 @@
 package com.hbm.entity.missile;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.util.ParticleUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -14,7 +14,7 @@ public class EntityMinerRocket extends Entity {
 	//0 landing, 1 unloading, 2 lifting
 	public int timer = 0;
 	//0 asteroid, 1 moon
-	public int cargoType = 0;
+	public String satelliteClassName = "com.hbm.saveddata.satellites.SatelliteMiner";
 
 	public EntityMinerRocket(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -66,17 +66,8 @@ public class EntityMinerRocket extends Entity {
 			}
 		}
 		
-		if(dataWatcher.getWatchableObjectInt(16) != 1) {
-			
-			if(ticksExisted % 2 == 0) {
-				EntityGasFlameFX fx = new EntityGasFlameFX(worldObj);
-				fx.posY = posY - 0.5D;
-				fx.posX = posX;
-				fx.posZ = posZ;
-				fx.motionY = -1D;
-				
-				worldObj.spawnEntityInWorld(fx);
-			}
+		if(dataWatcher.getWatchableObjectInt(16) != 1 && !worldObj.isRemote && ticksExisted % 2 == 0) {
+			ParticleUtil.spawnGasFlame(worldObj, posX, posY - 0.5, posZ, 0.0, -1.0, 0.0);
 		}
 		
 		if(dataWatcher.getWatchableObjectInt(16) == 2 && posY > 300)
@@ -88,7 +79,7 @@ public class EntityMinerRocket extends Entity {
 		dataWatcher.updateObject(16, nbt.getInteger("mode"));
 		dataWatcher.updateObject(17, nbt.getInteger("sat"));
 		timer = nbt.getInteger("timer");
-		cargoType = nbt.getInteger("type");
+		satelliteClassName = nbt.getString("type");
 	}
 
 	@Override
@@ -96,7 +87,7 @@ public class EntityMinerRocket extends Entity {
 		nbt.setInteger("mode", dataWatcher.getWatchableObjectInt(16));
 		nbt.setInteger("sat", dataWatcher.getWatchableObjectInt(17));
 		nbt.setInteger("timer", timer);
-		nbt.setInteger("type", cargoType);
+		nbt.setString("type", satelliteClassName);
 	}
 
 }

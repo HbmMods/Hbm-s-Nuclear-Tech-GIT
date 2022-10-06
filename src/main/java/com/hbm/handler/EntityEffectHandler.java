@@ -59,8 +59,19 @@ public class EntityEffectHandler {
 			
 			if(entity instanceof EntityPlayerMP) {
 				HbmLivingProps props = HbmLivingProps.getData(entity);
+				HbmPlayerProps pprps = HbmPlayerProps.getData((EntityPlayerMP) entity);
 				NBTTagCompound data = new NBTTagCompound();
+				
+				if(pprps.shield < pprps.maxShield && entity.ticksExisted > pprps.lastDamage + 60) {
+					int tsd = entity.ticksExisted - (pprps.lastDamage + 60);
+					pprps.shield += Math.min(pprps.maxShield - pprps.shield, 0.005F * tsd);
+				}
+				
+				if(pprps.shield > pprps.maxShield)
+					pprps.shield = pprps.maxShield;
+				
 				props.saveNBTData(data);
+				pprps.saveNBTData(data);
 				PacketDispatcher.wrapper.sendTo(new ExtPropPacket(data), (EntityPlayerMP) entity);
 			}
 			
@@ -83,8 +94,10 @@ public class EntityEffectHandler {
 		handleRadiation(entity);
 		handleDigamma(entity);
 		handleLungDisease(entity);
-		
+		handleOil(entity);
+
 		handleDashing(entity);
+		handlePlinking(entity);
 	}
 	
 	private static void handleContamination(EntityLivingBase entity) {
@@ -414,6 +427,29 @@ public class EntityEffectHandler {
 		}
 	}
 	
+	private static void handleOil(EntityLivingBase entity) {
+		int oil = HbmLivingProps.getOil(entity);
+		
+		if(oil > 0) {
+			
+			if(entity.isBurning()) {
+				HbmLivingProps.setOil(entity, 0);
+				entity.worldObj.newExplosion(null, entity.posX, entity.posY + entity.height / 2, entity.posZ, 3F, false, true);
+			} else {
+				HbmLivingProps.setOil(entity, oil - 1);
+			}
+			
+			if(entity.ticksExisted % 5 == 0) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "sweat");
+				nbt.setInteger("count", 1);
+				nbt.setInteger("block", Block.getIdFromBlock(Blocks.coal_block));
+				nbt.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			}
+		}
+	}
+	
 	private static void handleDashing(Entity entity) {
 		
 		//AAAAAAAAAAAAAAAAAAAAEEEEEEEEEEEEEEEEEEEE
@@ -515,6 +551,17 @@ public class EntityEffectHandler {
 				props.setStamina(stamina);
 			}	
 					
+		}
+	}
+	
+	private static void handlePlinking(Entity entity) {
+		
+		if(entity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer)entity;
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			
+			if(props.plinkCooldown > 0)
+				props.plinkCooldown--;
 		}
 	}
 }

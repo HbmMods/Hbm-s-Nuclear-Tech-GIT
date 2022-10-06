@@ -3,10 +3,12 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.siege.EntitySiegeTunneler;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemKitCustom;
 import com.hbm.lib.Library;
+import com.hbm.world.feature.OilSpot;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,6 +32,12 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
+			OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 20, 500);
+			
+			/*EntityNukeTorex torex = new EntityNukeTorex(world);
+			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
+			world.spawnEntityInWorld(torex);*/
+			
 			/*EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
 			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);
 			tunneler.onSpawnWithEgg(null);
@@ -37,7 +45,7 @@ public class ItemWandD extends Item {
 			
 			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
 			
-			int r = 5;
+			/*int r = 5;
 			
 			int x = pos.blockX;
 			int y = pos.blockY;
@@ -49,7 +57,7 @@ public class ItemWandD extends Item {
 							world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
 					}
 				}
-			}
+			}*/
 			
 			//new Bunker().generate(world, world.rand, x, y, z);
 			

@@ -2,8 +2,8 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerLaunchTable;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.lib.RefStrings;

@@ -7,7 +7,7 @@ import net.minecraft.util.MathHelper;
  * Adjusted code from MC 1.12 (com.minecraft.util.math.BlockPos)
  */
 public class BlockPos {
-	
+
 	private final int x;
 	private final int y;
 	private final int z;
@@ -24,6 +24,10 @@ public class BlockPos {
 	
 	public BlockPos(double x, double y, double z) {
 		this((int)MathHelper.floor_double(x), (int)MathHelper.floor_double(y), (int)MathHelper.floor_double(z));
+	}
+	
+	public BlockPos add(int x, int y, int z) {
+		return x == 0 && y == 0 && z == 0 ? this : new BlockPos(this.getX() + x, this.getY() + y, this.getZ() + z);
 	}
 	
 	public BlockPos add(double x, double y, double z) {
@@ -54,5 +58,33 @@ public class BlockPos {
 	
 	public int getZ() {
 		return this.z;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		result = prime * result + z;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj)
+			return true;
+		if(obj == null)
+			return false;
+		if(getClass() != obj.getClass())
+			return false;
+		BlockPos other = (BlockPos) obj;
+		if(x != other.x)
+			return false;
+		if(y != other.y)
+			return false;
+		if(z != other.z)
+			return false;
+		return true;
 	}
 }

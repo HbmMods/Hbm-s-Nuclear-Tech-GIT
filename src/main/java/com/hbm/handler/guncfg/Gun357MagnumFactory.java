@@ -185,6 +185,27 @@ public class Gun357MagnumFactory {
 		return config;
 	}
 	
+	public static GunConfiguration getRevolverBioConfig() {
+		
+		GunConfiguration config = getBaseConfig();
+		
+		config.durability = 100000;
+		config.firingSound = "hbm:weapon.deagleShoot";
+		config.reloadDuration = 53;
+		config.crosshair = Crosshair.CIRCLE;
+		
+		config.name = "RI No. 2 Mark 1";
+		config.manufacturer = "Ryan Industries";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.IRON_HS);
+		config.config.add(BulletConfigSyncingUtil.STEEL_HS);
+		config.config.add(BulletConfigSyncingUtil.GOLD_HS);
+		config.config.add(BulletConfigSyncingUtil.DESH_HS);
+		
+		return config;
+	}
+	
 	    ////    //  //  //      //      //////  //////  //////
 	   //  //  //  //  //      //      //        //    //
 	  ////    //  //  //      //      ////      //    //////

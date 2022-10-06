@@ -7,14 +7,16 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
+import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemCassette;
-import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.lib.RefStrings;
@@ -76,14 +78,21 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			}
 			// Assembly Templates
 			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
-				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) == null) {
-					allStacks.add(new ItemStack(ModItems.assembly_template, 1, i));
+
+				ComparableStack comp = AssemblerRecipes.recipeList.get(i);
+				if(AssemblerRecipes.hidden.get(comp) == null) {
+					allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template, 1, i), comp));
 				}
 			}
 			// Chemistry Templates
 			for(int i = 0; i < ChemplantRecipes.recipes.size(); i++) {
 				ChemRecipe chem = ChemplantRecipes.recipes.get(i);
 				allStacks.add(new ItemStack(ModItems.chemistry_template, 1, chem.getId()));
+			}
+			
+			// Crucible Templates
+			for(int i = 0; i < CrucibleRecipes.recipes.size(); i++) {
+				allStacks.add(new ItemStack(ModItems.crucible_template, 1, CrucibleRecipes.recipes.get(i).getId()));
 			}
 		} else {
 
@@ -287,19 +296,21 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 
 		public void drawIcon(boolean b) {
 			try {
-                RenderHelper.enableGUIStandardItemLighting();
-                GL11.glDisable(GL11.GL_LIGHTING);
-                OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)240 / 1.0F, (float)240 / 1.0F);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+				RenderHelper.enableGUIStandardItemLighting();
+				GL11.glDisable(GL11.GL_LIGHTING);
+				OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) 240 / 1.0F, (float) 240 / 1.0F);
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				if(stack != null) {
 					if(stack.getItem() == ModItems.assembly_template)
 						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), AssemblerRecipes.getOutputFromTempate(stack), xPos + 1, yPos + 1);
 					else if(stack.getItem() == ModItems.chemistry_template)
 						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), new ItemStack(ModItems.chemistry_icon, 1, stack.getItemDamage()), xPos + 1, yPos + 1);
+					else if(stack.getItem() == ModItems.crucible_template)
+						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), CrucibleRecipes.indexMapping.get(stack.getItemDamage()).icon, xPos + 1, yPos + 1);
 					else
 						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), stack, xPos + 1, yPos + 1);
 				}
-                GL11.glEnable(GL11.GL_LIGHTING);
+				GL11.glEnable(GL11.GL_LIGHTING);
 			} catch(Exception x) {
 			}
 		}
@@ -329,7 +340,5 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				updateButtons();
 			}
 		}
-
 	}
-
 }

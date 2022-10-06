@@ -3,14 +3,15 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.block.ILaserable;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -23,7 +24,14 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, ILaserable {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, ILaserable, IFluidStandardReceiver, SimpleComponent {
 	
 	public long power;
 	public static final long maxPower = 1000000000L;
@@ -52,6 +60,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 		if (!worldObj.isRemote) {
 			
 			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
+			this.subscribeToAllAround(tank.getTankType(), this);
 			
 			watts = MathHelper.clamp_int(watts, 1, 100);
 			long demand = maxPower * watts / 2000;
@@ -279,5 +288,69 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 		nbt.setLong("prev", prev);
 		nbt.setBoolean("isOn", isOn);
 		tank.writeToNBT(nbt, "tank");
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
+	}
+	
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "dfc_emitter";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyStored(Context context, Arguments args) {
+		return new Object[] {getPower()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getMaxEnergy(Context context, Arguments args) {
+		return new Object[] {getMaxPower()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCryogel(Context context, Arguments args) {
+		return new Object[] {tank.getFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInput(Context context, Arguments args) {
+		return new Object[] {watts};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isActive(Context context, Arguments args) {
+		return new Object[] {isOn};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setActive(Context context, Arguments args) {
+		isOn = Boolean.parseBoolean(args.checkString(0));
+		return new Object[] {};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setInput(Context context, Arguments args) {
+		int newOutput = Integer.parseInt(args.checkString(0));
+		if (newOutput > 100) {
+			newOutput = 100;
+		}
+		watts = newOutput;
+		return new Object[] {};
 	}
 }

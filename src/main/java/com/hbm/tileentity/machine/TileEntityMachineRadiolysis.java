@@ -9,9 +9,9 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.RadiolysisRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPellet;
@@ -127,7 +127,7 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			setupTanks();
 			
 			if(heat > 100) {
-				int crackTime = (int) Math.min(-0.1 * (heat - 100) + 30, 5);
+				int crackTime = (int) Math.max(-0.1 * (heat - 100) + 30, 5);
 				
 				if(worldObj.getTotalWorldTime() % crackTime == 0)
 					crack();

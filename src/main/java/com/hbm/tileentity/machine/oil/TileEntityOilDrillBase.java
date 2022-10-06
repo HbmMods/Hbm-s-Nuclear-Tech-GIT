@@ -7,10 +7,10 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
@@ -18,8 +18,10 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple;
 import com.hbm.util.Tuple.Triplet;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -29,7 +31,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource {
+public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidStandardTransceiver {
 	
 	public int indicator = 0;
 	
@@ -134,8 +136,6 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 			this.sendUpdate();
 		}
 	}
-	
-	protected abstract void updateConnections();
 	
 	public void sendUpdate() {
 		NBTTagCompound data = new NBTTagCompound();
@@ -328,5 +328,28 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[0];
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+	
+	public abstract DirPos[] getConPos();
+
+	protected void updateConnections() {
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
 	}
 }

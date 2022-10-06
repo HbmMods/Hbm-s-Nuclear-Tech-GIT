@@ -6,9 +6,9 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -20,7 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor{
+public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor /* TODO: new fluid API */ {
 	
 	public long power;
 	public static final long maxPower = 20000000;

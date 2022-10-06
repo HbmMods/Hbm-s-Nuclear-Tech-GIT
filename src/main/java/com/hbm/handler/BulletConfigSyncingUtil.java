@@ -24,6 +24,11 @@ public class BulletConfigSyncingUtil {
 	public static int NIGHT2_REVOLVER = i++;
 	public static int SATURNITE_REVOLVER = i++;
 	public static int DESH_REVOLVER = i++;
+	
+	public static int IRON_HS = i++;
+	public static int STEEL_HS = i++;
+	public static int GOLD_HS = i++;
+	public static int DESH_HS = i++;
 
 	public static int G20_NORMAL = i++;
 	public static int G20_SLUG = i++;
@@ -229,6 +234,14 @@ public class BulletConfigSyncingUtil {
 	public static int DET_BOLT = i++;
 
 	public static int TURBINE = i++;
+	
+	public static int GLASS_EMRADIO = i++;
+	public static int GLASS_EMMICRO = i++;
+	public static int GLASS_EMIR = i++;
+	public static int GLASS_EMVISIBLE = i++;
+	public static int GLASS_EMUV = i++;
+	public static int GLASS_EMXRAY = i++;
+	public static int GLASS_EMGAMMA = i++;
 
 	public static int CHL_LR22 = i++;
 	public static int CHL_LR22_FIRE = i++;
@@ -267,6 +280,11 @@ public class BulletConfigSyncingUtil {
 		configSet.put(NIGHT2_REVOLVER, Gun357MagnumFactory.getRevNightmare2Config());
 		configSet.put(SATURNITE_REVOLVER, Gun357MagnumFactory.getRevSteelConfig().setToFire(3));
 		configSet.put(DESH_REVOLVER, Gun357MagnumFactory.getRevDeshConfig());
+
+		configSet.put(IRON_HS, Gun357MagnumFactory.getRevIronConfig().setHeadshot(3F));
+		configSet.put(STEEL_HS, Gun357MagnumFactory.getRevSteelConfig().setHeadshot(3F));
+		configSet.put(GOLD_HS, Gun357MagnumFactory.getRevGoldConfig().setHeadshot(3F));
+		configSet.put(DESH_HS, Gun357MagnumFactory.getRevDeshConfig().setHeadshot(3F));
 
 		configSet.put(G20_NORMAL, Gun20GaugeFactory.get20GaugeConfig());
 		configSet.put(G20_SLUG, Gun20GaugeFactory.get20GaugeSlugConfig());
@@ -472,6 +490,15 @@ public class BulletConfigSyncingUtil {
 		configSet.put(DET_BOLT, GunDetonatorFactory.getLaserConfig());
 
 		configSet.put(TURBINE, GunEnergyFactory.getTurbineConfig());
+		
+		configSet.put(GLASS_EMRADIO, GunPoweredFactory.getEMRadioConfig());
+		configSet.put(GLASS_EMMICRO, GunPoweredFactory.getEMMicroConfig());
+		configSet.put(GLASS_EMIR, GunPoweredFactory.getEMInfraredConfig());
+		configSet.put(GLASS_EMVISIBLE, GunPoweredFactory.getEMVisibleConfig());
+		configSet.put(GLASS_EMUV, GunPoweredFactory.getEMUVConfig());
+		configSet.put(GLASS_EMXRAY, GunPoweredFactory.getEMXrayConfig());
+		configSet.put(GLASS_EMGAMMA, GunPoweredFactory.getEMGammaConfig());
+		
 
 		configSet.put(CHL_LR22, Gun22LRFactory.get22LRConfig().setToHoming(ModItems.ammo_22lr_chlorophyte));
 		configSet.put(CHL_LR22_FIRE, Gun22LRFactory.get22LRConfig().setToFire(3).setToHoming(ModItems.ammo_22lr_chlorophyte));
@@ -497,7 +524,6 @@ public class BulletConfigSyncingUtil {
 	}
 
 	public static BulletConfiguration pullConfig(int key) {
-
 		return configSet.get(key);
 	}
 

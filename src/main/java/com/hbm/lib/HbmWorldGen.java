@@ -465,7 +465,7 @@ public class HbmWorldGen implements IWorldGenerator {
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(1);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(10), (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(4) + 3);
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vault1, (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(4) + 3);
 						break;
 					case 4:
 					case 5:
@@ -473,20 +473,20 @@ public class HbmWorldGen implements IWorldGenerator {
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(0.1);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(11), (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(3) + 2);
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vault2, (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(3) + 2);
 						break;
 					case 7:
 					case 8:
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(0.02);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(12), (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(3) + 1);
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vault3, (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(3) + 1);
 						break;
 					case 9:
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(0.0);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(13), (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(2) + 1);
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vault4, (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(2) + 1);
 						break;
 					}
 					
@@ -598,7 +598,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(10000, 250, 10000) == Blocks.air) {
 					world.setBlock(10000, 250, 10000, Blocks.chest);
 					if (world.getBlock(10000, 250, 10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(9),
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
 								(TileEntityChest) world.getTileEntity(10000, 250, 10000), 29);
 					}
 				}
@@ -607,7 +607,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(0, 250, 10000) == Blocks.air) {
 					world.setBlock(0, 250, 10000, Blocks.chest);
 					if (world.getBlock(0, 250, 10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(9),
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
 								(TileEntityChest) world.getTileEntity(0, 250, 10000), 29);
 					}
 				}
@@ -616,7 +616,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(-10000, 250, 10000) == Blocks.air) {
 					world.setBlock(-10000, 250, 10000, Blocks.chest);
 					if (world.getBlock(-10000, 250, 10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(9),
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
 								(TileEntityChest) world.getTileEntity(-10000, 250, 10000), 29);
 					}
 				}
@@ -625,7 +625,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(10000, 250, 0) == Blocks.air) {
 					world.setBlock(10000, 250, 0, Blocks.chest);
 					if (world.getBlock(10000, 250, 0) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(9),
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
 								(TileEntityChest) world.getTileEntity(10000, 250, 0), 29);
 					}
 				}
@@ -634,7 +634,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(-10000, 250, 0) == Blocks.air) {
 					world.setBlock(-10000, 250, 0, Blocks.chest);
 					if (world.getBlock(-10000, 250, 0) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(9),
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
 								(TileEntityChest) world.getTileEntity(-10000, 250, 0), 29);
 					}
 				}
@@ -643,7 +643,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(10000, 250, -10000) == Blocks.air) {
 					world.setBlock(10000, 250, -10000, Blocks.chest);
 					if (world.getBlock(10000, 250, -10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(9),
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
 								(TileEntityChest) world.getTileEntity(10000, 250, -10000), 29);
 					}
 				}
@@ -652,7 +652,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(0, 250, -10000) == Blocks.air) {
 					world.setBlock(0, 250, -10000, Blocks.chest);
 					if (world.getBlock(0, 250, -10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(9),
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
 								(TileEntityChest) world.getTileEntity(0, 250, -10000), 29);
 					}
 				}
@@ -661,7 +661,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(-10000, 250, -10000) == Blocks.air) {
 					world.setBlock(-10000, 250, -10000, Blocks.chest);
 					if (world.getBlock(-10000, 250, -10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(9),
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
 								(TileEntityChest) world.getTileEntity(-10000, 250, -10000), 29);
 					}
 				}

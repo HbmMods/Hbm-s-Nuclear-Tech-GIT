@@ -7,21 +7,25 @@ import java.util.Random;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.ThreeInts;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IPersistentNBT;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -42,8 +46,24 @@ public abstract class BlockDummyable extends BlockContainer {
 	public static final int offset = 10;
 	// meta offset from dummy to extra rotation
 	public static final int extra = 6;
+	
+	/*
+	 * An extra integer that can be set before block set operations (such as makeExtra) and intercepted in createNewTileEntity.
+	 * This way we can inelegantly add variation to the tiles created even if the metadata would be the same.
+	 * Why createNewTileEntity only takes two args or why it is used by the chunk's setBlock implementation is beyond me but any
+	 * other solution feels like putting in way too much effort to achieve the same thing, really.
+	 */
+	public static int overrideTileMeta = 0;
 
 	public static boolean safeRem = false;
+	
+	public static void setOverride(int i) {
+		overrideTileMeta = i;
+	}
+	
+	public static void resetOverride() {
+		overrideTileMeta = 0;
+	}
 
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 
@@ -63,8 +83,6 @@ public abstract class BlockDummyable extends BlockContainer {
 
 		if(b != this) {
 			world.setBlockToAir(x, y, z);
-			// world.setBlock(x, y, z, ModBlocks.dfc_injector, dir.ordinal(),
-			// 3);
 		}
 	}
 
@@ -183,7 +201,9 @@ public abstract class BlockDummyable extends BlockContainer {
 		if(!world.isRemote) {
 			//this is separate because the multiblock rotation and the final meta might not be the same
 			int meta = getMetaForCore(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, (EntityPlayer) player, dir.ordinal() + offset);
+			//lastCore = new BlockPos(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o);
 			world.setBlock(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, this, meta, 3);
+			IPersistentNBT.restoreData(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, itemStack);
 			fillSpace(world, x, y, z, dir, o);
 		}
 		y -= getHeightOffset();
@@ -192,6 +212,11 @@ public abstract class BlockDummyable extends BlockContainer {
 
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}
+
+	/*@Override
+	public void onBlockAdded(World world, int x, int y, int z) {
+		lastBlockSet = new BlockPos(x, y, z);
+	}*/
 	
 	/**
 	 * A bit more advanced than the dir modifier, but it is important that the resulting direction meta is in the core range.
@@ -369,6 +394,83 @@ public abstract class BlockDummyable extends BlockContainer {
 			return true;
 		} else {
 			return true;
+		}
+	}
+
+	@Override
+	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
+		
+		if(!player.capabilities.isCreativeMode) {
+			harvesters.set(player);
+			this.dropBlockAsItem(world, x, y, z, meta, 0);
+			harvesters.set(null);
+		}
+	}
+	
+	/*
+	 * Called after the block and TE are already gone, so this method is of no use to us.
+	 */
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
+		player.addExhaustion(0.025F);
+	}
+	
+	public boolean useDetailedHitbox() {
+		return !bounding.isEmpty();
+	}
+	
+	public List<AxisAlignedBB> bounding = new ArrayList();
+
+	@Override
+	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
+		
+		if(!this.useDetailedHitbox()) {
+			super.addCollisionBoxesToList(world, x, y, z, entityBounding, list, entity);
+			return;
+		}
+		
+		int[] pos = this.findCore(world, x, y, z);
+		
+		if(pos == null)
+			return;
+		
+		x = pos[0];
+		y = pos[1];
+		z = pos[2];
+		
+		for(AxisAlignedBB aabb :this.bounding) {
+			AxisAlignedBB boxlet = getAABBRotationOffset(aabb, x, y, z, ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - this.offset).getRotation(ForgeDirection.UP));
+			
+			if(entityBounding.intersectsWith(boxlet)) {
+				list.add(boxlet);
+			}
+		}
+	}
+	
+	public static AxisAlignedBB getAABBRotationOffset(AxisAlignedBB aabb, int x, int y, int z, ForgeDirection dir) {
+		
+		AxisAlignedBB newBox = null;
+
+		if(dir == ForgeDirection.NORTH) newBox = AxisAlignedBB.getBoundingBox(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ);
+		if(dir == ForgeDirection.EAST) newBox = AxisAlignedBB.getBoundingBox(-aabb.maxZ, aabb.minY, aabb.minX, -aabb.minZ, aabb.maxY, aabb.maxX);
+		if(dir == ForgeDirection.SOUTH) newBox = AxisAlignedBB.getBoundingBox(-aabb.maxX, aabb.minY, -aabb.maxZ, -aabb.minX, aabb.maxY, -aabb.minZ);
+		if(dir == ForgeDirection.WEST) newBox = AxisAlignedBB.getBoundingBox(aabb.minZ, aabb.minY, -aabb.maxX, aabb.maxZ, aabb.maxY, -aabb.minX);
+		
+		if(newBox != null) {
+			newBox.offset(x + 0.5, y, z + 0.5);
+			return newBox;
+		}
+		
+		return AxisAlignedBB.getBoundingBox(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ).offset(x + 0.5, y + 0.5, z + 0.5);
+	}
+
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+		if(!this.useDetailedHitbox()) {
+			super.setBlockBoundsBasedOnState(world, x, y, z);
+		} else {
+			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.999F, 1.0F); //for some fucking reason setting maxY to something that isn't 1 magically fixes item collisions
 		}
 	}
 }

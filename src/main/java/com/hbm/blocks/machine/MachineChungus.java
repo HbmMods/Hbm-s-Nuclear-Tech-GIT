@@ -57,6 +57,8 @@ public class MachineChungus extends BlockDummyable {
 					
 					if(!world.isRemote) {
 						FluidType type = entity.tanks[0].getTankType();
+						entity.onLeverPull(type);
+						
 						if(type == Fluids.STEAM) {
 							entity.tanks[0].setTankType(Fluids.HOTSTEAM);
 							entity.tanks[1].setTankType(Fluids.STEAM);
@@ -78,7 +80,6 @@ public class MachineChungus extends BlockDummyable {
 							entity.tanks[0].setFill(Math.min(entity.tanks[0].getFill() * 1000, entity.tanks[0].getMaxFill()));
 							entity.tanks[1].setFill(0);
 						}
-						
 						entity.markDirty();
 					}
 					
@@ -108,10 +109,10 @@ public class MachineChungus extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {2, 0, 10, -7, 1, 1}, this, dir);
 		world.setBlock(x + dir.offsetX, y + 2, z + dir.offsetZ, this, dir.ordinal(), 3);
 
-		this.makeExtra(world, x + dir.offsetX, y + 2, z + dir.offsetZ);
-		this.makeExtra(world, x + dir.offsetX * (o - 10), y, z + dir.offsetZ * (o - 10));
+		this.makeExtra(world, x + dir.offsetX, y + 2, z + dir.offsetZ); //front connector
+		this.makeExtra(world, x + dir.offsetX * (o - 10), y, z + dir.offsetZ * (o - 10)); //back connector
 		ForgeDirection side = dir.getRotation(ForgeDirection.UP);
-		this.makeExtra(world, x + dir.offsetX * o + side.offsetX * 2 , y, z + dir.offsetZ * o + side.offsetZ * 2);
+		this.makeExtra(world, x + dir.offsetX * o + side.offsetX * 2 , y, z + dir.offsetZ * o + side.offsetZ * 2); //side connectors
 		this.makeExtra(world, x + dir.offsetX * o - side.offsetX * 2 , y, z + dir.offsetZ * o - side.offsetZ * 2);
 	}
 

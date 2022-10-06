@@ -7,14 +7,16 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.util.Tuple.Pair;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,7 +24,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCatalyticCracker extends TileEntity implements IFluidSource, IFluidAcceptor, INBTPacketReceiver {
+public class TileEntityMachineCatalyticCracker extends TileEntity implements IFluidSource, IFluidAcceptor, INBTPacketReceiver, IFluidStandardTransceiver {
 	
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list1 = new ArrayList();
@@ -44,6 +46,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 		if(!worldObj.isRemote) {
 			
 			setupTanks();
+			updateConnections();
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0)
 				crack();
@@ -52,6 +55,12 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 				fillFluidInit(tanks[2].getTankType());
 				fillFluidInit(tanks[3].getTankType());
 				fillFluidInit(tanks[4].getTankType());
+				
+				for(DirPos pos : getConPos()) {
+					for(int i = 2; i <= 4; i++) {
+						if(tanks[i].getFill() > 0) this.sendFluid(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					}
+				}
 				
 				NBTTagCompound data = new NBTTagCompound();
 
@@ -67,6 +76,14 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 	public void networkUnpack(NBTTagCompound nbt) {
 		for(int i = 0; i < 5; i++)
 			tanks[i].readFromNBT(nbt, "tank" + i);
+	}
+	
+	private void updateConnections() {
+		
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
 	}
 	
 	private void crack() {
@@ -184,6 +201,23 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 		fillFluid(xCoord - dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 3, this.getTact(), type);
 		fillFluid(xCoord - dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4, this.getTact(), type);
 	}
+	
+	protected DirPos[] getConPos() {
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		return new DirPos[] {
+				new DirPos(xCoord + dir.offsetX * 4 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 1, dir),
+				new DirPos(xCoord + dir.offsetX * 4 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 2, dir),
+				new DirPos(xCoord - dir.offsetX * 4 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 4 + rot.offsetZ * 1, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 4 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 4 - rot.offsetZ * 2, dir.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 3, rot),
+				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 4, rot),
+				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 3, rot.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4, rot.getOpposite())
+		};
+	}
 
 	@Override
 	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
@@ -233,5 +267,20 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks[2], tanks[3], tanks[4]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0], tanks[1]};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

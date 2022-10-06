@@ -6,22 +6,22 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.FluidType.FluidTrait;
+import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.main.ModEventHandler;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 
-import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumSkyBlock;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidStandardSender {
+public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IPersistentNBT {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -54,7 +54,15 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			tank.unloadTank(4, 5, slots);
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
-			this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN);
+			if(this.mode == 1 || this.mode == 2) {
+				this.sendFluidToAll(tank.getTankType(), this);
+			}
+			
+			if(this.mode == 0 || this.mode == 1) {
+				this.subscribeToAllAround(tank.getTankType(), worldObj, xCoord, yCoord, zCoord);
+			} else {
+				this.unsubscribeToAllAround(tank.getTankType(), worldObj, xCoord, yCoord, zCoord);
+			}
 			
 			age++;
 			if(age >= 20)
@@ -91,7 +99,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		
 		//for when you fill corrosive liquid into an iron tank
 		if((b == ModBlocks.barrel_iron && tank.getTankType().isCorrosive()) ||
-				(b == ModBlocks.barrel_steel && tank.getTankType().traits.contains(FluidTrait.CORROSIVE_2))) {
+				(b == ModBlocks.barrel_steel && tank.getTankType().hasTrait(FT_Corrosive.class) && tank.getTankType().getTrait(FT_Corrosive.class).getRating() > 50)) {
 			ItemStack[] copy = this.slots.clone();
 			this.slots = new ItemStack[6];
 			worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.barrel_corroded);
@@ -121,7 +129,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
-		
 		mode = data.getShort("mode");
 	}
 
@@ -207,6 +214,32 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 
 	@Override
 	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] {tank};
+		return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : new FluidTank[0];
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound nbt) {
+		if(tank.getFill() == 0) return;
+		NBTTagCompound data = new NBTTagCompound();
+		this.tank.writeToNBT(data, "tank");
+		data.setShort("mode", mode);
+		nbt.setTag(NBT_PERSISTENT_KEY, data);
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
+		this.tank.readFromNBT(data, "tank");
+		this.mode = data.getShort("nbt");
 	}
 }

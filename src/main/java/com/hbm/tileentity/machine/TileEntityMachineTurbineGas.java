@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -8,7 +9,8 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.MachineRecipes;
@@ -16,12 +18,15 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.LoopedSoundPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.nt.ISoundSourceTE;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyGenerator;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,7 +38,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IEnergyGenerator, /*IInventory,*/ IControlReceiver{
+public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IEnergyGenerator, IControlReceiver{
 	
 	public long power;
 	public static final long maxPower = 1000000L;
@@ -59,6 +64,24 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	private AudioWrapper audio;
 	private ISoundSourceTE ssTE;
 	
+	public static HashMap<FluidType, Integer> fuelPwrProduction = new HashMap(); //max power production is 20000 * value, for example gas will produce 20000 * 4 = 80000 HE/s
+	
+	static {
+		fuelPwrProduction.put(Fluids.GAS, 4); 
+		fuelPwrProduction.put(Fluids.PETROLEUM, 1);
+		fuelPwrProduction.put(Fluids.LPG, 1);
+		fuelPwrProduction.put(Fluids.BIOGAS, 1);
+	}
+	
+	public static HashMap<FluidType, Integer> fuelStmProduction = new HashMap(); //the system will produce steam equivalent to 4200 * value per tick, for example gas will produce 4200 * 10 = 42000 HE/s equivalent in dense steam
+	
+	static {
+		fuelStmProduction.put(Fluids.GAS, 10);
+		fuelStmProduction.put(Fluids.PETROLEUM, 1);
+		fuelStmProduction.put(Fluids.LPG, 1);
+		fuelStmProduction.put(Fluids.BIOGAS, 1);
+	}
+	
 	public TileEntityMachineTurbineGas() {
 		super(2);
 		tanks = new FluidTank[4];
@@ -77,36 +100,27 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			
 			if(slots[1] != null && slots[1].getItem() instanceof ItemFluidIdentifier) {
 				FluidType fuel = ItemFluidIdentifier.getType(slots[1]);
-				if (fuel == Fluids.GAS || fuel == Fluids.PETROLEUM || fuel == Fluids.LPG ) //TODO different fuels, different power rates
+				if (fuel == Fluids.GAS || fuel == Fluids.PETROLEUM || fuel == Fluids.LPG || fuel == Fluids.BIOGAS)
 					tanks[0].setTankType(fuel);
 			}
-			
-			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
-
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset); 
-			
-			this.sendPower(worldObj, xCoord - dir.offsetZ * 5, yCoord + 1, zCoord + dir.offsetX * 5, dir); //sends out power
-			fillFluidInit(tanks[3].getTankType()); //sends out steam TODO doesn't work
-			
-			System.out.println("A");
 			
 			switch(state) { //what to do when turbine offline, starting up and online			
 			case 0:
 				shutdown();	
 				break;
 			case -1:
-				startup();				
+				isReady();
+				startup();
 				break;
 			case 1:			
 				isReady();
 				run();
-				makeSteam();
 				break;
 			default:
 				break;
 			}
 			
-			if(autoMode) {
+			if(autoMode) { //power production depending on power requirement
 				
 				int powerSliderTarget = 60 - (int) (60 * power / maxPower);
 				
@@ -127,6 +141,13 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			if(audio != null)
 				audio.updatePitch((float) (0.45 + 0.05 * rpm / 10));
 			
+			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
+
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset); 
+			
+			this.sendPower(worldObj, xCoord - dir.offsetZ * 5, yCoord + 1, zCoord + dir.offsetX * 5, dir); //sends out power
+			fillFluidInit(tanks[3].getTankType());
+			
 			NBTTagCompound data = new NBTTagCompound();
 				data.setLong("power", power);
 				data.setInteger("rpm",  rpm);
@@ -141,18 +162,24 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 					
 				this.networkPack(data, 150);
 				
-		} else {
+		} else { //client side, for sounds n shit
 			
 			float volume = 10.0F; //TODO this is too low
 			
-			if(rpm >= 10 && state != -1 && volume > 0) {
+			if(rpm >= 10 && state != -1 && volume > 0) { //if conditions are right, play thy sound
 				
-				if(audio == null) {
+				if(audio == null) { //if there is no sound playing, start it
+					
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, volume, 1.0F);
+					audio.startSound();
+					
+				} else if(!audio.isPlaying()) {
+					audio.stopSound();
 					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, volume, 1.0F);
 					audio.startSound();
 				}
 				
-				audio.updatePitch((float) (0.55 + 0.1 * rpm / 10));
+				audio.updatePitch((float) (0.55 + 0.1 * rpm / 10)); //dynamic pitch update based on rpm
 				
 			} else {
 				
@@ -164,7 +191,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 	}
 	
-	private void isReady() { //checks if the turbine can make power, if not shutdown and fuck you lol
+	private void isReady() { //checks if the turbine can make power, if not shutdown
 		
 		if(tanks[0].getFill() == 0 || tanks[1].getFill() == 0) {
 			state = 0;
@@ -194,50 +221,76 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 	}
 	
-	private void run() {
+	private void run() { //TODO maybe make a sound if gas/lube levels are too low
 		
-		int idleConsumption = 1; //mb every 5 ticks
+		if(tanks[0].getFill() <= 0) { //shuts down if there is no gas or lube
+			state = 0;
+			tanks[0].setFill(0);
+		}
+		if(tanks[1].getFill() <= 0) {
+			state = 0;
+			tanks[1].setFill(0);
+		}
 		
 		if((int) (throttle * 0.9) > rpm - rpmIdle) { //simulates the rotor's moment of inertia
 			if(worldObj.getTotalWorldTime() % 5 == 0) {
 				rpm++;
 			}
-		}
-		else if((int) (throttle * 0.9) < rpm - rpmIdle) {
+		} else if((int) (throttle * 0.9) < rpm - rpmIdle) {
 			if(worldObj.getTotalWorldTime() % 5 == 0) {
 				rpm--;
 			}
-		}			
+		}
+		
 		if(throttle * 5 > temp - tempIdle) { //simulates the heat exchanger's resistance to temperature variation
 			if(worldObj.getTotalWorldTime() % 2 == 0) {
 				temp++;
 			}
-		}
-		else if(throttle * 5 < temp - tempIdle) {
+		} else if(throttle * 5 < temp - tempIdle) {
 			if(worldObj.getTotalWorldTime() % 2 == 0) {
 				temp--;
 			}
 		}
 		
-		if(worldObj.getTotalWorldTime() % 5 == 0) //gas and lube consumption
-			tanks[0].setFill(tanks[0].getFill() - 1 * (rpm - rpmIdle + idleConsumption));
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// POWER PRODUCTION
 		
-		if(worldObj.getTotalWorldTime() % 10 == 0)
+		double consMax = 20D; //fuel consumption per tick in mb while running at 100% power
+		
+		tanks[0].setFill(tanks[0].getFill() - (int) Math.ceil(consMax * throttle / 100)); //fuel consumption based on throttle position
+		
+		if(throttle == 0 && worldObj.getTotalWorldTime() % 5 == 0) //idle gas consumption
+			tanks[0].setFill(tanks[0].getFill() - 1);
+		
+		if(worldObj.getTotalWorldTime() % 10 == 0) //lube consumption is constant, hydrostatic bearings go brrrr
 			tanks[1].setFill(tanks[1].getFill() - 1);
 		
-		if(instantPowerOutput < (100 * throttle)) {
-			instantPowerOutput += Math.random() * 50;
-			if(instantPowerOutput > (100 * throttle))
-				instantPowerOutput = (100 * throttle);
+		
+		int a = fuelPwrProduction.get(tanks[0].getTankType()); //power production depending on fuel
+		
+		if(instantPowerOutput < (10 * throttle * a)) { //this shit avoids power rising in steps of 2000 or so HE at a time, instead it does it smoothly
+			instantPowerOutput += Math.random() * 4.5 * a;
+			if(instantPowerOutput > (10 * throttle * a))
+				instantPowerOutput = (10 * throttle * a);
 		}
-		else if(instantPowerOutput > (100 * throttle)) {
-			instantPowerOutput -= Math.random() * 50;
-			if(instantPowerOutput < (100 * throttle))
-				instantPowerOutput = (100 * throttle);
+		else if(instantPowerOutput > (10 * throttle * a)) {
+			instantPowerOutput -= Math.random() * 4.5 * a;
+			if(instantPowerOutput < (10 * throttle * a))
+				instantPowerOutput = (10 * throttle * a);
 		}
 		
 		this.power += instantPowerOutput;
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// STEAM PRODUCTION
+		
+		int waterPerTick = fuelStmProduction.get(tanks[0].getTankType()) * (temp - 300) / 500;
+		
+		if(tanks[2].getFill() >= waterPerTick && tanks[3].getFill() <= 160000 - waterPerTick * 10) { //21 HE produced every 1mb of dense steam
+			
+				tanks[2].setFill(tanks[2].getFill() - waterPerTick);
+				tanks[3].setFill(tanks[3].getFill() + waterPerTick * 10);
+		}
 	}
+	
 	
 	int rpmLast; //used to progressively slow down and cool the turbine without immediatly setting rpm and temp to 0
 	int tempLast;
@@ -265,21 +318,9 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			rpm = (int) (rpmLast * (counter) / 225);
 			temp = (int) (tempLast * (counter) / 225);
 		}
-		else if(rpm > 10) { //slows down the turbine to idle before shutdown
+		else if(rpm > 10) { //quickly slows down the turbine to idle before shutdown
 			rpm--;
 			return;
-		}
-	}
-	
-	private void makeSteam() {
-		
-		if(this.temp > 300 && tanks[2].getFill() > 0 && tanks[3].getFill() < 160000) { //21 HE produced every 1mb of dense steam
-			
-			if (tanks[2].getFill() > 23 && tanks[3].getFill() < 160000 - 230) {
-				
-				tanks[2].setFill(tanks[2].getFill() - (23 * temp / 800));
-				tanks[3].setFill(tanks[3].getFill() + (230 * temp / 800));
-			}
 		}
 	}
 	
@@ -359,6 +400,8 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			tanks[1].setFill(fill);
 		else if(type == Fluids.WATER)
 			tanks[2].setFill(fill);
+		else if(type == Fluids.HOTSTEAM)
+			tanks[3].setFill(fill);
 	}
 
 	@Override
@@ -424,8 +467,8 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset); 
 		
-		fillFluid(xCoord - dir.offsetZ * 2 + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2 + dir.offsetX * 2, this.getTact(), type);
-		fillFluid(xCoord - dir.offsetX * 2 - dir.offsetZ * 2, yCoord, zCoord + dir.offsetX * 2 - dir.offsetZ * 2, this.getTact(), type); //right side of machine
+		fillFluid(xCoord + dir.offsetZ * 4 + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2 - dir.offsetX * 4, getTact(), type); //steam out 1
+		fillFluid(xCoord + dir.offsetZ * 4 - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 - dir.offsetX * 4, getTact(), type); //steam out 2
 	}
 
 	@Override

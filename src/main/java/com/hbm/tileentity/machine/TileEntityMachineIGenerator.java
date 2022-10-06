@@ -1,34 +1,31 @@
 package com.hbm.tileentity.machine;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.FluidTypeFlammable;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.gui.GUIMachineTurbineGas;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.RTGUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineIGenerator extends TileEntityMachineBase implements IFluidAcceptor, IEnergyGenerator {
+public class TileEntityMachineIGenerator extends TileEntityMachineBase implements IFluidAcceptor, IEnergyGenerator, IFluidStandardReceiver {
 	
 	public long power;
 	public static final long maxPower = 1000000;
@@ -58,6 +55,14 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public String getName() {
 		return "container.iGenerator";
 	}
+	
+	protected DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		return new DirPos[] {
+				new DirPos(xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, dir.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 3, yCoord, zCoord + dir.offsetZ * 3, dir),
+		};
+	}
 
 	@Override
 	public void updateEntity() {
@@ -66,9 +71,13 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			
 			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
 			
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			this.sendPower(worldObj, xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, dir.getOpposite());
-			this.sendPower(worldObj, xCoord + dir.offsetX * 3, yCoord, zCoord + dir.offsetZ * 3, dir);
+			for(DirPos dir : getConPos()) {
+				this.sendPower(worldObj, dir.getX(), dir.getY(), dir.getZ(), dir.getDir());
+				
+				for(FluidTank tank : tanks) {
+					this.trySubscribe(tank.getTankType(), worldObj, dir.getX(), dir.getY(), dir.getZ(), dir.getDir());
+				}
+			}
 			
 			tanks[1].setType(9, 10, slots);
 			tanks[0].loadTank(1, 2, slots);
@@ -105,14 +114,14 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 						
 						if(burnTime > 0) {
 							
-							if(fuel.getItem() == Items.coal)
+							if(fuel.getItem() == Items.coal) //1200 (1600)
 								burnTime *= 1.5;
-							if(fuel.getItem() == ModItems.solid_fuel)
+							if(fuel.getItem() == ModItems.solid_fuel) //3200 (3200)
 								burnTime *= 2;
-							if(fuel.getItem() == ModItems.solid_fuel_presto)
+							if(fuel.getItem() == ModItems.solid_fuel_presto) //16000 (8000)
 								burnTime *= 4;
-							if(fuel.getItem() == ModItems.solid_fuel_presto_triplet)
-								burnTime *= 10;
+							if(fuel.getItem() == ModItems.solid_fuel_presto_triplet) //80000 (40000)
+								burnTime *= 4;
 							
 							burn[i] = burnTime;
 							
@@ -181,6 +190,16 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return i >= 3 && i <= 6 && TileEntityFurnace.getItemBurnTime(itemStack) > 0;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 3, 4, 5, 6 };
+	}
+
+	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
 		this.spin = nbt.getInteger("spin");
@@ -192,7 +211,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	
 	public int getPowerFromFuel() {
 		FluidType type = tanks[1].getTankType();
-		return type instanceof FluidTypeFlammable ? (int)(((FluidTypeFlammable) type).getHeatEnergy() / 1000L) : 0;
+		return type.hasTrait(FT_Flammable.class) ? (int)(type.getTrait(FT_Flammable.class).getHeatEnergy() / 1000L) : 0;
 	}
 
 	@Override
@@ -283,5 +302,15 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	@Override
 	public long getMaxPower() {
 		return this.maxPower;
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[0], tanks[1], tanks[2] };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

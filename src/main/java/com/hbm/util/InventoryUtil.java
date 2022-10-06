@@ -448,6 +448,15 @@ public class InventoryUtil {
 		return true;
 	}
 	
+	/**
+	 * A fixed re-implementation of the original Container.mergeItemStack that repects stack size and slot restrictions.
+	 * @param slots
+	 * @param stack
+	 * @param start
+	 * @param end
+	 * @param reverse
+	 * @return
+	 */
 	public static boolean mergeItemStack(List<Slot> slots, ItemStack stack, int start, int end, boolean reverse) {
 		
 		boolean success = false;

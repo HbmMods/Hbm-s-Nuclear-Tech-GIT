@@ -8,11 +8,11 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.generic.BlockDoorGeneric;
 import com.hbm.interfaces.IAnimatedDoor;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEDoorAnimationPacket;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
-import com.hbm.util.Tuple.Triplet;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.Rotation;
 
@@ -91,7 +91,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 							if(finalPos.equals(pos)) {
 								this.shouldUseBB = false;
 							} else {
-								((BlockDummyable)getBlockType()).removeExtra(worldObj, finalPos.getX(), finalPos.getY(), finalPos.getZ());
+								((BlockDummyable)getBlockType()).makeExtra(worldObj, finalPos.getX(), finalPos.getY(), finalPos.getZ());
 							}
 						}
 					}
@@ -175,23 +175,18 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 
 	public boolean tryToggle(EntityPlayer player){
 		
-		System.out.println("start");
-		
 		if(state == 0 && redstonePower > 0){
-			System.out.println("red power > 0");
 			//Redstone "power locks" doors, just like minecraft iron doors
 			return false;
 		}
 		if(this.state == 0) {
 			if(!worldObj.isRemote && canAccess(player)) {
 				this.state = 3;
-				System.out.println("opening");
 			}
 			return true;
 		} else if(this.state == 1) {
 			if(!worldObj.isRemote && canAccess(player)) {
 				this.state = 2;
-				System.out.println("closing");
 			}
 			return true;
 		}
@@ -241,7 +236,6 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		}
 	}
 
-	//TODO: sound loops
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void handleNewState(byte state){
@@ -249,22 +243,22 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		if(this.state != state) {
 			if(this.state == 0 && state == 3){
 				if(audio == null){
-					//audio = MainRegistry.proxy.getLoopedSoundStartStop(world, doorType.getOpenSoundLoop(), doorType.getOpenSoundStart(), doorType.getOpenSoundEnd(), SoundCategory.BLOCKS, pos.getX(), pos.getY(), pos.getZ(), doorType.getSoundVolume(), 1);
-					//audio.startSound();
+					audio = MainRegistry.proxy.getLoopedSoundStartStop(worldObj, getDoorType().getOpenSoundLoop(), getDoorType().getOpenSoundStart(), getDoorType().getOpenSoundEnd(), xCoord, yCoord, zCoord, getDoorType().getSoundVolume(), 1);
+					audio.startSound();
 				}
 				if(audio2 == null && getDoorType().getSoundLoop2() != null){
-					//audio2 = MainRegistry.proxy.getLoopedSoundStartStop(world, doorType.getSoundLoop2(), null, null, SoundCategory.BLOCKS, pos.getX(), pos.getY(), pos.getZ(), doorType.getSoundVolume(), 1);
-					//audio2.startSound();
+					audio2 = MainRegistry.proxy.getLoopedSoundStartStop(worldObj, getDoorType().getSoundLoop2(), null, null, xCoord, yCoord, zCoord, getDoorType().getSoundVolume(), 1);
+					audio2.startSound();
 				}
 			}
 			if(this.state == 1 && state == 2){
 				if(audio == null){
-					//audio = MainRegistry.proxy.getLoopedSoundStartStop(world, doorType.getCloseSoundLoop(), doorType.getCloseSoundStart(), doorType.getCloseSoundEnd(), SoundCategory.BLOCKS, pos.getX(), pos.getY(), pos.getZ(), doorType.getSoundVolume(), 1);
-					//audio.startSound();
+					audio = MainRegistry.proxy.getLoopedSoundStartStop(worldObj, getDoorType().getCloseSoundLoop(), getDoorType().getCloseSoundStart(), getDoorType().getCloseSoundEnd(), xCoord, yCoord, zCoord, getDoorType().getSoundVolume(), 1);
+					audio.startSound();
 				}
 				if(audio2 == null && getDoorType().getSoundLoop2() != null){
-					//audio2 = MainRegistry.proxy.getLoopedSoundStartStop(world, doorType.getSoundLoop2(), null, null, SoundCategory.BLOCKS, pos.getX(), pos.getY(), pos.getZ(), doorType.getSoundVolume(), 1);
-					//audio2.startSound();
+					audio2 = MainRegistry.proxy.getLoopedSoundStartStop(worldObj, getDoorType().getSoundLoop2(), null, null, xCoord, yCoord, zCoord, getDoorType().getSoundVolume(), 1);
+					audio2.startSound();
 				}
 			}
 			if((this.state == 3 && state == 1) || (this.state == 2 && state == 0)){

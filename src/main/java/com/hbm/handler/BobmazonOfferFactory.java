@@ -108,9 +108,8 @@ public class BobmazonOfferFactory {
 		weapons.add(new Offer(new ItemStack(ModItems.sat_chip), Requirement.CHEMICS, 35 * inflation));
 		weapons.add(new Offer(new ItemStack(ModBlocks.turret_cheapo), Requirement.CHEMICS, 70 * inflation));
 		weapons.add(new Offer(new ItemStack(ModItems.turret_cheapo_ammo), Requirement.ASSEMBLY, 20 * inflation));
-		weapons.add(new Offer(new ItemStack(ModItems.turret_control), Requirement.CHEMICS, 35 * inflation));
+		//weapons.add(new Offer(new ItemStack(ModItems.turret_control), Requirement.CHEMICS, 35 * inflation));
 		weapons.add(new Offer(new ItemStack(ModItems.turret_chip), Requirement.CHEMICS, 80 * inflation));
-		weapons.add(new Offer(new ItemStack(ModItems.turret_biometry), Requirement.CHEMICS, 15 * inflation));
 		weapons.add(new Offer(new ItemStack(ModBlocks.mine_ap, 4), Requirement.ASSEMBLY, 25 * inflation));
 		weapons.add(new Offer(new ItemStack(ModBlocks.emp_bomb), Requirement.CHEMICS, 90 * inflation));
 		weapons.add(new Offer(new ItemStack(ModBlocks.det_cord, 16), Requirement.ASSEMBLY, 50 * inflation));
@@ -148,7 +147,6 @@ public class BobmazonOfferFactory {
 
 		tools.add(new Offer(new ItemStack(ModBlocks.crate_can, 1), Requirement.STEEL, 20 * inflation));
 		tools.add(new Offer(new ItemStack(ModBlocks.machine_keyforge), Requirement.STEEL, 10 * inflation));
-		tools.add(new Offer(new ItemStack(ModBlocks.machine_telelinker), Requirement.CHEMICS, 35 * inflation));
 		tools.add(new Offer(new ItemStack(ModBlocks.machine_satlinker), Requirement.CHEMICS, 50 * inflation));
 		tools.add(new Offer(new ItemStack(ModItems.oil_detector), Requirement.CHEMICS, 45 * inflation));
 		tools.add(new Offer(new ItemStack(ModItems.geiger_counter), Requirement.CHEMICS, 10 * inflation));
@@ -247,7 +245,7 @@ public class BobmazonOfferFactory {
 				new ItemStack(Items.dye, 64)
 				), Requirement.HIDDEN, 64));
 		
-		special.add(new Offer(ItemKitCustom.create("Maid's Cleaning Utensils", "For the heard to reach spots", 0x00ff00, 0x008000,
+		special.add(new Offer(ItemKitCustom.create("Maid's Cleaning Utensils", "For the hard to reach spots", 0x00ff00, 0x008000,
 				new ItemStack(ModItems.gun_calamity),
 				new ItemStack(ModItems.ammo_50bmg_chlorophyte, 64),
 				new ItemStack(ModItems.ammo_50bmg_chlorophyte, 64),

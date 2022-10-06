@@ -26,15 +26,15 @@ public class ToolConfig {
 		recursiveStone = CommonConfig.createConfigBool(config, CATEGORY_TOOLS, "11.01_recursionStone", "Determines whether veinminer can break stone", false);
 		recursiveNetherrack = CommonConfig.createConfigBool(config, CATEGORY_TOOLS, "11.02_recursionNetherrack", "Determines whether veinminer can break netherrack", false);
 
-		abilityHammer = config.get(CATEGORY_TOOLS, "11.03_hammerAbility", true).getBoolean(true);
-		abilityVein = config.get(CATEGORY_TOOLS, "11.04_abilityVein", true).getBoolean(true);
-		abilityLuck = config.get(CATEGORY_TOOLS, "11.05_abilityLuck", true).getBoolean(true);
-		abilitySilk = config.get(CATEGORY_TOOLS, "11.06_abilitySilk", true).getBoolean(true);
-		abilityFurnace = config.get(CATEGORY_TOOLS, "11.07_abilityFurnace", true).getBoolean(true);
-		abilityShredder = config.get(CATEGORY_TOOLS, "11.08_abilityShredder", true).getBoolean(true);
-		abilityCentrifuge = config.get(CATEGORY_TOOLS, "11.09_abilityCentrifuge", true).getBoolean(true);
-		abilityCrystallizer = config.get(CATEGORY_TOOLS, "11.10_abilityCrystallizer", true).getBoolean(true);
-		abilityMercury = config.get(CATEGORY_TOOLS, "11.11_abilityMercury", true).getBoolean(true);
-		abilityExplosion = config.get(CATEGORY_TOOLS, "11.12_abilityExplosion", true).getBoolean(true);
+		abilityHammer = config.get(CATEGORY_TOOLS, "11.03_hammerAbility", true, "Allows AoE ability").getBoolean(true);
+		abilityVein = config.get(CATEGORY_TOOLS, "11.04_abilityVein", true, "Allows veinminer ability").getBoolean(true);
+		abilityLuck = config.get(CATEGORY_TOOLS, "11.05_abilityLuck", true, "Allow luck (fortune) ability").getBoolean(true);
+		abilitySilk = config.get(CATEGORY_TOOLS, "11.06_abilitySilk", true, "Allow silk touch ability").getBoolean(true);
+		abilityFurnace = config.get(CATEGORY_TOOLS, "11.07_abilityFurnace", true, "Allow auto-smelter ability").getBoolean(true);
+		abilityShredder = config.get(CATEGORY_TOOLS, "11.08_abilityShredder", true, "Allow auto-shredder ability").getBoolean(true);
+		abilityCentrifuge = config.get(CATEGORY_TOOLS, "11.09_abilityCentrifuge", true, "Allow auto-centrifuge ability").getBoolean(true);
+		abilityCrystallizer = config.get(CATEGORY_TOOLS, "11.10_abilityCrystallizer", true, "Allow auto-crystallizer ability").getBoolean(true);
+		abilityMercury = config.get(CATEGORY_TOOLS, "11.11_abilityMercury", true, "Allow mercury touch ability (digging redstone gives mercury)").getBoolean(true);
+		abilityExplosion = config.get(CATEGORY_TOOLS, "11.12_abilityExplosion", true, "Allow explosion ability").getBoolean(true);
 	}
 }

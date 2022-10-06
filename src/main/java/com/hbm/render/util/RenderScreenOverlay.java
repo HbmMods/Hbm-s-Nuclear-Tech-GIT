@@ -8,14 +8,17 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.GuiIngameForge;
 
 public class RenderScreenOverlay {
 
@@ -114,7 +117,7 @@ public class RenderScreenOverlay {
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
-	public static void renderAmmo(ScaledResolution resolution, Gui gui, Item ammo, int count, int max, int dura, boolean renderCount) {
+	public static void renderAmmo(ScaledResolution resolution, Gui gui, ItemStack ammo, int count, int max, int dura, boolean renderCount) {
 		
 		GL11.glPushMatrix();
         
@@ -124,26 +127,26 @@ public class RenderScreenOverlay {
 		int pZ = resolution.getScaledHeight() - 21;
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
-        gui.drawTexturedModalRect(pX, pZ + 16, 94, 0, 52, 3);
-        gui.drawTexturedModalRect(pX + 1, pZ + 16, 95, 3, 50 - dura, 3);
+		gui.drawTexturedModalRect(pX, pZ + 16, 94, 0, 52, 3);
+		gui.drawTexturedModalRect(pX + 1, pZ + 16, 95, 3, 50 - dura, 3);
 		
 		String cap = max == -1 ? ("∞") : ("" + max);
 		
 		if(renderCount)
 			Minecraft.getMinecraft().fontRenderer.drawString(count + " / " + cap, pX + 16, pZ + 6, 0xFFFFFF);
-
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        RenderHelper.enableGUIStandardItemLighting();
-        	itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(ammo), pX, pZ);
-        RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        
-        GL11.glPopMatrix();
+		
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		RenderHelper.enableGUIStandardItemLighting();
+		itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), ammo, pX, pZ);
+		RenderHelper.disableStandardItemLighting();
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		
+		GL11.glPopMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
-	public static void renderAmmoAlt(ScaledResolution resolution, Gui gui, Item ammo, int count) {
+	public static void renderAmmoAlt(ScaledResolution resolution, Gui gui, ItemStack ammo, int count) {
 		
 		GL11.glPushMatrix();
         
@@ -159,7 +162,7 @@ public class RenderScreenOverlay {
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.enableGUIStandardItemLighting();
-        	itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(ammo), pX, pZ);
+        	itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), ammo, pX, pZ);
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         
@@ -280,6 +283,35 @@ public class RenderScreenOverlay {
         GL11.glDepthMask(true);
         GL11.glPopMatrix();
 		mc.renderEngine.bindTexture(Gui.icons);
+	}
+	
+	//call in post health bar rendering event
+	public static void renderShieldBar(ScaledResolution resolution, Gui gui) {
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
+		FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+
+		int width = resolution.getScaledWidth();
+		int height = resolution.getScaledHeight();
+		int left = width / 2 - 91;
+		int top = height - GuiIngameForge.left_height;
+
+		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
+		gui.drawTexturedModalRect(left, top, 146, 0, 81, 9);
+		int i = (int) Math.ceil(props.shield * 79 / props.maxShield);
+		gui.drawTexturedModalRect(left + 1, top, 147, 9, i, 9);
+		
+		String label = "" + ((int) (props.shield * 10F)) / 10D;
+		font.drawString(label, left + 41 - font.getStringWidth(label) / 2, top + 1, 0x0000);
+		font.drawString(label, left + 39 - font.getStringWidth(label) / 2, top + 1, 0x0000);
+		font.drawString(label, left + 40 - font.getStringWidth(label) / 2, top, 0x0000);
+		font.drawString(label, left + 40 - font.getStringWidth(label) / 2, top + 2, 0x0000);
+		font.drawString(label, left + 40 - font.getStringWidth(label) / 2, top + 1, 0xFFFF80);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		
+		GuiIngameForge.left_height += 10;
+		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
 	public enum Crosshair {

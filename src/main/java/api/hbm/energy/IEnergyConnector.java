@@ -74,11 +74,17 @@ public interface IEnergyConnector extends ILoadedTile {
 				red = true;
 		}
 		
-		if(particleDebug) {
+		if(particleDebug) {//
 			NBTTagCompound data = new NBTTagCompound();
-			data.setString("type", "vanillaExt");
-			data.setString("mode", red ? "reddust" : "bluedust");
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + world.rand.nextDouble(), y + world.rand.nextDouble(), z + world.rand.nextDouble()), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 25));
+			data.setString("type", "network");
+			data.setString("mode", "power");
+			double posX = x + 0.5 + dir.offsetX * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			double posY = y + 0.5 + dir.offsetY * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			double posZ = z + 0.5 + dir.offsetZ * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			data.setDouble("mX", -dir.offsetX * (red ? 0.025 : 0.1));
+			data.setDouble("mY", -dir.offsetY * (red ? 0.025 : 0.1));
+			data.setDouble("mZ", -dir.offsetZ * (red ? 0.025 : 0.1));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
 		}
 	}
 	
@@ -100,5 +106,15 @@ public interface IEnergyConnector extends ILoadedTile {
 		TileEntity te = (TileEntity) this;
 		Vec3 vec = Vec3.createVectorHelper(te.xCoord + 0.5, te.yCoord + 1, te.zCoord + 0.5);
 		return vec;
+	}
+	
+	public default ConnectionPriority getPriority() {
+		return ConnectionPriority.NORMAL;
+	}
+	
+	public enum ConnectionPriority {
+		LOW,
+		NORMAL,
+		HIGH
 	}
 }

@@ -13,6 +13,7 @@ import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -49,12 +50,16 @@ public class RBMKDebrisRadiating extends RBMKDebrisBurning {
 			}
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(rand.nextInt(6));
-
-			if(rand.nextInt(5) == 0 && world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
+			Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+			
+			if(rand.nextInt(10) == 0 && block == Blocks.air) {
 				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_meltdown);
 			}
 			
-			if(rand.nextInt(1000) == 0) {
+			//Boron sand helps stop the fission reaction; 0.66% chance every 20-40 ticks for one side
+			int chance = block == ModBlocks.sand_boron_layer || block == ModBlocks.sand_boron ? 25 : 1000;
+			
+			if(rand.nextInt(chance) == 0) {
 				
 				int meta = world.getBlockMetadata(x, y, z);
 				

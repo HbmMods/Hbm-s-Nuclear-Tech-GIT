@@ -6,14 +6,14 @@ import com.hbm.inventory.container.ContainerNukeMike;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.bomb.TileEntityNukeMike;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUINukeMike extends GuiContainer {
+public class GUINukeMike extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/ivyMikeSchematic.png");
 	private TileEntityNukeMike testNuke;
@@ -24,6 +24,14 @@ public class GUINukeMike extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 217;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+		
+		String[] descText = I18nUtil.resolveKeyArray("desc.gui.nukeMike.desc");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 16 + 16, descText);
 	}
 	
 	@Override
@@ -60,7 +68,7 @@ public class GUINukeMike extends GuiContainer {
 			drawTexturedModalRect(guiLeft + 140, guiTop + 30, 240, 88, 12, 26);
 		
 		for(int i = 0; i < 4; i++) {
-			if(testNuke.getStackInSlot(i) != null && testNuke.getStackInSlot(i).getItem() == ModItems.man_explosive8)
+			if(testNuke.getStackInSlot(i) != null && testNuke.getStackInSlot(i).getItem() == ModItems.explosive_lenses)
 				switch(i) {
 				case 0: drawTexturedModalRect(guiLeft + 24, guiTop + 20 , 209, 1, 23, 23); break;
 				case 2: drawTexturedModalRect(guiLeft + 47, guiTop + 20 , 232, 1, 23, 23); break;
@@ -68,5 +76,7 @@ public class GUINukeMike extends GuiContainer {
 				case 3: drawTexturedModalRect(guiLeft + 47, guiTop + 43 , 232, 24, 23, 23); break;
 				}
 		}
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 16, 16, 16, 2);
 	}
 }

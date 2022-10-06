@@ -8,9 +8,9 @@ import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
@@ -47,17 +47,32 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 			double heatProvided = this.heat - heatCap;
 			
 			if(heatProvided > 0) {
-				int waterUsed = (int)Math.floor(heatProvided / RBMKDials.getBoilerHeatConsumption(worldObj));
-				waterUsed = Math.min(waterUsed, feed.getFill());
-				feed.setFill(feed.getFill() - waterUsed);
-				int steamProduced = (int)Math.floor((waterUsed * 100) / getFactorFromSteam(steam.getTankType()));
-				steam.setFill(steam.getFill() + steamProduced);
+				double HEAT_PER_MB_WATER = RBMKDials.getBoilerHeatConsumption(worldObj);
+				double steamFactor = getFactorFromSteam(steam.getTankType());
+				int waterUsed;
+				int steamProduced;
 				
-				if(steam.getFill() > steam.getMaxFill()) {
-					steam.setFill(steam.getMaxFill());
+				if(steam.getTankType() == Fluids.ULTRAHOTSTEAM) {
+					steamProduced = (int)Math.floor((heatProvided / HEAT_PER_MB_WATER) * 100D / steamFactor);
+					waterUsed = (int)Math.floor(steamProduced / 100D * steamFactor);
+					
+					if(feed.getFill() < waterUsed) {
+						steamProduced = (int)Math.floor(feed.getFill() * 100D / steamFactor);
+						waterUsed = (int)Math.floor(steamProduced / 100D * steamFactor);
+					}
+				} else {
+					waterUsed = (int)Math.floor(heatProvided / HEAT_PER_MB_WATER);
+					waterUsed = Math.min(waterUsed, feed.getFill());
+					steamProduced = (int)Math.floor((waterUsed * 100D) / steamFactor);
 				}
 				
-				this.heat -= waterUsed * RBMKDials.getBoilerHeatConsumption(worldObj);
+				feed.setFill(feed.getFill() - waterUsed);
+				steam.setFill(steam.getFill() + steamProduced);
+				
+				if(steam.getFill() > steam.getMaxFill())
+					steam.setFill(steam.getMaxFill());
+				
+				this.heat -= waterUsed * HEAT_PER_MB_WATER;
 			}
 			
 			fillFluidInit(steam.getTankType());
@@ -66,7 +81,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		super.updateEntity();
 	}
 	
-	public double getHeatFromSteam(FluidType type) {
+	public static double getHeatFromSteam(FluidType type) {
 		if(type == Fluids.STEAM) return 100D;
 		if(type == Fluids.HOTSTEAM) return 300D;
 		if(type == Fluids.SUPERHOTSTEAM) return 450D;
@@ -74,7 +89,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		return 0D;
 	}
 	
-	public double getFactorFromSteam(FluidType type) {
+	public static double getFactorFromSteam(FluidType type) {
 		if(type == Fluids.STEAM) return 1D;
 		if(type == Fluids.HOTSTEAM) return 10D;
 		if(type == Fluids.SUPERHOTSTEAM) return 100D;
@@ -202,10 +217,10 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		if(data.hasKey("compression")) {
 			
 			FluidType type = steam.getTankType();
-			if(type == Fluids.STEAM) { steam.setTankType(Fluids.HOTSTEAM); steam.setFill(steam.getFill() / 10); }
-			if(type == Fluids.HOTSTEAM) { steam.setTankType(Fluids.SUPERHOTSTEAM); steam.setFill(steam.getFill() / 10); }
-			if(type == Fluids.SUPERHOTSTEAM) { steam.setTankType(Fluids.ULTRAHOTSTEAM); steam.setFill(steam.getFill() / 10); }
-			if(type == Fluids.ULTRAHOTSTEAM) { steam.setTankType(Fluids.STEAM); steam.setFill(Math.min(steam.getFill() * 1000, steam.getMaxFill())); }
+			if(type == Fluids.STEAM) {			steam.setTankType(Fluids.HOTSTEAM);			steam.setFill(steam.getFill() / 10); }
+			if(type == Fluids.HOTSTEAM) {		steam.setTankType(Fluids.SUPERHOTSTEAM);	steam.setFill(steam.getFill() / 10); }
+			if(type == Fluids.SUPERHOTSTEAM) {	steam.setTankType(Fluids.ULTRAHOTSTEAM);	steam.setFill(steam.getFill() / 10); }
+			if(type == Fluids.ULTRAHOTSTEAM) {	steam.setTankType(Fluids.STEAM);			steam.setFill(Math.min(steam.getFill() * 1000, steam.getMaxFill())); }
 			
 			this.markDirty();
 		}

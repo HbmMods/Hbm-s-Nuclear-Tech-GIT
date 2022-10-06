@@ -10,37 +10,55 @@ public class AudioWrapperClient extends AudioWrapper {
 	AudioDynamic sound;
 	
 	public AudioWrapperClient(ResourceLocation source) {
-		sound = new AudioDynamic(source);
+		if(source != null)
+			sound = new AudioDynamic(source);
 	}
 	
+	@Override
 	public void updatePosition(float x, float y, float z) {
-		sound.setPosition(x, y, z);
+		if(sound != null)
+			sound.setPosition(x, y, z);
 	}
-	
+
+	@Override
 	public void updateVolume(float volume) {
-		sound.setVolume(volume);
+		if(sound != null)
+			sound.setVolume(volume);
 	}
-	
+
+	@Override
 	public void updatePitch(float pitch) {
-		sound.setPitch(pitch);
+		if(sound != null)
+			sound.setPitch(pitch);
 	}
-	
+
+	@Override
 	public float getVolume() {
-		return sound.getVolume();
+		if(sound != null)
+			return sound.getVolume();
+		return 1;
 	}
-	
+
+	@Override
 	public float getPitch() {
-		return sound.getPitch();
+		if(sound != null)
+			return sound.getPitch();
+		return 1;
 	}
-	
+
+	@Override
 	public void startSound() {
-		sound.start();
+		if(sound != null)
+			sound.start();
 	}
-	
+
+	@Override
 	public void stopSound() {
-		sound.stop();
+		if(sound != null)
+			sound.stop();
 	}
-	
+
+	@Override
 	public boolean isPlaying() {
 		return sound.isPlaying();
 	}

@@ -5,7 +5,9 @@ import com.hbm.inventory.fluid.FluidType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineOrbus extends TileEntityBarrel {
@@ -26,13 +28,56 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 	public void fillFluidInit(FluidType type) {
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
-		ForgeDirection d2 = dir.getRotation(ForgeDirection.DOWN);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 
-		for(int i = -1; i < 7; i += 7) {
+		for(int i = -1; i < 6; i += 6) {
 			this.fillFluid(xCoord, yCoord + i, zCoord, this.getTact(), this.tank.getTankType());
 			this.fillFluid(xCoord + dir.offsetX, yCoord + i, zCoord + dir.offsetZ, this.getTact(), this.tank.getTankType());
-			this.fillFluid(xCoord + d2.offsetX, yCoord + i, zCoord + d2.offsetZ, this.getTact(), this.tank.getTankType());
-			this.fillFluid(xCoord + dir.offsetX + d2.offsetX, yCoord + i, zCoord + dir.offsetZ + d2.offsetZ, this.getTact(), this.tank.getTankType());
+			this.fillFluid(xCoord + rot.offsetX, yCoord + i, zCoord + rot.offsetZ, this.getTact(), this.tank.getTankType());
+			this.fillFluid(xCoord + dir.offsetX + rot.offsetX, yCoord + i, zCoord + dir.offsetZ + rot.offsetZ, this.getTact(), this.tank.getTankType());
+		}
+	}
+	
+	public void sendFluidToAll(FluidType type, TileEntity te) {
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+
+		for(int i = -1; i < 6; i += 6) {
+			ForgeDirection out = i == -1 ? ForgeDirection.DOWN : ForgeDirection.UP;
+			sendFluid(type, worldObj, xCoord,								yCoord + i,	zCoord,								out);
+			sendFluid(type, worldObj, xCoord + dir.offsetX,					yCoord + i,	zCoord + dir.offsetZ,				out);
+			sendFluid(type, worldObj, xCoord + rot.offsetX,					yCoord + i,	zCoord + rot.offsetZ,				out);
+			sendFluid(type, worldObj, xCoord + dir.offsetX + rot.offsetX,	yCoord + i,	zCoord + dir.offsetZ + rot.offsetZ,	out);
+		}
+	}
+
+	@Override
+	public void subscribeToAllAround(FluidType type, World world, int x, int y, int z) {
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+
+		for(int i = -1; i < 6; i += 6) {
+			ForgeDirection out = i == -1 ? ForgeDirection.DOWN : ForgeDirection.UP;
+			this.trySubscribe(type, world, xCoord,								yCoord + i,	zCoord,								out);
+			this.trySubscribe(type, world, xCoord + dir.offsetX,				yCoord + i,	zCoord + dir.offsetZ,				out);
+			this.trySubscribe(type, world, xCoord + rot.offsetX,				yCoord + i,	zCoord + rot.offsetZ,				out);
+			this.trySubscribe(type, world, xCoord + dir.offsetX + rot.offsetX,	yCoord + i,	zCoord + dir.offsetZ + rot.offsetZ,	out);
+		}
+	}
+
+	@Override
+	public void unsubscribeToAllAround(FluidType type, World world, int x, int y, int z) {
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+
+		for(int i = -1; i < 7; i += 7) {
+			this.tryUnsubscribe(type, world, xCoord,								yCoord + i,	zCoord);
+			this.tryUnsubscribe(type, world, xCoord + dir.offsetX,					yCoord + i,	zCoord + dir.offsetZ);
+			this.tryUnsubscribe(type, world, xCoord + rot.offsetX,					yCoord + i,	zCoord + rot.offsetZ);
+			this.tryUnsubscribe(type, world, xCoord + dir.offsetX + rot.offsetX,	yCoord + i,	zCoord + dir.offsetZ + rot.offsetZ);
 		}
 	}
 	

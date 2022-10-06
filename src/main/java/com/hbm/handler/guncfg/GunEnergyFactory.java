@@ -29,6 +29,26 @@ import net.minecraft.potion.PotionEffect;
 
 public class GunEnergyFactory {
 	
+	public static GunConfiguration getChemConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		config.rateOfFire = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.allowsInfinity = false;
+		config.ammoCap = 3_000;
+		config.durability = 90_000;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.crosshair = Crosshair.CIRCLE;
+		
+		config.name = "Chemical Thrower";
+		config.manufacturer = "Langford Research Laboratories";
+		
+		config.config = new ArrayList<Integer>();
+		
+		return config;
+	}
+	
 	public static GunConfiguration getEMPConfig() {
 		
 		GunConfiguration config = new GunConfiguration();

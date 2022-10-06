@@ -3,6 +3,8 @@ package com.hbm.handler.imc;
 import java.util.HashMap;
 
 import com.hbm.inventory.RecipesCommon;
+import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import net.minecraft.item.ItemStack;
@@ -10,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class IMCCentrifuge extends IMCHandler {
 	
-	public static HashMap<Object, ItemStack[]> buffer = new HashMap();
+	public static HashMap<AStack, ItemStack[]> buffer = new HashMap();
 
 	@Override
 	public void process(IMCMessage message) {
@@ -40,7 +42,7 @@ public class IMCCentrifuge extends IMCHandler {
 			String dict = data.getString("oredict");
 			
 			if(!dict.isEmpty()) {
-				buffer.put(dict, outs);
+				buffer.put(new OreDictStack(dict), outs);
 			} else {
 				this.printError(message, "Input stack could not be read!");
 			}

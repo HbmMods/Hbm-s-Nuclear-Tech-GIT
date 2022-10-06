@@ -14,7 +14,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyUser {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyUser, SimpleComponent {
 
 	public long power;
 	public static final long maxPower = 2500000000L;
@@ -154,4 +161,47 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		nbt.setInteger("watts", watts);
 	}
 
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "dfc_stabilizer";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyStored(Context context, Arguments args) {
+		return new Object[] {power};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getMaxEnergy(Context context, Arguments args) {
+		return new Object[] {maxPower};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInput(Context context, Arguments args) {
+		return new Object[] {watts};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getDurability(Context context, Arguments args) {
+		if(slots[0] != null && slots[0].getItem() == ModItems.ams_lens && ItemLens.getLensDamage(slots[0]) < ((ItemLens)ModItems.ams_lens).maxDamage) {
+			return new Object[] {ItemLens.getLensDamage(slots[0])};
+		}
+		return new Object[] {"N/A"};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setInput(Context context, Arguments args) {
+		int newOutput = Integer.parseInt(args.checkString(0));
+		if (newOutput > 100) {
+			newOutput = 100;
+		}
+		watts = newOutput;
+		return new Object[] {};
+	}
 }

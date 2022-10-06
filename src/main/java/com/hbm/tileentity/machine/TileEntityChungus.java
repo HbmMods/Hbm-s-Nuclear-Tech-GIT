@@ -7,17 +7,19 @@ import java.util.Random;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,13 +28,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IEnergyGenerator, INBTPacketReceiver {
+public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IEnergyGenerator, INBTPacketReceiver, IFluidStandardTransceiver {
 
 	public long power;
 	public static final long maxPower = 100000000000L;
 	private int turnTimer;
 	public float rotor;
 	public float lastRotor;
+	public float fanAcceleration = 0F;
 	
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	
@@ -75,6 +78,11 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			this.sendPower(worldObj, xCoord - dir.offsetX * 11, yCoord, zCoord - dir.offsetZ * 11, dir);
 			
+			for(BlockPos pos : this.getConPos()) {
+				this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), dir); //TODO: there's no directions for this yet because idc
+				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), dir);
+			}
+			
 			if(power > maxPower)
 				power = maxPower;
 			
@@ -94,16 +102,17 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 		} else {
 			
 			this.lastRotor = this.rotor;
+			this.rotor += this.fanAcceleration;
+				
+			if(this.rotor >= 360) {
+				this.rotor -= 360;
+				this.lastRotor -= 360;
+			}
 			
 			if(turnTimer > 0) {
-				
-				this.rotor += 25F;
-				
-				if(this.rotor >= 360) {
-					this.rotor -= 360;
-					this.lastRotor -= 360;
-				}
-				
+
+				this.fanAcceleration = Math.max(0F, Math.min(25F, this.fanAcceleration += 0.1F));
+
 				Random rand = worldObj.rand;
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 				ForgeDirection side = dir.getRotation(ForgeDirection.UP);
@@ -116,7 +125,26 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 							-dir.offsetX * 0.2, 0, -dir.offsetZ * 0.2);
 				}
 			}
+			if(turnTimer < 0) {
+				this.fanAcceleration = Math.max(0F, Math.min(25F, this.fanAcceleration -= 0.1F));
+			}	
 		}
+	}
+	
+	public void onLeverPull(FluidType previous) {
+		for(BlockPos pos : getConPos()) {
+			this.tryUnsubscribe(previous, worldObj, pos.getX(), pos.getY(), pos.getZ());
+		}
+	}
+	
+	public BlockPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		return new BlockPos[] {
+				new BlockPos(xCoord - dir.offsetX * 4, yCoord + 2, zCoord - dir.offsetZ * 4),
+				new BlockPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3),
+				new BlockPos(xCoord - rot.offsetZ * 3, yCoord, zCoord - rot.offsetZ * 3)
+		};
 	}
 	
 	public void networkPack(NBTTagCompound nbt, int range) {
@@ -168,17 +196,17 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 
 	@Override
 	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		if(type == tanks[0].getTankType())
 			tanks[0].setFill(i);
-		else if(type.name().equals(tanks[1].getTankType().name()))
+		else if(type == tanks[1].getTankType())
 			tanks[1].setFill(i);
 	}
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		if(type == tanks[0].getTankType())
 			return tanks[0].getFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
+		else if(type == tanks[1].getTankType())
 			return tanks[1].getFill();
 		
 		return 0;
@@ -186,7 +214,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		if(type == tanks[0].getTankType())
 			return tanks[0].getMaxFill();
 		
 		return 0;
@@ -243,5 +271,20 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 	@Override
 	public void setPower(long power) {
 		this.power = power;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks[1]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0]};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

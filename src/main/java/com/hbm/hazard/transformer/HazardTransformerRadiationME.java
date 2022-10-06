@@ -17,7 +17,8 @@ public class HazardTransformerRadiationME extends HazardTransformerBase {
 	@Override
 	public void transformPost(ItemStack stack, List<HazardEntry> entries) {
 		
-		if(stack.getItem().getClass().getName().equals("appeng.items.storage.ItemBasicStorageCell")) {
+		String name = stack.getItem().getClass().getName();
+		if(name.equals("appeng.items.storage.ItemBasicStorageCell") || name.equals("appeng.items.tools.powered.ToolPortableCell")) {
 			List<ItemStack> stacks = Compat.scrapeItemFromME(stack);
 			float radiation = 0;
 			

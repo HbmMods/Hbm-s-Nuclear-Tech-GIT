@@ -6,13 +6,13 @@ import java.util.Random;
 import com.hbm.config.VersatileConfig;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ArmorModHandler;
-import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 
+import api.hbm.fluid.IFillableItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
@@ -279,16 +279,15 @@ public class ItemSyringe extends Item {
 					jetpack = ArmorModHandler.pryMods(jetpack)[ArmorModHandler.plate_only];
 				}
 
-				if(jetpack == null || !(jetpack.getItem() instanceof IPartiallyFillable))
+				if(jetpack == null || !(jetpack.getItem() instanceof IFillableItem))
 					return stack;
 
-				IPartiallyFillable fillable = (IPartiallyFillable) jetpack.getItem();
+				IFillableItem fillable = (IFillableItem) jetpack.getItem();
 				
-				if(fillable.getType(jetpack) != Fluids.KEROSENE)
+				if(!fillable.acceptsFluid(Fluids.KEROSENE, jetpack))
 					return stack;
 				
-				int fill = Math.min(fillable.getFill(jetpack) + 1000, fillable.getMaxFill(jetpack));
-				fillable.setFill(jetpack, fill);
+				fillable.tryFill(Fluids.KEROSENE, 1000, jetpack);
 				
 				if(jetpack.getItem() != player.inventory.armorInventory[2].getItem())
 					ArmorModHandler.applyMod(player.inventory.armorInventory[2], jetpack);

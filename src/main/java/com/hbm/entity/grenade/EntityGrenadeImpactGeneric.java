@@ -1,5 +1,6 @@
 package com.hbm.entity.grenade;
 
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGenericGrenade;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -28,7 +29,8 @@ public class EntityGrenadeImpactGeneric extends EntityGrenadeBase implements IGe
 	
 	@Override
 	public ItemGenericGrenade getGrenade() {
-		return (ItemGenericGrenade) Item.getItemById(this.dataWatcher.getWatchableObjectInt(12));
+		ItemGenericGrenade gren = (ItemGenericGrenade) Item.getItemById(this.dataWatcher.getWatchableObjectInt(12));
+		return gren != null ? gren : (ItemGenericGrenade) ModItems.grenade_kyiv;
 	}
 
 	@Override
@@ -39,7 +41,7 @@ public class EntityGrenadeImpactGeneric extends EntityGrenadeBase implements IGe
 	@Override
 	public void explode() {
 
-		if(!this.worldObj.isRemote) {
+		if(!this.worldObj.isRemote && getGrenade() != null) {
 			getGrenade().explode(worldObj, posX, posY, posZ);
 			this.setDead();
 		}

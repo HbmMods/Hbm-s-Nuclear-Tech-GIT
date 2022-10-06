@@ -2,10 +2,10 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerReactorMultiblock;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;

@@ -1,21 +1,19 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.util.ParticleUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -331,14 +329,10 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 				int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 				double pos = rand.nextDouble() * 2.5;
 				double off = 0.25;
-				if(meta == 2)
-					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 0.5 + off, yCoord + 5.5, zCoord + 0.5 - pos, 0.0, 0.0, 0.0));
-				if(meta == 3)
-					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 0.5 - off, yCoord + 5.5, zCoord + 0.5 + pos, 0.0, 0.0, 0.0));
-				if(meta == 4)
-					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 0.5 - pos, yCoord + 5.5, zCoord + 0.5 - off, 0.0, 0.0, 0.0));
-				if(meta == 5)
-					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 0.5 + pos, yCoord + 5.5, zCoord + 0.5 + off, 0.0, 0.0, 0.0));
+				if(meta == 2) ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5 + off, yCoord + 5.5, zCoord + 0.5 - pos, 0.0, 0.0, 0.0);
+				if(meta == 3) ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5 - off, yCoord + 5.5, zCoord + 0.5 + pos, 0.0, 0.0, 0.0);
+				if(meta == 4) ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5 - pos, yCoord + 5.5, zCoord + 0.5 - off, 0.0, 0.0, 0.0);
+				if(meta == 5) ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5 + pos, yCoord + 5.5, zCoord + 0.5 + off, 0.0, 0.0, 0.0);
 				
 				efficiency = 0;
 				power = 0;

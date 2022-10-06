@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.items.ModItems;
@@ -13,31 +14,23 @@ import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.LoopedSoundPacket;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEAssemblerPacket;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineAssembler extends TileEntityMachineBase implements IEnergyUser {
 
@@ -203,13 +196,12 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 			tryExchangeTemplates(te1, te2);
 			
 			//OUTPUT
-			if(te1 instanceof IInventory) {
+			if(te1 instanceof TileEntityCrateBase || te1 instanceof TileEntityChest) {
 				IInventory chest = (IInventory)te1;
-				
 				tryFillContainer(chest, 5);
 			}
 			
-			if(te2 instanceof IInventory) {
+			if(te2 instanceof TileEntityCrateBase || te2 instanceof TileEntityChest) {
 				IInventory chest = (IInventory)te2;
 				
 				for(int i = 0; i < chest.getSizeInventory(); i++)
@@ -217,12 +209,18 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 						break;
 			}
 			
+			int rec = -1;
+			if(AssemblerRecipes.getOutputFromTempate(slots[4]) != null) {
+				ComparableStack comp = ItemAssemblyTemplate.readType(slots[4]);
+				rec = AssemblerRecipes.recipeList.indexOf(comp);
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("progress", progress);
 			data.setInteger("maxProgress", maxProgress);
 			data.setBoolean("isProgressing", isProgressing);
-			data.setInteger("recipe", slots[4] != null ? slots[4].getItemDamage() : -1);
+			data.setInteger("recipe", rec);
 			this.networkPack(data, 150);
 		} else {
 			
@@ -231,8 +229,12 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 			if(isProgressing && volume > 0) {
 				
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.assemblerOperate", xCoord, yCoord, zCoord, volume, 1.0F);
+					audio = this.createAudioLoop();
+					audio.updateVolume(volume);
 					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+					audio.updateVolume(volume);
 				}
 				
 			} else {
@@ -243,6 +245,11 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 				}
 			}
 		}
+	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.assemblerOperate", xCoord, yCoord, zCoord, 1.0F, 1.0F);
 	}
 	
 	private void updateConnections() {

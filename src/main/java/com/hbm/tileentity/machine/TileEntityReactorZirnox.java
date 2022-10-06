@@ -16,27 +16,38 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemZirnoxBreedingRod;
 import com.hbm.items.machine.ItemZirnoxRod;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent {
 
 	public int heat;
 	public static final int maxHeat = 100000;
@@ -50,6 +61,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	public FluidTank steam;
 	public FluidTank carbonDioxide;
 	public FluidTank water;
+	
+	private static final int[] slots_io = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
 
 	public static final HashMap<ComparableStack, ItemStack> fuelMap = new HashMap<ComparableStack, ItemStack>();
 	static {
@@ -63,6 +76,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_u235_fuel), new ItemStack(ModItems.rod_zirnox_u235_fuel_depleted));
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_les_fuel), new ItemStack(ModItems.rod_zirnox_les_fuel_depleted));
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_lithium), new ItemStack(ModItems.rod_zirnox_tritium));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_zfb_mox), new ItemStack(ModItems.rod_zirnox_zfb_mox_depleted));
 	}
 
 	public TileEntityReactorZirnox() {
@@ -75,6 +89,21 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	@Override
 	public String getName() {
 		return "container.zirnox";
+	}
+	
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return slots_io;
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		return i < 24 && stack.getItem() instanceof ItemZirnoxRod;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack stack, int j) {
+		return i < 24 && !(stack.getItem() instanceof ItemZirnoxRod);
 	}
 
 	@Override
@@ -120,54 +149,30 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private int[] getNeighbouringSlots(int id) {
 
 		switch(id) {
-		case 0:
-			return new int[] { 1, 7 };
-		case 1:
-			return new int[] { 0, 2, 8 };
-		case 2:
-			return new int[] { 1, 9 };
-		case 3:
-			return new int[] { 4, 10 };
-		case 4:
-			return new int[] { 3, 5, 11 };
-		case 5:
-			return new int[] { 4, 6, 12 };
-		case 6:
-			return new int[] { 5, 13 };
-		case 7:
-			return new int[] { 0, 8, 14 };
-		case 8:
-			return new int[] { 1, 7, 9, 15 };
-		case 9:
-			return new int[] { 2, 8, 16};
-		case 10:
-			return new int[] { 3, 11, 17 };
-		case 11:
-			return new int[] { 4, 10, 12, 18 };
-		case 12:
-			return new int[] { 5, 11, 13, 19 };
-		case 13:
-			return new int[] { 6, 12, 20 };
-		case 14:
-			return new int[] { 7, 15, 21 }; 
-		case 15:
-			return new int[] { 8, 14, 16, 22 };
-		case 16:
-			return new int[] { 9, 15, 23 };
-		case 17:
-			return new int[] { 10, 18 };
-		case 18:
-			return new int[] { 11, 17, 19 };
-		case 19:
-			return new int[] { 12, 18, 20 };
-		case 20:
-			return new int[] { 13, 19 };
-		case 21:
-			return new int[] { 14, 22 };
-		case 22:
-			return new int[] { 15, 21, 23 };
-		case 23:
-			return new int[] { 16, 22 };
+		case 0: return new int[] { 1, 7 };
+		case 1: return new int[] { 0, 2, 8 };
+		case 2: return new int[] { 1, 9 };
+		case 3: return new int[] { 4, 10 };
+		case 4: return new int[] { 3, 5, 11 };
+		case 5: return new int[] { 4, 6, 12 };
+		case 6: return new int[] { 5, 13 };
+		case 7: return new int[] { 0, 8, 14 };
+		case 8: return new int[] { 1, 7, 9, 15 };
+		case 9: return new int[] { 2, 8, 16};
+		case 10: return new int[] { 3, 11, 17 };
+		case 11: return new int[] { 4, 10, 12, 18 };
+		case 12: return new int[] { 5, 11, 13, 19 };
+		case 13: return new int[] { 6, 12, 20 };
+		case 14: return new int[] { 7, 15, 21 }; 
+		case 15: return new int[] { 8, 14, 16, 22 };
+		case 16: return new int[] { 9, 15, 23 };
+		case 17: return new int[] { 10, 18 };
+		case 18: return new int[] { 11, 17, 19 };
+		case 19: return new int[] { 12, 18, 20 };
+		case 20: return new int[] { 13, 19 };
+		case 21: return new int[] { 14, 22 };
+		case 22: return new int[] { 15, 21, 23 };
+		case 23: return new int[] { 16, 22 };
 		}
 
 		return null;
@@ -187,12 +192,15 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			if(age == 9 || age == 19) {
 				fillFluidInit(steam.getTankType());
 			}
-
+			
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				this.updateConnections();
+			}
+			
 			carbonDioxide.loadTank(24, 26, slots);
 			water.loadTank(25, 27, slots);
-
+			
 			if(isOn) {
-
 				for(int i = 0; i < 24; i++) {
 
 					if(slots[i] != null) {
@@ -217,6 +225,10 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 				}
 				
 			}
+			
+			for(DirPos pos : getConPos()) {
+				this.sendFluid(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 
 			checkIfMeltdown();
 			
@@ -235,7 +247,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private void generateSteam() {
 		
 		// function of SHS produced per tick
-		// heat - 10256/100000 * pressure / 50,000 * 25 * 5 (should get rid of any rounding errors)
+		// (heat - 10256)/100000 * steamFill (max efficiency at 14b) * 25 * 5 (should get rid of any rounding errors)
 		if(this.heat > 10256) {
 			int Water = (int)((((float)heat - 10256F) / (float)maxHeat) * Math.min(((float)carbonDioxide.getFill() / 14000F), 1F) * 25F * 5F);
 			int Steam = Water * 1;
@@ -252,9 +264,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	}
 
 	private boolean hasFuelRod(int id) {
-		if(id > 23)
-			return false;
-
 		if(slots[id] != null) {
 			if(!(slots[id].getItem() instanceof ItemZirnoxBreedingRod)) {
 				return slots[id].getItem() instanceof ItemZirnoxRod;
@@ -283,13 +292,10 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	// itemstack in slots[id] has to contain ItemZirnoxRod
 	private void decay(int id) {
-		if(id > 23)
-			return;
-
 		int decay = getNeighbourCount(id);
 
 		if(!(slots[id].getItem() instanceof ItemZirnoxBreedingRod)) {
-		decay = getNeighbourCount(id) + 1;
+			decay++;
 		}
 
 		for(int i = 0; i < decay; i++) {
@@ -297,7 +303,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			this.heat += rod.heat;
 			ItemZirnoxRod.setLifeTime(slots[id], ItemZirnoxRod.getLifeTime(slots[id]) + 1);
 			
-			if(ItemZirnoxRod.getLifeTime(slots[id]) > ((ItemZirnoxRod) slots[id].getItem()).lifeTime) {
+			if(ItemZirnoxRod.getLifeTime(slots[id]) > rod.lifeTime) {
 				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id))).copy();
 				break;
 			}
@@ -366,17 +372,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
 		
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
-				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 50, 50));
+				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
 		
 		for(EntityPlayer player : players) {
 			player.triggerAchievement(MainRegistry.achZIRNOXBoom);
 		}
 		
 		if(MobConfig.enableElementals) {
-			@SuppressWarnings("unchecked")
-			List<EntityPlayer> players2 = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
-
-			for(EntityPlayer player : players2) {
+			for(EntityPlayer player : players) {
 				player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("radMark", true);
 			}
 		}
@@ -398,6 +401,25 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		fillFluid(this.xCoord + rot.offsetX * -3, this.yCoord + 1, this.zCoord + rot.offsetZ * -3, getTact(), type);
 		fillFluid(this.xCoord + rot.offsetX * -3, this.yCoord + 3, this.zCoord + rot.offsetZ * -3, getTact(), type);
 	}
+	
+	private void updateConnections() {
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(carbonDioxide.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	private DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		return new DirPos[] {
+				new DirPos(this.xCoord + rot.offsetX * 3, this.yCoord + 1, this.zCoord + rot.offsetZ * 3, rot),
+				new DirPos(this.xCoord + rot.offsetX * 3, this.yCoord + 3, this.zCoord + rot.offsetZ * 3, rot),
+				new DirPos(this.xCoord + rot.offsetX * -3, this.yCoord + 1, this.zCoord + rot.offsetZ * -3, rot.getOpposite()),
+				new DirPos(this.xCoord + rot.offsetX * -3, this.yCoord + 3, this.zCoord + rot.offsetZ * -3, rot.getOpposite())
+		};
+	}
 
 	public boolean getTact() {
 		if(age >= 0 && age < 10) {
@@ -408,9 +430,10 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	}
 
 	public int getMaxFluidFill(FluidType type) {
-		if(type == Fluids.SUPERHOTSTEAM) return steam.getMaxFill();
+		if(type == Fluids.SUPERHOTSTEAM) return 0;
 		if(type == Fluids.CARBONDIOXIDE) return carbonDioxide.getMaxFill();
 		if(type == Fluids.WATER) return water.getMaxFill();
+		
 		return 0;
 	}
 
@@ -498,4 +521,67 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		this.markDirty();
 	}
 
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { steam };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { water, carbonDioxide };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { water, steam, carbonDioxide };
+	}
+  
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "zirnox_reactor";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getTemp(Context context, Arguments args) {
+		return new Object[] {heat};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPressure(Context context, Arguments args) {
+		return new Object[] {pressure};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getWater(Context context, Arguments args) {
+		return new Object[] {water.getFill()};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSteam(Context context, Arguments args) {
+		return new Object[] {steam.getFill()};
+	}	
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCarbonDioxide(Context context, Arguments args) {
+		return new Object[] {carbonDioxide.getFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isActive(Context context, Arguments args) {
+		return new Object[] {isOn};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setActive(Context context, Arguments args) {
+		isOn = Boolean.parseBoolean(args.checkString(0));
+		return new Object[] {};
+	}
 }

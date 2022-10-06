@@ -15,6 +15,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.RBMKColumn;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -22,6 +23,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -90,7 +92,14 @@ public class GUIRBMKConsole extends GuiScreen {
 
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 61, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select all control rods" } );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 72, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Deselect all" } );
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 6, guiTop + 8, 76, 60, mouseX, mouseY, new String[]{ "ignore all this for now" } );
+		
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 2; j++) {
+				int id = i * 2 + j + 1;
+				this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 6 + 40 * j, guiTop + 8 + 21 * i, 18, 18, mouseX, mouseY, new String[]{ EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.console." + console.screens[id - 1].type.name().toLowerCase(), id) } );
+				this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 24 + 40 * j, guiTop + 8 + 21 * i, 18, 18, mouseX, mouseY, new String[]{ I18nUtil.resolveKey("rbmk.console.assign", id) } );
+			}
+		}
 		
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 6, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select red group" } );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 17, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select yellow group" } );
@@ -114,6 +123,7 @@ public class GUIRBMKConsole extends GuiScreen {
 		int bY = 11;
 		int size = 10;
 
+		//toggle column selection
 		if(guiLeft + 86 <= mouseX && guiLeft + 86 + 150 > mouseX && guiTop + 11 < mouseY && guiTop + 11 + 150 >= mouseY) {
 			
 			int index = ((mouseX - bX - guiLeft) / size + (mouseY - bY - guiTop) / size * 15);
@@ -126,12 +136,14 @@ public class GUIRBMKConsole extends GuiScreen {
 			}
 		}
 		
+		//clear selection
 		if(guiLeft + 72 <= mouseX && guiLeft + 72 + 10 > mouseX && guiTop + 70 < mouseY && guiTop + 70 + 10 >= mouseY) {
 			this.selection = new boolean[15 * 15];
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 0.5F));
 			return;
 		}
 		
+		//select all control rods
 		if(guiLeft + 61 <= mouseX && guiLeft + 61 + 10 > mouseX && guiTop + 70 < mouseY && guiTop + 70 + 10 >= mouseY) {
 			this.selection = new boolean[15 * 15];
 
@@ -145,6 +157,7 @@ public class GUIRBMKConsole extends GuiScreen {
 			return;
 		}
 		
+		//select color groups
 		for(int k = 0; k < 5; k++) {
 			
 			if(guiLeft + 6 + k * 11 <= mouseX && guiLeft + 6 + k * 11 + 10 > mouseX && guiTop + 70 < mouseY && guiTop + 70 + 10 >= mouseY) {
@@ -162,6 +175,7 @@ public class GUIRBMKConsole extends GuiScreen {
 			}
 		}
 
+		//AZ-5
 		if(guiLeft + 30 <= mouseX && guiLeft + 30 + 28 > mouseX && guiTop + 138 < mouseY && guiTop + 138 + 28 >= mouseY) {
 			
 			if(az5Lid) {
@@ -185,6 +199,7 @@ public class GUIRBMKConsole extends GuiScreen {
 			return;
 		}
 
+		//save control rod setting
 		if(guiLeft + 48 <= mouseX && guiLeft + 48 + 12 > mouseX && guiTop + 82 < mouseY && guiTop + 82 + 12 >= mouseY) {
 			
 			double level;
@@ -208,8 +223,42 @@ public class GUIRBMKConsole extends GuiScreen {
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, console.xCoord, console.yCoord, console.zCoord));
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1F));
 		}
+		
+		//submit selection for status screen
+		
+		for(int j = 0; j < 3; j++) {
+			for(int k = 0; k < 2; k++) {
+				
+				int id = j * 2 + k;
+				
+				if(guiLeft + 6 + 40 * k <= mouseX && guiLeft + 6 + 40 * k + 18 > mouseX && guiTop + 8 + 21 * j < mouseY && guiTop + 8 + 21 * j + 18 >= mouseY) {
+					NBTTagCompound control = new NBTTagCompound();
+					control.setByte("toggle", (byte) id);
+					PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, console.xCoord, console.yCoord, console.zCoord));
+					mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 0.5F));
+					return;
+				}
+				
+				if(guiLeft + 24 + 40 * k <= mouseX && guiLeft + 24 + 40 * k + 18 > mouseX && guiTop + 8 + 21 * j < mouseY && guiTop + 8 + 21 * j + 18 >= mouseY) {
+
+					NBTTagCompound control = new NBTTagCompound();
+					control.setByte("id", (byte) id);
+
+					for(int s = 0; s < selection.length; s++) {
+						if(selection[s]) {
+							control.setBoolean("s" + s, true);
+						}
+					}
+
+					PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, console.xCoord, console.yCoord, console.zCoord));
+					mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 0.75F));
+					return;
+				}
+			}
+		}
 	}
 
+	@SuppressWarnings("incomplete-switch") //shut up
 	protected void drawGuiContainerBackgroundLayer(float interp, int mX, int mY) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
@@ -217,6 +266,13 @@ public class GUIRBMKConsole extends GuiScreen {
 		
 		if(az5Lid) {
 			drawTexturedModalRect(guiLeft + 30, guiTop + 138, 228, 172, 28, 28);
+		}
+		
+		for(int j = 0; j < 3; j++) {
+			for(int k = 0; k < 2; k++) {
+				int id = j * 2 + k;
+				drawTexturedModalRect(guiLeft + 6 + 40 * k, guiTop + 8 + 21 * j, this.console.screens[id].type.offset, 238, 18, 18);
+			}
 		}
 		
 		int bX = 86;
@@ -238,7 +294,7 @@ public class GUIRBMKConsole extends GuiScreen {
 			
 			drawTexturedModalRect(guiLeft + x, guiTop + y, tX, tY, size, size);
 			
-			int h = (int)Math.ceil((col.data.getDouble("heat") - 20) * 10 / col.data.getDouble("maxHeat"));
+			int h = Math.min((int)Math.ceil((col.data.getDouble("heat") - 20) * 10 / col.data.getDouble("maxHeat")), 10);
 			drawTexturedModalRect(guiLeft + x, guiTop + y + size - h, 0, 192 - h, 10, h);
 			
 			switch(col.type) {
@@ -285,6 +341,13 @@ public class GUIRBMKConsole extends GuiScreen {
 				if(col.data.getShort("type") == Fluids.ULTRAHOTSTEAM.ordinal())
 					drawTexturedModalRect(guiLeft + x + 4, guiTop + y + 7, 44, 189, 2, 2);
 				
+				break;
+				
+			case HEATEX:
+				int cc = (int)Math.ceil((col.data.getInteger("water")) * 8 / col.data.getDouble("maxWater"));
+				drawTexturedModalRect(guiLeft + x + 1, guiTop + y + size - cc - 1, 131, 191 - cc, 3, cc);
+				int hc = (int)Math.ceil((col.data.getInteger("steam")) * 8 / col.data.getDouble("maxSteam"));
+				drawTexturedModalRect(guiLeft + x + 6, guiTop + y + size - hc - 1, 136, 191 - hc, 3, hc);
 				break;
 			}
 			

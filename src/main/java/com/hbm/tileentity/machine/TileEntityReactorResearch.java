@@ -11,8 +11,8 @@ import com.hbm.config.MobConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPlateFuel;
 import com.hbm.lib.Library;
@@ -38,8 +38,15 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 //TODO: fix reactor control;
-public class TileEntityReactorResearch extends TileEntityMachineBase implements IControlReceiver {
+public class TileEntityReactorResearch extends TileEntityMachineBase implements IControlReceiver, SimpleComponent {
 	
 	@SideOnly(Side.CLIENT)
 	public double lastLevel;
@@ -385,5 +392,46 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+	
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "research_reactor";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getTemp(Context context, Arguments args) { // or getHeat, whatever.
+		return new Object[] {heat};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getLevel(Context context, Arguments args) {
+		return new Object[] {level};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getTargetLevel(Context context, Arguments args) {
+		return new Object[] {targetLevel};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFlux(Context context, Arguments args) {
+		return new Object[] {totalFlux};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setLevel(Context context, Arguments args) {
+		double newLevel = Double.parseDouble(args.checkString(0))/100.0;
+		if (newLevel > 1) { // check if its above 100 so the control rod wont do funny things
+			newLevel = 1;
+		}
+		targetLevel = newLevel;
+		return new Object[] {};
 	}
 }

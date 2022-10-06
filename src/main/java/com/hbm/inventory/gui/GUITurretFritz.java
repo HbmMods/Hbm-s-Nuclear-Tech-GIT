@@ -1,6 +1,6 @@
 package com.hbm.inventory.gui;
 
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.turret.TileEntityTurretBaseNT;
 import com.hbm.tileentity.turret.TileEntityTurretFritz;

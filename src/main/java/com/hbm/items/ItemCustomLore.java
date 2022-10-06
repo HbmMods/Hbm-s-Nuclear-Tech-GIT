@@ -23,7 +23,9 @@ public class ItemCustomLore extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		
-		if(MainRegistry.polaroidID == 11) {
+		boolean p11 = !I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc.P11").equals(this.getUnlocalizedName() + ".desc.P11");
+		
+		if(MainRegistry.polaroidID == 11 && p11) {
 			String unlocP11 = this.getUnlocalizedName() + ".desc.P11";
 			String locP11 = I18nUtil.resolveKey(unlocP11);
 			

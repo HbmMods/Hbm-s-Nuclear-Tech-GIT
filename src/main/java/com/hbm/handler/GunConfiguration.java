@@ -56,6 +56,14 @@ public class GunConfiguration {
 	//whether the ammo count should be displayed
 	public boolean showAmmo = true;
 	
+	//for electrically powered weapons:
+	//the Maximum capacity of the gun
+	public int maxCharge;
+	//the rate at which the gun is charged
+	public int chargeRate;
+	//how much energy is discharged per shot
+	public int dischargePerShot;
+	
 	public String name = "";
 	public String manufacturer = "";
 	public List<String> comment = new ArrayList();
