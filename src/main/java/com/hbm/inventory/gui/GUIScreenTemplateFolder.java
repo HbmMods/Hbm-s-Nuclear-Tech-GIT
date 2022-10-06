@@ -20,6 +20,7 @@ import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.I18nUtil;
@@ -123,11 +124,22 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		
 		sub = sub.toLowerCase();
 		
+		outer:
 		for(ItemStack stack : allStacks) {
 			
-			if(stack.getDisplayName().toLowerCase().contains(sub)) {
-				stacks.add(stack);
-			} else if(stack.getItem() == ModItems.fluid_identifier) {
+			for(Object o : stack.getTooltip(MainRegistry.proxy.me(), true)) {
+				
+				if(o instanceof String) {
+					String text = (String) o;
+					
+					if(text.toLowerCase().contains(sub)) {
+						stacks.add(stack);
+						continue outer;
+					}
+				}
+			}
+			
+			if(stack.getItem() == ModItems.fluid_identifier) {
 				FluidType fluid = Fluids.fromID(stack.getItemDamage());
 				
 				if(I18nUtil.resolveKey(fluid.getUnlocalizedName()).toLowerCase().contains(sub)) {

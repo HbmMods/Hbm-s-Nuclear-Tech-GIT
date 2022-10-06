@@ -65,9 +65,27 @@ public class Mats {
 	public static final NTMMaterial MAT_U238		= makeSmeltable(9238,		U238,		0x9AA196).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_THORIUM		= makeSmeltable(9032,		TH232,		0xBF825F).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_PLUTONIUM	= makeSmeltable(9400,		PU,			0x78817E).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_RGP			= makeSmeltable(9401,		PURG,		0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK);
+	public static final NTMMaterial MAT_PU238		= makeSmeltable(9438,		PU238,		0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK);
+	public static final NTMMaterial MAT_PU239		= makeSmeltable(9439,		PU239,		0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK);
+	public static final NTMMaterial MAT_PU240		= makeSmeltable(9440,		PU240,		0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK);
+	public static final NTMMaterial MAT_PU241		= makeSmeltable(9441,		PU241,		0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK);
+	public static final NTMMaterial MAT_RGA			= makeSmeltable(9501,		AMRG,		0).setShapes(NUGGET, BILLET, INGOT, BLOCK);
+	public static final NTMMaterial MAT_AM241		= makeSmeltable(9541,		AM241,		0).setShapes(NUGGET, BILLET, INGOT, BLOCK);
+	public static final NTMMaterial MAT_AM242		= makeSmeltable(9542,		AM242,		0).setShapes(NUGGET, BILLET, INGOT, BLOCK);
+	public static final NTMMaterial MAT_NEPTUNIUM	= makeSmeltable(9337,		NP237,		0).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_POLONIUM	= makeSmeltable(8410,		PO210,		0).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_TECHNIETIUM	= makeSmeltable(4399,		TC99,		0xCADFDF).setShapes(NUGGET, BILLET, INGOT, BLOCK);
 	public static final NTMMaterial MAT_RADIUM		= makeSmeltable(8826,		RA226,		0xE9FAF6).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_ACTINIUM	= makeSmeltable(8927,		AC227,		0).setShapes(NUGGET, BILLET, INGOT);
+	public static final NTMMaterial MAT_CO60		= makeSmeltable(2760,		CO60,		0).setShapes(NUGGET, BILLET, INGOT, DUST);
+	public static final NTMMaterial MAT_AU198		= makeSmeltable(7998,		AU198,		0).setShapes(NUGGET, BILLET, INGOT, DUST);
+	public static final NTMMaterial MAT_PB209		= makeSmeltable(8209,		PB209,		0).setShapes(NUGGET, BILLET, INGOT, DUST);
 	public static final NTMMaterial MAT_SCHRABIDIUM	= makeSmeltable(12626,		SA326,		0x32FFFF).setShapes(NUGGET, WIRE, BILLET, INGOT, DUST, PLATE, BLOCK);
+	public static final NTMMaterial MAT_SOLINIUM	= makeSmeltable(12627,		SA327,		0).setShapes(NUGGET, BILLET, INGOT, BLOCK);
+	public static final NTMMaterial MAT_SCHRABIDATE	= makeSmeltable(12600,		SBD,		0).setShapes(INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_SCHRARANIUM	= makeSmeltable(12601,		SRN,		0).setShapes(INGOT, BLOCK);
+	public static final NTMMaterial MAT_GHIORSIUM	= makeSmeltable(11936,		GH336,		0).setShapes(NUGGET, BILLET, INGOT, BLOCK);
 
 	//Base metals
 	public static final NTMMaterial MAT_TITANIUM	= makeSmeltable(2200,		TI,			0xA99E79).setShapes(INGOT, DUST, PLATE, BLOCK);
