@@ -9,6 +9,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemKitCustom;
 import com.hbm.lib.Library;
 import com.hbm.world.feature.OilSpot;
+import com.hbm.world.worldgen.MapGenBunker.Start;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
 
@@ -32,7 +34,14 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
-			OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 20, 500);
+			//use sparingly
+			int k = ((pos.blockX >> 4) << 4) + 8;
+			int l = ((pos.blockZ >> 4) << 4) + 8;
+			
+			Start start = new Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
+			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 100, l - 100, k + 15 + 100, l + 15 + 100));
+			
+			/*OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 20, 500);*/
 			
 			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);

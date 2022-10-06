@@ -2,6 +2,7 @@ package com.hbm.lib;
 
 import com.hbm.world.worldgen.MapGenNTMFeatures;
 import com.hbm.world.worldgen.NTMWorldGenerator;
+import com.hbm.world.worldgen.components.BunkerComponents.*;
 import com.hbm.world.worldgen.components.CivilianFeatures.*;
 import com.hbm.world.worldgen.components.MilitaryBaseFeatures.*;
 import com.hbm.world.worldgen.components.OfficeFeatures.*;
@@ -49,5 +50,10 @@ public class HbmWorld {
 		MapGenStructureIO.func_143031_a(RadioShack.class, "NTMRadioShack");
 		MapGenStructureIO.func_143031_a(LargeOffice.class, "NTMLargeOffice");
 		MapGenStructureIO.func_143031_a(LargeOfficeCorner.class, "NTMLargeOfficeCorner");
+		
+		//bunker
+		MapGenStructureIO.func_143031_a(Atrium.class, "NTMBAtrium");
+		MapGenStructureIO.func_143031_a(Corridor.class, "NTMBCorridor");
+		MapGenStructureIO.func_143031_a(WideCorridor.class, "NTMBWideCorridor");
 	}
 }

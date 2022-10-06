@@ -2,8 +2,14 @@ package com.hbm.world.worldgen;
 
 import java.util.Random;
 
+import com.hbm.config.GeneralConfig;
+import com.hbm.world.worldgen.components.BunkerComponents;
+import com.hbm.world.worldgen.components.BunkerComponents.Atrium;
+
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.MapGenStructure;
+import net.minecraft.world.gen.structure.MapGenStructureIO;
+import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureStart;
 
 public class MapGenBunker extends MapGenStructure {
@@ -30,7 +36,19 @@ public class MapGenBunker extends MapGenStructure {
 		
 		public Start(World world, Random rand, int chunkX, int chunkZ) {
 			super(chunkX, chunkZ);
+			BunkerComponents.prepareComponents();
+			Atrium atrium = new Atrium(0, rand, (chunkX << 4) + 8, (chunkZ << 4) + 8);
+			this.components.add(atrium);
+			atrium.buildComponent(atrium, components, rand);
 			
+			if(GeneralConfig.enableDebugMode) {
+				System.out.print("[Debug] StructureStart at " + (chunkX * 16 + 8) + ", idfk lmao, " + (chunkZ * 16 + 8) + "\n[Debug] Components: ");
+				this.components.forEach((component) -> {
+					System.out.print(MapGenStructureIO.func_143036_a((StructureComponent) component) + " ");
+				});
+				
+				System.out.print("\n");
+			}
 			
 			this.updateBoundingBox();
 			this.markAvailableHeight(world, rand, 10);

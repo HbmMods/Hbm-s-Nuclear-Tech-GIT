@@ -15,7 +15,12 @@ import net.minecraft.world.gen.structure.StructureComponent;
 
 public class BunkerComponents {
 	
-	private static final Weight[] weightArray = new Weight[0];
+	private static final Weight[] weightArray = new Weight[] {
+			new Weight(2, 50, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = Bunker.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 5, 15, type);
+				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new Corridor(type, rand, box, mode) : null; }),
+			new Weight(3, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = Bunker.getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 5, 17, type);
+			return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new WideCorridor(type, rand, box, mode) : null; }),
+	};
 	
 	private static List componentWeightList;
 	static int totalWeight;
@@ -29,7 +34,25 @@ public class BunkerComponents {
 		}
 	}
 	
+	private static boolean canAddStructurePieces() {
+		boolean flag = false;
+		totalWeight = 0;
+		Weight weight;
+		
+		for(Iterator iterator = componentWeightList.iterator(); iterator.hasNext(); totalWeight += weight.weight) {
+			weight = (Weight) iterator.next();
+			
+			if(weight.instanceLimit >= 0 && weight.instancesSpawned < weight.instanceLimit)
+				flag = true;
+		}
+		System.out.println(flag);
+		return flag;
+	}
+	
 	private static Bunker getWeightedComponent(StructureComponent original, List components, Random rand, int minX, int minY, int minZ, int coordMode, int componentType) {
+		
+		if(!canAddStructurePieces())
+			return null;
 		
 		for(int i = 0; i < 5; i++) {
 			int value = rand.nextInt(totalWeight);
@@ -43,7 +66,7 @@ public class BunkerComponents {
 					if(!weight.canSpawnStructure(componentType))
 						break;
 					
-					Bunker component = weight.lambda.findValidPlacement(components, rand, minX, minY, minZ, coordMode, componentType);
+					Bunker component = (Bunker) weight.lambda.findValidPlacement(components, rand, minX, minY, minZ, coordMode, componentType);
 					
 					if(component != null) {
 						weight.instancesSpawned++;
@@ -66,7 +89,7 @@ public class BunkerComponents {
 		if(components.size() > 50)
 			return null;
 		
-		if(Math.abs(minX - original.getBoundingBox().minX) <= 112 && Math.abs(minZ - original.getBoundingBox().minX) <= 112) {
+		if(Math.abs(minX - original.getBoundingBox().minX) <= 112 && Math.abs(minZ - original.getBoundingBox().minZ) <= 112) {
 			
 			StructureComponent structure = getWeightedComponent(original, components, rand, minX, minY, minZ, coordMode, componentType);
 			
@@ -90,20 +113,20 @@ public class BunkerComponents {
 		public int instancesSpawned;
 		public int instanceLimit;
 		
-		public Weight(instantiateStructure lambda, int weight, int limit) {
-			this.lambda = lambda;
+		public Weight(int weight, int limit, instantiateStructure lambda) {
 			this.weight = weight;
 			this.instanceLimit = limit;
+			this.lambda = lambda;
 		}
 		
 		//Checks if another structure can be spawned based on input data
 		public boolean canSpawnStructure(int componentAmount) {
-			return this.instanceLimit == 0 || this.instanceLimit < this.instanceLimit;
+			return this.instanceLimit < 0 || this.instanceLimit < this.instanceLimit;
 		}
 		
 		//Checks if another structure can be spawned at all (used to flag for removal from the list)
 		public boolean canSpawnMoreStructures() {
-			return this.instanceLimit == 0 || this.instancesSpawned < this.instanceLimit;
+			return this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit;
 		}
 		
 	}
@@ -111,7 +134,7 @@ public class BunkerComponents {
 	/** Returns a new instance of this structureComponent, or null if not able to be placed. */
 	@FunctionalInterface
 	interface instantiateStructure {
-		Bunker findValidPlacement(List components, Random rand, int minX, int minY, int minZ, int coordMode, int componentType);
+		StructureComponent findValidPlacement(List components, Random rand, int minX, int minY, int minZ, int coordMode, int componentType);
 	}
 	
 	public abstract static class Bunker extends Feature {
@@ -124,6 +147,7 @@ public class BunkerComponents {
 		
 		/** Gets next component in the direction this component is facing.<br>'original' refers to the initial starting component (hard distance limits), 'components' refers to the StructureStart list. */
 		protected StructureComponent getNextComponentNormal(StructureComponent original, List components, Random rand, int offset, int offsetY) {
+			
 			switch(this.coordBaseMode) {
 			case 0: //South
 				return getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, this.coordBaseMode, this.getComponentType());
@@ -171,7 +195,7 @@ public class BunkerComponents {
 			}
 		}
 		
-		protected static StructureBoundingBox getComponentToAddBoundingBox(int posX, int posY, int posZ, int offsetX, int offsetY, int offsetZ, int maxX, int maxY, int maxZ, int coordMode) {
+		public static StructureBoundingBox getComponentToAddBoundingBox(int posX, int posY, int posZ, int offsetX, int offsetY, int offsetZ, int maxX, int maxY, int maxZ, int coordMode) {
 			switch(coordMode) {
 			case 0:
 				return new StructureBoundingBox(posX + offsetX, posY + offsetY, posZ + offsetZ, posX + maxX - 1 + offsetX, posY + maxY - 1 + offsetY, posZ + maxZ - 1 + offsetZ);
@@ -191,15 +215,17 @@ public class BunkerComponents {
 		
 		public Atrium() { }
 		
-		public Atrium(int componentType, Random rand, StructureBoundingBox box, int coordBaseMode) {
+		public Atrium(int componentType, Random rand, int posX, int posZ) { //TODO: change basically everything about this component
 			super(componentType);
-			this.coordBaseMode = coordBaseMode;
-			this.boundingBox = box;
+			this.coordBaseMode = rand.nextInt(4);
+			this.boundingBox = new StructureBoundingBox(posX, 64, posZ, posX + 4, 68, posZ + 4);
 		}
 		
 		@Override
 		public void buildComponent(StructureComponent original, List components, Random rand) {
-			
+			getNextComponentNormal(original, components, rand, 1, 1);
+			getNextComponentNX(original, components, rand, 1, 1);
+			getNextComponentPX(original, components, rand, 1, 1);
 		}
 		
 		@Override
@@ -321,7 +347,7 @@ public class BunkerComponents {
 		
 		@Override
 		public void buildComponent(StructureComponent original, List components, Random rand) {
-			getNextComponentNormal(original, components, rand, 1, 1);
+			getNextComponentNormal(original, components, rand, 3, 1);
 			
 			if(expandsNX)
 				getNextComponentNX(original, components, rand, 7, 1);
@@ -344,7 +370,7 @@ public class BunkerComponents {
 				//Floor
 				fillWithBlocks(world, box, 1, 0, begin, 1, 0, end, ModBlocks.deco_titanium);
 				fillWithBlocks(world, box, 2, 0, begin, 2, 0, end, ModBlocks.tile_lab);
-				fillWithBlocks(world, box, 3, 0, 0, 5, 0, 14, ModBlocks.deco_titanium);
+				fillWithBlocks(world, box, 3, 0, 0, 5, 0, 16, ModBlocks.deco_titanium);
 				fillWithBlocks(world, box, 6, 0, begin, 6, 0, end, ModBlocks.tile_lab);
 				fillWithBlocks(world, box, 7, 0, begin, 7, 0, end, ModBlocks.deco_titanium);
 				
@@ -391,21 +417,21 @@ public class BunkerComponents {
 				}
 				
 				if(bulkheadNZ) {
-					fillWithBlocks(world, box, 0, 1, 0, 1, 1, 0, ModBlocks.reinforced_brick);
-					fillWithBlocks(world, box, 0, 2, 0, 1, 2, 0, ModBlocks.reinforced_stone);
-					fillWithBlocks(world, box, 0, 3, 0, 1, 3, 0, ModBlocks.reinforced_brick);
-					fillWithBlocks(world, box, 5, 1, 0, 6, 1, 0, ModBlocks.reinforced_brick);
-					fillWithBlocks(world, box, 5, 2, 0, 6, 2, 0, ModBlocks.reinforced_stone);
-					fillWithBlocks(world, box, 5, 3, 0, 6, 3, 0, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 1, 1, 0, 2, 1, 0, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 1, 2, 0, 2, 2, 0, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 1, 3, 0, 2, 3, 0, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 6, 1, 0, 7, 1, 0, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 6, 2, 0, 7, 2, 0, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 6, 3, 0, 7, 3, 0, ModBlocks.reinforced_brick);
 				}
 				
 				if(bulkheadPZ) {
-					fillWithBlocks(world, box, 0, 1, 16, 1, 1, 16, ModBlocks.reinforced_brick);
-					fillWithBlocks(world, box, 0, 2, 16, 1, 2, 16, ModBlocks.reinforced_stone);
-					fillWithBlocks(world, box, 0, 3, 16, 1, 3, 16, ModBlocks.reinforced_brick);
-					fillWithBlocks(world, box, 5, 1, 16, 6, 1, 16, ModBlocks.reinforced_brick);
-					fillWithBlocks(world, box, 5, 2, 16, 6, 2, 16, ModBlocks.reinforced_stone);
-					fillWithBlocks(world, box, 5, 3, 16, 6, 3, 16, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 1, 1, 16, 2, 1, 16, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 1, 2, 16, 2, 2, 16, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 1, 3, 16, 2, 3, 16, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 6, 1, 16, 7, 1, 16, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 6, 2, 16, 7, 2, 16, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 6, 3, 16, 7, 3, 16, ModBlocks.reinforced_brick);
 				}
 				
 				//Ceiling
