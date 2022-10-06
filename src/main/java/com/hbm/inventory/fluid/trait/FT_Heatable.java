@@ -33,7 +33,8 @@ public class FT_Heatable extends FluidTrait {
 	public HeatingStep getFirstStep() {
 		return this.steps.get(0);
 	}
-	
+
+	@Override
 	public void addInfoHidden(List<String> info) {
 		for(HeatingType type : HeatingType.values()) {
 			

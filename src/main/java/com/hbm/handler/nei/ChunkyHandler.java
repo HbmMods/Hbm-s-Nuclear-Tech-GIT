@@ -1,5 +1,7 @@
 package com.hbm.handler.nei;
 
+import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
@@ -9,6 +11,7 @@ import codechicken.nei.guihook.GuiContainerManager;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 
 public class ChunkyHandler extends TemplateRecipeHandler {
@@ -30,7 +33,7 @@ public class ChunkyHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getRecipeName() {
-		return "The same thing but in big";
+		return "";
 	}
 
 	@Override
@@ -51,12 +54,23 @@ public class ChunkyHandler extends TemplateRecipeHandler {
 	@Override
 	public void drawExtras(int recipe) {
 		RecipeSet rec = (RecipeSet) this.arecipes.get(recipe);
+		drawTexturedModalRect(145, 0, 20, 20, 20, 20);
 		GL11.glPushMatrix();
-		double scale = 10D;
+		GL11.glTranslated(83, 50, 0);
+		double scale = 5D;
 		GL11.glScaled(scale, scale, scale);
-		GuiContainerManager.drawItem(50, 50, rec.stack); //TODO: center properly
+		RenderHelper.enableGUIStandardItemLighting();
+		GL11.glTranslated(-8, -8, 0);
+		GuiContainerManager.drawItem(0, 0, rec.stack);
 		GL11.glPopMatrix();
-		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-		fontRenderer.drawString("so you can really stare at it", 52, 100, 0x404040);
+		RenderHelper.enableGUIStandardItemLighting();
+		
+		FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+		
+		int w = 83;
+		String top = "The same thing but in big";
+		String bottom = "so you can really stare at it";
+		font.drawString(top, w - font.getStringWidth(top) / 2, 100, 0x404040);
+		font.drawString(bottom, w - font.getStringWidth(bottom) / 2, 110, 0x404040);
 	}
 }
