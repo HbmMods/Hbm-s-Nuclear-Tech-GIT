@@ -943,6 +943,12 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.factory_advanced_conductor");
 		ignoreMappings.add("hbm:tile.factory_titanium_furnace");
 		ignoreMappings.add("hbm:tile.factory_advanced_furnace");
+		ignoreMappings.add("hbm:tile.turret_light");
+		ignoreMappings.add("hbm:tile.turret_heavy");
+		ignoreMappings.add("hbm:tile.turret_rocket");
+		ignoreMappings.add("hbm:tile.turret_flamer");
+		ignoreMappings.add("hbm:tile.turret_tau");
+		ignoreMappings.add("hbm:tile.turret_cwis");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -97,13 +97,6 @@ public class ItemBlockLore extends ItemBlockBase {
 			list.add("");
 			list.add("i added an item for a joke that isn't even here, what am i, stupid? can't even tell the difference between gravel and a gavel, how did i not forget how to breathe yet?");
 		}
-		
-		if(this.field_150939_a == ModBlocks.turret_cwis) {
-			list.add("Hmmm today I will use an anti-missile turret agains mobs");
-			list.add("");
-			list.add("Why does it not work???");
-			list.add("bob pls fix");
-		}
 	}
 
 	@Override

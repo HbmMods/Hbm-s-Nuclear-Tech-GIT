@@ -297,12 +297,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_framed_marked, new ItemStack(ModItems.powder_steel, 1));
 
 		/* Turret and ammo recycling */
-		ShredderRecipes.setRecipe(ModBlocks.turret_light, new ItemStack(ModItems.powder_steel, 16));
-		ShredderRecipes.setRecipe(ModBlocks.turret_heavy, new ItemStack(ModItems.powder_steel, 16));
-		ShredderRecipes.setRecipe(ModBlocks.turret_flamer, new ItemStack(ModItems.powder_steel, 16));
-		ShredderRecipes.setRecipe(ModBlocks.turret_rocket, new ItemStack(ModItems.powder_steel, 16));
-		ShredderRecipes.setRecipe(ModBlocks.turret_cwis, new ItemStack(ModItems.powder_steel, 16));
-		ShredderRecipes.setRecipe(ModBlocks.turret_tau, new ItemStack(ModItems.powder_steel, 16));
 		ShredderRecipes.setRecipe(ModItems.turret_light_ammo, new ItemStack(Items.gunpowder, 4));
 		ShredderRecipes.setRecipe(ModItems.turret_heavy_ammo, new ItemStack(Items.gunpowder, 4));
 		ShredderRecipes.setRecipe(ModItems.turret_flamer_ammo, new ItemStack(Items.gunpowder, 4));
