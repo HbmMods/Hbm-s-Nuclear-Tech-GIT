@@ -241,11 +241,6 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		autoMode = false;
 		instantPowerOutput = 0;
 		
-		if(tanks[0].getFill() < 0) //avoids negative amounts of fluid
-			tanks[0].setFill(0);
-		if(tanks[1].getFill() < 0)
-			tanks[1].setFill(0);
-		
 		if(powerSliderPos > 0)
 			powerSliderPos--;
 		
@@ -271,9 +266,6 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	}
 	
 	private void run() { //TODO maybe make a sound if gas/lube levels are too low
-		
-		if(tanks[0].getFill() <= 0 || tanks[1].getFill() <= 0) //shuts down if there is no gas or lube
-			state = 0;
 		
 		if((int) (throttle * 0.9) > rpm - rpmIdle) { //simulates the rotor's moment of inertia
 			if(worldObj.getTotalWorldTime() % 5 == 0) {
@@ -310,7 +302,6 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 	}
 	
-	
 	double fuelToConsume; //used to consume 1 mb of fuel at a time when the average consumption is <1 mb/tick
 	double idleConsumption = 0.1D;
 	
@@ -325,6 +316,15 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		
 		if(worldObj.getTotalWorldTime() % 10 == 0) //lube consumption 
 			tanks[1].setFill(tanks[1].getFill() - 1);
+		
+		if(tanks[0].getFill() < 0) { //avoids negative amounts of fluid
+			tanks[0].setFill(0);
+			state = 0;
+		}
+		if(tanks[1].getFill() < 0) {
+			tanks[1].setFill(0);
+			state = 0;
+		}
 		
 		
 		int a = fuelPwrProduction.get(tanks[0].getTankType()); //power production depending on fuel

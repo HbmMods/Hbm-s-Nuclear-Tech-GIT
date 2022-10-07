@@ -52,6 +52,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
+		this.power = nbt.getLong("power");
 		for(int i = 0; i < this.tanks.length; i++)
 			this.tanks[i].readFromNBT(nbt, "t" + i);
 	}
@@ -60,6 +61,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		
+		nbt.setLong("power", power);
 		for(int i = 0; i < this.tanks.length; i++)
 			this.tanks[i].writeToNBT(nbt, "t" + i);
 	}
