@@ -118,6 +118,12 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		turbinegas.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 62, 16, 32);
 		turbinegas.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 147, guiTop + 53, 16, 40);
 		turbinegas.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 147, guiTop + 13, 16, 40);
+		
+		String[] text1 = new String[] { "wip", //TODO 
+				"wipp",
+				"work in progress",
+				"sork in wrogress" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
 	}
 	
 	@Override

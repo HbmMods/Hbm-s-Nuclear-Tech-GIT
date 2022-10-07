@@ -13,16 +13,11 @@ import net.minecraft.tileentity.TileEntity;
 
 public class RenderTurbineGas extends TileEntitySpecialRenderer {
 	
-	public RenderTurbineGas() { }
-
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y, z + 0.5D); //AAAAAAAAAAAAAA
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_CULL_FACE);
-        GL11.glShadeModel(GL11.GL_SMOOTH);
+        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         
         TileEntityMachineTurbineGas turbinegas = (TileEntityMachineTurbineGas) tileEntity;
         
@@ -38,10 +33,13 @@ public class RenderTurbineGas extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
+		GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+		
         bindTexture(ResourceManager.universal);
         ResourceManager.turbinegas.renderAll();
 
         GL11.glPopMatrix();
     }
-
 }

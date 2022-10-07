@@ -48,14 +48,14 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	public int rpmIdle = 10;
 	public int tempIdle = 300;
 	
-	public int powerSliderPos = 0; //goes from 0 to 60, 0 is idle, 60 is max power
-	int throttle;
+	public int powerSliderPos; //goes from 0 to 60, 0 is idle, 60 is max power
+	public int throttle; //the same thing, but goes from0 to 100
 	
 	public boolean autoMode;
 	public int state = 0; //0 is offline, -1 is startup, 1 is online
 	
 	public int counter = 0; //used to startup and shutdown
-	public float instantPowerOutput;
+	public int instantPowerOutput;
 	
 	public List<IFluidAcceptor> list = new ArrayList();
 	
@@ -67,19 +67,28 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	public static HashMap<FluidType, Integer> fuelPwrProduction = new HashMap(); //max power production is 20000 * value, for example gas will produce 20000 * 4 = 80000 HE/s
 	
 	static {
-		fuelPwrProduction.put(Fluids.GAS, 4); 
-		fuelPwrProduction.put(Fluids.PETROLEUM, 1);
-		fuelPwrProduction.put(Fluids.LPG, 1);
-		fuelPwrProduction.put(Fluids.BIOGAS, 1);
+		fuelPwrProduction.put(Fluids.GAS, 4); //80k
+		fuelPwrProduction.put(Fluids.PETROLEUM, 8); //160k
+		fuelPwrProduction.put(Fluids.LPG, 12); //240k
+		fuelPwrProduction.put(Fluids.BIOGAS, 3); //60k
 	}
 	
-	public static HashMap<FluidType, Integer> fuelStmProduction = new HashMap(); //the system will produce steam equivalent to 4200 * value per tick, for example gas will produce 4200 * 10 = 42000 HE/s equivalent in dense steam
+	public static HashMap<FluidType, Double> fuelMaxCons = new HashMap(); //fuel consumption per tick at max power
 	
 	static {
-		fuelStmProduction.put(Fluids.GAS, 10);
-		fuelStmProduction.put(Fluids.PETROLEUM, 1);
-		fuelStmProduction.put(Fluids.LPG, 1);
-		fuelStmProduction.put(Fluids.BIOGAS, 1);
+		fuelMaxCons.put(Fluids.GAS, 1.5D);
+		fuelMaxCons.put(Fluids.PETROLEUM, 16D);
+		fuelMaxCons.put(Fluids.LPG, 10D);
+		fuelMaxCons.put(Fluids.BIOGAS, 4.5D);
+	}
+	
+	public static HashMap<FluidType, Integer> fuelStmProduction = new HashMap(); //the system will produce steam equivalent to 4200 * value per second, for example gas will produce 4200 * 10 = 42000 HE/s equivalent in dense steam
+	
+	static {
+		fuelStmProduction.put(Fluids.GAS, 10); //42k
+		fuelStmProduction.put(Fluids.PETROLEUM, 20); //84k
+		fuelStmProduction.put(Fluids.LPG, 5); //21k
+		fuelStmProduction.put(Fluids.BIOGAS, 5); //21k
 	}
 	
 	public TileEntityMachineTurbineGas() {
@@ -149,16 +158,18 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			fillFluidInit(tanks[3].getTankType());
 			
 			NBTTagCompound data = new NBTTagCompound();
-				data.setLong("power", power);
-				data.setInteger("rpm",  rpm);
-				data.setInteger("temp",  temp);
-				data.setInteger("state", state);
-				data.setBoolean("automode", autoMode);
-				data.setInteger("slidpos",  powerSliderPos);
+				data.setLong("power", this.power);
+				data.setInteger("rpm",  this.rpm);
+				data.setInteger("temp",  this.temp);
+				data.setInteger("state", this.state);
+				data.setBoolean("automode", this.autoMode);
+				data.setInteger("slidpos",  this.powerSliderPos);
 				if(state != 1)
-					data.setInteger("counter", counter); //sent during startup and shutdown
+					data.setInteger("counter", this.counter); //sent during startup and shutdown
 				else
-					data.setFloat("instantPow", instantPowerOutput); //sent while running
+					data.setInteger("instantPow", this.instantPowerOutput); //sent while running
+				
+				data.setInteger("throttle",  this.throttle);
 					
 				this.networkPack(data, 150);
 				
@@ -221,76 +232,6 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 	}
 	
-	private void run() { //TODO maybe make a sound if gas/lube levels are too low
-		
-		if(tanks[0].getFill() <= 0) { //shuts down if there is no gas or lube
-			state = 0;
-			tanks[0].setFill(0);
-		}
-		if(tanks[1].getFill() <= 0) {
-			state = 0;
-			tanks[1].setFill(0);
-		}
-		
-		if((int) (throttle * 0.9) > rpm - rpmIdle) { //simulates the rotor's moment of inertia
-			if(worldObj.getTotalWorldTime() % 5 == 0) {
-				rpm++;
-			}
-		} else if((int) (throttle * 0.9) < rpm - rpmIdle) {
-			if(worldObj.getTotalWorldTime() % 5 == 0) {
-				rpm--;
-			}
-		}
-		
-		if(throttle * 5 > temp - tempIdle) { //simulates the heat exchanger's resistance to temperature variation
-			if(worldObj.getTotalWorldTime() % 2 == 0) {
-				temp++;
-			}
-		} else if(throttle * 5 < temp - tempIdle) {
-			if(worldObj.getTotalWorldTime() % 2 == 0) {
-				temp--;
-			}
-		}
-		
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// POWER PRODUCTION
-		
-		double consMax = 20D; //fuel consumption per tick in mb while running at 100% power
-		
-		tanks[0].setFill(tanks[0].getFill() - (int) Math.ceil(consMax * throttle / 100)); //fuel consumption based on throttle position
-		
-		if(throttle == 0 && worldObj.getTotalWorldTime() % 5 == 0) //idle gas consumption
-			tanks[0].setFill(tanks[0].getFill() - 1);
-		
-		if(worldObj.getTotalWorldTime() % 10 == 0) //lube consumption is constant, hydrostatic bearings go brrrr
-			tanks[1].setFill(tanks[1].getFill() - 1);
-		
-		
-		int a = fuelPwrProduction.get(tanks[0].getTankType()); //power production depending on fuel
-		
-		if(instantPowerOutput < (10 * throttle * a)) { //this shit avoids power rising in steps of 2000 or so HE at a time, instead it does it smoothly
-			instantPowerOutput += Math.random() * 4.5 * a;
-			if(instantPowerOutput > (10 * throttle * a))
-				instantPowerOutput = (10 * throttle * a);
-		}
-		else if(instantPowerOutput > (10 * throttle * a)) {
-			instantPowerOutput -= Math.random() * 4.5 * a;
-			if(instantPowerOutput < (10 * throttle * a))
-				instantPowerOutput = (10 * throttle * a);
-		}
-		
-		this.power += instantPowerOutput;
-		
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// STEAM PRODUCTION
-		
-		int waterPerTick = fuelStmProduction.get(tanks[0].getTankType()) * (temp - 300) / 500;
-		
-		if(tanks[2].getFill() >= waterPerTick && tanks[3].getFill() <= 160000 - waterPerTick * 10) { //21 HE produced every 1mb of dense steam
-			
-				tanks[2].setFill(tanks[2].getFill() - waterPerTick);
-				tanks[3].setFill(tanks[3].getFill() + waterPerTick * 10);
-		}
-	}
-	
 	
 	int rpmLast; //used to progressively slow down and cool the turbine without immediatly setting rpm and temp to 0
 	int tempLast;
@@ -299,6 +240,11 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		
 		autoMode = false;
 		instantPowerOutput = 0;
+		
+		if(tanks[0].getFill() < 0) //avoids negative amounts of fluid
+			tanks[0].setFill(0);
+		if(tanks[1].getFill() < 0)
+			tanks[1].setFill(0);
 		
 		if(powerSliderPos > 0)
 			powerSliderPos--;
@@ -324,6 +270,81 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 	}
 	
+	private void run() { //TODO maybe make a sound if gas/lube levels are too low
+		
+		if(tanks[0].getFill() <= 0 || tanks[1].getFill() <= 0) //shuts down if there is no gas or lube
+			state = 0;
+		
+		if((int) (throttle * 0.9) > rpm - rpmIdle) { //simulates the rotor's moment of inertia
+			if(worldObj.getTotalWorldTime() % 5 == 0) {
+				rpm++;
+			}
+		} else if((int) (throttle * 0.9) < rpm - rpmIdle) {
+			if(worldObj.getTotalWorldTime() % 5 == 0) {
+				rpm--;
+			}
+		}
+		
+		if(throttle * 5 > temp - tempIdle) { //simulates the heat exchanger's resistance to temperature variation
+			if(worldObj.getTotalWorldTime() % 2 == 0) {
+				temp++;
+			}
+		} else if(throttle * 5 < temp - tempIdle) {
+			if(worldObj.getTotalWorldTime() % 2 == 0) {
+				temp--;
+			}
+		}
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////// POWER PRODUCTION
+		
+		makePower(fuelMaxCons.get(tanks[0].getTankType()), fuelPwrProduction.get(tanks[0].getTankType()), throttle);
+		
+		////////////////////////////////////////////////////////////////////////////////////// STEAM PRODUCTION
+		
+		int waterPerTick = fuelStmProduction.get(tanks[0].getTankType()) * (temp - 300) / 500;
+		
+		if(tanks[2].getFill() >= waterPerTick && tanks[3].getFill() <= 160000 - waterPerTick * 10) { //21 HE produced every 1mb of dense steam
+			
+				tanks[2].setFill(tanks[2].getFill() - waterPerTick);
+				tanks[3].setFill(tanks[3].getFill() + waterPerTick * 10);
+		}
+	}
+	
+	
+	double fuelToConsume; //used to consume 1 mb of fuel at a time when the average consumption is <1 mb/tick
+	double idleConsumption = 0.1D;
+	
+	private void makePower(double consMax, int prodMax, int throttle) {
+		
+		double consumption = idleConsumption + consMax * throttle / 100;
+		
+		fuelToConsume += consumption;
+		
+		tanks[0].setFill(tanks[0].getFill() - (int) Math.floor(fuelToConsume));
+		fuelToConsume -= (int) Math.floor(fuelToConsume);
+		
+		if(worldObj.getTotalWorldTime() % 10 == 0) //lube consumption 
+			tanks[1].setFill(tanks[1].getFill() - 1);
+		
+		
+		int a = fuelPwrProduction.get(tanks[0].getTankType()); //power production depending on fuel
+		
+		if(instantPowerOutput < (10 * throttle * a)) { //this shit avoids power rising in steps of 2000 or so HE at a time, instead it does it smoothly
+			instantPowerOutput += Math.random() * 4.5 * a;
+			if(instantPowerOutput > (10 * throttle * a))
+				instantPowerOutput = (10 * throttle * a);
+		}
+		else if(instantPowerOutput > (10 * throttle * a)) {
+			instantPowerOutput -= Math.random() * 4.5 * a;
+			if(instantPowerOutput < (10 * throttle * a))
+				instantPowerOutput = (10 * throttle * a);
+		}
+		
+		this.power += instantPowerOutput;
+	}
+	
+	
+	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Override
@@ -333,50 +354,68 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		this.rpm = nbt.getInteger("rpm");
 		this.temp = nbt.getInteger("temp");
 		this.state = nbt.getInteger("state");
-		this.powerSliderPos = nbt.getInteger("slidpos");
+		if(nbt.hasKey("slidpos"))
+			this.powerSliderPos = nbt.getInteger("slidpos");
+			
 		this.autoMode = nbt.getBoolean("automode");
 		if(nbt.hasKey("counter"))
 			this.counter = nbt.getInteger("counter"); //state 0 and -1
 		else
-			this.instantPowerOutput = nbt.getFloat("instantPow"); //state 1
+			this.instantPowerOutput = nbt.getInteger("instantPow"); //state 1
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		tanks[0].readFromNBT(nbt, "gas");
-		tanks[1].readFromNBT(nbt, "lube");
-		tanks[2].readFromNBT(nbt, "water");
-		tanks[3].readFromNBT(nbt, "densesteam");
-		autoMode = nbt.getBoolean("automode");
-		power = nbt.getLong("power");
+		this.tanks[0].readFromNBT(nbt, "gas");
+		this.tanks[1].readFromNBT(nbt, "lube");
+		this.tanks[2].readFromNBT(nbt, "water");
+		this.tanks[3].readFromNBT(nbt, "densesteam");
+		this.autoMode = nbt.getBoolean("automode");
+		this.power = nbt.getLong("power");
+		this.state = nbt.getInteger("state");
+		this.rpm = nbt.getInteger("rpm");
+		this.temp = nbt.getInteger("temperature");
+		this.powerSliderPos = nbt.getInteger("slidPos");
+		this.instantPowerOutput = nbt.getInteger("instPwr");
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public void writeToNBT(NBTTagCompound nbt) { //TODO power meter resets every time
 		super.writeToNBT(nbt);
+		
 		tanks[0].writeToNBT(nbt, "gas");
 		tanks[1].writeToNBT(nbt, "lube");
 		tanks[2].writeToNBT(nbt, "water");
 		tanks[3].writeToNBT(nbt, "densesteam");
 		nbt.setBoolean("automode", autoMode);
 		nbt.setLong("power", power);
-		//TODO temp
-		//TODO throttle
-		//TODO counter
+		if(state == 1) {
+			nbt.setInteger("state", this.state);
+			nbt.setInteger("rpm", this.rpm);
+			nbt.setInteger("temperature", this.temp);
+			nbt.setInteger("slidPos", this.powerSliderPos);
+			nbt.setInteger("instPwr", instantPowerOutput);
+		} else {
+			nbt.setInteger("state", 0);
+			nbt.setInteger("rpm", 0);
+			nbt.setInteger("temperature", 20);
+			nbt.setInteger("slidPos", 0);
+			nbt.setInteger("instpwr", 0);
+		}
 	}
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
 		
-		if(data.hasKey("slidPos")) 
-			this.powerSliderPos = data.getInteger("slidPos");
+		if(data.hasKey("slidPos"))
+			powerSliderPos = data.getInteger("slidPos");
 		
 		if(data.hasKey("autoMode"))
-			this.autoMode = data.getBoolean("autoMode");
+			autoMode = data.getBoolean("autoMode");
 		
 		if(data.hasKey("state") && (counter == 0 || counter == 225))
-			this.state = data.getInteger("state");
+			state = data.getInteger("state");
 
 		this.markDirty();
 	}
