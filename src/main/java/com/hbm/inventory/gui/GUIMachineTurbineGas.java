@@ -13,6 +13,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineTurbineGas;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -31,7 +32,7 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 	int yStart;
 	int slidStart;
 	
-	public GUIMachineTurbineGas(InventoryPlayer invPlayer, TileEntityMachineTurbineGas te) {
+	public GUIMachineTurbineGas(InventoryPlayer invPlayer, TileEntityMachineTurbineGas te) { //TODO insert machine name on top
 		super(new ContainerMachineTurbineGas(invPlayer, te));
 		turbinegas = te;
 		
@@ -98,32 +99,34 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 	}
 	
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float f) { //TODO all the displayed things are moved down by some pixels
+	public void drawScreen(int mouseX, int mouseY, float f) {
 		
 		super.drawScreen(mouseX, mouseY, f);
 
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 100, 142, 16, turbinegas.power, turbinegas.getMaxPower());
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 99, 142, 16, turbinegas.power, turbinegas.getMaxPower());
 		
 		if(turbinegas.powerSliderPos == 0)
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 36, guiTop + 28, 16, 66, mouseX, mouseY, new String[] {"Turbine idle"});
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 36, guiTop + 27, 16, 66, mouseX, mouseY, new String[] {"Turbine idle"});
 		else
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 36, guiTop + 28, 16, 66, mouseX, mouseY, new String[] {(turbinegas.powerSliderPos) * 100 / 60 + "% power"});	
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 36, guiTop + 27, 16, 66, mouseX, mouseY, new String[] {(turbinegas.powerSliderPos) * 100 / 60 + "% power"});	
 		
 		if(turbinegas.temp >= 20)
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 15, 8, 72, mouseX, mouseY, new String[] {"Temperature: " + (turbinegas.temp) + " °C"});
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 14, 8, 72, mouseX, mouseY, new String[] {"Temperature: " + (turbinegas.temp) + " °C"});
 		else
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 15, 8, 72, mouseX, mouseY, new String[] {"Temperature: 20 °C"});
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 14, 8, 72, mouseX, mouseY, new String[] {"Temperature: 20 °C"});
 		
-		turbinegas.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 8, 16, 48); //TODO these suck, are imprecise
-		turbinegas.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 62, 16, 32);
-		turbinegas.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 147, guiTop + 53, 16, 40);
-		turbinegas.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 147, guiTop + 13, 16, 40);
+		turbinegas.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 7, 16, 48);
+		turbinegas.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 61, 16, 32);
+		turbinegas.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 147, guiTop + 52, 16, 36);
+		turbinegas.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 147, guiTop + 12, 16, 36);
 		
-		String[] text1 = new String[] { "wip", //TODO 
-				"wipp",
-				"work in progress",
-				"sork in wrogress" };
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
+		String[] info = I18nUtil.resolveKeyArray("desc.gui.turbinegas.automode");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 25, 16, 16, guiLeft - 8, guiTop + 35 + 16, info);
+		String[] fuels = I18nUtil.resolveKeyArray("desc.gui.turbinegas.fuels");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 25 + 16, 16, 16, guiLeft - 8, guiTop + 35 + 16, fuels);
+		String[] warning = I18nUtil.resolveKeyArray("desc.gui.turbinegas.warning");
+		if(turbinegas.tanks[0].getFill() < 1000 || turbinegas.tanks[1].getFill() < 100)
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 25 + 32, 16, 16, guiLeft - 8, guiTop + 35 + 16, warning);	
 	}
 	
 	@Override
@@ -139,18 +142,18 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 74, guiTop + 77, 194, 24, 29, 13);
 		
 		switch(turbinegas.state) {
-		case 0:
-			drawTexturedModalRect(guiLeft + 80, guiTop + 23, 178, 38, 16, 16); //red button
+			case 0:
+				drawTexturedModalRect(guiLeft + 80, guiTop + 23, 178, 38, 16, 16); //red button
 			break;
-		case -1:
-			drawTexturedModalRect(guiLeft + 80, guiTop + 23, 194, 38, 16, 16); //orange button
-			displayStartup();
+			case -1:
+				drawTexturedModalRect(guiLeft + 80, guiTop + 23, 194, 38, 16, 16); //orange button
+				displayStartup();
 			break;
-		case 1:
-			drawTexturedModalRect(guiLeft + 80, guiTop + 23, 210, 38, 16, 16); //green button
-			drawPowerMeterDisplay((int) (20 * turbinegas.instantPowerOutput));
+			case 1:
+				drawTexturedModalRect(guiLeft + 80, guiTop + 23, 210, 38, 16, 16); //green button
+				drawPowerMeterDisplay((int) (20 * turbinegas.instantPowerOutput));
 			break;
-		default:
+			default:
 			break;
 		}
 		
@@ -161,6 +164,13 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		
 		drawRPMGauge(turbinegas.rpm);
 		drawThermometer(turbinegas.temp);
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 25, 16, 16, 3); //info
+		this.drawInfoPanel(guiLeft - 16, guiTop + 25 + 16, 16, 16, 2); //fuels
+		if(turbinegas.tanks[0].getFill() < 1000 || turbinegas.tanks[1].getFill() < 100)
+			this.drawInfoPanel(guiLeft - 16, guiTop + 25 + 32, 16, 16, 7);
+		if(turbinegas.tanks[0].getFill() == 0 || turbinegas.tanks[1].getFill() == 0)
+			this.drawInfoPanel(guiLeft - 16, guiTop + 25 + 32, 16, 16, 6);
 		
 		turbinegas.tanks[0].renderTank(guiLeft + 8, guiTop + 56, this.zLevel, 16, 48);
 		turbinegas.tanks[1].renderTank(guiLeft + 8, guiTop + 94, this.zLevel, 16, 32);
@@ -192,7 +202,7 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		drawPowerMeterDisplay(numberToDisplay);
 	}
 	
-	protected void drawPowerMeterDisplay(int number) { //display code TODO the number that was displayed previously isn't updated or shit like that
+	protected void drawPowerMeterDisplay(int number) { //display code
 		
 		int firstDigitX = 66;
 		int firstDigitY = 62;

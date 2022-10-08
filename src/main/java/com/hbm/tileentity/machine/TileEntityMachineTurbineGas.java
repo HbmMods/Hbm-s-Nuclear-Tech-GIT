@@ -85,7 +85,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	public static HashMap<FluidType, Integer> fuelStmProduction = new HashMap(); //the system will produce steam equivalent to 4200 * value per second, for example gas will produce 4200 * 10 = 42000 HE/s equivalent in dense steam
 	
 	static {
-		fuelStmProduction.put(Fluids.GAS, 10); //42k
+		fuelStmProduction.put(Fluids.GAS, 10); //42k TODO make different fuels have different maxtemps, maybe?
 		fuelStmProduction.put(Fluids.PETROLEUM, 20); //84k
 		fuelStmProduction.put(Fluids.LPG, 5); //21k
 		fuelStmProduction.put(Fluids.BIOGAS, 5); //21k
@@ -109,7 +109,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			
 			if(slots[1] != null && slots[1].getItem() instanceof ItemFluidIdentifier) {
 				FluidType fuel = ItemFluidIdentifier.getType(slots[1]);
-				if (fuel == Fluids.GAS || fuel == Fluids.PETROLEUM || fuel == Fluids.LPG || fuel == Fluids.BIOGAS)
+				if (fuelPwrProduction.get(ItemFluidIdentifier.getType(slots[1])) != null)
 					tanks[0].setTankType(fuel);
 			}
 			
@@ -175,22 +175,21 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				
 		} else { //client side, for sounds n shit
 			
-			float volume = 10.0F; //TODO this is too low
-			
-			if(rpm >= 10 && state != -1 && volume > 0) { //if conditions are right, play thy sound
+			if(rpm >= 10 && state != -1) { //if conditions are right, play thy sound
 				
 				if(audio == null) { //if there is no sound playing, start it
 					
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, volume, 1.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 1.0F);
 					audio.startSound();
 					
 				} else if(!audio.isPlaying()) {
 					audio.stopSound();
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, volume, 1.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 1.0F);
 					audio.startSound();
 				}
 				
 				audio.updatePitch((float) (0.55 + 0.1 * rpm / 10)); //dynamic pitch update based on rpm
+				audio.updateVolume(100F); //yeah i need this
 				
 			} else {
 				
@@ -202,11 +201,20 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 	}
 	
-	private void isReady() { //checks if the turbine can make power, if not shutdown
+	private void isReady() { //checks if the turbine can make power, if not shutdown TODO make this a bool maybe?
 		
 		if(tanks[0].getFill() == 0 || tanks[1].getFill() == 0) {
 			state = 0;
 		}
+		if (!hasAcceptableFuel())
+			state = 0;
+	}
+	
+	public boolean hasAcceptableFuel() {
+		
+		if (fuelPwrProduction.get(tanks[0].getTankType()) != null)
+			return true;
+		return false;
 	}
 	
 	private void startup() {
@@ -223,7 +231,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 		
 		if(counter == 50) {
-			worldObj.playSoundEffect(xCoord, yCoord + 2, zCoord, "hbm:block.turbinegasStartup", 10.0F, 1.0F);
+			worldObj.playSoundEffect(xCoord, yCoord + 2, zCoord, "hbm:block.turbinegasStartup", 1F, 1.0F);
 		}
 			
 		if(counter >= 580) {
@@ -236,7 +244,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	int rpmLast; //used to progressively slow down and cool the turbine without immediatly setting rpm and temp to 0
 	int tempLast;
 	
-	private void shutdown() {
+	private void shutdown() { //TODO weird shit happens on shutdown after re-entering a world with an active turbine
 		
 		autoMode = false;
 		instantPowerOutput = 0;
@@ -248,7 +256,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			
 			if(counter == 225) {
 				
-				worldObj.playSoundEffect(xCoord, yCoord + 2, zCoord, "hbm:block.turbinegasShutdown", 10.0F, 1.0F);
+				worldObj.playSoundEffect(xCoord, yCoord + 2, zCoord, "hbm:block.turbinegasShutdown", 1F, 1.0F);
 				
 				rpmLast = rpm;
 				tempLast = temp;
@@ -265,14 +273,14 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 	}
 	
-	private void run() { //TODO maybe make a sound if gas/lube levels are too low
+	private void run() {
 		
 		if((int) (throttle * 0.9) > rpm - rpmIdle) { //simulates the rotor's moment of inertia
 			if(worldObj.getTotalWorldTime() % 5 == 0) {
 				rpm++;
 			}
 		} else if((int) (throttle * 0.9) < rpm - rpmIdle) {
-			if(worldObj.getTotalWorldTime() % 5 == 0) {
+			if(worldObj.getTotalWorldTime() % 2 == 0) {
 				rpm--;
 			}
 		}
@@ -330,12 +338,12 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		int a = fuelPwrProduction.get(tanks[0].getTankType()); //power production depending on fuel
 		
 		if(instantPowerOutput < (10 * throttle * a)) { //this shit avoids power rising in steps of 2000 or so HE at a time, instead it does it smoothly
-			instantPowerOutput += Math.random() * 4.5 * a;
+			instantPowerOutput += Math.random() * 4.7 * a;
 			if(instantPowerOutput > (10 * throttle * a))
 				instantPowerOutput = (10 * throttle * a);
 		}
 		else if(instantPowerOutput > (10 * throttle * a)) {
-			instantPowerOutput -= Math.random() * 4.5 * a;
+			instantPowerOutput -= Math.random() * 11 * a;
 			if(instantPowerOutput < (10 * throttle * a))
 				instantPowerOutput = (10 * throttle * a);
 		}
@@ -378,10 +386,11 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		this.temp = nbt.getInteger("temperature");
 		this.powerSliderPos = nbt.getInteger("slidPos");
 		this.instantPowerOutput = nbt.getInteger("instPwr");
+		this.counter = nbt.getInteger("counter");
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) { //TODO power meter resets every time
+	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		
 		tanks[0].writeToNBT(nbt, "gas");
@@ -396,12 +405,14 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			nbt.setInteger("temperature", this.temp);
 			nbt.setInteger("slidPos", this.powerSliderPos);
 			nbt.setInteger("instPwr", instantPowerOutput);
+			nbt.setInteger("counter", 225);
 		} else {
 			nbt.setInteger("state", 0);
 			nbt.setInteger("rpm", 0);
 			nbt.setInteger("temperature", 20);
 			nbt.setInteger("slidPos", 0);
 			nbt.setInteger("instpwr", 0);
+			nbt.setInteger("counter", 0);
 		}
 	}
 
