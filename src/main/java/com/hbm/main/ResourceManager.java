@@ -65,6 +65,8 @@ public class ResourceManager {
 	public static final IModelCustom stirling = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/stirling.obj"));
 	public static final IModelCustom sawmill = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/sawmill.obj"));
 	public static final IModelCustom crucible_heat = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/crucible.obj"));
+	public static final IModelCustom boiler = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/boiler.obj"));
+	public static final IModelCustom boiler_burst = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/boiler_burst.obj"));
 	
 	//Furnaces
 	public static final IModelCustom furnace_iron = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/furnace_iron.obj"));
@@ -387,6 +389,7 @@ public class ResourceManager {
 	public static final ResourceLocation stirling_steel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/stirling_steel.png");
 	public static final ResourceLocation sawmill_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/sawmill.png");
 	public static final ResourceLocation crucible_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/crucible_heat.png");
+	public static final ResourceLocation boiler_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/boiler.png");
 	
 	//Furnaces
 	public static final ResourceLocation furnace_iron_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/furnace_iron.png");

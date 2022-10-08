@@ -296,14 +296,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_framed_red, new ItemStack(ModItems.powder_steel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_framed_marked, new ItemStack(ModItems.powder_steel, 1));
 
-		/* Turret and ammo recycling */
-		ShredderRecipes.setRecipe(ModItems.turret_light_ammo, new ItemStack(Items.gunpowder, 4));
-		ShredderRecipes.setRecipe(ModItems.turret_heavy_ammo, new ItemStack(Items.gunpowder, 4));
-		ShredderRecipes.setRecipe(ModItems.turret_flamer_ammo, new ItemStack(Items.gunpowder, 4));
-		ShredderRecipes.setRecipe(ModItems.turret_rocket_ammo, new ItemStack(Items.gunpowder, 4));
-		ShredderRecipes.setRecipe(ModItems.turret_cwis_ammo, new ItemStack(Items.gunpowder, 4));
-		ShredderRecipes.setRecipe(ModItems.turret_tau_ammo, new ItemStack(ModItems.powder_uranium, 4));
-
 		/* Wool and clay scrapping */
 		for(int i = 0; i < 16; i++) {
 			ShredderRecipes.setRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, i), new ItemStack(Items.clay_ball, 4));

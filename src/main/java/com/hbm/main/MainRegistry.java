@@ -949,6 +949,12 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.turret_flamer");
 		ignoreMappings.add("hbm:tile.turret_tau");
 		ignoreMappings.add("hbm:tile.turret_cwis");
+		ignoreMappings.add("hbm:item.turret_light_ammo");
+		ignoreMappings.add("hbm:item.turret_heavy_ammo");
+		ignoreMappings.add("hbm:item.turret_rocket_ammo");
+		ignoreMappings.add("hbm:item.turret_flamer_ammo");
+		ignoreMappings.add("hbm:item.turret_tau_ammo");
+		ignoreMappings.add("hbm:item.turret_cwis_ammo");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

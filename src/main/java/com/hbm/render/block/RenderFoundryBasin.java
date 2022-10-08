@@ -23,6 +23,8 @@ public class RenderFoundryBasin implements ISimpleBlockRenderingHandler {
 		double z = 0;
 		
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+		
+		basin.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0F, 1F, 0F);

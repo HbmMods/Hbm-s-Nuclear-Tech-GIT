@@ -2430,13 +2430,7 @@ public class ModItems {
 
 	public static Item mech_key;
 
-	public static Item turret_light_ammo;
-	public static Item turret_heavy_ammo;
-	public static Item turret_rocket_ammo;
-	public static Item turret_flamer_ammo;
-	public static Item turret_tau_ammo;
 	public static Item turret_spitfire_ammo;
-	public static Item turret_cwis_ammo;
 	public static Item turret_cheapo_ammo;
 
 	public static Item bucket_mud;
@@ -7464,13 +7458,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_folly_du, ammo_folly_du.getUnlocalizedName());
 		
 		//Turret Ammo
-		GameRegistry.registerItem(turret_light_ammo, turret_light_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_heavy_ammo, turret_heavy_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_rocket_ammo, turret_rocket_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_flamer_ammo, turret_flamer_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_tau_ammo, turret_tau_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(turret_spitfire_ammo, turret_spitfire_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_cwis_ammo, turret_cwis_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(turret_cheapo_ammo, turret_cheapo_ammo.getUnlocalizedName());
 		
 		//-C-l-i-p-s- Magazines
