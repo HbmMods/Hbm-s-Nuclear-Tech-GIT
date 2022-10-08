@@ -39,7 +39,7 @@ public class ItemWandD extends Item {
 			int l = ((pos.blockZ >> 4) << 4) + 8;
 			
 			Start start = new Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
-			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 100, l - 100, k + 15 + 100, l + 15 + 100));
+			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 112, l - 112, k + 15 + 112, l + 15 + 112));
 			
 			/*OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 20, 500);*/
 			

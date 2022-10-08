@@ -54,6 +54,8 @@ public class HbmWorld {
 		//bunker
 		MapGenStructureIO.func_143031_a(Atrium.class, "NTMBAtrium");
 		MapGenStructureIO.func_143031_a(Corridor.class, "NTMBCorridor");
+		MapGenStructureIO.func_143031_a(Intersection.class, "NTMBIntersection");
 		MapGenStructureIO.func_143031_a(WideCorridor.class, "NTMBWideCorridor");
+		
 	}
 }

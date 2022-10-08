@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -16,10 +17,15 @@ import net.minecraft.world.gen.structure.StructureComponent;
 public class BunkerComponents {
 	
 	private static final Weight[] weightArray = new Weight[] {
-			new Weight(2, 50, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = Bunker.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 5, 15, type);
+			new Weight(1, 50, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = Bunker.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 15, mode);
 				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new Corridor(type, rand, box, mode) : null; }),
-			new Weight(3, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = Bunker.getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 5, 17, type);
-			return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new WideCorridor(type, rand, box, mode) : null; }),
+			new Weight(2, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = Bunker.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 15, mode);
+			return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new Corridor(type, rand, box, mode) : null; }),
+			new Weight(1, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = Bunker.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 5, mode);
+				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new Intersection(type, rand, box, mode) : null; }),
+			new Weight(8, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = Bunker.getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 17, mode);
+				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new WideCorridor(type, rand, box, mode) : null; }),
+			
 	};
 	
 	private static List componentWeightList;
@@ -45,7 +51,7 @@ public class BunkerComponents {
 			if(weight.instanceLimit >= 0 && weight.instancesSpawned < weight.instanceLimit)
 				flag = true;
 		}
-		System.out.println(flag);
+		
 		return flag;
 	}
 	
@@ -89,13 +95,13 @@ public class BunkerComponents {
 		if(components.size() > 50)
 			return null;
 		
-		if(Math.abs(minX - original.getBoundingBox().minX) <= 112 && Math.abs(minZ - original.getBoundingBox().minZ) <= 112) {
+		if(Math.abs(minX - original.getBoundingBox().minX) <= 64 && Math.abs(minZ - original.getBoundingBox().minZ) <= 64) {
 			
 			StructureComponent structure = getWeightedComponent(original, components, rand, minX, minY, minZ, coordMode, componentType);
 			
 			if(structure != null) {
 				components.add(structure); //Adds component to structure start list
-				structure.buildComponent(original, components, rand); //either a) add it to a list in the original to be built or b) do it here. obviously the latter.
+				structure.buildComponent(original, components, rand); //no fucking clue why but doing it how mojang does it didn't work at all
 			}
 			
 			return structure;
@@ -147,16 +153,15 @@ public class BunkerComponents {
 		
 		/** Gets next component in the direction this component is facing.<br>'original' refers to the initial starting component (hard distance limits), 'components' refers to the StructureStart list. */
 		protected StructureComponent getNextComponentNormal(StructureComponent original, List components, Random rand, int offset, int offsetY) {
-			
 			switch(this.coordBaseMode) {
 			case 0: //South
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, this.coordBaseMode, this.getComponentType());
+				return getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, this.coordBaseMode, this.getComponentType() + 1);
 			case 1: //West
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, this.coordBaseMode, this.getComponentType());
+				return getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, this.coordBaseMode, this.getComponentType() + 1);
 			case 2: //North
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, this.coordBaseMode, this.getComponentType());
+				return getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, this.coordBaseMode, this.getComponentType() + 1);
 			case 3: //East
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, this.coordBaseMode, this.getComponentType());
+				return getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, this.coordBaseMode, this.getComponentType() + 1);
 			default:
 				return null;
 			}
@@ -167,13 +172,13 @@ public class BunkerComponents {
 		protected StructureComponent getNextComponentNX(StructureComponent original, List components, Random rand, int offset, int offsetY) {
 			switch(this.coordBaseMode) {
 			case 0: //South
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 1, this.getComponentType());
+				return getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 1, this.getComponentType() + 1);
 			case 1: //West
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 2, this.getComponentType());
+				return getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 2, this.getComponentType() + 1);
 			case 2: //North
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 3, this.getComponentType());
+				return getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 3, this.getComponentType() + 1);
 			case 3: //East
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 0, this.getComponentType());
+				return getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 0, this.getComponentType() + 1);
 			default:
 				return null;
 			}
@@ -183,27 +188,28 @@ public class BunkerComponents {
 		protected StructureComponent getNextComponentPX(StructureComponent original, List components, Random rand, int offset, int offsetY) {
 			switch(this.coordBaseMode) {
 			case 0: //South
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 1, this.getComponentType());
+				return getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 1, this.getComponentType() + 1);
 			case 1: //West
-				return getNextValidComponent(original, components, rand, this.boundingBox.minZ + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 2, this.getComponentType());
+				return getNextValidComponent(original, components, rand, this.boundingBox.minZ + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 2, this.getComponentType() + 1);
 			case 2: //North
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 3, this.getComponentType());
+				return getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 3, this.getComponentType() + 1);
 			case 3: //East
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 0, this.getComponentType());
+				return getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 0, this.getComponentType() + 1);
 			default:
 				return null;
 			}
 		}
 		
 		public static StructureBoundingBox getComponentToAddBoundingBox(int posX, int posY, int posZ, int offsetX, int offsetY, int offsetZ, int maxX, int maxY, int maxZ, int coordMode) {
-			switch(coordMode) {
-			case 0:
+			System.out.print(posX + ", " + posY + ", " + posZ + ", CBM: " + coordMode);
+			switch(coordMode) { //fixed
+			case 0: //South
 				return new StructureBoundingBox(posX + offsetX, posY + offsetY, posZ + offsetZ, posX + maxX - 1 + offsetX, posY + maxY - 1 + offsetY, posZ + maxZ - 1 + offsetZ);
-			case 1:
+			case 1: //West
 				return new StructureBoundingBox(posX - maxZ + 1 - offsetZ, posY + offsetY, posZ + offsetX, posX - offsetZ, posY + maxY - 1 + offsetY, posZ + maxX - 1 + offsetX);
-			case 2:
-				return new StructureBoundingBox(posX - maxX + 1 - offsetX, posY + offsetY, posZ - maxZ + 1 - offsetZ, posX - offsetX, posY + maxY - 1 + offsetY, posZ - offsetZ);
-			case 3:
+			case 2: //North
+				return new StructureBoundingBox(posX - maxX + 1 - offsetX, posY + offsetY, posZ - maxZ + 1 - offsetZ, posX - offsetX, posY + maxY - 1 + offsetY, posZ + offsetZ);
+			case 3: //East
 				return new StructureBoundingBox(posX + offsetZ, posY + offsetY, posZ - maxX + 1 - offsetX, posX + maxZ - 1 + offsetZ, posY + maxY - 1 + offsetY, posZ - offsetX);
 			default:
 				return new StructureBoundingBox(posX + offsetX, posY + offsetY, posZ + offsetZ, posX + maxX - 1 + offsetX, posY + maxY - 1 + offsetY, posZ + maxZ - 1 + offsetZ);
@@ -238,6 +244,7 @@ public class BunkerComponents {
 		
 		boolean expandsNX = false;
 		boolean expandsPX = false;
+		boolean extendsPZ = true;
 		
 		public Corridor() { }
 		
@@ -245,8 +252,6 @@ public class BunkerComponents {
 			super(componentType);
 			this.coordBaseMode = coordBaseMode;
 			this.boundingBox = box;
-			expandsNX = rand.nextInt(3) == 0;
-			expandsPX = rand.nextInt(3) == 0;
 			
 		}
 		
@@ -254,42 +259,57 @@ public class BunkerComponents {
 			super.func_143012_a(data);
 			data.setBoolean("expandsNX", expandsNX);
 			data.setBoolean("expandsPX", expandsPX);
+			data.setBoolean("extendsPZ", extendsPZ);
 		}
 		
 		protected void func_143011_b(NBTTagCompound data) {
 			super.func_143011_b(data);
 			expandsNX = data.getBoolean("expandsNX");
 			expandsPX = data.getBoolean("expandsPX");
+			extendsPZ = data.getBoolean("extendsPZ");
 		}
 		
 		@Override
 		public void buildComponent(StructureComponent original, List components, Random rand) {
-			getNextComponentNormal(original, components, rand, 1, 1);
+			StructureComponent component = getNextComponentNormal(original, components, rand, 1, 1);
+			extendsPZ = component != null;
 			
-			if(expandsNX)
-				getNextComponentNX(original, components, rand, 6, 1);
+			if(rand.nextInt(3) == 0) {
+				StructureComponent componentN = getNextComponentNX(original, components, rand, 6, 1);
+				expandsNX = componentN != null;
+			}
 			
-			if(expandsPX)
-				getNextComponentPX(original, components, rand, 6, 1);
+			if(rand.nextInt(3) == 0) {
+				StructureComponent componentP = getNextComponentPX(original, components, rand, 6, 1);
+				expandsPX = componentP != null;
+			}
 		}
 		
 		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
-			if(isLiquidInStructureBoundingBox(world, box)) {
+			if(isLiquidInStructureBoundingBox(world, boundingBox)) {
 				return false;
 			} else {
-				fillWithAir(world, box, 1, 1, 0, 3, 3, 14);				
-				fillWithBlocks(world, box, 1, 0, 0, 3, 0, 14, ModBlocks.deco_titanium);
+				int end = extendsPZ ? 14 : 13;
+				
+				fillWithAir(world, box, 1, 1, 0, 3, 3, end);				
+				fillWithBlocks(world, box, 1, 0, 0, 3, 0, end, ModBlocks.deco_titanium);
 				
 				//Walls
 				for(int x = 0; x <= 4; x += 4) {
 					fillWithBlocks(world, box, x, 1, 0, x, 1, 4, ModBlocks.reinforced_brick);
-					fillWithBlocks(world, box, x, 1, 10, x, 1, 14, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, x, 1, 10, x, 1, end, ModBlocks.reinforced_brick);
 					fillWithBlocks(world, box, x, 2, 0, x, 2, 4, ModBlocks.reinforced_stone);
-					fillWithBlocks(world, box, x, 2, 10, x, 2, 14, ModBlocks.reinforced_stone);
-					fillWithBlocks(world, box, x, 3, 10, x, 3, 14, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, x, 2, 10, x, 2, end, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, x, 3, 10, x, 3, end, ModBlocks.reinforced_brick);
 					fillWithBlocks(world, box, x, 3, 0, x, 3, 4, ModBlocks.reinforced_brick);
+				}
+				
+				if(!extendsPZ) {
+					fillWithBlocks(world, box, 1, 1, 14, 3, 1, 14, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 1, 2, 14, 3, 2, 14, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 1, 3, 14, 3, 3, 14, ModBlocks.reinforced_brick);
 				}
 				
 				//ExpandsNX
@@ -319,12 +339,18 @@ public class BunkerComponents {
 				}
 				
 				//Ceiling
-				fillWithBlocks(world, box, 1, 4, 0, 1, 4, 14, ModBlocks.reinforced_brick);
-				fillWithBlocks(world, box, 3, 4, 0, 3, 4, 14, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 4, 0, 1, 4, end, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 3, 4, 0, 3, 4, end, ModBlocks.reinforced_brick);
 				int pillarMeta = getPillarMeta(8);
 				for(int i = 0; i <= 12; i += 3) {
 					placeBlockAtCurrentPosition(world, ModBlocks.concrete_pillar, pillarMeta, 2, 4, i, box);
-					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_lamp_off, 0, 2, 4, i + 1, box);
+					
+					if(rand.nextInt(3) == 0) {
+						placeBlockAtCurrentPosition(world, ModBlocks.reinforced_lamp_on, 0, 2, 4, i + 1, box);
+						placeBlockAtCurrentPosition(world, Blocks.redstone_block, 0, 2, 5, i + 1, box);
+					} else
+						placeBlockAtCurrentPosition(world, ModBlocks.reinforced_lamp_off, 0, 2, 4, i + 1, box);
+					
 					placeBlockAtCurrentPosition(world, ModBlocks.concrete_pillar, pillarMeta, 2, 4, i + 2, box);
 				}
 				
@@ -334,9 +360,12 @@ public class BunkerComponents {
 		
 	}
 	
-	public static class WideCorridor extends Corridor {
+	interface Wide { } //now you may ask yourself - where is that beautiful house? you may ask yourself - where does that highway go to?
+	//you may ask yourself - am i right, am i wrong? you may say to yourself - my god, no multiple inheritance to be done!
+	
+	public static class WideCorridor extends Corridor implements Wide {
 		
-		boolean bulkheadNZ = false;
+		boolean bulkheadNZ = true;
 		boolean bulkheadPZ = true;
 		
 		public WideCorridor() { }
@@ -347,30 +376,45 @@ public class BunkerComponents {
 		
 		@Override
 		public void buildComponent(StructureComponent original, List components, Random rand) {
-			getNextComponentNormal(original, components, rand, 3, 1);
+			StructureComponent component = getNextComponentNormal(original, components, rand, 3, 1);
+			extendsPZ = component != null;
 			
-			if(expandsNX)
-				getNextComponentNX(original, components, rand, 7, 1);
+			if(component instanceof Wide) {
+				bulkheadPZ = false;
+				
+				if(component instanceof WideCorridor) {
+					WideCorridor corridor = (WideCorridor) component;
+					corridor.bulkheadNZ = rand.nextInt(4) == 0;
+				}
+			}
 			
-			if(expandsPX)
-				getNextComponentPX(original, components, rand, 7, 1);
+			if(rand.nextInt(3) == 0) {
+				StructureComponent componentN = getNextComponentNX(original, components, rand, 7, 1);
+				expandsNX = componentN != null;
+			}
+			
+			if(rand.nextInt(3) == 0) {
+				StructureComponent componentP = getNextComponentPX(original, components, rand, 7, 1);
+				expandsPX = componentP != null;
+			}
 		}
 		
 		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
-			if(isLiquidInStructureBoundingBox(world, box)) {
+			if(isLiquidInStructureBoundingBox(world, boundingBox)) {
 				return false;
 			} else {
 				int begin = bulkheadNZ ? 1 : 0;
-				int end =  bulkheadPZ ? 15 : 16;
+				int end =  bulkheadPZ ? 15 : 16; //for the bulkhead
+				int endExtend = !extendsPZ ? 15 : 16; //for parts that would be cut off if it doesn't extend further
 				
 				fillWithAir(world, box, 1, 1, begin, 7, 3, end);
 				
 				//Floor
 				fillWithBlocks(world, box, 1, 0, begin, 1, 0, end, ModBlocks.deco_titanium);
 				fillWithBlocks(world, box, 2, 0, begin, 2, 0, end, ModBlocks.tile_lab);
-				fillWithBlocks(world, box, 3, 0, 0, 5, 0, 16, ModBlocks.deco_titanium);
+				fillWithBlocks(world, box, 3, 0, 0, 5, 0, endExtend, ModBlocks.deco_titanium);
 				fillWithBlocks(world, box, 6, 0, begin, 6, 0, end, ModBlocks.tile_lab);
 				fillWithBlocks(world, box, 7, 0, begin, 7, 0, end, ModBlocks.deco_titanium);
 				
@@ -423,6 +467,7 @@ public class BunkerComponents {
 					fillWithBlocks(world, box, 6, 1, 0, 7, 1, 0, ModBlocks.reinforced_brick);
 					fillWithBlocks(world, box, 6, 2, 0, 7, 2, 0, ModBlocks.reinforced_stone);
 					fillWithBlocks(world, box, 6, 3, 0, 7, 3, 0, ModBlocks.reinforced_brick);
+					fillWithAir(world, box, 3, 1, 0, 5, 3, 0);
 				}
 				
 				if(bulkheadPZ) {
@@ -432,22 +477,34 @@ public class BunkerComponents {
 					fillWithBlocks(world, box, 6, 1, 16, 7, 1, 16, ModBlocks.reinforced_brick);
 					fillWithBlocks(world, box, 6, 2, 16, 7, 2, 16, ModBlocks.reinforced_stone);
 					fillWithBlocks(world, box, 6, 3, 16, 7, 3, 16, ModBlocks.reinforced_brick);
+					
+					if(!extendsPZ) {
+						fillWithBlocks(world, box, 3, 1, 16, 5, 1, 16, ModBlocks.reinforced_brick);
+						fillWithBlocks(world, box, 3, 2, 16, 5, 2, 16, ModBlocks.reinforced_stone);
+						fillWithBlocks(world, box, 3, 3, 16, 5, 3, 16, ModBlocks.reinforced_brick);
+					} else
+						fillWithAir(world, box, 3, 1, 16, 5, 3, 16);
 				}
 				
 				//Ceiling
 				fillWithBlocks(world, box, 1, 4, begin, 1, 4, end, ModBlocks.reinforced_brick);
 				fillWithMetadataBlocks(world, box, 2, 4, begin, 2, 4, end, ModBlocks.concrete_pillar, pillarMeta);
-				fillWithBlocks(world, box, 3, 4, 0, 3, 4, 16, ModBlocks.reinforced_brick);
-				fillWithBlocks(world, box, 5, 4, 0, 5, 4, 16, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 3, 4, 0, 3, 4, endExtend, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 5, 4, 0, 5, 4, endExtend, ModBlocks.reinforced_brick);
 				fillWithMetadataBlocks(world, box, 6, 4, begin, 6, 4, end, ModBlocks.concrete_pillar, pillarMeta);
 				fillWithBlocks(world, box, 7, 4, begin, 7, 4, end, ModBlocks.reinforced_brick);
 				
 				for(int i = 0; i <= 12; i += 3) {
 					fillWithMetadataBlocks(world, box, 4, 4, i, 4, 4, i + 1, ModBlocks.concrete_pillar, pillarMeta);
-					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_lamp_off, 0, 4, 4, i + 2, box);
+					
+					if(rand.nextInt(3) == 0) {
+						placeBlockAtCurrentPosition(world, ModBlocks.reinforced_lamp_on, 0, 4, 4, i + 2, box);
+						placeBlockAtCurrentPosition(world, Blocks.redstone_block, 0, 4, 5, i + 2, box);
+					} else
+						placeBlockAtCurrentPosition(world, ModBlocks.reinforced_lamp_off, 0, 4, 4, i + 2, box);
 				}
 				
-				fillWithMetadataBlocks(world, box, 4, 4, 15, 4, 4, 16, ModBlocks.concrete_pillar, pillarMeta);
+				fillWithMetadataBlocks(world, box, 4, 4, 15, 4, 4, endExtend, ModBlocks.concrete_pillar, pillarMeta);
 				
 				return true;
 			}
@@ -471,7 +528,7 @@ public class BunkerComponents {
 		}
 	}
 	
-	public static class WideTurn extends Turn {
+	public static class WideTurn extends Turn implements Wide {
 		
 		public WideTurn() { }
 		
@@ -487,6 +544,10 @@ public class BunkerComponents {
 	
 	public static class Intersection extends Bunker {
 		
+		boolean opensNX = false;
+		boolean opensPX = false;
+		boolean opensPZ = false;
+		
 		public Intersection() { }
 		
 		public Intersection(int componentType, Random rand, StructureBoundingBox box, int coordBaseMode) {
@@ -497,12 +558,133 @@ public class BunkerComponents {
 		}
 		
 		@Override
+		public void buildComponent(StructureComponent original, List components, Random rand) {
+			if(rand.nextInt(3) != 0) {
+				StructureComponent component = getNextComponentNormal(original, components, rand, 1, 1);
+				opensPZ = component != null;
+			}
+			
+			StructureComponent componentN = getNextComponentNX(original, components, rand, 1, 1);
+			opensNX = componentN != null;
+			
+			StructureComponent componentP = getNextComponentPX(original, components, rand, 1, 1);
+			opensPX = componentP != null;
+		}
+		
+		protected void func_143012_a(NBTTagCompound data) {
+			super.func_143012_a(data);
+			data.setBoolean("opensNX", opensNX);
+			data.setBoolean("opensPX", opensPX);
+			data.setBoolean("opensPZ", opensPZ);
+		}
+		
+		protected void func_143011_b(NBTTagCompound data) {
+			super.func_143011_b(data);
+			opensNX = data.getBoolean("opensNX");
+			opensPX = data.getBoolean("opensPX");
+			opensPZ = data.getBoolean("opensPZ");
+		}
+		
+		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
-			return true;
+			if(isLiquidInStructureBoundingBox(world, boundingBox)) {
+				return false;
+			} else {
+				
+				fillWithAir(world, box, 1, 1, 0, 3, 3, 3);
+				//Floor
+				fillWithBlocks(world, box, 1, 0, 0, 3, 0, 3, ModBlocks.deco_titanium);
+				//Ceiling
+				int pillarMetaNS = getPillarMeta(8);
+				
+				fillWithBlocks(world, box, 3, 4, 0, 3, 4, 1, ModBlocks.reinforced_brick);
+				fillWithMetadataBlocks(world, box, 2, 4, 0, 2, 4, 1, ModBlocks.concrete_pillar, pillarMetaNS);
+				fillWithBlocks(world, box, 1, 4, 0, 1, 4, 1, ModBlocks.reinforced_brick);
+				
+				if(rand.nextInt(3) == 0) {
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_lamp_on, 0, 2, 4, 2, box);
+					placeBlockAtCurrentPosition(world, Blocks.redstone_block, 0, 2, 5, 2, box);
+				} else
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_lamp_off, 0, 2, 4, 2, box);
+				
+				if(opensPZ) {
+					fillWithBlocks(world, box, 1, 0, 4, 3, 0, 4, ModBlocks.deco_titanium); //Floor
+					fillWithBlocks(world, box, 1, 4, 3, 1, 4, 4, ModBlocks.reinforced_brick); //Ceiling
+					fillWithMetadataBlocks(world, box, 2, 4, 3, 2, 4, 4, ModBlocks.concrete_pillar, 8);
+					fillWithBlocks(world, box, 3, 4, 3, 3, 4, 4, ModBlocks.reinforced_brick);
+					fillWithAir(world, box, 1, 1, 4, 3, 3, 4); //Opening
+				} else {
+					fillWithBlocks(world, box, 1, 4, 3, 3, 4, 3, ModBlocks.reinforced_brick); //Ceiling
+					fillWithBlocks(world, box, 1, 1, 4, 3, 1, 4, ModBlocks.reinforced_brick); //Wall
+					fillWithBlocks(world, box, 1, 2, 4, 3, 2, 4, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 1, 3, 4, 3, 3, 4, ModBlocks.reinforced_brick);
+				}
+				
+				if(opensNX) {
+					fillWithBlocks(world, box, 0, 0, 1, 0, 0, 3, ModBlocks.deco_titanium); //Floor
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 0, 4, 1, box); //Ceiling
+					fillWithMetadataBlocks(world, box, 0, 4, 2, 1, 4, 2, ModBlocks.concrete_pillar, 4);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 0, 4, 3, box);
+					fillWithAir(world, box, 0, 1, 1, 0, 3, 3); //Opening
+				} else {
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 1, 4, 2, box); //Ceiling
+					fillWithBlocks(world, box, 0, 1, 1, 0, 1, 3, ModBlocks.reinforced_brick); //Wall
+					fillWithBlocks(world, box, 0, 2, 1, 0, 2, 3, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 0, 3, 1, 0, 3, 3, ModBlocks.reinforced_brick);
+				}
+				
+				if(opensPX) {
+					fillWithBlocks(world, box, 4, 0, 1, 4, 0, 3, ModBlocks.deco_titanium); //Floor
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 4, 4, 1, box); //Ceiling
+					fillWithMetadataBlocks(world, box, 3, 4, 2, 4, 4, 2, ModBlocks.concrete_pillar, 4);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 4, 4, 3, box);
+					fillWithAir(world, box, 4, 1, 1, 4, 3, 3); //Opening
+				} else {
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 3, 4, 2, box);
+					fillWithBlocks(world, box, 4, 1, 1, 4, 1, 3, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 4, 2, 1, 4, 2, 3, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 4, 3, 1, 4, 3, 3, ModBlocks.reinforced_brick);
+				}
+				
+				//Pillars
+				if(opensNX)
+					fillWithBlocks(world, box, 0, 1, 0, 0, 3, 0, ModBlocks.concrete_pillar);
+				else {
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 0, 1, 0, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, 0, 2, 0, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 0, 3, 0, box);
+				}
+				
+				if(opensPX)
+					fillWithBlocks(world, box, 4, 1, 0, 4, 3, 0, ModBlocks.concrete_pillar);
+				else {
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 4, 1, 0, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, 4, 2, 0, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 4, 3, 0, box);
+				}
+				
+				if(opensNX && opensPZ)
+					fillWithBlocks(world, box, 0, 1, 4, 0, 3, 4, ModBlocks.concrete_pillar);
+				else if(opensNX || opensPZ) {
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 0, 1, 4, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, 0, 2, 4, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 0, 3, 4, box);
+				}
+				
+				if(opensPX && opensPZ)
+					fillWithBlocks(world, box, 4, 1, 4, 4, 3, 4, ModBlocks.concrete_pillar);
+				else if(opensPX || opensPZ) {
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 4, 1, 4, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, 4, 2, 4, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 4, 3, 4, box);
+				}
+				
+				return true;
+			}
 		}
 	}
 	
-	public static class WideIntersection extends Intersection {
+	public static class WideIntersection extends Intersection implements Wide {
 		
 		public WideIntersection() { }
 		

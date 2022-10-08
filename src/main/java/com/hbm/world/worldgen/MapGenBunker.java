@@ -41,6 +41,13 @@ public class MapGenBunker extends MapGenStructure {
 			this.components.add(atrium);
 			atrium.buildComponent(atrium, components, rand);
 			
+			/*List list = atrium.componentsToBuild;
+			while(!list.isEmpty()) {
+				int k = rand.nextInt(list.size());
+				Bunker component = (Bunker)list.remove(k);
+				component.buildComponent(atrium, list, rand);
+			}*/
+			
 			if(GeneralConfig.enableDebugMode) {
 				System.out.print("[Debug] StructureStart at " + (chunkX * 16 + 8) + ", idfk lmao, " + (chunkZ * 16 + 8) + "\n[Debug] Components: ");
 				this.components.forEach((component) -> {
