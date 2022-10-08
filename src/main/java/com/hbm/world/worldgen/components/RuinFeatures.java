@@ -10,7 +10,7 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class RuinFeatures {
 	
-	public static class NTMRuin1 extends Feature {
+	public static class NTMRuin1 extends Component {
 		
 		private static ConcreteBricks RandomConcreteBricks = new ConcreteBricks();
 		
@@ -82,7 +82,7 @@ public class RuinFeatures {
 		}
 	}
 	
-	public static class NTMRuin2 extends Feature {
+	public static class NTMRuin2 extends Component {
 		
 		private static ConcreteBricks RandomConcreteBricks = new ConcreteBricks();
 		
@@ -145,7 +145,7 @@ public class RuinFeatures {
 		}
 	}
 	
-	public static class NTMRuin3 extends Feature {
+	public static class NTMRuin3 extends Component {
 		
 		private static ConcreteBricks RandomConcreteBricks = new ConcreteBricks();
 		
@@ -202,7 +202,7 @@ public class RuinFeatures {
 		}
 	}
 	
-	public static class NTMRuin4 extends Feature {
+	public static class NTMRuin4 extends Component {
 		
 		private static ConcreteBricks RandomConcreteBricks = new ConcreteBricks();
 		

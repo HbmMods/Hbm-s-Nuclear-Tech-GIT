@@ -14,22 +14,19 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 
-public class BunkerComponents {
+public class BunkerComponents extends ProceduralComponents {
 	
-	private static final Weight[] weightArray = new Weight[] {
-			new Weight(1, 50, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = Bunker.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 15, mode);
+	protected static final Weight[] weightArray = new Weight[] {
+			new Weight(1, 50, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = ProceduralComponent.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 15, mode);
 				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new Corridor(type, rand, box, mode) : null; }),
-			new Weight(2, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = Bunker.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 15, mode);
-			return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new Corridor(type, rand, box, mode) : null; }),
-			new Weight(1, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = Bunker.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 5, mode);
+			new Weight(2, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = ProceduralComponent.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 15, mode);
+				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new Corridor(type, rand, box, mode) : null; }),
+			new Weight(1, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = ProceduralComponent.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 5, mode);
 				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new Intersection(type, rand, box, mode) : null; }),
-			new Weight(8, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = Bunker.getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 17, mode);
+			new Weight(8, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = ProceduralComponent.getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 17, mode);
 				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new WideCorridor(type, rand, box, mode) : null; }),
 			
 	};
-	
-	private static List componentWeightList;
-	static int totalWeight;
 	
 	public static void prepareComponents() {
 		componentWeightList = new ArrayList();
@@ -40,198 +37,21 @@ public class BunkerComponents {
 		}
 	}
 	
-	private static boolean canAddStructurePieces() {
-		boolean flag = false;
-		totalWeight = 0;
-		Weight weight;
-		
-		for(Iterator iterator = componentWeightList.iterator(); iterator.hasNext(); totalWeight += weight.weight) {
-			weight = (Weight) iterator.next();
-			
-			if(weight.instanceLimit >= 0 && weight.instancesSpawned < weight.instanceLimit)
-				flag = true;
-		}
-		
-		return flag;
-	}
-	
-	private static Bunker getWeightedComponent(StructureComponent original, List components, Random rand, int minX, int minY, int minZ, int coordMode, int componentType) {
-		
-		if(!canAddStructurePieces())
-			return null;
-		
-		for(int i = 0; i < 5; i++) {
-			int value = rand.nextInt(totalWeight);
-			Iterator iterator = componentWeightList.iterator();
-			
-			while(iterator.hasNext()) {
-				Weight weight = (Weight)iterator.next();
-				value -= weight.weight;
-				
-				if(value < 0) {
-					if(!weight.canSpawnStructure(componentType))
-						break;
-					
-					Bunker component = (Bunker) weight.lambda.findValidPlacement(components, rand, minX, minY, minZ, coordMode, componentType);
-					
-					if(component != null) {
-						weight.instancesSpawned++;
-						
-						if(!weight.canSpawnMoreStructures())
-							componentWeightList.remove(weight);
-							
-						return component;
-					}
-					
-				}
-			}
-		}
-		
-		return null;
-	}
-	
-	private static StructureComponent getNextValidComponent(StructureComponent original, List components, Random rand, int minX, int minY, int minZ, int coordMode, int componentType) {
-		
-		if(components.size() > 50)
-			return null;
-		
-		if(Math.abs(minX - original.getBoundingBox().minX) <= 64 && Math.abs(minZ - original.getBoundingBox().minZ) <= 64) {
-			
-			StructureComponent structure = getWeightedComponent(original, components, rand, minX, minY, minZ, coordMode, componentType);
-			
-			if(structure != null) {
-				components.add(structure); //Adds component to structure start list
-				structure.buildComponent(original, components, rand); //no fucking clue why but doing it how mojang does it didn't work at all
-			}
-			
-			return structure;
-		}
-		
-		return null;
-	}
-	
-	static class Weight {
-		
-		public final instantiateStructure lambda; //i refuse to use some 🤓 ass method for getting the class from each PieceWeight
-		//here, we overengineer shit like real developers
-		
-		public final int weight;
-		public int instancesSpawned;
-		public int instanceLimit;
-		
-		public Weight(int weight, int limit, instantiateStructure lambda) {
-			this.weight = weight;
-			this.instanceLimit = limit;
-			this.lambda = lambda;
-		}
-		
-		//Checks if another structure can be spawned based on input data
-		public boolean canSpawnStructure(int componentAmount) {
-			return this.instanceLimit < 0 || this.instanceLimit < this.instanceLimit;
-		}
-		
-		//Checks if another structure can be spawned at all (used to flag for removal from the list)
-		public boolean canSpawnMoreStructures() {
-			return this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit;
-		}
-		
-	}
-	
-	/** Returns a new instance of this structureComponent, or null if not able to be placed. */
-	@FunctionalInterface
-	interface instantiateStructure {
-		StructureComponent findValidPlacement(List components, Random rand, int minX, int minY, int minZ, int coordMode, int componentType);
-	}
-	
-	public abstract static class Bunker extends Feature {
-		
-		public Bunker() { }
-		
-		public Bunker(int componentType) {
-			super(componentType); //important to carry over, as it allows for hard limits on the amount of components. increment once for each new component.
-		}
-		
-		/** Gets next component in the direction this component is facing.<br>'original' refers to the initial starting component (hard distance limits), 'components' refers to the StructureStart list. */
-		protected StructureComponent getNextComponentNormal(StructureComponent original, List components, Random rand, int offset, int offsetY) {
-			switch(this.coordBaseMode) {
-			case 0: //South
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, this.coordBaseMode, this.getComponentType() + 1);
-			case 1: //West
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, this.coordBaseMode, this.getComponentType() + 1);
-			case 2: //North
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, this.coordBaseMode, this.getComponentType() + 1);
-			case 3: //East
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, this.coordBaseMode, this.getComponentType() + 1);
-			default:
-				return null;
-			}
-		}
-		
-		//Keep in mind for these methods: a given room would have its *actual entrance* opposite the side it is facing.
-		/** Gets next component, to the West (-X) <i>relative to this component. */
-		protected StructureComponent getNextComponentNX(StructureComponent original, List components, Random rand, int offset, int offsetY) {
-			switch(this.coordBaseMode) {
-			case 0: //South
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 1, this.getComponentType() + 1);
-			case 1: //West
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 2, this.getComponentType() + 1);
-			case 2: //North
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 3, this.getComponentType() + 1);
-			case 3: //East
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 0, this.getComponentType() + 1);
-			default:
-				return null;
-			}
-		}
-		
-		/** Gets next component, to the East (+X) <i>relative to this component. */
-		protected StructureComponent getNextComponentPX(StructureComponent original, List components, Random rand, int offset, int offsetY) {
-			switch(this.coordBaseMode) {
-			case 0: //South
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 1, this.getComponentType() + 1);
-			case 1: //West
-				return getNextValidComponent(original, components, rand, this.boundingBox.minZ + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 2, this.getComponentType() + 1);
-			case 2: //North
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 3, this.getComponentType() + 1);
-			case 3: //East
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 0, this.getComponentType() + 1);
-			default:
-				return null;
-			}
-		}
-		
-		public static StructureBoundingBox getComponentToAddBoundingBox(int posX, int posY, int posZ, int offsetX, int offsetY, int offsetZ, int maxX, int maxY, int maxZ, int coordMode) {
-			System.out.print(posX + ", " + posY + ", " + posZ + ", CBM: " + coordMode);
-			switch(coordMode) { //fixed
-			case 0: //South
-				return new StructureBoundingBox(posX + offsetX, posY + offsetY, posZ + offsetZ, posX + maxX - 1 + offsetX, posY + maxY - 1 + offsetY, posZ + maxZ - 1 + offsetZ);
-			case 1: //West
-				return new StructureBoundingBox(posX - maxZ + 1 - offsetZ, posY + offsetY, posZ + offsetX, posX - offsetZ, posY + maxY - 1 + offsetY, posZ + maxX - 1 + offsetX);
-			case 2: //North
-				return new StructureBoundingBox(posX - maxX + 1 - offsetX, posY + offsetY, posZ - maxZ + 1 - offsetZ, posX - offsetX, posY + maxY - 1 + offsetY, posZ + offsetZ);
-			case 3: //East
-				return new StructureBoundingBox(posX + offsetZ, posY + offsetY, posZ - maxX + 1 - offsetX, posX + maxZ - 1 + offsetZ, posY + maxY - 1 + offsetY, posZ - offsetX);
-			default:
-				return new StructureBoundingBox(posX + offsetX, posY + offsetY, posZ + offsetZ, posX + maxX - 1 + offsetX, posY + maxY - 1 + offsetY, posZ + maxZ - 1 + offsetZ);
-			}
-		}
-	}
-	
-	public static class Atrium extends Bunker {
+	public static class Atrium extends ControlComponent {
 		
 		public Atrium() { }
 		
 		public Atrium(int componentType, Random rand, int posX, int posZ) { //TODO: change basically everything about this component
 			super(componentType);
 			this.coordBaseMode = rand.nextInt(4);
-			this.boundingBox = new StructureBoundingBox(posX, 64, posZ, posX + 4, 68, posZ + 4);
+			this.boundingBox = new StructureBoundingBox(posX, 64, posZ, posX + 8, 68, posZ + 8);
 		}
 		
 		@Override
-		public void buildComponent(StructureComponent original, List components, Random rand) {
-			getNextComponentNormal(original, components, rand, 1, 1);
-			getNextComponentNX(original, components, rand, 1, 1);
-			getNextComponentPX(original, components, rand, 1, 1);
+		public void buildComponent(ControlComponent original, List components, Random rand) {
+			getNextComponentNormal(original, components, rand, 3, 1);
+			getNextComponentNX(original, components, rand, 3, 1);
+			getNextComponentPX(original, components, rand, 3, 1);
 		}
 		
 		@Override
@@ -240,7 +60,7 @@ public class BunkerComponents {
 		}
 	}
 	
-	public static class Corridor extends Bunker {
+	public static class Corridor extends ProceduralComponent {
 		
 		boolean expandsNX = false;
 		boolean expandsPX = false;
@@ -270,7 +90,7 @@ public class BunkerComponents {
 		}
 		
 		@Override
-		public void buildComponent(StructureComponent original, List components, Random rand) {
+		public void buildComponent(ControlComponent original, List components, Random rand) {
 			StructureComponent component = getNextComponentNormal(original, components, rand, 1, 1);
 			extendsPZ = component != null;
 			
@@ -375,7 +195,7 @@ public class BunkerComponents {
 		}
 		
 		@Override
-		public void buildComponent(StructureComponent original, List components, Random rand) {
+		public void buildComponent(ControlComponent original, List components, Random rand) {
 			StructureComponent component = getNextComponentNormal(original, components, rand, 3, 1);
 			extendsPZ = component != null;
 			
@@ -511,7 +331,7 @@ public class BunkerComponents {
 		}
 	}
 	
-	public static class Turn extends Bunker {
+	public static class Turn extends ProceduralComponent {
 		
 		public Turn() { }
 		
@@ -542,7 +362,7 @@ public class BunkerComponents {
 		}
 	}
 	
-	public static class Intersection extends Bunker {
+	public static class Intersection extends ProceduralComponent {
 		
 		boolean opensNX = false;
 		boolean opensPX = false;
@@ -558,7 +378,7 @@ public class BunkerComponents {
 		}
 		
 		@Override
-		public void buildComponent(StructureComponent original, List components, Random rand) {
+		public void buildComponent(ControlComponent original, List components, Random rand) {
 			if(rand.nextInt(3) != 0) {
 				StructureComponent component = getNextComponentNormal(original, components, rand, 1, 1);
 				opensPZ = component != null;
@@ -595,6 +415,7 @@ public class BunkerComponents {
 				//Floor
 				fillWithBlocks(world, box, 1, 0, 0, 3, 0, 3, ModBlocks.deco_titanium);
 				//Ceiling
+				int pillarMetaWE = getPillarMeta(4);
 				int pillarMetaNS = getPillarMeta(8);
 				
 				fillWithBlocks(world, box, 3, 4, 0, 3, 4, 1, ModBlocks.reinforced_brick);
@@ -610,7 +431,7 @@ public class BunkerComponents {
 				if(opensPZ) {
 					fillWithBlocks(world, box, 1, 0, 4, 3, 0, 4, ModBlocks.deco_titanium); //Floor
 					fillWithBlocks(world, box, 1, 4, 3, 1, 4, 4, ModBlocks.reinforced_brick); //Ceiling
-					fillWithMetadataBlocks(world, box, 2, 4, 3, 2, 4, 4, ModBlocks.concrete_pillar, 8);
+					fillWithMetadataBlocks(world, box, 2, 4, 3, 2, 4, 4, ModBlocks.concrete_pillar, pillarMetaNS);
 					fillWithBlocks(world, box, 3, 4, 3, 3, 4, 4, ModBlocks.reinforced_brick);
 					fillWithAir(world, box, 1, 1, 4, 3, 3, 4); //Opening
 				} else {
@@ -623,7 +444,7 @@ public class BunkerComponents {
 				if(opensNX) {
 					fillWithBlocks(world, box, 0, 0, 1, 0, 0, 3, ModBlocks.deco_titanium); //Floor
 					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 0, 4, 1, box); //Ceiling
-					fillWithMetadataBlocks(world, box, 0, 4, 2, 1, 4, 2, ModBlocks.concrete_pillar, 4);
+					fillWithMetadataBlocks(world, box, 0, 4, 2, 1, 4, 2, ModBlocks.concrete_pillar, pillarMetaWE);
 					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 0, 4, 3, box);
 					fillWithAir(world, box, 0, 1, 1, 0, 3, 3); //Opening
 				} else {
@@ -636,7 +457,7 @@ public class BunkerComponents {
 				if(opensPX) {
 					fillWithBlocks(world, box, 4, 0, 1, 4, 0, 3, ModBlocks.deco_titanium); //Floor
 					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 4, 4, 1, box); //Ceiling
-					fillWithMetadataBlocks(world, box, 3, 4, 2, 4, 4, 2, ModBlocks.concrete_pillar, 4);
+					fillWithMetadataBlocks(world, box, 3, 4, 2, 4, 4, 2, ModBlocks.concrete_pillar, pillarMetaWE);
 					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 4, 4, 3, box);
 					fillWithAir(world, box, 4, 1, 1, 4, 3, 3); //Opening
 				} else {

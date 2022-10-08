@@ -5,7 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.util.LootGenerator;
-import com.hbm.world.worldgen.components.Feature.ConcreteBricks;
+import com.hbm.world.worldgen.components.Component.ConcreteBricks;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +15,7 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 //Oh my fucking god TM
 public class OfficeFeatures {
 	
-	public static class LargeOffice extends Feature {
+	public static class LargeOffice extends Component {
 		
 		private static ConcreteBricks ConcreteBricks = new ConcreteBricks();
 		
@@ -216,7 +216,7 @@ public class OfficeFeatures {
 	}
 	
 	//bob i could kiss you
-	public static class LargeOfficeCorner extends Feature {
+	public static class LargeOfficeCorner extends Component {
 		
 		private static ConcreteBricks ConcreteBricks = new ConcreteBricks();
 		

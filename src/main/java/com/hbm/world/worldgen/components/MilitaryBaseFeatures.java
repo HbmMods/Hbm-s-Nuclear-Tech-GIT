@@ -48,7 +48,7 @@ public class MilitaryBaseFeatures {
 		return chunkPos;
 	}
 
-	public static class BasicHelipad extends Feature {
+	public static class BasicHelipad extends Component {
 		
 		public BasicHelipad() { super(); }
 		
@@ -100,7 +100,7 @@ public class MilitaryBaseFeatures {
 		
 	}
 	
-	public static class RadioShack extends Feature {
+	public static class RadioShack extends Component {
 		
 		private static LabTiles RandomLabTiles = new LabTiles();
 		private static ConcreteBricks ConcreteBricks = new ConcreteBricks();

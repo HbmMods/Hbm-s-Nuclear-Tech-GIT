@@ -22,7 +22,7 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 public class CivilianFeatures {
 	
 	/** Sandstone Ruin 1 */
-	public static class NTMHouse1 extends Feature {
+	public static class NTMHouse1 extends Component {
 		
 		private boolean hasPlacedChest;
 		
@@ -120,7 +120,7 @@ public class CivilianFeatures {
 		
 	}
 	
-	public static class NTMHouse2 extends Feature {
+	public static class NTMHouse2 extends Component {
 		
 		private static Sandstone RandomSandstone = new Sandstone();
 		
@@ -264,7 +264,7 @@ public class CivilianFeatures {
 		}
 	}
 	
-	public static class NTMLab1 extends Feature {
+	public static class NTMLab1 extends Component {
 		
 		private static ConcreteBricks RandomConcreteBricks = new ConcreteBricks();
 		private static LabTiles RandomLabTiles = new LabTiles();
@@ -391,7 +391,7 @@ public class CivilianFeatures {
 		}
 	}
 	
-	public static class NTMLab2 extends Feature {
+	public static class NTMLab2 extends Component {
 		
 		private static SuperConcrete RandomSuperConcrete = new SuperConcrete();
 		private static ConcreteBricks RandomConcreteBricks = new ConcreteBricks();
@@ -565,7 +565,7 @@ public class CivilianFeatures {
 		}
 	}
 	
-	public static class NTMWorkshop1 extends Feature {
+	public static class NTMWorkshop1 extends Component {
 		
 		private static SuperConcrete RandomSuperConcrete = new SuperConcrete();
 		

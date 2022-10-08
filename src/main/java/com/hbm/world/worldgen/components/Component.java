@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 
-abstract public class Feature extends StructureComponent {
+abstract public class Component extends StructureComponent {
 	/** The size of the bounding box for this feature in the X axis */
 	protected int sizeX;
 	/** The size of the bounding box for this feature in the Y axis */
@@ -33,15 +33,15 @@ abstract public class Feature extends StructureComponent {
 	/** Average height (Presumably stands for height position) */
 	protected int hpos = -1;
 	
-	protected Feature() {
+	protected Component() {
 		super(0);
 	}
 	
-	protected Feature(int componentType) {
+	protected Component(int componentType) {
 		super(componentType);
 	}
 	
-	protected Feature(Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ ) {
+	protected Component(Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ ) {
 		super(0);
 		this.sizeX = maxX;
 		this.sizeY = maxY;
@@ -103,6 +103,10 @@ abstract public class Feature extends StructureComponent {
 		this.hpos = total / iterations; //finds mean of every block in bounding box
 		this.boundingBox.offset(0, this.hpos - this.boundingBox.minY, 0);
 		return true;
+	}
+	
+	public int getCoordMode() {
+		return this.coordBaseMode;
 	}
 	
 	/** Metadata for Decoration Methods **/
@@ -689,11 +693,11 @@ abstract public class Feature extends StructureComponent {
 		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean p_75062_5_) {
 			float chance = rand.nextFloat();
 			
-			if(chance < 0.2F) {
+			if(chance < 0.4F) {
 				this.field_151562_a = ModBlocks.brick_concrete;
-			} else if (chance < 0.55F) {
+			} else if (chance < 0.7F) {
 				this.field_151562_a = ModBlocks.brick_concrete_mossy;
-			} else if (chance < 0.75F) {
+			} else if (chance < 0.9F) {
 				this.field_151562_a = ModBlocks.brick_concrete_cracked;
 			} else {
 				this.field_151562_a = ModBlocks.brick_concrete_broken;

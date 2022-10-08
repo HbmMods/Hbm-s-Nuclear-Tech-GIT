@@ -1,10 +1,12 @@
 package com.hbm.world.worldgen;
 
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.world.worldgen.components.BunkerComponents;
 import com.hbm.world.worldgen.components.BunkerComponents.Atrium;
+import com.hbm.world.worldgen.components.ProceduralComponents.ProceduralComponent;
 
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.MapGenStructure;
@@ -41,12 +43,13 @@ public class MapGenBunker extends MapGenStructure {
 			this.components.add(atrium);
 			atrium.buildComponent(atrium, components, rand);
 			
-			/*List list = atrium.componentsToBuild;
+			List list = atrium.queuedComponents;
 			while(!list.isEmpty()) {
 				int k = rand.nextInt(list.size());
-				Bunker component = (Bunker)list.remove(k);
-				component.buildComponent(atrium, list, rand);
-			}*/
+				ProceduralComponent component = (ProceduralComponent)list.remove(k);
+				atrium.lastComponent = component;
+				component.buildComponent(atrium, this.components, rand);
+			}
 			
 			if(GeneralConfig.enableDebugMode) {
 				System.out.print("[Debug] StructureStart at " + (chunkX * 16 + 8) + ", idfk lmao, " + (chunkZ * 16 + 8) + "\n[Debug] Components: ");
