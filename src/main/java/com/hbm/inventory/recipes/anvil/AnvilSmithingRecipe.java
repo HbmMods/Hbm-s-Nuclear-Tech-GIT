@@ -3,7 +3,6 @@ package com.hbm.inventory.recipes.anvil;
 import java.util.List;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.AStack;
 
 import net.minecraft.item.ItemStack;

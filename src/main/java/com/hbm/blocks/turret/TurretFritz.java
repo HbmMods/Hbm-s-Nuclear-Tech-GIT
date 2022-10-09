@@ -22,7 +22,7 @@ public class TurretFritz extends TurretBaseNT {
 
 		if(meta >= 12)
 			return new TileEntityTurretFritz();
-		return new TileEntityProxyCombo(true, true, true);
+		return new TileEntityProxyCombo().inventory().power().fluid();
 	}
 
 	@Override

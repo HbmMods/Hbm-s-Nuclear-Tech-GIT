@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
@@ -28,7 +29,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineHeatBoiler extends BlockDummyable implements ILookOverlay {
+public class MachineHeatBoiler extends BlockDummyable implements ILookOverlay, IBlockMulti {
 
 	public MachineHeatBoiler() {
 		super(Material.iron);
@@ -168,10 +169,15 @@ public class MachineHeatBoiler extends BlockDummyable implements ILookOverlay {
 		if(boiler.hasExploded) return;
 
 		List<String> text = new ArrayList();
-		text.add(boiler.heat + "TU");
-		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + I18nUtil.resolveKey(boiler.tanks[0].getTankType().getUnlocalizedName()) + ": " + boiler.tanks[0].getFill() + " / " + boiler.tanks[0].getMaxFill() + "mB");
-		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey(boiler.tanks[1].getTankType().getUnlocalizedName()) + ": " + boiler.tanks[1].getFill() + " / " + boiler.tanks[1].getMaxFill() + "mB");
+		text.add(String.format("%,d", boiler.heat) + "TU");
+		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + I18nUtil.resolveKey(boiler.tanks[0].getTankType().getUnlocalizedName()) + ": " + String.format("%,d", boiler.tanks[0].getFill()) + " / " + String.format("%,d", boiler.tanks[0].getMaxFill()) + "mB");
+		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey(boiler.tanks[1].getTankType().getUnlocalizedName()) + ": " + String.format("%,d", boiler.tanks[1].getFill()) + " / " + String.format("%,d", boiler.tanks[1].getMaxFill()) + "mB");
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+	}
+
+	@Override
+	public int getSubCount() {
+		return 0;
 	}
 }

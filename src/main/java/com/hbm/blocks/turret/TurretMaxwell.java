@@ -22,7 +22,7 @@ public class TurretMaxwell extends TurretBaseNT {
 
 		if(meta >= 12)
 			return new TileEntityTurretMaxwell();
-		return new TileEntityProxyCombo(true, true, false);
+		return new TileEntityProxyCombo().inventory().power();
 	}
 
 	@Override

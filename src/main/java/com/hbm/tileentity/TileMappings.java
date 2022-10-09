@@ -246,6 +246,7 @@ public class TileMappings {
 	private static void putMachines() {
 		put(TileEntityHeaterFirebox.class, "tileentity_firebox");
 		put(TileEntityHeaterOilburner.class, "tileentity_oilburner");
+		put(TileEntityHeaterElectric.class, "tileentity_electric_heater");
 		put(TileEntityFurnaceIron.class, "tileentity_furnace_iron");
 		put(TileEntityFurnaceSteel.class, "tileentity_furnace_steel");
 		put(TileEntityStirling.class, "tileentity_stirling");

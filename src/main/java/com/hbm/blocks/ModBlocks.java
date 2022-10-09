@@ -645,6 +645,7 @@ public class ModBlocks {
 
 	public static Block heater_firebox;
 	public static Block heater_oilburner;
+	public static Block heater_electric;
 
 	public static Block furnace_iron;
 	public static Block furnace_steel;
@@ -1840,6 +1841,7 @@ public class ModBlocks {
 		
 		heater_firebox = new HeaterFirebox().setBlockName("heater_firebox").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		heater_oilburner = new HeaterOilburner().setBlockName("heater_oilburner").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		heater_electric = new HeaterElectric().setBlockName("heater_electric").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		furnace_iron = new FurnaceIron().setBlockName("furnace_iron").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_aluminium");
 		furnace_steel = new FurnaceSteel().setBlockName("furnace_steel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3036,6 +3038,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_epress, machine_epress.getUnlocalizedName());
 		register(heater_firebox);
 		register(heater_oilburner);
+		register(heater_electric);
 		register(furnace_iron);
 		register(furnace_steel);
 		register(machine_stirling);
@@ -3218,9 +3221,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_boiler_on, machine_boiler_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_boiler_electric_on, machine_boiler_electric_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_boiler_electric_off, machine_boiler_electric_off.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_turbine, machine_turbine.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_large_turbine, machine_large_turbine.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_chungus, machine_chungus.getUnlocalizedName());
+		register(machine_turbine);
+		register(machine_large_turbine);
+		register(machine_chungus);
 		GameRegistry.registerBlock(machine_condenser, machine_condenser.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_tower_small, machine_tower_small.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_tower_large, machine_tower_large.getUnlocalizedName());

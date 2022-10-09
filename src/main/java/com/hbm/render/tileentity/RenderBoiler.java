@@ -58,6 +58,7 @@ public class RenderBoiler extends TileEntitySpecialRenderer implements IItemRend
 				GL11.glScaled(3, 3, 3);
 			}
 			public void renderCommonWithStack(ItemStack item) {
+				GL11.glRotatef(90, 0F, 1F, 0F);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.boiler_tex);
 				if(item.getItemDamage() == 1)

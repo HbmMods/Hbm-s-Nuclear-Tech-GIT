@@ -207,8 +207,7 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 		
 		boolean mark = false;
 		
-		if(!worldObj.isRemote)
-		{
+		if(!worldObj.isRemote) {
 			
 			this.subscribeToAllAround(tanks[0].getTankType(), this);
 			this.sendFluidToAll(tanks[1].getTankType(), this);

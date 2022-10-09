@@ -12,10 +12,14 @@ public class FT_Coolable extends FluidTrait {
 	protected HashMap<CoolingType, Double> efficiency = new HashMap();
 	
 	public final FluidType coolsTo;
+	public int amountReq;
+	public int amountProduced;
 	public final int heatEnergy;
 	
-	public FT_Coolable(FluidType type, int heat) {
+	public FT_Coolable(FluidType type, int req, int prod, int heat) {
 		this.coolsTo = type;
+		this.amountReq = req;
+		this.amountProduced = prod;
 		this.heatEnergy = heat;
 	}
 	

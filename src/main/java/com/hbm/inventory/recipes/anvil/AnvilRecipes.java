@@ -287,6 +287,13 @@ public class AnvilRecipes {
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
+						new OreDictStack(STEEL.ingot(), 4),
+						new OreDictStack(CU.plate(), 16),
+						new ComparableStack(ModItems.plate_polymer, 8)
+				}, new AnvilOutput(new ItemStack(ModBlocks.machine_boiler))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
 						new OreDictStack(STEEL.ingot(), 6),
 						new OreDictStack(IRON.plate(), 8),
 						new OreDictStack(ANY_PLASTIC.ingot(), 4),

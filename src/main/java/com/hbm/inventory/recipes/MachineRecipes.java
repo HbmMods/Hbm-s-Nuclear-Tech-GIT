@@ -36,17 +36,6 @@ public class MachineRecipes {
 		
 		return null;
 	}
-	
-	//return: FluidType, amount produced, amount required, HE produced
-	public static Object[] getTurbineOutput(FluidType type) {
-		
-		if(type == Fluids.STEAM) return new Object[] { Fluids.SPENTSTEAM, 5, 500, 50 };
-		if(type == Fluids.HOTSTEAM) return new Object[] { Fluids.STEAM, 50, 5, 100 };
-		if(type == Fluids.SUPERHOTSTEAM) return new Object[] { Fluids.HOTSTEAM, 50, 5, 150 };
-		if(type == Fluids.ULTRAHOTSTEAM) return new Object[] { Fluids.SUPERHOTSTEAM, 50, 5, 250 };
-		
-		return null;
-	}
 
 	public static ItemStack getCyclotronOutput(ItemStack part, ItemStack item) {
 

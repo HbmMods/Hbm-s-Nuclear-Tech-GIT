@@ -182,6 +182,24 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 				new DirPos(xCoord, yCoord + 4, zCoord, Library.POS_Y),
 		};
 	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		tanks[0].readFromNBT(nbt, "water");
+		tanks[1].readFromNBT(nbt, "steam");
+		heat = nbt.getInteger("heat");
+		hasExploded = nbt.getBoolean("exploded");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		tanks[0].writeToNBT(nbt, "water");
+		tanks[1].writeToNBT(nbt, "steam");
+		nbt.setInteger("heat", heat);
+		nbt.setBoolean("exploded", hasExploded);
+	}
 
 	@Override
 	public void setFluidFill(int fill, FluidType type) {
