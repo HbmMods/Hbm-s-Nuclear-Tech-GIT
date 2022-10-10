@@ -42,6 +42,7 @@ public class MapGenBunker extends MapGenStructure {
 			Atrium atrium = new Atrium(0, rand, (chunkX << 4) + 8, (chunkZ << 4) + 8);
 			this.components.add(atrium);
 			atrium.buildComponent(atrium, components, rand);
+			atrium.underwater = true;//rand.nextInt(2) == 0;
 			
 			List list = atrium.queuedComponents;
 			while(!list.isEmpty()) {

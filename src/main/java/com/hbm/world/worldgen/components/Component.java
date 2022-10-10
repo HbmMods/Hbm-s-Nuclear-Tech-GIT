@@ -11,6 +11,7 @@ import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockWeb;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -22,6 +23,7 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
+import net.minecraftforge.common.util.ForgeDirection;
 
 abstract public class Component extends StructureComponent {
 	/** The size of the bounding box for this feature in the X axis */
@@ -399,6 +401,42 @@ abstract public class Component extends StructureComponent {
 						int posY = topHeight + i;
 						
 						world.setBlock(posX, posY, posZ, block, 0, 2);
+					}
+				}
+			}
+		}
+	}
+	
+	/** Fills an area with cobwebs. Cobwebs will concentrate on corners and surfaces without floating cobwebs. */
+	protected void fillWithCobwebs(World world, StructureBoundingBox box, Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+		
+		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
+			return;
+		
+		for(int x = minX; x <= maxX; x++) {
+			
+			for(int z = minZ; z <= maxZ; z++) {
+				int posX = getXWithOffset(x, z);
+				int posZ = getZWithOffset(x, z);
+				
+				if(posX >= box.minX && posX <= box.maxX && posZ >= box.minZ && posZ <= box.maxZ) {
+					for(int y = minY; y <= maxY; y++) {
+						int posY = getYWithOffset(y);
+						Block genTarget = world.getBlock(posX, posY, posZ);
+						
+						if(!genTarget.isAir(world, posX, posY, posZ))
+							continue;
+						
+						int validNeighbors = 0;
+						for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+							Block neighbor = world.getBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
+							
+							if(neighbor.getMaterial().blocksMovement() || neighbor instanceof BlockWeb)
+								validNeighbors++;
+						}
+						
+						if(validNeighbors > 5 || (validNeighbors > 1 && rand.nextInt(6 - validNeighbors) == 0))
+							world.setBlock(posX, posY, posZ, Blocks.web);
 					}
 				}
 			}
