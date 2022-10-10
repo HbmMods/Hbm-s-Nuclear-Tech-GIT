@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.List;
 
+import api.hbm.block.IToolable;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -14,7 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class HeaterElectric extends BlockDummyable implements ITooltipProvider {
+public class HeaterElectric extends BlockDummyable implements ITooltipProvider, IToolable {
 
 	public HeaterElectric() {
 		super(Material.iron);
@@ -51,5 +52,26 @@ public class HeaterElectric extends BlockDummyable implements ITooltipProvider {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		this.addStandardInfo(stack, player, list, ext);
+	}
+
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		
+		if(tool != ToolType.SCREWDRIVER)
+			return false;
+		
+		int[] pos = this.findCore(world, x, y, z);
+		
+		if(pos == null) return false;
+		
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		
+		if(!(te instanceof TileEntityHeaterElectric)) return false;
+		
+		TileEntityHeaterElectric tile = (TileEntityHeaterElectric) te;
+		tile.toggleSetting();
+		tile.markDirty();
+		
+		return true;
 	}
 }

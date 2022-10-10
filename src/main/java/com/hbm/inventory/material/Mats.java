@@ -85,7 +85,7 @@ public class Mats {
 	public static final NTMMaterial MAT_SOLINIUM	= makeSmeltable(12627,		SA327,		0).setShapes(NUGGET, BILLET, INGOT, BLOCK);
 	public static final NTMMaterial MAT_SCHRABIDATE	= makeSmeltable(12600,		SBD,		0).setShapes(INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_SCHRARANIUM	= makeSmeltable(12601,		SRN,		0).setShapes(INGOT, BLOCK);
-	public static final NTMMaterial MAT_GHIORSIUM	= makeSmeltable(11936,		GH336,		0).setShapes(NUGGET, BILLET, INGOT, BLOCK);
+	public static final NTMMaterial MAT_GHIORSIUM	= makeSmeltable(12836,		GH336,		0).setShapes(NUGGET, BILLET, INGOT, BLOCK);
 
 	//Base metals
 	public static final NTMMaterial MAT_TITANIUM	= makeSmeltable(2200,		TI,			0xA99E79).setShapes(INGOT, DUST, PLATE, BLOCK);
