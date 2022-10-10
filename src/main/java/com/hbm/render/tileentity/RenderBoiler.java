@@ -33,6 +33,13 @@ public class RenderBoiler extends TileEntitySpecialRenderer implements IItemRend
 		bindTexture(ResourceManager.boiler_tex);
 		TileEntityHeatBoiler boiler = (TileEntityHeatBoiler) tile;
 		if(!boiler.hasExploded) {
+			
+			if(boiler.tanks[1].getFill() > boiler.tanks[1].getMaxFill() * 0.9) {
+				double sine = Math.sin(System.currentTimeMillis() / 50D % (Math.PI * 2));
+				sine *= 0.01D;
+				GL11.glScaled(1 - sine, 1 + sine, 1 - sine);
+			}
+			
 			GL11.glEnable(GL11.GL_CULL_FACE);
 			ResourceManager.boiler.renderAll();
 		} else {

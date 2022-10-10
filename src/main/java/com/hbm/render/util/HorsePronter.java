@@ -13,26 +13,26 @@ public class HorsePronter {
 	
 	public static final IModelCustom horse = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/horse.obj"), false).asDisplayList();
 
-	public static final ResourceLocation tex_demohorse = new ResourceLocation(RefStrings.MODID, "textures/models/horse/horse_template.png");
+	public static final ResourceLocation tex_demohorse = new ResourceLocation(RefStrings.MODID, "textures/models/horse/horse_demo.png");
 
-	private Vec3[] pose = new Vec3[] {
+	private static Vec3[] pose = new Vec3[] {
 			Vec3.createVectorHelper(0, 0, 0), //head
 			Vec3.createVectorHelper(0, 0, 0), //left front leg
 			Vec3.createVectorHelper(0, 0, 0), //right front leg
 			Vec3.createVectorHelper(0, 0, 0), //left back leg
-			Vec3.createVectorHelper(0, 0, 0), //left back leg
+			Vec3.createVectorHelper(0, 0, 0), //right back leg
 			Vec3.createVectorHelper(0, 0, 0), //tail
 			Vec3.createVectorHelper(0, 0, 0), //body
 			Vec3.createVectorHelper(0, 0, 0) //body offset
 	};
 
-	private Vec3[] offsets = new Vec3[] {
-			Vec3.createVectorHelper(0, 0, 0), //head
-			Vec3.createVectorHelper(0, 0, 0), //left front leg
-			Vec3.createVectorHelper(0, 0, 0), //right front leg
-			Vec3.createVectorHelper(0, 0, 0), //left back leg
-			Vec3.createVectorHelper(0, 0, 0), //left back leg
-			Vec3.createVectorHelper(0, 0, 0), //tail
+	private static Vec3[] offsets = new Vec3[] {
+			Vec3.createVectorHelper(0, 1.125, 0.375), //head
+			Vec3.createVectorHelper(0.125, 0.75, 0.3125), //left front leg
+			Vec3.createVectorHelper(-0.125, 0.75, 0.3125), //right front leg
+			Vec3.createVectorHelper(0.125, 0.75, -0.25), //left back leg
+			Vec3.createVectorHelper(-0.125, 0.75, -0.25), //right back leg
+			Vec3.createVectorHelper(0, 1.125, -0.4375), //tail
 			Vec3.createVectorHelper(0, 0, 0), //body
 			Vec3.createVectorHelper(0, 0, 0) //body offset
 	};
@@ -46,11 +46,11 @@ public class HorsePronter {
 	public static final int id_body = 6;
 	public static final int id_position = 7;
 
-	private boolean wings = false;
-	private boolean horn = false;
-	private boolean maleSnoot = false;
+	private static boolean wings = false;
+	private static boolean horn = false;
+	private static boolean maleSnoot = false;
 
-	public void reset() {
+	public static void reset() {
 		
 		wings = false;
 		horn = false;
@@ -62,22 +62,22 @@ public class HorsePronter {
 		}
 	}
 	
-	public void enableHorn() { horn = true; }
-	public void enableWings() { wings = true; }
-	public void setMaleSnoot() { maleSnoot = true; }
+	public static void enableHorn() { horn = true; }
+	public static void enableWings() { wings = true; }
+	public static void setMaleSnoot() { maleSnoot = true; }
 	
-	public void setAlicorn() {
+	public static void setAlicorn() {
 		enableHorn();
 		enableWings();
 	}
 	
-	public void pose(int id, double yaw, double pitch, double roll) {
+	public static void pose(int id, double yaw, double pitch, double roll) {
 		pose[id].xCoord = yaw;
 		pose[id].yCoord = pitch;
 		pose[id].zCoord = roll;
 	}
 	
-	public void pront() {
+	public static void pront() {
 		
 		GL11.glPushMatrix();
 		doTransforms(id_body);
@@ -85,9 +85,9 @@ public class HorsePronter {
 		horse.renderPart("Body");
 		
 		if(horn) {
-			renderWithTransform(id_head, "Head", maleSnoot ? "NoseMale" : "NoseFemale", "HornPointy");
+			renderWithTransform(id_head, "Head", "Mane", maleSnoot ? "NoseMale" : "NoseFemale", "HornPointy");
 		} else {
-			renderWithTransform(id_head, "Head", maleSnoot ? "NoseMale" : "NoseFemale");
+			renderWithTransform(id_head, "Head", "Mane", maleSnoot ? "NoseMale" : "NoseFemale");
 		}
 		
 		renderWithTransform(id_lfl, "LeftFrontLeg");
@@ -104,7 +104,7 @@ public class HorsePronter {
 		GL11.glPopMatrix();
 	}
 	
-	private void doTransforms(int id) {
+	private static void doTransforms(int id) {
 		Vec3 rotation = pose[id];
 		Vec3 offset = offsets[id];
 		GL11.glTranslated(offset.xCoord, offset.yCoord, offset.zCoord);
@@ -114,7 +114,7 @@ public class HorsePronter {
 		GL11.glTranslated(-offset.xCoord, -offset.yCoord, -offset.zCoord);
 	}
 	
-	private void renderWithTransform(int id, String... parts) {
+	private static void renderWithTransform(int id, String... parts) {
 		GL11.glPushMatrix();
 		doTransforms(id);
 		for(String part : parts) horse.renderPart(part);
