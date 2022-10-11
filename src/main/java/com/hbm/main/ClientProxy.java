@@ -60,6 +60,7 @@ import com.hbm.entity.projectile.*;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
 import com.hbm.particle.*;
 import com.hbm.render.anim.*;
 import com.hbm.render.anim.HbmAnimations.Animation;
@@ -567,6 +568,9 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySawblade.class, new RenderSawblade());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityChemical.class, new RenderChemical());
 		//grenades
+	    for (AmmoHandGrenade grenade : AmmoHandGrenade.values())
+	    	RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeBouncyBaseNT.class, new RenderSnowball(ModItems.grenade, grenade.ordinal()));
+	    
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeGeneric.class, new RenderSnowball(ModItems.grenade_generic));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeStrong.class, new RenderSnowball(ModItems.grenade_strong));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeFrag.class, new RenderSnowball(ModItems.grenade_frag));

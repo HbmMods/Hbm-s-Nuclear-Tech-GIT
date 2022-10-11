@@ -4,11 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Multimap;
-import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.items.ModItems;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -20,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
 public class GunBoltAction extends Item {
@@ -51,47 +47,47 @@ public class GunBoltAction extends Item {
 	 */
 	@Override
 	public void onPlayerStoppedUsing(ItemStack p_77615_1_, World p_77615_2_, EntityPlayer p_77615_3_, int p_77615_4_) {
-		int j = this.getMaxItemUseDuration(p_77615_1_) - p_77615_4_;
-
-		ArrowLooseEvent event = new ArrowLooseEvent(p_77615_3_, p_77615_1_, j);
-		MinecraftForge.EVENT_BUS.post(event);
-		j = event.charge;
-
-		boolean flag = p_77615_3_.capabilities.isCreativeMode
-				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, p_77615_1_) > 0;
-
-		if (flag || p_77615_3_.inventory.hasItem(ModItems.ammo_20gauge_slug)) {
-			float f = j / 20.0F;
-			f = (f * f + f * 2.0F) / 3.0F;
-
-			if (j < 10.0D) {
-				return;
-			}
-
-			if (j > 10.0F) {
-				f = 10.0F;
-			}
-			EntityBullet entityarrow1;
-			entityarrow1 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
-			entityarrow1.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-			
-			if(this == ModItems.gun_bolt_action_saturnite)
-				entityarrow1.fire = true;
-
-			p_77615_1_.damageItem(1, p_77615_3_);
-
-			p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShoot", 5.0F, 0.75F);
-
-			if (flag) { } else {
-				p_77615_3_.inventory.consumeInventoryItem(ModItems.ammo_20gauge_slug);
-			}
-
-			if (!p_77615_2_.isRemote) {
-				p_77615_2_.spawnEntityInWorld(entityarrow1);
-			}
-			
-			setAnim(p_77615_1_, 1);
-		}
+//		int j = this.getMaxItemUseDuration(p_77615_1_) - p_77615_4_;
+//
+//		ArrowLooseEvent event = new ArrowLooseEvent(p_77615_3_, p_77615_1_, j);
+//		MinecraftForge.EVENT_BUS.post(event);
+//		j = event.charge;
+//
+//		boolean flag = p_77615_3_.capabilities.isCreativeMode
+//				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, p_77615_1_) > 0;
+//
+//		if (flag || p_77615_3_.inventory.hasItem(ModItems.ammo_20gauge_slug)) {
+//			float f = j / 20.0F;
+//			f = (f * f + f * 2.0F) / 3.0F;
+//
+//			if (j < 10.0D) {
+//				return;
+//			}
+//
+//			if (j > 10.0F) {
+//				f = 10.0F;
+//			}
+//			EntityBullet entityarrow1;
+//			entityarrow1 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
+//			entityarrow1.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
+//			
+//			if(this == ModItems.gun_bolt_action_saturnite)
+//				entityarrow1.fire = true;
+//
+//			p_77615_1_.damageItem(1, p_77615_3_);
+//
+//			p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShoot", 5.0F, 0.75F);
+//
+//			if (flag) { } else {
+//				p_77615_3_.inventory.consumeInventoryItem(ModItems.ammo_20gauge_slug);
+//			}
+//
+//			if (!p_77615_2_.isRemote) {
+//				p_77615_2_.spawnEntityInWorld(entityarrow1);
+//			}
+//			
+//			setAnim(p_77615_1_, 1);
+//		}
 	}
 
 	

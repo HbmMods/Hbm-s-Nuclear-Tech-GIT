@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class GunGaussFactory {
@@ -27,8 +29,8 @@ public class GunGaussFactory {
 		config.durability = 6000;
 		config.firingSound = "hbm:weapon.tauShoot";
 		
-		config.name = "XVL1456 Tau Cannon";
-		config.manufacturer = "Black Mesa Research Facility";
+		config.name = "tau";
+		config.manufacturer = EnumGunManufacturer.BLACK_MESA;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SPECIAL_GAUSS);
@@ -60,7 +62,7 @@ public class GunGaussFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_xvl1456_ammo;
+		bullet.ammo = new ComparableStack(ModItems.gun_xvl1456_ammo);
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 9;
 		bullet.trail = 1;

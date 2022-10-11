@@ -1,6 +1,11 @@
 package com.hbm.handler;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
 
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.guncfg.BulletConfigFactory;
@@ -10,19 +15,38 @@ import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.interfaces.Untested;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.EnumChatFormatting;
 
-public class BulletConfiguration {
+public class BulletConfiguration implements Cloneable {
+	
+	@FunctionalInterface
+	public interface PenetrationModifierFunction
+	{
+		public double mod(int penetration, double modifier, double distance);
+	}
+	
+	/**
+	 * {@code m^(d / 50) * p}<br>
+	 * Penetration value = p<br>
+	 * Distance = d<br>
+	 * Modifier = m (default 0.95)<br>
+	 * Meaning, assuming the modifier is 0.95, the penetration will drop ~5% over 50 meters or be reduced to ~95% of the original value
+	 * **/
+	public static final PenetrationModifierFunction DEFAULT_FUNCTION = (pen, mod, dist) -> pen * Math.pow(mod, dist / 50);
 	
 	//what item this specific configuration consumes
-	public Item ammo;
+	public ComparableStack ammo;
 	//how many ammo units one item restores
 	public int ammoCount = 1;
 	//how fast the bullet is (in sanics per second, or sps)
@@ -56,6 +80,14 @@ public class BulletConfiguration {
 	public int HBRC;
 	//how much of the initial velocity is kept after bouncing
 	public double bounceMod;
+	
+	/**Armor penetration value, default 15**/
+	public int penetration = 15;
+	/**Armor penetration modifier over distance, default 0.95**/
+	public double penetrationModifier = 0.95f;
+	/**The function that handles lost penetration over distance**/
+	@Nonnull
+	public Optional<PenetrationModifierFunction> modFunction = Optional.of(DEFAULT_FUNCTION);
 
 	//whether or not the bullet should penetrate mobs
 	public boolean doesPenetrate;
@@ -70,7 +102,11 @@ public class BulletConfiguration {
 	public boolean blackPowder = false;
 	
 	//bullet effects
-	public List<PotionEffect> effects;
+	public List<PotionEffect> effects = new ArrayList<PotionEffect>();
+	/**Blocks the bullet can pass through**/
+	public HashSet<Block> spectralBlocks = new HashSet<Block>();
+	/**Materials the bullet can pass through**/
+	public HashSet<Material> spectralMaterials = new HashSet<Material>();
 	public int incendiary;
 	public int emp;
 	public boolean blockDamage = true;
@@ -173,9 +209,8 @@ public class BulletConfiguration {
 		return this;
 	}
 	
-	public BulletConfiguration setToHoming(Item ammo) {
-		
-		this.ammo = ammo;
+	public BulletConfiguration getChlorophyte()
+	{
 		this.bUpdate = BulletConfigFactory.getHomingBehavior(200, 45);
 		this.dmgMin *= 1.5F;
 		this.dmgMax *= 1.5F;
@@ -185,6 +220,13 @@ public class BulletConfiguration {
 		this.vPFX = "greendust";
 		return this;
 	}
+	
+	public BulletConfiguration setToHoming(ItemStack ammo) {
+		
+		this.ammo = new ComparableStack(ammo);
+		return getChlorophyte();
+	}
+	
 	
 	public BulletConfiguration accuracyMod(float mod) {
 		
@@ -213,5 +255,18 @@ public class BulletConfiguration {
 		if(this.dmgBypass) dmg.setDamageBypassesArmor();
 		
 		return dmg;
+	}
+	
+	@Override
+	public BulletConfiguration clone()
+	{
+		try
+		{
+			return (BulletConfiguration) super.clone();
+		} catch (CloneNotSupportedException e)
+		{
+			MainRegistry.logger.catching(e);
+			return new BulletConfiguration();
+		}
 	}
 }

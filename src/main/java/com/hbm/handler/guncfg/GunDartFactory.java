@@ -8,8 +8,10 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunDart;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
@@ -19,9 +21,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
-public class GunDartFactory {
+public class GunDartFactory
+{
 
-	public static GunConfiguration getDarterConfig() {
+	public static GunConfiguration getDarterConfig()
+	{
 		
 		GunConfiguration config = new GunConfiguration();
 		
@@ -42,12 +46,11 @@ public class GunDartFactory {
 		config.reloadSoundEnd = false;
 		config.showAmmo = true;
 		
-		config.name = "Needle Gun";
-		config.manufacturer = "-";
+		config.name = "dart";
+		config.manufacturer = EnumGunManufacturer.NONE;
 		
-		config.config = new ArrayList();
+		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NEEDLE_GPS);
-		config.config.add(BulletConfigSyncingUtil.NEEDLE_NUKE);
 		
 		return config;
 	}
@@ -73,12 +76,11 @@ public class GunDartFactory {
 		config.reloadSoundEnd = false;
 		config.showAmmo = true;
 		
-		config.name = "NERF blaster of unknown design";
-		config.manufacturer = "Hasbro";
+		config.name = "nerf";
+		config.manufacturer = EnumGunManufacturer.HASBRO;
 		
-		config.config = new ArrayList();
+		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.DART_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.NEEDLE_NUKE);
 		
 		return config;
 	}
@@ -87,17 +89,17 @@ public class GunDartFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_dart;
+		bullet.ammo = new ComparableStack(ModItems.ammo_dart, 1, 0);
 		bullet.velocity = 5.0F;
 		bullet.spread = 0;
 		bullet.dmgMin = 1;
 		bullet.dmgMax = 2;
 		bullet.doesRicochet = true;
 		bullet.doesPenetrate = false;
-		bullet.style = bullet.STYLE_FLECHETTE;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.leadChance = 0;
 		
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(Potion.wither.id, 60 * 20, 2));
 		
 		bullet.bHurt = new IBulletHurtBehavior() {
@@ -129,18 +131,18 @@ public class GunDartFactory {
 		return bullet;
 	}
 
-	public static BulletConfiguration getNukeConfig() {
+public static BulletConfiguration getNukeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_dart_nuclear;
+		bullet.ammo = new ComparableStack(ModItems.ammo_dart, 1, 1);
 		bullet.velocity = 5.0F;
 		bullet.spread = 0;
 		bullet.dmgMin = 1;
 		bullet.dmgMax = 2;
 		bullet.doesRicochet = true;
 		bullet.doesPenetrate = false;
-		bullet.style = bullet.STYLE_FLECHETTE;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.leadChance = 0;
 		
 		bullet.bHurt = new IBulletHurtBehavior() {
@@ -165,16 +167,17 @@ public class GunDartFactory {
 		
 		return bullet;
 	}
-
+	
 	public static BulletConfiguration getNERFConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_dart_nerf;
+		bullet.ammo = new ComparableStack(ModItems.ammo_dart, 1, 2);
 		bullet.velocity = 1.0F;
 		bullet.gravity = 0.04D;
 		bullet.dmgMin = 0;
 		bullet.dmgMax = 0;
+		bullet.penetration = 0;
 		bullet.leadChance = 0;
 		
 		return bullet;

@@ -3,6 +3,7 @@ package com.hbm.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import com.hbm.entity.cart.*;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
@@ -23,8 +24,8 @@ import net.minecraft.entity.Entity;
 
 public class EntityMappings {
 
-	public static List<Quartet<Class<? extends Entity>, String, Integer, Boolean>> entityMappings = new ArrayList();
-	public static List<Quartet<Class<? extends Entity>, String, Integer, Integer>> mobMappings = new ArrayList();
+	private static final List<Quartet<Class<? extends Entity>, String, Integer, Boolean>> entityMappings = new ArrayList<Quartet<Class<? extends Entity>, String, Integer, Boolean>>();
+	private static final List<Quartet<Class<? extends Entity>, String, Integer, Integer>> mobMappings = new ArrayList<Quartet<Class<? extends Entity>, String, Integer, Integer>>();
 
 	public static void writeMappings() {
 
@@ -240,10 +241,20 @@ public class EntityMappings {
 	}
 	
 	private static void addEntity(Class<? extends Entity> clazz, String name, int trackingRange, boolean velocityUpdates) {
-		entityMappings.add(new Quartet(clazz, name, trackingRange, velocityUpdates));
+		entityMappings.add(new Quartet<Class<? extends Entity>, String, Integer, Boolean>(clazz, name, trackingRange, velocityUpdates));
 	}
 	
 	private static void addMob(Class<? extends Entity> clazz, String name, int color1, int color2) {
-		mobMappings.add(new Quartet(clazz, name, color1, color2));
+		mobMappings.add(new Quartet<Class<? extends Entity>, String, Integer, Integer>(clazz, name, color1, color2));
+	}
+	
+	public static List<Quartet<Class<? extends Entity>, String, Integer, Boolean>> getEntityMappings()
+	{
+		return ImmutableList.copyOf(entityMappings);
+	}
+	
+	public static List<Quartet<Class<? extends Entity>, String, Integer, Integer>> getMobMappings()
+	{
+		return ImmutableList.copyOf(mobMappings);
 	}
 }

@@ -43,7 +43,7 @@ public class ItemBlockBase extends ItemBlock {
 		
 		if(field_150939_a instanceof BlockEnumMulti && ((BlockEnumMulti)field_150939_a).multiName) {
 			
-			Enum num = EnumUtil.grabEnumSafely(((BlockEnumMulti)field_150939_a).theEnum, stack.getItemDamage());
+			Enum<?> num = EnumUtil.grabEnumSafely(((BlockEnumMulti)field_150939_a).theEnum, stack.getItemDamage());
 			return super.getUnlocalizedName() + "." + num.name().toLowerCase();
 		} else {
 			return super.getUnlocalizedName(stack);

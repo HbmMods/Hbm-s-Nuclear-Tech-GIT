@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun5mmFactory {
@@ -27,12 +30,7 @@ public class Gun5mmFactory {
 		config.durability = 10000;
 		config.firingSound = "hbm:weapon.lacunaeShoot";
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.R5_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.R5_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.R5_DU);
-		config.config.add(BulletConfigSyncingUtil.R5_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_R5);
+		config.config = HbmCollection.fiveMM;
 		
 		return config;
 	}
@@ -41,8 +39,8 @@ public class Gun5mmFactory {
 		
 		GunConfiguration config = getMinigunConfig();
 		
-		config.name = "CZ53 Personal Minigun";
-		config.manufacturer = "Rockwell International Corporation";
+		config.name = "cz53";
+		config.manufacturer = EnumGunManufacturer.ROCKWELL;
 		
 		return config;
 	}
@@ -52,8 +50,8 @@ public class Gun5mmFactory {
 		GunConfiguration config = getMinigunConfig();
 
 		config.durability = 15000;
-		config.name = "CZ57 Avenger Minigun";
-		config.manufacturer = "Rockwell International Corporation";
+		config.name = "cz57";
+		config.manufacturer = EnumGunManufacturer.ROCKWELL;
 		
 		return config;
 	}
@@ -63,8 +61,8 @@ public class Gun5mmFactory {
 		GunConfiguration config = getMinigunConfig();
 
 		config.durability = 25000;
-		config.name = "Auntie Lacunae";
-		config.manufacturer = "Rockwell International Corporation?";
+		config.name = "lacunae";
+		config.manufacturer = EnumGunManufacturer.ROCKWELL_U;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.R5_NORMAL_BOLT);
@@ -76,12 +74,13 @@ public class Gun5mmFactory {
 		return config;
 	}
 	
-	static float inaccuracy = 10;
+	static final float inaccuracy = 10;
+	static byte i = 0;
 	public static BulletConfiguration get5mmConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_5mm;
+		bullet.ammo = new ComparableStack(ModItems.ammo_5mm, 1, i++);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 12;
 		bullet.dmgMax = 14;
@@ -93,7 +92,7 @@ public class Gun5mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_5mm_explosive;
+		bullet.ammo = new ComparableStack(ModItems.ammo_5mm, 1, i++);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 32;
@@ -107,10 +106,11 @@ public class Gun5mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_5mm_du;
+		bullet.ammo = new ComparableStack(ModItems.ammo_5mm, 1, i++);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 36;
 		bullet.dmgMax = 40;
+		bullet.penetration = 20;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		
@@ -121,10 +121,11 @@ public class Gun5mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_5mm_star;
+		bullet.ammo = new ComparableStack(ModItems.ammo_5mm, 1, i++);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 46;
 		bullet.dmgMax = 50;
+		bullet.penetration = 30;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
 		

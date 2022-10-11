@@ -6,14 +6,14 @@ import java.util.List;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoRocket;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
 public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 
-	static List<Integer> configs = new ArrayList();
+	static List<Integer> configs = new ArrayList<Integer>();
 	
 	static {
 		configs.add(BulletConfigSyncingUtil.ROCKET_NORMAL);
@@ -128,7 +128,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.richard_fire", 2.0F, 1.0F);
 				this.loaded--;
 				
-				if(conf.ammo == ModItems.ammo_rocket_nuclear)
+				if(conf.ammo.meta == AmmoRocket.NUCLEAR.ordinal())
 					timer = -50;
 				
 			} else {

@@ -36,12 +36,12 @@ public class GunNightmare extends Item {
 		if (this == ModItems.gun_revolver_nightmare) {
 			this.dmgMin = 1;
 			this.dmgMax = 100;
-			this.ammo = ModItems.gun_revolver_nightmare_ammo;
+//			this.ammo = ModItems.gun_revolver_nightmare_ammo;
 		}
 		if (this == ModItems.gun_revolver_nightmare2) {
 			this.dmgMin = 25;
 			this.dmgMax = 150;
-			this.ammo = ModItems.gun_revolver_nightmare2_ammo;
+//			this.ammo = ModItems.gun_revolver_nightmare2_ammo;
 		}
 	}
 
@@ -178,18 +178,18 @@ public class GunNightmare extends Item {
 			
 			int j = 0;
 			
-			for(int i = 0; i < 6; i++) {
-				if(p_77659_1_.getItem() == ModItems.gun_revolver_nightmare && p_77659_3_.inventory.consumeInventoryItem(ModItems.gun_revolver_nightmare_ammo)) {
-					p_77659_1_.setItemDamage(p_77659_1_.getItemDamage() - 1);
-					j++;
-				}
-				if(p_77659_1_.getItem() == ModItems.gun_revolver_nightmare2 && p_77659_3_.inventory.consumeInventoryItem(ModItems.gun_revolver_nightmare2_ammo)) {
-					p_77659_1_.setItemDamage(p_77659_1_.getItemDamage() - 1);
-					j++;
-				}
-				if(p_77659_1_.getItemDamage() == 0)
-					break;
-			}
+//			for(int i = 0; i < 6; i++) {
+//				if(p_77659_1_.getItem() == ModItems.gun_revolver_nightmare && p_77659_3_.inventory.consumeInventoryItem(ModItems.gun_revolver_nightmare_ammo)) {
+//					p_77659_1_.setItemDamage(p_77659_1_.getItemDamage() - 1);
+//					j++;
+//				}
+//				if(p_77659_1_.getItem() == ModItems.gun_revolver_nightmare2 && p_77659_3_.inventory.consumeInventoryItem(ModItems.gun_revolver_nightmare2_ammo)) {
+//					p_77659_1_.setItemDamage(p_77659_1_.getItemDamage() - 1);
+//					j++;
+//				}
+//				if(p_77659_1_.getItemDamage() == 0)
+//					break;
+//			}
 			
 			if(j > 0) {
 				if(p_77659_2_.isRemote)

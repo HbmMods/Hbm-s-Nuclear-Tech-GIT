@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -27,7 +28,7 @@ public class LootGenerator {
 		if(loot != null && loot.items.isEmpty()) {
 			
 			if(world.rand.nextInt(5) == 0)
-				loot.addItem(new ItemStack(ModItems.ammo_nuke_low), -0.25, 0, -0.125);
+				loot.addItem(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.LOW), -0.25, 0, -0.125);
 			else
 				loot.addItem(new ItemStack(ModItems.ammo_rocket), -0.25, 0, -0.25);
 
@@ -96,8 +97,8 @@ public class LootGenerator {
 					
 					if(world.rand.nextBoolean() || memes) {
 						int type = world.rand.nextInt(11);
-						Item nuke = memes ? ModItems.ammo_nuke_pumpkin : type == 0 ? ModItems.ammo_nuke : type <= 5 ? ModItems.ammo_nuke_low : ModItems.ammo_nuke_safe;
-						loot.addItem(new ItemStack(nuke), -0.375 + i * 0.25, 0, -0.375 + j * 0.25);
+						final AmmoFatman nuke = memes ? AmmoFatman.PUMPKIN : type == 0 ? AmmoFatman.STOCK : type <= 5 ? AmmoFatman.LOW : AmmoFatman.SAFE;
+						loot.addItem(new ItemStack(ModItems.ammo_nuke, 1, nuke.ordinal()), -0.375 + i * 0.25, 0, -0.375 + j * 0.25);
 					}
 				}
 			}

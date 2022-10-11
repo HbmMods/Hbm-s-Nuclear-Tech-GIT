@@ -41,8 +41,8 @@ public class BlastFurnaceRecipes {
 	}
 
 	static {
-		addRecipe(IRON, COAL, new ItemStack(ModItems.ingot_steel, 2));
-		addRecipe(IRON, ANY_COKE, new ItemStack(ModItems.ingot_steel, 2));
+		addRecipe(FE, COAL, new ItemStack(ModItems.ingot_steel, 2));
+		addRecipe(FE, ANY_COKE, new ItemStack(ModItems.ingot_steel, 2));
 		addRecipe(CU, REDSTONE, new ItemStack(ModItems.ingot_red_copper, 2));
 		addRecipe(STEEL, MINGRADE, new ItemStack(ModItems.ingot_advanced_alloy, 2));
 		addRecipe(W, COAL, new ItemStack(ModItems.neutron_reflector, 2));
@@ -53,7 +53,7 @@ public class BlastFurnaceRecipes {
 		//addRecipe(STEEL, U238, new ItemStack(ModItems.ingot_ferrouranium));
 		addRecipe(W, SA326.nugget(), new ItemStack(ModItems.ingot_magnetized_tungsten));
 		addRecipe(STEEL, TC99.nugget(), new ItemStack(ModItems.ingot_tcalloy));
-		addRecipe(GOLD.plate(), ModItems.plate_mixed, new ItemStack(ModItems.plate_paa, 2));
+		addRecipe(AU.plate(), ModItems.plate_mixed, new ItemStack(ModItems.plate_paa, 2));
 		addRecipe(BIGMT, ModItems.powder_meteorite, new ItemStack(ModItems.ingot_starmetal, 2));
 		addRecipe(CO, ModBlocks.block_meteor, new ItemStack(ModItems.ingot_meteorite));
 		addRecipe(ModItems.meteorite_sword_hardened, CO, new ItemStack(ModItems.meteorite_sword_alloyed));
