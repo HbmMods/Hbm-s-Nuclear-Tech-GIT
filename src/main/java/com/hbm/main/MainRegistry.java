@@ -955,6 +955,27 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.turret_flamer_ammo");
 		ignoreMappings.add("hbm:item.turret_tau_ammo");
 		ignoreMappings.add("hbm:item.turret_cwis_ammo");
+		ignoreMappings.add("hbm:tile.cel_prime");
+		ignoreMappings.add("hbm:tile.cel_prime_terminal");
+		ignoreMappings.add("hbm:tile.cel_prime_battery");
+		ignoreMappings.add("hbm:tile.cel_prime_port");
+		ignoreMappings.add("hbm:tile.cel_prime_tanks");
+		ignoreMappings.add("hbm:tile.rf_cable");
+		ignoreMappings.add("hbm:tile.test_container");
+		ignoreMappings.add("hbm:tile.test_bb_bork");
+		ignoreMappings.add("hbm:tile.test_bb_inf");
+		ignoreMappings.add("hbm:tile.test_missile");
+		ignoreMappings.add("hbm:tile.rotation_tester");
+		ignoreMappings.add("hbm:tile.test_ticker");
+		ignoreMappings.add("hbm:tile.dummy_block_flare");
+		ignoreMappings.add("hbm:tile.dummy_port_flare");
+		ignoreMappings.add("hbm:tile.dummy_block_chemplant");
+		ignoreMappings.add("hbm:tile.dummy_port_chemplant");
+		ignoreMappings.add("hbm:tile.dummy_block_pumpjack");
+		ignoreMappings.add("hbm:tile.dummy_port_pumpjack");
+		ignoreMappings.add("hbm:tile.dummy_block_radgen");
+		ignoreMappings.add("hbm:tile.dummy_port_radgen");
+		ignoreMappings.add("hbm:tile.test_conductor");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

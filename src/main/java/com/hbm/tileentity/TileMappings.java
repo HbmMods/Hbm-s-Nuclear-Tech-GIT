@@ -32,9 +32,7 @@ public class TileMappings {
 		put(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
 		put(TileEntityDiFurnace.class, "tilentity_diFurnace");
 		put(TileEntityTestNuke.class, "tilentity_testnuke");
-		put(TileEntityRotationTester.class, "tilentity_rotationtester");
 		put(TileEntityTestRender.class, "tilentity_testrenderer");
-		put(TileEntityTestContainer.class, "tilentity_testcontainer");
 		put(TileEntityObjTester.class, "tilentity_objtester");
 		put(TileEntityMachineCentrifuge.class, "tileentity_centrifuge");
 		put(TileEntityNukeMan.class, "tileentity_nukeman");

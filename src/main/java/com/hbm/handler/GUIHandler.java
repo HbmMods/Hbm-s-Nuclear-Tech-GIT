@@ -422,13 +422,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_cel_prime: {
-			if(entity instanceof TileEntityCelPrime) {
-				return new ContainerCelPrime(player.inventory, (TileEntityCelPrime) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_machine_selenium: {
 			if(entity instanceof TileEntityMachineSeleniumEngine) {
 				return new ContainerMachineSelenium(player.inventory, (TileEntityMachineSeleniumEngine) entity);
@@ -1230,13 +1223,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_nuke_n2: {
 			if(entity instanceof TileEntityNukeN2) {
 				return new GUINukeN2(player.inventory, (TileEntityNukeN2) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_cel_prime: {
-			if(entity instanceof TileEntityCelPrime) {
-				return new GUICelPrime(player.inventory, (TileEntityCelPrime) entity);
 			}
 			return null;
 		}

@@ -2,7 +2,7 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.test.TestConductor;
+import com.hbm.blocks.network.BlockCable;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
@@ -94,6 +94,6 @@ public class RenderCable implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return TestConductor.renderID;
+		return BlockCable.renderID;
 	}
 }

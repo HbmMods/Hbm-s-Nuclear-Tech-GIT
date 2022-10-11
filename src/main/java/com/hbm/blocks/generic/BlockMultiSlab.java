@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -17,6 +18,8 @@ import net.minecraft.world.World;
 
 public class BlockMultiSlab extends BlockSlab {
 	
+	public static List<Object[]> recipeGen = new ArrayList();
+	
 	public Block[] slabMaterials;
 	public Block single;
 
@@ -24,6 +27,13 @@ public class BlockMultiSlab extends BlockSlab {
 		super(single != null, mat);
 		this.single = single;
 		this.slabMaterials = slabMaterials;
+		this.useNeighborBrightness = true;
+		
+		if(single == null) {
+			for(int i = 0; i < slabMaterials.length; i++) {
+				recipeGen.add(new Object[] {slabMaterials[i], this, i});
+			}
+		}
 	}
 	
 	@Override
@@ -41,7 +51,7 @@ public class BlockMultiSlab extends BlockSlab {
 	
 	@Override
 	protected ItemStack createStackedBlock(int meta) {
-		return new ItemStack(Item.getItemFromBlock(single != null ? single : this), 2, meta & 7);
+		return new ItemStack(Item.getItemFromBlock(single != null ? single : this), 2, (meta & 7) % slabMaterials.length);
 	}
 	
     @SideOnly(Side.CLIENT)
@@ -58,7 +68,7 @@ public class BlockMultiSlab extends BlockSlab {
 	
 	@Override
 	public int getDamageValue(World world, int x, int y, int z) {
-		return super.getDamageValue(world, x, y, z) & 7;
+		return (super.getDamageValue(world, x, y, z) & 7) % slabMaterials.length;
 	}
 	
 	@SideOnly(Side.CLIENT)
