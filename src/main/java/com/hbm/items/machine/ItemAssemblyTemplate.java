@@ -3,6 +3,7 @@ package com.hbm.items.machine;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
@@ -33,6 +34,7 @@ public class ItemAssemblyTemplate extends Item {
 		this.setMaxDamage(0);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int meta) {
 
@@ -44,6 +46,7 @@ public class ItemAssemblyTemplate extends Item {
 		return this.itemIcon;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconIndex(ItemStack stack) {
 
@@ -58,6 +61,7 @@ public class ItemAssemblyTemplate extends Item {
 		return this.itemIcon;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
 		super.registerIcons(reg);
@@ -89,6 +93,7 @@ public class ItemAssemblyTemplate extends Item {
 		return new ComparableStack(Item.getItemById(id), count, meta);
 	}
 
+	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 
 		try {
@@ -174,10 +179,10 @@ public class ItemAssemblyTemplate extends Item {
 			out = AssemblerRecipes.recipeList.get(i);
 			nbtType = false;
 		}
-		HashSet<Item> folders = AssemblerRecipes.hidden.get(out);
+		Set<Item> folders = AssemblerRecipes.hidden.get(out);
 
 		if(folders == null)
-			folders = new HashSet() {
+			folders = new HashSet<Item>() {
 				{
 					add(ModItems.template_folder);
 				}

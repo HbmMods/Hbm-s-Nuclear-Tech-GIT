@@ -2,7 +2,7 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
-import com.hbm.entity.grenade.EntityGrenadeZOMG;
+import com.hbm.entity.grenade.EntityGrenadeBouncyBase;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.lib.ModDamageSource;
 
@@ -95,7 +95,7 @@ public class EntityRainbow extends Entity implements IProjectile
         }
     }
 	
-	public EntityRainbow(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_, int dmgMin, int dmgMax, EntityGrenadeZOMG grenade) {
+	public EntityRainbow(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_, int dmgMin, int dmgMax, EntityGrenadeBouncyBase grenade) {
 		super(p_i1756_1_);
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = p_i1756_2_;

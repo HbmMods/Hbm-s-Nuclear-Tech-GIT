@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 
@@ -42,7 +43,8 @@ public class BlockAmmoCrate extends Block {
 	}
 	
 	Random rand = new Random();
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+    @Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
     	
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
 
@@ -53,22 +55,22 @@ public class BlockAmmoCrate extends Block {
         if(rand.nextBoolean()) ret.add(new ItemStack(ModItems.ammo_9mm, 6 + rand.nextInt(13)));
         if(rand.nextBoolean()) ret.add(new ItemStack(ModItems.ammo_12gauge, 6 + rand.nextInt(4)));
         if(rand.nextBoolean()) ret.add(new ItemStack(ModItems.ammo_20gauge, 3 + rand.nextInt(4)));
-        if(rand.nextBoolean()) ret.add(new ItemStack(ModItems.gun_revolver_ammo, 10 + rand.nextInt(11)));
-        if(rand.nextBoolean()) ret.add(new ItemStack(ModItems.gun_revolver_iron_ammo, 12 + rand.nextInt(15)));
+        if(rand.nextBoolean()) ret.add(new ItemStack(ModItems.ammo_357, 10 + rand.nextInt(11)));
+        if(rand.nextBoolean()) ret.add(new ItemStack(ModItems.ammo_357, 12 + rand.nextInt(15), Ammo357Magnum.IRON.ordinal()));
         if(rand.nextBoolean()) ret.add(new ItemStack(ModItems.ammo_50bmg, 2 + rand.nextInt(7)));
         if(rand.nextBoolean()) ret.add(new ItemStack(ModItems.ammo_rocket, 1));
         if(rand.nextBoolean()) ret.add(new ItemStack(ModItems.ammo_grenade, 1 + rand.nextInt(2)));
 
-        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_12gauge_incendiary, 3));
-        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_20gauge_incendiary, 3));
-        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_20gauge_caustic, 3));
-        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_20gauge_flechette, 3));
-        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_9mm_ap, 7));
-        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_rocket_incendiary, 1));
-        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_rocket_sleek, 1));
-        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_grenade_he, 1));
-        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_grenade_incendiary, 1));
-        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_grenade_sleek, 1));
+        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_12gauge, 3, Ammo12Gauge.INCENDIARY.ordinal()));
+        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_20gauge, 3, Ammo20Gauge.INCENDIARY.ordinal()));
+        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_20gauge, 3, Ammo20Gauge.CAUSTIC.ordinal()));
+        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_20gauge, 3, Ammo20Gauge.FLECHETTE.ordinal()));
+        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_9mm, 7, Ammo9mm.AP.ordinal()));
+        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_rocket, 1, AmmoRocket.INCENDIARY.ordinal()));
+        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_rocket, 1, AmmoRocket.SLEEK.ordinal()));
+        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_grenade, 1, AmmoGrenade.HE.ordinal()));
+        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_grenade, 1, AmmoGrenade.INCENDIARY.ordinal()));
+        if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.ammo_grenade, 1, AmmoGrenade.SLEEK.ordinal()));
         if(rand.nextInt(10) == 0) ret.add(new ItemStack(ModItems.syringe_metal_super, 2));
         
         return ret;

@@ -52,7 +52,7 @@ public class GunBrimstone extends Item {
 
 		boolean flag = player.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.ammo_566_gold)) && count % 1 == 0) {
+		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.ammo_556)) && count % 1 == 0) {
 			
 			
 			EntityLaser laser = new EntityLaser(world, player);

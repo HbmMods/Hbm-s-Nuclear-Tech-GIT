@@ -8,11 +8,11 @@ import net.minecraft.util.IIcon;
 
 public class BlockEnumMulti extends BlockMulti {
 
-	public Class<? extends Enum> theEnum;
+	public Class<? extends Enum<?>> theEnum;
 	public boolean multiName;
 	private boolean multiTexture;
 
-	public BlockEnumMulti(Material mat, Class<? extends Enum> theEnum, boolean multiName, boolean multiTexture) {
+	public BlockEnumMulti(Material mat, Class<? extends Enum<?>> theEnum, boolean multiName, boolean multiTexture) {
 		super(mat);
 		this.theEnum = theEnum;
 		this.multiName = multiName;
@@ -26,11 +26,11 @@ public class BlockEnumMulti extends BlockMulti {
 	public void registerBlockIcons(IIconRegister reg) {
 		
 		if(multiTexture) {
-			Enum[] enums = theEnum.getEnumConstants();
+			Enum<?>[] enums = theEnum.getEnumConstants();
 			this.icons = new IIcon[enums.length];
 			
 			for(int i = 0; i < icons.length; i++) {
-				Enum num = enums[i];
+				Enum<?> num = enums[i];
 				this.icons[i] = reg.registerIcon(this.getTextureName() + "." + num.name().toLowerCase());
 			}
 		} else {

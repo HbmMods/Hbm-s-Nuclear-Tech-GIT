@@ -53,8 +53,8 @@ public class Mats {
 	public static final NTMMaterial MAT_PETCOKE		= makeAdditive(	1411, 		PETCOKE,	0x71645C);
 	public static final NTMMaterial MAT_LIGCOKE		= makeAdditive(	1412, 		LIGCOKE,	0x725644);
 	public static final NTMMaterial MAT_GRAPHITE	= makeAdditive(	1420, 		GRAPHITE,	0x666666);
-	public static final NTMMaterial MAT_IRON		= makeSmeltable(2600,		IRON,		0xFFA259).omitAutoGen();
-	public static final NTMMaterial MAT_GOLD		= makeSmeltable(7900,		GOLD,		0xE8D754).omitAutoGen();
+	public static final NTMMaterial MAT_IRON		= makeSmeltable(2600,		FE,		0xFFA259).omitAutoGen();
+	public static final NTMMaterial MAT_GOLD		= makeSmeltable(7900,		AU,		0xE8D754).omitAutoGen();
 	public static final NTMMaterial MAT_REDSTONE	= makeSmeltable(_VS + 01,	REDSTONE,	0xFF1000).omitAutoGen();
 	public static final NTMMaterial MAT_OBSIDIAN	= makeSmeltable(_VS + 02,	df("Obsidian"), 0x3D234D).omitAutoGen();
 

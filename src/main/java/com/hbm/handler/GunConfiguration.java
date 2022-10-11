@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
-public class GunConfiguration {
+public class GunConfiguration implements Cloneable {
 	
 	/**
 	 * alt function restrictions:
@@ -30,7 +32,7 @@ public class GunConfiguration {
 	public int durability;
 	
 	//animations!
-	public HashMap<AnimType, BusAnimation> animations = new HashMap();
+	public HashMap<AnimType, BusAnimation> animations = new HashMap<AnimType, BusAnimation>();
 	//whether ot not to disable crosshais when sneaking
 	public boolean hasSights;
 	
@@ -64,12 +66,24 @@ public class GunConfiguration {
 	//how much energy is discharged per shot
 	public int dischargePerShot;
 	
+	// Just experimenting here ~ UFFR
+	/**Custom descriptor about damage, optional**/
+	public String damage = "";
+	/**Extra long comments about the lore of the gun**/
+	public List<String> advLore = new ArrayList<String>();
+	/**Extra long comments about how the gun works**/
+	public List<String> advFuncLore = new ArrayList<String>();
+	/**Localization key for the official name**/
 	public String name = "";
-	public String manufacturer = "";
-	public List<String> comment = new ArrayList();
+	/**Localization key for the gun's manufacturer**/
+	public EnumGunManufacturer manufacturer = EnumGunManufacturer.NONE;
+	/**Sound that plays when first equipping the gun**/
+	public String equipSound = "";
+	
+	public List<String> comment = new ArrayList<String>();
 
 	//bullet configs for main and alt fire
-	public List<Integer> config = new ArrayList();
+	public List<Integer> config = new ArrayList<Integer>();
 
 	//crosshair
 	public Crosshair crosshair;
@@ -96,6 +110,19 @@ public class GunConfiguration {
 	public GunConfiguration silenced() {
 		this.firingSound = "hbm:weapon.silencerShoot";
 		return this;
+	}
+	
+	@Override
+	public GunConfiguration clone()
+	{
+		try
+		{
+			return (GunConfiguration) super.clone();
+		} catch (CloneNotSupportedException e)
+		{
+			MainRegistry.logger.catching(e);
+			return new GunConfiguration();
+		}
 	}
 
 }

@@ -75,13 +75,13 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.setSize(0.5F, 0.5F);
 	}
 	
-	public EntityBulletBase(World world, int config, EntityLivingBase entity) {
+	public EntityBulletBase(World world, int config, EntityLivingBase shooter) {
 		super(world);
 		this.config = BulletConfigSyncingUtil.pullConfig(config);
 		this.dataWatcher.updateObject(18, config);
-		shooter = entity;
+		this.shooter = shooter;
 
-		this.setLocationAndAngles(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, entity.rotationYaw, entity.rotationPitch);
+		this.setLocationAndAngles(shooter.posX, shooter.posY + shooter.getEyeHeight(), shooter.posZ, shooter.rotationYaw, shooter.rotationPitch);
 		
 		double sideOffset = 0.16D;
 		
@@ -133,6 +133,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.dataWatcher.updateObject(17, (byte)this.config.trail);
 	}
 	
+	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		
 		this.setBeenAttacked();
@@ -203,7 +204,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		//trail
 		this.dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 		//bullet config sync
-		this.dataWatcher.addObject(18, Integer.valueOf((int) 0));
+		this.dataWatcher.addObject(18, Integer.valueOf(0));
 	}
 	
 	@Override
@@ -240,7 +241,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
 			float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
-			this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f) * 180.0D / Math.PI);
+			this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, f) * 180.0D / Math.PI);
 		}
 
 		/// ZONE 1 START ///
@@ -257,14 +258,14 @@ public class EntityBulletBase extends Entity implements IProjectile {
         MovingObjectPosition impact = null;
         
 		Entity victim = null;
-		List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX * this.config.velocity, this.motionY * this.config.velocity, this.motionZ * this.config.velocity).expand(1.0D, 1.0D, 1.0D));
+		List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX * this.config.velocity, this.motionY * this.config.velocity, this.motionZ * this.config.velocity).expand(1.0D, 1.0D, 1.0D));
 		
 		double d0 = 0.0D;
 		int i;
 		float f1;
 
 		for (i = 0; i < list.size(); ++i) {
-			Entity entity1 = (Entity) list.get(i);
+			Entity entity1 = list.get(i);
 
 			if (entity1.canBeCollidedWith() && (entity1 != this.shooter)) {
 				f1 = 0.3F;
@@ -325,17 +326,17 @@ public class EntityBulletBase extends Entity implements IProjectile {
 					}
 				}
 				
-        		if(!victim.attackEntityFrom(damagesource, damage)) {
+        		if(victim != null && !victim.attackEntityFrom(damagesource, damage)) {
 
 					try {
 						Field lastDamage = ReflectionHelper.findField(EntityLivingBase.class, "lastDamage", "field_110153_bc");
 						
-						float dmg = (float) damage + lastDamage.getFloat(victim);
+						float dmg = damage + lastDamage.getFloat(victim);
 						
 						if(!victim.attackEntityFrom(damagesource, dmg)) {
 							headshot = false;
 						}
-					} catch (Exception x) { }
+					} catch (Exception x) {/**/ }
 					
         		}
         		
@@ -451,10 +452,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		float f2;
 		this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 		f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-		for (this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f2) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
-		{
-			;
-		}
+//		for (this.rotationPitch = (float)(Math.atan2(this.motionY, f2) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+//		{
+//			;
+//		}
 
 		while(this.rotationPitch - this.prevRotationPitch >= 180.0F) {
 			this.prevRotationPitch += 360.0F;
@@ -536,7 +537,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		if(config.chlorine > 0 && !worldObj.isRemote) {
 			ExplosionChaos.spawnChlorine(worldObj, posX, posY, posZ, config.chlorine, 1.5, 0);
-        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
+        	worldObj.playSoundEffect(posX + 0.5F, posY + 0.5F, posZ + 0.5F, "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
 		}
 		
 		if(config.rainbow > 0 && !worldObj.isRemote) {

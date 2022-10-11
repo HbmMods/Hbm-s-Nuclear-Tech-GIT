@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
 
@@ -107,9 +108,9 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gun_rpg, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.ammo_rocket, 0, 1, 4, 5),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.ammo_nuke_safe, 0, 1, 2, 1),
-			new WeightedRandomChestContent(ModItems.ammo_nuke_low, 0, 1, 2, 1),
-			new WeightedRandomChestContent(ModItems.ammo_nuke_pumpkin, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.SAFE), 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.LOW), 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.PUMPKIN), 1, 2, 1),
 			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.grenade_smart, 0, 1, 3, 3),
 			new WeightedRandomChestContent(ModItems.grenade_mirv, 0, 1, 1, 2),
@@ -216,7 +217,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.rod, BreedingRodType.U235.ordinal(), 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.billet_uranium_fuel, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.ingot_uranium_fuel, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.ammo_nuke_safe, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.SAFE), 1, 2, 1),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bottle_nuka, 0, 1, 3, 6),
 			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 3),
@@ -326,7 +327,7 @@ public class HbmChestContents {
 	public static WeightedRandomChestContent[] vault4 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ammo_container, 0, 3, 6, 1),
 			new WeightedRandomChestContent(ModItems.clip_fatman, 0, 2, 3, 1),
-			new WeightedRandomChestContent(ModItems.ammo_mirv, 0, 2, 3, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.MIRV), 2, 3, 1),
 			new WeightedRandomChestContent(ModItems.gun_mirv, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_proto, 0, 1, 1, 1),
@@ -383,11 +384,12 @@ public class HbmChestContents {
 	}
 	
 	private static String resolve(String key) {
-		String result = books.get(key);
-		return result != null ? result : key;
+//		String result = books.get(key);
+//		return result != null ? result : key;
+		return books.getOrDefault(key, key);
 	}
 	
-	private static HashMap<String, String> books = new HashMap();
+	private static HashMap<String, String> books = new HashMap<>();
 	
 	static {
 		books.put("book.lore.office0.title", "Letter of Resignation");

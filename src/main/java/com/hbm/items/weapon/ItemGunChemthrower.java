@@ -15,6 +15,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.util.InventoryUtil;
 
 import api.hbm.fluid.IFillableItem;
 import cpw.mods.fml.relauncher.Side;
@@ -81,7 +82,7 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 		if(config.reloadType != mainConfig.RELOAD_NONE) {
 			setMag(stack, getMag(stack) - this.getConsumption(stack));
 		} else {
-			player.inventory.consumeInventoryItem(getBeltType(player, stack, main));
+			InventoryUtil.doesPlayerHaveAStack(player, getBeltType(player, stack, main), true);
 		}
 	}
 

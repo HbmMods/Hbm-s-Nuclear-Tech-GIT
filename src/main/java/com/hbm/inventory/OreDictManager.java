@@ -92,8 +92,8 @@ public class OreDictManager {
 	 * VANILLA
 	 */
 	public static final DictFrame COAL = new DictFrame("Coal");
-	public static final DictFrame IRON = new DictFrame("Iron");
-	public static final DictFrame GOLD = new DictFrame("Gold");
+	public static final DictFrame FE = new DictFrame("Iron");
+	public static final DictFrame AU = new DictFrame("Gold");
 	public static final DictFrame LAPIS = new DictFrame("Lapis");
 	public static final DictFrame REDSTONE = new DictFrame("Redstone");
 	public static final DictFrame NETHERQUARTZ = new DictFrame("NetherQuartz");
@@ -271,8 +271,8 @@ public class OreDictManager {
 		 * VANILLA
 		 */
 		COAL.gem(Items.coal).dustSmall(powder_coal_tiny).dust(powder_coal);
-		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron);
-		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold);
+		FE.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron);
+		AU.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold);
 		LAPIS.dust(powder_lapis);
 		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz);
 		DIAMOND.dust(powder_diamond).ore(gravel_diamond);

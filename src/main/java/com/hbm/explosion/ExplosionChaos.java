@@ -4,9 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.grenade.EntityGrenadeBouncyBase;
 import com.hbm.entity.grenade.EntityGrenadeTau;
-import com.hbm.entity.grenade.EntityGrenadeZOMG;
-import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBase;
 import com.hbm.entity.particle.EntityChlorineFX;
@@ -23,8 +22,8 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry;
-import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
+import com.hbm.util.ArmorUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -833,7 +832,7 @@ public class ExplosionChaos {
 	}
 
 	public static void zomgMeSinPi(World world, double x, double y, double z, int count, Entity shooter,
-			EntityGrenadeZOMG zomg) {
+			EntityGrenadeBouncyBase zomg) {
 
 		double d1 = 0;
 		double d2 = 0;

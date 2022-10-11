@@ -28,8 +28,8 @@ public class CrystallizerRecipes {
 	public static void register() {
 
 		recipes.put(COAL.ore(), new ItemStack(ModItems.crystal_coal));
-		recipes.put(IRON.ore(), new ItemStack(ModItems.crystal_iron));
-		recipes.put(GOLD.ore(), new ItemStack(ModItems.crystal_gold));
+		recipes.put(FE.ore(), new ItemStack(ModItems.crystal_iron));
+		recipes.put(AU.ore(), new ItemStack(ModItems.crystal_gold));
 		recipes.put(REDSTONE.ore(), new ItemStack(ModItems.crystal_redstone));
 		recipes.put(LAPIS.ore(), new ItemStack(ModItems.crystal_lapis));
 		recipes.put(DIAMOND.ore(), new ItemStack(ModItems.crystal_diamond));
