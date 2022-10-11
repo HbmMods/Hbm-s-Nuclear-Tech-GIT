@@ -29,6 +29,9 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.I18nUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -39,6 +42,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class ItemGrenadeEnum extends ItemEnumMulti
@@ -413,6 +417,23 @@ public class ItemGrenadeEnum extends ItemEnumMulti
 			MainRegistry.logger.warn("Grenade enum type: " + nade + " is not registered! Thrown grenade will default to generic preset!");
 		
 		return stack;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister reg) {
+		
+		if(multiTexture) {
+			Enum<?>[] enums = theEnum.getEnumConstants();
+			this.icons = new IIcon[enums.length];
+			
+			for(int i = 0; i < icons.length; i++) {
+				Enum<?> num = enums[i];
+				this.icons[i] = reg.registerIcon(this.getIconString() + "_" + num.name().toLowerCase());
+			}
+		} else {
+			this.itemIcon = reg.registerIcon(this.getIconString());
+		}
 	}
 	
 	public static Map<AmmoHandGrenade, GrenadeLogic> getLogicMap()
