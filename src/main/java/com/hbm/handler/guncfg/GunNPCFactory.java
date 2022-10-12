@@ -7,10 +7,13 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -326,5 +329,17 @@ public class GunNPCFactory {
 		};
 		
 		return bullet;
+	}
+	
+	public static GunConfiguration getHeavySGConfig()
+	{
+		final GunConfiguration config = new GunConfiguration();
+		
+		config.manufacturer = EnumGunManufacturer.COMBINE;
+		config.ammoCap = 12;
+		config.reloadDuration = 50;
+		config.config = HbmCollection.fourGauge;
+		
+		return config;
 	}
 }

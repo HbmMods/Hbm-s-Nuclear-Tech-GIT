@@ -3,8 +3,8 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.lib.HbmCollection;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -14,14 +14,10 @@ import net.minecraft.util.Vec3;
 
 public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 
-	static List<Integer> configs = new ArrayList();
+	static List<Integer> configs = new ArrayList<Integer>();
 	
 	static {
-		configs.add(BulletConfigSyncingUtil.SHELL_NORMAL);
-		configs.add(BulletConfigSyncingUtil.SHELL_EXPLOSIVE);
-		configs.add(BulletConfigSyncingUtil.SHELL_AP);
-		configs.add(BulletConfigSyncingUtil.SHELL_DU);
-		configs.add(BulletConfigSyncingUtil.SHELL_W9);
+		configs.addAll(HbmCollection.cannon);
 	}
 	
 	@Override
@@ -82,7 +78,6 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 		if(timer % 40 == 0) {
 			
 			BulletConfiguration conf = this.getFirstConfigLoaded();
-			
 			if(conf != null) {
 				this.spawnBullet(conf);
 				this.conusmeAmmo(conf.ammo);

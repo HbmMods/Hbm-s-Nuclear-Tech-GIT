@@ -317,8 +317,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 					
 //					if(conf.ammo == slots[i].getItem())
 //						return conf;
-					
-					if (new ComparableStack(slots[i]).isApplicable(conf.ammo))
+					if (conf.ammo != null && conf.ammo.matchesRecipe(slots[i], true))
 						return conf;
 				}
 			}
@@ -784,10 +783,12 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		return this.isOn;
 	}
 	
+	@Override
 	public void setPower(long i) {
 		this.power = i;
 	}
 	
+	@Override
 	public long getPower() {
 		return this.power;
 	}

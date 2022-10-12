@@ -107,10 +107,17 @@ public class GunGrenadeFactory {
 	
 	public static BulletConfiguration getGrenadeSmokeConfig()
 	{
-		BulletConfiguration bullet = getGrenadePhosphorusConfig().clone();
+		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.explosive = 0;
+		bullet.velocity = 2.0F;
+		bullet.dmgMin = 15;
+		bullet.dmgMax = 15;
+		bullet.wear = 15;
+		bullet.trail = 0;
+		bullet.incendiary = 2;
+		
 		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(20, 120 * 20, 400, 0.5, 1);
 		
 		return bullet;
@@ -165,9 +172,13 @@ public class GunGrenadeFactory {
 	
 	public static BulletConfiguration getGrenadeFinnedConfig() {
 		
-		BulletConfiguration bullet = getGrenadeConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
+		bullet.velocity = 2.0F;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.wear = 10;
 		bullet.gravity = 0.02;
 		bullet.explosive = 1.5F;
 		bullet.trail = 5;
@@ -177,23 +188,24 @@ public class GunGrenadeFactory {
 	
 	public static BulletConfiguration getGrenadeNuclearConfig() {
 		
-		BulletConfiguration bullet = getGrenadeConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.wear = 10;
+		bullet.trail = 0;
 		bullet.velocity = 4;
 		bullet.explosive = 0.0F;
 		
-		bullet.bImpact = (projectile, x, y, z) ->
-		{
-				BulletConfigFactory.nuclearExplosion(projectile, x, y, z, 1);
-		};
+		bullet.bImpact = (projectile, x, y, z) -> BulletConfigFactory.nuclearExplosion(projectile, x, y, z, 1);
 		
 		return bullet;
 	}
 	static final byte size = 25;
 	public static BulletConfiguration getGrenadeLunaticConfig()
 	{
-		BulletConfiguration bullet = getGrenadeConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.velocity = 4;
@@ -203,7 +215,7 @@ public class GunGrenadeFactory {
 		bullet.bImpact = (projectile, x, y, z) ->
 		{
 			
-			if(!projectile.worldObj.isRemote)
+			if (!projectile.worldObj.isRemote)
 			{
 				EntityNukeExplosionMK3 explosionEntity = new EntityNukeExplosionMK3(projectile.worldObj);
 				explosionEntity.posX = projectile.posX;

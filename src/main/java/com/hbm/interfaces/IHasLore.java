@@ -65,7 +65,7 @@ public interface IHasLore
 	
 	public static boolean getHasLore(String ulocIn)
 	{
-		return !getLoc(ulocIn).equals(ulocIn);
+		return !getLoc(ulocIn).equals(ulocIn + (MainRegistry.isPolaroid11() ? ".desc.11" : ".desc"));
 	}
 	
 	public static boolean keyExists(String key)

@@ -123,6 +123,7 @@ public class Gun4GaugeFactory {
 		return config;
 	}
 	static byte i = 0;
+	static final BulletConfiguration stock = get4GaugeConfig();
 	public static BulletConfiguration get4GaugeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
@@ -338,7 +339,7 @@ public class Gun4GaugeFactory {
 	
 	public static BulletConfiguration get4GaugeClawConfig() {
 		
-		BulletConfiguration bullet = get4GaugeConfig();
+		BulletConfiguration bullet = stock.clone();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
 		bullet.dmgMin = 6;
@@ -372,7 +373,7 @@ public class Gun4GaugeFactory {
 	
 	public static BulletConfiguration get4GaugeVampireConfig() {
 		
-		BulletConfiguration bullet = get4GaugeConfig();
+		BulletConfiguration bullet = stock.clone();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
 		bullet.dmgMin = 5;
@@ -406,7 +407,7 @@ public class Gun4GaugeFactory {
 	
 	public static BulletConfiguration get4GaugeVoidConfig() {
 		
-		BulletConfiguration bullet = get4GaugeConfig();
+		BulletConfiguration bullet = stock.clone();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
 		bullet.dmgMin = 6;
