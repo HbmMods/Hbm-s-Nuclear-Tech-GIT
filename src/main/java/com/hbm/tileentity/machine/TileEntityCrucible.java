@@ -349,6 +349,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		//the amount of material in the entire recipe input
 		int recipeContent = recipe != null ? recipe.getInputAmount() : 0;
 		//the total amount of the current waste stack, used for simulation
+		int recipeAmount = getQuantaFromType(this.recipeStack, null);
 		int wasteAmount = getQuantaFromType(this.wasteStack, null);
 		
 		for(MaterialStack mat : materials) {
@@ -366,14 +367,16 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				
 				matchesRecipe = true;
 				
+				recipeAmount += mat.amount;
+				
 				//if the amount of that input would exceed the amount dictated by the recipe, return false
 				if(recipe != null && amountStored + mat.amount > matMaximum)
 					return false;
 			}
 		}
 		
-		//if the waste amount doesn't exceed the capacity and the recipe matches (or isn't null), return true
-		return wasteAmount <= this.wasteZCapacity && matchesRecipe;
+		//if the amount doesn't exceed the capacity and the recipe matches (or isn't null), return true
+		return recipeAmount <= this.recipeZCapacity && wasteAmount <= this.wasteZCapacity && matchesRecipe;
 	}
 	
 	public void addToStack(List<MaterialStack> stack, MaterialStack matStack) {

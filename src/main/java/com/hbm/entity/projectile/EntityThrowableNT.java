@@ -140,109 +140,125 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 				}
 
 				return;
-			}
+				
+			} else {
 
-			this.inGround = false;
-			this.motionX *= (double) (this.rand.nextFloat() * 0.2F);
-			this.motionY *= (double) (this.rand.nextFloat() * 0.2F);
-			this.motionZ *= (double) (this.rand.nextFloat() * 0.2F);
-			this.ticksInGround = 0;
-			this.ticksInAir = 0;
+				this.inGround = false;
+				this.motionX *= (double) (this.rand.nextFloat() * 0.2F);
+				this.motionY *= (double) (this.rand.nextFloat() * 0.2F);
+				this.motionZ *= (double) (this.rand.nextFloat() * 0.2F);
+				this.ticksInGround = 0;
+				this.ticksInAir = 0;
+			}
+			
 		} else {
 			++this.ticksInAir;
-		}
-
-		Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-		Vec3 nextPos = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-		MovingObjectPosition mop = this.worldObj.rayTraceBlocks(pos, nextPos);
-		pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-		nextPos = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-
-		if(mop != null) {
-			nextPos = Vec3.createVectorHelper(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-		}
-
-		if(!this.worldObj.isRemote) {
-			
-			Entity hitEntity = null;
-			List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
-			double nearest = 0.0D;
-			EntityLivingBase thrower = this.getThrower();
-
-			for(int j = 0; j < list.size(); ++j) {
-				Entity entity = (Entity) list.get(j);
-
-				if(entity.canBeCollidedWith() && (entity != thrower || this.ticksInAir >= 5)) {
-					double hitbox = 0.3F;
-					AxisAlignedBB aabb = entity.boundingBox.expand(hitbox, hitbox, hitbox);
-					MovingObjectPosition hitMop = aabb.calculateIntercept(pos, nextPos);
-
-					if(hitMop != null) {
-						double dist = pos.distanceTo(hitMop.hitVec);
-
-						if(dist < nearest || nearest == 0.0D) {
-							hitEntity = entity;
-							nearest = dist;
+	
+			Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+			Vec3 nextPos = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+			MovingObjectPosition mop = this.worldObj.rayTraceBlocks(pos, nextPos);
+			pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+			nextPos = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+	
+			if(mop != null) {
+				nextPos = Vec3.createVectorHelper(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+			}
+	
+			if(!this.worldObj.isRemote) {
+				
+				Entity hitEntity = null;
+				List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+				double nearest = 0.0D;
+				EntityLivingBase thrower = this.getThrower();
+	
+				for(int j = 0; j < list.size(); ++j) {
+					Entity entity = (Entity) list.get(j);
+	
+					if(entity.canBeCollidedWith() && (entity != thrower || this.ticksInAir >= 5)) {
+						double hitbox = 0.3F;
+						AxisAlignedBB aabb = entity.boundingBox.expand(hitbox, hitbox, hitbox);
+						MovingObjectPosition hitMop = aabb.calculateIntercept(pos, nextPos);
+	
+						if(hitMop != null) {
+							double dist = pos.distanceTo(hitMop.hitVec);
+	
+							if(dist < nearest || nearest == 0.0D) {
+								hitEntity = entity;
+								nearest = dist;
+							}
 						}
 					}
 				}
+	
+				if(hitEntity != null) {
+					mop = new MovingObjectPosition(hitEntity);
+				}
 			}
-
-			if(hitEntity != null) {
-				mop = new MovingObjectPosition(hitEntity);
+	
+			if(mop != null) {
+				if(mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ) == Blocks.portal) {
+					this.setInPortal();
+				} else {
+					this.onImpact(mop);
+				}
 			}
-		}
-
-		if(mop != null) {
-			if(mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ) == Blocks.portal) {
-				this.setInPortal();
-			} else {
-				this.onImpact(mop);
+	
+			this.posX += this.motionX;
+			this.posY += this.motionY;
+			this.posZ += this.motionZ;
+			
+			float hyp = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+			this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
+	
+			for(this.rotationPitch = (float) (Math.atan2(this.motionY, (double) hyp) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
+				;
 			}
-		}
-
-		this.posX += this.motionX;
-		this.posY += this.motionY;
-		this.posZ += this.motionZ;
-		
-		float hyp = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-		this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
-
-		for(this.rotationPitch = (float) (Math.atan2(this.motionY, (double) hyp) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
-			;
-		}
-
-		while(this.rotationPitch - this.prevRotationPitch >= 180.0F) {
-			this.prevRotationPitch += 360.0F;
-		}
-
-		while(this.rotationYaw - this.prevRotationYaw < -180.0F) {
-			this.prevRotationYaw -= 360.0F;
-		}
-
-		while(this.rotationYaw - this.prevRotationYaw >= 180.0F) {
-			this.prevRotationYaw += 360.0F;
-		}
-
-		this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
-		this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
-		float drag = this.getAirDrag();
-		double gravity = this.getGravityVelocity();
-
-		if(this.isInWater()) {
-			for(int i = 0; i < 4; ++i) {
-				float f = 0.25F;
-				this.worldObj.spawnParticle("bubble", this.posX - this.motionX * (double) f, this.posY - this.motionY * (double) f, this.posZ - this.motionZ * (double) f, this.motionX, this.motionY, this.motionZ);
+	
+			while(this.rotationPitch - this.prevRotationPitch >= 180.0F) {
+				this.prevRotationPitch += 360.0F;
 			}
+	
+			while(this.rotationYaw - this.prevRotationYaw < -180.0F) {
+				this.prevRotationYaw -= 360.0F;
+			}
+	
+			while(this.rotationYaw - this.prevRotationYaw >= 180.0F) {
+				this.prevRotationYaw += 360.0F;
+			}
+	
+			this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
+			this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
+			float drag = this.getAirDrag();
+			double gravity = this.getGravityVelocity();
+	
+			if(this.isInWater()) {
+				for(int i = 0; i < 4; ++i) {
+					float f = 0.25F;
+					this.worldObj.spawnParticle("bubble", this.posX - this.motionX * (double) f, this.posY - this.motionY * (double) f, this.posZ - this.motionZ * (double) f, this.motionX, this.motionY, this.motionZ);
+				}
+	
+				drag = this.getWaterDrag();
+			}
+	
+			this.motionX *= (double) drag;
+			this.motionY *= (double) drag;
+			this.motionZ *= (double) drag;
+			this.motionY -= gravity;
+			this.setPosition(this.posX, this.posY, this.posZ);
 
-			drag = this.getWaterDrag();
 		}
-
-		this.motionX *= (double) drag;
-		this.motionY *= (double) drag;
-		this.motionZ *= (double) drag;
-		this.motionY -= gravity;
-		this.setPosition(this.posX, this.posY, this.posZ);
+	}
+	
+	public boolean alowMultiImpact() {
+		return false; //TODO
+	}
+	
+	public void getStuck(int x, int y, int z) {
+		this.stuckBlockX = x;
+		this.stuckBlockY = y;
+		this.stuckBlockZ = z;
+		this.stuckBlock = worldObj.getBlock(x, y, z);
+		this.inGround = true;
 	}
 	
 	public double getGravityVelocity() {
