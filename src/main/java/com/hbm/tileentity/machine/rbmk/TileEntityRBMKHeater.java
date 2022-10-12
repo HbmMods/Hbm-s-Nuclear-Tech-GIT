@@ -70,6 +70,8 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 	public static FluidType getConversion(FluidType type) {
 		if(type == Fluids.MUG)		return Fluids.MUG_HOT;
 		if(type == Fluids.COOLANT)	return Fluids.COOLANT_HOT;
+		if(type == Fluids.OIL)		return Fluids.HOTOIL;
+		if(type == Fluids.CRACKOIL)	return Fluids.HOTCRACKOIL;
 		return Fluids.NONE;
 	}
 
