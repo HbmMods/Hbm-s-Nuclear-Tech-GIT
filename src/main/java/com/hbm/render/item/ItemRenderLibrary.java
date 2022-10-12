@@ -52,26 +52,6 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
-		renderers.put(Item.getItemFromBlock(ModBlocks.machine_centrifuge), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(4.5, 4.5, 4.5);
-			}
-			public void renderCommon() {
-		        bindTexture(ResourceManager.centrifuge_new_tex); ResourceManager.centrifuge_new.renderAll();
-			}});
-		
-		renderers.put(Item.getItemFromBlock(ModBlocks.machine_gascent), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(3.5, 3.5, 3.5);
-			}
-			public void renderCommon() {
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.gascent_tex); ResourceManager.gascent.renderPart("Centrifuge");
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}});
-		
 		renderers.put(Item.getItemFromBlock(ModBlocks.iter), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -1, 0);

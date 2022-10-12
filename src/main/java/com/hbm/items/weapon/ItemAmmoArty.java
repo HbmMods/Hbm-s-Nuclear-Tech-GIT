@@ -263,7 +263,7 @@ public class ItemAmmoArty extends Item {
 		};
 		
 		/* THIS DOOFUS */
-		this.itemTypes[NORMAL] = new ArtilleryShell("ammo_arty_cargo") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
+		this.itemTypes[CARGO] = new ArtilleryShell("ammo_arty_cargo") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 			if(mop.typeOfHit == MovingObjectType.BLOCK) {
 				shell.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 				shell.getStuck(mop.blockX, mop.blockY, mop.blockZ);
