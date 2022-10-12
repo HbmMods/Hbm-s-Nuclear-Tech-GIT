@@ -116,12 +116,11 @@ public class Gun45ACPFactory
 		
 		return config;
 	}
-	static byte i = 0;
 	public static BulletConfiguration get45AutoConfig()
 	{
 		final BulletConfiguration bullet = Gun9mmFactory.get9mmConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_45, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_45, 1, 0);
 		bullet.dmgMax = 30;
 		bullet.dmgMin = 27;
 		bullet.penetration *= 1.25;
@@ -133,7 +132,7 @@ public class Gun45ACPFactory
 	{
 		final BulletConfiguration bullet = get45AutoConfig().clone();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_45, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_45, 1, 1);
 		bullet.dmgMax *= 1.5;
 		bullet.dmgMin *= 1.5;
 		bullet.penetration *= 1.5;
@@ -145,7 +144,7 @@ public class Gun45ACPFactory
 	{
 		final BulletConfiguration bullet = get45AutoAPConfig().clone();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_45, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_45, 1, 2);
 		bullet.dmgMax *= 1.5;
 		bullet.dmgMin *= 1.5;
 		bullet.penetration *= 1.5;

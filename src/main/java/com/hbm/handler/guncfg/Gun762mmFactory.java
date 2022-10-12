@@ -116,12 +116,12 @@ public class Gun762mmFactory
 		
 		return config;
 	}
-	static byte i = 0;
+
 	public static BulletConfiguration get762NATOConfig()
 	{
-		final BulletConfiguration bullet = Gun556mmFactory.get556Config();
+		final BulletConfiguration bullet = Gun556mmFactory.get556Config().clone();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_308, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_308, 1, 0);
 		bullet.dmgMax *= 2;
 		bullet.dmgMin *= 2;
 		bullet.penetration *= 1.5;
@@ -134,9 +134,9 @@ public class Gun762mmFactory
 	
 	public static BulletConfiguration get762APConfig()
 	{
-		final BulletConfiguration bullet = get762NATOConfig().clone();
+		final BulletConfiguration bullet = get762NATOConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_308, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_308, 1, 1);
 		bullet.dmgMax *= 1.5;
 		bullet.dmgMin *= 1.5;
 		bullet.penetration *= 1.5;
@@ -146,9 +146,9 @@ public class Gun762mmFactory
 	
 	public static BulletConfiguration get762DUConfig()
 	{
-		final BulletConfiguration bullet = get762NATOConfig().clone();
+		final BulletConfiguration bullet = get762NATOConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_308, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_308, 1, 2);
 		bullet.dmgMax *= 2;
 		bullet.dmgMin *= 2;
 		bullet.penetration *= 2;
@@ -158,9 +158,9 @@ public class Gun762mmFactory
 	
 	public static BulletConfiguration get762TracerConfig()
 	{
-		final BulletConfiguration bullet = get762NATOConfig().clone();
+		final BulletConfiguration bullet = get762NATOConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_308, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_308, 1, 3);
 		bullet.vPFX = "reddust";
 		
 		return bullet;
@@ -168,9 +168,9 @@ public class Gun762mmFactory
 	
 	public static BulletConfiguration get762BlankConfig()
 	{
-		final BulletConfiguration bullet = get762NATOConfig().clone();
+		final BulletConfiguration bullet = get762NATOConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_308, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_308, 1, 4);
 		bullet.dmgMax = 0;
 		bullet.dmgMin = 0;
 		bullet.penetration = 0;

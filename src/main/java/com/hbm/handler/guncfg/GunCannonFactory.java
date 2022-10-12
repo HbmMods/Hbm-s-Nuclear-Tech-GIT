@@ -75,10 +75,7 @@ public class GunCannonFactory {
 		bullet.dmgMax = 1250;
 		bullet.penetration = stockPen;
 		
-		bullet.bImpact = (projectile, x, y, z) -> {
-
-			BulletConfigFactory.nuclearExplosion(projectile, x, y, z, 1);
-		};
+		bullet.bImpact = (projectile, x, y, z) -> BulletConfigFactory.nuclearExplosion(projectile, (int) projectile.posX, (int) projectile.posY, (int) projectile.posZ, 1);
 		
 		return bullet;
 	}
@@ -87,14 +84,14 @@ public class GunCannonFactory {
 	{
 		final BulletConfiguration bullet = getShellW9Config().clone();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, 5);
 		
 		bullet.bImpact = (projectile, x, y, z) ->
 		{
 			projectile.worldObj.playSoundEffect(x, y, z, "random.explode", 1.0f, projectile.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
-			projectile.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(projectile.worldObj, BombConfig.boyRadius, x + 0.5, y + 0.5, z + 0.5));
-			projectile.worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(projectile.worldObj, x, y, z, BombConfig.boyRadius));
+			projectile.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(projectile.worldObj, BombConfig.boyRadius, projectile.posX + 0.5, projectile.posY + 0.5, projectile.posZ + 0.5));
+			projectile.worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(projectile.worldObj, projectile.posX, projectile.posY, projectile.posZ, BombConfig.boyRadius));
 		};
 		
 		return bullet;

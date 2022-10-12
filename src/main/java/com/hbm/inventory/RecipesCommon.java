@@ -3,6 +3,7 @@ package com.hbm.inventory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.items.ModItems;
@@ -97,6 +98,9 @@ public class RecipesCommon {
 		
 		public abstract String getFriendlyName();
 		
+		@Override
+		public abstract String toString();
+		
 		/**
 		 * Generates either an ItemStack or an ArrayList of ItemStacks
 		 * @return
@@ -162,6 +166,7 @@ public class RecipesCommon {
 			this.meta = meta;
 		}
 		
+		@Override
 		public ItemStack toStack() {
 			return new ItemStack(item, stacksize, meta);
 		}
@@ -316,6 +321,15 @@ public class RecipesCommon {
 		{
 			return toStack().getDisplayName();
 		}
+
+		@Override
+		public String toString()
+		{
+			final StringBuilder builder = new StringBuilder();
+			builder.append("ComparableStack [item=").append(item == null ? null : item.getUnlocalizedName()).append(", meta=").append(meta).append(", stacksize=")
+					.append(stacksize).append(']');
+			return builder.toString();
+		}
 	}
 	
 	/*
@@ -365,6 +379,37 @@ public class RecipesCommon {
 			ItemStack stack = super.toStack();
 			stack.stackTagCompound = this.nbt;
 			return stack;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + Objects.hash(nbt);
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (!(obj instanceof ComparableNBTStack))
+				return false;
+			final ComparableNBTStack other = (ComparableNBTStack) obj;
+			return Objects.equals(nbt, other.nbt);
+		}
+
+		@Override
+		public String toString()
+		{
+			final StringBuilder builder = new StringBuilder();
+			builder.append("ComparableNBTStack [item=").append(item).append(", meta=").append(meta)
+					.append(", stacksize=").append(stacksize).append(", nbt=").append(nbt).append(']');
+			return builder.toString();
 		}
 	}
 	
@@ -445,7 +490,7 @@ public class RecipesCommon {
 		public List<ItemStack> extractForNEI() {
 			
 			List<ItemStack> fromDict = OreDictionary.getOres(name);
-			List<ItemStack> ores = new ArrayList();
+			List<ItemStack> ores = new ArrayList<>();
 			
 			for(ItemStack stack : fromDict) {
 
@@ -495,6 +540,14 @@ public class RecipesCommon {
 		public String getFriendlyName()
 		{
 			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			final StringBuilder builder = new StringBuilder();
+			builder.append("OreDictStack [name=").append(name).append(", stacksize=").append(stacksize).append(']');
+			return builder.toString();
 		}
 	}
 	

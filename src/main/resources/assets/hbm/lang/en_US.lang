@@ -1293,6 +1293,7 @@ item.ammo_shell.apfsds_du.name=240mm APFSDS-DU
 item.ammo_shell.apfsds_t.name=240mm APFSDS-T
 item.ammo_shell.explosive.name=240mm HE Shell
 item.ammo_shell.w9.name=240mm W9 Nuclear Shell
+item.ammo_shell.w9_true.desc=We did too much trolling
 item.ammo_shell.w9_true.name=240mm W9 Nuclear Shell (Full Yield)
 item.ammo_stinger_rocket.stock.name=Stinger Rocket
 item.ammo_stinger_rocket.he.name=Stinger Rocket (HE)

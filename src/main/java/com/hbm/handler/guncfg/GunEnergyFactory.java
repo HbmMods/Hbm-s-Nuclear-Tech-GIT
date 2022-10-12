@@ -600,10 +600,10 @@ public class GunEnergyFactory {
 		bullet.dmgProj = false;
 		bullet.dmgBypass = true;
 
-		bullet.style = bullet.STYLE_BOLT;
-		bullet.trail = bullet.BOLT_ZOMG;
+		bullet.style = BulletConfiguration.STYLE_BOLT;
+		bullet.trail = BulletConfiguration.BOLT_ZOMG;
 		
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<>();
 		bullet.effects.add(new PotionEffect(HbmPotion.bang.id, 10 * 20, 0));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -632,7 +632,7 @@ public class GunEnergyFactory {
 		bullet.velocity = 1F;
 		bullet.gravity = 0.0;
 		bullet.maxAge = 200;
-		bullet.style = bullet.STYLE_BLADE;
+		bullet.style = BulletConfiguration.STYLE_BLADE;
 		bullet.destroysBlocks = true;
 		bullet.doesRicochet = false;
 		
