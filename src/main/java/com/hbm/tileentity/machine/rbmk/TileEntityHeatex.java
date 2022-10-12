@@ -74,6 +74,8 @@ public class TileEntityHeatex extends TileEntity implements IFluidAcceptor, IFlu
 	public static FluidType getConversion(FluidType type) {
 		if(type == Fluids.MUG_HOT)		return Fluids.MUG;
 		if(type == Fluids.COOLANT_HOT)	return Fluids.COOLANT;
+		if(type == Fluids.OIL)		return Fluids.HOTOIL;
+		if(type == Fluids.CRACKOIL)	return Fluids.HOTCRACKOIL;
 		return Fluids.NONE;
 	}
 	
