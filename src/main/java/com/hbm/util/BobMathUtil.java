@@ -9,6 +9,9 @@ import java.util.List;
 
 import javax.annotation.Nonnegative;
 
+import com.hbm.calc.EasyLocation;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -177,5 +180,27 @@ public class BobMathUtil {
 		}
 		
 		return Long.toString(l);
+	}
+	
+	public static double durabilityBarDisplay(double cur, double max)
+	{
+		return 1d - cur / max;
+	}
+	
+	public static Vec3 entityUnitVector(Entity entity)
+	{
+		return Vec3.createVectorHelper
+					(
+						-(Math.sin(entity.rotationYaw / 180 * Math.PI) * Math.cos(entity.rotationPitch / 180 * Math.PI)),
+						-Math.sin(entity.rotationPitch / 180 * Math.PI),
+						Math.cos(entity.rotationYaw / 180 * Math.PI) * Math.cos(entity.rotationPitch / 180 * Math.PI)
+					);
+	}
+
+	public static void offsetForHand(Entity entity, EasyLocation loc)
+	{
+		loc.posX -= Math.cos(entity.rotationYaw / 180 * Math.PI) * 0.16;
+		loc.posY -= 0.16;
+		loc.posZ -= Math.sin(entity.rotationYaw / 180 * Math.PI) * 0.16;
 	}
 }

@@ -196,7 +196,7 @@ public class Gun357MagnumFactory {
 		config.reloadDuration = 53;
 		config.crosshair = Crosshair.CIRCLE;
 		
-		config.name = "RI No. 2 Mark 1";
+		config.name = "bio";
 		config.manufacturer = EnumGunManufacturer.RYAN;
 		
 		config.config = new ArrayList<Integer>();

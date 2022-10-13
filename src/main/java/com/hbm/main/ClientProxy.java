@@ -501,6 +501,18 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_spas12, new ItemRenderWeaponSpas12());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_glass_cannon, new ItemRenderWeaponGlass());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_chemthrower, new ItemRenderWeaponChemthrower());
+		
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_twr, new ItemRenderTWR());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_hlr, new ItemRenderHLR());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_benelli, new ItemRenderBenelli());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_lunatic_marksman, new ItemRenderLunaticSniper());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_mlr, new ItemRenderMLR());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_llr, new ItemRenderLLR());
+//		MinecraftForgeClient.registerItemRenderer(ModItems.gun_thompson_redux, new ItemRenderThompsonRedux());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_benelli_mod, new ItemRenderBenelli());// TODO
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_uac_pistol, new ItemRenderUACPistol());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_g36, new ItemRenderG36());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_m2, new ItemRenderM2());		
 		//multitool
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_dig, new ItemRenderMultitool());
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_silk, new ItemRenderMultitool());

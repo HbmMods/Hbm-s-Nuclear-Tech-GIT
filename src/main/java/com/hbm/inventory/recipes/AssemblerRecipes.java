@@ -32,6 +32,7 @@ import com.hbm.items.ItemAmmoEnums.Ammo75Bolt;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.main.MainRegistry;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -1024,7 +1025,21 @@ public class AssemblerRecipes {
 						new ComparableStack(ModItems.mechanism_special),
 						new ComparableStack(ModItems.circuit_red_copper),
 						new ComparableStack(ModItems.battery_sc_technetium)
-				}, 150);
+				}, 250);
+		
+		makeRecipe(new ComparableStack(IBatteryItem.emptyBattery(ModItems.gun_hlr)), new AStack[]
+				{
+						new ComparableStack(ModItems.ring_starmetal, 4),
+						new ComparableStack(ModItems.plate_combine_steel, 18),
+//						new ComparableStack(ModItems.euphemium_capacitor),
+						new OreDictStack(DESH.ingot(), 16),
+						new ComparableStack(ModItems.mechanism_special, 6),
+						new ComparableStack(ModItems.ingot_combine_steel, 14),
+//						new ComparableStack(ModItems.battery_fast_2_elite),
+						new ComparableStack(ModItems.powder_nitan_mix, 24),
+						new ComparableStack(ModItems.circuit_schrabidium, 2),
+						new ComparableStack(ModItems.circuit_tantalium, 32)
+				}, 500);// Placeholder
 		
 		if(Loader.isModLoaded("Mekanism")) {
 			

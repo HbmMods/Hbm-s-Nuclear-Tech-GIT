@@ -1,11 +1,31 @@
 package com.hbm.items;
 
-import java.util.Collection;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.guncfg.*;
+import com.hbm.handler.guncfg.Gun12GaugeFactory;
+import com.hbm.handler.guncfg.Gun20GaugeFactory;
+import com.hbm.handler.guncfg.Gun22LRFactory;
+import com.hbm.handler.guncfg.Gun357MagnumFactory;
+import com.hbm.handler.guncfg.Gun44MagnumFactory;
+import com.hbm.handler.guncfg.Gun45ACPFactory;
+import com.hbm.handler.guncfg.Gun4GaugeFactory;
+import com.hbm.handler.guncfg.Gun50AEFactory;
+import com.hbm.handler.guncfg.Gun50BMGFactory;
+import com.hbm.handler.guncfg.Gun556mmFactory;
+import com.hbm.handler.guncfg.Gun5mmFactory;
+import com.hbm.handler.guncfg.Gun75BoltFactory;
+import com.hbm.handler.guncfg.Gun762mmFactory;
+import com.hbm.handler.guncfg.Gun9mmFactory;
+import com.hbm.handler.guncfg.GunCannonFactory;
+import com.hbm.handler.guncfg.GunDGKFactory;
+import com.hbm.handler.guncfg.GunDartFactory;
+import com.hbm.handler.guncfg.GunEnergyFactory;
+import com.hbm.handler.guncfg.GunFatmanFactory;
+import com.hbm.handler.guncfg.GunGrenadeFactory;
+import com.hbm.handler.guncfg.GunRocketFactory;
+import com.hbm.handler.guncfg.GunRocketHomingFactory;
 import com.hbm.items.ItemEnums.IItemEnum;
 import com.hbm.items.weapon.ItemAmmo.AmmoItemTrait;
 import com.hbm.lib.HbmCollection;
@@ -422,6 +442,7 @@ public class ItemAmmoEnums
 		AP(Gun762mmFactory.get762APConfig(), HbmCollection.APType),
 		DU(Gun762mmFactory.get762DUConfig(), HbmCollection.DUType),
 		TRACER(Gun762mmFactory.get762TracerConfig(), AmmoItemTrait.NEU_TRACER),
+		PHOSPHORUS(Gun762mmFactory.get762WPConfig(), HbmCollection.PhosphorusType),
 		BLANK(Gun762mmFactory.get762BlankConfig(), AmmoItemTrait.NEU_BLANK);
 		private final Set<AmmoItemTrait> traits;
 		private final BulletConfiguration config;
@@ -866,8 +887,4 @@ public class ItemAmmoEnums
 		return traits == null ? ImmutableSet.of() : ImmutableSet.copyOf(traits);
 	}
 	
-	static Set<AmmoItemTrait> safeAssign(Collection<AmmoItemTrait> traits)
-	{
-		return traits == null || traits.size() == 0 ? ImmutableSet.of() : ImmutableSet.copyOf(traits);
-	}
 }
