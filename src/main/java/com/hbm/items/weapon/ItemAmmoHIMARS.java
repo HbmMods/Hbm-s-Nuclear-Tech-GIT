@@ -2,16 +2,24 @@ package com.hbm.items.weapon;
 
 import java.util.List;
 
+import com.hbm.entity.projectile.EntityArtilleryRocket;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 
 public class ItemAmmoHIMARS extends Item {
 	
@@ -36,21 +44,40 @@ public class ItemAmmoHIMARS extends Item {
 	
 	public abstract class HIMARSRocket {
 		
-		String name;
+		ResourceLocation texture;
+		int amount;
+		int modelType; /* 0 = sixfold/standard ; 1 = single */
 		
 		public HIMARSRocket() { }
 		
-		public HIMARSRocket(String name) {
-			this.name = name;
+		public HIMARSRocket(String name, int type, int amount) {
+			this.texture = new ResourceLocation(RefStrings.MODID + ":textures/models/projectiles/" + name);
+			this.amount = amount;
+			this.modelType = type;
 		}
 		
-		public abstract void onImpact(Entity rocket, MovingObjectPosition mop);
-		public void onUpdate(Entity rocket) { }
+		public abstract void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop);
+		public void onUpdate(EntityArtilleryRocket rocket) { }
+	}
+	
+	public static void standardExplosion(EntityArtilleryRocket rocket, MovingObjectPosition mop, float size, float rangeMod, boolean breaksBlocks) {
+		rocket.worldObj.playSoundEffect(rocket.posX, rocket.posY, rocket.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + rocket.worldObj.rand.nextFloat() * 0.2F);
+		Vec3 vec = Vec3.createVectorHelper(rocket.motionX, rocket.motionY, rocket.motionZ).normalize();
+		ExplosionVNT xnt = new ExplosionVNT(rocket.worldObj, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, size);
+		if(breaksBlocks) {
+			xnt.setBlockAllocator(new BlockAllocatorStandard(48));
+			xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
+		}
+		xnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(rangeMod));
+		xnt.setPlayerProcessor(new PlayerProcessorStandard());
+		xnt.setSFX(new ExplosionEffectStandard());
+		xnt.explode();
+		rocket.killAndClear();
 	}
 	
 	private void init() {
-		/* STANDARD SHELLS */
-		this.itemTypes[SMALL] = new HIMARSRocket("ammo_himars") { public void onImpact(Entity rocket, MovingObjectPosition mop) {  }};
-		this.itemTypes[LARGE] = new HIMARSRocket("ammo_himars_large") { public void onImpact(Entity rocket, MovingObjectPosition mop) {  }};
+		/* STANDARD ROCKETS */
+		this.itemTypes[SMALL] = new HIMARSRocket("himars_standard", 0, 6) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 25F, 3F, true); }};
+		this.itemTypes[LARGE] = new HIMARSRocket("himars_single", 1, 1) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 50F, 5F, true); }};
 	}
 }

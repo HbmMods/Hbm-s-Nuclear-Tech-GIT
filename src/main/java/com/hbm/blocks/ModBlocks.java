@@ -2901,7 +2901,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_fritz, turret_fritz.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_brandon, turret_brandon.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_arty, turret_arty.getUnlocalizedName());
-		//GameRegistry.registerBlock(turret_himars, turret_himars.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_himars, turret_himars.getUnlocalizedName());
 		
 		//Wall-mounted Explosives
 		GameRegistry.registerBlock(charge_dynamite, ItemBlockBase.class, charge_dynamite.getUnlocalizedName());
