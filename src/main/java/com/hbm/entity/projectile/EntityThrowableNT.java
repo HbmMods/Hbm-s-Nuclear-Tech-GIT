@@ -259,6 +259,9 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 		this.stuckBlockZ = z;
 		this.stuckBlock = worldObj.getBlock(x, y, z);
 		this.inGround = true;
+		this.motionX = 0;
+		this.motionY = 0;
+		this.motionZ = 0;
 	}
 	
 	public double getGravityVelocity() {

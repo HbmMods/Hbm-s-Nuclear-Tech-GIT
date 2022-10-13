@@ -44,14 +44,12 @@ public class ItemAmmoHIMARS extends Item {
 	
 	public abstract class HIMARSRocket {
 		
-		ResourceLocation texture;
-		int amount;
-		int modelType; /* 0 = sixfold/standard ; 1 = single */
-		
-		public HIMARSRocket() { }
+		public final ResourceLocation texture;
+		public final int amount;
+		public final int modelType; /* 0 = sixfold/standard ; 1 = single */
 		
 		public HIMARSRocket(String name, int type, int amount) {
-			this.texture = new ResourceLocation(RefStrings.MODID + ":textures/models/projectiles/" + name);
+			this.texture = new ResourceLocation(RefStrings.MODID + ":textures/models/projectiles/" + name + ".png");
 			this.amount = amount;
 			this.modelType = type;
 		}

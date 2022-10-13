@@ -38,16 +38,15 @@ public class RenderTurretHIMARS extends TileEntitySpecialRenderer implements IIt
 		ResourceManager.turret_himars.renderPart("Carriage");
 		
 		GL11.glTranslated(0, 2.25, 2);
-		GL11.glRotated(pitch + 15, 1, 0, 0);
+		GL11.glRotated(pitch, 1, 0, 0);
 		GL11.glTranslated(0, -2.25, -2);
 		ResourceManager.turret_himars.renderPart("Launcher");
-		//GL11.glTranslated(0, 0, -5 + (System.currentTimeMillis() / 1000D) % 5D);
 		ResourceManager.turret_himars.renderPart("Crane");
 		bindTexture(ResourceManager.himars_standard_tex);
 		ResourceManager.turret_himars.renderPart("TubeStandard");
-		ResourceManager.turret_himars.renderPart("CapStandard1");
+		/*ResourceManager.turret_himars.renderPart("CapStandard1");
 		ResourceManager.turret_himars.renderPart("CapStandard2");
-		ResourceManager.turret_himars.renderPart("CapStandard4");
+		ResourceManager.turret_himars.renderPart("CapStandard4");*/
 
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
