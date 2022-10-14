@@ -4269,11 +4269,11 @@ public class ModItems {
 		gun_benelli = new ItemGunBase(Gun12GaugeFactory.getBenelliConfig()).setFull3D().setUnlocalizedName("gun_benelli").setCreativeTab(MainRegistry.weaponTab);
 		gun_benelli_mod = new ItemGunBase(Gun12GaugeFactory.getBenelliModConfig()).setFull3D().setUnlocalizedName("gun_benelli_mod").setCreativeTab(MainRegistry.weaponTab);
 		gun_twr = new ItemGunTWR(GunEnergyFactory.getTWRConfig()).setUnlocalizedName("gun_twr").setCreativeTab(MainRegistry.weaponTab);
-		gun_hlr = new ItemEnergyGunBase(GunEnergyFactory.getHLRPrimaryConfig(), GunEnergyFactory.getHLRSecondaryConfig()).setFull3D().setUnlocalizedName("gun_hlr").setCreativeTab(MainRegistry.weaponTab);
+		gun_hlr = new ItemGunEnergyBase(GunEnergyFactory.getHLRPrimaryConfig(), GunEnergyFactory.getHLRSecondaryConfig()).setFull3D().setUnlocalizedName("gun_hlr").setCreativeTab(MainRegistry.weaponTab);
 		gun_mlr = new ItemGunBase(Gun556mmFactory.getMLRConfig()).setFull3D().setUnlocalizedName("gun_mlr").setCreativeTab(MainRegistry.weaponTab);
 		gun_llr = new ItemGunBase(Gun9mmFactory.getLLRConfig()).setFull3D().setUnlocalizedName("gun_llr").setCreativeTab(MainRegistry.weaponTab);
 		gun_lunatic_marksman = new ItemGunBase(Gun50BMGFactory.getLunaticMarksman()).setFull3D().setUnlocalizedName("gun_lunatic_marksman").setCreativeTab(MainRegistry.weaponTab);
-		pagoda = new ItemPagoda();
+		pagoda = ItemPagoda.getSingleton();
 		
 		ToolMaterial matCrucible = EnumHelper.addToolMaterial("CRUCIBLE", 10, 3, 50.0F, 100.0F, 0);
 		crucible = new ItemCrucible(5000, 1F, matCrucible).setUnlocalizedName("crucible").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":crucible");
@@ -7069,7 +7069,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_lunatic_marksman, gun_lunatic_marksman.getUnlocalizedName());
 		GameRegistry.registerItem(gun_hlr, gun_hlr.getUnlocalizedName());
 		GameRegistry.registerItem(gun_twr, gun_twr.getUnlocalizedName());
-		GameRegistry.registerItem(pagoda, pagoda.getUnlocalizedName());
+//		GameRegistry.registerItem(pagoda, pagoda.getUnlocalizedName());
 		
 		//Ammo
 		//GameRegistry.registerItem(gun_revolver_pip_ammo, gun_revolver_pip_ammo.getUnlocalizedName());

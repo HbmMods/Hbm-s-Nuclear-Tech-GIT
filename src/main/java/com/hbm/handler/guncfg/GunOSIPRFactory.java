@@ -91,13 +91,14 @@ public class GunOSIPRFactory {
 		return config;
 	}
 
-	static final float inaccuracy = 1.5f;
+	static final float inaccuracy = 1.25f;
 	public static BulletConfiguration getPulseConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.gun_osipr_ammo);
 		bullet.ammoCount = 30;
+		bullet.doesRicochet = false;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 21;

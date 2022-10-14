@@ -844,9 +844,8 @@ public class GunEnergyFactory {
 		bullet.destroysBlocks = true;
 		
 		bullet.effects = new ArrayList<PotionEffect>();
-//		TODO
-//		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 60 * 20, 4));
-//		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 60 * 20, 4));
+		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 60 * 20, 4));
+		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 60 * 20, 4));
 		
 		//bullet.instakill = true;
 		//bullet.style = BulletConfiguration.STYLE_ORB;
@@ -875,9 +874,8 @@ public class GunEnergyFactory {
 		bullet.doesPenetrate = true;
 		
 		bullet.effects = new ArrayList<PotionEffect>();
-//		TODO
-//		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.hollow.id, 2 * 20, 0));
-//		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.fragile.id, 5 * 20, 1));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.hollow.id, 2 * 20, 0));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.fragile.id, 5 * 20, 1));
 		
 		bullet.bHit = (projectile, hit) -> {if (hit instanceof EntityLivingBase) ContaminationUtil.applyDigammaData(hit, 0.005F);};
 		
@@ -915,10 +913,9 @@ public class GunEnergyFactory {
 		bullet.doesPenetrate = true;
 		
 		bullet.effects = new ArrayList<PotionEffect>();
-//		TODO
-//		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.hollow.id, 5 * 20, 1));
-//		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.fragile.id, 7 * 20, 2));
-//		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.perforated.id, 3 * 20, 0));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.hollow.id, 5 * 20, 1));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.fragile.id, 7 * 20, 2));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.perforated.id, 3 * 20, 0));
 		
 		bullet.bHurt = (projectile, hit) -> {if (hit instanceof EntityLivingBase) ContaminationUtil.applyDigammaData(hit, 0.01F);};
 		

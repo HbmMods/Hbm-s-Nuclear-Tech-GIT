@@ -122,7 +122,7 @@ public class BlastFurnaceRecipes {
 		final HashMap<List<ItemStack>[], ItemStack> recipes = new HashMap<>();
 
 		for(Triplet<Object, Object, ItemStack> recipe : blastFurnaceRecipes) {
-			if(isStackHidden(recipe.getZ())) {
+			if(!isStackHidden(recipe.getZ())) {
 				final ItemStack nothing = new ItemStack(ModItems.nothing).setStackDisplayName("If you're reading this, an error has occured! Check the console.");
 				final List<ItemStack> in1 = new ArrayList<ItemStack>();
 				final List<ItemStack> in2 = new ArrayList<ItemStack>();

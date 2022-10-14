@@ -24,15 +24,25 @@ import net.minecraft.world.World;
 
 public class ItemPagoda extends Item implements IClickReceiver
 {
+	private static ItemPagoda SELF;
+	
 	private static final String KEY_CHARGE = "PAGODA_CHARGE", KEY_CHARGING = "PAGODA_CHARGING";
 	private static final short MAX_CHARGE = 1200;
 	private static final byte MAX_RADIUS = 20;
-	public ItemPagoda()
+	private ItemPagoda()
 	{
 		setMaxStackSize(1);
 		setFull3D();
 		setUnlocalizedName("pagoda");
 		setCreativeTab(MainRegistry.weaponTab);
+	}
+	
+	public static ItemPagoda getSingleton()
+	{
+		if (SELF == null)
+			SELF = new ItemPagoda();
+		
+		return SELF;
 	}
 
 	@Override

@@ -29,17 +29,16 @@ public class ItemRenderM2 extends ItemRenderBase
 				GL11.glScalef(scale1, scale1, -scale1);
 //				GL11.glRotatef(10, 1, 0, 0);
 				GL11.glRotatef(-90, 0, 1, 0);
-				GL11.glTranslatef(0, -2, -2);
-				GL11.glRotatef(20, 1, 0, 0);
+				GL11.glTranslatef(0, 0.5f, -5);
+				GL11.glRotatef(30, 1, 0, 0);
 				break;
 			case EQUIPPED_FIRST_PERSON:
 				GL11.glRotatef(-90, 0, 1, 0);
 				if (Minecraft.getMinecraft().thePlayer.isSneaking())
 				{
-					GL11.glTranslatef(-0.95f, -0.9f, -2);
-					GL11.glRotatef(-5, 0, 1, 1);
-				}
-				else
+					GL11.glTranslatef(-0.96f, -0.9f, -2);
+					GL11.glRotatef(-5.6f, 0, 1, 1);
+				} else
 					GL11.glTranslatef(0, -1, -3);
 				GL11.glRotatef(25, 1, 0, 0);
 				break;

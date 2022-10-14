@@ -115,12 +115,11 @@ public class Gun9mmFactory {
 	}
 	
 	static final float inaccuracy = 1.15f;
-	static byte i = 0;
 	public static BulletConfiguration get9mmConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, 0);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 14;
@@ -132,7 +131,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, 1);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 20;
@@ -147,7 +146,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, 2);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 22;
 		bullet.dmgMax = 26;
@@ -162,7 +161,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, 3);
 		bullet.velocity = 5;
 		bullet.explosive = 7.5F;
 		bullet.trail = 5;

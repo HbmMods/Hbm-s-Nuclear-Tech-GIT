@@ -9,32 +9,23 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.handler.HbmKeybinds;
 import com.hbm.interfaces.IHoldableWeapon;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.weapon.ItemGunBase;
-import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ChatBuilder;
-import com.hbm.util.I18nUtil;
 
 import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -56,28 +47,30 @@ public class ItemEnergyGunBase extends ItemGunBase implements IBatteryItem {
 	}
 	
 	@Override
-public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		list.add("Energy Stored: " + BobMathUtil.getShortNumber(getCharge(stack)) + "/" + BobMathUtil.getShortNumber(mainConfig.maxCharge) + "HE");
 		list.add("Charge rate: " + BobMathUtil.getShortNumber(mainConfig.chargeRate) + "HE/t");
 		
-		BulletConfiguration config = getConfig(stack);
+//		BulletConfiguration config = getConfig(stack);
+//		
+//		list.add("");
+//		list.add("Mode: " + I18nUtil.resolveKey(config.modeName));
+//		list.add("Mode info:");
+//		list.add("Average damage: " + ((config.dmgMax + config.dmgMin) / 2F));
+//		list.add("Firing Rate: " + BobMathUtil.roundDecimal((1F / ((config.firingRate) / 20F)), 2) + " rounds per second");
+//		list.add("Power Consumption per Shot: " +  BobMathUtil.getShortNumber(config.dischargePerShot) + "HE");
+//		
+//		list.add("");
+//		list.add("Name: " + mainConfig.name);
+//		list.add("Manufacturer: " + mainConfig.manufacturer);
+//		
+//		if(!mainConfig.comment.isEmpty()) {
+//			list.add("");
+//			for(String s : mainConfig.comment)
+//				list.add(EnumChatFormatting.ITALIC + s);
+//		}
 		
-		list.add("");
-		list.add("Mode: " + I18nUtil.resolveKey(config.modeName));
-		list.add("Mode info:");
-		list.add("Average damage: " + ((float)(config.dmgMax + config.dmgMin) / 2F));
-		list.add("Firing Rate: " + BobMathUtil.roundDecimal((1F / (((float)config.firingRate) / 20F)), 2) + " rounds per second");
-		list.add("Power Consumption per Shot: " +  BobMathUtil.getShortNumber(config.dischargePerShot) + "HE");
-		
-		list.add("");
-		list.add("Name: " + mainConfig.name);
-		list.add("Manufacturer: " + mainConfig.manufacturer);
-		
-		if(!mainConfig.comment.isEmpty()) {
-			list.add("");
-			for(String s : mainConfig.comment)
-				list.add(EnumChatFormatting.ITALIC + s);
-		}
+		addAdditionalInformation(stack, list);
 	}
 	
 	@Override
@@ -114,6 +107,7 @@ public void addInformation(ItemStack stack, EntityPlayer player, List list, bool
 		}
 	}
 	
+	@Override
 	protected void updateServer(ItemStack stack, World world, EntityPlayer player, int slot, boolean isCurrentItem) {
 		
 		if(getDelay(stack) > 0 && isCurrentItem)
@@ -134,6 +128,7 @@ public void addInformation(ItemStack stack, EntityPlayer player, List list, bool
 		}
 	}
 	
+	@Override
 	protected boolean tryShoot(ItemStack stack, World world, EntityPlayer player, boolean main) {
 	
 		
@@ -144,6 +139,7 @@ public void addInformation(ItemStack stack, EntityPlayer player, List list, bool
 		return false;
 	}
 	
+	@Override
 	protected void fire(ItemStack stack, World world, EntityPlayer player) {
 		
 		BulletConfiguration config = getConfig(stack);
@@ -159,7 +155,7 @@ public void addInformation(ItemStack stack, EntityPlayer player, List list, bool
 				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
 			}
 			
-			setCharge(stack, getCharge(stack) - config.dischargePerShot);;
+			setCharge(stack, getCharge(stack) - config.dischargePerShot);
 		}
 		
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
@@ -172,6 +168,7 @@ public void addInformation(ItemStack stack, EntityPlayer player, List list, bool
 		}
 	}
 	
+	@Override
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
 		
 		EntityBulletBase bullet = new EntityBulletBase(world, config, player);
@@ -182,9 +179,10 @@ public void addInformation(ItemStack stack, EntityPlayer player, List list, bool
 			
 	}
 	
+	@Override
 	public void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
-		if(mainConfig.firingMode == mainConfig.FIRE_MANUAL && main && tryShoot(stack, world, player, main)) {
+		if(mainConfig.firingMode == GunConfiguration.FIRE_MANUAL && main && tryShoot(stack, world, player, main)) {
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
 			
@@ -218,10 +216,12 @@ public void addInformation(ItemStack stack, EntityPlayer player, List list, bool
 	
 	// yummy boilerplate
 	
+	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
 		return true;
 	}
 
+	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
 		return 1D - (double) getCharge(stack) / (double) getMaxCharge();
 	}
@@ -321,10 +321,7 @@ public void addInformation(ItemStack stack, EntityPlayer player, List list, bool
 
 			event.setCanceled(true);
 			
-			if(!(mainConfig.hasSights && player.isSneaking()))
-				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, ((IHoldableWeapon)player.getHeldItem().getItem()).getCrosshair());
-			else
-				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, Crosshair.NONE);
+			RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, (mainConfig.hasSights && player.isSneaking()) ? Crosshair.NONE : ((IHoldableWeapon)player.getHeldItem().getItem()).getCrosshair());
 		}
 	}
 
