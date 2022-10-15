@@ -3,6 +3,8 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.weapon.ItemAmmoHIMARS;
+import com.hbm.items.weapon.ItemAmmoHIMARS.HIMARSRocket;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.tileentity.turret.TileEntityTurretHIMARS;
@@ -41,12 +43,33 @@ public class RenderTurretHIMARS extends TileEntitySpecialRenderer implements IIt
 		GL11.glRotated(pitch, 1, 0, 0);
 		GL11.glTranslated(0, -2.25, -2);
 		ResourceManager.turret_himars.renderPart("Launcher");
+		
+		double barrel = turret.lastCrane + (turret.crane - turret.lastCrane) * interp;
+		double length = -5D;
+		GL11.glTranslated(0, 0, barrel * length);
 		ResourceManager.turret_himars.renderPart("Crane");
-		bindTexture(ResourceManager.himars_standard_tex);
-		ResourceManager.turret_himars.renderPart("TubeStandard");
-		/*ResourceManager.turret_himars.renderPart("CapStandard1");
-		ResourceManager.turret_himars.renderPart("CapStandard2");
-		ResourceManager.turret_himars.renderPart("CapStandard4");*/
+		
+		if(turret.typeLoaded >= 0) {
+			HIMARSRocket type = ItemAmmoHIMARS.itemTypes[turret.typeLoaded];
+			
+			if(type.modelType == 0) {
+			bindTexture(ResourceManager.himars_standard_tex);
+				ResourceManager.turret_himars.renderPart("TubeStandard");
+				
+				for(int i = 0; i < turret.ammo; i++) {
+					ResourceManager.turret_himars.renderPart("CapStandard" + (5 - i + 1));
+				}
+			}
+			
+			if(type.modelType == 1) {
+			bindTexture(ResourceManager.himars_single_tex);
+				ResourceManager.turret_himars.renderPart("TubeSingle");
+				
+				if(turret.hasAmmo()) {
+					ResourceManager.turret_himars.renderPart("CapSingle");
+				}
+			}
+		}
 
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
@@ -67,6 +90,7 @@ public class RenderTurretHIMARS extends TileEntitySpecialRenderer implements IIt
 			public void renderCommonWithStack(ItemStack item) {
 				GL11.glRotatef(-90, 0F, 1F, 0F);
 				GL11.glScaled(0.5, 0.5, 0.5);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.turret_arty_tex);
 				ResourceManager.turret_arty.renderPart("Base");
 				bindTexture(ResourceManager.turret_himars_tex);
@@ -75,6 +99,7 @@ public class RenderTurretHIMARS extends TileEntitySpecialRenderer implements IIt
 				ResourceManager.turret_himars.renderPart("Crane");
 				bindTexture(ResourceManager.himars_standard_tex);
 				ResourceManager.turret_himars.renderPart("TubeStandard");
+				GL11.glShadeModel(GL11.GL_FLAT);
 			}};
 	}
 }

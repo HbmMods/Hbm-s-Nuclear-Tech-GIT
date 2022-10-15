@@ -1360,10 +1360,12 @@ public class ItemRenderLibrary {
 		
 		renderers.put(ModItems.ammo_himars, new ItemRenderBase( ) {
 			public void renderInventory() {
-				GL11.glTranslated(0, 2.5, 0);
+				GL11.glTranslated(0, -2.5, 0);
 				GL11.glScaled(4, 4, 4);
+				GL11.glRotated(System.currentTimeMillis() % 3600 / 10D, 0, 1, 0);
 			}
 			public void renderCommonWithStack(ItemStack item) {
+				GL11.glTranslated(0, 1.5, 0);
 				GL11.glRotated(-45, 0, 1, 0);
 				GL11.glRotated(90, 1, 0, 0);
 				HIMARSRocket type = ItemAmmoHIMARS.itemTypes[item.getItemDamage()];

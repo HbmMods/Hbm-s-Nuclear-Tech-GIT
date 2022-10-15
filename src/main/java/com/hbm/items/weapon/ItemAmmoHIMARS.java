@@ -42,14 +42,21 @@ public class ItemAmmoHIMARS extends Item {
 		list.add(new ItemStack(item, 1, LARGE));
 	}
 	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		return "item.ammo_himars_" + itemTypes[Math.abs(stack.getItemDamage()) % itemTypes.length].name;
+	}
+	
 	public abstract class HIMARSRocket {
 		
+		public final String name;
 		public final ResourceLocation texture;
 		public final int amount;
 		public final int modelType; /* 0 = sixfold/standard ; 1 = single */
 		
-		public HIMARSRocket(String name, int type, int amount) {
-			this.texture = new ResourceLocation(RefStrings.MODID + ":textures/models/projectiles/" + name + ".png");
+		public HIMARSRocket(String name, String texture, int type, int amount) {
+			this.name = name;
+			this.texture = new ResourceLocation(RefStrings.MODID + ":textures/models/projectiles/" + texture + ".png");
 			this.amount = amount;
 			this.modelType = type;
 		}
@@ -75,7 +82,7 @@ public class ItemAmmoHIMARS extends Item {
 	
 	private void init() {
 		/* STANDARD ROCKETS */
-		this.itemTypes[SMALL] = new HIMARSRocket("himars_standard", 0, 6) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 25F, 3F, true); }};
-		this.itemTypes[LARGE] = new HIMARSRocket("himars_single", 1, 1) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 50F, 5F, true); }};
+		this.itemTypes[SMALL] = new HIMARSRocket("standard", "himars_standard", 0, 6) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 25F, 3F, true); }};
+		this.itemTypes[LARGE] = new HIMARSRocket("single", "himars_single", 1, 1) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 50F, 5F, true); }};
 	}
 }

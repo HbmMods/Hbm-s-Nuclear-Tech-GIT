@@ -3,6 +3,7 @@ package com.hbm.entity.projectile.rocketbehavior;
 import com.hbm.entity.projectile.EntityArtilleryRocket;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Vec3;
 
 /**
  * Basic implementation of predictive targeting.
@@ -23,6 +24,10 @@ public class RocketTargetingPredictive implements IRocketTargetingBehavior {
 	@Override
 	public void recalculateTargetPosition(EntityArtilleryRocket rocket, Entity target) {
 
+		Vec3 speed = Vec3.createVectorHelper(rocket.motionX, rocket.motionY, rocket.motionZ);
+		Vec3 delta = Vec3.createVectorHelper(target.posX - rocket.posX, target.posY - rocket.posY, target.posZ - rocket.posZ);
+		double eta = delta.lengthVector() - speed.lengthVector();
+		
 		/* initialize with the values we already know */
 		double motionX = target.motionX;
 		double motionY = target.motionY;
@@ -40,11 +45,16 @@ public class RocketTargetingPredictive implements IRocketTargetingBehavior {
 		targetMotion[19][0] = target.motionX;
 		targetMotion[19][1] = target.motionY;
 		targetMotion[19][2] = target.motionZ;
+		
+		if(eta <= 1) {
+			rocket.setTarget(target.posX, target.posY - target.yOffset + target.height * 0.5D, target.posZ);
+			return;
+		}
 
 		/* generate averages and predict a new position */
-		double predX = target.posX + (motionX / 20D);
-		double predY = target.posY - target.yOffset + target.height * 0.5D + (motionY / 20D);
-		double predZ = target.posZ + (motionZ / 20D);
+		double predX = target.posX + (motionX / 20D) * eta;
+		double predY = target.posY - target.yOffset + target.height * 0.5D + (motionY / 20D) * eta;
+		double predZ = target.posZ + (motionZ / 20D) * eta;
 		
 		rocket.setTarget(predX, predY, predZ);
 	}
