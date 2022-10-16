@@ -215,7 +215,7 @@ public abstract class ProceduralComponents {
 		
 		//Checks if another structure can be spawned based on input data
 		public boolean canSpawnStructure(int componentAmount, int coordMode, ProceduralComponent component) {
-			return this.instanceLimit < 0 || this.instanceLimit < this.instanceLimit;
+			return this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit;
 		}
 		
 		//Checks if another structure can be spawned at all (used to flag for removal from the list)

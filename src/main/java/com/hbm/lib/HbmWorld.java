@@ -58,5 +58,6 @@ public class HbmWorld {
 		MapGenStructureIO.func_143031_a(Intersection.class, "NTMBIntersection");
 		MapGenStructureIO.func_143031_a(WideIntersection.class, "NTMBWideIntersection");
 		MapGenStructureIO.func_143031_a(UtilityCloset.class, "NTMBUtilityCloset");
+		MapGenStructureIO.func_143031_a(SupplyRoom.class, "NTMBSupplyRoom");
 	}
 }

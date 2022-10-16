@@ -63,6 +63,8 @@ public class MapGenBunker extends MapGenStructure {
 			
 			this.updateBoundingBox();
 			this.markAvailableHeight(world, rand, 10);
+			
+			System.out.print(this.boundingBox.minY);
 		}
 		
 	}

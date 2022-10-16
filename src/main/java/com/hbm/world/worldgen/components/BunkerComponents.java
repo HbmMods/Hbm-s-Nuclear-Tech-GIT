@@ -23,7 +23,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BunkerComponents extends ProceduralComponents {
 	
 	protected static final Weight[] weightArray = new Weight[] {
-			new Weight(10, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = ProceduralComponent.getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 15, mode); //Corridor and Wide version
+			new Weight(8, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = ProceduralComponent.getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 15, mode); //Corridor and Wide version
 				if(box.minY > 10 && StructureComponent.findIntersecting(list, box) == null) return new WideCorridor(type, rand, box, mode);
 				
 				box = ProceduralComponent.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 15, mode);
@@ -33,12 +33,24 @@ public class BunkerComponents extends ProceduralComponents {
 				
 				box = ProceduralComponent.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 5, mode);
 				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new Intersection(type, rand, box, mode) : null; }),
-			new Weight(2, 5, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = ProceduralComponent.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 5, 4, mode);
+			new Weight(3, 5, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = ProceduralComponent.getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 5, 4, mode);
 				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new UtilityCloset(type, rand, box, mode) : null; }) {
 				public boolean canSpawnStructure(int componentAmount, int coordMode, ProceduralComponent component) {
-					return (this.instanceLimit < 0 || this.instanceLimit < this.instanceLimit) && componentAmount > 10; //prevent the gimping of necessary corridors
+					return (this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit) && componentAmount > 6; //prevent the gimping of necessary corridors
 				}
 			},
+			new Weight(8, 4, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = ProceduralComponent.getComponentToAddBoundingBox(x, y, z, -5, -1, 0, 13, 6, 13, mode);
+				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new SupplyRoom(type, rand, box, mode) : null; }) {
+				public boolean canSpawnStructure(int componentAmount, int coordMode, ProceduralComponent component) {
+					return (this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit) && componentAmount > 6; //prevent the gimping of necessary corridors
+				}
+			},
+			new Weight(6, 3, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = ProceduralComponent.getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 9, mode);
+			return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new WasteDisposal(type, rand, box, mode) : null; }) {
+			public boolean canSpawnStructure(int componentAmount, int coordMode, ProceduralComponent component) {
+				return (this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit) && componentAmount > 6; //prevent the gimping of necessary corridors
+			}
+		},
 	};
 	
 	public static void prepareComponents() {
@@ -58,6 +70,10 @@ public class BunkerComponents extends ProceduralComponents {
 		
 		public Bunker(int componentType) {
 			super(componentType);
+		}
+		
+		public void buildComponent(ControlComponent original, List components, Random rand) {
+			checkModifiers(original);
 		}
 		
 		protected void checkModifiers(ControlComponent original) {
@@ -233,7 +249,7 @@ public class BunkerComponents extends ProceduralComponents {
 					
 					int cabinetMeta = getDecoModelMeta(0);
 					if(hasLoot)
-						generateInvContents(world, box, rand, ModBlocks.filing_cabinet, cabinetMeta, 1, 1, 2, HbmChestContents.filingCabinet, 4);
+						generateInvContents(world, box, rand, ModBlocks.filing_cabinet, cabinetMeta, 1, 1, 2, HbmChestContents.machineParts, 4);
 				} else {
 					fillWithMetadataBlocks(world, box, 1, 1, 2, 2, 1, 2, ModBlocks.deco_pipe_quad_green_rusted, getPillarMeta(4));
 					placeBlockAtCurrentPosition(world, ModBlocks.machine_boiler_off, decoMetaN, 3, 1, 2, box);
@@ -241,7 +257,7 @@ public class BunkerComponents extends ProceduralComponents {
 					
 					int cabinetMeta = getDecoModelMeta(3);
 					if(hasLoot)
-						generateInvContents(world, box, rand, ModBlocks.filing_cabinet, cabinetMeta, 1, 1, 1, HbmChestContents.filingCabinet, 4);
+						generateInvContents(world, box, rand, ModBlocks.filing_cabinet, cabinetMeta, 1, 1, 1, HbmChestContents.machineParts, 4);
 				}
 				
 				//Door
@@ -269,6 +285,346 @@ public class BunkerComponents extends ProceduralComponents {
 				pylon1.addConnection(posX2, posY2, posZ2);
 				TileEntityPylonBase pylon2 = (TileEntityPylonBase)tile2;
 				pylon2.addConnection(posX1, posY1, posZ1);
+			}
+		}
+	}
+	
+	public static class SupplyRoom extends Bunker {
+		
+		BlockSelector crateSelector = new BlockSelector() {
+			public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean notInterior) {
+				float chance = rand.nextFloat();
+				
+				if(chance < 0.001)
+					this.field_151562_a = ModBlocks.crate_red;
+				else if(chance < 0.05)
+					this.field_151562_a = ModBlocks.crate_ammo;
+				else if(chance < 0.10)
+					this.field_151562_a = ModBlocks.crate_metal;
+				else if(chance < 0.20)
+					this.field_151562_a = ModBlocks.crate_weapon;
+				else if(chance < 0.35)
+					this.field_151562_a = ModBlocks.crate;
+				else if(chance < 0.50)
+					this.field_151562_a = ModBlocks.crate_can;
+				else
+					this.field_151562_a = Blocks.air;
+			}
+		};
+		
+		public SupplyRoom() { }
+		
+		public SupplyRoom(int componentType, Random rand, StructureBoundingBox box, int coordModeBase) {
+			super(componentType);
+			this.coordBaseMode = coordModeBase;
+			this.boundingBox = box;
+		}
+		
+		@Override
+		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			if(!underwater && isLiquidInStructureBoundingBox(world, boundingBox)) {
+				return false;
+			} else {
+				fillWithAir(world, box, 5, 1, 0, 7, 3, 0);
+				fillWithAir(world, box, 1, 1, 1, 11, 3, 11);
+				
+				//Floor
+				fillWithBlocks(world, box, 1, 0, 2, 1, 0, 10, ModBlocks.tile_lab);
+				fillWithBlocks(world, box, 2, 0, 1, 3, 0, 11, ModBlocks.deco_titanium);
+				fillWithBlocks(world, box, 4, 0, 1, 4, 0, 11, ModBlocks.tile_lab);
+				fillWithBlocks(world, box, 5, 0, 0, 7, 0, 10, ModBlocks.deco_titanium);
+				fillWithBlocks(world, box, 5, 0, 11, 7, 0, 11, ModBlocks.tile_lab);
+				fillWithBlocks(world, box, 8, 0, 1, 8, 0, 11, ModBlocks.tile_lab);
+				fillWithBlocks(world, box, 9, 0, 1, 10, 0, 11, ModBlocks.deco_titanium);
+				fillWithBlocks(world, box, 11, 0, 2, 11, 0, 10, ModBlocks.tile_lab);
+				//Walls
+				fillWithBlocks(world, box, 2, 1, 0, 4, 1, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 2, 2, 0, 4, 2, 0, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 2, 3, 0, 4, 3, 0, ModBlocks.reinforced_brick);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 1, 1, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, 1, 2, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 1, 3, 1, box);
+				fillWithBlocks(world, box, 0, 1, 2, 0, 1, 10, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 0, 2, 2, 0, 2, 10, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 0, 3, 2, 0, 3, 10, ModBlocks.reinforced_brick);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 1, 1, 11, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, 1, 2, 11, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 1, 3, 11, box);
+				fillWithBlocks(world, box, 2, 1, 12, 10, 1, 12, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 2, 2, 12, 10, 2, 12, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 2, 3, 12, 10, 3, 12, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 8, 1, 0, 10, 1, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 8, 2, 0, 10, 2, 0, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 8, 3, 0, 10, 3, 0, ModBlocks.reinforced_brick);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 11, 1, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, 11, 2, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 11, 3, 1, box);
+				fillWithBlocks(world, box, 12, 1, 2, 12, 1, 10, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 12, 2, 2, 12, 2, 10, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 12, 3, 2, 12, 3, 10, ModBlocks.reinforced_brick);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 11, 1, 11, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, 11, 2, 11, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 11, 3, 11, box);
+				//Ceiling
+				int pillarMetaNS = getPillarMeta(8);
+				int pillarMetaWE = getPillarMeta(4);
+				
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 5, 4, 0, box);
+				fillWithBlocks(world, box, 2, 4, 1, 5, 4, 5, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 4, 2, 1, 4, 5, ModBlocks.reinforced_brick);
+				fillWithMetadataBlocks(world, box, 1, 4, 6, 5, 4, 6, ModBlocks.concrete_pillar, pillarMetaWE);
+				fillWithBlocks(world, box, 1, 4, 7, 1, 4, 10, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 2, 4, 7, 5, 4, 11, ModBlocks.reinforced_brick);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 7, 4, 0, box);
+				fillWithBlocks(world, box, 7, 4, 1, 10, 4, 5, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 11, 4, 2, 11, 4, 5, ModBlocks.reinforced_brick);
+				fillWithMetadataBlocks(world, box, 7, 4, 6, 11, 4, 6, ModBlocks.concrete_pillar, pillarMetaWE);
+				fillWithBlocks(world, box, 11, 4, 7, 11, 4, 10, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 7, 4, 7, 10, 4, 11, ModBlocks.reinforced_brick);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 7, 4, 0, box);
+				fillWithMetadataBlocks(world, box, 6, 4, 0, 6, 4, 2, ModBlocks.concrete_pillar, pillarMetaNS);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 5, 4, 0, box);
+				for(int i = 3; i <= 9; i += 3) {
+					placeLamp(world, box, rand, 6, 4, i);
+					fillWithMetadataBlocks(world, box, 6, 4, i + 1, 6, 4, i + 2, ModBlocks.concrete_pillar, pillarMetaNS);
+				}
+				//Shelves Right
+				for(int i = 1; i <= 11; i += i == 4 ? 4 : 3) {
+					if(i % 2 == 0) {
+						for(int j = 1; j <= 11; j += 10) {
+							placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, i, 1, j, box);
+							placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, i, 2, j, box);
+							placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, i, 3, j, box);
+						}
+					}
+					
+					fillWithMetadataBlocks(world, box, i, 2, 2, i, 2, 4, ModBlocks.brick_slab, 8); //b100 = dense stone, top position
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, i, 1, 5, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, i, 2, 5, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, i, 3, 5, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, i, 1, 7, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, i, 2, 7, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, i, 3, 7, box);
+					fillWithMetadataBlocks(world, box, i, 2, 8, i, 2, 10, ModBlocks.brick_slab, 8);
+					//Crates
+					fillWithRandomizedBlocks(world, box, i, 1, 2, i, 1, 4, rand, crateSelector);
+					fillWithRandomizedBlocks(world, box, i, 3, 2, i, 3, 4, rand, crateSelector);
+					if(i % 2 != 0) {
+						placeBlockAtCurrentPosition(world, ModBlocks.brick_slab, 8, i, 2, 6, box); //middle shelf part
+						fillWithRandomizedBlocks(world, box, i, 1, 6, i, 1, 6, rand, crateSelector);
+						fillWithRandomizedBlocks(world, box, i, 3, 6, i, 3, 6, rand, crateSelector);
+					}
+					fillWithRandomizedBlocks(world, box, i, 1, 8, i, 1, 10, rand, crateSelector);
+					fillWithRandomizedBlocks(world, box, i, 3, 8, i, 3, 10, rand, crateSelector);
+				}
+				
+				fillWithMetadataBlocks(world, box, 5, 2, 11, 7, 2, 11, ModBlocks.brick_slab, 8);
+				generateInvContents(world, box, rand, ModBlocks.crate_iron, 6, 3, 11, HbmChestContents.machineParts, 10);
+				generateInvContents(world, box, rand, ModBlocks.crate_iron, 7, 1, 11, HbmChestContents.vault1, 8);
+				
+				if(underwater) {
+					fillWithWater(world, box, rand, 1, 1, 1, 11, 3, 11, 1);
+					fillWithWater(world, box, rand, 5, 1, 0, 7, 3, 0, 1);
+				} else
+					fillWithCobwebs(world, box, rand, 1, 1, 0, 11, 3, 11);
+				
+				return true;
+			}
+		}	
+	}
+	//what 'waste'?
+	public static class WasteDisposal extends Bunker {
+		
+		public WasteDisposal() { }
+		
+		public WasteDisposal(int componentType, Random rand, StructureBoundingBox box, int coordBaseMode) {
+			super(componentType);
+			this.coordBaseMode = coordBaseMode;
+			this.boundingBox = box;
+		}
+		
+		@Override
+		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			if(!underwater && isLiquidInStructureBoundingBox(world, boundingBox)) {
+				return false;
+			} else {
+				//Floor
+				placeBlockAtCurrentPosition(world, ModBlocks.tile_lab, 0, 4, 0, 0, box);
+				fillWithBlocks(world, box, 1, 0, 1, 1, 0, 2, ModBlocks.concrete_brick_slab);
+				fillWithBlocks(world, box, 1, 0, 3, 1, 0, 7, ModBlocks.deco_titanium);
+				fillWithBlocks(world, box, 2, 0, 1, 2, 0, 7, ModBlocks.tile_lab);
+				fillWithBlocks(world, box, 3, 0, 1, 5, 0, 3, ModBlocks.deco_titanium);
+				fillWithBlocks(world, box, 3, 0, 4, 5, 0, 4, ModBlocks.tile_lab);
+				fillWithBlocks(world, box, 3, 0, 5, 5, 0, 7, ModBlocks.deco_titanium);
+				fillWithBlocks(world, box, 6, 0, 1, 6, 0, 7, ModBlocks.tile_lab);
+				fillWithBlocks(world, box, 7, 0, 1, 7, 0, 2, ModBlocks.concrete_brick_slab);
+				fillWithBlocks(world, box, 7, 0, 3, 7, 0, 7, ModBlocks.deco_titanium);
+				//Wall
+				fillWithBlocks(world, box, 1, 0, 0, 1, 1, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 2, 1, 0, 3, 1, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 2, 0, 3, 2, 0, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 7, 0, 0, 7, 1, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 5, 1, 0, 6, 1, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 5, 2, 0, 7, 2, 0, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 1, 3, 0, 7, 3, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 0, 0, 1, 0, 1, 2, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 0, 1, 3, 0, 1, 7, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 0, 2, 1, 0, 2, 7, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 0, 3, 1, 0, 3, 7, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 1, 8, 7, 1, 8, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 2, 8, 7, 2, 8, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 1, 3, 8, 7, 3, 8, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 8, 1, 3, 8, 1, 7, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 8, 0, 1, 8, 1, 2, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 8, 2, 1, 8, 2, 7, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 8, 3, 1, 8, 3, 7, ModBlocks.reinforced_brick);
+				//Ceiling
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 4, 4, 1, box);
+				fillWithBlocks(world, box, 1, 4, 1, 3, 4, 7, ModBlocks.reinforced_brick);
+				placeLamp(world, box, rand, 4, 4, 2);
+				fillWithBlocks(world, box, 4, 4, 3, 4, 4, 7, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 5, 4, 1, 7, 4, 7, ModBlocks.reinforced_brick);
+				//Decorations
+				fillWithMetadataBlocks(world, box, 1, 1, 1, 1, 1, 2, ModBlocks.steel_grate, 7);
+				placeBlockAtCurrentPosition(world, ModBlocks.steel_wall, getDecoMeta(3), 1, 1, 3, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.steel_wall, getDecoMeta(2), 1, 1, 5, box);
+				fillWithMetadataBlocks(world, box, 1, 1, 6, 1, 1, 7, ModBlocks.steel_grate, 7);
+				generateInvContents(world, box, rand, ModBlocks.crate_iron, 1, 2, 7, HbmChestContents.filingCabinet, 10);
+				fillWithMetadataBlocks(world, box, 7, 1, 1, 7, 1, 2, ModBlocks.steel_grate, 7);
+				placeBlockAtCurrentPosition(world, ModBlocks.steel_wall, getDecoMeta(3), 7, 1, 3, box);
+				placeRandomBobble(world, box, rand, 7, 2, 1);
+				//Cremator
+				int pillarMetaWE = getPillarMeta(4);
+				
+				//fillWithMetadataBlocks(world, box, 3, 1, 5, 5, 1, 7, ModBlocks.heater_firebox, 4);
+				//placeholder, but how the hell am i to guarantee that this multiblock shit won't spill into unloaded chunks?
+				fillWithBlocks(world, box, 3, 1, 5, 3, 1, 7, ModBlocks.brick_fire);
+				fillWithMetadataBlocks(world, box, 4, 1, 5, 4, 1, 6, ModBlocks.brick_slab, 6);
+				placeBlockAtCurrentPosition(world, ModBlocks.brick_fire, 0, 4, 1, 7, box);
+				fillWithBlocks(world, box, 5, 1, 5, 5, 1, 7, ModBlocks.brick_fire);
+				//i genuinely cannot be bothered to go to the effort of block selectors for the stairs n shit
+				fillWithMetadataBlocks(world, box, 3, 2, 5, 3, 2, 6, ModBlocks.brick_concrete_stairs, getStairMeta(1));
+				placeBlockAtCurrentPosition(world, ModBlocks.brick_concrete_stairs, getStairMeta(2), 3, 2, 7, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_brick_slab, 0, 4, 2, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.brick_concrete_stairs, getStairMeta(2), 4, 2, 7, box);
+				fillWithMetadataBlocks(world, box, 5, 2, 5, 5, 2, 6, ModBlocks.brick_concrete_stairs, getStairMeta(0));
+				placeBlockAtCurrentPosition(world, ModBlocks.brick_concrete_stairs, getStairMeta(2), 5, 2, 7, box);
+				fillWithBlocks(world, box, 3, 3, 5, 3, 3, 7, ModBlocks.brick_concrete);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_brick_slab, 8, 4, 3, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.brick_concrete, 0, 4, 3, 7, box);
+				fillWithBlocks(world, box, 5, 3, 5, 5, 3, 7, ModBlocks.brick_concrete);
+				fillWithMetadataBlocks(world, box, 1, 3, 6, 2, 3, 6, ModBlocks.deco_pipe_quad_rusted, pillarMetaWE);
+				fillWithMetadataBlocks(world, box, 6, 3, 6, 7, 3, 6, ModBlocks.deco_pipe_quad_rusted, pillarMetaWE);
+				placeDoor(world, box, ModBlocks.door_bunker, 1, 4, 1, 0);
+				
+				if(underwater) { //against all odds, building remains unflooded
+					fillWithWater(world, box, rand, 1, 1, 1, 7, 3, 7, 0);
+				} else {
+					fillWithCobwebs(world, box, rand, 1, 1, 1, 7, 3, 7);
+				}
+				
+				return true;
+			}
+		}
+	}
+	
+	public static class Bedroom extends Bunker {
+		
+		public Bedroom() { }
+		
+		public Bedroom(int componentType, Random rand, StructureBoundingBox box, int coordBaseMode) {
+			super(componentType);
+			this.coordBaseMode = coordBaseMode;
+			this.boundingBox = box;
+		}
+		
+		@Override
+		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			
+			if(!underwater && isLiquidInStructureBoundingBox(world, boundingBox)) {
+				return false;
+			} else {
+				//Floor
+				placeBlockAtCurrentPosition(world, ModBlocks.tile_lab, 0, 2, 0, 0, box);
+				fillWithBlocks(world, box, 1, 0, 1, 6, 0, 8, ModBlocks.tile_lab);
+				//Wall
+				fillWithBlocks(world, box, 3, 1, 0, 6, 1, 0, ModBlocks.reinforced_brick);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 1, 1, 0, box);
+				fillWithBlocks(world, box, 3, 2, 0, 6, 3, 0, ModBlocks.concrete_colored);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored, 0, 2, 3, 0, box);
+				fillWithBlocks(world, box, 1, 2, 0, 1, 3, 0, ModBlocks.concrete_colored);
+				fillWithBlocks(world, box, 0, 1, 1, 0, 1, 8, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 0, 2, 1, 0, 3, 8, ModBlocks.concrete_colored);
+				fillWithBlocks(world, box, 1, 1, 9, 6, 1, 9, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 2, 9, 3, 3, 9, ModBlocks.concrete_colored);
+				fillWithBlocks(world, box, 4, 2, 9, 6, 2, 9, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 4, 3, 9, 6, 3, 9, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 7, 1, 1, 7, 1, 8, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 7, 2, 1, 7, 3, 4, ModBlocks.concrete_colored);
+				fillWithBlocks(world, box, 7, 2, 5, 7, 2, 8, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 7, 3, 5, 7, 3, 8, ModBlocks.reinforced_brick);
+				//Interior Wall
+				fillWithBlocks(world, box, 5, 1, 5, 6, 1, 5, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 5, 2, 5, 6, 3, 5, ModBlocks.concrete_colored);
+				fillWithBlocks(world, box, 4, 1, 6, 4, 1, 7, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 4, 2, 6, 4, 3, 7, ModBlocks.concrete_colored);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored, 0, 4, 3, 8, box);
+				//Ceiling
+				fillWithBlocks(world, box, 1, 4, 1, 6, 4, 1, ModBlocks.concrete);
+				for(int i = 1; i <= 4; i += 3) {
+					fillWithBlocks(world, box, i, 4, 2, i, 4, 3, ModBlocks.concrete);
+					placeLamp(world, box, rand, i + 1, 4, 2);
+					placeLamp(world, box, rand, i + 1, 4, 3);
+					fillWithBlocks(world, box, i + 2, 4, 2, i + 2, 4, 3, ModBlocks.concrete);
+				}
+				fillWithBlocks(world, box, 1, 4, 4, 1, 4, 8, ModBlocks.concrete);
+				fillWithBlocks(world, box, 2, 4, 4, 2, 4, 6, ModBlocks.concrete);
+				placeLamp(world, box, rand, 2, 4, 7);
+				fillWithBlocks(world, box, 2, 4, 8, 4, 4, 8, ModBlocks.concrete);
+				fillWithBlocks(world, box, 3, 4, 4, 4, 4, 7, ModBlocks.concrete);
+				fillWithBlocks(world, box, 5, 4, 4, 6, 4, 5, ModBlocks.concrete);
+				fillWithBlocks(world, box, 5, 4, 6, 5, 4, 8, ModBlocks.reinforced_brick);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 6, 4, 6, box);
+				placeLamp(world, box, rand, 6, 4, 7);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 6, 4, 8, box);
+				
+				//Decorations
+				//Bathroom TODO: figure out meta for this shit
+				placeDoor(world, box, ModBlocks.door_metal, 4, 4, 1, 8);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_slab, 9, 5, 1, 6, box);
+				placeBlockAtCurrentPosition(world, Blocks.cauldron, 0, 6, 1, 6, box);
+				placeBlockAtCurrentPosition(world, Blocks.tripwire_hook, 0, 6, 2, 6, box);
+				placeBlockAtCurrentPosition(world, Blocks.hopper, 3, 6, 1, 8, box);
+				placeBlockAtCurrentPosition(world, Blocks.trapdoor, 0, 6, 2, 8, box);
+				//Furnishing TODO: figure out beds
+				//placeBlockAtCurrentPosition(world, ModBlocks.bed, 2, 4, 1, 2, box);
+				//placeBlockAtCurrentPosition(world, ModBlocks.bed, 2, 5, 1, 2, box);
+				fillWithMetadataBlocks(world, box, 6, 1, 1, 6, 1, 4, ModBlocks.concrete_slab, 9);
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(1), 5, 1, 4, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.radiorec, getDecoMeta(5), 6, 2, 1, box);
+				placeRandomBobble(world, box, rand, 6, 2, 3);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(2), 6, 2, 4, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, getDecoModelMeta(0), 4, 1, 5, box);
+				//
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_stairs, getStairMeta(7), 1, 1, 2, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_stairs, getStairMeta(6), 1, 1, 3, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.machine_electric_furnace_off, 5, 1, 1, 4, box);
+				fillWithMetadataBlocks(world, box, 1, 3, 2, 1, 3, 4, ModBlocks.reinforced_brick_stairs, getStairMeta(1));
+				//
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(3), 1, 1, 6, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_stairs, getStairMeta(4), 2, 1, 7, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_slab, 9, 1, 1, 7, box);
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(2), 1, 1, 8, box);
+				
+				placeDoor(world, box, ModBlocks.door_metal, 1, 2, 1, 0);
+				
+				if(underwater) { //against all odds, building remains unflooded
+					fillWithWater(world, box, rand, 1, 1, 1, 6, 3, 8, 0);
+				} else {
+					fillWithCobwebs(world, box, rand, 1, 1, 1, 6, 3, 8);
+				}
+				
+				return true;
 			}
 		}
 	}
@@ -429,18 +785,40 @@ public class BunkerComponents extends ProceduralComponents {
 		
 	}
 	
-	interface Wide { } //now you may ask yourself - where is that beautiful house? you may ask yourself - where does that highway go to?
+	private interface Wide { } //now you may ask yourself - where is that beautiful house? you may ask yourself - where does that highway go to?
 	//you may ask yourself - am i right, am i wrong? you may say to yourself - my god, no multiple inheritance to be done!
+	private interface Bulkhead { public void setBulkheadNZ(boolean bool);
+		public default void flipConstitutentBulkhead(StructureComponent component, Random rand) {
+			if(component instanceof Bulkhead) {
+				Bulkhead head = (Bulkhead) component;
+				head.setBulkheadNZ(rand.nextInt(4) == 0);
+			}
+		}
+	} //mh
 	
-	public static class WideCorridor extends Corridor implements Wide {
+	public static class WideCorridor extends Corridor implements Wide, Bulkhead {
 		
 		boolean bulkheadNZ = true;
+		public void setBulkheadNZ(boolean bool) { bulkheadNZ = bool; } //ihatelackofmultipleinheritanceihatelackofmultipleinheritanceihatelackofmultipleinheritanceihatelackofmultipleinheritance
+		
 		boolean bulkheadPZ = true;
 		
 		public WideCorridor() { }
 		
 		public WideCorridor(int componentType, Random rand, StructureBoundingBox box, int coordBaseMode) {
 			super(componentType, rand, box, coordBaseMode);
+		}
+		
+		protected void func_143012_a(NBTTagCompound data) {
+			super.func_143012_a(data);
+			data.setBoolean("bulkheadNZ", bulkheadNZ);
+			data.setBoolean("bulkheadPZ", bulkheadPZ);
+		}
+		
+		protected void func_143011_b(NBTTagCompound data) {
+			super.func_143011_b(data);
+			bulkheadNZ = data.getBoolean("bulkheadNZ");
+			bulkheadPZ = data.getBoolean("bulkheadPZ");
 		}
 		
 		@Override
@@ -452,11 +830,7 @@ public class BunkerComponents extends ProceduralComponents {
 			
 			if(component instanceof Wide) {
 				bulkheadPZ = false;
-				
-				if(component instanceof WideCorridor) {
-					WideCorridor corridor = (WideCorridor) component;
-					corridor.bulkheadNZ = rand.nextInt(4) == 0;
-				}
+				flipConstitutentBulkhead(component, rand);
 			}
 			
 			if(rand.nextInt(3) > 0) {
@@ -751,7 +1125,7 @@ public class BunkerComponents extends ProceduralComponents {
 				}
 				
 				if(underwater) {
-					fillWithWater(world, box, rand, 1, 1, 0, 3, 3, opensPX ? 4 : 3, 1);
+					fillWithWater(world, box, rand, 1, 1, 0, 3, 3, opensPZ ? 4 : 3, 1);
 					if(opensNX) fillWithWater(world, box, rand, 0, 1, 1, 0, 3, 3, 1);
 					if(opensPX) fillWithWater(world, box, rand, 4, 1, 1, 4, 3, 3, 1);
 				} else
@@ -762,9 +1136,11 @@ public class BunkerComponents extends ProceduralComponents {
 		}
 	}
 	
-	public static class WideIntersection extends Intersection implements Wide {
+	public static class WideIntersection extends Intersection implements Wide, Bulkhead {
 		
 		boolean bulkheadNZ = true;
+		public void setBulkheadNZ(boolean bool) { bulkheadNZ = bool; }
+		
 		boolean bulkheadPZ = true;
 		boolean bulkheadNX = true;
 		boolean bulkheadPX = true;
@@ -779,8 +1155,8 @@ public class BunkerComponents extends ProceduralComponents {
 			super.func_143012_a(data);
 			data.setBoolean("bulkheadNZ", bulkheadNZ);
 			data.setBoolean("bulkheadPZ", bulkheadPZ);
-			data.setBoolean("opensNX", opensNX);
-			data.setBoolean("opensPX", opensPX);
+			data.setBoolean("bulkheadNX", bulkheadNX);
+			data.setBoolean("bulkheadPX", bulkheadPX);
 		}
 		
 		protected void func_143011_b(NBTTagCompound data) {
@@ -800,11 +1176,7 @@ public class BunkerComponents extends ProceduralComponents {
 			
 			if(component instanceof Wide) {
 				bulkheadPZ = false;
-				
-				if(component instanceof WideCorridor) {
-					WideCorridor corridor = (WideCorridor) component;
-					corridor.bulkheadNZ = rand.nextInt(4) == 0;
-				}
+				flipConstitutentBulkhead(component, rand);
 			}
 			
 			StructureComponent componentN = getNextComponentNX(original, components, rand, 3, 1);
@@ -812,11 +1184,7 @@ public class BunkerComponents extends ProceduralComponents {
 			
 			if(componentN instanceof Wide) {
 				bulkheadNX = false;
-				
-				if(componentN instanceof WideCorridor) {
-					WideCorridor corridor = (WideCorridor) componentN;
-					corridor.bulkheadNZ = rand.nextInt(4) == 0;
-				}
+				flipConstitutentBulkhead(component, rand);
 			}
 			
 			StructureComponent componentP = getNextComponentPX(original, components, rand, 3, 1);
@@ -824,11 +1192,7 @@ public class BunkerComponents extends ProceduralComponents {
 			
 			if(componentP instanceof Wide) {
 				bulkheadPX = false;
-				
-				if(componentP instanceof WideCorridor) {
-					WideCorridor corridor = (WideCorridor) componentP;
-					corridor.bulkheadNZ = rand.nextInt(4) == 0;
-				}
+				flipConstitutentBulkhead(component, rand);
 			}
 		}
 		

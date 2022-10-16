@@ -270,7 +270,7 @@ abstract public class Component extends StructureComponent {
 		int posZ = this.getZWithOffset(featureX, featureZ);
 		
 		if(world.getBlock(posX, posY, posZ) == block) //replacement for hasPlacedLoot checks
-			return false;
+			return true;
 		
 		this.placeBlockAtCurrentPosition(world, block, meta, featureX, featureY, featureZ, box);
 		IInventory inventory = (IInventory)world.getTileEntity(posX, posY, posZ);
