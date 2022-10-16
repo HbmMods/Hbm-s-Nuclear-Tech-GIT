@@ -121,10 +121,20 @@ public class ItemAmmoArty extends Item {
 			list.add(r + "(that is the best skull and crossbones");
 			list.add(r + "minecraft's unicode has to offer)");
 			break;
+		case CARGO:
+			
+			if(stack.hasTagCompound() && stack.stackTagCompound.getCompoundTag("cargo") != null) {
+				ItemStack cargo = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("cargo"));
+				list.add(y + cargo.getDisplayName());
+			} else {
+				list.add(r + "Empty");
+			}
+			break;
 		}
 	}
-	
+
 	private IIcon[] icons = new IIcon[itemTypes.length];
+	private IIcon iconCargo;
 
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
@@ -134,6 +144,18 @@ public class ItemAmmoArty extends Item {
 		for(int i = 0; i < icons.length; i++) {
 			this.icons[i] = reg.registerIcon(RefStrings.MODID + ":" + itemTypes[i].name);
 		}
+		
+		this.iconCargo = reg.registerIcon(RefStrings.MODID + ":ammo_arty_cargo_full");
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconIndex(ItemStack stack) {
+		
+		if(stack.getItemDamage() == CARGO && stack.hasTagCompound() && stack.stackTagCompound.getCompoundTag("cargo") != null) {
+			return this.iconCargo;
+		}
+		
+		return this.getIconFromDamage(stack.getItemDamage());
 	}
 	
 	@Override

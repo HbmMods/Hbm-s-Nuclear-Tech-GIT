@@ -150,8 +150,8 @@ public abstract class GuiInfoContainer extends GuiContainer {
 				minY = this.height - height - 6;
 			}
 
-			this.zLevel = 300.0F;
-			itemRender.zLevel = 300.0F;
+			this.zLevel = 400.0F;
+			itemRender.zLevel = 400.0F;
 			//int j1 = -267386864;
 			int colorBg = 0xF0100010;
 			this.drawGradientRect(minX - 3, minY - 4, minX + longestline + 3, minY - 3, colorBg, colorBg);
@@ -193,6 +193,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 							this.drawGradientRect(minX + indent - 1, minY - 1, minX + indent + 17, minY + 17, 0xffff0000, 0xffff0000);
 							this.drawGradientRect(minX + indent, minY, minX + indent + 16, minY + 16, 0xffb0b0b0, 0xffb0b0b0);
 						}
+						GL11.glEnable(GL11.GL_DEPTH_TEST);
 						itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), stack, minX + indent, minY);
 						itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.getTextureManager(), stack, minX + indent, minY, null);
 						RenderHelper.disableStandardItemLighting();

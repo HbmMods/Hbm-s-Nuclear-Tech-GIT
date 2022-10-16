@@ -226,8 +226,8 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 				this.prevRotationYaw += 360.0F;
 			}
 	
-			//this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
-			//this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
+			this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
+			this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
 			float drag = this.getAirDrag();
 			double gravity = this.getGravityVelocity();
 	

@@ -6,9 +6,11 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityHeatBoiler;
@@ -29,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineHeatBoiler extends BlockDummyable implements ILookOverlay, IBlockMulti {
+public class MachineHeatBoiler extends BlockDummyable implements ILookOverlay, ITooltipProvider, IBlockMulti {
 
 	public MachineHeatBoiler() {
 		super(Material.iron);
@@ -112,9 +114,12 @@ public class MachineHeatBoiler extends BlockDummyable implements ILookOverlay, I
 		int[] pos = this.findCore(world, x, y, z);
 		
 		if(pos != null) {
-			TileEntityHeatBoiler stirling = (TileEntityHeatBoiler)world.getTileEntity(pos[0], pos[1], pos[2]);
-			if(stirling.hasExploded) {
-				dmg = 1;
+			TileEntityHeatBoiler boiler = (TileEntityHeatBoiler)world.getTileEntity(pos[0], pos[1], pos[2]);
+			if(boiler.hasExploded) {
+				//dmg = 1;
+				ret.add(new ItemStack(ModItems.ingot_steel, 4));
+				ret.add(new ItemStack(ModItems.plate_copper, 8));
+				return ret;
 			}
 		}
 		
@@ -179,5 +184,10 @@ public class MachineHeatBoiler extends BlockDummyable implements ILookOverlay, I
 	@Override
 	public int getSubCount() {
 		return 0;
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

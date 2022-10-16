@@ -68,17 +68,17 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 
 	@Override
 	public double getBarrelLength() {
-		return 3D;
+		return 0.5D;
 	}
 
 	@Override
 	public double getAcceptableInaccuracy() {
-		return 0;
+		return 5D; //they're guided missiles so who gives a shit
 	}
 	
 	@Override
 	public double getHeightOffset() {
-		return 3D;
+		return 5D;
 	}
 
 	@Override
@@ -303,7 +303,7 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 			if(this.hasAmmo() && this.tPos != null) {
 				this.spawnShell(this.typeLoaded);
 				this.ammo--;
-				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.jeremy_fire", 25.0F, 1.0F);
+				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.rocketFlame", 25.0F, 1.0F);
 			}
 			
 			if(this.mode == this.MODE_MANUAL && !this.targetQueue.isEmpty()) {

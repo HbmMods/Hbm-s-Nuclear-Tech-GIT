@@ -1360,8 +1360,9 @@ public class ItemRenderLibrary {
 		
 		renderers.put(ModItems.ammo_himars, new ItemRenderBase( ) {
 			public void renderInventory() {
-				GL11.glTranslated(0, -2.5, 0);
-				GL11.glScaled(4, 4, 4);
+				GL11.glTranslated(0, -2, 0);
+				double scale = 2.75D;
+				GL11.glScaled(scale, scale, scale);
 				GL11.glRotated(System.currentTimeMillis() % 3600 / 10D, 0, 1, 0);
 			}
 			public void renderCommonWithStack(ItemStack item) {
@@ -1370,7 +1371,20 @@ public class ItemRenderLibrary {
 				GL11.glRotated(90, 1, 0, 0);
 				HIMARSRocket type = ItemAmmoHIMARS.itemTypes[item.getItemDamage()];
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(type.texture); ResourceManager.turret_himars.renderPart(type.modelType == 0 ? "RocketStandard" : "RocketSingle");
+				bindTexture(type.texture); 
+				if(type.modelType == 0) {
+					GL11.glTranslated(0.75, 0, 0);
+					ResourceManager.turret_himars.renderPart("RocketStandard");
+					GL11.glTranslated(-1.5, 0, 0);
+					GL11.glTranslated(0, -3.375D, 0);
+					ResourceManager.turret_himars.renderPart("TubeStandard");
+				} else {
+					GL11.glTranslated(0.75, 0, 0);
+					ResourceManager.turret_himars.renderPart("RocketSingle");
+					GL11.glTranslated(-1.5, 0, 0);
+					GL11.glTranslated(0, -3.375D, 0);
+					ResourceManager.turret_himars.renderPart("TubeSingle");
+				}
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		

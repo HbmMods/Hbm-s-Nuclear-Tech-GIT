@@ -63,7 +63,6 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 				
 				if(this.tanks[1].getFill() > 0) {
 					this.sendFluid();
-					
 					fillFluidInit(tanks[1].getTankType());
 				}
 			}

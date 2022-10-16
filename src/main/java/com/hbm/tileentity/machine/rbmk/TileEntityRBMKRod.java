@@ -173,6 +173,8 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			if(rod.getStackInSlot(0) != null && rod.getStackInSlot(0).getItem() instanceof ItemRBMKRod) {
 				rod.receiveFlux(stream, flux);
 				return 0;
+			} else {
+				return flux;
 			}
 		}
 		
@@ -190,7 +192,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			return 0;
 		}
 		
-		//set neutrons to slow
+		//multiply neutron count with rod setting
 		if(te instanceof TileEntityRBMKControl) {
 			TileEntityRBMKControl control = (TileEntityRBMKControl)te;
 			
@@ -227,7 +229,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		int hits = 0;
 		for(int h = 0; h <= limit; h++) {
 			
-			if(!worldObj.getBlock(x, y, z).isOpaqueCube())
+			if(!worldObj.getBlock(x, y + h, z).isOpaqueCube())
 				hits++;
 		}
 		

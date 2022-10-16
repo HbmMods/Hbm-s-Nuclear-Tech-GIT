@@ -32,6 +32,7 @@ public class ItemAmmoHIMARS extends Item {
 		this.setHasSubtypes(true);
 		this.setCreativeTab(MainRegistry.weaponTab);
 		this.setTextureName(RefStrings.MODID + ":ammo_rocket");
+		this.setMaxStackSize(1);
 		init();
 	}
 

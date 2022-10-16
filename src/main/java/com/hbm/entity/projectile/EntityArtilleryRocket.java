@@ -86,6 +86,13 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 	
 	@Override
 	public void onUpdate() {
+		
+		if(worldObj.isRemote) {
+			this.lastTickPosX = this.posX;
+			this.lastTickPosY = this.posY;
+			this.lastTickPosZ = this.posZ;
+		}
+		
 		super.onUpdate();
 		
 		if(!worldObj.isRemote) {
@@ -103,6 +110,14 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 			
 			loadNeighboringChunks((int)Math.floor(posX / 16D), (int)Math.floor(posZ / 16D));
 			this.getType().onUpdate(this);
+		} else {
+			
+			Vec3 v = Vec3.createVectorHelper(lastTickPosX - posX, lastTickPosY - posY, lastTickPosZ - posZ);
+			double velocity = v.lengthVector();
+			v = v.normalize();
+			
+			int offset = 6;
+			if(velocity > 1) for(int i = offset; i < velocity + offset; i++) MainRegistry.proxy.spawnParticle(posX + v.xCoord * i, posY + v.yCoord * i, posZ + v.zCoord * i, "exKerosene", null);
 		}
 	}
 
@@ -194,5 +209,10 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 	@Override
 	public RadarTargetType getTargetType() {
 		return RadarTargetType.ARTILLERY;
+	}
+	
+	@Override
+	public int approachNum() {
+		return 0; //
 	}
 }

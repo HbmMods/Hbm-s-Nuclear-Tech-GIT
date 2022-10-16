@@ -266,7 +266,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 			CrucibleRecipe recipe = getLoadedRecipe();
 			
 			for(MaterialStack material : materials) {
-				boolean mainStack = recipe != null && getQuantaFromType(recipe.input, material.material) > 0;
+				boolean mainStack = recipe != null && (getQuantaFromType(recipe.input, material.material) > 0 || getQuantaFromType(recipe.output, material.material) > 0);
 				
 				if(mainStack) {
 					this.addToStack(this.recipeStack, material);
@@ -359,6 +359,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 			//this allows pouring the ouput material back into the crucible
 			if(recipe != null && getQuantaFromType(recipe.output, mat.material) > 0) {
 				recipeAmount += mat.amount;
+				matchesRecipe = true;
 				continue;
 			}
 			
