@@ -42,8 +42,8 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	public TileEntityMachineBoiler() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.WATER, 8000, 0);
-		tanks[1] = new FluidTank(Fluids.STEAM, 8000, 1);
+		tanks[0] = new FluidTank(Fluids.OIL, 8000, 0);
+		tanks[1] = new FluidTank(Fluids.HOTOIL, 8000, 1);
 	}
 
 	@Override

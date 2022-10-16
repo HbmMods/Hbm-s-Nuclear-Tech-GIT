@@ -48,8 +48,8 @@ public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implem
 	public TileEntityMachineBoilerElectric() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.WATER, 16000, 0);
-		tanks[1] = new FluidTank(Fluids.STEAM, 16000, 1);
+		tanks[0] = new FluidTank(Fluids.OIL, 16000, 0);
+		tanks[1] = new FluidTank(Fluids.HOTOIL, 16000, 1);
 	}
 
 	@Override
