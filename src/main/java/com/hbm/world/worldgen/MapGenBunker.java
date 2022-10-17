@@ -38,18 +38,21 @@ public class MapGenBunker extends MapGenStructure {
 		
 		public Start(World world, Random rand, int chunkX, int chunkZ) {
 			super(chunkX, chunkZ);
-			BunkerComponents.prepareComponents();
+			
+			BunkerComponents bunker = new BunkerComponents(); //oop is confusing sometimes
+			bunker.prepareComponents();
+			
 			Atrium atrium = new Atrium(0, rand, (chunkX << 4) + 8, (chunkZ << 4) + 8);
 			this.components.add(atrium);
-			atrium.buildComponent(atrium, components, rand);
-			atrium.underwater = true;//rand.nextInt(2) == 0;
+			atrium.buildComponent(bunker, atrium, components, rand);
+			atrium.underwater = false;//rand.nextInt(2) == 0;
 			
 			List list = atrium.queuedComponents;
 			while(!list.isEmpty()) {
 				int k = rand.nextInt(list.size());
 				ProceduralComponent component = (ProceduralComponent)list.remove(k);
 				atrium.lastComponent = component;
-				component.buildComponent(atrium, this.components, rand);
+				component.buildComponent(bunker, atrium, this.components, rand);
 			}
 			
 			if(GeneralConfig.enableDebugMode) {

@@ -12,30 +12,22 @@ import net.minecraft.world.gen.structure.StructureComponent;
 
 public abstract class ProceduralComponents {
 	
-	protected static List componentWeightList;
-	static int totalWeight;
+	protected List componentWeightList;
 	
-	/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	 * The two methods/fields below *must* be recreated in the subclasses.
-	 * Due to poor language design, Java does not allow the overriding/creation of static abstract methods;
-	 * due to reasonable language design, Java does not allow overriding abstract fields.
-	 * getWeightArray() should contain an array with Weight(s) for your components.
-	 */
+	protected static Weight[] weightArray = new Weight[] { };
 	
-	//protected static final Weight[] weightArray = new Weight[] { };
-	
-	/*public static void prepareComponents() {
+	public void prepareComponents() {
 		componentWeightList = new ArrayList();
 		
 		for(int i = 0; i < weightArray.length; i++) {
 			weightArray[i].instancesSpawned = 0;
 			componentWeightList.add(weightArray[i]);
 		}
-	}*/
+	}
 	
-	protected static boolean canAddStructurePieces() {
+	protected int getTotalWeight() {
 		boolean flag = false;
-		totalWeight = 0;
+		int totalWeight = 0;
 		Weight weight;
 		
 		for(Iterator iterator = componentWeightList.iterator(); iterator.hasNext(); totalWeight += weight.weight) { //Iterates over the entire list to find the total weight
@@ -45,12 +37,13 @@ public abstract class ProceduralComponents {
 				flag = true;
 		}
 		
-		return flag;
+		return flag ? totalWeight : -1;
 	}
 	
-	protected static ProceduralComponent getWeightedComponent(ControlComponent original, List components, Random rand, int minX, int minY, int minZ, int coordMode, int componentType) {
+	protected ProceduralComponent getWeightedComponent(ControlComponent original, List components, Random rand, int minX, int minY, int minZ, int coordMode, int componentType) {
+		int totalWeight = getTotalWeight();
 		
-		if(!canAddStructurePieces())
+		if(totalWeight < 0)
 			return null;
 		
 		for(int i = 0; i < 5; i++) {
@@ -83,12 +76,15 @@ public abstract class ProceduralComponents {
 		return null;
 	}
 	
-	protected static ProceduralComponent getNextValidComponent(ControlComponent original, List components, Random rand, int minX, int minY, int minZ, int coordMode, int componentType) {
+	protected int sizeLimit = 50;
+	protected int distanceLimit = 64;
+	
+	protected ProceduralComponent getNextValidComponent(ControlComponent original, List components, Random rand, int minX, int minY, int minZ, int coordMode, int componentType) {
 		
-		if(components.size() > 50) //Hard limit on amount of components
+		if(components.size() > sizeLimit) //Hard limit on amount of components
 			return null;
 		
-		if(Math.abs(minX - original.getBoundingBox().minX) <= 64 && Math.abs(minZ - original.getBoundingBox().minZ) <= 64) { //Hard limit on spread of structure
+		if(Math.abs(minX - original.getBoundingBox().minX) <= distanceLimit && Math.abs(minZ - original.getBoundingBox().minZ) <= distanceLimit) { //Hard limit on spread of structure
 			
 			ProceduralComponent structure = getWeightedComponent(original, components, rand, minX, minY, minZ, coordMode, componentType + 1); //Returns null if all checks fail
 			
@@ -103,6 +99,21 @@ public abstract class ProceduralComponents {
 		return null;
 	}
 	
+	public static StructureBoundingBox getComponentToAddBoundingBox(int posX, int posY, int posZ, int offsetX, int offsetY, int offsetZ, int maxX, int maxY, int maxZ, int coordMode) {
+		switch(coordMode) {
+		case 0: //South
+			return new StructureBoundingBox(posX + offsetX, posY + offsetY, posZ + offsetZ, posX + maxX - 1 + offsetX, posY + maxY - 1 + offsetY, posZ + maxZ - 1 + offsetZ);
+		case 1: //West
+			return new StructureBoundingBox(posX - maxZ + 1 - offsetZ, posY + offsetY, posZ + offsetX, posX - offsetZ, posY + maxY - 1 + offsetY, posZ + maxX - 1 + offsetX);
+		case 2: //North
+			return new StructureBoundingBox(posX - maxX + 1 - offsetX, posY + offsetY, posZ - maxZ + 1 - offsetZ, posX - offsetX, posY + maxY - 1 + offsetY, posZ + offsetZ);
+		case 3: //East
+			return new StructureBoundingBox(posX + offsetZ, posY + offsetY, posZ - maxX + 1 - offsetX, posX + maxZ - 1 + offsetZ, posY + maxY - 1 + offsetY, posZ - offsetX);
+		default:
+			return new StructureBoundingBox(posX + offsetX, posY + offsetY, posZ + offsetZ, posX + maxX - 1 + offsetX, posY + maxY - 1 + offsetY, posZ + maxZ - 1 + offsetZ);
+		}
+	}
+	
 	/** StructureComponent that supports procedural generation */
 	public abstract static class ProceduralComponent extends Component {
 		
@@ -112,19 +123,19 @@ public abstract class ProceduralComponents {
 			super(componentType); //Important to carry over.
 		}
 		
-		public void buildComponent(ControlComponent original, List components, Random rand) { }
+		public void buildComponent(ProceduralComponents instance, ControlComponent original, List components, Random rand) { }
 		
 		/** Gets next component in the direction this component is facing.<br>'original' refers to the initial starting component (hard distance limits), 'components' refers to the StructureStart list. */
-		protected ProceduralComponent getNextComponentNormal(ControlComponent original, List components, Random rand, int offset, int offsetY) {
+		protected ProceduralComponent getNextComponentNormal(ProceduralComponents instance, ControlComponent original, List components, Random rand, int offset, int offsetY) {
 			switch(this.coordBaseMode) {
 			case 0: //South
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, this.coordBaseMode, this.getComponentType());
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, this.coordBaseMode, this.getComponentType());
 			case 1: //West
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, this.coordBaseMode, this.getComponentType());
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, this.coordBaseMode, this.getComponentType());
 			case 2: //North
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, this.coordBaseMode, this.getComponentType());
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, this.coordBaseMode, this.getComponentType());
 			case 3: //East
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, this.coordBaseMode, this.getComponentType());
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, this.coordBaseMode, this.getComponentType());
 			default:
 				return null;
 			}
@@ -132,49 +143,34 @@ public abstract class ProceduralComponents {
 		
 		//Keep in mind for these methods: a given room would have its *actual entrance* opposite the side it is facing.
 		/** Gets next component, to the West (-X) <i>relative to this component. */
-		protected ProceduralComponent getNextComponentNX(ControlComponent original, List components, Random rand, int offset, int offsetY) {
+		protected ProceduralComponent getNextComponentNX(ProceduralComponents instance, ControlComponent original, List components, Random rand, int offset, int offsetY) {
 			switch(this.coordBaseMode) {
 			case 0: //South
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 1, this.getComponentType());
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 1, this.getComponentType());
 			case 1: //West
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 2, this.getComponentType());
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 2, this.getComponentType());
 			case 2: //North
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 3, this.getComponentType());
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 3, this.getComponentType());
 			case 3: //East
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 0, this.getComponentType());
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 0, this.getComponentType());
 			default:
 				return null;
 			}
 		}
 		
 		/** Gets next component, to the East (+X) <i>relative to this component. */
-		protected ProceduralComponent getNextComponentPX(ControlComponent original, List components, Random rand, int offset, int offsetY) {
+		protected ProceduralComponent getNextComponentPX(ProceduralComponents instance, ControlComponent original, List components, Random rand, int offset, int offsetY) {
 			switch(this.coordBaseMode) {
 			case 0: //South
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 1, this.getComponentType() + 1);
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 1, this.getComponentType() + 1);
 			case 1: //West
-				return getNextValidComponent(original, components, rand, this.boundingBox.minZ + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 2, this.getComponentType() + 1);
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.minZ + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 2, this.getComponentType() + 1);
 			case 2: //North
-				return getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 3, this.getComponentType() + 1);
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 3, this.getComponentType() + 1);
 			case 3: //East
-				return getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 0, this.getComponentType() + 1);
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 0, this.getComponentType() + 1);
 			default:
 				return null;
-			}
-		}
-		
-		public static StructureBoundingBox getComponentToAddBoundingBox(int posX, int posY, int posZ, int offsetX, int offsetY, int offsetZ, int maxX, int maxY, int maxZ, int coordMode) {
-			switch(coordMode) {
-			case 0: //South
-				return new StructureBoundingBox(posX + offsetX, posY + offsetY, posZ + offsetZ, posX + maxX - 1 + offsetX, posY + maxY - 1 + offsetY, posZ + maxZ - 1 + offsetZ);
-			case 1: //West
-				return new StructureBoundingBox(posX - maxZ + 1 - offsetZ, posY + offsetY, posZ + offsetX, posX - offsetZ, posY + maxY - 1 + offsetY, posZ + maxX - 1 + offsetX);
-			case 2: //North
-				return new StructureBoundingBox(posX - maxX + 1 - offsetX, posY + offsetY, posZ - maxZ + 1 - offsetZ, posX - offsetX, posY + maxY - 1 + offsetY, posZ + offsetZ);
-			case 3: //East
-				return new StructureBoundingBox(posX + offsetZ, posY + offsetY, posZ - maxX + 1 - offsetX, posX + maxZ - 1 + offsetZ, posY + maxY - 1 + offsetY, posZ - offsetX);
-			default:
-				return new StructureBoundingBox(posX + offsetX, posY + offsetY, posZ + offsetZ, posX + maxX - 1 + offsetX, posY + maxY - 1 + offsetY, posZ + maxZ - 1 + offsetZ);
 			}
 		}
 	}
@@ -197,7 +193,6 @@ public abstract class ProceduralComponents {
 	interface instantiateStructure {
 		ProceduralComponent findValidPlacement(List components, Random rand, int minX, int minY, int minZ, int coordMode, int componentType);
 	}
-	
 	
 	protected static class Weight {
 		

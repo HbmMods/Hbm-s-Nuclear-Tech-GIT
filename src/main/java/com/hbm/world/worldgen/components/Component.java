@@ -166,7 +166,7 @@ abstract public class Component extends StructureComponent {
 	}
 	
 	/**
-	 * Get orientation-offset metadata for BlockDecoModel
+	 * Get orientation-offset metadata for BlockDecoModel; also suitable for trapdoors
 	 * @param metadata (0 for facing North, 1 for facing South, 2 for facing West, 3 for facing East)
 	 */
 	protected int getDecoModelMeta(int metadata) {
@@ -253,6 +253,52 @@ abstract public class Component extends StructureComponent {
 		this.placeBlockAtCurrentPosition(world, door, meta, featureX, featureY, featureZ, box);
 		ItemDoor.placeDoorBlock(world, posX, posY, posZ, meta, door);
 	}
+	
+	//N:0 W:1 S:2 E:3
+	protected void placeBed(World world, StructureBoundingBox box, int meta, int featureX, int featureY, int featureZ) {
+		int xOffset = 0;
+		int zOffset = 0;
+		
+		switch(meta & 3) {
+		default:
+			zOffset = 1; break;
+		case 1:
+			xOffset = -1; break;
+		case 2:
+			zOffset = -1; break;
+		case 3:
+			xOffset = 1; break;
+		}
+		
+		switch(this.coordBaseMode) {
+		default: //S
+			break;
+		case 1: //W
+			meta = (meta + 1) % 4; break;
+		case 2: //N
+			meta ^= 2; break;
+		case 3: //E
+			meta = (meta - 1) % 4; break;
+		}
+		
+		placeBlockAtCurrentPosition(world, Blocks.bed, meta, featureX, featureY, featureZ, box);
+		placeBlockAtCurrentPosition(world, Blocks.bed, meta + 8, featureX + xOffset, featureY, featureZ + zOffset, box);
+	}
+	
+	/**Tripwire Hook: S:0 W:1 N:2 E:3 */
+	protected int getTripwireMeta(int metadata) {
+		switch(this.coordBaseMode) {
+		default:
+			return metadata;
+		case 1:
+			return (metadata + 1) % 4;
+		case 2:
+			return metadata ^ 2;
+		case 3:
+			return (metadata - 1) % 4;
+		}
+	}
+	
 	
 	/** Loot Methods **/
 	

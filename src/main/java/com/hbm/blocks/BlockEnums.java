@@ -13,4 +13,9 @@ public class BlockEnums {
 		SULFUR,
 		ASBESTOS
 	}
+	
+	public static enum TileType {
+		LARGE,
+		SMALL
+	}
 }
