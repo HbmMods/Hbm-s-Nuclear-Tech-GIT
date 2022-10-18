@@ -12,6 +12,7 @@ import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.material.NTMMaterial.SmeltingBehavior;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityCrucible;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -75,7 +76,7 @@ public class GUICrucible extends GuiInfoContainer {
 			list.add(EnumChatFormatting.RED + "Empty");
 		
 		for(MaterialStack sta : stack) {
-			list.add(EnumChatFormatting.YELLOW + sta.material.names[0] + ": " + Mats.formatAmount(sta.amount));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey(sta.material.getUnlocalizedName()) + ": " + Mats.formatAmount(sta.amount));
 		}
 		
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + x, guiTop + y, 36, 81, mouseX, mouseY, list);

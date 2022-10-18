@@ -12,7 +12,11 @@ public class FluidTraitSimple {
 		}
 	}
 
-	public static class FT_Gaseous_ART extends FluidTrait { } //at room temperature, for cryogenic hydrogen for example
+	public static class FT_Gaseous_ART extends FluidTrait { //at room temperature, for cryogenic hydrogen for example
+		@Override public void addInfoHidden(List<String> info) {
+			info.add(EnumChatFormatting.BLUE + "[Gaseous at Room Temperature]");
+		}
+	}
 
 	public static class FT_Liquid extends FluidTrait {
 		@Override public void addInfoHidden(List<String> info) {

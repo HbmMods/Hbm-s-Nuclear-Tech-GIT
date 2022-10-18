@@ -6,6 +6,7 @@ import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ModItems;
+import com.hbm.util.I18nUtil;
 import com.hbm.inventory.material.NTMMaterial;
 
 import cpw.mods.fml.relauncher.Side;
@@ -35,7 +36,7 @@ public class ItemScraps extends Item {
 		MaterialStack contents = getMats(stack);
 		
 		if(contents != null) {
-			list.add(contents.material.names[0] + ", " + Mats.formatAmount(contents.amount));
+			list.add(I18nUtil.resolveKey(contents.material.getUnlocalizedName()) + ", " + Mats.formatAmount(contents.amount));
 		}
 	}
 
