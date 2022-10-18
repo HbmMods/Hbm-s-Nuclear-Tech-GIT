@@ -51,6 +51,7 @@ public class BlastFurnaceRecipes {
 		//addRecipe(STEEL, CO, new ItemStack(ModItems.ingot_dura_steel, 2));
 		//addRecipe(STEEL, W, new ItemStack(ModItems.ingot_dura_steel, 2));
 		//addRecipe(STEEL, U238, new ItemStack(ModItems.ingot_ferrouranium));
+		addRecipe(TI, U238, new ItemStack(ModItems.ingot_staballoy, 2));
 		addRecipe(W, SA326.nugget(), new ItemStack(ModItems.ingot_magnetized_tungsten));
 		addRecipe(STEEL, TC99.nugget(), new ItemStack(ModItems.ingot_tcalloy));
 		addRecipe(AU.plate(), ModItems.plate_mixed, new ItemStack(ModItems.plate_paa, 2));
@@ -121,7 +122,7 @@ public class BlastFurnaceRecipes {
 		final HashMap<List<ItemStack>[], ItemStack> recipes = new HashMap<>();
 
 		for(Triplet<Object, Object, ItemStack> recipe : blastFurnaceRecipes) {
-			if(!hiddenRecipes.contains(recipe.getZ())) {
+			if(!isStackHidden(recipe.getZ())) {
 				final ItemStack nothing = new ItemStack(ModItems.nothing).setStackDisplayName("If you're reading this, an error has occured! Check the console.");
 				final List<ItemStack> in1 = new ArrayList<ItemStack>();
 				final List<ItemStack> in2 = new ArrayList<ItemStack>();
@@ -160,6 +161,14 @@ public class BlastFurnaceRecipes {
 			}
 		}
 		return ImmutableMap.copyOf(recipes);
+	}
+	
+	private static boolean isStackHidden(ItemStack stack)
+	{
+		for (ItemStack hiddenStack : hiddenRecipes)
+			if (hiddenStack.getItem() == stack.getItem() && hiddenStack.getItemDamage() == stack.getItemDamage())
+				return true;
+		return false;
 	}
 
 	public static List<Triplet<AStack[], AStack[], ItemStack>> getRecipes() {

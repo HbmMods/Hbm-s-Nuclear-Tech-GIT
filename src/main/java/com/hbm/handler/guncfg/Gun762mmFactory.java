@@ -1,12 +1,17 @@
 package com.hbm.handler.guncfg;
 
+import java.util.ArrayList;
+
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+
+import net.minecraft.potion.PotionEffect;
 
 public class Gun762mmFactory
 {
@@ -166,11 +171,26 @@ public class Gun762mmFactory
 		return bullet;
 	}
 	
-	public static BulletConfiguration get762BlankConfig()
+	public static BulletConfiguration get762WPConfig()
 	{
 		final BulletConfiguration bullet = get762NATOConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_308, 1, 4);
+		bullet.setToFire(20 * 5);
+		bullet.vPFX = "reddust";
+		final PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
+		eff.getCurativeItems().clear();
+		bullet.effects = new ArrayList<PotionEffect>();
+		bullet.effects.add(new PotionEffect(eff));
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get762BlankConfig()
+	{
+		final BulletConfiguration bullet = get762NATOConfig();
+		
+		bullet.ammo = new ComparableStack(ModItems.ammo_308, 1, 5);
 		bullet.dmgMax = 0;
 		bullet.dmgMin = 0;
 		bullet.penetration = 0;

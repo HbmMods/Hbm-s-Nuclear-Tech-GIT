@@ -1,6 +1,5 @@
 package com.hbm.items;
 
-import java.util.Collection;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
@@ -422,6 +421,7 @@ public class ItemAmmoEnums
 		AP(Gun762mmFactory.get762APConfig(), HbmCollection.APType),
 		DU(Gun762mmFactory.get762DUConfig(), HbmCollection.DUType),
 		TRACER(Gun762mmFactory.get762TracerConfig(), AmmoItemTrait.NEU_TRACER),
+		PHOSPHORUS(Gun762mmFactory.get762WPConfig(), HbmCollection.PhosphorusType),
 		BLANK(Gun762mmFactory.get762BlankConfig(), AmmoItemTrait.NEU_BLANK);
 		private final Set<AmmoItemTrait> traits;
 		private final BulletConfiguration config;
@@ -866,8 +866,4 @@ public class ItemAmmoEnums
 		return traits == null ? ImmutableSet.of() : ImmutableSet.copyOf(traits);
 	}
 	
-	static Set<AmmoItemTrait> safeAssign(Collection<AmmoItemTrait> traits)
-	{
-		return traits == null || traits.size() == 0 ? ImmutableSet.of() : ImmutableSet.copyOf(traits);
-	}
 }

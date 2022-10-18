@@ -516,9 +516,9 @@ public class BulletConfigSyncingUtil {
 
 		configSet.put(NUKE_AMAT, GunFatmanFactory.getBalefireConfig());
 		
-//		configSet.put(TWR_RAY, GunEnergyFactory.getSingConfig());
-//		configSet.put(HLR_NORMAL, GunEnergyFactory.getHLRPrecisionConfig());
-//		configSet.put(HLR_ALT, GunEnergyFactory.getHLRScatterConfig());
+		configSet.put(TWR_RAY, GunEnergyFactory.getSingConfig());
+		configSet.put(HLR_NORMAL, GunEnergyFactory.getHLRPrecisionConfig());
+		configSet.put(HLR_ALT, GunEnergyFactory.getHLRScatterConfig());
 
 		configSet.put(ZOMG_BOLT, GunEnergyFactory.getZOMGBoltConfig());
 		configSet.put(DET_BOLT, GunDetonatorFactory.getLaserConfig());

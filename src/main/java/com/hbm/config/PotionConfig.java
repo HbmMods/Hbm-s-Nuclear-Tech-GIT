@@ -15,7 +15,13 @@ public class PotionConfig {
 	public static int phosphorusID = 70;
 	public static int stabilityID = 71;
 	public static int potionsicknessID = 72;
-	public static int deathID = 72;
+	public static int deathID = 73;
+	
+	public static int paralysisID = 74;
+	public static int fragileID = 75;
+	public static int unconsciousID = 76;
+	public static int perforatedID = 77;
+	public static int hollowID = 78;
 	
 	public static int potionSickness = 0;
 	
@@ -35,6 +41,12 @@ public class PotionConfig {
 		potionsicknessID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.10_potionsicknessID", "What potion ID the potion sickness effect will have", 72);
 		deathID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.11_deathID", "What potion ID the death effect will have", 73);
 
+		paralysisID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.11_paralysisPotionID", "What potion ID will the paralysis effect have", 74);
+		fragileID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.12_fragilePotionID", "What potion ID will the fragility effect have", 75);
+		unconsciousID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.13_unconsciousPotionID", "What potion ID will the subconscious effect have", 76);
+		perforatedID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.14_perforatedPotionID", "What potion ID will the perforated effect have", 77);
+		hollowID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.15_hollowPotionID", "What potion ID will the hollow effect have", 78);
+		
 		String s = CommonConfig.createConfigString(config, CATEGORY_POTION, "8.S0_potionSickness", "Valid configs include \"NORMAL\" and \"TERRARIA\", otherwise potion sickness is turned off", "OFF");
 
 		if("normal".equals(s.toLowerCase()))

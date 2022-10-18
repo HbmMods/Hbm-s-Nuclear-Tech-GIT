@@ -60,7 +60,7 @@ public class GunConfiguration implements Cloneable {
 	
 	//for electrically powered weapons:
 	//the Maximum capacity of the gun
-	public int maxCharge;
+	public long maxCharge;
 	//the rate at which the gun is charged
 	public int chargeRate;
 	//how much energy is discharged per shot
@@ -79,6 +79,8 @@ public class GunConfiguration implements Cloneable {
 	public EnumGunManufacturer manufacturer = EnumGunManufacturer.NONE;
 	/**Sound that plays when first equipping the gun**/
 	public String equipSound = "";
+	/**Inverse of reloading, can it eject its ammo?**/
+	public boolean canUnload;
 	
 	public List<String> comment = new ArrayList<String>();
 

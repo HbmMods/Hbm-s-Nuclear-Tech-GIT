@@ -162,9 +162,9 @@ public class Gun50BMGFactory {
 		bullet.incendiary = 10;
 		
 		bullet.effects = new ArrayList<PotionEffect>();
-//		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.fragile.id, 30 * 20, 2));
-//		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.perforated.id, 30 * 20, 2));
-//		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.lead.id, 30 * 20, 1));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.fragile.id, 30 * 20, 2));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.perforated.id, 30 * 20, 2));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.lead.id, 30 * 20, 1));
 		
 		bullet.blockDamage = true;
 		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 5.0F, true, false);
@@ -178,7 +178,7 @@ public class Gun50BMGFactory {
 		
 		bullet.ammo.meta = 1;
 		bullet.incendiary = 50;
-//		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.phosphorus.id, 30 * 30, 2));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.phosphorus.id, 30 * 30, 2));
 		
 		return bullet;
 	}

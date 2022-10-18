@@ -1,6 +1,7 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityBulletBase;
@@ -20,14 +21,18 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.util.ContaminationUtil;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
 
 public class GunEnergyFactory {
 	
@@ -181,6 +186,173 @@ public class GunEnergyFactory {
 		
 		return config;
 		
+	}
+	
+	static final Random rand = new Random();
+	
+	public static GunConfiguration getTWRConfig()
+	{
+		final GunConfiguration config = new GunConfiguration();
+		final int randLore = rand.nextInt(7);
+
+		config.rateOfFire = 10;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.durability = 1000000000;
+		//config.hasSights = false;
+		config.reloadSound = "hbm:weapon.b92Reload";
+		config.firingSound = "hbm:weapon.singFlyby";
+		config.ammoCap = 16;// Subject to change
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = false;
+		config.damage = EnumChatFormatting.BOLD + "A lot";
+		config.crosshair = Crosshair.SPLIT;
+		config.canUnload = false;
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.TWR_RAY);
+		
+		config.name = "lunaTWR";
+		config.manufacturer = EnumGunManufacturer.LUNA;
+		final String[] lore = I18nUtil.resolveKeyArray("item.gun_twr.desc." + randLore);
+		for (String s : lore)
+			config.comment.add(EnumChatFormatting.ITALIC + s);
+		// May remove if it defeats the purpose of a semi-obscure reference
+		config.advLore.add("Born from the Lunarian's vastly superior technology, the Time Warp Rifle (TWR)");
+		config.advLore.add("is no ordinary sniper rifle. It was meant to be a weapon to eliminate targets of");
+		config.advLore.add("extremely high priority, since very few beings could ever hope of surviving a shot");
+		config.advLore.add("and even fewer (exactly none) could evade it. The only known TWR to be manufactured");
+		config.advLore.add("and put into service was weilded by Reisen 2, sent by the Watatsuki sisters to eliminate");
+		config.advLore.add("Yakumo Yukari to ensure that \"Moonlight Descent Ceremony\" would continue without");
+		config.advLore.add("opposition. Despite surviving one hit to center of mass and nearly defeating Reisen 2,");
+		config.advLore.add("Yukari ultimately was successfully killed. However, on her mission to eliminate Hakurei");
+		config.advLore.add("Reimu, she was ambushed and incapacitated by Reisen (Prime), cutting that instance of");
+		config.advLore.add("the rifle's service life short.");
+		
+		config.advFuncLore.add("While not the most destructive or advanced weapon developed by the Lunarians, its");
+		config.advFuncLore.add("function and capability in its role is without question. It's ability is determined");
+		config.advFuncLore.add("by 3 factors: the ammunition type, the scope, and the delivery method. Upon inspection,");
+		config.advFuncLore.add("there appear to be little to no moving parts beyond the trigger, this is due to the");
+		config.advFuncLore.add("ammunition and delivery method. Instead of firing conventional bullets, it fires");
+		config.advFuncLore.add("micro-singularities, which erase everything in their path out of existence and");
+		config.advFuncLore.add("giving the target immense damage. Next is delivery, as with the quote: \"You can't");
+		config.advFuncLore.add("dodge a bullet that's already hit\", the TWR sends a micro-singularity across the");
+		config.advFuncLore.add("5th dimension to the target, meaning it arrives the moment the trigger is pulled.");
+		config.advFuncLore.add("Finally is the \"Heisenberg Uncertainty Scope\" (nick. Schrödinger's Looking Glass).");
+		config.advFuncLore.add("In layman's terms, it is like a portable Schrödinger's box and it is used to determine");
+		config.advFuncLore.add("the fate of the target to ensure termination or at the very least, delivery.");
+		if (MainRegistry.isPolaroid11())
+		{
+			config.advFuncLore.add("...");
+			config.advFuncLore.add(EnumChatFormatting.STRIKETHROUGH + "Jk, we have no idea how it works");
+		}
+		return config;
+	}
+	/** Main fire gun mode **/
+	public static GunConfiguration getHLRPrimaryConfig()
+	{
+		GunConfiguration config = new GunConfiguration();
+		int randLore = rand.nextInt(4);
+		config.rateOfFire = 1;
+		config.roundsPerCycle = 1;
+		config.maxCharge = 100000000000L;
+		config.dischargePerShot = 10000000;
+		config.chargeRate = 100000000;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.durability = 100000000;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = false;
+		config.hasSights = true;
+		config.crosshair = Crosshair.L_CROSS;
+		config.firingSound = "hbm:weapon.osiprShoot";
+		config.reloadSound = "hbm:item.battery";
+		config.firingPitch = 1.1F;
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.HLR_NORMAL);
+		config.name = "lunaHLR";
+		config.manufacturer = EnumGunManufacturer.LUNA;
+		String[] lore = I18nUtil.resolveKeyArray("item.gun_hlr.desc." + randLore);
+		for (String s : lore)
+			config.comment.add(EnumChatFormatting.ITALIC + s);
+
+		return config;
+	}
+	/** Alt fire gun mode **/
+	public static GunConfiguration getHLRSecondaryConfig()
+	{
+		final GunConfiguration config = getHLRPrimaryConfig().clone();
+		config.dischargePerShot = 250000000;
+		config.rateOfFire = 3;
+		//config.firingSound = "hbm:weapon.zomgShoot";
+		config.config.clear();
+		config.config.add(BulletConfigSyncingUtil.HLR_ALT);
+		return config;
+	}
+	
+	public static GunConfiguration getLunaticConfig()
+	{
+		final GunConfiguration config = new GunConfiguration();
+		config.rateOfFire = 5;
+		config.roundsPerCycle = 1;
+		config.maxCharge = 100000000L;
+		config.dischargePerShot = 1000000;
+		config.chargeRate = 1000000;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = 0;
+		config.durability = 100000;
+		config.allowsInfinity = false;
+		config.hasSights = false;
+		
+		config.crosshair = Crosshair.CLASSIC;
+		config.firingSound = "hbm:weapon.osiprShoot";
+		config.reloadSound = "hbm:item.battery";
+		config.name = "lunaGun";
+		config.manufacturer = EnumGunManufacturer.LUNA;
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.HLR_NORMAL);
+		return config;
+	}
+	
+	public static GunConfiguration getLunaticShottyConfig()
+	{
+		final GunConfiguration config = getLunaticConfig().clone();
+		
+		config.dischargePerShot *= 5;
+		config.maxCharge *= 1.5;
+		config.durability *= 1.5;
+		config.crosshair = Crosshair.L_CIRCLE;
+		config.name = "lunaShotty";
+		config.config.clear();
+		config.config.add(BulletConfigSyncingUtil.HLR_ALT);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getTesterConfig()
+	{
+		GunConfiguration config = new GunConfiguration();
+		config.rateOfFire = 1;
+		config.roundsPerCycle = 1;
+		config.maxCharge = 10000000000L;
+		config.dischargePerShot = 100000;
+		config.chargeRate = 100000000;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.durability = Integer.MAX_VALUE;//h
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = false;
+		config.damage = "Yes";
+		config.crosshair = Crosshair.L_CROSS;
+		config.firingSound = "hbm:weapon.osiprShoot";
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.HLR_NORMAL);
+		config.name = "the pooper shooter";//I am very mature (and creative)
+		config.manufacturer = EnumGunManufacturer.F_PRICE;
+		config.comment.add("Let the pain end");
+		
+		return config;
 	}
 	
 	public static BulletConfiguration getOrbusConfig() {
@@ -643,6 +815,119 @@ public class GunEnergyFactory {
 		BulletConfiguration bullet = getFlameConfig();
 		bullet.spread *= 2F;
 		bullet.gravity = 0.0025D;
+		return bullet;
+	}
+	
+	// It's a ray, all of this is just placeholder really
+	public static BulletConfiguration getSingConfig()
+	{
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig().clone();
+		
+		bullet.ammo = new ComparableStack(ModItems.singularity_micro);
+		bullet.velocity = 10.0F;
+		bullet.spread = 0.0F;
+		bullet.wear = 1000;
+		
+		bullet.dmgMax = 200000;
+		bullet.dmgMin = 100000;
+		bullet.penetration = Integer.MAX_VALUE;
+		bullet.dmgBypass = true;
+		
+		bullet.gravity = 0D;
+		bullet.maxAge = 400;
+		
+		bullet.caustic = 100;
+		bullet.doesRicochet = false;
+		bullet.doesPenetrate = true;
+		//bullet.isSpectral = true;
+		bullet.doesBreakGlass = true;
+		bullet.destroysBlocks = true;
+		
+		bullet.effects = new ArrayList<PotionEffect>();
+		bullet.effects.add(new PotionEffect(HbmPotion.fragile.id, 60 * 20, 4));
+		bullet.effects.add(new PotionEffect(HbmPotion.perforated.id, 60 * 20, 4));
+		
+		//bullet.instakill = true;
+		//bullet.style = BulletConfiguration.STYLE_ORB;
+		bullet.trail = 1;
+
+		return bullet;
+	}
+	/** Main fire bullet **/
+	public static BulletConfiguration getHLRPrecisionConfig()
+	{
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig().clone();
+		
+		bullet.ammo = new ComparableStack(ModItems.nothing);
+		bullet.velocity = 10.0F;
+		bullet.spread = 0.01F;
+		bullet.maxAge = 350;
+		bullet.wear = 10;
+		
+		bullet.dmgMax = 60F;
+		bullet.dmgMin = 50F;
+		bullet.penetration = 50;
+		
+		bullet.gravity = 0D;
+		bullet.doesRicochet = false;
+		bullet.doesBreakGlass = true;
+		bullet.doesPenetrate = true;
+		
+		bullet.effects = new ArrayList<PotionEffect>();
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.hollow.id, 2 * 20, 0));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.fragile.id, 5 * 20, 1));
+		
+		bullet.bHit = (projectile, hit) -> {if (hit instanceof EntityLivingBase) ContaminationUtil.applyDigammaData(hit, 0.005F);};
+		
+//		TODO
+//		bullet.spectralBlocks.addAll(HbmCollection.energyRoundBlock);
+//		bullet.spectralMaterials.addAll(HbmCollection.energyRoundMaterial);
+		
+		bullet.style = BulletConfiguration.STYLE_BOLT;
+		bullet.trail = BulletConfiguration.BOLT_LASER;
+		
+		bullet.damageType = ModDamageSource.s_laser;
+		
+		return bullet;
+	}
+	/** Alt fire bullet **/
+	public static BulletConfiguration getHLRScatterConfig()
+	{
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig().clone();
+		
+		bullet.ammo = new ComparableStack(ModItems.nothing);
+		bullet.velocity = 10.0F;
+		bullet.spread = 0.125F;
+		bullet.maxAge = 350;
+		bullet.wear = 25;
+		
+		bullet.dmgMax = 80F;
+		bullet.dmgMin = 70F;
+		bullet.bulletsMax = 18;
+		bullet.bulletsMin = 12;
+		bullet.penetration = 75;
+		
+		bullet.gravity = 0D;
+		bullet.doesRicochet = false;
+		bullet.doesBreakGlass = true;
+		bullet.doesPenetrate = true;
+		
+		bullet.effects = new ArrayList<PotionEffect>();
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.hollow.id, 5 * 20, 1));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.fragile.id, 7 * 20, 2));
+		bullet.effects.add(HbmPotion.getPotionNoCure(HbmPotion.perforated.id, 3 * 20, 0));
+		
+		bullet.bHurt = (projectile, hit) -> {if (hit instanceof EntityLivingBase) ContaminationUtil.applyDigammaData(hit, 0.01F);};
+		
+//		TODO
+//		bullet.spectralBlocks.addAll(HbmCollection.energyRoundBlock);
+//		bullet.spectralMaterials.addAll(HbmCollection.energyRoundMaterial);
+		
+		bullet.style = BulletConfiguration.STYLE_BOLT;
+		bullet.trail = BulletConfiguration.BOLT_LASER;
+		
+		bullet.damageType = ModDamageSource.s_laser;
+		
 		return bullet;
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 //i love you
 import static com.hbm.items.ModItems.*;
@@ -35,7 +36,7 @@ import net.minecraftforge.oredict.OreDictionary.OreRegisterEvent;
 public class OreDictManager {
 	
 	/** Alternate, additional names for ore dict registration. Used mostly for DictGroups */
-	private static final HashMap<String, HashSet<String>> reRegistration = new HashMap();
+	private static final HashMap<String, Set<String>> reRegistration = new HashMap<String, Set<String>>();
 
 	/*
 	 * Standard keys
@@ -171,6 +172,7 @@ public class OreDictManager {
 	public static final DictFrame STAR = new DictFrame("Starmetal");
 	public static final DictFrame BIGMT = new DictFrame("Saturnite");
 	public static final DictFrame FERRO = new DictFrame("Ferrouranium");
+	public static final DictFrame STABALLOY = new DictFrame("Staballoy");
 	public static final DictFrame EUPH = new DictFrame("Euphemium");
 	public static final DictFrame DNT = new DictFrame("Dineutronium");
 	public static final DictFrame FIBER = new DictFrame("Fiberglass");
@@ -340,6 +342,7 @@ public class OreDictManager {
 		STAR																.ingot(ingot_starmetal)																												.block(block_starmetal)		.ore(ore_meteor_starmetal);
 		BIGMT																.ingot(ingot_saturnite)																				.plate(plate_saturnite);
 		FERRO																.ingot(ingot_ferrouranium);
+		STABALLOY															.ingot(ingot_staballoy)																												/*.block(block_staballoy)*/;
 		EUPH		.nugget(nugget_euphemium)								.ingot(ingot_euphemium)												.dust(powder_euphemium)											.block(block_euphemium);
 		DNT			.nugget(nugget_dineutronium)							.ingot(ingot_dineutronium)											.dust(powder_dineutronium)										.block(block_dineutronium);
 		FIBER																.ingot(ingot_fiberglass)																											.block(block_fiberglass);
@@ -502,7 +505,7 @@ public class OreDictManager {
 		
 		recursionBrake = true;
 		
-		HashSet<String> strings = reRegistration.get(event.Name);
+		Set<String> strings = reRegistration.get(event.Name);
 		
 		if(strings != null) {
 			for(String name : strings) {
@@ -771,10 +774,10 @@ public class OreDictManager {
 	
 	private static void addReRegistration(String original, String additional) {
 		
-		HashSet<String> strings = reRegistration.get(original);
+		Set<String> strings = reRegistration.get(original);
 		
 		if(strings == null)
-			strings = new HashSet();
+			strings = new HashSet<>();
 		
 		strings.add(additional);
 		

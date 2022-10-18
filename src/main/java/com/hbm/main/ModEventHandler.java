@@ -943,6 +943,9 @@ public class ModEventHandler {
 			props.lastDamage = player.ticksExisted;
 		}
 		
+		if (e.isPotionActive(HbmPotion.fragile))
+			event.ammount *= e.getActivePotionEffect(HbmPotion.fragile).getAmplifier() + 1;
+		
 		if(HbmLivingProps.getContagion(e) > 0 && event.ammount < 100)
 			event.ammount *= 2F;
 		
