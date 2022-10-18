@@ -7,9 +7,9 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.INBTPacketReceiver;
@@ -277,5 +277,10 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks[0], tanks[1]};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

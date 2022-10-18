@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityCog;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.INBTPacketReceiver;
@@ -42,7 +43,7 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 				if(warnCooldown > 0)
 					warnCooldown--;
 				
-				if(heat > 300) {
+				if(heat > maxHeat()) {
 					
 					this.overspeed++;
 					
@@ -57,7 +58,7 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 						
 						int orientation = this.getBlockMetadata() - BlockDummyable.offset;
 						ForgeDirection dir = ForgeDirection.getOrientation(orientation);
-						EntityCog cog = new EntityCog(worldObj, xCoord + 0.5 + dir.offsetX, yCoord + 1, zCoord + 0.5 + dir.offsetZ).setOrientation(orientation);
+						EntityCog cog = new EntityCog(worldObj, xCoord + 0.5 + dir.offsetX, yCoord + 1, zCoord + 0.5 + dir.offsetZ).setOrientation(orientation).setMeta(this.getGeatMeta());
 						ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 						
 						cog.motionX = rot.offsetX;
@@ -96,7 +97,7 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 			this.heat = 0;
 		} else {
 			
-			float momentum = powerBuffer * 50F / 300F;
+			float momentum = powerBuffer * 50F / ((float) maxHeat());
 			
 			this.lastSpin = this.spin;
 			this.spin += momentum;
@@ -106,6 +107,14 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 				this.lastSpin -= 360F;
 			}
 		}
+	}
+	
+	public int getGeatMeta() {
+		return this.getBlockType() == ModBlocks.machine_stirling ? 0 : 1;
+	}
+	
+	public int maxHeat() {
+		return this.getBlockType() == ModBlocks.machine_stirling ? 300 : 1500;
 	}
 	
 	protected DirPos[] getConPos() {

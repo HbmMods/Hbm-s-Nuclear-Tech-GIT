@@ -5,15 +5,19 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.DiamondPronter;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
 
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -37,12 +41,9 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.tank_tex);
 		ResourceManager.fluidtank.renderPart("Frame");
-
-		String s = "NONE";
-		if(tileEntity instanceof TileEntityMachineFluidTank)
-			s = ((TileEntityMachineFluidTank) tileEntity).tank.getTankType().getName();
-
-		bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/tank/tank_" + s + ".png"));
+		
+		TileEntityMachineFluidTank tank = (TileEntityMachineFluidTank) tileEntity;
+		bindTexture(new ResourceLocation(RefStrings.MODID, getTextureFromType(tank.tank.getTankType())));
 		ResourceManager.fluidtank.renderPart("Tank");
 
 		GL11.glShadeModel(GL11.GL_FLAT);
@@ -70,6 +71,15 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 		GL11.glPopMatrix();
 		RenderHelper.enableStandardItemLighting();
 	}
+	
+	public String getTextureFromType(FluidType type) {
+		String s = type.getName();
+		
+		if(type.isAntimatter() || (type.hasTrait(FT_Corrosive.class) && type.getTrait(FT_Corrosive.class).isHighlyCorrosive()))
+			s = "DANGER";
+		
+		return "textures/models/tank/tank_" + s + ".png";
+	}
 
 	@Override
 	public Item getItemForRenderer() {
@@ -85,12 +95,19 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 				GL11.glTranslated(0, -2, 0);
 				GL11.glScaled(3.5, 3.5, 3.5);
 			}
-			public void renderCommon() {
+			public void renderCommonWithStack(ItemStack item) {
 				GL11.glRotated(90, 0, 1, 0);
 				GL11.glScaled(0.75, 0.75, 0.75);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.tank_tex); ResourceManager.fluidtank.renderPart("Frame");
-				bindTexture(ResourceManager.tank_label_tex); ResourceManager.fluidtank.renderPart("Tank");
+				
+				FluidTank tank = new FluidTank(Fluids.NONE, 0, 0);
+				if(item.hasTagCompound() && item.getTagCompound().hasKey(IPersistentNBT.NBT_PERSISTENT_KEY)) {
+					tank.readFromNBT(item.getTagCompound().getCompoundTag(IPersistentNBT.NBT_PERSISTENT_KEY), "tank");
+				}
+				
+				bindTexture(new ResourceLocation(RefStrings.MODID, getTextureFromType(tank.getTankType())));
+				ResourceManager.fluidtank.renderPart("Tank");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}};
 	}

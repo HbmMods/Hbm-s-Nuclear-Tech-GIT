@@ -26,10 +26,7 @@ public class TurretChekhov extends BlockDummyable {
 		if(meta >= 12)
 			return new TileEntityTurretChekhov();
 		
-		if(meta >= 6)
-			return new TileEntityProxyCombo(true, true, false);
-		
-		return null;
+		return new TileEntityProxyCombo().inventory().power();
 	}
 
 	@Override

@@ -13,9 +13,9 @@ import com.hbm.blocks.machine.MachineCoal;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -342,5 +342,10 @@ public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISide
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
 	}
 }

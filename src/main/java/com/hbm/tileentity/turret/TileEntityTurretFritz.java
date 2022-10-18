@@ -7,9 +7,9 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -205,6 +205,11 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 
 	@Override
 	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { tank };
 	}
 }

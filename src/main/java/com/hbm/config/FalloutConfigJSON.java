@@ -107,10 +107,6 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()
 				.mB(Blocks.coal_ore)
 				.prim(new Triplet(Blocks.diamond_ore, 0, 3), new Triplet(Blocks.emerald_ore, 0, 2))
-				.c(0.2));
-		entries.add(new FalloutEntry()
-				.mB(Blocks.coal_ore)
-				.prim(new Triplet(Blocks.diamond_ore, 0, 3), new Triplet(Blocks.emerald_ore, 0, 2))
 				.c(0.5));
 		entries.add(new FalloutEntry()
 				.mB(ModBlocks.ore_lignite)

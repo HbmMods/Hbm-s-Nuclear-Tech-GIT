@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.hbm.config.GeneralConfig;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -155,7 +156,6 @@ public class RecipesCommon {
 		}
 		
 		public ItemStack toStack() {
-			
 			return new ItemStack(item, stacksize, meta);
 		}
 		
@@ -180,17 +180,21 @@ public class RecipesCommon {
 		public int hashCode() {
 			
 			if(item == null) {
-				MainRegistry.logger.error("ComparableStack has a null item! This is a serious issue!");
-				Thread.currentThread().dumpStack();
-				item = Items.stick;
+				if(!GeneralConfig.enableSilentCompStackErrors) {
+					MainRegistry.logger.error("ComparableStack has a null item! This is a serious issue!");
+					Thread.currentThread().dumpStack();
+				}
+				item = ModItems.nothing;
 			}
 			
 			String name = Item.itemRegistry.getNameForObject(item);
 			
 			if(name == null) {
-				MainRegistry.logger.error("ComparableStack holds an item that does not seem to be registered. How does that even happen?");
-				Thread.currentThread().dumpStack();
-				item = Items.stick; //we know sticks have a name, so sure, why not
+				if(!GeneralConfig.enableSilentCompStackErrors) {
+					MainRegistry.logger.error("ComparableStack holds an item that does not seem to be registered. How does that even happen? This error can be turned off with the config <enableSilentCompStackErrors>. Item name: " + item.getUnlocalizedName());
+					Thread.currentThread().dumpStack();
+				}
+				item = ModItems.nothing;
 			}
 			
 			final int prime = 31;
@@ -203,21 +207,21 @@ public class RecipesCommon {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (this == obj)
+			if(this == obj)
 				return true;
-			if (obj == null)
+			if(obj == null)
 				return false;
-			if (getClass() != obj.getClass())
+			if(getClass() != obj.getClass())
 				return false;
 			ComparableStack other = (ComparableStack) obj;
-			if (item == null) {
-				if (other.item != null)
+			if(item == null) {
+				if(other.item != null)
 					return false;
-			} else if (!item.equals(other.item))
+			} else if(!item.equals(other.item))
 				return false;
-			if (meta != OreDictionary.WILDCARD_VALUE && other.meta != OreDictionary.WILDCARD_VALUE && meta != other.meta)
+			if(meta != OreDictionary.WILDCARD_VALUE && other.meta != OreDictionary.WILDCARD_VALUE && meta != other.meta)
 				return false;
-			if (stacksize != other.stacksize)
+			if(stacksize != other.stacksize)
 				return false;
 			return true;
 		}
@@ -331,7 +335,7 @@ public class RecipesCommon {
 	}
 	
 	public static class OreDictStack extends AStack {
-		
+
 		public String name;
 		
 		public OreDictStack(String name) {
@@ -410,6 +414,35 @@ public class RecipesCommon {
 			}
 			
 			return ores;
+		}
+		
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((name == null) ? 0 : name.hashCode());
+			result = prime * result + this.stacksize;
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if(this == obj)
+				return true;
+			if(obj == null)
+				return false;
+			if(getClass() != obj.getClass())
+				return false;
+			OreDictStack other = (OreDictStack) obj;
+			if(name == null) {
+				if(other.name != null)
+					return false;
+			} else if(!name.equals(other.name)) {
+				return false;
+			}
+			if(this.stacksize != other.stacksize)
+				return false;
+			return true;
 		}
 	}
 	

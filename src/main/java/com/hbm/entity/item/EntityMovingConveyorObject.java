@@ -70,6 +70,12 @@ public abstract class EntityMovingConveyorObject extends Entity {
 		}
 
 		if(!worldObj.isRemote) {
+			
+			ticksExisted++;
+			
+			if(this.ticksExisted <= 5) {
+				return;
+			}
 
 			int blockX = (int) Math.floor(posX);
 			int blockY = (int) Math.floor(posY);

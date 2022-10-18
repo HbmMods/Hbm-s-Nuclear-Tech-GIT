@@ -1,6 +1,6 @@
 package com.hbm.lib;
 
-import java.util.Random;
+import java.util.HashMap;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.Fluids;
@@ -9,6 +9,10 @@ import com.hbm.items.machine.ItemBreedingRod.*;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.WeightedRandomChestContent;
 
 public class HbmChestContents {
@@ -335,4 +339,65 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.warhead_mirv, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.battery_schrabidium_cell, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_nitan_mix, 0, 16, 32, 1) };	
+	
+	public static WeightedRandomChestContent[] officeTrash = new WeightedRandomChestContent[] {
+			//Meta, Min amount, Max amount, Weight
+			new WeightedRandomChestContent(Items.paper, 0, 1, 12, 10),
+			new WeightedRandomChestContent(Items.book, 0, 1, 3, 4),
+			new WeightedRandomChestContent(ModItems.twinkie, 0, 1, 2, 6),
+			new WeightedRandomChestContent(ModItems.coffee, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.flame_politics, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.ring_pull, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.can_empty, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.can_creature, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.can_smart, 0, 1, 3, 2),
+			new WeightedRandomChestContent(ModItems.can_mrsugar, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.book_guide, 3, 1, 1, 1),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.deco_computer), 0, 1, 1, 1)};
+	
+	/** Nowhere else to put this and this seems like the most fitting place **/
+	public static ItemStack genetateBook(String key) {
+		
+		String author = resolve("book.lore." + key + ".author");
+		String title = resolve("book.lore." + key + ".title");
+		
+		ItemStack book = new ItemStack(Items.written_book);
+		book.stackTagCompound = new NBTTagCompound();
+		book.stackTagCompound.setString("author", author);
+		book.stackTagCompound.setString("title", title);
+		NBTTagList nbt = new NBTTagList();
+		
+		for(byte i = 1; i <= 50; i++) {
+			String unloc = "book.lore." + key + ".page" + i;
+			String page = resolve(unloc);
+			
+			if(page.equals(unloc))
+				break;
+			else
+				nbt.appendTag(new NBTTagString(page));
+		}
+		
+		book.stackTagCompound.setTag("pages", nbt);
+		
+		return book;
+	}
+	
+	private static String resolve(String key) {
+		String result = books.get(key);
+		return result != null ? result : key;
+	}
+	
+	private static HashMap<String, String> books = new HashMap();
+	
+	static {
+		books.put("book.lore.office0.title", "Letter of Resignation");
+		books.put("book.lore.office0.author", "Kosma");
+		books.put("book.lore.office0.page1", "Management downsized our department again yesterday. Those idiots only have themselves to blame, I don't know what they were expecting after the Panay fiasco. Who the hell leaks that sort of information? We're losing millions and");
+		books.put("book.lore.office0.page2", "it's ME who's the one out of a job now. I'M the one being asked to resign. I hope you asshats finally learn from your overabundance of mistakes and take that stick out of your ass.");
+		books.put("book.lore.office0.page3", "I'm not coming back on Friday. Just send the paycheck.");
+		books.put("book.lore.office1.title", "Note");
+		books.put("book.lore.office1.author", "Jonas");
+		books.put("book.lore.office1.page1", null);
+		books.put("book.lore.office2.page2", null);
+	}
 }

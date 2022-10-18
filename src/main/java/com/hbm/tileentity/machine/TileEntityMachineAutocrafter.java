@@ -167,7 +167,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 								if(ingredient != null) {
 									this.decrStackSize(i, 1);
 
-									if(ingredient.getItem().hasContainerItem(ingredient)) {
+									if(slots[i] == null && ingredient.getItem().hasContainerItem(ingredient)) {
 										ItemStack container = ingredient.getItem().getContainerItem(ingredient);
 
 										if(container != null && container.isItemStackDamageable() && container.getItemDamage() > container.getMaxDamage()) {
@@ -269,6 +269,10 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+
+		//automatically prohibit any stacked item with a container
+		if(stack.stackSize > 1 && stack.getItem().hasContainerItem(stack))
+			return false;
 		
 		//only allow insertion for the nine recipe slots
 		if(slot < 10 || slot > 18)

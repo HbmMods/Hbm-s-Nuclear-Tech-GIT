@@ -11,9 +11,12 @@ import com.hbm.main.MainRegistry;
 import api.hbm.entity.IRadarDetectable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -43,9 +46,12 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	private boolean shouldWhistle = false;
 	private boolean didWhistle = false;
 	
+	private ItemStack cargo = null;
+	
 	public EntityArtilleryShell(World world) {
 		super(world);
 		this.ignoreFrustumCheck = true;
+		this.setSize(0.5F, 0.5F);
 	}
 
 	@Override
@@ -133,6 +139,10 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 			} else {
 				this.setPosition(this.posX, this.posY, this.posZ);
 			}
+			
+			if(Vec3.createVectorHelper(this.syncPosX - this.posX, this.syncPosY - this.posY, this.syncPosZ - this.posZ).lengthVector() < 0.2) {
+				worldObj.spawnParticle("smoke", posX, posY + 0.5, posZ, 0.0, 0.1, 0.0);
+			}
 		}
 	}
 	
@@ -210,22 +220,30 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
 		
+		nbt.setInteger("type", this.dataWatcher.getWatchableObjectInt(10));
 		nbt.setBoolean("shouldWhistle", this.shouldWhistle);
 		nbt.setBoolean("didWhistle", this.didWhistle);
 		nbt.setDouble("targetX", this.targetX);
 		nbt.setDouble("targetY", this.targetY);
 		nbt.setDouble("targetZ", this.targetZ);
+
+		if(this.cargo != null)
+			nbt.setTag("cargo", this.cargo.writeToNBT(new NBTTagCompound()));
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
 
+		this.dataWatcher.updateObject(10, nbt.getInteger("type"));
 		this.shouldWhistle = nbt.getBoolean("shouldWhistle");
 		this.didWhistle = nbt.getBoolean("didWhistle");
 		this.targetX = nbt.getDouble("targetX");
 		this.targetY = nbt.getDouble("targetY");
 		this.targetZ = nbt.getDouble("targetZ");
+
+		NBTTagCompound compound = nbt.getCompoundTag("cargo");
+		this.setCargo(ItemStack.loadItemStackFromNBT(compound));
 	}
 
 	@Override
@@ -236,6 +254,39 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	@Override
 	public double getGravityVelocity() {
 		return 9.81 * 0.05;
+	}
+
+	@Override
+	protected int groundDespawn() {
+		return cargo != null ? 0 : 1200;
+	}
+
+	@Override
+	public boolean canBeCollidedWith() {
+		return true;
+	}
+
+	@Override
+	public boolean canAttackWithItem() {
+		return true;
+	}
+	
+	public void setCargo(ItemStack stack) {
+		this.cargo = stack;
+	}
+
+	@Override
+	public boolean interactFirst(EntityPlayer player) {
+
+		if(!worldObj.isRemote) {
+			if(this.cargo != null) {
+				player.inventory.addItemStackToInventory(this.cargo.copy());
+				player.inventoryContainer.detectAndSendChanges();
+			}
+			this.setDead();
+		}
+
+		return false;
 	}
 
 	@Override

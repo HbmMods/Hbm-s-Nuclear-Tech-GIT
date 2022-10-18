@@ -2,9 +2,9 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -356,6 +356,11 @@ public class TileEntityMachineCMBFactory extends TileEntityLoadedBase implements
 
 	@Override
 	public FluidTank[] getReceivingTanks() {
-		return new FluidTank[] {tank};
+		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
 	}
 }

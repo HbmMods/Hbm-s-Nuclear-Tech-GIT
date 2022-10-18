@@ -17,26 +17,26 @@ public class BlockSmolder extends Block {
 	public BlockSmolder(Material mat) {
 		super(mat);
 	}
-    
-    @Override
-	@SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-        super.randomDisplayTick(world, x, y, z, rand);
-    	
-    	if(world.getBlock(x, y + 1, z).getMaterial() == Material.air) {
 
-    		world.spawnParticle("lava", x + 0.25 + rand.nextDouble() * 0.5, y + 1.1, z + 0.25 + rand.nextDouble() * 0.5, 0.0, 0.0, 0.0);
-    		world.spawnParticle("flame", x + 0.25 + rand.nextDouble() * 0.5, y + 1.1, z + 0.25 + rand.nextDouble() * 0.5, 0.0, 0.0, 0.0);
-    	}
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+		super.randomDisplayTick(world, x, y, z, rand);
+
+		if(world.getBlock(x, y + 1, z).getMaterial() == Material.air) {
+
+			world.spawnParticle("lava", x + 0.25 + rand.nextDouble() * 0.5, y + 1.1, z + 0.25 + rand.nextDouble() * 0.5, 0.0, 0.0, 0.0);
+			world.spawnParticle("flame", x + 0.25 + rand.nextDouble() * 0.5, y + 1.1, z + 0.25 + rand.nextDouble() * 0.5, 0.0, 0.0, 0.0);
+		}
+	}
 
 	@Override
 	public Item getItemDropped(int i, Random rand, int j) {
 		return ModItems.powder_fire;
-    }
+	}
 
-    @Override
+	@Override
 	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
-    	entity.setFire(3);
-    }
+		entity.setFire(3);
+	}
 }

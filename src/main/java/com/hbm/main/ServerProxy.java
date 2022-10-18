@@ -26,6 +26,7 @@ public class ServerProxy {
 	public static final int ID_DETONATOR = 6;
 	public static final int ID_FLUID_ID = 7;
 	public static final int ID_GUN_MODE = 8;
+	public static final int ID_GAS_HAZARD = 9;
 	
 	public void registerRenderInfo() { }
 	public void registerTileEntitySpecialRenderer() { }

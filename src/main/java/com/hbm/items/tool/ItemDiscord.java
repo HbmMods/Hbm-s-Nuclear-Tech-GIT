@@ -14,33 +14,33 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemDiscord extends Item {
-	
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		
+
 		MovingObjectPosition pos = Library.rayTrace(player, 100, 1);
-		
+
 		if(pos.typeOfHit == MovingObjectType.BLOCK) {
 
 			if(!world.isRemote) {
-				
-	            if(player.isRiding())
-	            	player.mountEntity(null);
-	            
-	            ForgeDirection dir = ForgeDirection.getOrientation(pos.sideHit);
 
-	            world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
-	            
-	            player.setPositionAndUpdate(pos.hitVec.xCoord + dir.offsetX, pos.hitVec.yCoord + dir.offsetY - 1, pos.hitVec.zCoord + dir.offsetZ);
-	            
-	            world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
-	            player.fallDistance = 0.0F;
+				if(player.isRiding())
+					player.mountEntity(null);
+
+				ForgeDirection dir = ForgeDirection.getOrientation(pos.sideHit);
+
+				world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
+
+				player.setPositionAndUpdate(pos.hitVec.xCoord + dir.offsetX, pos.hitVec.yCoord + dir.offsetY - 1, pos.hitVec.zCoord + dir.offsetZ);
+
+				world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
+				player.fallDistance = 0.0F;
 			}
 
-	        for (int i = 0; i < 32; ++i)
-	        	world.spawnParticle("portal", player.posX, player.posY + player.getRNG().nextDouble() * 2.0D, player.posZ, player.getRNG().nextGaussian(), 0.0D, player.getRNG().nextGaussian());
+			for(int i = 0; i < 32; ++i)
+				world.spawnParticle("portal", player.posX, player.posY + player.getRNG().nextDouble() * 2.0D, player.posZ, player.getRNG().nextGaussian(), 0.0D, player.getRNG().nextGaussian());
 		}
-		
+
 		return stack;
 	}
 

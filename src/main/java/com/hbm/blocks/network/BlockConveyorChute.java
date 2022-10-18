@@ -12,7 +12,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockConveyorChute extends BlockConveyor {
+public class BlockConveyorChute extends BlockConveyorBase {
 
 	@Override
 	public Vec3 getTravelLocation(World world, int x, int y, int z, Vec3 itemPos, double speed) {
@@ -28,7 +28,7 @@ public class BlockConveyorChute extends BlockConveyor {
 	}
 	
 	@Override
-	public ForgeDirection getTravelDirection(World world, int x, int y, int z, Vec3 itemPos, double speed) {
+	public ForgeDirection getTravelDirection(World world, int x, int y, int z, Vec3 itemPos) {
 
 		Block below = world.getBlock(x, y - 1, z);
 		if(below instanceof IConveyorBelt || below instanceof IEnterableBlock || itemPos.yCoord > y + 0.25) {

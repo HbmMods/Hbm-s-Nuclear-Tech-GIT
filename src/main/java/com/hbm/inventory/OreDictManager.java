@@ -9,6 +9,7 @@ import java.util.List;
 import static com.hbm.items.ModItems.*;
 import static com.hbm.blocks.ModBlocks.*;
 import static com.hbm.inventory.OreDictManager.DictFrame.*;
+import static com.hbm.inventory.OreNames.*;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
@@ -17,6 +18,7 @@ import com.hbm.hazard.HazardData;
 import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.inventory.material.MatDistribution;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.main.MainRegistry;
@@ -82,23 +84,6 @@ public class OreDictManager {
 	public static final String KEY_TOOL_CHEMISTRYSET = "ntmchemistryset";
 
 	public static final String KEY_CIRCUIT_BISMUTH = "circuitVersatile";
-	
-	/*
-	 * PREFIXES
-	 */
-	public static final String ANY = "any";
-	public static final String NUGGET = "nugget";
-	public static final String TINY = "tiny";
-	public static final String INGOT = "ingot";
-	public static final String DUSTTINY = "dustTiny";
-	public static final String DUST = "dust";
-	public static final String GEM = "gem";
-	public static final String CRYSTAL = "crystal";
-	public static final String PLATE = "plate";
-	public static final String BILLET = "billet";
-	public static final String BLOCK = "block";
-	public static final String ORE = "ore";
-	public static final String ORENETHER = "oreNether";
 
 	/*
 	 * MATERIALS
@@ -185,6 +170,7 @@ public class OreDictManager {
 	public static final DictFrame DESH = new DictFrame("WorkersAlloy");
 	public static final DictFrame STAR = new DictFrame("Starmetal");
 	public static final DictFrame BIGMT = new DictFrame("Saturnite");
+	public static final DictFrame FERRO = new DictFrame("Ferrouranium");
 	public static final DictFrame EUPH = new DictFrame("Euphemium");
 	public static final DictFrame DNT = new DictFrame("Dineutronium");
 	public static final DictFrame FIBER = new DictFrame("Fiberglass");
@@ -353,6 +339,7 @@ public class OreDictManager {
 		DESH		.nugget(nugget_desh)									.ingot(ingot_desh)													.dust(powder_desh)												.block(block_desh);
 		STAR																.ingot(ingot_starmetal)																												.block(block_starmetal)		.ore(ore_meteor_starmetal);
 		BIGMT																.ingot(ingot_saturnite)																				.plate(plate_saturnite);
+		FERRO																.ingot(ingot_ferrouranium);
 		EUPH		.nugget(nugget_euphemium)								.ingot(ingot_euphemium)												.dust(powder_euphemium)											.block(block_euphemium);
 		DNT			.nugget(nugget_dineutronium)							.ingot(ingot_dineutronium)											.dust(powder_dineutronium)										.block(block_dineutronium);
 		FIBER																.ingot(ingot_fiberglass)																											.block(block_fiberglass);
@@ -492,6 +479,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockGlassLime", glass_trinitite);
 		OreDictionary.registerOre("blockGlassRed", glass_polonium);
 		OreDictionary.registerOre("blockGlassBlack", glass_ash);
+		
+		MatDistribution.register(); //TEMP
 	}
 	
 	public static String getReflector() {
@@ -526,7 +515,7 @@ public class OreDictManager {
 	}
 	
 	public static class DictFrame {
-		String[] mats;
+		public String[] mats;
 		float hazMult = 1.0F;
 		List<HazardEntry> hazards = new ArrayList();
 		

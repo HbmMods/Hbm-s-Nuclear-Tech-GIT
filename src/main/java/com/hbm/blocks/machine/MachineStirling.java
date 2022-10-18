@@ -78,8 +78,9 @@ public class MachineStirling extends BlockDummyable implements ILookOverlay, ITo
 				return false;
 			
 			TileEntityStirling stirling = (TileEntityStirling)world.getTileEntity(pos[0], pos[1], pos[2]);
+			int meta = stirling.getGeatMeta();
 			
-			if(!stirling.hasCog && player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.gear_large) {
+			if(!stirling.hasCog && player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.gear_large && player.getHeldItem().getItemDamage() == meta) {
 				player.getHeldItem().stackSize--;
 				stirling.hasCog = true;
 				stirling.markDirty();
@@ -155,20 +156,21 @@ public class MachineStirling extends BlockDummyable implements ILookOverlay, ITo
 			return;
 		
 		TileEntityStirling stirling = (TileEntityStirling) te;
+		int maxHeat = stirling.maxHeat();
 
 		List<String> text = new ArrayList();
 		text.add(stirling.heat + "TU/t");
 		text.add((stirling.hasCog ? stirling.powerBuffer : 0) + "HE/t");
 
-		double percent = (double) stirling.heat / 300D;
+		double percent = (double) stirling.heat / (double) maxHeat;
 		int color = ((int) (0xFF - 0xFF * percent)) << 16 | ((int)(0xFF * percent) << 8);
 		
 		if(percent > 1D)
 			color = 0xff0000;
 		
-		text.add("&[" + color + "&]" + ((stirling.heat * 1000 / 300) / 10D) + "%");
+		text.add("&[" + color + "&]" + ((stirling.heat * 1000 / maxHeat) / 10D) + "%");
 		
-		if(stirling.heat > 300) {
+		if(stirling.heat > maxHeat) {
 			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! OVERSPEED ! ! !");
 		}
 		

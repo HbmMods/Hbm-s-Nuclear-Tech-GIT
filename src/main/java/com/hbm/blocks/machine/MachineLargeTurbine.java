@@ -1,6 +1,9 @@
 package com.hbm.blocks.machine;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -12,12 +15,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineLargeTurbine extends BlockDummyable {
+public class MachineLargeTurbine extends BlockDummyable implements ITooltipProvider {
 
 	public MachineLargeTurbine(Material mat) {
 		super(mat);
@@ -97,5 +99,10 @@ public class MachineLargeTurbine extends BlockDummyable {
 		//side connectors
 		this.makeExtra(world, xc + dir2.offsetX, y, zc + dir2.offsetZ);
 		this.makeExtra(world, xc - dir2.offsetX, y, zc - dir2.offsetZ);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.block.ILaserable;
@@ -175,6 +175,11 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 
 	@Override
 	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { tank };
 	}
 

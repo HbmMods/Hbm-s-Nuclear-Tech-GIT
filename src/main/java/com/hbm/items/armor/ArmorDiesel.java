@@ -4,6 +4,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -62,5 +63,10 @@ public class ArmorDiesel extends ArmorFSBFueled {
 			data.setInteger("player", player.getEntityId());
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
 		}
+	}
+
+	@Override
+	public boolean acceptsFluid(FluidType type, ItemStack stack) {
+		return type == Fluids.DIESEL || type == Fluids.DIESEL_CRACK;
 	}
 }

@@ -20,8 +20,7 @@ public class TurretHIMARS extends BlockDummyable {
 
 		if(meta >= 12)
 			return new TileEntityTurretHIMARS();
-		
-		return new TileEntityProxyCombo(true, true, false);
+		return new TileEntityProxyCombo().inventory().power();
 	}
 
 	@Override

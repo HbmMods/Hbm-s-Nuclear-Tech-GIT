@@ -8,6 +8,7 @@ import com.hbm.entity.mob.siege.EntitySiegeTunneler;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemKitCustom;
 import com.hbm.lib.Library;
+import com.hbm.world.feature.OilSpot;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,9 +32,11 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
-			EntityNukeTorex torex = new EntityNukeTorex(world);
+			OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 20, 500);
+			
+			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
-			world.spawnEntityInWorld(torex);
+			world.spawnEntityInWorld(torex);*/
 			
 			/*EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
 			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);

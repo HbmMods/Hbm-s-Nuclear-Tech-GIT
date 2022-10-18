@@ -142,38 +142,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new OreDictStack(S.dust(), 2))
 				.inputFluids(new FluidStack(Fluids.ACID, 2000))
 				.outputFluids(new FluidStack(Fluids.SAS3, 1000)));
-		recipes.add(new ChemRecipe(50, "DYN_SCHRAB", 1200)
-				.inputItems(
-						new ComparableStack(ModItems.dynosphere_desh_charged, 3),
-						new OreDictStack(U.ingot()),
-						new ComparableStack(ModItems.catalyst_clay, 8))
-				.outputItems(
-						new ItemStack(ModItems.ingot_schrabidium),
-						new ItemStack(ModItems.powder_desh, 12),
-						new ItemStack(ModItems.powder_desh_mix, 12))
-				.outputFluids(new FluidStack(Fluids.WATZ, 50)));
-		recipes.add(new ChemRecipe(51, "DYN_EUPH", 3600)
-				.inputItems(
-						new ComparableStack(ModItems.dynosphere_schrabidium_charged, 1),
-						new OreDictStack(PU.ingot()),
-						new ComparableStack(ModItems.catalyst_clay, 16),
-						new OreDictStack(EUPH.ingot()))
-				.outputItems(
-						new ItemStack(ModItems.nugget_euphemium, 12),
-						new ItemStack(ModItems.powder_schrabidium, 4),
-						new ItemStack(ModItems.powder_power, 4))
-				.outputFluids(new FluidStack(Fluids.WATZ, 100)));
-		recipes.add(new ChemRecipe(52, "DYN_DNT", 6000)
-				.inputItems(
-						new ComparableStack(ModItems.dynosphere_euphemium_charged, 2),
-						new ComparableStack(ModItems.powder_spark_mix),
-						new ComparableStack(ModItems.ingot_starmetal),
-						new ComparableStack(ModItems.catalyst_clay, 32))
-				.outputItems(
-						new ItemStack(ModItems.ingot_dineutronium),
-						new ItemStack(ModItems.powder_euphemium, 8),
-						new ItemStack(ModItems.powder_nitan_mix, 8))
-				.outputFluids(new FluidStack(Fluids.WATZ, 150)));
 		recipes.add(new ChemRecipe(53, "CORDITE", 40)
 				.inputItems(
 						new OreDictStack(KNO.dust(), 2),

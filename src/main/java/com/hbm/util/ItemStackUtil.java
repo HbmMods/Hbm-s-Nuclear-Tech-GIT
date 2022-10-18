@@ -139,22 +139,12 @@ public class ItemStackUtil {
 		return stacks;
 	}
 	
-	//private static HashMap<ComparableStack, List<String>> buffered = new HashMap();
-	
 	/**
 	 * Returns a List<String> of all ore dict names for this stack. Stack cannot be null, list is empty when there are no ore dict entries.
 	 * @param stack
 	 * @return
 	 */
 	public static List<String> getOreDictNames(ItemStack stack) {
-		
-		/*ÜComparableStack comp = new ComparableStack(stack).makeSingular();
-		
-		List<String> buff = buffered.get(comp);
-		
-		if(buff != null)
-			return buff;*/
-
 		List<String> list = new ArrayList();
 		
 		int ids[] = OreDictionary.getOreIDs(stack);
@@ -162,7 +152,6 @@ public class ItemStackUtil {
 			list.add(OreDictionary.getOreName(i));
 		}
 		
-		//buffered.put(comp, new ArrayList(list));
 		return list;
 	}
 }

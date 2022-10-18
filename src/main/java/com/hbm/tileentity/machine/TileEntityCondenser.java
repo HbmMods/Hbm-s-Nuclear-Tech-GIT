@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.main.ModEventHandler;
 
@@ -162,5 +162,10 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks [0]};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

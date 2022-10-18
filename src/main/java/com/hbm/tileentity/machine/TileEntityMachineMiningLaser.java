@@ -8,10 +8,10 @@ import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.inventory.recipes.ShredderRecipes;
@@ -402,11 +402,6 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			for(int z = -range; z <= range; z++) {
 				
 				if(worldObj.getBlock(x + xCoord, targetY, z + zCoord).getMaterial().isLiquid()) {
-					/*targetX = x + xCoord;
-					targetZ = z + zCoord;
-					worldObj.func_147480_a(x + xCoord, targetY, z + zCoord, false);
-					beam = true;*/
-					
 					continue;
 				}
 				
@@ -689,6 +684,11 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 
 	@Override
 	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { tank };
 	}
 }

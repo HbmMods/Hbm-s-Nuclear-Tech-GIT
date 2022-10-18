@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.storage;
 
 import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
@@ -21,9 +22,10 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyUser, SimpleComponent {
+public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyUser, IPersistentNBT, SimpleComponent {
 	
 	public long[] log = new long[20];
+	public long delta = 0;
 	public long power = 0;
 	
 	//0: input only
@@ -145,7 +147,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Override
 	public void updateEntity() {
 		
-		if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery && !worldObj.isRemote) {
+		if(!worldObj.isRemote && worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery) {
 			
 			long prevPower = this.power;
 			
@@ -160,22 +162,23 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			
 			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
 			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
-			
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setLong("power", (power + prevPower) / 2);
-			nbt.setShort("redLow", redLow);
-			nbt.setShort("redHigh", redHigh);
-			nbt.setByte("priority", (byte) this.priority.ordinal());
-			this.networkPack(nbt, 20);
-		}
-		
-		if(worldObj.isRemote) {
+
+			long avg = (power + prevPower) / 2;
+			this.delta = avg - this.log[0];
 			
 			for(int i = 1; i < this.log.length; i++) {
 				this.log[i - 1] = this.log[i];
 			}
 			
-			this.log[19] = this.power;
+			this.log[19] = avg;
+			
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setLong("power", avg);
+			nbt.setLong("delta", delta);
+			nbt.setShort("redLow", redLow);
+			nbt.setShort("redHigh", redHigh);
+			nbt.setByte("priority", (byte) this.priority.ordinal());
+			this.networkPack(nbt, 20);
 		}
 	}
 	
@@ -226,6 +229,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public void networkUnpack(NBTTagCompound nbt) { 
 
 		this.power = nbt.getLong("power");
+		this.delta = nbt.getLong("delta");
 		this.redLow = nbt.getShort("redLow");
 		this.redHigh = nbt.getShort("redHigh");
 		this.priority = ConnectionPriority.values()[nbt.getByte("priority")];
@@ -325,5 +329,24 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getMaxEnergy(Context context, Arguments args) {
 		return new Object[] {getMaxPower()};
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setLong("power", power);
+		data.setShort("redLow", redLow);
+		data.setShort("redHigh", redHigh);
+		data.setInteger("priority", this.priority.ordinal());
+		nbt.setTag(NBT_PERSISTENT_KEY, data);
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
+		this.power = data.getLong("power");
+		this.redLow = data.getShort("redLow");
+		this.redHigh = data.getShort("redHigh");
+		this.priority = ConnectionPriority.values()[data.getInteger("priority")];
 	}
 }

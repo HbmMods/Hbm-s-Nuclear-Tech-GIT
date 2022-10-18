@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.ContainerElectricFurnace;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
@@ -57,24 +58,19 @@ public class GUIMachineElectricFurnace extends GuiInfoContainer {
 		//if initial ZE is still present, it'll be used instead
 		//works so that container packets can still be used
 		//efficiency!
-		TileEntityMachineElectricFurnace fs = null;
-		
 		if(diFurnace.isInvalid() && diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord) instanceof TileEntityMachineElectricFurnace)
-			fs = (TileEntityMachineElectricFurnace) diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord);
-		else
-			fs = diFurnace;
+			diFurnace = (TileEntityMachineElectricFurnace) diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord);
 		
-		if(fs.hasPower()) {
+		if(diFurnace.hasPower()) {
 			int i = (int)diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 20, guiTop + 69 - i, 200, 52 - i, 16, i);
 		}
 		
-		if(diFurnace.canProcess() && diFurnace.hasPower())
-		{
+		if(diFurnace.getWorldObj().getBlock(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord) == ModBlocks.machine_electric_furnace_on) {
 			drawTexturedModalRect(guiLeft + 56, guiTop + 35, 176, 0, 16, 16);
 		}
 		
-		int j1 = fs.getProgressScaled(24);
+		int j1 = diFurnace.getProgressScaled(24);
 		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 17, j1 + 1, 17);
 		
 		this.drawInfoPanel(guiLeft + 151, guiTop + 19, 8, 8, 8);

@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.network.BlockConveyorLift;
 
 import api.hbm.conveyor.IConveyorBelt;
+import api.hbm.conveyor.IEnterableBlock;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -74,7 +75,7 @@ public class RenderConveyorLift implements ISimpleBlockRenderingHandler {
 		
 		if(y < 255) {
 			Block above = world.getBlock(x, y + 1, z);
-			isTop = !(above instanceof IConveyorBelt) && !isBottom;
+			isTop = !(above instanceof IConveyorBelt) && !isBottom && !(world.getBlock(x, y + 1, z) instanceof IEnterableBlock);
 		}
 
 		double minOuter = 0.0;

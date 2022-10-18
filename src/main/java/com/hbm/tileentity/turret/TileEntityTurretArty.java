@@ -18,7 +18,6 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
@@ -28,7 +27,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUIProvider {
+public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implements IGUIProvider {
 	
 	public short mode = 0;
 	public static final short MODE_ARTILLERY = 0;
@@ -39,8 +38,6 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	public double barrelPos = 0;
 	public double lastBarrelPos = 0;
 	
-	private List<Vec3> targetQueue = new ArrayList();
-
 	@Override
 	@SideOnly(Side.CLIENT)
 	public List<ItemStack> getAmmoTypesForDisplay() {
@@ -55,15 +52,6 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		this.ammoStacks.addAll(list);
 		
 		return ammoStacks;
-	}
-	
-	public void enqueueTarget(double x, double y, double z) {
-		
-		Vec3 pos = this.getTurretPos();
-		Vec3 delta = Vec3.createVectorHelper(x - pos.xCoord, y - pos.yCoord, z - pos.zCoord);
-		if(delta.lengthVector() <= this.getDecetorRange()) {
-			this.targetQueue.add(Vec3.createVectorHelper(x, y, z));
-		}
 	}
 	
 	@Override
@@ -132,28 +120,8 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 	}
 
 	@Override
-	protected void seekNewTarget() {
-		super.seekNewTarget();
-	}
-	
-	@Override
-	public boolean entityInLOS(Entity e) {
-		
-		if(this.mode == this.MODE_CANNON) {
-			return super.entityInLOS(e);
-		} else {
-			
-			Vec3 pos = this.getTurretPos();
-			Vec3 ent = this.getEntityPos(e);
-			Vec3 delta = Vec3.createVectorHelper(ent.xCoord - pos.xCoord, ent.yCoord - pos.yCoord, ent.zCoord - pos.zCoord);
-			double length = delta.lengthVector();
-			
-			if(length < this.getDecetorGrace() || length > this.getDecetorRange() * 1.1) //the latter statement is only relevant for entities that have already been detected
-				return false;
-			
-			int height = worldObj.getHeightValue((int) Math.floor(e.posX), (int) Math.floor(e.posZ));
-			return height < (e.posY + e.height);
-		}
+	public boolean doLOSCheck() {
+		return this.mode == this.MODE_CANNON;
 	}
 	
 	@Override
@@ -192,17 +160,17 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		return mode == MODE_CANNON ? 20D : 50D;
 	}
 	
-	public int getShellLoaded() {
+	public ItemStack getShellLoaded() {
 		
 		for(int i = 1; i < 10; i++) {
 			if(slots[i] != null) {
 				if(slots[i].getItem() == ModItems.ammo_arty) {
-					return slots[i].getItemDamage();
+					return slots[i];
 				}
 			}
 		}
 		
-		return -1;
+		return null;
 	}
 	
 	public void conusmeAmmo(Item ammo) {
@@ -217,7 +185,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		this.markDirty();
 	}
 
-	public void spawnShell(int type) {
+	public void spawnShell(ItemStack type) {
 		
 		Vec3 pos = this.getTurretPos();
 		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
@@ -228,7 +196,15 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
 		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, (float) getV0(), 0.0F);
 		proj.setTarget((int) tPos.xCoord, (int) tPos.yCoord, (int) tPos.zCoord);
-		proj.setType(type);
+		proj.setType(type.getItemDamage());
+		
+		if(type.getItemDamage() == 8 && type.hasTagCompound()) {
+			NBTTagCompound cargo = type.stackTagCompound.getCompoundTag("cargo");
+			
+			if(cargo != null) {
+				proj.setCargo(ItemStack.loadItemStackFromNBT(cargo));
+			}
+		}
 		
 		if(this.mode != this.MODE_CANNON)
 			proj.setWhistle(true);
@@ -385,9 +361,9 @@ public class TileEntityTurretArty extends TileEntityTurretBaseNT implements IGUI
 		
 		if(timer % delay == 0) {
 			
-			int conf = this.getShellLoaded();
+			ItemStack conf = this.getShellLoaded();
 			
-			if(conf != -1) {
+			if(conf != null) {
 				this.spawnShell(conf);
 				this.conusmeAmmo(ModItems.ammo_arty);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.jeremy_fire", 25.0F, 1.0F);

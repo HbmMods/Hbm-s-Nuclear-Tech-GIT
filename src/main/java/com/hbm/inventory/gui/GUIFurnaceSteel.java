@@ -32,7 +32,6 @@ public class GUIFurnaceSteel extends GuiInfoContainer {
 			this.drawCustomInfoStat(x, y, guiLeft + 53, guiTop + 17 + 18 * i, 70, 7, x, y, new String[] { String.format("%,d", furnace.progress[i]) + " / " + String.format("%,d", furnace.processTime) + "TU" });
 			this.drawCustomInfoStat(x, y, guiLeft + 53, guiTop + 26 + 18 * i, 70, 7, x, y, new String[] { "Bonus: " + furnace.bonus[i] + "%" });
 		}
-		//this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 44, 71, 7, x, y, new String[] { (furnace.burnTime / 20) + "s" });
 		
 		this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 18, 9, 50, x, y, new String[] { String.format("%,d", furnace.heat) + " / " + String.format("%,d", furnace.maxHeat) + "TU" });
 	}

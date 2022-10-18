@@ -8,9 +8,9 @@ import com.hbm.blocks.machine.MachineBoiler;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -48,8 +48,8 @@ public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implem
 	public TileEntityMachineBoilerElectric() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.WATER, 16000, 0);
-		tanks[1] = new FluidTank(Fluids.STEAM, 16000, 1);
+		tanks[0] = new FluidTank(Fluids.OIL, 16000, 0);
+		tanks[1] = new FluidTank(Fluids.HOTOIL, 16000, 1);
 	}
 
 	@Override
@@ -422,5 +422,10 @@ public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implem
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks[0]};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

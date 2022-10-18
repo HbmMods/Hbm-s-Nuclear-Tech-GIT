@@ -27,6 +27,7 @@ import com.hbm.main.MainRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+//the anti-spaghetti. this class provides so much functionality and saves so much time, i just love you, SerializableRecipe <3
 public abstract class SerializableRecipe {
 	
 	public static final Gson gson = new Gson();
@@ -37,7 +38,11 @@ public abstract class SerializableRecipe {
 	 */
 	
 	public static void registerAllHandlers() {
+		recipeHandlers.add(new ShredderRecipes());
 		recipeHandlers.add(new ChemplantRecipes());
+		recipeHandlers.add(new CrucibleRecipes());
+		recipeHandlers.add(new CentrifugeRecipes());
+		recipeHandlers.add(new CyclotronRecipes());
 		recipeHandlers.add(new HadronRecipes());
 		recipeHandlers.add(new FuelPoolRecipes());
 	}
@@ -55,6 +60,8 @@ public abstract class SerializableRecipe {
 		
 		for(SerializableRecipe recipe : recipeHandlers) {
 			
+			recipe.deleteRecipes();
+			
 			File recFile = new File(recDir.getAbsolutePath() + File.separatorChar + recipe.getFileName());
 			if(recFile.exists() && recFile.isFile()) {
 				MainRegistry.logger.info("Reading recipe file " + recFile.getName());
@@ -67,6 +74,8 @@ public abstract class SerializableRecipe {
 				MainRegistry.logger.info("Writing template file " + recTemplate.getName());
 				recipe.writeTemplateFile(recTemplate);
 			}
+			
+			recipe.registerPost();
 		}
 		
 		MainRegistry.logger.info("Finished recipe init!");
@@ -89,7 +98,9 @@ public abstract class SerializableRecipe {
 	public abstract void registerDefaults();
 	/** Deletes all existing recipes, currenly unused */
 	public abstract void deleteRecipes();
-	
+	/** A routine called after registering all recipes, whether it's a template or not. Good for IMC functionality. */
+	public void registerPost() { }
+	/** Returns a string to be printed as info at the top of the JSON file */
 	public String getComment() {
 		return null;
 	}
@@ -159,7 +170,7 @@ public abstract class SerializableRecipe {
 			int stacksize = array.size() > 2 ? array.get(2).getAsInt() : 1;
 			if("item".equals(type)) {
 				Item item = (Item) Item.itemRegistry.getObject(array.get(1).getAsString());
-				int meta = array.size() > 3 ? array.get(3).getAsInt() : 2;
+				int meta = array.size() > 3 ? array.get(3).getAsInt() : 0;
 				return new ComparableStack(item, stacksize, meta);
 			}
 			if("dict".equals(type)) {

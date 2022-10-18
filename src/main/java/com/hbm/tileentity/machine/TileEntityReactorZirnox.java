@@ -16,10 +16,10 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemZirnoxBreedingRod;
 import com.hbm.items.machine.ItemZirnoxRod;
@@ -529,6 +529,11 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { water, carbonDioxide };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { water, steam, carbonDioxide };
 	}
   
 	// do some opencomputer stuff

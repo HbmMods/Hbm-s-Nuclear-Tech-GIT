@@ -13,12 +13,14 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
+import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.I18nUtil;
@@ -88,6 +90,11 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				ChemRecipe chem = ChemplantRecipes.recipes.get(i);
 				allStacks.add(new ItemStack(ModItems.chemistry_template, 1, chem.getId()));
 			}
+			
+			// Crucible Templates
+			for(int i = 0; i < CrucibleRecipes.recipes.size(); i++) {
+				allStacks.add(new ItemStack(ModItems.crucible_template, 1, CrucibleRecipes.recipes.get(i).getId()));
+			}
 		} else {
 
 			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
@@ -117,11 +124,22 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		
 		sub = sub.toLowerCase();
 		
+		outer:
 		for(ItemStack stack : allStacks) {
 			
-			if(stack.getDisplayName().toLowerCase().contains(sub)) {
-				stacks.add(stack);
-			} else if(stack.getItem() == ModItems.fluid_identifier) {
+			for(Object o : stack.getTooltip(MainRegistry.proxy.me(), true)) {
+				
+				if(o instanceof String) {
+					String text = (String) o;
+					
+					if(text.toLowerCase().contains(sub)) {
+						stacks.add(stack);
+						continue outer;
+					}
+				}
+			}
+			
+			if(stack.getItem() == ModItems.fluid_identifier) {
 				FluidType fluid = Fluids.fromID(stack.getItemDamage());
 				
 				if(I18nUtil.resolveKey(fluid.getUnlocalizedName()).toLowerCase().contains(sub)) {
@@ -290,19 +308,21 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 
 		public void drawIcon(boolean b) {
 			try {
-                RenderHelper.enableGUIStandardItemLighting();
-                GL11.glDisable(GL11.GL_LIGHTING);
-                OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)240 / 1.0F, (float)240 / 1.0F);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+				RenderHelper.enableGUIStandardItemLighting();
+				GL11.glDisable(GL11.GL_LIGHTING);
+				OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) 240 / 1.0F, (float) 240 / 1.0F);
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				if(stack != null) {
 					if(stack.getItem() == ModItems.assembly_template)
 						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), AssemblerRecipes.getOutputFromTempate(stack), xPos + 1, yPos + 1);
 					else if(stack.getItem() == ModItems.chemistry_template)
 						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), new ItemStack(ModItems.chemistry_icon, 1, stack.getItemDamage()), xPos + 1, yPos + 1);
+					else if(stack.getItem() == ModItems.crucible_template)
+						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), CrucibleRecipes.indexMapping.get(stack.getItemDamage()).icon, xPos + 1, yPos + 1);
 					else
 						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), stack, xPos + 1, yPos + 1);
 				}
-                GL11.glEnable(GL11.GL_LIGHTING);
+				GL11.glEnable(GL11.GL_LIGHTING);
 			} catch(Exception x) {
 			}
 		}
