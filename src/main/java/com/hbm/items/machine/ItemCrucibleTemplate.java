@@ -42,13 +42,13 @@ public class ItemCrucibleTemplate extends Item {
 
 		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_out_p"));
 		for(MaterialStack out : recipe.output) {
-			list.add(out.material.names[0] + ": " + Mats.formatAmount(out.amount));
+			list.add(I18nUtil.resolveKey(out.material.getUnlocalizedName()) + ": " + Mats.formatAmount(out.amount));
 		}
 
 		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_in_p"));
 		
 		for(MaterialStack in : recipe.input) {
-			list.add(in.material.names[0] + ": " + Mats.formatAmount(in.amount));
+			list.add(I18nUtil.resolveKey(in.material.getUnlocalizedName()) + ": " + Mats.formatAmount(in.amount));
 		}
 	}
 }

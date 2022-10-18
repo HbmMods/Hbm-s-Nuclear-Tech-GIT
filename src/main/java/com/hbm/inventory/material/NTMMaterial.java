@@ -30,6 +30,10 @@ public class NTMMaterial {
 		Mats.matById.put(id, this);
 	}
 	
+	public String getUnlocalizedName() {
+		return "hbmmat." + this.names[0].toLowerCase();
+	}
+	
 	/** Shapes for autogen */
 	public NTMMaterial setShapes(MaterialShapes... shapes) {
 		this.shapes = shapes;

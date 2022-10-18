@@ -157,7 +157,7 @@ public class CrucibleRecipes extends SerializableRecipe {
 		HashMap<AStack, List<ItemStack>> map = new HashMap();
 		
 		for(NTMMaterial material : Mats.orderedList) {
-			for(MaterialShapes shape : MaterialShapes.values()) {
+			for(MaterialShapes shape : MaterialShapes.allShapes) {
 				//TODO: buffer these
 				
 				String name = shape.toString().toLowerCase() + material.names[0];
