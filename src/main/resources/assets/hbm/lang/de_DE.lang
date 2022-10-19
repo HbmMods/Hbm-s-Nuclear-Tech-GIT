@@ -3458,6 +3458,7 @@ tile.factory_titanium_furnace.name=Einfache Fabrikzugriffsluke
 tile.factory_titanium_hull.name=Fabrikblock
 tile.fallout.name=Fallout
 tile.fence_metal.name=Maschendrahtzaun
+tile.field_disturber.name=Hochenergiefeld-Jammer
 tile.fire_digamma.name=Verweilendes Digamma
 tile.fire_door.name=Brandschutztür
 tile.fireworks.name=Feuerwerksbatterie

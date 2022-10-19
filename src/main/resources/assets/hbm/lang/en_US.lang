@@ -3896,6 +3896,7 @@ tile.factory_titanium_furnace.name=Basic Factory Access Hatch
 tile.factory_titanium_hull.name=Factory Block
 tile.fallout.name=Fallout
 tile.fence_metal.name=Chainlink Fence
+tile.field_disturber.name=High Energy Field Jammer
 tile.fire_digamma.name=Lingering Digamma
 tile.fire_door.name=Fire Door
 tile.fireworks.name=Firework Battery
