@@ -96,14 +96,17 @@ public class ItemDrop extends Item {
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.cell_anti_schrabidium && WeaponConfig.dropCell) {
 					if (!entityItem.worldObj.isRemote) {
-						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, "random.explode", 100.0F, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-						entityItem.worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(entityItem.worldObj, entityItem.posX, entityItem.posY, entityItem.posZ, BombConfig.aSchrabRadius));
-			    		
-			    		EntityCloudFleija cloud = new EntityCloudFleija(entityItem.worldObj, BombConfig.aSchrabRadius);
-			    		cloud.posX = entityItem.posX;
-			    		cloud.posY = entityItem.posY;
-			    		cloud.posZ = entityItem.posZ;
-			    		entityItem.worldObj.spawnEntityInWorld(cloud);
+						EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(entityItem.worldObj, entityItem.posX, entityItem.posY, entityItem.posZ, BombConfig.aSchrabRadius);
+						if(!ex.isDead) {
+							entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, "random.explode", 100.0F, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+							entityItem.worldObj.spawnEntityInWorld(ex);
+				    		
+				    		EntityCloudFleija cloud = new EntityCloudFleija(entityItem.worldObj, BombConfig.aSchrabRadius);
+				    		cloud.posX = entityItem.posX;
+				    		cloud.posY = entityItem.posY;
+				    		cloud.posZ = entityItem.posZ;
+				    		entityItem.worldObj.spawnEntityInWorld(cloud);
+						}
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.singularity && WeaponConfig.dropSing) {
