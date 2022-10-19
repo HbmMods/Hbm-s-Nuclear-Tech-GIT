@@ -3321,7 +3321,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(balefire, balefire.getUnlocalizedName());
 		GameRegistry.registerBlock(fire_digamma, fire_digamma.getUnlocalizedName());
 		GameRegistry.registerBlock(digamma_matter, digamma_matter.getUnlocalizedName());
-		GameRegistry.registerBlock(volcano_core, ItemBlockVolcano.class, volcano_core.getUnlocalizedName());
+		register(volcano_core);
 		
 		//AMS
 		GameRegistry.registerBlock(ams_base, ams_base.getUnlocalizedName());
