@@ -21,6 +21,7 @@ import com.hbm.wiaj.GuiWorldInAJar;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -845,6 +846,12 @@ public class GUIHandler implements IGuiHandler {
 		
 		if(block instanceof IGUIProvider) {
 			return ((IGUIProvider) block).provideGUI(ID, player, world, x, y, z);
+		}
+		
+		Item item = player.getHeldItem().getItem();
+		
+		if(item instanceof IGUIProvider) {
+			return ((IGUIProvider) item).provideGUI(ID, player, world, x, y, z);
 		}
 		
 		//stop doing this unless you absolutely have to \/
