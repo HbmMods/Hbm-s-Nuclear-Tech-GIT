@@ -3,11 +3,21 @@ package com.hbm.inventory.material;
 import static com.hbm.inventory.material.Mats.*;
 import static com.hbm.inventory.material.MaterialShapes.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.OreDictManager;
+import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.util.Compat;
 
@@ -17,9 +27,10 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class MatDistribution {
+public class MatDistribution extends SerializableRecipe {
 
-	public static void register() {
+	@Override
+	public void registerDefaults() {
 		//vanilla crap
 		registerOre("stone", MAT_STONE, BLOCK.q(1));
 		registerOre("cobblestone", MAT_STONE, BLOCK.q(1));
@@ -105,5 +116,74 @@ public class MatDistribution {
 		if(stacks.isEmpty()) return;
 		
 		materialOreEntries.put(key, stacks);
+	}
+
+	@Override
+	public String getFileName() {
+		return "hbmCrucibleSmelting.json";
+	}
+
+	@Override
+	public Object getRecipeObject() {
+		List entries = new ArrayList();
+		entries.addAll(Mats.materialEntries.entrySet());
+		entries.addAll(Mats.materialOreEntries.entrySet());
+		return entries;
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		AStack input = this.readAStack(obj.get("input").getAsJsonArray());
+		List<MaterialStack> materials = new ArrayList();
+		JsonArray output = obj.get("output").getAsJsonArray();
+		for(int i = 0; i < output.size(); i++) {
+			JsonArray entry = output.get(i).getAsJsonArray();
+			String mat = entry.get(0).getAsString();
+			int amount = entry.get(1).getAsInt();
+			materials.add(new MaterialStack(Mats.matByName.get(mat), amount));
+		}
+		if(input instanceof ComparableStack) {
+			Mats.materialEntries.put((ComparableStack) input, materials);
+		} else if(input instanceof OreDictStack) {
+			Mats.materialOreEntries.put(((OreDictStack) input).name, materials);
+		}
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		AStack toSmelt = null;
+		Entry entry = (Entry) recipe;
+		List<MaterialStack> materials = (List<MaterialStack>) entry.getValue();
+		if(entry.getKey() instanceof String) {
+			toSmelt = new OreDictStack((String) entry.getKey());
+		} else if(entry.getKey() instanceof ComparableStack) {
+			toSmelt = (ComparableStack) entry.getKey();
+		}
+		if(toSmelt == null) return;
+		writer.name("input");
+		this.writeAStack(toSmelt, writer);
+		writer.name("output").beginArray();
+		writer.setIndent("");
+		for(MaterialStack stack : materials) {
+			writer.beginArray();
+			writer.value(stack.material.names[0]).value(stack.amount);
+			writer.endArray();
+		}
+		writer.endArray();
+		writer.setIndent("  ");
+	}
+
+	@Override
+	public void deleteRecipes() {
+		Mats.materialEntries.clear();
+		Mats.materialOreEntries.clear();
+	}
+	
+	@Override
+	public String getComment() {
+		return "Defines a set of items that can be smelted. Smelting generated from the ore dictionary (prefix + material) is auto-generated and cannot be "
+				+ "changed. This config only changes fixed items (like recycling for certain metallic objects) and ores (with variable byproducts). "
+				+ "Amounts used are in quanta (1 quantum is 1/72 of an ingot or 1/8 of a nugget). Material names are the ore dict suffixes, case-sensitive.";
 	}
 }

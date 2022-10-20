@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -133,17 +135,63 @@ public class CrucibleRecipes extends SerializableRecipe {
 
 	@Override
 	public String getComment() {
-		return "/// under construction ///";
+		return "ID must be unique, but not sequential. Order in which the recipes are defined determines the order in which they are displayed in-game. "
+				+ "Frequency is the amount of ticks between operations, must be at least 1. The names are unlocalized by default, but if they can't be found in "
+				+ "the lang files the names will be displayed as-is. The icon is what's being displayed when holding shift on the template.";
 	}
 
 	@Override
 	public void readRecipe(JsonElement recipe) {
-		
+		JsonObject obj = (JsonObject) recipe;
+		int id = obj.get("id").getAsInt();
+		String name = obj.get("name").getAsString();
+		int freq = obj.get("frequency").getAsInt();
+		ItemStack icon = this.readItemStack(obj.get("icon").getAsJsonArray());
+		MaterialStack[] input = new MaterialStack[obj.get("input").getAsJsonArray().size()];
+		for(int i = 0; i < input.length; i++) {
+			JsonArray entry = obj.get("input").getAsJsonArray().get(i).getAsJsonArray();
+			String matname = entry.get(0).getAsString();
+			int amount = entry.get(1).getAsInt();
+			input[i] = new MaterialStack(Mats.matByName.get(matname), amount);
+		}
+		MaterialStack[] output = new MaterialStack[obj.get("output").getAsJsonArray().size()];
+		for(int i = 0; i < input.length; i++) {
+			JsonArray entry = obj.get("output").getAsJsonArray().get(i).getAsJsonArray();
+			String matname = entry.get(0).getAsString();
+			int amount = entry.get(1).getAsInt();
+			input[i] = new MaterialStack(Mats.matByName.get(matname), amount);
+		}
+		recipes.add(new CrucibleRecipe(id, name, freq, icon).inputs(input).outputs(output));
 	}
 
 	@Override
 	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
-		
+		CrucibleRecipe rec = (CrucibleRecipe) recipe;
+		writer.name("id").value(rec.id);
+		writer.name("name").value(rec.name);
+		writer.name("frequency").value(rec.frequency);
+		writer.name("icon");
+		this.writeItemStack(rec.icon, writer);
+		writer.name("input");
+		writer.beginArray();
+		for(MaterialStack mat : rec.input) {
+			writer.beginArray();
+			writer.setIndent("");
+			writer.value(mat.material.names[0]).value(mat.amount);
+			writer.endArray();
+			writer.setIndent("  ");
+		}
+		writer.endArray();
+		writer.name("output");
+		writer.beginArray();
+		for(MaterialStack mat : rec.output) {
+			writer.beginArray();
+			writer.setIndent("");
+			writer.value(mat.material.names[0]).value(mat.amount);
+			writer.endArray();
+			writer.setIndent("  ");
+		}
+		writer.endArray();
 	}
 
 	@Override

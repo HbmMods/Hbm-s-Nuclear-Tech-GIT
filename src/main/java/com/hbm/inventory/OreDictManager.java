@@ -482,7 +482,6 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockGlassBlack", glass_ash);
 		
 		MaterialShapes.registerCompatShapes();
-		MatDistribution.register(); //TEMP
 	}
 	
 	public static String getReflector() {
