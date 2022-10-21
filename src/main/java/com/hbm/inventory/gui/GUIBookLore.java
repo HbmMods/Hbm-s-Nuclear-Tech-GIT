@@ -46,7 +46,7 @@ public class GUIBookLore extends GuiScreen {
 			ySize = setup.mainPage.sizeY;
 		}
 		
-		maxPage = setup.mainPage.isTwoPages ? (int)Math.ceil(type.pages / 2D) - 1 : type.pages;
+		maxPage = setup.mainPage.isTwoPages ? (int)Math.ceil(type.pages / 2D) - 1 : type.pages - 1;
 		System.out.print((int)Math.ceil(type.pages / 2D) - 1);
 	}
 	
@@ -69,18 +69,21 @@ public class GUIBookLore extends GuiScreen {
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		
-		if(page == maxPage && setup.mainPage.isTwoPages && this.page * 2 >= this.type.pages) //odd numbered pages
+		if(page == maxPage && (page + 1) * 2 > type.pages) { //odd numbered pages
 			Minecraft.getMinecraft().getTextureManager().bindTexture(setup.auxPage.texture);
-		else
+			func_146110_a(guiLeft, guiTop, setup.auxPage.u, setup.auxPage.v, setup.auxPage.sizeX, setup.auxPage.sizeY, 512, 512);
+		} else {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(setup.mainPage.texture);
+			func_146110_a(guiLeft, guiTop, setup.mainPage.u, setup.mainPage.v, setup.mainPage.sizeX, setup.mainPage.sizeY, 512, 512);
+		}
 		
-		func_146110_a(guiLeft, guiTop, 0, 0, xSize, ySize, 512, 512);
+		int width = page == maxPage && (page + 1) * 2 > type.pages ? setup.auxPage.sizeX : setup.mainPage.sizeX;
 		
 		if(page > 0)
-			setup.button.renderButton(this, xSize, guiLeft, guiTop, false, i, j);
+			setup.button.renderButton(this, width, guiLeft, guiTop, false, i, j);
 		
 		if(page < maxPage)
-			setup.button.renderButton(this, xSize, guiLeft, guiTop, true, i, j);
+			setup.button.renderButton(this, width, guiLeft, guiTop, true, i, j);
 	}
 	
 	protected void drawGuiContainerForegroundLayer(int x, int y) {
@@ -96,7 +99,11 @@ public class GUIBookLore extends GuiScreen {
 				setup.auxPage.renderText(key + defacto, fontRendererObj, guiLeft, guiTop, false);
 			
 		} else {
-			setup.mainPage.renderText(key + page, fontRendererObj, guiLeft, guiTop, false);
+			
+			if(page < maxPage)
+				setup.mainPage.renderText(key + (page + 1), fontRendererObj, guiLeft, guiTop, false);
+			else
+				setup.auxPage.renderText(key + (page + 1), fontRendererObj, guiLeft, guiTop, false);
 		}
 		
 	}
@@ -127,14 +134,18 @@ public class GUIBookLore extends GuiScreen {
 	// turn page buttons, one-page, both page textures, sizes, positions, etc.
 	public enum GUIAppearance {
 		GUIDEBOOK(new GUIPage(272, 182, 20, 20, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/book.png")).setScale(2F), 
-				new GUIPageButton(18, 10, 24, 155, 0, 0, 500, 200, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter6.png")),
-				0);
+				new GUIPageButton(18, 10, 24, 155, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter6.png")).setUV(0, 0, 500, 200),
+				0),
+		LOOSEPAPER(new GUIPage(133, 165, 10, 24, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(2F),
+				new GUIPage(130, 165, 10, 24, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(2F).setUV(133, 0),
+				new GUIPageButton(18, 10, 17, 148, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png")).setUV(263, 0, 512, 512),
+				1);
 		
 		public int itemTexture;
 		
 		protected GUIPage mainPage; //"Main" page, usually two pages. GUI accounts for one-paged main pages.
 		protected GUIPage auxPage; //"Aux" page, AKA the final page if the max pages is oddly numbered.
-		//If two-sided, text will be positioned on the left page. Can be null if main page is one-sided.
+		//If two-sided, text will be positioned on the left page.
 		protected GUIPageButton button;
 		
 		private GUIAppearance(GUIPage main, GUIPage aux, GUIPageButton button, int texture) {
@@ -156,6 +167,10 @@ public class GUIBookLore extends GuiScreen {
 	private static class GUIPage {
 		protected ResourceLocation texture;
 		
+		//UV positioning
+		protected int u = 0;
+		protected int v = 0;
+		
 		protected int sizeX;
 		protected int sizeY;
 		
@@ -164,7 +179,7 @@ public class GUIBookLore extends GuiScreen {
 		protected int marginY; //Mirrored on both sides if two-sided.
 		protected boolean isTwoPages = true;
 		protected float scale = 1.0F;
-		
+		//TODO: split marginX into a left and right margin
 		protected GUIPage(int x, int y, int marX, int marY, ResourceLocation texture, boolean twoPages) {
 			this.sizeX = x;
 			this.sizeY = y;
@@ -180,6 +195,12 @@ public class GUIBookLore extends GuiScreen {
 			this.marginX = marX;
 			this.marginY = marY;
 			this.texture = texture;
+		}
+		
+		protected GUIPage setUV(int u, int v) {
+			this.u = u;
+			this.v = v;
+			return this;
 		}
 		
 		protected GUIPage setScale(float scale) {
@@ -235,21 +256,25 @@ public class GUIBookLore extends GuiScreen {
 		/* Left, Unsel | Right, Unsel 
 		 * Left, Sel   | Right, Sel
 		 */
-		protected int u; //upper lefthand corner where the button textures lie.
-		protected int v; //assumes uniform size for each.
-		protected int sizeU;
-		protected int sizeV;
+		protected int u = 0; //upper lefthand corner where the button textures lie.
+		protected int v = 0; //assumes uniform size for each.
+		protected int sizeU = sizeX * 2; //Size of UV texture
+		protected int sizeV = sizeY * 2;
 		
-		protected GUIPageButton(int sizeX, int sizeY, int x, int y, int u, int v, int sizeU, int sizeV, ResourceLocation tex) {
+		protected GUIPageButton(int sizeX, int sizeY, int x, int y, ResourceLocation tex) {
 			this.sizeX = sizeX;
 			this.sizeY = sizeY;
 			this.x = x;
 			this.y = y;
+			this.texture = tex;
+		}
+		
+		protected GUIPageButton setUV(int u, int v, int sizeU, int sizeV) {
 			this.u = u;
 			this.v = v;
-			this.texture = tex;
 			this.sizeU = sizeU;
 			this.sizeV = sizeV;
+			return this;
 		}
 		
 		protected void renderButton(GuiScreen screen, int width, int left, int top, boolean rightPage, int i, int j) {
@@ -258,15 +283,15 @@ public class GUIBookLore extends GuiScreen {
 			
 			if(!rightPage) {
 				if(i >= left + x && i < left + x + sizeX && overY) {
-					func_146110_a(left + x, top + y, u, v + sizeY, sizeX, sizeY, sizeX * 2, sizeY * 2);
+					func_146110_a(left + x, top + y, u, v + sizeY, sizeX, sizeY, sizeU, sizeV);
 				} else {
-					func_146110_a(left + x, top + y, u, v, sizeX, sizeY, sizeX * 2, sizeY * 2);
+					func_146110_a(left + x, top + y, u, v, sizeX, sizeY, sizeU, sizeV);
 				}
 			} else {
 				if(i >= left + width - x - sizeX && i < left + width - x && overY) {
-					func_146110_a(left + width - x - sizeX, top + y, u + sizeX, v + sizeY, sizeX, sizeY, sizeX * 2, sizeY * 2);
+					func_146110_a(left + width - x - sizeX, top + y, u + sizeX, v + sizeY, sizeX, sizeY, sizeU, sizeV);
 				} else {
-					func_146110_a(left + width - x - sizeX, top + y, u + sizeX, v, sizeX, sizeY, sizeX * 2, sizeY * 2);
+					func_146110_a(left + width - x - sizeX, top + y, u + sizeX, v, sizeX, sizeY, sizeU, sizeV);
 				}
 			}
 		}

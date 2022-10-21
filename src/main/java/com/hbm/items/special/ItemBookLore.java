@@ -63,7 +63,7 @@ public class ItemBookLore extends Item implements IGUIProvider {
 	
 	protected IIcon[] icons;
 	//fuck you, fuck enums, fuck guis, fuck this shitty ass fork. shove that string array up your ass.
-	public static String[] itemTextures = new String[] { ":book_guide" };
+	public static String[] itemTextures = new String[] { ":book_guide", ":papers_loose" };
 	
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
@@ -98,7 +98,7 @@ public class ItemBookLore extends Item implements IGUIProvider {
 	}
 	
 	public enum BookLoreType {
-		TEST(true, "test", 5, GUIAppearance.GUIDEBOOK);
+		TEST(true, "test", 5, GUIAppearance.LOOSEPAPER);
 		
 		//Why? it's quite simple; i am too burnt out and also doing it the other way
 		//is too inflexible for my taste

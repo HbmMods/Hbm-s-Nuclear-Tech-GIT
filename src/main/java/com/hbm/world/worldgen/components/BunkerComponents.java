@@ -23,6 +23,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BunkerComponents extends ProceduralComponents {
 	
 	public BunkerComponents() {
+		//TODO:
+		//add an abstract method to check if each boundingbox/structure is a valid component to ProceduralComponent
+		//Pass each respective method as a method reference (::) to the weight constructors, in order to boost clarity
 		weightArray = new Weight[] {
 			new Weight(30, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 15, mode); //Corridor and Wide version
 				if(box.minY > 10 && StructureComponent.findIntersecting(list, box) == null) return new WideCorridor(type, rand, box, mode);
