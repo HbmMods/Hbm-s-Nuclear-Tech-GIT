@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.fluid.FluidType;
@@ -143,7 +147,6 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 				
 				if(outputOps == 0) {
 					this.hasExploded = true;
-					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 2, zCoord + 0.5, 5F, false, false);
 					BlockDummyable.safeRem = true;
 					for(int x = xCoord - 1; x <= xCoord + 1; x++) {
 						for(int y = yCoord + 2; y <= yCoord + 3; y++) {
@@ -153,6 +156,13 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 						}
 					}
 					worldObj.setBlockToAir(xCoord, yCoord + 1, zCoord);
+					
+					ExplosionVNT xnt = new ExplosionVNT(worldObj, xCoord + 0.5, yCoord + 2, zCoord + 0.5, 5F);
+					xnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(3F));
+					xnt.setPlayerProcessor(new PlayerProcessorStandard());
+					xnt.setSFX(new ExplosionEffectStandard());
+					xnt.explode();
+					
 					BlockDummyable.safeRem = false;
 				}
 			}
