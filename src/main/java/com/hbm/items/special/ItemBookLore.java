@@ -12,6 +12,7 @@ import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -62,8 +63,8 @@ public class ItemBookLore extends Item implements IGUIProvider {
 	}
 	
 	protected IIcon[] icons;
-	//fuck you, fuck enums, fuck guis, fuck this shitty ass fork. shove that string array up your ass.
-	public static String[] itemTextures = new String[] { ":book_guide", ":papers_loose" };
+	
+	public final static String[] itemTextures = new String[] { ":book_guide", ":paper_loose", ":papers_loose" };
 	
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
@@ -98,7 +99,9 @@ public class ItemBookLore extends Item implements IGUIProvider {
 	}
 	
 	public enum BookLoreType {
-		TEST(true, "test", 5, GUIAppearance.LOOSEPAPER);
+		TEST(true, "test", 5, GUIAppearance.GUIDEBOOK),
+		REL_RAMBLINGS("rel_ramblings", 3, GUIAppearance.LOOSEPAPERS);
+		
 		
 		//Why? it's quite simple; i am too burnt out and also doing it the other way
 		//is too inflexible for my taste
@@ -121,15 +124,35 @@ public class ItemBookLore extends Item implements IGUIProvider {
 			this.appearance = appearance;
 		}
 		
+		//TODO: actually shove this into the gui
+		/** Function to resolve I18n keys using potential save-dependent information, a la format specifiers. */
+		public String resolveKey(String key, World world) {
+			return I18nUtil.resolveKey(key);
+		}
+		
 		public static BookLoreType getTypeFromStack(ItemStack stack) {
 			if(!stack.hasTagCompound()) {
 				stack.stackTagCompound = new NBTTagCompound();
 			}
 			
 			NBTTagCompound tag = stack.getTagCompound();
-			int ordinal = tag.getInteger("bookLoreOrdinal");
+			int ordinal = tag.getInteger("Book_Lore_Type");
 			
 			return BookLoreType.values()[Math.abs(ordinal) % BookType.values().length];
+		}
+		
+		public static ItemStack setTypeForStack(ItemStack stack, BookLoreType num) {
+			
+			if(stack.getItem() instanceof ItemBookLore) {
+				if(!stack.hasTagCompound()) {
+					stack.stackTagCompound = new NBTTagCompound();
+				}
+				
+				NBTTagCompound tag = stack.getTagCompound();
+				tag.setInteger("Book_Lore_Type", num.ordinal());
+			}
+			
+			return stack;
 		}
 	}
 }

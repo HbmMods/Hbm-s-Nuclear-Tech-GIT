@@ -6,6 +6,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.siege.EntitySiegeTunneler;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBookLore;
+import com.hbm.items.special.ItemBookLore.BookLoreType;
 import com.hbm.items.special.ItemKitCustom;
 import com.hbm.lib.Library;
 import com.hbm.world.feature.OilSpot;
@@ -34,12 +36,18 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
-			//use sparingly
+			ItemStack itemStack = new ItemStack(ModItems.book_lore);
+			BookLoreType.setTypeForStack(itemStack, BookLoreType.REL_RAMBLINGS);
+			
+			player.inventory.addItemStackToInventory(itemStack);
+			player.inventoryContainer.detectAndSendChanges();
+			
+			/*//use sparingly
 			int k = ((pos.blockX >> 4) << 4) + 8;
 			int l = ((pos.blockZ >> 4) << 4) + 8;
 			
 			Start start = new Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
-			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));
+			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));*/
 			
 			/*OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 20, 500);*/
 			

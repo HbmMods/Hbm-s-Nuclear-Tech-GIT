@@ -16,17 +16,19 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 // and you may ask yourself: vaer, why do this? this is basically just a copy of GUIScreenGuide.
 // and I would answer, shut the fuck up nerd, the guide book system is too involved for my small
 // brain to use for god knows how many tidbits of lore. i'll settle for a text box and cool textures, thanks
 public class GUIBookLore extends GuiScreen {
-	
+	//TODO: refactor some of these variables
 	protected int xSize;
 	protected int ySize;
 	protected int guiLeft;
 	protected int guiTop;
 	
+	private World world; //Used for save-dependent information, like the MKU recipe
 	private BookLoreType type;
 	private GUIAppearance setup;
 	
@@ -35,6 +37,7 @@ public class GUIBookLore extends GuiScreen {
 	
 	public GUIBookLore(EntityPlayer player) {
 		
+		world = player.worldObj;
 		type = BookLoreType.getTypeFromStack(player.getHeldItem());
 		setup = type.appearance;
 		
@@ -134,12 +137,14 @@ public class GUIBookLore extends GuiScreen {
 	// turn page buttons, one-page, both page textures, sizes, positions, etc.
 	public enum GUIAppearance {
 		GUIDEBOOK(new GUIPage(272, 182, 20, 20, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/book.png")).setScale(2F), 
-				new GUIPageButton(18, 10, 24, 155, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/starter6.png")).setUV(0, 0, 500, 200),
-				0),
-		LOOSEPAPER(new GUIPage(133, 165, 10, 24, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(2F),
-				new GUIPage(130, 165, 10, 24, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(2F).setUV(133, 0),
 				new GUIPageButton(18, 10, 17, 148, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png")).setUV(263, 0, 512, 512),
-				1);
+				0),
+		LOOSEPAPER(new GUIPage(130, 165, 10, 24, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(2F).setUV(133, 0),
+				new GUIPageButton(18, 10, 17, 148, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png")).setUV(263, 0, 512, 512),
+				1), //Singular loose page
+		LOOSEPAPERS(new GUIPage(133, 165, 10, 24, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(2F),
+				new GUIPageButton(18, 10, 17, 148, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png")).setUV(263, 0, 512, 512),
+				2);
 		
 		public int itemTexture;
 		
