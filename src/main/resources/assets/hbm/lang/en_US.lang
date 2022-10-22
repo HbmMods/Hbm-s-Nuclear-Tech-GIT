@@ -329,6 +329,32 @@ book_lore.book_iodine.page.1=alright you will not believe this, but old man weat
 book_lore.book_iodine.page.2=apparently the morons from R&D discovered a compound that is mostly inorganic, pretty much like a toxin in nature, but get this: the dying cells will reproduce said toxin and excrete it through the skin, creating an aerosol that is highly contagious.
 book_lore.book_iodine.page.3=it's just like a virus, but not a virus. the composition is weird, you can mix it in any household bottle but you do have to get the order right. the doc told me that the first ingredient which is just powdered iodine crystals goes into slot %d
 
+book_lore.book_phosphorous.name=Note
+book_lore.book_phosphorous.author=Dave
+book_lore.book_phosphorous.page.1=heyo, it's me again. i assume you got my last memo, the doc wasn't too happy about it. i'll have to do this quick, the dunderheads from R&D are currently moaning again, probably over money. again. anyway, doc weathervane found that the second
+book_lore.book_phosphorous.page.2=ingredient is red phosphorous, whihc has to be mixed into slot %d
+
+book_lore.book_dust.name=Note
+book_lore.book_dust.author=Dave
+book_lore.book_dust.page.1=the doc was furious when he found out that the R&D dorks kept the one remaining sample, ranting about gross negligence this and a doomsday scenario that. i told him to chill for a minute, getting all worked up isn't good for his blood pressure, not
+book_lore.book_dust.page.2=that he has much blood left to begin with. one of the R&D morons slipped some more info into last week's circular, they call their little concoction \"MKU\" whatever that means, and that it contains actual household lint. can you believe that? one of the most
+book_lore.book_dust.page.3=dangerous inventions of theirs and it contains dust. strangely they also mentioned that it goes into slot %d
+
+book_lore.book_mercury.name=Note
+book_lore.book_mercury.author=Dave
+book_lore.book_mercury.page.1=well that settles that. not counting the vomitting blood part, the toxicological report mostly resembles that of mercury poisoning. why? because our little mix also contains mercury! i just wonder where all that stuff comes from when being
+book_lore.book_mercury.page.2=replicated by the body? whatever, the mercury goes into slot %d
+
+book_lore.book_flower.name=Note
+book_lore.book_flower.author=Dave
+book_lore.book_flower.page.1=remember when i mentioned in my first memo that the compound is mostly anorganic? well guess what, the old man shared the fourth ingredient: ipomoea nil, a genus of flower. morning glory! it might be due to its low sulfur content, whatever might be the case,
+book_lore.book_flower.page.2=it does not work with other flowers. the morning glory goes into slot %d
+
+book_lore.book_syringe.name=Note
+book_lore.book_syringe.author=Dave
+book_lore.book_syringe.page.1=a little addendum to my fifth message, obviously you have to store this MKU stuff in a container. the R&D nuts used regular metal syringes that they got from medical. surplus ware i presume, they got thousands of needles just lying around. the metal
+book_lore.book_syringe.page.2=syringe goes into slot %d
+
 cannery.f1=[ Press F1 for help ]
 
 cannery.centrifuge=Gas Centrifuge

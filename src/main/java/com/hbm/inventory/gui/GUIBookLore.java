@@ -15,6 +15,7 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -28,7 +29,7 @@ public class GUIBookLore extends GuiScreen {
 	protected int guiLeft;
 	protected int guiTop;
 	
-	private World world; //Used for save-dependent information, like the MKU recipe
+	private NBTTagCompound tag; //Used for save-dependent information, like the MKU recipe
 	private BookLoreType type;
 	
 	public int itemTexture;
@@ -42,8 +43,8 @@ public class GUIBookLore extends GuiScreen {
 	
 	public GUIBookLore(EntityPlayer player) {
 		
-		world = player.worldObj;
 		type = BookLoreType.getTypeFromStack(player.getHeldItem());
+		tag = player.getHeldItem().getTagCompound(); //compound is created or gotten in method above
 		GUIAppearance setup = type.appearance;
 		
 		mainPage = setup.mainPage;
@@ -103,18 +104,18 @@ public class GUIBookLore extends GuiScreen {
 		
 		if(mainPage.isTwoPages) {
 			int defacto = page * 2 + 1;
-			String text = type.resolveKey(key + defacto, world);
+			String text = type.resolveKey(key + defacto, tag);
 			
 			if((page + 1) * 2 <= type.pages) { //Checks if text should be rendered as an aux or a main page
 				mainPage.renderText(text, fontRendererObj, guiLeft, guiTop, false);
 				
-				text = type.resolveKey(key + (defacto + 1), world); //kinda awkward, but no way around it
+				text = type.resolveKey(key + (defacto + 1), tag); //kinda awkward, but no way around it
 				mainPage.renderText(text, fontRendererObj, guiLeft, guiTop, true);
 			} else
 				auxPage.renderText(text, fontRendererObj, guiLeft, guiTop, false);
 			
 		} else {
-			String text = type.resolveKey(key + (page + 1), world);
+			String text = type.resolveKey(key + (page + 1), tag);
 			
 			if(page < maxPage)
 				mainPage.renderText(text, fontRendererObj, guiLeft, guiTop, false);
@@ -149,17 +150,17 @@ public class GUIBookLore extends GuiScreen {
 	
 	// turn page buttons, one-page, both page textures, sizes, positions, etc.
 	public enum GUIAppearance {
-		GUIDEBOOK(new GUIPage(272, 182, 20, 20, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/book.png")).setScale(2F), 
+		GUIDEBOOK(new GUIPage(272, 182, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/book.png")).setScale(2F).setMargins(20, 20, 20), 
 				new GUIPageButton(18, 10, 17, 148, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png")).setUV(263, 0, 512, 512),
 				0), //Guide Book
-		LOOSEPAPER(new GUIPage(130, 165, 10, 10, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(1F).setUV(133, 0),
+		LOOSEPAPER(new GUIPage(130, 165, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setMargins(12, 10, 16).setUV(133, 0),
 				new GUIPageButton(18, 10, 17, 148, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png")).setUV(263, 0, 512, 512),
 				1), //Singular loose page
-		LOOSEPAPERS(new GUIPage(133, 165, 10, 10, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(1F),
+		LOOSEPAPERS(new GUIPage(133, 165, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setMargins(12, 10, 16),
 				new GUIPageButton(18, 10, 17, 148, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png")).setUV(263, 0, 512, 512),
 				2), //Collection of loose pages
-		NOTEBOOK(new GUIPage(133, 165, 10, 20, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(1F).setUV(0, 165),
-				new GUIPage(133, 165, 10, 20, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(1F).setUV(133, 165),
+		NOTEBOOK(new GUIPage(133, 165, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setMargins(10, 10, 16).setUV(0, 165),
+				new GUIPage(133, 165, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setMargins(10, 10, 16).setUV(133, 165),
 				new GUIPageButton(18, 10, 17, 148, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png")).setUV(263, 0, 512, 512),
 				3);
 		
@@ -190,33 +191,30 @@ public class GUIBookLore extends GuiScreen {
 		protected ResourceLocation texture;
 		
 		//UV positioning
-		protected int u = 0;
-		protected int v = 0;
+		protected int u = 0; //X/U pos in texture
+		protected int v = 0; //Y/V pos in texture
 		
-		protected int sizeX;
-		protected int sizeY;
+		protected int sizeX; //X size of the page
+		protected int sizeY; //Y size of the page
 		
 		//Text positioning
-		protected int marginX; //Boundaries of the textbook, relative to the pages' edges.
-		protected int marginY; //Mirrored on both sides if two-sided.
-		protected boolean isTwoPages = true;
-		protected float scale = 1.0F;
-		protected int spacing = 9; //12
-		//TODO: split marginX into a left and right margin
-		protected GUIPage(int x, int y, int marX, int marY, ResourceLocation texture, boolean twoPages) {
+		protected int marginInner = 10; //Margin from inner edge of page
+		protected int marginOuter = 10; //Margin from outer edge of page
+		protected int marginY = 20; //Margin from upper edge of page
+		protected boolean isTwoPages = true; //Has two pages to display text
+		protected float scale = 1.0F; //Scale of the text; larger values are smaller
+		protected int spacing = 9; //12 is a more comfortable spacing
+		
+		protected GUIPage(int x, int y, ResourceLocation texture, boolean twoPages) {
 			this.sizeX = x;
 			this.sizeY = y;
-			this.marginX = marX;
-			this.marginY = marY;
 			this.texture = texture;
 			this.isTwoPages = twoPages;
 		}
 		
-		protected GUIPage(int x, int y, int marX, int marY, ResourceLocation texture) {
+		protected GUIPage(int x, int y, ResourceLocation texture) {
 			this.sizeX = x;
 			this.sizeY = y;
-			this.marginX = marX;
-			this.marginY = marY;
 			this.texture = texture;
 		}
 		
@@ -231,13 +229,20 @@ public class GUIBookLore extends GuiScreen {
 			return this;
 		}
 		
+		protected GUIPage setMargins(int inner, int outer, int upper) {
+			this.marginInner = inner;
+			this.marginOuter = outer;
+			this.marginY = upper;
+			return this;
+		}
+		
 		protected GUIPage setSpacing(int spacing) {
 			this.spacing = spacing;
 			return this;
 		}
 		
 		protected void renderText(String text, FontRenderer renderer, int left, int top, boolean secondPage) {
-			int width = isTwoPages ? (sizeX / 2) - (marginX * 2) : sizeX - (marginX * 2);
+			int width = (isTwoPages ? sizeX / 2 : sizeX) - marginInner - marginOuter;
 			int widthScaled = (int) (width * scale);
 			
 			List<String> lines = new ArrayList();
@@ -262,7 +267,7 @@ public class GUIBookLore extends GuiScreen {
 			GL11.glPushMatrix();
 			GL11.glScalef(1F/scale, 1F/scale, 1F);
 			
-			int sideOffset = secondPage ? sizeX - marginX - width : marginX;
+			int sideOffset = secondPage ? sizeX / 2 + marginInner : marginOuter;
 			
 			for(int l = 0; l < lines.size(); l++) {
 				renderer.drawString(lines.get(l), (int)((left + sideOffset) * scale), (int)((top + marginY) * scale + (spacing * l)), 4210752);

@@ -103,9 +103,29 @@ public class ItemBookLore extends Item implements IGUIProvider {
 	public enum BookLoreType {
 		TEST(true, "test", 5, GUIAppearance.NOTEBOOK),
 		BOOK_IODINE(true, "book_iodine", 3, GUIAppearance.LOOSEPAPERS) { 
-			public String resolveKey(String key, World world) {
-				int slot = TestDungeonRoom8.getSlot(world, ModItems.powder_iodine);
-				return I18nUtil.resolveKey(key, slot); }}
+			public String resolveKey(String key, NBTTagCompound tag) {
+				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot"));
+		}},
+		BOOK_PHOSPHOROUS(true, "book_phosphorous", 2, GUIAppearance.LOOSEPAPERS) { 
+			public String resolveKey(String key, NBTTagCompound tag) {
+				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
+		}},
+		BOOK_DUST(true, "book_dust", 3, GUIAppearance.LOOSEPAPERS) { 
+			public String resolveKey(String key, NBTTagCompound tag) {
+				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
+		}},
+		BOOK_MERCURY(true, "book_mercury", 2, GUIAppearance.LOOSEPAPERS) { 
+			public String resolveKey(String key, NBTTagCompound tag) {
+				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
+		}},
+		BOOK_FLOWER(true, "book_flower", 2, GUIAppearance.LOOSEPAPERS) { 
+			public String resolveKey(String key, NBTTagCompound tag) {
+				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
+		}},
+		BOOK_SYRINGE(true, "book_syringe", 2, GUIAppearance.LOOSEPAPERS) { 
+			public String resolveKey(String key, NBTTagCompound tag) {
+				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
+		}},
 		;
 		
 		//Why? it's quite simple; i am too burnt out and also doing it the other way
@@ -130,8 +150,8 @@ public class ItemBookLore extends Item implements IGUIProvider {
 		}
 		
 		/** Function to resolve I18n keys using potential save-dependent information, a la format specifiers. */
-		public String resolveKey(String key, World world) {
-			return I18nUtil.resolveKey(key);
+		public String resolveKey(String key, NBTTagCompound tag) {
+			return I18nUtil.resolveKey(key, tag);
 		}
 		
 		public static BookLoreType getTypeFromStack(ItemStack stack) {
@@ -142,7 +162,7 @@ public class ItemBookLore extends Item implements IGUIProvider {
 			NBTTagCompound tag = stack.getTagCompound();
 			int ordinal = tag.getInteger("Book_Lore_Type");
 			
-			return BookLoreType.values()[Math.abs(ordinal) % BookType.values().length];
+			return BookLoreType.values()[Math.abs(ordinal) % BookLoreType.values().length];
 		}
 		
 		public static ItemStack setTypeForStack(ItemStack stack, BookLoreType num) {
