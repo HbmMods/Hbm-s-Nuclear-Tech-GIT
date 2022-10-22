@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.hbm.inventory.gui.GUIBookLore;
 import com.hbm.inventory.gui.GUIBookLore.GUIAppearance;
+import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.I18nUtil;
+import com.hbm.world.generator.room.TestDungeonRoom8;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -64,7 +66,7 @@ public class ItemBookLore extends Item implements IGUIProvider {
 	
 	protected IIcon[] icons;
 	
-	public final static String[] itemTextures = new String[] { ":book_guide", ":paper_loose", ":papers_loose" };
+	public final static String[] itemTextures = new String[] { ":book_guide", ":paper_loose", ":papers_loose", ":notebook" };
 	
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
@@ -99,9 +101,12 @@ public class ItemBookLore extends Item implements IGUIProvider {
 	}
 	
 	public enum BookLoreType {
-		TEST(true, "test", 5, GUIAppearance.GUIDEBOOK),
-		REL_RAMBLINGS("rel_ramblings", 3, GUIAppearance.LOOSEPAPERS);
-		
+		TEST(true, "test", 5, GUIAppearance.NOTEBOOK),
+		BOOK_IODINE(true, "book_iodine", 3, GUIAppearance.LOOSEPAPERS) { 
+			public String resolveKey(String key, World world) {
+				int slot = TestDungeonRoom8.getSlot(world, ModItems.powder_iodine);
+				return I18nUtil.resolveKey(key, slot); }}
+		;
 		
 		//Why? it's quite simple; i am too burnt out and also doing it the other way
 		//is too inflexible for my taste
@@ -124,7 +129,6 @@ public class ItemBookLore extends Item implements IGUIProvider {
 			this.appearance = appearance;
 		}
 		
-		//TODO: actually shove this into the gui
 		/** Function to resolve I18n keys using potential save-dependent information, a la format specifiers. */
 		public String resolveKey(String key, World world) {
 			return I18nUtil.resolveKey(key);

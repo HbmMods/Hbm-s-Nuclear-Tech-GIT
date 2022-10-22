@@ -323,6 +323,12 @@ book_lore.test.page.3=3
 book_lore.test.page.4=4
 book_lore.test.page.5=5
 
+book_lore.book_iodine.name=Note
+book_lore.book_iodine.author=Dave
+book_lore.book_iodine.page.1=alright you will not believe this, but old man weathervane finally managed to show up again since he left two weeks ago and what's more surprising is the fact that he actually decided to spill the beans on what they were doing in the canyon:
+book_lore.book_iodine.page.2=apparently the morons from R&D discovered a compound that is mostly inorganic, pretty much like a toxin in nature, but get this: the dying cells will reproduce said toxin and excrete it through the skin, creating an aerosol that is highly contagious.
+book_lore.book_iodine.page.3=it's just like a virus, but not a virus. the composition is weird, you can mix it in any household bottle but you do have to get the order right. the doc told me that the first ingredient which is just powdered iodine crystals goes into slot %d
+
 cannery.f1=[ Press F1 for help ]
 
 cannery.centrifuge=Gas Centrifuge

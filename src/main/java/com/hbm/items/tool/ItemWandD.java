@@ -37,7 +37,7 @@ public class ItemWandD extends Item {
 		if(pos != null) {
 			
 			ItemStack itemStack = new ItemStack(ModItems.book_lore);
-			BookLoreType.setTypeForStack(itemStack, BookLoreType.REL_RAMBLINGS);
+			BookLoreType.setTypeForStack(itemStack, BookLoreType.BOOK_IODINE);
 			
 			player.inventory.addItemStackToInventory(itemStack);
 			player.inventoryContainer.detectAndSendChanges();

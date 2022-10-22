@@ -30,7 +30,12 @@ public class GUIBookLore extends GuiScreen {
 	
 	private World world; //Used for save-dependent information, like the MKU recipe
 	private BookLoreType type;
-	private GUIAppearance setup;
+	
+	public int itemTexture;
+	
+	protected GUIPage mainPage;
+	protected GUIPage auxPage;
+	protected GUIPageButton button;
 	
 	int page = 0;
 	int maxPage;
@@ -39,18 +44,22 @@ public class GUIBookLore extends GuiScreen {
 		
 		world = player.worldObj;
 		type = BookLoreType.getTypeFromStack(player.getHeldItem());
-		setup = type.appearance;
+		GUIAppearance setup = type.appearance;
 		
-		if(setup.mainPage.isTwoPages && type.pages <= 1) {
-			xSize = setup.auxPage.sizeX;
-			ySize = setup.auxPage.sizeY;
+		mainPage = setup.mainPage;
+		auxPage = setup.auxPage;
+		button = setup.button;
+		itemTexture = setup.itemTexture;
+		
+		if(type.pages <= 1) {
+			xSize = auxPage.sizeX;
+			ySize = auxPage.sizeY;
 		} else {
-			xSize = setup.mainPage.sizeX;
-			ySize = setup.mainPage.sizeY;
+			xSize = mainPage.sizeX;
+			ySize = mainPage.sizeY;
 		}
 		
-		maxPage = setup.mainPage.isTwoPages ? (int)Math.ceil(type.pages / 2D) - 1 : type.pages - 1;
-		System.out.print((int)Math.ceil(type.pages / 2D) - 1);
+		maxPage = mainPage.isTwoPages ? (int)Math.ceil(type.pages / 2D) - 1 : type.pages - 1;
 	}
 	
 	@Override
@@ -73,40 +82,44 @@ public class GUIBookLore extends GuiScreen {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		
 		if(page == maxPage && (page + 1) * 2 > type.pages) { //odd numbered pages
-			Minecraft.getMinecraft().getTextureManager().bindTexture(setup.auxPage.texture);
-			func_146110_a(guiLeft, guiTop, setup.auxPage.u, setup.auxPage.v, setup.auxPage.sizeX, setup.auxPage.sizeY, 512, 512);
+			Minecraft.getMinecraft().getTextureManager().bindTexture(auxPage.texture);
+			func_146110_a(guiLeft, guiTop, auxPage.u, auxPage.v, auxPage.sizeX, auxPage.sizeY, 512, 512);
 		} else {
-			Minecraft.getMinecraft().getTextureManager().bindTexture(setup.mainPage.texture);
-			func_146110_a(guiLeft, guiTop, setup.mainPage.u, setup.mainPage.v, setup.mainPage.sizeX, setup.mainPage.sizeY, 512, 512);
+			Minecraft.getMinecraft().getTextureManager().bindTexture(mainPage.texture);
+			func_146110_a(guiLeft, guiTop, mainPage.u, mainPage.v, mainPage.sizeX, mainPage.sizeY, 512, 512);
 		}
 		
-		int width = page == maxPage && (page + 1) * 2 > type.pages ? setup.auxPage.sizeX : setup.mainPage.sizeX;
+		int width = page == maxPage && (page + 1) * 2 > type.pages ? auxPage.sizeX : mainPage.sizeX;
 		
 		if(page > 0)
-			setup.button.renderButton(this, width, guiLeft, guiTop, false, i, j);
+			button.renderButton(this, width, guiLeft, guiTop, false, i, j);
 		
 		if(page < maxPage)
-			setup.button.renderButton(this, width, guiLeft, guiTop, true, i, j);
+			button.renderButton(this, width, guiLeft, guiTop, true, i, j);
 	}
 	
 	protected void drawGuiContainerForegroundLayer(int x, int y) {
 		String key = "book_lore." + type.keyI18n + ".page.";
 		
-		if(setup.mainPage.isTwoPages) {
-			int defacto = this.page * 2 + 1;
+		if(mainPage.isTwoPages) {
+			int defacto = page * 2 + 1;
+			String text = type.resolveKey(key + defacto, world);
 			
-			if((this.page + 1) * 2 <= this.type.pages) { //TODO: change this to make it accurate for odd-numbered max pages
-				setup.mainPage.renderText(key + defacto, fontRendererObj, guiLeft, guiTop, false);
-				setup.mainPage.renderText(key + (defacto + 1), fontRendererObj, guiLeft, guiTop, true);
+			if((page + 1) * 2 <= type.pages) { //Checks if text should be rendered as an aux or a main page
+				mainPage.renderText(text, fontRendererObj, guiLeft, guiTop, false);
+				
+				text = type.resolveKey(key + (defacto + 1), world); //kinda awkward, but no way around it
+				mainPage.renderText(text, fontRendererObj, guiLeft, guiTop, true);
 			} else
-				setup.auxPage.renderText(key + defacto, fontRendererObj, guiLeft, guiTop, false);
+				auxPage.renderText(text, fontRendererObj, guiLeft, guiTop, false);
 			
 		} else {
+			String text = type.resolveKey(key + (page + 1), world);
 			
 			if(page < maxPage)
-				setup.mainPage.renderText(key + (page + 1), fontRendererObj, guiLeft, guiTop, false);
+				mainPage.renderText(text, fontRendererObj, guiLeft, guiTop, false);
 			else
-				setup.auxPage.renderText(key + (page + 1), fontRendererObj, guiLeft, guiTop, false);
+				auxPage.renderText(text, fontRendererObj, guiLeft, guiTop, false);
 		}
 		
 	}
@@ -116,10 +129,10 @@ public class GUIBookLore extends GuiScreen {
 		int q = 0; //if both buttons are somehow simultaneously clicked then obviously something's wrong already
 		
 		if(page > 0)
-			q = setup.button.handleInput(xSize, guiLeft, guiTop, false, i, j);
+			q = button.handleInput(xSize, guiLeft, guiTop, false, i, j);
 		
 		if(page < maxPage && q == 0)
-			q = setup.button.handleInput(xSize, guiLeft, guiTop, true, i, j);
+			q = button.handleInput(xSize, guiLeft, guiTop, true, i, j);
 		
 		if(q != 0) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
@@ -138,13 +151,17 @@ public class GUIBookLore extends GuiScreen {
 	public enum GUIAppearance {
 		GUIDEBOOK(new GUIPage(272, 182, 20, 20, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/book.png")).setScale(2F), 
 				new GUIPageButton(18, 10, 17, 148, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png")).setUV(263, 0, 512, 512),
-				0),
-		LOOSEPAPER(new GUIPage(130, 165, 10, 24, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(2F).setUV(133, 0),
+				0), //Guide Book
+		LOOSEPAPER(new GUIPage(130, 165, 10, 10, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(1F).setUV(133, 0),
 				new GUIPageButton(18, 10, 17, 148, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png")).setUV(263, 0, 512, 512),
 				1), //Singular loose page
-		LOOSEPAPERS(new GUIPage(133, 165, 10, 24, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(2F),
+		LOOSEPAPERS(new GUIPage(133, 165, 10, 10, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(1F),
 				new GUIPageButton(18, 10, 17, 148, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png")).setUV(263, 0, 512, 512),
-				2);
+				2), //Collection of loose pages
+		NOTEBOOK(new GUIPage(133, 165, 10, 20, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(1F).setUV(0, 165),
+				new GUIPage(133, 165, 10, 20, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png"), false).setScale(1F).setUV(133, 165),
+				new GUIPageButton(18, 10, 17, 148, new ResourceLocation(RefStrings.MODID + ":textures/gui/book/notebook_and_papers.png")).setUV(263, 0, 512, 512),
+				3);
 		
 		public int itemTexture;
 		
@@ -184,6 +201,7 @@ public class GUIBookLore extends GuiScreen {
 		protected int marginY; //Mirrored on both sides if two-sided.
 		protected boolean isTwoPages = true;
 		protected float scale = 1.0F;
+		protected int spacing = 9; //12
 		//TODO: split marginX into a left and right margin
 		protected GUIPage(int x, int y, int marX, int marY, ResourceLocation texture, boolean twoPages) {
 			this.sizeX = x;
@@ -213,8 +231,12 @@ public class GUIBookLore extends GuiScreen {
 			return this;
 		}
 		
-		protected void renderText(String key, FontRenderer renderer, int left, int top, boolean secondPage) {
-			String text = I18nUtil.resolveKey(key);
+		protected GUIPage setSpacing(int spacing) {
+			this.spacing = spacing;
+			return this;
+		}
+		
+		protected void renderText(String text, FontRenderer renderer, int left, int top, boolean secondPage) {
 			int width = isTwoPages ? (sizeX / 2) - (marginX * 2) : sizeX - (marginX * 2);
 			int widthScaled = (int) (width * scale);
 			
@@ -243,7 +265,7 @@ public class GUIBookLore extends GuiScreen {
 			int sideOffset = secondPage ? sizeX - marginX - width : marginX;
 			
 			for(int l = 0; l < lines.size(); l++) {
-				renderer.drawString(lines.get(l), (int)((left + sideOffset) * scale), (int)((top + marginY) * scale + (12 * l)), 4210752);
+				renderer.drawString(lines.get(l), (int)((left + sideOffset) * scale), (int)((top + marginY) * scale + (spacing * l)), 4210752);
 			}
 			
 			GL11.glPopMatrix();
