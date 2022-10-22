@@ -22,6 +22,11 @@ public class EntityMeteor extends Entity {
 
 	@Override
 	public void onUpdate() {
+		
+		if(!worldObj.isRemote && !WorldConfig.enableMeteorStrikes) {
+			this.setDead();
+			return;
+		}
 
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;

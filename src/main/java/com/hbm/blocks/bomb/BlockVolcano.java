@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityShrapnel;
@@ -28,7 +29,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class BlockVolcano extends BlockContainer implements ITooltipProvider {
+public class BlockVolcano extends BlockContainer implements ITooltipProvider, IBlockMulti {
 
 	public BlockVolcano() {
 		super(Material.iron);
@@ -37,6 +38,11 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityVolcanoCore();
+	}
+
+	@Override
+	public int getSubCount() {
+		return 5;
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -299,7 +305,7 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider {
 		
 		/* count per tick, radius, depth */
 		private Object[] surfaceMeltingParams() {
-			return this.getBlockMetadata() == META_SMOLDERING ? new Object[] {2, 50D, 10D} : null;
+			return this.getBlockMetadata() == META_SMOLDERING ? new Object[] {50, 50D, 10D} : null;
 		}
 		
 		private int getUpdateRate() {
@@ -307,7 +313,7 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider {
 			case META_STATIC_EXTINGUISHING: return 60 * 60 * 20; //once per hour
 			case META_GROWING_ACTIVE:
 			case META_GROWING_EXTINGUISHING: return 60 * 60 * 20 / 250; //250x per hour
-			default: return 1;
+			default: return 10;
 			}
 		}
 		

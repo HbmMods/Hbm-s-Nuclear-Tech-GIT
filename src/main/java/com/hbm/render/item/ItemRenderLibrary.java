@@ -442,20 +442,6 @@ public class ItemRenderLibrary {
 		        ResourceManager.bomb_boy.renderAll();
 			}});
 		
-		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_man), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -2, 0);
-				GL11.glScaled(5.5, 5.5, 5.5);
-			}
-			public void renderCommon() {
-				GL11.glRotated(180, 0, 1, 0);
-				GL11.glTranslated(-0.75, 0, 0);
-	            GL11.glDisable(GL11.GL_CULL_FACE);
-		        bindTexture(ResourceManager.bomb_man_tex);
-		        ResourceManager.bomb_man.renderAll();
-	            GL11.glEnable(GL11.GL_CULL_FACE);
-			}});
-		
 		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_mike), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -5, 0);

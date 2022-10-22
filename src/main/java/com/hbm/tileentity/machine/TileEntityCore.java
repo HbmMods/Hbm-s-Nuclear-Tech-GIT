@@ -46,10 +46,11 @@ public class TileEntityCore extends TileEntityMachineBase {
 		
 		if(!worldObj.isRemote) {
 			
-			int chunkX = xCoord << 4;
-			int chunkZ = zCoord << 4;
+			int chunkX = xCoord >> 4;
+			int chunkZ = zCoord >> 4;
 			
-			lastTickValid = worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ + 1) &&
+			lastTickValid = worldObj.getChunkProvider().chunkExists(chunkX, chunkZ) &&
+					worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ + 1) &&
 					worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ - 1) &&
 					worldObj.getChunkProvider().chunkExists(chunkX - 1, chunkZ + 1) &&
 					worldObj.getChunkProvider().chunkExists(chunkX - 1, chunkZ - 1);
