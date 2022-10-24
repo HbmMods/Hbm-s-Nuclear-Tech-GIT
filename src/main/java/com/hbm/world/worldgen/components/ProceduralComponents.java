@@ -141,6 +141,22 @@ public abstract class ProceduralComponents {
 			}
 		}
 		
+		/** Gets next component in the opposite direction this component is facing. */
+		protected ProceduralComponent getNextComponentAntiNormal(ProceduralComponents instance, ControlComponent original, List components, Random rand, int offset, int offsetY) {
+			switch(this.coordBaseMode) {
+			case 0: //South
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 2, this.getComponentType());
+			case 1: //West
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 3, this.getComponentType());
+			case 2: //North
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 0, this.getComponentType());
+			case 3: //East
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 1, this.getComponentType());
+			default:
+				return null;
+			}
+		}
+		
 		//Keep in mind for these methods: a given room would have its *actual entrance* opposite the side it is facing.
 		/** Gets next component, to the West (-X) <i>relative to this component. */
 		protected ProceduralComponent getNextComponentNX(ProceduralComponents instance, ControlComponent original, List components, Random rand, int offset, int offsetY) {
@@ -162,17 +178,21 @@ public abstract class ProceduralComponents {
 		protected ProceduralComponent getNextComponentPX(ProceduralComponents instance, ControlComponent original, List components, Random rand, int offset, int offsetY) {
 			switch(this.coordBaseMode) {
 			case 0: //South
-				return instance.getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 1, this.getComponentType() + 1);
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.maxX + 1, this.boundingBox.minY + offsetY, this.boundingBox.maxZ - offset, 3, this.getComponentType() + 1);
 			case 1: //West
-				return instance.getNextValidComponent(original, components, rand, this.boundingBox.minZ + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 2, this.getComponentType() + 1);
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.minX + offset, this.boundingBox.minY + offsetY, this.boundingBox.maxZ + 1, 0, this.getComponentType() + 1);
 			case 2: //North
-				return instance.getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 3, this.getComponentType() + 1);
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.minX - 1, this.boundingBox.minY + offsetY, this.boundingBox.minZ + offset, 1, this.getComponentType() + 1);
 			case 3: //East
-				return instance.getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 0, this.getComponentType() + 1);
+				return instance.getNextValidComponent(original, components, rand, this.boundingBox.maxX - offset, this.boundingBox.minY + offsetY, this.boundingBox.minZ - 1, 2, this.getComponentType() + 1);
 			default:
 				return null;
 			}
 		}
+		
+		/** Finds valid placement, using input information. Should be passed as a method reference to its respective Weight. */
+		//Static so no override (cringe!)
+		//public static ProceduralComponent findValidPlacement(List components, Random rand, int minX, int minY, int minZ, int coordMode, int componentType) { return null; }
 	}
 	
 	/** ProceduralComponent that can serve as a master "control component" for procedural generation and building of components. */

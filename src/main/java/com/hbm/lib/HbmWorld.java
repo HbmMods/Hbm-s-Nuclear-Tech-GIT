@@ -61,5 +61,6 @@ public class HbmWorld {
 		MapGenStructureIO.func_143031_a(SupplyRoom.class, "NTMBSupplyRoom");
 		MapGenStructureIO.func_143031_a(WasteDisposal.class, "NTMBWasteDisposal");
 		MapGenStructureIO.func_143031_a(Bedroom.class, "NTMBBedroom");
+		MapGenStructureIO.func_143031_a(CenterCrossing.class, "NTMBCenterCrossing");
 	}
 }

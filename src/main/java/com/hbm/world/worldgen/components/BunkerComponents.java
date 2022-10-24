@@ -23,40 +23,28 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BunkerComponents extends ProceduralComponents {
 	
 	public BunkerComponents() {
-		//TODO:
-		//add an abstract method to check if each boundingbox/structure is a valid component to ProceduralComponent
+		
 		//Pass each respective method as a method reference (::) to the weight constructors, in order to boost clarity
 		weightArray = new Weight[] {
-			new Weight(30, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 15, mode); //Corridor and Wide version
-				if(box.minY > 10 && StructureComponent.findIntersecting(list, box) == null) return new WideCorridor(type, rand, box, mode);
-				
-				box = getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 15, mode);
-				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new Corridor(type, rand, box, mode) : null; }),
-			new Weight(10, -1, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 9, mode); //Intersection and wide ver.
-				if(box.minY > 10 && StructureComponent.findIntersecting(list, box) == null) return new WideIntersection(type, rand, box, mode);
-				
-				box = getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 5, mode);
-				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new Intersection(type, rand, box, mode) : null; }),
-			new Weight(3, 5, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 5, 4, mode);
-				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new UtilityCloset(type, rand, box, mode) : null; }) {
+			new Weight(30, -1, Corridor::findValidPlacement),  //Corridor and Wide version
+			new Weight(10, -1, Intersection::findValidPlacement), //Intersection and wide version
+			new Weight(5, 5, CenterCrossing::findValidPlacement),
+			new Weight(3, 5, UtilityCloset::findValidPlacement) {
 				public boolean canSpawnStructure(int componentAmount, int coordMode, ProceduralComponent component) {
 					return (this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit) && componentAmount > 6; //prevent the gimping of necessary corridors
 				}
 			},
-			new Weight(8, 4, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -5, -1, 0, 13, 6, 13, mode);
-				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new SupplyRoom(type, rand, box, mode) : null; }) {
+			new Weight(8, 4, SupplyRoom::findValidPlacement) {
 				public boolean canSpawnStructure(int componentAmount, int coordMode, ProceduralComponent component) {
 					return (this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit) && componentAmount > 6; //prevent the gimping of necessary corridors
 				}
 			},
-			new Weight(5, 3, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 9, mode);
-				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new WasteDisposal(type, rand, box, mode) : null; }) {
+			new Weight(5, 3, WasteDisposal::findValidPlacement) {
 				public boolean canSpawnStructure(int componentAmount, int coordMode, ProceduralComponent component) {
 					return (this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit) && componentAmount > 6; //prevent the gimping of necessary corridors
 				}
 			},
-			new Weight(10, 15, (list, rand, x, y, z, mode, type) -> { StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 8, 6, 10, mode);
-				return box.minY > 10 && StructureComponent.findIntersecting(list, box) == null ? new Bedroom(type, rand, box, mode) : null; }) {
+			new Weight(10, 15, Bedroom::findValidPlacement) {
 				public boolean canSpawnStructure(int componentAmount, int coordMode, ProceduralComponent component) {
 					return (this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit) && componentAmount > 6; //prevent the gimping of necessary corridors
 				}
@@ -156,7 +144,7 @@ public class BunkerComponents extends ProceduralComponents {
 							if(canGenFluid)
 								world.setBlock(posX, posY, posZ, Blocks.water);
 							else {
-								 if(canGenVine != -1) {
+								 if(canGenVine >= 0) {
 									if(rand.nextInt(3) == 0)
 										canGenVine |= 1 << rand.nextInt(4);
 									
@@ -291,6 +279,12 @@ public class BunkerComponents extends ProceduralComponents {
 				TileEntityPylonBase pylon2 = (TileEntityPylonBase)tile2;
 				pylon2.addConnection(posX1, posY1, posZ1);
 			}
+		}
+		
+		/** Finds valid placement, using input information. Should be passed as a method reference to its respective Weight. */
+		public static ProceduralComponent findValidPlacement(List components, Random rand, int x, int y, int z, int mode, int type) {
+			StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 5, 4, mode);
+			return box.minY > 10 && StructureComponent.findIntersecting(components, box) == null ? new UtilityCloset(type, rand, box, mode) : null;
 		}
 	}
 	
@@ -435,7 +429,13 @@ public class BunkerComponents extends ProceduralComponents {
 				
 				return true;
 			}
-		}	
+		}
+		
+		/** Finds valid placement, using input information. Should be passed as a method reference to its respective Weight. */
+		public static ProceduralComponent findValidPlacement(List components, Random rand, int x, int y, int z, int mode, int type) {
+			StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -5, -1, 0, 13, 6, 13, mode);
+			return box.minY > 10 && StructureComponent.findIntersecting(components, box) == null ? new SupplyRoom(type, rand, box, mode) : null;
+		}
 	}
 	//what 'waste'?
 	public static class WasteDisposal extends Bunker {
@@ -530,6 +530,12 @@ public class BunkerComponents extends ProceduralComponents {
 				
 				return true;
 			}
+		}
+		
+		/** Finds valid placement, using input information. Should be passed as a method reference to its respective Weight. */
+		public static ProceduralComponent findValidPlacement(List components, Random rand, int x, int y, int z, int mode, int type) {
+			StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 9, mode);
+			return box.minY > 10 && StructureComponent.findIntersecting(components, box) == null ? new WasteDisposal(type, rand, box, mode) : null;
 		}
 	}
 	
@@ -632,6 +638,187 @@ public class BunkerComponents extends ProceduralComponents {
 				return true;
 			}
 		}
+		
+		/** Finds valid placement, using input information. Should be passed as a method reference to its respective Weight. */
+		public static ProceduralComponent findValidPlacement(List components, Random rand, int x, int y, int z, int mode, int type) {
+			StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 8, 6, 10, mode);
+			return box.minY > 10 && StructureComponent.findIntersecting(components, box) == null ? new Bedroom(type, rand, box, mode) : null;
+		}
+	}
+	
+	public static class CenterCrossing extends Bunker {
+		
+		boolean expandsNX;
+		boolean expandsPX;
+		
+		public CenterCrossing() { }
+		
+		public CenterCrossing(int componentType, Random rand, StructureBoundingBox box, int coordBaseMode) {
+			super(componentType);
+			this.coordBaseMode = coordBaseMode;
+			this.boundingBox = box;
+		}
+		
+		protected void func_143012_a(NBTTagCompound data) {
+			super.func_143012_a(data);
+			data.setBoolean("expandsNX", expandsNX);
+			data.setBoolean("expandsPX", expandsPX);
+		}
+		
+		protected void func_143011_b(NBTTagCompound data) {
+			super.func_143011_b(data);
+			expandsNX = data.getBoolean("expandsNX");
+			expandsPX = data.getBoolean("expandsPX");
+		}
+		
+		@Override
+		public void buildComponent(ProceduralComponents instance, ControlComponent original, List components, Random rand) {
+			checkModifiers(original);
+			
+			StructureComponent componentN = getNextComponentNX(instance, original, components, rand, 3, 1);
+			expandsNX = componentN != null;
+			
+			StructureComponent componentP = getNextComponentPX(instance, original, components, rand, 7, 1);
+			expandsPX = componentP != null;
+		}
+		
+		@Override
+		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			
+			if(!underwater && isLiquidInStructureBoundingBox(world, boundingBox)) {
+				return false;
+			} else {
+				fillWithAir(world, box, 6, 1, 0, 8, 3, 0);
+				fillWithAir(world, box, 1, 1, 1, 13, 3, 11);
+				fillWithAir(world, box, 2, 4, 2, 12, 5, 10);
+				
+				//Floor
+				fillWithMetadataBlocks(world, box, 6, 0, 0, 8, 0, 0, ModBlocks.vinyl_tile, 1);
+				fillWithBlocks(world, box, 1, 0, 1, 4, 0, 1, ModBlocks.vinyl_tile);
+				fillWithMetadataBlocks(world, box, 1, 0, 2, 5, 0, 2, ModBlocks.vinyl_tile, 1);
+				placeBlockAtCurrentPosition(world, ModBlocks.vinyl_tile, 1, 5, 0, 1, box);
+				fillWithBlocks(world, box, 6, 0, 1, 8, 0, 2, ModBlocks.vinyl_tile);
+				fillWithMetadataBlocks(world, box, 9, 0, 2, 13, 0, 2, ModBlocks.vinyl_tile, 1);
+				fillWithBlocks(world, box, 10, 0, 1, 13, 0, 1, ModBlocks.vinyl_tile);
+				placeBlockAtCurrentPosition(world, ModBlocks.vinyl_tile, 1, 9, 0, 1, box);
+				fillWithBlocks(world, box, 1, 0, 3, 13, 0, 5, ModBlocks.vinyl_tile);
+				fillWithBlocks(world, box, 1, 0, 7, 3, 0, 11, ModBlocks.vinyl_tile);
+				fillWithMetadataBlocks(world, box, 1, 0, 6, 13, 0, 6, ModBlocks.vinyl_tile, 1);
+				fillWithMetadataBlocks(world, box, 4, 0, 7, 10, 0, 11, ModBlocks.vinyl_tile, 1);
+				fillWithBlocks(world, box, 11, 0, 7, 13, 0, 11, ModBlocks.vinyl_tile);
+				//Wall
+				fillWithBlocks(world, box, 1, 1, 0, 5, 1, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 2, 0, 5, 2, 0, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 1, 3, 0, 5, 3, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 4, 0, 13, 4, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 9, 1, 0, 13, 1, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 9, 2, 0, 13, 2, 0, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 9, 3, 0, 13, 3, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 1, 12, 13, 1, 12, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 2, 12, 13, 2, 12, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 1, 3, 12, 13, 4, 12, ModBlocks.reinforced_brick);
+				//Upper lining
+				for(int i = 1; i <= 11; i += 10) {
+					fillWithMetadataBlocks(world, box, 1, 4, i, 13, 4, i, ModBlocks.brick_slab, 8);
+					fillWithBlocks(world, box, 8, 5, i, 13, 5, i, ModBlocks.reinforced_brick);
+					placeLamp(world, box, rand, 7, 5, i);
+					fillWithBlocks(world, box, 1, 5, i, 6, 5, i, ModBlocks.reinforced_brick);
+				}
+				
+				for(int i = 1; i <= 13; i += 12) {
+					fillWithMetadataBlocks(world, box, i, 4, 2, i, 4, 10, ModBlocks.brick_slab, 8);
+					fillWithBlocks(world, box, i, 5, 2, i, 5, 5, ModBlocks.reinforced_brick);
+					placeLamp(world, box, rand, i, 5, 6);
+					fillWithBlocks(world, box, i, 5, 7, i, 5, 10, ModBlocks.reinforced_brick);
+				}
+				//Ceiling
+				int pillarMeta = getPillarMeta(4);
+				
+				fillWithBlocks(world, box, 2, 6, 2, 12, 6, 5, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 2, 6, 7, 12, 6, 10, ModBlocks.reinforced_brick);
+				for(int i = 2; i <= 10; i += 2) {
+					placeBlockAtCurrentPosition(world, ModBlocks.concrete_pillar, pillarMeta, i, 6, 6, box);
+					placeLamp(world, box, rand, i + 1, 6, 6);
+				}
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_pillar, pillarMeta, 12, 6, 6, box);
+				
+				if(expandsNX) {
+					fillWithMetadataBlocks(world, box, 0, 0, 3, 0, 0, 5, ModBlocks.vinyl_tile, 1); //Floor
+					fillWithBlocks(world, box, 0, 1, 1, 0, 1, 2, ModBlocks.reinforced_brick); //Wall
+					fillWithBlocks(world, box, 0, 2, 1, 0, 2, 2, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 0, 3, 1, 0, 3, 2, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 0, 4, 1, 0, 4, 11, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 0, 1, 6, 0, 1, 11, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 0, 2, 6, 0, 2, 11, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 0, 3, 6, 0, 3, 11, ModBlocks.reinforced_brick);
+					fillWithAir(world, box, 0, 1, 3, 0, 3, 5);
+				} else {
+					fillWithBlocks(world, box, 0, 1, 1, 0, 1, 11, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 0, 2, 1, 0, 2, 11, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 0, 3, 1, 0, 4, 11, ModBlocks.reinforced_brick);
+				}
+				
+				if(expandsPX) {
+					fillWithMetadataBlocks(world, box, 14, 0, 3, 14, 0, 5, ModBlocks.vinyl_tile, 1); //Floor
+					fillWithBlocks(world, box, 14, 1, 1, 14, 1, 2, ModBlocks.reinforced_brick); //Wall
+					fillWithBlocks(world, box, 14, 2, 1, 14, 2, 2, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 14, 3, 1, 14, 3, 2, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 14, 4, 1, 14, 4, 11, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 14, 1, 6, 14, 1, 11, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 14, 2, 6, 14, 2, 11, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 14, 3, 6, 14, 3, 11, ModBlocks.reinforced_brick);
+					fillWithAir(world, box, 14, 1, 3, 14, 3, 5);
+				} else {
+					fillWithBlocks(world, box, 14, 1, 1, 14, 1, 11, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 14, 2, 1, 14, 2, 11, ModBlocks.reinforced_stone);
+					fillWithBlocks(world, box, 14, 3, 1, 14, 4, 11, ModBlocks.reinforced_brick);
+				}
+				
+				//Decorations TODO: maybe have alternative ones in a switch? code block here is temporary
+				{
+					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(3), 1, 1, 8, box); //Bench 1
+					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(1), 1, 1, 9, box);
+					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(2), 1, 1, 10, box);
+					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(3), 4, 1, 8, box); //Bench 2
+					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(0), 4, 1, 9, box);
+					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(2), 4, 1, 10, box);
+					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(3), 10, 1, 8, box); //Bench 3
+					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(1), 10, 1, 9, box);
+					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(2), 10, 1, 10, box);
+					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(3), 13, 1, 8, box); //Bench 4
+					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(0), 13, 1, 9, box);
+					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(2), 13, 1, 10, box);
+					//Fountain
+					fillWithBlocks(world, box, 5, 1, 8, 5, 1, 11, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 6, 1, 7, 8, 1, 7, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 9, 1, 8, 9, 1, 11, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 7, 1, 9, 7, 2, 9, ModBlocks.concrete_pillar);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_light, 0, 7, 3, 9, box);
+					placeBlockAtCurrentPosition(world, Blocks.flowing_water, 0, 7, 4, 9, box); //meh! regular stronghold does it too
+					fillWithMetadataBlocks(world, box, 5, 2, 9, 5, 2, 10, ModBlocks.brick_slab, 1);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick_stairs, getStairMeta(2), 5, 2, 11, box);
+					fillWithMetadataBlocks(world, box, 9, 2, 9, 9, 2, 10, ModBlocks.brick_slab, 1);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick_stairs, getStairMeta(2), 9, 2, 11, box);
+				}
+				
+				if(!underwater)
+					fillWithCobwebs(world, box, rand, 0, 1, 0, 14, 5, 12);
+				else {
+					fillWithWater(world, box, rand, 6, 1, 0, 8, 3, 0, 1);
+					fillWithWater(world, box, rand, 0, 1, 3, 0, 3, 5, 1);
+					fillWithWater(world, box, rand, 14, 1, 3, 14, 3, 5, 1);
+					fillWithWater(world, box, rand, 1, 1, 1, 13, 5, 11, 1);
+				}
+				
+				return true;
+			}
+		}
+		
+		/** Finds valid placement, using input information. Should be passed as a method reference to its respective Weight. */
+		public static ProceduralComponent findValidPlacement(List components, Random rand, int x, int y, int z, int mode, int type) {
+			StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -6, -1, 0, 15, 8, 13, mode);
+			return box.minY > 10 && StructureComponent.findIntersecting(components, box) == null ? new CenterCrossing(type, rand, box, mode) : null;
+		}
 	}
 	
 	public static class Atrium extends ControlComponent {
@@ -643,7 +830,7 @@ public class BunkerComponents extends ProceduralComponents {
 		public Atrium(int componentType, Random rand, int posX, int posZ) { //TODO: change basically everything about this component
 			super(componentType);
 			this.coordBaseMode = rand.nextInt(4);
-			this.boundingBox = new StructureBoundingBox(posX, 64, posZ, posX + 8, 68, posZ + 8);
+			this.boundingBox = new StructureBoundingBox(posX, 64, posZ, posX + 12, 68, posZ + 12);
 		}
 		
 		@Override
@@ -651,6 +838,9 @@ public class BunkerComponents extends ProceduralComponents {
 			
 			StructureComponent component = getNextComponentNormal(instance, original, components, rand, 3, 1);
 			System.out.println("ComponentPZ:" + component);
+			
+			StructureComponent componentAN = getNextComponentAntiNormal(instance, original, components, rand, 3, 1);
+			System.out.println("ComponentNZ:" + componentAN);
 			
 			StructureComponent componentN = getNextComponentNX(instance, original, components, rand, 3, 1);
 			System.out.println("ComponentNX:" + componentN);
@@ -661,6 +851,8 @@ public class BunkerComponents extends ProceduralComponents {
 		
 		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			fillWithBlocks(world, box, 0, 0, 0, 12, 4, 12, ModBlocks.reinforced_brick, Blocks.air, false);
+			
 			return true;
 		}
 	}
@@ -701,12 +893,12 @@ public class BunkerComponents extends ProceduralComponents {
 			StructureComponent component = getNextComponentNormal(instance, original, components, rand, 1, 1);
 			extendsPZ = component != null;
 			
-			if(rand.nextInt(3) > 0) {
+			if(rand.nextInt(2) == 0) {
 				StructureComponent componentN = getNextComponentNX(instance, original, components, rand, 6, 1);
 				expandsNX = componentN != null;
 			}
 			
-			if(rand.nextInt(3) > 0) {
+			if(rand.nextInt(2) == 0) {
 				StructureComponent componentP = getNextComponentPX(instance, original, components, rand, 6, 1);
 				expandsPX = componentP != null;
 			}
@@ -788,6 +980,14 @@ public class BunkerComponents extends ProceduralComponents {
 			}
 		}
 		
+		/** Finds valid placement, using input information. Should be passed as a method reference to its respective Weight. */
+		public static ProceduralComponent findValidPlacement(List components, Random rand, int x, int y, int z, int mode, int type) {
+			StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 15, mode); //Corridor and Wide version
+			if(box.minY > 10 && StructureComponent.findIntersecting(components, box) == null) return new WideCorridor(type, rand, box, mode);
+			
+			box = getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 15, mode);
+			return box.minY > 10 && StructureComponent.findIntersecting(components, box) == null ? new Corridor(type, rand, box, mode) : null;
+		}
 	}
 	
 	private interface Wide { } //now you may ask yourself - where is that beautiful house? you may ask yourself - where does that highway go to?
@@ -799,12 +999,12 @@ public class BunkerComponents extends ProceduralComponents {
 				head.setBulkheadNZ(rand.nextInt(4) == 0);
 			}
 		}
-	} //mh
+	}
 	
 	public static class WideCorridor extends Corridor implements Wide, Bulkhead {
 		
 		boolean bulkheadNZ = true;
-		public void setBulkheadNZ(boolean bool) { bulkheadNZ = bool; } //ihatelackofmultipleinheritanceihatelackofmultipleinheritanceihatelackofmultipleinheritanceihatelackofmultipleinheritance
+		public void setBulkheadNZ(boolean bool) { bulkheadNZ = bool; }
 		
 		boolean bulkheadPZ = true;
 		
@@ -838,12 +1038,12 @@ public class BunkerComponents extends ProceduralComponents {
 				flipConstituentBulkhead(component, rand);
 			}
 			
-			if(rand.nextInt(3) > 0) {
+			if(rand.nextInt(2) == 0) {
 				StructureComponent componentN = getNextComponentNX(instance, original, components, rand, 6, 1);
 				expandsNX = componentN != null;
 			}
 			
-			if(rand.nextInt(3) > 0) {
+			if(rand.nextInt(2) == 0) {
 				StructureComponent componentP = getNextComponentPX(instance, original, components, rand, 6, 1);
 				expandsPX = componentP != null;
 			}
@@ -1138,6 +1338,15 @@ public class BunkerComponents extends ProceduralComponents {
 				
 				return true;
 			}
+		}
+		
+		/** Finds valid placement, using input information. Should be passed as a method reference to its respective Weight. */
+		public static ProceduralComponent findValidPlacement(List components, Random rand, int x, int y, int z, int mode, int type) {
+			StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 9, 6, 9, mode);
+			if(box.minY > 10 && StructureComponent.findIntersecting(components, box) == null) return new WideIntersection(type, rand, box, mode);
+			
+			box = getComponentToAddBoundingBox(x, y, z, -1, -1, 0, 5, 6, 5, mode);
+			return box.minY > 10 && StructureComponent.findIntersecting(components, box) == null ? new Intersection(type, rand, box, mode) : null;
 		}
 	}
 	
