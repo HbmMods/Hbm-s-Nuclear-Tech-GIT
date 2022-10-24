@@ -949,12 +949,16 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.turret_flamer");
 		ignoreMappings.add("hbm:tile.turret_tau");
 		ignoreMappings.add("hbm:tile.turret_cwis");
+		ignoreMappings.add("hbm:tile.turret_spitfire");
+		ignoreMappings.add("hbm:tile.turret_cheapo");
 		ignoreMappings.add("hbm:item.turret_light_ammo");
 		ignoreMappings.add("hbm:item.turret_heavy_ammo");
 		ignoreMappings.add("hbm:item.turret_rocket_ammo");
 		ignoreMappings.add("hbm:item.turret_flamer_ammo");
 		ignoreMappings.add("hbm:item.turret_tau_ammo");
 		ignoreMappings.add("hbm:item.turret_cwis_ammo");
+		ignoreMappings.add("hbm:item.turret_spitfire_ammo");
+		ignoreMappings.add("hbm:item.turret_cheapo_ammo");
 		ignoreMappings.add("hbm:tile.cel_prime");
 		ignoreMappings.add("hbm:tile.cel_prime_terminal");
 		ignoreMappings.add("hbm:tile.cel_prime_battery");

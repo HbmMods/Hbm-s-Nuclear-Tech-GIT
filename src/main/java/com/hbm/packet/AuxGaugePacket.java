@@ -5,7 +5,6 @@ import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
-import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.bomb.TileEntityNukeN45;
 import com.hbm.tileentity.deco.TileEntityBomber;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
@@ -14,15 +13,11 @@ import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityMachineArcFurnace;
 import com.hbm.tileentity.machine.TileEntityMachineBoiler;
 import com.hbm.tileentity.machine.TileEntityMachineBoilerElectric;
-import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.machine.TileEntityMachineCoal;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
-import com.hbm.tileentity.machine.TileEntityMachineGasCent;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
-import com.hbm.tileentity.turret.TileEntityTurretCIWS;
-import com.hbm.tileentity.turret.TileEntityTurretCheapo;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
 
@@ -110,16 +105,6 @@ public class AuxGaugePacket implements IMessage {
 						base.efficiency = m.value;
 					else if(m.id == 3)
 						base.field = m.value;
-				}
-				if (te instanceof TileEntityTurretCIWS) {
-					TileEntityTurretCIWS cwis = (TileEntityTurretCIWS)te;
-					
-					cwis.rotation = m.value;
-				}
-				if (te instanceof TileEntityTurretCheapo) {
-					TileEntityTurretCheapo cwis = (TileEntityTurretCheapo)te;
-					
-					cwis.rotation = m.value;
 				}
 				if (te instanceof TileEntityMachineSeleniumEngine) {
 					TileEntityMachineSeleniumEngine selenium = (TileEntityMachineSeleniumEngine)te;
