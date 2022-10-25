@@ -29,7 +29,7 @@ public class BlockReeds extends Block {
 	public void registerBlockIcons(IIconRegister reg) {
 		this.blockIcon = reg.registerIcon(RefStrings.MODID + ":reeds_top");
 		this.iconMid = reg.registerIcon(RefStrings.MODID + ":reeds_mid");
-		this.iconMid = reg.registerIcon(RefStrings.MODID + ":reeds_bottom");
+		this.iconBottom = reg.registerIcon(RefStrings.MODID + ":reeds_bottom");
 	}
 	
 	public IIcon getIcon(int height) {

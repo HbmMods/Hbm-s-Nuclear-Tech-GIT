@@ -22,22 +22,26 @@ public class RenderReeds implements ISimpleBlockRenderingHandler {
 		float r = (float) (colorMult >> 16 & 255) / 255.0F;
 		float g = (float) (colorMult >> 8 & 255) / 255.0F;
 		float b = (float) (colorMult & 255) / 255.0F;
-
-		int brightness = block.getMixedBrightnessForBlock(world, x, y, z);
-		tessellator.setBrightness(brightness);
+		float m = 0.75F;
+		
+		tessellator.setColorOpaque_F(r * m, g * m, b * m);
 		
 		int depth = 0;
-		for(int i = 1; i < 4; i++) {
-			Block water = world.getBlock(x, y - i, z);
-			depth = i;
+		for(int i = y - 1; i > 0 ; i--) {
+			Block water = world.getBlock(x, i, z);
+			depth = y - i;
 			if(water != Blocks.water && water != Blocks.flowing_water) break;
 		}
 		
 		BlockReeds reeds = (BlockReeds) block;
 		
 		for(int i = 0; i < depth; i++) {
+
+			int brightness = block.getMixedBrightnessForBlock(world, x, y - i, z);
+			tessellator.setBrightness(brightness);
+			
 			IIcon icon = reeds.getIcon(i == 0 ? 0 : i == depth - 1 ? 2 : 1);
-			renderer.drawCrossedSquares(icon, x, y, z, 1.0F);
+			renderer.drawCrossedSquares(icon, x, y - i, z, 1.0F);
 		}
 		
 		return true;
