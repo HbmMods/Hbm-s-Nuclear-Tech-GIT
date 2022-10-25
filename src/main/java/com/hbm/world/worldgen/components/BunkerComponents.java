@@ -39,7 +39,7 @@ public class BunkerComponents extends ProceduralComponents {
 					return (this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit) && componentAmount > 6; //prevent the gimping of necessary corridors
 				}
 			},
-			new Weight(5, 3, WasteDisposal::findValidPlacement) {
+			new Weight(3, 3, WasteDisposal::findValidPlacement) {
 				public boolean canSpawnStructure(int componentAmount, int coordMode, ProceduralComponent component) {
 					return (this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit) && componentAmount > 6; //prevent the gimping of necessary corridors
 				}
@@ -648,8 +648,36 @@ public class BunkerComponents extends ProceduralComponents {
 	
 	public static class CenterCrossing extends Bunker {
 		
+		BlockSelector plantSelector = new BlockSelector() {
+			public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean notInterior) {
+				int chance = rand.nextInt(10);
+				
+				switch(chance) {
+				case 0:
+					this.field_151562_a = Blocks.yellow_flower;
+					break;
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+					this.field_151562_a = Blocks.red_flower;
+					this.selectedBlockMetaData = rand.nextInt(9);
+					break;
+				case 5:
+				case 6:
+					this.field_151562_a = Blocks.tallgrass;
+					this.selectedBlockMetaData = rand.nextInt(2) + 1;
+					break;
+				default:
+					this.field_151562_a = Blocks.air;
+				}
+			}
+		};
+		
 		boolean expandsNX;
 		boolean expandsPX;
+		
+		int decorationType = 0;
 		
 		public CenterCrossing() { }
 		
@@ -657,18 +685,21 @@ public class BunkerComponents extends ProceduralComponents {
 			super(componentType);
 			this.coordBaseMode = coordBaseMode;
 			this.boundingBox = box;
+			this.decorationType = rand.nextInt(2);
 		}
 		
 		protected void func_143012_a(NBTTagCompound data) {
 			super.func_143012_a(data);
 			data.setBoolean("expandsNX", expandsNX);
 			data.setBoolean("expandsPX", expandsPX);
+			data.setInteger("decoration", decorationType);
 		}
 		
 		protected void func_143011_b(NBTTagCompound data) {
 			super.func_143011_b(data);
 			expandsNX = data.getBoolean("expandsNX");
 			expandsPX = data.getBoolean("expandsPX");
+			decorationType = data.getInteger("decoration");
 		}
 		
 		@Override
@@ -775,7 +806,8 @@ public class BunkerComponents extends ProceduralComponents {
 				}
 				
 				//Decorations TODO: maybe have alternative ones in a switch? code block here is temporary
-				{
+				switch(decorationType) {
+				case 0:
 					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(3), 1, 1, 8, box); //Bench 1
 					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(1), 1, 1, 9, box);
 					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(2), 1, 1, 10, box);
@@ -799,6 +831,57 @@ public class BunkerComponents extends ProceduralComponents {
 					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick_stairs, getStairMeta(2), 5, 2, 11, box);
 					fillWithMetadataBlocks(world, box, 9, 2, 9, 9, 2, 10, ModBlocks.brick_slab, 1);
 					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick_stairs, getStairMeta(2), 9, 2, 11, box);
+					break;
+				case 1:
+					int stairMetaW = getStairMeta(0);
+					int stairMetaE = getStairMeta(1);
+					int stairMetaN = getStairMeta(2);
+					int stairMetaS = getStairMeta(3);
+					
+					//Right Planter
+					fillWithBlocks(world, box, 1, 1, 1, 4, 1, 1, Blocks.grass);
+					fillWithMetadataBlocks(world, box, 1, 1, 2, 3, 1, 2, ModBlocks.reinforced_brick_stairs, stairMetaS);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 4, 1, 2, box);
+					fillWithMetadataBlocks(world, box, 5, 1, 1, 5, 1, 2, ModBlocks.reinforced_brick_stairs, stairMetaE);
+					//Left Planter
+					fillWithBlocks(world, box, 10, 1, 1, 13, 1, 1, Blocks.grass);
+					fillWithMetadataBlocks(world, box, 11, 1, 2, 13, 1, 2, ModBlocks.reinforced_brick_stairs, stairMetaS);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 10, 1, 2, box);
+					fillWithMetadataBlocks(world, box, 9, 1, 1, 9, 1, 2, ModBlocks.reinforced_brick_stairs, stairMetaW);
+					//Main planter with conversation pits
+					fillWithBlocks(world, box, 1, 1, 7, 2, 1, 11, Blocks.grass); //Planter
+					fillWithBlocks(world, box, 7, 1, 8, 7, 1, 10, Blocks.grass);
+					fillWithBlocks(world, box, 12, 1, 7, 13, 1, 10, Blocks.grass);
+					fillWithBlocks(world, box, 3, 1, 11, 13, 1, 11, Blocks.grass);
+					fillWithBlocks(world, box, 1, 1, 6, 2, 1, 6, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 3, 1, 6, 3, 1, 7, ModBlocks.reinforced_brick);
+					fillWithMetadataBlocks(world, box, 6, 1, 7, 8, 1, 7, ModBlocks.reinforced_brick_stairs, stairMetaN);
+					fillWithBlocks(world, box, 11, 1, 6, 11, 1, 7, ModBlocks.reinforced_brick);
+					fillWithBlocks(world, box, 12, 1, 6, 13, 1, 6, ModBlocks.reinforced_brick);
+					for(int i = 3; i <= 8; i += 5) { //Conversation pits
+						fillWithMetadataBlocks(world, box, i, 1, 10, i + 3, 1, 10, Blocks.spruce_stairs, stairMetaN);
+						placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaE, i, 1, 9, box);
+						placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaS, i, 1, 8, box);
+						placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaW, i + 3, 1, 9, box);
+						placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaS, i + 3, 1, 8, box);
+					}
+					//Hanging lights
+					for(int i = 4; i <= 10; i += 3) {
+						fillWithBlocks(world, box, i, 4, 9, i, 5, 9, ModBlocks.chain);
+						placeBlockAtCurrentPosition(world, ModBlocks.reinforced_light, 0, i, 3, 9, box);
+					}
+					for(int i = 3; i <= 11; i += 8) {
+						fillWithBlocks(world, box, i, 4, 2, i, 5, 2, ModBlocks.chain);
+						placeBlockAtCurrentPosition(world, ModBlocks.reinforced_light, 0, i, 3, 2, box);
+					}
+					//Plant life
+					fillWithRandomizedBlocks(world, box, 1, 2, 1, 4, 2, 1, rand, plantSelector);
+					fillWithRandomizedBlocks(world, box, 10, 2, 1, 13, 2, 1, rand, plantSelector);
+					fillWithRandomizedBlocks(world, box, 1, 2, 7, 2, 2, 11, rand, plantSelector);
+					fillWithRandomizedBlocks(world, box, 3, 2, 11, 11, 2, 11, rand, plantSelector);
+					fillWithRandomizedBlocks(world, box, 12, 2, 7, 13, 2, 11, rand, plantSelector);
+					fillWithRandomizedBlocks(world, box, 7, 2, 8, 7, 2, 10, rand, plantSelector);
+					break;
 				}
 				
 				if(!underwater)
