@@ -184,6 +184,10 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
 		
+		if(this.lastTargetPos == null) {
+			this.lastTargetPos = Vec3.createVectorHelper(posX, posY, posZ);
+		}
+		
 		nbt.setDouble("targetX", this.lastTargetPos.xCoord);
 		nbt.setDouble("targetY", this.lastTargetPos.yCoord);
 		nbt.setDouble("targetZ", this.lastTargetPos.zCoord);

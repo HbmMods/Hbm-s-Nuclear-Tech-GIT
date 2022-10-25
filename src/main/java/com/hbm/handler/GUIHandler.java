@@ -872,7 +872,7 @@ public class GUIHandler implements IGuiHandler {
 		switch(ID) {
 		case ModBlocks.guiID_test_difurnace: {
 			if(entity instanceof TileEntityDiFurnace) {
-				return new GUITestDiFurnace(player.inventory, (TileEntityDiFurnace) entity);
+				return new GUIDiFurnace(player.inventory, (TileEntityDiFurnace) entity);
 			}
 			return null;
 		}
