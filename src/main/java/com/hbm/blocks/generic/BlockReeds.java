@@ -48,6 +48,18 @@ public class BlockReeds extends Block {
 	}
 	
 	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		super.onNeighborBlockChange(world, x, y, z, block);
+		this.checkAndDropBlock(world, x, y, z);
+	}
+
+	protected void checkAndDropBlock(World world, int x, int y, int z) {
+		if(!this.canBlockStay(world, x, y, z)) {
+			world.setBlock(x, y, z, Blocks.air);
+		}
+	}
+	
+	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		return null;
 	}

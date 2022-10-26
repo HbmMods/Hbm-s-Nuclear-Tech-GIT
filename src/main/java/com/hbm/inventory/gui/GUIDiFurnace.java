@@ -44,7 +44,7 @@ public class GUIDiFurnace extends GuiContainer {
 					byte dir = i == 0 ? diFurnace.sideUpper : i == 1 ? diFurnace.sideLower : diFurnace.sideFuel;
 					label += ForgeDirection.getOrientation(dir);
 					
-					this.func_146283_a(Arrays.asList(new String[] { label }), x, y - 30);
+					this.func_146283_a(Arrays.asList(new String[] { label }), x, y - (slot.getHasStack() ? 15 : 0));
 					
 					return;
 				}

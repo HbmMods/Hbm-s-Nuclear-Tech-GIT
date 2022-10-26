@@ -174,6 +174,11 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+		
+		byte[] modes = nbt.getByteArray("modes");
+		this.sideFuel = modes[0];
+		this.sideUpper = modes[1];
+		this.sideLower = modes[2];
 	}
 
 	@Override
@@ -192,6 +197,8 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 			}
 		}
 		nbt.setTag("items", list);
+		
+		nbt.setByteArray("modes", new byte[] {(byte) sideFuel, (byte) sideUpper, (byte) sideLower});
 	}
 
 	@Override
@@ -201,6 +208,11 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
+
+		if(i == 0 && this.sideUpper != j) return false;
+		if(i == 1 && this.sideLower != j) return false;
+		if(i == 2 && this.sideFuel != j) return false;
+		
 		return this.isItemValidForSlot(i, itemStack);
 	}
 

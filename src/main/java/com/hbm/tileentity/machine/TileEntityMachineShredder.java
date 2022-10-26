@@ -103,7 +103,7 @@ public class TileEntityMachineShredder extends TileEntityLoadedBase implements I
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		if(i < 9) return ShredderRecipes.getShredderResult(stack) != null;
+		if(i < 9) return ShredderRecipes.getShredderResult(stack) != null && !(stack.getItem() instanceof ItemBlades);
 		if(i == 29) return stack.getItem() instanceof IBatteryItem;
 		if(i == 27 || i == 28) return stack.getItem() instanceof ItemBlades;
 		
@@ -177,7 +177,7 @@ public class TileEntityMachineShredder extends TileEntityLoadedBase implements I
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
-		if(slot >= 9 || !this.isItemValidForSlot(slot, itemStack))
+		if((slot >= 9 && slot != 27 && slot != 28) || !this.isItemValidForSlot(slot, itemStack))
 			return false;
 		
 		if(slots[slot] == null)

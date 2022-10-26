@@ -17,7 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class BlockStalagmite extends BlockEnumMulti {
 
 	public BlockStalagmite() {
-		super(Material.rock, BlockEnums.EnumStoneType.class, true, true);
+		super(Material.rock, BlockEnums.EnumStalagmiteType.class, true, true);
 	}
 
 	@Override
@@ -45,14 +45,16 @@ public class BlockStalagmite extends BlockEnumMulti {
 		
 		return null;
 	}
+	
+	public static int getMetaFromResource(int meta) {
+		return meta;
+	}
 
 	@Override
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
 
-		if(this == ModBlocks.stalagmite)
-			return World.doesBlockHaveSolidTopSurface(world, x, y - 1, z);
-		if(this == ModBlocks.stalactite)
-			return world.isSideSolid(x, y + 1, z, ForgeDirection.DOWN);
+		if(this == ModBlocks.stalagmite) return World.doesBlockHaveSolidTopSurface(world, x, y - 1, z);
+		if(this == ModBlocks.stalactite) return world.isSideSolid(x, y + 1, z, ForgeDirection.DOWN);
 		
 		return true;
 	}
