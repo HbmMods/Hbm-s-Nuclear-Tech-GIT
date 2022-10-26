@@ -150,11 +150,14 @@ public class NukeCustom extends BlockContainer implements IBomb {
 			schrab += amat / 2 + hydro / 4 + nuke / 8 + tnt / 16;
 			schrab = Math.min(schrab, maxSchrab);
 			
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, (int) schrab));
-
-			EntityCloudFleija cloud = new EntityCloudFleija(worldObj, (int) schrab);
-			cloud.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
-			worldObj.spawnEntityInWorld(cloud);
+			EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, (int) schrab);
+			if(!ex.isDead) {
+				worldObj.spawnEntityInWorld(ex);
+	
+				EntityCloudFleija cloud = new EntityCloudFleija(worldObj, (int) schrab);
+				cloud.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
+				worldObj.spawnEntityInWorld(cloud);
+			}
 
     	/// ANTIMATTER ///
 		} else if(amat > 0) {

@@ -10,6 +10,7 @@ import api.hbm.fluid.IFillableItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
@@ -54,7 +55,7 @@ public class ItemToolAbilityFueled extends ItemToolAbility implements IFillableI
 	}
 
 	@Override
-	protected boolean canOperate(ItemStack stack) {
+	public boolean canOperate(ItemStack stack) {
 		return getFill(stack) >= this.consumption;
 	}
 
@@ -112,5 +113,12 @@ public class ItemToolAbilityFueled extends ItemToolAbility implements IFillableI
 	@Override
 	public int tryEmpty(FluidType type, int amount, ItemStack stack) {
 		return amount;
+	}
+	
+	public static ItemStack getEmptyTool(Item item) {
+		ItemToolAbilityFueled tool = (ItemToolAbilityFueled) item;
+		ItemStack stack = new ItemStack(item);
+		tool.setFill(stack, 0);
+		return stack;
 	}
 }

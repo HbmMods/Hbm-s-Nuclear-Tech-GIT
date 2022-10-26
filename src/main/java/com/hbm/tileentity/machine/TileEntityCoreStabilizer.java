@@ -65,7 +65,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 					if(te instanceof TileEntityCore) {
 						
 						TileEntityCore core = (TileEntityCore)te;
-						core.field = watts;
+						core.field = Math.max(core.field, watts);
 						this.power -= demand;
 						beam = i;
 						

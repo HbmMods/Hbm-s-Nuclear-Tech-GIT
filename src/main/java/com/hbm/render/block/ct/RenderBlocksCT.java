@@ -2,7 +2,6 @@ package com.hbm.render.block.ct;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.block.ct.CTContext.CTFace;
 

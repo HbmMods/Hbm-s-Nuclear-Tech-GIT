@@ -178,6 +178,11 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 		return new FluidTank[] { tank };
 	}
 
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
+	}
+
 	// do some opencomputer stuff
 	@Override
 	public String getComponentName() {

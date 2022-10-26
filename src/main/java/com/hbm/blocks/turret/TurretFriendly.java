@@ -25,7 +25,7 @@ public class TurretFriendly extends BlockDummyable {
 
 		if(meta >= 12)
 			return new TileEntityTurretFriendly();
-		return new TileEntityProxyCombo(true, true, false);
+		return new TileEntityProxyCombo().inventory().power();
 	}
 
 	@Override

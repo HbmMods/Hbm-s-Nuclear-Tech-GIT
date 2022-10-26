@@ -536,4 +536,9 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { coolant };
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { amat, coolant };
+	}
 }

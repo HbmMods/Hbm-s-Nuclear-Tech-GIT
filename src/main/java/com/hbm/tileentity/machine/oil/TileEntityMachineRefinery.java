@@ -358,4 +358,9 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { tanks[0] };
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 }

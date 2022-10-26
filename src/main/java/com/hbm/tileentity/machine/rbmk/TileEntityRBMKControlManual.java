@@ -8,6 +8,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
 public class TileEntityRBMKControlManual extends TileEntityRBMKControl implements IControlReceiver {
 
 	public RBMKColor color;
@@ -121,4 +127,10 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 		
 		return data;
 	}
+	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getColor(Context context, Arguments args) {
+		return new Object[] {this.color};
+	}	
 }

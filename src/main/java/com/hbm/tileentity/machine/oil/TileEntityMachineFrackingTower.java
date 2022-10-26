@@ -122,6 +122,11 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	}
 
 	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
 	public DirPos[] getConPos() {
 		return new DirPos[] {
 				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),

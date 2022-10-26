@@ -20,6 +20,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.MatDistribution;
 import com.hbm.inventory.recipes.*;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -38,11 +39,14 @@ public abstract class SerializableRecipe {
 	 */
 	
 	public static void registerAllHandlers() {
+		recipeHandlers.add(new ShredderRecipes());
 		recipeHandlers.add(new ChemplantRecipes());
+		recipeHandlers.add(new CrucibleRecipes());
 		recipeHandlers.add(new CentrifugeRecipes());
 		recipeHandlers.add(new CyclotronRecipes());
 		recipeHandlers.add(new HadronRecipes());
 		recipeHandlers.add(new FuelPoolRecipes());
+		recipeHandlers.add(new MatDistribution());
 	}
 	
 	public static void initialize() {
@@ -57,6 +61,8 @@ public abstract class SerializableRecipe {
 		MainRegistry.logger.info("Starting recipe init!");
 		
 		for(SerializableRecipe recipe : recipeHandlers) {
+			
+			recipe.deleteRecipes();
 			
 			File recFile = new File(recDir.getAbsolutePath() + File.separatorChar + recipe.getFileName());
 			if(recFile.exists() && recFile.isFile()) {
@@ -166,7 +172,7 @@ public abstract class SerializableRecipe {
 			int stacksize = array.size() > 2 ? array.get(2).getAsInt() : 1;
 			if("item".equals(type)) {
 				Item item = (Item) Item.itemRegistry.getObject(array.get(1).getAsString());
-				int meta = array.size() > 3 ? array.get(3).getAsInt() : 2;
+				int meta = array.size() > 3 ? array.get(3).getAsInt() : 0;
 				return new ComparableStack(item, stacksize, meta);
 			}
 			if("dict".equals(type)) {

@@ -9,6 +9,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 
 public class BlockDecoCT extends BlockOre implements IBlockCT{
 
@@ -31,7 +32,7 @@ public class BlockDecoCT extends BlockOre implements IBlockCT{
 	}
 
 	@Override
-	public IIcon[] getFragments() {
+	public IIcon[] getFragments(IBlockAccess world, int x, int y, int z) {
 		return rec.fragCache;
 	}
 }

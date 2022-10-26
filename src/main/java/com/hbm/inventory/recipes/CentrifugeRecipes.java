@@ -358,11 +358,10 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		if(recipes.containsKey(comp))
 			return RecipesCommon.copyStackArray(recipes.get(comp));
 		
-		String[] dictKeys = comp.getDictKeys();
-		
-		for(String key : dictKeys) {
-			if(recipes.containsKey(new OreDictStack(key)))
-				return RecipesCommon.copyStackArray(recipes.get(key));
+		for(Entry<AStack, ItemStack[]> entry : recipes.entrySet()) {
+			if(entry.getKey().isApplicable(stack)) {
+				return RecipesCommon.copyStackArray(entry.getValue());
+			}
 		}
 		
 		return null;

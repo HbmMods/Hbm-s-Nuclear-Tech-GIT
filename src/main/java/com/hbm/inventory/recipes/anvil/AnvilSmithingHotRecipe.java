@@ -3,7 +3,6 @@ package com.hbm.inventory.recipes.anvil;
 import java.util.Arrays;
 import java.util.List;
 
-import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.items.special.ItemHot;
 

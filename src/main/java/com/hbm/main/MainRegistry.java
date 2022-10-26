@@ -42,6 +42,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
+import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.config.*;
 import com.hbm.creativetabs.*;
 import com.hbm.entity.EntityMappings;
@@ -69,6 +70,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.SuicideThreadDump;
 import com.hbm.world.feature.*;
 import com.hbm.world.generator.CellularDungeonFactory;
 
@@ -766,8 +768,6 @@ public class MainRegistry {
 
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent) {
-		ShredderRecipes.registerShredder();
-		ShredderRecipes.registerOverrides();
 		CrystallizerRecipes.register();
 		TileEntityNukeFurnace.registerFuels();
 		BreederRecipes.registerRecipes();
@@ -809,6 +809,8 @@ public class MainRegistry {
 		new OreCave(ModBlocks.stone_resource, 0).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);	//sulfur
 		new OreCave(ModBlocks.stone_resource, 1).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);											//asbestos
 		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
+		
+		SuicideThreadDump.register();
 	}
 
 	@EventHandler
@@ -844,6 +846,7 @@ public class MainRegistry {
 		World world = event.getServer().getEntityWorld();
 		RBMKDials.createDials(world);
 		SiegeOrchestrator.createGameRules(world);
+		event.registerServerCommand(new CommandReloadRecipes());
 	}
 	
 	private void loadConfig(FMLPreInitializationEvent event) {
@@ -860,6 +863,19 @@ public class MainRegistry {
 		ToolConfig.loadFromConfig(config);
 		WeaponConfig.loadFromConfig(config);
 		MobConfig.loadFromConfig(config);
+		StructureConfig.loadFromConfig(config);
+		
+		try {
+			if(GeneralConfig.enableThermosPreventer && Class.forName("thermos.Thermos") != null) {
+				throw new IllegalStateException("The mod tried to start on a Thermos server and therefore stopped. To allow the server to start on Thermos, change the appropriate "
+						+ "config entry (0.00 in hbm.cfg). This was done because, by default, Thermos "
+						+ "uses a so-called \"optimization\" feature that reduces tile ticking a lot, which will inevitably break a lot of machines. Most people aren't even aware "
+						+ "of this, and start blaming random mods for all their stuff breaking. In order to adjust or even disable this feature, edit \"tileentities.yml\" in your "
+						+ "Thermos install folder. If you believe that crashing the server until a config option is changed is annoying, then I would agree, but it's still preferable "
+						+ "over wasting hours trying to fix an issue that is really just an \"intended feature\" added by Thermos itself, and not a bug in the mod. You'll have to "
+						+ "change Thermos' config anyway so that extra change in NTM's config can't be that big of a burden.");
+			}
+		} catch(ClassNotFoundException e) { }
 
 		config.save();
 	}
@@ -910,6 +926,60 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.sellafield_core");
 		ignoreMappings.add("hbm:tile.fusion_core");
 		ignoreMappings.add("hbm:tile.machine_telelinker");
+		ignoreMappings.add("hbm:item.dynosphere_base");
+		ignoreMappings.add("hbm:item.dynosphere_desh");
+		ignoreMappings.add("hbm:item.dynosphere_desh_charged");
+		ignoreMappings.add("hbm:item.dynosphere_schrabidium");
+		ignoreMappings.add("hbm:item.dynosphere_schrabidium_charged");
+		ignoreMappings.add("hbm:item.dynosphere_euphemium");
+		ignoreMappings.add("hbm:item.dynosphere_euphemium_charged");
+		ignoreMappings.add("hbm:item.dynosphere_dineutronium");
+		ignoreMappings.add("hbm:item.dynosphere_dineutronium_charged");
+		ignoreMappings.add("hbm:item.factory_core_titanium");
+		ignoreMappings.add("hbm:item.factory_core_advanced");
+		ignoreMappings.add("hbm:tile.factory_titanium_core");
+		ignoreMappings.add("hbm:tile.factory_advanced_core");
+		ignoreMappings.add("hbm:tile.factory_titanium_conductor");
+		ignoreMappings.add("hbm:tile.factory_advanced_conductor");
+		ignoreMappings.add("hbm:tile.factory_titanium_furnace");
+		ignoreMappings.add("hbm:tile.factory_advanced_furnace");
+		ignoreMappings.add("hbm:tile.turret_light");
+		ignoreMappings.add("hbm:tile.turret_heavy");
+		ignoreMappings.add("hbm:tile.turret_rocket");
+		ignoreMappings.add("hbm:tile.turret_flamer");
+		ignoreMappings.add("hbm:tile.turret_tau");
+		ignoreMappings.add("hbm:tile.turret_cwis");
+		ignoreMappings.add("hbm:tile.turret_spitfire");
+		ignoreMappings.add("hbm:tile.turret_cheapo");
+		ignoreMappings.add("hbm:item.turret_light_ammo");
+		ignoreMappings.add("hbm:item.turret_heavy_ammo");
+		ignoreMappings.add("hbm:item.turret_rocket_ammo");
+		ignoreMappings.add("hbm:item.turret_flamer_ammo");
+		ignoreMappings.add("hbm:item.turret_tau_ammo");
+		ignoreMappings.add("hbm:item.turret_cwis_ammo");
+		ignoreMappings.add("hbm:item.turret_spitfire_ammo");
+		ignoreMappings.add("hbm:item.turret_cheapo_ammo");
+		ignoreMappings.add("hbm:tile.cel_prime");
+		ignoreMappings.add("hbm:tile.cel_prime_terminal");
+		ignoreMappings.add("hbm:tile.cel_prime_battery");
+		ignoreMappings.add("hbm:tile.cel_prime_port");
+		ignoreMappings.add("hbm:tile.cel_prime_tanks");
+		ignoreMappings.add("hbm:tile.rf_cable");
+		ignoreMappings.add("hbm:tile.test_container");
+		ignoreMappings.add("hbm:tile.test_bb_bork");
+		ignoreMappings.add("hbm:tile.test_bb_inf");
+		ignoreMappings.add("hbm:tile.test_missile");
+		ignoreMappings.add("hbm:tile.rotation_tester");
+		ignoreMappings.add("hbm:tile.test_ticker");
+		ignoreMappings.add("hbm:tile.dummy_block_flare");
+		ignoreMappings.add("hbm:tile.dummy_port_flare");
+		ignoreMappings.add("hbm:tile.dummy_block_chemplant");
+		ignoreMappings.add("hbm:tile.dummy_port_chemplant");
+		ignoreMappings.add("hbm:tile.dummy_block_pumpjack");
+		ignoreMappings.add("hbm:tile.dummy_port_pumpjack");
+		ignoreMappings.add("hbm:tile.dummy_block_radgen");
+		ignoreMappings.add("hbm:tile.dummy_port_radgen");
+		ignoreMappings.add("hbm:tile.test_conductor");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

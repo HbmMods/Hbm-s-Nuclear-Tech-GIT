@@ -8,7 +8,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineCoal;
-import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineCoal;
 
@@ -71,27 +70,25 @@ public class GUIMachineCoal extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		//It's as horrifying as it is functional.
-		TileEntityMachineCoal dud = diFurnace;
-		
 		if(diFurnace.isInvalid() && diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord) instanceof TileEntityMachineCoal)
-			dud = (TileEntityMachineCoal) diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord);
+			diFurnace = (TileEntityMachineCoal) diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord);
 		
-		if(dud.power > 0) {
-			int i = (int)dud.getPowerScaled(52);
+		if(diFurnace.power > 0) {
+			int i = (int)diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 152, guiTop + 69 - i, 176, 52 - i, 16, i);
 		}
 		
-		if(dud.burnTime > 0)
+		if(diFurnace.burnTime > 0)
 		{
 			drawTexturedModalRect(guiLeft + 79, guiTop + 34, 208, 0, 18, 18);
 		}
 
-		if(dud.tank.getFill() <= 0)
+		if(diFurnace.tank.getFill() <= 0)
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 		
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
 		
-		dud.tank.renderTank(guiLeft + 8, guiTop + 69, this.zLevel, 16, 52);
+		diFurnace.tank.renderTank(guiLeft + 8, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

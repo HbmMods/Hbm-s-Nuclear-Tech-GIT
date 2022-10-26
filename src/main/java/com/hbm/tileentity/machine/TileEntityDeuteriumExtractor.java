@@ -187,4 +187,9 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { tanks[0] };
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 }

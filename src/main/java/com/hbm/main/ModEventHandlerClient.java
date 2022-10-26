@@ -1,9 +1,11 @@
 package com.hbm.main;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ILookOverlay;
@@ -23,6 +25,7 @@ import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
+import com.hbm.items.ISyncButtons;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
@@ -34,6 +37,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.SyncButtonsPacket;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
@@ -55,6 +59,9 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
+import com.hbm.wiaj.GuiWorldInAJar;
+import com.hbm.wiaj.cannery.CanneryBase;
+import com.hbm.wiaj.cannery.Jars;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
@@ -66,18 +73,20 @@ import api.hbm.item.IClickReceiver;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -85,6 +94,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -145,8 +155,14 @@ public class ModEventHandlerClient {
 			World world = mc.theWorld;
 			MovingObjectPosition mop = mc.objectMouseOver;
 			
-			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
-				((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK ) {
+				
+				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ILookOverlay) {
+					((ILookOverlay) player.getHeldItem().getItem()).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+					
+				} else if(world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
+					((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+				}
 			}
 			
 			/*if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
@@ -420,6 +436,14 @@ public class ModEventHandlerClient {
 					item.startActionClient(player.getHeldItem(), player.worldObj, player, false);
 				}
 			}
+			
+			if(held instanceof ISyncButtons) {
+				ISyncButtons rec = (ISyncButtons) held;
+				
+				if(rec.canReceiveMouse(player, player.getHeldItem(), event, event.button, event.buttonstate)) {
+					PacketDispatcher.wrapper.sendToServer(new SyncButtonsPacket(event.buttonstate, event.button));
+				}
+			}
 		}
 	}
 	
@@ -612,6 +636,20 @@ public class ModEventHandlerClient {
 			if(entry.entry == EnumEntryType.MULT)
 				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
 		}
+		
+		CanneryBase cannery = Jars.canneries.get(comp);
+		if(cannery != null) {
+			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
+		}
+		
+		/*ItemStack copy = stack.copy();
+		List<MaterialStack> materials = Mats.getMaterialsFromItem(copy);
+		
+		if(!materials.isEmpty()) {
+			for(MaterialStack mat : materials) {
+				list.add(EnumChatFormatting.DARK_PURPLE + mat.material.names[0] + ": " + Mats.formatAmount(mat.amount * stack.stackSize));
+			}
+		}*/
 	}
 	
 	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
@@ -719,6 +757,40 @@ public class ModEventHandlerClient {
 			
 			if(ArmorUtil.isWearingEmptyMask(mc.thePlayer)) {
 				MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Your mask has no filter!", MainRegistry.proxy.ID_FILTER);
+			}
+		}
+		
+		if(mc.currentScreen instanceof GuiContainer && Keyboard.isKeyDown(Keyboard.KEY_F1)) {
+
+			ScaledResolution scaledresolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+			int width = scaledresolution.getScaledWidth();
+			int height = scaledresolution.getScaledHeight();
+			int mouseX = Mouse.getX() * width / mc.displayWidth;
+			int mouseY = height - Mouse.getY() * height / mc.displayHeight - 1;
+			
+			GuiContainer container = (GuiContainer) mc.currentScreen;
+			
+			for(Object o : container.inventorySlots.inventorySlots) {
+				Slot slot = (Slot) o;
+				
+				if(slot.getHasStack()) {
+					try {
+						Method isMouseOverSlot = ReflectionHelper.findMethod(GuiContainer.class, container, new String[] {"func_146981_a", "isMouseOverSlot"}, Slot.class, int.class, int.class);
+						
+						if((boolean) isMouseOverSlot.invoke(container, slot, mouseX, mouseY)) {
+							
+							ComparableStack comp = new ComparableStack(slot.getStack()).makeSingular();
+							CanneryBase cannery = Jars.canneries.get(comp);
+							
+							if(cannery != null) {
+								FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon()));
+							}
+							
+							break;
+						}
+						
+					} catch(Exception ex) { }
+				}
 			}
 		}
 	}

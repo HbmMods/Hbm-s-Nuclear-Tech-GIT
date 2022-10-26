@@ -1,5 +1,7 @@
 package com.hbm.config;
 
+import java.util.ArrayList;
+
 import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
 
@@ -33,7 +35,9 @@ public class VersatileConfig {
 		if(PotionConfig.potionSickness == 2)
 			duration *= 12;
 		
-		entity.addPotionEffect(new PotionEffect(HbmPotion.potionsickness.id, duration * 20));
+		PotionEffect eff = new PotionEffect(HbmPotion.potionsickness.id, duration * 20);
+		eff.setCurativeItems(new ArrayList());
+		entity.addPotionEffect(eff);
 	}
 
 	public static boolean hasPotionSickness(EntityLivingBase entity) {

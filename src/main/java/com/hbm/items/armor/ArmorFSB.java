@@ -433,7 +433,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 			if(!chestplate.effects.isEmpty()) {
 
 				for(PotionEffect i : chestplate.effects) {
-					player.addPotionEffect(new PotionEffect(i.getPotionID(), i.getDuration(), i.getAmplifier(), i.getIsAmbient()));
+					player.addPotionEffect(new PotionEffect(i.getPotionID(), i.getDuration(), i.getAmplifier(), true));
 				}
 			}
 

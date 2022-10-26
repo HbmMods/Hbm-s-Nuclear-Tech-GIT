@@ -22,9 +22,8 @@ import net.minecraft.world.World;
 
 public class MachineTeleporter extends BlockContainer {
 
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
-	private IIcon iconBottom;
+	@SideOnly(Side.CLIENT) private IIcon iconTop;
+	@SideOnly(Side.CLIENT) private IIcon iconBottom;
 
 	@Override
 	@SideOnly(Side.CLIENT)

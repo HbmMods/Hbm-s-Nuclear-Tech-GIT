@@ -94,6 +94,7 @@ public class EntityEffectHandler {
 		handleRadiation(entity);
 		handleDigamma(entity);
 		handleLungDisease(entity);
+		handleOil(entity);
 
 		handleDashing(entity);
 		handlePlinking(entity);
@@ -422,6 +423,29 @@ public class EntityEffectHandler {
 					entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 2));
 					entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 140, 2));
 				}
+			}
+		}
+	}
+	
+	private static void handleOil(EntityLivingBase entity) {
+		int oil = HbmLivingProps.getOil(entity);
+		
+		if(oil > 0) {
+			
+			if(entity.isBurning()) {
+				HbmLivingProps.setOil(entity, 0);
+				entity.worldObj.newExplosion(null, entity.posX, entity.posY + entity.height / 2, entity.posZ, 3F, false, true);
+			} else {
+				HbmLivingProps.setOil(entity, oil - 1);
+			}
+			
+			if(entity.ticksExisted % 5 == 0) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "sweat");
+				nbt.setInteger("count", 1);
+				nbt.setInteger("block", Block.getIdFromBlock(Blocks.coal_block));
+				nbt.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			}
 		}
 	}

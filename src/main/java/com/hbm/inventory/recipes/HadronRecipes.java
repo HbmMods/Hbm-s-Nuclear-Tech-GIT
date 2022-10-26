@@ -218,6 +218,7 @@ public class HadronRecipes extends SerializableRecipe {
 		writer.endArray();
 	}
 	
+	@Override
 	public String getComment() {
 		return "Rules: Both in- and output stacks cannot be null. Stacksizes are set to 1 for all stacks.";
 	}

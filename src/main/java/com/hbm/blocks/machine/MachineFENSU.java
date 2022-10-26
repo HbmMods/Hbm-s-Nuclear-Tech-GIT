@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.storage.TileEntityMachineFENSU;
 import com.hbm.util.BobMathUtil;
@@ -17,11 +17,13 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class MachineFENSU extends BlockDummyable implements ILookOverlay {
+public class MachineFENSU extends BlockDummyable implements ILookOverlay, IPersistentInfoProvider {
 
 	public MachineFENSU(Material mat) {
 		super(mat);
@@ -92,5 +94,10 @@ public class MachineFENSU extends BlockDummyable implements ILookOverlay {
 		text.add("&[" + color + "&]" + (charge / 100D) + "%");
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, NBTTagCompound persistentTag, EntityPlayer player, List list, boolean ext) {
+		list.add(EnumChatFormatting.YELLOW + "" + BobMathUtil.getShortNumber(persistentTag.getLong("power")) + "/" + BobMathUtil.getShortNumber(Long.MAX_VALUE) + "HE");
 	}
 }

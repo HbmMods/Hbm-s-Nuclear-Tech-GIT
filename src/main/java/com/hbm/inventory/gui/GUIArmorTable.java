@@ -24,7 +24,7 @@ public class GUIArmorTable extends GuiInfoContainer {
 	public GUIArmorTable(InventoryPlayer player) {
 		super(new ContainerArmorTable(player));
 
-		this.xSize = 176;
+		this.xSize = 176 + 22;
 		this.ySize = 222;
 
 		guiLeft = (this.width - this.xSize) / 2;
@@ -62,8 +62,9 @@ public class GUIArmorTable extends GuiInfoContainer {
 
 	protected void drawGuiContainerForegroundLayer(int mX, int mY) {
 
-		this.fontRendererObj.drawString(I18n.format("container.armorTable"), 28, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		String name = I18n.format("container.armorTable");
+		this.fontRendererObj.drawString(name, (this.xSize - 22) / 2 - this.fontRendererObj.getStringWidth(name) / 2 + 22, 6, 4210752);
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8 + 22, this.ySize - 96 + 2, 4210752);
 	}
 
 	protected void drawGuiContainerBackgroundLayer(float inter, int mX, int mY) {
@@ -71,20 +72,21 @@ public class GUIArmorTable extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(texture);
 
-		this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize);
+		this.drawTexturedModalRect(guiLeft + 22, guiTop, 0, 0, this.xSize - 22, this.ySize);
+		this.drawTexturedModalRect(guiLeft, guiTop + 31, 176, 96, 22, 100);
 
 		ItemStack armor = this.inventorySlots.getSlot(8).getStack();
 
 		if(armor != null) {
 
 			if(armor.getItem() instanceof ItemArmor)
-				this.drawTexturedModalRect(guiLeft + 41, guiTop + 60, 176, 74, 22, 22);
+				this.drawTexturedModalRect(guiLeft + 41 + 22, guiTop + 60, 176, 74, 22, 22);
 			else
-				this.drawTexturedModalRect(guiLeft + 41, guiTop + 60, 176, 52, 22, 22);
+				this.drawTexturedModalRect(guiLeft + 41 + 22, guiTop + 60, 176, 52, 22, 22);
 		} else {
 			
 			if(System.currentTimeMillis() % 1000 < 500)
-				this.drawTexturedModalRect(guiLeft + 41, guiTop + 60, 176, 52, 22, 22);
+				this.drawTexturedModalRect(guiLeft + 41 + 22, guiTop + 60, 176, 52, 22, 22);
 		}
 		
 		for(int i = 0; i < 8; i++) {

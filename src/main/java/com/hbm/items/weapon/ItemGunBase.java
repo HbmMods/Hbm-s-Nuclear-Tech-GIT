@@ -786,7 +786,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			
 			int dura = ItemGunBase.getItemWear(stack) * 50 / gcfg.durability;
 			
-			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, dura, showammo);
+			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, new ItemStack(ammo), count, max, dura, showammo);
 			
 			if(gun.altConfig != null && gun.altConfig.reloadType == GunConfiguration.RELOAD_NONE) {
 				Item oldAmmo = ammo;
@@ -794,7 +794,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 				
 				if(ammo != oldAmmo) {
 					count = ItemGunBase.getBeltSize(player, ammo);
-					RenderScreenOverlay.renderAmmoAlt(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count);
+					RenderScreenOverlay.renderAmmoAlt(event.resolution, Minecraft.getMinecraft().ingameGUI, new ItemStack(ammo), count);
 				}
 			}
 		}

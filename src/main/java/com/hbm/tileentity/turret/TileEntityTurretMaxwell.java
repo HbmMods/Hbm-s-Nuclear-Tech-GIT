@@ -57,6 +57,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 		ammoStacks.add(new ItemStack(ModItems.upgrade_overdrive_2));
 		ammoStacks.add(new ItemStack(ModItems.upgrade_overdrive_3));
 		ammoStacks.add(new ItemStack(ModItems.upgrade_5g));
+		ammoStacks.add(new ItemStack(ModItems.upgrade_screm));
 		
 		return ammoStacks;
 	}
@@ -143,6 +144,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 				this.blackLevel = 0;
 				this.pinkLevel = 0;
 				this._5g = false;
+				this.screm = false;
 				
 				for(int i = 1; i < 10; i++) {
 					if(slots[i] != null) {
@@ -164,6 +166,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 						if(item == ModItems.upgrade_overdrive_2) blackLevel += 2;
 						if(item == ModItems.upgrade_overdrive_3) blackLevel += 3;
 						if(item == ModItems.upgrade_5g) _5g = true;
+						if(item == ModItems.upgrade_screm) screm = true;
 					}
 				}
 			}
@@ -180,6 +183,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 	int blackLevel;
 	int pinkLevel;
 	boolean _5g;
+	boolean screm;
 	
 	int checkDelay;
 
@@ -206,7 +210,10 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 				vdat.setInteger("ent", this.target.getEntityId());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ), new TargetPoint(this.target.dimension, this.target.posX, this.target.posY + this.target.height * 0.5, this.target.posZ, 150));
 				
-				worldObj.playSoundEffect(this.target.posX, this.target.posY, this.target.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+				if(this.screm)
+					worldObj.playSoundEffect(this.target.posX, this.target.posY, this.target.posZ, "hbm:block.screm", 20.0F, 1.0F);
+				else
+					worldObj.playSoundEffect(this.target.posX, this.target.posY, this.target.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
 			}
 			
 			this.power -= demand;

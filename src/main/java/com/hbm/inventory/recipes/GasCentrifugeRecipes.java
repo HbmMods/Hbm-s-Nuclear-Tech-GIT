@@ -10,7 +10,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.util.I18nUtil;
-import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.item.ItemStack;
 

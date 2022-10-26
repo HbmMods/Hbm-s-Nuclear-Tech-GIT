@@ -292,7 +292,12 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 
 	@Override
 	public FluidTank[] getReceivingTanks() {
-		return new FluidTank[] {tank};
+		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
 	}
 	
 	// do some opencomputer stuff

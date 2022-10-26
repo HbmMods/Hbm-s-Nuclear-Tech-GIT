@@ -3,12 +3,12 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.handler.ArmorModHandler;
-import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.render.model.ModelJetPack;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
 
+import api.hbm.fluid.IFillableItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -24,7 +24,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
-public abstract class JetpackBase extends ItemArmorMod implements IPartiallyFillable {
+public abstract class JetpackBase extends ItemArmorMod implements IFillableItem {
 
 	private ModelJetPack model;
 	public FluidType fuel;
@@ -138,33 +138,43 @@ public abstract class JetpackBase extends ItemArmorMod implements IPartiallyFill
 		
 	}
 
-	@Override
-	public FluidType getType(ItemStack stack) {
-		return fuel;
-	}
-
-	@Override
-	public int getFill(ItemStack stack) {
-		return this.getFuel(stack);
-	}
-
-	@Override
-	public void setFill(ItemStack stack, int fill) {
-		this.setFuel(stack, fill);
-	}
-
-	@Override
 	public int getMaxFill(ItemStack stack) {
 		return this.maxFuel;
 	}
 
-	@Override
 	public int getLoadSpeed(ItemStack stack) {
 		return 10;
 	}
 
 	@Override
-	public int getUnloadSpeed(ItemStack stack) {
+	public boolean acceptsFluid(FluidType type, ItemStack stack) {
+		return type == this.fuel;
+	}
+
+	@Override
+	public int tryFill(FluidType type, int amount, ItemStack stack) {
+		
+		if(!acceptsFluid(type, stack))
+			return amount;
+		
+		int fill = this.getFuel(stack);
+		int req = maxFuel - fill;
+		
+		int toFill = Math.min(amount, req);
+		//toFill = Math.min(toFill, getLoadSpeed(stack));
+		
+		this.setFuel(stack, fill + toFill);
+		
+		return amount - toFill;
+	}
+
+	@Override
+	public boolean providesFluid(FluidType type, ItemStack stack) {
+		return false;
+	}
+
+	@Override
+	public int tryEmpty(FluidType type, int amount, ItemStack stack) {
 		return 0;
 	}
 }

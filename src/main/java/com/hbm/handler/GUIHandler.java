@@ -17,6 +17,7 @@ import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.turret.*;
+import com.hbm.wiaj.GuiWorldInAJar;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -417,13 +418,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_nuke_n2: {
 			if(entity instanceof TileEntityNukeN2) {
 				return new ContainerNukeN2(player.inventory, (TileEntityNukeN2) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_cel_prime: {
-			if(entity instanceof TileEntityCelPrime) {
-				return new ContainerCelPrime(player.inventory, (TileEntityCelPrime) entity);
 			}
 			return null;
 		}
@@ -878,7 +872,7 @@ public class GUIHandler implements IGuiHandler {
 		switch(ID) {
 		case ModBlocks.guiID_test_difurnace: {
 			if(entity instanceof TileEntityDiFurnace) {
-				return new GUITestDiFurnace(player.inventory, (TileEntityDiFurnace) entity);
+				return new GUIDiFurnace(player.inventory, (TileEntityDiFurnace) entity);
 			}
 			return null;
 		}
@@ -1229,13 +1223,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_nuke_n2: {
 			if(entity instanceof TileEntityNukeN2) {
 				return new GUINukeN2(player.inventory, (TileEntityNukeN2) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_cel_prime: {
-			if(entity instanceof TileEntityCelPrime) {
-				return new GUICelPrime(player.inventory, (TileEntityCelPrime) entity);
 			}
 			return null;
 		}

@@ -8,9 +8,6 @@ import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.I18nUtil;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -156,9 +153,18 @@ public class ItemRBMKRod extends Item {
 		
 		double coreHeat = this.getCoreHeat(stack);
 		coreHeat += outFlux * heat;
-		this.setCoreHeat(stack, coreHeat);
+		
+		this.setCoreHeat(stack, rectify(coreHeat));
 		
 		return outFlux;
+	}
+	
+	private double rectify(double num) {
+		
+		if(num > 1_000_000D) num = 1_000_000D;
+		if(num < 20D || Double.isNaN(num)) num = 20D;
+		
+		return num;
 	}
 	
 	/**
@@ -177,8 +183,8 @@ public class ItemRBMKRod extends Item {
 			coreHeat -= mid * this.diffusion * RBMKDials.getFuelDiffusionMod(world) * mod;
 			hullHeat += mid * this.diffusion * RBMKDials.getFuelDiffusionMod(world) * mod;
 			
-			this.setCoreHeat(stack, coreHeat);
-			this.setHullHeat(stack, hullHeat);
+			this.setCoreHeat(stack, rectify(coreHeat));
+			this.setHullHeat(stack, rectify(hullHeat));
 		}
 	}
 	

@@ -611,4 +611,9 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks[0], tanks[1]};
 	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 }
