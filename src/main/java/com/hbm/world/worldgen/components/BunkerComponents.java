@@ -158,15 +158,17 @@ public class BunkerComponents extends ProceduralComponents {
 								 }
 								 
 								 if(canGenPlant) {
-										/*Block belowNeighbor = world.getBlock(posX, posY - 2, posZ);
-										int bound = !belowNeighbor.isNormalCube() ? 10 : 10; //reeds
-										int value = rand.nextInt(bound);
+										int value = rand.nextInt(2);
 										
-										if(value <= 0) {*/
+										if(value <= 0) {
 											int rY = posY + rand.nextInt(10) - rand.nextInt(10);
 											if(rY == posY)
 												world.setBlock(posX, posY, posZ, Blocks.waterlily, 0, 2);
-										//}
+										} else if(value <= 1) {
+											int rY = posY + rand.nextInt(10) - rand.nextInt(10);
+											if(rY == posY)
+												world.setBlock(posX, posY, posZ, ModBlocks.reeds, 0, 2);
+										}
 								}
 							}
 						}
