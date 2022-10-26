@@ -49,6 +49,11 @@ public class BunkerComponents extends ProceduralComponents {
 					return (this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit) && componentAmount > 6; //prevent the gimping of necessary corridors
 				}
 			},
+			new Weight(20, 1, Reactor::findValidPlacement) {
+				public boolean canSpawnStructure(int componentAmount, int coordMode, ProceduralComponent component) {
+					return (this.instanceLimit < 0 || this.instancesSpawned < this.instanceLimit) && componentAmount > 4; //prevent the gimping of necessary corridors
+				}
+			},
 		};
 		
 		sizeLimit = 100;
@@ -617,6 +622,7 @@ public class BunkerComponents extends ProceduralComponents {
 				placeBlockAtCurrentPosition(world, ModBlocks.radiorec, getDecoMeta(5), 6, 2, 1, box);
 				placeRandomBobble(world, box, rand, 6, 2, 3);
 				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(2), 6, 2, 4, box);
+				generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 4, 1, 5, HbmChestContents.officeTrash, 4); //TODO: create more contents
 				placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, getDecoModelMeta(0), 4, 1, 5, box);
 				//
 				placeBlockAtCurrentPosition(world, ModBlocks.concrete_stairs, getStairMeta(7), 1, 1, 2, box);
@@ -807,7 +813,7 @@ public class BunkerComponents extends ProceduralComponents {
 					fillWithBlocks(world, box, 14, 3, 1, 14, 4, 11, ModBlocks.reinforced_brick);
 				}
 				
-				//Decorations TODO: maybe have alternative ones in a switch? code block here is temporary
+				//Decorations
 				switch(decorationType) {
 				case 0:
 					placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(3), 1, 1, 8, box); //Bench 1
@@ -903,6 +909,266 @@ public class BunkerComponents extends ProceduralComponents {
 		public static ProceduralComponent findValidPlacement(List components, Random rand, int x, int y, int z, int mode, int type) {
 			StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -6, -1, 0, 15, 8, 13, mode);
 			return box.minY > 10 && StructureComponent.findIntersecting(components, box) == null ? new CenterCrossing(type, rand, box, mode) : null;
+		}
+	}
+	
+	//This one will be a doozy
+	public static class Reactor extends Bunker {
+		
+		boolean destroyed = false;
+		
+		static BlockSelector coriumSelector = new BlockSelector() {
+			public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean notInterior) {
+				float chance = rand.nextFloat();
+				
+				if(chance < 0.10)
+					this.field_151562_a = ModBlocks.block_corium;
+				else if(chance < 0.70)
+					this.field_151562_a = ModBlocks.block_corium_cobble;
+				else
+					this.field_151562_a = Blocks.gravel;
+			}
+		};
+		
+		private static ConcreteBricks conBrick = new ConcreteBricks();
+		private static ConcreteBricksStairs conBrickStairs = new ConcreteBricksStairs();
+		
+		public Reactor() { }
+		
+		public Reactor(int componentType, Random rand, StructureBoundingBox box, int coordBaseMode) {
+			super(componentType);
+			this.coordBaseMode = coordBaseMode;
+			this.boundingBox = box;
+		}
+		
+		protected void func_143012_a(NBTTagCompound data) {
+			super.func_143012_a(data);
+			data.setBoolean("destroyed", destroyed);
+		}
+		
+		protected void func_143011_b(NBTTagCompound data) {
+			super.func_143011_b(data);
+			destroyed = data.getBoolean("destroyed");
+		}
+		
+		@Override
+		public void buildComponent(ProceduralComponents instance, ControlComponent original, List components, Random rand) {
+			checkModifiers(original);
+			
+			destroyed = underwater ? rand.nextInt(5) == 0 : false;
+			//destroyed = true;
+		}
+		
+		@Override
+		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
+			
+			if(!underwater && isLiquidInStructureBoundingBox(world, boundingBox)) {
+				return false;
+			} else {
+				//Floor
+				fillWithBlocks(world, box, 3, 0, 3, 9, 0, 9, ModBlocks.reinforced_brick);
+				fillWithMetadataBlocks(world, box, 5, 1, 0, 7, 1, 0, ModBlocks.vinyl_tile, 1);
+				fillWithBlocks(world, box, 1, 1, 1, 11, 1, 1, ModBlocks.vinyl_tile);
+				fillWithMetadataBlocks(world, box, 3, 1, 2, 10, 1, 2, ModBlocks.vinyl_tile, 1);
+				fillWithBlocks(world, box, 1, 1, 2, 1, 1, 10, ModBlocks.vinyl_tile);
+				fillWithMetadataBlocks(world, box, 2, 1, 2, 2, 1, 10, ModBlocks.vinyl_tile, 1);
+				fillWithBlocks(world, box, 1, 1, 11, 11, 1, 11, ModBlocks.vinyl_tile);
+				fillWithMetadataBlocks(world, box, 3, 1, 10, 10, 1, 10, ModBlocks.vinyl_tile, 1);
+				fillWithBlocks(world, box, 11, 1, 2, 11, 1, 10, ModBlocks.vinyl_tile);
+				fillWithMetadataBlocks(world, box, 10, 1, 3, 10, 1, 9, ModBlocks.vinyl_tile, 1);
+				fillWithMetadataBlocks(world, box, 13, 1, 3, 14, 1, 7, ModBlocks.vinyl_tile, 1);
+				fillWithMetadataBlocks(world, box, 12, 1, 5, 12, 1, 7, ModBlocks.vinyl_tile, 1);
+				//Walls
+				fillWithBlocks(world, box, 1, 2, 0, 4, 2, 0, ModBlocks.reinforced_brick); //jesus christ
+				fillWithBlocks(world, box, 1, 3, 0, 4, 3, 0, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 1, 4, 0, 4, 4, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 8, 2, 0, 11, 2, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 8, 3, 0, 11, 3, 0, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 8, 4, 0, 11, 4, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 5, 0, 11, 7, 0, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 0, 2, 1, 0, 2, 11, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 0, 3, 1, 0, 3, 11, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 0, 4, 1, 0, 7, 11, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 2, 12, 11, 2, 12, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 3, 12, 11, 3, 12, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 1, 4, 12, 11, 7, 12, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 12, 2, 8, 12, 2, 11, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 12, 3, 8, 12, 3, 11, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 12, 2, 1, 12, 2, 4, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 12, 3, 1, 12, 3, 4, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 12, 4, 1, 12, 7, 11, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 13, 2, 8, 14, 2, 8, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 13, 3, 8, 14, 3, 8, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 13, 4, 8, 14, 4, 8, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 15, 2, 3, 15, 2, 7, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 15, 3, 3, 15, 3, 7, ModBlocks.reinforced_stone);
+				fillWithBlocks(world, box, 15, 4, 3, 15, 4, 7, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 14, 2, 2, 14, 4, 2, ModBlocks.red_wire_coated);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 13, 2, 2, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, 13, 3, 2, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 13, 4, 2, box);
+				//Ceiling
+				fillWithBlocks(world, box, 1, 8, 1, 11, 8, 4, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 8, 5, 4, 8, 7, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 1, 8, 8, 11, 8, 11, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 8, 8, 5, 11, 8, 7, ModBlocks.reinforced_brick);
+				fillWithBlocks(world, box, 13, 5, 3, 14, 5, 7, ModBlocks.reinforced_brick);
+				for(int i = 5; i <= 7; i++) {
+					for(int j = 5; j <= 7; j++) {
+						if(i != 6 && j != 6 || i == 6 && j == 6) placeLamp(world, box, rand, i, 8, j);
+						else placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, i, 8, j, box);
+					}
+				}
+				
+				//Reactor Casing
+				int decoMetaS = getDecoMeta(2);
+				int decoMetaN = getDecoMeta(3);
+				int decoMetaE = getDecoMeta(4);
+				int decoMetaW = getDecoMeta(5);
+				for(int i = 4; i <= 8; i += 4) {
+					for(int j = 4; j <= 8; j += 4) {
+						placeBlockAtCurrentPosition(world, ModBlocks.steel_scaffold, decoMetaN, i, 1, j, box);
+						fillWithMetadataBlocks(world, box, i, 5, j, i, 7, j, ModBlocks.steel_scaffold, decoMetaN);
+					}
+				}
+				int stairMetaW = getStairMeta(0);
+				int stairMetaE = getStairMeta(1);
+				int stairMetaN = getStairMeta(2);
+				int stairMetaS = getStairMeta(3);
+				fillWithBlocks(world, box, 6, 1, 5, 6, 1, 7, ModBlocks.deco_pipe_quad_rusted);
+				fillWithBlocks(world, box, 6, 2, 5, 6, 2, 7, ModBlocks.reactor_conductor);
+				fillWithRandomizedBlocks(world, box, 4, 2, 5, 5, 2, 7, rand, conBrick);
+				fillWithRandomizedBlocks(world, box, 5, 2, 4, 7, 2, 4, rand, conBrick);
+				fillWithRandomizedBlocks(world, box, 5, 2, 8, 7, 2, 8, rand, conBrick);
+				fillWithRandomizedBlocks(world, box, 7, 2, 5, 8, 2, 7, rand, conBrick);
+				fillWithRandomizedBlocksMeta(world, box, 5, 2, 3, 7, 2, 3, rand, conBrickStairs, stairMetaN | 4);
+				fillWithRandomizedBlocks(world, box, 5, 3, 3, 7, 4, 3, rand, conBrick);
+				fillWithRandomizedBlocks(world, box, 4, 2, 4, 4, 4, 4, rand, conBrick);
+				fillWithRandomizedBlocksMeta(world, box, 3, 2, 5, 3, 2, 7, rand, conBrickStairs, stairMetaW | 4);
+				fillWithRandomizedBlocks(world, box, 3, 3, 5, 3, 4, 7, rand, conBrick);
+				fillWithRandomizedBlocks(world, box, 4, 2, 8, 4, 4, 8, rand, conBrick);
+				fillWithRandomizedBlocksMeta(world, box, 5, 2, 9, 7, 2, 9, rand, conBrickStairs, stairMetaS | 4);
+				fillWithRandomizedBlocks(world, box, 5, 3, 9, 7, 4, 9, rand, conBrick);
+				fillWithRandomizedBlocks(world, box, 8, 2, 8, 8, 4, 8, rand, conBrick);
+				fillWithRandomizedBlocksMeta(world, box, 9, 2, 5, 9, 2, 7, rand, conBrickStairs, stairMetaE | 4);
+				fillWithRandomizedBlocks(world, box, 9, 3, 5, 9, 4, 7, rand, conBrick);
+				fillWithRandomizedBlocks(world, box, 8, 2, 4, 8, 4, 4, rand, conBrick);
+				//Reactor Core
+				for(int i = 4; i <= 8; i += 1) {
+					for(int j = 4; j <= 8; j += 1) {
+						if((i == 4 || i == 8) && (j == 4 || j == 8)) continue;
+						
+						int check = i % 2 == 0 ? 0 : 1;
+						if(j % 2 == check)
+							placeBlockAtCurrentPosition(world, ModBlocks.reactor_control, 0, i, 3, j, box);
+						else {
+							Block choice = i < 5 || i > 7 || j < 5 || j > 7 ? ModBlocks.reactor_element : ModBlocks.machine_generator;
+							placeBlockAtCurrentPosition(world, choice, 0, i, 3, j, box);
+						}
+					}
+				}
+				
+				if(destroyed) {
+					randomlyFillWithBlocks(world, box, rand, 0.20F, 4, 4, 4, 8, 4, 8, Blocks.gravel);
+					fillWithRandomizedBlocks(world, box, 5, 1, 4, 7, 3, 8, rand, coriumSelector);
+					fillWithRandomizedBlocks(world, box, 4, 1, 5, 4, 3, 7, rand, coriumSelector);
+					fillWithRandomizedBlocks(world, box, 8, 1, 5, 8, 3, 7, rand, coriumSelector);
+				} else {
+					//Reactor Shield/Top
+					fillWithBlocks(world, box, 5, 4, 4, 7, 4, 8, ModBlocks.glass_lead);
+					fillWithBlocks(world, box, 4, 4, 5, 4, 4, 7, ModBlocks.glass_lead);
+					fillWithBlocks(world, box, 8, 4, 5, 8, 4, 7, ModBlocks.glass_lead);
+					fillWithBlocks(world, box, 5, 5, 4, 7, 5, 8, ModBlocks.steel_roof);
+					fillWithBlocks(world, box, 4, 5, 5, 4, 5, 7, ModBlocks.steel_roof);
+					fillWithBlocks(world, box, 8, 5, 5, 8, 5, 7, ModBlocks.steel_roof);
+				}
+				
+				//Scaffolding
+				//Grates
+				for(int i = 4; i <= 9; i++) { //Steps
+					int meta = i % 2 == 0 ? 3 : 7;
+					placeBlockAtCurrentPosition(world, ModBlocks.steel_grate, meta, 1, i / 2, i, box);
+				}
+				fillWithMetadataBlocks(world, box, 2, 4, 8, 3, 4, 9, ModBlocks.steel_grate, 7);
+				placeBlockAtCurrentPosition(world, ModBlocks.steel_grate, 7, 4, 4, 9, box);
+				fillWithMetadataBlocks(world, box, 3, 4, 1, 9, 4, 2, ModBlocks.steel_grate, 7);
+				fillWithMetadataBlocks(world, box, 3, 4, 3, 4, 4, 3, ModBlocks.steel_grate, 7);
+				placeBlockAtCurrentPosition(world, ModBlocks.steel_grate, 7, 3, 4, 4, box);
+				fillWithMetadataBlocks(world, box, 8, 4, 3, 9, 4, 3, ModBlocks.steel_grate, 7);
+				placeBlockAtCurrentPosition(world, ModBlocks.steel_grate, 7, 9, 4, 4, box);
+				//Barriers
+				fillWithMetadataBlocks(world, box, 3, 5, 1, 3, 5, 7, ModBlocks.steel_wall, decoMetaW);
+				placeBlockAtCurrentPosition(world, ModBlocks.steel_wall, decoMetaN, 2, 5, 8, box);
+				fillWithMetadataBlocks(world, box, 1, 5, 9, 7, 5, 9, ModBlocks.steel_wall, decoMetaS);
+				placeBlockAtCurrentPosition(world, ModBlocks.steel_wall, decoMetaW, 8, 5, 9, box);
+				fillWithMetadataBlocks(world, box, 9, 5, 1, 9, 5, 7, ModBlocks.steel_wall, decoMetaE);
+				placeBlockAtCurrentPosition(world, ModBlocks.steel_wall, decoMetaN, 9, 5, 8, box);
+				//Decoration
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick_stairs, stairMetaE | 4, 4, 5, 1, box);
+				fillWithMetadataBlocks(world, box, 5, 5, 1, 7, 5, 1, ModBlocks.brick_slab, 9);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick_stairs, stairMetaW | 4, 8, 5, 1, box);
+				fillWithMetadataBlocks(world, box, 4, 6, 1, 5, 6, 1, ModBlocks.tape_recorder, decoMetaN);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(1), 7, 6, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.geiger, decoMetaS, 6, 6, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.machine_storage_drum, 0, 4, 5, 3, box);
+				placeRandomBobble(world, box, rand, 4, 6, 3);
+				placeBlockAtCurrentPosition(world, ModBlocks.machine_storage_drum, 0, 1, 2, 11, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.machine_storage_drum, 0, 9, 2, 10, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.machine_storage_drum, 0, 11, 2, 9, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.machine_storage_drum, 0, 11, 2, 11, box);
+				//Turbines/Transformers
+				placeBlockAtCurrentPosition(world, ModBlocks.machine_turbine, 0, 14, 2, 6, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_quad_rusted, getPillarMeta(8), 14, 2, 7, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.machine_turbine, 0, 14, 4, 6, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_quad_rusted, getPillarMeta(8), 14, 4, 7, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_rim_rusted, 0, 14, 3, 6, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.red_connector, decoMetaE, 13, 2, 6, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.red_connector, decoMetaE, 13, 4, 6, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.red_connector, decoMetaN, 13, 3, 4, box);
+				makeConnection(world, 13, 2, 6, 13, 3, 4);
+				makeConnection(world, 13, 4, 6, 13, 3, 4);
+				fillWithMetadataBlocks(world, box, 13, 2, 3, 13, 3, 3, ModBlocks.machine_battery, decoMetaN);
+				fillWithMetadataBlocks(world, box, 14, 2, 3, 14, 3, 3, ModBlocks.cable_diode, decoMetaN);
+				
+				generateInvContents(world, box, rand, ModBlocks.crate_iron, 8, 5, 3, HbmChestContents.nuclear, 10);
+				generateInvContents(world, box, rand, ModBlocks.crate_iron, 10, 2, 1, HbmChestContents.nuclearFuel, 12);
+				
+				if(underwater) {
+					fillWithWater(world, box, rand, 5, 2, 0, 7, 4, 0, 1);
+					fillWithWater(world, box, rand, 1, 1, 1, 11, 7, 11, 2);
+					fillWithWater(world, box, rand, 12, 2, 3, 14, 4, 7, 1);
+				} else {
+					fillWithCobwebs(world, box, rand, 1, 1, 0, 11, 7, 11);
+					fillWithCobwebs(world, box, rand, 12, 2, 3, 14, 4, 7);
+				}
+				
+				return true;
+			}
+		}
+		
+		protected void makeConnection(World world, int x1, int y1, int z1, int x2, int y2, int z2) {
+			int posX1 = getXWithOffset(x1, z1);
+			int posY1 = getYWithOffset(y1);
+			int posZ1 = getZWithOffset(x1, z1);
+			
+			int posX2 = getXWithOffset(x2, z2);
+			int posY2 = getYWithOffset(y2);
+			int posZ2 = getZWithOffset(x2, z2);
+			
+			TileEntity tile1 = world.getTileEntity(posX1, posY1, posZ1);
+			TileEntity tile2 = world.getTileEntity(posX2, posY2, posZ2);
+			if(tile1 instanceof TileEntityPylonBase && tile2 instanceof TileEntityPylonBase) {
+				TileEntityPylonBase pylon1 = (TileEntityPylonBase)tile1;
+				pylon1.addConnection(posX2, posY2, posZ2);
+				TileEntityPylonBase pylon2 = (TileEntityPylonBase)tile2;
+				pylon2.addConnection(posX1, posY1, posZ1);
+			}
+		}
+		
+		/** Finds valid placement, using input information. Should be passed as a method reference to its respective Weight. */
+		public static ProceduralComponent findValidPlacement(List components, Random rand, int x, int y, int z, int mode, int type) {
+			StructureBoundingBox box = getComponentToAddBoundingBox(x, y, z, -5, -2, 0, 16, 10, 13, mode);
+			return box.minY > 10 && StructureComponent.findIntersecting(components, box) == null ? new Reactor(type, rand, box, mode) : null;
 		}
 	}
 	

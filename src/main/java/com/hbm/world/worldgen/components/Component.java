@@ -696,6 +696,30 @@ abstract public class Component extends StructureComponent {
 		}
 	}
 	
+	//stairs and shit
+	protected void fillWithRandomizedBlocksMeta(World world, StructureBoundingBox box, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Random rand, BlockSelector selector, int meta) {
+		
+		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
+			return;
+		
+		for(int x = minX; x <= maxX; x++) {
+			
+			for(int z = minZ; z <= maxZ; z++) {
+				int posX = getXWithOffset(x, z);
+				int posZ = getZWithOffset(x, z);
+				
+				if(posX >= box.minX && posX <= box.maxX && posZ >= box.minZ && posZ <= box.maxZ) {
+					for(int y = minY; y <= maxY; y++) {
+						int posY = getYWithOffset(y);
+						//keep this functionality in mind!
+						selector.selectBlocks(rand, posX, posY, posZ, false); //for most structures it's redundant since nothing is just hollow cubes, but vanilla structures rely on this. use the method above in that case.
+						world.setBlock(posX, posY, posZ, selector.func_151561_a(), meta, 2);
+					}
+				}
+			}
+		}
+	}
+	
 	@Override
 	protected void randomlyFillWithBlocks(World world, StructureBoundingBox box, Random rand, float randLimit, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Block block, Block replaceBlock, boolean onlyReplace) {
 		
@@ -755,7 +779,7 @@ abstract public class Component extends StructureComponent {
 		
 		/** Selects blocks */
 		@Override
-		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean p_75062_5_) {
+		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean notInterior) {
 			float chance = rand.nextFloat();
 			
 			if(chance > 0.6F) {
@@ -774,7 +798,7 @@ abstract public class Component extends StructureComponent {
 		
 		/** Selects blocks */
 		@Override
-		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean p_75062_5_) {
+		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean notInterior) {
 			float chance = rand.nextFloat();
 			
 			if(chance < 0.4F) {
@@ -789,6 +813,27 @@ abstract public class Component extends StructureComponent {
 		}
 	}
 	
+	static class ConcreteBricksStairs extends StructureComponent.BlockSelector {
+		
+		ConcreteBricksStairs() { }
+		
+		/** Selects blocks */
+		@Override
+		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean notInterior) {
+			float chance = rand.nextFloat();
+			
+			if(chance < 0.4F) {
+				this.field_151562_a = ModBlocks.brick_concrete_stairs;
+			} else if (chance < 0.7F) {
+				this.field_151562_a = ModBlocks.brick_concrete_mossy_stairs;
+			} else if (chance < 0.9F) {
+				this.field_151562_a = ModBlocks.brick_concrete_cracked_stairs;
+			} else {
+				this.field_151562_a = ModBlocks.brick_concrete_broken_stairs;
+			}
+		}
+	}
+	
 	//ag
 	static class LabTiles extends StructureComponent.BlockSelector {
 		
@@ -796,7 +841,7 @@ abstract public class Component extends StructureComponent {
 		
 		/** Selects blocks */
 		@Override
-		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean p_75062_5_) {
+		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean notInterior) {
 			float chance = rand.nextFloat();
 			
 			if(chance < 0.5F) {
@@ -817,7 +862,7 @@ abstract public class Component extends StructureComponent {
 		
 		/** Selects blocks */
 		@Override
-		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean p_75062_5_) {
+		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean notInterior) {
 			this.selectedBlockMetaData = rand.nextInt(6) + 10;
 		}
 	}
