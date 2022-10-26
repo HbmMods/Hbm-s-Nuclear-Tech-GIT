@@ -20,6 +20,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.MatDistribution;
 import com.hbm.inventory.recipes.*;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -45,6 +46,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new CyclotronRecipes());
 		recipeHandlers.add(new HadronRecipes());
 		recipeHandlers.add(new FuelPoolRecipes());
+		recipeHandlers.add(new MatDistribution());
 	}
 	
 	public static void initialize() {

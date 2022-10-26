@@ -272,7 +272,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			
 			slots[1].stackSize--;
 			
-			if(slots[1].stackSize <=0)
+			if(slots[1].stackSize <= 0)
 				slots[1] = null;
 			
 			this.markDirty();
@@ -286,7 +286,16 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return new int[] { 2, 4 };
+		return new int[] { 1, 2, 4 };
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		
+		if(i == 1 && BreederRecipes.getOutput(itemStack) != null)
+			return true;
+		
+		return false;
 	}
 	
 	private void produceByproduct() {

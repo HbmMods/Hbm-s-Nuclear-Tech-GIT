@@ -147,6 +147,7 @@ public class ModItems {
 	public static Item ingot_c4;
 	public static Item ingot_boron;
 	public static Item ingot_graphite;
+	public static Item ingot_firebrick;
 	public static Item ingot_smore;
 	
 	public static Item ingot_gh336;
@@ -741,6 +742,10 @@ public class ModItems {
 	public static Item blades_schrabidium;
 	public static Item blades_desh;
 
+	public static Item mold_base;
+	public static Item mold;
+	public static Item scraps;
+
 	public static Item part_lithium;
 	public static Item part_beryllium;
 	public static Item part_carbon;
@@ -1207,6 +1212,7 @@ public class ModItems {
 	public static Item ballistite;
 	public static Item ball_dynamite;
 	public static Item ball_tnt;
+	public static Item ball_fireclay;
 
 	public static Item pellet_cluster;
 	public static Item powder_fire;
@@ -1581,6 +1587,7 @@ public class ModItems {
 	public static Item ammo_shell_w9;
 	public static Item ammo_dgk;
 	public static Item ammo_arty;
+	public static Item ammo_himars;
 	public static Item ammo_nuke;
 	public static Item ammo_nuke_low;
 	public static Item ammo_nuke_high;
@@ -2424,15 +2431,6 @@ public class ModItems {
 
 	public static Item mech_key;
 
-	public static Item turret_light_ammo;
-	public static Item turret_heavy_ammo;
-	public static Item turret_rocket_ammo;
-	public static Item turret_flamer_ammo;
-	public static Item turret_tau_ammo;
-	public static Item turret_spitfire_ammo;
-	public static Item turret_cwis_ammo;
-	public static Item turret_cheapo_ammo;
-
 	public static Item bucket_mud;
 	public static Item bucket_acid;
 	public static Item bucket_toxic;
@@ -2641,6 +2639,7 @@ public class ModItems {
 		ingot_cobalt = new Item().setUnlocalizedName("ingot_cobalt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_cobalt");
 		ingot_boron = new Item().setUnlocalizedName("ingot_boron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_boron");
 		ingot_graphite = new Item().setUnlocalizedName("ingot_graphite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_graphite");
+		ingot_firebrick = new Item().setUnlocalizedName("ingot_firebrick").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_firebrick");
 		ingot_smore = new ItemFood(10, 20F, false).setUnlocalizedName("ingot_smore").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_smore");
 		sulfur = new Item().setUnlocalizedName("sulfur").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":sulfur");
 
@@ -3347,6 +3346,10 @@ public class ModItems {
 		blades_schrabidium = new ItemBlades(2000).setUnlocalizedName("blades_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_schrabidium");
 		blades_desh = new ItemBlades(0).setUnlocalizedName("blades_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_desh");
 
+		mold_base = new Item().setUnlocalizedName("mold_base").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":mold_base");
+		mold = new ItemMold().setUnlocalizedName("mold").setCreativeTab(MainRegistry.controlTab);
+		scraps = new ItemScraps().setUnlocalizedName("scraps").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":scraps");
+
 		part_lithium = new Item().setUnlocalizedName("part_lithium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_lithium");
 		part_beryllium = new Item().setUnlocalizedName("part_beryllium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_beryllium");
 		part_carbon = new Item().setUnlocalizedName("part_carbon").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_carbon");
@@ -3595,8 +3598,8 @@ public class ModItems {
 		coin_maskman = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_maskman").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_maskman");
 		coin_worm = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_worm").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_worm");
 		coin_ufo = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_ufo").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_ufo");
-		coin_siege = new ItemSiegeCoin().setUnlocalizedName("coin_siege").setCreativeTab(MainRegistry.consumableTab);
-		source = new ItemCustomLore().setRarity(EnumRarity.epic).setUnlocalizedName("source").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":source");
+		coin_siege = new ItemSiegeCoin().setUnlocalizedName("coin_siege").setCreativeTab(null);
+		source = new ItemCustomLore().setRarity(EnumRarity.epic).setUnlocalizedName("source").setCreativeTab(null).setTextureName(RefStrings.MODID + ":source");
 
 		recycled_ground = new Item().setUnlocalizedName("recycled_ground").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_ground");
 		recycled_rock = new Item().setUnlocalizedName("recycled_rock").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_rock");
@@ -3992,6 +3995,7 @@ public class ModItems {
 		ballistite = new Item().setUnlocalizedName("ballistite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ballistite");
 		ball_dynamite = new Item().setUnlocalizedName("ball_dynamite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ball_dynamite");
 		ball_tnt = new Item().setUnlocalizedName("ball_tnt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ball_tnt");
+		ball_fireclay = new Item().setUnlocalizedName("ball_fireclay").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ball_fireclay");
 		pellet_gas = new ItemCustomLore().setUnlocalizedName("pellet_gas").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellet_gas");
 		magnetron = new ItemCustomLore().setUnlocalizedName("magnetron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":magnetron_alt");
 		pellet_buckshot = new Item().setUnlocalizedName("pellet_buckshot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_lead");
@@ -4334,6 +4338,7 @@ public class ModItems {
 		ammo_shell_w9 = new ItemAmmo().setUnlocalizedName("ammo_shell_w9");
 		ammo_dgk = new ItemAmmo().setUnlocalizedName("ammo_dgk");
 		ammo_arty = new ItemAmmoArty().setUnlocalizedName("ammo_arty");
+		ammo_himars = new ItemAmmoHIMARS().setUnlocalizedName("ammo_himars");
 		ammo_nuke = new ItemAmmo().setUnlocalizedName("ammo_nuke");
 		ammo_nuke_low = new ItemAmmo().setUnlocalizedName("ammo_nuke_low");
 		ammo_nuke_high = new ItemAmmo().setUnlocalizedName("ammo_nuke_high");
@@ -4854,15 +4859,6 @@ public class ModItems {
 		
 		mech_key = new ItemCustomLore().setUnlocalizedName("mech_key").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":mech_key");
 
-		turret_light_ammo = new ItemTurretAmmo(ModBlocks.turret_light, 100).setUnlocalizedName("turret_light_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_light_ammo");
-		turret_heavy_ammo = new ItemTurretAmmo(ModBlocks.turret_heavy, 25).setUnlocalizedName("turret_heavy_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_heavy_ammo");
-		turret_rocket_ammo = new ItemTurretAmmo(ModBlocks.turret_rocket, 8).setUnlocalizedName("turret_rocket_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_rocket_ammo");
-		turret_flamer_ammo = new ItemTurretAmmo(ModBlocks.turret_flamer, 200).setUnlocalizedName("turret_flamer_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_flamer_ammo");
-		turret_tau_ammo = new ItemTurretAmmo(ModBlocks.turret_tau, 100).setUnlocalizedName("turret_tau_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_tau_ammo");
-		turret_spitfire_ammo = new ItemTurretAmmo(ModBlocks.turret_spitfire, 2).setUnlocalizedName("turret_spitfire_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_spitfire_ammo");
-		turret_cwis_ammo = new ItemTurretAmmo(ModBlocks.turret_cwis, 250).setUnlocalizedName("turret_cwis_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_cwis_ammo");
-		turret_cheapo_ammo = new ItemTurretAmmo(ModBlocks.turret_cheapo, 100).setUnlocalizedName("turret_cheapo_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_cheapo_ammo");
-		
 		template_folder = new ItemTemplateFolder().setUnlocalizedName("template_folder").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":template_folder");
 		journal_pip = new ItemTemplateFolder().setUnlocalizedName("journal_pip").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":journal_pip");
 		journal_bj = new ItemTemplateFolder().setUnlocalizedName("journal_bj").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":journal_bj");
@@ -5807,6 +5803,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_cobalt, ingot_cobalt.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_boron, ingot_boron.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_graphite, ingot_graphite.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_firebrick, ingot_firebrick.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_dura_steel, ingot_dura_steel.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_polymer, ingot_polymer.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_bakelite, ingot_bakelite.getUnlocalizedName());
@@ -6048,6 +6045,7 @@ public class ModItems {
 		GameRegistry.registerItem(ballistite, ballistite.getUnlocalizedName());
 		GameRegistry.registerItem(ball_dynamite, ball_dynamite.getUnlocalizedName());
 		GameRegistry.registerItem(ball_tnt, ball_tnt.getUnlocalizedName());
+		GameRegistry.registerItem(ball_fireclay, ball_fireclay.getUnlocalizedName());
 		
 		//Crystals
 		GameRegistry.registerItem(crystal_coal, crystal_coal.getUnlocalizedName());
@@ -6638,6 +6636,11 @@ public class ModItems {
 		GameRegistry.registerItem(stamp_44, stamp_44.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_9, stamp_9.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_50, stamp_50.getUnlocalizedName());
+		
+		//Molds
+		GameRegistry.registerItem(mold_base, mold_base.getUnlocalizedName());
+		GameRegistry.registerItem(mold, mold.getUnlocalizedName());
+		GameRegistry.registerItem(scraps, scraps.getUnlocalizedName());
 		
 		//Machine Upgrades
 		GameRegistry.registerItem(upgrade_template, upgrade_template.getUnlocalizedName());
@@ -7434,6 +7437,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_shell_w9, ammo_shell_w9.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_dgk, ammo_dgk.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_arty, ammo_arty.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_himars, ammo_himars.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_nuke, ammo_nuke.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_nuke_low, ammo_nuke_low.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_nuke_high, ammo_nuke_high.getUnlocalizedName());
@@ -7449,16 +7453,6 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_folly, ammo_folly.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly_nuclear, ammo_folly_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly_du, ammo_folly_du.getUnlocalizedName());
-		
-		//Turret Ammo
-		GameRegistry.registerItem(turret_light_ammo, turret_light_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_heavy_ammo, turret_heavy_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_rocket_ammo, turret_rocket_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_flamer_ammo, turret_flamer_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_tau_ammo, turret_tau_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_spitfire_ammo, turret_spitfire_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_cwis_ammo, turret_cwis_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(turret_cheapo_ammo, turret_cheapo_ammo.getUnlocalizedName());
 		
 		//-C-l-i-p-s- Magazines
 		GameRegistry.registerItem(clip_revolver_iron, clip_revolver_iron.getUnlocalizedName());

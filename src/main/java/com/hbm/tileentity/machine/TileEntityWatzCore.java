@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -676,7 +677,15 @@ public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedIn
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 3.0F, 0.5F);
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "random.explode", 3.0F, 0.75F);
 				} else {
-					worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord, yCoord, zCoord, BombConfig.fleijaRadius));
+					EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord, yCoord, zCoord, BombConfig.fleijaRadius);
+					if(!ex.isDead) {
+						worldObj.spawnEntityInWorld(ex);
+						EntityCloudFleija cloud = new EntityCloudFleija(worldObj, BombConfig.fleijaRadius);
+						cloud.posX = xCoord + 0.5;
+						cloud.posY = yCoord + 0.5;
+						cloud.posZ = zCoord + 0.6;
+						worldObj.spawnEntityInWorld(cloud);
+					}
 				}
 			}
 		}

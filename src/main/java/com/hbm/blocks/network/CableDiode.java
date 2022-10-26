@@ -11,6 +11,7 @@ import com.hbm.util.I18nUtil;
 
 import api.hbm.block.IToolable;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.energy.IEnergyConnector.ConnectionPriority;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -89,6 +90,15 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 			return true;
 		}
 		
+		if(tool == ToolType.DEFUSER) {
+			int p = te.priority.ordinal() + 1;
+			if(p > 2) p = 0;
+			te.priority = ConnectionPriority.values()[p];
+			te.markDirty();
+			world.markBlockForUpdate(x, y, z);
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -97,6 +107,7 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 		list.add(EnumChatFormatting.GOLD + "Limits throughput and restricts flow direction");
 		list.add(EnumChatFormatting.YELLOW + "Use screwdriver to increase throughput");
 		list.add(EnumChatFormatting.YELLOW + "Use hand drill to decrease throughput");
+		list.add(EnumChatFormatting.YELLOW + "Use defuser to change network priority");
 	}
 
 	@Override
@@ -110,7 +121,8 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 		TileEntityDiode diode = (TileEntityDiode) te;
 		
 		List<String> text = new ArrayList();
-		text.add("Max.: " + BobMathUtil.getShortNumber(diode.getMaxPower()) + "HE/pulse");
+		text.add("Max.: " + BobMathUtil.getShortNumber(diode.getMaxPower()) + "HE/t");
+		text.add("Priority: " + diode.priority.name());
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
@@ -126,12 +138,14 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 		public void readFromNBT(NBTTagCompound nbt) {
 			super.readFromNBT(nbt);
 			level = nbt.getInteger("level");
+			priority = ConnectionPriority.values()[nbt.getByte("p")];
 		}
 		
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
 			super.writeToNBT(nbt);
 			nbt.setInteger("level", level);
+			nbt.setByte("p", (byte) this.priority.ordinal());
 		}
 
 		@Override
@@ -168,6 +182,10 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 		
 		private boolean recursionBrake = false;
 		private long subBuffer;
+		private long contingent = 0;
+		private long lastTransfer = 0;
+		private int pulses = 0;
+		public ConnectionPriority priority = ConnectionPriority.NORMAL;
 
 		@Override
 		public long transferPower(long power) {
@@ -175,9 +193,20 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 			if(recursionBrake)
 				return power;
 			
+			pulses++;
+			
+			if(lastTransfer != worldObj.getTotalWorldTime()) {
+				lastTransfer = worldObj.getTotalWorldTime();
+				contingent = getMaxPower();
+				pulses = 0;
+			}
+			
+			if(contingent <= 0 || pulses > 10)
+				return power;
+			
 			//this part turns "maxPower" from a glorified transfer weight into an actual transfer cap
-			long overShoot = Math.max(0, power - getMaxPower());
-			power = Math.min(power, getMaxPower());
+			long overShoot = Math.max(0, power - contingent);
+			power = Math.min(power, contingent);
 			
 			recursionBrake = true;
 			this.subBuffer = power;
@@ -185,6 +214,9 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 			ForgeDirection dir = getDir();
 			this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			long ret = this.subBuffer;
+			
+			long sent = power - ret;
+			contingent -= sent;
 			
 			this.subBuffer = 0;
 			recursionBrake = false;
@@ -206,6 +238,11 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 		@Override
 		public void setPower(long power) {
 			this.subBuffer = power;
+		}
+
+		@Override
+		public ConnectionPriority getPriority() {
+			return this.priority;
 		}
 	}
 }

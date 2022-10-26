@@ -9,6 +9,8 @@ import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Coolable;
+import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -232,27 +234,25 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			tanks[0].loadTank(2, 3, slots);
 			power = Library.chargeItemsFromTE(slots, 4, power, maxPower);
 			
-			Object[] outs = MachineRecipes.getTurbineOutput(tanks[0].getTankType());
-			
-			if(outs == null) {
-				tanks[1].setTankType(Fluids.NONE);
-			} else {
-				tanks[1].setTankType((FluidType) outs[0]);
-				
-				int processMax = 1200;																//the maximum amount of cycles based on the 1.2k cycle cap (subject to change)
-				int processSteam = tanks[0].getFill() / (Integer)outs[2];							//the maximum amount of cycles depending on steam
-				int processWater = (tanks[1].getMaxFill() - tanks[1].getFill()) / (Integer)outs[1];	//the maximum amount of cycles depending on water
-				
-				int cycles = Math.min(processMax, Math.min(processSteam, processWater));
-				
-				tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2] * cycles);
-				tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1] * cycles);
-				
-				power += (Integer)outs[3] * cycles;
-				
-				if(power > maxPower)
-					power = maxPower;
+			FluidType in = tanks[0].getTankType();
+			boolean valid = false;
+			if(in.hasTrait(FT_Coolable.class)) {
+				FT_Coolable trait = in.getTrait(FT_Coolable.class);
+				double eff = trait.getEfficiency(CoolingType.TURBINE) * 0.85D; //small turbine is only 85% efficient
+				if(eff > 0) {
+					tanks[1].setTankType(trait.coolsTo);
+					int inputOps = tanks[0].getFill() / trait.amountReq;
+					int outputOps = (tanks[1].getMaxFill() - tanks[1].getFill()) / trait.amountProduced;
+					int cap = 6_000 / trait.amountReq;
+					int ops = Math.min(inputOps, Math.min(outputOps, cap));
+					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
+					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
+					this.power += (ops * trait.heatEnergy * eff);
+					valid = true;
+				}
 			}
+			if(!valid) tanks[1].setTankType(Fluids.NONE);
+			if(power > maxPower) power = maxPower;
 			
 			this.sendFluidToAll(tanks[1].getTankType(), this);
 			

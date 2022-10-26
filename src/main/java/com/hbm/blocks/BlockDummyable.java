@@ -25,6 +25,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -420,7 +421,8 @@ public abstract class BlockDummyable extends BlockContainer {
 	}
 	
 	public List<AxisAlignedBB> bounding = new ArrayList();
-	
+
+	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
 		
 		if(!this.useDetailedHitbox()) {
@@ -461,5 +463,14 @@ public abstract class BlockDummyable extends BlockContainer {
 		}
 		
 		return AxisAlignedBB.getBoundingBox(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ).offset(x + 0.5, y + 0.5, z + 0.5);
+	}
+
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+		if(!this.useDetailedHitbox()) {
+			super.setBlockBoundsBasedOnState(world, x, y, z);
+		} else {
+			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.999F, 1.0F); //for some fucking reason setting maxY to something that isn't 1 magically fixes item collisions
+		}
 	}
 }

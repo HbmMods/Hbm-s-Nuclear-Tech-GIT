@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.entity.projectile.EntitySawblade;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.INBTPacketReceiver;
@@ -104,6 +105,17 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 					if(overspeed > 300) {
 						this.hasBlade = false;
 						this.worldObj.newExplosion(null, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 5F, false, false);
+						
+						int orientation = this.getBlockMetadata() - BlockDummyable.offset;
+						ForgeDirection dir = ForgeDirection.getOrientation(orientation);
+						EntitySawblade cog = new EntitySawblade(worldObj, xCoord + 0.5 + dir.offsetX, yCoord + 1, zCoord + 0.5 + dir.offsetZ).setOrientation(orientation);
+						ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+						
+						cog.motionX = rot.offsetX;
+						cog.motionY = 1;
+						cog.motionZ = rot.offsetZ;
+						worldObj.spawnEntityInWorld(cog);
+						
 						this.markDirty();
 					}
 					

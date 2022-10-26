@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 
+import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -139,5 +140,9 @@ public class Compat {
 		if(item != null) {
 			HazmatRegistry.registerHazmat(item, resistance);
 		}
+	}
+	
+	public static boolean isModLoaded(String modid) {
+		return Loader.isModLoaded(modid);
 	}
 }

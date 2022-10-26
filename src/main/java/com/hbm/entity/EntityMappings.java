@@ -203,9 +203,11 @@ public class EntityMappings {
 		addEntity(EntityMinecartSemtex.class, "entity_ntm_cart_semtex", 250, false);
 		addEntity(EntityNukeTorex.class, "entity_effect_torex", 250, false);
 		addEntity(EntityArtilleryShell.class, "entity_artillery_shell", 1000);
+		addEntity(EntityArtilleryRocket.class, "entity_himars", 1000);
 		addEntity(EntitySiegeTunneler.class, "entity_meme_tunneler", 1000);
 		addEntity(EntitySPV.class, "entity_self_propelled_vehicle_mark_1", 1000);
 		addEntity(EntityCog.class, "entity_stray_cog", 1000);
+		addEntity(EntitySawblade.class, "entity_stray_saw", 1000);
 		addEntity(EntityChemical.class, "entity_chemthrower_splash", 1000);
 		
 		addMob(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", 0x204131, 0x75CE00);

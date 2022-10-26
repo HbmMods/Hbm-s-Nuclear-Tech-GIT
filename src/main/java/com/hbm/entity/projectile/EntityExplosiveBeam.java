@@ -469,15 +469,18 @@ public class EntityExplosiveBeam extends Entity implements IProjectile
     
     private void explode() {
     	if(!worldObj.isRemote) {
-			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, 10));
-
-    		
-    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, 10);
-    		cloud.posX = this.posX;
-    		cloud.posY = this.posY;
-    		cloud.posZ = this.posZ;
-    		this.worldObj.spawnEntityInWorld(cloud);
+    		EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, 10);
+    		if(!ex.isDead) {
+				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+				worldObj.spawnEntityInWorld(ex);
+	
+	    		
+	    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, 10);
+	    		cloud.posX = this.posX;
+	    		cloud.posY = this.posY;
+	    		cloud.posZ = this.posZ;
+	    		this.worldObj.spawnEntityInWorld(cloud);
+    		}
     	}
     }
 }

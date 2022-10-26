@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;
+import com.hbm.items.machine.ItemCrucibleTemplate;
 import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.util.InventoryUtil;
 
@@ -82,6 +83,10 @@ public class ItemFolderPacket implements IMessage {
 						return null;
 					}
 					if(stack.getItem() instanceof ItemChemistryTemplate) {
+						tryMakeItem(p, stack, Items.paper, "dye");
+						return null;
+					}
+					if(stack.getItem() instanceof ItemCrucibleTemplate) {
 						tryMakeItem(p, stack, Items.paper, "dye");
 						return null;
 					}

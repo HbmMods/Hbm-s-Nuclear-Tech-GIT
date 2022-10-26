@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.tileentity.machine.TileEntityCrucible;
 import com.hbm.util.InventoryUtil;
 
@@ -17,12 +18,12 @@ public class ContainerCrucible extends Container {
 		this.crucible = crucible;
 		
 		//template
-		this.addSlotToContainer(new Slot(crucible, 0, 107, 81));
+		this.addSlotToContainer(new SlotNonRetarded(crucible, 0, 107, 81));
 		
 		//input
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new Slot(crucible, j + i * 3 + 1, 107 + j * 18, 18 + i * 18));
+				this.addSlotToContainer(new SlotNonRetarded(crucible, j + i * 3 + 1, 107 + j * 18, 18 + i * 18));
 			}
 		}
 		

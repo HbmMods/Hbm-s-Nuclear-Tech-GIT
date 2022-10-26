@@ -164,10 +164,8 @@ public class Library {
 			return true;
 		if((tileentity != null && (tileentity instanceof IFluidAcceptor || 
 				tileentity instanceof IFluidSource)) || 
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_fluidtank ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_pumpjack ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_conductor ||
@@ -300,12 +298,12 @@ public class Library {
         return player.worldObj.func_147447_a(vec3, vec32, false, false, true);
 	}
 	
-	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation, boolean liquids, boolean entity, boolean allowZeroLength) {
+	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation, boolean allowLiquids, boolean disallowNonCollidingBlocks, boolean mopOnMiss) {
         Vec3 vec3 = getPosition(interpolation, player);
         vec3.yCoord += player.eyeHeight;
         Vec3 vec31 = player.getLook(interpolation);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
-        return player.worldObj.func_147447_a(vec3, vec32, liquids, entity, allowZeroLength);
+        return player.worldObj.func_147447_a(vec3, vec32, allowLiquids, disallowNonCollidingBlocks, mopOnMiss);
 	}
 	
     public static Vec3 getPosition(float interpolation, EntityPlayer player) {
@@ -411,11 +409,6 @@ public class Library {
 		}
 		//Refinery
 		if(block == ModBlocks.dummy_port_refinery)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//Gas Flare
-		if(block == ModBlocks.dummy_port_flare)
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}

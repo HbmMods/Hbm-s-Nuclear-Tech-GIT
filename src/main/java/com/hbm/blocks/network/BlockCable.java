@@ -1,7 +1,6 @@
 package com.hbm.blocks.network;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.test.TestConductor;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.network.TileEntityCableBaseNT;
 
@@ -23,7 +22,8 @@ public class BlockCable extends BlockContainer {
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityCableBaseNT();
 	}
-	
+
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 	public static int renderIDClassic = RenderingRegistry.getNextAvailableRenderId();
 
 	@Override
@@ -32,7 +32,7 @@ public class BlockCable extends BlockContainer {
 		if(this == ModBlocks.red_cable_classic)
 			return renderIDClassic;
 		
-		return TestConductor.renderID;
+		return renderID;
 	}
 	
 	@Override

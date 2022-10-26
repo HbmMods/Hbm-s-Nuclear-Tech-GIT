@@ -33,7 +33,7 @@ public class ContainerRBMKStorage extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
+	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
 		ItemStack var3 = null;
 		Slot var4 = (Slot) this.inventorySlots.get(par2);
 
@@ -41,7 +41,7 @@ public class ContainerRBMKStorage extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 == 0) {
+			if(par2 < 12) {
 				if(!this.mergeItemStack(var5, rbmk.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}

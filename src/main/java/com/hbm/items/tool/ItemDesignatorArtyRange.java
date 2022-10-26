@@ -2,10 +2,9 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.turret.TurretArty;
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
-import com.hbm.tileentity.turret.TileEntityTurretArty;
+import com.hbm.tileentity.turret.TileEntityTurretBaseArtillery;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,15 +37,15 @@ public class ItemDesignatorArtyRange extends Item {
 		
 		Block b = world.getBlock(x, y, z);
 		
-		if(b == ModBlocks.turret_arty) {
-			int pos[] = ((TurretArty) b).findCore(world, x, y, z);
+		if(b instanceof BlockDummyable) {
+			int pos[] = ((BlockDummyable) b).findCore(world, x, y, z);
 			
 			if(pos == null)
 				return false;
 			
 			TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
 			
-			if(te instanceof TileEntityTurretArty) {
+			if(te instanceof TileEntityTurretBaseArtillery) {
 				
 				if(world.isRemote)
 					return true;
@@ -79,12 +78,10 @@ public class ItemDesignatorArtyRange extends Item {
 		if(!world.isRemote) {
 			TileEntity te = world.getTileEntity(stack.stackTagCompound.getInteger("x"), stack.stackTagCompound.getInteger("y"), stack.stackTagCompound.getInteger("z"));
 			
-			if(te instanceof TileEntityTurretArty) {
-				TileEntityTurretArty arty = (TileEntityTurretArty) te;
-				if(arty.mode == arty.MODE_MANUAL) {
-					arty.enqueueTarget(x + 0.5, y + 0.5, z + 0.5);
-					world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
-				}
+			if(te instanceof TileEntityTurretBaseArtillery) {
+				TileEntityTurretBaseArtillery arty = (TileEntityTurretBaseArtillery) te;
+				arty.enqueueTarget(x + 0.5, y + 0.5, z + 0.5);
+				world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
 			}
 		}
 		

@@ -46,7 +46,7 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 			this.trySubscribe(water.getTankType(), worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
 			this.trySubscribe(water.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			
-			int process = heat / 20;
+			int process = heat / 50;
 			process = Math.min(process, water.getFill());
 			process = Math.min(process, (steam.getMaxFill() - steam.getFill()) / 100);
 			
