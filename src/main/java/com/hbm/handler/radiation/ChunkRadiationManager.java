@@ -56,6 +56,8 @@ public class ChunkRadiationManager {
 			if(RadiationConfig.worldRadEffects) {
 				proxy.handleWorldDestruction();
 			}
+			
+			proxy.receiveWorldTick(event);
 		}
 	}
 }
