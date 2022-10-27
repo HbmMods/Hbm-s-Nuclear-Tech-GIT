@@ -10,7 +10,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
@@ -48,6 +50,18 @@ public class CrucibleRecipes extends SerializableRecipe {
 		recipes.add(new CrucibleRecipe(0, "crucible.steel", 1, new ItemStack(ModItems.ingot_steel))
 				.inputs(new MaterialStack(Mats.MAT_IRON, n), new MaterialStack(Mats.MAT_COAL, n))
 				.outputs(new MaterialStack(Mats.MAT_STEEL, n)));
+		
+		recipes.add(new CrucibleRecipe(6, "crucible.steel_flux", 9, new ItemStack(ModItems.ingot_steel))
+				.inputs(new MaterialStack(Mats.MAT_IRON, i), new MaterialStack(Mats.MAT_COAL, n * 4), new MaterialStack(Mats.MAT_FLUX, n))
+				.outputs(new MaterialStack(Mats.MAT_STEEL, i)));
+		
+		recipes.add(new CrucibleRecipe(7, "crucible.hematite", 9, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.HEMATITE))
+				.inputs(new MaterialStack(Mats.MAT_HEMATITE, i), new MaterialStack(Mats.MAT_FLUX, n))
+				.outputs(new MaterialStack(Mats.MAT_IRON, i)));
+		
+		recipes.add(new CrucibleRecipe(8, "crucible.malachite", 9, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.MALACHITE))
+				.inputs(new MaterialStack(Mats.MAT_MALACHITE, i), new MaterialStack(Mats.MAT_FLUX, n))
+				.outputs(new MaterialStack(Mats.MAT_COPPER, i)));
 		
 		recipes.add(new CrucibleRecipe(1, "crucible.redcopper", 2, new ItemStack(ModItems.ingot_red_copper))
 				.inputs(new MaterialStack(Mats.MAT_COPPER, n), new MaterialStack(Mats.MAT_REDSTONE, n))

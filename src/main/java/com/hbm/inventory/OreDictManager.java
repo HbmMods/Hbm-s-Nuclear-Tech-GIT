@@ -53,6 +53,7 @@ public class OreDictManager {
 	public static final String KEY_SLAB = "slabWood";
 	public static final String KEY_LEAVES = "treeLeaves";
 	public static final String KEY_SAPLING = "treeSapling";
+	public static final String KEY_SAND = "sand";
 	
 	public static final String KEY_BLACK = "dyeBlack";
 	public static final String KEY_RED = "dyeRed";

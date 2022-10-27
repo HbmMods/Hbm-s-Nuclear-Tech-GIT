@@ -57,6 +57,8 @@ public class Mats {
 	public static final NTMMaterial MAT_GOLD		= makeSmeltable(7900,		GOLD,		0xE8D754).omitAutoGen();
 	public static final NTMMaterial MAT_REDSTONE	= makeSmeltable(_VS + 01,	REDSTONE,	0xFF1000).omitAutoGen();
 	public static final NTMMaterial MAT_OBSIDIAN	= makeSmeltable(_VS + 02,	df("Obsidian"), 0x3D234D).omitAutoGen();
+	public static final NTMMaterial MAT_HEMATITE	= makeAdditive(	2601, 		HEMATITE,	0x6E463D);
+	public static final NTMMaterial MAT_MALACHITE	= makeAdditive(	2901, 		MALACHITE,	0x61AF87);
 
 	//Radioactive
 	public static final NTMMaterial MAT_URANIUM		= makeSmeltable(9200,		U,			0x9AA196).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
@@ -112,6 +114,8 @@ public class Mats {
 	public static final NTMMaterial MAT_FERRO		= makeSmeltable(_AS + 7,	FERRO,		0x6B6B8B).setShapes(INGOT);
 	public static final NTMMaterial MAT_MAGTUNG		= makeSmeltable(_AS + 8,	MAGTUNG,	0x22A2A2).setShapes(INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_CMB			= makeSmeltable(_AS + 9,	CMB,		0x6F6FB4).setShapes(INGOT, DUST, PLATE, BLOCK);
+	public static final NTMMaterial MAT_FLUX		= makeAdditive(_AS + 10,	df("Flux"),	0xDECCAD).setShapes(DUST);
+	public static final NTMMaterial MAT_SLAG		= makeAdditive(_AS + 11,	df("Slag"),	0x6C6562).setShapes(BLOCK);
 
 	public static NTMMaterial make(int id, DictFrame dict) {
 		return new NTMMaterial(id, dict);

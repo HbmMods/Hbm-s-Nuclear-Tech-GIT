@@ -45,6 +45,7 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase {
 		
 		if(filter != null && filter != stack.material) return false;
 		if(isClosed()) return false;
+		if(side != ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite()) return false;
 		
 		Vec3 start = Vec3.createVectorHelper(x + 0.5, y - 0.125, z + 0.5);
 		Vec3 end = Vec3.createVectorHelper(x + 0.5, y + 0.125 - 4, z + 0.5);
