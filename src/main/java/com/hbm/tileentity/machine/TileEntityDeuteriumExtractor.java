@@ -3,33 +3,32 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IEnergyUser {
-
-	public int age = 0;
+public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IEnergyUser, IFluidStandardTransceiver {
+	
 	public long power = 0;
-	public static final long maxPower = 100000;
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list = new ArrayList();
 
 	public TileEntityDeuteriumExtractor() {
 		super(0);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WATER, 1000, 0);
-		tanks[1] = new FluidTank(FluidType.HEAVYWATER, 100, 0);
+		tanks[0] = new FluidTank(Fluids.WATER, 1000, 0);
+		tanks[1] = new FluidTank(Fluids.HEAVYWATER, 100, 1);
 	}
 
 	@Override
@@ -43,31 +42,28 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 		if(!worldObj.isRemote) {
 			
 			this.updateConnections();
-
-			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-
-			age++;
-			if(age >= 10) {
-				age = 0;
-				if(hasPower() && hasEnoughWater()) {
-					int convert = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
-					tanks[0].setFill(tanks[0].getFill() - convert);
-					tanks[1].setFill(tanks[1].getFill() + Math.round(convert / 50));
-					power -= maxPower / 10;
+			
+			if(worldObj.getTotalWorldTime() % 10 == 0) {
+				if(hasPower() && hasEnoughWater() && tanks[1].getMaxFill() > tanks[1].getFill()) {
+					int convert = Math.min(tanks[1].getMaxFill(), tanks[0].getFill()) / 50;
+					convert = Math.min(convert, tanks[1].getMaxFill() - tanks[1].getFill());
+					
+					tanks[0].setFill(tanks[0].getFill() - convert * 50); //dividing first, then multiplying, will remove any rounding issues
+					tanks[1].setFill(tanks[1].getFill() + convert);
+					power -= this.getMaxPower() / 20;
 				}
-				NBTTagCompound data = new NBTTagCompound();
-				data.setLong("power", power);
-				this.networkPack(data, 25);
 			}
-
-
-
-			if(power < 0)
-				power = 0;
-
+			
+			this.subscribeToAllAround(tanks[0].getTankType(), this);
+			this.sendFluidToAll(tanks[1].getTankType(), this);
 			fillFluidInit(tanks[1].getTankType());
 
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			tanks[0].writeToNBT(data, "water");
+			tanks[1].writeToNBT(data, "heavyWater");
+			
+			this.networkPack(data, 50);
 		}
 	}
 	
@@ -79,14 +75,12 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 
 	public void networkUnpack(NBTTagCompound data) {
 		this.power = data.getLong("power");
-	}
-
-	public long getPowerRemainingScaled(long i) {
-		return (power * i) / maxPower;
+		tanks[0].readFromNBT(data, "water");
+		tanks[1].readFromNBT(data, "heavyWater");
 	}
 
 	public boolean hasPower() {
-		return power > 0;
+		return power >= this.getMaxPower() / 20;
 	}
 
 	public boolean hasEnoughWater() {
@@ -121,30 +115,25 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
-
+	
 	@Override
 	public boolean getTact() {
-		if(age == 0)
-		{
-			return true;
-		}
-
-		return false;
+		return worldObj.getTotalWorldTime() % 20 < 10;
 	}
-
+	
 	@Override
 	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		if(type == tanks[0].getTankType())
 			tanks[0].setFill(i);
-		else if(type.name().equals(tanks[1].getTankType().name()))
+		else if(type == tanks[1].getTankType())
 			tanks[1].setFill(i);
 	}
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		if(type == tanks[0].getTankType())
 			return tanks[0].getFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
+		else if(type == tanks[1].getTankType())
 			return tanks[1].getFill();
 
 		return 0;
@@ -152,32 +141,17 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		if(type == tanks[0].getTankType())
 			return tanks[0].getMaxFill();
 
 		return 0;
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
-		if(index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
+	public void setFillForSync(int fill, int index) { }
 
 	@Override
-	public void setType(FluidType type, int index) {
-		if(index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-
-		return list;
-	}
+	public void setTypeForSync(FluidType type, int index) { }
 
 	@Override
 	public List<IFluidAcceptor> getFluidList(FluidType type) {
@@ -201,7 +175,21 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 
 	@Override
 	public long getMaxPower() {
-		return maxPower;
+		return 100000;
 	}
 
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tanks[1] };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[0] };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
 }

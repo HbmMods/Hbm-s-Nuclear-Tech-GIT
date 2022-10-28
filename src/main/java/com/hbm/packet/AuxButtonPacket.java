@@ -2,25 +2,25 @@ package com.hbm.packet;
 
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityDuck;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
-import com.hbm.tileentity.machine.TileEntityBarrel;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
 import com.hbm.tileentity.machine.TileEntityCoreStabilizer;
 import com.hbm.tileentity.machine.TileEntityForceField;
-import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityMachineMiningLaser;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
-import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
-import com.hbm.tileentity.machine.TileEntityReactorControl;
 import com.hbm.tileentity.machine.TileEntityReactorZirnox;
 import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
+import com.hbm.tileentity.machine.storage.TileEntityBarrel;
+import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 
+import api.hbm.energy.IEnergyConnector.ConnectionPriority;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -81,30 +81,6 @@ public class AuxButtonPacket implements IMessage {
 			//try {
 				TileEntity te = p.worldObj.getTileEntity(m.x, m.y, m.z);
 				
-				if (te instanceof TileEntityMachineReactorSmall) {
-					TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)te;
-					
-					if(m.id == 0)
-						reactor.retracting = m.value == 1;
-					
-					if(m.id == 1) {
-						FluidType type = FluidType.STEAM;
-						int fill = reactor.tanks[2].getFill();
-						
-						switch(m.value) {
-						case 0: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-						case 1: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-						case 2: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
-						}
-						
-						if(fill > reactor.tanks[2].getMaxFill())
-							fill = reactor.tanks[2].getMaxFill();
-						
-						reactor.tanks[2].setTankType(type);
-						reactor.tanks[2].setFill(fill);
-					}
-				}
-				
 				if (te instanceof TileEntityRadioRec) {
 					TileEntityRadioRec radio = (TileEntityRadioRec)te;
 					
@@ -123,66 +99,6 @@ public class AuxButtonPacket implements IMessage {
 					field.isOn = !field.isOn;
 				}
 				
-				if (te instanceof TileEntityReactorControl) {
-					TileEntityReactorControl control = (TileEntityReactorControl)te;
-					
-					if(m.id == 1)
-						control.auto = m.value == 1;
-					
-					if(control.linkY > -1) {
-						TileEntity reac = p.worldObj.getTileEntity(control.linkX, control.linkY, control.linkZ);
-						
-						if (reac instanceof TileEntityMachineReactorSmall) {
-							TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)reac;
-							
-							if(m.id == 0)
-								reactor.retracting = m.value == 0;
-							
-							if(m.id == 2) {
-								FluidType type = FluidType.STEAM;
-								int fill = reactor.tanks[2].getFill();
-								
-								switch(m.value) {
-								case 0: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
-								case 1: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-								case 2: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-								}
-								
-								if(fill > reactor.tanks[2].getMaxFill())
-									fill = reactor.tanks[2].getMaxFill();
-								
-								reactor.tanks[2].setTankType(type);
-								reactor.tanks[2].setFill(fill);
-							}
-						}
-						
-						if (reac instanceof TileEntityMachineReactorLarge) {
-							TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)reac;
-							
-							if(m.id == 0) {
-								reactor.rods = m.value;
-							}
-							
-							if(m.id == 2) {
-								FluidType type = FluidType.STEAM;
-								int fill = reactor.tanks[2].getFill();
-								
-								switch(m.value) {
-								case 0: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
-								case 1: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-								case 2: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-								}
-								
-								if(fill > reactor.tanks[2].getMaxFill())
-									fill = reactor.tanks[2].getMaxFill();
-								
-								reactor.tanks[2].setTankType(type);
-								reactor.tanks[2].setFill(fill);
-							}
-						}
-					}
-				}
-				
 				if (te instanceof TileEntityMachineReactorLarge) {
 					TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)te;
 					
@@ -190,13 +106,13 @@ public class AuxButtonPacket implements IMessage {
 						reactor.rods = m.value;
 					
 					if(m.id == 1) {
-						FluidType type = FluidType.STEAM;
+						FluidType type = Fluids.STEAM;
 						int fill = reactor.tanks[2].getFill();
 						
 						switch(m.value) {
-						case 0: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-						case 1: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-						case 2: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
+						case 0: type = Fluids.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+						case 1: type = Fluids.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+						case 2: type = Fluids.STEAM; fill = (int)Math.floor(fill * 100); break;
 						}
 						
 						if(fill > reactor.tanks[2].getMaxFill())
@@ -257,6 +173,15 @@ public class AuxButtonPacket implements IMessage {
 						bat.redHigh = (short) ((bat.redHigh + 1) % 4);
 						bat.markDirty();
 					}
+
+					if(m.id == 2) {
+						switch(bat.priority) {
+						case LOW: bat.priority = ConnectionPriority.NORMAL; break;
+						case NORMAL: bat.priority = ConnectionPriority.HIGH; break;
+						case HIGH: bat.priority = ConnectionPriority.LOW; break;
+						}
+						bat.markDirty();
+					}
 				}
 				
 				if (te instanceof TileEntitySoyuzLauncher) {
@@ -283,23 +208,6 @@ public class AuxButtonPacket implements IMessage {
 				if(te instanceof TileEntityTickingBase) {
 					TileEntityTickingBase base = (TileEntityTickingBase)te;
 					base.handleButtonPacket(m.value, m.id);
-				}
-				
-				if(te instanceof TileEntityReactorZirnox) {
-					TileEntityReactorZirnox zirnox = (TileEntityReactorZirnox)te;
-
-					if(m.id == 0) {
-						zirnox.isOn = !zirnox.isOn;
-					}
-
-					if(m.id == 1) {
-						int fill = zirnox.carbonDioxide.getFill();
-						zirnox.carbonDioxide.setFill(fill - 1000);
-						if(zirnox.carbonDioxide.getFill() < 0) {
-							zirnox.carbonDioxide.setFill(0);
-						}
-					}
-
 				}
 				
 				//why make new packets when you can just abuse and uglify the existing ones?

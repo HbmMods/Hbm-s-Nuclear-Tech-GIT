@@ -2,20 +2,19 @@ package com.hbm.crafting;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.OreDictManager;
+import com.hbm.inventory.fluid.Fluids;
+
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumLegendaryType;
 import com.hbm.main.CraftingManager;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 /**
  * For player armor
@@ -79,7 +78,7 @@ public class ArmorRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ajro_boots, 1), new Object[] { ModItems.ajr_boots, KEY_RED, KEY_BLACK });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bj_helmet, 1), new Object[] { "SBS", " C ", " I ", 'S', Items.string, 'B', new ItemStack(Blocks.wool, 1, 15), 'C', ModItems.circuit_targeting_tier4, 'I', STAR.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bj_plate, 1), new Object[] { "N N", "MSM", "NCN", 'N', ModItems.plate_armor_lunar, 'M', ModItems.motor_desh, 'S', ModItems.starmetal_plate, 'C', ModItems.circuit_targeting_tier5 });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bj_plate_jetpack, 1), new Object[] { "NFN", "TPT", "ICI", 'N', ModItems.plate_armor_lunar, 'F', ModItems.fins_quad_titanium, 'T', new ItemStack(ModItems.fluid_tank_full, 1, FluidType.XENON.ordinal()), 'P', ModItems.bj_plate, 'I', ModItems.mp_thruster_10_xenon, 'C', ModItems.crystal_phosphorus });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bj_plate_jetpack, 1), new Object[] { "NFN", "TPT", "ICI", 'N', ModItems.plate_armor_lunar, 'F', ModItems.fins_quad_titanium, 'T', new ItemStack(ModItems.fluid_tank_full, 1, Fluids.XENON.getID()), 'P', ModItems.bj_plate, 'I', ModItems.mp_thruster_10_xenon, 'C', ModItems.crystal_phosphorus });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bj_legs, 1), new Object[] { "MBM", "NSN", "N N", 'N', ModItems.plate_armor_lunar, 'M', ModItems.motor_desh, 'S', ModItems.starmetal_legs, 'B', ModBlocks.block_starmetal });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bj_boots, 1), new Object[] { "N N", "BSB", 'N', ModItems.plate_armor_lunar, 'S', ModItems.starmetal_boots, 'B', ModBlocks.block_starmetal });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.hev_helmet, 1), new Object[] { "PPC", "PBP", "IFI", 'P', ModItems.plate_armor_hev, 'C', ModItems.circuit_targeting_tier4, 'B', ModItems.titanium_helmet, 'I', ModItems.plate_polymer, 'F', ModItems.gas_mask_filter });
@@ -94,7 +93,25 @@ public class ArmorRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.dns_plate, 1), new Object[] { "PCP", "PBP", "PSP", 'P', ModItems.plate_armor_dnt, 'S', ModItems.ingot_chainsteel, 'B', ModItems.bj_plate_jetpack, 'C', ModItems.singularity_spark });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.dns_legs, 1), new Object[] { "PCP", "PBP", "PSP", 'P', ModItems.plate_armor_dnt, 'S', ModItems.ingot_chainsteel, 'B', ModItems.bj_legs, 'C', ModItems.coin_worm });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.dns_boots, 1), new Object[] { "PCP", "PBP", "PSP", 'P', ModItems.plate_armor_dnt, 'S', ModItems.ingot_chainsteel, 'B', ModItems.bj_boots, 'C', ModItems.demon_core_closed });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rpa_helmet, 1), new Object[] { "KPK", "PLP", " F ", 'L', DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER2), 'K', ModItems.plate_kevlar, 'P', ModItems.plate_armor_ajr, 'F', ModItems.gas_mask_filter_combo });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rpa_plate, 1), new Object[] { "P P", "MLM", "PKP", 'L', DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER2), 'K', ModItems.plate_kevlar, 'P', ModItems.plate_armor_ajr, 'M', ModItems.motor_desh });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rpa_legs, 1), new Object[] { "MPM", "KLK", "P P", 'L', DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER2), 'K', ModItems.plate_kevlar, 'P', ModItems.plate_armor_ajr, 'M', ModItems.motor_desh });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rpa_boots, 1), new Object[] { "KLK", "P P", 'L', DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER2), 'K', ModItems.plate_kevlar, 'P', ModItems.plate_armor_ajr });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.steamsuit_helmet, 1), new Object[] { "DCD", "CXC", " F ", 'D', DESH.ingot(), 'C', CU.plate(), 'X', ModItems.steel_helmet, 'F', ModItems.gas_mask_filter });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.steamsuit_plate, 1), new Object[] { "C C", "DXD", "CFC", 'D', DESH.ingot(), 'C', CU.plate(), 'X', ModItems.steel_plate, 'F', ModItems.tank_steel });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.steamsuit_legs, 1), new Object[] { "CCC", "DXD", "C C", 'D', DESH.ingot(), 'C', CU.plate(), 'X', ModItems.steel_legs });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.steamsuit_boots, 1), new Object[] { "C C", "DXD", 'D', DESH.ingot(), 'C', CU.plate(), 'X', ModItems.steel_boots });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.dieselsuit_helmet, 1), new Object[] { "W W", "W W", "SCS", 'W', new ItemStack(Blocks.wool, 1, 14), 'S', STEEL.ingot(), 'C', ModItems.circuit_targeting_tier3 });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.dieselsuit_plate, 1), new Object[] { "W W", "CDC", "SWS", 'W', new ItemStack(Blocks.wool, 1, 14), 'S', STEEL.ingot(), 'C', ModItems.circuit_targeting_tier3, 'D', ModBlocks.machine_diesel });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.dieselsuit_legs, 1), new Object[] { "M M", "S S", "W W", 'W', new ItemStack(Blocks.wool, 1, 14), 'S', STEEL.ingot(), 'M', ModItems.motor });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.dieselsuit_boots, 1), new Object[] { "W W", "S S", 'W', new ItemStack(Blocks.wool, 1, 14), 'S', STEEL.ingot() });
 
+		//Bismuth fursui- I mean armor
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bismuth_helmet, 1), new Object[] { "GPP", "P  ", "FPP", 'G', Items.gold_ingot, 'P', ModItems.plate_bismuth, 'F', ModItems.rag });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bismuth_plate, 1), new Object[] { "RWR", "PCP", "SFS", 'R', ModItems.crystal_rare, 'W', ModItems.wire_gold, 'P', ModItems.plate_bismuth, 'C', ModItems.laser_crystal_bismuth, 'S', ModItems.ring_starmetal, 'F', ModItems.rag });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bismuth_legs, 1), new Object[] { "FSF", "   ", "FSF", 'F', ModItems.rag, 'S', ModItems.ring_starmetal });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bismuth_boots, 1), new Object[] { "W W", "P P", 'W', ModItems.wire_gold, 'P', ModItems.plate_bismuth });
+		
 		//Euphemium armor
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.euphemium_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.plate_euphemium });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.euphemium_plate, 1), new Object[] { "EWE", "EEE", "EEE", 'E', ModItems.plate_euphemium, 'W', ModItems.watch });
@@ -155,7 +172,7 @@ public class ArmorRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.cape_schrabidium, 1), new Object[] { "W W", "WIW", "WDW", 'W', SA326.ingot(), 'D', KEY_BLACK, 'I', ModItems.circuit_red_copper });
 		
 		//Configged
-		if(GeneralConfig.enableBabyMode) {
+		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleArmorRecipes) {
 			addHelmet(	STAR.ingot(), ModItems.starmetal_helmet);
 			addChest(	STAR.ingot(), ModItems.starmetal_plate);
 			addLegs(	STAR.ingot(), ModItems.starmetal_legs);

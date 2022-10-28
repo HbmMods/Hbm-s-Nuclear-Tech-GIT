@@ -35,7 +35,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -210,6 +209,14 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			this.steam += rSteam;
 			
 			this.markDirty();
+		}
+	}
+	
+	@Override
+	public void markDirty() {
+		
+		if(this.worldObj != null) {
+			this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 		}
 	}
 	

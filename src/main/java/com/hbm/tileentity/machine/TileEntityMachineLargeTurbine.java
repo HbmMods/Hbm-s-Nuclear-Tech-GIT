@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.recipes.MachineRecipes;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Coolable;
+import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -32,13 +34,14 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	private boolean shouldTurn;
 	public float rotor;
 	public float lastRotor;
-
+	public float fanAcceleration = 0F;
+	
 	public TileEntityMachineLargeTurbine() {
 		super(7);
 		
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.STEAM, 512000, 0);
-		tanks[1] = new FluidTank(FluidType.SPENTSTEAM, 10240000, 1);
+		tanks[0] = new FluidTank(Fluids.STEAM, 512000, 0);
+		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 10240000, 1);
 	}
 
 	@Override
@@ -68,30 +71,26 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			
 			boolean operational = false;
 			
-			Object[] outs = MachineRecipes.getTurbineOutput(tanks[0].getTankType());
-			
-			if(outs == null) {
-				tanks[1].setTankType(FluidType.NONE);
-			} else {
-				tanks[1].setTankType((FluidType) outs[0]);
-				
-				int processMax = (int) Math.ceil(Math.ceil(tanks[0].getFill() / 10F) / (Integer)outs[2]);		//the maximum amount of cycles based on the 10% cap
-				int processSteam = tanks[0].getFill() / (Integer)outs[2];										//the maximum amount of cycles depending on steam
-				int processWater = (tanks[1].getMaxFill() - tanks[1].getFill()) / (Integer)outs[1];				//the maximum amount of cycles depending on water
-				
-				int cycles = Math.min(processMax, Math.min(processSteam, processWater));
-				
-				tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2] * cycles);
-				tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1] * cycles);
-				
-				power += (Integer)outs[3] * cycles;
-				
-				if(power > maxPower)
-					power = maxPower;
-				
-				if(cycles > 0)
-					operational = true;
+			FluidType in = tanks[0].getTankType();
+			boolean valid = false;
+			if(in.hasTrait(FT_Coolable.class)) {
+				FT_Coolable trait = in.getTrait(FT_Coolable.class);
+				double eff = trait.getEfficiency(CoolingType.TURBINE); //100% efficiency
+				if(eff > 0) {
+					tanks[1].setTankType(trait.coolsTo);
+					int inputOps = tanks[0].getFill() / trait.amountReq;
+					int outputOps = (tanks[1].getMaxFill() - tanks[1].getFill()) / trait.amountProduced;
+					int cap = 6_000 / trait.amountReq;
+					int ops = Math.min(inputOps, Math.min(outputOps, cap));
+					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
+					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
+					this.power += (ops * trait.heatEnergy * eff);
+					valid = true;
+					operational = ops > 0;
+				}
 			}
+			if(!valid) tanks[1].setTankType(Fluids.NONE);
+			if(power > maxPower) power = maxPower;
 			
 			tanks[1].unloadTank(5, 6, slots);
 			
@@ -103,17 +102,20 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			data.setBoolean("operational", operational);
 			this.networkPack(data, 50);
 		} else {
-			
 			this.lastRotor = this.rotor;
+			this.rotor += this.fanAcceleration;
+				
+			if(this.rotor >= 360) {
+				this.rotor -= 360;
+				this.lastRotor -= 360;
+			}
 			
 			if(shouldTurn) {
-				
-				this.rotor += 15F;
-				
-				if(this.rotor >= 360) {
-					this.rotor -= 360;
-					this.lastRotor -= 360;
-				}
+
+				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration += 0.1F));
+			}
+			if(!shouldTurn) {
+				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration -= 0.1F));
 			}
 		}
 	}
@@ -195,24 +197,15 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-		
-		return list;
 	}
 	
 	@Override

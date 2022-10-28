@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.missile.EntityMissileCustom;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.MissileStruct;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.items.weapon.ItemMissile;
@@ -20,6 +21,7 @@ import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.item.IDesignatorItem;
@@ -35,7 +37,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchTable extends TileEntity implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor {
+public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 
@@ -56,8 +58,8 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 	public TileEntityLaunchTable() {
 		slots = new ItemStack[8];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.NONE, 100000, 0);
-		tanks[1] = new FluidTank(FluidType.NONE, 100000, 1);
+		tanks[0] = new FluidTank(Fluids.NONE, 100000, 0);
+		tanks[1] = new FluidTank(Fluids.NONE, 100000, 1);
 		padSize = PartSize.SIZE_10;
 		height = 10;
 	}
@@ -402,19 +404,19 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 		
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:
-				tanks[0].setTankType(FluidType.KEROSENE);
-				tanks[1].setTankType(FluidType.ACID);
+				tanks[0].setTankType(Fluids.KEROSENE);
+				tanks[1].setTankType(Fluids.ACID);
 				break;
 			case HYDROGEN:
-				tanks[0].setTankType(FluidType.HYDROGEN);
-				tanks[1].setTankType(FluidType.OXYGEN);
+				tanks[0].setTankType(Fluids.HYDROGEN);
+				tanks[1].setTankType(Fluids.OXYGEN);
 				break;
 			case XENON:
-				tanks[0].setTankType(FluidType.XENON);
+				tanks[0].setTankType(Fluids.XENON);
 				break;
 			case BALEFIRE:
-				tanks[0].setTankType(FluidType.BALEFIRE);
-				tanks[1].setTankType(FluidType.ACID);
+				tanks[0].setTankType(Fluids.BALEFIRE);
+				tanks[1].setTankType(Fluids.ACID);
 				break;
 			default: break;
 		}
@@ -491,7 +493,7 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
@@ -505,18 +507,9 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-		
-		return list;
 	}
 
 	@Override

@@ -121,11 +121,12 @@ public class EntityRBMKDebris extends EntityDebrisBase {
 				}
 			}
 			
-			if(this.getType() == DebrisType.FUEL) {
-				List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(10, 10, 10));
+			if(this.getType() == DebrisType.FUEL || this.getType() == DebrisType.GRAPHITE) {
+				List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(2.5, 2.5, 2.5));
 				
+				int level = this.getType() == DebrisType.FUEL ? 9 : 4;
 				for(EntityLivingBase e : entities) {
-					e.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 60 * 20, 9));
+					e.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 60 * 20, level));
 				}
 			}
 			

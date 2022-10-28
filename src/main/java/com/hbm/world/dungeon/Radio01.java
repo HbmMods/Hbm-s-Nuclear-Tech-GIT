@@ -7,7 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
-import com.hbm.tileentity.machine.TileEntityCrateSteel;
+import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -499,7 +499,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 5, y + 0, z + 11, Blocks.flower_pot, 0, 3);
 		world.setBlock(x + 6, y + 0, z + 11, Blocks.chest, 3, 3);
 		world.setBlockMetadataWithNotify(x + 6, y + 0, z + 11, 5, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 6, y + 0, z + 11), 8);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.modGeneric, (TileEntityChest)world.getTileEntity(x + 6, y + 0, z + 11), 8);
 		world.setBlock(x + 7, y + 0, z + 11, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 8, y + 0, z + 11, Blocks.air, 0, 3);
 		world.setBlock(x + 9, y + 0, z + 11, Blocks.air, 0, 3);
@@ -651,7 +651,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 6, y + 0, z + 24, ModBlocks.deco_steel, 0, 3);
 		world.setBlock(x + 7, y + 0, z + 24, Blocks.chest, 2, 3);
 		world.setBlockMetadataWithNotify(x + 7, y + 0, z + 24, 5, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(2), (TileEntityChest)world.getTileEntity(x + 7, y + 0, z + 24), 8);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.antenna, (TileEntityChest)world.getTileEntity(x + 7, y + 0, z + 24), 8);
 		world.setBlock(x + 8, y + 0, z + 24, ModBlocks.deco_steel, 0, 3);
 		world.setBlock(x + 9, y + 0, z + 24, ModBlocks.deco_steel, 0, 3);
 		world.setBlock(x + 10, y + 0, z + 24, Library.getRandomConcrete(), 0, 3);
@@ -1607,7 +1607,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 6, y + 4, z + 6, Blocks.air, 0, 3);
 		world.setBlock(x + 7, y + 4, z + 6, Blocks.chest, 4, 3);
 		world.setBlockMetadataWithNotify(x + 7, y + 4, z + 6, 5, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 7, y + 4, z + 6), 8);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.modGeneric, (TileEntityChest)world.getTileEntity(x + 7, y + 4, z + 6), 8);
 		world.setBlock(x + 8, y + 4, z + 6, ModBlocks.deco_steel, 0, 3);
 		world.setBlock(x + 9, y + 4, z + 6, ModBlocks.deco_steel, 0, 3);
 		world.setBlock(x + 10, y + 4, z + 6, Library.getRandomConcrete(), 0, 3);
@@ -1697,7 +1697,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 3, y + 4, z + 14, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 4, y + 4, z + 14, Blocks.chest, 2, 3);
 		world.setBlockMetadataWithNotify(x + 4, y + 4, z + 14, 5, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 4, y + 4, z + 14), 8);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.modGeneric, (TileEntityChest)world.getTileEntity(x + 4, y + 4, z + 14), 8);
 		world.setBlock(x + 5, y + 4, z + 14, Blocks.air, 0, 3);
 		world.setBlock(x + 6, y + 4, z + 14, ModBlocks.tape_recorder, 4, 3);
 		world.setBlock(x + 7, y + 4, z + 14, Blocks.oak_stairs, 5, 3);
@@ -2817,7 +2817,7 @@ public class Radio01 extends WorldGenerator
         WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest)world.getTileEntity(x + 5, y + 8, z + 11), 16);*/
 		
 		world.setBlock(x + 5, y + 8, z + 11, ModBlocks.crate_steel, 0, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityCrateSteel)world.getTileEntity(x + 5, y + 8, z + 11), 16);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.expensive, (TileEntityCrateSteel)world.getTileEntity(x + 5, y + 8, z + 11), 16);
         
 		world.setBlock(x + 6, y + 8, z + 11, ModBlocks.deco_steel, 0, 3);
 		world.setBlock(x + 7, y + 8, z + 11, Blocks.air, 0, 3);

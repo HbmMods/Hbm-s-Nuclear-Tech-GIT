@@ -18,7 +18,7 @@ public class WeaponConfig {
 	
 	public static void loadFromConfig(Configuration config) {
 
-		final String CATEGORY_MISSILE = "07_missile_machines";
+		final String CATEGORY_MISSILE = CommonConfig.CATEGORY_MISSILE;
 		Property propRadarRange = config.get(CATEGORY_MISSILE, "7.00_radarRange", 1000);
 		propRadarRange.comment = "Range of the radar, 50 will result in 100x100 block area covered";
 		radarRange = propRadarRange.getInt();
@@ -32,9 +32,9 @@ public class WeaponConfig {
 		propCiwsHitrate.comment = "Additional modifier for CIWS accuracy";
 		ciwsHitrate = propRadarAltitude.getInt();
 
-		final String CATEGORY_DROPS = "10_dangerous_drops";
+		final String CATEGORY_DROPS = CommonConfig.CATEGORY_DROPS;
 		dropCell = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.00_dropCell", "Whether antimatter cells should explode when dropped", true);
-		dropSing = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.01_dropBHole", "Whether singularities and blaack holes should spawn when dropped", true);
+		dropSing = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.01_dropBHole", "Whether singularities and black holes should spawn when dropped", true);
 		dropStar = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.02_dropStar", "Whether rigged star blaster cells should explode when dropped", true);
 		dropCrys = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.04_dropCrys", "Whether xen crystals should move blocks when dropped", true);
 		dropDead = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.05_dropDead", "Whether dead man's explosives should explode when dropped", true);

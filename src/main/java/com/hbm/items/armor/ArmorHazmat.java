@@ -11,11 +11,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.ResourceLocation;
 
 public class ArmorHazmat extends ArmorFSB {
@@ -32,6 +29,7 @@ public class ArmorHazmat extends ArmorFSB {
 		if(this != ModItems.hazmat_helmet && this != ModItems.hazmat_paa_helmet)
 			return;
 
+		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(false);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);

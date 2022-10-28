@@ -1,7 +1,8 @@
 package com.hbm.items.machine;
 
 import java.util.List;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,27 +26,29 @@ public class ItemFluidTank extends Item {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
 		
-		for(int i = 1; i < FluidType.values().length; i++) {
-			
-			FluidType type = FluidType.values()[i];
+		FluidType[] order = Fluids.getInNiceOrder();
+		for(int i = 1; i < order.length; ++i) {
+			FluidType type = order[i];
 			
 			if(type.hasNoContainer())
 				continue;
 			
+			int id = type.getID();
+			
 			if(type.needsLeadContainer()) {
 				if(this == ModItems.fluid_tank_lead_full) {
-					list.add(new ItemStack(item, 1, i));
+					list.add(new ItemStack(item, 1, id));
 				}
 				
 			} else {
-				list.add(new ItemStack(item, 1, i));
+				list.add(new ItemStack(item, 1, id));
 			}
 		}
 	}
 
 	public String getItemStackDisplayName(ItemStack stack) {
 		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-		String s1 = ("" + StatCollector.translateToLocal(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName())).trim();
+		String s1 = ("" + StatCollector.translateToLocal(Fluids.fromID(stack.getItemDamage()).getUnlocalizedName())).trim();
 
 		if(s1 != null) {
 			s = s + " " + s1;
@@ -85,7 +88,7 @@ public class ItemFluidTank extends Item {
 		if(p_82790_2_ == 0) {
 			return 16777215;
 		} else {
-			int j = FluidType.getEnum(stack.getItemDamage()).getMSAColor();
+			int j = Fluids.fromID(stack.getItemDamage()).getColor();
 
 			if(j < 0) {
 				j = 16777215;

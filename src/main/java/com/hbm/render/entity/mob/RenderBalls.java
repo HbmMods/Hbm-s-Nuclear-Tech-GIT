@@ -35,7 +35,7 @@ public class RenderBalls extends Render {
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return ResourceManager.turbofan_blades_tex;
+		return ResourceManager.universal_bright;
 	}
 
 }

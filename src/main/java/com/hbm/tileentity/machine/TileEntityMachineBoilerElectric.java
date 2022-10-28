@@ -5,19 +5,22 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineBoiler;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -28,7 +31,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineBoilerElectric extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyUser {
+public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyUser, IFluidStandardTransceiver {
 
 	private ItemStack slots[];
 	
@@ -40,17 +43,13 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank[] tanks;
 	
-	private static final int[] slots_top = new int[] {4};
-	private static final int[] slots_bottom = new int[] {6};
-	private static final int[] slots_side = new int[] {4};
-	
 	private String customName;
 	
 	public TileEntityMachineBoilerElectric() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WATER, 16000, 0);
-		tanks[1] = new FluidTank(FluidType.STEAM, 16000, 1);
+		tanks[0] = new FluidTank(Fluids.OIL, 16000, 0);
+		tanks[1] = new FluidTank(Fluids.HOTOIL, 16000, 1);
 	}
 
 	@Override
@@ -196,14 +195,13 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-    }
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[0];
+	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
+		return false;
 	}
 
 	@Override
@@ -227,6 +225,8 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 		if(!worldObj.isRemote)
 		{
 			this.updateConnections();
+			this.subscribeToAllAround(tanks[0].getTankType(), this);
+			this.sendFluidToAll(tanks[1].getTankType(), this);
 			
 			age++;
 			if(age >= 20)
@@ -245,7 +245,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 			Object[] outs = MachineRecipes.getBoilerOutput(tanks[0].getTankType());
 			
 			if(outs == null) {
-				tanks[1].setTankType(FluidType.NONE);
+				tanks[1].setTankType(Fluids.NONE);
 			} else {
 				tanks[1].setTankType((FluidType) outs[0]);
 			}
@@ -259,7 +259,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 				heat -= 30;
 			}
 			
-			if(power > 0) {
+			if(power >= 150) {
 				power -= 150;
 				heat += Math.min(((double)power / (double)maxPower * 300), 150);
 			} else {
@@ -377,24 +377,15 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-		
-		return list;
 	}
 	
 	@Override
@@ -421,5 +412,20 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks[1]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0]};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

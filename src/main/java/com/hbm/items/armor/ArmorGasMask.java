@@ -123,7 +123,8 @@ public class ArmorGasMask extends ItemArmor implements IGasMask {
 			return;
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(tex);
-		
+
+		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(false);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
@@ -176,7 +177,7 @@ public class ArmorGasMask extends ItemArmor implements IGasMask {
 		List<HazardClass> haz = getBlacklist(stack, player);
 		
 		if(!haz.isEmpty()) {
-			list.add(EnumChatFormatting.RED + "Will never protect against:");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("hazard.neverProtects"));
 			
 			for(HazardClass clazz : haz) {
 				list.add(EnumChatFormatting.DARK_RED + " -" + I18nUtil.resolveKey(clazz.lang));

@@ -26,7 +26,7 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation nostalgia = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeNostalgia.png");
 	private static ResourceLocation nostalgia2 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeNostalgia2.png");
 	private static ResourceLocation sam = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSam.png");
-	private static ResourceLocation hoboy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHoboy.png");
+	private static ResourceLocation hoboy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHoboy_mk3.png");
 	private static ResourceLocation master = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeMaster.png");
 	private static ResourceLocation mek = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeMek.png");
 	private static ResourceLocation zippy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeZippySqrl.png");
@@ -41,6 +41,9 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation rightnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRightNugget.png");
 	private static ResourceLocation tankish = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeTankish.png");
 	private static ResourceLocation frizzlefrazzle = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeFrizzleFrazzle.png");
+	private static ResourceLocation pheo = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapePheo.png");
+	private static ResourceLocation vaer = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeVaer.png");
+	private static ResourceLocation adam = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAdam.png");
 	
 	public static ResourceLocation getCloakFromPlayer(EntityPlayer player) {
 		
@@ -111,6 +114,15 @@ public class RenderAccessoryUtility {
 		if(uuid.equals(Library.FrizzleFrazzle)) {
 			return frizzlefrazzle;
 		}
+		if(uuid.equals(Library.Barnaby99_x)) {
+			return pheo;
+		}
+		if(uuid.equals(Library.Ma118)) {
+			return vaer;
+		}
+		if(uuid.equals(Library.Adam29Adam29)) {
+			return adam;
+		}
 		if(Library.contributors.contains(uuid)) {
 			return wiki;
 		}
@@ -143,17 +155,17 @@ public class RenderAccessoryUtility {
 		solModel.render(event.entityPlayer, 0.0F, 0.0F, yawWrapped, yaw, pitch, 0.0625F);
 	}
 	
-	private static ModelBiped wingModel;
-	public static void renderWings(RenderPlayerEvent.SetArmorModel event) {
+	private static ModelBiped[] wingModels = new ModelBiped[10];
+	public static void renderWings(RenderPlayerEvent.SetArmorModel event, int mode) {
 
-		if(wingModel == null)
-			wingModel = new ModelArmorWings(2);
+		if(wingModels[mode] == null)
+			wingModels[mode] = new ModelArmorWings(mode);
 		
 		RenderPlayer renderer = event.renderer;
 		ModelBiped model = renderer.modelArmor;
 		EntityPlayer player = event.entityPlayer;
 
-		wingModel.isSneak = model.isSneak;
+		wingModels[mode].isSneak = model.isSneak;
 		
 		float interp = event.partialRenderTick;
 		float yawHead = player.prevRotationYawHead + (player.rotationYawHead - player.prevRotationYawHead) * interp;
@@ -162,6 +174,6 @@ public class RenderAccessoryUtility {
 		float yawWrapped = MathHelper.wrapAngleTo180_float(yawHead - yawOffset);
 		float pitch = player.rotationPitch;
 		
-		wingModel.render(event.entityPlayer, 0.0F, 0.0F, yawWrapped, yaw, pitch, 0.0625F);
+		wingModels[mode].render(event.entityPlayer, 0.0F, 0.0F, yawWrapped, yaw, pitch, 0.0625F);
 	}
 }

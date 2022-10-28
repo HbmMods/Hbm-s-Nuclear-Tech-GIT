@@ -2,6 +2,7 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
@@ -9,6 +10,7 @@ import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
@@ -17,7 +19,9 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 public class GunFatmanFactory {
 	
@@ -49,6 +53,7 @@ public class GunFatmanFactory {
 		config.config.add(BulletConfigSyncingUtil.NUKE_TOTS);
 		config.config.add(BulletConfigSyncingUtil.NUKE_SAFE);
 		config.config.add(BulletConfigSyncingUtil.NUKE_PUMPKIN);
+		config.config.add(BulletConfigSyncingUtil.NUKE_BARREL);
 		config.durability = 1000;
 		
 		return config;
@@ -113,6 +118,7 @@ public class GunFatmanFactory {
 		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_TOTS);
 		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_SAFE);
 		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_PUMPKIN);
+		config.config.add(BulletConfigSyncingUtil.NUKE_BARREL);
 		config.durability = 1000;
 		
 		return config;
@@ -213,7 +219,7 @@ public class GunFatmanFactory {
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
 				
-				if(bullet.worldObj.isRemote) {
+				if(!bullet.worldObj.isRemote) {
 
 					double posX = bullet.posX;
 					double posY = bullet.posY + 0.5;
@@ -224,6 +230,63 @@ public class GunFatmanFactory {
 						posY = y + 1.5;
 						posZ = z + 0.5;
 					}
+					
+					ExplosionLarge.spawnParticles(bullet.worldObj, posX, posY, posZ, 45);
+				}
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getNukeBarrelConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
+		bullet.ammo = ModItems.ammo_nuke_barrel;
+		bullet.explosive = 3F;
+		bullet.style = bullet.STYLE_BARREL;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(!bullet.worldObj.isRemote) {
+
+					double posX = bullet.posX;
+					double posY = bullet.posY + 0.5;
+					double posZ = bullet.posZ;
+					
+					if(y >= 0) {
+						posX = x + 0.5;
+						posY = y + 1.5;
+						posZ = z + 0.5;
+					}
+
+					x = (int)Math.floor(posX);
+					y = (int)Math.floor(posY);
+					z = (int)Math.floor(posZ);
+					
+					World worldObj = bullet.worldObj;
+					
+					for(int ix = x - 3; ix <= x + 3; ix++) {
+						for(int iy = y - 3; iy <= y + 3; iy++) {
+							for(int iz = z - 3; iz <= z + 3; iz++) {
+								
+								if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock(ix, iy, iz).isReplaceable(worldObj, ix, iy, iz) && ModBlocks.fallout.canPlaceBlockAt(worldObj, ix, iy, iz)) {
+									worldObj.setBlock(ix, iy, iz, ModBlocks.fallout);
+								} else if(worldObj.getBlock(ix, iy, iz) == Blocks.air) {
+									
+									if(worldObj.rand.nextBoolean())
+										worldObj.setBlock(ix, iy, iz, ModBlocks.gas_radon);
+									else
+										worldObj.setBlock(ix, iy, iz, ModBlocks.gas_radon_dense);
+								}
+							}
+						}
+					}
+					
+					ChunkRadiationManager.proxy.incrementRad(worldObj, x, y, z, 100F);
 					
 					ExplosionLarge.spawnParticles(bullet.worldObj, posX, posY, posZ, 45);
 				}
@@ -460,7 +523,6 @@ public class GunFatmanFactory {
 							.addAttrib(ExAttrib.NOPARTICLE)
 							.addAttrib(ExAttrib.NOSOUND)
 							.addAttrib(ExAttrib.NODROP)
-							.addAttrib(ExAttrib.NOHURT)
 							.overrideResolution(64);
 					exp.doExplosionA();
 					exp.doExplosionB(false);

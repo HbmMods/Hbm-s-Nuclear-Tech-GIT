@@ -1,12 +1,12 @@
 package api.hbm.energy;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -15,10 +15,10 @@ import net.minecraftforge.common.util.ForgeDirection;
  * This is mean for TILE ENTITIES
  * @author hbm
  */
-public interface IEnergyConnector {
+public interface IEnergyConnector extends ILoadedTile {
 	
 	/**
-	 * Returns the amount of power that was added
+	 * Returns the amount of power that remains in the source after transfer
 	 * @param power
 	 * @return
 	 */
@@ -45,6 +45,10 @@ public interface IEnergyConnector {
 	 */
 	public long getMaxPower();
 	
+	public default long getTransferWeight() {
+		return Math.max(getMaxPower() - getPower(), 0);
+	}
+	
 	/**
 	 * Basic implementation of subscribing to a nearby power grid
 	 * @param world
@@ -70,11 +74,17 @@ public interface IEnergyConnector {
 				red = true;
 		}
 		
-		if(particleDebug) {
+		if(particleDebug) {//
 			NBTTagCompound data = new NBTTagCompound();
-			data.setString("type", "vanillaExt");
-			data.setString("mode", red ? "reddust" : "bluedust");
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + world.rand.nextDouble(), y + world.rand.nextDouble(), z + world.rand.nextDouble()), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 25));
+			data.setString("type", "network");
+			data.setString("mode", "power");
+			double posX = x + 0.5 + dir.offsetX * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			double posY = y + 0.5 + dir.offsetY * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			double posZ = z + 0.5 + dir.offsetZ * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
+			data.setDouble("mX", -dir.offsetX * (red ? 0.025 : 0.1));
+			data.setDouble("mY", -dir.offsetY * (red ? 0.025 : 0.1));
+			data.setDouble("mZ", -dir.offsetZ * (red ? 0.025 : 0.1));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
 		}
 	}
 	
@@ -91,4 +101,20 @@ public interface IEnergyConnector {
 	}
 	
 	public static final boolean particleDebug = false;
+	
+	public default Vec3 getDebugParticlePos() {
+		TileEntity te = (TileEntity) this;
+		Vec3 vec = Vec3.createVectorHelper(te.xCoord + 0.5, te.yCoord + 1, te.zCoord + 0.5);
+		return vec;
+	}
+	
+	public default ConnectionPriority getPriority() {
+		return ConnectionPriority.NORMAL;
+	}
+	
+	public enum ConnectionPriority {
+		LOW,
+		NORMAL,
+		HIGH
+	}
 }

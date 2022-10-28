@@ -2,12 +2,12 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerBarrel;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.machine.TileEntityBarrel;
+import com.hbm.tileentity.machine.storage.TileEntityBarrel;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -62,9 +62,11 @@ public class GUIBarrel extends GuiInfoContainer {
 		int i = tank.mode;
 		drawTexturedModalRect(guiLeft + 151, guiTop + 34, 176, i * 18, 18, 18);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(tank.tank.getSheet());
+		/*Minecraft.getMinecraft().getTextureManager().bindTexture(tank.tank.getSheet());
 		tank.tank.renderTank(this, guiLeft + 71, guiTop + 69, tank.tank.getTankType().textureX() * FluidTank.x, tank.tank.getTankType().textureY() * FluidTank.y, 16, 52);
 		tank.tank.renderTank(this, guiLeft + 71 + 16, guiTop + 69, tank.tank.getTankType().textureX() * FluidTank.x, tank.tank.getTankType().textureY() * FluidTank.y, 16, 52);
-		tank.tank.renderTank(this, guiLeft + 71 + 32, guiTop + 69, tank.tank.getTankType().textureX() * FluidTank.x, tank.tank.getTankType().textureY() * FluidTank.y, 2, 52);
+		tank.tank.renderTank(this, guiLeft + 71 + 32, guiTop + 69, tank.tank.getTankType().textureX() * FluidTank.x, tank.tank.getTankType().textureY() * FluidTank.y, 2, 52);*/
+		
+		tank.tank.renderTank(guiLeft + 71, guiTop + 69, this.zLevel, 34, 52);
 	}
 }

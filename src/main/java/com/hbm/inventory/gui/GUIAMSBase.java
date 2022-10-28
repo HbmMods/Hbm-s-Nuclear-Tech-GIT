@@ -2,8 +2,8 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerAMSBase;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import net.minecraft.client.Minecraft;
@@ -89,16 +89,12 @@ public class GUIAMSBase extends GuiInfoContainer {
 		if(!base.hasResonators())
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 6);
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(base.tanks[0].getSheet());
-		base.tanks[0].renderTank(this, guiLeft + 26, guiTop + 70, base.tanks[0].getTankType().textureX() * FluidTank.x, base.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
+		base.tanks[0].renderTank(guiLeft + 26, guiTop + 70, this.zLevel, 16, 52);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(base.tanks[1].getSheet());
-		base.tanks[1].renderTank(this, guiLeft + 134, guiTop + 70, base.tanks[1].getTankType().textureX() * FluidTank.x, base.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		base.tanks[1].renderTank(guiLeft + 134, guiTop + 70, this.zLevel, 16, 52);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(base.tanks[2].getSheet());
-		base.tanks[2].renderTank(this, guiLeft + 26, guiTop + 124, base.tanks[2].getTankType().textureX() * FluidTank.x, base.tanks[2].getTankType().textureY() * FluidTank.y, 16, 52);
+		base.tanks[2].renderTank(guiLeft + 26, guiTop + 124, this.zLevel, 16, 52);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(base.tanks[3].getSheet());
-		base.tanks[3].renderTank(this, guiLeft + 134, guiTop + 124, base.tanks[3].getTankType().textureX() * FluidTank.x, base.tanks[3].getTankType().textureY() * FluidTank.y, 16, 52);
+		base.tanks[3].renderTank(guiLeft + 134, guiTop + 124, this.zLevel, 16, 52);
 	}
 }

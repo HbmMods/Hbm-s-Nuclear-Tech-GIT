@@ -100,7 +100,7 @@ public class AnvilRecipeHandler extends TemplateRecipeHandler {
 
 		@Override
 		public List<PositionedStack> getIngredients() {
-			return getCycledIngredients(cycleticks / 48, input);
+			return getCycledIngredients(cycleticks / 20, input);
 		}
 
 		@Override
@@ -113,7 +113,7 @@ public class AnvilRecipeHandler extends TemplateRecipeHandler {
 			List<PositionedStack> other = new ArrayList();
 			other.addAll(output);
 			other.add(anvil);
-			return getCycledIngredients(cycleticks / 48, other);
+			return getCycledIngredients(cycleticks / 20, other);
 		}
 	}
 

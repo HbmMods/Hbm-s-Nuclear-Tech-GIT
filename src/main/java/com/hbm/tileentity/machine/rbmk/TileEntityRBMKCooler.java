@@ -1,16 +1,15 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 
@@ -22,7 +21,7 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 	public TileEntityRBMKCooler() {
 		super();
 		
-		this.tank = new FluidTank(FluidType.CRYOGEL, 8000, 0);
+		this.tank = new FluidTank(Fluids.CRYOGEL, 8000, 0);
 	}
 	
 	@Override
@@ -99,7 +98,7 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		tank.setFill(fill);
 	}
 
@@ -110,13 +109,8 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		return new ArrayList() {{ add(tank); }};
 	}
 
 	@Override

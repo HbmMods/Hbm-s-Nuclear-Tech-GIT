@@ -6,11 +6,12 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.inventory.recipes.ShredderRecipes;
@@ -24,6 +25,7 @@ import com.hbm.util.InventoryUtil;
 import api.hbm.block.IDrillInteraction;
 import api.hbm.block.IMiningDrill;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardSender;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -40,7 +42,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IMiningDrill {
+public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IMiningDrill, IFluidStandardSender {
 	
 	public long power;
 	public int age = 0;
@@ -66,7 +68,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		//slots 1 - 8: upgrades
 		//slots 9 - 29: output
 		super(30);
-		tank = new FluidTank(FluidType.OIL, 64000, 0);
+		tank = new FluidTank(Fluids.OIL, 64000, 0);
 	}
 
 	@Override
@@ -88,6 +90,11 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 
 			if (age == 9 || age == 19)
 				fillFluidInit(tank.getTankType());
+
+			this.sendFluid(tank.getTankType(), worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
+			this.sendFluid(tank.getTankType(), worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
+			this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord + 2, zCoord, Library.POS_Z);
+			this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord - 2, zCoord, Library.NEG_Z);
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tank.updateTank(xCoord, yCoord, zCoord, this.worldObj.provider.dimensionId);
@@ -347,7 +354,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			
 			if(item.getEntityItem().getItem() == Item.getItemFromBlock(ModBlocks.ore_oil)) {
 				
-				tank.setTankType(FluidType.OIL); //just to be sure
+				tank.setTankType(Fluids.OIL); //just to be sure
 				
 				tank.setFill(tank.getFill() + 500);
 				if(tank.getFill() > tank.getMaxFill())
@@ -395,11 +402,6 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			for(int z = -range; z <= range; z++) {
 				
 				if(worldObj.getBlock(x + xCoord, targetY, z + zCoord).getMaterial().isLiquid()) {
-					/*targetX = x + xCoord;
-					targetZ = z + zCoord;
-					worldObj.func_147480_a(x + xCoord, targetY, z + zCoord, false);
-					beam = true;*/
-					
 					continue;
 				}
 				
@@ -599,29 +601,24 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		tank.setFill(fill);
 	}
 
 	@Override
 	public void setFluidFill(int fill, FluidType type) {
-		if(type == FluidType.OIL)
+		if(type == Fluids.OIL)
 			tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
 	}
 
 	@Override
-	public List<FluidTank> getTanks() {
-		return new ArrayList() {{ add(tank); }};
-	}
-
-	@Override
 	public int getFluidFill(FluidType type) {
-		if(type == FluidType.OIL)
+		if(type == Fluids.OIL)
 			return tank.getFill();
 		return 0;
 	}
@@ -683,5 +680,15 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	@Override
 	public int getDrillRating() {
 		return 100;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
 	}
 }

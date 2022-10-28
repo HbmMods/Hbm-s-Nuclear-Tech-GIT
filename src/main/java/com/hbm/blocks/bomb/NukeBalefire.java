@@ -2,8 +2,6 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.machine.BlockMachineBase;
 import com.hbm.interfaces.IBomb;
-import com.hbm.interfaces.IItemHazard;
-import com.hbm.modules.ItemHazardModule;
 import com.hbm.tileentity.bomb.TileEntityNukeBalefire;
 
 import net.minecraft.block.Block;
@@ -11,20 +9,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class NukeBalefire extends BlockMachineBase implements IBomb, IItemHazard {
-
-	ItemHazardModule module;
+public class NukeBalefire extends BlockMachineBase implements IBomb {
 
 	public NukeBalefire(Material mat, int guiID) {
 		super(mat, guiID);
 		rotatable = true;
-		this.module = new ItemHazardModule(); 
 	}
-	
-	@Override
-	public ItemHazardModule getModule() {
-		return module;
-	}
+
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
@@ -55,14 +46,20 @@ public class NukeBalefire extends BlockMachineBase implements IBomb, IItemHazard
 	}
 
 	@Override
-	public void explode(World world, int x, int y, int z) {
+	public BombReturnCode explode(World world, int x, int y, int z) {
 		
 		if(!world.isRemote) {
 			TileEntityNukeBalefire bomb = (TileEntityNukeBalefire) world.getTileEntity(x, y, z);
 				
-			if(bomb.isLoaded())
+			if(bomb.isLoaded()) {
 				bomb.explode();
+				return BombReturnCode.DETONATED;
+			}
+			
+			return BombReturnCode.ERROR_MISSING_COMPONENT;
 		}
+		
+		return BombReturnCode.UNDEFINED;
 	}
 
 }

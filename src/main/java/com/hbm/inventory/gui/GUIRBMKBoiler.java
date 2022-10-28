@@ -2,7 +2,9 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerRBMKBoiler;
+import com.hbm.inventory.container.ContainerRBMKGeneric;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -20,9 +22,9 @@ public class GUIRBMKBoiler extends GuiInfoContainer {
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/reactors/gui_rbmk_boiler.png");
 	private TileEntityRBMKBoiler boiler;
 
-	public GUIRBMKBoiler(InventoryPlayer invPlayer, TileEntityRBMKBoiler tedf) {
-		super(new ContainerRBMKBoiler(invPlayer, tedf));
-		boiler = tedf;
+	public GUIRBMKBoiler(InventoryPlayer invPlayer, TileEntityRBMKBoiler tile) {
+		super(new ContainerRBMKGeneric(invPlayer));
+		boiler = tile;
 		
 		this.xSize = 176;
 		this.ySize = 186;
@@ -57,7 +59,6 @@ public class GUIRBMKBoiler extends GuiInfoContainer {
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 
-	@SuppressWarnings("incomplete-switch") //shut up
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -74,11 +75,10 @@ public class GUIRBMKBoiler extends GuiInfoContainer {
 		
 		drawTexturedModalRect(guiLeft + 91, guiTop + 65 - j, 190, 24 - j, 4, j);
 		
-		switch(boiler.steam.getTankType()) {
-		case STEAM: drawTexturedModalRect(guiLeft + 36, guiTop + 24, 194, 0, 14, 58); break;
-		case HOTSTEAM: drawTexturedModalRect(guiLeft + 36, guiTop + 24, 208, 0, 14, 58); break;
-		case SUPERHOTSTEAM: drawTexturedModalRect(guiLeft + 36, guiTop + 24, 222, 0, 14, 58); break;
-		case ULTRAHOTSTEAM: drawTexturedModalRect(guiLeft + 36, guiTop + 24, 236, 0, 14, 58); break;
-		}
+		FluidType type = boiler.steam.getTankType();
+		if(type == Fluids.STEAM) drawTexturedModalRect(guiLeft + 36, guiTop + 24, 194, 0, 14, 58);
+		if(type == Fluids.HOTSTEAM) drawTexturedModalRect(guiLeft + 36, guiTop + 24, 208, 0, 14, 58);
+		if(type == Fluids.SUPERHOTSTEAM) drawTexturedModalRect(guiLeft + 36, guiTop + 24, 222, 0, 14, 58);
+		if(type == Fluids.ULTRAHOTSTEAM) drawTexturedModalRect(guiLeft + 36, guiTop + 24, 236, 0, 14, 58);
 	}
 }

@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemWasteShort extends ItemHazard {
+public class ItemWasteShort extends Item {
 
 	public ItemWasteShort() {
 		super();
@@ -50,7 +50,8 @@ public class ItemWasteShort extends ItemHazard {
 		PLUTONIUM239("Plutonium-239", 250, 1000),	//funny fission fragments + pu240 and 241 / u238 (actually u236 but fuck you)
 		PLUTONIUM240("Plutonium-240", 350, 1000),	//funny fission fragments + pu241 / u238  + lead
 		PLUTONIUM241("Plutonium-241", 500, 1000),	//funny fission fragments + am241 / 242 / np237 + bismuth
-		AMERICIUM242("Americium-242", 750, 1000);	//funny fission fragments + californium / np237 + pu241
+		AMERICIUM242("Americium-242", 750, 1000),	//funny fission fragments + californium / np237 + pu241
+		SCHRABIDIUM("Schrabidium-326", 1000, 1000); //funniest fission fragments
 		
 		public String name;
 		public int liquid;

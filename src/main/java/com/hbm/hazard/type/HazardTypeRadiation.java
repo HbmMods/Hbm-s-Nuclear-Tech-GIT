@@ -25,16 +25,22 @@ public class HazardTypeRadiation extends HazardTypeBase {
 		
 		boolean reacher = false;
 		
-		if(target instanceof EntityPlayer && !GeneralConfig.enable528)
-			reacher = ((EntityPlayer) target).inventory.hasItem(ModItems.reacher);
+		if(target instanceof EntityPlayer) {
+			ItemStack item = ((EntityPlayer) target).inventory.getCurrentItem();
+			if(item != null)
+				reacher = item.getItem() == ModItems.reacher;
+		}
 		
 		level *= stack.stackSize;
 		
 		if(level > 0) {
 			float rad = level / 20F;
 			
-			if(reacher)
+			if(GeneralConfig.enable528 && reacher) {
+				rad = (float) (rad / Math.pow(7, 2));	//More realistic function for 528: x / distance^2
+			} else if(reacher) {
 				rad = (float) Math.sqrt(rad + 1F / ((rad + 2F) * (rad + 2F))) - 1F / (rad + 2F); //Reworked radiation function: sqrt(x+1/(x+2)^2)-1/(x+2)
+			}											
 			
 			ContaminationUtil.contaminate(target, HazardType.RADIATION, ContaminationType.CREATIVE, rad);
 		}
@@ -48,6 +54,9 @@ public class HazardTypeRadiation extends HazardTypeBase {
 	public void addHazardInformation(EntityPlayer player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
 		
 		level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
+		
+		if(level < 1e-5)
+			return;
 		
 		list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey("trait.radioactive") + "]");
 		String rad = "" + (Math.floor(level* 1000) / 1000);

@@ -49,7 +49,7 @@ public class PressRecipes {
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.pellet_coal),				Items.diamond);
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.biomass),					ModItems.biomass_compressed);
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.powder_lignite),			ModItems.briquette_lignite);
-		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.coke),						ModItems.ingot_graphite);
+		makeRecipe(StampType.FLAT, new OreDictStack(ANY_COKE.gem()),						ModItems.ingot_graphite);
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.meteorite_sword_reforged),	ModItems.meteorite_sword_hardened);
 
 		makeRecipe(StampType.PLATE, new OreDictStack(IRON.ingot()),		ModItems.plate_iron);
@@ -75,6 +75,7 @@ public class PressRecipes {
 
 		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_raw),				ModItems.circuit_aluminium);
 		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_bismuth_raw),		ModItems.circuit_bismuth);
+		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_arsenic_raw),		ModItems.circuit_arsenic);
 		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_tantalium_raw),	ModItems.circuit_tantalium);
 
 		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_iron),			ModItems.gun_revolver_iron_ammo);

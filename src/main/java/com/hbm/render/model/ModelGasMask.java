@@ -100,10 +100,20 @@ public class ModelGasMask extends ModelBiped {
 	@Override
 	public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7) {
 		setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
-		GL11.glPushMatrix();
-		GL11.glScalef(1.15F, 1.15F, 1.15F);
-		this.mask.render(par7);
-		GL11.glPopMatrix();
+		
+		if(this.isChild) {
+			float f6 = 2.0F;
+			GL11.glPushMatrix();
+			GL11.glScalef(1.5F / f6, 1.5F / f6, 1.5F / f6);
+			GL11.glTranslatef(0.0F, 16.0F * par7, 0.0F);
+			this.mask.render(par7);
+			GL11.glPopMatrix();
+		} else {
+			GL11.glPushMatrix();
+			GL11.glScalef(1.15F, 1.15F, 1.15F);
+			this.mask.render(par7);
+			GL11.glPopMatrix();
+		}
 	}
 
 	protected void convertToChild(ModelRenderer parParent, ModelRenderer parChild) {

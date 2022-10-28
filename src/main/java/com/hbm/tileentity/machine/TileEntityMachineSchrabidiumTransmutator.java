@@ -170,8 +170,10 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			if(process > 0) {
 				
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio = createAudioLoop();
 					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
 				}
 			} else {
 				
@@ -183,29 +185,33 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 		}
 	}
 	
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+	}
+	
 	private void updateConnections() {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
-	
-    public void onChunkUnload() {
-    	
-    	if(audio != null) {
+
+	public void onChunkUnload() {
+
+		if(audio != null) {
 			audio.stopSound();
 			audio = null;
-    	}
-    }
-	
-    public void invalidate() {
-    	
-    	super.invalidate();
-    	
-    	if(audio != null) {
+		}
+	}
+
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
 			audio.stopSound();
 			audio = null;
-    	}
-    }
+		}
+	}
 	
 	@Override
 	public void networkUnpack(NBTTagCompound data) {

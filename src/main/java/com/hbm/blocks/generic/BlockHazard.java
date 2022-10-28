@@ -6,9 +6,9 @@ import java.util.Random;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.interfaces.IItemHazard;
+import com.hbm.hazard.HazardRegistry;
+import com.hbm.hazard.HazardSystem;
 import com.hbm.main.MainRegistry;
-import com.hbm.modules.ItemHazardModule;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,12 +22,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockHazard extends Block implements IItemHazard, ITooltipProvider {
-	
-	ItemHazardModule module;
-	
-	private float radIn = 0.0F;
-	private float radMax = 0.0F;
+public class BlockHazard extends Block implements ITooltipProvider {
+		
+	protected float rad = 0.0F;
 	private ExtDisplayEffect extEffect = null;
 	
 	private boolean beaconable = false;
@@ -38,7 +35,6 @@ public class BlockHazard extends Block implements IItemHazard, ITooltipProvider 
 
 	public BlockHazard(Material mat) {
 		super(mat);
-		this.module = new ItemHazardModule();
 	}
 	
 	public BlockHazard setDisplayEffect(ExtDisplayEffect extEffect) {
@@ -111,19 +107,6 @@ public class BlockHazard extends Block implements IItemHazard, ITooltipProvider 
 		}
 	}
 
-	@Override
-	public ItemHazardModule getModule() {
-		return module;
-	}
-
-	@Override
-	public IItemHazard addRadiation(float radiation) {
-		this.getModule().addRadiation(radiation);
-		this.radIn = radiation * 0.1F;
-		this.radMax = radiation;
-		return this;
-	}
-
 	public BlockHazard makeBeaconable() {
 		this.beaconable = true;
 		return this;
@@ -137,8 +120,8 @@ public class BlockHazard extends Block implements IItemHazard, ITooltipProvider 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
-		if(this.radIn > 0) {
-			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, radIn);
+		if(this.rad > 0) {
+			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, rad);
 			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 		}
 	}
@@ -146,7 +129,7 @@ public class BlockHazard extends Block implements IItemHazard, ITooltipProvider 
 	@Override
 	public int tickRate(World world) {
 
-		if(this.radIn > 0)
+		if(this.rad > 0)
 			return 20;
 
 		return super.tickRate(world);
@@ -154,8 +137,10 @@ public class BlockHazard extends Block implements IItemHazard, ITooltipProvider 
 
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
+		
+		rad = HazardSystem.getHazardLevelFromStack(new ItemStack(this), HazardRegistry.RADIATION) * 0.1F;
 
-		if(this.radIn > 0)
+		if(this.rad > 0)
 			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 	}
 	

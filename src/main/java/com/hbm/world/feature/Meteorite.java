@@ -5,25 +5,17 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.GeneralConfig;
+import com.hbm.config.WorldConfig;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionNT;
-import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
-import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
@@ -37,7 +29,7 @@ public class Meteorite {
 			e.attackEntityFrom(ModDamageSource.meteorite, 1000);
 		}
 
-		if(GeneralConfig.enableSpecialMeteors)
+		if(WorldConfig.enableSpecialMeteors)
 			switch(rand.nextInt(300)) {
 			case 0:
 				// Meteor-only tiny meteorite
@@ -116,7 +108,7 @@ public class Meteorite {
 				List<ItemStack> list10 = new ArrayList<ItemStack>();
 				list10.add(new ItemStack(ModBlocks.block_meteor_broken));
 				generateSphere5x5(world, rand, x, y, z, list10);
-				world.setBlock(x, y, z, ModBlocks.taint, 9, 2);
+				setBlock(world, x, y, z, ModBlocks.taint, 9, 2);
 				return;
 			case 11:
 				// Atomic meteorite
@@ -432,7 +424,7 @@ public class Meteorite {
 
 		generateBox(world, rand, x, y, z, hullL);
 		ItemStack stack = sCore.get(rand.nextInt(sCore.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void genL1(World world, Random rand, int x, int y, int z, List<ItemStack> hull, List<ItemStack> op, List<ItemStack> ip, List<ItemStack> core) {
@@ -440,7 +432,7 @@ public class Meteorite {
 		generateStar5x5(world, rand, x, y, z, op);
 		generateStar3x3(world, rand, x, y, z, ip);
 		ItemStack stack = core.get(rand.nextInt(core.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void genL2(World world, Random rand, int x, int y, int z, List<ItemStack> hull, List<ItemStack> op, List<ItemStack> ip, List<ItemStack> core) {
@@ -448,7 +440,7 @@ public class Meteorite {
 		generateSphere5x5(world, rand, x, y, z, op);
 		generateStar3x3(world, rand, x, y, z, ip);
 		ItemStack stack = core.get(rand.nextInt(core.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void genL3(World world, Random rand, int x, int y, int z, List<ItemStack> hull, List<ItemStack> op, List<ItemStack> ip, List<ItemStack> core) {
@@ -456,7 +448,7 @@ public class Meteorite {
 		generateSphere5x5(world, rand, x, y, z, op);
 		generateBox(world, rand, x, y, z, ip);
 		ItemStack stack = core.get(rand.nextInt(core.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void genL4(World world, Random rand, int x, int y, int z, List<ItemStack> hull, List<ItemStack> op, List<ItemStack> ip, List<ItemStack> core) {
@@ -465,7 +457,7 @@ public class Meteorite {
 		generateBox(world, rand, x, y, z, ip);
 		generateStar3x3(world, rand, x, y, z, this.getRandomOre(rand));
 		ItemStack stack = core.get(rand.nextInt(core.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void genL5(World world, Random rand, int x, int y, int z, List<ItemStack> hull, List<ItemStack> op, List<ItemStack> ip, List<ItemStack> core) {
@@ -474,27 +466,27 @@ public class Meteorite {
 		generateStar5x5(world, rand, x, y, z, ip);
 		generateStar3x3(world, rand, x, y, z, this.getRandomOre(rand));
 		ItemStack stack = core.get(rand.nextInt(core.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void genM1(World world, Random rand, int x, int y, int z, List<ItemStack> hull, List<ItemStack> op, List<ItemStack> ip, List<ItemStack> core) {
 		generateSphere5x5(world, rand, x, y, z, hull);
 		ItemStack stack = core.get(rand.nextInt(core.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void genM2(World world, Random rand, int x, int y, int z, List<ItemStack> hull, List<ItemStack> op, List<ItemStack> ip, List<ItemStack> core) {
 		generateSphere5x5(world, rand, x, y, z, hull);
 		generateStar3x3(world, rand, x, y, z, op);
 		ItemStack stack = core.get(rand.nextInt(core.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void genM3(World world, Random rand, int x, int y, int z, List<ItemStack> hull, List<ItemStack> op, List<ItemStack> ip, List<ItemStack> core) {
 		generateSphere5x5(world, rand, x, y, z, hull);
 		generateBox(world, rand, x, y, z, op);
 		ItemStack stack = core.get(rand.nextInt(core.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void genM4(World world, Random rand, int x, int y, int z, List<ItemStack> hull, List<ItemStack> op, List<ItemStack> ip, List<ItemStack> core) {
@@ -502,14 +494,14 @@ public class Meteorite {
 		generateBox(world, rand, x, y, z, op);
 		generateStar3x3(world, rand, x, y, z, ip);
 		ItemStack stack = core.get(rand.nextInt(core.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void genM5(World world, Random rand, int x, int y, int z, List<ItemStack> hull, List<ItemStack> op, List<ItemStack> ip, List<ItemStack> core) {
 		generateSphere5x5(world, rand, x, y, z, hull);
 		generateBox(world, rand, x, y, z, ip);
 		ItemStack stack = core.get(rand.nextInt(core.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void genM6(World world, Random rand, int x, int y, int z, List<ItemStack> hull, List<ItemStack> op, List<ItemStack> ip, List<ItemStack> core) {
@@ -517,7 +509,7 @@ public class Meteorite {
 		generateBox(world, rand, x, y, z, ip);
 		generateStar3x3(world, rand, x, y, z, this.getRandomOre(rand));
 		ItemStack stack = core.get(rand.nextInt(core.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void generateSphere7x7(World world, Random rand, int x, int y, int z, List<ItemStack> set) {
@@ -525,38 +517,38 @@ public class Meteorite {
 			for(int b = -1; b < 2; b++)
 				for(int c = -1; c < 2; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 		for(int a = -1; a < 2; a++)
 			for(int b = -3; b < 4; b++)
 				for(int c = -1; c < 2; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 		for(int a = -1; a < 2; a++)
 			for(int b = -1; b < 2; b++)
 				for(int c = -3; c < 4; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 
 		for(int a = -2; a < 3; a++)
 			for(int b = -2; b < 3; b++)
 				for(int c = -1; c < 2; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 		for(int a = -1; a < 2; a++)
 			for(int b = -2; b < 3; b++)
 				for(int c = -2; c < 3; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 		for(int a = -2; a < 3; a++)
 			for(int b = -1; b < 2; b++)
 				for(int c = -2; c < 3; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 	}
 
@@ -565,19 +557,19 @@ public class Meteorite {
 			for(int b = -1; b < 2; b++)
 				for(int c = -1; c < 2; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 		for(int a = -1; a < 2; a++)
 			for(int b = -2; b < 3; b++)
 				for(int c = -1; c < 2; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 		for(int a = -1; a < 2; a++)
 			for(int b = -1; b < 2; b++)
 				for(int c = -2; c < 3; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 	}
 
@@ -586,57 +578,57 @@ public class Meteorite {
 			for(int b = -1; b < 2; b++)
 				for(int c = -1; c < 2; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 		for(int a = -1; a < 2; a++)
 			for(int b = -4; b < 5; b++)
 				for(int c = -1; c < 2; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 		for(int a = -1; a < 2; a++)
 			for(int b = -1; b < 2; b++)
 				for(int c = -4; c < 5; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 
 		for(int a = -1; a < 2; a++)
 			for(int b = -3; b < 4; b++)
 				for(int c = -3; c < 4; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 		for(int a = -3; a < 4; a++)
 			for(int b = -1; b < 2; b++)
 				for(int c = -3; c < 4; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 		for(int a = -3; a < 4; a++)
 			for(int b = -3; b < 4; b++)
 				for(int c = -1; c < 2; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 
 		for(int a = -3; a < 4; a++)
 			for(int b = -2; b < 3; b++)
 				for(int c = -2; c < 3; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 		for(int a = -2; a < 3; a++)
 			for(int b = -3; b < 4; b++)
 				for(int c = -2; c < 3; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 		for(int a = -2; a < 3; a++)
 			for(int b = -2; b < 3; b++)
 				for(int c = -3; c < 4; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 	}
 
@@ -645,7 +637,7 @@ public class Meteorite {
 			for(int b = -1; b < 2; b++)
 				for(int c = -1; c < 2; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 	}
 
@@ -654,39 +646,39 @@ public class Meteorite {
 			for(int b = -1; b < 2; b++)
 				for(int c = -1; c < 2; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
-					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+					setBlock(world, x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}
 
 		ItemStack stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x + 2, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x + 2, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 		stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x - 2, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x - 2, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 		stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x, y + 2, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y + 2, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 		stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x, y - 2, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y - 2, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 		stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x, y, z + 2, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z + 2, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 		stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x, y, z - 2, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z - 2, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public void generateStar3x3(World world, Random rand, int x, int y, int z, List<ItemStack> set) {
 
 		ItemStack stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 		stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x + 1, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x + 1, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 		stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x - 1, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x - 1, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 		stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x, y + 1, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y + 1, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 		stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x, y - 1, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y - 1, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 		stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x, y, z + 1, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z + 1, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 		stack = set.get(rand.nextInt(set.size()));
-		world.setBlock(x, y, z - 1, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+		setBlock(world, x, y, z - 1, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
 	public List<ItemStack> getRandomOre(Random rand) {
@@ -716,5 +708,11 @@ public class Meteorite {
 
 		return ores;
 	}
-
+	
+	private void setBlock(World world, int x, int y, int z, Block b, int meta, int flag) {
+		Block target = world.getBlock(x, y, z);
+		float hardness = target.getBlockHardness(world, x, y, z);
+		if(hardness != -1 && hardness < 10_000)
+			world.setBlock(x, y, z, b, meta, flag);
+	}
 }

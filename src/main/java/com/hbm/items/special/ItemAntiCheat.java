@@ -1,5 +1,7 @@
 package com.hbm.items.special;
 
+import com.hbm.items.ItemCustomLore;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;

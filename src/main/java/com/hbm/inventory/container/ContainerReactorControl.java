@@ -10,20 +10,16 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerReactorControl extends Container {
 
-	private TileEntityReactorControl testNuke;
-	private int heat;
+	private TileEntityReactorControl control;
 	
 	public ContainerReactorControl(InventoryPlayer invPlayer, TileEntityReactorControl tedf) {
-		heat = 0;
 		
-		testNuke = tedf;
+		control = tedf;
 		
-		this.addSlotToContainer(new Slot(tedf, 0, 26, 53));
+		this.addSlotToContainer(new Slot(tedf, 0, 92, 38));
 		
-		for(int i = 0; i < 3; i++)
-		{
-			for(int j = 0; j < 9; j++)
-			{
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
@@ -71,6 +67,6 @@ public class ContainerReactorControl extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return testNuke.isUseableByPlayer(player);
+		return control.isUseableByPlayer(player);
 	}
 }

@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -106,6 +107,8 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 				fx.setPositionAndRotation(posX + rand.nextDouble() * 20 - 10, posY + rand.nextDouble() * 25, posZ + rand.nextDouble() * 20 - 10, 0, 0);
 				worldObj.spawnEntityInWorld(fx);
 			}
+			
+			dropItem(ModItems.spawn_duck, 3);
 		}
 		this.isDead = true;
 	}
@@ -134,7 +137,10 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 	public float getShadowSize() {
 		return 7.5F;
 	}
-	
+
+	/**
+	 * BOW
+	 */
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
@@ -142,5 +148,16 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 		if(!worldObj.isRemote && this.posY < -30) {
 			this.setPosition(this.posX + rand.nextGaussian() * 30, 256, this.posZ + rand.nextGaussian() * 30);
 		}
+	}
+
+	/**
+	 * BOW
+	 */
+	@Override
+	public void onDeath(DamageSource sourceOrRatherLackThereof) { }
+
+	@Override
+	public boolean allowLeashing() {
+		return false;
 	}
 }

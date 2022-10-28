@@ -7,7 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
-import com.hbm.tileentity.machine.TileEntityCrateSteel;
+import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -1162,7 +1162,7 @@ public class DesertAtom002
 		world.setBlock(x + 36, y + 0, z + 12, Blocks.chest, 3, 3);
 		if(world.getBlock(x + 36, y + 0, z + 12) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 36, y + 0, z + 12), 8);
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.modGeneric, (TileEntityChest)world.getTileEntity(x + 36, y + 0, z + 12), 8);
 		}
         world.setBlock(x + 37, y + 0, z + 12, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 40, y + 0, z + 12, ModBlocks.fence_metal, 0, 3);
@@ -1183,7 +1183,7 @@ public class DesertAtom002
 		world.setBlock(x + 22, y + 0, z + 13, Blocks.chest, 4, 3);
 		if(world.getBlock(x + 22, y + 0, z + 13) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 22, y + 0, z + 13), 8);
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.modGeneric, (TileEntityChest)world.getTileEntity(x + 22, y + 0, z + 13), 8);
 		}
 		world.setBlock(x + 23, y + 0, z + 13, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 24, y + 0, z + 13, Block9, 5, 3);
@@ -1375,7 +1375,7 @@ public class DesertAtom002
 		world.setBlock(x + 24, y + 0, z + 26, Blocks.chest, 2, 3);
 		if(world.getBlock(x + 24, y + 0, z + 26) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(4), (TileEntityChest)world.getTileEntity(x + 24, y + 0, z + 26), 8);
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.nukeTrash, (TileEntityChest)world.getTileEntity(x + 24, y + 0, z + 26), 8);
 		}
 		world.setBlock(x + 25, y + 0, z + 26, Block2, 0, 3);
 		world.setBlock(x + 30, y + 0, z + 26, Block2, 0, 3);
@@ -1754,7 +1754,7 @@ public class DesertAtom002
 		world.setBlock(x + 18, y + 1, z + 16, ModBlocks.crate_steel, 0, 3);
 		if(world.getBlock(x + 18, y + 1, z + 16) == ModBlocks.crate_steel)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityCrateSteel)world.getTileEntity(x + 18, y + 1, z + 16), 12);
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.expensive, (TileEntityCrateSteel)world.getTileEntity(x + 18, y + 1, z + 16), 12);
 		}
 		
 		world.setBlock(x + 19, y + 1, z + 16, Library.getRandomConcrete(), 0, 3);

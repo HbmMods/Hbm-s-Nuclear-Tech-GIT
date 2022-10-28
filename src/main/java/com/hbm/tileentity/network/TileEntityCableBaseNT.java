@@ -21,7 +21,7 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 			this.connect();
 			
 			if(this.getPowerNet() == null) {
-				new PowerNet().joinLink(this);
+				this.setPowerNet(new PowerNet().joinLink(this));
 			}
 		}
 	}
@@ -37,7 +37,7 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 				IEnergyConductor conductor = (IEnergyConductor) te;
 				
 				if(!conductor.canConnect(dir.getOpposite()))
-					break;
+					continue;
 				
 				if(this.getPowerNet() == null && conductor.getPowerNet() != null) {
 					conductor.getPowerNet().joinLink(this);
@@ -56,7 +56,8 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 		
 		if(!worldObj.isRemote) {
 			if(this.network != null) {
-				this.network.destroy();
+				this.network.reevaluate();
+				this.network = null;
 			}
 		}
 	}

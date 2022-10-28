@@ -1,6 +1,9 @@
 package com.hbm.blocks.machine;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyEnergy;
@@ -10,11 +13,12 @@ import com.hbm.tileentity.machine.TileEntityMachineMiningLaser;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineMiningLaser extends BlockDummyable {
+public class MachineMiningLaser extends BlockDummyable implements ITooltipProvider {
 
 	public MachineMiningLaser(Material mat) {
 		super(mat);
@@ -82,5 +86,11 @@ public class MachineMiningLaser extends BlockDummyable {
 		this.makeExtra(world, x, y, z - 1);
 		
 		this.makeExtra(world, x, y + 1, z);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		list.add("3x3x3 Multiblock");
+		list.add("Only placeable on a ceiling.");
 	}
 }

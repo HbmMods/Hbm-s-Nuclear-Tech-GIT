@@ -91,7 +91,7 @@ public class ItemModServos extends ItemArmorMod {
 	
 	@Override
 	public Multimap getModifiers(ItemStack armor) {
-		Multimap multimap = super.getItemAttributeModifiers();
+		Multimap multimap = super.getAttributeModifiers(armor);
 		
 		ItemArmor item = (ItemArmor)armor.getItem();
 		

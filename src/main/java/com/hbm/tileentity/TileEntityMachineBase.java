@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.sound.AudioWrapper;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,11 +12,10 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTank;
 
-public abstract class TileEntityMachineBase extends TileEntity implements ISidedInventory, INBTPacketReceiver {
+public abstract class TileEntityMachineBase extends TileEntityLoadedBase implements ISidedInventory, INBTPacketReceiver {
 
 	public ItemStack slots[];
 	
@@ -23,6 +23,10 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 	
 	public TileEntityMachineBase(int scount) {
 		slots = new ItemStack[scount];
+	}
+	
+	public void markChanged() {
+		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 	}
 
 	@Override
@@ -143,7 +147,7 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 	//was it update? onUpdate? updateTile? did it have any args?
 	//shit i don't know man
 	@Override
-    public abstract void updateEntity();
+	public abstract void updateEntity();
 	
 	@Deprecated
 	public void updateGauge(int val, int id, int range) {
@@ -216,5 +220,14 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 		float volume = 1 - (countMufflers() / (float)toSilence);
 		
 		return Math.max(volume, 0);
+	}
+	
+	public AudioWrapper createAudioLoop() { return null; }
+	
+	public AudioWrapper rebootAudio(AudioWrapper wrapper) {
+		wrapper.stopSound();
+		AudioWrapper audio = createAudioLoop();
+		audio.startSound();
+		return audio;
 	}
 }

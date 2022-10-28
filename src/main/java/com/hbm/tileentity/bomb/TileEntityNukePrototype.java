@@ -1,6 +1,7 @@
 package com.hbm.tileentity.bomb;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBreedingRod.*;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -174,16 +175,16 @@ public class TileEntityNukePrototype extends TileEntity implements ISidedInvento
 		if(slots[0] != null && slots[1] != null && slots[2] != null && slots[3] != null && slots[4] != null && slots[5] != null && slots[6] != null && slots[7] != null && slots[8] != null && slots[9] != null && slots[10] != null && slots[11] != null && slots[12] != null && slots[13] != null)
 			if(slots[0].getItem() == ModItems.cell_sas3 && 
 			slots[1].getItem() == ModItems.cell_sas3 && 
-			slots[2].getItem() == ModItems.rod_quad_uranium && 
-			slots[3].getItem() == ModItems.rod_quad_uranium && 
-			slots[4].getItem() == ModItems.rod_quad_lead && 
-			slots[5].getItem() == ModItems.rod_quad_lead && 
-			slots[6].getItem() == ModItems.rod_quad_neptunium && 
-			slots[7].getItem() == ModItems.rod_quad_neptunium && 
-			slots[8].getItem() == ModItems.rod_quad_lead && 
-			slots[9].getItem() == ModItems.rod_quad_lead && 
-			slots[10].getItem() == ModItems.rod_quad_uranium && 
-			slots[11].getItem() == ModItems.rod_quad_uranium && 
+			slots[2].isItemEqual(new ItemStack(ModItems.rod_quad, 1, BreedingRodType.URANIUM.ordinal())) && 
+			slots[3].isItemEqual(new ItemStack(ModItems.rod_quad, 1, BreedingRodType.URANIUM.ordinal())) && 
+			slots[4].isItemEqual(new ItemStack(ModItems.rod_quad, 1, BreedingRodType.LEAD.ordinal())) && 
+			slots[5].isItemEqual(new ItemStack(ModItems.rod_quad, 1, BreedingRodType.LEAD.ordinal())) && 
+			slots[6].isItemEqual(new ItemStack(ModItems.rod_quad, 1, BreedingRodType.NP237.ordinal())) && 
+			slots[7].isItemEqual(new ItemStack(ModItems.rod_quad, 1, BreedingRodType.NP237.ordinal())) && 
+			slots[8].isItemEqual(new ItemStack(ModItems.rod_quad, 1, BreedingRodType.LEAD.ordinal())) && 
+			slots[9].isItemEqual(new ItemStack(ModItems.rod_quad, 1, BreedingRodType.LEAD.ordinal())) && 
+			slots[10].isItemEqual(new ItemStack(ModItems.rod_quad, 1, BreedingRodType.URANIUM.ordinal())) && 
+			slots[11].isItemEqual(new ItemStack(ModItems.rod_quad, 1, BreedingRodType.URANIUM.ordinal())) && 
 			slots[12].getItem() == ModItems.cell_sas3 && 
 			slots[13].getItem() == ModItems.cell_sas3)
 			{

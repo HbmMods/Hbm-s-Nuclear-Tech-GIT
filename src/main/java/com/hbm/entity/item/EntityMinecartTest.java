@@ -67,8 +67,6 @@ public class EntityMinecartTest extends EntityMinecartModBase
                 this.explodeCart(d0);
             }
         }
-        
-        System.out.println(this.rotationYaw);
     }
 
     @Override

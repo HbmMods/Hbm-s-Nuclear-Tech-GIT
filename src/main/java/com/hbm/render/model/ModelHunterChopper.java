@@ -363,13 +363,13 @@ public class ModelHunterChopper extends ModelBase {
 		GunBarrel.setRotationPoint(-10.5F, 11.5F, 0F);
 		GunBarrel.setTextureSize(256, 128);
 		GunBarrel.mirror = true;
-		setRotation(GunBarrel, 0F, MainRegistry.x, 0F);
+		setRotation(GunBarrel, 0F, 0, 0F);
 		GunBack = new ModelRenderer(this, 0, 112);
 		GunBack.addBox(0F, -1F, -1F, 2, 2, 2);
 		GunBack.setRotationPoint(-10.5F, 12F, 0F);
 		GunBack.setTextureSize(256, 128);
 		GunBack.mirror = true;
-		setRotation(GunBack, 0F, MainRegistry.x, 0F);
+		setRotation(GunBack, 0F, 0, 0F);
 	}
 
 	@Override

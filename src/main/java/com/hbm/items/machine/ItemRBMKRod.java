@@ -8,9 +8,6 @@ import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.I18nUtil;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,6 +22,7 @@ public class ItemRBMKRod extends Item {
 	public double reactivity;					//endpoint of the function
 	public double selfRate;					//self-inflicted flux from self-igniting fuels
 	public EnumBurnFunc function = EnumBurnFunc.LOG_TEN;
+	public EnumDepleteFunc depFunc = EnumDepleteFunc.GENTLE_SLOPE;
 	public double xGen = 0.5D;				//multiplier for xenon production
 	public double xBurn = 50D;				//divider for xenon burnup
 	public double heat = 1D;				//heat produced per outFlux
@@ -87,6 +85,17 @@ public class ItemRBMKRod extends Item {
 		return this;
 	}
 
+	public ItemRBMKRod setDepletionFunction(EnumDepleteFunc func) {
+		this.depFunc = func;
+		return this;
+	}
+	
+	public ItemRBMKRod setXenon(double gen, double burn) {
+		this.xGen = gen;
+		this.xBurn = burn;
+		return this;
+	}
+
 	public ItemRBMKRod setHeat(double heat) {
 		this.heat = heat;
 		return this;
@@ -144,9 +153,18 @@ public class ItemRBMKRod extends Item {
 		
 		double coreHeat = this.getCoreHeat(stack);
 		coreHeat += outFlux * heat;
-		this.setCoreHeat(stack, coreHeat);
+		
+		this.setCoreHeat(stack, rectify(coreHeat));
 		
 		return outFlux;
+	}
+	
+	private double rectify(double num) {
+		
+		if(num > 1_000_000D) num = 1_000_000D;
+		if(num < 20D || Double.isNaN(num)) num = 20D;
+		
+		return num;
 	}
 	
 	/**
@@ -165,8 +183,8 @@ public class ItemRBMKRod extends Item {
 			coreHeat -= mid * this.diffusion * RBMKDials.getFuelDiffusionMod(world) * mod;
 			hullHeat += mid * this.diffusion * RBMKDials.getFuelDiffusionMod(world) * mod;
 			
-			this.setCoreHeat(stack, coreHeat);
-			this.setHullHeat(stack, hullHeat);
+			this.setCoreHeat(stack, rectify(coreHeat));
+			this.setHullHeat(stack, rectify(hullHeat));
 		}
 	}
 	
@@ -207,11 +225,12 @@ public class ItemRBMKRod extends Item {
 		PASSIVE(EnumChatFormatting.DARK_GREEN + "SAFE / PASSIVE"),			//const, no reactivity
 		LOG_TEN(EnumChatFormatting.YELLOW + "MEDIUM / LOGARITHMIC"),		//log10(x + 1) * reactivity * 50
 		PLATEU(EnumChatFormatting.GREEN + "SAFE / EULER"),					//(1 - e^(-x/25)) * reactivity * 100
-		ARCH(EnumChatFormatting.YELLOW + "MEDIUM / NEGATIVE-QUADRATIC"),	//x-(x²/1000) * reactivity
+		ARCH(EnumChatFormatting.RED + "DANGEROUS / NEGATIVE-QUADRATIC"),	//x-(x²/1000) * reactivity
 		SIGMOID(EnumChatFormatting.GREEN + "SAFE / SIGMOID"),				//100 / (1 + e^(-(x - 50) / 10)) <- tiny amount of reactivity at x=0 !
 		SQUARE_ROOT(EnumChatFormatting.YELLOW + "MEDIUM / SQUARE ROOT"),	//sqrt(x) * 10 * reactivity
 		LINEAR(EnumChatFormatting.RED + "DANGEROUS / LINEAR"),				//x * reactivity
-		QUADRATIC(EnumChatFormatting.RED + "DANGEROUS / QUADRATIC");		//x^2 / 100 * reactivity
+		QUADRATIC(EnumChatFormatting.RED + "DANGEROUS / QUADRATIC"),		//x^2 / 100 * reactivity
+		EXPERIMENTAL(EnumChatFormatting.RED + "EXPERIMENTAL / SINE SLOPE");		//x * (sin(x) + 1)
 		
 		public String title = "";
 		
@@ -221,46 +240,85 @@ public class ItemRBMKRod extends Item {
 	}
 	
 	/**
-	 * @param flux [0;100] ...or at least those are sane levels
+	 * @param reactivity [0;100] ...or at least those are sane levels
 	 * @return the amount of reactivity yielded, unmodified by xenon
 	 */
 	public double reactivityFunc(double in, double enrichment) {
 		
-		double flux = in * enrichment;
+		double flux = in * reactivityModByEnrichment(enrichment);
 		
 		switch(this.function) {
 		case PASSIVE: return selfRate * enrichment;
 		case LOG_TEN: return Math.log10(flux + 1) * 0.5D * reactivity;
 		case PLATEU: return (1 - Math.pow(Math.E, -flux / 25D)) * reactivity;
-		case ARCH: return Math.max(flux - (flux * flux / 100000D) / 100D * reactivity, 0D);
+		case ARCH: return Math.max((flux - (flux * flux / 10000D)) / 100D * reactivity, 0D);
 		case SIGMOID: return reactivity / (1 + Math.pow(Math.E, -(flux - 50D) / 10D));
 		case SQUARE_ROOT: return Math.sqrt(flux) * reactivity / 10D;
 		case LINEAR: return flux / 100D * reactivity;
 		case QUADRATIC: return flux * flux / 10000D * reactivity;
+		case EXPERIMENTAL: return flux * (Math.sin(flux) + 1) * reactivity;
 		}
 		
 		return 0;
 	}
 	
-	public String getFuncDescription() {
+	public String getFuncDescription(ItemStack stack) {
 		
-		String x = "x";
-		
-		if(selfRate > 0)
-			x = "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")";
+		String function;
 		
 		switch(this.function) {
-		case PASSIVE: return EnumChatFormatting.RED + "" + selfRate;
-		case LOG_TEN: return "log10(x + 1" + (selfRate > 0 ? (EnumChatFormatting.RED + " + " + selfRate) : "") + EnumChatFormatting.WHITE + ") * 0.5 * " + reactivity;
-		case PLATEU: return "(1 - e^-" + x + " / 25)) * " + reactivity;
-		case ARCH: return "(" + x + " - " + x + "² / 100000) / 100 * " + reactivity + " [0;∞]";
-		case SIGMOID: return reactivity + " / (1 + e^(-(" + x + " - 50) / 10)";
-		case SQUARE_ROOT: return "sqrt(" + x + ") * " + reactivity + " / 10";
-		case LINEAR: return x + " / 100 * " + reactivity;
-		case QUADRATIC: return x + "² / 10000 * " + reactivity;
+		case PASSIVE: function = EnumChatFormatting.RED + "" + selfRate;
+			break;
+		case LOG_TEN: function = "log10(%1$s + 1) * 0.5 * %2$s";
+			break;
+		case PLATEU: function = "(1 - e^-%1$s / 25)) * %2$s";
+			break;
+		case ARCH: function = "(%1$s - %1$s² / 10000) / 100 * %2$s [0;∞]";
+			break;
+		case SIGMOID: function = "%2$s / (1 + e^(-(%1$s - 50) / 10)";
+			break;
+		case SQUARE_ROOT: function = "sqrt(%1$s) * %2$s / 10";
+			break;
+		case LINEAR: function = "%1$s / 100 * %2$s";
+			break;
+		case QUADRATIC: function = "%1$s² / 10000 * %2$s";
+			break;
+		case EXPERIMENTAL: function = "%1$s * (sin(%1$s) + 1) * %2$s";
+			break;
+		default: function = "ERROR";
 		}
 		
-		return "ERROR";
+		double enrichment = getEnrichment(stack);
+		
+		if(enrichment < 1) {
+			enrichment = reactivityModByEnrichment(enrichment);
+			String reactivity = EnumChatFormatting.YELLOW + "" + ((int)(this.reactivity * enrichment * 1000D) / 1000D) + EnumChatFormatting.WHITE;
+			String enrichmentPer = EnumChatFormatting.GOLD + " (" + ((int)(enrichment * 1000D) / 10D) + "%)";
+			
+			return String.format(function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")" : "x", reactivity).concat(enrichmentPer);
+		}
+		
+		return String.format(function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")" : "x", reactivity);
+	}
+	
+	public static enum EnumDepleteFunc {
+		LINEAR,			//old function
+		RAISING_SLOPE,	//for breeding fuels such as MEU, maximum of 110% at 28% depletion
+		BOOSTED_SLOPE,	//for strong breeding fuels such Th232, maximum of 132% at 64% depletion
+		GENTLE_SLOPE,	//recommended for most fuels, maximum barely over the start, near the beginning
+		STATIC;			//for arcade-style neutron sources
+	}
+	
+	public double reactivityModByEnrichment(double enrichment) {
+		
+		switch(this.depFunc) {
+		default:
+		case LINEAR: return enrichment;
+		case STATIC: return 1D;
+		case BOOSTED_SLOPE: return enrichment + Math.sin((enrichment - 1) * (enrichment - 1) * Math.PI); //x + sin([x - 1]^2 * pi) works
+		case RAISING_SLOPE: return enrichment + (Math.sin(enrichment * Math.PI) / 2D); //x + (sin(x * pi) / 2) actually works
+		case GENTLE_SLOPE: return enrichment + (Math.sin(enrichment * Math.PI) / 3D); //x + (sin(x * pi) / 3) also works
+		}
 	}
 	
 	/**
@@ -312,7 +370,7 @@ public class ItemRBMKRod extends Item {
 			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("trait.rbmx.xenon", ((int)(getPoison(stack) * 1000D) / 1000D) + "%"));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmx.splitsWith", I18nUtil.resolveKey(nType.unlocalized + ".x")));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmx.splitsInto", I18nUtil.resolveKey(rType.unlocalized + ".x")));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.fluxFunc", EnumChatFormatting.WHITE + getFuncDescription()));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.fluxFunc", EnumChatFormatting.WHITE + getFuncDescription(stack)));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.funcType", this.function.title));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
@@ -332,7 +390,7 @@ public class ItemRBMKRod extends Item {
 			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKey("trait.rbmk.xenon", ((int)(getPoison(stack) * 1000D) / 1000D) + "%"));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmk.splitsWith", I18nUtil.resolveKey(nType.unlocalized)));
 			list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("trait.rbmk.splitsInto", I18nUtil.resolveKey(rType.unlocalized)));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.fluxFunc", EnumChatFormatting.WHITE + getFuncDescription()));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.fluxFunc", EnumChatFormatting.WHITE + getFuncDescription(stack)));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.funcType", this.function.title));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));

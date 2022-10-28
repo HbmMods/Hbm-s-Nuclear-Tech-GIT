@@ -1,20 +1,20 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
@@ -23,14 +23,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor {
+public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidStandardReceiver {
 	
 	public long power;
 	public static final long maxPower = 1000000;
 	public static final int demand = 1000;
 	public static final int acidRequired = 500;
 	public short progress;
-	public static final short duration = 600;
+	public short duration = 600;
 	
 	public float angle;
 	public float prevAngle;
@@ -39,7 +39,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 	public TileEntityMachineCrystallizer() {
 		super(7);
-		tank = new FluidTank(FluidType.ACID, 8000, 0);
+		tank = new FluidTank(Fluids.ACID, 8000, 0);
 	}
 
 	@Override
@@ -81,6 +81,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setShort("progress", progress);
+			data.setShort("duration", getDuration());
 			data.setLong("power", power);
 			this.networkPack(data, 25);
 		} else {
@@ -99,24 +100,41 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 	
 	private void updateConnections() {
+		
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	protected DirPos[] getConPos() {
 
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 
 		if(dir == ForgeDirection.NORTH || dir == ForgeDirection.SOUTH) {
-			this.trySubscribe(worldObj, xCoord + 2, yCoord + 5, zCoord, Library.POS_X);
-			this.trySubscribe(worldObj, xCoord - 2, yCoord + 5, zCoord, Library.NEG_X);
+			
+			return new DirPos[] {
+				new DirPos(xCoord + 2, yCoord + 5, zCoord, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord + 5, zCoord, Library.NEG_X)
+			};
 		}
 
 		if(dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
-			this.trySubscribe(worldObj, xCoord, yCoord + 5, zCoord + 2, Library.POS_Z);
-			this.trySubscribe(worldObj, xCoord, yCoord + 5, zCoord - 2, Library.NEG_Z);
+			
+			return new DirPos[] {
+				new DirPos(xCoord, yCoord + 5, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord, yCoord + 5, zCoord - 2, Library.NEG_Z)
+			};
 		}
+		
+		return new DirPos[0];
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
 		
 		this.power = data.getLong("power");
 		this.progress = data.getShort("progress");
+		this.duration = data.getShort("duration");
 	}
 	
 	private void processItem() {
@@ -200,7 +218,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		return Math.min(chance, 0.15F);
 	}
 	
-	public int getDuration() {
+	public short getDuration() {
 		
 		float durationMod = 1;
 		
@@ -214,7 +232,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 				durationMod -= 0.75F;
 		}
 		
-		return (int) (duration * Math.max(durationMod, 0.25F));
+		return (short) (600 * Math.max(durationMod, 0.25F));
 	}
 	
 	public int getPowerRequired() {
@@ -260,7 +278,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		tank.setFill(fill);
 	}
 
@@ -270,13 +288,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		return new ArrayList() {{ add(tank); }};
 	}
 
 	@Override
@@ -361,5 +374,15 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		
 		if(stack != null && i >= 5 && i <= 6 && stack.getItem() instanceof ItemMachineUpgrade)
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
 	}
 }

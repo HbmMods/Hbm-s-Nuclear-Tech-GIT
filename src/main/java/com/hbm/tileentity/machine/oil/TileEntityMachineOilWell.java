@@ -2,8 +2,9 @@ package com.hbm.tileentity.machine.oil;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -15,14 +16,6 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 	@Override
 	public String getName() {
 		return "container.oilWell";
-	}
-
-	@Override
-	protected void updateConnections() {
-		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
-		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
-		this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 2, Library.POS_Z);
-		this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 2, Library.NEG_Z);
 	}
 
 	@Override
@@ -107,5 +100,15 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 		}
 		
 		return bb;
+	}
+
+	@Override
+	public DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z)
+		};
 	}
 }

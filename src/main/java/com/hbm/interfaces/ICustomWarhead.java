@@ -11,8 +11,6 @@ import com.hbm.hazard.HazardRegistry;
 import com.hbm.interfaces.ICustomWarhead.EnumCustomWarhead.EnumBioType;
 import com.hbm.interfaces.ICustomWarhead.EnumCustomWarhead.EnumChemicalType;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemHazard;
-import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
@@ -251,12 +249,12 @@ public interface ICustomWarhead
 		case HE:
 		case NUCLEAR:
 		case TX:
-			tooltip.add("Yield: " + Library.getShortNumber(data.getInteger(NBT_YIELD)) + "T");
+			tooltip.add("Yield: " + BobMathUtil.getShortNumber(data.getInteger(NBT_YIELD)) + "T");
 			break;
 		case BIO:
 		case CHEM:
 		case SCHRAB:
-			tooltip.add("Radius: " + Library.getShortNumber(data.getInteger(NBT_YIELD)) + "M");
+			tooltip.add("Radius: " + BobMathUtil.getShortNumber(data.getInteger(NBT_YIELD)) + "M");
 			break;
 		default:
 			break;

@@ -1,19 +1,21 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
@@ -23,10 +25,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineSeleniumEngine extends TileEntity implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineSeleniumEngine extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 
@@ -45,7 +46,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 
 	public TileEntityMachineSeleniumEngine() {
 		slots = new ItemStack[14];
-		tank = new FluidTank(FluidType.DIESEL, 16000, 0);
+		tank = new FluidTank(Fluids.DIESEL, 16000, 0);
 	}
 
 	@Override
@@ -224,7 +225,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			FluidType type = tank.getTankType();
-			if(type.name().equals(FluidType.NITAN.name()))
+			if(type == Fluids.NITAN)
 				powerCap = maxPower * 10;
 			else
 				powerCap = maxPower;
@@ -256,27 +257,29 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 		return getHEFromFuel() > 0;
 	}
 	
-	public static final HashMap<FluidType, Integer> fuels = new HashMap();
+	public static HashMap<FuelGrade, Double> fuelEfficiency = new HashMap();
 	
 	static {
-		fuels.put(FluidType.SMEAR,		50);
-		fuels.put(FluidType.HEATINGOIL,	75);
-		fuels.put(FluidType.HYDROGEN,	5);
-		fuels.put(FluidType.DIESEL,		225);
-		fuels.put(FluidType.KEROSENE,	300);
-		fuels.put(FluidType.RECLAIMED,	100);
-		fuels.put(FluidType.PETROIL,	125);
-		fuels.put(FluidType.BIOFUEL,	200);
-		fuels.put(FluidType.GASOLINE,	700);
-		fuels.put(FluidType.NITAN,		2500);
-		fuels.put(FluidType.LPG,		200);
-		fuels.put(FluidType.ETHANOL,	75);
+		fuelEfficiency.put(FuelGrade.LOW,		1.0D);
+		fuelEfficiency.put(FuelGrade.MEDIUM,	0.75D);
+		fuelEfficiency.put(FuelGrade.HIGH,		0.5D);
+		fuelEfficiency.put(FuelGrade.AERO,		0.05D);
 	}
 	
-	public int getHEFromFuel() {
-		FluidType type = tank.getTankType();
-		Integer value = fuels.get(type);
-		return value != null ? value : 0;
+	public long getHEFromFuel() {
+		return getHEFromFuel(tank.getTankType());
+	}
+	
+	public static long getHEFromFuel(FluidType type) {
+		
+		if(type.hasTrait(FT_Combustible.class)) {
+			FT_Combustible fuel = type.getTrait(FT_Combustible.class);
+			FuelGrade grade = fuel.getGrade();
+			double efficiency = fuelEfficiency.containsKey(grade) ? fuelEfficiency.get(grade) : 0;
+			return (long) (fuel.getCombustionEnergy() / 1000L * efficiency);
+		}
+		
+		return 0;
 	}
 
 	public void generate() {
@@ -321,37 +324,29 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
 	}
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {
-		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
+		return type == this.tank.getTankType() ? tank.getMaxFill() : 0;
 	}
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
+		return type == this.tank.getTankType() ? tank.getFill() : 0;
 	}
 
 	@Override
 	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tank.getTankType().name()))
+		if(type == tank.getTankType())
 			tank.setFill(i);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tank);
-		
-		return list;
 	}
 
 	@Override

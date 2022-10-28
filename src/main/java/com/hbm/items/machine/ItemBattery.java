@@ -3,7 +3,7 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
+import com.hbm.util.BobMathUtil;
 
 import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
@@ -17,9 +17,9 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class ItemBattery extends Item implements IBatteryItem {
 
-	private long maxCharge;
-	private long chargeRate;
-	private long dischargeRate;
+	protected long maxCharge;
+	protected long chargeRate;
+	protected long dischargeRate;
 
 	public ItemBattery(long dura, long chargeRate, long dischargeRate) {
 		this.maxCharge = dura;
@@ -33,15 +33,15 @@ public class ItemBattery extends Item implements IBatteryItem {
 		if(itemstack.hasTagCompound())
 			charge = getCharge(itemstack);
 
-		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.factory_core_titanium && itemstack.getItem() != ModItems.factory_core_advanced && itemstack.getItem() != ModItems.energy_core && itemstack.getItem() != ModItems.dynosphere_desh && itemstack.getItem() != ModItems.dynosphere_schrabidium && itemstack.getItem() != ModItems.dynosphere_euphemium && itemstack.getItem() != ModItems.dynosphere_dineutronium) {
-			list.add("Energy stored: " + Library.getShortNumber(charge) + "/" + Library.getShortNumber(maxCharge) + "HE");
+		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.energy_core) {
+			list.add("Energy stored: " + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE");
 		} else {
-			String charge1 = Library.getShortNumber((charge * 100) / this.maxCharge);
+			String charge1 = BobMathUtil.getShortNumber((charge * 100) / this.maxCharge);
 			list.add("Charge: " + charge1 + "%");
-			list.add("(" + Library.getShortNumber(charge) + "/" + Library.getShortNumber(maxCharge) + "HE)");
+			list.add("(" + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE)");
 		}
-		list.add("Charge rate: " + Library.getShortNumber(chargeRate) + "HE/t");
-		list.add("Discharge rate: " + Library.getShortNumber(dischargeRate) + "HE/t");
+		list.add("Charge rate: " + BobMathUtil.getShortNumber(chargeRate) + "HE/t");
+		list.add("Discharge rate: " + BobMathUtil.getShortNumber(dischargeRate) + "HE/t");
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class ItemBattery extends Item implements IBatteryItem {
 			return EnumRarity.rare;
 		}
 
-		if(this == ModItems.fusion_core || this == ModItems.factory_core_titanium || this == ModItems.factory_core_advanced || this == ModItems.energy_core || this == ModItems.dynosphere_desh || this == ModItems.dynosphere_schrabidium || this == ModItems.dynosphere_euphemium || this == ModItems.dynosphere_dineutronium) {
+		if(this == ModItems.fusion_core || this == ModItems.energy_core) {
 			return EnumRarity.uncommon;
 		}
 

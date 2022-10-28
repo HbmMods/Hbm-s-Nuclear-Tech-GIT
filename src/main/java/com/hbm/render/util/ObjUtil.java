@@ -85,13 +85,22 @@ public class ObjUtil {
 			normal.rotateAroundY(rot);
 			tes.setNormal((float)normal.xCoord, (float)normal.yCoord, (float)normal.zCoord);
 
-			if(shadow) {
-				float brightness = ((float)normal.yCoord + 0.7F) * 0.9F - (float)Math.abs(normal.xCoord) * 0.1F + (float)Math.abs(normal.zCoord) * 0.1F;
+			if(shadow || hasColor) {
+				
+				float brightness = 1.0F;
+				
+				if(shadow) {
+					brightness = ((float)normal.yCoord * 0.3F + 0.7F) - (float)Math.abs(normal.xCoord) * 0.1F + (float)Math.abs(normal.zCoord) * 0.1F;
+	
+					if(brightness < 0.45F)
+						brightness = 0.45F;
+				}
 
-				if(brightness < 0.45F)
-					brightness = 0.45F;
-
-				tes.setColorOpaque_F(brightness, brightness, brightness);
+				if(hasColor) {
+					tes.setColorOpaque((int)(red * brightness), (int)(green * brightness), (int)(blue * brightness));
+				} else {
+					tes.setColorOpaque_F(brightness, brightness, brightness);
+				}
 			}
 
 			for(int i = 0; i < f.vertices.length; i++) {
@@ -115,5 +124,28 @@ public class ObjUtil {
 					tes.addVertexWithUV(x, y, z, icon.getInterpolatedU(t.u * 16D), icon.getInterpolatedV(t.v * 16D));
 			}
 		}
+	}
+	
+	private static int red;
+	private static int green;
+	private static int blue;
+	private static boolean hasColor = false;
+	
+	public static void setColor(int color) {
+		red = (color & 0xff0000) >> 16;
+		green = (color & 0x00ff00) >> 8;
+		blue = color & 0x0000ff;
+		hasColor = true;
+	}
+	
+	public static void setColor(int r, int g, int b) {
+		red = r;
+		green = g;
+		blue = b;
+		hasColor = true;
+	}
+	
+	public static void clearColor() {
+		hasColor = false;
 	}
 }

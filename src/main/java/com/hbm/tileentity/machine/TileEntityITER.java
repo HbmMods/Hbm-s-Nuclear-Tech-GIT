@@ -5,10 +5,14 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineITER;
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.BreederRecipes;
 import com.hbm.inventory.recipes.FusionRecipes;
 import com.hbm.inventory.recipes.BreederRecipes.BreederRecipe;
@@ -16,9 +20,13 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFusionShield;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +36,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidSource {
+public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver /* TODO: finish fluid API impl */ {
 	
 	public long power;
 	public static final long maxPower = 10000000;
@@ -51,9 +59,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	public TileEntityITER() {
 		super(5);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WATER, 1280000, 0);
-		tanks[1] = new FluidTank(FluidType.ULTRAHOTSTEAM, 128000, 1);
-		plasma = new FluidTank(FluidType.PLASMA_DT, 16000, 2);
+		tanks[0] = new FluidTank(Fluids.WATER, 1280000, 0);
+		tanks[1] = new FluidTank(Fluids.ULTRAHOTSTEAM, 128000, 1);
+		plasma = new FluidTank(Fluids.PLASMA_DT, 16000, 2);
 	}
 
 	@Override
@@ -74,6 +82,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			if (age == 9 || age == 19)
 				fillFluidInit(tanks[1].getTankType());
 			
+			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
 			/// START Processing part ///
@@ -84,11 +93,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			
 			//explode either if there's plasma that is too hot or if the reactor is turned on but the magnets have no power
 			if(plasma.getFill() > 0 && (this.plasma.getTankType().temperature >= this.getShield() || (this.isOn && this.power < this.powerReq))) {
-				this.disassemble();
-				Vec3 vec = Vec3.createVectorHelper(5.5, 0, 0);
-				vec.rotateAroundY(worldObj.rand.nextFloat() * (float)Math.PI * 2F);
-				
-				worldObj.newExplosion(null, xCoord + 0.5 + vec.xCoord, yCoord + 0.5 + worldObj.rand.nextGaussian() * 1.5D, zCoord + 0.5 + vec.zCoord, 2.5F, true, true);
+				this.explode();
 			}
 			
 			if(isOn && power >= powerReq) {
@@ -161,9 +166,6 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			
 			this.networkPack(data, 250);
 			/// END Notif packets ///
-
-			this.trySubscribe(worldObj, xCoord, yCoord + 3, zCoord, ForgeDirection.UP);
-			this.trySubscribe(worldObj, xCoord, yCoord - 3, zCoord, ForgeDirection.DOWN);
 			
 		} else {
 			
@@ -181,6 +183,51 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		}
 	}
 	
+	private void updateConnections() {
+
+		this.trySubscribe(worldObj, xCoord, yCoord + 3, zCoord, ForgeDirection.UP);
+		this.trySubscribe(worldObj, xCoord, yCoord - 3, zCoord, ForgeDirection.DOWN);
+		
+		Vec3 vec = Vec3.createVectorHelper(5.75, 0, 0);
+		
+		for(int i = 0; i < 16; i++) {
+			vec.rotateAroundY((float) (Math.PI / 8));
+			this.trySubscribe(worldObj, xCoord + (int)vec.xCoord, yCoord + 3, zCoord + (int)vec.zCoord, ForgeDirection.UP);
+			this.trySubscribe(worldObj, xCoord + (int)vec.xCoord, yCoord - 3, zCoord + (int)vec.zCoord, ForgeDirection.DOWN);
+		}
+	}
+	
+	private void explode() {
+		this.disassemble();
+		
+		if(this.plasma.getTankType() == Fluids.PLASMA_BF) {
+			
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+			ExplosionLarge.spawnShrapnels(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 50);
+			
+			ExplosionNT exp = new ExplosionNT(worldObj, null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 20F)
+					.addAttrib(ExAttrib.BALEFIRE)
+					.addAttrib(ExAttrib.NOPARTICLE)
+					.addAttrib(ExAttrib.NOSOUND)
+					.addAttrib(ExAttrib.NODROP)
+					.overrideResolution(64);
+			exp.doExplosionA();
+			exp.doExplosionB(false);
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "muke");
+			data.setBoolean("balefire", true);
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
+			
+		} else {
+			Vec3 vec = Vec3.createVectorHelper(5.5, 0, 0);
+			vec.rotateAroundY(worldObj.rand.nextFloat() * (float)Math.PI * 2F);
+			
+			worldObj.newExplosion(null, xCoord + 0.5 + vec.xCoord, yCoord + 0.5 + worldObj.rand.nextGaussian() * 1.5D, zCoord + 0.5 + vec.zCoord, 2.5F, true, true);
+		}
+		
+	}
+
 	private void doBreederStuff() {
 		
 		if(plasma.getFill() == 0) {
@@ -191,10 +238,10 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		BreederRecipe out = BreederRecipes.getOutput(slots[1]);
 		
 		if(slots[1] != null && slots[1].getItem() == ModItems.meteorite_sword_irradiated)
-			out = new BreederRecipe(ModItems.meteorite_sword_fused, 1);
+			out = new BreederRecipe(ModItems.meteorite_sword_fused, 1000);
 		
 		if(slots[1] != null && slots[1].getItem() == ModItems.meteorite_sword_fused)
-			out = new BreederRecipe(ModItems.meteorite_sword_baleful, 4);
+			out = new BreederRecipe(ModItems.meteorite_sword_baleful, 4000);
 		
 		if(out == null) {
 			this.progress = 0;
@@ -208,7 +255,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		
 		int level = FusionRecipes.getBreedingLevel(plasma.getTankType());
 		
-		if(out.heat > level) {
+		if(out.flux > level) {
 			this.progress = 0;
 			return;
 		}
@@ -225,7 +272,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			
 			slots[1].stackSize--;
 			
-			if(slots[1].stackSize <=0)
+			if(slots[1].stackSize <= 0)
 				slots[1] = null;
 			
 			this.markDirty();
@@ -239,7 +286,16 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return new int[] { 2, 4 };
+		return new int[] { 1, 2, 4 };
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		
+		if(i == 1 && BreederRecipes.getOutput(itemStack) != null)
+			return true;
+		
+		return false;
 	}
 	
 	private void produceByproduct() {
@@ -307,7 +363,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
 		
@@ -326,22 +382,12 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
 		
 		if(index == 2)
 			plasma.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-		list.add(plasma);
-		
-		return list;
 	}
 
 	@Override
@@ -486,5 +532,20 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		for(EntityPlayer player : players) {
 			player.triggerAchievement(MainRegistry.achMeltdown);
 		}
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks[1]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0]};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

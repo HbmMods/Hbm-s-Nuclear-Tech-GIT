@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidDuct;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityOilDuctSolid extends TileEntity implements IFluidDuct {
 
-	public FluidType type = FluidType.OIL;
+	public FluidType type = Fluids.OIL;
 	public List<UnionOfTileEntitiesAndBooleansForFluids> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForFluids>();
 
 	@Override
@@ -19,4 +20,8 @@ public class TileEntityOilDuctSolid extends TileEntity implements IFluidDuct {
 		return type;
 	}
 
+	@Override
+	public boolean setType(FluidType type) {
+		return false;
+	}
 }

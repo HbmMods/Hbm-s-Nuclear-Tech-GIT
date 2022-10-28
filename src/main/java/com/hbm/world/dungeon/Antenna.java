@@ -90,7 +90,7 @@ public class Antenna extends WorldGenerator
 		world.setBlock(x + 1, y + 0, z + 2, ModBlocks.steel_poles, 3, 3);
 		world.setBlock(x + 2, y + 0, z + 2, Blocks.chest, 0, 3);
 		world.setBlockMetadataWithNotify(x + 2, y + 0, z + 2, 5, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(2), (TileEntityChest)world.getTileEntity(x + 2, y, z + 2), 8);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.antenna, (TileEntityChest)world.getTileEntity(x + 2, y, z + 2), 8);
 		world.setBlock(x + 0, y + 1, z + 0, Blocks.air, 0, 3);
 		world.setBlock(x + 1, y + 1, z + 0, ModBlocks.steel_poles, 2, 3);
 		world.setBlock(x + 2, y + 1, z + 0, Blocks.air, 0, 3);

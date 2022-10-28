@@ -13,7 +13,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityCrateIron;
+import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.util.LootGenerator;
 
 import net.minecraft.block.Block;
@@ -655,7 +655,7 @@ public class Relay extends WorldGenerator
 		world.setBlock(x + 4, y + 0, z + 10, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 6, y + 0, z + 10, ModBlocks.crate_iron, 0, 3);
 		world.setBlockMetadataWithNotify(x + 6, y + 0, z + 10, 3, 3);
-		WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityCrateIron)world.getTileEntity(x + 6, y + 0, z + 10), 8);
+		WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.modGeneric, (TileEntityCrateIron)world.getTileEntity(x + 6, y + 0, z + 10), 8);
 		
 		if(world.rand.nextInt(5) == 0) {
 			((TileEntityCrateIron)world.getTileEntity(x + 6, y + 0, z + 10)).setInventorySlotContents(11, new ItemStack(ModItems.morning_glory));
@@ -1292,7 +1292,7 @@ public class Relay extends WorldGenerator
 		world.setBlock(x + 7, y + 14, z + 6, Block4, 2, 3);
 		world.setBlock(x + 8, y + 14, z + 6, ModBlocks.crate_iron, 0, 3);
 		world.setBlockMetadataWithNotify(x + 8, y + 14, z + 6, 3, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(2), (TileEntityCrateIron)world.getTileEntity(x + 8, y + 14, z + 6), 8);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.antenna, (TileEntityCrateIron)world.getTileEntity(x + 8, y + 14, z + 6), 8);
 		world.setBlock(x + 9, y + 14, z + 6, ModBlocks.fence_metal, 0, 3);
 		world.setBlock(x + 10, y + 14, z + 6, Block6, 0, 3);
 		world.setBlock(x + 9, y + 14, z + 7, ModBlocks.fence_metal, 0, 3);
@@ -1512,7 +1512,7 @@ public class Relay extends WorldGenerator
 		world.setBlock(x + 5, y + 32, z + 2, Block6, 0, 3);
 		world.setBlock(x + 6, y + 32, z + 2, ModBlocks.crate_iron, 0, 3);
 		world.setBlockMetadataWithNotify(x + 6, y + 32, z + 2, 2, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityCrateIron)world.getTileEntity(x + 6, y + 32, z + 2), 8);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.expensive, (TileEntityCrateIron)world.getTileEntity(x + 6, y + 32, z + 2), 8);
 		world.setBlock(x + 7, y + 32, z + 2, Block6, 0, 3);
 		world.setBlock(x + 5, y + 32, z + 3, Block4, 3, 3);
 		world.setBlock(x + 6, y + 32, z + 3, Block2, 0, 3);

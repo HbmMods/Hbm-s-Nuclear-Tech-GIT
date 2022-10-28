@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
+import com.hbm.blocks.machine.ZirnoxDestroyed;
 import com.hbm.blocks.machine.rbmk.RBMKDebris;
 
 import cpw.mods.fml.relauncher.Side;
@@ -55,7 +56,7 @@ public class BlockLayering extends Block {
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
 		Block block = world.getBlock(x, y - 1, z);
 		
-		if(block instanceof RBMKDebris)
+		if(block instanceof RBMKDebris || block instanceof ZirnoxDestroyed)
 			return true;
 		
 		return block != Blocks.ice && block != Blocks.packed_ice ? (block.isLeaves(world, x, y - 1, z) ? true : (block == this && (world.getBlockMetadata(x, y - 1, z) & 7) == 7 ? true : block.isOpaqueCube() && block.getMaterial().blocksMovement())) : false;
@@ -84,9 +85,9 @@ public class BlockLayering extends Block {
 	}
 
 	public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_) {
-		if(p_149674_1_.getSavedLightValue(EnumSkyBlock.Block, p_149674_2_, p_149674_3_, p_149674_4_) > 11) {
+		/*if(p_149674_1_.getSavedLightValue(EnumSkyBlock.Block, p_149674_2_, p_149674_3_, p_149674_4_) > 11) {
 			p_149674_1_.setBlockToAir(p_149674_2_, p_149674_3_, p_149674_4_);
-		}
+		}*/
 	}
 
 	@SideOnly(Side.CLIENT)

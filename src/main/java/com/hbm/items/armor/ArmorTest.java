@@ -8,7 +8,6 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
 public class ArmorTest extends ItemArmor {
-	private String [] armourTypes = new String [] {"test_helmet", "test_chestplate", "test_leggings", "test_boots"};
 	
 	public ArmorTest(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
 		super(armorMaterial, renderIndex, armorType);

@@ -38,7 +38,8 @@ public class HazardSystem {
 	/*
 	 * For items that should, for whichever reason, be completely exempt from the hazard system.
 	 */
-	public static final HashSet<ComparableStack> blacklist = new HashSet();
+	public static final HashSet<ComparableStack> stackBlacklist = new HashSet();
+	public static final HashSet<String> dictBlacklist = new HashSet();
 	/*
 	 * List of hazard transformers, called in order before and after unrolling all the HazardEntries.
 	 */
@@ -67,12 +68,29 @@ public class HazardSystem {
 	 * Prevents the stack from returning any HazardData
 	 * @param stack
 	 */
-	public static void blacklist(ItemStack stack) {
-		blacklist.add(new ComparableStack(stack).makeSingular());
+	public static void blacklist(Object o) {
+		
+		if(o instanceof ItemStack) {
+			stackBlacklist.add(new ComparableStack((ItemStack) o).makeSingular());
+		} else if(o instanceof String) {
+			dictBlacklist.add((String) o);
+		}
 	}
 	
 	public static boolean isItemBlacklisted(ItemStack stack) {
-		return blacklist.contains(new ComparableStack(stack).makeSingular());
+		
+		if(stackBlacklist.contains(new ComparableStack(stack).makeSingular()))
+			return true;
+
+		int[] ids = OreDictionary.getOreIDs(stack);
+		for(int id : ids) {
+			String name = OreDictionary.getOreName(id);
+			
+			if(dictBlacklist.contains(name))
+				return true;
+		}
+		
+		return false;
 	}
 	
 	/**

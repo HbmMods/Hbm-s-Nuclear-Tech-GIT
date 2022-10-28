@@ -3,7 +3,7 @@ package com.hbm.world.generator.room;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.crafting.handlers.MKUCraftingHandler;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.machine.TileEntitySafe;
+import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import com.hbm.world.generator.CellularDungeon;
 import com.hbm.world.generator.CellularDungeonRoom;
 import com.hbm.world.generator.DungeonToolbox;
@@ -135,7 +135,7 @@ public class TestDungeonRoom8 extends CellularDungeonRoom {
 			ingred = ModItems.dust;
 		} else if(r == 3) {
 			orig = bookMercury;
-			ingred = ModItems.nugget_mercury;
+			ingred = ModItems.ingot_mercury;
 		} else if(r == 4) {
 			orig = bookFlower;
 			ingred = ModItems.morning_glory;

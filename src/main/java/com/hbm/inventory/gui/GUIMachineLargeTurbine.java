@@ -2,9 +2,9 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineLargeTurbine;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineLargeTurbine;
 
@@ -33,7 +33,7 @@ public class GUIMachineLargeTurbine extends GuiInfoContainer {
 		turbine.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 69 - 52, 16, 52);
 		turbine.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 69 - 52, 16, 52);
 		
-		if(turbine.tanks[1].getTankType().name().equals(FluidType.NONE.name())) {
+		if(turbine.tanks[1].getTankType().name().equals(Fluids.NONE.name())) {
 			
 			String[] text2 = new String[] { "Error: Invalid fluid!" };
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 16 + 32, text2);
@@ -56,30 +56,19 @@ public class GUIMachineLargeTurbine extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		if(turbine.tanks[0].getTankType().name().equals(FluidType.STEAM.name())) {
-			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 0, 14, 14);
-		}
-		if(turbine.tanks[0].getTankType().name().equals(FluidType.HOTSTEAM.name())) {
-			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 14, 14, 14);
-		}
-		if(turbine.tanks[0].getTankType().name().equals(FluidType.SUPERHOTSTEAM.name())) {
-			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 28, 14, 14);
-		}
-		if(turbine.tanks[0].getTankType().name().equals(FluidType.ULTRAHOTSTEAM.name())) {
-			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 42, 14, 14);
-		}
+		if(turbine.tanks[0].getTankType() == Fluids.STEAM) drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 0, 14, 14);
+		if(turbine.tanks[0].getTankType() == Fluids.HOTSTEAM) drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 14, 14, 14);
+		if(turbine.tanks[0].getTankType() == Fluids.SUPERHOTSTEAM)drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 28, 14, 14);
+		if(turbine.tanks[0].getTankType() == Fluids.ULTRAHOTSTEAM)drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 42, 14, 14);
 
 		int i = (int)turbine.getPowerScaled(34);
 		drawTexturedModalRect(guiLeft + 123, guiTop + 69 - i, 176, 34 - i, 7, i);
 		
-		if(turbine.tanks[1].getTankType().name().equals(FluidType.NONE.name())) {
+		if(turbine.tanks[1].getTankType() == Fluids.NONE) {
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 		}
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(turbine.tanks[0].getSheet());
-		turbine.tanks[0].renderTank(this, guiLeft + 62, guiTop + 69, turbine.tanks[0].getTankType().textureX() * FluidTank.x, turbine.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(turbine.tanks[1].getSheet());
-		turbine.tanks[1].renderTank(this, guiLeft + 134, guiTop + 69, turbine.tanks[1].getTankType().textureX() * FluidTank.x, turbine.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		turbine.tanks[0].renderTank(guiLeft + 62, guiTop + 69, this.zLevel, 16, 52);
+		turbine.tanks[1].renderTank(guiLeft + 134, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

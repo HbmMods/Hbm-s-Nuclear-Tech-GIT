@@ -27,18 +27,12 @@ public class PacketDispatcher {
 		wrapper.registerMessage(TEDrillSoundPacket.Handler.class, TEDrillSoundPacket.class, i++, Side.CLIENT);
 		//Assembler cog rotation for rendering
 		wrapper.registerMessage(TEAssemblerPacket.Handler.class, TEAssemblerPacket.class, i++, Side.CLIENT);
-		//Fluid type for pipe rendering
-		wrapper.registerMessage(TEFluidPipePacket.Handler.class, TEFluidPipePacket.class, i++, Side.CLIENT);
 		//Missile type for rendering
 		wrapper.registerMessage(TEMissilePacket.Handler.class, TEMissilePacket.class, i++, Side.CLIENT);
 		//Fluid packet for GUI
 		wrapper.registerMessage(TEFluidPacket.Handler.class, TEFluidPacket.class, i++, Side.CLIENT);
 		//Sound packet that keeps client and server separated
 		wrapper.registerMessage(LoopedSoundPacket.Handler.class, LoopedSoundPacket.class, i++, Side.CLIENT);
-		//Chemplant piston rotation for rendering
-		wrapper.registerMessage(TEChemplantPacket.Handler.class, TEChemplantPacket.class, i++, Side.CLIENT);
-		//Turret rotation for rendering
-		wrapper.registerMessage(TETurretPacket.Handler.class, TETurretPacket.class, i++, Side.CLIENT);
 		//Signals server to consume items and create template
 		wrapper.registerMessage(ItemFolderPacket.Handler.class, ItemFolderPacket.class, i++, Side.SERVER);
 		//Turbofan spin for rendering
@@ -73,8 +67,6 @@ public class PacketDispatcher {
 		wrapper.registerMessage(LoopedEntitySoundPacket.Handler.class, LoopedEntitySoundPacket.class, i++, Side.CLIENT);
 		//Entity sound packet that keeps client and server separated
 		wrapper.registerMessage(TEFFPacket.Handler.class, TEFFPacket.class, i++, Side.CLIENT);
-		//Information packet for the reactor control block
-		wrapper.registerMessage(TEControlPacket.Handler.class, TEControlPacket.class, i++, Side.CLIENT);
 		//Sends button information for ItemGunBase
 		wrapper.registerMessage(GunButtonPacket.Handler.class, GunButtonPacket.class, i++, Side.SERVER);
 		//Packet to send block break particles
@@ -99,6 +91,16 @@ public class PacketDispatcher {
 		wrapper.registerMessage(NBTControlPacket.Handler.class, NBTControlPacket.class, i++, Side.SERVER);
 		//Packet to send for anvil recipes to be crafted
 		wrapper.registerMessage(AnvilCraftPacket.Handler.class, AnvilCraftPacket.class, i++, Side.SERVER);
+		//Sends a funi text to display like a music disc announcement
+		wrapper.registerMessage(TEDoorAnimationPacket.Handler.class, TEDoorAnimationPacket.class, i++, Side.CLIENT);
+		//Does ExVNT standard player knockback
+		wrapper.registerMessage(ExplosionKnockbackPacket.Handler.class, ExplosionKnockbackPacket.class, i++, Side.CLIENT);
+		//just go fuck yourself already
+		wrapper.registerMessage(ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket.Handler.class, ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket.class, i++, Side.CLIENT);
+		//Packet to send NBT data from clients to the serverside held item
+		wrapper.registerMessage(NBTItemControlPacket.Handler.class, NBTItemControlPacket.class, i++, Side.SERVER);
+		//sends a button press to the held item, assuming it is an ISyncButtons
+		wrapper.registerMessage(SyncButtonsPacket.Handler.class, SyncButtonsPacket.class, i++, Side.SERVER);
 	}
 	
 }

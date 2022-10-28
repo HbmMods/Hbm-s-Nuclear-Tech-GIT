@@ -3,26 +3,33 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFluidAcceptor {
+public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFluidAcceptor, IFluidStandardReceiver {
 	
 	public FluidTank tank;
 	
 	public TileEntityTurretFritz() {
 		super();
-		this.tank = new FluidTank(FluidType.DIESEL, 16000, 0);
+		this.tank = new FluidTank(Fluids.DIESEL, 16000, 0);
 	}
 	
 	@Override
@@ -33,6 +40,20 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	@Override
 	protected List<Integer> getAmmoList() {
 		return null;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public List<ItemStack> getAmmoTypesForDisplay() {
+		
+		if(ammoStacks != null)
+			return ammoStacks;
+		
+		ammoStacks = new ArrayList();
+
+		ammoStacks.add(new ItemStack(ModItems.fluid_icon, 1, Fluids.DIESEL.getID()));
+		ammoStacks.add(new ItemStack(ModItems.ammo_fuel));
+		
+		return ammoStacks;
 	}
 	
 	@Override
@@ -68,7 +89,7 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	@Override
 	public void updateFiringTick() {
 		
-		if(this.tank.getTankType() == FluidType.DIESEL && this.tank.getFill() >= 10) {
+		if(this.tank.getTankType() == Fluids.DIESEL && this.tank.getFill() >= 10) {
 			
 			BulletConfiguration conf = BulletConfigSyncingUtil.pullConfig(BulletConfigSyncingUtil.FLA_NORMAL);
 			this.spawnBullet(conf);
@@ -106,13 +127,37 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 			for(int i = 1; i < 10; i++) {
 				
 				if(slots[i] != null && slots[i].getItem() == ModItems.ammo_fuel) {
-					if(this.tank.getTankType() == FluidType.DIESEL && this.tank.getFill() + 1000 <= this.tank.getMaxFill()) {
+					if(this.tank.getTankType() == Fluids.DIESEL && this.tank.getFill() + 1000 <= this.tank.getMaxFill()) {
 						this.tank.setFill(this.tank.getFill() + 1000);
 						this.decrStackSize(i, 1);
 					}
 				}
 			}
 		}
+	}
+
+	@Override //TODO: clean this shit up
+	protected void updateConnections() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
+		
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
 	}
 	
 	@Override
@@ -133,12 +178,12 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
 	}
 
@@ -159,10 +204,12 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	}
 
 	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tank);
-		
-		return list;
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
 	}
 }

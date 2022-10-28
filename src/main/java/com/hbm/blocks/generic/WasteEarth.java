@@ -4,8 +4,8 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.RadiationConfig;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.relauncher.Side;
@@ -159,7 +159,7 @@ public class WasteEarth extends Block {
 
 		if(this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) {
 			
-			if(GeneralConfig.enableAutoCleanup || (world.getBlockLightValue(x, y + 1, z) < 4 && world.getBlockLightOpacity(x, y + 1, z) > 2)) {
+			if(RadiationConfig.cleanupDeadDirt || (world.getBlockLightValue(x, y + 1, z) < 4 && world.getBlockLightOpacity(x, y + 1, z) > 2)) {
 				world.setBlock(x, y, z, Blocks.dirt);
 				
 			}
@@ -175,7 +175,7 @@ public class WasteEarth extends Block {
 		
 		if(this == ModBlocks.burning_earth) {
 			Block b = world.getBlock(x, y + 1, z);
-			if(b instanceof BlockLiquid || b instanceof BlockFluidBase || b.isBlockNormalCube()) {
+			if(b instanceof BlockLiquid || b instanceof BlockFluidBase || b.isNormalCube()) {
 				world.setBlock(x, y, z, Blocks.dirt);
 			}
 		}

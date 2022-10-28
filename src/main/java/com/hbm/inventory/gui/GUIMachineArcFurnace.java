@@ -45,19 +45,10 @@ public class GUIMachineArcFurnace extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		//failsafe TE clone
-		//if initial TE invalidates, new TE is fetched
-		//if initial ZE is still present, it'll be used instead
-		//works so that container packets can still be used
-		//efficiency!
-		TileEntityMachineArcFurnace fs = null;
-		
 		if(diFurnace.isInvalid() && diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord) instanceof TileEntityMachineArcFurnace)
-			fs = (TileEntityMachineArcFurnace) diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord);
-		else
-			fs = diFurnace;
+			diFurnace = (TileEntityMachineArcFurnace) diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord);
 		
-		if(fs.hasPower()) {
+		if(diFurnace.hasPower()) {
 			int i = (int)diFurnace.getPowerRemainingScaled(34);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 51 - i, 176, 67 - i, 16, i);
 		}
@@ -67,7 +58,7 @@ public class GUIMachineArcFurnace extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 55, guiTop + 35, 176, 0, 15, 16);
 		}
 		
-		int j1 = fs.getDiFurnaceProgressScaled(24);
+		int j1 = diFurnace.getDiFurnaceProgressScaled(24);
 		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 16, j1 + 1, 17);
 	}
 }

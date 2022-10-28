@@ -2,12 +2,13 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineCyclotron;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineCyclotron;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -37,8 +38,12 @@ public class GUIMachineCyclotron extends GuiInfoContainer {
 		cyclotron.coolant.renderTankInfo(this, mouseX, mouseY, guiLeft + 53, guiTop + 72, 7, 52);
 		cyclotron.amat.renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 90, 7, 34);
 
-		String[] text = new String[] { "Acceptable upgrades:", " -Speed (stacks to level 3)", " -Effectiveness (stacks to level 3)", " -Power Saving (stacks to level 3)" };
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 21, guiTop + 75, 8, 8, mouseX, mouseY, text);
+		String[] upgradeText = new String[4];
+		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
+		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
+		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.effectiveness");
+		upgradeText[3] = I18nUtil.resolveKey("desc.gui.upgrade.power");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 21, guiTop + 75, 8, 8, mouseX, mouseY, upgradeText);
 	}
 
 	@Override
@@ -77,9 +82,7 @@ public class GUIMachineCyclotron extends GuiInfoContainer {
 
 		this.drawInfoPanel(guiLeft + 21, guiTop + 75, 8, 8, 8);
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(cyclotron.coolant.getSheet());
-		cyclotron.coolant.renderTank(this, guiLeft + 53, guiTop + 124, cyclotron.coolant.getTankType().textureX() * FluidTank.x, cyclotron.coolant.getTankType().textureY() * FluidTank.y, 7, 52);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(cyclotron.amat.getSheet());
-		cyclotron.amat.renderTank(this, guiLeft + 134, guiTop + 124, cyclotron.amat.getTankType().textureX() * FluidTank.x, cyclotron.amat.getTankType().textureY() * FluidTank.y, 7, 34);
+		cyclotron.coolant.renderTank(guiLeft + 53, guiTop + 124, this.zLevel, 7, 52);
+		cyclotron.amat.renderTank(guiLeft + 134, guiTop + 124, this.zLevel, 7, 34);
 	}
 }

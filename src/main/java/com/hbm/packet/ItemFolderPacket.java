@@ -1,9 +1,12 @@
 package com.hbm.packet;
 
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;
+import com.hbm.items.machine.ItemCrucibleTemplate;
 import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.util.InventoryUtil;
 
@@ -57,7 +60,17 @@ public class ItemFolderPacket implements IMessage {
 					ItemStack stack = new ItemStack(Item.getItemById(m.item), 1, m.meta);
 					
 					if(p.capabilities.isCreativeMode) {
-						p.inventory.addItemStackToInventory(stack.copy());
+						
+						if(stack.getItem() == ModItems.assembly_template) {
+							ComparableStack out = AssemblerRecipes.recipeList.get(stack.getItemDamage());
+							
+							if(out != null) {
+								stack.setItemDamage(0);
+								ItemAssemblyTemplate.writeType(stack, out);
+							}
+						}
+						
+						p.inventory.addItemStackToInventory(stack);
 						return null;
 					}
 
@@ -70,6 +83,10 @@ public class ItemFolderPacket implements IMessage {
 						return null;
 					}
 					if(stack.getItem() instanceof ItemChemistryTemplate) {
+						tryMakeItem(p, stack, Items.paper, "dye");
+						return null;
+					}
+					if(stack.getItem() instanceof ItemCrucibleTemplate) {
 						tryMakeItem(p, stack, Items.paper, "dye");
 						return null;
 					}
@@ -143,6 +160,15 @@ public class ItemFolderPacket implements IMessage {
 				
 				if(o instanceof String) {
 					InventoryUtil.consumeOreDictMatches(player, (String)o, 1);
+				}
+			}
+			
+			if(output.getItem() == ModItems.assembly_template) {
+				ComparableStack out = AssemblerRecipes.recipeList.get(output.getItemDamage());
+				
+				if(out != null) {
+					output.setItemDamage(0);
+					ItemAssemblyTemplate.writeType(output, out);
 				}
 			}
 			

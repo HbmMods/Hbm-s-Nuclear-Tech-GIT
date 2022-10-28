@@ -3,18 +3,20 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.mob.EntityBlockSpider;
+import com.hbm.entity.effect.EntityNukeTorex;
+import com.hbm.entity.mob.siege.EntitySiegeTunneler;
+import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemKitCustom;
 import com.hbm.lib.Library;
-import com.hbm.world.dungeon.Bunker;
-import com.hbm.world.dungeon.Relay;
-import com.hbm.world.generator.CellularDungeonFactory;
+import com.hbm.world.feature.OilSpot;
 
-import api.hbm.energy.IEnergyConductor;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -26,31 +28,33 @@ public class ItemWandD extends Item {
 		if(world.isRemote)
 			return stack;
 		
-		MovingObjectPosition pos = Library.rayTrace(player, 500, 1);
+		MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
 		
 		if(pos != null) {
 			
-			int x = pos.blockX;
-			int z = pos.blockZ;
-			//int y = world.getHeightValue(x, z);
-			int y = pos.blockY;
+			OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 20, 500);
 			
-			TileEntity te = world.getTileEntity(x, y, z);
-			if(te instanceof IEnergyConductor) {
-				IEnergyConductor con = (IEnergyConductor) te;
-				player.addChatComponentMessage(new ChatComponentText("" + con.getPowerNet()));
-			}
+			/*EntityNukeTorex torex = new EntityNukeTorex(world);
+			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
+			world.spawnEntityInWorld(torex);*/
+			
+			/*EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
+			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);
+			tunneler.onSpawnWithEgg(null);
+			world.spawnEntityInWorld(tunneler);*/
 			
 			//CellularDungeonFactory.meteor.generate(world, x, y, z, world.rand);
 			
 			/*int r = 5;
 			
+			int x = pos.blockX;
+			int y = pos.blockY;
+			int z = pos.blockZ;
 			for(int i = x - r; i <= x + r; i++) {
 				for(int j = y - r; j <= y + r; j++) {
 					for(int k = z - r; k <= z + r; k++) {
-						
-						world.setBlock(i, j, k, ModBlocks.vacuum);
-						//world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
+						if(world.getBlock(i, j, k) == ModBlocks.concrete_super)
+							world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
 					}
 				}
 			}*/

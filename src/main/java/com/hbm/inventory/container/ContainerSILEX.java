@@ -16,16 +16,16 @@ public class ContainerSILEX extends Container {
 
 	public ContainerSILEX(InventoryPlayer invPlayer, TileEntitySILEX te) {
 		silex = te;
-
+		
 		//Input
-		this.addSlotToContainer(new Slot(te, 0, 116, 36));
+		this.addSlotToContainer(new Slot(te, 0, 80, 12));
 		//Fluid ID
-		this.addSlotToContainer(new Slot(te, 1, 44, 36));
+		this.addSlotToContainer(new Slot(te, 1, 8, 24));
 		//Fluid Container
-		this.addSlotToContainer(new Slot(te, 2, 62, 36));
-		this.addSlotToContainer(new Slot(te, 3, 80, 36));
+		this.addSlotToContainer(new Slot(te, 2, 8 + 18, 24));
+		this.addSlotToContainer(new Slot(te, 3, 8 + 18*2, 24));
 		//Output
-		this.addSlotToContainer(new Slot(te, 4, 116, 90));
+		this.addSlotToContainer(new SlotMachineOutput(te, 4, 116, 90));
 		//Output Queue
 		this.addSlotToContainer(new SlotMachineOutput(te, 5, 134, 72));
 		this.addSlotToContainer(new SlotMachineOutput(te, 6, 152, 72));
@@ -56,7 +56,6 @@ public class ContainerSILEX extends Container {
 		if(var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			SlotMachineOutput.checkAchievements(p_82846_1_, var5);
 
 			if(par2 <= silex.getSizeInventory() - 1) {
 				if(!this.mergeItemStack(var5, silex.getSizeInventory(), this.inventorySlots.size(), true)) {

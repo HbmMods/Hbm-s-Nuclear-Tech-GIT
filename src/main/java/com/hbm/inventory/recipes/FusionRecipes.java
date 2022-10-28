@@ -1,77 +1,82 @@
 package com.hbm.inventory.recipes;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 
 import net.minecraft.item.ItemStack;
 
 public class FusionRecipes {
 	
+	public static HashMap<FluidType, Integer> chances = new HashMap();
+	static {
+		chances.put(Fluids.PLASMA_DT, 1200);
+		chances.put(Fluids.PLASMA_DH3, 600);
+		chances.put(Fluids.PLASMA_HD, 1200);
+		chances.put(Fluids.PLASMA_HT, 1200);
+		chances.put(Fluids.PLASMA_XM, 1200);
+		chances.put(Fluids.PLASMA_BF, 150);
+	}
+	
 	public static int getByproductChance(FluidType plasma) {
-		
-		switch(plasma) {
-		case PLASMA_DT: return 1200;
-		case PLASMA_DH3: return 600;
-		case PLASMA_HD: return 1200;
-		case PLASMA_HT: return 1200;
-		case PLASMA_XM: return 2400;
-		case PLASMA_BF: return 150;
-		default: return 0;
-		}
+		Integer chance = chances.get(plasma);
+		return chance != null ? chance : 0;
+	}
+	
+	public static HashMap<FluidType, Integer> levels = new HashMap();
+	static {
+		levels.put(Fluids.PLASMA_DT, 1000);
+		levels.put(Fluids.PLASMA_DH3, 2000);
+		levels.put(Fluids.PLASMA_HD, 1000);
+		levels.put(Fluids.PLASMA_HT, 1000);
+		levels.put(Fluids.PLASMA_XM, 3000);
+		levels.put(Fluids.PLASMA_BF, 4000);
 	}
 	
 	public static int getBreedingLevel(FluidType plasma) {
-		
-		switch(plasma) {
-		case PLASMA_DT: return 1;
-		case PLASMA_DH3: return 2;
-		case PLASMA_HD: return 1;
-		case PLASMA_HT: return 1;
-		case PLASMA_XM: return 3; 
-		case PLASMA_BF: return 4;
-		default: return 0;
-		}
+		Integer level = levels.get(plasma);
+		return level != null ? level : 0;
+	}
+	
+	public static HashMap<FluidType, ItemStack> byproducts = new HashMap();
+	static {
+		byproducts.put(Fluids.PLASMA_DT, new ItemStack(ModItems.pellet_charged));
+		byproducts.put(Fluids.PLASMA_DH3, new ItemStack(ModItems.pellet_charged));
+		byproducts.put(Fluids.PLASMA_HD, new ItemStack(ModItems.pellet_charged));
+		byproducts.put(Fluids.PLASMA_HT, new ItemStack(ModItems.pellet_charged));
+		byproducts.put(Fluids.PLASMA_XM, new ItemStack(ModItems.powder_chlorophyte));
+		byproducts.put(Fluids.PLASMA_BF, new ItemStack(ModItems.powder_balefire));
 	}
 	
 	public static ItemStack getByproduct(FluidType plasma) {
-		
-		switch(plasma) {
-		case PLASMA_DT: return new ItemStack(ModItems.pellet_charged);
-		case PLASMA_DH3: return new ItemStack(ModItems.pellet_charged);
-		case PLASMA_HD: return new ItemStack(ModItems.pellet_charged);
-		case PLASMA_HT: return new ItemStack(ModItems.pellet_charged);
-		case PLASMA_XM: return new ItemStack(ModItems.powder_chlorophyte);
-		case PLASMA_BF: return new ItemStack(ModItems.powder_balefire);
-		default: return null;
-		}
+		ItemStack byproduct = byproducts.get(plasma);
+		return byproduct != null ? byproduct.copy() : null;
+	}
+	
+	public static HashMap<FluidType, Integer> steamprod = new HashMap();
+	static {
+		steamprod.put(Fluids.PLASMA_DT, 30);
+		steamprod.put(Fluids.PLASMA_DH3, 50);
+		steamprod.put(Fluids.PLASMA_HD, 20);
+		steamprod.put(Fluids.PLASMA_HT, 25);
+		steamprod.put(Fluids.PLASMA_XM, 60);
+		steamprod.put(Fluids.PLASMA_BF, 160);
 	}
 	
 	public static int getSteamProduction(FluidType plasma) {
-		
-		switch(plasma) {
-		case PLASMA_DT: return 30;
-		case PLASMA_DH3: return 50;
-		case PLASMA_HD: return 20;
-		case PLASMA_HT: return 25;
-		case PLASMA_XM: return 60; 
-		case PLASMA_BF: return 160;
-		default: return 0;
-		}
+		Integer steam = steamprod.get(plasma);
+		return steam != null ? steam : 0;
 	}
 	
 	public static HashMap<ItemStack, ItemStack> getRecipes() {
 		
 		HashMap<ItemStack, ItemStack> map = new HashMap();
-
-		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_DT.ordinal()), getByproduct(FluidType.PLASMA_DT));
-		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_DH3.ordinal()), getByproduct(FluidType.PLASMA_DH3));
-		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_HD.ordinal()), getByproduct(FluidType.PLASMA_HD));
-		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_HT.ordinal()), getByproduct(FluidType.PLASMA_HT));
-		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_XM.ordinal()), getByproduct(FluidType.PLASMA_XM));
-		map.put(new ItemStack(ModItems.fluid_icon, 1, FluidType.PLASMA_BF.ordinal()), getByproduct(FluidType.PLASMA_BF));
-		
+		for(Entry<FluidType, ItemStack> entry : byproducts.entrySet()) {
+			map.put(new ItemStack(ModItems.fluid_icon, 1, entry.getKey().getID()), entry.getValue().copy());
+		}
 		return map;
 	}
 

@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.machine.rbmk.RBMKBase;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import scala.actors.threadpool.Arrays;
 
 public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	
@@ -22,7 +22,7 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	public FluidTank steam;
 	
 	public TileEntityRBMKOutlet() {
-		steam = new FluidTank(FluidType.SUPERHOTSTEAM, 32000, 0);
+		steam = new FluidTank(Fluids.SUPERHOTSTEAM, 32000, 0);
 	}
 	
 	@Override
@@ -68,7 +68,7 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		steam.setFill(fill);
 	}
 
@@ -78,13 +78,8 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		steam.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		return Arrays.asList(new FluidTank[] {steam});
 	}
 
 	@Override

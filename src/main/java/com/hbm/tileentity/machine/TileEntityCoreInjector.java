@@ -1,13 +1,12 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Blocks;
@@ -16,7 +15,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidAcceptor {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidAcceptor, IFluidStandardReceiver, SimpleComponent {
 	
 	public FluidTank[] tanks;
 	public static final int range = 15;
@@ -25,8 +31,8 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 	public TileEntityCoreInjector() {
 		super(4);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.DEUTERIUM, 128000, 0);
-		tanks[1] = new FluidTank(FluidType.TRITIUM, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 128000, 0);
+		tanks[1] = new FluidTank(Fluids.TRITIUM, 128000, 1);
 	}
 
 	@Override
@@ -38,6 +44,9 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.subscribeToAllAround(tanks[0].getTankType(), this);
+			this.subscribeToAllAround(tanks[1].getTankType(), this);
 
 			tanks[0].setType(0, 1, slots);
 			tanks[1].setType(2, 3, slots);
@@ -130,24 +139,15 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-		
-		return list;
 	}
 	
 	@Override
@@ -178,4 +178,31 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 		tanks[1].writeToNBT(nbt, "fuel2");
 	}
 
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0], tanks[1]};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+	
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "dfc_injector";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFirstFuel(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSecondFuel(Context context, Arguments args) {
+		return new Object[] {tanks[1].getFill()};
+	}
 }

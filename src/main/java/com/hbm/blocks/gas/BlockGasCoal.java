@@ -33,8 +33,9 @@ public class BlockGasCoal extends BlockGasBase {
 			
 			EntityLivingBase living = (EntityLivingBase) entity;
 			
-			if(!ArmorRegistry.hasProtection(living, 3, HazardClass.PARTICLE_COARSE))
+			if(!ArmorRegistry.hasProtection(living, 3, HazardClass.PARTICLE_COARSE)) {
 				HbmLivingProps.incrementBlackLung(living, 10);
+			}
 		}
 	}
 

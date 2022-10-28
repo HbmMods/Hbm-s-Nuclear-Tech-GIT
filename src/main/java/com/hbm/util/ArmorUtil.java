@@ -54,11 +54,13 @@ public class ArmorUtil {
 		ArmorRegistry.registerHazard(ModItems.t45_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		ArmorRegistry.registerHazard(ModItems.ajr_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		ArmorRegistry.registerHazard(ModItems.ajro_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
+		ArmorRegistry.registerHazard(ModItems.steamsuit_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		ArmorRegistry.registerHazard(ModItems.hev_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		ArmorRegistry.registerHazard(ModItems.fau_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		ArmorRegistry.registerHazard(ModItems.dns_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		ArmorRegistry.registerHazard(ModItems.schrabidium_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		ArmorRegistry.registerHazard(ModItems.euphemium_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
+		ArmorRegistry.registerHazard(ModItems.rpa_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		
 		//Ob ihr wirklich richtig steht, seht ihr wenn das Licht angeht!
 		registerIfExists(Compat.MOD_GT6, "gt.armor.hazmat.universal.head", HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
@@ -96,6 +98,10 @@ public class ArmorUtil {
 			return;
 		
 		entity.getEquipmentInSlot(slot + 1).damageItem(amount, entity);
+
+		if(entity.getEquipmentInSlot(slot + 1).stackSize == 0) {
+			entity.setCurrentItemOrArmor(slot + 1, null);
+		}
 	}
 	
 	public static void resetFlightTime(EntityPlayer player) {
@@ -222,6 +228,7 @@ public class ArmorUtil {
 			"rubber",
 			"hev",
 			"ajr",
+			"rpa",
 			"spacesuit"
 	};
 	
@@ -389,5 +396,25 @@ public class ArmorUtil {
 		filter.getItem().addInformation(filter, player, lore, ext);
 		ForgeEventFactory.onItemTooltip(filter, player, lore, ext);
 		lore.forEach(x -> list.add(EnumChatFormatting.YELLOW + "  " + x));
+	}
+	
+	public static boolean isWearingEmptyMask(EntityPlayer player) {
+		
+		ItemStack mask = player.getEquipmentInSlot(4);
+		
+		if(mask == null)
+			return false;
+		
+		if(mask.getItem() instanceof IGasMask) {
+			return getGasMaskFilter(mask) == null;
+		}
+		
+		ItemStack mod = ArmorModHandler.pryMods(mask)[ArmorModHandler.helmet_only];
+		
+		if(mod != null && mod.getItem() instanceof IGasMask) {
+			return getGasMaskFilter(mod) == null;
+		}
+		
+		return false;
 	}
 }

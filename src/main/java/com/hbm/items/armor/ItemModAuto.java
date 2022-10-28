@@ -1,7 +1,6 @@
 package com.hbm.items.armor;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ArmorModHandler;

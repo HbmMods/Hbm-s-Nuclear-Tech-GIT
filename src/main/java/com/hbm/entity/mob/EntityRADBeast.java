@@ -163,7 +163,7 @@ public class EntityRADBeast extends EntityMob implements IRadiationImmune {
 	}
 
 	protected Item getDropItem() {
-		return ModItems.rod_uranium_fuel_depleted;
+		return ModItems.rod_zirnox_uranium_fuel_depleted;
 	}
 
 	@Override
@@ -194,13 +194,13 @@ public class EntityRADBeast extends EntityMob implements IRadiationImmune {
 				int r = this.rand.nextInt(3);
 
 				if(r == 0) {
-					this.dropItem(this.isWet() ? ModItems.waste_uranium : ModItems.rod_uranium_fuel_depleted, 1);
+					this.dropItem(this.isWet() ? ModItems.waste_uranium : ModItems.rod_zirnox_uranium_fuel_depleted, this.isWet() ? 2 : 1);
 
 				} else if(r == 1) {
-					this.dropItem(this.isWet() ? ModItems.waste_mox : ModItems.rod_mox_fuel_depleted, 1);
+					this.dropItem(this.isWet() ? ModItems.waste_mox : ModItems.rod_zirnox_mox_fuel_depleted, this.isWet() ? 2 : 1);
 
 				} else if(r == 2) {
-					this.dropItem(this.isWet() ? ModItems.waste_plutonium : ModItems.rod_plutonium_fuel_depleted, 1);
+					this.dropItem(this.isWet() ? ModItems.waste_plutonium : ModItems.rod_zirnox_plutonium_fuel_depleted, this.isWet() ? 2 : 1);
 
 				}
 			}

@@ -1,15 +1,17 @@
 package com.hbm.main;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
-import com.hbm.blocks.machine.rbmk.RBMKBase;
+import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
@@ -23,7 +25,7 @@ import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
-import com.hbm.inventory.recipes.BreederRecipes;
+import com.hbm.items.ISyncButtons;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
@@ -35,6 +37,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.SyncButtonsPacket;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
@@ -42,7 +45,8 @@ import com.hbm.render.util.RenderAccessoryUtility;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.SoyuzPronter;
-import com.hbm.render.world.RenderNTMSkybox;
+import com.hbm.render.world.RenderNTMSkyboxChainloader;
+import com.hbm.render.world.RenderNTMSkyboxImpact;
 import com.hbm.sound.MovingSoundChopper;
 import com.hbm.sound.MovingSoundChopperMine;
 import com.hbm.sound.MovingSoundCrashing;
@@ -51,9 +55,15 @@ import com.hbm.sound.MovingSoundXVL1456;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
+import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.ItemStackUtil;
+import com.hbm.util.LoggingUtil;
+import com.hbm.wiaj.GuiWorldInAJar;
+import com.hbm.wiaj.cannery.CanneryBase;
+import com.hbm.wiaj.cannery.Jars;
 import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
@@ -63,23 +73,28 @@ import api.hbm.item.IClickReceiver;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -105,8 +120,8 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class ModEventHandlerClient {
 	
@@ -139,11 +154,28 @@ public class ModEventHandlerClient {
 			Minecraft mc = Minecraft.getMinecraft();
 			World world = mc.theWorld;
 			MovingObjectPosition mop = mc.objectMouseOver;
-			ScaledResolution resolution = event.resolution;
 			
-			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
-				((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK ) {
+				
+				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ILookOverlay) {
+					((ILookOverlay) player.getHeldItem().getItem()).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+					
+				} else if(world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
+					((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+				}
 			}
+			
+			/*if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+				ScaledResolution resolution = event.resolution;
+				GL11.glPushMatrix();
+				int pX = resolution.getScaledWidth() / 2 + 8;
+				int pZ = resolution.getScaledHeight() / 2;
+				mc.fontRenderer.drawString("META: " + world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ), pX, pZ - 3, 0xffff00);
+				GL11.glDisable(GL11.GL_BLEND);
+				GL11.glColor3f(1F, 1F, 1F);
+				GL11.glPopMatrix();
+				Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+			}*/
 		}
 		
 		/// HANLDE ANIMATION BUSES ///
@@ -173,60 +205,86 @@ public class ModEventHandlerClient {
 		if(helmet != null && helmet.getItem() instanceof ArmorFSB) {
 			((ArmorFSB)helmet.getItem()).handleOverlay(event, player);
 		}
+		if(!event.isCanceled() && event.type == event.type.HOTBAR) {
+			
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			if(props.getDashCount() > 0) {
+				RenderScreenOverlay.renderDashBar(event.resolution, Minecraft.getMinecraft().ingameGUI, props);
+					
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onOverlayRender(RenderGameOverlayEvent.Post event) {
 		
 		/// HANDLE ELECTRIC FSB HUD ///
 		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		Tessellator tess = Tessellator.instance;
+		
+		if(!event.isCanceled() && event.type == event.type.HEALTH) {
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			if(props.maxShield > 0) {
+				RenderScreenOverlay.renderShieldBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
+			}
+		}
+		
 		if(!event.isCanceled() && event.type == event.type.ARMOR) {
 			
-	        int width = event.resolution.getScaledWidth();
-	        int height = event.resolution.getScaledHeight();
-	        int left = width / 2 - 91;
-	        int top = height - GuiIngameForge.left_height - 3;
-	        
-			Tessellator tess = Tessellator.instance;
-			
+			if(ForgeHooks.getTotalArmorValue(player) == 0/* && GuiIngameForge.left_height == 59*/) {
+				GuiIngameForge.left_height -= 10;
+			}
+
+			int width = event.resolution.getScaledWidth();
+			int height = event.resolution.getScaledHeight();
+			int left = width / 2 - 91;
+
 			if(ArmorFSB.hasFSBArmorIgnoreCharge(player)) {
-				ArmorFSB chestplate = (ArmorFSB)player.inventory.armorInventory[2].getItem();
+				ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
 				boolean noHelmet = chestplate.noHelmet;
-		        
+
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
 				tess.startDrawingQuads();
-	
+
 				for(int i = 0; i < (noHelmet ? 3 : 4); i++) {
 					
+					int top = height - GuiIngameForge.left_height + 6;
+
 					ItemStack stack = player.inventory.armorInventory[i];
-					
+
 					if(!(stack != null && stack.getItem() instanceof ArmorFSBPowered))
 						break;
-					
-					float tot = 1F - (float) ((ArmorFSBPowered)stack.getItem()).getDurabilityForDisplay(stack);
-					
+
+					float tot = 1F - (float) ((ArmorFSBPowered) stack.getItem()).getDurabilityForDisplay(stack);
+
 					tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
 					tess.addVertex(left - 0.5, top - 0.5, 0);
 					tess.addVertex(left - 0.5, top + 1.5, 0);
 					tess.addVertex(left + 81.5, top + 1.5, 0);
 					tess.addVertex(left + 81.5, top - 0.5, 0);
-					
+
 					tess.setColorOpaque_F(1F - tot, tot, 0F);
 					tess.addVertex(left, top, 0);
 					tess.addVertex(left, top + 1, 0);
 					tess.addVertex(left + 81 * tot, top + 1, 0);
 					tess.addVertex(left + 81 * tot, top, 0);
-					
-					top -= 2.5;
+
+					GuiIngameForge.left_height += 3;
 				}
-				
+
 				tess.draw();
-				
+
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
-				
+
 			} else if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof JetpackBase) {
-				
+
 				ItemStack stack = player.inventory.armorInventory[2];
+
+				float tot = (float) ((JetpackBase) stack.getItem()).getFuel(stack) / (float) ((JetpackBase) stack.getItem()).getMaxFill(stack);
 				
-				float tot = (float) ((JetpackBase)stack.getItem()).getFuel(stack) / (float) ((JetpackBase)stack.getItem()).getMaxFill(stack);
-				top -= 3;
-				
+				int top = height - GuiIngameForge.left_height + 3;
+
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
 				tess.startDrawingQuads();
 				tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
@@ -234,16 +292,18 @@ public class ModEventHandlerClient {
 				tess.addVertex(left - 0.5, top + 4.5, 0);
 				tess.addVertex(left + 81.5, top + 4.5, 0);
 				tess.addVertex(left + 81.5, top - 0.5, 0);
-				
+
 				tess.setColorOpaque_F(1F - tot, tot, 0F);
 				tess.addVertex(left, top, 0);
 				tess.addVertex(left, top + 4, 0);
 				tess.addVertex(left + 81 * tot, top + 4, 0);
 				tess.addVertex(left + 81 * tot, top, 0);
 				tess.draw();
-				
+
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
+
 			}
+
 		}
 	}
 	
@@ -305,24 +365,6 @@ public class ModEventHandlerClient {
 		}
 	}
 	
-	//just finish this somewhen i guess
-	/*@SubscribeEvent
-	public void keybindEvent(RenderPlayerEvent.Pre event) {
-		
-		HbmPlayerProps props = HbmPlayerProps.getData(Minecraft.getMinecraft().thePlayer);
-		
-		for(EnumKeybind key : EnumKeybind.values()) {
-			
-			boolean last = props.getKeyPressed(key);
-			boolean current = MainRegistry.proxy.getIsKeyPressed(key);
-	
-			if(last != current) {
-				PacketDispatcher.wrapper.sendToServer(new KeybindPacket(key, current));
-				props.setKeyPressed(key, current);
-			}
-		}
-	}*/
-	
 	@SubscribeEvent
 	public void onRenderArmorEvent(RenderPlayerEvent.SetArmorModel event) {
 		
@@ -352,7 +394,9 @@ public class ModEventHandlerClient {
 			if(player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd"))
 				RenderAccessoryUtility.renderSol(event);
 			if(player.getUniqueID().toString().equals(Library.HbMinecraft) || player.getDisplayName().equals("HbMinecraft"))
-				RenderAccessoryUtility.renderWings(event);
+				RenderAccessoryUtility.renderWings(event, 2);
+			if(player.getUniqueID().toString().equals(Library.the_NCR) || player.getDisplayName().equals("the_NCR"))
+				RenderAccessoryUtility.renderWings(event, 3);
 		}
 	}
 
@@ -390,6 +434,14 @@ public class ModEventHandlerClient {
 					item.m2 = true;
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 1));
 					item.startActionClient(player.getHeldItem(), player.worldObj, player, false);
+				}
+			}
+			
+			if(held instanceof ISyncButtons) {
+				ISyncButtons rec = (ISyncButtons) held;
+				
+				if(rec.canReceiveMouse(player, player.getHeldItem(), event, event.button, event.buttonstate)) {
+					PacketDispatcher.wrapper.sendToServer(new SyncButtonsPacket(event.buttonstate, event.button));
 				}
 			}
 		}
@@ -550,25 +602,23 @@ public class ModEventHandlerClient {
 		HazardSystem.addFullTooltip(stack, event.entityPlayer, list);
 		
 		if(event.showAdvancedItemTooltips) {
-			int ids[] = OreDictionary.getOreIDs(stack);
+			List<String> names = ItemStackUtil.getOreDictNames(stack);
 			
-			if(ids.length > 0) {
+			if(names.size() > 0) {
 				list.add(EnumChatFormatting.BLUE + "Ore Dict:");
-				for(int i : ids) {
-					list.add(EnumChatFormatting.AQUA + " -" + OreDictionary.getOreName(i));
+				for(String s : names) {
+					list.add(EnumChatFormatting.AQUA + " -" + s);
 				}
 			} else {
 				list.add(EnumChatFormatting.RED + "No Ore Dict data!");
 			}
 		}
 		
-		/// BREEDING ///
-		int[] breeder = BreederRecipes.getFuelValue(stack);
+		/// NUCLEAR FURNACE FUELS ///
+		int breeder = TileEntityNukeFurnace.getFuelValue(stack);
 		
-		if(breeder != null) {
-			list.add(BreederRecipes.getHEATString("[" + I18nUtil.resolveKey("trait.heat", breeder[0]) + "]", breeder[0]));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.breeding", breeder[1]));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder[0] * breeder[1] * 5)));
+		if(breeder != 0) {
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", breeder));
 		}
 		
 		/// CUSTOM NUKE ///
@@ -586,12 +636,26 @@ public class ModEventHandlerClient {
 			if(entry.entry == EnumEntryType.MULT)
 				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
 		}
+		
+		CanneryBase cannery = Jars.canneries.get(comp);
+		if(cannery != null) {
+			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
+		}
+		
+		/*ItemStack copy = stack.copy();
+		List<MaterialStack> materials = Mats.getMaterialsFromItem(copy);
+		
+		if(!materials.isEmpty()) {
+			for(MaterialStack mat : materials) {
+				list.add(EnumChatFormatting.DARK_PURPLE + mat.material.names[0] + ": " + Mats.formatAmount(mat.amount * stack.stackSize));
+			}
+		}*/
 	}
 	
 	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
 	
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
+	//@SubscribeEvent
 	public void onRenderStorm(RenderHandEvent event) {
 		
 		if(BlockAshes.ashes == 0)
@@ -620,14 +684,14 @@ public class ModEventHandlerClient {
 		Tessellator tessellator = Tessellator.instance;
 
 		//int d = mc.theWorld.getLightBrightnessForSkyBlocks(MathHelper.floor_double(mc.thePlayer.posX), MathHelper.floor_double(mc.thePlayer.posY), MathHelper.floor_double(mc.thePlayer.posZ), 0);
-		int cX = ModEventHandler.currentBrightness % 65536;
-		int cY = ModEventHandler.currentBrightness / 65536;
-		int lX = ModEventHandler.lastBrightness % 65536;
-		int lY = ModEventHandler.lastBrightness / 65536;
+		int cX = currentBrightness % 65536;
+		int cY = currentBrightness / 65536;
+		int lX = lastBrightness % 65536;
+		int lY = lastBrightness / 65536;
 		float interp = (mc.theWorld.getTotalWorldTime() % 20) * 0.05F;
 		
 		if(mc.theWorld.getTotalWorldTime() == 1)
-			ModEventHandler.lastBrightness = ModEventHandler.currentBrightness;
+			lastBrightness = currentBrightness;
 		
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)(lX + (cX - lX) * interp) / 1.0F, (float)(lY + (cY - lY) * interp) / 1.0F);
 
@@ -657,6 +721,79 @@ public class ModEventHandlerClient {
 
 		GL11.glPopMatrix();
 	}
+
+	public static int currentBrightness = 0;
+	public static int lastBrightness = 0;
+	
+	@SubscribeEvent
+	public void clentTick(ClientTickEvent event) {
+		
+		Minecraft mc = Minecraft.getMinecraft();
+		
+		if(mc.gameSettings.renderDistanceChunks > 16 && GeneralConfig.enableRenderDistCheck && ! FMLClientHandler.instance().hasOptifine()) {
+			mc.gameSettings.renderDistanceChunks = 16;
+			LoggingUtil.errorWithHighlight("========================== WARNING ==========================");
+			LoggingUtil.errorWithHighlight("Dangerous render distance detected: Values over 16 only work on 1.8+ or with Optifine installed!!");
+			LoggingUtil.errorWithHighlight("Set '1.25_enableRenderDistCheck' in hbm.cfg to 'false' to disable this check.");
+			LoggingUtil.errorWithHighlight("========================== WARNING ==========================");
+			LoggingUtil.errorWithHighlight("If you got this error after removing Optifine: Consider deleting your option files after removing mods.");
+			LoggingUtil.errorWithHighlight("If you got this error after downgrading your Minecraft version: Consider using a launcher that doesn't reuse the same folders for every game instance. MultiMC for example, it's really good and it comes with a dedicated cat button. You like cats, right? Are you using the Microsoft launcher? The one launcher that turns every version switch into a tightrope act because all the old config and options files are still here because different instances all use the same folder structure instead of different folders like a competent launcher would, because some MO-RON thought that this was an acceptable way of doing things? Really? The launcher that circumcises every crashlog into indecipherable garbage, tricking oblivious people into posting that as a \"crash report\", effectively wasting everyone's time? The launcher made by the company that thought it would be HI-LA-RI-OUS to force everyone to use Microsoft accounts, effectively breaking every other launcher until they implement their terrible auth system?");
+			LoggingUtil.errorWithHighlight("========================== WARNING ==========================");
+		}
+		
+		if(mc.theWorld == null || mc.thePlayer == null)
+			return;
+		
+		if(event.phase == Phase.START && event.side == Side.CLIENT) {
+			
+			if(BlockAshes.ashes > 256) BlockAshes.ashes = 256;
+			if(BlockAshes.ashes > 0) BlockAshes.ashes -= 2;
+			if(BlockAshes.ashes < 0) BlockAshes.ashes = 0;
+			
+			if(mc.theWorld.getTotalWorldTime() % 20 == 0) {
+				this.lastBrightness = this.currentBrightness;
+				currentBrightness = mc.theWorld.getLightBrightnessForSkyBlocks(MathHelper.floor_double(mc.thePlayer.posX), MathHelper.floor_double(mc.thePlayer.posY), MathHelper.floor_double(mc.thePlayer.posZ), 0);
+			}
+			
+			if(ArmorUtil.isWearingEmptyMask(mc.thePlayer)) {
+				MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Your mask has no filter!", MainRegistry.proxy.ID_FILTER);
+			}
+		}
+		
+		if(mc.currentScreen instanceof GuiContainer && Keyboard.isKeyDown(Keyboard.KEY_F1)) {
+
+			ScaledResolution scaledresolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+			int width = scaledresolution.getScaledWidth();
+			int height = scaledresolution.getScaledHeight();
+			int mouseX = Mouse.getX() * width / mc.displayWidth;
+			int mouseY = height - Mouse.getY() * height / mc.displayHeight - 1;
+			
+			GuiContainer container = (GuiContainer) mc.currentScreen;
+			
+			for(Object o : container.inventorySlots.inventorySlots) {
+				Slot slot = (Slot) o;
+				
+				if(slot.getHasStack()) {
+					try {
+						Method isMouseOverSlot = ReflectionHelper.findMethod(GuiContainer.class, container, new String[] {"func_146981_a", "isMouseOverSlot"}, Slot.class, int.class, int.class);
+						
+						if((boolean) isMouseOverSlot.invoke(container, slot, mouseX, mouseY)) {
+							
+							ComparableStack comp = new ComparableStack(slot.getStack()).makeSingular();
+							CanneryBase cannery = Jars.canneries.get(comp);
+							
+							if(cannery != null) {
+								FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon()));
+							}
+							
+							break;
+						}
+						
+					} catch(Exception ex) { }
+				}
+			}
+		}
+	}
 	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -669,8 +806,17 @@ public class ModEventHandlerClient {
 			if(world != null && world.provider instanceof WorldProviderSurface) {
 				
 				IRenderHandler sky = world.provider.getSkyRenderer();
-				if(!(sky instanceof RenderNTMSkybox)) {
-					world.provider.setSkyRenderer(new RenderNTMSkybox());
+				
+				if(ModEventHandler.dust > 0 || ModEventHandler.fire > 0) {
+
+					if(!(sky instanceof RenderNTMSkyboxImpact)) {
+						world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
+					}
+				} else {
+
+					if(!(sky instanceof RenderNTMSkyboxChainloader)) {
+						world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
+					}
 				}
 			}
 		}
@@ -767,53 +913,6 @@ public class ModEventHandlerClient {
 		}
 	}
 	
-	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
-	
-	@SideOnly(Side.CLIENT)
-	//@SubscribeEvent
-	public void onRenderDigammaStar(RenderWorldLastEvent event) {
-		
-		World world = Minecraft.getMinecraft().theWorld;
-		
-		if(world.provider.dimensionId != 0)
-			return;
-		
-		GL11.glPushMatrix();
-		GL11.glDepthMask(false);
-
-		GL11.glEnable(3553);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		OpenGlHelper.glBlendFunc(770, 1, 1, 0);
-		
-		float partialTicks = event.partialTicks;
-		
-		GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
-		GL11.glRotatef(140.0F, 1.0F, 0.0F, 0.0F);
-		GL11.glRotatef(-40.0F, 0.0F, 0.0F, 1.0F);
-		
-		FMLClientHandler.instance().getClient().renderEngine.bindTexture(digammaStar);
-		
-		float var12 = 2.5F;
-		double dist = 150D;
-		
-		Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(-var12, dist, -var12, 0.0D, 0.0D);
-		tessellator.addVertexWithUV(var12, dist, -var12, 0.0D, 1.0D);
-		tessellator.addVertexWithUV(var12, dist, var12, 1.0D, 1.0D);
-		tessellator.addVertexWithUV(-var12, dist, var12, 1.0D, 0.0D);
-		tessellator.draw();
-		
-		GL11.glDepthMask(true);
-		
-		GL11.glDisable(3042);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		
-		GL11.glPopMatrix();
-	}
-	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void preRenderEventFirst(RenderLivingEvent.Pre event) {
 		
@@ -886,6 +985,7 @@ public class ModEventHandlerClient {
 	}
 
 	private static final ResourceLocation poster = new ResourceLocation(RefStrings.MODID + ":textures/models/misc/poster.png");
+	private static final ResourceLocation poster_cat = new ResourceLocation(RefStrings.MODID + ":textures/models/misc/poster_cat.png");
 	
 	@SubscribeEvent
 	public void renderFrame(RenderItemInFrameEvent event) {
@@ -898,6 +998,24 @@ public class ModEventHandlerClient {
 			
 			GL11.glDisable(GL11.GL_LIGHTING);
 			Minecraft.getMinecraft().renderEngine.bindTexture(poster);
+			Tessellator tess = Tessellator.instance;
+			tess.startDrawingQuads();
+			tess.addVertexWithUV(0.5, 0.5 + o, p * 0.5, 1, 0);
+			tess.addVertexWithUV(-0.5, 0.5 + o, p * 0.5, 0, 0);
+			tess.addVertexWithUV(-0.5, -0.5 + o, p * 0.5, 0, 1);
+			tess.addVertexWithUV(0.5, -0.5 + o, p * 0.5, 1, 1);
+			tess.draw();
+			GL11.glEnable(GL11.GL_LIGHTING);
+		}
+		
+		if(event.item != null && event.item.getItem() == Items.paper) {
+			event.setCanceled(true);
+			
+			double p = 0.0625D;
+			double o = p * 2.75D;
+
+			GL11.glDisable(GL11.GL_LIGHTING);
+			Minecraft.getMinecraft().renderEngine.bindTexture(poster_cat);
 			Tessellator tess = Tessellator.instance;
 			tess.startDrawingQuads();
 			tess.addVertexWithUV(0.5, 0.5 + o, p * 0.5, 1, 0);

@@ -24,6 +24,7 @@ public class ItemColtanCompass extends Item {
 	public int lastZ = 0;
 	public long lease = 0;
 
+	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean inhand) {
 		
 		if(world.isRemote) {
@@ -33,7 +34,7 @@ public class ItemColtanCompass extends Item {
 				lease = System.currentTimeMillis() + 1000;
 				
 				Vec3 vec = Vec3.createVectorHelper(entity.posX - lastX, 0, entity.posZ - lastZ);
-				MainRegistry.proxy.displayTooltip(((int) vec.lengthVector()) + "m");
+				MainRegistry.proxy.displayTooltip(((int) vec.lengthVector()) + "m", MainRegistry.proxy.ID_COMPASS);
 			}
 			
 			if(ItemColtanCompass.this.lease < System.currentTimeMillis()) {

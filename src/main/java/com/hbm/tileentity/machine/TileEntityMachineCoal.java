@@ -6,30 +6,29 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.blocks.machine.MachineCoal;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class TileEntityMachineCoal extends TileEntity implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver {
 
 	private ItemStack slots[];
 	
@@ -46,7 +45,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	
 	public TileEntityMachineCoal() {
 		slots = new ItemStack[4];
-		tank = new FluidTank(FluidType.WATER, 5000, 0);
+		tank = new FluidTank(Fluids.WATER, 5000, 0);
 	}
 
 	@Override
@@ -118,7 +117,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		if(i == 0)
-			if(FluidContainerRegistry.getFluidContent(stack, FluidType.WATER) > 0)
+			if(FluidContainerRegistry.getFluidContent(stack, Fluids.WATER) > 0)
 				return true;
 		if(i == 2)
 			if(stack.getItem() instanceof IBatteryItem)
@@ -226,6 +225,8 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			
+			this.subscribeToAllAround(Fluids.WATER, this);
 		
 			//Water
 			tank.loadTank(0, 3, slots);
@@ -329,20 +330,22 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
 	}
 
 	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tank);
-		
-		return list;
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
 	}
 }

@@ -9,19 +9,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
 
 public class ItemRBMKPellet extends ItemNuclearWaste {
 	
 	public String fullName = "";
+	protected boolean hasXenon = true;
 
 	public ItemRBMKPellet(String fullName) {
 		this.fullName = fullName;
@@ -29,11 +26,16 @@ public class ItemRBMKPellet extends ItemNuclearWaste {
 		this.setMaxDamage(0);
 		this.setCreativeTab(MainRegistry.controlTab);
 	}
+	
+	public ItemRBMKPellet disableXenon() {
+		this.hasXenon = false;
+		return this;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tabs, List list) {
-		for(int i = 0; i < 10; ++i) {
+		for(int i = 0; i < (this.hasXenon ? 10 : 5); ++i) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
@@ -46,16 +48,17 @@ public class ItemRBMKPellet extends ItemNuclearWaste {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister p_94581_1_) {
-		super.registerIcons(p_94581_1_);
+	public void registerIcons(IIconRegister iconRegister) {
+		super.registerIcons(iconRegister);
 		
 		this.enrichmentOverlays = new IIcon[5];
 		
 		for(int i = 0; i < enrichmentOverlays.length; i++) {
-			enrichmentOverlays[i] = p_94581_1_.registerIcon("hbm:rbmk_pellet_overlay_e" + i);
+			enrichmentOverlays[i] = iconRegister.registerIcon("hbm:rbmk_pellet_overlay_e" + i);
 		}
 		
-		xenonOverlay = p_94581_1_.registerIcon("hbm:rbmk_pellet_overlay_xenon");
+		if(this.hasXenon)
+			xenonOverlay = iconRegister.registerIcon("hbm:rbmk_pellet_overlay_xenon");
 	}
 
 	@Override

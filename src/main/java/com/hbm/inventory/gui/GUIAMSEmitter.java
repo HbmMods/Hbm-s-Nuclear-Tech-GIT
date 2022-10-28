@@ -2,8 +2,8 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerAMSEmitter;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import net.minecraft.client.Minecraft;
@@ -61,8 +61,6 @@ public class GUIAMSEmitter extends GuiInfoContainer {
 		if(m > 0)
 			drawTexturedModalRect(guiLeft + 80, guiTop + 17, 176, 36 + 16 * m, 16, 16);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(emitter.tank.getSheet());
-
-		emitter.tank.renderTank(this, guiLeft + 26, guiTop + 69, emitter.tank.getTankType().textureX() * FluidTank.x, emitter.tank.getTankType().textureY() * FluidTank.y, 16, 52);
+		emitter.tank.renderTank(guiLeft + 26, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

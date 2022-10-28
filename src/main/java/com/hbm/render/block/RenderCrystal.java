@@ -77,7 +77,7 @@ public class RenderCrystal implements ISimpleBlockRenderingHandler {
 		if(meta == 4)
 			rotation = 180F / 180F * (float)Math.PI;
 		
-		if(rotation != 0F)
+		if(rotation != 0F || meta == 5)
 			flip = (float)Math.PI * 0.5F;
 
 		tessellator.addTranslation(x + 0.5F, y + 0.5F, z + 0.5F);

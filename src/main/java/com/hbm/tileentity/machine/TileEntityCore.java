@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCatalyst;
 import com.hbm.lib.Library;
@@ -26,12 +27,13 @@ public class TileEntityCore extends TileEntityMachineBase {
 	public int heat;
 	public int color;
 	public FluidTank[] tanks;
+	private boolean lastTickValid = false;
 
 	public TileEntityCore() {
 		super(3);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.DEUTERIUM, 128000, 0);
-		tanks[1] = new FluidTank(FluidType.TRITIUM, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 128000, 0);
+		tanks[1] = new FluidTank(Fluids.TRITIUM, 128000, 1);
 	}
 
 	@Override
@@ -44,7 +46,16 @@ public class TileEntityCore extends TileEntityMachineBase {
 		
 		if(!worldObj.isRemote) {
 			
-			if(heat > 0 && heat >= field) {
+			int chunkX = xCoord >> 4;
+			int chunkZ = zCoord >> 4;
+			
+			lastTickValid = worldObj.getChunkProvider().chunkExists(chunkX, chunkZ) &&
+					worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ + 1) &&
+					worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ - 1) &&
+					worldObj.getChunkProvider().chunkExists(chunkX - 1, chunkZ + 1) &&
+					worldObj.getChunkProvider().chunkExists(chunkX - 1, chunkZ - 1);
+			
+			if(lastTickValid && heat > 0 && heat >= field) {
 				
 				int fill = tanks[0].getFill() + tanks[1].getFill();
 				int max = tanks[0].getMaxFill() + tanks[1].getMaxFill();
@@ -52,16 +63,18 @@ public class TileEntityCore extends TileEntityMachineBase {
 				
 				int size = Math.max(Math.min(fill * mod / max, 1000), 50);
 				
-				//System.out.println(fill + " * " + mod + " / " + max + " = " + size);
-
-				worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.explode", 100000.0F, 1.0F);
-				worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, size));
+				EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, size);
 				
-				EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(worldObj, size);
-				cloud.posX = xCoord;
-				cloud.posY = yCoord;
-				cloud.posZ = zCoord;
-				worldObj.spawnEntityInWorld(cloud);
+				if(!ex.isDead) {
+					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.explode", 100000.0F, 1.0F);
+					worldObj.spawnEntityInWorld(ex);
+					
+					EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(worldObj, size);
+					cloud.posX = xCoord;
+					cloud.posY = yCoord;
+					cloud.posZ = zCoord;
+					worldObj.spawnEntityInWorld(cloud);
+				}
 			}
 			
 			if(slots[0] != null && slots[2] != null && slots[0].getItem() instanceof ItemCatalyst && slots[2].getItem() instanceof ItemCatalyst)
@@ -86,7 +99,11 @@ public class TileEntityCore extends TileEntityMachineBase {
 			networkPack(data, 250);
 			
 			heat = 0;
-			field = 0;
+			
+			if(lastTickValid && field > 0) {
+				field -= 1;
+			}
+			
 			this.markDirty();
 		} else {
 			
@@ -97,8 +114,8 @@ public class TileEntityCore extends TileEntityMachineBase {
 	
 	public void networkUnpack(NBTTagCompound data) {
 
-		tanks[0].setTankType(FluidType.getEnum(data.getInteger("tank0")));
-		tanks[1].setTankType(FluidType.getEnum(data.getInteger("tank1")));
+		tanks[0].setTankType(Fluids.fromID(data.getInteger("tank0")));
+		tanks[1].setTankType(Fluids.fromID(data.getInteger("tank1")));
 		tanks[0].setFill(data.getInteger("fill0"));
 		tanks[1].setFill(data.getInteger("fill1"));
 		field = data.getInteger("field");
@@ -138,6 +155,9 @@ public class TileEntityCore extends TileEntityMachineBase {
 	
 	public boolean isReady() {
 		
+		if(!lastTickValid)
+			return false;
+		
 		if(getCore() == 0)
 			return false;
 		
@@ -172,32 +192,27 @@ public class TileEntityCore extends TileEntityMachineBase {
 	}
 	
 	public float getFuelEfficiency(FluidType type) {
-		
-		switch(type) {
-
-		case HYDROGEN:
+		if(type == Fluids.HYDROGEN)
 			return 1.0F;
-		case DEUTERIUM:
+		if(type == Fluids.DEUTERIUM)
 			return 1.5F;
-		case TRITIUM:
+		if(type == Fluids.TRITIUM)
 			return 1.7F;
-		case OXYGEN:
+		if(type == Fluids.OXYGEN)
 			return 1.2F;
-		case ACID:
+		if(type == Fluids.ACID)
 			return 1.4F;
-		case XENON:
+		if(type == Fluids.XENON)
 			return 1.5F;
-		case SAS3:
+		if(type == Fluids.SAS3)
 			return 2.0F;
-		case BALEFIRE:
+		if(type == Fluids.BALEFIRE)
 			return 2.5F;
-		case AMAT:
+		if(type == Fluids.AMAT)
 			return 2.2F;
-		case ASCHRAB:
+		if(type == Fluids.ASCHRAB)
 			return 2.7F;
-		default:
-			return 0;
-		}
+		return 0;
 	}
 	
 	//TODO: move stats to the AMSCORE class
@@ -245,6 +260,7 @@ public class TileEntityCore extends TileEntityMachineBase {
 		
 		tanks[0].readFromNBT(nbt, "fuel1");
 		tanks[1].readFromNBT(nbt, "fuel2");
+		this.field = nbt.getInteger("field");
 	}
 	
 	@Override
@@ -253,6 +269,7 @@ public class TileEntityCore extends TileEntityMachineBase {
 
 		tanks[0].writeToNBT(nbt, "fuel1");
 		tanks[1].writeToNBT(nbt, "fuel2");
+		nbt.setInteger("field", this.field);
 	}
 	
 	AxisAlignedBB bb = null;

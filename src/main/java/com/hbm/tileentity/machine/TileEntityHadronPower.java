@@ -1,14 +1,15 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.BlockHadronPower;
+import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyUser;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHadronPower extends TileEntity implements IEnergyUser {
+public class TileEntityHadronPower extends TileEntityLoadedBase implements IEnergyUser, INBTPacketReceiver {
 
 	public long power;
 
@@ -24,13 +25,22 @@ public class TileEntityHadronPower extends TileEntity implements IEnergyUser {
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			INBTPacketReceiver.networkPack(this, data, 15);
 		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
 	}
 
 	@Override
 	public void setPower(long i) {
 		power = i;
-		this.markDirty();
+		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 	}
 
 	@Override

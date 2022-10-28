@@ -12,7 +12,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemBlockLore extends ItemBlock {
+public class ItemBlockLore extends ItemBlockBase {
 
 	public ItemBlockLore(Block p_i45328_1_) {
 		super(p_i45328_1_);
@@ -20,6 +20,7 @@ public class ItemBlockLore extends ItemBlock {
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+		super.addInformation(itemstack, player, list, bool);
 		
 		if(this.field_150939_a instanceof RedBarrel) {
 			list.add("Static fluid barrel");
@@ -78,11 +79,6 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Come on, get a derrick you doofus.");
 		}
 		
-		if(this.field_150939_a == ModBlocks.machine_mining_laser) {
-			list.add("3x3x3 Multiblock");
-			list.add("Only placeable on a ceiling.");
-		}
-		
 		if(this.field_150939_a == ModBlocks.gravel_diamond) {
 			list.add("There is some kind of joke here,");
 			list.add("but I can't quite tell what it is.");
@@ -100,13 +96,6 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("this non-joke that hasn't been made.");
 			list.add("");
 			list.add("i added an item for a joke that isn't even here, what am i, stupid? can't even tell the difference between gravel and a gavel, how did i not forget how to breathe yet?");
-		}
-		
-		if(this.field_150939_a == ModBlocks.turret_cwis) {
-			list.add("Hmmm today I will use an anti-missile turret agains mobs");
-			list.add("");
-			list.add("Why does it not work???");
-			list.add("bob pls fix");
 		}
 	}
 

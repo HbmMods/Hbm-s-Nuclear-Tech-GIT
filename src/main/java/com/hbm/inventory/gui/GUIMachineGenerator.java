@@ -7,8 +7,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerGenerator;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineGenerator;
 
@@ -75,10 +75,7 @@ public class GUIMachineGenerator extends GuiInfoContainer {
 		if(diFurnace.tanks[1].getFill() <= 0)
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 7);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[0].getSheet());
-		diFurnace.tanks[0].renderTank(this, guiLeft + 8, guiTop + 88, diFurnace.tanks[0].getTankType().textureX() * FluidTank.x, diFurnace.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[0].getSheet());
-		diFurnace.tanks[1].renderTank(this, guiLeft + 26, guiTop + 88, diFurnace.tanks[1].getTankType().textureX() * FluidTank.x, diFurnace.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		diFurnace.tanks[0].renderTank(guiLeft + 8, guiTop + 88, this.zLevel, 16, 52);
+		diFurnace.tanks[1].renderTank(guiLeft + 26, guiTop + 88, this.zLevel, 16, 52);
 	}
 }

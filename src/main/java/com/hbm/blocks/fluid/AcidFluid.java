@@ -11,21 +11,25 @@ public class AcidFluid extends Fluid {
 		super("acid_fluid");
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-    public IIcon getIcon() {
-    	return getStillIcon();
-    }
+	public AcidFluid(String name) {
+		super(name);
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getStillIcon() {
-        return AcidBlock.stillIcon;
-    }
+	public IIcon getIcon() {
+		return getStillIcon();
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getFlowingIcon() {
-        return AcidBlock.flowingIcon;
-    }
+	public IIcon getStillIcon() {
+		return AcidBlock.stillIcon;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getFlowingIcon() {
+		return AcidBlock.flowingIcon;
+	}
 }

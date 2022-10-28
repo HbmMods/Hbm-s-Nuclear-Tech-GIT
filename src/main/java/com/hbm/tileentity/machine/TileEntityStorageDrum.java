@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.config.VersatileConfig;
-import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
@@ -20,6 +20,7 @@ import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
+import api.hbm.fluid.IFluidStandardSender;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,7 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityStorageDrum extends TileEntityMachineBase implements IFluidSource {
+public class TileEntityStorageDrum extends TileEntityMachineBase implements IFluidSource, IFluidStandardSender {
 
 	public FluidTank[] tanks;
 	private static final int[] slots_arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
@@ -39,8 +40,8 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	public TileEntityStorageDrum() {
 		super(24);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WASTEFLUID, 16000, 0);
-		tanks[1] = new FluidTank(FluidType.WASTEGAS, 16000, 1);
+		tanks[0] = new FluidTank(Fluids.WASTEFLUID, 16000, 0);
+		tanks[1] = new FluidTank(Fluids.WASTEGAS, 16000, 1);
 	}
 
 	@Override
@@ -99,7 +100,17 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					}
 					
 					if(item == ModItems.ingot_au198 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 100) == 0) {
+						slots[i] = new ItemStack(ModItems.ingot_mercury, 1, meta);
+					}
+					if(item == ModItems.ingot_au198 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 20) == 0) {
 						slots[i] = new ItemStack(ModItems.nugget_mercury, 1, meta);
+					}
+					
+					if(item == ModItems.ingot_pb209 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 50) == 0) {
+						slots[i] = new ItemStack(ModItems.ingot_bismuth, 1, meta);
+					}
+					if(item == ModItems.nugget_pb209 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 10) == 0) {
+						slots[i] = new ItemStack(ModItems.nugget_bismuth, 1, meta);
 					}
 				}
 			}
@@ -113,7 +124,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 				
 				if(overflow > 0) {
 					this.tanks[i].setFill(this.tanks[i].getFill() - overflow);
-					ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, overflow * 0.5F);
+					this.tanks[i].getTankType().onFluidRelease(this, this.tanks[i], overflow);
 				}
 			}
 			
@@ -128,6 +139,9 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 			if(age == 8 || age == 18) {
 				fillFluidInit(tanks[1].getTankType());
 			}
+
+			this.sendFluidToAll(tanks[0].getTankType(), this);
+			this.sendFluidToAll(tanks[1].getTankType(), this);
 
 			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
@@ -201,7 +215,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 				item == ModItems.nuclear_waste_long_depleted_tiny || 
 				item == ModItems.nuclear_waste_short_depleted || 
 				item == ModItems.nuclear_waste_short_depleted_tiny || 
-				item == ModItems.nugget_mercury)
+				item == ModItems.ingot_mercury)
 			return true;
 		
 		return false;
@@ -274,24 +288,15 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-
-		return list;
 	}
 	
 	@Override
@@ -306,5 +311,15 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 		super.writeToNBT(nbt);
 		this.tanks[0].writeToNBT(nbt, "liquid");
 		this.tanks[1].writeToNBT(nbt, "gas");
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tanks[0], tanks[1] };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

@@ -557,11 +557,6 @@ public class EntitySchrab extends Entity implements IProjectile
         {
             boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && p_70100_1_.capabilities.isCreativeMode;
 
-            if (this.canBePickedUp == 1 && !p_70100_1_.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_rpg_ammo, 1)))
-            {
-                flag = false;
-            }
-
             if (flag)
             {
                 this.playSound("random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);

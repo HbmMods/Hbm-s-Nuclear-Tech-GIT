@@ -2,8 +2,8 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineInserter;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineInserter;
 import net.minecraft.client.Minecraft;
@@ -47,13 +47,8 @@ public class GUIMachineInserter extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[0].getSheet());
-		diFurnace.tanks[0].renderTank(this, guiLeft + 44, guiTop + 69, diFurnace.tanks[0].getTankType().textureX() * FluidTank.x, diFurnace.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[1].getSheet());
-		diFurnace.tanks[1].renderTank(this, guiLeft + 98, guiTop + 69, diFurnace.tanks[1].getTankType().textureX() * FluidTank.x, diFurnace.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[2].getSheet());
-		diFurnace.tanks[2].renderTank(this, guiLeft + 152, guiTop + 69, diFurnace.tanks[2].getTankType().textureX() * FluidTank.x, diFurnace.tanks[2].getTankType().textureY() * FluidTank.y, 16, 52);
+		diFurnace.tanks[0].renderTank(guiLeft + 44, guiTop + 69, this.zLevel, 16, 52);
+		diFurnace.tanks[1].renderTank(guiLeft + 98, guiTop + 69, this.zLevel, 16, 52);
+		diFurnace.tanks[2].renderTank(guiLeft + 152, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

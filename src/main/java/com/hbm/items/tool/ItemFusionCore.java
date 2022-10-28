@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
-import com.hbm.lib.Library;
+import com.hbm.util.BobMathUtil;
 
 import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -52,7 +52,7 @@ public class ItemFusionCore extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		
-		list.add(EnumChatFormatting.YELLOW + "Charges all worn armor pieces by " + Library.getShortNumber(charge) + "HE");
+		list.add(EnumChatFormatting.YELLOW + "Charges all worn armor pieces by " + BobMathUtil.getShortNumber(charge) + "HE");
 		list.add("[Requires full electric set to be worn]");
 	}
 }

@@ -2,23 +2,21 @@ package com.hbm.items.weapon;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.projectile.EntityBulletBase;
-import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.HbmKeybinds;
-import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -28,6 +26,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -36,7 +35,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -110,7 +108,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			
 			if(mainConfig.reloadType != mainConfig.RELOAD_NONE || (altConfig != null && altConfig.reloadType != 0)) {
 				
-				if(Keyboard.isKeyDown(HbmKeybinds.reloadKey.getKeyCode()) && (getMag(stack) < mainConfig.ammoCap || (mainConfig.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0))) {
+				if(GameSettings.isKeyDown(HbmKeybinds.reloadKey) && (getMag(stack) < mainConfig.ammoCap || hasInfinity(stack, mainConfig))) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 2));
 					setIsReloading(stack, true);
 					resetReloadCycle(stack);
@@ -160,11 +158,16 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	
 	public boolean hasAmmo(ItemStack stack, EntityPlayer player, boolean main) {
 		
-		if(mainConfig.reloadType == mainConfig.RELOAD_NONE || !main) {
+		GunConfiguration config = mainConfig;
+		
+		if(!main)
+			config = altConfig;
+		
+		if(config.reloadType == mainConfig.RELOAD_NONE) {
 			return getBeltSize(player, getBeltType(player, stack, main)) > 0;
 			
 		} else {
-			return getMag(stack) > 0;
+			return getMag(stack) >= 0 + config.roundsPerCycle;
 		}
 	}
 	
@@ -216,7 +219,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		if(altConfig == null)
 			return;
 
-		BulletConfiguration config = getBeltCfg(player, stack, false);
+		BulletConfiguration config = altConfig.reloadType == altConfig.RELOAD_NONE ? getBeltCfg(player, stack, false) : BulletConfigSyncingUtil.pullConfig(altConfig.config.get(getMagType(stack)));
+		
+		//System.out.println(config.ammo.getUnlocalizedName());
 		
 		int bullets = config.bulletsMin;
 		
@@ -244,7 +249,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		EntityBulletBase bullet = new EntityBulletBase(world, config, player);
 		world.spawnEntityInWorld(bullet);
 		
-		if(this.mainConfig.animations.containsKey(AnimType.CYCLE) && player instanceof EntityPlayerMP)
+		if(player instanceof EntityPlayerMP)
 			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
 			
 	}
@@ -268,13 +273,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		}
 	}
 	
-	//called on click (client side, called by update cylce)
+	//called on click (client side, called by mouse click event)
 	public void startActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) { }
 	
 	//called on click release (server side, called by mouse packet) for release actions like charged shots
 	public void endAction(ItemStack stack, World world, EntityPlayer player, boolean main) { }
 	
-	//called on click release (client side, called by update cylce)
+	//called on click release (client side, called by update cycle)
 	public void endActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) { }
 	
 	//reload action, if existent
@@ -443,13 +448,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	
 	//initiates a reload
 	public void startReloadAction(ItemStack stack, World world, EntityPlayer player) {
-
-		if(player.isSneaking() && mainConfig.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0) {
+		
+		if(player.isSneaking() && hasInfinity(stack, mainConfig)) {
 			
 			if(this.getMag(stack) == mainConfig.ammoCap) {
 				this.setMag(stack, 0);
 				this.resetAmmoType(stack, world, player);
-				player.playSound("block.pistonOut", 1.0F, 1.0F);
+				world.playSoundAtEntity(player, "tile.piston.out", 1.0F, 1.0F);
 			}
 			
 			return;
@@ -472,6 +477,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	}
 	
 	public boolean canReload(ItemStack stack, World world, EntityPlayer player) {
+		
+		if(getMag(stack) == mainConfig.ammoCap && hasInfinity(stack, mainConfig))
+			return true;
 
 		if(getMag(stack) == 0) {
 			
@@ -618,7 +626,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		if(!main)
 			config = altConfig;
 		
-		if(config.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0)
+		if(hasInfinity(stack, config))
 			return;
 
 		
@@ -627,6 +635,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		} else {
 			player.inventory.consumeInventoryItem(getBeltType(player, stack, main));
 		}
+	}
+	
+	public boolean hasInfinity(ItemStack stack, GunConfiguration config) {
+		return config.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 	}
 	
 	/*//returns main config from itemstack
@@ -757,6 +769,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		if(type == ElementType.HOTBAR) {
 			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(stack)));
 			
+			if(bcfg == null) {
+				return;
+			}
+			
 			Item ammo = bcfg.ammo;
 			int count = ItemGunBase.getMag(stack);
 			int max = gcfg.ammoCap;
@@ -770,7 +786,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			
 			int dura = ItemGunBase.getItemWear(stack) * 50 / gcfg.durability;
 			
-			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, dura, showammo);
+			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, new ItemStack(ammo), count, max, dura, showammo);
 			
 			if(gun.altConfig != null && gun.altConfig.reloadType == GunConfiguration.RELOAD_NONE) {
 				Item oldAmmo = ammo;
@@ -778,7 +794,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 				
 				if(ammo != oldAmmo) {
 					count = ItemGunBase.getBeltSize(player, ammo);
-					RenderScreenOverlay.renderAmmoAlt(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count);
+					RenderScreenOverlay.renderAmmoAlt(event.resolution, Minecraft.getMinecraft().ingameGUI, new ItemStack(ammo), count);
 				}
 			}
 		}
@@ -792,5 +808,11 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			else
 				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, Crosshair.NONE);
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public BusAnimation getAnimation(ItemStack stack, AnimType type) {
+		GunConfiguration config = ((ItemGunBase) stack.getItem()).mainConfig;
+		return config.animations.get(type);
 	}
 }

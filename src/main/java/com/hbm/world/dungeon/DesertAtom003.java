@@ -9,8 +9,8 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
-import com.hbm.tileentity.machine.TileEntityMachineUF6Tank;
+import com.hbm.tileentity.machine.storage.TileEntityMachinePuF6Tank;
+import com.hbm.tileentity.machine.storage.TileEntityMachineUF6Tank;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -367,8 +367,8 @@ public class DesertAtom003
 		world.setBlock(x + 20, y + 4, z + 7, Blocks.vine, 4, 3);
 		world.setBlock(x + 23, y + 4, z + 7, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 25, y + 4, z + 7, Block8, 3, 3);
-		world.setBlock(x + 26, y + 4, z + 7, Block19, 3, 3);
-		world.setBlock(x + 27, y + 4, z + 7, Block19, 3, 3);
+		world.setBlock(x + 26, y + 4, z + 7, Block19, 12, 3);
+		world.setBlock(x + 27, y + 4, z + 7, Block19, 12, 3);
 		world.setBlock(x + 28, y + 4, z + 7, Block20, 3, 3);
 		TileEntity tank0 = world.getTileEntity(x + 28, y + 4, z + 7);
 		if(tank0 instanceof TileEntityMachineUF6Tank)
@@ -440,7 +440,7 @@ public class DesertAtom003
 		world.setBlock(x + 36, y + 4, z + 9, Blocks.chest, 2, 3);
 		if(world.getBlock(x + 36, y + 4, z + 9) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(5), (TileEntityChest)world.getTileEntity(x + 36, y + 4, z + 9), 12);
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.nuclear, (TileEntityChest)world.getTileEntity(x + 36, y + 4, z + 9), 12);
 		}
         world.setBlock(x + 37, y + 4, z + 9, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 40, y + 4, z + 9, Block5, 0, 3);

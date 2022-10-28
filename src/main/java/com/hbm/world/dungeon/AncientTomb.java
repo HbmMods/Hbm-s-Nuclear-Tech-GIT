@@ -86,7 +86,7 @@ public class AncientTomb {
 			int iy = world.getHeightValue(ix, iz) - 3;
 			
 			for(int j = iy; j < iy + 7; j++) {
-				world.setBlock(ix, j, iz, ModBlocks.deco_steel);
+				world.setBlock(ix, j, iz, ModBlocks.deco_steel, 0, 2);
 			}
 		}
 		

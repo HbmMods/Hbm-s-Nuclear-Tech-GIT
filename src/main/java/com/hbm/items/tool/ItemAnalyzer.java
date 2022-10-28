@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidDuct;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.tileentity.network.TileEntityPylon;
@@ -74,19 +74,6 @@ public class ItemAnalyzer extends Item {
 					
 					player.addChatMessage(new ChatComponentText(
 							"Electricity: " + ((IEnergyConnector)te).getPower() + " HE"));
-				}
-				
-				if(te instanceof IFluidContainer) {
-					
-					player.addChatMessage(new ChatComponentText(
-							"Fluid Tanks:"));
-					
-					List<FluidTank> tanks = ((IFluidContainer)te).getTanks();
-					
-					for(int i = 0; i < tanks.size(); i++) {
-						player.addChatMessage(new ChatComponentText(
-								" *Tank " + (i + 1) + ": " + tanks.get(i).getFill() + "mB " + I18n.format(tanks.get(i).getTankType().getUnlocalizedName())));
-					}
 				}
 				
 				if(te instanceof IFluidDuct) {

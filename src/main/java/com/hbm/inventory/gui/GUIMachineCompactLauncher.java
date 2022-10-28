@@ -2,8 +2,8 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerCompactLauncher;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.util.MissileMultipart;
@@ -88,11 +88,8 @@ public class GUIMachineCompactLauncher extends GuiInfoContainer {
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 11);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(launcher.tanks[0].getSheet());
-		launcher.tanks[0].renderTank(this, guiLeft + 116, guiTop + 70, launcher.tanks[0].getTankType().textureX() * FluidTank.x, launcher.tanks[0].getTankType().textureY() * FluidTank.y, 16, 34);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(launcher.tanks[1].getSheet());
-		launcher.tanks[1].renderTank(this, guiLeft + 134, guiTop + 70, launcher.tanks[1].getTankType().textureX() * FluidTank.x, launcher.tanks[1].getTankType().textureY() * FluidTank.y, 16, 34);
+		launcher.tanks[0].renderTank(guiLeft + 116, guiTop + 70, this.zLevel, 16, 34);
+		launcher.tanks[1].renderTank(guiLeft + 134, guiTop + 70, this.zLevel, 16, 34);
 		
 		/// DRAW MISSILE START
 		GL11.glPushMatrix();

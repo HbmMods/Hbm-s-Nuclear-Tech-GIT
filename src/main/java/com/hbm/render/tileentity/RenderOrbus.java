@@ -7,7 +7,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
-import com.hbm.tileentity.machine.TileEntityMachineOrbus;
+import com.hbm.tileentity.machine.storage.TileEntityMachineOrbus;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;

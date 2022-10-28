@@ -1,21 +1,28 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.items.ModItems;
+import com.hbm.blocks.ILookOverlay;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineFractionTower;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineFractionTower extends BlockDummyable {
+public class MachineFractionTower extends BlockDummyable implements ILookOverlay {
 
 	public MachineFractionTower(Material mat) {
 		super(mat);
@@ -47,7 +54,7 @@ public class MachineFractionTower extends BlockDummyable {
 		
 		if(!world.isRemote && !player.isSneaking()) {
 				
-			if(player.getHeldItem() == null || player.getHeldItem().getItem() == ModItems.fluid_identifier) {
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
 				int[] pos = this.findCore(world, x, y, z);
 					
 				if(pos == null)
@@ -60,22 +67,13 @@ public class MachineFractionTower extends BlockDummyable {
 				
 				TileEntityMachineFractionTower frac = (TileEntityMachineFractionTower) te;
 				
-				if(player.getHeldItem() == null) {
-					
-					player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "=== FRACTIONING TOWER Y:" + pos[1] + " ==="));
-
-					for(int i = 0; i < frac.tanks.length; i++)
-						player.addChatComponentMessage(new ChatComponentTranslation("hbmfluid." + frac.tanks[i].getTankType().getName().toLowerCase()).appendSibling(new ChatComponentText(": " + frac.tanks[i].getFill() + "/" + frac.tanks[i].getMaxFill() + "mB")));
+				if(world.getTileEntity(pos[0], pos[1] - 3, pos[2]) instanceof TileEntityMachineFractionTower) {
+					player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You can only change the type in the bottom segment!"));
 				} else {
-					
-					if(world.getTileEntity(pos[0], pos[1] - 3, pos[2]) instanceof TileEntityMachineFractionTower) {
-						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You can only change the type in the bottom segment!"));
-					} else {
-						FluidType type = FluidType.values()[player.getHeldItem().getItemDamage()];
-						frac.tanks[0].setTankType(type);
-						frac.markDirty();
-						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Changed type to " + type + "!"));
-					}
+					FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
+					frac.tanks[0].setTankType(type);
+					frac.markDirty();
+					player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase())).appendSibling(new ChatComponentText("!")));
 				}
 				
 				return true;
@@ -98,5 +96,27 @@ public class MachineFractionTower extends BlockDummyable {
 		this.makeExtra(world, x - 1, y, z);
 		this.makeExtra(world, x, y, z + 1);
 		this.makeExtra(world, x, y, z - 1);
+	}
+
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		int[] pos = this.findCore(world, x, y, z);
+		
+		if(pos == null)
+			return;
+		
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		
+		if(!(te instanceof TileEntityMachineFractionTower))
+			return;
+		
+		TileEntityMachineFractionTower cracker = (TileEntityMachineFractionTower) te;
+		
+		List<String> text = new ArrayList();
+
+		for(int i = 0; i < cracker.tanks.length; i++)
+			text.add((i == 0 ? (EnumChatFormatting.GREEN + "-> ") : (EnumChatFormatting.RED + "<- ")) + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + cracker.tanks[i].getTankType().getName().toLowerCase()) + ": " + cracker.tanks[i].getFill() + "/" + cracker.tanks[i].getMaxFill() + "mB");
+		
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 }

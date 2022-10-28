@@ -60,4 +60,7 @@ public class AudioDynamic extends MovingSound {
 		return (f / v) * -2 + 2;
 	}
 
+	public boolean isPlaying() {
+		return Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(this);
+	}
 }

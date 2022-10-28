@@ -6,9 +6,10 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineITER;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -31,9 +32,9 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	public TileEntityMachinePlasmaHeater() {
 		super(5);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.DEUTERIUM, 16000, 0);
-		tanks[1] = new FluidTank(FluidType.TRITIUM, 16000, 1);
-		plasma = new FluidTank(FluidType.PLASMA_DT, 64000, 2);
+		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 16000, 0);
+		tanks[1] = new FluidTank(Fluids.TRITIUM, 16000, 1);
+		plasma = new FluidTank(Fluids.PLASMA_DT, 64000, 2);
 	}
 
 	@Override
@@ -64,7 +65,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			convert = (int) Math.min(convert, power / powerReq);
 			convert = Math.max(0, convert);
 			
-			if(convert > 0 && plasma.getTankType() != FluidType.NONE) {
+			if(convert > 0 && plasma.getTankType() != Fluids.NONE) {
 
 				tanks[0].setFill(tanks[0].getFill() - convert);
 				tanks[1].setFill(tanks[1].getFill() - convert);
@@ -90,7 +91,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 					if(te instanceof TileEntityITER) {
 						TileEntityITER iter = (TileEntityITER)te;
 							
-						if(iter.plasma.getFill() == 0 && this.plasma.getTankType() != FluidType.NONE) {
+						if(iter.plasma.getFill() == 0 && this.plasma.getTankType() != Fluids.NONE) {
 							iter.plasma.setTankType(this.plasma.getTankType());
 						}
 							
@@ -149,32 +150,32 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 		
 		List<FluidType> types = new ArrayList() {{ add(tanks[0].getTankType()); add(tanks[1].getTankType()); }};
 
-		if(types.contains(FluidType.DEUTERIUM) && types.contains(FluidType.TRITIUM)) {
-			plasma.setTankType(FluidType.PLASMA_DT);
+		if(types.contains(Fluids.DEUTERIUM) && types.contains(Fluids.TRITIUM)) {
+			plasma.setTankType(Fluids.PLASMA_DT);
 			return;
 		}
-		if(types.contains(FluidType.DEUTERIUM) && types.contains(FluidType.HELIUM3)) {
-			plasma.setTankType(FluidType.PLASMA_DH3);
+		if(types.contains(Fluids.DEUTERIUM) && types.contains(Fluids.HELIUM3)) {
+			plasma.setTankType(Fluids.PLASMA_DH3);
 			return;
 		}
-		if(types.contains(FluidType.DEUTERIUM) && types.contains(FluidType.HYDROGEN)) {
-			plasma.setTankType(FluidType.PLASMA_HD);
+		if(types.contains(Fluids.DEUTERIUM) && types.contains(Fluids.HYDROGEN)) {
+			plasma.setTankType(Fluids.PLASMA_HD);
 			return;
 		}
-		if(types.contains(FluidType.HYDROGEN) && types.contains(FluidType.TRITIUM)) {
-			plasma.setTankType(FluidType.PLASMA_HT);
+		if(types.contains(Fluids.HYDROGEN) && types.contains(Fluids.TRITIUM)) {
+			plasma.setTankType(Fluids.PLASMA_HT);
 			return;
 		}
-		if(types.contains(FluidType.XENON) && types.contains(FluidType.MERCURY)) {
-			plasma.setTankType(FluidType.PLASMA_XM);
+		if(types.contains(Fluids.XENON) && types.contains(Fluids.MERCURY)) {
+			plasma.setTankType(Fluids.PLASMA_XM);
 			return;
 		}
-		if(types.contains(FluidType.BALEFIRE) && types.contains(FluidType.AMAT)) {
-			plasma.setTankType(FluidType.PLASMA_BF);
+		if(types.contains(Fluids.BALEFIRE) && types.contains(Fluids.AMAT)) {
+			plasma.setTankType(Fluids.PLASMA_BF);
 			return;
 		}
 		
-		plasma.setTankType(FluidType.NONE);
+		plasma.setTankType(Fluids.NONE);
 	}
 	
 	public long getPowerScaled(int i) {
@@ -236,7 +237,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
 		
@@ -245,22 +246,12 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
 		
 		if(index == 2)
 			plasma.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-		list.add(plasma);
-		
-		return list;
 	}
 
 	@Override

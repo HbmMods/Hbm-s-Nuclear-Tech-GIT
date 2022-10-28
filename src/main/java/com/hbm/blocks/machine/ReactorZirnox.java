@@ -3,8 +3,8 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.MultiblockHandlerXR;
-import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityReactorZirnox;
@@ -17,7 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ReactorZirnox extends BlockDummyable implements IMultiblock {
+public class ReactorZirnox extends BlockDummyable {
 
 	public ReactorZirnox(Material mat) {
 		super(mat);
@@ -29,18 +29,18 @@ public class ReactorZirnox extends BlockDummyable implements IMultiblock {
 		if(meta >= 12)
 			return new TileEntityReactorZirnox();
 		if(meta >= 6)
-			return new TileEntityProxyCombo(false, true, true);
+			return new TileEntityProxyCombo(true, true, true);
 
 		return null;
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
+		if(world.isRemote) {
 			return true;
-		} else if(!player.isSneaking())
-		{
+		} else if(!player.isSneaking()) {
+			BossSpawnHandler.markFBI(player);
+			
 			int[] pos = this.findCore(world, x, y, z);
 
 			if(pos == null)
@@ -75,6 +75,8 @@ public class ReactorZirnox extends BlockDummyable implements IMultiblock {
 		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * 2, y + 3, z + dir.offsetZ * o + rot.offsetZ * 2);
 		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * -2, y + 1, z + dir.offsetZ * o + rot.offsetZ * -2);
 		this.makeExtra(world, x + dir.offsetX * o + rot.offsetX * -2, y + 3, z + dir.offsetZ * o + rot.offsetZ * -2);
+		//i still don't know why the ports were such an issue all those months ago
+		this.makeExtra(world, x + dir.offsetX * o, y + 4, z + dir.offsetZ * o);
 	}
 
 }

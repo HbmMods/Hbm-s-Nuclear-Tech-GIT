@@ -3,11 +3,12 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 
@@ -41,9 +42,9 @@ public class TileEntityMachineInserter extends TileEntity implements ISidedInven
 	public TileEntityMachineInserter() {
 		slots = new ItemStack[9];
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(FluidType.NONE, 32000, 0);
-		tanks[1] = new FluidTank(FluidType.NONE, 32000, 0);
-		tanks[2] = new FluidTank(FluidType.NONE, 32000, 0);
+		tanks[0] = new FluidTank(Fluids.NONE, 32000, 0);
+		tanks[1] = new FluidTank(Fluids.NONE, 32000, 0);
+		tanks[2] = new FluidTank(Fluids.NONE, 32000, 0);
 	}
 
 	@Override
@@ -282,13 +283,13 @@ public class TileEntityMachineInserter extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if(index < 3 && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if(index < 3 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
@@ -346,15 +347,5 @@ public class TileEntityMachineInserter extends TileEntity implements ISidedInven
 			list2.clear();
 		if(type.name().equals(tanks[2].getTankType().name()))
 			list3.clear();
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-		list.add(tanks[2]);
-		
-		return list;
 	}
 }

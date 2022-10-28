@@ -5,18 +5,15 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
-import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -28,6 +25,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -38,6 +36,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -132,6 +131,23 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		this.dataWatcher.updateObject(16, (byte)this.config.style);
 		this.dataWatcher.updateObject(17, (byte)this.config.trail);
+	}
+	
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		
+		this.setBeenAttacked();
+		
+		if(source instanceof EntityDamageSource) {
+			EntityDamageSource dmg = (EntityDamageSource) source;
+			
+			if(dmg.damageType.equals("player")) {
+				this.motionX *= -1.5;
+				this.motionY *= -1.5;
+				this.motionZ *= -1.5;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -237,7 +253,9 @@ public class EntityBulletBase extends Entity implements IProjectile {
         MovingObjectPosition movement = this.worldObj.func_147447_a(vecOrigin, vecDestination, false, true, false);
         vecOrigin = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
         vecDestination = Vec3.createVectorHelper(this.posX + this.motionX * this.config.velocity, this.posY + this.motionY * this.config.velocity, this.posZ + this.motionZ * this.config.velocity);
-
+        
+        MovingObjectPosition impact = null;
+        
 		Entity victim = null;
 		List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX * this.config.velocity, this.motionY * this.config.velocity, this.motionZ * this.config.velocity).expand(1.0D, 1.0D, 1.0D));
 		
@@ -258,6 +276,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 
 					if (d1 < d0 || d0 == 0.0D) {
 						victim = entity1;
+						impact = movingobjectposition1;
 						d0 = d1;
 					}
 				}
@@ -280,19 +299,31 @@ public class EntityBulletBase extends Entity implements IProjectile {
 
 				DamageSource damagesource = this.config.getDamage(this, shooter);
 
-    			if(!worldObj.isRemote) {
-	        		if(!config.doesPenetrate) {
+				if(!worldObj.isRemote) {
+					if(!config.doesPenetrate) {
 						this.setPosition(movement.hitVec.xCoord, movement.hitVec.yCoord, movement.hitVec.zCoord);
-	        			onEntityImpact(victim);
-	        		} else {
-	        			onEntityHurt(victim);
-	        		}
-    			}
+						onEntityImpact(victim);
+					} else {
+						onEntityHurt(victim);
+					}
+				}
 				
 				float damage = rand.nextFloat() * (config.dmgMax - config.dmgMin) + config.dmgMin;
 				
 				if(overrideDamage != 0)
 					damage = overrideDamage;
+				
+				boolean headshot = false;
+				
+				if(victim instanceof EntityLivingBase && this.config.headshotMult > 1F) {
+					EntityLivingBase living = (EntityLivingBase) victim;
+					double head = living.height - living.getEyeHeight();
+					
+					if(!!living.isEntityAlive() && impact.hitVec != null && impact.hitVec.yCoord > (living.posY + living.height - head * 2)) {
+						damage *= this.config.headshotMult;
+						headshot = true;
+					}
+				}
 				
         		if(!victim.attackEntityFrom(damagesource, damage)) {
 
@@ -301,8 +332,26 @@ public class EntityBulletBase extends Entity implements IProjectile {
 						
 						float dmg = (float) damage + lastDamage.getFloat(victim);
 						
-						victim.attackEntityFrom(damagesource, dmg);
+						if(!victim.attackEntityFrom(damagesource, dmg)) {
+							headshot = false;
+						}
 					} catch (Exception x) { }
+					
+        		}
+        		
+        		if(!worldObj.isRemote && headshot) {
+        			if(victim instanceof EntityLivingBase) {
+    					EntityLivingBase living = (EntityLivingBase) victim;
+    					double head = living.height - living.getEyeHeight();
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "vanillaburst");
+						data.setInteger("count", 15);
+						data.setDouble("motion", 0.1D);
+						data.setString("mode", "blockdust");
+						data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, living.posX, living.posY + living.height - head, living.posZ), new TargetPoint(living.dimension, living.posX, living.posY, living.posZ, 50));
+						worldObj.playSoundEffect(victim.posX, victim.posY, victim.posZ, "mob.zombie.woodbreak", 1.0F, 0.95F + rand.nextFloat() * 0.2F);
+        			}
         		}
         		
         	//handle block collision
@@ -491,14 +540,17 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 		
 		if(config.rainbow > 0 && !worldObj.isRemote) {
-			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, config.rainbow));
-
-			EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, config.rainbow);
-			cloud.posX = this.posX;
-			cloud.posY = this.posY;
-			cloud.posZ = this.posZ;
-			this.worldObj.spawnEntityInWorld(cloud);
+			EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, config.rainbow);
+			if(!ex.isDead) {
+				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+				worldObj.spawnEntityInWorld(ex);
+	
+				EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, config.rainbow);
+				cloud.posX = this.posX;
+				cloud.posY = this.posY;
+				cloud.posZ = this.posZ;
+				this.worldObj.spawnEntityInWorld(cloud);
+			}
 		}
 		
 		if(config.nuke > 0 && !worldObj.isRemote) {

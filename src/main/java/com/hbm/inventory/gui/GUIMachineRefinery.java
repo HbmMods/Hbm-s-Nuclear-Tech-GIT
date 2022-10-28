@@ -2,19 +2,24 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineRefinery;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.NBTControlPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineRefinery extends GuiInfoContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_refinery.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_refinery.png");
 	private TileEntityMachineRefinery refinery;
 
 	public GUIMachineRefinery(InventoryPlayer invPlayer, TileEntityMachineRefinery tedf) {
@@ -36,6 +41,18 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 		refinery.tanks[4].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 70 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 70 - 52, 16, 52, refinery.power, refinery.maxPower);
 	}
+
+	@Override
+	protected void mouseClicked(int x, int y, int i) {
+		super.mouseClicked(x, y, i);
+		
+		if(guiLeft + 64 <= x && guiLeft + 76 > x && guiTop + 20 < y && guiTop + 46 >= y) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			NBTTagCompound data = new NBTTagCompound();
+			data.setBoolean("toggle", true); //we only need to send one bit, so boolean it is
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, refinery.xCoord, refinery.yCoord, refinery.zCoord));
+		}
+	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
@@ -50,25 +67,17 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		if(refinery.tanks[0].getTankType() == Fluids.HOTCRACKOIL)
+			drawTexturedModalRect(guiLeft + 64, guiTop + 20, 192, 0, 12, 26);
 
 		int j = (int)refinery.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 70 - j, 176, 52 - j, 16, j);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(refinery.tanks[0].getSheet());
-		refinery.tanks[0].renderTank(this, guiLeft + 26, guiTop + 70, refinery.tanks[0].getTankType().textureX() * FluidTank.x, refinery.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		refinery.tanks[0].renderTank(this, guiLeft + 26 + 16, guiTop + 70, refinery.tanks[0].getTankType().textureX() * FluidTank.x, refinery.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		refinery.tanks[0].renderTank(this, guiLeft + 26 + 32, guiTop + 70, refinery.tanks[0].getTankType().textureX() * FluidTank.x, refinery.tanks[0].getTankType().textureY() * FluidTank.y, 2, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(refinery.tanks[1].getSheet());
-		refinery.tanks[1].renderTank(this, guiLeft + 80, guiTop + 70, refinery.tanks[1].getTankType().textureX() * FluidTank.x, refinery.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(refinery.tanks[2].getSheet());
-		refinery.tanks[2].renderTank(this, guiLeft + 98, guiTop + 70, refinery.tanks[2].getTankType().textureX() * FluidTank.x, refinery.tanks[2].getTankType().textureY() * FluidTank.y, 16, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(refinery.tanks[3].getSheet());
-		refinery.tanks[3].renderTank(this, guiLeft + 116, guiTop + 70, refinery.tanks[3].getTankType().textureX() * FluidTank.x, refinery.tanks[3].getTankType().textureY() * FluidTank.y, 16, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(refinery.tanks[4].getSheet());
-		refinery.tanks[4].renderTank(this, guiLeft + 134, guiTop + 70, refinery.tanks[4].getTankType().textureX() * FluidTank.x, refinery.tanks[4].getTankType().textureY() * FluidTank.y, 16, 52);
+		refinery.tanks[0].renderTank(guiLeft + 26, guiTop + 70, this.zLevel, 34, 52);
+		refinery.tanks[1].renderTank(guiLeft + 80, guiTop + 70, this.zLevel, 16, 52);
+		refinery.tanks[2].renderTank(guiLeft + 98, guiTop + 70, this.zLevel, 16, 52);
+		refinery.tanks[3].renderTank(guiLeft + 116, guiTop + 70, this.zLevel, 16, 52);
+		refinery.tanks[4].renderTank(guiLeft + 134, guiTop + 70, this.zLevel, 16, 52);
 	}
 }

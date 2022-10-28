@@ -30,6 +30,12 @@ public class BlockDepthOre extends BlockDepth {
 		if(this == ModBlocks.ore_depth_nether_neodymium) {
 			return ModItems.fragment_neodymium;
 		}
+		if(this == ModBlocks.ore_depth_borax) {
+			return ModItems.powder_borax;
+		}
+		if(this == ModBlocks.ore_alexandrite) {
+			return ModItems.gem_alexandrite;
+		}
 		
 		return super.getItemDropped(metadata, rand, fortune);
 	}
@@ -48,5 +54,17 @@ public class BlockDepthOre extends BlockDepth {
 		}
 		
 		return super.quantityDropped(rand);
+	}
+	
+	@Override
+	public int quantityDroppedWithBonus(int fortune, Random rand) {
+		
+		int mult = rand.nextInt(fortune + 2) - 1;
+
+		if(mult < 0) {
+			mult = 0;
+		}
+
+		return this.quantityDropped(rand) * (mult + 1);
 	}
 }

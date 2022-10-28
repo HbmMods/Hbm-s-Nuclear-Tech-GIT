@@ -2,7 +2,7 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
-import com.hbm.lib.Library;
+import com.hbm.util.BobMathUtil;
 
 import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +20,7 @@ public class ItemSelfcharger extends Item implements IBatteryItem {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add(EnumChatFormatting.YELLOW + "" + Library.getShortNumber(charge) + "HE/t");
+		list.add(EnumChatFormatting.YELLOW + "" + BobMathUtil.getShortNumber(charge) + "HE/t");
 	}
 
 	@Override

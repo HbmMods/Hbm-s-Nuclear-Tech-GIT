@@ -16,7 +16,6 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 
 public class ArmorSchrabidium extends ItemArmor implements ISpecialArmor {
-	private String [] armourTypes = new String [] {"schrabidium_helmet", "schrabidium_plate", "schrabidium_legs", "schrabidium_boots"};
 	
 	public ArmorSchrabidium(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
 		super(armorMaterial, renderIndex, armorType);

@@ -20,6 +20,14 @@ public interface IPowerNet {
 
 	public void destroy();
 	
+	/**
+	 * When a link is removed, instead of destroying the network, causing it to be recreated from currently loaded conductors,
+	 * we re-evaluate it, creating new nets based on the previous links.
+	 * 
+	 * NYI
+	 */
+	public void reevaluate();
+	
 	public boolean isValid();
 
 	public List<IEnergyConductor> getLinks();

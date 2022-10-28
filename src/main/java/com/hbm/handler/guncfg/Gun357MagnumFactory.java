@@ -185,6 +185,27 @@ public class Gun357MagnumFactory {
 		return config;
 	}
 	
+	public static GunConfiguration getRevolverBioConfig() {
+		
+		GunConfiguration config = getBaseConfig();
+		
+		config.durability = 100000;
+		config.firingSound = "hbm:weapon.deagleShoot";
+		config.reloadDuration = 53;
+		config.crosshair = Crosshair.CIRCLE;
+		
+		config.name = "RI No. 2 Mark 1";
+		config.manufacturer = "Ryan Industries";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.IRON_HS);
+		config.config.add(BulletConfigSyncingUtil.STEEL_HS);
+		config.config.add(BulletConfigSyncingUtil.GOLD_HS);
+		config.config.add(BulletConfigSyncingUtil.DESH_HS);
+		
+		return config;
+	}
+	
 	    ////    //  //  //      //      //////  //////  //////
 	   //  //  //  //  //      //      //        //    //
 	  ////    //  //  //      //      ////      //    //////
@@ -193,7 +214,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevIronConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_iron_ammo;
 		bullet.dmgMin = 8;
@@ -204,7 +225,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevSteelConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_ammo;
 		bullet.dmgMin = 18;
@@ -215,7 +236,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevLeadConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_lead_ammo;
 		bullet.dmgMin = 10;
@@ -229,7 +250,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevGoldConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_gold_ammo;
 		bullet.dmgMin = 25;
@@ -240,7 +261,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevDeshConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.ammo_357_desh;
 		bullet.dmgMin = 30;
@@ -251,7 +272,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevSchrabidiumConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_schrabidium_ammo;
 		bullet.dmgMin = 10000;
@@ -263,7 +284,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevCursedConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_cursed_ammo;
 		bullet.dmgMin = 18;
@@ -274,7 +295,7 @@ public class Gun357MagnumFactory {
 	
 	public static BulletConfiguration getRevNightmareConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_nightmare_ammo;
 		bullet.dmgMin = 1;

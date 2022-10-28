@@ -1,0 +1,32 @@
+package com.hbm.blocks.network;
+
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
+public class BlockConveyorDouble extends BlockConveyorBendable {
+
+	@Override
+	public Vec3 getClosestSnappingPosition(World world, int x, int y, int z, Vec3 itemPos) {
+
+		ForgeDirection dir = this.getTravelDirection(world, x, y, z, itemPos);
+		
+		itemPos.xCoord = MathHelper.clamp_double(itemPos.xCoord, x, x + 1);
+		itemPos.zCoord = MathHelper.clamp_double(itemPos.zCoord, z, z + 1);
+		
+		double posX = x + 0.5;
+		double posZ = z + 0.5;
+
+		if(dir.offsetX != 0) {
+			posX = itemPos.xCoord;
+			posZ += itemPos.zCoord > posZ ? 0.25 : -0.25;
+		}
+		if(dir.offsetZ != 0) {
+			posZ = itemPos.zCoord;
+			posX += itemPos.xCoord > posX ? 0.25 : -0.25;
+		}
+		
+		return Vec3.createVectorHelper(posX, y + 0.25, posZ);
+	}
+}

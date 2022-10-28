@@ -1,9 +1,10 @@
 package com.hbm.blocks.network;
 
-import com.hbm.blocks.test.TestConductor;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.network.TileEntityCableBaseNT;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -22,9 +23,16 @@ public class BlockCable extends BlockContainer {
 		return new TileEntityCableBaseNT();
 	}
 
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
+	public static int renderIDClassic = RenderingRegistry.getNextAvailableRenderId();
+
 	@Override
 	public int getRenderType() {
-		return TestConductor.renderID;
+		
+		if(this == ModBlocks.red_cable_classic)
+			return renderIDClassic;
+		
+		return renderID;
 	}
 	
 	@Override

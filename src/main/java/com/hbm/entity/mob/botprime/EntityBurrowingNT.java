@@ -3,6 +3,7 @@ package com.hbm.entity.mob.botprime;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.world.World;
 
+@Deprecated
 public abstract class EntityBurrowingNT extends EntityCreature {
 
 	protected float dragInAir;

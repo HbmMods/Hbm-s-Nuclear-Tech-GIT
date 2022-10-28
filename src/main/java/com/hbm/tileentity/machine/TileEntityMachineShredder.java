@@ -1,11 +1,11 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.Untested;
 import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.items.machine.ItemBlades;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -15,10 +15,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineShredder extends TileEntity implements ISidedInventory, IEnergyUser {
+public class TileEntityMachineShredder extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser {
 
 	private ItemStack slots[];
 
@@ -28,9 +27,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 	public static final long maxPower = 10000;
 	public static final int processingSpeed = 60;
 	
-	private static final int[] slots_top = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
-	private static final int[] slots_bottom = new int[] {9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29};
-	private static final int[] slots_side = new int[] {27, 28, 29};
+	private static final int[] slots_io = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29};
 	
 	private String customName;
 	
@@ -106,15 +103,9 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		if(i < 9)
-				return true;
-		if(i == 29)
-			if(stack.getItem() instanceof IBatteryItem)
-				return true;
-		
-		if(i == 27 || i == 28)
-			if(stack.getItem() instanceof ItemBlades)
-				return true;
+		if(i < 9) return ShredderRecipes.getShredderResult(stack) != null && !(stack.getItem() instanceof ItemBlades);
+		if(i == 29) return stack.getItem() instanceof IBatteryItem;
+		if(i == 27 || i == 28) return stack.getItem() instanceof ItemBlades;
 		
 		return false;
 	}
@@ -181,22 +172,18 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 	
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		return side == 0 ? slots_bottom : (side == 1 ? slots_top : slots_side);
+		return slots_io;
 	}
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		
-		if(j != 1)
-			return this.isItemValidForSlot(i, itemStack);
-		
-		if(i >= 9 || !this.isItemValidForSlot(i, itemStack))
+	public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+		if((slot >= 9 && slot != 27 && slot != 28) || !this.isItemValidForSlot(slot, itemStack))
 			return false;
 		
-		if(slots[i] == null)
+		if(slots[slot] == null)
 			return true;
 		
-		int size = slots[i].stackSize;
+		int size = slots[slot].stackSize;
 		
 		for(int k = 0; k < 9; k++) {
 			if(slots[k] == null)
@@ -206,18 +193,13 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 				return false;
 		}
 		
-		System.out.println("ass");
-		
 		return true;
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		if(i >= 9 && i <= 26)
-				return true;
-		if(i >= 27 && i <= 29)
-			if(itemStack.getItemDamage() == itemStack.getMaxDamage() && itemStack.getMaxDamage() > 0)
-				return true;
+		if(i >= 9 && i <= 26) return true;
+		if(i >= 27 && i <= 28) if(itemStack.getItemDamage() == itemStack.getMaxDamage() && itemStack.getMaxDamage() > 0) return true;
 		
 		return false;
 	}

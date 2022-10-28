@@ -1,6 +1,5 @@
 package com.hbm.inventory.inv;
 
-import com.hbm.items.special.ItemHazard;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -148,7 +147,7 @@ public class InventoryLeadBox implements IInventory {
 		// Don't want to be able to store the inventory item within itself
 		// Bad things will happen, like losing your inventory
 		// Actually, this needs a custom Slot to work
-		return (itemstack.getItem() instanceof ItemHazard);
+		return false; //I'm fairly certain this has been deprecated for awhile, so setting this to false will be fine
 	}
 
 	/**

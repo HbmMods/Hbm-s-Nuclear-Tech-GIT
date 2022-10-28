@@ -3,19 +3,23 @@ package com.hbm.handler;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.machine.NTMAnvil;
+import com.hbm.entity.cart.EntityMinecartCrate;
+import com.hbm.entity.cart.EntityMinecartDestroyer;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.container.*;
 import com.hbm.inventory.gui.*;
 import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
-import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
-import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
-import com.hbm.tileentity.machine.oil.TileEntityOilDrillBase;
+import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.rbmk.*;
+import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.turret.*;
+import com.hbm.wiaj.GuiWorldInAJar;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -27,6 +31,39 @@ public class GUIHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
+		
+		if(entity instanceof IGUIProvider) {
+			return ((IGUIProvider) entity).provideContainer(ID, player, world, x, y, z);
+		}
+		
+		Block block = world.getBlock(x, y, z);
+		
+		if(block instanceof IGUIProvider) {
+			return ((IGUIProvider) block).provideContainer(ID, player, world, x, y, z);
+		}
+		
+		//notice: stop doing this, unless you absolutely have to \/
+		
+		if(entity instanceof TileEntityCrateIron) {		return new ContainerCrateIron(player.inventory, (TileEntityCrateIron) entity); }
+		if(entity instanceof TileEntityCrateSteel) {	return new ContainerCrateSteel(player.inventory, (TileEntityCrateSteel) entity); }
+		if(entity instanceof TileEntityCrateDesh) {		return new ContainerCrateDesh(player.inventory, (TileEntityCrateDesh) entity); }
+		if(entity instanceof TileEntityCrateTungsten) {	return new ContainerCrateTungsten(player.inventory, (TileEntityCrateTungsten) entity); }
+		if(entity instanceof TileEntitySafe) {			return new ContainerSafe(player.inventory, (TileEntitySafe) entity); }
+		if(entity instanceof TileEntityMassStorage) {	return new ContainerMassStorage(player.inventory, (TileEntityMassStorage) entity); }
+
+		if(entity instanceof TileEntityMachineAutocrafter) {	return new ContainerAutocrafter(player.inventory, (TileEntityMachineAutocrafter) entity); }
+
+		if(entity instanceof TileEntityMachineLiquefactor) {	return new ContainerLiquefactor(player.inventory, (TileEntityMachineLiquefactor) entity); }
+		if(entity instanceof TileEntityMachineSolidifier) {		return new ContainerSolidifier(player.inventory, (TileEntityMachineSolidifier) entity); }
+		if(entity instanceof TileEntityMachineRadiolysis) {		return new ContainerRadiolysis(player.inventory, (TileEntityMachineRadiolysis) entity); }
+		if(entity instanceof TileEntityMachineAssemfac) {		return new ContainerAssemfac(player.inventory, (TileEntityMachineAssemfac) entity); }
+		if(entity instanceof TileEntityMachineChemfac) {		return new ContainerChemfac(player.inventory, (TileEntityMachineChemfac) entity); }
+		if(entity instanceof TileEntityElectrolyser) {			return new ContainerElectrolyser(player.inventory, (TileEntityElectrolyser) entity); }
+
+		if(entity instanceof TileEntityRBMKHeater) {			return new ContainerRBMKHeater(player.inventory, (TileEntityRBMKHeater) entity); }
+		
+		//notice: stop doing this completely, period \/
+		
 		switch(ID) {
 		case ModBlocks.guiID_test_difurnace: {
 			if(entity instanceof TileEntityDiFurnace) {
@@ -84,9 +121,9 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_reactor: {
-			if(entity instanceof TileEntityMachineReactor) {
-				return new ContainerReactor(player.inventory, (TileEntityMachineReactor) entity);
+		case ModBlocks.guiID_reactor_breeding: {
+			if(entity instanceof TileEntityMachineReactorBreeding) {
+				return new ContainerMachineReactorBreeding(player.inventory, (TileEntityMachineReactorBreeding) entity);
 			}
 			return null;
 		}
@@ -182,44 +219,9 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_factory_titanium: {
-			if(entity instanceof TileEntityCoreTitanium) {
-				return new ContainerCoreTitanium(player.inventory, (TileEntityCoreTitanium) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_factory_advanced: {
-			if(entity instanceof TileEntityCoreAdvanced) {
-				return new ContainerCoreAdvanced(player.inventory, (TileEntityCoreAdvanced) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_reactor_multiblock: {
 			if(entity instanceof TileEntityMachineReactorLarge) {
 				return new ContainerReactorMultiblock(player.inventory, (TileEntityMachineReactorLarge) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_fusion_multiblock: {
-			if(entity instanceof TileEntityFusionMultiblock) {
-				return new ContainerFusionMultiblock(player.inventory, (TileEntityFusionMultiblock) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_converter_he_rf: {
-			if(entity instanceof TileEntityConverterHeRf) {
-				return new ContainerConverterHeRf(player.inventory, (TileEntityConverterHeRf) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_converter_rf_he: {
-			if(entity instanceof TileEntityConverterRfHe) {
-				return new ContainerConverterRfHe(player.inventory, (TileEntityConverterRfHe) entity);
 			}
 			return null;
 		}
@@ -357,20 +359,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_crate_iron: {
-			if(entity instanceof TileEntityCrateIron) {
-				return new ContainerCrateIron(player.inventory, (TileEntityCrateIron) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_crate_steel: {
-			if(entity instanceof TileEntityCrateSteel) {
-				return new ContainerCrateSteel(player.inventory, (TileEntityCrateSteel) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_machine_press: {
 			if(entity instanceof TileEntityMachinePress) {
 				return new ContainerMachinePress(player.inventory, (TileEntityMachinePress) entity);
@@ -434,13 +422,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_cel_prime: {
-			if(entity instanceof TileEntityCelPrime) {
-				return new ContainerCelPrime(player.inventory, (TileEntityCelPrime) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_machine_selenium: {
 			if(entity instanceof TileEntityMachineSeleniumEngine) {
 				return new ContainerMachineSelenium(player.inventory, (TileEntityMachineSeleniumEngine) entity);
@@ -455,9 +436,9 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_reactor_small: {
-			if(entity instanceof TileEntityMachineReactorSmall) {
-				return new ContainerMachineReactorSmall(player.inventory, (TileEntityMachineReactorSmall) entity);
+		case ModBlocks.guiID_reactor_research: {
+			if(entity instanceof TileEntityReactorResearch) {
+				return new ContainerReactorResearch(player.inventory, (TileEntityReactorResearch) entity);
 			}
 			return null;
 		}
@@ -465,13 +446,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_radiobox: {
 			if(entity instanceof TileEntityRadiobox) {
 				return new ContainerRadiobox(player.inventory, (TileEntityRadiobox) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_telelinker: {
-			if(entity instanceof TileEntityMachineTeleLinker) {
-				return new ContainerMachineTeleLinker(player.inventory, (TileEntityMachineTeleLinker) entity);
 			}
 			return null;
 		}
@@ -486,13 +460,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_radiorec: {
 			if(entity instanceof TileEntityRadioRec) {
 				return new ContainerRadioRec(player.inventory, (TileEntityRadioRec) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_safe: {
-			if(entity instanceof TileEntitySafe) {
-				return new ContainerSafe(player.inventory, (TileEntitySafe) entity);
 			}
 			return null;
 		}
@@ -714,13 +681,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_crate_tungsten: {
-			if(entity instanceof TileEntityCrateTungsten) {
-				return new ContainerCrateTungsten(player.inventory, (TileEntityCrateTungsten) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_chekhov: {
 			if(entity instanceof TileEntityTurretChekhov) {
 				return new ContainerTurretBase(player.inventory, (TileEntityTurretChekhov) entity);
@@ -786,7 +746,7 @@ public class GUIHandler implements IGuiHandler {
 
 		case ModBlocks.guiID_rbmk_boiler: {
 			if(entity instanceof TileEntityRBMKBoiler) {
-				return new ContainerRBMKBoiler(player.inventory, (TileEntityRBMKBoiler) entity);
+				return new ContainerRBMKGeneric(player.inventory);
 			}
 			return null;
 		}
@@ -864,10 +824,10 @@ public class GUIHandler implements IGuiHandler {
 		// NON-TE CONTAINERS
 
 		switch(ID) {
-		case ModItems.guiID_item_box:
-			return new ContainerLeadBox(player, player.inventory, new InventoryLeadBox(player.getHeldItem()));
-		case ModItems.guiID_item_book:
-			return new ContainerBook(player.inventory);
+		case ModItems.guiID_item_box: return new ContainerLeadBox(player, player.inventory, new InventoryLeadBox(player.getHeldItem()));
+		case ModItems.guiID_item_book: return new ContainerBook(player.inventory);
+		case ModItems.guiID_cart_crate: return new ContainerCrateSteel(player.inventory, (EntityMinecartCrate)player.worldObj.getEntityByID(x));
+		case ModItems.guiID_cart_destroyer: return new ContainerCartDestroyer(player.inventory, (EntityMinecartDestroyer)player.worldObj.getEntityByID(x));
 		}
 
 		return null;
@@ -876,10 +836,43 @@ public class GUIHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
+		
+		if(entity instanceof IGUIProvider) {
+			return ((IGUIProvider) entity).provideGUI(ID, player, world, x, y, z);
+		}
+		
+		Block block = world.getBlock(x, y, z);
+		
+		if(block instanceof IGUIProvider) {
+			return ((IGUIProvider) block).provideGUI(ID, player, world, x, y, z);
+		}
+		
+		//stop doing this unless you absolutely have to \/
+
+		if(entity instanceof TileEntityCrateIron) {		return new GUICrateIron(player.inventory, (TileEntityCrateIron) entity); }
+		if(entity instanceof TileEntityCrateSteel) {	return new GUICrateSteel(player.inventory, (TileEntityCrateSteel) entity); }
+		if(entity instanceof TileEntityCrateDesh) {		return new GUICrateDesh(player.inventory, (TileEntityCrateDesh) entity); }
+		if(entity instanceof TileEntityCrateTungsten) {	return new GUICrateTungsten(player.inventory, (TileEntityCrateTungsten) entity); }
+		if(entity instanceof TileEntitySafe) {			return new GUISafe(player.inventory, (TileEntitySafe) entity); }
+		if(entity instanceof TileEntityMassStorage) {	return new GUIMassStorage(player.inventory, (TileEntityMassStorage) entity); }
+		
+		if(entity instanceof TileEntityMachineAutocrafter) {	return new GUIAutocrafter(player.inventory, (TileEntityMachineAutocrafter) entity); }
+		
+		if(entity instanceof TileEntityMachineLiquefactor) {	return new GUILiquefactor(player.inventory, (TileEntityMachineLiquefactor) entity); }
+		if(entity instanceof TileEntityMachineSolidifier) {		return new GUISolidifier(player.inventory, (TileEntityMachineSolidifier) entity); }
+		if(entity instanceof TileEntityMachineRadiolysis) {		return new GUIRadiolysis(player.inventory, (TileEntityMachineRadiolysis) entity); }
+		if(entity instanceof TileEntityMachineAssemfac) {		return new GUIAssemfac(player.inventory, (TileEntityMachineAssemfac) entity); }
+		if(entity instanceof TileEntityMachineChemfac) {		return new GUIChemfac(player.inventory, (TileEntityMachineChemfac) entity); }
+		if(entity instanceof TileEntityElectrolyser) { 			return new GUIElectrolyser(player.inventory, (TileEntityElectrolyser) entity); }
+
+		if(entity instanceof TileEntityRBMKHeater) { 			return new GUIRBMKHeater(player.inventory, (TileEntityRBMKHeater) entity); }
+		
+		//stop doing this, period \/
+		
 		switch(ID) {
 		case ModBlocks.guiID_test_difurnace: {
 			if(entity instanceof TileEntityDiFurnace) {
-				return new GUITestDiFurnace(player.inventory, (TileEntityDiFurnace) entity);
+				return new GUIDiFurnace(player.inventory, (TileEntityDiFurnace) entity);
 			}
 			return null;
 		}
@@ -933,9 +926,9 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_reactor: {
-			if(entity instanceof TileEntityMachineReactor) {
-				return new GUIMachineReactor(player.inventory, (TileEntityMachineReactor) entity);
+		case ModBlocks.guiID_reactor_breeding: {
+			if(entity instanceof TileEntityMachineReactorBreeding) {
+				return new GUIMachineReactorBreeding(player.inventory, (TileEntityMachineReactorBreeding) entity);
 			}
 			return null;
 		}
@@ -1031,44 +1024,9 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_factory_titanium: {
-			if(entity instanceof TileEntityCoreTitanium) {
-				return new GUICoreTitanium(player.inventory, (TileEntityCoreTitanium) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_factory_advanced: {
-			if(entity instanceof TileEntityCoreAdvanced) {
-				return new GUICoreAdvanced(player.inventory, (TileEntityCoreAdvanced) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_reactor_multiblock: {
 			if(entity instanceof TileEntityMachineReactorLarge) {
 				return new GUIReactorMultiblock(player.inventory, (TileEntityMachineReactorLarge) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_fusion_multiblock: {
-			if(entity instanceof TileEntityFusionMultiblock) {
-				return new GUIFusionMultiblock(player.inventory, (TileEntityFusionMultiblock) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_converter_he_rf: {
-			if(entity instanceof TileEntityConverterHeRf) {
-				return new GUIConverterHeRf(player.inventory, (TileEntityConverterHeRf) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_converter_rf_he: {
-			if(entity instanceof TileEntityConverterRfHe) {
-				return new GUIConverterRfHe(player.inventory, (TileEntityConverterRfHe) entity);
 			}
 			return null;
 		}
@@ -1206,20 +1164,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_crate_iron: {
-			if(entity instanceof TileEntityCrateIron) {
-				return new GUICrateIron(player.inventory, (TileEntityCrateIron) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_crate_steel: {
-			if(entity instanceof TileEntityCrateSteel) {
-				return new GUICrateSteel(player.inventory, (TileEntityCrateSteel) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_machine_press: {
 			if(entity instanceof TileEntityMachinePress) {
 				return new GUIMachinePress(player.inventory, (TileEntityMachinePress) entity);
@@ -1283,13 +1227,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_cel_prime: {
-			if(entity instanceof TileEntityCelPrime) {
-				return new GUICelPrime(player.inventory, (TileEntityCelPrime) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_machine_selenium: {
 			if(entity instanceof TileEntityMachineSeleniumEngine) {
 				return new GUIMachineSelenium(player.inventory, (TileEntityMachineSeleniumEngine) entity);
@@ -1304,16 +1241,9 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_reactor_small: {
-			if(entity instanceof TileEntityMachineReactorSmall) {
-				return new GUIMachineReactorSmall(player.inventory, (TileEntityMachineReactorSmall) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_telelinker: {
-			if(entity instanceof TileEntityMachineTeleLinker) {
-				return new GUIMachineTeleLinker(player.inventory, (TileEntityMachineTeleLinker) entity);
+		case ModBlocks.guiID_reactor_research: {
+			if(entity instanceof TileEntityReactorResearch) {
+				return new GUIReactorResearch(player.inventory, (TileEntityReactorResearch) entity);
 			}
 			return null;
 		}
@@ -1328,13 +1258,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_radiorec: {
 			if(entity instanceof TileEntityRadioRec) {
 				return new GUIRadioRec(player.inventory, (TileEntityRadioRec) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_safe: {
-			if(entity instanceof TileEntitySafe) {
-				return new GUISafe(player.inventory, (TileEntitySafe) entity);
 			}
 			return null;
 		}
@@ -1556,13 +1479,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_crate_tungsten: {
-			if(entity instanceof TileEntityCrateTungsten) {
-				return new GUICrateTungsten(player.inventory, (TileEntityCrateTungsten) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_chekhov: {
 			if(entity instanceof TileEntityTurretChekhov) {
 				return new GUITurretChekhov(player.inventory, (TileEntityTurretChekhov) entity);
@@ -1732,6 +1648,13 @@ public class GUIHandler implements IGuiHandler {
 			return new GUIScreenGuide(player);
 		case ModItems.guiID_item_bobble:
 			return new GUIScreenBobble((TileEntityBobble) world.getTileEntity(x, y, z));
+		case ModItems.guiID_item_holo_image:
+			return new GUIScreenHolotape();
+		case ModItems.guiID_item_fluid:
+			return new GUIScreenFluid(player);
+			
+		case ModItems.guiID_cart_crate: return new GUICrateSteel(player.inventory, (EntityMinecartCrate) player.worldObj.getEntityByID(x));
+		case ModItems.guiID_cart_destroyer: return new GUICartDestroyer(player.inventory, (EntityMinecartDestroyer) player.worldObj.getEntityByID(x));
 		}
 		return null;
 	}

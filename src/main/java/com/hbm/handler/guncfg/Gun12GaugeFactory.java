@@ -21,6 +21,82 @@ import net.minecraft.potion.PotionEffect;
 
 public class Gun12GaugeFactory {
 	
+	public static GunConfiguration getSpas12Config() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 25;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.reloadDuration = 10;
+		config.firingDuration = 5;
+		config.ammoCap = 8;
+		config.durability = 2500;
+		config.reloadType = GunConfiguration.RELOAD_SINGLE;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.CIRCLE;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingSound = "hbm:weapon.shotgunPump";
+		
+		config.name = "Franchi SPAS-12";
+		config.manufacturer = "Black Mesa Armory";
+		config.comment.add("\"Here, I have a more suitable gun for you. You'll need it - Catch!\"");
+		config.comment.add("Alt-fire with Mouse 2 (Right-click) to fire 2 shells at once");
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
+		config.config.add(BulletConfigSyncingUtil.G12_DU);
+		config.config.add(BulletConfigSyncingUtil.G12_AM);
+		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("SPAS_RECOIL_TRANSLATE", new BusAnimationSequence()
+					.addKeyframe(new BusAnimationKeyframe(0, 0, -2, 100))
+					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+					)
+				.addBus("SPAS_RECOIL_ROT", new BusAnimationSequence()
+					.addKeyframe(new BusAnimationKeyframe(-1, 0, 1, 100))
+					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+					)
+				.addBus("SPAS_PUMP", new BusAnimationSequence()
+					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 450))
+					.addKeyframe(new BusAnimationKeyframe(0, 0, -1.8, 200))
+					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+					)
+				);
+		
+		return config;
+	}
+	
+public static GunConfiguration getSpas12AltConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 35;
+		config.roundsPerCycle = 2;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.firingDuration = 10;
+		config.ammoCap = 8;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingSound = "hbm:weapon.shotgunPump";
+		config.reloadType = GunConfiguration.RELOAD_SINGLE;
+		
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
+		config.config.add(BulletConfigSyncingUtil.G12_DU);
+		config.config.add(BulletConfigSyncingUtil.G12_AM);
+		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
+
+		return config;
+	}
+	
 	public static GunConfiguration getUboinikConfig() {
 		
 		GunConfiguration config = new GunConfiguration();

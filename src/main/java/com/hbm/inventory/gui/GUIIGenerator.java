@@ -2,9 +2,8 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerIGenerator;
-import com.hbm.lib.Library;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 
@@ -84,10 +83,7 @@ public class GUIIGenerator extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 51, guiTop + 34, 180, 0, 4, 89);
 		}
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(igen.tanks[1].getSheet());
-		igen.tanks[1].renderTank(this, guiLeft + 114, guiTop + 103, igen.tanks[1].getTankType().textureX() * FluidTank.x, igen.tanks[1].getTankType().textureY() * FluidTank.y, 16, 70);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(igen.tanks[2].getSheet());
-		igen.tanks[2].renderTank(this, guiLeft + 150, guiTop + 103, igen.tanks[2].getTankType().textureX() * FluidTank.x, igen.tanks[2].getTankType().textureY() * FluidTank.y, 16, 70);
+		igen.tanks[1].renderTank(guiLeft + 114, guiTop + 103, this.zLevel, 16, 70);
+		igen.tanks[2].renderTank(guiLeft + 150, guiTop + 103, this.zLevel, 16, 70);
 	}
 }

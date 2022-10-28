@@ -3,14 +3,15 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
-import com.hbm.lib.Library;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.block.ILaserable;
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Blocks;
@@ -20,7 +21,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, ILaserable {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, ILaserable, IFluidStandardReceiver, SimpleComponent {
 	
 	public long power;
 	public long joules;
@@ -28,7 +36,7 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 
 	public TileEntityCoreReceiver() {
 		super(0);
-		tank = new FluidTank(FluidType.CRYOGEL, 64000, 0);
+		tank = new FluidTank(Fluids.CRYOGEL, 64000, 0);
 	}
 
 	@Override
@@ -42,6 +50,7 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 		if (!worldObj.isRemote) {
 			
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			this.subscribeToAllAround(tank.getTankType(), this);
 			
 			power = joules * 5000;
 			
@@ -113,21 +122,13 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		tank.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tank);
-		
-		return list;
 	}
 
 	@Override
@@ -170,5 +171,39 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 		nbt.setLong("power", power);
 		nbt.setLong("joules", joules);
 		tank.writeToNBT(nbt, "tank");
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
+	}
+
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "dfc_receiver";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInput(Context context, Arguments args) {
+		return new Object[] {joules};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getOutput(Context context, Arguments args) {
+		return new Object[] {power};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCryogel(Context context, Arguments args) {
+		return new Object[] {tank.getFill()};
 	}
 }

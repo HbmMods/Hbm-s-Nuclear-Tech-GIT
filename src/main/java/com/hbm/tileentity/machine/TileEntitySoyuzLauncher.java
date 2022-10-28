@@ -5,10 +5,11 @@ import java.util.List;
 
 import com.hbm.handler.MissileStruct;
 import com.hbm.entity.missile.EntitySoyuz;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -47,8 +48,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public TileEntitySoyuzLauncher() {
 		super(27);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.KEROSENE, 128000, 0);
-		tanks[1] = new FluidTank(FluidType.OXYGEN, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.KEROSENE, 128000, 0);
+		tanks[1] = new FluidTank(Fluids.OXYGEN, 128000, 1);
 	}
 
 	@Override
@@ -105,9 +106,11 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			} else if(countdown > 0) {
 
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio = this.createAudioLoop();
 					audio.updateVolume(100);
 					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
 				}
 				
 				countdown--;
@@ -129,6 +132,11 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 				MainRegistry.proxy.effectNT(data);
 			}
 		}
+	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 1.0F, 1.0F);
 	}
 	
     public void onChunkUnload() {
@@ -366,7 +374,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
@@ -380,18 +388,9 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-		
-		return list;
 	}
 
 	@Override

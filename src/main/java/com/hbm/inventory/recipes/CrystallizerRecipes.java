@@ -59,8 +59,9 @@ public class CrystallizerRecipes {
 		recipes.put(SRN.ingot(), new ItemStack(ModItems.crystal_schraranium));
 		
 		recipes.put("sand", new ItemStack(ModItems.ingot_fiberglass));
-		recipes.put(REDSTONE.block(), new ItemStack(ModItems.nugget_mercury));
-		recipes.put(CINNABAR.crystal(), new ItemStack(ModItems.nugget_mercury, 3));
+		recipes.put(REDSTONE.block(), new ItemStack(ModItems.ingot_mercury));
+		recipes.put(CINNABAR.crystal(), new ItemStack(ModItems.ingot_mercury, 3));
+		recipes.put(BORAX.dust(), new ItemStack(ModItems.powder_boron_tiny, 3));
 		recipes.put(COAL.block(), new ItemStack(ModBlocks.block_graphite));
 
 		recipes.put(new ComparableStack(Blocks.cobblestone), new ItemStack(ModBlocks.reinforced_stone));
@@ -88,7 +89,7 @@ public class CrystallizerRecipes {
 		
 		if(quartz != null && !quartz.isEmpty()) {
 			ItemStack qItem = quartz.get(0).copy();
-			qItem.stackSize = 6;
+			qItem.stackSize = 12;
 			recipes.put("oreCertusQuartz", qItem);
 		}
 		

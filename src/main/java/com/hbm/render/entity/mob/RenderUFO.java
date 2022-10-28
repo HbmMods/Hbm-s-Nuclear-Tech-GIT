@@ -75,5 +75,4 @@ public class RenderUFO extends Render {
 	protected ResourceLocation getEntityTexture(Entity entity) {
 		return ResourceManager.ufo_tex;
 	}
-
 }

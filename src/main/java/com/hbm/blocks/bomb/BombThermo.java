@@ -19,15 +19,13 @@ import net.minecraft.world.World;
 
 public class BombThermo extends Block implements IBomb {
 
-	private World worldObj;
-	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 
 	public BombThermo(Material p_i45394_1_) {
 		super(p_i45394_1_);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -36,15 +34,13 @@ public class BombThermo extends Block implements IBomb {
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-    {
-		if(this == ModBlocks.therm_endo)
-		{
+	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
+		if(this == ModBlocks.therm_endo) {
 			return Item.getItemFromBlock(ModBlocks.therm_endo);
 		}
-		
+
 		return Item.getItemFromBlock(ModBlocks.therm_exo);
-    }
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -53,43 +49,37 @@ public class BombThermo extends Block implements IBomb {
 	}
 
 	@Override
-	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
-    {
-    	this.worldObj = p_149695_1_;
-        if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
-        {
-        	p_149695_1_.setBlock(x, y, z, Blocks.air);
-        	if(this == ModBlocks.therm_endo)
-        	{
-        		ExplosionThermo.freeze(p_149695_1_, x, y, z, 15);
-        		ExplosionThermo.freezer(p_149695_1_, x, y, z, 20);
-        	}
+	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_) {
+		if(p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z)) {
+			p_149695_1_.setBlock(x, y, z, Blocks.air);
+			if(this == ModBlocks.therm_endo) {
+				ExplosionThermo.freeze(p_149695_1_, x, y, z, 15);
+				ExplosionThermo.freezer(p_149695_1_, x, y, z, 20);
+			}
 
-        	if(this == ModBlocks.therm_exo)
-        	{
-        		ExplosionThermo.scorch(p_149695_1_, x, y, z, 15);
-        		ExplosionThermo.setEntitiesOnFire(p_149695_1_, x, y, z, 20);
-        	}
-        	
-        	p_149695_1_.createExplosion(null, x, y, z, 5.0F, true);
-        }
-    }
+			if(this == ModBlocks.therm_exo) {
+				ExplosionThermo.scorch(p_149695_1_, x, y, z, 15);
+				ExplosionThermo.setEntitiesOnFire(p_149695_1_, x, y, z, 20);
+			}
+
+			p_149695_1_.createExplosion(null, x, y, z, 5.0F, true);
+		}
+	}
 
 	@Override
-	public void explode(World world, int x, int y, int z) {
+	public BombReturnCode explode(World world, int x, int y, int z) {
 		world.setBlock(x, y, z, Blocks.air);
-    	if(this == ModBlocks.therm_endo)
-    	{
-    		ExplosionThermo.freeze(world, x, y, z, 15);
-    		ExplosionThermo.freezer(world, x, y, z, 20);
-    	}
+		if(this == ModBlocks.therm_endo) {
+			ExplosionThermo.freeze(world, x, y, z, 15);
+			ExplosionThermo.freezer(world, x, y, z, 20);
+		}
 
-    	if(this == ModBlocks.therm_exo)
-    	{
-    		ExplosionThermo.scorch(world, x, y, z, 15);
-    		ExplosionThermo.setEntitiesOnFire(world, x, y, z, 20);
-    	}
-    	
-    	world.createExplosion(null, x, y, z, 5.0F, true);
+		if(this == ModBlocks.therm_exo) {
+			ExplosionThermo.scorch(world, x, y, z, 15);
+			ExplosionThermo.setEntitiesOnFire(world, x, y, z, 20);
+		}
+
+		world.createExplosion(null, x, y, z, 5.0F, true);
+		return BombReturnCode.DETONATED;
 	}
 }

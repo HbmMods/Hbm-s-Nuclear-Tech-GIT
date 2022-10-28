@@ -2,7 +2,7 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
@@ -27,7 +27,7 @@ public class RenderTurretMaxwell extends RenderTurretBase {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
-		this.renderConnectors(turret, true, false, FluidType.NONE);
+		this.renderConnectors(turret, true, false, Fluids.NONE);
 
 		bindTexture(ResourceManager.turret_base_tex);
 		ResourceManager.turret_chekhov.renderPart("Base");

@@ -14,7 +14,7 @@ public class TileEntityCableSwitch extends TileEntityCableBaseNT {
 		//if the meta is 0 (OFF) and there is a net present, destroy and de-reference it.
 		//that should be all, since the state being 0 also prevents the TE from updating and joining the new net.
 		if(this.getBlockMetadata() == 0 && this.network != null) {
-			this.network.destroy();
+			this.network.reevaluate();
 			this.network = null;
 		}
 		
@@ -25,5 +25,9 @@ public class TileEntityCableSwitch extends TileEntityCableBaseNT {
 				new PowerNet().joinLink(this);
 			}
 		}
+	}
+	
+	public boolean canReevaluate() {
+		return super.canReevaluate() && this.getBlockMetadata() == 1;
 	}
 }

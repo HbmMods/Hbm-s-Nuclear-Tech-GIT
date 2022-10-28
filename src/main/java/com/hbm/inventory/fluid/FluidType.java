@@ -1,120 +1,277 @@
 package com.hbm.inventory.fluid;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 
-import com.hbm.inventory.FluidTank;
+import org.lwjgl.input.Keyboard;
+
+import java.util.Set;
+
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.*;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
+import com.hbm.lib.RefStrings;
 import com.hbm.render.util.EnumSymbol;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 public class FluidType {
 
 	//The numeric ID of the fluid
 	private int id;
+	//The internal name
+	private String stringId;
 	//Approximate HEX Color of the fluid, used for pipe rendering
 	private int color;
-	//X position of the fluid on the sheet, the "row"
-	private int textureX;
-	//Y position of the fluid on the sheet, the "column"
-	private int textureY;
-	//ID of the texture sheet the fluid is on
-	private int sheetID;
+	//The color for containers, not the liquid itself. Used for canisters.
+	private int containerColor = 0xffffff;
 	//Unlocalized string ID of the fluid
-	private String name;
+	private String unlocalized;
 	
 	public int poison;
 	public int flammability;
 	public int reactivity;
 	public EnumSymbol symbol;
-	public int temperature;
-	public List<FluidTrait> traits = new ArrayList();
 	
-	public FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name) {
-		this(color, x, y, sheet, p, f, r, symbol, name, 0, new FluidTrait[0]);
-	}
+	public static final int ROOM_TEMPERATURE = 20;
+	public static final double DEFAULT_HEATCAP = 0.01D;
+	public static final double DEFAULT_COMPRESSION = 1D;
 	
-	public FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, FluidTrait... traits) {
-		this(color, x, y, sheet, p, f, r, symbol, name, 0, traits);
-	}
+	// v v v this entire system is a pain in the ass to work with. i'd much rather define state transitions and heat values manually.
+	/** How hot this fluid is. Simple enough. */
+	public int temperature = ROOM_TEMPERATURE;
+	/** How much heat energy each mB requires to be heated by 1°C. Total heat energy = heatCap * delta-T. */
+	public double heatCap = DEFAULT_HEATCAP;
+	/** How much "stuff" there is in one mB. 1mB of water turns into 100mB of steam, therefore steam has a compression of 0.01. Compression is only used for translating fluids into other fluids, heat calculations should ignore this. */
+	public double compression = DEFAULT_COMPRESSION;
 	
-	public FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature) {
-		this(color, x, y, sheet, p, f, r, symbol, name, temperature, new FluidTrait[0]);
-	}
+	public Set<ExtContainer> containers = new HashSet();
+	private HashMap<Class<? extends FluidTrait>, FluidTrait> traits = new HashMap();
+	//public List<EnumFluidTrait> enumTraits = new ArrayList();
 	
-	public FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, int temperature, FluidTrait... traits) {
+	private ResourceLocation texture;
+	
+	public FluidType(String name, int color, int p, int f, int r, EnumSymbol symbol) {
+		this.stringId = name;
 		this.color = color;
-		this.textureX = x;
-		this.textureY = y;
-		this.name = name;
-		this.sheetID = sheet;
+		this.unlocalized = "hbmfluid." + name.toLowerCase();
 		this.poison = p;
 		this.flammability = f;
 		this.reactivity = r;
 		this.symbol = symbol;
-		this.temperature = temperature;
-		Collections.addAll(this.traits, traits);
+		this.texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids/" + name.toLowerCase() + ".png");
 		
 		this.id = Fluids.registerSelf(this);
+	}
+	
+	public FluidType(int forcedId, String name, int color, int p, int f, int r, EnumSymbol symbol) {
+		this(name, color, p, f, r, symbol);
+		
+		if(this.id != forcedId) {
+			throw new IllegalStateException("Howdy! I am a safeguard put into place by Bob to protect you, the player, from Bob's dementia. For whatever reason, Bob decided to either add or remove a fluid in a way that shifts the IDs, despite the entire system being built to prevent just that. Instead of people's fluids getting jumbled for the 500th time, I am here to prevent the game from starting entirely. The expected ID was " + forcedId + ", but turned out to be " + this.id + ".");
+		}
+	}
+	
+	public FluidType setTemp(int temperature) {
+		this.temperature = temperature;
+		return this;
+	}
+	
+	public FluidType setHeatCap(double heatCap) {
+		this.heatCap = heatCap;
+		return this;
+	}
+	
+	public FluidType setCompression(double compression) {
+		this.compression = compression;
+		return this;
+	}
+	
+	public FluidType addContainers(int color, ExtContainer... containers) {
+		this.containerColor = color;
+		Collections.addAll(this.containers, containers);
+		return this;
+	}
+	
+	/*public FluidType addTraits(EnumFluidTrait... traits) {
+		Collections.addAll(this.enumTraits, traits);
+		return this;
+	}*/
+	
+	public FluidType addTraits(FluidTrait... traits) {
+		for(FluidTrait trait : traits) this.traits.put(trait.getClass(), trait);
+		return this;
+	}
+	
+	public boolean hasTrait(Class<? extends FluidTrait> trait) {
+		return this.traits.containsKey(trait);
+	}
+	
+	public <T extends FluidTrait> T getTrait(Class<? extends T> trait) { //generics, yeah!
+		return (T) this.traits.get(trait);
 	}
 	
 	public int getID() {
 		return this.id;
 	}
+	
+	public String getName() {
+		return this.stringId;
+	}
 
 	public int getColor() {
 		return this.color;
 	}
-	public int getMSAColor() {
-		return this.color;
+
+	public int getContainerColor() {
+		return this.containerColor;
 	}
-	public int textureX() {
-		return this.textureX;
-	}
-	public int textureY() {
-		return this.textureY;
-	}
-	public int getSheetID() {
-		return this.sheetID;
+	public ResourceLocation getTexture() {
+		return this.texture;
 	}
 	public String getUnlocalizedName() {
-		return this.name;
+		return this.unlocalized;
 	}
-	
-	public String getName() {
-		return this.toString();
+	public String getDict(int quantity) {
+		return "container" + quantity + this.stringId.replace("_", "").toLowerCase();
 	}
 	
 	public boolean isHot() {
 		return this.temperature >= 100;
 	}
-	
 	public boolean isCorrosive() {
-		return this.traits.contains(FluidTrait.CORROSIVE) || this.traits.contains(FluidTrait.CORROSIVE_2);
+		return this.traits.containsKey(FT_Corrosive.class);
 	}
-	
 	public boolean isAntimatter() {
-		return this.traits.contains(FluidTrait.AMAT);
+		return this.traits.containsKey(FT_Amat.class);
 	}
-	
 	public boolean hasNoContainer() {
-		return this.traits.contains(FluidTrait.NO_CONTAINER);
+		return this.traits.containsKey(FT_NoContainer.class);
 	}
-	
 	public boolean hasNoID() {
-		return this.traits.contains(FluidTrait.NO_ID);
+		return this.traits.containsKey(FT_NoID.class);
+	}
+	public boolean needsLeadContainer() {
+		return this.traits.containsKey(FT_LeadContainer.class);
 	}
 
+	/**
+	 * Called when the tile entity is broken, effectively voiding the fluids.
+	 * @param te
+	 * @param tank
+	 */
 	public void onTankBroken(TileEntity te, FluidTank tank) { }
+	/**
+	 * Called by the tile entity's update loop. Also has an arg for the fluid tank for possible tanks using child-classes that are shielded or treated differently.
+	 * @param te
+	 * @param tank
+	 */
 	public void onTankUpdate(TileEntity te, FluidTank tank) { }
+	/**
+	 * For when the tile entity is releasing this fluid into the world, either by an overflow or (by proxy) when broken.
+	 * @param te
+	 * @param tank
+	 * @param overflowAmount
+	 */
+	public void onFluidRelease(TileEntity te, FluidTank tank, int overflowAmount) {
+		this.onFluidRelease(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord, tank, overflowAmount);
+	}
 	
-	public static enum FluidTrait {
+	public void onFluidRelease(World world, int x, int y, int z, FluidTank tank, int overflowAmount) { }
+	//public void onFluidTransmit(FluidNetwork net) { }
+	
+	@SideOnly(Side.CLIENT)
+	public void addInfo(List<String> info) {
+
+		if(temperature != ROOM_TEMPERATURE) {
+			if(temperature < 0) info.add(EnumChatFormatting.BLUE + "" + temperature + "°C");
+			if(temperature > 0) info.add(EnumChatFormatting.RED + "" + temperature + "°C");
+		}
+		/*if(isAntimatter()) info.add(EnumChatFormatting.DARK_RED + "Antimatter");
+
+		if(enumTraits.contains(EnumFluidTrait.CORROSIVE_2)) info.add(EnumChatFormatting.GOLD + "Strongly Corrosive");
+		else if(enumTraits.contains(EnumFluidTrait.CORROSIVE)) info.add(EnumChatFormatting.YELLOW + "Corrosive");
+		
+		if(enumTraits.contains(EnumFluidTrait.NO_CONTAINER)) info.add(EnumChatFormatting.RED + "Cannot be stored in any universal tank");
+		if(enumTraits.contains(EnumFluidTrait.LEAD_CONTAINER)) info.add(EnumChatFormatting.YELLOW + "Requires hazardous material tank to hold");*/
+		
+		List<String> hidden = new ArrayList();
+		
+		for(Entry<Class<? extends FluidTrait>, FluidTrait> entry : this.traits.entrySet()) {
+			entry.getValue().addInfo(info);
+			entry.getValue().addInfoHidden(hidden);
+		}
+		
+		if(!hidden.isEmpty()) {
+
+			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+				info.addAll(hidden);
+			} else {
+
+				info.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
+						EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
+						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
+			}
+		}
+
+		/*info.add("");
+		info.add(EnumChatFormatting.RED + "[DEBUG]");
+		
+		for(FluidTrait trait : traits) {
+			info.add(EnumChatFormatting.RED + "-" + trait.name());
+		}*/
+	}
+	
+	/**
+	 * Metadata for describing how the fluid acts, like being corrosive, not having fluid IDs or being only stored in certain containers.
+	 */
+	/*@Deprecated
+	public static enum EnumFluidTrait {
+		LIQUID,
+		GASEOUS,
+		PETROCHEMICAL,
 		AMAT,
 		CORROSIVE,
 		CORROSIVE_2,
 		NO_CONTAINER,
+		LEAD_CONTAINER,
 		NO_ID;
+	}*/
+	
+	public static enum ExtContainer {
+		CANISTER
+	}
+	
+	//shitty wrapper delegates, go!
+	//only used for compatibility purposes, these will be removed soon
+	//don't use these, dumbfuck
+	@Deprecated //reason: not an enum, asshole, use the registry
+	public static FluidType getEnum(int i) {
+		return Fluids.fromID(i);
+	}
+	@Deprecated //reason: the more time you waste reading this the less time is there for you to use that fucking registry already
+	public static FluidType getEnumFromName(String s) {
+		return Fluids.fromName(s);
+	}
+	@Deprecated //reason: not an enum, again, fuck you
+	public int ordinal() {
+		return this.getID();
+	}
+	@Deprecated
+	public int getMSAColor() {
+		return this.color;
+	}
+	@Deprecated
+	public String name() {
+		return this.stringId;
 	}
 }

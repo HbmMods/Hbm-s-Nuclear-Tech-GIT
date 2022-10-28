@@ -10,26 +10,26 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidDuct;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.TileEntityProxyBase;
 import com.hbm.tileentity.TileEntityProxyInventory;
-import com.hbm.tileentity.conductor.TileEntityFluidDuct;
+import com.hbm.tileentity.conductor.TileEntityFluidDuctSimple;
 import com.hbm.tileentity.conductor.TileEntityGasDuct;
 import com.hbm.tileentity.conductor.TileEntityGasDuctSolid;
 import com.hbm.tileentity.conductor.TileEntityOilDuct;
 import com.hbm.tileentity.conductor.TileEntityOilDuctSolid;
 import com.hbm.tileentity.machine.TileEntityDummy;
-import com.hbm.tileentity.machine.TileEntityMachineBattery;
-import com.hbm.tileentity.machine.TileEntityMachineTransformer;
-import com.hbm.tileentity.network.TileEntityPylon;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IEnergyConnectorBlock;
+import api.hbm.fluid.IFluidConnector;
+import api.hbm.fluid.IFluidConnectorBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -62,7 +62,6 @@ public class Library {
 	public static String Hoboy03new = "d7f29d9c-5103-4f6f-88e1-2632ff95973f";
 	public static String Dragon59MC = "dc23a304-0f84-4e2d-b47d-84c8d3bfbcdb";
 	public static String Steelcourage = "ac49720b-4a9a-4459-a26f-bee92160287a";
-	public static String GOD___TM = "57146e3f-16b5-4e9f-b0b8-139bec2ca2cb";
 	public static String ZippySqrl = "03c20435-a229-489a-a1a1-671b803f7017";
 	public static String Schrabby = "3a4a1944-5154-4e67-b80a-b6561e8630b7";
 	public static String SweatySwiggs = "5544aa30-b305-4362-b2c1-67349bb499d5";
@@ -76,6 +75,10 @@ public class Library {
 	public static String Tankish = "609268ad-5b34-49c2-abba-a9d83229af03";
 	public static String SolsticeUnlimitd = "f5574fd2-ec28-4927-9d11-3c0c731771f4";
 	public static String FrizzleFrazzle = "fc4cc2ee-12e8-4097-b26a-1c6cb1b96531";
+	public static String the_NCR = "28ae585f-4431-4491-9ce8-3def6126e3c6";
+	public static String Barnaby99_x = "711aaf78-a862-4b7e-921a-216349716e9a";
+	public static String Ma118 = "1121cb7a-8773-491f-8e2b-221290c93d81";
+	public static String Adam29Adam29 = "bbae7bfa-0eba-40ac-a0dd-f3b715e73e61";
 
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
@@ -128,6 +131,31 @@ public class Library {
 		
 		return false;
 	}
+
+	public static boolean canConnectFluid(IBlockAccess world, int x, int y, int z, ForgeDirection dir, FluidType type) {
+		
+		if(y > 255 || y < 0)
+			return false;
+		
+		Block b = world.getBlock(x, y, z);
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(b instanceof IFluidConnectorBlock) {
+			IFluidConnectorBlock con = (IFluidConnectorBlock) b;
+			
+			if(con.canConnect(type, world, x, y, z, dir))
+				return true;
+		}
+		
+		if(te instanceof IFluidConnector) {
+			IFluidConnector con = (IFluidConnector) te;
+			
+			if(con.canConnect(type, dir))
+				return true;
+		}
+		
+		return false;
+	}
 	
 	public static boolean checkFluidConnectables(World world, int x, int y, int z, FluidType type)
 	{
@@ -136,12 +164,8 @@ public class Library {
 			return true;
 		if((tileentity != null && (tileentity instanceof IFluidAcceptor || 
 				tileentity instanceof IFluidSource)) || 
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_fluidtank ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_pumpjack ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_conductor ||
@@ -151,7 +175,6 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_reactor_small ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table ||
 				world.getBlock(x, y, z) == ModBlocks.rbmk_loader) {
@@ -275,12 +298,12 @@ public class Library {
         return player.worldObj.func_147447_a(vec3, vec32, false, false, true);
 	}
 	
-	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation, boolean liquids, boolean entity, boolean allowZeroLength) {
+	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation, boolean allowLiquids, boolean disallowNonCollidingBlocks, boolean mopOnMiss) {
         Vec3 vec3 = getPosition(interpolation, player);
         vec3.yCoord += player.eyeHeight;
         Vec3 vec31 = player.getLook(interpolation);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
-        return player.worldObj.func_147447_a(vec3, vec32, liquids, entity, allowZeroLength);
+        return player.worldObj.func_147447_a(vec3, vec32, allowLiquids, disallowNonCollidingBlocks, mopOnMiss);
 	}
 	
     public static Vec3 getPosition(float interpolation, EntityPlayer player) {
@@ -307,42 +330,6 @@ public class Library {
 		return list;
 	}
 	
-	public static String getShortNumber(long l) {
-
-		if(l >= Math.pow(10, 18)) {
-			double res = l / Math.pow(10, 18);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "E";
-		}
-		if(l >= Math.pow(10, 15)) {
-			double res = l / Math.pow(10, 15);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "P";
-		}
-		if(l >= Math.pow(10, 12)) {
-			double res = l / Math.pow(10, 12);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "T";
-		}
-		if(l >= Math.pow(10, 9)) {
-			double res = l / Math.pow(10, 9);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "G";
-		}
-		if(l >= Math.pow(10, 6)) {
-			double res = l / Math.pow(10, 6);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "M";
-		}
-		if(l >= Math.pow(10, 3)) {
-			double res = l / Math.pow(10, 3);
-			res = Math.round(res * 100.0) / 100.0;
-			return res + "k";
-		}
-		
-		return Long.toString(l);
-	}
-	
 	//not great either but certainly better
 	public static long chargeItemsFromTE(ItemStack[] slots, int index, long power, long maxPower) {
 		
@@ -366,15 +353,6 @@ public class Library {
 			power -= toCharge;
 			
 			battery.chargeBattery(slots[index], toCharge);
-
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_desh_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_schrabidium_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_euphemium_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);
 		}
 		
 		return power;
@@ -409,10 +387,8 @@ public class Library {
 		return power;
 	}
 	
-	//TODO: jesus christ kill it
 	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
 	//Flood fill controlled energy transmission algorithm
-	//TODO: bring back the @Cursed annotation just for garbage like this
 	public static void ffgeua(int x, int y, int z, boolean newTact, Object that, World worldObj) {
 		
 		/*
@@ -426,11 +402,6 @@ public class Library {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
 		
-		//Chemplant
-		if(block == ModBlocks.dummy_port_chemplant)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
 		//Fluid Tank
 		if(block == ModBlocks.dummy_port_fluidtank)
 		{
@@ -438,11 +409,6 @@ public class Library {
 		}
 		//Refinery
 		if(block == ModBlocks.dummy_port_refinery)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//Gas Flare
-		if(block == ModBlocks.dummy_port_flare)
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}
@@ -467,23 +433,6 @@ public class Library {
 		if(block == ModBlocks.reactor_hatch && worldObj.getBlock(x - 2, y, z) == ModBlocks.reactor_computer)
 		{
 			tileentity = worldObj.getTileEntity(x - 2, y, z);
-		}
-		//Large Fusion Reactor
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x, y, z + 8) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z + 8);
-		}
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x, y, z - 8) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z - 8);
-		}
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x + 8, y, z) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x + 8, y, z);
-		}
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x - 8, y, z) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x - 8, y, z);
 		}
 		//FWatz Reactor
 		if(block == ModBlocks.fwatz_hatch && worldObj.getBlock(x, y + 11, z + 9) == ModBlocks.fwatz_core)
@@ -517,11 +466,6 @@ public class Library {
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}
-		//Small Nuclear Reactor
-		if(block == ModBlocks.dummy_port_reactor_small)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
 		//Launchers
 		if(block == ModBlocks.dummy_port_compact_launcher || block == ModBlocks.dummy_port_launch_table)
 		{
@@ -531,19 +475,26 @@ public class Library {
 		if(tileentity == that)
 			tileentity = null;
 		
+		if(tileentity instanceof TileEntityProxyBase) {
+			TileEntityProxyBase proxy = (TileEntityProxyBase) tileentity;
+			
+			if(proxy.getTE() == that)
+				tileentity = null;
+		}
+		
 		if(tileentity instanceof IFluidDuct)
 		{
-			if(tileentity instanceof TileEntityFluidDuct && ((TileEntityFluidDuct)tileentity).type.name().equals(type.name()))
+			if(tileentity instanceof TileEntityFluidDuctSimple && ((TileEntityFluidDuctSimple)tileentity).getType().name().equals(type.name()))
 			{
-				if(Library.checkUnionListForFluids(((TileEntityFluidDuct)tileentity).uoteab, that))
+				if(Library.checkUnionListForFluids(((TileEntityFluidDuctSimple)tileentity).uoteab, that))
 				{
-					for(int i = 0; i < ((TileEntityFluidDuct)tileentity).uoteab.size(); i++)
+					for(int i = 0; i < ((TileEntityFluidDuctSimple)tileentity).uoteab.size(); i++)
 					{
-						if(((TileEntityFluidDuct)tileentity).uoteab.get(i).source == that)
+						if(((TileEntityFluidDuctSimple)tileentity).uoteab.get(i).source == that)
 						{
-							if(((TileEntityFluidDuct)tileentity).uoteab.get(i).ticked != newTact)
+							if(((TileEntityFluidDuctSimple)tileentity).uoteab.get(i).ticked != newTact)
 							{
-								((TileEntityFluidDuct)tileentity).uoteab.get(i).ticked = newTact;
+								((TileEntityFluidDuctSimple)tileentity).uoteab.get(i).ticked = newTact;
 								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
 								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
 								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
@@ -554,7 +505,7 @@ public class Library {
 						}
 					}
 				} else {
-					((TileEntityFluidDuct)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
+					((TileEntityFluidDuctSimple)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
 				}
 			}
 			if(tileentity instanceof TileEntityGasDuct && ((TileEntityGasDuct)tileentity).type.name().equals(type.name()))
@@ -655,28 +606,29 @@ public class Library {
 			}
 		}
 		
-		if(tileentity instanceof IFluidAcceptor && newTact && ((IFluidAcceptor)tileentity).getMaxFluidFill(type) > 0 &&
-				((IFluidAcceptor)tileentity).getMaxFluidFill(type) - ((IFluidAcceptor)tileentity).getFluidFill(type) > 0) {
+		if(tileentity instanceof IFluidAcceptor && newTact && ((IFluidAcceptor)tileentity).getMaxFluidFillForReceive(type) > 0 &&
+				((IFluidAcceptor)tileentity).getMaxFluidFillForReceive(type) - ((IFluidAcceptor)tileentity).getFluidFillForReceive(type) > 0) {
 			that.getFluidList(type).add((IFluidAcceptor)tileentity);
 		}
 		
-		if(!newTact)
-		{
+		if(!newTact) {
 			int size = that.getFluidList(type).size();
-			if(size > 0)
-			{
-				int part = that.getFluidFill(type) / size;
-				for(IFluidAcceptor consume : that.getFluidList(type))
-				{
-					if(consume.getFluidFill(type) < consume.getMaxFluidFill(type))
-					{
-						if(consume.getMaxFluidFill(type) - consume.getFluidFill(type) >= part)
-						{
-							that.setFluidFill(that.getFluidFill(type) - part, type);
-							consume.setFluidFill(consume.getFluidFill(type) + part, type);
+			
+			if(size > 0) {
+				int part = that.getFluidFillForTransfer(type) / size;
+				
+				for(IFluidAcceptor consume : that.getFluidList(type)) {
+					
+					if(consume.getFluidFillForReceive(type) < consume.getMaxFluidFillForReceive(type)) {
+						
+						if(consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type) >= part) {
+							that.transferFluid(part, type);
+							consume.receiveFluid(part, type);
+							
 						} else {
-							that.setFluidFill(that.getFluidFill(type) - (consume.getMaxFluidFill(type) - consume.getFluidFill(type)), type);
-							consume.setFluidFill(consume.getMaxFluidFill(type), type);
+							int transfer = consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type);
+							that.transferFluid(transfer, type);
+							consume.receiveFluid(transfer, type);
 						}
 					}
 				}
@@ -699,13 +651,6 @@ public class Library {
 		}
 		
 		return flag;
-	}
-	
-	public static ItemStack carefulCopy(ItemStack stack) {
-		if(stack == null)
-			return null;
-		else
-			return stack.copy();
 	}
 	
 	public static boolean isObstructed(World world, double x, double y, double z, double a, double b, double c) {

@@ -6,20 +6,18 @@ import api.hbm.block.IToolable;
 import api.hbm.block.IToolable.ToolType;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemTooling extends Item {
+public class ItemTooling extends ItemCraftingDegradation {
 	
-	ToolType type;
+	protected ToolType type;
 	
 	public ItemTooling(ToolType type, int durability) {
+		super(durability);
 		this.type = type;
-		this.setMaxStackSize(1);
 		this.setFull3D();
 		this.setCreativeTab(MainRegistry.controlTab);
-		this.setMaxDamage(durability);
 	}
 
 	@Override

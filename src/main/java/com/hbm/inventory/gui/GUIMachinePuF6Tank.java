@@ -2,10 +2,10 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerPuF6Tank;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
+import com.hbm.tileentity.machine.storage.TileEntityMachinePuF6Tank;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -46,7 +46,6 @@ public class GUIMachinePuF6Tank extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(tank.tank.getSheet());
-		tank.tank.renderTank(this, guiLeft + 80, guiTop + 69, tank.tank.getTankType().textureX() * FluidTank.x, tank.tank.getTankType().textureY() * FluidTank.y, 16, 52);
+		tank.tank.renderTank(guiLeft + 80, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

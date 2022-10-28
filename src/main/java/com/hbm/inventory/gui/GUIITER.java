@@ -2,8 +2,8 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerITER;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -83,13 +83,9 @@ public class GUIITER extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft + 44, guiTop + 22, 176, 18, j, 7);
 
 		for(int t = 0; t < 2; t++) {
-			Minecraft.getMinecraft().getTextureManager().bindTexture(iter.tanks[t].getSheet());
-			iter.tanks[t].renderTank(this, guiLeft + 26 + 108 * t, guiTop + 106, iter.tanks[t].getTankType().textureX() * FluidTank.x, iter.tanks[t].getTankType().textureY() * FluidTank.y, 16, 52);
+			iter.tanks[t].renderTank(guiLeft + 26 + 108 * t, guiTop + 106, this.zLevel, 16, 52);
 		}
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(iter.plasma.getSheet());
-		iter.plasma.renderTank(this, guiLeft + 71, guiTop + 88, iter.plasma.getTankType().textureX() * FluidTank.x, iter.plasma.getTankType().textureY() * FluidTank.y, 16, 34);
-		iter.plasma.renderTank(this, guiLeft + 71 + 16, guiTop + 88, iter.plasma.getTankType().textureX() * FluidTank.x, iter.plasma.getTankType().textureY() * FluidTank.y, 16, 34);
-		iter.plasma.renderTank(this, guiLeft + 71 + 32, guiTop + 88, iter.plasma.getTankType().textureX() * FluidTank.x, iter.plasma.getTankType().textureY() * FluidTank.y, 2, 34);
+		iter.plasma.renderTank(guiLeft + 71, guiTop + 88, this.zLevel, 34, 34);
 	}
 }

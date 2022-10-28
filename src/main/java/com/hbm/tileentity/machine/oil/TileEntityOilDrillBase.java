@@ -5,11 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
@@ -17,8 +18,10 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple;
 import com.hbm.util.Tuple.Triplet;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -28,7 +31,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource {
+public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidStandardTransceiver {
 	
 	public int indicator = 0;
 	
@@ -41,8 +44,8 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public TileEntityOilDrillBase() {
 		super(8);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.OIL, 64_000, 0);
-		tanks[1] = new FluidTank(FluidType.GAS, 64_000, 1);
+		tanks[0] = new FluidTank(Fluids.OIL, 64_000, 0);
+		tanks[1] = new FluidTank(Fluids.GAS, 64_000, 1);
 	}
 	
 	@Override
@@ -133,8 +136,6 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 			this.sendUpdate();
 		}
 	}
-	
-	protected abstract void updateConnections();
 	
 	public void sendUpdate() {
 		NBTTagCompound data = new NBTTagCompound();
@@ -285,40 +286,27 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 
 	@Override
 	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			return this.list1;
-		if(type.name().equals(tanks[1].getTankType().name()))
-			return this.list2;
+		if(type == tanks[0].getTankType()) return this.list1;
+		if(type == tanks[1].getTankType()) return this.list2;
 		return new ArrayList<IFluidAcceptor>();
 	}
 
 	@Override
 	public void clearFluidList(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			list1.clear();
-		if(type.name().equals(tanks[1].getTankType().name()))
-			list2.clear();
+		if(type == tanks[0].getTankType()) list1.clear();
+		if(type == tanks[1].getTankType()) list2.clear();
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if(index < tanks.length && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if(index < tanks.length && tanks[index] != null)
 			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public List<FluidTank> getTanks() {
-		List<FluidTank> list = new ArrayList();
-		list.add(tanks[0]);
-		list.add(tanks[1]);
-
-		return list;
 	}
 
 	@Override
@@ -340,5 +328,28 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[0];
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+	
+	public abstract DirPos[] getConPos();
+
+	protected void updateConnections() {
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
 	}
 }

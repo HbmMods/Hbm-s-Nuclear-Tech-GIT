@@ -61,16 +61,7 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask {
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
 		
-		int i = 0;
-		
-		ItemStack filter = ArmorUtil.getGasMaskFilter(stack);
-		
-		if(filter != null) {
-			i = filter.getItemDamage() / filter.getMaxDamage();
-		}
-		
 		list.add(EnumChatFormatting.GREEN + "  " + stack.getDisplayName() + " (gas protection)");
-		
 		ArmorUtil.addGasMaskTooltip(stack, MainRegistry.proxy.me(), list, false);
 	}
 
@@ -87,6 +78,7 @@ public class ItemModGasmask extends ItemArmorMod implements IGasMask {
 		EntityPlayer player = event.entityPlayer;
 
 		modelM65.isSneak = model.isSneak;
+		modelM65.isChild = renderer.modelBipedMain.isChild;
 		
 		float interp = event.partialRenderTick;
 		float yawHead = player.prevRotationYawHead + (player.rotationYawHead - player.prevRotationYawHead) * interp;

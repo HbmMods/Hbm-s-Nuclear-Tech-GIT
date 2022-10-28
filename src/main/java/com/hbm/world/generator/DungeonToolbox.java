@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenFlowers;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 
 public class DungeonToolbox {
@@ -86,5 +87,14 @@ public class DungeonToolbox {
 	
 			(new WorldGenMinable(ore, meta, amount, target)).generate(world, rand, x, y, z);
 		}
+	}
+
+	private static WorldGenFlowers genFlowers = new WorldGenFlowers(null);
+	public static void generateFlowers(World world, Random rand, int chunkX, int chunkZ, Block flower, int meta) {
+		int x = chunkX + rand.nextInt(16);
+		int z = chunkZ + rand.nextInt(16);
+		int y = world.getHeightValue(x, z);
+		genFlowers.func_150550_a(flower, meta);
+		genFlowers.generate(world, rand, x, y, z);
 	}
 }

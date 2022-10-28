@@ -117,7 +117,7 @@ public class BossSpawnHandler {
 			}
 		}
 		
-		if(GeneralConfig.enableMeteorStrikes && !world.isRemote) {
+		if(WorldConfig.enableMeteorStrikes && !world.isRemote) {
 			meteorUpdate(world);
 		}
 		
@@ -198,7 +198,7 @@ public class BossSpawnHandler {
 				MainRegistry.logger.info("Ended meteor shower.");
 		}
 		
-		if(meteorRand.nextInt(WorldConfig.meteorStrikeChance * 100) == 0 && GeneralConfig.enableMeteorShowers) {
+		if(meteorRand.nextInt(WorldConfig.meteorStrikeChance * 100) == 0 && WorldConfig.enableMeteorShowers) {
 			meteorShower = (int)(WorldConfig.meteorShowerDuration * 0.75 + WorldConfig.meteorShowerDuration * 0.25 * meteorRand.nextFloat());
 
 			if(GeneralConfig.enableDebugMode)

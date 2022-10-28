@@ -4,15 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Multimap;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ArmorModHandler;
-import com.hbm.interfaces.IItemHazard;
 import com.hbm.items.ModItems;
-import com.hbm.modules.ItemHazardModule;
-import com.hbm.util.ContaminationUtil;
-import com.hbm.util.ContaminationUtil.ContaminationType;
-import com.hbm.util.ContaminationUtil.HazardType;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -20,10 +15,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-public class ItemModInsert extends ItemArmorMod implements IItemHazard {
+public class ItemModInsert extends ItemArmorMod {
 	
 	float damageMod;
 	float projectileMod;
@@ -58,8 +52,6 @@ public class ItemModInsert extends ItemArmorMod implements IItemHazard {
 		
 		list.add("");
 		super.addInformation(stack, player, list, bool);
-		
-		module.addInformation(stack, player, list, bool);
 	}
 
 	@Override
@@ -117,7 +109,7 @@ public class ItemModInsert extends ItemArmorMod implements IItemHazard {
 	public void modUpdate(EntityLivingBase entity, ItemStack armor) {
 		
 		if(!entity.worldObj.isRemote && this == ModItems.insert_polonium) {
-			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
+			HbmLivingProps.incrementRadiation(entity, 100F);
 		}
 	}
 	
@@ -126,26 +118,12 @@ public class ItemModInsert extends ItemArmorMod implements IItemHazard {
 		
 		if(speed == 1)
 			return null;
-		
-		Multimap multimap = super.getItemAttributeModifiers();
+
+		Multimap multimap = super.getAttributeModifiers(armor);
 		
 		multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),
 				new AttributeModifier(ArmorModHandler.UUIDs[((ItemArmor)armor.getItem()).armorType], "NTM Armor Mod Speed", -1F + speed, 2));
 		
 		return multimap;
-	}
-
-	ItemHazardModule module = new ItemHazardModule();
-	
-	@Override
-	public ItemHazardModule getModule() {
-		return module;
-	}
-	
-	@Override
-	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
-		
-		if(entity instanceof EntityLivingBase)
-			this.module.applyEffects((EntityLivingBase) entity, stack.stackSize, i, b);
 	}
 }

@@ -6,6 +6,7 @@ import com.hbm.inventory.container.ContainerMachineAssembler;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -33,15 +34,19 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 		
 		if(assembler.getStackInSlot(4) == null || assembler.getStackInSlot(4).getItem()!= ModItems.assembly_template) {
 
-			String[] text = new String[] { "Error: This machine requires an assembly template!" };
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+			String[] warnText = I18nUtil.resolveKeyArray("desc.gui.assembler.warning");
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, warnText);
 		}
-
-		String[] text = new String[] { "Acceptable upgrades:",
-				" -Red (speed)",
-				" -Blue (energy saving)",
-				"Max upgrade level is 3"};
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 141, guiTop + 40, 8, 8, guiLeft + 141, guiTop + 40 + 16, text);
+		
+		String[] templateText = I18nUtil.resolveKeyArray("desc.gui.template");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 16 + 16, templateText);
+		
+		String[] upgradeText = new String[3];
+		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
+		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
+		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.power");
+		
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 141, guiTop + 40, 8, 8, guiLeft + 225, guiTop + 40 + 16 + 8, upgradeText);
 	}
 
 	@Override
@@ -69,6 +74,7 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 6);
 		}
 		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 16, 16, 16, 11);
 		this.drawInfoPanel(guiLeft + 141, guiTop + 40, 8, 8, 8);
 	}
 }

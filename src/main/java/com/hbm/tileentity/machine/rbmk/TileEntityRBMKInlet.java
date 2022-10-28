@@ -1,24 +1,22 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import java.util.List;
-
 import com.hbm.blocks.machine.rbmk.RBMKBase;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import scala.actors.threadpool.Arrays;
 
 public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 	
 	public FluidTank water;
 	
 	public TileEntityRBMKInlet() {
-		water = new FluidTank(FluidType.WATER, 32000, 0);
+		water = new FluidTank(Fluids.WATER, 32000, 0);
 	}
 	
 	@Override
@@ -62,34 +60,29 @@ public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 	}
 
 	@Override
-	public void setFillstate(int fill, int index) {
+	public void setFillForSync(int fill, int index) {
 		if(index == 0) water.setFill(fill);
 	}
 
 	@Override
 	public void setFluidFill(int fill, FluidType type) {
-		if(type == FluidType.WATER) water.setFill(fill);
+		if(type == Fluids.WATER) water.setFill(fill);
 	}
 
 	@Override
-	public void setType(FluidType type, int index) {
+	public void setTypeForSync(FluidType type, int index) {
 		if(index == 0) water.setTankType(type);
 	}
 
 	@Override
-	public List<FluidTank> getTanks() {
-		return Arrays.asList(new FluidTank[] {water});
-	}
-
-	@Override
 	public int getFluidFill(FluidType type) {
-		if(type == FluidType.WATER) return water.getFill();
+		if(type == Fluids.WATER) return water.getFill();
 		return 0;
 	}
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {
-		if(type == FluidType.WATER) return water.getMaxFill();
+		if(type == Fluids.WATER) return water.getMaxFill();
 		return 0;
 	}
 

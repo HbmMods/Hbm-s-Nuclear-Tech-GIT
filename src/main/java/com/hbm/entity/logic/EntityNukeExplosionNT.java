@@ -26,7 +26,6 @@ public class EntityNukeExplosionNT extends Entity {
 
 		if(!worldObj.isRemote) {
 			if(this.explosion == null || this.explosion.isDone()) {
-				System.out.println(this.ticksExisted + " explosion done.");
 				this.setDead();
 				return;
 			}

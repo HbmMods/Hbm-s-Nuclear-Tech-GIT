@@ -2,19 +2,23 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.main.ResourceManager;
+import com.hbm.items.ModItems;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.model.IModelCustom;
 
 public class ItemRenderWeaponFFBolt implements IItemRenderer {
 	
 	ResourceLocation texture;
+	IModelCustom model;
 	
-	public ItemRenderWeaponFFBolt(ResourceLocation texture) {
+	public ItemRenderWeaponFFBolt(IModelCustom model, ResourceLocation texture) {
+		this.model = model;
 		this.texture = texture;
 	}
 
@@ -51,10 +55,10 @@ public class ItemRenderWeaponFFBolt implements IItemRenderer {
 		case EQUIPPED_FIRST_PERSON:
 			
 			double s0 = 0.5D;
-			GL11.glTranslated(0.5, 0.25, 0);
+			GL11.glTranslated(0.5, 0.25, -0.2);
 			GL11.glScaled(s0, s0, s0);
-			GL11.glRotated(20, 0, -1, 0);
 			GL11.glRotated(15, 0, 0, 1);
+			GL11.glRotated(20, 0, -1, 0);
 			
 			double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
 			GL11.glTranslated(recoil[0] * -0.5, 0, 0);
@@ -68,10 +72,29 @@ public class ItemRenderWeaponFFBolt implements IItemRenderer {
 			GL11.glTranslated(0, heightOffset, 0);
 			GL11.glRotated(rotate[0] * 35, -1, 0, 0);
 			GL11.glTranslated(0, -heightOffset, 0);
-			ResourceManager.rem700.renderPart("Bolt");
+			model.renderPart("Bolt");
 			GL11.glPopMatrix();
 			
 			renderBolt = false;
+
+			/*if(item.getItem() == ModItems.gun_bolt_action_saturnite) {
+				GL11.glPushMatrix();
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				GL11.glDisable(GL11.GL_LIGHTING);
+	
+				Tessellator tessellator = Tessellator.instance;
+				int color = 0x00FF00;
+	
+				tessellator.startDrawing(3);
+				tessellator.setColorOpaque_I(color);
+				tessellator.addVertex(5, 0, 0);
+				tessellator.addVertex(150, 0, 0);
+				tessellator.draw();
+	
+				GL11.glEnable(GL11.GL_LIGHTING);
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				GL11.glPopMatrix();
+			}*/
 			
 			break;
 			
@@ -108,9 +131,9 @@ public class ItemRenderWeaponFFBolt implements IItemRenderer {
 		default: break;
 		}
 		
-		ResourceManager.rem700.renderPart("Gun");
+		model.renderPart("Gun");
 		if(renderBolt)
-			ResourceManager.rem700.renderPart("Bolt");
+			model.renderPart("Bolt");
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 		

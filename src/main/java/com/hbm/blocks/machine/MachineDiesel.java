@@ -1,8 +1,11 @@
 package com.hbm.blocks.machine;
 
+import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
@@ -20,13 +23,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class MachineDiesel extends BlockContainer {
+public class MachineDiesel extends BlockContainer implements ITooltipProvider {
 
     private final Random field_149933_a = new Random();
-	private Random rand;
 	private static boolean keepInventory;
 	
 	@SideOnly(Side.CLIENT)
@@ -46,14 +49,10 @@ public class MachineDiesel extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		if(side == 0)
-			return iconBottom;
-		if(side == 1)
-			return iconTop;
-		if(side == 2 || side == 3)
-			return blockIcon;
-		if(side == 4 || side == 5)
-			return iconSide;
+		if(side == 0) return iconBottom;
+		if(side == 1) return iconTop;
+		if(side == 2 || side == 3) return blockIcon;
+		if(side == 4 || side == 5) return iconSide;
 		
 		return null;
 	}
@@ -143,4 +142,17 @@ public class MachineDiesel extends BlockContainer {
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		
+		list.add(EnumChatFormatting.YELLOW + "Fuel efficiency:");
+		for(FuelGrade grade : FuelGrade.values()) {
+			Double efficiency = TileEntityMachineDiesel.fuelEfficiency.get(grade);
+			
+			if(efficiency != null) {
+				int eff = (int)(efficiency * 100);
+				list.add(EnumChatFormatting.YELLOW + "-" + grade.getGrade() + ": " + EnumChatFormatting.RED + "" + eff + "%");
+			}
+		}
+	}
 }

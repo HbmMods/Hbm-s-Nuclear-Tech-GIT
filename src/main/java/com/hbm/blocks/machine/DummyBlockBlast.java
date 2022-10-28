@@ -109,20 +109,26 @@ public class DummyBlockBlast extends BlockContainer implements IDummy, IBomb {
 	}
 
 	@Override
-	public void explode(World world, int x, int y, int z) {
+	public BombReturnCode explode(World world, int x, int y, int z) {
 		
-		TileEntity te = world.getTileEntity(x, y, z);
-		if(te != null && te instanceof TileEntityDummy) {
-			int a = ((TileEntityDummy)te).targetX;
-			int b = ((TileEntityDummy)te).targetY;
-			int c = ((TileEntityDummy)te).targetZ;
+		if(!world.isRemote) {
 			
-			TileEntityBlastDoor entity = (TileEntityBlastDoor) world.getTileEntity(a, b, c);
-			if(entity != null && !entity.isLocked())
-			{
-				entity.tryToggle();
+			TileEntity te = world.getTileEntity(x, y, z);
+			if(te != null && te instanceof TileEntityDummy) {
+				int a = ((TileEntityDummy)te).targetX;
+				int b = ((TileEntityDummy)te).targetY;
+				int c = ((TileEntityDummy)te).targetZ;
+				
+				TileEntityBlastDoor entity = (TileEntityBlastDoor) world.getTileEntity(a, b, c);
+				if(entity != null && !entity.isLocked()) {
+					entity.tryToggle();
+					return BombReturnCode.TRIGGERED;
+				}
 			}
+			
+			return BombReturnCode.ERROR_INCOMPATIBLE;
 		}
 		
+		return BombReturnCode.UNDEFINED;
 	}
 }

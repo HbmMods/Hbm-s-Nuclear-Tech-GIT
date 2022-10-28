@@ -2,9 +2,9 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMicrowave;
 import com.hbm.inventory.container.ContainerPlasmaHeater;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -55,12 +55,8 @@ public class GUIPlasmaHeater extends GuiInfoContainer {
 		int i = (int)microwave.getPowerScaled(34);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 51 - i, 176, 34 - i, 16, i);
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(microwave.tanks[0].getSheet());
-		microwave.tanks[0].renderTank(this, guiLeft + 62, guiTop + 69, microwave.tanks[0].getTankType().textureX() * FluidTank.x, microwave.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(microwave.tanks[1].getSheet());
-		microwave.tanks[1].renderTank(this, guiLeft + 134, guiTop + 69, microwave.tanks[1].getTankType().textureX() * FluidTank.x, microwave.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(microwave.plasma.getSheet());
-		microwave.plasma.renderTank(this, guiLeft + 98, guiTop + 69, microwave.plasma.getTankType().textureX() * FluidTank.x, microwave.plasma.getTankType().textureY() * FluidTank.y, 16, 52);
+		microwave.tanks[0].renderTank(guiLeft + 62, guiTop + 69, this.zLevel, 16, 52);
+		microwave.tanks[1].renderTank(guiLeft + 134, guiTop + 69, this.zLevel, 16, 52);
+		microwave.plasma.renderTank(guiLeft + 98, guiTop + 69, this.zLevel, 16, 52);
 	}
 }
