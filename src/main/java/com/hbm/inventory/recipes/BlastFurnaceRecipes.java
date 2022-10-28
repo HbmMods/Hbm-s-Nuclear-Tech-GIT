@@ -41,8 +41,13 @@ public class BlastFurnaceRecipes {
 	}
 
 	static {
-		addRecipe(IRON, COAL, new ItemStack(ModItems.ingot_steel, 2));
-		addRecipe(IRON, ANY_COKE, new ItemStack(ModItems.ingot_steel, 2));
+		/* STEEL */
+		addRecipe(IRON,			COAL,										new ItemStack(ModItems.ingot_steel, 1));
+		addRecipe(IRON,			ANY_COKE,									new ItemStack(ModItems.ingot_steel, 1));
+		addRecipe(IRON.ore(),	COAL,										new ItemStack(ModItems.ingot_steel, 2));
+		addRecipe(IRON.ore(),	ANY_COKE,									new ItemStack(ModItems.ingot_steel, 3));
+		addRecipe(IRON.ore(),	new ComparableStack(ModItems.powder_flux),	new ItemStack(ModItems.ingot_steel, 3));
+		
 		addRecipe(CU, REDSTONE, new ItemStack(ModItems.ingot_red_copper, 2));
 		addRecipe(STEEL, MINGRADE, new ItemStack(ModItems.ingot_advanced_alloy, 2));
 		addRecipe(W, COAL, new ItemStack(ModItems.neutron_reflector, 2));

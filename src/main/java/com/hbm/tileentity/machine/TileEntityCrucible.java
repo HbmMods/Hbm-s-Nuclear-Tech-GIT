@@ -262,7 +262,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		if(this.progress >= processTime) {
 			this.progress = 0;
 			
-			List<MaterialStack> materials = Mats.getMaterialsFromItem(slots[slot]);
+			List<MaterialStack> materials = Mats.getSmeltingMaterialsFromItem(slots[slot]);
 			CrucibleRecipe recipe = getLoadedRecipe();
 			
 			for(MaterialStack material : materials) {
@@ -335,7 +335,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	
 	public boolean isItemSmeltable(ItemStack stack) {
 		
-		List<MaterialStack> materials = Mats.getMaterialsFromItem(stack);
+		List<MaterialStack> materials = Mats.getSmeltingMaterialsFromItem(stack);
 		
 		//if there's no materials in there at all, don't smelt
 		if(materials.isEmpty())

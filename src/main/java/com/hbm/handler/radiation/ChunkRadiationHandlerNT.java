@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
@@ -18,7 +18,6 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -218,7 +217,116 @@ public class ChunkRadiationHandlerNT extends ChunkRadiationHandler {
 	}
 
 	public static void updateRadiation() {
-		// TODO //
+		long time = System.currentTimeMillis();
+		//long lTime = System.nanoTime();
+		for(WorldRadiationData w : worldMap.values()){
+			//Avoid concurrent modification
+			List<RadPocket> itrActive = new ArrayList<>(w.activePockets);
+			Iterator<RadPocket> itr = itrActive.iterator();
+			while(itr.hasNext()){
+				RadPocket p = itr.next();
+				BlockPos pos = p.parent.parent.getWorldPos(p.parent.yLevel);
+				
+				/*PlayerChunkMapEntry entry = ((WorldServer)w.world).getPlayerManager().getEntry(p.parent.parent.chunk.x, p.parent.parent.chunk.z);
+				if(entry == null || entry.getWatchingPlayers().isEmpty()){
+					//I shouldn't have to do this, but I ran into some issues with chunks not getting unloaded?
+					//In any case, marking it for unload myself shouldn't cause any problems
+					((WorldServer)w.world).getChunkProvider().queueUnload(p.parent.parent.chunk);
+				}*/ // !!!
+				
+				//Lower the radiation a bit, and mark the parent chunk as dirty so the radiation gets saved
+				p.radiation *= 0.999F;
+				p.radiation -= 0.05F;
+				p.parent.parent.chunk.isModified = true;
+				if(p.radiation <= 0) {
+					//If there's no more radiation, set it to 0 and remove
+					p.radiation = 0;
+					p.accumulatedRads = 0;
+					itr.remove();
+					p.parent.parent.chunk.isModified = true;
+					continue;
+				}
+				
+				/*if(p.radiation > RadiationConfig.fogRad && w.world != null && w.world.rand.nextInt(RadiationConfig.fogCh) == 0) {
+					//Fog calculation works slightly differently here to account for the 3d nature of the system
+					//We just try 10 random coordinates of the sub chunk
+					//If the coordinate is inside this pocket and the block at the coordinate is air, 
+					//use it to spawn a rad particle at that block and break
+					//Also only spawn it if it's close to the ground, otherwise you get a giant fart when nukes go off.
+					for(int i = 0; i < 10; i ++){
+						BlockPos randPos = new BlockPos(w.world.rand.nextInt(16), w.world.rand.nextInt(16), w.world.rand.nextInt(16));
+						if(p.parent.pocketsByBlock == null || p.parent.pocketsByBlock[randPos.getX()*16*16+randPos.getY()*16+randPos.getZ()] == p){
+							randPos = randPos.add(p.parent.parent.getWorldPos(p.parent.yLevel));
+							IBlockState state = w.world.getBlockState(randPos);
+							Vec3d rPos = new Vec3d(randPos.getX()+0.5, randPos.getY()+0.5, randPos.getZ()+0.5);
+							RayTraceResult trace = w.world.rayTraceBlocks(rPos, rPos.addVector(0, -6, 0));
+							if(state.getBlock().isAir(state, w.world, randPos) && trace != null && trace.typeOfHit == Type.BLOCK){
+								PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(randPos.getX()+0.5F, randPos.getY()+0.5F, randPos.getZ()+0.5F, 3), new TargetPoint(w.world.provider.getDimension(), randPos.getX(), randPos.getY(), randPos.getZ(), 100));
+								break;
+							}
+						}
+					}
+				}*/
+				
+				//Count the number of connections to other pockets we have
+				float count = 0;
+				for(ForgeDirection e : ForgeDirection.VALID_DIRECTIONS){
+					count += p.connectionIndices[e.ordinal()].size();
+				}
+				float amountPer = 0.7F/count;
+				if(count == 0 || p.radiation < 1){
+					//Don't update if we have no connections or our own radiation is less than 1. Prevents micro radiation bleeding.
+					amountPer = 0;
+				}
+				if(p.radiation > 0 && amountPer > 0){
+					//Only update other values if this one has radiation to update with
+					for(ForgeDirection e : ForgeDirection.VALID_DIRECTIONS){
+						//For every direction, get the block pos for the next sub chunk in that direction.
+						//If it's not loaded or it's out of bounds, do nothhing
+						BlockPos nPos = pos.offset(e, 16);
+						if(!p.parent.parent.chunk.worldObj.blockExists(nPos.getX(), nPos.getY(), nPos.getZ()) || nPos.getY() < 0 || nPos.getY() > 255)
+							continue;
+						if(p.connectionIndices[e.ordinal()].size() == 1 && p.connectionIndices[e.ordinal()].get(0) == -1){
+							//If the chunk in this direction isn't loaded, load it
+							rebuildChunkPockets(p.parent.parent.chunk.worldObj.getChunkFromBlockCoords(nPos.getX(), nPos.getZ()), nPos.getY() >> 4);
+						} else {
+							//Else, For every pocket this chunk is connected to in this direction, add radiation to it
+							//Also add those pockets to the active pockets set
+							SubChunkRadiationStorage sc2 = getSubChunkStorage(p.parent.parent.chunk.worldObj, nPos.getX(), nPos.getY(), nPos.getZ());
+							for(int idx : p.connectionIndices[e.ordinal()]){
+								//Only accumulated rads get updated so the system doesn't interfere with itself while working
+								sc2.pockets[idx].accumulatedRads += p.radiation*amountPer;
+								w.activePockets.add(sc2.pockets[idx]);
+							}
+						}
+					}
+				}
+				if(amountPer != 0){
+					p.accumulatedRads += p.radiation * 0.3F;
+				}
+				//Make sure we only use around 20 ms max per tick, to help reduce lag.
+				//The lag should die down by itself after a few minutes when all radioactive chunks get built.
+				if(System.currentTimeMillis()-time > 20){
+					break;
+				}
+			}
+			//Remove the ones that reached 0 and set the actual radiation values to the accumulated values
+			itr = w.activePockets.iterator();
+			while(itr.hasNext()){
+				RadPocket p = itr.next();
+				p.radiation = p.accumulatedRads;
+				p.accumulatedRads = 0;
+				if(p.radiation <= 0){
+					itr.remove();
+				}
+			}
+		}
+		//System.out.println(System.nanoTime()-lTime);
+		//Should ideally never happen because of the 20 ms limit, 
+		//but who knows, maybe it will, and it's nice to have debug output if it does
+		if(System.currentTimeMillis()-time > 50){
+			System.out.println("Rads took too long: " + (System.currentTimeMillis()-time));
+		}
 	}
 	
 	public static void markChunkForRebuild(World world, int x, int y, int z){

@@ -948,6 +948,15 @@ hbmmat.uranium238=Uranium-238
 hbmmat.whitephosphorus=White Phosphorus
 hbmmat.workersalloy=Desh
 
+matshape.block=%s Block
+matshape.blocks=%s Blocks
+matshape.ingot=%s Ingot
+matshape.ingots=%s Ingots
+matshape.nugget=%s Nugget
+matshape.nuggets=%s Nuggets
+matshape.quantum=%s Quantum
+matshape.quanta=%s Quanta
+
 info.asbestos=My lungs are burning.
 info.coaldust=It's hard to breathe here.
 info.coil=Coil Strength
