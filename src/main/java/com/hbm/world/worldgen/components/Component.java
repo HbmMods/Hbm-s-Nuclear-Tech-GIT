@@ -2,10 +2,12 @@ package com.hbm.world.worldgen.components;
 
 import java.util.Random;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.config.StructureConfig;
+import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
@@ -520,7 +522,7 @@ abstract public class Component extends StructureComponent {
 		case 3:
 			return this.boundingBox.maxZ - x;
 		default:
-			return x;
+			return z;
 		}
 	}
 	
@@ -770,6 +772,105 @@ abstract public class Component extends StructureComponent {
 			}
 		}
 	}
+	
+	protected ForgeDirection getDirection(ForgeDirection dir) {
+		switch(coordBaseMode) {
+		default: //South
+			return dir;
+		case 1: //West
+			return dir.getRotation(ForgeDirection.UP);
+		case 2: //North
+			return dir.getOpposite();
+		case 3: //East
+			return dir.getRotation(ForgeDirection.DOWN);
+		}
+	}
+	
+	//always set the core block first
+	/** StructureComponent-friendly method for {@link com.hbm.handler.MultiblockHandlerXR#fillSpace(World, int, int, int, int[], Block, ForgeDirection)}. Prevents runoff outside of the provided bounding box. */
+	protected void fillSpace(World world, StructureBoundingBox box, int x, int y, int z, int[] dim, Block block, ForgeDirection dir) {
+		
+		if(getYWithOffset(y - dim[1]) < box.minY || getYWithOffset(y + dim[0]) > box.maxY) //the BlockDummyable will be fucked regardless if it goes beyond either limit
+			return;
+		
+		if(dir == null)
+			dir = ForgeDirection.SOUTH;
+		
+		dir = getDirection(dir);
+		
+		int count = 0;
+		
+		int[] rot = MultiblockHandlerXR.rotate(dim, dir);
+		
+		int posX = getXWithOffset(x, z);
+		int posZ = getZWithOffset(x, z); //MY SILLY ASS OPERATING WITH ALREADY FUCKING MODIFIED VARIABLES CLOWNKOEN
+		int posY = getYWithOffset(y);
+		
+		BlockDummyable.safeRem = true;
+		
+		for(int a = posX - rot[4]; a <= posX + rot[5]; a++) {
+			for(int c = posZ - rot[2]; c <= posZ + rot[3]; c++) {
+				
+				if(a >= box.minX && a <= box.maxX && c >= box.minZ && c <= box.maxZ) {
+					for(int b = posY - rot[1]; b <= posY + rot[0]; b++) {
+						
+						int meta = 0;
+						
+						if(b < posY) {
+							meta = ForgeDirection.DOWN.ordinal();
+						} else if(b > posY) {
+							meta = ForgeDirection.UP.ordinal();
+						} else if(a < posX) {
+							meta = ForgeDirection.WEST.ordinal();
+						} else if(a > posX) {
+							meta = ForgeDirection.EAST.ordinal();
+						} else if(c < posZ) {
+							meta = ForgeDirection.NORTH.ordinal();
+						} else if(c > posZ) {
+							meta = ForgeDirection.SOUTH.ordinal();
+						} else {
+							continue;
+						}
+						
+						world.setBlock(a, b, c, block, meta, 2);
+						
+						count++;
+						
+						if(count > 2000) {
+							System.out.println("component's fillspace: ded " + a + " " + b + " " + c + " " + x + " " + y + " " + z);
+							
+							BlockDummyable.safeRem = false;
+							return;
+						}
+					}
+				}
+			}
+		}
+		
+		BlockDummyable.safeRem = false;
+	}
+	
+	/** StructureComponent-friendly method for {@link com.hbm.blocks.BlockDummyable#makeExtra(World, int, int, int)}. Prevents runoff outside of the provided bounding box. */
+		public void makeExtra(World world, StructureBoundingBox box, Block block, int x, int y, int z) {
+			int posX = getXWithOffset(x, z);
+			int posZ = getZWithOffset(x, z);
+			int posY = getYWithOffset(y);
+			
+			if(!box.isVecInside(posX, posY, posZ))
+				return;
+			
+			if(world.getBlock(posX, posY, posZ) != block)
+				return;
+
+			int meta = world.getBlockMetadata(posX, posY, posZ);
+
+			if(meta > 5)
+				return;
+			
+			BlockDummyable.safeRem = true;
+			world.setBlock(posX, posY, posZ, block, meta + BlockDummyable.extra, 3);
+			BlockDummyable.safeRem = false;
+		}
 	
 	/** Block Selectors **/
 	
