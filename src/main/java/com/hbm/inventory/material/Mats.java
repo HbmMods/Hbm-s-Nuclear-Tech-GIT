@@ -48,13 +48,13 @@ public class Mats {
 	
 	//Vanilla and vanilla-like
 	public static final NTMMaterial MAT_STONE		= makeSmeltable(_VS + 00,	df("Stone"), 0x4D2F23).omitAutoGen();
-	public static final NTMMaterial MAT_CARBON		= makeAdditive(	1499, 		df("Carbon"), 0xD0D0D0).omitAutoGen();
-	public static final NTMMaterial MAT_COAL		= make(			1400, 		COAL)		.setConversion(MAT_CARBON,  0.8D).omitAutoGen();
-	public static final NTMMaterial MAT_LIGNITE		= make(			1401, 		LIGNITE)	.setConversion(MAT_CARBON,  0.5D);
-	public static final NTMMaterial MAT_COALCOKE	= make(			1410, 		COALCOKE)	.setConversion(MAT_CARBON,  0.8D);
-	public static final NTMMaterial MAT_PETCOKE		= make(			1411, 		PETCOKE)	.setConversion(MAT_CARBON,  0.8D);
-	public static final NTMMaterial MAT_LIGCOKE		= make(			1412, 		LIGCOKE)	.setConversion(MAT_CARBON,  0.8D);
-	public static final NTMMaterial MAT_GRAPHITE	= make(			1420, 		GRAPHITE)	.setConversion(MAT_CARBON,  1D);
+	public static final NTMMaterial MAT_CARBON		= makeAdditive(	1499, 		df("Carbon"), 0x808080).omitAutoGen();
+	public static final NTMMaterial MAT_COAL		= make(			1400, 		COAL)		.setConversion(MAT_CARBON,  3, 1).omitAutoGen();
+	public static final NTMMaterial MAT_LIGNITE		= make(			1401, 		LIGNITE)	.setConversion(MAT_CARBON,  4, 1);
+	public static final NTMMaterial MAT_COALCOKE	= make(			1410, 		COALCOKE)	.setConversion(MAT_CARBON,  2, 1);
+	public static final NTMMaterial MAT_PETCOKE		= make(			1411, 		PETCOKE)	.setConversion(MAT_CARBON,  2, 1);
+	public static final NTMMaterial MAT_LIGCOKE		= make(			1412, 		LIGCOKE)	.setConversion(MAT_CARBON,  2, 1);
+	public static final NTMMaterial MAT_GRAPHITE	= make(			1420, 		GRAPHITE)	.setConversion(MAT_CARBON,  1, 1);
 	public static final NTMMaterial MAT_IRON		= makeSmeltable(2600,		IRON,		0xFFA259).omitAutoGen();
 	public static final NTMMaterial MAT_GOLD		= makeSmeltable(7900,		GOLD,		0xE8D754).omitAutoGen();
 	public static final NTMMaterial MAT_REDSTONE	= makeSmeltable(_VS + 01,	REDSTONE,	0xFF1000).omitAutoGen();
@@ -117,7 +117,7 @@ public class Mats {
 	public static final NTMMaterial MAT_MAGTUNG		= makeSmeltable(_AS + 8,	MAGTUNG,	0x22A2A2).setShapes(INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_CMB			= makeSmeltable(_AS + 9,	CMB,		0x6F6FB4).setShapes(INGOT, DUST, PLATE, BLOCK);
 	public static final NTMMaterial MAT_FLUX		= makeAdditive(_AS + 10,	df("Flux"),	0xDECCAD).setShapes(DUST);
-	public static final NTMMaterial MAT_SLAG		= makeAdditive(_AS + 11,	SLAG,		0x6C6562).setShapes(BLOCK);
+	public static final NTMMaterial MAT_SLAG		= makeSmeltable(_AS + 11,	SLAG,		0x6C6562).setShapes(BLOCK);
 
 	public static NTMMaterial make(int id, DictFrame dict) {
 		return new NTMMaterial(id, dict);
@@ -183,7 +183,7 @@ public class Mats {
 	public static List<MaterialStack> getSmeltingMaterialsFromItem(ItemStack stack) {
 		List<MaterialStack> baseMats = getMaterialsFromItem(stack);
 		List<MaterialStack> smelting = new ArrayList();
-		baseMats.forEach(x -> smelting.add(new MaterialStack(x.material.smeltsInto, (int) (x.amount * x.material.smeltingRatio))));
+		baseMats.forEach(x -> smelting.add(new MaterialStack(x.material.smeltsInto, (int) (x.amount * x.material.convOut / x.material.convIn))));
 		return smelting;
 	}
 	
@@ -202,7 +202,12 @@ public class Mats {
 		}
 	}
 	
-	public static String formatAmount(int amount) {
+	public static String formatAmount(int amount, boolean showInMb) {
+		
+		if(showInMb) {
+			return (amount * 2) + "mB";
+		}
+		
 		String format = "";
 		
 		int blocks = amount / BLOCK.q(1);
@@ -213,10 +218,10 @@ public class Mats {
 		amount -= NUGGET.q(nuggets);
 		int quanta = amount;
 		
-		if(blocks > 0) format += (blocks == 1 ? I18nUtil.resolveKey("matshape.block", blocks) : I18nUtil.resolveKey("matshape.blocks", blocks));
-		if(ingots > 0) format += (ingots == 1 ? I18nUtil.resolveKey("matshape.ingot", ingots) : I18nUtil.resolveKey("matshape.ingots", ingots));
-		if(nuggets > 0) format += (nuggets == 1 ? I18nUtil.resolveKey("matshape.nugget", nuggets) : I18nUtil.resolveKey("matshape.nuggets", nuggets));
-		if(quanta > 0) format += (quanta == 1 ? I18nUtil.resolveKey("matshape.quantum", quanta) : I18nUtil.resolveKey("matshape.quanta", quanta));
+		if(blocks > 0) format += (blocks == 1 ? I18nUtil.resolveKey("matshape.block", blocks) : I18nUtil.resolveKey("matshape.blocks", blocks)) + " ";
+		if(ingots > 0) format += (ingots == 1 ? I18nUtil.resolveKey("matshape.ingot", ingots) : I18nUtil.resolveKey("matshape.ingots", ingots)) + " ";
+		if(nuggets > 0) format += (nuggets == 1 ? I18nUtil.resolveKey("matshape.nugget", nuggets) : I18nUtil.resolveKey("matshape.nuggets", nuggets)) + " ";
+		if(quanta > 0) format += (quanta == 1 ? I18nUtil.resolveKey("matshape.quantum", quanta) : I18nUtil.resolveKey("matshape.quanta", quanta)) + " ";
 		
 		return format.trim();
 	}

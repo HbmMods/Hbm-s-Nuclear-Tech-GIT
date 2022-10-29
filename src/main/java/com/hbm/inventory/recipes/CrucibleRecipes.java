@@ -219,17 +219,18 @@ public class CrucibleRecipes extends SerializableRecipe {
 		HashMap<AStack, List<ItemStack>> map = new HashMap();
 		
 		for(NTMMaterial material : Mats.orderedList) {
-			double mult = material.smeltingRatio;
-			material = material.smeltsInto;
+			int in = material.convIn;
+			int out = material.convOut;
+			NTMMaterial convert = material.smeltsInto;
 			for(MaterialShapes shape : MaterialShapes.allShapes) {
 				//TODO: buffer these
 				
-				String name = shape.toString().toLowerCase() + material.names[0];
+				String name = shape.name() + material.names[0];
 				List<ItemStack> ores = OreDictionary.getOres(name);
 				
 				if(!ores.isEmpty()) {
 					List<ItemStack> stacks = new ArrayList();
-					stacks.add(ItemScraps.create(new MaterialStack(material, (int) (shape.q(1) * mult))));
+					stacks.add(ItemScraps.create(new MaterialStack(convert, (int) (shape.q(1) * out / in))));
 					map.put(new OreDictStack(name), stacks);
 				}
 			}

@@ -118,7 +118,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 			
 			tryRecipe();
 			
-			/* pour wasste stack */
+			/* pour waste stack */
 			if(!this.wasteStack.isEmpty()) {
 				
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();

@@ -23,7 +23,7 @@ public class ScrapsCraftingHandler implements IRecipe {
 			if(mat != null) return false;
 			
 			mat = ItemScraps.getMats(stack);
-			if(mat.amount > 2) return false;
+			if(mat.amount < 2) return false;
 		}
 		
 		return mat != null;
@@ -41,7 +41,7 @@ public class ScrapsCraftingHandler implements IRecipe {
 			if(mat != null) return null;
 			
 			mat = ItemScraps.getMats(stack);
-			if(mat.amount > 2) return null;
+			if(mat.amount < 2) return null;
 		}
 		
 		if(mat == null) return null;

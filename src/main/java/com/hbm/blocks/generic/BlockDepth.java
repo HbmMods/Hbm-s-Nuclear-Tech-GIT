@@ -27,7 +27,7 @@ public class BlockDepth extends Block implements ITooltipProvider {
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IDepthRockTool) {
 			
 			if(((IDepthRockTool)player.getHeldItem().getItem()).canBreakRock(world, player, player.getHeldItem(), this, x, y, z))
-			return (float) (1D / 100D);
+			return (float) (1D / 50D);
 		}
 		
 		return super.getPlayerRelativeBlockHardness(player, world, x, y, z);

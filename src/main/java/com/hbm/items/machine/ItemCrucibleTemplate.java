@@ -2,6 +2,8 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.CrucibleRecipes;
@@ -42,13 +44,13 @@ public class ItemCrucibleTemplate extends Item {
 
 		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_out_p"));
 		for(MaterialStack out : recipe.output) {
-			list.add(I18nUtil.resolveKey(out.material.getUnlocalizedName()) + ": " + Mats.formatAmount(out.amount));
+			list.add(I18nUtil.resolveKey(out.material.getUnlocalizedName()) + ": " + Mats.formatAmount(out.amount, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)));
 		}
 
 		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_in_p"));
 		
 		for(MaterialStack in : recipe.input) {
-			list.add(I18nUtil.resolveKey(in.material.getUnlocalizedName()) + ": " + Mats.formatAmount(in.amount));
+			list.add(I18nUtil.resolveKey(in.material.getUnlocalizedName()) + ": " + Mats.formatAmount(in.amount, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)));
 		}
 	}
 }

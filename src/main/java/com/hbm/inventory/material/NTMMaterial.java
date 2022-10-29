@@ -18,7 +18,8 @@ public class NTMMaterial {
 	public int moltenColor = 0xFF4A00;
 	
 	public NTMMaterial smeltsInto;
-	public double smeltingRatio;
+	public int convIn;
+	public int convOut;
 	
 	public NTMMaterial(int id, DictFrame dict) {
 		
@@ -26,7 +27,8 @@ public class NTMMaterial {
 		this.id = id;
 		
 		this.smeltsInto = this;
-		this.smeltingRatio = 1.0D;
+		this.convIn = 1;
+		this.convOut = 1;
 		
 		for(String name : dict.mats) {
 			Mats.matByName.put(name, this);
@@ -40,9 +42,10 @@ public class NTMMaterial {
 		return "hbmmat." + this.names[0].toLowerCase();
 	}
 	
-	public NTMMaterial setConversion(NTMMaterial mat, double mult) {
+	public NTMMaterial setConversion(NTMMaterial mat, int in, int out) {
 		this.smeltsInto = mat;
-		this.smeltingRatio = mult;
+		this.convIn = in;
+		this.convOut = out;
 		return this;
 	}
 	
