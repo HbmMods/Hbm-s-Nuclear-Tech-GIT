@@ -253,7 +253,7 @@ public class BunkerComponents extends ProceduralComponents {
 					placeBlockAtCurrentPosition(world, ModBlocks.deco_red_copper, 0, 3, 1, 3, box);
 					placeBlockAtCurrentPosition(world, ModBlocks.deco_red_copper, 0, 4, 2, 2, box);
 					
-					int cabinetMeta = getDecoModelMeta(0);
+					int cabinetMeta = getDecoModelMeta(0) | 4;
 					if(hasLoot)
 						generateInvContents(world, box, rand, ModBlocks.filing_cabinet, cabinetMeta, 1, 1, 2, HbmChestContents.machineParts, 4);
 				} else {
@@ -261,7 +261,7 @@ public class BunkerComponents extends ProceduralComponents {
 					placeBlockAtCurrentPosition(world, ModBlocks.machine_boiler_off, decoMetaN, 3, 1, 2, box);
 					fillWithBlocks(world, box, 3, 2, 2, 3, 3, 2, ModBlocks.deco_pipe_rusted);
 					
-					int cabinetMeta = getDecoModelMeta(3);
+					int cabinetMeta = getDecoModelMeta(3) | 4;
 					if(hasLoot)
 						generateInvContents(world, box, rand, ModBlocks.filing_cabinet, cabinetMeta, 1, 1, 1, HbmChestContents.machineParts, 4);
 				}
@@ -628,8 +628,8 @@ public class BunkerComponents extends ProceduralComponents {
 				placeBlockAtCurrentPosition(world, ModBlocks.radiorec, getDecoMeta(5), 6, 2, 1, box);
 				placeRandomBobble(world, box, rand, 6, 2, 3);
 				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(2), 6, 2, 4, box);
-				generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 4, 1, 5, HbmChestContents.officeTrash, 4); //TODO: create more contents
-				placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, getDecoModelMeta(0), 4, 1, 5, box);
+				generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0) | 4, 4, 1, 5, HbmChestContents.officeTrash, 4); //TODO: create more contents
+				placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, getDecoModelMeta(0) | 4, 4, 1, 5, box);
 				//
 				placeBlockAtCurrentPosition(world, ModBlocks.concrete_stairs, getStairMeta(7), 1, 1, 2, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.concrete_stairs, getStairMeta(6), 1, 1, 3, box);
@@ -1246,7 +1246,7 @@ public class BunkerComponents extends ProceduralComponents {
 				fillWithMetadataBlocks(world, box, 1, 1, 4, 1, 1, 6, ModBlocks.brick_slab, 9);
 				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick_stairs, getStairMeta(6), 1, 1, 7, box);
 				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, getStairMeta(0), 2, 1, 4, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoMeta(3), 1, 2, 4, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(3), 1, 2, 4, box);
 				
 				fillWithBlocks(world, box, 1, 1, 9, 2, 1, 9, ModBlocks.crate_lead);
 				placeBlockAtCurrentPosition(world, ModBlocks.barrel_corroded, 0, 1, 2, 9, box);
@@ -1281,8 +1281,8 @@ public class BunkerComponents extends ProceduralComponents {
 				placeBlockAtCurrentPosition(world, ModBlocks.steel_wall, decoMetaS, 8, 1, 4, box);
 				fillWithBlocks(world, box, 7, 2, 5, 9, 2, 5, ModBlocks.steel_roof);
 				
-				generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(3), 1, 1, 2, HbmChestContents.filingCabinet, 4);
-				generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(3), 1, 2, 2, HbmChestContents.filingCabinet, 4);
+				generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(3) | 4, 1, 1, 2, HbmChestContents.filingCabinet, 4);
+				generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(3) | 4, 1, 2, 2, HbmChestContents.filingCabinet, 4);
 				
 				if(underwater) {
 					fillWithWater(world, box, rand, 4, 1, 0, 6, 3, 0, 1);

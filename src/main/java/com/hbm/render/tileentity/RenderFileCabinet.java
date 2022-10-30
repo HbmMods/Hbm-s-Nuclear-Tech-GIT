@@ -9,6 +9,7 @@ import com.hbm.tileentity.machine.storage.TileEntityFileCabinet;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -37,9 +38,15 @@ public class RenderFileCabinet extends TileEntitySpecialRenderer implements IIte
 			break;
 		}
 		
+		switch(tile.getBlockMetadata() >> 2) {
+		case 0:
+			bindTexture(ResourceManager.file_cabinet_tex); break;
+		case 1:
+			bindTexture(ResourceManager.file_cabinet_steel_tex); //sadge
+		}
+		
 		TileEntityFileCabinet cabinet = (TileEntityFileCabinet) tile;
 		
-		bindTexture(ResourceManager.file_cabinet_tex);
 		ResourceManager.file_cabinet.renderPart("Cabinet");
 		
 		GL11.glPushMatrix();
@@ -70,10 +77,17 @@ public class RenderFileCabinet extends TileEntitySpecialRenderer implements IIte
 				GL11.glRotatef(180F, 0, 1F, 0);
 				GL11.glScalef(4F, 4F, 4F);
 			}
-			public void renderCommon() {
+			public void renderCommonWithStack(ItemStack stack) {
 				GL11.glTranslated(0, -1.25D, 0);
 				GL11.glScaled(2.75D, 2.75D, 2.75D);
-				bindTexture(ResourceManager.file_cabinet_tex);
+				
+				switch(stack.getItemDamage() >> 2) {
+				case 0:
+					bindTexture(ResourceManager.file_cabinet_tex); break;
+				case 1:
+					bindTexture(ResourceManager.file_cabinet_steel_tex);
+				}
+				
 				ResourceManager.file_cabinet.renderAll();
 			}};
 	}
