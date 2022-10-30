@@ -630,7 +630,7 @@ public class MainRegistry {
 		bossWorm = new Achievement("achievement.bossWorm", "bossWorm", -8, -3, ModItems.coin_worm, bossMaskman).initIndependentStat().registerStat().setSpecial();
 		bossUFO = new Achievement("achievement.bossUFO", "bossUFO", -6, -3, ModItems.coin_ufo, bossWorm).initIndependentStat().registerStat().setSpecial();
 
-		achRadPoison = new Achievement("achievement.radPoison", "radPoison", -2, 6, ModItems.geiger_counter, null).initIndependentStat().registerStat();
+		achRadPoison = new Achievement("achievement.radPoison", "radPoison", -2, 6, new ItemStack(ModBlocks.geiger), null).initIndependentStat().registerStat();
 		achRadDeath = new Achievement("achievement.radDeath", "radDeath", 0, 6, Items.skull, achRadPoison).initIndependentStat().registerStat().setSpecial();
 
 		achSomeWounds = new Achievement("achievement.someWounds", "someWounds", -2, 10, ModItems.injector_knife, null).initIndependentStat().registerStat();
@@ -980,6 +980,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.dummy_block_radgen");
 		ignoreMappings.add("hbm:tile.dummy_port_radgen");
 		ignoreMappings.add("hbm:tile.test_conductor");
+		ignoreMappings.add("hbm:item.geiger_counter");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

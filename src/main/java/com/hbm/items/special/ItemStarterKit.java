@@ -88,7 +88,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_lead, 64));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_copper, 64));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gas_mask_m65, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.geiger_counter, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.geiger, 1));
 			
 			giveHaz(world, player, 1);
 		}
@@ -130,7 +130,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radx, 4));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pill_iodine, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.tritium_deuterium_cake, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.geiger_counter, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.geiger, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.survey_scanner, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gas_mask_m65, 1));
 			

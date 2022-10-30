@@ -1712,7 +1712,7 @@ public class ModBlocks {
 		deco_pipe_quad_marked = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_marked", 2).setBlockName("deco_pipe_quad_marked").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_marked");
 		
 		broadcaster_pc = new PinkCloudBroadcaster(Material.iron).setBlockName("broadcaster_pc").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":broadcaster_pc");
-		geiger = new GeigerCounter(Material.iron).setBlockName("geiger").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":geiger");
+		geiger = new GeigerCounter(Material.iron).setBlockName("geiger").setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":geiger");
 		hev_battery = new HEVBattery(Material.iron).setBlockName("hev_battery").setCreativeTab(MainRegistry.machineTab).setLightLevel(10F/15F).setHardness(0.5F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":hev_battery");
 		
 		fence_metal = new BlockMetalFence(Material.iron).setBlockName("fence_metal").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":fence_metal");
@@ -2940,7 +2940,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(broadcaster_pc, broadcaster_pc.getUnlocalizedName());
 		
 		//Geiger Counter
-		GameRegistry.registerBlock(geiger, geiger.getUnlocalizedName());
+		GameRegistry.registerBlock(geiger, ItemGeigerCounter.class, geiger.getUnlocalizedName());
 		
 		//HEV Battery
 		GameRegistry.registerBlock(hev_battery, hev_battery.getUnlocalizedName());

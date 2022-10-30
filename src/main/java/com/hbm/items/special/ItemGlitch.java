@@ -92,7 +92,7 @@ public class ItemGlitch extends Item {
 			case 13:
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_pip));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_sparkle));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.geiger_counter));
+				player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.geiger));
 				player.addChatMessage(new ChatComponentText("Have some free stuff. You'll need it for that one cryptic achievement."));
 				break;
 			case 14:

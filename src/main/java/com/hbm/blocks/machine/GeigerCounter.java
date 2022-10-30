@@ -1,8 +1,11 @@
 package com.hbm.blocks.machine;
 
+import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityGeiger;
 import com.hbm.util.ContaminationUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -38,6 +41,12 @@ public class GeigerCounter extends BlockContainer {
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public String getItemIconName() {
+		return RefStrings.MODID + ":geiger_counter";
 	}
 	
 	@Override

@@ -415,7 +415,7 @@ public class ModEventHandler {
 			if(rand.nextInt(128) == 0)
 				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.crowbar, 1, world.rand.nextInt(100)));
 			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.geiger_counter, 1));
+				entity.setCurrentItemOrArmor(0, new ItemStack(ModBlocks.geiger, 1));
 			if(rand.nextInt(128) == 0)
 				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.steel_pickaxe, 1, world.rand.nextInt(300)));
 			if(rand.nextInt(512) == 0)

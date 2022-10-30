@@ -2,6 +2,7 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionThermo;
@@ -20,6 +21,7 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
 import net.minecraft.potion.Potion;
@@ -548,7 +550,7 @@ public class EntityPlasmaBeam extends Entity implements IProjectile
     }
     
     private boolean surviveImmolation(EntityPlayer player) {
-    	if(player.inventory.hasItem(ModItems.gun_revolver_pip) && player.inventory.hasItem(ModItems.bottle_sparkle) && player.inventory.hasItem(ModItems.geiger_counter)) {
+    	if(player.inventory.hasItem(ModItems.gun_revolver_pip) && player.inventory.hasItem(ModItems.bottle_sparkle) && player.inventory.hasItem(Item.getItemFromBlock(ModBlocks.geiger))) {
     		player.triggerAchievement(MainRegistry.achSacrifice);
     		player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 3 * 20, 6));
     		return true;
