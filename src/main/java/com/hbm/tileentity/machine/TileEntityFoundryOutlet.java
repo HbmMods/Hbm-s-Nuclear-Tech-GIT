@@ -32,7 +32,7 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase {
 		if(worldObj.isRemote) {
 			boolean isClosed = isClosed();
 			if(this.lastClosed != isClosed || this.filter != this.lastFilter) {
-				this.filter = lastFilter;
+				this.lastFilter = this.filter;
 				this.lastClosed = isClosed;
 				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}

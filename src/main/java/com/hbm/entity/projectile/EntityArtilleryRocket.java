@@ -191,6 +191,8 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 		nbt.setDouble("targetX", this.lastTargetPos.xCoord);
 		nbt.setDouble("targetY", this.lastTargetPos.yCoord);
 		nbt.setDouble("targetZ", this.lastTargetPos.zCoord);
+		
+		nbt.setInteger("type", this.dataWatcher.getWatchableObjectInt(10));
 	}
 
 	@Override
@@ -198,6 +200,8 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 		super.readEntityFromNBT(nbt);
 
 		this.lastTargetPos = Vec3.createVectorHelper(nbt.getDouble("targetX"), nbt.getDouble("targetY"), nbt.getDouble("targetZ"));
+		
+		this.dataWatcher.updateObject(10, nbt.getInteger("type"));
 	}
 
 	@Override

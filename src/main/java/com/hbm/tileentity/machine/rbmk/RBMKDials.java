@@ -28,7 +28,7 @@ public class RBMKDials {
 	public static final String KEY_REASIM_MOD = "dialReasimOutputMod";
 	public static final String KEY_REASIM_BOILERS = "dialReasimBoilers";
 	public static final String KEY_REASIM_BOILER_SPEED = "dialReasimBoilerSpeed";
-	public static final String KEY_DISABLE_MELTDOWNS = "dialEnableMeltdowns";
+	public static final String KEY_DISABLE_MELTDOWNS = "dialDisableMeltdowns";
 	
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.ISatChip;
 import com.hbm.items.tool.ItemSatInterface;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
@@ -85,7 +86,7 @@ public class GUIScreenSatCoord extends GuiScreen {
         	    						(int)Double.parseDouble(xField.getText()),
         	    						(int)Double.parseDouble(yField.getText()),
         	    						(int)Double.parseDouble(zField.getText()),
-        	    						ItemSatInterface.getFreq(player.getHeldItem())));
+        	    						ISatChip.getFreqS(player.getHeldItem())));
         	    		
         	            this.mc.thePlayer.closeScreen();
     				}
@@ -98,7 +99,7 @@ public class GUIScreenSatCoord extends GuiScreen {
     	    						(int)Double.parseDouble(xField.getText()),
     	    						0,
     	    						(int)Double.parseDouble(zField.getText()),
-    	    						ItemSatInterface.getFreq(player.getHeldItem())));
+    	    						ISatChip.getFreqS(player.getHeldItem())));
     	    		
     	            this.mc.thePlayer.closeScreen();
     			}

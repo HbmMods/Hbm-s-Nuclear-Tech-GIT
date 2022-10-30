@@ -2,14 +2,14 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
+import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
-public class ItemSatChip extends Item {
+public class ItemSatChip extends Item implements ISatChip {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
@@ -46,20 +46,4 @@ public class ItemSatChip extends Item {
 		if(this == ModItems.sat_scanner)
 			list.add("Creates a topdown map of underground ores.");
 	}
-
-	public static int getFreq(ItemStack stack) {
-		if(stack.stackTagCompound == null) {
-			stack.stackTagCompound = new NBTTagCompound();
-			return 0;
-		}
-		return stack.stackTagCompound.getInteger("freq");
-	}
-	
-	public static void setFreq(ItemStack stack, int i) {
-		if(stack.stackTagCompound == null) {
-			stack.stackTagCompound = new NBTTagCompound();
-		}
-		stack.stackTagCompound.setInteger("freq", i);
-	}
-
 }

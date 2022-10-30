@@ -78,6 +78,8 @@ import com.hbm.render.tileentity.*;
 import com.hbm.render.util.MissilePart;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderInfoSystem.InfoEntry;
+import com.hbm.render.util.RenderOverhead;
+import com.hbm.render.util.RenderOverhead.Marker;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
 import com.hbm.sound.AudioWrapperClientStartStop;
@@ -95,6 +97,7 @@ import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -1775,6 +1778,15 @@ public class ClientProxy extends ServerProxy {
 			float scale = data.getFloat("scale");
 			ParticleGasFlame text = new ParticleGasFlame(world, x, y, z, mX, mY, mZ, scale > 0 ? scale : 6.5F);
 			Minecraft.getMinecraft().effectRenderer.addEffect(text);
+		}
+		
+		if("marker".equals(type)) {
+			int color = data.getInteger("color");
+			String label = data.getString("label");
+			int expires = data.getInteger("expires");
+			double dist = data.getDouble("dist");
+			
+			RenderOverhead.queuedMarkers.put(new BlockPos(x, y, z),  new Marker(color).setDist(dist).setExpire(expires > 0 ? System.currentTimeMillis() + expires : 0).withLabel(label.isEmpty() ? null : label));
 		}
 	}
 	

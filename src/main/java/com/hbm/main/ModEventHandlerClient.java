@@ -902,14 +902,18 @@ public class ModEventHandlerClient {
 
 		GL11.glPopMatrix();
 		
-		RenderOverhead.renderMarkers(event.partialTicks);
-
-		if(ArmorFSB.hasFSBArmor(player)) {
-			ItemStack plate = player.inventory.armorInventory[2];
-			ArmorFSB chestplate = (ArmorFSB) plate.getItem();
-
-			if(chestplate.thermal && HbmPlayerProps.getData(player).enableHUD)
-				RenderOverhead.renderThermalSight(event.partialTicks);
+		boolean hudOn = HbmPlayerProps.getData(player).enableHUD;
+		
+		if(hudOn) {
+			RenderOverhead.renderMarkers(event.partialTicks);
+	
+			if(ArmorFSB.hasFSBArmor(player)) {
+				ItemStack plate = player.inventory.armorInventory[2];
+				ArmorFSB chestplate = (ArmorFSB) plate.getItem();
+	
+				if(chestplate.thermal)
+					RenderOverhead.renderThermalSight(event.partialTicks);
+			}
 		}
 	}
 	

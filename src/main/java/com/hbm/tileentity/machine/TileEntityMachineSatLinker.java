@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.items.ISatChip;
 import com.hbm.items.machine.ItemSatChip;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -174,12 +175,12 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 
 		if(!worldObj.isRemote)
 		{
-			if(slots[0] != null && slots[1] != null && slots[0].getItem() instanceof ItemSatChip && slots[1].getItem() instanceof ItemSatChip) {
-				ItemSatChip.setFreq(slots[1], ItemSatChip.getFreq(slots[0]));
+			if(slots[0] != null && slots[1] != null && slots[0].getItem() instanceof ISatChip && slots[1].getItem() instanceof ISatChip) {
+				ISatChip.setFreqS(slots[1], ISatChip.getFreqS(slots[0]));
 			}
 			
-			if(slots[2] != null && slots[2].getItem() instanceof ItemSatChip) {
-				ItemSatChip.setFreq(slots[2], worldObj.rand.nextInt(100000));
+			if(slots[2] != null && slots[2].getItem() instanceof ISatChip) {
+				ISatChip.setFreqS(slots[2], worldObj.rand.nextInt(100000));
 			}
 		}
 	}

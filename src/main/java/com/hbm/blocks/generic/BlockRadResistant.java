@@ -15,13 +15,13 @@ public class BlockRadResistant extends Block implements IRadResistantBlock {
 	
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
-		ChunkRadiationHandlerNT.markChunkForRebuild(world, x, y, z);
+		//ChunkRadiationHandlerNT.markChunkForRebuild(world, x, y, z);
 		super.onBlockAdded(world, x, y, z);
 	}
 	
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block b, int meta) {
-		ChunkRadiationHandlerNT.markChunkForRebuild(world, x, y, z);
+		//ChunkRadiationHandlerNT.markChunkForRebuild(world, x, y, z);
 		super.breakBlock(world, x, y, z, b, meta);
 	}
 
