@@ -453,6 +453,10 @@ public class BunkerComponents extends ProceduralComponents {
 	//what 'waste'?
 	public static class WasteDisposal extends Bunker {
 		
+		private static ConcreteBricks conBrick = new ConcreteBricks();
+		private static ConcreteBricksStairs conBrickStairs = new ConcreteBricksStairs();
+		private static ConcreteBricksSlabs conBrickSlabs = new ConcreteBricksSlabs();
+		
 		public WasteDisposal() { }
 		
 		public WasteDisposal(int componentType, Random rand, StructureBoundingBox box, int coordBaseMode) {
@@ -521,16 +525,16 @@ public class BunkerComponents extends ProceduralComponents {
 				placeBlockAtCurrentPosition(world, ModBlocks.brick_fire, 0, 4, 1, 7, box);
 				fillWithBlocks(world, box, 5, 1, 5, 5, 1, 7, ModBlocks.brick_fire);
 				//i genuinely cannot be bothered to go to the effort of block selectors for the stairs n shit
-				fillWithMetadataBlocks(world, box, 3, 2, 5, 3, 2, 6, ModBlocks.brick_concrete_stairs, getStairMeta(1));
-				placeBlockAtCurrentPosition(world, ModBlocks.brick_concrete_stairs, getStairMeta(2), 3, 2, 7, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.concrete_brick_slab, 0, 4, 2, 5, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.brick_concrete_stairs, getStairMeta(2), 4, 2, 7, box);
-				fillWithMetadataBlocks(world, box, 5, 2, 5, 5, 2, 6, ModBlocks.brick_concrete_stairs, getStairMeta(0));
-				placeBlockAtCurrentPosition(world, ModBlocks.brick_concrete_stairs, getStairMeta(2), 5, 2, 7, box);
-				fillWithBlocks(world, box, 3, 3, 5, 3, 3, 7, ModBlocks.brick_concrete);
-				placeBlockAtCurrentPosition(world, ModBlocks.concrete_brick_slab, 8, 4, 3, 5, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.brick_concrete, 0, 4, 3, 7, box);
-				fillWithBlocks(world, box, 5, 3, 5, 5, 3, 7, ModBlocks.brick_concrete);
+				fillWithRandomizedBlocksMeta(world, box, 3, 2, 5, 3, 2, 6, rand, conBrickStairs, getStairMeta(1));
+				fillWithRandomizedBlocksMeta(world, box, 3, 2, 7, 3, 2, 7, rand, conBrickStairs, getStairMeta(2));
+				fillWithRandomizedBlocksMeta(world, box, 4, 2, 5, 4, 2, 5, rand, conBrickSlabs, 0);
+				fillWithRandomizedBlocksMeta(world, box, 4, 2, 7, 4, 2, 7, rand, conBrickStairs, getStairMeta(2));
+				fillWithRandomizedBlocksMeta(world, box, 5, 2, 5, 5, 2, 6, rand, conBrickStairs, getStairMeta(0));
+				fillWithRandomizedBlocksMeta(world, box, 5, 2, 7, 5, 2, 7, rand, conBrickStairs, getStairMeta(2));
+				fillWithRandomizedBlocks(world, box, 3, 3, 5, 3, 3, 7, rand, conBrick);
+				fillWithRandomizedBlocksMeta(world, box, 4, 3, 5, 4, 3, 5, rand, conBrickSlabs, 8);
+				fillWithRandomizedBlocks(world, box, 4, 3, 7, 4, 3, 7, rand, conBrick);
+				fillWithRandomizedBlocks(world, box, 5, 3, 5, 5, 3, 7, rand, conBrick);
 				fillWithMetadataBlocks(world, box, 1, 3, 6, 2, 3, 6, ModBlocks.deco_pipe_quad_rusted, pillarMetaWE);
 				fillWithMetadataBlocks(world, box, 6, 3, 6, 7, 3, 6, ModBlocks.deco_pipe_quad_rusted, pillarMetaWE);
 				placeDoor(world, box, ModBlocks.door_bunker, 1, 4, 1, 0);
@@ -854,14 +858,24 @@ public class BunkerComponents extends ProceduralComponents {
 					
 					//Right Planter
 					fillWithBlocks(world, box, 1, 1, 1, 4, 1, 1, Blocks.grass);
-					fillWithMetadataBlocks(world, box, 1, 1, 2, 3, 1, 2, ModBlocks.reinforced_brick_stairs, stairMetaS);
-					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 4, 1, 2, box);
 					fillWithMetadataBlocks(world, box, 5, 1, 1, 5, 1, 2, ModBlocks.reinforced_brick_stairs, stairMetaE);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 4, 1, 2, box);
+					if(!expandsNX) {
+						fillWithMetadataBlocks(world, box, 2, 1, 2, 3, 1, 2, ModBlocks.reinforced_brick_stairs, stairMetaS);
+						fillWithMetadataBlocks(world, box, 2, 1, 3, 2, 1, 5, ModBlocks.reinforced_brick_stairs, stairMetaE);
+						fillWithBlocks(world, box, 1, 1, 2, 1, 1, 5, Blocks.grass);
+					} else
+						fillWithMetadataBlocks(world, box, 1, 1, 2, 3, 1, 2, ModBlocks.reinforced_brick_stairs, stairMetaS);
 					//Left Planter
 					fillWithBlocks(world, box, 10, 1, 1, 13, 1, 1, Blocks.grass);
-					fillWithMetadataBlocks(world, box, 11, 1, 2, 13, 1, 2, ModBlocks.reinforced_brick_stairs, stairMetaS);
-					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 10, 1, 2, box);
 					fillWithMetadataBlocks(world, box, 9, 1, 1, 9, 1, 2, ModBlocks.reinforced_brick_stairs, stairMetaW);
+					placeBlockAtCurrentPosition(world, ModBlocks.reinforced_brick, 0, 10, 1, 2, box);
+					if(!expandsPX) {
+						fillWithMetadataBlocks(world, box, 11, 1, 2, 12, 1, 2, ModBlocks.reinforced_brick_stairs, stairMetaS);
+						fillWithMetadataBlocks(world, box, 12, 1, 3, 12, 1, 5, ModBlocks.reinforced_brick_stairs, stairMetaW);
+						fillWithBlocks(world, box, 13, 1, 2, 13, 1, 5, Blocks.grass);
+					} else
+						fillWithMetadataBlocks(world, box, 11, 1, 2, 13, 1, 2, ModBlocks.reinforced_brick_stairs, stairMetaS);
 					//Main planter with conversation pits
 					fillWithBlocks(world, box, 1, 1, 7, 2, 1, 11, Blocks.grass); //Planter
 					fillWithBlocks(world, box, 7, 1, 8, 7, 1, 10, Blocks.grass);
@@ -895,6 +909,8 @@ public class BunkerComponents extends ProceduralComponents {
 					fillWithRandomizedBlocks(world, box, 3, 2, 11, 11, 2, 11, rand, plantSelector);
 					fillWithRandomizedBlocks(world, box, 12, 2, 7, 13, 2, 11, rand, plantSelector);
 					fillWithRandomizedBlocks(world, box, 7, 2, 8, 7, 2, 10, rand, plantSelector);
+					if(!expandsNX) fillWithRandomizedBlocks(world, box, 1, 2, 2, 1, 2, 5, rand, plantSelector);
+					if(!expandsPX) fillWithRandomizedBlocks(world, box, 13, 2, 2, 13, 2, 5, rand, plantSelector);
 					break;
 				}
 				

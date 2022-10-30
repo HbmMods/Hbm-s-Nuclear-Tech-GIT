@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 //These structures are... kind of? low quality, but they test out new methods so whatev.
+//TODO: smite
 public class MilitaryBaseFeatures {
 	
 	//stop-gap methods until this entire mess can be organized into proper classes/structure groups

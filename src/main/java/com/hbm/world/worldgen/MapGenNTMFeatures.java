@@ -155,9 +155,9 @@ public class MapGenNTMFeatures extends MapGenStructure {
 				case 2:
 					LargeOffice office = new LargeOffice(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(office); break;
-				/*case 3:
+				case 3:
 					LargeOfficeCorner officeCorner = new LargeOfficeCorner(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
-					this.components.add(officeCorner); break;*/
+					this.components.add(officeCorner); break;
 				}
 			}
 			

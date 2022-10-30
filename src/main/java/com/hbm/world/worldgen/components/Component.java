@@ -715,7 +715,7 @@ abstract public class Component extends StructureComponent {
 						int posY = getYWithOffset(y);
 						//keep this functionality in mind!
 						selector.selectBlocks(rand, posX, posY, posZ, false); //for most structures it's redundant since nothing is just hollow cubes, but vanilla structures rely on this. use the method above in that case.
-						world.setBlock(posX, posY, posZ, selector.func_151561_a(), meta, 2);
+						world.setBlock(posX, posY, posZ, selector.func_151561_a(), meta | selector.getSelectedBlockMetaData(), 2); //Make sure the metadata is initialized in the ctor!
 					}
 				}
 			}
@@ -916,7 +916,9 @@ abstract public class Component extends StructureComponent {
 	
 	static class ConcreteBricksStairs extends StructureComponent.BlockSelector {
 		
-		ConcreteBricksStairs() { }
+		ConcreteBricksStairs() {
+			this.selectedBlockMetaData = 0;
+		}
 		
 		/** Selects blocks */
 		@Override
@@ -931,6 +933,28 @@ abstract public class Component extends StructureComponent {
 				this.field_151562_a = ModBlocks.brick_concrete_cracked_stairs;
 			} else {
 				this.field_151562_a = ModBlocks.brick_concrete_broken_stairs;
+			}
+		}
+	}
+	
+	static class ConcreteBricksSlabs extends StructureComponent.BlockSelector {
+		
+		ConcreteBricksSlabs() {
+			this.field_151562_a = ModBlocks.concrete_brick_slab;
+			this.selectedBlockMetaData = 0;
+		}
+		
+		/** Selects blocks */
+		@Override
+		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean notInterior) {
+			float chance = rand.nextFloat();
+			
+			if (chance >= 0.4F && chance < 0.7F) {
+				this.selectedBlockMetaData |= 1;
+			} else if (chance < 0.9F) {
+				this.selectedBlockMetaData |= 2;
+			} else {
+				this.selectedBlockMetaData |= 3;
 			}
 		}
 	}
