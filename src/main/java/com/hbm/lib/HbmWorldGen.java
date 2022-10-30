@@ -2,6 +2,7 @@ package com.hbm.lib;
 
 import java.util.Random;
 
+import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
@@ -45,8 +46,10 @@ import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenBeach;
 import net.minecraft.world.biome.BiomeGenForest;
 import net.minecraft.world.biome.BiomeGenJungle;
+import net.minecraft.world.biome.BiomeGenRiver;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -80,6 +83,12 @@ public class HbmWorldGen implements IWorldGenerator {
 		}
 		if(biome instanceof BiomeGenJungle && rand.nextInt(8) == 0) {
 			DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.TOBACCO.ordinal());
+		}
+		if(biome instanceof BiomeGenRiver && rand.nextInt(4) == 0) {
+			DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.reeds, 0);
+		}
+		if(biome instanceof BiomeGenBeach && rand.nextInt(8) == 0) {
+			DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.reeds, 0);
 		}
 		
 		if(rand.nextInt(64) == 0) {
@@ -136,6 +145,9 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumClusterSpawn, 6, 15, 30, ModBlocks.cluster_titanium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.aluminiumClusterSpawn, 6, 15, 35, ModBlocks.cluster_aluminium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperClusterSpawn, 6, 15, 20, ModBlocks.cluster_copper);
+
+			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.hematiteSpawn, 10, 4, 80, ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
+			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn, 10, 4, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal());
 
 			for(int k = 0; k < WorldConfig.randomSpawn; k++) {
 				BlockMotherOfAllOres.shuffleOverride(rand);

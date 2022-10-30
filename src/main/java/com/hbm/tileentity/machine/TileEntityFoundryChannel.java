@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.material.MaterialShapes;
-import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 
 import api.hbm.block.ICrucibleAcceptor;

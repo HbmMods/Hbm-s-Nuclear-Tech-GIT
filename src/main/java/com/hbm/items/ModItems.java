@@ -2291,6 +2291,7 @@ public class ModItems {
 	public static Item v1;
 	public static Item protection_charm;
 	public static Item meteor_charm;
+	public static Item neutrino_lens;
 
 	public static Item hazmat_helmet;
 	public static Item hazmat_plate;
@@ -3528,6 +3529,7 @@ public class ModItems {
 		v1 = new ItemModV1().setUnlocalizedName("v1").setTextureName(RefStrings.MODID + ":v1");
 		protection_charm = new ItemModCharm().setUnlocalizedName("protection_charm").setTextureName(RefStrings.MODID + ":protection_charm");
 		meteor_charm = new ItemModCharm().setUnlocalizedName("meteor_charm").setTextureName(RefStrings.MODID + ":meteor_charm");
+		neutrino_lens = new ItemModLens().setUnlocalizedName("neutrino_lens").setTextureName(RefStrings.MODID + ":neutrino_lens");
 
 		cap_nuka = new Item().setUnlocalizedName("cap_nuka").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_nuka");
 		cap_quantum = new Item().setUnlocalizedName("cap_quantum").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_quantum");
@@ -7824,6 +7826,7 @@ public class ModItems {
 		GameRegistry.registerItem(v1, v1.getUnlocalizedName());
 		GameRegistry.registerItem(protection_charm, protection_charm.getUnlocalizedName());
 		GameRegistry.registerItem(meteor_charm, meteor_charm.getUnlocalizedName());
+		GameRegistry.registerItem(neutrino_lens, neutrino_lens.getUnlocalizedName());
 		
 		//Chaos
 		GameRegistry.registerItem(chocolate_milk, chocolate_milk.getUnlocalizedName());

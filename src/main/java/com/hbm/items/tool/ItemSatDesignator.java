@@ -1,6 +1,5 @@
 package com.hbm.items.tool;
 
-import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.items.machine.ItemSatChip;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.SatelliteSavedData;
@@ -9,8 +8,6 @@ import com.hbm.saveddata.satellites.Satellite.Interfaces;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
