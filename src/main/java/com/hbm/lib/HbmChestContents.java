@@ -368,49 +368,67 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.ink, 0, 1, 1, 1), //make that mf rare; 1:555 weight
 	};
 	
-	/** Nowhere else to put this and this seems like the most fitting place **/
-	public static ItemStack genetateBook(String key) {
-		
-		String author = resolve("book.lore." + key + ".author");
-		String title = resolve("book.lore." + key + ".title");
-		
-		ItemStack book = new ItemStack(Items.written_book);
-		book.stackTagCompound = new NBTTagCompound();
-		book.stackTagCompound.setString("author", author);
-		book.stackTagCompound.setString("title", title);
-		NBTTagList nbt = new NBTTagList();
-		
-		for(byte i = 1; i <= 50; i++) {
-			String unloc = "book.lore." + key + ".page" + i;
-			String page = resolve(unloc);
-			
-			if(page.equals(unloc))
-				break;
-			else
-				nbt.appendTag(new NBTTagString(page));
-		}
-		
-		book.stackTagCompound.setTag("pages", nbt);
-		
-		return book;
-	}
+	public static WeightedRandomChestContent[] bedroom1 = new WeightedRandomChestContent[] { //soda enjoyer who really needs to charge their radio
+			new WeightedRandomChestContent(ModItems.can_empty, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.can_creature, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.can_smart, 0, 1, 3, 2),
+			new WeightedRandomChestContent(ModItems.can_mrsugar, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.med_ipecac, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.radx, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.dust_tiny, 0, 1, 3, 2),
+			new WeightedRandomChestContent(ModItems.dust, 0, 1, 1, 1),
+			new WeightedRandomChestContent(Items.paper, 0, 1, 12, 7),
+			new WeightedRandomChestContent(Items.book, 0, 1, 3, 5),
+			new WeightedRandomChestContent(ModItems.battery_su, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.canteen_13, 0, 1, 1, 1),
+	};
 	
-	private static String resolve(String key) {
-		String result = books.get(key);
-		return result != null ? result : key;
-	}
+	public static WeightedRandomChestContent[] bedroom2 = new WeightedRandomChestContent[] { //overworking nuka-cola enthusiast
+			new WeightedRandomChestContent(ModItems.twinkie, 0, 1, 3, 7),
+			new WeightedRandomChestContent(ModItems.coffee, 0, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.bottle_nuka, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.bottle_cherry, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.bottle_opener, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.radaway, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.dust_tiny, 0, 1, 3, 2),
+			new WeightedRandomChestContent(ModItems.dust, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.battery_su_l, 0, 1, 1, 1),
+			new WeightedRandomChestContent(Items.paper, 0, 1, 12, 10),
+			new WeightedRandomChestContent(Items.book, 0, 1, 3, 5),
+			new WeightedRandomChestContent(ModItems.canteen_13, 0, 1, 1, 1),
+	};
 	
-	private static HashMap<String, String> books = new HashMap();
+	public static WeightedRandomChestContent[] bedroom3 = new WeightedRandomChestContent[] { //secretly alcoholic journaling fan who drinks straight from the canister
+			new WeightedRandomChestContent(Items.writable_book, 0, 1, 12, 10),
+			new WeightedRandomChestContent(Items.feather, 0, 1, 2, 5),
+			new WeightedRandomChestContent(new ItemStack(ModItems.canister_full, 1, Fluids.ETHANOL.getID()), 1, 2, 10),
+			new WeightedRandomChestContent(ModItems.scrumpy, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.dust_tiny, 0, 1, 3, 3),
+			new WeightedRandomChestContent(ModItems.dust, 0, 1, 1, 2),
+			new WeightedRandomChestContent(Items.paper, 0, 1, 12, 10),
+			new WeightedRandomChestContent(Items.book, 0, 1, 3, 10),
+			new WeightedRandomChestContent(ModItems.canteen_13, 0, 1, 1, 2),
+	};
 	
-	static {
-		books.put("book.lore.office0.title", "Letter of Resignation");
-		books.put("book.lore.office0.author", "Kosma");
-		books.put("book.lore.office0.page1", "Management downsized our department again yesterday. Those idiots only have themselves to blame, I don't know what they were expecting after the Panay fiasco. Who the hell leaks that sort of information? We're losing millions and");
-		books.put("book.lore.office0.page2", "it's ME who's the one out of a job now. I'M the one being asked to resign. I hope you asshats finally learn from your overabundance of mistakes and take that stick out of your ass.");
-		books.put("book.lore.office0.page3", "I'm not coming back on Friday. Just send the paycheck.");
-		books.put("book.lore.office1.title", "Note");
-		books.put("book.lore.office1.author", "Jonas");
-		books.put("book.lore.office1.page1", null);
-		books.put("book.lore.office2.page2", null);
-	}
+	public static WeightedRandomChestContent[] bedroom4 = new WeightedRandomChestContent[] { //gun nut with a knack for self-made weapons
+			new WeightedRandomChestContent(ModItems.armor_polish, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.gun_kit_1, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.mechanism_revolver_1, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.mechanism_revolver_2, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.mechanism_rifle_1, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.mechanism_rifle_2, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.battery_su_l, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.bolt_tungsten, 0, 1, 4, 1),
+			new WeightedRandomChestContent(ModItems.wire_aluminium, 0, 1, 5, 1),
+			new WeightedRandomChestContent(ModItems.steel_plate, 0, 1, 3, 1),
+			new WeightedRandomChestContent(ModItems.screwdriver, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.wrench, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.hand_drill, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.clip_revolver_nopip, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.ammo_20gauge, 0, 1, 8, 2),
+			new WeightedRandomChestContent(ModItems.gun_revolver_nopip, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.canteen_13, 0, 1, 1, 1),
+	};
+	
 }

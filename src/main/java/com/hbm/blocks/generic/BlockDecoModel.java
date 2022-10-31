@@ -52,6 +52,9 @@ public class BlockDecoModel extends Block {
 		super.registerBlockIcons(iconRegister);
 		icons =  new IIcon[subTypes];
 		
+		if(subTypes == 1)
+			return;
+		
 		for(byte i = 0; i < subTypes; i++)
 			icons[i] = iconRegister.registerIcon(this.textureName + "_" + i);
 	}

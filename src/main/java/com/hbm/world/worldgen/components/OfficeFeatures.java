@@ -10,10 +10,16 @@ import com.hbm.world.worldgen.components.Component.ConcreteBricks;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 //Oh my fucking god TM
 public class OfficeFeatures {
+	
+	public static void registerComponents() {
+		MapGenStructureIO.func_143031_a(LargeOffice.class, "NTMLargeOffice");
+		MapGenStructureIO.func_143031_a(LargeOfficeCorner.class, "NTMLargeOfficeCorner");
+	}
 	
 	public static class LargeOffice extends Component {
 		
@@ -50,7 +56,7 @@ public class OfficeFeatures {
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
 			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
-				return true;
+				return false;
 			}
 			
 			this.boundingBox.offset(0, -1, 0);
@@ -210,7 +216,7 @@ public class OfficeFeatures {
 			
 			//TODO: add book with funny lore to safe, add cobwebs too
 			//0b00/0 West, 0b01/1 East, 0b10/2 North, 0b11/3 South, 0b100/4 West UD, 0b101 East UD, 0b110 North UD, 0b111 South UD
-			return false;
+			return true;
 		}
 		
 	}
@@ -234,7 +240,7 @@ public class OfficeFeatures {
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
 			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
-				return true;
+				return false;
 			}
 			
 			this.boundingBox.offset(0, -1, 0);
@@ -539,7 +545,7 @@ public class OfficeFeatures {
 
 			//this hurt my soul
 			
-			return false; //TODO: whoopsy! this should probably be true, with the failed ones being false! not necessary here since the structures always generate in one chunk
+			return true;
 		}
 	}
 	

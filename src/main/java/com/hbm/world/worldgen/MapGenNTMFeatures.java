@@ -9,8 +9,6 @@ import java.util.Random;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.StructureConfig;
 import com.hbm.world.worldgen.components.CivilianFeatures.*;
-import com.hbm.world.worldgen.components.MilitaryBaseFeatures;
-import com.hbm.world.worldgen.components.MilitaryBaseFeatures.*;
 import com.hbm.world.worldgen.components.OfficeFeatures.*;
 import com.hbm.world.worldgen.components.RuinFeatures.*;
 
@@ -140,10 +138,6 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			} else if(biome.temperature >= 0.25 && biome.temperature <= 0.3 && biome.rainfall >= 0.6 && biome.rainfall <= 0.9 && rand.nextBoolean()) { //Taiga & Mega Taiga
 					NTMWorkshop1 workshop1 = new NTMWorkshop1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(workshop1);
-				
-			} else if(biome.heightVariation <= 0.2 && biome.rainfall <= 0.5 && !(biome instanceof BiomeGenBeach) && rand.nextInt(5) == 0) { //Everything except jungles, extra-hilly areas, and beaches
-					MilitaryBaseFeatures.smallHelipad(components, chunkX, posY, chunkZ, rand); //agggggggg
-				
 			} else { //Everything else
 				switch(rand.nextInt(3)) {
 				case 0:

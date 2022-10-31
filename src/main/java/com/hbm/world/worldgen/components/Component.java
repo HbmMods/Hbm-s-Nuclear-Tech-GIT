@@ -256,7 +256,7 @@ abstract public class Component extends StructureComponent {
 		ItemDoor.placeDoorBlock(world, posX, posY, posZ, meta, door);
 	}
 	
-	//N:0 W:1 S:2 E:3
+	/**N:0 W:1 S:2 E:3 */
 	protected void placeBed(World world, StructureBoundingBox box, int meta, int featureX, int featureY, int featureZ) {
 		int xOffset = 0;
 		int zOffset = 0;
@@ -377,9 +377,9 @@ abstract public class Component extends StructureComponent {
 		IInventory inventory = (IInventory) world.getTileEntity(posX, posY, posZ);
 		
 		if(inventory != null) {
-			ItemStack book = HbmChestContents.genetateBook(key);
-			
-			inventory.setInventorySlotContents(slot, book);
+			//ItemStack book = HbmChestContents.genetateBook(key);
+			//TODO: replace this with ItemBookLore version
+			//inventory.setInventorySlotContents(slot, book);
 		}
 	}
 	

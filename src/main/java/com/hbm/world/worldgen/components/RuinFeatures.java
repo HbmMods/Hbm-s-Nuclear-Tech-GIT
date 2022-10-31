@@ -6,9 +6,17 @@ import com.hbm.blocks.ModBlocks;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class RuinFeatures {
+	
+	public static void registerComponents() {
+		MapGenStructureIO.func_143031_a(NTMRuin1.class, "NTMRuin1");
+		MapGenStructureIO.func_143031_a(NTMRuin2.class, "NTMRuin2");
+		MapGenStructureIO.func_143031_a(NTMRuin3.class, "NTMRuin3");
+		MapGenStructureIO.func_143031_a(NTMRuin4.class, "NTMRuin4");
+	}
 	
 	public static class NTMRuin1 extends Component {
 		

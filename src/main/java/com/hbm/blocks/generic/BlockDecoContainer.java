@@ -37,7 +37,7 @@ public class BlockDecoContainer extends BlockDecoModel implements ITileEntityPro
 		try {
 			return tile.newInstance();
 		} catch (Exception e) {
-			System.out.println("BlockDecoContainer attempted to create a TE, but couldn't. How does that even happen?");
+			MainRegistry.logger.error("BlockDecoContainer attempted to create a TE, but couldn't. How does that even happen?");
 			return null;
 		}
 	}

@@ -14,12 +14,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 /* Described as "Civilian", as that's the overarching connection between all of these structures. Unlike the ruins, there's not enough to 
  * compartmentalize even further. Just in general many of the structures I consider lower-quality (except for the sandstone houses; those are actually pretty nice).
  */
 public class CivilianFeatures {
+	
+	public static void registerComponents() {
+		MapGenStructureIO.func_143031_a(NTMHouse1.class, "NTMHouse1"); 
+		MapGenStructureIO.func_143031_a(NTMHouse2.class, "NTMHouse2"); 
+		MapGenStructureIO.func_143031_a(NTMLab1.class, "NTMLab1"); 
+		MapGenStructureIO.func_143031_a(NTMLab2.class, "NTMLab2"); 
+		MapGenStructureIO.func_143031_a(NTMWorkshop1.class, "NTMWorkshop1"); 
+	}
 	
 	/** Sandstone Ruin 1 */
 	public static class NTMHouse1 extends Component {
