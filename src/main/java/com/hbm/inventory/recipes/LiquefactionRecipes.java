@@ -1,14 +1,20 @@
 package com.hbm.inventory.recipes;
 
-import static com.hbm.inventory.OreDictManager.*; 
+import static com.hbm.inventory.OreDictManager.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 
@@ -17,11 +23,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 
-public class LiquefactionRecipes {
+public class LiquefactionRecipes extends SerializableRecipe {
 
 	private static HashMap<Object, FluidStack> recipes = new HashMap();
-	
-	public static void register() {
+
+	@Override
+	public void registerDefaults() {
 		
 		//oil processing
 		recipes.put(COAL.gem(),										new FluidStack(100, Fluids.COALOIL));
@@ -94,5 +101,54 @@ public class LiquefactionRecipes {
 		}
 		
 		return recipes;
+	}
+
+	@Override
+	public String getFileName() {
+		return "hbmLiquefactor.json";
+	}
+	
+	@Override
+	public String getComment() {
+		return "As with most handlers, stacksizes for the inputs are ignored and default to 1.";
+	}
+
+	@Override
+	public Object getRecipeObject() {
+		return recipes;
+	}
+
+	@Override
+	public void deleteRecipes() {
+		recipes.clear();
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		AStack in = this.readAStack(obj.get("input").getAsJsonArray());
+		FluidStack out = this.readFluidStack(obj.get("output").getAsJsonArray());
+		
+		if(in instanceof ComparableStack) {
+			recipes.put(((ComparableStack) in).makeSingular(), out);
+		} else if(in instanceof OreDictStack) {
+			recipes.put(((OreDictStack) in).name, out);
+		}
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		Entry<Object, FluidStack> rec = (Entry<Object, FluidStack>) recipe;
+		Object key = rec.getKey();
+		
+		writer.name("input");
+		if(key instanceof String) {
+			this.writeAStack(new OreDictStack((String) key), writer);
+		} else if(key instanceof ComparableStack) {
+			this.writeAStack((ComparableStack) key, writer);
+		}
+		
+		writer.name("output");
+		this.writeFluidStack(rec.getValue(), writer);
 	}
 }

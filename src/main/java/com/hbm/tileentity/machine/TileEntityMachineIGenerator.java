@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -18,7 +19,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -69,6 +69,8 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		
 		if(!worldObj.isRemote) {
 			
+			boolean con = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMIGen;
+			
 			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
 			
 			for(DirPos dir : getConPos()) {
@@ -88,7 +90,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			
 			/// LIQUID FUEL ///
 			if(tanks[1].getFill() > 0) {
-				int pow = this.getPowerFromFuel();
+				int pow = this.getPowerFromFuel(con);
 				
 				if(pow > 0) {
 					tanks[1].setFill(tanks[1].getFill() - 1);
@@ -102,7 +104,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 				// POWER GEN //
 				if(burn[i] > 0) {
 					burn[i]--;
-					this.spin += coalGenRate;
+					this.spin += con ? coalConRate : coalGenRate;
 					
 				// REFUELING //
 				} else {
@@ -115,13 +117,13 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 						if(burnTime > 0) {
 							
 							if(fuel.getItem() == Items.coal) //1200 (1600)
-								burnTime *= 1.5;
+								burnTime *= con ? 1.5 : 1.1;
 							if(fuel.getItem() == ModItems.solid_fuel) //3200 (3200)
-								burnTime *= 2;
+								burnTime *= con ? 2 : 1.1;
 							if(fuel.getItem() == ModItems.solid_fuel_presto) //16000 (8000)
-								burnTime *= 4;
+								burnTime *= con ? 4 : 1.1;
 							if(fuel.getItem() == ModItems.solid_fuel_presto_triplet) //80000 (40000)
-								burnTime *= 4;
+								burnTime *= con ? 4 : 1.1;
 							
 							burn[i] = burnTime;
 							
@@ -142,7 +144,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			
 			// RTG ///
 			this.hasRTG = RTGUtil.hasHeat(slots, RTGSlots);
-			this.spin += RTGUtil.updateRTGs(slots, RTGSlots) * 0.2;
+			this.spin += RTGUtil.updateRTGs(slots, RTGSlots) * (con ? 0.2 : 0.15);
 			
 			if(this.spin > 0) {
 				
@@ -206,12 +208,13 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		this.burn = nbt.getIntArray("burn");
 		this.hasRTG = nbt.getBoolean("hasRTG");
 	}
+
+	public static final int coalConRate = 75;
+	public static final int coalGenRate = 20;
 	
-	public static final int coalGenRate = 75;
-	
-	public int getPowerFromFuel() {
+	public int getPowerFromFuel(boolean con) {
 		FluidType type = tanks[1].getTankType();
-		return type.hasTrait(FT_Flammable.class) ? (int)(type.getTrait(FT_Flammable.class).getHeatEnergy() / 1000L) : 0;
+		return type.hasTrait(FT_Flammable.class) ? (int)(type.getTrait(FT_Flammable.class).getHeatEnergy() / (con ? 1000L : 5000L)) : 0;
 	}
 
 	@Override

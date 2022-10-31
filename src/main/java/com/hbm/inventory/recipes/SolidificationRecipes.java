@@ -2,11 +2,17 @@ package com.hbm.inventory.recipes;
 
 import static com.hbm.inventory.fluid.Fluids.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.items.ModItems;
@@ -18,7 +24,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class SolidificationRecipes {
+public class SolidificationRecipes extends SerializableRecipe {
 
 	public static final int SF_OIL =		200;
 	public static final int SF_CRACK =		200;
@@ -47,8 +53,9 @@ public class SolidificationRecipes {
 	//on that note, add more leaded variants
 	
 	private static HashMap<FluidType, Pair<Integer, ItemStack>> recipes = new HashMap();
-	
-	public static void register() {
+
+	@Override
+	public void registerDefaults() {
 		
 		registerRecipe(WATER,		1000,			Blocks.ice);
 		registerRecipe(LAVA,		1000,			Blocks.obsidian);
@@ -109,5 +116,38 @@ public class SolidificationRecipes {
 		}
 		
 		return recipes;
+	}
+
+	@Override
+	public String getFileName() {
+		return "hbmSolidifier.json";
+	}
+
+	@Override
+	public Object getRecipeObject() {
+		return recipes;
+	}
+
+	@Override
+	public void deleteRecipes() {
+		recipes.clear();
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		FluidStack in = this.readFluidStack(obj.get("input").getAsJsonArray());
+		ItemStack out = this.readItemStack(obj.get("output").getAsJsonArray());
+		recipes.put(in.type, new Pair(in.fill, out));
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		Entry<FluidType, Pair<Integer, ItemStack>> rec = (Entry<FluidType, Pair<Integer, ItemStack>>) recipe;
+		FluidStack in = new FluidStack(rec.getKey(), rec.getValue().getKey());
+		writer.name("input");
+		this.writeFluidStack(in, writer);
+		writer.name("output");
+		this.writeItemStack(rec.getValue().getValue(), writer);
 	}
 }
