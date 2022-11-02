@@ -12,6 +12,7 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.machine.ItemFluidIcon;
@@ -89,7 +90,45 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(BIOFUEL,			SF_BIOFUEL,		ModItems.solid_fuel);
 		registerRecipe(AROMATICS,		SF_AROMA,		ModItems.solid_fuel);
 		registerRecipe(UNSATURATEDS,	SF_UNSAT,		ModItems.solid_fuel);
+		
 		registerRecipe(BALEFIRE,		250,			ModItems.solid_fuel_bf);
+		
+		//works flawlessly, but the new values are so high that they literally do not fit into the solidifier. some fuels do need a buff.
+		
+		/*registerSFAuto(SMEAR);
+		registerSFAuto(HEATINGOIL);
+		registerSFAuto(RECLAIMED);
+		registerSFAuto(PETROIL);
+		//registerSFAuto(LUBRICANT);
+		registerSFAuto(NAPHTHA);
+		registerSFAuto(NAPHTHA_CRACK);
+		registerSFAuto(DIESEL);
+		registerSFAuto(DIESEL_CRACK);
+		registerSFAuto(LIGHTOIL);
+		registerSFAuto(LIGHTOIL_CRACK);
+		registerSFAuto(KEROSENE);
+		registerSFAuto(GAS);
+		registerSFAuto(PETROLEUM);
+		registerSFAuto(LPG);
+		registerSFAuto(BIOGAS);
+		registerSFAuto(BIOFUEL);
+		registerSFAuto(AROMATICS);
+		registerSFAuto(UNSATURATEDS);
+		registerSFAuto(BALEFIRE, 24000000L, ModItems.solid_fuel_bf); //holy shit this is energy dense*/
+		
+	}
+
+	private static void registerSFAuto(FluidType fluid) {
+		registerSFAuto(fluid, 144000L, ModItems.solid_fuel); //3200 burntime * 1.5 burntime bonus * 300 TU/t
+	}
+	private static void registerSFAuto(FluidType fluid, long tuPerSF, Item fuel) {
+		long tuPerBucket = fluid.getTrait(FT_Flammable.class).getHeatEnergy();
+		double penalty = 1.5D;
+		
+		int mB = (int) (tuPerSF * 1000L * penalty / tuPerBucket);
+		
+
+		registerRecipe(fluid, mB, fuel);
 	}
 
 	private static void registerRecipe(FluidType type, int quantity, Item output) { registerRecipe(type, quantity, new ItemStack(output)); }
