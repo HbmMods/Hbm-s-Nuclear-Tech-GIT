@@ -1,6 +1,8 @@
 package com.hbm.tileentity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.hbm.blocks.bomb.BlockVolcano.TileEntityVolcanoCore;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
@@ -28,6 +30,7 @@ import net.minecraft.tileentity.TileEntity;
 public class TileMappings {
 
 	public static HashMap<Class<? extends TileEntity>, String[]> map = new HashMap();
+	public static List<Class<? extends IConfigurableMachine>> configurables = new ArrayList();
 	
 	public static void writeMappings() {
 		put(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
@@ -42,7 +45,6 @@ public class TileMappings {
 		put(TileEntityMachineReactorBreeding.class, "tileentity_reactor");
 		put(TileEntityNukeFurnace.class, "tileentity_nukefurnace");
 		put(TileEntityRtgFurnace.class, "tileentity_rtgfurnace");
-		put(TileEntityMachineGenerator.class, "tileentity_generator");
 		put(TileEntityMachineElectricFurnace.class, "tileentity_electric_furnace");
 		put(TileEntityDecoTapeRecorder.class, "tileentity_taperecorder");
 		put(TileEntityDecoSteelPoles.class, "tileentity_steelpoles");
@@ -329,6 +331,10 @@ public class TileMappings {
 
 		if((IFluidSource.class.isAssignableFrom(clazz) || IFluidAcceptor.class.isAssignableFrom(clazz)) && !IFluidConnector.class.isAssignableFrom(clazz)) {
 			LoggingUtil.errorWithHighlight(clazz.getCanonicalName() + " implements the old interfaces but not IFluidConnector!");
+		}
+		
+		if(IConfigurableMachine.class.isAssignableFrom(clazz)) {
+			configurables.add((Class<? extends IConfigurableMachine>) clazz);
 		}
 	}
 }

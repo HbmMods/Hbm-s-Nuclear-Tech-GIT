@@ -305,6 +305,7 @@ public class MainRegistry {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		
 		TileMappings.writeMappings();
+		MachineDynConfig.initialize();
 		
 		for(Entry<Class<? extends TileEntity>, String[]> e : TileMappings.map.entrySet()) {
 			

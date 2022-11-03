@@ -1,9 +1,14 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityCog;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -17,18 +22,23 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityStirling extends TileEntityLoadedBase implements INBTPacketReceiver, IEnergyGenerator {
+public class TileEntityStirling extends TileEntityLoadedBase implements INBTPacketReceiver, IEnergyGenerator, IConfigurableMachine {
 	
 	public long powerBuffer;
 	public int heat;
-	public static final double diffusion = 0.1D;
-	public static final double efficiency = 0.5D;
 	private int warnCooldown = 0;
 	private int overspeed = 0;
 	public boolean hasCog = true;
 	
 	public float spin;
 	public float lastSpin;
+	
+	/* CONFIGURABLE CONSTANTS */
+	public static double diffusion = 0.1D;
+	public static double efficiency = 0.5D;
+	public static int maxHeatNormal = 300;
+	public static int maxHeatSteel = 1500;
+	public static int overspeedLimit = 300;
 
 	@Override
 	public void updateEntity() {
@@ -52,7 +62,7 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 						worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1, zCoord + 0.5, "hbm:block.warnOverspeed", 2.0F, 1.0F);
 					}
 					
-					if(overspeed > 300) {
+					if(overspeed > overspeedLimit) {
 						this.hasCog = false;
 						this.worldObj.newExplosion(null, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 5F, false, false);
 						
@@ -206,5 +216,28 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public String getConfigName() {
+		return "stirling";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		diffusion = IConfigurableMachine.grab(obj, "D:diffusion", diffusion);
+		efficiency = IConfigurableMachine.grab(obj, "D:efficiency", efficiency);
+		maxHeatNormal = IConfigurableMachine.grab(obj, "I:maxHeatNormal", maxHeatNormal);
+		maxHeatSteel = IConfigurableMachine.grab(obj, "I:maxHeatSteel", maxHeatSteel);
+		overspeedLimit = IConfigurableMachine.grab(obj, "I:overspeedLimit", overspeedLimit);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("D:diffusion").value(diffusion);
+		writer.name("D:efficiency").value(efficiency);
+		writer.name("I:maxHeatNormal").value(maxHeatNormal);
+		writer.name("I:maxHeatSteel").value(maxHeatSteel);
+		writer.name("I:overspeedLimit").value(overspeedLimit);
 	}
 }

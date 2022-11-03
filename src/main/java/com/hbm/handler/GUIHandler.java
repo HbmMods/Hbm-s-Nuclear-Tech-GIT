@@ -17,7 +17,6 @@ import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.turret.*;
-import com.hbm.wiaj.GuiWorldInAJar;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -159,13 +158,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_rtg_furnace: {
 			if(entity instanceof TileEntityRtgFurnace) {
 				return new ContainerRtgFurnace(player.inventory, (TileEntityRtgFurnace) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_machine_generator: {
-			if(entity instanceof TileEntityMachineGenerator) {
-				return new ContainerGenerator(player.inventory, (TileEntityMachineGenerator) entity);
 			}
 			return null;
 		}
@@ -964,13 +956,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_rtg_furnace: {
 			if(entity instanceof TileEntityRtgFurnace) {
 				return new GUIRtgFurnace(player.inventory, (TileEntityRtgFurnace) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_machine_generator: {
-			if(entity instanceof TileEntityMachineGenerator) {
-				return new GUIMachineGenerator(player.inventory, (TileEntityMachineGenerator) entity);
 			}
 			return null;
 		}

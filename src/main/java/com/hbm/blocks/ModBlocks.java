@@ -700,7 +700,6 @@ public class ModBlocks {
 	public static final int guiID_rtg_furnace = 14;
 
 	public static Block machine_generator;
-	public static final int guiID_machine_generator = 15;
 
 	public static Block machine_industrial_generator;
 	public static final int guiID_machine_industrial_generator = 39;

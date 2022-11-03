@@ -1,8 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
@@ -17,6 +20,7 @@ import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -30,14 +34,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluidSource, IFluidAcceptor, INBTPacketReceiver, IFluidStandardTransceiver {
+public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluidSource, IFluidAcceptor, INBTPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine {
 
 	public int heat;
-	public static final int maxHeat = 12_800_000; //the heat required to turn 64k of water into steam
-	public static final double diffusion = 0.1D;
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list = new ArrayList();
 	public boolean hasExploded = false;
+	
+	/* CONFIGURABLE */
+	public static int maxHeat = 12_800_000; //the heat required to turn 64k of water into steam
+	public static double diffusion = 0.1D;
+	public static boolean canExplode = true;
 
 	public TileEntityHeatBoiler() {
 		this.tanks = new FluidTank[2];
@@ -145,7 +152,7 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 2, zCoord + 0.5, "hbm:block.boilerGroan", 0.5F, 1.0F);
 				}
 				
-				if(outputOps == 0) {
+				if(outputOps == 0 && canExplode) {
 					this.hasExploded = true;
 					BlockDummyable.safeRem = true;
 					for(int x = xCoord - 1; x <= xCoord + 1; x++) {
@@ -304,5 +311,24 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public String getConfigName() {
+		return "boiler";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		maxHeat = IConfigurableMachine.grab(obj, "I:maxHeat", maxHeat);
+		diffusion = IConfigurableMachine.grab(obj, "D:diffusion", diffusion);
+		canExplode = IConfigurableMachine.grab(obj, "B:canExplode", canExplode);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:maxHeat").value(maxHeat);
+		writer.name("D:diffusion").value(diffusion);
+		writer.name("B:canExplode").value(canExplode);
 	}
 }
