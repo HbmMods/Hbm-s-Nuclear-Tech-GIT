@@ -22,6 +22,10 @@ public interface IConfigurableMachine {
 		return obj.has(name) ? obj.get(name).getAsInt() : def;
 	}
 	
+	public static long grab(JsonObject obj, String name, long def) {
+		return obj.has(name) ? obj.get(name).getAsLong() : def;
+	}
+	
 	public static double grab(JsonObject obj, String name, double def) {
 		return obj.has(name) ? obj.get(name).getAsDouble() : def;
 	}

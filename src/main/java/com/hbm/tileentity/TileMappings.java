@@ -116,7 +116,6 @@ public class TileMappings {
 		put(TileEntityMachineGasCent.class, "tileentity_gas_centrifuge");
 		put(TileEntityMachineBoiler.class, "tileentity_boiler");
 		put(TileEntityMachineBoilerElectric.class, "tileentity_electric_boiler");
-		put(TileEntityMachineTurbine.class, "tileentity_turbine");
 		put(TileEntityGeiger.class, "tileentity_geiger");
 		put(TileEntityFF.class, "tileentity_forcefield");
 		put(TileEntityForceField.class, "tileentity_machine_field");
@@ -158,7 +157,6 @@ public class TileMappings {
 		put(TileEntityMachineFENSU.class, "tileentity_fensu");
 		put(TileEntityTrappedBrick.class, "tileentity_trapped_brick");
 		put(TileEntityPlasmaStruct.class, "tileentity_plasma_struct");
-		put(TileEntityMachineLargeTurbine.class, "tileentity_industrial_turbine");
 		put(TileEntityHadronDiode.class, "tileentity_hadron_diode");
 		put(TileEntityHadronPower.class, "tileentity_hadron_power");
 		put(TileEntityHadron.class, "tileentity_hadron");
@@ -172,7 +170,6 @@ public class TileMappings {
 		put(TileEntityDemonLamp.class, "tileentity_demonlamp");
 		put(TileEntityStorageDrum.class, "tileentity_waste_storage_drum");
 		put(TileEntityDeaerator.class, "tileentity_deaerator");
-		put(TileEntityChungus.class, "tileentity_chungus");
 		put(TileEntityCableBaseNT.class, "tileentity_ohgod");
 		put(TileEntityPipeBaseNT.class, "tileentity_pipe_base");
 		put(TileEntityWatz.class, "tileentity_watz");
@@ -262,6 +259,11 @@ public class TileMappings {
 		put(TileEntityMachineLiquefactor.class, "tileentity_liquefactor");
 		put(TileEntityMachineSolidifier.class, "tileentity_solidifier");
 		put(TileEntityElectrolyser.class, "tileentity_electrolyser");
+
+		put(TileEntitySteamEngine.class, "tileentity_steam_engine");
+		put(TileEntityMachineTurbine.class, "tileentity_turbine");
+		put(TileEntityMachineLargeTurbine.class, "tileentity_industrial_turbine");
+		put(TileEntityChungus.class, "tileentity_chungus");
 
 		put(TileEntityMachineAssembler.class, "tileentity_assembly_machine");
 		put(TileEntityMachineAssemfac.class, "tileentity_assemfac");
