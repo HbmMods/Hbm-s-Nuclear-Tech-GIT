@@ -35,7 +35,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
-public class CannerySILEX extends CanneryBase{
+public class CannerySILEX extends CanneryBase {
 
 	@Override
 	public ItemStack getIcon() {

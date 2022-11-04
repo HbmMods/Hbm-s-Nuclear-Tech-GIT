@@ -258,7 +258,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 
 	@Override
 	public void readIfPresent(JsonObject obj) {
-		maxPower = IConfigurableMachine.grab(obj, "I:powerCap", maxPower);
+		maxPower = IConfigurableMachine.grab(obj, "L:powerCap", maxPower);
 		fluidCap = IConfigurableMachine.grab(obj, "I:fuelCap", fluidCap);
 		
 		if(obj.has("D[:efficiency")) {
@@ -272,7 +272,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 
 	@Override
 	public void writeConfig(JsonWriter writer) throws IOException {
-		writer.name("I:powerCap").value(maxPower);
+		writer.name("L:powerCap").value(maxPower);
 		writer.name("I:fuelCap").value(fluidCap);
 		
 		String info = "Fuel grades in order: ";

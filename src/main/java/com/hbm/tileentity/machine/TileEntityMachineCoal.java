@@ -269,7 +269,7 @@ public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISide
 		
 		if(slots[1] != null && TileEntityFurnace.getItemBurnTime(slots[1]) > 0 && burnTime <= 0)
 		{
-			burnTime = TileEntityFurnace.getItemBurnTime(slots[1]) / 2;
+			burnTime = (int) (TileEntityFurnace.getItemBurnTime(slots[1]) * fuelMod);
 			slots[1].stackSize -= 1;
 			if(slots[1].stackSize == 0)
 			{

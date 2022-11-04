@@ -712,6 +712,7 @@ fluid.volcanic_lava_fluid=Volcanic Lava
 
 foundry.filter=Filter: %s
 foundry.inverted=Redstone inverted
+foundry.invertFilter=Filter inverted
 foundry.noCast=No mold installed!
 
 geiger.chunkRad=Current chunk radiation:

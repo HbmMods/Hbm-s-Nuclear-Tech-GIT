@@ -1,9 +1,14 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.container.ContainerFirebox;
 import com.hbm.inventory.gui.GUIFirebox;
 import com.hbm.module.ModuleBurnTime;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -20,7 +25,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeaterFirebox extends TileEntityMachineBase implements IGUIProvider, IHeatSource {
+public class TileEntityHeaterFirebox extends TileEntityMachineBase implements IGUIProvider, IHeatSource, IConfigurableMachine {
 
 	public int maxBurnTime;
 	public int burnTime;
@@ -32,27 +37,27 @@ public class TileEntityHeaterFirebox extends TileEntityMachineBase implements IG
 	public float prevDoorAngle = 0;
 
 	public int heatEnergy;
-	public static final int maxHeatEnergy = 100_000;
-	
-	public ModuleBurnTime burnModule;
+
+	public static int baseHeat = 100;
+	public static double timeMult = 1D;
+	public static int maxHeatEnergy = 100_000;
+	public static ModuleBurnTime burnModule = new ModuleBurnTime()
+			.setLigniteTimeMod(1.25)
+			.setCoalTimeMod(1.25)
+			.setCokeTimeMod(1.25)
+			.setSolidTimeMod(1.5)
+			.setRocketTimeMod(1.5)
+			.setBalefireTimeMod(0.5)
+
+			.setLigniteHeatMod(2)
+			.setCoalHeatMod(2)
+			.setCokeHeatMod(2)
+			.setSolidHeatMod(3)
+			.setRocketHeatMod(5)
+			.setBalefireHeatMod(15);
 
 	public TileEntityHeaterFirebox() {
 		super(2);
-		
-		burnModule = new ModuleBurnTime()
-				.setLigniteTimeMod(1.25)
-				.setCoalTimeMod(1.25)
-				.setCokeTimeMod(1.25)
-				.setSolidTimeMod(1.5)
-				.setRocketTimeMod(1.5)
-				.setBalefireTimeMod(0.5)
-
-				.setLigniteHeatMod(2)
-				.setCoalHeatMod(2)
-				.setCokeHeatMod(2)
-				.setSolidHeatMod(3)
-				.setRocketHeatMod(5)
-				.setBalefireHeatMod(15);
 	}
 
 	@Override
@@ -82,11 +87,11 @@ public class TileEntityHeaterFirebox extends TileEntityMachineBase implements IG
 				for(int i = 0; i < 2; i++) {
 					if(slots[i] != null) {
 						
-						int fuel = burnModule.getBurnTime(slots[i]);
+						int fuel = (int) (burnModule.getBurnTime(slots[i]) * timeMult);
 						
 						if(fuel > 0) {
 							this.maxBurnTime = this.burnTime = fuel;
-							this.burnHeat = burnModule.getBurnHeat(100, slots[i]);
+							this.burnHeat = burnModule.getBurnHeat(baseHeat, slots[i]);
 							slots[i].stackSize--;
 
 							if(slots[i].stackSize == 0) {
@@ -231,5 +236,30 @@ public class TileEntityHeaterFirebox extends TileEntityMachineBase implements IG
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public String getConfigName() {
+		return "firebox";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		baseHeat = IConfigurableMachine.grab(obj, "I:baseHeat", baseHeat);
+		timeMult = IConfigurableMachine.grab(obj, "D:burnTimeMult", timeMult);
+		maxHeatEnergy = IConfigurableMachine.grab(obj, "I:heatCap", maxHeatEnergy);
+		if(obj.has("burnModule")) {
+			burnModule.readIfPresent(obj.get("M:burnModule").getAsJsonObject());
+		}
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:baseHeat").value(baseHeat);
+		writer.name("D:burnTimeMult").value(timeMult);
+		writer.name("I:heatCap").value(maxHeatEnergy);
+		writer.name("M:burnModule").beginObject();
+		burnModule.writeConfig(writer);
+		writer.endObject();
 	}
 }

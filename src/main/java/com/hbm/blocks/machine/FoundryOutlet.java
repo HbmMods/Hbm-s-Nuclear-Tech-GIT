@@ -12,6 +12,7 @@ import com.hbm.tileentity.machine.TileEntityFoundryOutlet;
 import com.hbm.util.I18nUtil;
 
 import api.hbm.block.ICrucibleAcceptor;
+import api.hbm.block.IToolable;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,7 +33,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor, ILookOverlay {
+public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor, ILookOverlay, IToolable {
 
 	@SideOnly(Side.CLIENT) public IIcon iconTop;
 	@SideOnly(Side.CLIENT) public IIcon iconSide;
@@ -136,6 +137,31 @@ public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor, 
 		return true;
 	}
 
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		
+		if(tool == ToolType.SCREWDRIVER) {
+			if(world.isRemote) return true;
+
+			TileEntityFoundryOutlet tile = (TileEntityFoundryOutlet) world.getTileEntity(x, y, z);
+			tile.filter = null;
+			tile.invertFilter = false;
+			tile.markDirty();
+			world.markBlockForUpdate(x, y, z);
+		}
+		
+		if(tool == ToolType.HAND_DRILL) {
+			if(world.isRemote) return true;
+
+			TileEntityFoundryOutlet tile = (TileEntityFoundryOutlet) world.getTileEntity(x, y, z);
+			tile.invertFilter = !tile.invertFilter;
+			tile.markDirty();
+			world.markBlockForUpdate(x, y, z);
+		}
+		
+		return false;
+	}
+
 	@Override public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) { return false; }
 	@Override public MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) { return stack; }
 
@@ -173,6 +199,9 @@ public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor, 
 		
 		if(outlet.filter != null) {
 			text.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("foundry.filter", outlet.filter.names[0]));
+		}
+		if(outlet.invertFilter) {
+			text.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("foundry.invertFilter"));
 		}
 		if(outlet.invertRedstone) {
 			text.add(EnumChatFormatting.DARK_RED + I18nUtil.resolveKey("foundry.inverted"));

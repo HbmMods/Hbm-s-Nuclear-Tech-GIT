@@ -311,7 +311,7 @@ public class GuiWorldInAJar extends GuiScreen {
 		return false;
 	}
 	
-	//ublic static GuiWorldInAJar shittyHack;
+	//public static GuiWorldInAJar shittyHack;
 
 	public void drawStackText(List<Object[]> lines, int x, int y, FontRenderer font) {
 

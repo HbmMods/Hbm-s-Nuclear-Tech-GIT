@@ -493,6 +493,7 @@ fluid.volcanic_lava_fluid=Vulkanische Lava
 
 foundry.filter=Filter: %s
 foundry.inverted=Redstone invertiert
+foundry.invertFilter=Filter invertiert
 foundry.noCast=Keine Form eingelegt!
 
 geiger.chunkRad=Chunk-Strahlung:
