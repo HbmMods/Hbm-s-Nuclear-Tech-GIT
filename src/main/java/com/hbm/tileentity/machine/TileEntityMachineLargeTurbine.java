@@ -78,10 +78,10 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 				double eff = trait.getEfficiency(CoolingType.TURBINE); //100% efficiency
 				if(eff > 0) {
 					tanks[1].setTankType(trait.coolsTo);
-					int inputOps = tanks[0].getFill() / trait.amountReq;
-					int outputOps = (tanks[1].getMaxFill() - tanks[1].getFill()) / trait.amountProduced;
-					int cap = 6_000 / trait.amountReq;
-					int ops = Math.min(inputOps, Math.min(outputOps, cap));
+					int inputOps = (int) Math.floor(tanks[0].getFill() / trait.amountReq); //amount of cycles possible with the entire input buffer
+					int outputOps = (tanks[1].getMaxFill() - tanks[1].getFill()) / trait.amountProduced; //amount of cycles possible with the output buffer's remaining space
+					int cap = (int) Math.ceil(tanks[0].getFill() / trait.amountReq / 5F); //amount of cycles by the "at least 20%" rule
+					int ops = Math.min(inputOps, Math.min(outputOps, cap)); //defacto amount of cycles
 					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
 					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
 					this.power += (ops * trait.heatEnergy * eff);
