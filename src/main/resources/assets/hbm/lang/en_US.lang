@@ -572,6 +572,7 @@ container.soyuzLauncher=Soyuz Launch Platform
 container.storageDrum=Nuclear Waste Disposal Drum
 container.teleLinker=TelLink Device
 container.teleporter=Teleporter
+container.turbinegas=Combined Cycle Gas Turbine
 container.turretArty=Greg
 container.turretChekhov=Chekhov's Gun
 container.turretFriendly=Mister Friendly

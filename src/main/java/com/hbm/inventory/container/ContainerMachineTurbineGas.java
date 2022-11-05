@@ -25,18 +25,18 @@ public class ContainerMachineTurbineGas extends Container {
 		turbinegas = te;
 		
 		//Battery
-		this.addSlotToContainer(new Slot(te, 0, 8, 100));
+		this.addSlotToContainer(new Slot(te, 0, 8, 109));
 		//Fluid ID
-		this.addSlotToContainer(new Slot(te, 1, 36, 8));
+		this.addSlotToContainer(new Slot(te, 1, 36, 17));
 		
 		for(int i = 0; i < 3; i++) { 
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 122 + i * 18)); //player's inventory
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 141 + i * 18)); //player's inventory
 			}
 		}
 
 		for(int i = 0; i < 9; i++) { 
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 180)); //shit in the hotbar
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 199)); //shit in the hotbar
 		}
 	}
 	

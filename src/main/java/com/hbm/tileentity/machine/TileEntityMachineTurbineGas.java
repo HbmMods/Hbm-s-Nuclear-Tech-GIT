@@ -57,7 +57,8 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	public int counter = 0; //used to startup and shutdown
 	public int instantPowerOutput;
 	
-	public List<IFluidAcceptor> list = new ArrayList();
+	public List<IFluidAcceptor> list = new ArrayList(); //TODO when ran on dummy blocks emit funny particles
+	//TODO use normal steam
 	
 	public FluidTank[] tanks;
 	
@@ -77,18 +78,18 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	
 	static {
 		fuelMaxCons.put(Fluids.GAS, 1.5D);
-		fuelMaxCons.put(Fluids.PETROLEUM, 16D);
+		fuelMaxCons.put(Fluids.PETROLEUM, 16D); //TODO finish balancing
 		fuelMaxCons.put(Fluids.LPG, 10D);
 		fuelMaxCons.put(Fluids.BIOGAS, 4.5D);
 	}
 	
-	public static HashMap<FluidType, Integer> fuelStmProduction = new HashMap(); //the system will produce steam equivalent to 4200 * value per second, for example gas will produce 4200 * 10 = 42000 HE/s equivalent in dense steam
+	public static HashMap<FluidType, Integer> fuelMaxTemp = new HashMap(); //the system will produce steam equivalent to 4200 * value per second, for example gas will produce 4200 * 10 = 42000 HE/s equivalent in dense steam
 	
 	static {
-		fuelStmProduction.put(Fluids.GAS, 10); //42k TODO make different fuels have different maxtemps, maybe?
-		fuelStmProduction.put(Fluids.PETROLEUM, 20); //84k
-		fuelStmProduction.put(Fluids.LPG, 5); //21k
-		fuelStmProduction.put(Fluids.BIOGAS, 5); //21k
+		fuelMaxTemp.put(Fluids.GAS, 600); //42k TODO balance!
+		fuelMaxTemp.put(Fluids.PETROLEUM, 800); //84k
+		fuelMaxTemp.put(Fluids.LPG, 400); //21k
+		fuelMaxTemp.put(Fluids.BIOGAS, 500); //21k
 	}
 	
 	public TileEntityMachineTurbineGas() {
@@ -193,7 +194,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				
 			} else {
 				
-				if(audio != null) {
+				if(audio != null) { //TODO stop sound when turbine broken
 					audio.stopSound();
 					audio = null;
 				}
@@ -242,7 +243,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	
 	
 	int rpmLast; //used to progressively slow down and cool the turbine without immediatly setting rpm and temp to 0
-	int tempLast;
+	int tempLast; //TODO temp fucks up after shutdown
 	
 	private void shutdown() { //TODO weird shit happens on shutdown after re-entering a world with an active turbine
 		
@@ -285,29 +286,18 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			}
 		}
 		
-		if(throttle * 5 > temp - tempIdle) { //simulates the heat exchanger's resistance to temperature variation
+		if(throttle * 5 * (fuelMaxTemp.get(tanks[0].getTankType()) - tempIdle) / 500 > temp - tempIdle) { //simulates the heat exchanger's resistance to temperature variation
 			if(worldObj.getTotalWorldTime() % 2 == 0) {
 				temp++;
 			}
-		} else if(throttle * 5 < temp - tempIdle) {
+		} else if(throttle * 5 * (fuelMaxTemp.get(tanks[0].getTankType()) - tempIdle) / 500 < temp - tempIdle) { //TODO dis not work
 			if(worldObj.getTotalWorldTime() % 2 == 0) {
 				temp--;
 			}
 		}
 		
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////// POWER PRODUCTION
-		
 		makePower(fuelMaxCons.get(tanks[0].getTankType()), fuelPwrProduction.get(tanks[0].getTankType()), throttle);
-		
-		////////////////////////////////////////////////////////////////////////////////////// STEAM PRODUCTION
-		
-		int waterPerTick = fuelStmProduction.get(tanks[0].getTankType()) * (temp - 300) / 500;
-		
-		if(tanks[2].getFill() >= waterPerTick && tanks[3].getFill() <= 160000 - waterPerTick * 10) { //21 HE produced every 1mb of dense steam
-			
-				tanks[2].setFill(tanks[2].getFill() - waterPerTick);
-				tanks[3].setFill(tanks[3].getFill() + waterPerTick * 10);
-		}
+		makeSteam(); //TODO no steam???
 	}
 	
 	double fuelToConsume; //used to consume 1 mb of fuel at a time when the average consumption is <1 mb/tick
@@ -349,6 +339,22 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 		
 		this.power += instantPowerOutput;
+	}
+	
+	double waterToBoil;
+	
+	private void makeSteam() {
+		
+		double waterPerTick = 190.5D * (temp - tempIdle) * 0.002D; //238 dense steam per tick is 100kHE/s
+		
+		waterToBoil += waterPerTick;
+		
+		if(tanks[2].getFill() >= waterToBoil && tanks[3].getFill() <= 160000 - waterToBoil * 10) { //21 HE produced every 1mb of dense steam 
+			
+			tanks[2].setFill(tanks[2].getFill() - (int) Math.floor(waterToBoil));
+			tanks[3].setFill(tanks[3].getFill() + 10 * (int) Math.floor(waterToBoil));
+			waterToBoil -= (int) Math.floor(waterToBoil);
+		}
 	}
 	
 	
@@ -453,6 +459,26 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		else if(type == Fluids.HOTSTEAM)
 			tanks[3].setFill(fill);
 	}
+	
+	@Override
+	public void onChunkUnload() {
+    	
+    	if(audio != null) {
+			audio.stopSound();
+			audio = null;
+    	}
+    }
+	
+	@Override
+    public void invalidate() {
+    	
+    	super.invalidate();
+    	
+    	if(audio != null) {
+			audio.stopSound();
+			audio = null;
+    	}
+    }
 
 	@Override
 	public void setTypeForSync(FluidType type, int index) {

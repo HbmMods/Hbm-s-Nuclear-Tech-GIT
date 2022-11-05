@@ -17,7 +17,7 @@ public class RenderTurbineGas extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
+        GL11.glTranslated(x + 0.5D, y + 1.5, z + 0.5D);
         
         TileEntityMachineTurbineGas turbinegas = (TileEntityMachineTurbineGas) tileEntity;
         
@@ -37,9 +37,10 @@ public class RenderTurbineGas extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glShadeModel(GL11.GL_SMOOTH);
 		
-        bindTexture(ResourceManager.universal);
+        bindTexture(ResourceManager.turbinegas_tex);
         ResourceManager.turbinegas.renderAll();
 
+        GL11.glShadeModel(GL11.GL_FLAT);
         GL11.glPopMatrix();
     }
 }
