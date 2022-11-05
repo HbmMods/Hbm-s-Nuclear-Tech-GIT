@@ -5,8 +5,8 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerFirebox;
-import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.TileEntityHeaterFirebox;
+import com.hbm.tileentity.machine.TileEntityFireboxBase;
+import com.hbm.tileentity.machine.TileEntityHeaterOven;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -16,12 +16,13 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIFirebox extends GuiInfoContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_firebox.png");
-	private TileEntityHeaterFirebox firebox;
+	private TileEntityFireboxBase firebox;
+	private final ResourceLocation texture;
 
-	public GUIFirebox(InventoryPlayer invPlayer, TileEntityHeaterFirebox tedf) {
+	public GUIFirebox(InventoryPlayer invPlayer, TileEntityFireboxBase tedf, ResourceLocation texture) {
 		super(new ContainerFirebox(invPlayer, tedf));
 		firebox = tedf;
+		this.texture = texture;
 		
 		this.xSize = 176;
 		this.ySize = 168;
@@ -38,7 +39,7 @@ public class GUIFirebox extends GuiInfoContainer {
 				
 				if(this.isMouseOverSlot(slot, x, y) && !slot.getHasStack()) {
 					
-					List<String> bonuses = this.firebox.burnModule.getDesc();
+					List<String> bonuses = this.firebox.getModule().getDesc();
 					
 					if(!bonuses.isEmpty()) {
 						this.func_146283_a(bonuses, x, y);
@@ -47,7 +48,7 @@ public class GUIFirebox extends GuiInfoContainer {
 			}
 		}
 
-		this.drawCustomInfoStat(x, y, guiLeft + 80, guiTop + 27, 71, 7, x, y, new String[] { String.format("%,d", firebox.heatEnergy) + " / " + String.format("%,d", firebox.maxHeatEnergy) + "TU" });
+		this.drawCustomInfoStat(x, y, guiLeft + 80, guiTop + 27, 71, 7, x, y, new String[] { String.format("%,d", firebox.heatEnergy) + " / " + String.format("%,d", firebox.getMaxHeat()) + "TU" });
 		this.drawCustomInfoStat(x, y, guiLeft + 80, guiTop + 36, 71, 7, x, y, new String[] { firebox.burnHeat + "TU/t", (firebox.burnTime / 20) + "s" });
 	}
 	
@@ -55,7 +56,9 @@ public class GUIFirebox extends GuiInfoContainer {
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.firebox.hasCustomInventoryName() ? this.firebox.getInventoryName() : I18n.format(this.firebox.getInventoryName());
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
+		int color = firebox instanceof TileEntityHeaterOven ? 0xffffff : 4210752;
+		
+		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, color);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 
@@ -65,7 +68,7 @@ public class GUIFirebox extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = firebox.heatEnergy * 69 / firebox.maxHeatEnergy;
+		int i = firebox.heatEnergy * 69 / firebox.getMaxHeat();
 		drawTexturedModalRect(guiLeft + 81, guiTop + 28, 176, 0, i, 5);
 		
 		int j = firebox.burnTime * 70 / Math.max(firebox.maxBurnTime, 1);

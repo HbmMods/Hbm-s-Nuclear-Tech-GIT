@@ -1297,17 +1297,6 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
-		renderers.put(Item.getItemFromBlock(ModBlocks.heater_firebox), new ItemRenderBase( ) {
-			public void renderInventory() {
-				GL11.glTranslated(0, -1, 0);
-				GL11.glScaled(3.25, 3.25, 3.25);
-			}
-			public void renderCommon() {
-				bindTexture(ResourceManager.heater_firebox_tex);
-				ResourceManager.heater_firebox.renderPart("Main");
-				ResourceManager.heater_firebox.renderPart("Door");
-			}});
-		
 		renderers.put(ModItems.gear_large, new ItemRenderBase( ) {
 			public void renderInventory() {
 				GL11.glTranslated(0, -7, 0);

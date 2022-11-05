@@ -10,19 +10,22 @@ import com.hbm.lib.RefStrings;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IConfigurableMachine;
 
+import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class TileEntityHeaterFirebox extends TileEntityFireboxBase implements IConfigurableMachine {
+public class TileEntityHeaterOven extends TileEntityFireboxBase implements IConfigurableMachine {
 
-	public static int baseHeat = 100;
-	public static double timeMult = 1D;
-	public static int maxHeatEnergy = 100_000;
+	public static int baseHeat = 500;
+	public static double timeMult = 0.125D;
+	public static int maxHeatEnergy = 500_000;
+	public static double heatEff = 0.5D;
 	public static ModuleBurnTime burnModule = new ModuleBurnTime()
 			.setLigniteTimeMod(1.25)
 			.setCoalTimeMod(1.25)
@@ -38,13 +41,34 @@ public class TileEntityHeaterFirebox extends TileEntityFireboxBase implements IC
 			.setRocketHeatMod(5)
 			.setBalefireHeatMod(15);
 
-	public TileEntityHeaterFirebox() {
+	public TileEntityHeaterOven() {
 		super();
 	}
 
 	@Override
 	public String getName() {
-		return "container.heaterFirebox";
+		return "container.heaterOven";
+	}
+
+	@Override
+	public void updateEntity() {
+		
+		if(!worldObj.isRemote) {
+			this.tryPullHeat();
+		}
+		
+		super.updateEntity();
+	}
+	
+	protected void tryPullHeat() {
+		TileEntity con = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
+		
+		if(con instanceof IHeatSource) {
+			IHeatSource source = (IHeatSource) con;
+			int toPull = Math.max(Math.min(source.getHeatStored(), this.getMaxHeat() - this.heatEnergy), 0);
+			this.heatEnergy += toPull * heatEff;
+			source.useUpHeat(toPull);
+		}
 	}
 
 	@Override
@@ -72,7 +96,7 @@ public class TileEntityHeaterFirebox extends TileEntityFireboxBase implements IC
 		return new ContainerFirebox(player.inventory, this);
 	}
 
-	@SideOnly(Side.CLIENT) private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_firebox.png");
+	@SideOnly(Side.CLIENT) private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_heating_oven.png");
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -82,13 +106,14 @@ public class TileEntityHeaterFirebox extends TileEntityFireboxBase implements IC
 
 	@Override
 	public String getConfigName() {
-		return "firebox";
+		return "heatingoven";
 	}
 
 	@Override
 	public void readIfPresent(JsonObject obj) {
 		baseHeat = IConfigurableMachine.grab(obj, "I:baseHeat", baseHeat);
 		timeMult = IConfigurableMachine.grab(obj, "D:burnTimeMult", timeMult);
+		heatEff = IConfigurableMachine.grab(obj, "D:heatPullEff", heatEff);
 		maxHeatEnergy = IConfigurableMachine.grab(obj, "I:heatCap", maxHeatEnergy);
 		if(obj.has("burnModule")) {
 			burnModule.readIfPresent(obj.get("M:burnModule").getAsJsonObject());
@@ -99,6 +124,7 @@ public class TileEntityHeaterFirebox extends TileEntityFireboxBase implements IC
 	public void writeConfig(JsonWriter writer) throws IOException {
 		writer.name("I:baseHeat").value(baseHeat);
 		writer.name("D:burnTimeMult").value(timeMult);
+		writer.name("D:heatPullEff").value(heatEff);
 		writer.name("I:heatCap").value(maxHeatEnergy);
 		writer.name("M:burnModule").beginObject();
 		burnModule.writeConfig(writer);

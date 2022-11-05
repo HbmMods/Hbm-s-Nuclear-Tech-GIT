@@ -252,6 +252,9 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	}
 	
 	protected void tryPullHeat() {
+		
+		if(this.heat >= this.maxHeat) return;
+		
 		TileEntity con = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
 		
 		if(con instanceof IHeatSource) {

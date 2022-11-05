@@ -59,6 +59,7 @@ public class ResourceManager {
 	
 	//Heaters
 	public static final IModelCustom heater_firebox = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/firebox.obj"));
+	public static final IModelCustom heater_oven = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/heating_oven.obj"));
 	public static final IModelCustom heater_oilburner = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/oilburner.obj"));
 	public static final IModelCustom heater_electric = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/electric_heater.obj"), false);
 	
@@ -384,6 +385,7 @@ public class ResourceManager {
 	
 	//Heaters
 	public static final ResourceLocation heater_firebox_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/firebox.png");
+	public static final ResourceLocation heater_oven_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/heating_oven.png");
 	public static final ResourceLocation heater_oilburner_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/oilburner.png");
 	public static final ResourceLocation heater_electric_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/electric_heater.png");
 	

@@ -26,7 +26,7 @@
     "block.lockOpen": {"category": "block", "sounds": [{"name": "block/lockOpen", "stream": false}]},
     "block.lockHang": {"category": "block", "sounds": [{"name": "block/lockHang", "stream": false}]},
     "block.debris": {"category": "block", "sounds": ["block/debris1", "block/debris2", "block/debris3"]},
-    "block.centrifugeOperate": {"category": "block", "sounds": [{"name": "block/centrifugeOperate", "stream": true}]},
+    "block.centrifugeOperate": {"category": "block", "sounds": [{"name": "block/centrifugeOperate", "stream": false}]},
     "block.pipePlaced": {"category": "block", "sounds": [{"name": "block/pipePlaced", "stream": false}]},
     "block.missileAssembly": {"category": "block", "sounds": [{"name": "block/missileAssembly", "stream": false}]},
     "block.missileAssembly2": {"category": "block", "sounds": [{"name": "block/missileAssembly2", "stream": false}]},

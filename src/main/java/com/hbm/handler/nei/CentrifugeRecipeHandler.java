@@ -154,9 +154,7 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void drawExtras(int recipe) {
 		drawProgressBar(21, 24, 195, 55, 16, 16, 48, 7);
-
 		drawProgressBar(56, 5, 176, 0, 54, 54, 48 * 3, 0);
-
 		drawProgressBar(3, 6, 177, 55, 16, 52, 480, 7);
 	}
 

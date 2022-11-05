@@ -6,7 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.tileentity.machine.TileEntityHeaterFirebox;
+import com.hbm.tileentity.machine.TileEntityHeaterOven;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -14,7 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
 
-public class RenderFirebox extends TileEntitySpecialRenderer implements IItemRendererProvider {
+public class RenderHeatingOven extends TileEntitySpecialRenderer implements IItemRendererProvider {
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
@@ -31,33 +31,31 @@ public class RenderFirebox extends TileEntitySpecialRenderer implements IItemRen
 		}
 		GL11.glRotatef(-90, 0F, 1F, 0F);
 		
-		TileEntityHeaterFirebox firebox = (TileEntityHeaterFirebox) tile;
+		TileEntityHeaterOven oven = (TileEntityHeaterOven) tile;
 		
-		bindTexture(ResourceManager.heater_firebox_tex);
-		ResourceManager.heater_firebox.renderPart("Main");
+		bindTexture(ResourceManager.heater_oven_tex);
+		ResourceManager.heater_oven.renderPart("Main");
 		
 		GL11.glPushMatrix();
-		float door = firebox.prevDoorAngle + (firebox.doorAngle - firebox.prevDoorAngle) * interp;
-		GL11.glTranslated(1.375, 0, 0.375);
-		GL11.glRotatef(door, 0F, -1F, 0F);
-		GL11.glTranslated(-1.375, 0, -0.375);
-		ResourceManager.heater_firebox.renderPart("Door");
+		float door = oven.prevDoorAngle + (oven.doorAngle - oven.prevDoorAngle) * interp;
+		GL11.glTranslated(0, 0, door * 0.75D / 135D);
+		ResourceManager.heater_oven.renderPart("Door");
 		GL11.glPopMatrix();
 		
-		if(firebox.wasOn) {
+		if(oven.wasOn) {
 			GL11.glPushMatrix();
 			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
 			
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_CULL_FACE);
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
-			ResourceManager.heater_firebox.renderPart("InnerBurning");
+			ResourceManager.heater_oven.renderPart("InnerBurning");
 			GL11.glEnable(GL11.GL_LIGHTING);
 			
 			GL11.glPopAttrib();
 			GL11.glPopMatrix();
 		} else {
-			ResourceManager.heater_firebox.renderPart("InnerEmpty");
+			ResourceManager.heater_oven.renderPart("Inner");
 		}
 		
 		GL11.glPopMatrix();
@@ -65,7 +63,7 @@ public class RenderFirebox extends TileEntitySpecialRenderer implements IItemRen
 
 	@Override
 	public Item getItemForRenderer() {
-		return Item.getItemFromBlock(ModBlocks.heater_firebox);
+		return Item.getItemFromBlock(ModBlocks.heater_oven);
 	}
 
 	@Override
@@ -76,9 +74,9 @@ public class RenderFirebox extends TileEntitySpecialRenderer implements IItemRen
 				GL11.glScaled(3.25, 3.25, 3.25);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.heater_firebox_tex);
-				ResourceManager.heater_firebox.renderPart("Main");
-				ResourceManager.heater_firebox.renderPart("Door");
+				bindTexture(ResourceManager.heater_oven_tex);
+				ResourceManager.heater_oven.renderPart("Main");
+				ResourceManager.heater_oven.renderPart("Door");
 			}};
 	}
 }
