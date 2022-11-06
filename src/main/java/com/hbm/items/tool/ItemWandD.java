@@ -11,7 +11,6 @@ import com.hbm.items.special.ItemBookLore.BookLoreType;
 import com.hbm.items.special.ItemKitCustom;
 import com.hbm.lib.Library;
 import com.hbm.world.feature.OilSpot;
-import com.hbm.world.worldgen.MapGenBunker;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -44,11 +43,11 @@ public class ItemWandD extends Item {
 			player.inventoryContainer.detectAndSendChanges();*/
 			
 			//use sparingly
-			int k = ((pos.blockX >> 4) << 4) + 8;
+			/*int k = ((pos.blockX >> 4) << 4) + 8;
 			int l = ((pos.blockZ >> 4) << 4) + 8;
 			
 			MapGenBunker.Start start = new MapGenBunker.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
-			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));
+			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));*/
 			//MapGenStronghold.Start startS = new MapGenStronghold.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
 			//startS.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));
 			
