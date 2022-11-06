@@ -3,7 +3,6 @@ package com.hbm.blocks;
 import com.hbm.blocks.generic.*;
 import com.hbm.blocks.generic.BlockHazard.ExtDisplayEffect;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.ItemRandomOreBlock;
-import com.hbm.blocks.BlockEnums.DecoComputerEnum;
 import com.hbm.blocks.BlockEnums.*;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.fluid.*;
