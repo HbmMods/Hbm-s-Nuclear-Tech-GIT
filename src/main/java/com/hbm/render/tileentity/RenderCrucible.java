@@ -9,16 +9,19 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.tileentity.machine.TileEntityCrucible;
+import com.hbm.wiaj.WorldInAJar;
+import com.hbm.wiaj.actors.ITileActorRenderer;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
-public class RenderCrucible extends TileEntitySpecialRenderer implements IItemRendererProvider {
+public class RenderCrucible extends TileEntitySpecialRenderer implements IItemRendererProvider, ITileActorRenderer {
 	
 	public static final ResourceLocation lava = new ResourceLocation(RefStrings.MODID, "textures/models/machines/lava.png");
 
@@ -36,7 +39,7 @@ public class RenderCrucible extends TileEntitySpecialRenderer implements IItemRe
 		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
 		}
 
-		bindTexture(ResourceManager.crucible_tex);
+		ITileActorRenderer.bindTexture(ResourceManager.crucible_tex);
 		ResourceManager.crucible_heat.renderAll();
 		
 		TileEntityCrucible crucible = (TileEntityCrucible) tile;
@@ -56,7 +59,7 @@ public class RenderCrucible extends TileEntitySpecialRenderer implements IItemRe
 			GL11.glDisable(GL11.GL_CULL_FACE);
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 
-			bindTexture(lava);
+			ITileActorRenderer.bindTexture(lava);
 			Tessellator tess = Tessellator.instance;
 			tess.setNormal(0F, 1F, 0F);
 			tess.startDrawingQuads();
@@ -91,4 +94,15 @@ public class RenderCrucible extends TileEntitySpecialRenderer implements IItemRe
 				ResourceManager.crucible_heat.renderAll();
 			}};
 	}
+
+	@Override
+	public void renderActor(WorldInAJar world, int ticks, float interp, NBTTagCompound data) {
+		int x = data.getInteger("x");
+		int y = data.getInteger("y");
+		int z = data.getInteger("z");
+		renderTileEntityAt(world.getTileEntity(x, y, z), x, y, z, interp);
+	}
+
+	@Override
+	public void updateActor(int ticks, NBTTagCompound data) { }
 }

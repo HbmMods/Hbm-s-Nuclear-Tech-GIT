@@ -8,8 +8,11 @@ import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.ThreeInts;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
+import com.hbm.tileentity.machine.TileEntityCrucible;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -27,9 +30,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class BlockDummyable extends BlockContainer {
+public abstract class BlockDummyable extends BlockContainer implements ICustomBlockHighlight {
 
 	public BlockDummyable(Material mat) {
 		super(mat);
@@ -472,5 +476,36 @@ public abstract class BlockDummyable extends BlockContainer {
 		} else {
 			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.999F, 1.0F); //for some fucking reason setting maxY to something that isn't 1 magically fixes item collisions
 		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldDrawHighlight(World world, int x, int y, int z) {
+		return !this.bounding.isEmpty();
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void drawHighlight(DrawBlockHighlightEvent event, World world, int x, int y, int z) {
+		
+		int[] pos = this.findCore(world, x, y, z);
+		if(pos == null) return;
+		TileEntity tile = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if(tile == null) return;
+		
+		x = tile.xCoord;
+		y = tile.yCoord;
+		z = tile.zCoord;
+		
+		EntityPlayer player = event.player;
+		float interp = event.partialTicks;
+		double dX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) interp;
+		double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) interp;
+		double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
+		float exp = 0.002F;
+
+		ICustomBlockHighlight.setup();
+		for(AxisAlignedBB aabb : this.bounding) event.context.drawOutlinedBoundingBox(aabb.expand(exp, exp, exp).getOffsetBoundingBox(x - dX + 0.5, y - dY, z - dZ + 0.5), -1);
+		ICustomBlockHighlight.cleanup();
 	}
 }

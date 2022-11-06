@@ -218,7 +218,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	private void tryFillContainer(int x, int y, int z) {
 		
 		Block b = worldObj.getBlock(x, y, z);
-		if(b != Blocks.chest && b != Blocks.trapped_chest && b != ModBlocks.crate_iron &&
+		if(b != Blocks.chest && b != Blocks.trapped_chest && b != ModBlocks.crate_iron && b != ModBlocks.crate_desh &&
 				b != ModBlocks.crate_steel && b != ModBlocks.safe && b != Blocks.hopper)
 			return;
 		

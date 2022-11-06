@@ -241,7 +241,7 @@ public class CannerySILEX extends CanneryBase {
 	public static class ActorFEL implements ITileActorRenderer {
 
 		@Override
-		public void renderActor(int ticks, float interp, NBTTagCompound data) {
+		public void renderActor(WorldInAJar world, int ticks, float interp, NBTTagCompound data) {
 			double x = data.getDouble("x");
 			double y = data.getDouble("y");
 			double z = data.getDouble("z");
@@ -281,7 +281,7 @@ public class CannerySILEX extends CanneryBase {
 	public static class ActorSILEX implements ITileActorRenderer {
 
 		@Override
-		public void renderActor(int ticks, float interp, NBTTagCompound data) {
+		public void renderActor(WorldInAJar world, int ticks, float interp, NBTTagCompound data) {
 			double x = data.getDouble("x");
 			double y = data.getDouble("y");
 			double z = data.getDouble("z");

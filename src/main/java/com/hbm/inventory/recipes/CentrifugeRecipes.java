@@ -3,7 +3,6 @@ package com.hbm.inventory.recipes;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.gson.JsonArray;
@@ -367,12 +366,12 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		return null;
 	}
 
-	public static Map<Object, Object[]> getRecipes() {
+	public static HashMap getRecipes() {
 		
-		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
+		HashMap<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 		
 		for(Entry<AStack, ItemStack[]> entry : CentrifugeRecipes.recipes.entrySet()) {
-			recipes.put(entry.getKey().extractForNEI(), entry.getValue());
+			recipes.put(entry.getKey(), entry.getValue());
 		}
 		
 		return recipes;

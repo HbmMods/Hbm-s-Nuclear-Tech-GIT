@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.tileentity.machine.TileEntityStirling;
+import com.hbm.wiaj.WorldInAJar;
 import com.hbm.wiaj.actors.ITileActorRenderer;
 
 import net.minecraft.client.Minecraft;
@@ -104,7 +105,7 @@ public class RenderStirling extends TileEntitySpecialRenderer implements IItemRe
 	}
 
 	@Override
-	public void renderActor(int ticks, float interp, NBTTagCompound data) {
+	public void renderActor(WorldInAJar world, int ticks, float interp, NBTTagCompound data) {
 		double x = data.getDouble("x");
 		double y = data.getDouble("y");
 		double z = data.getDouble("z");

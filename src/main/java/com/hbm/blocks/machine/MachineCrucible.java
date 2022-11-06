@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.machine.ItemScraps;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityCrucible;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
@@ -19,6 +22,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 
 public class MachineCrucible extends BlockDummyable {
 
@@ -112,5 +116,40 @@ public class MachineCrucible extends BlockDummyable {
 		}
 		
 		super.breakBlock(world, x, y, z, b, i);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldDrawHighlight(World world, int x, int y, int z) {
+		return true;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void drawHighlight(DrawBlockHighlightEvent event, World world, int x, int y, int z) {
+		
+		int[] pos = this.findCore(world, x, y, z);
+		if(pos == null) return;
+		TileEntity tile = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if(!(tile instanceof TileEntityCrucible)) return;
+		TileEntityCrucible crucible = (TileEntityCrucible) tile;
+		
+		x = crucible.xCoord;
+		y = crucible.yCoord;
+		z = crucible.zCoord;
+		
+		EntityPlayer player = event.player;
+		float interp = event.partialTicks;
+		double dX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) interp;
+		double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) interp;
+		double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
+		float exp = 0.002F;
+
+		ICustomBlockHighlight.setup();
+		/*event.context.drawOutlinedBoundingBox(AxisAlignedBB.getBoundingBox(x - 1, y, z - 1, x + 2, y + 0.5, z + 2).expand(exp, exp, exp).getOffsetBoundingBox(-dX, -dY, -dZ), -1);
+		event.context.drawOutlinedBoundingBox(AxisAlignedBB.getBoundingBox(x - 0.75, y + 0.5, z - 0.75, x + 1.75, y + 1.5, z + 1.75).expand(exp, exp, exp).getOffsetBoundingBox(-dX, -dY, -dZ), -1);
+		event.context.drawOutlinedBoundingBox(AxisAlignedBB.getBoundingBox(x - 0.5, y + 0.75, z - 0.5, x + 1.5, y + 1.5, z + 1.5).expand(exp, exp, exp).getOffsetBoundingBox(-dX, -dY, -dZ), -1);*/
+		for(AxisAlignedBB aabb : this.bounding) event.context.drawOutlinedBoundingBox(aabb.expand(exp, exp, exp).getOffsetBoundingBox(x - dX + 0.5, y - dY, z - dZ + 0.5), -1);
+		ICustomBlockHighlight.cleanup();
 	}
 }

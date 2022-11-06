@@ -324,6 +324,20 @@ cannery.centrifuge.3=Uranium hexafluoride can be processed with just two centrif
 cannery.centrifuge.4=Fully processing it into Uranium-235 and Uranium-238 requires a total of four centrifuges.
 cannery.centrifuge.5=Some recipes also require the centrifuge overclocking upgrade.
 
+cannery.crucible=Crucible
+cannery.crucible.0=The crucible is used to smelt ores, ingots or other metallic items for alloying and to cast them into different shapes.
+cannery.crucible.1=It requires an external heat source connected to the bottom, like a firebox.
+cannery.crucible.2=Once heated up, the crucible can be used in two ways, with or without a recipe template.
+cannery.crucible.3=The crucible has two storage buffers for material:
+cannery.crucible.4=The buffer to the left is for §abyproducts§r, all material smelted without a recipe template will land here.
+cannery.crucible.5=If a recipe is installed, materials that do not match the recipe will also be stored here.
+cannery.crucible.6=Materials in this buffer will not react with each other, they can only be output from the green outlet for casting.
+cannery.crucible.7=The buffer to the right is for §crecipes§r, if a recipe is installed and that particular material is relevant to that recipe, it will land here.
+cannery.crucible.8=The materials will slowly combine into the output material which is automatically output from the red outlet.
+cannery.crucible.9=Note that only this buffer handles recipes. If a template is installed retroactively, materials in the byproduct buffer will not combine, nor transfer to the recipe buffer.
+cannery.crucible.10=The outlet will output material automatically, if the target is valid, for example a foundry channel or a mold.
+cannery.crucible.11=As with all foundry blocks, a shovel can be used to remove all material from the crucible.
+
 cannery.fensu=FEnSU
 cannery.fensu.0=The FEnSU is capable of storing absurd amounts of energy, over 9EHE (that's a nine followed by 18 zeros).
 cannery.fensu.1=There is only one energy connector which can be found on the bottom.
@@ -335,6 +349,13 @@ cannery.firebox.1=It can burn any flammable item, although higher quality fuels 
 cannery.firebox.2=Heat is given off by the copper contact at the top of the firebox. Machines with an identical contact on the bottom can receive heat by being placed on top of the firebox.
 cannery.firebox.3=If heat isn't being used up and the heat buffer becomes full, the firebox will shut off to prevent wasting of fuel.
 cannery.firebox.4=One such machine is the stirling engine, which will turn heat directly into energy.
+
+cannery.foundryChannel=Foundry Channel
+cannery.foundryChannel.0=Foundry channels are used to transport molten material from a crucible or storage tank into molds.
+cannery.foundryChannel.1=Channels can receive material either by pouring from the top - via an outlet or directly form a crucible - or from the side from other channels.
+cannery.foundryChannel.2=When transporting materials, channels will prioritize blocks like outlets and shallow molds.
+cannery.foundryChannel.3=When it cannot supply an outlet or a mold, the material will then flow into a neighboring channel.
+cannery.foundryChannel.4=Leftover material can be removed by using a shovel.
 
 cannery.silex=FEL & SILEX
 cannery.silex.0=The Free Electron Laser (FEL) uses energy and a laser crystal to create a powerful laser beam.

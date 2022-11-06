@@ -6,6 +6,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.IRenderFoundry;
+import com.hbm.wiaj.WorldInAJar;
+import com.hbm.wiaj.actors.ITileActorRenderer;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -19,12 +21,13 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ForgeHooksClient;
 
-public class RenderFoundry extends TileEntitySpecialRenderer {
+public class RenderFoundry extends TileEntitySpecialRenderer implements ITileActorRenderer {
 	
 	public static final ResourceLocation lava = new ResourceLocation(RefStrings.MODID, "textures/models/machines/lava_gray.png");
 	
@@ -50,7 +53,7 @@ public class RenderFoundry extends TileEntitySpecialRenderer {
 		Tessellator tess = Tessellator.instance;
 		Block b = ((ItemBlock)stack.getItem()).field_150939_a;
 		IIcon icon = b.getIcon(1, stack.getItemDamage());
-		bindTexture(TextureMap.locationBlocksTexture);
+		ITileActorRenderer.bindTexture(TextureMap.locationBlocksTexture);
 		
 		tess.startDrawingQuads();
 		tess.setNormal(0F, 1F, 0F);
@@ -91,7 +94,7 @@ public class RenderFoundry extends TileEntitySpecialRenderer {
 		
 		if(foundry.shouldRender()) {
 			
-			this.bindTexture(lava);
+			ITileActorRenderer.bindTexture(lava);
 			
 			int hex = foundry.getMat().moltenColor;
 			Color color = new Color(hex);
@@ -134,4 +137,15 @@ public class RenderFoundry extends TileEntitySpecialRenderer {
 		
 		GL11.glPopMatrix();
 	}
+
+	@Override
+	public void renderActor(WorldInAJar world, int ticks, float interp, NBTTagCompound data) {
+		int x = data.getInteger("x");
+		int y = data.getInteger("y");
+		int z = data.getInteger("z");
+		renderTileEntityAt(world.getTileEntity(x, y, z), x, y, z, interp);
+	}
+
+	@Override
+	public void updateActor(int ticks, NBTTagCompound data) { }
 }

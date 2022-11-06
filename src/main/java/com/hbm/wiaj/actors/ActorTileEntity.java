@@ -1,6 +1,7 @@
 package com.hbm.wiaj.actors;
 
 import com.hbm.wiaj.JarScene;
+import com.hbm.wiaj.WorldInAJar;
 
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -21,8 +22,8 @@ public class ActorTileEntity extends ActorBase {
 	public void drawForegroundComponent(int w, int h, int ticks, float interp) { }
 
 	@Override
-	public void drawBackgroundComponent(int ticks, float interp) {
-		renderer.renderActor(ticks, interp, data);
+	public void drawBackgroundComponent(WorldInAJar world, int ticks, float interp) {
+		renderer.renderActor(world, ticks, interp, data);
 	}
 
 	@Override

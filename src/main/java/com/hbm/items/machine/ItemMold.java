@@ -247,7 +247,7 @@ public class ItemMold extends Item {
 
 		@Override
 		public String getTitle() {
-			return I18nUtil.resolveKey("shape." + MaterialShapes.WIRE.name().toLowerCase()) + " x8";
+			return I18nUtil.resolveKey("shape.wire") + " x8";
 		}
 	}
 

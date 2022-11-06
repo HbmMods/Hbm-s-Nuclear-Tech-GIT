@@ -783,7 +783,7 @@ public class ModEventHandlerClient {
 							CanneryBase cannery = Jars.canneries.get(comp);
 							
 							if(cannery != null) {
-								FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon()));
+								FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon(), cannery.seeAlso()));
 							}
 							
 							break;

@@ -48,7 +48,7 @@ public class Mats {
 	
 	//Vanilla and vanilla-like
 	public static final NTMMaterial MAT_STONE		= makeSmeltable(_VS + 00,	df("Stone"), 0x4D2F23).omitAutoGen();
-	public static final NTMMaterial MAT_CARBON		= makeAdditive(	1499, 		df("Carbon"), 0x808080).omitAutoGen();
+	public static final NTMMaterial MAT_CARBON		= makeAdditive(	1499, 		df("Carbon"), 0x404040).omitAutoGen();
 	public static final NTMMaterial MAT_COAL		= make(			1400, 		COAL)		.setConversion(MAT_CARBON,  3, 1).omitAutoGen();
 	public static final NTMMaterial MAT_LIGNITE		= make(			1401, 		LIGNITE)	.setConversion(MAT_CARBON,  4, 1);
 	public static final NTMMaterial MAT_COALCOKE	= make(			1410, 		COALCOKE)	.setConversion(MAT_CARBON,  2, 1);
