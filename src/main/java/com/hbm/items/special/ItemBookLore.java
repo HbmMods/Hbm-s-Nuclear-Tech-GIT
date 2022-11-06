@@ -126,6 +126,11 @@ public class ItemBookLore extends Item implements IGUIProvider {
 			public String resolveKey(String key, NBTTagCompound tag) {
 				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
 		}},
+		RESIGNATION_NOTE(true, "resignation_note", 3, GUIAppearance.NOTEBOOK),
+		MEMO_STOCKS(false, "memo_stocks", 1, GUIAppearance.LOOSEPAPER),
+		MEMO_SCHRAB_GSA(false, "memo_schrab_gsa", 2, GUIAppearance.LOOSEPAPERS),
+		MEMO_SCHRAB_RD(false, "memo_schrab_rd", 4, GUIAppearance.LOOSEPAPERS),
+		MEMO_SCHRAB_NUKE(true, "memo_schrab_nuke", 3, GUIAppearance.LOOSEPAPERS),
 		;
 		
 		//Why? it's quite simple; i am too burnt out and also doing it the other way

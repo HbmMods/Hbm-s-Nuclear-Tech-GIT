@@ -3,7 +3,8 @@ package com.hbm.blocks;
 import com.hbm.blocks.generic.*;
 import com.hbm.blocks.generic.BlockHazard.ExtDisplayEffect;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.ItemRandomOreBlock;
-import com.hbm.blocks.BlockEnums.TileType;
+import com.hbm.blocks.BlockEnums.DecoComputerEnum;
+import com.hbm.blocks.BlockEnums.*;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.fluid.*;
 import com.hbm.blocks.gas.*;
@@ -1680,9 +1681,9 @@ public class ModBlocks {
 		
 		brick_forgotten = new BlockGeneric(Material.rock).setBlockName("brick_forgotten").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(1000000).setBlockTextureName(RefStrings.MODID + ":brick_forgotten");
 		
-		deco_computer = new BlockDecoModel(Material.iron, 1).setBlockBoundsTo(.160749F, 0F, 0F, .839251F, .867849F, .622184F).setBlockName("deco_computer").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_computer");
+		deco_computer = new BlockDecoModel(Material.iron, DecoComputerEnum.class, true, false).setBlockBoundsTo(.160749F, 0F, 0F, .839251F, .867849F, .622184F).setBlockName("deco_computer").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_computer");
 		
-		filing_cabinet = new BlockDecoContainer(Material.iron, 2, TileEntityFileCabinet.class).setBlockBoundsTo(.1875F, 0F, 0F, .8125F, 1F, .75F).setBlockName("filing_cabinet").setCreativeTab(MainRegistry.blockTab).setHardness(10.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		filing_cabinet = new BlockDecoContainer(Material.iron, DecoCabinetEnum.class, true, false, TileEntityFileCabinet.class).setBlockBoundsTo(.1875F, 0F, 0F, .8125F, 1F, .75F).setBlockName("filing_cabinet").setCreativeTab(MainRegistry.blockTab).setHardness(10.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		tape_recorder = new DecoTapeRecorder(Material.iron).setBlockName("tape_recorder").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":deco_tape_recorder");
 		steel_poles = new DecoSteelPoles(Material.iron).setBlockName("steel_poles").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":steel_beam");
@@ -2798,8 +2799,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(brick_dungeon_tile, brick_dungeon_tile.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_dungeon_circle, brick_dungeon_circle.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_forgotten, brick_forgotten.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_computer, deco_computer.getUnlocalizedName());
-		GameRegistry.registerBlock(filing_cabinet, ItemBlockMeta.class, filing_cabinet.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_computer, ItemBlockBase.class, deco_computer.getUnlocalizedName());
+		GameRegistry.registerBlock(filing_cabinet, ItemBlockBase.class, filing_cabinet.getUnlocalizedName());
 		GameRegistry.registerBlock(tape_recorder, tape_recorder.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_poles, steel_poles.getUnlocalizedName());
 		GameRegistry.registerBlock(pole_top, pole_top.getUnlocalizedName());

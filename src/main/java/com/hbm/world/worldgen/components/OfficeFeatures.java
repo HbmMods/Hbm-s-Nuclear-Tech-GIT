@@ -208,13 +208,12 @@ public class OfficeFeatures {
 			
 			//Woot
 			if(!this.hasPlacedLoot[0])
-				this.hasPlacedLoot[0] = generateInvContents(world, box, rand, Blocks.chest, sizeX - 4, 1, sizeZ - 1, HbmChestContents.officeTrash, 10);
+				this.hasPlacedLoot[0] = generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), sizeX - 4, 1, sizeZ - 1, HbmChestContents.officeTrash, 8);
 			if(!this.hasPlacedLoot[1]) {
-				this.hasPlacedLoot[1] = generateLockableContents(world, box, rand, ModBlocks.safe, 6, 1, 1, HbmChestContents.machineParts, 10, 0.5D);
-				generateLoreBook(world, box, 6, 1, 1, 7, "office" + rand.nextInt(1));
+				this.hasPlacedLoot[1] = generateLockableContents(world, box, rand, ModBlocks.safe, getDecoMeta(3), 6, 1, 1, HbmChestContents.machineParts, 10, 0.5D);
+				generateLoreBook(world, box, rand, 6, 1, 1, 7, HbmChestContents.books_office_sch);
 			}
 			
-			//TODO: add book with funny lore to safe, add cobwebs too
 			//0b00/0 West, 0b01/1 East, 0b10/2 North, 0b11/3 South, 0b100/4 West UD, 0b101 East UD, 0b110 North UD, 0b111 South UD
 			return true;
 		}
@@ -527,7 +526,6 @@ public class OfficeFeatures {
 			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 5, 13, 9, box);
 			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 7, 13, 11, box);
 			
-			//almost certainly a fucking astronomically better way to do this
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(3), 9, 1, 7, HbmChestContents.filingCabinet, 4);
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(1), 7, 5, 4, HbmChestContents.filingCabinet, 4);
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(1), 7, 6, 4, HbmChestContents.filingCabinet, 4);
@@ -535,14 +533,19 @@ public class OfficeFeatures {
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 10, 5, 12, HbmChestContents.filingCabinet, 4);
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 10, 6, 12, HbmChestContents.filingCabinet, 4);
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 2, 9, 5, HbmChestContents.filingCabinet, 4);
+			
 			generateLockableContents(world, box, rand, ModBlocks.safe, getDecoMeta(2), 1, 9, 13, HbmChestContents.officeTrash, 10, 1.0D);
+			generateLoreBook(world, box, rand, 1, 9, 13, 7, HbmChestContents.books_office_sch);
+			
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 2, 9, 13, HbmChestContents.filingCabinet, 4);
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 3, 9, 13, HbmChestContents.filingCabinet, 4);
 			generateLockableContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 3, 10, 13, HbmChestContents.expensive, 8, 0.1D);
 			
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_loot, 0, 6, 13, 11, box);
 			LootGenerator.lootCapStash(world, this.getXWithOffset(6, 11), this.getYWithOffset(13), this.getZWithOffset(6, 11));
-
+			placeBlockAtCurrentPosition(world, ModBlocks.deco_loot, 0, 1, 10, 11, box);
+			LootGenerator.lootMedicine(world, this.getXWithOffset(1, 11), this.getYWithOffset(10), this.getZWithOffset(1, 11));
+			
 			//this hurt my soul
 			
 			return true;

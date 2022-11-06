@@ -14,8 +14,20 @@ public class BlockEnums {
 		ASBESTOS
 	}
 	
+	/** DECO / STRUCTURE ENUMS */
+	//i apologize in advance
+	
 	public static enum TileType {
 		LARGE,
 		SMALL
+	}
+	
+	public static enum DecoComputerEnum {
+		IBM_300PL
+	}
+	
+	public static enum DecoCabinetEnum {
+		GREEN,
+		STEEL
 	}
 }

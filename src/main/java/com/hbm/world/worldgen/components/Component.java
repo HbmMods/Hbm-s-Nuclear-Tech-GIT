@@ -8,6 +8,8 @@ import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.config.StructureConfig;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBookLore.BookLoreType;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
@@ -194,7 +196,7 @@ abstract public class Component extends StructureComponent {
 			break;
 		}
 		
-		return metadata;
+		return metadata << 2; //To accommodate for BlockDecoModel's shift in the rotation bits; otherwise, simply bit-shift right and or any non-rotation meta after
 	}
 	
 	/**
@@ -369,7 +371,7 @@ abstract public class Component extends StructureComponent {
 		return false;
 	}
 	
-	protected void generateLoreBook(World world, StructureBoundingBox box, int featureX, int featureY, int featureZ, int slot, String key) {
+	protected void generateLoreBook(World world, StructureBoundingBox box, Random rand, int featureX, int featureY, int featureZ, int slot, BookLoreType[] books) {
 		int posX = this.getXWithOffset(featureX, featureZ);
 		int posY = this.getYWithOffset(featureY);
 		int posZ = this.getZWithOffset(featureX, featureZ);
@@ -377,9 +379,11 @@ abstract public class Component extends StructureComponent {
 		IInventory inventory = (IInventory) world.getTileEntity(posX, posY, posZ);
 		
 		if(inventory != null) {
-			//ItemStack book = HbmChestContents.genetateBook(key);
-			//TODO: replace this with ItemBookLore version
-			//inventory.setInventorySlotContents(slot, book);
+			ItemStack book = new ItemStack(ModItems.book_lore);
+			int i = rand.nextInt(books.length);
+			
+			BookLoreType.setTypeForStack(book, books[i]);
+			inventory.setInventorySlotContents(slot, book);
 		}
 	}
 	

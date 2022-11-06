@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.List;
 
+import com.hbm.blocks.BlockEnumMulti;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -20,56 +21,14 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockDecoModel extends Block {
+public class BlockDecoModel extends BlockEnumMulti {
 	
-	//Allows between 1-4 differently colored/textured sub-blocks altogether.
-	int subTypes;
-	
-	public BlockDecoModel(Material mat, int types) {
-		super(mat);
-		subTypes = types;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	protected IIcon[] icons;
-	
-	@Override
-	public int damageDropped(int meta) {
-		return meta & 12;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs tabs, List list) {
-		for(byte i = 0; i < subTypes; i++) {
-			list.add(new ItemStack(item, 1, i << 2));
-		}
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		super.registerBlockIcons(iconRegister);
-		icons =  new IIcon[subTypes];
-		
-		if(subTypes == 1)
-			return;
-		
-		for(byte i = 0; i < subTypes; i++)
-			icons[i] = iconRegister.registerIcon(this.textureName + "_" + i);
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta) {
-		if(subTypes > 1)
-			return this.icons[(meta >> 2) % this.icons.length];
-		
-		return this.blockIcon;
+	public BlockDecoModel(Material mat, Class<? extends Enum> theEnum, boolean multiName, boolean multiTexture) {
+		super(mat, theEnum, multiName, multiTexture);
 	}
 	
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
-
+	
 	@Override
 	public int getRenderType() {
 		return renderID;
@@ -105,7 +64,12 @@ public class BlockDecoModel extends Block {
 				meta = 3; //For East(b01>b11), just set to 3
 		}
 		
-		world.setBlockMetadataWithNotify(x, y, z, meta | stack.getItemDamage(), 2);
+		world.setBlockMetadataWithNotify(x, y, z, (meta << 2) | stack.getItemDamage(), 2);
+	}
+	
+	@Override
+	public int damageDropped(int meta) {
+		return meta & 3;
 	}
 	
 	//These are separate because they have to be constant
@@ -129,7 +93,7 @@ public class BlockDecoModel extends Block {
 	
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-		switch(world.getBlockMetadata(x, y, z) & 3) {
+		switch(world.getBlockMetadata(x, y, z) >> 2) {
 		case 0://North
 			this.setBlockBounds(1 - mxX, mnY, 1 - mxZ, 1 - mnX, mxY, 1 - mnZ);
 			break;
@@ -150,5 +114,4 @@ public class BlockDecoModel extends Block {
 		this.setBlockBoundsBasedOnState(world, x, y, z);
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
-	
 }

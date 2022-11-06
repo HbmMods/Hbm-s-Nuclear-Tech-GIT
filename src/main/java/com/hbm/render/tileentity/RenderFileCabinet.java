@@ -23,7 +23,7 @@ public class RenderFileCabinet extends TileEntitySpecialRenderer implements IIte
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
-		switch(tile.getBlockMetadata() & 3) { //rotation
+		switch(tile.getBlockMetadata() >> 2) { //rotation
 		case 0:
 			GL11.glRotatef(180, 0F, 1F, 0F);
 			break;
@@ -38,8 +38,8 @@ public class RenderFileCabinet extends TileEntitySpecialRenderer implements IIte
 			break;
 		}
 		
-		switch(tile.getBlockMetadata() >> 2) {
-		case 0:
+		switch(tile.getBlockMetadata() & 3) {
+		default:
 			bindTexture(ResourceManager.file_cabinet_tex); break;
 		case 1:
 			bindTexture(ResourceManager.file_cabinet_steel_tex); //sadge
@@ -81,8 +81,8 @@ public class RenderFileCabinet extends TileEntitySpecialRenderer implements IIte
 				GL11.glTranslated(0, -1.25D, 0);
 				GL11.glScaled(2.75D, 2.75D, 2.75D);
 				
-				switch(stack.getItemDamage() >> 2) {
-				case 0:
+				switch(stack.getItemDamage()) {
+				default:
 					bindTexture(ResourceManager.file_cabinet_tex); break;
 				case 1:
 					bindTexture(ResourceManager.file_cabinet_steel_tex);

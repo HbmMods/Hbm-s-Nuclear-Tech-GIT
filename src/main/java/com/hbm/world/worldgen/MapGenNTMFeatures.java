@@ -139,7 +139,7 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					NTMWorkshop1 workshop1 = new NTMWorkshop1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(workshop1);
 			} else { //Everything else
-				switch(rand.nextInt(3)) {
+				switch(rand.nextInt(4)) {
 				case 0:
 					NTMLab2 lab2 = new NTMLab2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(lab2); break;

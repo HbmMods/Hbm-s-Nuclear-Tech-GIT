@@ -23,7 +23,6 @@ import net.minecraft.world.World;
 // and I would answer, shut the fuck up nerd, the guide book system is too involved for my small
 // brain to use for god knows how many tidbits of lore. i'll settle for a text box and cool textures, thanks
 public class GUIBookLore extends GuiScreen {
-	//TODO: refactor some of these variables
 	protected int xSize;
 	protected int ySize;
 	protected int guiLeft;
@@ -252,7 +251,17 @@ public class GUIBookLore extends GuiScreen {
 			int indent = renderer.getStringWidth(words[0]);
 			
 			for(int w = 1; w < words.length; w++) {
+				
+				if(words[w].equals("$")) {
+					if(w + 1 < words.length && !words[w + 1].equals("$")) {
+						lines.add(words[++w]);
+						indent = renderer.getStringWidth(words[w]);
+					} else
+						lines.add("");
 					
+					continue;
+				}
+				
 				indent += renderer.getStringWidth(" " + words[w]);
 				
 				if(indent <= widthScaled) {

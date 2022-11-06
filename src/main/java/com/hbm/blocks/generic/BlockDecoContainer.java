@@ -1,35 +1,38 @@
 package com.hbm.blocks.generic;
 
-import java.util.List;
 import java.util.Random;
 
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemLock;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.machine.TileEntityLockableBase;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+
+
 
 public class BlockDecoContainer extends BlockDecoModel implements ITileEntityProvider {
 	
 	Class<? extends TileEntity> tile;
 	
-	public BlockDecoContainer(Material mat, int types, Class<? extends TileEntity> tile) {
-		super(mat, types);
+	public BlockDecoContainer(Material mat, Class<? extends Enum> theEnum, boolean multiName, boolean multiTexture, Class<? extends TileEntity> tile) {
+		super(mat, theEnum, multiName, multiTexture);
 		this.tile = tile;
+	}
+	
+	@Override
+	public int getRenderType() {
+		return -1;
 	}
 	
 	@Override
@@ -54,30 +57,22 @@ public class BlockDecoContainer extends BlockDecoModel implements ITileEntityPro
 		
 		if(world.isRemote) {
 			return true;
-		} else if(!player.isSneaking()) {
-
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
-			return true;
 		} else {
-			return true;
+			TileEntity entity = world.getTileEntity(x, y, z);
+			if(entity instanceof TileEntityLockableBase) { //annoying accommodations for the filing cabinet, but whatever, could potentially be useful
+				if(player.getHeldItem() != null && (player.getHeldItem().getItem() instanceof ItemLock || player.getHeldItem().getItem() == ModItems.key_kit))
+					return false;
+				else if(!player.isSneaking() && ((TileEntityLockableBase) entity).canAccess(player))  {
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+					return true;
+				}
+			} else if(!player.isSneaking()) {
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+				return true;
+			}
 		}
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		super.registerBlockIcons(iconRegister);
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta) {
-		return this.blockIcon;
-	}
-	
-	@Override
-	public int getRenderType() {
-		return -1;
+		
+		return false;
 	}
 
 	@Override

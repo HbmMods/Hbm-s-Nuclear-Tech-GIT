@@ -355,6 +355,31 @@ book_lore.book_syringe.author=Dave
 book_lore.book_syringe.page.1=a little addendum to my fifth message, obviously you have to store this MKU stuff in a container. the R&D nuts used regular metal syringes that they got from medical. surplus ware i presume, they got thousands of needles just lying around. the metal
 book_lore.book_syringe.page.2=syringe goes into slot %d
 
+book_lore.resignation_note.name=Letter of Resignation
+book_lore.resignation_note.author=Kosma
+book_lore.resignation_note.page.1=Management downsized our department again yesterday. Those idiots only have themselves to blame, I don't know what they were expecting after that fiasco. Who the hell leaks that sort of information? We're losing millions and
+book_lore.resignation_note.page.2=it's ME who's the one out of a job now. I'M the one being asked to resign. I hope you asshats finally learn from your overabundance of mistakes and take that stick out of your ass.
+book_lore.resignation_note.page.3=I'm not coming back on Friday. Just send the paycheck.
+
+book_lore.memo_stocks.name=Intracorporate Memorandum
+book_lore.memo_stocks.page.1=Investor Relations - $ $ There's been some glaring discrepancies in the figures provided for the latest quarterly report. It would be prudent for the financial department to make some adjustments, so there won't be any concern.
+
+book_lore.memo_schrab_gsa.name=Internal Memorandum
+book_lore.memo_schrab_gsa.page.1=Contract Management - $ $ Legal has made a breakthrough with the DLA. They've awarded us with a 45 BILLION GSA Schedule for further procurement and research of saralloy. At current estimates, that would be at minimum
+book_lore.memo_schrab_gsa.page.2=a 40%% profit on related operations, let alone the possibility of future contracts. Due to the confidential nature, all fiscal evidence is to remain private.
+
+book_lore.memo_schrab_rd.name=Internal Memorandum
+book_lore.memo_schrab_rd.page.1=Research & Development - $ $ Our main production method of saralloy has been through the new particle accelerator. However, the energy costs are exorbitantly high compared to the amount of output.
+book_lore.memo_schrab_rd.page.2=Doctor Schrabauer, however, has discovered a new interaction - called "Strange Lepton Oscillation" - that could significantly reduce costs. Through a not entirely understood process, supplied electrons are transmuted into extremely
+book_lore.memo_schrab_rd.page.3=high-energy photons, through a strange charm. This is an extreme exception to many established particle conversion laws, but preliminary experiments have proved that these protons transmute into up and down quarks, eventually creating saralloy.
+book_lore.memo_schrab_rd.page.4=Strangely, the prototype requires Tungsten alloyed with small amounts of saralloy. In addition, a special capacitor is required to negate the leftover positive charge.
+
+book_lore.memo_schrab_nuke.name=Research Report
+book_lore.memo_schrab_nuke.author=Doctor Schrabauer
+book_lore.memo_schrab_nuke.page.1=Our most recent investigation led us to the effects of nuclear explosions on materials. Thanks to our grant money, we *accidentally* tested our theory on direct saralloy synthesis from uranium.
+book_lore.memo_schrab_nuke.page.2=Only our cyclotron has actually created saralloy previously. However, at our underground shot at Everwerpen, miniscule traces of saralloy were found in uranium ore at the site. All pure, metallic uranium nearby had fissioned.
+book_lore.memo_schrab_nuke.page.3=As such, given enough uranium ore concentrated around an explosive, or perhaps even a dirty bomb rich in waste containing fissionable material, one could hypothetically create enough saralloy to collect manually.
+
 cannery.f1=[ Press F1 for help ]
 
 cannery.centrifuge=Gas Centrifuge
@@ -3885,7 +3910,7 @@ tile.crystal_virus.name=Dark Crystal
 tile.deco_aluminium.name=Aluminium Deco Block
 tile.deco_asbestos.name=Asbestos Roof
 tile.deco_beryllium.name=Beryllium Deco Block
-tile.deco_computer.name=IBM Personal Computer 300PL
+tile.deco_computer.ibm_300pl.name=IBM Personal Computer 300PL
 tile.deco_emitter.name=Deco Light Emitter
 tile.deco_lead.name=Lead Deco Block
 tile.deco_rbmk.name=RBMK Deco Block
@@ -3956,7 +3981,8 @@ tile.factory_titanium_hull.name=Factory Block
 tile.fallout.name=Fallout
 tile.fence_metal.name=Chainlink Fence
 tile.field_disturber.name=High Energy Field Jammer
-tile.filing_cabinet.name=Filing Cabinet
+tile.filing_cabinet.green.name=Dusty Filing Cabinet
+tile.filing_cabinet.steel.name=Steel Filing Cabinet
 tile.fire_digamma.name=Lingering Digamma
 tile.fire_door.name=Fire Door
 tile.fireworks.name=Firework Battery
