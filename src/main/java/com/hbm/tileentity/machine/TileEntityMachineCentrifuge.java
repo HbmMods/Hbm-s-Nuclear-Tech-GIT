@@ -151,7 +151,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			speed += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * 200;
 			
-			speed *= Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 5;
+			speed *= (1 + Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 5);
 			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 10000;
 			
 			consumption /= (1 + Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3));

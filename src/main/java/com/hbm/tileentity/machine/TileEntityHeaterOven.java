@@ -96,11 +96,12 @@ public class TileEntityHeaterOven extends TileEntityFireboxBase implements IConf
 		return new ContainerFirebox(player.inventory, this);
 	}
 
-	@SideOnly(Side.CLIENT) private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_heating_oven.png");
+	@SideOnly(Side.CLIENT) private ResourceLocation texture;
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		if(texture == null) texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_heating_oven.png");
 		return new GUIFirebox(player.inventory, this, texture);
 	}
 

@@ -72,11 +72,12 @@ public class TileEntityHeaterFirebox extends TileEntityFireboxBase implements IC
 		return new ContainerFirebox(player.inventory, this);
 	}
 
-	@SideOnly(Side.CLIENT) private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_firebox.png");
+	@SideOnly(Side.CLIENT) private ResourceLocation texture;
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		if(texture == null) texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_firebox.png");
 		return new GUIFirebox(player.inventory, this, texture);
 	}
 
