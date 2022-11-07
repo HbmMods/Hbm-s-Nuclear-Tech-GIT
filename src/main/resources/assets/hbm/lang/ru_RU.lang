@@ -188,6 +188,27 @@ cannery.stirling.1=Он ставится на машины, создающие �
 cannery.stirling.2=Однако, количество тепла, которое он может принять, ограничено. Если тепла будет слишком много, двигатель сломается.
 cannery.stirling.3=Улучшенный вариант может выдержать намного больше тепла.
 
+cannery.crucible=Crucible
+cannery.crucible.0=The crucible is used to smelt ores, ingots or other metallic items for alloying and to cast them into different shapes.
+cannery.crucible.1=It requires an external heat source connected to the bottom, like a firebox.
+cannery.crucible.2=Once heated up, the crucible can be used in two ways, with or without a recipe template.
+cannery.crucible.3=The crucible has two storage buffers for material:
+cannery.crucible.4=The buffer to the left is for §abyproducts§r, all material smelted without a recipe template will land here.
+cannery.crucible.5=If a recipe is installed, materials that do not match the recipe will also be stored here.
+cannery.crucible.6=Materials in this buffer will not react with each other, they can only be output from the green outlet for casting.
+cannery.crucible.7=The buffer to the right is for §crecipes§r, if a recipe is installed and that particular material is relevant to that recipe, it will land here.
+cannery.crucible.8=The materials will slowly combine into the output material which is automatically output from the red outlet.
+cannery.crucible.9=Note that only this buffer handles recipes. If a template is installed retroactively, materials in the byproduct buffer will not combine, nor transfer to the recipe buffer.
+cannery.crucible.10=The outlet will output material automatically, if the target is valid, for example a foundry channel or a mold.
+cannery.crucible.11=As with all foundry blocks, a shovel can be used to remove all material from the crucible.
+
+cannery.foundryChannel=Foundry Channel
+cannery.foundryChannel.0=Foundry channels are used to transport molten material from a crucible or storage tank into molds.
+cannery.foundryChannel.1=Channels can receive material either by pouring from the top - via an outlet or directly form a crucible - or from the side from other channels.
+cannery.foundryChannel.2=When transporting materials, channels will prioritize blocks like outlets and shallow molds.
+cannery.foundryChannel.3=When it cannot supply an outlet or a mold, the material will then flow into a neighboring channel.
+cannery.foundryChannel.4=Leftover material can be removed by using a shovel.
+
 potion.hbm_taint=Порча
 potion.hbm_mutation=Заражённое порчей сердце
 potion.hbm_radiation=Излучение
@@ -415,6 +436,7 @@ shape.block=Блок
 foundry.noCast=Литейная форма не установлена!
 foundry.filter=Фильтр: %s
 foundry.inverted=Инвертирован редстоуном
+foundry.invertFilter=Инвертированный фильтр
 
 hbm.key=NTM Hotkeys
 hbm.key.calculator=Калькулятор
@@ -908,6 +930,64 @@ book.lore.office1.title=Заметка
 book.lore.office1.author=Jonas Quinn
 book.lore.office1.page1=
 book.lore.office2.page2=
+
+book_lore.author=By %s
+book_lore.book_iodine.name=Note
+book_lore.book_iodine.author=Dave
+book_lore.book_iodine.page.1=alright you will not believe this, but old man weathervane finally managed to show up again since he left two weeks ago and what's more surprising is the fact that he actually decided to spill the beans on what they were doing in the canyon:
+book_lore.book_iodine.page.2=apparently the morons from R&D discovered a compound that is mostly inorganic, pretty much like a toxin in nature, but get this: the dying cells will reproduce said toxin and excrete it through the skin, creating an aerosol that is highly contagious.
+book_lore.book_iodine.page.3=it's just like a virus, but not a virus. the composition is weird, you can mix it in any household bottle but you do have to get the order right. the doc told me that the first ingredient which is just powdered iodine crystals goes into slot %d
+
+book_lore.book_phosphorous.name=Note
+book_lore.book_phosphorous.author=Dave
+book_lore.book_phosphorous.page.1=heyo, it's me again. i assume you got my last memo, the doc wasn't too happy about it. i'll have to do this quick, the dunderheads from R&D are currently moaning again, probably over money. again. anyway, doc weathervane found that the second
+book_lore.book_phosphorous.page.2=ingredient is red phosphorous, whihc has to be mixed into slot %d
+
+book_lore.book_dust.name=Note
+book_lore.book_dust.author=Dave
+book_lore.book_dust.page.1=the doc was furious when he found out that the R&D dorks kept the one remaining sample, ranting about gross negligence this and a doomsday scenario that. i told him to chill for a minute, getting all worked up isn't good for his blood pressure, not
+book_lore.book_dust.page.2=that he has much blood left to begin with. one of the R&D morons slipped some more info into last week's circular, they call their little concoction \"MKU\" whatever that means, and that it contains actual household lint. can you believe that? one of the most
+book_lore.book_dust.page.3=dangerous inventions of theirs and it contains dust. strangely they also mentioned that it goes into slot %d
+
+book_lore.book_mercury.name=Note
+book_lore.book_mercury.author=Dave
+book_lore.book_mercury.page.1=well that settles that. not counting the vomitting blood part, the toxicological report mostly resembles that of mercury poisoning. why? because our little mix also contains mercury! i just wonder where all that stuff comes from when being
+book_lore.book_mercury.page.2=replicated by the body? whatever, the mercury goes into slot %d
+
+book_lore.book_flower.name=Note
+book_lore.book_flower.author=Dave
+book_lore.book_flower.page.1=remember when i mentioned in my first memo that the compound is mostly anorganic? well guess what, the old man shared the fourth ingredient: ipomoea nil, a genus of flower. morning glory! it might be due to its low sulfur content, whatever might be the case,
+book_lore.book_flower.page.2=it does not work with other flowers. the morning glory goes into slot %d
+
+book_lore.book_syringe.name=Note
+book_lore.book_syringe.author=Dave
+book_lore.book_syringe.page.1=a little addendum to my fifth message, obviously you have to store this MKU stuff in a container. the R&D nuts used regular metal syringes that they got from medical. surplus ware i presume, they got thousands of needles just lying around. the metal
+book_lore.book_syringe.page.2=syringe goes into slot %d
+
+book_lore.resignation_note.name=Letter of Resignation
+book_lore.resignation_note.author=Kosma
+book_lore.resignation_note.page.1=Management downsized our department again yesterday. Those idiots only have themselves to blame, I don't know what they were expecting after that fiasco. Who the hell leaks that sort of information? We're losing millions and
+book_lore.resignation_note.page.2=it's ME who's the one out of a job now. I'M the one being asked to resign. I hope you asshats finally learn from your overabundance of mistakes and take that stick out of your ass.
+book_lore.resignation_note.page.3=I'm not coming back on Friday. Just send the paycheck.
+
+book_lore.memo_stocks.name=Intracorporate Memorandum
+book_lore.memo_stocks.page.1=Investor Relations - $ $ There's been some glaring discrepancies in the figures provided for the latest quarterly report. It would be prudent for the financial department to make some adjustments, so there won't be any concern.
+
+book_lore.memo_schrab_gsa.name=Internal Memorandum
+book_lore.memo_schrab_gsa.page.1=Contract Management - $ $ Legal has made a breakthrough with the DLA. They've awarded us with a 45 BILLION GSA Schedule for further procurement and research of saralloy. At current estimates, that would be at minimum
+book_lore.memo_schrab_gsa.page.2=a 40%% profit on related operations, let alone the possibility of future contracts. Due to the confidential nature, all fiscal evidence is to remain private.
+
+book_lore.memo_schrab_rd.name=Internal Memorandum
+book_lore.memo_schrab_rd.page.1=Research & Development - $ $ Our main production method of saralloy has been through the new particle accelerator. However, the energy costs are exorbitantly high compared to the amount of output.
+book_lore.memo_schrab_rd.page.2=Doctor Schrabauer, however, has discovered a new interaction - called "Strange Lepton Oscillation" - that could significantly reduce costs. Through a not entirely understood process, supplied electrons are transmuted into extremely
+book_lore.memo_schrab_rd.page.3=high-energy photons, through a strange charm. This is an extreme exception to many established particle conversion laws, but preliminary experiments have proved that these protons transmute into up and down quarks, eventually creating saralloy.
+book_lore.memo_schrab_rd.page.4=Strangely, the prototype requires Tungsten alloyed with small amounts of saralloy. In addition, a special capacitor is required to negate the leftover positive charge.
+
+book_lore.memo_schrab_nuke.name=Research Report
+book_lore.memo_schrab_nuke.author=Doctor Schrabauer
+book_lore.memo_schrab_nuke.page.1=Our most recent investigation led us to the effects of nuclear explosions on materials. Thanks to our grant money, we *accidentally* tested our theory on direct saralloy synthesis from uranium.
+book_lore.memo_schrab_nuke.page.2=Only our cyclotron has actually created saralloy previously. However, at our underground shot at Everwerpen, miniscule traces of saralloy were found in uranium ore at the site. All pure, metallic uranium nearby had fissioned.
+book_lore.memo_schrab_nuke.page.3=As such, given enough uranium ore concentrated around an explosive, or perhaps even a dirty bomb rich in waste containing fissionable material, one could hypothetically create enough saralloy to collect manually.
 
 
 hbmfluid.none=Ничего
@@ -1807,6 +1887,9 @@ tile.machine_stirling_steel.desc=Превращает тепло в энерги
 tile.machine_sawmill.name=Лесопилка на генераторе Стирлинга
 tile.heater_electric.name=Электрический нагреватель
 tile.heater_electric.desc=Производит тепло, используя энергию.$Принимает тепло снизу, эффективность 85%%.$Можно настроить отверткой
+container.heaterOven=Нагревательная печь
+tile.heater_oven.name=Нагревательная печь
+tile.heater_oven.desc=Производит тепло, сжигая твёрдое топливо.$Принимает тепло снизу с 50%% эффективностью.
 container.turretHIMARS=Генри
 item.ammo_arty_cargo.name=16-дюймовый артиллерийский снаряд для экспресс-доставки
 item.ammo_himars_standard.name=Ракетный блок M28
@@ -2750,6 +2833,8 @@ tile.brick_compound.name=Сетка из соединения
 tile.tile_lab.name=Лабораторная плитка
 tile.tile_lab_broken.name=Разбитая лабораторная плитка
 tile.tile_lab_cracked.name=Треснувшая лабораторная плитка
+tile.vinyl_tile.large.name=Большая виниловая плитка
+tile.vinyl_tile.small.name=Маленькие виниловые плитки
 tile.spikes.name=Шипы
 tile.stalactite.sulfur.name=Сернистый сталактит
 tile.stalagmite.sulfur.name=Сернистый сталагмит
@@ -3618,7 +3703,10 @@ tile.frozen_planks.name=Замороженные доски
 tile.tape_recorder.name=Магнитофон
 tile.steel_poles.name=Стальные опоры
 tile.pole_top.name=Антенна
-tile.deco_computer.name=Персональный компьютер IBM 300PL
+tile.deco_computer.ibm_300pl.name=Персональный компьютер IBM 300PL
+tile.filing_cabinet.green.name=Пыльный карточеный шкафчик
+tile.filing_cabinet.steel.name=Стальной карточеный шкафчик
+container.fileCabinet=Карточеный шкафчик
 tile.pole_satellite_receiver.name=Спутниковая тарелка
 tile.steel_wall.name=Стальная стенка
 tile.steel_corner.name=Стальной угол стены
