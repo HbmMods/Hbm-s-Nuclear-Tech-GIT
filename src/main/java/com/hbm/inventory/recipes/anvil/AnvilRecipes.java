@@ -598,6 +598,16 @@ public class AnvilRecipes {
 					
 				}
 		).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.filing_cabinet),
+				new AnvilOutput[] {
+					new AnvilOutput(new ItemStack(ModItems.plate_steel, 2)),
+					new AnvilOutput(new ItemStack(ModItems.plate_steel, 2), 0.5F),
+					new AnvilOutput(new ItemStack(ModItems.plate_polymer, 2), 0.25F),
+					new AnvilOutput(new ItemStack(ModItems.scrap, 1))
+					
+				}
+		).setTier(1));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModItems.circuit_raw),

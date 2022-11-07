@@ -9,8 +9,6 @@ import java.util.Random;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.StructureConfig;
 import com.hbm.world.worldgen.components.CivilianFeatures.*;
-import com.hbm.world.worldgen.components.MilitaryBaseFeatures;
-import com.hbm.world.worldgen.components.MilitaryBaseFeatures.*;
 import com.hbm.world.worldgen.components.OfficeFeatures.*;
 import com.hbm.world.worldgen.components.RuinFeatures.*;
 
@@ -109,7 +107,7 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			 * Rainfall & Temperature Check
 			 */
 			//TODO: Do something about this so it's nice-looking and easily readable. Plus, test compatibility against mods like BoP
-			if(rand.nextBoolean()) { //Empty Ruin Structures
+			if(rand.nextInt(3) == 0) { //Empty Ruin Structures
 				switch(rand.nextInt(4)) {
 				case 0:
 					NTMRuin1 ruin1 = new NTMRuin1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
@@ -140,12 +138,8 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			} else if(biome.temperature >= 0.25 && biome.temperature <= 0.3 && biome.rainfall >= 0.6 && biome.rainfall <= 0.9 && rand.nextBoolean()) { //Taiga & Mega Taiga
 					NTMWorkshop1 workshop1 = new NTMWorkshop1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(workshop1);
-				
-			} else if(biome.heightVariation <= 0.2 && biome.rainfall <= 0.5 && !(biome instanceof BiomeGenBeach) && rand.nextInt(3) == 0) { //Everything except jungles, extra-hilly areas, and beaches
-					MilitaryBaseFeatures.smallHelipad(components, chunkX, posY, chunkZ, rand); //agggggggg
-				
 			} else { //Everything else
-				switch(rand.nextInt(3)) {
+				switch(rand.nextInt(4)) {
 				case 0:
 					NTMLab2 lab2 = new NTMLab2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(lab2); break;
@@ -155,6 +149,9 @@ public class MapGenNTMFeatures extends MapGenStructure {
 				case 2:
 					LargeOffice office = new LargeOffice(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(office); break;
+				case 3:
+					LargeOfficeCorner officeCorner = new LargeOfficeCorner(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					this.components.add(officeCorner); break;
 				}
 			}
 			

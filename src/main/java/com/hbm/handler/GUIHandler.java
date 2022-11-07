@@ -20,6 +20,8 @@ import com.hbm.tileentity.turret.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -39,6 +41,12 @@ public class GUIHandler implements IGuiHandler {
 		
 		if(block instanceof IGUIProvider) {
 			return ((IGUIProvider) block).provideContainer(ID, player, world, x, y, z);
+		}
+		
+		ItemStack item = player.getHeldItem();
+		
+		if(item != null && item.getItem() instanceof IGUIProvider) {
+			return ((IGUIProvider) item.getItem()).provideContainer(ID, player, world, x, y, z);
 		}
 		
 		//notice: stop doing this, unless you absolutely have to \/
@@ -837,6 +845,12 @@ public class GUIHandler implements IGuiHandler {
 		
 		if(block instanceof IGUIProvider) {
 			return ((IGUIProvider) block).provideGUI(ID, player, world, x, y, z);
+		}
+		
+		ItemStack item = player.getHeldItem();
+		
+		if(item != null && item.getItem() instanceof IGUIProvider) {
+			return ((IGUIProvider) item.getItem()).provideGUI(ID, player, world, x, y, z);
 		}
 		
 		//stop doing this unless you absolutely have to \/

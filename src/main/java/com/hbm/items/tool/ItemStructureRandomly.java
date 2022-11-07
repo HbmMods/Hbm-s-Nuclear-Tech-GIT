@@ -6,18 +6,17 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemStructurePattern extends ItemStructureTool {
+public class ItemStructureRandomly extends ItemStructureTool {
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		super.addInformation(stack, player, list, ext);
-		list.add(EnumChatFormatting.YELLOW + "Click to print all <placeBlockAtCurrentPosition>");
-		list.add(EnumChatFormatting.YELLOW + "lines for the current selection with blocks and metadata.");
+		list.add(EnumChatFormatting.YELLOW + "Click to print a <randomlyFillWithBlocks>");
+		list.add(EnumChatFormatting.YELLOW + "line with the targeted block.");
 	}
 
 	@Override
@@ -30,8 +29,7 @@ public class ItemStructurePattern extends ItemStructureTool {
 		
 		BlockPos pos = this.getAnchor(stack);
 		if(pos == null) return;
-		
-		String message = "";
+
 		int savedX = stack.stackTagCompound.getInteger("x");
 		int savedY = stack.stackTagCompound.getInteger("y");
 		int savedZ = stack.stackTagCompound.getInteger("z");
@@ -42,20 +40,12 @@ public class ItemStructurePattern extends ItemStructureTool {
 		int maxX = Math.max(savedX, x) - pos.getX();
 		int maxY = Math.max(savedY, y) - pos.getY();
 		int maxZ = Math.max(savedZ, z) - pos.getZ();
+		//Assumes the last selected block is the one that all of them are.
+		Block b = world.getBlock(x, y, z);
 		
-		for(int ix = minX; ix <= maxX; ix++) {
-			for(int iy = minY; iy <= maxY; iy++) {
-				for(int iz = minZ; iz <= maxZ; iz++) {
-					
-					Block b = world.getBlock(ix + pos.getX(), iy + pos.getY(), iz + pos.getZ());					
-					int meta = world.getBlockMetadata(ix + pos.getX(), iy + pos.getY(), iz + pos.getZ());
-					
-					message.concat("placeBlockAtCurrentPosition(world, " + b.getUnlocalizedName() + ", " + meta + ", " + ix + ", " + iy + ", " + iz + ", box);\n");
-				}
-			}
-		}
-		
-		System.out.print(message);
-		writeToFile(message);
+		String line = "randomlyFillWithBlocks(world, box, rand, <limit>, " + minX + ", " + minY + ", " + minZ + ", " + maxX + ", " + maxY + ", " + maxZ + ", " + b.getUnlocalizedName() + ");\n";
+		System.out.print(line);
+		writeToFile(line);
 	}
+	
 }

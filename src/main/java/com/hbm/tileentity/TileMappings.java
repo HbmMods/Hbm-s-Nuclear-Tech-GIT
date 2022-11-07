@@ -184,6 +184,8 @@ public class TileMappings {
 
 		put(TileEntityCharger.class, "tileentity_ntm_charger");
 		
+		put(TileEntityFileCabinet.class, "tileentity_file_cabinet");
+		
 		put(TileEntityProxyInventory.class, "tileentity_proxy_inventory");
 		put(TileEntityProxyEnergy.class, "tileentity_proxy_power");
 		put(TileEntityProxyCombo.class, "tileentity_proxy_combo");

@@ -41,7 +41,7 @@ public class BlockEnumMulti extends BlockMulti {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
-		return this.icons[meta % this.icons.length];
+		return multiTexture ? this.icons[meta % this.icons.length] : this.blockIcon;
 	}
 
 	@Override
