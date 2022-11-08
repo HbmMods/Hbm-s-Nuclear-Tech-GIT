@@ -34,6 +34,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public float shield = 0;
 	public float maxShield = 0;
 	public int lastDamage = 0;
+	public int nitanCount = 0;
 	public static final float shieldCap = 100;
 	
 	public HbmPlayerProps(EntityPlayer player) {
@@ -133,7 +134,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		
 		props.setFloat("shield", shield);
 		props.setFloat("maxShield", maxShield);
-		
+		props.setFloat("nitan", nitanCount);
 		nbt.setTag("HbmPlayerProps", props);
 	}
 
@@ -144,6 +145,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		
 		if(props != null) {
 			this.shield = props.getFloat("shield");
+			this.nitanCount = props.getInteger("nitan");
 			this.maxShield = props.getFloat("maxShield");
 		}
 	}

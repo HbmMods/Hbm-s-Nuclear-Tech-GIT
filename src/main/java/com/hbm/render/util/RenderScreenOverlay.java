@@ -294,7 +294,7 @@ public class RenderScreenOverlay {
 		int height = resolution.getScaledHeight();
 		int left = width / 2 - 91;
 		int top = height - GuiIngameForge.left_height;
-
+ 
 		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
 		gui.drawTexturedModalRect(left, top, 146, 0, 81, 9);
 		int i = (int) Math.ceil(props.shield * 79 / props.maxShield);

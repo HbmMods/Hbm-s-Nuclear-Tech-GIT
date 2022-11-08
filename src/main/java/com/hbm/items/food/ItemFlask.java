@@ -2,6 +2,8 @@ package com.hbm.items.food;
 
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.items.ItemEnumMulti;
+import com.hbm.lib.ModDamageSource;
+import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -9,13 +11,15 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class ItemFlask extends ItemEnumMulti {
 	
-	public static enum EnumInfusion {
-		SHIELD
+	public static enum EnumInfusion {	
+		SHIELD,
+		NITAN 
 	}
 
 	public ItemFlask() {
@@ -50,6 +54,18 @@ public class ItemFlask extends ItemEnumMulti {
 			props.maxShield = Math.min(props.shieldCap, props.shield + infusion);
 			props.shield += infusion;
 		}
+		
+		if(stack.getItemDamage() == EnumInfusion.NITAN.ordinal()) {
+			
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			props.nitanCount = props.nitanCount + 1;
+			PotionEffect eff = new PotionEffect(HbmPotion.nitan.id, 180, 0, true);
+			if(props.nitanCount == 3){
+				player.attackEntityFrom(ModDamageSource.NITANoverdose, 1000);
+			}
+			
+		}
+		
 		
 		return stack;
 	}

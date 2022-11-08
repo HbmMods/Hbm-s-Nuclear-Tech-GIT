@@ -25,6 +25,7 @@ import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 
 public class HbmPotion extends Potion {
@@ -41,6 +42,8 @@ public class HbmPotion extends Potion {
 	public static HbmPotion stability;
 	public static HbmPotion potionsickness;
 	public static HbmPotion death;
+	public static HbmPotion nitan;
+	
 
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);
@@ -59,6 +62,7 @@ public class HbmPotion extends Potion {
 		stability = registerPotion(PotionConfig.stabilityID, false, 0xD0D0D0, "potion.hbm_stability", 2, 1);
 		potionsickness = registerPotion(PotionConfig.potionsicknessID, false, 0xff8080, "potion.hbm_potionsickness", 3, 1);
 		death = registerPotion(PotionConfig.deathID, false, 1118481, "potion.hbm_death", 4, 1);
+		nitan = registerPotion(PotionConfig.nitanID, false, 8388736, "potion.hbm_nitan", 1, 1);
 	}
 
 	public static HbmPotion registerPotion(int id, boolean isBad, int color, String name, int x, int y) {
@@ -162,6 +166,10 @@ public class HbmPotion extends Potion {
 		if(this == phosphorus && !entity.worldObj.isRemote) {
 			
 			entity.setFire(1);
+		}
+        if(this == nitan && !entity.worldObj.isRemote) {
+			
+        	entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 5, 7, true));
 		}
 	}
 
