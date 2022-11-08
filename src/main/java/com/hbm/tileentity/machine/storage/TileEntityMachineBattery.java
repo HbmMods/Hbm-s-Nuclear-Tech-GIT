@@ -158,6 +158,8 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			
 			long prevPower = this.power;
 			
+			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
+			
 			//////////////////////////////////////////////////////////////////////
 			this.transmitPowerFairly();
 			//////////////////////////////////////////////////////////////////////
@@ -168,7 +170,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			this.lastRedstone = comp;
 			
 			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
-			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
 
 			long avg = (power + prevPower) / 2;
 			this.delta = avg - this.log[0];
@@ -216,7 +217,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			}
 		}
 		
-		//ubsubscribe from all nets
+		//unsubscribe from all nets
 		nets.forEach(x -> x.unsubscribe(this));
 
 		//send power to buffered consumers, independent of nets

@@ -95,7 +95,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		
 		//works flawlessly, but the new values are so high that they literally do not fit into the solidifier. some fuels do need a buff.
 		
-		/*registerSFAuto(SMEAR);
+		registerSFAuto(SMEAR);
 		registerSFAuto(HEATINGOIL);
 		registerSFAuto(RECLAIMED);
 		registerSFAuto(PETROIL);
@@ -123,10 +123,13 @@ public class SolidificationRecipes extends SerializableRecipe {
 	}
 	private static void registerSFAuto(FluidType fluid, long tuPerSF, Item fuel) {
 		long tuPerBucket = fluid.getTrait(FT_Flammable.class).getHeatEnergy();
-		double penalty = 1.5D;
+		double penalty = 1.25D;
 		
 		int mB = (int) (tuPerSF * 1000L * penalty / tuPerBucket);
-		
+
+		if(mB > 10_000) mB -= (mB % 1000);
+		else if(mB > 1_000) mB -= (mB % 100);
+		else if(mB > 100) mB -= (mB % 10);
 
 		registerRecipe(fluid, mB, fuel);
 	}

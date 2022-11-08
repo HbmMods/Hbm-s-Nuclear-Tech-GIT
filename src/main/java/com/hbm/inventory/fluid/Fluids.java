@@ -194,7 +194,7 @@ public class Fluids {
 		UNSATURATEDS =		new FluidType("UNSATURATEDS",		0x628FAE, 1, 4, 1, EnumSymbol.NONE).addTraits(new FT_Flammable(1_000_000), GASEOUS); //acetylene burns as hot as satan's asshole
 		SALIENT =			new FluidType("SALIENT",			0x457F2D, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);
 		XPJUICE =			new FluidType("XPJUICE",			0xBBFF09, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		ENDERJUICE =		new FluidType("ENDERJUICE",			0x127766, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);
+		ENDERJUICE =		new FluidType("ENDERJUICE",			0x127766, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		PETROIL_LEADED =	new FluidType("PETROIL_LEADED",		0x44413d, 1, 3, 0, EnumSymbol.NONE).addContainers(0x2331F6, ExtContainer.CANISTER).addTraits(new FT_Flammable(125_000), new FT_Combustible(FuelGrade.MEDIUM, 450_000), LIQUID);
 		GASOLINE_LEADED =	new FluidType("GASOLINE_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).addContainers(0x2F775A, ExtContainer.CANISTER).addTraits(new FT_Flammable(400_000), new FT_Combustible(FuelGrade.HIGH, 1_500_000), LIQUID);
 		COALGAS_LEADED =	new FluidType("COALGAS_LEADED",		0x445772, 1, 2, 0, EnumSymbol.NONE).addContainers(0x1E155F, ExtContainer.CANISTER).addTraits(new FT_Flammable(75_000), new FT_Combustible(FuelGrade.MEDIUM, 250_000), LIQUID);
@@ -331,6 +331,97 @@ public class Fluids {
 		if(idMapping.size() != metaOrder.size()) {
 			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());
 		}
+		
+		
+		/// EXPERIMENTAL ///
+		
+		long baseline = 100_000L; //we do not know
+		double demandVeryLow = 0.5D;
+		double demandLow = 1.0D;
+		double demandMedium = 1.5D;
+		double demandHigh = 2.0D;
+		double complexityRefinery = 1.1D;
+		double complexityFraction = 1.05D;
+		double complexityCracking = 1.25D;
+		double complexityChemplant = 1.1D;
+		double complexityLubed = 1.15D;
+		double complexityLeaded = 1.5D;
+		double flammabilityLow = 0.25D;
+		double flammabilityNormal = 1.0D;
+		double flammabilityHigh = 2.0D;
+
+		/// the allmighty excel spreadsheet has spoken! ///
+		//OIL.addTraits(new FT_Flammable((long) (baseline / 1D * flammabilityLow * demandLow)));
+		//CRACKOIL.addTraits(new FT_Flammable((long) (baseline / 1D * flammabilityLow * demandLow * complexityCracking)));
+		//GAS.addTraits(new FT_Flammable((long) (baseline / 1D * flammabilityNormal * demandVeryLow)));
+		//HEAVYOIL.addTraits(new FT_Flammable((long) (baseline / 0.5 * flammabilityLow * demandLow * complexityRefinery)));
+		//SMEAR.addTraits(new FT_Flammable((long) (baseline / 0.35 * flammabilityLow * demandLow * complexityRefinery * complexityFraction)));
+		//RECLAIMED.addTraits(new FT_Flammable((long) (baseline / 0.28 * flammabilityLow * demandLow * complexityRefinery * complexityFraction * complexityChemplant)));
+		//PETROIL.addTraits(new FT_Flammable((long) (baseline / 0.28 * flammabilityLow * demandLow * complexityRefinery * complexityFraction * complexityChemplant * complexityLubed)));
+		//PETROIL_LEADED.addTraits(new FT_Flammable((long) (baseline / 0.28 * flammabilityLow * demandLow * complexityRefinery * complexityFraction * complexityChemplant * complexityLubed * complexityLeaded)));
+		//HEATINGOIL.addTraits(new FT_Flammable((long) (baseline / 0.31 * flammabilityNormal * demandLow * complexityRefinery * complexityFraction * complexityFraction)));
+		//NAPHTHA.addTraits(new FT_Flammable((long) (baseline / 0.25 * flammabilityLow * demandLow * complexityRefinery)));
+		//NAPHTHA_CRACK.addTraits(new FT_Flammable((long) (baseline / 0.40 * flammabilityLow * demandLow * complexityRefinery * complexityCracking)));
+		//GASOLINE.addTraits(new FT_Flammable((long) (baseline / 0.20 * flammabilityNormal * demandLow * complexityRefinery * complexityChemplant)));
+		//GASOLINE_LEADED.addTraits(new FT_Flammable((long) (baseline / 0.20 * flammabilityNormal * demandLow * complexityRefinery * complexityChemplant * complexityLeaded)));
+		//DIESEL.addTraits(new FT_Flammable((long) (baseline / 0.21 * flammabilityNormal * demandLow * complexityRefinery * complexityFraction)));
+		//DIESEL_CRACK.addTraits(new FT_Flammable((long) (baseline / 0.28 * flammabilityNormal * demandLow * complexityRefinery * complexityCracking * complexityFraction)));
+		//LIGHTOIL.addTraits(new FT_Flammable((long) (baseline / 0.15 * flammabilityNormal * demandHigh * complexityRefinery)));
+		//LIGHTOIL_CRACK.addTraits(new FT_Flammable((long) (baseline / 0.30 * flammabilityNormal * demandHigh * complexityRefinery * complexityCracking)));
+		//KEROSENE.addTraits(new FT_Flammable((long) (baseline / 0.09 * flammabilityNormal * demandHigh * complexityRefinery * complexityFraction)));
+		//PETROLEUM.addTraits(new FT_Flammable((long) (baseline / 0.10 * flammabilityNormal * demandMedium * complexityRefinery)));
+		//AROMATICS.addTraits(new FT_Flammable((long) (baseline / 0.15 * flammabilityHigh * demandHigh * complexityRefinery * complexityCracking)));
+		//UNSATURATEDS.addTraits(new FT_Flammable((long) (baseline / 0.15 * flammabilityLow * demandHigh * complexityRefinery * complexityCracking)));
+		//LPG.addTraits(new FT_Flammable((long) (baseline / 0.05 * flammabilityNormal * demandMedium * complexityRefinery * complexityChemplant)));
+		//BALEFIRE.addTraits(new FT_Flammable(KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 100L));
+
+		registerCalculatedFuel(OIL, (baseline / 1D * flammabilityLow * demandLow), 0, null);
+		registerCalculatedFuel(CRACKOIL, (baseline / 1D * flammabilityLow * demandLow * complexityCracking), 0, null);
+		registerCalculatedFuel(GAS, (baseline / 1D * flammabilityNormal * demandVeryLow), 0, null);
+		registerCalculatedFuel(HEAVYOIL, (baseline / 0.5 * flammabilityLow * demandLow * complexityRefinery), 1.25D, FuelGrade.LOW);
+		registerCalculatedFuel(SMEAR, (baseline / 0.35 * flammabilityLow * demandLow * complexityRefinery * complexityFraction), 1.25D, FuelGrade.LOW);
+		registerCalculatedFuel(RECLAIMED, (baseline / 0.28 * flammabilityLow * demandLow * complexityRefinery * complexityFraction * complexityChemplant), 1.25D, FuelGrade.LOW);
+		registerCalculatedFuel(PETROIL, (baseline / 0.28 * flammabilityLow * demandLow * complexityRefinery * complexityFraction * complexityChemplant * complexityLubed), 1.5D, FuelGrade.MEDIUM);
+		registerCalculatedFuel(PETROIL_LEADED, (baseline / 0.28 * flammabilityLow * demandLow * complexityRefinery * complexityFraction * complexityChemplant * complexityLubed * complexityLeaded), 1.5D, FuelGrade.MEDIUM);
+		registerCalculatedFuel(HEATINGOIL, (baseline / 0.31 * flammabilityNormal * demandLow * complexityRefinery * complexityFraction * complexityFraction), 1.0D, FuelGrade.LOW);
+		registerCalculatedFuel(NAPHTHA, (baseline / 0.25 * flammabilityLow * demandLow * complexityRefinery), 1.5D, FuelGrade.MEDIUM);
+		registerCalculatedFuel(NAPHTHA_CRACK, (baseline / 0.40 * flammabilityLow * demandLow * complexityRefinery * complexityCracking), 1.5D, FuelGrade.MEDIUM);
+		registerCalculatedFuel(GASOLINE, (baseline / 0.20 * flammabilityNormal * demandLow * complexityRefinery * complexityChemplant), 2.5D, FuelGrade.HIGH);
+		registerCalculatedFuel(GASOLINE_LEADED, (baseline / 0.20 * flammabilityNormal * demandLow * complexityRefinery * complexityChemplant * complexityLeaded), 2.5D, FuelGrade.HIGH);
+		registerCalculatedFuel(DIESEL, (baseline / 0.21 * flammabilityNormal * demandLow * complexityRefinery * complexityFraction), 2.5D, FuelGrade.HIGH);
+		registerCalculatedFuel(DIESEL_CRACK, (baseline / 0.28 * flammabilityNormal * demandLow * complexityRefinery * complexityCracking * complexityFraction), 2.5D, FuelGrade.HIGH);
+		registerCalculatedFuel(LIGHTOIL, (baseline / 0.15 * flammabilityNormal * demandHigh * complexityRefinery), 1.5D, FuelGrade.MEDIUM);
+		registerCalculatedFuel(LIGHTOIL_CRACK, (baseline / 0.30 * flammabilityNormal * demandHigh * complexityRefinery * complexityCracking), 1.5D, FuelGrade.MEDIUM);
+		registerCalculatedFuel(KEROSENE, (baseline / 0.09 * flammabilityNormal * demandHigh * complexityRefinery * complexityFraction), 1.5D, FuelGrade.AERO);
+		registerCalculatedFuel(PETROLEUM, (baseline / 0.10 * flammabilityNormal * demandMedium * complexityRefinery), 0, null);
+		registerCalculatedFuel(AROMATICS, (baseline / 0.15 * flammabilityLow * demandHigh * complexityRefinery * complexityCracking), 0, null);
+		registerCalculatedFuel(LPG, (baseline / 0.05 * flammabilityNormal * demandMedium * complexityRefinery * complexityChemplant), 2.5, FuelGrade.HIGH);
+		registerCalculatedFuel(BALEFIRE, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 100L, 2.5, FuelGrade.HIGH);
+	}
+	
+	private static void registerCalculatedFuel(FluidType type, double base, double combustMult, FuelGrade grade) {
+		
+		long flammable = (long) base;
+		long combustible = (long) (base * combustMult);
+
+		flammable = round(flammable);
+		combustible = round(combustible);
+
+		type.addTraits(new FT_Flammable(flammable));
+		
+		if(combustible > 0 && grade != null)
+			type.addTraits(new FT_Combustible(grade, combustible));
+	}
+	
+	/** ugly but it does the thing well enough */
+	private static long round(long l) {
+		if(l > 10_000_000L) return l - (l % 100_000L);
+		if(l > 1_000_000L) return l - (l % 10_000L);
+		if(l > 100_000L) return l - (l % 1_000L);
+		if(l > 10_000L) return l - (l % 100L);
+		if(l > 1_000L) return l - (l % 10L);
+		
+		return l;
 	}
 	
 	protected static int registerSelf(FluidType fluid) {
