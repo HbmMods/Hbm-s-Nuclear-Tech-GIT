@@ -17,6 +17,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -153,7 +154,8 @@ public class BlockSnowglobe extends BlockContainer {
 	}
 	
 	public static enum SnowglobeType {
-		NONE("NONE", new WorldInAJar(1, 1, 1));
+		NONE("NONE", new WorldInAJar(1, 1, 1)),
+		TEST("Test", getTestJar());
 		
 		public String label;
 		public WorldInAJar scene;
@@ -162,5 +164,13 @@ public class BlockSnowglobe extends BlockContainer {
 			this.label = label;
 			this.scene = scene;
 		}
+	}
+	
+	private static WorldInAJar getTestJar() {
+		WorldInAJar world = new WorldInAJar(3, 3, 3);
+		for(int x = 0; x < 3; x++) for(int z = 0; z < 3; z++) world.setBlock(x, 0, z, Blocks.brick_block, 0);
+		world.setBlock(1, 1, 1, Blocks.gold_block, 0);
+		world.setBlock(1, 2, 1, Blocks.gold_block, 0);
+		return world;
 	}
 }
