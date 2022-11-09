@@ -2591,6 +2591,7 @@ public class ModItems {
 	public static final int guiID_item_guide = 10106;
 	public static final int guiID_item_bobble = 10107;
 	public static final int guiID_item_holo_image = 10108;
+	public static final int guiID_item_snowglobe = 10109;
 
 	public static final int guiID_cart_crate = 2000;
 	public static final int guiID_cart_destroyer = 2001;

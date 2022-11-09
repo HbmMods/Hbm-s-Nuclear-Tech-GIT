@@ -6,7 +6,8 @@ public class BlockEnums {
 		SULFUR,
 		ASBESTOS,
 		HEMATITE,
-		MALACHITE
+		MALACHITE,
+		LIMESTONE
 	}
 
 	public static enum EnumStalagmiteType {

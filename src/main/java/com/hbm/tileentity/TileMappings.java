@@ -9,6 +9,7 @@ import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
+import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
@@ -178,6 +179,7 @@ public class TileMappings {
 		
 		put(TileEntityLoot.class, "tileentity_ntm_loot");
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
+		put(TileEntitySnowglobe.class, "tileentity_ntm_snowglobe");
 		put(TileEntityEmitter.class, "tileentity_ntm_emitter");
 
 		put(TileEntityDoorGeneric.class, "tileentity_ntm_door");

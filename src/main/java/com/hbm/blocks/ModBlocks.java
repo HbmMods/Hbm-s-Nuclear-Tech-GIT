@@ -293,6 +293,7 @@ public class ModBlocks {
 	public static Block deco_emitter;
 	public static Block deco_loot;
 	public static Block bobblehead;
+	public static Block snowglobe;
 
 	public static Block hazmat;
 
@@ -1562,6 +1563,7 @@ public class ModBlocks {
 		deco_emitter = new BlockEmitter().setBlockName("deco_emitter").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":emitter");
 		deco_loot = new BlockLoot().setBlockName("deco_loot").setCreativeTab(null).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		bobblehead = new BlockBobble().setBlockName("bobblehead").setCreativeTab(MainRegistry.blockTab).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		snowglobe = new BlockSnowglobe().setBlockName("snowglobe").setCreativeTab(MainRegistry.blockTab).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":glass_boron");
 		hazmat = new BlockGeneric(Material.cloth).setBlockName("hazmat").setStepSound(Block.soundTypeCloth).setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":hazmat");
 		
 		gravel_obsidian = new BlockFalling(Material.iron).setBlockName("gravel_obsidian").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGravel).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":gravel_obsidian");
@@ -2665,6 +2667,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(deco_emitter, ItemBlockBase.class, deco_emitter.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_loot, deco_loot.getUnlocalizedName());
 		GameRegistry.registerBlock(bobblehead, ItemBlockMeta.class, bobblehead.getUnlocalizedName());
+		register(snowglobe);
 		GameRegistry.registerBlock(hazmat, hazmat.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_rbmk, deco_rbmk.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_rbmk_smooth, deco_rbmk_smooth.getUnlocalizedName());

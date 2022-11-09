@@ -51,10 +51,6 @@ public class CrucibleRecipes extends SerializableRecipe {
 				.inputs(new MaterialStack(Mats.MAT_IRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
 				.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
 		
-		/*recipes.add(new CrucibleRecipe(6, "crucible.steel_flux", 9, new ItemStack(ModItems.ingot_steel))
-				.inputs(new MaterialStack(Mats.MAT_IRON, i), new MaterialStack(Mats.MAT_COAL, n * 4), new MaterialStack(Mats.MAT_FLUX, n))
-				.outputs(new MaterialStack(Mats.MAT_STEEL, i)));*/ //TODO: unify coal types into carbon with varying yield
-		
 		recipes.add(new CrucibleRecipe(7, "crucible.hematite", 6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.HEMATITE))
 				.inputs(new MaterialStack(Mats.MAT_HEMATITE, i * 2), new MaterialStack(Mats.MAT_FLUX, n * 2))
 				.outputs(new MaterialStack(Mats.MAT_IRON, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
@@ -71,9 +67,9 @@ public class CrucibleRecipes extends SerializableRecipe {
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n), new MaterialStack(Mats.MAT_MINGRADE, n))
 				.outputs(new MaterialStack(Mats.MAT_ALLOY, n * 2)));
 		
-		recipes.add(new CrucibleRecipe(3, "crucible.hss", 4, new ItemStack(ModItems.ingot_dura_steel))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 2), new MaterialStack(Mats.MAT_TUNGSTEN, n), new MaterialStack(Mats.MAT_COBALT, n))
-				.outputs(new MaterialStack(Mats.MAT_DURA, n * 4)));
+		recipes.add(new CrucibleRecipe(3, "crucible.hss", 9, new ItemStack(ModItems.ingot_dura_steel))
+				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 5), new MaterialStack(Mats.MAT_TUNGSTEN, n * 3), new MaterialStack(Mats.MAT_COBALT, n * 1))
+				.outputs(new MaterialStack(Mats.MAT_DURA, n * 9)));
 		
 		recipes.add(new CrucibleRecipe(4, "crucible.ferro", 3, new ItemStack(ModItems.ingot_ferrouranium))
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 2), new MaterialStack(Mats.MAT_U238, n))
