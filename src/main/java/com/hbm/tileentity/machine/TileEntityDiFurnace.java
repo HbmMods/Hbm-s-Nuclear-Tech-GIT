@@ -26,7 +26,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 	public static final int maxPower = 12800;
 	public static final int processingSpeed = 400;
 
-	private static final int[] slots_io = new int[] { 0, 1, 2 };
+	private static final int[] slots_io = new int[] { 0, 1, 2, 3 };
 	public byte sideFuel = 1;
 	public byte sideUpper = 1;
 	public byte sideLower = 1;
@@ -212,13 +212,14 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 		if(i == 0 && this.sideUpper != j) return false;
 		if(i == 1 && this.sideLower != j) return false;
 		if(i == 2 && this.sideFuel != j) return false;
+		if(i == 3) return false;
 		
 		return this.isItemValidForSlot(i, itemStack);
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return true;
+		return i == 3;
 	}
 
 	public int getDiFurnaceProgressScaled(int i) {
