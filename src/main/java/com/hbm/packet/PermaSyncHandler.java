@@ -4,6 +4,7 @@ import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.saveddata.TomSaveData;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 
@@ -24,8 +25,8 @@ public class PermaSyncHandler {
 		/// TOM IMPACT DATA ///
 	}
 	
-	public static void readPacket(ByteBuf buf, World world, EntityPlayerMP player) {
-		
+	public static void readPacket(ByteBuf buf, World world, EntityPlayer player) {
+
 		/// TOM IMPACT DATA ///
 		ImpactWorldHandler.lastSyncWorld = player.worldObj;
 		ImpactWorldHandler.fire = buf.readFloat();

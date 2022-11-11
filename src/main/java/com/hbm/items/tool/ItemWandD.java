@@ -4,12 +4,14 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityNukeTorex;
+import com.hbm.entity.logic.EntityTomBlast;
 import com.hbm.entity.mob.siege.EntitySiegeTunneler;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBookLore;
 import com.hbm.items.special.ItemBookLore.BookLoreType;
 import com.hbm.items.special.ItemKitCustom;
 import com.hbm.lib.Library;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.world.feature.OilSpot;
 
 import net.minecraft.entity.EntityLiving;
@@ -35,6 +37,19 @@ public class ItemWandD extends Item {
 		MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
 		
 		if(pos != null) {
+			
+			TomSaveData data = TomSaveData.forWorld(world);
+			data.impact = false;
+			data.fire = 0F;
+			data.dust = 0F;
+			data.markDirty();
+			
+			/*EntityTomBlast tom = new EntityTomBlast(world);
+			tom.posX = pos.blockX;
+			tom.posY = pos.blockY;
+			tom.posZ = pos.blockZ;
+			tom.destructionRange = 600;
+			world.spawnEntityInWorld(tom);*/
 			
 			/*ItemStack itemStack = new ItemStack(ModItems.book_lore);
 			BookLoreType.setTypeForStack(itemStack, BookLoreType.BOOK_IODINE);

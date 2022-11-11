@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -166,6 +167,12 @@ public class ModEventHandlerClient {
 				}
 			}
 			
+			/*List<String> text = new ArrayList();
+			text.add("IMPACT: " + ImpactWorldHandler.getImpactForClient(world));
+			text.add("DUST: " + ImpactWorldHandler.getDustForClient(world));
+			text.add("FIRE: " + ImpactWorldHandler.getFireForClient(world));
+			ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);*/
+			
 			/*if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
 				ScaledResolution resolution = event.resolution;
 				GL11.glPushMatrix();
@@ -194,7 +201,7 @@ public class ModEventHandlerClient {
 				HbmAnimations.hotbar[i] = null;
 		}
 			
-		if(!ducked && Keyboard.isKeyDown(Keyboard.KEY_O)) {
+		if(!ducked && Keyboard.isKeyDown(Keyboard.KEY_O) && Minecraft.getMinecraft().currentScreen == null) {
 			
 			ducked = true;
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(0, 0, 0, 999, 0));

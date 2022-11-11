@@ -149,17 +149,8 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 			clearChunkLoader();
 
 			loadedChunks.clear();
-
-			int minX = Math.min(newChunkX, newChunkX + (int) Math.ceil((this.posX + this.motionX) / 16D));
-			int maxX = Math.max(newChunkX, newChunkX + (int) Math.ceil((this.posX + this.motionX) / 16D));
-			int minZ = Math.min(newChunkZ, newChunkZ + (int) Math.ceil((this.posZ + this.motionZ) / 16D));
-			int maxZ = Math.max(newChunkZ, newChunkZ + (int) Math.ceil((this.posZ + this.motionZ) / 16D));
-
-			for(int x = minX; x <= maxX; x++) {
-				for(int z = minZ; z <= maxZ; z++) {
-					loadedChunks.add(new ChunkCoordIntPair(x, z));
-				}
-			}
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX + (int) Math.ceil((this.posX + this.motionX) / 16D), newChunkZ + (int) Math.ceil((this.posZ + this.motionZ) / 16D)));
 
 			for(ChunkCoordIntPair chunk : loadedChunks) {
 				ForgeChunkManager.forceChunk(loaderTicket, chunk);

@@ -27,7 +27,7 @@ public class ImpactWorldHandler {
 		if(!(world instanceof WorldServer))
 			return;
 
-		if(!(world.provider.dimensionId == 0)) {
+		if(world.provider.dimensionId != 0) {
 			return;
 		}
 

@@ -140,7 +140,7 @@ public class ModEventHandlerImpact {
 		
 		if(data.impact) {
 			if(mat == Material.wood || mat == Material.glass || b == Blocks.ladder || b instanceof BlockCrops ||
-					b == Blocks.chest || b instanceof BlockDoor || mat == Material.cloth || mat == Material.water) {
+					b == Blocks.chest || b instanceof BlockDoor || mat == Material.cloth || mat == Material.water || b == Blocks.stone_slab) {
 				event.replacement = Blocks.air;
 				
 			} else if(b == Blocks.cobblestone || b == Blocks.stonebrick) {
