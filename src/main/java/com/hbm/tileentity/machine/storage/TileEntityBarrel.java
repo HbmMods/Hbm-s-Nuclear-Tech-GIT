@@ -11,7 +11,8 @@ import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
-import com.hbm.main.ModEventHandler;
+import com.hbm.main.MainRegistry;
+import com.hbm.main.ModEventHandlerImpact;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -119,7 +120,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		}
 		
 		//For when Tom's firestorm hits a barrel full of water
-		if(tank.getTankType() == Fluids.WATER && ModEventHandler.fire > 0) {
+		if(tank.getTankType() == Fluids.WATER && MainRegistry.proxy.getImpactFire(worldObj) > 0) {
 			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
 			
 			if(light > 7) {

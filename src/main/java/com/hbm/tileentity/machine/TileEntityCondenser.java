@@ -9,7 +9,9 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandler;
+import com.hbm.main.ModEventHandlerImpact;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.nbt.NBTTagCompound;
@@ -49,7 +51,7 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 			
 			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
 			
-			if(ModEventHandler.fire > 0 && light > 7) { // Make both steam and water evaporate during firestorms...
+			if(MainRegistry.proxy.getImpactFire(worldObj) > 0 && light > 7) { // Make both steam and water evaporate during firestorms...
 				tanks[1].setFill(tanks[1].getFill() - convert);
 			} else {
 				tanks[1].setFill(tanks[1].getFill() + convert);

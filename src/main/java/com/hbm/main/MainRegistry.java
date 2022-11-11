@@ -822,6 +822,10 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(commonHandler);
 		MinecraftForge.TERRAIN_GEN_BUS.register(commonHandler);
 		MinecraftForge.ORE_GEN_BUS.register(commonHandler);
+
+		ModEventHandlerImpact impactHandler = new ModEventHandlerImpact();
+		FMLCommonHandler.instance().bus().register(impactHandler);
+		MinecraftForge.EVENT_BUS.register(impactHandler);
 		
 		OreDictManager oreMan = new OreDictManager();
 		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent

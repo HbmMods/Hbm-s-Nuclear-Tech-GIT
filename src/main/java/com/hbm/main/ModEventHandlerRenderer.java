@@ -3,10 +3,8 @@ package com.hbm.main;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ICustomBlockHighlight;
-import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
-import com.hbm.lib.RefStrings;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.model.ModelMan;
 
@@ -24,7 +22,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
@@ -252,7 +249,7 @@ public class ModEventHandlerRenderer {
 		}
 	}
 
-	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
+	//private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
 	public static int currentBrightness = 0;
 	public static int lastBrightness = 0;
 

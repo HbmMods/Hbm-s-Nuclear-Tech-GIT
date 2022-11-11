@@ -59,6 +59,7 @@ import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.handler.HbmKeybinds;
+import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
 import com.hbm.particle.*;
@@ -81,6 +82,7 @@ import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderInfoSystem.InfoEntry;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderOverhead.Marker;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
 import com.hbm.sound.AudioWrapperClientStartStop;
@@ -1887,6 +1889,21 @@ public class ClientProxy extends ServerProxy {
 			sta.stackSize = stack.stackSize;
 		}
 		return list;
+	}
+
+	@Override
+	public float getImpactDust(World world) {
+		return ImpactWorldHandler.getDustForClient(world);
+	}
+
+	@Override
+	public float getImpactFire(World world) {
+		return ImpactWorldHandler.getFireForClient(world);
+	}
+
+	@Override
+	public boolean getImpact(World world) {
+		return ImpactWorldHandler.getImpactForClient(world);
 	}
 }
 

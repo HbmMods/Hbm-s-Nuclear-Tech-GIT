@@ -20,6 +20,7 @@ import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -32,6 +33,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluidSource, IFluidAcceptor, INBTPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine {
@@ -65,6 +67,11 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 				this.updateConnections();
 				this.tryPullHeat();
 				int lastHeat = this.heat;
+				
+				int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
+				if(light > 7 && MainRegistry.proxy.getImpactFire(worldObj) > 0) {
+					this.heat += ((maxHeat - heat) * 0.5D); //constantly heat up 50% of the remaining heat buffer for rampant but diminishing heating
+				}
 				
 				data.setInteger("heat", lastHeat);
 
