@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.machine.TileEntitySteamEngine;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -29,7 +30,8 @@ public class RenderSteamEngine extends TileEntitySpecialRenderer implements IIte
 		case 4: GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-		double angle = System.currentTimeMillis() % 3600D;
+		TileEntitySteamEngine engine = (TileEntitySteamEngine) tile;
+		float angle = engine.lastRotor + (engine.rotor - engine.lastRotor) * interp;
 		GL11.glTranslated(2, 0, 0);
 		renderCommon(angle);
 		

@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -19,11 +20,13 @@ import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySteamEngine extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IEnergyGenerator, IFluidStandardTransceiver {
+public class TileEntitySteamEngine extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IEnergyGenerator, IFluidStandardTransceiver, INBTPacketReceiver {
 
 	public long powerBuffer;
 	
@@ -31,12 +34,14 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IFlui
 	public float lastRotor;
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	public FluidTank[] tanks;
+
+	private float acceleration = 0F;
 	
 	public TileEntitySteamEngine() {
 		
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.STEAM, 8_000, 0);
-		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 80, 1);
+		tanks[0] = new FluidTank(Fluids.STEAM, 2_000, 0);
+		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 20, 1);
 	}
 	
 	@Override
@@ -59,8 +64,37 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IFlui
 			tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
 			this.powerBuffer += (ops * trait.heatEnergy * eff);
 			
-			for(DirPos pos : getConPos()) if(this.powerBuffer > 0) this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			if(ops > 0) {
+				this.acceleration += 0.1F;
+			} else {
+				this.acceleration -= 0.1F;
+			}
+			
+			this.acceleration = MathHelper.clamp_float(this.acceleration, 0F, 40F);
+			this.lastRotor = this.rotor;
+			this.rotor += this.acceleration;
+			
+			if(this.rotor >= 360D) {
+				this.lastRotor -= 360D;
+				this.rotor -= 360D;
+				
+				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.steamEngineOperate", 1.0F, 0.5F + (acceleration / 80F));
+			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", this.powerBuffer);
+			data.setFloat("rotor", this.rotor);
+			data.setFloat("lastRotor", this.lastRotor);
+
+			for(DirPos pos : getConPos()) {
+				if(this.powerBuffer > 0)
+					this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 			if(tanks[1].getFill() > 0) fillFluidInit(tanks[1].getTankType());
+			
+			INBTPacketReceiver.networkPack(this, data, 150);
 		}
 	}
 	
@@ -69,9 +103,9 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IFlui
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
 		return new DirPos[] {
-				new DirPos(xCoord + rot.offsetX * 2, yCoord + 2, zCoord + rot.offsetZ * 2, rot),
-				new DirPos(xCoord + rot.offsetX * 2 + dir.offsetX, yCoord + 2, zCoord + rot.offsetZ * 2 + dir.offsetZ, rot),
-				new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX, yCoord + 2, zCoord + rot.offsetZ * 2 - dir.offsetZ, rot)
+				new DirPos(xCoord + rot.offsetX * 2, yCoord + 1, zCoord + rot.offsetZ * 2, rot),
+				new DirPos(xCoord + rot.offsetX * 2 + dir.offsetX, yCoord + 1, zCoord + rot.offsetZ * 2 + dir.offsetZ, rot),
+				new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX, yCoord + 1, zCoord + rot.offsetZ * 2 - dir.offsetZ, rot)
 		};
 	}
 
@@ -182,5 +216,12 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IFlui
 	@Override
 	public FluidTank[] getAllTanks() {
 		return tanks;
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.powerBuffer = nbt.getLong("power");
+		this.rotor = nbt.getFloat("rotor");
+		this.lastRotor = nbt.getFloat("lastRotor");
 	}
 }

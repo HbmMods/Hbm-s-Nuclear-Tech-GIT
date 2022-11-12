@@ -192,7 +192,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	
 	protected void transmitPowerFairly() {
 		
-		if(power == 0) return;
 		short mode = (short) this.getRelevantMode();
 		
 		//HasSets to we don'T have any duplicates
@@ -220,7 +219,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		}
 
 		//send power to buffered consumers, independent of nets
-		if(mode == mode_buffer || mode == mode_output) {
+		if(this.power > 0 && (mode == mode_buffer || mode == mode_output)) {
 			List<IEnergyConnector> con = new ArrayList();
 			con.addAll(consumers);
 			this.power = PowerNet.fairTransfer(con, this.power);
