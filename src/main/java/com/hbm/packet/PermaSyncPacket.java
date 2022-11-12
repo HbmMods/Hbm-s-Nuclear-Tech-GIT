@@ -3,6 +3,8 @@ package com.hbm.packet;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,6 +34,7 @@ public class PermaSyncPacket implements IMessage {
 	public static class Handler implements IMessageHandler<PermaSyncPacket, IMessage> {
 		
 		@Override
+		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(PermaSyncPacket m, MessageContext ctx) {
 			
 			try {
