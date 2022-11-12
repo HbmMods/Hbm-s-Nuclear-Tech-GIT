@@ -50,10 +50,12 @@ public class ItemGunTWR extends ItemGunBase
 				final DamageSource dmgSrc = new EntityDamageSourceIndirect("twr" + world.rand.nextInt(2) + 2, player, livingEntity).setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();
 				if (!livingEntity.attackEntityFrom(dmgSrc, 750))
 					livingEntity.setHealth(livingEntity.getHealth() - 750);
-				livingEntity.setLastAttacker(player);
-				livingEntity.onDeath(dmgSrc);
-			}
-			else
+				if (livingEntity.getHealth() <= 0 || livingEntity.isDead)
+				{
+					livingEntity.setLastAttacker(player);
+					livingEntity.onDeath(dmgSrc);
+				}
+			} else
 				entity.setDead();
 		}
 	}

@@ -17,6 +17,13 @@ public interface ILocationProvider
 	public double posZ();
 	public boolean hasWorld();
 	public World getWorld();
+	@Override
+	public String toString();
+	
+	public default Vec3 toVec3()
+	{
+		return Vec3.createVectorHelper(posX(), posY(), posZ());
+	}
 	public default double[] getCoordDouble()
 	{
 		return new double[] {posX(), posY(), posZ()};
@@ -124,6 +131,14 @@ public interface ILocationProvider
 		{
 			return entity.worldObj;
 		}
+		@Override
+		public String toString()
+		{
+			final StringBuilder builder = new StringBuilder();
+			builder.append("DelegatedEntityLocation [posX()=").append(posX()).append(", posY()=").append(posY())
+					.append(", posZ()=").append(posZ()).append(", hasWorld()=").append(hasWorld()).append(']');
+			return builder.toString();
+		}
 	}
 	
 	static class DelegatedTileEntityLocation implements ILocationProvider
@@ -159,6 +174,13 @@ public interface ILocationProvider
 		{
 			return tileEntity.getWorldObj();
 		}
-		
+		@Override
+		public String toString()
+		{
+			final StringBuilder builder = new StringBuilder();
+			builder.append("DelegatedTileEntityLocation [posX()=").append(posX()).append(", posY()=").append(posY())
+					.append(", posZ()=").append(posZ()).append(", hasWorld()=").append(hasWorld()).append(']');
+			return builder.toString();
+		}
 	}
 }
