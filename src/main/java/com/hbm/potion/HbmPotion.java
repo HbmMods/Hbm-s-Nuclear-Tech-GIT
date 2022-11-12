@@ -10,6 +10,7 @@ import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.util.ContaminationUtil;
@@ -62,7 +63,7 @@ public class HbmPotion extends Potion {
 		stability = registerPotion(PotionConfig.stabilityID, false, 0xD0D0D0, "potion.hbm_stability", 2, 1);
 		potionsickness = registerPotion(PotionConfig.potionsicknessID, false, 0xff8080, "potion.hbm_potionsickness", 3, 1);
 		death = registerPotion(PotionConfig.deathID, false, 1118481, "potion.hbm_death", 4, 1);
-		nitan = registerPotion(PotionConfig.nitanID, false, 8388736, "potion.hbm_nitan", 1, 1);
+		nitan = registerPotion(PotionConfig.nitanID, false, 8388736, "potion.hbm_nitan", 3, 1);
 	}
 
 	public static HbmPotion registerPotion(int id, boolean isBad, int color, String name, int x, int y) {
@@ -168,18 +169,25 @@ public class HbmPotion extends Potion {
 			entity.setFire(1);
 		}
         if(this == nitan && !entity.worldObj.isRemote) {
+        	if(entity instanceof EntityPlayer){
+        	HbmPlayerProps props = HbmPlayerProps.getData((EntityPlayer)entity);
 			
-        	entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 5, 7, true));
+        	if(props.nitanCount == 3){
+				entity.attackEntityFrom(ModDamageSource.NITANoverdose, 1000);
+        	}
+			}
 		}
 	}
 
 	public boolean isReady(int par1, int par2) {
-
+        
 		if(this == taint) {
 			return par1 % 2 == 0;
 		}
 		
-		if(this == radiation || this == radaway || /*this == telekinesis ||*/ this == phosphorus) {
+
+		if(this == radiation || this == radaway || this == phosphorus || this == nitan) {
+
 			return true;
 		}
 		

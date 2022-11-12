@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -40,7 +41,7 @@ public class ItemFlask extends ItemEnumMulti {
 
 	@Override
 	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
-
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
 		if(!player.capabilities.isCreativeMode) {
 			--stack.stackSize;
 		}
@@ -50,20 +51,16 @@ public class ItemFlask extends ItemEnumMulti {
 			
 		if(stack.getItemDamage() == EnumInfusion.SHIELD.ordinal()) {
 			float infusion = 5F;
-			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			
 			props.maxShield = Math.min(props.shieldCap, props.shield + infusion);
 			props.shield += infusion;
 		}
 		
 		if(stack.getItemDamage() == EnumInfusion.NITAN.ordinal()) {
-			
-			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			props.nitanCount = props.nitanCount + 1;
-			PotionEffect eff = new PotionEffect(HbmPotion.nitan.id, 180, 0, true);
-			if(props.nitanCount == 3){
-				player.attackEntityFrom(ModDamageSource.NITANoverdose, 1000);
-			}
-			
+			player.addPotionEffect(new PotionEffect(HbmPotion.nitan.id, 60 * 20 * 3, 0));
+			player.addPotionEffect(new PotionEffect(Potion.resistance.id, 60 * 20 * 3, 3));
+			player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 60 * 20 * 3, 4));
 		}
 		
 		
