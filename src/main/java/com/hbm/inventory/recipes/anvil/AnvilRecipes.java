@@ -874,7 +874,7 @@ public class AnvilRecipes {
 				new ComparableStack(ModBlocks.machine_turbine), new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModItems.turbine_titanium, 1)),
 						new AnvilOutput(new ItemStack(ModItems.coil_copper, 2)),
-						new AnvilOutput(new ItemStack(ModItems.ingot_steel, 6))
+						new AnvilOutput(new ItemStack(ModItems.ingot_steel, 4))
 						}).setTier(3));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
