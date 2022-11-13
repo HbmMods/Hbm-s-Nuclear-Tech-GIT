@@ -35,6 +35,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public float maxShield = 0;
 	public int lastDamage = 0;
 	public int nitanCount = 0;
+	public int nitanHealth = nitanCount*10;
 	public static final float shieldCap = 100;
 	
 	public HbmPlayerProps(EntityPlayer player) {

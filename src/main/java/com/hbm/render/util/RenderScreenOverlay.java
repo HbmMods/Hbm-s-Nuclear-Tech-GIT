@@ -364,13 +364,13 @@ public class RenderScreenOverlay {
 
 		int width = resolution.getScaledWidth();
 		int height = resolution.getScaledHeight();
-		int left = width / 2 - 91;
-		int top = height - GuiIngameForge.left_height;
+		int left = width / 2 - 92;
+		int top = height - 41;
  
 		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
 		gui.drawTexturedModalRect(left, top, 146, 18, 81, 12);
 		
-		GuiIngameForge.left_height += 3;
+	
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 

@@ -173,7 +173,7 @@ public class HbmPotion extends Potion {
         	HbmPlayerProps props = HbmPlayerProps.getData((EntityPlayer)entity);
 			
         	if(props.nitanCount == 3){
-				entity.attackEntityFrom(ModDamageSource.NITANoverdose, 1000);
+				entity.attackEntityFrom(ModDamageSource.nitan, 1000);
         	}
 			}
 		}
