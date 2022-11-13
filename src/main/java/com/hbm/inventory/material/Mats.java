@@ -49,11 +49,11 @@ public class Mats {
 	//Vanilla and vanilla-like
 	public static final NTMMaterial MAT_STONE		= makeSmeltable(_VS + 00,	df("Stone"), 0x4D2F23).omitAutoGen();
 	public static final NTMMaterial MAT_CARBON		= makeAdditive(	1499, 		df("Carbon"), 0x404040).omitAutoGen();
-	public static final NTMMaterial MAT_COAL		= make(			1400, 		COAL)		.setConversion(MAT_CARBON,  3, 1).omitAutoGen();
-	public static final NTMMaterial MAT_LIGNITE		= make(			1401, 		LIGNITE)	.setConversion(MAT_CARBON,  4, 1);
-	public static final NTMMaterial MAT_COALCOKE	= make(			1410, 		COALCOKE)	.setConversion(MAT_CARBON,  2, 1);
-	public static final NTMMaterial MAT_PETCOKE		= make(			1411, 		PETCOKE)	.setConversion(MAT_CARBON,  2, 1);
-	public static final NTMMaterial MAT_LIGCOKE		= make(			1412, 		LIGCOKE)	.setConversion(MAT_CARBON,  2, 1);
+	public static final NTMMaterial MAT_COAL		= make(			1400, 		COAL)		.setConversion(MAT_CARBON,  2, 1).omitAutoGen();
+	public static final NTMMaterial MAT_LIGNITE		= make(			1401, 		LIGNITE)	.setConversion(MAT_CARBON,  3, 1);
+	public static final NTMMaterial MAT_COALCOKE	= make(			1410, 		COALCOKE)	.setConversion(MAT_CARBON,  4, 3);
+	public static final NTMMaterial MAT_PETCOKE		= make(			1411, 		PETCOKE)	.setConversion(MAT_CARBON,  4, 3);
+	public static final NTMMaterial MAT_LIGCOKE		= make(			1412, 		LIGCOKE)	.setConversion(MAT_CARBON,  4, 3);
 	public static final NTMMaterial MAT_GRAPHITE	= make(			1420, 		GRAPHITE)	.setConversion(MAT_CARBON,  1, 1);
 	public static final NTMMaterial MAT_IRON		= makeSmeltable(2600,		IRON,		0xFFA259).omitAutoGen();
 	public static final NTMMaterial MAT_GOLD		= makeSmeltable(7900,		GOLD,		0xE8D754).omitAutoGen();

@@ -463,8 +463,8 @@ public class AssemblerRecipes {
 				new OreDictStack(KEY_CIRCUIT_BISMUTH, 1)
 			}, 600);
 		makeRecipe(new ComparableStack(ModBlocks.machine_large_turbine, 1), new AStack[] {
-				new ComparableStack(ModItems.hull_big_steel, 1),
 				new OreDictStack(STEEL.plate(), 12),
+				new OreDictStack(RUBBER.ingot(), 4),
 				new ComparableStack(ModItems.turbine_titanium, 3),
 				new ComparableStack(ModItems.generator_steel, 1),
 				new ComparableStack(ModItems.bolt_compound, 3),

@@ -175,11 +175,13 @@ public class MachineBattery extends BlockContainer implements ILookOverlay, IPer
 	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {
 		if(!keepInventory) {
-			TileEntityMachineBattery tileentityfurnace = (TileEntityMachineBattery) p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+			TileEntity tile = p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
-			if(tileentityfurnace != null) {
-				for(int i1 = 0; i1 < tileentityfurnace.getSizeInventory(); ++i1) {
-					ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
+			if(tile instanceof TileEntityMachineBattery) {
+				TileEntityMachineBattery battery = (TileEntityMachineBattery) tile;
+				
+				for(int i1 = 0; i1 < battery.getSizeInventory(); ++i1) {
+					ItemStack itemstack = battery.getStackInSlot(i1);
 
 					if(itemstack != null) {
 						float f = this.field_149933_a.nextFloat() * 0.8F + 0.1F;

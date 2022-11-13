@@ -444,6 +444,16 @@ public class OreDictManager {
 
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_bismuth);
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_arsenic);
+
+		OreDictionary.registerOre("itemRubber", ingot_rubber);
+
+		OreDictionary.registerOre("coalCoke", fromOne(coke, EnumCokeType.COAL));
+		
+		for(String name : new String[] {"fuelCoke", "coke"}) {
+			OreDictionary.registerOre(name, fromOne(coke, EnumCokeType.COAL));
+			OreDictionary.registerOre(name, fromOne(coke, EnumCokeType.LIGNITE));
+			OreDictionary.registerOre(name, fromOne(coke, EnumCokeType.PETROLEUM));
+		}
 		
 		OreDictionary.registerOre(getReflector(), neutron_reflector);
 		OreDictionary.registerOre("oreRareEarth", ore_rare);
