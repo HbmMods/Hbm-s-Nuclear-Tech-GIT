@@ -103,6 +103,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(SyncButtonsPacket.Handler.class, SyncButtonsPacket.class, i++, Side.SERVER);
 		//General syncing for global values
 		wrapper.registerMessage(PermaSyncPacket.Handler.class, PermaSyncPacket.class, i++, Side.CLIENT);
+		//Syncs biome information for single positions or entire chunks
+		wrapper.registerMessage(BiomeSyncPacket.Handler.class, BiomeSyncPacket.class, i++, Side.CLIENT);
 	}
 	
 }

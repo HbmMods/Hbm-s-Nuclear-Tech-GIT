@@ -224,8 +224,8 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	protected void coolPassively() {
 		
 		if(MainRegistry.proxy.getImpactFire(worldObj) > 1e-5) {
-			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
-			if(heat < 20 + (480 * (light / 15))) {
+			double light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord) / 15D;
+			if(heat < 20 + (480 * light)) {
 				this.heat += this.passiveCooling() * 2;
 			}
 		}
