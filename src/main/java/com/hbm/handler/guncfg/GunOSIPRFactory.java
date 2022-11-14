@@ -68,29 +68,6 @@ public class GunOSIPRFactory {
 		return config;
 	}
 	
-	public static GunConfiguration getSMGConfig()
-	{
-		final GunConfiguration config = getOSIPRConfig().clone();
-		
-		config.name = "pulseSMG";
-		config.rateOfFire = 1;
-		config.reloadDuration = 10;
-		
-		return config;
-	}
-	
-	public static GunConfiguration getHMGConfig()
-	{
-		final GunConfiguration config = getOSIPRConfig().clone();
-		
-		config.name = "pulseHMG";
-		config.rateOfFire = 1;
-		config.reloadDuration *= 2;
-		config.ammoCap = 120;
-		
-		return config;
-	}
-
 	static final float inaccuracy = 1.25f;
 	public static BulletConfiguration getPulseConfig() {
 		
@@ -109,6 +86,7 @@ public class GunOSIPRFactory {
 		
 		return bullet;
 	}
+	static final byte ballVel = 2;
 	public static BulletConfiguration getPulseChargedConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
@@ -125,17 +103,30 @@ public class GunOSIPRFactory {
 		bullet.liveAfterImpact = true;
 		bullet.spread = 0;
 		bullet.gravity = 0;
-		bullet.maxAge *= 2;
-		bullet.velocity /= 2;
+		bullet.maxAge = 150;
+		bullet.velocity = ballVel;
 		
 		bullet.bHurt = (ball, entity) ->
 		{
 			if (entity instanceof EntityLivingBase)
 			{
-				entity.addVelocity(ball.motionX, ball.motionY, ball.motionZ);
+				final EntityLivingBase entityLiving = (EntityLivingBase) entity;
+				entity.addVelocity(ball.motionX / 2, ball.motionY / 2, ball.motionZ / 2);
 				
-				if (entity != ball.shooter && ((EntityLivingBase) entity).getHealth() <= 1000)
-					((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.bang.id, 1, 0));
+				if (entity == ball.shooter)
+					return;
+				
+				if (entityLiving.getHealth() <= 1000)
+				{
+					entityLiving.addPotionEffect(new PotionEffect(HbmPotion.bang.id, 1, 0));
+					entityLiving.setLastAttacker(ball.shooter);
+				} else if (entityLiving.getHealth() > 1000)
+				{
+					ball.setDead();
+					return;
+				}
+				
+//				tryRedirectBall(ball, entityLiving);
 			}
 		};
 		
@@ -144,6 +135,8 @@ public class GunOSIPRFactory {
 			final Block block = ball.worldObj.getBlock(x, y, z);
 			if (block instanceof RedBarrel)
 				((RedBarrel) block).explode(ball.worldObj, x, y, z);
+			
+//			tryRedirectBall(ball, null);
 		};
 		
 		bullet.bImpact = (ball, x, y, z) ->
@@ -151,8 +144,44 @@ public class GunOSIPRFactory {
 			final Block block = ball.worldObj.getBlock(x, y, z);
 			if (block instanceof RedBarrel)
 				((RedBarrel) block).explode(ball.worldObj, x, y, z);
+			
+//			tryRedirectBall(ball, null);
 		};
 		
 		return bullet;
 	}
+	
+//	private static void tryRedirectBall(EntityBulletBase ball, EntityLivingBase lastHit)
+//	{
+//		if (!ball.worldObj.isRemote)
+//		{
+//			final ILocationProvider ballLoc = ILocationProvider.wrap(ball, false), targetLoc;
+//			final Vec3 newVector;
+//			final List<Entity> entities = ball.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(ball.posX - 10, ball.posY - 10, ball.posZ - 10, ball.posX + 10, ball.posY + 10, ball.posZ + 10));
+//			entities.remove(ball);
+//			entities.remove(ball.shooter);
+//			entities.remove(lastHit);
+//			entities.removeIf(e -> Library.isObstructed(ball.worldObj, ballLoc, ILocationProvider.wrap(e, false)));
+//			if (entities.isEmpty())
+//				return;
+//			
+//			entities.sort(Comparator.comparing(e -> ILocationProvider.distance(ILocationProvider.wrap(e, false), ballLoc)));
+//			
+//			targetLoc = ILocationProvider.wrap(entities.get(0), false);
+//			newVector = ILocationProvider.makeVector(ballLoc, targetLoc).normalize();
+//			
+//			System.out.println(ballLoc);
+//			System.out.println(targetLoc);
+//			System.out.println(newVector);
+//			System.out.println(Vec3.createVectorHelper(ball.motionX, ball.motionY, ball.motionZ));
+//			
+//			final double total = ball.motionX + ball.motionY + ball.motionZ;
+//			
+//			ball.motionX = newVector.xCoord * total;
+//			ball.motionY = newVector.yCoord * total;
+//			ball.motionZ = newVector.zCoord * total;
+//			
+//			System.out.println(Vec3.createVectorHelper(ball.motionX, ball.motionY, ball.motionZ));
+//		}
+//	}
 }

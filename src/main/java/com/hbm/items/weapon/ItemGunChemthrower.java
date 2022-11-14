@@ -79,10 +79,10 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 			return;
 
 		
-		if(config.reloadType != mainConfig.RELOAD_NONE) {
+		if(config.reloadType != GunConfiguration.RELOAD_NONE) {
 			setMag(stack, getMag(stack) - this.getConsumption(stack));
 		} else {
-			InventoryUtil.doesPlayerHaveAStack(player, getBeltType(player, stack, main), true);
+			InventoryUtil.doesPlayerHaveAStack(player, getBeltType(player, stack, main), true, true);
 		}
 	}
 
@@ -91,6 +91,7 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 		return false;
 	}
 	
+	@Override
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
 		
 		//spawn fluid projectile
@@ -169,11 +170,11 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 	
 	@Override
 	protected void reload2(ItemStack stack, World world, EntityPlayer player) {
-		this.setIsReloading(stack, false);
+		ItemGunBase.setIsReloading(stack, false);
 	}
 	
 	public FluidType getFluidType(ItemStack stack) {
-		return Fluids.fromID(this.getMagType(stack));
+		return Fluids.fromID(ItemGunBase.getMagType(stack));
 	}
 	
 	public int getConsumption(ItemStack stack) {
@@ -182,7 +183,7 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 
 	@Override
 	public boolean acceptsFluid(FluidType type, ItemStack stack) {
-		return getFluidType(stack) == type || this.getMag(stack) == 0;
+		return getFluidType(stack) == type || ItemGunBase.getMag(stack) == 0;
 	}
 	
 	public static final int transferSpeed = 50;
@@ -193,16 +194,16 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 		if(!acceptsFluid(type, stack))
 			return amount;
 		
-		if(this.getMag(stack) == 0)
-			this.setMagType(stack, type.getID());
+		if(ItemGunBase.getMag(stack) == 0)
+			ItemGunBase.setMagType(stack, type.getID());
 		
-		int fill = this.getMag(stack);
+		int fill = ItemGunBase.getMag(stack);
 		int req = this.mainConfig.ammoCap - fill;
 		
 		int toFill = Math.min(amount, req);
 		toFill = Math.min(toFill, transferSpeed);
 		
-		this.setMag(stack, fill + toFill);
+		ItemGunBase.setMag(stack, fill + toFill);
 		
 		return amount - toFill;
 	}
@@ -215,11 +216,11 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 	@Override
 	public int tryEmpty(FluidType type, int amount, ItemStack stack) {
 		
-		int fill = this.getMag(stack);
+		int fill = ItemGunBase.getMag(stack);
 		int toUnload = Math.min(fill, amount);
 		toUnload = Math.min(toUnload, transferSpeed);
 		
-		this.setMag(stack, fill - toUnload);
+		ItemGunBase.setMag(stack, fill - toUnload);
 		
 		return toUnload;
 	}

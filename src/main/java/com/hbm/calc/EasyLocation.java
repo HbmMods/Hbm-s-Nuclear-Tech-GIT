@@ -263,11 +263,6 @@ public class EasyLocation implements Cloneable, Comparable<EasyLocation>, ISeria
 		return Objects.hash(dimID, posX, posY, posZ);
 	}
 	
-	public Vec3 toVec3()
-	{
-		return Vec3.createVectorHelper(posX, posY, posZ);
-	}
-
 	@Override
 	public int compareTo(EasyLocation o)
 	{

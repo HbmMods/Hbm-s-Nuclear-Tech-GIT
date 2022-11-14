@@ -48,7 +48,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 @Spaghetti("this whole class")
 public class Library {
 	
-	static Random rand = new Random();
+	static final Random rand = new Random();
 
 	//this is a list of UUIDs used for various things, primarily for accessories.
 	//for a comprehensive list, check RenderAccessoryUtility.java
@@ -673,6 +673,23 @@ public class Library {
 		}
 		
 		return flag;
+	}
+	
+	/**
+	 * Produces a gibberish string of random uppercase and lowercase letters and digits.
+	 * @param length The length of the desired string
+	 * @return The produced gibberish string
+	 */
+	public static String randomString(int length)
+	{
+		final StringBuilder builder = new StringBuilder(length);
+		for (int i = 0; i < length; i++)
+		{
+			builder.append(rand.nextBoolean()
+					? (char) (rand.nextInt(26) + (rand.nextBoolean() ? 65 : 97))
+							: rand.nextInt(10));
+		}
+		return builder.toString();
 	}
 	
 	public static boolean isObstructed(World world, ILocationProvider loc1, ILocationProvider loc2)

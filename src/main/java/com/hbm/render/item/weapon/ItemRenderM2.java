@@ -29,7 +29,7 @@ public class ItemRenderM2 extends ItemRenderBase
 				GL11.glScalef(scale1, scale1, -scale1);
 //				GL11.glRotatef(10, 1, 0, 0);
 				GL11.glRotatef(-90, 0, 1, 0);
-				GL11.glTranslatef(0, 0.5f, -5);
+				GL11.glTranslatef(-0.4f, 0.5f, -5);
 				GL11.glRotatef(30, 1, 0, 0);
 				break;
 			case EQUIPPED_FIRST_PERSON:

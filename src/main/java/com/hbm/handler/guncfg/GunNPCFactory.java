@@ -28,6 +28,43 @@ import net.minecraft.util.Vec3;
 
 public class GunNPCFactory {
 
+	public static GunConfiguration getSMGConfig()
+	{
+		final GunConfiguration config = GunOSIPRFactory.getOSIPRConfig().clone();
+		
+		config.name = "pulseSMG";
+		config.rateOfFire = 1;
+		config.reloadDuration = 10;
+		
+		return config;
+	}
+	
+	public static GunConfiguration getHMGConfig()
+	{
+		final GunConfiguration config = GunOSIPRFactory.getOSIPRConfig().clone();
+		
+		config.name = "pulseHMG";
+		config.rateOfFire = 1;
+		config.reloadDuration *= 2;
+		config.ammoCap = 120;
+		
+		return config;
+	}
+	
+	public static GunConfiguration getHeavySGConfig()
+	{
+		final GunConfiguration config = Gun4GaugeFactory.getKS23Config().clone();
+		
+		config.name = "heavySG";
+		config.rateOfFire = 10;
+		config.manufacturer = EnumGunManufacturer.COMBINE;
+		config.ammoCap = 12;
+		config.reloadDuration = 50;
+		config.config = HbmCollection.fourGauge;
+		
+		return config;
+	}
+	
 	public static BulletConfiguration getMaskmanOrb() {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
@@ -329,17 +366,5 @@ public class GunNPCFactory {
 		};
 		
 		return bullet;
-	}
-	
-	public static GunConfiguration getHeavySGConfig()
-	{
-		final GunConfiguration config = new GunConfiguration();
-		
-		config.manufacturer = EnumGunManufacturer.COMBINE;
-		config.ammoCap = 12;
-		config.reloadDuration = 50;
-		config.config = HbmCollection.fourGauge;
-		
-		return config;
 	}
 }
