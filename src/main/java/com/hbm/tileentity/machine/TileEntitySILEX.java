@@ -1,8 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import api.hbm.fluid.IFluidStandardReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
