@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.rbmk;
 import java.util.ArrayList;
 import java.util.List;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.fluid.FluidType;
@@ -14,7 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeatex extends TileEntity implements IFluidAcceptor, IFluidSource {
+public class TileEntityHeatex extends TileEntity implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
 
 	public List<IFluidAcceptor> coolantList = new ArrayList();
 	public List<IFluidAcceptor> waterList = new ArrayList();
@@ -36,6 +37,11 @@ public class TileEntityHeatex extends TileEntity implements IFluidAcceptor, IFlu
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				this.subscribeToAllAround(waterIn.getTankType(), this);
+				this.subscribeToAllAround(coolantIn.getTankType(), this);
+			}
 
 			/* Cool input */
 			double heatCap = maxHeat - heatBuffer;
@@ -68,6 +74,9 @@ public class TileEntityHeatex extends TileEntity implements IFluidAcceptor, IFlu
 
 			this.fillFluidInit(coolantOut.getTankType());
 			this.fillFluidInit(waterOut.getTankType());
+
+			this.sendFluidToAll(waterOut.getTankType(), this);
+			this.sendFluidToAll(coolantOut.getTankType(), this);
 		}
 	}
 	
@@ -163,5 +172,20 @@ public class TileEntityHeatex extends TileEntity implements IFluidAcceptor, IFlu
 		if(type == coolantIn.getTankType())	return coolantIn.getMaxFill();
 		if(type == waterIn.getTankType())	return waterIn.getMaxFill();
 		return 0;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] {waterIn, waterOut, coolantIn, coolantOut};
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {waterOut, coolantOut};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {waterIn, coolantIn};
 	}
 }

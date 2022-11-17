@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import api.hbm.fluid.IFluidStandardReceiver;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.fluid.FluidType;
@@ -11,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
+public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor, IFluidStandardReceiver {
 	
 	public FluidTank water;
 	
@@ -27,6 +28,8 @@ public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 			for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);
 				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
+				
+				this.trySubscribe(water.getTankType(), worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir);
 				
 				if(b instanceof RBMKBase) {
 					int[] pos = ((RBMKBase)b).findCore(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
@@ -84,6 +87,16 @@ public class TileEntityRBMKInlet extends TileEntity implements IFluidAcceptor {
 	public int getMaxFluidFill(FluidType type) {
 		if(type == Fluids.WATER) return water.getMaxFill();
 		return 0;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] {water};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {water};
 	}
 
 }

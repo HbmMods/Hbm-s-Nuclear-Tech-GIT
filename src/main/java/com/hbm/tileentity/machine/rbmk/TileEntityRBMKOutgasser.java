@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import api.hbm.fluid.IFluidStandardSender;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -16,13 +17,14 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IFluidSource {
+public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IFluidSource, IFluidStandardSender {
 
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank gas;
@@ -51,9 +53,39 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			if(!canProcess()) {
 				this.progress = 0;
 			}
+			for(DirPos pos : getOutputPos()) {
+				if(this.gas.getFill() > 0) this.sendFluid(gas.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 		}
 		
 		super.updateEntity();
+	}
+	
+	protected DirPos[] getOutputPos() {
+		
+		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
+			return new DirPos[] {
+					new DirPos(this.xCoord + 1, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
+					new DirPos(this.xCoord + 1, this.yCoord - 1, this.zCoord, Library.POS_X),
+					new DirPos(this.xCoord - 1, this.yCoord - 1, this.zCoord, Library.NEG_X),
+					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord + 1, Library.POS_Z),
+					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord - 1, Library.NEG_Z),
+					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord, Library.NEG_Y)
+			};
+		} else if(worldObj.getBlock(xCoord, yCoord - 2, zCoord) == ModBlocks.rbmk_loader) {
+			return new DirPos[] {
+					new DirPos(this.xCoord + 1, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
+					new DirPos(this.xCoord + 1, this.yCoord - 2, this.zCoord, Library.POS_X),
+					new DirPos(this.xCoord - 1, this.yCoord - 2, this.zCoord, Library.NEG_X),
+					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord + 1, Library.POS_Z),
+					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord - 1, Library.NEG_Z),
+					new DirPos(this.xCoord, this.yCoord - 3, this.zCoord, Library.NEG_Y)
+			};
+		} else {
+			return new DirPos[] {
+					new DirPos(this.xCoord + 1, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y)
+			};
+		}
 	}
 
 	@Override
@@ -279,5 +311,15 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
 		return new int[] {0, 1};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] {gas};
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {gas};
 	}
 }

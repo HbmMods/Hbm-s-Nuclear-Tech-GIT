@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.rbmk;
 import java.util.ArrayList;
 import java.util.List;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.interfaces.IControlReceiver;
@@ -13,12 +14,13 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
-public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver {
+public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver {
 	
 	public FluidTank feed;
 	public FluidTank steam;
@@ -76,6 +78,11 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 			}
 			
 			fillFluidInit(steam.getTankType());
+			
+			this.trySubscribe(feed.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
+			for(DirPos pos : getOutputPos()) {
+				if(this.steam.getFill() > 0) this.sendFluid(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 		}
 		
 		super.updateEntity();
@@ -119,6 +126,33 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord - 1, getTact(), type);
 			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
 			fillFluid(this.xCoord, this.yCoord - 3, this.zCoord, getTact(), type);
+		}
+	}
+	
+	protected DirPos[] getOutputPos() {
+		
+		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
+			return new DirPos[] {
+					new DirPos(this.xCoord + 1, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
+					new DirPos(this.xCoord + 1, this.yCoord - 1, this.zCoord, Library.POS_X),
+					new DirPos(this.xCoord - 1, this.yCoord - 1, this.zCoord, Library.NEG_X),
+					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord + 1, Library.POS_Z),
+					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord - 1, Library.NEG_Z),
+					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord, Library.NEG_Y)
+			};
+		} else if(worldObj.getBlock(xCoord, yCoord - 2, zCoord) == ModBlocks.rbmk_loader) {
+			return new DirPos[] {
+					new DirPos(this.xCoord + 1, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
+					new DirPos(this.xCoord + 1, this.yCoord - 2, this.zCoord, Library.POS_X),
+					new DirPos(this.xCoord - 1, this.yCoord - 2, this.zCoord, Library.NEG_X),
+					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord + 1, Library.POS_Z),
+					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord - 1, Library.NEG_Z),
+					new DirPos(this.xCoord, this.yCoord - 3, this.zCoord, Library.NEG_Y)
+			};
+		} else {
+			return new DirPos[] {
+					new DirPos(this.xCoord + 1, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y)
+			};
 		}
 	}
 
@@ -252,5 +286,20 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		data.setInteger("maxSteam", this.steam.getMaxFill());
 		data.setShort("type", (short)this.steam.getTankType().getID());
 		return data;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] {feed, steam};
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {steam};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {feed};
 	}
 }

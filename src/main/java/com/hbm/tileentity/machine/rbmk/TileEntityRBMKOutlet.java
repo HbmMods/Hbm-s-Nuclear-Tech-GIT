@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.rbmk;
 import java.util.ArrayList;
 import java.util.List;
 
+import api.hbm.fluid.IFluidStandardSender;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
@@ -16,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
+public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource, IFluidStandardSender {
 	
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank steam;
@@ -52,6 +53,7 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 			}
 			
 			fillFluidInit(this.steam.getTankType());
+			this.sendFluidToAll(steam.getTankType(), this);
 		}
 	}
 	
@@ -110,6 +112,16 @@ public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource {
 	@Override
 	public void clearFluidList(FluidType type) {
 		this.list.clear();
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] {steam};
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {steam};
 	}
 
 }

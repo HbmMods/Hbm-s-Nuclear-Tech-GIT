@@ -24,6 +24,7 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -32,7 +33,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineSeleniumEngine extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IConfigurableMachine {
+public class TileEntityMachineSeleniumEngine extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IConfigurableMachine {
 
 	private ItemStack slots[];
 
@@ -231,6 +232,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntityLoadedBase implem
 		
 		if (!worldObj.isRemote) {
 			
+			this.subscribeToAllAround(tank.getTankType(), this);
 			this.sendPower(worldObj, xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN);
 			
 			pistonCount = countPistons();
@@ -400,5 +402,15 @@ public class TileEntityMachineSeleniumEngine extends TileEntityLoadedBase implem
 		}
 		writer.endArray().setIndent("  ");
 		writer.name("B:shutUp").value(shutUp);
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
 	}
 }
