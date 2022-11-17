@@ -38,11 +38,11 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
-			TomSaveData data = TomSaveData.forWorld(world);
+			/*TomSaveData data = TomSaveData.forWorld(world);
 			data.impact = false;
 			data.fire = 0F;
 			data.dust = 0F;
-			data.markDirty();
+			data.markDirty();*/
 			
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;
@@ -68,9 +68,10 @@ public class ItemWandD extends Item {
 			
 			/*OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 20, 500);*/
 			
-			/*EntityNukeTorex torex = new EntityNukeTorex(world);
+			EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
-			world.spawnEntityInWorld(torex);*/
+			//torex.getDataWatcher().updateObject(10, 2F);
+			world.spawnEntityInWorld(torex);
 			
 			/*EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
 			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);

@@ -22,7 +22,7 @@ public class EntityNukeTorex extends Entity {
 	public double rollerSize = 1;
 	public double heat = 1;
 	public ArrayList<Cloudlet> cloudlets = new ArrayList();
-	public static int cloudletLife = 200;
+	//public static int cloudletLife = 200;
 
 	public EntityNukeTorex(World world) {
 		super(world);
@@ -30,41 +30,42 @@ public class EntityNukeTorex extends Entity {
 	}
 
 	@Override
-	protected void entityInit() { }
+	protected void entityInit() {
+		this.dataWatcher.addObject(10, new Float(1));
+	}
 
 	@Override
 	public void onUpdate() {
-		this.ticksExisted++;
+		//this.ticksExisted++;
 		
 		double s = this.getScale();
-		int maxAge = (int) (90 * 20 * s);
+		int maxAge = this.getMaxAge();
 		
 		if(worldObj.isRemote) {
 			
 			double range = (torusWidth - rollerSize) * 0.25;
-			
-			if(this.ticksExisted + cloudletLife * 2 < maxAge) {
+			double simSpeed = getSimulationSpeed();
+			int toSpawn = (int) Math.ceil(10 * simSpeed * simSpeed);
+			int lifetime = Math.min((ticksExisted * ticksExisted) + 200, maxAge - ticksExisted + 200);
 				
-				int toSpawn = (int) Math.ceil(10 * getSimulationSpeed());
-				
-				for(int i = 0; i < toSpawn; i++) {
-					double y = posY + rand.nextGaussian() - 3; //this.ticksExisted < 60 ? this.posY + this.coreHeight : posY + rand.nextGaussian() - 3;
-					Cloudlet cloud = new Cloudlet(posX + rand.nextGaussian() * range, y, posZ + rand.nextGaussian() * range, (float)(rand.nextDouble() * 2D * Math.PI), 0);
-					cloud.setScale(1F + this.ticksExisted * 0.001F * (float) s, 5F * (float) s);
-					cloudlets.add(cloud);
-				}
+			for(int i = 0; i < toSpawn; i++) {
+				double y = posY + rand.nextGaussian() - 3; //this.ticksExisted < 60 ? this.posY + this.coreHeight : posY + rand.nextGaussian() - 3;
+				Cloudlet cloud = new Cloudlet(posX + rand.nextGaussian() * range, y, posZ + rand.nextGaussian() * range, (float)(rand.nextDouble() * 2D * Math.PI), 0, lifetime);
+				cloud.setScale(1F + this.ticksExisted * 0.005F * (float) s, 5F * (float) s);
+				cloudlets.add(cloud);
 			}
 			
-			if(ticksExisted < 200) {
+			if(ticksExisted < 100) {
 				
-				int cloudCount = ticksExisted * 3;
+				int cloudCount = ticksExisted * 5;
+				int shockLife = 200 - ticksExisted * 9 / 10;
 				
 				for(int i = 0; i < cloudCount; i++) {
-					Vec3 vec = Vec3.createVectorHelper((ticksExisted + rand.nextDouble()) * 2, 0, 0);
+					Vec3 vec = Vec3.createVectorHelper((ticksExisted * 2 + rand.nextDouble()) * 2, 0, 0);
 					float rot = (float) (Math.PI * 2 * rand.nextDouble());
 					vec.rotateAroundY(rot);
-					this.cloudlets.add(new Cloudlet(vec.xCoord + posX, worldObj.getHeightValue((int) (vec.xCoord + posX) + 1, (int) (vec.zCoord + posZ)), vec.zCoord + posZ, rot, 0)
-							.setScale(5F * (float) s, 2F * (float) s)
+					this.cloudlets.add(new Cloudlet(vec.xCoord + posX, worldObj.getHeightValue((int) (vec.xCoord + posX) + 1, (int) (vec.zCoord + posZ)), vec.zCoord + posZ, rot, 0, shockLife)
+							.setScale(5F, 2F)
 							.setMotion(0));
 				}
 			}
@@ -90,16 +91,24 @@ public class EntityNukeTorex extends Entity {
 	
 	public double getSimulationSpeed() {
 		
-		if(EntityNukeTorex.this.ticksExisted > 45 * 20) {
-			int timeLeft = 1600 - EntityNukeTorex.this.ticksExisted;
-			return MathHelper.clamp_double((double) timeLeft / 900D, 0, 1);
+		int lifetime = getMaxAge();
+		int simSlow = lifetime / 4;
+		int simStop = lifetime / 2;
+		int life = EntityNukeTorex.this.ticksExisted;
+		
+		if(life > simStop) {
+			return 0D;
+		}
+		
+		if(life > simSlow) {
+			return 1D - ((double)(life - simSlow) / (double)(simStop - simSlow));
 		}
 		
 		return 1.0D;
 	}
 	
 	public double getScale() {
-		return 1.0D;
+		return this.dataWatcher.getWatchableObjectFloat(10);
 	}
 	
 	public double getSaturation() {
@@ -107,9 +116,35 @@ public class EntityNukeTorex extends Entity {
 		return 1D - (d * d * d * d);
 	}
 	
+	public double getGreying() {
+		
+		int lifetime = getMaxAge();
+		int greying = lifetime * 3 / 4;
+		
+		if(ticksExisted > greying) {
+			return 1 + ((double)(ticksExisted - greying) / (double)(lifetime - greying));
+		}
+		
+		return 1D;
+	}
+	
+	public float getAlpha() {
+		
+		int lifetime = getMaxAge();
+		int fadeOut = lifetime * 3 / 4;
+		int life = EntityNukeTorex.this.ticksExisted;
+		
+		if(life > fadeOut) {
+			float fac = (float)(life - fadeOut) / (float)(lifetime - fadeOut);
+			return 1F - fac * fac;
+		}
+		
+		return 1.0F;
+	}
+	
 	public int getMaxAge() {
 		double s = this.getScale();
-		return (int) (90 * 20 * s);
+		return (int) (45 * 20 * s);
 	}
 
 	public class Cloudlet {
@@ -124,6 +159,7 @@ public class EntityNukeTorex extends Entity {
 		public double motionY;
 		public double motionZ;
 		public int age;
+		public int cloudletLife;
 		public float angle;
 		public boolean isDead = false;
 		float rangeMod = 1.0F;
@@ -131,11 +167,12 @@ public class EntityNukeTorex extends Entity {
 		public Vec3 color;
 		public Vec3 prevColor;
 
-		public Cloudlet(double posX, double posY, double posZ, float angle, int age) {
+		public Cloudlet(double posX, double posY, double posZ, float angle, int age, int maxAge) {
 			this.posX = posX;
 			this.posY = posY;
 			this.posZ = posZ;
 			this.age = age;
+			this.cloudletLife = maxAge;
 			this.angle = angle;
 			this.rangeMod = 0.3F + rand.nextFloat() * 0.7F;
 			this.colorMod = 0.8F + rand.nextFloat() * 0.2F;
@@ -265,14 +302,15 @@ public class EntityNukeTorex extends Entity {
 		}
 		
 		public Vec3 getInterpColor(float interp) {
+			double greying = EntityNukeTorex.this.getGreying();
 			return Vec3.createVectorHelper(
-					prevColor.xCoord + (color.xCoord - prevColor.xCoord) * interp,
-					prevColor.yCoord + (color.yCoord - prevColor.yCoord) * interp,
-					prevColor.zCoord + (color.zCoord - prevColor.zCoord) * interp);
+					(prevColor.xCoord + (color.xCoord - prevColor.xCoord) * interp) * greying,
+					(prevColor.yCoord + (color.yCoord - prevColor.yCoord) * interp) * greying,
+					(prevColor.zCoord + (color.zCoord - prevColor.zCoord) * interp) * greying);
 		}
 		
 		public float getAlpha() {
-			return 1F - ((float)age / (float)cloudletLife);
+			return (1F - ((float)age / (float)cloudletLife)) * EntityNukeTorex.this.getAlpha();
 		}
 		
 		private float startingScale = 1;

@@ -13,6 +13,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
@@ -165,6 +166,18 @@ public class ModEventHandlerClient {
 				} else if(world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
 					((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
 				}
+			}
+			
+			List<EntityNukeTorex> torex = world.getEntitiesWithinAABB(EntityNukeTorex.class, player.boundingBox.expand(100, 100, 100));
+			
+			if(!torex.isEmpty()) {
+				EntityNukeTorex t = torex.get(0);
+				List<String> text = new ArrayList();
+				text.add("Speed: " + t.getSimulationSpeed());
+				text.add("Alpha: " + t.getAlpha());
+				text.add("Age: " + t.ticksExisted + " / " + t.getMaxAge());
+				text.add("Clouds: " + t.cloudlets.size());
+				ILookOverlay.printGeneric(event, "DEBUG", 0xff0000, 0x4040000, text);
 			}
 			
 			/*List<String> text = new ArrayList();
