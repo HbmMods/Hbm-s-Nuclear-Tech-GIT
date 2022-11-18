@@ -1,7 +1,6 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
@@ -133,7 +132,7 @@ public class Gun556mmFactory {
 	
 	public static GunConfiguration getMLRConfig()
 	{
-		GunConfiguration config = new GunConfiguration();
+		final GunConfiguration config = new GunConfiguration();
 		
 		config.rateOfFire = 2;
 		config.roundsPerCycle = 1;
@@ -156,7 +155,6 @@ public class Gun556mmFactory {
 		config.config.addAll(HbmCollection.NATO);
 		config.config.addAll(HbmCollection.NATOFlechette);
 		
-		config.animations = new HashMap<>();
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
 						.addKeyframe(new BusAnimationKeyframe(-0.35, 0, 0, 30))
@@ -167,7 +165,7 @@ public class Gun556mmFactory {
 	
 	public static GunConfiguration getG36Config()
 	{
-		GunConfiguration config = new GunConfiguration();
+		final GunConfiguration config = new GunConfiguration();
 		
 		config.rateOfFire = 3;
 		config.roundsPerCycle = 1;
@@ -188,7 +186,6 @@ public class Gun556mmFactory {
 		
 		config.config.addAll(HbmCollection.NATO);
 		
-		config.animations = new HashMap<>();
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
 						.addKeyframe(new BusAnimationKeyframe(-0.35, 0, 0, 30))
