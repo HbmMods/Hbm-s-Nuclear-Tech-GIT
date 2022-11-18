@@ -291,34 +291,31 @@ public class Library {
 	}
 	
 	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation) {
-        Vec3 vec3 = getPosition(interpolation, player);
-        vec3.yCoord += player.eyeHeight;
-        Vec3 vec31 = player.getLook(interpolation);
-        Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
-        return player.worldObj.func_147447_a(vec3, vec32, false, false, true);
+		Vec3 vec3 = getPosition(interpolation, player);
+		vec3.yCoord += player.eyeHeight;
+		Vec3 vec31 = player.getLook(interpolation);
+		Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
+		return player.worldObj.func_147447_a(vec3, vec32, false, false, true);
 	}
-	
+
 	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation, boolean allowLiquids, boolean disallowNonCollidingBlocks, boolean mopOnMiss) {
-        Vec3 vec3 = getPosition(interpolation, player);
-        vec3.yCoord += player.eyeHeight;
-        Vec3 vec31 = player.getLook(interpolation);
-        Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
-        return player.worldObj.func_147447_a(vec3, vec32, allowLiquids, disallowNonCollidingBlocks, mopOnMiss);
+		Vec3 vec3 = getPosition(interpolation, player);
+		vec3.yCoord += player.eyeHeight;
+		Vec3 vec31 = player.getLook(interpolation);
+		Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
+		return player.worldObj.func_147447_a(vec3, vec32, allowLiquids, disallowNonCollidingBlocks, mopOnMiss);
 	}
 	
-    public static Vec3 getPosition(float interpolation, EntityPlayer player) {
-        if (interpolation == 1.0F)
-        {
-            return Vec3.createVectorHelper(player.posX, player.posY + (player.getEyeHeight() - player.getDefaultEyeHeight()), player.posZ);
-        }
-        else
-        {
-            double d0 = player.prevPosX + (player.posX - player.prevPosX) * interpolation;
-            double d1 = player.prevPosY + (player.posY - player.prevPosY) * interpolation + (player.getEyeHeight() - player.getDefaultEyeHeight());
-            double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * interpolation;
-            return Vec3.createVectorHelper(d0, d1, d2);
-        }
-    }
+	public static Vec3 getPosition(float interpolation, EntityPlayer player) {
+		if(interpolation == 1.0F) {
+			return Vec3.createVectorHelper(player.posX, player.posY + (player.getEyeHeight() - player.getDefaultEyeHeight()), player.posZ);
+		} else {
+			double d0 = player.prevPosX + (player.posX - player.prevPosX) * interpolation;
+			double d1 = player.prevPosY + (player.posY - player.prevPosY) * interpolation + (player.getEyeHeight() - player.getDefaultEyeHeight());
+			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * interpolation;
+			return Vec3.createVectorHelper(d0, d1, d2);
+		}
+	}
 	
 	public static List<int[]> getBlockPosInPath(int x, int y, int z, int length, Vec3 vec0) {
 		List<int[]> list = new ArrayList<int[]>();
@@ -346,8 +343,6 @@ public class Library {
 			long batMax = battery.getMaxCharge();
 			long batCharge = battery.getCharge(slots[index]);
 			long batRate = battery.getChargeRate();
-			
-			//in hHE
 			long toCharge = Math.min(Math.min(power, batRate), batMax - batCharge);
 			
 			power -= toCharge;
@@ -359,31 +354,27 @@ public class Library {
 	}
 	
 	public static long chargeTEFromItems(ItemStack[] slots, int index, long power, long maxPower) {
-		
-		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative)
-		{
+
+		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative) {
 			return maxPower;
 		}
-		
-		if(slots[index] != null && slots[index].getItem() == ModItems.fusion_core_infinite)
-		{
+
+		if(slots[index] != null && slots[index].getItem() == ModItems.fusion_core_infinite) {
 			return maxPower;
 		}
-		
+
 		if(slots[index] != null && slots[index].getItem() instanceof IBatteryItem) {
-			
+
 			IBatteryItem battery = (IBatteryItem) slots[index].getItem();
 
 			long batCharge = battery.getCharge(slots[index]);
 			long batRate = battery.getDischargeRate();
-			
-			//in hHe
 			long toDischarge = Math.min(Math.min((maxPower - power), batRate), batCharge);
-			
+
 			battery.dischargeBattery(slots[index], toDischarge);
 			power += toDischarge;
 		}
-		
+
 		return power;
 	}
 	

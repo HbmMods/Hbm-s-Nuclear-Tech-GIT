@@ -4,7 +4,6 @@ import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityRBMKStorage extends TileEntityRBMKSlottedBase implements IRBMKLoadable {
 

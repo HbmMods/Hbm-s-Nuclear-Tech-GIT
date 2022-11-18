@@ -2,7 +2,6 @@ package com.hbm.world.worldgen;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -14,7 +13,6 @@ import com.hbm.world.worldgen.components.RuinFeatures.*;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.BiomeGenBeach;
 import net.minecraft.world.biome.BiomeGenMesa;
 import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.MapGenStructureIO;

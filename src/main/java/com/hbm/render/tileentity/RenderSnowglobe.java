@@ -7,7 +7,8 @@ import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.lib.RefStrings;
 import com.hbm.wiaj.WorldInAJar;
 
-import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -39,47 +40,51 @@ public class RenderSnowglobe extends TileEntitySpecialRenderer {
 		
 		this.bindTexture(socket);
 		snowglobe.renderPart("Socket");
-		
+
 		TileEntitySnowglobe te = (TileEntitySnowglobe) tile;
 		
 		if(te.type.scene != null) {
 			
 			WorldInAJar world = te.type.scene;
 			renderer.blockAccess = world;
-			renderer.enableAO = true;
 			
 			double size = Math.max(world.sizeX, world.sizeZ);
 			scale = 4D / size;
+			GL11.glScaled(scale, scale, scale);
 			GL11.glTranslated(0, 1, 0);
 			GL11.glScaled(scale, scale, scale);
 			
 			GL11.glTranslated(world.sizeX * -0.5, 0, world.sizeZ * -0.5);
 
 			RenderHelper.disableStandardItemLighting();
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glDisable(GL11.GL_CULL_FACE);
-			
-			//i hope everyone involved in the creation of openGL has their nutsack explode
+			GL11.glShadeModel(GL11.GL_SMOOTH);
 
 			bindTexture(TextureMap.locationBlocksTexture);
-			GL11.glShadeModel(GL11.GL_SMOOTH);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			Tessellator.instance.startDrawingQuads();
+			Minecraft.getMinecraft().entityRenderer.disableLightmap(interp);
+			
+			Tessellator tess = Tessellator.instance;
+			tess.startDrawingQuads();
+			tess.setColorOpaque_F(1F, 1F, 1F);
 			
 			for(int a = 0; a < world.sizeX; a++) {
 				for(int b = 0; b < world.sizeY; b++) {
 					for(int c = 0; c < world.sizeZ; c++) {
-						renderer.renderBlockByRenderType(world.getBlock(a, b, c), a, b, c);
+						Block block = world.getBlock(a, b, c);
+						renderer.renderBlockByRenderType(block, a, b, c);
 					}
 				}
 			}
 			
-			Tessellator.instance.draw();
+			tess.draw();
 			GL11.glShadeModel(GL11.GL_FLAT);
-		}
 
+		}
 		GL11.glPopMatrix();
+		Minecraft.getMinecraft().entityRenderer.enableLightmap(interp);
 		RenderHelper.enableStandardItemLighting();
 	}
 }

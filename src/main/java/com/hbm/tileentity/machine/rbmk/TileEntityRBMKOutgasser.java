@@ -134,7 +134,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			return false;
 		
 		if(output.getItem() == ModItems.fluid_icon) {
-			return output.getItemDamage() == gas.getTankType().ordinal() && gas.getFill() + ItemFluidIcon.getQuantity(output) <= gas.getMaxFill();
+			return output.getItemDamage() == gas.getTankType().getID() && gas.getFill() + ItemFluidIcon.getQuantity(output) <= gas.getMaxFill();
 		}
 		
 		if(slots[1] == null)
@@ -277,7 +277,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		NBTTagCompound data = new NBTTagCompound();
 		data.setInteger("gas", this.gas.getFill());
 		data.setInteger("maxGas", this.gas.getMaxFill());
-		data.setShort("type", (short)this.gas.getTankType().ordinal());
+		data.setShort("type", (short)this.gas.getTankType().getID());
 		data.setDouble("progress", this.progress);
 		return data;
 	}

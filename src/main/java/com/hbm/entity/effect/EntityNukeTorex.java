@@ -178,6 +178,8 @@ public class EntityNukeTorex extends Entity {
 			this.colorMod = 0.8F + rand.nextFloat() * 0.2F;
 			
 			this.updateColor();
+			
+			//TODO: add movement types which excludes ground dust from convection sim, then let centered ground dust linger for longer
 		}
 		
 		private void update() {
