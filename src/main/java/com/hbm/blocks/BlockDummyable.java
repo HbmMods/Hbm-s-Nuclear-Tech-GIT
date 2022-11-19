@@ -8,7 +8,6 @@ import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.ThreeInts;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
-import com.hbm.tileentity.machine.TileEntityCrucible;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -37,6 +36,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 	public BlockDummyable(Material mat) {
 		super(mat);
+		this.maxY = 0.999D; //item bounce prevention
 		this.setTickRandomly(true);
 	}
 

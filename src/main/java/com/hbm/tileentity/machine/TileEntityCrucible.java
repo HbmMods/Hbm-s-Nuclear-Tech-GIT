@@ -463,6 +463,11 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	}
 
 	@Override
+	public int[] getAccessibleSlotsFromSide(int meta) {
+		return new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	}
+
+	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerCrucible(player.inventory, this);
 	}

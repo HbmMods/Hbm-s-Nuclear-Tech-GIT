@@ -82,7 +82,6 @@ import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderInfoSystem.InfoEntry;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderOverhead.Marker;
-import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
 import com.hbm.sound.AudioWrapperClientStartStop;
@@ -451,7 +450,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_dash, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_twigun, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_pip, new ItemRenderOverkill());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_nopip, new ItemRenderOverkill());
+		//MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_nopip, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_blackjack, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_silver, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_red, new ItemRenderOverkill());
@@ -496,6 +495,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_spas12, new ItemRenderWeaponSpas12());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_glass_cannon, new ItemRenderWeaponGlass());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_chemthrower, new ItemRenderWeaponChemthrower());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_nopip, new ItemRenderWeaponNovac());
 		//multitool
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_dig, new ItemRenderMultitool());
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_silk, new ItemRenderMultitool());

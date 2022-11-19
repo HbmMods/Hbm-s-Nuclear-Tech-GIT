@@ -73,8 +73,8 @@ public class EntityNukeTorex extends Entity {
 			for(Cloudlet cloud : cloudlets) {
 				cloud.update();
 			}
-			coreHeight += 0.15 * s;
-			torusWidth += 0.05 * s;
+			coreHeight += 0.15/* * s*/;
+			torusWidth += 0.05/* * s*/;
 			rollerSize = torusWidth * 0.35;
 			convectionHeight = coreHeight + rollerSize;
 			

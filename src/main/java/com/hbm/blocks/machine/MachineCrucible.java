@@ -8,6 +8,7 @@ import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.machine.ItemScraps;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityCrucible;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -39,10 +40,8 @@ public class MachineCrucible extends BlockDummyable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		
-		if(meta >= 12)
-			return new TileEntityCrucible();
-		
-		return null;
+		if(meta >= 12) return new TileEntityCrucible();
+		return new TileEntityProxyCombo().inventory();
 	}
 	
 	@Override
