@@ -62,7 +62,7 @@ public class RBMKDials {
 	 * @return >0
 	 */
 	public static double getPassiveCooling(World world) {
-		return Math.max(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_PASSIVE_COOLING), 5.0D), 0.0D);
+		return Math.max(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_PASSIVE_COOLING), 1.0D), 0.0D);
 	}
 	
 	/**

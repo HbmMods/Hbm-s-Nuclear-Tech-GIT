@@ -21,12 +21,14 @@ public class EntityNukeTorex extends Entity {
 	public double torusWidth = 3;
 	public double rollerSize = 1;
 	public double heat = 1;
+	public double lastSpawnY = - 1;
 	public ArrayList<Cloudlet> cloudlets = new ArrayList();
 	//public static int cloudletLife = 200;
 
 	public EntityNukeTorex(World world) {
 		super(world);
 		this.ignoreFrustumCheck = true;
+		this.setSize(1F, 50F);
 	}
 
 	@Override
@@ -36,12 +38,24 @@ public class EntityNukeTorex extends Entity {
 
 	@Override
 	public void onUpdate() {
-		//this.ticksExisted++;
 		
 		double s = this.getScale();
 		int maxAge = this.getMaxAge();
 		
 		if(worldObj.isRemote) {
+			
+			if(lastSpawnY == -1) {
+				lastSpawnY = posY - 3;
+			}
+			
+			int spawnTarget = worldObj.getHeightValue((int) Math.floor(posX), (int) Math.floor(posZ)) - 3;
+			double moveSpeed = 0.5D;
+			
+			if(Math.abs(spawnTarget - lastSpawnY) < moveSpeed) {
+				lastSpawnY = spawnTarget;
+			} else {
+				lastSpawnY += moveSpeed * Math.signum(spawnTarget - lastSpawnY);
+			}
 			
 			double range = (torusWidth - rollerSize) * 0.25;
 			double simSpeed = getSimulationSpeed();
@@ -49,13 +63,14 @@ public class EntityNukeTorex extends Entity {
 			int lifetime = Math.min((ticksExisted * ticksExisted) + 200, maxAge - ticksExisted + 200);
 				
 			for(int i = 0; i < toSpawn; i++) {
-				double y = posY + rand.nextGaussian() - 3; //this.ticksExisted < 60 ? this.posY + this.coreHeight : posY + rand.nextGaussian() - 3;
-				Cloudlet cloud = new Cloudlet(posX + rand.nextGaussian() * range, y, posZ + rand.nextGaussian() * range, (float)(rand.nextDouble() * 2D * Math.PI), 0, lifetime);
+				double x = posX + rand.nextGaussian() * range;
+				double z = posZ + rand.nextGaussian() * range;
+				Cloudlet cloud = new Cloudlet(x, lastSpawnY, z, (float)(rand.nextDouble() * 2D * Math.PI), 0, lifetime);
 				cloud.setScale(1F + this.ticksExisted * 0.005F * (float) s, 5F * (float) s);
 				cloudlets.add(cloud);
 			}
 			
-			if(ticksExisted < 100) {
+			if(ticksExisted < 50) {
 				
 				int cloudCount = ticksExisted * 5;
 				int shockLife = 200 - ticksExisted * 9 / 10;
@@ -345,6 +360,6 @@ public class EntityNukeTorex extends Entity {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean isInRangeToRenderDist(double distance) {
-		return distance < 25000;
+		return true;
 	}
 }

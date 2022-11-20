@@ -79,7 +79,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	 * @return
 	 */
 	public double passiveCooling() {
-		return RBMKDials.getPassiveCooling(worldObj); //default: 5.0D
+		return RBMKDials.getPassiveCooling(worldObj); //default: 1.0D
 	}
 	
 	//necessary checks to figure out whether players are close enough to ensure that the reactor can be safely used
