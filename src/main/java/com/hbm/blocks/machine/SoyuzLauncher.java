@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -31,9 +32,9 @@ public class SoyuzLauncher extends BlockDummyable {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		
-		if(meta >= ForgeDirection.UNKNOWN.ordinal())
-			return new TileEntitySoyuzLauncher();
+
+		if(meta >= 12) return new TileEntitySoyuzLauncher();
+		if(meta >= 6) return new TileEntityProxyCombo().power().fluid();
 		
 		return null;
 	}
@@ -143,6 +144,13 @@ public class SoyuzLauncher extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] { -2, 4, -3, 6, 6, -3 }, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] { 0, 4, 1, 1, -6, 8 }, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] { 0, 4, 2, 2, 9, -5 }, this, dir);
+		
+		for(int ix = x - 6; ix <= x + 6; ix++) {
+			for(int iz = z - 6; iz <= z + 6; iz++) {
+				this.makeExtra(world, ix, y, iz);
+				this.makeExtra(world, ix, y + 1, iz);
+			}
+		}
 	}
 
 	@Override
