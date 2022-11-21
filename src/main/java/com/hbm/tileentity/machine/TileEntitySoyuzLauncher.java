@@ -154,8 +154,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 			
 			for(int i = -6; i <= 6; i++) {
-				conPos.add(new DirPos(xCoord + dir.offsetX * 7 + rot.offsetX * i, yCoord + 0, zCoord + dir.offsetX * 7 + rot.offsetZ * i, dir));
-				conPos.add(new DirPos(xCoord + dir.offsetX * 7 + rot.offsetX * i, yCoord + 1, zCoord + dir.offsetX * 7 + rot.offsetZ * i, dir));
+				conPos.add(new DirPos(xCoord + dir.offsetX * 7 + rot.offsetX * i, yCoord + 0, zCoord + dir.offsetZ * 7 + rot.offsetZ * i, dir));
+				conPos.add(new DirPos(xCoord + dir.offsetX * 7 + rot.offsetX * i, yCoord - 1, zCoord + dir.offsetZ * 7 + rot.offsetZ * i, dir));
 			}
 		}
 		

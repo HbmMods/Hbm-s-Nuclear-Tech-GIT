@@ -36,7 +36,7 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 	@SideOnly(Side.CLIENT) protected IIcon[] iconCurveBR;
 	@SideOnly(Side.CLIENT) protected IIcon[] iconJunction;
 	
-	private static final String[] materials = new String[] { "silver", "copper" };
+	private static final String[] materials = new String[] { "silver", "copper", "white" };
 
 	public FluidDuctBox(Material mat) {
 		super(mat);
@@ -126,7 +126,7 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 	
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-		for(int i = 0; i < 2; ++i) {
+		for(int i = 0; i < 12; ++i) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
@@ -154,7 +154,7 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 
 	@Override
 	public int getSubCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -170,5 +170,13 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 		List<String> text = new ArrayList();
 		text.add("&[" + duct.getType().getColor() + "&]" +I18nUtil.resolveKey(duct.getType().getUnlocalizedName()));
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+	}
+	
+	public static int cachedColor = 0xffffff;
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
+		return cachedColor;
 	}
 }

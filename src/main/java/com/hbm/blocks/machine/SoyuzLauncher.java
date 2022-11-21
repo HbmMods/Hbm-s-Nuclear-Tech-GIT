@@ -145,12 +145,17 @@ public class SoyuzLauncher extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] { 0, 4, 1, 1, -6, 8 }, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] { 0, 4, 2, 2, 9, -5 }, this, dir);
 		
-		for(int ix = x - 6; ix <= x + 6; ix++) {
-			for(int iz = z - 6; iz <= z + 6; iz++) {
-				this.makeExtra(world, ix, y, iz);
-				this.makeExtra(world, ix, y + 1, iz);
+		keepInventory = true;
+		for(int ix = -6; ix <= 6; ix++) {
+			for(int iz = -6; iz <= 6; iz++) {
+				
+				if(ix == 6 || ix == -6 || iz == 6 || iz == -6) {
+					this.makeExtra(world, x + ix, y, z + iz);
+					this.makeExtra(world, x + ix, y + 1, z + iz);
+				}
 			}
 		}
+		keepInventory = false;
 	}
 
 	@Override
@@ -172,7 +177,7 @@ public class SoyuzLauncher extends BlockDummyable {
 		if(!keepInventory) {
 			ISidedInventory tileentityfurnace = (ISidedInventory) world.getTileEntity(x, y, z);
 
-			if(tileentityfurnace != null) {
+			if(tileentityfurnace instanceof TileEntitySoyuzLauncher) {
 				for(int i1 = 0; i1 < tileentityfurnace.getSizeInventory(); ++i1) {
 					ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
 

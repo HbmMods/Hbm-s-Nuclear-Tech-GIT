@@ -14,14 +14,14 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 
-import api.hbm.fluid.IFluidUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, IFluidSource, IFluidAcceptor, IFluidUser, IPersistentNBT {
+public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, IFluidSource, IFluidAcceptor, IFluidStandardTransceiver, IPersistentNBT {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -228,5 +228,15 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
 		this.tank.readFromNBT(data, "tank");
 		this.mode = data.getShort("mode");
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : new FluidTank[0];
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
 	}
 }

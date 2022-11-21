@@ -12,7 +12,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.main.ModEventHandlerImpact;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -178,7 +177,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 
 	@Override
 	public int getFluidFill(FluidType type) {
-		
 		return type == this.tank.getTankType() ? tank.getFill() : 0;
 	}
 
