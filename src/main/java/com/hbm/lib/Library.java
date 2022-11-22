@@ -132,6 +132,7 @@ public class Library {
 		return false;
 	}
 
+	/** dir is the direction along the fluid duct entering the block */
 	public static boolean canConnectFluid(IBlockAccess world, int x, int y, int z, ForgeDirection dir, FluidType type) {
 		
 		if(y > 255 || y < 0)
@@ -143,14 +144,14 @@ public class Library {
 		if(b instanceof IFluidConnectorBlock) {
 			IFluidConnectorBlock con = (IFluidConnectorBlock) b;
 			
-			if(con.canConnect(type, world, x, y, z, dir))
+			if(con.canConnect(type, world, x, y, z, dir.getOpposite()))
 				return true;
 		}
 		
 		if(te instanceof IFluidConnector) {
 			IFluidConnector con = (IFluidConnector) te;
 			
-			if(con.canConnect(type, dir))
+			if(con.canConnect(type, dir.getOpposite()))
 				return true;
 		}
 		

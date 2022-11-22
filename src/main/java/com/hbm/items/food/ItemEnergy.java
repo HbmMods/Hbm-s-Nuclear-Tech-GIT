@@ -188,23 +188,25 @@ public class ItemEnergy extends Item {
 				HbmLivingProps.incrementRadiation(player, 500F);
 				player.triggerAchievement(MainRegistry.achRadium);
 			}
-		}
 
-		if(!player.capabilities.isCreativeMode) {
+			if(!player.capabilities.isCreativeMode) {
 
-			if(this.cap != null) {
-				
-				if(this == ModItems.bottle2_sunset && world.rand.nextInt(20) == 0)
-					player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_star));
-				else
-					player.inventory.addItemStackToInventory(new ItemStack(this.cap));
-			}
-			if(this.container != null) {
-				if(stack.stackSize <= 0) {
-					return new ItemStack(this.container);
+				if(this.cap != null) {
+					
+					if(this == ModItems.bottle2_sunset && world.rand.nextInt(20) == 0)
+						player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_star));
+					else
+						player.inventory.addItemStackToInventory(new ItemStack(this.cap));
 				}
-				player.inventory.addItemStackToInventory(new ItemStack(this.container));
+				if(this.container != null) {
+					if(stack.stackSize <= 0) {
+						return new ItemStack(this.container);
+					}
+					player.inventory.addItemStackToInventory(new ItemStack(this.container));
+				}
 			}
+			
+			player.inventoryContainer.detectAndSendChanges();
 		}
 
 		return stack;

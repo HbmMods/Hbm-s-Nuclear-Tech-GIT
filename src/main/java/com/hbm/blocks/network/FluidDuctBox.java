@@ -126,7 +126,7 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 	
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-		for(int i = 0; i < 12; ++i) {
+		for(int i = 0; i < 15; ++i) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}

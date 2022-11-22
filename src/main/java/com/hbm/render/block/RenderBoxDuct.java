@@ -51,7 +51,7 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 		double jLower = 0.0625D;
 		double jUpper = 0.9375D;
 		
-		for(int i = 2; i < 10; i += 3) {
+		for(int i = 2; i < 13; i += 3) {
 			
 			if(meta > i) {
 				lower += 0.0625D;

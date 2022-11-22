@@ -175,8 +175,10 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 	
 	protected List<DirPos> getConPos() {
 		
-		if(conPos != null)
+		if(conPos != null && !conPos.isEmpty())
 			return conPos;
+		
+		conPos = new ArrayList();
 
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);

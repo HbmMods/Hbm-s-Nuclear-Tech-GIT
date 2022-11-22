@@ -6,6 +6,8 @@ import java.util.List;
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.test.TestPipe;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 import com.hbm.util.I18nUtil;
@@ -15,12 +17,16 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILookOverlay {
 
@@ -83,6 +89,109 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 	@Override
 	public int getSubCount() {
 		return 3;
+	}
+
+	@Override
+	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
+		
+		List<AxisAlignedBB> bbs = new ArrayList();
+		
+		bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.3125D, x + 0.6875D, y + 0.6875D, z + 0.6875D));
+
+
+		TileEntity te = world.getTileEntity(x, y, z);
+		if(te instanceof TileEntityPipeBaseNT) {
+			TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
+			FluidType type = pipe.getType();
+
+			boolean nX = canConnectTo(world, x, y, z, Library.NEG_X, type);
+			boolean pX = canConnectTo(world, x, y, z, Library.POS_X, type);
+			boolean nY = canConnectTo(world, x, y, z, Library.NEG_Y, type);
+			boolean pY = canConnectTo(world, x, y, z, Library.POS_Y, type);
+			boolean nZ = canConnectTo(world, x, y, z, Library.NEG_Z, type);
+			boolean pZ = canConnectTo(world, x, y, z, Library.POS_Z, type);
+			int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
+			
+			if(mask == 0) {
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.6875D, y + 0.3125D, z + 0.3125D, x + 1.0D, y + 0.6875D, z + 0.6875D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + 0.3125D, z + 0.3125D, x + 0.3125D, y + 0.6875D, z + 0.6875D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.6875D, z + 0.3125D, x + 0.6875D, y + 1.0D, z + 0.6875D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.0D, z + 0.3125D, x + 0.6875D, y + 0.3125D, z + 0.6875D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.6875D, x + 0.6875D, y + 0.6875D, z + 1.0D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 0.3125D));
+			} else if(mask == 0b100000 || mask == 0b010000) {
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + 0.3125D, z + 0.3125D, x + 0.3125D, y + 0.6875D, z + 0.6875D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 0.3125D));
+			} else if(mask == 0b001000 || mask == 0b000100) {
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.6875D, z + 0.3125D, x + 0.6875D, y + 1.0D, z + 0.6875D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.0D, z + 0.3125D, x + 0.6875D, y + 0.3125D, z + 0.6875D));
+			} else if(mask == 0b000010 || mask == 0b000001) {
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.6875D, x + 0.6875D, y + 0.6875D, z + 1.0D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 0.3125D));
+			} else {
+		
+				if(pX) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.6875D, y + 0.3125D, z + 0.3125D, x + 1.0D, y + 0.6875D, z + 0.6875D));
+				if(nX) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + 0.3125D, z + 0.3125D, x + 0.3125D, y + 0.6875D, z + 0.6875D));
+				if(pY) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.6875D, z + 0.3125D, x + 0.6875D, y + 1.0D, z + 0.6875D));
+				if(nY) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.0D, z + 0.3125D, x + 0.6875D, y + 0.3125D, z + 0.6875D));
+				if(pZ) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.6875D, x + 0.6875D, y + 0.6875D, z + 1.0D));
+				if(nZ) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 0.3125D));
+			}
+		}
+		
+		for(AxisAlignedBB bb : bbs) {
+			if(entityBounding.intersectsWith(bb)) {
+				list.add(bb);
+			}
+		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
+		setBlockBoundsBasedOnState(world, x, y, z);
+		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
+
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+
+		TileEntity te = world.getTileEntity(x, y, z);
+		if(te instanceof TileEntityPipeBaseNT) {
+			TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
+			FluidType type = pipe.getType();
+
+			boolean nX = canConnectTo(world, x, y, z, Library.NEG_X, type);
+			boolean pX = canConnectTo(world, x, y, z, Library.POS_X, type);
+			boolean nY = canConnectTo(world, x, y, z, Library.NEG_Y, type);
+			boolean pY = canConnectTo(world, x, y, z, Library.POS_Y, type);
+			boolean nZ = canConnectTo(world, x, y, z, Library.NEG_Z, type);
+			boolean pZ = canConnectTo(world, x, y, z, Library.POS_Z, type);
+			int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
+			
+			if(mask == 0) {
+				this.setBlockBounds(0F, 0F, 0F, 1F, 1F, 1F);
+			} else if(mask == 0b100000 || mask == 0b010000) {
+				this.setBlockBounds(0F, 0.3125F, 0.3125F, 1F, 0.6875F, 0.6875F);
+			} else if(mask == 0b001000 || mask == 0b000100) {
+				this.setBlockBounds(0.3125F, 0F, 0.3125F, 0.6875F, 1F, 0.6875F);
+			} else if(mask == 0b000010 || mask == 0b000001) {
+				this.setBlockBounds(0.3125F, 0.3125F, 0F, 0.6875F, 0.6875F, 1F);
+			} else {
+				
+				this.setBlockBounds(
+						nX ? 0F : 0.3125F,
+						nY ? 0F : 0.3125F,
+						nZ ? 0F : 0.3125F,
+						pX ? 1F : 0.6875F,
+						pY ? 1F : 0.6875F,
+						pZ ? 1F : 0.6875F);
+			}
+		}
+	}
+	
+	public boolean canConnectTo(IBlockAccess world, int x, int y, int z, ForgeDirection dir, FluidType type) {
+		return Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, type);
 	}
 
 	@Override
