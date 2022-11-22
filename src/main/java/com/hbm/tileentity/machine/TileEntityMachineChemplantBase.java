@@ -17,6 +17,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidUser;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,7 @@ import net.minecraft.util.ChunkCoordinates;
  * Tanks follow the order R1(I1, I2, O1, O2), R2(I1, I2, O1, O2) ...
  * @author hbm
  */
-public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor {
+public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor, IFluidUser {
 
 	public long power;
 	public int[] progress;
@@ -514,6 +515,69 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		}
 		
 		return outTanks;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public long transferFluid(FluidType type, long fluid) {
+		int amount = (int) fluid;
+		
+		if(amount <= 0)
+			return 0;
+		
+		List<FluidTank> rec = new ArrayList();
+		
+		for(FluidTank tank : inTanks()) {
+			if(tank.getTankType() == type) {
+				rec.add(tank);
+			}
+		}
+		
+		if(rec.size() == 0)
+			return fluid;
+		
+		int demand = 0;
+		List<Integer> weight = new ArrayList();
+		
+		for(FluidTank tank : rec) {
+			int fillWeight = tank.getMaxFill() - tank.getFill();
+			demand += fillWeight;
+			weight.add(fillWeight);
+		}
+		
+		for(int i = 0; i < rec.size(); i++) {
+			
+			if(demand <= 0)
+				break;
+			
+			FluidTank tank = rec.get(i);
+			int fillWeight = weight.get(i);
+			int part = (int) ((long)amount * (long)fillWeight / (long)demand);
+			
+			tank.setFill(tank.getFill() + part);
+			fluid -= part;
+		}
+		
+		return fluid;
+	}
+
+	@Override
+	public long getDemand(FluidType type) {
+		return getMaxFluidFill(type) - getFluidFillForTransfer(type);
+	}
+
+	@Override
+	public long getTotalFluidForSend(FluidType type) {
+		return getFluidFillForTransfer(type);
+	}
+
+	@Override
+	public void removeFluidForTransfer(FluidType type, long amount) {
+		this.transferFluid((int) amount, type);
 	}
 	
 	@Override
