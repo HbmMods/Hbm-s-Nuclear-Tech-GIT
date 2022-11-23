@@ -95,9 +95,6 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
 		
 		List<AxisAlignedBB> bbs = new ArrayList();
-		
-		bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.3125D, x + 0.6875D, y + 0.6875D, z + 0.6875D));
-
 
 		TileEntity te = world.getTileEntity(x, y, z);
 		if(te instanceof TileEntityPipeBaseNT) {
@@ -119,16 +116,15 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.0D, z + 0.3125D, x + 0.6875D, y + 0.3125D, z + 0.6875D));
 				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.6875D, x + 0.6875D, y + 0.6875D, z + 1.0D));
 				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 0.3125D));
-			} else if(mask == 0b100000 || mask == 0b010000) {
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + 0.3125D, z + 0.3125D, x + 0.3125D, y + 0.6875D, z + 0.6875D));
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 0.3125D));
-			} else if(mask == 0b001000 || mask == 0b000100) {
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.6875D, z + 0.3125D, x + 0.6875D, y + 1.0D, z + 0.6875D));
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.0D, z + 0.3125D, x + 0.6875D, y + 0.3125D, z + 0.6875D));
-			} else if(mask == 0b000010 || mask == 0b000001) {
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.6875D, x + 0.6875D, y + 0.6875D, z + 1.0D));
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 0.3125D));
+			} else if(mask == 0b100000 || mask == 0b010000 || mask == 0b110000) {
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + 0.3125D, z + 0.3125D, x + 1.0D, y + 0.6875D, z + 0.6875D));
+			} else if(mask == 0b001000 || mask == 0b000100 || mask == 0b001100) {
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.0D, z + 0.3125D, x + 0.6875D, y + 1.0D, z + 0.6875D));
+			} else if(mask == 0b000010 || mask == 0b000001 || mask == 0b000011) {
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 1.0D));
 			} else {
+				
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.3125D, x + 0.6875D, y + 0.6875D, z + 0.6875D));
 		
 				if(pX) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.6875D, y + 0.3125D, z + 0.3125D, x + 1.0D, y + 0.6875D, z + 0.6875D));
 				if(nX) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + 0.3125D, z + 0.3125D, x + 0.3125D, y + 0.6875D, z + 0.6875D));
@@ -171,11 +167,11 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 			
 			if(mask == 0) {
 				this.setBlockBounds(0F, 0F, 0F, 1F, 1F, 1F);
-			} else if(mask == 0b100000 || mask == 0b010000) {
+			} else if(mask == 0b100000 || mask == 0b010000 || mask == 0b110000) {
 				this.setBlockBounds(0F, 0.3125F, 0.3125F, 1F, 0.6875F, 0.6875F);
-			} else if(mask == 0b001000 || mask == 0b000100) {
+			} else if(mask == 0b001000 || mask == 0b000100 || mask == 0b001100) {
 				this.setBlockBounds(0.3125F, 0F, 0.3125F, 0.6875F, 1F, 0.6875F);
-			} else if(mask == 0b000010 || mask == 0b000001) {
+			} else if(mask == 0b000010 || mask == 0b000001 || mask == 0b000011) {
 				this.setBlockBounds(0.3125F, 0.3125F, 0F, 0.6875F, 0.6875F, 1F);
 			} else {
 				

@@ -121,6 +121,10 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			this.speed /= (overLevel + 1);
 			this.consumption *= (overLevel + 1);
 			
+			if(this.speed <= 0) {
+				this.speed = 1;
+			}
+			
 			if(!canProcess()) {
 				this.progress = 0;
 			} else {
