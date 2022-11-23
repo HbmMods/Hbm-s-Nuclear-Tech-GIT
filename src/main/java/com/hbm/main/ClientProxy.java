@@ -1422,15 +1422,9 @@ public class ClientProxy extends ServerProxy {
 
 			//single swing: 			HT 15,  MHT 15
 			//double swing: 			HT 60,  MHT 50
-			//vic's immersive swing: 	HT 100, MHT 50
-			
-			if(player.getDisplayName().equals("Vic4Games")) {
-				player.hurtTime = 100;
-				player.maxHurtTime = 50;
-			} else {
-				player.hurtTime = 15;
-				player.maxHurtTime = 15;
-			}
+
+			player.hurtTime = 15;
+			player.maxHurtTime = 15;
 			player.attackedAtYaw = 0F;
 		}
 		
@@ -1461,13 +1455,8 @@ public class ClientProxy extends ServerProxy {
 	    		ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, ix, iy + rand.nextGaussian() * 0.02, iz);
 	    		Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
     		}
-			if(player.getDisplayName().equals("Vic4Games")) {
-				player.hurtTime = 100;
-				player.maxHurtTime = 50;
-			} else {
-				player.hurtTime = 15;
-				player.maxHurtTime = 15;
-			}
+			player.hurtTime = 15;
+			player.maxHurtTime = 15;
 			player.attackedAtYaw = 0F;
 		}
 		

@@ -163,13 +163,6 @@ public void addInformation(ItemStack stack, EntityPlayer player, List list, bool
 		}
 		
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
-
-		if(player.getDisplayName().equals("Vic4Games")) {
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setString("type", "justTilt");
-			nbt.setInteger("time", mainConfig.rateOfFire + 1);
-			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(nbt, player.posX, player.posY, player.posZ), (EntityPlayerMP) player);
-		}
 	}
 	
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {

@@ -819,7 +819,7 @@ public class ModEventHandlerClient {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onClientTickLast(ClientTickEvent event) {
 		
-		if(event.phase == Phase.START) {
+		if(event.phase == Phase.START && GeneralConfig.enableSkyboxes) {
 			
 			World world = Minecraft.getMinecraft().theWorld;
 			

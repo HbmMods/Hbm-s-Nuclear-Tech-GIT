@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.Fluids;
@@ -79,6 +80,30 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			data.setShort("mode", mode);
 			this.networkPack(data, 50);
 		}
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		ItemStack full = FluidContainerRegistry.getFullContainer(itemStack, tank.getTankType());
+		//if fillable and the fill being possible for this tank size
+		if(i == 2 && full != null && FluidContainerRegistry.getFluidContent(full, tank.getTankType()) <= tank.getMaxFill())
+			return true;
+		int content = FluidContainerRegistry.getFluidContent(itemStack, tank.getTankType());
+		//if content is above 0 but still within capacity
+		if(i == 4 && content > 0 && content <= tank.getMaxFill())
+			return true;
+		
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return i == 3 || i == 5;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return new int[] {2, 3, 4, 5};
 	}
 	
 	public void checkFluidInteraction() {

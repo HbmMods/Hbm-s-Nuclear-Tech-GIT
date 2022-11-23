@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.world.WorldProviderNTM;
@@ -123,8 +124,11 @@ public class ModEventHandlerImpact {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLoad(WorldEvent.Load event) {
-		DimensionManager.unregisterProviderType(0);
-		DimensionManager.registerProviderType(0, WorldProviderNTM.class, true);
+		
+		if(GeneralConfig.enableImpactWorldProvider) {
+			DimensionManager.unregisterProviderType(0);
+			DimensionManager.registerProviderType(0, WorldProviderNTM.class, true);
+		}
 	}
 
 	@SubscribeEvent

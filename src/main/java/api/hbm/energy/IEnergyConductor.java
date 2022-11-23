@@ -95,13 +95,13 @@ public interface IEnergyConductor extends IEnergyConnector {
 					}
 				}*/
 				
-				//extensive debugging has shown that bidirectional re-eval ic complete shit
+				//extensive debugging has shown that bidirectional re-eval is complete shit
 			}
 		}
 	}
 	
 	/**
-	 * Creates a list of positions for the reeval process. In short - what positions should be considered as connected.
+	 * Creates a list of positions for the re-eval process. In short - what positions should be considered as connected.
 	 * Also used by pylons to quickly figure out what positions to connect to.
 	 * DEFAULT: Connects to all six neighboring blocks.
 	 * @return
