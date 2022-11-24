@@ -331,6 +331,9 @@ public class TileMappings {
 		put(TileEntityCraneBoxer.class, "tileentity_boxer");
 		put(TileEntityCraneUnboxer.class, "tileentity_unboxer");
 		put(TileEntityCraneRouter.class, "tileentity_router");
+
+		put(TileEntityRadioTorchSender.class, "tileentity_rtty_sender");
+		put(TileEntityRadioTorchReceiver.class, "tileentity_rtty_rec");
 	}
 	
 	private static void put(Class<? extends TileEntity> clazz, String... names) {

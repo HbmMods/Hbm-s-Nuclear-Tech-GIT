@@ -179,7 +179,7 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 			double lower = 0.125D;
 			double upper = 0.875D;
 			double jLower = 0.0625D;
-			double jUpper = 0.9375D; //TODO
+			double jUpper = 0.9375D;
 			int meta = world.getBlockMetadata(x, y, z);
 			
 			for(int i = 2; i < 13; i += 3) {
@@ -201,28 +201,23 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 			int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
 			
 			if(mask == 0) {
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.6875D, y + 0.3125D, z + 0.3125D, x + 1.0D, y + 0.6875D, z + 0.6875D));
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + 0.3125D, z + 0.3125D, x + 0.3125D, y + 0.6875D, z + 0.6875D));
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.6875D, z + 0.3125D, x + 0.6875D, y + 1.0D, z + 0.6875D));
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.0D, z + 0.3125D, x + 0.6875D, y + 0.3125D, z + 0.6875D));
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.6875D, x + 0.6875D, y + 0.6875D, z + 1.0D));
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 0.3125D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + jLower, y + jLower, z + jLower, x + jUpper, y + jUpper, z + jUpper));
 			} else if(mask == 0b100000 || mask == 0b010000 || mask == 0b110000) {
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + 0.3125D, z + 0.3125D, x + 1.0D, y + 0.6875D, z + 0.6875D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + lower, z + lower, x + 1.0D, y + upper, z + upper));
 			} else if(mask == 0b001000 || mask == 0b000100 || mask == 0b001100) {
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.0D, z + 0.3125D, x + 0.6875D, y + 1.0D, z + 0.6875D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + 0.0D, z + lower, x + upper, y + 1.0D, z + upper));
 			} else if(mask == 0b000010 || mask == 0b000001 || mask == 0b000011) {
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 1.0D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + 0.0D, x + upper, y + upper, z + 1.0D));
 			} else {
 				
-				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.3125D, x + 0.6875D, y + 0.6875D, z + 0.6875D));
+				bbs.add(AxisAlignedBB.getBoundingBox(x + jLower, y + jLower, z + jLower, x + jUpper, y + jUpper, z + jUpper));
 		
-				if(pX) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.6875D, y + 0.3125D, z + 0.3125D, x + 1.0D, y + 0.6875D, z + 0.6875D));
-				if(nX) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + 0.3125D, z + 0.3125D, x + 0.3125D, y + 0.6875D, z + 0.6875D));
-				if(pY) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.6875D, z + 0.3125D, x + 0.6875D, y + 1.0D, z + 0.6875D));
-				if(nY) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.0D, z + 0.3125D, x + 0.6875D, y + 0.3125D, z + 0.6875D));
-				if(pZ) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.6875D, x + 0.6875D, y + 0.6875D, z + 1.0D));
-				if(nZ) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 0.3125D));
+				if(pX) bbs.add(AxisAlignedBB.getBoundingBox(x + upper, y + lower, z + lower, x + 1.0D, y + upper, z + upper));
+				if(nX) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + lower, z + lower, x + lower, y + upper, z + upper));
+				if(pY) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + upper, z + lower, x + upper, y + 1.0D, z + upper));
+				if(nY) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + 0.0D, z + lower, x + upper, y + lower, z + upper));
+				if(pZ) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + upper, x + upper, y + upper, z + 1.0D));
+				if(nZ) bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + 0.0D, x + upper, y + upper, z + lower));
 			}
 		}
 		
@@ -248,6 +243,22 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 			TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
 			FluidType type = pipe.getType();
 
+			float lower = 0.125F;
+			float upper = 0.875F;
+			float jLower = 0.0625F;
+			float jUpper = 0.9375F;
+			int meta = world.getBlockMetadata(x, y, z);
+			
+			for(int i = 2; i < 13; i += 3) {
+				
+				if(meta > i) {
+					lower += 0.0625F;
+					upper -= 0.0625F;
+					jLower += 0.0625F;
+					jUpper -= 0.0625F;
+				}
+			}
+
 			boolean nX = canConnectTo(world, x, y, z, Library.NEG_X, type);
 			boolean pX = canConnectTo(world, x, y, z, Library.POS_X, type);
 			boolean nY = canConnectTo(world, x, y, z, Library.NEG_Y, type);
@@ -257,22 +268,22 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 			int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
 			
 			if(mask == 0) {
-				this.setBlockBounds(0F, 0F, 0F, 1F, 1F, 1F);
+				this.setBlockBounds(jLower, jLower, jLower, jUpper, jUpper, jUpper);
 			} else if(mask == 0b100000 || mask == 0b010000 || mask == 0b110000) {
-				this.setBlockBounds(0F, 0.3125F, 0.3125F, 1F, 0.6875F, 0.6875F);
+				this.setBlockBounds(0F, lower, lower, 1F, upper, upper);
 			} else if(mask == 0b001000 || mask == 0b000100 || mask == 0b001100) {
-				this.setBlockBounds(0.3125F, 0F, 0.3125F, 0.6875F, 1F, 0.6875F);
+				this.setBlockBounds(lower, 0F, lower, upper, 1F, upper);
 			} else if(mask == 0b000010 || mask == 0b000001 || mask == 0b000011) {
-				this.setBlockBounds(0.3125F, 0.3125F, 0F, 0.6875F, 0.6875F, 1F);
+				this.setBlockBounds(lower, lower, 0F, upper, upper, 1F);
 			} else {
 				
 				this.setBlockBounds(
-						nX ? 0F : 0.3125F,
-						nY ? 0F : 0.3125F,
-						nZ ? 0F : 0.3125F,
-						pX ? 1F : 0.6875F,
-						pY ? 1F : 0.6875F,
-						pZ ? 1F : 0.6875F);
+						nX ? 0F : jLower,
+						nY ? 0F : jLower,
+						nZ ? 0F : jLower,
+						pX ? 1F : jUpper,
+						pY ? 1F : jUpper,
+						pZ ? 1F : jUpper);
 			}
 		}
 	}

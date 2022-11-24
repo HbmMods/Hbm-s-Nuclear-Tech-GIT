@@ -790,6 +790,7 @@ public class ModBlocks {
 	public static Block fluid_duct_neo;
 	public static Block fluid_duct_box;
 	public static Block radio_torch_sender;
+	public static Block radio_torch_receiver;
 
 	public static Block conveyor;
 	//public static Block conveyor_classic;
@@ -1979,6 +1980,7 @@ public class ModBlocks {
 		fluid_duct_neo = new FluidDuctStandard(Material.iron).setBlockName("fluid_duct_neo").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pipe_neo");
 		fluid_duct_box = new FluidDuctBox(Material.iron).setBlockName("fluid_duct_box").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_box");
 		radio_torch_sender = new RadioTorchSender().setBlockName("radio_torch_sender").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		radio_torch_receiver = new RadioTorchReceiver().setBlockName("radio_torch_receiver").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		
 		conveyor = new BlockConveyor().setBlockName("conveyor").setHardness(2.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor");
 		//conveyor_classic = new BlockConveyorClassic().setBlockName("conveyor_classic").setHardness(2.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor");
@@ -3161,6 +3163,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(fluid_duct_box, ItemBlockBase.class, fluid_duct_box.getUnlocalizedName());
 		GameRegistry.registerBlock(fluid_duct_solid, fluid_duct_solid.getUnlocalizedName());
 		GameRegistry.registerBlock(radio_torch_sender, radio_torch_sender.getUnlocalizedName());
+		GameRegistry.registerBlock(radio_torch_receiver, radio_torch_receiver.getUnlocalizedName());
 
 		GameRegistry.registerBlock(crane_extractor, crane_extractor.getUnlocalizedName());
 		GameRegistry.registerBlock(crane_inserter, crane_inserter.getUnlocalizedName());
