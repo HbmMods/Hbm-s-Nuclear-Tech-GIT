@@ -199,6 +199,7 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 			boolean nZ = canConnectTo(world, x, y, z, Library.NEG_Z, type);
 			boolean pZ = canConnectTo(world, x, y, z, Library.POS_Z, type);
 			int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
+			int count = 0 + (pX ? 1 : 0) + (nX ? 1 : 0) + (pY ? 1 : 0) + (nY ? 1 : 0) + (pZ ? 1 : 0) + (nZ ? 1 : 0);
 			
 			if(mask == 0) {
 				bbs.add(AxisAlignedBB.getBoundingBox(x + jLower, y + jLower, z + jLower, x + jUpper, y + jUpper, z + jUpper));
@@ -210,7 +211,11 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 				bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + 0.0D, x + upper, y + upper, z + 1.0D));
 			} else {
 				
-				bbs.add(AxisAlignedBB.getBoundingBox(x + jLower, y + jLower, z + jLower, x + jUpper, y + jUpper, z + jUpper));
+				if(count != 2) {
+					bbs.add(AxisAlignedBB.getBoundingBox(x + jLower, y + jLower, z + jLower, x + jUpper, y + jUpper, z + jUpper));
+				} else {
+					bbs.add(AxisAlignedBB.getBoundingBox(x + lower, y + lower, z + lower, x + upper, y + upper, z + upper));
+				}
 		
 				if(pX) bbs.add(AxisAlignedBB.getBoundingBox(x + upper, y + lower, z + lower, x + 1.0D, y + upper, z + upper));
 				if(nX) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + lower, z + lower, x + lower, y + upper, z + upper));
@@ -266,6 +271,7 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 			boolean nZ = canConnectTo(world, x, y, z, Library.NEG_Z, type);
 			boolean pZ = canConnectTo(world, x, y, z, Library.POS_Z, type);
 			int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
+			int count = 0 + (pX ? 1 : 0) + (nX ? 1 : 0) + (pY ? 1 : 0) + (nY ? 1 : 0) + (pZ ? 1 : 0) + (nZ ? 1 : 0);
 			
 			if(mask == 0) {
 				this.setBlockBounds(jLower, jLower, jLower, jUpper, jUpper, jUpper);
@@ -277,13 +283,23 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 				this.setBlockBounds(lower, lower, 0F, upper, upper, 1F);
 			} else {
 				
-				this.setBlockBounds(
-						nX ? 0F : jLower,
-						nY ? 0F : jLower,
-						nZ ? 0F : jLower,
-						pX ? 1F : jUpper,
-						pY ? 1F : jUpper,
-						pZ ? 1F : jUpper);
+				if(count != 2) {
+					this.setBlockBounds(
+							nX ? 0F : jLower,
+							nY ? 0F : jLower,
+							nZ ? 0F : jLower,
+							pX ? 1F : jUpper,
+							pY ? 1F : jUpper,
+							pZ ? 1F : jUpper);
+				} else {
+					this.setBlockBounds(
+							nX ? 0F : lower,
+							nY ? 0F : lower,
+							nZ ? 0F : lower,
+							pX ? 1F : upper,
+							pY ? 1F : upper,
+							pZ ? 1F : upper);
+				}
 			}
 		}
 	}

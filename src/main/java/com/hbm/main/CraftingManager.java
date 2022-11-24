@@ -600,7 +600,7 @@ public class CraftingManager {
 
 		addRecipeAuto(new ItemStack(ModBlocks.fluid_duct, 8), new Object[] { "SAS", "   ", "SAS", 'S', STEEL.plate(), 'A', AL.plate() });
 		addRecipeAuto(new ItemStack(ModBlocks.fluid_duct_solid, 8), new Object[] { "SAS", "A A", "SAS", 'S', STEEL.ingot(), 'A', AL.plate() });
-		addRecipeAuto(new ItemStack(ModItems.template_folder, 1), new Object[] { "LPL", "BPB", "LPL", 'P', Items.paper, 'L', KEY_BLUE, 'B', KEY_WHITE });
+		addRecipeAuto(new ItemStack(ModItems.template_folder, 1), new Object[] { "LPL", "BPB", "LPL", 'P', Items.paper, 'L', "dye", 'B', "dye" });
 		addRecipeAuto(new ItemStack(ModItems.pellet_antimatter, 1), new Object[] { "###", "###", "###", '#', ModItems.cell_antimatter });
 		addRecipeAuto(new ItemStack(ModItems.fluid_tank_empty, 8), new Object[] { "121", "1G1", "121", '1', AL.plate(), '2', IRON.plate(), 'G', KEY_ANYPANE });
 		addRecipeAuto(new ItemStack(ModItems.fluid_tank_lead_empty, 4), new Object[] { "LUL", "LTL", "LUL", 'L', PB.plate(), 'U', U238.billet(), 'T', ModItems.fluid_tank_empty });
