@@ -373,4 +373,9 @@ public class GUIAnvil extends GuiContainer {
 			super.keyTyped(c, key);
 		}
 	}
+
+	@Override
+	public void onGuiClosed() {
+		Keyboard.enableRepeatEvents(false);
+	}
 }

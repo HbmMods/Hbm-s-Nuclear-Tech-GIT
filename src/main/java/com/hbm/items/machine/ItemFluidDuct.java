@@ -5,7 +5,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.tileentity.conductor.TileEntityFluidDuct;
+import com.hbm.tileentity.conductor.TileEntityFluidDuctSimple;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -120,10 +120,10 @@ public class ItemFluidDuct extends Item {
 			return false;
 		} else {
 			--stack.stackSize;
-			world.setBlock(x, y, z, ModBlocks.fluid_duct);
+			world.setBlock(x, y, z, ModBlocks.fluid_duct_neo);
 
-			if(world.getTileEntity(x, y, z) instanceof TileEntityFluidDuct) {
-				((TileEntityFluidDuct) world.getTileEntity(x, y, z)).setType(Fluids.fromID(stack.getItemDamage()));
+			if(world.getTileEntity(x, y, z) instanceof TileEntityFluidDuctSimple) {
+				((TileEntityFluidDuctSimple) world.getTileEntity(x, y, z)).setType(Fluids.fromID(stack.getItemDamage()));
 			}
 
 			world.playSoundEffect(x, y, z, "hbm:block.pipePlaced", 1.0F, 0.65F + world.rand.nextFloat() * 0.2F);

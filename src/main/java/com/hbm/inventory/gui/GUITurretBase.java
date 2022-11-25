@@ -299,6 +299,11 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 		
 		return names.size();
 	}
+
+	@Override
+	public void onGuiClosed() {
+		Keyboard.enableRepeatEvents(false);
+	}
 	
 	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
 		

@@ -1,5 +1,7 @@
 package com.hbm.render.block;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.blocks.network.FluidDuctBox;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -16,7 +18,42 @@ import net.minecraft.world.IBlockAccess;
 public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 
 	@Override
-	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) { }
+	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+
+		Tessellator tessellator = Tessellator.instance;
+		FluidDuctBox duct = (FluidDuctBox) block;
+		int type = metadata % 3;
+
+		float lower = 0.125F;
+		float upper = 0.875F;
+		
+		for(int i = 2; i < 13; i += 3) {
+			
+			if(metadata > i) {
+				lower += 0.0625F;
+				upper -= 0.0625F;
+			}
+		}
+		
+		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+		
+		renderer.setRenderBounds(lower, lower, 0.0F, upper, upper, 1.0F);
+		
+		renderer.uvRotateNorth = 1;
+		renderer.uvRotateSouth = 2;
+		
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0F, 1F, 0F);	renderer.renderFaceYPos(block, 0, 0, 0, duct.iconStraight[type]);
+		tessellator.setNormal(0F, -1F, 0F);	renderer.renderFaceYNeg(block, 0, 0, 0, duct.iconStraight[type]);
+		tessellator.setNormal(1F, 0F, 0F);	renderer.renderFaceXPos(block, 0, 0, 0, duct.iconStraight[type]);
+		tessellator.setNormal(-1F, 0F, 0F);	renderer.renderFaceXNeg(block, 0, 0, 0, duct.iconStraight[type]);
+		tessellator.setNormal(0F, 0F, 1F);	renderer.renderFaceZPos(block, 0, 0, 0, duct.iconEnd[type]);
+		tessellator.setNormal(0F, 0F, -1F);	renderer.renderFaceZNeg(block, 0, 0, 0, duct.iconEnd[type]);
+		tessellator.draw();
+
+		renderer.uvRotateNorth = 0;
+		renderer.uvRotateSouth = 0;
+	}
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
@@ -173,7 +210,7 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public boolean shouldRender3DInInventory(int modelId) {
-		return false;
+		return true;
 	}
 
 	@Override

@@ -31,13 +31,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOverlay {
 
-	@SideOnly(Side.CLIENT) protected IIcon[] iconStraight;
-	@SideOnly(Side.CLIENT) protected IIcon[] iconEnd;
-	@SideOnly(Side.CLIENT) protected IIcon[] iconCurveTL;
-	@SideOnly(Side.CLIENT) protected IIcon[] iconCurveTR;
-	@SideOnly(Side.CLIENT) protected IIcon[] iconCurveBL;
-	@SideOnly(Side.CLIENT) protected IIcon[] iconCurveBR;
-	@SideOnly(Side.CLIENT) protected IIcon[] iconJunction;
+	@SideOnly(Side.CLIENT) public IIcon[] iconStraight;
+	@SideOnly(Side.CLIENT) public IIcon[] iconEnd;
+	@SideOnly(Side.CLIENT) public IIcon[] iconCurveTL;
+	@SideOnly(Side.CLIENT) public IIcon[] iconCurveTR;
+	@SideOnly(Side.CLIENT) public IIcon[] iconCurveBL;
+	@SideOnly(Side.CLIENT) public IIcon[] iconCurveBR;
+	@SideOnly(Side.CLIENT) public IIcon[] iconJunction;
 	
 	private static final String[] materials = new String[] { "silver", "copper", "white" };
 

@@ -222,4 +222,9 @@ public class GUIRadioRec extends GuiInfoContainer {
 			}
 		}
     }
+
+	@Override
+	public void onGuiClosed() {
+		Keyboard.enableRepeatEvents(false);
+	}
 }
