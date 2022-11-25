@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map.Entry;
 
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
@@ -34,7 +33,7 @@ public class ExplosionNukeRayBatched {
 
 	public boolean isAusf3Complete = false;
 
-	public ExplosionNukeRayBatched(World world, int x, int y, int z, int strength, int count, int speed, int length) {
+	public ExplosionNukeRayBatched(World world, int x, int y, int z, int strength, int speed, int length) {
 		this.world = world;
 		this.posX = x;
 		this.posY = y;
@@ -75,7 +74,6 @@ public class ExplosionNukeRayBatched {
 		return Vec3.createVectorHelper(dx, dy, dz);
 	}
 
-	//currently used by mk4
 	public void collectTip(int count) {
 
 		int amountProcessed = 0;
@@ -145,6 +143,7 @@ public class ExplosionNukeRayBatched {
 		isAusf3Complete = true;
 	}
 	
+	/** little comparator for roughly sorting chunks by distance to the center */
 	public class CoordComparator implements Comparator<ChunkCoordIntPair> {
 
 		@Override
@@ -160,7 +159,7 @@ public class ExplosionNukeRayBatched {
 		}
 	}
 
-	public void processChunk(int count) {
+	public void processChunk() {
 		
 		if(this.perChunk.isEmpty()) return;
 		

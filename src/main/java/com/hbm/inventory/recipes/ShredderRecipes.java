@@ -194,6 +194,13 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(Items.fermented_spider_eye, new ItemStack(ModItems.powder_poison, 3));
 		ShredderRecipes.setRecipe(Items.poisonous_potato, new ItemStack(ModItems.powder_poison, 1));
 		ShredderRecipes.setRecipe(ModBlocks.ore_tektite_osmiridium, new ItemStack(ModItems.powder_tektite, 1));
+		ShredderRecipes.setRecipe(Blocks.dirt, new ItemStack(ModItems.dust, 1));
+		
+		List<ItemStack> logs = OreDictionary.getOres("logWood");
+		List<ItemStack> planks = OreDictionary.getOres("plankWood");
+		
+		for(ItemStack log : logs) ShredderRecipes.setRecipe(log, new ItemStack(ModItems.powder_sawdust, 4));
+		for(ItemStack plank : planks) ShredderRecipes.setRecipe(plank, new ItemStack(ModItems.powder_sawdust, 1));
 
 		List<ItemStack> silicon = OreDictionary.getOres("itemSilicon");
 		if(!silicon.isEmpty()) {

@@ -1,13 +1,13 @@
 package com.hbm.entity.logic;
 
 import com.hbm.explosion.nt.IExplosionLogic;
-import com.hbm.explosion.nt.Mark5;
 import com.hbm.explosion.nt.Mark5Ausf2;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
+@Deprecated
 public class EntityNukeExplosionNT extends Entity {
 	
 	private IExplosionLogic explosion;

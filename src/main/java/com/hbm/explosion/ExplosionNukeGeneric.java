@@ -6,17 +6,13 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
-import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings.GameType;
@@ -24,7 +20,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.VersatileConfig;
-import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
 import com.hbm.entity.grenade.EntityGrenadeNuclear;
@@ -35,7 +30,6 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
 import com.hbm.util.ArmorUtil;
 
 import api.hbm.energy.IEnergyUser;
@@ -44,52 +38,6 @@ import cofh.api.energy.IEnergyProvider;
 public class ExplosionNukeGeneric {
 
 	private final static Random random = new Random();
-
-	public static void detonateTestBomb(World world, int x, int y, int z, int bombStartStrength) {
-		int r = bombStartStrength;
-		int r2 = r * r;
-		int r22 = r2 / 2;
-		for (int xx = -r; xx < r; xx++) {
-			int X = xx + x;
-			int XX = xx * xx;
-			for (int yy = -r; yy < r; yy++) {
-				int Y = yy + y;
-				int YY = XX + yy * yy;
-				for (int zz = -r; zz < r; zz++) {
-					int Z = zz + z;
-					int ZZ = YY + zz * zz;
-					if (r22 >= 25) {
-						if (ZZ < r22 + world.rand.nextInt(r22 / 25)) {
-							if (Y >= y)
-								destruction(world, X, Y, Z);
-						}
-					} else {
-						if (ZZ < r22) {
-							if (Y >= y)
-								destruction(world, X, Y, Z);
-						}
-					}
-				}
-			}
-		}
-
-		for (int xx = -r; xx < r; xx++) {
-			int X = xx + x;
-			int XX = xx * xx;
-			for (int yy = -r; yy < r; yy++) {
-				int Y = yy + y;
-				int YY = XX + yy * yy * 50;
-				for (int zz = -r; zz < r; zz++) {
-					int Z = zz + z;
-					int ZZ = YY + zz * zz;
-					if (ZZ < r22/* +world.rand.nextInt(r22) */) {
-						if (Y < y)
-							destruction(world, X, Y, Z);
-					}
-				}
-			}
-		}
-	}
 
 	public static void empBlast(World world, int x, int y, int z, int bombStartStrength) {
 		int r = bombStartStrength;
@@ -168,119 +116,6 @@ public class ExplosionNukeGeneric {
 		
 		if (e instanceof EntityPlayerMP && ((EntityPlayerMP)e).theItemInWorldManager.getGameType() == GameType.CREATIVE) {
 			return true;
-		}
-		
-		return false;
-	}
-
-	public static void succ(World world, int x, int y, int z, int radius) {
-		int i;
-		int j;
-		int k;
-		double d5;
-		double d6;
-		double d7;
-		double wat = radius/** 2 */
-		;
-
-		// bombStartStrength *= 2.0F;
-		i = MathHelper.floor_double(x - wat - 1.0D);
-		j = MathHelper.floor_double(x + wat + 1.0D);
-		k = MathHelper.floor_double(y - wat - 1.0D);
-		int i2 = MathHelper.floor_double(y + wat + 1.0D);
-		int l = MathHelper.floor_double(z - wat - 1.0D);
-		int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-
-		for (int i1 = 0; i1 < list.size(); ++i1) {
-			Entity entity = (Entity) list.get(i1);
-			
-			if(entity instanceof EntityBlackHole)
-				continue;
-			
-			double d4 = entity.getDistance(x, y, z) / radius;
-
-			if (d4 <= 1.0D) {
-				d5 = entity.posX - x;
-				d6 = entity.posY + entity.getEyeHeight() - y;
-				d7 = entity.posZ - z;
-				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-				if (d9 < wat && !(entity instanceof EntityPlayer
-								&& ArmorUtil.checkArmor((EntityPlayer) entity, ModItems.euphemium_helmet,
-										ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))) {
-					d5 /= d9;
-					d6 /= d9;
-					d7 /= d9;
-					
-					if (!(entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode)) {
-						double d8 = 0.125 + (random.nextDouble() * 0.25);
-						entity.motionX -= d5 * d8;
-						entity.motionY -= d6 * d8;
-						entity.motionZ -= d7 * d8;
-					}
-				}
-			}
-		}
-	}
-
-	public static boolean dedify(World world, int x, int y, int z, int radius) {
-		int i;
-		int j;
-		int k;
-		double d5;
-		double d6;
-		double d7;
-		double wat = radius/** 2 */
-		;
-
-		// bombStartStrength *= 2.0F;
-		i = MathHelper.floor_double(x - wat - 1.0D);
-		j = MathHelper.floor_double(x + wat + 1.0D);
-		k = MathHelper.floor_double(y - wat - 1.0D);
-		int i2 = MathHelper.floor_double(y + wat + 1.0D);
-		int l = MathHelper.floor_double(z - wat - 1.0D);
-		int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-
-		for (int i1 = 0; i1 < list.size(); ++i1) {
-			Entity entity = (Entity) list.get(i1);
-			double d4 = entity.getDistance(x, y, z) / radius;
-
-			if (d4 <= 1.0D) {
-				d5 = entity.posX - x;
-				d6 = entity.posY + entity.getEyeHeight() - y;
-				d7 = entity.posZ - z;
-				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-				if (d9 < wat && !(entity instanceof EntityPlayer
-								&& ArmorUtil.checkArmor((EntityPlayer) entity, ModItems.euphemium_helmet,
-										ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))) {
-					d5 /= d9;
-					d6 /= d9;
-					d7 /= d9;
-					// double d10 = (double)world.getBlockDensity(vec3,
-					// entity.boundingBox);
-					// if(d10 > 0) isOccupied = true;
-
-					if(entity instanceof EntityItem && ((EntityItem)entity).getEntityItem().getItem() == ModItems.flame_pony) {
-						entity.setDead();
-						return true;
-					}
-					if(entity instanceof EntityItem && ((EntityItem)entity).getEntityItem().getItem() == ModItems.pellet_antimatter) {
-						entity.setDead();
-						return true;
-					}
-						
-					if (!(entity instanceof EntityPlayerMP
-							&& ((EntityPlayerMP) entity).theItemInWorldManager.getGameType() == GameType.CREATIVE)) {
-						entity.attackEntityFrom(ModDamageSource.blackhole, 1000F);
-					}
-					
-					if(!(entity instanceof EntityLivingBase) && !(entity instanceof EntityPlayerMP) && !(entity instanceof EntityBlackHole)) {
-						if(random.nextInt(8) == 0)
-							entity.setDead();
-					}
-				}
-			}
 		}
 		
 		return false;

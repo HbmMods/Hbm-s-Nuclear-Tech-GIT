@@ -8,10 +8,7 @@ import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.explosion.ExplosionNukeRay;
 import com.hbm.explosion.ExplosionNukeRayBatched;
-import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -22,7 +19,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -30,8 +26,6 @@ public class EntityNukeExplosionMK5 extends Entity {
 	
 	//Strength of the blast
 	public int strength;
-	//How many rays should be created
-	public int count;
 	//How many rays are calculated per tick
 	public int speed;
 	public int length;
@@ -47,10 +41,9 @@ public class EntityNukeExplosionMK5 extends Entity {
 		super(p_i1582_1_);
 	}
 	
-	public EntityNukeExplosionMK5(World world, int strength, int count, int speed, int length) {
+	public EntityNukeExplosionMK5(World world, int strength, int speed, int length) {
 		super(world);
 		this.strength = strength;
-		this.count = count;
 		this.speed = speed;
 		this.length = length;
 	}
@@ -63,28 +56,24 @@ public class EntityNukeExplosionMK5 extends Entity {
 			return;
 		}
 		
-		for(Object player : this.worldObj.playerEntities)
+		for(Object player : this.worldObj.playerEntities) {
 			((EntityPlayer)player).triggerAchievement(MainRegistry.achManhattan);
+		}
 		
 		if(!worldObj.isRemote && fallout && explosion != null && this.ticksExisted < 10) {
-			
 			radiate(500_000, this.length * 2);
-
-			/*float radMax = Math.min((float) (length / 2F * Math.pow(length, 1.5) / 35F), 15000);
-			float rad = radMax / 4F;
-			ChunkRadiationManager.proxy.incrementRad(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), rad);*/
 		}
 		
 		if(!mute) {
-	    	this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
-	    	if(rand.nextInt(5) == 0)
-	        	this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
+			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
+			if(rand.nextInt(5) == 0)
+				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
 		}
 		
 		ExplosionNukeGeneric.dealDamage(this.worldObj, this.posX, this.posY, this.posZ, this.length * 2);
 		
 		if(explosion == null) {
-			explosion = new ExplosionNukeRayBatched(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.strength, this.count, this.speed, this.length);
+			explosion = new ExplosionNukeRayBatched(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.strength, this.speed, this.length);
 		}
 		
 		if(!explosion.isAusf3Complete) {
@@ -92,7 +81,7 @@ public class EntityNukeExplosionMK5 extends Entity {
 		} else if(explosion.perChunk.size() > 0) {
 			long start = System.currentTimeMillis();
 			
-			while(explosion.perChunk.size() > 0 && System.currentTimeMillis() < start + 50) explosion.processChunk(BombConfig.mk4);
+			while(explosion.perChunk.size() > 0 && System.currentTimeMillis() < start + BombConfig.mk5) explosion.processChunk();
 			
 		} else if(fallout) {
 
@@ -107,7 +96,6 @@ public class EntityNukeExplosionMK5 extends Entity {
 			this.setDead();
 		} else {
 			this.setDead();
-			System.out.println("STOPPING");
 		}
 	}
 	
@@ -166,48 +154,19 @@ public class EntityNukeExplosionMK5 extends Entity {
 		
 		r *= 2;
 		
-		EntityNukeExplosionMK5 mk4 = new EntityNukeExplosionMK5(world);
-		mk4.strength = (int)(r);
-		mk4.count = (int)(4 * Math.PI * Math.pow(mk4.strength, 2) * 25);
-		mk4.speed = (int)Math.ceil(100000 / mk4.strength);
-		mk4.setPosition(x, y, z);
-		mk4.length = mk4.strength / 2;
-		return mk4;
-	}
-	
-	public static EntityNukeExplosionMK5 statFacExperimental(World world, int r, double x, double y, double z) {
-		
-		if(GeneralConfig.enableExtendedLogging && !world.isRemote)
-			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized eX explosion at " + x + " / " + y + " / " + z + " with strength " + r + "!");
-		
-		r *= 2;
-		
-		EntityNukeExplosionMK5 mk4 = new EntityNukeExplosionMK5(world);
-		mk4.strength = (int)(r);
-		mk4.count = (int)(4 * Math.PI * Math.pow(mk4.strength, 2) * 25);
-		mk4.speed = (int)Math.ceil(100000 / mk4.strength);
-		mk4.setPosition(x, y, z);
-		mk4.length = mk4.strength / 2;
-		return mk4;
+		EntityNukeExplosionMK5 mk5 = new EntityNukeExplosionMK5(world);
+		mk5.strength = (int)(r);
+		mk5.speed = (int)Math.ceil(100000 / mk5.strength);
+		mk5.setPosition(x, y, z);
+		mk5.length = mk5.strength / 2;
+		return mk5;
 	}
 	
 	public static EntityNukeExplosionMK5 statFacNoRad(World world, int r, double x, double y, double z) {
 		
-		System.out.println("STARTING");
-		
-		if(GeneralConfig.enableExtendedLogging && !world.isRemote)
-			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized nR explosion at " + x + " / " + y + " / " + z + " with strength " + r + "!");
-		
-		r *= 2;
-		
-		EntityNukeExplosionMK5 mk4 = new EntityNukeExplosionMK5(world);
-		mk4.strength = (int)(r);
-		mk4.count = (int)(4 * Math.PI * Math.pow(mk4.strength, 2) * 25);
-		mk4.speed = (int)Math.ceil(100000 / mk4.strength);
-		mk4.setPosition(x, y, z);
-		mk4.length = mk4.strength / 2;
-		mk4.fallout = false;
-		return mk4;
+		EntityNukeExplosionMK5 mk5 = statFac(world, r, x, y ,z);
+		mk5.fallout = false;
+		return mk5;
 	}
 	
 	public EntityNukeExplosionMK5 moreFallout(int fallout) {

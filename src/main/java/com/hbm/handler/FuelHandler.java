@@ -22,21 +22,21 @@ public class FuelHandler implements IFuelHandler {
 		if(fuel.getItem().equals(ModItems.solid_fuel_presto_triplet_bf))	return single * 2000;
 		if(fuel.getItem().equals(ModItems.rocket_fuel))						return single * 32;
 		
-		if(fuel.getItem().equals(ModItems.biomass)) return 800;
-		if(fuel.getItem().equals(ModItems.biomass_compressed)) return 2400;
-		if(fuel.getItem().equals(ModItems.powder_coal)) return 1600;
-		if(fuel.getItem().equals(ModItems.scrap)) return 800;
-		if(fuel.getItem().equals(ModItems.dust)) return 400;
-		if(fuel.getItem().equals(ModItems.powder_fire)) return 6400;
-		if(fuel.getItem().equals(Item.getItemFromBlock(ModBlocks.block_scrap))) return 4000;
-		if(fuel.getItem() == ModItems.lignite) return 1200;
-		if(fuel.getItem() == ModItems.powder_lignite) return 1200;
-		if(fuel.getItem() == ModItems.briquette_lignite) return 1600;
-		if(fuel.getItem() == ModItems.coke) return 3200;
-		if(fuel.getItem() == ModItems.book_guide) return 800;
-		if(fuel.getItem() == ModItems.coal_infernal) return 4800;
-		if(fuel.getItem() == ModItems.crystal_coal) return 6400;
-		if(fuel.getItem() == ModItems.powder_sawdust) return 100;
+		if(fuel.getItem() == ModItems.biomass)								return single * 2;
+		if(fuel.getItem() == ModItems.biomass_compressed)					return single * 4;
+		if(fuel.getItem() == ModItems.powder_coal)							return single * 8;
+		if(fuel.getItem() == ModItems.scrap)								return single / 2;
+		if(fuel.getItem() == ModItems.dust)									return single / 2;
+		if(fuel.getItem() == Item.getItemFromBlock(ModBlocks.block_scrap))	return single * 2;
+		if(fuel.getItem() == ModItems.powder_fire)							return 6400;
+		if(fuel.getItem() == ModItems.lignite)								return 1200;
+		if(fuel.getItem() == ModItems.powder_lignite)						return 1200;
+		if(fuel.getItem() == ModItems.briquette_lignite)					return 1600;
+		if(fuel.getItem() == ModItems.coke)									return 3200;
+		if(fuel.getItem() == ModItems.book_guide)							return single;
+		if(fuel.getItem() == ModItems.coal_infernal)						return 4800;
+		if(fuel.getItem() == ModItems.crystal_coal)							return 6400;
+		if(fuel.getItem() == ModItems.powder_sawdust)						return single / 2;
 		
 		return 0;
 	}

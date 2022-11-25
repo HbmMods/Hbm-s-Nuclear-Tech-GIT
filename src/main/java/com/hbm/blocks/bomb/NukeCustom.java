@@ -8,7 +8,7 @@ import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityFallingNuke;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
@@ -178,7 +178,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 			hydro = Math.min(hydro, maxHydro);
 			dirty *= 0.25F;
 
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)hydro, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).moreFallout((int)dirty));
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, (int)hydro, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).moreFallout((int)dirty));
 			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, hydro));
 			
 		/// NUCLEAR ///
@@ -187,7 +187,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 			nuke += tnt / 2;
 			nuke = Math.min(nuke, maxNuke);
 
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)nuke, xCoord + 0.5, yCoord + 5, zCoord + 0.5).moreFallout((int)dirty));
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, (int)nuke, xCoord + 0.5, yCoord + 5, zCoord + 0.5).moreFallout((int)dirty));
 			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, nuke));
 			
 		/// NON-NUCLEAR ///
@@ -195,7 +195,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 
 			tnt = Math.min(tnt, maxTnt);
 
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFacNoRad(worldObj, (int)tnt, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5));
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(worldObj, (int)tnt, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5));
 			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, tnt));
 		} else if(tnt > 0) {
 			

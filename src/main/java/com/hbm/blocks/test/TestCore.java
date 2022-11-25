@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -26,7 +26,7 @@ public class TestCore extends Block {
 			if(meta >= 6) {
 
 				world.setBlockToAir(x, y, z);
-				world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));
+				world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));
 
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, BombConfig.missileRadius * 0.005F);
 				entity2.posX = x;

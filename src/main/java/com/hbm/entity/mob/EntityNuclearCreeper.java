@@ -2,7 +2,7 @@ package com.hbm.entity.mob;
 
 import java.util.List;
 
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.mob.ai.EntityAINuclearCreeperSwell;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
@@ -317,7 +317,7 @@ public class EntityNuclearCreeper extends EntityMob {
 				worldObj.playSoundEffect(posX, posY + 0.5, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 
 				if(flag) {
-					worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, 50, posX, posY, posZ).mute());
+					worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, 50, posX, posY, posZ).mute());
 				} else {
 					ExplosionNukeGeneric.dealDamage(worldObj, posX, posY + 0.5, posZ, 100);
 				}

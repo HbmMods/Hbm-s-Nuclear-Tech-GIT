@@ -20,7 +20,7 @@ public class BombConfig {
 	public static int nukaRadius = 25;
 	public static int aSchrabRadius = 20;
 
-	public static int mk4 = 1024;
+	public static int mk5 = 50;
 	public static int blastSpeed = 1024;
 	public static int falloutRange = 100;
 	public static int fDelay = 4;
@@ -83,9 +83,9 @@ public class BombConfig {
 		propBlastSpeed.comment = "Base speed of MK3 system (old and schrabidium) detonations (Blocks / tick)";
 		blastSpeed = propBlastSpeed.getInt();
 		// new explosion speed
-		Property propFalloutRange = config.get(CATEGORY_NUKE, "6.02_blastSpeedNew", 1024);
-		propFalloutRange.comment = "Base speed of MK4 system (new) detonations (Blocks / tick)";
-		mk4 = propFalloutRange.getInt();
+		Property propFalloutRange = config.get(CATEGORY_NUKE, "6.02_mk5BlastTime", 50);
+		propFalloutRange.comment = "Minimum amount of milliseconds per tick allocated for mk5 chunk processing";
+		mk5 = propFalloutRange.getInt();
 		// fallout range
 		Property falloutRangeProp = config.get(CATEGORY_NUKE, "6.03_falloutRange", 100);
 		falloutRangeProp.comment = "Radius of fallout area (base radius * value in percent)";

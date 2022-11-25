@@ -5,7 +5,7 @@ import java.util.Random;
 
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
@@ -247,7 +247,7 @@ public class ItemAmmoArty extends Item {
 		/* FULL NUKE */
 		this.itemTypes[NUKE] = new ArtilleryShell("ammo_arty_nuke") {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
-				shell.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(shell.worldObj, BombConfig.missileRadius, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
+				shell.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(shell.worldObj, BombConfig.missileRadius, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(shell.worldObj, 1000, BombConfig.missileRadius * 0.005F);
 				entity2.posX = mop.hitVec.xCoord;
 				entity2.posY = mop.hitVec.yCoord;
