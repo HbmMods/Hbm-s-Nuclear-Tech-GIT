@@ -18,6 +18,7 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.I18nUtil;
 
@@ -44,7 +45,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @author hbm
  *
  */
-public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacketReceiver {
+public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements INBTPacketReceiver {
 	
 	public double heat;
 	

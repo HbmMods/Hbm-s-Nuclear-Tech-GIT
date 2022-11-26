@@ -85,9 +85,6 @@ import com.hbm.render.util.RenderOverhead.Marker;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
 import com.hbm.sound.AudioWrapperClientStartStop;
-import com.hbm.sound.nt.ISoundSourceTE;
-import com.hbm.sound.nt.SoundWrapper;
-import com.hbm.sound.nt.SoundWrapperClient;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
@@ -1818,12 +1815,6 @@ public class ClientProxy extends ServerProxy {
 		AudioWrapperClientStartStop audio = new AudioWrapperClientStartStop(world, sound == null ? null : new ResourceLocation(sound), start, stop, volume * 5);
 		audio.updatePosition(x, y, z);
 		return audio;
-	}
-	
-	@Override
-	public SoundWrapper getTileSound(String sound, ISoundSourceTE tile) {
-		SoundWrapperClient wrapper = new SoundWrapperClient(sound, tile);
-		return wrapper;
 	}
 
 	@Override

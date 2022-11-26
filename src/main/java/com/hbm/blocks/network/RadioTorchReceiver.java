@@ -7,13 +7,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class RadioTorchReceiver extends RadioTorchBase {
-	
-	@SideOnly(Side.CLIENT)
-	protected IIcon iconOn;
 
 	public RadioTorchReceiver() {
 		super();
@@ -29,5 +26,23 @@ public class RadioTorchReceiver extends RadioTorchBase {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityRadioTorchReceiver();
+	}
+	
+	@Override
+	public boolean canProvidePower() {
+		return true;
+	}
+	
+	@Override
+	public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side) {
+		
+		TileEntity tile = world.getTileEntity(x, y, z);
+		
+		if(tile instanceof TileEntityRadioTorchReceiver) {
+			int state = ((TileEntityRadioTorchReceiver) tile).lastState;
+			return state;
+		}
+		
+		return 0;
 	}
 }

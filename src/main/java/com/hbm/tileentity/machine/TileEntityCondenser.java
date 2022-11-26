@@ -12,6 +12,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandler;
 import com.hbm.main.ModEventHandlerImpact;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,7 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
+public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
 
 	public int age = 0;
 	public FluidTank[] tanks;

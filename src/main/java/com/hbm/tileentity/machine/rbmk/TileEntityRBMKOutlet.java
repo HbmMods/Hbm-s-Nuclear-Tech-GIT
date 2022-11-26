@@ -11,13 +11,14 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRBMKOutlet extends TileEntity implements IFluidSource, IFluidStandardSender {
+public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluidSource, IFluidStandardSender {
 	
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank steam;

@@ -10,12 +10,12 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeatex extends TileEntity implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
+public class TileEntityHeatex extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
 
 	public List<IFluidAcceptor> coolantList = new ArrayList();
 	public List<IFluidAcceptor> waterList = new ArrayList();

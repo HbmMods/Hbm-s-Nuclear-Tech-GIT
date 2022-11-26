@@ -3,11 +3,13 @@ package com.hbm.render.block;
 import com.hbm.blocks.network.RadioTorchBase;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
+import com.hbm.tileentity.network.TileEntityRadioTorchBase;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.obj.WavefrontObject;
@@ -25,8 +27,18 @@ public class RenderRTTY implements ISimpleBlockRenderingHandler {
 		tessellator.setBrightness(brightness);
 		tessellator.setColorOpaque_F(1, 1, 1);
 		
-		IIcon icon = block.getIcon(world, x, y, z, 0);
+		IIcon icon = block.getIcon(0, 0);
 		int meta = world.getBlockMetadata(x, y, z);
+		
+		TileEntity tile = world.getTileEntity(x, y, z);
+		
+		if(tile instanceof TileEntityRadioTorchBase) {
+			TileEntityRadioTorchBase rtty = (TileEntityRadioTorchBase) tile;
+			
+			if(rtty.lastState > 0) {
+				icon = block.getIcon(1, 0);
+			}
+		}
 
 		float flip = 0;
 		float rotation = 0;

@@ -6,8 +6,6 @@ import java.util.List;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.sound.nt.ISoundSourceTE;
-import com.hbm.sound.nt.SoundWrapper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -65,10 +63,6 @@ public class ServerProxy {
 	}
 
 	public void openLink(String url) { }
-	
-	public SoundWrapper getTileSound(String sound, ISoundSourceTE source) {
-		return new SoundWrapper();
-	}
 	
 	public List<ItemStack> getSubItems(ItemStack stack) {
 		

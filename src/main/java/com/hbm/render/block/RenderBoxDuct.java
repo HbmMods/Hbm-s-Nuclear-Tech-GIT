@@ -68,7 +68,7 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 		if(te instanceof TileEntityPipeBaseNT) {
 			TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
 			type = pipe.getType();
-			if(meta == 2) {
+			if(meta % 3 == 2) {
 				FluidDuctBox.cachedColor = type.getColor();
 			}
 		}

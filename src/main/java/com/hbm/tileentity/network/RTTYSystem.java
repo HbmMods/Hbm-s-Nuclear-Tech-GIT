@@ -20,11 +20,13 @@ public class RTTYSystem {
 		newMessages.put(identifier, signal);
 	}
 	
+	/** Returns the RTTY channel with that name, or null */
 	public static RTTYChannel listen(World world, String channelName) {
 		RTTYChannel channel = broadcast.get(new Pair(world, channelName));
 		return channel;
 	}
 	
+	/** Moves all new messages to the broadcast map, adding the appropriate timestamp and clearing the new message queue */
 	public static void updateBroadcastQueue() {
 		
 		for(Entry<Pair<World, String>, Object> worldEntry : newMessages.entrySet()) {
@@ -34,6 +36,9 @@ public class RTTYSystem {
 			RTTYChannel channel = new RTTYChannel();
 			channel.timeStamp = identifier.getKey().getTotalWorldTime();
 			channel.signal = lastSignal;
+			
+			broadcast.put(identifier, channel);
+			newMessages.clear();
 		}
 	}
 	
