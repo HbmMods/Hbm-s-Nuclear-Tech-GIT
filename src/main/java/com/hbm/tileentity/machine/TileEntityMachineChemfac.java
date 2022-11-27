@@ -79,6 +79,10 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 			this.speed /= (overLevel + 1);
 			this.consumption *= (overLevel + 1);
 			
+			if(this.speed <= 0) {
+				this.speed = 1;
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
 			data.setIntArray("progress", this.progress);

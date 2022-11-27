@@ -1,5 +1,6 @@
 package com.hbm.tileentity.network;
 
+import net.minecraft.block.Block;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityRadioTorchSender extends TileEntityRadioTorchBase {
@@ -10,6 +11,12 @@ public class TileEntityRadioTorchSender extends TileEntityRadioTorchBase {
 		if(!worldObj.isRemote) {
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
 			int input = worldObj.getIndirectPowerLevelTo(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, this.getBlockMetadata());
+			
+			Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+			
+			if(b.hasComparatorInputOverride()) {
+				input = b.getComparatorInputOverride(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir.getOpposite().ordinal());
+			}
 			
 			boolean shouldSend = this.polling;
 			

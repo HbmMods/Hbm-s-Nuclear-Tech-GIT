@@ -15,7 +15,7 @@ public class TileEntityRadioTorchReceiver extends TileEntityRadioTorchBase {
 			
 			RTTYChannel chan = RTTYSystem.listen(worldObj, this.channel);
 			
-			if(chan != null && (this.polling || (chan.timeStamp != this.lastUpdate - 1 && chan.timeStamp != -1))) { // if we're either polling or a new message has come in
+			if(chan != null && (this.polling || (chan.timeStamp > this.lastUpdate - 1 && chan.timeStamp != -1))) { // if we're either polling or a new message has come in
 				String msg = "" + chan.signal;
 				this.lastUpdate = worldObj.getTotalWorldTime();
 				int nextState = 0; //if no remap apply, default to 0

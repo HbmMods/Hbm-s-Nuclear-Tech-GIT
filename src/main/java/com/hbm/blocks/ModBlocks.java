@@ -3162,8 +3162,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(fluid_duct_neo, ItemBlockBase.class, fluid_duct_neo.getUnlocalizedName());
 		GameRegistry.registerBlock(fluid_duct_box, ItemBlockBase.class, fluid_duct_box.getUnlocalizedName());
 		GameRegistry.registerBlock(fluid_duct_solid, fluid_duct_solid.getUnlocalizedName());
-		GameRegistry.registerBlock(radio_torch_sender, radio_torch_sender.getUnlocalizedName());
-		GameRegistry.registerBlock(radio_torch_receiver, radio_torch_receiver.getUnlocalizedName());
+		register(radio_torch_sender);
+		register(radio_torch_receiver);
 
 		GameRegistry.registerBlock(crane_extractor, crane_extractor.getUnlocalizedName());
 		GameRegistry.registerBlock(crane_inserter, crane_inserter.getUnlocalizedName());

@@ -25,7 +25,9 @@ public class RadioTorchReceiver extends RadioTorchBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityRadioTorchReceiver();
+		TileEntityRadioTorchReceiver tile = new TileEntityRadioTorchReceiver();
+		tile.lastUpdate = world.getTotalWorldTime();
+		return tile;
 	}
 	
 	@Override

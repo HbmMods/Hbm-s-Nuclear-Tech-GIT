@@ -135,7 +135,7 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 	}
 	
 	public int damageDropped(int meta) {
-		return rectify(meta);
+		return meta % 15;
 	}
 	
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();

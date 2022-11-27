@@ -37,14 +37,22 @@ public class ItemModLens extends ItemArmorMod implements ISatChip {
 	}
 
 	@Override
+	public void addDesc(List list, ItemStack stack, ItemStack armor) {
+		list.add(EnumChatFormatting.AQUA + "  " + stack.getDisplayName() + " (Freq: " + getFreq(stack) + ")");
+	}
+
+	@Override
 	public void modUpdate(EntityLivingBase entity, ItemStack armor) {
 		World world = entity.worldObj;
 		if(world.isRemote) return;
 		if(!(entity instanceof EntityPlayerMP)) return;
 		
 		EntityPlayerMP player = (EntityPlayerMP) entity;
+		ItemStack lens = ArmorModHandler.pryMods(armor)[ArmorModHandler.extra];
 		
-		int freq = this.getFreq(armor);
+		if(lens == null) return;
+		
+		int freq = this.getFreq(lens);
 		Satellite sat = SatelliteSavedData.getData(world).getSatFromFreq(freq);
 		if(!(sat instanceof SatelliteScanner)) return;
 

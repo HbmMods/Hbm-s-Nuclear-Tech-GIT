@@ -17,7 +17,7 @@ public class TileEntityRadioTorchBase extends TileEntity implements INBTPacketRe
 	/** previous redstone state for input/output, needed for state change detection */
 	public int lastState = 0;
 	/** last update tick, needed for receivers listening for changes */
-	protected long lastUpdate;
+	public long lastUpdate;
 	/** switches state change mode to tick-based polling */
 	public boolean polling = false;
 	/** switches redstone passthrough to custom signal mapping */
@@ -29,6 +29,7 @@ public class TileEntityRadioTorchBase extends TileEntity implements INBTPacketRe
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("p", polling);
 			data.setBoolean("m", customMap);
@@ -36,6 +37,28 @@ public class TileEntityRadioTorchBase extends TileEntity implements INBTPacketRe
 			for(int i = 0; i < 16; i++) if(mapping[i] != null) data.setString("m" + i, mapping[i]);
 			INBTPacketReceiver.networkPack(this, data, 50);
 		}
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.polling = nbt.getBoolean("p");
+		this.customMap = nbt.getBoolean("m");
+		this.lastState = nbt.getInteger("l");
+		this.lastUpdate = nbt.getLong("u");
+		this.channel = nbt.getString("c");
+		for(int i = 0; i < 16; i++) this.mapping[i] = nbt.getString("m" + i);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setBoolean("p", polling);
+		nbt.setBoolean("m", customMap);
+		nbt.setInteger("l", lastState);
+		nbt.setLong("u", lastUpdate);
+		if(channel != null) nbt.setString("c", channel);
+		for(int i = 0; i < 16; i++) if(mapping[i] != null) nbt.setString("m" + i, mapping[i]);
 	}
 
 	@Override
