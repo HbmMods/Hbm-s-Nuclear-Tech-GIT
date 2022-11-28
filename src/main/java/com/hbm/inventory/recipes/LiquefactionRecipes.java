@@ -50,10 +50,10 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(Blocks.packed_ice),			new FluidStack(1000, Fluids.WATER));
 		recipes.put(new ComparableStack(Items.ender_pearl),			new FluidStack(100, Fluids.ENDERJUICE));
 
-		recipes.put(new ComparableStack(Items.sugar),				new FluidStack(150, Fluids.ETHANOL));
-		recipes.put(new ComparableStack(ModItems.biomass),			new FluidStack(250, Fluids.BIOGAS));
+		recipes.put(new ComparableStack(Items.sugar),				new FluidStack(100, Fluids.ETHANOL));
+		recipes.put(new ComparableStack(ModItems.biomass),			new FluidStack(125, Fluids.BIOGAS));
 		
-		recipes.put(new ComparableStack(ModItems.solid_fuel_bf),	new FluidStack(250, Fluids.BALEFIRE));
+		//recipes.put(new ComparableStack(ModItems.solid_fuel_bf),	new FluidStack(250, Fluids.BALEFIRE));
 		
 		//TODO: more recipes as the crack oil derivatives are added
 	}

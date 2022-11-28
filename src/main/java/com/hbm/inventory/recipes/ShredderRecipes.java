@@ -190,11 +190,13 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModItems.ingot_schrabidate, new ItemStack(ModItems.powder_schrabidate, 1));
 		ShredderRecipes.setRecipe(ModBlocks.block_schrabidate, new ItemStack(ModItems.powder_schrabidate, 9));
 		ShredderRecipes.setRecipe(ModItems.coal_infernal, new ItemStack(ModItems.powder_coal, 3));
-		ShredderRecipes.setRecipe(Items.reeds, new ItemStack(Items.paper, 3));
 		ShredderRecipes.setRecipe(Items.fermented_spider_eye, new ItemStack(ModItems.powder_poison, 3));
 		ShredderRecipes.setRecipe(Items.poisonous_potato, new ItemStack(ModItems.powder_poison, 1));
 		ShredderRecipes.setRecipe(ModBlocks.ore_tektite_osmiridium, new ItemStack(ModItems.powder_tektite, 1));
 		ShredderRecipes.setRecipe(Blocks.dirt, new ItemStack(ModItems.dust, 1));
+		ShredderRecipes.setRecipe(Items.reeds, new ItemStack(Items.sugar, 3));
+		ShredderRecipes.setRecipe(Items.apple, new ItemStack(Items.sugar, 1));
+		ShredderRecipes.setRecipe(Items.carrot, new ItemStack(Items.sugar, 1));
 		
 		List<ItemStack> logs = OreDictionary.getOres("logWood");
 		List<ItemStack> planks = OreDictionary.getOres("plankWood");
@@ -209,7 +211,7 @@ public class ShredderRecipes extends SerializableRecipe {
 			ShredderRecipes.setRecipe(Blocks.sand, new ItemStack(ModItems.dust, 2));
 		}
 		
-		for(int i = 0; i < 5; i++) ShredderRecipes.setRecipe(new ItemStack(Items.skull, 1, i), new ItemStack(ModItems.biomass));
+		for(int i = 0; i < 5; i++) ShredderRecipes.setRecipe(new ItemStack(Items.skull, 1, i), new ItemStack(ModItems.biomass, 4));
 
 		/* Crystal processing */
 		ShredderRecipes.setRecipe(ModItems.ingot_schraranium, new ItemStack(ModItems.nugget_schrabidium, 2));

@@ -238,6 +238,7 @@ public class TileMappings {
 		put(TileEntityHeaterOven.class, "tileentity_heating_oven");
 		put(TileEntityHeaterOilburner.class, "tileentity_oilburner");
 		put(TileEntityHeaterElectric.class, "tileentity_electric_heater");
+		put(TileEntityHeaterHeatex.class, "tileentity_heater_heatex");
 		put(TileEntityFurnaceIron.class, "tileentity_furnace_iron");
 		put(TileEntityFurnaceSteel.class, "tileentity_furnace_steel");
 		put(TileEntityStirling.class, "tileentity_stirling");
