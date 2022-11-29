@@ -1962,6 +1962,7 @@ item.gas_mask_m65.name=M65-Z Gas Mask
 item.gas_mask_mono.name=Half Mask
 item.gas_mask_olde.name=Leather Gas Mask
 item.gas_petroleum.name=Petroleum Gas Tank
+item.gas_tester.name=Gas Sensor
 item.gear_large.name=Large Gear
 item.gear_large_steel.name=Large Steel Gear
 item.geiger_counter.name=Handheld Geiger Counter

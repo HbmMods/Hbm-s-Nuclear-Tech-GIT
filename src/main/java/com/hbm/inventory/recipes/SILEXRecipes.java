@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -68,6 +69,20 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_schrabidium), 5))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_uranium), 2))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_plutonium), 2))
+				);
+		
+		recipes.put(new ComparableStack(ModBlocks.ore_tikite), new SILEXRecipe(500, 100, EnumWavelengths.UV)
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_plutonium), 2))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_cobalt), 3))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_niobium), 3))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_spark_mix), 1))
+				);
+		
+		recipes.put(new ComparableStack(ModItems.crystal_trixite), new SILEXRecipe(900, 100, EnumWavelengths.UV)
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_plutonium), 2))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_cobalt), 3))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_niobium), 3))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_spark_mix), 2))
 				);
 
 		itemTranslation.put(new ComparableStack(ModItems.powder_lapis), new ComparableStack(Items.dye, 1, 4));

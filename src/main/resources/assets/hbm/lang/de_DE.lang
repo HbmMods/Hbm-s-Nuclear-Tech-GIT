@@ -1610,6 +1610,7 @@ item.gas_mask_m65.name=M65-Z Gasmaske
 item.gas_mask_mono.name=Halbmaske
 item.gas_mask_olde.name=Ledergasmaske
 item.gas_petroleum.name=Petroleumgastank
+item.gas_tester.name=Gasmessgerät
 item.gear_large.name=Großes Zahnrad
 item.gear_large_steel.name=Großes Stahlzahnrad
 item.geiger_counter.name=Mobiler Geigerzähler

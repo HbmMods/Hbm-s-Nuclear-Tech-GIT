@@ -59,7 +59,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 			boolean valid = false;
 			if(in.hasTrait(FT_Coolable.class)) {
 				FT_Coolable trait = in.getTrait(FT_Coolable.class);
-				double eff = trait.getEfficiency(CoolingType.TURBINE); //100% efficiency
+				double eff = trait.getEfficiency(CoolingType.TURBINE) * 0.85D; //85% efficiency
 				if(eff > 0) {
 					tanks[1].setTankType(trait.coolsTo);
 					int inputOps = tanks[0].getFill() / trait.amountReq;
@@ -72,8 +72,6 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 					operational = ops > 0;
 				}
 			}
-			
-			//if(this.tanks[1].getFill() > 0) System.out.println(this.tanks[1].getTankType().name());
 			
 			if(!valid) tanks[1].setTankType(Fluids.NONE);
 			if(power > maxPower) power = maxPower;
