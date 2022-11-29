@@ -1,10 +1,13 @@
 package com.hbm.tileentity.machine.oil;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.lib.Library;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import net.minecraft.block.Block;
@@ -15,6 +18,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
+
+	protected static int maxPower = 250_000;
+	protected static int consumption = 200;
+	protected static int delay = 25;
+	protected static int oilPerDepsoit = 750;
+	protected static int gasPerDepositMin = 50;
+	protected static int gasPerDepositMax = 250;
 	
 	public float rot = 0;
 	public float prevRot = 0;
@@ -27,17 +37,17 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 
 	@Override
 	public long getMaxPower() {
-		return 250_000;
+		return maxPower;
 	}
 
 	@Override
 	public int getPowerReq() {
-		return 200;
+		return consumption;
 	}
 
 	@Override
 	public int getDelay() {
-		return 25;
+		return delay;
 	}
 
 	@Override
@@ -106,9 +116,9 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 	@Override
 	public void onSuck(int x, int y, int z) {
 		
-		this.tanks[0].setFill(this.tanks[0].getFill() + 750);
+		this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDepsoit);
 		if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
-		this.tanks[1].setFill(this.tanks[1].getFill() + (50 + worldObj.rand.nextInt(201)));
+		this.tanks[1].setFill(this.tanks[1].getFill() + (gasPerDepositMin + worldObj.rand.nextInt((gasPerDepositMax - gasPerDepositMin + 1))));
 		if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) this.tanks[1].setFill(tanks[1].getMaxFill());
 	}
 
@@ -162,5 +172,30 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 			new DirPos(xCoord + rot.offsetX * 4 - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ * 4 + dir.offsetZ * 2, dir),
 			new DirPos(xCoord + rot.offsetX * 4 - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 2, dir.getOpposite())
 		};
+	}
+
+	@Override
+	public String getConfigName() {
+		return "pumpjack";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		maxPower = IConfigurableMachine.grab(obj, "I:powerCap", maxPower);
+		consumption = IConfigurableMachine.grab(obj, "I:consumption", consumption);
+		delay = IConfigurableMachine.grab(obj, "I:delay", delay);
+		oilPerDepsoit = IConfigurableMachine.grab(obj, "I:oilPerDeposit", oilPerDepsoit);
+		gasPerDepositMin = IConfigurableMachine.grab(obj, "I:gasPerDepositMin", gasPerDepositMin);
+		gasPerDepositMax = IConfigurableMachine.grab(obj, "I:gasPerDepositMax", gasPerDepositMax);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:powerCap").value(maxPower);
+		writer.name("I:consumption").value(consumption);
+		writer.name("I:delay").value(delay);
+		writer.name("I:oilPerDeposit").value(oilPerDepsoit);
+		writer.name("I:gasPerDepositMin").value(gasPerDepositMin);
+		writer.name("I:gasPerDepositMax").value(gasPerDepositMax);
 	}
 }

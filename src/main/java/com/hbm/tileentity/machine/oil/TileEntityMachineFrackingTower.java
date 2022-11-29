@@ -1,17 +1,34 @@
 package com.hbm.tileentity.machine.oil;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.world.feature.OilSpot;
 
 import net.minecraft.block.Block;
 
 public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase implements IFluidAcceptor {
+
+	protected static int maxPower = 5_000_000;
+	protected static int consumption = 5000;
+	protected static int solutionRequired = 10;
+	protected static int delay = 20;
+	protected static int oilPerDepsoit = 1000;
+	protected static int gasPerDepositMin = 100;
+	protected static int gasPerDepositMax = 500;
+	protected static int oilPerBedrockDepsoit = 100;
+	protected static int gasPerBedrockDepositMin = 10;
+	protected static int gasPerBedrockDepositMax = 50;
+	protected static int destructionRange = 75;
 
 	public TileEntityMachineFrackingTower() {
 		super();
@@ -28,17 +45,17 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 
 	@Override
 	public long getMaxPower() {
-		return 5_000_000;
+		return maxPower;
 	}
 
 	@Override
 	public int getPowerReq() {
-		return 5000;
+		return consumption;
 	}
 
 	@Override
 	public int getDelay() {
-		return 20;
+		return delay;
 	}
 
 	@Override
@@ -48,7 +65,7 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 
 	@Override
 	public boolean canPump() {
-		boolean b = this.tanks[2].getFill() >= 10;
+		boolean b = this.tanks[2].getFill() >= solutionRequired;
 		
 		if(!b) {
 			this.indicator = 3;
@@ -80,12 +97,12 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 		int gas = 0;
 
 		if(b == ModBlocks.ore_oil) {
-			oil = 1000;
-			gas = 100 + worldObj.rand.nextInt(401);
+			oil = oilPerDepsoit;
+			gas = gasPerDepositMin + worldObj.rand.nextInt(gasPerDepositMax - gasPerDepositMin + 1);
 		}
 		if(b == ModBlocks.ore_bedrock_oil) {
-			oil = 100;
-			gas = 10 + worldObj.rand.nextInt(41);
+			oil = oilPerBedrockDepsoit;
+			gas = gasPerBedrockDepositMin + worldObj.rand.nextInt(gasPerBedrockDepositMax - gasPerBedrockDepositMin + 1);
 		}
 		
 		this.tanks[0].setFill(this.tanks[0].getFill() + oil);
@@ -93,9 +110,9 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 		this.tanks[1].setFill(this.tanks[1].getFill() + gas);
 		if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) this.tanks[1].setFill(tanks[1].getMaxFill());
 		
-		this.tanks[2].setFill(tanks[2].getFill() - 10);
+		this.tanks[2].setFill(tanks[2].getFill() - solutionRequired);
 
-		OilSpot.generateOilSpot(worldObj, xCoord, zCoord, 75, 10);
+		OilSpot.generateOilSpot(worldObj, xCoord, zCoord, destructionRange, 10);
 	}
 
 	@Override
@@ -142,5 +159,40 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			this.trySubscribe(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
+	}
+
+	@Override
+	public String getConfigName() {
+		return "frackingtower";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		maxPower = IConfigurableMachine.grab(obj, "I:powerCap", maxPower);
+		consumption = IConfigurableMachine.grab(obj, "I:consumption", consumption);
+		solutionRequired = IConfigurableMachine.grab(obj, "I:solutionRequired", solutionRequired);
+		delay = IConfigurableMachine.grab(obj, "I:delay", delay);
+		oilPerDepsoit = IConfigurableMachine.grab(obj, "I:oilPerDeposit", oilPerDepsoit);
+		gasPerDepositMin = IConfigurableMachine.grab(obj, "I:gasPerDepositMin", gasPerDepositMin);
+		gasPerDepositMax = IConfigurableMachine.grab(obj, "I:gasPerDepositMax", gasPerDepositMax);
+		oilPerBedrockDepsoit = IConfigurableMachine.grab(obj, "I:oilPerBedrockDeposit", oilPerBedrockDepsoit);
+		gasPerBedrockDepositMin = IConfigurableMachine.grab(obj, "I:gasPerBedrockDepositMin", gasPerBedrockDepositMin);
+		gasPerBedrockDepositMax = IConfigurableMachine.grab(obj, "I:gasPerBedrockDepositMax", gasPerBedrockDepositMax);
+		destructionRange = IConfigurableMachine.grab(obj, "I:destructionRange", destructionRange);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:powerCap").value(maxPower);
+		writer.name("I:consumption").value(consumption);
+		writer.name("I:solutionRequired").value(solutionRequired);
+		writer.name("I:delay").value(delay);
+		writer.name("I:oilPerDeposit").value(oilPerDepsoit);
+		writer.name("I:gasPerDepositMin").value(gasPerDepositMin);
+		writer.name("I:gasPerDepositMax").value(gasPerDepositMax);
+		writer.name("I:oilPerBedrockDeposit").value(oilPerBedrockDepsoit);
+		writer.name("I:gasPerBedrockDepositMin").value(gasPerBedrockDepositMin);
+		writer.name("I:gasPerBedrockDepositMax").value(gasPerBedrockDepositMax);
+		writer.name("I:destructionRange").value(destructionRange);
 	}
 }
