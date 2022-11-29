@@ -86,11 +86,11 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		ItemStack full = FluidContainerRegistry.getFullContainer(itemStack, tank.getTankType());
 		//if fillable and the fill being possible for this tank size
-		if(i == 2 && full != null && FluidContainerRegistry.getFluidContent(full, tank.getTankType()) <= tank.getMaxFill())
+		if(i == 4 && full != null && FluidContainerRegistry.getFluidContent(full, tank.getTankType()) <= tank.getMaxFill())
 			return true;
 		int content = FluidContainerRegistry.getFluidContent(itemStack, tank.getTankType());
 		//if content is above 0 but still within capacity
-		if(i == 4 && content > 0 && content <= tank.getMaxFill())
+		if(i == 2 && content > 0 && content <= tank.getMaxFill())
 			return true;
 		
 		return false;

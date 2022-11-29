@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -20,13 +21,16 @@ public class RenderHeaterHeatex extends TileEntitySpecialRenderer implements IIt
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		switch(tile.getBlockMetadata() - BlockDummyable.offset) {
-		case 3: GL11.glRotatef(0, 0F, 1F, 0F); break;
-		case 5: GL11.glRotatef(90, 0F, 1F, 0F); break;
-		case 2: GL11.glRotatef(180, 0F, 1F, 0F); break;
-		case 4: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
+		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
 		}
-		
-		//TODO
+
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		bindTexture(ResourceManager.heater_heatex_tex);
+		ResourceManager.heater_heatex.renderAll();
+		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();
 	}
@@ -44,7 +48,10 @@ public class RenderHeaterHeatex extends TileEntitySpecialRenderer implements IIt
 				GL11.glScaled(3.25, 3.25, 3.25);
 			}
 			public void renderCommon() {
-				//TODO
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.heater_heatex_tex);
+				ResourceManager.heater_heatex.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
 			}};
 	}
 }
