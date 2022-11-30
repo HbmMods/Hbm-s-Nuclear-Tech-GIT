@@ -52,10 +52,10 @@ public class ItemModSensor extends ItemArmorMod {
 		boolean poison = false;
 		boolean explosive = false;
 		
-		for(int i = -2; i <= 2; i++) {
+		for(int i = -3; i <= 3; i++) {
 			for(int j = -1; j <= 1; j++) {
-				for(int k = -2; k <= 2; k++) {
-					Block b = entity.worldObj.getBlock(x + i * 3, y + j * 3, z + k * 3);
+				for(int k = -3; k <= 3; k++) {
+					Block b = entity.worldObj.getBlock(x + i * 2, y + j * 2, z + k * 2);
 					if(b == ModBlocks.gas_asbestos || b == ModBlocks.gas_coal || b == ModBlocks.gas_radon || b == ModBlocks.gas_monoxide || b == ModBlocks.gas_radon_dense || b == ModBlocks.chlorine_gas) {
 						poison = true;
 					}
@@ -69,7 +69,7 @@ public class ItemModSensor extends ItemArmorMod {
 		if(explosive) {
 			entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.follyAquired", 0.5F, 1.0F);
 		} else if(poison) {
-			entity.worldObj.playSoundAtEntity(entity, "hbm:item.techBoop", 0.5F, 1.5F);
+			entity.worldObj.playSoundAtEntity(entity, "hbm:item.techBoop", 2F, 1.5F);
 		}
 	}
 }

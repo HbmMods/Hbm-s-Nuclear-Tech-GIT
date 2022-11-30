@@ -44,8 +44,9 @@ public class ItemModDefuser extends ItemArmorMod {
 		
 		for(EntityCreeper creeper : creepers) {
 			
-			if(creeper.getCreeperState() == 1 ) {
+			if(creeper.getCreeperState() == 1 || creeper.func_146078_ca()) {
 				creeper.setCreeperState(-1);
+				creeper.getDataWatcher().updateObject(18, new Byte((byte) 0));
 				
 				EntityAICreeperSwell toRem = null;
 				for(Object o : creeper.tasks.taskEntries) {
