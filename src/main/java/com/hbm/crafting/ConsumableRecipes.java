@@ -198,6 +198,7 @@ public class ConsumableRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.meteor_charm, 1), new Object[] { " M ", "MDM", " M ", 'M', ModItems.fragment_meteorite, 'D', VOLCANIC.gem() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.neutrino_lens, 1), new Object[] { "PSP", "SCS", "PSP", 'P', ANY_PLASTIC.ingot(), 'S', STAR.ingot(), 'C', KEY_CIRCUIT_BISMUTH });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gas_tester, 1), new Object[] { "G", "C", "I", 'G', GOLD.plate(), 'C', ModItems.circuit_aluminium, 'I', IRON.plate() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.defuser_gold, 1), new Object[] { "GPG", "PRP", "GPG", 'G', Items.gunpowder, 'P', GOLD.plate(), 'R', "record" });
 		
 		//Stealth boy
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.stealth_boy, 1), new Object[] { " B", "LI", "LC", 'B', Blocks.stone_button, 'L', Items.leather, 'I', STEEL.ingot(), 'C', ModItems.circuit_red_copper });

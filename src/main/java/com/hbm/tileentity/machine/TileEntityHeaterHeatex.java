@@ -1,20 +1,30 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.inventory.container.ContainerHeaterHeatex;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
+import com.hbm.inventory.gui.GUIHeaterHeatex;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IHeatSource;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHeatSource, INBTPacketReceiver, IFluidStandardTransceiver {
+public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHeatSource, INBTPacketReceiver, IFluidStandardTransceiver, IGUIProvider {
 	
 	public FluidTank[] tanks;
 	public int amountToCool = 1;
@@ -124,5 +134,41 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks[0]};
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerHeaterHeatex(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIHeaterHeatex(player.inventory, this);
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 1,
+					yCoord,
+					zCoord - 1,
+					xCoord + 2,
+					yCoord + 1,
+					zCoord + 2
+					);
+		}
+		
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 }

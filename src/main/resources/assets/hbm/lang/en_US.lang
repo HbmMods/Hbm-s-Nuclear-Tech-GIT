@@ -1799,6 +1799,7 @@ item.debris_metal.name=Broken Metal Bar
 item.debris_shrapnel.name=Walkway Shrapnel
 item.definitelyfood.name=TotallyNotDirt-Brand MRE
 item.defuser.name=High-Tech Bomb Defusing Device
+item.defuser_gold.name=Golden Wire Cutter
 item.demon_core_closed.name=Closed Demon Core
 item.demon_core_open.name=Suspended Demon Core
 item.desh_axe.name=Worker's Alloy Axe
