@@ -3,11 +3,13 @@ package com.hbm.tileentity.machine;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -45,12 +47,36 @@ public class TileEntityTowerLarge extends TileEntityCondenser {
 	@Override
 	public void fillFluidInit(FluidType type) {
 		
-		for(int i = 2; i <= 6; i++) {
+		for(int i = 2; i < 6; i++) {
 			ForgeDirection dir = ForgeDirection.getOrientation(i);
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 			fillFluid(xCoord + dir.offsetX * 5, yCoord, zCoord + dir.offsetZ * 5, getTact(), type);
 			fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 3, getTact(), type);
 			fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * -3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * -3, getTact(), type);
+		}
+	}
+
+	@Override
+	public void subscribeToAllAround(FluidType type, TileEntity te) {
+		
+		for(int i = 2; i < 6; i++) {
+			ForgeDirection dir = ForgeDirection.getOrientation(i);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord + dir.offsetX * 5, yCoord, zCoord + dir.offsetZ * 5, dir);
+			this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord + dir.offsetX * 5 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 3, dir);
+			this.trySubscribe(this.tanks[0].getTankType(),worldObj,  xCoord + dir.offsetX * 5 + rot.offsetX * -3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * -3, dir);
+		}
+	}
+
+	@Override
+	public void sendFluidToAll(FluidType type, TileEntity te) {
+		
+		for(int i = 2; i < 6; i++) {
+			ForgeDirection dir = ForgeDirection.getOrientation(i);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			this.sendFluid(this.tanks[1].getTankType(), worldObj, xCoord + dir.offsetX * 5, yCoord, zCoord + dir.offsetZ * 5, dir);
+			this.sendFluid(this.tanks[1].getTankType(), worldObj, xCoord + dir.offsetX * 5 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 3, dir);
+			this.sendFluid(this.tanks[1].getTankType(),worldObj,  xCoord + dir.offsetX * 5 + rot.offsetX * -3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * -3, dir);
 		}
 	}
 	

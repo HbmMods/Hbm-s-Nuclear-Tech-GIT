@@ -74,7 +74,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 		
 		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
 			return new DirPos[] {
-					new DirPos(this.xCoord + 1, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
+					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
 					new DirPos(this.xCoord + 1, this.yCoord - 1, this.zCoord, Library.POS_X),
 					new DirPos(this.xCoord - 1, this.yCoord - 1, this.zCoord, Library.NEG_X),
 					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord + 1, Library.POS_Z),
@@ -83,7 +83,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 			};
 		} else if(worldObj.getBlock(xCoord, yCoord - 2, zCoord) == ModBlocks.rbmk_loader) {
 			return new DirPos[] {
-					new DirPos(this.xCoord + 1, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
+					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
 					new DirPos(this.xCoord + 1, this.yCoord - 2, this.zCoord, Library.POS_X),
 					new DirPos(this.xCoord - 1, this.yCoord - 2, this.zCoord, Library.NEG_X),
 					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord + 1, Library.POS_Z),
@@ -92,7 +92,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 			};
 		} else {
 			return new DirPos[] {
-					new DirPos(this.xCoord + 1, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y)
+					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y)
 			};
 		}
 	}

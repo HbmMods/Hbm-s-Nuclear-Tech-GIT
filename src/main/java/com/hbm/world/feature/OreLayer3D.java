@@ -40,26 +40,21 @@ public class OreLayer3D {
 		int cX = event.chunkX;
 		int cZ = event.chunkZ;
 
-		double scaleH = 0.02D;
-		double scaleV = 0.2D;
+		double scaleH = 0.04D;
+		double scaleV = 0.25D;
 		
 		for(int x = cX + 8; x < cX + 24; x++) {
 			for(int z = cZ + 8; z < cZ + 24; z++) {
-				
-				double nY = this.noiseY.func_151601_a(x * scaleH, z * scaleH);
-				
-				if(nY > 4) {
+				for(int y = 64; y > 5; y--) {
+					double nX = this.noiseX.func_151601_a(y * scaleV, z * scaleH);
+					double nY = this.noiseY.func_151601_a(x * scaleH, z * scaleH);
+					double nZ = this.noiseZ.func_151601_a(x * scaleH, y * scaleV);
 					
-					for(int y = 64; y > 5; y--) {
-						double nX = this.noiseX.func_151601_a(y * scaleV, z * scaleH);
-						double nZ = this.noiseZ.func_151601_a(x * scaleH, y * scaleV);
+					if(nX * nY * nZ > 220) {
+						Block target = world.getBlock(x, y, z);
 						
-						if(nX > 4 && nZ > 4) {
-							Block target = world.getBlock(x, y, z);
-							
-							if(target.isNormalCube() && target.getMaterial() == Material.rock) {
-								world.setBlock(x, y, z, block, meta, 2);
-							}
+						if(target.isNormalCube() && target.getMaterial() == Material.rock) {
+							world.setBlock(x, y, z, block, meta, 2);
 						}
 					}
 				}

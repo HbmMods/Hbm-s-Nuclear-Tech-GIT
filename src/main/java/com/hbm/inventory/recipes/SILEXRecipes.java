@@ -71,18 +71,19 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_plutonium), 2))
 				);
 		
-		recipes.put(new ComparableStack(ModBlocks.ore_tikite), new SILEXRecipe(500, 100, EnumWavelengths.UV)
+		recipes.put(new ComparableStack(ModBlocks.ore_tikite), new SILEXRecipe(900, 100, EnumWavelengths.UV)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_plutonium), 2))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_cobalt), 3))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_niobium), 3))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_spark_mix), 1))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_nitan_mix), 2))
 				);
 		
-		recipes.put(new ComparableStack(ModItems.crystal_trixite), new SILEXRecipe(900, 100, EnumWavelengths.UV)
+		recipes.put(new ComparableStack(ModItems.crystal_trixite), new SILEXRecipe(1200, 100, EnumWavelengths.UV)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_plutonium), 2))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_cobalt), 3))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_niobium), 3))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_spark_mix), 2))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_nitan_mix), 1))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_spark_mix), 1))
 				);
 
 		itemTranslation.put(new ComparableStack(ModItems.powder_lapis), new ComparableStack(Items.dye, 1, 4));

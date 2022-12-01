@@ -13,6 +13,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
@@ -50,16 +51,14 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			if(age >= 20)
 				age = 0;
 			
+			if(this.mode == 2 || this.mode == 3) {
+				for(DirPos pos : getConPos()) this.tryUnsubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ());
+			}
+			if(this.mode == 0 || this.mode == 1) {
+				for(DirPos pos : getConPos()) this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 			if(this.mode == 1 || this.mode == 2) {
-				FluidType type = tank.getTankType();
-				sendFluid(type, worldObj, xCoord + 2, yCoord, zCoord - 1, Library.POS_X);
-				sendFluid(type, worldObj, xCoord + 2, yCoord, zCoord + 1, Library.POS_X);
-				sendFluid(type, worldObj, xCoord - 2, yCoord, zCoord - 1, Library.NEG_X);
-				sendFluid(type, worldObj, xCoord - 2, yCoord, zCoord + 1, Library.NEG_X);
-				sendFluid(type, worldObj, xCoord - 1, yCoord, zCoord + 2, Library.POS_Z);
-				sendFluid(type, worldObj, xCoord + 1, yCoord, zCoord + 2, Library.POS_Z);
-				sendFluid(type, worldObj, xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z);
-				sendFluid(type, worldObj, xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z);
+				for(DirPos pos : getConPos()) this.sendFluid(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			if((mode == 1 || mode == 2) && (age == 9 || age == 19))
@@ -86,6 +85,19 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			data.setShort("mode", mode);
 			this.networkPack(data, 50);
 		}
+	}
+	
+	protected DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
+				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
+				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
+				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z)
+		};
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {

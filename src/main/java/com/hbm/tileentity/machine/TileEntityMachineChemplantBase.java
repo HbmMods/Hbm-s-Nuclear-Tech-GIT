@@ -426,7 +426,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 			
 			FluidTank tank = rec.get(i);
 			int fillWeight = weight.get(i);
-			int part = (int) ((long)amount * (long)fillWeight / (long)demand);
+			int part = (int) (Math.min((long)amount, (long)demand) * (long)fillWeight / (long)demand);
 			
 			tank.setFill(tank.getFill() + part);
 		}
@@ -556,7 +556,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 			
 			FluidTank tank = rec.get(i);
 			int fillWeight = weight.get(i);
-			int part = (int) ((long)amount * (long)fillWeight / (long)demand);
+			int part = (int) (Math.min((long)amount, (long)demand) * (long)fillWeight / (long)demand);
 			
 			tank.setFill(tank.getFill() + part);
 			fluid -= part;

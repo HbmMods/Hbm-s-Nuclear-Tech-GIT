@@ -110,6 +110,10 @@ public class TileEntityFurnaceSteel extends TileEntityMachineBase implements IGU
 				
 				if(worldObj.rand.nextInt(20) == 0)
 					worldObj.spawnParticle("cloud", xCoord + 0.5 + dir.offsetX * 0.75, yCoord + 2, zCoord + 0.5 + dir.offsetZ * 0.75, 0.0, 0.05, 0.0);
+
+				if(worldObj.rand.nextInt(15) == 0)
+					worldObj.spawnParticle("lava", xCoord + 0.5 + dir.offsetX * 1.5 + rot.offsetX * (worldObj.rand.nextDouble() - 0.5), yCoord + 0.75, zCoord + 0.5 + dir.offsetZ * 1.5 + rot.offsetZ * (worldObj.rand.nextDouble() - 0.5), dir.offsetX * 0.5D, 0.05, dir.offsetZ * 0.5D);
+
 			}
 		}
 	}

@@ -18,6 +18,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -79,9 +80,9 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			this.sendPower(worldObj, xCoord - dir.offsetX * 11, yCoord, zCoord - dir.offsetZ * 11, dir);
 			
-			for(BlockPos pos : this.getConPos()) {
-				this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), dir);
-				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), dir);
+			for(DirPos pos : this.getConPos()) {
+				this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			if(power > maxPower)
@@ -138,13 +139,13 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 		}
 	}
 	
-	public BlockPos[] getConPos() {
+	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new BlockPos[] {
-				new BlockPos(xCoord - dir.offsetX * 4, yCoord + 2, zCoord - dir.offsetZ * 4),
-				new BlockPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3),
-				new BlockPos(xCoord - rot.offsetZ * 3, yCoord, zCoord - rot.offsetZ * 3)
+		return new DirPos[] {
+				new DirPos(xCoord + dir.offsetX * 5, yCoord + 2, zCoord + dir.offsetZ * 5, dir),
+				new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, rot),
+				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, rot.getOpposite())
 		};
 	}
 	
