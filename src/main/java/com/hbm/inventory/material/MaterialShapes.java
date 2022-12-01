@@ -28,6 +28,7 @@ public class MaterialShapes {
 			new MaterialShapes(BLOCK.q(1), "blockDust");
 			new MaterialShapes(BLOCK.q(1), "blockGem");
 			new MaterialShapes(BLOCK.q(1), "blockIngot");
+			new MaterialShapes(BLOCK.q(1), "blockSolid");
 			new MaterialShapes(INGOT.q(9, 8), "crushed");
 			new MaterialShapes(INGOT.q(9, 72), "crushedTiny");
 			new MaterialShapes(INGOT.q(10, 8), "crushedPurified");

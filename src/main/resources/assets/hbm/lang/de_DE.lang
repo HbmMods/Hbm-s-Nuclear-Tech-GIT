@@ -399,6 +399,18 @@ container.wasteDrum=Abklingbecken-Trommel
 container.watzPowerplant=Watzkraftwerk
 container.zirnox=ZIRNOX Atomreaktor
 
+crucible.aa=Herstellung - Fortgeschrittene Legierung
+crucible.ferro=Herstellung - Ferrouran
+crucible.hematite=Herstellung - Eisen aus Hämatit
+crucible.hss=Herstellung - Schnellarbeitsstahl
+crucible.malachite=Herstellung - Kupfer aus Malachit
+crucible.redcopper=Herstellung - Roter Kupfer
+crucible.steel=Herstellung - Stahl
+crucible.steelMeteoric=Herstellung - Stahl aus Meteoriteneisen
+crucible.steelPig=Herstellung - Stahl aus Roheisen
+crucible.steelWrought=Herstellung - Stahl aus Schmiedeeisen
+crucible.tcalloy=Herstellung - Technetiumstahl
+
 death.attack.acid=%1$s fiel in Säure.
 death.attack.acidPlayer=%1$s wurde von %2$s aufgelöst.
 death.attack.ams=%1$s wurde in tödlichen Teilchen gebadet, die von der Menschheit erst benannt werden müssen.
@@ -1406,7 +1418,7 @@ item.cotton_candy.name=Radioaktive Zuckerwatte
 item.crate_caller.name=Nachschub-Requester
 item.crowbar.name=Mk.V Kistenöffnungsapparat "Brechstange"
 item.crucible.name=Schmelztiegel
-item.crucible_template.name=Schmelztiegelvorlage
+item.crucible_template.name=Schmelztiegelvorlage:
 item.crystal_aluminium.name=Aluminiumkristalle
 item.crystal_beryllium.name=Berylliumkristalle
 item.crystal_charred.name=Verkohlter Kristall

@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 
 public class ItemCrucibleTemplate extends Item {
 
@@ -31,6 +32,24 @@ public class ItemCrucibleTemplate extends Item {
 		for(int i = 0; i < CrucibleRecipes.recipes.size(); i++) {
 			list.add(new ItemStack(item, 1, CrucibleRecipes.recipes.get(i).getId()));
 		}
+	}
+
+	public String getItemStackDisplayName(ItemStack stack) {
+		
+		CrucibleRecipe recipe = CrucibleRecipes.indexMapping.get(stack.getItemDamage());
+		
+		if(recipe == null) {
+			return super.getItemStackDisplayName(stack);
+		}
+		
+		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+		String s1 = ("" + StatCollector.translateToLocal(recipe.getName())).trim();
+
+		if(s1 != null) {
+			s = s + " " + s1;
+		}
+
+		return s;
 	}
 	
 	@Override

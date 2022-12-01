@@ -678,6 +678,18 @@ container.wasteDrum=Spent Fuel Pool Drum
 container.watzPowerplant=Watz Power Plant
 container.zirnox=ZIRNOX Nuclear Reactor
 
+crucible.aa=Advanced Alloy Production
+crucible.ferro=Ferrouranium Production
+crucible.hematite=Iron Production from Hematite
+crucible.hss=High-Speed Steel Production
+crucible.malachite=Copper Production from Malachite
+crucible.redcopper=Red Copper Production
+crucible.steel=Steel Production
+crucible.steelMeteoric=Steel Production from Meteoric Iron
+crucible.steelPig=Steel Production from Pig Iron
+crucible.steelWrought=Steel Production from Wrought Iron
+crucible.tcalloy=Technetium Steel Production
+
 death.attack.acid=%1$s fell into acid.
 death.attack.acidPlayer=%1$s was dissolved by %2$s.
 death.attack.ams=%1$s was bathed in deadly particles that have yet to be named by human science.
@@ -1741,7 +1753,7 @@ item.cotton_candy.name=Radioactive Cotton Candy
 item.crate_caller.name=Supply Drop Requester
 item.crowbar.name=Mk.V Crate Opening Device "Crowbar"
 item.crucible.name=Crucible
-item.crucible_template.name=Crucible Template
+item.crucible_template.name=Crucible Template:
 item.crystal_aluminium.name=Aluminium Crystals
 item.crystal_beryllium.name=Beryllium Crystals
 item.crystal_charred.name=Charred Crystal
