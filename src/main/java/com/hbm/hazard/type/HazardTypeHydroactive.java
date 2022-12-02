@@ -21,7 +21,7 @@ public class HazardTypeHydroactive extends HazardTypeBase {
 		if(RadiationConfig.disableHydro)
 			return;
 		
-		if(target.isWet()) {
+		if(target.isWet() && stack.stackSize > 0) {
 			stack.stackSize = 0;
 			target.worldObj.newExplosion(null, target.posX, target.posY + target.getEyeHeight() - target.getYOffset(), target.posZ, level, false, true);
 		}

@@ -1,8 +1,11 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 
+import api.hbm.fluid.IFluidConnectorBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -10,9 +13,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockPillar extends Block {
+public class BlockPillar extends Block implements IFluidConnectorBlock {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
@@ -85,4 +90,9 @@ public class BlockPillar extends Block {
 		return false;
 	}
 
+	@Override
+	public boolean canConnect(FluidType type, IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
+		if(this != ModBlocks.reactor_conductor) return false;
+		return type == Fluids.WATER || type == Fluids.COOLANT || type == Fluids.STEAM || type == Fluids.HOTSTEAM || type == Fluids.SUPERHOTSTEAM || type == Fluids.ULTRAHOTSTEAM;
+	}
 }

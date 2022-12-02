@@ -32,7 +32,9 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BobmazonOfferFactory;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.EntityEffectHandler;
+import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.SiegeOrchestrator;
@@ -660,6 +662,11 @@ public class ModEventHandler {
 				        	if(entity instanceof EntityPlayer)
 				        		((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadPoison);
 						}
+					}
+					
+					if(e instanceof EntityItem) {
+						EntityItem item = (EntityItem) e;
+						HazardSystem.updateDroppedItem(item);
 					}
 				}
 				/**
