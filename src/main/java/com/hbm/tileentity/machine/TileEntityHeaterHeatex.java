@@ -59,6 +59,13 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 		}
 	}
 	
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		tanks[0].readFromNBT(nbt, "0");
+		tanks[1].readFromNBT(nbt, "1");
+		this.heatEnergy = nbt.getInteger("heat");
+	}
+	
 	protected void setupTanks() {
 		
 		if(tanks[0].getTankType().hasTrait(FT_Coolable.class)) {
