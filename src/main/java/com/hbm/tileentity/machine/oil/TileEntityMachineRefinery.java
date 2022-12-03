@@ -132,6 +132,14 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			}
 			
+			for(DirPos pos : getConPos()) {
+				for(int i = 1; i < 5; i++) {
+					if(tanks[i].getFill() > 0) {
+						this.sendFluid(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					}
+				}
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
 			this.networkPack(data, 50);

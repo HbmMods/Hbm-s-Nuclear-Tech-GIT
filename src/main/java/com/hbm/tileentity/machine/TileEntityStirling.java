@@ -72,7 +72,7 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 						ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 						
 						cog.motionX = rot.offsetX;
-						cog.motionY = 1;
+						cog.motionY = 1 + (heat - maxHeat()) * 0.0001D;
 						cog.motionZ = rot.offsetZ;
 						worldObj.spawnEntityInWorld(cog);
 						

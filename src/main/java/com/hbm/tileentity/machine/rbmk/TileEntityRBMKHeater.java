@@ -11,6 +11,9 @@ import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Heatable;
+import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
+import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -40,23 +43,30 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 		if(!worldObj.isRemote) {
 			
 			feed.setType(0, slots);
-			steam.setTankType(getConversion(feed.getTankType()));
 			
 			feed.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			steam.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
-			double heatCap = this.getConversionHeat(feed.getTankType());
-			double heatProvided = this.heat - heatCap;
-			
-			if(heatProvided > 0 && steam.getTankType() != Fluids.NONE) {
+			if(feed.getTankType().hasTrait(FT_Heatable.class)) {
+				FT_Heatable trait = feed.getTankType().getTrait(FT_Heatable.class);
+				HeatingStep step = trait.getFirstStep();
+				steam.setTankType(step.typeProduced);
+				double tempRange = this.heat - steam.getTankType().temperature;
 				
-				double capacity = feed.getTankType().heatCap;
-				int converted = (int)Math.floor(heatProvided / capacity);
-				converted = Math.min(converted, feed.getFill());
-				converted = Math.min(converted, steam.getMaxFill() - steam.getFill());
-				feed.setFill(feed.getFill() - converted);
-				steam.setFill(steam.getFill() + converted);
-				this.heat -= converted * capacity;
+				if(tempRange > 0) {
+					double TU_PER_DEGREE = 2_000D; //based on 1mB of water absorbing 200 TU as well as 0.1°C from an RBMK column
+					int inputOps = feed.getFill() / step.amountReq;
+					int outputOps = (steam.getMaxFill() - steam.getFill()) / step.amountProduced;
+					int tempOps = (int) Math.floor((tempRange * TU_PER_DEGREE) / step.heatReq);
+					int ops = Math.min(inputOps, Math.min(outputOps, tempOps));
+
+					feed.setFill(feed.getFill() - step.amountReq * ops);
+					steam.setFill(steam.getFill() + step.amountProduced * ops);
+					this.heat -= (step.heatReq * ops / TU_PER_DEGREE) * trait.getEfficiency(HeatingType.HEATEXCHANGER);
+				}
+				
+			} else {
+				steam.setTankType(Fluids.NONE);
 			}
 			
 			fillFluidInit(steam.getTankType());
@@ -95,16 +105,6 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y)
 			};
 		}
-	}
-	
-	public static double getConversionHeat(FluidType type) {
-		return getConversion(type).temperature;
-	}
-	
-	public static FluidType getConversion(FluidType type) {
-		if(type == Fluids.MUG)		return Fluids.MUG_HOT;
-		if(type == Fluids.COOLANT)	return Fluids.COOLANT_HOT;
-		return Fluids.NONE;
 	}
 
 	@Override
