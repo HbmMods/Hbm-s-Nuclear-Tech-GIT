@@ -1,7 +1,9 @@
 package com.hbm.tileentity.machine.storage;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -15,12 +17,19 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.fluid.IFluidConductor;
+import api.hbm.fluid.IFluidConnector;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluid.IPipeNet;
+import api.hbm.fluid.PipeNet;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.World;
 
 public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IPersistentNBT {
 	
@@ -55,7 +64,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			tank.unloadTank(4, 5, slots);
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
-			if(this.mode == 1 || this.mode == 2) {
+			/*if(this.mode == 1 || this.mode == 2) {
 				this.sendFluidToAll(tank.getTankType(), this);
 			}
 			
@@ -63,7 +72,9 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				this.subscribeToAllAround(tank.getTankType(), worldObj, xCoord, yCoord, zCoord);
 			} else {
 				this.unsubscribeToAllAround(tank.getTankType(), worldObj, xCoord, yCoord, zCoord);
-			}
+			}*/
+			
+			tank.setFill(transmitFluidFairly(worldObj, tank.getTankType(), this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
 			
 			age++;
 			if(age >= 20)
@@ -80,6 +91,54 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			data.setShort("mode", mode);
 			this.networkPack(data, 50);
 		}
+	}
+	
+	protected DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
+				new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
+		};
+	}
+	
+	protected static int transmitFluidFairly(World world, FluidType type, IFluidConnector that, int fill, boolean connect, boolean send, DirPos[] connections) {
+		
+		Set<IPipeNet> nets = new HashSet();
+		Set<IFluidConnector> consumers = new HashSet();
+		
+		for(DirPos pos : connections) {
+			
+			TileEntity te = world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
+			
+			if(te instanceof IFluidConductor) {
+				IFluidConductor con = (IFluidConductor) te;
+				if(con.getPipeNet(type) != null) {
+					nets.add(con.getPipeNet(type));
+					con.getPipeNet(type).unsubscribe(that);
+					consumers.addAll(con.getPipeNet(type).getSubscribers());
+				}
+				
+			//if it's just a consumer, buffer it as a subscriber
+			} else if(te instanceof IFluidConnector) {
+				consumers.add((IFluidConnector) te);
+			}
+		}
+
+		if(fill > 0 && send) {
+			List<IFluidConnector> con = new ArrayList();
+			con.addAll(consumers);
+			fill = (int) PipeNet.fairTransfer(con, type, fill);
+		}
+		
+		//resubscribe to buffered nets, if necessary
+		if(connect) {
+			nets.forEach(x -> x.subscribe(that));
+		}
+		
+		return fill;
 	}
 
 	@Override

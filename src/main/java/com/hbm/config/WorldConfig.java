@@ -29,6 +29,8 @@ public class WorldConfig {
 	public static int gasbubbleSpawn = 4;
 	public static int explosivebubbleSpawn = 8;
 	public static int cobaltSpawn = 2;
+	public static int oilSpawn = 25;
+	public static int bedrockOilSpawn = 50;
 
 	public static int ironClusterSpawn = 4;
 	public static int titaniumClusterSpawn = 2;
@@ -117,6 +119,8 @@ public class WorldConfig {
 		cobaltSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.18_cobaltSpawnRate", "Amount of cobalt ore veins per chunk", 2);
 		explosivebubbleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.19_explosiveBubbleSpawnRate", "Spawns an explosive gas bubble every nTH chunk", 8);
 		alexandriteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.20_alexandriteSpawnRate", "Spawns an alexandrite vein every nTH chunk", 100);
+		oilSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.21_oilSpawnRate", "Spawns an oil bubble every nTH chunk", 25);
+		bedrockOilSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.22_bedrockOilSpawnRate", "Spawns a bedrock oil node every nTH chunk", 50);
 
 		ironClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C00_ironClusterSpawn", "Amount of iron cluster veins per chunk", 4);
 		titaniumClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C01_titaniumClusterSpawn", "Amount of titanium cluster veins per chunk", 2);

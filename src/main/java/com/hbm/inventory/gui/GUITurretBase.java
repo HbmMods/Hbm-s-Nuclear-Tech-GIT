@@ -89,9 +89,13 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 				
 				if(list.size() < 10) {
 					lines.add(list.toArray());
-				} else {
+				} else if(list.size() < 24) {
 					lines.add(list.subList(0, list.size() / 2).toArray());
 					lines.add(list.subList(list.size() / 2, list.size()).toArray());
+				} else {
+					lines.add(list.subList(0, list.size() / 3).toArray());
+					lines.add(list.subList(list.size() / 3, list.size() / 3 * 2).toArray());
+					lines.add(list.subList(list.size() / 3 * 2, list.size()).toArray());
 				}
 				
 				lines.add(new Object[] {I18nUtil.resolveKey(selected.getDisplayName())});

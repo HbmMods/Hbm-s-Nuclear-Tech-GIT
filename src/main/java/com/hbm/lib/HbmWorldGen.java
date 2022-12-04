@@ -577,7 +577,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 		}
 
-		if(rand.nextInt(25) == 0) {
+		if(WorldConfig.oilSpawn > 0 && rand.nextInt(WorldConfig.oilSpawn) == 0) {
 			int randPosX = i + rand.nextInt(16);
 			int randPosY = rand.nextInt(25);
 			int randPosZ = j + rand.nextInt(16);
@@ -585,7 +585,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			OilBubble.spawnOil(world, randPosX, randPosY, randPosZ, 7 + rand.nextInt(9));
 		}
 
-		if(rand.nextInt(50) == 0) {
+		if(WorldConfig.bedrockOilSpawn > 0 && rand.nextInt(WorldConfig.bedrockOilSpawn) == 0) {
 			int randPosX = i + rand.nextInt(16);
 			int randPosZ = j + rand.nextInt(16);
 			

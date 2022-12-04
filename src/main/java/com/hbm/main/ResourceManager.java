@@ -124,6 +124,9 @@ public class ResourceManager {
 	public static final IModelCustom selenium_rotor = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/selenium_engine_rotor.obj"));
 	public static final IModelCustom selenium_piston = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/selenium_engine_piston.obj"));
 	
+	//Combustion Engine
+	public static final IModelCustom combustion_engine = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/combustion_engine.obj")).asDisplayList();
+	
 	//Press
 	public static final IModelCustom press_body = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/press_body.obj"));
 	public static final IModelCustom press_head = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/press_head.obj"));
@@ -456,6 +459,9 @@ public class ResourceManager {
 	public static final ResourceLocation selenium_piston_tex = new ResourceLocation(RefStrings.MODID, "textures/models/selenium_engine_piston.png");
 	public static final ResourceLocation selenium_rotor_tex = new ResourceLocation(RefStrings.MODID, "textures/models/selenium_engine_rotor.png");
 	
+	//Combustion Engine
+	public static final ResourceLocation combustion_engine_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/combustion_engine.png");
+	
 	//Press
 	public static final ResourceLocation press_body_tex = new ResourceLocation(RefStrings.MODID, "textures/models/press_body.png");
 	public static final ResourceLocation press_head_tex = new ResourceLocation(RefStrings.MODID, "textures/models/press_head.png");
@@ -709,6 +715,7 @@ public class ResourceManager {
 	public static final IModelCustom bio_revolver = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/bio_revolver.obj"));
 	public static final IModelCustom chemthrower = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/chemthrower.obj")).asDisplayList();
 	public static final IModelCustom novac = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/novac.obj"));
+	public static final IModelCustom novac_scoped = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/novac_scoped.obj"));
 	
 	public static final IModelCustom lance = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lance.obj"));
 
@@ -789,6 +796,11 @@ public class ResourceManager {
 	public static final ResourceLocation bio_revolver_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/bio_revolver.png");
 	public static final ResourceLocation chemthrower_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/chemthrower.png");
 	public static final ResourceLocation novac_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/novac.png");
+	public static final ResourceLocation novac_scope_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/novac_scope.png");
+	public static final ResourceLocation lil_pip_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lil_pip.png");
+	public static final ResourceLocation blackjack_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/blackjack.png");
+	public static final ResourceLocation lent_gun_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lent_gun.png");
+	public static final ResourceLocation red_key_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/red_key.png");
 	
 	public static final ResourceLocation lance_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lance.png");
 

@@ -28,6 +28,7 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
+import com.hbm.items.machine.ItemPistons.EnumPistonType;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.Loader;
@@ -462,6 +463,42 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.circuit_red_copper, 8),
 				new OreDictStack(KEY_CIRCUIT_BISMUTH, 1)
 			}, 600);
+		makeRecipe(new ComparableStack(ModBlocks.machine_combustion_engine, 1), new AStack[] {
+				new OreDictStack(STEEL.plate(), 12),
+				new OreDictStack(IRON.plate(), 8),
+				new OreDictStack(CU.ingot(), 8),
+				new ComparableStack(ModItems.generator_steel, 1),
+				new ComparableStack(ModItems.tank_steel, 2),
+				new ComparableStack(ModItems.bolt_tungsten, 8),
+				new ComparableStack(ModItems.wire_red_copper, 24),
+				new ComparableStack(ModItems.circuit_copper, 1)
+			}, 300);
+		makeRecipe(new ComparableStack(ModItems.piston_set, 1, EnumPistonType.STEEL.ordinal()), new AStack[] {
+				new OreDictStack(STEEL.plate(), 16),
+				new OreDictStack(CU.plate(), 4),
+				new OreDictStack(W.ingot(), 8),
+				new ComparableStack(ModItems.bolt_tungsten, 16)
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.piston_set, 1, EnumPistonType.DURA.ordinal()), new AStack[] {
+				new OreDictStack(DURA.ingot(), 24),
+				new OreDictStack(TI.plate(), 8),
+				new OreDictStack(W.ingot(), 8),
+				new ComparableStack(ModItems.bolt_dura_steel, 16)
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.piston_set, 1, EnumPistonType.DESH.ordinal()), new AStack[] {
+				new OreDictStack(DESH.ingot(), 24),
+				new OreDictStack(ANY_PLASTIC.ingot(), 12),
+				new OreDictStack(CU.plate(), 24),
+				new OreDictStack(W.ingot(), 16),
+				new ComparableStack(ModItems.bolt_compound, 16)
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.piston_set, 1, EnumPistonType.STARMETAL.ordinal()), new AStack[] {
+				new OreDictStack(STAR.ingot(), 24),
+				new OreDictStack(RUBBER.ingot(), 16),
+				new OreDictStack(BIGMT.plate(), 24),
+				new OreDictStack(NB.ingot(), 16),
+				new ComparableStack(ModItems.bolt_compound, 16)
+			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_large_turbine, 1), new AStack[] {
 				new OreDictStack(STEEL.plate(), 12),
 				new OreDictStack(RUBBER.ingot(), 4),

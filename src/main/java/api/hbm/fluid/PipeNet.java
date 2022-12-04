@@ -91,6 +91,10 @@ public class PipeNet implements IPipeNet {
 			return fill;
 		
 		List<IFluidConnector> subList = new ArrayList(subscribers);
+		return fairTransfer(subList, type, fill);
+	}
+	
+	public static long fairTransfer(List<IFluidConnector> subList, FluidType type, long fill) {
 		
 		List<Long> weight = new ArrayList();
 		long totalReq = 0;

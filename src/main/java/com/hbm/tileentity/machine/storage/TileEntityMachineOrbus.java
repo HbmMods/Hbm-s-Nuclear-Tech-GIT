@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.storage;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -38,47 +39,29 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 		}
 	}
 	
-	public void sendFluidToAll(FluidType type, TileEntity te) {
+	protected DirPos[] conPos;
+	
+	@Override
+	protected DirPos[] getConPos() {
+		
+		if(conPos != null)
+			return conPos;
+		
+		conPos = new DirPos[8];
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 
 		for(int i = -1; i < 6; i += 6) {
 			ForgeDirection out = i == -1 ? ForgeDirection.DOWN : ForgeDirection.UP;
-			sendFluid(type, worldObj, xCoord,								yCoord + i,	zCoord,								out);
-			sendFluid(type, worldObj, xCoord + dir.offsetX,					yCoord + i,	zCoord + dir.offsetZ,				out);
-			sendFluid(type, worldObj, xCoord + rot.offsetX,					yCoord + i,	zCoord + rot.offsetZ,				out);
-			sendFluid(type, worldObj, xCoord + dir.offsetX + rot.offsetX,	yCoord + i,	zCoord + dir.offsetZ + rot.offsetZ,	out);
+			int index = i == -1 ? 0 : 1;
+			conPos[index + 0] = new DirPos(xCoord,								yCoord + i,	zCoord,								out);
+			conPos[index + 1] = new DirPos(xCoord + dir.offsetX,				yCoord + i,	zCoord + dir.offsetZ,				out);
+			conPos[index + 2] = new DirPos(xCoord + rot.offsetX,				yCoord + i,	zCoord + rot.offsetZ,				out);
+			conPos[index + 3] = new DirPos(xCoord + dir.offsetX + rot.offsetX,	yCoord + i,	zCoord + dir.offsetZ + rot.offsetZ,	out);
 		}
-	}
-
-	@Override
-	public void subscribeToAllAround(FluidType type, World world, int x, int y, int z) {
 		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
-		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-
-		for(int i = -1; i < 6; i += 6) {
-			ForgeDirection out = i == -1 ? ForgeDirection.DOWN : ForgeDirection.UP;
-			this.trySubscribe(type, world, xCoord,								yCoord + i,	zCoord,								out);
-			this.trySubscribe(type, world, xCoord + dir.offsetX,				yCoord + i,	zCoord + dir.offsetZ,				out);
-			this.trySubscribe(type, world, xCoord + rot.offsetX,				yCoord + i,	zCoord + rot.offsetZ,				out);
-			this.trySubscribe(type, world, xCoord + dir.offsetX + rot.offsetX,	yCoord + i,	zCoord + dir.offsetZ + rot.offsetZ,	out);
-		}
-	}
-
-	@Override
-	public void unsubscribeToAllAround(FluidType type, World world, int x, int y, int z) {
-		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
-		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-
-		for(int i = -1; i < 7; i += 7) {
-			this.tryUnsubscribe(type, world, xCoord,								yCoord + i,	zCoord);
-			this.tryUnsubscribe(type, world, xCoord + dir.offsetX,					yCoord + i,	zCoord + dir.offsetZ);
-			this.tryUnsubscribe(type, world, xCoord + rot.offsetX,					yCoord + i,	zCoord + rot.offsetZ);
-			this.tryUnsubscribe(type, world, xCoord + dir.offsetX + rot.offsetX,	yCoord + i,	zCoord + dir.offsetZ + rot.offsetZ);
-		}
+		return conPos;
 	}
 	
 	AxisAlignedBB bb = null;

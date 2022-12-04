@@ -2,6 +2,7 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
@@ -36,7 +37,12 @@ public class ItemRenderWeaponNovac implements IItemRenderer {
 		GL11.glPushMatrix();
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.novac_tex);
+
+		if(item.getItem() == ModItems.gun_revolver_nopip) Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.novac_tex);
+		if(item.getItem() == ModItems.gun_revolver_pip) Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.lil_pip_tex);
+		if(item.getItem() == ModItems.gun_revolver_blackjack) Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.blackjack_tex);
+		if(item.getItem() == ModItems.gun_revolver_silver) Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.lent_gun_tex);
+		if(item.getItem() == ModItems.gun_revolver_red) Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.red_key_tex);
 		
 		switch(type) {
 		
@@ -46,7 +52,7 @@ public class ItemRenderWeaponNovac implements IItemRenderer {
 			GL11.glRotated(25, 0, 0, 1);
 			GL11.glRotated(80, 0, 1, 0);
 			GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
-			GL11.glTranslatef(-0.25F, 0.0F, -1.25F);
+			GL11.glTranslatef(-0.0F, 0.0F, -1.25F);
 			GL11.glScaled(s0, s0, s0);
 			
 			break;
@@ -87,7 +93,15 @@ public class ItemRenderWeaponNovac implements IItemRenderer {
 		}
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		ResourceManager.novac.renderAll();
+		if(item.getItem() == ModItems.gun_revolver_pip) {
+			ResourceManager.novac_scoped.renderPart("Gun");
+			ResourceManager.novac_scoped.renderPart("Hammer");
+			ResourceManager.novac_scoped.renderPart("Cylinder");
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.novac_scope_tex);
+			ResourceManager.novac_scoped.renderPart("Scope");
+		} else {
+			ResourceManager.novac.renderAll();
+		}
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();

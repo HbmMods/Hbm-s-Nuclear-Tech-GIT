@@ -929,6 +929,7 @@ public class ModBlocks {
 
 	public static Block machine_diesel;
 	public static final int guiID_machine_diesel = 31;
+	public static Block machine_combustion_engine;
 
 	public static Block machine_shredder;
 	public static final int guiID_machine_shredder = 34;
@@ -1938,6 +1939,7 @@ public class ModBlocks {
 		machine_coal_on = new MachineCoal(true).setBlockName("machine_coal_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
 
 		machine_diesel = new MachineDiesel(Material.iron).setBlockName("machine_diesel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_combustion_engine = new MachineCombustionEngine().setBlockName("machine_combustion_engine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		machine_shredder = new MachineShredder(Material.iron).setBlockName("machine_shredder").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_shredder_large = new MachineShredderLarge(Material.iron).setBlockName("machine_shredder_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":code");
@@ -2177,7 +2179,7 @@ public class ModBlocks {
 		rbmk_loader = new RBMKLoader(Material.iron).setBlockName("rbmk_loader").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_loader");
 		rbmk_steam_inlet = new RBMKInlet(Material.iron).setBlockName("rbmk_steam_inlet").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_steam_inlet");
 		rbmk_steam_outlet = new RBMKOutlet(Material.iron).setBlockName("rbmk_steam_outlet").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_steam_outlet");
-		rbmk_heatex = new RBMKHeatex(Material.iron).setBlockName("rbmk_heatex").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_heatex");
+		rbmk_heatex = new RBMKHeatex(Material.iron).setBlockName("rbmk_heatex").setCreativeTab(null).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_heatex");
 		pribris = new RBMKDebris().setBlockName("pribris").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris");
 		pribris_burning = new RBMKDebrisBurning().setBlockName("pribris_burning").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris_burning");
 		pribris_radiating = new RBMKDebrisRadiating().setBlockName("pribris_radiating").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris_radiating");
@@ -3073,8 +3075,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_rtg_furnace_on, machine_rtg_furnace_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_coal_off, machine_coal_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_coal_on, machine_coal_on.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_diesel, ItemBlockBase.class, machine_diesel.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_selenium, ItemBlockBase.class, machine_selenium.getUnlocalizedName());
+		register(machine_diesel);
+		register(machine_selenium);
+		register(machine_combustion_engine);
 		GameRegistry.registerBlock(machine_generator, machine_generator.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_controller, machine_controller.getUnlocalizedName());
 		GameRegistry.registerBlock(reactor_research, reactor_research.getUnlocalizedName());

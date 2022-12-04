@@ -112,7 +112,7 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 						ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 						
 						cog.motionX = rot.offsetX;
-						cog.motionY = 1;
+						cog.motionY = 1 + (heat - 100) * 0.0001D;
 						cog.motionZ = rot.offsetZ;
 						worldObj.spawnEntityInWorld(cog);
 						
@@ -177,6 +177,20 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.hasBlade = nbt.getBoolean("hasBlade");
+		this.progress = nbt.getInteger("progress");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setBoolean("hasBlade", hasBlade);
+		nbt.setInteger("progress", progress);
 	}
 	
 	protected void tryPullHeat() {

@@ -45,14 +45,14 @@ public class TileEntityMachineSeleniumEngine extends TileEntityLoadedBase implem
 
 	public static long maxPower = 250000;
 	public static int fluidCap = 16000;
-	public static double pistonExp = 1.15D;
+	public static double pistonExp = 1.0D;
 	public static boolean shutUp = false;
 	public static HashMap<FuelGrade, Double> fuelEfficiency = new HashMap();
 	static {
-		fuelEfficiency.put(FuelGrade.LOW,		1.0D);
-		fuelEfficiency.put(FuelGrade.MEDIUM,	0.75D);
-		fuelEfficiency.put(FuelGrade.HIGH,		0.5D);
-		fuelEfficiency.put(FuelGrade.AERO,		0.05D);
+		fuelEfficiency.put(FuelGrade.LOW,		0.75D);
+		fuelEfficiency.put(FuelGrade.MEDIUM,	0.5D);
+		fuelEfficiency.put(FuelGrade.HIGH,		0.25D);
+		fuelEfficiency.put(FuelGrade.AERO,		0.00D);
 	}
 
 	private static final int[] slots_top = new int[] { 0 };

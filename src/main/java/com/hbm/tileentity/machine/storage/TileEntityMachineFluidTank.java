@@ -51,7 +51,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			if(age >= 20)
 				age = 0;
 			
-			if(this.mode == 2 || this.mode == 3) {
+			/*if(this.mode == 2 || this.mode == 3) {
 				for(DirPos pos : getConPos()) this.tryUnsubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ());
 			}
 			if(this.mode == 0 || this.mode == 1) {
@@ -59,7 +59,9 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			}
 			if(this.mode == 1 || this.mode == 2) {
 				for(DirPos pos : getConPos()) this.sendFluid(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			}
+			}*/
+			
+			tank.setFill(TileEntityBarrel.transmitFluidFairly(worldObj, tank.getTankType(), this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
 			
 			if((mode == 1 || mode == 2) && (age == 9 || age == 19))
 				fillFluidInit(tank.getTankType());
