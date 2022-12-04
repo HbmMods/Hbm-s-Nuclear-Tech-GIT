@@ -1167,6 +1167,21 @@ hbmmat.uranium235=Уран-235
 hbmmat.uranium238=Уран-238
 hbmmat.whitephosphorus=Белый фосфор
 hbmmat.workersalloy=Деш
+hbmmat.meteoriciron=Метеоритное железо
+hbmmat.pigiron=Чугун
+hbmmat.wroughtiron=Кованое железо
+
+crucible.aa=Производство продвинутого сплава
+crucible.ferro=Производство ферроуранового сплава
+crucible.hematite=Переплавка гематита в железо
+crucible.hss=Производство высокоскоростной стали
+crucible.malachite=Переплавка малахита в медь
+crucible.redcopper=Производство красной меди
+crucible.steel=Производство стали
+crucible.steelMeteoric=Переплавка метеоритного железа в сталь
+crucible.steelPig=Переплавка чугуна в сталь
+crucible.steelWrought=Переплавка кованого железа в сталь
+crucible.tcalloy=Производство технециевой стали
 
 matshape.block=Блок %s
 matshape.blocks=Блоки %s
@@ -1585,6 +1600,7 @@ tile.mine_he.name=Противотанковая мина
 tile.mine_shrap.name=Мина со шрапнелью
 tile.mine_fat.name=Мина-"Толстяк"
 item.defuser.name=Высокотехнологичное устройство для разминирования
+item.defuser_gold.name=Золотые кусачки
 
 tile.crate.name=Ящик снабжения
 tile.crate_weapon.name=Ящик с оружием
@@ -1892,6 +1908,9 @@ tile.heater_electric.desc=Производит тепло, используя э
 container.heaterOven=Нагревательная печь
 tile.heater_oven.name=Нагревательная печь
 tile.heater_oven.desc=Производит тепло, сжигая твёрдое топливо.$Принимает тепло снизу с 50%% эффективностью.
+tile.heater_heatex.name=Теплообменный нагреватель
+tile.heater_heatex.desc=Выделяет тепло из горячих жидкостей.
+container.heaterHeatex=Теплообменник
 tile.machine_steam_engine.name=Паровой двигатель
 tile.machine_steam_engine.desc=Эффективность: 85%%
 container.turretHIMARS=Генри
@@ -1943,6 +1962,7 @@ tile.radio_torch_sender.name=Редстоун-радио передатчик
 tile.radio_torch_sender.desc=Ставится на плоские поверхности или совместимые компараторные блоки$Считывает редстоун сигнал или вход компаратора
 container.rttyReceiver=Редстоун-радио приёмник
 container.rttySender=Редстоун-радио передатчик
+tile.machine_combustion_engine.name=Промышленный двигатель внутреннего сгорания
 
 container.hadron=Ускоритель частиц
 tile.hadron_access.name=Терминал доступа ускорителя частиц
@@ -2537,6 +2557,10 @@ item.assembly_calamity.name=Сборка .50 BMG пули
 item.assembly_lacunae.name=Сборка .5мм пули
 
 item.piston_selenium.name=Поршень двигателя внутреннего сгорания
+item.piston_set_desh.name=Набор деш-поршней
+item.piston_set_dura.name=Набор поршней из высокоскоростной стали
+item.piston_set_starmetal.name=Набор поршней из звёздного металла
+item.piston_set_steel.name=Набор стальных поршней
 
 tile.block_aluminium.name=Алюминиевый блок
 tile.block_copper.name=Медный блок
@@ -5035,6 +5059,7 @@ item.oil_detector.bullseye=Нефтяной резервуар прямо сни
 item.oil_detector.detected=Поблизости обнаружен резервуар нефти.
 item.oil_detector.noOil=Нефти не обнаружено.
 item.geiger_counter.name=Ручной счетчик Гейгера
+item.gas_tester.name=Газовый датчик
 item.dosimeter.name=Дозиметр
 item.digamma_diagnostic.name=Диагностика дигаммы
 tile.geiger.name=Счетчик Гейгера
