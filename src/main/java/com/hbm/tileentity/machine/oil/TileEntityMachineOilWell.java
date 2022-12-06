@@ -24,6 +24,7 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 	protected static int oilPerDepsoit = 500;
 	protected static int gasPerDepositMin = 100;
 	protected static int gasPerDepositMax = 500;
+	protected static double drainChance = 0.05D;
 
 	@Override
 	public String getName() {
@@ -85,6 +86,10 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 		if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
 		this.tanks[1].setFill(this.tanks[1].getFill() + (gasPerDepositMin + worldObj.rand.nextInt((gasPerDepositMax - gasPerDepositMin + 1))));
 		if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) this.tanks[1].setFill(tanks[1].getMaxFill());
+		
+		if(worldObj.rand.nextDouble() < drainChance) {
+			worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
+		}
 	}
 
 	@Override
@@ -137,6 +142,7 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 		oilPerDepsoit = IConfigurableMachine.grab(obj, "I:oilPerDeposit", oilPerDepsoit);
 		gasPerDepositMin = IConfigurableMachine.grab(obj, "I:gasPerDepositMin", gasPerDepositMin);
 		gasPerDepositMax = IConfigurableMachine.grab(obj, "I:gasPerDepositMax", gasPerDepositMax);
+		drainChance = IConfigurableMachine.grab(obj, "D:drainChance", drainChance);
 	}
 
 	@Override
@@ -147,5 +153,6 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 		writer.name("I:oilPerDeposit").value(oilPerDepsoit);
 		writer.name("I:gasPerDepositMin").value(gasPerDepositMin);
 		writer.name("I:gasPerDepositMax").value(gasPerDepositMax);
+		writer.name("D:drainChance").value(drainChance);
 	}
 }

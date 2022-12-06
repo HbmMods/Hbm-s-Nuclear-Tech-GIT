@@ -25,6 +25,7 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	protected static int oilPerDepsoit = 1000;
 	protected static int gasPerDepositMin = 100;
 	protected static int gasPerDepositMax = 500;
+	protected static double drainChance = 0.02D;
 	protected static int oilPerBedrockDepsoit = 100;
 	protected static int gasPerBedrockDepositMin = 10;
 	protected static int gasPerBedrockDepositMax = 50;
@@ -99,6 +100,10 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 		if(b == ModBlocks.ore_oil) {
 			oil = oilPerDepsoit;
 			gas = gasPerDepositMin + worldObj.rand.nextInt(gasPerDepositMax - gasPerDepositMin + 1);
+			
+			if(worldObj.rand.nextDouble() < drainChance) {
+				worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
+			}
 		}
 		if(b == ModBlocks.ore_bedrock_oil) {
 			oil = oilPerBedrockDepsoit;
@@ -175,6 +180,7 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 		oilPerDepsoit = IConfigurableMachine.grab(obj, "I:oilPerDeposit", oilPerDepsoit);
 		gasPerDepositMin = IConfigurableMachine.grab(obj, "I:gasPerDepositMin", gasPerDepositMin);
 		gasPerDepositMax = IConfigurableMachine.grab(obj, "I:gasPerDepositMax", gasPerDepositMax);
+		drainChance = IConfigurableMachine.grab(obj, "D:drainChance", drainChance);
 		oilPerBedrockDepsoit = IConfigurableMachine.grab(obj, "I:oilPerBedrockDeposit", oilPerBedrockDepsoit);
 		gasPerBedrockDepositMin = IConfigurableMachine.grab(obj, "I:gasPerBedrockDepositMin", gasPerBedrockDepositMin);
 		gasPerBedrockDepositMax = IConfigurableMachine.grab(obj, "I:gasPerBedrockDepositMax", gasPerBedrockDepositMax);
@@ -190,6 +196,7 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 		writer.name("I:oilPerDeposit").value(oilPerDepsoit);
 		writer.name("I:gasPerDepositMin").value(gasPerDepositMin);
 		writer.name("I:gasPerDepositMax").value(gasPerDepositMax);
+		writer.name("D:drainChance").value(drainChance);
 		writer.name("I:oilPerBedrockDeposit").value(oilPerBedrockDepsoit);
 		writer.name("I:gasPerBedrockDepositMin").value(gasPerBedrockDepositMin);
 		writer.name("I:gasPerBedrockDepositMax").value(gasPerBedrockDepositMax);

@@ -253,7 +253,6 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 		
 		if(worldObj.getBlock(x, y, z) == ModBlocks.ore_oil) {
 			onSuck(x, y, z);
-			worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
 		}
 	}
 	

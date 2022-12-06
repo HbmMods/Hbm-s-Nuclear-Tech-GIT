@@ -27,7 +27,9 @@ public class FoundryTank extends BlockContainer implements ICrucibleAcceptor {
 
 	@SideOnly(Side.CLIENT) public IIcon iconTop;
 	@SideOnly(Side.CLIENT) public IIcon iconSide;
+	@SideOnly(Side.CLIENT) public IIcon iconSideOutlet;
 	@SideOnly(Side.CLIENT) public IIcon iconSideUpper;
+	@SideOnly(Side.CLIENT) public IIcon iconSideUpperOutlet;
 	@SideOnly(Side.CLIENT) public IIcon iconBottom;
 	@SideOnly(Side.CLIENT) public IIcon iconInner;
 	@SideOnly(Side.CLIENT) public IIcon iconLava;
@@ -42,7 +44,9 @@ public class FoundryTank extends BlockContainer implements ICrucibleAcceptor {
 		super.registerBlockIcons(iconRegister);
 		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":foundry_tank_top");
 		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":foundry_tank_side");
+		this.iconSideOutlet = iconRegister.registerIcon(RefStrings.MODID + ":foundry_tank_side_outlet");
 		this.iconSideUpper = iconRegister.registerIcon(RefStrings.MODID + ":foundry_tank_upper");
+		this.iconSideUpperOutlet = iconRegister.registerIcon(RefStrings.MODID + ":foundry_tank_upper_outlet");
 		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":foundry_tank_bottom");
 		this.iconInner = iconRegister.registerIcon(RefStrings.MODID + ":foundry_tank_inner");
 		this.iconLava = iconRegister.registerIcon(RefStrings.MODID + ":lava_gray");

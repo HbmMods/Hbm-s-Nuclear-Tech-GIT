@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.FoundryTank;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.TileEntityFoundryTank;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -92,6 +93,11 @@ public class RenderFoundryTank implements ISimpleBlockRenderingHandler {
 		boolean conNegZ = world.getBlock(x, y, z - 1) == ModBlocks.foundry_tank;
 		boolean conPosY = world.getBlock(x, y + 1, z) == ModBlocks.foundry_tank;
 		boolean conNegY = world.getBlock(x, y - 1, z) == ModBlocks.foundry_tank;
+
+		boolean outPosX = world.getBlock(x + 1, y, z) == ModBlocks.foundry_outlet && world.getBlockMetadata(x + 1, y, z) == Library.POS_X.ordinal();
+		boolean outNegX = world.getBlock(x - 1, y, z) == ModBlocks.foundry_outlet && world.getBlockMetadata(x - 1, y, z) == Library.NEG_X.ordinal();
+		boolean outPosZ = world.getBlock(x, y, z + 1) == ModBlocks.foundry_outlet && world.getBlockMetadata(x, y, z + 1) == Library.POS_Z.ordinal();
+		boolean outNegZ = world.getBlock(x, y, z - 1) == ModBlocks.foundry_outlet && world.getBlockMetadata(x, y, z - 1) == Library.NEG_Z.ordinal();
 		
 		boolean doRender = tile != null ? (tile.amount > 0 && tile.type != null) : false;
 		double max = 0.75D + (conNegY ? 0.125D : 0) + (conPosY ? 0.125D : 0);
@@ -120,7 +126,7 @@ public class RenderFoundryTank implements ISimpleBlockRenderingHandler {
 		if(!conPosX) {
 			renderer.setRenderBounds(0.875D, 0D, 0D, 1D, 1D, 1D);
 			tessellator.setColorOpaque_F(r * mulX, g * mulX, b * mulX);
-			renderer.renderFaceXPos(block, x, y, z, conNegY ? tank.iconSideUpper : tank.iconSide);
+			renderer.renderFaceXPos(block, x, y, z, conNegY ? (outPosX ? tank.iconSideUpperOutlet : tank.iconSideUpper) : (outPosX ? tank.iconSideOutlet : tank.iconSide));
 			renderer.renderFaceXNeg(block, x, y, z, conPosY ? tank.iconBottom : tank.iconInner);
 			
 			tessellator.setColorOpaque_F(r * mulZ, g * mulZ, b * mulZ);
@@ -135,7 +141,7 @@ public class RenderFoundryTank implements ISimpleBlockRenderingHandler {
 			renderer.setRenderBounds(0D, 0D, 0D, 0.125D, 1D, 1D);
 			tessellator.setColorOpaque_F(r * mulX, g * mulX, b * mulX);
 			renderer.renderFaceXPos(block, x, y, z, conPosY ? tank.iconBottom : tank.iconInner);
-			renderer.renderFaceXNeg(block, x, y, z, conNegY ? tank.iconSideUpper : tank.iconSide);
+			renderer.renderFaceXNeg(block, x, y, z, conNegY ? (outNegX ? tank.iconSideUpperOutlet : tank.iconSideUpper) : (outNegX ? tank.iconSideOutlet : tank.iconSide));
 			
 			tessellator.setColorOpaque_F(r * mulZ, g * mulZ, b * mulZ);
 			if(conPosZ) renderer.renderFaceZPos(block, x, y, z, conPosY ? tank.iconBottom : tank.iconInner);
@@ -148,7 +154,7 @@ public class RenderFoundryTank implements ISimpleBlockRenderingHandler {
 		if(!conPosZ) {
 			renderer.setRenderBounds(0D, 0D, 0.875D, 1D, 1D, 1D);
 			tessellator.setColorOpaque_F(r * mulZ, g * mulZ, b * mulZ);
-			renderer.renderFaceZPos(block, x, y, z, conNegY ? tank.iconSideUpper : tank.iconSide);
+			renderer.renderFaceZPos(block, x, y, z, conNegY ? (outPosZ ? tank.iconSideUpperOutlet : tank.iconSideUpper) : (outPosZ ? tank.iconSideOutlet : tank.iconSide));
 			renderer.renderFaceZNeg(block, x, y, z, conPosY ? tank.iconBottom : tank.iconInner);
 			
 			tessellator.setColorOpaque_F(r * mulX, g * mulX, b * mulX);
@@ -163,7 +169,7 @@ public class RenderFoundryTank implements ISimpleBlockRenderingHandler {
 			renderer.setRenderBounds(0D, 0D, 0D, 1D, 1D, 0.125D);
 			tessellator.setColorOpaque_F(r * mulZ, g * mulZ, b * mulZ);
 			renderer.renderFaceZPos(block, x, y, z, conPosY ? tank.iconBottom : tank.iconInner);
-			renderer.renderFaceZNeg(block, x, y, z, conNegY ? tank.iconSideUpper : tank.iconSide);
+			renderer.renderFaceZNeg(block, x, y, z, conNegY ? (outNegZ ? tank.iconSideUpperOutlet : tank.iconSideUpper) : (outNegZ ? tank.iconSideOutlet : tank.iconSide));
 			
 			tessellator.setColorOpaque_F(r * mulX, g * mulX, b * mulX);
 			if(conPosX) renderer.renderFaceXPos(block, x, y, z, conPosY ? tank.iconBottom : tank.iconInner);
