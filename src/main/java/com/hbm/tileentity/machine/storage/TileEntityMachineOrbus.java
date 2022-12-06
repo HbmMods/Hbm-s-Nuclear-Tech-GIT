@@ -54,7 +54,7 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 
 		for(int i = -1; i < 6; i += 6) {
 			ForgeDirection out = i == -1 ? ForgeDirection.DOWN : ForgeDirection.UP;
-			int index = i == -1 ? 0 : 1;
+			int index = i == -1 ? 0 : 4;
 			conPos[index + 0] = new DirPos(xCoord,								yCoord + i,	zCoord,								out);
 			conPos[index + 1] = new DirPos(xCoord + dir.offsetX,				yCoord + i,	zCoord + dir.offsetZ,				out);
 			conPos[index + 2] = new DirPos(xCoord + rot.offsetX,				yCoord + i,	zCoord + rot.offsetZ,				out);
