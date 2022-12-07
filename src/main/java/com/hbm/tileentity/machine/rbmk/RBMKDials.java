@@ -29,6 +29,7 @@ public class RBMKDials {
 	public static final String KEY_REASIM_BOILERS = "dialReasimBoilers";
 	public static final String KEY_REASIM_BOILER_SPEED = "dialReasimBoilerSpeed";
 	public static final String KEY_DISABLE_MELTDOWNS = "dialDisableMeltdowns";
+	public static final String KEY_ENABLE_MELTDOWN_OVERPRESSURE = "dialEnableMeltdownOverpressure";
 	
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();
@@ -53,6 +54,7 @@ public class RBMKDials {
 			rules.setOrCreateGameRule(KEY_REASIM_BOILERS, "false");
 			rules.setOrCreateGameRule(KEY_REASIM_BOILER_SPEED, "0.05");
 			rules.setOrCreateGameRule(KEY_DISABLE_MELTDOWNS, "false");
+			rules.setOrCreateGameRule(KEY_ENABLE_MELTDOWN_OVERPRESSURE, "false");
 		}
 	}
 	
@@ -217,5 +219,14 @@ public class RBMKDials {
 	 */
 	public static boolean getMeltdownsDisabled(World world) {
 		return world.getGameRules().getGameRuleBooleanValue(KEY_DISABLE_MELTDOWNS);
+	}
+	
+	/**
+	 * Whether or not connected pipes and turbines should explode when the reactor undergoes a meltdown.
+	 * @param world
+	 * @return
+	 */
+	public static boolean getOverpressure(World world) {
+		return world.getGameRules().getGameRuleBooleanValue(KEY_ENABLE_MELTDOWN_OVERPRESSURE);
 	}
 }

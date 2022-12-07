@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.rbmk;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +23,9 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.I18nUtil;
 
+import api.hbm.fluid.IFluidConductor;
+import api.hbm.fluid.IFluidConnector;
+import api.hbm.fluid.IPipeNet;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -394,6 +398,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 	}
 	
 	public static HashSet<TileEntityRBMKBase> columns = new HashSet();
+	public static HashSet<IPipeNet> pipes = new HashSet();
 	
 	//assumes that !worldObj.isRemote
 	public void meltdown() {
@@ -401,6 +406,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		RBMKBase.dropLids = false;
 		
 		columns.clear();
+		pipes.clear();
 		getFF(xCoord, yCoord, zCoord);
 		
 		int minX = xCoord;
@@ -452,6 +458,42 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 							}
 						}
 					}
+				}
+			}
+		}
+		
+		/* Hanlde overpressure event */
+		if(RBMKDials.getOverpressure(worldObj) && !pipes.isEmpty()) {
+			HashSet<IFluidConductor> pipeBlocks = new HashSet();
+			HashSet<IFluidConnector> pipeReceivers = new HashSet();
+			
+			//unify all parts into single sets to prevent redundancy
+			pipes.forEach(x -> {
+				pipeBlocks.addAll(x.getLinks());
+				pipeReceivers.addAll(x.getSubscribers());
+			});
+			
+			int count = 0;
+			int max = Math.min(pipeBlocks.size() / 5, 100);
+			Iterator<IFluidConductor>  itPipes = pipeBlocks.iterator();
+			Iterator<IFluidConnector>  itReceivers = pipeReceivers.iterator();
+			
+			while(itPipes.hasNext() && count < max) {
+				IFluidConductor pipe = itPipes.next();
+				if(pipe instanceof TileEntity) {
+					TileEntity tile = (TileEntity) pipe;
+					worldObj.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, Blocks.air);
+				}
+				count++;
+			}
+			
+			while(itReceivers.hasNext()) {
+				IFluidConnector con = itReceivers.next();
+				if(con instanceof TileEntity) {
+					TileEntity tile = (TileEntity) con;
+					worldObj.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, Blocks.air);
+					//TODO: create an interface so overpressure can be handled by machines themselves
+					worldObj.newExplosion(null, tile.xCoord + 0.5, tile.yCoord + 0.5, tile.zCoord + 0.5, 5F, false, false);
 				}
 			}
 		}

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluid.IFluidUser;
+import api.hbm.fluid.IPipeNet;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.interfaces.IControlReceiver;
@@ -267,6 +270,15 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		
 		for(int i = 0; i < count; i++) {
 			spawnDebris(DebrisType.BLANK);
+		}
+		
+		if(RBMKDials.getOverpressure(worldObj)) {
+			for(DirPos pos : getOutputPos()) {
+				IPipeNet net = IFluidUser.getPipeNet(worldObj, pos.getX(), pos.getY(), pos.getZ(), steam.getTankType());
+				if(net != null) {
+					this.pipes.add(net);
+				}
+			}
 		}
 		
 		super.onMelt(reduce);
