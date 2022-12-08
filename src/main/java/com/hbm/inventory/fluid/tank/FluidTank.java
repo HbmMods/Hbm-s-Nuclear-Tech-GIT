@@ -33,8 +33,14 @@ public class FluidTank {
 	FluidType type;
 	int fluid;
 	int maxFluid;
-	public int index;
+	public int index = 0;
 	
+	public FluidTank(FluidType type, int maxFluid) {
+		this.type = type;
+		this.maxFluid = maxFluid;
+	}
+	
+	@Deprecated // indices are no longer needed
 	public FluidTank(FluidType type, int maxFluid, int index) {
 		this.type = type;
 		this.maxFluid = maxFluid;

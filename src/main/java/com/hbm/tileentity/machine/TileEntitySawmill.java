@@ -69,7 +69,7 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 							slots[1] = result;
 							
 							if(result.getItem() != ModItems.powder_sawdust) {
-								float chance = result.getItem() == Items.stick ? 0.05F : 0.5F;
+								float chance = result.getItem() == Items.stick ? 0.1F : 0.5F;
 								if(worldObj.rand.nextFloat() < chance) {
 									slots[2] = new ItemStack(ModItems.powder_sawdust);
 								}
@@ -256,6 +256,10 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 		
 		if(names.contains("plankWood")) {
 			return new ItemStack(Items.stick, 4);
+		}
+		
+		if(names.contains("treeSapling")) {
+			return new ItemStack(Items.stick, 1);
 		}
 		
 		return null;

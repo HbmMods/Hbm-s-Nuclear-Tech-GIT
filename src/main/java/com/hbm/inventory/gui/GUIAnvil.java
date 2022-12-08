@@ -146,11 +146,11 @@ public class GUIAnvil extends GuiContainer {
 			return;
 		}
 		
-		if(guiLeft + 97 <= x && guiLeft + 97 + 18 > x && guiTop + 107 < y && guiTop + 107 + 18 >= y) {
+		/*if(guiLeft + 97 <= x && guiLeft + 97 + 18 > x && guiTop + 107 < y && guiTop + 107 + 18 >= y) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			search(this.search.getText());
 			return;
-		}
+		}*/
 		
 		for(int i = index * 2; i < index * 2 + 10; i++) {
 			
@@ -322,9 +322,9 @@ public class GUIAnvil extends GuiContainer {
 		if(guiLeft + 52 <= mX && guiLeft + 52 + 18 > mX && guiTop + 53 < mY && guiTop + 53 + 18 >= mY) {
 			drawTexturedModalRect(guiLeft + 52, guiTop + 53, 176, 150, 18, 18);
 		}
-		if(guiLeft + 97 <= mX && guiLeft + 97 + 18 > mX && guiTop + 107 < mY && guiTop + 107 + 18 >= mY) {
+		/*if(guiLeft + 97 <= mX && guiLeft + 97 + 18 > mX && guiTop + 107 < mY && guiTop + 107 + 18 >= mY) {
 			drawTexturedModalRect(guiLeft + 97, guiTop + 107, 176, 168, 18, 18);
-		}
+		}*/
 		
 		for(int i = index * 2; i < index * 2 + 10; i++) {
 			if(i >= recipes.size())
@@ -363,13 +363,9 @@ public class GUIAnvil extends GuiContainer {
 	@Override
 	protected void keyTyped(char c, int key) {
 		
-		if(!this.search.textboxKeyTyped(c, key)) {
-			
-			if(key == 28) {
-				this.search.setFocused(false);
-				search(this.search.getText());
-			}
-			
+		if(this.search.textboxKeyTyped(c, key)) {
+			search(this.search.getText());
+		} else {
 			super.keyTyped(c, key);
 		}
 	}

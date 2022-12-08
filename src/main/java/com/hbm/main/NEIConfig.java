@@ -63,6 +63,7 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new CrackingHandler());
 		registerHandler(new FractioningHandler());
 		registerHandler(new BoilingHandler());
+		registerHandler(new CombinationHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));

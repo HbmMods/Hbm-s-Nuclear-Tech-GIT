@@ -21,7 +21,6 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -45,13 +44,17 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
+
+			this.worldObj.theProfiler.startSection("catalyticCracker_setup_tanks");
 			setupTanks();
+			this.worldObj.theProfiler.endStartSection("catalyticCracker_update_connections");
 			updateConnections();
-			
+
+			this.worldObj.theProfiler.endStartSection("catalyticCracker_do_recipe");
 			if(worldObj.getTotalWorldTime() % 20 == 0)
 				crack();
-			
+
+			this.worldObj.theProfiler.endStartSection("catalyticCracker_send_fluid");
 			if(worldObj.getTotalWorldTime() % 10 == 0) {
 				fillFluidInit(tanks[2].getTankType());
 				fillFluidInit(tanks[3].getTankType());
@@ -70,6 +73,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 				
 				INBTPacketReceiver.networkPack(this, data, 50);
 			}
+			this.worldObj.theProfiler.endSection();
 		}
 	}
 
