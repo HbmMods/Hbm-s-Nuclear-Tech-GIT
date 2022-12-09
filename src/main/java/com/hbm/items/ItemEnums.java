@@ -17,7 +17,8 @@ public class ItemEnums {
 	public static enum EnumTarType {
 		CRUDE,
 		CRACK,
-		COAL
+		COAL,
+		WOOD
 	}
 
 	public static enum EnumLegendaryType {

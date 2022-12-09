@@ -24,20 +24,21 @@ public class CombinationRecipes {
 	private static HashMap<Object, Pair<ItemStack, FluidStack>> recipes = new HashMap();
 	
 	public static void register() {
-		recipes.put(COAL.gem(),		new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), new FluidStack(Fluids.COALOIL, 50)));
-		recipes.put(COAL.dust(),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), new FluidStack(Fluids.COALOIL, 50)));
+		recipes.put(COAL.gem(),		new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), new FluidStack(Fluids.COALCREOSOTE, 100)));
+		recipes.put(COAL.dust(),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), new FluidStack(Fluids.COALCREOSOTE, 100)));
 		
-		recipes.put(LIGNITE.gem(),										new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), new FluidStack(Fluids.COALOIL, 50)));
-		recipes.put(LIGNITE.dust(),										new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), new FluidStack(Fluids.COALOIL, 50)));
-		recipes.put(new ComparableStack(ModItems.briquette_lignite),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), new FluidStack(Fluids.COALOIL, 50)));
+		recipes.put(LIGNITE.gem(),										new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), new FluidStack(Fluids.COALCREOSOTE, 50)));
+		recipes.put(LIGNITE.dust(),										new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), new FluidStack(Fluids.COALCREOSOTE, 50)));
+		recipes.put(new ComparableStack(ModItems.briquette_lignite),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), new FluidStack(Fluids.COALCREOSOTE, 50)));
 		
 		recipes.put(CINNABAR.crystal(), new Pair(new ItemStack(ModItems.sulfur), new FluidStack(Fluids.MERCURY, 100)));
 		
-		recipes.put(KEY_LOG, new Pair(new ItemStack(Items.coal, 1 ,1), new FluidStack(Fluids.HEATINGOIL, 10)));
+		recipes.put(KEY_LOG, new Pair(new ItemStack(Items.coal, 1 ,1), new FluidStack(Fluids.WOODOIL, 250)));
 
 		recipes.put(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), null));
 		recipes.put(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), null));
 		recipes.put(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), null));
+		recipes.put(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WOOD),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), null));
 	}
 	
 	public static Pair<ItemStack, FluidStack> getOutput(ItemStack stack) {

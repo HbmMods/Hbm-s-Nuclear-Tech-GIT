@@ -49,8 +49,6 @@ public class FluidType {
 	// v v v this entire system is a pain in the ass to work with. i'd much rather define state transitions and heat values manually.
 	/** How hot this fluid is. Simple enough. */
 	public int temperature = ROOM_TEMPERATURE;
-	/** How much heat energy each mB requires to be heated by 1°C. Total heat energy = heatCap * delta-T. */
-	public double heatCap = DEFAULT_HEATCAP;
 	/** How much "stuff" there is in one mB. 1mB of water turns into 100mB of steam, therefore steam has a compression of 0.01. Compression is only used for translating fluids into other fluids, heat calculations should ignore this. */
 	public double compression = DEFAULT_COMPRESSION;
 	
@@ -83,11 +81,6 @@ public class FluidType {
 	
 	public FluidType setTemp(int temperature) {
 		this.temperature = temperature;
-		return this;
-	}
-	
-	public FluidType setHeatCap(double heatCap) {
-		this.heatCap = heatCap;
 		return this;
 	}
 	
@@ -196,13 +189,6 @@ public class FluidType {
 			if(temperature < 0) info.add(EnumChatFormatting.BLUE + "" + temperature + "°C");
 			if(temperature > 0) info.add(EnumChatFormatting.RED + "" + temperature + "°C");
 		}
-		/*if(isAntimatter()) info.add(EnumChatFormatting.DARK_RED + "Antimatter");
-
-		if(enumTraits.contains(EnumFluidTrait.CORROSIVE_2)) info.add(EnumChatFormatting.GOLD + "Strongly Corrosive");
-		else if(enumTraits.contains(EnumFluidTrait.CORROSIVE)) info.add(EnumChatFormatting.YELLOW + "Corrosive");
-		
-		if(enumTraits.contains(EnumFluidTrait.NO_CONTAINER)) info.add(EnumChatFormatting.RED + "Cannot be stored in any universal tank");
-		if(enumTraits.contains(EnumFluidTrait.LEAD_CONTAINER)) info.add(EnumChatFormatting.YELLOW + "Requires hazardous material tank to hold");*/
 		
 		List<String> hidden = new ArrayList();
 		
@@ -222,30 +208,7 @@ public class FluidType {
 						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
 			}
 		}
-
-		/*info.add("");
-		info.add(EnumChatFormatting.RED + "[DEBUG]");
-		
-		for(FluidTrait trait : traits) {
-			info.add(EnumChatFormatting.RED + "-" + trait.name());
-		}*/
 	}
-	
-	/**
-	 * Metadata for describing how the fluid acts, like being corrosive, not having fluid IDs or being only stored in certain containers.
-	 */
-	/*@Deprecated
-	public static enum EnumFluidTrait {
-		LIQUID,
-		GASEOUS,
-		PETROCHEMICAL,
-		AMAT,
-		CORROSIVE,
-		CORROSIVE_2,
-		NO_CONTAINER,
-		LEAD_CONTAINER,
-		NO_ID;
-	}*/
 	
 	public static enum ExtContainer {
 		CANISTER

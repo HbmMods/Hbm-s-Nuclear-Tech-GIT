@@ -44,6 +44,8 @@ public class RefineryRecipes {
 	public static final int lcrack_frac_petro = 30;
 	public static final int coal_frac_coalgas = 30;
 	public static final int coal_frac_oil = 70;
+	public static final int creo_frac_coaloil = 10;
+	public static final int creo_frac_bitu = 90;
 	
 	//cracking in percent
 	public static final int oil_crack_oil = 80;
@@ -57,6 +59,8 @@ public class RefineryRecipes {
 	public static final int diesel_crack_kero = 40;
 	public static final int diesel_crack_petro = 30;
 	public static final int kero_crack_petro = 60;
+	public static final int wood_crack_aroma = 10;
+	public static final int wood_crack_heat = 40;
 
 	private static Map<FluidType, Quintet<FluidStack, FluidStack, FluidStack, FluidStack, ItemStack>> refinery = new HashMap();
 	private static Map<FluidType, Pair<FluidStack, FluidStack>> fractions = new HashMap();
@@ -107,6 +111,7 @@ public class RefineryRecipes {
 		fractions.put(Fluids.LIGHTOIL,			new Pair(new FluidStack(Fluids.DIESEL,		light_frac_diesel),	new FluidStack(Fluids.KEROSENE,		light_frac_kero)));
 		fractions.put(Fluids.LIGHTOIL_CRACK,	new Pair(new FluidStack(Fluids.KEROSENE,	lcrack_frac_kero),	new FluidStack(Fluids.PETROLEUM,	lcrack_frac_petro)));
 		fractions.put(Fluids.COALOIL,			new Pair(new FluidStack(Fluids.COALGAS,		coal_frac_coalgas),	new FluidStack(Fluids.OIL,			coal_frac_oil)));
+		fractions.put(Fluids.COALCREOSOTE,		new Pair(new FluidStack(Fluids.COALOIL,		creo_frac_coaloil),	new FluidStack(Fluids.BITUMEN,		creo_frac_bitu)));
 	}
 	
 	public static void registerCracking() {
@@ -117,6 +122,7 @@ public class RefineryRecipes {
 		cracking.put(Fluids.DIESEL,			new Pair(new FluidStack(Fluids.KEROSENE,	diesel_crack_kero),	new FluidStack(Fluids.PETROLEUM,	diesel_crack_petro)));
 		cracking.put(Fluids.DIESEL_CRACK,	new Pair(new FluidStack(Fluids.KEROSENE,	diesel_crack_kero),	new FluidStack(Fluids.PETROLEUM,	diesel_crack_petro)));
 		cracking.put(Fluids.KEROSENE,		new Pair(new FluidStack(Fluids.PETROLEUM,	kero_crack_petro),	new FluidStack(Fluids.NONE,			0)));
+		cracking.put(Fluids.WOODOIL,		new Pair(new FluidStack(Fluids.HEATINGOIL,	wood_crack_heat),	new FluidStack(Fluids.AROMATICS,	wood_crack_aroma)));
 	}
 	
 	public static Quintet<FluidStack, FluidStack, FluidStack, FluidStack, ItemStack> getRefinery(FluidType oil) {

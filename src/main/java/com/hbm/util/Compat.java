@@ -20,6 +20,7 @@ public class Compat {
 	public static final String MOD_AR = "advancedrocketry";
 	public static final String MOD_EF = "etfuturum";
 	public static final String MOD_REC = "ReactorCraft";
+	public static final String MOD_TIC = "TConstruct";
 
 	public static Item tryLoadItem(String domain, String name) {
 		return (Item) Item.itemRegistry.getObject(getReg(domain, name));

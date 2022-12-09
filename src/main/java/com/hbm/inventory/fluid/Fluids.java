@@ -93,6 +93,8 @@ public class Fluids {
 	public static FluidType SULFURIC_ACID;
 	public static FluidType MUG;
 	public static FluidType MUG_HOT;
+	public static FluidType WOODOIL;
+	public static FluidType COALCREOSOTE;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -129,7 +131,7 @@ public class Fluids {
 		HOTSTEAM =			new FluidType("HOTSTEAM",			0xE7D6D6, 4, 0, 0, EnumSymbol.NONE).setTemp(300).setCompression(0.1D).addTraits(GASEOUS);
 		SUPERHOTSTEAM =		new FluidType("SUPERHOTSTEAM",		0xE7B7B7, 4, 0, 0, EnumSymbol.NONE).setTemp(450).setCompression(1D).addTraits(GASEOUS);
 		ULTRAHOTSTEAM =		new FluidType("ULTRAHOTSTEAM",		0xE39393, 4, 0, 0, EnumSymbol.NONE).setTemp(600).setCompression(10D).addTraits(GASEOUS);
-		COOLANT =			new FluidType("COOLANT",			0xd8fcff, 1, 0, 0, EnumSymbol.NONE).setHeatCap(0.25D).addTraits(LIQUID);
+		COOLANT =			new FluidType("COOLANT",			0xd8fcff, 1, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		LAVA =				new FluidType("LAVA",				0xFF3300, 4, 0, 0, EnumSymbol.NOWATER).setTemp(1200).addTraits(LIQUID);
 		DEUTERIUM =			new FluidType("DEUTERIUM",			0x0000FF, 3, 4, 0, EnumSymbol.NONE).addTraits(new FT_Flammable(5_000), new FT_Combustible(FuelGrade.HIGH, 10_000), GASEOUS);
 		TRITIUM =			new FluidType("TRITIUM",			0x000099, 3, 4, 0, EnumSymbol.RADIATION).addTraits(new FT_Flammable(5_000), new FT_Combustible(FuelGrade.HIGH, 10_000), GASEOUS, new FT_VentRadiation(0.001F));
@@ -199,9 +201,11 @@ public class Fluids {
 		GASOLINE_LEADED =	new FluidType("GASOLINE_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).addContainers(0x2F775A, ExtContainer.CANISTER).addTraits(new FT_Flammable(400_000), new FT_Combustible(FuelGrade.HIGH, 1_500_000), LIQUID);
 		COALGAS_LEADED =	new FluidType("COALGAS_LEADED",		0x445772, 1, 2, 0, EnumSymbol.NONE).addContainers(0x1E155F, ExtContainer.CANISTER).addTraits(new FT_Flammable(75_000), new FT_Combustible(FuelGrade.MEDIUM, 250_000), LIQUID);
 		SULFURIC_ACID =		new FluidType("SULFURIC_ACID",		0xB0AA64, 3, 0, 2, EnumSymbol.ACID).addTraits(new FT_Corrosive(50), LIQUID);
-		COOLANT_HOT =		new FluidType("COOLANT_HOT",		0x99525E, 1, 0, 0, EnumSymbol.NONE).setTemp(600).setHeatCap(COOLANT.heatCap).addTraits(LIQUID);
-		MUG =				new FluidType("MUG",				0x4B2D28, 0, 0, 0, EnumSymbol.NONE).setHeatCap(1D).addTraits(DELICIOUS, LIQUID);
-		MUG_HOT =			new FluidType(78, "MUG_HOT",		0x6B2A20, 0, 0, 0, EnumSymbol.NONE).setHeatCap(MUG.heatCap).setTemp(500).addTraits(DELICIOUS, LIQUID);
+		COOLANT_HOT =		new FluidType("COOLANT_HOT",		0x99525E, 1, 0, 0, EnumSymbol.NONE).setTemp(600).addTraits(LIQUID);
+		MUG =				new FluidType("MUG",				0x4B2D28, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);
+		MUG_HOT =			new FluidType("MUG_HOT",			0x6B2A20, 0, 0, 0, EnumSymbol.NONE).setTemp(500).addTraits(DELICIOUS, LIQUID);
+		WOODOIL =			new FluidType("WOODOIL",			0x847D54, 2, 2, 0, EnumSymbol.NONE).addContainers(0xBF7E4F, ExtContainer.CANISTER).addTraits(LIQUID);
+		COALCREOSOTE =		new FluidType(80, "COALCREOSOTE",	0x51694F, 3, 2, 0, EnumSymbol.NONE).addContainers(0x285A3F, ExtContainer.CANISTER).addTraits(LIQUID);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -391,6 +395,9 @@ public class Fluids {
 
 		registerCalculatedFuel(BIOGAS, 250_000D * flammabilityLow /* biofuel with half compression, terrible flammability */, 0, null);
 		registerCalculatedFuel(BIOFUEL, 500_000D /* slightly below diesel */, 2.5D, FuelGrade.HIGH);
+
+		registerCalculatedFuel(WOODOIL, 110_000 /* 20_000 TU per 250mB + a bonus */, 0, null);
+		registerCalculatedFuel(COALCREOSOTE, 250_000 /* 20_000 TU per 100mB + a bonus */, 0, null);
 	}
 	
 	private static void registerCalculatedFuel(FluidType type, double base, double combustMult, FuelGrade grade) {

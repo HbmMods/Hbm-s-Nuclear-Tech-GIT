@@ -317,7 +317,6 @@ public class TileMappings {
 		put(TileEntityRBMKConsole.class, "tileentity_rbmk_console");
 		put(TileEntityRBMKInlet.class, "tileentity_rbmk_inlet");
 		put(TileEntityRBMKOutlet.class, "tileentity_rbmk_outlet");
-		put(TileEntityHeatex.class, "tileentity_rbmk_heatex");
 	}
 	
 	private static void putNetwork() {

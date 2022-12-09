@@ -46,6 +46,8 @@ public class SolidificationRecipes extends SerializableRecipe {
 	public static final int SF_BIOGAS =		1750;
 	public static final int SF_BIOFUEL =	750;
 	public static final int SF_COALOIL =	200;
+	public static final int SF_CREOSOTE =	200;
+	public static final int SF_WOOD =		1000;
 	//mostly for alternate chemistry, dump into SF if not desired
 	public static final int SF_AROMA =		1000;
 	public static final int SF_UNSAT =		1000;
@@ -65,11 +67,13 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(SALIENT,		1280,			new ItemStack(ModItems.bio_wafer, 8)); //4 (food val) * 2 (sat mod) * 2 (constant) * 10 (quanta) * 8 (batch size)
 		registerRecipe(ENDERJUICE,	100,			Items.ender_pearl);
 
-		registerRecipe(OIL,			SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
-		registerRecipe(CRACKOIL,	SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));
-		registerRecipe(COALOIL,		SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL));
-		registerRecipe(HEAVYOIL,	SF_HEAVY,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
-		registerRecipe(BITUMEN,		SF_BITUMEN,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
+		registerRecipe(OIL,				SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
+		registerRecipe(CRACKOIL,		SF_CRACK,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));
+		registerRecipe(COALOIL,			SF_COALOIL,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL));
+		registerRecipe(HEAVYOIL,		SF_HEAVY,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
+		registerRecipe(BITUMEN,			SF_BITUMEN,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
+		registerRecipe(COALCREOSOTE,	SF_CREOSOTE,	DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL));
+		registerRecipe(WOODOIL,			SF_WOOD,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WOOD));
 
 		registerRecipe(SMEAR,			SF_SMEAR,		ModItems.solid_fuel);
 		registerRecipe(HEATINGOIL,		SF_HEATING,		ModItems.solid_fuel);
@@ -92,8 +96,6 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(UNSATURATEDS,	SF_UNSAT,		ModItems.solid_fuel);
 		
 		registerRecipe(BALEFIRE,		250,			ModItems.solid_fuel_bf);
-		
-		//works flawlessly, but the new values are so high that they literally do not fit into the solidifier. some fuels do need a buff.
 		
 		registerSFAuto(SMEAR);
 		registerSFAuto(HEATINGOIL);

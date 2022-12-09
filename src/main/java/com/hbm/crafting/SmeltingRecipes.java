@@ -99,12 +99,6 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.powder_tantalium, new ItemStack(ModItems.ingot_tantalium), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_niobium, new ItemStack(ModItems.ingot_niobium), 1.0F);
 
-		GameRegistry.addSmelting(ModItems.powder_coal, DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), 1.0F);
-		GameRegistry.addSmelting(ModItems.briquette_lignite, DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), 1.0F);
-		
-		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK), DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), 1.0F);
-		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL), DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), 1.0F);
-
 		GameRegistry.addSmelting(ModItems.combine_scrap, new ItemStack(ModItems.ingot_combine_steel), 1.0F);
 		GameRegistry.addSmelting(ModItems.tank_waste, new ItemStack(ModItems.tank_waste), 0.0F);
 		GameRegistry.addSmelting(ModItems.rag_damp, new ItemStack(ModItems.rag), 0.1F);
