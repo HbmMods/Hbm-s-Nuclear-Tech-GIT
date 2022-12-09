@@ -2,11 +2,17 @@ package com.hbm.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
+import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.eventhandler.EventBus;
+import cpw.mods.fml.common.eventhandler.IEventListener;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,6 +27,7 @@ public class Compat {
 	public static final String MOD_EF = "etfuturum";
 	public static final String MOD_REC = "ReactorCraft";
 	public static final String MOD_TIC = "TConstruct";
+	public static final String MOD_RC = "Railcraft";
 
 	public static Item tryLoadItem(String domain, String name) {
 		return (Item) Item.itemRegistry.getObject(getReg(domain, name));
@@ -32,6 +39,10 @@ public class Compat {
 	
 	private static String getReg(String domain, String name) {
 		return domain + ":" + name;
+	}
+	
+	public static boolean isModLoaded(String modid) {
+		return Loader.isModLoaded(modid);
 	}
 	
 	public static enum ReikaIsotope {
@@ -143,7 +154,31 @@ public class Compat {
 		}
 	}
 	
-	public static boolean isModLoaded(String modid) {
-		return Loader.isModLoaded(modid);
+	public static void handleRailcraftNonsense() {
+		
+		if(!Loader.isModLoaded(MOD_RC)) return;
+
+		MainRegistry.logger.info("#######################################################");
+		MainRegistry.logger.info("| Railcraft detected, deploying anti-nonsense measures...");
+			
+		try {
+			
+			ConcurrentHashMap<Object, ArrayList<IEventListener>> listeners = ReflectionHelper.getPrivateValue(EventBus.class, FMLCommonHandler.instance().bus(), "listeners");
+			Object nonsense = null;
+			for(Object o : listeners.keySet()) {
+				if(o.getClass().getName().equals("mods.railcraft.common.blocks.hidden.TrailTicker")) {
+					MainRegistry.logger.info("| Found TrailTicker!");
+					nonsense = o;
+					break;
+				}
+			}
+			
+			FMLCommonHandler.instance().bus().unregister(nonsense);
+			MainRegistry.logger.info("| Successfully removed Railcraft nonsense.");
+			
+		} catch(Exception x) {
+			MainRegistry.logger.error("| Tried to remove Railcraft block but failed due to " + x.getMessage());
+		}
+		MainRegistry.logger.info("#######################################################");
 	}
 }

@@ -345,6 +345,9 @@ public class EntityChemical extends EntityThrowableNT {
 			if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
 				
 				FluidType type = getType();
+				int x = mop.blockX;
+				int y = mop.blockY;
+				int z = mop.blockZ;
 				
 				if(type.hasTrait(FT_VentRadiation.class)) {
 					FT_VentRadiation trait = type.getTrait(FT_VentRadiation.class);
@@ -354,9 +357,6 @@ public class EntityChemical extends EntityThrowableNT {
 				ChemicalStyle style = getStyle();
 				
 				if(style == ChemicalStyle.BURNING || style == ChemicalStyle.GASFLAME) {
-					int x = mop.blockX;
-					int y = mop.blockY;
-					int z = mop.blockZ;
 					
 					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 						
@@ -369,9 +369,6 @@ public class EntityChemical extends EntityThrowableNT {
 				}
 				
 				if(this.isExtinguishing()) {
-					int x = mop.blockX;
-					int y = mop.blockY;
-					int z = mop.blockZ;
 					
 					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 						
@@ -379,6 +376,22 @@ public class EntityChemical extends EntityThrowableNT {
 							worldObj.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, Blocks.air);
 						}
 					}
+				}
+				
+				Block block = worldObj.getBlock(x, y, z);
+				if(type == Fluids.SEEDSLURRY) {
+					if(block == Blocks.dirt || block == ModBlocks.waste_earth || block == ModBlocks.dirt_dead || block == ModBlocks.dirt_oily) {
+						
+						if(worldObj.getBlockLightValue(x, y + 1, z) >= 9 && worldObj.getBlockLightOpacity(x, y + 1, z) <= 2) {
+							worldObj.setBlock(x, y, z, Blocks.grass);
+						}
+					}
+					int meta = worldObj.getBlockMetadata(x, y, z);
+					if(block == Blocks.cobblestone) worldObj.setBlock(x, y, z, Blocks.mossy_cobblestone);
+					if(block == Blocks.stonebrick && meta == 0) worldObj.setBlock(x, y, z, Blocks.stonebrick, 1, 3);
+					if(block == ModBlocks.brick_concrete) worldObj.setBlock(x, y, z, ModBlocks.brick_concrete_mossy);
+					if(block == ModBlocks.concrete_brick_slab && meta % 8 == 0) worldObj.setBlock(x, y, z, ModBlocks.concrete_brick_slab, meta + 1, 3);
+					if(block == ModBlocks.brick_concrete_stairs) worldObj.setBlock(x, y, z, ModBlocks.brick_concrete_mossy_stairs, meta, 3);
 				}
 				
 				this.setDead();

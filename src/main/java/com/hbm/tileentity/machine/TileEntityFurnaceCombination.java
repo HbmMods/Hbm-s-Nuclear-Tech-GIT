@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerFurnaceCombo;
 import com.hbm.inventory.fluid.Fluids;
@@ -15,6 +17,7 @@ import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -109,6 +112,12 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 						
 						this.decrStackSize(0, 1);
 					}
+					
+					List<Entity> entities = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord + 2, zCoord - 0.5, xCoord + 1.5, yCoord + 4, zCoord + 1.5));
+					
+					for(Entity e : entities) e.setFire(5);
+					
+					if(worldObj.getTotalWorldTime() % 10 == 0) this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 1, this.zCoord, "hbm:weapon.flamethrowerShoot", 0.25F, 0.5F);
 				}
 			} else {
 				this.progress = 0;

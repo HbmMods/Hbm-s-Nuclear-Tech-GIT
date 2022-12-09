@@ -200,9 +200,11 @@ public class ShredderRecipes extends SerializableRecipe {
 		
 		List<ItemStack> logs = OreDictionary.getOres("logWood");
 		List<ItemStack> planks = OreDictionary.getOres("plankWood");
+		List<ItemStack> saplings = OreDictionary.getOres("treeSapling");
 		
 		for(ItemStack log : logs) ShredderRecipes.setRecipe(log, new ItemStack(ModItems.powder_sawdust, 4));
 		for(ItemStack plank : planks) ShredderRecipes.setRecipe(plank, new ItemStack(ModItems.powder_sawdust, 1));
+		for(ItemStack sapling : saplings) ShredderRecipes.setRecipe(sapling, new ItemStack(Items.stick, 1));
 
 		List<ItemStack> silicon = OreDictionary.getOres("itemSilicon");
 		if(!silicon.isEmpty()) {
@@ -267,6 +269,10 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.chain, new ItemStack(ModItems.powder_steel_tiny, 1));
 		ShredderRecipes.setRecipe(ModBlocks.steel_grate, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModItems.pipes_steel, new ItemStack(ModItems.powder_steel, 27));
+		ShredderRecipes.setRecipe(ModBlocks.oil_duct, new ItemStack(ModItems.powder_steel_tiny, 3));
+		ShredderRecipes.setRecipe(ModBlocks.oil_duct_solid, new ItemStack(ModItems.powder_steel_tiny, 3));
+		ShredderRecipes.setRecipe(ModBlocks.gas_duct, new ItemStack(ModItems.powder_steel, 1));
+		ShredderRecipes.setRecipe(ModBlocks.gas_duct_solid, new ItemStack(ModItems.powder_steel, 1));
 
 		/* Sellafite scrapping */
 		ShredderRecipes.setRecipe(ModBlocks.sellafield_slaked, new ItemStack(Blocks.gravel));
@@ -412,7 +418,13 @@ public class ShredderRecipes extends SerializableRecipe {
 		if(stack == null || stack.getItem() == null)
 			return new ItemStack(ModItems.scrap);
 		
-		ItemStack sta = shredderRecipes.get(new ComparableStack(stack).makeSingular());
+		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		ItemStack sta = shredderRecipes.get(comp);
+		
+		if(sta == null) {
+			comp.meta = OreDictionary.WILDCARD_VALUE;
+			sta = shredderRecipes.get(comp);
+		}
 		
 		return sta == null ? new ItemStack(ModItems.scrap) : sta;
 	}

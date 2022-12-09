@@ -95,6 +95,7 @@ public class Fluids {
 	public static FluidType MUG_HOT;
 	public static FluidType WOODOIL;
 	public static FluidType COALCREOSOTE;
+	public static FluidType SEEDSLURRY;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -205,7 +206,8 @@ public class Fluids {
 		MUG =				new FluidType("MUG",				0x4B2D28, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);
 		MUG_HOT =			new FluidType("MUG_HOT",			0x6B2A20, 0, 0, 0, EnumSymbol.NONE).setTemp(500).addTraits(DELICIOUS, LIQUID);
 		WOODOIL =			new FluidType("WOODOIL",			0x847D54, 2, 2, 0, EnumSymbol.NONE).addContainers(0xBF7E4F, ExtContainer.CANISTER).addTraits(LIQUID);
-		COALCREOSOTE =		new FluidType(80, "COALCREOSOTE",	0x51694F, 3, 2, 0, EnumSymbol.NONE).addContainers(0x285A3F, ExtContainer.CANISTER).addTraits(LIQUID);
+		COALCREOSOTE =		new FluidType("COALCREOSOTE",		0x51694F, 3, 2, 0, EnumSymbol.NONE).addContainers(0x285A3F, ExtContainer.CANISTER).addTraits(LIQUID);
+		SEEDSLURRY =		new FluidType(81, "SEEDSLURRY",		0x7CC35E, 0, 0, 0, EnumSymbol.NONE).addContainers(0x7CC35E, ExtContainer.CANISTER).addTraits(LIQUID);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -270,6 +272,8 @@ public class Fluids {
 		metaOrder.add(GASOLINE_LEADED);
 		metaOrder.add(COALGAS);
 		metaOrder.add(COALGAS_LEADED);
+		metaOrder.add(COALCREOSOTE);
+		metaOrder.add(WOODOIL);
 		metaOrder.add(BIOGAS);
 		metaOrder.add(BIOFUEL);
 		metaOrder.add(ETHANOL);
@@ -277,6 +281,7 @@ public class Fluids {
 		metaOrder.add(BALEFIRE);
 		//processing fluids
 		metaOrder.add(SALIENT);
+		metaOrder.add(SEEDSLURRY);
 		metaOrder.add(ACID);
 		metaOrder.add(SULFURIC_ACID);
 		//NITRIC_ACID
@@ -381,6 +386,7 @@ public class Fluids {
 		registerCalculatedFuel(KEROSENE, (baseline / 0.09 * flammabilityNormal * demandHigh * complexityRefinery * complexityFraction), 1.5D, FuelGrade.AERO);
 		registerCalculatedFuel(PETROLEUM, (baseline / 0.10 * flammabilityNormal * demandMedium * complexityRefinery), 0, null);
 		registerCalculatedFuel(AROMATICS, (baseline / 0.15 * flammabilityLow * demandHigh * complexityRefinery * complexityCracking), 0, null);
+		registerCalculatedFuel(UNSATURATEDS, (baseline / 0.15 * flammabilityHigh * demandHigh * complexityRefinery * complexityCracking), 0, null);
 		registerCalculatedFuel(LPG, (baseline / 0.05 * flammabilityNormal * demandMedium * complexityRefinery * complexityChemplant), 2.5, FuelGrade.HIGH);
 		registerCalculatedFuel(NITAN, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 25L, 2.5, FuelGrade.HIGH);
 		registerCalculatedFuel(BALEFIRE, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 100L, 2.5, FuelGrade.HIGH);

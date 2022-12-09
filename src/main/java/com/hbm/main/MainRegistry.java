@@ -71,6 +71,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.Compat;
 import com.hbm.util.SuicideThreadDump;
 import com.hbm.world.feature.*;
 import com.hbm.world.generator.CellularDungeonFactory;
@@ -812,6 +813,7 @@ public class MainRegistry {
 		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
 		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
 		
+		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
 	}
 
