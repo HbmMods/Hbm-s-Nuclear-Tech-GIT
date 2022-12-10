@@ -32,13 +32,16 @@ public class CombinationRecipes {
 		recipes.put(new ComparableStack(ModItems.briquette_lignite),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), new FluidStack(Fluids.COALCREOSOTE, 100)));
 		
 		recipes.put(CINNABAR.crystal(), new Pair(new ItemStack(ModItems.sulfur), new FluidStack(Fluids.MERCURY, 100)));
-		
-		recipes.put(KEY_LOG, new Pair(new ItemStack(Items.coal, 1 ,1), new FluidStack(Fluids.WOODOIL, 250)));
+
+		recipes.put(KEY_LOG,		new Pair(new ItemStack(Items.coal, 1 ,1),	new FluidStack(Fluids.WOODOIL, 250)));
+		recipes.put(KEY_SAPLING,	new Pair(null,								new FluidStack(Fluids.WOODOIL, 50)));
 
 		recipes.put(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), null));
 		recipes.put(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), null));
 		recipes.put(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), null));
 		recipes.put(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WOOD),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), null));
+		
+		recipes.put(new ComparableStack(Items.reeds), new Pair(new ItemStack(Items.sugar, 2), new FluidStack(Fluids.ETHANOL, 50)));
 	}
 	
 	public static Pair<ItemStack, FluidStack> getOutput(ItemStack stack) {

@@ -210,6 +210,18 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return i == 1;
 	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.tank.readFromNBT(nbt, "tank");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		this.tank.writeToNBT(nbt, "tank");
+	}
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {

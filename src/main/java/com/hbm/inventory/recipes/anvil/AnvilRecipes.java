@@ -285,6 +285,15 @@ public class AnvilRecipes {
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
+						new ComparableStack(Blocks.stonebrick, 8),
+						new OreDictStack(KEY_LOG, 16),
+						new OreDictStack(CU.ingot(), 8),
+						new OreDictStack(KEY_BRICK, 16),
+						new ComparableStack(Items.blaze_powder, 4)
+				}, new AnvilOutput(new ItemStack(ModBlocks.furnace_combination))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
 						new OreDictStack(KEY_PLANKS, 16),
 						new OreDictStack(STEEL.plate(), 6),
 						new OreDictStack(CU.ingot(), 8),

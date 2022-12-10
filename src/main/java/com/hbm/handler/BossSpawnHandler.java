@@ -180,8 +180,7 @@ public class BossSpawnHandler {
 								repell = true;
 							}
 							if(mod.getItem() == ModItems.meteor_charm) {
-								repell = true;
-								strike = meteorRand.nextInt(4) == 0;
+								strike = false;
 							}
 						}
 					}
@@ -216,6 +215,7 @@ public class BossSpawnHandler {
 			vec = Vec3.createVectorHelper(meteor.posX - player.posX, 0, meteor.posZ - player.posZ).normalize();
 			vec.xCoord = vec.xCoord * meteorRand.nextDouble() - 0.5D;
 			vec.zCoord = vec.zCoord * meteorRand.nextDouble() - 0.5D;
+			meteor.safe = true;
 		} else {
 			vec = Vec3.createVectorHelper(meteorRand.nextDouble() - 0.5D, 0, 0);
 			vec.rotateAroundY((float) (Math.PI * meteorRand.nextDouble()));

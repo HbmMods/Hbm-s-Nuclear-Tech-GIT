@@ -32,6 +32,7 @@ import com.hbm.world.feature.DepthDeposit;
 import com.hbm.world.feature.Dud;
 import com.hbm.world.feature.Geyser;
 import com.hbm.world.feature.GeyserLarge;
+import com.hbm.world.feature.Meteorite;
 import com.hbm.world.feature.OilBubble;
 import com.hbm.world.feature.OilSandBubble;
 import com.hbm.world.feature.OilSpot;
@@ -605,6 +606,13 @@ public class HbmWorldGen implements IWorldGenerator {
 			
 			DungeonToolbox.generateOre(world, rand, i, j, 16, 8, 10, 50, ModBlocks.stone_porous);
 			OilSpot.generateOilSpot(world, randPosX, randPosZ, 5, 50);
+		}
+
+		if(WorldConfig.meteoriteSpawn > 0 && rand.nextInt(WorldConfig.meteoriteSpawn) == 0) {
+			int x = i + rand.nextInt(16);
+			int z = j + rand.nextInt(16);
+			int y = world.getHeightValue(x, z) - rand.nextInt(10);
+			(new Meteorite()).generate(world, rand, x, y, z, false, true);
 		}
 
 		if (GeneralConfig.enableNITAN) {

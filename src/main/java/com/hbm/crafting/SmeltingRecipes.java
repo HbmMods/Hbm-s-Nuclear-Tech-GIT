@@ -59,6 +59,15 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_australium), new ItemStack(ModItems.nugget_australium), 2.5F);
 		GameRegistry.addSmelting(ModItems.powder_australium, new ItemStack(ModItems.ingot_australium), 5.0F);
 
+		/* in-furnace coking didn't need to be removed since combination coking is already better in every way */
+		//GameRegistry.addSmelting(ModItems.powder_coal, DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), 1.0F);
+		GameRegistry.addSmelting(ModItems.coal_infernal, DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), 0.5F);
+		GameRegistry.addSmelting(ModItems.briquette_lignite, DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), 1.0F);
+		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE), DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), 1.0F);
+		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK), DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), 1.0F);
+		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL), DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), 1.0F);
+		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WOOD), DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), 1.0F);
+
 		GameRegistry.addSmelting(ModItems.powder_lead, new ItemStack(ModItems.ingot_lead), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_neptunium, new ItemStack(ModItems.ingot_neptunium), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_polonium, new ItemStack(ModItems.ingot_polonium), 1.0F);
