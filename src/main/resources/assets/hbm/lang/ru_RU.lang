@@ -989,6 +989,47 @@ book_lore.memo_schrab_nuke.page.1=Our most recent investigation led us to the ef
 book_lore.memo_schrab_nuke.page.2=Only our cyclotron has actually created saralloy previously. However, at our underground shot at Everwerpen, miniscule traces of saralloy were found in uranium ore at the site. All pure, metallic uranium nearby had fissioned.
 book_lore.memo_schrab_nuke.page.3=As such, given enough uranium ore concentrated around an explosive, or perhaps even a dirty bomb rich in waste containing fissionable material, one could hypothetically create enough saralloy to collect manually.
 
+book_lore.insanity_1.name=Torn Page
+book_lore.insanity_1.author=D Ferguson
+book_lore.insanity_1.page.1=August 6th $ $ Months, no, years worth of dicking about wrestling with investors  and operating the greatest energy hog in the northern hemisphere has finally paid off.
+book_lore.insanity_1.page.2=While we aren't entirely sure what exactly we found - given we ran gigavolt collisions on particles that were still poorly documented - the results couldn't have been more exciting.
+book_lore.insanity_1.page.3=We haven't found a name for whatever it is we've found, nor are we sure if we're looking at a new type of particle, a wormhole leading into another dimension, or satan's anus, but I'm sure our PR people can come up with something.
+
+book_lore.insanity_2.name=Torn Page
+book_lore.insanity_2.author=D Ferguson
+book_lore.insanity_2.page.1=August 8th $ $ We've kept "The Thing" (yes that's what we call it for now) in magnetic isolation for the past days. Spectroscopy tests ended up breaking our spectrometer, but we managed to gain some useful data.
+book_lore.insanity_2.page.2=For starters, this thing glows like a christmas tree, radiation photons of about every wavelength you could think of enveloped by a powerful infrared corona. The logical conclusion is that looking at it with your naked
+book_lore.insanity_2.page.3=eye would most likely kill you. Now that begs the question: How can a particle this tiny radiate such immense energy? What are you hiding, little man?
+
+book_lore.insanity_3.name=Torn Page
+book_lore.insanity_3.author=D Ferguson
+book_lore.insanity_3.page.1=August 22nd $ $ I haven't slept right in days. Doc said he couldn't find anything. Been on all sorts of medication now, but the headaches only get worse. Lab boys suspect it might be contamination from the incident two weeks ago.
+book_lore.insanity_3.page.2=Doc said it's not that likely, ARS is different. I might need to take some time off if this continues. The Thing is still in containment, the lab boys speculate if the field goes down, the entire complex turns into a mushroom cloud.
+book_lore.insanity_3.page.3=I'm not sure how administration can keep this calm, but i don't get paid enough to waste thoughts on that.
+
+book_lore.insanity_4.name=Torn Page
+book_lore.insanity_4.author=D Ferguson
+book_lore.insanity_4.page.1=August 28th $ $ They denied my request for leave and I've been pushing through the past few days. Headaches are getting worse. I'm not the only one who's feeling it, either. Some of the lab boys are in a similar situation.
+book_lore.insanity_4.page.2=All the while The Thing has left the complex - GOOD. Some suits came in yesterday and had it shipped off, god knows where. One of the lab boys, Zachary, said they're probably burying the containment vessel in the desert, slowly
+book_lore.insanity_4.page.3=trying to "fizzle out" The Thing far off from civilization. I say let's shoot it into space. Needless to say, our investors cut all funding for the time being. I should start looking for another job.
+
+book_lore.insanity_5.name=Torn Page
+book_lore.insanity_5.author=D Ferguson
+book_lore.insanity_5.page.1=September 11th $ $ I'm having this re-occurring nightmare. I'm walking around in an open space and there's these people everywhere, people in rubber suits and freakishly deformed faces. It's always the same nightmare,
+book_lore.insanity_5.page.2=and one of the guys from the lab I've spoken with lately has had the same dream. Meanwhile my post has been rather boring, the accelerator has been shut down, all ongoing projects are on halt and our budget is slowly melting away.
+book_lore.insanity_5.page.3=Something is telling me that The Thing is still out there somewhere. I can feel it.
+
+book_lore.insanity_6.name=Torn Page
+book_lore.insanity_6.author=D Ferguson
+book_lore.insanity_6.page.1=October 3rd $ $ Half the staff is dead, most of the rest is in the ICU. My condition hasn't changed in the past weeks, for better or worse.
+book_lore.insanity_6.page.2=Reality is starting to feel less and less real however. Sometimes I look up into the sky at night and hallucinate that thing we discovered all those weeks ago.
+book_lore.insanity_6.page.3=That same brilliant sheen of crimson that our spectrometer spat out. My doc says it's delirium and stress caused by the incident, and perhaps hes right, but the meds aren't working at all.
+
+book_lore.insanity_7.name=Torn Page
+book_lore.insanity_7.author=D Ferguson
+book_lore.insanity_7.page.1=December 12th $ $ I've been out of a job, but to be honest I'm somewhat thankful about it. My old workplace has gone up in flames - or so they say.
+book_lore.insanity_7.page.2=The seismological observatory a couple miles south recorded constant earthquakes for days on end, not that anyone else would have noticed this deep in the desert.
+book_lore.insanity_7.page.3=I have concluded that this place was cursed, making everyone sick and then descending into hell like some sort of Edgar Allan Poe story. Good riddance.
 
 hbmfluid.none=Ничего
 hbmfluid.water=Вода
@@ -1081,6 +1122,9 @@ hbmfluid.enderjuice=Эндер-сок
 hbmfluid.xpjuice=Жидкий опыт
 hbmfluid.coalgas_leaded=Этилированный угольный газ
 hbmfluid.sulfuric_acid=Серная кислота
+hbmfluid.coalcreosote=Креозот из угольной смолы
+hbmfluid.woodoil=Древесное масло
+hbmfluid.seedslurry=Жидкая рассада
 
 hbmmat.actinium227=Актиний-227
 hbmmat.advancedalloy=Продвинутый сплав
@@ -1752,7 +1796,10 @@ tile.machine_chemfac.name=Химический завод
 tile.fluid_duct.name=Универсальная жидкостная труба (Устаревшее)
 tile.fluid_duct_box.name=Универсальная жидкостная труба (Boxduct)
 tile.fluid_duct_neo.name=Универсальная жидкостная труба
-tile.fluid_duct_solid.name=Покрытая универсальная жидкостная труба
+tile.fluid_duct_gauge.name=Труба с измерителем потока
+tile.fluid_duct_gauge.desc=Труба которая показывает сколько жидкости$перемещается внутри сети за тик.$Разделенные сети, соединенные бочками$или резервуары рассматриваются как одна общая сеть.
+tile.fluid_duct_solid.name=Покрытая универсальная жидкостная труба (Устаревшее)
+tile.fluid_duct_paintable.name=Окрашиваемая покрытая универсальная жидкостная труба
 tile.machine_fluidtank.name=Цистерна
 tile.machine_bat9000.name=Охереть-большая цистерна 9000
 item.fluid_duct.name=Жидкостная труба:
@@ -1952,7 +1999,11 @@ tile.concrete_smooth_stairs.name=Ступени из бетона
 tile.concrete_stairs.name=Ступени из бетонной плитки
 tile.ducrete_stairs.name=Ступени из дюкретовой плитки
 tile.ducrete_smooth_stairs.name=Ступени из дюкрета
+tile.machine_boiler.name=Бойлер
 tile.machine_boiler.desc=Большой бойлер для кипячения воды или нагрева нефти.$Требует внешний источник тепла.$Скорость передачи тепла: ΔT*0.01 TU/t
+container.furnaceCombination=Коксовая печь
+tile.furnace_combination.name=Коксовая печь
+tile.furnace_combination.desc=Большая печь которая производит древесный уголь и угольный кокс.$Выделяет жидкостные побочные продукты.$Скорость передачи тепла: ΔT*0.25 TU/t
 tile.reinforced_brick_stairs.name=Ступени из укреплённого камня
 tile.reinforced_stone_stairs.name=Ступени из уплотнённого камня
 tile.turret_himars.name=Ракетная артиллерийская турель "Генри"
@@ -2394,6 +2445,8 @@ item.coke.petroleum.name=Нефтяной кокс
 item.lignite.name=Бурый уголь
 item.coal_infernal.name=Адский уголь
 item.briquette_lignite.name=Брикет бурого угля
+item.briquette.coal.name=Брикет угля
+item.briquette.wood.name=Брикет древесных опилок
 item.powder_lignite.name=Порошок бурого угля
 
 item.nugget_th232.name=Самородок тория-232
@@ -3238,6 +3291,7 @@ item.pellet_coal.name=Плотный угольный брикет
 item.oil_tar.crude.name=Нефтяная смола
 item.oil_tar.crack.name=Крекинговая нефтяная смола
 item.oil_tar.coal.name=Угольная смола
+item.oil_tar.wood.name=Древесная смола
 
 item.canister_empty.name=Пустая канистра
 item.canister_smear.name=Канистра с промышленным маслом (LEGACY)
