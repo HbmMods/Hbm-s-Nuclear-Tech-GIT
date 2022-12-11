@@ -26,6 +26,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntitySawmill extends TileEntityMachineBase {
@@ -272,10 +273,10 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 		
 		HashMap<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 
-		recipes.put(new OreDictStack("logWood"), new Object[] { new ItemStack(Blocks.planks, 6), ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.powder_sawdust), "50%") });
-		recipes.put(new OreDictStack("plankWood"), new Object[] { new ItemStack(Items.stick, 6), ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.powder_sawdust), "10%") });
-		recipes.put(new OreDictStack("stickWood"), new Object[] { new ItemStack(ModItems.powder_sawdust) });
-		recipes.put(new OreDictStack("treeSapling"), new Object[] { new ItemStack(Items.stick, 1), ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.powder_sawdust), "10%") });
+		recipes.put(new OreDictStack("logWood"), new ItemStack[] { new ItemStack(Blocks.planks, 6), ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.powder_sawdust), EnumChatFormatting.RED + "50%") });
+		recipes.put(new OreDictStack("plankWood"), new ItemStack[] { new ItemStack(Items.stick, 6), ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.powder_sawdust), EnumChatFormatting.RED + "10%") });
+		recipes.put(new OreDictStack("stickWood"), new ItemStack[] { new ItemStack(ModItems.powder_sawdust) });
+		recipes.put(new OreDictStack("treeSapling"), new ItemStack[] { new ItemStack(Items.stick, 1), ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.powder_sawdust), EnumChatFormatting.RED + "10%") });
 		
 		return recipes;
 	}
