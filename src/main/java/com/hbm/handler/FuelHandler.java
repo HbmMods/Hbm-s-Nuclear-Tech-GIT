@@ -31,12 +31,20 @@ public class FuelHandler implements IFuelHandler {
 		if(fuel.getItem() == ModItems.powder_fire)							return 6400;
 		if(fuel.getItem() == ModItems.lignite)								return 1200;
 		if(fuel.getItem() == ModItems.powder_lignite)						return 1200;
-		if(fuel.getItem() == ModItems.briquette_lignite)					return 1600;
 		if(fuel.getItem() == ModItems.coke)									return 3200;
 		if(fuel.getItem() == ModItems.book_guide)							return single;
 		if(fuel.getItem() == ModItems.coal_infernal)						return 4800;
 		if(fuel.getItem() == ModItems.crystal_coal)							return 6400;
 		if(fuel.getItem() == ModItems.powder_sawdust)						return single / 2;
+		
+		if(fuel.getItem() == ModItems.briquette) {
+			int meta = fuel.getItemDamage();
+			switch(meta) {
+			case 0: return single * 10;
+			case 1: return single * 8;
+			case 2: return single * 2;
+			}
+		}
 		
 		return 0;
 	}

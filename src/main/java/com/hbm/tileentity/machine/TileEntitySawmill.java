@@ -1,9 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntitySawblade;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.INBTPacketReceiver;
@@ -15,6 +17,7 @@ import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -263,6 +266,18 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 		}
 		
 		return null;
+	}
+
+	public static HashMap getRecipes() {
+		
+		HashMap<Object, Object[]> recipes = new HashMap<Object, Object[]>();
+
+		recipes.put(new OreDictStack("logWood"), new Object[] { new ItemStack(Blocks.planks, 6), ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.powder_sawdust), "50%") });
+		recipes.put(new OreDictStack("plankWood"), new Object[] { new ItemStack(Items.stick, 6), ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.powder_sawdust), "10%") });
+		recipes.put(new OreDictStack("stickWood"), new Object[] { new ItemStack(ModItems.powder_sawdust) });
+		recipes.put(new OreDictStack("treeSapling"), new Object[] { new ItemStack(Items.stick, 1), ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.powder_sawdust), "10%") });
+		
+		return recipes;
 	}
 	
 	AxisAlignedBB bb = null;

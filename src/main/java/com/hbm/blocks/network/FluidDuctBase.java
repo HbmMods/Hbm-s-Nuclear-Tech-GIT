@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class FluidDuctBase extends BlockContainer implements IBlockFluidDuct {
 
-	protected FluidDuctBase(Material mat) {
+	public FluidDuctBase(Material mat) {
 		super(mat);
 	}
 

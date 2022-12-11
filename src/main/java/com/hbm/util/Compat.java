@@ -6,6 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
+import com.hbm.inventory.FluidContainer;
+import com.hbm.inventory.FluidContainerRegistry;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -28,6 +31,7 @@ public class Compat {
 	public static final String MOD_REC = "ReactorCraft";
 	public static final String MOD_TIC = "TConstruct";
 	public static final String MOD_RC = "Railcraft";
+	public static final String MOD_TC = "tc";
 
 	public static Item tryLoadItem(String domain, String name) {
 		return (Item) Item.itemRegistry.getObject(getReg(domain, name));
@@ -151,6 +155,15 @@ public class Compat {
 		Item item = Compat.tryLoadItem(mod, name);
 		if(item != null) {
 			HazmatRegistry.registerHazmat(item, resistance);
+		}
+	}
+	
+	public static void registerCompatFluidContainers() {
+		
+		if(Compat.isModLoaded(Compat.MOD_TC)) {
+			Item canister = Compat.tryLoadItem(Compat.MOD_TC, "emptyCanister");
+			Item diesel = Compat.tryLoadItem(Compat.MOD_TC, "diesel");
+			if(diesel != null && canister != null) FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(diesel), new ItemStack(canister), Fluids.DIESEL, 1000));
 		}
 	}
 	

@@ -7,6 +7,7 @@ import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.items.machine.ItemStamp.StampType;
@@ -48,9 +49,12 @@ public class PressRecipes {
 		makeRecipe(StampType.FLAT, new OreDictStack(EMERALD.dust()),						Items.emerald);
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.pellet_coal),				Items.diamond);
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.biomass),					ModItems.biomass_compressed);
-		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.powder_lignite),			ModItems.briquette_lignite);
 		makeRecipe(StampType.FLAT, new OreDictStack(ANY_COKE.gem()),						ModItems.ingot_graphite);
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.meteorite_sword_reforged),	ModItems.meteorite_sword_hardened);
+
+		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.powder_coal),				DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.COAL));
+		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.powder_lignite),			DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.LIGNITE));
+		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.powder_sawdust),			DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.WOOD));
 
 		makeRecipe(StampType.PLATE, new OreDictStack(IRON.ingot()),		ModItems.plate_iron);
 		makeRecipe(StampType.PLATE, new OreDictStack(GOLD.ingot()),		ModItems.plate_gold);

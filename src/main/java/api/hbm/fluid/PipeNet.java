@@ -1,5 +1,6 @@
 package api.hbm.fluid;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,9 @@ public class PipeNet implements IPipeNet {
 	private FluidType type;
 	private List<IFluidConductor> links = new ArrayList();
 	private HashSet<IFluidConnector> subscribers = new HashSet();
+	
+	public static List<PipeNet> trackingInstances = null;
+	protected BigInteger totalTransfer = BigInteger.ZERO;
 	
 	public PipeNet(FluidType type) {
 		this.type = type;
@@ -90,6 +94,8 @@ public class PipeNet implements IPipeNet {
 		if(this.subscribers.isEmpty())
 			return fill;
 		
+		trackingInstances = new ArrayList();
+		trackingInstances.add(this);
 		List<IFluidConnector> subList = new ArrayList(subscribers);
 		return fairTransfer(subList, type, fill);
 	}
@@ -120,6 +126,14 @@ public class PipeNet implements IPipeNet {
 			totalGiven += (given - con.transferFluid(type, given));
 		}
 		
+		if(trackingInstances != null) {
+			
+			for(int i = 0; i < trackingInstances.size(); i++) {
+				PipeNet net = trackingInstances.get(i);
+				net.totalTransfer = net.totalTransfer.add(BigInteger.valueOf(totalGiven));
+			}
+		}
+		
 		return fill - totalGiven;
 	}
 
@@ -142,5 +156,10 @@ public class PipeNet implements IPipeNet {
 	@Override
 	public boolean isValid() {
 		return this.valid;
+	}
+
+	@Override
+	public BigInteger getTotalTransfer() {
+		return this.totalTransfer;
 	}
 }

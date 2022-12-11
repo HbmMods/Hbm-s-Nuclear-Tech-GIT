@@ -131,7 +131,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 			if(item == ModItems.lignite) return 150;
 			if(item == ModItems.powder_lignite) return 150;
 			if(item == ModItems.powder_coal) return 200;
-			if(item == ModItems.briquette_lignite) return 200;
+			if(item == ModItems.briquette) return 200;
 			if(item == ModItems.coke) return 400;
 			if(item == ModItems.solid_fuel) return 400;
 

@@ -263,7 +263,7 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(Items.blaze_powder));
 		fuels.add(new ItemStack(ModItems.lignite));
 		fuels.add(new ItemStack(ModItems.powder_lignite));
-		fuels.add(new ItemStack(ModItems.briquette_lignite));
+		fuels.add(new ItemStack(ModItems.briquette));
 		fuels.add(new ItemStack(ModItems.coke));
 		fuels.add(new ItemStack(ModItems.solid_fuel));
 		fuels.add(new ItemStack(ModItems.powder_coal));

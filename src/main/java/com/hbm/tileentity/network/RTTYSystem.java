@@ -38,8 +38,8 @@ public class RTTYSystem {
 			channel.signal = lastSignal;
 			
 			broadcast.put(identifier, channel);
-			newMessages.clear();
 		}
+		newMessages.clear();
 	}
 	
 	public static class RTTYChannel {

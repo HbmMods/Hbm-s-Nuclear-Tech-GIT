@@ -130,6 +130,16 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		if(fill > 0 && send) {
 			List<IFluidConnector> con = new ArrayList();
 			con.addAll(consumers);
+			
+			if(PipeNet.trackingInstances == null) {
+				PipeNet.trackingInstances = new ArrayList();
+			}
+			
+			PipeNet.trackingInstances.clear();
+			nets.forEach(x -> {
+				if(x instanceof PipeNet) PipeNet.trackingInstances.add((PipeNet) x);
+			});
+			
 			fill = (int) PipeNet.fairTransfer(con, type, fill);
 		}
 		

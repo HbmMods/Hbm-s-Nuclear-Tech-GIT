@@ -21,6 +21,12 @@ public class ItemEnums {
 		WOOD
 	}
 
+	public static enum EnumBriquetteType {
+		COAL,
+		LIGNITE,
+		WOOD
+	}
+
 	public static enum EnumLegendaryType {
 		TIER1,
 		TIER2,
