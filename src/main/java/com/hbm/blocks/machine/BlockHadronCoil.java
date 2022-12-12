@@ -53,6 +53,6 @@ public class BlockHadronCoil extends Block implements IBlockCT, ITooltipProvider
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add(I18nUtil.resolveKey("info.coil") + ": " + factor);
+		list.add(I18nUtil.resolveKey("info.coil") + ": " + String.format("%,d", factor));
 	}
 }

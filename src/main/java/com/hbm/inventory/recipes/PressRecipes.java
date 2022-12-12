@@ -42,7 +42,6 @@ public class PressRecipes {
 	
 	public static void register() {
 
-		makeRecipe(StampType.FLAT, new OreDictStack(COAL.dust()),							Items.coal);
 		makeRecipe(StampType.FLAT, new OreDictStack(NETHERQUARTZ.dust()),					Items.quartz);
 		makeRecipe(StampType.FLAT, new OreDictStack(LAPIS.dust()),							new ItemStack(Items.dye, 1, 4));
 		makeRecipe(StampType.FLAT, new OreDictStack(DIAMOND.dust()),						Items.diamond);
@@ -52,8 +51,8 @@ public class PressRecipes {
 		makeRecipe(StampType.FLAT, new OreDictStack(ANY_COKE.gem()),						ModItems.ingot_graphite);
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.meteorite_sword_reforged),	ModItems.meteorite_sword_hardened);
 
-		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.powder_coal),				DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.COAL));
-		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.powder_lignite),			DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.LIGNITE));
+		makeRecipe(StampType.FLAT, new OreDictStack(COAL.dust()),							DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.COAL));
+		makeRecipe(StampType.FLAT, new OreDictStack(LIGNITE.dust()),						DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.LIGNITE));
 		makeRecipe(StampType.FLAT, new ComparableStack(ModItems.powder_sawdust),			DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.WOOD));
 
 		makeRecipe(StampType.PLATE, new OreDictStack(IRON.ingot()),		ModItems.plate_iron);
