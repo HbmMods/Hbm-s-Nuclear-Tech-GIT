@@ -1,10 +1,15 @@
 package com.hbm.items.tool;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import net.minecraft.block.Block;
@@ -19,13 +24,33 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
 public abstract class ItemStructureTool extends Item implements ILookOverlay {
 	
+	File file = new File(MainRegistry.configHbmDir, "structureOutput.txt");
+	FileWriter writer;
+	
+	public void writeToFile(String message) {
+		if(!GeneralConfig.enableDebugMode)
+			return;
+		
+		try {
+			if(!file.exists()) file.createNewFile();
+			if(writer == null) writer = new FileWriter(file, true);
+			
+			writer.write(message);
+			writer.flush();
+		} catch(IOException e) {
+			System.out.print("ItemStructureWand encountered an IOException!");
+		}
+	}
+	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		BlockPos anchor = this.getAnchor(stack);
 		
-		if(anchor == null) {
+		if(anchor == null)
 			list.add(EnumChatFormatting.RED + "No anchor set! Right click an anchor to get started.");
-		}
+		
+		if(GeneralConfig.enableDebugMode)
+			list.add(EnumChatFormatting.GREEN + "Will write to \"structureOutput.txt\" in hbmConfig.");
 	}
 
 	public static BlockPos getAnchor(ItemStack stack) {
@@ -62,7 +87,7 @@ public abstract class ItemStructureTool extends Item implements ILookOverlay {
 			return false;
 		}
 		
-		if(!this.dualUse()) {
+		if(!this.dualUse() && world.isRemote) {
 			this.doTheThing(stack, world, x, y, z);
 		} else {
 			
@@ -71,7 +96,8 @@ public abstract class ItemStructureTool extends Item implements ILookOverlay {
 				stack.stackTagCompound.setInteger("y", y);
 				stack.stackTagCompound.setInteger("z", z);
 			} else {
-				this.doTheThing(stack, world, x, y, z);
+				if(world.isRemote)
+					this.doTheThing(stack, world, x, y, z);
 				stack.stackTagCompound.removeTag("x");
 				stack.stackTagCompound.removeTag("y");
 				stack.stackTagCompound.removeTag("z");

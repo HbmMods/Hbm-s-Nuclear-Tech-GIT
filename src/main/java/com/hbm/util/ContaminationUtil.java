@@ -218,7 +218,7 @@ public class ContaminationUtil {
 	public static void printDiagnosticData(EntityPlayer player) {
 
 		double digamma = ((int)(HbmLivingProps.getDigamma(player) * 100)) / 100D;
-		double halflife = ((int)((1D - Math.pow(0.5, digamma)) * 100)) / 100D;
+		double halflife = ((int)((1D - Math.pow(0.5, digamma)) * 10000)) / 100D;
 		
 		player.addChatMessage(new ChatComponentText("===== Ϝ ").appendSibling(new ChatComponentTranslation("digamma.title")).appendSibling(new ChatComponentText(" Ϝ =====")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_PURPLE)));
 		player.addChatMessage(new ChatComponentTranslation("digamma.playerDigamma").appendSibling(new ChatComponentText(EnumChatFormatting.RED + " " + digamma + " DRX")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE)));

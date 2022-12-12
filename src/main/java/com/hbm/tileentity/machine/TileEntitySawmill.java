@@ -1,9 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntitySawblade;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.INBTPacketReceiver;
@@ -15,6 +17,7 @@ import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -23,6 +26,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntitySawmill extends TileEntityMachineBase {
@@ -69,7 +73,7 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 							slots[1] = result;
 							
 							if(result.getItem() != ModItems.powder_sawdust) {
-								float chance = result.getItem() == Items.stick ? 0.05F : 0.5F;
+								float chance = result.getItem() == Items.stick ? 0.1F : 0.5F;
 								if(worldObj.rand.nextFloat() < chance) {
 									slots[2] = new ItemStack(ModItems.powder_sawdust);
 								}
@@ -112,7 +116,7 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 						ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 						
 						cog.motionX = rot.offsetX;
-						cog.motionY = 1;
+						cog.motionY = 1 + (heat - 100) * 0.0001D;
 						cog.motionZ = rot.offsetZ;
 						worldObj.spawnEntityInWorld(cog);
 						
@@ -177,6 +181,20 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.hasBlade = nbt.getBoolean("hasBlade");
+		this.progress = nbt.getInteger("progress");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setBoolean("hasBlade", hasBlade);
+		nbt.setInteger("progress", progress);
 	}
 	
 	protected void tryPullHeat() {
@@ -244,7 +262,23 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 			return new ItemStack(Items.stick, 4);
 		}
 		
+		if(names.contains("treeSapling")) {
+			return new ItemStack(Items.stick, 1);
+		}
+		
 		return null;
+	}
+
+	public static HashMap getRecipes() {
+		
+		HashMap<Object, Object[]> recipes = new HashMap<Object, Object[]>();
+
+		recipes.put(new OreDictStack("logWood"), new ItemStack[] { new ItemStack(Blocks.planks, 6), ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.powder_sawdust), EnumChatFormatting.RED + "50%") });
+		recipes.put(new OreDictStack("plankWood"), new ItemStack[] { new ItemStack(Items.stick, 6), ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.powder_sawdust), EnumChatFormatting.RED + "10%") });
+		recipes.put(new OreDictStack("stickWood"), new ItemStack[] { new ItemStack(ModItems.powder_sawdust) });
+		recipes.put(new OreDictStack("treeSapling"), new ItemStack[] { new ItemStack(Items.stick, 1), ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.powder_sawdust), EnumChatFormatting.RED + "10%") });
+		
+		return recipes;
 	}
 	
 	AxisAlignedBB bb = null;

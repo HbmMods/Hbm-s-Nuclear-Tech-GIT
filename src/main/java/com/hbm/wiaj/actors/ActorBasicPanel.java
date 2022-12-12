@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.hbm.wiaj.JarScene;
+import com.hbm.wiaj.WorldInAJar;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -40,7 +41,7 @@ public class ActorBasicPanel implements ISpecialActor {
 	}
 
 	@Override
-	public void drawBackgroundComponent(int ticks, float interp) { }
+	public void drawBackgroundComponent(WorldInAJar world, int ticks, float interp) { }
 
 	@Override
 	public void updateActor(JarScene scene) { }

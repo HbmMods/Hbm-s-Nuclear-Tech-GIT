@@ -1,9 +1,13 @@
 package com.hbm.module;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.util.ItemStackUtil;
 
 import net.minecraft.item.ItemStack;
@@ -34,6 +38,45 @@ public class ModuleBurnTime {
 			modTime[i] = 1.0D;
 			modHeat[i] = 1.0D;
 		}
+	}
+
+	public void readIfPresent(JsonObject obj) {
+		modTime[modLog] = IConfigurableMachine.grab(obj, "D:timeLog", modTime[modLog]);
+		modTime[modWood] = IConfigurableMachine.grab(obj, "D:timeWood", modTime[modWood]);
+		modTime[modCoal] = IConfigurableMachine.grab(obj, "D:timeCoal", modTime[modCoal]);
+		modTime[modLignite] = IConfigurableMachine.grab(obj, "D:timeLignite", modTime[modLignite]);
+		modTime[modCoke] = IConfigurableMachine.grab(obj, "D:timeCoke", modTime[modCoke]);
+		modTime[modSolid] = IConfigurableMachine.grab(obj, "D:timeSolid", modTime[modSolid]);
+		modTime[modRocket] = IConfigurableMachine.grab(obj, "D:timeRocket", modTime[modRocket]);
+		modTime[modBalefire] = IConfigurableMachine.grab(obj, "D:timeBalefire", modTime[modBalefire]);
+
+		modHeat[modLog] = IConfigurableMachine.grab(obj, "D:heatLog", modHeat[modLog]);
+		modHeat[modWood] = IConfigurableMachine.grab(obj, "D:heatWood", modHeat[modWood]);
+		modHeat[modCoal] = IConfigurableMachine.grab(obj, "D:heatCoal", modHeat[modCoal]);
+		modHeat[modLignite] = IConfigurableMachine.grab(obj, "D:heatLignite", modHeat[modLignite]);
+		modHeat[modCoke] = IConfigurableMachine.grab(obj, "D:heatCoke", modHeat[modCoke]);
+		modHeat[modSolid] = IConfigurableMachine.grab(obj, "D:heatSolid", modHeat[modSolid]);
+		modHeat[modRocket] = IConfigurableMachine.grab(obj, "D:heatRocket", modHeat[modRocket]);
+		modHeat[modBalefire] = IConfigurableMachine.grab(obj, "D:heatBalefie", modHeat[modBalefire]);
+	}
+
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("D:timeLog").value(modTime[modLog]);
+		writer.name("D:timeWood").value(modTime[modWood]);
+		writer.name("D:timeCoal").value(modTime[modCoal]);
+		writer.name("D:timeLignite").value(modTime[modLignite]);
+		writer.name("D:timeCoke").value(modTime[modCoke]);
+		writer.name("D:timeSolid").value(modTime[modSolid]);
+		writer.name("D:timeRocket").value(modTime[modRocket]);
+		writer.name("D:timeBalefire").value(modTime[modBalefire]);
+		writer.name("D:heatLog").value(modHeat[modLog]);
+		writer.name("D:heatWood").value(modHeat[modWood]);
+		writer.name("D:heatCoal").value(modHeat[modCoal]);
+		writer.name("D:heatLignite").value(modHeat[modLignite]);
+		writer.name("D:heatCoke").value(modHeat[modCoke]);
+		writer.name("D:heatSolid").value(modHeat[modSolid]);
+		writer.name("D:heatRocket").value(modHeat[modRocket]);
+		writer.name("D:heatBalefie").value(modHeat[modBalefire]);
 	}
 	
 	public int getBurnTime(ItemStack stack) {

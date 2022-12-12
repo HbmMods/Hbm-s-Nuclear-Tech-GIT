@@ -17,10 +17,18 @@ public class NTMMaterial {
 	public int solidColor = 0xFF4A00; //TODO
 	public int moltenColor = 0xFF4A00;
 	
+	public NTMMaterial smeltsInto;
+	public int convIn;
+	public int convOut;
+	
 	public NTMMaterial(int id, DictFrame dict) {
 		
 		this.names = dict.mats;
 		this.id = id;
+		
+		this.smeltsInto = this;
+		this.convIn = 1;
+		this.convOut = 1;
 		
 		for(String name : dict.mats) {
 			Mats.matByName.put(name, this);
@@ -32,6 +40,13 @@ public class NTMMaterial {
 	
 	public String getUnlocalizedName() {
 		return "hbmmat." + this.names[0].toLowerCase();
+	}
+	
+	public NTMMaterial setConversion(NTMMaterial mat, int in, int out) {
+		this.smeltsInto = mat;
+		this.convIn = in;
+		this.convOut = out;
+		return this;
 	}
 	
 	/** Shapes for autogen */
@@ -58,10 +73,10 @@ public class NTMMaterial {
 	}
 	
 	public static enum SmeltingBehavior {
-		NOT_SMELTABLE,	//anything that can't be smelted or otherwise doesn't belong in a smelter, like diamond
+		NOT_SMELTABLE,	//anything that can't be smelted or otherwise doesn't belong in a smelter, like diamond. may also include things that are smeltable but turn into a different type
 		VAPORIZES,		//can't be smelted because the material would skadoodle
 		BREAKS,			//can't be smelted because the material doesn't survive the temperatures
-		SMELTABLE,		//metal, mostly
+		SMELTABLE,		//mostly metal
 		ADDITIVE		//stuff like coal which isn't smeltable but can be put in a crucible anyway
 	}
 }

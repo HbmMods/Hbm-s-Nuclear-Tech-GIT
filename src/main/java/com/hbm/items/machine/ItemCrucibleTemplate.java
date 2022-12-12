@@ -2,6 +2,8 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.CrucibleRecipes;
@@ -15,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 
 public class ItemCrucibleTemplate extends Item {
 
@@ -30,6 +33,24 @@ public class ItemCrucibleTemplate extends Item {
 			list.add(new ItemStack(item, 1, CrucibleRecipes.recipes.get(i).getId()));
 		}
 	}
+
+	public String getItemStackDisplayName(ItemStack stack) {
+		
+		CrucibleRecipe recipe = CrucibleRecipes.indexMapping.get(stack.getItemDamage());
+		
+		if(recipe == null) {
+			return super.getItemStackDisplayName(stack);
+		}
+		
+		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+		String s1 = ("" + StatCollector.translateToLocal(recipe.getName())).trim();
+
+		if(s1 != null) {
+			s = s + " " + s1;
+		}
+
+		return s;
+	}
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
@@ -42,13 +63,13 @@ public class ItemCrucibleTemplate extends Item {
 
 		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_out_p"));
 		for(MaterialStack out : recipe.output) {
-			list.add(I18nUtil.resolveKey(out.material.getUnlocalizedName()) + ": " + Mats.formatAmount(out.amount));
+			list.add(I18nUtil.resolveKey(out.material.getUnlocalizedName()) + ": " + Mats.formatAmount(out.amount, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)));
 		}
 
 		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_in_p"));
 		
 		for(MaterialStack in : recipe.input) {
-			list.add(I18nUtil.resolveKey(in.material.getUnlocalizedName()) + ": " + Mats.formatAmount(in.amount));
+			list.add(I18nUtil.resolveKey(in.material.getUnlocalizedName()) + ": " + Mats.formatAmount(in.amount, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)));
 		}
 	}
 }

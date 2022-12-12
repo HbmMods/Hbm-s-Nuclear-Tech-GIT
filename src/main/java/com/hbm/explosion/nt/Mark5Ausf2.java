@@ -15,6 +15,7 @@ import net.minecraft.world.World;
  * Ausf3 will use the same approach as MK4 but with some optimizations regarding setBlock redundancy and getBlock operations
  * See: docvt7
  */
+@Deprecated
 public class Mark5Ausf2 implements IExplosionLogic {
 
 	//holds rays after being calculated up to where the blocks get removed

@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FT_Flammable;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
 import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -50,8 +54,13 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 		
 		ammoStacks = new ArrayList();
 
-		ammoStacks.add(new ItemStack(ModItems.fluid_icon, 1, Fluids.DIESEL.getID()));
 		ammoStacks.add(new ItemStack(ModItems.ammo_fuel));
+		
+		for(FluidType type : Fluids.getInNiceOrder()) {
+			if(type.hasTrait(FT_Combustible.class) && type.hasTrait(FT_Liquid.class)) {
+				ammoStacks.add(new ItemStack(ModItems.fluid_icon, 1, type.getID()));
+			}
+		}
 		
 		return ammoStacks;
 	}
@@ -89,16 +98,23 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	@Override
 	public void updateFiringTick() {
 		
-		if(this.tank.getTankType() == Fluids.DIESEL && this.tank.getFill() >= 10) {
+		if(this.tank.getTankType().hasTrait(FT_Flammable.class) && this.tank.getTankType().hasTrait(FT_Liquid.class) && this.tank.getFill() >= 2) {
 			
+			FT_Flammable trait = this.tank.getTankType().getTrait(FT_Flammable.class);
 			BulletConfiguration conf = BulletConfigSyncingUtil.pullConfig(BulletConfigSyncingUtil.FLA_NORMAL);
-			this.spawnBullet(conf);
-			this.tank.setFill(this.tank.getFill() - 10);
+			this.tank.setFill(this.tank.getFill() - 2);
 			
 			Vec3 pos = this.getTurretPos();
 			Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 			vec.rotateAroundZ((float) -this.rotationPitch);
 			vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
+			
+			EntityBulletBase proj = new EntityBulletBase(worldObj, BulletConfigSyncingUtil.getKey(conf));
+			proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
+			proj.overrideDamage = (float) (trait.getHeatEnergy() / 500_000F);
+			
+			proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, conf.velocity, conf.spread);
+			worldObj.spawnEntityInWorld(proj);
 			
 			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.flamethrowerShoot", 2F, 1F + worldObj.rand.nextFloat() * 0.5F);
 			
@@ -141,23 +157,23 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-		this.trySubscribe(worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
-		this.trySubscribe(worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * 0, ForgeDirection.SOUTH);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * -1, ForgeDirection.SOUTH);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * -2, ForgeDirection.WEST);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * -2, ForgeDirection.WEST);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * 1, ForgeDirection.EAST);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 1, ForgeDirection.EAST);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 0, ForgeDirection.NORTH);
+		this.trySubscribe(worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -1, ForgeDirection.NORTH);
 		
-		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
-		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
-		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
-		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * -2, ForgeDirection.UNKNOWN);
-		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
-		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 1, ForgeDirection.UNKNOWN);
-		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 0, ForgeDirection.UNKNOWN);
-		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -1, ForgeDirection.UNKNOWN);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * 0, ForgeDirection.SOUTH);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * -1 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * -1 + rot.offsetZ * -1, ForgeDirection.SOUTH);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * -2, ForgeDirection.WEST);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * -2, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * -2, ForgeDirection.WEST);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 0 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 0 + rot.offsetZ * 1, ForgeDirection.EAST);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 1 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 1, ForgeDirection.EAST);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * 0, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 0, ForgeDirection.NORTH);
+		this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -1, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -1, ForgeDirection.NORTH);
 	}
 	
 	@Override

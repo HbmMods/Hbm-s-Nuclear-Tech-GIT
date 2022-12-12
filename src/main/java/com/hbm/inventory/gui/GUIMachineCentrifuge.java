@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineCentrifuge extends GuiInfoContainer {
 
-	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/centrifuge.png");
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_centrifuge.png");
 	private TileEntityMachineCentrifuge centrifuge;
 	
 	public GUIMachineCentrifuge(InventoryPlayer invPlayer, TileEntityMachineCentrifuge tedf) {
@@ -21,7 +21,7 @@ public class GUIMachineCentrifuge extends GuiInfoContainer {
 		centrifuge = tedf;
 		
 		this.xSize = 176;
-		this.ySize = 166;
+		this.ySize = 186;
 	}
 	
 	@Override
@@ -33,9 +33,9 @@ public class GUIMachineCentrifuge extends GuiInfoContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
-		String name = this.centrifuge.hasCustomInventoryName() ? this.centrifuge.getInventoryName() : I18n.format(this.centrifuge.getInventoryName());
+		//String name = this.centrifuge.hasCustomInventoryName() ? this.centrifuge.getInventoryName() : I18n.format(this.centrifuge.getInventoryName());
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
+		//this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 	
@@ -45,20 +45,21 @@ public class GUIMachineCentrifuge extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(centrifuge.hasPower())
-		{
-			int i1 = (int)centrifuge.getPowerRemainingScaled(54);
-			drawTexturedModalRect(guiLeft + 8, guiTop + 69 - i1, 177, 107 - i1, 16, i1);
+		if(centrifuge.hasPower()) {
+			int i1 = (int) centrifuge.getPowerRemainingScaled(35);
+			drawTexturedModalRect(guiLeft + 9, guiTop + 48 - i1, 176, 35 - i1, 16, i1);
 		}
 
-		if(centrifuge.isProcessing())
-		{
-			int j1 = centrifuge.getCentrifugeProgressScaled(55);
-			drawTexturedModalRect(guiLeft + 61, guiTop + 16, 176, 0, j1, 54);
-		}
-		
-		if(centrifuge.hasPower() && centrifuge.canProcess()) {
-			drawTexturedModalRect(guiLeft + 25, guiTop + 34, 194, 54, 18, 18);
+		if(centrifuge.isProcessing()) {
+			int p = centrifuge.getCentrifugeProgressScaled(145);
+			
+			for(int i = 0; i < 4; i++) {
+				int h = Math.min(p, 36);
+				drawTexturedModalRect(guiLeft + 65 + i * 20, guiTop + 50 - h, 176, 71 - h, 12, h);
+				p -= h;
+				if(p <= 0)
+					break;
+			}
 		}
 	}
 }

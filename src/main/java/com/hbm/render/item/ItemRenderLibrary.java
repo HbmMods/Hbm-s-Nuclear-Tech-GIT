@@ -442,17 +442,6 @@ public class ItemRenderLibrary {
 		        ResourceManager.bomb_boy.renderAll();
 			}});
 		
-		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_mike), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -5, 0);
-				GL11.glScaled(2.5, 2.5, 2.5);
-			}
-			public void renderCommon() {
-				GL11.glRotated(90, 0, 1, 0);
-		        bindTexture(ResourceManager.bomb_mike_tex);
-		        ResourceManager.bomb_mike.renderAll();
-			}});
-		
 		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_tsar), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glScaled(2.25, 2.25, 2.25);
@@ -1295,17 +1284,6 @@ public class ItemRenderLibrary {
 				ResourceManager.turret_arty.renderPart("Cannon");
 				ResourceManager.turret_arty.renderPart("Barrel");
 				GL11.glShadeModel(GL11.GL_FLAT);
-			}});
-		
-		renderers.put(Item.getItemFromBlock(ModBlocks.heater_firebox), new ItemRenderBase( ) {
-			public void renderInventory() {
-				GL11.glTranslated(0, -1, 0);
-				GL11.glScaled(3.25, 3.25, 3.25);
-			}
-			public void renderCommon() {
-				bindTexture(ResourceManager.heater_firebox_tex);
-				ResourceManager.heater_firebox.renderPart("Main");
-				ResourceManager.heater_firebox.renderPart("Door");
 			}});
 		
 		renderers.put(ModItems.gear_large, new ItemRenderBase( ) {

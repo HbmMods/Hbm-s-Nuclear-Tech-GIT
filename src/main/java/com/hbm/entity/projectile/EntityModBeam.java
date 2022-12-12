@@ -10,7 +10,7 @@ import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.entity.effect.EntityVortex;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.potion.HbmPotion;
 
@@ -489,7 +489,7 @@ public class EntityModBeam extends Entity implements IProjectile {
 			} else {
 				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
-				this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, BombConfig.gadgetRadius, posX, posY, posZ));
+				this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, BombConfig.gadgetRadius, posX, posY, posZ));
 				this.worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, posX, posY, posZ, BombConfig.gadgetRadius));
 			}
 		}

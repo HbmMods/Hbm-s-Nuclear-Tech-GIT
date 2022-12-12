@@ -25,6 +25,8 @@ public class PowderRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ingot_c4, 4), new Object[] { Fluids.UNSATURATEDS.getDict(1000), KNO.dust(), KEY_TOOL_CHEMISTRYSET });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_semtex_mix, 3), new Object[] { ModItems.solid_fuel, ModItems.cordite, KNO.dust() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_semtex_mix, 1), new Object[] { ModItems.solid_fuel, ModItems.ballistite, KNO.dust() });
+		CraftingManager.addShapelessAuto(new ItemStack(Items.clay_ball, 4), new Object[] { KEY_SAND, ModItems.dust, ModItems.dust, Fluids.WATER.getDict(1_000) });
+		CraftingManager.addShapelessAuto(new ItemStack(Items.clay_ball, 4), new Object[] { Blocks.clay }); //clay uncrafting because placing and breaking it isn't worth anyone's time
 		
 		//Other
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ingot_steel_dusted, 1), new Object[] { STEEL.ingot(), COAL.dust() });

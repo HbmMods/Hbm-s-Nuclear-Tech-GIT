@@ -182,7 +182,7 @@ public class ItemMold extends Item {
 				String od = shape.name().toLowerCase() + name;
 				List<ItemStack> ores = OreDictionary.getOres(od);
 				if(!ores.isEmpty()) {
-					ItemStack copy = ores.get(0);
+					ItemStack copy = ores.get(0).copy();
 					copy.stackSize = this.amount;
 					return copy;
 				}
@@ -247,7 +247,7 @@ public class ItemMold extends Item {
 
 		@Override
 		public String getTitle() {
-			return I18nUtil.resolveKey("shape." + MaterialShapes.WIRE.name().toLowerCase()) + " x8";
+			return I18nUtil.resolveKey("shape.wire") + " x8";
 		}
 	}
 

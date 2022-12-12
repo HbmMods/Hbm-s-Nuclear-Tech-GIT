@@ -111,9 +111,6 @@ public class TileEntityMachineEPress extends TileEntityLoadedBase implements ISi
 		if(stack.getItem() instanceof ItemStamp && i == 1)
 			return true;
 		
-		if(TileEntityFurnace.getItemBurnTime(stack) > 0 && i == 0)
-			return true;
-		
 		return i == 2;
 	}
 	
@@ -186,7 +183,7 @@ public class TileEntityMachineEPress extends TileEntityLoadedBase implements ISi
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side)
     {
-		return side == 0 ? new int[] { 3 } : new int[]{ 0, 1, 2 };
+		return new int[]{ 1, 2, 3 };
     }
 
 	@Override

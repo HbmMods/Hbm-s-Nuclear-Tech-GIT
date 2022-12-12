@@ -170,6 +170,8 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	protected void onImpact(MovingObjectPosition mop) {
 		
 		if(!worldObj.isRemote) {
+			
+			if(mop.typeOfHit == mop.typeOfHit.ENTITY && mop.entityHit instanceof EntityArtilleryShell) return;
 			this.getType().onImpact(this, mop);
 		}
 	}

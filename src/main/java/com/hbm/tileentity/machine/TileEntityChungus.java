@@ -18,6 +18,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -59,7 +60,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 			boolean valid = false;
 			if(in.hasTrait(FT_Coolable.class)) {
 				FT_Coolable trait = in.getTrait(FT_Coolable.class);
-				double eff = trait.getEfficiency(CoolingType.TURBINE); //100% efficiency
+				double eff = trait.getEfficiency(CoolingType.TURBINE) * 0.85D; //85% efficiency
 				if(eff > 0) {
 					tanks[1].setTankType(trait.coolsTo);
 					int inputOps = tanks[0].getFill() / trait.amountReq;
@@ -73,17 +74,15 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 				}
 			}
 			
-			//if(this.tanks[1].getFill() > 0) System.out.println(this.tanks[1].getTankType().name());
-			
 			if(!valid) tanks[1].setTankType(Fluids.NONE);
 			if(power > maxPower) power = maxPower;
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			this.sendPower(worldObj, xCoord - dir.offsetX * 11, yCoord, zCoord - dir.offsetZ * 11, dir);
 			
-			for(BlockPos pos : this.getConPos()) {
-				this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), dir);
-				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), dir);
+			for(DirPos pos : this.getConPos()) {
+				this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			if(power > maxPower)
@@ -140,13 +139,13 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 		}
 	}
 	
-	public BlockPos[] getConPos() {
+	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new BlockPos[] {
-				new BlockPos(xCoord - dir.offsetX * 4, yCoord + 2, zCoord - dir.offsetZ * 4),
-				new BlockPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3),
-				new BlockPos(xCoord - rot.offsetZ * 3, yCoord, zCoord - rot.offsetZ * 3)
+		return new DirPos[] {
+				new DirPos(xCoord + dir.offsetX * 5, yCoord + 2, zCoord + dir.offsetZ * 5, dir),
+				new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, rot),
+				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, rot.getOpposite())
 		};
 	}
 	

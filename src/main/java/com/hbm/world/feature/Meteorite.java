@@ -1,6 +1,7 @@
 package com.hbm.world.feature;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -14,14 +15,20 @@ import com.hbm.lib.ModDamageSource;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class Meteorite {
+	
+	public static boolean safeMode = false;
 
-	public void generate(World world, Random rand, int x, int y, int z) {
+	public void generate(World world, Random rand, int x, int y, int z, boolean safe, boolean allowSpecials) {
+		safeMode = safe;
+		
+		if(replacables.isEmpty()) {
+			generateReplacables();
+		}
 
 		List<Entity> list = (List<Entity>) world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(x - 7.5, y - 7.5, z - 7.5, x + 7.5, y + 7.5, z + 7.5));
 
@@ -29,7 +36,7 @@ public class Meteorite {
 			e.attackEntityFrom(ModDamageSource.meteorite, 1000);
 		}
 
-		if(WorldConfig.enableSpecialMeteors)
+		if(WorldConfig.enableSpecialMeteors && allowSpecials)
 			switch(rand.nextInt(300)) {
 			case 0:
 				// Meteor-only tiny meteorite
@@ -43,7 +50,7 @@ public class Meteorite {
 				list1.addAll(this.getRandomOre(rand));
 				int i = list1.size();
 				for(int j = 0; j < i; j++)
-					list1.add(new ItemStack(Blocks.stone));
+					list1.add(new ItemStack(ModBlocks.block_meteor_broken));
 				generateSphere7x7(world, rand, x, y, z, list1);
 				return;
 			case 2:
@@ -52,7 +59,7 @@ public class Meteorite {
 				list2.addAll(this.getRandomOre(rand));
 				int k = list2.size() / 2;
 				for(int j = 0; j < k; j++)
-					list2.add(new ItemStack(Blocks.stone));
+					list2.add(new ItemStack(ModBlocks.block_meteor_broken));
 				generateSphere5x5(world, rand, x, y, z, list2);
 				return;
 			case 3:
@@ -63,7 +70,7 @@ public class Meteorite {
 				return;
 			case 4:
 				// Bamboozle
-				world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 15F, true);
+				world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 15F, !safe);
 				ExplosionLarge.spawnRubble(world, x, y, z, 25);
 				return;
 			case 5:
@@ -113,11 +120,11 @@ public class Meteorite {
 			case 11:
 				// Atomic meteorite
 				
-				ExplosionNukeSmall.explode(world, x + 0.5, y + 0.5, z + 0.5, ExplosionNukeSmall.medium);
+				ExplosionNukeSmall.explode(world, x + 0.5, y + 0.5, z + 0.5, safe ? ExplosionNukeSmall.safe : ExplosionNukeSmall.medium);
 				return;
 			case 12:
 				// Star Blaster
-				world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 10F, true);
+				world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 10F, !safe);
 				ItemStack stack = new ItemStack(ModItems.gun_b92);
 				stack.setStackDisplayName("§9Star Blaster§r");
 				EntityItem blaster = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack);
@@ -711,8 +718,33 @@ public class Meteorite {
 	
 	private void setBlock(World world, int x, int y, int z, Block b, int meta, int flag) {
 		Block target = world.getBlock(x, y, z);
+		
+		if(safeMode) {
+			if(!target.isReplaceable(world, x, y, z) && !replacables.contains(target)) return; 
+		}
+		
 		float hardness = target.getBlockHardness(world, x, y, z);
 		if(hardness != -1 && hardness < 10_000)
 			world.setBlock(x, y, z, b, meta, flag);
+	}
+	
+	public static HashSet<Block> replacables = new HashSet();
+	
+	public static void generateReplacables() {
+		replacables.add(ModBlocks.block_meteor);
+		replacables.add(ModBlocks.block_meteor_broken);
+		replacables.add(ModBlocks.block_meteor_cobble);
+		replacables.add(ModBlocks.block_meteor_molten);
+		replacables.add(ModBlocks.block_meteor_treasure);
+		replacables.add(ModBlocks.ore_meteor_uranium);
+		replacables.add(ModBlocks.ore_meteor_thorium);
+		replacables.add(ModBlocks.ore_meteor_titanium);
+		replacables.add(ModBlocks.ore_meteor_sulfur);
+		replacables.add(ModBlocks.ore_meteor_copper);
+		replacables.add(ModBlocks.ore_meteor_tungsten);
+		replacables.add(ModBlocks.ore_meteor_aluminium);
+		replacables.add(ModBlocks.ore_meteor_lead);
+		replacables.add(ModBlocks.ore_meteor_lithium);
+		replacables.add(ModBlocks.ore_meteor_starmetal);
 	}
 }

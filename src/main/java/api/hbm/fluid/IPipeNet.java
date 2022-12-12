@@ -1,5 +1,6 @@
 package api.hbm.fluid;
 
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.List;
 
@@ -25,4 +26,5 @@ public interface IPipeNet {
 	
 	public long transferFluid(long fill);
 	public FluidType getType();
+	public BigInteger getTotalTransfer();
 }

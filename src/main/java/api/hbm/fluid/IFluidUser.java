@@ -62,6 +62,21 @@ public interface IFluidUser extends IFluidConnector {
 		}
 	}
 	
+	public static IPipeNet getPipeNet(World world, int x, int y, int z, FluidType type) {
+
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(te instanceof IFluidConductor) {
+			IFluidConductor con = (IFluidConductor) te;
+			
+			if(con.getPipeNet(type) != null) {
+				return con.getPipeNet(type);
+			}
+		}
+		
+		return null;
+	}
+	
 	public default void sendFluidToAll(FluidType type, TileEntity te) {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {

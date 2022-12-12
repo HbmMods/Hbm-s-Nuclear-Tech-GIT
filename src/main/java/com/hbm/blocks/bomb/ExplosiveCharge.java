@@ -3,7 +3,7 @@ package com.hbm.blocks.bomb;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.interfaces.IBomb;
@@ -77,7 +77,7 @@ public class ExplosiveCharge extends Block implements IBomb, IDetConnectible {
 				ExplosionLarge.spawnParticles(world, x, y, z, ExplosionLarge.cloudFunction(15));
 			}
 			if(this == ModBlocks.det_nuke) {
-				world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));
+				world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));
 
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, BombConfig.missileRadius * 0.005F);
 				entity2.posX = x;

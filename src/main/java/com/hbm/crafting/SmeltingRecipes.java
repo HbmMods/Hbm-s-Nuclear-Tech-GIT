@@ -4,9 +4,9 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumPlantType;
-import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemHot;
 
@@ -59,6 +59,10 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_australium), new ItemStack(ModItems.nugget_australium), 2.5F);
 		GameRegistry.addSmelting(ModItems.powder_australium, new ItemStack(ModItems.ingot_australium), 5.0F);
 
+		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.COAL), DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), 1.0F);
+		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.LIGNITE), DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), 1.0F);
+		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.WOOD), new ItemStack(Items.coal, 1, 1), 1.0F);
+
 		GameRegistry.addSmelting(ModItems.powder_lead, new ItemStack(ModItems.ingot_lead), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_neptunium, new ItemStack(ModItems.ingot_neptunium), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_polonium, new ItemStack(ModItems.ingot_polonium), 1.0F);
@@ -98,12 +102,6 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.powder_ra226, new ItemStack(ModItems.ingot_ra226), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_tantalium, new ItemStack(ModItems.ingot_tantalium), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_niobium, new ItemStack(ModItems.ingot_niobium), 1.0F);
-
-		GameRegistry.addSmelting(ModItems.powder_coal, DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), 1.0F);
-		GameRegistry.addSmelting(ModItems.briquette_lignite, DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), 1.0F);
-		
-		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK), DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), 1.0F);
-		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL), DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), 1.0F);
 
 		GameRegistry.addSmelting(ModItems.combine_scrap, new ItemStack(ModItems.ingot_combine_steel), 1.0F);
 		GameRegistry.addSmelting(ModItems.tank_waste, new ItemStack(ModItems.tank_waste), 0.0F);

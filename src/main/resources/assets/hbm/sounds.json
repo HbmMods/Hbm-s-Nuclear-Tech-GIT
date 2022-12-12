@@ -26,7 +26,7 @@
     "block.lockOpen": {"category": "block", "sounds": [{"name": "block/lockOpen", "stream": false}]},
     "block.lockHang": {"category": "block", "sounds": [{"name": "block/lockHang", "stream": false}]},
     "block.debris": {"category": "block", "sounds": ["block/debris1", "block/debris2", "block/debris3"]},
-    "block.centrifugeOperate": {"category": "block", "sounds": [{"name": "block/centrifugeOperate", "stream": true}]},
+    "block.centrifugeOperate": {"category": "block", "sounds": [{"name": "block/centrifugeOperate", "stream": false}]},
     "block.pipePlaced": {"category": "block", "sounds": [{"name": "block/pipePlaced", "stream": false}]},
     "block.missileAssembly": {"category": "block", "sounds": [{"name": "block/missileAssembly", "stream": false}]},
     "block.missileAssembly2": {"category": "block", "sounds": [{"name": "block/missileAssembly2", "stream": false}]},
@@ -46,6 +46,7 @@
     "block.closeC": {"category": "block", "sounds": ["block/closeC1", "block/closeC2", "block/closeC3"]},
     "block.warnOverspeed": {"category": "block", "sounds": [{"name": "block/warnOverspeed", "stream": false}]},
     "block.boilerGroan": {"category": "block", "sounds": ["block/boilerGroan0", "block/boilerGroan1", "block/boilerGroan2"]},
+    "block.steamEngineOperate": {"category": "block", "sounds": [{"name": "block/steamEngineOperate", "stream": false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},

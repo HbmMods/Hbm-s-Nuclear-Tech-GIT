@@ -3,7 +3,6 @@ package com.hbm.inventory.recipes;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.gson.JsonArray;
@@ -252,9 +251,9 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(Blocks.gravel, 1) });
 		
 		recipes.put(new ComparableStack(ModBlocks.ore_tikite), new ItemStack[] {
-				new ItemStack(ModItems.powder_plutonium, 2),
+				new ItemStack(ModItems.powder_plutonium, 1),
 				new ItemStack(ModItems.powder_cobalt, 2),
-				new ItemStack(ModItems.powder_nitan_mix, 1),
+				new ItemStack(ModItems.powder_niobium, 2),
 				new ItemStack(Blocks.end_stone, 1) });
 		
 		recipes.put(new OreDictStack("oreLapis"), new ItemStack[] {
@@ -292,6 +291,12 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.powder_paleogenite_tiny, 1),
 				new ItemStack(ModItems.powder_meteorite_tiny, 1),
 				new ItemStack(ModItems.dust, 6) });
+		
+		recipes.put(new ComparableStack(ModBlocks.block_slag), new ItemStack[] {
+				new ItemStack(Blocks.gravel, 1),
+				new ItemStack(ModItems.powder_fire, 1),
+				new ItemStack(Items.dye, 1, 15), //temp
+				new ItemStack(ModItems.dust) });
 		
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");
 		
@@ -332,7 +337,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(ModItems.crystal_schrabidium), new ItemStack[] { new ItemStack(ModItems.powder_schrabidium, 2), new ItemStack(ModItems.powder_schrabidium, 2), new ItemStack(ModItems.powder_plutonium, 1), new ItemStack(ModItems.powder_lithium_tiny, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_rare), new ItemStack[] { new ItemStack(ModItems.powder_desh_mix, 1), new ItemStack(ModItems.powder_desh_mix, 1), new ItemStack(ModItems.nugget_zirconium, 2), new ItemStack(ModItems.nugget_zirconium, 2) });
 		recipes.put(new ComparableStack(ModItems.crystal_phosphorus), new ItemStack[] { new ItemStack(ModItems.powder_fire, 3), new ItemStack(ModItems.powder_fire, 3), new ItemStack(ModItems.ingot_phosphorus, 2), new ItemStack(Items.blaze_powder, 2) });
-		recipes.put(new ComparableStack(ModItems.crystal_trixite), new ItemStack[] { new ItemStack(ModItems.powder_plutonium, 3), new ItemStack(ModItems.powder_cobalt, 3), new ItemStack(ModItems.powder_spark_mix, 1), new ItemStack(ModItems.powder_nitan_mix, 2) });
+		recipes.put(new ComparableStack(ModItems.crystal_trixite), new ItemStack[] { new ItemStack(ModItems.powder_plutonium, 2), new ItemStack(ModItems.powder_cobalt, 3), new ItemStack(ModItems.powder_niobium, 2), new ItemStack(ModItems.powder_nitan_mix, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_lithium), new ItemStack[] { new ItemStack(ModItems.powder_lithium, 2), new ItemStack(ModItems.powder_lithium, 2), new ItemStack(ModItems.powder_quartz, 1), new ItemStack(ModItems.fluorite, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_starmetal), new ItemStack[] { new ItemStack(ModItems.powder_dura_steel, 3), new ItemStack(ModItems.powder_cobalt, 3), new ItemStack(ModItems.powder_astatine, 2), new ItemStack(ModItems.ingot_mercury, 5) });
 		recipes.put(new ComparableStack(ModItems.crystal_cobalt), new ItemStack[] { new ItemStack(ModItems.powder_cobalt, 2), new ItemStack(ModItems.powder_iron, 3), new ItemStack(ModItems.powder_copper, 3), new ItemStack(ModItems.powder_lithium_tiny, 1) });
@@ -367,12 +372,12 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		return null;
 	}
 
-	public static Map<Object, Object[]> getRecipes() {
+	public static HashMap getRecipes() {
 		
-		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
+		HashMap<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 		
 		for(Entry<AStack, ItemStack[]> entry : CentrifugeRecipes.recipes.entrySet()) {
-			recipes.put(entry.getKey().extractForNEI(), entry.getValue());
+			recipes.put(entry.getKey(), entry.getValue());
 		}
 		
 		return recipes;

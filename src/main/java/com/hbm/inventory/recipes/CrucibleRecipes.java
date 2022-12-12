@@ -25,6 +25,7 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMold;
 import com.hbm.items.machine.ItemMold.Mold;
+import com.hbm.util.Compat;
 import com.hbm.items.machine.ItemScraps;
 
 import net.minecraft.init.Blocks;
@@ -47,21 +48,29 @@ public class CrucibleRecipes extends SerializableRecipe {
 		int n = MaterialShapes.NUGGET.q(1);
 		int i = MaterialShapes.INGOT.q(1);
 		
-		recipes.add(new CrucibleRecipe(0, "crucible.steel", 1, new ItemStack(ModItems.ingot_steel))
-				.inputs(new MaterialStack(Mats.MAT_IRON, n), new MaterialStack(Mats.MAT_COAL, n))
-				.outputs(new MaterialStack(Mats.MAT_STEEL, n)));
+		recipes.add(new CrucibleRecipe(0, "crucible.steel", 2, new ItemStack(ModItems.ingot_steel))
+				.inputs(new MaterialStack(Mats.MAT_IRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
+				.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
 		
-		recipes.add(new CrucibleRecipe(6, "crucible.steel_flux", 9, new ItemStack(ModItems.ingot_steel))
-				.inputs(new MaterialStack(Mats.MAT_IRON, i), new MaterialStack(Mats.MAT_COAL, n * 4), new MaterialStack(Mats.MAT_FLUX, n))
-				.outputs(new MaterialStack(Mats.MAT_STEEL, i)));
+		if(Compat.isModLoaded(Compat.MOD_GT6)) {
+			recipes.add(new CrucibleRecipe(9, "crucible.steelWrought", 2, new ItemStack(ModItems.ingot_steel))
+					.inputs(new MaterialStack(Mats.MAT_WROUGHTIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
+					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
+			recipes.add(new CrucibleRecipe(10, "crucible.steelPig", 2, new ItemStack(ModItems.ingot_steel))
+					.inputs(new MaterialStack(Mats.MAT_PIGIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
+					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
+			recipes.add(new CrucibleRecipe(11, "crucible.steelMeteoric", 2, new ItemStack(ModItems.ingot_steel))
+					.inputs(new MaterialStack(Mats.MAT_METEORICIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
+					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
+		}
 		
-		recipes.add(new CrucibleRecipe(7, "crucible.hematite", 9, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.HEMATITE))
-				.inputs(new MaterialStack(Mats.MAT_HEMATITE, i), new MaterialStack(Mats.MAT_FLUX, n))
-				.outputs(new MaterialStack(Mats.MAT_IRON, i)));
+		recipes.add(new CrucibleRecipe(7, "crucible.hematite", 6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.HEMATITE))
+				.inputs(new MaterialStack(Mats.MAT_HEMATITE, i * 2), new MaterialStack(Mats.MAT_FLUX, n * 2))
+				.outputs(new MaterialStack(Mats.MAT_IRON, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
 		
-		recipes.add(new CrucibleRecipe(8, "crucible.malachite", 9, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.MALACHITE))
-				.inputs(new MaterialStack(Mats.MAT_MALACHITE, i), new MaterialStack(Mats.MAT_FLUX, n))
-				.outputs(new MaterialStack(Mats.MAT_COPPER, i)));
+		recipes.add(new CrucibleRecipe(8, "crucible.malachite", 6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.MALACHITE))
+				.inputs(new MaterialStack(Mats.MAT_MALACHITE, i * 2), new MaterialStack(Mats.MAT_FLUX, n * 2))
+				.outputs(new MaterialStack(Mats.MAT_COPPER, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
 		
 		recipes.add(new CrucibleRecipe(1, "crucible.redcopper", 2, new ItemStack(ModItems.ingot_red_copper))
 				.inputs(new MaterialStack(Mats.MAT_COPPER, n), new MaterialStack(Mats.MAT_REDSTONE, n))
@@ -71,16 +80,16 @@ public class CrucibleRecipes extends SerializableRecipe {
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n), new MaterialStack(Mats.MAT_MINGRADE, n))
 				.outputs(new MaterialStack(Mats.MAT_ALLOY, n * 2)));
 		
-		recipes.add(new CrucibleRecipe(3, "crucible.hss", 4, new ItemStack(ModItems.ingot_dura_steel))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 2), new MaterialStack(Mats.MAT_TUNGSTEN, n), new MaterialStack(Mats.MAT_COBALT, n))
-				.outputs(new MaterialStack(Mats.MAT_DURA, n * 4)));
+		recipes.add(new CrucibleRecipe(3, "crucible.hss", 9, new ItemStack(ModItems.ingot_dura_steel))
+				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 5), new MaterialStack(Mats.MAT_TUNGSTEN, n * 3), new MaterialStack(Mats.MAT_COBALT, n * 1))
+				.outputs(new MaterialStack(Mats.MAT_DURA, n * 9)));
 		
 		recipes.add(new CrucibleRecipe(4, "crucible.ferro", 3, new ItemStack(ModItems.ingot_ferrouranium))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 2), new MaterialStack(Mats.MAT_U238, n), new MaterialStack(Mats.MAT_COAL, n))
+				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 2), new MaterialStack(Mats.MAT_U238, n))
 				.outputs(new MaterialStack(Mats.MAT_FERRO, n * 3)));
 		
 		recipes.add(new CrucibleRecipe(5, "crucible.tcalloy", 9, new ItemStack(ModItems.ingot_tcalloy))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_TECHNIETIUM, n), new MaterialStack(Mats.MAT_COAL, n * 4))
+				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_TECHNIETIUM, n))
 				.outputs(new MaterialStack(Mats.MAT_TCALLOY, i)));
 		
 		registerMoldsForNEI();
@@ -219,15 +228,18 @@ public class CrucibleRecipes extends SerializableRecipe {
 		HashMap<AStack, List<ItemStack>> map = new HashMap();
 		
 		for(NTMMaterial material : Mats.orderedList) {
+			int in = material.convIn;
+			int out = material.convOut;
+			NTMMaterial convert = material.smeltsInto;
 			for(MaterialShapes shape : MaterialShapes.allShapes) {
 				//TODO: buffer these
 				
-				String name = shape.toString().toLowerCase() + material.names[0];
+				String name = shape.name() + material.names[0];
 				List<ItemStack> ores = OreDictionary.getOres(name);
 				
 				if(!ores.isEmpty()) {
 					List<ItemStack> stacks = new ArrayList();
-					stacks.add(ItemScraps.create(new MaterialStack(material, shape.q(1))));
+					stacks.add(ItemScraps.create(new MaterialStack(convert, (int) (shape.q(1) * out / in))));
 					map.put(new OreDictStack(name), stacks);
 				}
 			}

@@ -3,9 +3,13 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
+
+import api.hbm.fluid.IFluidConnectorBlock;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -19,9 +23,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class ReactorHatch extends Block {
+public class ReactorHatch extends Block implements IFluidConnectorBlock {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
@@ -175,5 +181,10 @@ public class ReactorHatch extends Block {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public boolean canConnect(FluidType type, IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
+		return type == Fluids.WATER || type == Fluids.COOLANT || type == Fluids.STEAM || type == Fluids.HOTSTEAM || type == Fluids.SUPERHOTSTEAM || type == Fluids.ULTRAHOTSTEAM;
 	}
 }

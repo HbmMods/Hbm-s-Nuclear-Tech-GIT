@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.entity.missile.EntityMinerRocket;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.items.ISatChip;
 import com.hbm.items.machine.ItemSatChip;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
@@ -203,7 +204,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 		    data.markDirty();
 
 		    if(data != null && slots[15] != null) {
-			    int freq = ItemSatChip.getFreq(slots[15]);
+			    int freq = ISatChip.getFreqS(slots[15]);
 			    
 			    Satellite sat = data.getSatFromFreq(freq);
 			    
@@ -238,7 +239,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 		    		
 		    		EntityMinerRocket rocket = (EntityMinerRocket)e;
 		    		
-		    		if(slots[15] != null && ItemSatChip.getFreq(slots[15]) != rocket.getDataWatcher().getWatchableObjectInt(17)) {
+		    		if(slots[15] != null && ISatChip.getFreqS(slots[15]) != rocket.getDataWatcher().getWatchableObjectInt(17)) {
 		    			rocket.setDead();
 		    			ExplosionNukeSmall.explode(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, ExplosionNukeSmall.tots);
 		    			break;

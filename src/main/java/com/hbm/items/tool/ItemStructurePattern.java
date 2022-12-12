@@ -6,6 +6,7 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -29,7 +30,8 @@ public class ItemStructurePattern extends ItemStructureTool {
 		
 		BlockPos pos = this.getAnchor(stack);
 		if(pos == null) return;
-
+		
+		String message = "";
 		int savedX = stack.stackTagCompound.getInteger("x");
 		int savedY = stack.stackTagCompound.getInteger("y");
 		int savedZ = stack.stackTagCompound.getInteger("z");
@@ -42,15 +44,18 @@ public class ItemStructurePattern extends ItemStructureTool {
 		int maxZ = Math.max(savedZ, z) - pos.getZ();
 		
 		for(int ix = minX; ix <= maxX; ix++) {
-			for(int iy = minX; iy <= maxY; iy++) {
-				for(int iz = minX; iz <= maxZ; iz++) {
+			for(int iy = minY; iy <= maxY; iy++) {
+				for(int iz = minZ; iz <= maxZ; iz++) {
 					
-					Block b = world.getBlock(ix + pos.getX(), iy + pos.getY(), iz + pos.getZ());
+					Block b = world.getBlock(ix + pos.getX(), iy + pos.getY(), iz + pos.getZ());					
 					int meta = world.getBlockMetadata(ix + pos.getX(), iy + pos.getY(), iz + pos.getZ());
-
-					System.out.println("this.placeBlockAtCurrentPosition(world, " + b.getUnlocalizedName() + ", " + meta + ", " + ix + ", " + iy + ", " + iz + ", box)");
+					
+					message.concat("placeBlockAtCurrentPosition(world, " + b.getUnlocalizedName() + ", " + meta + ", " + ix + ", " + iy + ", " + iz + ", box);\n");
 				}
 			}
 		}
+		
+		System.out.print(message);
+		writeToFile(message);
 	}
 }

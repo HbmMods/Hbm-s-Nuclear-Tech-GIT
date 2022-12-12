@@ -24,10 +24,13 @@ public class HazardTypeCoal extends HazardTypeBase {
 		if(RadiationConfig.disableCoal)
 			return;
 		
-		if(!ArmorRegistry.hasProtection(target, 3, HazardClass.PARTICLE_COARSE))
-			HbmLivingProps.incrementBlackLung(target, (int) Math.min(level, 10));
-		else
-			ArmorUtil.damageGasMaskFilter(target, (int) level);
+		if(!ArmorRegistry.hasProtection(target, 3, HazardClass.PARTICLE_COARSE)) {
+			HbmLivingProps.incrementBlackLung(target, (int) Math.min(level * stack.stackSize, 10));
+		} else {
+			if(target.getRNG().nextInt(Math.max(65 - stack.stackSize, 1)) == 0) {
+				ArmorUtil.damageGasMaskFilter(target, (int) level);
+			}
+		}
 	}
 
 	@Override

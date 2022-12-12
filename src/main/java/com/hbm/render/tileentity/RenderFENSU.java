@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.storage.TileEntityMachineFENSU;
+import com.hbm.wiaj.WorldInAJar;
 import com.hbm.wiaj.actors.ITileActorRenderer;
 
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -62,7 +63,7 @@ public class RenderFENSU extends TileEntitySpecialRenderer implements ITileActor
 	}
 
 	@Override
-	public void renderActor(int ticks, float interp, NBTTagCompound data) {
+	public void renderActor(WorldInAJar world, int ticks, float interp, NBTTagCompound data) {
 		double x = data.getDouble("x");
 		double y = data.getDouble("y");
 		double z = data.getDouble("z");

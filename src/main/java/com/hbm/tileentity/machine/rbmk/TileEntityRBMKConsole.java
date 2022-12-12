@@ -101,6 +101,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		this.fluxBuffer[19] = (int) flux;
 	}
 	
+	@SuppressWarnings("incomplete-switch") //shut up
 	private void prepareScreenInfo() {
 		
 		for(RBMKScreen screen : this.screens) {

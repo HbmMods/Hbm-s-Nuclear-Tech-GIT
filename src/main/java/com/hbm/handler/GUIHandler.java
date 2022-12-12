@@ -17,10 +17,11 @@ import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.turret.*;
-import com.hbm.wiaj.GuiWorldInAJar;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -40,6 +41,12 @@ public class GUIHandler implements IGuiHandler {
 		
 		if(block instanceof IGUIProvider) {
 			return ((IGUIProvider) block).provideContainer(ID, player, world, x, y, z);
+		}
+		
+		ItemStack item = player.getHeldItem();
+		
+		if(item != null && item.getItem() instanceof IGUIProvider) {
+			return ((IGUIProvider) item.getItem()).provideContainer(ID, player, world, x, y, z);
 		}
 		
 		//notice: stop doing this, unless you absolutely have to \/
@@ -159,13 +166,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_rtg_furnace: {
 			if(entity instanceof TileEntityRtgFurnace) {
 				return new ContainerRtgFurnace(player.inventory, (TileEntityRtgFurnace) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_machine_generator: {
-			if(entity instanceof TileEntityMachineGenerator) {
-				return new ContainerGenerator(player.inventory, (TileEntityMachineGenerator) entity);
 			}
 			return null;
 		}
@@ -847,6 +847,12 @@ public class GUIHandler implements IGuiHandler {
 			return ((IGUIProvider) block).provideGUI(ID, player, world, x, y, z);
 		}
 		
+		ItemStack item = player.getHeldItem();
+		
+		if(item != null && item.getItem() instanceof IGUIProvider) {
+			return ((IGUIProvider) item.getItem()).provideGUI(ID, player, world, x, y, z);
+		}
+		
 		//stop doing this unless you absolutely have to \/
 
 		if(entity instanceof TileEntityCrateIron) {		return new GUICrateIron(player.inventory, (TileEntityCrateIron) entity); }
@@ -964,13 +970,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_rtg_furnace: {
 			if(entity instanceof TileEntityRtgFurnace) {
 				return new GUIRtgFurnace(player.inventory, (TileEntityRtgFurnace) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_machine_generator: {
-			if(entity instanceof TileEntityMachineGenerator) {
-				return new GUIMachineGenerator(player.inventory, (TileEntityMachineGenerator) entity);
 			}
 			return null;
 		}

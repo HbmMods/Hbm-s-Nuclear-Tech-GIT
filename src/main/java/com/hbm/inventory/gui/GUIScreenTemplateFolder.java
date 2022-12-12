@@ -353,4 +353,9 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			}
 		}
 	}
+
+	@Override
+	public void onGuiClosed() {
+		Keyboard.enableRepeatEvents(false);
+	}
 }

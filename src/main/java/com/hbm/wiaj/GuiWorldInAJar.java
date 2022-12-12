@@ -16,6 +16,7 @@ import com.hbm.wiaj.actors.ISpecialActor;
 import com.hbm.wiaj.actors.ActorFancyPanel.Orientation;
 import com.hbm.wiaj.cannery.*;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
@@ -53,6 +54,12 @@ public class GuiWorldInAJar extends GuiScreen {
 		this.renderer.enableAO = true;
 		
 		this.titlePanel = new ActorFancyPanel(fontRendererObj, 40, 27, new Object[][] {{I18nUtil.resolveKey(title)}}, 0).setColors(CanneryBase.colorGold).setOrientation(Orientation.LEFT);
+		this.seeAlsoTitles = new ActorFancyPanel[seeAlso.length];
+		
+		for(int i = 0; i < seeAlso.length; i++) {
+			this.seeAlsoTitles[i] = new ActorFancyPanel(fontRendererObj, 40, 27 + 36 * (i + 1), new Object[][] {{I18nUtil.resolveKey(seeAlso[i].getName())}}, 0).setColors(CanneryBase.colorGrey).setOrientation(Orientation.LEFT);
+		}
+		
 		
 		/*WorldInAJar world = new WorldInAJar(15, 15, 15);
 		
@@ -169,6 +176,10 @@ public class GuiWorldInAJar extends GuiScreen {
 			this.mc.displayGuiScreen((GuiScreen) null);
 			this.mc.setIngameFocus();
 		}
+		
+		/*try {
+			Tessellator.instance.draw(); //why, oh why is Tessellator.isDrawing private and without a getter?
+		} catch(Exception x) {}*/
 	}
 	
 	@Override
@@ -197,6 +208,16 @@ public class GuiWorldInAJar extends GuiScreen {
 			if(this.jarScript.sceneNumber < this.jarScript.scenes.size()) {
 				this.jarScript.forwardOne();
 				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			}
+		}
+		
+		for(int i = 0; i < seeAlso.length; i++) {
+			
+			if(15 <= mouseX && 39 > mouseX && 15 + 36 * (i + 1) < mouseY && 39 + 36 * (i + 1) >= mouseY) {
+				CanneryBase cannery = seeAlso[i];
+				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+				FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon(), cannery.seeAlso()));
+				return;
 			}
 		}
 	}
@@ -242,12 +263,29 @@ public class GuiWorldInAJar extends GuiScreen {
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		this.drawTexturedModalRect(15, 15, 136, 48, 24, 24);
+		RenderHelper.enableGUIStandardItemLighting();
 		itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.renderEngine, this.icon, 19, 19);
 		itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.renderEngine, this.icon, 19, 19, null);
 		RenderHelper.disableStandardItemLighting();
 
 		if(15 <= mouseX && 39 > mouseX && 15 < mouseY && 39 >= mouseY) {
 			this.titlePanel.drawForegroundComponent(0, 0, this.jarScript.ticksElapsed, this.jarScript.interp);
+		}
+		
+		for(int i = 0; i < seeAlso.length; i++) {
+			CanneryBase also = seeAlso[i];
+
+			Minecraft.getMinecraft().getTextureManager().bindTexture(guiUtil);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			this.drawTexturedModalRect(15, 15 + 36 * (i + 1), 136, 72, 24, 24);
+			RenderHelper.enableGUIStandardItemLighting();
+			itemRender.renderItemAndEffectIntoGUI(this.fontRendererObj, this.mc.renderEngine, also.getIcon(), 19, 19 + 36 * (i + 1));
+			itemRender.renderItemOverlayIntoGUI(this.fontRendererObj, this.mc.renderEngine, also.getIcon(), 19, 19 + 36 * (i + 1), null);
+			RenderHelper.disableStandardItemLighting();
+
+			if(15 <= mouseX && 39 > mouseX && 15 + 36 * (i + 1) < mouseY && 39 + 36 * (i + 1) >= mouseY) {
+				this.seeAlsoTitles[i].drawForegroundComponent(0, 0, this.jarScript.ticksElapsed, this.jarScript.interp);
+			}
 		}
 	}
 
@@ -282,7 +320,7 @@ public class GuiWorldInAJar extends GuiScreen {
 		
 		for(Entry<Integer, ISpecialActor> actor : this.jarScript.actors.entrySet()) {
 			GL11.glPushMatrix();
-			actor.getValue().drawBackgroundComponent(this.jarScript.ticksElapsed, this.jarScript.interp);
+			actor.getValue().drawBackgroundComponent(this.jarScript.world, this.jarScript.ticksElapsed, this.jarScript.interp);
 			GL11.glPopMatrix();
 		}
 		
@@ -311,7 +349,7 @@ public class GuiWorldInAJar extends GuiScreen {
 		return false;
 	}
 	
-	//ublic static GuiWorldInAJar shittyHack;
+	//public static GuiWorldInAJar shittyHack;
 
 	public void drawStackText(List<Object[]> lines, int x, int y, FontRenderer font) {
 

@@ -13,6 +13,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -20,11 +21,10 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCatalyticCracker extends TileEntity implements IFluidSource, IFluidAcceptor, INBTPacketReceiver, IFluidStandardTransceiver {
+public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase implements IFluidSource, IFluidAcceptor, INBTPacketReceiver, IFluidStandardTransceiver {
 	
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list1 = new ArrayList();
@@ -44,13 +44,17 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
+
+			this.worldObj.theProfiler.startSection("catalyticCracker_setup_tanks");
 			setupTanks();
+			this.worldObj.theProfiler.endStartSection("catalyticCracker_update_connections");
 			updateConnections();
-			
+
+			this.worldObj.theProfiler.endStartSection("catalyticCracker_do_recipe");
 			if(worldObj.getTotalWorldTime() % 20 == 0)
 				crack();
-			
+
+			this.worldObj.theProfiler.endStartSection("catalyticCracker_send_fluid");
 			if(worldObj.getTotalWorldTime() % 10 == 0) {
 				fillFluidInit(tanks[2].getTankType());
 				fillFluidInit(tanks[3].getTankType());
@@ -69,6 +73,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntity implements IFl
 				
 				INBTPacketReceiver.networkPack(this, data, 50);
 			}
+			this.worldObj.theProfiler.endSection();
 		}
 	}
 

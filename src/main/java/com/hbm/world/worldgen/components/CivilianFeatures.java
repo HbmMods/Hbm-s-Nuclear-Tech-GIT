@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 /* Described as "Civilian", as that's the overarching connection between all of these structures. Unlike the ruins, there's not enough to 
@@ -21,8 +22,16 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
  */
 public class CivilianFeatures {
 	
+	public static void registerComponents() {
+		MapGenStructureIO.func_143031_a(NTMHouse1.class, "NTMHouse1"); 
+		MapGenStructureIO.func_143031_a(NTMHouse2.class, "NTMHouse2"); 
+		MapGenStructureIO.func_143031_a(NTMLab1.class, "NTMLab1"); 
+		MapGenStructureIO.func_143031_a(NTMLab2.class, "NTMLab2"); 
+		MapGenStructureIO.func_143031_a(NTMWorkshop1.class, "NTMWorkshop1"); 
+	}
+	
 	/** Sandstone Ruin 1 */
-	public static class NTMHouse1 extends Feature {
+	public static class NTMHouse1 extends Component {
 		
 		private boolean hasPlacedChest;
 		
@@ -120,7 +129,7 @@ public class CivilianFeatures {
 		
 	}
 	
-	public static class NTMHouse2 extends Feature {
+	public static class NTMHouse2 extends Component {
 		
 		private static Sandstone RandomSandstone = new Sandstone();
 		
@@ -264,7 +273,7 @@ public class CivilianFeatures {
 		}
 	}
 	
-	public static class NTMLab1 extends Feature {
+	public static class NTMLab1 extends Component {
 		
 		private static ConcreteBricks RandomConcreteBricks = new ConcreteBricks();
 		private static LabTiles RandomLabTiles = new LabTiles();
@@ -391,7 +400,7 @@ public class CivilianFeatures {
 		}
 	}
 	
-	public static class NTMLab2 extends Feature {
+	public static class NTMLab2 extends Component {
 		
 		private static SuperConcrete RandomSuperConcrete = new SuperConcrete();
 		private static ConcreteBricks RandomConcreteBricks = new ConcreteBricks();
@@ -559,13 +568,14 @@ public class CivilianFeatures {
 			this.fillWithBlocks(world, box, sizeX - 4, 3, sizeZ - 2, sizeX - 2, 3, sizeZ - 2, ModBlocks.steel_roof, Blocks.air, false);
 			if(!hasPlacedLoot[1]) {
 				this.hasPlacedLoot[1] = this.generateInvContents(world, box, rand, ModBlocks.crate_iron, sizeX - 2, 1, 3, HbmChestContents.nukeTrash, 9);
+				generateLoreBook(world, box, rand, sizeX - 2, 1, 3, 1, HbmChestContents.books_office_sch);
 			}
 			
 			return true;
 		}
 	}
 	
-	public static class NTMWorkshop1 extends Feature {
+	public static class NTMWorkshop1 extends Component {
 		
 		private static SuperConcrete RandomSuperConcrete = new SuperConcrete();
 		

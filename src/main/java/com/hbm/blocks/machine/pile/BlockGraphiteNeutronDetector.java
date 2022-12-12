@@ -1,14 +1,10 @@
 package com.hbm.blocks.machine.pile;
 
-import java.util.List;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.pile.TileEntityPileFuel;
 import com.hbm.tileentity.machine.pile.TileEntityPileNeutronDetector;
 
-import api.hbm.block.IToolable.ToolType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;

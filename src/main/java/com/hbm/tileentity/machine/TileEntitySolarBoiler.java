@@ -10,6 +10,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
@@ -19,7 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 
-public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
+public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
 
 	private FluidTank water;
 	private FluidTank steam;

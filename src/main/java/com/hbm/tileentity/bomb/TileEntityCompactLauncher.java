@@ -1,6 +1,5 @@
 package com.hbm.tileentity.bomb;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.missile.EntityMissileCustom;
@@ -22,8 +21,10 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -40,7 +41,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyUser {
+public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyUser, IFluidStandardReceiver {
 
 	private ItemStack slots[];
 
@@ -182,7 +183,8 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 				solid += 250;
 			}
 
-			this.updateConnections();
+			if(worldObj.getTotalWorldTime() % 20 == 0)
+				this.updateConnections();
 			
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, solid, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
@@ -228,18 +230,29 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	}
 	
 	private void updateConnections() {
-		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord + 1, Library.POS_X);
-		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord - 1, Library.POS_X);
-		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord + 1, Library.NEG_X);
-		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord - 1, Library.NEG_X);
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord + 2, Library.POS_Z);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord + 2, Library.POS_Z);
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z);
-		this.trySubscribe(worldObj, xCoord + 1, yCoord - 1, zCoord + 1, Library.NEG_Y);
-		this.trySubscribe(worldObj, xCoord + 1, yCoord - 1, zCoord - 1, Library.NEG_Y);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord - 1, zCoord + 1, Library.NEG_Y);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord - 1, zCoord - 1, Library.NEG_Y);
+		
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	public DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
+				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
+				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
+				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
+				new DirPos(xCoord + 1, yCoord - 1, zCoord + 1, Library.NEG_Y),
+				new DirPos(xCoord + 1, yCoord - 1, zCoord - 1, Library.NEG_Y),
+				new DirPos(xCoord - 1, yCoord - 1, zCoord + 1, Library.NEG_Y),
+				new DirPos(xCoord - 1, yCoord - 1, zCoord - 1, Library.NEG_Y)
+		};
 	}
 	
 	public boolean canLaunch() {
@@ -588,5 +601,20 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	@Override
 	public boolean canConnect(ForgeDirection dir) {
 		return dir != ForgeDirection.UP && dir != ForgeDirection.UNKNOWN;
+	}
+
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		return dir != ForgeDirection.UP && dir != ForgeDirection.UNKNOWN;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return tanks;
 	}
 }

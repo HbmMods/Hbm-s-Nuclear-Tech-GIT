@@ -1,10 +1,11 @@
 package com.hbm.items.weapon;
 
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
@@ -41,7 +42,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 
 public class ItemAmmoArty extends Item {
-
+	
+	public static Random rand = new Random();
 	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 9 /* <<< */ ];
 	//public static ArtilleryShell[] shellTypes =	new ArtilleryShell[ /* >>> */ 8 /* <<< */ ];
 	/* item types */
@@ -184,7 +186,7 @@ public class ItemAmmoArty extends Item {
 	}
 	
 	public static void standardExplosion(EntityArtilleryShell shell, MovingObjectPosition mop, float size, float rangeMod, boolean breaksBlocks) {
-		shell.worldObj.playSoundEffect(shell.posX, shell.posY, shell.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + shell.worldObj.rand.nextFloat() * 0.2F);
+		shell.worldObj.playSoundEffect(shell.posX, shell.posY, shell.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + rand.nextFloat() * 0.2F);
 		Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
 		ExplosionVNT xnt = new ExplosionVNT(shell.worldObj, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, size);
 		if(breaksBlocks) {
@@ -216,10 +218,10 @@ public class ItemAmmoArty extends Item {
 		for(int i = 0; i < amount; i++) {
 			EntityArtilleryShell cluster = new EntityArtilleryShell(shell.worldObj);
 			cluster.setType(clusterType);
-			cluster.setPositionAndRotation(shell.posX, shell.posY, shell.posZ, shell.rotationYaw, shell.rotationPitch);
-			cluster.motionX = i == 0 ? shell.motionX : (shell.motionX + shell.worldObj.rand.nextGaussian() * deviation);
+			cluster.motionX = i == 0 ? shell.motionX : (shell.motionX + rand.nextGaussian() * deviation);
 			cluster.motionY = shell.motionY;
-			cluster.motionZ = i == 0 ? shell.motionZ : (shell.motionZ + shell.worldObj.rand.nextGaussian() * deviation);
+			cluster.motionZ = i == 0 ? shell.motionZ : (shell.motionZ + rand.nextGaussian() * deviation);
+			cluster.setPositionAndRotation(shell.posX, shell.posY, shell.posZ, shell.rotationYaw, shell.rotationPitch);
 			double[] target = shell.getTarget();
 			cluster.setTarget(target[0], target[1], target[2]);
 			cluster.setWhistle(shell.getWhistle() && !shell.didWhistle());
@@ -245,7 +247,7 @@ public class ItemAmmoArty extends Item {
 		/* FULL NUKE */
 		this.itemTypes[NUKE] = new ArtilleryShell("ammo_arty_nuke") {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
-				shell.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(shell.worldObj, BombConfig.missileRadius, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
+				shell.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(shell.worldObj, BombConfig.missileRadius, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(shell.worldObj, 1000, BombConfig.missileRadius * 0.005F);
 				entity2.posX = mop.hitVec.xCoord;
 				entity2.posY = mop.hitVec.yCoord;

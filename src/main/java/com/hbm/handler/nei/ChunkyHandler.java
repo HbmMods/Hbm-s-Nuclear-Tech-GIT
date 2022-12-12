@@ -4,6 +4,7 @@ import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.PositionedStack;
@@ -43,12 +44,14 @@ public class ChunkyHandler extends TemplateRecipeHandler {
 	
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		this.arecipes.add(new RecipeSet(result));
+		if(GeneralConfig.enableChunkyNEIHandler)
+			this.arecipes.add(new RecipeSet(result));
 	}
 	
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		this.arecipes.add(new RecipeSet(ingredient));
+		if(GeneralConfig.enableChunkyNEIHandler)
+			this.arecipes.add(new RecipeSet(ingredient));
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple;
@@ -31,7 +32,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidStandardTransceiver {
+public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidStandardTransceiver, IConfigurableMachine {
 	
 	public int indicator = 0;
 	
@@ -104,6 +105,11 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 				this.fillFluidInit(tanks[0].getTankType());
 			if(this.worldObj.getTotalWorldTime() % 10 == 5)
 				this.fillFluidInit(tanks[1].getTankType());
+			
+			for(DirPos pos : getConPos()) {
+				if(tanks[0].getFill() > 0) this.sendFluid(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 			
 			if(this.power >= this.getPowerReqEff() && this.tanks[0].getFill() < this.tanks[0].getMaxFill() && this.tanks[1].getFill() < this.tanks[1].getMaxFill()) {
 				
@@ -247,7 +253,6 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 		
 		if(worldObj.getBlock(x, y, z) == ModBlocks.ore_oil) {
 			onSuck(x, y, z);
-			worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
 		}
 	}
 	

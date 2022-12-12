@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 @SideOnly(Side.CLIENT)
 public class ParticleRBMKFlame extends EntityFX {
 
-	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/particle/rbmk_fire.png");
+	public static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/particle/rbmk_fire.png");
 	private TextureManager theRenderEngine;
 
 	public ParticleRBMKFlame(TextureManager texman, World world, double x, double y, double z, int maxAge) {

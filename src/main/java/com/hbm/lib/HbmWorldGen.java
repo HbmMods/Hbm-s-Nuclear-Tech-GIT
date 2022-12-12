@@ -2,6 +2,7 @@ package com.hbm.lib;
 
 import java.util.Random;
 
+import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
@@ -9,6 +10,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import com.hbm.tileentity.machine.storage.TileEntitySoyuzCapsule;
 import com.hbm.world.dungeon.AncientTomb;
@@ -30,6 +32,7 @@ import com.hbm.world.feature.DepthDeposit;
 import com.hbm.world.feature.Dud;
 import com.hbm.world.feature.Geyser;
 import com.hbm.world.feature.GeyserLarge;
+import com.hbm.world.feature.Meteorite;
 import com.hbm.world.feature.OilBubble;
 import com.hbm.world.feature.OilSandBubble;
 import com.hbm.world.feature.OilSpot;
@@ -45,8 +48,10 @@ import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenBeach;
 import net.minecraft.world.biome.BiomeGenForest;
 import net.minecraft.world.biome.BiomeGenJungle;
+import net.minecraft.world.biome.BiomeGenRiver;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -72,18 +77,26 @@ public class HbmWorldGen implements IWorldGenerator {
 
 		BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(i, j);
 
-		if(biome instanceof BiomeGenForest && rand.nextInt(16) == 0) {
-			DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.FOXGLOVE.ordinal());
-		}
-		if(biome == BiomeGenBase.roofedForest && rand.nextInt(8) == 0) {
-			DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.NIGHTSHADE.ordinal());
-		}
-		if(biome instanceof BiomeGenJungle && rand.nextInt(8) == 0) {
-			DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.TOBACCO.ordinal());
-		}
-		
-		if(rand.nextInt(64) == 0) {
-			DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.WEED.ordinal());
+		if(!TomSaveData.forWorld(world).impact) {
+			
+			if(biome instanceof BiomeGenForest && rand.nextInt(16) == 0) {
+				DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.FOXGLOVE.ordinal());
+			}
+			if(biome == BiomeGenBase.roofedForest && rand.nextInt(8) == 0) {
+				DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.NIGHTSHADE.ordinal());
+			}
+			if(biome instanceof BiomeGenJungle && rand.nextInt(8) == 0) {
+				DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.TOBACCO.ordinal());
+			}
+			if(rand.nextInt(64) == 0) {
+				DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.WEED.ordinal());
+			}
+			if(biome instanceof BiomeGenRiver && rand.nextInt(4) == 0) {
+				DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.reeds, 0);
+			}
+			if(biome instanceof BiomeGenBeach && rand.nextInt(8) == 0) {
+				DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.reeds, 0);
+			}
 		}
 		
 		if(WorldConfig.oilcoalSpawn > 0 && rand.nextInt(WorldConfig.oilcoalSpawn) == 0)
@@ -136,6 +149,9 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumClusterSpawn, 6, 15, 30, ModBlocks.cluster_titanium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.aluminiumClusterSpawn, 6, 15, 35, ModBlocks.cluster_aluminium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperClusterSpawn, 6, 15, 20, ModBlocks.cluster_copper);
+
+			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.hematiteSpawn, 10, 4, 80, ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
+			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn, 10, 4, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal());
 
 			for(int k = 0; k < WorldConfig.randomSpawn; k++) {
 				BlockMotherOfAllOres.shuffleOverride(rand);
@@ -562,15 +578,15 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 		}
 
-		if(rand.nextInt(25) == 0) {
+		if(WorldConfig.oilSpawn > 0 && rand.nextInt(WorldConfig.oilSpawn) == 0) {
 			int randPosX = i + rand.nextInt(16);
 			int randPosY = rand.nextInt(25);
 			int randPosZ = j + rand.nextInt(16);
 
-			OilBubble.spawnOil(world, randPosX, randPosY, randPosZ, 7 + rand.nextInt(9));
+			OilBubble.spawnOil(world, randPosX, randPosY, randPosZ, 10 + rand.nextInt(7));
 		}
 
-		if(rand.nextInt(50) == 0) {
+		if(WorldConfig.bedrockOilSpawn > 0 && rand.nextInt(WorldConfig.bedrockOilSpawn) == 0) {
 			int randPosX = i + rand.nextInt(16);
 			int randPosZ = j + rand.nextInt(16);
 			
@@ -590,6 +606,13 @@ public class HbmWorldGen implements IWorldGenerator {
 			
 			DungeonToolbox.generateOre(world, rand, i, j, 16, 8, 10, 50, ModBlocks.stone_porous);
 			OilSpot.generateOilSpot(world, randPosX, randPosZ, 5, 50);
+		}
+
+		if(WorldConfig.meteoriteSpawn > 0 && rand.nextInt(WorldConfig.meteoriteSpawn) == 0) {
+			int x = i + rand.nextInt(16);
+			int z = j + rand.nextInt(16);
+			int y = world.getHeightValue(x, z) - rand.nextInt(10);
+			(new Meteorite()).generate(world, rand, x, y, z, false, true);
 		}
 
 		if (GeneralConfig.enableNITAN) {

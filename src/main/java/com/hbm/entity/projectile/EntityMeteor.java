@@ -12,6 +12,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityMeteor extends Entity {
+	
+	public boolean safe = false;
 
 	public EntityMeteor(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -40,7 +42,7 @@ public class EntityMeteor extends Entity {
 
 		if(!this.worldObj.isRemote && this.onGround && this.posY < 260) {
 			
-			worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5 + rand.nextFloat(), true);
+			worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5 + rand.nextFloat(), !safe);
 			if(WorldConfig.enableMeteorTails) {
 				ExplosionLarge.spawnParticles(worldObj, posX, posY + 5, posZ, 75);
 				ExplosionLarge.spawnParticles(worldObj, posX + 5, posY, posZ, 75);
@@ -49,7 +51,7 @@ public class EntityMeteor extends Entity {
 				ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ - 5, 75);
 			}
 
-			(new Meteorite()).generate(worldObj, rand, (int) Math.round(this.posX - 0.5D), (int) Math.round(this.posY - 0.5D), (int) Math.round(this.posZ - 0.5D));
+			(new Meteorite()).generate(worldObj, rand, (int) Math.round(this.posX - 0.5D), (int) Math.round(this.posY - 0.5D), (int) Math.round(this.posZ - 0.5D), safe, true);
 			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:entity.oldExplosion", 10000.0F, 0.5F + this.rand.nextFloat() * 0.1F);
 			this.setDead();
 		}
@@ -90,8 +92,12 @@ public class EntityMeteor extends Entity {
 	protected void entityInit() { }
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) { }
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
+		this.safe = nbt.getBoolean("safe");
+	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) { }
+	protected void writeEntityToNBT(NBTTagCompound nbt) {
+		nbt.setBoolean("safe", safe);
+	}
 }

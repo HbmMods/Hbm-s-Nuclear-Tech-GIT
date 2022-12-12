@@ -57,7 +57,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 			int power = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 
 			this.processTime = processTimeBase - (processTimeBase / 4) * speed;
-			this.usage = usageBase - (usageBase / 4) * speed;
+			this.usage = (usageBase + (usageBase * speed))  / (power + 1);
 			
 			if(this.canProcess())
 				this.process();

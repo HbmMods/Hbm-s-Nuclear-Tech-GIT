@@ -1,10 +1,9 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import com.hbm.blocks.BlockDummyable;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -20,19 +19,18 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.RTGUtil;
 import com.hbm.util.Tuple.Pair;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, IFluidSource, IFluidContainer {
+public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, IFluidSource, IFluidContainer, IFluidStandardTransceiver {
 	
 	public long power;
 	public static final int maxPower = 1000000;
@@ -116,13 +114,6 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			if(power > maxPower)
 				power = maxPower;
 			
-			
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			this.sendPower(worldObj, xCoord + 2, yCoord, zCoord, dir);
-			this.sendPower(worldObj, xCoord - 2, yCoord, zCoord, dir);
-			this.sendPower(worldObj, xCoord, yCoord, zCoord + 2, dir);
-			this.sendPower(worldObj, xCoord, yCoord, zCoord - 2, dir);
-			
 			tanks[0].setType(10, 11, slots);
 			setupTanks();
 			
@@ -141,6 +132,13 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 					fillFluidInit(tanks[2].getTankType());
 			}
 			
+			for(DirPos pos : getConPos()) {
+				this.sendPower(worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
+				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
+				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("heat", heat);
@@ -149,6 +147,15 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			for(byte i = 0; i < 3; i++)
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 		}
+	}
+	
+	protected DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z)
+		};
 	}
 	
 	/* Processing Methods */
@@ -321,6 +328,26 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			list1.clear();
 		if(type == tanks[2].getTankType())
 			list2.clear();
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks[1], tanks[2]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0]};
+	}
+
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.DOWN;
 	}
 	
 	public AxisAlignedBB getRenderBoundingBox() {

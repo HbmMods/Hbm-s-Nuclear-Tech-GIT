@@ -144,7 +144,7 @@ public class CanneryCentrifuge extends CanneryBase {
 	public static class ActorGasCent implements ITileActorRenderer {
 
 		@Override
-		public void renderActor(int ticks, float interp, NBTTagCompound data) {
+		public void renderActor(WorldInAJar world, int ticks, float interp, NBTTagCompound data) {
 			double x = data.getDouble("x");
 			double y = data.getDouble("y");
 			double z = data.getDouble("z");

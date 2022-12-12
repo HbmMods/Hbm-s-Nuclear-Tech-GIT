@@ -1,5 +1,10 @@
 package com.hbm.tileentity.machine.storage;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IPersistentNBT;
@@ -9,6 +14,8 @@ import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyConductor;
 import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.energy.IPowerNet;
+import api.hbm.energy.PowerNet;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -151,8 +158,10 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			
 			long prevPower = this.power;
 			
+			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
+			
 			//////////////////////////////////////////////////////////////////////
-			this.transmitPower();
+			this.transmitPowerFairly();
 			//////////////////////////////////////////////////////////////////////
 			
 			byte comp = this.getComparatorPower();
@@ -161,7 +170,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			this.lastRedstone = comp;
 			
 			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
-			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
 
 			long avg = (power + prevPower) / 2;
 			this.delta = avg - this.log[0];
@@ -179,6 +187,47 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			nbt.setShort("redHigh", redHigh);
 			nbt.setByte("priority", (byte) this.priority.ordinal());
 			this.networkPack(nbt, 20);
+		}
+	}
+	
+	protected void transmitPowerFairly() {
+		
+		short mode = (short) this.getRelevantMode();
+		
+		//HasSets to we don'T have any duplicates
+		Set<IPowerNet> nets = new HashSet();
+		Set<IEnergyConnector> consumers = new HashSet();
+		
+		//iterate over all sides
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			
+			TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+			
+			//if it's a cable, buffer both the network and all subscribers of the net
+			if(te instanceof IEnergyConductor) {
+				IEnergyConductor con = (IEnergyConductor) te;
+				if(con.getPowerNet() != null) {
+					nets.add(con.getPowerNet());
+					con.getPowerNet().unsubscribe(this);
+					consumers.addAll(con.getPowerNet().getSubscribers());
+				}
+				
+			//if it's just a consumer, buffer it as a subscriber
+			} else if(te instanceof IEnergyConnector) {
+				consumers.add((IEnergyConnector) te);
+			}
+		}
+
+		//send power to buffered consumers, independent of nets
+		if(this.power > 0 && (mode == mode_buffer || mode == mode_output)) {
+			List<IEnergyConnector> con = new ArrayList();
+			con.addAll(consumers);
+			this.power = PowerNet.fairTransfer(con, this.power);
+		}
+		
+		//resubscribe to buffered nets, if necessary
+		if(mode == mode_buffer || mode == mode_input) {
+			nets.forEach(x -> x.subscribe(this));
 		}
 	}
 	

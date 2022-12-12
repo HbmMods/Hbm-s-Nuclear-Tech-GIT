@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL12;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.I18nUtil;
 import com.hbm.wiaj.JarScene;
+import com.hbm.wiaj.WorldInAJar;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -334,11 +335,12 @@ public class ActorFancyPanel implements ISpecialActor {
 			itemRender.renderItemAndEffectIntoGUI(this.font, texman, stack, x, y - 8);
 			itemRender.renderItemOverlayIntoGUI(this.font, texman, stack, x, y - 8, null);
 			RenderHelper.disableStandardItemLighting();
+			GL11.glColor3f(1F, 1F, 1F);
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 		} //TODO: scaled stacks
 	}
 
-	@Override public void drawBackgroundComponent(int ticks, float interp) { }
+	@Override public void drawBackgroundComponent(WorldInAJar world, int ticks, float interp) { }
 	@Override public void updateActor(JarScene scene) { }
 	@Override public void setActorData(NBTTagCompound data) { }
 	@Override public void setDataPoint(String tag, Object o) { }

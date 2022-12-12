@@ -60,7 +60,7 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()	.mB(Blocks.leaves2)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(ModBlocks.waste_leaves)	.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.leaves)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
-		entries.add(new FalloutEntry(	).mB(Blocks.leaves2)		.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
+		entries.add(new FalloutEntry()	.mB(Blocks.leaves2)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
 		
 		entries.add(new FalloutEntry()	.mB(Blocks.log)							.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.log2)						.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
@@ -282,11 +282,16 @@ public class FalloutConfigJSON {
 					writer.name("matchesMaterial").value(matName);
 				}
 			}
+			if(isSolid) writer.name("restrictDepth").value(true);
 
 			if(primaryBlocks != null) { writer.name("primarySubstitution"); writeMetaArray(writer, primaryBlocks); }
 			if(secondaryBlocks != null) { writer.name("secondarySubstitutions"); writeMetaArray(writer, secondaryBlocks); }
-			
+
 			if(primaryChance != 1D) writer.name("chance").value(primaryChance);
+
+			if(minDist != 0.0D) writer.name("minimumDistancePercent").value(minDist);
+			if(maxDist != 100.0D) writer.name("maximumDistancePercent").value(maxDist);
+			
 		}
 		
 		private static FalloutEntry readEntry(JsonElement recipe) {
@@ -299,9 +304,15 @@ public class FalloutConfigJSON {
 			if(obj.has("matchesMeta")) entry.mM(obj.get("matchesMeta").getAsInt());
 			if(obj.has("mustBeOpaque")) entry.mO(obj.get("mustBeOpaque").getAsBoolean());
 			if(obj.has("matchesMaterial")) entry.mMa(matNames.get(obj.get("mustBeOpaque").getAsString()));
+			if(obj.has("restrictDepth")) entry.sol(obj.get("restrictDepth").getAsBoolean());
 
 			if(obj.has("primarySubstitution")) entry.prim(readMetaArray(obj.get("primarySubstitution")));
 			if(obj.has("secondarySubstitutions")) entry.sec(readMetaArray(obj.get("secondarySubstitutions")));
+
+			if(obj.has("chance")) entry.c(obj.get("chance").getAsInt());
+
+			if(obj.has("minimumDistancePercent")) entry.min(obj.get("minimumDistancePercent").getAsDouble());
+			if(obj.has("maximumDistancePercent")) entry.min(obj.get("maximumDistancePercent").getAsDouble());
 			
 			return entry;
 		}

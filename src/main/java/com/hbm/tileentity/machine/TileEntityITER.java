@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineITER;
 import com.hbm.explosion.ExplosionLarge;
@@ -23,6 +24,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -147,6 +149,12 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			plasma.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
+			for(DirPos pos : getConPos()) {
+				if(tanks[1].getFill() > 0) {
+					this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				}
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("isOn", isOn);
 			data.setLong("power", power);
@@ -183,18 +191,34 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		}
 	}
 	
+	protected List<DirPos> connections;
+	
 	private void updateConnections() {
+		
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	protected List<DirPos> getConPos() {
+		if(connections != null && !connections.isEmpty())
+			return connections;
+		
+		connections = new ArrayList();
 
-		this.trySubscribe(worldObj, xCoord, yCoord + 3, zCoord, ForgeDirection.UP);
-		this.trySubscribe(worldObj, xCoord, yCoord - 3, zCoord, ForgeDirection.DOWN);
+		connections.add(new DirPos(xCoord, yCoord + 3, zCoord, ForgeDirection.UP));
+		connections.add(new DirPos(xCoord, yCoord - 3, zCoord, ForgeDirection.DOWN));
 		
 		Vec3 vec = Vec3.createVectorHelper(5.75, 0, 0);
 		
 		for(int i = 0; i < 16; i++) {
 			vec.rotateAroundY((float) (Math.PI / 8));
-			this.trySubscribe(worldObj, xCoord + (int)vec.xCoord, yCoord + 3, zCoord + (int)vec.zCoord, ForgeDirection.UP);
-			this.trySubscribe(worldObj, xCoord + (int)vec.xCoord, yCoord - 3, zCoord + (int)vec.zCoord, ForgeDirection.DOWN);
+			connections.add(new DirPos(xCoord + (int)vec.xCoord, yCoord + 3, zCoord + (int)vec.zCoord, ForgeDirection.UP));
+			connections.add(new DirPos(xCoord + (int)vec.xCoord, yCoord - 3, zCoord + (int)vec.zCoord, ForgeDirection.DOWN));
 		}
+		
+		return connections;
 	}
 	
 	private void explode() {
@@ -547,5 +571,15 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	@Override
 	public FluidTank[] getAllTanks() {
 		return tanks;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir == ForgeDirection.UP || dir == ForgeDirection.DOWN;
+	}
+
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		return dir == ForgeDirection.UP || dir == ForgeDirection.DOWN;
 	}
 }

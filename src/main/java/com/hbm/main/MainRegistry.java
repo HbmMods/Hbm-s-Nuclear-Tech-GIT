@@ -40,6 +40,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ImmutableList;
+import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.commands.CommandReloadRecipes;
@@ -70,6 +71,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.Compat;
 import com.hbm.util.SuicideThreadDump;
 import com.hbm.world.feature.*;
 import com.hbm.world.generator.CellularDungeonFactory;
@@ -305,6 +307,7 @@ public class MainRegistry {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		
 		TileMappings.writeMappings();
+		MachineDynConfig.initialize();
 		
 		for(Entry<Class<? extends TileEntity>, String[]> e : TileMappings.map.entrySet()) {
 			
@@ -781,8 +784,7 @@ public class MainRegistry {
 		RefineryRecipes.registerCracking();
 		RadiolysisRecipes.registerRadiolysis();
 		GasCentrifugeRecipes.register();
-		LiquefactionRecipes.register();
-		SolidificationRecipes.register();
+		CombinationRecipes.register();
 
 		//the good stuff
 		SerializableRecipe.registerAllHandlers();
@@ -808,8 +810,10 @@ public class MainRegistry {
 
 		new OreCave(ModBlocks.stone_resource, 0).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);	//sulfur
 		new OreCave(ModBlocks.stone_resource, 1).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);											//asbestos
+		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
 		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
 		
+		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
 	}
 
@@ -823,6 +827,11 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(commonHandler);
 		MinecraftForge.TERRAIN_GEN_BUS.register(commonHandler);
 		MinecraftForge.ORE_GEN_BUS.register(commonHandler);
+
+		ModEventHandlerImpact impactHandler = new ModEventHandlerImpact();
+		FMLCommonHandler.instance().bus().register(impactHandler);
+		MinecraftForge.EVENT_BUS.register(impactHandler);
+		MinecraftForge.TERRAIN_GEN_BUS.register(impactHandler);
 		
 		OreDictManager oreMan = new OreDictManager();
 		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
@@ -984,6 +993,7 @@ public class MainRegistry {
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
 		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);
+		remapItems.put("hbm:item.briquette_lignite", ModItems.briquette);
 		
 		for(MissingMapping mapping : event.get()) {
 

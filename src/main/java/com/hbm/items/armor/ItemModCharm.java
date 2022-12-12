@@ -21,13 +21,14 @@ public class ItemModCharm extends ItemArmorMod {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 
 		list.add(EnumChatFormatting.AQUA + "You feel blessed.");
-		list.add(EnumChatFormatting.AQUA + "Diverts meteors away from the player.");
 		
 		if(this == ModItems.protection_charm) {
+			list.add(EnumChatFormatting.AQUA + "Diverts meteors away from the player.");
+			list.add(EnumChatFormatting.AQUA + "Meteors no longer destroy blocks.");
 			list.add(EnumChatFormatting.AQUA + "Halves broadcaster damage");
 		}
 		if(this == ModItems.meteor_charm) {
-			list.add(EnumChatFormatting.AQUA + "Reduces meteor spawning by 75%.");
+			list.add(EnumChatFormatting.AQUA + "Disables meteorite spawning.");
 			list.add(EnumChatFormatting.AQUA + "Negates broadcaster damage");
 		}
 		

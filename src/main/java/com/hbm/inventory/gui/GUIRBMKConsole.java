@@ -376,4 +376,9 @@ public class GUIRBMKConsole extends GuiScreen {
 	public boolean doesGuiPauseGame() {
 		return false;
 	}
+
+	@Override
+	public void onGuiClosed() {
+		Keyboard.enableRepeatEvents(false);
+	}
 }

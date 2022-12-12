@@ -2,10 +2,12 @@ package com.hbm.tileentity.machine.rbmk;
 
 import java.util.List;
 
+import api.hbm.fluid.IFluidStandardReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import net.minecraft.entity.Entity;
@@ -13,7 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 
-public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAcceptor {
+public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAcceptor, IFluidStandardReceiver {
 	
 	private FluidTank tank;
 	private int lastCooled;
@@ -28,6 +30,9 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			if(this.worldObj.getTotalWorldTime() % 20 == 0)
+				this.trySubscribe(tank.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			
 			if((int)(this.heat) > 750) {
 				
@@ -121,6 +126,16 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 	@Override
 	public int getMaxFluidFill(FluidType type) {
 		return type == tank.getTankType() ? tank.getMaxFill() : 0;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
 	}
 
 }

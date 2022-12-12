@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
@@ -33,7 +35,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	private static final int[] slot_io = new int[] { 0, 2, 3, 4, 5 };
 
 	public TileEntityMachineCentrifuge() {
-		super(6);
+		super(8);
 	}
 	
 	public String getName() {
@@ -141,9 +143,21 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 
 			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
+			
+			int consumption = 200;
+			int speed = 1;
+			
+			UpgradeManager.eval(slots, 6, 7);
+			speed += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * 200;
+			
+			speed *= (1 + Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 5);
+			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 10000;
+			
+			consumption /= (1 + Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3));
 
 			if(hasPower() && isProcessing()) {
-				this.power -= 200;
+				this.power -= consumption;
 
 				if(this.power < 0) {
 					this.power = 0;
@@ -157,7 +171,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			}
 
 			if(isProgressing) {
-				progress++;
+				progress += speed;
 
 				if(this.progress >= TileEntityMachineCentrifuge.processingSpeed) {
 					this.progress = 0;

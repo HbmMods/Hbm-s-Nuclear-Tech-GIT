@@ -15,6 +15,7 @@ import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -26,7 +27,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 
-public class TileEntityMachineBoiler extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
+public class TileEntityMachineBoiler extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
 
 	private ItemStack slots[];
 	

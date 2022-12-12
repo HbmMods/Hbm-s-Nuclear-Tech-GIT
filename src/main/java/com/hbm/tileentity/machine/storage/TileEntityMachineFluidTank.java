@@ -13,15 +13,16 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluid.IFluidUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, IFluidSource, IFluidAcceptor, IFluidUser, IPersistentNBT {
+public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, IFluidSource, IFluidAcceptor, IFluidStandardTransceiver, IPersistentNBT {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -50,17 +51,17 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			if(age >= 20)
 				age = 0;
 			
-			if(this.mode == 1 || this.mode == 2) {
-				FluidType type = tank.getTankType();
-				sendFluid(type, worldObj, xCoord + 2, yCoord, zCoord - 1, Library.POS_X);
-				sendFluid(type, worldObj, xCoord + 2, yCoord, zCoord + 1, Library.POS_X);
-				sendFluid(type, worldObj, xCoord - 2, yCoord, zCoord - 1, Library.NEG_X);
-				sendFluid(type, worldObj, xCoord - 2, yCoord, zCoord + 1, Library.NEG_X);
-				sendFluid(type, worldObj, xCoord - 1, yCoord, zCoord + 2, Library.POS_Z);
-				sendFluid(type, worldObj, xCoord + 1, yCoord, zCoord + 2, Library.POS_Z);
-				sendFluid(type, worldObj, xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z);
-				sendFluid(type, worldObj, xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z);
+			/*if(this.mode == 2 || this.mode == 3) {
+				for(DirPos pos : getConPos()) this.tryUnsubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ());
 			}
+			if(this.mode == 0 || this.mode == 1) {
+				for(DirPos pos : getConPos()) this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
+			if(this.mode == 1 || this.mode == 2) {
+				for(DirPos pos : getConPos()) this.sendFluid(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}*/
+			
+			tank.setFill(TileEntityBarrel.transmitFluidFairly(worldObj, tank.getTankType(), this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
 			
 			if((mode == 1 || mode == 2) && (age == 9 || age == 19))
 				fillFluidInit(tank.getTankType());
@@ -86,6 +87,19 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			data.setShort("mode", mode);
 			this.networkPack(data, 50);
 		}
+	}
+	
+	protected DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
+				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
+				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
+				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z)
+		};
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
@@ -228,5 +242,15 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
 		this.tank.readFromNBT(data, "tank");
 		this.mode = data.getShort("mode");
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : new FluidTank[0];
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
 	}
 }

@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
@@ -11,13 +10,16 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineCentrifuge extends BlockDummyable implements IMultiblock {
+public class MachineCentrifuge extends BlockDummyable {
 
 	public MachineCentrifuge(Material mat) {
 		super(mat);
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.5D, 0D, -0.5D, 0.5D, 1D, 0.5D));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.375D, 1D, -0.375D, 0.375D, 4D, 0.375D));
 	}
 	
 	@Override

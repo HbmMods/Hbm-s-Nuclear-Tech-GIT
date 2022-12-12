@@ -33,8 +33,9 @@ public class RenderMovingItem extends Render {
 			GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
 			GL11.glTranslated(0.0, -0.1875, 0.0);
 			
-			if(!this.renderManager.options.fancyGraphics)
-				GL11.glTranslated(0.0, 0.0625, 0.0);
+			if(!this.renderManager.options.fancyGraphics) {
+				GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+			}
 		}
 
 		EntityItem dummy = new EntityItem(entity.worldObj, 0, 0, 0, stack);

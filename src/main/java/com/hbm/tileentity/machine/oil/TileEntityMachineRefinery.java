@@ -45,11 +45,11 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	public TileEntityMachineRefinery() {
 		super(12);
 		tanks = new FluidTank[5];
-		tanks[0] = new FluidTank(Fluids.HOTOIL, 64000, 0);
-		tanks[1] = new FluidTank(Fluids.HEAVYOIL, 16000, 1);
-		tanks[2] = new FluidTank(Fluids.NAPHTHA, 16000, 2);
-		tanks[3] = new FluidTank(Fluids.LIGHTOIL, 16000, 3);
-		tanks[4] = new FluidTank(Fluids.PETROLEUM, 16000, 4);
+		tanks[0] = new FluidTank(Fluids.HOTOIL, 64_000, 0);
+		tanks[1] = new FluidTank(Fluids.HEAVYOIL, 24_000, 1);
+		tanks[2] = new FluidTank(Fluids.NAPHTHA, 24_000, 2);
+		tanks[3] = new FluidTank(Fluids.LIGHTOIL, 24_000, 3);
+		tanks[4] = new FluidTank(Fluids.PETROLEUM, 24_000, 4);
 	}
 
 	@Override
@@ -130,6 +130,14 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			
 			for(int i = 0; i < 5; i++) {
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			}
+			
+			for(DirPos pos : getConPos()) {
+				for(int i = 1; i < 5; i++) {
+					if(tanks[i].getFill() > 0) {
+						this.sendFluid(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					}
+				}
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();

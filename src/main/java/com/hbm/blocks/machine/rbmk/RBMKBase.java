@@ -11,7 +11,6 @@ import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 
 import api.hbm.block.IToolable;
-import api.hbm.block.IToolable.ToolType;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

@@ -85,6 +85,7 @@ public class WorldInAJar implements IBlockAccess {
 	//always render fullbright, if the situation requires it we could add a very rudimentary system that
 	//darkens blocks id there is a solid one above
 	@Override
+	@SideOnly(Side.CLIENT)
 	public int getLightBrightnessForSkyBlocks(int x, int y, int z, int blockBrightness) {
 		return 15; //always be on fullbright
 	}

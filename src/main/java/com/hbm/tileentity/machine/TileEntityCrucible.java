@@ -1,8 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.container.ContainerCrucible;
 import com.hbm.inventory.gui.GUICrucible;
@@ -13,6 +16,7 @@ import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.inventory.recipes.CrucibleRecipes.CrucibleRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CrucibleUtil;
@@ -34,20 +38,45 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCrucible extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityCrucible extends TileEntityMachineBase implements IGUIProvider, IConfigurableMachine {
 
 	public int heat;
-	public static final int maxHeat = 100_000;
 	public int progress;
-	public static final int processTime = 20_000;
-	public static final double diffusion = 0.25D;
-
-	//because eclipse's auto complete is dumb as a fucking rock, it's now called "ZCapacity" so it's listed AFTER the actual stacks in the auto complete list.
-	//also martin i know you read these: no i will not switch to intellij after using eclipse for 8 years.
-	public final int recipeZCapacity = MaterialShapes.BLOCK.q(16);
-	public final int wasteZCapacity = MaterialShapes.BLOCK.q(16);
+	
 	public List<MaterialStack> recipeStack = new ArrayList();
 	public List<MaterialStack> wasteStack = new ArrayList();
+
+	/* CONFIGURABLE CONSTANTS */
+	//because eclipse's auto complete is dumb as a fucking rock, it's now called "ZCapacity" so it's listed AFTER the actual stacks in the auto complete list.
+	//also martin i know you read these: no i will not switch to intellij after using eclipse for 8 years.
+	public static int recipeZCapacity = MaterialShapes.BLOCK.q(16);
+	public static int wasteZCapacity = MaterialShapes.BLOCK.q(16);
+	public static int processTime = 20_000;
+	public static double diffusion = 0.25D;
+	public static int maxHeat = 100_000;
+
+	@Override
+	public String getConfigName() {
+		return "crucible";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		recipeZCapacity = IConfigurableMachine.grab(obj, "I:recipeCapacity", recipeZCapacity);
+		wasteZCapacity = IConfigurableMachine.grab(obj, "I:wasteCapacity", wasteZCapacity);
+		processTime = IConfigurableMachine.grab(obj, "I:processHeat", processTime);
+		diffusion = IConfigurableMachine.grab(obj, "D:diffusion", diffusion);
+		maxHeat = IConfigurableMachine.grab(obj, "I:heatCap", maxHeat);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:recipeCapacity").value(recipeZCapacity);
+		writer.name("I:wasteCapacity").value(wasteZCapacity);
+		writer.name("I:processHeat").value(processTime);
+		writer.name("D:diffusion").value(diffusion);
+		writer.name("I:heatCap").value(maxHeat);
+	}
 
 	public TileEntityCrucible() {
 		super(10);
@@ -118,7 +147,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 			
 			tryRecipe();
 			
-			/* pour wasste stack */
+			/* pour waste stack */
 			if(!this.wasteStack.isEmpty()) {
 				
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
@@ -223,6 +252,9 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	}
 	
 	protected void tryPullHeat() {
+		
+		if(this.heat >= this.maxHeat) return;
+		
 		TileEntity con = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
 		
 		if(con instanceof IHeatSource) {
@@ -262,7 +294,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		if(this.progress >= processTime) {
 			this.progress = 0;
 			
-			List<MaterialStack> materials = Mats.getMaterialsFromItem(slots[slot]);
+			List<MaterialStack> materials = Mats.getSmeltingMaterialsFromItem(slots[slot]);
 			CrucibleRecipe recipe = getLoadedRecipe();
 			
 			for(MaterialStack material : materials) {
@@ -335,7 +367,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	
 	public boolean isItemSmeltable(ItemStack stack) {
 		
-		List<MaterialStack> materials = Mats.getMaterialsFromItem(stack);
+		List<MaterialStack> materials = Mats.getSmeltingMaterialsFromItem(stack);
 		
 		//if there's no materials in there at all, don't smelt
 		if(materials.isEmpty())
@@ -428,6 +460,11 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 			}
 		}
 		return sum;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int meta) {
+		return new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	}
 
 	@Override

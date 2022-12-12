@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.sound.nt.ISoundSourceTE;
-import com.hbm.sound.nt.SoundWrapper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -65,14 +64,22 @@ public class ServerProxy {
 
 	public void openLink(String url) { }
 	
-	public SoundWrapper getTileSound(String sound, ISoundSourceTE source) {
-		return new SoundWrapper();
-	}
-	
 	public List<ItemStack> getSubItems(ItemStack stack) {
 		
 		List<ItemStack> list = new ArrayList();
 		list.add(stack);
 		return list;
+	}
+	
+	public float getImpactDust(World world) {
+		return TomSaveData.forWorld(world).dust;
+	}
+	
+	public float getImpactFire(World world) {
+		return TomSaveData.forWorld(world).fire;
+	}
+	
+	public boolean getImpact(World world) {
+		return TomSaveData.forWorld(world).impact;
 	}
 }

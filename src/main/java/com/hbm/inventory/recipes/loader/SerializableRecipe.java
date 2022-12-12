@@ -43,6 +43,8 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new ChemplantRecipes());
 		recipeHandlers.add(new CrucibleRecipes());
 		recipeHandlers.add(new CentrifugeRecipes());
+		recipeHandlers.add(new LiquefactionRecipes());
+		recipeHandlers.add(new SolidificationRecipes());
 		recipeHandlers.add(new CyclotronRecipes());
 		recipeHandlers.add(new HadronRecipes());
 		recipeHandlers.add(new FuelPoolRecipes());

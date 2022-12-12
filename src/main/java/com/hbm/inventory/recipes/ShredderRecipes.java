@@ -190,10 +190,21 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModItems.ingot_schrabidate, new ItemStack(ModItems.powder_schrabidate, 1));
 		ShredderRecipes.setRecipe(ModBlocks.block_schrabidate, new ItemStack(ModItems.powder_schrabidate, 9));
 		ShredderRecipes.setRecipe(ModItems.coal_infernal, new ItemStack(ModItems.powder_coal, 3));
-		ShredderRecipes.setRecipe(Items.reeds, new ItemStack(Items.paper, 3));
 		ShredderRecipes.setRecipe(Items.fermented_spider_eye, new ItemStack(ModItems.powder_poison, 3));
 		ShredderRecipes.setRecipe(Items.poisonous_potato, new ItemStack(ModItems.powder_poison, 1));
 		ShredderRecipes.setRecipe(ModBlocks.ore_tektite_osmiridium, new ItemStack(ModItems.powder_tektite, 1));
+		ShredderRecipes.setRecipe(Blocks.dirt, new ItemStack(ModItems.dust, 1));
+		ShredderRecipes.setRecipe(Items.reeds, new ItemStack(Items.sugar, 3));
+		ShredderRecipes.setRecipe(Items.apple, new ItemStack(Items.sugar, 1));
+		ShredderRecipes.setRecipe(Items.carrot, new ItemStack(Items.sugar, 1));
+		
+		List<ItemStack> logs = OreDictionary.getOres("logWood");
+		List<ItemStack> planks = OreDictionary.getOres("plankWood");
+		List<ItemStack> saplings = OreDictionary.getOres("treeSapling");
+		
+		for(ItemStack log : logs) ShredderRecipes.setRecipe(log, new ItemStack(ModItems.powder_sawdust, 4));
+		for(ItemStack plank : planks) ShredderRecipes.setRecipe(plank, new ItemStack(ModItems.powder_sawdust, 1));
+		for(ItemStack sapling : saplings) ShredderRecipes.setRecipe(sapling, new ItemStack(Items.stick, 1));
 
 		List<ItemStack> silicon = OreDictionary.getOres("itemSilicon");
 		if(!silicon.isEmpty()) {
@@ -202,7 +213,7 @@ public class ShredderRecipes extends SerializableRecipe {
 			ShredderRecipes.setRecipe(Blocks.sand, new ItemStack(ModItems.dust, 2));
 		}
 		
-		for(int i = 0; i < 5; i++) ShredderRecipes.setRecipe(new ItemStack(Items.skull, 1, i), new ItemStack(ModItems.biomass));
+		for(int i = 0; i < 5; i++) ShredderRecipes.setRecipe(new ItemStack(Items.skull, 1, i), new ItemStack(ModItems.biomass, 4));
 
 		/* Crystal processing */
 		ShredderRecipes.setRecipe(ModItems.ingot_schraranium, new ItemStack(ModItems.nugget_schrabidium, 2));
@@ -258,6 +269,10 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.chain, new ItemStack(ModItems.powder_steel_tiny, 1));
 		ShredderRecipes.setRecipe(ModBlocks.steel_grate, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModItems.pipes_steel, new ItemStack(ModItems.powder_steel, 27));
+		ShredderRecipes.setRecipe(ModBlocks.oil_duct, new ItemStack(ModItems.powder_steel_tiny, 3));
+		ShredderRecipes.setRecipe(ModBlocks.oil_duct_solid, new ItemStack(ModItems.powder_steel_tiny, 3));
+		ShredderRecipes.setRecipe(ModBlocks.gas_duct, new ItemStack(ModItems.powder_steel, 1));
+		ShredderRecipes.setRecipe(ModBlocks.gas_duct_solid, new ItemStack(ModItems.powder_steel, 1));
 
 		/* Sellafite scrapping */
 		ShredderRecipes.setRecipe(ModBlocks.sellafield_slaked, new ItemStack(Blocks.gravel));
@@ -403,7 +418,13 @@ public class ShredderRecipes extends SerializableRecipe {
 		if(stack == null || stack.getItem() == null)
 			return new ItemStack(ModItems.scrap);
 		
-		ItemStack sta = shredderRecipes.get(new ComparableStack(stack).makeSingular());
+		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		ItemStack sta = shredderRecipes.get(comp);
+		
+		if(sta == null) {
+			comp.meta = OreDictionary.WILDCARD_VALUE;
+			sta = shredderRecipes.get(comp);
+		}
 		
 		return sta == null ? new ItemStack(ModItems.scrap) : sta;
 	}
