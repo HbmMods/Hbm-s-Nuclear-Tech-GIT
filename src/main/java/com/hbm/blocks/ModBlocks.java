@@ -1092,9 +1092,7 @@ public class ModBlocks {
 
 	public static Block radiobox;
 	public static final int guiID_radiobox = 66;
-
 	public static Block radiorec;
-	public static final int guiID_radiorec = 69;
 
 	public static Block machine_forcefield;
 	public static final int guiID_forcefield = 75;

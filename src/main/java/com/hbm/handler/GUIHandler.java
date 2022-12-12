@@ -20,7 +20,6 @@ import com.hbm.tileentity.turret.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -453,13 +452,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_keyforge: {
 			if(entity instanceof TileEntityMachineKeyForge) {
 				return new ContainerMachineKeyForge(player.inventory, (TileEntityMachineKeyForge) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_radiorec: {
-			if(entity instanceof TileEntityRadioRec) {
-				return new ContainerRadioRec(player.inventory, (TileEntityRadioRec) entity);
 			}
 			return null;
 		}
@@ -1250,13 +1242,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_keyforge: {
 			if(entity instanceof TileEntityMachineKeyForge) {
 				return new GUIMachineKeyForge(player.inventory, (TileEntityMachineKeyForge) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_radiorec: {
-			if(entity instanceof TileEntityRadioRec) {
-				return new GUIRadioRec(player.inventory, (TileEntityRadioRec) entity);
 			}
 			return null;
 		}

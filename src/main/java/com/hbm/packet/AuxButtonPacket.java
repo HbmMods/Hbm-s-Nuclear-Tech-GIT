@@ -14,8 +14,6 @@ import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityMachineMiningLaser;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
-import com.hbm.tileentity.machine.TileEntityRadioRec;
-import com.hbm.tileentity.machine.TileEntityReactorZirnox;
 import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 import com.hbm.tileentity.machine.storage.TileEntityBarrel;
 import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
@@ -80,18 +78,6 @@ public class AuxButtonPacket implements IMessage {
 			
 			//try {
 				TileEntity te = p.worldObj.getTileEntity(m.x, m.y, m.z);
-				
-				if (te instanceof TileEntityRadioRec) {
-					TileEntityRadioRec radio = (TileEntityRadioRec)te;
-					
-					if(m.id == 0) {
-						radio.isOn = (m.value == 1);
-					}
-					
-					if(m.id == 1) {
-						radio.freq = ((double)m.value) / 10D;
-					}
-				}
 				
 				if (te instanceof TileEntityForceField) {
 					TileEntityForceField field = (TileEntityForceField)te;

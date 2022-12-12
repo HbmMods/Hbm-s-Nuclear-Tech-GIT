@@ -101,7 +101,6 @@ public class GUIScreenRadioTorch extends GuiScreen {
 		}
 	}
 
-
 	private void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);

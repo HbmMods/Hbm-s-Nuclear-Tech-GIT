@@ -19,7 +19,6 @@ import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
-import com.hbm.tileentity.machine.TileEntityRadioRec;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -129,14 +128,6 @@ public class AuxGaugePacket implements IMessage {
 					if(m.id == 2)
 						bomber.type = m.value;
 				}
-				if (te instanceof TileEntityRadioRec) {
-					TileEntityRadioRec radio = (TileEntityRadioRec)te;
-					
-					if(m.id == 0)
-						radio.isOn = (m.value == 1);
-					if(m.id == 1)
-						radio.freq = ((double)m.value) / 10D;
-				}
 				if (te instanceof TileEntityMachineBoiler) {
 					TileEntityMachineBoiler boiler = (TileEntityMachineBoiler)te;
 					
@@ -205,10 +196,6 @@ public class AuxGaugePacket implements IMessage {
 					if(m.id == 1)
 						launcher.padSize = PartSize.values()[m.value];
 				}
-				
-				
-				
-				
 				
 				if(te instanceof TileEntityMachineBase) {
 					((TileEntityMachineBase)te).processGauge(m.value, m.id);
