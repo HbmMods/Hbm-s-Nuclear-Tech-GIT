@@ -19,6 +19,7 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.I18nUtil;
@@ -491,9 +492,12 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 				IFluidConnector con = itReceivers.next();
 				if(con instanceof TileEntity) {
 					TileEntity tile = (TileEntity) con;
-					worldObj.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, Blocks.air);
-					//TODO: create an interface so overpressure can be handled by machines themselves
-					worldObj.newExplosion(null, tile.xCoord + 0.5, tile.yCoord + 0.5, tile.zCoord + 0.5, 5F, false, false);
+					if(con instanceof IOverpressurable) {
+						((IOverpressurable) con).explode(worldObj, tile.xCoord, tile.yCoord, tile.zCoord);
+					} else {
+						worldObj.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, Blocks.air);
+						worldObj.newExplosion(null, tile.xCoord + 0.5, tile.yCoord + 0.5, tile.zCoord + 0.5, 5F, false, false);
+					}
 				}
 			}
 		}

@@ -37,19 +37,26 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 		case 3: GL11.glRotatef(90, 0F, 1F, 0F); break;
 		case 5: GL11.glRotatef(180, 0F, 1F, 0F); break;
 		}
+		
+		TileEntityMachineFluidTank tank = (TileEntityMachineFluidTank) tileEntity;
+		FluidType type = tank.tank.getTankType();
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.tank_tex);
-		ResourceManager.fluidtank.renderPart("Frame");
 		
-		TileEntityMachineFluidTank tank = (TileEntityMachineFluidTank) tileEntity;
-		bindTexture(new ResourceLocation(RefStrings.MODID, getTextureFromType(tank.tank.getTankType())));
-		ResourceManager.fluidtank.renderPart("Tank");
+		if(!tank.hasExploded) {
+			ResourceManager.fluidtank.renderPart("Frame");
+			bindTexture(new ResourceLocation(RefStrings.MODID, getTextureFromType(tank.tank.getTankType())));
+			ResourceManager.fluidtank.renderPart("Tank");
+		} else {
+			ResourceManager.fluidtank_exploded.renderPart("Frame");
+			bindTexture(ResourceManager.tank_inner_tex);
+			ResourceManager.fluidtank_exploded.renderPart("TankInner");
+			bindTexture(new ResourceLocation(RefStrings.MODID, getTextureFromType(tank.tank.getTankType())));
+			ResourceManager.fluidtank_exploded.renderPart("Tank");
+		}
 
 		GL11.glShadeModel(GL11.GL_FLAT);
-
-		
-		FluidType type = ((TileEntityMachineFluidTank) tileEntity).tank.getTankType();
 		
 		if(type != null && type != Fluids.NONE) {
 
@@ -99,15 +106,26 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 				GL11.glRotated(90, 0, 1, 0);
 				GL11.glScaled(0.75, 0.75, 0.75);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.tank_tex); ResourceManager.fluidtank.renderPart("Frame");
+				GL11.glDisable(GL11.GL_CULL_FACE);
 				
 				FluidTank tank = new FluidTank(Fluids.NONE, 0, 0);
+				boolean exploded = false;
 				if(item.hasTagCompound() && item.getTagCompound().hasKey(IPersistentNBT.NBT_PERSISTENT_KEY)) {
 					tank.readFromNBT(item.getTagCompound().getCompoundTag(IPersistentNBT.NBT_PERSISTENT_KEY), "tank");
+					exploded = item.getTagCompound().getCompoundTag(IPersistentNBT.NBT_PERSISTENT_KEY).getBoolean("hasExploded");
 				}
 				
-				bindTexture(new ResourceLocation(RefStrings.MODID, getTextureFromType(tank.getTankType())));
-				ResourceManager.fluidtank.renderPart("Tank");
+				if(!exploded) {
+					bindTexture(ResourceManager.tank_tex); ResourceManager.fluidtank.renderPart("Frame");
+					bindTexture(new ResourceLocation(RefStrings.MODID, getTextureFromType(tank.getTankType())));
+					ResourceManager.fluidtank.renderPart("Tank");
+				} else {
+					bindTexture(ResourceManager.tank_tex); ResourceManager.fluidtank_exploded.renderPart("Frame");
+					bindTexture(ResourceManager.tank_inner_tex); ResourceManager.fluidtank_exploded.renderPart("TankInner");
+					bindTexture(new ResourceLocation(RefStrings.MODID, getTextureFromType(tank.getTankType())));
+					ResourceManager.fluidtank_exploded.renderPart("Tank");
+				}
+				GL11.glEnable(GL11.GL_CULL_FACE);
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}};
 	}
