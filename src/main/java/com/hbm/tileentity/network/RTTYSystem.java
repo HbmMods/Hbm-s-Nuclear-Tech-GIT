@@ -44,14 +44,16 @@ public class RTTYSystem {
 			broadcast.put(identifier, channel);
 		}
 		
+		HashMap<Pair<World, String>, RTTYChannel> toAdd = new HashMap();
 		for(Entry<Pair<World, String>, RTTYChannel> entry : broadcast.entrySet()) {
 			World world = entry.getKey().getKey();
 			RTTYChannel chan = new RTTYChannel();
 			chan.timeStamp = world.getTotalWorldTime();
 			chan.signal = getTestSender(chan.timeStamp);
-			broadcast.put(new Pair(world, "2012-08-06"), chan);
+			toAdd.put(new Pair(world, "2012-08-06"), chan);
 		}
 		
+		broadcast.putAll(toAdd);
 		newMessages.clear();
 	}
 	
