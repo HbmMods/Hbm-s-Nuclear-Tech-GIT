@@ -71,18 +71,16 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			//meta below 121 means that it's an old multiblock configuration
 			if(this.getBlockMetadata() < 12) {
 				//get old direction
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getRotation(ForgeDirection.DOWN);
 				//remove tile from the world to prevent inventory dropping
 				worldObj.removeTileEntity(xCoord, yCoord, zCoord);
 				//use fillspace to create a new multiblock configuration
+				worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.machine_fluidtank, dir.ordinal() + 10, 3);
 				MultiblockHandlerXR.fillSpace(worldObj, xCoord, yCoord, zCoord, ((BlockDummyable) ModBlocks.machine_fluidtank).getDimensions(), ModBlocks.machine_fluidtank, dir);
-				//set the tile entity to the one we have now
-				worldObj.setTileEntity(xCoord, yCoord, zCoord, this);
-				//reset cached metadata
-				this.blockMetadata = -1;
-				//validate again
-				this.validate();
-				//cancel update tick just to be sure
+				//load the tile data to restore the old values
+				NBTTagCompound data = new NBTTagCompound();
+				this.writeToNBT(data);
+				worldObj.getTileEntity(xCoord, yCoord, zCoord).readFromNBT(data);
 				return;
 			}
 			
