@@ -96,7 +96,6 @@ public class NEIConfig implements IConfigureNEI {
 		}
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_assembler));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_drill));
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_fluidtank));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_refinery));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_turbofan));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_base));
@@ -108,7 +107,6 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_puf6));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_assembler));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_drill));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_fluidtank));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_refinery));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_turbofan));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_base));

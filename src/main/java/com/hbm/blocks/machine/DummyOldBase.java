@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.interfaces.IDummy;
+import com.hbm.interfaces.IMultiblock;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.tileentity.machine.TileEntityDummy;
 
@@ -41,7 +42,7 @@ public abstract class DummyOldBase extends BlockContainer implements IDummy, IEn
 				int b = ((TileEntityDummy) te).targetY;
 				int c = ((TileEntityDummy) te).targetZ;
 
-				if(!world.isRemote)
+				if(!world.isRemote && world.getBlock(a, b, c) instanceof IMultiblock)
 					world.func_147480_a(a, b, c, true);
 			}
 		}

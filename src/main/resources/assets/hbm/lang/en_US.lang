@@ -4501,6 +4501,7 @@ tile.reactor_inserter.name=Reactor Fuel Inserter
 tile.red_barrel.name=Explosive Barrel
 tile.red_cable.name=Red Copper Cable
 tile.red_cable_classic.name=Red Copper Cable (Classic)
+tile.red_cable_paintable.name=Paintable Red Copper Cable
 tile.red_connector.name=Electricity Connector
 tile.red_pylon.name=Electricity Pole
 tile.red_pylon_large.name=Large Electricity Pylon

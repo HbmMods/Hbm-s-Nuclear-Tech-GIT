@@ -344,13 +344,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_machine_fluidtank: {
-			if(entity instanceof TileEntityMachineFluidTank) {
-				return new ContainerMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_machine_turbofan: {
 			if(entity instanceof TileEntityMachineTurbofan) {
 				return new ContainerMachineTurbofan(player.inventory, (TileEntityMachineTurbofan) entity);
@@ -1137,13 +1130,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_machine_chemplant: {
 			if(entity instanceof TileEntityMachineChemplant) {
 				return new GUIMachineChemplant(player.inventory, (TileEntityMachineChemplant) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_machine_fluidtank: {
-			if(entity instanceof TileEntityMachineFluidTank) {
-				return new GUIMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
 			}
 			return null;
 		}

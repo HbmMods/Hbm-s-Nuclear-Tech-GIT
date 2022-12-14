@@ -3,7 +3,6 @@ package com.hbm.blocks.machine;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineCombustionEngine;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;

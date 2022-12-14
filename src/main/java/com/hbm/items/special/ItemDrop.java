@@ -13,9 +13,6 @@ import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.entity.effect.EntityVortex;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionChaos;
-import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionNT;
-import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
@@ -100,76 +97,61 @@ public class ItemDrop extends Item {
 						if(!ex.isDead) {
 							entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, "random.explode", 100.0F, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 							entityItem.worldObj.spawnEntityInWorld(ex);
-				    		
-				    		EntityCloudFleija cloud = new EntityCloudFleija(entityItem.worldObj, BombConfig.aSchrabRadius);
-				    		cloud.posX = entityItem.posX;
-				    		cloud.posY = entityItem.posY;
-				    		cloud.posZ = entityItem.posZ;
-				    		entityItem.worldObj.spawnEntityInWorld(cloud);
+
+							EntityCloudFleija cloud = new EntityCloudFleija(entityItem.worldObj, BombConfig.aSchrabRadius);
+							cloud.posX = entityItem.posX;
+							cloud.posY = entityItem.posY;
+							cloud.posZ = entityItem.posZ;
+							entityItem.worldObj.spawnEntityInWorld(cloud);
 						}
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.singularity && WeaponConfig.dropSing) {
 					if (!entityItem.worldObj.isRemote) {
 
-			        	EntityVortex bl = new EntityVortex(entityItem.worldObj, 1.5F);
-			        	bl.posX = entityItem.posX ;
-			        	bl.posY = entityItem.posY ;
-			        	bl.posZ = entityItem.posZ ;
-			        	entityItem.worldObj.spawnEntityInWorld(bl);
+						EntityVortex bl = new EntityVortex(entityItem.worldObj, 1.5F);
+						bl.posX = entityItem.posX;
+						bl.posY = entityItem.posY;
+						bl.posZ = entityItem.posZ;
+						entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_counter_resonant && WeaponConfig.dropSing) {
 					if (!entityItem.worldObj.isRemote) {
 
-			        	EntityVortex bl = new EntityVortex(entityItem.worldObj, 2.5F);
-			        	bl.posX = entityItem.posX ;
-			        	bl.posY = entityItem.posY ;
-			        	bl.posZ = entityItem.posZ ;
-			        	entityItem.worldObj.spawnEntityInWorld(bl);
+						EntityVortex bl = new EntityVortex(entityItem.worldObj, 2.5F);
+						bl.posX = entityItem.posX;
+						bl.posY = entityItem.posY;
+						bl.posZ = entityItem.posZ;
+						entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_super_heated && WeaponConfig.dropSing) {
 					if (!entityItem.worldObj.isRemote) {
 
-			        	EntityVortex bl = new EntityVortex(entityItem.worldObj, 2.5F);
-			        	bl.posX = entityItem.posX ;
-			        	bl.posY = entityItem.posY ;
-			        	bl.posZ = entityItem.posZ ;
-			        	entityItem.worldObj.spawnEntityInWorld(bl);
+						EntityVortex bl = new EntityVortex(entityItem.worldObj, 2.5F);
+						bl.posX = entityItem.posX;
+						bl.posY = entityItem.posY;
+						bl.posZ = entityItem.posZ;
+						entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.black_hole && WeaponConfig.dropSing) {
 					if (!entityItem.worldObj.isRemote) {
-						/*entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
-								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-
-						EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(entityItem.worldObj);
-						entity.posX = entityItem.posX;
-						entity.posY = entityItem.posY;
-						entity.posZ = entityItem.posZ;
-						entity.destructionRange = MainRegistry.aSchrabRadius * 3;
-						entity.speed = 25;
-						entity.coefficient = 0.01F;
-						entity.coefficient2 = 0.01F;
-						entity.waste = false;
-
-						entityItem.worldObj.spawnEntityInWorld(entity);*/
-
-			        	EntityBlackHole bl = new EntityBlackHole(entityItem.worldObj, 1.5F);
-			        	bl.posX = entityItem.posX ;
-			        	bl.posY = entityItem.posY ;
-			        	bl.posZ = entityItem.posZ ;
-			        	entityItem.worldObj.spawnEntityInWorld(bl);
+						EntityBlackHole bl = new EntityBlackHole(entityItem.worldObj, 1.5F);
+						bl.posX = entityItem.posX;
+						bl.posY = entityItem.posY;
+						bl.posZ = entityItem.posZ;
+						entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_spark && WeaponConfig.dropSing) {
 					if (!entityItem.worldObj.isRemote) {
-			        	EntityRagingVortex bl = new EntityRagingVortex(entityItem.worldObj, 3.5F);
-			        	bl.posX = entityItem.posX ;
-			        	bl.posY = entityItem.posY ;
-			        	bl.posZ = entityItem.posZ ;
-			        	entityItem.worldObj.spawnEntityInWorld(bl);
+						EntityRagingVortex bl = new EntityRagingVortex(entityItem.worldObj, 3.5F);
+						bl.posX = entityItem.posX;
+						bl.posY = entityItem.posY;
+						bl.posZ = entityItem.posZ;
+						entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.crystal_xen && WeaponConfig.dropCrys) {
