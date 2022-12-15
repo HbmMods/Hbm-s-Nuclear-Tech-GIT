@@ -198,6 +198,7 @@ public class HazardRegistry {
 		HazardSystem.register(trinitite, makeData(RADIATION, trn * ingot));
 		HazardSystem.register(block_trinitite, makeData(RADIATION, trn * block));
 		HazardSystem.register(nuclear_waste, makeData(RADIATION, wst * ingot));
+		HazardSystem.register(yellow_barrel, makeData(RADIATION, wst * ingot * 10));
 		HazardSystem.register(billet_nuclear_waste, makeData(RADIATION, wst * billet));
 		HazardSystem.register(nuclear_waste_tiny, makeData(RADIATION, wst * nugget));
 		HazardSystem.register(nuclear_waste_vitrified, makeData(RADIATION, wstv * ingot));

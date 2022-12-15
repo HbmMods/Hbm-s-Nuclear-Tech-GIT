@@ -21,7 +21,7 @@ public class RenderScaffoldBlock implements ISimpleBlockRenderingHandler {
 
 		GL11.glPushMatrix();
 		Tessellator tessellator = Tessellator.instance;
-		IIcon iicon = block.getIcon(0, 0);
+		IIcon iicon = block.getIcon(0, metadata);
 		tessellator.setColorOpaque_F(1, 1, 1);
 
 		if(renderer.hasOverrideBlockTexture()) {
@@ -51,7 +51,7 @@ public class RenderScaffoldBlock implements ISimpleBlockRenderingHandler {
 
 		float rotation = (float) -Math.PI;
 
-		if((world.getBlockMetadata(x, y, z) & 8) != 0)
+		if((world.getBlockMetadata(x, y, z) & 8) == 0)
 			rotation = -90F / 180F * (float) Math.PI;
 
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);

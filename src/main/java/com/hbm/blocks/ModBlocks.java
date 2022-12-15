@@ -2823,7 +2823,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(steel_corner, steel_corner.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_roof, steel_roof.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_beam, steel_beam.getUnlocalizedName());
-		GameRegistry.registerBlock(steel_scaffold, steel_scaffold.getUnlocalizedName());
+		register(steel_scaffold);
 		GameRegistry.registerBlock(steel_grate, steel_grate.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_pipe, ItemBlockBase.class, deco_pipe.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_pipe_rusted, ItemBlockBase.class, deco_pipe_rusted.getUnlocalizedName());

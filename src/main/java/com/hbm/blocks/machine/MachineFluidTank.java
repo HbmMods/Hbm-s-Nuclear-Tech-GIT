@@ -14,11 +14,13 @@ import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -85,8 +87,32 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 
 	@Override
 	public void addInformation(ItemStack stack, NBTTagCompound persistentTag, EntityPlayer player, List list, boolean ext) {
-		FluidTank tank = new FluidTank(Fluids.NONE, 0, 0);
+		FluidTank tank = new FluidTank(Fluids.NONE, 0);
 		tank.readFromNBT(persistentTag, "tank");
 		list.add(EnumChatFormatting.YELLOW + "" + tank.getFill() + "/" + tank.getMaxFill() + "mB " + I18nUtil.resolveKey(tank.getTankType().getUnlocalizedName()));
+	}
+
+	@Override
+	public boolean canDropFromExplosion(Explosion explosion) {
+		return false;
+	}
+
+	@Override
+	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion) {
+
+		int[] pos = this.findCore(world, x, y, z);
+		if(pos == null) return;
+		TileEntity core = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if(!(core instanceof TileEntityMachineFluidTank)) return;
+		
+		TileEntityMachineFluidTank tank = (TileEntityMachineFluidTank) core;
+		if(tank.lastExplosion == explosion) return;
+		tank.lastExplosion = explosion;
+		
+		if(!tank.hasExploded) {
+			tank.explode();
+		} else {
+			world.setBlock(pos[0], pos[1], pos[2], Blocks.air);
+		}
 	}
 }

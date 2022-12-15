@@ -40,6 +40,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -49,6 +50,8 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	public short mode = 0;
 	public static final short modes = 4;
 	public boolean hasExploded = false;
+	
+	public Explosion lastExplosion = null;
 	
 	public int age = 0;
 	public List<IFluidAcceptor> list = new ArrayList();
@@ -102,13 +105,12 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			if(tank.getFill() > 0) {
 				if(tank.getTankType().isAntimatter()) {
 					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, false);
-					this.hasExploded = true;
+					this.explode();
 					this.tank.setFill(0);
 				}
 				
 				if(tank.getTankType().hasTrait(FT_Corrosive.class) && tank.getTankType().getTrait(FT_Corrosive.class).isHighlyCorrosive()) {
-					this.hasExploded = true;
-					this.tank.setFill(0);
+					this.explode();
 				}
 				
 				if(this.hasExploded) {
@@ -136,6 +138,13 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		}
 	}
 	
+	/** called when the tank breaks due to hazardous materials or external force, can be used to quickly void part of the tank or spawn a mushroom cloud */
+	public void explode() {
+		this.hasExploded = true;
+		this.markChanged();
+	}
+	
+	/** called every tick post explosion, used for leaking fluid and spawning particles */
 	public void updateLeak(int amount) {
 		if(!hasExploded) return;
 		if(amount <= 0) return;
