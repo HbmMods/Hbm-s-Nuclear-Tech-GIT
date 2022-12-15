@@ -36,6 +36,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -104,7 +105,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			
 			if(tank.getFill() > 0) {
 				if(tank.getTankType().isAntimatter()) {
-					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, false);
+					new ExplosionVNT(worldObj, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, 5F).makeAmat().setBlockAllocator(null).setBlockProcessor(null).explode();
 					this.explode();
 					this.tank.setFill(0);
 				}
@@ -155,9 +156,11 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		FluidType type = tank.getTankType();
 		
 		if(type.hasTrait(FT_Amat.class)) {
-			new ExplosionVNT(worldObj, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 5F).makeAmat().explode();
+			new ExplosionVNT(worldObj, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, 5F).makeAmat().setBlockAllocator(null).setBlockProcessor(null).explode();
 			
 		} else if(tank.getTankType().hasTrait(FT_Flammable.class)) {
+			List<Entity> affected = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord - 1.5, yCoord, zCoord - 1.5, xCoord + 2.5, yCoord + 5, zCoord + 2.5));
+			for(Entity e : affected) e.setFire(5);
 			Random rand = worldObj.rand;
 			ParticleUtil.spawnGasFlame(worldObj, xCoord + rand.nextDouble(), yCoord + 0.5 + rand.nextDouble(), zCoord + rand.nextDouble(), rand.nextGaussian() * 0.2, 0.1, rand.nextGaussian() * 0.2);
 			
@@ -220,8 +223,8 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 					yCoord,
 					zCoord - 2,
 					xCoord + 3,
-					yCoord + 2,
-					zCoord + 2
+					yCoord + 3,
+					zCoord + 3
 					);
 		}
 		
