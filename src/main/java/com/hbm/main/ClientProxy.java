@@ -103,7 +103,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class ClientProxy extends ServerProxy {
-	
 	public RenderInfoSystem theInfoSystem = new RenderInfoSystem();
 	
 	@Override
@@ -528,6 +527,8 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_wall), new ItemRenderDecoBlock());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_corner), new ItemRenderDecoBlock());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_roof), new ItemRenderDecoBlock());
+		
+		MinecraftForgeClient.registerItemRenderer(ModItems.wand_d, new RenderCasingTest());
 	}
 
 	@Override
@@ -1174,6 +1175,8 @@ public class ClientProxy extends ServerProxy {
 						ReflectionHelper.setPrivateValue(EntityFX.class, fx, 10 + rand.nextInt(20), "particleMaxAge", "field_70547_e");
 						break;
 					}
+					default:
+						break;
 				}
 				
 				if(fx != null) {
@@ -1813,6 +1816,13 @@ public class ClientProxy extends ServerProxy {
 				Minecraft.getMinecraft().effectRenderer.addEffect(text);
 				break;
 			}
+			case "casing":
+				final SpentCasingConfig casingConfig = SpentCasingConfig.get(data.getString("name"));
+				for (int i = 0; i < casingConfig.getCasingAmount(); i++)
+					casingConfig.spawnCasing(man, world, x, y, z, data.getFloat("pitch"), data.getFloat("yaw"), data.getBoolean("crouched"));
+				break;
+			default:
+				break;
 		}
 	}
 	

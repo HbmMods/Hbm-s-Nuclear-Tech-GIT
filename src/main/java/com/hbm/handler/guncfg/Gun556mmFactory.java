@@ -1,7 +1,9 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -12,6 +14,9 @@ import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfig.CasingType;
+import com.hbm.particle.SpentCasingConfigBuilder;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -22,9 +27,15 @@ import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Vec3;
 
 public class Gun556mmFactory {
 
+	static final SpentCasingConfig CONFIG_556 = new SpentCasingConfigBuilder("556", CasingType.BRASS_BOTTLENECK, false)
+			.setSmokeChance(4).setInitialMotion(Vec3.createVectorHelper(-0.3, 1, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
+			.setPosOffset(new EasyLocation(1.5, 0, 0)).setScaleZ(1.5f)
+			.build();
+	
 	public static GunConfiguration getEuphieConfig() {
 		
 		GunConfiguration config = new GunConfiguration();
@@ -61,6 +72,8 @@ public class Gun556mmFactory {
 		config.config.add(BulletConfigSyncingUtil.CHL_R556);
 		config.config.add(BulletConfigSyncingUtil.R556_SLEEK);
 		config.config.add(BulletConfigSyncingUtil.R556_K);
+
+		config.casingConfig = Optional.of(CONFIG_556);
 		
 		return config;
 	}
@@ -101,6 +114,8 @@ public class Gun556mmFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.addAll(HbmCollection.NATOFlechette);
+
+		config.casingConfig = Optional.of(CONFIG_556);
 		
 		return config;
 	}
@@ -126,6 +141,8 @@ public class Gun556mmFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.addAll(HbmCollection.grenade);
+		
+		config.casingConfig = Optional.of(GunGrenadeFactory.CASING_40);
 		
 		return config;
 	}
@@ -160,6 +177,8 @@ public class Gun556mmFactory {
 						.addKeyframe(new BusAnimationKeyframe(-0.35, 0, 0, 30))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 30))));
 		
+		config.casingConfig = Optional.of(CONFIG_556);
+		
 		return config;
 	}
 	
@@ -191,10 +210,13 @@ public class Gun556mmFactory {
 						.addKeyframe(new BusAnimationKeyframe(-0.35, 0, 0, 30))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 30))));
 		
+		config.casingConfig = Optional.of(CONFIG_556);
+		
 		return config;
 	}
 
 	static final float inaccuracy = 1.15F;
+	
 	public static BulletConfiguration get556Config() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
@@ -216,7 +238,7 @@ public class Gun556mmFactory {
 		bullet.dmgMin = 250;
 		bullet.dmgMax = 320;
 		bullet.spread = 0.0F;
-		
+
 		return bullet;
 	}
 
@@ -244,7 +266,7 @@ public class Gun556mmFactory {
 			
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, projectile.posX, projectile.posY, projectile.posZ), new TargetPoint(projectile.dimension, projectile.posX, projectile.posY, projectile.posZ, 50));
 		};
-		
+
 		return bullet;
 	}
 
@@ -258,7 +280,7 @@ public class Gun556mmFactory {
 		bullet.penetration *= 1.5;
 		bullet.wear = 15;
 		bullet.leadChance = 10;
-		
+
 		return bullet;
 	}
 
@@ -272,7 +294,7 @@ public class Gun556mmFactory {
 		bullet.penetration *= 2;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
-		
+
 		return bullet;
 	}
 
@@ -286,7 +308,7 @@ public class Gun556mmFactory {
 		bullet.penetration *= 2.5;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
-		
+
 		return bullet;
 	}
 
@@ -327,7 +349,7 @@ public class Gun556mmFactory {
 			meteor.shooter = projectile.shooter;
 			projectile.worldObj.spawnEntityInWorld(meteor);
 		};
-		
+
 		return bullet;
 	}
 
@@ -354,7 +376,7 @@ public class Gun556mmFactory {
 		bullet.wear = 15;
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.doesPenetrate = false;
-		
+
 		return bullet;
 	}
 
@@ -364,7 +386,7 @@ public class Gun556mmFactory {
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 9);
 		bullet.incendiary = 5;
-		
+
 		return bullet;
 	}
 
@@ -390,7 +412,7 @@ public class Gun556mmFactory {
 			
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, projectile.posX, projectile.posY, projectile.posZ), new TargetPoint(projectile.dimension, projectile.posX, projectile.posY, projectile.posZ, 50));
 		};
-		
+
 		return bullet;
 	}
 
@@ -405,7 +427,7 @@ public class Gun556mmFactory {
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		bullet.doesPenetrate = true;
-		
+
 		return bullet;
 	}
 
@@ -446,7 +468,7 @@ public class Gun556mmFactory {
 			meteor.shooter = projectile.shooter;
 			projectile.worldObj.spawnEntityInWorld(meteor);
 		};
-		
+
 		return bullet;
 	}
 	
@@ -459,7 +481,7 @@ public class Gun556mmFactory {
 		bullet.dmgMax = 0;
 		bullet.penetration = 0;
 		bullet.maxAge = 0;
-		
+
 		return bullet;
 	}
 }

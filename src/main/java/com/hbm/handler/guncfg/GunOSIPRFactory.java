@@ -1,23 +1,40 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 import com.hbm.blocks.generic.RedBarrel;
+import com.hbm.calc.EasyLocation;
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.ILocationProvider;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfigBuilder;
+import com.hbm.particle.SpentCasingConfig.CasingType;
+import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 
 public class GunOSIPRFactory {
+	
+	static final SpentCasingConfig CASING_AR2 = new SpentCasingConfigBuilder("ar2", CasingType.AR2, false)
+			.setSmokeChance(0).setInitialMotion(Vec3.createVectorHelper(-0.15, 0.2, 0)).setPitchFactor(0.02f)
+			.setAfterReload(true).setPosOffset(new EasyLocation(3.5, 0, 0)).build();
 	
 	public static GunConfiguration getOSIPRConfig() {
 		
@@ -43,6 +60,8 @@ public class GunOSIPRFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SPECIAL_OSIPR);
+		
+		config.casingConfig = Optional.of(CASING_AR2);
 		
 		return config;
 	}
@@ -151,37 +170,41 @@ public class GunOSIPRFactory {
 		return bullet;
 	}
 	
-//	private static void tryRedirectBall(EntityBulletBase ball, EntityLivingBase lastHit)
-//	{
-//		if (!ball.worldObj.isRemote)
-//		{
-//			final ILocationProvider ballLoc = ILocationProvider.wrap(ball, false), targetLoc;
-//			final Vec3 newVector;
-//			final List<Entity> entities = ball.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(ball.posX - 10, ball.posY - 10, ball.posZ - 10, ball.posX + 10, ball.posY + 10, ball.posZ + 10));
-//			entities.remove(ball);
-//			entities.remove(ball.shooter);
-//			entities.remove(lastHit);
-//			entities.removeIf(e -> Library.isObstructed(ball.worldObj, ballLoc, ILocationProvider.wrap(e, false)));
-//			if (entities.isEmpty())
-//				return;
-//			
-//			entities.sort(Comparator.comparing(e -> ILocationProvider.distance(ILocationProvider.wrap(e, false), ballLoc)));
-//			
-//			targetLoc = ILocationProvider.wrap(entities.get(0), false);
-//			newVector = ILocationProvider.makeVector(ballLoc, targetLoc).normalize();
-//			
-//			System.out.println(ballLoc);
-//			System.out.println(targetLoc);
-//			System.out.println(newVector);
-//			System.out.println(Vec3.createVectorHelper(ball.motionX, ball.motionY, ball.motionZ));
-//			
-//			final double total = ball.motionX + ball.motionY + ball.motionZ;
-//			
-//			ball.motionX = newVector.xCoord * total;
-//			ball.motionY = newVector.yCoord * total;
-//			ball.motionZ = newVector.zCoord * total;
-//			
-//			System.out.println(Vec3.createVectorHelper(ball.motionX, ball.motionY, ball.motionZ));
-//		}
-//	}
+	private static void tryRedirectBall(EntityBulletBase ball, EntityLivingBase lastHit)
+	{
+		if (!ball.worldObj.isRemote)
+		{
+			final ILocationProvider ballLoc = ILocationProvider.wrap(ball, false), targetLoc;
+			final Vec3 newVector;
+			final List<Entity> entities = ball.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(ball.posX - 10, ball.posY - 10, ball.posZ - 10, ball.posX + 10, ball.posY + 10, ball.posZ + 10));
+			entities.remove(ball);
+			entities.remove(ball.shooter);
+			entities.remove(lastHit);
+			entities.removeIf(e -> Library.isObstructed(ball.worldObj, ballLoc, ILocationProvider.wrap(e, false)));
+			if (entities.isEmpty())
+				return;
+			
+			entities.sort(Comparator.comparing(e -> ILocationProvider.distance(ILocationProvider.wrap(e, false), ballLoc)));
+			
+			targetLoc = ILocationProvider.wrap(entities.get(0), false);
+			
+			System.out.println(ballLoc);
+			System.out.println(targetLoc);
+			System.out.println(Vec3.createVectorHelper(ball.motionX, ball.motionY, ball.motionZ));
+			
+			final double oldMagnitude  = Math.sqrt(ball.motionX * ball.motionX + ball.motionY * ball.motionY + ball.motionZ * ball.motionZ), newMagnitude;
+			newVector = Vec3.createVectorHelper(
+					targetLoc.posX() - ball.motionX,
+					targetLoc.posY() - ball.motionY,
+					targetLoc.posZ() - ball.motionZ
+					);
+			newMagnitude = Math.sqrt(newVector.xCoord * newVector.xCoord + newVector.yCoord * newVector.yCoord + newVector.zCoord * newVector.zCoord);
+
+			ball.motionX = newVector.xCoord * oldMagnitude / newMagnitude;
+			ball.motionY = newVector.yCoord * oldMagnitude / newMagnitude;
+			ball.motionZ = newVector.zCoord * oldMagnitude / newMagnitude;
+						
+			System.out.println(Vec3.createVectorHelper(ball.motionX, ball.motionY, ball.motionZ));
+		}
+	}
 }

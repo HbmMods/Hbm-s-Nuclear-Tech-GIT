@@ -17,6 +17,8 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.particle.SpentCasingConfig;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
@@ -90,6 +92,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	
 	//tally marks!
 	public int stattrak;
+	// Not saved because client side only
+	public byte casingDelay;
 	
 	/**
 	 * 		 X
@@ -226,6 +230,14 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				else
 					this.lastRotationYaw -= Math.PI * 2;
 			}
+			
+			if (usesCasings() && getCasingConfig().getDelay() > 0)
+			{
+				if (casingDelay > 0)
+					casingDelay--;
+				else
+					spawnCasing();
+			}
 		}
 	}
 	
@@ -297,6 +309,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	}
 	
 	public abstract void updateFiringTick();
+	public abstract boolean usesCasings();
+	public abstract SpentCasingConfig getCasingConfig();
 	
 	public BulletConfiguration getFirstConfigLoaded() {
 		
@@ -338,6 +352,14 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		
 		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, bullet.velocity, bullet.spread);
 		worldObj.spawnEntityInWorld(proj);
+		
+		if (usesCasings())
+		{
+			if (getCasingConfig().getDelay() == 0)
+				spawnCasing();
+			else
+				casingDelay = getCasingConfig().getDelay();
+		}
 	}
 	
 	public void conusmeAmmo(ComparableStack ammo) {
@@ -820,5 +842,19 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	@Override
 	public void closeInventory() {
 		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.closeC", 1.0F, 1.0F);
+	}
+	
+	protected void spawnCasing()
+	{
+		final NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "casing");
+		data.setDouble("posX", xCoord);
+		data.setDouble("posY", yCoord + 0.5);
+		data.setDouble("posZ", zCoord);
+		data.setFloat("pitch", (float) rotationPitch);
+		data.setFloat("yaw", (float) rotationYaw);
+		data.setBoolean("crouched", false);
+		data.setString("name", getCasingConfig().getRegistryName());
+		MainRegistry.proxy.effectNT(data);
 	}
 }

@@ -1,6 +1,7 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudTom;
@@ -11,9 +12,16 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfigBuilder;
+import com.hbm.particle.SpentCasingConfig.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class GunGrenadeFactory {
+	
+	static final SpentCasingConfig CASING_40 = new SpentCasingConfigBuilder("40", CasingType.BRASS_STRAIGHT_WALL, false)
+			.setSmokeChance(0).setScaleX(4).setAfterReload(true).setPitchFactor(0.02f).setYawFactor(0.03f)
+			.build();
 	
 	public static GunConfiguration getHK69Config() {
 		
@@ -40,6 +48,8 @@ public class GunGrenadeFactory {
 		config.config = new ArrayList<Integer>();
 		config.config.addAll(HbmCollection.grenade);
 		config.durability = 300;
+
+		config.casingConfig = Optional.of(GunGrenadeFactory.CASING_40);
 		
 		return config;
 	}

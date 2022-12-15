@@ -8,6 +8,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasingConfig;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +16,7 @@ import net.minecraft.util.Vec3;
 
 public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 
-	static List<Integer> configs = new ArrayList();
+	static List<Integer> configs = new ArrayList<>();
 	
 	static {
 		configs.add(BulletConfigSyncingUtil.SPECIAL_GAUSS);
@@ -148,5 +149,17 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 			beam = 3;
 		else
 			super.networkUnpack(nbt);
+	}
+
+	@Override
+	public boolean usesCasings()
+	{
+		return false;
+	}
+
+	@Override
+	public SpentCasingConfig getCasingConfig()
+	{
+		return null;
 	}
 }

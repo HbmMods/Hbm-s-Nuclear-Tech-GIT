@@ -1,7 +1,9 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityBuilding;
@@ -15,6 +17,9 @@ import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfigBuilder;
+import com.hbm.particle.SpentCasingConfig.CasingType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
@@ -23,6 +28,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 
 public class Gun44MagnumFactory {
+	
+	static final SpentCasingConfig CASING_44 = new SpentCasingConfigBuilder("44Magnum", CasingType.BRASS_STRAIGHT_WALL, false)
+			.setCasingAmount(6).setYawFactor(0.05f).setPosOffset(new EasyLocation(0, -0.1, 0)).setSmokeChance(6)
+			.setAfterReload(true).setScaleX(1.25f).build();
 	
 	public static GunConfiguration getBaseConfig() {
 		
@@ -43,6 +52,8 @@ public class Gun44MagnumFactory {
 		config.reloadSoundEnd = false;
 		
 		config.config.addAll(HbmCollection.fourtyFourMagBasic);
+		
+		config.casingConfig = Optional.of(CASING_44);
 		
 		return config;
 	}

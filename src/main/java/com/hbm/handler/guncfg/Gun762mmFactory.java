@@ -1,6 +1,7 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -8,6 +9,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasingConfig;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
@@ -16,6 +18,9 @@ import net.minecraft.potion.PotionEffect;
 public class Gun762mmFactory
 {
 
+	static final SpentCasingConfig CASING_762_NATO = Gun556mmFactory.CONFIG_556.toBuilder("762NATO").setSmokeChance(2).setScaleX(2)
+			.setScaleZ(2.5f).build();
+	
 	public static GunConfiguration getUACDMRConfig()
 	{
 		final GunConfiguration config = new GunConfiguration();
@@ -41,6 +46,8 @@ public class Gun762mmFactory
 		config.manufacturer = EnumGunManufacturer.UAC;
 		
 		config.config.addAll(HbmCollection.threeZeroEight);
+		
+		config.casingConfig = Optional.of(CASING_762_NATO);
 		
 		return config;
 	}
@@ -118,6 +125,8 @@ public class Gun762mmFactory
 		config.advFuncLore.add("extra ammunition, and reloads and spots targets for the gunner. The ammunition bearer carries additional ammunition");
 		config.advFuncLore.add("and the tripod with associated traversing and elevation mechanism, if issued, and fetches more ammunition as needed");
 		config.advFuncLore.add("during firing.");
+
+		config.casingConfig = Optional.of(CASING_762_NATO);
 		
 		return config;
 	}

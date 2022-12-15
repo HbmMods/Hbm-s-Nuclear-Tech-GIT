@@ -88,7 +88,7 @@ public class BulletConfiguration implements Cloneable {
 	/**The function that handles lost penetration over distance**/
 	@Nonnull
 	public Optional<PenetrationModifierFunction> modFunction = Optional.of(DEFAULT_FUNCTION);
-
+	
 	//whether or not the bullet should penetrate mobs
 	public boolean doesPenetrate;
 	//whether or not the bullet should phase through blocks

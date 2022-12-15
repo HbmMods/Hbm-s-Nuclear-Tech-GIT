@@ -1,6 +1,7 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -9,9 +10,13 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasingConfig;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun5mmFactory {
+	
+	public static final SpentCasingConfig CASING_5MM = Gun22LRFactory.CASING_22LR.toBuilder("5mm").setCasingAmount(5).build(),
+			CASING_5MM_TURRET = CASING_5MM.toBuilder("5mmTurret").setCasingAmount(1).build();
 	
 	public static GunConfiguration getMinigunConfig() {
 		
@@ -31,6 +36,8 @@ public class Gun5mmFactory {
 		config.firingSound = "hbm:weapon.lacunaeShoot";
 		
 		config.config = HbmCollection.fiveMM;
+		
+		config.casingConfig = Optional.of(CASING_5MM);
 		
 		return config;
 	}

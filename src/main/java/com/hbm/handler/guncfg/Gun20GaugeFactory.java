@@ -1,7 +1,9 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -9,6 +11,9 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfig.CasingType;
+import com.hbm.particle.SpentCasingConfigBuilder;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -17,8 +22,17 @@ import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Vec3;
 
 public class Gun20GaugeFactory {
+	
+	private static final SpentCasingConfigBuilder CASING_20G_BUILDER = new SpentCasingConfigBuilder("20g_lever", CasingType.SHOTGUN, false);
+	static final SpentCasingConfig
+			CASING_20G_LEVER = CASING_20G_BUILDER
+			.setPosOffset(new EasyLocation(1.5, 0, 0))
+			.setInitialMotion(Vec3.createVectorHelper(-0.1, 0.95, 0)).setPitchFactor(0.05f).setYawFactor(0.01f)
+			.setSmokeChance(0)
+			.build();
 	
 	public static GunConfiguration getShotgunConfig() {
 		
@@ -53,6 +67,8 @@ public class Gun20GaugeFactory {
 		
 		config.config = HbmCollection.twentyGauge;
 		
+		config.casingConfig = Optional.of(CASING_20G_LEVER);
+		
 		return config;
 	}
 	
@@ -69,6 +85,8 @@ public class Gun20GaugeFactory {
 		config.manufacturer = EnumGunManufacturer.WINCHESTER;
 		
 		config.config = HbmCollection.twentyGauge;
+
+		config.casingConfig = Optional.of(CASING_20G_LEVER);
 		
 		return config;
 	}
@@ -86,6 +104,8 @@ public class Gun20GaugeFactory {
 		config.manufacturer = EnumGunManufacturer.WINCHESTER;
 		
 		config.config = HbmCollection.twentyGauge;
+
+		config.casingConfig = Optional.of(CASING_20G_LEVER);
 		
 		return config;
 	}
@@ -121,6 +141,8 @@ public class Gun20GaugeFactory {
 				);
 		
 		config.config = HbmCollection.twentyGauge;
+
+		config.casingConfig = Optional.of(CASING_20G_LEVER);
 		
 		return config;
 	}
@@ -157,6 +179,8 @@ public class Gun20GaugeFactory {
 		
 		
 		config.config = HbmCollection.twentyGauge;
+
+		config.casingConfig = Optional.of(CASING_20G_LEVER);
 		
 		return config;
 	}
@@ -202,6 +226,8 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK_FIRE);
 		config.config.add(BulletConfigSyncingUtil.G20_WITHER_FIRE);
 		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
+
+		config.casingConfig = Optional.of(CASING_20G_LEVER);
 		
 		return config;
 	}

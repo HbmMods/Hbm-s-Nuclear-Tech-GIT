@@ -8,7 +8,7 @@ import net.minecraft.util.Vec3;
 
 public abstract class TileEntityTurretBaseArtillery extends TileEntityTurretBaseNT {
 	
-	protected List<Vec3> targetQueue = new ArrayList();
+	protected List<Vec3> targetQueue = new ArrayList<>();
 	
 	public void enqueueTarget(double x, double y, double z) {
 		

@@ -7,6 +7,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasingConfig;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.EntityDamageUtil;
 
@@ -39,7 +40,7 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 		if(ammoStacks != null)
 			return ammoStacks;
 		
-		ammoStacks = new ArrayList();
+		ammoStacks = new ArrayList<>();
 
 		ammoStacks.add(new ItemStack(ModItems.upgrade_speed_1));
 		ammoStacks.add(new ItemStack(ModItems.upgrade_speed_2));
@@ -231,5 +232,17 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 			beam = 5;
 		else
 			super.networkUnpack(nbt);
+	}
+
+	@Override
+	public boolean usesCasings()
+	{
+		return false;
+	}
+
+	@Override
+	public SpentCasingConfig getCasingConfig()
+	{
+		return null;
 	}
 }

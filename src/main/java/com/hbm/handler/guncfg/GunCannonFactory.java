@@ -1,13 +1,30 @@
 package com.hbm.handler.guncfg;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfigBuilder;
+import com.hbm.particle.SpentCasingConfig.CasingType;
+
+import net.minecraft.util.Vec3;
 
 public class GunCannonFactory {
+	
+	private static final SpentCasingConfigBuilder CASING_CANNON_BUILDER = new SpentCasingConfigBuilder("240", CasingType.BRASS_BOTTLENECK, false)
+			.setInitialMotion(Vec3.createVectorHelper(0, 0.2, -1)).setPosOffset(new EasyLocation(0, 1.75, 0)).setSmokeChance(0)
+			.setScaleX(10).setScaleY(10).setScaleZ(10);
+	public static final SpentCasingConfig
+			CASING_240 = CASING_CANNON_BUILDER.build(),
+			
+			CASING_16IN = CASING_CANNON_BUILDER.setRegistryName("16inch").setInitialMotion(Vec3.createVectorHelper(0, 1, -1.75))
+			.setScaleX(20).setScaleY(20).setScaleZ(25)
+			.build();
+	
 	static final int stockPen = 10000;
 	static byte i = 0;
 	public static BulletConfiguration getShellConfig() {
@@ -17,8 +34,8 @@ public class GunCannonFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
 		bullet.dmgMin = 225;
 		bullet.dmgMax = 235;
-		bullet.penetration = stockPen;
-		bullet.explosive = 40F;
+		bullet.penetration = 40;
+		bullet.explosive = 20F;
 		bullet.blockDamage = false;
 		
 		return bullet;
@@ -31,8 +48,8 @@ public class GunCannonFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
 		bullet.dmgMin = 235;
 		bullet.dmgMax = 245;
-		bullet.penetration = stockPen;
-		bullet.explosive = 40F;
+		bullet.penetration = 50;
+		bullet.explosive = 25F;
 		bullet.blockDamage = true;
 		
 		return bullet;

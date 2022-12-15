@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
 import com.hbm.particle.SpentCasingConfig;
@@ -94,8 +96,9 @@ public class GunConfiguration implements Cloneable {
 	public Crosshair crosshair;
 	
 	/**Controller for spent casings. If {@code Optional.empty()} it will not eject casings.**/
+	@Nonnull
 	public Optional<SpentCasingConfig> casingConfig = Optional.empty();
-
+	
 	public static final int MODE_NORMAL = 0;
 	public static final int MODE_RELEASE = 1;
 	public static final int MODE_BOTH = 1;

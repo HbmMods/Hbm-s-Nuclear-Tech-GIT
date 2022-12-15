@@ -16,10 +16,12 @@ import com.hbm.interfaces.IItemHUD;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.lib.HbmCollection;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasingConfig;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -208,6 +210,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		}
 		
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
+		
+		if (mainConfig.casingConfig.isPresent() && !mainConfig.casingConfig.get().isAfterReload())
+			spawnCasing(player, mainConfig.casingConfig.get(), stack);
 
 		if(player.getDisplayName().equals("Vic4Games")) {
 			NBTTagCompound nbt = new NBTTagCompound();
@@ -245,6 +250,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		}
 		
 		world.playSoundAtEntity(player, altConfig.firingSound, 1.0F, altConfig.firingPitch);
+		
+		if (altConfig.casingConfig.isPresent() && !altConfig.casingConfig.get().isAfterReload())
+			spawnCasing(player, altConfig.casingConfig.get(), stack);
 	}
 	
 	//spawns the actual projectile, can be overridden to change projectile entity
@@ -438,6 +446,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			
 			if(hasLoaded && mainConfig.reloadSoundEnd)
 				world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
+
+			if (mainConfig.casingConfig.isPresent() && mainConfig.casingConfig.get().isAfterReload())
+				spawnCasing(player, mainConfig.casingConfig.get(), stack);
+			
 			InventoryUtil.doesPlayerHaveAStack(player, ammo, true, false);
 		} else {
 			setReloadCycle(stack, getReloadCycle(stack) - 1);
@@ -579,6 +591,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			list.add("Is Reloading: " + getIsReloading(stack));
 			list.add("Reload Cycle: " + getReloadCycle(stack));
 			list.add("RoF Cooldown: " + getDelay(stack));
+//			list.add("Casing Spawning: " + stack.stackTagCompound.getBoolean("casingReady"));
+//			list.add("Casing Cooldown: " + stack.stackTagCompound.getByte("casingDelay"));
 		}
 		if (!mainConfig.advLore.isEmpty() || !mainConfig.advFuncLore.isEmpty())
 			list.add("");
@@ -844,10 +858,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 
 			event.setCanceled(true);
 			
-			if(!(gcfg.hasSights && player.isSneaking()))
-				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, ((IHoldableWeapon)player.getHeldItem().getItem()).getCrosshair());
-			else
-				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, Crosshair.NONE);
+			RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, (gcfg.hasSights && player.isSneaking()) ? Crosshair.NONE : ((IHoldableWeapon)player.getHeldItem().getItem()).getCrosshair());
 		}
 	}
 	
@@ -862,5 +873,20 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	{
 		if (!mainConfig.equipSound.isEmpty() && !player.worldObj.isRemote)
 			player.worldObj.playSoundAtEntity(player, mainConfig.equipSound, 1, 1);
+	}
+	
+	// TODO Do something to handle delays
+	protected static void spawnCasing(Entity entity, SpentCasingConfig config, ItemStack stack)
+	{
+		final NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "casing");
+		data.setDouble("posX", entity.posX);
+		data.setDouble("posY", entity.posY + entity.getEyeHeight());
+		data.setDouble("posZ", entity.posZ);
+		data.setFloat("pitch", (float) Math.toRadians(entity.rotationPitch));
+		data.setFloat("yaw", (float) Math.toRadians(entity.rotationYaw));
+		data.setBoolean("crouched", entity.isSneaking());
+		data.setString("name", config.getRegistryName());
+		MainRegistry.proxy.effectNT(data);
 	}
 }

@@ -1,11 +1,17 @@
 package com.hbm.handler.guncfg;
 
+import java.util.Optional;
+
+import com.hbm.calc.EasyLocation;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfig.CasingType;
+import com.hbm.particle.SpentCasingConfigBuilder;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -15,8 +21,32 @@ import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Vec3;
 
 public class Gun12GaugeFactory {
+	
+	private static final SpentCasingConfigBuilder CASING_12G_BUILDER = new SpentCasingConfigBuilder("", CasingType.SHOTGUN, false)
+			.setScaleX(1.5f).setScaleY(1.5f).setScaleZ(1.5f);
+	static final SpentCasingConfig
+			CASING_SPAS = CASING_12G_BUILDER.setRegistryName("spas12").setPosOffset(new EasyLocation(1.5, 0, 0))
+			.setInitialMotion(Vec3.createVectorHelper(-0.3, 0.75, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
+			.setSmokeChance(0).setDelay(10)
+			.build(),
+			
+			CASING_SPAS_ALT = CASING_12G_BUILDER.setRegistryName("spas12alt").setCasingAmount(2)
+			.build(),
+			
+			CASING_BENELLI = CASING_12G_BUILDER.setRegistryName("benelli").setCasingAmount(1).setDelay(0)
+			.setInitialMotion(Vec3.createVectorHelper(-0.3, 1.1, 0))
+			.build(),
+			
+			CASING_UBOINIK = CASING_12G_BUILDER.setRegistryName("uboinik").setOverrideColor(true)
+			.setBlueOverride(255)
+			.build(),
+			
+			CASING_SSG = CASING_12G_BUILDER.setRegistryName("ssg").setBlueOverride(0).setRedOverride(255).setCasingAmount(2)
+			.setPosOffset(new EasyLocation(-2, 0, 0)).setInitialMotion(Vec3.createVectorHelper(0.2, 0, -0.2))
+			.build();
 	
 	public static GunConfiguration getSpas12Config() {
 		
@@ -59,6 +89,8 @@ public class Gun12GaugeFactory {
 					)
 				);
 		
+		config.casingConfig = Optional.of(CASING_SPAS);
+		
 		return config;
 	}
 	
@@ -78,6 +110,8 @@ public class Gun12GaugeFactory {
 		
 		
 		config.config = HbmCollection.twelveGauge;
+		
+		config.casingConfig = Optional.of(CASING_SPAS_ALT);
 
 		return config;
 	}
@@ -104,6 +138,8 @@ public class Gun12GaugeFactory {
 		config.manufacturer = EnumGunManufacturer.METRO;
 		
 		config.config = HbmCollection.twelveGauge;
+		
+		config.casingConfig = Optional.of(CASING_UBOINIK);
 		
 		return config;
 	}
@@ -155,6 +191,8 @@ public class Gun12GaugeFactory {
 		config.comment.add("God-damned ARCH-VILES!");
 		
 		config.config = HbmCollection.twelveGauge;
+		
+		config.casingConfig = Optional.of(CASING_SSG);
 		
 		return config;
 	}
@@ -229,6 +267,8 @@ public class Gun12GaugeFactory {
 		config.advFuncLore.add("The modular basis of the shotgun means many of its features can be reconfigured as needed. It allows a");
 		config.advFuncLore.add("user to quickly exchange the various assembly groups (barrel, buttstock, forend, etc.) without the use");
 		config.advFuncLore.add("of additional tools.");
+		
+		config.casingConfig = Optional.of(CASING_BENELLI);
 		
 		return config;
 	}

@@ -1,21 +1,38 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfig.CasingType;
+import com.hbm.particle.SpentCasingConfigBuilder;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
+import net.minecraft.util.Vec3;
+
 public class Gun45ACPFactory
 {
+	
+	private static final SpentCasingConfigBuilder CASING_45_BUILDER = new SpentCasingConfigBuilder("45acp", CasingType.BRASS_STRAIGHT_WALL, false)
+			.setSmokeChance(8).setInitialMotion(Vec3.createVectorHelper(-0.3, 0.75, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
+			.setPosOffset(new EasyLocation(1.5, 0, 0)).setScaleZ(0.75f);
+	static final SpentCasingConfig
+			CASING_45 = CASING_45_BUILDER.build(),
+			
+			CASING_45_UAC = CASING_45_BUILDER.setRegistryName("45acp_UAC_Pistol")
+			.setInitialMotion(Vec3.createVectorHelper(0.3, 0.9, 0)).setPosOffset(new EasyLocation(1.5, -1, 0))
+			.build();
 	
 	public static GunConfiguration getThompsonConfig() {
 		
@@ -47,6 +64,8 @@ public class Gun45ACPFactory
 		config.advLore.add("selective-fire submachine gun, invented by the United States Army Brigadier general John T.");
 		config.advLore.add("Thompson in 1918. It was originally designed to break the stalemate of trench warfare of World");
 		config.advLore.add("War I, but was not finished until after the war ended.");
+		
+		config.casingConfig = Optional.of(CASING_45);
 		
 		return config;
 	}
@@ -85,6 +104,8 @@ public class Gun45ACPFactory
 						.addKeyframe(new BusAnimationKeyframe(15, 0, 0, 10))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 40))));
 		
+		config.casingConfig = Optional.of(CASING_45_UAC);
+		
 		return config;
 	}
 	
@@ -113,6 +134,8 @@ public class Gun45ACPFactory
 		config.manufacturer = EnumGunManufacturer.UAC;
 		
 		config.config.addAll(HbmCollection.fourtyFiveACP);
+		
+		config.casingConfig = Optional.of(CASING_45);
 		
 		return config;
 	}

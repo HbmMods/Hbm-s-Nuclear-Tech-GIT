@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntityArtilleryShell;
+import com.hbm.handler.guncfg.GunCannonFactory;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretArty;
 import com.hbm.items.ModItems;
@@ -12,6 +13,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasingConfig;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -45,7 +47,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		if(ammoStacks != null)
 			return ammoStacks;
 		
-		ammoStacks = new ArrayList();
+		ammoStacks = new ArrayList<>();
 
 		List list = new ArrayList();
 		ModItems.ammo_arty.getSubItems(ModItems.ammo_arty, MainRegistry.weaponTab, list);
@@ -56,7 +58,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 	
 	@Override
 	protected List<Integer> getAmmoList() {
-		return new ArrayList();
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -86,12 +88,12 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 
 	@Override
 	public double getDecetorRange() {
-		return this.mode == this.MODE_CANNON ? 250D : 3000D;
+		return this.mode == MODE_CANNON ? 250D : 3000D;
 	}
 	
 	@Override
 	public double getDecetorGrace() {
-		return this.mode == this.MODE_CANNON ? 32D : 250D;
+		return this.mode == MODE_CANNON ? 32D : 250D;
 	}
 
 	@Override
@@ -121,7 +123,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 
 	@Override
 	public boolean doLOSCheck() {
-		return this.mode == this.MODE_CANNON;
+		return this.mode == MODE_CANNON;
 	}
 	
 	@Override
@@ -198,12 +200,13 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		proj.setTarget((int) tPos.xCoord, (int) tPos.yCoord, (int) tPos.zCoord);
 		proj.setType(type);
 		
-		if(this.mode != this.MODE_CANNON)
+		if(this.mode != MODE_CANNON)
 			proj.setWhistle(true);
 		
 		worldObj.spawnEntityInWorld(proj);
 	}
 	
+	@Override
 	protected void updateConnections() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
@@ -239,7 +242,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			}
 		}
 		
-		if(this.mode == this.MODE_MANUAL) {
+		if(this.mode == MODE_MANUAL) {
 			if(!this.targetQueue.isEmpty()) {
 				this.tPos = this.targetQueue.get(0);
 			}
@@ -264,7 +267,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			}
 		}
 		
-		if(target != null && this.mode != this.MODE_MANUAL) {
+		if(target != null && this.mode != MODE_MANUAL) {
 			if(!this.entityInLOS(this.target)) {
 				this.target = null;
 			}
@@ -275,7 +278,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			if(target != null) {
 				this.tPos = this.getEntityPos(target);
 			} else {
-				if(this.mode != this.MODE_MANUAL) {
+				if(this.mode != MODE_MANUAL) {
 					this.tPos = null;
 				}
 			}
@@ -307,7 +310,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 				if(searchTimer <= 0) {
 					searchTimer = this.getDecetorInterval();
 					
-					if(this.target == null && this.mode != this.MODE_MANUAL)
+					if(this.target == null && this.mode != MODE_MANUAL)
 						this.seekNewTarget();
 				}
 			} else {
@@ -373,7 +376,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 			}
 			
-			if(this.mode == this.MODE_MANUAL && !this.targetQueue.isEmpty()) {
+			if(this.mode == MODE_MANUAL && !this.targetQueue.isEmpty()) {
 				this.targetQueue.remove(0);
 				this.tPos = null;
 			}
@@ -435,5 +438,17 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITurretArty(player.inventory, this);
+	}
+
+	@Override
+	public boolean usesCasings()
+	{
+		return true;
+	}
+
+	@Override
+	public SpentCasingConfig getCasingConfig()
+	{
+		return GunCannonFactory.CASING_16IN;
 	}
 }

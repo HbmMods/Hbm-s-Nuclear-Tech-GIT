@@ -1,7 +1,9 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -9,12 +11,24 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfigBuilder;
+import com.hbm.particle.SpentCasingConfig.CasingType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.potion.PotionEffect;
 
 public class Gun357MagnumFactory {
+	
+	private static final SpentCasingConfigBuilder CASING_357_BUILDER = new SpentCasingConfigBuilder("357", CasingType.BRASS_STRAIGHT_WALL, false)
+			.setCasingAmount(6).setYawFactor(0.05f).setPosOffset(new EasyLocation(0, -0.1, 0)).setSmokeChance(6).setAfterReload(true);
+	static final SpentCasingConfig
+			CASING_357 = CASING_357_BUILDER.build(),
+			
+			CASING_357_SA = CASING_357_BUILDER.setRegistryName("357Schrabidium").setSmokeChance(0).setOverrideColor(true)
+			.setRedOverride(2).setGreenOverride(207).setBlueOverride(207)
+			.build();
 	
 	public static GunConfiguration getBaseConfig() {
 		
@@ -33,6 +47,8 @@ public class Gun357MagnumFactory {
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.revolverShoot";
 		config.reloadSoundEnd = false;
+		
+		config.casingConfig = Optional.of(CASING_357);
 		
 		return config;
 	}
@@ -149,6 +165,8 @@ public class Gun357MagnumFactory {
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SCHRABIDIUM_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
+
+		config.casingConfig = Optional.of(CASING_357_SA);
 		
 		return config;
 	}
@@ -184,6 +202,8 @@ public class Gun357MagnumFactory {
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NIGHT2_REVOLVER);
 		
+		config.casingConfig = Optional.of(Gun20GaugeFactory.CASING_20G_LEVER);
+		
 		return config;
 	}
 	
@@ -210,7 +230,7 @@ public class Gun357MagnumFactory {
 	
 	public static GunConfiguration getColtPythonConfig()
 	{
-		GunConfiguration config = getBaseConfig().clone();
+		GunConfiguration config = getBaseConfig();
 		
 		config.durability = 8000;
 		config.name = "cPython";

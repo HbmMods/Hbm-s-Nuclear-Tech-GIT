@@ -49,7 +49,7 @@ public class ItemRenderLunaticSniper implements IItemRenderer
 	{
 		GL11.glPushMatrix();
 		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
-		double[] eject = HbmAnimations.getRelevantTransformation("EJECT");
+//		double[] eject = HbmAnimations.getRelevantTransformation("EJECT");
 		double[] tilt = HbmAnimations.getRelevantTransformation("TILT");
 //		double[] insert = HbmAnimations.getRelevantTransformation("INSERT_ROUND");
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.lunatic_sniper_tex);
@@ -93,7 +93,7 @@ public class ItemRenderLunaticSniper implements IItemRenderer
 			// Eject casing
 			GL11.glPushMatrix();
 			GL11.glTranslated(0, 2, 0);//FIXME Where on earth is it?!
-			ResourceManager.lunatic_sniper.renderPart(spentShell);
+//			ResourceManager.lunatic_sniper.renderPart(spentShell);
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED:// In hand from other's POV
@@ -103,8 +103,8 @@ public class ItemRenderLunaticSniper implements IItemRenderer
 			GL11.glTranslatef(0F, -0.25F, -0.76F);
 			GL11.glScalef(scale2 - scale2 * 2, scale2, scale2);
 			GL11.glPushMatrix();
-			GL11.glTranslated(eject[0] / 2, 0, -5);
-			ResourceManager.lunatic_sniper.renderPart(spentShell);
+//			GL11.glTranslated(eject[0] / 2, 0, -5);
+//			ResourceManager.lunatic_sniper.renderPart(spentShell);
 			GL11.glPopMatrix();
 			break;
 		case ENTITY:// Dropped item

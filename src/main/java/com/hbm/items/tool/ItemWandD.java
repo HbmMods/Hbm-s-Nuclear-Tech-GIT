@@ -2,26 +2,17 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.effect.EntityNukeTorex;
-import com.hbm.entity.mob.siege.EntitySiegeTunneler;
-import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemKitCustom;
 import com.hbm.lib.Library;
 import com.hbm.world.feature.OilSpot;
 
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class ItemWandD extends Item {
-
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		

@@ -1,14 +1,26 @@
 package com.hbm.handler.guncfg;
 
+import java.util.Optional;
+
+import com.hbm.calc.EasyLocation;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfig.CasingType;
+import com.hbm.particle.SpentCasingConfigBuilder;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
+import net.minecraft.util.Vec3;
+
 public class Gun50AEFactory {
+	
+	static final SpentCasingConfig CASING_50AE = new SpentCasingConfigBuilder("50ae", CasingType.BRASS_STRAIGHT_WALL, false)
+			.setSmokeChance(4).setInitialMotion(Vec3.createVectorHelper(-0.3, 0.9, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
+			.setPosOffset(new EasyLocation(1.5, 0, 0)).setScaleZ(1.5f).build();
 	
 	public static GunConfiguration getBaseConfig() {
 		
@@ -27,6 +39,8 @@ public class Gun50AEFactory {
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.deagleShoot";
 		config.reloadSoundEnd = false;
+		
+		config.casingConfig = Optional.of(CASING_50AE);
 		
 		return config;
 	}
