@@ -4,13 +4,19 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 public class TileEntityMachineExcavator extends TileEntityMachineBase {
 
+	public boolean enableDrill = false;
+	public boolean enableCrusher = false;
+	public boolean enableWalling = false;
+	public boolean enableVeinMiner = false;
+	public boolean enableSilkTouch = false;
+
 	public TileEntityMachineExcavator() {
-		super(10);
+		super(14);
 	}
 
 	@Override
 	public String getName() {
-		return null;
+		return "container.machineExcavator";
 	}
 
 	@Override

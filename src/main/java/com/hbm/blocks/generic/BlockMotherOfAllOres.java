@@ -8,7 +8,6 @@ import java.util.Random;
 
 import com.google.common.collect.HashBiMap;
 import com.hbm.blocks.IBlockMultiPass;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WorldConfig;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;

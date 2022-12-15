@@ -7,7 +7,6 @@ import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 
-import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 

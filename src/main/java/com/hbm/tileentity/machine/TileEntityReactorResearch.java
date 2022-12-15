@@ -1,38 +1,24 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.machine.MachineReactorBreeding;
-import com.hbm.blocks.machine.ReactorResearch;
 import com.hbm.config.MobConfig;
-import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPlateFuel;
-import com.hbm.lib.Library;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.tileentity.machine.rbmk.RBMKDials;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;

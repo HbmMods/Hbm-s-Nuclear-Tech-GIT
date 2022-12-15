@@ -7,12 +7,10 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
-import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.config.GeneralConfig;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.util.LootGenerator;
 

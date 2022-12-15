@@ -26,7 +26,6 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardSender;
-import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;

@@ -18,7 +18,6 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
 import net.minecraft.potion.Potion;
@@ -62,10 +61,6 @@ public class EntityBullet extends Entity implements IProjectile {
 	public double damage;
 	/** The amount of knockback an arrow applies when it hits a mob. */
 	private int knockbackStrength;
-	private static final String __OBFID = "CL_00001715";
-	private int dmgMin = 0;
-	private int dmgMax = 1;
-	private boolean isTau = false;
 	private boolean instakill = false;
 	private boolean rad = false;
 	public boolean antidote = false;

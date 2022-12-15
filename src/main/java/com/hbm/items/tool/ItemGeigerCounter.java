@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.util.ContaminationUtil;
 
@@ -18,7 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 
 public class ItemGeigerCounter extends Item {
 	

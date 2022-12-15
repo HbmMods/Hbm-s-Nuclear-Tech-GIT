@@ -165,6 +165,7 @@ public class ResourceManager {
 	//Mining Drill
 	public static final IModelCustom drill_body = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/drill_main.obj"));
 	public static final IModelCustom drill_bolt = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/drill_bolt.obj"));
+	public static final IModelCustom mining_drill = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/mining_drill.obj")).asDisplayList();
 	
 	//Laser Miner
 	public static final IModelCustom mining_laser = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/mining_laser.obj"));
@@ -502,6 +503,7 @@ public class ResourceManager {
 	//Mining Drill
 	public static final ResourceLocation drill_body_tex = new ResourceLocation(RefStrings.MODID, "textures/models/mining_drill.png");
 	public static final ResourceLocation drill_bolt_tex = new ResourceLocation(RefStrings.MODID, "textures/models/textureIGenRotor.png");
+	public static final ResourceLocation mining_drill_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/mining_drill.png");
 
 	//Laser Miner
 	public static final ResourceLocation mining_laser_base_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/mining_laser_base.png");

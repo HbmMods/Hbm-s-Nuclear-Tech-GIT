@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.items.ModItems;
 
-import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
