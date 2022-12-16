@@ -253,7 +253,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.steel_wall, new ItemStack(ModItems.powder_steel_tiny, 13));
 		ShredderRecipes.setRecipe(ModBlocks.steel_corner, new ItemStack(ModItems.powder_steel_tiny, 26));
 		ShredderRecipes.setRecipe(ModBlocks.steel_beam, new ItemStack(ModItems.powder_steel_tiny, 3));
-		ShredderRecipes.setRecipe(ModBlocks.steel_scaffold, new ItemStack(ModItems.powder_steel_tiny, 7));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.steel_scaffold, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.powder_steel_tiny, 7));
 		ShredderRecipes.setRecipe(ModItems.coil_copper, new ItemStack(ModItems.powder_red_copper, 1));
 		ShredderRecipes.setRecipe(ModItems.coil_copper_torus, new ItemStack(ModItems.powder_red_copper, 2));
 		ShredderRecipes.setRecipe(ModItems.coil_advanced_alloy, new ItemStack(ModItems.powder_advanced_alloy, 1));
@@ -273,6 +273,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.oil_duct_solid, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModBlocks.gas_duct, new ItemStack(ModItems.powder_steel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.gas_duct_solid, new ItemStack(ModItems.powder_steel, 1));
+		ShredderRecipes.setRecipe(ModBlocks.machine_fluidtank, new ItemStack(ModItems.powder_steel, 32));
 
 		/* Sellafite scrapping */
 		ShredderRecipes.setRecipe(ModBlocks.sellafield_slaked, new ItemStack(Blocks.gravel));
