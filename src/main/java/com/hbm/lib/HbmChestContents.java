@@ -1,7 +1,5 @@
 package com.hbm.lib;
 
-import java.util.HashMap;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -10,10 +8,6 @@ import com.hbm.items.special.ItemBookLore.BookLoreType;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.WeightedRandomChestContent;
 
 public class HbmChestContents {

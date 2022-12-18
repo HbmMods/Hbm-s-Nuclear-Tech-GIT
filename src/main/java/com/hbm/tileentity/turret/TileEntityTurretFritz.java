@@ -228,4 +228,9 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { tank };
 	}
+
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		return dir != ForgeDirection.UP && dir != ForgeDirection.DOWN;
+	}
 }

@@ -11,6 +11,7 @@ public interface IToolable {
 		SCREWDRIVER,
 		HAND_DRILL,
 		DEFUSER,
-		WRENCH
+		WRENCH,
+		TORCH
 	}
 }

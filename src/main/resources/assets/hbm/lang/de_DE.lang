@@ -765,6 +765,7 @@ info.template_out_p=Output:
 info.template_seconds=Sekunden
 info.template_time=Produktionszeit:
 
+item.acetylene_torch.name=Acetylen-Schweißbrenner
 item.ajr_boots.name=Steel Ranger Powerrüstungsstiefel
 item.ajr_helmet.name=Steel Ranger Powerrüstungshelm
 item.ajr_legs.name=Steel Ranger Powerrüstungsbeinschutz
@@ -1130,6 +1131,7 @@ item.blades_iron.name=Eisensägeblatt
 item.blades_schrabidium.name=Schrabidiumsägeblatt
 item.blades_steel.name=Stahlsägeblatt
 item.blades_titanium.name=Titansägeblatt
+item.blowtorch.name=Lötlampe
 item.board_copper.name=Kupfertafel
 item.bobmazon_hidden.name=Versteckter Katalog
 item.bobmazon_machines.name=Bobmazon: Blöcke und Maschinen

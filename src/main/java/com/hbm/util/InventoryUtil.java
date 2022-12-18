@@ -218,6 +218,7 @@ public class InventoryUtil {
 		
 		ItemStack[] original = player.inventory.mainInventory;
 		ItemStack[] inventory = new ItemStack[original.length];
+		boolean[] modified = new boolean[original.length];
 		AStack[] input = new AStack[stacks.size()];
 		
 		//first we copy the inputs into an array because 1. it's easier to deal with and 2. we can dick around with the stack sized with no repercussions
@@ -248,6 +249,7 @@ public class InventoryUtil {
 					int size = Math.min(stack.stacksize, inv.stackSize);
 					stack.stacksize -= size;
 					inv.stackSize -= size;
+					modified[j] = true;
 					
 					//spent stacks are removed from the equation so that we don't cross ourselves later on
 					if(stack.stacksize <= 0) {
@@ -271,10 +273,11 @@ public class InventoryUtil {
 		if(shouldRemove) {
 			for(int i = 0; i < original.length; i++) {
 				
-				if(inventory[i] != null && inventory[i].stackSize <= 0)
+				if(inventory[i] != null && inventory[i].stackSize <= 0) {
 					original[i] = null;
-				else
-					original[i] = inventory[i];
+				} else {
+					if(modified[i]) original[i] = inventory[i];
+				}
 			}
 		}
 		

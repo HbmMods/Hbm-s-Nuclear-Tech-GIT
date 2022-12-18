@@ -76,7 +76,7 @@ public class Library {
 	public static String SolsticeUnlimitd = "f5574fd2-ec28-4927-9d11-3c0c731771f4";
 	public static String FrizzleFrazzle = "fc4cc2ee-12e8-4097-b26a-1c6cb1b96531";
 	public static String the_NCR = "28ae585f-4431-4491-9ce8-3def6126e3c6";
-	public static String Barnaby99_x = "711aaf78-a862-4b7e-921a-216349716e9a";
+	public static String Barnaby99_x = "b04cf173-cff0-4acd-aa19-3d835224b43d";
 	public static String Ma118 = "1121cb7a-8773-491f-8e2b-221290c93d81";
 	public static String Adam29Adam29 = "bbae7bfa-0eba-40ac-a0dd-f3b715e73e61";
 

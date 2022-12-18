@@ -11,6 +11,9 @@ import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
+import com.hbm.inventory.OreDictManager;
+import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.container.ContainerMachineFluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
@@ -27,6 +30,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.IPersistentNBT;
+import com.hbm.tileentity.IRepairable;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -45,7 +49,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, IFluidSource, IFluidAcceptor, IFluidStandardTransceiver, IPersistentNBT, IOverpressurable, IGUIProvider {
+public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, IFluidSource, IFluidAcceptor, IFluidStandardTransceiver, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -378,5 +382,27 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	@Override
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) world.getTileEntity(x, y, z));
+	}
+
+	@Override
+	public boolean isDamaged() {
+		return this.hasExploded;
+	}
+	
+	List<AStack> repair = new ArrayList();
+	@Override
+	public List<AStack> getRepairMaterials() {
+		
+		if(!repair.isEmpty())
+			return repair;
+		
+		repair.add(new OreDictStack(OreDictManager.STEEL.plate(), 6));
+		return repair;
+	}
+
+	@Override
+	public void repair() {
+		this.hasExploded = false;
+		this.markChanged();
 	}
 }

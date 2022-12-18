@@ -1,18 +1,94 @@
 package com.hbm.inventory.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.inventory.container.ContainerMachineExcavator;
+import com.hbm.lib.RefStrings;
+import com.hbm.packet.NBTControlPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineExcavator;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineExcavator extends GuiInfoContainer {
 
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_mining_drill.png");
+	private TileEntityMachineExcavator drill;
+
 	public GUIMachineExcavator(InventoryPlayer inventory, TileEntityMachineExcavator tile) {
 		super(new ContainerMachineExcavator(inventory, tile));
+		
+		this.drill = tile;
+		
+		this.xSize = 242;
+		this.ySize = 204;
+	}
+	
+	@Override
+	public void drawScreen(int x, int y, float interp) {
+		super.drawScreen(x, y, interp);
+	}
+
+	@Override
+	protected void mouseClicked(int x, int y, int i) {
+		super.mouseClicked(x, y, i);
+
+		String toggle = null;
+		
+		if(guiLeft + 6 <= x && guiLeft + 6 + 20 > x && guiTop + 42 < y && guiTop + 42 + 40 >= y) toggle = "drill";
+		if(guiLeft + 30 <= x && guiLeft + 30 + 20 > x && guiTop + 42 < y && guiTop + 42 + 40 >= y) toggle = "crusher";
+		if(guiLeft + 54 <= x && guiLeft + 54 + 20 > x && guiTop + 42 < y && guiTop + 42 + 40 >= y) toggle = "walling";
+		if(guiLeft + 78 <= x && guiLeft + 78 + 20 > x && guiTop + 42 < y && guiTop + 42 + 40 >= y) toggle = "veinminer";
+		if(guiLeft + 102 <= x && guiLeft + 102 + 20 > x && guiTop + 42 < y && guiTop + 42 + 40 >= y) toggle = "silktouch";
+
+		if(toggle != null) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:block.leverLarge"), 1.0F));
+			NBTTagCompound data = new NBTTagCompound();
+			data.setBoolean(toggle, true);
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, drill.xCoord, drill.yCoord, drill.zCoord));
+		}
+	}
+
+	@Override
+	protected void drawGuiContainerForegroundLayer(int i, int j) {
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8 + 33, this.ySize - 96 + 2, 4210752);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float interp, int x, int y) {
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+		drawTexturedModalRect(guiLeft, guiTop, 0, 0, 242, 96);
+		drawTexturedModalRect(guiLeft + 33, guiTop + 104, 33, 104, 176, 100);
 		
+		if(drill.enableDrill) {
+			drawTexturedModalRect(guiLeft + 6, guiTop + 42, 209, 114, 20, 40);
+			drawTexturedModalRect(guiLeft + 11, guiTop + 5, 209, 104, 10, 10);
+		}
+		
+		if(drill.enableCrusher) {
+			drawTexturedModalRect(guiLeft + 30, guiTop + 42, 209, 114, 20, 40);
+			drawTexturedModalRect(guiLeft + 35, guiTop + 5, 209, 104, 10, 10);
+		}
+		
+		if(drill.enableWalling) {
+			drawTexturedModalRect(guiLeft + 54, guiTop + 42, 209, 114, 20, 40);
+			drawTexturedModalRect(guiLeft + 59, guiTop + 5, 209, 104, 10, 10);
+		}
+		
+		if(drill.enableVeinMiner) {
+			drawTexturedModalRect(guiLeft + 78, guiTop + 42, 209, 114, 20, 40);
+			drawTexturedModalRect(guiLeft + 83, guiTop + 5, 209, 104, 10, 10);
+		}
+		
+		if(drill.enableSilkTouch) {
+			drawTexturedModalRect(guiLeft + 102, guiTop + 42, 209, 114, 20, 40);
+			drawTexturedModalRect(guiLeft + 107, guiTop + 5, 209, 104, 10, 10);
+		}
 	}
 }

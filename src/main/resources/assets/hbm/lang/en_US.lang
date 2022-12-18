@@ -1123,6 +1123,7 @@ info.template_out_p=Outputs:
 info.template_seconds=seconds
 info.template_time=Production Time:
 
+item.acetylene_torch.name=Acetylene Welding Torch
 item.ajr_boots.name=Steel Ranger Boots
 item.ajr_helmet.name=Steel Ranger Helmet
 item.ajr_legs.name=Steel Ranger Leggings
@@ -1504,6 +1505,7 @@ item.blades_iron.name=Iron Shredder Blades
 item.blades_schrabidium.name=Schrabidium Shredder Blades
 item.blades_steel.name=Steel Shredder Blades
 item.blades_titanium.name=Titanium Shredder Blades
+item.blowtorch.name=Blowtorch
 item.board_copper.name=Copper Panel
 item.bobmazon_hidden.name=Hidden Catalog
 item.bobmazon_machines.name=Bobmazon: Blocks and Machines
