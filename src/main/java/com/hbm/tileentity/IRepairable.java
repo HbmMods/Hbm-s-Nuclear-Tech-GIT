@@ -1,11 +1,14 @@
 package com.hbm.tileentity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemBlowtorch;
-import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
+import com.hbm.util.InventoryUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -27,11 +30,32 @@ public interface IRepairable {
 		int[] pos = dummy.findCore(world, x, y, z);
 		if(pos == null) return null;
 		TileEntity core = world.getTileEntity(pos[0], pos[1], pos[2]);
-		if(!(core instanceof TileEntityMachineFluidTank)) return null;
+		if(!(core instanceof IRepairable)) return null;
 		
 		IRepairable repairable = (IRepairable) core;
 		
 		if(!repairable.isDamaged()) return null;
 		return repairable.getRepairMaterials();
+	}
+	
+	public static boolean tryRepairMultiblock(World world, int x, int y, int z, BlockDummyable dummy, EntityPlayer player) {
+
+		int[] pos = dummy.findCore(world, x, y, z);
+		if(pos == null) return false;
+		TileEntity core = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if(!(core instanceof IRepairable)) return false;
+		
+		IRepairable tank = (IRepairable) core;
+		
+		if(!tank.isDamaged()) return false;
+		
+		List<AStack> list = new ArrayList();
+		list.add(new ComparableStack(ModItems.plate_steel, 8));
+		if(InventoryUtil.doesPlayerHaveAStacks(player, list, true)) {
+			if(!world.isRemote) tank.repair();
+			return true;
+		}
+		
+		return false;
 	}
 }

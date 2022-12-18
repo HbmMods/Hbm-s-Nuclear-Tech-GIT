@@ -7,17 +7,14 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.inventory.RecipesCommon.AStack;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.IRepairable;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
 import com.hbm.util.I18nUtil;
-import com.hbm.util.InventoryUtil;
 
 import api.hbm.block.IToolable;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -148,24 +145,7 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 		
 		if(tool != ToolType.TORCH) return false;
-
-		int[] pos = this.findCore(world, x, y, z);
-		if(pos == null) return false;
-		TileEntity core = world.getTileEntity(pos[0], pos[1], pos[2]);
-		if(!(core instanceof TileEntityMachineFluidTank)) return false;
-		
-		TileEntityMachineFluidTank tank = (TileEntityMachineFluidTank) core;
-		
-		if(!tank.hasExploded) return false;
-		
-		List<AStack> list = new ArrayList();
-		list.add(new ComparableStack(ModItems.plate_steel, 8));
-		if(InventoryUtil.doesPlayerHaveAStacks(player, list, true)) {
-			if(!world.isRemote) tank.repair();
-			return true;
-		}
-		
-		return false;
+		return IRepairable.tryRepairMultiblock(world, x, y, z, this, Minecraft.getMinecraft().thePlayer);
 	}
 
 	@Override
