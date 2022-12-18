@@ -50,7 +50,6 @@ public interface IRepairable {
 		if(!tank.isDamaged()) return false;
 		
 		List<AStack> list = new ArrayList();
-		list.add(new ComparableStack(ModItems.plate_steel, 8));
 		if(InventoryUtil.doesPlayerHaveAStacks(player, list, true)) {
 			if(!world.isRemote) tank.repair();
 			return true;
