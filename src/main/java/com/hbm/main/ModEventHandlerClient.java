@@ -657,9 +657,13 @@ public class ModEventHandlerClient {
 				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
 		}
 		
-		CanneryBase cannery = Jars.canneries.get(comp);
-		if(cannery != null) {
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
+		try {
+			CanneryBase cannery = Jars.canneries.get(comp);
+			if(cannery != null) {
+				list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
+			}
+		} catch(Exception ex) {
+			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
 		}
 		
 		/*ItemStack copy = stack.copy();

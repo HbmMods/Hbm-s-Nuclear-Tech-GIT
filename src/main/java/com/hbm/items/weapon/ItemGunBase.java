@@ -12,7 +12,6 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -167,7 +166,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			return getBeltSize(player, getBeltType(player, stack, main)) > 0;
 			
 		} else {
-			return getMag(stack) >= 0 + config.roundsPerCycle;
+			//return getMag(stack) >= 0 + config.roundsPerCycle;
+			return getMag(stack) > 0;
 		}
 	}
 	
@@ -219,6 +219,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		int bullets = config.bulletsMin;
 		
 		for(int k = 0; k < altConfig.roundsPerCycle; k++) {
+			
+			if(altConfig.reloadType != altConfig.RELOAD_NONE && !hasAmmo(stack, player, true))
+				break;
 			
 			if(config.bulletsMax > config.bulletsMin)
 				bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);

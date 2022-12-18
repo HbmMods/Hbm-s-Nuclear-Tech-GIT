@@ -3,7 +3,6 @@ package com.hbm.tileentity.machine;
 import com.hbm.entity.missile.EntityMinerRocket;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.items.ISatChip;
-import com.hbm.items.machine.ItemSatChip;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.saveddata.satellites.SatelliteMiner;
@@ -49,21 +48,19 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		if(slots[i] != null)
-		{
+		if(slots[i] != null) {
 			ItemStack itemStack = slots[i];
 			slots[i] = null;
 			return itemStack;
 		} else {
-		return null;
+			return null;
 		}
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemStack) {
 		slots[i] = itemStack;
-		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit())
-		{
+		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
 			itemStack.stackSize = getInventoryStackLimit();
 		}
 	}
@@ -89,11 +86,10 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
+		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
 			return false;
-		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
+		} else {
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
 		}
 	}
 	
@@ -105,30 +101,26 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(i == 2 || i == 3 || i == 4 || i == 5)
-		{
+		if(i == 2 || i == 3 || i == 4 || i == 5) {
 			return false;
 		}
 
 		return true;
 	}
-	
+
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		if(slots[i] != null)
-		{
-			if(slots[i].stackSize <= j)
-			{
+		if(slots[i] != null) {
+			if(slots[i].stackSize <= j) {
 				ItemStack itemStack = slots[i];
 				slots[i] = null;
 				return itemStack;
 			}
 			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0)
-			{
+			if(slots[i].stackSize == 0) {
 				slots[i] = null;
 			}
-			
+
 			return itemStack1;
 		} else {
 			return null;
@@ -139,15 +131,13 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		
+
 		slots = new ItemStack[getSizeInventory()];
-		
-		for(int i = 0; i < list.tagCount(); i++)
-		{
+
+		for(int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length)
-			{
+			if(b0 >= 0 && b0 < slots.length) {
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
@@ -157,13 +147,11 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagList list = new NBTTagList();
-		
-		for(int i = 0; i < slots.length; i++)
-		{
-			if(slots[i] != null)
-			{
+
+		for(int i = 0; i < slots.length; i++) {
+			if(slots[i] != null) {
 				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte)i);
+				nbt1.setByte("slot", (byte) i);
 				slots[i].writeToNBT(nbt1);
 				list.appendTag(nbt1);
 			}
@@ -172,10 +160,9 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return access;
-    }
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return access;
+	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
@@ -193,68 +180,68 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			
+
 			if(data == null)
-				data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-			
-		    if(data == null) {
-		        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData());
-		        data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-		    }
-		    data.markDirty();
+				data = (SatelliteSavedData) worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 
-		    if(data != null && slots[15] != null) {
-			    int freq = ISatChip.getFreqS(slots[15]);
-			    
-			    Satellite sat = data.getSatFromFreq(freq);
-			    
-			    int delay = 10 * 60 * 1000;
-			    
-			    if(sat instanceof SatelliteMiner) {
-			    	
-			    	SatelliteMiner miner = (SatelliteMiner)sat;
-			    	
-			    	if(miner.lastOp + delay < System.currentTimeMillis()) {
-			    		
-			        	EntityMinerRocket rocket = new EntityMinerRocket(worldObj);
-			        	rocket.posX = xCoord + 0.5;
-			        	rocket.posY = 300;
-			        	rocket.posZ = zCoord + 0.5;
-					
-			        	rocket.satelliteClassName = miner.getClass().getName();
-			        	
-			        	rocket.getDataWatcher().updateObject(17, freq);
-			        	worldObj.spawnEntityInWorld(rocket);
-			        	miner.lastOp = System.currentTimeMillis();
-			        	data.markDirty();
-			    	}
-			    }
-		    }
-		    
-		    List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 0.25 + 0.5, yCoord + 0.75, zCoord - 0.25 + 0.5, xCoord + 0.25 + 0.5, yCoord + 2, zCoord + 0.25 + 0.5));
-		    
-		    for(Entity e : list) {
-		    	
-		    	if(e instanceof EntityMinerRocket) {
-		    		
-		    		EntityMinerRocket rocket = (EntityMinerRocket)e;
-		    		
-		    		if(slots[15] != null && ISatChip.getFreqS(slots[15]) != rocket.getDataWatcher().getWatchableObjectInt(17)) {
-		    			rocket.setDead();
-		    			ExplosionNukeSmall.explode(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, ExplosionNukeSmall.tots);
-		    			break;
-		    		}
-		    		
-		    		if(rocket.getDataWatcher().getWatchableObjectInt(16) == 1 && rocket.timer == 50) {
-		    			unloadCargo(rocket.satelliteClassName);
-		    		}
-		    	}
-		    }
+			if(data == null) {
+				worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData());
+				data = (SatelliteSavedData) worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
+			}
+			data.markDirty();
 
-		    ejectInto(xCoord + 2, yCoord, zCoord);
-		    ejectInto(xCoord - 2, yCoord, zCoord);
-		    ejectInto(xCoord, yCoord, zCoord + 2);
-		    ejectInto(xCoord, yCoord, zCoord - 2);
+			if(data != null && slots[15] != null) {
+				int freq = ISatChip.getFreqS(slots[15]);
+
+				Satellite sat = data.getSatFromFreq(freq);
+
+				int delay = 10 * 60 * 1000;
+
+				if(sat instanceof SatelliteMiner) {
+
+					SatelliteMiner miner = (SatelliteMiner) sat;
+
+					if(miner.lastOp + delay < System.currentTimeMillis()) {
+
+						EntityMinerRocket rocket = new EntityMinerRocket(worldObj);
+						rocket.posX = xCoord + 0.5;
+						rocket.posY = 300;
+						rocket.posZ = zCoord + 0.5;
+
+						rocket.satelliteClassName = miner.getClass().getName();
+
+						rocket.getDataWatcher().updateObject(17, freq);
+						worldObj.spawnEntityInWorld(rocket);
+						miner.lastOp = System.currentTimeMillis();
+						data.markDirty();
+					}
+				}
+			}
+
+			List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 0.25 + 0.5, yCoord + 0.75, zCoord - 0.25 + 0.5, xCoord + 0.25 + 0.5, yCoord + 2, zCoord + 0.25 + 0.5));
+
+			for(Entity e : list) {
+
+				if(e instanceof EntityMinerRocket) {
+
+					EntityMinerRocket rocket = (EntityMinerRocket) e;
+
+					if(slots[15] != null && ISatChip.getFreqS(slots[15]) != rocket.getDataWatcher().getWatchableObjectInt(17)) {
+						rocket.setDead();
+						ExplosionNukeSmall.explode(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, ExplosionNukeSmall.tots);
+						break;
+					}
+
+					if(rocket.getDataWatcher().getWatchableObjectInt(16) == 1 && rocket.timer == 50) {
+						unloadCargo(rocket.satelliteClassName);
+					}
+				}
+			}
+
+			ejectInto(xCoord + 2, yCoord, zCoord);
+			ejectInto(xCoord - 2, yCoord, zCoord);
+			ejectInto(xCoord, yCoord, zCoord + 2);
+			ejectInto(xCoord, yCoord, zCoord - 2);
 		}
 	}
 	
@@ -268,7 +255,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 		for(int i = 0; i < items; i++) {
 
 			ItemStack stack = ((WeightedRandomObject)WeightedRandom.getRandomItem(rand, cargo)).asStack();
-			addToInv(stack);
+			addToInv(stack.copy());
 		}
 	}
 	
@@ -276,12 +263,14 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 		
 		for(int i = 0; i < 15; i++) {
 			
-			if(slots[i] != null && slots[i].getItem() == stack.getItem() && slots[i].getItemDamage() == stack.getItemDamage() && 
-					slots[i].stackSize < slots[i].getMaxStackSize()) {
+			if(slots[i] != null && slots[i].getItem() == stack.getItem() && slots[i].getItemDamage() == stack.getItemDamage() && slots[i].stackSize < slots[i].getMaxStackSize()) {
 				
-				slots[i].stackSize++;
+				int toAdd = Math.min(slots[i].getMaxStackSize() - slots[i].stackSize, stack.stackSize);
 				
-				return;
+				slots[i].stackSize += toAdd;
+				stack.stackSize -= toAdd;
+				
+				if(stack.stackSize <= 0) return;
 			}
 		}
 		
@@ -351,16 +340,28 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 		}
 	}
 	
-	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		return TileEntity.INFINITE_EXTENT_AABB;
-	}
+	AxisAlignedBB bb = null;
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
-		return 65536.0D;
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 1,
+					yCoord,
+					zCoord - 1,
+					xCoord + 2,
+					yCoord + 1,
+					zCoord + 2
+					);
+		}
+		
+		return bb;
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
 }

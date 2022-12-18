@@ -9,7 +9,7 @@ public class Jars {
 
 	public static HashMap<ComparableStack, CanneryBase> canneries = new HashMap();
 	
-	static {
+	public static void initJars() {
 		canneries.put(new ComparableStack(ModBlocks.heater_firebox), new CanneryFirebox());
 		canneries.put(new ComparableStack(ModBlocks.machine_stirling), new CanneryStirling());
 		canneries.put(new ComparableStack(ModBlocks.machine_stirling_steel), new CanneryStirling());

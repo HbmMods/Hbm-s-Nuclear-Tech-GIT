@@ -97,6 +97,7 @@ import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.wiaj.cannery.Jars;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -121,6 +122,8 @@ public class ClientProxy extends ServerProxy {
 		registerItemRenderer();
 		registerEntityRenderer();
 		registerBlockRenderer();
+		
+		Jars.initJars();
 
 		RenderingRegistry.addNewArmourRendererPrefix("5");
 		RenderingRegistry.addNewArmourRendererPrefix("6");
