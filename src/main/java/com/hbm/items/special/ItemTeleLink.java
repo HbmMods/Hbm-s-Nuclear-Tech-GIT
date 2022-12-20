@@ -31,6 +31,7 @@ public class ItemTeleLink extends Item {
 				stack.stackTagCompound.setInteger("x", x);
 				stack.stackTagCompound.setInteger("y", y);
 				stack.stackTagCompound.setInteger("z", z);
+				stack.stackTagCompound.setInteger("dim", player.dimension);
 				world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
 				player.addChatMessage(new ChatComponentText(EnumChatFormatting.AQUA + "[TeleLink] Set teleporter exit to " + x + ", " + y + ", " + z + "."));
 				player.swingItem();
@@ -48,12 +49,14 @@ public class ItemTeleLink extends Item {
 				int x1 = stack.stackTagCompound.getInteger("x");
 				int y1 = stack.stackTagCompound.getInteger("y");
 				int z1 = stack.stackTagCompound.getInteger("z");
+				int dim = stack.stackTagCompound.getInteger("dim");
 				
 				TileEntityMachineTeleporter tele = (TileEntityMachineTeleporter) te;
 
 				tele.targetX = x1;
 				tele.targetY = y1;
 				tele.targetZ = z1;
+				tele.targetDim = dim;
 				
 				tele.markDirty();
 				world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
@@ -72,6 +75,7 @@ public class ItemTeleLink extends Item {
 			list.add("X: " + itemstack.stackTagCompound.getInteger("x"));
 			list.add("Y: " + itemstack.stackTagCompound.getInteger("y"));
 			list.add("Z: " + itemstack.stackTagCompound.getInteger("z"));
+			list.add("D: " + itemstack.stackTagCompound.getInteger("dim"));
 		} else {
 			list.add(EnumChatFormatting.RED + "Select exit location first!");
 		}
