@@ -37,13 +37,13 @@ public class Gun50BMGFactory {
 	
 	public static final SpentCasingConfig
 			CONFIG_50BMG = new SpentCasingConfigBuilder("50bmg", CasingType.BRASS_BOTTLENECK, false)
-			.setSmokeChance(0).setInitialMotion(Vec3.createVectorHelper(-0.4, 1, 0)).setScaleX(3).setScaleY(3).setScaleZ(3)
-			.setPosOffset(new EasyLocation(0.2, 0.2, -0.08)).setPitchFactor(0.1f).setYawFactor(0.01f)
+			.setSmokeChance(0).setInitialMotion(Vec3.createVectorHelper(-0.35, 0.9, 0)).setScaleX(3).setScaleY(3).setScaleZ(3)
+			.setPosOffset(new EasyLocation(-0.45, -0.2, 0.35)).setPitchFactor(0.05f).setYawFactor(0.01f)
 			.build(),
 			
 			CONFIG_LUNA = new SpentCasingConfigBuilder("luna", CasingType.BRASS_BOTTLENECK, true)
-			.setScaleX(4).setScaleY(4).setScaleZ(4).setSmokeChance(0).setInitialMotion(Vec3.createVectorHelper(-2, 0, 0))
-			.setPosOffset(new EasyLocation(0.5, 0.2, 0.08)).setRedOverride(11).setGreenOverride(97).setBlueOverride(109)
+			.setScaleX(4).setScaleY(4).setScaleZ(4).setSmokeChance(0).setInitialMotion(Vec3.createVectorHelper(-2, 0.15, 0))
+			.setPosOffset(new EasyLocation(-0.45, -0.2, 0.35)).setRedOverride(11).setGreenOverride(97).setBlueOverride(109)
 		    .setYawFactor(0.02f)
 			.build();
 	
@@ -85,6 +85,8 @@ public class Gun50BMGFactory {
 		
 		config.config = HbmCollection.fiftyBMG;
 		
+		config.casingConfig = Optional.of(CONFIG_50BMG);
+		
 		return config;
 	}
 	
@@ -110,6 +112,8 @@ public class Gun50BMGFactory {
 		config.manufacturer = EnumGunManufacturer.UNKNOWN;
 		
 		config.config = HbmCollection.fiftyBMG;
+		
+		config.casingConfig = Optional.of(CONFIG_50BMG);
 		
 		return config;
 	}

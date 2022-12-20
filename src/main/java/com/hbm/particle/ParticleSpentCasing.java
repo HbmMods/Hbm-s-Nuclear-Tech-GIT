@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 @SideOnly(Side.CLIENT)
 public class ParticleSpentCasing extends EntityFX
 {
-	private static final float dScale = 0.05f, smokeOffset = 0.025f, gravity = -0.5f;
+	private static final float dScale = 0.05f, smokeJitter = 0.025f;
 	private static final byte smokeAccel = 1;
 	
 	private final List<Pair<EasyLocation, Double>> smokeNodes = new ArrayList<Pair<EasyLocation, Double>>();
@@ -34,16 +34,22 @@ public class ParticleSpentCasing extends EntityFX
 	private boolean onGroundPreviously = false;
 	public ParticleSpentCasing(TextureManager textureManager, World world, double x, double y, double z, double mx, double my, double mz, float momentumPitch, float momentumYaw, SpentCasingConfig config)
 	{
-		super(world, x, y, z, mx, my, mz);
+		super(world, x, y, z, 0, 0, 0);
 		this.textureManager = textureManager;
 		this.momentumPitch = momentumPitch;
 		this.momentumYaw = momentumYaw;
 		this.config = config;
 
-		particleMaxAge = 120;
+		particleMaxAge = 240;
 		smoke = config.getSmokeChance() == 0 ? true
 				: config.getSmokeChance() < 0 ? false
 						: rand.nextInt(config.getSmokeChance()) == 0;
+		
+		motionX = mx;
+		motionY = my;
+		motionZ = mz;
+		
+		particleGravity = 8f;
 	}
 
 	@Override
@@ -62,16 +68,13 @@ public class ParticleSpentCasing extends EntityFX
 		else if (onGroundPreviously && !onGround)
 			onGroundPreviously = false;
 		
-		if (!config.getBounceSound().isEmpty())
-		{
-			if (!onGroundPreviously && onGround)
-				worldObj.playSoundEffect(posX, posY, posZ, config.getBounceSound(), 1, 1);
-		}
+		if (!onGroundPreviously && onGround)
+			tryPlayBounceSound();
 		
-		if (particleAge > 90 && !smokeNodes.isEmpty())
+		if (particleAge > 120 && !smokeNodes.isEmpty())
 			smokeNodes.clear();
 		
-		if (smoke && particleAge <= 90)
+		if (smoke && particleAge <= 120)
 		{
 			final double side = (rotationYaw - prevRotationYaw) * 0.1D;
 			final Vec3 prev = Vec3.createVectorHelper(motionX, -motionY, motionZ);
@@ -81,23 +84,25 @@ public class ParticleSpentCasing extends EntityFX
 			{
 				final EasyLocation node = pair.getKey();
 				
-				node.posX += prev.xCoord * smokeAccel + rand.nextGaussian() * smokeOffset + side;
+				node.posX += prev.xCoord * smokeAccel + rand.nextGaussian() * smokeJitter + side;
 				node.posY += prev.yCoord + 1.5;
-				node.posZ += prev.zCoord * smokeAccel + rand.nextGaussian() * smokeOffset;
+				node.posZ += prev.zCoord * smokeAccel + rand.nextGaussian() * smokeJitter;
 			}
 			
-			final double alpha = (particleAge / 20d);
-			
-			smokeNodes.add(new Pair<EasyLocation, Double>(EasyLocation.getZeroLocation(), alpha));
+			if (particleAge < 60)
+			{
+				final double alpha = (particleAge / 20d);
+				smokeNodes.add(new Pair<EasyLocation, Double>(EasyLocation.getZeroLocation(), alpha));
+			}
 		}
 		
 		prevRotationPitch = rotationPitch;
 		prevRotationYaw = rotationYaw;
 		
-		if (motionY > gravity && !onGround)
-			motionY += gravity;
-		if (motionY < -0.75)
-			motionY = -0.75;
+//		if (motionY > gravity && !onGround)
+//			motionY += gravity;
+//		if (motionY < -0.75)
+//			motionY = -0.75;
 		
 		if (onGround)
 			rotationPitch = 0;
@@ -128,17 +133,13 @@ public class ParticleSpentCasing extends EntityFX
 		
 		GL11.glScalef(dScale, dScale, dScale);
 
-		GL11.glScalef(config.getScaleX(), config.getScaleY(), config.getScaleZ());
-		
-//		GL11.glRotatef(prevRotationYaw + (rotationYaw - prevRotationYaw),
-//				0.0F, 1.0F, 0.0F);
-//		GL11.glRotatef(prevRotationPitch + (rotationPitch - prevRotationPitch),
-//				0.0F, 0.0F, 1.0F);
-		
 		GL11.glRotatef(180 - rotationYaw, 0, 1, 0);
 		GL11.glRotatef(-rotationPitch, 1, 0, 0);
+		
+		GL11.glScalef(config.getScaleX(), config.getScaleY(), config.getScaleZ());
+		
 		if (config.doesOverrideColor())
-			GL11.glColor3f(config.getRedOverride(), config.getBlueOverride(), config.getGreenOverride());
+			GL11.glColor3b((byte) config.getRedOverride(), (byte) config.getGreenOverride(), (byte) config.getBlueOverride());
 		
 		if (!smokeNodes.isEmpty())
 		{
@@ -149,7 +150,7 @@ public class ParticleSpentCasing extends EntityFX
 			{
 				final Pair<EasyLocation, Double> node = smokeNodes.get(i), past = smokeNodes.get(i + 1);
 				final EasyLocation nodeLoc = node.getKey(), pastLoc = past.getKey();
-				final float nodeAlpha = node.getValue().floatValue(), pastAlpha = past.getValue().floatValue(), scale = Math.max(config.getScaleX(), config.getScaleY());
+				final float nodeAlpha = node.getValue().floatValue(), pastAlpha = past.getValue().floatValue(), scale = config.getScaleX();
 				
 				tessellator.setColorRGBA_F(1F, 1F, 1F, nodeAlpha);
 				tessellator.addVertex(nodeLoc.posX(), nodeLoc.posY(), nodeLoc.posZ());
@@ -183,4 +184,26 @@ public class ParticleSpentCasing extends EntityFX
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	}
+	
+	private void tryPlayBounceSound()
+	{
+		if (!config.getBounceSound().isEmpty())
+			worldObj.playSoundEffect(posX, posY, posZ, config.getBounceSound(), 1, 1);
+	}
+	
+//	private static float[] getOffset(float time)
+//	{
+//		final float sinVal1 = (float) ((Math.sin(time * 0.15) + Math.sin(time * 0.25 - 10) + Math.sin(time * 0.1 + 10)) / 3f),
+//					sinVal2 = (float) ((Math.sin(time * 0.1) + Math.sin(time * 0.05 + 20) + Math.sin(time * 0.13 + 20)) / 3f);
+//		
+//		return new float[] {BobMathUtil.remap(BobMathUtil.smoothStep(sinVal1, -1, 1), 0, 1, -2, 1.5F), BobMathUtil.remap(sinVal2, -1, 1, -0.03F, 0.05F)};
+//	}
+//	
+//	private static float[] getJitter(float time)
+//	{
+//		final float sinVal1 = (float) ((Math.sin(time * 0.8) + Math.sin(time * 0.6 - 10) + Math.sin(time * 0.9 + 10)) / 3f),
+//					sinVal2 = (float) ((Math.sin(time * 0.3) + Math.sin(time * 0.2 + 20) + Math.sin(time * 0.1 + 20)) / 3f);
+//		
+//		return new float[] {BobMathUtil.remap(sinVal1, -1, 1, -3, 3), BobMathUtil.remap(sinVal2, -1, 1, -1F, 1F)};
+//	}
 }

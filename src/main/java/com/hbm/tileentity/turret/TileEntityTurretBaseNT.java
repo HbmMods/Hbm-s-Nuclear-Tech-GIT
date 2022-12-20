@@ -849,7 +849,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		final NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "casing");
 		data.setDouble("posX", xCoord);
-		data.setDouble("posY", yCoord + 0.5);
+		data.setDouble("posY", yCoord + 1);
 		data.setDouble("posZ", zCoord);
 		data.setFloat("pitch", (float) rotationPitch);
 		data.setFloat("yaw", (float) rotationYaw);

@@ -19,8 +19,8 @@ import net.minecraft.util.Vec3;
 public class Gun50AEFactory {
 	
 	static final SpentCasingConfig CASING_50AE = new SpentCasingConfigBuilder("50ae", CasingType.BRASS_STRAIGHT_WALL, false)
-			.setSmokeChance(4).setInitialMotion(Vec3.createVectorHelper(-0.3, 0.9, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
-			.setPosOffset(new EasyLocation(1.5, 0, 0)).setScaleZ(1.5f).build();
+			.setSmokeChance(4).setInitialMotion(Vec3.createVectorHelper(-0.3, 0.7, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
+			.setPosOffset(new EasyLocation(-0.5, 0, 0.5)).setScaleZ(1.5f).build();
 	
 	public static GunConfiguration getBaseConfig() {
 		

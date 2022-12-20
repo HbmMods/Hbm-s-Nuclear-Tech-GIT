@@ -204,6 +204,8 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			proj.setWhistle(true);
 		
 		worldObj.spawnEntityInWorld(proj);
+		
+		spawnCasing();
 	}
 	
 	@Override
@@ -374,6 +376,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 				data.setFloat("size", 0F);
 				data.setByte("count", (byte)5);
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			
 			}
 			
 			if(this.mode == MODE_MANUAL && !this.targetQueue.isEmpty()) {

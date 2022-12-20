@@ -21,7 +21,8 @@ public class Gun22LRFactory {
 	
 	static final SpentCasingConfig CASING_22LR = new SpentCasingConfigBuilder("22lr", CasingType.BRASS_STRAIGHT_WALL, false)
 			.setSmokeChance(20).setScaleX(0.4f).setScaleY(0.4f).setScaleZ(0.4f)
-			.setInitialMotion(Vec3.createVectorHelper(-0.3, 1, 0)).setPitchFactor(0.03f).setYawFactor(0.01f).setPosOffset(new EasyLocation(1.5, 0, 0))
+			.setInitialMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
+			.setPosOffset(new EasyLocation(-0.35, -0.2, 0.35))
 			.build();
 	
 	public static GunConfiguration getUziConfig() {

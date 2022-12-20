@@ -25,13 +25,13 @@ public class Gun45ACPFactory
 {
 	
 	private static final SpentCasingConfigBuilder CASING_45_BUILDER = new SpentCasingConfigBuilder("45acp", CasingType.BRASS_STRAIGHT_WALL, false)
-			.setSmokeChance(8).setInitialMotion(Vec3.createVectorHelper(-0.3, 0.75, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
-			.setPosOffset(new EasyLocation(1.5, 0, 0)).setScaleZ(0.75f);
+			.setSmokeChance(8).setInitialMotion(Vec3.createVectorHelper(0.3, 0.75, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
+			.setPosOffset(new EasyLocation(-0.3, -0.25, 0.6)).setScaleZ(0.75f);
 	static final SpentCasingConfig
 			CASING_45 = CASING_45_BUILDER.build(),
 			
 			CASING_45_UAC = CASING_45_BUILDER.setRegistryName("45acp_UAC_Pistol")
-			.setInitialMotion(Vec3.createVectorHelper(0.3, 0.9, 0)).setPosOffset(new EasyLocation(1.5, -1, 0))
+			.setInitialMotion(Vec3.createVectorHelper(0.3, 0.9, 0))
 			.build();
 	
 	public static GunConfiguration getThompsonConfig() {

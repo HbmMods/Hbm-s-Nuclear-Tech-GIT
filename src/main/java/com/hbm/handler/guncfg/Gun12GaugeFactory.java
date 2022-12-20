@@ -25,28 +25,33 @@ import net.minecraft.util.Vec3;
 
 public class Gun12GaugeFactory {
 	
-	private static final SpentCasingConfigBuilder CASING_12G_BUILDER = new SpentCasingConfigBuilder("", CasingType.SHOTGUN, false)
-			.setScaleX(1.5f).setScaleY(1.5f).setScaleZ(1.5f);
-	static final SpentCasingConfig
-			CASING_SPAS = CASING_12G_BUILDER.setRegistryName("spas12").setPosOffset(new EasyLocation(1.5, 0, 0))
-			.setInitialMotion(Vec3.createVectorHelper(-0.3, 0.75, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
-			.setSmokeChance(0).setDelay(10)
-			.build(),
-			
-			CASING_SPAS_ALT = CASING_12G_BUILDER.setRegistryName("spas12alt").setCasingAmount(2)
-			.build(),
-			
-			CASING_BENELLI = CASING_12G_BUILDER.setRegistryName("benelli").setCasingAmount(1).setDelay(0)
-			.setInitialMotion(Vec3.createVectorHelper(-0.3, 1.1, 0))
-			.build(),
-			
-			CASING_UBOINIK = CASING_12G_BUILDER.setRegistryName("uboinik").setOverrideColor(true)
-			.setBlueOverride(255)
-			.build(),
-			
-			CASING_SSG = CASING_12G_BUILDER.setRegistryName("ssg").setBlueOverride(0).setRedOverride(255).setCasingAmount(2)
-			.setPosOffset(new EasyLocation(-2, 0, 0)).setInitialMotion(Vec3.createVectorHelper(0.2, 0, -0.2))
-			.build();
+	static final SpentCasingConfig CASING_SPAS, CASING_SPAS_ALT, CASING_BENELLI, CASING_UBOINIK, CASING_SSG;
+	
+	static
+	{
+		final SpentCasingConfigBuilder CASING_12G_BUILDER = new SpentCasingConfigBuilder("", CasingType.SHOTGUN, false)
+				.setScaleX(1.5f).setScaleY(1.5f).setScaleZ(1.5f);
+		CASING_SPAS = CASING_12G_BUILDER.setRegistryName("spas12").setInitialMotion(Vec3.createVectorHelper(-0.4, 0.1, 0))
+				.setPosOffset(new EasyLocation(-0.35, 0, 0.5)).setPitchFactor(0.03f).setYawFactor(0.01f)
+				.setSmokeChance(0).setDelay(10)
+				.build();
+				
+		CASING_SPAS_ALT = CASING_12G_BUILDER.setRegistryName("spas12alt").setCasingAmount(2)
+				.build();
+				
+		CASING_BENELLI = CASING_12G_BUILDER.setRegistryName("benelli").setCasingAmount(1).setDelay(0)
+				.setInitialMotion(Vec3.createVectorHelper(-0.3, 1, 0))
+				.build();
+		
+		CASING_UBOINIK = CASING_12G_BUILDER.setRegistryName("uboinik").setOverrideColor(true)
+				.setBlueOverride(255).setPosOffset(new EasyLocation(-0.35, -0.3, 0.5))
+				.build();
+				
+		CASING_SSG = CASING_12G_BUILDER.setRegistryName("ssg").setBlueOverride(0).setRedOverride(255).setCasingAmount(2)
+				.setPosOffset(new EasyLocation(0.8, 0, 0)).setInitialMotion(Vec3.createVectorHelper(0.2, 0, -0.2))
+				.setPitchFactor(0.05f).setYawFactor(0.02f)
+				.build();
+	}
 	
 	public static GunConfiguration getSpas12Config() {
 		

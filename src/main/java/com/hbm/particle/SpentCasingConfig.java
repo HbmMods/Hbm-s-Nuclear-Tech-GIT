@@ -99,39 +99,63 @@ public class SpentCasingConfig
 	public void spawnCasing(TextureManager textureManager, World world, double x, double y, double z, float pitch, float yaw, boolean crouched)
 	{
 		final Vec3 rotatedMotionVec = rotateVector(getInitialMotion(),
-				pitch + (float) (RANDOM.nextGaussian() * pitchFactor * 0.5),
-				yaw + (float) (RANDOM.nextGaussian() * yawFactor * 0.5),
-				pitchFactor, yawFactor);
+				pitch + (float) RANDOM.nextGaussian() * getPitchFactor(), yaw + (float) RANDOM.nextGaussian() * getPitchFactor(),
+				getPitchFactor(), getPitchFactor());
 		
 		final ParticleSpentCasing casing = new ParticleSpentCasing(textureManager, world, x,
-				y, z, 0, 0, 0,
+				y, z, rotatedMotionVec.xCoord, rotatedMotionVec.yCoord, rotatedMotionVec.zCoord,
 //				0, 0,
 				(float) (getPitchFactor() * RANDOM.nextGaussian()), (float) (getYawFactor() * RANDOM.nextGaussian()),
 				this);
 
-		casing.motionX = rotatedMotionVec.xCoord;
-		casing.motionY = rotatedMotionVec.yCoord;
-		casing.motionZ = rotatedMotionVec.zCoord;
-		
-		offsetCasing(casing, getPosOffset(), yaw, crouched);
+		offsetCasing(casing, getPosOffset(), pitch, yaw, crouched);
 
 		casing.rotationPitch = (float) Math.toDegrees(pitch);
 		casing.rotationYaw = (float) Math.toDegrees(yaw);
 		
 		if (overrideColor)
-			casing.setRBGColorF(redOverride, blueOverride, greenOverride);
+			casing.setRBGColorF(redOverride / 255f, blueOverride / 255f, greenOverride / 255f);
 		Minecraft.getMinecraft().effectRenderer.addEffect(casing);
 	}
 	
-	private static void offsetCasing(ParticleSpentCasing casing, ILocationProvider offset, float yaw, boolean crouched)
+	// Rotate a position
+	private static void offsetCasing(ParticleSpentCasing casing, ILocationProvider offset, float pitch, float yaw, boolean crouched)
 	{
-		casing.posX -= Math.cos(yaw) * offset.posX() + (crouched ? 0.16 : -0.05);
-		casing.posY -= offset.posY();
-		casing.posZ -= Math.sin(yaw) * offset.posZ();
+//		// x-axis offset, 0 if crouched to center
+//		final double oX = crouched ? 0 : offset.posX();
+//		// Trigonometric operations, saved for convenience
+//		final double sinP = Math.sin(pitch), cosP = Math.cos(pitch), sinY = Math.sin(yaw), cosY = Math.cos(yaw);
+//		// New offsets
+//		final double newX = oX * cosY - offset.posZ() * sinY,
+//					 newY = offset.posY() * cosP - sinP * (oX * sinY + offset.posZ() * cosY),
+//					 newZ = offset.posZ() * sinP + cosP * (oX * sinY + offset.posZ() * cosY);
+//		
+//		// Apply
+//		casing.setPosition(casing.posX + newX, casing.posY + newY, casing.posZ + newZ);
+		
+	    // x-axis offset, 0 if crouched to center
+	    final float oX = (float) (crouched ? 0 : offset.posX());
+	    // Create rotation matrices for pitch and yaw
+	    final Matrix4f pitchMatrix = new Matrix4f(), yawMatrix = new Matrix4f();
+	    
+	    pitchMatrix.rotate(pitch, new Vector3f(1, 0, 0)); // modify axis of rotation
+	    yawMatrix.rotate(-yaw, new Vector3f(0, 1, 0));
+	    
+	    // Multiply matrices to get combined rotation matrix
+	    final Matrix4f rotMatrix = Matrix4f.mul(yawMatrix, pitchMatrix, null);
+	    // Create vector representing the offset and apply rotation
+	    final Vector4f offsetVector = new Vector4f(oX, (float) offset.posY(), (float) offset.posZ(), 1); // set fourth coordinate to 1
+	    Matrix4f.transform(rotMatrix, offsetVector, offsetVector);
+	    final Vector3f result = new Vector3f(); // create result vector
+	    result.set(offsetVector.x, offsetVector.y, offsetVector.z); // set result vector using transformed coordinates
+	    // Apply rotation
+	    casing.setPosition(casing.posX + result.x, casing.posY + result.y, casing.posZ + result.z);
 	}
 	
+//	Rotate a vector
 	private static Vec3 rotateVector(Vec3 vector, float pitch, float yaw, float pitchFactor, float yawFactor)
 	{
+		// Apply randomness to vector
 		vector.xCoord += RANDOM.nextGaussian() * yawFactor;
 		vector.yCoord += RANDOM.nextGaussian() * pitchFactor;
 		vector.zCoord += RANDOM.nextGaussian() * yawFactor;

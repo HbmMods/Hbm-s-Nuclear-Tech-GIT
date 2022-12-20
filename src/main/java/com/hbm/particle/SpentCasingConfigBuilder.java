@@ -40,6 +40,7 @@ public class SpentCasingConfigBuilder implements Cloneable
 	private byte delay;
 	/**Chance for the casing to emit smoke. 0 for 100% chance and -1 for it to never make smoke.**/
 	private byte smokeChance = -1;
+	// TODO Setting to disregard crouch effect and/or another offset specifically for crouching which can be set to null to use the default one
 	/**
 	 * Constructor with fields for the required bare minimum parameters.<br>
 	 * All parameters may overridden using setters at any time at your discretion, however.

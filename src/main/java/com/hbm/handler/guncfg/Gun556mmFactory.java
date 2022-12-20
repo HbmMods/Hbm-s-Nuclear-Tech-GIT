@@ -32,8 +32,8 @@ import net.minecraft.util.Vec3;
 public class Gun556mmFactory {
 
 	static final SpentCasingConfig CONFIG_556 = new SpentCasingConfigBuilder("556", CasingType.BRASS_BOTTLENECK, false)
-			.setSmokeChance(4).setInitialMotion(Vec3.createVectorHelper(-0.3, 1, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
-			.setPosOffset(new EasyLocation(1.5, 0, 0)).setScaleZ(1.5f)
+			.setSmokeChance(4).setInitialMotion(Vec3.createVectorHelper(-0.35, 0.6, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
+			.setPosOffset(new EasyLocation(-0.35, 0, 0.35)).setScaleZ(1.5f)
 			.build();
 	
 	public static GunConfiguration getEuphieConfig() {

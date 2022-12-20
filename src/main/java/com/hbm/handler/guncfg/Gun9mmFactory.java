@@ -3,6 +3,7 @@ package com.hbm.handler.guncfg;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -17,9 +18,12 @@ import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
+import net.minecraft.util.Vec3;
+
 public class Gun9mmFactory {
 	
-	static final SpentCasingConfig CASING_9 = Gun45ACPFactory.CASING_45.toBuilder("9")
+	static final SpentCasingConfig CASING_9 = Gun45ACPFactory.CASING_45_UAC.toBuilder("9")
+			.setInitialMotion(Vec3.createVectorHelper(-0.3, 0.6, 0)).setPosOffset(new EasyLocation(-0.35, -0.2, 0.55))
 			.setScaleX(1).setScaleY(1).setScaleZ(0.6f).build();
 	
 	public static GunConfiguration getMP40Config() {

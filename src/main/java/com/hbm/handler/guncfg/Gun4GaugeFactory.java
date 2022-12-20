@@ -42,8 +42,8 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 public class Gun4GaugeFactory {
 	
 	static final SpentCasingConfig CASING_4G = new SpentCasingConfigBuilder("4g", CasingType.SHOTGUN, false)
-			.setSmokeChance(0).setPosOffset(new EasyLocation(1.5, 0, 0))
-			.setInitialMotion(Vec3.createVectorHelper(-0.3, 0.75, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
+			.setSmokeChance(0).setPosOffset(new EasyLocation(-0.5, 0, 0.5))
+			.setInitialMotion(Vec3.createVectorHelper(-0.4, 0.4, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
 			.setScaleX(2.5f).setScaleY(2.5f).setScaleZ(2.5f).build();
 	
 	private static GunConfiguration getShotgunConfig() {

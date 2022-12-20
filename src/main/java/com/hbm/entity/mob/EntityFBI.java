@@ -9,7 +9,9 @@ import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.ai.EntityAIBreaking;
 import com.hbm.entity.mob.ai.EntityAI_MLPF;
 import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.handler.guncfg.Gun4GaugeFactory;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
@@ -32,6 +34,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
@@ -145,6 +148,18 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
 			        this.worldObj.spawnEntityInWorld(bullet);
 				}
 		        this.playSound("hbm:weapon.shotgunShoot", 1.0F, 1.0F);
+
+		        // Casing stuff, not doing it in a method or anything because I'm gonna do that with the SNPC class.
+		        final NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "casing");
+				data.setDouble("posX", posX);
+				data.setDouble("posY", posY + getEyeHeight());
+				data.setDouble("posZ", posZ);
+				data.setFloat("pitch", (float) Math.toRadians(rotationPitch));
+				data.setFloat("yaw", (float) Math.toRadians(rotationYaw));
+				data.setBoolean("crouched", isSneaking());
+				data.setString("name", "4g");
+				MainRegistry.proxy.effectNT(data);
 			}
 		}
 	}

@@ -18,6 +18,7 @@ import net.minecraft.potion.PotionEffect;
 public class Gun762mmFactory
 {
 
+	// TODO Confirm
 	static final SpentCasingConfig CASING_762_NATO = Gun556mmFactory.CONFIG_556.toBuilder("762NATO").setSmokeChance(2).setScaleX(2)
 			.setScaleZ(2.5f).build();
 	

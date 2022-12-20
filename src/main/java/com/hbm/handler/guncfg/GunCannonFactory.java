@@ -16,13 +16,13 @@ import net.minecraft.util.Vec3;
 public class GunCannonFactory {
 	
 	private static final SpentCasingConfigBuilder CASING_CANNON_BUILDER = new SpentCasingConfigBuilder("240", CasingType.BRASS_BOTTLENECK, false)
-			.setInitialMotion(Vec3.createVectorHelper(0, 0.2, -1)).setPosOffset(new EasyLocation(0, 1.75, 0)).setSmokeChance(0)
-			.setScaleX(10).setScaleY(10).setScaleZ(10);
+			.setInitialMotion(Vec3.createVectorHelper(0, 0.2, -1)).setPosOffset(new EasyLocation(0, 1.75, -1.5)).setSmokeChance(0)
+			.setScaleX(10).setScaleY(10).setScaleZ(10).setPitchFactor(0.15f).setYawFactor(0.015f);
 	public static final SpentCasingConfig
 			CASING_240 = CASING_CANNON_BUILDER.build(),
 			
-			CASING_16IN = CASING_CANNON_BUILDER.setRegistryName("16inch").setInitialMotion(Vec3.createVectorHelper(0, 1, -1.75))
-			.setScaleX(20).setScaleY(20).setScaleZ(25)
+			CASING_16IN = CASING_CANNON_BUILDER.setRegistryName("16inch").setInitialMotion(Vec3.createVectorHelper(0, 2, -1.75))
+			.setScaleX(20).setScaleY(20).setScaleZ(25).setCasingType(CasingType.BRASS_STRAIGHT_WALL)
 			.build();
 	
 	static final int stockPen = 10000;

@@ -41,17 +41,17 @@ import net.minecraft.util.Vec3;
 
 public class ItemAmmoArty extends Item {
 
-	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 8 /* <<< */ ];
-	public static ArtilleryShell[] shellTypes =	new ArtilleryShell[ /* >>> */ 8 /* <<< */ ];
+	public static final ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 8 /* <<< */ ];
+	public static final ArtilleryShell[] shellTypes =	new ArtilleryShell[ /* >>> */ 8 /* <<< */ ];
 	/* item types */
-	public final int NORMAL = 0;
-	public final int CLASSIC = 1;
-	public final int EXPLOSIVE = 2;
-	public final int MINI_NUKE = 3;
-	public final int NUKE = 4;
-	public final int PHOSPHORUS = 5;
-	public final int MINI_NUKE_MULTI = 6;
-	public final int PHOSPHORUS_MULTI = 7;
+	public static final int NORMAL = 0;
+	public static final int CLASSIC = 1;
+	public static final int EXPLOSIVE = 2;
+	public static final int MINI_NUKE = 3;
+	public static final int NUKE = 4;
+	public static final int PHOSPHORUS = 5;
+	public static final int MINI_NUKE_MULTI = 6;
+	public static final int PHOSPHORUS_MULTI = 7;
 	/* non-item shell types */
 	
 	public ItemAmmoArty() {
@@ -118,11 +118,13 @@ public class ItemAmmoArty extends Item {
 			list.add(r + "(that is the best skull and crossbones");
 			list.add(r + "minecraft's unicode has to offer)");
 			break;
+		default: break;
 		}
 	}
 	
 	private IIcon[] icons = new IIcon[itemTypes.length];
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
 		
@@ -204,12 +206,16 @@ public class ItemAmmoArty extends Item {
 	
 	private void init() {
 		/* STANDARD SHELLS */
-		this.shellTypes[NORMAL] = this.itemTypes[NORMAL] = new ArtilleryShell("ammo_arty") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 10F, 3F, false); }};
-		this.shellTypes[CLASSIC] = this.itemTypes[CLASSIC] = new ArtilleryShell("ammo_arty_classic") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 15F, 5F, false); }};
-		this.shellTypes[EXPLOSIVE] = this.itemTypes[EXPLOSIVE] = new ArtilleryShell("ammo_arty_he") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 15F, 3F, true); }};
+		ItemAmmoArty.shellTypes[NORMAL] = ItemAmmoArty.itemTypes[NORMAL] = new ArtilleryShell("ammo_arty") { @Override
+		public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 10F, 3F, false); }};
+		ItemAmmoArty.shellTypes[CLASSIC] = ItemAmmoArty.itemTypes[CLASSIC] = new ArtilleryShell("ammo_arty_classic") { @Override
+		public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 15F, 5F, false); }};
+		ItemAmmoArty.shellTypes[EXPLOSIVE] = ItemAmmoArty.itemTypes[EXPLOSIVE] = new ArtilleryShell("ammo_arty_he") { @Override
+		public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 15F, 3F, true); }};
 
 		/* MINI NUKE */
-		this.shellTypes[MINI_NUKE] = this.itemTypes[MINI_NUKE] = new ArtilleryShell("ammo_arty_mini_nuke") {
+		ItemAmmoArty.shellTypes[MINI_NUKE] = ItemAmmoArty.itemTypes[MINI_NUKE] = new ArtilleryShell("ammo_arty_mini_nuke") {
+			@Override
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 				shell.killAndClear();
 				Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
@@ -218,7 +224,8 @@ public class ItemAmmoArty extends Item {
 		};
 		
 		/* FULL NUKE */
-		this.shellTypes[NUKE] = this.itemTypes[NUKE] = new ArtilleryShell("ammo_arty_nuke") {
+		ItemAmmoArty.shellTypes[NUKE] = ItemAmmoArty.itemTypes[NUKE] = new ArtilleryShell("ammo_arty_nuke") {
+			@Override
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 				shell.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(shell.worldObj, BombConfig.missileRadius, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(shell.worldObj, 1000, BombConfig.missileRadius * 0.005F);
@@ -231,7 +238,8 @@ public class ItemAmmoArty extends Item {
 		};
 		
 		/* PHOSPHORUS */
-		this.shellTypes[PHOSPHORUS] = this.itemTypes[PHOSPHORUS] = new ArtilleryShell("ammo_arty_phosphorus") {
+		ItemAmmoArty.shellTypes[PHOSPHORUS] = ItemAmmoArty.itemTypes[PHOSPHORUS] = new ArtilleryShell("ammo_arty_phosphorus") {
+			@Override
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 				standardExplosion(shell, mop, 10F, 3F, false);
 				shell.worldObj.playSoundEffect(shell.posX, shell.posY, shell.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + shell.worldObj.rand.nextFloat() * 0.2F);
@@ -260,12 +268,16 @@ public class ItemAmmoArty extends Item {
 		};
 		
 		/* CLUSTER SHELLS */
-		this.shellTypes[PHOSPHORUS_MULTI] = this.itemTypes[PHOSPHORUS_MULTI] = new ArtilleryShell("ammo_arty_phosphorus_multi") {
-			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.this.shellTypes[PHOSPHORUS].onImpact(shell, mop); }
+		ItemAmmoArty.shellTypes[PHOSPHORUS_MULTI] = ItemAmmoArty.itemTypes[PHOSPHORUS_MULTI] = new ArtilleryShell("ammo_arty_phosphorus_multi") {
+			@Override
+			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.shellTypes[PHOSPHORUS].onImpact(shell, mop); }
+			@Override
 			public void onUpdate(EntityArtilleryShell shell) { standardCluster(shell, PHOSPHORUS, 10, 300, 5); }
 		};
-		this.shellTypes[MINI_NUKE_MULTI] = this.itemTypes[MINI_NUKE_MULTI] = new ArtilleryShell("ammo_arty_mini_nuke_multi") {
-			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.this.shellTypes[MINI_NUKE].onImpact(shell, mop); }
+		ItemAmmoArty.shellTypes[MINI_NUKE_MULTI] = ItemAmmoArty.itemTypes[MINI_NUKE_MULTI] = new ArtilleryShell("ammo_arty_mini_nuke_multi") {
+			@Override
+			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.shellTypes[MINI_NUKE].onImpact(shell, mop); }
+			@Override
 			public void onUpdate(EntityArtilleryShell shell) { standardCluster(shell, MINI_NUKE, 5, 300, 5); }
 		};
 	}
