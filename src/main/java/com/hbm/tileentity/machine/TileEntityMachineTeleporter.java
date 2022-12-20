@@ -2,29 +2,23 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
-import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyUser;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements IEnergyUser {
+public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements IEnergyUser, INBTPacketReceiver {
 
 	public long power = 0;
-	public int targetX = 0;
-	public int targetY = 0;
-	public int targetZ = 0;
-	public boolean linked = false;
-	// true: send; false: receive
-	public boolean mode = false;
-	public static final int maxPower = 100000;
+	public int targetX = -1;
+	public int targetY = -1;
+	public int targetZ = -1;
+	public static final int maxPower = 1_500_000;
+	public static final int consumption = 1_000_000;
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -34,8 +28,6 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 		targetX = nbt.getInteger("x1");
 		targetY = nbt.getInteger("y1");
 		targetZ = nbt.getInteger("z1");
-		linked = nbt.getBoolean("linked");
-		mode = nbt.getBoolean("mode");
 	}
 
 	@Override
@@ -46,8 +38,6 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 		nbt.setInteger("x1", targetX);
 		nbt.setInteger("y1", targetY);
 		nbt.setInteger("z1", targetZ);
-		nbt.setBoolean("linked", linked);
-		nbt.setBoolean("mode", mode);
 	}
 
 	@Override
@@ -58,44 +48,55 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 		if (!this.worldObj.isRemote) {
 			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 			
-			List<Entity> entities = this.worldObj.getEntitiesWithinAABB(Entity.class,
-					AxisAlignedBB.getBoundingBox(this.xCoord - 0.25, this.yCoord, this.zCoord - 0.25, this.xCoord + 1.5,
-							this.yCoord + 2, this.zCoord + 1.5));
-			if (!entities.isEmpty())
-				for (Entity e : entities) {
-					if(e.ticksExisted >= 10) {
-						teleport(e);
-						b0 = true;
-					}
+			List<Entity> entities = this.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(this.xCoord - 0.25, this.yCoord, this.zCoord - 0.25, this.xCoord + 1.5, this.yCoord + 2, this.zCoord + 1.5));
+			
+			if(!entities.isEmpty()) {
+				for(Entity e : entities) {
+					teleport(e);
 				}
-
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			data.setIntArray("target", new int[] {targetX, targetY, targetZ});
+			INBTPacketReceiver.networkPack(this, data, 15);
+			
+		} else {
+			
+			if(power >= consumption) {
+				double x = xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25D;
+				double y = yCoord + 1 + worldObj.rand.nextDouble() * 2D;
+				double z = zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25D;
+				worldObj.spawnParticle("reddust", x, y, z, 0.4F, 0.8F, 1F);
+			}
 		}
-		
-		if(b0)
-            worldObj.spawnParticle("cloud", xCoord + 0.5, yCoord + 1, zCoord + 0.5, 0.0D, 0.1D, 0.0D);
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		int[] target = nbt.getIntArray("target");
+		this.targetX = target[0];
+		this.targetX = target[1];
+		this.targetX = target[2];
 	}
 
 	public void teleport(Entity entity) {
-
-		if (!this.linked || !this.mode || this.power < 50000)
-			return;
-
-		TileEntity te = this.worldObj.getTileEntity(targetX, targetY, targetZ);
-
-		if (te == null || !(te instanceof TileEntityMachineTeleporter) || ((TileEntityMachineTeleporter) te).mode) {
-			entity.attackEntityFrom(ModDamageSource.teleporter, 10000);
+		
+		if(this.power < consumption) return;
+		
+		worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, "mob.endermen.portal", 1.0F, 1.0F);
+		
+		if((entity instanceof EntityPlayerMP)) {
+			((EntityPlayerMP) entity).setPositionAndUpdate(this.targetX + 0.5D, this.targetY + 1D + entity.getYOffset(), this.targetZ + 0.5D);
 		} else {
-			if ((entity instanceof EntityPlayerMP)) {
-				((EntityPlayerMP) entity).setPositionAndUpdate(this.targetX + 0.5D,
-						this.targetY + 1.5D + entity.getYOffset(), this.targetZ + 0.5D);
-			} else {
-				entity.setPositionAndRotation(this.targetX + 0.5D, this.targetY + 1.5D + entity.getYOffset(),
-						this.targetZ + 0.5D, entity.rotationYaw, entity.rotationPitch);
-			}
+			entity.setPositionAndRotation(this.targetX + 0.5D, this.targetY + 1D + entity.getYOffset(), this.targetZ + 0.5D, entity.rotationYaw, entity.rotationPitch);
 		}
 		
-		this.power -= 50000;
+		worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "mob.endermen.portal", 1.0F, 1.0F);
+		
+		this.power -= consumption;
+		this.markDirty();
 	}
 
 	@Override

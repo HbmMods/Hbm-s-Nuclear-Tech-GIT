@@ -945,7 +945,6 @@ public class ModBlocks {
 	public static final int guiID_combine_factory = 35;
 
 	public static Block machine_teleporter;
-	public static final int guiID_machine_teleporter = 36;
 	public static Block teleanchor;
 	public static Block field_disturber;
 
