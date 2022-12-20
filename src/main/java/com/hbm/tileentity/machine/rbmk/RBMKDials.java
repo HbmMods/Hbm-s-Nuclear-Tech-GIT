@@ -73,7 +73,7 @@ public class RBMKDials {
 	 * @return [0;1]
 	 */
 	public static double getColumnHeatFlow(World world) {
-		return MathHelper.clamp_double(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_COLUMN_HEAT_FLOW), 5.0D), 0.0D, 1.0D);
+		return MathHelper.clamp_double(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_COLUMN_HEAT_FLOW), 0.2D), 0.0D, 1.0D);
 	}
 	
 	/**

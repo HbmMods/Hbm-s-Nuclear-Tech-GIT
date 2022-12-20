@@ -267,13 +267,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_machine_teleporter: {
-			if(entity instanceof TileEntityMachineTeleporter) {
-			//	return new ContainerMachineTeleporter(player.inventory, (TileEntityMachineTeleporter) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_nuke_custom: {
 			if(entity instanceof TileEntityNukeCustom) {
 				return new ContainerNukeCustom(player.inventory, (TileEntityNukeCustom) entity);
@@ -1053,13 +1046,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_fwatz_multiblock: {
 			if(entity instanceof TileEntityFWatzCore) {
 				return new GUIFWatzCore(player.inventory, (TileEntityFWatzCore) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_machine_teleporter: {
-			if(entity instanceof TileEntityMachineTeleporter) {
-				return new GUIMachineTeleporter(player.inventory, (TileEntityMachineTeleporter) entity);
 			}
 			return null;
 		}

@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
+import com.hbm.util.ColorUtil;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
@@ -69,7 +70,7 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 			TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
 			type = pipe.getType();
 			if(meta % 3 == 2) {
-				FluidDuctBox.cachedColor = type.getColor();
+				FluidDuctBox.cachedColor = ColorUtil.lightenColor(type.getColor(), 0.25D); //making very dark things not vantablack
 			}
 		}
 
