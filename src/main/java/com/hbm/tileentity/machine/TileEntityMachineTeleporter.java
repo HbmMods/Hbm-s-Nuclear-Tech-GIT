@@ -8,18 +8,25 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityTracker;
+import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.play.server.S07PacketRespawn;
+import net.minecraft.network.play.server.S18PacketEntityTeleport;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IntHashMap;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.chunk.IChunkProvider;
 
 public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements IEnergyUser, INBTPacketReceiver {
 
@@ -30,6 +37,48 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 	public int targetDim = 0;
 	public static final int maxPower = 1_500_000;
 	public static final int consumption = 1_000_000;
+
+	@Override
+	public void updateEntity() {
+		
+		if(!this.worldObj.isRemote) {
+			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
+			
+			if(this.targetY != -1) {
+				List<Entity> entities = this.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(this.xCoord + 0.25, this.yCoord, this.zCoord + 0.25, this.xCoord + 0.75, this.yCoord + 2, this.zCoord + 0.75));
+				
+				if(!entities.isEmpty()) {
+					for(Entity e : entities) {
+						teleport(e);
+					}
+				}
+			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			data.setIntArray("target", new int[] {targetX, targetY, targetZ, targetDim});
+			INBTPacketReceiver.networkPack(this, data, 15);
+			
+		} else {
+
+			if(this.targetY != -1 && power >= consumption) {
+				double x = xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25D;
+				double y = yCoord + 1 + worldObj.rand.nextDouble() * 2D;
+				double z = zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25D;
+				worldObj.spawnParticle("reddust", x, y, z, 0.4F, 0.8F, 1F);
+			}
+		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		int[] target = nbt.getIntArray("target");
+		this.targetX = target[0];
+		this.targetY = target[1];
+		this.targetZ = target[2];
+		this.targetDim = target[3];
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -53,48 +102,6 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 		nbt.setInteger("dim", targetDim);
 	}
 
-	@Override
-	public void updateEntity() {
-
-		boolean b0 = false;
-		
-		if (!this.worldObj.isRemote) {
-			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
-			
-			List<Entity> entities = this.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(this.xCoord - 0.25, this.yCoord, this.zCoord - 0.25, this.xCoord + 1.5, this.yCoord + 2, this.zCoord + 1.5));
-			
-			if(!entities.isEmpty()) {
-				for(Entity e : entities) {
-					teleport(e);
-				}
-			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setIntArray("target", new int[] {targetX, targetY, targetZ, targetDim});
-			INBTPacketReceiver.networkPack(this, data, 15);
-			
-		} else {
-			
-			if(power >= consumption) {
-				double x = xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25D;
-				double y = yCoord + 1 + worldObj.rand.nextDouble() * 2D;
-				double z = zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25D;
-				worldObj.spawnParticle("reddust", x, y, z, 0.4F, 0.8F, 1F);
-			}
-		}
-	}
-
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
-		int[] target = nbt.getIntArray("target");
-		this.targetX = target[0];
-		this.targetX = target[1];
-		this.targetX = target[2];
-		this.targetDim = target[3];
-	}
-
 	public void teleport(Entity entity) {
 		
 		if(this.power < consumption) return;
@@ -105,17 +112,29 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 			
 			EntityPlayerMP player = (EntityPlayerMP) entity;
 			if(entity.dimension == this.targetDim) {
-				player.setPositionAndUpdate(this.targetX + 0.5D, this.targetY + 1D + entity.getYOffset(), this.targetZ + 0.5D);
+				player.setPositionAndUpdate(this.targetX + 0.5D, this.targetY + 1.5D + entity.getYOffset(), this.targetZ + 0.5D);
 			} else {
-				teleportPlayerInterdimensionally(player, this.targetX + 0.5D, this.targetY + 1D + entity.getYOffset(), this.targetZ + 0.5D, this.targetDim);
+				teleportPlayerInterdimensionally(player, this.targetX + 0.5D, this.targetY + 1.5D + entity.getYOffset(), this.targetZ + 0.5D, this.targetDim);
 			}
 			
 		} else {
 			
 			if(entity.dimension == this.targetDim) {
-				entity.setPositionAndRotation(this.targetX + 0.5D, this.targetY + 1D + entity.getYOffset(), this.targetZ + 0.5D, entity.rotationYaw, entity.rotationPitch);
+				entity.setPositionAndRotation(this.targetX + 0.5D, this.targetY + 1.5D + entity.getYOffset(), this.targetZ + 0.5D, entity.rotationYaw, entity.rotationPitch);
+				
+				try {
+					EntityTracker entitytracker = ((WorldServer)worldObj).getEntityTracker();
+					IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
+					EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(entity.getEntityId());
+					int yawByte = MathHelper.floor_float(entity.rotationYaw * 256.0F / 360.0F);
+					int pitchByte = MathHelper.floor_float(entity.rotationPitch * 256.0F / 360.0F);
+					int x32 = entity.myEntitySize.multiplyBy32AndRound(entity.posX);
+					int y32 = MathHelper.floor_double(entity.posY * 32.0D);
+					int z32 = entity.myEntitySize.multiplyBy32AndRound(entity.posZ);
+					entry.func_151259_a(new S18PacketEntityTeleport(entity.getEntityId(), x32, y32, z32, (byte)yawByte, (byte)pitchByte));
+				} catch(Exception ex) { }
 			} else {
-				teleportEntityInterdimensionally(entity, this.targetX + 0.5D, this.targetY + 1D + entity.getYOffset(), this.targetZ + 0.5D, this.targetDim);
+				teleportEntityInterdimensionally(entity, this.targetX + 0.5D, this.targetY + 1.5D + entity.getYOffset(), this.targetZ + 0.5D, this.targetDim);
 			}
 		}
 		
@@ -131,6 +150,7 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 		int prevDim = player.dimension;
 		WorldServer prevWorld = player.mcServer.worldServerForDimension(prevDim);
 		WorldServer newWorld = player.mcServer.worldServerForDimension(dim);
+		player.dimension = dim;
 		
 		if(newWorld == null) return false;
 
@@ -167,35 +187,27 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 	public static boolean teleportEntityInterdimensionally(Entity oldEntity, double x, double y, double z, int dim) {
 
 		MinecraftServer minecraftserver = MinecraftServer.getServer();
-
-		int prevDim = oldEntity.dimension;
-		WorldServer prevWorld = minecraftserver.worldServerForDimension(prevDim);
 		WorldServer newWorld = minecraftserver.worldServerForDimension(dim);
 		
 		if(newWorld == null) return false;
 
-		if(dim == 1 && prevDim == 1) {
-			newWorld = minecraftserver.worldServerForDimension(0);
-			oldEntity.dimension = 0;
-		}
-
 		oldEntity.worldObj.removeEntity(oldEntity);
 		oldEntity.isDead = false;
-		minecraftserver.getConfigurationManager().transferEntityToWorld(oldEntity, prevDim, prevWorld, newWorld);
+		
 		Entity entity = EntityList.createEntityByName(EntityList.getEntityString(oldEntity), newWorld);
 
 		if(entity != null) {
 			entity.copyDataFrom(oldEntity, true);
-
-			if(dim == 1 && prevDim == 1) {
-				entity.setLocationAndAngles(x, y, z, entity.rotationYaw, entity.rotationPitch);
-			}
-
+			entity.setLocationAndAngles(x, y, z, entity.rotationYaw, entity.rotationPitch);
+			newWorld.updateEntityWithOptionalForce(entity, false);
+			entity.setWorld(newWorld);
+			
+			IChunkProvider provider = newWorld.getChunkProvider();
+			provider.loadChunk(((int) Math.floor(x)) >> 4, ((int) Math.floor(z)) >> 4);
 			newWorld.spawnEntityInWorld(entity);
 		}
 
-		entity.isDead = true;
-		prevWorld.resetUpdateEntityTick();
+		oldEntity.isDead = true;
 		newWorld.resetUpdateEntityTick();
 		
 		return true;

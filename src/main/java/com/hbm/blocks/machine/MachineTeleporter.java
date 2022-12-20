@@ -58,7 +58,7 @@ public class MachineTeleporter extends BlockContainer implements ILookOverlay {
 		
 		List<String> text = new ArrayList();
 		
-		if(tele.yCoord == -1) {
+		if(tele.targetY == -1) {
 			text.add(EnumChatFormatting.RED + "No destination set!");
 		} else {
 			text.add((tele.power >= tele.consumption ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + String.format("%,d", tele.power) + " / " + String.format("%,d", tele.maxPower));

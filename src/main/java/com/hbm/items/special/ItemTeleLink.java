@@ -60,7 +60,7 @@ public class ItemTeleLink extends Item {
 				
 				tele.markDirty();
 				world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
-				player.addChatMessage(new ChatComponentText(EnumChatFormatting.AQUA + "[TeleLink] Teleporters have been successfully linked."));
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.AQUA + "[TeleLink] Teleporters destination has been set!"));
 				player.swingItem();
 				return true;
 			}
