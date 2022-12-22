@@ -16,6 +16,8 @@ public class WeaponConfig {
 	public static boolean dropCrys = true;
 	public static boolean dropDead = true;
 	
+	public static boolean spawnCasings = true;
+	
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_MISSILE = CommonConfig.CATEGORY_MISSILE;
@@ -38,5 +40,7 @@ public class WeaponConfig {
 		dropStar = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.02_dropStar", "Whether rigged star blaster cells should explode when dropped", true);
 		dropCrys = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.04_dropCrys", "Whether xen crystals should move blocks when dropped", true);
 		dropDead = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.05_dropDead", "Whether dead man's explosives should explode when dropped", true);
+		
+		spawnCasings = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.06_spawnCasings", "Should applicable guns spawn spent shell casings? (Disable if performance heavy)", true);
 	}
 }

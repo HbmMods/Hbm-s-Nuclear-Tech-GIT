@@ -26,7 +26,7 @@ public class Gun45ACPFactory
 	
 	private static final SpentCasingConfigBuilder CASING_45_BUILDER = new SpentCasingConfigBuilder("45acp", CasingType.BRASS_STRAIGHT_WALL, false)
 			.setSmokeChance(8).setInitialMotion(Vec3.createVectorHelper(0.3, 0.75, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
-			.setPosOffset(new EasyLocation(-0.3, -0.25, 0.6)).setScaleZ(0.75f);
+			.setPosOffset(new EasyLocation(-0.3, -0.25, 0.6)).setScaleZ(0.75f).setBounceSound("weapon.smallCasingBouncePB3");
 	static final SpentCasingConfig
 			CASING_45 = CASING_45_BUILDER.build(),
 			

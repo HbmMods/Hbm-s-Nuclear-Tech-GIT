@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
@@ -105,6 +106,26 @@ public class Library {
 	public static final ForgeDirection NEG_Y = ForgeDirection.DOWN;
 	public static final ForgeDirection POS_Z = ForgeDirection.SOUTH;
 	public static final ForgeDirection NEG_Z = ForgeDirection.NORTH;
+	
+	public static <T> List<T> mergeWithoutDuplicates(List<T>...lists)
+	{
+		final List<T> totalList = new ArrayList<T>();
+		for (List<T> list : lists)
+			totalList.addAll(list);
+		return listWithoutDuplicates(totalList);
+	}
+	
+	public static <T> List<T> listWithoutDuplicates(List<T> list)
+	{
+		return list.stream().distinct().collect(Collectors.toList());
+	}
+	
+	public static <T> void removeListDuplicates(List<T> list)
+	{
+		final List<T> newList = listWithoutDuplicates(list);
+		list.clear();
+		list.addAll(newList);
+	}
 	
 	/*
 	 * Is putting this into this trash can a good idea? No. Do I have a better idea? Not currently.

@@ -31,7 +31,7 @@ public class Gun44MagnumFactory {
 	
 	static final SpentCasingConfig CASING_44 = new SpentCasingConfigBuilder("44Magnum", CasingType.BRASS_STRAIGHT_WALL, false)
 			.setCasingAmount(6).setYawFactor(0.05f).setPosOffset(new EasyLocation(0, -0.15, 0)).setSmokeChance(6)
-			.setAfterReload(true).setScaleX(1.25f).build();
+			.setAfterReload(true).setScaleX(1.25f).setBounceSound("weapon.smallCasingBouncePB3").build();
 	
 	public static GunConfiguration getBaseConfig() {
 		

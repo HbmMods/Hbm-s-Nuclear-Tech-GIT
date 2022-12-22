@@ -22,7 +22,8 @@ import net.minecraft.potion.PotionEffect;
 public class Gun357MagnumFactory {
 	
 	private static final SpentCasingConfigBuilder CASING_357_BUILDER = new SpentCasingConfigBuilder("357", CasingType.BRASS_STRAIGHT_WALL, false)
-			.setCasingAmount(6).setYawFactor(0.05f).setPosOffset(new EasyLocation(0, -0.15, 0)).setSmokeChance(6).setAfterReload(true);
+			.setCasingAmount(6).setYawFactor(0.05f).setPosOffset(new EasyLocation(0, -0.15, 0)).setSmokeChance(6).setAfterReload(true)
+			.setBounceSound("weapon.smallCasingBouncePB3");
 	static final SpentCasingConfig
 			CASING_357 = CASING_357_BUILDER.build(),
 			

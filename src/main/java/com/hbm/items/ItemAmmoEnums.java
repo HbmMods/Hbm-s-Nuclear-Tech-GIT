@@ -560,9 +560,9 @@ public class ItemAmmoEnums
 		STAR(Gun50BMGFactory.get50BMGStarConfig(), HbmCollection.StarmetalType),
 		CHLOROPHYTE(Gun50BMGFactory.get50BMGConfig().getChlorophyte(), HbmCollection.ChlorophyteType),
 		SLEEK(Gun50BMGFactory.get50BMGSleekConfig(), AmmoItemTrait.NEU_MASKMAN_METEORITE),
-		FLECHETTE(Gun50BMGFactory.get50BMGFlechetteConfig()),
-		FLECHETTE_AM(Gun50BMGFactory.get50BMGFlechetteAMConfig()),
-		FLECHETTE_PO(Gun50BMGFactory.get50BMGFlechettePOConfig());
+		FLECHETTE(Gun50BMGFactory.get50BMGFlechetteConfig(), AmmoItemTrait.PRO_DAMAGE),
+		FLECHETTE_AM(Gun50BMGFactory.get50BMGFlechetteAMConfig(), AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.NEU_UHH),
+		FLECHETTE_PO(Gun50BMGFactory.get50BMGFlechettePOConfig(), AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.NEU_UHH);
 		private final Set<AmmoItemTrait> traits;
 		private final BulletConfiguration config;
 		private Ammo50BMG(BulletConfiguration config, AmmoItemTrait...traits)

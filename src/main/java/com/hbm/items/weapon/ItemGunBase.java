@@ -251,7 +251,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		
 		world.playSoundAtEntity(player, altConfig.firingSound, 1.0F, altConfig.firingPitch);
 		
-		if (altConfig.casingConfig.isPresent() && !altConfig.casingConfig.get().isAfterReload())
+		if (altConfig.casingConfig.isPresent())
 			spawnCasing(player, altConfig.casingConfig.get(), stack);
 	}
 	

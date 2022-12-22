@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.sound.nt.ISoundSourceTE;
-import com.hbm.sound.nt.SoundWrapper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public abstract class ServerProxy {
+public class ServerProxy {
 
 	//sort by estimated time of display. longer lasting ones should be sorted at the top.
 	public static final int ID_DUCK = 0;
@@ -28,47 +27,59 @@ public abstract class ServerProxy {
 	public static final int ID_GUN_MODE = 8;
 	public static final int ID_GAS_HAZARD = 9;
 	
-	public abstract void registerRenderInfo();
-	public abstract void registerTileEntitySpecialRenderer();
-	public abstract void registerItemRenderer();
-	public abstract void registerEntityRenderer();
-	public abstract void registerBlockRenderer();
+	public void registerRenderInfo() { }
+	public void registerTileEntitySpecialRenderer() { }
+	public void registerItemRenderer() { }
+	public void registerEntityRenderer() { }
+	public void registerBlockRenderer() { }
 	
-	public abstract void particleControl(double x, double y, double z, int type);
+	public void particleControl(double x, double y, double z, int type) { }
 
-	public abstract void spawnParticle(double x, double y, double z, String type, float... args);
+	public void spawnParticle(double x, double y, double z, String type, float[] args) { }
 	
-	public abstract void effectNT(NBTTagCompound data);
+	public void effectNT(NBTTagCompound data) { }
 
-	public abstract void registerMissileItems();
+	public void registerMissileItems() { }
 
-	public abstract AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float pitch);
-	public abstract AudioWrapper getLoopedSoundStartStop(World world, String sound, String start, String stop, float x, float y, float z, float volume, float pitch);
+	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float pitch) { return null; }
+	public AudioWrapper getLoopedSoundStartStop(World world, String sound, String start, String stop, float x, float y, float z, float volume, float pitch) { return null; }
 	
-	public abstract void playSound(String sound, Object data);
+	public void playSound(String sound, Object data) { }
 
 	public void displayTooltip(String msg, int id) {
 		displayTooltip(msg, 1000, id);
 	}
-	public abstract void displayTooltip(String msg, int time, int id);
+	public void displayTooltip(String msg, int time, int id) { }
 	
-	public abstract boolean getIsKeyPressed(EnumKeybind key);
-	public abstract EntityPlayer me();
-
-	public abstract boolean isVanished(Entity e);
-
-	public abstract void openLink(String url);
-	
-	@SuppressWarnings({ "unused", "static-method" })
-	public SoundWrapper getTileSound(String sound, ISoundSourceTE source) {
-		return new SoundWrapper();
+	public boolean getIsKeyPressed(EnumKeybind key) {
+		return false;
 	}
+	public EntityPlayer me() {
+		return null;
+	}
+
+	public boolean isVanished(Entity e) {
+		return false;
+	}
+
+	public void openLink(String url) { }
 	
-	@SuppressWarnings("static-method")
 	public List<ItemStack> getSubItems(ItemStack stack) {
 		
-		List<ItemStack> list = new ArrayList<ItemStack>();
+		List<ItemStack> list = new ArrayList<>();
 		list.add(stack);
 		return list;
+	}
+	
+	public float getImpactDust(World world) {
+		return TomSaveData.forWorld(world).dust;
+	}
+	
+	public float getImpactFire(World world) {
+		return TomSaveData.forWorld(world).fire;
+	}
+	
+	public boolean getImpact(World world) {
+		return TomSaveData.forWorld(world).impact;
 	}
 }

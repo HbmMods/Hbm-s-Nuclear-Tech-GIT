@@ -24,7 +24,7 @@ public class Gun9mmFactory {
 	
 	static final SpentCasingConfig CASING_9 = Gun45ACPFactory.CASING_45_UAC.toBuilder("9")
 			.setInitialMotion(Vec3.createVectorHelper(-0.3, 0.6, 0)).setPosOffset(new EasyLocation(-0.35, -0.2, 0.55))
-			.setScaleX(1).setScaleY(1).setScaleZ(0.6f).build();
+			.setScaleX(1).setScaleY(1).setScaleZ(0.6f).setBounceSound("weapon.smallCasingBouncePB3").build();
 	
 	public static GunConfiguration getMP40Config() {
 		

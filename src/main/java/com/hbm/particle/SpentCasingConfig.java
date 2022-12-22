@@ -66,7 +66,7 @@ public class SpentCasingConfig
 	private final byte delay;
 	/**Chance for the casing to emit smoke. 0 for 100% chance and -1 for it to never make smoke.**/
 	private final byte smokeChance;
-
+	// TODO Setting to disregard crouch effect and/or another offset specifically for crouching which can be set to null to use the default one
 	public SpentCasingConfig(
 			String registryName, ILocationProvider posOffset, Vec3 initialMotion, float pitchFactor, float yawFactor,
 			float scaleX, float scaleY, float scaleZ, int redOverride, int greenOverride, int blueOverride,

@@ -14,24 +14,24 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 @SideOnly(Side.CLIENT)
 public class ParticleSpentCasing extends EntityFX
 {
-	private static final float dScale = 0.05f, smokeJitter = 0.025f;
-	private static final byte smokeAccel = 1;
+	private static final float dScale = 0.05f;//, smokeJitter = 0.025f, smokeAccel = 0.5f;
+//	private static final byte maxSmokeGen = 60, maxSmokeLife = 120;
 	
 	private final List<Pair<EasyLocation, Double>> smokeNodes = new ArrayList<Pair<EasyLocation, Double>>();
 	
 	private final TextureManager textureManager;
 	
-	private final float momentumPitch, momentumYaw;
 	private final SpentCasingConfig config;
-	private final boolean smoke;
+//	private final boolean smoke;
 	
+	private float momentumPitch, momentumYaw;
 	private boolean onGroundPreviously = false;
+	private double maxHeight;
 	public ParticleSpentCasing(TextureManager textureManager, World world, double x, double y, double z, double mx, double my, double mz, float momentumPitch, float momentumYaw, SpentCasingConfig config)
 	{
 		super(world, x, y, z, 0, 0, 0);
@@ -41,15 +41,17 @@ public class ParticleSpentCasing extends EntityFX
 		this.config = config;
 
 		particleMaxAge = 240;
-		smoke = config.getSmokeChance() == 0 ? true
-				: config.getSmokeChance() < 0 ? false
-						: rand.nextInt(config.getSmokeChance()) == 0;
+//		smoke = config.getSmokeChance() == 0 ? true
+//				: config.getSmokeChance() < 0 ? false
+//						: rand.nextInt(config.getSmokeChance()) == 0;
 		
 		motionX = mx;
 		motionY = my;
 		motionZ = mz;
 		
 		particleGravity = 8f;
+		
+		maxHeight = y;
 	}
 
 	@Override
@@ -63,38 +65,48 @@ public class ParticleSpentCasing extends EntityFX
 	{
 		super.onUpdate();
 		
-		if (!onGroundPreviously && onGround)
-			onGroundPreviously = true;
-		else if (onGroundPreviously && !onGround)
-			onGroundPreviously = false;
-		
+		if (motionY > 0 && posY > maxHeight)
+			maxHeight = posY;
+
 		if (!onGroundPreviously && onGround)
 			tryPlayBounceSound();
 		
-		if (particleAge > 120 && !smokeNodes.isEmpty())
-			smokeNodes.clear();
-		
-		if (smoke && particleAge <= 120)
+		// TODO Bounce factor in config
+		if (!onGroundPreviously && onGround)
 		{
-			final double side = (rotationYaw - prevRotationYaw) * 0.1D;
-			final Vec3 prev = Vec3.createVectorHelper(motionX, -motionY, motionZ);
-			prev.rotateAroundY((float) Math.toRadians(rotationYaw));
+			onGroundPreviously = true;
+			motionY = Math.log10(maxHeight - posY + 2);
+			momentumPitch = (float) rand.nextGaussian() * config.getPitchFactor();
+			momentumYaw = (float) rand.nextGaussian() * config.getYawFactor();
 			
-			for (Pair<EasyLocation, Double> pair : smokeNodes)
-			{
-				final EasyLocation node = pair.getKey();
-				
-				node.posX += prev.xCoord * smokeAccel + rand.nextGaussian() * smokeJitter + side;
-				node.posY += prev.yCoord + 1.5;
-				node.posZ += prev.zCoord * smokeAccel + rand.nextGaussian() * smokeJitter;
-			}
-			
-			if (particleAge < 60)
-			{
-				final double alpha = (particleAge / 20d);
-				smokeNodes.add(new Pair<EasyLocation, Double>(EasyLocation.getZeroLocation(), alpha));
-			}
-		}
+			maxHeight = posY;
+		} else if (onGroundPreviously && !onGround)
+			onGroundPreviously = false;
+		
+//		if (particleAge > maxSmokeLife && !smokeNodes.isEmpty())
+//			smokeNodes.clear();
+		
+//		if (smoke && particleAge <= maxSmokeLife)
+//		{
+//			final double side = (rotationYaw - prevRotationYaw) * 0.1D;
+//			final Vec3 prev = Vec3.createVectorHelper(motionX, motionY, motionZ);
+//			prev.rotateAroundY((float) Math.toRadians(rotationYaw));
+//			
+//			for (Pair<EasyLocation, Double> pair : smokeNodes)
+//			{
+//				final EasyLocation node = pair.getKey();
+//				
+//				node.posX += prev.xCoord * smokeAccel + rand.nextGaussian() * smokeJitter + side;
+//				node.posY += prev.yCoord + smokeAccel;
+//				node.posZ += prev.zCoord * smokeAccel + rand.nextGaussian() * smokeJitter;
+//			}
+//			
+//			if (particleAge < maxSmokeGen || inWater)
+//			{
+//				final double alpha = (particleAge / 20d);
+//				smokeNodes.add(new Pair<EasyLocation, Double>(EasyLocation.getZeroLocation(), alpha));
+//			}
+//		}
 		
 		prevRotationPitch = rotationPitch;
 		prevRotationYaw = rotationYaw;
@@ -188,7 +200,8 @@ public class ParticleSpentCasing extends EntityFX
 	private void tryPlayBounceSound()
 	{
 		if (!config.getBounceSound().isEmpty())
-			worldObj.playSoundEffect(posX, posY, posZ, config.getBounceSound(), 1, 1);
+			worldObj.playSoundAtEntity(this, config.getBounceSound(), 2, 1);
+//			playSound(config.getBounceSound(), 2, 1);
 	}
 	
 //	private static float[] getOffset(float time)

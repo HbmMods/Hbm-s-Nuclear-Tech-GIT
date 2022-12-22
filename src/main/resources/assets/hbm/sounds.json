@@ -188,6 +188,10 @@
     "weapon.LMGMagInPB3": {"category": "player", "sounds": [{"name": "weapon/LMGIN", "stream": false}]},
     "weapon.LMGCockPB3": {"category": "player", "sounds": [{"name": "weapon/LMGCLK", "stream": false}]},
     "weapon.shotgunDrumPB3": {"category": "player", "sounds": ["weapon/ASGDRM1", "weapon/ASGDRM2"]},
+    "weapon.shotgunShellBouncePB3": {"category": "player", "sounds": ["weapon/DSSHELL1", "weapon/DSSHELL2", "weapon/DSSHELL3"]},
+    "weapon.smallCasingBouncePB3": {"category": "player", "sounds": ["weapon/BRASS_C1", "weapon/BRASS_C2", "weapon/BRASS_C3", "weapon/BRASS_C4", "weapon/BRASS_C5"]},
+    "weapon.smallMagBouncePB3": {"category": "player", "sounds": ["weapon/DSAOUNC1", "weapon/DSAOUNC2", "weapon/DSAOUNC3", "weapon/DSAOUNC4"]},
+    "weapon.largeMagBouncePB3": {"category": "player", "sounds": ["weapon/DSBOUNC1", "weapon/DSBOUNC2", "weapon/DSBOUNC3", "weapon/DSBOUNC4"]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 

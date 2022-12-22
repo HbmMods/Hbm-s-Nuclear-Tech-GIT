@@ -20,7 +20,7 @@ import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 public class GunGrenadeFactory {
 	
 	static final SpentCasingConfig CASING_40 = new SpentCasingConfigBuilder("40", CasingType.BRASS_STRAIGHT_WALL, false)
-			.setSmokeChance(0).setScaleX(4).setAfterReload(true).setPitchFactor(0.02f).setYawFactor(0.03f)
+			.setSmokeChance(0).setScaleX(4).setScaleY(4).setScaleZ(3).setAfterReload(true).setPitchFactor(0.02f).setYawFactor(0.03f)
 			.build();
 	
 	public static GunConfiguration getHK69Config() {
