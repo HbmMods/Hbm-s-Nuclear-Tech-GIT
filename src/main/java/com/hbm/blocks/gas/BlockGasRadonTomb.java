@@ -59,7 +59,7 @@ public class BlockGasRadonTomb extends BlockGasBase {
 			living.removePotionEffect(HbmPotion.radx.id);
 			
 			ContaminationUtil.contaminate(living, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 0.5F);
-			HbmLivingProps.incrementFibrosis(living, 10);
+			HbmLivingProps.incrementAsbestos(living, 10);
 		}
 	}
 

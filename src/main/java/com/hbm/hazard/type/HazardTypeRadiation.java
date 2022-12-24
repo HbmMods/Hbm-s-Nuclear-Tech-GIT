@@ -6,9 +6,9 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
 import com.hbm.util.ContaminationUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,11 +25,8 @@ public class HazardTypeRadiation extends HazardTypeBase {
 		
 		boolean reacher = false;
 		
-		if(target instanceof EntityPlayer) {
-			ItemStack item = ((EntityPlayer) target).inventory.getCurrentItem();
-			if(item != null)
-				reacher = item.getItem() == ModItems.reacher;
-		}
+		if(target instanceof EntityPlayer && !GeneralConfig.enable528)
+			reacher = ((EntityPlayer) target).inventory.hasItem(ModItems.reacher);
 		
 		level *= stack.stackSize;
 		
@@ -37,7 +34,7 @@ public class HazardTypeRadiation extends HazardTypeBase {
 			float rad = level / 20F;
 			
 			if(GeneralConfig.enable528 && reacher) {
-				rad = (float) (rad / Math.pow(7, 2));	//More realistic function for 528: x / distance^2
+				rad = (float) (rad / 49F);	//More realistic function for 528: x / distance^2
 			} else if(reacher) {
 				rad = (float) Math.sqrt(rad + 1F / ((rad + 2F) * (rad + 2F))) - 1F / (rad + 2F); //Reworked radiation function: sqrt(x+1/(x+2)^2)-1/(x+2)
 			}											

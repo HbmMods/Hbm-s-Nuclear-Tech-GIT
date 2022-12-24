@@ -354,8 +354,6 @@ public class EntityEffectHandler {
 		if(entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode) {
 			HbmLivingProps.setBlackLung(entity, 0);
 			HbmLivingProps.setAsbestos(entity, 0);
-			HbmLivingProps.setFibrosis(entity, 0);
-			
 			return;
 		} else {
 			
@@ -367,10 +365,8 @@ public class EntityEffectHandler {
 
 		double blacklung = Math.min(HbmLivingProps.getBlackLung(entity), HbmLivingProps.maxBlacklung);
 		double asbestos = Math.min(HbmLivingProps.getAsbestos(entity), HbmLivingProps.maxAsbestos);
-		double fibrosis = Math.min(HbmLivingProps.getFibrosis(entity), HbmLivingProps.maxFibrosis);
 		
 		boolean coughs = blacklung / HbmLivingProps.maxBlacklung > 0.25D || asbestos / HbmLivingProps.maxAsbestos > 0.25D;
-		boolean bronchospasms = fibrosis / HbmLivingProps.maxFibrosis > 0.20D;
 		
 		if(!coughs)
 			return;
@@ -381,9 +377,8 @@ public class EntityEffectHandler {
 
 		double blacklungDelta = 1D - (blacklung / (double)HbmLivingProps.maxBlacklung);
 		double asbestosDelta = 1D - (asbestos / (double)HbmLivingProps.maxAsbestos);
-		double fibrosisDelta = 1D - (fibrosis / (double)HbmLivingProps.maxFibrosis);
 		
-		double total = 1 - (blacklungDelta * asbestosDelta * fibrosisDelta);
+		double total = 1 - (blacklungDelta * asbestosDelta);
 		
 		int freq = Math.max((int) (1000 - 950 * total), 20);
 		
@@ -400,29 +395,22 @@ public class EntityEffectHandler {
 		if(world.getTotalWorldTime() % freq == entity.getEntityId() % freq) {
 			world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:player.cough", 1.0F, 1.0F);
 			
-			if(entity.getRNG().nextInt(6) > 1) {
-				if(coughsBlood) {
-					NBTTagCompound nbt = new NBTTagCompound();
-					nbt.setString("type", "vomit");
-					nbt.setString("mode", "blood");
-					nbt.setInteger("count", 5);
-					nbt.setInteger("entity", entity.getEntityId());
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
-				}
+			if(coughsBlood) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "vomit");
+				nbt.setString("mode", "blood");
+				nbt.setInteger("count", 5);
+				nbt.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			}
 			
-				if(coughsCoal) {
-					NBTTagCompound nbt = new NBTTagCompound();
-					nbt.setString("type", "vomit");
-					nbt.setString("mode", "smoke");
-					nbt.setInteger("count", coughsALotOfCoal ? 50 : 10);
-					nbt.setInteger("entity", entity.getEntityId());
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
-				}
-			} else {
-				if(bronchospasms) {
-					entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 2));
-					entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 140, 2));
-				}
+			if(coughsCoal) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "vomit");
+				nbt.setString("mode", "smoke");
+				nbt.setInteger("count", coughsALotOfCoal ? 50 : 10);
+				nbt.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			}
 		}
 	}

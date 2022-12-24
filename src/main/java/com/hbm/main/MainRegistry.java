@@ -992,6 +992,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.dummy_block_fluidtank");
 		ignoreMappings.add("hbm:tile.dummy_port_fluidtank");
 		ignoreMappings.add("hbm:item.telepad");
+		ignoreMappings.add("hbm:item.rubber_gloves");
+		ignoreMappings.add("hbm:item.pirfenidone");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
