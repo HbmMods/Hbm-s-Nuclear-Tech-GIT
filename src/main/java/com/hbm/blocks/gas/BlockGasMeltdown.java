@@ -42,7 +42,7 @@ public class BlockGasMeltdown extends BlockGasBase {
 		if(ArmorRegistry.hasAllProtection(entityLiving, 3, HazardClass.PARTICLE_FINE)) {
 			ArmorUtil.damageGasMaskFilter(entityLiving, 1);
 		} else {
-			HbmLivingProps.incrementFibrosis(entityLiving, 5);
+			HbmLivingProps.incrementAsbestos(entityLiving, 5); // Mesothelioma can be developed as a result of exposure to radiation in the lungs
 		}
 	}
 
