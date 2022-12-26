@@ -1,12 +1,9 @@
 package com.hbm.tileentity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.RecipesCommon.AStack;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemBlowtorch;
 import com.hbm.util.InventoryUtil;
 
@@ -45,13 +42,13 @@ public interface IRepairable {
 		TileEntity core = world.getTileEntity(pos[0], pos[1], pos[2]);
 		if(!(core instanceof IRepairable)) return false;
 		
-		IRepairable tank = (IRepairable) core;
+		IRepairable repairable = (IRepairable) core;
 		
-		if(!tank.isDamaged()) return false;
+		if(!repairable.isDamaged()) return false;
 		
-		List<AStack> list = new ArrayList();
-		if(InventoryUtil.doesPlayerHaveAStacks(player, list, true)) {
-			if(!world.isRemote) tank.repair();
+		List<AStack> list = repairable.getRepairMaterials();
+		if(list == null || list.isEmpty() || InventoryUtil.doesPlayerHaveAStacks(player, list, true)) {
+			if(!world.isRemote) repairable.repair();
 			return true;
 		}
 		

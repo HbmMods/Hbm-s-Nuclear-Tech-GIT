@@ -62,7 +62,6 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 		
 		if(te instanceof ISidedInventory) {
 			ISidedInventory sided = (ISidedInventory) te;
-			//access = sided.getAccessibleSlotsFromSide(dir.ordinal());
 			access = masquerade(sided, dir.ordinal());
 		}
 		
@@ -70,47 +69,6 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 			IInventory inv = (IInventory) te;
 			
 			addToInventory(inv, access, toAdd, dir.ordinal());
-			
-			/*int limit = inv.getInventoryStackLimit();
-			
-			int size = access == null ? inv.getSizeInventory() : access.length;
-			
-			for(int i = 0; i < size; i++) {
-				int index = access == null ? i : access[i];
-				ItemStack stack = inv.getStackInSlot(index);
-				
-				if(stack != null && toAdd.isItemEqual(stack) && ItemStack.areItemStackTagsEqual(toAdd, stack) && stack.stackSize < Math.min(stack.getMaxStackSize(), limit)) {
-					
-					int stackLimit = Math.min(stack.getMaxStackSize(), limit);
-					int amount = Math.min(toAdd.stackSize, stackLimit - stack.stackSize);
-					
-					stack.stackSize += amount;
-					toAdd.stackSize -= amount;
-					
-					if(toAdd.stackSize == 0) {
-						return;
-					}
-				}
-			}
-			
-			for(int i = 0; i < size; i++) {
-				int index = access == null ? i : access[i];
-				ItemStack stack = inv.getStackInSlot(index);
-				
-				if(stack == null && inv.isItemValidForSlot(index, stack)) {
-					
-					int amount = Math.min(toAdd.stackSize, limit);
-					
-					ItemStack newStack = toAdd.copy();
-					newStack.stackSize = amount;
-					inv.setInventorySlotContents(index, newStack);
-					toAdd.stackSize -= amount;
-					
-					if(toAdd.stackSize == 0) {
-						return;
-					}
-				}
-			}*/
 		}
 		
 		if(toAdd != null && toAdd.stackSize > 0) {

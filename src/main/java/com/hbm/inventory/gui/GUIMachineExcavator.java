@@ -32,6 +32,9 @@ public class GUIMachineExcavator extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int x, int y, float interp) {
 		super.drawScreen(x, y, interp);
+		
+		this.drawElectricityInfo(this, x, y, guiLeft + 220, guiTop + 18, 16, 52, drill.getPower(), drill.maxPower);
+		this.drill.tank.renderTankInfo(this, x, y, guiLeft + 202, guiTop + 18, 16, 52);
 	}
 
 	@Override
@@ -68,7 +71,8 @@ public class GUIMachineExcavator extends GuiInfoContainer {
 		
 		if(drill.enableDrill) {
 			drawTexturedModalRect(guiLeft + 6, guiTop + 42, 209, 114, 20, 40);
-			drawTexturedModalRect(guiLeft + 11, guiTop + 5, 209, 104, 10, 10);
+			if(drill.getInstalledDrill() != null) drawTexturedModalRect(guiLeft + 11, guiTop + 5, 209, 104, 10, 10);
+			else if(System.currentTimeMillis() % 1000 < 500) drawTexturedModalRect(guiLeft + 11, guiTop + 5, 219, 104, 10, 10);
 		}
 		
 		if(drill.enableCrusher) {
@@ -83,12 +87,15 @@ public class GUIMachineExcavator extends GuiInfoContainer {
 		
 		if(drill.enableVeinMiner) {
 			drawTexturedModalRect(guiLeft + 78, guiTop + 42, 209, 114, 20, 40);
-			drawTexturedModalRect(guiLeft + 83, guiTop + 5, 209, 104, 10, 10);
+			if(drill.canVeinMine()) drawTexturedModalRect(guiLeft + 83, guiTop + 5, 209, 104, 10, 10);
+			else if(System.currentTimeMillis() % 1000 < 500) drawTexturedModalRect(guiLeft + 83, guiTop + 5, 219, 104, 10, 10);
+			
 		}
 		
 		if(drill.enableSilkTouch) {
 			drawTexturedModalRect(guiLeft + 102, guiTop + 42, 209, 114, 20, 40);
-			drawTexturedModalRect(guiLeft + 107, guiTop + 5, 209, 104, 10, 10);
+			if(drill.canSilkTouch()) drawTexturedModalRect(guiLeft + 107, guiTop + 5, 209, 104, 10, 10);
+			else if(System.currentTimeMillis() % 1000 < 500) drawTexturedModalRect(guiLeft + 107, guiTop + 5, 219, 104, 10, 10);
 		}
 	}
 }

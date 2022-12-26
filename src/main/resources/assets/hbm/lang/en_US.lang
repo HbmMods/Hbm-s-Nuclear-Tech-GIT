@@ -460,7 +460,7 @@ cannery.firebox.4=One such machine is the stirling engine, which will turn heat 
 
 cannery.foundryChannel=Foundry Channel
 cannery.foundryChannel.0=Foundry channels are used to transport molten material from a crucible or storage tank into molds.
-cannery.foundryChannel.1=Channels can receive material either by pouring from the top - via an outlet or directly form a crucible - or from the side from other channels.
+cannery.foundryChannel.1=Channels can receive material either by pouring from the top - via an outlet or directly from a crucible - or from the side from other channels.
 cannery.foundryChannel.2=When transporting materials, channels will prioritize blocks like outlets and shallow molds.
 cannery.foundryChannel.3=When it cannot supply an outlet or a mold, the material will then flow into a neighboring channel.
 cannery.foundryChannel.4=Leftover material can be removed by using a shovel.

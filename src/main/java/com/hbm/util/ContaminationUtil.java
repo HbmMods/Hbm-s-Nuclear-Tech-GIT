@@ -1,5 +1,7 @@
 package com.hbm.util;
 
+import java.util.HashSet;
+
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityQuackos;
@@ -55,18 +57,32 @@ public class ContaminationUtil {
 		return HbmLivingProps.getRadiation(entity);
 	}
 	
+	public static HashSet<Class> immuneEntities = new HashSet();
+	
 	public static boolean isRadImmune(Entity e) {
 
 		if(e instanceof EntityLivingBase && ((EntityLivingBase)e).isPotionActive(HbmPotion.mutation))
 			return true;
 		
-		return e instanceof EntityNuclearCreeper ||
-				e instanceof EntityMooshroom ||
-				e instanceof EntityZombie ||
-				e instanceof EntitySkeleton ||
-				e instanceof EntityQuackos ||
-				e instanceof EntityOcelot ||
-				e instanceof IRadiationImmune;
+		if(immuneEntities.isEmpty()) {
+			immuneEntities.add(EntityNuclearCreeper.class);
+			immuneEntities.add(EntityMooshroom.class);
+			immuneEntities.add(EntityZombie.class);
+			immuneEntities.add(EntitySkeleton.class);
+			immuneEntities.add(EntityQuackos.class);
+			immuneEntities.add(EntityOcelot.class);
+			immuneEntities.add(IRadiationImmune.class);
+		}
+		
+		Class entityClass = e.getClass();
+		
+		for(Class clazz : immuneEntities) {
+			if(clazz.isAssignableFrom(entityClass)) return true;
+		}
+		
+		if("cyano.lootable.entities.EntityLootableBody".equals(entityClass.getName())) return true;
+		
+		return false;
 	}
 	
 	/// ASBESTOS ///

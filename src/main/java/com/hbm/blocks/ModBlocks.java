@@ -1018,7 +1018,7 @@ public class ModBlocks {
 	public static Block machine_excavator;
 
 	public static Block machine_mining_laser;
-	public static Block barricade;
+	public static Block barricade; // a sand bag that drops nothing, for automated walling purposes
 	public static final int guiID_mining_laser = 95;
 
 	public static Block machine_assembler;

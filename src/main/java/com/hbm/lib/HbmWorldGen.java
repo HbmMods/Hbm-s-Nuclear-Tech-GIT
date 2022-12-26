@@ -512,9 +512,9 @@ public class HbmWorldGen implements IWorldGenerator {
 				
 			}
 
-			if (WorldConfig.meteorStructure > 0 && rand.nextInt(WorldConfig.meteorStructure) == 0) {
-				int x = i + rand.nextInt(16);
-				int z = j + rand.nextInt(16);
+			if (WorldConfig.meteorStructure > 0 && rand.nextInt(WorldConfig.meteorStructure) == 0 && biome != BiomeGenBase.ocean && biome != BiomeGenBase.deepOcean) {
+				int x = i + rand.nextInt(16) + 8;
+				int z = j + rand.nextInt(16) + 8;
 				
 				CellularDungeonFactory.meteor.generate(world, x, 10, z, rand);
 				

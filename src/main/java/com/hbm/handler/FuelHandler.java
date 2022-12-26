@@ -1,11 +1,15 @@
 package com.hbm.handler;
 
+import java.util.HashMap;
+
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.common.IFuelHandler;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityFurnace;
 
 public class FuelHandler implements IFuelHandler {
 
@@ -48,5 +52,20 @@ public class FuelHandler implements IFuelHandler {
 		
 		return 0;
 	}
-
+	
+	private static HashMap<ComparableStack, Integer> burnCache = new HashMap();
+	
+	public static int getBurnTimeFromCache(ItemStack stack) {
+		
+		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		
+		if(burnCache.containsKey(comp)) {
+			return burnCache.get(comp);
+		}
+		
+		int burnTime = TileEntityFurnace.getItemBurnTime(stack);
+		burnCache.put(comp, burnTime);
+		
+		return burnTime;
+	}
 }

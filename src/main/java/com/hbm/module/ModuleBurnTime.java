@@ -6,12 +6,12 @@ import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.handler.FuelHandler;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.util.ItemStackUtil;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumChatFormatting;
 
 /**
@@ -80,7 +80,8 @@ public class ModuleBurnTime {
 	}
 	
 	public int getBurnTime(ItemStack stack) {
-		int fuel = TileEntityFurnace.getItemBurnTime(stack);
+		//int fuel = TileEntityFurnace.getItemBurnTime(stack);
+		int fuel = FuelHandler.getBurnTimeFromCache(stack);
 		
 		if(fuel == 0)
 			return 0;

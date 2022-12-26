@@ -789,6 +789,7 @@ public class ModItems {
 
 	public static Item piston_selenium;
 	public static Item piston_set;
+	public static Item drillbit;
 	
 	//public static Item crystal_energy;
 	//public static Item pellet_coolant;
@@ -3248,6 +3249,7 @@ public class ModItems {
 		
 		piston_selenium = new Item().setUnlocalizedName("piston_selenium").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":piston_selenium");
 		piston_set = new ItemPistons().setUnlocalizedName("piston_set").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1);
+		drillbit = new ItemDrillbit().setUnlocalizedName("drillbit").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1);
 
 		//crystal_energy = new ItemCustomLore().setUnlocalizedName("crystal_energy").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":crystal_energy");
 		//pellet_coolant = new ItemCustomLore().setUnlocalizedName("pellet_coolant").setMaxDamage(41400).setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_coolant");
@@ -6480,6 +6482,7 @@ public class ModItems {
 		//Engine Pieces
 		GameRegistry.registerItem(piston_selenium, piston_selenium.getUnlocalizedName());
 		GameRegistry.registerItem(piston_set, piston_set.getUnlocalizedName());
+		GameRegistry.registerItem(drillbit, drillbit.getUnlocalizedName());
 		
 		//Cells
 		GameRegistry.registerItem(cell_empty, cell_empty.getUnlocalizedName());
