@@ -996,6 +996,12 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.pirfenidone");
 		ignoreMappings.add("hbm:item.coin_siege");
 		ignoreMappings.add("hbm:item.source");
+		ignoreMappings.add("hbm:item.stamp_schrabidium_flat");
+		ignoreMappings.add("hbm:item.stamp_schrabidium_plate");
+		ignoreMappings.add("hbm:item.stamp_schrabidium_wire");
+		ignoreMappings.add("hbm:item.stamp_schrabidium_circuit");
+		ignoreMappings.add("hbm:item.blades_combine_steel");
+		ignoreMappings.add("hbm:item.blades_schrabidium");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
