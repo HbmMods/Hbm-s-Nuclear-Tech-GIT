@@ -85,10 +85,7 @@ public class AnvilRecipes {
 				new ItemStack(ModItems.blade_titanium),
 				new ItemStack(ModItems.blade_tungsten)
 				}));
-		smithingRecipes.add(new AnvilSmithingMold(6, new ComparableStack(ModItems.blades_iron), new ItemStack[] {
-				new ItemStack(ModItems.blades_gold),
-				new ItemStack(ModItems.blades_aluminium),
-				new ItemStack(ModItems.blades_iron),
+		smithingRecipes.add(new AnvilSmithingMold(6, new ComparableStack(ModItems.blades_steel), new ItemStack[] {
 				new ItemStack(ModItems.blades_steel),
 				new ItemStack(ModItems.blades_titanium),
 				new ItemStack(ModItems.blades_advanced_alloy)

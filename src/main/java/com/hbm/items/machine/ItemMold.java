@@ -52,9 +52,6 @@ public class ItemMold extends Item {
 				Mats.MAT_TUNGSTEN, new ItemStack(ModItems.blade_tungsten)));
 		
 		registerMold(new MoldMulti(		6, S, "blades", MaterialShapes.INGOT.q(4),
-				Mats.MAT_GOLD,			new ItemStack(ModItems.blades_gold),
-				Mats.MAT_ALUMINIUM,		new ItemStack(ModItems.blades_aluminium),
-				Mats.MAT_IRON,			new ItemStack(ModItems.blades_iron),
 				Mats.MAT_STEEL,			new ItemStack(ModItems.blades_steel),
 				Mats.MAT_TITANIUM,		new ItemStack(ModItems.blades_titanium),
 				Mats.MAT_ALLOY,			new ItemStack(ModItems.blades_advanced_alloy)));

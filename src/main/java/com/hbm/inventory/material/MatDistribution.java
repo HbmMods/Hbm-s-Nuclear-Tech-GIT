@@ -43,9 +43,6 @@ public class MatDistribution extends SerializableRecipe {
 		//castables
 		registerEntry(ModItems.blade_titanium,			MAT_TITANIUM,		INGOT.q(2));
 		registerEntry(ModItems.blade_tungsten,			MAT_TUNGSTEN,		INGOT.q(2));
-		registerEntry(ModItems.blades_gold,				MAT_GOLD,			INGOT.q(4));
-		registerEntry(ModItems.blades_aluminium,		MAT_ALUMINIUM,		INGOT.q(4));
-		registerEntry(ModItems.blades_iron,				MAT_IRON,			INGOT.q(4));
 		registerEntry(ModItems.blades_steel,			MAT_STEEL,			INGOT.q(4));
 		registerEntry(ModItems.blades_titanium,			MAT_TITANIUM, 		INGOT.q(4));
 		registerEntry(ModItems.blades_advanced_alloy,	MAT_ALLOY,			INGOT.q(4));
