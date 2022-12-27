@@ -1,5 +1,3 @@
-import groovy.json.JsonSlurper
-
 buildscript {
 	repositories {
 		maven { url = 'https://maven.minecraftforge.net/' }
@@ -15,9 +13,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-def jsonFile = file('./src/main/resources/mcmod.info')
-def parsedJson = new JsonSlurper().parseText(jsonFile.text)
-version = parsedJson.version
+def version_name = version = mod_version
+if(!mod_build_number.isBlank()) {
+	version_name = mod_version + "_X" + mod_build_number
+	version = "[${version_name}]"
+}
+
 group = project.maven_group
 archivesBaseName = project.mod_name
 
@@ -52,11 +53,13 @@ processResources {
 	inputs.property "mcversion", project.minecraft.version
 
 	// replace stuff in mcmod.info, nothing else
-	from(sourceSets.main.resources.srcDirs) {
-		include 'mcmod.info'
-		
-		// replace version and mcversion
-		expand 'version':project.version, 'mcversion':project.minecraft.version
+	filesMatching('mcmod.info') {
+		// replace version, mcversion and credits
+		expand([
+				version: version_name,
+				mcversion: project.minecraft.version,
+				credits: project.credits
+		])
 	}
 }
 
