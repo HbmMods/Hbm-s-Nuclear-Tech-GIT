@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -17,6 +18,8 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.ItemStackUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.conveyor.IConveyorBelt;
 import api.hbm.energy.IEnergyUser;
@@ -31,6 +34,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -207,12 +211,86 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 					Block b = worldObj.getBlock(x, y, z);
 					
 					if(!this.shouldIgnoreBlock(b, x, y, z)) {
-						b.dropBlockAsItem(worldObj, x, y, z, worldObj.getBlockMetadata(x, y, z), 0 /* fortune */);
-						worldObj.func_147480_a(x, y, z, false);
+						tryMineAtLocation(x, y, z);
 					}
 				}
 			}
 		}
+	}
+	
+	public void tryMineAtLocation(int x ,int y, int z) {
+		
+		if(this.enableVeinMiner && this.getInstalledDrill().vein) {
+			
+			/* doing this isn't terribly accurate but just for figuring out if there's OD it works */
+			Item blockItem = Item.getItemFromBlock(worldObj.getBlock(x, y, z));
+			
+			if(blockItem != null) {
+				List<String> names = ItemStackUtil.getOreDictNames(new ItemStack(blockItem));
+				
+				for(String name : names) {
+					if(name.startsWith("ore")) {
+						minX = x;
+						minY = y;
+						minZ = z;
+						maxX = x;
+						maxY = y;
+						maxZ = z;
+						breakRecursively(x, y, z, 10);
+						recursionBrake.clear();
+						
+						/* move all excavated items to the last drillable position which is also within collection range */
+						List<EntityItem> items = worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX + 1, maxY + 1, maxZ + 1));
+						for(EntityItem item : items) item.setPosition(x + 0.5, y + 0.5, z + 0.5);
+						
+						return;
+					}
+				}
+			}
+		}
+
+		Block b = worldObj.getBlock(x, y, z);
+		breakSingleBlock(b, x, y, z);
+	}
+	
+	private HashSet<BlockPos> recursionBrake = new HashSet();
+	private int minX = 0, minY = 0, minZ = 0, maxX = 0, maxY = 0, maxZ = 0;
+	protected void breakRecursively(int x ,int y, int z, int depth) {
+		
+		if(depth < 0) return;
+		BlockPos pos = new BlockPos(x, y, z);
+		if(recursionBrake.contains(pos)) return;
+		recursionBrake.add(pos);
+		
+		Block b = worldObj.getBlock(x, y, z);
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			int ix = x + dir.offsetX;
+			int iy = y + dir.offsetY;
+			int iz = z + dir.offsetZ;
+			
+			if(worldObj.getBlock(ix, iy, iz) == b) {
+				breakRecursively(ix, iy, iz, depth - 1);
+			}
+		}
+
+		breakSingleBlock(b, x, y, z);
+
+		if(x < minX) minX = x;
+		if(x > maxX) maxX = x;
+		if(y < minY) minY = y;
+		if(y > maxY) maxY = y;
+		if(z < minZ) minZ = z;
+		if(z > maxZ) maxZ = z;
+		
+		if(this.enableWalling) {
+			worldObj.setBlock(x, y, z, ModBlocks.barricade);
+		}
+	}
+	
+	protected void breakSingleBlock(Block b, int x ,int y, int z) {
+		b.dropBlockAsItem(worldObj, x, y, z, worldObj.getBlockMetadata(x, y, z), 0 /* fortune */);
+		worldObj.func_147480_a(x, y, z, false);
 	}
 	
 	/** builds a wall along the specified ring, replacing fluid blocks. if wallEverything is set, it will also wall off replacable blocks like air or grass */

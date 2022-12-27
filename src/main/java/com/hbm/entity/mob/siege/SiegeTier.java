@@ -32,15 +32,15 @@ public class SiegeTier {
 	public static SiegeTier DNT;
 	
 	public static void registerTiers() {
-		DEFAULT_BUFF =	new SiegeTier(20, "buff")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 0))	.setDR(0.2F)										.setDMG(2F)									.setLaser(0F, 0F, false);
-		CLAY =			new SiegeTier(30, "clay")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 1))	.setDR(0.2F)										.setDMG(3F)									.setLaser(0F, 0F, false);
-		STONE =			new SiegeTier(40, "stone")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 2))	.setDR(0.3F)	.setDT(1F)				.setFP()	.setDMG(5F)									.setLaser(0F, 0F, true);
-		IRON =			new SiegeTier(50, "iron")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 3))	.setDR(0.3F)	.setDT(2F)				.setFP()	.setDMG(7.5F)					.setFF()	.setLaser(0F, 1F, true);
-		SILVER =		new SiegeTier(70, "silver")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 4))	.setDR(0.5F)	.setDT(3F)	.setNF()	.setFP()	.setDMG(10F)	.setSP(0.5F)	.setFF()	.setLaser(0.01F, 1F, true);
-		GOLD =			new SiegeTier(100, "gold")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 5))	.setDR(0.5F)	.setDT(5F)	.setNF()	.setFP()	.setDMG(15F)	.setSP(0.5F)	.setFF()	.setLaser(0.02F, 1.5F, true);
-		DESH =			new SiegeTier(150, "desh")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 6))	.setDR(0.7F)	.setDT(7F)	.setNF()	.setFP()	.setDMG(25F)	.setSP(0.5F)	.setFF()	.setLaser(0.05F, 1.5F, true);
-		SCHRAB =		new SiegeTier(250, "schrab")	.addDrop(new ItemStack(ModItems.coin_siege, 1, 7))	.setDR(0.7F)	.setDT(10F)	.setNF()	.setFP()	.setDMG(50F)	.setSP(1F)		.setFF()	.setLaser(0.1F, 2F, true);
-		DNT =			new SiegeTier(500, "dnt")		.addDrop(new ItemStack(ModItems.coin_siege, 1, 8))	.setDR(0.9F)	.setDT(20F)	.setNF()	.setFP()	.setDMG(100F)	.setSP(1F)		.setFF()	.setLaser(0.2F, 2F, true);
+		DEFAULT_BUFF =	new SiegeTier(20, "buff")		.addDrop(new ItemStack(ModItems.ingot_steel, 1, 0))	.setDR(0.2F)										.setDMG(2F)									.setLaser(0F, 0F, false);
+		CLAY =			new SiegeTier(30, "clay")		.addDrop(new ItemStack(ModItems.ingot_steel, 1, 0))	.setDR(0.2F)										.setDMG(3F)									.setLaser(0F, 0F, false);
+		STONE =			new SiegeTier(40, "stone")		.addDrop(new ItemStack(ModItems.ingot_steel, 1, 0))	.setDR(0.3F)	.setDT(1F)				.setFP()	.setDMG(5F)									.setLaser(0F, 0F, true);
+		IRON =			new SiegeTier(50, "iron")		.addDrop(new ItemStack(ModItems.ingot_steel, 1, 0))	.setDR(0.3F)	.setDT(2F)				.setFP()	.setDMG(7.5F)					.setFF()	.setLaser(0F, 1F, true);
+		SILVER =		new SiegeTier(70, "silver")		.addDrop(new ItemStack(ModItems.ingot_steel, 1, 0))	.setDR(0.5F)	.setDT(3F)	.setNF()	.setFP()	.setDMG(10F)	.setSP(0.5F)	.setFF()	.setLaser(0.01F, 1F, true);
+		GOLD =			new SiegeTier(100, "gold")		.addDrop(new ItemStack(ModItems.ingot_steel, 1, 0))	.setDR(0.5F)	.setDT(5F)	.setNF()	.setFP()	.setDMG(15F)	.setSP(0.5F)	.setFF()	.setLaser(0.02F, 1.5F, true);
+		DESH =			new SiegeTier(150, "desh")		.addDrop(new ItemStack(ModItems.ingot_steel, 1, 0))	.setDR(0.7F)	.setDT(7F)	.setNF()	.setFP()	.setDMG(25F)	.setSP(0.5F)	.setFF()	.setLaser(0.05F, 1.5F, true);
+		SCHRAB =		new SiegeTier(250, "schrab")	.addDrop(new ItemStack(ModItems.ingot_steel, 1, 0))	.setDR(0.7F)	.setDT(10F)	.setNF()	.setFP()	.setDMG(50F)	.setSP(1F)		.setFF()	.setLaser(0.1F, 2F, true);
+		DNT =			new SiegeTier(500, "dnt")		.addDrop(new ItemStack(ModItems.ingot_steel, 1, 0))	.setDR(0.9F)	.setDT(20F)	.setNF()	.setFP()	.setDMG(100F)	.setSP(1F)		.setFF()	.setLaser(0.2F, 2F, true);
 	}
 
 	public int id;

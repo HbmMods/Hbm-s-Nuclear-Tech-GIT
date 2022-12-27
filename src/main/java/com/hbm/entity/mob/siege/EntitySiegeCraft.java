@@ -318,8 +318,6 @@ public class EntitySiegeCraft extends EntityUFOBase implements IBossDisplayData 
 			for(ItemStack drop : this.getTier().dropItem) {
 				this.entityDropItem(drop.copy(), 0F);
 			}
-			
-			this.entityDropItem(new ItemStack(ModItems.source, 50), 0F);
 		}
 	}
 }

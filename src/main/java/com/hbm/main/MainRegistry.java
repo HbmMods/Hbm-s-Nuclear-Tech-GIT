@@ -994,6 +994,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.telepad");
 		ignoreMappings.add("hbm:item.rubber_gloves");
 		ignoreMappings.add("hbm:item.pirfenidone");
+		ignoreMappings.add("hbm:item.coin_siege");
+		ignoreMappings.add("hbm:item.source");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

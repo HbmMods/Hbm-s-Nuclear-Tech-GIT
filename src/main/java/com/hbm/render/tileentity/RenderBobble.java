@@ -392,7 +392,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			GL11.glTranslated(0.3, 1.4, -0.2);
 			GL11.glRotated(-100, 1, 0, 0);
 			GL11.glScaled(0.5, 0.5, 0.5);
-			renderItem(new ItemStack(ModItems.coin_siege, 1, 5));
+			renderItem(new ItemStack(ModItems.coin_maskman, 1, 5));
 			break;
 		case ADAM29:
 			GL11.glTranslated(0.45, 1.15, 0.4);

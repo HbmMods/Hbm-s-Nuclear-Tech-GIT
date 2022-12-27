@@ -180,8 +180,6 @@ public class EntitySiegeSkeleton extends EntityMob implements IRangedAttackMob, 
 			for(ItemStack drop : this.getTier().dropItem) {
 				this.entityDropItem(drop.copy(), 0F);
 			}
-			
-			this.entityDropItem(new ItemStack(ModItems.source, 3), 0F);
 		}
 	}
 }

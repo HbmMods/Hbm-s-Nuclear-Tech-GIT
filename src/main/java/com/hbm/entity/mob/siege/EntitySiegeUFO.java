@@ -145,8 +145,6 @@ public class EntitySiegeUFO extends EntityUFOBase implements IRadiationImmune {
 			for(ItemStack drop : this.getTier().dropItem) {
 				this.entityDropItem(drop.copy(), 0F);
 			}
-			
-			this.entityDropItem(new ItemStack(ModItems.source, 5), 0F);
 		}
 	}
 }
