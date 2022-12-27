@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 buildscript {
 	repositories {
 		maven { url = 'https://maven.minecraftforge.net/' }
@@ -5,77 +7,46 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+		classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+			changing = true
+		}
 	}
 }
 
 apply plugin: 'forge'
 
 def jsonFile = file('./src/main/resources/mcmod.info')
-def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text)
+def parsedJson = new JsonSlurper().parseText(jsonFile.text)
 version = parsedJson.version
-group = "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "HBM-NTM"
+group = project.maven_group
+archivesBaseName = project.mod_name
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-	version = "1.7.10-10.13.4.1614-1.7.10"
+	version = "${minecraft_version}-${forge_version}"
 	runDir = "eclipse"
-}
-
-// A little hack to fix codechicken's crazy maven structure (at least in 1.7.10)
-eclipse.classpath.file.whenMerged { cp ->
-	// Find all codechicken source jars
-	def srcent = cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-src.jar") }
-	
-	// Remove them from classpath
-	cp.entries.removeAll srcent
-
-	// Map the source entries to their dev counterparts based on basename
-	Map<String, File> srcmap = new HashMap<String, File>()
-	srcent.forEach { entry ->
-		def file = new File(entry.path)
-		srcmap.put(file.getName().replace("-src.jar", "-dev.jar"), file)
-	}
-	
-	// Create file reference factory
-	def fileref = new org.gradle.plugins.ide.eclipse.model.internal.FileReferenceFactory()
-	
-	// Find all codechicken development jars
-	cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-dev.jar") }.forEach { entry ->
-		File srcmapping = new File(entry.path) // Initialize the srcmapping from the dev jar path
-		srcmapping = srcmap.get(srcmapping.getName()) // Transform it using the sourcemap
-		entry.sourcePath = fileref.fromFile(srcmapping) // Set the source path
-	}
 }
 
 repositories {
 	maven {
-		name = 'ModMaven'
-		url = 'https://modmaven.dev'
+		url = 'https://maven.thorfusion.com/artifactory/central'
 	}
-	//maven {
-	//	name = "CurseForge"
-	//	url = "https://minecraft.curseforge.com/api/maven/"
-	//}
 }
 
 dependencies {
-	compile 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev'
-	compileOnly 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:src'
-	
-	compile 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev'
-	compileOnly 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:src'
-	
-	compile 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev'
-	compileOnly 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:src'
+	implementation "codechicken:CodeChickenCore:${minecraft_version}-${code_chicken_core_version}:dev"
+
+	implementation "codechicken:CodeChickenLib:${minecraft_version}-${code_chicken_lib_version}:dev"
+
+	implementation "codechicken:NotEnoughItems:${minecraft_version}-${not_enough_items_version}:dev"
 
 	//compileOnly 'inventory-tweaks:InventoryTweaks:1.62+beta.84:api'
-	compile "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
+	implementation "li.cil.oc:OpenComputers:MC${minecraft_version}-${open_computers_version}:api"
 }
 
 processResources {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	// this will ensure that this task is redone when the versions change.
 	inputs.property "version", project.version
 	inputs.property "mcversion", project.minecraft.version
@@ -87,14 +58,9 @@ processResources {
 		// replace version and mcversion
 		expand 'version':project.version, 'mcversion':project.minecraft.version
 	}
-		
-	// copy everything else, thats not the mcmod.info
-	from(sourceSets.main.resources.srcDirs) {
-		exclude 'mcmod.info'
-	}
 }
 
-task version {
+tasks.register('version') {
 	doFirst {
 		println project.version
 	}
