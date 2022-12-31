@@ -28,9 +28,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 @Spaghetti("more ctor stuff, less if/else bullshittery")
-//turns out you can't actually pass a model in the ctor because ModelBiped is clientonly...
+// turns out you can't actually pass a model in the ctor because ModelBiped is
+// clientonly...
 public class ArmorModel extends ItemArmor {
-	
+
 	@SideOnly(Side.CLIENT)
 	private ModelGoggles modelGoggles;
 	@SideOnly(Side.CLIENT)
@@ -56,33 +57,33 @@ public class ArmorModel extends ItemArmor {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
-		if (this == ModItems.goggles) {
-			if (armorSlot == 0) {
-				if (this.modelGoggles == null) {
+		if(this == ModItems.goggles) {
+			if(armorSlot == 0) {
+				if(this.modelGoggles == null) {
 					this.modelGoggles = new ModelGoggles();
 				}
 				return this.modelGoggles;
 			}
 		}
-		if (this == ModItems.oxy_mask) {
-			if (armorSlot == 0) {
-				if (this.modelOxy == null) {
+		if(this == ModItems.oxy_mask) {
+			if(armorSlot == 0) {
+				if(this.modelOxy == null) {
 					this.modelOxy = new ModelOxygenMask();
 				}
 				return this.modelOxy;
 			}
 		}
-		if (this == ModItems.hat) {
-			if (armorSlot == 0) {
-				if (this.modelHat == null) {
+		if(this == ModItems.hat) {
+			if(armorSlot == 0) {
+				if(this.modelHat == null) {
 					this.modelHat = new ModelHat(0);
 				}
 				return this.modelHat;
 			}
 		}
-		if (this == ModItems.cape_test || this == ModItems.cape_radiation || this == ModItems.cape_gasmask || this == ModItems.cape_schrabidium || this == ModItems.cape_hidden) {
-			if (armorSlot == 1) {
-				if (this.modelCloak == null) {
+		if(this == ModItems.cape_test || this == ModItems.cape_radiation || this == ModItems.cape_gasmask || this == ModItems.cape_schrabidium || this == ModItems.cape_hidden) {
+			if(armorSlot == 1) {
+				if(this.modelCloak == null) {
 					this.modelCloak = new ModelCloak();
 				}
 				return this.modelCloak;
@@ -93,42 +94,43 @@ public class ArmorModel extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-		if (stack.getItem() == ModItems.goggles) {
+		if(stack.getItem() == ModItems.goggles) {
 			return "hbm:textures/models/Goggles.png";
 		}
-		if (stack.getItem() == ModItems.oxy_mask) {
+		if(stack.getItem() == ModItems.oxy_mask) {
 			return null;
 		}
-		if (stack.getItem() == ModItems.cape_test) {
+		if(stack.getItem() == ModItems.cape_test) {
 			return "hbm:textures/models/TestCape.png";
 		}
-		if (stack.getItem() == ModItems.cape_radiation) {
+		if(stack.getItem() == ModItems.cape_radiation) {
 			return "hbm:textures/models/capes/CapeRadiation.png";
 		}
-		if (stack.getItem() == ModItems.cape_gasmask) {
+		if(stack.getItem() == ModItems.cape_gasmask) {
 			return "hbm:textures/models/capes/CapeGasMask.png";
 		}
-		if (stack.getItem() == ModItems.cape_schrabidium) {
+		if(stack.getItem() == ModItems.cape_schrabidium) {
 			return "hbm:textures/models/capes/CapeSchrabidium.png";
 		}
-		if (stack.getItem() == ModItems.cape_hidden) {
+		if(stack.getItem() == ModItems.cape_hidden) {
 			return "hbm:textures/models/capes/CapeHidden.png";
 		}
-		
+
 		return "hbm:textures/models/capes/CapeUnknown.png";
 	}
-	
-    @SideOnly(Side.CLIENT)
-    public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks, boolean hasScreen, int mouseX, int mouseY){
-    	
-    	if(this != ModItems.goggles && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
-    		return;
 
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(false);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
+	@SideOnly(Side.CLIENT)
+	public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks, boolean hasScreen, int mouseX, int mouseY) {
+
+		if(this != ModItems.goggles && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
+			return;
+
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		switch((int) ((double) stack.getItemDamage() / (double) stack.getMaxDamage() * 6D)) {
 		case 0:
 			Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur0);
@@ -152,19 +154,19 @@ public class ArmorModel extends ItemArmor {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur5);
 			break;
 		}
-        
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(0.0D, (double)resolution.getScaledHeight(), -90.0D, 0.0D, 1.0D);
-        tessellator.addVertexWithUV((double)resolution.getScaledWidth(), (double)resolution.getScaledHeight(), -90.0D, 1.0D, 1.0D);
-        tessellator.addVertexWithUV((double)resolution.getScaledWidth(), 0.0D, -90.0D, 1.0D, 0.0D);
-        tessellator.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
-        tessellator.draw();
-        GL11.glDepthMask(true);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-    }
+
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		tessellator.addVertexWithUV(0.0D, (double) resolution.getScaledHeight(), -90.0D, 0.0D, 1.0D);
+		tessellator.addVertexWithUV((double) resolution.getScaledWidth(), (double) resolution.getScaledHeight(), -90.0D, 1.0D, 1.0D);
+		tessellator.addVertexWithUV((double) resolution.getScaledWidth(), 0.0D, -90.0D, 1.0D, 0.0D);
+		tessellator.addVertexWithUV(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
+		tessellator.draw();
+		GL11.glDepthMask(true);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	}
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {

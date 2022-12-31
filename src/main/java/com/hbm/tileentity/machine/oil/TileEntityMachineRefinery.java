@@ -8,15 +8,17 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Quintet;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +28,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
-public class TileEntityMachineRefinery extends TileEntityMachineBase implements IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver {
+public class TileEntityMachineRefinery extends TileEntityMachineBase implements IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver {
 
 	public long power = 0;
 	public int sulfur = 0;
@@ -43,11 +45,11 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	public TileEntityMachineRefinery() {
 		super(12);
 		tanks = new FluidTank[5];
-		tanks[0] = new FluidTank(Fluids.HOTOIL, 64000, 0);
-		tanks[1] = new FluidTank(Fluids.HEAVYOIL, 16000, 1);
-		tanks[2] = new FluidTank(Fluids.NAPHTHA, 16000, 2);
-		tanks[3] = new FluidTank(Fluids.LIGHTOIL, 16000, 3);
-		tanks[4] = new FluidTank(Fluids.PETROLEUM, 16000, 4);
+		tanks[0] = new FluidTank(Fluids.HOTOIL, 64_000, 0);
+		tanks[1] = new FluidTank(Fluids.HEAVYOIL, 24_000, 1);
+		tanks[2] = new FluidTank(Fluids.NAPHTHA, 24_000, 2);
+		tanks[3] = new FluidTank(Fluids.LIGHTOIL, 24_000, 3);
+		tanks[4] = new FluidTank(Fluids.PETROLEUM, 24_000, 4);
 	}
 
 	@Override
@@ -130,6 +132,14 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			}
 			
+			for(DirPos pos : getConPos()) {
+				for(int i = 1; i < 5; i++) {
+					if(tanks[i].getFill() > 0) {
+						this.sendFluid(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					}
+				}
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
 			this.networkPack(data, 50);
@@ -192,14 +202,23 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	}
 	
 	private void updateConnections() {
-		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord + 1, Library.POS_X);
-		this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord - 1, Library.POS_X);
-		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord + 1, Library.NEG_X);
-		this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord - 1, Library.NEG_X);
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord + 2, Library.POS_Z);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord + 2, Library.POS_Z);
-		this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z);
-		this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z);
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	public DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
+				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
+				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
+				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z)
+		};
 	}
 	
 	public long getPowerScaled(long i) {
@@ -326,11 +345,30 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		
 		if(data.hasKey("toggle")) {
 			
+			for(DirPos pos : getConPos()) {
+				this.tryUnsubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ());
+			}
+			
 			if(tanks[0].getTankType() == Fluids.HOTOIL) {
 				tanks[0].setTankType(Fluids.HOTCRACKOIL);
 			} else {
 				tanks[0].setTankType(Fluids.HOTOIL);
 			}
 		}
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tanks[1], tanks[2], tanks[3], tanks[4] };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[0] };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

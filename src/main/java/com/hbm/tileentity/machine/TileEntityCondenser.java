@@ -5,18 +5,20 @@ import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
-import com.hbm.main.ModEventHandler;
+import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, IFluidSource {
+public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, INBTPacketReceiver {
 
 	public int age = 0;
 	public FluidTank[] tanks;
@@ -40,29 +42,41 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 				age = 0;
 			}
 			
-			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			if(this.waterTimer > 0)
+				this.waterTimer--;
 			
 			int convert = Math.min(tanks[0].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
 			tanks[0].setFill(tanks[0].getFill() - convert);
 			
+			if(convert > 0)
+				this.waterTimer = 20;
+			
 			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
 			
-			if(ModEventHandler.fire > 0 && light > 7) { // Make both steam and water evaporate during firestorms...
+			if(MainRegistry.proxy.getImpactFire(worldObj) > 0 && light > 7) { // Make both steam and water evaporate during firestorms...
 				tanks[1].setFill(tanks[1].getFill() - convert);
 			} else {
 				tanks[1].setFill(tanks[1].getFill() + convert);
 			}
 			
+			this.subscribeToAllAround(tanks[0].getTankType(), this);
+			this.sendFluidToAll(tanks[1].getTankType(), this);
+			
 			fillFluidInit(tanks[1].getTankType());
 			
-		} else {
-			
-			if(tanks[0].getFill() > 0) {
-				this.waterTimer = 20;
-			} else if(this.waterTimer > 0){
-				this.waterTimer--;
-			}
+			NBTTagCompound data = new NBTTagCompound();
+			this.tanks[0].writeToNBT(data, "0");
+			this.tanks[1].writeToNBT(data, "1");
+			data.setByte("timer", (byte) this.waterTimer);
+			INBTPacketReceiver.networkPack(this, data, 150);
 		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.tanks[0].readFromNBT(nbt, "0");
+		this.tanks[1].readFromNBT(nbt, "1");
+		this.waterTimer = nbt.getByte("timer");
 	}
 	
 	@Override
@@ -147,5 +161,20 @@ public class TileEntityCondenser extends TileEntity implements IFluidAcceptor, I
 	@Override
 	public void clearFluidList(FluidType type) {
 		list.clear();
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks [1]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks [0]};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

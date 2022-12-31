@@ -1,14 +1,19 @@
 package com.hbm.inventory.recipes;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.interfaces.Untested;
-import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Compat;
@@ -20,12 +25,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class ShredderRecipes {
+public class ShredderRecipes extends SerializableRecipe {
 
 	public static HashMap<ComparableStack, ItemStack> shredderRecipes = new HashMap();
 	public static HashMap<Object, Object> neiShredderRecipes;
 	
-	public static void registerShredder() {
+	@Override
+	public void registerPost() {
 		
 		String[] names = OreDictionary.getOreNames();
 		
@@ -43,10 +49,14 @@ public class ShredderRecipes {
 			if(matches == null || matches.isEmpty())
 				continue;
 
+			//1 ingot unit, metal
 			generateRecipes("ingot", name, matches, 1);
-			generateRecipes("ore", name, matches, 2);
+			generateRecipes("plate", name, matches, 1);
+			//1 ingot unit, crystalline
 			generateRecipes("gem", name, matches, 1);
 			generateRecipes("crystal", name, matches, 1);
+			//2 ingot units, any
+			generateRecipes("ore", name, matches, 2);
 			
 			if(name.length() > 5 && name.substring(0, 5).equals("block")) {
 				ItemStack dust = getDustByName(name.substring(5));
@@ -103,7 +113,7 @@ public class ShredderRecipes {
 		if(in != null) {
 			
 			if(in.getItem() != null) {
-				shredderRecipes.put(new ComparableStack(in), dust);
+				setRecipe(new ComparableStack(in), dust);
 			} else {
 				MainRegistry.logger.error("Ore dict entry '" + name + "' has a null item in its stack! How does that even happen?");
 				Thread.currentThread().dumpStack();
@@ -114,12 +124,11 @@ public class ShredderRecipes {
 			Thread.currentThread().dumpStack();
 		}
 	}
-	
-	public static void registerOverrides() {
 
-		/*
-		 * Primary recipes
-		 */
+	@Override
+	public void registerDefaults() {
+
+		/* Primary recipes */
 		ShredderRecipes.setRecipe(ModItems.scrap, new ItemStack(ModItems.dust));
 		ShredderRecipes.setRecipe(ModItems.dust, new ItemStack(ModItems.dust));
 		ShredderRecipes.setRecipe(Blocks.glowstone, new ItemStack(Items.glowstone_dust, 4));
@@ -146,7 +155,6 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(Blocks.cobblestone, new ItemStack(Blocks.gravel, 1));
 		ShredderRecipes.setRecipe(Blocks.stonebrick, new ItemStack(Blocks.gravel, 1));
 		ShredderRecipes.setRecipe(Blocks.gravel, new ItemStack(Blocks.sand, 1));
-		ShredderRecipes.setRecipe(Blocks.sand, new ItemStack(ModItems.dust, 2));
 		ShredderRecipes.setRecipe(Blocks.brick_block, new ItemStack(Items.clay_ball, 4));
 		ShredderRecipes.setRecipe(Blocks.brick_stairs, new ItemStack(Items.clay_ball, 3));
 		ShredderRecipes.setRecipe(Items.flower_pot, new ItemStack(Items.clay_ball, 3));
@@ -182,16 +190,32 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModItems.ingot_schrabidate, new ItemStack(ModItems.powder_schrabidate, 1));
 		ShredderRecipes.setRecipe(ModBlocks.block_schrabidate, new ItemStack(ModItems.powder_schrabidate, 9));
 		ShredderRecipes.setRecipe(ModItems.coal_infernal, new ItemStack(ModItems.powder_coal, 3));
-		ShredderRecipes.setRecipe(Items.reeds, new ItemStack(Items.paper, 3));
 		ShredderRecipes.setRecipe(Items.fermented_spider_eye, new ItemStack(ModItems.powder_poison, 3));
 		ShredderRecipes.setRecipe(Items.poisonous_potato, new ItemStack(ModItems.powder_poison, 1));
 		ShredderRecipes.setRecipe(ModBlocks.ore_tektite_osmiridium, new ItemStack(ModItems.powder_tektite, 1));
+		ShredderRecipes.setRecipe(Blocks.dirt, new ItemStack(ModItems.dust, 1));
+		ShredderRecipes.setRecipe(Items.reeds, new ItemStack(Items.sugar, 3));
+		ShredderRecipes.setRecipe(Items.apple, new ItemStack(Items.sugar, 1));
+		ShredderRecipes.setRecipe(Items.carrot, new ItemStack(Items.sugar, 1));
 		
-		for(int i = 0; i < 5; i++) ShredderRecipes.setRecipe(new ItemStack(Items.skull, 1, i), new ItemStack(ModItems.biomass));
+		List<ItemStack> logs = OreDictionary.getOres("logWood");
+		List<ItemStack> planks = OreDictionary.getOres("plankWood");
+		List<ItemStack> saplings = OreDictionary.getOres("treeSapling");
+		
+		for(ItemStack log : logs) ShredderRecipes.setRecipe(log, new ItemStack(ModItems.powder_sawdust, 4));
+		for(ItemStack plank : planks) ShredderRecipes.setRecipe(plank, new ItemStack(ModItems.powder_sawdust, 1));
+		for(ItemStack sapling : saplings) ShredderRecipes.setRecipe(sapling, new ItemStack(Items.stick, 1));
 
-		/*
-		 * Crstaly processing
-		 */
+		List<ItemStack> silicon = OreDictionary.getOres("itemSilicon");
+		if(!silicon.isEmpty()) {
+			ShredderRecipes.setRecipe(Blocks.sand, silicon.get(0).copy());
+		} else {
+			ShredderRecipes.setRecipe(Blocks.sand, new ItemStack(ModItems.dust, 2));
+		}
+		
+		for(int i = 0; i < 5; i++) ShredderRecipes.setRecipe(new ItemStack(Items.skull, 1, i), new ItemStack(ModItems.biomass, 4));
+
+		/* Crystal processing */
 		ShredderRecipes.setRecipe(ModItems.ingot_schraranium, new ItemStack(ModItems.nugget_schrabidium, 2));
 		ShredderRecipes.setRecipe(ModItems.crystal_coal, new ItemStack(ModItems.powder_coal, 3));
 		ShredderRecipes.setRecipe(ModItems.crystal_iron, new ItemStack(ModItems.powder_iron, 3));
@@ -220,9 +244,7 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModItems.crystal_starmetal, new ItemStack(ModItems.powder_dura_steel, 6));
 		ShredderRecipes.setRecipe(ModItems.crystal_cobalt, new ItemStack(ModItems.powder_cobalt, 3));
 
-		/*
-		 * Misc recycling
-		 */
+		/* Misc recycling */
 		ShredderRecipes.setRecipe(ModBlocks.steel_poles, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModBlocks.pole_top, new ItemStack(ModItems.powder_tungsten, 4));
 		ShredderRecipes.setRecipe(ModBlocks.tape_recorder, new ItemStack(ModItems.powder_steel, 1));
@@ -231,7 +253,7 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModBlocks.steel_wall, new ItemStack(ModItems.powder_steel_tiny, 13));
 		ShredderRecipes.setRecipe(ModBlocks.steel_corner, new ItemStack(ModItems.powder_steel_tiny, 26));
 		ShredderRecipes.setRecipe(ModBlocks.steel_beam, new ItemStack(ModItems.powder_steel_tiny, 3));
-		ShredderRecipes.setRecipe(ModBlocks.steel_scaffold, new ItemStack(ModItems.powder_steel_tiny, 7));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.steel_scaffold, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.powder_steel_tiny, 7));
 		ShredderRecipes.setRecipe(ModItems.coil_copper, new ItemStack(ModItems.powder_red_copper, 1));
 		ShredderRecipes.setRecipe(ModItems.coil_copper_torus, new ItemStack(ModItems.powder_red_copper, 2));
 		ShredderRecipes.setRecipe(ModItems.coil_advanced_alloy, new ItemStack(ModItems.powder_advanced_alloy, 1));
@@ -247,20 +269,30 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModBlocks.chain, new ItemStack(ModItems.powder_steel_tiny, 1));
 		ShredderRecipes.setRecipe(ModBlocks.steel_grate, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModItems.pipes_steel, new ItemStack(ModItems.powder_steel, 27));
+		ShredderRecipes.setRecipe(ModBlocks.oil_duct, new ItemStack(ModItems.powder_steel_tiny, 3));
+		ShredderRecipes.setRecipe(ModBlocks.oil_duct_solid, new ItemStack(ModItems.powder_steel_tiny, 3));
+		ShredderRecipes.setRecipe(ModBlocks.gas_duct, new ItemStack(ModItems.powder_steel, 1));
+		ShredderRecipes.setRecipe(ModBlocks.gas_duct_solid, new ItemStack(ModItems.powder_steel, 1));
+		ShredderRecipes.setRecipe(ModBlocks.machine_fluidtank, new ItemStack(ModItems.powder_steel, 32));
 
-		/*
-		 * Sellafite scrapping
-		 */
-		ShredderRecipes.setRecipe(ModBlocks.sellafield_0, new ItemStack(ModItems.scrap_nuclear, 1));
-		ShredderRecipes.setRecipe(ModBlocks.sellafield_1, new ItemStack(ModItems.scrap_nuclear, 2));
-		ShredderRecipes.setRecipe(ModBlocks.sellafield_2, new ItemStack(ModItems.scrap_nuclear, 3));
-		ShredderRecipes.setRecipe(ModBlocks.sellafield_3, new ItemStack(ModItems.scrap_nuclear, 5));
-		ShredderRecipes.setRecipe(ModBlocks.sellafield_4, new ItemStack(ModItems.scrap_nuclear, 7));
-		ShredderRecipes.setRecipe(ModBlocks.sellafield_core, new ItemStack(ModItems.scrap_nuclear, 15));
+		/* Sellafite scrapping */
+		ShredderRecipes.setRecipe(ModBlocks.sellafield_slaked, new ItemStack(Blocks.gravel));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.sellafield, 1, 0), new ItemStack(ModItems.scrap_nuclear, 1));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.sellafield, 1, 1), new ItemStack(ModItems.scrap_nuclear, 2));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.sellafield, 1, 2), new ItemStack(ModItems.scrap_nuclear, 3));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.sellafield, 1, 3), new ItemStack(ModItems.scrap_nuclear, 5));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.sellafield, 1, 4), new ItemStack(ModItems.scrap_nuclear, 7));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.sellafield, 1, 5), new ItemStack(ModItems.scrap_nuclear, 15));
+		
+		/* Fracking debris scrapping */
+		ShredderRecipes.setRecipe(ModBlocks.dirt_dead, new ItemStack(ModItems.scrap_oil, 1));
+		ShredderRecipes.setRecipe(ModBlocks.dirt_oily, new ItemStack(ModItems.scrap_oil, 1));
+		ShredderRecipes.setRecipe(ModBlocks.sand_dirty, new ItemStack(ModItems.scrap_oil, 1));
+		ShredderRecipes.setRecipe(ModBlocks.sand_dirty_red, new ItemStack(ModItems.scrap_oil, 1));
+		ShredderRecipes.setRecipe(ModBlocks.stone_cracked, new ItemStack(ModItems.scrap_oil, 1));
+		ShredderRecipes.setRecipe(ModBlocks.stone_porous, new ItemStack(ModItems.scrap_oil, 1));
 
-		/*
-		 * Deco pipe recycling
-		 */
+		/* Deco pipe recycling */
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe, new ItemStack(ModItems.powder_steel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_rusted, new ItemStack(ModItems.powder_steel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_green, new ItemStack(ModItems.powder_steel, 1));
@@ -286,59 +318,34 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_framed_red, new ItemStack(ModItems.powder_steel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.deco_pipe_framed_marked, new ItemStack(ModItems.powder_steel, 1));
 
-		/*
-		 * Turret and ammo recycling
-		 */
-		ShredderRecipes.setRecipe(ModBlocks.turret_light, new ItemStack(ModItems.powder_steel, 16));
-		ShredderRecipes.setRecipe(ModBlocks.turret_heavy, new ItemStack(ModItems.powder_steel, 16));
-		ShredderRecipes.setRecipe(ModBlocks.turret_flamer, new ItemStack(ModItems.powder_steel, 16));
-		ShredderRecipes.setRecipe(ModBlocks.turret_rocket, new ItemStack(ModItems.powder_steel, 16));
-		ShredderRecipes.setRecipe(ModBlocks.turret_cwis, new ItemStack(ModItems.powder_steel, 16));
-		ShredderRecipes.setRecipe(ModBlocks.turret_tau, new ItemStack(ModItems.powder_steel, 16));
-		ShredderRecipes.setRecipe(ModItems.turret_light_ammo, new ItemStack(Items.gunpowder, 4));
-		ShredderRecipes.setRecipe(ModItems.turret_heavy_ammo, new ItemStack(Items.gunpowder, 4));
-		ShredderRecipes.setRecipe(ModItems.turret_flamer_ammo, new ItemStack(Items.gunpowder, 4));
-		ShredderRecipes.setRecipe(ModItems.turret_rocket_ammo, new ItemStack(Items.gunpowder, 4));
-		ShredderRecipes.setRecipe(ModItems.turret_cwis_ammo, new ItemStack(Items.gunpowder, 4));
-		ShredderRecipes.setRecipe(ModItems.turret_tau_ammo, new ItemStack(ModItems.powder_uranium, 4));
-
-		/*
-		 * Wool and clay scrapping
-		 */
+		/* Wool and clay scrapping */
 		for(int i = 0; i < 16; i++) {
 			ShredderRecipes.setRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, i), new ItemStack(Items.clay_ball, 4));
 			ShredderRecipes.setRecipe(new ItemStack(Blocks.wool, 1, i), new ItemStack(Items.string, 4));
 		}
 		
-		/*
-		 * Shredding bobbleheads
-		 */
+		/* Shredding bobbleheads */
 		for(int i = 0; i < BobbleType.values().length; i++) {
 			BobbleType type = BobbleType.values()[i];
 			ShredderRecipes.setRecipe(new ItemStack(ModBlocks.bobblehead, 1, i), new ItemStack(ModItems.scrap_plastic, 1, type.scrap.ordinal()));
 		}
 		
-		/*
-		 * Debris shredding
-		 */
+		/* Debris shredding */
 		ShredderRecipes.setRecipe(ModItems.debris_concrete, new ItemStack(ModItems.scrap_nuclear, 2));
 		ShredderRecipes.setRecipe(ModItems.debris_shrapnel, new ItemStack(ModItems.powder_steel_tiny, 5));
 		ShredderRecipes.setRecipe(ModItems.debris_exchanger, new ItemStack(ModItems.powder_steel, 3));
 		ShredderRecipes.setRecipe(ModItems.debris_element, new ItemStack(ModItems.scrap_nuclear, 4));
 		ShredderRecipes.setRecipe(ModItems.debris_metal, new ItemStack(ModItems.powder_steel_tiny, 3));
+		ShredderRecipes.setRecipe(ModItems.debris_graphite, new ItemStack(ModItems.powder_coal, 1));
 		
-		/*
-		 * GC COMPAT
-		 */
+		/* GC COMPAT */
 		Item gcMoonBlock = Compat.tryLoadItem(Compat.MOD_GCC, "moonBlock");
 		if(gcMoonBlock != null) {
 			ShredderRecipes.setRecipe(new ItemStack(gcMoonBlock, 1, 3), new ItemStack(ModBlocks.moon_turf)); //Moon dirt
 			ShredderRecipes.setRecipe(new ItemStack(gcMoonBlock, 1, 5), new ItemStack(ModBlocks.moon_turf)); //Moon topsoil
 		}
 		
-		/*
-		 * AR COMPAT
-		 */
+		/* AR COMPAT */
 		Item arMoonTurf = Compat.tryLoadItem(Compat.MOD_AR, "turf");
 		if(arMoonTurf != null) ShredderRecipes.setRecipe(arMoonTurf, new ItemStack(ModBlocks.moon_turf)); //i assume it's moon turf
 		Item arMoonTurfDark = Compat.tryLoadItem(Compat.MOD_AR, "turfDark");
@@ -381,18 +388,21 @@ public class ShredderRecipes {
 	}
 	
 	public static void setRecipe(Item in, ItemStack out) {
-		
-		shredderRecipes.put(new ComparableStack(in), out);
+		setRecipe(new ComparableStack(in), out);
 	}
 	
 	public static void setRecipe(Block in, ItemStack out) {
-		
-		shredderRecipes.put(new ComparableStack(in), out);
+		setRecipe(new ComparableStack(in), out);
 	}
 	
 	public static void setRecipe(ItemStack in, ItemStack out) {
-		
-		shredderRecipes.put(new ComparableStack(in), out);
+		setRecipe(new ComparableStack(in), out);
+	}
+	
+	public static void setRecipe(ComparableStack in, ItemStack out) {
+		if(!shredderRecipes.containsKey(in)) {
+			shredderRecipes.put(in, out);
+		}
 	}
 	
 	public static Map<Object, Object> getShredderRecipes() {
@@ -409,13 +419,54 @@ public class ShredderRecipes {
 		if(stack == null || stack.getItem() == null)
 			return new ItemStack(ModItems.scrap);
 		
-		ItemStack sta = shredderRecipes.get(new ComparableStack(stack).makeSingular());
+		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		ItemStack sta = shredderRecipes.get(comp);
 		
-		/*if(sta != null)
-			System.out.println(stack.getDisplayName() + " resulted " + sta.getDisplayName());
-		else
-			System.out.println(stack.getDisplayName() + " resulted null");*/
+		if(sta == null) {
+			comp.meta = OreDictionary.WILDCARD_VALUE;
+			sta = shredderRecipes.get(comp);
+		}
 		
 		return sta == null ? new ItemStack(ModItems.scrap) : sta;
+	}
+
+	@Override
+	public String getFileName() {
+		return "hbmShredder.json";
+	}
+
+	@Override
+	public Object getRecipeObject() {
+		return shredderRecipes;
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		ComparableStack comp = new ComparableStack(this.readItemStack(obj.get("input").getAsJsonArray())).makeSingular();
+		ItemStack out = this.readItemStack(obj.get("output").getAsJsonArray());
+		
+		this.shredderRecipes.put(comp, out);
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		Entry<ComparableStack, ItemStack> entry = (Entry<ComparableStack, ItemStack>) recipe;
+
+		writer.name("input");
+		this.writeItemStack(entry.getKey().toStack(), writer);
+		writer.name("output");
+		this.writeItemStack(entry.getValue(), writer);
+	}
+
+	@Override
+	public void deleteRecipes() {
+		this.shredderRecipes.clear();
+		this.neiShredderRecipes = null;
+	}
+
+	@Override
+	public String getComment() {
+		return "Ingot/block/ore -> dust recipes are generated in post and can therefore not be changed with the config. Non-auto recipes do not use ore dict.";
 	}
 }

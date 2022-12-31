@@ -41,7 +41,7 @@ public class Gun12GaugeFactory {
 		
 		config.name = "Franchi SPAS-12";
 		config.manufacturer = "Black Mesa Armory";
-		config.comment.add("\"Here, I have a more suitable gun for you. You'll need it — Catch!\"");
+		config.comment.add("\"Here, I have a more suitable gun for you. You'll need it - Catch!\"");
 		config.comment.add("Alt-fire with Mouse 2 (Right-click) to fire 2 shells at once");
 		
 		config.config = new ArrayList<Integer>();

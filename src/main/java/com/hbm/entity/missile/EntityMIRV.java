@@ -2,7 +2,7 @@ package com.hbm.entity.missile;
 
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.particle.EntitySmokeFX;
 
 import cpw.mods.fml.relauncher.Side;
@@ -36,7 +36,7 @@ public class EntityMIRV extends EntityThrowable {
 
 		if(this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.air) {
 			if(!this.worldObj.isRemote) {
-				worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, BombConfig.mirvRadius, posX, posY, posZ));
+				worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, BombConfig.mirvRadius, posX, posY, posZ));
 
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, BombConfig.mirvRadius * 0.005F);
 				entity2.posX = this.posX;

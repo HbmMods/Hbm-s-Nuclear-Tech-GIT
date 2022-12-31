@@ -37,9 +37,12 @@ public class ItemFluidIcon extends Item {
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		if(stack.hasTagCompound())
+		if(stack.hasTagCompound()) {
 			if(stack.getTagCompound().getInteger("fill") > 0)
 				list.add(stack.getTagCompound().getInteger("fill") + "mB");
+		}
+		
+		Fluids.fromID(stack.getItemDamage()).addInfo(list);
 	}
 
 	public static ItemStack addQuantity(ItemStack stack, int i) {

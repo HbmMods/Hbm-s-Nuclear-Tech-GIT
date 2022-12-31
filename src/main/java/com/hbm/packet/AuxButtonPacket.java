@@ -14,12 +14,11 @@ import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityMachineMiningLaser;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
-import com.hbm.tileentity.machine.TileEntityRadioRec;
-import com.hbm.tileentity.machine.TileEntityReactorZirnox;
 import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 import com.hbm.tileentity.machine.storage.TileEntityBarrel;
 import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 
+import api.hbm.energy.IEnergyConnector.ConnectionPriority;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -79,18 +78,6 @@ public class AuxButtonPacket implements IMessage {
 			
 			//try {
 				TileEntity te = p.worldObj.getTileEntity(m.x, m.y, m.z);
-				
-				if (te instanceof TileEntityRadioRec) {
-					TileEntityRadioRec radio = (TileEntityRadioRec)te;
-					
-					if(m.id == 0) {
-						radio.isOn = (m.value == 1);
-					}
-					
-					if(m.id == 1) {
-						radio.freq = ((double)m.value) / 10D;
-					}
-				}
 				
 				if (te instanceof TileEntityForceField) {
 					TileEntityForceField field = (TileEntityForceField)te;
@@ -170,6 +157,15 @@ public class AuxButtonPacket implements IMessage {
 
 					if(m.id == 1) {
 						bat.redHigh = (short) ((bat.redHigh + 1) % 4);
+						bat.markDirty();
+					}
+
+					if(m.id == 2) {
+						switch(bat.priority) {
+						case LOW: bat.priority = ConnectionPriority.NORMAL; break;
+						case NORMAL: bat.priority = ConnectionPriority.HIGH; break;
+						case HIGH: bat.priority = ConnectionPriority.LOW; break;
+						}
 						bat.markDirty();
 					}
 				}

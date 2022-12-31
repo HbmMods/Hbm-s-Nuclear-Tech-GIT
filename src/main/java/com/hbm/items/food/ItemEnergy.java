@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.config.VersatileConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
@@ -23,6 +24,31 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
 public class ItemEnergy extends Item {
+	
+	private Item container = null;
+	private Item cap = null;
+	private boolean requiresOpener = false;
+	
+	public ItemEnergy() {
+		this.setCreativeTab(MainRegistry.consumableTab);
+	}
+	
+	public ItemEnergy makeCan() {
+		this.container = ModItems.can_empty;
+		this.cap = ModItems.ring_pull;
+		this.requiresOpener = false;
+		this.setContainerItem(this.container);
+		return this;
+	}
+	
+	public ItemEnergy makeBottle(Item bottle, Item cap) {
+		this.container = bottle;
+		this.cap = cap;
+		this.requiresOpener = true;
+		this.setContainerItem(this.container);
+		this.setCreativeTab(MainRegistry.consumableTab);
+		return this;
+	}
 
 	@Override
 	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
@@ -244,6 +270,8 @@ public class ItemEnergy extends Item {
 
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
 			}
+			
+			player.inventoryContainer.detectAndSendChanges();
 		}
 
 		return stack;
@@ -259,26 +287,14 @@ public class ItemEnergy extends Item {
 		return EnumAction.drink;
 	}
 
+	@Spaghetti("cover yourself in oil")
 	@Override
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
 
 		if(VersatileConfig.hasPotionSickness(p_77659_3_))
 			return p_77659_1_;
-
-		if(!(
-//				this == ModItems.can_creature 
-//				|| this == ModItems.can_mrsugar 
-//				|| this == ModItems.can_overcharge ||
-//				this == ModItems.can_redbomb || 
-				this == ModItems.can_smart 
-//				|| this == ModItems.chocolate_milk 
-//				||this == ModItems.can_luna 
-				|| this == ModItems.can_bepis 
-//				|| this == ModItems.can_breen 
-				|| this == ModItems.coffee 
-//				|| this == ModItems.coffee_radium
-				))
-			if(!p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
+		
+			if(this.requiresOpener && !p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
 				return p_77659_1_;
 
 		p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));

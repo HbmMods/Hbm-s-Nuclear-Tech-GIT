@@ -2,12 +2,13 @@ package com.hbm.util.fauxpointtwelve;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Adjusted code from MC 1.12 (com.minecraft.util.math.BlockPos)
  */
 public class BlockPos {
-	
+
 	private final int x;
 	private final int y;
 	private final int z;
@@ -24,6 +25,10 @@ public class BlockPos {
 	
 	public BlockPos(double x, double y, double z) {
 		this((int)MathHelper.floor_double(x), (int)MathHelper.floor_double(y), (int)MathHelper.floor_double(z));
+	}
+	
+	public BlockPos add(int x, int y, int z) {
+		return x == 0 && y == 0 && z == 0 ? this : new BlockPos(this.getX() + x, this.getY() + y, this.getZ() + z);
 	}
 	
 	public BlockPos add(double x, double y, double z) {
@@ -43,6 +48,14 @@ public class BlockPos {
 		case COUNTERCLOCKWISE_90: return new BlockPos(this.getZ(), this.getY(), -this.getX());
 		}
 	}
+
+	public BlockPos offset(ForgeDirection dir) {
+		return this.offset(dir, 1);
+	}
+
+	public BlockPos offset(ForgeDirection dir, int distance) {
+		return new BlockPos(x + dir.offsetX * distance, y + dir.offsetY * distance, z + dir.offsetZ * distance);
+	}
 	
 	public int getX() {
 		return this.x;
@@ -54,5 +67,29 @@ public class BlockPos {
 	
 	public int getZ() {
 		return this.z;
+	}
+	
+	/** 1.12 vanilla implementation */
+	@Override
+	public int hashCode() {
+		return (this.getY() + this.getZ() * 31) * 31 + this.getX();
+	}
+
+	@Override
+	public boolean equals(Object toCompare) {
+		if(this == toCompare) {
+			return true;
+		} else if(!(toCompare instanceof BlockPos)) {
+			return false;
+		} else {
+			BlockPos pos = (BlockPos) toCompare;
+			if(this.getX() != pos.getX()) {
+				return false;
+			} else if(this.getY() != pos.getY()) {
+				return false;
+			} else {
+				return this.getZ() == pos.getZ();
+			}
+		}
 	}
 }

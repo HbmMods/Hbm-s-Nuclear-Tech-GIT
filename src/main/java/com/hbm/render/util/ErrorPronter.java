@@ -15,7 +15,7 @@ public class ErrorPronter {
 		GL11.glScaled(2, 2, 2);
 		
 		GL11.glColor3d(Math.sin(System.currentTimeMillis() % 1000 / 1000D * Math.PI) * 0.5 + 0.5, 0.0, 0.0);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.turbofan_blades_tex);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.universal_bright);
 		ResourceManager.error.renderAll();
 
 		GL11.glEnable(GL11.GL_CULL_FACE);

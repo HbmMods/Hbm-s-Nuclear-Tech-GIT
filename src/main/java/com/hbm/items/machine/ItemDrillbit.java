@@ -1,0 +1,70 @@
+package com.hbm.items.machine;
+
+import java.util.List;
+
+import com.hbm.items.ItemEnumMulti;
+import com.hbm.util.EnumUtil;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
+
+public class ItemDrillbit extends ItemEnumMulti {
+
+	public ItemDrillbit() {
+		super(EnumDrillType.class, true, true);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister reg) {
+		Enum[] enums = theEnum.getEnumConstants();
+		this.icons = new IIcon[enums.length];
+		
+		for(int i = 0; i < icons.length; i++) {
+			Enum num = enums[i];
+			this.icons[i] = reg.registerIcon(this.getIconString() + "_" + num.name().toLowerCase());
+		}
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		Enum num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
+		return super.getUnlocalizedName() + "_" + num.name().toLowerCase();
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		EnumDrillType type = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
+
+		list.add(EnumChatFormatting.YELLOW + "Speed: " + ((int) (type.speed * 100)) + "%");
+		list.add(EnumChatFormatting.YELLOW + "Tier: " + type.tier);
+		if(type.vein) list.add(EnumChatFormatting.GREEN + "Vein miner");
+		if(type.silk) list.add(EnumChatFormatting.GREEN + "Silk touch");
+	}
+	
+	public static enum EnumDrillType {
+		STEEL			(1.0D, 1, false, false),
+		STEEL_DIAMOND	(1.0D, 1, false, true),
+		HSS				(1.5D, 2, true, false),
+		HSS_DIAMOND		(1.5D, 2, true, true),
+		DESH			(2.5D, 3, true, true),
+		DESH_DIAMOND	(2.5D, 3, true, true);
+		
+		public double speed;
+		public int tier;
+		public boolean vein;
+		public boolean silk;
+		
+		private EnumDrillType(double speed, int tier, boolean vein, boolean silk) {
+			this.speed = speed;
+			this.tier = tier;
+			this.vein = vein;
+			this.silk = silk;
+		}
+	}
+}

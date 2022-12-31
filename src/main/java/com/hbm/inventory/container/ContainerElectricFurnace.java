@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotSmelting;
+import com.hbm.inventory.SlotUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +22,8 @@ public class ContainerElectricFurnace extends Container {
 		this.addSlotToContainer(new Slot(tedf, 0, 56, 53));
 		this.addSlotToContainer(new Slot(tedf, 1, 56, 17));
 		this.addSlotToContainer(new SlotSmelting(invPlayer.player, tedf, 2, 116, 35));
+		//Upgrades
+		this.addSlotToContainer(new SlotUpgrade(tedf, 3, 147, 34));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {

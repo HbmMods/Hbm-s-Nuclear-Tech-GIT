@@ -7,8 +7,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.ModItems;
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticCracker;
 import com.hbm.util.I18nUtil;
@@ -56,7 +55,7 @@ public class MachineCatalyticCracker extends BlockDummyable implements ILookOver
 		
 		if(!world.isRemote && !player.isSneaking()) {
 				
-			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.fluid_identifier) {
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
 				int[] pos = this.findCore(world, x, y, z);
 					
 				if(pos == null)
@@ -68,7 +67,7 @@ public class MachineCatalyticCracker extends BlockDummyable implements ILookOver
 					return false;
 				
 				TileEntityMachineCatalyticCracker cracker = (TileEntityMachineCatalyticCracker) te;
-				FluidType type = Fluids.fromID(player.getHeldItem().getItemDamage());
+				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
 				cracker.tanks[0].setTankType(type);
 				cracker.markDirty();
 				player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase())).appendSibling(new ChatComponentText("!")));

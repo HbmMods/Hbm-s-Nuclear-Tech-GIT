@@ -128,7 +128,7 @@ public class EntityNukeCloudSmall extends Entity {
 	@SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double distance)
     {
-        return distance < 25000;
+        return true;
     }
     
     public static class Cloudlet {

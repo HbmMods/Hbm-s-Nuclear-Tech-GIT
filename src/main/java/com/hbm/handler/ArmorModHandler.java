@@ -162,6 +162,8 @@ public class ArmorModHandler {
 			
 			if(stack != null)
 				slots[i] = stack;
+			else // Any non-existing armor mods will be sorted out automatically
+				removeMod(armor, i);
 		}
 		
 		return slots;

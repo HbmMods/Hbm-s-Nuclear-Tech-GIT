@@ -15,6 +15,7 @@ import net.minecraft.world.World;
  * Ausf3 will use the same approach as MK4 but with some optimizations regarding setBlock redundancy and getBlock operations
  * See: docvt7
  */
+@Deprecated
 public class Mark5Ausf2 implements IExplosionLogic {
 
 	//holds rays after being calculated up to where the blocks get removed
@@ -89,7 +90,6 @@ public class Mark5Ausf2 implements IExplosionLogic {
 				System.out.println(seg.rays.length);
 			}
 		}*/
-		System.out.println("STOP");
 	}
 
 	@Override
@@ -109,7 +109,6 @@ public class Mark5Ausf2 implements IExplosionLogic {
 		this.processBow = 0;
 		this.processRing = 0;
 		this.phase = 1;
-		System.out.println("Ending phase 0");
 	}
 	
 	private void processRays(int amount) {
@@ -196,7 +195,6 @@ public class Mark5Ausf2 implements IExplosionLogic {
 		
 		if(this.phase == 1 && this.buffer.isEmpty()) {
 			this.phase = 2;
-			System.out.println("Ending phase 1");
 			return;
 		}
 		
@@ -218,7 +216,6 @@ public class Mark5Ausf2 implements IExplosionLogic {
 		
 		if(this.buffer.isEmpty()) {
 			this.phase = 2;
-			System.out.println("Ending phase 1");
 		}
 	}
 	
@@ -315,9 +312,6 @@ public class Mark5Ausf2 implements IExplosionLogic {
 		this.segments = this.repopulatedSegments;
 		this.repopulatedSegments = null;
 		
-		System.out.println("Ending phase 2");
-		
-		System.out.println("Initialized with" + segments.length + " segments!");
 		
 		/*for(HorizontalSegment seg : segments) {
 			
@@ -332,7 +326,6 @@ public class Mark5Ausf2 implements IExplosionLogic {
 		this.phase = 0;
 		
 		if(!didYouDoLiterallyAnything) {
-			System.out.println("Done!");
 			this.isDone = true;
 		}
 	}

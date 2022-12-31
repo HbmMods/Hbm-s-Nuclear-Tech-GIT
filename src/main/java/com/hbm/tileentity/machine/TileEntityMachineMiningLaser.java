@@ -8,10 +8,10 @@ import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.inventory.recipes.ShredderRecipes;
@@ -25,6 +25,7 @@ import com.hbm.util.InventoryUtil;
 import api.hbm.block.IDrillInteraction;
 import api.hbm.block.IMiningDrill;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardSender;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -41,7 +42,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IMiningDrill {
+public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IMiningDrill, IFluidStandardSender {
 	
 	public long power;
 	public int age = 0;
@@ -89,6 +90,11 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 
 			if (age == 9 || age == 19)
 				fillFluidInit(tank.getTankType());
+
+			this.sendFluid(tank.getTankType(), worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
+			this.sendFluid(tank.getTankType(), worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
+			this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord + 2, zCoord, Library.POS_Z);
+			this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord - 2, zCoord, Library.NEG_Z);
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tank.updateTank(xCoord, yCoord, zCoord, this.worldObj.provider.dimensionId);
@@ -212,7 +218,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	private void tryFillContainer(int x, int y, int z) {
 		
 		Block b = worldObj.getBlock(x, y, z);
-		if(b != Blocks.chest && b != Blocks.trapped_chest && b != ModBlocks.crate_iron &&
+		if(b != Blocks.chest && b != Blocks.trapped_chest && b != ModBlocks.crate_iron && b != ModBlocks.crate_desh &&
 				b != ModBlocks.crate_steel && b != ModBlocks.safe && b != Blocks.hopper)
 			return;
 		
@@ -396,11 +402,6 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			for(int z = -range; z <= range; z++) {
 				
 				if(worldObj.getBlock(x + xCoord, targetY, z + zCoord).getMaterial().isLiquid()) {
-					/*targetX = x + xCoord;
-					targetZ = z + zCoord;
-					worldObj.func_147480_a(x + xCoord, targetY, z + zCoord, false);
-					beam = true;*/
-					
 					continue;
 				}
 				
@@ -418,7 +419,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 	
 	private boolean canBreak(Block block, int x, int y, int z) {
-		return block != Blocks.air && block.getBlockHardness(worldObj, x, y, z) >= 0 && !block.getMaterial().isLiquid() && block != Blocks.bedrock;
+		return block.isAir(worldObj, x, y, z) && block.getBlockHardness(worldObj, x, y, z) >= 0 && !block.getMaterial().isLiquid() && block != Blocks.bedrock;
 	}
 	
 	public int getRange() {
@@ -679,5 +680,15 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	@Override
 	public int getDrillRating() {
 		return 100;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
 	}
 }

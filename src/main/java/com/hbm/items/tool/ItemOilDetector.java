@@ -10,10 +10,9 @@ import com.hfr.tileentity.clowder.TileEntityFlagBig;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
@@ -87,17 +86,17 @@ public class ItemOilDetector extends Item {
 			oil = true;
 		
 		if(!world.isRemote) {
-			
+						
 			if(direct) {
-				player.addChatMessage(new ChatComponentTranslation(this.getUnlocalizedName() + ".bullseye").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(this.getUnlocalizedName() + ".bullseye").color(EnumChatFormatting.DARK_GREEN).flush(), MainRegistry.proxy.ID_DETONATOR), (EntityPlayerMP) player);
 			} else if(oil) {
-				player.addChatMessage(new ChatComponentTranslation(this.getUnlocalizedName() + ".detected").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(this.getUnlocalizedName() + ".detected").color(EnumChatFormatting.GOLD).flush(), MainRegistry.proxy.ID_DETONATOR), (EntityPlayerMP) player);
 			} else {
-				player.addChatMessage(new ChatComponentTranslation(this.getUnlocalizedName() + ".noOil").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(this.getUnlocalizedName() + ".noOil").color(EnumChatFormatting.RED).flush(), MainRegistry.proxy.ID_DETONATOR), (EntityPlayerMP) player);
 			}
 		}
 
-    	world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+		world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
 		
 		player.swingItem();
 		

@@ -3,6 +3,7 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -20,8 +21,10 @@ public class ItemZirnoxRod extends ItemFuelRod {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		
-		list.add(EnumChatFormatting.YELLOW + "[ZIRNOX Fuel Rod]");
-		list.add(EnumChatFormatting.DARK_AQUA + "  Generates " + heat + " heat per tick");
-		list.add(EnumChatFormatting.DARK_AQUA + "  Lasts " + BobMathUtil.getShortNumber(lifeTime) + " ticks");
+		String[] descLocs = I18nUtil.resolveKeyArray("desc.item.zirnoxRod", heat, BobMathUtil.getShortNumber(lifeTime));
+		
+		for(String loc : descLocs) {
+			list.add(loc);
+		}
 	}
 }

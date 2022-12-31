@@ -91,7 +91,7 @@ public class TileEntityNukeMike extends TileEntity implements ISidedInventory {
 
 	@Override
 	public int getInventoryStackLimit() {
-		return 64;
+		return 1;
 	}
 
 	@Override
@@ -172,10 +172,10 @@ public class TileEntityNukeMike extends TileEntity implements ISidedInventory {
 	public boolean isReady() {
 		
 		if(slots[0] != null && slots[1] != null && slots[2] != null && slots[3] != null && slots[4] != null)
-			if(slots[0].getItem() == ModItems.man_explosive8 && 
-			slots[1].getItem() == ModItems.man_explosive8 && 
-			slots[2].getItem() == ModItems.man_explosive8 && 
-			slots[3].getItem() == ModItems.man_explosive8 && 
+			if(slots[0].getItem() == ModItems.explosive_lenses && 
+			slots[1].getItem() == ModItems.explosive_lenses && 
+			slots[2].getItem() == ModItems.explosive_lenses && 
+			slots[3].getItem() == ModItems.explosive_lenses && 
 			slots[4].getItem() == ModItems.man_core)
 			{
 				return true;
@@ -187,10 +187,10 @@ public class TileEntityNukeMike extends TileEntity implements ISidedInventory {
 	public boolean isFilled() {
 		
 		if(slots[0] != null && slots[1] != null && slots[2] != null && slots[3] != null && slots[4] != null && slots[5] != null && slots[6] != null && slots[7] != null)
-			if(slots[0].getItem() == ModItems.man_explosive8 && 
-			slots[1].getItem() == ModItems.man_explosive8 && 
-			slots[2].getItem() == ModItems.man_explosive8 && 
-			slots[3].getItem() == ModItems.man_explosive8 && 
+			if(slots[0].getItem() == ModItems.explosive_lenses && 
+			slots[1].getItem() == ModItems.explosive_lenses && 
+			slots[2].getItem() == ModItems.explosive_lenses && 
+			slots[3].getItem() == ModItems.explosive_lenses && 
 			slots[4].getItem() == ModItems.man_core && 
 			slots[5].getItem() == ModItems.mike_core && 
 			slots[6].getItem() == ModItems.mike_deut && 

@@ -2,19 +2,14 @@ package com.hbm.inventory.container;
 
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 
 //@invtweaks.api.container.ChestContainer
-public class ContainerCrateIron extends Container {
-	
-	private TileEntityCrateIron diFurnace;
+public class ContainerCrateIron extends ContainerCrateBase {
 	
 	public ContainerCrateIron(InventoryPlayer invPlayer, TileEntityCrateIron tedf) {
-		diFurnace = tedf;
+		super(tedf);
 		
 		for(int i = 0; i < 4; i++)
 		{
@@ -36,45 +31,5 @@ public class ContainerCrateIron extends Container {
 		{
 			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142 + 20));
 		}
-	}
-	
-	@Override
-    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
-    {
-		ItemStack var3 = null;
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
-		
-		if (var4 != null && var4.getHasStack())
-		{
-			ItemStack var5 = var4.getStack();
-			var3 = var5.copy();
-			
-            if (par2 <= diFurnace.getSizeInventory() - 1) {
-				if (!this.mergeItemStack(var5, diFurnace.getSizeInventory(), this.inventorySlots.size(), true))
-				{
-					return null;
-				}
-			}
-			else if (!this.mergeItemStack(var5, 0, diFurnace.getSizeInventory(), false))
-			{
-					return null;
-			}
-			
-			if (var5.stackSize == 0)
-			{
-				var4.putStack((ItemStack) null);
-			}
-			else
-			{
-				var4.onSlotChanged();
-			}
-		}
-		
-		return var3;
-    }
-
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return diFurnace.isUseableByPlayer(player);
 	}
 }

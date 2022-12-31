@@ -8,7 +8,7 @@ import java.util.Random;
 
 import com.google.common.collect.HashBiMap;
 import com.hbm.blocks.IBlockMultiPass;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.config.WorldConfig;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
@@ -246,8 +246,11 @@ public class BlockMotherOfAllOres extends BlockContainer implements IBlockMultiP
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
 			super.writeToNBT(nbt);
-			int key = itemMap.inverse().get(getCompStack());
-			nbt.setInteger("item", key);
+			
+			try {
+				Integer key = itemMap.inverse().get(getCompStack());
+				nbt.setInteger("item", key != null ? key : 0);
+			} catch(Exception ex) { }
 		}
 
 		@Override
@@ -287,21 +290,25 @@ public class BlockMotherOfAllOres extends BlockContainer implements IBlockMultiP
 	
 	public static void init() {
 		
-		for(Object b : Block.blockRegistry.getKeys()) {
-			Block block = Block.getBlockFromName((String) b);
-			if(block != null && Item.getItemFromBlock(block) != null)
-				uniqueItems.add(new ComparableStack(block));
-		}
-		
-		for(Object i : Item.itemRegistry.getKeys()) {
-			Item item = (Item) Item.itemRegistry.getObject((String) i);
-			uniqueItems.add(new ComparableStack(item));
-		}
-		
-		for(String i : OreDictionary.getOreNames()) {
-			for(ItemStack stack : OreDictionary.getOres(i)) {
-				uniqueItems.add(new ComparableStack(stack));
+		if(WorldConfig.enableRandom) {
+			for(Object b : Block.blockRegistry.getKeys()) {
+				Block block = Block.getBlockFromName((String) b);
+				if(block != null && Item.getItemFromBlock(block) != null)
+					uniqueItems.add(new ComparableStack(block));
 			}
+			
+			for(Object i : Item.itemRegistry.getKeys()) {
+				Item item = (Item) Item.itemRegistry.getObject((String) i);
+				uniqueItems.add(new ComparableStack(item));
+			}
+			
+			for(String i : OreDictionary.getOreNames()) {
+				for(ItemStack stack : OreDictionary.getOres(i)) {
+					uniqueItems.add(new ComparableStack(stack));
+				}
+			}
+		} else {
+			uniqueItems.add(new ComparableStack(ModItems.nothing));
 		}
 		
 		int i = 0;

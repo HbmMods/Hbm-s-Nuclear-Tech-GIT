@@ -34,6 +34,8 @@ public class MachineElectricFurnace extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
+	private IIcon iconTop;
+	private IIcon iconBottom;
 
 	public MachineElectricFurnace(boolean blockState) {
 		super(Material.iron);
@@ -45,7 +47,9 @@ public class MachineElectricFurnace extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":machine_electric_furnace_front_on" : ":machine_electric_furnace_front_off"));
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_electric_furnace");
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_electric_furnace_side");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_electric_furnace_top");
+		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":machine_electric_furnace_bottom");
 	}
 	
 	@Override
@@ -53,7 +57,7 @@ public class MachineElectricFurnace extends BlockContainer {
 	public IIcon getIcon(int side, int metadata) {
 		//Reactivate in case of emergency
 		//return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.iconTop);
-		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.blockIcon);
+		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : side == 0 ? this.iconBottom : side == 1 ? this.iconTop : this.blockIcon);
 	}
 	
 	@Override
@@ -262,6 +266,5 @@ public class MachineElectricFurnace extends BlockContainer {
 	@SideOnly(Side.CLIENT)
     public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
-        return Item.getItemFromBlock(ModBlocks.machine_electric_furnace_off);
+        return Item.getItemFromBlock(ModBlocks.machine_electric_furnace_off);}
     }
-}

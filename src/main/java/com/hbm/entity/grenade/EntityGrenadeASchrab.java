@@ -25,14 +25,17 @@ public class EntityGrenadeASchrab extends EntityGrenadeBase {
 	public void explode() {
 
 		if (!this.worldObj.isRemote) {
-			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, BombConfig.aSchrabRadius));
-
-			EntityCloudFleija cloud = new EntityCloudFleija(this.worldObj, BombConfig.aSchrabRadius);
-			cloud.posX = this.posX;
-			cloud.posY = this.posY;
-			cloud.posZ = this.posZ;
-			this.worldObj.spawnEntityInWorld(cloud);
+			EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, posX, posY, posZ, BombConfig.aSchrabRadius);
+			if(!ex.isDead) {
+				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+				worldObj.spawnEntityInWorld(ex);
+	
+				EntityCloudFleija cloud = new EntityCloudFleija(this.worldObj, BombConfig.aSchrabRadius);
+				cloud.posX = this.posX;
+				cloud.posY = this.posY;
+				cloud.posZ = this.posZ;
+				this.worldObj.spawnEntityInWorld(cloud);
+			}
 			
 			this.setDead();
 		}

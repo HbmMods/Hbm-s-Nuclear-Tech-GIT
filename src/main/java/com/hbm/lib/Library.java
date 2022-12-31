@@ -28,6 +28,8 @@ import com.hbm.tileentity.machine.TileEntityDummy;
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyConnector;
 import api.hbm.energy.IEnergyConnectorBlock;
+import api.hbm.fluid.IFluidConnector;
+import api.hbm.fluid.IFluidConnectorBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -74,8 +76,9 @@ public class Library {
 	public static String SolsticeUnlimitd = "f5574fd2-ec28-4927-9d11-3c0c731771f4";
 	public static String FrizzleFrazzle = "fc4cc2ee-12e8-4097-b26a-1c6cb1b96531";
 	public static String the_NCR = "28ae585f-4431-4491-9ce8-3def6126e3c6";
-	public static String Barnaby99_x = "711aaf78-a862-4b7e-921a-216349716e9a";
+	public static String Barnaby99_x = "b04cf173-cff0-4acd-aa19-3d835224b43d";
 	public static String Ma118 = "1121cb7a-8773-491f-8e2b-221290c93d81";
+	public static String Adam29Adam29 = "bbae7bfa-0eba-40ac-a0dd-f3b715e73e61";
 
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
@@ -128,6 +131,32 @@ public class Library {
 		
 		return false;
 	}
+
+	/** dir is the direction along the fluid duct entering the block */
+	public static boolean canConnectFluid(IBlockAccess world, int x, int y, int z, ForgeDirection dir, FluidType type) {
+		
+		if(y > 255 || y < 0)
+			return false;
+		
+		Block b = world.getBlock(x, y, z);
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(b instanceof IFluidConnectorBlock) {
+			IFluidConnectorBlock con = (IFluidConnectorBlock) b;
+			
+			if(con.canConnect(type, world, x, y, z, dir.getOpposite()))
+				return true;
+		}
+		
+		if(te instanceof IFluidConnector) {
+			IFluidConnector con = (IFluidConnector) te;
+			
+			if(con.canConnect(type, dir.getOpposite()))
+				return true;
+		}
+		
+		return false;
+	}
 	
 	public static boolean checkFluidConnectables(World world, int x, int y, int z, FluidType type)
 	{
@@ -136,10 +165,7 @@ public class Library {
 			return true;
 		if((tileentity != null && (tileentity instanceof IFluidAcceptor || 
 				tileentity instanceof IFluidSource)) || 
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_fluidtank ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_pumpjack ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_conductor ||
@@ -260,34 +286,31 @@ public class Library {
 	}
 	
 	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation) {
-        Vec3 vec3 = getPosition(interpolation, player);
-        vec3.yCoord += player.eyeHeight;
-        Vec3 vec31 = player.getLook(interpolation);
-        Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
-        return player.worldObj.func_147447_a(vec3, vec32, false, false, true);
+		Vec3 vec3 = getPosition(interpolation, player);
+		vec3.yCoord += player.eyeHeight;
+		Vec3 vec31 = player.getLook(interpolation);
+		Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
+		return player.worldObj.func_147447_a(vec3, vec32, false, false, true);
+	}
+
+	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation, boolean allowLiquids, boolean disallowNonCollidingBlocks, boolean mopOnMiss) {
+		Vec3 vec3 = getPosition(interpolation, player);
+		vec3.yCoord += player.eyeHeight;
+		Vec3 vec31 = player.getLook(interpolation);
+		Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
+		return player.worldObj.func_147447_a(vec3, vec32, allowLiquids, disallowNonCollidingBlocks, mopOnMiss);
 	}
 	
-	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation, boolean liquids, boolean entity, boolean allowZeroLength) {
-        Vec3 vec3 = getPosition(interpolation, player);
-        vec3.yCoord += player.eyeHeight;
-        Vec3 vec31 = player.getLook(interpolation);
-        Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
-        return player.worldObj.func_147447_a(vec3, vec32, liquids, entity, allowZeroLength);
+	public static Vec3 getPosition(float interpolation, EntityPlayer player) {
+		if(interpolation == 1.0F) {
+			return Vec3.createVectorHelper(player.posX, player.posY + (player.getEyeHeight() - player.getDefaultEyeHeight()), player.posZ);
+		} else {
+			double d0 = player.prevPosX + (player.posX - player.prevPosX) * interpolation;
+			double d1 = player.prevPosY + (player.posY - player.prevPosY) * interpolation + (player.getEyeHeight() - player.getDefaultEyeHeight());
+			double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * interpolation;
+			return Vec3.createVectorHelper(d0, d1, d2);
+		}
 	}
-	
-    public static Vec3 getPosition(float interpolation, EntityPlayer player) {
-        if (interpolation == 1.0F)
-        {
-            return Vec3.createVectorHelper(player.posX, player.posY + (player.getEyeHeight() - player.getDefaultEyeHeight()), player.posZ);
-        }
-        else
-        {
-            double d0 = player.prevPosX + (player.posX - player.prevPosX) * interpolation;
-            double d1 = player.prevPosY + (player.posY - player.prevPosY) * interpolation + (player.getEyeHeight() - player.getDefaultEyeHeight());
-            double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * interpolation;
-            return Vec3.createVectorHelper(d0, d1, d2);
-        }
-    }
 	
 	public static List<int[]> getBlockPosInPath(int x, int y, int z, int length, Vec3 vec0) {
 		List<int[]> list = new ArrayList<int[]>();
@@ -315,53 +338,38 @@ public class Library {
 			long batMax = battery.getMaxCharge();
 			long batCharge = battery.getCharge(slots[index]);
 			long batRate = battery.getChargeRate();
-			
-			//in hHE
 			long toCharge = Math.min(Math.min(power, batRate), batMax - batCharge);
 			
 			power -= toCharge;
 			
 			battery.chargeBattery(slots[index], toCharge);
-
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_desh_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_schrabidium_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_euphemium_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
-				slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);
 		}
 		
 		return power;
 	}
 	
 	public static long chargeTEFromItems(ItemStack[] slots, int index, long power, long maxPower) {
-		
-		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative)
-		{
+
+		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative) {
 			return maxPower;
 		}
-		
-		if(slots[index] != null && slots[index].getItem() == ModItems.fusion_core_infinite)
-		{
+
+		if(slots[index] != null && slots[index].getItem() == ModItems.fusion_core_infinite) {
 			return maxPower;
 		}
-		
+
 		if(slots[index] != null && slots[index].getItem() instanceof IBatteryItem) {
-			
+
 			IBatteryItem battery = (IBatteryItem) slots[index].getItem();
 
 			long batCharge = battery.getCharge(slots[index]);
 			long batRate = battery.getDischargeRate();
-			
-			//in hHe
 			long toDischarge = Math.min(Math.min((maxPower - power), batRate), batCharge);
-			
+
 			battery.dischargeBattery(slots[index], toDischarge);
 			power += toDischarge;
 		}
-		
+
 		return power;
 	}
 	
@@ -380,18 +388,8 @@ public class Library {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
 		
-		//Fluid Tank
-		if(block == ModBlocks.dummy_port_fluidtank)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
 		//Refinery
 		if(block == ModBlocks.dummy_port_refinery)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//Gas Flare
-		if(block == ModBlocks.dummy_port_flare)
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}
@@ -416,23 +414,6 @@ public class Library {
 		if(block == ModBlocks.reactor_hatch && worldObj.getBlock(x - 2, y, z) == ModBlocks.reactor_computer)
 		{
 			tileentity = worldObj.getTileEntity(x - 2, y, z);
-		}
-		//Large Fusion Reactor
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x, y, z + 8) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z + 8);
-		}
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x, y, z - 8) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z - 8);
-		}
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x + 8, y, z) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x + 8, y, z);
-		}
-		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x - 8, y, z) == ModBlocks.fusion_core)
-		{
-			tileentity = worldObj.getTileEntity(x - 8, y, z);
 		}
 		//FWatz Reactor
 		if(block == ModBlocks.fwatz_hatch && worldObj.getBlock(x, y + 11, z + 9) == ModBlocks.fwatz_core)

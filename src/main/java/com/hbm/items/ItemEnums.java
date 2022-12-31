@@ -17,12 +17,24 @@ public class ItemEnums {
 	public static enum EnumTarType {
 		CRUDE,
 		CRACK,
-		COAL
+		COAL,
+		WOOD
+	}
+
+	public static enum EnumBriquetteType {
+		COAL,
+		LIGNITE,
+		WOOD
 	}
 
 	public static enum EnumLegendaryType {
 		TIER1,
 		TIER2,
 		TIER3
+	}
+
+	public static enum EnumPlantType {
+		TOBACCO,
+		ROPE
 	}
 }

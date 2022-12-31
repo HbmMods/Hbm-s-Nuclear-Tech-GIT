@@ -2,24 +2,13 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.interfaces.Spaghetti;
-import com.hbm.items.ModItems;
-import com.hbm.main.ModEventHandler;
-import com.hbm.potion.HbmPotion;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import com.hbm.saveddata.TomSaveData;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
@@ -71,8 +60,10 @@ public class BlockDirt extends Block {
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		
 		if(!world.isRemote) {
-			int light = Math.max(world.getSavedLightValue(EnumSkyBlock.Block, x, y + 1, z), (int) (world.getBlockLightValue(x, y + 1, z) * (1 - ModEventHandler.dust)));
-			if(light >= 9 && ModEventHandler.fire == 0) {
+			TomSaveData data = TomSaveData.forWorld(world);
+			
+			int light = Math.max(world.getSavedLightValue(EnumSkyBlock.Block, x, y + 1, z), (int) (world.getBlockLightValue(x, y + 1, z) * (1 - data.dust)));
+			if(light >= 9 && data.fire == 0) {
 				world.setBlock(x, y, z, Blocks.grass);
 			}
 		}

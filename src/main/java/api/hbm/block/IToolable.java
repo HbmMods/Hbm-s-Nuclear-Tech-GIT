@@ -10,6 +10,8 @@ public interface IToolable {
 	public static enum ToolType {
 		SCREWDRIVER,
 		HAND_DRILL,
-		DEFUSER
+		DEFUSER,
+		WRENCH,
+		TORCH
 	}
 }

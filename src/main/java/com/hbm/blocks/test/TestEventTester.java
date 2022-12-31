@@ -8,6 +8,9 @@ import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.main.MainRegistry;
+
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -395,10 +398,8 @@ public class TestEventTester extends Block {
     		ex.doExplosionB(false);
     	}*/
     	
-    	if(!worldObj.isRemote) {
-    		
-    		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, par2, par3 + 5, par4, 100, 0));
-    	}
+
+		FMLNetworkHandler.openGui(par5EntityPlayer, MainRegistry.instance, -1, par1World, par2, par3, par4);
         
         return true;
     }

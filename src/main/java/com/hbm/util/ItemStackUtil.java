@@ -1,10 +1,14 @@
 package com.hbm.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemStackUtil {
 	
@@ -80,7 +84,7 @@ public class ItemStackUtil {
 	 * @param stack
 	 * @param lines
 	 */
-	public static void addTooltipToStack(ItemStack stack, String... lines) {
+	public static ItemStack addTooltipToStack(ItemStack stack, String... lines) {
 		
 		if(!stack.hasTagCompound())
 			stack.stackTagCompound = new NBTTagCompound();
@@ -94,6 +98,8 @@ public class ItemStackUtil {
 		
 		display.setTag("Lore", lore);
 		stack.stackTagCompound.setTag("display", display);
+		
+		return stack;
 	}
 	
 	public static void addStacksToNBT(ItemStack stack, ItemStack... stacks) {
@@ -133,5 +139,21 @@ public class ItemStackUtil {
 		}
 		
 		return stacks;
+	}
+	
+	/**
+	 * Returns a List<String> of all ore dict names for this stack. Stack cannot be null, list is empty when there are no ore dict entries.
+	 * @param stack
+	 * @return
+	 */
+	public static List<String> getOreDictNames(ItemStack stack) {
+		List<String> list = new ArrayList();
+		
+		int ids[] = OreDictionary.getOreIDs(stack);
+		for(int i : ids) {
+			list.add(OreDictionary.getOreName(i));
+		}
+		
+		return list;
 	}
 }

@@ -321,6 +321,8 @@ public class RenderBullet extends Render {
 		case BulletConfiguration.BOLT_NIGHTMARE: red = 1F; green = 1F; blue = 0F; break;
 		case BulletConfiguration.BOLT_LACUNAE: red = 0.25F; green = 0F; blue = 0.75F; break;
 		case BulletConfiguration.BOLT_WORM: red = 0F; green = 1F; blue = 0F; break;
+		case BulletConfiguration.BOLT_GLASS_CYAN: red = 0F; green = 1F; blue = 1F; break;
+		case BulletConfiguration.BOLT_GLASS_BLUE: red = 0F; green = 0F; blue = 1F; break;
 		
 		case BulletConfiguration.BOLT_ZOMG:
 			Random rand = new Random(eID * eID);

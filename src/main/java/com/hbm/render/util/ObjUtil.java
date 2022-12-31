@@ -85,11 +85,16 @@ public class ObjUtil {
 			normal.rotateAroundY(rot);
 			tes.setNormal((float)normal.xCoord, (float)normal.yCoord, (float)normal.zCoord);
 
-			if(shadow) {
-				float brightness = ((float)normal.yCoord + 0.7F) * 0.9F - (float)Math.abs(normal.xCoord) * 0.1F + (float)Math.abs(normal.zCoord) * 0.1F;
-
-				if(brightness < 0.45F)
-					brightness = 0.45F;
+			if(shadow || hasColor) {
+				
+				float brightness = 1.0F;
+				
+				if(shadow) {
+					brightness = ((float)normal.yCoord * 0.3F + 0.7F) - (float)Math.abs(normal.xCoord) * 0.1F + (float)Math.abs(normal.zCoord) * 0.1F;
+	
+					if(brightness < 0.45F)
+						brightness = 0.45F;
+				}
 
 				if(hasColor) {
 					tes.setColorOpaque((int)(red * brightness), (int)(green * brightness), (int)(blue * brightness));

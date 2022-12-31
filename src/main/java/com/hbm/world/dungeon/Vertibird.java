@@ -143,7 +143,7 @@ public class Vertibird extends WorldGenerator
 		world.setBlock(x + 14, y + 2 - yOffset, z + 7, Blocks.chest, 2, 3);
 		if(world.getBlock(x + 14, y + 2 - yOffset, z + 7) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(6), (TileEntityChest)world.getTileEntity(x + 14, y + 2 - yOffset, z + 7), 8);
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vertibird, (TileEntityChest)world.getTileEntity(x + 14, y + 2 - yOffset, z + 7), 8);
 		}
 		world.setBlock(x + 15, y + 2 - yOffset, z + 7, Block2, 0, 3);
 		world.setBlock(x + 12, y + 2 - yOffset, z + 8, Block2, 0, 3);
@@ -393,7 +393,7 @@ public class Vertibird extends WorldGenerator
 		world.setBlock(x + 13, y + 6 - yOffset, z + 6, Blocks.chest, 2, 3);
 		if(world.getBlock(x + 13, y + 6 - yOffset, z + 6) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest)world.getTileEntity(x + 13, y + 6 - yOffset, z + 6), 8);
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vertibird, (TileEntityChest)world.getTileEntity(x + 13, y + 6 - yOffset, z + 6), 8);
 		}
 		world.setBlock(x + 14, y + 6 - yOffset, z + 6, Block2, 0, 3);
 		world.setBlock(x + 15, y + 6 - yOffset, z + 6, Block2, 0, 3);

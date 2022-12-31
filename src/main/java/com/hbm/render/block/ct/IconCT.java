@@ -1,6 +1,5 @@
 package com.hbm.render.block.ct;
 
-import static com.hbm.render.block.ct.CT.*;
 import net.minecraft.util.IIcon;
 
 public class IconCT implements IIcon {

@@ -7,7 +7,7 @@ import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityNukeCloudNoShroom;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeMike;
@@ -132,23 +132,13 @@ public class NukeMike extends BlockContainer implements IBomb {
 			// world.spawnParticle("hugeexplosion", x, y, z, 0, 0, 0);
 			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
 
-			world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.mikeRadius, x + 0.5, y + 0.5, z + 0.5));
+			world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, BombConfig.mikeRadius, x + 0.5, y + 0.5, z + 0.5));
 
-			if(GeneralConfig.enableNukeClouds) {
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, r * 0.005F);
-				entity2.posX = x;
-				entity2.posY = y;
-				entity2.posZ = z;
-				world.spawnEntityInWorld(entity2);
-			} else {
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
-				entity2.posX = x;
-				entity2.posY = y - (r / 10);
-				entity2.posZ = z;
-				world.spawnEntityInWorld(entity2);
-			}
-
-			// ExplosionNukeAdvanced.mush(world, x, y, z);
+			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, r * 0.005F);
+			entity2.posX = x;
+			entity2.posY = y;
+			entity2.posZ = z;
+			world.spawnEntityInWorld(entity2);
 		}
 
 		return false;

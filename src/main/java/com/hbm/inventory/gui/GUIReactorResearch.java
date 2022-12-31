@@ -4,9 +4,9 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerReactorResearch;
 import com.hbm.lib.RefStrings;
+import com.hbm.module.NumberDisplay;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityReactorResearch;
@@ -16,7 +16,6 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -34,9 +33,9 @@ public class GUIReactorResearch extends GuiInfoContainer {
 		reactor = te;
 		this.xSize = 176;
 		this.ySize = 222;
-		displays[0] = new NumberDisplay(14, 25, 0x08FF00).setDigitLength(4);
-		displays[1] = new NumberDisplay(12, 63, 0x08FF00).setDigitLength(3);
-		displays[2] = new NumberDisplay(5, 101, 0x08FF00).setDigitLength(3);
+		displays[0] = new NumberDisplay(this, 14, 25, 0x08FF00).setDigitLength(4);
+		displays[1] = new NumberDisplay(this, 12, 63, 0x08FF00).setDigitLength(3);
+		displays[2] = new NumberDisplay(this, 5, 101, 0x08FF00).setDigitLength(3);
 	}
 	
 	@Override
@@ -89,6 +88,11 @@ public class GUIReactorResearch extends GuiInfoContainer {
     protected void mouseClicked(int mouseX, int mouseY, int i) {
     	super.mouseClicked(mouseX, mouseY, i);
     	this.field.mouseClicked(mouseX, mouseY, i);
+    	
+    	if(guiLeft + 8 <= mouseX && guiLeft + 8 + 33 > mouseX && guiTop + 99 < mouseY && guiTop + 99 + 16 >= mouseY)
+    		displays[2].setBlinks(true);
+    	else
+    		displays[2].setBlinks(false);
     	
     	if(guiLeft + 44 <= mouseX && guiLeft + 44 + 11 > mouseX && guiTop + 97 < mouseY && guiTop + 97 + 20 >= mouseY) {
 			
@@ -161,5 +165,10 @@ public class GUIReactorResearch extends GuiInfoContainer {
 		}
 		
 		super.keyTyped(c, i);
+	}
+
+	@Override
+	public void onGuiClosed() {
+		Keyboard.enableRepeatEvents(false);
 	}
 }

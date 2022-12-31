@@ -1,5 +1,7 @@
 package com.hbm.render.entity.item;
 
+import java.util.Random;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.item.EntityMovingItem;
@@ -21,22 +23,28 @@ public class RenderMovingItem extends Render {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
 		
-		EntityMovingItem item = (EntityMovingItem)entity;
-		ItemStack stack = item.getItemStack();
+		Random rand = new Random(entity.getEntityId());
+		GL11.glTranslated(0, rand.nextDouble() * 0.0625, 0);
+
+		EntityMovingItem item = (EntityMovingItem) entity;
+		ItemStack stack = item.getItemStack().copy();
 
 		if(!(stack.getItem() instanceof ItemBlock)) {
 			GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
 			GL11.glTranslated(0.0, -0.1875, 0.0);
+			
+			if(!this.renderManager.options.fancyGraphics) {
+				GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+			}
 		}
-		
+
 		EntityItem dummy = new EntityItem(entity.worldObj, 0, 0, 0, stack);
-		dummy.getEntityItem().stackSize = 1;
 		dummy.hoverStart = 0.0F;
 
-        RenderItem.renderInFrame = true;
-        RenderManager.instance.renderEntityWithPosYaw(dummy, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-        RenderItem.renderInFrame = false;
-		
+		RenderItem.renderInFrame = true;
+		RenderManager.instance.renderEntityWithPosYaw(dummy, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+		RenderItem.renderInFrame = false;
+
 		GL11.glPopMatrix();
 	}
 
@@ -44,5 +52,4 @@ public class RenderMovingItem extends Render {
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
 		return null;
 	}
-
 }

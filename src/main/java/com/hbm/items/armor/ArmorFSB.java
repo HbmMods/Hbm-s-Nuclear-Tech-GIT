@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.util.I18nUtil;
 
@@ -27,6 +27,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -280,9 +281,9 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 			list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.dash", dashCount));
 		}
 
-//		if(protectionYield != 100F) {
-//			list.add(EnumChatFormatting.BLUE + "  Protection applies to damage <" + protectionYield);
-//		}
+		if(protectionYield != 100F) {
+			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.yield", protectionYield));
+		}
 	}
 
 	public static boolean hasFSBArmor(EntityPlayer player) {
@@ -422,7 +423,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 			if(!chestplate.effects.isEmpty()) {
 
 				for(PotionEffect i : chestplate.effects) {
-					player.addPotionEffect(new PotionEffect(i.getPotionID(), i.getDuration(), i.getAmplifier(), i.getIsAmbient()));
+					player.addPotionEffect(new PotionEffect(i.getPotionID(), i.getDuration(), i.getAmplifier(), true));
 				}
 			}
 
@@ -520,6 +521,9 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 				List<Entity> entities = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, player.boundingBox.expand(3, 0, 3));
 
 				for(Entity e : entities) {
+					
+					if(e instanceof EntityItem)
+						continue;
 
 					Vec3 vec = Vec3.createVectorHelper(player.posX - e.posX, 0, player.posZ - e.posZ);
 
@@ -551,35 +555,30 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 			return;
 
 		if(world.getTotalWorldTime() % 5 == 0) {
-
-			int x = check(world, (int) entity.posX, (int) entity.posY, (int) entity.posZ);
-
-			if(x > 0) {
-				List<Integer> list = new ArrayList<Integer>();
-
-				if(x < 1)
-					list.add(0);
-				if(x < 5)
-					list.add(0);
-				if(x < 10)
-					list.add(1);
-				if(x > 5 && x < 15)
-					list.add(2);
-				if(x > 10 && x < 20)
-					list.add(3);
-				if(x > 15 && x < 25)
-					list.add(4);
-				if(x > 20 && x < 30)
-					list.add(5);
-				if(x > 25)
-					list.add(6);
-
-				int r = list.get(world.rand.nextInt(list.size()));
-
-				if(r > 0)
-					world.playSoundAtEntity(entity, "hbm:item.geiger" + r, 1.0F, 1.0F);
-			} else if(world.rand.nextInt(50) == 0) {
-				world.playSoundAtEntity(entity, "hbm:item.geiger" + (1 + world.rand.nextInt(1)), 1.0F, 1.0F);
+			
+			float x = HbmLivingProps.getRadBuf((EntityLivingBase)entity);
+			
+			if(x > 1E-5) {
+	
+				if(x > 0) {
+					List<Integer> list = new ArrayList<Integer>();
+	
+					if(x < 1) list.add(0);
+					if(x < 5) list.add(0);
+					if(x < 10) list.add(1);
+					if(x > 5 && x < 15) list.add(2);
+					if(x > 10 && x < 20) list.add(3);
+					if(x > 15 && x < 25) list.add(4);
+					if(x > 20 && x < 30) list.add(5);
+					if(x > 25) list.add(6);
+	
+					int r = list.get(world.rand.nextInt(list.size()));
+	
+					if(r > 0)
+						world.playSoundAtEntity(entity, "hbm:item.geiger" + r, 1.0F, 1.0F);
+				} else if(world.rand.nextInt(50) == 0) {
+					world.playSoundAtEntity(entity, "hbm:item.geiger" + (1 + world.rand.nextInt(1)), 1.0F, 1.0F);
+				}
 			}
 		}
 	}
@@ -605,6 +604,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		if(overlay == null)
 			return;
 
+		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(false);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);

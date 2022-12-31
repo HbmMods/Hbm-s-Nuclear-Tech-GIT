@@ -16,6 +16,8 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	public float prevRotation = 0F;
 	public float rotation = 0F;
 	
+	public static final long maxTransfer = 10_000_000_000_000_000L;
+	
 	@Override
 	public void updateEntity() {
 		
@@ -30,6 +32,7 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 			nbt.setLong("power", power);
 			nbt.setShort("redLow", redLow);
 			nbt.setShort("redHigh", redHigh);
+			nbt.setByte("priority", (byte) this.priority.ordinal());
 			this.networkPack(nbt, 250);
 		} else {
 			this.prevRotation = this.rotation;
@@ -67,7 +70,7 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 			if(te instanceof IEnergyConnector) {
 				IEnergyConnector con = (IEnergyConnector) te;
 				
-				long max = 10_000_000_000_000_000L;
+				long max = maxTransfer;
 				long toTransfer = Math.min(max, this.power);
 				long remainder = this.power - toTransfer;
 				this.power = toTransfer;
@@ -106,6 +109,11 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	@Override
 	public long getMaxPower() {
 		return Long.MAX_VALUE;
+	}
+
+	@Override
+	public long getTransferWeight() {
+		return Math.min(Math.max(this.getMaxPower() - getPower(), 0), maxTransfer);
 	}
 	
 	public float getSpeed() {

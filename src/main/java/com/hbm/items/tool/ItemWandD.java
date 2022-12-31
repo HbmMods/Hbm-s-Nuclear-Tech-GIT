@@ -4,18 +4,29 @@ import java.util.List;
 
 //import com.hbm.entity.mob.siege.EntitySiegeTunneler;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBookLore;
+import com.hbm.items.special.ItemBookLore.BookLoreType;
 import com.hbm.items.special.ItemKitCustom;
 import com.hbm.lib.Library;
+import com.hbm.saveddata.TomSaveData;
+import com.hbm.world.feature.OilSpot;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityTracker;
+import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IntHashMap;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.gen.structure.MapGenStronghold;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
 
@@ -29,12 +40,49 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
-			List<EntityZombie> zombies = world.getEntitiesWithinAABB(EntityZombie.class, AxisAlignedBB.getBoundingBox(pos.blockX - 2, pos.blockY - 2, pos.blockZ - 2, pos.blockX + 2, pos.blockY + 2, pos.blockZ + 2));
+			/*TomSaveData data = TomSaveData.forWorld(world);
+			data.impact = false;
+			data.fire = 0F;
+			data.dust = 0F;
+			data.markDirty();*/
 			
-			for(EntityZombie zombie : zombies) {
-				zombie.setChild(true);
-				zombie.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_m65));
-			}
+			/*EntityTomBlast tom = new EntityTomBlast(world);
+			tom.posX = pos.blockX;
+			tom.posY = pos.blockY;
+			tom.posZ = pos.blockZ;
+			tom.destructionRange = 600;
+			world.spawnEntityInWorld(tom);*/
+			
+			/*ItemStack itemStack = new ItemStack(ModItems.book_lore);
+			BookLoreType.setTypeForStack(itemStack, BookLoreType.BOOK_IODINE);
+			
+			player.inventory.addItemStackToInventory(itemStack);
+			player.inventoryContainer.detectAndSendChanges();*/
+			
+			//use sparingly
+			/*int k = ((pos.blockX >> 4) << 4) + 8;
+			int l = ((pos.blockZ >> 4) << 4) + 8;
+			
+			MapGenBunker.Start start = new MapGenBunker.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
+			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));*/
+			//MapGenStronghold.Start startS = new MapGenStronghold.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
+			//startS.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));
+			
+			/*OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 20, 500);*/
+			
+			EntityNukeTorex torex = new EntityNukeTorex(world);
+			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
+			torex.getDataWatcher().updateObject(10, 1.5F);
+			world.spawnEntityInWorld(torex);
+			
+            EntityTracker entitytracker = ((WorldServer)world).getEntityTracker();
+            //ReflectionHelper.setPrivateValue(EntityTracker.class, entitytracker, 1000, "entityViewDistance");
+            
+            IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
+            EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(torex.getEntityId());
+            entry.blocksDistanceThreshold = 1000;
+			
+			world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));
 			
 			/*EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
 			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);
@@ -45,12 +93,14 @@ public class ItemWandD extends Item {
 			
 			/*int r = 5;
 			
+			int x = pos.blockX;
+			int y = pos.blockY;
+			int z = pos.blockZ;
 			for(int i = x - r; i <= x + r; i++) {
 				for(int j = y - r; j <= y + r; j++) {
 					for(int k = z - r; k <= z + r; k++) {
-						
-						world.setBlock(i, j, k, ModBlocks.vacuum);
-						//world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
+						if(world.getBlock(i, j, k) == ModBlocks.concrete_super)
+							world.getBlock(i, j, k).updateTick(world, i, j, k, world.rand);
 					}
 				}
 			}*/

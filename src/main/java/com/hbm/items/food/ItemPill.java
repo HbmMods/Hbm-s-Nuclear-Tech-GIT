@@ -1,5 +1,6 @@
 package com.hbm.items.food;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -8,6 +9,7 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
@@ -56,6 +58,21 @@ public class ItemPill extends ItemFood {
 				HbmLivingProps.setAsbestos(player, 0);
 				HbmLivingProps.setBlackLung(player, Math.min(HbmLivingProps.getBlackLung(player), HbmLivingProps.maxBlacklung / 5));
 			}
+			
+			if(this == ModItems.pill_herbal) {
+				HbmLivingProps.setAsbestos(player, 0);
+				HbmLivingProps.setBlackLung(player, Math.min(HbmLivingProps.getBlackLung(player), HbmLivingProps.maxBlacklung / 5));
+				HbmLivingProps.incrementRadiation(player, -100F);
+				
+				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 10 * 20, 0));
+				player.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 60 * 20, 2));
+				player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 10 * 60 * 20, 2));
+				player.addPotionEffect(new PotionEffect(Potion.poison.id, 5 * 20, 2));
+				
+				PotionEffect eff = new PotionEffect(HbmPotion.potionsickness.id, 10 * 60 * 20);
+				eff.setCurativeItems(new ArrayList());
+				player.addPotionEffect(eff);
+			}
 
 			if(this == ModItems.xanax) {
 				float digamma = HbmLivingProps.getDigamma(player);
@@ -76,11 +93,6 @@ public class ItemPill extends ItemFood {
 				HbmLivingProps.setDigamma(player, Math.min(digamma, 2F));
 				player.addPotionEffect(new PotionEffect(Potion.blindness.id, 60, 0));
 			}
-			
-			if(this == ModItems.pirfenidone) {
-				float fibrosis = HbmLivingProps.getFibrosis(player);
-				HbmLivingProps.setFibrosis(player, (int) Math.min(fibrosis, 37800));
-			}
 
 			if(this == ModItems.five_htp) {
 				HbmLivingProps.setDigamma(player, 0);
@@ -91,32 +103,15 @@ public class ItemPill extends ItemFood {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		if(this == ModItems.pill_iodine) {
-			list.add("Removes negative effects");
-		}
-		if(this == ModItems.plan_c) {
-			list.add("Deadly");
-		}
-		if(this == ModItems.radx) {
-			list.add("Increases radiation resistance by 0.2 (37%) for 3 minutes");
-		}
-		if(this == ModItems.siox) {
-			list.add("Reverses mesothelioma with the power of Asbestos!");
-		}
-		if(this == ModItems.xanax) {
-			list.add("Removes 500mDRX");
-		}
-		if(this == ModItems.fmn) {
-			list.add("Removes all DRX above 2,000mDRX");
-		}
-		if(this == ModItems.chocolate) {
-			list.add("Radium Chocolate? Pretty sure this is just meth.");
-		}
-		if(this == ModItems.pirfenidone) {
-			list.add("Removes all Pulmonary Fibrosis over 35%");
-		}
-		if(this == ModItems.five_htp) {
-			list.add("Removes all DRX, Stability for 10 minutes");
+		String unloc = this.getUnlocalizedName() + ".desc"; //this should really be an interface...
+		String loc = I18nUtil.resolveKey(unloc);
+		
+		if(!unloc.equals(loc)) {
+			String[] locs = loc.split("\\$");
+			
+			for(String s : locs) {
+				list.add(s);
+			}
 		}
 	}
 

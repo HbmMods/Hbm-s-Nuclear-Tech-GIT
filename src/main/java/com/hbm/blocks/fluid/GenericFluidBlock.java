@@ -1,10 +1,10 @@
 package com.hbm.blocks.fluid;
 
+import java.util.List;
 import java.util.Random;
 
-import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
-import com.hbm.util.ArmorUtil;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,8 +12,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -61,6 +61,7 @@ public class GenericFluidBlock extends BlockFluidClassic {
 		flowingIcon = register.registerIcon(RefStrings.MODID + ":" + flowingName);
 	}
 
+	/** Only temporary, will be moved into a subclass */
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 		
@@ -74,6 +75,13 @@ public class GenericFluidBlock extends BlockFluidClassic {
 				
 				if(entity.ticksExisted % 20 == 0 && !world.isRemote) {
 					entity.attackEntityFrom(damageSource, damage * 0.1F);
+					
+					if(entity.isDead && ((EntityItem)entity).getEntityItem().getItem() == Items.slime_ball) {
+						List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, entity.boundingBox.expand(10, 10, 10));
+						
+						for(EntityPlayer player : players)
+							player.triggerAchievement(MainRegistry.achSulfuric);
+					}
 				}
 				if(entity.ticksExisted % 5 == 0) {
 					world.spawnParticle("cloud", entity.posX, entity.posY, entity.posZ, 0.0, 0.0, 0.0);

@@ -1,34 +1,48 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.FluidTypeCombustible;
-import com.hbm.inventory.fluid.FluidTypeCombustible.FuelGrade;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardReceiver;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDiesel extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor {
+public class TileEntityMachineDiesel extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IConfigurableMachine {
 
 	public long power;
 	public int soundCycle = 0;
-	public static final long maxPower = 50000;
-	public long powerCap = 50000;
+	public long powerCap = maxPower;
 	public FluidTank tank;
+	
+	/* CONFIGURABLE CONSTANTS */
+	public static long maxPower = 50000;
+	public static int fluidCap = 16000;
+	public static HashMap<FuelGrade, Double> fuelEfficiency = new HashMap();
+	static {
+		fuelEfficiency.put(FuelGrade.MEDIUM,	0.9D);
+		fuelEfficiency.put(FuelGrade.HIGH,		1.0D);
+		fuelEfficiency.put(FuelGrade.AERO,		0.1D);
+	}
+	public static boolean shutUp = false;
 
 	private static final int[] slots_top = new int[] { 0 };
 	private static final int[] slots_bottom = new int[] { 1, 2 };
@@ -104,9 +118,12 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 
 			//Tank Management
-			tank.setType(3, 4, slots);
+			FluidType last = tank.getTankType();
+			if(tank.setType(3, 4, slots)) this.unsubscribeToAllAround(last, this);
 			tank.loadTank(0, 1, slots);
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			
+			this.subscribeToAllAround(tank.getTankType(), this);
 
 			FluidType type = tank.getTankType();
 			if(type == Fluids.NITAN)
@@ -136,22 +153,14 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 		return getHEFromFuel() > 0;
 	}
 	
-	public static HashMap<FuelGrade, Double> fuelEfficiency = new HashMap();
-	
-	static {
-		fuelEfficiency.put(FuelGrade.MEDIUM,	0.9D);
-		fuelEfficiency.put(FuelGrade.HIGH,		1.0D);
-		fuelEfficiency.put(FuelGrade.AERO,		0.1D);
-	}
-	
 	public long getHEFromFuel() {
 		return getHEFromFuel(tank.getTankType());
 	}
 	
 	public static long getHEFromFuel(FluidType type) {
 		
-		if(type instanceof FluidTypeCombustible) {
-			FluidTypeCombustible fuel = (FluidTypeCombustible) type;
+		if(type.hasTrait(FT_Combustible.class)) {
+			FT_Combustible fuel = type.getTrait(FT_Combustible.class);
 			FuelGrade grade = fuel.getGrade();
 			double efficiency = fuelEfficiency.containsKey(grade) ? fuelEfficiency.get(grade) : 0;
 			
@@ -168,19 +177,21 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 		if (hasAcceptableFuel()) {
 			if (tank.getFill() > 0) {
 				
-				if (soundCycle == 0) {
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.5F * this.getVolume(3), 0.5F);
+				if(!shutUp) {
+					if (soundCycle == 0) {
+						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.5F * this.getVolume(3), 0.5F);
+					}
+					soundCycle++;
 				}
-				soundCycle++;
 
-				if (soundCycle >= 3)
+				if(soundCycle >= 3)
 					soundCycle = 0;
 
 				tank.setFill(tank.getFill() - 1);
-				if (tank.getFill() < 0)
+				if(tank.getFill() < 0)
 					tank.setFill(0);
 
-				if (power + getHEFromFuel() <= powerCap) {
+				if(power + getHEFromFuel() <= powerCap) {
 					power += getHEFromFuel();
 				} else {
 					power = powerCap;
@@ -228,5 +239,53 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	public void setFluidFill(int i, FluidType type) {
 		if(type == tank.getTankType())
 			tank.setFill(i);
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public String getConfigName() {
+		return "dieselgen";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		maxPower = IConfigurableMachine.grab(obj, "L:powerCap", maxPower);
+		fluidCap = IConfigurableMachine.grab(obj, "I:fuelCap", fluidCap);
+		
+		if(obj.has("D[:efficiency")) {
+			JsonArray array = obj.get("D[:efficiency").getAsJsonArray();
+			for(FuelGrade grade : FuelGrade.values()) {
+				fuelEfficiency.put(grade, array.get(grade.ordinal()).getAsDouble());
+			}
+		}
+		shutUp = IConfigurableMachine.grab(obj, "B:shutUp", shutUp);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("L:powerCap").value(maxPower);
+		writer.name("I:fuelCap").value(fluidCap);
+		
+		String info = "Fuel grades in order: ";
+		for(FuelGrade grade : FuelGrade.values()) info += grade.name() + " ";
+		info = info.trim();
+		writer.name("INFO").value(info);
+		
+		writer.name("D[:efficiency").beginArray().setIndent("");
+		for(FuelGrade grade : FuelGrade.values()) {
+			double d = fuelEfficiency.containsKey(grade) ? fuelEfficiency.get(grade) : 0.0D;
+			writer.value(d);
+		}
+		writer.endArray().setIndent("  ");
+		writer.name("B:shutUp").value(shutUp);
 	}
 }

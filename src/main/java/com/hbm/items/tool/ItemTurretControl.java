@@ -5,9 +5,7 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.turret.TurretBase;
 import com.hbm.lib.Library;
-import com.hbm.tileentity.turret.TileEntityTurretBase;
 import com.hbm.tileentity.turret.TileEntityTurretBaseNT;
-import com.hbm.tileentity.turret.TileEntityTurretCheapo;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,27 +40,6 @@ public class ItemTurretControl extends Item {
 					int z = stack.getTagCompound().getInteger("zCoord");
 
 					TileEntity te = world.getTileEntity(x, y, z);
-
-					if(te != null && te instanceof TileEntityTurretBase) {
-						TileEntityTurretBase turret = (TileEntityTurretBase) te;
-
-						if(!turret.isAI) {
-							turret.rotationYaw = player.rotationYaw;
-							turret.rotationPitch = player.rotationPitch;
-
-							if(turret.rotationPitch < -60)
-								turret.rotationPitch = -60;
-							if(turret.rotationPitch > 30)
-								turret.rotationPitch = 30;
-
-							if(turret instanceof TileEntityTurretCheapo) {
-								if(turret.rotationPitch < -30)
-									turret.rotationPitch = -30;
-								if(turret.rotationPitch > 15)
-									turret.rotationPitch = 15;
-							}
-						}
-					}
 
 					if(te != null && te instanceof TileEntityTurretBaseNT) {
 						TileEntityTurretBaseNT turret = (TileEntityTurretBaseNT) te;
@@ -194,19 +171,8 @@ public class ItemTurretControl extends Item {
 			int x = stack.getTagCompound().getInteger("xCoord");
 			int y = stack.getTagCompound().getInteger("yCoord");
 			int z = stack.getTagCompound().getInteger("zCoord");
-
-			if(world.getBlock(x, y, z) instanceof TurretBase) {
-
-				TileEntity te = world.getTileEntity(x, y, z);
-
-				if(te != null && te instanceof TileEntityTurretBase) {
-					TileEntityTurretBase turret = (TileEntityTurretBase) te;
-
-					if(!turret.isAI) {
-						((TurretBase) world.getBlock(x, y, z)).executeReleaseAction(world, j, player.rotationYaw, player.rotationPitch, x, y, z);
-					}
-				}
-			}
+			
+			/// ///
 		}
 	}
 
@@ -239,15 +205,8 @@ public class ItemTurretControl extends Item {
 			if(world.getBlock(x, y, z) instanceof TurretBase) {
 
 				TileEntity te = world.getTileEntity(x, y, z);
-
-				if(te != null && te instanceof TileEntityTurretBase) {
-					TileEntityTurretBase turret = (TileEntityTurretBase) te;
-
-					if(!turret.isAI && turret.ammo > 0) {
-						if(((TurretBase) world.getBlock(x, y, z)).executeHoldAction(world, stack.getMaxItemUseDuration() - count, player.rotationYaw, player.rotationPitch, x, y, z))
-							turret.ammo--;
-					}
-				}
+				
+				/// ///
 			}
 
 			if(world.getTileEntity(x, y, z) instanceof TileEntityTurretBaseNT) {

@@ -1,13 +1,8 @@
 package com.hbm.blocks.generic;
 
-import java.util.Random;
-
-import com.hbm.handler.radiation.ChunkRadiationManager;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 

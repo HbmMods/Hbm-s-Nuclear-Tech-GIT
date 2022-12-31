@@ -1,5 +1,6 @@
 package com.hbm.handler.radiation;
 
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -22,6 +23,7 @@ public abstract class ChunkRadiationHandler {
 	 */
 	public void receiveWorldLoad(WorldEvent.Load event) { }
 	public void receiveWorldUnload(WorldEvent.Unload event) { }
+	public void receiveWorldTick(TickEvent.ServerTickEvent event) { }
 	
 	public void receiveChunkLoad(ChunkDataEvent.Load event) { }
 	public void receiveChunkSave(ChunkDataEvent.Save event) { }

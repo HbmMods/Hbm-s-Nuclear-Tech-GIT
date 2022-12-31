@@ -2,6 +2,7 @@ package com.hbm.interfaces;
 
 import com.hbm.inventory.fluid.FluidType;
 
+@Deprecated
 public interface IFluidContainer {
 
 	//Args: fill, what the fill should be set to; index, index for array if there are multiple tanks

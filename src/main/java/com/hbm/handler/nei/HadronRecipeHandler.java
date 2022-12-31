@@ -141,7 +141,7 @@ public class HadronRecipeHandler extends TemplateRecipeHandler {
 
 		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
-		String mom = "" + rec.momentum;
+		String mom = String.format("%,d", rec.momentum);
 		fontRenderer.drawString(mom, -fontRenderer.getStringWidth(mom) / 2 + 30, 42, 0x404040);
 	}
 

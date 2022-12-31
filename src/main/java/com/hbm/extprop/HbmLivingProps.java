@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.hbm.config.RadiationConfig;
+import com.hbm.entity.mob.EntityDuck;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.PlayerInformPacket;
+import com.hbm.util.ChatBuilder;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
@@ -17,8 +21,10 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
@@ -35,12 +41,11 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static final int maxAsbestos = 60 * 60 * 20;
 	private int blacklung;
 	public static final int maxBlacklung = 60 * 60 * 20;
-	private int fibrosis;
-	public static final int maxFibrosis = 60 * 60 * 30;
 	private float radEnv;
 	private float radBuf;
 	private int bombTimer;
 	private int contagion;
+	private int oil;
 	private List<ContaminationEffect> contamination = new ArrayList();
 	
 	public HbmLivingProps(EntityLivingBase entity) {
@@ -62,14 +67,21 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	/// RADIATION ///
 	public static float getRadiation(EntityLivingBase entity) {
+		if(!RadiationConfig.enableContamination)
+			return 0;
+
 		return getData(entity).radiation;
 	}
 	
 	public static void setRadiation(EntityLivingBase entity, float rad) {
-		getData(entity).radiation = rad;
+		if(RadiationConfig.enableContamination)
+			getData(entity).radiation = rad;
 	}
 	
 	public static void incrementRadiation(EntityLivingBase entity, float rad) {
+		if(!RadiationConfig.enableContamination)
+			return;
+		
 		HbmLivingProps data = getData(entity);
 		float radiation = getData(entity).radiation + rad;
 		
@@ -159,6 +171,10 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	}
 	
 	public static void incrementDigamma(EntityLivingBase entity, float digamma) {
+		
+		if(entity instanceof EntityDuck)
+			digamma = 0.0F;
+		
 		HbmLivingProps data = getData(entity);
 		float dRad = getDigamma(entity) + digamma;
 		
@@ -173,10 +189,12 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	
 	/// ASBESTOS ///
 	public static int getAsbestos(EntityLivingBase entity) {
+		if(RadiationConfig.disableAsbestos) return 0;
 		return getData(entity).asbestos;
 	}
 	
 	public static void setAsbestos(EntityLivingBase entity, int asbestos) {
+		if(RadiationConfig.disableAsbestos) return;
 		getData(entity).asbestos = asbestos;
 		
 		if(asbestos >= maxAsbestos) {
@@ -186,17 +204,23 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	}
 	
 	public static void incrementAsbestos(EntityLivingBase entity, int asbestos) {
+		if(RadiationConfig.disableAsbestos) return;
 		setAsbestos(entity, getAsbestos(entity) + asbestos);
-		incrementFibrosis(entity, asbestos);
+		
+		if(entity instanceof EntityPlayerMP) {
+			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation("info.asbestos").color(EnumChatFormatting.RED).flush(), MainRegistry.proxy.ID_GAS_HAZARD, 3000), (EntityPlayerMP) entity);
+		}
 	}
 	
 	
 	/// BLACK LUNG DISEASE ///
 	public static int getBlackLung(EntityLivingBase entity) {
+		if(RadiationConfig.disableCoal) return 0;
 		return getData(entity).blacklung;
 	}
 	
 	public static void setBlackLung(EntityLivingBase entity, int blacklung) {
+		if(RadiationConfig.disableCoal) return;
 		getData(entity).blacklung = blacklung;
 		
 		if(blacklung >= maxBlacklung) {
@@ -206,26 +230,12 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	}
 	
 	public static void incrementBlackLung(EntityLivingBase entity, int blacklung) {
+		if(RadiationConfig.disableCoal) return;
 		setBlackLung(entity, getBlackLung(entity) + blacklung);
-		incrementFibrosis(entity, blacklung);
-	}
-	
-	/// PULMONARY FIBROSIS ///
-	public static int getFibrosis(EntityLivingBase entity) {
-		return getData(entity).fibrosis;
-	}
-	
-	public static void setFibrosis(EntityLivingBase entity, int fibrosis) {
-		getData(entity).fibrosis = fibrosis;
 		
-		if (fibrosis >= maxFibrosis) {
-			getData(entity).fibrosis = 0;
-			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
+		if(entity instanceof EntityPlayerMP) {
+			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation("info.coaldust").color(EnumChatFormatting.RED).flush(), MainRegistry.proxy.ID_GAS_HAZARD, 3000), (EntityPlayerMP) entity);
 		}
-	}
-	
-	public static void incrementFibrosis(EntityLivingBase entity, int fibrosis) {
-		setFibrosis(entity, getFibrosis(entity) + fibrosis);
 	}
 	
 	/// TIME BOMB ///
@@ -245,6 +255,15 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static void setContagion(EntityLivingBase entity, int contageon) {
 		getData(entity).contagion = contageon;
 	}
+	
+	/// OIL ///
+	public static int getOil(EntityLivingBase entity) {
+		return getData(entity).oil;
+	}
+	
+	public static void setOil(EntityLivingBase entity, int oil) {
+		getData(entity).oil = oil;
+	}
 
 	@Override
 	public void init(Entity entity, World world) { }
@@ -260,7 +279,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		props.setInteger("hfr_bomb", bombTimer);
 		props.setInteger("hfr_contagion", contagion);
 		props.setInteger("hfr_blacklung", blacklung);
-		props.setInteger("hfr_fibrosis", fibrosis);
+		props.setInteger("hfr_oil", oil);
 		
 		props.setInteger("hfr_cont_count", this.contamination.size());
 		
@@ -283,7 +302,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			bombTimer = props.getInteger("hfr_bomb");
 			contagion = props.getInteger("hfr_contagion");
 			blacklung = props.getInteger("hfr_blacklung");
-			fibrosis = props.getInteger("hfr_fibrosis");
+			oil = props.getInteger("hfr_oil");
 			
 			int cont = props.getInteger("hfr_cont_count");
 			

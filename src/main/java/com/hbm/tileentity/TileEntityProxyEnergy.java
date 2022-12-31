@@ -59,8 +59,9 @@ public class TileEntityProxyEnergy extends TileEntityProxyBase implements IEnerg
 	@Override
 	public boolean canConnect(ForgeDirection dir) {
 		
-		if(getTE() instanceof IEnergyUser) {
-			return ((IEnergyUser)getTE()).canConnect(dir);
+		TileEntity te = getTE();
+		if(te instanceof IEnergyUser) {
+			return ((IEnergyUser)te).canConnect(dir); //for some reason two consecutive getTE calls return different things?
 		}
 		
 		return false;

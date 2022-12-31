@@ -30,7 +30,7 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 	}
 
 	private long subBuffer;
-	private boolean recursionBrake = false;;
+	private boolean recursionBrake = false;
 	
 	@Untested
 	@Override

@@ -28,6 +28,8 @@ public class RBMKDials {
 	public static final String KEY_REASIM_MOD = "dialReasimOutputMod";
 	public static final String KEY_REASIM_BOILERS = "dialReasimBoilers";
 	public static final String KEY_REASIM_BOILER_SPEED = "dialReasimBoilerSpeed";
+	public static final String KEY_DISABLE_MELTDOWNS = "dialDisableMeltdowns";
+	public static final String KEY_ENABLE_MELTDOWN_OVERPRESSURE = "dialEnableMeltdownOverpressure";
 	
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();
@@ -51,6 +53,8 @@ public class RBMKDials {
 			rules.setOrCreateGameRule(KEY_REASIM_MOD, "1.0");
 			rules.setOrCreateGameRule(KEY_REASIM_BOILERS, "false");
 			rules.setOrCreateGameRule(KEY_REASIM_BOILER_SPEED, "0.05");
+			rules.setOrCreateGameRule(KEY_DISABLE_MELTDOWNS, "false");
+			rules.setOrCreateGameRule(KEY_ENABLE_MELTDOWN_OVERPRESSURE, "false");
 		}
 	}
 	
@@ -60,7 +64,7 @@ public class RBMKDials {
 	 * @return >0
 	 */
 	public static double getPassiveCooling(World world) {
-		return Math.max(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_PASSIVE_COOLING), 5.0D), 0.0D);
+		return Math.max(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_PASSIVE_COOLING), 1.0D), 0.0D);
 	}
 	
 	/**
@@ -69,7 +73,7 @@ public class RBMKDials {
 	 * @return [0;1]
 	 */
 	public static double getColumnHeatFlow(World world) {
-		return MathHelper.clamp_double(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_COLUMN_HEAT_FLOW), 5.0D), 0.0D, 1.0D);
+		return MathHelper.clamp_double(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_COLUMN_HEAT_FLOW), 0.2D), 0.0D, 1.0D);
 	}
 	
 	/**
@@ -109,7 +113,7 @@ public class RBMKDials {
 	}
 	
 	/**
-	 * How many heat units are consumed per steam unit (scaled per type) produced.
+	 * How many heat units are consumed per mB water used.
 	 * @param world
 	 * @return >0
 	 */
@@ -205,5 +209,24 @@ public class RBMKDials {
 	 */
 	public static double getReaSimBoilerSpeed(World world) {
 		return MathHelper.clamp_double(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_REASIM_BOILER_SPEED), 0.05D), 0.0D, 1.0D);
+	}
+	
+	/**
+	 * Whether or not fuel columns should initiate a meltdown when overheating
+	 * The method is in reverse because the default for older worlds will be 'false'
+	 * @param world
+	 * @return
+	 */
+	public static boolean getMeltdownsDisabled(World world) {
+		return world.getGameRules().getGameRuleBooleanValue(KEY_DISABLE_MELTDOWNS);
+	}
+	
+	/**
+	 * Whether or not connected pipes and turbines should explode when the reactor undergoes a meltdown.
+	 * @param world
+	 * @return
+	 */
+	public static boolean getOverpressure(World world) {
+		return world.getGameRules().getGameRuleBooleanValue(KEY_ENABLE_MELTDOWN_OVERPRESSURE);
 	}
 }

@@ -3,16 +3,19 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.recipes.MachineRecipes;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Coolable;
+import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.relauncher.Side;
@@ -22,7 +25,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyGenerator {
+public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyGenerator, IFluidStandardTransceiver {
 
 	public long power;
 	public static final long maxPower = 100000000;
@@ -33,7 +36,8 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	private boolean shouldTurn;
 	public float rotor;
 	public float lastRotor;
-
+	public float fanAcceleration = 0F;
+	
 	public TileEntityMachineLargeTurbine() {
 		super(7);
 		
@@ -62,6 +66,8 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			this.sendPower(worldObj, xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, dir.getOpposite());
+			for(DirPos pos : getConPos()) this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			for(DirPos pos : getConPos()) this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 
 			tanks[0].setType(0, 1, slots);
 			tanks[0].loadTank(2, 3, slots);
@@ -69,30 +75,26 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			
 			boolean operational = false;
 			
-			Object[] outs = MachineRecipes.getTurbineOutput(tanks[0].getTankType());
-			
-			if(outs == null) {
-				tanks[1].setTankType(Fluids.NONE);
-			} else {
-				tanks[1].setTankType((FluidType) outs[0]);
-				
-				int processMax = (int) Math.ceil(Math.ceil(tanks[0].getFill() / 5F) / (Integer)outs[2]);		//the maximum amount of cycles based on the 20% cap
-				int processSteam = tanks[0].getFill() / (Integer)outs[2];										//the maximum amount of cycles depending on steam
-				int processWater = (tanks[1].getMaxFill() - tanks[1].getFill()) / (Integer)outs[1];				//the maximum amount of cycles depending on water
-				
-				int cycles = Math.min(processMax, Math.min(processSteam, processWater));
-				
-				tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2] * cycles);
-				tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1] * cycles);
-				
-				power += ((Integer)outs[3] * cycles) * 1.25; //yields a 25% power conversion bonus
-				
-				if(power > maxPower)
-					power = maxPower;
-				
-				if(cycles > 0)
-					operational = true;
+			FluidType in = tanks[0].getTankType();
+			boolean valid = false;
+			if(in.hasTrait(FT_Coolable.class)) {
+				FT_Coolable trait = in.getTrait(FT_Coolable.class);
+				double eff = trait.getEfficiency(CoolingType.TURBINE); //100% efficiency
+				if(eff > 0) {
+					tanks[1].setTankType(trait.coolsTo);
+					int inputOps = (int) Math.floor(tanks[0].getFill() / trait.amountReq); //amount of cycles possible with the entire input buffer
+					int outputOps = (tanks[1].getMaxFill() - tanks[1].getFill()) / trait.amountProduced; //amount of cycles possible with the output buffer's remaining space
+					int cap = (int) Math.ceil(tanks[0].getFill() / trait.amountReq / 5F); //amount of cycles by the "at least 20%" rule
+					int ops = Math.min(inputOps, Math.min(outputOps, cap)); //defacto amount of cycles
+					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
+					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
+					this.power += (ops * trait.heatEnergy * eff);
+					valid = true;
+					operational = ops > 0;
+				}
 			}
+			if(!valid) tanks[1].setTankType(Fluids.NONE);
+			if(power > maxPower) power = maxPower;
 			
 			tanks[1].unloadTank(5, 6, slots);
 			
@@ -104,19 +106,32 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			data.setBoolean("operational", operational);
 			this.networkPack(data, 50);
 		} else {
-			
 			this.lastRotor = this.rotor;
+			this.rotor += this.fanAcceleration;
+				
+			if(this.rotor >= 360) {
+				this.rotor -= 360;
+				this.lastRotor -= 360;
+			}
 			
 			if(shouldTurn) {
-				
-				this.rotor += 15F;
-				
-				if(this.rotor >= 360) {
-					this.rotor -= 360;
-					this.lastRotor -= 360;
-				}
+
+				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration += 0.1F));
+			}
+			if(!shouldTurn) {
+				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration -= 0.1F));
 			}
 		}
+	}
+	
+	protected DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		return new DirPos[] {
+				new DirPos(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
+				new DirPos(xCoord - rot.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2, rot.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, dir)
+		};
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
@@ -241,5 +256,20 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks[1]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0]};
 	}
 }

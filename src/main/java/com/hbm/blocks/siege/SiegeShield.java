@@ -18,6 +18,9 @@ public class SiegeShield extends SiegeBase {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		
+		if(SiegeOrchestrator.siegeMobCount > SiegeOrchestrator.getExpansionThreshold(world) || !SiegeOrchestrator.enableBaseSpawning(world) || !SiegeOrchestrator.siegeEnabled(world))
+			return;
+		
 		int succ = 0;
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {

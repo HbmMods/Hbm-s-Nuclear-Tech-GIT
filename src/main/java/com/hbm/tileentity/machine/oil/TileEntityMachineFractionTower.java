@@ -6,14 +6,17 @@ import java.util.List;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.Tuple.Pair;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,7 +24,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineFractionTower extends TileEntity implements IFluidSource, IFluidAcceptor, INBTPacketReceiver {
+public class TileEntityMachineFractionTower extends TileEntityLoadedBase implements IFluidSource, IFluidAcceptor, INBTPacketReceiver, IFluidStandardTransceiver {
 	
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list1 = new ArrayList();
@@ -40,7 +43,6 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 		if(!worldObj.isRemote) {
 			
 			TileEntity stack = worldObj.getTileEntity(xCoord, yCoord + 3, zCoord);
-			
 			
 			if(stack instanceof TileEntityMachineFractionTower) {
 				TileEntityMachineFractionTower frac = (TileEntityMachineFractionTower) stack;
@@ -65,6 +67,7 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 			}
 			
 			setupTanks();
+			this.updateConnections();
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0)
 				fractionate();
@@ -72,14 +75,16 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 			if(worldObj.getTotalWorldTime() % 10 == 0) {
 				fillFluidInit(tanks[1].getTankType());
 				fillFluidInit(tanks[2].getTankType());
-				
-				NBTTagCompound data = new NBTTagCompound();
-
-				for(int i = 0; i < 3; i++)
-					tanks[i].writeToNBT(data, "tank" + i);
-				
-				INBTPacketReceiver.networkPack(this, data, 50);
 			}
+			
+			this.sendFluid();
+			
+			NBTTagCompound data = new NBTTagCompound();
+
+			for(int i = 0; i < 3; i++)
+				tanks[i].writeToNBT(data, "tank" + i);
+			
+			INBTPacketReceiver.networkPack(this, data, 50);
 		}
 	}
 
@@ -87,6 +92,30 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	public void networkUnpack(NBTTagCompound nbt) {
 		for(int i = 0; i < 3; i++)
 			tanks[i].readFromNBT(nbt, "tank" + i);
+	}
+	
+	private void updateConnections() {
+		
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	private void sendFluid() {
+		
+		for(DirPos pos : getConPos()) {
+			this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.sendFluid(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	private DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z)
+		};
 	}
 	
 	private void setupTanks() {
@@ -233,5 +262,20 @@ public class TileEntityMachineFractionTower extends TileEntity implements IFluid
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tanks[1], tanks[2] };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[0] };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

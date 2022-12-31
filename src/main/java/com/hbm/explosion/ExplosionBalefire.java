@@ -45,7 +45,7 @@ public class ExplosionBalefire
 		lastposZ = nbt.getInteger(name + "lastposZ");
 		radius = nbt.getInteger(name + "radius");
 		radius2 = nbt.getInteger(name + "radius2");
-		n = nbt.getInteger(name + "n");
+		n = Math.max(nbt.getInteger(name + "n"), 1); //prevents invalid read operation
 		nlimit = nbt.getInteger(name + "nlimit");
 		shell = nbt.getInteger(name + "shell");
 		leg = nbt.getInteger(name + "leg");
@@ -66,11 +66,16 @@ public class ExplosionBalefire
 		this.nlimit = this.radius2 * 4;
 	}
 	
-	public boolean update()
-	{
+	public boolean update() {
+		
+		if(n == 0) return true;
+		
 		breakColumn(this.lastposX, this.lastposZ);
 		this.shell = (int) Math.floor((Math.sqrt(n) + 1) / 2);
 		int shell2 = this.shell * 2;
+		
+		if(shell2 == 0) return true;
+		
 		this.leg = (int) Math.floor((this.n - (shell2 - 1) * (shell2 - 1)) / shell2);
 		this.element = (this.n - (shell2 - 1) * (shell2 - 1)) - shell2 * this.leg - this.shell + 1;
 		this.lastposX = this.leg == 0 ? this.shell : this.leg == 1 ? -this.element : this.leg == 2 ? -this.shell : this.element;

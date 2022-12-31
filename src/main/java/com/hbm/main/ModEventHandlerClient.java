@@ -1,15 +1,19 @@
 package com.hbm.main;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
@@ -17,12 +21,14 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
+import com.hbm.items.ISyncButtons;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
@@ -34,6 +40,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.SyncButtonsPacket;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
@@ -52,37 +59,44 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
-import com.hbm.world.RenderNTMSkyboxChainloader;
+import com.hbm.wiaj.GuiWorldInAJar;
+import com.hbm.wiaj.cannery.CanneryBase;
+import com.hbm.wiaj.cannery.Jars;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
-import api.hbm.energy.IEnergyConductor;
 import api.hbm.item.IButtonReceiver;
 import api.hbm.item.IClickReceiver;
 
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -108,8 +122,8 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class ModEventHandlerClient {
 	
@@ -143,9 +157,45 @@ public class ModEventHandlerClient {
 			World world = mc.theWorld;
 			MovingObjectPosition mop = mc.objectMouseOver;
 			
-			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK && world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
-				((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK ) {
+				
+				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ILookOverlay) {
+					((ILookOverlay) player.getHeldItem().getItem()).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+					
+				} else if(world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
+					((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+				}
 			}
+			
+			List<EntityNukeTorex> torex = world.getEntitiesWithinAABB(EntityNukeTorex.class, player.boundingBox.expand(100, 100, 100));
+			
+			if(!torex.isEmpty()) {
+				EntityNukeTorex t = torex.get(0);
+				List<String> text = new ArrayList();
+				text.add("Speed: " + t.getSimulationSpeed());
+				text.add("Alpha: " + t.getAlpha());
+				text.add("Age: " + t.ticksExisted + " / " + t.getMaxAge());
+				text.add("Clouds: " + t.cloudlets.size());
+				ILookOverlay.printGeneric(event, "DEBUG", 0xff0000, 0x4040000, text);
+			}
+			
+			/*List<String> text = new ArrayList();
+			text.add("IMPACT: " + ImpactWorldHandler.getImpactForClient(world));
+			text.add("DUST: " + ImpactWorldHandler.getDustForClient(world));
+			text.add("FIRE: " + ImpactWorldHandler.getFireForClient(world));
+			ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);*/
+			
+			/*if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+				ScaledResolution resolution = event.resolution;
+				GL11.glPushMatrix();
+				int pX = resolution.getScaledWidth() / 2 + 8;
+				int pZ = resolution.getScaledHeight() / 2;
+				mc.fontRenderer.drawString("META: " + world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ), pX, pZ - 3, 0xffff00);
+				GL11.glDisable(GL11.GL_BLEND);
+				GL11.glColor3f(1F, 1F, 1F);
+				GL11.glPopMatrix();
+				Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+			}*/
 		}
 		
 		/// HANLDE ANIMATION BUSES ///
@@ -163,8 +213,7 @@ public class ModEventHandlerClient {
 				HbmAnimations.hotbar[i] = null;
 		}
 			
-		if(!ducked && Keyboard.isKeyDown(Keyboard.KEY_O)) {
-			
+		if(!ducked && Keyboard.isKeyDown(Keyboard.KEY_O) && Minecraft.getMinecraft().currentScreen == null) {
 			ducked = true;
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(0, 0, 0, 999, 0));
 		}
@@ -175,80 +224,6 @@ public class ModEventHandlerClient {
 		if(helmet != null && helmet.getItem() instanceof ArmorFSB) {
 			((ArmorFSB)helmet.getItem()).handleOverlay(event, player);
 		}
-		
-		/// HANDLE ELECTRIC FSB HUD ///
-		
-		if(!event.isCanceled() && event.type == event.type.ARMOR) {
-			
-	        int width = event.resolution.getScaledWidth();
-	        int height = event.resolution.getScaledHeight();
-	        int left = width / 2 - 91;
-	        int top = height - GuiIngameForge.left_height - 3;
-	        
-			Tessellator tess = Tessellator.instance;
-			
-			if(ArmorFSB.hasFSBArmorIgnoreCharge(player)) {
-				ArmorFSB chestplate = (ArmorFSB)player.inventory.armorInventory[2].getItem();
-				boolean noHelmet = chestplate.noHelmet;
-		        
-				GL11.glDisable(GL11.GL_TEXTURE_2D);
-				tess.startDrawingQuads();
-	
-				for(int i = 0; i < (noHelmet ? 3 : 4); i++) {
-					
-					ItemStack stack = player.inventory.armorInventory[i];
-					
-					if(!(stack != null && stack.getItem() instanceof ArmorFSBPowered))
-						break;
-					
-					float tot = 1F - (float) ((ArmorFSBPowered)stack.getItem()).getDurabilityForDisplay(stack);
-					
-					tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
-					tess.addVertex(left - 0.5, top - 0.5, 0);
-					tess.addVertex(left - 0.5, top + 1.5, 0);
-					tess.addVertex(left + 81.5, top + 1.5, 0);
-					tess.addVertex(left + 81.5, top - 0.5, 0);
-					
-					tess.setColorOpaque_F(1F - tot, tot, 0F);
-					tess.addVertex(left, top, 0);
-					tess.addVertex(left, top + 1, 0);
-					tess.addVertex(left + 81 * tot, top + 1, 0);
-					tess.addVertex(left + 81 * tot, top, 0);
-					
-					top -= 2.5;
-				}
-				
-				tess.draw();
-				
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
-				
-			} else if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof JetpackBase) {
-				
-				ItemStack stack = player.inventory.armorInventory[2];
-				
-				float tot = (float) ((JetpackBase)stack.getItem()).getFuel(stack) / (float) ((JetpackBase)stack.getItem()).getMaxFill(stack);
-				top -= 3;
-				
-				GL11.glDisable(GL11.GL_TEXTURE_2D);
-				tess.startDrawingQuads();
-				tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
-				tess.addVertex(left - 0.5, top - 0.5, 0);
-				tess.addVertex(left - 0.5, top + 4.5, 0);
-				tess.addVertex(left + 81.5, top + 4.5, 0);
-				tess.addVertex(left + 81.5, top - 0.5, 0);
-				
-				tess.setColorOpaque_F(1F - tot, tot, 0F);
-				tess.addVertex(left, top, 0);
-				tess.addVertex(left, top + 4, 0);
-				tess.addVertex(left + 81 * tot, top + 4, 0);
-				tess.addVertex(left + 81 * tot, top, 0);
-				tess.draw();
-				
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
-				
-			}
-			
-		}
 		if(!event.isCanceled() && event.type == event.type.HOTBAR) {
 			
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
@@ -256,6 +231,98 @@ public class ModEventHandlerClient {
 				RenderScreenOverlay.renderDashBar(event.resolution, Minecraft.getMinecraft().ingameGUI, props);
 					
 			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onOverlayRender(RenderGameOverlayEvent.Post event) {
+		
+		/// HANDLE ELECTRIC FSB HUD ///
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		Tessellator tess = Tessellator.instance;
+		
+		if(!event.isCanceled() && event.type == event.type.HEALTH) {
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			if(props.maxShield > 0) {
+				RenderScreenOverlay.renderShieldBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
+			}
+		}
+		
+		if(!event.isCanceled() && event.type == event.type.ARMOR) {
+			
+			if(ForgeHooks.getTotalArmorValue(player) == 0/* && GuiIngameForge.left_height == 59*/) {
+				GuiIngameForge.left_height -= 10;
+			}
+
+			int width = event.resolution.getScaledWidth();
+			int height = event.resolution.getScaledHeight();
+			int left = width / 2 - 91;
+
+			if(ArmorFSB.hasFSBArmorIgnoreCharge(player)) {
+				ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
+				boolean noHelmet = chestplate.noHelmet;
+
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				tess.startDrawingQuads();
+
+				for(int i = 0; i < (noHelmet ? 3 : 4); i++) {
+					
+					int top = height - GuiIngameForge.left_height + 6;
+
+					ItemStack stack = player.inventory.armorInventory[i];
+
+					if(!(stack != null && stack.getItem() instanceof ArmorFSBPowered))
+						break;
+
+					float tot = 1F - (float) ((ArmorFSBPowered) stack.getItem()).getDurabilityForDisplay(stack);
+
+					tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
+					tess.addVertex(left - 0.5, top - 0.5, 0);
+					tess.addVertex(left - 0.5, top + 1.5, 0);
+					tess.addVertex(left + 81.5, top + 1.5, 0);
+					tess.addVertex(left + 81.5, top - 0.5, 0);
+
+					tess.setColorOpaque_F(1F - tot, tot, 0F);
+					tess.addVertex(left, top, 0);
+					tess.addVertex(left, top + 1, 0);
+					tess.addVertex(left + 81 * tot, top + 1, 0);
+					tess.addVertex(left + 81 * tot, top, 0);
+
+					GuiIngameForge.left_height += 3;
+				}
+
+				tess.draw();
+
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+			} else if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof JetpackBase) {
+
+				ItemStack stack = player.inventory.armorInventory[2];
+
+				float tot = (float) ((JetpackBase) stack.getItem()).getFuel(stack) / (float) ((JetpackBase) stack.getItem()).getMaxFill(stack);
+				
+				int top = height - GuiIngameForge.left_height + 3;
+
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				tess.startDrawingQuads();
+				tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
+				tess.addVertex(left - 0.5, top - 0.5, 0);
+				tess.addVertex(left - 0.5, top + 4.5, 0);
+				tess.addVertex(left + 81.5, top + 4.5, 0);
+				tess.addVertex(left + 81.5, top - 0.5, 0);
+
+				tess.setColorOpaque_F(1F - tot, tot, 0F);
+				tess.addVertex(left, top, 0);
+				tess.addVertex(left, top + 4, 0);
+				tess.addVertex(left + 81 * tot, top + 4, 0);
+				tess.addVertex(left + 81 * tot, top, 0);
+				tess.draw();
+
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+			}
+
 		}
 	}
 	
@@ -386,6 +453,14 @@ public class ModEventHandlerClient {
 					item.m2 = true;
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 1));
 					item.startActionClient(player.getHeldItem(), player.worldObj, player, false);
+				}
+			}
+			
+			if(held instanceof ISyncButtons) {
+				ISyncButtons rec = (ISyncButtons) held;
+				
+				if(rec.canReceiveMouse(player, player.getHeldItem(), event, event.button, event.buttonstate)) {
+					PacketDispatcher.wrapper.sendToServer(new SyncButtonsPacket(event.buttonstate, event.button));
 				}
 			}
 		}
@@ -546,12 +621,12 @@ public class ModEventHandlerClient {
 		HazardSystem.addFullTooltip(stack, event.entityPlayer, list);
 		
 		if(event.showAdvancedItemTooltips) {
-			int ids[] = OreDictionary.getOreIDs(stack);
+			List<String> names = ItemStackUtil.getOreDictNames(stack);
 			
-			if(ids.length > 0) {
+			if(names.size() > 0) {
 				list.add(EnumChatFormatting.BLUE + "Ore Dict:");
-				for(int i : ids) {
-					list.add(EnumChatFormatting.AQUA + " -" + OreDictionary.getOreName(i));
+				for(String s : names) {
+					list.add(EnumChatFormatting.AQUA + " -" + s);
 				}
 			} else {
 				list.add(EnumChatFormatting.RED + "No Ore Dict data!");
@@ -580,12 +655,30 @@ public class ModEventHandlerClient {
 			if(entry.entry == EnumEntryType.MULT)
 				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
 		}
+		
+		try {
+			CanneryBase cannery = Jars.canneries.get(comp);
+			if(cannery != null) {
+				list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
+			}
+		} catch(Exception ex) {
+			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
+		}
+		
+		/*ItemStack copy = stack.copy();
+		List<MaterialStack> materials = Mats.getMaterialsFromItem(copy);
+		
+		if(!materials.isEmpty()) {
+			for(MaterialStack mat : materials) {
+				list.add(EnumChatFormatting.DARK_PURPLE + mat.material.names[0] + ": " + Mats.formatAmount(mat.amount * stack.stackSize));
+			}
+		}*/
 	}
 	
 	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
 	
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
+	//@SubscribeEvent
 	public void onRenderStorm(RenderHandEvent event) {
 		
 		if(BlockAshes.ashes == 0)
@@ -686,7 +779,41 @@ public class ModEventHandlerClient {
 			}
 			
 			if(ArmorUtil.isWearingEmptyMask(mc.thePlayer)) {
-				MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Your mask has no filter!");
+				MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Your mask has no filter!", MainRegistry.proxy.ID_FILTER);
+			}
+		}
+		
+		if(mc.currentScreen instanceof GuiContainer && Keyboard.isKeyDown(Keyboard.KEY_F1)) {
+
+			ScaledResolution scaledresolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+			int width = scaledresolution.getScaledWidth();
+			int height = scaledresolution.getScaledHeight();
+			int mouseX = Mouse.getX() * width / mc.displayWidth;
+			int mouseY = height - Mouse.getY() * height / mc.displayHeight - 1;
+			
+			GuiContainer container = (GuiContainer) mc.currentScreen;
+			
+			for(Object o : container.inventorySlots.inventorySlots) {
+				Slot slot = (Slot) o;
+				
+				if(slot.getHasStack()) {
+					try {
+						Method isMouseOverSlot = ReflectionHelper.findMethod(GuiContainer.class, container, new String[] {"func_146981_a", "isMouseOverSlot"}, Slot.class, int.class, int.class);
+						
+						if((boolean) isMouseOverSlot.invoke(container, slot, mouseX, mouseY)) {
+							
+							ComparableStack comp = new ComparableStack(slot.getStack()).makeSingular();
+							CanneryBase cannery = Jars.canneries.get(comp);
+							
+							if(cannery != null) {
+								FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon(), cannery.seeAlso()));
+							}
+							
+							break;
+						}
+						
+					} catch(Exception ex) { }
+				}
 			}
 		}
 	}
@@ -695,16 +822,17 @@ public class ModEventHandlerClient {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onClientTickLast(ClientTickEvent event) {
 		
-		if(event.phase == Phase.START) {
+		if(event.phase == Phase.START && GeneralConfig.enableSkyboxes) {
 			
 			World world = Minecraft.getMinecraft().theWorld;
 			
 			if(world != null && world.provider instanceof WorldProviderSurface) {
 				
 				IRenderHandler sky = world.provider.getSkyRenderer();
+				
+				if(ImpactWorldHandler.getDustForClient(world) > 0 || ImpactWorldHandler.getFireForClient(world) > 0) {
 
-				if(ModEventHandler.dust > 0 || ModEventHandler.fire > 0) {
-
+					//using a chainloader isn't necessary since none of the sky effects should render anyway
 					if(!(sky instanceof RenderNTMSkyboxImpact)) {
 						world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
 					}
@@ -798,14 +926,18 @@ public class ModEventHandlerClient {
 
 		GL11.glPopMatrix();
 		
-		RenderOverhead.renderMarkers(event.partialTicks);
-
-		if(ArmorFSB.hasFSBArmor(player)) {
-			ItemStack plate = player.inventory.armorInventory[2];
-			ArmorFSB chestplate = (ArmorFSB) plate.getItem();
-
-			if(chestplate.thermal && HbmPlayerProps.getData(player).enableHUD)
-				RenderOverhead.renderThermalSight(event.partialTicks);
+		boolean hudOn = HbmPlayerProps.getData(player).enableHUD;
+		
+		if(hudOn) {
+			RenderOverhead.renderMarkers(event.partialTicks);
+	
+			if(ArmorFSB.hasFSBArmor(player)) {
+				ItemStack plate = player.inventory.armorInventory[2];
+				ArmorFSB chestplate = (ArmorFSB) plate.getItem();
+	
+				if(chestplate.thermal)
+					RenderOverhead.renderThermalSight(event.partialTicks);
+			}
 		}
 	}
 	
@@ -881,6 +1013,7 @@ public class ModEventHandlerClient {
 	}
 
 	private static final ResourceLocation poster = new ResourceLocation(RefStrings.MODID + ":textures/models/misc/poster.png");
+	private static final ResourceLocation poster_cat = new ResourceLocation(RefStrings.MODID + ":textures/models/misc/poster_cat.png");
 	
 	@SubscribeEvent
 	public void renderFrame(RenderItemInFrameEvent event) {
@@ -893,6 +1026,24 @@ public class ModEventHandlerClient {
 			
 			GL11.glDisable(GL11.GL_LIGHTING);
 			Minecraft.getMinecraft().renderEngine.bindTexture(poster);
+			Tessellator tess = Tessellator.instance;
+			tess.startDrawingQuads();
+			tess.addVertexWithUV(0.5, 0.5 + o, p * 0.5, 1, 0);
+			tess.addVertexWithUV(-0.5, 0.5 + o, p * 0.5, 0, 0);
+			tess.addVertexWithUV(-0.5, -0.5 + o, p * 0.5, 0, 1);
+			tess.addVertexWithUV(0.5, -0.5 + o, p * 0.5, 1, 1);
+			tess.draw();
+			GL11.glEnable(GL11.GL_LIGHTING);
+		}
+		
+		if(event.item != null && event.item.getItem() == Items.paper) {
+			event.setCanceled(true);
+			
+			double p = 0.0625D;
+			double o = p * 2.75D;
+
+			GL11.glDisable(GL11.GL_LIGHTING);
+			Minecraft.getMinecraft().renderEngine.bindTexture(poster_cat);
 			Tessellator tess = Tessellator.instance;
 			tess.startDrawingQuads();
 			tess.addVertexWithUV(0.5, 0.5 + o, p * 0.5, 1, 0);

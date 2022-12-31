@@ -1,9 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import java.util.Random;
-
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
@@ -22,7 +19,6 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -234,6 +230,10 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 				
 				ItemStack sta1 = inventory.getStackInSlot(i).copy();
 				ItemStack sta2 = slots[slot].copy();
+				
+				if(!inventory.isItemValidForSlot(i, sta2))
+					continue;
+				
 				if(sta1 != null && sta2 != null) {
 					sta1.stackSize = 1;
 					sta2.stackSize = 1;
@@ -259,6 +259,10 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 				return false;
 			
 			ItemStack sta2 = slots[slot].copy();
+			
+			if(!inventory.isItemValidForSlot(i, sta2))
+				continue;
+			
 			if(inventory.getStackInSlot(i) == null && sta2 != null) {
 				sta2.stackSize = 1;
 				slots[slot].stackSize--;
@@ -321,7 +325,7 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 	 * */
 	public boolean tryDrill(int x, int y, int z) {
 
-		if(worldObj.getBlock(x, y, z) == Blocks.air || !isMinableOreo(x, y, z))
+		if(worldObj.getBlock(x, y, z).isAir(worldObj, x, y, z) || !isMinableOreo(x, y, z))
 			return false;
 		if(worldObj.getBlock(x, y, z).getMaterial().isLiquid()) {
 			worldObj.func_147480_a(x, y, z, false);

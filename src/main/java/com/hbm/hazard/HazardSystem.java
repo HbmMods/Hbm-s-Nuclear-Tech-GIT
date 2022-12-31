@@ -15,6 +15,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -219,6 +220,14 @@ public class HazardSystem {
 			if(stack != null) {
 				applyHazards(stack, entity);
 			}
+		}
+	}
+
+	public static void updateDroppedItem(EntityItem entity) {
+		
+		List<HazardEntry> hazards = getHazardsFromStack(entity.getEntityItem());
+		for(HazardEntry entry : hazards) {
+			entry.type.updateEntity(entity, HazardModifier.evalAllModifiers(entity.getEntityItem(), null, entry.baseLevel, entry.mods));
 		}
 	}
 	

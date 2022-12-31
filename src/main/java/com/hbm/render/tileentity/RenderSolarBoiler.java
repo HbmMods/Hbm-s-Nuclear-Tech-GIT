@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.TileEntitySolarBoiler;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -37,7 +38,7 @@ public class RenderSolarBoiler extends TileEntitySpecialRenderer {
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 		
-		if(te instanceof TileEntitySolarBoiler) {
+		if(te instanceof TileEntitySolarBoiler && Minecraft.getMinecraft().gameSettings.particleSetting < 2) {
 			TileEntitySolarBoiler boiler = (TileEntitySolarBoiler) te;
 
 			Tessellator tess = Tessellator.instance;

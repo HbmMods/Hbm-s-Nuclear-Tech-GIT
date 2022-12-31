@@ -14,8 +14,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUICrateTungsten extends GuiContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_crate_tungsten.png");
-	private static ResourceLocation texture_hot = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_crate_tungsten_hot.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_crate_tungsten.png");
+	private static ResourceLocation texture_hot = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_crate_tungsten_hot.png");
 	private TileEntityCrateTungsten diFurnace;
 	
 	public GUICrateTungsten(InventoryPlayer invPlayer, TileEntityCrateTungsten tedf) {

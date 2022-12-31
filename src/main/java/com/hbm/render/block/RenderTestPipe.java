@@ -3,16 +3,18 @@ package com.hbm.render.block;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.test.TestPipe;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
+import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 
-import api.hbm.fluid.IFluidConductor;
-import api.hbm.fluid.IFluidConnector;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.obj.WavefrontObject;
@@ -24,7 +26,8 @@ public class RenderTestPipe implements ISimpleBlockRenderingHandler {
 
 		GL11.glPushMatrix();
 		Tessellator tessellator = Tessellator.instance;
-		IIcon iicon = block.getIcon(0, 0);
+		IIcon iicon = block.getIcon(0, metadata);
+		IIcon overlay = block.getIcon(1, metadata);
 		tessellator.setColorOpaque_F(1, 1, 1);
 
 		if(renderer.hasOverrideBlockTexture()) {
@@ -39,6 +42,14 @@ public class RenderTestPipe implements ISimpleBlockRenderingHandler {
 		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "pZ", iicon, tessellator, 0, false);
 		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "nZ", iicon, tessellator, 0, false);
 		tessellator.draw();
+		tessellator.startDrawingQuads();
+		ObjUtil.setColor(Fluids.NONE.getColor());
+		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "pX", overlay, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "nX", overlay, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "pZ", overlay, tessellator, 0, false);
+		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "nZ", overlay, tessellator, 0, false);
+		ObjUtil.clearColor();
+		tessellator.draw();
 
 		GL11.glPopMatrix();
 	}
@@ -47,29 +58,39 @@ public class RenderTestPipe implements ISimpleBlockRenderingHandler {
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 
 		Tessellator tessellator = Tessellator.instance;
-		IIcon iicon = block.getIcon(0, 0);
-		IIcon overlay = block.getIcon(1, 0);
+		int meta = world.getBlockMetadata(x, y, z);
+		IIcon iicon = block.getIcon(0, meta);
+		IIcon overlay = block.getIcon(1, meta);
 		tessellator.setColorOpaque_F(1, 1, 1);
 
 		if(renderer.hasOverrideBlockTexture()) {
 			iicon = renderer.overrideBlockTexture;
 		}
+		
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		int color = 0xff00ff;
+		FluidType type = Fluids.NONE;
+		
+		if(te instanceof TileEntityPipeBaseNT) {
+			TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
+			color = pipe.getType().getColor();
+			type = pipe.getType();
+		}
 
 		tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 		tessellator.setColorOpaque_F(1, 1, 1);
 
-		boolean pX = world.getTileEntity(x + 1, y, z) instanceof IFluidConductor;
-		boolean nX = world.getTileEntity(x - 1, y, z) instanceof IFluidConductor;
-		boolean pY = world.getTileEntity(x, y + 1, z) instanceof IFluidConductor;
-		boolean nY = world.getTileEntity(x, y - 1, z) instanceof IFluidConductor;
-		boolean pZ = world.getTileEntity(x, y, z + 1) instanceof IFluidConductor;
-		boolean nZ = world.getTileEntity(x, y, z - 1) instanceof IFluidConductor;
+		boolean pX = Library.canConnectFluid(world, x + 1, y, z, Library.NEG_X, type);
+		boolean nX = Library.canConnectFluid(world, x - 1, y, z, Library.POS_X, type);
+		boolean pY = Library.canConnectFluid(world, x, y + 1, z, Library.NEG_Y, type);
+		boolean nY = Library.canConnectFluid(world, x, y - 1, z, Library.POS_Y, type);
+		boolean pZ = Library.canConnectFluid(world, x, y, z + 1, Library.NEG_Z, type);
+		boolean nZ = Library.canConnectFluid(world, x, y, z - 1, Library.POS_Z, type);
 		
 		int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
 		
 		tessellator.addTranslation(x + 0.5F, y + 0.5F, z + 0.5F);
-		
-		int color = 0xff0000;
 		
 		if(mask == 0) {
 			renderDuct(iicon, overlay, color, tessellator, "pX");
@@ -96,14 +117,14 @@ public class RenderTestPipe implements ISimpleBlockRenderingHandler {
 			if(pZ) renderDuct(iicon, overlay, color, tessellator, "nZ");
 			if(nZ) renderDuct(iicon, overlay, color, tessellator, "pZ");
 	
-			if(!pX && !pY && !pZ) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "ppn", iicon, tessellator, 0, true);
-			if(!pX && !pY && !nZ) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "ppp", iicon, tessellator, 0, true);
-			if(!nX && !pY && !pZ) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "npn", iicon, tessellator, 0, true);
-			if(!nX && !pY && !nZ) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "npp", iicon, tessellator, 0, true);
-			if(!pX && !nY && !pZ) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "pnn", iicon, tessellator, 0, true);
-			if(!pX && !nY && !nZ) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "pnp", iicon, tessellator, 0, true);
-			if(!nX && !nY && !pZ) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "nnn", iicon, tessellator, 0, true);
-			if(!nX && !nY && !nZ) ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.pipe_neo, "nnp", iicon, tessellator, 0, true);
+			if(!pX && !pY && !pZ) renderDuct(iicon, overlay, color, tessellator, "ppn");
+			if(!pX && !pY && !nZ) renderDuct(iicon, overlay, color, tessellator, "ppp");
+			if(!nX && !pY && !pZ) renderDuct(iicon, overlay, color, tessellator, "npn");
+			if(!nX && !pY && !nZ) renderDuct(iicon, overlay, color, tessellator, "npp");
+			if(!pX && !nY && !pZ) renderDuct(iicon, overlay, color, tessellator, "pnn");
+			if(!pX && !nY && !nZ) renderDuct(iicon, overlay, color, tessellator, "pnp");
+			if(!nX && !nY && !pZ) renderDuct(iicon, overlay, color, tessellator, "nnn");
+			if(!nX && !nY && !nZ) renderDuct(iicon, overlay, color, tessellator, "nnp");
 		}
 		
 		tessellator.addTranslation(-x - 0.5F, -y - 0.5F, -z - 0.5F);

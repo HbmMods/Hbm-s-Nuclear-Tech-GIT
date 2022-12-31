@@ -72,6 +72,7 @@ dependencies {
 	compileOnly 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:src'
 
 	//compileOnly 'inventory-tweaks:InventoryTweaks:1.62+beta.84:api'
+	compile "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
 }
 
 processResources {

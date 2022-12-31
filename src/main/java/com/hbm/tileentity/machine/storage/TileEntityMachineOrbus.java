@@ -2,10 +2,13 @@ package com.hbm.tileentity.machine.storage;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineOrbus extends TileEntityBarrel {
@@ -26,14 +29,39 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 	public void fillFluidInit(FluidType type) {
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
-		ForgeDirection d2 = dir.getRotation(ForgeDirection.DOWN);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 
-		for(int i = -1; i < 7; i += 7) {
+		for(int i = -1; i < 6; i += 6) {
 			this.fillFluid(xCoord, yCoord + i, zCoord, this.getTact(), this.tank.getTankType());
 			this.fillFluid(xCoord + dir.offsetX, yCoord + i, zCoord + dir.offsetZ, this.getTact(), this.tank.getTankType());
-			this.fillFluid(xCoord + d2.offsetX, yCoord + i, zCoord + d2.offsetZ, this.getTact(), this.tank.getTankType());
-			this.fillFluid(xCoord + dir.offsetX + d2.offsetX, yCoord + i, zCoord + dir.offsetZ + d2.offsetZ, this.getTact(), this.tank.getTankType());
+			this.fillFluid(xCoord + rot.offsetX, yCoord + i, zCoord + rot.offsetZ, this.getTact(), this.tank.getTankType());
+			this.fillFluid(xCoord + dir.offsetX + rot.offsetX, yCoord + i, zCoord + dir.offsetZ + rot.offsetZ, this.getTact(), this.tank.getTankType());
 		}
+	}
+	
+	protected DirPos[] conPos;
+	
+	@Override
+	protected DirPos[] getConPos() {
+		
+		if(conPos != null)
+			return conPos;
+		
+		conPos = new DirPos[8];
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+
+		for(int i = -1; i < 6; i += 6) {
+			ForgeDirection out = i == -1 ? ForgeDirection.DOWN : ForgeDirection.UP;
+			int index = i == -1 ? 0 : 4;
+			conPos[index + 0] = new DirPos(xCoord,								yCoord + i,	zCoord,								out);
+			conPos[index + 1] = new DirPos(xCoord + dir.offsetX,				yCoord + i,	zCoord + dir.offsetZ,				out);
+			conPos[index + 2] = new DirPos(xCoord + rot.offsetX,				yCoord + i,	zCoord + rot.offsetZ,				out);
+			conPos[index + 3] = new DirPos(xCoord + dir.offsetX + rot.offsetX,	yCoord + i,	zCoord + dir.offsetZ + rot.offsetZ,	out);
+		}
+		
+		return conPos;
 	}
 	
 	AxisAlignedBB bb = null;

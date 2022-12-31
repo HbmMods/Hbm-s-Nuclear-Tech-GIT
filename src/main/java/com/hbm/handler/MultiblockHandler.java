@@ -63,10 +63,10 @@ public class MultiblockHandler {
 	public static final int[] pumpjackDimensionEast  = new int[] { 0, 6, 4, 0, 1, 1 };
 	public static final int[] pumpjackDimensionSouth = new int[] { 1, 1, 4, 0, 0, 6 };
 	public static final int[] pumpjackDimensionWest  = new int[] { 6, 0, 4, 0, 1, 1 };
-	public static final int[] turbofanDimensionNorth = new int[] { 1, 1, 2, 0, 4, 4 };
-	public static final int[] turbofanDimensionEast  = new int[] { 4, 4, 2, 0, 1, 1 };
-	public static final int[] turbofanDimensionSouth = new int[] { 1, 1, 2, 0, 4, 4 };
-	public static final int[] turbofanDimensionWest  = new int[] { 4, 4, 2, 0, 1, 1 };
+	public static final int[] turbofanDimensionNorth = new int[] { 1, 1, 2, 0, 3, 3 };
+	public static final int[] turbofanDimensionEast  = new int[] { 3, 3, 2, 0, 1, 1 };
+	public static final int[] turbofanDimensionSouth = new int[] { 1, 1, 2, 0, 3, 3 };
+	public static final int[] turbofanDimensionWest  = new int[] { 3, 3, 2, 0, 1, 1 };
 	public static final int[] AMSLimiterDimensionNorth = new int[] { 0, 0, 5, 0, 2, 2 };
 	public static final int[] AMSLimiterDimensionEast  = new int[] { 2, 2, 5, 0, 0, 0 };
 	public static final int[] AMSLimiterDimensionSouth = new int[] { 0, 0, 5, 0, 2, 2 };

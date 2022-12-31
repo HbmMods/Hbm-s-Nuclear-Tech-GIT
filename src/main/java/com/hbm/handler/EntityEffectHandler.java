@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IArmorModDash;
 import com.hbm.items.armor.ArmorFSB;
@@ -57,8 +59,19 @@ public class EntityEffectHandler {
 			
 			if(entity instanceof EntityPlayerMP) {
 				HbmLivingProps props = HbmLivingProps.getData(entity);
+				HbmPlayerProps pprps = HbmPlayerProps.getData((EntityPlayerMP) entity);
 				NBTTagCompound data = new NBTTagCompound();
+				
+				if(pprps.shield < pprps.maxShield && entity.ticksExisted > pprps.lastDamage + 60) {
+					int tsd = entity.ticksExisted - (pprps.lastDamage + 60);
+					pprps.shield += Math.min(pprps.maxShield - pprps.shield, 0.005F * tsd);
+				}
+				
+				if(pprps.shield > pprps.maxShield)
+					pprps.shield = pprps.maxShield;
+				
 				props.saveNBTData(data);
+				pprps.saveNBTData(data);
 				PacketDispatcher.wrapper.sendTo(new ExtPropPacket(data), (EntityPlayerMP) entity);
 			}
 			
@@ -81,8 +94,10 @@ public class EntityEffectHandler {
 		handleRadiation(entity);
 		handleDigamma(entity);
 		handleLungDisease(entity);
-		
+		handleOil(entity);
+
 		handleDashing(entity);
+		handlePlinking(entity);
 	}
 	
 	private static void handleContamination(EntityLivingBase entity) {
@@ -121,15 +136,14 @@ public class EntityEffectHandler {
 			float rad = ChunkRadiationManager.proxy.getRadiation(world, ix, iy, iz);
 	
 			if(world.provider.isHellWorld && RadiationConfig.hellRad > 0 && rad < RadiationConfig.hellRad)
-				rad = RadiationConfig.hellRad;
+				rad = (float) RadiationConfig.hellRad;
 	
 			if(rad > 0) {
 				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);
 			}
 	
-			if(entity.worldObj.isRaining() && RadiationConfig.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 && entity.worldObj.canBlockSeeTheSky(ix, iy, iz)) {
-				
-				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, RadiationConfig.cont * 0.0005F);
+			if(entity.worldObj.isRaining() && BombConfig.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 && entity.worldObj.canBlockSeeTheSky(ix, iy, iz)) {
+				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, BombConfig.cont * 0.0005F);
 			}
 			
 			if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
@@ -340,8 +354,6 @@ public class EntityEffectHandler {
 		if(entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode) {
 			HbmLivingProps.setBlackLung(entity, 0);
 			HbmLivingProps.setAsbestos(entity, 0);
-			HbmLivingProps.setFibrosis(entity, 0);
-			
 			return;
 		} else {
 			
@@ -353,10 +365,8 @@ public class EntityEffectHandler {
 
 		double blacklung = Math.min(HbmLivingProps.getBlackLung(entity), HbmLivingProps.maxBlacklung);
 		double asbestos = Math.min(HbmLivingProps.getAsbestos(entity), HbmLivingProps.maxAsbestos);
-		double fibrosis = Math.min(HbmLivingProps.getFibrosis(entity), HbmLivingProps.maxFibrosis);
 		
 		boolean coughs = blacklung / HbmLivingProps.maxBlacklung > 0.25D || asbestos / HbmLivingProps.maxAsbestos > 0.25D;
-		boolean bronchospasms = fibrosis / HbmLivingProps.maxFibrosis > 0.20D;
 		
 		if(!coughs)
 			return;
@@ -367,9 +377,8 @@ public class EntityEffectHandler {
 
 		double blacklungDelta = 1D - (blacklung / (double)HbmLivingProps.maxBlacklung);
 		double asbestosDelta = 1D - (asbestos / (double)HbmLivingProps.maxAsbestos);
-		double fibrosisDelta = 1D - (fibrosis / (double)HbmLivingProps.maxFibrosis);
 		
-		double total = 1 - (blacklungDelta * asbestosDelta * fibrosisDelta);
+		double total = 1 - (blacklungDelta * asbestosDelta);
 		
 		int freq = Math.max((int) (1000 - 950 * total), 20);
 		
@@ -386,29 +395,45 @@ public class EntityEffectHandler {
 		if(world.getTotalWorldTime() % freq == entity.getEntityId() % freq) {
 			world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:player.cough", 1.0F, 1.0F);
 			
-			if(entity.getRNG().nextInt(6) > 1) {
-				if(coughsBlood) {
-					NBTTagCompound nbt = new NBTTagCompound();
-					nbt.setString("type", "vomit");
-					nbt.setString("mode", "blood");
-					nbt.setInteger("count", 5);
-					nbt.setInteger("entity", entity.getEntityId());
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
-				}
+			if(coughsBlood) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "vomit");
+				nbt.setString("mode", "blood");
+				nbt.setInteger("count", 5);
+				nbt.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			}
 			
-				if(coughsCoal) {
-					NBTTagCompound nbt = new NBTTagCompound();
-					nbt.setString("type", "vomit");
-					nbt.setString("mode", "smoke");
-					nbt.setInteger("count", coughsALotOfCoal ? 50 : 10);
-					nbt.setInteger("entity", entity.getEntityId());
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
-				}
+			if(coughsCoal) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "vomit");
+				nbt.setString("mode", "smoke");
+				nbt.setInteger("count", coughsALotOfCoal ? 50 : 10);
+				nbt.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			}
+		}
+	}
+	
+	private static void handleOil(EntityLivingBase entity) {
+		int oil = HbmLivingProps.getOil(entity);
+		
+		if(oil > 0) {
+			
+			if(entity.isBurning()) {
+				HbmLivingProps.setOil(entity, 0);
+				entity.worldObj.newExplosion(null, entity.posX, entity.posY + entity.height / 2, entity.posZ, 3F, false, true);
 			} else {
-				if(bronchospasms) {
-					entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 2));
-					entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 140, 2));
-				}
+				HbmLivingProps.setOil(entity, oil - 1);
+			}
+			
+			if(entity.ticksExisted % 5 == 0) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "sweat");
+				nbt.setInteger("count", 1);
+				nbt.setInteger("block", Block.getIdFromBlock(Blocks.coal_block));
+				nbt.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			}
 		}
 	}
@@ -454,6 +479,15 @@ public class EntityEffectHandler {
 			}
 					
 			int dashCount = armorDashCount + armorModDashCount;
+			
+			boolean dashActivated = false;
+			
+			
+			if(!GeneralConfig.enableCustomDashKeybind) {
+				dashActivated = !player.capabilities.isFlying && player.isSneaking();
+			} else {
+				dashActivated = props.getKeyPressed(EnumKeybind.DASH);
+			}
 					
 			//System.out.println(dashCount);
 			
@@ -470,7 +504,7 @@ public class EntityEffectHandler {
 						
 				if(props.getDashCooldown() <= 0) {
 							
-					if(!player.capabilities.isFlying && player.isSneaking() && stamina >= perDash) {
+					if(dashActivated && stamina >= perDash) {
 
 						Vec3 lookingIn = player.getLookVec();
 						Vec3 strafeVec = player.getLookVec();
@@ -505,6 +539,17 @@ public class EntityEffectHandler {
 				props.setStamina(stamina);
 			}	
 					
+		}
+	}
+	
+	private static void handlePlinking(Entity entity) {
+		
+		if(entity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer)entity;
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			
+			if(props.plinkCooldown > 0)
+				props.plinkCooldown--;
 		}
 	}
 }

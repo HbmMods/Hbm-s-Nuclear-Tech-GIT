@@ -8,6 +8,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
+import com.hbm.main.MainRegistry;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
@@ -101,7 +102,7 @@ public class GunDetonatorFactory {
 						if(ret.wasSuccessful() && bullet.shooter instanceof EntityPlayerMP) {
 							EntityPlayerMP player = (EntityPlayerMP) bullet.shooter;
 							world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
-							PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(ret.getUnlocalizedMessage()).color(EnumChatFormatting.YELLOW).flush()), (EntityPlayerMP) player);
+							PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(ret.getUnlocalizedMessage()).color(EnumChatFormatting.YELLOW).flush(), MainRegistry.proxy.ID_DETONATOR), (EntityPlayerMP) player);
 						}
 					}
 				}

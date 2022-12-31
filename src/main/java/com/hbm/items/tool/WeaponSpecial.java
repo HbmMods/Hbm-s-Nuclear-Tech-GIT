@@ -5,7 +5,7 @@ import java.util.Random;
 
 import com.google.common.collect.Multimap;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;

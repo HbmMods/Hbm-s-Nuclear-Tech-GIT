@@ -1,8 +1,11 @@
 package com.hbm.entity.logic;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
 import org.apache.logging.log4j.Level;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityFalloutRain;
@@ -13,10 +16,14 @@ import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionSolinium;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 @Spaghetti("why???")
@@ -184,14 +191,16 @@ public class EntityNukeExplosionMK3 extends Entity {
 				//this.worldObj.getWorldInfo().setRaining(true);
 				
 				did2 = true;
-        	}
-        }
-        
-        age++;
-    }
+			}
+		}
+
+		age++;
+	}
 
 	@Override
 	protected void entityInit() { }
+	
+	public static HashMap<ATEntry, Long> at = new HashMap();
 	
 	public static EntityNukeExplosionMK3 statFacFleija(World world, double x, double y, double z, int range) {
 		
@@ -204,18 +213,45 @@ public class EntityNukeExplosionMK3 extends Entity {
 		entity.coefficient = 1.0F;
 		entity.waste = false;
 		
-		if(range > 50) {
+		Iterator<Entry<ATEntry, Long>> it = at.entrySet().iterator();
+		
+		while(it.hasNext()) {
 			
-			for(int i = -1; i <= 1; i++) {
-				for(int j = -1; j <= 1; j++) {
-					for(int k = (int)y + 15; k > 5; k--) {
+			Entry<ATEntry, Long> next = it.next();
+			if(next.getValue() < world.getTotalWorldTime()) {
+				it.remove();
+				continue;
+			}
+			
+			ATEntry entry = next.getKey();
+			if(entry.dim != world.provider.dimensionId)  continue;
+			
+			Vec3 vec = Vec3.createVectorHelper(x - entry.x, y - entry.y, z - entry.z);
+			
+			if(vec.lengthVector() < 300) {
+				entity.setDead();
+
+				/* just to make sure */
+				if(!world.isRemote) {
+					
+					for(int i = 0; i < 2; i++) {
+						double ix = i == 0 ? x : (entry.x + 0.5);
+						double iy = i == 0 ? y : (entry.y + 0.5);
+						double iz = i == 0 ? z : (entry.z + 0.5);
 						
-						if(world.getBlock((int)x + i * 15, k, (int)z + j * 15) == ModBlocks.stone_porous) {
-							entity.destructionRange = 50;
-							return entity;
-						}
+						world.playSoundEffect(ix, iy, iz, "hbm:entity.ufoBlast", 15.0F, 0.7F + world.rand.nextFloat() * 0.2F);
+						
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "plasmablast");
+						data.setFloat("r", 0.0F);
+						data.setFloat("g", 0.75F);
+						data.setFloat("b", 1.0F);
+						data.setFloat("scale", 7.5F);
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, ix, iy, iz), new TargetPoint(entry.dim, ix, iy, iz, 150));
 					}
 				}
+				
+				break;
 			}
 		}
 		
@@ -225,5 +261,50 @@ public class EntityNukeExplosionMK3 extends Entity {
 	public EntityNukeExplosionMK3 makeSol() {
 		this.extType = 1;
 		return this;
+	}
+	
+	public static class ATEntry {
+		int dim;
+		int x;
+		int y;
+		int z;
+		
+		public ATEntry(int dim, int x, int y, int z) {
+			this.dim = dim;
+			this.x = x;
+			this.y = y;
+			this.z = z;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 27644437;
+			int result = 1;
+			result = prime * result + dim;
+			result = prime * result + x;
+			result = prime * result + y;
+			result = prime * result + z;
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if(this == obj)
+				return true;
+			if(obj == null)
+				return false;
+			if(getClass() != obj.getClass())
+				return false;
+			ATEntry other = (ATEntry) obj;
+			if(dim != other.dim)
+				return false;
+			if(x != other.x)
+				return false;
+			if(y != other.y)
+				return false;
+			if(z != other.z)
+				return false;
+			return true;
+		}
 	}
 }

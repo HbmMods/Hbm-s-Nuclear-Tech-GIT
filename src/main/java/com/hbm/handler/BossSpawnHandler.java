@@ -117,7 +117,7 @@ public class BossSpawnHandler {
 			}
 		}
 		
-		if(GeneralConfig.enableMeteorStrikes && !world.isRemote) {
+		if(WorldConfig.enableMeteorStrikes && !world.isRemote) {
 			meteorUpdate(world);
 		}
 		
@@ -180,8 +180,7 @@ public class BossSpawnHandler {
 								repell = true;
 							}
 							if(mod.getItem() == ModItems.meteor_charm) {
-								repell = true;
-								strike = meteorRand.nextInt(4) == 0;
+								strike = false;
 							}
 						}
 					}
@@ -198,7 +197,7 @@ public class BossSpawnHandler {
 				MainRegistry.logger.info("Ended meteor shower.");
 		}
 		
-		if(meteorRand.nextInt(WorldConfig.meteorStrikeChance * 100) == 0 && GeneralConfig.enableMeteorShowers) {
+		if(meteorRand.nextInt(WorldConfig.meteorStrikeChance * 100) == 0 && WorldConfig.enableMeteorShowers) {
 			meteorShower = (int)(WorldConfig.meteorShowerDuration * 0.75 + WorldConfig.meteorShowerDuration * 0.25 * meteorRand.nextFloat());
 
 			if(GeneralConfig.enableDebugMode)
@@ -216,6 +215,7 @@ public class BossSpawnHandler {
 			vec = Vec3.createVectorHelper(meteor.posX - player.posX, 0, meteor.posZ - player.posZ).normalize();
 			vec.xCoord = vec.xCoord * meteorRand.nextDouble() - 0.5D;
 			vec.zCoord = vec.zCoord * meteorRand.nextDouble() - 0.5D;
+			meteor.safe = true;
 		} else {
 			vec = Vec3.createVectorHelper(meteorRand.nextDouble() - 0.5D, 0, 0);
 			vec.rotateAroundY((float) (Math.PI * meteorRand.nextDouble()));

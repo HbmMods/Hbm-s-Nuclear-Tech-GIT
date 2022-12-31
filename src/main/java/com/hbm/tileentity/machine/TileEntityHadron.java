@@ -43,6 +43,13 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 	private static final int delayNoResult = 60;
 	private static final int delayError = 100;
 	
+	public boolean stat_success = false;
+	public EnumHadronState stat_state = EnumHadronState.IDLE;
+	public int stat_charge = 0;
+	public int stat_x = 0;
+	public int stat_y = 0;
+	public int stat_z = 0;
+	
 	public TileEntityHadron() {
 		super(5);
 	}
@@ -110,6 +117,13 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			data.setBoolean("analysis", analysisOnly);
 			data.setBoolean("hopperMode", hopperMode);
 			data.setByte("state", (byte) state.ordinal());
+			
+			data.setBoolean("stat_success", stat_success);
+			data.setByte("stat_state", (byte) stat_state.ordinal());
+			data.setInteger("stat_charge", stat_charge);
+			data.setInteger("stat_x", stat_x);
+			data.setInteger("stat_y", stat_y);
+			data.setInteger("stat_z", stat_z);
 			this.networkPack(data, 50);
 		}
 	}
@@ -119,7 +133,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		ItemStack[] result = HadronRecipes.getOutput(p.item1, p.item2, p.momentum, analysisOnly);
 		
 		if(result == null) {
-			this.state = EnumHadronState.NORESULT;
+			this.state = HadronRecipes.returnCode;
+			this.setStats(this.state, p.momentum, false);
 			this.delay = delayNoResult;
 			worldObj.playSoundEffect(p.posX, p.posY, p.posZ, "random.orb", 2, 0.5F);
 			return;
@@ -150,6 +165,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		worldObj.playSoundEffect(p.posX, p.posY, p.posZ, "random.orb", 2, 1F);
 		this.delay = delaySuccess;
 		this.state = EnumHadronState.SUCCESS;
+		this.setStats(this.state, p.momentum, true);
 	}
 
 	@Override
@@ -159,6 +175,13 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		this.analysisOnly = data.getBoolean("analysis");
 		this.hopperMode = data.getBoolean("hopperMode");
 		this.state = EnumHadronState.values()[data.getByte("state")];
+
+		this.stat_success = data.getBoolean("stat_success");
+		this.stat_state = EnumHadronState.values()[data.getByte("stat_state")];
+		this.stat_charge = data.getInteger("stat_charge");
+		this.stat_x = data.getInteger("stat_x");
+		this.stat_y = data.getInteger("stat_y");
+		this.stat_z = data.getInteger("stat_z");
 	}
 
 	@Override
@@ -261,6 +284,21 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		return false;
 	}
 	
+	private void setStats(EnumHadronState state, int count, boolean success) {
+		this.stat_state = state;
+		this.stat_charge = count;
+		this.stat_success = success;
+	}
+	
+	private void setExpireStats(EnumHadronState state, int count, int x, int y, int z) {
+		this.stat_state = state;
+		this.stat_charge = count;
+		this.stat_x = x;
+		this.stat_y = y;
+		this.stat_z = z;
+		this.stat_success = false;
+	}
+	
 	public class Particle {
 		
 		//Starting values
@@ -289,7 +327,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			this.posY = posY;
 			this.posZ = posZ;
 			
-			this.charge = 0;
+			this.charge = 750;
 			this.momentum = 0;
 		}
 		
@@ -307,6 +345,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 
 			TileEntityHadron.this.state = reason;
 			TileEntityHadron.this.delay = delayError;
+			TileEntityHadron.this.setExpireStats(reason, this.momentum, posX, posY, posZ);
 		}
 		
 		public boolean isExpired() {
@@ -672,22 +711,31 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		PROGRESS(0xffff00),
 		ANALYSIS(0xffff00),
 		NORESULT(0xff8000),
+		NORESULT_TOO_SLOW(0xff8000),
+		NORESULT_WRONG_INGREDIENT(0xff8000),
+		NORESULT_WRONG_MODE(0xff8000),
 		SUCCESS(0x00ff00),
-		ERROR_NO_CHARGE(0xff0000),
-		ERROR_NO_ANALYSIS(0xff0000),
-		ERROR_OBSTRUCTED_CHANNEL(0xff0000),
-		ERROR_EXPECTED_COIL(0xff0000),
-		ERROR_MALFORMED_SEGMENT(0xff0000),
-		ERROR_ANALYSIS_TOO_LONG(0xff0000),
-		ERROR_ANALYSIS_TOO_SHORT(0xff0000),
-		ERROR_DIODE_COLLISION(0xff0000),
-		ERROR_BRANCHING_TURN(0xff0000),
-		ERROR_GENERIC(0xff0000);
+		ERROR_NO_CHARGE(0xff0000, true),
+		ERROR_NO_ANALYSIS(0xff0000, true),
+		ERROR_OBSTRUCTED_CHANNEL(0xff0000, true),
+		ERROR_EXPECTED_COIL(0xff0000, true),
+		ERROR_MALFORMED_SEGMENT(0xff0000, true),
+		ERROR_ANALYSIS_TOO_LONG(0xff0000, true),
+		ERROR_ANALYSIS_TOO_SHORT(0xff0000, true),
+		ERROR_DIODE_COLLISION(0xff0000, true),
+		ERROR_BRANCHING_TURN(0xff0000, true),
+		ERROR_GENERIC(0xff0000, true);
 		
 		public int color;
+		public boolean showCoord;
 		
 		private EnumHadronState(int color) {
+			this(color, false);
+		}
+		
+		private EnumHadronState(int color, boolean showCoord) {
 			this.color = color;
+			this.showCoord = showCoord;
 		}
 	}
 }

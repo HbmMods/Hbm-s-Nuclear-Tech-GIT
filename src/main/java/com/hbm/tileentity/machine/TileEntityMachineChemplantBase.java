@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.ChemplantRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
@@ -17,7 +17,9 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidUser;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -31,7 +33,7 @@ import net.minecraft.util.ChunkCoordinates;
  * Tanks follow the order R1(I1, I2, O1, O2), R2(I1, I2, O1, O2) ...
  * @author hbm
  */
-public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor {
+public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor, IFluidUser {
 
 	public long power;
 	public int[] progress;
@@ -194,6 +196,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 				InventoryUtil.tryAddItemToInventory(slots, indices[2], indices[3], out.copy());
 		}
 	}
+	
 	private void loadItems(int index) {
 		
 		int template = getTemplateIndex(index);
@@ -214,6 +217,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 				if(te instanceof IInventory) {
 					
 					IInventory inv = (IInventory) te;
+					ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
 					
 					for(AStack ingredient : recipe.inputs) {
 						
@@ -222,7 +226,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 							for(int i = 0; i < inv.getSizeInventory(); i++) {
 								
 								ItemStack stack = inv.getStackInSlot(i);
-								if(ingredient.matchesRecipe(stack, true)) {
+								if(ingredient.matchesRecipe(stack, true) && (sided == null || sided.canExtractItem(i, stack, 0))) {
 									
 									for(int j = indices[0]; j <= indices[1]; j++) {
 										
@@ -272,6 +276,10 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 					if(out != null) {
 						
 						for(int j = 0; j < inv.getSizeInventory(); j++) {
+							
+							if(!inv.isItemValidForSlot(j, out))
+								continue;
+							
 							ItemStack target = inv.getStackInSlot(j);
 							
 							if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize() && target.stackSize < inv.getInventoryStackLimit()) {
@@ -283,7 +291,10 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 						
 						for(int j = 0; j < inv.getSizeInventory(); j++) {
 							
-							if(inv.getStackInSlot(j) == null) {
+							if(!inv.isItemValidForSlot(j, out))
+								continue;
+							
+							if(inv.getStackInSlot(j) == null && inv.isItemValidForSlot(j, out)) {
 								ItemStack copy = out.copy();
 								copy.stackSize = 1;
 								inv.setInventorySlotContents(j, copy);
@@ -412,7 +423,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 			
 			FluidTank tank = rec.get(i);
 			int fillWeight = weight.get(i);
-			int part = (int) ((long)amount * (long)fillWeight / (long)demand);
+			int part = (int) (Math.min((long)amount, (long)demand) * (long)fillWeight / (long)demand);
 			
 			tank.setFill(tank.getFill() + part);
 		}
@@ -501,6 +512,69 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		}
 		
 		return outTanks;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public long transferFluid(FluidType type, long fluid) {
+		int amount = (int) fluid;
+		
+		if(amount <= 0)
+			return 0;
+		
+		List<FluidTank> rec = new ArrayList();
+		
+		for(FluidTank tank : inTanks()) {
+			if(tank.getTankType() == type) {
+				rec.add(tank);
+			}
+		}
+		
+		if(rec.size() == 0)
+			return fluid;
+		
+		int demand = 0;
+		List<Integer> weight = new ArrayList();
+		
+		for(FluidTank tank : rec) {
+			int fillWeight = tank.getMaxFill() - tank.getFill();
+			demand += fillWeight;
+			weight.add(fillWeight);
+		}
+		
+		for(int i = 0; i < rec.size(); i++) {
+			
+			if(demand <= 0)
+				break;
+			
+			FluidTank tank = rec.get(i);
+			int fillWeight = weight.get(i);
+			int part = (int) (Math.min((long)amount, (long)demand) * (long)fillWeight / (long)demand);
+			
+			tank.setFill(tank.getFill() + part);
+			fluid -= part;
+		}
+		
+		return fluid;
+	}
+
+	@Override
+	public long getDemand(FluidType type) {
+		return getMaxFluidFill(type) - getFluidFillForTransfer(type);
+	}
+
+	@Override
+	public long getTotalFluidForSend(FluidType type) {
+		return getFluidFillForTransfer(type);
+	}
+
+	@Override
+	public void removeFluidForTransfer(FluidType type, long amount) {
+		this.transferFluid((int) amount, type);
 	}
 	
 	@Override

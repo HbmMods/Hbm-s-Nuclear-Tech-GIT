@@ -33,8 +33,8 @@ public class SchistStratum {
 		double scale = 0.01D;
 		int threshold = 5;
 		
-		for(int x = cX; x < cX + 16; x++) {
-			for(int z = cZ; z < cZ + 16; z++) {
+		for(int x = cX + 8; x < cX + 24; x++) {
+			for(int z = cZ + 8; z < cZ + 24; z++) {
 				
 				double n = noise.func_151601_a(x * scale, z * scale);
 				

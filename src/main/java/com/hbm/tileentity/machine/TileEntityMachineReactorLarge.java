@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
@@ -11,15 +12,15 @@ import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFuelRod;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
@@ -32,9 +33,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineReactorLarge extends TileEntity
-	implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource {
+public class TileEntityMachineReactorLarge extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
 
 	private ItemStack slots[];
 
@@ -401,9 +402,8 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			if (age >= 20) {
 				age = 0;
 			}
-
-			if (age == 9 || age == 19)
-				fillFluidInit(tanks[2].getTankType());
+			
+			fillFluidInit(tanks[2].getTankType());
 			
 			caluclateSize();
 			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, size, 3), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
@@ -717,7 +717,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			}
 		}
 		
-		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.sellafield_core);
+		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.sellafield, 5, 3);
 		
 		if(MobConfig.enableElementals) {
 			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
@@ -735,15 +735,15 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		if(rand < 7)
 			worldObj.setBlock(x, y, z, ModBlocks.toxic_block);
 		else if(rand < 10)
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_0);
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield, 0, 3);
 		else if(rand < 14)
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_1);
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield, 1, 3);
 		else if(rand < 17)
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_2);
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield, 2, 3);
 		else if(rand < 19)
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_3);
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield, 3, 3);
 		else
-			worldObj.setBlock(x, y, z, ModBlocks.sellafield_4);
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield, 4, 3);
 	}
 
 	@Override
@@ -754,30 +754,27 @@ public class TileEntityMachineReactorLarge extends TileEntity
 	@Override
 	public void fillFluidInit(FluidType type) {
 		
-		if(worldObj.getBlock(xCoord - 2, yCoord, zCoord) == ModBlocks.reactor_hatch)
-			fillFluid(this.xCoord - 3, this.yCoord, this.zCoord, getTact(), type);
-		
-		if(worldObj.getBlock(xCoord + 2, yCoord, zCoord) == ModBlocks.reactor_hatch)
-			fillFluid(this.xCoord + 3, this.yCoord, this.zCoord, getTact(), type);
-		
-		if(worldObj.getBlock(xCoord, yCoord, zCoord - 2) == ModBlocks.reactor_hatch)
-			fillFluid(this.xCoord, this.yCoord, this.zCoord - 3, getTact(), type);
-		
-		if(worldObj.getBlock(xCoord, yCoord, zCoord + 2) == ModBlocks.reactor_hatch)
-			fillFluid(this.xCoord, this.yCoord, this.zCoord + 3, getTact(), type);
+		for(ForgeDirection dir : new ForgeDirection[] {Library.POS_X, Library.NEG_X, Library.POS_Z, Library.NEG_Z}) {
+			
+			if(worldObj.getBlock(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2) == ModBlocks.reactor_hatch) {
+				fillFluid(this.xCoord + dir.offsetX * 3, this.yCoord, this.zCoord + dir.offsetZ * 3, getTact(), type);
+				for(int i = 0; i < 2; i++) this.trySubscribe(tanks[i].getTankType(), worldObj, this.xCoord + dir.offsetX * 3, this.yCoord, this.zCoord + dir.offsetZ * 3, Library.NEG_X);
+				this.sendFluid(tanks[2].getTankType(), worldObj, this.xCoord + dir.offsetX * 3, this.yCoord, this.zCoord + dir.offsetZ * 3, Library.NEG_X);
+			} else {
+				for(int i = 0; i < 2; i++) this.tryUnsubscribe(tanks[i].getTankType(), worldObj, this.xCoord + dir.offsetX * 3, this.yCoord, this.zCoord + dir.offsetZ * 3);
+			}
+		}
 
 		fillFluid(this.xCoord, this.yCoord + height + 1, this.zCoord, getTact(), type);
+		fillFluid(this.xCoord, this.yCoord - depth - 1, this.zCoord, getTact(), type);
 		
-		fillFluid(this.xCoord, this.yCoord - depth - 1, this.zCoord + 3, getTact(), type);
+		this.sendFluid(tanks[2].getTankType(), worldObj, this.xCoord, this.yCoord + height + 1, this.zCoord, Library.POS_Y);
+		this.sendFluid(tanks[2].getTankType(), worldObj, this.xCoord, this.yCoord - depth - 1, this.zCoord, Library.NEG_Y);
 	}
 
 	@Override
 	public boolean getTact() {
-		if (age >= 0 && age < 10) {
-			return true;
-		}
-
-		return false;
+		return this.worldObj.getTotalWorldTime() % 2 == 0;
 	}
 
 	@Override
@@ -978,5 +975,20 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		}
 			
 		return 0;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks[2]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0], tanks[1]};
 	}
 }

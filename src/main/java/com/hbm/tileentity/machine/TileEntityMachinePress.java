@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.LordWeeder.EconomyPlus.compatibility.ntm.HBMRecipes;
 import com.LordWeeder.EconomyPlus.dataStructures.CraftingStack;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.ItemStamp;
@@ -20,6 +21,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachinePress extends TileEntity implements ISidedInventory {
 
@@ -206,16 +208,32 @@ public class TileEntityMachinePress extends TileEntity implements ISidedInventor
 	
 	@Override
 	public void updateEntity() {
-		if(!worldObj.isRemote)
-		{
+		if(!worldObj.isRemote) {
+			
+			boolean preheated = false;
+			
+			if(power < maxPower / 3 - 5) {
+				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+					if(worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ) == ModBlocks.press_preheater) {
+						preheated = true;
+						break;
+					}
+				}
+			}
+			
+			if(preheated)
+				power += 2;
+			
 			if(burnTime > 0) {
 				this.burnTime--;
 				this.power++;
-				if(power > maxPower)
+				if(power > maxPower) {
 					power = maxPower;
+				}
 			} else {
-				if(power > 0)
+				if(power > 0) {
 					power--;
+				}
 			}
 			
 			if(!worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {

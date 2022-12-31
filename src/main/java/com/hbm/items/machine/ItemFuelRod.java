@@ -38,7 +38,7 @@ public class ItemFuelRod extends Item {
 	}
     
     public boolean showDurabilityBar(ItemStack stack) {
-        return true;
+        return getDurabilityForDisplay(stack) > 0D;
     }
     
     public double getDurabilityForDisplay(ItemStack stack) {

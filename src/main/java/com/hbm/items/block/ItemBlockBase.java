@@ -3,21 +3,28 @@ package com.hbm.items.block;
 import java.util.List;
 
 import com.hbm.blocks.BlockEnumMulti;
+import com.hbm.blocks.IBlockMulti;
+import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.util.EnumUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IIcon;
 
 public class ItemBlockBase extends ItemBlock {
 
 	public ItemBlockBase(Block block) {
 		super(block);
 		
-		if(block instanceof BlockEnumMulti) {
+		if(block instanceof IBlockMulti) {
 			this.setMaxDamage(0);
 			this.setHasSubtypes(true);
 		}
@@ -25,7 +32,7 @@ public class ItemBlockBase extends ItemBlock {
 	
 	@Override
 	public int getMetadata(int meta) {
-		if(field_150939_a instanceof BlockEnumMulti)
+		if(field_150939_a instanceof IBlockMulti)
 			return meta;
 		else
 			return super.getMetadata(meta);
@@ -44,11 +51,21 @@ public class ItemBlockBase extends ItemBlock {
 	}
 	
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		
 		if(field_150939_a instanceof ITooltipProvider) {
-			((ITooltipProvider) field_150939_a).addInformation(itemstack, player, list, bool);
+			((ITooltipProvider) field_150939_a).addInformation(stack, player, list, bool);
 		}
+		
+		if(field_150939_a instanceof IPersistentInfoProvider && stack.hasTagCompound() && stack.getTagCompound().hasKey(IPersistentNBT.NBT_PERSISTENT_KEY)) {
+			NBTTagCompound data = stack.getTagCompound().getCompoundTag(IPersistentNBT.NBT_PERSISTENT_KEY);
+			((IPersistentInfoProvider) field_150939_a).addInformation(stack, data, player, list, bool);
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconFromDamage(int meta) {
+		return this.field_150939_a.getIcon(1, meta); //fuck you mojang
 	}
 
 	@Override

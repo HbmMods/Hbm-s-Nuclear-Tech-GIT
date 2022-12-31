@@ -23,7 +23,7 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 		
 		Vec3 dir = Vec3.createVectorHelper(1, 0, 0);
 		
-		for(int i = 1; i < count; i++) {
+		for(int i = 0; i < count; i++) {
 			
 			stream = type;
 			double flux = fluxOut * RBMKDials.getReaSimOutputMod(worldObj);
@@ -31,16 +31,21 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 			dir.rotateAroundY((float)(Math.PI * 2D * worldObj.rand.nextDouble()));
 			
 			for(int j = 1; j <= range; j++) {
+
+				int x = (int)Math.floor(0.5 + dir.xCoord * j);
+				int z = (int)Math.floor(0.5 + dir.zCoord * j);
+				int lastX = (int)Math.floor(0.5 + dir.xCoord * (j - 1));
+				int lastZ = (int)Math.floor(0.5 + dir.zCoord * (j - 1));
 				
 				//skip if the position is on the rod itself
-				if((int)Math.floor(dir.xCoord * j) == 0 && (int)Math.floor(dir.zCoord * j) == 0)
+				if(x == 0 && z == 0)
 					continue;
 				
 				//skip if the current position is equal to the last position
-				if((int)Math.floor(dir.xCoord * j) == (int)Math.floor(dir.xCoord * (j - 1)) && (int)Math.floor(dir.zCoord * j) == (int)Math.floor(dir.zCoord * (j - 1)))
+				if(x == lastX && z == lastZ)
 					continue;
 				
-				flux = runInteraction(xCoord + (int)Math.floor(dir.xCoord * j), yCoord, zCoord + (int)Math.floor(dir.zCoord * j), flux);
+				flux = runInteraction(xCoord + x, yCoord, zCoord + z, flux);
 				
 				if(flux <= 0)
 					break;

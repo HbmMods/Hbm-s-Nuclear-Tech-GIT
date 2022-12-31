@@ -1,5 +1,6 @@
 package com.hbm.handler.guncfg;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import com.hbm.entity.projectile.EntityBulletBase;
@@ -24,6 +25,7 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

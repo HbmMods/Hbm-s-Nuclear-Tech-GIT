@@ -15,6 +15,8 @@ public class RBMKCraneConsole extends BlockDummyable {
 
 	public RBMKCraneConsole() {
 		super(Material.iron);
+		this.setHardness(3F);
+		this.setResistance(30F);
 	}
 
 	@Override

@@ -1,8 +1,6 @@
 package com.hbm.blocks;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 
 public interface IBlockMultiPass {
 

@@ -6,11 +6,11 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.ChemplantRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
@@ -20,18 +20,21 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineChemplant extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor {
+public class TileEntityMachineChemplant extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor, IFluidStandardTransceiver {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -100,6 +103,11 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				this.updateConnections();
 			}
 			
+			for(DirPos pos : getConPos()) {
+				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[3].getFill() > 0) this.sendFluid(tanks[3].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
+			
 			UpgradeManager.eval(slots, 1, 3);
 
 			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
@@ -112,6 +120,10 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			this.consumption -= powerLevel * 30;
 			this.speed /= (overLevel + 1);
 			this.consumption *= (overLevel + 1);
+			
+			if(this.speed <= 0) {
+				this.speed = 1;
+			}
 			
 			if(!canProcess()) {
 				this.progress = 0;
@@ -148,8 +160,12 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			if(isProgressing && volume > 0) {
 				
 				if(audio == null) {
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.chemplantOperate", xCoord, yCoord, zCoord, volume, 1.0F);
+					audio = this.createAudioLoop();
+					audio.updateVolume(volume);
 					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+					audio.updateVolume(volume);
 				}
 				
 			} else {
@@ -160,6 +176,11 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				}
 			}
 		}
+	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.chemplantOperate", xCoord, yCoord, zCoord, 1.0F, 1.0F);
 	}
 
 	@Override
@@ -195,14 +216,25 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	}
 	
 	private void updateConnections() {
+		
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	public DirPos[] getConPos() {
 
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-
-		this.trySubscribe(worldObj, xCoord + rot.offsetX * 3,				yCoord,	zCoord + rot.offsetZ * 3,				rot);
-		this.trySubscribe(worldObj, xCoord - rot.offsetX * 2,				yCoord,	zCoord - rot.offsetZ * 2,				rot.getOpposite());
-		this.trySubscribe(worldObj, xCoord + rot.offsetX * 3 + dir.offsetX,	yCoord,	zCoord + rot.offsetZ * 3 + dir.offsetZ, rot);
-		this.trySubscribe(worldObj, xCoord - rot.offsetX * 2 + dir.offsetX,	yCoord,	zCoord - rot.offsetZ * 2 + dir.offsetZ, rot.getOpposite());
+		
+		return new DirPos[] {
+				new DirPos(xCoord + rot.offsetX * 3,				yCoord,	zCoord + rot.offsetZ * 3,				rot),
+				new DirPos(xCoord - rot.offsetX * 2,				yCoord,	zCoord - rot.offsetZ * 2,				rot.getOpposite()),
+				new DirPos(xCoord + rot.offsetX * 3 + dir.offsetX,	yCoord,	zCoord + rot.offsetZ * 3 + dir.offsetZ, rot),
+				new DirPos(xCoord - rot.offsetX * 2 + dir.offsetX,	yCoord,	zCoord - rot.offsetZ * 2 + dir.offsetZ, rot.getOpposite())
+		};
 	}
 	
 	private boolean canProcess() {
@@ -227,10 +259,10 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	}
 	
 	private void setupTanks(ChemRecipe recipe) {
-		if(recipe.inputFluids[0] != null) tanks[0].setTankType(recipe.inputFluids[0].type);
-		if(recipe.inputFluids[1] != null) tanks[1].setTankType(recipe.inputFluids[1].type);
-		if(recipe.outputFluids[0] != null) tanks[2].setTankType(recipe.outputFluids[0].type);
-		if(recipe.outputFluids[1] != null) tanks[3].setTankType(recipe.outputFluids[1].type);
+		if(recipe.inputFluids[0] != null) tanks[0].setTankType(recipe.inputFluids[0].type);		else tanks[0].setTankType(Fluids.NONE);
+		if(recipe.inputFluids[1] != null) tanks[1].setTankType(recipe.inputFluids[1].type);		else tanks[1].setTankType(Fluids.NONE);
+		if(recipe.outputFluids[0] != null) tanks[2].setTankType(recipe.outputFluids[0].type);	else tanks[2].setTankType(Fluids.NONE);
+		if(recipe.outputFluids[1] != null) tanks[3].setTankType(recipe.outputFluids[1].type);	else tanks[3].setTankType(Fluids.NONE);
 	}
 	
 	private boolean hasRequiredFluids(ChemRecipe recipe) {
@@ -318,6 +350,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			if(te instanceof IInventory) {
 				
 				IInventory inv = (IInventory) te;
+				ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
 				
 				for(AStack ingredient : recipe.inputs) {
 					
@@ -326,7 +359,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 						for(int i = 0; i < inv.getSizeInventory(); i++) {
 							
 							ItemStack stack = inv.getStackInSlot(i);
-							if(ingredient.matchesRecipe(stack, true)) {
+							if(ingredient.matchesRecipe(stack, true) && (sided == null || sided.canExtractItem(i, stack, 0))) {
 								
 								for(int j = 13; j <= 16; j++) {
 									
@@ -375,6 +408,10 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				if(out != null) {
 					
 					for(int j = 0; j < inv.getSizeInventory(); j++) {
+						
+						if(!inv.isItemValidForSlot(j, out))
+							continue;
+							
 						ItemStack target = inv.getStackInSlot(j);
 						
 						if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize()) {
@@ -386,7 +423,10 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 					
 					for(int j = 0; j < inv.getSizeInventory(); j++) {
 						
-						if(inv.getStackInSlot(j) == null) {
+						if(!inv.isItemValidForSlot(j, out))
+							continue;
+						
+						if(inv.getStackInSlot(j) == null && inv.isItemValidForSlot(j, out)) {
 							ItemStack copy = out.copy();
 							copy.stackSize = 1;
 							inv.setInventorySlotContents(j, copy);
@@ -561,5 +601,20 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks[2], tanks[3]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0], tanks[1]};
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 }

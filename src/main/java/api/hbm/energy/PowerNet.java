@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.config.GeneralConfig;
+
+import api.hbm.energy.IEnergyConnector.ConnectionPriority;
 import net.minecraft.tileentity.TileEntity;
 
 /**
@@ -15,6 +18,7 @@ public class PowerNet implements IPowerNet {
 	
 	private boolean valid = true;
 	private HashMap<Integer, IEnergyConductor> links = new HashMap();
+	private HashMap<Integer, Integer> proxies = new HashMap();
 	private List<IEnergyConnector> subscribers = new ArrayList();
 
 	@Override
@@ -42,14 +46,29 @@ public class PowerNet implements IPowerNet {
 			conductor.getPowerNet().leaveLink(conductor);
 		
 		conductor.setPowerNet(this);
-		this.links.put(conductor.getIdentity(), conductor);
+		int identity = conductor.getIdentity();
+		this.links.put(identity, conductor);
+		
+		if(conductor.hasProxies()) {
+			for(Integer i : conductor.getProxies()) {
+				this.proxies.put(i, identity);
+			}
+		}
+		
 		return this;
 	}
 
 	@Override
 	public void leaveLink(IEnergyConductor conductor) {
 		conductor.setPowerNet(null);
-		this.links.remove(conductor.getIdentity());
+		int identity = conductor.getIdentity();
+		this.links.remove(identity);
+		
+		if(conductor.hasProxies()) {
+			for(Integer i : conductor.getProxies()) {
+				this.proxies.remove(i);
+			}
+		}
 	}
 
 	@Override
@@ -72,6 +91,11 @@ public class PowerNet implements IPowerNet {
 		List<IEnergyConductor> linkList = new ArrayList();
 		linkList.addAll(this.links.values());
 		return linkList;
+	}
+
+	public HashMap<Integer, Integer> getProxies() {
+		HashMap<Integer, Integer> proxyCopy = new HashMap(proxies);
+		return proxyCopy;
 	}
 
 	@Override
@@ -102,49 +126,79 @@ public class PowerNet implements IPowerNet {
 	public long transferPower(long power) {
 		
 		if(lastCleanup + 45 < System.currentTimeMillis()) {
-			this.subscribers.removeIf(x -> 
-				x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid() || !x.isLoaded()
-			);
-			
+			cleanup(this.subscribers);
 			lastCleanup = System.currentTimeMillis();
 		}
 		
-		if(this.subscribers.isEmpty())
+		return fairTransfer(this.subscribers, power);
+	}
+	
+	public static void cleanup(List<IEnergyConnector> subscribers) {
+
+		subscribers.removeIf(x -> 
+			x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid() || !x.isLoaded()
+		);
+	}
+	
+	public static long fairTransfer(List<IEnergyConnector> subscribers, long power) {
+		
+		if(subscribers.isEmpty())
 			return power;
 		
-		List<IEnergyConnector> subList = new ArrayList(subscribers);
+		ConnectionPriority[] priorities = new ConnectionPriority[] {ConnectionPriority.HIGH, ConnectionPriority.NORMAL, ConnectionPriority.LOW};
 		
-		List<Long> weight = new ArrayList();
-		long totalReq = 0;
-		
-		for(IEnergyConnector con : subList) {
-			long req = con.getTransferWeight();
-			weight.add(req);
-			totalReq += req;
+		for(ConnectionPriority p : priorities) {
+			
+			List<IEnergyConnector> subList = new ArrayList();
+			subscribers.forEach(x -> {
+				if(x.getPriority() == p) {
+					subList.add(x);
+				}
+			});
+			
+			if(subList.isEmpty())
+				continue;
+			
+			List<Long> weight = new ArrayList();
+			long totalReq = 0;
+			
+			for(IEnergyConnector con : subList) {
+				long req = con.getTransferWeight();
+				weight.add(req);
+				totalReq += req;
+			}
+			
+			if(totalReq == 0)
+				continue;
+			
+			long totalGiven = 0;
+			
+			for(int i = 0; i < subList.size(); i++) {
+				IEnergyConnector con = subList.get(i);
+				long req = weight.get(i);
+				double fraction = (double)req / (double)totalReq;
+				
+				long given = (long) Math.floor(fraction * power);
+				
+				totalGiven += (given - con.transferPower(given));
+			}
+			
+			power -= totalGiven;
 		}
 		
-		if(totalReq == 0)
-			return power;
-		
-		long totalGiven = 0;
-		
-		for(int i = 0; i < subList.size(); i++) {
-			IEnergyConnector con = subList.get(i);
-			long req = weight.get(i);
-			double fraction = (double)req / (double)totalReq;
-			
-			long given = (long) Math.floor(fraction * power);
-			
-			totalGiven += (given - con.transferPower(given));
-		}
-		
-		return power - totalGiven;
+		return power;
 	}
 
 	@Override
 	public void reevaluate() {
 		
+		if(!GeneralConfig.enableReEval) {
+			this.destroy();
+			return;
+		}
+
 		HashMap<Integer, IEnergyConductor> copy = new HashMap(links);
+		HashMap<Integer, Integer> proxyCopy = new HashMap(proxies);
 		
 		for(IEnergyConductor link : copy.values()) {
 			this.leaveLink(link);
@@ -153,7 +207,7 @@ public class PowerNet implements IPowerNet {
 		for(IEnergyConductor link : copy.values()) {
 			
 			link.setPowerNet(null);
-			link.reevaluate(copy);
+			link.reevaluate(copy, proxyCopy);
 			
 			if(link.getPowerNet() == null) {
 				link.setPowerNet(new PowerNet().joinLink(link));

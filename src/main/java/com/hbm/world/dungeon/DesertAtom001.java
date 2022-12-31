@@ -214,7 +214,7 @@ public class DesertAtom001 extends WorldGenerator
 		world.setBlock(x + 9, y + -4, z + 14, Blocks.chest, 2, 3);
 		if(world.getBlock(x + 9, y + -4, z + 14) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(5), (TileEntityChest)world.getTileEntity(x + 9, y + -4, z + 14), 10);
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.nuclear, (TileEntityChest)world.getTileEntity(x + 9, y + -4, z + 14), 10);
 		}
         world.setBlock(x + 10, y + -4, z + 14, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 11, y + -4, z + 14, Library.getRandomConcrete(), 0, 3);

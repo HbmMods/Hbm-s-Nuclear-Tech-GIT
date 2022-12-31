@@ -29,7 +29,7 @@ public class MobConfig {
 	
 	public static void loadFromConfig(Configuration config) {
 
-		final String CATEGORY = "12_mobs";
+		final String CATEGORY = CommonConfig.CATEGORY_MOBS;
 
 		enableMaskman = CommonConfig.createConfigBool(config, CATEGORY, "12.M00_enableMaskman", "Whether mask man should spawn", true);
 		maskmanDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.M01_maskmanDelay", "How many world ticks need to pass for a check to be performed", 60 * 60 * 60);

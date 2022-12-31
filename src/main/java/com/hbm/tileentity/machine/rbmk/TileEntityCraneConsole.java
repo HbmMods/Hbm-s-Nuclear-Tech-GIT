@@ -23,7 +23,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCraneConsole extends TileEntity implements INBTPacketReceiver {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityCraneConsole extends TileEntity implements INBTPacketReceiver, SimpleComponent {
 	
 	public int centerX;
 	public int centerY;
@@ -326,5 +333,65 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+	
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "rbmk_crane";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] move(Context context, Arguments args) {
+		if(setUpCrane == true) {
+			String textbruh = args.checkString(0);
+			
+			switch(textbruh) {
+				case "up":
+					tiltFront = 30;
+					if(!worldObj.isRemote) posFront += speed;
+				case "down":
+					tiltFront = -30;
+					if(!worldObj.isRemote) posFront -= speed;
+				case "left":
+					tiltLeft = 30;
+					if(!worldObj.isRemote) posLeft += speed;
+				case "right":
+					tiltLeft = -30;
+					if(!worldObj.isRemote) posLeft -= speed;
+			}
+			
+			return new Object[] {};
+		}
+		return new Object[] {"Crane not found"};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] load(Context context, Arguments args) {
+		if (setUpCrane == true) {
+			goesDown = true;
+			return new Object[] {};
+		}
+		return new Object[] {"Crane not found"};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getDepletion(Context context, Arguments args) {
+		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
+			return new Object[] {ItemRBMKRod.getEnrichment(loadedItem)};
+		}
+		return new Object[] {"N/A"};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getXenonPoison(Context context, Arguments args) {
+		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
+			return new Object[] {ItemRBMKRod.getPoison(loadedItem)};
+		}
+		return new Object[] {"N/A"};
 	}
 }

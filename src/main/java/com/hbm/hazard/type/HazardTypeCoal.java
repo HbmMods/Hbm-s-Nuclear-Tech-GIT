@@ -2,6 +2,7 @@ package com.hbm.hazard.type;
 
 import java.util.List;
 
+import com.hbm.config.RadiationConfig;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.ArmorRegistry;
@@ -20,10 +21,16 @@ public class HazardTypeCoal extends HazardTypeBase {
 	@Override
 	public void onUpdate(EntityLivingBase target, float level, ItemStack stack) {
 		
-		if(!ArmorRegistry.hasProtection(target, 3, HazardClass.PARTICLE_COARSE))
-			HbmLivingProps.incrementBlackLung(target, (int) Math.min(level, 10));
-		else
-			ArmorUtil.damageGasMaskFilter(target, (int) level);
+		if(RadiationConfig.disableCoal)
+			return;
+		
+		if(!ArmorRegistry.hasProtection(target, 3, HazardClass.PARTICLE_COARSE)) {
+			HbmLivingProps.incrementBlackLung(target, (int) Math.min(level * stack.stackSize, 10));
+		} else {
+			if(target.getRNG().nextInt(Math.max(65 - stack.stackSize, 1)) == 0) {
+				ArmorUtil.damageGasMaskFilter(target, (int) level);
+			}
+		}
 	}
 
 	@Override

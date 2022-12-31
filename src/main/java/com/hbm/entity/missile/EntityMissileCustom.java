@@ -7,7 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityBalefire;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionChaos;
@@ -326,7 +326,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 			break;
 		case NUCLEAR:
 		case TX:
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int) strength, posX, posY, posZ));
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, (int) strength, posX, posY, posZ));
 			EntityNukeCloudSmall nuke = new EntityNukeCloudSmall(worldObj, 1000, strength * 0.005F);
 			nuke.posX = posX;
 			nuke.posY = posY;
@@ -343,7 +343,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, posX, posY + 5, posZ, strength * 1.5F, 1000));
 			break;
 		case N2:
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFacNoRad(worldObj, (int) strength, posX, posY, posZ));
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(worldObj, (int) strength, posX, posY, posZ));
 			EntityNukeCloudSmall n2 = new EntityNukeCloudSmall(worldObj, 1000, strength * 0.005F);
 			n2.posX = posX;
 			n2.posY = posY;

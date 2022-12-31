@@ -3,8 +3,11 @@ package com.hbm.render.item;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.AssemblerRecipes;
+import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.render.util.RenderItemStack;
 
 import net.minecraft.client.renderer.RenderHelper;
@@ -19,10 +22,15 @@ public class ItemRenderTemplate implements IItemRenderer {
 		
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && (type == IItemRenderer.ItemRenderType.INVENTORY)) {
 
-			if(stack.getItem() == ModItems.assembly_template)
-				this.currentItem = AssemblerRecipes.recipeList.get(stack.getItemDamage()).toStack();
+			if(stack.getItem() == ModItems.assembly_template) {
+				ComparableStack st = ItemAssemblyTemplate.readType(stack);
+				this.currentItem = st != null ? st.toStack() : AssemblerRecipes.recipeList.get(stack.getItemDamage()).toStack();
+			}
 			if(stack.getItem() == ModItems.chemistry_template)
 				this.currentItem = new ItemStack(ModItems.chemistry_icon, 1, stack.getItemDamage());
+			
+			if(stack.getItem() == ModItems.crucible_template)
+				this.currentItem = CrucibleRecipes.indexMapping.get(stack.getItemDamage()).icon;
 			
 			if(this.currentItem != null) {
 				return true;

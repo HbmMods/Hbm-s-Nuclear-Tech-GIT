@@ -3,9 +3,12 @@ package com.hbm.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 
+@SideOnly(Side.CLIENT)
 public class I18nUtil {
 
 	/**
@@ -14,6 +17,7 @@ public class I18nUtil {
 	 * @param args
 	 * @return
 	 */
+	@SideOnly(Side.CLIENT)
 	public static String resolveKey(String s, Object... args) {
 		return I18n.format(s, args);
 	}
@@ -24,6 +28,7 @@ public class I18nUtil {
 	 * @param args
 	 * @return
 	 */
+	@SideOnly(Side.CLIENT)
 	public static String[] resolveKeyArray(String s, Object... args) {
 		return resolveKey(s, args).split("\\$");
 	}
@@ -35,6 +40,7 @@ public class I18nUtil {
 	 * @param width
 	 * @return
 	 */
+	@SideOnly(Side.CLIENT)
 	public static List<String> autoBreakWithParagraphs(FontRenderer fontRenderer, String text, int width) {
 
 		String[] paragraphs = text.split("\\$");
@@ -54,6 +60,7 @@ public class I18nUtil {
 	 * @param width
 	 * @return
 	 */
+	@SideOnly(Side.CLIENT)
 	public static List<String> autoBreak(FontRenderer fontRenderer, String text, int width) {
 
 		List<String> lines = new ArrayList();

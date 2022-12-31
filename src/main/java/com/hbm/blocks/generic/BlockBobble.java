@@ -181,14 +181,14 @@ public class BlockBobble extends BlockContainer {
 		PU238(			"Pu-238",							"Pu-238",		"Improved Tom impact mechanics",							null,																								false,	ScrapType.CPU_REGISTER),
 		VT(				"VT-6/24",							"VT-6/24",		"Balefire warhead model and general texturework",			"You cannot unfuck a horse.",																		true,	ScrapType.CPU_EXT),
 		DOC(			"The Doctor",						"Doctor17PH",	"Russian localization, lunar miner",						"Perhaps the moon rocks were too expensive",														true,	ScrapType.CPU_CACHE),
-		BLUEHAT(		"The Blue Hat",						"The Blue Hat",	"Textures",													"there's a listening device in this bobblehead$don't touch it thanks",								true,	ScrapType.MEM_16K_A),
+		BLUEHAT(		"The Blue Hat",						"The Blue Hat",	"Textures",													"payday 2's deagle freeaim champ of the year 2022",													true,	ScrapType.MEM_16K_A),
 		PHEO(			"Pheo",								"Pheonix",		"Deuterium machines, tantalium textures, Reliant Rocket",	"RUN TO THE BEDROOM, ON THE SUITCASE ON THE LEFT,$YOU'LL FIND MY FAVORITE AXE",						true,	ScrapType.MEM_16K_B),
 		ADAM29(			"Adam29",							"Adam29",		"Ethanol, liquid petroleum gas",							"You know, nukes are really quite beatiful.$It's like watching a star be born for a split second.",	true,	ScrapType.MEM_16K_C),
 		UFFR(			"UFFR",								"UFFR",			"All sorts of things from his PR",							"fried shrimp",																						false,	ScrapType.MEM_SOCKET),
 		VAER(			"vaer",								"vaer",			"ZIRNOX",													"taken de family out to the weekend cigarette festival",											true,	ScrapType.MEM_16K_D),
 		NOS(			"Dr Nostalgia",						"Dr Nostalgia",	"SSG and Vortex models",									"Take a picture, I'ma pose, paparazzi$I've been drinking, moving like a zombie",					true,	ScrapType.BOARD_TRANSISTOR),
 		DRILLGON(		"Drillgon200",						"Drillgon200",	"1.12 Port",												null,																								false,	ScrapType.CPU_LOGIC),
-		CIRNO(			"Cirno",							"Cirno",		"being a dumb ice fairy",									"No brain. Head empty.",																			true,	ScrapType.BOARD_BLANK);
+		CIRNO(			"Cirno",							"Cirno",		"the only multi layered skin i had",						"No brain. Head empty.",																			true,	ScrapType.BOARD_BLANK);
 
 		public String name;			//the title of the tooltip
 		public String label;		//the name engraved in the socket

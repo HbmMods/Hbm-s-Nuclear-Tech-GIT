@@ -29,6 +29,9 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -37,21 +40,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ImmutableList;
+import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
+import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.config.*;
 import com.hbm.creativetabs.*;
-import com.hbm.entity.effect.*;
+import com.hbm.entity.EntityMappings;
 import com.hbm.entity.grenade.*;
-import com.hbm.entity.item.*;
 import com.hbm.entity.logic.*;
-import com.hbm.entity.missile.*;
-import com.hbm.entity.mob.*;
-import com.hbm.entity.mob.botprime.*;
 import com.hbm.entity.mob.siege.*;
-import com.hbm.entity.particle.*;
-import com.hbm.entity.projectile.*;
-import com.hbm.entity.qic.EntitySPV;
 import com.hbm.handler.*;
 import com.hbm.handler.imc.*;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -60,6 +58,7 @@ import com.hbm.inventory.*;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.*;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
@@ -72,19 +71,21 @@ import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.ArmorUtil;
-import com.hbm.world.feature.OreCave;
-import com.hbm.world.feature.SchistStratum;
+import com.hbm.util.Compat;
+import com.hbm.util.SuicideThreadDump;
+import com.hbm.world.feature.*;
 import com.hbm.world.generator.CellularDungeonFactory;
 
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
+import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 
@@ -172,6 +173,9 @@ public class MainRegistry {
 	public static Achievement achStratum;
 	public static Achievement achOmega12;
 	public static Achievement achSomeWounds;
+	public static Achievement achSlimeball;
+	public static Achievement achSulfuric;
+	public static Achievement achWitchtaunter;
 	public static Achievement bobHidden;
 	public static Achievement horizonsStart;
 	public static Achievement horizonsEnd;
@@ -221,13 +225,10 @@ public class MainRegistry {
 	
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
-
-	public static int x;
-	public static int y;
-	public static int z;
-	public static long time;
 	
 	public static long startupTime = 0;
+	public static File configDir;
+	public static File configHbmDir;
 
 	Random rand = new Random();
 
@@ -235,6 +236,10 @@ public class MainRegistry {
 	public void PreLoad(FMLPreInitializationEvent PreEvent) {
 		
 		startupTime = System.currentTimeMillis();
+		configDir = PreEvent.getModConfigurationDirectory();
+		configHbmDir = new File(configDir.getAbsolutePath() + File.separatorChar + "hbmConfig");
+
+		if(!configHbmDir.exists()) configHbmDir.mkdir();
 		
 		logger.info("Let us celebrate the fact that the logger finally works again!");
 
@@ -302,6 +307,7 @@ public class MainRegistry {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		
 		TileMappings.writeMappings();
+		MachineDynConfig.initialize();
 		
 		for(Entry<Class<? extends TileEntity>, String[]> e : TileMappings.map.entrySet()) {
 			
@@ -321,185 +327,8 @@ public class MainRegistry {
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.scrumpy), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.scrumpy), 1, 1, 1));
 
-		EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityNukeExplosionAdvanced.class, "entity_nuke_explosion_advanced", 2, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeGeneric.class, "entity_grenade_generic", 3, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeStrong.class, "entity_grenade_strong", 4, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeFrag.class, "entity_grenade_frag", 5, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeFire.class, "entity_grenade_fire", 6, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeCluster.class, "entity_grenade_cluster", 7, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityTestMissile.class, "entity_test_missile", 8, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityNukeCloudSmall.class, "entity_nuke_cloud_small", 9, this, 10000, 1, true);
-		EntityRegistry.registerModEntity(EntityBullet.class, "entity_bullet", 10, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeFlare.class, "entity_grenade_flare", 11, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeElectric.class, "entity_grenade_electric", 12, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadePoison.class, "entity_grenade_poison", 13, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeGas.class, "entity_grenade_gas", 14, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeSchrabidium.class, "entity_grenade_schrab", 15, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeNuke.class, "entity_grenade_nuke", 16, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntitySchrab.class, "entity_schrabnel", 17, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_generic", 18, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileStrong.class, "entity_missile_strong", 19, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileNuclear.class, "entity_missile_nuclear", 20, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileCluster.class, "entity_missile_cluster", 21, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileIncendiary.class, "entity_missile_incendiary", 22, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileAntiBallistic.class, "entity_missile_anti", 23, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileBunkerBuster.class, "entity_missile_buster", 24, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileIncendiaryStrong.class, "entity_missile_incendiary_strong", 25, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileClusterStrong.class, "entity_missile_cluster_strong", 26, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileBusterStrong.class, "entity_missile_buster_strong", 27, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileBurst.class, "entity_missile_burst", 28, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileInferno.class, "entity_missile_inferno", 29, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileRain.class, "entity_missile_rain", 30, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileDrill.class, "entity_missile_drill", 31, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileEndo.class, "entity_missile_endo", 32, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileExo.class, "entity_missile_exo", 33, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileMirv.class, "entity_missile_mirv", 34, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMIRV.class, "entity_mirvlet", 35, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntitySmokeFX.class, "entity_smoke_fx", 37, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityNukeCloudBig.class, "entity_nuke_cloud_big", 38, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeNuclear.class, "entity_grenade_nuclear", 39, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBSmokeFX.class, "entity_b_smoke_fx", 40, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadePlasma.class, "entity_grenade_plasma", 41, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeTau.class, "entity_grenade_tau", 42, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityChopperMine.class, "entity_chopper_mine", 43, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityCombineBall.class, "entity_combine_ball", 44, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityRainbow.class, "entity_rainbow", 45, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeLemon.class, "entity_grenade_lemon", 46, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityCloudFleija.class, "entity_cloud_fleija", 47, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeMk2.class, "entity_grenade_mk2", 48, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeZOMG.class, "entity_grenade_zomg", 49, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeASchrab.class, "entity_grenade_aschrab", 50, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityNukeCloudNoShroom.class, "entity_nuke_cloud_no", 51, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityFalloutRain.class, "entity_fallout", 52, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityDischarge.class, "entity_emp_discharge", 53, this, 500, 1, true);
-		EntityRegistry.registerModEntity(EntityEMPBlast.class, "entity_emp_blast", 54, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityFire.class, "entity_fire", 57, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityPlasmaBeam.class, "entity_immolator_beam", 58, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityLN2.class, "entity_LN2", 59, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityNightmareBlast.class, "entity_ominous_bullet", 60, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadePulse.class, "entity_grenade_pulse", 61, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityNukeExplosionPlus.class, "entity_nuke_explosion_advanced", 62, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityLaserBeam.class, "entity_laser_beam", 63, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMinerBeam.class, "entity_miner_beam", 64, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityRubble.class, "entity_rubble", 65, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityDSmokeFX.class, "entity_d_smoke_fx", 66, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntitySSmokeFX.class, "entity_s_smoke_fx", 67, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityShrapnel.class, "entity_shrapnel", 68, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeShrapnel.class, "entity_grenade_shrapnel", 69, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityBlackHole.class, "entity_black_hole", 70, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeBlackHole.class, "entity_grenade_black_hole", 71, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityOilSpillFX.class, "entity_spill_fx", 72, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityOilSpill.class, "entity_oil_spill", 73, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGasFX.class, "entity_spill_fx", 74, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGasFlameFX.class, "entity_gasflame_fx", 75, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMinecartTest.class, "entity_minecart_test", 76, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntitySparkBeam.class, "entity_spark_beam", 77, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileDoomsday.class, "entity_missile_doomsday", 78, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBombletTheta.class, "entity_theta", 79, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBombletSelena.class, "entity_selena", 80, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityTSmokeFX.class, "entity_t_smoke_fx", 81, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityNukeExplosionMK3.class, "entity_nuke_mk3", 82, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityVortex.class, "entity_vortex", 83, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityMeteor.class, "entity_meteor", 84, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityLaser.class, "entity_laser", 85, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBoxcar.class, "entity_boxcar", 86, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileTaint.class, "entity_missile_taint", 87, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeGascan.class, "entity_grenade_gascan", 88, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityNukeExplosionMK4.class, "entity_nuke_mk4", 89, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityCloudFleijaRainbow.class, "entity_cloud_rainbow", 90, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityExplosiveBeam.class, "entity_beam_bomb", 91, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityAAShell.class, "entity_aa_shell", 92, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityRocketHoming.class, "entity_stinger", 93, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileMicro.class, "entity_missile_micronuclear", 94, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityCloudSolinium.class, "entity_cloud_rainbow", 95, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityRagingVortex.class, "entity_raging_vortex", 96, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityCarrier.class, "entity_missile_carrier", 97, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBooster.class, "entity_missile_booster", 98, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityModBeam.class, "entity_beam_bang", 99, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileBHole.class, "entity_missile_blackhole", 100, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileSchrabidium.class, "entity_missile_schrabidium", 101, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileEMP.class, "entity_missile_emp", 102, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityChlorineFX.class, "entity_chlorine_fx", 103, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityPinkCloudFX.class, "entity_pink_cloud_fx", 104, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityCloudFX.class, "entity_cloud_fx", 105, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadePC.class, "entity_grenade_pink_cloud", 106, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeCloud.class, "entity_grenade_cloud", 107, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityBomber.class, "entity_bomber", 108, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBombletZeta.class, "entity_zeta", 109, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityOrangeFX.class, "entity_agent_orange", 110, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityDeathBlast.class, "entity_laser_blast", 111, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeSmart.class, "entity_grenade_smart", 112, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeMIRV.class, "entity_grenade_mirv", 113, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeBreach.class, "entity_grenade_breach", 114, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeBurst.class, "entity_grenade_burst", 115, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityBurningFOEQ.class, "entity_burning_foeq", 116, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFGeneric.class, "entity_grenade_ironshod", 117, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFHE.class, "entity_grenade_ironshod", 118, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFBouncy.class, "entity_grenade_ironshod", 119, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFSticky.class, "entity_grenade_ironshod", 120, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFImpact.class, "entity_grenade_ironshod", 121, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFIncendiary.class, "entity_grenade_ironshod", 122, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFToxic.class, "entity_grenade_ironshod", 123, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFConcussion.class, "entity_grenade_ironshod", 124, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFBrimstone.class, "entity_grenade_ironshod", 125, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFMystery.class, "entity_grenade_ironshod", 126, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFSpark.class, "entity_grenade_ironshod", 127, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFHopwire.class, "entity_grenade_ironshod", 128, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeIFNull.class, "entity_grenade_ironshod", 129, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityFallingNuke.class, "entity_falling_bomb", 130, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBulletBase.class, "entity_bullet_mk2", 131, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntityMinerRocket.class, "entity_miner_lander", 132, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityFogFX.class, "entity_nuclear_fog", 133, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityDuchessGambit.class, "entity_duchessgambit", 134, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileEMPStrong.class, "entity_missile_emp_strong", 135, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityEMP.class, "entity_emp_logic", 136, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityWaterSplash.class, "entity_water_splash", 137, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBobmazon.class, "entity_bobmazon_delivery", 138, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileCustom.class, "entity_custom_missile", 139, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBalefire.class, "entity_balefire", 140, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityTom.class, "entity_tom_the_moonstone", 141, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityTomBlast.class, "entity_tom_bust", 142, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBuilding.class, "entity_falling_building", 143, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntitySoyuz.class, "entity_soyuz", 144, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntitySoyuzCapsule.class, "entity_soyuz_capsule", 145, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMovingItem.class, "entity_c_item", 146, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityCloudTom.class, "entity_moonstone_blast", 147, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBeamVortex.class, "entity_vortex_beam", 148, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityFireworks.class, "entity_firework_ball", 149, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityWastePearl.class, "entity_waste_pearl", 150, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBOTPrimeHead.class, "entity_balls_o_tron", 151, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBOTPrimeBody.class, "entity_balls_o_tron_seg", 152, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBlockSpider.class, "entity_taintcrawler", 153, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityRBMKDebris.class, "entity_rbmk_debris", 154, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityUFO.class, "entity_ntm_ufo", 155, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityNukeExplosionNT.class, "entity_ntm_explosion_nt", 156, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityQuasar.class, "entity_digamma_quasar", 157, this, 250, 1, true);
-		EntityRegistry.registerModEntity(EntitySpear.class, "entity_digamma_spear", 158, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileVolcano.class, "entity_missile_volcano", 159, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityMissileShuttle.class, "entity_missile_shuttle", 160, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityZirnoxDebris.class, "entity_zirnox_debris", 161, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGhost.class, "entity_ntm_ghost", 162, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityGrenadeDynamite.class, "entity_grenade_dynamite", 163, this, 250, 1, true);
-
-		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
-		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
-		EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
-		EntityRegistry.registerGlobalEntityID(EntityCyberCrab.class, "entity_cyber_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x444444);
-		EntityRegistry.registerGlobalEntityID(EntityTeslaCrab.class, "entity_tesla_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x440000);
-		EntityRegistry.registerGlobalEntityID(EntityTaintCrab.class, "entity_taint_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0xFF00FF);
-		EntityRegistry.registerGlobalEntityID(EntityMaskMan.class, "entity_mob_mask_man", EntityRegistry.findGlobalUniqueEntityId(), 0x818572, 0xC7C1B7);
-		EntityRegistry.registerGlobalEntityID(EntityDuck.class, "entity_fucc_a_ducc", EntityRegistry.findGlobalUniqueEntityId(), 0xd0d0d0, 0xFFBF00);
-		EntityRegistry.registerGlobalEntityID(EntityQuackos.class, "entity_elder_one", EntityRegistry.findGlobalUniqueEntityId(), 0xd0d0d0, 0xFFBF00);
-		EntityRegistry.registerGlobalEntityID(EntityFBI.class, "entity_ntm_fbi", EntityRegistry.findGlobalUniqueEntityId(), 0x008000, 0x404040);
-		EntityRegistry.registerGlobalEntityID(EntityRADBeast.class, "entity_ntm_radiation_blaze", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008000);
-		EntityRegistry.registerGlobalEntityID(EntitySiegeZombie.class, "entity_meme_zombie", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008000);
-		EntityRegistry.registerGlobalEntityID(EntitySiegeUFO.class, "entity_meme_ufo", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x800000);
-		EntityRegistry.registerModEntity(EntityTNTPrimedBase.class, "entity_ntm_tnt_primed", 166, this, 1000, 1, true);
+		EntityMappings.writeMappings();
 		
-		EntityRegistry.registerModEntity(EntitySPV.class, "entity_self_propelled_vehicle_mark_1", 160, this, 1000, 1, true);
-
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 
 			@Override
@@ -786,13 +615,17 @@ public class MainRegistry {
 //		achFiend = new Achievement("achievement.fiend", "fiend", -6, 8, ModItems.shimmer_sledge, null).initIndependentStat().setSpecial().registerStat();
 //		achFiend2 = new Achievement("achievement.fiend2", "fiend2", -4, 9, ModItems.shimmer_axe, null).initIndependentStat().setSpecial().registerStat();
 		achStratum = new Achievement("achievement.stratum", "stratum", -4, -2, new ItemStack(ModBlocks.stone_gneiss), null).initIndependentStat().setSpecial().registerStat();
-//		achOmega12 = new Achievement("achievement.omega12", "omega12", 17, -1, ModItems.particle_digamma, null).initIndependentStat().setSpecial().registerStat();
-//
-//		bobHidden = new Achievement("achievement.hidden", "hidden", 15, -4, ModItems.gun_dampfmaschine, null).initIndependentStat().registerStat();
-//
-//		horizonsStart = new Achievement("achievement.horizonsStart", "horizonsStart", -5, 4, ModItems.sat_gerald, null).initIndependentStat().registerStat();
-//		horizonsEnd = new Achievement("achievement.horizonsEnd", "horizonsEnd", -3, 4, ModItems.sat_gerald, horizonsStart).initIndependentStat().registerStat();
-//		horizonsBonus = new Achievement("achievement.horizonsBonus", "horizonsBonus", -1, 4, ModItems.sat_gerald, horizonsEnd).initIndependentStat().registerStat().setSpecial();
+		achOmega12 = new Achievement("achievement.omega12", "omega12", 17, -1, ModItems.particle_digamma, null).initIndependentStat().setSpecial().registerStat();
+
+		achWitchtaunter = new Achievement("achievement.witchtaunter", "witchtaunter", -8, 7, ModItems.ammo_4gauge_vampire, null).initIndependentStat().setSpecial().registerStat();
+		achSlimeball = new Achievement("achievement.slimeball", "slimeball", -10, 6, Items.slime_ball, null).initIndependentStat().registerStat();
+		achSulfuric = new Achievement("achievement.sulfuric", "sulfuric", -10, 8, ModItems.bucket_sulfuric_acid, achSlimeball).initIndependentStat().setSpecial().registerStat();
+
+		bobHidden = new Achievement("achievement.hidden", "hidden", 15, -4, ModItems.gun_dampfmaschine, null).initIndependentStat().registerStat();
+
+		horizonsStart = new Achievement("achievement.horizonsStart", "horizonsStart", -5, 4, ModItems.sat_gerald, null).initIndependentStat().registerStat();
+		horizonsEnd = new Achievement("achievement.horizonsEnd", "horizonsEnd", -3, 4, ModItems.sat_gerald, horizonsStart).initIndependentStat().registerStat();
+		horizonsBonus = new Achievement("achievement.horizonsBonus", "horizonsBonus", -1, 4, ModItems.sat_gerald, horizonsEnd).initIndependentStat().registerStat().setSpecial();
 
 		bossCreeper = new Achievement("achievement.bossCreeper", "bossCreeper", -7, 1, ModItems.coin_creeper, null).initIndependentStat().registerStat();
 		bossMeltdown = new Achievement("achievement.bossMeltdown", "bossMeltdown", -8, 3, ModItems.coin_radiation, bossCreeper).initIndependentStat().registerStat();
@@ -862,6 +695,9 @@ public class MainRegistry {
 				horizonsBonus,
 				achRadPoison,
 				achRadDeath,
+				achWitchtaunter,
+				achSlimeball,
+				achSulfuric,
 				bossCreeper,
 				bossMeltdown,
 				bossMaskman,
@@ -911,6 +747,7 @@ public class MainRegistry {
 		BobmazonOfferFactory.init();
 		OreDictManager.registerOres();
 
+		IMCHandler.registerHandler("blastfurnace", new IMCBlastFurnace());
 		IMCHandler.registerHandler("crystallizer", new IMCCrystallizer());
 		IMCHandler.registerHandler("centrifuge", new IMCCentrifuge());
 	}
@@ -934,15 +771,10 @@ public class MainRegistry {
 
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent) {
-		ShredderRecipes.registerShredder();
-		ShredderRecipes.registerOverrides();
 		CrystallizerRecipes.register();
-		CentrifugeRecipes.register();
 		TileEntityNukeFurnace.registerFuels();
 		BreederRecipes.registerRecipes();
 		AssemblerRecipes.loadRecipes();
-		CyclotronRecipes.register();
-		HadronRecipes.register();
 		MagicRecipes.register();
 		SILEXRecipes.register();
 		AnvilRecipes.register();
@@ -954,8 +786,13 @@ public class MainRegistry {
 		RefineryRecipes.registerRefinery();
 		RadiolysisRecipes.registerRadiolysis();
 		GasCentrifugeRecipes.register();
-		SolidificationRecipes.register();
-		ChemplantRecipes.register();
+		CombinationRecipes.register();
+
+		//the good stuff
+		SerializableRecipe.registerAllHandlers();
+		SerializableRecipe.initialize();
+		
+		FalloutConfigJSON.initialize();
 
 		TileEntityNukeCustom.registerBombItems();
 		ArmorUtil.register();
@@ -970,9 +807,16 @@ public class MainRegistry {
 		//expand for the largest entity we have (currently Quackos who is 17.5m in diameter, that's one fat duck)
 		World.MAX_ENTITY_RADIUS = Math.max(World.MAX_ENTITY_RADIUS, 8.75);
 
+		MinecraftForge.EVENT_BUS.register(new SchistStratum()); //DecorateBiomeEvent.Pre
+		//MinecraftForge.EVENT_BUS.register(new DeepLayer()); //DecorateBiomeEvent.Pre
+
 		new OreCave(ModBlocks.stone_resource, 0).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);	//sulfur
 		new OreCave(ModBlocks.stone_resource, 1).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);											//asbestos
+		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
 		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
+		
+		Compat.handleRailcraftNonsense();
+		SuicideThreadDump.register();
 	}
 
 	@EventHandler
@@ -985,9 +829,11 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(commonHandler);
 		MinecraftForge.TERRAIN_GEN_BUS.register(commonHandler);
 		MinecraftForge.ORE_GEN_BUS.register(commonHandler);
-		
-		SchistStratum schist = new SchistStratum();
-		MinecraftForge.EVENT_BUS.register(schist); //DecorateBiomeEvent.Pre
+
+		ModEventHandlerImpact impactHandler = new ModEventHandlerImpact();
+		FMLCommonHandler.instance().bus().register(impactHandler);
+		MinecraftForge.EVENT_BUS.register(impactHandler);
+		MinecraftForge.TERRAIN_GEN_BUS.register(impactHandler);
 		
 		OreDictManager oreMan = new OreDictManager();
 		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
@@ -1011,6 +857,7 @@ public class MainRegistry {
 		World world = event.getServer().getEntityWorld();
 		RBMKDials.createDials(world);
 		SiegeOrchestrator.createGameRules(world);
+		event.registerServerCommand(new CommandReloadRecipes());
 	}
 	
 	private void loadConfig(FMLPreInitializationEvent event) {
@@ -1027,7 +874,150 @@ public class MainRegistry {
 		ToolConfig.loadFromConfig(config);
 		WeaponConfig.loadFromConfig(config);
 		MobConfig.loadFromConfig(config);
+		StructureConfig.loadFromConfig(config);
+		
+		try {
+			if(GeneralConfig.enableThermosPreventer && Class.forName("thermos.Thermos") != null) {
+				throw new IllegalStateException("The mod tried to start on a Thermos server and therefore stopped. To allow the server to start on Thermos, change the appropriate "
+						+ "config entry (0.00 in hbm.cfg). This was done because, by default, Thermos "
+						+ "uses a so-called \"optimization\" feature that reduces tile ticking a lot, which will inevitably break a lot of machines. Most people aren't even aware "
+						+ "of this, and start blaming random mods for all their stuff breaking. In order to adjust or even disable this feature, edit \"tileentities.yml\" in your "
+						+ "Thermos install folder. If you believe that crashing the server until a config option is changed is annoying, then I would agree, but it's still preferable "
+						+ "over wasting hours trying to fix an issue that is really just an \"intended feature\" added by Thermos itself, and not a bug in the mod. You'll have to "
+						+ "change Thermos' config anyway so that extra change in NTM's config can't be that big of a burden.");
+			}
+		} catch(ClassNotFoundException e) { }
 
 		config.save();
+	}
+	
+	private static HashSet<String> ignoreMappings = new HashSet();
+	private static HashMap<String, Item> remapItems = new HashMap();
+	
+
+	@EventHandler
+	public void handleMissingMappings(FMLMissingMappingsEvent event) {
+		
+		ignoreMappings.clear();
+		remapItems.clear();
+		
+		/// IGNORE ///
+		for(int i = 1; i <= 8; i++) ignoreMappings.add("hbm:item.gasflame" + i);
+		ignoreMappings.add("hbm:item.cyclotron_tower");
+		ignoreMappings.add("hbm:item.magnet_dee");
+		ignoreMappings.add("hbm:item.centrifuge_tower");
+		ignoreMappings.add("hbm:item.gun_revolver_nopip_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_pip_ammo");
+		ignoreMappings.add("hbm:item.gun_calamity_ammo");
+		ignoreMappings.add("hbm:item.gun_lacunae_ammo");
+		ignoreMappings.add("hbm:item.gun_rpg_ammo");
+		ignoreMappings.add("hbm:item.gun_mp40_ammo");
+		ignoreMappings.add("hbm:item.gun_uzi_ammo");
+		ignoreMappings.add("hbm:item.gun_uboinik_ammo");
+		ignoreMappings.add("hbm:item.gun_lever_action_ammo");
+		ignoreMappings.add("hbm:item.gun_bolt_action_ammo");
+		ignoreMappings.add("hbm:item.gun_fatman_ammo");
+		ignoreMappings.add("hbm:item.gun_mirv_ammo");
+		ignoreMappings.add("hbm:item.gun_stinger_ammo");
+		ignoreMappings.add("hbm:item.limiter");
+		ignoreMappings.add("hbm:item.turret_biometry");
+		ignoreMappings.add("hbm:item.thermo_unit_empty");
+		ignoreMappings.add("hbm:item.thermo_unit_endo");
+		ignoreMappings.add("hbm:item.thermo_unit_exo");
+		ignoreMappings.add("hbm:item.gadget_explosive");
+		ignoreMappings.add("hbm:item.man_explosive");
+		ignoreMappings.add("hbm:item.crystal_energy");
+		ignoreMappings.add("hbm:item.pellet_coolant");
+		ignoreMappings.add("hbm:item.turret_control");
+		ignoreMappings.add("hbm:tile.sellafield_0");
+		ignoreMappings.add("hbm:tile.sellafield_1");
+		ignoreMappings.add("hbm:tile.sellafield_2");
+		ignoreMappings.add("hbm:tile.sellafield_3");
+		ignoreMappings.add("hbm:tile.sellafield_4");
+		ignoreMappings.add("hbm:tile.sellafield_core");
+		ignoreMappings.add("hbm:tile.fusion_core");
+		ignoreMappings.add("hbm:tile.machine_telelinker");
+		ignoreMappings.add("hbm:item.dynosphere_base");
+		ignoreMappings.add("hbm:item.dynosphere_desh");
+		ignoreMappings.add("hbm:item.dynosphere_desh_charged");
+		ignoreMappings.add("hbm:item.dynosphere_schrabidium");
+		ignoreMappings.add("hbm:item.dynosphere_schrabidium_charged");
+		ignoreMappings.add("hbm:item.dynosphere_euphemium");
+		ignoreMappings.add("hbm:item.dynosphere_euphemium_charged");
+		ignoreMappings.add("hbm:item.dynosphere_dineutronium");
+		ignoreMappings.add("hbm:item.dynosphere_dineutronium_charged");
+		ignoreMappings.add("hbm:item.factory_core_titanium");
+		ignoreMappings.add("hbm:item.factory_core_advanced");
+		ignoreMappings.add("hbm:tile.factory_titanium_core");
+		ignoreMappings.add("hbm:tile.factory_advanced_core");
+		ignoreMappings.add("hbm:tile.factory_titanium_conductor");
+		ignoreMappings.add("hbm:tile.factory_advanced_conductor");
+		ignoreMappings.add("hbm:tile.factory_titanium_furnace");
+		ignoreMappings.add("hbm:tile.factory_advanced_furnace");
+		ignoreMappings.add("hbm:tile.turret_light");
+		ignoreMappings.add("hbm:tile.turret_heavy");
+		ignoreMappings.add("hbm:tile.turret_rocket");
+		ignoreMappings.add("hbm:tile.turret_flamer");
+		ignoreMappings.add("hbm:tile.turret_tau");
+		ignoreMappings.add("hbm:tile.turret_cwis");
+		ignoreMappings.add("hbm:tile.turret_spitfire");
+		ignoreMappings.add("hbm:tile.turret_cheapo");
+		ignoreMappings.add("hbm:item.turret_light_ammo");
+		ignoreMappings.add("hbm:item.turret_heavy_ammo");
+		ignoreMappings.add("hbm:item.turret_rocket_ammo");
+		ignoreMappings.add("hbm:item.turret_flamer_ammo");
+		ignoreMappings.add("hbm:item.turret_tau_ammo");
+		ignoreMappings.add("hbm:item.turret_cwis_ammo");
+		ignoreMappings.add("hbm:item.turret_spitfire_ammo");
+		ignoreMappings.add("hbm:item.turret_cheapo_ammo");
+		ignoreMappings.add("hbm:tile.cel_prime");
+		ignoreMappings.add("hbm:tile.cel_prime_terminal");
+		ignoreMappings.add("hbm:tile.cel_prime_battery");
+		ignoreMappings.add("hbm:tile.cel_prime_port");
+		ignoreMappings.add("hbm:tile.cel_prime_tanks");
+		ignoreMappings.add("hbm:tile.rf_cable");
+		ignoreMappings.add("hbm:tile.test_container");
+		ignoreMappings.add("hbm:tile.test_bb_bork");
+		ignoreMappings.add("hbm:tile.test_bb_inf");
+		ignoreMappings.add("hbm:tile.test_missile");
+		ignoreMappings.add("hbm:tile.rotation_tester");
+		ignoreMappings.add("hbm:tile.test_ticker");
+		ignoreMappings.add("hbm:tile.dummy_block_flare");
+		ignoreMappings.add("hbm:tile.dummy_port_flare");
+		ignoreMappings.add("hbm:tile.dummy_block_chemplant");
+		ignoreMappings.add("hbm:tile.dummy_port_chemplant");
+		ignoreMappings.add("hbm:tile.dummy_block_pumpjack");
+		ignoreMappings.add("hbm:tile.dummy_port_pumpjack");
+		ignoreMappings.add("hbm:tile.dummy_block_radgen");
+		ignoreMappings.add("hbm:tile.dummy_port_radgen");
+		ignoreMappings.add("hbm:tile.test_conductor");
+		ignoreMappings.add("hbm:tile.dummy_block_fluidtank");
+		ignoreMappings.add("hbm:tile.dummy_port_fluidtank");
+		ignoreMappings.add("hbm:item.telepad");
+		ignoreMappings.add("hbm:item.rubber_gloves");
+		ignoreMappings.add("hbm:item.pirfenidone");
+		ignoreMappings.add("hbm:item.coin_siege");
+		ignoreMappings.add("hbm:item.source");
+		
+		/// REMAP ///
+		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
+		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);
+		remapItems.put("hbm:item.briquette_lignite", ModItems.briquette);
+		
+		for(MissingMapping mapping : event.get()) {
+
+			if(ignoreMappings.contains(mapping.name)) {
+				mapping.ignore();
+				continue;
+			}
+			
+			if(mapping.type == GameRegistry.Type.ITEM) {
+				
+				if(remapItems.get(mapping.name) != null) {
+					mapping.remap(remapItems.get(mapping.name));
+					continue;
+				}
+			}
+		}
 	}
 }

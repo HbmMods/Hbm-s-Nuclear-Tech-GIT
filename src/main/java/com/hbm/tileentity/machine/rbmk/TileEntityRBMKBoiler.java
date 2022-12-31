@@ -3,22 +3,27 @@ package com.hbm.tileentity.machine.rbmk;
 import java.util.ArrayList;
 import java.util.List;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluid.IFluidUser;
+import api.hbm.fluid.IPipeNet;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
-public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver {
+public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver {
 	
 	public FluidTank feed;
 	public FluidTank steam;
@@ -47,26 +52,46 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 			double heatProvided = this.heat - heatCap;
 			
 			if(heatProvided > 0) {
-				int waterUsed = (int)Math.floor(heatProvided / RBMKDials.getBoilerHeatConsumption(worldObj));
-				waterUsed = Math.min(waterUsed, feed.getFill());
-				feed.setFill(feed.getFill() - waterUsed);
-				int steamProduced = (int)Math.floor((waterUsed * 100) / getFactorFromSteam(steam.getTankType()));
-				steam.setFill(steam.getFill() + steamProduced);
+				double HEAT_PER_MB_WATER = RBMKDials.getBoilerHeatConsumption(worldObj);
+				double steamFactor = getFactorFromSteam(steam.getTankType());
+				int waterUsed;
+				int steamProduced;
 				
-				if(steam.getFill() > steam.getMaxFill()) {
-					steam.setFill(steam.getMaxFill());
+				if(steam.getTankType() == Fluids.ULTRAHOTSTEAM) {
+					steamProduced = (int)Math.floor((heatProvided / HEAT_PER_MB_WATER) * 100D / steamFactor);
+					waterUsed = (int)Math.floor(steamProduced / 100D * steamFactor);
+					
+					if(feed.getFill() < waterUsed) {
+						steamProduced = (int)Math.floor(feed.getFill() * 100D / steamFactor);
+						waterUsed = (int)Math.floor(steamProduced / 100D * steamFactor);
+					}
+				} else {
+					waterUsed = (int)Math.floor(heatProvided / HEAT_PER_MB_WATER);
+					waterUsed = Math.min(waterUsed, feed.getFill());
+					steamProduced = (int)Math.floor((waterUsed * 100D) / steamFactor);
 				}
 				
-				this.heat -= waterUsed * RBMKDials.getBoilerHeatConsumption(worldObj);
+				feed.setFill(feed.getFill() - waterUsed);
+				steam.setFill(steam.getFill() + steamProduced);
+				
+				if(steam.getFill() > steam.getMaxFill())
+					steam.setFill(steam.getMaxFill());
+				
+				this.heat -= waterUsed * HEAT_PER_MB_WATER;
 			}
 			
 			fillFluidInit(steam.getTankType());
+			
+			this.trySubscribe(feed.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
+			for(DirPos pos : getOutputPos()) {
+				if(this.steam.getFill() > 0) this.sendFluid(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 		}
 		
 		super.updateEntity();
 	}
 	
-	public double getHeatFromSteam(FluidType type) {
+	public static double getHeatFromSteam(FluidType type) {
 		if(type == Fluids.STEAM) return 100D;
 		if(type == Fluids.HOTSTEAM) return 300D;
 		if(type == Fluids.SUPERHOTSTEAM) return 450D;
@@ -74,7 +99,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		return 0D;
 	}
 	
-	public double getFactorFromSteam(FluidType type) {
+	public static double getFactorFromSteam(FluidType type) {
 		if(type == Fluids.STEAM) return 1D;
 		if(type == Fluids.HOTSTEAM) return 10D;
 		if(type == Fluids.SUPERHOTSTEAM) return 100D;
@@ -104,6 +129,33 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord - 1, getTact(), type);
 			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
 			fillFluid(this.xCoord, this.yCoord - 3, this.zCoord, getTact(), type);
+		}
+	}
+	
+	protected DirPos[] getOutputPos() {
+		
+		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
+			return new DirPos[] {
+					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
+					new DirPos(this.xCoord + 1, this.yCoord - 1, this.zCoord, Library.POS_X),
+					new DirPos(this.xCoord - 1, this.yCoord - 1, this.zCoord, Library.NEG_X),
+					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord + 1, Library.POS_Z),
+					new DirPos(this.xCoord, this.yCoord - 1, this.zCoord - 1, Library.NEG_Z),
+					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord, Library.NEG_Y)
+			};
+		} else if(worldObj.getBlock(xCoord, yCoord - 2, zCoord) == ModBlocks.rbmk_loader) {
+			return new DirPos[] {
+					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
+					new DirPos(this.xCoord + 1, this.yCoord - 2, this.zCoord, Library.POS_X),
+					new DirPos(this.xCoord - 1, this.yCoord - 2, this.zCoord, Library.NEG_X),
+					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord + 1, Library.POS_Z),
+					new DirPos(this.xCoord, this.yCoord - 2, this.zCoord - 1, Library.NEG_Z),
+					new DirPos(this.xCoord, this.yCoord - 3, this.zCoord, Library.NEG_Y)
+			};
+		} else {
+			return new DirPos[] {
+					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y)
+			};
 		}
 	}
 
@@ -202,10 +254,10 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		if(data.hasKey("compression")) {
 			
 			FluidType type = steam.getTankType();
-			if(type == Fluids.STEAM) { steam.setTankType(Fluids.HOTSTEAM); steam.setFill(steam.getFill() / 10); }
-			if(type == Fluids.HOTSTEAM) { steam.setTankType(Fluids.SUPERHOTSTEAM); steam.setFill(steam.getFill() / 10); }
-			if(type == Fluids.SUPERHOTSTEAM) { steam.setTankType(Fluids.ULTRAHOTSTEAM); steam.setFill(steam.getFill() / 10); }
-			if(type == Fluids.ULTRAHOTSTEAM) { steam.setTankType(Fluids.STEAM); steam.setFill(Math.min(steam.getFill() * 1000, steam.getMaxFill())); }
+			if(type == Fluids.STEAM) {			steam.setTankType(Fluids.HOTSTEAM);			steam.setFill(steam.getFill() / 10); }
+			if(type == Fluids.HOTSTEAM) {		steam.setTankType(Fluids.SUPERHOTSTEAM);	steam.setFill(steam.getFill() / 10); }
+			if(type == Fluids.SUPERHOTSTEAM) {	steam.setTankType(Fluids.ULTRAHOTSTEAM);	steam.setFill(steam.getFill() / 10); }
+			if(type == Fluids.ULTRAHOTSTEAM) {	steam.setTankType(Fluids.STEAM);			steam.setFill(Math.min(steam.getFill() * 1000, steam.getMaxFill())); }
 			
 			this.markDirty();
 		}
@@ -218,6 +270,15 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		
 		for(int i = 0; i < count; i++) {
 			spawnDebris(DebrisType.BLANK);
+		}
+		
+		if(RBMKDials.getOverpressure(worldObj)) {
+			for(DirPos pos : getOutputPos()) {
+				IPipeNet net = IFluidUser.getPipeNet(worldObj, pos.getX(), pos.getY(), pos.getZ(), steam.getTankType());
+				if(net != null) {
+					this.pipes.add(net);
+				}
+			}
 		}
 		
 		super.onMelt(reduce);
@@ -237,5 +298,20 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		data.setInteger("maxSteam", this.steam.getMaxFill());
 		data.setShort("type", (short)this.steam.getTankType().getID());
 		return data;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] {feed, steam};
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {steam};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {feed};
 	}
 }

@@ -1,20 +1,20 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.LoopedSoundPacket;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 
 public class TileEntityMachineCentrifuge extends TileEntityMachineBase implements IEnergyUser {
 	
@@ -23,6 +23,9 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	public boolean isProgressing;
 	public static final int maxPower = 100000;
 	public static final int processingSpeed = 200;
+	private int audioDuration = 0;
+	
+	private AudioWrapper audio;
 
 	/*
 	 * So why do we do this now? You have a funny mekanism/thermal/whatever pipe and you want to output stuff from a side
@@ -32,7 +35,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	private static final int[] slot_io = new int[] { 0, 2, 3, 4, 5 };
 
 	public TileEntityMachineCentrifuge() {
-		super(6);
+		super(8);
 	}
 	
 	public String getName() {
@@ -132,12 +135,6 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 		return this.progress > 0;
 	}
 	
-	public void networkUnpack(NBTTagCompound data) {
-		this.power = data.getLong("power");
-		this.progress = data.getInteger("progress");
-		this.isProgressing = data.getBoolean("isProgressing");
-	}
-	
 	@Override
 	public void updateEntity() {
 
@@ -146,9 +143,21 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 
 			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
+			
+			int consumption = 200;
+			int speed = 1;
+			
+			UpgradeManager.eval(slots, 6, 7);
+			speed += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * 200;
+			
+			speed *= (1 + Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 5);
+			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 10000;
+			
+			consumption /= (1 + Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3));
 
 			if(hasPower() && isProcessing()) {
-				this.power -= 200;
+				this.power -= consumption;
 
 				if(this.power < 0) {
 					this.power = 0;
@@ -160,34 +169,101 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			} else {
 				isProgressing = false;
 			}
+
+			if(isProgressing) {
+				progress += speed;
+
+				if(this.progress >= TileEntityMachineCentrifuge.processingSpeed) {
+					this.progress = 0;
+					this.processItem();
+				}
+			} else {
+				progress = 0;
+			}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("progress", progress);
 			data.setBoolean("isProgressing", isProgressing);
 			this.networkPack(data, 50);
-			
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power),
-					new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord),
-					new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-		}
-
-		if(hasPower() && canProcess()) {
-			progress++;
-
-			if(this.progress >= TileEntityMachineCentrifuge.processingSpeed) {
-				this.progress = 0;
-				this.processItem();
-			}
 		} else {
-			progress = 0;
+			
+			if(isProgressing) {
+				audioDuration += 2;
+			} else {
+				audioDuration -= 3;
+			}
+			
+			audioDuration = MathHelper.clamp_int(audioDuration, 0, 60);
+			
+			if(audioDuration > 10) {
+				
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+				
+				audio.updatePitch((audioDuration - 10) / 100F + 0.5F);
+				
+			} else {
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
+		}
+	}
+	
+	public void networkUnpack(NBTTagCompound data) {
+		this.power = data.getLong("power");
+		this.progress = data.getInteger("progress");
+		this.isProgressing = data.getBoolean("isProgressing");
+	}
+	
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.centrifugeOperate", xCoord, yCoord, zCoord, 2.0F, 1.0F);
+	}
+
+	@Override
+	public void onChunkUnload() {
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
 	}
 
 	@Override
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return TileEntity.INFINITE_EXTENT_AABB;
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord,
+					yCoord,
+					zCoord,
+					xCoord + 1,
+					yCoord + 4,
+					zCoord + 1
+					);
+		}
+		
+		return bb;
 	}
 
 	@Override

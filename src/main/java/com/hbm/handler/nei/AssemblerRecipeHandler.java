@@ -11,6 +11,7 @@ import com.hbm.inventory.RecipesCommon.ComparableNBTStack;
 import com.hbm.inventory.gui.GUIMachineAssembler;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;
@@ -34,12 +35,9 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
         public SmeltingSet(List<Object> in, ItemStack result) {
         	
         	input = new ArrayList();
-        	ComparableStack comp;
-        	if(result.hasTagCompound())
-        		comp = new ComparableNBTStack(result).addNBT(result.getTagCompound());
-        	else
-        		comp = new ComparableStack(result);
-        	ItemStack template = new ItemStack(ModItems.assembly_template, 1, AssemblerRecipes.recipeList.indexOf(comp));
+        	
+        	ComparableStack comp = new ComparableStack(result);
+        	ItemStack template = ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template), comp);
         	
         	for(int i = 0; i < Math.min(in.size(), 17); i++) {
         		if(i < 15)
