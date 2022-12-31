@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import com.LordWeeder.EconomyPlus.compatibility.xradar.dataStructures.TerritoryClusterNew.ProvinceHandler;
 import com.LordWeeder.EconomyPlus.compatibility.xradar.nodes.OilResource;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -21,8 +22,6 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple;
 import com.hbm.util.Tuple.Triplet;
 import com.hfr.clowder.ClowderTerritory;
-import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
-import com.hfr.tileentity.clowder.TileEntityFlagBig;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
@@ -163,15 +162,9 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	}
 	
 	public boolean canPump() {
-		TerritoryMeta meta = ClowderTerritory.getMetaFromIntCoords(xCoord, zCoord);
-		if(meta != null && worldObj.getTileEntity(meta.flagX, meta.flagY, meta.flagZ) != null) {
-			TileEntity te = worldObj.getTileEntity(meta.flagX, meta.flagY, meta.flagZ);
-			if(te instanceof TileEntityFlagBig) {
-				TileEntityFlagBig flag = (TileEntityFlagBig) te;
-				if(flag.nodeResource != null && flag.nodeResource instanceof OilResource)
-					return true;
-			}
-		}
+		ProvinceHandler p = ClowderTerritory.territories().getProvinceFromBlockCoords(xCoord, zCoord);
+		if(p.exists() && p.hasResource() && p.getResource() instanceof OilResource)
+			return true;
 		this.indicator = 1;
 		return false;
 	}
