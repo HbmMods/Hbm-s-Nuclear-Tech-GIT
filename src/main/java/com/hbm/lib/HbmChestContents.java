@@ -345,9 +345,9 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.flame_politics, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.ring_pull, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.can_empty, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.can_creature, 0, 1, 2, 2),
+//			new WeightedRandomChestContent(ModItems.can_creature, 0, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.can_smart, 0, 1, 3, 2),
-			new WeightedRandomChestContent(ModItems.can_mrsugar, 0, 1, 2, 2),
+//			new WeightedRandomChestContent(ModItems.can_mrsugar, 0, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.cap_nuka, 0, 1, 16, 2),
 			new WeightedRandomChestContent(ModItems.book_guide, 3, 1, 1, 1),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.deco_computer), 0, 1, 1, 1)};
@@ -361,7 +361,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.toothpicks, 0, 1, 16, 10),
 			new WeightedRandomChestContent(ModItems.dust, 0, 1, 1, 40),
 			new WeightedRandomChestContent(ModItems.dust_tiny, 0, 1, 3, 75),
-			new WeightedRandomChestContent(ModItems.ink, 0, 1, 1, 1), //make that mf rare; 1:555 weight
+//			new WeightedRandomChestContent(ModItems.ink, 0, 1, 1, 1), //make that mf rare; 1:555 weight
 	};
 	
 	/** ITEMBOOKLORE ARRAYS */

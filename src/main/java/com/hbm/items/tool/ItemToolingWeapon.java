@@ -25,19 +25,19 @@ public class ItemToolingWeapon extends ItemTooling {
 		
 		World world = player.worldObj;
 
-		if(this == ModItems.wrench) {
-
-			Vec3 vec = player.getLookVec();
-
-			double dX = vec.xCoord * 0.5;
-			double dY = vec.yCoord * 0.5;
-			double dZ = vec.zCoord * 0.5;
-
-			entity.motionX += dX;
-			entity.motionY += dY;
-			entity.motionZ += dZ;
-			world.playSoundAtEntity(entity, "random.anvil_land", 3.0F, 0.75F);
-		}
+//		if(this == ModItems.wrench) {
+//
+//			Vec3 vec = player.getLookVec();
+//
+//			double dX = vec.xCoord * 0.5;
+//			double dY = vec.yCoord * 0.5;
+//			double dZ = vec.zCoord * 0.5;
+//
+//			entity.motionX += dX;
+//			entity.motionY += dY;
+//			entity.motionZ += dZ;
+//			world.playSoundAtEntity(entity, "random.anvil_land", 3.0F, 0.75F);
+//		}
 		
 		return false;
 	}
@@ -48,9 +48,9 @@ public class ItemToolingWeapon extends ItemTooling {
 		Multimap multimap = super.getAttributeModifiers(stack);
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", damage, 0));
 		
-		if(this == ModItems.wrench) {
-			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Wrench modifier", -0.1, 1));
-		}
+//		if(this == ModItems.wrench) {
+//			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Wrench modifier", -0.1, 1));
+//		}
 		
 		return multimap;
 	}

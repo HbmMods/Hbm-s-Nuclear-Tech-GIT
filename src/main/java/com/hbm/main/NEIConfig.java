@@ -110,11 +110,11 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_base));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_limiter));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_compact_launcher));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_launch_table));
-		API.hideItem(new ItemStack(ModBlocks.dummy_plate_compact_launcher));
-		API.hideItem(new ItemStack(ModBlocks.dummy_plate_launch_table));
-		API.hideItem(new ItemStack(ModBlocks.dummy_plate_cargo));
+//		API.hideItem(new ItemStack(ModBlocks.dummy_port_compact_launcher));
+//		API.hideItem(new ItemStack(ModBlocks.dummy_port_launch_table));
+//		API.hideItem(new ItemStack(ModBlocks.dummy_plate_compact_launcher));
+//		API.hideItem(new ItemStack(ModBlocks.dummy_plate_launch_table));
+//		API.hideItem(new ItemStack(ModBlocks.dummy_plate_cargo));
 
 		API.hideItem(new ItemStack(ModBlocks.pink_log));
 		API.hideItem(new ItemStack(ModBlocks.pink_planks));

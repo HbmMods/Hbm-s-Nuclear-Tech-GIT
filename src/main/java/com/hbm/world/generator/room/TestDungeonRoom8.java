@@ -65,13 +65,14 @@ public class TestDungeonRoom8 extends CellularDungeonRoom {
 	}
 	
 	public static ItemStack generateMKU(World world) {
-		ItemStack book = new ItemStack(ModItems.book_lore);
-		int i = world.rand.nextInt(books.length);
-		
-		BookLoreType.setTypeForStack(book, books[i]);
-		book.stackTagCompound.setInteger("mku_slot", getSlot(world, books[i]));
-		
-		return book;
+//		ItemStack book = new ItemStack(ModItems.book_lore);
+//		int i = world.rand.nextInt(books.length);
+//		
+//		BookLoreType.setTypeForStack(book, books[i]);
+//		book.stackTagCompound.setInteger("mku_slot", getSlot(world, books[i]));
+//		
+//		return book;
+		return null;
 	}
 	
 	public static int getSlot(World world, BookLoreType type) {

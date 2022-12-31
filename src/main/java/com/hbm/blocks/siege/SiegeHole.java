@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockBase;
-import com.hbm.entity.mob.siege.EntitySiegeZombie;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.AxisAlignedBB;
@@ -31,13 +30,13 @@ public class SiegeHole extends BlockBase {
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 		
-		List<EntitySiegeZombie> list = world.getEntitiesWithinAABB(EntitySiegeZombie.class, AxisAlignedBB.getBoundingBox(x - 5, y - 2, z - 5, x + 6, y + 3, z + 6));
-		
-		if(list.size() < 2) {
-			EntitySiegeZombie zomb = new EntitySiegeZombie(world);
-			zomb.setPositionAndRotation(x + 0.5, y + 1, z + 0.5, 0.0F, 0.0F);
-			zomb.onSpawnWithEgg(null);
-			world.spawnEntityInWorld(zomb);
-		}
+//		List<EntitySiegeZombie> list = world.getEntitiesWithinAABB(EntitySiegeZombie.class, AxisAlignedBB.getBoundingBox(x - 5, y - 2, z - 5, x + 6, y + 3, z + 6));
+//		
+//		if(list.size() < 2) {
+//			EntitySiegeZombie zomb = new EntitySiegeZombie(world);
+//			zomb.setPositionAndRotation(x + 0.5, y + 1, z + 0.5, 0.0F, 0.0F);
+//			zomb.onSpawnWithEgg(null);
+//			world.spawnEntityInWorld(zomb);
+//		}
 	}
 }

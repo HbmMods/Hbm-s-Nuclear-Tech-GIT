@@ -89,8 +89,8 @@ public class LootGenerator {
 		
 		if(loot != null && loot.items.isEmpty()) {
 			
-			if(world.rand.nextInt(2) == 0)
-				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.gun_lever_action), 0, 0, 0.125);
+//			if(world.rand.nextInt(2) == 0)
+//				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.gun_lever_action), 0, 0, 0.125);
 			
 			int count = world.rand.nextInt(2) + 1;
 			for(int i = 0; i < count; i++) {
@@ -104,8 +104,8 @@ public class LootGenerator {
 				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.wire_aluminium), 0.3125, i * 0.03125, -0.125);
 			
 			int type = world.rand.nextInt(4);
-			Item tool = type > 2 ? ModItems.wrench : ModItems.screwdriver;
-			addItemWithDeviation(loot, world.rand, new ItemStack(tool), 0.005, 0, -0.3125);
+//			Item tool = type > 2 ? ModItems.wrench : ModItems.screwdriver;
+//			addItemWithDeviation(loot, world.rand, new ItemStack(tool), 0.005, 0, -0.3125);
 		}
 	}
 	

@@ -57,12 +57,12 @@ public class BarbedWire extends Block {
 //        	if(ent instanceof EntityLivingBase)
 //        		((EntityLivingBase)ent).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 5 * 20, 9));
 //        }
-    }
+//    }
 
 			if(ent instanceof EntityLivingBase)
 				((EntityLivingBase) ent).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 5 * 20, 9));
 		}
-	}
+//	}
 
 	public boolean isOpaqueCube() {
 		return false;

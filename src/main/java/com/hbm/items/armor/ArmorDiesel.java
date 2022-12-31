@@ -57,12 +57,12 @@ public class ArmorDiesel extends ArmorFSBFueled {
 	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
 		super.onArmorTick(world, player, stack);
 		
-		if(!world.isRemote && this == ModItems.dieselsuit_legs && this.hasFSBArmor(player) && world.getTotalWorldTime() % 3 == 0) {
-			NBTTagCompound data = new NBTTagCompound();
-			data.setString("type", "bnuuy");
-			data.setInteger("player", player.getEntityId());
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
-		}
+//		if(!world.isRemote && this == ModItems.dieselsuit_legs && this.hasFSBArmor(player) && world.getTotalWorldTime() % 3 == 0) {
+//			NBTTagCompound data = new NBTTagCompound();
+//			data.setString("type", "bnuuy");
+//			data.setInteger("player", player.getEntityId());
+//			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
+//		}
 	}
 
 	@Override

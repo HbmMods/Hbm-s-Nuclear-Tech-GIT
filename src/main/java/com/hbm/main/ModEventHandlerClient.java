@@ -838,9 +838,9 @@ public class ModEventHandlerClient {
 					}
 				} else {
 
-					if(!(sky instanceof RenderNTMSkyboxChainloader)) {
-						world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
-					}
+//					if(!(sky instanceof RenderNTMSkyboxChainloader)) {
+//						world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
+//					}
 				}
 			}
 		}

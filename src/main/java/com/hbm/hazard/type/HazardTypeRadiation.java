@@ -6,7 +6,6 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
-import com.hbm.items.armor.ItemModGloves;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;

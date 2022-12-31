@@ -76,18 +76,18 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 		int oil = 0;
 		int gas = 0;
 
-		if(b == ModBlocks.ore_oil) {
-			oil = oilPerDepsoit;
-			gas = gasPerDepositMin + worldObj.rand.nextInt(gasPerDepositMax - gasPerDepositMin + 1);
-			
-			if(worldObj.rand.nextDouble() < drainChance) {
-				worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
-			}
-		}
-		if(b == ModBlocks.ore_bedrock_oil) {
-			oil = oilPerBedrockDepsoit;
-			gas = gasPerBedrockDepositMin + worldObj.rand.nextInt(gasPerBedrockDepositMax - gasPerBedrockDepositMin + 1);
-		}
+//		if(b == ModBlocks.ore_oil) {
+//			oil = oilPerDepsoit;
+//			gas = gasPerDepositMin + worldObj.rand.nextInt(gasPerDepositMax - gasPerDepositMin + 1);
+//			
+//			if(worldObj.rand.nextDouble() < drainChance) {
+//				worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
+//			}
+//		}
+//		if(b == ModBlocks.ore_bedrock_oil) {
+//			oil = oilPerBedrockDepsoit;
+//			gas = gasPerBedrockDepositMin + worldObj.rand.nextInt(gasPerBedrockDepositMax - gasPerBedrockDepositMin + 1);
+//		}
 		
 		this.tanks[0].setFill(this.tanks[0].getFill() + oil);
 		if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());

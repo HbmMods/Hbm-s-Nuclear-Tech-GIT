@@ -11,7 +11,6 @@ import com.hbm.entity.logic.*;
 import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
 import com.hbm.entity.mob.botprime.*;
-import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.entity.qic.*;
@@ -186,8 +185,8 @@ public class EntityMappings {
 		addEntity(EntityZirnoxDebris.class, "entity_zirnox_debris", 1000);
 		addEntity(EntityGhost.class, "entity_ntm_ghost", 1000);
 		addEntity(EntityGrenadeDynamite.class, "entity_grenade_dynamite", 250);
-		addEntity(EntitySiegeLaser.class, "entity_ntm_siege_laser", 1000);
-		addEntity(EntitySiegeDropship.class, "entity_ntm_siege_dropship", 1000);
+//		addEntity(EntitySiegeLaser.class, "entity_ntm_siege_laser", 1000);
+//		addEntity(EntitySiegeDropship.class, "entity_ntm_siege_dropship", 1000);
 		addEntity(EntityTNTPrimedBase.class, "entity_ntm_tnt_primed", 1000);
 		addEntity(EntityGrenadeBouncyGeneric.class, "entity_grenade_bouncy_generic", 250);
 		addEntity(EntityGrenadeImpactGeneric.class, "entity_grenade_impact_generic", 250);
@@ -201,7 +200,7 @@ public class EntityMappings {
 		addEntity(EntityNukeTorex.class, "entity_effect_torex", 250, false);
 		addEntity(EntityArtilleryShell.class, "entity_artillery_shell", 1000);
 		addEntity(EntityArtilleryRocket.class, "entity_himars", 1000);
-		addEntity(EntitySiegeTunneler.class, "entity_meme_tunneler", 1000);
+//		addEntity(EntitySiegeTunneler.class, "entity_meme_tunneler", 1000);
 		addEntity(EntitySPV.class, "entity_self_propelled_vehicle_mark_1", 1000);
 		addEntity(EntityCog.class, "entity_stray_cog", 1000);
 		addEntity(EntitySawblade.class, "entity_stray_saw", 1000);
@@ -218,10 +217,10 @@ public class EntityMappings {
 		addMob(EntityQuackos.class, "entity_elder_one", 0xd0d0d0, 0xFFBF00);
 		addMob(EntityFBI.class, "entity_ntm_fbi", 0x008000, 0x404040);
 		addMob(EntityRADBeast.class, "entity_ntm_radiation_blaze", 0x303030, 0x008000);
-		addMob(EntitySiegeZombie.class, "entity_meme_zombie", 0x303030, 0x008000);
-		addMob(EntitySiegeSkeleton.class, "entity_meme_skeleton", 0x303030, 0x000080);
-		addMob(EntitySiegeUFO.class, "entity_meme_ufo", 0x303030, 0x800000);
-		addMob(EntitySiegeCraft.class, "entity_meme_craft", 0x303030, 0x808000);
+//		addMob(EntitySiegeZombie.class, "entity_meme_zombie", 0x303030, 0x008000);
+//		addMob(EntitySiegeSkeleton.class, "entity_meme_skeleton", 0x303030, 0x000080);
+//		addMob(EntitySiegeUFO.class, "entity_meme_ufo", 0x303030, 0x800000);
+//		addMob(EntitySiegeCraft.class, "entity_meme_craft", 0x303030, 0x808000);
 		
 		int id = 0;
 		for(Quartet<Class<? extends Entity>, String, Integer, Boolean> entry : entityMappings) {

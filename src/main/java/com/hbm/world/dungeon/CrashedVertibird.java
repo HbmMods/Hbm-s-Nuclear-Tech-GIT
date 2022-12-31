@@ -158,10 +158,10 @@ public class CrashedVertibird extends WorldGenerator
 		world.setBlock(x + 2, y + 4 - yOffset, z + 7, Block4, 0, 3);
 		world.setBlock(x + 3, y + 4 - yOffset, z + 7, Block1, 0, 3);
 		world.setBlock(x + 6, y + 4 - yOffset, z + 7, Blocks.chest, 2, 3);
-		if(world.getBlock(x + 6, y + 4 - yOffset, z + 7) == Blocks.chest)
-		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vertibird, (TileEntityChest)world.getTileEntity(x + 6, y + 4 - yOffset, z + 7), 8);
-		}
+//		if(world.getBlock(x + 6, y + 4 - yOffset, z + 7) == Blocks.chest)
+//		{
+//			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vertibird, (TileEntityChest)world.getTileEntity(x + 6, y + 4 - yOffset, z + 7), 8);
+//		}
 		world.setBlock(x + 7, y + 4 - yOffset, z + 7, Block1, 0, 3);
 		world.setBlock(x + 4, y + 4 - yOffset, z + 8, Block1, 0, 3);
 		world.setBlock(x + 5, y + 4 - yOffset, z + 8, Block1, 0, 3);

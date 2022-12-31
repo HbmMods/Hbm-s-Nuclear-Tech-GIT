@@ -8,6 +8,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.hazard.modifier.*;
 import com.hbm.hazard.transformer.*;
 import com.hbm.hazard.type.*;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
@@ -46,8 +47,6 @@ public class HazardRegistry {
 	//AM241		           432a		Î±	008.50Rad/s
 	//AM242		           141a		Î²âˆ’	009.50Rad/s
 
-	public static final float gh336 = 5.0F;
-	
 	//simplified groups for ReC compat
 	public static final float gen_S = 10_000F;
 	public static final float gen_H = 2_000F;
@@ -398,7 +397,7 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_zfb_bismuth, pu241 * rod_rbmk * 0.1F, wst * rod_rbmk * 5F);
 		registerRBMKRod(rbmk_fuel_zfb_pu241, pu239 * rod_rbmk * 0.1F, wst * rod_rbmk * 7.5F);
 		registerRBMKRod(rbmk_fuel_zfb_am_mix, pu241 * rod_rbmk * 0.1F, wst * rod_rbmk * 10F);
-		registerRBMK(rbmk_fuel_drx, bf * rod_rbmk, bf * rod_rbmk * 100F, true, true, 0, 1F/3F);
+//		registerRBMK(rbmk_fuel_drx, bf * rod_rbmk, bf * rod_rbmk * 100F, true, true, 0, 1F/3F);
 		
 		registerRBMKPellet(rbmk_pellet_ueu, u * billet, wst * billet * 20F);
 		registerRBMKPellet(rbmk_pellet_meu, uf * billet, wst * billet * 21.5F);
@@ -471,14 +470,14 @@ public class HazardRegistry {
 		HazardSystem.register(solinium_core, makeData().addEntry(RADIATION, sa327 * nugget * 8).addEntry(BLINDING, 45F));
 
 		HazardSystem.register(nuke_fstbmb, makeData(DIGAMMA, 0.01F));
-		HazardSystem.register(DictFrame.fromOne(ModItems.holotape_image, EnumHoloImage.HOLO_RESTORED), makeData(DIGAMMA, 1F));
-		HazardSystem.register(holotape_damaged, makeData(DIGAMMA, 1_000F));
+//		HazardSystem.register(DictFrame.fromOne(ModItems.holotape_image, EnumHoloImage.HOLO_RESTORED), makeData(DIGAMMA, 1F));
+//		HazardSystem.register(holotape_damaged, makeData(DIGAMMA, 1_000F));
 		
 		/*
 		 * Blacklist
 		 */
-		for(String ore : TH232.ores()) HazardSystem.blacklist(ore);
-		for(String ore : U.ores()) HazardSystem.blacklist(ore);
+//		for(String ore : TH232.ores()) HazardSystem.blacklist(ore);
+//		for(String ore : U.ores()) HazardSystem.blacklist(ore);
 
 		
 		/*

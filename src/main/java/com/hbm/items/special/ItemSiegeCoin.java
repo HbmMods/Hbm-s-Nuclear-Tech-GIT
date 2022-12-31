@@ -2,7 +2,6 @@ package com.hbm.items.special;
 
 import java.util.List;
 
-import com.hbm.entity.mob.siege.SiegeTier;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
@@ -38,11 +37,11 @@ public class ItemSiegeCoin extends Item {
 	public void registerIcons(IIconRegister p_94581_1_) {
 		this.itemIcon = Items.stick.getIconFromDamage(0);
 		
-		icons = new IIcon[SiegeTier.getLength()];
-		
-		for(int i = 0; i < SiegeTier.getLength(); i++) {
-			icons[i] = p_94581_1_.registerIcon(RefStrings.MODID + ":coin_siege_" + SiegeTier.tiers[i].name);
-		}
+//		icons = new IIcon[SiegeTier.getLength()];
+//		
+//		for(int i = 0; i < SiegeTier.getLength(); i++) {
+//			icons[i] = p_94581_1_.registerIcon(RefStrings.MODID + ":coin_siege_" + SiegeTier.tiers[i].name);
+//		}
 	}
 
 	@Override
@@ -54,9 +53,9 @@ public class ItemSiegeCoin extends Item {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		
-		for(int i = 0; i < SiegeTier.getLength(); i++) {
-			list.add(new ItemStack(item, 1, i));
-		}
+//		for(int i = 0; i < SiegeTier.getLength(); i++) {
+//			list.add(new ItemStack(item, 1, i));
+//		}
 	}
 
 

@@ -61,7 +61,7 @@ public class BlastFurnaceRecipes {
 		addRecipe(GOLD.plate(), ModItems.plate_mixed, new ItemStack(ModItems.plate_paa, 2));
 		addRecipe(BIGMT, ModItems.powder_meteorite, new ItemStack(ModItems.ingot_starmetal, 2));
 		addRecipe(CO, ModBlocks.block_meteor, new ItemStack(ModItems.ingot_meteorite));
-		addRecipe(ModItems.meteorite_sword_hardened, CO, new ItemStack(ModItems.meteorite_sword_alloyed));
+//		addRecipe(ModItems.meteorite_sword_hardened, CO, new ItemStack(ModItems.meteorite_sword_alloyed));
 		addRecipe(ModBlocks.block_meteor, CO, new ItemStack(ModItems.ingot_meteorite));
 		
 		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) {
@@ -74,7 +74,7 @@ public class BlastFurnaceRecipes {
 			IMCBlastFurnace.buffer.clear();
 		}
 
-		hiddenRecipes.add(new ItemStack(ModItems.meteorite_sword_alloyed));
+//		hiddenRecipes.add(new ItemStack(ModItems.meteorite_sword_alloyed));
 	}
 
 	@CheckForNull

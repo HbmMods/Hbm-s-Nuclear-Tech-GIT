@@ -20,6 +20,7 @@ import com.hbm.tileentity.machine.oil.TileEntityMachineSolidifier;
 import com.hbm.tileentity.machine.oil.TileEntityOilDrillBase;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.TileEntityBarrel;
+import com.hbm.tileentity.machine.storage.TileEntityCrateDesh;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 import com.hbm.tileentity.machine.storage.TileEntityCrateTungsten;
@@ -27,6 +28,7 @@ import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
 import com.hbm.tileentity.machine.storage.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.machine.storage.TileEntityMachineUF6Tank;
+import com.hbm.tileentity.machine.storage.TileEntityMassStorage;
 import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import com.hbm.tileentity.machine.storage.TileEntitySoyuzCapsule;
 import com.hbm.tileentity.turret.*;
@@ -818,8 +820,8 @@ public class GUIHandler implements IGuiHandler {
 		switch(ID) {
 		case ModItems.guiID_item_box: return new ContainerLeadBox(player, player.inventory, new InventoryLeadBox(player.getHeldItem()));
 		case ModItems.guiID_item_book: return new ContainerBook(player.inventory);
-		case ModItems.guiID_cart_crate: return new ContainerCrateSteel(player.inventory, (EntityMinecartCrate)player.worldObj.getEntityByID(x));
-		case ModItems.guiID_cart_destroyer: return new ContainerCartDestroyer(player.inventory, (EntityMinecartDestroyer)player.worldObj.getEntityByID(x));
+//		case ModItems.guiID_cart_crate: return new ContainerCrateSteel(player.inventory, (EntityMinecartCrate)player.worldObj.getEntityByID(x));
+//		case ModItems.guiID_cart_destroyer: return new ContainerCartDestroyer(player.inventory, (EntityMinecartDestroyer)player.worldObj.getEntityByID(x));
 		}
 
 		return null;
@@ -1618,16 +1620,6 @@ public class GUIHandler implements IGuiHandler {
 			return new GUIScreenGuide(player);
 		case ModItems.guiID_item_bobble:
 			return new GUIScreenBobble((TileEntityBobble) world.getTileEntity(x, y, z));
-<<<<<<< HEAD
-=======
-		case ModItems.guiID_item_holo_image:
-			return new GUIScreenHolotape();
-		case ModItems.guiID_item_fluid:
-			return new GUIScreenFluid(player);
-			
-		case ModItems.guiID_cart_crate: return new GUICrateSteel(player.inventory, (EntityMinecartCrate) player.worldObj.getEntityByID(x));
-		case ModItems.guiID_cart_destroyer: return new GUICartDestroyer(player.inventory, (EntityMinecartDestroyer) player.worldObj.getEntityByID(x));
->>>>>>> 15677ccd6e1144a57e6783eee1d3d8c0708ab13c
 		}
 		return null;
 	}

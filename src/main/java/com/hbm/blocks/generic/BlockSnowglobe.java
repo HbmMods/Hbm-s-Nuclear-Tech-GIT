@@ -87,13 +87,14 @@ public class BlockSnowglobe extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
-		if(world.isRemote) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModItems.guiID_item_snowglobe, world, x, y, z);
-			return true;
-			
-		} else {
-			return true;
-		}
+//		if(world.isRemote) {
+//			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModItems.guiID_item_snowglobe, world, x, y, z);
+//			return true;
+//			
+//		} else {
+//			return true;
+//		}
+		return false;
 	}
 
 	@Override

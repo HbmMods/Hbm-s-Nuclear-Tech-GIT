@@ -1,7 +1,5 @@
 package com.hbm.render.entity.mob;
 
-import com.hbm.entity.mob.siege.EntitySiegeZombie;
-import com.hbm.entity.mob.siege.SiegeTier;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelSiegeZombie;
 
@@ -18,18 +16,20 @@ public class RenderSiegeZombie extends RenderBiped {
 
 	@Override
 	protected ResourceLocation getEntityTexture(EntityLiving entity) {
-		return this.getEntityTexture((EntitySiegeZombie) entity);
+		return null;
+//		return this.getEntityTexture((EntitySiegeZombie) entity);
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return this.getEntityTexture((EntitySiegeZombie) entity);
+		return null;
+//		return this.getEntityTexture((EntitySiegeZombie) entity);
 	}
 
-	protected ResourceLocation getEntityTexture(EntitySiegeZombie entity) {
-		SiegeTier tier = entity.getTier();
-		return new ResourceLocation(RefStrings.MODID + ":textures/entity/siege_" + tier.name + ".png");
-	}
+//	protected ResourceLocation getEntityTexture(EntitySiegeZombie entity) {
+//		SiegeTier tier = entity.getTier();
+//		return new ResourceLocation(RefStrings.MODID + ":textures/entity/siege_" + tier.name + ".png");
+//	}
 
 	@Override
 	protected void func_82421_b() {

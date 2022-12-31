@@ -42,8 +42,8 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 	@Override
 	public boolean acceptsFluid(FluidType type, ItemStack stack) {
 
-		if(this == ModItems.blowtorch) return type == Fluids.GAS;
-		if(this == ModItems.acetylene_torch) return type == Fluids.UNSATURATEDS || type == Fluids.OXYGEN;
+//		if(this == ModItems.blowtorch) return type == Fluids.GAS;
+//		if(this == ModItems.acetylene_torch) return type == Fluids.UNSATURATEDS || type == Fluids.OXYGEN;
 		
 		return false;
 	}
@@ -89,26 +89,26 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 		
 		stack.stackTagCompound = new NBTTagCompound();
 
-		if(this == ModItems.blowtorch) {
-			this.setFill(stack, Fluids.GAS, this.getMaxFill(Fluids.GAS));
-		}
-		if(this == ModItems.acetylene_torch) {
-			this.setFill(stack, Fluids.UNSATURATEDS, this.getMaxFill(Fluids.UNSATURATEDS));
-			this.setFill(stack, Fluids.OXYGEN, this.getMaxFill(Fluids.OXYGEN));
-		}
+//		if(this == ModItems.blowtorch) {
+//			this.setFill(stack, Fluids.GAS, this.getMaxFill(Fluids.GAS));
+//		}
+//		if(this == ModItems.acetylene_torch) {
+//			this.setFill(stack, Fluids.UNSATURATEDS, this.getMaxFill(Fluids.UNSATURATEDS));
+//			this.setFill(stack, Fluids.OXYGEN, this.getMaxFill(Fluids.OXYGEN));
+//		}
 	}
 	
 	public static ItemStack getEmptyTool(Item item) {
 		ItemBlowtorch tool = (ItemBlowtorch) item;
 		ItemStack stack = new ItemStack(item);
 
-		if(item == ModItems.blowtorch) {
-			tool.setFill(stack, Fluids.GAS, 0);
-		}
-		if(item == ModItems.acetylene_torch) {
-			tool.setFill(stack, Fluids.UNSATURATEDS, 0);
-			tool.setFill(stack, Fluids.OXYGEN, 0);
-		}
+//		if(item == ModItems.blowtorch) {
+//			tool.setFill(stack, Fluids.GAS, 0);
+//		}
+//		if(item == ModItems.acetylene_torch) {
+//			tool.setFill(stack, Fluids.UNSATURATEDS, 0);
+//			tool.setFill(stack, Fluids.OXYGEN, 0);
+//		}
 		
 		return stack;
 	}
@@ -120,27 +120,27 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 		
 		if(b instanceof IToolable) {
 			
-			if(this == ModItems.blowtorch) {
-				if(this.getFill(stack, Fluids.GAS) < 1000) return false;
-			}
-			
-			if(this == ModItems.acetylene_torch) {
-				if(this.getFill(stack, Fluids.UNSATURATEDS) < 20) return false;
-				if(this.getFill(stack, Fluids.OXYGEN) < 10) return false;
-			}
+//			if(this == ModItems.blowtorch) {
+//				if(this.getFill(stack, Fluids.GAS) < 1000) return false;
+//			}
+//			
+//			if(this == ModItems.acetylene_torch) {
+//				if(this.getFill(stack, Fluids.UNSATURATEDS) < 20) return false;
+//				if(this.getFill(stack, Fluids.OXYGEN) < 10) return false;
+//			}
 			
 			if(((IToolable)b).onScrew(world, player, x, y, z, side, fX, fY, fZ, ToolType.TORCH)) {
 				
 				if(!world.isRemote) {
 					
-					if(this == ModItems.blowtorch) {
-						this.setFill(stack, Fluids.GAS, this.getFill(stack, Fluids.GAS) - 1000);
-					}
-					
-					if(this == ModItems.acetylene_torch) {
-						this.setFill(stack, Fluids.UNSATURATEDS, this.getFill(stack, Fluids.UNSATURATEDS) - 20);
-						this.setFill(stack, Fluids.OXYGEN, this.getFill(stack, Fluids.OXYGEN) - 10);
-					}
+//					if(this == ModItems.blowtorch) {
+//						this.setFill(stack, Fluids.GAS, this.getFill(stack, Fluids.GAS) - 1000);
+//					}
+//					
+//					if(this == ModItems.acetylene_torch) {
+//						this.setFill(stack, Fluids.UNSATURATEDS, this.getFill(stack, Fluids.UNSATURATEDS) - 20);
+//						this.setFill(stack, Fluids.OXYGEN, this.getFill(stack, Fluids.OXYGEN) - 10);
+//					}
 					
 					player.inventoryContainer.detectAndSendChanges();
 					
@@ -167,16 +167,16 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 		
 		double frac = 0D;
 		
-		if(this == ModItems.blowtorch) {
-			frac = (double) this.getFill(stack, Fluids.GAS) / (double) this.getMaxFill(Fluids.GAS);
-		}
-		
-		if(this == ModItems.acetylene_torch) {
-			frac = Math.min(
-					(double) this.getFill(stack, Fluids.UNSATURATEDS) / (double) this.getMaxFill(Fluids.UNSATURATEDS),
-					(double) this.getFill(stack, Fluids.OXYGEN) / (double) this.getMaxFill(Fluids.OXYGEN)
-					);
-		}
+//		if(this == ModItems.blowtorch) {
+//			frac = (double) this.getFill(stack, Fluids.GAS) / (double) this.getMaxFill(Fluids.GAS);
+//		}
+//		
+//		if(this == ModItems.acetylene_torch) {
+//			frac = Math.min(
+//					(double) this.getFill(stack, Fluids.UNSATURATEDS) / (double) this.getMaxFill(Fluids.UNSATURATEDS),
+//					(double) this.getFill(stack, Fluids.OXYGEN) / (double) this.getMaxFill(Fluids.OXYGEN)
+//					);
+//		}
 		
 		return 1 - frac;
 	}
@@ -185,13 +185,13 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		
-		if(this == ModItems.blowtorch) {
-			list.add(EnumChatFormatting.YELLOW + getFillGauge(stack, Fluids.GAS));
-		}
-		if(this == ModItems.acetylene_torch) {
-			list.add(EnumChatFormatting.YELLOW + getFillGauge(stack, Fluids.UNSATURATEDS));
-			list.add(EnumChatFormatting.AQUA + getFillGauge(stack, Fluids.OXYGEN));
-		}
+//		if(this == ModItems.blowtorch) {
+//			list.add(EnumChatFormatting.YELLOW + getFillGauge(stack, Fluids.GAS));
+//		}
+//		if(this == ModItems.acetylene_torch) {
+//			list.add(EnumChatFormatting.YELLOW + getFillGauge(stack, Fluids.UNSATURATEDS));
+//			list.add(EnumChatFormatting.AQUA + getFillGauge(stack, Fluids.OXYGEN));
+//		}
 	}
 
 	@SideOnly(Side.CLIENT)

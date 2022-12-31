@@ -49,7 +49,6 @@ import com.hbm.creativetabs.*;
 import com.hbm.entity.EntityMappings;
 import com.hbm.entity.grenade.*;
 import com.hbm.entity.logic.*;
-import com.hbm.entity.mob.siege.*;
 import com.hbm.handler.*;
 import com.hbm.handler.imc.*;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -268,7 +267,6 @@ public class MainRegistry {
 		HTTPHandler.loadStats();
 		CraftingManager.mainRegistry();
 		AssemblerRecipes.preInit(PreEvent.getModConfigurationDirectory());
-		SiegeTier.registerTiers();
 		HazardRegistry.registerItems();
 		HazardRegistry.registerTrafos();
 		OreDictManager.registerGroups();
@@ -615,17 +613,17 @@ public class MainRegistry {
 //		achFiend = new Achievement("achievement.fiend", "fiend", -6, 8, ModItems.shimmer_sledge, null).initIndependentStat().setSpecial().registerStat();
 //		achFiend2 = new Achievement("achievement.fiend2", "fiend2", -4, 9, ModItems.shimmer_axe, null).initIndependentStat().setSpecial().registerStat();
 		achStratum = new Achievement("achievement.stratum", "stratum", -4, -2, new ItemStack(ModBlocks.stone_gneiss), null).initIndependentStat().setSpecial().registerStat();
-		achOmega12 = new Achievement("achievement.omega12", "omega12", 17, -1, ModItems.particle_digamma, null).initIndependentStat().setSpecial().registerStat();
+//		achOmega12 = new Achievement("achievement.omega12", "omega12", 17, -1, ModItems.particle_digamma, null).initIndependentStat().setSpecial().registerStat();
 
 		achWitchtaunter = new Achievement("achievement.witchtaunter", "witchtaunter", -8, 7, ModItems.ammo_4gauge_vampire, null).initIndependentStat().setSpecial().registerStat();
 		achSlimeball = new Achievement("achievement.slimeball", "slimeball", -10, 6, Items.slime_ball, null).initIndependentStat().registerStat();
 		achSulfuric = new Achievement("achievement.sulfuric", "sulfuric", -10, 8, ModItems.bucket_sulfuric_acid, achSlimeball).initIndependentStat().setSpecial().registerStat();
 
-		bobHidden = new Achievement("achievement.hidden", "hidden", 15, -4, ModItems.gun_dampfmaschine, null).initIndependentStat().registerStat();
+//		bobHidden = new Achievement("achievement.hidden", "hidden", 15, -4, ModItems.gun_dampfmaschine, null).initIndependentStat().registerStat();
 
-		horizonsStart = new Achievement("achievement.horizonsStart", "horizonsStart", -5, 4, ModItems.sat_gerald, null).initIndependentStat().registerStat();
-		horizonsEnd = new Achievement("achievement.horizonsEnd", "horizonsEnd", -3, 4, ModItems.sat_gerald, horizonsStart).initIndependentStat().registerStat();
-		horizonsBonus = new Achievement("achievement.horizonsBonus", "horizonsBonus", -1, 4, ModItems.sat_gerald, horizonsEnd).initIndependentStat().registerStat().setSpecial();
+//		horizonsStart = new Achievement("achievement.horizonsStart", "horizonsStart", -5, 4, ModItems.sat_gerald, null).initIndependentStat().registerStat();
+//		horizonsEnd = new Achievement("achievement.horizonsEnd", "horizonsEnd", -3, 4, ModItems.sat_gerald, horizonsStart).initIndependentStat().registerStat();
+//		horizonsBonus = new Achievement("achievement.horizonsBonus", "horizonsBonus", -1, 4, ModItems.sat_gerald, horizonsEnd).initIndependentStat().registerStat().setSpecial();
 
 		bossCreeper = new Achievement("achievement.bossCreeper", "bossCreeper", -7, 1, ModItems.coin_creeper, null).initIndependentStat().registerStat();
 		bossMeltdown = new Achievement("achievement.bossMeltdown", "bossMeltdown", -8, 3, ModItems.coin_radiation, bossCreeper).initIndependentStat().registerStat();
@@ -673,7 +671,7 @@ public class MainRegistry {
 		achBismuth = new Achievement("achievement.bismuth", "bismuth", 11, -6, ModItems.ingot_bismuth, achRBMK).initIndependentStat().registerStat();
 		achBreeding = new Achievement("achievement.breeding", "breeding", 7, -6, ModItems.ingot_am_mix, achRBMK).initIndependentStat().setSpecial().registerStat();
 		achFusion = new Achievement("achievement.fusion", "fusion", 13, -7, new ItemStack(ModBlocks.iter), achBismuth).initIndependentStat().setSpecial().registerStat();
-		achMeltdown = new Achievement("achievement.meltdown", "meltdown", 15, -7, ModItems.crystal_energy, achFusion).initIndependentStat().setSpecial().registerStat();
+//		achMeltdown = new Achievement("achievement.meltdown", "meltdown", 15, -7, ModItems.crystal_energy, achFusion).initIndependentStat().setSpecial().registerStat();
 //		achRedBalloons = new Achievement("achievement.redBalloons", "redBalloons", 11, 0, ModItems.missile_nuclear, achPolymer).initIndependentStat().setSpecial().registerStat();
 //		achManhattan = new Achievement("achievement.manhattan", "manhattan", 11, -4, new ItemStack(ModBlocks.nuke_boy), achPolymer).initIndependentStat().setSpecial().registerStat();
 		
@@ -781,8 +779,8 @@ public class MainRegistry {
 		PressRecipes.register();
 		RefineryRecipes.registerFractions();
 		RefineryRecipes.registerCracking();
-		FuelPoolRecipes.register();
-		LiquefactionRecipes.register();
+//		FuelPoolRecipes.register();
+//		LiquefactionRecipes.register();
 		RefineryRecipes.registerRefinery();
 		RadiolysisRecipes.registerRadiolysis();
 		GasCentrifugeRecipes.register();

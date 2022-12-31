@@ -98,8 +98,8 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 		this.power -= this.consumption;
 		this.progress[index]++;
 		
-		if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_alloyed)
-			slots[0] = new ItemStack(ModItems.meteorite_sword_machined); //fisfndmoivndlmgindgifgjfdnblfm
+//		if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_alloyed)
+//			slots[0] = new ItemStack(ModItems.meteorite_sword_machined); //fisfndmoivndlmgindgifgjfdnblfm
 		
 		int template = getTemplateIndex(index);
 

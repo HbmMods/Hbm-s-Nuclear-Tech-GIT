@@ -378,13 +378,13 @@ abstract public class Component extends StructureComponent {
 		
 		IInventory inventory = (IInventory) world.getTileEntity(posX, posY, posZ);
 		
-		if(inventory != null) {
-			ItemStack book = new ItemStack(ModItems.book_lore);
-			int i = rand.nextInt(books.length);
-			
-			BookLoreType.setTypeForStack(book, books[i]);
-			inventory.setInventorySlotContents(slot, book);
-		}
+//		if(inventory != null) {
+//			ItemStack book = new ItemStack(ModItems.book_lore);
+//			int i = rand.nextInt(books.length);
+//			
+//			BookLoreType.setTypeForStack(book, books[i]);
+//			inventory.setInventorySlotContents(slot, book);
+//		}
 	}
 	
 	/**

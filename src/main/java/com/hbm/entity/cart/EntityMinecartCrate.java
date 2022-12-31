@@ -39,9 +39,9 @@ public class EntityMinecartCrate extends EntityMinecartContainerBase {
 	public boolean interactFirst(EntityPlayer player) {
 		if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, player)))
 			return true;
-		if(!this.worldObj.isRemote) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModItems.guiID_cart_crate, worldObj, this.getEntityId(), 0, 0);
-		}
+//		if(!this.worldObj.isRemote) {
+//			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModItems.guiID_cart_crate, worldObj, this.getEntityId(), 0, 0);
+//		}
 
 		return true;
 	}

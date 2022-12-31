@@ -690,11 +690,11 @@ public class ModEventHandler {
 			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
 				((ArmorFSB)player.inventory.armorInventory[2].getItem()).handleAttack(event);
 			
-			for(ItemStack stack : player.inventory.armorInventory) {
-				if(stack != null && stack.getItem() instanceof IAttackHandler) {
-					((IAttackHandler)stack.getItem()).handleAttack(event, stack);
-				}
-			}
+//			for(ItemStack stack : player.inventory.armorInventory) {
+//				if(stack != null && stack.getItem() instanceof IAttackHandler) {
+//					((IAttackHandler)stack.getItem()).handleAttack(event, stack);
+//				}
+//			}
 		}
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)

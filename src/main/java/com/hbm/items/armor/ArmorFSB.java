@@ -281,9 +281,9 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 			list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.dash", dashCount));
 		}
 
-		if(protectionYield != 100F) {
-			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.yield", protectionYield));
-		}
+//		if(protectionYield != 100F) {
+//			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.yield", protectionYield));
+//		}
 	}
 
 	public static boolean hasFSBArmor(EntityPlayer player) {

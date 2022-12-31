@@ -299,24 +299,24 @@ public abstract class ToolAbility {
 			
 			boolean doesSmelt = false;
 			
-			for(int i = 0; i < drops.size(); i++) {
-				ItemStack stack = drops.get(i).copy();
-				ItemStack result = FurnaceRecipes.smelting().getSmeltingResult(stack);
-				
-				if(result != null) {
-					result = result.copy();
-					result.stackSize *= stack.stackSize;
-					drops.set(i, result);
-					doesSmelt = true;
-				}
-			}
+//			for(int i = 0; i < drops.size(); i++) {
+//				ItemStack stack = drops.get(i).copy();
+//				ItemStack result = FurnaceRecipes.smelting().getSmeltingResult(stack);
+//				
+//				if(result != null) {
+//					result = result.copy();
+//					result.stackSize *= stack.stackSize;
+//					drops.set(i, result);
+//					doesSmelt = true;
+//				}
+//			}
 			
 			if(doesSmelt) {
 				world.setBlockToAir(x, y, z);
 				player.getHeldItem().damageItem(1, player);
 				
-				for(ItemStack stack : drops)
-					world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack.copy()));
+//				for(ItemStack stack : drops)
+//					world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack.copy()));
 			}
 			
 			return false;

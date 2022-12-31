@@ -7,6 +7,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumPlantType;
+import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemHot;
 
@@ -25,7 +26,7 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL), DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_bakelite, new ItemStack(ModItems.ingot_bakelite), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_coal, DictFrame.fromOne(ModItems.coke, EnumCokeType.COAL), 1.0F);
-		GameRegistry.addSmelting(ModItems.briquette_lignite, DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), 1.0F);
+//		GameRegistry.addSmelting(ModItems.briquette_lignite, DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), 1.0F);
 		
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_thorium), new ItemStack(ModItems.ingot_th232), 3.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_uranium), new ItemStack(ModItems.ingot_uranium), 6.0F);
