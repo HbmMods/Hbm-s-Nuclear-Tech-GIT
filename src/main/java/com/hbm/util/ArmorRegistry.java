@@ -9,7 +9,6 @@ import com.hbm.handler.ArmorModHandler;
 
 import api.hbm.item.IGasMask;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

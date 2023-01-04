@@ -394,6 +394,26 @@ public class InventoryUtil {
 			return stacks;
 		}
 		
+		/* in emergency situations with mixed types where AStacks coexist with NBT dependent ItemStacks, such as for fluid icons */
+		if(o instanceof Object[]) {
+			Object[] ingredients = (Object[]) o;
+			ItemStack[][] stacks = new ItemStack[ingredients.length][0];
+			
+			for(int i = 0; i < ingredients.length; i++) {
+				Object ingredient = ingredients[i];
+
+				if(ingredient instanceof AStack) {
+					stacks[i] = ((AStack) ingredient).extractForNEI().toArray(new ItemStack[0]);
+				}
+				if(ingredient instanceof ItemStack) {
+					stacks[i] = new ItemStack[1];
+					stacks[i][0] = ((ItemStack) ingredient).copy();
+				}
+			}
+			
+			return stacks;
+		}
+		
 		return new ItemStack[0][0];
 	}
 	

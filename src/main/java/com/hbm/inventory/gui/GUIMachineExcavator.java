@@ -69,9 +69,20 @@ public class GUIMachineExcavator extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, 242, 96);
 		drawTexturedModalRect(guiLeft + 33, guiTop + 104, 33, 104, 176, 100);
 		
+		int i = (int) (drill.getPower() * 52 / drill.getMaxPower());
+		drawTexturedModalRect(guiLeft + 220, guiTop + 70 - i, 229, 156 - i, 16, i);
+		
+		if(drill.getPower() > drill.getPowerConsumption()) {
+			drawTexturedModalRect(guiLeft + 224, guiTop + 4, 239, 156, 9, 12);
+		}
+		
+		if(drill.getInstalledDrill() == null && System.currentTimeMillis() % 1000 < 500) {
+			drawTexturedModalRect(guiLeft + 171, guiTop + 74, 209, 154, 18, 18);
+		}
+		
 		if(drill.enableDrill) {
 			drawTexturedModalRect(guiLeft + 6, guiTop + 42, 209, 114, 20, 40);
-			if(drill.getInstalledDrill() != null) drawTexturedModalRect(guiLeft + 11, guiTop + 5, 209, 104, 10, 10);
+			if(drill.getInstalledDrill() != null && drill.getPower() >= drill.getPowerConsumption()) drawTexturedModalRect(guiLeft + 11, guiTop + 5, 209, 104, 10, 10);
 			else if(System.currentTimeMillis() % 1000 < 500) drawTexturedModalRect(guiLeft + 11, guiTop + 5, 219, 104, 10, 10);
 		}
 		

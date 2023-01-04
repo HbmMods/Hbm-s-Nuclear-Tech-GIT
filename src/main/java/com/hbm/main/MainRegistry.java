@@ -785,6 +785,7 @@ public class MainRegistry {
 		RadiolysisRecipes.registerRadiolysis();
 		GasCentrifugeRecipes.register();
 		CombinationRecipes.register();
+		MixerRecipes.register();
 
 		//the good stuff
 		SerializableRecipe.registerAllHandlers();

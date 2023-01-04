@@ -22,6 +22,7 @@ import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hbm.util.Compat;
 import com.hbm.util.I18nUtil;
 
 import api.hbm.fluid.IFluidConductor;
@@ -167,7 +168,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 				heatCache[index] = null;
 			
 			if(heatCache[index] == null) {
-				TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
+				TileEntity te = Compat.getTileStandard(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
 				
 				if(te instanceof TileEntityRBMKBase) {
 					TileEntityRBMKBase base = (TileEntityRBMKBase) te;
@@ -535,7 +536,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 	
 	private void getFF(int x, int y, int z) {
 		
-		TileEntity te = worldObj.getTileEntity(x, y, z);
+		TileEntity te = Compat.getTileStandard(worldObj, x, y, z);
 		
 		if(te instanceof TileEntityRBMKBase) {
 			

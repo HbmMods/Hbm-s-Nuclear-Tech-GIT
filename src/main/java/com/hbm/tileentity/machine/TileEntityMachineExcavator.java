@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -8,12 +10,16 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.network.CraneInserter;
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMachineExcavator;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineExcavator;
+import com.hbm.inventory.recipes.ShredderRecipes;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemDrillbit;
 import com.hbm.items.machine.ItemDrillbit.EnumDrillType;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -24,6 +30,7 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import api.hbm.conveyor.IConveyorBelt;
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -62,6 +69,13 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	public float prevDrillRotation = 0F;
 	public float drillExtension = 0F;
 	public float prevDrillExtension = 0F;
+	public float crusherRotation = 0F;
+	public float prevCrusherRotation = 0F;
+	public int chuteTimer = 0;
+	
+	public double speed = 1.0D;
+	public final long baseConsumption = 10_000L;
+	public long consumption = baseConsumption;
 	
 	public FluidTank tank;
 
@@ -78,17 +92,41 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	@Override
 	public void updateEntity() {
 		
+		//needs to happen on client too for GUI rendering
+		UpgradeManager.eval(slots, 2, 3);
+		int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+		int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+		
+		consumption = baseConsumption * (1 + speedLevel);
+		consumption /= (1 + powerLevel);
+		
 		if(!worldObj.isRemote) {
+			
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				tryEjectBuffer();
+			}
+			
+			if(chuteTimer > 0) chuteTimer--;
 			
 			this.power = Library.chargeTEFromItems(slots, 0, this.getPower(), this.getMaxPower());
 			this.operational = false;
+			int radiusLevel = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
 			
-			if(this.enableDrill && this.getInstalledDrill() != null && this.power >= this.getPowerConsumption()) {
+			EnumDrillType type = this.getInstalledDrill();
+			if(this.enableDrill && type != null && this.power >= this.getPowerConsumption()) {
 				
 				operational = true;
+				this.power -= this.getPowerConsumption();
 				
-				if(targetDepth < this.yCoord - 4 && tryDrill(5)) {
+				this.speed = type.speed;
+				this.speed *= (1 + speedLevel / 2D);
+				
+				if(targetDepth < this.yCoord - 4 && tryDrill(1 + radiusLevel * 2)) {
 					targetDepth++;
+					
+					if(targetDepth >= this.yCoord - 4) {
+						this.enableDrill = false;
+					}
 				}
 			} else {
 				this.targetDepth = 0;
@@ -102,6 +140,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 			data.setBoolean("s", enableSilkTouch);
 			data.setBoolean("o", operational);
 			data.setInteger("t", targetDepth);
+			data.setInteger("g", chuteTimer);
 			data.setLong("p", power);
 			this.networkPack(data, 150);
 			
@@ -120,15 +159,26 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 					this.drillExtension -= sig * speed;
 				}
 			}
-			
+
 			this.prevDrillRotation = this.drillRotation;
+			this.prevCrusherRotation = this.crusherRotation;
 			
-			if(this.operational)
+			if(this.operational) {
 				this.drillRotation += 15F;
+				
+				if(this.enableCrusher) {
+					this.crusherRotation += 15F;
+				}
+			}
 			
 			if(this.drillRotation >= 360F) {
 				this.drillRotation -= 360F;
 				this.prevDrillRotation -= 360F;
+			}
+			
+			if(this.crusherRotation >= 360F) {
+				this.crusherRotation -= 360F;
+				this.prevCrusherRotation -= 360F;
 			}
 		}
 	}
@@ -141,6 +191,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		this.enableSilkTouch = nbt.getBoolean("s");
 		this.operational = nbt.getBoolean("o");
 		this.targetDepth = nbt.getInteger("t");
+		this.chuteTimer = nbt.getInteger("g");
 		this.power = nbt.getLong("p");
 	}
 	
@@ -181,7 +232,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 			if(!ignoreAll) {
 				ticksWorked++;
 				
-				int ticksToWork = (int) Math.ceil(combinedHardness);
+				int ticksToWork = (int) Math.ceil(combinedHardness / this.speed);
 				
 				if(ticksWorked >= ticksToWork) {
 					breakBlocks(ring);
@@ -236,7 +287,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 						maxX = x;
 						maxY = y;
 						maxZ = z;
-						breakRecursively(x, y, z, 10);
+						breakRecursively(x, y, z, 15);
 						recursionBrake.clear();
 						
 						/* move all excavated items to the last drillable position which is also within collection range */
@@ -289,7 +340,47 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	}
 	
 	protected void breakSingleBlock(Block b, int x ,int y, int z) {
-		b.dropBlockAsItem(worldObj, x, y, z, worldObj.getBlockMetadata(x, y, z), 0 /* fortune */);
+		
+		List<ItemStack> items = b.getDrops(worldObj, x, y, z, worldObj.getBlockMetadata(x, y, z), this.getFortuneLevel());
+		
+		if(this.canSilkTouch()) {
+			
+			try {
+				Method createStackedBlock = ReflectionHelper.findMethod(Block.class, b, new String[] {"createStackedBlock", "func_149644_j"}, int.class);
+				ItemStack result = (ItemStack) createStackedBlock.invoke(b, worldObj.getBlockMetadata(x, y, z));
+				
+				if(result != null) {
+					items.clear();
+					items.add(result.copy());
+				}
+			} catch(Exception ex) { }
+		}
+		
+		if(this.enableCrusher) {
+			
+			List<ItemStack> list = new ArrayList();
+			
+			for(ItemStack stack : items) {
+				ItemStack crushed = ShredderRecipes.getShredderResult(stack).copy();
+				
+				if(crushed.getItem() == ModItems.scrap || crushed.getItem() == ModItems.dust) {
+					list.add(stack);
+				} else {
+					crushed.stackSize *= stack.stackSize;
+					list.add(crushed);
+				}
+			}
+			
+			items = list;
+		}
+		
+		if(b == ModBlocks.barricade)
+			items.clear();
+		
+		for(ItemStack item : items) {
+			worldObj.spawnEntityInWorld(new EntityItem(worldObj, x + 0.5, y + 0.5, z + 0.5, item));
+		}
+		
 		worldObj.func_147480_a(x, y, z, false);
 	}
 	
@@ -318,6 +409,47 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		}
 	}
 	
+	protected void tryEjectBuffer() {
+
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+
+		int x = xCoord + dir.offsetX * 4;
+		int y = yCoord - 3;
+		int z = zCoord + dir.offsetZ * 4;
+		
+		List<ItemStack> items = new ArrayList();
+
+		for(int i = 5; i < 14; i++) {
+			ItemStack stack = slots[i];
+			
+			if(stack != null) {
+				items.add(stack.copy());
+			}
+		}
+		
+		TileEntity tile = worldObj.getTileEntity(x, y, z);
+		if(tile instanceof IInventory) {
+			supplyContainer((IInventory) tile, items, dir.getOpposite());
+		}
+		
+		Block b = worldObj.getBlock(x, y, z);
+		if(b instanceof IConveyorBelt) {
+			supplyConveyor((IConveyorBelt) b, items, x, y, z);
+		}
+		
+		items.removeIf(i -> i == null || i.stackSize <= 0);
+
+		for(int i = 5; i < 14; i++) {
+			int index = i - 5;
+			
+			if(items.size() > index) {
+				slots[i] = items.get(index).copy();
+			} else {
+				slots[i] = null;
+			}
+		}
+	}
+	
 	/** pulls up an AABB around the drillbit and tries to either conveyor output or buffer collected items */
 	protected void tryCollect(int radius) {
 		int yLevel = getY();
@@ -330,19 +462,63 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		int y = yCoord - 3;
 		int z = zCoord + dir.offsetZ * 4;
 		
+		List<ItemStack> stacks = new ArrayList();
+		items.forEach(i -> stacks.add(i.getEntityItem()));
+		
+		/* try to insert into a valid coontainer */
 		TileEntity tile = worldObj.getTileEntity(x, y, z);
 		if(tile instanceof IInventory) {
-			supplyContainer((IInventory) tile, items, dir.getOpposite());
+			supplyContainer((IInventory) tile, stacks, dir.getOpposite());
 		}
 		
+		/* try to place on conveyor belt */
 		Block b = worldObj.getBlock(x, y, z);
 		if(b instanceof IConveyorBelt) {
-			supplyConveyor((IConveyorBelt) b, items, x, y, z);
+			supplyConveyor((IConveyorBelt) b, stacks, x, y, z);
+		}
+		
+		items.removeIf(i -> i.isDead || i.getEntityItem().stackSize <= 0);
+		
+		/* collect remaining items in internal buffer */
+		outer:
+		for(EntityItem item : items) {
+			
+			ItemStack stack = item.getEntityItem();
+			
+			/* adding items to existing stacks */
+			for(int i = 5; i < 14; i++) {
+				
+				if(slots[i] != null && slots[i].stackSize < slots[i].getMaxStackSize() && stack.isItemEqual(slots[i]) && ItemStack.areItemStackTagsEqual(stack, slots[i])) {
+					int toAdd = Math.min(slots[i].getMaxStackSize() - slots[i].stackSize, stack.stackSize);
+					slots[i].stackSize += toAdd;
+					stack.stackSize -= toAdd;
+					
+					chuteTimer = 40;
+					
+					if(stack.stackSize <= 0) {
+						item.setDead();
+						continue outer;
+					}
+				}
+			}
+			
+			/* add leftovers to empty slots */
+			for(int i = 5; i < 14; i++) {
+				
+				if(slots[i] == null) {
+					
+					chuteTimer = 40;
+					
+					slots[i] = stack.copy();
+					item.setDead();
+					break;
+				}
+			}
 		}
 	}
 	
 	/** places all items into a connected container, if possible */
-	protected void supplyContainer(IInventory inv, List<EntityItem> items, ForgeDirection dir) {
+	protected void supplyContainer(IInventory inv, List<ItemStack> items, ForgeDirection dir) {
 		
 		int side = dir.ordinal();
 		int[] access = null;
@@ -352,40 +528,46 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 			access = CraneInserter.masquerade(sided, dir.ordinal());
 		}
 		
-		for(EntityItem item : items) {
+		for(ItemStack item : items) {
 			
-			if(item.isDead) continue;
+			if(item.stackSize <= 0) continue;
 			
-			ItemStack stack = CraneInserter.addToInventory(inv, access, item.getEntityItem(), side);
-			
-			if(stack == null || stack.stackSize == 0) {
-				item.setDead();
-			}
+			CraneInserter.addToInventory(inv, access, item, side);
+			chuteTimer = 40;
 		}
 	}
 	
 	/** moves all items onto a connected conveyor belt */
-	protected void supplyConveyor(IConveyorBelt belt, List<EntityItem> items, int x, int y, int z) {
+	protected void supplyConveyor(IConveyorBelt belt, List<ItemStack> items, int x, int y, int z) {
 		
 		Random rand = worldObj.rand;
 		
-		for(EntityItem item : items) {
+		for(ItemStack item : items) {
 			
-			if(item.isDead) continue;
+			if(item.stackSize <= 0) continue;
 			
 			Vec3 base = Vec3.createVectorHelper(x + rand.nextDouble(), y + 0.5, z + rand.nextDouble());
 			Vec3 vec = belt.getClosestSnappingPosition(worldObj, x, y, z, base);
 			
 			EntityMovingItem moving = new EntityMovingItem(worldObj);
 			moving.setPosition(base.xCoord, vec.yCoord, base.zCoord);
-			moving.setItemStack(item.getEntityItem().copy());
+			moving.setItemStack(item.copy());
 			worldObj.spawnEntityInWorld(moving);
-			item.setDead();
+			item.stackSize = 0;
+			
+			chuteTimer = 40;
 		}
 	}
 	
-	public int getPowerConsumption() {
-		return 10_000;
+	public long getPowerConsumption() {
+		return consumption;
+	}
+	
+	public int getFortuneLevel() {
+		EnumDrillType type = getInstalledDrill();
+		
+		if(type != null) return type.fortune;
+		return 0;
 	}
 	
 	public boolean shouldIgnoreBlock(Block block, int x, int y, int z) {

@@ -1,8 +1,8 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.tileentity.machine.TileEntityMachineExcavator;
+import com.hbm.items.machine.ItemMachineUpgrade;
+import com.hbm.tileentity.machine.TileEntityMachineMixer;
 
 import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,38 +11,22 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMachineExcavator extends Container {
+public class ContainerMixer extends Container {
 	
-	TileEntityMachineExcavator excavator;
+	private TileEntityMachineMixer mixer;
+	
+	public ContainerMixer(InventoryPlayer player, TileEntityMachineMixer mixer) {
+		this.mixer = mixer;
 
-	public ContainerMachineExcavator(InventoryPlayer invPlayer, TileEntityMachineExcavator tile) {
-		this.excavator = tile;
-
-		//Battery: 0
-		this.addSlotToContainer(new Slot(tile, 0, 220, 72));
-		//Fluid ID: 1
-		this.addSlotToContainer(new Slot(tile, 1, 202, 72));
-		//Upgrades: 2-4
-		for(int i = 0; i < 3; i++) {
-			this.addSlotToContainer(new Slot(tile, 2 + i, 136 + i * 18, 75));
-		}
-		
-		//Buffer: 5-13
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new SlotMachineOutput(tile, 5 + j + i * 3, 136 + j * 18, 5 + i * 18));
-			}
-		}
-		
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 41 + j * 18, 122 + i * 18));
-			}
-		}
-
-		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 41 + i * 18, 180));
-		}
+		//Battery
+		this.addSlotToContainer(new Slot(mixer, 0, 23, 77));
+		//Item Input
+		this.addSlotToContainer(new Slot(mixer, 1, 43, 77));
+		//Fluid ID
+		this.addSlotToContainer(new Slot(mixer, 2, 117, 77));
+		//Upgrades
+		this.addSlotToContainer(new Slot(mixer, 3, 137, 24));
+		this.addSlotToContainer(new Slot(mixer, 4, 137, 42));
 	}
 
 	@Override
@@ -65,11 +49,15 @@ public class ContainerMachineExcavator extends Container {
 						return null;
 					}
 				} else if(var3.getItem() instanceof IItemFluidIdentifier) {
-					if(!this.mergeItemStack(var5, 1, 2, false)) {
+					if(!this.mergeItemStack(var5, 2, 3, false)) {
+						return null;
+					}
+				} else if(var3.getItem() instanceof ItemMachineUpgrade) {
+					if(!this.mergeItemStack(var5, 3, 4, false)) {
 						return null;
 					}
 				} else {
-					if(!this.mergeItemStack(var5, 2, 5, false)) {
+					if(!this.mergeItemStack(var5, 1, 2, false)) {
 						return null;
 					}
 				}
@@ -87,6 +75,6 @@ public class ContainerMachineExcavator extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return excavator.isUseableByPlayer(player);
+		return mixer.isUseableByPlayer(player);
 	}
 }

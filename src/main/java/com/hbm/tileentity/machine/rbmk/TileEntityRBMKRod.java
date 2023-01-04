@@ -8,6 +8,7 @@ import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hbm.util.Compat;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -152,7 +153,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	
 	protected double runInteraction(int x, int y, int z, double flux) {
 		
-		TileEntity te = worldObj.getTileEntity(x, y, z);
+		TileEntity te = Compat.getTileStandard(worldObj, x, y, z);
 		
 		if(te instanceof TileEntityRBMKBase) {
 			TileEntityRBMKBase base = (TileEntityRBMKBase) te;
