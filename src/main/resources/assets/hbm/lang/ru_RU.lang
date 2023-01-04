@@ -2986,6 +2986,10 @@ item.door_metal.name=Металлическая дверь
 item.door_office.name=Офисная дверь
 item.door_bunker.name=Бункерная дверь
 
+tile.door_metal.name=Металлическая дверь
+tile.door_office.name=Офисная дверь
+tile.door_bunker.name=Бункерная дверь
+
 item.nugget_uranium.name=Урановый самородок
 item.nugget_plutonium.name=Плутониевый самородок
 item.nugget_neptunium.name=Нептуниевый самородок
