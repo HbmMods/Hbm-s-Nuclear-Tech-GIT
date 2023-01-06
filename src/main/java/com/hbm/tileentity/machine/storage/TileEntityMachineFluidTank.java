@@ -55,6 +55,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	public short mode = 0;
 	public static final short modes = 4;
 	public boolean hasExploded = false;
+	protected boolean sendingBrake = false;
 	
 	public Explosion lastExplosion = null;
 	
@@ -98,7 +99,9 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 				if(age >= 20)
 					age = 0;
 				
+				this.sendingBrake = true;
 				tank.setFill(TileEntityBarrel.transmitFluidFairly(worldObj, tank.getTankType(), this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
+				this.sendingBrake = false;
 				
 				if((mode == 1 || mode == 2) && (age == 9 || age == 19))
 					fillFluidInit(tank.getTankType());
@@ -254,7 +257,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	@Override
 	public int getMaxFluidFill(FluidType type) {
 		
-		if(mode == 2 || mode == 3)
+		if(mode == 2 || mode == 3 || this.sendingBrake)
 			return 0;
 		
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
@@ -333,7 +336,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	@Override
 	public long getDemand(FluidType type) {
 		
-		if(this.mode == 2 || this.mode == 3)
+		if(this.mode == 2 || this.mode == 3 || this.sendingBrake)
 			return 0;
 		
 		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
@@ -370,7 +373,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 
 	@Override
 	public FluidTank[] getReceivingTanks() {
-		if(this.hasExploded) return new FluidTank[0];
+		if(this.hasExploded || this.sendingBrake) return new FluidTank[0];
 		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
 	}
 

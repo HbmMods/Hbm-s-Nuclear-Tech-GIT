@@ -1,11 +1,13 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMixer;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMixer;
 import com.hbm.inventory.recipes.MixerRecipes;
 import com.hbm.inventory.recipes.MixerRecipes.MixerRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
@@ -19,6 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -26,13 +29,15 @@ import net.minecraft.world.World;
 public class TileEntityMachineMixer extends TileEntityMachineBase implements INBTPacketReceiver, IGUIProvider, IEnergyUser, IFluidStandardTransceiver {
 	
 	public long power;
-	public static final long maxPower = 100_000;
+	public static final long maxPower = 10_000;
 	public int progress;
 	public int processTime;
 	
 	public float rotation;
 	public float prevRotation;
 	public boolean wasOn = false;
+
+	private int consumption = 50;
 	
 	public FluidTank[] tanks;
 
@@ -56,6 +61,17 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 			
 			tanks[2].setType(2, slots);
 			
+			UpgradeManager.eval(slots, 3, 4);
+			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			int overLevel = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+			
+			this.consumption = 50;
+
+			this.consumption += speedLevel * 150;
+			this.consumption -= this.consumption * powerLevel * 0.25;
+			this.consumption *= (overLevel * 3 + 1);
+			
 			for(DirPos pos : getConPos()) {
 				this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -66,6 +82,12 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 			
 			if(this.wasOn) {
 				this.progress++;
+				this.power -= this.getConsumption();
+				
+				this.processTime -= this.processTime * speedLevel / 4;
+				this.processTime /= (overLevel + 1);
+				
+				if(processTime <= 0) this.processTime = 1;
 				
 				if(this.progress >= this.processTime) {
 					this.process();
@@ -97,12 +119,17 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 			if(this.wasOn) {
 				this.rotation += 20F;
 			}
+			
+			if(this.rotation >= 360) {
+				this.rotation -= 360;
+				this.prevRotation -= 360;
+			}
 		}
 	}
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("powe");
+		this.power = nbt.getLong("power");
 		this.processTime = nbt.getInteger("processTime");
 		this.progress = nbt.getInteger("progress");
 		this.wasOn = nbt.getBoolean("wasOn");
@@ -162,7 +189,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 	}
 	
 	public int getConsumption() {
-		return 50;
+		return consumption;
 	}
 	
 	protected DirPos[] getConPos() {
@@ -173,6 +200,41 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
 				new DirPos(xCoord, yCoord, zCoord - 1, Library.POS_Z),
 		};
+	}
+	
+	@Override
+	public int[] getAccessibleSlotsFromSide(int meta) {
+		return new int[] { 1 };
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		
+		MixerRecipe recipe = MixerRecipes.getOutput(tanks[2].getTankType());
+		
+		if(recipe == null || recipe.solidInput == null) return false;
+			
+		return recipe.solidInput.matchesRecipe(itemStack, true);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.power = nbt.getLong("power");
+		this.progress = nbt.getInteger("progress");
+		this.processTime = nbt.getInteger("processTime");
+		for(int i = 0; i < 3; i++) this.tanks[i].readFromNBT(nbt, i + "");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setLong("power", power);
+		nbt.setInteger("progress", progress);
+		nbt.setInteger("processTime", processTime);
+		for(int i = 0; i < 3; i++) this.tanks[i].writeToNBT(nbt, i + "");
 	}
 
 	@Override

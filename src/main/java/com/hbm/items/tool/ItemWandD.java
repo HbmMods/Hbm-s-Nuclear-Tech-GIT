@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.logic.EntityTomBlast;
@@ -74,19 +75,32 @@ public class ItemWandD extends Item {
 			
 			/*OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 20, 500);*/
 			
-			EntityNukeTorex torex = new EntityNukeTorex(world);
+			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
 			torex.getDataWatcher().updateObject(10, 1.5F);
 			world.spawnEntityInWorld(torex);
+			EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
+			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
+			EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(torex.getEntityId());
+			entry.blocksDistanceThreshold = 1000;
+			world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));*/
 			
-            EntityTracker entitytracker = ((WorldServer)world).getEntityTracker();
-            //ReflectionHelper.setPrivateValue(EntityTracker.class, entitytracker, 1000, "entityViewDistance");
-            
-            IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
-            EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(torex.getEntityId());
-            entry.blocksDistanceThreshold = 1000;
+			int x = pos.blockX;
+			int z = pos.blockZ;
+			int type = world.rand.nextInt(10);
 			
-			world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));
+			for(int i = 0; i < 1; i++) {
+				int ix = (int) Math.floor(x + world.rand.nextGaussian() * 0);
+				int iz = (int) Math.floor(z + world.rand.nextGaussian() * 0);
+				
+				world.setBlock(ix, 0, iz, ModBlocks.ore_bedrock);
+				TileEntityBedrockOre ore = (TileEntityBedrockOre) world.getTileEntity(ix, 0, iz);
+				ore.resource = new ItemStack(ModBlocks.stone_resource, 1, 2);
+				ore.color = 0xCF6722;
+				ore.shape = type;
+				world.markBlockForUpdate(ix, 0, iz);
+				world.markTileEntityChunkModified(ix, 0, iz, ore);
+			}
 			
 			/*EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
 			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);

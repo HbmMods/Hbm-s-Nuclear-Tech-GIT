@@ -27,6 +27,16 @@ public class ContainerMixer extends Container {
 		//Upgrades
 		this.addSlotToContainer(new Slot(mixer, 3, 137, 24));
 		this.addSlotToContainer(new Slot(mixer, 4, 137, 42));
+
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 9; j++) {
+				this.addSlotToContainer(new Slot(player, j + i * 9 + 9, 8 + j * 18, 122 + i * 18));
+			}
+		}
+
+		for(int i = 0; i < 9; i++) {
+			this.addSlotToContainer(new Slot(player, i, 8 + i * 18, 180));
+		}
 	}
 
 	@Override

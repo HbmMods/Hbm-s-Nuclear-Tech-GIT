@@ -51,6 +51,11 @@ public class GUIMixer extends GuiInfoContainer {
 		
 		int i = (int) (mixer.getPower() * 53 / mixer.getMaxPower());
 		drawTexturedModalRect(guiLeft + 23, guiTop + 75 - i, 176, 52 - i, 16, i);
+		
+		if(mixer.processTime > 0 && mixer.progress > 0) {
+			int j = mixer.progress * 53 / mixer.processTime;
+			drawTexturedModalRect(guiLeft + 62, guiTop + 36, 192, 0, j, 44);
+		}
 
 		mixer.tanks[0].renderTank(guiLeft + 43, guiTop + 75, this.zLevel, 7, 52);
 		mixer.tanks[1].renderTank(guiLeft + 52, guiTop + 75, this.zLevel, 7, 52);

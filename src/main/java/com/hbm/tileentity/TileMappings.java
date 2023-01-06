@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.bomb.BlockVolcano.TileEntityVolcanoCore;
+import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
@@ -201,6 +202,7 @@ public class TileMappings {
 		put(TileEntityProxyConductor.class, "tileentity_proxy_conductor");
 
 		put(TileEntityRandomOre.class, "tileentity_mother_of_all_ores");
+		put(TileEntityBedrockOre.class, "tileentity_bedrock_ore");
 		
 		putNetwork();
 		putBombs();

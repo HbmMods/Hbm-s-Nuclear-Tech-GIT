@@ -211,6 +211,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 			
 			boolean ignoreAll = true;
 			float combinedHardness = 0F;
+			BlockPos bedrockOre = null;
 			
 			for(int x = xCoord - ring; x <= xCoord + ring; x++) {
 				for(int z = zCoord - ring; z <= zCoord + ring; z++) {
@@ -224,6 +225,12 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 						
 						ignoreAll = false;
 						
+						if(b == ModBlocks.ore_bedrock) {
+							combinedHardness = 60 * 20;
+							bedrockOre = new BlockPos(x, y, z);
+							break;
+						}
+						
 						combinedHardness += b.getBlockHardness(worldObj, x, y, z);
 					}
 				}
@@ -235,9 +242,14 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 				int ticksToWork = (int) Math.ceil(combinedHardness / this.speed);
 				
 				if(ticksWorked >= ticksToWork) {
-					breakBlocks(ring);
-					buildWall(ring + 1, ring == radius && this.enableWalling);
-					tryCollect(radius);
+					
+					if(bedrockOre != null) {
+						breakBlocks(ring);
+						buildWall(ring + 1, ring == radius && this.enableWalling);
+						tryCollect(radius);
+					} else {
+						//collectBedrock(bedrockOre);
+					}
 					ticksWorked = 0;
 				}
 				

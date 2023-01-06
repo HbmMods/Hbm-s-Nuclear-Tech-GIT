@@ -9,10 +9,9 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.util.RenderSparks;
 import com.hbm.tileentity.machine.TileEntityCore;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -36,12 +35,13 @@ public class RenderCore extends TileEntitySpecialRenderer {
 		} else {
 
 			GL11.glPushMatrix();
-			GL11.glTranslated(x, y, z);
-			/*GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(RenderManager.instance.playerViewX - 90, 1.0F, 0.0F, 0.0F);
-			GL11.glTranslated(-0.5, -0.5, -0.5);*/
-
-			renderOrb(core, 0, 0, 0);
+			GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+			
+			if(core.meltdownTick)
+				renderFlare(core);
+			else
+				renderOrb(core, 0, 0, 0);
+			
 			GL11.glPopMatrix();
 		}
 	}
@@ -129,12 +129,84 @@ public class RenderCore extends TileEntitySpecialRenderer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_CULL_FACE);
-        GL11.glPopMatrix();
-    }
-    
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glPopMatrix();
+	}
+
+	public void renderFlare(TileEntityCore core) {
+
+		int color = core.color;
+		float r = ((color & 0xFF0000) >> 16) / 255F;
+		float g = ((color & 0x00FF00) >> 8) / 255F;
+		float b = ((color & 0x0000FF) >> 0) / 255F;
+		
+		Tessellator tessellator = Tessellator.instance;
+		RenderHelper.disableStandardItemLighting();
+		float f1 = (core.getWorldObj().getTotalWorldTime()) / 200.0F;
+		float f2 = 0.0F;
+
+		Random random = new Random(432L);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0.0F);
+		GL11.glDepthMask(false);
+		RenderHelper.disableStandardItemLighting();
+		GL11.glPushMatrix();
+		
+		double ix = (core.getWorldObj().getTotalWorldTime() * 0.2D) % (Math.PI * 2D);
+		double t = 0.8F;
+		float pulse = (float) ((1D / t) * Math.atan((t * Math.sin(ix)) / (1 - t * Math.cos(ix))));
+		
+		pulse += 1D;
+		pulse /= 2D;
+		
+		float s = 0.875F;
+		s += pulse * 0.125F;
+		
+		GL11.glScalef(s, s, s);
+
+		int count = 150;
+		for(int i = 0; i < count; i++) {
+			GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
+			GL11.glRotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(random.nextFloat() * 360.0F + f1 * 90.0F, 0.0F, 0.0F, 1.0F);
+			tessellator.startDrawing(6);
+			float f3 = random.nextFloat() * 2.0F + 5.0F + f2 * 10F;
+			float f4 = random.nextFloat() * 1.0F + 1.0F + f2 * 2.0F;
+			tessellator.setColorRGBA_F(r, g, b, 1F);
+			tessellator.addVertex(0.0D, 0.0D, 0.0D);
+			tessellator.setColorRGBA_F(r, g, b, 0F);
+			tessellator.addVertex(-0.866D * f4, f3, -0.5F * f4);
+			tessellator.addVertex(0.866D * f4, f3, -0.5F * f4);
+			tessellator.addVertex(0.0D, f3, 1.0F * f4);
+			tessellator.addVertex(-0.866D * f4, f3, -0.5F * f4);
+			GL11.glScalef(0.999F, 0.999F, 0.999F);
+			tessellator.draw();
+		}
+
+		GL11.glPopMatrix();
+		GL11.glDepthMask(true);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+		RenderHelper.enableStandardItemLighting();
+		
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+	}
+	
     public void renderVoid(TileEntity tile, double x, double y, double z) {
         
         TileEntityCore core = (TileEntityCore)tile;

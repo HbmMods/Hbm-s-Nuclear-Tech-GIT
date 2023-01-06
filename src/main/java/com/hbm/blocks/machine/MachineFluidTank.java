@@ -40,9 +40,9 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		if(meta >= 12)
-			return new TileEntityMachineFluidTank();
-		return new TileEntityProxyCombo().fluid();
+		if(meta >= 12) return new TileEntityMachineFluidTank();
+		if(meta >= 6) return new TileEntityProxyCombo().fluid();
+		return null;
 	}
 
 	@Override
@@ -80,13 +80,11 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 	@Override
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-		this.makeExtra(world, x + rot.offsetX, y, z + rot.offsetZ);
-		this.makeExtra(world, x - rot.offsetX, y, z - rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX + rot.offsetX, y, z - dir.offsetZ + rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX - rot.offsetX, y, z - dir.offsetZ - rot.offsetZ);
+		this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ + 1);
+		this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ - 1);
+		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ + 1);
+		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ - 1);
 	}
 
 	@Override

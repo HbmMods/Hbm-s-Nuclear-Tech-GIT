@@ -79,6 +79,7 @@ public class ModBlocks {
 	public static Block ore_alexandrite;
 
 	public static Block ore_random;
+	public static Block ore_bedrock;
 	
 	public static Block ore_bedrock_coltan;
 
@@ -1397,6 +1398,7 @@ public class ModBlocks {
 		ore_alexandrite = new BlockDepthOre().setBlockName("ore_alexandrite").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ore_alexandrite");
 		
 		ore_random = new BlockMotherOfAllOres().setBlockName("ore_random").setCreativeTab(MainRegistry.blockTab);
+		ore_bedrock = new BlockBedrockOreTE().setBlockName("ore_bedrock").setCreativeTab(null);
 
 		depth_brick = new BlockDepth().setBlockName("depth_brick").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":depth_brick");
 		depth_tiles = new BlockDepth().setBlockName("depth_tiles").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":depth_tiles");
@@ -2530,6 +2532,9 @@ public class ModBlocks {
 		
 		//It's a meme you dip
 		GameRegistry.registerBlock(ore_random, ItemRandomOreBlock.class, ore_random.getUnlocalizedName());
+		
+		//Bedrock ore
+		register(ore_bedrock);
 		
 		//Crystals
 		GameRegistry.registerBlock(crystal_power, crystal_power.getUnlocalizedName());
