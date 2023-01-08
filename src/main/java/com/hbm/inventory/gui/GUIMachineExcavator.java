@@ -108,5 +108,7 @@ public class GUIMachineExcavator extends GuiInfoContainer {
 			if(drill.canSilkTouch()) drawTexturedModalRect(guiLeft + 107, guiTop + 5, 209, 104, 10, 10);
 			else if(System.currentTimeMillis() % 1000 < 500) drawTexturedModalRect(guiLeft + 107, guiTop + 5, 219, 104, 10, 10);
 		}
+		
+		drill.tank.renderTank(guiLeft + 202, guiTop + 70, this.zLevel, 16, 52);
 	}
 }

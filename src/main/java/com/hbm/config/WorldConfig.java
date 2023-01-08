@@ -33,6 +33,9 @@ public class WorldConfig {
 	public static int bedrockOilSpawn = 200;
 	public static int meteoriteSpawn = 500;
 
+	public static int bedrockIronSpawn = 200;
+	public static int bedrockCopperSpawn = 200;
+
 	public static int ironClusterSpawn = 4;
 	public static int titaniumClusterSpawn = 2;
 	public static int aluminiumClusterSpawn = 3;
@@ -123,6 +126,9 @@ public class WorldConfig {
 		oilSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.21_oilSpawnRate", "Spawns an oil bubble every nTH chunk", 100);
 		bedrockOilSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.22_bedrockOilSpawnRate", "Spawns a bedrock oil node every nTH chunk", 200);
 		meteoriteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.23_meteoriteSpawnRate", "Spawns a fallen meteorite every nTH chunk", 200);
+
+		bedrockIronSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B00_bedrockIronSpawn", "Spawns a bedrock iron deposit every nTH chunk", 200);
+		bedrockCopperSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B01_bedrockCopperSpawn", "Spawns a bedrock copper deposit every nTH chunk", 200);
 
 		ironClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C00_ironClusterSpawn", "Amount of iron cluster veins per chunk", 4);
 		titaniumClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C01_titaniumClusterSpawn", "Amount of titanium cluster veins per chunk", 2);

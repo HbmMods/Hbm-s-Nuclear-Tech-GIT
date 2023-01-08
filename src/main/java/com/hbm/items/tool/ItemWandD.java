@@ -8,6 +8,8 @@ import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.logic.EntityTomBlast;
 import com.hbm.entity.mob.siege.EntitySiegeTunneler;
+import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBookLore;
 import com.hbm.items.special.ItemBookLore.BookLoreType;
@@ -98,6 +100,7 @@ public class ItemWandD extends Item {
 				ore.resource = new ItemStack(ModBlocks.stone_resource, 1, 2);
 				ore.color = 0xCF6722;
 				ore.shape = type;
+				ore.acidRequirement = new FluidStack(Fluids.SULFURIC_ACID, 1000);
 				world.markBlockForUpdate(ix, 0, iz);
 				world.markTileEntityChunkModified(ix, 0, iz, ore);
 			}

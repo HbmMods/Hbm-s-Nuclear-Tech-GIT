@@ -9,6 +9,7 @@ import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.machine.storage.TileEntitySafe;
@@ -152,6 +153,9 @@ public class HbmWorldGen implements IWorldGenerator {
 
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.hematiteSpawn, 10, 4, 80, ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn, 10, 4, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal());
+			
+			if(WorldConfig.bedrockIronSpawn > 0 && rand.nextInt(WorldConfig.bedrockIronSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.IRON);
+			if(WorldConfig.bedrockCopperSpawn > 0 && rand.nextInt(WorldConfig.bedrockCopperSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.COPPER);
 
 			for(int k = 0; k < WorldConfig.randomSpawn; k++) {
 				BlockMotherOfAllOres.shuffleOverride(rand);

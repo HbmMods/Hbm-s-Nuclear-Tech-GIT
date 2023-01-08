@@ -39,6 +39,7 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 		super(Material.rock);
 		this.setBlockTextureName("bedrock");
 		this.setBlockUnbreakable();
+		this.setResistance(1_000_000);
 	}
 
 	@Override
@@ -140,6 +141,8 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 			text.add(ore.resource.getDisplayName());
 		}
 		
+		text.add("Tier: " + ore.tier);
+		
 		if(ore.acidRequirement != null) {
 			text.add("Requires: " + ore.acidRequirement.fill + "mB " + I18nUtil.resolveKey(ore.acidRequirement.type.getUnlocalizedName()));
 		}
@@ -151,6 +154,7 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 		
 		public ItemStack resource;
 		public FluidStack acidRequirement;
+		public int tier;
 		public int color;
 		public int shape;
 		
@@ -179,6 +183,7 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 				this.acidRequirement = new FluidStack(type, nbt.getInteger("amount"));
 			}
 
+			this.tier = nbt.getInteger("tier");
 			this.color = nbt.getInteger("color");
 			this.shape = nbt.getInteger("shape");
 		}
@@ -198,6 +203,7 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 				nbt.setInteger("amount", this.acidRequirement.fill);
 			}
 
+			nbt.setInteger("tier", this.tier);
 			nbt.setInteger("color", this.color);
 			nbt.setInteger("shape", this.shape);
 		}

@@ -19,9 +19,11 @@ import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.material.MaterialShapes;
+import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumTarType;
+import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -447,6 +449,10 @@ public class OreDictManager {
 
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_bismuth);
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_arsenic);
+		
+		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
+			OreDictionary.registerOre("ore" + ore.oreName, new ItemStack(ModItems.ore_enriched, 1, ore.ordinal()));
+		}
 
 		OreDictionary.registerOre("itemRubber", ingot_rubber);
 

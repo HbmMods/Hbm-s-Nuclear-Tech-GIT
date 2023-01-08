@@ -309,6 +309,15 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		
 		spawnDebris(DebrisType.ELEMENT);
 		
+		if(this.isModerated()) {
+			
+			int count = 2 + worldObj.rand.nextInt(2);
+			
+			for(int i = 0; i < count; i++) {
+				spawnDebris(DebrisType.GRAPHITE);
+			}
+		}
+		
 		if(this.getBlockMetadata() == RBMKBase.DIR_NORMAL_LID.ordinal() + RBMKBase.offset)
 			spawnDebris(DebrisType.LID);
 	}

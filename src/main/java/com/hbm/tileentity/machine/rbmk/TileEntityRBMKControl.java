@@ -97,6 +97,15 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	@Override
 	public void onMelt(int reduce) {
 		
+		if(this.isModerated()) {
+			
+			int count = 2 + worldObj.rand.nextInt(2);
+			
+			for(int i = 0; i < count; i++) {
+				spawnDebris(DebrisType.GRAPHITE);
+			}
+		}
+		
 		int count = 2 + worldObj.rand.nextInt(2);
 		
 		for(int i = 0; i < count; i++) {

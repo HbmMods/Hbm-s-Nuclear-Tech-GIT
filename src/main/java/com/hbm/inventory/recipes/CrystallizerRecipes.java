@@ -10,6 +10,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.main.MainRegistry;
 
@@ -83,6 +84,13 @@ public class CrystallizerRecipes {
 		
 		for(int i = 0; i < ScrapType.values().length; i++) {
 			recipes.put(new ComparableStack(ModItems.scrap_plastic, 1, i), new ItemStack(ModItems.circuit_star_piece, 1, i));
+		}
+		
+		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
+			int i = ore.ordinal();
+
+			recipes.put(new ComparableStack(ModItems.ore_centrifuged, 1, i), new ItemStack(ModItems.ore_cleaned, 1, i));
+			recipes.put(new ComparableStack(ModItems.ore_separated, 1, i), new ItemStack(ModItems.ore_purified, 1, i));
 		}
 		
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");

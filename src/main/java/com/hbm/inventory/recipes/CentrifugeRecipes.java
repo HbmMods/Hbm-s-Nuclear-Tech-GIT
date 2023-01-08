@@ -18,6 +18,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
@@ -297,6 +298,28 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.powder_fire, 1),
 				new ItemStack(Items.dye, 1, 15), //temp
 				new ItemStack(ModItems.dust) });
+		
+		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
+			int i = ore.ordinal();
+			
+			recipes.put(new ComparableStack(ModItems.ore_bedrock, 1, i), new ItemStack[] {
+					new ItemStack(ModItems.ore_centrifuged, 1, i),
+					new ItemStack(ModItems.ore_centrifuged, 1, i),
+					new ItemStack(ModItems.ore_centrifuged, 1, i),
+					new ItemStack(ModItems.ore_centrifuged, 1, i) });
+			
+			recipes.put(new ComparableStack(ModItems.ore_cleaned, 1, i), new ItemStack[] {
+					new ItemStack(ModItems.ore_separated, 1, i),
+					new ItemStack(ModItems.ore_separated, 1, i),
+					new ItemStack(ModItems.ore_separated, 1, i),
+					new ItemStack(ModItems.ore_separated, 1, i) });
+			
+			recipes.put(new ComparableStack(ModItems.ore_purified, 1, i), new ItemStack[] {
+					new ItemStack(ModItems.ore_enriched, 1, i),
+					new ItemStack(ModItems.ore_enriched, 1, i),
+					new ItemStack(ModItems.ore_enriched, 1, i),
+					new ItemStack(ModItems.ore_enriched, 1, i) });
+		}
 		
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");
 		

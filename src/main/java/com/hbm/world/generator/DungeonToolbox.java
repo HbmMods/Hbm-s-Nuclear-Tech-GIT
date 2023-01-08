@@ -4,9 +4,13 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.inventory.RecipesCommon.MetaBlock;
+import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
+import com.hbm.world.feature.BedrockOre;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenFlowers;
@@ -87,6 +91,12 @@ public class DungeonToolbox {
 	
 			(new WorldGenMinable(ore, meta, amount, target)).generate(world, rand, x, y, z);
 		}
+	}
+	
+	public static void generateBedrockOre(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore) {
+		int randPosX = chunkX + rand.nextInt(16);
+		int randPosZ = chunkZ + rand.nextInt(16);
+		BedrockOre.generate(world, randPosX, randPosZ, new ItemStack(ModItems.ore_bedrock, 1, ore.ordinal()), null, ore.color);
 	}
 
 	private static WorldGenFlowers genFlowers = new WorldGenFlowers(null);
