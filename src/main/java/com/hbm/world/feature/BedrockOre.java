@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class BedrockOre {
 
-	public static void generate(World world, int x, int z, ItemStack stack, FluidStack acid, int color) {
+	public static void generate(World world, int x, int z, ItemStack stack, FluidStack acid, int color, int tier) {
 		
 		for(int ix = x - 1; ix <= x + 1; ix++) {
 			for(int iz = z - 1; iz <= z + 1; iz++) {
@@ -23,6 +23,7 @@ public class BedrockOre {
 					ore.color = color;
 					ore.shape = world.rand.nextInt(10);
 					ore.acidRequirement = acid;
+					ore.tier = tier;
 					world.markBlockForUpdate(ix, 0, iz);
 					world.markTileEntityChunkModified(ix, 0, iz, ore);
 				}

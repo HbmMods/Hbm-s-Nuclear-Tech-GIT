@@ -8,6 +8,8 @@ import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
@@ -154,8 +156,11 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.hematiteSpawn, 10, 4, 80, ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn, 10, 4, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal());
 			
-			if(WorldConfig.bedrockIronSpawn > 0 && rand.nextInt(WorldConfig.bedrockIronSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.IRON);
-			if(WorldConfig.bedrockCopperSpawn > 0 && rand.nextInt(WorldConfig.bedrockCopperSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.COPPER);
+			if(WorldConfig.bedrockIronSpawn > 0 && rand.nextInt(WorldConfig.bedrockIronSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.IRON, 1);
+			if(WorldConfig.bedrockCopperSpawn > 0 && rand.nextInt(WorldConfig.bedrockCopperSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.COPPER, 1);
+			if(WorldConfig.bedrockBoraxSpawn > 0 && rand.nextInt(WorldConfig.bedrockBoraxSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.BORAX, new FluidStack(Fluids.SULFURIC_ACID, 500), 3);
+			if(WorldConfig.bedrockAsbestosSpawn > 0 && rand.nextInt(WorldConfig.bedrockAsbestosSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.ASBESTOS, 2);
+			if(WorldConfig.bedrockNiobiumSpawn > 0 && rand.nextInt(WorldConfig.bedrockNiobiumSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.NIOBIUM, new FluidStack(Fluids.ACID, 1_000), 2);
 
 			for(int k = 0; k < WorldConfig.randomSpawn; k++) {
 				BlockMotherOfAllOres.shuffleOverride(rand);

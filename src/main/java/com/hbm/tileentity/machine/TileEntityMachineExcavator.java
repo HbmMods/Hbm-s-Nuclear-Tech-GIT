@@ -279,7 +279,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 						breakBlocks(ring);
 						buildWall(ring + 1, ring == radius && this.enableWalling);
 						if(ring == radius) mineOuterOres(ring + 1);
-						tryCollect(radius);
+						tryCollect(radius + 1);
 					} else {
 						collectBedrock(bedrockOre);
 					}
@@ -287,6 +287,8 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 				}
 				
 				return false;
+			} else {
+				tryCollect(radius + 1);
 			}
 		}
 

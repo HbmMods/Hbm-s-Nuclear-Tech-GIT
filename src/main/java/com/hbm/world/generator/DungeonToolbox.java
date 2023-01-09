@@ -3,6 +3,7 @@ package com.hbm.world.generator;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
@@ -93,10 +94,14 @@ public class DungeonToolbox {
 		}
 	}
 	
-	public static void generateBedrockOre(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore) {
+	public static void generateBedrockOre(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore, int tier) {
+		generateBedrockOre(world, rand, chunkX, chunkZ, ore, null, tier);
+	}
+	
+	public static void generateBedrockOre(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore, FluidStack stack, int tier) {
 		int randPosX = chunkX + rand.nextInt(16);
 		int randPosZ = chunkZ + rand.nextInt(16);
-		BedrockOre.generate(world, randPosX, randPosZ, new ItemStack(ModItems.ore_bedrock, 1, ore.ordinal()), null, ore.color);
+		BedrockOre.generate(world, randPosX, randPosZ, new ItemStack(ModItems.ore_bedrock, 1, ore.ordinal()), stack, ore.color, tier);
 	}
 
 	private static WorldGenFlowers genFlowers = new WorldGenFlowers(null);

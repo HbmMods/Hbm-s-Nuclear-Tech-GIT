@@ -52,7 +52,10 @@ public class ItemBedrockOre extends ItemEnumMulti {
 
 	public static enum EnumBedrockOre {
 		IRON("Iron", 0xE2C0AA),
-		COPPER("Copper", 0xFDCA88);
+		COPPER("Copper", 0xEC9A63),
+		BORAX("Borax", 0xE4BE74),
+		ASBESTOS("Asbestos", 0xBFBFB9),
+		NIOBIUM("Niobium", 0xAF58D8);
 		
 		public String oreName;
 		public int color;

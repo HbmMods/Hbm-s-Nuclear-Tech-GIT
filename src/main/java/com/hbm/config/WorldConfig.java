@@ -35,6 +35,9 @@ public class WorldConfig {
 
 	public static int bedrockIronSpawn = 200;
 	public static int bedrockCopperSpawn = 200;
+	public static int bedrockBoraxSpawn = 300;
+	public static int bedrockAsbestosSpawn = 300;
+	public static int bedrockNiobiumSpawn = 300;
 
 	public static int ironClusterSpawn = 4;
 	public static int titaniumClusterSpawn = 2;
@@ -129,6 +132,9 @@ public class WorldConfig {
 
 		bedrockIronSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B00_bedrockIronSpawn", "Spawns a bedrock iron deposit every nTH chunk", 200);
 		bedrockCopperSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B01_bedrockCopperSpawn", "Spawns a bedrock copper deposit every nTH chunk", 200);
+		bedrockBoraxSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B02_bedrockBoraxSpawn", "Spawns a bedrock borax deposit every nTH chunk", 300);
+		bedrockAsbestosSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B03_bedrockAsbestosSpawn", "Spawns a bedrock asbestos deposit every nTH chunk", 300);
+		bedrockNiobiumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B04_bedrockNiobiumSpawn", "Spawns a bedrock niobium deposit every nTH chunk", 300);
 
 		ironClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C00_ironClusterSpawn", "Amount of iron cluster veins per chunk", 4);
 		titaniumClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C01_titaniumClusterSpawn", "Amount of titanium cluster veins per chunk", 2);
