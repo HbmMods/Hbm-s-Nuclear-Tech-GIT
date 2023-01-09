@@ -1,16 +1,29 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfig.CasingType;
+import com.hbm.particle.SpentCasingConfigBuilder;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
+import net.minecraft.util.Vec3;
+
 public class Gun22LRFactory {
+	
+	static final SpentCasingConfig CASING_22LR = new SpentCasingConfigBuilder("22lr", CasingType.BRASS_STRAIGHT_WALL, false)
+			.setSmokeChance(20).setScaleX(0.4f).setScaleY(0.4f).setScaleZ(0.4f)
+			.setInitialMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
+			.setPosOffset(new EasyLocation(-0.35, -0.2, 0.35))
+			.build();
 	
 	public static GunConfiguration getUziConfig() {
 		
@@ -54,6 +67,8 @@ public class Gun22LRFactory {
 		config.advFuncLore.add("to be moved far back into the receiver and the magazine to be housed in the pistol grip, allowing for a heavier,");
 		config.advFuncLore.add("slower-firing bolt in a shorter, better-balanced weapon.");
 		
+		config.casingConfig = Optional.of(CASING_22LR);
+		
 		return config;
 	}
 	
@@ -70,6 +85,8 @@ public class Gun22LRFactory {
 		config.config.add(BulletConfigSyncingUtil.LR22_NORMAL_FIRE);
 		config.config.add(BulletConfigSyncingUtil.LR22_AP_FIRE);
 		config.config.add(BulletConfigSyncingUtil.CHL_LR22_FIRE);
+
+		config.casingConfig = Optional.of(CASING_22LR);
 		
 		return config;
 	}

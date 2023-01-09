@@ -67,6 +67,8 @@ public class BulletConfigFactory {
 		
 	}
 	
+	public static final float defaultSpread = 0.005f;
+	
 	/// STANDARD CONFIGS ///
 	//do not include damage or ammo
 	public static BulletConfiguration standardBulletConfig() {

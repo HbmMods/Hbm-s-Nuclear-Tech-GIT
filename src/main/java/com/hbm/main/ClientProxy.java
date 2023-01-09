@@ -1,5 +1,637 @@
  package com.hbm.main;
 
+import java.awt.Color;
+import java.awt.Desktop;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
+
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
+import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
+import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
+import com.hbm.config.WeaponConfig;
+import com.hbm.entity.cart.EntityMinecartCrate;
+import com.hbm.entity.cart.EntityMinecartNTM;
+import com.hbm.entity.effect.EntityBlackHole;
+import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.effect.EntityCloudSolinium;
+import com.hbm.entity.effect.EntityCloudTom;
+import com.hbm.entity.effect.EntityEMPBlast;
+import com.hbm.entity.effect.EntityFalloutRain;
+import com.hbm.entity.effect.EntityNukeCloudBig;
+import com.hbm.entity.effect.EntityNukeCloudNoShroom;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.effect.EntityNukeTorex;
+import com.hbm.entity.effect.EntityQuasar;
+import com.hbm.entity.effect.EntityRagingVortex;
+import com.hbm.entity.effect.EntitySpear;
+import com.hbm.entity.effect.EntityVortex;
+import com.hbm.entity.grenade.EntityGrenadeASchrab;
+import com.hbm.entity.grenade.EntityGrenadeBlackHole;
+import com.hbm.entity.grenade.EntityGrenadeBouncyBaseNT;
+import com.hbm.entity.grenade.EntityGrenadeBouncyGeneric;
+import com.hbm.entity.grenade.EntityGrenadeBreach;
+import com.hbm.entity.grenade.EntityGrenadeBurst;
+import com.hbm.entity.grenade.EntityGrenadeCloud;
+import com.hbm.entity.grenade.EntityGrenadeCluster;
+import com.hbm.entity.grenade.EntityGrenadeDynamite;
+import com.hbm.entity.grenade.EntityGrenadeElectric;
+import com.hbm.entity.grenade.EntityGrenadeFire;
+import com.hbm.entity.grenade.EntityGrenadeFlare;
+import com.hbm.entity.grenade.EntityGrenadeFrag;
+import com.hbm.entity.grenade.EntityGrenadeGas;
+import com.hbm.entity.grenade.EntityGrenadeGascan;
+import com.hbm.entity.grenade.EntityGrenadeGeneric;
+import com.hbm.entity.grenade.EntityGrenadeIFBouncy;
+import com.hbm.entity.grenade.EntityGrenadeIFBrimstone;
+import com.hbm.entity.grenade.EntityGrenadeIFConcussion;
+import com.hbm.entity.grenade.EntityGrenadeIFGeneric;
+import com.hbm.entity.grenade.EntityGrenadeIFHE;
+import com.hbm.entity.grenade.EntityGrenadeIFHopwire;
+import com.hbm.entity.grenade.EntityGrenadeIFImpact;
+import com.hbm.entity.grenade.EntityGrenadeIFIncendiary;
+import com.hbm.entity.grenade.EntityGrenadeIFMystery;
+import com.hbm.entity.grenade.EntityGrenadeIFNull;
+import com.hbm.entity.grenade.EntityGrenadeIFSpark;
+import com.hbm.entity.grenade.EntityGrenadeIFSticky;
+import com.hbm.entity.grenade.EntityGrenadeIFToxic;
+import com.hbm.entity.grenade.EntityGrenadeImpactGeneric;
+import com.hbm.entity.grenade.EntityGrenadeLemon;
+import com.hbm.entity.grenade.EntityGrenadeMIRV;
+import com.hbm.entity.grenade.EntityGrenadeMk2;
+import com.hbm.entity.grenade.EntityGrenadeNuclear;
+import com.hbm.entity.grenade.EntityGrenadeNuke;
+import com.hbm.entity.grenade.EntityGrenadePC;
+import com.hbm.entity.grenade.EntityGrenadePlasma;
+import com.hbm.entity.grenade.EntityGrenadePoison;
+import com.hbm.entity.grenade.EntityGrenadePulse;
+import com.hbm.entity.grenade.EntityGrenadeSchrabidium;
+import com.hbm.entity.grenade.EntityGrenadeShrapnel;
+import com.hbm.entity.grenade.EntityGrenadeSmart;
+import com.hbm.entity.grenade.EntityGrenadeStrong;
+import com.hbm.entity.grenade.EntityGrenadeTau;
+import com.hbm.entity.grenade.EntityGrenadeZOMG;
+import com.hbm.entity.grenade.EntityWastePearl;
+import com.hbm.entity.item.EntityFireworks;
+import com.hbm.entity.item.EntityMagnusCartus;
+import com.hbm.entity.item.EntityMinecartTest;
+import com.hbm.entity.item.EntityMovingItem;
+import com.hbm.entity.item.EntityMovingPackage;
+import com.hbm.entity.item.EntityTNTPrimedBase;
+import com.hbm.entity.logic.EntityBomber;
+import com.hbm.entity.logic.EntityDeathBlast;
+import com.hbm.entity.logic.EntityEMP;
+import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.missile.EntityBobmazon;
+import com.hbm.entity.missile.EntityBombletSelena;
+import com.hbm.entity.missile.EntityBombletTheta;
+import com.hbm.entity.missile.EntityBooster;
+import com.hbm.entity.missile.EntityCarrier;
+import com.hbm.entity.missile.EntityMIRV;
+import com.hbm.entity.missile.EntityMinerRocket;
+import com.hbm.entity.missile.EntityMissileAntiBallistic;
+import com.hbm.entity.missile.EntityMissileBHole;
+import com.hbm.entity.missile.EntityMissileBunkerBuster;
+import com.hbm.entity.missile.EntityMissileBurst;
+import com.hbm.entity.missile.EntityMissileBusterStrong;
+import com.hbm.entity.missile.EntityMissileCluster;
+import com.hbm.entity.missile.EntityMissileClusterStrong;
+import com.hbm.entity.missile.EntityMissileCustom;
+import com.hbm.entity.missile.EntityMissileDoomsday;
+import com.hbm.entity.missile.EntityMissileDrill;
+import com.hbm.entity.missile.EntityMissileEMP;
+import com.hbm.entity.missile.EntityMissileEMPStrong;
+import com.hbm.entity.missile.EntityMissileEndo;
+import com.hbm.entity.missile.EntityMissileExo;
+import com.hbm.entity.missile.EntityMissileGeneric;
+import com.hbm.entity.missile.EntityMissileIncendiary;
+import com.hbm.entity.missile.EntityMissileIncendiaryStrong;
+import com.hbm.entity.missile.EntityMissileInferno;
+import com.hbm.entity.missile.EntityMissileMicro;
+import com.hbm.entity.missile.EntityMissileMirv;
+import com.hbm.entity.missile.EntityMissileNuclear;
+import com.hbm.entity.missile.EntityMissileRain;
+import com.hbm.entity.missile.EntityMissileSchrabidium;
+import com.hbm.entity.missile.EntityMissileShuttle;
+import com.hbm.entity.missile.EntityMissileStrong;
+import com.hbm.entity.missile.EntityMissileTaint;
+import com.hbm.entity.missile.EntityMissileVolcano;
+import com.hbm.entity.missile.EntitySiegeDropship;
+import com.hbm.entity.missile.EntitySoyuz;
+import com.hbm.entity.missile.EntitySoyuzCapsule;
+import com.hbm.entity.missile.EntityTestMissile;
+import com.hbm.entity.mob.EntityBlockSpider;
+import com.hbm.entity.mob.EntityCyberCrab;
+import com.hbm.entity.mob.EntityDuck;
+import com.hbm.entity.mob.EntityFBI;
+import com.hbm.entity.mob.EntityGhost;
+import com.hbm.entity.mob.EntityHunterChopper;
+import com.hbm.entity.mob.EntityMaskMan;
+import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityQuackos;
+import com.hbm.entity.mob.EntityRADBeast;
+import com.hbm.entity.mob.EntityTaintCrab;
+import com.hbm.entity.mob.EntityTaintedCreeper;
+import com.hbm.entity.mob.EntityTeslaCrab;
+import com.hbm.entity.mob.EntityUFO;
+import com.hbm.entity.mob.botprime.EntityBOTPrimeBody;
+import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
+import com.hbm.entity.mob.siege.EntitySiegeCraft;
+import com.hbm.entity.mob.siege.EntitySiegeSkeleton;
+import com.hbm.entity.mob.siege.EntitySiegeTunneler;
+import com.hbm.entity.mob.siege.EntitySiegeUFO;
+import com.hbm.entity.mob.siege.EntitySiegeZombie;
+import com.hbm.entity.particle.EntityBSmokeFX;
+import com.hbm.entity.particle.EntityChlorineFX;
+import com.hbm.entity.particle.EntityDSmokeFX;
+import com.hbm.entity.particle.EntityFogFX;
+import com.hbm.entity.particle.EntityGasFX;
+import com.hbm.entity.particle.EntityOilSpillFX;
+import com.hbm.entity.particle.EntityOrangeFX;
+import com.hbm.entity.particle.EntityPinkCloudFX;
+import com.hbm.entity.particle.EntitySSmokeFX;
+import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.entity.particle.EntityTSmokeFX;
+import com.hbm.entity.projectile.EntityAAShell;
+import com.hbm.entity.projectile.EntityArtilleryShell;
+import com.hbm.entity.projectile.EntityBeamVortex;
+import com.hbm.entity.projectile.EntityBombletZeta;
+import com.hbm.entity.projectile.EntityBoxcar;
+import com.hbm.entity.projectile.EntityBuilding;
+import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBurningFOEQ;
+import com.hbm.entity.projectile.EntityChemical;
+import com.hbm.entity.projectile.EntityChopperMine;
+import com.hbm.entity.projectile.EntityCog;
+import com.hbm.entity.projectile.EntityCombineBall;
+import com.hbm.entity.projectile.EntityDischarge;
+import com.hbm.entity.projectile.EntityDuchessGambit;
+import com.hbm.entity.projectile.EntityExplosiveBeam;
+import com.hbm.entity.projectile.EntityFallingNuke;
+import com.hbm.entity.projectile.EntityFire;
+import com.hbm.entity.projectile.EntityLN2;
+import com.hbm.entity.projectile.EntityLaser;
+import com.hbm.entity.projectile.EntityLaserBeam;
+import com.hbm.entity.projectile.EntityMeteor;
+import com.hbm.entity.projectile.EntityMinerBeam;
+import com.hbm.entity.projectile.EntityModBeam;
+import com.hbm.entity.projectile.EntityNightmareBlast;
+import com.hbm.entity.projectile.EntityOilSpill;
+import com.hbm.entity.projectile.EntityPlasmaBeam;
+import com.hbm.entity.projectile.EntityRBMKDebris;
+import com.hbm.entity.projectile.EntityRainbow;
+import com.hbm.entity.projectile.EntityRocket;
+import com.hbm.entity.projectile.EntityRocketHoming;
+import com.hbm.entity.projectile.EntityRubble;
+import com.hbm.entity.projectile.EntitySawblade;
+import com.hbm.entity.projectile.EntitySchrab;
+import com.hbm.entity.projectile.EntityShrapnel;
+import com.hbm.entity.projectile.EntitySiegeLaser;
+import com.hbm.entity.projectile.EntitySparkBeam;
+import com.hbm.entity.projectile.EntityTom;
+import com.hbm.entity.projectile.EntityWaterSplash;
+import com.hbm.entity.projectile.EntityZirnoxDebris;
+import com.hbm.handler.HbmKeybinds;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
+import com.hbm.items.ModItems;
+import com.hbm.particle.ParticleAmatFlash;
+import com.hbm.particle.ParticleContrail;
+import com.hbm.particle.ParticleCoolingTower;
+import com.hbm.particle.ParticleDeadLeaf;
+import com.hbm.particle.ParticleDebug;
+import com.hbm.particle.ParticleDigammaSmoke;
+import com.hbm.particle.ParticleExSmoke;
+import com.hbm.particle.ParticleGasFlame;
+import com.hbm.particle.ParticleGiblet;
+import com.hbm.particle.ParticleHadron;
+import com.hbm.particle.ParticleHaze;
+import com.hbm.particle.ParticleLetter;
+import com.hbm.particle.ParticleMukeCloud;
+import com.hbm.particle.ParticleMukeFlash;
+import com.hbm.particle.ParticleMukeWave;
+import com.hbm.particle.ParticlePlasmaBlast;
+import com.hbm.particle.ParticleRBMKFlame;
+import com.hbm.particle.ParticleRBMKMush;
+import com.hbm.particle.ParticleRadiationFog;
+import com.hbm.particle.ParticleRift;
+import com.hbm.particle.ParticleRocketFlame;
+import com.hbm.particle.ParticleSmokePlume;
+import com.hbm.particle.ParticleSpark;
+import com.hbm.particle.ParticleText;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations;
+import com.hbm.render.anim.HbmAnimations.Animation;
+import com.hbm.render.block.RenderAntennaTop;
+import com.hbm.render.block.RenderAnvil;
+import com.hbm.render.block.RenderBarbedWire;
+import com.hbm.render.block.RenderBarrel;
+import com.hbm.render.block.RenderBattery;
+import com.hbm.render.block.RenderBlockCT;
+import com.hbm.render.block.RenderBlockDecoModel;
+import com.hbm.render.block.RenderBlockMultipass;
+import com.hbm.render.block.RenderBlockRotated;
+import com.hbm.render.block.RenderBlockSideRotation;
+import com.hbm.render.block.RenderBoxDuct;
+import com.hbm.render.block.RenderCable;
+import com.hbm.render.block.RenderCableClassic;
+import com.hbm.render.block.RenderChain;
+import com.hbm.render.block.RenderConserve;
+import com.hbm.render.block.RenderConveyor;
+import com.hbm.render.block.RenderConveyorChute;
+import com.hbm.render.block.RenderConveyorLift;
+import com.hbm.render.block.RenderCrystal;
+import com.hbm.render.block.RenderDetCord;
+import com.hbm.render.block.RenderDiode;
+import com.hbm.render.block.RenderFence;
+import com.hbm.render.block.RenderFoundryBasin;
+import com.hbm.render.block.RenderFoundryChannel;
+import com.hbm.render.block.RenderFoundryMold;
+import com.hbm.render.block.RenderFoundryOutlet;
+import com.hbm.render.block.RenderFoundryTank;
+import com.hbm.render.block.RenderGrate;
+import com.hbm.render.block.RenderMirror;
+import com.hbm.render.block.RenderPipe;
+import com.hbm.render.block.RenderPribris;
+import com.hbm.render.block.RenderRBMKControl;
+import com.hbm.render.block.RenderRBMKReflector;
+import com.hbm.render.block.RenderRBMKRod;
+import com.hbm.render.block.RenderRTGBlock;
+import com.hbm.render.block.RenderScaffoldBlock;
+import com.hbm.render.block.RenderSpikeBlock;
+import com.hbm.render.block.RenderSteelBeam;
+import com.hbm.render.block.RenderTaintBlock;
+import com.hbm.render.block.RenderTapeBlock;
+import com.hbm.render.block.RenderTestPipe;
+import com.hbm.render.entity.RenderEmpty;
+import com.hbm.render.entity.effect.ElectricityRenderer;
+import com.hbm.render.entity.effect.FogRenderer;
+import com.hbm.render.entity.effect.GasRenderer;
+import com.hbm.render.entity.effect.MultiCloudRenderer;
+import com.hbm.render.entity.effect.RenderBigNuke;
+import com.hbm.render.entity.effect.RenderBlackHole;
+import com.hbm.render.entity.effect.RenderCasingTest;
+import com.hbm.render.entity.effect.RenderCloudFleija;
+import com.hbm.render.entity.effect.RenderCloudRainbow;
+import com.hbm.render.entity.effect.RenderCloudSolinium;
+import com.hbm.render.entity.effect.RenderCloudTom;
+import com.hbm.render.entity.effect.RenderDeathBlast;
+import com.hbm.render.entity.effect.RenderEMPBlast;
+import com.hbm.render.entity.effect.RenderFallout;
+import com.hbm.render.entity.effect.RenderFireball;
+import com.hbm.render.entity.effect.RenderFlare;
+import com.hbm.render.entity.effect.RenderNoCloud;
+import com.hbm.render.entity.effect.RenderQuasar;
+import com.hbm.render.entity.effect.RenderSmallNukeMK4;
+import com.hbm.render.entity.effect.RenderSpear;
+import com.hbm.render.entity.effect.RenderTorex;
+import com.hbm.render.entity.effect.SSmokeRenderer;
+import com.hbm.render.entity.effect.SpillRenderer;
+import com.hbm.render.entity.effect.TSmokeRenderer;
+import com.hbm.render.entity.item.RenderBomber;
+import com.hbm.render.entity.item.RenderMagnusCartus;
+import com.hbm.render.entity.item.RenderMinecartTest;
+import com.hbm.render.entity.item.RenderMovingItem;
+import com.hbm.render.entity.item.RenderMovingPackage;
+import com.hbm.render.entity.item.RenderNeoCart;
+import com.hbm.render.entity.item.RenderTNTPrimedBase;
+import com.hbm.render.entity.mob.RenderBlockSpider;
+import com.hbm.render.entity.mob.RenderCyberCrab;
+import com.hbm.render.entity.mob.RenderDuck;
+import com.hbm.render.entity.mob.RenderFBI;
+import com.hbm.render.entity.mob.RenderGhost;
+import com.hbm.render.entity.mob.RenderHunterChopper;
+import com.hbm.render.entity.mob.RenderMaskMan;
+import com.hbm.render.entity.mob.RenderNuclearCreeper;
+import com.hbm.render.entity.mob.RenderQuacc;
+import com.hbm.render.entity.mob.RenderRADBeast;
+import com.hbm.render.entity.mob.RenderSiegeCraft;
+import com.hbm.render.entity.mob.RenderSiegeSkeleton;
+import com.hbm.render.entity.mob.RenderSiegeTunneler;
+import com.hbm.render.entity.mob.RenderSiegeUFO;
+import com.hbm.render.entity.mob.RenderSiegeZombie;
+import com.hbm.render.entity.mob.RenderTaintCrab;
+import com.hbm.render.entity.mob.RenderTaintedCreeper;
+import com.hbm.render.entity.mob.RenderTeslaCrab;
+import com.hbm.render.entity.mob.RenderUFO;
+import com.hbm.render.entity.mob.RenderWormBody;
+import com.hbm.render.entity.mob.RenderWormHead;
+import com.hbm.render.entity.projectile.RenderArtilleryShell;
+import com.hbm.render.entity.projectile.RenderBeam;
+import com.hbm.render.entity.projectile.RenderBeam2;
+import com.hbm.render.entity.projectile.RenderBeam3;
+import com.hbm.render.entity.projectile.RenderBeam4;
+import com.hbm.render.entity.projectile.RenderBeam5;
+import com.hbm.render.entity.projectile.RenderBeam6;
+import com.hbm.render.entity.projectile.RenderBombletSelena;
+import com.hbm.render.entity.projectile.RenderBombletTheta;
+import com.hbm.render.entity.projectile.RenderBoxcar;
+import com.hbm.render.entity.projectile.RenderBullet;
+import com.hbm.render.entity.projectile.RenderChemical;
+import com.hbm.render.entity.projectile.RenderChopperMine;
+import com.hbm.render.entity.projectile.RenderCog;
+import com.hbm.render.entity.projectile.RenderFOEQ;
+import com.hbm.render.entity.projectile.RenderFallingNuke;
+import com.hbm.render.entity.projectile.RenderGenericGrenade;
+import com.hbm.render.entity.projectile.RenderGrenade;
+import com.hbm.render.entity.projectile.RenderLN2;
+import com.hbm.render.entity.projectile.RenderLaser;
+import com.hbm.render.entity.projectile.RenderMeteor;
+import com.hbm.render.entity.projectile.RenderMirv;
+import com.hbm.render.entity.projectile.RenderOminousBullet;
+import com.hbm.render.entity.projectile.RenderRBMKDebris;
+import com.hbm.render.entity.projectile.RenderRainbow;
+import com.hbm.render.entity.projectile.RenderRocket;
+import com.hbm.render.entity.projectile.RenderRubble;
+import com.hbm.render.entity.projectile.RenderSRocket;
+import com.hbm.render.entity.projectile.RenderSawblade;
+import com.hbm.render.entity.projectile.RenderShrapnel;
+import com.hbm.render.entity.projectile.RenderSiegeLaser;
+import com.hbm.render.entity.projectile.RenderTom;
+import com.hbm.render.entity.projectile.RenderVortexBeam;
+import com.hbm.render.entity.projectile.RenderZirnoxDebris;
+import com.hbm.render.entity.rocket.RenderBoosterMissile;
+import com.hbm.render.entity.rocket.RenderCarrierMissile;
+import com.hbm.render.entity.rocket.RenderMinerRocket;
+import com.hbm.render.entity.rocket.RenderMissileCustom;
+import com.hbm.render.entity.rocket.RenderMissileDoomsday;
+import com.hbm.render.entity.rocket.RenderMissileGeneric;
+import com.hbm.render.entity.rocket.RenderMissileHuge;
+import com.hbm.render.entity.rocket.RenderMissileMirv;
+import com.hbm.render.entity.rocket.RenderMissileNuclear;
+import com.hbm.render.entity.rocket.RenderMissileShuttle;
+import com.hbm.render.entity.rocket.RenderMissileStrong;
+import com.hbm.render.entity.rocket.RenderMissileTaint;
+import com.hbm.render.entity.rocket.RenderMissileThermo;
+import com.hbm.render.entity.rocket.RenderSoyuz;
+import com.hbm.render.entity.rocket.RenderSoyuzCapsule;
+import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.item.ItemRenderDetonatorLaser;
+import com.hbm.render.item.ItemRenderLibrary;
+import com.hbm.render.item.ItemRenderMissile;
+import com.hbm.render.item.ItemRenderMissilePart;
+import com.hbm.render.item.ItemRenderMultitool;
+import com.hbm.render.item.ItemRenderTemplate;
+import com.hbm.render.item.ItemRenderTransformer;
+import com.hbm.render.item.ItemRendererHot;
+import com.hbm.render.item.ItemRendererMeteorSword;
+import com.hbm.render.item.block.ItemRenderDecoBlock;
+import com.hbm.render.item.block.ItemRenderTestContainer;
+import com.hbm.render.item.weapon.ItemRenderBFLauncher;
+import com.hbm.render.item.weapon.ItemRenderBenelli;
+import com.hbm.render.item.weapon.ItemRenderBigSword;
+import com.hbm.render.item.weapon.ItemRenderBioRevolver;
+import com.hbm.render.item.weapon.ItemRenderBullshit;
+import com.hbm.render.item.weapon.ItemRenderChainsaw;
+import com.hbm.render.item.weapon.ItemRenderCrucible;
+import com.hbm.render.item.weapon.ItemRenderCryolator;
+import com.hbm.render.item.weapon.ItemRenderEMPRay;
+import com.hbm.render.item.weapon.ItemRenderFatMan;
+import com.hbm.render.item.weapon.ItemRenderFireExt;
+import com.hbm.render.item.weapon.ItemRenderG36;
+import com.hbm.render.item.weapon.ItemRenderGavel;
+import com.hbm.render.item.weapon.ItemRenderGunAnim;
+import com.hbm.render.item.weapon.ItemRenderHLR;
+import com.hbm.render.item.weapon.ItemRenderImmolator;
+import com.hbm.render.item.weapon.ItemRenderLLR;
+import com.hbm.render.item.weapon.ItemRenderLunaticSniper;
+import com.hbm.render.item.weapon.ItemRenderM2;
+import com.hbm.render.item.weapon.ItemRenderMIRVLauncher;
+import com.hbm.render.item.weapon.ItemRenderMLR;
+import com.hbm.render.item.weapon.ItemRenderMP;
+import com.hbm.render.item.weapon.ItemRenderMP40;
+import com.hbm.render.item.weapon.ItemRenderOSIPR;
+import com.hbm.render.item.weapon.ItemRenderObj;
+import com.hbm.render.item.weapon.ItemRenderOverkill;
+import com.hbm.render.item.weapon.ItemRenderRedstoneSword;
+import com.hbm.render.item.weapon.ItemRenderRevolverInverted;
+import com.hbm.render.item.weapon.ItemRenderRpg;
+import com.hbm.render.item.weapon.ItemRenderShim;
+import com.hbm.render.item.weapon.ItemRenderStinger;
+import com.hbm.render.item.weapon.ItemRenderTWR;
+import com.hbm.render.item.weapon.ItemRenderTestBombAdvanced;
+import com.hbm.render.item.weapon.ItemRenderUACPistol;
+import com.hbm.render.item.weapon.ItemRenderUZI;
+import com.hbm.render.item.weapon.ItemRenderUboinik;
+import com.hbm.render.item.weapon.ItemRenderWeaponAR15;
+import com.hbm.render.item.weapon.ItemRenderWeaponBolter;
+import com.hbm.render.item.weapon.ItemRenderWeaponChemthrower;
+import com.hbm.render.item.weapon.ItemRenderWeaponFFBolt;
+import com.hbm.render.item.weapon.ItemRenderWeaponFFColt;
+import com.hbm.render.item.weapon.ItemRenderWeaponFFCursed;
+import com.hbm.render.item.weapon.ItemRenderWeaponFFMG42;
+import com.hbm.render.item.weapon.ItemRenderWeaponFFMaresLeg;
+import com.hbm.render.item.weapon.ItemRenderWeaponFFNightmare;
+import com.hbm.render.item.weapon.ItemRenderWeaponFFNightmareDark;
+import com.hbm.render.item.weapon.ItemRenderWeaponGlass;
+import com.hbm.render.item.weapon.ItemRenderWeaponObj;
+import com.hbm.render.item.weapon.ItemRenderWeaponQuadro;
+import com.hbm.render.item.weapon.ItemRenderWeaponSauer;
+import com.hbm.render.item.weapon.ItemRenderWeaponShotty;
+import com.hbm.render.item.weapon.ItemRenderWeaponSpas12;
+import com.hbm.render.item.weapon.ItemRenderWeaponThompson;
+import com.hbm.render.item.weapon.ItemRenderWeaponVortex;
+import com.hbm.render.item.weapon.ItemRenderXVL1456;
+import com.hbm.render.item.weapon.ItemRenderZOMG;
+import com.hbm.render.loader.HmfModelLoader;
+import com.hbm.render.tileentity.*;
+import com.hbm.render.util.MissilePart;
+import com.hbm.render.util.RenderInfoSystem;
+import com.hbm.render.util.RenderInfoSystem.InfoEntry;
+import com.hbm.sound.AudioWrapper;
+import com.hbm.sound.AudioWrapperClient;
+import com.hbm.sound.AudioWrapperClientStartStop;
+import com.hbm.tileentity.TileEntityDoorGeneric;
+import com.hbm.tileentity.bomb.TileEntityBombMulti;
+import com.hbm.tileentity.bomb.TileEntityCelPrime;
+import com.hbm.tileentity.bomb.TileEntityCelPrimeBattery;
+import com.hbm.tileentity.bomb.TileEntityCelPrimePort;
+import com.hbm.tileentity.bomb.TileEntityCelPrimeTanks;
+import com.hbm.tileentity.bomb.TileEntityCelPrimeTerminal;
+import com.hbm.tileentity.bomb.TileEntityCharge;
+import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
+import com.hbm.tileentity.bomb.TileEntityCrashedBomb;
+import com.hbm.tileentity.bomb.TileEntityLandmine;
+import com.hbm.tileentity.bomb.TileEntityLaunchPad;
+import com.hbm.tileentity.bomb.TileEntityLaunchTable;
+import com.hbm.tileentity.bomb.TileEntityNukeBalefire;
+import com.hbm.tileentity.bomb.TileEntityNukeBoy;
+import com.hbm.tileentity.bomb.TileEntityNukeCustom;
+import com.hbm.tileentity.bomb.TileEntityNukeFleija;
+import com.hbm.tileentity.bomb.TileEntityNukeGadget;
+import com.hbm.tileentity.bomb.TileEntityNukeMan;
+import com.hbm.tileentity.bomb.TileEntityNukeMike;
+import com.hbm.tileentity.bomb.TileEntityNukeN2;
+import com.hbm.tileentity.bomb.TileEntityNukeN45;
+import com.hbm.tileentity.bomb.TileEntityNukePrototype;
+import com.hbm.tileentity.bomb.TileEntityNukeSolinium;
+import com.hbm.tileentity.bomb.TileEntityNukeTsar;
+import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
+import com.hbm.tileentity.conductor.TileEntityFluidDuct;
+import com.hbm.tileentity.conductor.TileEntityGasDuct;
+import com.hbm.tileentity.conductor.TileEntityOilDuct;
+import com.hbm.tileentity.conductor.TileEntityRFDuct;
+import com.hbm.tileentity.deco.TileEntityBomber;
+import com.hbm.tileentity.deco.TileEntityDecoBlock;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAlt;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAltF;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAltG;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAltW;
+import com.hbm.tileentity.deco.TileEntityDecoPoleSatelliteReceiver;
+import com.hbm.tileentity.deco.TileEntityObjTester;
+import com.hbm.tileentity.deco.TileEntityRotationTester;
+import com.hbm.tileentity.deco.TileEntityTestRender;
+import com.hbm.tileentity.machine.TileEntityAMSBase;
+import com.hbm.tileentity.machine.TileEntityAMSEmitter;
+import com.hbm.tileentity.machine.TileEntityAMSLimiter;
+import com.hbm.tileentity.machine.TileEntityBlastDoor;
+import com.hbm.tileentity.machine.TileEntityBroadcaster;
+import com.hbm.tileentity.machine.TileEntityCharger;
+import com.hbm.tileentity.machine.TileEntityChungus;
+import com.hbm.tileentity.machine.TileEntityCore;
+import com.hbm.tileentity.machine.TileEntityCoreEmitter;
+import com.hbm.tileentity.machine.TileEntityCoreInjector;
+import com.hbm.tileentity.machine.TileEntityCoreReceiver;
+import com.hbm.tileentity.machine.TileEntityCoreStabilizer;
+import com.hbm.tileentity.machine.TileEntityCrucible;
+import com.hbm.tileentity.machine.TileEntityDemonLamp;
+import com.hbm.tileentity.machine.TileEntityDeuteriumTower;
+import com.hbm.tileentity.machine.TileEntityElectrolyser;
+import com.hbm.tileentity.machine.TileEntityFEL;
+import com.hbm.tileentity.machine.TileEntityFF;
+import com.hbm.tileentity.machine.TileEntityForceField;
+import com.hbm.tileentity.machine.TileEntityFoundryBasin;
+import com.hbm.tileentity.machine.TileEntityFoundryMold;
+import com.hbm.tileentity.machine.TileEntityFurnaceIron;
+import com.hbm.tileentity.machine.TileEntityFurnaceSteel;
+import com.hbm.tileentity.machine.TileEntityGeiger;
+import com.hbm.tileentity.machine.TileEntityHeatBoiler;
+import com.hbm.tileentity.machine.TileEntityHeaterElectric;
+import com.hbm.tileentity.machine.TileEntityHeaterFirebox;
+import com.hbm.tileentity.machine.TileEntityHeaterOilburner;
+import com.hbm.tileentity.machine.TileEntityITER;
+import com.hbm.tileentity.machine.TileEntityITERStruct;
+import com.hbm.tileentity.machine.TileEntityMachineAssembler;
+import com.hbm.tileentity.machine.TileEntityMachineAssemfac;
+import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
+import com.hbm.tileentity.machine.TileEntityMachineChemfac;
+import com.hbm.tileentity.machine.TileEntityMachineChemplant;
+import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;
+import com.hbm.tileentity.machine.TileEntityMachineCyclotron;
+import com.hbm.tileentity.machine.TileEntityMachineEPress;
+import com.hbm.tileentity.machine.TileEntityMachineGasCent;
+import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
+import com.hbm.tileentity.machine.TileEntityMachineLargeTurbine;
+import com.hbm.tileentity.machine.TileEntityMachineMiniRTG;
+import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
+import com.hbm.tileentity.machine.TileEntityMachineMiningLaser;
+import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
+import com.hbm.tileentity.machine.TileEntityMachinePlasmaHeater;
+import com.hbm.tileentity.machine.TileEntityMachinePress;
+import com.hbm.tileentity.machine.TileEntityMachineRTG;
+import com.hbm.tileentity.machine.TileEntityMachineRadGen;
+import com.hbm.tileentity.machine.TileEntityMachineRadar;
+import com.hbm.tileentity.machine.TileEntityMachineRadiolysis;
+import com.hbm.tileentity.machine.TileEntityMachineReactorBreeding;
+import com.hbm.tileentity.machine.TileEntityMachineSatDock;
+import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
+import com.hbm.tileentity.machine.TileEntityMachineShredderLarge;
+import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
+import com.hbm.tileentity.machine.TileEntityMicrowave;
+import com.hbm.tileentity.machine.TileEntityMultiblock;
+import com.hbm.tileentity.machine.TileEntityPlasmaStruct;
+import com.hbm.tileentity.machine.TileEntityRadioRec;
+import com.hbm.tileentity.machine.TileEntityRadiobox;
+import com.hbm.tileentity.machine.TileEntityReactorResearch;
+import com.hbm.tileentity.machine.TileEntityReactorZirnox;
+import com.hbm.tileentity.machine.TileEntitySILEX;
+import com.hbm.tileentity.machine.TileEntitySawmill;
+import com.hbm.tileentity.machine.TileEntitySolarBoiler;
+import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
+import com.hbm.tileentity.machine.TileEntitySoyuzStruct;
+import com.hbm.tileentity.machine.TileEntityStirling;
+import com.hbm.tileentity.machine.TileEntityStorageDrum;
+import com.hbm.tileentity.machine.TileEntityStructureMarker;
+import com.hbm.tileentity.machine.TileEntityTesla;
+import com.hbm.tileentity.machine.TileEntityTowerLarge;
+import com.hbm.tileentity.machine.TileEntityTowerSmall;
+import com.hbm.tileentity.machine.TileEntityVaultDoor;
+import com.hbm.tileentity.machine.TileEntityWatz;
+import com.hbm.tileentity.machine.TileEntityZirnoxDestroyed;
+import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticCracker;
+import com.hbm.tileentity.machine.oil.TileEntityMachineFrackingTower;
+import com.hbm.tileentity.machine.oil.TileEntityMachineFractionTower;
+import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
+import com.hbm.tileentity.machine.oil.TileEntityMachineLiquefactor;
+import com.hbm.tileentity.machine.oil.TileEntityMachineOilWell;
+import com.hbm.tileentity.machine.oil.TileEntityMachinePumpjack;
+import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
+import com.hbm.tileentity.machine.oil.TileEntityMachineSolidifier;
+import com.hbm.tileentity.machine.oil.TileEntitySpacer;
+import com.hbm.tileentity.machine.rbmk.TileEntityCraneConsole;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKAbsorber;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBlank;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBoiler;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlAuto;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKCooler;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKHeater;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKModerator;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKOutgasser;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKReflector;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKRod;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKRodReaSim;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKStorage;
+import com.hbm.tileentity.machine.storage.TileEntityBarrel;
+import com.hbm.tileentity.machine.storage.TileEntityMachineBAT9000;
+import com.hbm.tileentity.machine.storage.TileEntityMachineFENSU;
+import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
+import com.hbm.tileentity.machine.storage.TileEntityMachineOrbus;
+import com.hbm.tileentity.machine.storage.TileEntityMachinePuF6Tank;
+import com.hbm.tileentity.machine.storage.TileEntityMachineUF6Tank;
+import com.hbm.tileentity.machine.storage.TileEntitySoyuzCapsule;
+import com.hbm.tileentity.network.TileEntityConnector;
+import com.hbm.tileentity.network.TileEntityPylon;
+import com.hbm.tileentity.network.TileEntityPylonLarge;
+import com.hbm.tileentity.network.TileEntitySubstation;
+import com.hbm.tileentity.turret.TileEntityTurretArty;
+import com.hbm.tileentity.turret.TileEntityTurretBrandon;
+import com.hbm.tileentity.turret.TileEntityTurretCIWS;
+import com.hbm.tileentity.turret.TileEntityTurretCheapo;
+import com.hbm.tileentity.turret.TileEntityTurretChekhov;
+import com.hbm.tileentity.turret.TileEntityTurretFlamer;
+import com.hbm.tileentity.turret.TileEntityTurretFriendly;
+import com.hbm.tileentity.turret.TileEntityTurretFritz;
+import com.hbm.tileentity.turret.TileEntityTurretHIMARS;
+import com.hbm.tileentity.turret.TileEntityTurretHeavy;
+import com.hbm.tileentity.turret.TileEntityTurretHoward;
+import com.hbm.tileentity.turret.TileEntityTurretHowardDamaged;
+import com.hbm.tileentity.turret.TileEntityTurretJeremy;
+import com.hbm.tileentity.turret.TileEntityTurretLight;
+import com.hbm.tileentity.turret.TileEntityTurretMaxwell;
+import com.hbm.tileentity.turret.TileEntityTurretRichard;
+import com.hbm.tileentity.turret.TileEntityTurretRocket;
+import com.hbm.tileentity.turret.TileEntityTurretSpitfire;
+import com.hbm.tileentity.turret.TileEntityTurretTau;
+import com.hbm.tileentity.turret.TileEntityTurretTauon;
+import com.hbm.util.BobMathUtil;
+
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -23,87 +655,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 
-import java.awt.Color;
-import java.awt.Desktop;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
-
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
-import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
-import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
-import com.hbm.entity.cart.*;
-import com.hbm.entity.effect.*;
-import com.hbm.entity.grenade.*;
-import com.hbm.entity.item.*;
-import com.hbm.entity.logic.*;
-import com.hbm.entity.missile.*;
-import com.hbm.entity.mob.*;
-import com.hbm.entity.mob.botprime.*;
-import com.hbm.entity.mob.siege.*;
-import com.hbm.entity.particle.*;
-import com.hbm.entity.projectile.*;
-import com.hbm.handler.HbmKeybinds;
-import com.hbm.handler.HbmKeybinds.EnumKeybind;
-import com.hbm.items.ModItems;
-import com.hbm.items.ItemAmmoEnums.AmmoHandGrenade;
-import com.hbm.particle.*;
-import com.hbm.render.anim.*;
-import com.hbm.render.anim.HbmAnimations.Animation;
-import com.hbm.render.block.*;
-import com.hbm.render.entity.*;
-import com.hbm.render.entity.effect.*;
-import com.hbm.render.entity.item.*;
-import com.hbm.render.entity.mob.*;
-import com.hbm.render.entity.projectile.*;
-import com.hbm.render.entity.rocket.*;
-import com.hbm.render.item.*;
-import com.hbm.render.item.block.*;
-import com.hbm.render.item.weapon.*;
-import com.hbm.render.loader.HmfModelLoader;
-import com.hbm.render.tileentity.*;
-import com.hbm.render.util.MissilePart;
-import com.hbm.render.util.RenderInfoSystem;
-import com.hbm.render.util.RenderInfoSystem.InfoEntry;
-import com.hbm.sound.AudioWrapper;
-import com.hbm.sound.AudioWrapperClient;
-import com.hbm.sound.AudioWrapperClientStartStop;
-import com.hbm.sound.nt.ISoundSourceTE;
-import com.hbm.sound.nt.SoundWrapper;
-import com.hbm.sound.nt.SoundWrapperClient;
-import com.hbm.tileentity.TileEntityDoorGeneric;
-import com.hbm.tileentity.bomb.*;
-import com.hbm.tileentity.conductor.*;
-import com.hbm.tileentity.deco.*;
-import com.hbm.tileentity.machine.*;
-import com.hbm.tileentity.machine.oil.*;
-import com.hbm.tileentity.machine.rbmk.*;
-import com.hbm.tileentity.machine.storage.*;
-import com.hbm.tileentity.network.*;
-import com.hbm.tileentity.turret.*;
-import com.hbm.util.BobMathUtil;
-
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.ReflectionHelper;
-
 public class ClientProxy extends ServerProxy {
-	
 	public RenderInfoSystem theInfoSystem = new RenderInfoSystem();
 	
 	@Override
@@ -130,7 +690,7 @@ public class ClientProxy extends ServerProxy {
 		//SoundUtil.addSoundCategory("ntmMachines");
 	}
 	
-	private void registerClientEventHandler(Object handler) {
+	private static void registerClientEventHandler(Object handler) {
 		MinecraftForge.EVENT_BUS.register(handler);
 		FMLCommonHandler.instance().bus().register(handler);
 	}
@@ -343,7 +903,7 @@ public class ClientProxy extends ServerProxy {
 			MinecraftForgeClient.registerItemRenderer(entry.getKey(), entry.getValue());
 		
 		//this bit registers an item renderer for every existing tile entity renderer that implements IItemRendererProvider
-		Iterator iterator = TileEntityRendererDispatcher.instance.mapSpecialRenderers.values().iterator();
+		Iterator<?> iterator = TileEntityRendererDispatcher.instance.mapSpecialRenderers.values().iterator();
 		while(iterator.hasNext()) {
 			Object renderer = iterator.next();
 			if(renderer instanceof IItemRendererProvider) {
@@ -528,6 +1088,8 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_wall), new ItemRenderDecoBlock());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_corner), new ItemRenderDecoBlock());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_roof), new ItemRenderDecoBlock());
+		
+		MinecraftForgeClient.registerItemRenderer(ModItems.wand_d, new RenderCasingTest());
 	}
 
 	@Override
@@ -783,10 +1345,10 @@ public class ClientProxy extends ServerProxy {
 		
 		MissilePart.registerAllParts();
 		
-		Iterator it = MissilePart.parts.entrySet().iterator();
+		Iterator<?> it = MissilePart.parts.entrySet().iterator();
 		
 		while(it.hasNext()) {
-			Map.Entry pair = (Map.Entry) it.next();
+			Map.Entry<?, ?> pair = (Map.Entry<?, ?>) it.next();
 			MissilePart part = (MissilePart) pair.getValue();
 			MinecraftForgeClient.registerItemRenderer(part.part, new ItemRenderMissilePart(part));
 		}
@@ -827,6 +1389,8 @@ public class ClientProxy extends ServerProxy {
 
 			ParticleRadiationFog fog = new ParticleRadiationFog(man, world, x, y, z);
 			Minecraft.getMinecraft().effectRenderer.addEffect(fog);
+			break;
+		default:
 			break;
 		}
 	}
@@ -869,6 +1433,7 @@ public class ClientProxy extends ServerProxy {
 	}
 	
 	//mk3, only use this one
+	@Override
 	public void effectNT(NBTTagCompound data) {
 		
 		World world = Minecraft.getMinecraft().theWorld;
@@ -885,861 +1450,869 @@ public class ClientProxy extends ServerProxy {
 		double y = data.getDouble("posY");
 		double z = data.getDouble("posZ");
 		
-		if("smoke".equals(type)) {
+		switch (type)
+		{
+			case "smoke": {
 			
-			String mode = data.getString("mode");
 			int count = Math.max(1, data.getInteger("count"));
 			
-			if("cloud".equals(mode)) {
-				
-				for(int i = 0; i < count; i++) {
-					ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
-					fx.motionY = rand.nextGaussian() * (1 + (count / 100));
-					fx.motionX = rand.nextGaussian() * (1 + (count / 150));
-					fx.motionZ = rand.nextGaussian() * (1 + (count / 150));
-					if(rand.nextBoolean()) fx.motionY = Math.abs(fx.motionY);
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-				}
-			}
-
-			if("radial".equals(mode)) {
-
-				for(int i = 0; i < count; i++) {
-					ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
-					fx.motionY = rand.nextGaussian() * (1 + (count / 50));
-					fx.motionX = rand.nextGaussian() * (1 + (count / 50));
-					fx.motionZ = rand.nextGaussian() * (1 + (count / 50));
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-				}
-			}
-
-			if("radialDigamma".equals(mode)) {
-
-				Vec3 vec = Vec3.createVectorHelper(2, 0, 0);
-				vec.rotateAroundY(rand.nextFloat() * (float)Math.PI * 2F);
-				
-				for(int i = 0; i < count; i++) {
-					ParticleDigammaSmoke fx = new ParticleDigammaSmoke(man, world, x, y, z);
-					fx.motionY = 0;
-					fx.motionX = vec.xCoord;
-					fx.motionZ = vec.zCoord;
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				switch (data.getString("mode"))
+				{
+					case "cloud": {
 					
-					vec.rotateAroundY((float)Math.PI * 2F / (float)count);
-				}
-			}
-			
-			if("shock".equals(mode)) {
-				
-				double strength = data.getDouble("strength");
-
-				Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
-				vec.rotateAroundY(rand.nextInt(360));
-				
-				for(int i = 0; i < count; i++) {
-					ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
-					fx.motionY = 0;
-					fx.motionX = vec.xCoord;
-					fx.motionZ = vec.zCoord;
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-
-					vec.rotateAroundY((float)Math.PI * 2F / (float)count);
-				}
-			}
-			
-			if("shockRand".equals(mode)) {
-				
-				double strength = data.getDouble("strength");
-
-				Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
-				vec.rotateAroundY(rand.nextInt(360));
-				double r;
-				
-				for(int i = 0; i < count; i++) {
-					r = rand.nextDouble();
-					ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
-					fx.motionY = 0;
-					fx.motionX = vec.xCoord * r;
-					fx.motionZ = vec.zCoord * r;
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-					
-					vec.rotateAroundY(360 / count);
-				}
-			}
-			
-			if("wave".equals(mode)) {
-				
-				double strength = data.getDouble("range");
-
-				Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
-				
-				for(int i = 0; i < count; i++) {
-					
-					vec.rotateAroundY((float) Math.toRadians(rand.nextFloat() * 360F));
-					
-					ParticleExSmoke fx = new ParticleExSmoke(man, world, x + vec.xCoord, y, z + vec.zCoord);
-					fx.maxAge = 50;
-					fx.motionY = 0;
-					fx.motionX = 0;
-					fx.motionZ = 0;
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-					
-					vec.rotateAroundY(360 / count);
-				}
-			}
-		}
-		
-		if("exhaust".equals(type)) {
-
-			String mode = data.getString("mode");
-			
-			if("soyuz".equals(mode)) {
-				
-				if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350)
-					return;
+						for(int i = 0; i < count; i++) {
+							ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
+							fx.motionY = rand.nextGaussian() * (1 + (count / 100));
+							fx.motionX = rand.nextGaussian() * (1 + (count / 150));
+							fx.motionZ = rand.nextGaussian() * (1 + (count / 150));
+							if(rand.nextBoolean()) fx.motionY = Math.abs(fx.motionY);
+							Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+						}
+						break;
+					}
 	
-				int count = Math.max(1, data.getInteger("count"));
-				double width = data.getDouble("width");
-				
-				for(int i = 0; i < count; i++) {
-					
-					ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y, z + rand.nextGaussian() * width);
-					fx.motionY = -0.75 + rand.nextDouble() * 0.5;
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-				}
-			}
-			
-			if("meteor".equals(mode)) {
-				
-				if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350)
-					return;
+					case "radial": {
 	
-				int count = Math.max(1, data.getInteger("count"));
-				double width = data.getDouble("width");
+						for(int i = 0; i < count; i++) {
+							ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
+							fx.motionY = rand.nextGaussian() * (1 + (count / 50));
+							fx.motionX = rand.nextGaussian() * (1 + (count / 50));
+							fx.motionZ = rand.nextGaussian() * (1 + (count / 50));
+							Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+						}
+						break;
+					}
+	
+					case "radialDigamma": {
+	
+						Vec3 vec = Vec3.createVectorHelper(2, 0, 0);
+						vec.rotateAroundY(rand.nextFloat() * (float)Math.PI * 2F);
+						
+						for(int i = 0; i < count; i++) {
+							ParticleDigammaSmoke fx = new ParticleDigammaSmoke(man, world, x, y, z);
+							fx.motionY = 0;
+							fx.motionX = vec.xCoord;
+							fx.motionZ = vec.zCoord;
+							Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+							
+							vec.rotateAroundY((float)Math.PI * 2F / count);
+						}
+						break;
+					}
 				
-				for(int i = 0; i < count; i++) {
+					case "shock": {
 					
-					ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y + rand.nextGaussian() * width, z + rand.nextGaussian() * width);
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-				}
-			}
-		}
+						double strength = data.getDouble("strength");
 		
-		if("fireworks".equals(type)) {
-			int color = data.getInteger("color");
-			char c = (char)data.getInteger("char");
-			
-			ParticleLetter fx = new ParticleLetter(world, x, y, z, color, c);
-			Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-			
-			for(int i = 0; i < 50; i++) {
-				EntityFireworkSparkFX blast = new EntityFireworkSparkFX(world, x, y, z,
-						0.4 * world.rand.nextGaussian(),
-						0.4 * world.rand.nextGaussian(),
-						0.4 * world.rand.nextGaussian(), Minecraft.getMinecraft().effectRenderer);
-				blast.setColour(color);
-				Minecraft.getMinecraft().effectRenderer.addEffect(blast);
-			}
-		}
+						Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+						vec.rotateAroundY(rand.nextInt(360));
+						
+						for(int i = 0; i < count; i++) {
+							ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
+							fx.motionY = 0;
+							fx.motionX = vec.xCoord;
+							fx.motionZ = vec.zCoord;
+							Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 		
-		if("vanillaburst".equals(type)) {
-			
-			double motion = data.getDouble("motion");
-			
-			for(int i = 0; i < data.getInteger("count"); i++) {
-
-				double mX = rand.nextGaussian() * motion;
-				double mY = rand.nextGaussian() * motion;
-				double mZ = rand.nextGaussian() * motion;
+							vec.rotateAroundY((float)Math.PI * 2F / count);
+						}
+						break;
+					}
 				
-				EntityFX fx = null;
-
-				if("flame".equals(data.getString("mode"))) {
-					fx = new EntityFlameFX(world, x, y, z, mX, mY, mZ);
-				}
-
-				if("cloud".equals(data.getString("mode"))) {
-					fx = new net.minecraft.client.particle.EntityCloudFX(world, x, y, z, mX, mY, mZ);
-				}
-
-				if("reddust".equals(data.getString("mode"))) {
-					fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.0F, 0.0F, 0.0F);
-					fx.motionX = mX;
-					fx.motionY = mY;
-					fx.motionZ = mZ;
-				}
-
-				if("bluedust".equals(data.getString("mode"))) {
-					fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.01F, 1F);
-				}
-
-				if("greendust".equals(data.getString("mode"))) {
-					fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.5F, 0.1F);
-				}
-
-				if("blockdust".equals(data.getString("mode"))) {
+					case "shockRand": {
 					
-					Block b = Block.getBlockById(data.getInteger("block"));
-					fx = new net.minecraft.client.particle.EntityBlockDustFX(world, x, y, z, mX, mY + 0.2, mZ, b, 0);
-					ReflectionHelper.setPrivateValue(EntityFX.class, fx, 50 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
+						double strength = data.getDouble("strength");
+		
+						Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+						vec.rotateAroundY(rand.nextInt(360));
+						double r;
+						
+						for(int i = 0; i < count; i++) {
+							r = rand.nextDouble();
+							ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
+							fx.motionY = 0;
+							fx.motionX = vec.xCoord * r;
+							fx.motionZ = vec.zCoord * r;
+							Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+							
+							vec.rotateAroundY(360 / count);
+						}
+						break;
+					}
+				
+					case "wave": {
+					
+						double strength = data.getDouble("range");
+		
+						Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+						
+						for(int i = 0; i < count; i++) {
+							
+							vec.rotateAroundY((float) Math.toRadians(rand.nextFloat() * 360F));
+							
+							ParticleExSmoke fx = new ParticleExSmoke(man, world, x + vec.xCoord, y, z + vec.zCoord);
+							fx.maxAge = 50;
+							fx.motionY = 0;
+							fx.motionX = 0;
+							fx.motionZ = 0;
+							Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+							
+							vec.rotateAroundY(360 / count);
+						}
+						break;
+					}
+					default: break;
+				}
+				break;
+		}
+		
+			case "exhaust": {
+
+			switch (data.getString("mode"))
+			{
+				case "soyuz": {
+					
+					if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350)
+						return;
+		
+					int count = Math.max(1, data.getInteger("count"));
+					double width = data.getDouble("width");
+					
+					for(int i = 0; i < count; i++) {
+						
+						ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y, z + rand.nextGaussian() * width);
+						fx.motionY = -0.75 + rand.nextDouble() * 0.5;
+						Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					}
+					break;
 				}
 				
-				if(fx != null)
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				case "meteor": {
+					
+					if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350)
+						return;
+		
+					int count = Math.max(1, data.getInteger("count"));
+					double width = data.getDouble("width");
+					
+					for(int i = 0; i < count; i++) {
+						
+						ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y + rand.nextGaussian() * width, z + rand.nextGaussian() * width);
+						Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					}
+					break;
+				}
+				default: break;
 			}
 		}
 		
-		if("vanillaExt".equals(type)) {
-
-			double mX = data.getDouble("mX");
-			double mY = data.getDouble("mY");
-			double mZ = data.getDouble("mZ");
-			
-			EntityFX fx = null;
-
-			if("flame".equals(data.getString("mode"))) {
-				fx = new EntityFlameFX(world, x, y, z, mX, mY, mZ);
-			}
-
-			if("smoke".equals(data.getString("mode"))) {
-				fx = new net.minecraft.client.particle.EntitySmokeFX(world, x, y, z, mX, mY, mZ);
-			}
-
-			if("volcano".equals(data.getString("mode"))) {
-				fx = new net.minecraft.client.particle.EntitySmokeFX(world, x, y, z, mX, mY, mZ);
-				float scale = 100;
-				ReflectionHelper.setPrivateValue(net.minecraft.client.particle.EntitySmokeFX.class, (net.minecraft.client.particle.EntitySmokeFX)fx, scale, "smokeParticleScale", "field_70587_a");
-				ReflectionHelper.setPrivateValue(EntityFX.class, fx, 200 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
-				fx.noClip = true;
-				fx.motionY = 2.5 + rand.nextDouble();
-				fx.motionX = rand.nextGaussian() * 0.2;
-				fx.motionZ = rand.nextGaussian() * 0.2;
-			}
-
-			if("cloud".equals(data.getString("mode"))) {
-				fx = new net.minecraft.client.particle.EntityCloudFX(world, x, y, z, mX, mY, mZ);
+			case "fireworks": {
+				int color = data.getInteger("color");
+				char c = (char)data.getInteger("char");
 				
-				if(data.hasKey("r")) {
-					float rng = rand.nextFloat() * 0.1F;
-					fx.setRBGColorF(data.getFloat("r") + rng, data.getFloat("g") + rng, data.getFloat("b") + rng);
-					ReflectionHelper.setPrivateValue(net.minecraft.client.particle.EntityCloudFX.class, (EntityCloudFX)fx, 7.5F, "field_70569_a");
-					fx.motionX = 0;
-					fx.motionY = 0;
-					fx.motionZ = 0;
-				}
-			}
-
-			if("reddust".equals(data.getString("mode"))) {
-				fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, (float)mX, (float)mY, (float)mZ);
-			}
-
-			if("bluedust".equals(data.getString("mode"))) {
-				fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.01F, 1F);
-			}
-
-			if("greendust".equals(data.getString("mode"))) {
-				fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.5F, 0.1F);
-			}
-
-			if("largeexplode".equals(data.getString("mode"))) {
-				
-				
-				fx = new net.minecraft.client.particle.EntityLargeExplodeFX(man, world, x, y, z, data.getFloat("size"), 0.0F, 0.0F);
-				float r = 1.0F - rand.nextFloat() * 0.2F;
-				fx.setRBGColorF(1F * r, 0.9F * r, 0.5F * r);
-				
-				for(int i = 0; i < data.getByte("count"); i++) {
-					net.minecraft.client.particle.EntityExplodeFX sec = new net.minecraft.client.particle.EntityExplodeFX(world, x, y, z, 0.0F, 0.0F, 0.0F);
-					float r2 = 1.0F - rand.nextFloat() * 0.5F;
-					sec.setRBGColorF(0.5F * r2, 0.5F * r2, 0.5F * r2);
-					sec.multipleParticleScaleBy(i + 1);
-					Minecraft.getMinecraft().effectRenderer.addEffect(sec);
-				}
-			}
-
-			if("townaura".equals(data.getString("mode"))) {
-				fx = new EntityAuraFX(world, x, y, z, 0, 0, 0);
-				float color = 0.5F + rand.nextFloat() * 0.5F;
-				fx.setRBGColorF(0.8F * color, 0.9F * color, 1.0F * color);
-				fx.setVelocity(mX, mY, mZ);
-			}
-
-			if("blockdust".equals(data.getString("mode"))) {
-				
-				Block b = Block.getBlockById(data.getInteger("block"));
-				fx = new net.minecraft.client.particle.EntityBlockDustFX(world, x, y, z, mX, mY + 0.2, mZ, b, 0);
-				ReflectionHelper.setPrivateValue(EntityFX.class, fx, 10 + rand.nextInt(20), "particleMaxAge", "field_70547_e");
-			}
-
-			if("colordust".equals(data.getString("mode"))) {
-				
-				Block b = Blocks.wool;
-				fx = new net.minecraft.client.particle.EntityBlockDustFX(world, x, y, z, mX, mY + 0.2, mZ, b, 0);
-				fx.setRBGColorF(data.getFloat("r"), data.getFloat("g"), data.getFloat("b"));
-				ReflectionHelper.setPrivateValue(EntityFX.class, fx, 10 + rand.nextInt(20), "particleMaxAge", "field_70547_e");
-			}
-			
-			if(fx != null) {
-				
-				if(data.getBoolean("noclip")) {
-					fx.noClip = true;
-				}
-				
-				if(data.getInteger("overrideAge") > 0) {
-					ReflectionHelper.setPrivateValue(EntityFX.class, fx, data.getInteger("overrideAge"), "particleMaxAge", "field_70547_e");
-				}
-				
+				ParticleLetter fx = new ParticleLetter(world, x, y, z, color, c);
 				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-			}
-		}
-		
-		if("vanilla".equals(type)) {
-
-			double mX = data.getDouble("mX");
-			double mY = data.getDouble("mY");
-			double mZ = data.getDouble("mZ");
-			world.spawnParticle(data.getString("mode"), x, y, z, mX, mY, mZ);
-		}
-		
-		if("jetpack".equals(type)) {
-			
-			if(particleSetting == 2)
-				return;
-			
-			Entity ent = world.getEntityByID(data.getInteger("player"));
-			
-			if(ent instanceof EntityPlayer) {
 				
-				EntityPlayer p = (EntityPlayer)ent;
-				
-				Vec3 vec = Vec3.createVectorHelper(0, 0, -0.25);
-				Vec3 offset = Vec3.createVectorHelper(0.125, 0, 0);
-				float angle = (float) -Math.toRadians(p.rotationYawHead - (p.rotationYawHead - p.renderYawOffset));
-
-				vec.rotateAroundY(angle);
-				offset.rotateAroundY(angle);
-				
-				double ix = p.posX + vec.xCoord;
-				double iy = p.posY + p.eyeHeight - 1;
-				double iz = p.posZ + vec.zCoord;
-				double ox = offset.xCoord;
-				double oz = offset.zCoord;
-				
-				double moX = 0;
-				double moY = 0;
-				double moZ = 0;
-				
-				int mode = data.getInteger("mode");
-				
-				if(mode == 0) {
-					moY -= 0.2;
+				for(int i = 0; i < 50; i++) {
+					EntityFireworkSparkFX blast = new EntityFireworkSparkFX(world, x, y, z,
+							0.4 * world.rand.nextGaussian(),
+							0.4 * world.rand.nextGaussian(),
+							0.4 * world.rand.nextGaussian(), Minecraft.getMinecraft().effectRenderer);
+					blast.setColour(color);
+					Minecraft.getMinecraft().effectRenderer.addEffect(blast);
 				}
-				
-				if(mode == 1) {
-					Vec3 look = p.getLookVec();
-
-					moX -= look.xCoord * 0.1D;
-					moY -= look.yCoord * 0.1D;
-					moZ -= look.zCoord * 0.1D;
-				}
-
-				if(particleSetting == 0) {
-					Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
-					Vec3 thrust = Vec3.createVectorHelper(moX, moY, moZ);
-					thrust = thrust.normalize();
-					Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
-					MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
-					
-					if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
-						
-						Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-						int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
-						
-						Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
-						Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
-						
-						for(int i = 0; i < (10 - delta.lengthVector()); i++) {
-							vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
-							Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
-						}
-					}
-				}
-
-				double mX2 = BobMathUtil.safeClamp(p.motionX + moX * 2, -5, 5);
-				double mY2 = BobMathUtil.safeClamp(p.motionY + moY * 2, -5, 5);
-				double mZ2 = BobMathUtil.safeClamp(p.motionZ + moZ * 2, -5, 5);
-				double mX3 = BobMathUtil.safeClamp(p.motionX + moX * 2, -10, 10);
-				double mY3 = BobMathUtil.safeClamp(p.motionY + moY * 2, -10, 10);
-				double mZ3 = BobMathUtil.safeClamp(p.motionZ + moZ * 2, -10, 10);
-
-				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, mX2, mY2, mZ2));
-				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, mX2, mY2, mZ2));
-				
-				if(particleSetting == 0) {
-					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox, iy, iz + oz, mX3, mY3, mZ3));
-					Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix - ox, iy, iz - oz, mX3, mY3, mZ3));
-				}
+				break;
 			}
-		}
 		
-		if("bnuuy".equals(type)) {
+			case "vanillaburst": {
 			
-			if(particleSetting == 2)
-				return;
-			
-			Entity ent = world.getEntityByID(data.getInteger("player"));
-			
-			if(ent instanceof EntityPlayer) {
-				
-				EntityPlayer p = (EntityPlayer)ent;
-				
-				Vec3 vec = Vec3.createVectorHelper(0, 0, -0.6);
-				Vec3 offset = Vec3.createVectorHelper(0.275, 0, 0);
-				float angle = (float) -Math.toRadians(p.rotationYawHead - (p.rotationYawHead - p.renderYawOffset));
-
-				vec.rotateAroundY(angle);
-				offset.rotateAroundY(angle);
-				
-				double ix = p.posX + vec.xCoord;
-				double iy = p.posY + p.eyeHeight - 1 + 0.4;
-				double iz = p.posZ + vec.zCoord;
-				double ox = offset.xCoord;
-				double oz = offset.zCoord;
-				
-				vec = vec.normalize();
-				double mult = 0.025D;
-				double mX = vec.xCoord * mult;
-				double mZ = vec.zCoord * mult;
-				
-				//Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, 0, 0, 0));
-				//Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, 0, 0, 0));
-				
-				for(int i = 0; i < 2; i++) {
-					net.minecraft.client.particle.EntitySmokeFX fx = new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox * (i == 0 ? -1 : 1), iy, iz + oz * (i == 0 ? -1 : 1), mX, 0, mZ);
-					float scale = 0.5F;
-					ReflectionHelper.setPrivateValue(net.minecraft.client.particle.EntitySmokeFX.class, (net.minecraft.client.particle.EntitySmokeFX)fx, scale, "smokeParticleScale", "field_70587_a");
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-				}
-			}
-		}
-		
-		if("jetpack_bj".equals(type)) {
-			
-			if(particleSetting == 2)
-				return;
-			
-			Entity ent = world.getEntityByID(data.getInteger("player"));
-			
-			if(ent instanceof EntityPlayer) {
-				
-				EntityPlayer p = (EntityPlayer)ent;
-				
-				Vec3 vec = Vec3.createVectorHelper(0, 0, -0.3125);
-				Vec3 offset = Vec3.createVectorHelper(0.125, 0, 0);
-				float angle = (float) -Math.toRadians(p.rotationYawHead - (p.rotationYawHead - p.renderYawOffset));
-
-				vec.rotateAroundY(angle);
-				offset.rotateAroundY(angle);
-				
-				double ix = p.posX + vec.xCoord;
-				double iy = p.posY + p.eyeHeight - 0.9375;
-				double iz = p.posZ + vec.zCoord;
-				double ox = offset.xCoord;
-				double oz = offset.zCoord;
-
-				if(particleSetting == 0) {
-					Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
-					Vec3 thrust = Vec3.createVectorHelper(0, -1, 0);
-					Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
-					MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
-					
-					if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
-						
-						Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-						int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
-						
-						Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
-						Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
-						
-						for(int i = 0; i < (10 - delta.lengthVector()); i++) {
-							vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
-							Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
-						}
-					}
-				}
-
-				EntityReddustFX dust1 = new EntityReddustFX(world, ix + ox, iy, iz + oz, 0.8F, 0.5F, 1.0F);
-				EntityReddustFX dust2 = new EntityReddustFX(world, ix - ox, iy, iz - oz, 0.8F, 0.5F, 1.0F);
-				dust1.setVelocity(p.motionX, p.motionY, p.motionZ);
-				dust2.setVelocity(p.motionX, p.motionY, p.motionZ);
-				Minecraft.getMinecraft().effectRenderer.addEffect(dust1);
-				Minecraft.getMinecraft().effectRenderer.addEffect(dust2);
-			}
-		}
-		
-		if("jetpack_dns".equals(type)) {
-			
-			if(particleSetting == 2)
-				return;
-			
-			Entity ent = world.getEntityByID(data.getInteger("player"));
-			
-			if(ent instanceof EntityPlayer) {
-				
-				EntityPlayer p = (EntityPlayer)ent;
-				
-				Vec3 offset = Vec3.createVectorHelper(0.125, 0, 0);
-				float angle = (float) -Math.toRadians(p.rotationYawHead - (p.rotationYawHead - p.renderYawOffset));
-
-				offset.rotateAroundY(angle);
-				
-				double ix = p.posX;
-				double iy = p.posY - p.getYOffset() - 0.5D;
-				double iz = p.posZ;
-				double ox = offset.xCoord;
-				double oz = offset.zCoord;
-
-				if(particleSetting == 0) {
-					Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
-					Vec3 thrust = Vec3.createVectorHelper(0, -1, 0);
-					Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
-					MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
-					
-					if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
-						
-						Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-						int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
-						
-						Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
-						Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
-						
-						for(int i = 0; i < (10 - delta.lengthVector()); i++) {
-							vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
-							Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
-						}
-					}
-				}
-
-				EntityReddustFX dust1 = new EntityReddustFX(world, ix + ox, iy, iz + oz, 0.01F, 1.0F, 1.0F);
-				EntityReddustFX dust2 = new EntityReddustFX(world, ix - ox, iy, iz - oz, 0.01F, 1.0F, 1.0F);
-				dust1.setVelocity(p.motionX, p.motionY, p.motionZ);
-				dust2.setVelocity(p.motionX, p.motionY, p.motionZ);
-				Minecraft.getMinecraft().effectRenderer.addEffect(dust1);
-				Minecraft.getMinecraft().effectRenderer.addEffect(dust2);
-			}
-		}
-		
-		if("muke".equals(type)) {
-
-			ParticleMukeWave wave = new ParticleMukeWave(man, world, x, y, z);
-			ParticleMukeFlash flash = new ParticleMukeFlash(man, world, x, y, z, data.getBoolean("balefire"));
-
-			Minecraft.getMinecraft().effectRenderer.addEffect(wave);
-			Minecraft.getMinecraft().effectRenderer.addEffect(flash);
-
-			//single swing: 			HT 15,  MHT 15
-			//double swing: 			HT 60,  MHT 50
-			//vic's immersive swing: 	HT 100, MHT 50
-			
-			if(player.getDisplayName().equals("Vic4Games")) {
-				player.hurtTime = 100;
-				player.maxHurtTime = 50;
-			} else {
-				player.hurtTime = 15;
-				player.maxHurtTime = 15;
-			}
-			player.attackedAtYaw = 0F;
-		}
-		
-		if("tinytot".equals(type)) {
-
-			ParticleMukeWave wave = new ParticleMukeWave(man, world, x, y, z);
-			Minecraft.getMinecraft().effectRenderer.addEffect(wave);
-			
-    		for(double d = 0.0D; d <= 1.6D; d += 0.1) {
-	    		ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05);
-	    		Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
-    		}
-    		for(int i = 0; i < 50; i++) {
-	    		ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5);
-	    		Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
-    		}
-    		for(int i = 0; i < 15; i++) {
-    			double ix = rand.nextGaussian() * 0.2;
-    			double iz = rand.nextGaussian() * 0.2;
-    			
-    			if(ix * ix + iz * iz > 0.75) {
-    				ix *= 0.5;
-    				iz *= 0.5;
-    			}
-    			
-    			double iy = 1.6 + (rand.nextDouble() * 2 - 1) * (0.75 - (ix * ix + iz * iz)) * 0.5;
-    			
-	    		ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, ix, iy + rand.nextGaussian() * 0.02, iz);
-	    		Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
-    		}
-			if(player.getDisplayName().equals("Vic4Games")) {
-				player.hurtTime = 100;
-				player.maxHurtTime = 50;
-			} else {
-				player.hurtTime = 15;
-				player.maxHurtTime = 15;
-			}
-			player.attackedAtYaw = 0F;
-		}
-		
-		if("ufo".equals(type)) {
-			double motion = data.getDouble("motion");
-			ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, rand.nextGaussian() * motion, 0, rand.nextGaussian() * motion);
-			Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
-		}
-		
-		if("haze".equals(type)) {
-
-			ParticleHaze fog = new ParticleHaze(man, world, x, y, z);
-			Minecraft.getMinecraft().effectRenderer.addEffect(fog);
-		}
-		
-		if("plasmablast".equals(type)) {
-			
-			ParticlePlasmaBlast cloud = new ParticlePlasmaBlast(man, world, x, y, z, data.getFloat("r"), data.getFloat("g"), data.getFloat("b"), data.getFloat("pitch"), data.getFloat("yaw"));
-			cloud.setScale(data.getFloat("scale"));
-			Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
-		}
-		
-		if("justTilt".equals(type)) {
-			
-			player.hurtTime = player.maxHurtTime = data.getInteger("time");
-			player.attackedAtYaw = 0F;
-		}
-		
-		if("properJolt".equals(type)) {
-			
-			player.hurtTime = data.getInteger("time");
-			player.maxHurtTime = data.getInteger("maxTime");
-			player.attackedAtYaw = 0F;
-		}
-		
-		if("sweat".equals(type)) {
-			
-			Entity e = world.getEntityByID(data.getInteger("entity"));
-			Block b = Block.getBlockById(data.getInteger("block"));
-			int meta = data.getInteger("meta");
-			
-			if(e instanceof EntityLivingBase) {
+				double motion = data.getDouble("motion");
 				
 				for(int i = 0; i < data.getInteger("count"); i++) {
 	
-					double ix = e.boundingBox.minX - 0.2 + (e.boundingBox.maxX - e.boundingBox.minX + 0.4) * rand.nextDouble();
-					double iy = e.boundingBox.minY + (e.boundingBox.maxY - e.boundingBox.minY + 0.2) * rand.nextDouble();
-					double iz = e.boundingBox.minZ - 0.2 + (e.boundingBox.maxZ - e.boundingBox.minZ + 0.4) * rand.nextDouble();
+					double mX = rand.nextGaussian() * motion;
+					double mY = rand.nextGaussian() * motion;
+					double mZ = rand.nextGaussian() * motion;
 					
+					EntityFX fx = null;
+	
+					switch (data.getString("mode"))
+					{
+						case "flame": fx = new EntityFlameFX(world, x, y, z, mX, mY, mZ); break;
+						case "cloud": fx = new net.minecraft.client.particle.EntityCloudFX(world, x, y, z, mX, mY, mZ); break;
+		
+						case "reddust":
+							fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.0F, 0.0F, 0.0F);
+							fx.motionX = mX;
+							fx.motionY = mY;
+							fx.motionZ = mZ;
+							break;
+						case "bluedust": fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.01F, 1F); break;
+						case "greendust": fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.5F, 0.1F); break;
+		
+						case "blockdust":
+							Block b = Block.getBlockById(data.getInteger("block"));
+							fx = new net.minecraft.client.particle.EntityBlockDustFX(world, x, y, z, mX, mY + 0.2, mZ, b, 0);
+							ReflectionHelper.setPrivateValue(EntityFX.class, fx, 50 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
+							break;
+						default: break;
+					}
 					
-					EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, 0, 0, 0, b, meta);
-					ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
+					if(fx != null)
+						Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					
+				}
+				break;
+			}
+		
+			case "vanillaExt": {
+
+				double mX = data.getDouble("mX");
+				double mY = data.getDouble("mY");
+				double mZ = data.getDouble("mZ");
+				
+				EntityFX fx = null;
+	
+				switch (data.getString("mode"))
+				{
+					case "flame": fx = new EntityFlameFX(world, x, y, z, mX, mY, mZ); break;
+					case "smoke": fx = new net.minecraft.client.particle.EntitySmokeFX(world, x, y, z, mX, mY, mZ); break;
+					case "volcano":
+						fx = new net.minecraft.client.particle.EntitySmokeFX(world, x, y, z, mX, mY, mZ);
+						float scale = 100;
+						ReflectionHelper.setPrivateValue(net.minecraft.client.particle.EntitySmokeFX.class, (net.minecraft.client.particle.EntitySmokeFX)fx, scale, "smokeParticleScale", "field_70587_a");
+						ReflectionHelper.setPrivateValue(EntityFX.class, fx, 200 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
+						fx.noClip = true;
+						fx.motionY = 2.5 + rand.nextDouble();
+						fx.motionX = rand.nextGaussian() * 0.2;
+						fx.motionZ = rand.nextGaussian() * 0.2;
+						break;
+					case "cloud":
+						fx = new net.minecraft.client.particle.EntityCloudFX(world, x, y, z, mX, mY, mZ);
+						
+						if(data.hasKey("r")) {
+							float rng = rand.nextFloat() * 0.1F;
+							fx.setRBGColorF(data.getFloat("r") + rng, data.getFloat("g") + rng, data.getFloat("b") + rng);
+							ReflectionHelper.setPrivateValue(net.minecraft.client.particle.EntityCloudFX.class, (EntityCloudFX)fx, 7.5F, "field_70569_a");
+							fx.motionX = 0;
+							fx.motionY = 0;
+							fx.motionZ = 0;
+						}
+						break;
+					case "reddust": fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, (float)mX, (float)mY, (float)mZ); break;
+					case "bluedust": fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.01F, 1F); break;
+					case "greendust": fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.5F, 0.1F); break;
+					case "largeexplode":
+						fx = new net.minecraft.client.particle.EntityLargeExplodeFX(man, world, x, y, z, data.getFloat("size"), 0.0F, 0.0F);
+						float r = 1.0F - rand.nextFloat() * 0.2F;
+						fx.setRBGColorF(1F * r, 0.9F * r, 0.5F * r);
+						
+						for(int i = 0; i < data.getByte("count"); i++) {
+							net.minecraft.client.particle.EntityExplodeFX sec = new net.minecraft.client.particle.EntityExplodeFX(world, x, y, z, 0.0F, 0.0F, 0.0F);
+							float r2 = 1.0F - rand.nextFloat() * 0.5F;
+							sec.setRBGColorF(0.5F * r2, 0.5F * r2, 0.5F * r2);
+							sec.multipleParticleScaleBy(i + 1);
+							Minecraft.getMinecraft().effectRenderer.addEffect(sec);
+						}
+						break;
+					case "townaura":
+						fx = new EntityAuraFX(world, x, y, z, 0, 0, 0);
+						float color = 0.5F + rand.nextFloat() * 0.5F;
+						fx.setRBGColorF(0.8F * color, 0.9F * color, 1.0F * color);
+						fx.setVelocity(mX, mY, mZ);
+						break;
+					case "blockdust":
+					{
+						Block b = Block.getBlockById(data.getInteger("block"));
+						fx = new net.minecraft.client.particle.EntityBlockDustFX(world, x, y, z, mX, mY + 0.2, mZ, b, 0);
+						ReflectionHelper.setPrivateValue(EntityFX.class, fx, 10 + rand.nextInt(20), "particleMaxAge", "field_70547_e");
+						break;
+					}
+					case "colordust":
+					{
+						Block b = Blocks.wool;
+						fx = new net.minecraft.client.particle.EntityBlockDustFX(world, x, y, z, mX, mY + 0.2, mZ, b, 0);
+						fx.setRBGColorF(data.getFloat("r"), data.getFloat("g"), data.getFloat("b"));
+						ReflectionHelper.setPrivateValue(EntityFX.class, fx, 10 + rand.nextInt(20), "particleMaxAge", "field_70547_e");
+						break;
+					}
+					default:
+						break;
+				}
+				
+				if(fx != null) {
+					
+					fx.noClip = data.getBoolean("noclip");
+					
+					if(data.getInteger("overrideAge") > 0) {
+						ReflectionHelper.setPrivateValue(EntityFX.class, fx, data.getInteger("overrideAge"), "particleMaxAge", "field_70547_e");
+					}
 					
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}
+				break;
 			}
-		}
 		
-		if("vomit".equals(type)) {
-			
-			Entity e = world.getEntityByID(data.getInteger("entity"));
-			int count = data.getInteger("count") / (particleSetting + 1);
-			
-			if(e instanceof EntityLivingBase) {
+			case "vanilla": {
 
-				double ix = e.posX;
-				double iy = e.posY - e.getYOffset() + e.getEyeHeight() + (e instanceof EntityPlayer ? 1 : 0);
-				double iz = e.posZ;
+				double mX = data.getDouble("mX");
+				double mY = data.getDouble("mY");
+				double mZ = data.getDouble("mZ");
+				world.spawnParticle(data.getString("mode"), x, y, z, mX, mY, mZ);
+				break;
+			}
+		
+			case "jetpack": {
+			
+				if(particleSetting == 2)
+					return;
 				
-				Vec3 vec = e.getLookVec();
+				Entity ent = world.getEntityByID(data.getInteger("player"));
 				
-				for(int i = 0; i < count; i++) {
+				if(ent instanceof EntityPlayer) {
 					
-					if("normal".equals(data.getString("mode"))) {
-						EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, (vec.xCoord + rand.nextGaussian() * 0.2) * 0.2, (vec.yCoord + rand.nextGaussian() * 0.2) * 0.2, (vec.zCoord + rand.nextGaussian() * 0.2) * 0.2, Blocks.stained_hardened_clay, (rand.nextBoolean() ? 5 : 13));
-						ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
-						Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					EntityPlayer p = (EntityPlayer)ent;
+					
+					Vec3 vec = Vec3.createVectorHelper(0, 0, -0.25);
+					Vec3 offset = Vec3.createVectorHelper(0.125, 0, 0);
+					float angle = (float) -Math.toRadians(p.rotationYawHead - (p.rotationYawHead - p.renderYawOffset));
+	
+					vec.rotateAroundY(angle);
+					offset.rotateAroundY(angle);
+					
+					double ix = p.posX + vec.xCoord;
+					double iy = p.posY + p.eyeHeight - 1;
+					double iz = p.posZ + vec.zCoord;
+					double ox = offset.xCoord;
+					double oz = offset.zCoord;
+					
+					double moX = 0;
+					double moY = 0;
+					double moZ = 0;
+					
+					int mode = data.getInteger("mode");
+					
+					if(mode == 0) {
+						moY -= 0.2;
 					}
 					
-					if("blood".equals(data.getString("mode"))) {
-						EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, (vec.xCoord + rand.nextGaussian() * 0.2) * 0.2, (vec.yCoord + rand.nextGaussian() * 0.2) * 0.2, (vec.zCoord + rand.nextGaussian() * 0.2) * 0.2, Blocks.redstone_block, 0);
-						ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
-						Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					if(mode == 1) {
+						Vec3 look = p.getLookVec();
+	
+						moX -= look.xCoord * 0.1D;
+						moY -= look.yCoord * 0.1D;
+						moZ -= look.zCoord * 0.1D;
 					}
+	
+					if(particleSetting == 0) {
+						Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
+						Vec3 thrust = Vec3.createVectorHelper(moX, moY, moZ);
+						thrust = thrust.normalize();
+						Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
+						MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
+						
+						if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
+							
+							Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+							int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+							
+							Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
+							Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
+							
+							for(int i = 0; i < (10 - delta.lengthVector()); i++) {
+								vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
+								Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
+							}
+						}
+					}
+	
+					double mX2 = BobMathUtil.safeClamp(p.motionX + moX * 2, -5, 5);
+					double mY2 = BobMathUtil.safeClamp(p.motionY + moY * 2, -5, 5);
+					double mZ2 = BobMathUtil.safeClamp(p.motionZ + moZ * 2, -5, 5);
+					double mX3 = BobMathUtil.safeClamp(p.motionX + moX * 2, -10, 10);
+					double mY3 = BobMathUtil.safeClamp(p.motionY + moY * 2, -10, 10);
+					double mZ3 = BobMathUtil.safeClamp(p.motionZ + moZ * 2, -10, 10);
+	
+					Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, mX2, mY2, mZ2));
+					Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, mX2, mY2, mZ2));
 					
-					if("smoke".equals(data.getString("mode"))) {
-						EntityFX fx = new net.minecraft.client.particle.EntitySmokeFX(world, ix, iy, iz, (vec.xCoord + rand.nextGaussian() * 0.1) * 0.05, (vec.yCoord + rand.nextGaussian() * 0.1) * 0.05, (vec.zCoord + rand.nextGaussian() * 0.1) * 0.05, 0.2F);
-						ReflectionHelper.setPrivateValue(EntityFX.class, fx, 10 + rand.nextInt(10), "particleMaxAge", "field_70547_e");
+					if(particleSetting == 0) {
+						Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox, iy, iz + oz, mX3, mY3, mZ3));
+						Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix - ox, iy, iz - oz, mX3, mY3, mZ3));
+					}
+				}
+				break;
+			}
+		
+			case "bnuuy": {
+			
+				if(particleSetting == 2)
+					return;
+				
+				Entity ent = world.getEntityByID(data.getInteger("player"));
+				
+				if(ent instanceof EntityPlayer) {
+					
+					EntityPlayer p = (EntityPlayer)ent;
+					
+					Vec3 vec = Vec3.createVectorHelper(0, 0, -0.6);
+					Vec3 offset = Vec3.createVectorHelper(0.275, 0, 0);
+					float angle = (float) -Math.toRadians(p.rotationYawHead - (p.rotationYawHead - p.renderYawOffset));
+	
+					vec.rotateAroundY(angle);
+					offset.rotateAroundY(angle);
+					
+					double ix = p.posX + vec.xCoord;
+					double iy = p.posY + p.eyeHeight - 1 + 0.4;
+					double iz = p.posZ + vec.zCoord;
+					double ox = offset.xCoord;
+					double oz = offset.zCoord;
+					
+					vec = vec.normalize();
+					double mult = 0.025D;
+					double mX = vec.xCoord * mult;
+					double mZ = vec.zCoord * mult;
+					
+					//Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, 0, 0, 0));
+					//Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, 0, 0, 0));
+					
+					for(int i = 0; i < 2; i++) {
+						net.minecraft.client.particle.EntitySmokeFX fx = new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox * (i == 0 ? -1 : 1), iy, iz + oz * (i == 0 ? -1 : 1), mX, 0, mZ);
+						float scale = 0.5F;
+						ReflectionHelper.setPrivateValue(net.minecraft.client.particle.EntitySmokeFX.class, fx, scale, "smokeParticleScale", "field_70587_a");
 						Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 					}
 				}
+				break;
 			}
-		}
 		
-		if("radiation".equals(type)) {
+			case "jetpack_bj": {
 			
-			for(int i = 0; i < data.getInteger("count"); i++) {
+				if(particleSetting == 2)
+					return;
 				
-				EntityAuraFX flash = new EntityAuraFX(world,
-						player.posX + rand.nextGaussian() * 4,
-						player.posY + rand.nextGaussian() * 2,
-						player.posZ + rand.nextGaussian() * 4,
-						0, 0, 0);
+				Entity ent = world.getEntityByID(data.getInteger("player"));
 				
-				flash.setRBGColorF(0F, 0.75F, 1F);
-				flash.setVelocity(rand.nextGaussian(), rand.nextGaussian(), rand.nextGaussian());
+				if(ent instanceof EntityPlayer) {
+					
+					EntityPlayer p = (EntityPlayer)ent;
+					
+					Vec3 vec = Vec3.createVectorHelper(0, 0, -0.3125);
+					Vec3 offset = Vec3.createVectorHelper(0.125, 0, 0);
+					float angle = (float) -Math.toRadians(p.rotationYawHead - (p.rotationYawHead - p.renderYawOffset));
+	
+					vec.rotateAroundY(angle);
+					offset.rotateAroundY(angle);
+					
+					double ix = p.posX + vec.xCoord;
+					double iy = p.posY + p.eyeHeight - 0.9375;
+					double iz = p.posZ + vec.zCoord;
+					double ox = offset.xCoord;
+					double oz = offset.zCoord;
+	
+					if(particleSetting == 0) {
+						Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
+						Vec3 thrust = Vec3.createVectorHelper(0, -1, 0);
+						Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
+						MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
+						
+						if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
+							
+							Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+							int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+							
+							Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
+							Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
+							
+							for(int i = 0; i < (10 - delta.lengthVector()); i++) {
+								vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
+								Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
+							}
+						}
+					}
+	
+					EntityReddustFX dust1 = new EntityReddustFX(world, ix + ox, iy, iz + oz, 0.8F, 0.5F, 1.0F);
+					EntityReddustFX dust2 = new EntityReddustFX(world, ix - ox, iy, iz - oz, 0.8F, 0.5F, 1.0F);
+					dust1.setVelocity(p.motionX, p.motionY, p.motionZ);
+					dust2.setVelocity(p.motionX, p.motionY, p.motionZ);
+					Minecraft.getMinecraft().effectRenderer.addEffect(dust1);
+					Minecraft.getMinecraft().effectRenderer.addEffect(dust2);
+				}
+				break;
+			}
+		
+			case "jetpack_dns": {
+			
+				if(particleSetting == 2)
+					return;
+				
+				Entity ent = world.getEntityByID(data.getInteger("player"));
+				
+				if(ent instanceof EntityPlayer) {
+					
+					EntityPlayer p = (EntityPlayer)ent;
+					
+					Vec3 offset = Vec3.createVectorHelper(0.125, 0, 0);
+					float angle = (float) -Math.toRadians(p.rotationYawHead - (p.rotationYawHead - p.renderYawOffset));
+	
+					offset.rotateAroundY(angle);
+					
+					double ix = p.posX;
+					double iy = p.posY - p.getYOffset() - 0.5D;
+					double iz = p.posZ;
+					double ox = offset.xCoord;
+					double oz = offset.zCoord;
+	
+					if(particleSetting == 0) {
+						Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
+						Vec3 thrust = Vec3.createVectorHelper(0, -1, 0);
+						Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
+						MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
+						
+						if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
+							
+							Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+							int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+							
+							Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
+							Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
+							
+							for(int i = 0; i < (10 - delta.lengthVector()); i++) {
+								vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
+								Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
+							}
+						}
+					}
+	
+					EntityReddustFX dust1 = new EntityReddustFX(world, ix + ox, iy, iz + oz, 0.01F, 1.0F, 1.0F);
+					EntityReddustFX dust2 = new EntityReddustFX(world, ix - ox, iy, iz - oz, 0.01F, 1.0F, 1.0F);
+					dust1.setVelocity(p.motionX, p.motionY, p.motionZ);
+					dust2.setVelocity(p.motionX, p.motionY, p.motionZ);
+					Minecraft.getMinecraft().effectRenderer.addEffect(dust1);
+					Minecraft.getMinecraft().effectRenderer.addEffect(dust2);
+				}
+				break;
+			}
+		
+			case "muke": {
+
+				ParticleMukeWave wave = new ParticleMukeWave(man, world, x, y, z);
+				ParticleMukeFlash flash = new ParticleMukeFlash(man, world, x, y, z, data.getBoolean("balefire"));
+	
+				Minecraft.getMinecraft().effectRenderer.addEffect(wave);
 				Minecraft.getMinecraft().effectRenderer.addEffect(flash);
-			}
-		}
-		
-		if("schrabfog".equals(type)) {
+	
+				//single swing: 			HT 15,  MHT 15
+				//double swing: 			HT 60,  MHT 50
+				//vic's immersive swing: 	HT 100, MHT 50
 				
-			EntityAuraFX flash = new EntityAuraFX(world, x, y, z, 0, 0, 0);
-			flash.setRBGColorF(0F, 1F, 1F);
-			Minecraft.getMinecraft().effectRenderer.addEffect(flash);
-		}
-		
-		if("hadron".equals(type)) {
-			
-			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleHadron(man, world, x, y, z));
-		}
-		
-		if("rift".equals(type)) {
-			
-			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRift(man, world, x, y, z));
-		}
-		
-		if("rbmkflame".equals(type)) {
-			int maxAge = data.getInteger("maxAge");
-			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRBMKFlame(man, world, x, y, z, maxAge));
-		}
-		
-		if("rbmkmush".equals(type)) {
-			float scale = data.getFloat("scale");
-			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRBMKMush(man, world, x, y, z, scale));
-		}
-		
-		if("tower".equals(type)) {
-			if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
-				ParticleCoolingTower fx = new ParticleCoolingTower(man, world, x, y, z);
-				fx.setLift(data.getFloat("lift"));
-				fx.setBaseScale(data.getFloat("base"));
-				fx.setMaxScale(data.getFloat("max"));
-				fx.setLife(data.getInteger("life") / (particleSetting + 1));
-				
-				if(data.hasKey("color")) {
-					Color color = new Color(data.getInteger("color"));
-					fx.setRBGColorF(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
-				}
-				
-				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-			}
-		}
-		
-		if("deadleaf".equals(type)) {
-			if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean()))
-				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleDeadLeaf(man, world, x, y, z));
-		}
-		
-		if("anim".equals(type)) {
-			
-			/* crucible deploy */
-			if("crucible".equals(data.getString("mode")) && player.getHeldItem() != null) {
-				
-				BusAnimation animation = new BusAnimation()
-						.addBus("GUARD_ROT", new BusAnimationSequence()
-								.addKeyframe(new BusAnimationKeyframe(90, 0, 1, 0))
-								.addKeyframe(new BusAnimationKeyframe(90, 0, 1, 800))
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 50)));
-				
-				HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
-			}
-			
-			/* crucible swing */
-			if("cSwing".equals(data.getString("mode"))) {
-				
-				if(HbmAnimations.getRelevantTransformation("SWING_ROT")[0] == 0) {
-					
-					int offset = rand.nextInt(80) - 20;
-					
-					BusAnimation animation = new BusAnimation()
-							.addBus("SWING_ROT", new BusAnimationSequence()
-									.addKeyframe(new BusAnimationKeyframe(90 - offset, 90 - offset, 35, 75))
-									.addKeyframe(new BusAnimationKeyframe(90 + offset, 90 - offset, -45, 150))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500)))
-							.addBus("SWING_TRANS", new BusAnimationSequence()
-									.addKeyframe(new BusAnimationKeyframe(-3, 0, 0, 75))
-									.addKeyframe(new BusAnimationKeyframe(8, 0, 0, 150))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500)));
-
-					Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:weapon.cSwing"), 0.8F + player.getRNG().nextFloat() * 0.2F));
-					
-					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
-				}
-			}
-			
-			/* chainsaw swing */
-			if("sSwing".equals(data.getString("mode")) || "lSwing".equals(data.getString("mode"))) { //temp for lance
-
-				int forward = 150;
-				int sideways = 100;
-				int retire = 200;
-				
-				if(HbmAnimations.getRelevantAnim() == null) {
-					
-					BusAnimation animation = new BusAnimation()
-							.addBus("SWING_ROT", new BusAnimationSequence()
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 90, forward))
-									.addKeyframe(new BusAnimationKeyframe(45, 0, 90, sideways))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)))
-							.addBus("SWING_TRANS", new BusAnimationSequence()
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 3, forward))
-									.addKeyframe(new BusAnimationKeyframe(2, 0, 2, sideways))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)));
-
-					
-					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
-					
+				if(player.getDisplayName().equals("Vic4Games")) {
+					player.hurtTime = 100;
+					player.maxHurtTime = 50;
 				} else {
-
-					double[] rot = HbmAnimations.getRelevantTransformation("SWING_ROT");
-					double[] trans = HbmAnimations.getRelevantTransformation("SWING_TRANS");
-					
-					if(System.currentTimeMillis() - HbmAnimations.getRelevantAnim().startMillis < 50) return;
-					
-					BusAnimation animation = new BusAnimation()
-							.addBus("SWING_ROT", new BusAnimationSequence()
-									.addKeyframe(new BusAnimationKeyframe(rot[0], rot[1], rot[2], 0))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 90, forward))
-									.addKeyframe(new BusAnimationKeyframe(45, 0, 90, sideways))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)))
-							.addBus("SWING_TRANS", new BusAnimationSequence()
-									.addKeyframe(new BusAnimationKeyframe(trans[0], trans[1], trans[2], 0))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 3, forward))
-									.addKeyframe(new BusAnimationKeyframe(2, 0, 2, sideways))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)));
-					
-					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
+					player.hurtTime = 15;
+					player.maxHurtTime = 15;
 				}
+				player.attackedAtYaw = 0F;
+				break;
 			}
-		}
 		
-		if("tau".equals(type)) {
+			case "tinytot": {
+
+				ParticleMukeWave wave = new ParticleMukeWave(man, world, x, y, z);
+				Minecraft.getMinecraft().effectRenderer.addEffect(wave);
+				
+	    		for(double d = 0.0D; d <= 1.6D; d += 0.1) {
+		    		ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05);
+		    		Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
+	    		}
+	    		for(int i = 0; i < 50; i++) {
+		    		ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5);
+		    		Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
+	    		}
+	    		for(int i = 0; i < 15; i++) {
+	    			double ix = rand.nextGaussian() * 0.2;
+	    			double iz = rand.nextGaussian() * 0.2;
+	    			
+	    			if(ix * ix + iz * iz > 0.75) {
+	    				ix *= 0.5;
+	    				iz *= 0.5;
+	    			}
+	    			
+	    			double iy = 1.6 + (rand.nextDouble() * 2 - 1) * (0.75 - (ix * ix + iz * iz)) * 0.5;
+	    			
+		    		ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, ix, iy + rand.nextGaussian() * 0.02, iz);
+		    		Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
+	    		}
+				if(player.getDisplayName().equals("Vic4Games")) {
+					player.hurtTime = 100;
+					player.maxHurtTime = 50;
+				} else {
+					player.hurtTime = 15;
+					player.maxHurtTime = 15;
+				}
+				player.attackedAtYaw = 0F;
+			}
+		
+			case "ufo": {
+				double motion = data.getDouble("motion");
+				ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, rand.nextGaussian() * motion, 0, rand.nextGaussian() * motion);
+				Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
+				break;
+			}
+		
+			case "haze": {
+				ParticleHaze fog = new ParticleHaze(man, world, x, y, z);
+				Minecraft.getMinecraft().effectRenderer.addEffect(fog);
+				break;
+			}
+		
+			case "plasmablast": {
 			
-			for(int i = 0; i < data.getByte("count"); i++)
-				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleSpark(world, x, y, z, rand.nextGaussian() * 0.05, 0.05, rand.nextGaussian() * 0.05));
-			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleHadron(man, world, x, y, z));
-		}
+				ParticlePlasmaBlast cloud = new ParticlePlasmaBlast(man, world, x, y, z, data.getFloat("r"), data.getFloat("g"), data.getFloat("b"), data.getFloat("pitch"), data.getFloat("yaw"));
+				cloud.setScale(data.getFloat("scale"));
+				Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
+				break;
+			}
 		
-		if("vanish".equals(type)) {
-			int ent = data.getInteger("ent");
-			this.vanish(ent);
-		}
+			case "justTilt": {
+			
+				player.hurtTime = player.maxHurtTime = data.getInteger("time");
+				player.attackedAtYaw = 0F;
+				break;
+			}
 		
-		if("giblets".equals(type)) {
+			case "properJolt": {
+			
+				player.hurtTime = data.getInteger("time");
+				player.maxHurtTime = data.getInteger("maxTime");
+				player.attackedAtYaw = 0F;
+				break;
+			}
+		
+			case "sweat": {
+			
+				Entity e = world.getEntityByID(data.getInteger("entity"));
+				Block b = Block.getBlockById(data.getInteger("block"));
+				int meta = data.getInteger("meta");
+				
+				if(e instanceof EntityLivingBase) {
+					
+					for(int i = 0; i < data.getInteger("count"); i++) {
+		
+						double ix = e.boundingBox.minX - 0.2 + (e.boundingBox.maxX - e.boundingBox.minX + 0.4) * rand.nextDouble();
+						double iy = e.boundingBox.minY + (e.boundingBox.maxY - e.boundingBox.minY + 0.2) * rand.nextDouble();
+						double iz = e.boundingBox.minZ - 0.2 + (e.boundingBox.maxZ - e.boundingBox.minZ + 0.4) * rand.nextDouble();
+						
+						
+						EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, 0, 0, 0, b, meta);
+						ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
+						
+						Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					}
+				}
+				break;
+			}
+		
+			case "vomit": {
+			
+				Entity e = world.getEntityByID(data.getInteger("entity"));
+				int count = data.getInteger("count") / (particleSetting + 1);
+				
+				if(e instanceof EntityLivingBase) {
+	
+					double ix = e.posX;
+					double iy = e.posY - e.getYOffset() + e.getEyeHeight() + (e instanceof EntityPlayer ? 1 : 0);
+					double iz = e.posZ;
+					
+					Vec3 vec = e.getLookVec();
+					
+					for(int i = 0; i < count; i++) {
+						
+						if("normal".equals(data.getString("mode"))) {
+							EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, (vec.xCoord + rand.nextGaussian() * 0.2) * 0.2, (vec.yCoord + rand.nextGaussian() * 0.2) * 0.2, (vec.zCoord + rand.nextGaussian() * 0.2) * 0.2, Blocks.stained_hardened_clay, (rand.nextBoolean() ? 5 : 13));
+							ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
+							Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+						}
+						
+						if("blood".equals(data.getString("mode"))) {
+							EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, (vec.xCoord + rand.nextGaussian() * 0.2) * 0.2, (vec.yCoord + rand.nextGaussian() * 0.2) * 0.2, (vec.zCoord + rand.nextGaussian() * 0.2) * 0.2, Blocks.redstone_block, 0);
+							ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
+							Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+						}
+						
+						if("smoke".equals(data.getString("mode"))) {
+							EntityFX fx = new net.minecraft.client.particle.EntitySmokeFX(world, ix, iy, iz, (vec.xCoord + rand.nextGaussian() * 0.1) * 0.05, (vec.yCoord + rand.nextGaussian() * 0.1) * 0.05, (vec.zCoord + rand.nextGaussian() * 0.1) * 0.05, 0.2F);
+							ReflectionHelper.setPrivateValue(EntityFX.class, fx, 10 + rand.nextInt(10), "particleMaxAge", "field_70547_e");
+							Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+						}
+					}
+				}
+				break;
+			}
+		
+			case "radiation": {
+				
+				for(int i = 0; i < data.getInteger("count"); i++) {
+					
+					EntityAuraFX flash = new EntityAuraFX(world,
+							player.posX + rand.nextGaussian() * 4,
+							player.posY + rand.nextGaussian() * 2,
+							player.posZ + rand.nextGaussian() * 4,
+							0, 0, 0);
+					
+					flash.setRBGColorF(0F, 0.75F, 1F);
+					flash.setVelocity(rand.nextGaussian(), rand.nextGaussian(), rand.nextGaussian());
+					Minecraft.getMinecraft().effectRenderer.addEffect(flash);
+				}
+				break;
+			}
+		
+			case "schrabfog": {
+				
+				EntityAuraFX flash = new EntityAuraFX(world, x, y, z, 0, 0, 0);
+				flash.setRBGColorF(0F, 1F, 1F);
+				Minecraft.getMinecraft().effectRenderer.addEffect(flash);
+				break;
+			}
+		
+			case "hadron": Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleHadron(man, world, x, y, z)); break;
+			case "rift": Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRift(man, world, x, y, z)); break;
+			case "rbmkflame": Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRBMKFlame(man, world, x, y, z, data.getInteger("maxAge"))); break;
+			case "rbmkmush": Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRBMKMush(man, world, x, y, z, data.getFloat("scale"))); break;
+		
+			case "tower": {
+				if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
+					ParticleCoolingTower fx = new ParticleCoolingTower(man, world, x, y, z);
+					fx.setLift(data.getFloat("lift"));
+					fx.setBaseScale(data.getFloat("base"));
+					fx.setMaxScale(data.getFloat("max"));
+					fx.setLife(data.getInteger("life") / (particleSetting + 1));
+					
+					if(data.hasKey("color")) {
+						Color color = new Color(data.getInteger("color"));
+						fx.setRBGColorF(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+					}
+					
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+				break;
+			}
+		
+			case "deadleaf": {
+				if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean()))
+					Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleDeadLeaf(man, world, x, y, z));
+				break;
+			}
+		
+			case "anim": {
+			
+				/* crucible deploy */
+				switch (data.getString("mode"))
+				{
+					case "crucible":
+						if(player.getHeldItem() != null) {
+							
+							BusAnimation animation = new BusAnimation()
+									.addBus("GUARD_ROT", new BusAnimationSequence()
+											.addKeyframe(new BusAnimationKeyframe(90, 0, 1, 0))
+											.addKeyframe(new BusAnimationKeyframe(90, 0, 1, 800))
+											.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 50)));
+							
+							HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
+						}
+					break;
+					/* crucible swing */
+					case "cSwing": {
+						
+						if(HbmAnimations.getRelevantTransformation("SWING_ROT")[0] == 0) {
+							
+							int offset = rand.nextInt(80) - 20;
+							
+							BusAnimation animation = new BusAnimation()
+									.addBus("SWING_ROT", new BusAnimationSequence()
+											.addKeyframe(new BusAnimationKeyframe(90 - offset, 90 - offset, 35, 75))
+											.addKeyframe(new BusAnimationKeyframe(90 + offset, 90 - offset, -45, 150))
+											.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500)))
+									.addBus("SWING_TRANS", new BusAnimationSequence()
+											.addKeyframe(new BusAnimationKeyframe(-3, 0, 0, 75))
+											.addKeyframe(new BusAnimationKeyframe(8, 0, 0, 150))
+											.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500)));
+		
+							Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:weapon.cSwing"), 0.8F + player.getRNG().nextFloat() * 0.2F));
+							
+							HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
+						}
+						break;
+					}
+					
+					/* chainsaw swing */
+					case "sSwing":
+					case "lSwing":
+						{ //temp for lance
+			
+							int forward = 150;
+							int sideways = 100;
+							int retire = 200;
+							
+							if(HbmAnimations.getRelevantAnim() == null) {
+								
+								BusAnimation animation = new BusAnimation()
+										.addBus("SWING_ROT", new BusAnimationSequence()
+												.addKeyframe(new BusAnimationKeyframe(0, 0, 90, forward))
+												.addKeyframe(new BusAnimationKeyframe(45, 0, 90, sideways))
+												.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)))
+										.addBus("SWING_TRANS", new BusAnimationSequence()
+												.addKeyframe(new BusAnimationKeyframe(0, 0, 3, forward))
+												.addKeyframe(new BusAnimationKeyframe(2, 0, 2, sideways))
+												.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)));
+			
+								
+								HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
+								
+							} else {
+			
+								double[] rot = HbmAnimations.getRelevantTransformation("SWING_ROT");
+								double[] trans = HbmAnimations.getRelevantTransformation("SWING_TRANS");
+								
+								if(System.currentTimeMillis() - HbmAnimations.getRelevantAnim().startMillis < 50) return;
+								
+								BusAnimation animation = new BusAnimation()
+										.addBus("SWING_ROT", new BusAnimationSequence()
+												.addKeyframe(new BusAnimationKeyframe(rot[0], rot[1], rot[2], 0))
+												.addKeyframe(new BusAnimationKeyframe(0, 0, 90, forward))
+												.addKeyframe(new BusAnimationKeyframe(45, 0, 90, sideways))
+												.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)))
+										.addBus("SWING_TRANS", new BusAnimationSequence()
+												.addKeyframe(new BusAnimationKeyframe(trans[0], trans[1], trans[2], 0))
+												.addKeyframe(new BusAnimationKeyframe(0, 0, 3, forward))
+												.addKeyframe(new BusAnimationKeyframe(2, 0, 2, sideways))
+												.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)));
+								
+								HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
+							}
+						}
+					default:
+						break;
+					}
+					break;
+				}
+			
+				case "tau": {
+				
+				for(int i = 0; i < data.getByte("count"); i++)
+					Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleSpark(world, x, y, z, rand.nextGaussian() * 0.05, 0.05, rand.nextGaussian() * 0.05));
+				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleHadron(man, world, x, y, z));
+				break;
+			}
+		
+			case "vanish": {
+				int ent = data.getInteger("ent");
+				this.vanish(ent);
+				break;
+			}
+		
+			case "giblets": {
 			int ent = data.getInteger("ent");
 			this.vanish(ent);
 			Entity e = world.getEntityByID(ent);
@@ -1766,48 +2339,58 @@ public class ClientProxy extends ServerProxy {
 			for(int i = 0; i < count; i++) {
 				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleGiblet(man, world, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult));
 			}
+			break;
 		}
+			case "amat": Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleAmatFlash(world, x, y, z, data.getFloat("scale"))); break;
 		
-		if("amat".equals(type)) {
-			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleAmatFlash(world, x, y, z, data.getFloat("scale")));
-		}
-		
-		if("debug".equals(type)) {
-			String t = data.getString("text");
-			int color = data.getInteger("color");
-			float scale = data.getFloat("scale");
-			ParticleText text = new ParticleText(world, x, y, z, color, t);
-			text.multipleParticleScaleBy(scale);
-			Minecraft.getMinecraft().effectRenderer.addEffect(text);
-		}
-		
-		if("network".equals(type)) {
-			ParticleDebug debug = null;
-			double mX = data.getDouble("mX");
-			double mY = data.getDouble("mY");
-			double mZ = data.getDouble("mZ");
-
-			if("power".equals(data.getString("mode"))) {
-				debug = new ParticleDebug(man, world, x, y, z, mX, mY, mZ);
-			}
-			if("fluid".equals(data.getString("mode"))) {
+			case "debug": {
+				String t = data.getString("text");
 				int color = data.getInteger("color");
-				debug = new ParticleDebug(man, world, x, y, z, mX, mY, mZ, color);
+				float scale = data.getFloat("scale");
+				ParticleText text = new ParticleText(world, x, y, z, color, t);
+				text.multipleParticleScaleBy(scale);
+				Minecraft.getMinecraft().effectRenderer.addEffect(text);
+				break;
 			}
-			Minecraft.getMinecraft().effectRenderer.addEffect(debug);
-		}
 		
-		if("gasfire".equals(type)) {
-			double mX = data.getDouble("mX");
-			double mY = data.getDouble("mY");
-			double mZ = data.getDouble("mZ");
-			float scale = data.getFloat("scale");
-			ParticleGasFlame text = new ParticleGasFlame(world, x, y, z, mX, mY, mZ, scale > 0 ? scale : 6.5F);
-			Minecraft.getMinecraft().effectRenderer.addEffect(text);
+			case "network": {
+				ParticleDebug debug = null;
+				double mX = data.getDouble("mX");
+				double mY = data.getDouble("mY");
+				double mZ = data.getDouble("mZ");
+				switch (data.getString("mode"))
+				{
+					case "power": debug = new ParticleDebug(man, world, x, y, z, mX, mY, mZ); break;
+					case "fluid": debug = new ParticleDebug(man, world, x, y, z, mX, mY, mZ, data.getInteger("color")); break;
+					default: break;
+				}
+				Minecraft.getMinecraft().effectRenderer.addEffect(debug);
+				break;
+			}
+			
+			case "gasfire": {
+				double mX = data.getDouble("mX");
+				double mY = data.getDouble("mY");
+				double mZ = data.getDouble("mZ");
+				float scale = data.getFloat("scale");
+				ParticleGasFlame text = new ParticleGasFlame(world, x, y, z, mX, mY, mZ, scale > 0 ? scale : 6.5F);
+				Minecraft.getMinecraft().effectRenderer.addEffect(text);
+				break;
+			}
+			case "casing":
+				if (WeaponConfig.spawnCasings)
+				{
+					final SpentCasingConfig casingConfig = SpentCasingConfig.get(data.getString("name"));
+					for (int i = 0; i < casingConfig.getCasingAmount(); i++)
+						casingConfig.spawnCasing(man, world, x, y, z, data.getFloat("pitch"), data.getFloat("yaw"), data.getBoolean("crouched"));
+				}
+				break;
+			default:
+				break;
 		}
 	}
 	
-	private HashMap<Integer, Long> vanished = new HashMap();
+	private final HashMap<Integer, Long> vanished = new HashMap<Integer, Long>();
 	
 	public void vanish(int ent) {
 		vanished.put(ent, System.currentTimeMillis() + 2000);
@@ -1841,21 +2424,15 @@ public class ClientProxy extends ServerProxy {
 	}
 	
 	@Override
-	public SoundWrapper getTileSound(String sound, ISoundSourceTE tile) {
-		SoundWrapperClient wrapper = new SoundWrapperClient(sound, tile);
-		return wrapper;
-	}
-
-	@Override
 	public void playSound(String sound, Object data) { }
 	
 	@Override
 	public void displayTooltip(String msg, int time, int id) {
 		
 		if(id != 0)
-			this.theInfoSystem.push(new InfoEntry(msg, time), id);
+			RenderInfoSystem.push(new InfoEntry(msg, time), id);
 		else
-			this.theInfoSystem.push(new InfoEntry(msg, time));
+			RenderInfoSystem.push(new InfoEntry(msg, time));
 	}
 
 	@Override
@@ -1872,9 +2449,9 @@ public class ClientProxy extends ServerProxy {
 		case CRANE_LEFT:		return HbmKeybinds.craneLeftKey.getIsKeyPressed();
 		case CRANE_RIGHT:		return HbmKeybinds.craneRightKey.getIsKeyPressed();
 		case CRANE_LOAD:		return HbmKeybinds.craneLoadKey.getIsKeyPressed();
+		default: 				return false;
 		}
 		
-		return false;
 	}
 
 	@Override
@@ -1886,13 +2463,15 @@ public class ClientProxy extends ServerProxy {
 	public void openLink(String url) {
 		try {
 			Desktop.getDesktop().browse(new URI(url));
-		} catch (Exception e) { }
+		} catch (Exception e) {
+			MainRegistry.logger.catching(e);
+		}
 	}
 	
 	@Override
 	public List<ItemStack> getSubItems(ItemStack stack) {
 		
-		List<ItemStack> list = new ArrayList();
+		List<ItemStack> list = new ArrayList<ItemStack>();
 		stack.getItem().getSubItems(stack.getItem(), stack.getItem().getCreativeTab(), list);
 		for(ItemStack sta : list) {
 			sta.stackSize = stack.stackSize;

@@ -7,6 +7,7 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.items.ItemAmmoEnums.AmmoRocket;
+import com.hbm.particle.SpentCasingConfig;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
@@ -162,5 +163,17 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("loaded", this.loaded);
+	}
+
+	@Override
+	public boolean usesCasings()
+	{
+		return false;
+	}
+
+	@Override
+	public SpentCasingConfig getCasingConfig()
+	{
+		return null;
 	}
 }

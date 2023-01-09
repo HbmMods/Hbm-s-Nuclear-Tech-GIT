@@ -6,9 +6,11 @@ import java.util.List;
 import com.hbm.config.WeaponConfig;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.guncfg.GunDGKFactory;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasingConfig;
 import com.hbm.util.EntityDamageUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -17,7 +19,7 @@ import net.minecraft.util.Vec3;
 
 public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
 
-	static List<Integer> configs = new ArrayList();
+	static List<Integer> configs = new ArrayList<>();
 	
 	static {
 		configs.add(BulletConfigSyncingUtil.DGK_NORMAL);
@@ -159,6 +161,8 @@ public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
 					data.setByte("count", (byte)1);
 					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord + vec.xCoord + hOff.xCoord, pos.yCoord + vec.yCoord + hOff.yCoord, pos.zCoord + vec.zCoord + hOff.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 				}
+				
+				spawnCasing();
 			}
 		}
 	}
@@ -173,5 +177,17 @@ public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("loaded", loaded);
+	}
+
+	@Override
+	public boolean usesCasings()
+	{
+		return true;
+	}
+
+	@Override
+	public SpentCasingConfig getCasingConfig()
+	{
+		return GunDGKFactory.CASING_DGK;
 	}
 }

@@ -39,7 +39,7 @@ public class ItemRenderBenelli implements IItemRenderer
 	static final String frontGrip = "Pump_Cylinder.003";
 	static final String slide = "Cylinder";
 	static final String barrelAndTube = "Body_Cube.002";
-	static final String shell = "Shell_Cylinder.002";
+//	static final String shell = "Shell_Cylinder.002";
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data)
 	{
@@ -55,7 +55,7 @@ public class ItemRenderBenelli implements IItemRenderer
 		final double scale3 = 0.52D;
 		
 		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
-		double[] eject = HbmAnimations.getRelevantTransformation("EJECT");
+//		double[] eject = HbmAnimations.getRelevantTransformation("EJECT");
 //		double[] reload = HbmAnimations.getRelevantTransformation("RELOAD");
 		double[] feedNew = HbmAnimations.getRelevantTransformation("PUMP");
 		switch (type)
@@ -82,7 +82,7 @@ public class ItemRenderBenelli implements IItemRenderer
 //			GL11.glTranslated(reload[2] / 2, 0, 0);
 //			GL11.glRotated(reload[0], 1, 0, 0);
 //			GL11.glRotated(reload[1], 0, 0, 1);
-			ResourceManager.benelli.renderAllExcept(shell, slide);
+			ResourceManager.benelli.renderAll();
 			// Pump new round if empty
 			if (magSize == 0)
 				GL11.glTranslated(feedNew[0], feedNew[1], feedNew[2]);
@@ -90,8 +90,8 @@ public class ItemRenderBenelli implements IItemRenderer
 			GL11.glPopMatrix();
 			// Eject spent shell
 			GL11.glPushMatrix();
-			GL11.glTranslated(eject[0], eject[1], eject[2]);
-			ResourceManager.benelli.renderPart(shell);
+//			GL11.glTranslated(eject[0], eject[1], eject[2]);
+//			ResourceManager.benelli.renderPart(shell);
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED:// In hand from other's POV
@@ -104,8 +104,8 @@ public class ItemRenderBenelli implements IItemRenderer
 			GL11.glScaled(scale2 - scale2 * 2, scale2, scale2);
 			
 			GL11.glPushMatrix();
-			GL11.glTranslated(eject[0], eject[1], eject[2]);
-			ResourceManager.benelli.renderPart(shell);
+//			GL11.glTranslated(eject[0], eject[1], eject[2]);
+//			ResourceManager.benelli.renderPart(shell);
 			GL11.glPopMatrix();
 			break;
 		case ENTITY:// Dropped entity

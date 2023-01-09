@@ -2,6 +2,8 @@ package com.hbm.tileentity.turret;
 
 import java.util.List;
 
+import com.hbm.particle.SpentCasingConfig;
+
 public class TileEntityTurretBrandon extends TileEntityTurretBaseNT {
 
 	@Override
@@ -25,6 +27,18 @@ public class TileEntityTurretBrandon extends TileEntityTurretBaseNT {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean usesCasings()
+	{
+		return false;
+	}
+
+	@Override
+	public SpentCasingConfig getCasingConfig()
+	{
 		return null;
 	}
 

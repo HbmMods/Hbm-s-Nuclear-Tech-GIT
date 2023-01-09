@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.guncfg.GunCannonFactory;
 import com.hbm.lib.HbmCollection;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasingConfig;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
@@ -97,5 +99,17 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			}
 		}
+	}
+
+	@Override
+	public boolean usesCasings()
+	{
+		return true;
+	}
+
+	@Override
+	public SpentCasingConfig getCasingConfig()
+	{
+		return GunCannonFactory.CASING_240;
 	}
 }

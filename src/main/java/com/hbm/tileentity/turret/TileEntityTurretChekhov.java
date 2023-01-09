@@ -3,10 +3,12 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.guncfg.Gun50BMGFactory;
+import com.hbm.lib.HbmCollection;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasingConfig;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,21 +16,22 @@ import net.minecraft.util.Vec3;
 
 public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 
-	static List<Integer> configs = new ArrayList();
+	static List<Integer> configs = new ArrayList<>();
 	
 	//because cramming it into the ArrayList's constructor with nested curly brackets and all that turned out to be not as pretty
 	//also having a floaty `static` like this looks fun
 	//idk if it's just me though
 	static {
-		configs.add(BulletConfigSyncingUtil.BMG50_NORMAL);
-		configs.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
-		configs.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
-		configs.add(BulletConfigSyncingUtil.BMG50_AP);
-		configs.add(BulletConfigSyncingUtil.BMG50_DU);
-		configs.add(BulletConfigSyncingUtil.BMG50_STAR);
-		configs.add(BulletConfigSyncingUtil.BMG50_PHOSPHORUS);
-		configs.add(BulletConfigSyncingUtil.BMG50_SLEEK);
-		configs.add(BulletConfigSyncingUtil.CHL_BMG50);
+//		configs.add(BulletConfigSyncingUtil.BMG50_NORMAL);
+//		configs.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
+//		configs.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
+//		configs.add(BulletConfigSyncingUtil.BMG50_AP);
+//		configs.add(BulletConfigSyncingUtil.BMG50_DU);
+//		configs.add(BulletConfigSyncingUtil.BMG50_STAR);
+//		configs.add(BulletConfigSyncingUtil.BMG50_PHOSPHORUS);
+//		configs.add(BulletConfigSyncingUtil.BMG50_SLEEK);
+//		configs.add(BulletConfigSyncingUtil.CHL_BMG50);
+		configs.addAll(HbmCollection.fiftyBMG);
 	}
 	
 	@Override
@@ -141,5 +144,17 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 	public void manualSetup() {
 		
 		manual = true;
+	}
+
+	@Override
+	public boolean usesCasings()
+	{
+		return true;
+	}
+
+	@Override
+	public SpentCasingConfig getCasingConfig()
+	{
+		return Gun50BMGFactory.CONFIG_50BMG;
 	}
 }

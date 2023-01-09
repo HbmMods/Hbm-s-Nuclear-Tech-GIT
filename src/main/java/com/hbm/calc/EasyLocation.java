@@ -6,18 +6,21 @@ import java.util.Optional;
 
 import javax.annotation.CheckForNull;
 
+import com.hbm.interfaces.IByteSerializable;
 import com.hbm.interfaces.ILocationProvider;
+import com.hbm.interfaces.INBTSerializable;
 import com.hbm.main.DeserializationException;
 
 import api.hbm.serialization.ISerializable;
 import api.hbm.serialization.SerializationRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EasyLocation implements Cloneable, Comparable<EasyLocation>, ISerializable<EasyLocation>, ILocationProvider
+public class EasyLocation implements Cloneable, Comparable<EasyLocation>, ISerializable<EasyLocation>, IByteSerializable, INBTSerializable, ILocationProvider
 {
 	/**
 	 * 
@@ -31,13 +34,26 @@ public class EasyLocation implements Cloneable, Comparable<EasyLocation>, ISeria
 	{
 		SerializationRegistry.register(EasyLocation.class, EasyLocation::new);
 	}
+	
+	/**
+	 * Returns a new {@code EasyLocation} object with all coordinates set to 0.
+	 * @return A unique {@code EasyLocation} object at position (0, 0, 0).
+	 */
+	public static EasyLocation getZeroLocation()
+	{
+		return ZERO_LOCATION.clone();
+	}
+	
 	public EasyLocation(ILocationProvider locationProvider)
 	{
 		posX = locationProvider.posX();
 		posY = locationProvider.posY();
 		posZ = locationProvider.posZ();
 		if (locationProvider.hasWorld())
+		{
 			world = Optional.of(locationProvider.getWorld());
+			dimID = locationProvider.getWorld().provider.dimensionId;
+		}
 	}
 	public EasyLocation(double x, double y, double z)
 	{
@@ -272,7 +288,7 @@ public class EasyLocation implements Cloneable, Comparable<EasyLocation>, ISeria
 		final double myDist = ILocationProvider.distance(this, ZERO_LOCATION);
 		if (testDist == myDist)
 			return 0;
-		return myDist < testDist ? 1 : -1;
+		return myDist > testDist ? 1 : -1;
 	}
 
 	@Override
@@ -309,5 +325,45 @@ public class EasyLocation implements Cloneable, Comparable<EasyLocation>, ISeria
 	public World getWorld()
 	{
 		return world.get();
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		nbt.setDouble("posX", posX);
+		nbt.setDouble("posY", posY);
+		nbt.setDouble("posZ", posZ);
+		nbt.setInteger("dimID", dimID);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		posX = nbt.getDouble("posX");
+		posY = nbt.getDouble("posY");
+		posZ = nbt.getDouble("posZ");
+		dimID = nbt.getInteger("dimID");
+	}
+
+	@Override
+	public void writeToBytes(ByteBuf buf)
+	{
+		buf.writeBytes(serialize());
+	}
+
+	@Override
+	public void readFromBytes(byte[] bytes) throws DeserializationException
+	{
+		try
+		{
+			final ByteBuf buf = allocCopy.apply(bytes);
+			posX = buf.readDouble();
+			posY = buf.readDouble();
+			posZ = buf.readDouble();
+			dimID = buf.readInt();
+		} catch (Exception e)
+		{
+			throw new DeserializationException(e);
+		}
 	}
 }

@@ -1,11 +1,16 @@
 package com.hbm.handler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
 
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
+import com.hbm.particle.SpentCasingConfig;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -32,7 +37,7 @@ public class GunConfiguration implements Cloneable {
 	public int durability;
 	
 	//animations!
-	public HashMap<AnimType, BusAnimation> animations = new HashMap<AnimType, BusAnimation>();
+	public final Map<AnimType, BusAnimation> animations = new EnumMap<>(AnimType.class);
 	//whether ot not to disable crosshais when sneaking
 	public boolean hasSights;
 	
@@ -89,7 +94,11 @@ public class GunConfiguration implements Cloneable {
 
 	//crosshair
 	public Crosshair crosshair;
-
+	
+	/**Controller for spent casings. If {@code Optional.empty()} it will not eject casings.**/
+	@Nonnull
+	public Optional<SpentCasingConfig> casingConfig = Optional.empty();
+	
 	public static final int MODE_NORMAL = 0;
 	public static final int MODE_RELEASE = 1;
 	public static final int MODE_BOTH = 1;

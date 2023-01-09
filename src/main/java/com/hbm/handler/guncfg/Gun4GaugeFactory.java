@@ -2,7 +2,9 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
@@ -18,6 +20,9 @@ import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfig.CasingType;
+import com.hbm.particle.SpentCasingConfigBuilder;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -31,9 +36,15 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class Gun4GaugeFactory {
+	
+	static final SpentCasingConfig CASING_4G = new SpentCasingConfigBuilder("4g", CasingType.SHOTGUN, false)
+			.setSmokeChance(0).setPosOffset(new EasyLocation(-0.5, 0, 0.5))
+			.setInitialMotion(Vec3.createVectorHelper(-0.4, 0.4, 0)).setPitchFactor(0.03f).setYawFactor(0.01f)
+			.setScaleX(2.5f).setScaleY(2.5f).setScaleZ(2.5f).build();
 	
 	private static GunConfiguration getShotgunConfig() {
 		
@@ -51,6 +62,8 @@ public class Gun4GaugeFactory {
 		config.hasSights = true;
 		config.crosshair = Crosshair.L_CIRCLE;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		
+		config.casingConfig = Optional.of(CASING_4G);
 		
 		return config;
 	}
@@ -123,7 +136,6 @@ public class Gun4GaugeFactory {
 		return config;
 	}
 	static byte i = 0;
-	static final BulletConfiguration stock = get4GaugeConfig();
 	public static BulletConfiguration get4GaugeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
@@ -339,7 +351,7 @@ public class Gun4GaugeFactory {
 	
 	public static BulletConfiguration get4GaugeClawConfig() {
 		
-		BulletConfiguration bullet = stock.clone();
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
 		bullet.dmgMin = 6;
@@ -373,7 +385,7 @@ public class Gun4GaugeFactory {
 	
 	public static BulletConfiguration get4GaugeVampireConfig() {
 		
-		BulletConfiguration bullet = stock.clone();
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
 		bullet.dmgMin = 5;
@@ -407,7 +419,7 @@ public class Gun4GaugeFactory {
 	
 	public static BulletConfiguration get4GaugeVoidConfig() {
 		
-		BulletConfiguration bullet = stock.clone();
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
 		bullet.dmgMin = 6;

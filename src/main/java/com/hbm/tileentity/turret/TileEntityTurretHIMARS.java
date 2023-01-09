@@ -8,6 +8,7 @@ import com.hbm.inventory.gui.GUITurretHIMARS;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.particle.SpentCasingConfig;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.relauncher.Side;
@@ -256,5 +257,17 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITurretHIMARS(player.inventory, this);
+	}
+
+	@Override
+	public boolean usesCasings()
+	{
+		return false;
+	}
+
+	@Override
+	public SpentCasingConfig getCasingConfig()
+	{
+		return null;
 	}
 }

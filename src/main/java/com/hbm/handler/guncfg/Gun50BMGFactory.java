@@ -1,7 +1,9 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
+import com.hbm.calc.EasyLocation;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -12,6 +14,9 @@ import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasingConfig;
+import com.hbm.particle.SpentCasingConfig.CasingType;
+import com.hbm.particle.SpentCasingConfigBuilder;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -26,8 +31,21 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Vec3;
 
 public class Gun50BMGFactory {
+	
+	public static final SpentCasingConfig
+			CONFIG_50BMG = new SpentCasingConfigBuilder("50bmg", CasingType.BRASS_BOTTLENECK, false)
+			.setSmokeChance(0).setInitialMotion(Vec3.createVectorHelper(-0.35, 0.9, 0)).setScaleX(3).setScaleY(3).setScaleZ(3)
+			.setPosOffset(new EasyLocation(-0.45, -0.2, 0.35)).setPitchFactor(0.05f).setYawFactor(0.01f)
+			.build(),
+			
+			CONFIG_LUNA = new SpentCasingConfigBuilder("luna", CasingType.BRASS_BOTTLENECK, true)
+			.setScaleX(4).setScaleY(4).setScaleZ(4).setSmokeChance(0).setInitialMotion(Vec3.createVectorHelper(-2, 0.15, 0))
+			.setPosOffset(new EasyLocation(-0.45, -0.2, 0.35)).setRedOverride(11).setGreenOverride(97).setBlueOverride(109)
+		    .setYawFactor(0.02f)
+			.build();
 	
 	public static GunConfiguration getCalamityConfig() {
 		
@@ -67,6 +85,8 @@ public class Gun50BMGFactory {
 		
 		config.config = HbmCollection.fiftyBMG;
 		
+		config.casingConfig = Optional.of(CONFIG_50BMG);
+		
 		return config;
 	}
 	
@@ -92,6 +112,8 @@ public class Gun50BMGFactory {
 		config.manufacturer = EnumGunManufacturer.UNKNOWN;
 		
 		config.config = HbmCollection.fiftyBMG;
+		
+		config.casingConfig = Optional.of(CONFIG_50BMG);
 		
 		return config;
 	}
@@ -141,6 +163,8 @@ public class Gun50BMGFactory {
 //						.addKeyframe(new BusAnimationKeyframe(-20, -2, 0.75, 400))//Just plop that thing in there
 //						.addKeyframe(new BusAnimationKeyframe(20, -2, 0.75, 75))));//Wait for the slide to close
 		
+		config.casingConfig = Optional.of(CONFIG_LUNA);
+		
 		return config;
 	}
 
@@ -155,6 +179,7 @@ public class Gun50BMGFactory {
 		bullet.dmgMin = 450F;
 		bullet.penetration = 10000;
 		bullet.penetrationModifier = 1;
+		bullet.headshotMult = 2.5f;
 		bullet.wear = 2000;
 		bullet.velocity = 100;
 		bullet.doesPenetrate = true;
@@ -216,15 +241,17 @@ public class Gun50BMGFactory {
 		config.manufacturer = EnumGunManufacturer.ARMALITE;
 		
 		config.config = new ArrayList<Integer>();
-		config.config.addAll(HbmCollection.fiftyBMG);
 		config.config.addAll(HbmCollection.fiftyBMGFlechette);
+		config.config.addAll(HbmCollection.fiftyBMG);
+		
+		config.casingConfig = Optional.of(CONFIG_50BMG);
 		
 		return config;
 	}
 	
 	public static GunConfiguration getM2Config()
 	{
-		GunConfiguration config = getAR15Config().clone();
+		GunConfiguration config = getAR15Config();
 		
 		config.rateOfFire = 2;
 		config.durability *= 10;
@@ -257,17 +284,22 @@ public class Gun50BMGFactory {
 		config.advFuncLore.add("gun on aircraft before and during World War II, as on the early versions of the Curtiss P-40 fighter.");
 		config.advFuncLore.add("The M2 is a scaled-up version of John Browning's M1917 .30 caliber machine gun. ");
 		
+		config.casingConfig = Optional.of(CONFIG_50BMG);
+		
+		config.config.clear();
+		config.config.addAll(HbmCollection.fiftyBMG);
+		config.config.addAll(HbmCollection.fiftyBMGFlechette);
+		
 		return config;
 	}
 	
-	static final float inaccuracy = 0.0005F;
-	static byte i = 0;
+	static final float inaccuracy = 0.0005F, standardSpread = BulletConfigFactory.defaultSpread * inaccuracy;
 	public static BulletConfiguration get50BMGConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg, 1, i++);
-		bullet.spread *= inaccuracy;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg, 1, 0);
+		bullet.spread = standardSpread;
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 56;
 		bullet.penetration = 120;
@@ -277,10 +309,9 @@ public class Gun50BMGFactory {
 
 	public static BulletConfiguration get50BMGFireConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = get50BMGConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg, 1, i++);
-		bullet.spread *= inaccuracy;
+		bullet.ammo.meta = 1;
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 56;
 		bullet.penetration = 120;
@@ -292,10 +323,9 @@ public class Gun50BMGFactory {
 	
 	public static BulletConfiguration get50BMGPhosphorusConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = get50BMGConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg, 1, i++);
-		bullet.spread *= inaccuracy;
+		bullet.ammo.meta = 2;
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 56;
 		bullet.penetration = 75;
@@ -325,10 +355,9 @@ public class Gun50BMGFactory {
 	
 	public static BulletConfiguration get50BMGExplosiveConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = get50BMGConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg, 1, i++);
-		bullet.spread *= inaccuracy;
+		bullet.ammo.meta = 3;
 		bullet.dmgMin = 90;
 		bullet.dmgMax = 94;
 		bullet.penetration = 100;
@@ -340,10 +369,9 @@ public class Gun50BMGFactory {
 
 	public static BulletConfiguration get50BMGAPConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = get50BMGConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg, 1, i++);
-		bullet.spread *= inaccuracy;
+		bullet.ammo.meta = 4;
 		bullet.dmgMin = 82;
 		bullet.dmgMax = 88;
 		bullet.penetration = 150;
@@ -355,10 +383,9 @@ public class Gun50BMGFactory {
 
 	public static BulletConfiguration get50BMGDUConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = get50BMGConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg, 1, i++);
-		bullet.spread *= inaccuracy;
+		bullet.ammo.meta = 5;
 		bullet.dmgMin = 90;
 		bullet.dmgMax = 96;
 		bullet.penetration = 200;
@@ -370,10 +397,9 @@ public class Gun50BMGFactory {
 	
 	public static BulletConfiguration get50BMGStarConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = get50BMGConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg, 1, i++);
-		bullet.spread *= inaccuracy;
+		bullet.ammo.meta = 6;
 		bullet.dmgMin = 108;
 		bullet.dmgMax = 112;
 		bullet.penetration = 250;
@@ -385,10 +411,9 @@ public class Gun50BMGFactory {
 
 	public static BulletConfiguration get50BMGSleekConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = get50BMGConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg, 1, i++);
-		bullet.spread *= inaccuracy;
+		bullet.ammo.meta = 8;
 		bullet.dmgMin = 60;
 		bullet.dmgMax = 80;
 		bullet.penetration = 120;
@@ -428,10 +453,9 @@ public class Gun50BMGFactory {
 	
 	public static BulletConfiguration get50BMGFlechetteConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = get50BMGConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg, 1, i++);
-		bullet.spread *= inaccuracy;
+		bullet.ammo.meta = 9;
 		bullet.dmgMin = 60;
 		bullet.dmgMax = 64;
 		bullet.penetration = 130;
@@ -442,10 +466,9 @@ public class Gun50BMGFactory {
 	
 	public static BulletConfiguration get50BMGFlechetteAMConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = get50BMGConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg, 1, i++);
-		bullet.spread *= inaccuracy;
+		bullet.ammo.meta = 10;
 		bullet.dmgMin = 70;
 		bullet.dmgMax = 74;
 		bullet.penetration = 140;
@@ -466,9 +489,9 @@ public class Gun50BMGFactory {
 	
 	public static BulletConfiguration get50BMGFlechettePOConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		BulletConfiguration bullet = get50BMGConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg, 1, i++);
+		bullet.ammo.meta = 11;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 70;
 		bullet.dmgMax = 74;

@@ -81,6 +81,12 @@ public class BobMathUtil {
 		return MathHelper.clamp_float((num - min1) / (max1 - min1), 0, 1);
 	}
 	
+	public static float smoothStep(float f, float lower, float upper)
+	{
+		final float t = MathHelper.clamp_float((f - lower) / (upper - lower), 0, 1);
+		return t * t * (3f - 2f * t);
+	}
+	
 	public static ForgeDirection[] getShuffledDirs() {
 		
 		ForgeDirection[] dirs = new ForgeDirection[6];
@@ -94,7 +100,7 @@ public class BobMathUtil {
 		return dirs;
 	}
 
-	public static String toPercentage(float amount, float total) {
+	public static String toPercentage(double amount, double total) {
 		return NumberFormat.getPercentInstance().format(amount / total);
 	}
 	

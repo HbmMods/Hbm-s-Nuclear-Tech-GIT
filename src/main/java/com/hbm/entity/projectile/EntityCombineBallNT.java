@@ -11,7 +11,7 @@ public class EntityCombineBallNT extends EntityBulletBase
 		super(world, config, shooter);
 		overrideDamage = 1000;
 	}
-
+	
 	@Override
 	public void setDead()
 	{
