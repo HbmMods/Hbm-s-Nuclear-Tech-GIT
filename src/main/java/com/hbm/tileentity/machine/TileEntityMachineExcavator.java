@@ -278,6 +278,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 					if(bedrockOre == null) {
 						breakBlocks(ring);
 						buildWall(ring + 1, ring == radius && this.enableWalling);
+						if(ring == radius) mineOuterOres(ring + 1);
 						tryCollect(radius);
 					} else {
 						collectBedrock(bedrockOre);
@@ -384,38 +385,47 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	}
 	
 	public void tryMineAtLocation(int x ,int y, int z) {
+
+		Block b = worldObj.getBlock(x, y, z);
 		
 		if(this.enableVeinMiner && this.getInstalledDrill().vein) {
 			
-			/* doing this isn't terribly accurate but just for figuring out if there's OD it works */
-			Item blockItem = Item.getItemFromBlock(worldObj.getBlock(x, y, z));
-			
-			if(blockItem != null) {
-				List<String> names = ItemStackUtil.getOreDictNames(new ItemStack(blockItem));
+			if(isOre(x, y, z, b)) {
+				minX = x;
+				minY = y;
+				minZ = z;
+				maxX = x;
+				maxY = y;
+				maxZ = z;
+				breakRecursively(x, y, z, 10);
+				recursionBrake.clear();
 				
-				for(String name : names) {
-					if(name.startsWith("ore")) {
-						minX = x;
-						minY = y;
-						minZ = z;
-						maxX = x;
-						maxY = y;
-						maxZ = z;
-						breakRecursively(x, y, z, 15);
-						recursionBrake.clear();
-						
-						/* move all excavated items to the last drillable position which is also within collection range */
-						List<EntityItem> items = worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX + 1, maxY + 1, maxZ + 1));
-						for(EntityItem item : items) item.setPosition(x + 0.5, y + 0.5, z + 0.5);
-						
-						return;
-					}
+				/* move all excavated items to the last drillable position which is also within collection range */
+				List<EntityItem> items = worldObj.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX + 1, maxY + 1, maxZ + 1));
+				for(EntityItem item : items) item.setPosition(x + 0.5, y + 0.5, z + 0.5);
+				
+				return;
+			}
+		}
+		breakSingleBlock(b, x, y, z);
+	}
+	
+	protected boolean isOre(int x ,int y, int z, Block b) {
+		
+		/* doing this isn't terribly accurate but just for figuring out if there's OD it works */
+		Item blockItem = Item.getItemFromBlock(b);
+		
+		if(blockItem != null) {
+			List<String> names = ItemStackUtil.getOreDictNames(new ItemStack(blockItem));
+			
+			for(String name : names) {
+				if(name.startsWith("ore")) {
+					return true;
 				}
 			}
 		}
-
-		Block b = worldObj.getBlock(x, y, z);
-		breakSingleBlock(b, x, y, z);
+		
+		return false;
 	}
 	
 	private HashSet<BlockPos> recursionBrake = new HashSet();
@@ -517,6 +527,23 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 					if(b.getMaterial().isLiquid()) {
 						worldObj.setBlockToAir(x, y, z);
 						continue;
+					}
+				}
+			}
+		}
+	}
+	protected void mineOuterOres(int ring) {
+		int y = getY();
+		
+		for(int x = xCoord - ring; x <= xCoord + ring; x++) {
+			for(int z = zCoord - ring; z <= zCoord + ring; z++) {
+				
+				if(ring == 1 || (x == xCoord - ring || x == xCoord + ring || z == zCoord - ring || z == zCoord + ring)) {
+					
+					Block b = worldObj.getBlock(x, y, z);
+					
+					if(!this.shouldIgnoreBlock(b, x, y, z) && this.isOre(x, y, z, b)) {
+						tryMineAtLocation(x, y, z);
 					}
 				}
 			}
@@ -685,7 +712,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	}
 	
 	public boolean shouldIgnoreBlock(Block block, int x, int y, int z) {
-		return block.isAir(worldObj, x, y, z) || block.getBlockHardness(worldObj, x, y, z) < 0 || block.getMaterial().isLiquid() || block == Blocks.bedrock;
+		return block.isAir(worldObj, x, y, z) || block.getMaterial() == ModBlocks.materialGas || block.getBlockHardness(worldObj, x, y, z) < 0 || block.getMaterial().isLiquid() || block == Blocks.bedrock;
 	}
 
 	@Override

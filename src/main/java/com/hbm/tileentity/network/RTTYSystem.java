@@ -9,6 +9,7 @@ import com.hbm.util.NoteBuilder.Note;
 import com.hbm.util.NoteBuilder.Octave;
 import com.hbm.util.Tuple.Pair;
 
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 
 public class RTTYSystem {
@@ -45,8 +46,7 @@ public class RTTYSystem {
 		}
 		
 		HashMap<Pair<World, String>, RTTYChannel> toAdd = new HashMap();
-		for(Entry<Pair<World, String>, RTTYChannel> entry : broadcast.entrySet()) {
-			World world = entry.getKey().getKey();
+		for(World world : MinecraftServer.getServer().worldServers) {
 			RTTYChannel chan = new RTTYChannel();
 			chan.timeStamp = world.getTotalWorldTime();
 			chan.signal = getTestSender(chan.timeStamp);
@@ -69,6 +69,7 @@ public class RTTYSystem {
 		PRINT_BUFFER	//print message, literally, it makes a paper printout
 	}
 	
+	/* Song of Storms at 300 BPM */
 	public static Object getTestSender(long timeStamp) {
 
 		int tempo = 4;
