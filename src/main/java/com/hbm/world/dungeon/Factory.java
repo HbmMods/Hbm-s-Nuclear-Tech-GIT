@@ -23,6 +23,8 @@ public class Factory extends WorldGenerator
 	Block Block4 = ModBlocks.steel_wall;
 	Block Block5 = ModBlocks.reinforced_light;
 	
+	int s4 = 8;
+	
 	protected Block[] GetValidSpawnBlocks()
 	{
 		return new Block[]
@@ -726,7 +728,7 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 5, y + 0, z + 24, Blocks.lava, 0, 3);
 		world.setBlock(x + 6, y + 0, z + 24, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 7, y + 0, z + 24, Blocks.stone_brick_stairs, 6, 3);
-		world.setBlock(x + 14, y + 0, z + 24, Block1, 4, 3);
+		world.setBlock(x + 14, y + 0, z + 24, Block1, s4, 3);
 		world.setBlock(x + 0, y + 0, z + 25, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 2, y + 0, z + 25, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 3, y + 0, z + 25, Blocks.lava, 0, 3);
@@ -739,7 +741,7 @@ public class Factory extends WorldGenerator
         world.setBlock(x + 5, y + 0, z + 25, Blocks.lava, 0, 3);
 		world.setBlock(x + 6, y + 0, z + 25, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 7, y + 0, z + 25, Blocks.stone_brick_stairs, 5, 3);
-		world.setBlock(x + 14, y + 0, z + 25, Block1, 4, 3);
+		world.setBlock(x + 14, y + 0, z + 25, Block1, s4, 3);
 		world.setBlock(x + 0, y + 0, z + 26, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 2, y + 0, z + 26, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 3, y + 0, z + 26, Blocks.lava, 0, 3);
@@ -747,14 +749,14 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 5, y + 0, z + 26, Blocks.lava, 0, 3);
 		world.setBlock(x + 6, y + 0, z + 26, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 7, y + 0, z + 26, Blocks.stone_brick_stairs, 7, 3);
-		world.setBlock(x + 14, y + 0, z + 26, Block1, 4, 3);
+		world.setBlock(x + 14, y + 0, z + 26, Block1, s4, 3);
 		world.setBlock(x + 0, y + 0, z + 27, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 2, y + 0, z + 27, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 3, y + 0, z + 27, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 4, y + 0, z + 27, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 5, y + 0, z + 27, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 6, y + 0, z + 27, Blocks.stonebrick, 0, 3);
-		world.setBlock(x + 14, y + 0, z + 27, Block1, 4, 3);
+		world.setBlock(x + 14, y + 0, z + 27, Block1, s4, 3);
 		world.setBlock(x + 0, y + 0, z + 28, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 14, y + 0, z + 28, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 0, z + 29, Blocks.stonebrick, 0, 3);
@@ -894,7 +896,7 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 5, y + 1, z + 24, Blocks.lava, 0, 3);
 		world.setBlock(x + 6, y + 1, z + 24, Blocks.lit_furnace, 5, 3);
 		world.setBlock(x + 7, y + 1, z + 24, Blocks.heavy_weighted_pressure_plate, 0, 3);
-		world.setBlock(x + 14, y + 1, z + 24, Block1, 4, 3);
+		world.setBlock(x + 14, y + 1, z + 24, Block1, s4, 3);
 		world.setBlock(x + 0, y + 1, z + 25, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 2, y + 1, z + 25, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 3, y + 1, z + 25, Blocks.lava, 0, 3);
@@ -902,7 +904,7 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 5, y + 1, z + 25, Blocks.lava, 0, 3);
 		world.setBlock(x + 6, y + 1, z + 25, Blocks.lit_furnace, 5, 3);
 		world.setBlock(x + 7, y + 1, z + 25, Blocks.heavy_weighted_pressure_plate, 0, 3);
-		world.setBlock(x + 14, y + 1, z + 25, Block1, 4, 3);
+		world.setBlock(x + 14, y + 1, z + 25, Block1, s4, 3);
 		world.setBlock(x + 0, y + 1, z + 26, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 2, y + 1, z + 26, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 3, y + 1, z + 26, Blocks.lava, 0, 3);
@@ -910,14 +912,14 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 5, y + 1, z + 26, Blocks.lava, 0, 3);
 		world.setBlock(x + 6, y + 1, z + 26, Blocks.lit_furnace, 5, 3);
 		world.setBlock(x + 7, y + 1, z + 26, Blocks.heavy_weighted_pressure_plate, 0, 3);
-		world.setBlock(x + 14, y + 1, z + 26, Block1, 4, 3);
+		world.setBlock(x + 14, y + 1, z + 26, Block1, s4, 3);
 		world.setBlock(x + 0, y + 1, z + 27, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 2, y + 1, z + 27, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 3, y + 1, z + 27, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 4, y + 1, z + 27, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 5, y + 1, z + 27, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 6, y + 1, z + 27, Blocks.stonebrick, 0, 3);
-		world.setBlock(x + 14, y + 1, z + 27, Block1, 4, 3);
+		world.setBlock(x + 14, y + 1, z + 27, Block1, s4, 3);
 		world.setBlock(x + 0, y + 1, z + 28, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 14, y + 1, z + 28, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 1, z + 29, Blocks.stonebrick, 0, 3);
@@ -1040,16 +1042,16 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 0, y + 2, z + 24, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 2, y + 2, z + 24, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 6, y + 2, z + 24, Blocks.stonebrick, 0, 3);
-		world.setBlock(x + 14, y + 2, z + 24, Block1, 4, 3);
+		world.setBlock(x + 14, y + 2, z + 24, Block1, s4, 3);
 		world.setBlock(x + 0, y + 2, z + 25, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 1, y + 2, z + 25, Blocks.iron_bars, 0, 3);
 		world.setBlock(x + 2, y + 2, z + 25, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 6, y + 2, z + 25, Blocks.lit_furnace, 5, 3);
-		world.setBlock(x + 14, y + 2, z + 25, Block1, 4, 3);
+		world.setBlock(x + 14, y + 2, z + 25, Block1, s4, 3);
 		world.setBlock(x + 0, y + 2, z + 26, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 2, y + 2, z + 26, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 6, y + 2, z + 26, Blocks.stonebrick, 0, 3);
-		world.setBlock(x + 14, y + 2, z + 26, Block1, 4, 3);
+		world.setBlock(x + 14, y + 2, z + 26, Block1, s4, 3);
 		world.setBlock(x + 0, y + 2, z + 27, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 1, y + 2, z + 27, Blocks.iron_bars, 0, 3);
 		world.setBlock(x + 2, y + 2, z + 27, Blocks.brick_block, 0, 3);
@@ -1057,7 +1059,7 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 4, y + 2, z + 27, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 5, y + 2, z + 27, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 6, y + 2, z + 27, Blocks.brick_block, 0, 3);
-		world.setBlock(x + 14, y + 2, z + 27, Block1, 4, 3);
+		world.setBlock(x + 14, y + 2, z + 27, Block1, s4, 3);
 		world.setBlock(x + 0, y + 2, z + 28, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 2, y + 2, z + 28, Blocks.iron_bars, 0, 3);
 		world.setBlock(x + 4, y + 2, z + 28, Blocks.iron_bars, 0, 3);
@@ -1151,11 +1153,11 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 0, y + 3, z + 25, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 2, y + 3, z + 25, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 6, y + 3, z + 25, Blocks.brick_block, 0, 3);
-		world.setBlock(x + 14, y + 3, z + 25, Block1, 4, 3);
+		world.setBlock(x + 14, y + 3, z + 25, Block1, s4, 3);
 		world.setBlock(x + 0, y + 3, z + 26, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 2, y + 3, z + 26, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 6, y + 3, z + 26, Blocks.brick_block, 0, 3);
-		world.setBlock(x + 14, y + 3, z + 26, Block1, 4, 3);
+		world.setBlock(x + 14, y + 3, z + 26, Block1, s4, 3);
 		world.setBlock(x + 0, y + 3, z + 27, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 2, y + 3, z + 27, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 3, y + 3, z + 27, Blocks.brick_block, 0, 3);

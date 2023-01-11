@@ -31,6 +31,7 @@ import com.hbm.world.dungeon.Satellite;
 import com.hbm.world.dungeon.Silo;
 import com.hbm.world.dungeon.Spaceship;
 import com.hbm.world.dungeon.Vertibird;
+import com.hbm.world.feature.BedrockOre;
 import com.hbm.world.feature.DepthDeposit;
 import com.hbm.world.feature.Dud;
 import com.hbm.world.feature.Geyser;
@@ -153,14 +154,17 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.aluminiumClusterSpawn, 6, 15, 35, ModBlocks.cluster_aluminium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperClusterSpawn, 6, 15, 20, ModBlocks.cluster_copper);
 
-			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.hematiteSpawn, 10, 4, 80, ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
-			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn, 10, 4, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal());
+			//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.hematiteSpawn, 10, 4, 80, ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
+			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn, 10, 6, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal());
 			
-			if(WorldConfig.bedrockIronSpawn > 0 && rand.nextInt(WorldConfig.bedrockIronSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.IRON, 1);
-			if(WorldConfig.bedrockCopperSpawn > 0 && rand.nextInt(WorldConfig.bedrockCopperSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.COPPER, 1);
-			if(WorldConfig.bedrockBoraxSpawn > 0 && rand.nextInt(WorldConfig.bedrockBoraxSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.BORAX, new FluidStack(Fluids.SULFURIC_ACID, 500), 3);
-			if(WorldConfig.bedrockAsbestosSpawn > 0 && rand.nextInt(WorldConfig.bedrockAsbestosSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.ASBESTOS, 2);
-			if(WorldConfig.bedrockNiobiumSpawn > 0 && rand.nextInt(WorldConfig.bedrockNiobiumSpawn) == 0) DungeonToolbox.generateBedrockOre(world, rand, i, j, EnumBedrockOre.NIOBIUM, new FluidStack(Fluids.ACID, 1_000), 2);
+			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.IRON,													1, WorldConfig.bedrockIronSpawn);
+			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.COPPER,												1, WorldConfig.bedrockCopperSpawn);
+			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.BORAX,	new FluidStack(Fluids.SULFURIC_ACID, 500),	3, WorldConfig.bedrockBoraxSpawn);
+			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.ASBESTOS,												2, WorldConfig.bedrockAsbestosSpawn);
+			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.NIOBIUM,	new FluidStack(Fluids.ACID, 1_000),			2, WorldConfig.bedrockNiobiumSpawn);
+			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500),	2, WorldConfig.bedrockTitaniumSpawn);
+			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.TUNGSTEN,	new FluidStack(Fluids.ACID, 1_000),			2, WorldConfig.bedrockTungstenSpawn);
+			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.GOLD,													1, WorldConfig.bedrockGoldSpawn);
 
 			for(int k = 0; k < WorldConfig.randomSpawn; k++) {
 				BlockMotherOfAllOres.shuffleOverride(rand);
@@ -178,16 +182,11 @@ public class HbmWorldGen implements IWorldGenerator {
 			int colRange = 750;
 			
 			if((GeneralConfig.enable528BedrockSpawn || GeneralConfig.enable528BedrockDeposit) && rand.nextInt(GeneralConfig.bedrockRate) != 0) {
-				int x = i + rand.nextInt(16);
-				int z = j + rand.nextInt(16);
+				int x = i + rand.nextInt(16) + 8;
+				int z = j + rand.nextInt(16) + 8;
 				
 				if(GeneralConfig.enable528BedrockSpawn || (GeneralConfig.enable528BedrockDeposit && x <= colX + colRange && x >= colX - colRange && z <= colZ + colRange && z >= colZ - colRange)) {
-					
-					for(int y = 6; y >= 0; y--) {
-						if(world.getBlock(x, y, z).isReplaceableOreGen(world, x, y, z, Blocks.bedrock)) {
-							world.setBlock(x, y, z, ModBlocks.ore_bedrock_coltan);
-						}
-					}
+					BedrockOre.generate(world, x, z, new ItemStack(ModItems.fragment_coltan), null, 0xA78D7A, 1);
 				}
 			}
 			

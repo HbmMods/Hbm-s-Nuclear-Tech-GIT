@@ -38,6 +38,9 @@ public class WorldConfig {
 	public static int bedrockBoraxSpawn = 300;
 	public static int bedrockAsbestosSpawn = 300;
 	public static int bedrockNiobiumSpawn = 300;
+	public static int bedrockTitaniumSpawn = 400;
+	public static int bedrockTungstenSpawn = 300;
+	public static int bedrockGoldSpawn = 500;
 
 	public static int ironClusterSpawn = 4;
 	public static int titaniumClusterSpawn = 2;
@@ -45,7 +48,6 @@ public class WorldConfig {
 	public static int copperClusterSpawn = 4;
 	public static int alexandriteSpawn = 100;
 	
-	public static int hematiteSpawn = 2;
 	public static int malachiteSpawn = 1;
 
 	public static int netherUraniumuSpawn = 8;
@@ -135,13 +137,15 @@ public class WorldConfig {
 		bedrockBoraxSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B02_bedrockBoraxSpawn", "Spawns a bedrock borax deposit every nTH chunk", 300);
 		bedrockAsbestosSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B03_bedrockAsbestosSpawn", "Spawns a bedrock asbestos deposit every nTH chunk", 300);
 		bedrockNiobiumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B04_bedrockNiobiumSpawn", "Spawns a bedrock niobium deposit every nTH chunk", 300);
+		bedrockTitaniumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B05_bedrockTitaniumSpawn", "Spawns a bedrock titanium deposit every nTH chunk", 500);
+		bedrockTungstenSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B06_bedrockTungstenSpawn", "Spawns a bedrock tungsten deposit every nTH chunk", 300);
+		bedrockGoldSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B07_bedrockGoldSpawn", "Spawns a bedrock gold deposit every nTH chunk", 500);
 
 		ironClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C00_ironClusterSpawn", "Amount of iron cluster veins per chunk", 4);
 		titaniumClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C01_titaniumClusterSpawn", "Amount of titanium cluster veins per chunk", 2);
 		aluminiumClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C02_aluminiumClusterSpawn", "Amount of aluminium cluster veins per chunk", 3);
 		copperClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C03_copperClusterSpawn", "Amount of copper cluster veins per chunk", 4);
 
-		hematiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.L00_hematiteSpawn", "Amount of hematite block veins per chunk", 2);
 		malachiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.L01_malachiteSpawn", "Amount of malachite block veins per chunk", 1);
 
 		netherUraniumuSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N00_uraniumSpawnrate", "Amount of nether uranium per chunk", 8);

@@ -94,13 +94,21 @@ public class DungeonToolbox {
 		}
 	}
 	
+	public static void generateBedrockOreWithChance(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore, int tier, int chance) {
+		if(chance > 0 && rand.nextInt(chance) == 0) generateBedrockOre(world, rand, chunkX, chunkZ, ore, null, tier);
+	}
+
+	public static void generateBedrockOreWithChance(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore, FluidStack stack, int tier, int chance) {
+		if(chance > 0 && rand.nextInt(chance) == 0) generateBedrockOre(world, rand, chunkX, chunkZ, ore, null, tier);
+	}
+	
 	public static void generateBedrockOre(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore, int tier) {
 		generateBedrockOre(world, rand, chunkX, chunkZ, ore, null, tier);
 	}
 	
 	public static void generateBedrockOre(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore, FluidStack stack, int tier) {
-		int randPosX = chunkX + rand.nextInt(16);
-		int randPosZ = chunkZ + rand.nextInt(16);
+		int randPosX = chunkX + rand.nextInt(16) + 8;
+		int randPosZ = chunkZ + rand.nextInt(16) + 8;
 		BedrockOre.generate(world, randPosX, randPosZ, new ItemStack(ModItems.ore_bedrock, 1, ore.ordinal()), stack, ore.color, tier);
 	}
 

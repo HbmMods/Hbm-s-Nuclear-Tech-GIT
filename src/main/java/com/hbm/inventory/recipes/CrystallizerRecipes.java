@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.imc.IMCCrystallizer;
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
@@ -145,5 +146,26 @@ public class CrystallizerRecipes {
 		
 		return recipes;
 	}
-
+	
+	// NYI
+	public void registerRecipe(Object input, CrystallizerRecipe recipe) {
+		//recipes.put(input, recipe);
+	}
+	
+	// NYI
+	public static class CrystallizerRecipe {
+		public FluidStack acid;
+		public int duration;
+		public ItemStack output;
+		
+		public CrystallizerRecipe(ItemStack output, int duration) {
+			this(output, duration, null);
+		}
+		
+		public CrystallizerRecipe(ItemStack output, int duration, FluidStack acid) {
+			this.output = output;
+			this.duration = duration;
+			this.acid = acid;
+		}
+	}
 }

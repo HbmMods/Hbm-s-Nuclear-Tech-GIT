@@ -8,7 +8,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
-import com.hbm.main.MainRegistry;
 import com.hbm.util.LootGenerator;
 
 import net.minecraft.block.Block;
@@ -27,6 +26,11 @@ public class Satellite extends WorldGenerator
 	Block Block5 = ModBlocks.deco_titanium;
 	Block dTape = ModBlocks.tape_recorder;
 	Block Block7 = ModBlocks.deco_tungsten;
+	
+	int s2 = 0;
+	int s3 = 0;
+	int s4 = 8;
+	int s5 = 8;
 	
 	protected Block[] GetValidSpawnBlocks() {
 		return new Block[] { Blocks.grass, Blocks.dirt, Blocks.stone, Blocks.sand, Blocks.sandstone };
@@ -296,8 +300,8 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 18, y + -1, z + 30, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 19, y + -1, z + 30, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 20, y + -1, z + 30, Library.getRandomConcrete(), 0, 3);
-		world.setBlock(x + 5, y + 0, z + 8, Block3, 3, 3);
-		world.setBlock(x + 13, y + 0, z + 8, Block3, 3, 3);
+		world.setBlock(x + 5, y + 0, z + 8, Block3, s3, 3);
+		world.setBlock(x + 13, y + 0, z + 8, Block3, s3, 3);
 		world.setBlock(x + 19, y + 0, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 20, y + 0, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 21, y + 0, z + 8, ModBlocks.fence_metal, 0, 3);
@@ -327,11 +331,11 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 20, y + 0, z + 14, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 7, y + 0, z + 17, Block4, 0, 3);
 		world.setBlock(x + 19, y + 0, z + 17, Block4, 0, 3);
-		world.setBlock(x + 5, y + 0, z + 23, Block3, 5, 3);
+		world.setBlock(x + 5, y + 0, z + 23, Block3, s5, 3);
 		world.setBlock(x + 7, y + 0, z + 29, Block4, 0, 3);
 		world.setBlock(x + 19, y + 0, z + 29, Block4, 0, 3);
-		world.setBlock(x + 5, y + 1, z + 8, Block3, 3, 3);
-		world.setBlock(x + 13, y + 1, z + 8, Block3, 3, 3);
+		world.setBlock(x + 5, y + 1, z + 8, Block3, s3, 3);
+		world.setBlock(x + 13, y + 1, z + 8, Block3, s3, 3);
 		world.setBlock(x + 17, y + 1, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 18, y + 1, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 19, y + 1, z + 8, ModBlocks.fence_metal, 0, 3);
@@ -362,11 +366,11 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 20, y + 1, z + 14, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 7, y + 1, z + 17, Block4, 0, 3);
 		world.setBlock(x + 19, y + 1, z + 17, Block4, 0, 3);
-		world.setBlock(x + 5, y + 1, z + 23, Block3, 5, 3);
+		world.setBlock(x + 5, y + 1, z + 23, Block3, s5, 3);
 		world.setBlock(x + 7, y + 1, z + 29, Block4, 0, 3);
 		world.setBlock(x + 19, y + 1, z + 29, Block4, 0, 3);
-		world.setBlock(x + 5, y + 2, z + 8, Block3, 3, 3);
-		world.setBlock(x + 13, y + 2, z + 8, Block3, 3, 3);
+		world.setBlock(x + 5, y + 2, z + 8, Block3, s3, 3);
+		world.setBlock(x + 13, y + 2, z + 8, Block3, s3, 3);
 		world.setBlock(x + 15, y + 2, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 16, y + 2, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 17, y + 2, z + 8, ModBlocks.fence_metal, 0, 3);
@@ -397,10 +401,10 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 20, y + 2, z + 14, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 7, y + 2, z + 17, Block4, 0, 3);
 		world.setBlock(x + 19, y + 2, z + 17, Block4, 0, 3);
-		world.setBlock(x + 5, y + 2, z + 23, Block3, 5, 3);
+		world.setBlock(x + 5, y + 2, z + 23, Block3, s5, 3);
 		world.setBlock(x + 7, y + 2, z + 29, Block4, 0, 3);
 		world.setBlock(x + 19, y + 2, z + 29, Block4, 0, 3);
-		world.setBlock(x + 5, y + 3, z + 8, Block3, 3, 3);
+		world.setBlock(x + 5, y + 3, z + 8, Block3, s3, 3);
 		world.setBlock(x + 13, y + 3, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 14, y + 3, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 15, y + 3, z + 8, ModBlocks.fence_metal, 0, 3);
@@ -431,10 +435,10 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 20, y + 3, z + 14, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 7, y + 3, z + 17, Block4, 0, 3);
 		world.setBlock(x + 19, y + 3, z + 17, Block4, 0, 3);
-		world.setBlock(x + 5, y + 3, z + 23, Block3, 5, 3);
+		world.setBlock(x + 5, y + 3, z + 23, Block3, s5, 3);
 		world.setBlock(x + 7, y + 3, z + 29, Block4, 0, 3);
 		world.setBlock(x + 19, y + 3, z + 29, Block4, 0, 3);
-		world.setBlock(x + 5, y + 4, z + 8, Block3, 3, 3);
+		world.setBlock(x + 5, y + 4, z + 8, Block3, s3, 3);
 		world.setBlock(x + 11, y + 4, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 12, y + 4, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 13, y + 4, z + 8, ModBlocks.fence_metal, 0, 3);
@@ -465,10 +469,10 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 20, y + 4, z + 14, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 7, y + 4, z + 17, Block4, 0, 3);
 		world.setBlock(x + 19, y + 4, z + 17, Block4, 0, 3);
-		world.setBlock(x + 5, y + 4, z + 23, Block3, 5, 3);
+		world.setBlock(x + 5, y + 4, z + 23, Block3, s5, 3);
 		world.setBlock(x + 7, y + 4, z + 29, Block4, 0, 3);
 		world.setBlock(x + 19, y + 4, z + 29, Block4, 0, 3);
-		world.setBlock(x + 5, y + 5, z + 8, Block3, 3, 3);
+		world.setBlock(x + 5, y + 5, z + 8, Block3, s3, 3);
 		world.setBlock(x + 9, y + 5, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 10, y + 5, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 11, y + 5, z + 8, ModBlocks.fence_metal, 0, 3);
@@ -499,10 +503,10 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 20, y + 5, z + 14, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 7, y + 5, z + 17, Block4, 0, 3);
 		world.setBlock(x + 19, y + 5, z + 17, Block4, 0, 3);
-		world.setBlock(x + 5, y + 5, z + 23, Block3, 5, 3);
+		world.setBlock(x + 5, y + 5, z + 23, Block3, s5, 3);
 		world.setBlock(x + 7, y + 5, z + 29, Block4, 0, 3);
 		world.setBlock(x + 19, y + 5, z + 29, Block4, 0, 3);
-		world.setBlock(x + 5, y + 6, z + 8, Block3, 3, 3);
+		world.setBlock(x + 5, y + 6, z + 8, Block3, s3, 3);
 		world.setBlock(x + 7, y + 6, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 8, y + 6, z + 8, dSteel, 0, 3);
 		world.setBlock(x + 9, y + 6, z + 8, ModBlocks.fence_metal, 0, 3);
@@ -533,7 +537,7 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 20, y + 6, z + 14, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 7, y + 6, z + 17, Block4, 0, 3);
 		world.setBlock(x + 19, y + 6, z + 17, Block4, 0, 3);
-		world.setBlock(x + 5, y + 6, z + 23, Block3, 5, 3);
+		world.setBlock(x + 5, y + 6, z + 23, Block3, s5, 3);
 		world.setBlock(x + 7, y + 6, z + 29, Block4, 0, 3);
 		world.setBlock(x + 19, y + 6, z + 29, Block4, 0, 3);
 		world.setBlock(x + 5, y + 7, z + 8, dSteel, 0, 3);
@@ -580,7 +584,7 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 6, y + 7, z + 16, dSteel, 0, 3);
 		world.setBlock(x + 7, y + 7, z + 17, Block4, 0, 3);
 		world.setBlock(x + 19, y + 7, z + 17, Block4, 0, 3);
-		world.setBlock(x + 5, y + 7, z + 23, Block3, 5, 3);
+		world.setBlock(x + 5, y + 7, z + 23, Block3, s5, 3);
 		world.setBlock(x + 7, y + 7, z + 29, Block4, 0, 3);
 		world.setBlock(x + 19, y + 7, z + 29, Block4, 0, 3);
 		world.setBlock(x + 5, y + 8, z + 8, ModBlocks.fence_metal, 0, 3);
@@ -621,7 +625,7 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 19, y + 8, z + 17, Block4, 0, 3);
 		world.setBlock(x + 5, y + 8, z + 18, dSteel, 0, 3);
 		world.setBlock(x + 6, y + 8, z + 18, dSteel, 0, 3);
-		world.setBlock(x + 5, y + 8, z + 23, Block3, 5, 3);
+		world.setBlock(x + 5, y + 8, z + 23, Block3, s5, 3);
 		world.setBlock(x + 7, y + 8, z + 29, Block4, 0, 3);
 		world.setBlock(x + 19, y + 8, z + 29, Block4, 0, 3);
 		world.setBlock(x + 18, y + 9, z + 10, Library.getRandomConcrete(), 0, 3);
@@ -654,7 +658,7 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 6, y + 9, z + 19, dSteel, 0, 3);
 		world.setBlock(x + 5, y + 9, z + 20, dSteel, 0, 3);
 		world.setBlock(x + 6, y + 9, z + 20, dSteel, 0, 3);
-		world.setBlock(x + 5, y + 9, z + 23, Block3, 5, 3);
+		world.setBlock(x + 5, y + 9, z + 23, Block3, s5, 3);
 		world.setBlock(x + 7, y + 9, z + 29, Block4, 0, 3);
 		world.setBlock(x + 19, y + 9, z + 29, Block4, 0, 3);
 		world.setBlock(x + 18, y + 10, z + 10, Library.getRandomConcrete(), 0, 3);
@@ -687,7 +691,7 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 6, y + 10, z + 21, dSteel, 0, 3);
 		world.setBlock(x + 5, y + 10, z + 22, dSteel, 0, 3);
 		world.setBlock(x + 6, y + 10, z + 22, dSteel, 0, 3);
-		world.setBlock(x + 5, y + 10, z + 23, Block3, 5, 3);
+		world.setBlock(x + 5, y + 10, z + 23, Block3, s5, 3);
 		world.setBlock(x + 7, y + 10, z + 29, Block4, 0, 3);
 		world.setBlock(x + 19, y + 10, z + 29, Block4, 0, 3);
 		world.setBlock(x + 18, y + 11, z + 10, Library.getRandomConcrete(), 0, 3);
@@ -1067,7 +1071,7 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 14, y + 15, z + 23, dTape, 4, 3);
 		world.setBlock(x + 19, y + 15, z + 23, dSteel, 0, 3);
 		world.setBlock(x + 7, y + 15, z + 24, ModBlocks.fence_metal, 0, 3);
-		world.setBlock(x + 14, y + 15, z + 24, Block3, 5, 3);
+		world.setBlock(x + 14, y + 15, z + 24, Block3, s5, 3);
 		world.setBlock(x + 19, y + 15, z + 24, dSteel, 0, 3);
 		world.setBlock(x + 19, y + 15, z + 25, dSteel, 0, 3);
 		world.setBlock(x + 19, y + 15, z + 26, dSteel, 0, 3);
@@ -1136,7 +1140,7 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 7, y + 16, z + 23, ModBlocks.fence_metal, 0, 3);
 		world.setBlock(x + 19, y + 16, z + 23, dSteel, 0, 3);
 		world.setBlock(x + 7, y + 16, z + 24, ModBlocks.fence_metal, 0, 3);
-		world.setBlock(x + 14, y + 16, z + 24, Block3, 5, 3);
+		world.setBlock(x + 14, y + 16, z + 24, Block3, s5, 3);
 		world.setBlock(x + 19, y + 16, z + 24, dSteel, 0, 3);
 		world.setBlock(x + 19, y + 16, z + 25, dSteel, 0, 3);
 		world.setBlock(x + 19, y + 16, z + 26, dSteel, 0, 3);

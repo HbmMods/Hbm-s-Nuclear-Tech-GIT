@@ -9,13 +9,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 
 public class ItemBedrockOre extends ItemEnumMulti {
 
 	protected IIcon overlayIcon;
 
 	public ItemBedrockOre() {
-		super(EnumBedrockOre.class, true, false);
+		super(EnumBedrockOre.class, false, false);
 	}
 
 	@Override
@@ -50,12 +51,23 @@ public class ItemBedrockOre extends ItemEnumMulti {
 		return 0xffffff;
 	}
 
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
+		
+		EnumBedrockOre ore = EnumUtil.grabEnumSafely(EnumBedrockOre.class, stack.getItemDamage());
+		String oreName = StatCollector.translateToLocal("item.ore." + ore.oreName.toLowerCase());
+		return StatCollector.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", oreName);
+	}
+
 	public static enum EnumBedrockOre {
 		IRON("Iron", 0xE2C0AA),
 		COPPER("Copper", 0xEC9A63),
 		BORAX("Borax", 0xE4BE74),
 		ASBESTOS("Asbestos", 0xBFBFB9),
-		NIOBIUM("Niobium", 0xAF58D8);
+		NIOBIUM("Niobium", 0xAF58D8),
+		TITANIUM("Titanium", 0xF2EFE2),
+		TUNGSTEN("Tungsten", 0x2C293C),
+		GOLD("Gold", 0xF9D738);
 		
 		public String oreName;
 		public int color;
