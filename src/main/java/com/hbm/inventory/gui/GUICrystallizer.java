@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUICrystallizer extends GuiInfoContainer {
 
-	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_crystallizer.png");
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_crystallizer_alt.png");
 	private TileEntityMachineCrystallizer acidomatic;
 	
 	public GUICrystallizer(InventoryPlayer invPlayer, TileEntityMachineCrystallizer acidomatic) {
@@ -22,22 +22,22 @@ public class GUICrystallizer extends GuiInfoContainer {
 		this.acidomatic = acidomatic;
 
 		this.xSize = 176;
-		this.ySize = 168;
+		this.ySize = 204;
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 		
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 51 - 34, 16, 34, acidomatic.power, acidomatic.maxPower);
-		acidomatic.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 44, guiTop + 17, 16, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 18, 16, 34, acidomatic.power, acidomatic.maxPower);
+		acidomatic.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 35, guiTop + 18, 16, 52);
 
 		String[] upgradeText = new String[4];
 		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
 		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
 		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.effectiveness");
 		upgradeText[3] = I18nUtil.resolveKey("desc.gui.upgrade.overdrive");
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 87, guiTop + 21, 8, 8, guiLeft + 200, guiTop + 45, upgradeText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 117, guiTop + 22, 8, 8, guiLeft + 200, guiTop + 45, upgradeText);
 	}
 	
 	@Override
@@ -54,14 +54,14 @@ public class GUICrystallizer extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int i = (int)acidomatic.getPowerScaled(34);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 51 - i, 176, 34 - i, 16, i);
+		int i = (int)acidomatic.getPowerScaled(52);
+		drawTexturedModalRect(guiLeft + 152, guiTop + 70 - i, 176, 64 - i, 16, i);
 		
-		int j = acidomatic.getProgressScaled(23);
-		drawTexturedModalRect(guiLeft + 104, guiTop + 34, 192, 0, j, 16);
+		int j = acidomatic.getProgressScaled(28);
+		drawTexturedModalRect(guiLeft + 80, guiTop + 47, 176, 0, j, 12);
 		
-		this.drawInfoPanel(guiLeft + 87, guiTop + 21, 8, 8, 8);
+		this.drawInfoPanel(guiLeft + 117, guiTop + 22, 8, 8, 8);
 
-		acidomatic.tank.renderTank(guiLeft + 44, guiTop + 69, this.zLevel, 16, 52);
+		acidomatic.tank.renderTank(guiLeft + 35, guiTop + 70, this.zLevel, 16, 52);
 	}
 }

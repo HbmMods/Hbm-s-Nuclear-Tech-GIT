@@ -17,13 +17,18 @@ public class ContainerCrystallizer extends Container {
 	public ContainerCrystallizer(InventoryPlayer invPlayer, TileEntityMachineCrystallizer tedf) {
 		diFurnace = tedf;
 
-		this.addSlotToContainer(new Slot(tedf, 0, 80, 35));
-		this.addSlotToContainer(new Slot(tedf, 1, 8, 53));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 140, 35));
-		this.addSlotToContainer(new Slot(tedf, 3, 26, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 26, 53));
-		this.addSlotToContainer(new SlotUpgrade(tedf, 5, 98, 17));
-		this.addSlotToContainer(new SlotUpgrade(tedf, 6, 116, 17));
+		//Input
+		this.addSlotToContainer(new Slot(tedf, 0, 62, 45));
+		//Battery
+		this.addSlotToContainer(new Slot(tedf, 1, 152, 72));
+		//Output
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 113, 45));
+		//Fluid slots
+		this.addSlotToContainer(new Slot(tedf, 3, 17, 18));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 17, 54));
+		//Upgrades
+		this.addSlotToContainer(new SlotUpgrade(tedf, 5, 80, 18));
+		this.addSlotToContainer(new SlotUpgrade(tedf, 6, 98, 18));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
