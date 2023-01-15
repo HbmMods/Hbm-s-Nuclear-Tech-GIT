@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
+import com.hbm.config.WorldConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.logic.EntityTomBlast;
@@ -14,9 +15,11 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBookLore;
 import com.hbm.items.special.ItemBookLore.BookLoreType;
 import com.hbm.items.special.ItemKitCustom;
+import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.world.feature.OilSpot;
+import com.hbm.world.generator.DungeonToolbox;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.EntityLiving;
@@ -47,11 +50,11 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
-			/*TomSaveData data = TomSaveData.forWorld(world);
+			TomSaveData data = TomSaveData.forWorld(world);
 			data.impact = false;
 			data.fire = 0F;
 			data.dust = 0F;
-			data.markDirty();*/
+			data.markDirty();
 			
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;
@@ -87,23 +90,7 @@ public class ItemWandD extends Item {
 			entry.blocksDistanceThreshold = 1000;
 			world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));*/
 			
-			int x = pos.blockX;
-			int z = pos.blockZ;
-			int type = world.rand.nextInt(10);
-			
-			for(int i = 0; i < 1; i++) {
-				int ix = (int) Math.floor(x + world.rand.nextGaussian() * 0);
-				int iz = (int) Math.floor(z + world.rand.nextGaussian() * 0);
-				
-				world.setBlock(ix, 0, iz, ModBlocks.ore_bedrock);
-				TileEntityBedrockOre ore = (TileEntityBedrockOre) world.getTileEntity(ix, 0, iz);
-				ore.resource = new ItemStack(ModBlocks.stone_resource, 1, 2);
-				ore.color = 0xCF6722;
-				ore.shape = type;
-				ore.acidRequirement = new FluidStack(Fluids.SULFURIC_ACID, 1000);
-				world.markBlockForUpdate(ix, 0, iz);
-				world.markTileEntityChunkModified(ix, 0, iz, ore);
-			}
+			//DungeonToolbox.generateBedrockOreWithChance(world, world.rand, pos.blockX, pos.blockZ, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500), 2, 1);
 			
 			/*EntitySiegeTunneler tunneler = new EntitySiegeTunneler(world);
 			tunneler.setPosition(pos.blockX, pos.blockY + 1, pos.blockZ);

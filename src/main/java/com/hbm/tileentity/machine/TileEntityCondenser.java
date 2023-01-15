@@ -10,6 +10,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
@@ -53,7 +54,7 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidA
 			
 			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
 			
-			if(MainRegistry.proxy.getImpactFire(worldObj) > 0 && light > 7) { // Make both steam and water evaporate during firestorms...
+			if(TomSaveData.forWorld(worldObj).fire > 1e-5 && light > 7) { // Make both steam and water evaporate during firestorms...
 				tanks[1].setFill(tanks[1].getFill() - convert);
 			} else {
 				tanks[1].setFill(tanks[1].getFill() + convert);

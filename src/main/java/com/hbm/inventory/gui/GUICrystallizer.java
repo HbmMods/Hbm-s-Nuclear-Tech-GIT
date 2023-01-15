@@ -29,7 +29,7 @@ public class GUICrystallizer extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 		
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 18, 16, 34, acidomatic.power, acidomatic.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 18, 16, 52, acidomatic.power, acidomatic.maxPower);
 		acidomatic.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 35, guiTop + 18, 16, 52);
 
 		String[] upgradeText = new String[4];

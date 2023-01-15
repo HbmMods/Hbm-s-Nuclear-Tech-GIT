@@ -1140,6 +1140,7 @@ public class ModBlocks {
 	public static final int guiID_brandon = 122;
 	public static Block turret_arty;
 	public static Block turret_himars;
+	public static Block turret_sentry;
 
 	public static Block rbmk_rod;
 	public static Block rbmk_rod_mod;
@@ -2152,18 +2153,19 @@ public class ModBlocks {
 		sat_dock = new MachineSatDock(Material.iron).setBlockName("sat_dock").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":sat_dock");
 		soyuz_capsule = new SoyuzCapsule(Material.iron).setBlockName("soyuz_capsule").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":soyuz_capsule");
 		
-		turret_chekhov = new TurretChekhov(Material.iron).setBlockName("turret_chekhov").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_chekhov = new TurretChekhov(Material.iron).setBlockName("turret_chekhov").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_friendly = new TurretFriendly(Material.iron).setBlockName("turret_friendly").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_jeremy = new TurretJeremy(Material.iron).setBlockName("turret_jeremy").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		turret_tauon = new TurretTauon(Material.iron).setBlockName("turret_tauon").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_tauon = new TurretTauon(Material.iron).setBlockName("turret_tauon").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_richard = new TurretRichard(Material.iron).setBlockName("turret_richard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		turret_howard = new TurretHoward(Material.iron).setBlockName("turret_howard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_howard = new TurretHoward(Material.iron).setBlockName("turret_howard").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_howard_damaged = new TurretHowardDamaged(Material.iron).setBlockName("turret_howard_damaged").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_rust");
-		turret_maxwell = new TurretMaxwell(Material.iron).setBlockName("turret_maxwell").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		turret_fritz = new TurretFritz(Material.iron).setBlockName("turret_fritz").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_maxwell = new TurretMaxwell(Material.iron).setBlockName("turret_maxwell").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_fritz = new TurretFritz(Material.iron).setBlockName("turret_fritz").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_brandon = new TurretBrandon(Material.iron).setBlockName("turret_brandon").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_arty = new TurretArty(Material.iron).setBlockName("turret_arty").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_himars = new TurretHIMARS(Material.iron).setBlockName("turret_himars").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_sentry = new TurretSentry().setBlockName("turret_sentry").setHardness(5.0F).setResistance(5.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		rbmk_rod = new RBMKRod(false).setBlockName("rbmk_rod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element");
 		rbmk_rod_mod = new RBMKRod(true).setBlockName("rbmk_rod_mod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element_mod");
@@ -2234,7 +2236,7 @@ public class ModBlocks {
 		barricade = new BlockNoDrop(Material.sand).setBlockName("barricade").setHardness(1.0F).setResistance(2.5F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":barricade");
 		machine_assembler = new MachineAssembler(Material.iron).setBlockName("machine_assembler").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_assembler");
 		machine_assemfac = new MachineAssemfac(Material.iron).setBlockName("machine_assemfac").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		machine_chemplant = new MachineChemplant(Material.iron).setBlockName("machine_chemplant").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_chemplant");
+		machine_chemplant = new MachineChemplant(Material.iron).setBlockName("machine_chemplant").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_chemfac = new MachineChemfac(Material.iron).setBlockName("machine_chemfac").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_mixer = new MachineMixer(Material.iron).setBlockName("machine_mixer").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_fluidtank = new MachineFluidTank(Material.iron).setBlockName("machine_fluidtank").setHardness(5.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_fluidtank");
@@ -2938,6 +2940,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_brandon, turret_brandon.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_arty, turret_arty.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_himars, turret_himars.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_sentry, turret_sentry.getUnlocalizedName());
 		
 		//Wall-mounted Explosives
 		GameRegistry.registerBlock(charge_dynamite, ItemBlockBase.class, charge_dynamite.getUnlocalizedName());

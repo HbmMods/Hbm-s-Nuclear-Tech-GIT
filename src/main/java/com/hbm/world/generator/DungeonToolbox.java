@@ -99,7 +99,7 @@ public class DungeonToolbox {
 	}
 
 	public static void generateBedrockOreWithChance(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore, FluidStack stack, int tier, int chance) {
-		if(chance > 0 && rand.nextInt(chance) == 0) generateBedrockOre(world, rand, chunkX, chunkZ, ore, null, tier);
+		if(chance > 0 && rand.nextInt(chance) == 0) generateBedrockOre(world, rand, chunkX, chunkZ, ore, stack, tier);
 	}
 	
 	public static void generateBedrockOre(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore, int tier) {

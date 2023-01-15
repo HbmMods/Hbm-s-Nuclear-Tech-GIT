@@ -18,6 +18,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -227,8 +228,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 	}
 	
 	protected void coolPassively() {
-		
-		if(MainRegistry.proxy.getImpactFire(worldObj) > 1e-5) {
+
+		if(TomSaveData.forWorld(worldObj).fire > 1e-5) {
 			double light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord) / 15D;
 			if(heat < 20 + (480 * light)) {
 				this.heat += this.passiveCooling() * 2;

@@ -640,9 +640,12 @@ public class Library {
 	}
 	
 	public static boolean isObstructed(World world, double x, double y, double z, double a, double b, double c) {
-		
 		MovingObjectPosition pos = world.rayTraceBlocks(Vec3.createVectorHelper(x, y, z), Vec3.createVectorHelper(a, b, c));
-		
+		return pos != null;
+	}
+	
+	public static boolean isObstructedOpaque(World world, double x, double y, double z, double a, double b, double c) {
+		MovingObjectPosition pos = world.func_147447_a(Vec3.createVectorHelper(x, y, z), Vec3.createVectorHelper(a, b, c), false, true, false);
 		return pos != null;
 	}
 	

@@ -448,6 +448,6 @@ public class CentrifugeRecipes extends SerializableRecipe {
 
 	@Override
 	public String getComment() {
-		return "Outputs have to be an array of four item stacks. The centrifuge can't handle recipes with a smaller output as of now.";
+		return "Outputs have to be an array of up to four item stacks. Fewer aren't used by default recipes, but should work anyway.";
 	}
 }

@@ -125,10 +125,10 @@ public class PowerNet implements IPowerNet {
 	@Override
 	public long transferPower(long power) {
 		
-		if(lastCleanup + 45 < System.currentTimeMillis()) {
+		/*if(lastCleanup + 45 < System.currentTimeMillis()) {
 			cleanup(this.subscribers);
 			lastCleanup = System.currentTimeMillis();
-		}
+		}*/
 		
 		return fairTransfer(this.subscribers, power);
 	}
@@ -144,6 +144,8 @@ public class PowerNet implements IPowerNet {
 		
 		if(subscribers.isEmpty())
 			return power;
+		
+		cleanup(subscribers);
 		
 		ConnectionPriority[] priorities = new ConnectionPriority[] {ConnectionPriority.HIGH, ConnectionPriority.NORMAL, ConnectionPriority.LOW};
 		

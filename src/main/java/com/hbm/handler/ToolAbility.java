@@ -11,6 +11,7 @@ import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
+import com.hbm.inventory.recipes.CrystallizerRecipes.CrystallizerRecipe;
 import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
@@ -439,11 +440,11 @@ public abstract class ToolAbility {
 				block = Blocks.redstone_ore;
 			
 			ItemStack stack = new ItemStack(block, 1, meta);
-			ItemStack result = CrystallizerRecipes.getOutput(stack);
+			CrystallizerRecipe result = CrystallizerRecipes.getOutput(stack);
 			
 			if(result != null) {
 				world.setBlockToAir(x, y, z);
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, result.copy()));
+				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, result.output.copy()));
 				player.getHeldItem().damageItem(1, player);
 			}
 			

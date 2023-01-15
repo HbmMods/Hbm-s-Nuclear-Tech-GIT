@@ -180,6 +180,8 @@
     "turret.richard_fire": {"category": "block", "sounds": [{"name": "turret/richard_fire", "stream": false}]},
     "turret.howard_fire": {"category": "block", "sounds": [{"name": "turret/howard_fire", "stream": false}]},
     "turret.howard_reload": {"category": "block", "sounds": [{"name": "turret/howard_reload", "stream": false}]},
+    "turret.sentry_fire": {"category": "block", "sounds": [{"name": "turret/sentry_fire", "stream": false}]},
+    "turret.sentry_lockon": {"category": "block", "sounds": [{"name": "turret/sentry_lockon", "stream": false}]},
     "turret.mortarWhistle": {"category": "block", "sounds": [{"name": "weapon/mortarWhistle", "stream": false}]},
 
 	"entity.chopperFlyingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperFlyingLoop", "stream": true}]},

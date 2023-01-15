@@ -59,6 +59,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		
 		if(!worldObj.isRemote) {
 			
+			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[2].setType(2, slots);
 			
 			UpgradeManager.eval(slots, 3, 4);

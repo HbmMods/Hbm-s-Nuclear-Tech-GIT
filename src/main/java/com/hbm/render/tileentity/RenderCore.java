@@ -81,7 +81,7 @@ public class RenderCore extends TileEntitySpecialRenderer {
     public void renderOrb(TileEntityCore tile, double x, double y, double z) {
 
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+        //GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
 
         int color = tile.color;
 
