@@ -131,13 +131,13 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getLevel(Context context, Arguments args) {
-		return new Object[] {getMult()};
+		return new Object[] {getMult() * 100};
 	}
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTargetLevel(Context context, Arguments args) {
-		return new Object[] {targetLevel};
+		return new Object[] {targetLevel * 100};
 	}
 
 
