@@ -33,7 +33,6 @@ import com.hbm.blocks.bomb.LaunchPad;
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, SimpleComponent {
 
-	public LaunchPad launchpadBlock = (LaunchPad) ModBlocks.launch_pad;
 	public ItemStack slots[];
 	
 	public long power;
@@ -318,7 +317,7 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] launch(Context context, Arguments args) {
 		//worldObj.getBlock(xCoord, yCoord, zCoord).explode(worldObj, xCoord, yCoord, zCoord);	
-		launchpadBlock.explode(worldObj, xCoord, yCoord, zCoord);
+		((LaunchPad) ModBlocks.launch_pad).explode(worldObj, xCoord, yCoord, zCoord);
 		return new Object[] {};
 	}
 }
