@@ -384,6 +384,7 @@ public abstract class ToolAbility {
 		}
 	}
 	
+	
 	public static class CentrifugeAbility extends ToolAbility {
 
 		@Override

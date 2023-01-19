@@ -45,6 +45,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_nos = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/nos.png");
 	public static final ResourceLocation bobble_drillgon = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/drillgon200.png");
 	public static final ResourceLocation bobble_cirno = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/cirno.png");
+	public static final ResourceLocation bobble_gwen = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/gwen.png");
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float intero) {
@@ -94,6 +95,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case VAER:		bindTexture(bobble_vaer); break;
 		case NOS:		bindTexture(bobble_nos); break;
 		case DRILLGON:	bindTexture(bobble_drillgon); break;
+		case GWEN:		bindTexture(bobble_gwen); break;
 		default:		bindTexture(ResourceManager.universal);
 		}
 		

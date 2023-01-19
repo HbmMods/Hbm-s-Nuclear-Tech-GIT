@@ -116,6 +116,14 @@ public class HadronRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget),
 				false
 				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(ModItems.nugget_americium_fuel),
+				new ItemStack(ModItems.nugget_am242),
+				100,
+				new ItemStack(ModItems.ingot_bk247),
+				new ItemStack(ModItems.nugget),
+				false
+				));
 	}
 	
 	public static EnumHadronState returnCode = EnumHadronState.NORESULT;

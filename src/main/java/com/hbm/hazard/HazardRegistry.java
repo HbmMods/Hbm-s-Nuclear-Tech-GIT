@@ -45,7 +45,7 @@ public class HazardRegistry {
 	//PU239		        24,000a		α	005.00Rad/s
 	//PU240		         6,600a		α	007.50Rad/s
 	//PU241		            14a		β−	025.00Rad/s	Spicy
-	//AM241		           432a		α	008.50Rad/s
+	//		           432a		α	008.50Rad/s
 	//AM242		           141a		β−	009.50Rad/s
 
 	//simplified groups for ReC compat
@@ -94,6 +94,7 @@ public class HazardRegistry {
 	public static final float pu241 = 25.0F;
 	public static final float puf = 4.25F;
 	public static final float am241 = 8.5F;
+	public static final float bk247 = 10.5F;
 	public static final float am242 = 9.5F;
 	public static final float amrg = 9.0F;
 	public static final float amf = 4.75F;
