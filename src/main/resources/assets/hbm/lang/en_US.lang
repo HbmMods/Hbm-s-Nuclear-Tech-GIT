@@ -4520,6 +4520,7 @@ tile.rbmk_blank.name=RBMK Structural Column
 tile.rbmk_boiler.name=RBMK Steam Channel
 tile.rbmk_console.name=RBMK Console
 tile.rbmk_cooler.name=RBMK Cooler
+tile.rbmk_burner.name=RBMK Fuel Burner
 tile.rbmk_control.name=RBMK Control Rods
 tile.rbmk_control_auto.name=RBMK Automatic Control Rods
 tile.rbmk_control_mod.name=RBMK Moderated Control Rods
