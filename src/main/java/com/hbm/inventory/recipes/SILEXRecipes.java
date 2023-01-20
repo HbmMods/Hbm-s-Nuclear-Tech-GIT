@@ -440,15 +440,15 @@ public class SILEXRecipes {
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_zirconium), 147)) );
 			//AM242//
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hea242, 1, i), new SILEXRecipe(600, 100, 3)
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am242), 70 - i * 20))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am242), 100 - i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am241), 100 - i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bk247), 50 + i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.AMERICIUM242.ordinal()), 1 + 2 * i)));
 			
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hea242, 1, i + 5), new SILEXRecipe(600, 100, 3)
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am242), 70 - i * 20))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am242), 100 - i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am241), 100 - i * 20))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bk247), 50 + i * 20))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bk247), 200 - i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 3))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.AMERICIUM242.ordinal()), 1 + 2 * i)));
 		}
