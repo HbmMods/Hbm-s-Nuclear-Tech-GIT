@@ -116,7 +116,7 @@ public class TileEntityRBMKBurner extends TileEntityRBMKBase implements IFluidAc
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
-		tank.readFromNBT(nbt, "Fuel");
+		tank.readFromNBT(nbt, "fuel");
 		this.lastHot = nbt.getInteger("burned");
 	}
 	
@@ -124,7 +124,7 @@ public class TileEntityRBMKBurner extends TileEntityRBMKBase implements IFluidAc
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		
-		tank.writeToNBT(nbt, "Fuel");
+		tank.writeToNBT(nbt, "fuel");
 		nbt.setInteger("burned", this.lastHot);
 	}
 
