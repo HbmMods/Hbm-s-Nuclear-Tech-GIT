@@ -62,6 +62,7 @@ public class Fluids {
 	public static FluidType CRYOGEL;
 	public static FluidType HYDROGEN;
 	public static FluidType OXYGEN;
+	public static FluidType NITROGEN;
 	public static FluidType XENON;
 	public static FluidType BALEFIRE;
 	public static FluidType MERCURY;
@@ -208,6 +209,7 @@ public class Fluids {
 		WOODOIL =			new FluidType("WOODOIL",			0x847D54, 2, 2, 0, EnumSymbol.NONE).addContainers(0xBF7E4F, ExtContainer.CANISTER).addTraits(LIQUID);
 		COALCREOSOTE =		new FluidType("COALCREOSOTE",		0x51694F, 3, 2, 0, EnumSymbol.NONE).addContainers(0x285A3F, ExtContainer.CANISTER).addTraits(LIQUID);
 		SEEDSLURRY =		new FluidType(81, "SEEDSLURRY",		0x7CC35E, 0, 0, 0, EnumSymbol.NONE).addContainers(0x7CC35E, ExtContainer.CANISTER).addTraits(LIQUID);
+		NITROGEN =			new FluidType("NITROGEN",			0xB3C6D2, 3, 0, 0, EnumSymbol.CROYGENIC).setTemp(-90).addTraits(LIQUID, EVAP);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -242,6 +244,7 @@ public class Fluids {
 		metaOrder.add(OXYGEN);
 		metaOrder.add(XENON);
 		metaOrder.add(MERCURY);
+		metaOrder.add(NITROGEN);
 		//oils, fuels
 		metaOrder.add(OIL);
 		metaOrder.add(CRACKOIL);
