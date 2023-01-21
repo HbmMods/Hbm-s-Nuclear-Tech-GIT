@@ -23,6 +23,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,7 +36,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbofan extends TileEntityMachineBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IFluidSource {
+public class TileEntityMachineTurbofan extends TileEntityMachineBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IFluidSource {
 
 	public long power;
 	public static final long maxPower = 500_000;
@@ -55,7 +56,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 		super(3);
 		tank = new FluidTank[2];
 		tank[0] = new FluidTank(Fluids.KEROSENE, 24000, 0);
-		tank[1] = new FluidTank(Fluids.BLOOD, 14000, 0);
+		tank[1] = new FluidTank(Fluids.BLOOD, 14000, 1);
 	}
 
 	@Override
@@ -208,8 +209,10 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 				for(Entity e : list) {
 					e.attackEntityFrom(ModDamageSource.turbofan, 1000);
 					e.setInWeb();
-					this.tank[1].setFill(120);
-					tank[1].loadTank(0, 1, slots);
+					tank[1].setFill(tank[1].getFill() + 120); 
+					if(tank[1].getFill() > tank[1].getMaxFill()) {
+						tank[1].setFill(tank[1].getMaxFill());
+					} 
 					
 					if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
 						NBTTagCompound vdat = new NBTTagCompound();
@@ -386,6 +389,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	@Override
 	public int getFluidFill(FluidType type) {
 		return type == this.tank[0].getTankType() ? tank[0].getFill() : 0;
+		
 	}
 
 	@Override
