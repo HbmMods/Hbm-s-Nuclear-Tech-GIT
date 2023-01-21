@@ -64,6 +64,6 @@ public class GUIMachineTurbofan extends GuiInfoContainer {
 		this.drawInfoPanel(guiLeft + 96, guiTop + 21, 8, 8, 8);
 		
 		diFurnace.tank[0].renderTank(guiLeft + 53, guiTop + 69, this.zLevel, 34, 52);
-		diFurnace.tank[1].renderTank(guiLeft + 25, guiTop + 69, this.zLevel, 34, 52);
+		diFurnace.tank[1].renderTank(guiLeft + 130, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

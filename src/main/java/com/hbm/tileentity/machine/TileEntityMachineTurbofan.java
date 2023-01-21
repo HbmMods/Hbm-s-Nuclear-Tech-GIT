@@ -36,7 +36,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbofan extends TileEntityMachineBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IFluidSource {
+public class TileEntityMachineTurbofan extends TileEntityMachineBase implements ISidedInventory, IEnergyGenerator, IFluidStandardTransceiver {
 
 	public long power;
 	public static final long maxPower = 500_000;
@@ -55,8 +55,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	public TileEntityMachineTurbofan() {
 		super(3);
 		tank = new FluidTank[2];
-		tank[0] = new FluidTank(Fluids.KEROSENE, 24000, 0);
-		tank[1] = new FluidTank(Fluids.BLOOD, 14000, 1);
+		tank[0] = new FluidTank(Fluids.KEROSENE, 24000, 1);
+		tank[1] = new FluidTank(Fluids.BLOOD, 14000, 0);
 	}
 
 	@Override
@@ -105,6 +105,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			for(DirPos pos : getConPos()) {
 				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tank[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tank[1].getFill() > 0) this.sendFluid(tank[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				
 			}
 			
 			tank[0].loadTank(0, 1, slots);
@@ -232,6 +234,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			data.setByte("after", (byte) afterburner);
 			data.setBoolean("wasOn", wasOn);
 			tank[1].writeToNBT(data, "tank");
+			tank[0].writeToNBT(data, "tank2");
 			this.networkPack(data, 150);
 			
 		} else {
@@ -330,6 +333,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 		this.afterburner = nbt.getByte("after");
 		this.wasOn = nbt.getBoolean("wasOn");
 		tank[1].readFromNBT(nbt, "tank");
+		tank[0].readFromNBT(nbt, "tank2");
 	}
 	
 	public AudioWrapper createAudioLoop() {
@@ -370,33 +374,6 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	public void setPower(long i) {
 		this.power = i;
 	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank[0].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank[0].setTankType(type);
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return type == this.tank[0].getTankType() ? tank[0].getMaxFill() : 0;
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		return type == this.tank[0].getTankType() ? tank[0].getFill() : 0;
-		
-	}
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type == tank[0].getTankType())
-			tank[0].setFill(i);
-	}
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
@@ -422,34 +399,6 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	public FluidTank[] getAllTanks() {
 		return tank;
 	}
-
 	
-	public void fillFluidInit(FluidType type) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean getTact() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		// TODO Auto-generated method stub
-		
-	}
 }
