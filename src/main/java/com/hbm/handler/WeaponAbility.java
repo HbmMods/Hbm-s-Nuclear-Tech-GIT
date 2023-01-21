@@ -27,6 +27,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -159,10 +160,13 @@ public abstract class WeaponAbility {
 						data.setInteger("ent", victim.getEntityId());
 						data.setInteger("cDiv", 5);
 						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, victim.posX, victim.posY + victim.height * 0.5, victim.posZ), new TargetPoint(victim.dimension, victim.posX, victim.posY + victim.height * 0.5, victim.posZ, 150));
-					
+						if(living instanceof EntityVillager) {
+							
+						living.entityDropItem(new ItemStack(ModItems.flesh, 10, 0), 0.0F);
 			    }
 			}
 		}
+	}
 	
 
 				
@@ -277,6 +281,7 @@ public abstract class WeaponAbility {
 							new WeightedRandomObject(ModItems.ammo_rocket_phosphorus, 5),
 							new WeightedRandomObject(ModItems.ammo_rocket_rpc, 1),
 							new WeightedRandomObject(ModItems.syringe_metal_stimpak, 25),
+							new WeightedRandomObject(ModItems.flesh, 2),
 					};
 					
 					int count = Math.min((int)Math.ceil(living.getMaxHealth() / divider), 250); //safeguard to prevent funnies from bosses with obscene health

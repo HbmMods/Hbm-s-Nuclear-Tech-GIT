@@ -220,7 +220,7 @@ public class Fluids {
 		NITRIC_ACID =		new FluidType("NITRIC_ACID",		0xFFCC80, 3, 0, 0, EnumSymbol.ACID).addTraits(new FT_Poison(true, 4)).addTraits(new FT_Flammable(20_000), new FT_Combustible(FuelGrade.MEDIUM, 50_000), new FT_Corrosive(20), LIQUID);
 		AMMONIA =			new FluidType("AMMONIA",			0xB3C6D2, 3, 0, 0, EnumSymbol.ASPHYXIANT).addTraits(new FT_Poison(true, 4), GASEOUS);
 		HYDRAZINE =			new FluidType("HYDRAZINE",			0x31517D, 2, 3, 0, EnumSymbol.NONE).addContainers(0x31517D, ExtContainer.CANISTER).addTraits((new FT_Flammable(500_000)), new FT_Combustible(FuelGrade.HIGH, 1_250_000), new FT_Corrosive(30), LIQUID);	
-		BLOODGAS =			    new FluidType("BLOODGAS",		0x591000, 1, 0, 3, EnumSymbol.NONE).addContainers(0x4D0000, ExtContainer.CANISTER).addTraits(new FT_Flammable(66_666), new FT_Combustible(FuelGrade.HIGH, 166_665)).addTraits(LIQUID);
+		BLOODGAS =			new FluidType("BLOODGAS",		    0x591000, 1, 0, 3, EnumSymbol.NONE).addContainers(0x591000, ExtContainer.CANISTER).addTraits(new FT_Flammable(66_666), new FT_Combustible(FuelGrade.HIGH, 166_665)).addTraits(LIQUID);
 		
 		
 		

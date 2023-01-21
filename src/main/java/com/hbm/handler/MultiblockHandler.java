@@ -67,10 +67,6 @@ public class MultiblockHandler {
 	public static final int[] turbofanDimensionEast  = new int[] { 3, 3, 2, 0, 1, 1 };
 	public static final int[] turbofanDimensionSouth = new int[] { 1, 1, 2, 0, 3, 3 };
 	public static final int[] turbofanDimensionWest  = new int[] { 3, 3, 2, 0, 1, 1 };
-	public static final int[] BlenderDimensionNorth = new int[] { 1, 1, 2, 0, 3, 3 };
-	public static final int[] BlenderDimensionEast  = new int[] { 3, 3, 2, 0, 1, 1 };
-	public static final int[] BlenderDimensionSouth = new int[] { 1, 1, 2, 0, 3, 3 };
-	public static final int[] BlenderDimensionWest  = new int[] { 3, 3, 2, 0, 1, 1 };
 	public static final int[] shredderlargeDimensionNorth = new int[] { 1, 1, 2, 0, 3, 3 };
 	public static final int[] shredderlargeDimensionEast  = new int[] { 3, 3, 2, 0, 1, 1 };
 	public static final int[] shredderlargeDimensionSouth = new int[] { 1, 1, 2, 0, 3, 3 };

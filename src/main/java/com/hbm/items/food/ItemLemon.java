@@ -68,7 +68,7 @@ public class ItemLemon extends ItemFood {
 		}
 		
 		if(this == ModItems.loops) {
-			list.add("Brøther, may I have some lööps?");
+			list.add("BrÃ¸ther, may I have some lÃ¶Ã¶ps?");
 		}
 		
 		if(this == ModItems.loop_stew) {
@@ -92,7 +92,7 @@ public class ItemLemon extends ItemFood {
 		}
 
 		if(this == ModItems.canned_pashtet) {
-			list.add("услуги перевода недоступны!");
+			list.add("ÑƒÑ�Ð»ÑƒÐ³Ð¸ Ð¿ÐµÑ€ÐµÐ²Ð¾Ð´Ð° Ð½ÐµÐ´Ð¾Ñ�Ñ‚ÑƒÐ¿Ð½Ñ‹!");
 		}
 
 		if(this == ModItems.canned_cheese) {
@@ -173,7 +173,7 @@ public class ItemLemon extends ItemFood {
 			list.add("A Hungarian tourist comes to the counter, trying to order by using a wholly");
 			list.add("inaccurate Hungarian/English phrasebook (a reference to a previous sketch).");
 			list.add("He is rapidly escorted away by a police constable. The sketch abruptly cuts to a");
-			list.add("historian in a television studio talking about the origin of the Vikings in the café.");
+			list.add("historian in a television studio talking about the origin of the Vikings in the cafÃ©.");
 			list.add("As he goes on, he begins to increasingly insert the word \"Spam\" into every");
 			list.add("sentence, and the backdrop is raised to reveal the restaurant set behind.");
 			list.add("The historian joins the Vikings in their song, and Mr. and Mrs. Bun are lifted by");
@@ -219,6 +219,10 @@ public class ItemLemon extends ItemFood {
 
 		if(this == ModItems.peas) {
 			list.add("He accepts your offering.");
+		}
+		
+		if(this == ModItems.flesh_burger) {
+			list.add("juicy!");
 		}
 	}
 
