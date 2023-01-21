@@ -364,7 +364,6 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
-
 		case ModBlocks.guiID_ams_emitter: {
 			if(entity instanceof TileEntityAMSEmitter) {
 				return new ContainerAMSEmitter(player.inventory, (TileEntityAMSEmitter) entity);

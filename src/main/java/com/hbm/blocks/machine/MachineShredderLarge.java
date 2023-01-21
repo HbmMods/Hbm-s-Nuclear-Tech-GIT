@@ -165,7 +165,7 @@ public class MachineShredderLarge extends BlockContainer implements IMultiblock{
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x, y, z - 1, ModBlocks.dummy_port_turbofan);
+				world.setBlock(x, y, z - 1, ModBlocks.dummy_port_shredder_large);
 				TileEntity te2 = world.getTileEntity(x, y, z - 1);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;

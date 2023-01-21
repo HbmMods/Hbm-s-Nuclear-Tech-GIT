@@ -360,7 +360,6 @@ public class ItemRenderLibrary {
 				ResourceManager.turbofan.renderPart("Afterburner");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
-		
 		renderers.put(Item.getItemFromBlock(ModBlocks.plasma_heater), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -1, 0);

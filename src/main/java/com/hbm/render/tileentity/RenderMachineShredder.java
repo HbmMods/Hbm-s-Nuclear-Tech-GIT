@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.main.ResourceManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import com.hbm.tileentity.machine.oil.TileEntityMachineShredderLarge;
 
 public class RenderMachineShredder extends TileEntitySpecialRenderer {
 
