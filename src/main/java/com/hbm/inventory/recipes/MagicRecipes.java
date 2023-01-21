@@ -97,10 +97,10 @@ public class MagicRecipes {
 				new ComparableStack(ModItems.nugget_pu239),
 				new ComparableStack(ModItems.circuit_aluminium)));
 		
-		System.out.println(recipes.add(new MagicRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.bobblehead), BobbleType.GWEN.ordinal()),
+		recipes.add(new MagicRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.bobblehead), 1, 21),
 				new ComparableStack(ModItems.ingot_gwenium), 
 				new ComparableStack(ModItems.ingot_dineutronium), 
-				new ComparableStack(ModItems.ingot_dineutronium))));
+				new ComparableStack(ModItems.ingot_dineutronium)));
 	}
 	
 	public static List<MagicRecipe> getRecipes() {

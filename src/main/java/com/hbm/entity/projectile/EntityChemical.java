@@ -13,6 +13,7 @@ import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FT_Poison;
 import com.hbm.inventory.fluid.trait.FT_VentRadiation;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_ULTRAKILL;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ArmorUtil;
@@ -220,6 +221,14 @@ public class EntityChemical extends EntityThrowableNT {
 			if(living != null) {
 				for(int i = 0; i < 4; i++) {
 					ArmorUtil.damageSuit(living, i, trait.getRating() / 5);
+				}
+			}
+		}
+		if(type.hasTrait(FT_ULTRAKILL.class)) {
+			FT_ULTRAKILL trait = type.getTrait(FT_ULTRAKILL.class);
+			if(living != null) {
+				for(int i = 0; i < 1; i++) {
+					attackEntityFrom(DamageSource.magic, 20F);
 				}
 			}
 		}

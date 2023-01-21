@@ -1275,6 +1275,8 @@ public class ModBlocks {
 	public static Block dummy_port_refinery;
 	public static Block dummy_block_turbofan;
 	public static Block dummy_port_turbofan;
+	public static Block dummy_block_shredder_large;
+	public static Block dummy_port_shredder_large;
 	public static Block dummy_block_ams_limiter;
 	public static Block dummy_port_ams_limiter;
 	public static Block dummy_block_ams_emitter;
@@ -1315,6 +1317,7 @@ public class ModBlocks {
 			return "dig.stone";
 		}
 	};
+
 	
 	private static void initializeBlock() {
 		
@@ -2391,6 +2394,8 @@ public class ModBlocks {
 		dummy_port_refinery = new DummyBlockRefinery(Material.iron, true).setBlockName("dummy_port_refinery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_titanium");
 		dummy_block_turbofan = new DummyBlockTurbofan(Material.iron, false).setBlockName("dummy_block_turbofan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_port_turbofan = new DummyBlockTurbofan(Material.iron, true).setBlockName("dummy_port_turbofan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_block_shredder_large = new DummyBlockShredderLarge(Material.iron, false).setBlockName("dummy_block_shredder_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_port_shredder_large = new DummyBlockShredderLarge(Material.iron, true).setBlockName("dummy_port_shredder_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_block_ams_limiter = new DummyBlockAMSLimiter(Material.iron).setBlockName("dummy_block_ams_limiter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_copper");
 		dummy_port_ams_limiter = new DummyBlockAMSLimiter(Material.iron).setBlockName("dummy_port_ams_limiter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_copper");
 		dummy_block_ams_emitter = new DummyBlockAMSEmitter(Material.iron).setBlockName("dummy_block_ams_emitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_copper");
@@ -3458,6 +3463,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(dummy_port_refinery, dummy_port_refinery.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_block_turbofan, dummy_block_turbofan.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_port_turbofan, dummy_port_turbofan.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_block_shredder_large, dummy_block_shredder_large.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_port_shredder_large, dummy_port_shredder_large.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_block_ams_limiter, dummy_block_ams_limiter.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_port_ams_limiter, dummy_port_ams_limiter.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_block_ams_emitter, dummy_block_ams_emitter.getUnlocalizedName());

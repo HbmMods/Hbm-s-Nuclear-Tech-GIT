@@ -265,7 +265,9 @@ public class ModEventHandler {
 		if(event.entity.getUniqueID().toString().equals(Library.HbMinecraft) || event.entity.getCommandSenderName().equals("HbMinecraft")) {
 			event.entity.dropItem(ModItems.book_of_, 1);
 		}
-		
+		if(event.entityLiving instanceof EntityPlayer&& event.entityLiving.getRNG().nextInt(1) == 0) {
+			event.entityLiving.dropItem(ModItems.flesh, 10);
+	}
 		if(event.entity instanceof EntityTaintedCreeper && event.source == ModDamageSource.boxcar) {
 			
 			for(Object o : event.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, event.entity.boundingBox.expand(50, 50, 50))) {
@@ -298,9 +300,12 @@ public class ModEventHandler {
 				if(event.entityLiving instanceof EntityCyberCrab && event.entityLiving.getRNG().nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.wd40, 1);
 				}
+				if(event.entityLiving instanceof EntityVillager&& event.entityLiving.getRNG().nextInt(1) == 0) {
+					event.entityLiving.dropItem(ModItems.flesh, 5);
 			}
 		}
 	}
+}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityDeathLast(LivingDeathEvent event) {
