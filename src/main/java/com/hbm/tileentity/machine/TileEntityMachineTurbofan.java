@@ -346,7 +346,9 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 		if(audio != null) {
 			audio.stopSound();
 			audio = null;
+			
 		}
+
 	}
 
 	@Override
