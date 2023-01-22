@@ -1638,7 +1638,7 @@ public class ModItems {
 	public static Item stick_semtex;
 	public static Item stick_c4;
 	
-	public static ItemEnumMulti grenade;
+	//public static ItemEnumMulti grenade;
 	
 	public static Item grenade_generic;
 	public static Item grenade_strong;
@@ -4283,7 +4283,7 @@ public class ModItems {
 		stick_semtex = new Item().setUnlocalizedName("stick_semtex").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":stick_semtex");
 		stick_c4 = new Item().setUnlocalizedName("stick_c4").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":stick_c4");
 		
-		grenade = (ItemEnumMulti) new ItemGrenadeEnum().setUnlocalizedName("grenade").setCreativeTab(MainRegistry.weaponTab);
+		//grenade = (ItemEnumMulti) new ItemGrenadeEnum().setUnlocalizedName("grenade").setCreativeTab(MainRegistry.weaponTab);
 		
 		grenade_generic = new ItemGrenade(4).setUnlocalizedName("grenade_generic").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_generic");
 		grenade_strong = new ItemGrenade(5).setUnlocalizedName("grenade_strong").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_strong");
@@ -7169,7 +7169,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_container, ammo_container.getUnlocalizedName());
 		
 		//Grenades
-		GameRegistry.registerItem(grenade, grenade.getUnlocalizedName());
+		//GameRegistry.registerItem(grenade, grenade.getUnlocalizedName());
 		
 		GameRegistry.registerItem(stick_dynamite, stick_dynamite.getUnlocalizedName()); //heave-ho!
 		GameRegistry.registerItem(stick_tnt, stick_tnt.getUnlocalizedName());
@@ -8108,7 +8108,7 @@ public class ModItems {
 	}
 	
 	public static void addRemap(String unloc, Item item, int meta) {
-		Item remap = new ItemRemap(item, meta).setUnlocalizedName(unloc).setTextureName(RefStrings.MODID + ":plate_armor_titanium");;
+		Item remap = new ItemRemap(item, meta).setUnlocalizedName(unloc).setTextureName(RefStrings.MODID + ":plate_armor_titanium");
 		GameRegistry.registerItem(remap, remap.getUnlocalizedName());
 	}
 }

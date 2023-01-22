@@ -145,8 +145,8 @@ public class BobmazonOfferFactory {
 		weapons.add(new Offer(new ItemStack(ModItems.ammo_20gauge, 6), Requirement.OIL, 18 * inflation));
 		weapons.add(new Offer(ModItems.ammo_20gauge.stackFromEnum(6, Ammo20Gauge.SLUG), Requirement.OIL, 20 * inflation));
 		weapons.add(new Offer(ModItems.ammo_20gauge.stackFromEnum(6, Ammo20Gauge.FLECHETTE), Requirement.OIL, 22 * inflation));
-		weapons.add(new Offer(ModItems.grenade.stackFromEnum(3, AmmoHandGrenade.IF_GENERIC), Requirement.CHEMICS, 15 * inflation));
-		weapons.add(new Offer(ModItems.grenade.stackFromEnum(3, AmmoHandGrenade.IF_HE), Requirement.CHEMICS, 25 * inflation));
+		//weapons.add(new Offer(ModItems.grenade.stackFromEnum(3, AmmoHandGrenade.IF_GENERIC), Requirement.CHEMICS, 15 * inflation));
+		//weapons.add(new Offer(ModItems.grenade.stackFromEnum(3, AmmoHandGrenade.IF_HE), Requirement.CHEMICS, 25 * inflation));
 		weapons.add(new Offer(new ItemStack(ModItems.gun_hp_ammo, 1), Requirement.ASSEMBLY, 1000 * inflation));
 
 		tools.add(new Offer(new ItemStack(ModBlocks.crate_can, 1), Requirement.STEEL, 20 * inflation));

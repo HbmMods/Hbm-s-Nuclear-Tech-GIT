@@ -75,10 +75,10 @@ public class BlockCrate extends BlockFalling {
     	BlockCrate.addToListWithWeight(crateList, ModItems.clip_uboinik, 7);
     	BlockCrate.addToListWithWeight(crateList, ModItems.clip_lever_action, 5);
     	BlockCrate.addToListWithWeight(crateList, ModItems.clip_bolt_action, 5);
-    	BlockCrate.addToListWithWeight(crateList, ModItems.grenade.stackFromEnum(AmmoHandGrenade.GENERIC), 8);
-    	BlockCrate.addToListWithWeight(crateList, ModItems.grenade.stackFromEnum(AmmoHandGrenade.STRONG), 6);
-//    	BlockCrate.addToListWithWeight(crateList, ModItems.grenade_mk2, 4);
-    	BlockCrate.addToListWithWeight(crateList, ModItems.grenade.stackFromEnum(AmmoHandGrenade.FLARE), 4);
+    	BlockCrate.addToListWithWeight(crateList, ModItems.grenade_generic, 8);
+    	BlockCrate.addToListWithWeight(crateList, ModItems.grenade_strong, 6);
+    	BlockCrate.addToListWithWeight(crateList, ModItems.grenade_mk2, 4);
+    	BlockCrate.addToListWithWeight(crateList, ModItems.grenade_flare, 4);
     	BlockCrate.addToListWithWeight(crateList, ModItems.ammo_container, 2);
     	
     	//Weapon Crate

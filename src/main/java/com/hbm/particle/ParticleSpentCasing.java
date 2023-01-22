@@ -126,11 +126,8 @@ public class ParticleSpentCasing extends EntityFX
 	}
 	
 	@Override
-	public void renderParticle(
-			Tessellator tessellator, float interp, float x, float y, float z,
-			float tx, float tz
-	)
-	{
+	public void renderParticle(Tessellator tessellator, float interp, float x, float y, float z, float tx, float tz) {
+		
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glEnable(GL11.GL_LIGHTING);

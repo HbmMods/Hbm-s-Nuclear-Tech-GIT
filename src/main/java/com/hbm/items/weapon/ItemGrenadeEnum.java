@@ -212,8 +212,8 @@ public class ItemGrenadeEnum extends ItemEnumMulti
 			final World world = loc.getWorld();
 			if (nade.ticksExisted > 10)
             	ExplosionLarge.explode(world, loc.posX(), loc.posY(), loc.posZ(), 5.0F, true, false, false);
-            else
-            	world.spawnEntityInWorld(new EntityItem(world, loc.posX(), loc.posY(), loc.posZ(), ModItems.grenade.stackFromEnum(AmmoHandGrenade.SMART)));
+            //else
+            //	world.spawnEntityInWorld(new EntityItem(world, loc.posX(), loc.posY(), loc.posZ(), ModItems.grenade.stackFromEnum(AmmoHandGrenade.SMART)));
 		});
 		tmpMap.put(AmmoHandGrenade.MIRV, (thrower, loc, nade) ->
 		{

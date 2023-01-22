@@ -1142,8 +1142,8 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySawblade.class, new RenderSawblade());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityChemical.class, new RenderChemical());
 		//grenades
-	    for (AmmoHandGrenade grenade : AmmoHandGrenade.values())
-	    	RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeBouncyBaseNT.class, new RenderSnowball(ModItems.grenade, grenade.ordinal()));
+	    //for (AmmoHandGrenade grenade : AmmoHandGrenade.values())
+	    //	RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeBouncyBaseNT.class, new RenderSnowball(ModItems.grenade, grenade.ordinal()));
 	    
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeGeneric.class, new RenderSnowball(ModItems.grenade_generic));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeStrong.class, new RenderSnowball(ModItems.grenade_strong));

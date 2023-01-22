@@ -550,7 +550,7 @@ public final class HbmCollection
 				};
 		grenadeKit = new ItemStack[]
 				{// TODO Finish
-						ModItems.grenade.stackFromEnum(6, AmmoHandGrenade.GENERIC),
+						/*ModItems.grenade.stackFromEnum(6, AmmoHandGrenade.GENERIC),
 						ModItems.grenade.stackFromEnum(6, AmmoHandGrenade.STRONG),
 						ModItems.grenade.stackFromEnum(6, AmmoHandGrenade.FRAG),
 						ModItems.grenade.stackFromEnum(6, AmmoHandGrenade.FIRE),
@@ -579,7 +579,7 @@ public final class HbmCollection
 						ModItems.grenade.stackFromEnum(6, AmmoHandGrenade.NUKE),
 						ModItems.grenade.stackFromEnum(6, AmmoHandGrenade.NUCLEAR),
 						ModItems.grenade.stackFromEnum(6, AmmoHandGrenade.ZOMG),
-						ModItems.grenade.stackFromEnum(6, AmmoHandGrenade.BLACK_HOLE),
+						ModItems.grenade.stackFromEnum(6, AmmoHandGrenade.BLACK_HOLE),*/
 				};
 		fleijaKit = new ItemStack[]
 				{
