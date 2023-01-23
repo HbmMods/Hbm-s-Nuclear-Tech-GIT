@@ -26,6 +26,7 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ItemAmmoEnums;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemDrillbit.EnumDrillType;
@@ -612,7 +613,7 @@ public class AssemblerRecipes {
 				new OreDictStack(ASBESTOS.ingot(), 8)
 			}, 200);
 
-		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2), new AStack[] {
+		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.STOCK.ordinal()), new AStack[] {
 				new OreDictStack(STEEL.plate(), 2),
 				new OreDictStack(CU.plate(), 1),
 				new ComparableStack(ModItems.primer_50, 5),
@@ -622,7 +623,7 @@ public class AssemblerRecipes {
 				new OreDictStack(U238.ingot(), 1)
 			}, 60);
 
-		makeRecipe(new ComparableStack(ModItems.ammo_75bolt_incendiary, 2), new AStack[] {
+		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.INCENDIARY.ordinal()), new AStack[] {
 				new OreDictStack(STEEL.plate(), 2),
 				new OreDictStack(CU.plate(), 1),
 				new ComparableStack(ModItems.primer_50, 5),
@@ -632,7 +633,7 @@ public class AssemblerRecipes {
 				new OreDictStack(P_WHITE.ingot(), 3)
 			}, 60);
 
-		makeRecipe(new ComparableStack(ModItems.ammo_75bolt_he, 2), new AStack[] {
+		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.HE.ordinal()), new AStack[] {
 				new OreDictStack(STEEL.plate(), 2),
 				new OreDictStack(CU.plate(), 1),
 				new ComparableStack(ModItems.primer_50, 5),

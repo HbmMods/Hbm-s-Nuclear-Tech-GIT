@@ -40,7 +40,7 @@ public class GunSuicide extends Item {
         	this.setMaxDamage(500);
         }
         
-        this.ammo = ModItems.gun_revolver_ammo;
+        this.ammo = ModItems.ammo_357;
     }
 
     /**

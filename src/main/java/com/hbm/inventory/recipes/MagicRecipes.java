@@ -8,6 +8,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ItemAmmoEnums;
 import com.hbm.items.ModItems;
 
 import net.minecraft.init.Items;
@@ -44,17 +45,17 @@ public class MagicRecipes {
 		recipes.add(new MagicRecipe(new ItemStack(ModItems.mysteryshovel), new ComparableStack(Items.iron_shovel), new ComparableStack(Items.bone), new ComparableStack(ModItems.ingot_starmetal), new ComparableStack(ModItems.ducttape)));
 		recipes.add(new MagicRecipe(new ItemStack(ModItems.ingot_electronium), new ComparableStack(ModItems.pellet_charged), new ComparableStack(ModItems.pellet_charged), new ComparableStack(ModItems.ingot_dineutronium), new ComparableStack(ModItems.ingot_dineutronium)));
 
-		recipes.add(new MagicRecipe(new ItemStack(ModItems.ammo_44_pip),
+		recipes.add(new MagicRecipe(new ItemStack(ModItems.ammo_44, 1, ItemAmmoEnums.Ammo44Magnum.PIP.ordinal()),
 				new ComparableStack(ModItems.ammo_44),
 				new ComparableStack(ModItems.powder_magic),
 				new ComparableStack(ModItems.powder_magic),
 				new ComparableStack(ModItems.powder_magic)));
-		recipes.add(new MagicRecipe(new ItemStack(ModItems.ammo_44_bj),
+		recipes.add(new MagicRecipe(new ItemStack(ModItems.ammo_44, 1, ItemAmmoEnums.Ammo44Magnum.BJ.ordinal()),
 				new ComparableStack(ModItems.ammo_44),
 				new ComparableStack(ModItems.powder_magic),
 				new ComparableStack(ModItems.powder_magic),
 				new ComparableStack(ModItems.powder_desh)));
-		recipes.add(new MagicRecipe(new ItemStack(ModItems.ammo_44_silver),
+		recipes.add(new MagicRecipe(new ItemStack(ModItems.ammo_44, 1, ItemAmmoEnums.Ammo44Magnum.SILVER.ordinal()),
 				new ComparableStack(ModItems.ammo_44),
 				new ComparableStack(ModItems.powder_magic),
 				new ComparableStack(ModItems.powder_magic),
@@ -90,7 +91,7 @@ public class MagicRecipes {
 				new ComparableStack(ModItems.ingot_polymer),
 				new OreDictStack("plateGold")));
 
-		recipes.add(new MagicRecipe(new ItemStack(ModItems.ammo_dart_nuclear, 4),
+		recipes.add(new MagicRecipe(new ItemStack(ModItems.ammo_dart, 4, ItemAmmoEnums.AmmoDart.NUCLEAR.ordinal()),
 				new ComparableStack(ModItems.plate_polymer),
 				new ComparableStack(ModItems.nugget_pu239),
 				new ComparableStack(ModItems.circuit_aluminium)));

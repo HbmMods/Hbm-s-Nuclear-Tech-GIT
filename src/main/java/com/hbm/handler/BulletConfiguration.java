@@ -10,10 +10,12 @@ import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.interfaces.Untested;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.lib.ModDamageSource;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
@@ -22,7 +24,7 @@ import net.minecraft.util.EnumChatFormatting;
 public class BulletConfiguration {
 	
 	//what item this specific configuration consumes
-	public Item ammo;
+	public ComparableStack ammo;
 	//how many ammo units one item restores
 	public int ammoCount = 1;
 	//how fast the bullet is (in sanics per second, or sps)
@@ -173,9 +175,7 @@ public class BulletConfiguration {
 		return this;
 	}
 	
-	public BulletConfiguration setToHoming(Item ammo) {
-		
-		this.ammo = ammo;
+	public BulletConfiguration getChlorophyte() {
 		this.bUpdate = BulletConfigFactory.getHomingBehavior(200, 45);
 		this.dmgMin *= 1.5F;
 		this.dmgMax *= 1.5F;
@@ -184,6 +184,11 @@ public class BulletConfiguration {
 		this.doesPenetrate = false;
 		this.vPFX = "greendust";
 		return this;
+	}
+	
+	public BulletConfiguration setToHoming(ItemStack ammo) {
+		this.ammo = new ComparableStack(ammo);
+		return getChlorophyte();
 	}
 	
 	public BulletConfiguration accuracyMod(float mod) {

@@ -699,7 +699,6 @@ public class ResourceManager {
 	public static final IModelCustom crucible = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/crucible.obj"));
 	public static final IModelCustom chainsaw = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/chainsaw.obj"), false);
 
-	public static final IModelCustom brimstone = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/brimstone.obj"));
 	public static final IModelCustom hk69 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/hk69.obj"));
 	public static final IModelCustom deagle = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/deagle.obj"));
 	public static final IModelCustom shotty = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/supershotty.obj"));
@@ -770,7 +769,6 @@ public class ResourceManager {
 	public static final ResourceLocation crucible_blade = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/crucible_blade.png");
 	public static final ResourceLocation chainsaw_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/chainsaw.png");
 
-	public static final ResourceLocation brimstone_tex = new ResourceLocation(RefStrings.MODID, "textures/models/brimstone.png");
 	public static final ResourceLocation hk69_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/hk69.png");
 	public static final ResourceLocation deagle_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/deagle.png");
 	public static final ResourceLocation ks23_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/ks23.png");
