@@ -4812,6 +4812,7 @@ weapon.ability.radiation=Radioactive Blade
 weapon.ability.phosphorus=Phosphorus Tip
 weapon.ability.stun=Stunning
 weapon.ability.vampire=Vampire
+weapon.ability.blender=Blending
 weapon.elecGun.modeChange=Firing Mode Changed to:
 weapon.elecGun.glass_cannon.radio=Radio Waves
 weapon.elecGun.glass_cannon.micro=Microwaves

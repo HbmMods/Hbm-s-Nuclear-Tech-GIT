@@ -1083,6 +1083,18 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_tower_chimney), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(3, 3, 3);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.25, 0.25, 0.25);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.tower_chimney_tex); ResourceManager.tower_chimney.renderAll(); //DO NOT LOOK AT THE UV MAP FOR YOUR OWN SAFTEY
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_fracking_tower), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -4.5, 0);

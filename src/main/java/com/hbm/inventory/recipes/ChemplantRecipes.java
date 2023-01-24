@@ -352,8 +352,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputFluids(new FluidStack(Fluids.NITROGEN, 1000)));
 		recipes.add(new ChemRecipe(100, "NITROACID", 100)
 				.inputFluids(new FluidStack(Fluids.AMMONIA, 1000), new FluidStack(Fluids.WATER, 500))
-				.inputItems(new ComparableStack(ModItems.catalyst_clay, 2))
-				.outputItems(new ItemStack(ModItems.catalyst_clay, 2))
 				.outputFluids(new FluidStack(Fluids.NITRIC_ACID, 1000)));
 		recipes.add(new ChemRecipe(101, "HYDRAZINE", 250)
 				.inputFluids(new FluidStack(Fluids.NITRIC_ACID, 2000), new FluidStack(Fluids.AMMONIA, 1000))

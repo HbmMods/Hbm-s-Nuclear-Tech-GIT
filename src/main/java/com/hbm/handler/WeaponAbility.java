@@ -160,13 +160,10 @@ public abstract class WeaponAbility {
 						data.setInteger("ent", victim.getEntityId());
 						data.setInteger("cDiv", 5);
 						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, victim.posX, victim.posY + victim.height * 0.5, victim.posZ), new TargetPoint(victim.dimension, victim.posX, victim.posY + victim.height * 0.5, victim.posZ, 150));
-						if(living instanceof EntityVillager) {
-							
 						living.entityDropItem(new ItemStack(ModItems.flesh, 10, 0), 0.0F);
 			    }
 			}
 		}
-	}
 	
 
 				
