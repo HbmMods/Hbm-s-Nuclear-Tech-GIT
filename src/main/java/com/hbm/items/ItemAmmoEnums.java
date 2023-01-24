@@ -289,8 +289,7 @@ public class ItemAmmoEnums {
 		EXPLOSIVE(GunCannonFactory.getShellExplosiveConfig()),
 		APFSDS_T(GunCannonFactory.getShellAPConfig()),
 		APFSDS_DU(GunCannonFactory.getShellDUConfig()),
-		W9(GunCannonFactory.getShellW9Config()),
-		W9_TRUE(GunCannonFactory.getShellW9FullConfig(), AmmoItemTrait.PRO_NUCLEAR, AmmoItemTrait.PRO_HEAVY_DAMAGE);
+		W9(GunCannonFactory.getShellW9Config());
 		private final Set<AmmoItemTrait> traits;
 		private final BulletConfiguration config;
 		private Ammo240Shell(BulletConfiguration config, AmmoItemTrait...traits)
@@ -309,12 +308,6 @@ public class ItemAmmoEnums {
 		public BulletConfiguration getConfig()
 		{
 			return config;
-		}
-
-		@Override
-		public EnumRarity getRarity()
-		{
-			return this == W9_TRUE ? EnumRarity.uncommon : EnumRarity.common;
 		}
 	}
 

@@ -3,12 +3,13 @@ package com.hbm.handler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
-public class GunConfiguration {
+public class GunConfiguration implements Cloneable {
 	
 	/**
 	 * alt function restrictions:
@@ -46,6 +47,7 @@ public class GunConfiguration {
 	public float firingPitch = 1.0F;
 	//whether the reload sound should be played at the beginning or at the end of the reload
 	public boolean reloadSoundEnd = true;
+	public String equipSound = "";
 	
 	//how much ammo the clip can hold, 0 if drawn from inventory
 	public int ammoCap;
@@ -58,14 +60,14 @@ public class GunConfiguration {
 	
 	//for electrically powered weapons:
 	//the Maximum capacity of the gun
-	public int maxCharge;
+	public long maxCharge;
 	//the rate at which the gun is charged
-	public int chargeRate;
+	public long chargeRate;
 	//how much energy is discharged per shot
-	public int dischargePerShot;
+	public long dischargePerShot;
 	
 	public String name = "";
-	public String manufacturer = "";
+	public EnumGunManufacturer manufacturer = EnumGunManufacturer.NONE;
 	public List<String> comment = new ArrayList();
 
 	//bullet configs for main and alt fire
@@ -73,6 +75,9 @@ public class GunConfiguration {
 
 	//crosshair
 	public Crosshair crosshair;
+	
+	//casing eject behavior
+	public Optional<SpentCasingConfig> casingConfig = Optional.empty();
 
 	public static final int MODE_NORMAL = 0;
 	public static final int MODE_RELEASE = 1;

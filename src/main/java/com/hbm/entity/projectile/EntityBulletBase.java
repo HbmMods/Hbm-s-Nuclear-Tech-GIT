@@ -292,10 +292,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
 
 		boolean didBounce = false;
 		
-        if (movement != null) {
-        	
-        	//handle entity collision
-        	if(movement.entityHit != null) {
+		if(movement != null) {
+			
+			//handle entity collision
+			if(movement.entityHit != null) {
 
 				DamageSource damagesource = this.config.getDamage(this, shooter);
 
@@ -325,7 +325,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 					}
 				}
 				
-        		if(!victim.attackEntityFrom(damagesource, damage)) {
+				if(victim != null && !victim.attackEntityFrom(damagesource, damage)) {
 
 					try {
 						Field lastDamage = ReflectionHelper.findField(EntityLivingBase.class, "lastDamage", "field_110153_bc");
@@ -337,12 +337,12 @@ public class EntityBulletBase extends Entity implements IProjectile {
 						}
 					} catch (Exception x) { }
 					
-        		}
-        		
-        		if(!worldObj.isRemote && headshot) {
-        			if(victim instanceof EntityLivingBase) {
-    					EntityLivingBase living = (EntityLivingBase) victim;
-    					double head = living.height - living.getEyeHeight();
+				}
+
+				if(!worldObj.isRemote && headshot) {
+					if(victim instanceof EntityLivingBase) {
+						EntityLivingBase living = (EntityLivingBase) victim;
+						double head = living.height - living.getEyeHeight();
 						NBTTagCompound data = new NBTTagCompound();
 						data.setString("type", "vanillaburst");
 						data.setInteger("count", 15);

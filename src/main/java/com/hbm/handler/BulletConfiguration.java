@@ -12,6 +12,7 @@ import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -21,7 +22,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.EnumChatFormatting;
 
-public class BulletConfiguration {
+public class BulletConfiguration implements Cloneable {
 	
 	//what item this specific configuration consumes
 	public ComparableStack ammo;
@@ -218,5 +219,15 @@ public class BulletConfiguration {
 		if(this.dmgBypass) dmg.setDamageBypassesArmor();
 		
 		return dmg;
+	}
+	
+	@Override
+	public BulletConfiguration clone() {
+		try {
+			return (BulletConfiguration) super.clone();
+		} catch(CloneNotSupportedException e) {
+			MainRegistry.logger.catching(e);
+			return new BulletConfiguration();
+		}
 	}
 }
