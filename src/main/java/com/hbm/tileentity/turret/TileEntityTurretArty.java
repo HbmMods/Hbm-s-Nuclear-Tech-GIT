@@ -160,17 +160,17 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		return mode == MODE_CANNON ? 20D : 50D;
 	}
 	
-	public int getShellLoaded() {
+	public ItemStack getShellLoaded() {
 		
 		for(int i = 1; i < 10; i++) {
 			if(slots[i] != null) {
 				if(slots[i].getItem() == ModItems.ammo_arty) {
-					return slots[i].getItemDamage();
+					return slots[i];
 				}
 			}
 		}
 		
-		return -1;
+		return null;
 	}
 	
 	public void conusmeAmmo(Item ammo) {
@@ -185,7 +185,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		this.markDirty();
 	}
 
-	public void spawnShell(int type) {
+	public void spawnShell(ItemStack type) {
 		
 		Vec3 pos = this.getTurretPos();
 		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
@@ -196,7 +196,15 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
 		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, (float) getV0(), 0.0F);
 		proj.setTarget((int) tPos.xCoord, (int) tPos.yCoord, (int) tPos.zCoord);
-		proj.setType(type);
+		proj.setType(type.getItemDamage());
+		
+		if(type.getItemDamage() == 8 && type.hasTagCompound()) {
+			NBTTagCompound cargo = type.stackTagCompound.getCompoundTag("cargo");
+			
+			if(cargo != null) {
+				proj.setCargo(ItemStack.loadItemStackFromNBT(cargo));
+			}
+		}
 		
 		if(this.mode != this.MODE_CANNON)
 			proj.setWhistle(true);
@@ -353,9 +361,9 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		
 		if(timer % delay == 0) {
 			
-			int conf = this.getShellLoaded();
+			ItemStack conf = this.getShellLoaded();
 			
-			if(conf != -1) {
+			if(conf != null) {
 				this.spawnShell(conf);
 				this.conusmeAmmo(ModItems.ammo_arty);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.jeremy_fire", 25.0F, 1.0F);

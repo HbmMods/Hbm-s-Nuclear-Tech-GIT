@@ -1,7 +1,9 @@
 package com.hbm.blocks.machine;
 
+import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -23,7 +25,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class MachineTurbine extends BlockContainer {
+public class MachineTurbine extends BlockContainer implements ITooltipProvider {
 
 	private final Random field_149933_a = new Random();
 	@SideOnly(Side.CLIENT)
@@ -123,4 +125,8 @@ public class MachineTurbine extends BlockContainer {
 		super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
 	}
 
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
+	}
 }

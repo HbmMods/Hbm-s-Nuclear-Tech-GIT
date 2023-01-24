@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.machine.TileEntityHeaterFirebox;
+import com.hbm.tileentity.machine.TileEntityFireboxBase;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerFirebox extends Container {
 	
-	protected TileEntityHeaterFirebox firebox;
+	protected TileEntityFireboxBase firebox;
 	
-	public ContainerFirebox(InventoryPlayer invPlayer, TileEntityHeaterFirebox furnace) {
+	public ContainerFirebox(InventoryPlayer invPlayer, TileEntityFireboxBase furnace) {
 		this.firebox = furnace;
 		this.firebox.openInventory();
 		

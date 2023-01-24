@@ -166,4 +166,9 @@ public class GUIReactorResearch extends GuiInfoContainer {
 		
 		super.keyTyped(c, i);
 	}
+
+	@Override
+	public void onGuiClosed() {
+		Keyboard.enableRepeatEvents(false);
+	}
 }

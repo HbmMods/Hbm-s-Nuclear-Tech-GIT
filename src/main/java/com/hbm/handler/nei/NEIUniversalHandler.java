@@ -60,7 +60,9 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 			output = new PositionedStack[out.length];
 			for(int i = 0; i < out.length; i++) {
 				ItemStack[] sub = out[i];
-				this.output[i] = new PositionedStack(sub, 102 + i * 18, 24);
+				
+				boolean twos = out.length > 3;
+				this.output[i] = new PositionedStack(sub, 102 + i * 18 - ((twos && i > 1) ? 36 : 0), 24 + (twos ? (i < 2 ? -9 : 9) : 0));
 			}
 			
 			this.machinePositioned = new PositionedStack(machine, 75, 31);
@@ -105,8 +107,10 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 		
 		for(int i = 0; i < rec.input.length; i++)
 			drawTexturedModalRect(47 + i * -18, 23, 5, 87, 18, 18);
-		for(int i = 0; i < rec.output.length; i++)
-			drawTexturedModalRect(101 + i * 18, 23, 5, 87, 18, 18);
+		for(int i = 0; i < rec.output.length; i++) {
+			boolean twos = rec.output.length > 3;
+			drawTexturedModalRect(101 + i * 18 - ((twos && i > 1) ? 36 : 0), 23 + (twos ? (i < 2 ? -9 : 9) : 0), 5, 87, 18, 18);
+		}
 		
 		drawTexturedModalRect(74, 14, 59, 87, 18, 38);
 	}
@@ -177,6 +181,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadTransferRects() {
 		transferRectsGui = new LinkedList<RecipeTransferRect>();
+		guiGui = new LinkedList<Class<? extends GuiContainer>>();
 		transferRects.add(new RecipeTransferRect(new Rectangle(147, 1, 18, 18), getKey()));
 		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
 	}

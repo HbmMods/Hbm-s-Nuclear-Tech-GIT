@@ -33,7 +33,7 @@ public class BlockGasRadon extends BlockGasBase {
 			ArmorUtil.damageGasMaskFilter(entityLiving, 1);
 		} else {
 			ContaminationUtil.contaminate((EntityLivingBase)entity, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 0.05F);
-			HbmLivingProps.incrementFibrosis((EntityLivingBase)entity, 1);
+			HbmLivingProps.incrementAsbestos((EntityLivingBase)entity, 1); 
 		}
 	}
 

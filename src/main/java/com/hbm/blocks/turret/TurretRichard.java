@@ -25,7 +25,7 @@ public class TurretRichard extends BlockDummyable {
 
 		if(meta >= 12)
 			return new TileEntityTurretRichard();
-		return new TileEntityProxyCombo(true, true, false);
+		return new TileEntityProxyCombo().inventory().power();
 	}
 
 	@Override

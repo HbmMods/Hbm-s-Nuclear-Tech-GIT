@@ -127,8 +127,9 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 				
 				NBTTagCompound data = new NBTTagCompound();
 				data.setBoolean("shot", true);
-				this.networkPack(data, 250);Vec3 pos = this.getTurretPos();
+				this.networkPack(data, 250);
 				
+				Vec3 pos = this.getTurretPos();
 				Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 				vec.rotateAroundZ((float) -this.rotationPitch);
 				vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));

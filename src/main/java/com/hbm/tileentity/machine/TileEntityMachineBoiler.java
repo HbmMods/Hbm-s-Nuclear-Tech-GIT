@@ -15,6 +15,7 @@ import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -26,7 +27,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 
-public class TileEntityMachineBoiler extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
+public class TileEntityMachineBoiler extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
 
 	private ItemStack slots[];
 	
@@ -42,8 +43,8 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	public TileEntityMachineBoiler() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.WATER, 8000, 0);
-		tanks[1] = new FluidTank(Fluids.STEAM, 8000, 1);
+		tanks[0] = new FluidTank(Fluids.OIL, 8000, 0);
+		tanks[1] = new FluidTank(Fluids.HOTOIL, 8000, 1);
 	}
 
 	@Override
@@ -207,8 +208,7 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 		
 		boolean mark = false;
 		
-		if(!worldObj.isRemote)
-		{
+		if(!worldObj.isRemote) {
 			
 			this.subscribeToAllAround(tanks[0].getTankType(), this);
 			this.sendFluidToAll(tanks[1].getTankType(), this);

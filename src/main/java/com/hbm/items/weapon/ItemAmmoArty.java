@@ -1,10 +1,11 @@
 package com.hbm.items.weapon;
 
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
@@ -38,11 +39,13 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 
 public class ItemAmmoArty extends Item {
-
-	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 8 /* <<< */ ];
-	public static ArtilleryShell[] shellTypes =	new ArtilleryShell[ /* >>> */ 8 /* <<< */ ];
+	
+	public static Random rand = new Random();
+	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 9 /* <<< */ ];
+	//public static ArtilleryShell[] shellTypes =	new ArtilleryShell[ /* >>> */ 8 /* <<< */ ];
 	/* item types */
 	public final int NORMAL = 0;
 	public final int CLASSIC = 1;
@@ -52,6 +55,7 @@ public class ItemAmmoArty extends Item {
 	public final int PHOSPHORUS = 5;
 	public final int MINI_NUKE_MULTI = 6;
 	public final int PHOSPHORUS_MULTI = 7;
+	public final int CARGO = 8;
 	/* non-item shell types */
 	
 	public ItemAmmoArty() {
@@ -71,6 +75,7 @@ public class ItemAmmoArty extends Item {
 		list.add(new ItemStack(item, 1, MINI_NUKE));
 		list.add(new ItemStack(item, 1, MINI_NUKE_MULTI));
 		list.add(new ItemStack(item, 1, NUKE));
+		list.add(new ItemStack(item, 1, CARGO));
 	}
 
 	@Override
@@ -118,10 +123,20 @@ public class ItemAmmoArty extends Item {
 			list.add(r + "(that is the best skull and crossbones");
 			list.add(r + "minecraft's unicode has to offer)");
 			break;
+		case CARGO:
+			
+			if(stack.hasTagCompound() && stack.stackTagCompound.getCompoundTag("cargo") != null) {
+				ItemStack cargo = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("cargo"));
+				list.add(y + cargo.getDisplayName());
+			} else {
+				list.add(r + "Empty");
+			}
+			break;
 		}
 	}
-	
+
 	private IIcon[] icons = new IIcon[itemTypes.length];
+	private IIcon iconCargo;
 
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
@@ -131,6 +146,18 @@ public class ItemAmmoArty extends Item {
 		for(int i = 0; i < icons.length; i++) {
 			this.icons[i] = reg.registerIcon(RefStrings.MODID + ":" + itemTypes[i].name);
 		}
+		
+		this.iconCargo = reg.registerIcon(RefStrings.MODID + ":ammo_arty_cargo_full");
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconIndex(ItemStack stack) {
+		
+		if(stack.getItemDamage() == CARGO && stack.hasTagCompound() && stack.stackTagCompound.getCompoundTag("cargo") != null) {
+			return this.iconCargo;
+		}
+		
+		return this.getIconFromDamage(stack.getItemDamage());
 	}
 	
 	@Override
@@ -159,7 +186,7 @@ public class ItemAmmoArty extends Item {
 	}
 	
 	public static void standardExplosion(EntityArtilleryShell shell, MovingObjectPosition mop, float size, float rangeMod, boolean breaksBlocks) {
-		shell.worldObj.playSoundEffect(shell.posX, shell.posY, shell.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + shell.worldObj.rand.nextFloat() * 0.2F);
+		shell.worldObj.playSoundEffect(shell.posX, shell.posY, shell.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + rand.nextFloat() * 0.2F);
 		Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
 		ExplosionVNT xnt = new ExplosionVNT(shell.worldObj, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, size);
 		if(breaksBlocks) {
@@ -191,10 +218,10 @@ public class ItemAmmoArty extends Item {
 		for(int i = 0; i < amount; i++) {
 			EntityArtilleryShell cluster = new EntityArtilleryShell(shell.worldObj);
 			cluster.setType(clusterType);
-			cluster.setPositionAndRotation(shell.posX, shell.posY, shell.posZ, shell.rotationYaw, shell.rotationPitch);
-			cluster.motionX = i == 0 ? shell.motionX : (shell.motionX + shell.worldObj.rand.nextGaussian() * deviation);
+			cluster.motionX = i == 0 ? shell.motionX : (shell.motionX + rand.nextGaussian() * deviation);
 			cluster.motionY = shell.motionY;
-			cluster.motionZ = i == 0 ? shell.motionZ : (shell.motionZ + shell.worldObj.rand.nextGaussian() * deviation);
+			cluster.motionZ = i == 0 ? shell.motionZ : (shell.motionZ + rand.nextGaussian() * deviation);
+			cluster.setPositionAndRotation(shell.posX, shell.posY, shell.posZ, shell.rotationYaw, shell.rotationPitch);
 			double[] target = shell.getTarget();
 			cluster.setTarget(target[0], target[1], target[2]);
 			cluster.setWhistle(shell.getWhistle() && !shell.didWhistle());
@@ -204,12 +231,12 @@ public class ItemAmmoArty extends Item {
 	
 	private void init() {
 		/* STANDARD SHELLS */
-		this.shellTypes[NORMAL] = this.itemTypes[NORMAL] = new ArtilleryShell("ammo_arty") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 10F, 3F, false); }};
-		this.shellTypes[CLASSIC] = this.itemTypes[CLASSIC] = new ArtilleryShell("ammo_arty_classic") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 15F, 5F, false); }};
-		this.shellTypes[EXPLOSIVE] = this.itemTypes[EXPLOSIVE] = new ArtilleryShell("ammo_arty_he") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 15F, 3F, true); }};
+		this.itemTypes[NORMAL] = new ArtilleryShell("ammo_arty") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 10F, 3F, false); }};
+		this.itemTypes[CLASSIC] = new ArtilleryShell("ammo_arty_classic") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 15F, 5F, false); }};
+		this.itemTypes[EXPLOSIVE] = new ArtilleryShell("ammo_arty_he") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 15F, 3F, true); }};
 
 		/* MINI NUKE */
-		this.shellTypes[MINI_NUKE] = this.itemTypes[MINI_NUKE] = new ArtilleryShell("ammo_arty_mini_nuke") {
+		this.itemTypes[MINI_NUKE] = new ArtilleryShell("ammo_arty_mini_nuke") {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 				shell.killAndClear();
 				Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
@@ -218,9 +245,9 @@ public class ItemAmmoArty extends Item {
 		};
 		
 		/* FULL NUKE */
-		this.shellTypes[NUKE] = this.itemTypes[NUKE] = new ArtilleryShell("ammo_arty_nuke") {
+		this.itemTypes[NUKE] = new ArtilleryShell("ammo_arty_nuke") {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
-				shell.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(shell.worldObj, BombConfig.missileRadius, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
+				shell.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(shell.worldObj, BombConfig.missileRadius, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(shell.worldObj, 1000, BombConfig.missileRadius * 0.005F);
 				entity2.posX = mop.hitVec.xCoord;
 				entity2.posY = mop.hitVec.yCoord;
@@ -231,7 +258,7 @@ public class ItemAmmoArty extends Item {
 		};
 		
 		/* PHOSPHORUS */
-		this.shellTypes[PHOSPHORUS] = this.itemTypes[PHOSPHORUS] = new ArtilleryShell("ammo_arty_phosphorus") {
+		this.itemTypes[PHOSPHORUS] = new ArtilleryShell("ammo_arty_phosphorus") {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 				standardExplosion(shell, mop, 10F, 3F, false);
 				shell.worldObj.playSoundEffect(shell.posX, shell.posY, shell.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + shell.worldObj.rand.nextFloat() * 0.2F);
@@ -259,13 +286,21 @@ public class ItemAmmoArty extends Item {
 			}
 		};
 		
+		/* THIS DOOFUS */
+		this.itemTypes[CARGO] = new ArtilleryShell("ammo_arty_cargo") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
+			if(mop.typeOfHit == MovingObjectType.BLOCK) {
+				shell.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+				shell.getStuck(mop.blockX, mop.blockY, mop.blockZ);
+			}
+		}};
+		
 		/* CLUSTER SHELLS */
-		this.shellTypes[PHOSPHORUS_MULTI] = this.itemTypes[PHOSPHORUS_MULTI] = new ArtilleryShell("ammo_arty_phosphorus_multi") {
-			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.this.shellTypes[PHOSPHORUS].onImpact(shell, mop); }
+		this.itemTypes[PHOSPHORUS_MULTI] = new ArtilleryShell("ammo_arty_phosphorus_multi") {
+			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.this.itemTypes[PHOSPHORUS].onImpact(shell, mop); }
 			public void onUpdate(EntityArtilleryShell shell) { standardCluster(shell, PHOSPHORUS, 10, 300, 5); }
 		};
-		this.shellTypes[MINI_NUKE_MULTI] = this.itemTypes[MINI_NUKE_MULTI] = new ArtilleryShell("ammo_arty_mini_nuke_multi") {
-			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.this.shellTypes[MINI_NUKE].onImpact(shell, mop); }
+		this.itemTypes[MINI_NUKE_MULTI] = new ArtilleryShell("ammo_arty_mini_nuke_multi") {
+			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.this.itemTypes[MINI_NUKE].onImpact(shell, mop); }
 			public void onUpdate(EntityArtilleryShell shell) { standardCluster(shell, MINI_NUKE, 5, 300, 5); }
 		};
 	}

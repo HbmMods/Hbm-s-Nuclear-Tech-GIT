@@ -6,9 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
@@ -21,6 +25,7 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMold;
 import com.hbm.items.machine.ItemMold.Mold;
+import com.hbm.util.Compat;
 import com.hbm.items.machine.ItemScraps;
 
 import net.minecraft.init.Blocks;
@@ -43,9 +48,29 @@ public class CrucibleRecipes extends SerializableRecipe {
 		int n = MaterialShapes.NUGGET.q(1);
 		int i = MaterialShapes.INGOT.q(1);
 		
-		recipes.add(new CrucibleRecipe(0, "crucible.steel", 1, new ItemStack(ModItems.ingot_steel))
-				.inputs(new MaterialStack(Mats.MAT_IRON, n), new MaterialStack(Mats.MAT_COAL, n))
-				.outputs(new MaterialStack(Mats.MAT_STEEL, n)));
+		recipes.add(new CrucibleRecipe(0, "crucible.steel", 2, new ItemStack(ModItems.ingot_steel))
+				.inputs(new MaterialStack(Mats.MAT_IRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
+				.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
+		
+		if(Compat.isModLoaded(Compat.MOD_GT6)) {
+			recipes.add(new CrucibleRecipe(9, "crucible.steelWrought", 2, new ItemStack(ModItems.ingot_steel))
+					.inputs(new MaterialStack(Mats.MAT_WROUGHTIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
+					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
+			recipes.add(new CrucibleRecipe(10, "crucible.steelPig", 2, new ItemStack(ModItems.ingot_steel))
+					.inputs(new MaterialStack(Mats.MAT_PIGIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
+					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
+			recipes.add(new CrucibleRecipe(11, "crucible.steelMeteoric", 2, new ItemStack(ModItems.ingot_steel))
+					.inputs(new MaterialStack(Mats.MAT_METEORICIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
+					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
+		}
+		
+		recipes.add(new CrucibleRecipe(7, "crucible.hematite", 6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.HEMATITE))
+				.inputs(new MaterialStack(Mats.MAT_HEMATITE, i * 2), new MaterialStack(Mats.MAT_FLUX, n * 2))
+				.outputs(new MaterialStack(Mats.MAT_IRON, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
+		
+		recipes.add(new CrucibleRecipe(8, "crucible.malachite", 6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.MALACHITE))
+				.inputs(new MaterialStack(Mats.MAT_MALACHITE, i * 2), new MaterialStack(Mats.MAT_FLUX, n * 2))
+				.outputs(new MaterialStack(Mats.MAT_COPPER, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
 		
 		recipes.add(new CrucibleRecipe(1, "crucible.redcopper", 2, new ItemStack(ModItems.ingot_red_copper))
 				.inputs(new MaterialStack(Mats.MAT_COPPER, n), new MaterialStack(Mats.MAT_REDSTONE, n))
@@ -55,16 +80,16 @@ public class CrucibleRecipes extends SerializableRecipe {
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n), new MaterialStack(Mats.MAT_MINGRADE, n))
 				.outputs(new MaterialStack(Mats.MAT_ALLOY, n * 2)));
 		
-		recipes.add(new CrucibleRecipe(3, "crucible.hss", 4, new ItemStack(ModItems.ingot_dura_steel))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 2), new MaterialStack(Mats.MAT_TUNGSTEN, n), new MaterialStack(Mats.MAT_COBALT, n))
-				.outputs(new MaterialStack(Mats.MAT_DURA, n * 4)));
+		recipes.add(new CrucibleRecipe(3, "crucible.hss", 9, new ItemStack(ModItems.ingot_dura_steel))
+				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 5), new MaterialStack(Mats.MAT_TUNGSTEN, n * 3), new MaterialStack(Mats.MAT_COBALT, n * 1))
+				.outputs(new MaterialStack(Mats.MAT_DURA, n * 9)));
 		
 		recipes.add(new CrucibleRecipe(4, "crucible.ferro", 3, new ItemStack(ModItems.ingot_ferrouranium))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 2), new MaterialStack(Mats.MAT_U238, n), new MaterialStack(Mats.MAT_COAL, n))
+				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 2), new MaterialStack(Mats.MAT_U238, n))
 				.outputs(new MaterialStack(Mats.MAT_FERRO, n * 3)));
 		
 		recipes.add(new CrucibleRecipe(5, "crucible.tcalloy", 9, new ItemStack(ModItems.ingot_tcalloy))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_TECHNIETIUM, n), new MaterialStack(Mats.MAT_COAL, n * 4))
+				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_TECHNIETIUM, n))
 				.outputs(new MaterialStack(Mats.MAT_TCALLOY, i)));
 		
 		registerMoldsForNEI();
@@ -133,17 +158,63 @@ public class CrucibleRecipes extends SerializableRecipe {
 
 	@Override
 	public String getComment() {
-		return "/// under construction ///";
+		return "ID must be unique, but not sequential. Order in which the recipes are defined determines the order in which they are displayed in-game. "
+				+ "Frequency is the amount of ticks between operations, must be at least 1. The names are unlocalized by default, but if they can't be found in "
+				+ "the lang files the names will be displayed as-is. The icon is what's being displayed when holding shift on the template.";
 	}
 
 	@Override
 	public void readRecipe(JsonElement recipe) {
-		
+		JsonObject obj = (JsonObject) recipe;
+		int id = obj.get("id").getAsInt();
+		String name = obj.get("name").getAsString();
+		int freq = obj.get("frequency").getAsInt();
+		ItemStack icon = this.readItemStack(obj.get("icon").getAsJsonArray());
+		MaterialStack[] input = new MaterialStack[obj.get("input").getAsJsonArray().size()];
+		for(int i = 0; i < input.length; i++) {
+			JsonArray entry = obj.get("input").getAsJsonArray().get(i).getAsJsonArray();
+			String matname = entry.get(0).getAsString();
+			int amount = entry.get(1).getAsInt();
+			input[i] = new MaterialStack(Mats.matByName.get(matname), amount);
+		}
+		MaterialStack[] output = new MaterialStack[obj.get("output").getAsJsonArray().size()];
+		for(int i = 0; i < input.length; i++) {
+			JsonArray entry = obj.get("output").getAsJsonArray().get(i).getAsJsonArray();
+			String matname = entry.get(0).getAsString();
+			int amount = entry.get(1).getAsInt();
+			input[i] = new MaterialStack(Mats.matByName.get(matname), amount);
+		}
+		recipes.add(new CrucibleRecipe(id, name, freq, icon).inputs(input).outputs(output));
 	}
 
 	@Override
 	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
-		
+		CrucibleRecipe rec = (CrucibleRecipe) recipe;
+		writer.name("id").value(rec.id);
+		writer.name("name").value(rec.name);
+		writer.name("frequency").value(rec.frequency);
+		writer.name("icon");
+		this.writeItemStack(rec.icon, writer);
+		writer.name("input");
+		writer.beginArray();
+		for(MaterialStack mat : rec.input) {
+			writer.beginArray();
+			writer.setIndent("");
+			writer.value(mat.material.names[0]).value(mat.amount);
+			writer.endArray();
+			writer.setIndent("  ");
+		}
+		writer.endArray();
+		writer.name("output");
+		writer.beginArray();
+		for(MaterialStack mat : rec.output) {
+			writer.beginArray();
+			writer.setIndent("");
+			writer.value(mat.material.names[0]).value(mat.amount);
+			writer.endArray();
+			writer.setIndent("  ");
+		}
+		writer.endArray();
 	}
 
 	@Override
@@ -157,15 +228,18 @@ public class CrucibleRecipes extends SerializableRecipe {
 		HashMap<AStack, List<ItemStack>> map = new HashMap();
 		
 		for(NTMMaterial material : Mats.orderedList) {
-			for(MaterialShapes shape : MaterialShapes.values()) {
+			int in = material.convIn;
+			int out = material.convOut;
+			NTMMaterial convert = material.smeltsInto;
+			for(MaterialShapes shape : MaterialShapes.allShapes) {
 				//TODO: buffer these
 				
-				String name = shape.toString().toLowerCase() + material.names[0];
+				String name = shape.name() + material.names[0];
 				List<ItemStack> ores = OreDictionary.getOres(name);
 				
 				if(!ores.isEmpty()) {
 					List<ItemStack> stacks = new ArrayList();
-					stacks.add(ItemScraps.create(new MaterialStack(material, shape.q(1))));
+					stacks.add(ItemScraps.create(new MaterialStack(convert, (int) (shape.q(1) * out / in))));
 					map.put(new OreDictStack(name), stacks);
 				}
 			}

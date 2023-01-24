@@ -3,9 +3,7 @@ package com.hbm.entity.effect;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRubble;
-import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 

@@ -1,6 +1,5 @@
 package com.hbm.tileentity.bomb;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.missile.EntityMissileCustom;
@@ -24,6 +23,7 @@ import com.hbm.packet.TEMissileMultipartPacket;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -37,7 +37,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor {
+public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver {
 
 	private ItemStack slots[];
 
@@ -231,6 +231,13 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			this.trySubscribe(worldObj, xCoord + i, yCoord, zCoord - 5, Library.NEG_Z);
 			this.trySubscribe(worldObj, xCoord + 5, yCoord, zCoord + i, Library.POS_X);
 			this.trySubscribe(worldObj, xCoord - 5, yCoord, zCoord + i, Library.NEG_X);
+			
+			for(int j = 0; j < 2; j++) {
+				this.trySubscribe(tanks[j].getTankType(), worldObj, xCoord + i, yCoord, zCoord + 5, Library.POS_Z);
+				this.trySubscribe(tanks[j].getTankType(), worldObj, xCoord + i, yCoord, zCoord - 5, Library.NEG_Z);
+				this.trySubscribe(tanks[j].getTankType(), worldObj, xCoord + 5, yCoord, zCoord + i, Library.POS_X);
+				this.trySubscribe(tanks[j].getTankType(), worldObj, xCoord - 5, yCoord, zCoord + i, Library.NEG_X);
+			}
 		}
 	}
 	
@@ -567,5 +574,20 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	@Override
 	public boolean canConnect(ForgeDirection dir) {
 		return dir != ForgeDirection.UP && dir != ForgeDirection.DOWN && dir != ForgeDirection.UNKNOWN;
+	}
+
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		return dir != ForgeDirection.UP && dir != ForgeDirection.DOWN && dir != ForgeDirection.UNKNOWN;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return tanks;
 	}
 }

@@ -9,6 +9,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.machine.MachineCoal;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -21,6 +25,7 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
@@ -28,7 +33,7 @@ import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
-public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver {
+public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IConfigurableMachine {
 
 	private ItemStack slots[];
 	
@@ -43,9 +48,14 @@ public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISide
 	
 	private String customName;
 	
+	/* CONFIGURABLE CONSTANTS */
+	public static int waterCap = 5000;
+	public static int genRate = 25;
+	public static double fuelMod = 0.5D;
+	
 	public TileEntityMachineCoal() {
 		slots = new ItemStack[4];
-		tank = new FluidTank(Fluids.WATER, 5000, 0);
+		tank = new FluidTank(Fluids.WATER, waterCap, 0);
 	}
 
 	@Override
@@ -259,7 +269,7 @@ public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISide
 		
 		if(slots[1] != null && TileEntityFurnace.getItemBurnTime(slots[1]) > 0 && burnTime <= 0)
 		{
-			burnTime = TileEntityFurnace.getItemBurnTime(slots[1]) / 2;
+			burnTime = (int) (TileEntityFurnace.getItemBurnTime(slots[1]) * fuelMod);
 			slots[1].stackSize -= 1;
 			if(slots[1].stackSize == 0)
 			{
@@ -270,20 +280,16 @@ public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISide
 			}
 		}
 		
-		if(burnTime > 0)
-		{
+		if(burnTime > 0) {
 			burnTime--;
-			
-			if(tank.getFill() > 0)
-			{
+
+			if(tank.getFill() > 0) {
 				tank.setFill(tank.getFill() - 1);
-				
-				if(power + 25 <= maxPower)
-				{
-					power += 25;
-				} else {
+
+				power += genRate;
+
+				if(power > maxPower)
 					power = maxPower;
-				}
 			}
 		}
 	}
@@ -347,5 +353,24 @@ public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISide
 	@Override
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public String getConfigName() {
+		return "combustiongen";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		waterCap = IConfigurableMachine.grab(obj, "I:waterCapacity", waterCap);
+		genRate = IConfigurableMachine.grab(obj, "I:powerGen", genRate);
+		fuelMod = IConfigurableMachine.grab(obj, "D:burnTimeMod", fuelMod);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:waterCapacity").value(waterCap);
+		writer.name("I:powerGen").value(genRate);
+		writer.name("D:burnTimeMod").value(fuelMod);
 	}
 }

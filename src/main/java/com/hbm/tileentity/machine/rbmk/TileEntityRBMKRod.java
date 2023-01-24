@@ -8,6 +8,7 @@ import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hbm.util.Compat;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -64,7 +65,6 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
 				
 				double fluxIn = fluxFromType(rod.nType);
-				//System.out.println(fluxIn + " - " + this.fluxFast + " - " + this.fluxSlow);
 				double fluxOut = rod.burn(worldObj, slots[0], fluxIn);
 				NType rType = rod.rType;
 				
@@ -153,7 +153,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	
 	protected double runInteraction(int x, int y, int z, double flux) {
 		
-		TileEntity te = worldObj.getTileEntity(x, y, z);
+		TileEntity te = Compat.getTileStandard(worldObj, x, y, z);
 		
 		if(te instanceof TileEntityRBMKBase) {
 			TileEntityRBMKBase base = (TileEntityRBMKBase) te;
@@ -173,6 +173,8 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			if(rod.getStackInSlot(0) != null && rod.getStackInSlot(0).getItem() instanceof ItemRBMKRod) {
 				rod.receiveFlux(stream, flux);
 				return 0;
+			} else {
+				return flux;
 			}
 		}
 		
@@ -190,7 +192,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			return 0;
 		}
 		
-		//set neutrons to slow
+		//multiply neutron count with rod setting
 		if(te instanceof TileEntityRBMKControl) {
 			TileEntityRBMKControl control = (TileEntityRBMKControl)te;
 			
@@ -227,7 +229,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		int hits = 0;
 		for(int h = 0; h <= limit; h++) {
 			
-			if(!worldObj.getBlock(x, y, z).isOpaqueCube())
+			if(!worldObj.getBlock(x, y + h, z).isOpaqueCube())
 				hits++;
 		}
 		
@@ -271,6 +273,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	@Override
 	public void onMelt(int reduce) {
 
+		boolean moderated = this.isModerated();
 		int h = RBMKDials.getColumnHeight(worldObj);
 		reduce = MathHelper.clamp_int(reduce, 1, h);
 		
@@ -303,6 +306,15 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			}
 		} else {
 			this.standardMelt(reduce);
+		}
+		
+		if(moderated) {
+			
+			int count = 2 + worldObj.rand.nextInt(2);
+			
+			for(int i = 0; i < count; i++) {
+				spawnDebris(DebrisType.GRAPHITE);
+			}
 		}
 		
 		spawnDebris(DebrisType.ELEMENT);

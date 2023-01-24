@@ -133,6 +133,8 @@ public class WasteEarth extends Block {
 				for(int j = -1; j < 2; j++) {
 					for(int k = -1; k < 2; k++) {
 						
+						if(!world.blockExists(x + i, y + j, z + k)) continue;
+						
 						Block b0 = world.getBlock(x + i, y + j, z + k);
 						Block b1 = world.getBlock(x + i, y + j + 1, z + k);
 						

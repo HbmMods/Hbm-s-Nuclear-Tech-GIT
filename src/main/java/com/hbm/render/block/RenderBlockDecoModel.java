@@ -35,7 +35,8 @@ public class RenderBlockDecoModel implements ISimpleBlockRenderingHandler {
 			iicon = renderer.overrideBlockTexture;
 		}
 		
-		GL11.glRotated(-15, 0, 1, 0);
+		GL11.glTranslated(0, 0.1D, 0);
+		GL11.glScaled(1.2D, 1.2D, 1.2D);
 		tessellator.startDrawingQuads();
 		ObjUtil.renderWithIcon((WavefrontObject) model, iicon, tessellator, modelId, false);
 		
@@ -49,7 +50,7 @@ public class RenderBlockDecoModel implements ISimpleBlockRenderingHandler {
 		
 		Tessellator tessellator = Tessellator.instance;
 		int meta = world.getBlockMetadata(x, y, z);
-		IIcon iicon = block.getIcon(0, meta & 12);
+		IIcon iicon = block.getIcon(0, meta & 3);
 		tessellator.setColorOpaque_F(1, 1, 1);
 
 		if(renderer.hasOverrideBlockTexture()) {
@@ -61,7 +62,7 @@ public class RenderBlockDecoModel implements ISimpleBlockRenderingHandler {
 		
 		float rotation = 0;
 		
-		switch(meta & 3) {
+		switch(meta >> 2) {
 		default: //North
 			rotation = (float) Math.PI; break;
 		case 1: //South

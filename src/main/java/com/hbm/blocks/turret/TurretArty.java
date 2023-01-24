@@ -20,8 +20,7 @@ public class TurretArty extends BlockDummyable {
 
 		if(meta >= 12)
 			return new TileEntityTurretArty();
-		
-		return new TileEntityProxyCombo(true, true, false);
+		return new TileEntityProxyCombo().inventory().power();
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.io.IOException;
 import java.util.Random;
 
+import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemLock;
@@ -38,7 +39,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockStorageCrate extends BlockContainer {
+public class BlockStorageCrate extends BlockContainer implements IBlockMulti {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
@@ -263,5 +264,10 @@ public class BlockStorageCrate extends BlockContainer {
 	@Override
 	public Item getItemDropped(int i, Random rand, int j) {
 		return null;
+	}
+
+	@Override
+	public int getSubCount() {
+		return 0;
 	}
 }

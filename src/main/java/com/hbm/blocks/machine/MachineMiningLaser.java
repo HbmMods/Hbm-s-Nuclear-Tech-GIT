@@ -6,8 +6,8 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.TileEntityProxyEnergy;
-import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.machine.TileEntityMachineMiningLaser;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -27,14 +27,9 @@ public class MachineMiningLaser extends BlockDummyable implements ITooltipProvid
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 
-		if(meta >= 12)
-			return new TileEntityMachineMiningLaser();
-		
-		if(meta == 7)
-			return new TileEntityProxyEnergy();
-
-		if(meta >= 6)
-			return new TileEntityProxyInventory();
+		if(meta >= 12) return new TileEntityMachineMiningLaser();
+		if(meta == 7) return new TileEntityProxyEnergy();
+		if(meta >= 6) return new TileEntityProxyCombo().inventory().fluid();
 		
 		return null;
 	}

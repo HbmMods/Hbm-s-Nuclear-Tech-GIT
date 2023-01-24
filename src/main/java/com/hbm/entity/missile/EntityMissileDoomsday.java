@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hbm.explosion.ExplosionLarge;
 
-import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 

@@ -4,6 +4,7 @@ import com.hbm.blocks.machine.MachineDiFurnace;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPellet;
+import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.util.RTGUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
+public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, INBTPacketReceiver {
 
 	private ItemStack slots[];
 
@@ -25,9 +26,10 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 	public static final int maxPower = 12800;
 	public static final int processingSpeed = 400;
 
-	private static final int[] slots_top = new int[] { 0 };
-	private static final int[] slots_bottom = new int[] { 3 };
-	private static final int[] slots_side = new int[] { 1 };
+	private static final int[] slots_io = new int[] { 0, 1, 2, 3 };
+	public byte sideFuel = 1;
+	public byte sideUpper = 1;
+	public byte sideLower = 1;
 
 	private String customName;
 
@@ -129,7 +131,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 			if(item == ModItems.lignite) return 150;
 			if(item == ModItems.powder_lignite) return 150;
 			if(item == ModItems.powder_coal) return 200;
-			if(item == ModItems.briquette_lignite) return 200;
+			if(item == ModItems.briquette) return 200;
 			if(item == ModItems.coke) return 400;
 			if(item == ModItems.solid_fuel) return 400;
 
@@ -172,6 +174,11 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+		
+		byte[] modes = nbt.getByteArray("modes");
+		this.sideFuel = modes[0];
+		this.sideUpper = modes[1];
+		this.sideLower = modes[2];
 	}
 
 	@Override
@@ -190,21 +197,29 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 			}
 		}
 		nbt.setTag("items", list);
+		
+		nbt.setByteArray("modes", new byte[] {(byte) sideFuel, (byte) sideUpper, (byte) sideLower});
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return slots_io;
 	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
+
+		if(i == 0 && this.sideUpper != j) return false;
+		if(i == 1 && this.sideLower != j) return false;
+		if(i == 2 && this.sideFuel != j) return false;
+		if(i == 3) return false;
+		
 		return this.isItemValidForSlot(i, itemStack);
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return true;
+		return i == 3;
 	}
 
 	public int getDiFurnaceProgressScaled(int i) {
@@ -272,7 +287,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 
 	@Override
 	public void updateEntity() {
-		this.hasPower();
+		
 		boolean flag1 = false;
 
 		if(hasPower() && isProcessing()) {
@@ -322,10 +337,26 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 				flag1 = true;
 				MachineDiFurnace.updateBlockState(this.dualCookTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setShort("time", (short) this.dualCookTime);
+			data.setShort("fuel", (short) this.dualPower);
+			data.setByteArray("modes", new byte[] {(byte) sideFuel, (byte) sideUpper, (byte) sideLower});
+			INBTPacketReceiver.networkPack(this, data, 15);
 		}
 
 		if(flag1) {
 			this.markDirty();
 		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.dualCookTime = nbt.getShort("time");
+		this.dualPower = nbt.getShort("fuel");
+		byte[] modes = nbt.getByteArray("modes");
+		this.sideFuel = modes[0];
+		this.sideUpper = modes[1];
+		this.sideLower = modes[2];
 	}
 }

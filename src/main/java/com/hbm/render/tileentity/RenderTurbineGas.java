@@ -17,7 +17,7 @@ public class RenderTurbineGas extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y + 1.5, z + 0.5D);
+        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         
         TileEntityMachineTurbineGas turbinegas = (TileEntityMachineTurbineGas) tileEntity;
         

@@ -1,29 +1,32 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.items.ModItems;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
+import com.hbm.util.I18nUtil;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class MachineTeleporter extends BlockContainer {
+public class MachineTeleporter extends BlockContainer implements ILookOverlay {
 
 	@SideOnly(Side.CLIENT) private IIcon iconTop;
 	@SideOnly(Side.CLIENT) private IIcon iconBottom;
+
+	public MachineTeleporter(Material mat) {
+		super(mat);
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -40,33 +43,28 @@ public class MachineTeleporter extends BlockContainer {
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-		return Item.getItemFromBlock(ModBlocks.machine_teleporter);
-	}
-
-	public MachineTeleporter(Material p_i45386_1_) {
-		super(p_i45386_1_);
-	}
-
-	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityMachineTeleporter();
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public void printHook(Pre event, World world, int x, int y, int z) {
 		
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.linker) {
-			return false;
-			
-		} else if(!player.isSneaking()) {
-			TileEntityMachineTeleporter entity = (TileEntityMachineTeleporter) world.getTileEntity(x, y, z);
-			if(entity != null && world.isRemote) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_teleporter, world, x, y, z);
-			}
-			return true;
+		TileEntity tile = world.getTileEntity(x, y, z);
+		
+		if(!(tile instanceof TileEntityMachineTeleporter)) return;
+		
+		TileEntityMachineTeleporter tele = (TileEntityMachineTeleporter) tile;
+		
+		List<String> text = new ArrayList();
+		
+		if(tele.targetY == -1) {
+			text.add(EnumChatFormatting.RED + "No destination set!");
 		} else {
-			return false;
+			text.add((tele.power >= tele.consumption ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + String.format("%,d", tele.power) + " / " + String.format("%,d", tele.maxPower));
+			text.add("Destination: " + tele.targetX + " / " + tele.targetY + " / " + tele.targetZ + " (D: " + tele.targetDim + ")");
 		}
+		
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 }

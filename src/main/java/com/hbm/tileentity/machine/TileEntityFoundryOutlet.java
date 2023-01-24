@@ -13,8 +13,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityFoundryOutlet extends TileEntityFoundryBase {
-	
+
 	public NTMMaterial filter = null;
+	public NTMMaterial lastFilter = null;
+	/* inverts filter behavior, will let everything but the filter material pass */
+	public boolean invertFilter = false;
 	/** inverts redstone behavior, i.e. when TRUE, the outlet will be blocked by default and only open with redstone */
 	public boolean invertRedstone = false;
 	public boolean lastClosed = false;
@@ -30,7 +33,8 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase {
 		
 		if(worldObj.isRemote) {
 			boolean isClosed = isClosed();
-			if(this.lastClosed != isClosed) {
+			if(this.lastClosed != isClosed || this.filter != this.lastFilter) {
+				this.lastFilter = this.filter;
 				this.lastClosed = isClosed;
 				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
@@ -43,8 +47,9 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase {
 	@Override
 	public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
 		
-		if(filter != null && filter != stack.material) return false;
+		if(filter != null && (filter != stack.material ^ invertFilter)) return false;
 		if(isClosed()) return false;
+		if(side != ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite()) return false;
 		
 		Vec3 start = Vec3.createVectorHelper(x + 0.5, y - 0.125, z + 0.5);
 		Vec3 end = Vec3.createVectorHelper(x + 0.5, y + 0.125 - 4, z + 0.5);
@@ -83,6 +88,7 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase {
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.invertRedstone = nbt.getBoolean("invert");
+		this.invertFilter = nbt.getBoolean("invertFilter");
 		this.filter = Mats.matById.get((int) nbt.getShort("filter"));
 	}
 
@@ -90,6 +96,7 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase {
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setBoolean("invert", this.invertRedstone);
+		nbt.setBoolean("invertFilter", this.invertFilter);
 		nbt.setShort("filter", this.filter == null ? -1 : (short) this.filter.id);
 	}
 }

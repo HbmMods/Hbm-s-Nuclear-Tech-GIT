@@ -3,7 +3,6 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.gas.BlockGasBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

@@ -551,7 +551,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		if(pitchDeg < -this.getTurretDepression() || pitchDeg > this.getTurretElevation())
 			return false;
 		
-		return !Library.isObstructed(worldObj, ent.xCoord, ent.yCoord, ent.zCoord, pos.xCoord, pos.yCoord, pos.zCoord);
+		return !Library.isObstructedOpaque(worldObj, ent.xCoord, ent.yCoord, ent.zCoord, pos.xCoord, pos.yCoord, pos.zCoord);
 	}
 	
 	/**

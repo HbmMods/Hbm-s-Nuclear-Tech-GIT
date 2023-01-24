@@ -6,6 +6,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.item.EntityMovingItem;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -29,13 +31,16 @@ public class RenderMovingItem extends Render {
 		EntityMovingItem item = (EntityMovingItem) entity;
 		ItemStack stack = item.getItemStack().copy();
 
-		if(!(stack.getItem() instanceof ItemBlock)) {
+		if(!(stack.getItemSpriteNumber() == 0 && stack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(stack.getItem()).getRenderType()))) {
 			GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
 			GL11.glTranslated(0.0, -0.1875, 0.0);
+			
+			if(!this.renderManager.options.fancyGraphics) {
+				GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+			}
 		}
 
 		EntityItem dummy = new EntityItem(entity.worldObj, 0, 0, 0, stack);
-		//dummy.getEntityItem().stackSize = 1;
 		dummy.hoverStart = 0.0F;
 
 		RenderItem.renderInFrame = true;

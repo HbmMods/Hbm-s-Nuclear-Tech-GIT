@@ -125,16 +125,27 @@ public class PowerNet implements IPowerNet {
 	@Override
 	public long transferPower(long power) {
 		
-		if(lastCleanup + 45 < System.currentTimeMillis()) {
-			this.subscribers.removeIf(x -> 
-				x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid() || !x.isLoaded()
-			);
-			
+		/*if(lastCleanup + 45 < System.currentTimeMillis()) {
+			cleanup(this.subscribers);
 			lastCleanup = System.currentTimeMillis();
-		}
+		}*/
 		
-		if(this.subscribers.isEmpty())
+		return fairTransfer(this.subscribers, power);
+	}
+	
+	public static void cleanup(List<IEnergyConnector> subscribers) {
+
+		subscribers.removeIf(x -> 
+			x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid() || !x.isLoaded()
+		);
+	}
+	
+	public static long fairTransfer(List<IEnergyConnector> subscribers, long power) {
+		
+		if(subscribers.isEmpty())
 			return power;
+		
+		cleanup(subscribers);
 		
 		ConnectionPriority[] priorities = new ConnectionPriority[] {ConnectionPriority.HIGH, ConnectionPriority.NORMAL, ConnectionPriority.LOW};
 		

@@ -12,7 +12,6 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -167,7 +166,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			return getBeltSize(player, getBeltType(player, stack, main)) > 0;
 			
 		} else {
-			return getMag(stack) >= 0 + config.roundsPerCycle;
+			//return getMag(stack) >= 0 + config.roundsPerCycle;
+			return getMag(stack) > 0;
 		}
 	}
 	
@@ -204,13 +204,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		}
 		
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
-
-		if(player.getDisplayName().equals("Vic4Games")) {
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setString("type", "justTilt");
-			nbt.setInteger("time", mainConfig.rateOfFire + 1);
-			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(nbt, player.posX, player.posY, player.posZ), (EntityPlayerMP) player);
-		}
 	}
 	
 	//unlike fire(), being called does not automatically imply success, some things may still have to be handled before spawning the projectile
@@ -226,6 +219,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		int bullets = config.bulletsMin;
 		
 		for(int k = 0; k < altConfig.roundsPerCycle; k++) {
+			
+			if(altConfig.reloadType != altConfig.RELOAD_NONE && !hasAmmo(stack, player, true))
+				break;
 			
 			if(config.bulletsMax > config.bulletsMin)
 				bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);

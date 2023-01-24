@@ -8,6 +8,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.gui.GUIOilburner;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -26,6 +27,7 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 	
 	public boolean isOn = false;
 	public FluidTank tank;
+	public int setting = 1;
 
 	public int heatEnergy;
 	public static final int maxHeatEnergy = 100_000;
@@ -47,6 +49,11 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 			
 			tank.loadTank(0, 1, slots);
 			tank.setType(2, slots);
+
+			this.trySubscribe(tank.getTankType(), worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
+			this.trySubscribe(tank.getTankType(), worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
+			this.trySubscribe(tank.getTankType(), worldObj, xCoord, yCoord, zCoord + 2, Library.POS_Z);
+			this.trySubscribe(tank.getTankType(), worldObj, xCoord, yCoord, zCoord - 2, Library.NEG_Z);
 			
 			boolean shouldCool = true;
 			
@@ -55,7 +62,7 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 				if(tank.getTankType().hasTrait(FT_Flammable.class)) {
 					FT_Flammable type = tank.getTankType().getTrait(FT_Flammable.class);
 					
-					int burnRate = 10;
+					int burnRate = setting;
 					int toBurn = Math.min(burnRate, tank.getFill());
 					
 					tank.setFill(tank.getFill() - toBurn);
@@ -77,7 +84,8 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 			NBTTagCompound data = new NBTTagCompound();
 			tank.writeToNBT(data, "tank");
 			data.setBoolean("isOn", isOn);
-			data.setInteger("heatEnergy", heatEnergy);
+			data.setInteger("h", heatEnergy);
+			data.setByte("s", (byte) this.setting);
 			this.networkPack(data, 25);
 		}
 	}
@@ -86,7 +94,8 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 	public void networkUnpack(NBTTagCompound nbt) {
 		tank.readFromNBT(nbt, "tank");
 		isOn = nbt.getBoolean("isOn");
-		heatEnergy = nbt.getInteger("heatEnergy");
+		heatEnergy = nbt.getInteger("h");
+		setting = nbt.getByte("s");
 	}
 	
 	@Override
@@ -103,6 +112,13 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 		tank.writeToNBT(nbt, "tank");
 		nbt.setBoolean("isOn", isOn);
 		nbt.setInteger("heatEnergy", heatEnergy);
+	}
+	
+	public void toggleSetting() {
+		setting++;
+		
+		if(setting > 10)
+			setting = 1;
 	}
 
 	@Override

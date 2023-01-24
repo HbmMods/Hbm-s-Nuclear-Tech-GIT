@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.items.ModItems;
 
 import net.minecraft.item.ItemStack;
@@ -24,7 +24,7 @@ public class EntityMissileNuclear extends EntityMissileBaseAdvanced {
 	@Override
 	public void onImpact() {
 
-		this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, BombConfig.missileRadius, posX, posY, posZ));
+		this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, BombConfig.missileRadius, posX, posY, posZ));
 
 		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, BombConfig.missileRadius * 0.005F);
 		entity2.posX = this.posX;

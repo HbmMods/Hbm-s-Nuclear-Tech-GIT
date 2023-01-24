@@ -9,6 +9,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.hazard.modifier.*;
 import com.hbm.hazard.transformer.*;
 import com.hbm.hazard.type.*;
+import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
@@ -197,6 +198,7 @@ public class HazardRegistry {
 		HazardSystem.register(trinitite, makeData(RADIATION, trn * ingot));
 		HazardSystem.register(block_trinitite, makeData(RADIATION, trn * block));
 		HazardSystem.register(nuclear_waste, makeData(RADIATION, wst * ingot));
+		HazardSystem.register(yellow_barrel, makeData(RADIATION, wst * ingot * 10));
 		HazardSystem.register(billet_nuclear_waste, makeData(RADIATION, wst * billet));
 		HazardSystem.register(nuclear_waste_tiny, makeData(RADIATION, wst * nugget));
 		HazardSystem.register(nuclear_waste_vitrified, makeData(RADIATION, wstv * ingot));
@@ -483,6 +485,23 @@ public class HazardRegistry {
 			for(ReikaIsotope i : ReikaIsotope.values()) {
 				if(i.getRad() > 0) {
 					HazardSystem.register(new ItemStack(recWaste, 1, i.ordinal()), makeData(RADIATION, i.getRad()));
+				}
+			}
+		}
+		
+		if(Compat.isModLoaded(Compat.MOD_GT6)) {
+			
+			Object[][] data = new Object[][] {
+				{"Naquadah", u},
+				{"Naquadah-Enriched", u235},
+				{"Naquadria", pu239},
+			};
+			
+			for(MaterialShapes shape : MaterialShapes.allShapes) {
+				for(String prefix : shape.prefixes) {
+					for(Object[] o : data) {
+						HazardSystem.register(prefix + o[0], new HazardData().setMutex(0b1).addEntry(new HazardEntry(RADIATION, (float) o[1] * shape.q(1) / MaterialShapes.INGOT.q(1))));
+					}
 				}
 			}
 		}

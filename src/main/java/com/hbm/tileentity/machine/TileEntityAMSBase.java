@@ -1,7 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.hbm.interfaces.IFluidAcceptor;
@@ -9,11 +7,10 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCatalyst;
-import com.hbm.items.machine.ItemSatChip;
 import com.hbm.items.special.ItemAMSCore;
-import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
@@ -454,9 +451,9 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IF
 		    }
 		    data.markDirty();
 
-		    int i1 = ItemSatChip.getFreq(slots[13]);
-		    int i2 = ItemSatChip.getFreq(slots[14]);
-		    int i3 = ItemSatChip.getFreq(slots[15]);
+		    int i1 = ISatChip.getFreqS(slots[13]);
+		    int i2 = ISatChip.getFreqS(slots[14]);
+		    int i3 = ISatChip.getFreqS(slots[15]);
 		    
 		    if(data.getSatFromFreq(i1) != null && data.getSatFromFreq(i2) != null && data.getSatFromFreq(i3) != null &&
 		    		data.getSatFromFreq(i1) instanceof SatelliteResonator && data.getSatFromFreq(i2) instanceof SatelliteResonator && data.getSatFromFreq(i3) instanceof SatelliteResonator &&

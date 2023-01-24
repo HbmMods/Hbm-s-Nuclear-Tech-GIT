@@ -6,6 +6,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
+import com.hbm.inventory.recipes.CrystallizerRecipes.CrystallizerRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.lib.Library;
@@ -28,7 +29,6 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public long power;
 	public static final long maxPower = 1000000;
 	public static final int demand = 1000;
-	public static final int acidRequired = 500;
 	public short progress;
 	public short duration = 600;
 	
@@ -38,8 +38,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public FluidTank tank;
 
 	public TileEntityMachineCrystallizer() {
-		super(7);
-		tank = new FluidTank(Fluids.ACID, 8000, 0);
+		super(8);
+		tank = new FluidTank(Fluids.ACID, 8000);
 	}
 
 	@Override
@@ -55,6 +55,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			this.updateConnections();
 			
 			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
+			tank.setType(7, slots);
 			tank.loadTank(3, 4, slots);
 			
 			for(int i = 0; i < getCycleCount(); i++) {
@@ -66,7 +67,6 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 					
 					if(progress > getDuration()) {
 						progress = 0;
-						tank.setFill(tank.getFill() - getRequiredAcid());
 						processItem();
 						
 						this.markDirty();
@@ -77,12 +77,11 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 				}
 			}
 			
-			tank.updateTank(xCoord, yCoord, zCoord, this.worldObj.provider.dimensionId);
-			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setShort("progress", progress);
 			data.setShort("duration", getDuration());
 			data.setLong("power", power);
+			tank.writeToNBT(data, "t");
 			this.networkPack(data, 25);
 		} else {
 			
@@ -135,19 +134,24 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		this.power = data.getLong("power");
 		this.progress = data.getShort("progress");
 		this.duration = data.getShort("duration");
+		this.tank.readFromNBT(data, "t");
 	}
 	
 	private void processItem() {
 
-		ItemStack result = CrystallizerRecipes.getOutput(slots[0]);
+		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0]);
 		
 		if(result == null) //never happens but you can't be sure enough
 			return;
 		
+		ItemStack stack = result.output.copy();
+		
 		if(slots[2] == null)
-			slots[2] = result;
-		else if(slots[2].stackSize + result.stackSize <= slots[2].getMaxStackSize())
-			slots[2].stackSize += result.stackSize;
+			slots[2] = stack;
+		else if(slots[2].stackSize + stack.stackSize <= slots[2].getMaxStackSize())
+			slots[2].stackSize += stack.stackSize;
+		
+		tank.setFill(tank.getFill() - result.acid.fill);
 		
 		float freeChance = this.getFreeChance();
 		
@@ -164,41 +168,41 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		if(power < getPowerRequired())
 			return false;
 		
-		if(tank.getFill() < getRequiredAcid())
-			return false;
-		
-		ItemStack result = CrystallizerRecipes.getOutput(slots[0]);
+		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0]);
 		
 		//Or output?
 		if(result == null)
 			return false;
 		
+		if(tank.getTankType() != result.acid.type) return false;
+		if(tank.getFill() < result.acid.fill) return false;
+		
+		ItemStack stack = result.output.copy();
+		
 		//Does the output not match?
-		if(slots[2] != null && (slots[2].getItem() != result.getItem() || slots[2].getItemDamage() != result.getItemDamage()))
+		if(slots[2] != null && (slots[2].getItem() != stack.getItem() || slots[2].getItemDamage() != stack.getItemDamage()))
 			return false;
 		
 		//Or is the output slot already full?
-		if(slots[2] != null && slots[2].stackSize + result.stackSize > slots[2].getMaxStackSize())
+		if(slots[2] != null && slots[2].stackSize + stack.stackSize > slots[2].getMaxStackSize())
 			return false;
 		
 		return true;
 	}
 	
-	public int getRequiredAcid() {
-		
-		int extra = 0;
+	public int getRequiredAcid(int base) {
 		
 		for(int i = 5; i <= 6; i++) {
 
 			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_effect_1)
-				extra += 1000;
+				base *= 3;
 			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_effect_2)
-				extra += 2000;
+				base *= 4;
 			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_effect_3)
-				extra += 3000;
+				base *= 5;
 		}
 		
-		return acidRequired + Math.min(extra, 3000);
+		return base;
 	}
 	
 	public float getFreeChance() {
@@ -221,6 +225,9 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public short getDuration() {
 		
 		float durationMod = 1;
+		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0]);
+		
+		int base = result != null ? result.duration : 600;
 		
 		for(int i = 5; i <= 6; i++) {
 
@@ -232,7 +239,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 				durationMod -= 0.75F;
 		}
 		
-		return (short) (600 * Math.max(durationMod, 0.25F));
+		return (short) Math.ceil((base * Math.max(durationMod, 0.25F)));
 	}
 	
 	public int getPowerRequired() {
@@ -277,19 +284,12 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		return (progress * i) / duration;
 	}
 
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
+	@Override public void setFillForSync(int fill, int index) { }
+	@Override public void setTypeForSync(FluidType type, int index) { }
 
 	@Override
 	public void setFluidFill(int fill, FluidType type) {
 		tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
 	}
 
 	@Override
@@ -336,8 +336,10 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		
-		if(i == 0 && CrystallizerRecipes.getOutput(itemStack) != null)
-			return true;
+		CrystallizerRecipe recipe = CrystallizerRecipes.getOutput(itemStack);
+		if(i == 0 && recipe != null) {
+			return recipe.acid.type == tank.getTankType();
+		}
 		
 		if(i == 1 && itemStack.getItem() instanceof IBatteryItem)
 			return true;

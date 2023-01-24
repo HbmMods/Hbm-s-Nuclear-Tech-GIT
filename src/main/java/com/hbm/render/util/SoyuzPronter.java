@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -91,14 +90,6 @@ public class SoyuzPronter {
 			this.boosterside = boosterside;
 		}
 	}
-	
-	/* TODO
-	 * int list = GL11.glGenLists(1);
-     * GL11.glNewList(list, GL11.GL_COMPILE);
-     * //Render
-     * GL11.glEndList();
-     * GL11.glCallList(list);
-	 */
 	
 	public static void prontSoyuz(int type) {
 		

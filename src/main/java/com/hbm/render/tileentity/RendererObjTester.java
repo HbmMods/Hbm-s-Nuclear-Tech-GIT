@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL12;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.BeamPronter;
+import com.hbm.render.util.HorsePronter;
 import com.hbm.render.util.RenderMiscEffects;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
@@ -39,7 +40,30 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
     }
 
     @Override
-	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
+	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
+		GL11.glPushMatrix();
+		GL11.glTranslated(x + 0.5, y, z + 0.5);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		
+		this.bindTexture(HorsePronter.tex_demohorse);
+		HorsePronter.reset();
+		//HorsePronter.pose(HorsePronter.id_lfl, 0, System.currentTimeMillis() % 360 / 10D, 0);
+		double r = 60;
+		HorsePronter.pose(HorsePronter.id_body, 0, -r, 0);
+		HorsePronter.pose(HorsePronter.id_tail, 0, 45, 90);
+		HorsePronter.pose(HorsePronter.id_lbl, 0, -90 + r, 35);
+		HorsePronter.pose(HorsePronter.id_rbl, 0, -90 + r, -35);
+		HorsePronter.pose(HorsePronter.id_lfl, 0, r - 10, 5);
+		HorsePronter.pose(HorsePronter.id_rfl, 0, r - 10, -5);
+		HorsePronter.pose(HorsePronter.id_head, 0, r, 0);
+		HorsePronter.enableHorn();
+		HorsePronter.pront();
+		
+		GL11.glPopMatrix();
+	}
+	
+
+	public void renderTileEntityAt2(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5, y, z + 0.5);

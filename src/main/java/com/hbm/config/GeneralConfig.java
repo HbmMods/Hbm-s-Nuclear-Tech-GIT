@@ -27,6 +27,9 @@ public class GeneralConfig {
 	public static boolean enableCustomDashKeybind = false;
 	public static boolean enableReEval = true;
 	public static boolean enableSilentCompStackErrors = true;
+	public static boolean enableChunkyNEIHandler = true;
+	public static boolean enableSkyboxes = true;
+	public static boolean enableImpactWorldProvider = true;
 	public static int hintPos = 0;
 
 	public static boolean enable528 = false;
@@ -50,6 +53,7 @@ public class GeneralConfig {
 	public static boolean enableLBSMSimpleCrafting = true;
 	public static boolean enableLBSMSimpleMedicineRecipes = true;
 	public static boolean enableLBSMSafeMEDrives = true;
+	public static boolean enableLBSMIGen = true;
 	public static int schrabRate = 20;
 	
 	public static void loadFromConfig(Configuration config) {
@@ -77,8 +81,10 @@ public class GeneralConfig {
 		enableCustomDashKeybind = config.get(CATEGORY_GENERAL, "1.26_enableCustomDashKeybind", false, "Enable custom dash keybind instead of shift").getBoolean(false);
 		enableReEval = config.get(CATEGORY_GENERAL, "1.27_enableReEval", true, "Allows re-evaluating power networks on link remove instead of destroying and recreating").getBoolean(true);
 		enableSilentCompStackErrors = config.get(CATEGORY_GENERAL, "1.28_enableSilentCompStackErrors", false, "Enabling this will disable log spam created by unregistered items in ComparableStack instances.").getBoolean(false);
-		
 		hintPos = CommonConfig.createConfigInt(config, CATEGORY_GENERAL, "1.29_hudOverlayPosition", "0: Top left\n1: Top right\n2: Center right\n3: Center Left", 0);
+		enableChunkyNEIHandler = config.get(CATEGORY_GENERAL, "1.30_enableChunkyNEIHandler", true, "If enabled, registers a NEI handler that will show the chosen item in a larger view.").getBoolean(true);
+		enableSkyboxes = config.get(CATEGORY_GENERAL, "1.31_enableSkyboxes", true, "If enabled, will try to use NTM's custom skyboxes.").getBoolean(true);
+		enableImpactWorldProvider = config.get(CATEGORY_GENERAL, "1.32_enableImpactWorldProvider", true, "If enabled, registers custom world provider which modifies lighting and sky colors for post impact effects.").getBoolean(true);
 		
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;
 
@@ -116,6 +122,7 @@ public class GeneralConfig {
 		enableLBSMSimpleCrafting = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_recipeSimpleCrafting", "When enabled, some uncraftable or more expansive items get simple crafting recipes. Scorched uranium also becomes washable", true);
 		enableLBSMSimpleMedicineRecipes = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_recipeSimpleMedicine", "When enabled, makes some medicine recipes (line ones that require bismuth) much more affordable", true);
 		enableLBSMSafeMEDrives = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_safeMEDrives", "When enabled, prevents ME Drives and Portable Cells from becoming radioactive", true);
+		enableLBSMIGen = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_iGen", "When enabled, restores the industrial generator to pre-nerf power", true);
 		schrabRate = CommonConfig.createConfigInt(config, CATEGORY_LBSM, "LBSM_schrabOreRate", "Changes the amount of uranium ore needed on average to create one schrabidium ore using nukes. Standard mode value is 100", 20);
 		
 		if(enable528) enableLBSM = false;

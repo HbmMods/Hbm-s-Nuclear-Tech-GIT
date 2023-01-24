@@ -14,6 +14,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
+import com.hbm.inventory.recipes.CrystallizerRecipes.CrystallizerRecipe;
 import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -218,7 +219,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	private void tryFillContainer(int x, int y, int z) {
 		
 		Block b = worldObj.getBlock(x, y, z);
-		if(b != Blocks.chest && b != Blocks.trapped_chest && b != ModBlocks.crate_iron &&
+		if(b != Blocks.chest && b != Blocks.trapped_chest && b != ModBlocks.crate_iron && b != ModBlocks.crate_desh &&
 				b != ModBlocks.crate_steel && b != ModBlocks.safe && b != Blocks.hopper)
 			return;
 		
@@ -253,9 +254,9 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		if(stack != null && stack.getItem() != null) {
 			if(hasCrystallizer()) {
 
-				ItemStack result = CrystallizerRecipes.getOutput(stack);
-				if(result != null && result.getItem() != ModItems.scrap) {
-					worldObj.spawnEntityInWorld(new EntityItem(worldObj, targetX + 0.5, targetY + 0.5, targetZ + 0.5, result.copy()));
+				CrystallizerRecipe result = CrystallizerRecipes.getOutput(stack);
+				if(result != null && result.output.getItem() != ModItems.scrap) {
+					worldObj.spawnEntityInWorld(new EntityItem(worldObj, targetX + 0.5, targetY + 0.5, targetZ + 0.5, result.output.copy()));
 					normal = false;
 				}
 				
@@ -419,7 +420,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 	
 	private boolean canBreak(Block block, int x, int y, int z) {
-		return block != Blocks.air && block.getBlockHardness(worldObj, x, y, z) >= 0 && !block.getMaterial().isLiquid() && block != Blocks.bedrock;
+		return !block.isAir(worldObj, x, y, z) && block.getBlockHardness(worldObj, x, y, z) >= 0 && !block.getMaterial().isLiquid() && block != Blocks.bedrock;
 	}
 	
 	public int getRange() {

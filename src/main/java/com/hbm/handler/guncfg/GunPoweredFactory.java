@@ -2,23 +2,11 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.projectile.EntityBulletBase;
-import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionNT;
-import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletImpactBehavior;
-import com.hbm.items.ModItems;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.block.Block;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
 public class GunPoweredFactory {

@@ -156,4 +156,30 @@ public class ColorUtil {
 	public static int amplifyColor(int hex) {
 		return amplifyColor(hex, 255);
 	}
+	
+	/**
+	 * Amplifies a given color by approaching all components to maximum by a given percentage. A percentage of 1 (100%) should always yield white.
+	 * @param hex
+	 * @param percent
+	 * @return
+	 */
+	public static int lightenColor(int hex, double percent) {
+		Color color = new Color(hex);
+		int r = color.getRed();
+		int g = color.getGreen();
+		int b = color.getBlue();
+		
+		r = (int) (r + (255 - r) * percent);
+		g = (int) (g + (255 - g) * percent);
+		b = (int) (b + (255 - b) * percent);
+		
+		return new Color(r, g, b).getRGB();
+	}
+	
+	/** Converts a color into HSB and then returns the brightness component [] */
+	public static double getColorBrightness(int hex) {
+		Color color = new Color(hex);
+		float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), new float[3]);
+		return hsb[2];
+	}
 }

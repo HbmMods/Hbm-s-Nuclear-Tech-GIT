@@ -116,4 +116,9 @@ public class GUICoreEmitter extends GuiInfoContainer {
 			super.keyTyped(p_73869_1_, p_73869_2_);
 		}
 	}
+
+	@Override
+	public void onGuiClosed() {
+		Keyboard.enableRepeatEvents(false);
+	}
 }

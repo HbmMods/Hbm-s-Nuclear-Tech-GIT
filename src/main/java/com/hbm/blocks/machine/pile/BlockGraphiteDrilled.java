@@ -4,7 +4,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
 import api.hbm.block.IToolable;
-import api.hbm.block.IToolable.ToolType;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

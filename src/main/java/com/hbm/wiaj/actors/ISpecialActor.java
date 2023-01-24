@@ -1,6 +1,7 @@
 package com.hbm.wiaj.actors;
 
 import com.hbm.wiaj.JarScene;
+import com.hbm.wiaj.WorldInAJar;
 
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -13,8 +14,8 @@ public interface ISpecialActor {
 
 	/** Draws things in the foreground like text boxes */
 	public void drawForegroundComponent(int w, int h, int ticks, float interp);
-	/** Draws things in the background, fotted to the world renderer like TESRs */
-	public void drawBackgroundComponent(int ticks, float interp);
+	/** Draws things in the background, fitted to the world renderer like TESRs */
+	public void drawBackgroundComponent(WorldInAJar world, int ticks, float interp);
 	/** Update ticks to emulate serverside ticking */
 	public void updateActor(JarScene scene);
 	/** Sets the data object to the passed NBT */

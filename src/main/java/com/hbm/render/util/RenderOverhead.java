@@ -1,12 +1,14 @@
 package com.hbm.render.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.util.Tuple.Pair;
-import com.hbm.util.Tuple.Triplet;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -23,6 +25,7 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 
 public class RenderOverhead {
 
@@ -42,11 +45,11 @@ public class RenderOverhead {
 		}
 	}
 
-	protected static boolean shouldRenderTag(EntityLivingBase p_110813_1_) {
+	public static boolean shouldRenderTag(EntityLivingBase p_110813_1_) {
 		return Minecraft.isGuiEnabled() && p_110813_1_ != RenderManager.instance.livingPlayer && !p_110813_1_.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && p_110813_1_.riddenByEntity == null;
 	}
 
-	protected static void drawTagAware(EntityLivingBase entity, double x, double y, double z, String string, boolean depthTest) {
+	public static void drawTagAware(EntityLivingBase entity, double x, double y, double z, String string, boolean depthTest) {
 		if(entity.isPlayerSleeping()) {
 			drawTag(entity, string, x, y - 1.5D, z, 64, depthTest);
 		} else {
@@ -54,16 +57,18 @@ public class RenderOverhead {
 		}
 	}
 
-	protected static void drawTag(Entity entity, String name, double x, double y, double z, int dist, boolean depthTest) {
-		
-		double distsq = entity.getDistanceSqToEntity(RenderManager.instance.livingPlayer);
+	public static void drawTag(Entity entity, String name, double x, double y, double z, int dist, boolean depthTest) {
+		drawTag(entity.height + 0.75F, entity.getDistanceSqToEntity(RenderManager.instance.livingPlayer), name, x, y, z, dist, depthTest, -1, 553648127);
+	}
+
+	public static void drawTag(float offset, double distsq, String name, double x, double y, double z, int dist, boolean depthTest, int color, int shadowColor) {
 
 		if(distsq <= (double) (dist * dist)) {
 			FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
 			float f = 1.6F;
 			float scale = 0.016666668F * f;
 			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x + 0.0F, (float) y + entity.height + 0.75F, (float) z);
+			GL11.glTranslatef((float) x + 0.0F, (float) y + offset, (float) z);
 			GL11.glNormal3f(0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -92,95 +97,15 @@ public class RenderOverhead {
 			tessellator.addVertex((double) (center + 1), (double) (-1 + heightOffset), 0.0D);
 			tessellator.draw();
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			fontrenderer.drawString(name, -fontrenderer.getStringWidth(name) / 2, heightOffset, 553648127);
+			fontrenderer.drawString(name, -fontrenderer.getStringWidth(name) / 2, heightOffset, shadowColor);
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glDepthMask(true);
-			fontrenderer.drawString(name, -fontrenderer.getStringWidth(name) / 2, heightOffset, -1);
+			fontrenderer.drawString(name, -fontrenderer.getStringWidth(name) / 2, heightOffset, color);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glPopMatrix();
 		}
-	}
-	
-	public static final HashMap<Triplet<Integer, Integer, Integer>, Pair<double[], Integer>> markers = new HashMap();
-	
-	public static void renderMarkers(float partialTicks) {
-		
-		if(markers.isEmpty())
-			return;
-		
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		double x = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
-		double y =  player.prevPosY + (player.posY - player.prevPosY) * partialTicks;
-		double z =  player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;
-
-		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_COLOR_MATERIAL);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_POINT_SMOOTH);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
-		
-		Tessellator tess = Tessellator.instance;
-		tess.startDrawing(GL11.GL_LINES);
-		
-		for(Entry<Triplet<Integer, Integer, Integer>, Pair<double[], Integer>> entry : markers.entrySet()) {
-			Triplet<Integer, Integer, Integer> pos = entry.getKey();
-			Pair<double[], Integer> pars = entry.getValue();
-
-			int pX = pos.getX();
-			int pY = pos.getY();
-			int pZ = pos.getZ();
-			
-			int color = pars.getValue();
-			double[] bounds = pars.getKey();
-			double minX = bounds[0];
-			double minY = bounds[1];
-			double minZ = bounds[2];
-			double maxX = bounds[3];
-			double maxY = bounds[4];
-			double maxZ = bounds[5];
-			
-			tess.setColorOpaque_I(color);
-			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + minZ - z);
-			tess.addVertex(pX + minX - x, pY + minY - y, pZ + minZ - z);
-			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + minZ - z);
-			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + minZ - z);
-			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + minZ - z);
-			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + minZ - z);
-			tess.addVertex(pX + minX - x, pY + minY - y, pZ + minZ - z);
-			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + minZ - z);
-			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + minZ - z);
-			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + maxZ - z);
-			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + maxZ - z);
-			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + minZ - z);
-			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + maxZ - z);
-			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + maxZ - z);
-			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + minZ - z);
-			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + maxZ - z);
-			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + maxZ - z);
-			tess.addVertex(pX + minX - x, pY + minY - y, pZ + maxZ - z);
-			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + maxZ - z);
-			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + maxZ - z);
-			tess.addVertex(pX + minX - x, pY + minY - y, pZ + maxZ - z);
-			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + maxZ - z);
-			tess.addVertex(pX + minX - x, pY + minY - y, pZ + minZ - z);
-			tess.addVertex(pX + minX - x, pY + minY - y, pZ + maxZ - z);
-		}
-		
-		tess.draw();
-		
-		tess.setColorOpaque_F(1F, 1F, 1F);
-		
-		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_POINT_SMOOTH);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glPopMatrix();
 	}
 	
 	public static void renderThermalSight(float partialTicks) {
@@ -267,5 +192,178 @@ public class RenderOverhead {
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glPopMatrix();
+	}
+
+	public static final HashMap<BlockPos, Marker> queuedMarkers = new HashMap();
+	private static final HashMap<BlockPos, Marker> markers = new HashMap();
+	
+	public static void renderMarkers(float partialTicks) {
+		
+		markers.putAll(queuedMarkers);
+		queuedMarkers.clear();
+		
+		if(markers.isEmpty())
+			return;
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		double x = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
+		double y =  player.prevPosY + (player.posY - player.prevPosY) * partialTicks;
+		double z =  player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;
+
+		GL11.glPushMatrix();
+		GL11.glDisable(GL11.GL_COLOR_MATERIAL);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_POINT_SMOOTH);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawing(GL11.GL_LINES);
+		
+		Iterator<Entry<BlockPos, Marker>> it = markers.entrySet().iterator();
+		List<Entry<BlockPos, Marker>> tagList = new ArrayList();
+		while(it.hasNext()) {
+			Entry<BlockPos, Marker> entry = it.next();
+			BlockPos pos = entry.getKey();
+			Marker marker = entry.getValue();
+
+			int pX = pos.getX();
+			int pY = pos.getY();
+			int pZ = pos.getZ();
+			
+			double minX = marker.minX;
+			double minY = marker.minY;
+			double minZ = marker.minZ;
+			double maxX = marker.maxX;
+			double maxY = marker.maxY;
+			double maxZ = marker.maxZ;
+			
+			tess.setColorOpaque_I(marker.color);
+			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + minZ - z);
+			tess.addVertex(pX + minX - x, pY + minY - y, pZ + minZ - z);
+			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + minZ - z);
+			tess.addVertex(pX + minX - x, pY + minY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + maxZ - z);
+			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + maxZ - z);
+			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + minZ - z);
+			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + maxZ - z);
+			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + maxZ - z);
+			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + minZ - z);
+			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + maxZ - z);
+			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + maxZ - z);
+			tess.addVertex(pX + minX - x, pY + minY - y, pZ + maxZ - z);
+			tess.addVertex(pX + minX - x, pY + maxY - y, pZ + maxZ - z);
+			tess.addVertex(pX + maxX - x, pY + maxY - y, pZ + maxZ - z);
+			tess.addVertex(pX + minX - x, pY + minY - y, pZ + maxZ - z);
+			tess.addVertex(pX + maxX - x, pY + minY - y, pZ + maxZ - z);
+			tess.addVertex(pX + minX - x, pY + minY - y, pZ + minZ - z);
+			tess.addVertex(pX + minX - x, pY + minY - y, pZ + maxZ - z);
+			
+			tagList.add(entry);
+			
+			if(marker.expire > 0 && System.currentTimeMillis() > marker.expire) {
+				it.remove();
+			} else if(marker.maxDist > 0) {
+				double aX = pX + (maxX - minX) / 2D;
+				double aY = pY + (maxY - minY) / 2D;
+				double aZ = pZ + (maxZ - minZ) / 2D;
+				Vec3 vec = Vec3.createVectorHelper(x - aX, y - aY, z - aZ);
+				if(vec.lengthVector() > marker.maxDist) {
+					it.remove();
+				}
+			}
+		}
+		
+		tess.draw();
+		
+		tess.setColorOpaque_F(1F, 1F, 1F);
+		
+		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_POINT_SMOOTH);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		
+		for(Entry<BlockPos, Marker> entry : tagList) {
+
+			BlockPos pos = entry.getKey();
+			Marker marker = entry.getValue();
+
+			int pX = pos.getX();
+			int pY = pos.getY();
+			int pZ = pos.getZ();
+			
+			double minX = marker.minX;
+			double minY = marker.minY;
+			double minZ = marker.minZ;
+			double maxX = marker.maxX;
+			double maxY = marker.maxY;
+			double maxZ = marker.maxZ;
+			
+			double aX = pX + (maxX - minX) / 2D;
+			double aY = pY + (maxY - minY) / 2D;
+			double aZ = pZ + (maxZ - minZ) / 2D;
+			Vec3 vec = Vec3.createVectorHelper(aX - x, aY - y, aZ - z);
+			double len = vec.xCoord * vec.xCoord + vec.yCoord * vec.yCoord + vec.zCoord * vec.zCoord;
+			double sqrt = Math.sqrt(len);
+			double mult = Math.min(sqrt, 16D);
+			vec.xCoord *= mult / sqrt;
+			vec.yCoord *= mult / sqrt;
+			vec.zCoord *= mult / sqrt;
+			Vec3 look = player.getLookVec();
+			Vec3 diff = vec.normalize();
+			String label = marker.label;
+			if(label == null) {
+				label = "";
+			}
+			
+			if(Math.abs(look.xCoord - diff.xCoord) + Math.abs(look.yCoord - diff.yCoord) + Math.abs(look.zCoord - diff.zCoord) < 0.15) {
+				label += (!label.isEmpty() ? " " : "") + ((int) sqrt) + "m";
+			}
+			
+			if(!label.isEmpty()) drawTag(1F, len, label, vec.xCoord, vec.yCoord, vec.zCoord, 100, true, marker.color, marker.color);
+		}
+		GL11.glPopMatrix();
+	}
+	
+	public static class Marker {
+		double minX = 0;
+		double minY = 0;
+		double minZ = 0;
+		double maxX = 1;
+		double maxY = 1;
+		double maxZ = 1;
+		
+		int color;
+		String label;
+		
+		long expire;
+		double maxDist;
+		
+		public Marker(int color) {
+			this.color = color;
+		}
+		
+		public Marker setExpire(long expire) {
+			this.expire = expire;
+			return this;
+		}
+		
+		public Marker setDist(double maxDist) {
+			this.maxDist = maxDist;
+			return this;
+		}
+		
+		public Marker withLabel(String label) {
+			this.label = label;
+			return this;
+		}
 	}
 }

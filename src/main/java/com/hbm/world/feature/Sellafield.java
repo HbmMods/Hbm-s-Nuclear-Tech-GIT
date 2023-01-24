@@ -3,7 +3,6 @@ package com.hbm.world.feature;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.tileentity.bomb.TileEntitySellafield;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
@@ -68,5 +67,5 @@ public class Sellafield {
 			world.setBlock(x, y - i, z, block, meta, 2);
 	}
 	
-	private void placeCore(World world, int x, int z, double rad) { }
+	//private void placeCore(World world, int x, int z, double rad) { }
 }

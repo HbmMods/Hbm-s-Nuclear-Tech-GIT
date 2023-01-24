@@ -1,7 +1,7 @@
 package com.hbm.explosion;
 
 import com.hbm.config.BombConfig;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -53,7 +53,7 @@ public class ExplosionNukeSmall {
 			}
 			
 		} else if(size == high) {
-			world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.fatmanRadius, posX, posY, posZ).mute());
+			world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, BombConfig.fatmanRadius, posX, posY, posZ).mute());
 		}
 		
 		//radiation is 50 RAD/s in the epicenter, times the radMod

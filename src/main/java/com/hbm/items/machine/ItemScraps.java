@@ -2,11 +2,15 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ModItems;
+import com.hbm.util.I18nUtil;
 import com.hbm.inventory.material.NTMMaterial;
+import com.hbm.inventory.material.NTMMaterial.SmeltingBehavior;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +30,9 @@ public class ItemScraps extends Item {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		for(NTMMaterial mat : Mats.orderedList) {
-			list.add(new ItemStack(item, 1, mat.id));
+			if(mat.smeltable == SmeltingBehavior.SMELTABLE || mat.smeltable == SmeltingBehavior.ADDITIVE) {
+				list.add(new ItemStack(item, 1, mat.id));
+			}
 		}
 	}
 	
@@ -35,7 +41,7 @@ public class ItemScraps extends Item {
 		MaterialStack contents = getMats(stack);
 		
 		if(contents != null) {
-			list.add(contents.material.names[0] + ", " + Mats.formatAmount(contents.amount));
+			list.add(I18nUtil.resolveKey(contents.material.getUnlocalizedName()) + ", " + Mats.formatAmount(contents.amount, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)));
 		}
 	}
 
@@ -68,6 +74,8 @@ public class ItemScraps extends Item {
 	}
 	
 	public static ItemStack create(MaterialStack stack) {
+		if(stack.material == null)
+			return new ItemStack(ModItems.nothing); //why do i bother adding checks for fucking everything when they don't work
 		ItemStack scrap = new ItemStack(ModItems.scraps, 1, stack.material.id);
 		scrap.stackTagCompound = new NBTTagCompound();
 		scrap.stackTagCompound.setInteger("amount", stack.amount);

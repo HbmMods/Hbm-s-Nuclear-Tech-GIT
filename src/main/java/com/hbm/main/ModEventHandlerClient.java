@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,6 +13,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
@@ -19,6 +21,7 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
@@ -165,6 +168,24 @@ public class ModEventHandlerClient {
 				}
 			}
 			
+			List<EntityNukeTorex> torex = world.getEntitiesWithinAABB(EntityNukeTorex.class, player.boundingBox.expand(100, 100, 100));
+			
+			if(!torex.isEmpty()) {
+				EntityNukeTorex t = torex.get(0);
+				List<String> text = new ArrayList();
+				text.add("Speed: " + t.getSimulationSpeed());
+				text.add("Alpha: " + t.getAlpha());
+				text.add("Age: " + t.ticksExisted + " / " + t.getMaxAge());
+				text.add("Clouds: " + t.cloudlets.size());
+				ILookOverlay.printGeneric(event, "DEBUG", 0xff0000, 0x4040000, text);
+			}
+			
+			/*List<String> text = new ArrayList();
+			text.add("IMPACT: " + ImpactWorldHandler.getImpactForClient(world));
+			text.add("DUST: " + ImpactWorldHandler.getDustForClient(world));
+			text.add("FIRE: " + ImpactWorldHandler.getFireForClient(world));
+			ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);*/
+			
 			/*if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
 				ScaledResolution resolution = event.resolution;
 				GL11.glPushMatrix();
@@ -193,8 +214,7 @@ public class ModEventHandlerClient {
 				HbmAnimations.hotbar[i] = null;
 		}
 			
-		if(!ducked && Keyboard.isKeyDown(Keyboard.KEY_O)) {
-			
+		if(!ducked && Keyboard.isKeyDown(Keyboard.KEY_O) && Minecraft.getMinecraft().currentScreen == null) {
 			ducked = true;
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(0, 0, 0, 999, 0));
 		}
@@ -637,9 +657,13 @@ public class ModEventHandlerClient {
 				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
 		}
 		
-		CanneryBase cannery = Jars.canneries.get(comp);
-		if(cannery != null) {
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
+		try {
+			CanneryBase cannery = Jars.canneries.get(comp);
+			if(cannery != null) {
+				list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
+			}
+		} catch(Exception ex) {
+			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
 		}
 		
 		/*ItemStack copy = stack.copy();
@@ -783,7 +807,7 @@ public class ModEventHandlerClient {
 							CanneryBase cannery = Jars.canneries.get(comp);
 							
 							if(cannery != null) {
-								FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon()));
+								FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon(), cannery.seeAlso()));
 							}
 							
 							break;
@@ -799,7 +823,7 @@ public class ModEventHandlerClient {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onClientTickLast(ClientTickEvent event) {
 		
-		if(event.phase == Phase.START) {
+		if(event.phase == Phase.START && GeneralConfig.enableSkyboxes) {
 			
 			World world = Minecraft.getMinecraft().theWorld;
 			
@@ -807,8 +831,9 @@ public class ModEventHandlerClient {
 				
 				IRenderHandler sky = world.provider.getSkyRenderer();
 				
-				if(ModEventHandler.dust > 0 || ModEventHandler.fire > 0) {
+				if(ImpactWorldHandler.getDustForClient(world) > 0 || ImpactWorldHandler.getFireForClient(world) > 0) {
 
+					//using a chainloader isn't necessary since none of the sky effects should render anyway
 					if(!(sky instanceof RenderNTMSkyboxImpact)) {
 						world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
 					}
@@ -902,14 +927,18 @@ public class ModEventHandlerClient {
 
 		GL11.glPopMatrix();
 		
-		RenderOverhead.renderMarkers(event.partialTicks);
-
-		if(ArmorFSB.hasFSBArmor(player)) {
-			ItemStack plate = player.inventory.armorInventory[2];
-			ArmorFSB chestplate = (ArmorFSB) plate.getItem();
-
-			if(chestplate.thermal && HbmPlayerProps.getData(player).enableHUD)
-				RenderOverhead.renderThermalSight(event.partialTicks);
+		boolean hudOn = HbmPlayerProps.getData(player).enableHUD;
+		
+		if(hudOn) {
+			RenderOverhead.renderMarkers(event.partialTicks);
+	
+			if(ArmorFSB.hasFSBArmor(player)) {
+				ItemStack plate = player.inventory.armorInventory[2];
+				ArmorFSB chestplate = (ArmorFSB) plate.getItem();
+	
+				if(chestplate.thermal)
+					RenderOverhead.renderThermalSight(event.partialTicks);
+			}
 		}
 	}
 	

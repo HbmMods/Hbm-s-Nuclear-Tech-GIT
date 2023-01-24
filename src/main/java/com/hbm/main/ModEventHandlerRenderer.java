@@ -2,22 +2,17 @@ package com.hbm.main;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.generic.BlockAshes;
+import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
-import com.hbm.lib.RefStrings;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.model.ModelMan;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,10 +21,9 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
 public class ModEventHandlerRenderer {
 
@@ -121,7 +115,7 @@ public class ModEventHandlerRenderer {
 	public void onRenderHeldItem(RenderPlayerEvent.Specials.Pre event) {
 
 		EntityPlayer player = event.entityPlayer;
-		RenderPlayer renderer = event.renderer;
+		//RenderPlayer renderer = event.renderer;
 
 		boolean isManly = player.isPotionActive(HbmPotion.death.id);
 
@@ -237,8 +231,25 @@ public class ModEventHandlerRenderer {
 		default: return null;
 		}
 	}
+	
+	@SubscribeEvent
+	public void onDrawHighlight(DrawBlockHighlightEvent event) {
+		MovingObjectPosition mop = event.target;
+		
+		if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			Block b = event.player.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+			if(b instanceof ICustomBlockHighlight) {
+				ICustomBlockHighlight cus = (ICustomBlockHighlight) b;
+				
+				if(cus.shouldDrawHighlight(event.player.worldObj, mop.blockX, mop.blockY, mop.blockZ)) {
+					cus.drawHighlight(event, event.player.worldObj, mop.blockX, mop.blockY, mop.blockZ);
+					event.setCanceled(true);
+				}
+			}
+		}
+	}
 
-	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
+	//private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
 	public static int currentBrightness = 0;
 	public static int lastBrightness = 0;
 

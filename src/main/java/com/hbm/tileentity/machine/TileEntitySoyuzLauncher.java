@@ -15,8 +15,10 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,7 +31,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor {
+public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver {
 
 	public long power;
 	public static final long maxPower = 1000000;
@@ -62,8 +64,14 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 
 		if (!worldObj.isRemote) {
 			
-			this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN);
-
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				for(DirPos pos : getConPos()) {
+					this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				}
+			}
+			
 			tanks[0].loadTank(4, 5, slots);
 			tanks[1].loadTank(6, 7, slots);
 
@@ -132,6 +140,26 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 				MainRegistry.proxy.effectNT(data);
 			}
 		}
+	}
+	
+	protected List<DirPos> conPos;
+	protected List<DirPos> getConPos() {
+		
+		if(conPos != null)
+			return conPos;
+		
+		conPos = new ArrayList();
+		
+		for(ForgeDirection dir : new ForgeDirection[] {Library.POS_X, Library.POS_Z, Library.NEG_X, Library.NEG_Z}) {
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			for(int i = -6; i <= 6; i++) {
+				conPos.add(new DirPos(xCoord + dir.offsetX * 7 + rot.offsetX * i, yCoord + 0, zCoord + dir.offsetZ * 7 + rot.offsetZ * i, dir));
+				conPos.add(new DirPos(xCoord + dir.offsetX * 7 + rot.offsetX * i, yCoord - 1, zCoord + dir.offsetZ * 7 + rot.offsetZ * i, dir));
+			}
+		}
+		
+		return conPos;
 	}
 	
 	@Override
@@ -428,5 +456,20 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	@Override
 	public long getMaxPower() {
 		return this.maxPower;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return tanks;
+	}
+	
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.UP && dir != ForgeDirection.DOWN;
 	}
 }

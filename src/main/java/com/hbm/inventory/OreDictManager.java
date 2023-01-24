@@ -18,9 +18,12 @@ import com.hbm.hazard.HazardData;
 import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
-import com.hbm.inventory.material.MatDistribution;
+import com.hbm.inventory.material.MaterialShapes;
+import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumTarType;
+import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -53,6 +56,7 @@ public class OreDictManager {
 	public static final String KEY_SLAB = "slabWood";
 	public static final String KEY_LEAVES = "treeLeaves";
 	public static final String KEY_SAPLING = "treeSapling";
+	public static final String KEY_SAND = "sand";
 	
 	public static final String KEY_BLACK = "dyeBlack";
 	public static final String KEY_RED = "dyeRed";
@@ -74,6 +78,7 @@ public class OreDictManager {
 	public static final String KEY_OIL_TAR = "oiltar";
 	public static final String KEY_CRACK_TAR = "cracktar";
 	public static final String KEY_COAL_TAR = "coaltar";
+	public static final String KEY_WOOD_TAR = "woodtar";
 
 	public static final String KEY_UNIVERSAL_TANK = "ntmuniversaltank";
 	public static final String KEY_HAZARD_TANK = "ntmhazardtank";
@@ -192,6 +197,9 @@ public class OreDictManager {
 	public static final DictFrame CINNABAR = new DictFrame("Cinnabar");
 	public static final DictFrame BORAX = new DictFrame("Borax");
 	public static final DictFrame VOLCANIC = new DictFrame("Volcanic");
+	public static final DictFrame HEMATITE = new DictFrame("Hematite");
+	public static final DictFrame MALACHITE = new DictFrame("Malachite");
+	public static final DictFrame SLAG = new DictFrame("Slag");
 	/*
 	 * HAZARDS, MISC
 	 */
@@ -261,7 +269,7 @@ public class OreDictManager {
 	public static final DictFrame ANY_HIGHEXPLOSIVE = new DictFrame("AnyHighexplosive");
 	public static final DictFrame ANY_COKE = new DictFrame("AnyCoke", "Coke");
 	public static final DictFrame ANY_CONCRETE = new DictFrame("Concrete");			//no any prefix means that any has to be appended with the any() or anys() getters, registering works with the any (i.e. no shape) setter
-	public static final DictGroup ANY_TAR = new DictGroup("Tar", KEY_OIL_TAR, KEY_COAL_TAR, KEY_CRACK_TAR);
+	public static final DictGroup ANY_TAR = new DictGroup("Tar", KEY_OIL_TAR, KEY_COAL_TAR, KEY_CRACK_TAR, KEY_WOOD_TAR);
 	/** Any special psot-RBMK gating material, namely bismuth and arsenic */
 	public static final DictFrame ANY_BISMOID = new DictFrame("AnyBismoid");
 	
@@ -353,12 +361,15 @@ public class OreDictManager {
 		KNO																				.dust(niter)			.block(block_niter)		.ore(ore_niter);
 		F																				.dust(fluorite)			.block(block_fluorite)	.ore(ore_fluorite, basalt_fluorite);
 		LIGNITE							.gem(lignite)									.dust(powder_lignite)							.ore(ore_lignite);
-		COALCOKE						.gem(fromOne(coke, EnumCokeType.COAL));
-		PETCOKE							.gem(fromOne(coke, EnumCokeType.PETROLEUM));
-		LIGCOKE							.gem(fromOne(coke, EnumCokeType.LIGNITE));
+		COALCOKE						.gem(fromOne(coke, EnumCokeType.COAL))									.block(fromOne(block_coke, EnumCokeType.COAL));
+		PETCOKE							.gem(fromOne(coke, EnumCokeType.PETROLEUM))								.block(fromOne(block_coke, EnumCokeType.PETROLEUM));
+		LIGCOKE							.gem(fromOne(coke, EnumCokeType.LIGNITE))								.block(fromOne(block_coke, EnumCokeType.LIGNITE));
 		CINNABAR	.crystal(cinnebar)	.gem(cinnebar)																					.ore(ore_cinnebar, ore_depth_cinnebar);
 		BORAX																			.dust(powder_borax)								.ore(ore_depth_borax);
 		VOLCANIC						.gem(gem_volcanic)																				.ore(basalt_gem);
+		HEMATITE																														.ore(fromOne(stone_resource, EnumStoneType.HEMATITE));
+		MALACHITE																														.ore(fromOne(stone_resource, EnumStoneType.MALACHITE));
+		SLAG																									.block(block_slag);
 		
 		/*
 		 * HAZARDS, MISC
@@ -417,12 +428,13 @@ public class OreDictManager {
 		ANY_HIGHEXPLOSIVE		.ingot(ball_tnt);
 		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_asbestos, ducrete, ducrete_smooth);
 		for(int i = 0; i < 16; i++) { ANY_CONCRETE.any(new ItemStack(ModBlocks.concrete_colored, 1, i)); }
-		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class));
+		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class)).block(fromAll(block_coke, EnumCokeType.class));
 		ANY_BISMOID				.ingot(ingot_bismuth, ingot_arsenic).nugget(nugget_bismuth, nugget_arsenic).block(block_bismuth);
 
 		OreDictionary.registerOre(KEY_OIL_TAR, fromOne(oil_tar, EnumTarType.CRUDE));
 		OreDictionary.registerOre(KEY_CRACK_TAR, fromOne(oil_tar, EnumTarType.CRACK));
 		OreDictionary.registerOre(KEY_COAL_TAR, fromOne(oil_tar, EnumTarType.COAL));
+		OreDictionary.registerOre(KEY_WOOD_TAR, fromOne(oil_tar, EnumTarType.WOOD));
 
 		OreDictionary.registerOre(KEY_UNIVERSAL_TANK, new ItemStack(fluid_tank_full, 1, OreDictionary.WILDCARD_VALUE));
 		OreDictionary.registerOre(KEY_HAZARD_TANK, new ItemStack(fluid_tank_lead_full, 1, OreDictionary.WILDCARD_VALUE));
@@ -437,6 +449,24 @@ public class OreDictManager {
 
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_bismuth);
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_arsenic);
+		
+		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
+			OreDictionary.registerOre("ore" + ore.oreName, new ItemStack(ModItems.ore_enriched, 1, ore.ordinal()));
+		}
+
+		OreDictionary.registerOre("itemRubber", ingot_rubber);
+
+		OreDictionary.registerOre("coalCoke", fromOne(coke, EnumCokeType.COAL));
+		
+		for(String name : new String[] {"fuelCoke", "coke"}) {
+			OreDictionary.registerOre(name, fromOne(coke, EnumCokeType.COAL));
+			OreDictionary.registerOre(name, fromOne(coke, EnumCokeType.LIGNITE));
+			OreDictionary.registerOre(name, fromOne(coke, EnumCokeType.PETROLEUM));
+		}
+		
+		OreDictionary.registerOre("briquetteCoal", fromOne(briquette, EnumBriquetteType.COAL));
+		OreDictionary.registerOre("briquetteLignite", fromOne(briquette, EnumBriquetteType.LIGNITE));
+		OreDictionary.registerOre("briquetteWood", fromOne(briquette, EnumBriquetteType.WOOD));
 		
 		OreDictionary.registerOre(getReflector(), neutron_reflector);
 		OreDictionary.registerOre("oreRareEarth", ore_rare);
@@ -467,6 +497,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("dye", powder_lapis);
 		OreDictionary.registerOre("dyeBlack", fromOne(oil_tar, EnumTarType.CRUDE));
 		OreDictionary.registerOre("dyeBlack", fromOne(oil_tar, EnumTarType.CRACK));
+		OreDictionary.registerOre("dyeGray", fromOne(oil_tar, EnumTarType.COAL));
+		OreDictionary.registerOre("dyeBrown", fromOne(oil_tar, EnumTarType.WOOD));
 		OreDictionary.registerOre("dye", oil_tar);
 
 		OreDictionary.registerOre("blockGlass", glass_boron);
@@ -480,7 +512,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockGlassRed", glass_polonium);
 		OreDictionary.registerOre("blockGlassBlack", glass_ash);
 		
-		MatDistribution.register(); //TEMP
+		MaterialShapes.registerCompatShapes();
 	}
 	
 	public static String getReflector() {
@@ -595,6 +627,15 @@ public class OreDictManager {
 			
 			for(int i = 0; i < vals.length; i++) {
 				stacks[i] = new ItemStack(item, 1, vals[i].ordinal());
+			}
+			return stacks;
+		}
+		public static Object[] fromAll(Block block, Class<? extends Enum> en) {
+			Enum[] vals = en.getEnumConstants();
+			Object[] stacks = new Object[vals.length];
+			
+			for(int i = 0; i < vals.length; i++) {
+				stacks[i] = new ItemStack(block, 1, vals[i].ordinal());
 			}
 			return stacks;
 		}

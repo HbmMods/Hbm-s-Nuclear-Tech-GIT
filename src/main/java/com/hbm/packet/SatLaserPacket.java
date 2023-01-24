@@ -1,5 +1,6 @@
 package com.hbm.packet;
 
+import com.hbm.items.ISatChip;
 import com.hbm.items.tool.ItemSatInterface;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
@@ -54,7 +55,7 @@ public class SatLaserPacket implements IMessage {
 			
 			if(p.getHeldItem() != null && p.getHeldItem().getItem() instanceof ItemSatInterface) {
 				
-				int freq = ItemSatInterface.getFreq(p.getHeldItem());
+				int freq = ISatChip.getFreqS(p.getHeldItem());
 				
 				if(freq == m.freq) {
 				    Satellite sat = SatelliteSavedData.getData(p.worldObj).getSatFromFreq(m.freq);

@@ -1,6 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -8,6 +13,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.RTGUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -18,17 +24,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineIGenerator extends TileEntityMachineBase implements IFluidAcceptor, IEnergyGenerator, IFluidStandardReceiver {
+public class TileEntityMachineIGenerator extends TileEntityMachineBase implements IFluidAcceptor, IEnergyGenerator, IFluidStandardReceiver, IConfigurableMachine {
 	
 	public long power;
-	public static final long maxPower = 1000000;
 	public int spin;
 	public int[] burn = new int[4];
 	public boolean hasRTG = false;
@@ -42,13 +46,66 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public FluidTank[] tanks;
 	
 	public int age = 0;
+	
+	public static final int coalConRate = 75;
+	
+	/* CONFIGURABLE */
+	public static long maxPower = 1_000_000;
+	public static int waterCap = 16000;
+	public static int oilCap = 16000;
+	public static int lubeCap = 4000;
+	public static int coalGenRate = 20;
+	public static double rtgHeatMult = 0.15D;
+	public static double waterPowerMult = 1.0D;
+	public static double lubePowerMult = 1.0D;
+	public static double heatExponent = 1.1D;
+	public static int waterRate = 10;
+	public static int lubeRate = 1;
+	public static long fluidHeatDiv = 5_000L;
+
+	@Override
+	public String getConfigName() {
+		return "igen";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		maxPower = IConfigurableMachine.grab(obj, "L:powerCap", maxPower);
+		waterCap = IConfigurableMachine.grab(obj, "I:waterCap", waterCap);
+		oilCap = IConfigurableMachine.grab(obj, "I:oilCap", oilCap);
+		lubeCap = IConfigurableMachine.grab(obj, "I:lubeCap", lubeCap);
+		coalGenRate = IConfigurableMachine.grab(obj, "I:solidFuelRate", coalGenRate);
+		rtgHeatMult = IConfigurableMachine.grab(obj, "D:rtgHeatMult", rtgHeatMult);
+		waterPowerMult = IConfigurableMachine.grab(obj, "D:waterPowerMult", waterPowerMult);
+		lubePowerMult = IConfigurableMachine.grab(obj, "D:lubePowerMult", lubePowerMult);
+		heatExponent = IConfigurableMachine.grab(obj, "D:heatExponent", heatExponent);
+		waterRate = IConfigurableMachine.grab(obj, "I:waterRate", waterRate);
+		lubeRate = IConfigurableMachine.grab(obj, "I:lubeRate", lubeRate);
+		fluidHeatDiv = IConfigurableMachine.grab(obj, "D:fluidHeatDiv", fluidHeatDiv);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("L:powerCap").value(maxPower);
+		writer.name("I:waterCap").value(waterCap);
+		writer.name("I:oilCap").value(oilCap);
+		writer.name("I:lubeCap").value(lubeCap);
+		writer.name("I:solidFuelRate").value(coalGenRate);
+		writer.name("D:rtgHeatMult").value(rtgHeatMult);
+		writer.name("D:waterPowerMult").value(waterPowerMult);
+		writer.name("D:lubePowerMult").value(lubePowerMult);
+		writer.name("D:heatExponent").value(heatExponent);
+		writer.name("I:waterRate").value(waterRate);
+		writer.name("I:lubeRate").value(lubeRate);
+		writer.name("D:fluidHeatDiv").value(fluidHeatDiv);
+	}
 
 	public TileEntityMachineIGenerator() {
 		super(21);
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(Fluids.WATER, 16000, 0);
-		tanks[1] = new FluidTank(Fluids.HEATINGOIL, 16000, 1);
-		tanks[2] = new FluidTank(Fluids.LUBRICANT, 4000, 2);
+		tanks[0] = new FluidTank(Fluids.WATER, waterCap, 0);
+		tanks[1] = new FluidTank(Fluids.HEATINGOIL, oilCap, 1);
+		tanks[2] = new FluidTank(Fluids.LUBRICANT, lubeCap, 2);
 	}
 
 	@Override
@@ -69,6 +126,8 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		
 		if(!worldObj.isRemote) {
 			
+			boolean con = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMIGen;
+			
 			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
 			
 			for(DirPos dir : getConPos()) {
@@ -88,7 +147,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			
 			/// LIQUID FUEL ///
 			if(tanks[1].getFill() > 0) {
-				int pow = this.getPowerFromFuel();
+				int pow = this.getPowerFromFuel(con);
 				
 				if(pow > 0) {
 					tanks[1].setFill(tanks[1].getFill() - 1);
@@ -102,7 +161,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 				// POWER GEN //
 				if(burn[i] > 0) {
 					burn[i]--;
-					this.spin += coalGenRate;
+					this.spin += con ? coalConRate : coalGenRate;
 					
 				// REFUELING //
 				} else {
@@ -115,13 +174,13 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 						if(burnTime > 0) {
 							
 							if(fuel.getItem() == Items.coal) //1200 (1600)
-								burnTime *= 1.5;
+								burnTime *= con ? 1.5 : 1.1;
 							if(fuel.getItem() == ModItems.solid_fuel) //3200 (3200)
-								burnTime *= 2;
+								burnTime *= con ? 2 : 1.1;
 							if(fuel.getItem() == ModItems.solid_fuel_presto) //16000 (8000)
-								burnTime *= 4;
+								burnTime *= con ? 4 : 1.1;
 							if(fuel.getItem() == ModItems.solid_fuel_presto_triplet) //80000 (40000)
-								burnTime *= 4;
+								burnTime *= con ? 4 : 1.1;
 							
 							burn[i] = burnTime;
 							
@@ -142,23 +201,23 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			
 			// RTG ///
 			this.hasRTG = RTGUtil.hasHeat(slots, RTGSlots);
-			this.spin += RTGUtil.updateRTGs(slots, RTGSlots) * 0.2;
+			this.spin += RTGUtil.updateRTGs(slots, RTGSlots) * (con ? 0.2 : rtgHeatMult);
 			
 			if(this.spin > 0) {
 				
 				int powerGen = this.spin;
 				
 				if(this.tanks[0].getFill() >= 10) {
-					powerGen += this.spin;
-					this.tanks[0].setFill(this.tanks[0].getFill() - 10);
+					powerGen += this.spin * waterPowerMult;
+					this.tanks[0].setFill(this.tanks[0].getFill() - waterRate);
 				}
 				
 				if(this.tanks[2].getFill() >= 1) {
-					powerGen += this.spin * 3;
-					this.tanks[2].setFill(this.tanks[2].getFill() - 1);
+					powerGen += this.spin * lubePowerMult;
+					this.tanks[2].setFill(this.tanks[2].getFill() - lubeRate);
 				}
 				
-				this.power += Math.pow(powerGen, 1.1D);
+				this.power += Math.pow(powerGen, heatExponent);
 				
 				if(this.power > this.maxPower)
 					this.power = this.maxPower;
@@ -207,11 +266,9 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		this.hasRTG = nbt.getBoolean("hasRTG");
 	}
 	
-	public static final int coalGenRate = 75;
-	
-	public int getPowerFromFuel() {
+	public int getPowerFromFuel(boolean con) {
 		FluidType type = tanks[1].getTankType();
-		return type.hasTrait(FT_Flammable.class) ? (int)(type.getTrait(FT_Flammable.class).getHeatEnergy() / 1000L) : 0;
+		return type.hasTrait(FT_Flammable.class) ? (int)(type.getTrait(FT_Flammable.class).getHeatEnergy() / (con ? 1000L : fluidHeatDiv)) : 0;
 	}
 
 	@Override

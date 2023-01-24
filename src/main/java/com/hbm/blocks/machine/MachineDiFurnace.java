@@ -31,10 +31,9 @@ public class MachineDiFurnace extends BlockContainer {
 	private final boolean isActive;
 	private static boolean keepInventory;
 	
-	@SideOnly(Side.CLIENT)
-	private IIcon iconFront;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
+	@SideOnly(Side.CLIENT) private IIcon iconFront;
+	@SideOnly(Side.CLIENT) private IIcon iconTop;
+	@SideOnly(Side.CLIENT) private IIcon iconBottom;
 
 	public MachineDiFurnace(boolean blockState) {
 		super(Material.iron);
@@ -44,16 +43,16 @@ public class MachineDiFurnace extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":difurnace_top_on" : ":difurnace_top_off"));
-		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":difurnace_front_on" : ":difurnace_front_off"));
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":difurnace_side");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":difurnace_top_on_alt" : ":difurnace_top_off_alt"));
+		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":difurnace_front_on_alt" : ":difurnace_front_off_alt"));
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":difurnace_side_alt");
+		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":brick_fire");
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		//Reactivate in case of emergency
-		//return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.iconTop);
+		if(side == 0) return iconBottom;
 		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : (side == 1 ? this.iconTop : this.blockIcon));
 	}
 	

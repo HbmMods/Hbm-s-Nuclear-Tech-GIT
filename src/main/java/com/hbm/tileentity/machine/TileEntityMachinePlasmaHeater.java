@@ -14,6 +14,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,7 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase implements IFluidAcceptor, IEnergyUser {
+public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase implements IFluidAcceptor, IEnergyUser, IFluidStandardReceiver {
 	
 	public long power;
 	public static final long maxPower = 100000000;
@@ -47,7 +48,8 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 		
 		if(!worldObj.isRemote) {
 			
-			this.updateConnections();
+			if(this.worldObj.getTotalWorldTime() % 20 == 0)
+				this.updateConnections();
 
 			/// START Managing all the internal stuff ///
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
@@ -135,6 +137,8 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 		for(int i = 1; i < 4; i++) {
 			for(int j = -1; j < 2; j++) {
 				this.trySubscribe(worldObj, xCoord + side.offsetX * j + dir.offsetX * 2, yCoord + i, zCoord + side.offsetZ * j + dir.offsetZ * 2, j < 0 ? ForgeDirection.DOWN : ForgeDirection.UP);
+				this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord + side.offsetX * j + dir.offsetX * 2, yCoord + i, zCoord + side.offsetZ * j + dir.offsetZ * 2, j < 0 ? ForgeDirection.DOWN : ForgeDirection.UP);
+				this.trySubscribe(tanks[1].getTankType(), worldObj, xCoord + side.offsetX * j + dir.offsetX * 2, yCoord + i, zCoord + side.offsetZ * j + dir.offsetZ * 2, j < 0 ? ForgeDirection.DOWN : ForgeDirection.UP);
 			}
 		}
 	}
@@ -144,9 +148,6 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	}
 	
 	private void updateType() {
-		
-		//if(plasma.getFill() > 0)
-		//	return;
 		
 		List<FluidType> types = new ArrayList() {{ add(tanks[0].getTankType()); add(tanks[1].getTankType()); }};
 
@@ -276,8 +277,17 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] {tanks[0], tanks[1], plasma};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return tanks;
 	}
 }

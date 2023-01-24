@@ -38,14 +38,11 @@ public class DecoBlock extends BlockContainer {
 		return new TileEntityDecoBlock();
 	}
 
-    public static int renderIDScaffold = RenderingRegistry.getNextAvailableRenderId();
     public static int renderIDBeam = RenderingRegistry.getNextAvailableRenderId();
 	
 	@Override
 	public int getRenderType(){
-		if(this == ModBlocks.steel_scaffold)
-			return renderIDScaffold;
-		else if(this == ModBlocks.steel_beam)
+		if(this == ModBlocks.steel_beam)
 			return renderIDBeam;
 		else
 			return -1;

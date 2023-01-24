@@ -22,7 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineTurbineGas extends BlockDummyable{ //TODO gas port offset
+public class MachineTurbineGas extends BlockDummyable{
 	
 	public MachineTurbineGas(Material mat) {
 		super(mat);
@@ -73,8 +73,8 @@ public class MachineTurbineGas extends BlockDummyable{ //TODO gas port offset
 		super.fillSpace(world, x, y, z, dir, o);
 		
 		this.makeExtra(world, x - dir.offsetX * 1 - dir.offsetZ * 4, y + 1, z + dir.offsetX * 4 - dir.offsetZ * 1); //power
-		this.makeExtra(world, x - dir.offsetZ * 2, y, z + dir.offsetX * 2); //gas in
-		this.makeExtra(world, x - dir.offsetX * 2 - dir.offsetZ * 2, y, z + dir.offsetX * 2 - dir.offsetZ * 2); //gas in
+		this.makeExtra(world, x - dir.offsetZ * 1, y, z + dir.offsetX * 1); //gas in
+		this.makeExtra(world, x - dir.offsetX * 2 - dir.offsetZ * 1, y, z + dir.offsetX * 1 - dir.offsetZ * 2); //gas in
 		this.makeExtra(world, x + dir.offsetZ * 4, y, z - dir.offsetX * 4); //wa'er in
 		this.makeExtra(world, x + dir.offsetZ * 4 - dir.offsetX * 2, y, z - dir.offsetX * 4 - dir.offsetZ * 2); //wa'er in
 		this.makeExtra(world, x + dir.offsetZ * 5 - dir.offsetX * 1, y + 1, z - dir.offsetX * 5 - dir.offsetZ * 1); //steam out

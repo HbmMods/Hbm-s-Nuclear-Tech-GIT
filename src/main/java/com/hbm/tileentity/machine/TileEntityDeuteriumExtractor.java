@@ -9,12 +9,10 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -43,15 +41,13 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 			
 			this.updateConnections();
 			
-			if(worldObj.getTotalWorldTime() % 10 == 0) {
-				if(hasPower() && hasEnoughWater() && tanks[1].getMaxFill() > tanks[1].getFill()) {
-					int convert = Math.min(tanks[1].getMaxFill(), tanks[0].getFill()) / 50;
-					convert = Math.min(convert, tanks[1].getMaxFill() - tanks[1].getFill());
-					
-					tanks[0].setFill(tanks[0].getFill() - convert * 50); //dividing first, then multiplying, will remove any rounding issues
-					tanks[1].setFill(tanks[1].getFill() + convert);
-					power -= this.getMaxPower() / 20;
-				}
+			if(hasPower() && hasEnoughWater() && tanks[1].getMaxFill() > tanks[1].getFill()) {
+				int convert = Math.min(tanks[1].getMaxFill(), tanks[0].getFill()) / 50;
+				convert = Math.min(convert, tanks[1].getMaxFill() - tanks[1].getFill());
+				
+				tanks[0].setFill(tanks[0].getFill() - convert * 50); //dividing first, then multiplying, will remove any rounding issues
+				tanks[1].setFill(tanks[1].getFill() + convert);
+				power -= this.getMaxPower() / 20;
 			}
 			
 			this.subscribeToAllAround(tanks[0].getTankType(), this);

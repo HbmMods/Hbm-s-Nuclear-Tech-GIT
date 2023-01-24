@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 /* Described as "Civilian", as that's the overarching connection between all of these structures. Unlike the ruins, there's not enough to 
@@ -21,8 +22,16 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
  */
 public class CivilianFeatures {
 	
+	public static void registerComponents() {
+		MapGenStructureIO.func_143031_a(NTMHouse1.class, "NTMHouse1"); 
+		MapGenStructureIO.func_143031_a(NTMHouse2.class, "NTMHouse2"); 
+		MapGenStructureIO.func_143031_a(NTMLab1.class, "NTMLab1"); 
+		MapGenStructureIO.func_143031_a(NTMLab2.class, "NTMLab2"); 
+		MapGenStructureIO.func_143031_a(NTMWorkshop1.class, "NTMWorkshop1"); 
+	}
+	
 	/** Sandstone Ruin 1 */
-	public static class NTMHouse1 extends Feature {
+	public static class NTMHouse1 extends Component {
 		
 		private boolean hasPlacedChest;
 		
@@ -120,7 +129,7 @@ public class CivilianFeatures {
 		
 	}
 	
-	public static class NTMHouse2 extends Feature {
+	public static class NTMHouse2 extends Component {
 		
 		private static Sandstone RandomSandstone = new Sandstone();
 		
@@ -238,8 +247,8 @@ public class CivilianFeatures {
 				this.hasPlacedLoot[0] = true;
 			}
 			this.fillWithBlocks(world, box, 4, 1, sizeZ - 1, 5, 1, sizeZ - 1, ModBlocks.crate, Blocks.air, false);
-			this.fillWithMetadataBlocks(world, box, 5, 1, 4, 5, 3, 4, ModBlocks.steel_scaffold, eastMeta, Blocks.air, 0, false);
-			this.fillWithMetadataBlocks(world, box, 5, 1, 6, 5, 3, 6, ModBlocks.steel_scaffold, eastMeta, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 5, 1, 4, 5, 3, 4, ModBlocks.steel_scaffold, eastMeta < 4 ? 0 : 8, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 5, 1, 6, 5, 3, 6, ModBlocks.steel_scaffold, eastMeta < 4 ? 0 : 8, Blocks.air, 0, false);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.steel_grate, 7, 5, 1, 5, box);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_weapon, 0, 5, 2, 5, box);
 			
@@ -264,7 +273,7 @@ public class CivilianFeatures {
 		}
 	}
 	
-	public static class NTMLab1 extends Feature {
+	public static class NTMLab1 extends Component {
 		
 		private static ConcreteBricks RandomConcreteBricks = new ConcreteBricks();
 		private static LabTiles RandomLabTiles = new LabTiles();
@@ -368,7 +377,7 @@ public class CivilianFeatures {
 			ItemDoor.placeDoorBlock(world, this.getXWithOffset(3, sizeZ - 1), this.getYWithOffset(1), this.getZWithOffset(3, sizeZ - 1), doorMeta, ModBlocks.door_office);
 			
 			int northDecoMeta = this.getDecoMeta(3);
-			this.fillWithMetadataBlocks(world, box, 5, sizeY - 1, 1, sizeX - 1, sizeY - 1, 1, ModBlocks.steel_scaffold, westDecoMeta, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 5, sizeY - 1, 1, sizeX - 1, sizeY - 1, 1, ModBlocks.steel_scaffold, westDecoMeta < 4 ? 0 : 8, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, 5, sizeY - 1, 2, sizeX - 1, sizeY - 1, 2, ModBlocks.steel_wall, northDecoMeta, Blocks.air, 0, false);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_electric_furnace_off, northDecoMeta, 5, 1, 1, box);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_microwave, northDecoMeta, 5, 2, 1, box);
@@ -391,7 +400,7 @@ public class CivilianFeatures {
 		}
 	}
 	
-	public static class NTMLab2 extends Feature {
+	public static class NTMLab2 extends Component {
 		
 		private static SuperConcrete RandomSuperConcrete = new SuperConcrete();
 		private static ConcreteBricks RandomConcreteBricks = new ConcreteBricks();
@@ -559,13 +568,14 @@ public class CivilianFeatures {
 			this.fillWithBlocks(world, box, sizeX - 4, 3, sizeZ - 2, sizeX - 2, 3, sizeZ - 2, ModBlocks.steel_roof, Blocks.air, false);
 			if(!hasPlacedLoot[1]) {
 				this.hasPlacedLoot[1] = this.generateInvContents(world, box, rand, ModBlocks.crate_iron, sizeX - 2, 1, 3, HbmChestContents.nukeTrash, 9);
+				generateLoreBook(world, box, rand, sizeX - 2, 1, 3, 1, HbmChestContents.books_office_sch);
 			}
 			
 			return true;
 		}
 	}
 	
-	public static class NTMWorkshop1 extends Feature {
+	public static class NTMWorkshop1 extends Component {
 		
 		private static SuperConcrete RandomSuperConcrete = new SuperConcrete();
 		
@@ -685,7 +695,7 @@ public class CivilianFeatures {
 			this.fillWithBlocks(world, box, 5, 1, 1, 5, 1, 2, ModBlocks.deco_beryllium, Blocks.air, false);
 			this.fillWithBlocks(world, box, 6, 1, 1, 6, 3, 1, ModBlocks.deco_red_copper, Blocks.air, false);
 			this.fillWithBlocks(world, box, 3, 1, 4, 4, 1, 4, ModBlocks.concrete_super_broken, Blocks.air, false);
-			this.fillWithMetadataBlocks(world, box, 6, 1, 4, 6, 3, 4, ModBlocks.steel_scaffold, eastMeta, Blocks.air, 0, false);
+			this.fillWithMetadataBlocks(world, box, 6, 1, 4, 6, 3, 4, ModBlocks.steel_scaffold, eastMeta < 4 ? 0 : 8, Blocks.air, 0, false);
 			this.fillWithMetadataBlocks(world, box, 6, 1, 5, 6, 1, 7, ModBlocks.steel_grate, 7, Blocks.air, 0, false);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.radiorec, eastMeta, 6, 2, sizeZ - 1, box);
 			this.fillWithMetadataBlocks(world, box, 2, 1, sizeZ - 1, 3, 1, sizeZ - 1, ModBlocks.machine_electric_furnace_off, southMeta, Blocks.air, 0, false);

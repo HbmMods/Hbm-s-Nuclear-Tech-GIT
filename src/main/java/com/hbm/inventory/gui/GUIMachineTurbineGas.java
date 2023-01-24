@@ -33,8 +33,8 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 	int yStart;
 	int slidStart;
 	
-	public GUIMachineTurbineGas(InventoryPlayer invPlayer, TileEntityMachineTurbineGas te) { //TODO maybe if you click throttle while automode on it switches it off?
-		super(new ContainerMachineTurbineGas(invPlayer, te)); //TODO shit fucks up if you try to turn of a turbine that's shut offing
+	public GUIMachineTurbineGas(InventoryPlayer invPlayer, TileEntityMachineTurbineGas te) {
+		super(new ContainerMachineTurbineGas(invPlayer, te));
 		turbinegas = te;
 		
 		this.xSize = 176;
@@ -49,14 +49,20 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		slidStart = turbinegas.powerSliderPos;
 		yStart = y;
 		
-		if(turbinegas.state != -1 && Math.sqrt(Math.pow((x - guiLeft - 88), 2) + Math.pow((y - guiTop - 40), 2)) <= 8) { //start/stop circular button
+		if(Math.sqrt(Math.pow((x - guiLeft - 88), 2) + Math.pow((y - guiTop - 40), 2)) <= 8) { //start-stop circular button
 			
-			int state = Math.abs(turbinegas.state) - 1; //offline(0) to startup(-1), online(1) to offline(0)
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("state", state);
-			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, turbinegas.xCoord, turbinegas.yCoord, turbinegas.zCoord));
+			if(turbinegas.counter == 0 || turbinegas.counter == 579) {
+				
+				int state = turbinegas.state - 1; //offline(0) to startup(-1), online(1) to offline(0)
+				
+				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setInteger("state", state);
+				PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, turbinegas.xCoord, turbinegas.yCoord, turbinegas.zCoord));
+			}
+			else 
+				return;
 		}	
 		
 		if(turbinegas.state == 1 && x > guiLeft + 74 && x <= guiLeft + 74 + 29 && y >= guiTop + 86 && y < guiTop + 86 + 13) { //auto mode button
@@ -68,9 +74,12 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 			data.setBoolean("autoMode", automode);
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, turbinegas.xCoord, turbinegas.yCoord, turbinegas.zCoord));
 		}
+		
+		if(turbinegas.state == 1 && (guiTop + 97 - slidStart) <= yStart && (guiTop + 103 - slidStart) > yStart && guiLeft + 36 < x && guiLeft + 52 >= x) { //power slider
 			
-		if(!turbinegas.autoMode && turbinegas.state == 1 && (guiTop + 97 - slidStart) <= yStart && (guiTop + 103 - slidStart) > yStart && guiLeft + 36 < x && guiLeft + 52 >= x) { //power slider
-				
+			NBTTagCompound data = new NBTTagCompound();
+			data.setBoolean("autoMode", false); //if you click the slider with automode on, turns off automode
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, turbinegas.xCoord, turbinegas.yCoord, turbinegas.zCoord));
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 		}
 	}
@@ -126,8 +135,8 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		String[] fuels = I18nUtil.resolveKeyArray("desc.gui.turbinegas.fuels");
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 34 + 16, 16, 16, guiLeft - 8, guiTop + 44 + 16, fuels);
 		String[] warning = I18nUtil.resolveKeyArray("desc.gui.turbinegas.warning");
-		if(turbinegas.tanks[0].getFill() < 1000 || turbinegas.tanks[1].getFill() < 100)
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 34 + 32, 16, 16, guiLeft - 8, guiTop + 44 + 16, warning);	
+		if(turbinegas.tanks[0].getFill() < 5000 || turbinegas.tanks[1].getFill() < 1000)
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 34 + 32, 16, 16, guiLeft - 8, guiTop + 44 + 16, warning);
 	}
 	
 	@Override
@@ -161,14 +170,14 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft + 36, guiTop + 97 - turbinegas.powerSliderPos, 178, 0, 16, 6); //power slider
 		
 		int power = (int) (turbinegas.power * 142 / turbinegas.maxPower); //power storage
-		drawTexturedModalRect(guiLeft + 26, guiTop + 109, 0, 204, power, 16);
+		drawTexturedModalRect(guiLeft + 26, guiTop + 109, 0, 223, power, 16);
 		
 		drawRPMGauge(turbinegas.rpm);
 		drawThermometer(turbinegas.temp);
 		
 		this.drawInfoPanel(guiLeft - 16, guiTop + 34, 16, 16, 3); //info
 		this.drawInfoPanel(guiLeft - 16, guiTop + 34 + 16, 16, 16, 2); //fuels
-		if(turbinegas.tanks[0].getFill() < 1000 || turbinegas.tanks[1].getFill() < 100)
+		if((turbinegas.tanks[0].getFill()) < 5000 || turbinegas.tanks[1].getFill() < 1000)
 			this.drawInfoPanel(guiLeft - 16, guiTop + 34 + 32, 16, 16, 7);
 		if(turbinegas.tanks[0].getFill() == 0 || turbinegas.tanks[1].getFill() == 0)
 			this.drawInfoPanel(guiLeft - 16, guiTop + 34 + 32, 16, 16, 6);

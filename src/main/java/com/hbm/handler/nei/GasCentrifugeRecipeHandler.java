@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.handler.nei.AnvilRecipeHandler.RecipeSet;
 import com.hbm.inventory.gui.GUIMachineGasCent;
 import com.hbm.inventory.recipes.GasCentrifugeRecipes;
 import com.hbm.inventory.recipes.MachineRecipes;
@@ -18,8 +17,6 @@ import com.hbm.lib.RefStrings;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRectHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;

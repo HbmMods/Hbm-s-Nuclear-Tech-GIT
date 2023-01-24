@@ -218,6 +218,7 @@ public class InventoryUtil {
 		
 		ItemStack[] original = player.inventory.mainInventory;
 		ItemStack[] inventory = new ItemStack[original.length];
+		boolean[] modified = new boolean[original.length];
 		AStack[] input = new AStack[stacks.size()];
 		
 		//first we copy the inputs into an array because 1. it's easier to deal with and 2. we can dick around with the stack sized with no repercussions
@@ -248,6 +249,7 @@ public class InventoryUtil {
 					int size = Math.min(stack.stacksize, inv.stackSize);
 					stack.stacksize -= size;
 					inv.stackSize -= size;
+					modified[j] = true;
 					
 					//spent stacks are removed from the equation so that we don't cross ourselves later on
 					if(stack.stacksize <= 0) {
@@ -271,10 +273,11 @@ public class InventoryUtil {
 		if(shouldRemove) {
 			for(int i = 0; i < original.length; i++) {
 				
-				if(inventory[i] != null && inventory[i].stackSize <= 0)
+				if(inventory[i] != null && inventory[i].stackSize <= 0) {
 					original[i] = null;
-				else
-					original[i] = inventory[i];
+				} else {
+					if(modified[i]) original[i] = inventory[i];
+				}
 			}
 		}
 		
@@ -386,6 +389,26 @@ public class InventoryUtil {
 			
 			for(int i = 0; i < ingredients.length; i++) {
 				stacks[i] = ingredients[i].extractForNEI().toArray(new ItemStack[0]);
+			}
+			
+			return stacks;
+		}
+		
+		/* in emergency situations with mixed types where AStacks coexist with NBT dependent ItemStacks, such as for fluid icons */
+		if(o instanceof Object[]) {
+			Object[] ingredients = (Object[]) o;
+			ItemStack[][] stacks = new ItemStack[ingredients.length][0];
+			
+			for(int i = 0; i < ingredients.length; i++) {
+				Object ingredient = ingredients[i];
+
+				if(ingredient instanceof AStack) {
+					stacks[i] = ((AStack) ingredient).extractForNEI().toArray(new ItemStack[0]);
+				}
+				if(ingredient instanceof ItemStack) {
+					stacks[i] = new ItemStack[1];
+					stacks[i][0] = ((ItemStack) ingredient).copy();
+				}
 			}
 			
 			return stacks;

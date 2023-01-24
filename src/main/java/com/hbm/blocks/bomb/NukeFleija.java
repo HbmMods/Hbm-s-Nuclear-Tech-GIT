@@ -119,15 +119,17 @@ public class NukeFleija extends BlockContainer implements IBomb {
 
 	public boolean igniteTestBomb(World world, int x, int y, int z, int r) {
 		if(!world.isRemote) {
-			// world.spawnParticle("hugeexplosion", x, y, z, 0, 0, 0);
-			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
-			world.spawnEntityInWorld(EntityNukeExplosionMK3.statFacFleija(world, x + 0.5, y + 0.5, z + 0.5, r));
-
-			EntityCloudFleija cloud = new EntityCloudFleija(world, r);
-			cloud.posX = x;
-			cloud.posY = y;
-			cloud.posZ = z;
-			world.spawnEntityInWorld(cloud);
+			EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(world, x + 0.5, y + 0.5, z + 0.5, r);
+			if(!ex.isDead) {
+				world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
+				world.spawnEntityInWorld(ex);
+	
+				EntityCloudFleija cloud = new EntityCloudFleija(world, r);
+				cloud.posX = x;
+				cloud.posY = y;
+				cloud.posZ = z;
+				world.spawnEntityInWorld(cloud);
+			}
 		}
 
 		return false;

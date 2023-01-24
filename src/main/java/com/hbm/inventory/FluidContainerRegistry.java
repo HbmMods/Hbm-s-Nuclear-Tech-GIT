@@ -8,6 +8,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.FluidType.ExtContainer;
 import com.hbm.items.ModItems;
+import com.hbm.util.Compat;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -85,6 +86,8 @@ public class FluidContainerRegistry {
 			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_full, 1, i), new ItemStack(ModItems.fluid_tank_empty), Fluids.fromID(i), 1000));
 			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_barrel_full, 1, i), new ItemStack(ModItems.fluid_barrel_empty), Fluids.fromID(i), 16000));
 		}
+		
+		Compat.registerCompatFluidContainers();
 	}
 	
 	public static void registerContainer(FluidContainer con) {

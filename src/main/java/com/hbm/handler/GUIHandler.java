@@ -17,10 +17,10 @@ import com.hbm.tileentity.machine.oil.*;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.turret.*;
-import com.hbm.wiaj.GuiWorldInAJar;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -40,6 +40,12 @@ public class GUIHandler implements IGuiHandler {
 		
 		if(block instanceof IGUIProvider) {
 			return ((IGUIProvider) block).provideContainer(ID, player, world, x, y, z);
+		}
+		
+		ItemStack item = player.getHeldItem();
+		
+		if(item != null && item.getItem() instanceof IGUIProvider) {
+			return ((IGUIProvider) item.getItem()).provideContainer(ID, player, world, x, y, z);
 		}
 		
 		//notice: stop doing this, unless you absolutely have to \/
@@ -163,13 +169,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_machine_generator: {
-			if(entity instanceof TileEntityMachineGenerator) {
-				return new ContainerGenerator(player.inventory, (TileEntityMachineGenerator) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_electric_furnace: {
 			if(entity instanceof TileEntityMachineElectricFurnace) {
 				return new ContainerElectricFurnace(player.inventory, (TileEntityMachineElectricFurnace) entity);
@@ -268,13 +267,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_machine_teleporter: {
-			if(entity instanceof TileEntityMachineTeleporter) {
-			//	return new ContainerMachineTeleporter(player.inventory, (TileEntityMachineTeleporter) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_nuke_custom: {
 			if(entity instanceof TileEntityNukeCustom) {
 				return new ContainerNukeCustom(player.inventory, (TileEntityNukeCustom) entity);
@@ -341,13 +333,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_machine_chemplant: {
 			if(entity instanceof TileEntityMachineChemplant) {
 				return new ContainerMachineChemplant(player.inventory, (TileEntityMachineChemplant) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_machine_fluidtank: {
-			if(entity instanceof TileEntityMachineFluidTank) {
-				return new ContainerMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
 			}
 			return null;
 		}
@@ -422,13 +407,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_cel_prime: {
-			if(entity instanceof TileEntityCelPrime) {
-				return new ContainerCelPrime(player.inventory, (TileEntityCelPrime) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_machine_selenium: {
 			if(entity instanceof TileEntityMachineSeleniumEngine) {
 				return new ContainerMachineSelenium(player.inventory, (TileEntityMachineSeleniumEngine) entity);
@@ -460,13 +438,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_keyforge: {
 			if(entity instanceof TileEntityMachineKeyForge) {
 				return new ContainerMachineKeyForge(player.inventory, (TileEntityMachineKeyForge) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_radiorec: {
-			if(entity instanceof TileEntityRadioRec) {
-				return new ContainerRadioRec(player.inventory, (TileEntityRadioRec) entity);
 			}
 			return null;
 		}
@@ -827,6 +798,7 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+		
 		case ModBlocks.guiID_machine_turbinegas: {
 			if(entity instanceof TileEntityMachineTurbineGas) {
 				return new ContainerMachineTurbineGas(player.inventory, (TileEntityMachineTurbineGas) entity);
@@ -860,6 +832,12 @@ public class GUIHandler implements IGuiHandler {
 			return ((IGUIProvider) block).provideGUI(ID, player, world, x, y, z);
 		}
 		
+		ItemStack item = player.getHeldItem();
+		
+		if(item != null && item.getItem() instanceof IGUIProvider) {
+			return ((IGUIProvider) item.getItem()).provideGUI(ID, player, world, x, y, z);
+		}
+		
 		//stop doing this unless you absolutely have to \/
 
 		if(entity instanceof TileEntityCrateIron) {		return new GUICrateIron(player.inventory, (TileEntityCrateIron) entity); }
@@ -885,7 +863,7 @@ public class GUIHandler implements IGuiHandler {
 		switch(ID) {
 		case ModBlocks.guiID_test_difurnace: {
 			if(entity instanceof TileEntityDiFurnace) {
-				return new GUITestDiFurnace(player.inventory, (TileEntityDiFurnace) entity);
+				return new GUIDiFurnace(player.inventory, (TileEntityDiFurnace) entity);
 			}
 			return null;
 		}
@@ -977,13 +955,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_rtg_furnace: {
 			if(entity instanceof TileEntityRtgFurnace) {
 				return new GUIRtgFurnace(player.inventory, (TileEntityRtgFurnace) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_machine_generator: {
-			if(entity instanceof TileEntityMachineGenerator) {
-				return new GUIMachineGenerator(player.inventory, (TileEntityMachineGenerator) entity);
 			}
 			return null;
 		}
@@ -1086,13 +1057,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_machine_teleporter: {
-			if(entity instanceof TileEntityMachineTeleporter) {
-				return new GUIMachineTeleporter(player.inventory, (TileEntityMachineTeleporter) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_nuke_custom: {
 			if(entity instanceof TileEntityNukeCustom) {
 				return new GUINukeCustom(player.inventory, (TileEntityNukeCustom) entity);
@@ -1159,13 +1123,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_machine_chemplant: {
 			if(entity instanceof TileEntityMachineChemplant) {
 				return new GUIMachineChemplant(player.inventory, (TileEntityMachineChemplant) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_machine_fluidtank: {
-			if(entity instanceof TileEntityMachineFluidTank) {
-				return new GUIMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
 			}
 			return null;
 		}
@@ -1240,13 +1197,6 @@ public class GUIHandler implements IGuiHandler {
 			return null;
 		}
 
-		case ModBlocks.guiID_cel_prime: {
-			if(entity instanceof TileEntityCelPrime) {
-				return new GUICelPrime(player.inventory, (TileEntityCelPrime) entity);
-			}
-			return null;
-		}
-
 		case ModBlocks.guiID_machine_selenium: {
 			if(entity instanceof TileEntityMachineSeleniumEngine) {
 				return new GUIMachineSelenium(player.inventory, (TileEntityMachineSeleniumEngine) entity);
@@ -1271,13 +1221,6 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_keyforge: {
 			if(entity instanceof TileEntityMachineKeyForge) {
 				return new GUIMachineKeyForge(player.inventory, (TileEntityMachineKeyForge) entity);
-			}
-			return null;
-		}
-
-		case ModBlocks.guiID_radiorec: {
-			if(entity instanceof TileEntityRadioRec) {
-				return new GUIRadioRec(player.inventory, (TileEntityRadioRec) entity);
 			}
 			return null;
 		}

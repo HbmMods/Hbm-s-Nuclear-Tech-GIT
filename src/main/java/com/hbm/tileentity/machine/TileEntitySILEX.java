@@ -1,9 +1,8 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
+import api.hbm.fluid.IFluidStandardReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
@@ -24,8 +23,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.WeightedRandom;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcceptor {
+public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcceptor, IFluidStandardReceiver {
 
 	public EnumWavelengths mode = EnumWavelengths.NULL;
 	public boolean hasLaser;
@@ -59,6 +59,10 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 
 			tank.setType(1, 1, slots);
 			tank.loadTank(2, 3, slots);
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
+			this.trySubscribe(tank.getTankType(), worldObj, xCoord + dir.offsetX * 2, yCoord + 1, zCoord + dir.offsetZ * 2, dir);
+			this.trySubscribe(tank.getTankType(), worldObj, xCoord - dir.offsetX * 2, yCoord + 1, zCoord - dir.offsetZ * 2, dir.getOpposite());
 
 			loadFluid();
 
@@ -323,5 +327,15 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 			return tank.getMaxFill();
 
 		return 0;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
 	}
 }

@@ -3,6 +3,7 @@ package com.hbm.wiaj.actors;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.wiaj.JarScene;
+import com.hbm.wiaj.WorldInAJar;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -24,7 +25,7 @@ public class ActorVillager implements ISpecialActor {
 	public void drawForegroundComponent(int w, int h, int ticks, float interp) { }
 
 	@Override
-	public void drawBackgroundComponent(int ticks, float interp) {
+	public void drawBackgroundComponent(WorldInAJar world, int ticks, float interp) {
 		double x = data.getDouble("x");
 		double y = data.getDouble("y");
 		double z = data.getDouble("z");

@@ -26,12 +26,14 @@ public class ItemStructureSingle extends ItemStructureTool {
 		if(pos == null) return;
 
 		int ix = x - pos.getX();
-		int iy = y - pos.getX();
-		int iz = z - pos.getX();
+		int iy = y - pos.getY();
+		int iz = z - pos.getZ();
 		
 		Block b = world.getBlock(x, y, z);
 		int meta = world.getBlockMetadata(x, y, z);
-
-		System.out.println("this.placeBlockAtCurrentPosition(world, " + b.getUnlocalizedName() + ", " + meta + ", " + x + ", " + y + ", " + z + ", box)");
+		
+		String message = "placeBlockAtCurrentPosition(world, " + b.getUnlocalizedName() + ", " + meta + ", " + ix + ", " + iy + ", " + iz + ", box);\n";
+		System.out.print(message);
+		writeToFile(message);
 	}
 }

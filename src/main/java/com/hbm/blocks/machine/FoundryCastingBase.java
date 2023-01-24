@@ -133,10 +133,12 @@ public abstract class FoundryCastingBase extends BlockContainer implements ICruc
 	public void breakBlock(World world, int x, int y, int z, Block b, int i) {
 		
 		TileEntityFoundryCastingBase cast = (TileEntityFoundryCastingBase) world.getTileEntity(x, y, z);
-		ItemStack scrap = ItemScraps.create(new MaterialStack(cast.type, cast.amount));
-		EntityItem item = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, scrap);
-		world.spawnEntityInWorld(item);
-		cast.amount = 0; //just for safety
+		if(cast.amount > 0) {
+			ItemStack scrap = ItemScraps.create(new MaterialStack(cast.type, cast.amount));
+			EntityItem item = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, scrap);
+			world.spawnEntityInWorld(item);
+			cast.amount = 0; //just for safety
+		}
 		
 		for(ItemStack stack : cast.slots) {
 			if(stack != null) {

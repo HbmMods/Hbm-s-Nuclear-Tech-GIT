@@ -15,7 +15,7 @@ public class SlotNonRetarded extends Slot {
 	}
 
 	/**
-	 * Dear mojang: Why wasn't that the standard to begin with? What do IInventories have isItemValidForSlot when by default nothing fucking uses it?
+	 * Dear mojang: Why wasn't that the standard to begin with? What do IInventories have isItemValidForSlot for when by default nothing fucking uses it?
 	 */
 	@Override
 	public boolean isItemValid(ItemStack stack) {

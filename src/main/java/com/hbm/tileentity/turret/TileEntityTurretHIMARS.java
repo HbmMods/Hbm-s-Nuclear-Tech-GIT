@@ -3,9 +3,12 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.entity.projectile.EntityArtilleryRocket;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretHIMARS;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemAmmoHIMARS;
+import com.hbm.items.weapon.ItemAmmoHIMARS.HIMARSRocket;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
@@ -17,14 +20,20 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implements IGUIProvider {
 	
 	public short mode = 0;
-	public static final short MODE_AUOT = 0;
+	public static final short MODE_AUTO = 0;
 	public static final short MODE_MANUAL = 1;
+	
+	public int typeLoaded = -1;
+	public int ammo = 0;
+	public float crane;
+	public float lastCrane;
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -36,7 +45,7 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 		ammoStacks = new ArrayList();
 
 		List list = new ArrayList();
-		ModItems.ammo_arty.getSubItems(ModItems.ammo_arty, MainRegistry.weaponTab, list);
+		ModItems.ammo_himars.getSubItems(ModItems.ammo_himars, MainRegistry.weaponTab, list);
 		this.ammoStacks.addAll(list);
 		
 		return ammoStacks;
@@ -59,17 +68,17 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 
 	@Override
 	public double getBarrelLength() {
-		return 3D;
+		return 0.5D;
 	}
 
 	@Override
 	public double getAcceptableInaccuracy() {
-		return 0;
+		return 5D; //they're guided missiles so who gives a shit
 	}
 	
 	@Override
 	public double getHeightOffset() {
-		return 3D;
+		return 5D;
 	}
 
 	@Override
@@ -109,8 +118,23 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 		this.turnTowardsAngle(targetPitch, targetYaw);
 	}
 	
+	public int getSpareRocket() {
+		
+		for(int i = 1; i < 10; i++) {
+			if(slots[i] != null) {
+				if(slots[i].getItem() == ModItems.ammo_himars) {
+					return slots[i].getItemDamage();
+				}
+			}
+		}
+		
+		return -1;
+	}
+	
 	@Override
 	public void updateEntity() {
+		
+		this.lastCrane = this.crane;
 		
 		if(this.mode == this.MODE_MANUAL) {
 			if(!this.targetQueue.isEmpty()) {
@@ -156,8 +180,39 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 		
 		if(isOn() && hasPower()) {
 			
-			if(tPos != null)
-				this.alignTurret();
+			if(!this.hasAmmo() || this.crane > 0) {
+				
+				this.turnTowardsAngle(0, this.rotationYaw);
+				
+				if(this.aligned) {
+					
+					if(this.hasAmmo()) {
+						this.crane -= 0.0125F;
+					} else {
+						this.crane += 0.0125F;
+						
+						if(this.crane >= 1F && !worldObj.isRemote) {
+							int available = this.getSpareRocket();
+							
+							if(available != -1) {
+								HIMARSRocket type = ItemAmmoHIMARS.itemTypes[available];
+								this.typeLoaded = available;
+								this.ammo = type.amount;
+								this.conusmeAmmo(ModItems.ammo_himars);
+							}
+						}
+					}
+				}
+				
+				this.crane = MathHelper.clamp_float(this.crane, 0F, 1F);
+				
+			} else {
+				
+				if(tPos != null) {
+					this.alignTurret();
+				}
+			}
+			
 		} else {
 
 			this.target = null;
@@ -187,7 +242,7 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 				searchTimer = 0;
 			}
 			
-			if(this.aligned) {
+			if(this.aligned && crane <= 0) {
 				this.updateFiringTick();
 			}
 			
@@ -214,8 +269,69 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 	}
 
 	@Override
+	protected NBTTagCompound writePacket() {
+		NBTTagCompound data = super.writePacket();
+		data.setShort("mode", this.mode);
+		data.setInteger("type", this.typeLoaded);
+		data.setInteger("ammo", this.ammo);
+		return data;
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		this.mode = nbt.getShort("mode");
+		this.typeLoaded = nbt.getShort("type");
+		this.ammo = nbt.getInteger("ammo");
+	}
+	
+	public boolean hasAmmo() {
+		return this.typeLoaded >= 0 && this.ammo > 0;
+	}
+
+	int timer;
+	
+	@Override
 	public void updateFiringTick() {
-		// *chirp* *chirp* *chirp*
+		
+		timer++;
+		
+		int delay = 40;
+		
+		if(timer % delay == 0) {
+			
+			if(this.hasAmmo() && this.tPos != null) {
+				this.spawnShell(this.typeLoaded);
+				this.ammo--;
+				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.rocketFlame", 25.0F, 1.0F);
+			}
+			
+			if(this.mode == this.MODE_MANUAL && !this.targetQueue.isEmpty()) {
+				this.targetQueue.remove(0);
+				this.tPos = null;
+			}
+		}
+	}
+
+	public void spawnShell(int type) {
+		
+		Vec3 pos = this.getTurretPos();
+		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
+		vec.rotateAroundZ((float) -this.rotationPitch);
+		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
+		
+		EntityArtilleryRocket proj = new EntityArtilleryRocket(worldObj);
+		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
+		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, 25F, 0.0F);
+		
+		if(this.target != null)
+			proj.setTarget(this.target);
+		else
+			proj.setTarget(tPos.xCoord, tPos.yCoord, tPos.zCoord);
+		
+		proj.setType(type);
+		
+		worldObj.spawnEntityInWorld(proj);
 	}
 
 	@Override

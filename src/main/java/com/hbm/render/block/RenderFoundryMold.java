@@ -23,6 +23,8 @@ public class RenderFoundryMold implements ISimpleBlockRenderingHandler {
 		double z = 0;
 		
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+		
+		basin.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
 
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0F, 1F, 0F);
@@ -58,6 +60,9 @@ public class RenderFoundryMold implements ISimpleBlockRenderingHandler {
 		float mulTop = 1.0F;
 		float mulZ = 0.8F;
 		float mulX = 0.6F;
+
+		int brightness = block.getMixedBrightnessForBlock(world, x, y, z);
+		tessellator.setBrightness(brightness);
 
 		if(EntityRenderer.anaglyphEnable) {
 			float aR = (r * 30.0F + g * 59.0F + b * 11.0F) / 100.0F;

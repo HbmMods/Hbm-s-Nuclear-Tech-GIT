@@ -6,7 +6,7 @@ import java.util.List;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.logic.EntityBalefire;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -203,7 +203,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 		if(rand < 2) {
 			
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)(BombConfig.fatmanRadius * 1.5), xCoord + 0.5, yCoord + 1.5, zCoord + 0.5).mute());
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, (int)(BombConfig.fatmanRadius * 1.5), xCoord + 0.5, yCoord + 1.5, zCoord + 0.5).mute());
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "muke");

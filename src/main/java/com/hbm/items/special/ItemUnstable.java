@@ -2,7 +2,7 @@ package com.hbm.items.special;
 
 import java.util.List;
 
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.lib.ModDamageSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -48,7 +48,7 @@ public class ItemUnstable extends Item {
     	this.setTimer(stack, this.getTimer(stack) + 1);
     	
     	if(this.getTimer(stack) == timer && !world.isRemote) {
-    		world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, radius, entity.posX, entity.posY, entity.posZ));
+    		world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, radius, entity.posX, entity.posY, entity.posZ));
     		world.playSoundAtEntity(entity, "hbm:entity.oldExplosion", 1.0F, 1.0F);
     		entity.attackEntityFrom(ModDamageSource.nuclearBlast, 10000);
     		

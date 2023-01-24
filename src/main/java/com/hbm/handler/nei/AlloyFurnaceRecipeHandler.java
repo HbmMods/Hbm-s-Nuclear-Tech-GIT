@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.hbm.inventory.gui.GUITestDiFurnace;
+import com.hbm.inventory.gui.GUIDiFurnace;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.inventory.recipes.MachineRecipes;
 
@@ -64,7 +64,7 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getGuiTexture() {
-		return GUITestDiFurnace.texture.toString();
+		return GUIDiFurnace.texture.toString();
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public Class<? extends GuiContainer> getGuiClass() {
-		return GUITestDiFurnace.class;
+		return GUIDiFurnace.class;
 	}
 
 	@Override

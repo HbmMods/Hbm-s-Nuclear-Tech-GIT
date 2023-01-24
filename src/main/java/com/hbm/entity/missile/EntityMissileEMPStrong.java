@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.entity.logic.EntityEMP;
 import com.hbm.items.ModItems;
 
-import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 

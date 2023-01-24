@@ -1,7 +1,6 @@
 package com.hbm.entity.logic;
 
 import com.hbm.entity.projectile.EntityBulletBase;
-import com.hbm.explosion.ExplosionNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -37,17 +36,8 @@ public class EntityDeathBlast extends Entity {
 		
 		if(this.ticksExisted >= maxAge && !worldObj.isRemote) {
 			this.setDead();
-
-			/*new ExplosionNT(worldObj, null, posX, posY, posZ, 35).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-			new ExplosionNT(worldObj, null, posX + 10, posY, posZ, 20).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-			new ExplosionNT(worldObj, null, posX - 10, posY, posZ, 20).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-			new ExplosionNT(worldObj, null, posX, posY, posZ + 10, 20).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-			new ExplosionNT(worldObj, null, posX, posY, posZ - 10, 20).addAllAttrib(ExplosionNT.nukeAttribs).explode();
 			
-			for(int k = 1; k < 6; k++)
-				new ExplosionNT(worldObj, null, posX, posY - k * 7, posZ, 20).addAllAttrib(ExplosionNT.nukeAttribs).explode();*/
-			
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFacNoRad(worldObj, 40, posX, posY, posZ).mute());
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(worldObj, 40, posX, posY, posZ).mute());
 			
 			int count = 100;
 			for(int i = 0; i < count; i++) {
@@ -70,24 +60,20 @@ public class EntityDeathBlast extends Entity {
 		}
 	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public int getBrightnessForRender(float p_70070_1_)
-    {
-        return 15728880;
-    }
+	public int getBrightnessForRender(float p_70070_1_) {
+		return 15728880;
+	}
 
-    @Override
-	public float getBrightness(float p_70013_1_)
-    {
-        return 1.0F;
-    }
-	
-    @Override
+	@Override
+	public float getBrightness(float p_70013_1_) {
+		return 1.0F;
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
-    public boolean isInRangeToRenderDist(double distance)
-    {
-        return distance < 25000;
-    }
-
+	public boolean isInRangeToRenderDist(double distance) {
+		return distance < 25000;
+	}
 }
