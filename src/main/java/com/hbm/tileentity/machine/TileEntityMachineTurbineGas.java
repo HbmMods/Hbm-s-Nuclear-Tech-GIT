@@ -310,7 +310,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	
 	private void makePower(double consMax, int throttle) {
 		
-		double idleConsumption = consMax * 0.1D;
+		double idleConsumption = consMax * 0.05D;
 		double consumption = idleConsumption + consMax * throttle / 100;
 		
 		fuelToConsume += consumption;
