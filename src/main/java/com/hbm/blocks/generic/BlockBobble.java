@@ -188,8 +188,7 @@ public class BlockBobble extends BlockContainer {
 		VAER(			"vaer",								"vaer",			"ZIRNOX",													"taken de family out to the weekend cigarette festival",											true,	ScrapType.MEM_16K_D),
 		NOS(			"Dr Nostalgia",						"Dr Nostalgia",	"SSG and Vortex models",									"Take a picture, I'ma pose, paparazzi$I've been drinking, moving like a zombie",					true,	ScrapType.BOARD_TRANSISTOR),
 		DRILLGON(		"Drillgon200",						"Drillgon200",	"1.12 Port",												null,																								false,	ScrapType.CPU_LOGIC),
-		CIRNO(			"Cirno",							"Cirno",		"the only multi layered skin i had",						"No brain. Head empty.",																			true,	ScrapType.BOARD_BLANK),
-		GWEN(			"Gwen",								"Gwen",			"Numero Uno Homie",											"KILL YOURSELF",																					true,	ScrapType.BOARD_BLANK);
+		CIRNO(			"Cirno",							"Cirno",		"the only multi layered skin i had",						"No brain. Head empty.",																			true,	ScrapType.BOARD_BLANK);
 
 		public String name;			//the title of the tooltip
 		public String label;		//the name engraved in the socket

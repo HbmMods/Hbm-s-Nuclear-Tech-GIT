@@ -96,7 +96,6 @@ public class ItemMissile extends Item {
 		HYDROGEN,
 		XENON,
 		BALEFIRE, 
-		HYDRAZINE
 	}
 	
 	public enum Rarity {
@@ -290,8 +289,6 @@ public class ItemMissile extends Item {
 			return EnumChatFormatting.DARK_PURPLE + "Xenon Gas";
 		case BALEFIRE:
 			return EnumChatFormatting.GREEN + "BF Rocket Fuel / Peroxide";
-		case HYDRAZINE:
-			return EnumChatFormatting.DARK_BLUE + "Hydrazine";
 		default:
 			return EnumChatFormatting.BOLD + "N/A";
 		}
