@@ -212,7 +212,7 @@ public class Fluids {
 		COALCREOSOTE =		new FluidType("COALCREOSOTE",		0x51694F, 3, 2, 0, EnumSymbol.NONE).addContainers(0x285A3F, ExtContainer.CANISTER).addTraits(LIQUID);
 		SEEDSLURRY =		new FluidType(81, "SEEDSLURRY",		0x7CC35E, 0, 0, 0, EnumSymbol.NONE).addContainers(0x7CC35E, ExtContainer.CANISTER).addTraits(LIQUID);
 		BLOOD =			    new FluidType("BLOOD",				0x4D0000, 1, 0, 3, EnumSymbol.NONE).addContainers(0x4D0000, ExtContainer.CANISTER).addTraits(DELICIOUS, ULTRAKILL, LIQUID); 
-		BLOODGAS =			new FluidType("BLOODGAS",		    0x591000, 1, 0, 3, EnumSymbol.NONE).addContainers(0x591000, ExtContainer.CANISTER).addTraits(new FT_Flammable(66_666), new FT_Combustible(FuelGrade.HIGH, 166_665)).addTraits(LIQUID);
+		BLOODGAS =			new FluidType("BLOODGAS",		    0x591000, 1, 0, 3, EnumSymbol.NONE).addContainers(0x591000, ExtContainer.CANISTER).addTraits(new FT_Flammable(666_666), new FT_Combustible(FuelGrade.HIGH, 366_665)).addTraits(LIQUID);
 		
 		
 		
@@ -398,6 +398,7 @@ public class Fluids {
 		registerCalculatedFuel(LPG, (baseline / 0.05 * flammabilityNormal * demandMedium * complexityRefinery * complexityChemplant), 2.5, FuelGrade.HIGH);
 		registerCalculatedFuel(NITAN, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 25L, 2.5, FuelGrade.HIGH);
 		registerCalculatedFuel(BALEFIRE, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 100L, 2.5, FuelGrade.HIGH);
+		registerCalculatedFuel(BLOODGAS, (baseline / 0.08 * flammabilityHigh * demandMedium * complexityFraction), 3.5D, FuelGrade.HIGH);
 		
 		int coalHeat = 400_000; // 200TU/t for 2000 ticks
 		registerCalculatedFuel(COALOIL, (coalHeat * (1000 /* bucket */ / 100 /* mB per coal */) * flammabilityLow * demandLow * complexityChemplant), 0, null);
