@@ -299,8 +299,8 @@ public class TileEntityMachineBoiler extends TileEntityLoadedBase implements ISi
 				heat = 2000;
 			}
 
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, heat, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, burnTime, 1), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, heat, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 7));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, burnTime, 1), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 7));
 		}
 		
 		if(mark) {

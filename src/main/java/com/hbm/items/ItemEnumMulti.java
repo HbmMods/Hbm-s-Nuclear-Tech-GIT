@@ -65,7 +65,11 @@ public class ItemEnumMulti extends Item {
 		
 		if(multiTexture) {
 			Enum num = EnumUtil.grabEnumSafely(theEnum, meta);
-			return this.icons[num.ordinal()];
+			if(this.icons != null)
+				return this.icons[num.ordinal()];
+			else {
+				return this.itemIcon;
+			}
 		} else {
 			return this.itemIcon;
 		}

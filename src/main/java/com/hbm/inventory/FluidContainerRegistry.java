@@ -73,7 +73,7 @@ public class FluidContainerRegistry {
 			FluidType type = fluids[i];
 			
 			if(type.containers.contains(ExtContainer.CANISTER))
-				FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_full, 1, i), new ItemStack(ModItems.canister_empty), Fluids.fromID(i), 1000));
+				FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_full, 1, i), new ItemStack(ModItems.canister_empty), Fluids.fromID(i), 4000));
 
 			if(type.hasNoContainer())
 				continue;

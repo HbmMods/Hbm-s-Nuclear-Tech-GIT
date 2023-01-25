@@ -17,7 +17,10 @@ import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
 import com.hbm.util.I18nUtil;
 
 import api.hbm.block.IToolable;
+import api.hbm.block.IToolable.ToolType;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,7 +35,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineFluidTank extends BlockDummyable implements IPersistentInfoProvider, IToolable, ILookOverlay {
+public class MachineFluidTank extends BlockDummyable implements IPersistentInfoProvider, IToolable, ILookOverlay{
 
 	public MachineFluidTank(Material mat) {
 		super(mat);
@@ -145,10 +148,11 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 		
 		if(tool != ToolType.TORCH) return false;
-		return IRepairable.tryRepairMultiblock(world, x, y, z, this, Minecraft.getMinecraft().thePlayer);
+		return IRepairable.tryRepairMultiblock(world, x, y, z, this, player);
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		
 		List<AStack> materials = IRepairable.getRepairMaterials(world, x, y, z, this, Minecraft.getMinecraft().thePlayer);
