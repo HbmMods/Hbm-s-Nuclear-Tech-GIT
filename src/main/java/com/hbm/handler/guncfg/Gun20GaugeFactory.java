@@ -2,10 +2,12 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -48,17 +50,7 @@ public class Gun20GaugeFactory {
 						)
 				);
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G20_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G20_SLUG);
-		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE);
-		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
-		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
-		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
-		config.config.add(BulletConfigSyncingUtil.G20_WITHER);
-		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
+		config.config = HbmCollection.twentyGauge;
 		
 		return config;
 	}
@@ -72,20 +64,10 @@ public class Gun20GaugeFactory {
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.firingPitch = 0.75F;
 		
-		config.name = "Winchester Model 1887";
-		config.manufacturer = "Winchester Repeating Arms Company";
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G20_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G20_SLUG);
-		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE);
-		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
-		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
-		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
-		config.config.add(BulletConfigSyncingUtil.G20_WITHER);
-		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
+		config.name = "win1887";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER;
+
+		config.config = HbmCollection.twentyGauge;
 		
 		return config;
 	}
@@ -99,20 +81,10 @@ public class Gun20GaugeFactory {
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.firingPitch = 0.75F;
 		
-		config.name = "Winchester Model 1887 Inox";
-		config.manufacturer = "Winchester Repeating Arms Company";
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G20_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G20_SLUG);
-		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE);
-		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
-		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
-		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
-		config.config.add(BulletConfigSyncingUtil.G20_WITHER);
-		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
+		config.name = "win1887Inox";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER;
+
+		config.config = HbmCollection.twentyGauge;
 		
 		return config;
 	}
@@ -145,20 +117,10 @@ public class Gun20GaugeFactory {
 						)
 				);
 		
-		config.name = "Remington Model 700";
-		config.manufacturer = "Remington Arms Company";
+		config.name = "win20Inox";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER;
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G20_SLUG);
-		config.config.add(BulletConfigSyncingUtil.G20_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE);
-		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
-		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
-		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
-		config.config.add(BulletConfigSyncingUtil.G20_WITHER);
-		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
+		config.config = HbmCollection.twentyGauge;
 		
 		return config;
 	}
@@ -191,20 +153,10 @@ public class Gun20GaugeFactory {
 						)
 				);
 		
-		config.name = "Winchester Model 20 Polymer";
-		config.manufacturer = "Winchester Repeating Arms Company";
+		config.name = "win20Poly";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER;
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G20_SLUG);
-		config.config.add(BulletConfigSyncingUtil.G20_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE);
-		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
-		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
-		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
-		config.config.add(BulletConfigSyncingUtil.G20_WITHER);
-		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
+		config.config = HbmCollection.twentyGauge;
 		
 		return config;
 	}
@@ -237,29 +189,20 @@ public class Gun20GaugeFactory {
 						)
 				);
 		
-		config.name = "Winchester Model 20 D-25A";
-		config.manufacturer = "Winchester Repeating Arms Company / Big MT";
+		config.name = "win20Satur";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER_BIGMT;
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G20_SLUG_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_NORMAL_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
-		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_SHOCK_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_WITHER_FIRE);
-		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
+		config.config = HbmCollection.twentyGauge;
 		
 		return config;
 	}
 	
+	private static int i = 0;
 	public static BulletConfiguration get20GaugeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_20gauge;
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
 		bullet.dmgMin = 3;
 		bullet.dmgMax = 5;
 		
@@ -270,7 +213,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_20gauge_slug;
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 22;
 		bullet.wear = 7;
@@ -283,7 +226,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_20gauge_flechette;
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
 		bullet.dmgMin = 8;
 		bullet.dmgMax = 15;
 		bullet.wear = 15;
@@ -298,7 +241,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_20gauge_incendiary;
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
 		bullet.dmgMin = 3;
 		bullet.dmgMax = 6;
 		bullet.wear = 15;
@@ -311,7 +254,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_20gauge_shrapnel;
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
 		bullet.wear = 15;
 		bullet.dmgMin = 7;
 		bullet.dmgMax = 12;
@@ -326,7 +269,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_20gauge_explosive;
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
 		bullet.dmgMin = 7;
 		bullet.dmgMax = 12;
 		bullet.wear = 25;
@@ -339,7 +282,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_20gauge_caustic;
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
 		bullet.dmgMin = 3;
 		bullet.dmgMax = 7;
 		bullet.wear = 25;
@@ -358,7 +301,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_20gauge_shock;
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
 		bullet.dmgMin = 4;
 		bullet.dmgMax = 8;
 		bullet.wear = 25;
@@ -378,7 +321,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_20gauge_wither;
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
 		bullet.dmgMin = 4;
 		bullet.dmgMax = 8;
 		
@@ -392,7 +335,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
 		
-		bullet.ammo = ModItems.ammo_20gauge_sleek;
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
 		
 		return bullet;
 	}

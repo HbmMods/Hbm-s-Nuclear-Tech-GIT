@@ -1,11 +1,11 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun22LRFactory {
@@ -29,14 +29,11 @@ public class Gun22LRFactory {
 		config.firingSound = "hbm:weapon.uziShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "IMI Uzi";
-		config.manufacturer = "Israel Military Industries";
+		config.name = "uzi";
+		config.manufacturer = EnumGunManufacturer.IMI;
 		config.comment.add("Mom, where are my mittens?");
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.LR22_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.LR22_AP);
-		config.config.add(BulletConfigSyncingUtil.CHL_LR22);
+		config.config = HbmCollection.twentyTwoLR;
 		
 		return config;
 	}
@@ -47,13 +44,10 @@ public class Gun22LRFactory {
 		
 		config.durability = 4500;
 		
-		config.name = "IMI Uzi D-25A";
-		config.manufacturer = "IMI / Big MT";
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.LR22_NORMAL_FIRE);
-		config.config.add(BulletConfigSyncingUtil.LR22_AP_FIRE);
-		config.config.add(BulletConfigSyncingUtil.CHL_LR22_FIRE);
+		config.name = "uziSatur";
+		config.manufacturer = EnumGunManufacturer.IMI_BIGMT;
+
+		config.config = HbmCollection.twentyTwoLRFire;
 		
 		return config;
 	}
@@ -63,7 +57,7 @@ public class Gun22LRFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_22lr;
+		bullet.ammo = new ComparableStack(ModItems.ammo_22lr, 1, 0);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 8;
@@ -75,7 +69,7 @@ public class Gun22LRFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_22lr_ap;
+		bullet.ammo = new ComparableStack(ModItems.ammo_22lr, 1, 1);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 12;
 		bullet.dmgMax = 16;

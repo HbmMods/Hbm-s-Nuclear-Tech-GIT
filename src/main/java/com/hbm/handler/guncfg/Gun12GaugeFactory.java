@@ -7,7 +7,10 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -39,18 +42,12 @@ public class Gun12GaugeFactory {
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.shotgunPump";
 		
-		config.name = "Franchi SPAS-12";
-		config.manufacturer = "Black Mesa Armory";
+		config.name = "spas12";
+		config.manufacturer = EnumGunManufacturer.BLACK_MESA;
 		config.comment.add("\"Here, I have a more suitable gun for you. You'll need it - Catch!\"");
 		config.comment.add("Alt-fire with Mouse 2 (Right-click) to fire 2 shells at once");
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
-		config.config.add(BulletConfigSyncingUtil.G12_DU);
-		config.config.add(BulletConfigSyncingUtil.G12_AM);
-		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
+		config.config = HbmCollection.twelveGauge;
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("SPAS_RECOIL_TRANSLATE", new BusAnimationSequence()
@@ -115,16 +112,10 @@ public static GunConfiguration getSpas12AltConfig() {
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.shotgunShoot";
 		
-		config.name = "Uboinik Revolving Shotgun";
-		config.manufacturer = "Metro Gunsmiths";
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
-		config.config.add(BulletConfigSyncingUtil.G12_DU);
-		config.config.add(BulletConfigSyncingUtil.G12_AM);
-		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
+		config.name = "uboinik";
+		config.manufacturer = EnumGunManufacturer.METRO;
+
+		config.config = HbmCollection.twelveGauge;
 		
 		return config;
 	}
@@ -171,17 +162,11 @@ public static GunConfiguration getSpas12AltConfig() {
 						)
 				);
 		
-		config.name = "Double-Barreled Combat Shotgun";
-		config.manufacturer = "Union Aerospace Corporation";
+		config.name = "supershotty";
+		config.manufacturer = EnumGunManufacturer.UAC;
 		config.comment.add("God-damned ARCH-VILES!");
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
-		config.config.add(BulletConfigSyncingUtil.G12_DU);
-		config.config.add(BulletConfigSyncingUtil.G12_AM);
-		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
+		config.config = HbmCollection.twelveGauge;
 		
 		return config;
 	}
@@ -190,7 +175,7 @@ public static GunConfiguration getSpas12AltConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_12gauge;
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge, 1, 0);
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 7;
 		
@@ -199,9 +184,9 @@ public static GunConfiguration getSpas12AltConfig() {
 	
 	public static BulletConfiguration get12GaugeFireConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
-		
-		bullet.ammo = ModItems.ammo_12gauge_incendiary;
+		BulletConfiguration bullet = get12GaugeConfig();
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge, 1, 1);
 		bullet.wear = 15;
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 7;
@@ -212,9 +197,9 @@ public static GunConfiguration getSpas12AltConfig() {
 	
 	public static BulletConfiguration get12GaugeShrapnelConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
-		
-		bullet.ammo = ModItems.ammo_12gauge_shrapnel;
+		BulletConfiguration bullet = get12GaugeConfig();
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge, 1, 2);
 		bullet.wear = 15;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 17;
@@ -229,7 +214,7 @@ public static GunConfiguration getSpas12AltConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_12gauge_du;
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge, 1, 3);
 		bullet.wear = 20;
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 22;
@@ -243,7 +228,7 @@ public static GunConfiguration getSpas12AltConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_12gauge_marauder;
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge, 1, 4);
 		bullet.wear = 20;
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 500;
@@ -267,7 +252,7 @@ public static GunConfiguration getSpas12AltConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
 		
-		bullet.ammo = ModItems.ammo_12gauge_sleek;
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge, 1, 5);
 		
 		return bullet;
 	}

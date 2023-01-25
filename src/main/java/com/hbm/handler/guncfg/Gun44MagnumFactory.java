@@ -12,7 +12,10 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -43,6 +46,8 @@ public class Gun44MagnumFactory {
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.reloadSoundEnd = false;
 		
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
+		
 		return config;
 	}
 	
@@ -52,18 +57,9 @@ public class Gun44MagnumFactory {
 		
 		config.durability = 2500;
 		
-		config.name = "IF-18 Horseshoe";
-		config.manufacturer = "Ironshod Firearms";
+		config.name = "ifHorseshoe";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Fallout New Vegas wasn't THAT good.");
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		return config;
 	}
@@ -74,19 +70,13 @@ public class Gun44MagnumFactory {
 		
 		config.durability = 4000;
 		
-		config.name = "IF-18 Horseshoe Scoped";
-		config.manufacturer = "Ironshod Firearms";
+		config.name = "ifScope";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Poppin' mentats like tic tacs");
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_PIP);
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -98,19 +88,13 @@ public class Gun44MagnumFactory {
 		config.durability = 4000;
 		config.ammoCap = 5;
 		
-		config.name = "IF-18 Horseshoe Vanity";
-		config.manufacturer = "Ironshod Firearms";
+		config.name = "ifVanity";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Alcoholism is cool!");
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_BJ);
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -122,20 +106,14 @@ public class Gun44MagnumFactory {
 		config.durability = 4000;
 		config.ammoCap = 6;
 		
-		config.name = "IF-18 Horseshoe Silver Storm";
-		config.manufacturer = "Ironshod Firearms";
+		config.name = "ifStorm";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Our friendship is based on abusive behaviour");
 		config.comment.add("and mutual hate. It's not that complicated.");
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_SILVER);
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -147,31 +125,23 @@ public class Gun44MagnumFactory {
 		config.durability = 4000;
 		config.ammoCap = 64;
 		
-		config.name = "IF-18 Horseshoe Bottomless Pit";
-		config.manufacturer = "Ironshod Firearms R&D";
+		config.name = "ifPit";
+		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Explore the other side");
 		config.comment.add("...from afar!");
 		
 		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.M44_AP);
-		config.config.add(BulletConfigSyncingUtil.M44_DU);
-		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.M44_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_M44);
-		config.config.add(BulletConfigSyncingUtil.M44_PIP);
-		config.config.add(BulletConfigSyncingUtil.M44_BJ);
-		config.config.add(BulletConfigSyncingUtil.M44_SILVER);
-		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
+		config.config.addAll(HbmCollection.fourtyFourMagAll);
 		
 		return config;
 	}
 	
+	static byte i = 0;
 	public static BulletConfiguration getNoPipConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 26;
 		
@@ -182,7 +152,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_ap;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 25;
 		bullet.dmgMax = 32;
 		bullet.wear = 15;
@@ -195,7 +165,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_du;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 28;
 		bullet.dmgMax = 40;
 		bullet.wear = 25;
@@ -208,7 +178,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_phosphorus;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 26;
 		bullet.wear = 15;
@@ -242,7 +212,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_star;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 42;
 		bullet.dmgMax = 50;
 		bullet.wear = 25;
@@ -255,7 +225,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_pip;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
@@ -292,7 +262,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_bj;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
@@ -330,7 +300,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_44_silver;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
@@ -368,7 +338,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = ModItems.ammo_44_rocket;
+		bullet.ammo = new ComparableStack(ModItems.ammo_44, 1, i++);
 		bullet.velocity = 5;
 		bullet.explosive = 15F;
 		bullet.trail = 1;

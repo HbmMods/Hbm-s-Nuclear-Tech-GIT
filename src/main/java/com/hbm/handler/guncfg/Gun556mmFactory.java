@@ -8,7 +8,10 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -45,22 +48,12 @@ public class Gun556mmFactory {
 		config.firingSound = "hbm:weapon.hksShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "Britannian Standard Issue Assault Rifle";
-		config.manufacturer = "BAE Systems plc";
+		config.name = "baeAR";
+		config.manufacturer = EnumGunManufacturer.BAE;
 		
 		config.comment.add("Why is this gun so sticky?");
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.R556_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.R556_GOLD);
-		config.config.add(BulletConfigSyncingUtil.R556_TRACER);
-		config.config.add(BulletConfigSyncingUtil.R556_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.R556_AP);
-		config.config.add(BulletConfigSyncingUtil.R556_DU);
-		config.config.add(BulletConfigSyncingUtil.R556_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_R556);
-		config.config.add(BulletConfigSyncingUtil.R556_SLEEK);
-		config.config.add(BulletConfigSyncingUtil.R556_K);
+		config.config = HbmCollection.NATO;
 		
 		return config;
 	}
@@ -92,21 +85,14 @@ public class Gun556mmFactory {
 						)
 				);
 		
-		config.name = "H&R SPIW";
-		config.manufacturer = "Harrington & Richardson";
+		config.name = "spiw";
+		config.manufacturer = EnumGunManufacturer.H_AND_R;
 		
 		config.comment.add("Launch some flechettes in the breeze");
 		config.comment.add("Find his arms nailed to the trees");
 		config.comment.add("Napalm sticks to kids");
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE);
-		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_DU);
-		config.config.add(BulletConfigSyncingUtil.CHL_R556_FLECHETTE);
-		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_SLEEK);
-		config.config.add(BulletConfigSyncingUtil.R556_K);
+
+		config.config = HbmCollection.NATOFlechette;
 		
 		return config;
 	}
@@ -130,28 +116,17 @@ public class Gun556mmFactory {
 		config.reloadSound = GunConfiguration.RSOUND_GRENADE;
 		config.reloadSoundEnd = false;
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.GRENADE_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_HE);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_CHEMICAL);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_CONCUSSION);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_FINNED);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_SLEEK);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_NUCLEAR);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_TRACER);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_KAMPF);
+		config.config = HbmCollection.grenade;
 		
 		return config;
 	}
 
-	static float inaccuracy = 2.5F;
+	private static float inaccuracy = 2.5F;
 	public static BulletConfiguration get556Config() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_556;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 0);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 16;
 		bullet.dmgMax = 20;
@@ -163,7 +138,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 		
-		bullet.ammo = ModItems.ammo_566_gold;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 1);
 		bullet.dmgMin = 250;
 		bullet.dmgMax = 320;
 		bullet.spread = 0.0F;
@@ -175,7 +150,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 		
-		bullet.ammo = ModItems.ammo_556_phosphorus;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 2);
 		bullet.wear = 15;
 		bullet.incendiary = 5;
 		bullet.doesPenetrate = false;
@@ -207,7 +182,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 		
-		bullet.ammo = ModItems.ammo_556_ap;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 3);
 		bullet.dmgMin = 20;
 		bullet.dmgMax = 26;
 		bullet.wear = 15;
@@ -220,7 +195,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 		
-		bullet.ammo = ModItems.ammo_556_du;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 4);
 		bullet.dmgMin = 24;
 		bullet.dmgMax = 32;
 		bullet.wear = 25;
@@ -233,7 +208,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 		
-		bullet.ammo = ModItems.ammo_556_star;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 5);
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
@@ -246,7 +221,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 		
-		bullet.ammo = ModItems.ammo_556_sleek;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 7);
 		bullet.dmgMin = 45;
 		bullet.dmgMax = 50;
 		bullet.wear = 10;
@@ -295,7 +270,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 
-		bullet.ammo = ModItems.ammo_556_tracer;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 8);
 		bullet.vPFX = "reddust";
 		
 		return bullet;
@@ -305,7 +280,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 
-		bullet.ammo = ModItems.ammo_556_flechette;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 9);
 		bullet.dmgMin = 26;
 		bullet.dmgMax = 32;
 		bullet.HBRC = 2;
@@ -321,7 +296,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556FlechetteConfig();
 		
-		bullet.ammo = ModItems.ammo_556_flechette_incendiary;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 10);
 		bullet.incendiary = 5;
 		
 		return bullet;
@@ -331,7 +306,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556FlechetteConfig();
 		
-		bullet.ammo = ModItems.ammo_556_flechette_phosphorus;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 11);
 		bullet.incendiary = 5;
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
@@ -361,7 +336,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556FlechetteConfig();
 		
-		bullet.ammo = ModItems.ammo_556_flechette_du;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 12);
 		bullet.dmgMin = 46;
 		bullet.dmgMax = 52;
 		bullet.wear = 25;
@@ -375,7 +350,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556FlechetteConfig();
 		
-		bullet.ammo = ModItems.ammo_556_flechette_sleek;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 13);
 		bullet.dmgMin = 45;
 		bullet.dmgMax = 50;
 		bullet.wear = 10;
@@ -424,7 +399,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_556_k;
+		bullet.ammo = new ComparableStack(ModItems.ammo_556, 1, 14);
 		bullet.dmgMin = 0;
 		bullet.dmgMax = 0;
 		bullet.maxAge = 0;
