@@ -55,9 +55,9 @@ public class RenderCoreComponent extends TileEntitySpecialRenderer {
 	        int range = ((TileEntityCoreEmitter)tileEntity).beam;
 	        
 	        if(range > 0) {
-		        BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x404000, 0x404000, 0, 1, 0F, 2, 0.0625F);
-		        BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x401500, 0x401500, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000, range * 2, 0.125F, 4, 0.0625F);
-		        BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x401500, 0x401500, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000 + 1, range * 2, 0.125F, 4, 0.0625F);
+		        BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x404000, 0x404000, 0, 1, 0F, 2, 0.0625F);
+		        BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x401500, 0x401500, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000, range * 2, 0.125F, 4, 0.0625F);
+		        BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x401500, 0x401500, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000 + 1, range * 2, 0.125F, 4, 0.0625F);
 	        }
         }
 

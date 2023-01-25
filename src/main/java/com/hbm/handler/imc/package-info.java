@@ -20,9 +20,14 @@ package com.hbm.handler.imc;
 	- Set another tag compound like the output called "output". This will make the input a fixed item.
 	- Set a string called "oredict". This will make the input an ore dict entry and allow processing of genericized items.
 	
+	[OPTIONAL]
+	The input has a few parameters that can be added:
+	- Setting an integer "acid" will change the acid requirement to the fluid with that ID, in this case "amount" also has to be set to determine the fluid amount in mB. The default uses 500mB of hydrogen peroxide.
+	- Setting an integer "duration" will change the base process time of this recipe in ticks, the default is 600 (30s).
+	
 	EXAMPLES:
 	
-	Recipe with fixed item, acidizing an alloy chestplate into 8 ingots:
+	Recipe with fixed item, acidizing an alloy chestplate into 8 ingots, taking 500 ticks and using 50mB of steam:
 		NBTTagCompound msg0 = new NBTTagCompound();
 		NBTTagCompound ing0 = new NBTTagCompound();
 		new ItemStack(ModItems.alloy_plate).writeToNBT(ing0);
@@ -30,9 +35,12 @@ package com.hbm.handler.imc;
 		NBTTagCompound out0 = new NBTTagCompound();
 		new ItemStack(ModItems.ingot_advanced_alloy, 8).writeToNBT(out0);
 		msg0.setTag("output", out0);
+		msg0.setInteger("acid", 2);
+		msg0.setInteger("amount", 50);
+		msg0.setInteger("duration", 500);
 		FMLInterModComms.sendMessage("hbm", "crystallizer", msg0);
 
-	Recipe with an ore dict item, acidizing all "plateSteel" into a steel ingot:
+	Recipe with an ore dict item, acidizing all "plateSteel" into a steel ingot, with all optional values omitted:
 		NBTTagCompound msg1 = new NBTTagCompound();
 		msg1.setString("oredict", "plateSteel");
 		NBTTagCompound out1 = new NBTTagCompound();

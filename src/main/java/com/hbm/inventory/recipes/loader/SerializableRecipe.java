@@ -60,6 +60,9 @@ public abstract class SerializableRecipe {
 			}
 		}
 		
+		File info = new File(recDir.getAbsolutePath() + File.separatorChar + "REMOVE UNDERSCORE TO ENABLE RECIPE LOADING - RECIPES WILL RESET TO DEFAULT OTHERWISE");
+		try { info.createNewFile(); } catch(IOException e) { }
+		
 		MainRegistry.logger.info("Starting recipe init!");
 		
 		for(SerializableRecipe recipe : recipeHandlers) {

@@ -1,9 +1,14 @@
 package com.hbm.tileentity.machine;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK3.ATEntry;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -20,6 +25,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 
 public class TileEntityCore extends TileEntityMachineBase {
 	
@@ -28,6 +34,7 @@ public class TileEntityCore extends TileEntityMachineBase {
 	public int color;
 	public FluidTank[] tanks;
 	private boolean lastTickValid = false;
+	public boolean meltdownTick = false;
 
 	public TileEntityCore() {
 		super(3);
@@ -49,6 +56,8 @@ public class TileEntityCore extends TileEntityMachineBase {
 			int chunkX = xCoord >> 4;
 			int chunkZ = zCoord >> 4;
 			
+			meltdownTick = false;
+			
 			lastTickValid = worldObj.getChunkProvider().chunkExists(chunkX, chunkZ) &&
 					worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ + 1) &&
 					worldObj.getChunkProvider().chunkExists(chunkX + 1, chunkZ - 1) &&
@@ -63,17 +72,46 @@ public class TileEntityCore extends TileEntityMachineBase {
 				
 				int size = Math.max(Math.min(fill * mod / max, 1000), 50);
 				
-				EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, size);
+				boolean canExplode = true;
+				Iterator<Entry<ATEntry, Long>> it = EntityNukeExplosionMK3.at.entrySet().iterator();
+				while(it.hasNext()) {
+					Entry<ATEntry, Long> next = it.next();
+					if(next.getValue() < worldObj.getTotalWorldTime()) {
+						it.remove();
+						continue;
+					}
+					ATEntry entry = next.getKey();
+					if(entry.dim != worldObj.provider.dimensionId)  continue;
+					Vec3 vec = Vec3.createVectorHelper(xCoord + 0.5 - entry.x, yCoord + 0.5 - entry.y, zCoord + 0.5 - entry.z);
+					if(vec.lengthVector() < 300) {
+						canExplode = false;
+						break;
+					}
+				}
 				
-				if(!ex.isDead) {
-					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.explode", 100000.0F, 1.0F);
+				if(canExplode) {
+					
+					EntityNukeExplosionMK3 ex = new EntityNukeExplosionMK3(worldObj);
+					ex.posX = xCoord + 0.5;
+					ex.posY = yCoord + 0.5;
+					ex.posZ = zCoord + 0.5;
+					ex.destructionRange = size;
+					ex.speed = BombConfig.blastSpeed;
+					ex.coefficient = 1.0F;
+					ex.waste = false;
 					worldObj.spawnEntityInWorld(ex);
+					
+					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.explode", 100000.0F, 1.0F);
 					
 					EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(worldObj, size);
 					cloud.posX = xCoord;
 					cloud.posY = yCoord;
 					cloud.posZ = zCoord;
 					worldObj.spawnEntityInWorld(cloud);
+					
+				} else {
+					meltdownTick = true;
+					ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 100);
 				}
 			}
 			
@@ -96,6 +134,7 @@ public class TileEntityCore extends TileEntityMachineBase {
 			data.setInteger("field", field);
 			data.setInteger("heat", heat);
 			data.setInteger("color", color);
+			data.setBoolean("melt", meltdownTick);
 			networkPack(data, 250);
 			
 			heat = 0;
@@ -121,13 +160,15 @@ public class TileEntityCore extends TileEntityMachineBase {
 		field = data.getInteger("field");
 		heat = data.getInteger("heat");
 		color = data.getInteger("color");
+		meltdownTick = data.getBoolean("melt");
 	}
 	
 	private void radiation() {
 		
-		double scale = 2;
+		double scale = this.meltdownTick ? 5 : 3;
+		double range = this.meltdownTick ? 50 : 10;
 		
-		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 10 + 0.5, yCoord - 10 + 0.5 + 6, zCoord - 10 + 0.5, xCoord + 10 + 0.5, yCoord + 10 + 0.5 + 6, zCoord + 10 + 0.5));
+		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(range, range, range));
 		
 		for(Entity e : list) {
 			if(!(e instanceof EntityPlayer && ArmorUtil.checkForHazmat((EntityPlayer)e)))
@@ -137,7 +178,7 @@ public class TileEntityCore extends TileEntityMachineBase {
 				}
 		}
 
-		List<Entity> list2 = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - scale + 0.5, yCoord - scale + 0.5 + 6, zCoord - scale + 0.5, xCoord + scale + 0.5, yCoord + scale + 0.5 + 6, zCoord + scale + 0.5));
+		List<Entity> list2 =worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(scale, scale, scale));
 		
 		for(Entity e : list2) {
 			if(!(e instanceof EntityPlayer && ArmorUtil.checkForHaz2((EntityPlayer)e)))

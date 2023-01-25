@@ -184,6 +184,11 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 	}
 
 	@Override
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return new int[] { 9, 10, 11, 12, 13, 14, 15, 16, 17 };
+	}
+
+	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		return i > 8 && i < 18;
 	}

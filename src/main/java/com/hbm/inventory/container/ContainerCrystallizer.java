@@ -2,8 +2,10 @@ package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.inventory.SlotUpgrade;
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -17,22 +19,29 @@ public class ContainerCrystallizer extends Container {
 	public ContainerCrystallizer(InventoryPlayer invPlayer, TileEntityMachineCrystallizer tedf) {
 		diFurnace = tedf;
 
-		this.addSlotToContainer(new Slot(tedf, 0, 80, 35));
-		this.addSlotToContainer(new Slot(tedf, 1, 8, 53));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 140, 35));
-		this.addSlotToContainer(new Slot(tedf, 3, 26, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 26, 53));
-		this.addSlotToContainer(new SlotUpgrade(tedf, 5, 98, 17));
-		this.addSlotToContainer(new SlotUpgrade(tedf, 6, 116, 17));
+		//Input
+		this.addSlotToContainer(new Slot(tedf, 0, 62, 45));
+		//Battery
+		this.addSlotToContainer(new Slot(tedf, 1, 152, 72));
+		//Output
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 113, 45));
+		//Fluid slots
+		this.addSlotToContainer(new Slot(tedf, 3, 17, 18));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 17, 54));
+		//Upgrades
+		this.addSlotToContainer(new SlotUpgrade(tedf, 5, 80, 18));
+		this.addSlotToContainer(new SlotUpgrade(tedf, 6, 98, 18));
+		//Fluid ID
+		this.addSlotToContainer(new Slot(tedf, 7, 35, 72));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 122 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 180));
 		}
 	}
 
@@ -51,11 +60,20 @@ public class ContainerCrystallizer extends Container {
 					return null;
 				}
 			} else {
-
-				if(!this.mergeItemStack(var5, 0, 2, false))
-					if(!this.mergeItemStack(var5, 3, 4, false))
-						if(!this.mergeItemStack(var5, 5, 7, false))
-							return null;
+				
+				if(var3.getItem() instanceof IBatteryItem) {
+					if(!this.mergeItemStack(var5, 1, 2, false)) {
+						return null;
+					}
+				} else if(var3.getItem() instanceof IItemFluidIdentifier) {
+					if(!this.mergeItemStack(var5, 7, 8, false)) {
+						return null;
+					}
+				} else {
+					if(!this.mergeItemStack(var5, 0, 1, false)) {
+						return null;
+					}
+				}
 			}
 
 			if(var5.stackSize == 0) {

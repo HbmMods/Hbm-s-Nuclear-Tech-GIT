@@ -26,11 +26,11 @@ public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidA
 		
 		if(!worldObj.isRemote) {
 			
+			this.subscribeToAllAround(water.getTankType(), this);
+			
 			for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);
 				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
-				
-				this.trySubscribe(water.getTankType(), worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir);
 				
 				if(b instanceof RBMKBase) {
 					int[] pos = ((RBMKBase)b).findCore(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);

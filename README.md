@@ -1,8 +1,19 @@
-# Hbm-s-Nuclear-Tech-GIT
+# HBM's Nuclear Tech Mod for Minecraft 1.7.10
 
-https://minecraft.curseforge.com/projects/hbms-nuclear-tech-mod?gameCategorySlug=mc-mods&projectID=235439
+[NTM on Modrinth](https://modrinth.com/mod/ntm)
 
-For a 1.12 fork, check this link: https://github.com/Drillgon200/Hbm-s-Nuclear-Tech-GIT/releases
+[NTM on CurseForge](https://minecraft.curseforge.com/projects/hbms-nuclear-tech-mod?gameCategorySlug=mc-mods&projectID=235439)
+
+**This is for 1.7.10!** For 1.12, check out these projects:
+
+* NTM Reloaded: https://github.com/TheOriginalGolem/Hbm-s-Nuclear-Tech-GIT/releases
+* NTM Alcater Edition: https://github.com/Alcatergit/Hbm-s-Nuclear-Tech-GIT/releases
+
+For 1.18, try Martin's remake: https://github.com/MartinTheDragon/Nuclear-Tech-Mod-Remake/releases
+
+## Downloading pre-compiled versions from GitHub
+
+Simply navigate to "Releases" on the right side of the page, download links for the compiled JAR as well as the corresponding source code are under the "Assets" category below the changelog. Make sure to review all changelogs when updating!
 
 ## Building from source
 
@@ -81,4 +92,4 @@ If you want to make some changes to the mod, follow this guide:
 10. Code!
 
 # License
-This software is licensed under the GNU Public License version 3. In short: This software is free, you may run the software freely, create modified versions, distribute this software and distribute modified versions, as long as the modified software too has a free software license. You win this round, Stallman. The full license can be found in the `LICENSE` file.
+This software is licensed under the GNU Lesser General Public License version 3. In short: This software is free, you may run the software freely, create modified versions, distribute this software and distribute modified versions, as long as the modified software too has a free software license (with an exception for linking to this software, as stated by the "Lesser" part of the LGPL, where this may not be required). You win this round, Stallman. The full license can be found in the `LICENSE` and `LICENSE.LESSER` files.

@@ -102,8 +102,8 @@ public class ExplosionNukeRayBatched {
 
 				if(!world.getBlock((int)x0, (int)y0, (int)z0).getMaterial().isLiquid())
 					res -= Math.pow(world.getBlock((int)x0, (int)y0, (int)z0).getExplosionResistance(null), 7.5D - fac);
-				else
-					res -= Math.pow(Blocks.air.getExplosionResistance(null), 7.5D - fac);
+				//else
+				//	res -= Math.pow(Blocks.air.getExplosionResistance(null), 7.5D - fac); // air is 0, might want to raise that is necessary
 
 				if(res > 0 && world.getBlock((int)x0, (int)y0, (int)z0) != Blocks.air) {
 					lastPos = new FloatTriplet(x0, y0, z0);

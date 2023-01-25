@@ -31,6 +31,7 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
+import com.hbm.items.machine.ItemDrillbit.EnumDrillType;
 import com.hbm.items.machine.ItemPistons.EnumPistonType;
 import com.hbm.main.MainRegistry;
 
@@ -625,6 +626,45 @@ public class AssemblerRecipes {
 				new OreDictStack(NB.ingot(), 16),
 				new ComparableStack(ModItems.bolt_compound, 16)
 			}, 200);
+
+		makeRecipe(new ComparableStack(ModBlocks.machine_excavator, 1), new AStack[] {
+				new ComparableStack(Blocks.stonebrick, 8),
+				new OreDictStack(STEEL.ingot(), 16),
+				new OreDictStack(IRON.ingot(), 16),
+				new ComparableStack(ModBlocks.steel_scaffold, 16),
+				new ComparableStack(ModItems.motor, 2),
+				new ComparableStack(ModItems.tank_steel, 1),
+				new ComparableStack(ModItems.circuit_red_copper, 1)
+			}, 300);
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.STEEL.ordinal()), new AStack[] {
+				new OreDictStack(STEEL.ingot(), 12),
+				new OreDictStack(W.ingot(), 4)
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.STEEL_DIAMOND.ordinal()), new AStack[] {
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.STEEL.ordinal()),
+				new OreDictStack(DIAMOND.dust(), 16)
+			}, 100);
+		
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.HSS.ordinal()), new AStack[] {
+				new OreDictStack(DURA.ingot(), 12),
+				new OreDictStack(ANY_PLASTIC.ingot(), 12),
+				new OreDictStack(TI.ingot(), 8)
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.HSS_DIAMOND.ordinal()), new AStack[] {
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.HSS.ordinal()),
+				new OreDictStack(DIAMOND.dust(), 24)
+			}, 100);
+		
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.DESH.ordinal()), new AStack[] {
+				new OreDictStack(DESH.ingot(), 16),
+				new OreDictStack(RUBBER.ingot(), 12),
+				new OreDictStack(NB.ingot(), 4)
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.DESH_DIAMOND.ordinal()), new AStack[] {
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.DESH.ordinal()),
+				new OreDictStack(DIAMOND.dust(), 32)
+			}, 100);
+		
 		makeRecipe(new ComparableStack(ModBlocks.machine_large_turbine, 1), new AStack[] {
 				new OreDictStack(STEEL.plate(), 12),
 				new OreDictStack(RUBBER.ingot(), 4),

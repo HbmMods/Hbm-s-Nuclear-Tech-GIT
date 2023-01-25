@@ -171,7 +171,7 @@ public class EntityFalloutRain extends Entity {
 			}
 			
 			float hardness = b.getBlockHardness(worldObj, x, y, z);
-			if(dist < 65 && hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0) {
+			if(dist < 65 && hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0/* && !b.hasTileEntity(worldObj.getBlockMetadata(x, y, z))*/) {
 				
 				Block bl = worldObj.getBlock(x, y - 1, z);
 				if(bl == Blocks.air) {

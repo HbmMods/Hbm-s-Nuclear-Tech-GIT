@@ -90,7 +90,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			return false;
 		}
 
-		for(int i = 0; i < 4; i++) {
+		for(int i = 0; i < Math.min(4, out.length); i++) {
 
 			//either the slot is null, the output is null or the output can be added to the existing slot
 			if(slots[i + 2] == null)
@@ -111,7 +111,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	private void processItem() {
 		ItemStack[] out = CentrifugeRecipes.getOutput(slots[0]);
 
-		for(int i = 0; i < 4; i++) {
+		for(int i = 0; i < Math.min(4, out.length); i++) {
 
 			if(out[i] == null)
 				continue;
