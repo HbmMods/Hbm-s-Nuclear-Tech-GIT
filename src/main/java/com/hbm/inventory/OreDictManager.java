@@ -172,7 +172,7 @@ public class OreDictManager {
 	public static final DictFrame RUBBER = new DictFrame("Rubber");
 	public static final DictFrame MAGTUNG = new DictFrame("MagnetizedTungsten");
 	public static final DictFrame CMB = new DictFrame("CMBSteel");
-	public static final DictFrame DESH = new DictFrame("Desh");
+	public static final DictFrame DESH = new DictFrame("WorkersAlloy");
 	public static final DictFrame STAR = new DictFrame("Starmetal");
 	public static final DictFrame BIGMT = new DictFrame("Saturnite");
 	public static final DictFrame FERRO = new DictFrame("Ferrouranium");
