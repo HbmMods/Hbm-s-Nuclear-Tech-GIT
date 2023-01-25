@@ -69,7 +69,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 		super.readFromNBT(nbt);
 
 		this.power = nbt.getLong("powerTime");
-		tank[1].readFromNBT(nbt, "fuel");
+		tank[0].readFromNBT(nbt, "fuel");
+		tank[1].readFromNBT(nbt, "blood");
 	}
 
 	@Override
@@ -77,7 +78,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 		super.writeToNBT(nbt);
 		
 		nbt.setLong("powerTime", power);
-		tank[1].writeToNBT(nbt, "fuel");
+		tank[0].writeToNBT(nbt, "fuel");
+		tank[1].writeToNBT(nbt, "blood");
 	}
 
 	public long getPowerScaled(long i) {
