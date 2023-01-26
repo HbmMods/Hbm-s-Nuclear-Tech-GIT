@@ -21,7 +21,7 @@ public class GUIMachineTurbofan extends GuiInfoContainer {
 		diFurnace = tedf;
 		
 		this.xSize = 176;
-		this.ySize = 166;
+		this.ySize = 185;
 	}
 	
 	@Override
