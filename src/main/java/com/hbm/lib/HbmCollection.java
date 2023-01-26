@@ -168,4 +168,22 @@ public class HbmCollection {
 			return "gun.make." + toString();
 		}
 	}
+	
+	// GUN DETAILS
+	public static final String ammo = "desc.item.gun.ammo";
+	public static final String ammoMag = "desc.item.gun.ammoMag";
+	public static final String ammoBelt = "desc.item.gun.ammoBelt";
+	public static final String ammoEnergy = "desc.item.gun.ammoEnergy";
+	public static final String altAmmoEnergy = "desc.item.gun.ammoEnergyAlt";
+	public static final String ammoType = "desc.item.gun.ammoType";
+	public static final String altAmmoType = "desc.item.gun.ammoTypeAlt";
+	public static final String gunName = "desc.item.gun.name";
+	public static final String gunMaker = "desc.item.gun.manufacturer";
+	public static final String gunDamage = "desc.item.gun.damage";
+	// MISC
+	public static final String capacity = "desc.block.barrel.capacity";
+	public static final String durability = "desc.item.durability";
+	public static final String meltPoint = "desc.misc.meltPoint";
+	public static final String lctrl = "desc.misc.lctrl";
+	public static final String lshift = "desc.misc.lshift";
 }

@@ -8,8 +8,10 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunDart;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
@@ -42,8 +44,8 @@ public class GunDartFactory {
 		config.reloadSoundEnd = false;
 		config.showAmmo = true;
 		
-		config.name = "Needle Gun";
-		config.manufacturer = "-";
+		config.name = "dart";
+		config.manufacturer = EnumGunManufacturer.NONE;
 		
 		config.config = new ArrayList();
 		config.config.add(BulletConfigSyncingUtil.NEEDLE_GPS);
@@ -73,8 +75,8 @@ public class GunDartFactory {
 		config.reloadSoundEnd = false;
 		config.showAmmo = true;
 		
-		config.name = "NERF blaster of unknown design";
-		config.manufacturer = "Hasbro";
+		config.name = "nerf";
+		config.manufacturer = EnumGunManufacturer.HASBRO;
 		
 		config.config = new ArrayList();
 		config.config.add(BulletConfigSyncingUtil.DART_NORMAL);
@@ -87,7 +89,7 @@ public class GunDartFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_dart;
+		bullet.ammo = new ComparableStack(ModItems.ammo_dart, 1, 0);
 		bullet.velocity = 5.0F;
 		bullet.spread = 0;
 		bullet.dmgMin = 1;
@@ -133,7 +135,7 @@ public class GunDartFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_dart_nuclear;
+		bullet.ammo = new ComparableStack(ModItems.ammo_dart, 1, 1);
 		bullet.velocity = 5.0F;
 		bullet.spread = 0;
 		bullet.dmgMin = 1;
@@ -170,7 +172,7 @@ public class GunDartFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_dart_nerf;
+		bullet.ammo = new ComparableStack(ModItems.ammo_dart, 1, 2);
 		bullet.velocity = 1.0F;
 		bullet.gravity = 0.04D;
 		bullet.dmgMin = 0;

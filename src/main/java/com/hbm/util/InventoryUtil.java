@@ -3,6 +3,7 @@ package com.hbm.util;
 import java.util.List;
 
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilOutput;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -560,5 +561,59 @@ public class InventoryUtil {
 		}
 
 		return success;
+	}
+	
+	public static int countAStackMatches(ItemStack[] inventory, AStack stack, boolean ignoreSize) {
+		int count = 0;
+		
+		for(ItemStack itemStack : inventory) {
+			if(itemStack != null) {
+				if(stack.matchesRecipe(itemStack, true)) {
+					count += itemStack.stackSize;
+				}
+			}
+		}
+		return ignoreSize ? count : count / stack.stacksize;
+	}
+
+	public static int countAStackMatches(EntityPlayer player, AStack stack, boolean ignoreSize) {
+		return countAStackMatches(player.inventory.mainInventory, stack, ignoreSize);
+	}
+
+	public static boolean doesPlayerHaveAStack(EntityPlayer player, ComparableStack stack, boolean shouldRemove, boolean ignoreSize) {
+		return doesInventoryHaveAStack(player.inventory.mainInventory, stack, shouldRemove, ignoreSize);
+	}
+	
+	public static boolean doesInventoryHaveAStack(ItemStack[] inventory, AStack stack, boolean shouldRemove, boolean ignoreSize)
+	{
+		final int totalMatches;
+		int totalStacks = 0;
+		for (ItemStack itemStack : inventory)
+		{
+			if (itemStack != null && stack.matchesRecipe(itemStack, ignoreSize))
+				totalStacks += itemStack.stackSize;
+			if (!shouldRemove && ignoreSize && totalStacks > 0)
+				return true;
+		}
+
+		totalMatches = ignoreSize ? totalStacks : totalStacks / stack.stacksize;
+
+		if (shouldRemove)
+		{
+			int consumedStacks = 0, requiredStacks = ignoreSize ? 1 : stack.stacksize;
+			for (ItemStack itemStack : inventory)
+			{
+				if (consumedStacks > requiredStacks)
+					break;
+				if (itemStack != null && stack.matchesRecipe(itemStack, true))
+				{
+					final int toConsume = Math.min(itemStack.stackSize, requiredStacks - consumedStacks);
+					itemStack.stackSize -= toConsume;
+					consumedStacks += toConsume;
+				}
+			}
+		}
+
+		return totalMatches > 0;
 	}
 }

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun9mmFactory {
@@ -29,8 +31,8 @@ public class Gun9mmFactory {
 		config.firingSound = "hbm:weapon.rifleShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "Maschinenpistole 40";
-		config.manufacturer = "Erfurter Maschinenfabrik Geipel";
+		config.name = "mp40";
+		config.manufacturer = EnumGunManufacturer.NAZI;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.P9_NORMAL);
@@ -61,8 +63,8 @@ public class Gun9mmFactory {
 		config.firingSound = "hbm:weapon.rifleShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "M1A1 Submachine Gun 9mm Mod";
-		config.manufacturer = "Auto-Ordnance Corporation";
+		config.name = "tommy9";
+		config.manufacturer = EnumGunManufacturer.AUTO_ORDINANCE;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.P9_NORMAL);
@@ -79,7 +81,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_9mm;
+		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, 0);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 14;
@@ -91,7 +93,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_9mm_ap;
+		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, 1);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 20;
@@ -105,7 +107,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_9mm_du;
+		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, 2);
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 22;
 		bullet.dmgMax = 26;
@@ -119,7 +121,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = ModItems.ammo_9mm_rocket;
+		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, 3);
 		bullet.velocity = 5;
 		bullet.explosive = 7.5F;
 		bullet.trail = 5;

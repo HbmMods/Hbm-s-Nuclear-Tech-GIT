@@ -2,6 +2,7 @@ package com.hbm.items;
 
 import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.guncfg.*;
 import com.hbm.items.weapon.ItemAmmo.AmmoItemTrait;

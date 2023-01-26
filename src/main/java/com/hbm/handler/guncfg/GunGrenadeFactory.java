@@ -7,7 +7,9 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class GunGrenadeFactory {
@@ -31,8 +33,8 @@ public class GunGrenadeFactory {
 		config.reloadSound = GunConfiguration.RSOUND_GRENADE;
 		config.reloadSoundEnd = false;
 		
-		config.name = "Granatpistole HK69";
-		config.manufacturer = "Heckler & Koch";
+		config.name = "gPistol";
+		config.manufacturer = EnumGunManufacturer.H_AND_K;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.GRENADE_NORMAL);
@@ -51,11 +53,12 @@ public class GunGrenadeFactory {
 		return config;
 	}
 
+	private static byte i = 0;
 	public static BulletConfiguration getGrenadeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
@@ -69,7 +72,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_he;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 20;
 		bullet.dmgMax = 15;
@@ -84,7 +87,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_incendiary;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 15;
@@ -99,7 +102,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_phosphorus;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 15;
@@ -116,7 +119,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_toxic;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
@@ -132,7 +135,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_sleek;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
@@ -148,7 +151,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_concussion;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 20;
@@ -163,7 +166,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = getGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_finned;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.gravity = 0.02;
 		bullet.explosive = 1.5F;
 		bullet.trail = 5;
@@ -175,7 +178,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = getGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_nuclear;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.velocity = 4;
 		bullet.explosive = 0.0F;
 		
@@ -194,7 +197,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_tracer;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.velocity = 2.0F;
 		bullet.wear = 10;
 		bullet.explosive = 0F;
@@ -208,7 +211,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_kampf;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade, 1, i++);
 		bullet.spread = 0.0F;
 		bullet.gravity = 0.0D;
 		bullet.wear = 15;
