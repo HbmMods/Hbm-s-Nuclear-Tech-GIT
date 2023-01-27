@@ -13,12 +13,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityAtmoTower extends TileEntityDeuteriumExtractor {
+public class TileEntityAtmoVent extends TileEntityAtmoExtractor {
+	float rotSpeed;
+	public float rot;
+	public float prevRot;
 
-	public TileEntityAtmoTower() {
+	public TileEntityAtmoVent() {
 		super();
-		tanks[0] = new FluidTank(Fluids.WATER, 50000, 0);
-		tanks[1] = new FluidTank(Fluids.NITROGEN, 5000, 1);
+		tanks = new FluidTank(Fluids.WATER, 50000, 0);
 	}
 
 	public void fillFluidInit(FluidType type) {

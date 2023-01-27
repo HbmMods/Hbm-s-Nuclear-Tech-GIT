@@ -275,6 +275,7 @@ public class TileMappings {
 		put(TileEntityDeuteriumExtractor.class, "tileentity_deuterium_extractor");
 		put(TileEntityDeuteriumTower.class, "tileentity_deuterium_tower");
 		put(TileEntityAtmoTower.class, "tileentity_atmospheric_tower");
+		put(TileEntityAtmoVent.class, "tileentity_atmospheric_vent");
 		put(TileEntityMachineLiquefactor.class, "tileentity_liquefactor");
 		put(TileEntityMachineSolidifier.class, "tileentity_solidifier");
 		put(TileEntityElectrolyser.class, "tileentity_electrolyser");
