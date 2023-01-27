@@ -67,7 +67,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 			if(hasPower()) {
 
 
-				worldObj.spawnParticle("cloud", xCoord + 0.15 + worldObj.rand.nextDouble() * 0.5, yCoord + 4.5, zCoord + 0.85 + worldObj.rand.nextDouble() * 0.5, 0, 0.2, 0);
+				worldObj.spawnParticle("cloud", xCoord + 0.60 + worldObj.rand.nextDouble() * 0.5, yCoord + 2.5, zCoord + 0.85 + worldObj.rand.nextDouble() * -0.5, 0,-0.2, 0);
 				rotSpeed += 0.1;
 				
 				if(rotSpeed > maxSpeed)
