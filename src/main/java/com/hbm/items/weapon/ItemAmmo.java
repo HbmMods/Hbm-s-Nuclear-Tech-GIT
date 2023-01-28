@@ -3,12 +3,8 @@ package com.hbm.items.weapon;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
-import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.indexing.AmmoIndex;
-import com.hbm.handler.indexing.AmmoIndex.AmmoTrait;
 import com.hbm.items.ItemAmmoEnums.AmmoRocket;
 import com.hbm.items.ItemAmmoEnums.IAmmoItemEnum;
 import com.hbm.items.ItemEnumMulti;
@@ -18,10 +14,13 @@ import com.hbm.main.MainRegistry;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.I18nUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 
 public class ItemAmmo extends ItemEnumMulti {
 	
@@ -133,8 +132,8 @@ public class ItemAmmo extends ItemEnumMulti {
 			list.add(player.worldObj.rand.nextInt(3) < 2 ? EnumChatFormatting.RED + "COVER YOURSELF IN OIL" : EnumChatFormatting.RED + "" + EnumChatFormatting.OBFUSCATED + "COVER YOURSELF IN OIL");
 		}
 
-		final IAmmoItemEnum item = (IAmmoItemEnum) EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
-		final Set<AmmoItemTrait> ammoTraits = item.getTraits();
+		IAmmoItemEnum item = (IAmmoItemEnum) EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
+		Set<AmmoItemTrait> ammoTraits = item.getTraits();
 
 		if(ammoTraits.size() > 0) {
 			
@@ -151,6 +150,23 @@ public class ItemAmmo extends ItemEnumMulti {
 				list.add(color + I18nUtil.resolveKey(trait.key));
 			}
 		}		
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister reg) {
+		Enum[] enums = theEnum.getEnumConstants();
+		this.icons = new IIcon[enums.length];
+		
+		for(int i = 0; i < icons.length; i++) {
+			IAmmoItemEnum num = (IAmmoItemEnum) enums[i];
+			this.icons[i] = reg.registerIcon(RefStrings.MODID + ":" + num.getInternalName());
+		}
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		IAmmoItemEnum num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
+		return "item." + num.getInternalName();
 	}
 	
 	@Override
