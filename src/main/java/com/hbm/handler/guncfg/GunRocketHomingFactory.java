@@ -9,6 +9,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ItemAmmoEnums.AmmoStinger;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -88,11 +89,10 @@ GunConfiguration config = new GunConfiguration();
 		return config;
 	}
 
-	private static byte i = 0;
 	public static BulletConfiguration getRocketStingerConfig() {
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_stinger_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_stinger_rocket.stackFromEnum(AmmoStinger.STOCK));
 		bullet.dmgMin = 20;
 		bullet.dmgMax = 25;
 		bullet.explosive = 4F;
@@ -128,7 +128,7 @@ GunConfiguration config = new GunConfiguration();
 	public static BulletConfiguration getRocketStingerHEConfig() {
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_stinger_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_stinger_rocket.stackFromEnum(AmmoStinger.HE));
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 35;
 		bullet.explosive = 8F;
@@ -165,7 +165,7 @@ GunConfiguration config = new GunConfiguration();
 	public static BulletConfiguration getRocketStingerIncendiaryConfig() {
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_stinger_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_stinger_rocket.stackFromEnum(AmmoStinger.INCENDIARY));
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 20;
 		bullet.explosive = 4F;
@@ -202,7 +202,7 @@ GunConfiguration config = new GunConfiguration();
 	public static BulletConfiguration getRocketStingerNuclearConfig() {
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_stinger_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_stinger_rocket.stackFromEnum(AmmoStinger.NUCLEAR));
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 55;
 		bullet.explosive = 15F;
@@ -239,7 +239,7 @@ GunConfiguration config = new GunConfiguration();
 	public static BulletConfiguration getRocketStingerBonesConfig() {
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_stinger_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_stinger_rocket.stackFromEnum(AmmoStinger.BONES));
 		bullet.dmgMin = 20;
 		bullet.dmgMax = 25;
 		bullet.explosive = 8F;

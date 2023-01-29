@@ -4,6 +4,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo50AE;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -47,12 +48,11 @@ public class Gun50AEFactory {
 	}
 
 	private static float inaccuracy = 0.0005F;
-	private static byte i = 0;
 	public static BulletConfiguration get50AEConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50ae, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_50ae.stackFromEnum(Ammo50AE.STOCK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 28;
 		bullet.dmgMax = 32;
@@ -64,7 +64,7 @@ public class Gun50AEFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50ae, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_50ae.stackFromEnum(Ammo50AE.AP));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
@@ -78,7 +78,7 @@ public class Gun50AEFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50ae, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_50ae.stackFromEnum(Ammo50AE.DU));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 38;
 		bullet.dmgMax = 46;
@@ -92,7 +92,7 @@ public class Gun50AEFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50ae, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_50ae.stackFromEnum(Ammo50AE.STAR));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 52;
 		bullet.dmgMax = 60;

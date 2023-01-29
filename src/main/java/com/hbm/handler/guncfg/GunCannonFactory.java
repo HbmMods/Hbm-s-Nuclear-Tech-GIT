@@ -4,16 +4,16 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ItemAmmoEnums.Ammo240Shell;
 import com.hbm.items.ModItems;
 
 public class GunCannonFactory {
 
-	private static byte i = 0;
 	public static BulletConfiguration getShellConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.STOCK));
 		bullet.dmgMin = 25;
 		bullet.dmgMax = 35;
 		bullet.explosive = 4F;
@@ -26,7 +26,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.EXPLOSIVE));
 		bullet.dmgMin = 35;
 		bullet.dmgMax = 45;
 		bullet.explosive = 4F;
@@ -39,7 +39,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_T));
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 55;
 		bullet.doesPenetrate = true;
@@ -52,7 +52,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_DU));
 		bullet.dmgMin = 70;
 		bullet.dmgMax = 80;
 		bullet.doesPenetrate = true;
@@ -65,7 +65,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.W9));
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 150;
 		

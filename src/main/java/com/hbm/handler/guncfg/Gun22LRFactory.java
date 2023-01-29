@@ -4,6 +4,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo22LR;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -57,7 +58,7 @@ public class Gun22LRFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_22lr, 1, 0);
+		bullet.ammo = new ComparableStack(ModItems.ammo_22lr.stackFromEnum(Ammo22LR.STOCK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 8;
@@ -69,7 +70,7 @@ public class Gun22LRFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_22lr, 1, 1);
+		bullet.ammo = new ComparableStack(ModItems.ammo_22lr.stackFromEnum(Ammo22LR.AP));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 12;
 		bullet.dmgMax = 16;

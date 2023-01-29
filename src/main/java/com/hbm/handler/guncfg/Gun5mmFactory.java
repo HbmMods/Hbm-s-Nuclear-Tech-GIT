@@ -1,11 +1,9 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ItemAmmoEnums.Ammo5mm;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
@@ -64,23 +62,17 @@ public class Gun5mmFactory {
 		config.name = "lacunae";
 		config.manufacturer = EnumGunManufacturer.ROCKWELL_U;
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.R5_NORMAL_BOLT);
-		config.config.add(BulletConfigSyncingUtil.R5_EXPLOSIVE_BOLT);
-		config.config.add(BulletConfigSyncingUtil.R5_DU_BOLT);
-		config.config.add(BulletConfigSyncingUtil.R5_STAR_BOLT);
-		config.config.add(BulletConfigSyncingUtil.CHL_R5_BOLT);
+		config.config = HbmCollection.fiveMMBolt;
 		
 		return config;
 	}
 	
 	private static float inaccuracy = 10;
-	private static byte i = 0;
 	public static BulletConfiguration get5mmConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_5mm, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.STOCK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 12;
 		bullet.dmgMax = 14;
@@ -92,7 +84,7 @@ public class Gun5mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_5mm, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.EXPLOSIVE));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 32;
@@ -106,7 +98,7 @@ public class Gun5mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_5mm, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.DU));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 36;
 		bullet.dmgMax = 40;
@@ -120,7 +112,7 @@ public class Gun5mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_5mm, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.STAR));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 46;
 		bullet.dmgMax = 50;

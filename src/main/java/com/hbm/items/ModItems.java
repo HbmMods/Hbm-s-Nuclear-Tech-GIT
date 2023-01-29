@@ -1487,7 +1487,7 @@ public class ModItems {
 	public static ItemEnumMulti ammo_9mm;
 	public static ItemEnumMulti ammo_45;
 	public static ItemEnumMulti ammo_556;
-	public static ItemEnumMulti ammo_308;
+	public static ItemEnumMulti ammo_762;
 	public static ItemEnumMulti ammo_22lr;
 	public static ItemEnumMulti ammo_50ae;
 	public static ItemEnumMulti ammo_50bmg;
@@ -4287,8 +4287,8 @@ public class ModItems {
 		ammo_5mm = new ItemAmmo(Ammo5mm.class).setUnlocalizedName("ammo_5mm");
 		ammo_9mm = new ItemAmmo(Ammo9mm.class).setUnlocalizedName("ammo_9mm");
 		ammo_45 = new ItemAmmo(Ammo45ACP.class).setUnlocalizedName("ammo_45");
-		ammo_556 = new ItemAmmo(Ammo556mm.class, "desc.misc.556").setUnlocalizedName("ammo_556");
-		ammo_308 = new ItemAmmo(Ammo762NATO.class, "desc.misc.762").setUnlocalizedName("ammo_308");
+		ammo_556 = new ItemAmmo(Ammo556mm.class).setUnlocalizedName("ammo_556");
+		ammo_762 = new ItemAmmo(Ammo762NATO.class).setUnlocalizedName("ammo_762");
 		ammo_50ae = new ItemAmmo(Ammo50AE.class).setUnlocalizedName("ammo_50ae");
 		ammo_50bmg = new ItemAmmo(Ammo50BMG.class).setUnlocalizedName("ammo_50bmg");
 		ammo_75bolt = new ItemAmmo(Ammo75Bolt.class).setUnlocalizedName("ammo_75bolt");
@@ -7425,11 +7425,12 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_5mm, ammo_5mm.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_9mm, ammo_9mm.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_556, ammo_556.getUnlocalizedName());
-		GameRegistry.registerItem(ammo_308, ammo_308.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_762, ammo_762.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_22lr, ammo_22lr.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_50ae, ammo_50ae.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_50bmg, ammo_50bmg.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_75bolt, ammo_75bolt.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_nuke, ammo_nuke.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_fuel, ammo_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_fireext, ammo_fireext.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_cell, ammo_cell.getUnlocalizedName());

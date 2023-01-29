@@ -7,6 +7,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
@@ -218,7 +219,7 @@ public class Gun357MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_357, 1, 0);
+		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.IRON));
 		bullet.dmgMin = 8;
 		bullet.dmgMax = 10;
 		
@@ -229,7 +230,7 @@ public class Gun357MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_357, 1, 1);
+		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.LEAD));
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 22;
 		
@@ -240,7 +241,7 @@ public class Gun357MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_357, 1, 2);
+		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.NUCLEAR));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		
@@ -254,7 +255,7 @@ public class Gun357MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_357, 1, 3);
+		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.GOLD));
 		bullet.dmgMin = 25;
 		bullet.dmgMax = 28;
 		
@@ -265,7 +266,7 @@ public class Gun357MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_357, 1, 4);
+		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.DESH));
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 33;
 		
@@ -276,7 +277,7 @@ public class Gun357MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_357, 1, 5);
+		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.SCHRABIDIUM));
 		bullet.dmgMin = 10000;
 		bullet.dmgMax = 100000;
 		bullet.instakill = true;
@@ -288,7 +289,7 @@ public class Gun357MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_357, 1, 6);
+		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.STEEL));
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 25;
 		
@@ -299,7 +300,7 @@ public class Gun357MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_357, 1, 7);
+		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.NIGHTMARE1));
 		bullet.dmgMin = 1;
 		bullet.dmgMax = 100;
 		
@@ -310,7 +311,7 @@ public class Gun357MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_357, 1, 8);
+		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.NIGHTMARE2));
 		bullet.spread *= 10;
 		bullet.bulletsMin = 4;
 		bullet.bulletsMax = 6;

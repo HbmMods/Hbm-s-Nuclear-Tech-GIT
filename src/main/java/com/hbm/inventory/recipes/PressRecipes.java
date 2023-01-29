@@ -106,7 +106,7 @@ public class PressRecipes {
 		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_calamity),		ModItems.ammo_50bmg);
 		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_actionexpress),	ModItems.ammo_50ae);
 		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_luna_sniper), 	ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.SABOT));
-		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_308), 			ModItems.ammo_308);
+		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_308), 			ModItems.ammo_762);
 	}
 
 	public static void makeRecipe(StampType type, AStack in, Item out) {

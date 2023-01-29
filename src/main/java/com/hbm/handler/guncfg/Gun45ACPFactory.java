@@ -6,6 +6,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo45ACP;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
@@ -107,10 +108,13 @@ public class Gun45ACPFactory {
 
 		return config;
 	}
+	
+	static float inaccuracy = 5;
 	public static BulletConfiguration get45AutoConfig() {
-		BulletConfiguration bullet = Gun9mmFactory.get9mmConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_45, 1, 0);
+		bullet.ammo = new ComparableStack(ModItems.ammo_45.stackFromEnum(Ammo45ACP.STOCK));
+		bullet.spread *= inaccuracy;
 		bullet.dmgMax = 30;
 		bullet.dmgMin = 27;
 
@@ -120,7 +124,7 @@ public class Gun45ACPFactory {
 	public static BulletConfiguration get45AutoAPConfig() {
 		BulletConfiguration bullet = get45AutoConfig().clone();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_45, 1, 1);
+		bullet.ammo = new ComparableStack(ModItems.ammo_45.stackFromEnum(Ammo45ACP.AP));
 		bullet.dmgMax *= 1.5;
 		bullet.dmgMin *= 1.5;
 
@@ -130,7 +134,7 @@ public class Gun45ACPFactory {
 	public static BulletConfiguration get45AutoDUConfig() {
 		BulletConfiguration bullet = get45AutoAPConfig().clone();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_45, 1, 2);
+		bullet.ammo = new ComparableStack(ModItems.ammo_45.stackFromEnum(Ammo45ACP.DU));
 		bullet.dmgMax *= 1.5;
 		bullet.dmgMin *= 1.5;
 

@@ -54,7 +54,8 @@ public class HbmCollection {
 	/** 7.62x51mm NATO **/
 	public static final List<Integer> threeZeroEight = ImmutableList.of(BulletConfigSyncingUtil.W308);
 	/** 5MM **/
-	public static final List<Integer> fiveMM = ImmutableList.of(BulletConfigSyncingUtil.R5_NORMAL_BOLT, BulletConfigSyncingUtil.R5_EXPLOSIVE_BOLT, BulletConfigSyncingUtil.R5_DU_BOLT, BulletConfigSyncingUtil.R5_STAR_BOLT, BulletConfigSyncingUtil.CHL_R5_BOLT);
+	public static final List<Integer> fiveMM = ImmutableList.of(BulletConfigSyncingUtil.R5_NORMAL, BulletConfigSyncingUtil.R5_EXPLOSIVE, BulletConfigSyncingUtil.R5_DU, BulletConfigSyncingUtil.R5_STAR, BulletConfigSyncingUtil.CHL_R5);
+	public static final List<Integer> fiveMMBolt = ImmutableList.of(BulletConfigSyncingUtil.R5_NORMAL_BOLT, BulletConfigSyncingUtil.R5_EXPLOSIVE_BOLT, BulletConfigSyncingUtil.R5_DU_BOLT, BulletConfigSyncingUtil.R5_STAR_BOLT, BulletConfigSyncingUtil.CHL_R5_BOLT);
 	// MISC
 	/** .75 **/
 	public static final List<Integer> seventyFive = ImmutableList.of(BulletConfigSyncingUtil.B75_NORMAL, BulletConfigSyncingUtil.B75_INCENDIARY, BulletConfigSyncingUtil.B75_HE);

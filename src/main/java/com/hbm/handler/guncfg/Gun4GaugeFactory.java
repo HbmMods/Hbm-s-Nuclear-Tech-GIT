@@ -16,6 +16,7 @@ import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.lib.ModDamageSource;
@@ -121,12 +122,11 @@ public class Gun4GaugeFactory {
 		return config;
 	}
 	
-	private static byte i = 0;
 	public static BulletConfiguration get4GaugeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.STOCK));
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 8;
 		bullet.bulletsMin *= 2;
@@ -139,7 +139,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.SLUG));
 		bullet.dmgMin = 25;
 		bullet.dmgMax = 32;
 		bullet.wear = 7;
@@ -152,7 +152,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.FLECHETTE));
 		bullet.dmgMin = 8;
 		bullet.dmgMax = 15;
 		bullet.bulletsMin *= 2;
@@ -169,7 +169,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.FLECHETTE_PHOSPHORUS));
 		bullet.dmgMin = 8;
 		bullet.dmgMax = 15;
 		bullet.bulletsMin *= 2;
@@ -207,7 +207,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.EXPLOSIVE));
 		bullet.velocity *= 2;
 		bullet.gravity *= 2;
 		bullet.dmgMin = 20;
@@ -222,7 +222,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.MINING));
 		bullet.velocity *= 2;
 		bullet.gravity *= 2;
 		bullet.dmgMin = 10;
@@ -256,7 +256,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.BALEFIRE));
 		bullet.velocity *= 2;
 		bullet.gravity *= 2;
 		bullet.dmgMin = 50;
@@ -289,7 +289,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.KAMPF));
 		bullet.spread = 0.0F;
 		bullet.gravity = 0.0D;
 		bullet.wear = 15;
@@ -305,7 +305,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.CANISTER));
 		bullet.spread = 0.0F;
 		bullet.gravity = 0.0D;
 		bullet.wear = 15;
@@ -343,7 +343,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.SLEEK));
 		
 		return bullet;
 	}
@@ -352,7 +352,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.CLAW));
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 9;
 		bullet.bulletsMin *= 2;
@@ -389,7 +389,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.VAMPIRE));
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 9;
 		bullet.bulletsMin *= 2;
@@ -427,7 +427,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.VOID));
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 9;
 		bullet.bulletsMin *= 2;
@@ -458,7 +458,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.QUACK));
 		bullet.velocity *= 2D;
 		bullet.spread = 0.0F;
 		bullet.gravity = 0.0D;

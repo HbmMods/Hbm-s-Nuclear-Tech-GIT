@@ -530,10 +530,10 @@ public class AnvilRecipes {
 			{ModItems.ammo_45.stackFromEnum(20, Ammo45ACP.STOCK),			DURA.ingot(),					ModItems.ammo_45.stackFromEnum(20, Ammo45ACP.AP),				3},
 			{ModItems.ammo_45.stackFromEnum(10, Ammo45ACP.DU),				U238.ingot(),					ModItems.ammo_45.stackFromEnum(10, Ammo45ACP.DU),				3},
 
-			{ModItems.ammo_5mm.stackFromEnum(20, Ammo5mm.STOCK),	ModItems.ingot_semtex,					ModItems.ammo_5mm.stackFromEnum(20, Ammo5mm.EXPLOSIVE),			2},
-			{ModItems.ammo_5mm.stackFromEnum(20, Ammo5mm.STOCK),	U238.ingot(),							ModItems.ammo_5mm.stackFromEnum(20, Ammo5mm.DU),				2},
-			{ModItems.ammo_5mm.stackFromEnum(10, Ammo5mm.STOCK),	STAR.ingot(),							ModItems.ammo_5mm.stackFromEnum(10, Ammo5mm.STAR),				3},
-			{ModItems.ammo_5mm.stackFromEnum(10, Ammo5mm.STOCK),	ModItems.pellet_chlorophyte,			ModItems.ammo_5mm.stackFromEnum(10, Ammo5mm.CHLOROPHYTE),		3},
+			{ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.STOCK),	ModItems.ingot_semtex,					ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.EXPLOSIVE),		2},
+			{ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.STOCK),	U238.ingot(),							ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.DU),				2},
+			{ModItems.ammo_5mm.stackFromEnum(25, Ammo5mm.DU),		STAR.ingot(),							ModItems.ammo_5mm.stackFromEnum(25, Ammo5mm.STAR),				3},
+			{ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.STOCK),	ModItems.pellet_chlorophyte,			ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.CHLOROPHYTE),		3},
 
 			{ModItems.ammo_9mm.stackFromEnum(20, Ammo9mm.STOCK),	DURA.ingot(),							ModItems.ammo_9mm.stackFromEnum(20, Ammo9mm.AP),				2},
 			{ModItems.ammo_9mm.stackFromEnum(20, Ammo9mm.STOCK),	U238.ingot(),							ModItems.ammo_9mm.stackFromEnum(20, Ammo9mm.DU),				2},
@@ -573,10 +573,10 @@ public class AnvilRecipes {
 			{ModItems.ammo_556.stackFromEnum(100, Ammo556mm.FLECHETTE),	ModItems.coin_maskman,				ModItems.ammo_556.stackFromEnum(100, Ammo556mm.FLECHETTE_SLEEK),		4},
 			{ModItems.ammo_556.stackFromEnum(10, Ammo556mm.FLECHETTE),	ModItems.pellet_chlorophyte,		ModItems.ammo_556.stackFromEnum(10, Ammo556mm.FLECHETTE_CHLOROPHYTE),	3},
 
-			{ModItems.ammo_308.stackFromEnum(20, Ammo762NATO.STOCK),	Items.redstone,						ModItems.ammo_308.stackFromEnum(20, Ammo762NATO.TRACER),				2},
-			{ModItems.ammo_308.stackFromEnum(20, Ammo762NATO.STOCK),	DURA.ingot(),						ModItems.ammo_308.stackFromEnum(20, Ammo762NATO.AP),					2},
-			{ModItems.ammo_308.stackFromEnum(20, Ammo762NATO.STOCK),	P_WHITE.ingot(),					ModItems.ammo_308.stackFromEnum(20, Ammo762NATO.PHOSPHORUS),			2},
-			{ModItems.ammo_308.stackFromEnum(10, Ammo762NATO.STOCK),	U238.ingot(),						ModItems.ammo_308.stackFromEnum(20, Ammo762NATO.DU),					2}
+			{ModItems.ammo_762.stackFromEnum(20, Ammo762NATO.STOCK),	Items.redstone,						ModItems.ammo_762.stackFromEnum(20, Ammo762NATO.TRACER),				2},
+			{ModItems.ammo_762.stackFromEnum(20, Ammo762NATO.STOCK),	DURA.ingot(),						ModItems.ammo_762.stackFromEnum(20, Ammo762NATO.AP),					2},
+			{ModItems.ammo_762.stackFromEnum(20, Ammo762NATO.STOCK),	P_WHITE.ingot(),					ModItems.ammo_762.stackFromEnum(20, Ammo762NATO.PHOSPHORUS),			2},
+			{ModItems.ammo_762.stackFromEnum(10, Ammo762NATO.STOCK),	U238.ingot(),						ModItems.ammo_762.stackFromEnum(20, Ammo762NATO.DU),					2}
 		};
 		
 		for(Object[] objs : recs) {

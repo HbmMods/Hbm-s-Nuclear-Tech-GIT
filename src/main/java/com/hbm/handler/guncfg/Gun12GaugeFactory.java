@@ -8,6 +8,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ItemAmmoEnums.Ammo12Gauge;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
@@ -175,7 +176,7 @@ public static GunConfiguration getSpas12AltConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge, 1, 0);
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.STOCK));
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 7;
 		
@@ -186,7 +187,7 @@ public static GunConfiguration getSpas12AltConfig() {
 		
 		BulletConfiguration bullet = get12GaugeConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge, 1, 1);
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.INCENDIARY));
 		bullet.wear = 15;
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 7;
@@ -199,7 +200,7 @@ public static GunConfiguration getSpas12AltConfig() {
 		
 		BulletConfiguration bullet = get12GaugeConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge, 1, 2);
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SHRAPNEL));
 		bullet.wear = 15;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 17;
@@ -214,7 +215,7 @@ public static GunConfiguration getSpas12AltConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge, 1, 3);
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.DU));
 		bullet.wear = 20;
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 22;
@@ -228,7 +229,7 @@ public static GunConfiguration getSpas12AltConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge, 1, 4);
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.MARAUDER));
 		bullet.wear = 20;
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 500;
@@ -252,7 +253,7 @@ public static GunConfiguration getSpas12AltConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge, 1, 5);
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SLEEK));
 		
 		return bullet;
 	}

@@ -12,6 +12,7 @@ import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoRocket;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -171,12 +172,11 @@ public class GunRocketFactory {
 		return config;
 	}
 	
-	private static byte i = 0;
 	public static BulletConfiguration getRocketConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.STOCK));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.explosive = 4F;
@@ -189,7 +189,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.HE));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.wear = 15;
@@ -203,7 +203,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.INCENDIARY));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.wear = 15;
@@ -218,7 +218,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.EMP));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.explosive = 2.5F;
@@ -232,7 +232,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.SLEEK));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.explosive = 10F;
@@ -247,7 +247,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.SHRAPNEL));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.explosive = 4F;
@@ -261,7 +261,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.GLARE));
 		bullet.velocity = 5.0F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
@@ -277,7 +277,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.NUCLEAR));
 		bullet.velocity = 1.5F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
@@ -301,7 +301,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.CHLORINE));
 		bullet.velocity = 1.5F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
@@ -317,7 +317,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.RPC));
 		bullet.velocity = 3.0F;
 		bullet.dmgMin = 20;
 		bullet.dmgMax = 25;
@@ -351,7 +351,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.PHOSPHORUS));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.wear = 15;
@@ -368,7 +368,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.CANISTER));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.explosive = 2F;
@@ -403,7 +403,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.DIGAMMA));
 		bullet.velocity = 0.5F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
@@ -426,22 +426,6 @@ public class GunRocketFactory {
 				spear.posY = bullet.posY + 100;
 				
 				bullet.worldObj.spawnEntityInWorld(spear);
-				
-				/*for(int i = 0; i < 250; i++) {
-
-					double ix = bullet.posX + bullet.worldObj.rand.nextGaussian() * 15;
-					double iy = bullet.posY + bullet.worldObj.rand.nextGaussian() * 2;
-					double iz = bullet.posZ + bullet.worldObj.rand.nextGaussian() * 15;
-					
-					ExAttrib at = Vec3.createVectorHelper(ix - bullet.posX, 0, iz - bullet.posZ).lengthVector() < 20 ? ExAttrib.DIGAMMA_CIRCUIT : ExAttrib.DIGAMMA;
-					
-					new ExplosionNT(bullet.worldObj, bullet, ix, iy, iz, 7.5F)
-					.addAttrib(ExAttrib.NOHURT)
-					.addAttrib(ExAttrib.NOPARTICLE)
-					.addAttrib(ExAttrib.NODROP)
-					.addAttrib(ExAttrib.NOSOUND)
-					.addAttrib(at).explode();
-				}*/
 			}
 		};
 		

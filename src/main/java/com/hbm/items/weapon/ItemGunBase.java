@@ -218,8 +218,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 
 		BulletConfiguration config = altConfig.reloadType == altConfig.RELOAD_NONE ? getBeltCfg(player, stack, false) : BulletConfigSyncingUtil.pullConfig(altConfig.config.get(getMagType(stack)));
 		
-		//System.out.println(config.ammo.getUnlocalizedName());
-		
 		int bullets = config.bulletsMin;
 		
 		for(int k = 0; k < altConfig.roundsPerCycle; k++) {
@@ -282,9 +280,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	//called on click release (client side, called by update cycle)
 	public void endActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) { }
 	
-	//martin 2 reload algorithm
-	//now with less WET and more DRY
-	//compact, readable and most importantly, FUNCTIONAL
+	//current reload
 	protected void reload2(ItemStack stack, World world, EntityPlayer player) {
 		
 		if(getMag(stack) >= mainConfig.ammoCap) {
@@ -308,8 +304,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			final int toConsume = (int) Math.ceil((double) toAdd / cfg.ammoCount);
 			
 			// Skip logic if cannot reload
-			if (availableFills == 0)
-			{
+			if(availableFills == 0) {
 				setIsReloading(stack, false);
 				return;
 			}
@@ -456,19 +451,17 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	public static ComparableStack getBeltType(EntityPlayer player, ItemStack stack, boolean main) {
 		ItemGunBase gun = (ItemGunBase)stack.getItem();
 		GunConfiguration guncfg = main ? gun.mainConfig : (gun.altConfig != null ? gun.altConfig : gun.mainConfig);
-		ComparableStack ammo = BulletConfigSyncingUtil.pullConfig(guncfg.config.get(0)).ammo;
 
 		for(Integer config : guncfg.config) {
 			
 			BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
 			
-			if(InventoryUtil.doesPlayerHaveAStack(player, cfg.ammo, false, false)) {
-				ammo = cfg.ammo;
-				break;
+			if(InventoryUtil.doesPlayerHaveAStack(player, cfg.ammo, false, true)) {
+				return cfg.ammo;
 			}
 		}
 		
-		return ammo;
+		return BulletConfigSyncingUtil.pullConfig(guncfg.config.get(0)).ammo;
 	}
 	
 	//returns BCFG of belt-weapons
@@ -495,8 +488,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		int amount = 0;
 		
 		for(ItemStack stack : player.inventory.mainInventory) {
-			if(stack != null && ammo.matchesRecipe(stack, true))
+			if(stack != null && ammo.matchesRecipe(stack, true)) {
 				amount += stack.stackSize;
+			}
 		}
 		
 		return amount;

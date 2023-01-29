@@ -9,6 +9,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ItemAmmoEnums.AmmoDart;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunDart;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
@@ -89,7 +90,7 @@ public class GunDartFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_dart, 1, 0);
+		bullet.ammo = new ComparableStack(ModItems.ammo_dart.stackFromEnum(AmmoDart.GPS));
 		bullet.velocity = 5.0F;
 		bullet.spread = 0;
 		bullet.dmgMin = 1;
@@ -135,7 +136,7 @@ public class GunDartFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_dart, 1, 1);
+		bullet.ammo = new ComparableStack(ModItems.ammo_dart.stackFromEnum(AmmoDart.NUCLEAR));
 		bullet.velocity = 5.0F;
 		bullet.spread = 0;
 		bullet.dmgMin = 1;
@@ -172,7 +173,7 @@ public class GunDartFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_dart, 1, 2);
+		bullet.ammo = new ComparableStack(ModItems.ammo_dart.stackFromEnum(AmmoDart.NERF));
 		bullet.velocity = 1.0F;
 		bullet.gravity = 0.04D;
 		bullet.dmgMin = 0;

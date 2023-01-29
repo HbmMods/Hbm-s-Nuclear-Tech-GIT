@@ -7,6 +7,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo9mm;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
@@ -81,7 +82,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, 0);
+		bullet.ammo = new ComparableStack(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.STOCK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 14;
@@ -93,7 +94,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, 1);
+		bullet.ammo = new ComparableStack(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.AP));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 20;
@@ -107,7 +108,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, 2);
+		bullet.ammo = new ComparableStack(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.DU));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 22;
 		bullet.dmgMax = 26;
@@ -121,7 +122,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_9mm, 1, 3);
+		bullet.ammo = new ComparableStack(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.ROCKET));
 		bullet.velocity = 5;
 		bullet.explosive = 7.5F;
 		bullet.trail = 5;

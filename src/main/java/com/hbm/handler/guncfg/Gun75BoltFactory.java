@@ -8,6 +8,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ItemAmmoEnums.Ammo75Bolt;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
@@ -83,12 +84,11 @@ public class Gun75BoltFactory {
 	}
 
 	private static float inaccuracy = 0.5F;
-	private static byte i = 0;
 	public static BulletConfiguration get75BoltConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt.stackFromEnum(Ammo75Bolt.STOCK));
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 74;
@@ -126,7 +126,7 @@ public class Gun75BoltFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt.stackFromEnum(Ammo75Bolt.INCENDIARY));
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 72;
@@ -164,7 +164,7 @@ public class Gun75BoltFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt.stackFromEnum(Ammo75Bolt.HE));
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 94;

@@ -6,6 +6,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo20Gauge;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
@@ -197,12 +198,11 @@ public class Gun20GaugeFactory {
 		return config;
 	}
 	
-	private static int i = 0;
 	public static BulletConfiguration get20GaugeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.STOCK));
 		bullet.dmgMin = 3;
 		bullet.dmgMax = 5;
 		
@@ -213,7 +213,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.SLUG));
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 22;
 		bullet.wear = 7;
@@ -226,7 +226,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.FLECHETTE));
 		bullet.dmgMin = 8;
 		bullet.dmgMax = 15;
 		bullet.wear = 15;
@@ -241,7 +241,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.INCENDIARY));
 		bullet.dmgMin = 3;
 		bullet.dmgMax = 6;
 		bullet.wear = 15;
@@ -254,7 +254,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.SHRAPNEL));
 		bullet.wear = 15;
 		bullet.dmgMin = 7;
 		bullet.dmgMax = 12;
@@ -269,7 +269,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.EXPLOSIVE));
 		bullet.dmgMin = 7;
 		bullet.dmgMax = 12;
 		bullet.wear = 25;
@@ -282,7 +282,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.CAUSTIC));
 		bullet.dmgMin = 3;
 		bullet.dmgMax = 7;
 		bullet.wear = 25;
@@ -301,7 +301,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.SHOCK));
 		bullet.dmgMin = 4;
 		bullet.dmgMax = 8;
 		bullet.wear = 25;
@@ -321,7 +321,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.WITHER));
 		bullet.dmgMin = 4;
 		bullet.dmgMax = 8;
 		
@@ -335,7 +335,7 @@ public class Gun20GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge, 1, i++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.SLEEK));
 		
 		return bullet;
 	}

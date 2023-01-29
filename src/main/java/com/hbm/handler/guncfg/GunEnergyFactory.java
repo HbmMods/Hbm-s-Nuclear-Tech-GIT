@@ -12,6 +12,8 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ItemAmmoEnums.AmmoFireExt;
+import com.hbm.items.ItemAmmoEnums.AmmoFlamethrower;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.lib.ModDamageSource;
@@ -215,12 +217,11 @@ public class GunEnergyFactory {
 		return bullet;
 	}
 	
-	private static byte i1 = 0;
 	public static BulletConfiguration getFlameConfig() {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel, 1, i1++);;
+		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.DIESEL));
 		bullet.ammoCount = 100;
 		
 		bullet.velocity = 0.75F;
@@ -268,7 +269,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel, 1, i1++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.NAPALM));
 		bullet.wear = 2;
 		bullet.dmgMin = 4;
 		bullet.dmgMax = 6;
@@ -281,7 +282,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel, 1, i1++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.PHOSPHORUS));
 		bullet.wear = 2;
 		bullet.spread = 0.0F;
 		bullet.bulletsMin = 1;
@@ -300,7 +301,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel, 1, i1++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.VAPORIZER));
 		bullet.wear = 4;
 		bullet.spread = 0.25F;
 		bullet.bulletsMin = 8;
@@ -325,7 +326,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel, 1, i1++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.CHLORINE));
 		bullet.wear = 1;
 		bullet.spread = 0.05F;
 		bullet.gravity = 0D;
@@ -343,12 +344,11 @@ public class GunEnergyFactory {
 		return bullet;
 	}
 	
-	private static byte i2 = 0;
 	public static BulletConfiguration getFextConfig() {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fireext, 1, i2++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.WATER));
 		bullet.ammoCount = 300;
 		
 		bullet.velocity = 0.75F;
@@ -436,7 +436,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFextConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fireext, 1, i2++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.FOAM));
 		bullet.spread = 0.05F;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -517,7 +517,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFextConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fireext, 1, i2++);
+		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.SAND));
 		bullet.spread = 0.1F;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
