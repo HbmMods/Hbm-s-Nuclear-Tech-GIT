@@ -1789,6 +1789,12 @@ public class ClientProxy extends ServerProxy {
 			
 			RenderOverhead.queuedMarkers.put(new BlockPos(x, y, z),  new Marker(color).setDist(dist).setExpire(expires > 0 ? System.currentTimeMillis() + expires : 0).withLabel(label.isEmpty() ? null : label));
 		}
+		
+		if("casing".equals(type)) {
+			SpentCasingConfig casingConfig = SpentCasingConfig.get(data.getString("name"));
+			for(int i = 0; i < casingConfig.getCasingAmount(); i++)
+				casingConfig.spawnCasing(man, world, x, y, z, data.getFloat("pitch"), data.getFloat("yaw"), data.getBoolean("crouched"));
+		}
 	}
 	
 	private HashMap<Integer, Long> vanished = new HashMap();

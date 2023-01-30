@@ -15,9 +15,11 @@ import com.hbm.interfaces.IItemHUD;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.lib.HbmCollection;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasingConfig;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -208,6 +210,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		}
 		
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
+		
+		if(mainConfig.casingConfig != null && !mainConfig.casingConfig.isAfterReload())
+			spawnCasing(player, mainConfig.casingConfig, stack);
 	}
 	
 	//unlike fire(), being called does not automatically imply success, some things may still have to be handled before spawning the projectile
@@ -239,6 +244,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		}
 		
 		world.playSoundAtEntity(player, altConfig.firingSound, 1.0F, altConfig.firingPitch);
+		
+		if(altConfig.casingConfig != null)
+			spawnCasing(player, altConfig.casingConfig, stack);
 	}
 	
 	//spawns the actual projectile, can be overridden to change projectile entity
@@ -318,6 +326,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			
 			if(hasLoaded && mainConfig.reloadSoundEnd)
 				world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
+			
+			if(mainConfig.casingConfig != null && mainConfig.casingConfig.isAfterReload())
+				spawnCasing(player, mainConfig.casingConfig, stack);
 			
 			InventoryUtil.tryConsumeAStack(player.inventory.mainInventory, 0, player.inventory.mainInventory.length, ammo);
 		} else {
@@ -691,5 +702,18 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		if(!mainConfig.equipSound.isEmpty() && !player.worldObj.isRemote) {
 			player.worldObj.playSoundAtEntity(player, mainConfig.equipSound, 1, 1);
 		}
+	}
+	
+	protected static void spawnCasing(Entity entity, SpentCasingConfig config, ItemStack stack) {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "casing");
+		data.setDouble("posX", entity.posX);
+		data.setDouble("posY", entity.posY + entity.getEyeHeight());
+		data.setDouble("posZ", entity.posZ);
+		data.setFloat("pitch", (float) Math.toRadians(entity.rotationPitch));
+		data.setFloat("yaw", (float) Math.toRadians(entity.rotationYaw));
+		data.setBoolean("crouched", entity.isSneaking());
+		data.setString("name", config.getRegistryName());
+		MainRegistry.proxy.effectNT(data);
 	}
 }
