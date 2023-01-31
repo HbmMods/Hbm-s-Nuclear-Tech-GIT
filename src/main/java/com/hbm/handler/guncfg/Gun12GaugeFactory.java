@@ -205,7 +205,7 @@ public class Gun12GaugeFactory {
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 7;
 		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaStock").setColor(0x2847FF, 0x757575);
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaStock").setColor(0x2847FF, SpentCasing.COLOR_CASE_12GA);
 		
 		return bullet;
 	}
@@ -220,7 +220,7 @@ public class Gun12GaugeFactory {
 		bullet.dmgMax = 7;
 		bullet.incendiary = 5;
 		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaInc").setColor(0xFF6329, 0x757575);
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaInc").setColor(0xFF6329, SpentCasing.COLOR_CASE_12GA);
 		
 		return bullet;
 	}
@@ -237,7 +237,7 @@ public class Gun12GaugeFactory {
 		bullet.HBRC = 80;
 		bullet.LBRC = 95;
 		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaShrap").setColor(0xF0E800, 0x757575);
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaShrap").setColor(0xF0E800, SpentCasing.COLOR_CASE_12GA);
 		
 		return bullet;
 	}
@@ -253,7 +253,7 @@ public class Gun12GaugeFactory {
 		bullet.doesPenetrate = true;
 		bullet.leadChance = 50;
 		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaDU").setColor(0x62A362, 0x757575);
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaDU").setColor(0x62A362, SpentCasing.COLOR_CASE_12GA);
 		
 		return bullet;
 	}
@@ -279,7 +279,7 @@ public class Gun12GaugeFactory {
 			
 		};
 		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaAM").setColor(0x416645, 0x757575);
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaAM").setColor(0x416645, SpentCasing.COLOR_CASE_12GA);
 		
 		return bullet;
 	}
@@ -290,7 +290,7 @@ public class Gun12GaugeFactory {
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SLEEK));
 		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaIF").setColor(0x2A2A2A, 0x757575);
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaIF").setColor(0x2A2A2A, SpentCasing.COLOR_CASE_12GA);
 		
 		return bullet;
 	}

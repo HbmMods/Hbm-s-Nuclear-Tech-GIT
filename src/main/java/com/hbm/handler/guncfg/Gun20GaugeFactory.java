@@ -24,12 +24,11 @@ import net.minecraft.util.Vec3;
 
 public class Gun20GaugeFactory {
 	
-	private static final CasingEjector CASING_LEVER;
+	private static final CasingEjector EJECTOR_SHOTGUN;
 	private static final SpentCasing CASING20GAUGE;
 
 	static {
-		CASING_LEVER = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.95, 0)).setOffset(Vec3.createVectorHelper(-0.55, 0, 0.5)).setAngleRange(0.01F, 0.05F);
-		
+		EJECTOR_SHOTGUN = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.95, 0)).setOffset(Vec3.createVectorHelper(-0.55, 0, 0.5)).setAngleRange(0.01F, 0.05F);
 		CASING20GAUGE = new SpentCasing(CasingType.SHOTGUN).setScale(1.25F).setBounceMotion(0.01F, 0.05F);
 	}
 	
@@ -66,7 +65,7 @@ public class Gun20GaugeFactory {
 		
 		config.config = HbmCollection.twentyGauge;
 		
-		config.ejector = CASING_LEVER;
+		config.ejector = EJECTOR_SHOTGUN;
 		
 		return config;
 	}
@@ -221,7 +220,7 @@ public class Gun20GaugeFactory {
 		bullet.dmgMin = 3;
 		bullet.dmgMax = 5;
 		
-		bullet.spentCasing = CASING20GAUGE.clone().register("20GaStock").setColor(0xB52B2B, 0xEBC35E);
+		bullet.spentCasing = CASING20GAUGE.clone().register("20GaStock").setColor(0xB52B2B, SpentCasing.COLOR_CASE_BRASS);
 		
 		return bullet;
 	}
@@ -236,7 +235,7 @@ public class Gun20GaugeFactory {
 		bullet.wear = 7;
 		bullet.style = BulletConfiguration.STYLE_NORMAL;
 		
-		bullet.spentCasing = CASING20GAUGE.clone().register("20GaSlug").setColor(0x2A2A2A, 0xEBC35E);
+		bullet.spentCasing = CASING20GAUGE.clone().register("20GaSlug").setColor(0x2A2A2A, SpentCasing.COLOR_CASE_BRASS);
 		
 		return bullet;
 	}
@@ -253,7 +252,7 @@ public class Gun20GaugeFactory {
 		bullet.HBRC = 2;
 		bullet.LBRC = 95;
 		
-		bullet.spentCasing = CASING20GAUGE.clone().register("20GaFlech").setColor(0x2847FF, 0xEBC35E);
+		bullet.spentCasing = CASING20GAUGE.clone().register("20GaFlech").setColor(0x2847FF, SpentCasing.COLOR_CASE_BRASS);
 		
 		return bullet;
 	}
@@ -268,7 +267,7 @@ public class Gun20GaugeFactory {
 		bullet.wear = 15;
 		bullet.incendiary = 5;
 		
-		bullet.spentCasing = CASING20GAUGE.clone().register("20GaInc").setColor(0xFF6329, 0xEBC35E);
+		bullet.spentCasing = CASING20GAUGE.clone().register("20GaInc").setColor(0xFF6329, SpentCasing.COLOR_CASE_BRASS);
 		
 		return bullet;
 	}
@@ -285,7 +284,7 @@ public class Gun20GaugeFactory {
 		bullet.HBRC = 80;
 		bullet.LBRC = 95;
 		
-		bullet.spentCasing = CASING20GAUGE.clone().register("20GaShrap").setColor(0xF0E800, 0xEBC35E);
+		bullet.spentCasing = CASING20GAUGE.clone().register("20GaShrap").setColor(0xF0E800, SpentCasing.COLOR_CASE_BRASS);
 		
 		return bullet;
 	}
@@ -300,7 +299,7 @@ public class Gun20GaugeFactory {
 		bullet.wear = 25;
 		bullet.explosive = 0.5F;
 		
-		bullet.spentCasing = CASING20GAUGE.clone().register("20GaExp").setColor(0xF0E800, 0xEBC35E);
+		bullet.spentCasing = CASING20GAUGE.clone().register("20GaExp").setColor(0xF0E800, SpentCasing.COLOR_CASE_BRASS);
 		
 		return bullet;
 	}
@@ -321,7 +320,7 @@ public class Gun20GaugeFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(Potion.poison.id, 10 * 20, 1));
 		
-		bullet.spentCasing = CASING20GAUGE.clone().register("20GaCaus").setColor(0x64E800, 0xEBC35E);
+		bullet.spentCasing = CASING20GAUGE.clone().register("20GaCaus").setColor(0x64E800, SpentCasing.COLOR_CASE_BRASS);
 		
 		return bullet;
 	}
@@ -343,7 +342,7 @@ public class Gun20GaugeFactory {
 		bullet.effects.add(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 1));
 		bullet.effects.add(new PotionEffect(Potion.weakness.id, 10 * 20, 4));
 		
-		bullet.spentCasing = CASING20GAUGE.clone().register("20GaShock").setColor(0x00EFEF, 0xEBC35E);
+		bullet.spentCasing = CASING20GAUGE.clone().register("20GaShock").setColor(0x00EFEF, SpentCasing.COLOR_CASE_BRASS);
 		
 		return bullet;
 	}
@@ -359,7 +358,7 @@ public class Gun20GaugeFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(Potion.wither.id, 10 * 20, 2));
 		
-		bullet.spentCasing = CASING20GAUGE.clone().register("20GaWith").setColor(0x391717, 0xEBC35E);
+		bullet.spentCasing = CASING20GAUGE.clone().register("20GaWith").setColor(0x391717, SpentCasing.COLOR_CASE_BRASS);
 		
 		return bullet;
 	}
@@ -370,7 +369,7 @@ public class Gun20GaugeFactory {
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.SLEEK));
 		
-		bullet.spentCasing = CASING20GAUGE.clone().register("20GaIF").setColor(0x2A2A2A, 0xEBC35E);
+		bullet.spentCasing = CASING20GAUGE.clone().register("20GaIF").setColor(0x2A2A2A, SpentCasing.COLOR_CASE_BRASS);
 		
 		return bullet;
 	}

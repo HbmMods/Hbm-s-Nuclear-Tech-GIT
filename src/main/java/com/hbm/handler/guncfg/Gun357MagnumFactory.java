@@ -4,18 +4,32 @@ import java.util.ArrayList;
 
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Vec3;
 
 public class Gun357MagnumFactory {
+	
+	private static final CasingEjector EJECTOR_REVOLVER;
+	private static final SpentCasing CASING357;
+	private static final SpentCasing CASINGNM;
+	
+	static {
+		EJECTOR_REVOLVER = new CasingEjector().setMotion(Vec3.createVectorHelper(0, 0, -0.03)).setOffset(Vec3.createVectorHelper(0, -0.15, 0)).setAngleRange(0.01F, 0.05F).setAfterReload().setAmount(6);
+		CASING357 = new SpentCasing(CasingType.STRAIGHT).setBounceMotion(0.01F, 0.05F);
+		CASINGNM = new SpentCasing(CasingType.SHOTGUN).setScale(1.25F).setBounceMotion(0.01F, 0.05F).setColor(0xC7AB1C, 0x6D63A6).register("357N2");
+	}
 	
 	public static GunConfiguration getBaseConfig() {
 		
@@ -34,6 +48,8 @@ public class Gun357MagnumFactory {
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.revolverShoot";
 		config.reloadSoundEnd = false;
+		
+		config.ejector = EJECTOR_REVOLVER;
 		
 		return config;
 	}
@@ -223,6 +239,8 @@ public class Gun357MagnumFactory {
 		bullet.dmgMin = 8;
 		bullet.dmgMax = 10;
 		
+		bullet.spentCasing = CASING357.clone().register("357Iron").setColor(0xA8A8A8);
+		
 		return bullet;
 	}
 	
@@ -233,6 +251,8 @@ public class Gun357MagnumFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.LEAD));
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 22;
+		
+		bullet.spentCasing = CASING357.clone().register("357Lead").setColor(0x646470);
 		
 		return bullet;
 	}
@@ -248,6 +268,8 @@ public class Gun357MagnumFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(HbmPotion.radiation.id, 10 * 20, 4));
 		
+		bullet.spentCasing = CASING357.clone().register("357Nuc").setColor(0xFEFEFE);
+		
 		return bullet;
 	}
 	
@@ -259,6 +281,8 @@ public class Gun357MagnumFactory {
 		bullet.dmgMin = 25;
 		bullet.dmgMax = 28;
 		
+		bullet.spentCasing = CASING357.clone().register("357Gold").setColor(0xF9FF3E);
+		
 		return bullet;
 	}
 	
@@ -269,6 +293,8 @@ public class Gun357MagnumFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.DESH));
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 33;
+		
+		bullet.spentCasing = CASING357.clone().register("357Desh").setColor(0xF22929);
 		
 		return bullet;
 	}
@@ -282,6 +308,8 @@ public class Gun357MagnumFactory {
 		bullet.dmgMax = 100000;
 		bullet.instakill = true;
 		
+		bullet.spentCasing = CASING357.clone().register("357Schrab").setColor(0x32FFFF);
+		
 		return bullet;
 	}
 	
@@ -293,6 +321,8 @@ public class Gun357MagnumFactory {
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 25;
 		
+		bullet.spentCasing = CASING357.clone().register("357Cursed").setColor(0x565656);
+		
 		return bullet;
 	}
 	
@@ -303,6 +333,8 @@ public class Gun357MagnumFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.NIGHTMARE1));
 		bullet.dmgMin = 1;
 		bullet.dmgMax = 100;
+		
+		bullet.spentCasing = CASING357.clone().register("357N1").setColor(0x3A3A3A);
 		
 		return bullet;
 	}
@@ -323,6 +355,8 @@ public class Gun357MagnumFactory {
 		bullet.trail = bullet.BOLT_NIGHTMARE;
 		
 		bullet.damageType = ModDamageSource.s_laser;
+		
+		bullet.spentCasing = CASINGNM;
 		
 		return bullet;
 	}

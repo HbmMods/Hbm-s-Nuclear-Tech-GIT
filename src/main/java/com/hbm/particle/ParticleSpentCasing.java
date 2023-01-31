@@ -1,5 +1,6 @@
 package com.hbm.particle;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,10 +15,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -53,7 +56,7 @@ public class ParticleSpentCasing extends EntityFX
 		motionY = my;
 		motionZ = mz;
 
-		particleGravity = 8f;
+		particleGravity = 8F;
 
 		maxHeight = y;
 	}
@@ -130,6 +133,15 @@ public class ParticleSpentCasing extends EntityFX
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 
+		double pX = prevPosX + (posX - prevPosX) * interp;
+		double pY = prevPosY + (posY - prevPosY) * interp;
+		double pZ = prevPosZ + (posZ - prevPosZ) * interp;
+		
+		int brightness = worldObj.getLightBrightnessForSkyBlocks(MathHelper.floor_double(pX), MathHelper.floor_double(pY), MathHelper.floor_double(pZ), 0);
+		int lX = brightness % 65536;
+		int lY = brightness / 65536;
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)lX / 1.0F, (float)lY / 1.0F);
+
 		textureManager.bindTexture(ResourceManager.casings_tex);
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -137,7 +149,7 @@ public class ParticleSpentCasing extends EntityFX
 		double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)interp;
 		double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
 
-		GL11.glTranslated(prevPosX + (posX - prevPosX) * interp - dX, prevPosY + (posY - prevPosY) * interp - dY - this.height / 4, prevPosZ + (posZ - prevPosZ) * interp - dZ);
+		GL11.glTranslated(pX - dX, pY - dY - this.height / 4, pZ - dZ);
 
 		GL11.glScalef(dScale, dScale, dScale);
 
@@ -146,11 +158,16 @@ public class ParticleSpentCasing extends EntityFX
 
 		GL11.glScalef(config.getScaleX(), config.getScaleY(), config.getScaleZ());
 
+		int index = 0;
 		for(String name : config.getType().partNames) {
-			//TODO: set part color
+			int col = this.config.getColors()[index]; //unsafe on purpose, set your colors properly or else...!
+			Color color = new Color(col);
+			GL11.glColor3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
 			ResourceManager.casings.renderPart(name);
+			index++;
 		}
 		
+		GL11.glColor3f(1F, 1F, 1F);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 
 		/*if(!smokeNodes.isEmpty()) {
@@ -190,10 +207,26 @@ public class ParticleSpentCasing extends EntityFX
 			GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.1F);
 		}*/
 
-		RenderHelper.disableStandardItemLighting();
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
+		
+		RenderHelper.disableStandardItemLighting();
 	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getBrightnessForRender(float p_70070_1_) {
+		int i = MathHelper.floor_double(this.posX);
+		int j = MathHelper.floor_double(this.posZ);
+
+		if(this.worldObj.blockExists(i, 0, j)) {
+			double d0 = (this.boundingBox.maxY - this.boundingBox.minY) * 0.66D;
+			int k = MathHelper.floor_double(this.posY - (double) this.yOffset + d0);
+			return this.worldObj.getLightBrightnessForSkyBlocks(i, k, j, 0);
+		} else {
+			return 0;
+		  }
+    }
 
 	private void tryPlayBounceSound() {
 

@@ -141,7 +141,11 @@ public class CasingEjector implements Cloneable {
 	}
 	
 	@Override
-	public CasingEjector clone() throws CloneNotSupportedException {
-		return (CasingEjector) super.clone();
+	public CasingEjector clone() {
+		try {
+			return (CasingEjector) super.clone();
+		} catch(CloneNotSupportedException e) {
+			return new CasingEjector();
+		}
 	}
 }

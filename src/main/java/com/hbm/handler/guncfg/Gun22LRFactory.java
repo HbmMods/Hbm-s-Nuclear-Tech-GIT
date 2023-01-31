@@ -1,15 +1,28 @@
 package com.hbm.handler.guncfg;
 
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo22LR;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
+import net.minecraft.util.Vec3;
+
 public class Gun22LRFactory {
+	
+	private static final CasingEjector EJECTOR_22LR;
+	private static final SpentCasing CASING22LR;
+
+	static {
+		EJECTOR_22LR = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, -0.2, 0.35)).setAngleRange(0.01F, 0.03F);
+		CASING22LR = new SpentCasing(CasingType.STRAIGHT).setScale(0.8F).setBounceMotion(0.05F, 0.02F).setColor(SpentCasing.COLOR_CASE_BRASS);
+	}
 	
 	public static GunConfiguration getUziConfig() {
 		
@@ -35,6 +48,8 @@ public class Gun22LRFactory {
 		config.comment.add("Mom, where are my mittens?");
 		
 		config.config = HbmCollection.twentyTwoLR;
+		
+		config.ejector = EJECTOR_22LR;
 		
 		return config;
 	}
@@ -63,6 +78,8 @@ public class Gun22LRFactory {
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 8;
 		
+		bullet.spentCasing = CASING22LR.clone().register("22LRStock");
+		
 		return bullet;
 	}
 	
@@ -76,6 +93,8 @@ public class Gun22LRFactory {
 		bullet.dmgMax = 16;
 		bullet.leadChance = 10;
 		bullet.wear = 15;
+		
+		bullet.spentCasing = CASING22LR.clone().register("22LRAP");
 		
 		return bullet;
 	}

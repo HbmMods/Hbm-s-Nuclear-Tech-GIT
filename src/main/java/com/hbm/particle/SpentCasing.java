@@ -7,13 +7,17 @@ import java.util.HashMap;
  * @author uffr, hbm
  */
 public class SpentCasing implements Cloneable {
+
+	public static final int COLOR_CASE_BRASS = 0xEBC35E;
+	public static final int COLOR_CASE_12GA = 0x757575;
+	public static final int COLOR_CASE_44 = 0x3E3E3E;
 	
 	public static final HashMap<String, SpentCasing> casingMap = new HashMap();
 	
 	public enum CasingType {
-		BRASS_STRAIGHT_WALL("Straight"),
-		BRASS_BOTTLENECK("Bottleneck"),
-		SHOTGUN("Shotgun", "ShotgunBase"), //plastic shell, brass case
+		STRAIGHT("Straight"),
+		BOTTLENECK("Bottleneck"),
+		SHOTGUN("Shotgun", "ShotgunCase"), //plastic shell, brass case
 		AR2("AR2", "AR2Highlight"); //plug, back detailing
 		
 		public final String[] partNames;
