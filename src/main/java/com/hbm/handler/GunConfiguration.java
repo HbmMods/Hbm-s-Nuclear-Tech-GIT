@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
-import com.hbm.particle.SpentCasingConfig;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -78,7 +77,7 @@ public class GunConfiguration implements Cloneable {
 	public Crosshair crosshair;
 	
 	//casing eject behavior
-	public SpentCasingConfig casingConfig = null;
+	public CasingEjector ejector = null;
 
 	public static final int MODE_NORMAL = 0;
 	public static final int MODE_RELEASE = 1;

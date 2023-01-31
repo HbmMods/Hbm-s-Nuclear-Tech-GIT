@@ -13,9 +13,9 @@ import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.particle.SpentCasing;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -101,6 +101,7 @@ public class BulletConfiguration implements Cloneable {
 	public int plink;
 	//vanilla particle FX
 	public String vPFX = "";
+	public SpentCasing spentCasing;
 	
 	//energy projectiles
 	//power consumed per shot

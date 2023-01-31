@@ -2,6 +2,7 @@ package com.hbm.particle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -23,6 +24,7 @@ import net.minecraft.world.World;
 @SideOnly(Side.CLIENT)
 public class ParticleSpentCasing extends EntityFX
 {
+	public static final Random rand = new Random();
 	private static float dScale = 0.05F, smokeJitter = 0.025F, smokeAccel = 0.5F;
 	private static byte maxSmokeGen = 60, maxSmokeLife = 120;
 
@@ -30,14 +32,14 @@ public class ParticleSpentCasing extends EntityFX
 
 	private final TextureManager textureManager;
 
-	private final SpentCasingConfig config;
+	private final SpentCasing config;
 	private boolean smoke;
 
 	private float momentumPitch, momentumYaw;
 	private boolean onGroundPreviously = false;
 	private double maxHeight;
 
-	public ParticleSpentCasing(TextureManager textureManager, World world, double x, double y, double z, double mx, double my, double mz, float momentumPitch, float momentumYaw, SpentCasingConfig config) {
+	public ParticleSpentCasing(TextureManager textureManager, World world, double x, double y, double z, double mx, double my, double mz, float momentumPitch, float momentumYaw, SpentCasing config) {
 		super(world, x, y, z, 0, 0, 0);
 		this.textureManager = textureManager;
 		this.momentumPitch = momentumPitch;
@@ -45,9 +47,7 @@ public class ParticleSpentCasing extends EntityFX
 		this.config = config;
 
 		particleMaxAge = 240;
-//		smoke = config.getSmokeChance() == 0 ? true
-//				: config.getSmokeChance() < 0 ? false
-//						: rand.nextInt(config.getSmokeChance()) == 0;
+		smoke = rand.nextFloat() < config.getSmokeChance();
 
 		motionX = mx;
 		motionY = my;
@@ -73,43 +73,37 @@ public class ParticleSpentCasing extends EntityFX
 		if(!onGroundPreviously && onGround)
 			tryPlayBounceSound();
 
-		// TODO Bounce factor in config
 		if(!onGroundPreviously && onGround) {
 			
 			onGroundPreviously = true;
 			motionY = Math.log10(maxHeight - posY + 2);
-			momentumPitch = (float) rand.nextGaussian() * config.getPitchFactor();
-			momentumYaw = (float) rand.nextGaussian() * config.getYawFactor();
+			momentumPitch = (float) rand.nextGaussian() * config.getBouncePitch();
+			momentumYaw = (float) rand.nextGaussian() * config.getBounceYaw();
 			maxHeight = posY;
 			
 		} else if(onGroundPreviously && !onGround) {
 			onGroundPreviously = false;
 		}
 
-//		if (particleAge > maxSmokeLife && !smokeNodes.isEmpty())
-//			smokeNodes.clear();
+		if (particleAge > maxSmokeLife && !smokeNodes.isEmpty())
+			smokeNodes.clear();
 
-//		if (smoke && particleAge <= maxSmokeLife)
-//		{
-//			final double side = (rotationYaw - prevRotationYaw) * 0.1D;
-//			final Vec3 prev = Vec3.createVectorHelper(motionX, motionY, motionZ);
-//			prev.rotateAroundY((float) Math.toRadians(rotationYaw));
-//			
-//			for (Pair<EasyLocation, Double> pair : smokeNodes)
-//			{
-//				final EasyLocation node = pair.getKey();
-//				
-//				node.posX += prev.xCoord * smokeAccel + rand.nextGaussian() * smokeJitter + side;
-//				node.posY += prev.yCoord + smokeAccel;
-//				node.posZ += prev.zCoord * smokeAccel + rand.nextGaussian() * smokeJitter;
-//			}
-//			
-//			if (particleAge < maxSmokeGen || inWater)
-//			{
-//				final double alpha = (particleAge / 20d);
-//				smokeNodes.add(new Pair<EasyLocation, Double>(EasyLocation.getZeroLocation(), alpha));
-//			}
-//		}
+		if(smoke && particleAge <= maxSmokeLife) {
+			
+			//motion-based smoke changes were moved to rendering (to account for interp in realtime)
+
+			for(Pair<Vec3, Double> pair : smokeNodes) {
+				final Vec3 node = pair.getKey();
+
+				node.xCoord += rand.nextGaussian() * smokeJitter;
+				node.zCoord += rand.nextGaussian() * smokeJitter;
+			}
+
+			if(particleAge < maxSmokeGen || inWater) {
+				final double alpha = (particleAge / 20d);
+				smokeNodes.add(new Pair<Vec3, Double>(Vec3.createVectorHelper(0, 0, 0), alpha));
+			}
+		}
 
 		prevRotationPitch = rotationPitch;
 		prevRotationYaw = rotationYaw;
@@ -152,10 +146,11 @@ public class ParticleSpentCasing extends EntityFX
 
 		GL11.glScalef(config.getScaleX(), config.getScaleY(), config.getScaleZ());
 
-		if(config.doesOverrideColor())
-			GL11.glColor3b((byte) config.getRedOverride(), (byte) config.getGreenOverride(), (byte) config.getBlueOverride());
-
-		ResourceManager.casings.renderPart(config.getCasingType().objName);
+		for(String name : config.getType().partNames) {
+			//TODO: set part color
+			ResourceManager.casings.renderPart(name);
+		}
+		
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 
 		/*if(!smokeNodes.isEmpty()) {
@@ -202,8 +197,10 @@ public class ParticleSpentCasing extends EntityFX
 
 	private void tryPlayBounceSound() {
 
-		if(!config.getBounceSound().isEmpty()) {
-			worldObj.playSoundAtEntity(this, config.getBounceSound(), 2, 1);
+		String sound = config.getSound();
+		
+		if(sound != null && !sound.isEmpty()) {
+			worldObj.playSoundAtEntity(this, sound, 2, 1);
 		}
 	}
 }

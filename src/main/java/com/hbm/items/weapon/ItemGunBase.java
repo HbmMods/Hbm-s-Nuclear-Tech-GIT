@@ -8,6 +8,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.interfaces.IHoldableWeapon;
@@ -19,7 +20,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.particle.SpentCasingConfig;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -211,8 +211,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
 		
-		if(mainConfig.casingConfig != null && !mainConfig.casingConfig.isAfterReload())
-			spawnCasing(player, mainConfig.casingConfig, stack);
+		if(mainConfig.ejector != null && !mainConfig.ejector.getAfterReload())
+			trySpawnCasing(player, mainConfig.ejector, config, stack);
 	}
 	
 	//unlike fire(), being called does not automatically imply success, some things may still have to be handled before spawning the projectile
@@ -245,8 +245,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		
 		world.playSoundAtEntity(player, altConfig.firingSound, 1.0F, altConfig.firingPitch);
 		
-		if(altConfig.casingConfig != null)
-			spawnCasing(player, altConfig.casingConfig, stack);
+		if(altConfig.ejector != null)
+			trySpawnCasing(player, altConfig.ejector, config, stack);
 	}
 	
 	//spawns the actual projectile, can be overridden to change projectile entity
@@ -297,6 +297,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		}
 		
 		if(getReloadCycle(stack) <= 0) {
+
+			
+			BulletConfiguration prevCfg = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
 			
 			if (getMag(stack) == 0)
 				resetAmmoType(stack, world, player);
@@ -327,8 +330,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			if(hasLoaded && mainConfig.reloadSoundEnd)
 				world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 			
-			if(mainConfig.casingConfig != null && mainConfig.casingConfig.isAfterReload())
-				spawnCasing(player, mainConfig.casingConfig, stack);
+			if(mainConfig.ejector != null && mainConfig.ejector.getAfterReload())
+				trySpawnCasing(player, mainConfig.ejector, prevCfg, stack);
 			
 			InventoryUtil.tryConsumeAStack(player.inventory.mainInventory, 0, player.inventory.mainInventory.length, ammo);
 		} else {
@@ -704,7 +707,12 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		}
 	}
 	
-	protected static void spawnCasing(Entity entity, SpentCasingConfig config, ItemStack stack) {
+	protected static void trySpawnCasing(Entity entity, CasingEjector ejector, BulletConfiguration bullet, ItemStack stack) {
+		
+		if(ejector == null) return; //abort if the gun can't eject bullets at all
+		if(bullet == null) return; //abort if there's no valid bullet cfg
+		if(bullet.spentCasing == null) return; //abort if the bullet is caseless
+		
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "casing");
 		data.setDouble("posX", entity.posX);
@@ -713,7 +721,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		data.setFloat("pitch", (float) Math.toRadians(entity.rotationPitch));
 		data.setFloat("yaw", (float) Math.toRadians(entity.rotationYaw));
 		data.setBoolean("crouched", entity.isSneaking());
-		data.setString("name", config.getRegistryName());
+		data.setString("name", bullet.spentCasing.getName());
+		data.setInteger("ej", ejector.getId());
+		//TODO: use packets
 		MainRegistry.proxy.effectNT(data);
 	}
 }

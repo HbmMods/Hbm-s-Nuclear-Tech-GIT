@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -12,9 +13,8 @@ import com.hbm.items.ItemAmmoEnums.Ammo12Gauge;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
-import com.hbm.particle.SpentCasingConfig;
-import com.hbm.particle.SpentCasingConfig.CasingType;
-import com.hbm.particle.SpentCasingConfigBuilder;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -29,32 +29,17 @@ import net.minecraft.util.Vec3;
 
 public class Gun12GaugeFactory {
 	
-	static final SpentCasingConfig CASING_SPAS, CASING_SPAS_ALT, CASING_BENELLI, CASING_UBOINIK, CASING_SSG;
+	private static final CasingEjector CASING_SPAS, CASING_SPAS_ALT, CASING_BENELLI, CASING_UBOINIK, CASING_SSG;
+	private static final SpentCasing CASING12GAUGE;
 
-	static
-	{
-		final SpentCasingConfigBuilder CASING_12G_BUILDER = new SpentCasingConfigBuilder("", CasingType.SHOTGUN, false)
-				.setScaleX(1.5f).setScaleY(1.5f).setScaleZ(1.5f);
-		CASING_SPAS = CASING_12G_BUILDER.setRegistryName("spas12").setInitialMotion(Vec3.createVectorHelper(-0.4, 0.1, 0))
-				.setPosOffset(Vec3.createVectorHelper(-0.35, 0, 0.5)).setPitchFactor(0.03f).setYawFactor(0.01f)
-				.setSmokeChance(0).setDelay(10)
-				.build();
-
-		CASING_SPAS_ALT = CASING_12G_BUILDER.setRegistryName("spas12alt").setCasingAmount(2)
-				.build();
-
-		CASING_BENELLI = CASING_12G_BUILDER.setRegistryName("benelli").setCasingAmount(1).setDelay(0)
-				.setInitialMotion(Vec3.createVectorHelper(-0.3, 1, 0))
-				.build();
-
-		CASING_UBOINIK = CASING_12G_BUILDER.setRegistryName("uboinik").setOverrideColor(true)
-				.setBlueOverride(255).setPosOffset(Vec3.createVectorHelper(-0.35, -0.3, 0.5))
-				.build();
-
-		CASING_SSG = CASING_12G_BUILDER.setRegistryName("ssg").setBlueOverride(0).setRedOverride(255).setCasingAmount(2)
-				.setPosOffset(Vec3.createVectorHelper(0.8, 0, 0)).setInitialMotion(Vec3.createVectorHelper(0.2, 0, -0.2))
-				.setPitchFactor(0.05f).setYawFactor(0.02f)
-				.build();
+	static {
+		CASING_SPAS = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, 0, 0.5)).setAngleRange(0.01F, 0.03F).setDelay(10);
+		CASING_SPAS_ALT = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, 0, 0.5)).setAngleRange(0.01F, 0.03F).setDelay(10).setAmount(2);
+		CASING_BENELLI = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.3, 1, 0)).setAngleRange(0.01F, 0.03F);
+		CASING_UBOINIK = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, -0.3, 0.5)).setAngleRange(0.01F, 0.03F);
+		CASING_SSG = new CasingEjector().setMotion(Vec3.createVectorHelper(0.2, 0, -0.2)).setOffset(Vec3.createVectorHelper(0.8, 0, 0)).setAngleRange(0.05F, 0.02F).setDelay(20).setAmount(2);
+		
+		CASING12GAUGE = new SpentCasing(CasingType.SHOTGUN).setScale(1.5F).setBounceMotion(0.05F, 0.02F);
 	}
 	
 	public static GunConfiguration getSpas12Config() {
@@ -98,12 +83,12 @@ public class Gun12GaugeFactory {
 					)
 				);
 		
-		config.casingConfig = CASING_SPAS;
+		config.ejector = CASING_SPAS;
 		
 		return config;
 	}
 	
-public static GunConfiguration getSpas12AltConfig() {
+	public static GunConfiguration getSpas12AltConfig() {
 		
 		GunConfiguration config = new GunConfiguration();
 		
@@ -125,6 +110,8 @@ public static GunConfiguration getSpas12AltConfig() {
 		config.config.add(BulletConfigSyncingUtil.G12_DU);
 		config.config.add(BulletConfigSyncingUtil.G12_AM);
 		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
+		
+		config.ejector = CASING_SPAS_ALT;
 
 		return config;
 	}
@@ -151,6 +138,8 @@ public static GunConfiguration getSpas12AltConfig() {
 		config.manufacturer = EnumGunManufacturer.METRO;
 
 		config.config = HbmCollection.twelveGauge;
+		
+		config.ejector = CASING_UBOINIK;
 		
 		return config;
 	}
@@ -203,6 +192,8 @@ public static GunConfiguration getSpas12AltConfig() {
 		
 		config.config = HbmCollection.twelveGauge;
 		
+		config.ejector = CASING_SSG;
+		
 		return config;
 	}
 	
@@ -213,6 +204,8 @@ public static GunConfiguration getSpas12AltConfig() {
 		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.STOCK));
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 7;
+		
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaStock").setColor(0x2847FF, 0x757575);
 		
 		return bullet;
 	}
@@ -226,6 +219,8 @@ public static GunConfiguration getSpas12AltConfig() {
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 7;
 		bullet.incendiary = 5;
+		
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaInc").setColor(0xFF6329, 0x757575);
 		
 		return bullet;
 	}
@@ -242,6 +237,8 @@ public static GunConfiguration getSpas12AltConfig() {
 		bullet.HBRC = 80;
 		bullet.LBRC = 95;
 		
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaShrap").setColor(0xF0E800, 0x757575);
+		
 		return bullet;
 	}
 	
@@ -255,6 +252,8 @@ public static GunConfiguration getSpas12AltConfig() {
 		bullet.dmgMax = 22;
 		bullet.doesPenetrate = true;
 		bullet.leadChance = 50;
+		
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaDU").setColor(0x62A362, 0x757575);
 		
 		return bullet;
 	}
@@ -280,6 +279,8 @@ public static GunConfiguration getSpas12AltConfig() {
 			
 		};
 		
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaAM").setColor(0x416645, 0x757575);
+		
 		return bullet;
 	}
 	
@@ -288,6 +289,8 @@ public static GunConfiguration getSpas12AltConfig() {
 		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SLEEK));
+		
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaIF").setColor(0x2A2A2A, 0x757575);
 		
 		return bullet;
 	}

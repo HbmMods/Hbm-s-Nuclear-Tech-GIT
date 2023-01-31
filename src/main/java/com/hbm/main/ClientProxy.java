@@ -58,6 +58,7 @@ import com.hbm.entity.mob.botprime.*;
 import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
@@ -1791,9 +1792,14 @@ public class ClientProxy extends ServerProxy {
 		}
 		
 		if("casing".equals(type)) {
-			SpentCasingConfig casingConfig = SpentCasingConfig.get(data.getString("name"));
-			for(int i = 0; i < casingConfig.getCasingAmount(); i++)
-				casingConfig.spawnCasing(man, world, x, y, z, data.getFloat("pitch"), data.getFloat("yaw"), data.getBoolean("crouched"));
+			CasingEjector ejector = CasingEjector.fromId(data.getInteger("ej"));
+			if(ejector == null) return;
+			SpentCasing casingConfig = SpentCasing.fromName((data.getString("name")));
+			if(casingConfig == null) return;
+			
+			for(int i = 0; i < ejector.getAmount(); i++) {
+				ejector.spawnCasing(man, casingConfig, world, x, y, z, data.getFloat("pitch"), data.getFloat("yaw"), data.getBoolean("crouched"));
+			}
 		}
 	}
 	
