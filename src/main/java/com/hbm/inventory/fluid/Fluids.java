@@ -66,6 +66,7 @@ public class Fluids {
 	public static FluidType NITRIC_ACID;
 	public static FluidType BLOOD;				//WEEE
 	public static FluidType XENON;
+	public static FluidType AIR;				//cant believe im adding this
 	public static FluidType BALEFIRE;
 	public static FluidType MERCURY;
 	public static FluidType PAIN;				//tantalite solution
@@ -221,7 +222,9 @@ public class Fluids {
 		AMMONIA =			new FluidType("AMMONIA",			0xB3C6D2, 3, 0, 0, EnumSymbol.ASPHYXIANT).addTraits(new FT_Poison(true, 4), GASEOUS);
 		HYDRAZINE =			new FluidType("HYDRAZINE",			0x31517D, 2, 3, 0, EnumSymbol.NONE).addContainers(0x31517D, ExtContainer.CANISTER).addTraits((new FT_Flammable(500_000)), new FT_Combustible(FuelGrade.HIGH, 1_250_000), new FT_Corrosive(30), LIQUID);	
 		BLOODGAS =			new FluidType("BLOODGAS",		    0x591000, 1, 0, 3, EnumSymbol.NONE).addContainers(0x591000, ExtContainer.CANISTER).addTraits(new FT_Flammable(86_666), new FT_Combustible(FuelGrade.AERO, 666_665)).addTraits(LIQUID);
-		
+		AIR =				new FluidType("AIR",				0xD1CEBE, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+		//TODO: fire diamonds
+		//shut the fuck up shibe
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -257,6 +260,7 @@ public class Fluids {
 		metaOrder.add(XENON);
 		metaOrder.add(MERCURY);
 		metaOrder.add(NITROGEN);
+		metaOrder.add(AIR); //do it for love, do it for life, for mankiiiiiind!!
 		metaOrder.add(BLOOD);
 		metaOrder.add(NITRIC_ACID);
 		metaOrder.add(AMMONIA);

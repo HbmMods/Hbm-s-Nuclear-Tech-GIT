@@ -65,16 +65,23 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 			float maxSpeed = 30F;
 			
 			if(hasPower()) {
-
-
-				worldObj.spawnParticle("cloud", xCoord + 0.70 + worldObj.rand.nextDouble() * 0.5, yCoord + 5.5, zCoord + 1.20 + worldObj.rand.nextDouble() * -0.5, 0,-0.2, 0);
 				rotSpeed += 0.1;
-				
+				//ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+				//ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+				//Random rand = worldObj.rand;
+				//double x = zCoord + 0.5D - dir.offsetX * 0.5D - rot.offsetZ * 0.5D;
+				//double z = zCoord + 0.5D - dir.offsetZ * 0.5D - rot.offsetZ * 0.5D;
+				//worldObj.spawnParticle("cloud", x + 0.0D + dir.offsetX - 0, yCoord + 5.5D, z + 0.0D + dir.offsetZ - 0, 0,-0.2, 0);
+				rotSpeed += 0.1;
+				// 1.20
+				//+ 0.70 
 				if(rotSpeed > maxSpeed)
 					rotSpeed = maxSpeed;
-				
+
 				if(rotSpeed == maxSpeed && this.worldObj.getTotalWorldTime() % 5 == 0) {
-					
+
+					if(rotSpeed > maxSpeed)
+						rotSpeed = maxSpeed;
 				}
 			} else {
 				
