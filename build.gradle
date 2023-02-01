@@ -5,17 +5,16 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
-            		changing = true
-        	}
+		classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {changing = true}
 	}
 }
 
 apply plugin: 'forge'
-
-def jsonFile = file('./src/main/resources/mcmod.info')
-def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text)
-version = parsedJson.version
+def version_name = version = mod_version
+if(!mod_build_number.isEmpty()) {
+	version_name = mod_version + "_X" + mod_build_number
+	version = "[${version_name}]"
+}
 group = "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HBM-NTM"
 compileJava.options.encoding = 'UTF-8'
@@ -88,7 +87,13 @@ processResources {
 		include 'mcmod.info'
 		
 		// replace version and mcversion
-		expand 'version':project.version, 'mcversion':project.minecraft.version
+		filesMatching('mcmod.info') {
+			// replace version, mcversion and credits
+			expand([
+					version: version_name,
+					credits: project.credits
+			])
+		}
 	}
 		
 	// copy everything else, thats not the mcmod.info
