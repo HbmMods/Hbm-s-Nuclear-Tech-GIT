@@ -41,9 +41,17 @@ public class CasingEjector implements Cloneable {
 		mappings.put(id, this);
 	}
 	
+	public CasingEjector setOffset(double x, double y, double z) {
+		return setOffset(Vec3.createVectorHelper(x, y, z));
+	}
+	
 	public CasingEjector setOffset(Vec3 vec) {
 		this.posOffset = vec;
 		return this;
+	}
+	
+	public CasingEjector setMotion(double x, double y, double z) {
+		return setMotion(Vec3.createVectorHelper(x, y, z));
 	}
 	
 	public CasingEjector setMotion(Vec3 vec) {

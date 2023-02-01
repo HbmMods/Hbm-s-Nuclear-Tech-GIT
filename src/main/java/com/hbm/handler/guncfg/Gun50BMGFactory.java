@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
@@ -16,6 +17,8 @@ import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -33,6 +36,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 
 public class Gun50BMGFactory {
+	
+	private static final CasingEjector EJECTOR_BMG;
+	private static final CasingEjector EJECTOR_SNIPER;
+	private static final SpentCasing CASING50BMG;
+	private static final SpentCasing CASINGLUNA;
+
+	static {
+		EJECTOR_BMG = new CasingEjector().setMotion(-0.35, 0.9, 0).setOffset(-0.45, -0.2, 0.35).setAngleRange(0.01F, 0.05F);
+		EJECTOR_SNIPER = new CasingEjector().setMotion(-2, 0.15, 0).setOffset(-0.45, -0.2, 0.35).setAngleRange(0.02F, 0.05F);
+		CASING50BMG = new SpentCasing(CasingType.BOTTLENECK).setScale(3F).setBounceMotion(0.01F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS);
+		CASINGLUNA = new SpentCasing(CasingType.BOTTLENECK).setScale(4F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS);
+	}
 	
 	public static GunConfiguration getCalamityConfig() {
 		
@@ -72,6 +87,8 @@ public class Gun50BMGFactory {
 		
 		config.config = HbmCollection.fiftyBMG;
 		
+		config.ejector = EJECTOR_BMG;
+		
 		return config;
 	}
 	
@@ -98,6 +115,8 @@ public class Gun50BMGFactory {
 		
 		config.config = HbmCollection.fiftyBMG;
 		
+		config.ejector = EJECTOR_BMG;
+		
 		return config;
 	}
 	
@@ -117,6 +136,8 @@ public class Gun50BMGFactory {
 
 		bullet.blockDamage = true;
 		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 5.0F, true, false);
+		
+		bullet.spentCasing = CASINGLUNA.clone().register("LunaStock");
 
 		return bullet;
 	}
@@ -128,6 +149,8 @@ public class Gun50BMGFactory {
 
 		bullet.ammo.meta = 1;
 		bullet.incendiary = 50;
+		
+		bullet.spentCasing = CASINGLUNA.clone().register("LunaInc");
 
 		return bullet;
 	}
@@ -140,6 +163,8 @@ public class Gun50BMGFactory {
 		bullet.ammo.meta = 2;
 		bullet.explosive = 25;
 		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 25.0F, true, false);
+		
+		bullet.spentCasing = CASINGLUNA.clone().register("LunaExp");
 
 		return bullet;
 	}
@@ -179,6 +204,8 @@ public class Gun50BMGFactory {
 		config.config.add(BulletConfigSyncingUtil.CHL_BMG50);
 		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK);
 		
+		config.ejector = EJECTOR_BMG;
+		
 		return config;
 	}
 
@@ -191,6 +218,8 @@ public class Gun50BMGFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGStock");
 		
 		return bullet;
 	}
@@ -205,6 +234,8 @@ public class Gun50BMGFactory {
 		bullet.dmgMax = 36;
 		bullet.wear = 15;
 		bullet.incendiary = 5;
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGInc");
 		
 		return bullet;
 	}
@@ -241,6 +272,8 @@ public class Gun50BMGFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGPhos");
+		
 		return bullet;
 	}
 
@@ -254,6 +287,8 @@ public class Gun50BMGFactory {
 		bullet.dmgMax = 64;
 		bullet.wear = 25;
 		bullet.explosive = 1;
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGExp");
 		
 		return bullet;
 	}
@@ -269,6 +304,8 @@ public class Gun50BMGFactory {
 		bullet.wear = 15;
 		bullet.leadChance = 10;
 		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGAP");
+		
 		return bullet;
 	}
 
@@ -283,6 +320,8 @@ public class Gun50BMGFactory {
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGDU");
+		
 		return bullet;
 	}
 
@@ -296,6 +335,8 @@ public class Gun50BMGFactory {
 		bullet.dmgMax = 102;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGStar");
 		
 		return bullet;
 	}
@@ -347,6 +388,8 @@ public class Gun50BMGFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGIF");
+		
 		return bullet;
 	}
 	
@@ -359,6 +402,8 @@ public class Gun50BMGFactory {
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 54;
 		bullet.style = bullet.STYLE_FLECHETTE;
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGFlech");
 		
 		return bullet;
 	}
@@ -387,6 +432,8 @@ public class Gun50BMGFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGAM");
+		
 		return bullet;
 	}
 	
@@ -413,6 +460,8 @@ public class Gun50BMGFactory {
 				}
 			}
 		};
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGPO");
 		
 		return bullet;
 	}

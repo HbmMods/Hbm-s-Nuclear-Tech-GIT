@@ -1,15 +1,26 @@
 package com.hbm.handler.guncfg;
 
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo50AE;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun50AEFactory {
+	
+	private static final CasingEjector EJECTOR_PISTOL;
+	private static final SpentCasing CASING50AE;
+
+	static {
+		EJECTOR_PISTOL = new CasingEjector().setMotion(-0.3, 0.7, 0).setOffset(-0.5, 0, 0.5).setAngleRange(0.01F, 0.03F);
+		CASING50AE = new SpentCasing(CasingType.STRAIGHT).setScale(1.5F).setBounceMotion(0.01F, 0.03F).setColor(SpentCasing.COLOR_CASE_BRASS);
+	}
 	
 	public static GunConfiguration getBaseConfig() {
 		
@@ -44,6 +55,8 @@ public class Gun50AEFactory {
 		config.hasSights = true;
 		config.config = HbmCollection.fiftyAE;
 		
+		config.ejector = EJECTOR_PISTOL;
+		
 		return config;
 	}
 
@@ -56,6 +69,8 @@ public class Gun50AEFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 28;
 		bullet.dmgMax = 32;
+		
+		bullet.spentCasing = CASING50AE.clone().register("50AEStock");
 		
 		return bullet;
 	}
@@ -71,6 +86,8 @@ public class Gun50AEFactory {
 		bullet.leadChance = 10;
 		bullet.wear = 15;
 		
+		bullet.spentCasing = CASING50AE.clone().register("50AEAP");
+		
 		return bullet;
 	}
 
@@ -85,6 +102,8 @@ public class Gun50AEFactory {
 		bullet.leadChance = 50;
 		bullet.wear = 25;
 		
+		bullet.spentCasing = CASING50AE.clone().register("50AEDU");
+		
 		return bullet;
 	}
 
@@ -98,6 +117,8 @@ public class Gun50AEFactory {
 		bullet.dmgMax = 60;
 		bullet.leadChance = 100;
 		bullet.wear = 25;
+		
+		bullet.spentCasing = CASING50AE.clone().register("50AEStar");
 		
 		return bullet;
 	}

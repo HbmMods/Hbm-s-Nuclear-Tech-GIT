@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
@@ -15,6 +16,8 @@ import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -28,6 +31,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 
 public class Gun556mmFactory {
+	
+	private static final CasingEjector EJECTOR_RIFLE;
+	private static final SpentCasing CASING556;
+
+	static {
+		EJECTOR_RIFLE = new CasingEjector().setMotion(-0.35, 0.6, 0).setOffset(-0.35, 0, 0.35).setAngleRange(0.01F, 0.03F);
+		CASING556 = new SpentCasing(CasingType.BOTTLENECK).setScale(1.25F).setBounceMotion(0.01F, 0.03F).setColor(SpentCasing.COLOR_CASE_BRASS);
+	}
 
 	public static GunConfiguration getEuphieConfig() {
 		
@@ -54,7 +65,8 @@ public class Gun556mmFactory {
 		
 		config.comment.add("Why is this gun so sticky?");
 		
-		config.config = HbmCollection.NATO;
+		config.config = new ArrayList();
+		config.config.add(BulletConfigSyncingUtil.R556_GOLD);
 		
 		return config;
 	}
@@ -95,6 +107,8 @@ public class Gun556mmFactory {
 
 		config.config = HbmCollection.NATOFlechette;
 		
+		config.ejector = EJECTOR_RIFLE;
+		
 		return config;
 	}
 	
@@ -132,6 +146,8 @@ public class Gun556mmFactory {
 		bullet.dmgMin = 16;
 		bullet.dmgMax = 20;
 		
+		bullet.spentCasing = CASING556.clone().register("556Stock");
+		
 		return bullet;
 	}
 
@@ -143,6 +159,8 @@ public class Gun556mmFactory {
 		bullet.dmgMin = 250;
 		bullet.dmgMax = 320;
 		bullet.spread = 0.0F;
+		
+		bullet.spentCasing = null;
 		
 		return bullet;
 	}
@@ -176,6 +194,8 @@ public class Gun556mmFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING556.clone().register("556Phos");
+		
 		return bullet;
 	}
 
@@ -188,6 +208,8 @@ public class Gun556mmFactory {
 		bullet.dmgMax = 26;
 		bullet.wear = 15;
 		bullet.leadChance = 10;
+		
+		bullet.spentCasing = CASING556.clone().register("556AP");
 		
 		return bullet;
 	}
@@ -202,6 +224,8 @@ public class Gun556mmFactory {
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		
+		bullet.spentCasing = CASING556.clone().register("556DU");
+		
 		return bullet;
 	}
 
@@ -214,6 +238,8 @@ public class Gun556mmFactory {
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
+		
+		bullet.spentCasing = CASING556.clone().register("556Star");
 		
 		return bullet;
 	}
@@ -264,6 +290,8 @@ public class Gun556mmFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING556.clone().register("556IF");
+		
 		return bullet;
 	}
 
@@ -273,6 +301,8 @@ public class Gun556mmFactory {
 
 		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.TRACER));
 		bullet.vPFX = "reddust";
+		
+		bullet.spentCasing = CASING556.clone().register("556Trac");
 		
 		return bullet;
 	}
@@ -290,6 +320,8 @@ public class Gun556mmFactory {
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.doesPenetrate = false;
 		
+		bullet.spentCasing = CASING556.clone().register("556Flec");
+		
 		return bullet;
 	}
 
@@ -299,6 +331,8 @@ public class Gun556mmFactory {
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE_INCENDIARY));
 		bullet.incendiary = 5;
+		
+		bullet.spentCasing = CASING556.clone().register("556FlecInc");
 		
 		return bullet;
 	}
@@ -330,6 +364,8 @@ public class Gun556mmFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING556.clone().register("556FlecPhos");
+		
 		return bullet;
 	}
 
@@ -343,6 +379,8 @@ public class Gun556mmFactory {
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		bullet.doesPenetrate = true;
+		
+		bullet.spentCasing = CASING556.clone().register("556FlecDU");
 		
 		return bullet;
 	}
@@ -392,6 +430,8 @@ public class Gun556mmFactory {
 				bullet.worldObj.spawnEntityInWorld(meteor);
 			}
 		};
+		
+		bullet.spentCasing = CASING556.clone().register("556FlecIF");
 		
 		return bullet;
 	}
