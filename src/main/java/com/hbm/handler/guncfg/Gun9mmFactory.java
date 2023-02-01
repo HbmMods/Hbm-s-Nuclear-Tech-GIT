@@ -45,7 +45,8 @@ public class Gun9mmFactory {
 		return config;
 	}
 	
-	public static GunConfiguration getThompsonConfig() {
+	//rechambered to .45
+	/*public static GunConfiguration getThompsonConfig() {
 		
 		GunConfiguration config = new GunConfiguration();
 		
@@ -75,7 +76,7 @@ public class Gun9mmFactory {
 		config.config.add(BulletConfigSyncingUtil.P9_ROCKET);
 		
 		return config;
-	}
+	}*/
 
 	static float inaccuracy = 5;
 	public static BulletConfiguration get9mmConfig() {

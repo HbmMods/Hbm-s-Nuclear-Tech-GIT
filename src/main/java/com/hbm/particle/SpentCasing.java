@@ -10,6 +10,7 @@ public class SpentCasing implements Cloneable {
 
 	public static final int COLOR_CASE_BRASS = 0xEBC35E;
 	public static final int COLOR_CASE_12GA = 0x757575;
+	public static final int COLOR_CASE_4GA = 0xD8D8D8;
 	public static final int COLOR_CASE_44 = 0x3E3E3E;
 	
 	public static final HashMap<String, SpentCasing> casingMap = new HashMap();
@@ -42,6 +43,7 @@ public class SpentCasing implements Cloneable {
 		this.type = type;
 	}
 	
+	/** Separated from the ctor to allow for easy creation of new casings from templates that don't need to be registered */
 	public SpentCasing register(String name) {
 		this.registryName = name;
 		casingMap.put(name, this);
@@ -62,6 +64,7 @@ public class SpentCasing implements Cloneable {
 		return this;
 	}
 	
+	/** The number of colors has to match the number of objects of the chosen casing type. Brass/metal casing color has to come last to comply with the chorophyte coloring. */
 	public SpentCasing setColor(int... color) {
 		this.colors = color;
 		return this;

@@ -206,7 +206,7 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(ModItems.ammo_dart.stackFromEnum(16, AmmoDart.NERF), new Object[] { "I", "I", 'I', ModItems.plate_polymer });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_45, 32), " I", "GC", " P", 'I', CU.ingot(), 'G', ANY_SMOKELESS.dust(), 'C', ModItems.casing_44, 'P', ModItems.primer_44);
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_308, 32), " I", "GC", " P", 'I', CU.ingot(), 'G', ANY_SMOKELESS.dust(), 'C', ModItems.casing_50, 'P', ModItems.primer_9);
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_luna_sniper, 4), new Object[] { " B ", "GCG", "GPG", 'B', ModItems.billet_u238, 'G', ModItems.powder_nitan_mix, 'C', ModItems.casing_50, 'P', ModItems.powder_power});
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_luna, 4), new Object[] { " B ", "GCG", "GPG", 'B', ModItems.billet_u238, 'G', ModItems.powder_nitan_mix, 'C', ModItems.casing_50, 'P', ModItems.powder_power});
 		
 		//Folly shells
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.folly_bullet, 1), new Object[] { " S ", "STS", "SMS", 'S', STAR.ingot(), 'T', ModItems.powder_magic, 'M', ModBlocks.block_meteor });

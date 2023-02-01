@@ -185,6 +185,14 @@ public class BulletConfiguration implements Cloneable {
 		this.doesRicochet = false;
 		this.doesPenetrate = false;
 		this.vPFX = "greendust";
+		
+		if(this.spentCasing != null) {
+			this.spentCasing = this.spentCasing.clone();
+			int[] colors = this.spentCasing.getColors();
+			colors[colors.length - 1] = 0x659750; // <- standard chlorophyte coloring in last place
+			//this.spentCasing.setColor(colors); //it's a reference type, dummy
+		}
+		
 		return this;
 	}
 	

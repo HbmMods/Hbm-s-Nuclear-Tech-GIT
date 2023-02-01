@@ -10,6 +10,7 @@ import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
@@ -22,6 +23,8 @@ import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -36,9 +39,18 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class Gun4GaugeFactory {
+	
+	private static final CasingEjector EJECTOR_SHOTGUN;
+	private static final SpentCasing CASING4GAUGE;
+
+	static {
+		EJECTOR_SHOTGUN = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.4, 0)).setOffset(Vec3.createVectorHelper(-0.5, 0, 0.5)).setAngleRange(0.01F, 0.03F);
+		CASING4GAUGE = new SpentCasing(CasingType.SHOTGUN).setScale(2.5F).setBounceMotion(0.01F, 0.03F);
+	}
 	
 	private static GunConfiguration getShotgunConfig() {
 		
@@ -56,6 +68,8 @@ public class Gun4GaugeFactory {
 		config.hasSights = true;
 		config.crosshair = Crosshair.L_CIRCLE;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		
+		config.ejector = EJECTOR_SHOTGUN;
 		
 		return config;
 	}
@@ -132,6 +146,8 @@ public class Gun4GaugeFactory {
 		bullet.bulletsMin *= 2;
 		bullet.bulletsMax *= 2;
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaStock").setColor(0xFFD800, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 	
@@ -144,6 +160,8 @@ public class Gun4GaugeFactory {
 		bullet.dmgMax = 32;
 		bullet.wear = 7;
 		bullet.style = BulletConfiguration.STYLE_NORMAL;
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaSlug").setColor(0xE01A1A, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}
@@ -161,6 +179,8 @@ public class Gun4GaugeFactory {
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.HBRC = 2;
 		bullet.LBRC = 95;
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaFlech").setColor(0x1537FF, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}
@@ -200,6 +220,8 @@ public class Gun4GaugeFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaPhos").setColor(0xF6871A, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 
@@ -214,6 +236,8 @@ public class Gun4GaugeFactory {
 		bullet.dmgMax = 25;
 		bullet.wear = 25;
 		bullet.trail = 1;
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaExp").setColor(0x3F8243, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}
@@ -249,6 +273,8 @@ public class Gun4GaugeFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaSem").setColor(0x5C5C5C, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 
@@ -282,6 +308,8 @@ public class Gun4GaugeFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaBale").setColor(0x7BFF44, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 
@@ -297,6 +325,8 @@ public class Gun4GaugeFactory {
 		bullet.style = BulletConfiguration.STYLE_GRENADE;
 		bullet.trail = 4;
 		bullet.vPFX = "smoke";
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaKampf").setColor(0xE7BA48, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}
@@ -336,6 +366,8 @@ public class Gun4GaugeFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaCan").setColor(0xCACACA, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 
@@ -344,6 +376,8 @@ public class Gun4GaugeFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.SLEEK));
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaIF").setColor(0x1D1D1D, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}
@@ -381,6 +415,8 @@ public class Gun4GaugeFactory {
 				}
 			}
 		};
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaClaw").setColor(0x5E38CC, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}
@@ -420,6 +456,8 @@ public class Gun4GaugeFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaVamp").setColor(0x278400, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 	
@@ -450,6 +488,8 @@ public class Gun4GaugeFactory {
 				}
 			}
 		};
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaVoid").setColor(0x3F3F3F, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}
@@ -486,13 +526,6 @@ public class Gun4GaugeFactory {
 
 								bullet.worldObj.removeEntity(creature);
 								bullet.worldObj.unloadEntities(new ArrayList() {{ add(creature); }});
-								//creature.isDead = true;
-								
-								/*try {
-									Method m = Class.forName("net.minecraft.entity.deity.EntityDeity").getDeclaredMethod("setTitanHealth", double.class);
-									m.setAccessible(true);
-									m.invoke(creature, 0.0D);
-								} catch (Exception ex) { }*/
 							}
 						}
 						
@@ -500,6 +533,8 @@ public class Gun4GaugeFactory {
 				}
 			}
 		};
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaDucc").setColor(0x1E1E1E, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}

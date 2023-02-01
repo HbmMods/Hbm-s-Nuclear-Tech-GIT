@@ -29,15 +29,15 @@ import net.minecraft.util.Vec3;
 
 public class Gun12GaugeFactory {
 	
-	private static final CasingEjector CASING_SPAS, CASING_SPAS_ALT, CASING_BENELLI, CASING_UBOINIK, CASING_SSG;
+	private static final CasingEjector EJECTOR_SPAS, EJECTOR_SPAS_ALT, EJECTOR_BENELLI, EJECTOR_UBOINIK, EJECTOR_SSG;
 	private static final SpentCasing CASING12GAUGE;
 
 	static {
-		CASING_SPAS = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, 0, 0.5)).setAngleRange(0.01F, 0.03F).setDelay(10);
-		CASING_SPAS_ALT = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, 0, 0.5)).setAngleRange(0.01F, 0.03F).setDelay(10).setAmount(2);
-		CASING_BENELLI = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.3, 1, 0)).setAngleRange(0.01F, 0.03F);
-		CASING_UBOINIK = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, -0.3, 0.5)).setAngleRange(0.01F, 0.03F);
-		CASING_SSG = new CasingEjector().setMotion(Vec3.createVectorHelper(0.2, 0, -0.2)).setOffset(Vec3.createVectorHelper(0.8, 0, 0)).setAngleRange(0.05F, 0.02F).setDelay(20).setAmount(2);
+		EJECTOR_SPAS = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, 0, 0.5)).setAngleRange(0.01F, 0.03F).setDelay(10);
+		EJECTOR_SPAS_ALT = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, 0, 0.5)).setAngleRange(0.01F, 0.03F).setDelay(10).setAmount(2);
+		EJECTOR_BENELLI = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.3, 1, 0)).setAngleRange(0.01F, 0.03F);
+		EJECTOR_UBOINIK = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, -0.3, 0.5)).setAngleRange(0.01F, 0.03F);
+		EJECTOR_SSG = new CasingEjector().setMotion(Vec3.createVectorHelper(0.2, 0, -0.2)).setOffset(Vec3.createVectorHelper(0.8, 0, 0)).setAngleRange(0.05F, 0.02F).setDelay(20).setAmount(2);
 		
 		CASING12GAUGE = new SpentCasing(CasingType.SHOTGUN).setScale(1.5F).setBounceMotion(0.05F, 0.02F);
 	}
@@ -83,7 +83,7 @@ public class Gun12GaugeFactory {
 					)
 				);
 		
-		config.ejector = CASING_SPAS;
+		config.ejector = EJECTOR_SPAS;
 		
 		return config;
 	}
@@ -111,7 +111,7 @@ public class Gun12GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G12_AM);
 		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
 		
-		config.ejector = CASING_SPAS_ALT;
+		config.ejector = EJECTOR_SPAS_ALT;
 
 		return config;
 	}
@@ -139,7 +139,7 @@ public class Gun12GaugeFactory {
 
 		config.config = HbmCollection.twelveGauge;
 		
-		config.ejector = CASING_UBOINIK;
+		config.ejector = EJECTOR_UBOINIK;
 		
 		return config;
 	}
@@ -192,7 +192,7 @@ public class Gun12GaugeFactory {
 		
 		config.config = HbmCollection.twelveGauge;
 		
-		config.ejector = CASING_SSG;
+		config.ejector = EJECTOR_SSG;
 		
 		return config;
 	}

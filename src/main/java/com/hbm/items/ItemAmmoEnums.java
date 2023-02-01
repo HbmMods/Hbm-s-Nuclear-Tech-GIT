@@ -9,9 +9,9 @@ import com.hbm.lib.HbmCollection;
 public class ItemAmmoEnums {
 
 	public enum AmmoLunaticSniper implements IAmmoItemEnum {
-		SABOT("ammo_lunar"),
-		INCENDIARY("ammo_lunar_incendiary"),
-		EXPLOSIVE("ammo_lunar_explosive");
+		SABOT("ammo_luna"),
+		INCENDIARY("ammo_luna_incendiary"),
+		EXPLOSIVE("ammo_luna_explosive");
 		
 		private final Set<AmmoItemTrait> traits;
 		private final String unloc;
