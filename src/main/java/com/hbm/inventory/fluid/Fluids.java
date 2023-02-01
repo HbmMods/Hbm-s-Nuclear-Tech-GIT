@@ -20,6 +20,7 @@ public class Fluids {
 	public static FluidType HOTSTEAM;
 	public static FluidType SUPERHOTSTEAM;
 	public static FluidType ULTRAHOTSTEAM;
+	public static FluidType CRITICALSTEAM;
 	public static FluidType COOLANT;
 	public static FluidType COOLANT_HOT;
 	public static FluidType LAVA;
@@ -223,6 +224,7 @@ public class Fluids {
 		HYDRAZINE =			new FluidType("HYDRAZINE",			0x31517D, 2, 3, 0, EnumSymbol.NONE).addContainers(0x31517D, ExtContainer.CANISTER).addTraits((new FT_Flammable(500_000)), new FT_Combustible(FuelGrade.HIGH, 1_250_000), new FT_Corrosive(30), LIQUID);	
 		BLOODGAS =			new FluidType("BLOODGAS",		    0x591000, 1, 0, 3, EnumSymbol.NONE).addContainers(0x591000, ExtContainer.CANISTER).addTraits(new FT_Flammable(86_666), new FT_Combustible(FuelGrade.AERO, 666_665)).addTraits(LIQUID);
 		AIR =				new FluidType("AIR",				0xD1CEBE, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+		CRITICALSTEAM = 	new FluidType("CRITICALSTEAM",		0xFF9595, 4, 0, 0, EnumSymbol.NONE).setTemp(1000).setCompression(20D).addTraits(GASEOUS);
 		//TODO: fire diamonds
 		//shut the fuck up shibe
 		
@@ -243,6 +245,7 @@ public class Fluids {
 		metaOrder.add(HOTSTEAM);
 		metaOrder.add(SUPERHOTSTEAM);
 		metaOrder.add(ULTRAHOTSTEAM);
+		metaOrder.add(CRITICALSTEAM);
 		metaOrder.add(SPENTSTEAM);
 		//coolants
 		metaOrder.add(CARBONDIOXIDE);
@@ -342,11 +345,13 @@ public class Fluids {
 				.addStep(200, 1, STEAM, 100)
 				.addStep(220, 1, HOTSTEAM, 10)
 				.addStep(238, 1, SUPERHOTSTEAM, 1)
-				.addStep(2500, 10, ULTRAHOTSTEAM, 1));
+				.addStep(2500, 10, ULTRAHOTSTEAM, 1)
+				.addStep(3000, 20, CRITICALSTEAM, 1));
 
 		STEAM.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, eff_steam_boil).setEff(HeatingType.HEATEXCHANGER, eff_steam_heatex).addStep(2, 10, HOTSTEAM, 1));
 		HOTSTEAM.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, eff_steam_boil).setEff(HeatingType.HEATEXCHANGER, eff_steam_heatex).addStep(18, 10, SUPERHOTSTEAM, 1));
 		SUPERHOTSTEAM.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, eff_steam_boil).setEff(HeatingType.HEATEXCHANGER, eff_steam_heatex).addStep(120, 10, ULTRAHOTSTEAM, 1));
+		ULTRAHOTSTEAM.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, eff_steam_boil).setEff(HeatingType.HEATEXCHANGER, eff_steam_heatex).addStep(140, 10, CRITICALSTEAM, 1));
 
 		double eff_steam_turbine = 1.0D;
 		double eff_steam_cool = 0.5D;
@@ -354,6 +359,7 @@ public class Fluids {
 		HOTSTEAM.addTraits(new FT_Coolable(STEAM, 1, 10, 2).setEff(CoolingType.TURBINE, eff_steam_turbine).setEff(CoolingType.HEATEXCHANGER, eff_steam_cool));
 		SUPERHOTSTEAM.addTraits(new FT_Coolable(HOTSTEAM, 1, 10, 18).setEff(CoolingType.TURBINE, eff_steam_turbine).setEff(CoolingType.HEATEXCHANGER, eff_steam_cool));
 		ULTRAHOTSTEAM.addTraits(new FT_Coolable(SUPERHOTSTEAM, 1, 10, 120).setEff(CoolingType.TURBINE, eff_steam_turbine).setEff(CoolingType.HEATEXCHANGER, eff_steam_cool));
+		CRITICALSTEAM.addTraits(new FT_Coolable(ULTRAHOTSTEAM, 1, 10, 140).setEff(CoolingType.TURBINE, eff_steam_turbine).setEff(CoolingType.HEATEXCHANGER, eff_steam_cool));
 		
 		OIL.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(10, 1, HOTOIL, 1));
 		CRACKOIL.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(10, 1, HOTCRACKOIL, 1));

@@ -4730,6 +4730,8 @@ trait.hot=Pyrophoric / Hot
 trait.hydro=Hydroreactive
 trait.radioactive=Radioactive
 trait.radResistance=Radiation resistance: %s
+trait.confusion=Autism
+
 
 trait.rbmk.coreTemp=Core temp: %s
 trait.rbmk.depletion=Depletion: %s
