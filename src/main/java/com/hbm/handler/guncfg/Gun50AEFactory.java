@@ -52,6 +52,9 @@ public class Gun50AEFactory {
 		config.name = "deagle";
 		config.manufacturer = EnumGunManufacturer.MAGNUM_R_IMI;
 		
+		config.absoluteFOV = true;
+		config.zoomFOV = 1.5F;
+		
 		config.hasSights = true;
 		config.config = HbmCollection.fiftyAE;
 		

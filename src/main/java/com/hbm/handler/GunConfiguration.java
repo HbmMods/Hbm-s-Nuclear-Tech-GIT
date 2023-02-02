@@ -9,6 +9,8 @@ import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
+import net.minecraft.util.ResourceLocation;
+
 public class GunConfiguration implements Cloneable {
 	
 	/**
@@ -32,8 +34,14 @@ public class GunConfiguration implements Cloneable {
 	
 	//animations!
 	public HashMap<AnimType, BusAnimation> animations = new HashMap();
-	//whether ot not to disable crosshais when sneaking
+	//whether or not to disable crosshair when sneaking
 	public boolean hasSights;
+	//texture overlay when sneaking
+	public ResourceLocation scopeTexture;
+	//whether the FOV multiplier should be absolute or additive to other modifiers, additive mode is experimental!
+	public boolean absoluteFOV = true;
+	//the target FOV/added FOV modifier when sneaking
+	public float zoomFOV = 0.0F;
 	
 	//how long the reload animation will play
 	//MUST BE GREATER THAN ZERO ! ! !

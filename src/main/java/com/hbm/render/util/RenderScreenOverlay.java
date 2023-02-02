@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL12;
 
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.interfaces.Untested;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
@@ -13,6 +14,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -311,6 +313,46 @@ public class RenderScreenOverlay {
 		
 		GuiIngameForge.left_height += 10;
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+	}
+	
+	@Untested
+	public static void renderScope(ScaledResolution res, ResourceLocation tex) {
+
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		
+		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
+		Tessellator tess = Tessellator.instance;
+
+		double w = res.getScaledWidth_double();
+		double h = res.getScaledHeight_double();
+		
+		double wToH = w / h;
+		double hToW = h / w;
+		
+		double lower = 4.5D / 16D;
+		double upper = 11.5D / 16D;
+
+		double hMin = h < w ? lower : 0.5D - (9D / 32D) * hToW;
+		double hMax = h < w ? upper : 0.5D + (9D / 32D) * hToW;
+		double wMin = w < h ? lower : 0.5D - (9D / 32D) * wToH;
+		double wMax = w < h ? upper : 0.5D + (9D / 32D) * wToH;
+		
+		tess.startDrawingQuads();
+		tess.addVertexWithUV(0, 0, 0, wMin, 1D - hMin);
+		tess.addVertexWithUV(w, 0, 0, wMax, 1D - hMin);
+		tess.addVertexWithUV(w, 0, h, wMax, 1D - hMax);
+		tess.addVertexWithUV(0, 0, h, wMin, 1D - hMax);
+		tess.draw();
+		
+		GL11.glDepthMask(true);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 	
 	public enum Crosshair {

@@ -17,6 +17,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo44Magnum;
 import com.hbm.lib.HbmCollection;
+import com.hbm.lib.RefStrings;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -29,6 +30,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 
 public class Gun44MagnumFactory {
@@ -79,6 +81,8 @@ public class Gun44MagnumFactory {
 		return config;
 	}
 	
+	public static final ResourceLocation pips_amazing_scope_wow = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_basic.png");
+	
 	public static GunConfiguration getMacintoshConfig() {
 		
 		GunConfiguration config = getBaseConfig();
@@ -88,6 +92,11 @@ public class Gun44MagnumFactory {
 		config.name = "ifScope";
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Poppin' mentats like tic tacs");
+		
+		config.hasSights = true;
+		config.absoluteFOV = true;
+		config.zoomFOV = 3F;
+		config.scopeTexture = pips_amazing_scope_wow;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_PIP);
