@@ -36,6 +36,8 @@ public class GUIITER extends GuiInfoContainer {
 
 		iter.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 54, 16, 52);	//Water
 		iter.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 54, 16, 52);	//Steam
+		iter.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 20, guiTop + 54, 16, 52);
+		iter.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 140, guiTop + 54, 16, 52);
 		iter.plasma.renderTankInfo(this, mouseX, mouseY, guiLeft + 71, guiTop + 54, 34, 34);	//Plasma
 
 		String text = "Magnets are " + ((iter.isOn && iter.power >= iter.powerReq) ? "ON" : "OFF");
@@ -82,9 +84,11 @@ public class GUIITER extends GuiInfoContainer {
 		int j = (int)iter.getProgressScaled(17);
 		drawTexturedModalRect(guiLeft + 44, guiTop + 22, 176, 18, j, 7);
 
-		for(int t = 0; t < 2; t++) {
+		for(int t = 0; t < 2; t++) { //of course i know how for loops are useful, these tanks are just too specific for them though
 			iter.tanks[t].renderTank(guiLeft + 26 + 108 * t, guiTop + 106, this.zLevel, 16, 52);
 		}
+		iter.tanks[2].renderTank(guiLeft + 12 + 4, guiTop + 86, this.zLevel, 6, 32);
+		iter.tanks[3].renderTank(guiLeft + 26 + 128, guiTop + 86, this.zLevel, 6, 32);
 		
 		iter.plasma.renderTank(guiLeft + 71, guiTop + 88, this.zLevel, 34, 34);
 	}

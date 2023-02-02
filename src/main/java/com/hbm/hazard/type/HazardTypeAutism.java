@@ -34,7 +34,7 @@ public class HazardTypeAutism extends HazardTypeBase {
 
 	@Override
 	public void addHazardInformation(EntityPlayer player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
-		list.add(EnumChatFormatting.GOLD + "[" + I18nUtil.resolveKey("trait.confusion") + "]");
+		list.add(EnumChatFormatting.GOLD + "[" + I18nUtil.resolveKey("trait.confusion") + "]"); // why must i live inside this world full of closed minds
 	}
 
 }

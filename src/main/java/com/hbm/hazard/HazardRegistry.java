@@ -165,7 +165,7 @@ public class HazardRegistry {
 		HazardSystem.register(stick_semtex, makeData(EXPLOSIVE, 2.5F));
 		HazardSystem.register(stick_c4, makeData(EXPLOSIVE, 2.5F));
 
-		HazardSystem.register(ModItems.sat_gerald, makeData(AUTISM));
+		HazardSystem.register(ModItems.sat_gerald, makeData(AUTISM, 1F));
 		
 		HazardSystem.register(cordite, makeData(EXPLOSIVE, 2F));
 		HazardSystem.register(ballistite, makeData(EXPLOSIVE, 1F));

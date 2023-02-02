@@ -224,7 +224,7 @@ public class Fluids {
 		HYDRAZINE =			new FluidType("HYDRAZINE",			0x31517D, 2, 3, 0, EnumSymbol.NONE).addContainers(0x31517D, ExtContainer.CANISTER).addTraits((new FT_Flammable(500_000)), new FT_Combustible(FuelGrade.HIGH, 1_250_000), new FT_Corrosive(30), LIQUID);	
 		BLOODGAS =			new FluidType("BLOODGAS",		    0x591000, 1, 0, 3, EnumSymbol.NONE).addContainers(0x591000, ExtContainer.CANISTER).addTraits(new FT_Flammable(86_666), new FT_Combustible(FuelGrade.AERO, 666_665)).addTraits(LIQUID);
 		AIR =				new FluidType("AIR",				0xD1CEBE, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
-		CRITICALSTEAM = 	new FluidType("CRITICALSTEAM",		0xFF9595, 4, 0, 0, EnumSymbol.NONE).setTemp(1000).setCompression(20D).addTraits(GASEOUS);
+		CRITICALSTEAM = 	new FluidType("CRITICALSTEAM",		0xFF9595, 4, 0, 0, EnumSymbol.NONE).setTemp(1000).setCompression(15D).addTraits(GASEOUS);
 		//TODO: fire diamonds
 		//shut the fuck up shibe
 		

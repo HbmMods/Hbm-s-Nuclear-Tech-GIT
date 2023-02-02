@@ -28,7 +28,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 
 	public TileEntityAtmoExtractor() {
 		super(0);
-		tanks = new FluidTank(Fluids.WATER, 1000, 0);
+		tanks = new FluidTank(Fluids.AIR, 1000, 0);
 	}
 
 	@Override
