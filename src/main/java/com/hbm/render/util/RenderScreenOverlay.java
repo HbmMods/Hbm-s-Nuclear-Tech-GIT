@@ -36,59 +36,56 @@ public class RenderScreenOverlay {
 		GL11.glPushMatrix();
 
 		GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(false);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
-        
-        float radiation = 0;
-        
-        radiation = lastResult - prevResult;
-        
-        if(System.currentTimeMillis() >= lastSurvey + 1000) {
-        	lastSurvey = System.currentTimeMillis();
-        	prevResult = lastResult;
-        	lastResult = in;
-        }
-		
+		// GL11.glDisable(GL11.GL_DEPTH_TEST);
+		// GL11.glDepthMask(false);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+
+		float radiation = 0;
+
+		radiation = lastResult - prevResult;
+
+		if(System.currentTimeMillis() >= lastSurvey + 1000) {
+			lastSurvey = System.currentTimeMillis();
+			prevResult = lastResult;
+			lastResult = in;
+		}
+
 		int length = 74;
 		int maxRad = 1000;
-		
+
 		int bar = getScaled(in, maxRad, 74);
-		
-		//if(radiation >= 1 && radiation <= 999)
-		//	bar -= (1 + Minecraft.getMinecraft().theWorld.rand.nextInt(3));
-		
+
 		int posX = 16;
 		int posY = resolution.getScaledHeight() - 18 - 2;
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
-        gui.drawTexturedModalRect(posX, posY, 0, 0, 94, 18);
-        gui.drawTexturedModalRect(posX + 1, posY + 1, 1, 19, bar, 16);
-        
-        if(radiation >= 25) {
-            gui.drawTexturedModalRect(posX + length + 2, posY - 18, 36, 36, 18, 18);
-        	
-        } else if(radiation >= 10) {
-            gui.drawTexturedModalRect(posX + length + 2, posY - 18, 18, 36, 18, 18);
-        	
-        } else if(radiation >= 2.5) {
-            gui.drawTexturedModalRect(posX + length + 2, posY - 18, 0, 36, 18, 18);
-        	
-        }
-		
+		gui.drawTexturedModalRect(posX, posY, 0, 0, 94, 18);
+		gui.drawTexturedModalRect(posX + 1, posY + 1, 1, 19, bar, 16);
+
+		if(radiation >= 25) {
+			gui.drawTexturedModalRect(posX + length + 2, posY - 18, 36, 36, 18, 18);
+
+		} else if(radiation >= 10) {
+			gui.drawTexturedModalRect(posX + length + 2, posY - 18, 18, 36, 18, 18);
+
+		} else if(radiation >= 2.5) {
+			gui.drawTexturedModalRect(posX + length + 2, posY - 18, 0, 36, 18, 18);
+
+		}
+
 		if(radiation > 1000) {
 			Minecraft.getMinecraft().fontRenderer.drawString(">1000 RAD/s", posX, posY - 8, 0xFF0000);
 		} else if(radiation >= 1) {
-			Minecraft.getMinecraft().fontRenderer.drawString(((int)Math.round(radiation)) + " RAD/s", posX, posY - 8, 0xFF0000);
+			Minecraft.getMinecraft().fontRenderer.drawString(((int) Math.round(radiation)) + " RAD/s", posX, posY - 8, 0xFF0000);
 		} else if(radiation > 0) {
 			Minecraft.getMinecraft().fontRenderer.drawString("<1 RAD/s", posX, posY - 8, 0xFF0000);
 		}
 
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(true);
-        GL11.glPopMatrix();
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(true);
+		GL11.glPopMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
@@ -319,8 +316,8 @@ public class RenderScreenOverlay {
 	public static void renderScope(ScaledResolution res, ResourceLocation tex) {
 
 		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glDepthMask(false);
+		//GL11.glDisable(GL11.GL_DEPTH_TEST);
+		//GL11.glDepthMask(false);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -328,25 +325,27 @@ public class RenderScreenOverlay {
 		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
 		Tessellator tess = Tessellator.instance;
 
-		double w = res.getScaledWidth_double();
-		double h = res.getScaledHeight_double();
+		double w = res.getScaledWidth();
+		double h = res.getScaledHeight();
 		
-		double wToH = w / h;
-		double hToW = h / w;
-		
-		double lower = 4.5D / 16D;
-		double upper = 11.5D / 16D;
+		double smallest = Math.min(w, h);
+		double divisor = smallest / (9D / 16D);
+		smallest = 9D / 16D;
+		double largest = Math.max(w, h) / divisor;
 
-		double hMin = h < w ? lower : 0.5D - (9D / 32D) * hToW;
-		double hMax = h < w ? upper : 0.5D + (9D / 32D) * hToW;
-		double wMin = w < h ? lower : 0.5D - (9D / 32D) * wToH;
-		double wMax = w < h ? upper : 0.5D + (9D / 32D) * wToH;
+		double hMin = h < w ? 0.5 - smallest / 2D : 0.5 - largest / 2D;
+		double hMax = h < w ? 0.5 + smallest / 2D : 0.5 + largest / 2D;
+		double wMin = w < h ? 0.5 - smallest / 2D : 0.5 - largest / 2D;
+		double wMax = w < h ? 0.5 + smallest / 2D : 0.5 + largest / 2D;
+		
+		double depth = -300D;
 		
 		tess.startDrawingQuads();
-		tess.addVertexWithUV(0, 0, 0, wMin, 1D - hMin);
-		tess.addVertexWithUV(w, 0, 0, wMax, 1D - hMin);
-		tess.addVertexWithUV(w, 0, h, wMax, 1D - hMax);
-		tess.addVertexWithUV(0, 0, h, wMin, 1D - hMax);
+		
+		tess.addVertexWithUV(0, h, depth, wMin, hMax);
+		tess.addVertexWithUV(w, h, depth, wMax, hMax);
+		tess.addVertexWithUV(w, 0, depth, wMax, hMin);
+		tess.addVertexWithUV(0, 0, depth, wMin, hMin);
 		tess.draw();
 		
 		GL11.glDepthMask(true);

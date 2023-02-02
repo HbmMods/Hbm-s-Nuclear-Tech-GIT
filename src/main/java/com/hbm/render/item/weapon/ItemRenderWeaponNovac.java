@@ -3,6 +3,7 @@ package com.hbm.render.item.weapon;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
@@ -33,6 +34,9 @@ public class ItemRenderWeaponNovac implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+		
+		//prevent rendering when using scope
+		if(item.getItem() == ModItems.gun_revolver_pip && type == ItemRenderType.EQUIPPED_FIRST_PERSON && MainRegistry.proxy.me().isSneaking()) return;
 		
 		GL11.glPushMatrix();
 		

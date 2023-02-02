@@ -224,7 +224,7 @@ public class ModEventHandlerClient {
 		/// HANDLE SCOPE OVERLAY ///
 		ItemStack held = player.getHeldItem();
 		
-		if(player.isSneaking() && held != null && held.getItem() instanceof ItemGunBase)  {
+		if(player.isSneaking() && held != null && held.getItem() instanceof ItemGunBase && event.type == event.type.HOTBAR)  {
 			GunConfiguration config = ((ItemGunBase) held.getItem()).mainConfig;
 			
 			if(config.scopeTexture != null) {

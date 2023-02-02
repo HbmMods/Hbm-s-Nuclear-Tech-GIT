@@ -53,7 +53,7 @@ public class Gun50AEFactory {
 		config.manufacturer = EnumGunManufacturer.MAGNUM_R_IMI;
 		
 		config.absoluteFOV = true;
-		config.zoomFOV = 1.5F;
+		config.zoomFOV = 0.5F;
 		
 		config.hasSights = true;
 		config.config = HbmCollection.fiftyAE;

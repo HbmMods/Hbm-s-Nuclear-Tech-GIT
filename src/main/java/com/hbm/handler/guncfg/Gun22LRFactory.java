@@ -12,15 +12,13 @@ import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
-import net.minecraft.util.Vec3;
-
 public class Gun22LRFactory {
 	
 	private static final CasingEjector EJECTOR_22LR;
 	private static final SpentCasing CASING22LR;
 
 	static {
-		EJECTOR_22LR = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, -0.2, 0.35)).setAngleRange(0.01F, 0.03F);
+		EJECTOR_22LR = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, -0.2, 0.35).setAngleRange(0.01F, 0.03F);
 		CASING22LR = new SpentCasing(CasingType.STRAIGHT).setScale(0.8F).setBounceMotion(0.05F, 0.02F).setColor(SpentCasing.COLOR_CASE_BRASS);
 	}
 	

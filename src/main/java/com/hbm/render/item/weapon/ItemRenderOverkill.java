@@ -6,7 +6,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.GunFolly;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelCalBarrel;
 import com.hbm.render.model.ModelCalDualStock;
 import com.hbm.render.model.ModelCalStock;
@@ -83,9 +82,6 @@ public class ItemRenderOverkill implements IItemRenderer {
 
 		if((Entity)data[1] instanceof EntityPlayer)
 			f = ((EntityPlayer)data[1]).getItemInUseDuration();
-		
-		//prevent rendering when using scope
-		if(item.getItem() == ModItems.gun_revolver_pip && type == ItemRenderType.EQUIPPED_FIRST_PERSON && MainRegistry.proxy.me().isSneaking()) return;
 		
 		switch(type) {
 		case EQUIPPED_FIRST_PERSON:

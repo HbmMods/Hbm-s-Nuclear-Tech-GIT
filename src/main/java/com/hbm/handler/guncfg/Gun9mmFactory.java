@@ -4,14 +4,25 @@ import java.util.ArrayList;
 
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo9mm;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun9mmFactory {
+	
+	private static final CasingEjector EJECTOR_SMG;
+	private static final SpentCasing CASING9MM;
+
+	static {
+		EJECTOR_SMG = new CasingEjector().setMotion(-0.3, 0.6, 0).setOffset(-0.35, -0.2, 0.55).setAngleRange(0.01F, 0.03F);
+		CASING9MM = new SpentCasing(CasingType.STRAIGHT).setScale(1F, 1F, 0.6F).setBounceMotion(0.01F, 0.03F).setColor(SpentCasing.COLOR_CASE_BRASS);
+	}
 	
 	public static GunConfiguration getMP40Config() {
 		
@@ -41,6 +52,8 @@ public class Gun9mmFactory {
 		config.config.add(BulletConfigSyncingUtil.P9_DU);
 		config.config.add(BulletConfigSyncingUtil.CHL_P9);
 		config.config.add(BulletConfigSyncingUtil.P9_ROCKET);
+		
+		config.ejector = EJECTOR_SMG;
 		
 		return config;
 	}
@@ -88,6 +101,8 @@ public class Gun9mmFactory {
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 14;
 		
+		bullet.spentCasing = CASING9MM.clone().register("9MMStock");
+		
 		return bullet;
 	}
 	
@@ -101,6 +116,8 @@ public class Gun9mmFactory {
 		bullet.dmgMax = 20;
 		bullet.leadChance = 10;
 		bullet.wear = 15;
+		
+		bullet.spentCasing = CASING9MM.clone().register("9MMAP");
 		
 		return bullet;
 	}
@@ -116,6 +133,8 @@ public class Gun9mmFactory {
 		bullet.leadChance = 50;
 		bullet.wear = 25;
 		
+		bullet.spentCasing = CASING9MM.clone().register("9MMDU");
+		
 		return bullet;
 	}
 	
@@ -127,6 +146,8 @@ public class Gun9mmFactory {
 		bullet.velocity = 5;
 		bullet.explosive = 7.5F;
 		bullet.trail = 5;
+		
+		bullet.spentCasing = CASING9MM.clone().register("9MMRocket");
 		
 		return bullet;
 	}

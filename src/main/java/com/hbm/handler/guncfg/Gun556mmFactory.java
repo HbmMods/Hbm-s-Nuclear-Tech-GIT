@@ -31,12 +31,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 
 public class Gun556mmFactory {
-	
+
 	private static final CasingEjector EJECTOR_RIFLE;
+	private static final CasingEjector EJECTOR_GRENADE;
 	private static final SpentCasing CASING556;
 
 	static {
 		EJECTOR_RIFLE = new CasingEjector().setMotion(-0.35, 0.6, 0).setOffset(-0.35, 0, 0.35).setAngleRange(0.01F, 0.03F);
+		EJECTOR_GRENADE = new CasingEjector().setAngleRange(0.02F, 0.03F);
 		CASING556 = new SpentCasing(CasingType.BOTTLENECK).setScale(1.25F).setBounceMotion(0.01F, 0.03F).setColor(SpentCasing.COLOR_CASE_BRASS);
 	}
 
@@ -132,6 +134,8 @@ public class Gun556mmFactory {
 		config.reloadSoundEnd = false;
 		
 		config.config = HbmCollection.grenade;
+		
+		config.ejector = EJECTOR_GRENADE;
 		
 		return config;
 	}

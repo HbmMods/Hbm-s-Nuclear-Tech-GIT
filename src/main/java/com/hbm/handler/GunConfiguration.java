@@ -38,9 +38,9 @@ public class GunConfiguration implements Cloneable {
 	public boolean hasSights;
 	//texture overlay when sneaking
 	public ResourceLocation scopeTexture;
-	//whether the FOV multiplier should be absolute or additive to other modifiers, additive mode is experimental!
+	//whether the FOV multiplier should be absolute or multiplicative to other modifiers, multiplicative mode is experimental!
 	public boolean absoluteFOV = true;
-	//the target FOV/added FOV modifier when sneaking
+	//the target FOV/multiplied FOV modifier when sneaking
 	public float zoomFOV = 0.0F;
 	
 	//how long the reload animation will play

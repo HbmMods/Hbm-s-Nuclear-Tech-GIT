@@ -1,15 +1,26 @@
 package com.hbm.handler.guncfg;
 
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo5mm;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun5mmFactory {
+	
+	private static final CasingEjector EJECTOR_MINIGUN;
+	private static final SpentCasing CASING5MM;
+
+	static {
+		EJECTOR_MINIGUN = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, -0.2, 0.35).setAngleRange(0.01F, 0.03F).setAmount(5);
+		CASING5MM = new SpentCasing(CasingType.STRAIGHT).setScale(1F).setBounceMotion(0.05F, 0.02F).setColor(SpentCasing.COLOR_CASE_BRASS);
+	}
 	
 	public static GunConfiguration getMinigunConfig() {
 		
@@ -29,6 +40,8 @@ public class Gun5mmFactory {
 		config.firingSound = "hbm:weapon.lacunaeShoot";
 		
 		config.config = HbmCollection.fiveMM;
+		
+		config.ejector = EJECTOR_MINIGUN;
 		
 		return config;
 	}
@@ -77,6 +90,8 @@ public class Gun5mmFactory {
 		bullet.dmgMin = 12;
 		bullet.dmgMax = 14;
 		
+		bullet.spentCasing = CASING5MM.clone().register("5mmStock");
+		
 		return bullet;
 	}
 	
@@ -90,6 +105,8 @@ public class Gun5mmFactory {
 		bullet.dmgMax = 32;
 		bullet.explosive = 1F;
 		bullet.wear = 25;
+		
+		bullet.spentCasing = CASING5MM.clone().register("5mmExp");
 		
 		return bullet;
 	}
@@ -105,6 +122,8 @@ public class Gun5mmFactory {
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		
+		bullet.spentCasing = CASING5MM.clone().register("5mmDU");
+		
 		return bullet;
 	}
 	
@@ -118,6 +137,8 @@ public class Gun5mmFactory {
 		bullet.dmgMax = 50;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
+		
+		bullet.spentCasing = CASING5MM.clone().register("5mmStar");
 		
 		return bullet;
 	}

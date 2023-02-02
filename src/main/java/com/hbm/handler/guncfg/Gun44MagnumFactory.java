@@ -95,7 +95,7 @@ public class Gun44MagnumFactory {
 		
 		config.hasSights = true;
 		config.absoluteFOV = true;
-		config.zoomFOV = 3F;
+		config.zoomFOV = 0.25F;
 		config.scopeTexture = pips_amazing_scope_wow;
 		
 		config.config = new ArrayList<Integer>();
