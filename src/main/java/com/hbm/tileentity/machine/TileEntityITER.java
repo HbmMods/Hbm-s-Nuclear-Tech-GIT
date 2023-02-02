@@ -15,6 +15,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
+import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.inventory.recipes.BreederRecipes;
 import com.hbm.inventory.recipes.FusionRecipes;
 import com.hbm.inventory.recipes.BreederRecipes.BreederRecipe;
@@ -85,6 +86,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 				age = 0;
 			}
 			tanks[2].setType(1, slots);
+			tanks[2].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			tanks[3].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			if (age == 9 || age == 19)
 				this.tanks[1].getTankType();
 				this.tanks[2].getTankType();
@@ -94,10 +97,6 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 				FT_Heatable trait = tanks[2].getTankType().getTrait(FT_Heatable.class);
 				HeatingStep step = trait.getFirstStep();
 				tanks[3].setTankType(step.typeProduced);
-				
-			}
-			else {
-				return;
 			}
 			/// START Processing part ///
 			
@@ -106,7 +105,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			}
 			
 			//explode either if there's plasma that is too hot or if the reactor is turned on but the magnets have no power
-			if(plasma.getFill() > 0 && (this.plasma.getTankType().temperature >= this.getShield() || (this.isOn && this.power < this.powerReq))) {
+			if(plasma.getFill() > 0 && tanks[2].getFill() <= 0 && (this.plasma.getTankType().temperature >= this.getShield() || (this.isOn && this.power < this.powerReq))) {
 				this.explode();
 			}
 			
@@ -135,9 +134,10 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 				
 				int prod = FusionRecipes.getSteamProduction(plasma.getTankType());
 				int lod = FusionRecipes.getCoolant(plasma.getTankType());
-				int coolantTemperatureRate = FusionRecipes.coolprod.get(plasma.getTankType());
-				int temp = lod - tanks[2].getTankType().temperature;
-				coolantTemperatureRate = steam.getTankType().temperature;;
+				double coolantTemperatureRate = FusionRecipes.coolprod.get(plasma.getTankType());
+				FT_Heatable trait = tanks[2].getTankType().getTrait(FT_Heatable.class);
+				int temp = tanks[2].getTankType().temperature;
+				coolantTemperatureRate = trait.getEfficiency(HeatingType.HEATEXCHANGER);
 				for(int i = 0; i < 20; i++) {
 					
 					if(plasma.getFill() > 0) {
@@ -152,8 +152,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 							tanks[0].setFill(tanks[0].getMaxFill()); //this should stop it from eating fluids when buffers are full
 						}
 							
-						if(tanks[2].getFill() >= lod + 12) {
-							int coolantToDrain = (int) (lod * temp / coolantTemperatureRate);
+						if(tanks[2].getFill() >= lod) {
+							int coolantToDrain = (int) (lod / temp - coolantTemperatureRate );
 							tanks[2].setFill(tanks[2].getFill() - coolantToDrain);
 							tanks[3].setFill(tanks[3].getFill() + coolantToDrain);
 								
@@ -191,6 +191,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			data.setLong("power", power);
 			data.setInteger("progress", progress);
 			data.setShort("type", (short)tanks[2].getTankType().getID());
+			data.setShort("hottype", (short)tanks[3].getTankType().getID());
 			tanks[0].writeToNBT(data, "water");
 			tanks[1].writeToNBT(data, "steam");
 			tanks[2].writeToNBT(data, "coolant");
@@ -453,8 +454,10 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			tanks[3].setFill(i);
 		else if (type.name().equals(plasma.getTankType().name()))
 			plasma.setFill(i);
+			
 	}
 	*/
+	
 
 	public void setTypeForSync(FluidType type, int index) {
 		if (index < 2 && tanks[index] != null)

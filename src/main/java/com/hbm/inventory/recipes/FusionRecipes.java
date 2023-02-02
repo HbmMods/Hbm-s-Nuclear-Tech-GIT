@@ -81,7 +81,7 @@ public class FusionRecipes {
 	}
 	public static int getCoolant(FluidType plasma) {
 		Integer cool = coolprod.get(plasma);
-		return cool != null ? cool : 100;
+		return cool != null ? cool : 0;
 	}
 	
 	public static HashMap<ItemStack, ItemStack> getRecipes() {
