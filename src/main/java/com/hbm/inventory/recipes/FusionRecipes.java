@@ -67,12 +67,12 @@ public class FusionRecipes {
 	}
 	public static HashMap<FluidType, Integer> coolprod = new HashMap();
 	static {
-		coolprod.put(Fluids.PLASMA_DT, 15);
-		coolprod.put(Fluids.PLASMA_DH3, 25);
-		coolprod.put(Fluids.PLASMA_HD, 10);
-		coolprod.put(Fluids.PLASMA_HT, 12);
-		coolprod.put(Fluids.PLASMA_XM, 30);
-		coolprod.put(Fluids.PLASMA_BF, 80);
+		coolprod.put(Fluids.PLASMA_DT, 2);
+		coolprod.put(Fluids.PLASMA_DH3, 5);
+		coolprod.put(Fluids.PLASMA_HD, 2);
+		coolprod.put(Fluids.PLASMA_HT, 2);
+		coolprod.put(Fluids.PLASMA_XM, 10);
+		coolprod.put(Fluids.PLASMA_BF, 20);
 	}
 	
 	public static int getSteamProduction(FluidType plasma) {

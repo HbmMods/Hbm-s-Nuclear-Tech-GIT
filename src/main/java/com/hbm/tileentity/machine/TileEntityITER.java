@@ -153,7 +153,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 						}
 							
 						if(tanks[2].getFill() >= lod) {
-							int coolantToDrain = (int) (lod / temp - coolantTemperatureRate );
+							int coolantToDrain = (int) (Math.min(tanks[3].getMaxFill(), tanks[2].getFill()));
+							coolantToDrain = Math.min(lod, tanks[1].getMaxFill() - tanks[1].getFill());
 							tanks[2].setFill(tanks[2].getFill() - coolantToDrain);
 							tanks[3].setFill(tanks[3].getFill() + coolantToDrain);
 								
