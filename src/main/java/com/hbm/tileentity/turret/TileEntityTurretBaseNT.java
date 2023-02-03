@@ -17,6 +17,8 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.particle.SpentCasing;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
@@ -90,6 +92,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	
 	//tally marks!
 	public int stattrak;
+	public int casingDelay;
+	protected SpentCasing cachedCasingConfig = null;
 	
 	/**
 	 * 		 X
@@ -226,6 +230,14 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				else
 					this.lastRotationYaw -= Math.PI * 2;
 			}
+			
+			if(usesCasings() && this.casingDelay() > 0) {
+				if(casingDelay > 0) {
+					casingDelay--;
+				} else {
+					spawnCasing();
+				}
+			}
 		}
 	}
 	
@@ -298,6 +310,9 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	
 	public abstract void updateFiringTick();
 	
+	public boolean usesCasings() { return false; }
+	public int casingDelay() { return 0; }
+	
 	public BulletConfiguration getFirstConfigLoaded() {
 		
 		List<Integer> list = getAmmoList();
@@ -336,6 +351,13 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		
 		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, bullet.velocity, bullet.spread);
 		worldObj.spawnEntityInWorld(proj);
+		
+		if(usesCasings()) {
+			if(this.casingDelay() == 0)
+				spawnCasing();
+			else
+				casingDelay = this.casingDelay();
+		}
 	}
 	
 	public void conusmeAmmo(ComparableStack ammo) {
@@ -818,5 +840,26 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	@Override
 	public void closeInventory() {
 		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.closeC", 1.0F, 1.0F);
+	}
+	
+	protected Vec3 getCasingSpawnPos() {
+		return this.getTurretPos();
+	}
+	
+	protected void spawnCasing() {
+		
+		if(cachedCasingConfig == null) return;
+		
+		Vec3 spawn = this.getCasingSpawnPos();
+		final NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "casing");
+		data.setDouble("posX", spawn.xCoord);
+		data.setDouble("posY", spawn.yCoord);
+		data.setDouble("posZ", spawn.zCoord);
+		data.setFloat("pitch", (float) rotationPitch);
+		data.setFloat("yaw", (float) rotationYaw);
+		data.setBoolean("crouched", false);
+		data.setString("name", cachedCasingConfig.getName());
+		MainRegistry.proxy.effectNT(data);
 	}
 }

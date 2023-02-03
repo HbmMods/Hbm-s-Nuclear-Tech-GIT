@@ -1,6 +1,7 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
@@ -13,6 +14,8 @@ import com.hbm.items.ItemAmmoEnums.Ammo12Gauge;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
@@ -22,9 +25,14 @@ import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 
 public class Gun12GaugeFactory {
@@ -33,11 +41,11 @@ public class Gun12GaugeFactory {
 	private static final SpentCasing CASING12GAUGE;
 
 	static {
-		EJECTOR_SPAS = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, 0, 0.5)).setAngleRange(0.01F, 0.03F).setDelay(10);
-		EJECTOR_SPAS_ALT = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, 0, 0.5)).setAngleRange(0.01F, 0.03F).setDelay(10).setAmount(2);
-		EJECTOR_BENELLI = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.3, 1, 0)).setAngleRange(0.01F, 0.03F);
-		EJECTOR_UBOINIK = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.1, 0)).setOffset(Vec3.createVectorHelper(-0.35, -0.3, 0.5)).setAngleRange(0.01F, 0.03F);
-		EJECTOR_SSG = new CasingEjector().setMotion(Vec3.createVectorHelper(0.2, 0, -0.2)).setOffset(Vec3.createVectorHelper(0.8, 0, 0)).setAngleRange(0.05F, 0.02F).setDelay(20).setAmount(2);
+		EJECTOR_SPAS = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, 0, 0.5).setAngleRange(0.01F, 0.03F).setDelay(10);
+		EJECTOR_SPAS_ALT = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, 0, 0.5).setAngleRange(0.01F, 0.03F).setDelay(10).setAmount(2);
+		EJECTOR_BENELLI = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.3, 1, 0).setAngleRange(0.01F, 0.03F);
+		EJECTOR_UBOINIK = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, -0.3, 0.5).setAngleRange(0.01F, 0.03F);
+		EJECTOR_SSG = new CasingEjector().setMotion(0.2, 0, -0.2).setOffset(0.8, 0, 0).setAngleRange(0.05F, 0.02F).setDelay(20).setAmount(2);
 		
 		CASING12GAUGE = new SpentCasing(CasingType.SHOTGUN).setScale(1.5F).setBounceMotion(0.05F, 0.02F);
 	}
@@ -291,6 +299,51 @@ public class Gun12GaugeFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SLEEK));
 		
 		bullet.spentCasing = CASING12GAUGE.clone().register("12GaIF").setColor(0x2A2A2A, SpentCasing.COLOR_CASE_12GA);
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get12GaugePercussionConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.PERCUSSION));
+		bullet.spread = 0F;
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaPerc").setColor(0x9E1616, SpentCasing.COLOR_CASE_12GA);
+		
+		bullet.maxAge = 0;
+
+		bullet.bUpdate = (entityBullet) -> {
+
+			if(!entityBullet.worldObj.isRemote) {
+				
+				Vec3 vec = Vec3.createVectorHelper(entityBullet.motionX, entityBullet.motionY, entityBullet.motionZ);
+				double radius = vec.lengthVector();
+				double x = entityBullet.posX + vec.xCoord;
+				double y = entityBullet.posY + vec.yCoord;
+				double z = entityBullet.posZ + vec.zCoord;
+				AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(radius, radius, radius);
+				List<Entity> list = entityBullet.worldObj.getEntitiesWithinAABBExcludingEntity(entityBullet.shooter, aabb);
+				
+				for(Entity e : list) {
+					DamageSource source = entityBullet.shooter instanceof EntityPlayer ? DamageSource.causePlayerDamage((EntityPlayer) entityBullet.shooter) : DamageSource.magic;
+					e.attackEntityFrom(source, 30F);
+				}
+
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "plasmablast");
+				data.setFloat("r", 0.75F);
+				data.setFloat("g", 0.75F);
+				data.setFloat("b", 0.75F);
+				data.setFloat("pitch", (float) Math.toDegrees(entityBullet.rotationPitch));
+				data.setFloat("yaw", (float) Math.toDegrees(entityBullet.rotationYaw));
+				data.setFloat("scale", 2F);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z),
+						new TargetPoint(entityBullet.dimension, x, y, z, 100));
+				
+				entityBullet.setDead();
+			}
+		};
 		
 		return bullet;
 	}

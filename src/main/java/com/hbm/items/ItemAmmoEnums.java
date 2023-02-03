@@ -726,7 +726,8 @@ public class ItemAmmoEnums {
 		SHRAPNEL("ammo_12gauge_shrapnel", AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.NEU_MORE_BOUNCY, AmmoItemTrait.CON_WEAR),
 		DU("ammo_12gauge_du", AmmoItemTrait.PRO_DAMAGE, AmmoItemTrait.PRO_PENETRATION, AmmoItemTrait.NEU_HEAVY_METAL, AmmoItemTrait.CON_HEAVY_WEAR),
 		MARAUDER("ammo_12gauge_marauder", AmmoItemTrait.PRO_MARAUDER, AmmoItemTrait.NEU_NO_CON),
-		SLEEK("ammo_12gauge_sleek", AmmoItemTrait.NEU_MASKMAN_FLECHETTE);
+		SLEEK("ammo_12gauge_sleek", AmmoItemTrait.NEU_MASKMAN_FLECHETTE),
+		PERCUSSION("ammo_12gauge_percussion", AmmoItemTrait.PRO_PERCUSSION, AmmoItemTrait.CON_NO_PROJECTILE);
 		
 		private final Set<AmmoItemTrait> traits;
 		private final String unloc;

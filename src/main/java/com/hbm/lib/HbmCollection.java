@@ -23,7 +23,7 @@ public class HbmCollection {
 	/// BULLET COLLECTIONS
 	// SHOTGUNS
 	/** 12 GAUGE **/
-	public static final List<Integer> twelveGauge = ImmutableList.of(BulletConfigSyncingUtil.G12_NORMAL, BulletConfigSyncingUtil.G12_INCENDIARY, BulletConfigSyncingUtil.G12_SHRAPNEL, BulletConfigSyncingUtil.G12_DU, BulletConfigSyncingUtil.G12_AM, BulletConfigSyncingUtil.G12_SLEEK);
+	public static final List<Integer> twelveGauge = ImmutableList.of(BulletConfigSyncingUtil.G12_NORMAL, BulletConfigSyncingUtil.G12_INCENDIARY, BulletConfigSyncingUtil.G12_SHRAPNEL, BulletConfigSyncingUtil.G12_DU, BulletConfigSyncingUtil.G12_AM, BulletConfigSyncingUtil.G12_SLEEK, BulletConfigSyncingUtil.G12_PERCUSSION);
 	/** 20 GAUGE **/
 	public static final List<Integer> twentyGauge = ImmutableList.of(BulletConfigSyncingUtil.G20_NORMAL, BulletConfigSyncingUtil.G20_SLUG, BulletConfigSyncingUtil.G20_FLECHETTE, BulletConfigSyncingUtil.G20_FIRE, BulletConfigSyncingUtil.G20_SHRAPNEL, BulletConfigSyncingUtil.G20_EXPLOSIVE, BulletConfigSyncingUtil.G20_CAUSTIC, BulletConfigSyncingUtil.G20_SHOCK, BulletConfigSyncingUtil.G20_WITHER, BulletConfigSyncingUtil.G20_SLEEK);
 	/** 4 GAUGE **/
@@ -55,6 +55,7 @@ public class HbmCollection {
 	public static final List<Integer> threeZeroEight = ImmutableList.of(BulletConfigSyncingUtil.W308);
 	/** 5MM **/
 	public static final List<Integer> fiveMM = ImmutableList.of(BulletConfigSyncingUtil.R5_NORMAL, BulletConfigSyncingUtil.R5_EXPLOSIVE, BulletConfigSyncingUtil.R5_DU, BulletConfigSyncingUtil.R5_STAR, BulletConfigSyncingUtil.CHL_R5);
+	/** 5MM LACUNAE **/
 	public static final List<Integer> fiveMMBolt = ImmutableList.of(BulletConfigSyncingUtil.R5_NORMAL_BOLT, BulletConfigSyncingUtil.R5_EXPLOSIVE_BOLT, BulletConfigSyncingUtil.R5_DU_BOLT, BulletConfigSyncingUtil.R5_STAR_BOLT, BulletConfigSyncingUtil.CHL_R5_BOLT);
 	// MISC
 	/** .75 **/
@@ -74,8 +75,7 @@ public class HbmCollection {
 		
 	/// FREQUENTLY USED TRANSLATION KEYS
 	// GUN MANUFACTURERS
-	public static enum EnumGunManufacturer
-	{
+	public static enum EnumGunManufacturer {
 		/**Armalite**/
 		ARMALITE,
 		/**Auto-Ordnance Corporation**/

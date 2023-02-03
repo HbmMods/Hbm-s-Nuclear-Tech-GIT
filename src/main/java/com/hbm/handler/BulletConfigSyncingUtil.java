@@ -74,6 +74,7 @@ public class BulletConfigSyncingUtil {
 	public static int G12_DU = i++;
 	public static int G12_AM = i++;
 	public static int G12_SLEEK = i++;
+	public static int G12_PERCUSSION = i++;
 
 	public static int LR22_NORMAL = i++;
 	public static int LR22_AP = i++;
@@ -348,6 +349,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G12_DU, Gun12GaugeFactory.get12GaugeDUConfig());
 		configSet.put(G12_AM, Gun12GaugeFactory.get12GaugeAMConfig());
 		configSet.put(G12_SLEEK, Gun12GaugeFactory.get12GaugeSleekConfig());
+		configSet.put(G12_PERCUSSION, Gun12GaugeFactory.get12GaugePercussionConfig());
 
 		configSet.put(LR22_NORMAL, Gun22LRFactory.get22LRConfig());
 		configSet.put(LR22_AP, Gun22LRFactory.get22LRAPConfig());
