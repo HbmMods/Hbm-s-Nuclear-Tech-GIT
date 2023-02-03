@@ -1136,7 +1136,7 @@ public class ModEventHandler {
 	
 	//private static final String hash = "41eb77f138ce350932e33b6b26b233df9aad0c0c80c6a49cb9a54ddd8fae3f83";
 	
-	private static final String lol = "nigg";
+	private static final String lol = "popbobisgod";
 	
 	@SubscribeEvent
 	public void onClickSign(PlayerInteractEvent event) {
@@ -1156,7 +1156,7 @@ public class ModEventHandler {
 			if(result.equals(lol)) {
 				world.func_147480_a(x, y, z, false);
 				EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
-				entityitem.delayBeforeCanPickup = 10;
+				entityitem.delayBeforeCanPickup = 1;
 				world.spawnEntityInWorld(entityitem);
 			}
 		}

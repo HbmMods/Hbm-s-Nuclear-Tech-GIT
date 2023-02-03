@@ -36,8 +36,8 @@ public class GUIITER extends GuiInfoContainer {
 
 		iter.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 54, 16, 52);	//Water
 		iter.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 54, 16, 52);	//Steam
-		iter.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 20, guiTop + 54, 16, 52);
-		iter.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 140, guiTop + 54, 16, 52);
+		iter.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 12 + 4, guiTop + 54, 16, 52);
+		iter.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 26 + 128, guiTop + 54, 16, 52);
 		iter.plasma.renderTankInfo(this, mouseX, mouseY, guiLeft + 71, guiTop + 54, 34, 34);	//Plasma
 
 		String text = "Magnets are " + ((iter.isOn && iter.power >= iter.powerReq) ? "ON" : "OFF");

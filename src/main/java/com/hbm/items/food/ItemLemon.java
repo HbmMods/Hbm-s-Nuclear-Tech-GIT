@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemLemon extends ItemFood {
@@ -222,7 +223,16 @@ public class ItemLemon extends ItemFood {
 		}
 		
 		if(this == ModItems.flesh_burger) {
-			list.add("juicy!");
+			list.add("Me, I am a genius way way way ahead of my time.");
+			list.add("why must i live inside this world full of closed minds?");
+			list.add("i loved somebody beautiful,");
+			list.add("and some body strong");
+			list.add("my heart was a bomb");
+			list.add("to make somebody suitable,");
+			list.add("i didnt waste time");
+			list.add("i had the two combined!");
+			list.add("and ohhhhh");
+			list.add(EnumChatFormatting.YELLOW + "what a beautiful creature!");
 		}
 	}
 

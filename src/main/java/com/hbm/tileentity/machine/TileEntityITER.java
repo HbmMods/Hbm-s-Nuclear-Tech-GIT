@@ -64,7 +64,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		super(5);
 		tanks = new FluidTank[4];
 		tanks[0] = new FluidTank(Fluids.WATER, 1280000, 0);
-		tanks[1] = new FluidTank(Fluids.CRITICALSTEAM, 128000, 1);
+		tanks[1] = new FluidTank(Fluids.ULTRAHOTSTEAM, 128000, 1);
 		tanks[2] = new FluidTank(Fluids.COOLANT, 16_000, 0);
 		tanks[3] = new FluidTank(Fluids.COOLANT_HOT, 16_000, 1);
 		plasma = new FluidTank(Fluids.PLASMA_DT, 16000, 2);
@@ -105,7 +105,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			}
 			
 			//explode either if there's plasma that is too hot or if the reactor is turned on but the magnets have no power
-			if(plasma.getFill() > 0 && tanks[2].getFill() <= 0 && (this.plasma.getTankType().temperature >= this.getShield() || (this.isOn && this.power < this.powerReq))) {
+			if(plasma.getFill() > 0 && tanks[2].getFill() < 0 && (this.plasma.getTankType().temperature >= this.getShield() || (this.isOn && this.power < this.powerReq))) {
 				this.explode();
 			}
 			
@@ -136,7 +136,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 				int lod = FusionRecipes.getCoolant(plasma.getTankType());
 				double coolantTemperatureRate = FusionRecipes.coolprod.get(plasma.getTankType());
 				FT_Heatable trait = tanks[2].getTankType().getTrait(FT_Heatable.class);
-				int temp = tanks[2].getTankType().temperature;
+				//int temp = tanks[2].getTankType().temperature;
 				coolantTemperatureRate = trait.getEfficiency(HeatingType.HEATEXCHANGER);
 				for(int i = 0; i < 20; i++) {
 					
