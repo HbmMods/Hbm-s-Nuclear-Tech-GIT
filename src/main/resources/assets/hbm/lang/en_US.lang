@@ -1391,6 +1391,7 @@ item.ammo_12gauge.name=12 Gauge Buckshot
 item.ammo_12gauge_du.name=12 Gauge Buckshot (Uranium Coated)
 item.ammo_12gauge_incendiary.name=12 Gauge Buckshot (Incendiary)
 item.ammo_12gauge_marauder.name=12 Gauge Tactical Anti-Marauder Shell
+item.ammo_12gauge_percussion.name=12 Gauge Percussion Cap
 item.ammo_12gauge_shrapnel.name=12 Gauge Buckshot (Shrapnel)
 item.ammo_12gauge_sleek.name=12 Gauge Buckshot (IF-R&D)
 item.ammo_20gauge.name=20 Gauge Buckshot

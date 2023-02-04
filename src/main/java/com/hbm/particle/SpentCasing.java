@@ -12,6 +12,9 @@ public class SpentCasing implements Cloneable {
 	public static final int COLOR_CASE_12GA = 0x757575;
 	public static final int COLOR_CASE_4GA = 0xD8D8D8;
 	public static final int COLOR_CASE_44 = 0x3E3E3E;
+	public static final int COLOR_CASE_16INCH = 0xD89128;
+	public static final int COLOR_CASE_16INCH_PHOS = 0xC8C8C8;
+	public static final int COLOR_CASE_16INCH_NUKE = 0x495443;
 	
 	public static final HashMap<String, SpentCasing> casingMap = new HashMap();
 	
@@ -38,6 +41,7 @@ public class SpentCasing implements Cloneable {
 	private float smokeChance;
 	private float bounceYaw = 0F;
 	private float bouncePitch = 0F;
+	private int maxAge = 240;
 	
 	public SpentCasing(CasingType type) {
 		this.type = type;
@@ -89,6 +93,11 @@ public class SpentCasing implements Cloneable {
 		this.bouncePitch = pitch;
 		return this;
 	}
+	
+	public SpentCasing setMaxAge(int age) {
+		this.maxAge = age;
+		return this;
+	}
 
 	public String getName() { return this.registryName; }
 	public float getScaleX() { return this.scaleX; }
@@ -100,6 +109,7 @@ public class SpentCasing implements Cloneable {
 	public float getSmokeChance() { return this.smokeChance; }
 	public float getBounceYaw() { return this.bounceYaw; }
 	public float getBouncePitch() { return this.bouncePitch; }
+	public int getMaxAge() { return this.maxAge; }
 	
 	@Override
 	public SpentCasing clone() {

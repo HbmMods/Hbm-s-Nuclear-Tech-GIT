@@ -6,8 +6,16 @@ import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo240Shell;
 import com.hbm.items.ModItems;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 
 public class GunCannonFactory {
+	
+	protected static SpentCasing CASINNG240MM;
+	
+	static {
+		CASINNG240MM = new SpentCasing(CasingType.BOTTLENECK).setScale(7.5F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS);
+	}
 
 	public static BulletConfiguration getShellConfig() {
 		
@@ -18,6 +26,8 @@ public class GunCannonFactory {
 		bullet.dmgMax = 35;
 		bullet.explosive = 4F;
 		bullet.blockDamage = false;
+		
+		bullet.spentCasing = CASINNG240MM.register("240MM"); //same instance everywhere, only register once
 		
 		return bullet;
 	}
@@ -32,6 +42,8 @@ public class GunCannonFactory {
 		bullet.explosive = 4F;
 		bullet.blockDamage = true;
 		
+		bullet.spentCasing = CASINNG240MM;
+		
 		return bullet;
 	}
 
@@ -45,6 +57,8 @@ public class GunCannonFactory {
 		bullet.doesPenetrate = true;
 		bullet.style = BulletConfiguration.STYLE_APDS;
 		
+		bullet.spentCasing = CASINNG240MM;
+		
 		return bullet;
 	}
 
@@ -57,6 +71,8 @@ public class GunCannonFactory {
 		bullet.dmgMax = 80;
 		bullet.doesPenetrate = true;
 		bullet.style = BulletConfiguration.STYLE_APDS;
+		
+		bullet.spentCasing = CASINNG240MM;
 		
 		return bullet;
 	}
@@ -76,6 +92,8 @@ public class GunCannonFactory {
 				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 1);
 			}
 		};
+		
+		bullet.spentCasing = CASINNG240MM;
 		
 		return bullet;
 	}

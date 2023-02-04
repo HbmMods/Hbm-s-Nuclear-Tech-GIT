@@ -789,6 +789,7 @@ item.ammo_12gauge.name=Kaliber 12 Schrot
 item.ammo_12gauge_du.name=Kaliber 12 Schrot (Uranbeschichtung)
 item.ammo_12gauge_incendiary.name=Kaliber 12 Schrot (Brand)
 item.ammo_12gauge_marauder.name=Kaliber 12 Taktische Anti-Marauder Schrotpatrone
+item.ammo_12gauge_percussion.name=Kaliber 12 Sprengkapsel
 item.ammo_12gauge_shrapnel.name=Kaliber 12 Schrot (Schrapnell)
 item.ammo_12gauge_sleek.name=Kaliber 12 Schrot (IF-F&E)
 item.ammo_20gauge.name=Kaliber 20 Schrot

@@ -4432,7 +4432,7 @@ public class ModItems {
 		ammo_folly = new ItemCustomLore().setUnlocalizedName("ammo_folly");
 		ammo_folly_nuclear = new ItemCustomLore().setUnlocalizedName("ammo_folly_nuclear");
 		ammo_folly_du = new ItemCustomLore().setUnlocalizedName("ammo_folly_du");
-		ammo_dgk = new ItemCustomLore().setUnlocalizedName("ammo_dgk");
+		//ammo_dgk = new ItemCustomLore().setUnlocalizedName("ammo_dgk");
 		ammo_arty = new ItemAmmoArty().setUnlocalizedName("ammo_arty");
 		ammo_himars = new ItemAmmoHIMARS().setUnlocalizedName("ammo_himars");
 		/*ammo_nuke = new ItemAmmo().setUnlocalizedName("ammo_nuke");

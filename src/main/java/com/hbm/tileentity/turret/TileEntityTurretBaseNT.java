@@ -12,16 +12,20 @@ import com.hbm.entity.missile.EntitySiegeDropship;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.particle.SpentCasing;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -216,6 +220,14 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			NBTTagCompound data = this.writePacket();
 			this.networkPack(data, 250);
 			
+			if(usesCasings() && this.casingDelay() > 0) {
+				if(casingDelay > 0) {
+					casingDelay--;
+				} else {
+					spawnCasing();
+				}
+			}
+			
 		} else {
 			
 			Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
@@ -229,14 +241,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 					this.lastRotationYaw += Math.PI * 2;
 				else
 					this.lastRotationYaw -= Math.PI * 2;
-			}
-			
-			if(usesCasings() && this.casingDelay() > 0) {
-				if(casingDelay > 0) {
-					casingDelay--;
-				} else {
-					spawnCasing();
-				}
 			}
 		}
 	}
@@ -353,10 +357,11 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		worldObj.spawnEntityInWorld(proj);
 		
 		if(usesCasings()) {
-			if(this.casingDelay() == 0)
+			if(this.casingDelay() == 0) {
 				spawnCasing();
-			else
+			} else {
 				casingDelay = this.casingDelay();
+			}
 		}
 	}
 	
@@ -846,20 +851,25 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		return this.getTurretPos();
 	}
 	
+	protected CasingEjector getEjector() {
+		return null;
+	}
+	
 	protected void spawnCasing() {
 		
 		if(cachedCasingConfig == null) return;
+		CasingEjector ej = getEjector();
 		
 		Vec3 spawn = this.getCasingSpawnPos();
-		final NBTTagCompound data = new NBTTagCompound();
+		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "casing");
-		data.setDouble("posX", spawn.xCoord);
-		data.setDouble("posY", spawn.yCoord);
-		data.setDouble("posZ", spawn.zCoord);
 		data.setFloat("pitch", (float) rotationPitch);
 		data.setFloat("yaw", (float) rotationYaw);
 		data.setBoolean("crouched", false);
 		data.setString("name", cachedCasingConfig.getName());
-		MainRegistry.proxy.effectNT(data);
+		if(ej != null) data.setInteger("ej", ej.getId());
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, spawn.xCoord, spawn.yCoord, spawn.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+		
+		cachedCasingConfig = null;
 	}
 }

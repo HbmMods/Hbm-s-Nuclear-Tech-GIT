@@ -9,6 +9,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
+import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo12Gauge;
 import com.hbm.items.ModItems;
@@ -110,14 +111,7 @@ public class Gun12GaugeFactory {
 		config.firingSound = "hbm:weapon.shotgunPump";
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
-		config.config.add(BulletConfigSyncingUtil.G12_DU);
-		config.config.add(BulletConfigSyncingUtil.G12_AM);
-		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
+		config.config = HbmCollection.twelveGauge;
 		
 		config.ejector = EJECTOR_SPAS_ALT;
 
@@ -305,43 +299,50 @@ public class Gun12GaugeFactory {
 	
 	public static BulletConfiguration get12GaugePercussionConfig() {
 		
-		BulletConfiguration bullet = new BulletConfiguration();
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.PERCUSSION));
+		bullet.velocity = 2F;
 		bullet.spread = 0F;
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaPerc").setColor(0x9E1616, SpentCasing.COLOR_CASE_12GA);
-		
+		bullet.wear = 10;
+		bullet.dmgMin = 30F;
+		bullet.dmgMax = 30F;
 		bullet.maxAge = 0;
+		
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaPerc").setColor(0x9E1616, SpentCasing.COLOR_CASE_12GA);
 
-		bullet.bUpdate = (entityBullet) -> {
+		bullet.bUpdate = new IBulletUpdateBehavior() {
 
-			if(!entityBullet.worldObj.isRemote) {
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
 				
-				Vec3 vec = Vec3.createVectorHelper(entityBullet.motionX, entityBullet.motionY, entityBullet.motionZ);
-				double radius = vec.lengthVector();
-				double x = entityBullet.posX + vec.xCoord;
-				double y = entityBullet.posY + vec.yCoord;
-				double z = entityBullet.posZ + vec.zCoord;
-				AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(radius, radius, radius);
-				List<Entity> list = entityBullet.worldObj.getEntitiesWithinAABBExcludingEntity(entityBullet.shooter, aabb);
-				
-				for(Entity e : list) {
-					DamageSource source = entityBullet.shooter instanceof EntityPlayer ? DamageSource.causePlayerDamage((EntityPlayer) entityBullet.shooter) : DamageSource.magic;
-					e.attackEntityFrom(source, 30F);
+				if(!bullet.worldObj.isRemote) {
+					
+					Vec3 vec = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ);
+					double radius = 4;
+					double x = bullet.posX + vec.xCoord;
+					double y = bullet.posY + vec.yCoord;
+					double z = bullet.posZ + vec.zCoord;
+					AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(radius, radius, radius);
+					List<Entity> list = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet.shooter, aabb);
+					
+					for(Entity e : list) {
+						DamageSource source = bullet.shooter instanceof EntityPlayer ? DamageSource.causePlayerDamage((EntityPlayer) bullet.shooter) : DamageSource.magic;
+						e.attackEntityFrom(source, 30F);
+					}
+	
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "plasmablast");
+					data.setFloat("r", 0.75F);
+					data.setFloat("g", 0.75F);
+					data.setFloat("b", 0.75F);
+					data.setFloat("pitch", (float) -bullet.rotationPitch + 90);
+					data.setFloat("yaw", (float) bullet.rotationYaw);
+					data.setFloat("scale", 2F);
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(bullet.dimension, x, y, z, 100));
+					
+					bullet.setDead();
 				}
-
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "plasmablast");
-				data.setFloat("r", 0.75F);
-				data.setFloat("g", 0.75F);
-				data.setFloat("b", 0.75F);
-				data.setFloat("pitch", (float) Math.toDegrees(entityBullet.rotationPitch));
-				data.setFloat("yaw", (float) Math.toDegrees(entityBullet.rotationYaw));
-				data.setFloat("scale", 2F);
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z),
-						new TargetPoint(entityBullet.dimension, x, y, z, 100));
-				
-				entityBullet.setDead();
 			}
 		};
 		

@@ -19,7 +19,7 @@ public class Gun5mmFactory {
 
 	static {
 		EJECTOR_MINIGUN = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, -0.2, 0.35).setAngleRange(0.01F, 0.03F).setAmount(5);
-		CASING5MM = new SpentCasing(CasingType.STRAIGHT).setScale(1F).setBounceMotion(0.05F, 0.02F).setColor(SpentCasing.COLOR_CASE_BRASS);
+		CASING5MM = new SpentCasing(CasingType.STRAIGHT).setScale(1.25F).setBounceMotion(0.05F, 0.02F).setColor(SpentCasing.COLOR_CASE_BRASS);
 	}
 	
 	public static GunConfiguration getMinigunConfig() {

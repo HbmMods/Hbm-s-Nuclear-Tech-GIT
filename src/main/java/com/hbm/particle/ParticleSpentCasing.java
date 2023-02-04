@@ -25,8 +25,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 @SideOnly(Side.CLIENT)
-public class ParticleSpentCasing extends EntityFX
-{
+public class ParticleSpentCasing extends EntityFX {
+	
 	public static final Random rand = new Random();
 	private static float dScale = 0.05F, smokeJitter = 0.025F, smokeAccel = 0.5F;
 	private static byte maxSmokeGen = 60, maxSmokeLife = 120;
@@ -49,7 +49,7 @@ public class ParticleSpentCasing extends EntityFX
 		this.momentumYaw = momentumYaw;
 		this.config = config;
 
-		particleMaxAge = 240;
+		particleMaxAge = config.getMaxAge();
 		smoke = rand.nextFloat() < config.getSmokeChance();
 
 		motionX = mx;

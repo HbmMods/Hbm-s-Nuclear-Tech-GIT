@@ -5,9 +5,11 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntityArtilleryShell;
+import com.hbm.handler.CasingEjector;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretArty;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -210,6 +212,13 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			proj.setWhistle(true);
 		
 		worldObj.spawnEntityInWorld(proj);
+		
+		casingDelay = this.casingDelay();
+	}
+	
+	@Override
+	public int casingDelay() {
+		return 5;
 	}
 	
 	protected void updateConnections() {
@@ -333,6 +342,12 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			
 			this.didJustShoot = false;
 			
+			if(casingDelay > 0) {
+				casingDelay--;
+			} else {
+				spawnCasing();
+			}
+			
 		} else {
 			
 			Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
@@ -364,6 +379,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			ItemStack conf = this.getShellLoaded();
 			
 			if(conf != null) {
+				cachedCasingConfig = ItemAmmoArty.itemTypes[conf.getItemDamage()].casing;
 				this.spawnShell(conf);
 				this.conusmeAmmo(ModItems.ammo_arty);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.jeremy_fire", 25.0F, 1.0F);
@@ -386,6 +402,18 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 				this.tPos = null;
 			}
 		}
+	}
+
+	protected static CasingEjector ejector = new CasingEjector().setMotion(0, 1.2, 0.5).setAngleRange(0.1F, 0.1F);
+	
+	@Override
+	protected CasingEjector getEjector() {
+		return ejector;
+	}
+
+	@Override
+	protected Vec3 getCasingSpawnPos() {
+		return this.getTurretPos();
 	}
 
 	@Override

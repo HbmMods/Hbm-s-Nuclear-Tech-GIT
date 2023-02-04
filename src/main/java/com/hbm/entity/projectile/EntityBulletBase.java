@@ -251,6 +251,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 		
 		if(config.maxAge == 0) {
+			
+			if(this.config.bUpdate != null)
+				this.config.bUpdate.behaveUpdate(this);
+			
 			this.setDead();
 			return;
 		}
