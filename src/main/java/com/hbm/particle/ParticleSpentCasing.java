@@ -8,6 +8,7 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.util.Tuple.Pair;
 
@@ -28,15 +29,18 @@ import net.minecraft.world.World;
 public class ParticleSpentCasing extends EntityFX {
 	
 	public static final Random rand = new Random();
-	private static float dScale = 0.05F, smokeJitter = 0.025F, smokeAccel = 0.5F;
-	private static byte maxSmokeGen = 60, maxSmokeLife = 120;
+	private static float dScale = 0.05F, smokeJitter = 0.001F;
+
+	private int maxSmokeGen = 120;
+	private double smokeLift = 0.5D;
+	private int nodeLife = 30;
 
 	private final List<Pair<Vec3, Double>> smokeNodes = new ArrayList();
 
 	private final TextureManager textureManager;
 
 	private final SpentCasing config;
-	private boolean smoke;
+	private boolean isSmoking;
 
 	private float momentumPitch, momentumYaw;
 	private boolean onGroundPreviously = false;
@@ -49,12 +53,19 @@ public class ParticleSpentCasing extends EntityFX {
 		this.momentumYaw = momentumYaw;
 		this.config = config;
 
-		particleMaxAge = config.getMaxAge();
-		smoke = rand.nextFloat() < config.getSmokeChance();
+		this.particleMaxAge = config.getMaxAge();
+		this.isSmoking = rand.nextFloat() < config.getSmokeChance();
+		this.maxSmokeGen = config.getSmokeDuration();
+		this.smokeLift = config.getSmokeLift();
+		this.nodeLife = config.getSmokeNodeLife();
+		
+		this.prevPosX = x;
+		this.prevPosY = y;
+		this.prevPosZ = z;
 
-		motionX = mx;
-		motionY = my;
-		motionZ = mz;
+		this.motionX = mx;
+		this.motionY = my;
+		this.motionZ = mz;
 
 		particleGravity = 8F;
 
@@ -88,54 +99,64 @@ public class ParticleSpentCasing extends EntityFX {
 			onGroundPreviously = false;
 		}
 
-		if (particleAge > maxSmokeLife && !smokeNodes.isEmpty())
+		if(particleAge > maxSmokeGen && !smokeNodes.isEmpty())
 			smokeNodes.clear();
 
-		if(smoke && particleAge <= maxSmokeLife) {
-			
-			//motion-based smoke changes were moved to rendering (to account for interp in realtime)
+		if(isSmoking && particleAge <= maxSmokeGen) {
 
 			for(Pair<Vec3, Double> pair : smokeNodes) {
-				final Vec3 node = pair.getKey();
+				Vec3 node = pair.getKey();
 
 				node.xCoord += rand.nextGaussian() * smokeJitter;
 				node.zCoord += rand.nextGaussian() * smokeJitter;
+				node.yCoord += smokeLift * dScale;
+				
+				pair.value = Math.max(0, pair.value - (1D / (double) nodeLife));
 			}
 
 			if(particleAge < maxSmokeGen || inWater) {
-				final double alpha = (particleAge / 20d);
-				smokeNodes.add(new Pair<Vec3, Double>(Vec3.createVectorHelper(0, 0, 0), alpha));
+				smokeNodes.add(new Pair<Vec3, Double>(Vec3.createVectorHelper(0, 0, 0), smokeNodes.isEmpty() ? 0.0D : 1D));
 			}
 		}
 
 		prevRotationPitch = rotationPitch;
 		prevRotationYaw = rotationYaw;
 
-//		if (motionY > gravity && !onGround)
-//			motionY += gravity;
-//		if (motionY < -0.75)
-//			motionY = -0.75;
-
-		if(onGround)
+		if(onGround) {
 			rotationPitch = 0;
-		else {
+		} else {
 			rotationPitch += momentumPitch;
 			rotationYaw += momentumYaw;
 		}
 	}
+
+	/** Used for frame-perfect translation of smoke */
+	private boolean setupDeltas = false;
+	private double prevRenderX;
+	private double prevRenderY;
+	private double prevRenderZ;
 
 	@Override
 	public void renderParticle(Tessellator tessellator, float interp, float x, float y, float z, float tx, float tz) {
 
 		GL11.glPushMatrix();
 		RenderHelper.enableStandardItemLighting();
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		GL11.glDepthMask(true);
 
 		double pX = prevPosX + (posX - prevPosX) * interp;
 		double pY = prevPosY + (posY - prevPosY) * interp;
 		double pZ = prevPosZ + (posZ - prevPosZ) * interp;
+		
+		if(!setupDeltas) {
+			prevRenderX = pX;
+			prevRenderY = pY;
+			prevRenderZ = pZ;
+			setupDeltas = true;
+		}
 		
 		int brightness = worldObj.getLightBrightnessForSkyBlocks(MathHelper.floor_double(pX), MathHelper.floor_double(pY), MathHelper.floor_double(pZ), 0);
 		int lX = brightness % 65536;
@@ -149,7 +170,7 @@ public class ParticleSpentCasing extends EntityFX {
 		double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)interp;
 		double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
 
-		GL11.glTranslated(pX - dX, pY - dY - this.height / 4, pZ - dZ);
+		GL11.glTranslated(pX - dX, pY - dY - this.height / 4 + config.getScaleY() * 0.01, pZ - dZ);
 
 		GL11.glScalef(dScale, dScale, dScale);
 
@@ -169,31 +190,59 @@ public class ParticleSpentCasing extends EntityFX {
 		
 		GL11.glColor3f(1F, 1F, 1F);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(pX - dX, pY - dY - this.height / 4, pZ - dZ);
+		//GL11.glScalef(dScale, dScale, dScale);
+		//GL11.glScalef(config.getScaleX(), config.getScaleY(), config.getScaleZ());
 
-		/*if(!smokeNodes.isEmpty()) {
+		if(!smokeNodes.isEmpty()) {
 			tessellator.startDrawingQuads();
 			tessellator.setNormal(0F, 1F, 0F);
+			
+			float scale = config.getScaleX() * 0.5F * dScale;
+			Vec3 vec = Vec3.createVectorHelper(scale, 0, 0);
+			float yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * interp;
+			vec.rotateAroundY((float) Math.toRadians(-yaw));
+			
+			double deltaX = prevRenderX - pX;
+			double deltaY = prevRenderY - pY;
+			double deltaZ = prevRenderZ - pZ;
+			
+			for(Pair<Vec3, Double> pair : smokeNodes) {
+				Vec3 pos = pair.getKey();
+				double mult = 1D;
+				pos.xCoord += deltaX * mult;
+				pos.yCoord += deltaY * mult;
+				pos.zCoord += deltaZ * mult;
+			}
 
 			for(int i = 0; i < smokeNodes.size() - 1; i++) {
 				final Pair<Vec3, Double> node = smokeNodes.get(i), past = smokeNodes.get(i + 1);
 				final Vec3 nodeLoc = node.getKey(), pastLoc = past.getKey();
-				final float nodeAlpha = node.getValue().floatValue(), pastAlpha = past.getValue().floatValue(), scale = config.getScaleX();
+				float nodeAlpha = node.getValue().floatValue();
+				float pastAlpha = past.getValue().floatValue();
+				
+				double timeAlpha = 1D - (double) particleAge / (double) maxSmokeGen;
+				nodeAlpha *= timeAlpha;
+				pastAlpha *= timeAlpha;
 
 				tessellator.setColorRGBA_F(1F, 1F, 1F, nodeAlpha);
 				tessellator.addVertex(nodeLoc.xCoord, nodeLoc.yCoord, nodeLoc.zCoord);
 				tessellator.setColorRGBA_F(1F, 1F, 1F, 0F);
-				tessellator.addVertex(nodeLoc.xCoord + scale, nodeLoc.yCoord, nodeLoc.zCoord);
+				tessellator.addVertex(nodeLoc.xCoord + vec.xCoord, nodeLoc.yCoord, nodeLoc.zCoord + vec.zCoord);
 				tessellator.setColorRGBA_F(1F, 1F, 1F, 0F);
-				tessellator.addVertex(pastLoc.xCoord + scale, pastLoc.yCoord, pastLoc.zCoord);
+				tessellator.addVertex(pastLoc.xCoord + vec.xCoord, pastLoc.yCoord, pastLoc.zCoord + vec.zCoord);
 				tessellator.setColorRGBA_F(1F, 1F, 1F, pastAlpha);
 				tessellator.addVertex(pastLoc.xCoord, pastLoc.yCoord, pastLoc.zCoord);
 
 				tessellator.setColorRGBA_F(1F, 1F, 1F, nodeAlpha);
 				tessellator.addVertex(nodeLoc.xCoord, nodeLoc.yCoord, nodeLoc.zCoord);
 				tessellator.setColorRGBA_F(1F, 1F, 1F, 0F);
-				tessellator.addVertex(nodeLoc.xCoord - scale, nodeLoc.yCoord, nodeLoc.zCoord);
+				tessellator.addVertex(nodeLoc.xCoord - vec.xCoord, nodeLoc.yCoord, nodeLoc.zCoord - vec.zCoord);
 				tessellator.setColorRGBA_F(1F, 1F, 1F, 0F);
-				tessellator.addVertex(pastLoc.xCoord - scale, pastLoc.yCoord, pastLoc.zCoord);
+				tessellator.addVertex(pastLoc.xCoord - vec.xCoord, pastLoc.yCoord, pastLoc.zCoord - vec.zCoord);
 				tessellator.setColorRGBA_F(1F, 1F, 1F, pastAlpha);
 				tessellator.addVertex(pastLoc.xCoord, pastLoc.yCoord, pastLoc.zCoord);
 			}
@@ -201,16 +250,22 @@ public class ParticleSpentCasing extends EntityFX {
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_CULL_FACE);
 			tessellator.draw();
+			GL11.glEnable(GL11.GL_CULL_FACE);
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.1F);
-		}*/
+		}
 
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 		
 		RenderHelper.disableStandardItemLighting();
+		
+		prevRenderX = pX;
+		prevRenderY = pY;
+		prevRenderZ = pZ;
 	}
 
 	@Override

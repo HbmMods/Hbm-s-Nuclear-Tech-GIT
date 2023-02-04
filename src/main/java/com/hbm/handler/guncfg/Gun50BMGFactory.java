@@ -45,8 +45,8 @@ public class Gun50BMGFactory {
 	static {
 		EJECTOR_BMG = new CasingEjector().setMotion(-0.35, 0.9, 0).setOffset(-0.45, -0.2, 0.35).setAngleRange(0.01F, 0.05F);
 		EJECTOR_SNIPER = new CasingEjector().setMotion(-2, 0.15, 0).setOffset(-0.45, -0.2, 0.35).setAngleRange(0.02F, 0.05F);
-		CASING50BMG = new SpentCasing(CasingType.BOTTLENECK).setScale(3F).setBounceMotion(0.01F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS);
-		CASINGLUNA = new SpentCasing(CasingType.BOTTLENECK).setScale(4F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS);
+		CASING50BMG = new SpentCasing(CasingType.BOTTLENECK).setScale(3F).setBounceMotion(0.01F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(0.125F, 0.5D, 60, 20);
+		CASINGLUNA = new SpentCasing(CasingType.BOTTLENECK).setScale(4F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(0.125F, 0.5D, 60, 30);
 	}
 	
 	public static GunConfiguration getCalamityConfig() {

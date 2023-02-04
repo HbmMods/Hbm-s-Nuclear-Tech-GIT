@@ -17,9 +17,11 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.lib.HbmCollection;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasing;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -28,6 +30,7 @@ import com.hbm.util.I18nUtil;
 import com.hbm.util.InventoryUtil;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -144,6 +147,20 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		if(getIsReloading(stack) && isCurrentItem) {
 			reload2(stack, world, player);
 		}
+		
+		BulletConfiguration queued = getCasing(stack);
+		int timer = getCasingTimer(stack);
+		
+		if(queued != null && timer > 0) {
+			
+			timer--;
+			
+			if(timer <= 0) {
+				trySpawnCasing(player, mainConfig.ejector, queued, stack);
+			}
+			
+			setCasingTimer(stack, timer);
+		}
 	}
 	
 	//whether or not the gun can shoot in its current state
@@ -212,7 +229,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
 		
 		if(mainConfig.ejector != null && !mainConfig.ejector.getAfterReload())
-			trySpawnCasing(player, mainConfig.ejector, config, stack);
+			queueCasing(player, mainConfig.ejector, config, stack);
 	}
 	
 	//unlike fire(), being called does not automatically imply success, some things may still have to be handled before spawning the projectile
@@ -246,7 +263,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		world.playSoundAtEntity(player, altConfig.firingSound, 1.0F, altConfig.firingPitch);
 		
 		if(altConfig.ejector != null)
-			trySpawnCasing(player, altConfig.ejector, config, stack);
+			queueCasing(player, altConfig.ejector, config, stack);
 	}
 	
 	//spawns the actual projectile, can be overridden to change projectile entity
@@ -331,7 +348,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 			
 			if(mainConfig.ejector != null && mainConfig.ejector.getAfterReload())
-				trySpawnCasing(player, mainConfig.ejector, prevCfg, stack);
+				queueCasing(player, mainConfig.ejector, prevCfg, stack);
 			
 			InventoryUtil.tryConsumeAStack(player.inventory.mainInventory, 0, player.inventory.mainInventory.length, ammo);
 		} else {
@@ -621,6 +638,24 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		return readNBT(stack, "magazineType");
 	}
 	
+	/// queued casing for ejection ///
+	public static void setCasing(ItemStack stack, BulletConfiguration bullet) {
+		writeNBT(stack, "casing", BulletConfigSyncingUtil.getKey(bullet));
+	}
+	
+	public static BulletConfiguration getCasing(ItemStack stack) {
+		return BulletConfigSyncingUtil.pullConfig(readNBT(stack, "casing"));
+	}
+	
+	/// timer for ejecting casing ///
+	public static void setCasingTimer(ItemStack stack, int i) {
+		writeNBT(stack, "casingTimer", i);
+	}
+	
+	public static int getCasingTimer(ItemStack stack) {
+		return readNBT(stack, "casingTimer");
+	}
+	
 	/// NBT utility ///
 	public static void writeNBT(ItemStack stack, String key, int value) {
 		
@@ -707,6 +742,18 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		}
 	}
 	
+	protected static void queueCasing(Entity entity, CasingEjector ejector, BulletConfiguration bullet, ItemStack stack) {
+		
+		if(ejector == null || bullet == null || bullet.spentCasing == null) return;
+		
+		if(ejector.getDelay() <= 0) {
+			trySpawnCasing(entity, ejector, bullet, stack);
+		} else {
+			setCasing(stack, bullet);
+			setCasingTimer(stack, ejector.getDelay());
+		}
+	}
+	
 	protected static void trySpawnCasing(Entity entity, CasingEjector ejector, BulletConfiguration bullet, ItemStack stack) {
 		
 		if(ejector == null) return; //abort if the gun can't eject bullets at all
@@ -715,15 +762,11 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "casing");
-		data.setDouble("posX", entity.posX);
-		data.setDouble("posY", entity.posY + entity.getEyeHeight());
-		data.setDouble("posZ", entity.posZ);
 		data.setFloat("pitch", (float) Math.toRadians(entity.rotationPitch));
 		data.setFloat("yaw", (float) Math.toRadians(entity.rotationYaw));
 		data.setBoolean("crouched", entity.isSneaking());
 		data.setString("name", bullet.spentCasing.getName());
 		data.setInteger("ej", ejector.getId());
-		//TODO: use packets
-		MainRegistry.proxy.effectNT(data);
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 50));
 	}
 }

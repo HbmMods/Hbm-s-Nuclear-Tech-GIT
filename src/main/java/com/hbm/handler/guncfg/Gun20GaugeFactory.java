@@ -29,7 +29,7 @@ public class Gun20GaugeFactory {
 
 	static {
 		EJECTOR_SHOTGUN = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.95, 0)).setOffset(Vec3.createVectorHelper(-0.55, 0, 0.5)).setAngleRange(0.01F, 0.05F);
-		CASING20GAUGE = new SpentCasing(CasingType.SHOTGUN).setScale(1.25F).setBounceMotion(0.01F, 0.05F);
+		CASING20GAUGE = new SpentCasing(CasingType.SHOTGUN).setScale(1.25F).setBounceMotion(0.01F, 0.05F).setupSmoke(0.25F, 0.5D, 60, 20);
 	}
 	
 	public static GunConfiguration getShotgunConfig() {
@@ -267,7 +267,7 @@ public class Gun20GaugeFactory {
 		bullet.wear = 15;
 		bullet.incendiary = 5;
 		
-		bullet.spentCasing = CASING20GAUGE.clone().register("20GaInc").setColor(0xFF6329, SpentCasing.COLOR_CASE_BRASS);
+		bullet.spentCasing = CASING20GAUGE.clone().register("20GaInc").setColor(0xFF6329, SpentCasing.COLOR_CASE_BRASS).setupSmoke(1F, 0.5D, 60, 40);
 		
 		return bullet;
 	}

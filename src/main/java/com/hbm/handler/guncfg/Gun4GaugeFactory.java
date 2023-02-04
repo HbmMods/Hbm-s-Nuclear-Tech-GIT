@@ -66,6 +66,8 @@ public class Gun4GaugeFactory {
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		config.allowsInfinity = true;
 		config.hasSights = true;
+		config.absoluteFOV = true;
+		config.zoomFOV = 0.5F;
 		config.crosshair = Crosshair.L_CIRCLE;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		
@@ -103,6 +105,8 @@ public class Gun4GaugeFactory {
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.sauergun";
 		config.firingPitch = 1.0F;
+		
+		config.ejector = EJECTOR_SHOTGUN.clone().setDelay(12);
 		
 		config.name = "sauer";
 		config.manufacturer = EnumGunManufacturer.CUBE;

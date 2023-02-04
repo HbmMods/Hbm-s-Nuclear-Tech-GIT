@@ -863,7 +863,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		Vec3 spawn = this.getCasingSpawnPos();
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "casing");
-		data.setFloat("pitch", (float) rotationPitch);
+		data.setFloat("pitch", (float) -rotationPitch);
 		data.setFloat("yaw", (float) rotationYaw);
 		data.setBoolean("crouched", false);
 		data.setString("name", cachedCasingConfig.getName());

@@ -39,6 +39,9 @@ public class SpentCasing implements Cloneable {
 	private CasingType type;
 	private String bounceSound;
 	private float smokeChance;
+	private int smokeDuration;
+	private double smokeLift;
+	private int smokeNodeLife;
 	private float bounceYaw = 0F;
 	private float bouncePitch = 0F;
 	private int maxAge = 240;
@@ -79,8 +82,11 @@ public class SpentCasing implements Cloneable {
 		return this;
 	}
 	
-	public SpentCasing setupSmoke(float chance, float lift, float duration) {
+	public SpentCasing setupSmoke(float chance, double lift, int duration, int nodeLife) {
 		this.smokeChance = chance;
+		this.smokeDuration = duration;
+		this.smokeLift = lift;
+		this.smokeNodeLife = nodeLife;
 		return this;
 	}
 	
@@ -110,6 +116,9 @@ public class SpentCasing implements Cloneable {
 	public float getBounceYaw() { return this.bounceYaw; }
 	public float getBouncePitch() { return this.bouncePitch; }
 	public int getMaxAge() { return this.maxAge; }
+	public int getSmokeDuration() { return this.smokeDuration; }
+	public double getSmokeLift() { return this.smokeLift; }
+	public int getSmokeNodeLife() { return this.smokeNodeLife; }
 	
 	@Override
 	public SpentCasing clone() {

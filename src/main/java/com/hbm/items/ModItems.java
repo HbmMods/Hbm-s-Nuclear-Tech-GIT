@@ -603,7 +603,7 @@ public class ModItems {
 	public static Item assembly_nopip;
 	public static Item assembly_smg;
 	public static Item assembly_556;
-	public static Item assembly_308;
+	public static Item assembly_762;
 	public static Item assembly_45;
 	public static Item assembly_uzi;
 	public static Item assembly_actionexpress;
@@ -3267,7 +3267,7 @@ public class ModItems {
 		assembly_nopip = new Item().setUnlocalizedName("assembly_nopip").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_nopip");
 		assembly_smg = new Item().setUnlocalizedName("assembly_smg").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_smg");
 		assembly_556 = new Item().setUnlocalizedName("assembly_556").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_556");
-		assembly_308 = new Item().setUnlocalizedName("assembly_308").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_308");
+		assembly_762 = new Item().setUnlocalizedName("assembly_762").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_762");
 		assembly_45 = new Item().setUnlocalizedName("assembly_45").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_45");
 		assembly_uzi = new Item().setUnlocalizedName("assembly_uzi").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_uzi");
 		assembly_actionexpress = new Item().setUnlocalizedName("assembly_actionexpress").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_actionexpress");
@@ -3489,7 +3489,7 @@ public class ModItems {
 		iv_xp_empty = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
 			if(user.experienceTotal >= 100) {
 				ItemSimpleConsumable.giveSoundAndDecrement(stack, user, "hbm:item.syringe", new ItemStack(ModItems.iv_xp));
-				EnchantmentUtil.setExperience(user, user.experienceTotal - 100);
+				EnchantmentUtil.setExperience(user, EnchantmentUtil.getTotalExperience(user) - 100);
 			}
 		}).setUnlocalizedName("iv_xp_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":iv_xp_empty");
 		
@@ -6504,7 +6504,7 @@ public class ModItems {
 		GameRegistry.registerItem(assembly_nopip, assembly_nopip.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_smg, assembly_smg.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_556, assembly_556.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_308, assembly_308.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_762, assembly_762.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_45, assembly_45.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_uzi, assembly_uzi.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_lacunae, assembly_lacunae.getUnlocalizedName());

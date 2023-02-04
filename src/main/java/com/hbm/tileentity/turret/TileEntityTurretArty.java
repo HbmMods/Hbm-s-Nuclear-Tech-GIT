@@ -218,7 +218,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 	
 	@Override
 	public int casingDelay() {
-		return 5;
+		return 7;
 	}
 	
 	protected void updateConnections() {
@@ -404,7 +404,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		}
 	}
 
-	protected static CasingEjector ejector = new CasingEjector().setMotion(0, 1.2, 0.5).setAngleRange(0.1F, 0.1F);
+	protected static CasingEjector ejector = new CasingEjector().setMotion(0, 0.4, -1.2).setAngleRange(0.1F, 0.1F);
 	
 	@Override
 	protected CasingEjector getEjector() {
@@ -460,6 +460,24 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		super.writeToNBT(nbt);
 		
 		nbt.setShort("mode", this.mode);
+	}
+	
+	protected void spawnCasing() {
+		
+		if(cachedCasingConfig == null) return;
+		CasingEjector ej = getEjector();
+		
+		Vec3 spawn = this.getCasingSpawnPos();
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "casing");
+		data.setFloat("pitch", (float) 0);
+		data.setFloat("yaw", (float) rotationYaw);
+		data.setBoolean("crouched", false);
+		data.setString("name", cachedCasingConfig.getName());
+		if(ej != null) data.setInteger("ej", ej.getId());
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, spawn.xCoord, spawn.yCoord, spawn.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+		
+		cachedCasingConfig = null;
 	}
 
 	@Override

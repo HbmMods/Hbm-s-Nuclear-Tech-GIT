@@ -19,7 +19,7 @@ public class Gun50AEFactory {
 
 	static {
 		EJECTOR_PISTOL = new CasingEjector().setMotion(-0.3, 0.7, 0).setOffset(-0.5, 0, 0.5).setAngleRange(0.01F, 0.03F);
-		CASING50AE = new SpentCasing(CasingType.STRAIGHT).setScale(1.5F).setBounceMotion(0.01F, 0.03F).setColor(SpentCasing.COLOR_CASE_BRASS);
+		CASING50AE = new SpentCasing(CasingType.STRAIGHT).setScale(1.5F).setBounceMotion(0.01F, 0.03F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(0.25F, 0.5D, 60, 20);
 	}
 	
 	public static GunConfiguration getBaseConfig() {

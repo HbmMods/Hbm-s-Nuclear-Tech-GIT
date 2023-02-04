@@ -1,10 +1,8 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.projectile.EntityBulletBase;
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
@@ -42,13 +40,13 @@ public class Gun12GaugeFactory {
 	private static final SpentCasing CASING12GAUGE;
 
 	static {
-		EJECTOR_SPAS = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, 0, 0.5).setAngleRange(0.01F, 0.03F).setDelay(10);
-		EJECTOR_SPAS_ALT = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, 0, 0.5).setAngleRange(0.01F, 0.03F).setDelay(10).setAmount(2);
+		EJECTOR_SPAS = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, 0, 0.5).setAngleRange(0.01F, 0.03F).setDelay(12);
+		EJECTOR_SPAS_ALT = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, 0, 0.5).setAngleRange(0.01F, 0.03F).setDelay(12).setAmount(2);
 		EJECTOR_BENELLI = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.3, 1, 0).setAngleRange(0.01F, 0.03F);
 		EJECTOR_UBOINIK = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, -0.3, 0.5).setAngleRange(0.01F, 0.03F);
 		EJECTOR_SSG = new CasingEjector().setMotion(0.2, 0, -0.2).setOffset(0.8, 0, 0).setAngleRange(0.05F, 0.02F).setDelay(20).setAmount(2);
 		
-		CASING12GAUGE = new SpentCasing(CasingType.SHOTGUN).setScale(1.5F).setBounceMotion(0.05F, 0.02F);
+		CASING12GAUGE = new SpentCasing(CasingType.SHOTGUN).setScale(1.5F).setBounceMotion(0.05F, 0.02F).setupSmoke(0.5F, 0.5D, 60, 20);
 	}
 	
 	public static GunConfiguration getSpas12Config() {
@@ -222,7 +220,7 @@ public class Gun12GaugeFactory {
 		bullet.dmgMax = 7;
 		bullet.incendiary = 5;
 		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaInc").setColor(0xFF6329, SpentCasing.COLOR_CASE_12GA);
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaInc").setColor(0xFF6329, SpentCasing.COLOR_CASE_12GA).setupSmoke(1F, 0.5D, 60, 40);
 		
 		return bullet;
 	}
@@ -309,7 +307,7 @@ public class Gun12GaugeFactory {
 		bullet.dmgMax = 30F;
 		bullet.maxAge = 0;
 		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaPerc").setColor(0x9E1616, SpentCasing.COLOR_CASE_12GA);
+		bullet.spentCasing = CASING12GAUGE.clone().register("12GaPerc").setColor(0x9E1616, SpentCasing.COLOR_CASE_12GA).setupSmoke(1F, 0.5D, 60, 40);
 
 		bullet.bUpdate = new IBulletUpdateBehavior() {
 

@@ -38,7 +38,7 @@ public class Gun556mmFactory {
 
 	static {
 		EJECTOR_RIFLE = new CasingEjector().setMotion(-0.35, 0.6, 0).setOffset(-0.35, 0, 0.35).setAngleRange(0.01F, 0.03F);
-		EJECTOR_GRENADE = new CasingEjector().setAngleRange(0.02F, 0.03F);
+		EJECTOR_GRENADE = new CasingEjector().setAngleRange(0.02F, 0.03F).setDelay(30);
 		CASING556 = new SpentCasing(CasingType.BOTTLENECK).setScale(1.25F).setBounceMotion(0.01F, 0.03F).setColor(SpentCasing.COLOR_CASE_BRASS);
 	}
 

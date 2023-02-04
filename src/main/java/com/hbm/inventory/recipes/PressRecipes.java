@@ -8,7 +8,6 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ItemEnums.EnumBriquetteType;
-import com.hbm.items.ItemAmmoEnums;
 import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.items.ItemAmmoEnums.Ammo556mm;
 import com.hbm.items.ItemAmmoEnums.AmmoLunaticSniper;
@@ -106,7 +105,7 @@ public class PressRecipes {
 		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_calamity),		ModItems.ammo_50bmg);
 		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_actionexpress),	ModItems.ammo_50ae);
 		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_luna), 			ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.SABOT));
-		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_308), 			ModItems.ammo_762);
+		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_762), 			ModItems.ammo_762);
 	}
 
 	public static void makeRecipe(StampType type, AStack in, Item out) {

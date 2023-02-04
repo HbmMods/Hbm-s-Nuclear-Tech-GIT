@@ -23,7 +23,7 @@ public class GunGrenadeFactory {
 
 	static {
 		EJECTOR_LAUNCHER = new CasingEjector().setAngleRange(0.02F, 0.03F).setAfterReload();
-		CASING40MM = new SpentCasing(CasingType.STRAIGHT).setScale(4F, 4F, 3F).setBounceMotion(0.02F, 0.03F).setColor(0x777777);
+		CASING40MM = new SpentCasing(CasingType.STRAIGHT).setScale(4F, 4F, 3F).setBounceMotion(0.02F, 0.03F).setColor(0x777777).setupSmoke(1F, 0.5D, 60, 40);
 	}
 	
 	public static GunConfiguration getHK69Config() {
