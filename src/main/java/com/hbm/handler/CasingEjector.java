@@ -10,6 +10,8 @@ import org.lwjgl.util.vector.Vector4f;
 import com.hbm.particle.ParticleSpentCasing;
 import com.hbm.particle.SpentCasing;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.Vec3;
@@ -89,6 +91,7 @@ public class CasingEjector implements Cloneable {
 	public float getYawFactor() { return this.randomYaw; }
 	public float getPitchFactor() { return this.randomPitch; }
 
+	@SideOnly(Side.CLIENT)
 	public void spawnCasing(TextureManager textureManager, SpentCasing config, World world, double x, double y, double z, float pitch, float yaw, boolean crouched) {
 		Vec3 rotatedMotionVec = rotateVector(getMotion(), pitch + (float) rand.nextGaussian() * getPitchFactor(), yaw + (float) rand.nextGaussian() * getPitchFactor(), getPitchFactor(), getPitchFactor());
 		ParticleSpentCasing casing = new ParticleSpentCasing(textureManager, world, x, y, z, rotatedMotionVec.xCoord, rotatedMotionVec.yCoord, rotatedMotionVec.zCoord, (float) (getPitchFactor() * rand.nextGaussian()), (float) (getYawFactor() * rand.nextGaussian()), config);
@@ -102,6 +105,7 @@ public class CasingEjector implements Cloneable {
 	}
 
 	// Rotate a position
+	@SideOnly(Side.CLIENT)
 	private static void offsetCasing(ParticleSpentCasing casing, Vec3 offset, float pitch, float yaw, boolean crouched) {
 		// x-axis offset, 0 if crouched to center
 		final float oX = (float) (crouched ? 0 : offset.xCoord);
