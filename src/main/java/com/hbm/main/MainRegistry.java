@@ -998,6 +998,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.pirfenidone");
 		ignoreMappings.add("hbm:item.coin_siege");
 		ignoreMappings.add("hbm:item.source");
+		ignoreMappings.add("hbm:item.gun_brimstone");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
