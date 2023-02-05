@@ -13,7 +13,7 @@ import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
-import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.lib.RefStrings;
@@ -197,7 +197,7 @@ public class ItemAmmoArty extends Item {
 			xnt.setBlockAllocator(new BlockAllocatorStandard(48));
 			xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
 		}
-		xnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(rangeMod));
+		xnt.setEntityProcessor(new EntityProcessorCross(7.5D).withRangeMod(rangeMod));
 		xnt.setPlayerProcessor(new PlayerProcessorStandard());
 		xnt.setSFX(new ExplosionEffectStandard());
 		xnt.explode();

@@ -117,7 +117,7 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 		return Vec3.createVectorHelper(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord);
 	}
 
-	protected static CasingEjector ejector = new CasingEjector().setAngleRange(0.01F, 0.01F).setMotion(0, 0, -0.1);
+	protected static CasingEjector ejector = new CasingEjector().setAngleRange(0.01F, 0.01F).setMotion(0, 0, -0.2);
 	
 	@Override
 	protected CasingEjector getEjector() {

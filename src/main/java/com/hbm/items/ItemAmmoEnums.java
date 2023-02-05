@@ -328,7 +328,7 @@ public class ItemAmmoEnums {
 		DU("ammo_762_du", HbmCollection.DUType),
 		TRACER("ammo_762_tracer", AmmoItemTrait.NEU_TRACER),
 		PHOSPHORUS("ammo_762_phosphorus", HbmCollection.PhosphorusType),
-		BLANK("ammo_762_blank", AmmoItemTrait.NEU_BLANK);
+		BLANK("ammo_762_k", AmmoItemTrait.NEU_BLANK);
 		
 		private final Set<AmmoItemTrait> traits;
 		private final String unloc;

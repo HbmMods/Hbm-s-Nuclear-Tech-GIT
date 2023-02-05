@@ -81,7 +81,7 @@ public class Gun44MagnumFactory {
 		return config;
 	}
 	
-	public static final ResourceLocation pips_amazing_scope_wow = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_basic.png");
+	public static final ResourceLocation scope_lilmac = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_44.png");
 	
 	public static GunConfiguration getMacintoshConfig() {
 		
@@ -96,7 +96,7 @@ public class Gun44MagnumFactory {
 		config.hasSights = true;
 		config.absoluteFOV = true;
 		config.zoomFOV = 0.25F;
-		config.scopeTexture = pips_amazing_scope_wow;
+		config.scopeTexture = scope_lilmac;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_PIP);

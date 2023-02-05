@@ -8,7 +8,6 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.util.Tuple.Pair;
 
@@ -228,6 +227,7 @@ public class ParticleSpentCasing extends EntityFX {
 				nodeAlpha *= timeAlpha;
 				pastAlpha *= timeAlpha;
 
+				tessellator.setNormal(0F, 1F, 0F);
 				tessellator.setColorRGBA_F(1F, 1F, 1F, nodeAlpha);
 				tessellator.addVertex(nodeLoc.xCoord, nodeLoc.yCoord, nodeLoc.zCoord);
 				tessellator.setColorRGBA_F(1F, 1F, 1F, 0F);

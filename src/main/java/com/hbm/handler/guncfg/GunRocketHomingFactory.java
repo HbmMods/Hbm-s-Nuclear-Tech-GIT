@@ -216,18 +216,21 @@ GunConfiguration config = new GunConfiguration();
 
 				if(!bullet.worldObj.isRemote) {
 
-					EntityPlayer player = bullet.worldObj.getClosestPlayerToEntity(bullet, -1.0D);			
-					EntityRocketHoming rocket = new EntityRocketHoming(bullet.worldObj, player, 1.0F, 5.0F, 4);
-					if(player.getHeldItem().getItem() == ModItems.gun_skystinger && !player.isSneaking()) {
-						EntityRocketHoming rocket2 = new EntityRocketHoming(bullet.worldObj, player, 1.5F, 15.0F, 4);
-						rocket = new EntityRocketHoming(bullet.worldObj, player, 1.5F, 15.0F, 4);
-						rocket.setIsCritical(true);
-						rocket2.setIsCritical(true);
-						bullet.worldObj.spawnEntityInWorld(rocket2);
+					EntityPlayer player = bullet.worldObj.getClosestPlayerToEntity(bullet, -1.0D);
+					
+					if(player.getDistanceToEntity(bullet) < 16) {
+						EntityRocketHoming rocket = new EntityRocketHoming(bullet.worldObj, player, 1.0F, 5.0F, 4);
+						if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.gun_skystinger && !player.isSneaking()) {
+							EntityRocketHoming rocket2 = new EntityRocketHoming(bullet.worldObj, player, 1.5F, 15.0F, 4);
+							rocket = new EntityRocketHoming(bullet.worldObj, player, 1.5F, 15.0F, 4);
+							rocket.setIsCritical(true);
+							rocket2.setIsCritical(true);
+							bullet.worldObj.spawnEntityInWorld(rocket2);
+						}
+						rocket.homingMod = 5;
+						rocket.homingRadius = 25;
+						bullet.worldObj.spawnEntityInWorld(rocket);
 					}
-					rocket.homingMod = 5;
-					rocket.homingRadius = 25;
-					bullet.worldObj.spawnEntityInWorld(rocket);
 					bullet.setDead();	
 
 				}
@@ -252,18 +255,21 @@ GunConfiguration config = new GunConfiguration();
 
 				if(!bullet.worldObj.isRemote) {
 
-					EntityPlayer player = bullet.worldObj.getClosestPlayerToEntity(bullet, -1.0D);			
-					EntityRocketHoming rocket = new EntityRocketHoming(bullet.worldObj, player, 1.0F, 5.0F, 42);
-					if(player.getHeldItem().getItem() == ModItems.gun_skystinger && !player.isSneaking()) {
-						EntityRocketHoming rocket2 = new EntityRocketHoming(bullet.worldObj, player, 1.5F, 15.0F, 42);
-						rocket = new EntityRocketHoming(bullet.worldObj, player, 1.5F, 15.0F, 42);
-						rocket.setIsCritical(true);
-						rocket2.setIsCritical(true);
-						bullet.worldObj.spawnEntityInWorld(rocket2);
+					EntityPlayer player = bullet.worldObj.getClosestPlayerToEntity(bullet, -1.0D);
+					
+					if(player.getDistanceToEntity(bullet) < 16) {
+						EntityRocketHoming rocket = new EntityRocketHoming(bullet.worldObj, player, 1.0F, 5.0F, 42);
+						if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.gun_skystinger && !player.isSneaking()) {
+							EntityRocketHoming rocket2 = new EntityRocketHoming(bullet.worldObj, player, 1.5F, 15.0F, 42);
+							rocket = new EntityRocketHoming(bullet.worldObj, player, 1.5F, 15.0F, 42);
+							rocket.setIsCritical(true);
+							rocket2.setIsCritical(true);
+							bullet.worldObj.spawnEntityInWorld(rocket2);
+						}
+						rocket.homingMod = 5;
+						rocket.homingRadius = 25;
+						bullet.worldObj.spawnEntityInWorld(rocket);
 					}
-					rocket.homingMod = 5;
-					rocket.homingRadius = 25;
-					bullet.worldObj.spawnEntityInWorld(rocket);
 					bullet.setDead();	
 
 				}

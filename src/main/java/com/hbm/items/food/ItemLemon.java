@@ -220,6 +220,10 @@ public class ItemLemon extends ItemFood {
 		if(this == ModItems.peas) {
 			list.add("He accepts your offering.");
 		}
+
+		if(this == ModItems.quesadilla) {
+			list.add("That's what a 50 year old yeast infection does to you.");
+		}
 	}
 
 

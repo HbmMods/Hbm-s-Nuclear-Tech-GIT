@@ -67,8 +67,10 @@ public class Gun556mmFactory {
 		
 		config.comment.add("Why is this gun so sticky?");
 		
-		config.config = new ArrayList();
-		config.config.add(BulletConfigSyncingUtil.R556_GOLD);
+		//config.config = new ArrayList();
+		//config.config.add(BulletConfigSyncingUtil.R556_GOLD);
+		
+		config.config = HbmCollection.NATO;
 		
 		return config;
 	}

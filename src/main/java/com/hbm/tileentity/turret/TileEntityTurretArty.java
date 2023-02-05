@@ -404,7 +404,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		}
 	}
 
-	protected static CasingEjector ejector = new CasingEjector().setMotion(0, 0.4, -1.2).setAngleRange(0.1F, 0.1F);
+	protected static CasingEjector ejector = new CasingEjector().setMotion(0, 0.6, -1).setAngleRange(0.1F, 0.1F);
 	
 	@Override
 	protected CasingEjector getEjector() {
@@ -462,6 +462,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		nbt.setShort("mode", this.mode);
 	}
 	
+	@Override
 	protected void spawnCasing() {
 		
 		if(cachedCasingConfig == null) return;
