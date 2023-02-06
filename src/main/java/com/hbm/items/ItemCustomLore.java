@@ -3,9 +3,8 @@ package com.hbm.items;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.config.GeneralConfig;
+import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -74,30 +73,32 @@ public class ItemCustomLore extends Item {
 	
 	static int setSize = 0;
 
-    @Override
-	public EnumRarity getRarity(ItemStack p_77613_1_) {
-		return this.rarity != null ? rarity : super.getRarity(p_77613_1_);
-    }
+	@Override
+	public EnumRarity getRarity(ItemStack stack) {
+		return this.rarity != null ? rarity : super.getRarity(stack);
+	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack p_77636_1_)
-    {
-    	if(this == ModItems.rune_isa ||
-    			this == ModItems.rune_dagaz ||
-    			this == ModItems.rune_hagalaz ||
-    			this == ModItems.rune_jera ||
-    			this == ModItems.rune_thurisaz ||
-    			this == ModItems.egg_balefire_shard ||
-    			this == ModItems.egg_balefire) {
-    		return true;
-    	}
-    	
-    	return false;
-    }
-    
-    public ItemCustomLore setRarity(EnumRarity rarity) {
-    	this.rarity = rarity;
+	public boolean hasEffect(ItemStack p_77636_1_) {
+		if(this == ModItems.rune_isa || this == ModItems.rune_dagaz ||
+				this == ModItems.rune_hagalaz || this == ModItems.rune_jera ||
+				this == ModItems.rune_thurisaz || this == ModItems.egg_balefire_shard ||
+				this == ModItems.egg_balefire) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public ItemCustomLore setRarity(EnumRarity rarity) {
+		this.rarity = rarity;
 		return this;
-    }
+	}
+	
+	@Override
+	public Item setUnlocalizedName(String uloc) {
+		setTextureName(RefStrings.MODID + ':' + uloc);
+		return super.setUnlocalizedName(uloc);
+	}
 }

@@ -6,9 +6,12 @@ import java.util.List;
 import com.hbm.config.WeaponConfig;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
+import com.hbm.handler.guncfg.GunDGKFactory;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasing;
 import com.hbm.util.EntityDamageUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -126,8 +129,15 @@ public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
 		
 		if(loaded > 0 && this.tPos != null) {
 			
+			SpentCasing cfg = GunDGKFactory.CASINGDGK;
+			
 			this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.howard_fire", 4.0F, 0.9F + worldObj.rand.nextFloat() * 0.3F);
 			this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.howard_fire", 4.0F, 1F + worldObj.rand.nextFloat() * 0.3F);
+			
+			for(int i = 0; i < 2; i++) {
+				this.cachedCasingConfig = cfg;
+				this.spawnCasing();
+			}
 			
 			if(timer % 2 == 0) {
 				loaded--;
@@ -173,5 +183,28 @@ public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("loaded", loaded);
+	}
+
+	@Override
+	protected Vec3 getCasingSpawnPos() {
+		
+		Vec3 pos = this.getTurretPos();
+		Vec3 vec = Vec3.createVectorHelper(-0.875, 0.2, -0.125);
+		vec.rotateAroundZ((float) -this.rotationPitch);
+		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
+		
+		return Vec3.createVectorHelper(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord);
+	}
+
+	protected static CasingEjector ejector = new CasingEjector().setAngleRange(0.01F, 0.01F).setMotion(0, 0, -0.1);
+	
+	@Override
+	protected CasingEjector getEjector() {
+		return ejector.setMotion(0.4, 0, 0).setAngleRange(0.02F, 0.03F);
+	}
+	
+	@Override
+	public boolean usesCasings() {
+		return true;
 	}
 }

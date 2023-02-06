@@ -1,14 +1,26 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo50AE;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun50AEFactory {
+	
+	private static final CasingEjector EJECTOR_PISTOL;
+	private static final SpentCasing CASING50AE;
+
+	static {
+		EJECTOR_PISTOL = new CasingEjector().setMotion(-0.3, 0.7, 0).setOffset(-0.5, 0, 0.5).setAngleRange(0.01F, 0.03F);
+		CASING50AE = new SpentCasing(CasingType.STRAIGHT).setScale(1.5F).setBounceMotion(0.01F, 0.03F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(0.25F, 0.5D, 60, 20);
+	}
 	
 	public static GunConfiguration getBaseConfig() {
 		
@@ -37,29 +49,31 @@ public class Gun50AEFactory {
 		
 		config.durability = 2500;
 		
-		config.name = "IMI Desert Eagle";
-		config.manufacturer = "Magnum Research / Israel Military Industries";
+		config.name = "deagle";
+		config.manufacturer = EnumGunManufacturer.MAGNUM_R_IMI;
+		
+		config.absoluteFOV = true;
+		config.zoomFOV = 0.5F;
 		
 		config.hasSights = true;
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.AE50_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.AE50_AP);
-		config.config.add(BulletConfigSyncingUtil.AE50_DU);
-		config.config.add(BulletConfigSyncingUtil.AE50_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_AE50);
+		config.config = HbmCollection.fiftyAE;
+		
+		config.ejector = EJECTOR_PISTOL;
 		
 		return config;
 	}
 
-	static float inaccuracy = 0.0005F;
+	private static float inaccuracy = 0.0005F;
 	public static BulletConfiguration get50AEConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_50ae;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50ae.stackFromEnum(Ammo50AE.STOCK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 28;
 		bullet.dmgMax = 32;
+		
+		bullet.spentCasing = CASING50AE.clone().register("50AEStock");
 		
 		return bullet;
 	}
@@ -68,12 +82,14 @@ public class Gun50AEFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_50ae_ap;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50ae.stackFromEnum(Ammo50AE.AP));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.leadChance = 10;
 		bullet.wear = 15;
+		
+		bullet.spentCasing = CASING50AE.clone().register("50AEAP");
 		
 		return bullet;
 	}
@@ -82,12 +98,14 @@ public class Gun50AEFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_50ae_du;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50ae.stackFromEnum(Ammo50AE.DU));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 38;
 		bullet.dmgMax = 46;
 		bullet.leadChance = 50;
 		bullet.wear = 25;
+		
+		bullet.spentCasing = CASING50AE.clone().register("50AEDU");
 		
 		return bullet;
 	}
@@ -96,12 +114,14 @@ public class Gun50AEFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_50ae_star;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50ae.stackFromEnum(Ammo50AE.STAR));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 52;
 		bullet.dmgMax = 60;
 		bullet.leadChance = 100;
 		bullet.wear = 25;
+		
+		bullet.spentCasing = CASING50AE.clone().register("50AEStar");
 		
 		return bullet;
 	}

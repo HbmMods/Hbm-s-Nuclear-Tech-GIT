@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
 import com.hbm.items.tool.ItemKeyPin;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -186,7 +187,7 @@ public class TileEntityMachineKeyForge extends TileEntity implements ISidedInven
 
 			//DEBUG, remove later
 			if(slots[2] != null && slots[2].getItem() == ModItems.ammo_4gauge) {
-				slots[2] = new ItemStack(ModItems.ammo_4gauge_titan, slots[2].stackSize);
+				slots[2] = ModItems.ammo_4gauge.stackFromEnum(slots[2].stackSize, Ammo4Gauge.QUACK);
 			}
 		}
 	}

@@ -233,6 +233,9 @@ public class ItemLemon extends ItemFood {
 			list.add("i had the two combined!");
 			list.add("and ohhhhh");
 			list.add(EnumChatFormatting.YELLOW + "what a beautiful creature!");
+
+		if(this == ModItems.quesadilla) {
+			list.add("That's what a 50 year old yeast infection does to you.");
 		}
 	}
 

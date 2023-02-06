@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.projectile.EntityArtilleryRocket;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretHIMARS;
 import com.hbm.items.ModItems;
@@ -198,7 +199,7 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 								HIMARSRocket type = ItemAmmoHIMARS.itemTypes[available];
 								this.typeLoaded = available;
 								this.ammo = type.amount;
-								this.conusmeAmmo(ModItems.ammo_himars);
+								this.conusmeAmmo(new ComparableStack(ModItems.ammo_himars, 1, available));
 							}
 						}
 					}
