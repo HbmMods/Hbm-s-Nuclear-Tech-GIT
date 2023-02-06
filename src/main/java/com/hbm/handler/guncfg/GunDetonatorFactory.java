@@ -10,6 +10,8 @@ import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.main.MainRegistry;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -44,8 +46,8 @@ public class GunDetonatorFactory {
 		config.reloadSoundEnd = false;
 		config.showAmmo = true;
 		
-		config.name = "Hopeville Laser Detonator";
-		config.manufacturer = "WestTek";
+		config.name = "laserDet";
+		config.manufacturer = EnumGunManufacturer.WESTTEK;
 		
 		config.config = new ArrayList();
 		config.config.add(BulletConfigSyncingUtil.DET_BOLT);
@@ -79,7 +81,7 @@ public class GunDetonatorFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = Items.redstone;
+		bullet.ammo = new ComparableStack(Items.redstone);
 		bullet.spread = 0.0F;
 		bullet.maxAge = 100;
 		bullet.dmgMin = 0;

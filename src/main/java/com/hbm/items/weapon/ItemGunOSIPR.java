@@ -1,6 +1,8 @@
 package com.hbm.items.weapon;
 
 import com.hbm.entity.projectile.EntityCombineBall;
+import com.hbm.entity.projectile.EntityCombineBallNT;
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
 
@@ -20,7 +22,8 @@ public class ItemGunOSIPR extends ItemGunBase {
 		setCharge(stack, 1);
 		world.playSoundAtEntity(player, "hbm:weapon.osiprCharging", 1.0F, 1F);
 	}
-	
+
+	@Override
 	protected void updateServer(ItemStack stack, World world, EntityPlayer player, int slot, boolean isCurrentItem) {
 		super.updateServer(stack, world, player, slot, isCurrentItem);
 		
@@ -32,9 +35,8 @@ public class ItemGunOSIPR extends ItemGunBase {
 		int i = getCharge(stack);
 		
 		if(i >= 20) {
-			EntityCombineBall entityarrow = new EntityCombineBall(player.worldObj, player, 3.0F);
-			entityarrow.setDamage(1000);
-			world.spawnEntityInWorld(entityarrow);
+			EntityCombineBallNT energyBall = new EntityCombineBallNT(world, BulletConfigSyncingUtil.SPECIAL_OSIPR_CHARGED, player);
+			world.spawnEntityInWorld(energyBall);
 			world.playSoundAtEntity(player, altConfig.firingSound, 1.0F, 1F);
 			setCharge(stack, 0);
 			setDelay(stack, altConfig.rateOfFire);
@@ -43,7 +45,8 @@ public class ItemGunOSIPR extends ItemGunBase {
 		} else if(i > 0)
 			setCharge(stack, i + 1);
 	}
-	
+
+	@Override
 	protected boolean tryShoot(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
 		return super.tryShoot(stack, world, player, main) && getCharge(stack) == 0;

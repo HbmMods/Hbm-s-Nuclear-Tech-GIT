@@ -2,6 +2,8 @@ package com.hbm.lib;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
+import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
 import com.hbm.items.special.ItemBookLore.BookLoreType;
@@ -21,7 +23,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.ingot_titanium, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.circuit_targeting_tier1, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.gun_revolver_ammo, 0, 2, 6, 4),
+			new WeightedRandomChestContent(ModItems.ammo_357, Ammo357Magnum.LEAD.ordinal(), 2, 6, 4),
 			new WeightedRandomChestContent(ModItems.gun_kit_1, 0, 1, 3, 4),
 			new WeightedRandomChestContent(ModItems.gun_lever_action, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.ammo_20gauge, 0, 2, 6, 3),
@@ -102,9 +104,9 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gun_rpg, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.ammo_rocket, 0, 1, 4, 5),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.ammo_nuke_safe, 0, 1, 2, 1),
-			new WeightedRandomChestContent(ModItems.ammo_nuke_low, 0, 1, 2, 1),
-			new WeightedRandomChestContent(ModItems.ammo_nuke_pumpkin, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke, AmmoFatman.SAFE.ordinal(), 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke, AmmoFatman.LOW.ordinal(), 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke, AmmoFatman.PUMPKIN.ordinal(), 1, 2, 1),
 			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.grenade_smart, 0, 1, 3, 3),
 			new WeightedRandomChestContent(ModItems.grenade_mirv, 0, 1, 1, 2),
@@ -204,14 +206,14 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.t45_kit, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 10),
 			new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.gun_revolver_ammo, 0, 1, 24, 4),
+			new WeightedRandomChestContent(ModItems.ammo_357, Ammo357Magnum.LEAD.ordinal(), 1, 24, 4),
 			new WeightedRandomChestContent(ModItems.gun_kit_1, 0, 2, 3, 4),
 			new WeightedRandomChestContent(ModItems.gun_rpg, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.ammo_rocket, 0, 1, 6, 3),
 			new WeightedRandomChestContent(ModItems.rod, BreedingRodType.U235.ordinal(), 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.billet_uranium_fuel, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.ingot_uranium_fuel, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.ammo_nuke_safe, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke, AmmoFatman.SAFE.ordinal(), 1, 2, 1),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bottle_nuka, 0, 1, 3, 6),
 			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 3),
@@ -321,7 +323,7 @@ public class HbmChestContents {
 	public static WeightedRandomChestContent[] vault4 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ammo_container, 0, 3, 6, 1),
 			new WeightedRandomChestContent(ModItems.clip_fatman, 0, 2, 3, 1),
-			new WeightedRandomChestContent(ModItems.ammo_mirv, 0, 2, 3, 1),
+			new WeightedRandomChestContent(ModItems.ammo_nuke, AmmoFatman.MIRV.ordinal(), 2, 3, 1),
 			new WeightedRandomChestContent(ModItems.gun_mirv, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_proto, 0, 1, 1, 1),

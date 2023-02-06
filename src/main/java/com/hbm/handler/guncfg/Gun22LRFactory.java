@@ -1,14 +1,26 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo22LR;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun22LRFactory {
+	
+	private static final CasingEjector EJECTOR_22LR;
+	private static final SpentCasing CASING22LR;
+
+	static {
+		EJECTOR_22LR = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, -0.2, 0.35).setAngleRange(0.01F, 0.03F);
+		CASING22LR = new SpentCasing(CasingType.STRAIGHT).setScale(0.8F).setBounceMotion(0.05F, 0.02F).setColor(SpentCasing.COLOR_CASE_BRASS);
+	}
 	
 	public static GunConfiguration getUziConfig() {
 		
@@ -29,14 +41,13 @@ public class Gun22LRFactory {
 		config.firingSound = "hbm:weapon.uziShoot";
 		config.reloadSoundEnd = false;
 		
-		config.name = "IMI Uzi";
-		config.manufacturer = "Israel Military Industries";
+		config.name = "uzi";
+		config.manufacturer = EnumGunManufacturer.IMI;
 		config.comment.add("Mom, where are my mittens?");
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.LR22_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.LR22_AP);
-		config.config.add(BulletConfigSyncingUtil.CHL_LR22);
+		config.config = HbmCollection.twentyTwoLR;
+		
+		config.ejector = EJECTOR_22LR;
 		
 		return config;
 	}
@@ -47,13 +58,10 @@ public class Gun22LRFactory {
 		
 		config.durability = 4500;
 		
-		config.name = "IMI Uzi D-25A";
-		config.manufacturer = "IMI / Big MT";
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.LR22_NORMAL_FIRE);
-		config.config.add(BulletConfigSyncingUtil.LR22_AP_FIRE);
-		config.config.add(BulletConfigSyncingUtil.CHL_LR22_FIRE);
+		config.name = "uziSatur";
+		config.manufacturer = EnumGunManufacturer.IMI_BIGMT;
+
+		config.config = HbmCollection.twentyTwoLRFire;
 		
 		return config;
 	}
@@ -63,10 +71,12 @@ public class Gun22LRFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_22lr;
+		bullet.ammo = new ComparableStack(ModItems.ammo_22lr.stackFromEnum(Ammo22LR.STOCK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 8;
+		
+		bullet.spentCasing = CASING22LR.clone().register("22LRStock");
 		
 		return bullet;
 	}
@@ -75,12 +85,14 @@ public class Gun22LRFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
-		bullet.ammo = ModItems.ammo_22lr_ap;
+		bullet.ammo = new ComparableStack(ModItems.ammo_22lr.stackFromEnum(Ammo22LR.AP));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 12;
 		bullet.dmgMax = 16;
 		bullet.leadChance = 10;
 		bullet.wear = 15;
+		
+		bullet.spentCasing = CASING22LR.clone().register("22LRAP");
 		
 		return bullet;
 	}

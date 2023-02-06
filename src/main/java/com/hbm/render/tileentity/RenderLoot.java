@@ -38,9 +38,7 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 			GL11.glPushMatrix();
 			GL11.glTranslated(item.getX(), item.getY(), item.getZ());
 			
-			if(stack.getItem() == ModItems.ammo_nuke || stack.getItem() == ModItems.ammo_nuke_low ||
-					stack.getItem() == ModItems.ammo_nuke_high || stack.getItem() == ModItems.ammo_nuke_safe ||
-					stack.getItem() == ModItems.ammo_nuke_pumpkin) {
+			if(stack.getItem() == ModItems.ammo_nuke) {
 				renderNuke();
 				
 			} else if(stack.getItem() == ModItems.gun_fatman || stack.getItem() == ModItems.gun_proto || stack.getItem() == ModItems.gun_mirv) {

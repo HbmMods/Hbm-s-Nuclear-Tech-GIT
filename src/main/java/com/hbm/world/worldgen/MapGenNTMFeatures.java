@@ -22,7 +22,7 @@ import net.minecraft.world.gen.structure.StructureStart;
 public class MapGenNTMFeatures extends MapGenStructure {
 	
 	//BiomeDictionary could be /very/ useful, since it automatically sorts *all* biomes into predefined categories
-	private static List biomelist = Arrays.asList(new BiomeGenBase[] {BiomeGenBase.ocean, BiomeGenBase.river, BiomeGenBase.frozenOcean, BiomeGenBase.frozenRiver, BiomeGenBase.deepOcean});
+	private static List biomelist;
 	/** Maximum distance between structures */
 	private int maxDistanceBetweenScatteredFeatures;
 	/** Minimum distance between structures */
@@ -64,6 +64,11 @@ public class MapGenNTMFeatures extends MapGenStructure {
 		
 		if(k == i1 && l == j1) {
 			BiomeGenBase biomegenbase = this.worldObj.getWorldChunkManager().getBiomeGenAt(k * 16 + 8, l * 16 + 8);
+			
+			if(biomelist == null) {
+				biomelist = Arrays.asList(new BiomeGenBase[] {BiomeGenBase.ocean, BiomeGenBase.river, BiomeGenBase.frozenOcean, BiomeGenBase.frozenRiver, BiomeGenBase.deepOcean});
+			}
+			
 			Iterator iterator = biomelist.iterator();
 			
 			while(iterator.hasNext()) {
