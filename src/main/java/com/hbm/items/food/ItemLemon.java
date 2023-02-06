@@ -238,6 +238,7 @@ public class ItemLemon extends ItemFood {
 			list.add("That's what a 50 year old yeast infection does to you.");
 		}
 	}
+}
 
 
     @Override
