@@ -52,22 +52,16 @@ public class ItemMold extends Item {
 				Mats.MAT_TUNGSTEN, new ItemStack(ModItems.blade_tungsten)));
 		
 		registerMold(new MoldMulti(		6, S, "blades", MaterialShapes.INGOT.q(4),
-				Mats.MAT_GOLD,			new ItemStack(ModItems.blades_gold),
-				Mats.MAT_ALUMINIUM,		new ItemStack(ModItems.blades_aluminium),
-				Mats.MAT_IRON,			new ItemStack(ModItems.blades_iron),
 				Mats.MAT_STEEL,			new ItemStack(ModItems.blades_steel),
 				Mats.MAT_TITANIUM,		new ItemStack(ModItems.blades_titanium),
-				Mats.MAT_ALLOY,			new ItemStack(ModItems.blades_advanced_alloy),
-				Mats.MAT_CMB,			new ItemStack(ModItems.blades_combine_steel),
-				Mats.MAT_SCHRABIDIUM,	new ItemStack(ModItems.blades_schrabidium)));
+				Mats.MAT_ALLOY,			new ItemStack(ModItems.blades_advanced_alloy)));
 		
 		registerMold(new MoldMulti(		7, S, "stamp", MaterialShapes.INGOT.q(4),
 				Mats.MAT_STONE,			new ItemStack(ModItems.stamp_stone_flat),
 				Mats.MAT_IRON,			new ItemStack(ModItems.stamp_iron_flat),
 				Mats.MAT_STEEL,			new ItemStack(ModItems.stamp_steel_flat),
 				Mats.MAT_TITANIUM,		new ItemStack(ModItems.stamp_titanium_flat),
-				Mats.MAT_OBSIDIAN,		new ItemStack(ModItems.stamp_obsidian_flat),
-				Mats.MAT_SCHRABIDIUM,	new ItemStack(ModItems.stamp_schrabidium_flat)));
+				Mats.MAT_OBSIDIAN,		new ItemStack(ModItems.stamp_obsidian_flat)));
 		
 		registerMold(new MoldMulti(		8, S, "hull_small", MaterialShapes.INGOT.q(2),
 				Mats.MAT_STEEL,		new ItemStack(ModItems.hull_small_steel),

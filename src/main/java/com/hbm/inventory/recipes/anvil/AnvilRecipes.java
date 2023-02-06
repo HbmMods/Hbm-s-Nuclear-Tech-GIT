@@ -86,23 +86,17 @@ public class AnvilRecipes {
 				new ItemStack(ModItems.blade_titanium),
 				new ItemStack(ModItems.blade_tungsten)
 				}));
-		smithingRecipes.add(new AnvilSmithingMold(6, new ComparableStack(ModItems.blades_iron), new ItemStack[] {
-				new ItemStack(ModItems.blades_gold),
-				new ItemStack(ModItems.blades_aluminium),
-				new ItemStack(ModItems.blades_iron),
+		smithingRecipes.add(new AnvilSmithingMold(6, new ComparableStack(ModItems.blades_steel), new ItemStack[] {
 				new ItemStack(ModItems.blades_steel),
 				new ItemStack(ModItems.blades_titanium),
-				new ItemStack(ModItems.blades_advanced_alloy),
-				new ItemStack(ModItems.blades_combine_steel),
-				new ItemStack(ModItems.blades_schrabidium)
+				new ItemStack(ModItems.blades_advanced_alloy)
 				}));
 		smithingRecipes.add(new AnvilSmithingMold(7, new ComparableStack(ModItems.stamp_iron_flat), new ItemStack[] {
 				new ItemStack(ModItems.stamp_stone_flat),
 				new ItemStack(ModItems.stamp_iron_flat),
 				new ItemStack(ModItems.stamp_steel_flat),
 				new ItemStack(ModItems.stamp_titanium_flat),
-				new ItemStack(ModItems.stamp_obsidian_flat),
-				new ItemStack(ModItems.stamp_schrabidium_flat)
+				new ItemStack(ModItems.stamp_obsidian_flat)
 				}));
 		smithingRecipes.add(new AnvilSmithingMold(8, new ComparableStack(ModItems.hull_small_steel), new ItemStack[] {
 				new ItemStack(ModItems.hull_small_aluminium),
