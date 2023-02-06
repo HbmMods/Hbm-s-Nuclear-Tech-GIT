@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL12;
 
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.interfaces.Untested;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
@@ -13,6 +14,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -34,59 +36,56 @@ public class RenderScreenOverlay {
 		GL11.glPushMatrix();
 
 		GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(false);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
-        
-        float radiation = 0;
-        
-        radiation = lastResult - prevResult;
-        
-        if(System.currentTimeMillis() >= lastSurvey + 1000) {
-        	lastSurvey = System.currentTimeMillis();
-        	prevResult = lastResult;
-        	lastResult = in;
-        }
-		
+		// GL11.glDisable(GL11.GL_DEPTH_TEST);
+		// GL11.glDepthMask(false);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+
+		float radiation = 0;
+
+		radiation = lastResult - prevResult;
+
+		if(System.currentTimeMillis() >= lastSurvey + 1000) {
+			lastSurvey = System.currentTimeMillis();
+			prevResult = lastResult;
+			lastResult = in;
+		}
+
 		int length = 74;
 		int maxRad = 1000;
-		
+
 		int bar = getScaled(in, maxRad, 74);
-		
-		//if(radiation >= 1 && radiation <= 999)
-		//	bar -= (1 + Minecraft.getMinecraft().theWorld.rand.nextInt(3));
-		
+
 		int posX = 16;
 		int posY = resolution.getScaledHeight() - 18 - 2;
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
-        gui.drawTexturedModalRect(posX, posY, 0, 0, 94, 18);
-        gui.drawTexturedModalRect(posX + 1, posY + 1, 1, 19, bar, 16);
-        
-        if(radiation >= 25) {
-            gui.drawTexturedModalRect(posX + length + 2, posY - 18, 36, 36, 18, 18);
-        	
-        } else if(radiation >= 10) {
-            gui.drawTexturedModalRect(posX + length + 2, posY - 18, 18, 36, 18, 18);
-        	
-        } else if(radiation >= 2.5) {
-            gui.drawTexturedModalRect(posX + length + 2, posY - 18, 0, 36, 18, 18);
-        	
-        }
-		
+		gui.drawTexturedModalRect(posX, posY, 0, 0, 94, 18);
+		gui.drawTexturedModalRect(posX + 1, posY + 1, 1, 19, bar, 16);
+
+		if(radiation >= 25) {
+			gui.drawTexturedModalRect(posX + length + 2, posY - 18, 36, 36, 18, 18);
+
+		} else if(radiation >= 10) {
+			gui.drawTexturedModalRect(posX + length + 2, posY - 18, 18, 36, 18, 18);
+
+		} else if(radiation >= 2.5) {
+			gui.drawTexturedModalRect(posX + length + 2, posY - 18, 0, 36, 18, 18);
+
+		}
+
 		if(radiation > 1000) {
 			Minecraft.getMinecraft().fontRenderer.drawString(">1000 RAD/s", posX, posY - 8, 0xFF0000);
 		} else if(radiation >= 1) {
-			Minecraft.getMinecraft().fontRenderer.drawString(((int)Math.round(radiation)) + " RAD/s", posX, posY - 8, 0xFF0000);
+			Minecraft.getMinecraft().fontRenderer.drawString(((int) Math.round(radiation)) + " RAD/s", posX, posY - 8, 0xFF0000);
 		} else if(radiation > 0) {
 			Minecraft.getMinecraft().fontRenderer.drawString("<1 RAD/s", posX, posY - 8, 0xFF0000);
 		}
 
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(true);
-        GL11.glPopMatrix();
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(true);
+		GL11.glPopMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
@@ -311,6 +310,48 @@ public class RenderScreenOverlay {
 		
 		GuiIngameForge.left_height += 10;
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+	}
+	
+	@Untested
+	public static void renderScope(ScaledResolution res, ResourceLocation tex) {
+
+		GL11.glEnable(GL11.GL_BLEND);
+		//GL11.glDisable(GL11.GL_DEPTH_TEST);
+		//GL11.glDepthMask(false);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		
+		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
+		Tessellator tess = Tessellator.instance;
+
+		double w = res.getScaledWidth();
+		double h = res.getScaledHeight();
+		
+		double smallest = Math.min(w, h);
+		double divisor = smallest / (9D / 16D);
+		smallest = 9D / 16D;
+		double largest = Math.max(w, h) / divisor;
+
+		double hMin = h < w ? 0.5 - smallest / 2D : 0.5 - largest / 2D;
+		double hMax = h < w ? 0.5 + smallest / 2D : 0.5 + largest / 2D;
+		double wMin = w < h ? 0.5 - smallest / 2D : 0.5 - largest / 2D;
+		double wMax = w < h ? 0.5 + smallest / 2D : 0.5 + largest / 2D;
+		
+		double depth = -300D;
+		
+		tess.startDrawingQuads();
+		
+		tess.addVertexWithUV(0, h, depth, wMin, hMax);
+		tess.addVertexWithUV(w, h, depth, wMax, hMax);
+		tess.addVertexWithUV(w, 0, depth, wMax, hMin);
+		tess.addVertexWithUV(0, 0, depth, wMin, hMin);
+		tess.draw();
+		
+		GL11.glDepthMask(true);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 	
 	public enum Crosshair {

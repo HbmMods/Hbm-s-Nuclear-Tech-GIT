@@ -5,12 +5,20 @@ import java.util.ArrayList;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo50BMG;
+import com.hbm.items.ItemAmmoEnums.AmmoLunaticSniper;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -28,6 +36,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 
 public class Gun50BMGFactory {
+	
+	private static final CasingEjector EJECTOR_BMG;
+	private static final CasingEjector EJECTOR_SNIPER;
+	private static final SpentCasing CASING50BMG;
+	private static final SpentCasing CASINGLUNA;
+
+	static {
+		EJECTOR_BMG = new CasingEjector().setMotion(-0.35, 0.9, 0).setOffset(-0.45, -0.2, 0.35).setAngleRange(0.01F, 0.05F);
+		EJECTOR_SNIPER = new CasingEjector().setMotion(-2, 0.15, 0).setOffset(-0.45, -0.2, 0.35).setAngleRange(0.02F, 0.05F);
+		CASING50BMG = new SpentCasing(CasingType.BOTTLENECK).setScale(3F).setBounceMotion(0.01F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(0.125F, 0.5D, 60, 20);
+		CASINGLUNA = new SpentCasing(CasingType.BOTTLENECK).setScale(4F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(0.125F, 0.5D, 60, 30);
+	}
 	
 	public static GunConfiguration getCalamityConfig() {
 		
@@ -62,19 +82,12 @@ public class Gun50BMGFactory {
 						)
 				);
 		
-		config.name = "Universal-Maschinengewehr Modell 42 - .50 Mod";
-		config.manufacturer = "Wilhelm-Gustloff-Werke";
+		config.name = "mg42";
+		config.manufacturer = EnumGunManufacturer.WGW;
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.BMG50_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.BMG50_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.BMG50_AP);
-		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
-		config.config.add(BulletConfigSyncingUtil.BMG50_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_BMG50);
-		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK);
+		config.config = HbmCollection.fiftyBMG;
+		
+		config.ejector = EJECTOR_BMG;
 		
 		return config;
 	}
@@ -97,21 +110,63 @@ public class Gun50BMGFactory {
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:weapon.calShoot";
 		
-		config.name = "Double Maxim gun";
-		config.manufacturer = "???";
+		config.name = "maximDouble";
+		config.manufacturer = EnumGunManufacturer.UNKNOWN;
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.BMG50_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.BMG50_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.BMG50_AP);
-		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
-		config.config.add(BulletConfigSyncingUtil.BMG50_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_BMG50);
-		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK);
+		config.config = HbmCollection.fiftyBMG;
+		
+		config.ejector = EJECTOR_BMG;
 		
 		return config;
+	}
+	
+	public static BulletConfiguration getLunaticSabotRound() {
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.SABOT));
+		bullet.spread = 0.0F;
+		bullet.dmgMax = 500F;
+		bullet.dmgMin = 450F;
+		bullet.headshotMult = 2.5f;
+		bullet.wear = 2000;
+		bullet.velocity = 100;
+		bullet.doesPenetrate = true;
+		bullet.leadChance = 20;
+		bullet.incendiary = 10;
+
+		bullet.blockDamage = true;
+		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 5.0F, true, false);
+		
+		bullet.spentCasing = CASINGLUNA.clone().register("LunaStock");
+
+		return bullet;
+	}
+
+	public static BulletConfiguration getLunaticIncendiaryRound() {
+		BulletConfiguration bullet = getLunaticSabotRound().clone();
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.INCENDIARY));
+
+		bullet.ammo.meta = 1;
+		bullet.incendiary = 50;
+		
+		bullet.spentCasing = CASINGLUNA.clone().register("LunaInc");
+
+		return bullet;
+	}
+
+	public static BulletConfiguration getLunaticExplosiveRound() {
+		BulletConfiguration bullet = getLunaticSabotRound().clone();
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.EXPLOSIVE));
+
+		bullet.ammo.meta = 2;
+		bullet.explosive = 25;
+		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 25.0F, true, false);
+		
+		bullet.spentCasing = CASINGLUNA.clone().register("LunaExp");
+
+		return bullet;
 	}
 
 	public static GunConfiguration getAR15Config() {
@@ -132,8 +187,8 @@ public class Gun50BMGFactory {
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:turret.howard_fire";
 		
-		config.name = "AR-15 .50 BMG Mod";
-		config.manufacturer = "Armalite";
+		config.name = "ar15_50";
+		config.manufacturer = EnumGunManufacturer.ARMALITE;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_AM);
@@ -149,6 +204,8 @@ public class Gun50BMGFactory {
 		config.config.add(BulletConfigSyncingUtil.CHL_BMG50);
 		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK);
 		
+		config.ejector = EJECTOR_BMG;
+		
 		return config;
 	}
 
@@ -157,10 +214,12 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_50bmg;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.STOCK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGStock");
 		
 		return bullet;
 	}
@@ -169,12 +228,14 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_50bmg_incendiary;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.INCENDIARY));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.wear = 15;
 		bullet.incendiary = 5;
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGInc");
 		
 		return bullet;
 	}
@@ -183,7 +244,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_50bmg_phosphorus;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.PHOSPHORUS));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
@@ -211,6 +272,8 @@ public class Gun50BMGFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGPhos");
+		
 		return bullet;
 	}
 
@@ -218,12 +281,14 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_50bmg_explosive;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.EXPLOSIVE));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 60;
 		bullet.dmgMax = 64;
 		bullet.wear = 25;
 		bullet.explosive = 1;
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGExp");
 		
 		return bullet;
 	}
@@ -232,12 +297,14 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_50bmg_ap;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.AP));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 62;
 		bullet.dmgMax = 68;
 		bullet.wear = 15;
 		bullet.leadChance = 10;
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGAP");
 		
 		return bullet;
 	}
@@ -246,12 +313,14 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_50bmg_du;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.DU));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 80;
 		bullet.dmgMax = 86;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGDU");
 		
 		return bullet;
 	}
@@ -260,12 +329,14 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_50bmg_star;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.STAR));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 98;
 		bullet.dmgMax = 102;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGStar");
 		
 		return bullet;
 	}
@@ -274,7 +345,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_50bmg_sleek;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.SLEEK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 70;
@@ -317,6 +388,8 @@ public class Gun50BMGFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGIF");
+		
 		return bullet;
 	}
 	
@@ -324,11 +397,13 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_50bmg_flechette;
+		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.FLECHETTE));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 54;
 		bullet.style = bullet.STYLE_FLECHETTE;
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGFlech");
 		
 		return bullet;
 	}
@@ -336,8 +411,8 @@ public class Gun50BMGFactory {
 	public static BulletConfiguration get50BMGFlechetteAMConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
-		
-		bullet.ammo = ModItems.ammo_50bmg_flechette_am;
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.FLECHETTE_AM));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 60;
 		bullet.dmgMax = 64;
@@ -357,14 +432,16 @@ public class Gun50BMGFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGAM");
+		
 		return bullet;
 	}
 	
 	public static BulletConfiguration get50BMGFlechettePOConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
-		
-		bullet.ammo = ModItems.ammo_50bmg_flechette_po;
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.FLECHETTE_PO));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 60;
 		bullet.dmgMax = 64;
@@ -383,6 +460,8 @@ public class Gun50BMGFactory {
 				}
 			}
 		};
+		
+		bullet.spentCasing = CASING50BMG.clone().register("50BMGPO");
 		
 		return bullet;
 	}

@@ -2,6 +2,7 @@ package com.hbm.handler;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
+import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -206,38 +207,27 @@ public abstract class WeaponAbility {
 				if(living.getHealth() <= 0.0F) {
 					
 					WeightedRandomObject[] ammo = new WeightedRandomObject[] {
-							new WeightedRandomObject(ModItems.ammo_12gauge, 10),
-							new WeightedRandomObject(ModItems.ammo_12gauge_shrapnel, 5),
-							new WeightedRandomObject(ModItems.ammo_12gauge_du, 3),
-							new WeightedRandomObject(ModItems.ammo_20gauge, 10),
-							new WeightedRandomObject(ModItems.ammo_20gauge_flechette, 5),
-							new WeightedRandomObject(ModItems.ammo_20gauge_slug, 5),
-							new WeightedRandomObject(ModItems.ammo_9mm, 10),
-							new WeightedRandomObject(ModItems.ammo_9mm_ap, 5),
-							new WeightedRandomObject(ModItems.ammo_5mm, 10),
-							new WeightedRandomObject(ModItems.ammo_5mm_du, 3),
-							new WeightedRandomObject(ModItems.ammo_556, 10),
-							new WeightedRandomObject(ModItems.ammo_556_phosphorus, 5),
-							new WeightedRandomObject(ModItems.ammo_556_flechette, 10),
-							new WeightedRandomObject(ModItems.ammo_556_flechette_phosphorus, 5),
-							new WeightedRandomObject(ModItems.ammo_50bmg, 10),
-							new WeightedRandomObject(ModItems.ammo_50bmg_incendiary, 5),
-							new WeightedRandomObject(ModItems.ammo_50bmg_ap, 5),
-							new WeightedRandomObject(ModItems.ammo_grenade, 5),
-							new WeightedRandomObject(ModItems.ammo_grenade_concussion, 3),
-							new WeightedRandomObject(ModItems.ammo_grenade_phosphorus, 3),
-							new WeightedRandomObject(ModItems.ammo_rocket, 5),
-							new WeightedRandomObject(ModItems.ammo_rocket_glare, 5),
-							new WeightedRandomObject(ModItems.ammo_rocket_phosphorus, 5),
-							new WeightedRandomObject(ModItems.ammo_rocket_rpc, 1),
-							new WeightedRandomObject(ModItems.syringe_metal_stimpak, 25),
+							new WeightedRandomObject(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.STOCK), 10),
+							new WeightedRandomObject(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SHRAPNEL), 5),
+							new WeightedRandomObject(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.STOCK), 10),
+							new WeightedRandomObject(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.FLECHETTE), 5),
+							new WeightedRandomObject(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.SLUG), 5),
+							new WeightedRandomObject(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.STOCK), 10),
+							new WeightedRandomObject(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.STOCK), 10),
+							new WeightedRandomObject(ModItems.ammo_556.stackFromEnum(Ammo556mm.STOCK), 10),
+							new WeightedRandomObject(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE), 10),
+							new WeightedRandomObject(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.STOCK), 3),
+							new WeightedRandomObject(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.STOCK), 3),
+							new WeightedRandomObject(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.STOCK), 1),
+							new WeightedRandomObject(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.GLARE), 1),
+							new WeightedRandomObject(new ItemStack(ModItems.syringe_metal_stimpak), 20),
 					};
 					
 					int count = Math.min((int)Math.ceil(living.getMaxHealth() / divider), 250); //safeguard to prevent funnies from bosses with obscene health
 					
 					for(int i = 0; i < count; i++) {
 						
-						living.dropItem(((WeightedRandomObject)WeightedRandom.getRandomItem(living.getRNG(), ammo)).asItem(), 1);
+						living.entityDropItem(((WeightedRandomObject)WeightedRandom.getRandomItem(living.getRNG(), ammo)).asStack(), 1);
 						world.spawnEntityInWorld(new EntityXPOrb(world, living.posX, living.posY, living.posZ, 1));
 					}
 					

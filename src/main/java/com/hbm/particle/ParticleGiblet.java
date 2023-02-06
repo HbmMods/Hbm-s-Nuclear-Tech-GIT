@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -66,11 +67,17 @@ public class ParticleGiblet extends EntityFX {
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		this.theRenderEngine.bindTexture(texture);
+		
+		/* use this instead of EntityFX.interpPosN since interpPosN isn't set up correctly for the current tick for layer 3 particles */
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		double dX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)interp;
+		double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)interp;
+		double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
 
 		float f10 = this.particleScale * 0.1F;
-		float f11 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) interp - interpPosX);
-		float f12 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) interp - interpPosY);
-		float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) interp - interpPosZ);
+		float f11 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) interp - dX);
+		float f12 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) interp - dY);
+		float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) interp - dZ);
 
 		tess.startDrawingQuads();
 		tess.setNormal(0.0F, 1.0F, 0.0F);

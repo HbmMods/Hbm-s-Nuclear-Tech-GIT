@@ -7,6 +7,7 @@ import com.hbm.entity.mob.ai.EntityAINuclearCreeperSwell;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -241,7 +242,7 @@ public class EntityNuclearCreeper extends EntityMob {
 				this.dropItem(ModItems.fusion_core, 1);
 			}
 			if(i == 10)
-				this.dropItem(ModItems.ammo_nuke_high, 1);
+				this.entityDropItem(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.HIGH), 1);
 		}
 	}
 
