@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.items.ModItems;
 
 import net.minecraft.item.ItemStack;
@@ -42,7 +43,7 @@ public class EntityMissileMicro extends EntityMissileBaseAdvanced {
 
 	@Override
 	public ItemStack getDebrisRareDrop() {
-		return new ItemStack(ModItems.ammo_nuke_high, 1);
+		return ModItems.ammo_nuke.stackFromEnum(AmmoFatman.HIGH);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -73,6 +74,7 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 			BulletConfiguration conf = this.getFirstConfigLoaded();
 			
 			if(conf != null) {
+				this.cachedCasingConfig = conf.spentCasing;
 				this.spawnBullet(conf);
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.chekhov_fire", 2.0F, 1.0F);
@@ -90,6 +92,24 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			}
 		}
+	}
+
+	@Override
+	protected Vec3 getCasingSpawnPos() {
+		
+		Vec3 pos = this.getTurretPos();
+		Vec3 vec = Vec3.createVectorHelper(-1.125, 0.125, 0.25);
+		vec.rotateAroundZ((float) -this.rotationPitch);
+		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
+		
+		return Vec3.createVectorHelper(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord);
+	}
+
+	protected static CasingEjector ejector = new CasingEjector().setMotion(-0.8, 0.8, 0).setAngleRange(0.1F, 0.1F);
+	
+	@Override
+	protected CasingEjector getEjector() {
+		return ejector;
 	}
 	
 	public int getDelay() {
@@ -139,7 +159,11 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 	
 	@Override
 	public void manualSetup() {
-		
 		manual = true;
+	}
+	
+	@Override
+	public boolean usesCasings() {
+		return true;
 	}
 }
