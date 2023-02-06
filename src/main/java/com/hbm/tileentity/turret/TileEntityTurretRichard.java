@@ -6,8 +6,6 @@ import java.util.List;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ItemAmmoEnums.AmmoRocket;
 import com.hbm.items.ModItems;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -130,7 +128,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.richard_fire", 2.0F, 1.0F);
 				this.loaded--;
 				
-				if(conf.ammo.equals(new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.NUCLEAR))))
+				if(conf.ammo == ModItems.ammo_rocket_nuclear)
 					timer = -50;
 				
 			} else {

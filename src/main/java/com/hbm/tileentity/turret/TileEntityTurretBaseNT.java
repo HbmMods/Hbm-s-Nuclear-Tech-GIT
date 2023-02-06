@@ -12,19 +12,13 @@ import com.hbm.entity.missile.EntitySiegeDropship;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.CasingEjector;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.particle.SpentCasing;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -37,6 +31,7 @@ import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
@@ -95,8 +90,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	
 	//tally marks!
 	public int stattrak;
-	public int casingDelay;
-	protected SpentCasing cachedCasingConfig = null;
 	
 	/**
 	 * 		 X
@@ -219,14 +212,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			NBTTagCompound data = this.writePacket();
 			this.networkPack(data, 250);
 			
-			if(usesCasings() && this.casingDelay() > 0) {
-				if(casingDelay > 0) {
-					casingDelay--;
-				} else {
-					spawnCasing();
-				}
-			}
-			
 		} else {
 			
 			Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
@@ -313,9 +298,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	
 	public abstract void updateFiringTick();
 	
-	public boolean usesCasings() { return false; }
-	public int casingDelay() { return 0; }
-	
 	public BulletConfiguration getFirstConfigLoaded() {
 		
 		List<Integer> list = getAmmoList();
@@ -333,7 +315,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 					
 					BulletConfiguration conf = BulletConfigSyncingUtil.pullConfig(c);
 					
-					if(conf.ammo != null && conf.ammo.matchesRecipe(slots[i], true))
+					if(conf.ammo == slots[i].getItem())
 						return conf;
 				}
 			}
@@ -354,21 +336,13 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		
 		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, bullet.velocity, bullet.spread);
 		worldObj.spawnEntityInWorld(proj);
-		
-		if(usesCasings()) {
-			if(this.casingDelay() == 0) {
-				spawnCasing();
-			} else {
-				casingDelay = this.casingDelay();
-			}
-		}
 	}
 	
-	public void conusmeAmmo(ComparableStack ammo) {
+	public void conusmeAmmo(Item ammo) {
 		
 		for(int i = 1; i < 10; i++) {
 			
-			if(slots[i] != null && ammo.matchesRecipe(slots[i], true)) {
+			if(slots[i] != null && slots[i].getItem() == ammo) {
 				
 				this.decrStackSize(i, 1);
 				return;
@@ -782,7 +756,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			BulletConfiguration config = BulletConfigSyncingUtil.pullConfig(i);
 			
 			if(config != null && config.ammo != null) {
-				ammoStacks.add(config.ammo.toStack());
+				ammoStacks.add(new ItemStack(config.ammo));
 			}
 		}
 		
@@ -807,12 +781,10 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		return this.isOn;
 	}
 	
-	@Override
 	public void setPower(long i) {
 		this.power = i;
 	}
-
-	@Override
+	
 	public long getPower() {
 		return this.power;
 	}
@@ -844,31 +816,5 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	@Override
 	public void closeInventory() {
 		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.closeC", 1.0F, 1.0F);
-	}
-	
-	protected Vec3 getCasingSpawnPos() {
-		return this.getTurretPos();
-	}
-	
-	protected CasingEjector getEjector() {
-		return null;
-	}
-	
-	protected void spawnCasing() {
-		
-		if(cachedCasingConfig == null) return;
-		CasingEjector ej = getEjector();
-		
-		Vec3 spawn = this.getCasingSpawnPos();
-		NBTTagCompound data = new NBTTagCompound();
-		data.setString("type", "casing");
-		data.setFloat("pitch", (float) -rotationPitch);
-		data.setFloat("yaw", (float) rotationYaw);
-		data.setBoolean("crouched", false);
-		data.setString("name", cachedCasingConfig.getName());
-		if(ej != null) data.setInteger("ej", ej.getId());
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, spawn.xCoord, spawn.yCoord, spawn.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-		
-		cachedCasingConfig = null;
 	}
 }

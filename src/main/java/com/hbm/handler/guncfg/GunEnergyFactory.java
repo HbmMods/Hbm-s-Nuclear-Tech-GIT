@@ -11,11 +11,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ItemAmmoEnums.AmmoFireExt;
-import com.hbm.items.ItemAmmoEnums.AmmoFlamethrower;
 import com.hbm.items.ModItems;
-import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -46,7 +42,7 @@ public class GunEnergyFactory {
 		config.crosshair = Crosshair.CIRCLE;
 		
 		config.name = "Chemical Thrower";
-		config.manufacturer = EnumGunManufacturer.LANGFORD;
+		config.manufacturer = "Langford Research Laboratories";
 		
 		config.config = new ArrayList<Integer>();
 		
@@ -71,7 +67,7 @@ public class GunEnergyFactory {
 		config.firingSound = "hbm:weapon.teslaShoot";
 		
 		config.name = "EMP Orb Projector";
-		config.manufacturer = EnumGunManufacturer.MWT;
+		config.manufacturer = "MWT Prototype Labs";
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SPECIAL_EMP);
@@ -99,7 +95,7 @@ public class GunEnergyFactory {
 		config.reloadSound = "hbm:weapon.flamerReload";
 		
 		config.name = "Heavy Duty Flamer";
-		config.manufacturer = EnumGunManufacturer.MWT;
+		config.manufacturer = "MWT Prototype Labs";
 
 		config.comment.add("Dragon-slaying: Advanced techniques, part 1:");
 		config.comment.add("Try not to get eaten by the dragon.");
@@ -136,7 +132,7 @@ public class GunEnergyFactory {
 		config.reloadSound = "hbm:weapon.b92Reload";
 		
 		config.name = "EMC101 Prismatic Negative Energy Cannon";
-		config.manufacturer = EnumGunManufacturer.MWT;
+		config.manufacturer = "MWT Prototype Labs";
 
 		config.comment.add("Taste the rainbow!");
 		
@@ -166,7 +162,7 @@ public class GunEnergyFactory {
 		config.reloadSound = "hbm:weapon.flamerReload";
 		
 		config.name = "PROTEX Fire Exinguisher 6kg";
-		config.manufacturer = EnumGunManufacturer.GLORIA;
+		config.manufacturer = "Gloria GmbH";
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.FEXT_NORMAL);
@@ -188,7 +184,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = new ComparableStack(ModItems.gun_emp_ammo);
+		bullet.ammo = ModItems.gun_emp_ammo;
 		
 		bullet.velocity = 1F;
 		bullet.spread = 0.0F;
@@ -221,7 +217,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.DIESEL));
+		bullet.ammo = ModItems.ammo_fuel;
 		bullet.ammoCount = 100;
 		
 		bullet.velocity = 0.75F;
@@ -269,7 +265,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.NAPALM));
+		bullet.ammo = ModItems.ammo_fuel_napalm;
 		bullet.wear = 2;
 		bullet.dmgMin = 4;
 		bullet.dmgMax = 6;
@@ -282,7 +278,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.PHOSPHORUS));
+		bullet.ammo = ModItems.ammo_fuel_phosphorus;
 		bullet.wear = 2;
 		bullet.spread = 0.0F;
 		bullet.bulletsMin = 1;
@@ -301,7 +297,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.VAPORIZER));
+		bullet.ammo = ModItems.ammo_fuel_vaporizer;
 		bullet.wear = 4;
 		bullet.spread = 0.25F;
 		bullet.bulletsMin = 8;
@@ -326,7 +322,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.CHLORINE));
+		bullet.ammo = ModItems.ammo_fuel_gas;
 		bullet.wear = 1;
 		bullet.spread = 0.05F;
 		bullet.gravity = 0D;
@@ -348,7 +344,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.WATER));
+		bullet.ammo = ModItems.ammo_fireext;
 		bullet.ammoCount = 300;
 		
 		bullet.velocity = 0.75F;
@@ -436,7 +432,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFextConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.FOAM));
+		bullet.ammo = ModItems.ammo_fireext_foam;
 		bullet.spread = 0.05F;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -517,7 +513,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFextConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.SAND));
+		bullet.ammo = ModItems.ammo_fireext_sand;
 		bullet.spread = 0.1F;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -582,7 +578,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = new ComparableStack(ModItems.nugget_euphemium);
+		bullet.ammo = ModItems.nugget_euphemium;
 		bullet.ammoCount = 1000;
 		bullet.wear = 1;
 		bullet.velocity = 1F;
@@ -625,7 +621,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = new ComparableStack(ModItems.nothing);
+		bullet.ammo = ModItems.nothing;
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 150;
 		bullet.velocity = 1F;

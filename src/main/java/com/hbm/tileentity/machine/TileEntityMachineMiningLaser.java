@@ -348,8 +348,6 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		
 		for(EntityItem item : items) {
 			
-			if(item.isDead) continue;
-			
 			if(nullifier && bad.contains(item.getEntityItem().getItem())) {
 				item.setDead();
 				continue;

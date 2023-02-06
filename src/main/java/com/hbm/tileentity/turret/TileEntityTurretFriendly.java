@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.CasingEjector;
 
 public class TileEntityTurretFriendly extends TileEntityTurretChekhov {
 
@@ -31,12 +30,5 @@ public class TileEntityTurretFriendly extends TileEntityTurretChekhov {
 	@Override
 	public int getDelay() {
 		return 5;
-	}
-
-	protected static CasingEjector ejector = new CasingEjector().setMotion(-0.3, 0.6, 0).setAngleRange(0.02F, 0.05F);
-	
-	@Override
-	protected CasingEjector getEjector() {
-		return ejector;
 	}
 }

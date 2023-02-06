@@ -3,15 +3,12 @@ package com.hbm.handler.guncfg;
 import java.util.ArrayList;
 
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ItemAmmoEnums.Ammo75Bolt;
 import com.hbm.items.ModItems;
-import com.hbm.lib.HbmCollection;
-import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -75,20 +72,23 @@ public class Gun75BoltFactory {
 						)
 				);
 		
-		config.name = "bolter";
-		config.manufacturer = EnumGunManufacturer.CERIX;
-
-		config.config = HbmCollection.seventyFive;
+		config.name = "Manticora Pattern Boltgun";
+		config.manufacturer = "Cerix Magnus";
+		
+		config.config = new ArrayList();
+		config.config.add(BulletConfigSyncingUtil.B75_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.B75_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.B75_HE);
 		
 		return config;
 	}
 
-	private static float inaccuracy = 0.5F;
+	static float inaccuracy = 0.5F;
 	public static BulletConfiguration get75BoltConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt.stackFromEnum(Ammo75Bolt.STOCK));
+		bullet.ammo = ModItems.ammo_75bolt;
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 74;
@@ -126,7 +126,7 @@ public class Gun75BoltFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt.stackFromEnum(Ammo75Bolt.INCENDIARY));
+		bullet.ammo = ModItems.ammo_75bolt_incendiary;
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 72;
@@ -164,7 +164,7 @@ public class Gun75BoltFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt.stackFromEnum(Ammo75Bolt.HE));
+		bullet.ammo = ModItems.ammo_75bolt_he;
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 94;

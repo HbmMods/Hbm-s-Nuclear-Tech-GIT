@@ -58,7 +58,6 @@ import com.hbm.entity.mob.botprime.*;
 import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
-import com.hbm.handler.CasingEjector;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
@@ -479,6 +478,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_avenger, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_lacunae, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_folly, new ItemRenderOverkill());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_brimstone, new ItemRenderObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_hk69, new ItemRenderWeaponObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_bio_revolver, new ItemRenderBioRevolver());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_deagle, new ItemRenderWeaponObj());
@@ -1792,17 +1792,6 @@ public class ClientProxy extends ServerProxy {
 			double dist = data.getDouble("dist");
 			
 			RenderOverhead.queuedMarkers.put(new BlockPos(x, y, z),  new Marker(color).setDist(dist).setExpire(expires > 0 ? System.currentTimeMillis() + expires : 0).withLabel(label.isEmpty() ? null : label));
-		}
-		
-		if("casing".equals(type)) {
-			CasingEjector ejector = CasingEjector.fromId(data.getInteger("ej"));
-			if(ejector == null) return;
-			SpentCasing casingConfig = SpentCasing.fromName((data.getString("name")));
-			if(casingConfig == null) return;
-			
-			for(int i = 0; i < ejector.getAmount(); i++) {
-				ejector.spawnCasing(man, casingConfig, world, x, y, z, data.getFloat("pitch"), data.getFloat("yaw"), data.getBoolean("crouched"));
-			}
 		}
 	}
 	

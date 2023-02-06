@@ -1,26 +1,14 @@
 package com.hbm.handler.guncfg;
 
+import java.util.ArrayList;
+
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ItemAmmoEnums.Ammo5mm;
 import com.hbm.items.ModItems;
-import com.hbm.lib.HbmCollection;
-import com.hbm.lib.HbmCollection.EnumGunManufacturer;
-import com.hbm.particle.SpentCasing;
-import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun5mmFactory {
-	
-	private static final CasingEjector EJECTOR_MINIGUN;
-	private static final SpentCasing CASING5MM;
-
-	static {
-		EJECTOR_MINIGUN = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, -0.2, 0.35).setAngleRange(0.01F, 0.03F).setAmount(5);
-		CASING5MM = new SpentCasing(CasingType.STRAIGHT).setScale(1.25F).setBounceMotion(0.05F, 0.02F).setColor(SpentCasing.COLOR_CASE_BRASS).setMaxAge(100);
-	}
 	
 	public static GunConfiguration getMinigunConfig() {
 		
@@ -39,9 +27,12 @@ public class Gun5mmFactory {
 		config.durability = 10000;
 		config.firingSound = "hbm:weapon.lacunaeShoot";
 		
-		config.config = HbmCollection.fiveMM;
-		
-		config.ejector = EJECTOR_MINIGUN;
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.R5_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.R5_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.R5_DU);
+		config.config.add(BulletConfigSyncingUtil.R5_STAR);
+		config.config.add(BulletConfigSyncingUtil.CHL_R5);
 		
 		return config;
 	}
@@ -50,8 +41,8 @@ public class Gun5mmFactory {
 		
 		GunConfiguration config = getMinigunConfig();
 		
-		config.name = "cz53";
-		config.manufacturer = EnumGunManufacturer.ROCKWELL;
+		config.name = "CZ53 Personal Minigun";
+		config.manufacturer = "Rockwell International Corporation";
 		
 		return config;
 	}
@@ -61,8 +52,8 @@ public class Gun5mmFactory {
 		GunConfiguration config = getMinigunConfig();
 
 		config.durability = 15000;
-		config.name = "cz57";
-		config.manufacturer = EnumGunManufacturer.ROCKWELL;
+		config.name = "CZ57 Avenger Minigun";
+		config.manufacturer = "Rockwell International Corporation";
 		
 		return config;
 	}
@@ -72,25 +63,28 @@ public class Gun5mmFactory {
 		GunConfiguration config = getMinigunConfig();
 
 		config.durability = 25000;
-		config.name = "lacunae";
-		config.manufacturer = EnumGunManufacturer.ROCKWELL_U;
+		config.name = "Auntie Lacunae";
+		config.manufacturer = "Rockwell International Corporation?";
 		
-		config.config = HbmCollection.fiveMMBolt;
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.R5_NORMAL_BOLT);
+		config.config.add(BulletConfigSyncingUtil.R5_EXPLOSIVE_BOLT);
+		config.config.add(BulletConfigSyncingUtil.R5_DU_BOLT);
+		config.config.add(BulletConfigSyncingUtil.R5_STAR_BOLT);
+		config.config.add(BulletConfigSyncingUtil.CHL_R5_BOLT);
 		
 		return config;
 	}
 	
-	private static float inaccuracy = 10;
+	static float inaccuracy = 10;
 	public static BulletConfiguration get5mmConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.STOCK));
+		bullet.ammo = ModItems.ammo_5mm;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 12;
 		bullet.dmgMax = 14;
-		
-		bullet.spentCasing = CASING5MM.clone().register("5mmStock");
 		
 		return bullet;
 	}
@@ -99,14 +93,12 @@ public class Gun5mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.EXPLOSIVE));
+		bullet.ammo = ModItems.ammo_5mm_explosive;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 32;
 		bullet.explosive = 1F;
 		bullet.wear = 25;
-		
-		bullet.spentCasing = CASING5MM.clone().register("5mmExp");
 		
 		return bullet;
 	}
@@ -115,14 +107,12 @@ public class Gun5mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.DU));
+		bullet.ammo = ModItems.ammo_5mm_du;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 36;
 		bullet.dmgMax = 40;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
-		
-		bullet.spentCasing = CASING5MM.clone().register("5mmDU");
 		
 		return bullet;
 	}
@@ -131,14 +121,12 @@ public class Gun5mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.STAR));
+		bullet.ammo = ModItems.ammo_5mm_star;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 46;
 		bullet.dmgMax = 50;
 		bullet.wear = 25;
 		bullet.leadChance = 100;
-		
-		bullet.spentCasing = CASING5MM.clone().register("5mmStar");
 		
 		return bullet;
 	}

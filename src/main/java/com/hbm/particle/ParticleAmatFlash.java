@@ -6,11 +6,9 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 @SideOnly(Side.CLIENT)
@@ -27,15 +25,10 @@ public class ParticleAmatFlash extends EntityFX {
 	}
 
 	public void renderParticle(Tessellator tess, float interp, float x, float y, float z, float tx, float tz) {
-
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		double dX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)interp;
-		double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)interp;
-		double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
 		
-		float pX = (float) ((this.prevPosX + (this.posX - this.prevPosX) * (double) interp - dX));
-		float pY = (float) ((this.prevPosY + (this.posY - this.prevPosY) * (double) interp - dY));
-		float pZ = (float) ((this.prevPosZ + (this.posZ - this.prevPosZ) * (double) interp - dZ));
+		float pX = (float) ((this.prevPosX + (this.posX - this.prevPosX) * (double) interp - interpPosX));
+		float pY = (float) ((this.prevPosY + (this.posY - this.prevPosY) * (double) interp - interpPosY));
+		float pZ = (float) ((this.prevPosZ + (this.posZ - this.prevPosZ) * (double) interp - interpPosZ));
 
 
 		GL11.glPushMatrix();

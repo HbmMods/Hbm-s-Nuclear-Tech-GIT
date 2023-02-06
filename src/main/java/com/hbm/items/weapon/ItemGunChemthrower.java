@@ -76,8 +76,13 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 		
 		if(hasInfinity(stack, config))
 			return;
+
 		
-		setMag(stack, getMag(stack) - this.getConsumption(stack));
+		if(config.reloadType != mainConfig.RELOAD_NONE) {
+			setMag(stack, getMag(stack) - this.getConsumption(stack));
+		} else {
+			player.inventory.consumeInventoryItem(getBeltType(player, stack, main));
+		}
 	}
 
 	@Override

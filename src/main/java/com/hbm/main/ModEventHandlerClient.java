@@ -19,7 +19,6 @@ import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
-import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.ImpactWorldHandler;
@@ -114,7 +113,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.IRenderHandler;
-import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -219,18 +217,6 @@ public class ModEventHandlerClient {
 		if(!ducked && Keyboard.isKeyDown(Keyboard.KEY_O) && Minecraft.getMinecraft().currentScreen == null) {
 			ducked = true;
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(0, 0, 0, 999, 0));
-		}
-		
-		/// HANDLE SCOPE OVERLAY ///
-		ItemStack held = player.getHeldItem();
-		
-		if(player.isSneaking() && held != null && held.getItem() instanceof ItemGunBase && event.type == event.type.HOTBAR)  {
-			GunConfiguration config = ((ItemGunBase) held.getItem()).mainConfig;
-			
-			if(config.scopeTexture != null) {
-				ScaledResolution resolution = event.resolution;
-				RenderScreenOverlay.renderScope(resolution, config.scopeTexture);
-			}
 		}
 		
 		/// HANDLE FSB HUD ///
@@ -338,27 +324,6 @@ public class ModEventHandlerClient {
 
 			}
 
-		}
-	}
-	
-	@SubscribeEvent
-	public void setupFOV(FOVUpdateEvent event) {
-		
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		ItemStack held = player.getHeldItem();
-		
-		if(held == null) return;
-		if(!(held.getItem() instanceof ItemGunBase)) return;
-		
-		GunConfiguration config = ((ItemGunBase) held.getItem()).mainConfig;
-		
-		if(config == null) return;
-		if(config.zoomFOV == 0F || !player.isSneaking()) return;
-		
-		if(config.absoluteFOV) {
-			event.newfov = config.zoomFOV;
-		} else {
-			event.newfov += config.zoomFOV;
 		}
 	}
 	

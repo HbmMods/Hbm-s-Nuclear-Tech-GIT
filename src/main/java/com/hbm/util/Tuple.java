@@ -12,8 +12,8 @@ public class Tuple {
 
 	public static class Pair<X,Y> {
 
-		public X key;
-		public Y value; //because fuck you
+		X key;
+		Y value;
 		
 		public Pair(X x, Y y) {
 			this.key = x;

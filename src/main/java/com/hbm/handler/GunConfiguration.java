@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
-import net.minecraft.util.ResourceLocation;
-
-public class GunConfiguration implements Cloneable {
+public class GunConfiguration {
 	
 	/**
 	 * alt function restrictions:
@@ -34,14 +31,8 @@ public class GunConfiguration implements Cloneable {
 	
 	//animations!
 	public HashMap<AnimType, BusAnimation> animations = new HashMap();
-	//whether or not to disable crosshair when sneaking
+	//whether ot not to disable crosshais when sneaking
 	public boolean hasSights;
-	//texture overlay when sneaking
-	public ResourceLocation scopeTexture;
-	//whether the FOV multiplier should be absolute or multiplicative to other modifiers, multiplicative mode is experimental!
-	public boolean absoluteFOV = true;
-	//the target FOV/multiplied FOV modifier when sneaking
-	public float zoomFOV = 0.0F;
 	
 	//how long the reload animation will play
 	//MUST BE GREATER THAN ZERO ! ! !
@@ -55,7 +46,6 @@ public class GunConfiguration implements Cloneable {
 	public float firingPitch = 1.0F;
 	//whether the reload sound should be played at the beginning or at the end of the reload
 	public boolean reloadSoundEnd = true;
-	public String equipSound = "";
 	
 	//how much ammo the clip can hold, 0 if drawn from inventory
 	public int ammoCap;
@@ -68,14 +58,14 @@ public class GunConfiguration implements Cloneable {
 	
 	//for electrically powered weapons:
 	//the Maximum capacity of the gun
-	public long maxCharge;
+	public int maxCharge;
 	//the rate at which the gun is charged
-	public long chargeRate;
+	public int chargeRate;
 	//how much energy is discharged per shot
-	public long dischargePerShot;
+	public int dischargePerShot;
 	
 	public String name = "";
-	public EnumGunManufacturer manufacturer = EnumGunManufacturer.NONE;
+	public String manufacturer = "";
 	public List<String> comment = new ArrayList();
 
 	//bullet configs for main and alt fire
@@ -83,9 +73,6 @@ public class GunConfiguration implements Cloneable {
 
 	//crosshair
 	public Crosshair crosshair;
-	
-	//casing eject behavior
-	public CasingEjector ejector = null;
 
 	public static final int MODE_NORMAL = 0;
 	public static final int MODE_RELEASE = 1;

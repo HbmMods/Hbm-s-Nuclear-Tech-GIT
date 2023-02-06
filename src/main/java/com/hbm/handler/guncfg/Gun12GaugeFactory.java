@@ -1,22 +1,13 @@
 package com.hbm.handler.guncfg;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
-import com.hbm.interfaces.IBulletUpdateBehavior;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ItemAmmoEnums.Ammo12Gauge;
 import com.hbm.items.ModItems;
-import com.hbm.lib.HbmCollection;
-import com.hbm.lib.HbmCollection.EnumGunManufacturer;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.particle.SpentCasing;
-import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -24,30 +15,11 @@ import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Vec3;
 
 public class Gun12GaugeFactory {
-	
-	private static final CasingEjector EJECTOR_SPAS, EJECTOR_SPAS_ALT, EJECTOR_BENELLI, EJECTOR_UBOINIK, EJECTOR_SSG;
-	private static final SpentCasing CASING12GAUGE;
-
-	static {
-		EJECTOR_SPAS = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, 0, 0.5).setAngleRange(0.01F, 0.03F).setDelay(12);
-		EJECTOR_SPAS_ALT = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, 0, 0.5).setAngleRange(0.01F, 0.03F).setDelay(12).setAmount(2);
-		EJECTOR_BENELLI = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.3, 1, 0).setAngleRange(0.01F, 0.03F);
-		EJECTOR_UBOINIK = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, -0.3, 0.5).setAngleRange(0.01F, 0.03F);
-		EJECTOR_SSG = new CasingEjector().setMotion(0.2, 0, -0.2).setOffset(0.8, 0, 0).setAngleRange(0.05F, 0.02F).setDelay(20).setAmount(2);
-		
-		CASING12GAUGE = new SpentCasing(CasingType.SHOTGUN).setScale(1.5F).setBounceMotion(0.05F, 0.02F).setupSmoke(0.5F, 0.5D, 60, 20);
-	}
 	
 	public static GunConfiguration getSpas12Config() {
 		
@@ -67,12 +39,18 @@ public class Gun12GaugeFactory {
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.shotgunPump";
 		
-		config.name = "spas12";
-		config.manufacturer = EnumGunManufacturer.BLACK_MESA;
+		config.name = "Franchi SPAS-12";
+		config.manufacturer = "Black Mesa Armory";
 		config.comment.add("\"Here, I have a more suitable gun for you. You'll need it - Catch!\"");
 		config.comment.add("Alt-fire with Mouse 2 (Right-click) to fire 2 shells at once");
 		
-		config.config = HbmCollection.twelveGauge;
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
+		config.config.add(BulletConfigSyncingUtil.G12_DU);
+		config.config.add(BulletConfigSyncingUtil.G12_AM);
+		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("SPAS_RECOIL_TRANSLATE", new BusAnimationSequence()
@@ -90,12 +68,10 @@ public class Gun12GaugeFactory {
 					)
 				);
 		
-		config.ejector = EJECTOR_SPAS;
-		
 		return config;
 	}
 	
-	public static GunConfiguration getSpas12AltConfig() {
+public static GunConfiguration getSpas12AltConfig() {
 		
 		GunConfiguration config = new GunConfiguration();
 		
@@ -109,9 +85,14 @@ public class Gun12GaugeFactory {
 		config.firingSound = "hbm:weapon.shotgunPump";
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		
-		config.config = HbmCollection.twelveGauge;
 		
-		config.ejector = EJECTOR_SPAS_ALT;
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
+		config.config.add(BulletConfigSyncingUtil.G12_DU);
+		config.config.add(BulletConfigSyncingUtil.G12_AM);
+		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
 
 		return config;
 	}
@@ -134,12 +115,16 @@ public class Gun12GaugeFactory {
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.shotgunShoot";
 		
-		config.name = "uboinik";
-		config.manufacturer = EnumGunManufacturer.METRO;
-
-		config.config = HbmCollection.twelveGauge;
+		config.name = "Uboinik Revolving Shotgun";
+		config.manufacturer = "Metro Gunsmiths";
 		
-		config.ejector = EJECTOR_UBOINIK;
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
+		config.config.add(BulletConfigSyncingUtil.G12_DU);
+		config.config.add(BulletConfigSyncingUtil.G12_AM);
+		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
 		
 		return config;
 	}
@@ -186,13 +171,17 @@ public class Gun12GaugeFactory {
 						)
 				);
 		
-		config.name = "supershotty";
-		config.manufacturer = EnumGunManufacturer.UAC;
+		config.name = "Double-Barreled Combat Shotgun";
+		config.manufacturer = "Union Aerospace Corporation";
 		config.comment.add("God-damned ARCH-VILES!");
 		
-		config.config = HbmCollection.twelveGauge;
-		
-		config.ejector = EJECTOR_SSG;
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
+		config.config.add(BulletConfigSyncingUtil.G12_DU);
+		config.config.add(BulletConfigSyncingUtil.G12_AM);
+		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
 		
 		return config;
 	}
@@ -201,43 +190,37 @@ public class Gun12GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.STOCK));
+		bullet.ammo = ModItems.ammo_12gauge;
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 7;
-		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaStock").setColor(0x2847FF, SpentCasing.COLOR_CASE_12GA);
 		
 		return bullet;
 	}
 	
 	public static BulletConfiguration get12GaugeFireConfig() {
 		
-		BulletConfiguration bullet = get12GaugeConfig();
-
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.INCENDIARY));
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_12gauge_incendiary;
 		bullet.wear = 15;
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 7;
 		bullet.incendiary = 5;
-		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaInc").setColor(0xFF6329, SpentCasing.COLOR_CASE_12GA).setupSmoke(1F, 0.5D, 60, 40);
 		
 		return bullet;
 	}
 	
 	public static BulletConfiguration get12GaugeShrapnelConfig() {
 		
-		BulletConfiguration bullet = get12GaugeConfig();
-
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SHRAPNEL));
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_12gauge_shrapnel;
 		bullet.wear = 15;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 17;
 		bullet.ricochetAngle = 15;
 		bullet.HBRC = 80;
 		bullet.LBRC = 95;
-		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaShrap").setColor(0xF0E800, SpentCasing.COLOR_CASE_12GA);
 		
 		return bullet;
 	}
@@ -246,14 +229,12 @@ public class Gun12GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.DU));
+		bullet.ammo = ModItems.ammo_12gauge_du;
 		bullet.wear = 20;
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 22;
 		bullet.doesPenetrate = true;
 		bullet.leadChance = 50;
-		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaDU").setColor(0x62A362, SpentCasing.COLOR_CASE_12GA);
 		
 		return bullet;
 	}
@@ -262,7 +243,7 @@ public class Gun12GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.MARAUDER));
+		bullet.ammo = ModItems.ammo_12gauge_marauder;
 		bullet.wear = 20;
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 500;
@@ -279,8 +260,6 @@ public class Gun12GaugeFactory {
 			
 		};
 		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaAM").setColor(0x416645, SpentCasing.COLOR_CASE_12GA);
-		
 		return bullet;
 	}
 	
@@ -288,61 +267,7 @@ public class Gun12GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SLEEK));
-		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaIF").setColor(0x2A2A2A, SpentCasing.COLOR_CASE_12GA);
-		
-		return bullet;
-	}
-	
-	public static BulletConfiguration get12GaugePercussionConfig() {
-		
-		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
-		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.PERCUSSION));
-		bullet.velocity = 2F;
-		bullet.spread = 0F;
-		bullet.wear = 10;
-		bullet.dmgMin = 30F;
-		bullet.dmgMax = 30F;
-		bullet.maxAge = 0;
-		
-		bullet.spentCasing = CASING12GAUGE.clone().register("12GaPerc").setColor(0x9E1616, SpentCasing.COLOR_CASE_12GA).setupSmoke(1F, 0.5D, 60, 40);
-
-		bullet.bUpdate = new IBulletUpdateBehavior() {
-
-			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
-				
-				if(!bullet.worldObj.isRemote) {
-					
-					Vec3 vec = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ);
-					double radius = 4;
-					double x = bullet.posX + vec.xCoord;
-					double y = bullet.posY + vec.yCoord;
-					double z = bullet.posZ + vec.zCoord;
-					AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(radius, radius, radius);
-					List<Entity> list = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet.shooter, aabb);
-					
-					for(Entity e : list) {
-						DamageSource source = bullet.shooter instanceof EntityPlayer ? DamageSource.causePlayerDamage((EntityPlayer) bullet.shooter) : DamageSource.magic;
-						e.attackEntityFrom(source, 30F);
-					}
-	
-					NBTTagCompound data = new NBTTagCompound();
-					data.setString("type", "plasmablast");
-					data.setFloat("r", 0.75F);
-					data.setFloat("g", 0.75F);
-					data.setFloat("b", 0.75F);
-					data.setFloat("pitch", (float) -bullet.rotationPitch + 90);
-					data.setFloat("yaw", (float) bullet.rotationYaw);
-					data.setFloat("scale", 2F);
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(bullet.dimension, x, y, z, 100));
-					
-					bullet.setDead();
-				}
-			}
-		};
+		bullet.ammo = ModItems.ammo_12gauge_sleek;
 		
 		return bullet;
 	}

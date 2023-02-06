@@ -4,7 +4,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.ContainerAnvil;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilConstructionRecipe;
-import com.hbm.items.ItemAmmoEnums;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.InventoryUtil;
@@ -53,7 +52,7 @@ public class AnvilCraftPacket implements IMessage {
 			if(!(p.openContainer instanceof ContainerAnvil)) //player isn't even using an anvil -> bad
 				return null;
 			
-			ContainerAnvil anvil = (ContainerAnvil) p.openContainer;
+			ContainerAnvil anvil = (ContainerAnvil)p.openContainer;
 			AnvilConstructionRecipe recipe = AnvilRecipes.getConstruction().get(m.recipeIndex);
 			
 			if(!recipe.isTierValid(anvil.tier)) //player is using the wrong type of anvil -> bad
@@ -72,7 +71,7 @@ public class AnvilCraftPacket implements IMessage {
 						p.triggerAchievement(MainRegistry.achAssembly);
 					if(recipe.output.get(0).stack.getItem() == ModItems.billet_pu_mix)
 						p.triggerAchievement(MainRegistry.achChicagoPile);
-					if(recipe.output.get(0).stack.getItem() == ModItems.ammo_4gauge && recipe.output.get(0).stack.getItemDamage() == ItemAmmoEnums.Ammo4Gauge.VAMPIRE.ordinal())
+					if(recipe.output.get(0).stack.getItem() == ModItems.ammo_4gauge_vampire)
 						p.triggerAchievement(MainRegistry.achWitchtaunter);
 					
 				} else {

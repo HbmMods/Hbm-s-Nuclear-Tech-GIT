@@ -71,7 +71,9 @@ public class ItemEnumMulti extends Item {
 		}
 	}
 	
-	/** Returns null when the wrong enum is passed. Only really used for recipes anyway so it's good. */
+	/*
+	 * Returns null when the wrong enum is passed. Only really used for recipes anyway so it's good.
+	 */
 	public ItemStack stackFromEnum(int count, Enum num) {
 		
 		if(num.getClass() != this.theEnum)

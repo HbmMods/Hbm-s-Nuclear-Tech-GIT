@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.CasingEjector;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.inventory.gui.GUITurretSentry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -165,7 +164,6 @@ public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements IG
 			BulletConfiguration conf = this.getFirstConfigLoaded();
 			
 			if(conf != null) {
-				this.cachedCasingConfig = conf.spentCasing;
 				this.spawnBullet(conf);
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.sentry_fire", 2.0F, 1.0F);
@@ -193,29 +191,6 @@ public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements IG
 				shotSide = !shotSide;
 			}
 		}
-	}
-
-	@Override
-	protected Vec3 getCasingSpawnPos() {
-		
-		Vec3 pos = this.getTurretPos();
-		Vec3 vec = Vec3.createVectorHelper(0, 0.25,-0.125);
-		vec.rotateAroundZ((float) -this.rotationPitch);
-		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
-		
-		return Vec3.createVectorHelper(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord);
-	}
-
-	protected static CasingEjector ejector = new CasingEjector().setMotion(-0.3, 0.6, 0).setAngleRange(0.01F, 0.01F);
-	
-	@Override
-	protected CasingEjector getEjector() {
-		return ejector.setMotion(0.3, 0.6, 0);
-	}
-	
-	@Override
-	public boolean usesCasings() {
-		return true;
 	}
 	
 	@Override
