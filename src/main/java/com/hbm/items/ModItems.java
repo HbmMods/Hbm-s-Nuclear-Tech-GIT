@@ -193,6 +193,9 @@ public class ModItems {
 	public static Item ore_separated;
 	public static Item ore_purified;
 	public static Item ore_enriched;
+	public static Item ore_nitrated;
+	public static Item ore_nitrocrystalline;
+	public static Item ore_deepcleaned;
 
 	public static Item billet_uranium;
 	public static Item billet_u233;

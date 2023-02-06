@@ -93,12 +93,18 @@ public class CrystallizerRecipes {
 		for(int i = 0; i < ScrapType.values().length; i++) {
 			registerRecipe(new ComparableStack(ModItems.scrap_plastic, 1, i), new CrystallizerRecipe(new ItemStack(ModItems.circuit_star_piece, 1, i), baseTime));
 		}
+
+		FluidStack nitric = new FluidStack(Fluids.NITRIC_ACID, 500);
+		FluidStack organic = new FluidStack(Fluids.SOLVENT, 500);
+		int oreTime = 200;
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
 			int i = ore.ordinal();
 
-			registerRecipe(new ComparableStack(ModItems.ore_centrifuged, 1, i),	new CrystallizerRecipe(new ItemStack(ModItems.ore_cleaned, 1, i), baseTime, sulfur));
-			registerRecipe(new ComparableStack(ModItems.ore_separated, 1, i),	new CrystallizerRecipe(new ItemStack(ModItems.ore_purified, 1, i), baseTime));
+			registerRecipe(new ComparableStack(ModItems.ore_centrifuged, 1, i),			new CrystallizerRecipe(new ItemStack(ModItems.ore_cleaned, 1, i), oreTime));
+			registerRecipe(new ComparableStack(ModItems.ore_separated, 1, i),			new CrystallizerRecipe(new ItemStack(ModItems.ore_purified, 1, i), oreTime, sulfur));
+			registerRecipe(new ComparableStack(ModItems.ore_separated, 1, i),			new CrystallizerRecipe(new ItemStack(ModItems.ore_nitrated, 1, i), oreTime, nitric));
+			registerRecipe(new ComparableStack(ModItems.ore_nitrocrystalline, 1, i),	new CrystallizerRecipe(new ItemStack(ModItems.ore_deepcleaned, 1, i), oreTime, organic));
 		}
 		
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");
