@@ -235,7 +235,7 @@ public class ItemLemon extends ItemFood {
 			list.add(EnumChatFormatting.YELLOW + "what a beautiful creature!");
 		}
 	}
-}
+
 
 
     @Override
