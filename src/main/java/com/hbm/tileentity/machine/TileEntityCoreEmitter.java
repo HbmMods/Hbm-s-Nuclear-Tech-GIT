@@ -339,16 +339,18 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setActive(Context context, Arguments args) {
-		isOn = Boolean.parseBoolean(args.checkString(0));
+		isOn = args.checkBoolean(0);
 		return new Object[] {};
 	}
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setInput(Context context, Arguments args) {
-		int newOutput = Integer.parseInt(args.checkString(0));
+		int newOutput = args.checkInteger(0);
 		if (newOutput > 100) {
 			newOutput = 100;
+		} else if (newOutput < 0) {
+			newOutput = 0;
 		}
 		watts = newOutput;
 		return new Object[] {};
