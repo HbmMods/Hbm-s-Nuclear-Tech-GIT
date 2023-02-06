@@ -118,10 +118,10 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 					
 					if(this.shouldGrow()) {
 						worldObj.setBlock(xCoord, yCoord + 1, zCoord, this.getBlockType(), this.getBlockMetadata(), 3);
-						worldObj.setBlock(xCoord, yCoord + 1, zCoord, ModBlocks.volcanic_lava_block);
+						worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.volcanic_lava_block);
 						return;
 					} else if(this.isExtinguishing()) {
-						worldObj.setBlock(xCoord, yCoord + 1, zCoord, ModBlocks.volcanic_lava_block);
+						worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.volcanic_lava_block);
 						return;
 					}
 				}

@@ -21,6 +21,7 @@ import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -69,8 +70,8 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 				int lastHeat = this.heat;
 				
 				int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
-				if(light > 7 && MainRegistry.proxy.getImpactFire(worldObj) > 0) {
-					this.heat += ((maxHeat - heat) * 0.5D); //constantly heat up 50% of the remaining heat buffer for rampant but diminishing heating
+				if(light > 7 && TomSaveData.forWorld(worldObj).fire > 1e-5) {
+					this.heat += ((maxHeat - heat) * 0.000005D); //constantly heat up 0.0005% of the remaining heat buffer for rampant but diminishing heating
 				}
 				
 				data.setInteger("heat", lastHeat);

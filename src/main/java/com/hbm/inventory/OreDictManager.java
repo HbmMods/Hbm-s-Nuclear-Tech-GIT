@@ -19,9 +19,11 @@ import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.material.MaterialShapes;
+import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumTarType;
+import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -359,9 +361,9 @@ public class OreDictManager {
 		KNO																				.dust(niter)			.block(block_niter)		.ore(ore_niter);
 		F																				.dust(fluorite)			.block(block_fluorite)	.ore(ore_fluorite, basalt_fluorite);
 		LIGNITE							.gem(lignite)									.dust(powder_lignite)							.ore(ore_lignite);
-		COALCOKE						.gem(fromOne(coke, EnumCokeType.COAL));
-		PETCOKE							.gem(fromOne(coke, EnumCokeType.PETROLEUM));
-		LIGCOKE							.gem(fromOne(coke, EnumCokeType.LIGNITE));
+		COALCOKE						.gem(fromOne(coke, EnumCokeType.COAL))									.block(fromOne(block_coke, EnumCokeType.COAL));
+		PETCOKE							.gem(fromOne(coke, EnumCokeType.PETROLEUM))								.block(fromOne(block_coke, EnumCokeType.PETROLEUM));
+		LIGCOKE							.gem(fromOne(coke, EnumCokeType.LIGNITE))								.block(fromOne(block_coke, EnumCokeType.LIGNITE));
 		CINNABAR	.crystal(cinnebar)	.gem(cinnebar)																					.ore(ore_cinnebar, ore_depth_cinnebar);
 		BORAX																			.dust(powder_borax)								.ore(ore_depth_borax);
 		VOLCANIC						.gem(gem_volcanic)																				.ore(basalt_gem);
@@ -426,7 +428,7 @@ public class OreDictManager {
 		ANY_HIGHEXPLOSIVE		.ingot(ball_tnt);
 		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_asbestos, ducrete, ducrete_smooth);
 		for(int i = 0; i < 16; i++) { ANY_CONCRETE.any(new ItemStack(ModBlocks.concrete_colored, 1, i)); }
-		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class));
+		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class)).block(fromAll(block_coke, EnumCokeType.class));
 		ANY_BISMOID				.ingot(ingot_bismuth, ingot_arsenic).nugget(nugget_bismuth, nugget_arsenic).block(block_bismuth);
 
 		OreDictionary.registerOre(KEY_OIL_TAR, fromOne(oil_tar, EnumTarType.CRUDE));
@@ -447,6 +449,10 @@ public class OreDictManager {
 
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_bismuth);
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_arsenic);
+		
+		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
+			OreDictionary.registerOre("ore" + ore.oreName, new ItemStack(ModItems.ore_enriched, 1, ore.ordinal()));
+		}
 
 		OreDictionary.registerOre("itemRubber", ingot_rubber);
 
@@ -621,6 +627,15 @@ public class OreDictManager {
 			
 			for(int i = 0; i < vals.length; i++) {
 				stacks[i] = new ItemStack(item, 1, vals[i].ordinal());
+			}
+			return stacks;
+		}
+		public static Object[] fromAll(Block block, Class<? extends Enum> en) {
+			Enum[] vals = en.getEnumConstants();
+			Object[] stacks = new Object[vals.length];
+			
+			for(int i = 0; i < vals.length; i++) {
+				stacks[i] = new ItemStack(block, 1, vals[i].ordinal());
 			}
 			return stacks;
 		}

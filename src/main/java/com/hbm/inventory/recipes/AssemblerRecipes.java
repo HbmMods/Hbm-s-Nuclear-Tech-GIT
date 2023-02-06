@@ -26,8 +26,10 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ItemAmmoEnums;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
+import com.hbm.items.machine.ItemDrillbit.EnumDrillType;
 import com.hbm.items.machine.ItemPistons.EnumPistonType;
 import com.hbm.main.MainRegistry;
 
@@ -196,8 +198,8 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.warhead_thermo_endo, 1), new AStack[] {new ComparableStack(ModBlocks.therm_endo, 2), new OreDictStack(TI.plate(), 12), new OreDictStack(STEEL.plate(), 6), },300);
 		makeRecipe(new ComparableStack(ModItems.warhead_thermo_exo, 1), new AStack[] {new ComparableStack(ModBlocks.therm_exo, 2), new OreDictStack(TI.plate(), 12), new OreDictStack(STEEL.plate(), 6), },300);
 		makeRecipe(new ComparableStack(ModItems.fuel_tank_small, 1), new AStack[] {new ComparableStack(ModItems.canister_full, 6, Fluids.ETHANOL.getID()), new OreDictStack(TI.plate(), 6), new OreDictStack(STEEL.plate(), 2), },100);
-		makeRecipe(new ComparableStack(ModItems.fuel_tank_medium, 1), new AStack[] {new ComparableStack(ModItems.canister_full, 12, Fluids.KEROSENE.getID()), new OreDictStack(TI.plate(), 12), new OreDictStack(STEEL.plate(), 4), },150);
-		makeRecipe(new ComparableStack(ModItems.fuel_tank_large, 1), new AStack[] {new ComparableStack(ModItems.canister_full, 36, Fluids.KEROSENE.getID()), new OreDictStack(TI.plate(), 24), new OreDictStack(STEEL.plate(), 8), },200);
+		makeRecipe(new ComparableStack(ModItems.fuel_tank_medium, 1), new AStack[] {new ComparableStack(ModItems.canister_full, 8, Fluids.KEROSENE.getID()), new OreDictStack(TI.plate(), 12), new OreDictStack(STEEL.plate(), 4), },150);
+		makeRecipe(new ComparableStack(ModItems.fuel_tank_large, 1), new AStack[] {new ComparableStack(ModItems.canister_full, 12, Fluids.KEROSENE.getID()), new OreDictStack(TI.plate(), 24), new OreDictStack(STEEL.plate(), 8), },200);
 		makeRecipe(new ComparableStack(ModItems.thruster_small, 1), new AStack[] {new OreDictStack(STEEL.plate(), 4), new OreDictStack(W.ingot(), 4), new ComparableStack(ModItems.wire_aluminium, 4), },100);
 		makeRecipe(new ComparableStack(ModItems.thruster_medium, 1), new AStack[] {new OreDictStack(STEEL.plate(), 8), new OreDictStack(W.ingot(), 8), new ComparableStack(ModItems.motor, 1), new ComparableStack(ModItems.wire_copper, 16), },150);
 		makeRecipe(new ComparableStack(ModItems.thruster_large, 1), new AStack[] {new OreDictStack(DURA.ingot(), 16), new OreDictStack(W.ingot(), 16), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.wire_gold, 32), new ComparableStack(ModItems.circuit_red_copper, 1), },200);
@@ -498,6 +500,45 @@ public class AssemblerRecipes {
 				new OreDictStack(NB.ingot(), 16),
 				new ComparableStack(ModItems.bolt_compound, 16)
 			}, 200);
+
+		makeRecipe(new ComparableStack(ModBlocks.machine_excavator, 1), new AStack[] {
+				new ComparableStack(Blocks.stonebrick, 8),
+				new OreDictStack(STEEL.ingot(), 16),
+				new OreDictStack(IRON.ingot(), 16),
+				new ComparableStack(ModBlocks.steel_scaffold, 16),
+				new ComparableStack(ModItems.motor, 2),
+				new ComparableStack(ModItems.tank_steel, 1),
+				new ComparableStack(ModItems.circuit_red_copper, 1)
+			}, 300);
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.STEEL.ordinal()), new AStack[] {
+				new OreDictStack(STEEL.ingot(), 12),
+				new OreDictStack(W.ingot(), 4)
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.STEEL_DIAMOND.ordinal()), new AStack[] {
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.STEEL.ordinal()),
+				new OreDictStack(DIAMOND.dust(), 16)
+			}, 100);
+		
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.HSS.ordinal()), new AStack[] {
+				new OreDictStack(DURA.ingot(), 12),
+				new OreDictStack(ANY_PLASTIC.ingot(), 12),
+				new OreDictStack(TI.ingot(), 8)
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.HSS_DIAMOND.ordinal()), new AStack[] {
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.HSS.ordinal()),
+				new OreDictStack(DIAMOND.dust(), 24)
+			}, 100);
+		
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.DESH.ordinal()), new AStack[] {
+				new OreDictStack(DESH.ingot(), 16),
+				new OreDictStack(RUBBER.ingot(), 12),
+				new OreDictStack(NB.ingot(), 4)
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.DESH_DIAMOND.ordinal()), new AStack[] {
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.DESH.ordinal()),
+				new OreDictStack(DIAMOND.dust(), 32)
+			}, 100);
+		
 		makeRecipe(new ComparableStack(ModBlocks.machine_large_turbine, 1), new AStack[] {
 				new OreDictStack(STEEL.plate(), 12),
 				new OreDictStack(RUBBER.ingot(), 4),
@@ -572,7 +613,7 @@ public class AssemblerRecipes {
 				new OreDictStack(ASBESTOS.ingot(), 8)
 			}, 200);
 
-		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2), new AStack[] {
+		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.STOCK.ordinal()), new AStack[] {
 				new OreDictStack(STEEL.plate(), 2),
 				new OreDictStack(CU.plate(), 1),
 				new ComparableStack(ModItems.primer_50, 5),
@@ -582,7 +623,7 @@ public class AssemblerRecipes {
 				new OreDictStack(U238.ingot(), 1)
 			}, 60);
 
-		makeRecipe(new ComparableStack(ModItems.ammo_75bolt_incendiary, 2), new AStack[] {
+		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.INCENDIARY.ordinal()), new AStack[] {
 				new OreDictStack(STEEL.plate(), 2),
 				new OreDictStack(CU.plate(), 1),
 				new ComparableStack(ModItems.primer_50, 5),
@@ -592,7 +633,7 @@ public class AssemblerRecipes {
 				new OreDictStack(P_WHITE.ingot(), 3)
 			}, 60);
 
-		makeRecipe(new ComparableStack(ModItems.ammo_75bolt_he, 2), new AStack[] {
+		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.HE.ordinal()), new AStack[] {
 				new OreDictStack(STEEL.plate(), 2),
 				new OreDictStack(CU.plate(), 1),
 				new ComparableStack(ModItems.primer_50, 5),

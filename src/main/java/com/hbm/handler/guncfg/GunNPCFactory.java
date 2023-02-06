@@ -9,6 +9,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -29,7 +30,7 @@ public class GunNPCFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 
-		bullet.ammo = ModItems.coin_maskman;
+		bullet.ammo = new ComparableStack(ModItems.coin_maskman);
 		bullet.velocity = 0.25F;
 		bullet.spread = 0.000F;
 		bullet.wear = 10;
@@ -84,7 +85,7 @@ public class GunNPCFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.coin_maskman;
+		bullet.ammo = new ComparableStack(ModItems.coin_maskman);
 		bullet.spread = 0.0F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 20;
@@ -102,7 +103,7 @@ public class GunNPCFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.coin_maskman;
+		bullet.ammo = new ComparableStack(ModItems.coin_maskman);
 		bullet.spread = 0.0F;
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 10;
@@ -118,7 +119,7 @@ public class GunNPCFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.coin_maskman;
+		bullet.ammo = new ComparableStack(ModItems.coin_maskman);
 		bullet.spread = 0.0F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 20;
@@ -151,7 +152,7 @@ public class GunNPCFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.coin_maskman;
+		bullet.ammo = new ComparableStack(ModItems.coin_maskman);
 		bullet.gravity = 0.1D;
 		bullet.velocity = 1.0F;
 		bullet.dmgMin = 15;
@@ -167,7 +168,7 @@ public class GunNPCFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.coin_maskman;
+		bullet.ammo = new ComparableStack(ModItems.coin_maskman);
 		bullet.gravity = 0.1D;
 		bullet.velocity = 1.0F;
 		bullet.dmgMin = 20;
@@ -205,7 +206,7 @@ public class GunNPCFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.coin_worm;
+		bullet.ammo = new ComparableStack(ModItems.coin_worm);
 		bullet.spread = 0.0F;
 		bullet.maxAge = 60;
 		bullet.dmgMin = 15;
@@ -222,7 +223,7 @@ public class GunNPCFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.coin_worm;
+		bullet.ammo = new ComparableStack(ModItems.coin_worm);
 		bullet.spread = 0.0F;
 		bullet.maxAge = 100;
 		bullet.dmgMin = 35;

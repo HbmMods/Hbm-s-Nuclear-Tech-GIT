@@ -18,6 +18,8 @@ import com.hbm.util.I18nUtil;
 
 import api.hbm.block.IToolable;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,9 +42,9 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		if(meta >= 12)
-			return new TileEntityMachineFluidTank();
-		return new TileEntityProxyCombo().fluid();
+		if(meta >= 12) return new TileEntityMachineFluidTank();
+		if(meta >= 6) return new TileEntityProxyCombo().fluid();
+		return null;
 	}
 
 	@Override
@@ -80,13 +82,11 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 	@Override
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-		this.makeExtra(world, x + rot.offsetX, y, z + rot.offsetZ);
-		this.makeExtra(world, x - rot.offsetX, y, z - rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX + rot.offsetX, y, z - dir.offsetZ + rot.offsetZ);
-		this.makeExtra(world, x - dir.offsetX - rot.offsetX, y, z - dir.offsetZ - rot.offsetZ);
+		this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ + 1);
+		this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ - 1);
+		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ + 1);
+		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ - 1);
 	}
 
 	@Override
@@ -145,10 +145,11 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 		
 		if(tool != ToolType.TORCH) return false;
-		return IRepairable.tryRepairMultiblock(world, x, y, z, this, Minecraft.getMinecraft().thePlayer);
+		return IRepairable.tryRepairMultiblock(world, x, y, z, this, player);
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		
 		List<AStack> materials = IRepairable.getRepairMaterials(world, x, y, z, this, Minecraft.getMinecraft().thePlayer);

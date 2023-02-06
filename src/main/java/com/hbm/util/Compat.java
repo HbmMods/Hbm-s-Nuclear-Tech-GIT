@@ -21,6 +21,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public class Compat {
 	
@@ -193,5 +195,13 @@ public class Compat {
 			MainRegistry.logger.error("| Tried to remove Railcraft block but failed due to " + x.getMessage());
 		}
 		MainRegistry.logger.info("#######################################################");
+	}
+	
+	/** A standard implementation of safely grabbing a tile entity without loading chunks, might have more fluff added to it later on. */
+	public static TileEntity getTileStandard(World world, int x, int y, int z) {
+		
+		if(!world.getChunkProvider().chunkExists(x >> 4, z >> 4)) return null;
+		
+		return world.getTileEntity(x, y, z);
 	}
 }

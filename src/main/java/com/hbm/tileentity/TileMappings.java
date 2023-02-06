@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.bomb.BlockVolcano.TileEntityVolcanoCore;
+import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
@@ -201,6 +202,7 @@ public class TileMappings {
 		put(TileEntityProxyConductor.class, "tileentity_proxy_conductor");
 
 		put(TileEntityRandomOre.class, "tileentity_mother_of_all_ores");
+		put(TileEntityBedrockOre.class, "tileentity_bedrock_ore");
 		
 		putNetwork();
 		putBombs();
@@ -238,6 +240,7 @@ public class TileMappings {
 		put(TileEntityTurretBrandon.class, "tileentity_turret_brandon");
 		put(TileEntityTurretArty.class, "tileentity_turret_arty");
 		put(TileEntityTurretHIMARS.class, "tileentity_turret_himars");
+		put(TileEntityTurretSentry.class, "tileentity_turret_sentry");
 	}
 	
 	private static void putMachines() {
@@ -273,6 +276,7 @@ public class TileMappings {
 		put(TileEntityMachineLiquefactor.class, "tileentity_liquefactor");
 		put(TileEntityMachineSolidifier.class, "tileentity_solidifier");
 		put(TileEntityElectrolyser.class, "tileentity_electrolyser");
+		put(TileEntityMachineMixer.class, "tileentity_mixer");
 
 		put(TileEntitySteamEngine.class, "tileentity_steam_engine");
 		put(TileEntityMachineTurbine.class, "tileentity_turbine");

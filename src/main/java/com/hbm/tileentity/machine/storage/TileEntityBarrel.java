@@ -14,7 +14,7 @@ import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
-import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -38,6 +38,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	public static final short modes = 4;
 	public int age = 0;
 	public List<IFluidAcceptor> list = new ArrayList();
+	protected boolean sendingBrake = false;
 
 	public TileEntityBarrel() {
 		super(6);
@@ -64,17 +65,9 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			tank.unloadTank(4, 5, slots);
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
-			/*if(this.mode == 1 || this.mode == 2) {
-				this.sendFluidToAll(tank.getTankType(), this);
-			}
-			
-			if(this.mode == 0 || this.mode == 1) {
-				this.subscribeToAllAround(tank.getTankType(), worldObj, xCoord, yCoord, zCoord);
-			} else {
-				this.unsubscribeToAllAround(tank.getTankType(), worldObj, xCoord, yCoord, zCoord);
-			}*/
-			
+			this.sendingBrake = true;
 			tank.setFill(transmitFluidFairly(worldObj, tank.getTankType(), this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
+			this.sendingBrake = false;
 			
 			age++;
 			if(age >= 20)
@@ -126,6 +119,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				consumers.add((IFluidConnector) te);
 			}
 		}
+		
+		consumers.remove(that);
 
 		if(fill > 0 && send) {
 			List<IFluidConnector> con = new ArrayList();
@@ -213,7 +208,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		}
 		
 		//For when Tom's firestorm hits a barrel full of water
-		if(tank.getTankType() == Fluids.WATER && MainRegistry.proxy.getImpactFire(worldObj) > 0) {
+		if(tank.getTankType() == Fluids.WATER && TomSaveData.forWorld(worldObj).fire > 1e-5) {
 			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
 			
 			if(light > 7) {
@@ -312,7 +307,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 
 	@Override
 	public FluidTank[] getReceivingTanks() {
-		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
+		return (mode == 0 || mode == 1) && !sendingBrake ? new FluidTank[] {tank} : new FluidTank[0];
 	}
 
 	@Override

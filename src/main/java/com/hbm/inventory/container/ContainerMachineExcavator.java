@@ -18,15 +18,16 @@ public class ContainerMachineExcavator extends Container {
 	public ContainerMachineExcavator(InventoryPlayer invPlayer, TileEntityMachineExcavator tile) {
 		this.excavator = tile;
 
-		//Battery
+		//Battery: 0
 		this.addSlotToContainer(new Slot(tile, 0, 220, 72));
-		//Fluid ID
+		//Fluid ID: 1
 		this.addSlotToContainer(new Slot(tile, 1, 202, 72));
-		//Upgrades
+		//Upgrades: 2-4
 		for(int i = 0; i < 3; i++) {
 			this.addSlotToContainer(new Slot(tile, 2 + i, 136 + i * 18, 75));
 		}
 		
+		//Buffer: 5-13
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
 				this.addSlotToContainer(new SlotMachineOutput(tile, 5 + j + i * 3, 136 + j * 18, 5 + i * 18));

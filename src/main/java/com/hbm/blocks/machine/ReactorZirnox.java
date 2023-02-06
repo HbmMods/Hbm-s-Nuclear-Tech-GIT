@@ -63,6 +63,7 @@ public class ReactorZirnox extends BlockDummyable {
 		return 2;
 	}
 
+	@Override
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 

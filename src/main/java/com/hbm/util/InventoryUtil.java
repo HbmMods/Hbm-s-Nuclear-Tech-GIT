@@ -394,6 +394,26 @@ public class InventoryUtil {
 			return stacks;
 		}
 		
+		/* in emergency situations with mixed types where AStacks coexist with NBT dependent ItemStacks, such as for fluid icons */
+		if(o instanceof Object[]) {
+			Object[] ingredients = (Object[]) o;
+			ItemStack[][] stacks = new ItemStack[ingredients.length][0];
+			
+			for(int i = 0; i < ingredients.length; i++) {
+				Object ingredient = ingredients[i];
+
+				if(ingredient instanceof AStack) {
+					stacks[i] = ((AStack) ingredient).extractForNEI().toArray(new ItemStack[0]);
+				}
+				if(ingredient instanceof ItemStack) {
+					stacks[i] = new ItemStack[1];
+					stacks[i][0] = ((ItemStack) ingredient).copy();
+				}
+			}
+			
+			return stacks;
+		}
+		
 		return new ItemStack[0][0];
 	}
 	
@@ -540,5 +560,54 @@ public class InventoryUtil {
 		}
 
 		return success;
+	}
+	
+	public static int countAStackMatches(ItemStack[] inventory, AStack stack, boolean ignoreSize) {
+		int count = 0;
+		
+		for(ItemStack itemStack : inventory) {
+			if(itemStack != null) {
+				if(stack.matchesRecipe(itemStack, true)) {
+					count += itemStack.stackSize;
+				}
+			}
+		}
+		return ignoreSize ? count : count / stack.stacksize;
+	}
+
+	public static int countAStackMatches(EntityPlayer player, AStack stack, boolean ignoreSize) {
+		return countAStackMatches(player.inventory.mainInventory, stack, ignoreSize);
+	}
+
+	public static boolean doesPlayerHaveAStack(EntityPlayer player, AStack stack, boolean shouldRemove, boolean ignoreSize) {
+		return doesInventoryHaveAStack(player.inventory.mainInventory, stack, shouldRemove, ignoreSize);
+	}
+
+	public static boolean doesInventoryHaveAStack(ItemStack[] inventory, AStack stack, boolean shouldRemove, boolean ignoreSize) {
+		final int totalMatches;
+		int totalStacks = 0;
+		for(ItemStack itemStack : inventory) {
+			if(itemStack != null && stack.matchesRecipe(itemStack, ignoreSize))
+				totalStacks += itemStack.stackSize;
+			if(!shouldRemove && ignoreSize && totalStacks > 0)
+				return true;
+		}
+
+		totalMatches = ignoreSize ? totalStacks : totalStacks / stack.stacksize;
+
+		if(shouldRemove) {
+			int consumedStacks = 0, requiredStacks = ignoreSize ? 1 : stack.stacksize;
+			for(ItemStack itemStack : inventory) {
+				if(consumedStacks > requiredStacks)
+					break;
+				if(itemStack != null && stack.matchesRecipe(itemStack, true)) {
+					final int toConsume = Math.min(itemStack.stackSize, requiredStacks - consumedStacks);
+					itemStack.stackSize -= toConsume;
+					consumedStacks += toConsume;
+				}
+			}
+		}
+
+		return totalMatches > 0;
 	}
 }

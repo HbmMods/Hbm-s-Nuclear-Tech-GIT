@@ -309,10 +309,10 @@ public class FalloutConfigJSON {
 			if(obj.has("primarySubstitution")) entry.prim(readMetaArray(obj.get("primarySubstitution")));
 			if(obj.has("secondarySubstitutions")) entry.sec(readMetaArray(obj.get("secondarySubstitutions")));
 
-			if(obj.has("chance")) entry.c(obj.get("chance").getAsInt());
+			if(obj.has("chance")) entry.c(obj.get("chance").getAsDouble());
 
 			if(obj.has("minimumDistancePercent")) entry.min(obj.get("minimumDistancePercent").getAsDouble());
-			if(obj.has("maximumDistancePercent")) entry.min(obj.get("maximumDistancePercent").getAsDouble());
+			if(obj.has("maximumDistancePercent")) entry.max(obj.get("maximumDistancePercent").getAsDouble());
 			
 			return entry;
 		}

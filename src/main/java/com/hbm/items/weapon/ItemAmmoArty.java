@@ -13,13 +13,15 @@ import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
-import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -171,14 +173,16 @@ public class ItemAmmoArty extends Item {
 		return "item." + itemTypes[Math.abs(stack.getItemDamage()) % itemTypes.length].name;
 	}
 	
+	protected static SpentCasing SIXTEEN_INCH_CASE = new SpentCasing(CasingType.STRAIGHT).setScale(15F, 15F, 10F).setupSmoke(1F, 1D, 200, 60).setMaxAge(300);
+	
 	public abstract class ArtilleryShell {
 		
 		String name;
+		public SpentCasing casing;
 		
-		public ArtilleryShell() { }
-		
-		public ArtilleryShell(String name) {
+		public ArtilleryShell(String name, int casingColor) {
 			this.name = name;
+			this.casing = SIXTEEN_INCH_CASE.clone().register(name).setColor(casingColor);
 		}
 		
 		public abstract void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop);
@@ -193,7 +197,7 @@ public class ItemAmmoArty extends Item {
 			xnt.setBlockAllocator(new BlockAllocatorStandard(48));
 			xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
 		}
-		xnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(rangeMod));
+		xnt.setEntityProcessor(new EntityProcessorCross(7.5D).withRangeMod(rangeMod));
 		xnt.setPlayerProcessor(new PlayerProcessorStandard());
 		xnt.setSFX(new ExplosionEffectStandard());
 		xnt.explode();
@@ -231,12 +235,12 @@ public class ItemAmmoArty extends Item {
 	
 	private void init() {
 		/* STANDARD SHELLS */
-		this.itemTypes[NORMAL] = new ArtilleryShell("ammo_arty") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 10F, 3F, false); }};
-		this.itemTypes[CLASSIC] = new ArtilleryShell("ammo_arty_classic") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 15F, 5F, false); }};
-		this.itemTypes[EXPLOSIVE] = new ArtilleryShell("ammo_arty_he") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 15F, 3F, true); }};
+		this.itemTypes[NORMAL] = new ArtilleryShell("ammo_arty", SpentCasing.COLOR_CASE_16INCH) { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 10F, 3F, false); }};
+		this.itemTypes[CLASSIC] = new ArtilleryShell("ammo_arty_classic", SpentCasing.COLOR_CASE_16INCH) { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 15F, 5F, false); }};
+		this.itemTypes[EXPLOSIVE] = new ArtilleryShell("ammo_arty_he", SpentCasing.COLOR_CASE_16INCH) { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { standardExplosion(shell, mop, 15F, 3F, true); }};
 
 		/* MINI NUKE */
-		this.itemTypes[MINI_NUKE] = new ArtilleryShell("ammo_arty_mini_nuke") {
+		this.itemTypes[MINI_NUKE] = new ArtilleryShell("ammo_arty_mini_nuke", SpentCasing.COLOR_CASE_16INCH_NUKE) {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 				shell.killAndClear();
 				Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
@@ -245,7 +249,7 @@ public class ItemAmmoArty extends Item {
 		};
 		
 		/* FULL NUKE */
-		this.itemTypes[NUKE] = new ArtilleryShell("ammo_arty_nuke") {
+		this.itemTypes[NUKE] = new ArtilleryShell("ammo_arty_nuke", SpentCasing.COLOR_CASE_16INCH_NUKE) {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 				shell.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(shell.worldObj, BombConfig.missileRadius, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(shell.worldObj, 1000, BombConfig.missileRadius * 0.005F);
@@ -258,7 +262,7 @@ public class ItemAmmoArty extends Item {
 		};
 		
 		/* PHOSPHORUS */
-		this.itemTypes[PHOSPHORUS] = new ArtilleryShell("ammo_arty_phosphorus") {
+		this.itemTypes[PHOSPHORUS] = new ArtilleryShell("ammo_arty_phosphorus", SpentCasing.COLOR_CASE_16INCH_PHOS) {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 				standardExplosion(shell, mop, 10F, 3F, false);
 				shell.worldObj.playSoundEffect(shell.posX, shell.posY, shell.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + shell.worldObj.rand.nextFloat() * 0.2F);
@@ -287,7 +291,7 @@ public class ItemAmmoArty extends Item {
 		};
 		
 		/* THIS DOOFUS */
-		this.itemTypes[CARGO] = new ArtilleryShell("ammo_arty_cargo") { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
+		this.itemTypes[CARGO] = new ArtilleryShell("ammo_arty_cargo", SpentCasing.COLOR_CASE_16INCH) { public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 			if(mop.typeOfHit == MovingObjectType.BLOCK) {
 				shell.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 				shell.getStuck(mop.blockX, mop.blockY, mop.blockZ);
@@ -295,11 +299,11 @@ public class ItemAmmoArty extends Item {
 		}};
 		
 		/* CLUSTER SHELLS */
-		this.itemTypes[PHOSPHORUS_MULTI] = new ArtilleryShell("ammo_arty_phosphorus_multi") {
+		this.itemTypes[PHOSPHORUS_MULTI] = new ArtilleryShell("ammo_arty_phosphorus_multi", SpentCasing.COLOR_CASE_16INCH_PHOS) {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.this.itemTypes[PHOSPHORUS].onImpact(shell, mop); }
 			public void onUpdate(EntityArtilleryShell shell) { standardCluster(shell, PHOSPHORUS, 10, 300, 5); }
 		};
-		this.itemTypes[MINI_NUKE_MULTI] = new ArtilleryShell("ammo_arty_mini_nuke_multi") {
+		this.itemTypes[MINI_NUKE_MULTI] = new ArtilleryShell("ammo_arty_mini_nuke_multi", SpentCasing.COLOR_CASE_16INCH_NUKE) {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) { ItemAmmoArty.this.itemTypes[MINI_NUKE].onImpact(shell, mop); }
 			public void onUpdate(EntityArtilleryShell shell) { standardCluster(shell, MINI_NUKE, 5, 300, 5); }
 		};

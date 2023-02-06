@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineExcavator;
 
 import net.minecraft.block.material.Material;
@@ -18,8 +19,9 @@ public class MachineExcavator extends BlockDummyable {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		
+
 		if(meta >= 12) return new TileEntityMachineExcavator();
+		if(meta >= 6) return new TileEntityProxyCombo().power().fluid();
 		return null;
 	}
 	
@@ -62,5 +64,11 @@ public class MachineExcavator extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {-1, 3, 3, -2, 3, -2}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {-1, 3, 3, -2, -2, 3}, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {-1, 3, -2, 3, 3, 3}, this, dir);
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		this.makeExtra(world, x + dir.offsetX * 3 + rot.offsetX, y + 1, z + dir.offsetZ * 3 + rot.offsetZ);
+		this.makeExtra(world, x + dir.offsetX * 3 - rot.offsetX, y + 1, z + dir.offsetZ * 3 - rot.offsetZ);
+		this.makeExtra(world, x + rot.offsetX * 3, y + 1, z + rot.offsetZ * 3);
+		this.makeExtra(world, x - rot.offsetX * 3, y + 1, z - rot.offsetZ * 3);
 	}
 }

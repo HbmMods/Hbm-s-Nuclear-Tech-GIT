@@ -7,6 +7,7 @@ import com.hbm.entity.mob.ai.EntityAIMaskmanLasergun;
 import com.hbm.entity.mob.ai.EntityAIMaskmanMinigun;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.ArmorUtil;
 
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -21,6 +22,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.world.World;
@@ -118,8 +120,12 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData, IRadia
 	protected void dropFewItems(boolean bool, int i) {
 
 		if(!worldObj.isRemote) {
+			
+			ItemStack mask = new ItemStack(ModItems.gas_mask_m65);
+			ArmorUtil.installGasMaskFilter(mask, new ItemStack(ModItems.gas_mask_filter_combo));
+			
+			this.entityDropItem(mask, 0F);
 			this.dropItem(ModItems.coin_maskman, 1);
-			this.dropItem(ModItems.gas_mask_m65, 1);
 			this.dropItem(ModItems.v1, 1);
 			this.dropItem(Items.skull, 1);
 		}

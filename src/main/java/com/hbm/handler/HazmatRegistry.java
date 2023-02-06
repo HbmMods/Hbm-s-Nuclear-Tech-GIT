@@ -1,10 +1,21 @@
 package com.hbm.handler;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ItemModCladding;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.Compat;
 
@@ -15,7 +26,7 @@ import net.minecraft.item.ItemStack;
 
 public class HazmatRegistry {
 	
-	public static void registerHazmats() {
+	public static void initDefault() {
 
 		//assuming coefficient of 10
 		//real coefficient turned out to be 5
@@ -249,4 +260,80 @@ public class HazmatRegistry {
 		
 	}
 
+	public static final Gson gson = new Gson();
+	public static void registerHazmats() {
+		File folder = MainRegistry.configHbmDir;
+
+		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmRadResist.json");
+		File template = new File(folder.getAbsolutePath() + File.separatorChar + "_hbmRadResist.json");
+		
+		initDefault();
+		
+		if(!config.exists()) {
+			writeDefault(template);
+		} else {
+			HashMap<Item, Double> conf = readConfig(config);
+			
+			if(conf != null) {
+				entries.clear();
+				entries.putAll(conf);
+			}
+		}
+	}
+	
+	private static void writeDefault(File file) {
+
+		try {
+			JsonWriter writer = new JsonWriter(new FileWriter(file));
+			writer.setIndent("  ");					//pretty formatting
+			writer.beginObject();					//initial '{'
+			writer.name("comment").value("Template file, remove the underscore ('_') from the name to enable the config.");
+			writer.name("entries").beginArray();	//all recipes are stored in an array called "entries"
+			
+			for(Entry<Item, Double> entry : entries.entrySet()) {
+				writer.beginObject();				//begin object for a single recipe
+				writer.name("item").value(Item.itemRegistry.getNameForObject(entry.getKey()));
+				writer.name("resistance").value(entry.getValue());
+				writer.endObject();					//end recipe object
+			}
+			
+			writer.endArray();						//end recipe array
+			writer.endObject();						//final '}'
+			writer.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static HashMap<Item, Double> readConfig(File config) {
+		
+		try {
+			JsonObject json = gson.fromJson(new FileReader(config), JsonObject.class);
+			JsonArray array = json.get("entries").getAsJsonArray();
+			HashMap<Item, Double> conf = new HashMap();
+			
+			for(JsonElement element : array) {
+				JsonObject object = (JsonObject) element;
+				
+				try {
+					String name = object.get("item").getAsString();
+					Item item = (Item) Item.itemRegistry.getObject(name);
+					double resistance = object.get("resistance").getAsDouble();
+					if(item != null) {
+						conf.put(item, resistance);
+					} else {
+						MainRegistry.logger.error("Tried loading unknown item " + name + " for hazmat entry.");
+					}
+				} catch(Exception ex) {
+					MainRegistry.logger.error("Encountered " + ex + " trying to read hazmat entry " + element.toString());
+				}
+			}
+			return conf;
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return null;
+	}
 }

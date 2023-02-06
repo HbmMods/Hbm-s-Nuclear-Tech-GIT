@@ -225,9 +225,13 @@ public class HazardSystem {
 
 	public static void updateDroppedItem(EntityItem entity) {
 		
-		List<HazardEntry> hazards = getHazardsFromStack(entity.getEntityItem());
+		ItemStack stack = entity.getEntityItem();
+		
+		if(entity.isDead || stack == null || stack.getItem() == null || stack.stackSize <= 0) return;
+		
+		List<HazardEntry> hazards = getHazardsFromStack(stack);
 		for(HazardEntry entry : hazards) {
-			entry.type.updateEntity(entity, HazardModifier.evalAllModifiers(entity.getEntityItem(), null, entry.baseLevel, entry.mods));
+			entry.type.updateEntity(entity, HazardModifier.evalAllModifiers(stack, null, entry.baseLevel, entry.mods));
 		}
 	}
 	

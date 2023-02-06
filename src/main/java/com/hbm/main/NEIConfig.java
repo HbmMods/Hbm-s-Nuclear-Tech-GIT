@@ -64,6 +64,7 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new BoilingHandler());
 		registerHandler(new CombinationHandler());
 		registerHandler(new SawmillHandler());
+		registerHandler(new MixerHandler());
 		
 		registerHandler(new ChunkyHandler());
 

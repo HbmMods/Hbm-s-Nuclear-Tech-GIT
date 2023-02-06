@@ -17,6 +17,8 @@ import com.hbm.inventory.fluid.Fluids;
 import static com.hbm.inventory.OreDictManager.*;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo50BMG;
+import com.hbm.items.ItemAmmoEnums.Ammo5mm;
 import com.hbm.items.ItemEnums.EnumLegendaryType;
 import com.hbm.items.ItemEnums.EnumPlantType;
 import com.hbm.items.ItemGenericPart.EnumPartType;
@@ -228,7 +230,7 @@ public class CraftingManager {
 
 		ItemStack infinity = new ItemStack(Items.enchanted_book);
 		EnchantmentUtil.addEnchantment(infinity, Enchantment.infinity, 1);
-		addRecipeAuto(infinity, new Object[] { "SBS", "BDB", "SBS", 'S', ModItems.ammo_50bmg_star, 'B', ModItems.ammo_5mm_star, 'D', ModItems.powder_magic });
+		addRecipeAuto(infinity, new Object[] { "SBS", "BDB", "SBS", 'S', ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.STAR), 'B', ModItems.ammo_5mm.stackFromEnum(Ammo5mm.STAR), 'D', ModItems.powder_magic });
 		ItemStack unbreaking = new ItemStack(Items.enchanted_book);
 		EnchantmentUtil.addEnchantment(unbreaking, Enchantment.unbreaking, 3);
 		addRecipeAuto(unbreaking, new Object[] { "SBS", "BDB", "SBS", 'S', BIGMT.ingot(), 'B', ModItems.plate_armor_lunar, 'D', ModItems.powder_magic });
@@ -304,6 +306,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.machine_fraction_tower), new Object[] { "SHS", "SGS", "SHS", 'S', STEEL.plate(), 'H', ModItems.hull_big_steel, 'G', ModBlocks.steel_grate });
 		addRecipeAuto(new ItemStack(ModBlocks.fraction_spacer), new Object[] { "BHB", 'H', ModItems.hull_big_steel, 'B', Blocks.iron_bars });
 		addRecipeAuto(new ItemStack(ModBlocks.furnace_iron), new Object[] { "III", "IFI", "BBB", 'I', IRON.ingot(), 'F', Blocks.furnace, 'B', Blocks.stonebrick });
+		addRecipeAuto(new ItemStack(ModBlocks.machine_mixer), new Object[] { "PIP", "GCG", "PMP", 'P', STEEL.plate(), 'I', DURA.ingot(), 'G', KEY_ANYPANE, 'C', ModItems.circuit_copper, 'M', ModItems.motor });
 
 		addRecipeAuto(new ItemStack(ModBlocks.muffler, 1), new Object[] { "III", "IWI", "III", 'I', ModItems.plate_polymer, 'W', Blocks.wool });
 
@@ -444,6 +447,12 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.steel_beam), 8), new Object[] { "S", "S", "S", 'S', ModBlocks.steel_scaffold });
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.chain), 8), new Object[] { "S", "S", "S", 'S', ModBlocks.steel_beam });
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.steel_grate), 4), new Object[] { "SS", "SS", 'S', ModBlocks.steel_beam });
+		
+
+		addRecipeAuto(new ItemStack(ModBlocks.steel_scaffold, 8, 0), new Object[] { "SSS", "SDS", "SSS", 'S', ModBlocks.steel_scaffold, 'D', "dyeGray" });
+		addRecipeAuto(new ItemStack(ModBlocks.steel_scaffold, 8, 1), new Object[] { "SSS", "SDS", "SSS", 'S', ModBlocks.steel_scaffold, 'D', "dyeRed" });
+		addRecipeAuto(new ItemStack(ModBlocks.steel_scaffold, 8, 2), new Object[] { "SSS", "SDS", "SSS", 'S', ModBlocks.steel_scaffold, 'D', "dyeWhite" });
+		addRecipeAuto(new ItemStack(ModBlocks.steel_scaffold, 8, 3), new Object[] { "SSS", "SDS", "SSS", 'S', ModBlocks.steel_scaffold, 'D', "dyeYellow" });
 		
 		reg2();
 	}
