@@ -48,6 +48,7 @@ public class FT_Coolable extends FluidTrait {
 	
 	public static enum CoolingType {
 		TURBINE("Turbine Steam"),
+		TURBLOOD("Turbine Grade Blood"),
 		HEATEXCHANGER("Coolable");
 		
 		public String name;

@@ -103,6 +103,10 @@ public class Fluids {
 	public static FluidType AMMONIA;
 	public static FluidType HYDRAZINE;
 	public static FluidType BLOODGAS;
+	private static FluidType BLOOD_HOT;
+	private static FluidType BLOODSTEAM;
+	private static FluidType DENSEBLOODSTEAM;
+	private static FluidType EVAPBLOOD;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -217,12 +221,17 @@ public class Fluids {
 		COALCREOSOTE =		new FluidType("COALCREOSOTE",		0x51694F, 3, 2, 0, EnumSymbol.NONE).addContainers(0x285A3F, ExtContainer.CANISTER).addTraits(LIQUID);
 		SEEDSLURRY =		new FluidType(81, "SEEDSLURRY",		0x7CC35E, 0, 0, 0, EnumSymbol.NONE).addContainers(0x7CC35E, ExtContainer.CANISTER).addTraits(LIQUID);
 		NITROGEN =			new FluidType("NITROGEN",			0xB3C6D2, 3, 0, 0, EnumSymbol.CROYGENIC).setTemp(-90).addTraits(LIQUID, EVAP);
-		BLOOD =			    new FluidType("BLOOD",				0x4D0000, 1, 0, 3, EnumSymbol.NONE).addContainers(0x4D0000, ExtContainer.CANISTER).addTraits(DELICIOUS, ULTRAKILL, LIQUID); 
+		BLOOD =			    new FluidType("BLOOD",				0x4D0000, 1, 0, 0, EnumSymbol.NONE).addContainers(0x4D0000, ExtContainer.CANISTER).addTraits(DELICIOUS, ULTRAKILL, LIQUID); 
 		NITRIC_ACID =		new FluidType("NITRIC_ACID",		0xFFCC80, 3, 0, 0, EnumSymbol.ACID).addTraits(new FT_Poison(true, 4)).addTraits(new FT_Flammable(20_000), new FT_Combustible(FuelGrade.MEDIUM, 50_000), new FT_Corrosive(20), LIQUID);
 		AMMONIA =			new FluidType("AMMONIA",			0xB3C6D2, 3, 0, 0, EnumSymbol.ASPHYXIANT).addTraits(new FT_Poison(true, 4), GASEOUS);
 		HYDRAZINE =			new FluidType("HYDRAZINE",			0x31517D, 2, 3, 0, EnumSymbol.NONE).addContainers(0x31517D, ExtContainer.CANISTER).addTraits((new FT_Flammable(500_000)), new FT_Combustible(FuelGrade.HIGH, 1_250_000), new FT_Corrosive(30), LIQUID);	
 		BLOODGAS =			new FluidType("BLOODGAS",		    0x591000, 1, 0, 3, EnumSymbol.NONE).addContainers(0x591000, ExtContainer.CANISTER).addTraits(new FT_Flammable(86_666), new FT_Combustible(FuelGrade.AERO, 666_665)).addTraits(LIQUID);
 		AIR =				new FluidType("AIR",				0xD1CEBE, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+		BLOOD_HOT =			new FluidType("BLOOD_HOT",			0x99525E, 1, 0, 0, EnumSymbol.NONE).setTemp(200).addTraits(LIQUID);
+		BLOODSTEAM =		new FluidType("BLOODSTEAM",			0x99525E, 1, 0, 0, EnumSymbol.NONE).setTemp(300).setCompression(0.01D).addTraits(GASEOUS);
+		DENSEBLOODSTEAM =	new FluidType("DENSEBLOODSTEAM",	0x99525E, 1, 0, 0, EnumSymbol.NONE).setTemp(400).setCompression(0.07D).addTraits(GASEOUS);
+		EVAPBLOOD= 			new FluidType("EVAPBLOOD",			0x93525E, 1, 0, 0, EnumSymbol.NONE).setTemp(90).setCompression(1.0D).addTraits(GASEOUS);
+	
 		//TODO: fire diamonds
 		//sh
 		
@@ -251,6 +260,13 @@ public class Fluids {
 		metaOrder.add(CRYOGEL);
 		metaOrder.add(MUG);
 		metaOrder.add(MUG_HOT);
+		//blood
+		metaOrder.add(BLOOD);
+		metaOrder.add(BLOODGAS);
+		metaOrder.add(BLOOD_HOT);
+		metaOrder.add(BLOODSTEAM);
+		metaOrder.add(DENSEBLOODSTEAM);
+		metaOrder.add(EVAPBLOOD); //im starting to think that the novelty of blood is getting a bit overdone
 		//pure elements, cyogenic gasses
 		metaOrder.add(HYDROGEN);
 		metaOrder.add(DEUTERIUM);
@@ -260,12 +276,6 @@ public class Fluids {
 		metaOrder.add(XENON);
 		metaOrder.add(MERCURY);
 		metaOrder.add(NITROGEN);
-		metaOrder.add(AIR); //do it for love, do it for life, for mankiiiiiind!!
-		metaOrder.add(BLOOD);
-		metaOrder.add(NITRIC_ACID);
-		metaOrder.add(AMMONIA);
-		metaOrder.add(HYDRAZINE);
-		metaOrder.add(BLOODGAS);
 		//oils, fuels
 		metaOrder.add(OIL);
 		metaOrder.add(CRACKOIL);
@@ -302,6 +312,7 @@ public class Fluids {
 		metaOrder.add(BIOFUEL);
 		metaOrder.add(ETHANOL);
 		metaOrder.add(NITAN);
+		metaOrder.add(HYDRAZINE);
 		metaOrder.add(BALEFIRE);
 		//processing fluids
 		metaOrder.add(SALIENT);
@@ -309,6 +320,9 @@ public class Fluids {
 		metaOrder.add(ACID);
 		metaOrder.add(SULFURIC_ACID);
 		//NITRIC_ACID
+		metaOrder.add(AIR); //do it for love, do it for life, for mankiiiiiind!!
+		metaOrder.add(NITRIC_ACID);
+		metaOrder.add(AMMONIA);
 		metaOrder.add(SCHRABIDIC);
 		metaOrder.add(UF6);
 		metaOrder.add(PUF6);
@@ -338,6 +352,9 @@ public class Fluids {
 		double eff_steam_boil = 1.0D;
 		double eff_steam_heatex = 0.25D;
 		
+		double eff_blood_boil = 0.8D; //it boils my blood that im adding this
+		double eff_blood_heatex = 0.15D;
+		
 		WATER.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, eff_steam_boil).setEff(HeatingType.HEATEXCHANGER, eff_steam_heatex)
 				.addStep(200, 1, STEAM, 100)
 				.addStep(220, 1, HOTSTEAM, 10)
@@ -366,6 +383,19 @@ public class Fluids {
 		
 		MUG.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(400, 1, MUG_HOT, 1));
 		MUG_HOT.addTraits(new FT_Coolable(MUG, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
+		
+		double eff_bloodturbine = 1.1D;
+		double eff_blood_cool = 0.4D;
+		
+		BLOOD.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(300, 1, BLOOD_HOT, 1));
+		BLOOD_HOT.addTraits(new FT_Coolable(BLOOD, 1, 1, 500).setEff(CoolingType.HEATEXCHANGER, 1.0D));
+		
+		BLOOD_HOT.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, eff_blood_boil).setEff(HeatingType.HEATEXCHANGER, eff_blood_heatex)
+		.addStep(100, 1, BLOODSTEAM, 50)
+		.addStep(120, 1, DENSEBLOODSTEAM, 5));
+		BLOODSTEAM.addTraits(new FT_Coolable(EVAPBLOOD, 100, 1, 200).setEff(CoolingType.TURBLOOD, eff_bloodturbine).setEff(CoolingType.HEATEXCHANGER, eff_blood_cool));
+		DENSEBLOODSTEAM.addTraits(new FT_Coolable(BLOODSTEAM, 1, 10, 2).setEff(CoolingType.TURBLOOD, eff_bloodturbine).setEff(CoolingType.HEATEXCHANGER, eff_blood_cool));
+		
 		
 		if(idMapping.size() != metaOrder.size()) {
 			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());

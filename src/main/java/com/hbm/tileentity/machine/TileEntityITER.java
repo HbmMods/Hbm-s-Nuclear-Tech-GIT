@@ -61,7 +61,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	public boolean isOn;
 
 	public TileEntityITER() {
-		super(5);
+		super(6);
 		tanks = new FluidTank[4];
 		tanks[0] = new FluidTank(Fluids.WATER, 1280000, 0);
 		tanks[1] = new FluidTank(Fluids.ULTRAHOTSTEAM, 128000, 1);
@@ -85,7 +85,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			if (age >= 20) {
 				age = 0;
 			}
-			tanks[2].setType(1, slots);
+			tanks[2].setType(5, slots);
 			tanks[2].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			tanks[3].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			if (age == 9 || age == 19)
@@ -97,6 +97,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 				FT_Heatable trait = tanks[2].getTankType().getTrait(FT_Heatable.class);
 				HeatingStep step = trait.getFirstStep();
 				tanks[3].setTankType(step.typeProduced);
+			}
+			else {
+				tanks[3].setTankType(Fluids.NONE);
 			}
 			/// START Processing part ///
 			
@@ -137,7 +140,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 				double coolantTemperatureRate = FusionRecipes.coolprod.get(plasma.getTankType());
 				FT_Heatable trait = tanks[2].getTankType().getTrait(FT_Heatable.class);
 				//int temp = tanks[2].getTankType().temperature;
-				coolantTemperatureRate = trait.getEfficiency(HeatingType.HEATEXCHANGER);
+				//coolantTemperatureRate = trait.getEfficiency(HeatingType.HEATEXCHANGER);
 				for(int i = 0; i < 20; i++) {
 					
 					if(plasma.getFill() > 0) {
