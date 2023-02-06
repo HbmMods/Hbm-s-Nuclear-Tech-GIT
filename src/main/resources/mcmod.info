@@ -3,11 +3,11 @@
   "modid": "hbm",
   "name": "Hbm's Nuclear Tech",
   "description": "A mod that adds weapons, nuclear themed stuff and machines",
-  "version":"1.0.27_X4501",
+  "version":"${version}",
   "mcversion": "1.7.10",
   "url": "",
   "updateUrl": "",
-  "credits": "HbMinecraft, rodolphito (explosion algorithms), grangerave (explosion algorithms), Hoboy (textures, models), Doctor17 (russian localization), Drillgon200 (effects, models, porting), UFFR (fork with all sorts of features), Pu-238 (Tom impact effects), Bismarck (chinese localization), Frooz (models), Minecreep (models), VT-6/24 (models, textures), Pheo (textures, various machines, weapons), Vær (fibrosis, gas centrifuges, ZIRNOX, CP-1 parts, starter guide), Adam29 (liquid petroleum, ethanol, electric furnace), Pashtet (russian localization), MartinTheDragon (calculator, chunk-based fallout), haru315 (spiral point algorithm), Sten89 (models), Pixelguru26 (textures), TheBlueHat (textures), Aionoso (GUI textures), impbk2002 (project settings), OvermindDL1 (project settings), TehTemmie (reacher radiation function), Toshayo (improved satellite loot system), Silly541 (config for safe ME drives), Voxelstice (OpenComputers integration), Pvndols (thorium fuel recipe)",
+  "credits": "${credits}",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
