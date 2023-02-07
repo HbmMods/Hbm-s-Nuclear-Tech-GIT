@@ -137,6 +137,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(NI.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_nickel))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(AL.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_aluminium))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(STEEL.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_steel))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(STAINLESS.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_stainless))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(PB.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_lead))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CU.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_copper))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(ALLOY.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_advanced_alloy))).setTier(3));
@@ -393,6 +394,23 @@ public class AnvilRecipes {
 						new OreDictStack("dustSulfur", 32),
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_deuterium_tower))).setTier(4));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new ComparableStack(ModItems.hull_big_steel, 4),
+						new ComparableStack(ModItems.plate_stainless, 8),
+						new ComparableStack(ModBlocks.concrete_smooth, 4),
+						new ComparableStack(ModBlocks.heater_heatex),
+						new ComparableStack(ModBlocks.deco_pipe_quad, 10),
+				},
+				new AnvilOutput(new ItemStack(ModBlocks.machine_atmo_tower))).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new ComparableStack(ModItems.hull_big_steel, 2),
+						new ComparableStack(ModItems.plate_stainless, 4),
+						new ComparableStack(ModBlocks.concrete_smooth, 4),
+						new ComparableStack(ModItems.turbine_titanium, 1),
+				},
+				new AnvilOutput(new ItemStack(ModBlocks.machine_atmo_vent))).setTier(2));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {

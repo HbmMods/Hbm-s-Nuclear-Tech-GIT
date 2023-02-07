@@ -247,7 +247,6 @@ public class ModEventHandler {
 		}
 		
 	}
-	
 	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event) {
 		

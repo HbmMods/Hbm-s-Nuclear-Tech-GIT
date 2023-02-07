@@ -289,6 +289,8 @@ public class ModItems {
 	public static Item wire_tungsten;
 	public static Item neutron_reflector;
 	public static Item ingot_steel;
+	public static Item ingot_stainless;
+	public static Item plate_stainless;
 	public static Item plate_steel;
 	public static Item plate_iron;
 	public static Item ingot_lead;
@@ -2191,6 +2193,7 @@ public class ModItems {
 	public static Item alloy_axe;
 	public static Item alloy_shovel;
 	public static Item alloy_hoe;
+	public static Item alloy_knife;
 	public static Item cmb_sword;
 	public static Item cmb_pickaxe;
 	public static Item cmb_axe;
@@ -2733,6 +2736,8 @@ public class ModItems {
 		ingot_beryllium = new Item().setUnlocalizedName("ingot_beryllium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_beryllium");
 		ingot_steel = new Item().setUnlocalizedName("ingot_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_steel");
 		plate_steel = new Item().setUnlocalizedName("plate_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_steel");
+		ingot_stainless = new Item().setUnlocalizedName("ingot_stainless").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_stainless");
+		plate_stainless = new Item().setUnlocalizedName("plate_stainless").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_stainless");
 		plate_iron = new Item().setUnlocalizedName("plate_iron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_iron");
 		ingot_lead = new Item().setUnlocalizedName("ingot_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_lead");
 		plate_lead = new Item().setUnlocalizedName("plate_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_lead");
@@ -5375,6 +5380,8 @@ public class ModItems {
 		
 		alloy_hoe = new ModHoe(MainRegistry.tMatAlloy).setUnlocalizedName("alloy_hoe").setTextureName(RefStrings.MODID + ":alloy_hoe");
 		
+		alloy_knife = new ModHoe(MainRegistry.tMatAlloy).setUnlocalizedName("alloy_knife").setTextureName(RefStrings.MODID + ":alloy_knife");
+		
 		cmb_sword = new ItemSwordAbility(50F, 0, MainRegistry.tMatCMB)
 				.addHitAbility(new WeaponAbility.StunAbility(2))
 				.addHitAbility(new WeaponAbility.VampireAbility(2F)).setUnlocalizedName("cmb_sword").setTextureName(RefStrings.MODID + ":cmb_sword");
@@ -5918,6 +5925,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_tungsten, ingot_tungsten.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_aluminium, ingot_aluminium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_steel, ingot_steel.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_stainless, ingot_stainless.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_tcalloy, ingot_tcalloy.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_lead, ingot_lead.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_bismuth, ingot_bismuth.getUnlocalizedName());
@@ -6307,6 +6315,7 @@ public class ModItems {
 		GameRegistry.registerItem(plate_nickel, plate_nickel.getUnlocalizedName());
 		GameRegistry.registerItem(plate_aluminium, plate_aluminium.getUnlocalizedName());
 		GameRegistry.registerItem(plate_steel, plate_steel.getUnlocalizedName());
+		GameRegistry.registerItem(plate_stainless, plate_stainless.getUnlocalizedName());
 		GameRegistry.registerItem(plate_lead, plate_lead.getUnlocalizedName());
 		GameRegistry.registerItem(plate_copper, plate_copper.getUnlocalizedName());
 		GameRegistry.registerItem(plate_advanced_alloy, plate_advanced_alloy.getUnlocalizedName());
@@ -7762,6 +7771,7 @@ public class ModItems {
 		GameRegistry.registerItem(alloy_axe, alloy_axe.getUnlocalizedName());
 		GameRegistry.registerItem(alloy_shovel, alloy_shovel.getUnlocalizedName());
 		GameRegistry.registerItem(alloy_hoe, alloy_hoe.getUnlocalizedName());
+		GameRegistry.registerItem(alloy_knife, alloy_knife.getUnlocalizedName());
 		GameRegistry.registerItem(cmb_sword, cmb_sword.getUnlocalizedName());
 		GameRegistry.registerItem(cmb_pickaxe, cmb_pickaxe.getUnlocalizedName());
 		GameRegistry.registerItem(cmb_axe, cmb_axe.getUnlocalizedName());

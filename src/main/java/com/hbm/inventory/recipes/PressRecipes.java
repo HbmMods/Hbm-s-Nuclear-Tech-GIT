@@ -64,6 +64,7 @@ public class PressRecipes {
 		makeRecipe(StampType.PLATE, new OreDictStack(NI.ingot()),		ModItems.plate_nickel);
 		makeRecipe(StampType.PLATE, new OreDictStack(AL.ingot()),		ModItems.plate_aluminium);
 		makeRecipe(StampType.PLATE, new OreDictStack(STEEL.ingot()),	ModItems.plate_steel);
+		makeRecipe(StampType.PLATE, new OreDictStack(STAINLESS.ingot()),		ModItems.plate_stainless);
 		makeRecipe(StampType.PLATE, new OreDictStack(PB.ingot()),		ModItems.plate_lead);
 		makeRecipe(StampType.PLATE, new OreDictStack(CU.ingot()),		ModItems.plate_copper);
 		makeRecipe(StampType.PLATE, new OreDictStack(ALLOY.ingot()),	ModItems.plate_advanced_alloy);
