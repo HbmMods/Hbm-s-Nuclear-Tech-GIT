@@ -58,16 +58,31 @@ public class ItemBedrockOre extends ItemEnumMulti {
 		String oreName = StatCollector.translateToLocal("item.ore." + ore.oreName.toLowerCase());
 		return StatCollector.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", oreName);
 	}
+	
+	/*
+	 * BYPRODUCT TIER 1: NITRIC ACID - CHEMPLANT GATE / NO GATE
+	 * BYPRODUCT TIER 2: ORGANIC SOLVENT - CRACKING OIL GATE
+	 * BYPRODUCT TIER 3: ??? - RBMK GATE?
+	 * BYPRODUCT TIER 4: SCHRABIDIC ACID - FUSION GATE?
+	 */
+	
+	/*
+	 * [BEDROCK x1] -C-> [CENTRIFUGED x4] -(PER)-> [CLEANED x4] -C-> [SEPARATED x16] -(SUL)-> [PURIFIED x16] -C-> [ENRICHED x64]
+	 *                                                                       \
+	 *                                                                        \-------(NIT)-> [NITRATED x16] -C-> [NITROCRYSTALLINE x32] -(ORG)-> [DEEP-CLEANED x32] -C-> [ENRICHED x64]
+	 *                                                                                                        v                                                       v
+	 *                                                                                                [BYPRODUCT TIER 1]                                      [BYPRODUCT TIER 2]
+	 */
 
 	public static enum EnumBedrockOre {
-		IRON("Iron", 0xE2C0AA),
-		COPPER("Copper", 0xEC9A63),
-		BORAX("Borax", 0xE4BE74),
-		ASBESTOS("Asbestos", 0xBFBFB9),
-		NIOBIUM("Niobium", 0xAF58D8),
-		TITANIUM("Titanium", 0xF2EFE2),
-		TUNGSTEN("Tungsten", 0x2C293C),
-		GOLD("Gold", 0xF9D738);
+		IRON("Iron", 0xE2C0AA), //titanium, sulfur from pyrite
+		COPPER("Copper", 0xEC9A63), //sulfur sulfur sulfur sulfur
+		BORAX("Borax", 0xE4BE74), //calcium from ulexite, uhhh lithium?
+		ASBESTOS("Asbestos", 0xBFBFB9), //quartz i guess?
+		NIOBIUM("Niobium", 0xAF58D8), //iron in columbite, often found along tantalite
+		TITANIUM("Titanium", 0xF2EFE2), //titanite is titanium + calcium + silicon with traces of iron and aluminium
+		TUNGSTEN("Tungsten", 0x2C293C), //ferberite has iron, raspite has lead, russelite is bismuth tungsten
+		GOLD("Gold", 0xF9D738); //occours with copper, lead and rare bismuthide
 		
 		public String oreName;
 		public int color;

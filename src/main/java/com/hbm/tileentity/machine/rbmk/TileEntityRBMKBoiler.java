@@ -23,7 +23,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
-public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent {
 	
 	public FluidTank feed;
 	public FluidTank steam;
@@ -313,5 +320,39 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {feed};
+	}
+	
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "rbmk_boiler";
+	}
+	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getHeat(Context context, Arguments args) {
+		return new Object[] {heat};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSteam(Context context, Arguments args) {
+		return new Object[] {steam.getFill()};
+	}
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSteamMax(Context context, Arguments args) {
+		return new Object[] {steam.getMaxFill()};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getWater(Context context, Arguments args) {
+		return new Object[] {feed.getFill()};
+	}
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getWaterMax(Context context, Arguments args) {
+		return new Object[] {feed.getMaxFill()};
 	}
 }

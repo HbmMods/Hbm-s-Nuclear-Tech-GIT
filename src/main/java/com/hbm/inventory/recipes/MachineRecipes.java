@@ -639,13 +639,8 @@ public class MachineRecipes {
 	public ArrayList<ItemStack> getBlades() {
 		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
 		fuels.add(new ItemStack(ModItems.blades_advanced_alloy));
-		fuels.add(new ItemStack(ModItems.blades_aluminium));
-		fuels.add(new ItemStack(ModItems.blades_combine_steel));
-		fuels.add(new ItemStack(ModItems.blades_gold));
-		fuels.add(new ItemStack(ModItems.blades_iron));
 		fuels.add(new ItemStack(ModItems.blades_steel));
 		fuels.add(new ItemStack(ModItems.blades_titanium));
-		fuels.add(new ItemStack(ModItems.blades_schrabidium));
 		fuels.add(new ItemStack(ModItems.blades_desh));
 		return fuels;
 	}

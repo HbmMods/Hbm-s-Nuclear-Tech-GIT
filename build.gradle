@@ -5,17 +5,19 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+		classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {changing = true}
 	}
 }
 
 apply plugin: 'forge'
-
-def jsonFile = file('./src/main/resources/mcmod.info')
-def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text)
-version = parsedJson.version
+def version_name = version = mod_version
+if(!mod_build_number.isEmpty()) {
+	version_name = mod_version + "_X" + mod_build_number
+	version = "[${version_name}]"
+}
 group = "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HBM-NTM"
+compileJava.options.encoding = 'UTF-8'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
@@ -62,17 +64,17 @@ repositories {
 }
 
 dependencies {
-	compile 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev'
+	implementation 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev'
 	compileOnly 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:src'
 	
-	compile 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev'
+	implementation 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev'
 	compileOnly 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:src'
 	
-	compile 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev'
+	implementation 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev'
 	compileOnly 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:src'
 
 	//compileOnly 'inventory-tweaks:InventoryTweaks:1.62+beta.84:api'
-	compile "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
+	implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
 }
 
 processResources {
@@ -85,7 +87,13 @@ processResources {
 		include 'mcmod.info'
 		
 		// replace version and mcversion
-		expand 'version':project.version, 'mcversion':project.minecraft.version
+		filesMatching('mcmod.info') {
+			// replace version, mcversion and credits
+			expand([
+					version: version_name,
+					credits: project.credits
+			])
+		}
 	}
 		
 	// copy everything else, thats not the mcmod.info

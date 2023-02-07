@@ -51,10 +51,14 @@ public class ItemDrillbit extends ItemEnumMulti {
 	public static enum EnumDrillType {
 		STEEL			(1.0D, 1, 0, false, false),
 		STEEL_DIAMOND	(1.0D, 1, 2, false, true),
-		HSS				(1.5D, 2, 0, true, false),
-		HSS_DIAMOND		(1.5D, 2, 3, true, true),
-		DESH			(2.5D, 3, 1, true, true),
-		DESH_DIAMOND	(2.5D, 3, 4, true, true);
+		HSS				(1.2D, 2, 0, true, false),
+		HSS_DIAMOND		(1.2D, 2, 3, true, true),
+		DESH			(1.5D, 3, 1, true, true),
+		DESH_DIAMOND	(1.5D, 3, 4, true, true),
+		TCALLOY			(2.0D, 4, 1, true, true),
+		TCALLOY_DIAMOND	(2.0D, 4, 4, true, true),
+		FERRO			(2.5D, 5, 1, true, true),
+		FERRO_DIAMOND	(2.5D, 5, 4, true, true);
 		
 		public double speed;
 		public int tier;

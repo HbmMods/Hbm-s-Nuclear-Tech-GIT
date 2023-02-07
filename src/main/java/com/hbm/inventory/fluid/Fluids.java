@@ -107,6 +107,7 @@ public class Fluids {
 	private static FluidType BLOODSTEAM;
 	private static FluidType DENSEBLOODSTEAM;
 	private static FluidType EVAPBLOOD;
+	public static FluidType SOLVENT; //oranic solvent in fact
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -222,7 +223,7 @@ public class Fluids {
 		SEEDSLURRY =		new FluidType(81, "SEEDSLURRY",		0x7CC35E, 0, 0, 0, EnumSymbol.NONE).addContainers(0x7CC35E, ExtContainer.CANISTER).addTraits(LIQUID);
 		NITROGEN =			new FluidType("NITROGEN",			0xB3C6D2, 3, 0, 0, EnumSymbol.CROYGENIC).setTemp(-90).addTraits(LIQUID, EVAP);
 		BLOOD =			    new FluidType("BLOOD",				0x4D0000, 1, 0, 0, EnumSymbol.NONE).addContainers(0x4D0000, ExtContainer.CANISTER).addTraits(DELICIOUS, ULTRAKILL, LIQUID); 
-		NITRIC_ACID =		new FluidType("NITRIC_ACID",		0xFFCC80, 3, 0, 0, EnumSymbol.ACID).addTraits(new FT_Poison(true, 4)).addTraits(new FT_Flammable(20_000), new FT_Combustible(FuelGrade.MEDIUM, 50_000), new FT_Corrosive(20), LIQUID);
+		NITRIC_ACID =		new FluidType("NITRIC_ACID",		0xFFCC80, 3, 0, 0, EnumSymbol.ACID).addTraits(new FT_Poison(true, 4)).addTraits(new FT_Flammable(20_000), new FT_Combustible(FuelGrade.MEDIUM, 50_000), new FT_Corrosive(60), LIQUID);
 		AMMONIA =			new FluidType("AMMONIA",			0xB3C6D2, 3, 0, 0, EnumSymbol.ASPHYXIANT).addTraits(new FT_Poison(true, 4), GASEOUS);
 		HYDRAZINE =			new FluidType("HYDRAZINE",			0x31517D, 2, 3, 0, EnumSymbol.NONE).addContainers(0x31517D, ExtContainer.CANISTER).addTraits((new FT_Flammable(500_000)), new FT_Combustible(FuelGrade.HIGH, 1_250_000), new FT_Corrosive(30), LIQUID);	
 		BLOODGAS =			new FluidType("BLOODGAS",		    0x591000, 1, 0, 3, EnumSymbol.NONE).addContainers(0x591000, ExtContainer.CANISTER).addTraits(new FT_Flammable(86_666), new FT_Combustible(FuelGrade.AERO, 666_665)).addTraits(LIQUID);
@@ -231,6 +232,7 @@ public class Fluids {
 		BLOODSTEAM =		new FluidType("BLOODSTEAM",			0x99525E, 1, 0, 0, EnumSymbol.NONE).setTemp(300).setCompression(0.01D).addTraits(GASEOUS);
 		DENSEBLOODSTEAM =	new FluidType("DENSEBLOODSTEAM",	0x99525E, 1, 0, 0, EnumSymbol.NONE).setTemp(400).setCompression(0.07D).addTraits(GASEOUS);
 		EVAPBLOOD= 			new FluidType("EVAPBLOOD",			0x93525E, 1, 0, 0, EnumSymbol.NONE).setTemp(90).setCompression(1.0D).addTraits(GASEOUS);
+		SOLVENT =			new FluidType(83, "SOLVENT",		0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
 	
 		//TODO: fire diamonds
 		//sh
@@ -323,6 +325,7 @@ public class Fluids {
 		metaOrder.add(AIR); //do it for love, do it for life, for mankiiiiiind!!
 		metaOrder.add(NITRIC_ACID);
 		metaOrder.add(AMMONIA);
+		metaOrder.add(SOLVENT);
 		metaOrder.add(SCHRABIDIC);
 		metaOrder.add(UF6);
 		metaOrder.add(PUF6);
@@ -458,6 +461,8 @@ public class Fluids {
 
 		registerCalculatedFuel(WOODOIL, 110_000 /* 20_000 TU per 250mB + a bonus */, 0, null);
 		registerCalculatedFuel(COALCREOSOTE, 250_000 /* 20_000 TU per 100mB + a bonus */, 0, null);
+		
+		registerCalculatedFuel(SOLVENT, 100_000, 0, null);
 	}
 	
 	private static void registerCalculatedFuel(FluidType type, double base, double combustMult, FuelGrade grade) {
