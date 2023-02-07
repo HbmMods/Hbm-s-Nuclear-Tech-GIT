@@ -12,6 +12,7 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.imc.IMCCentrifuge;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -19,7 +20,9 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
+import com.hbm.items.special.ItemByproduct.EnumByproduct;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.ItemStackUtil;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -319,6 +322,22 @@ public class CentrifugeRecipes extends SerializableRecipe {
 					new ItemStack(ModItems.ore_enriched, 1, i),
 					new ItemStack(ModItems.ore_enriched, 1, i),
 					new ItemStack(ModItems.ore_enriched, 1, i) });
+			
+			EnumByproduct tier1 = ore.byproducts[0];
+			ItemStack by1 = tier1 == null ? new ItemStack(ModItems.dust) : DictFrame.fromOne(ModItems.ore_byproduct, tier1, 1);
+			recipes.put(new ComparableStack(ModItems.ore_nitrated, 1, i), new ItemStack[] {
+					new ItemStack(ModItems.ore_nitrocrystalline, 1, i),
+					new ItemStack(ModItems.ore_nitrocrystalline, 1, i),
+					ItemStackUtil.carefulCopy(by1),
+					ItemStackUtil.carefulCopy(by1) });
+			
+			EnumByproduct tier2 = ore.byproducts[1];
+			ItemStack by2 = tier2 == null ? new ItemStack(ModItems.dust) : DictFrame.fromOne(ModItems.ore_byproduct, tier2, 1);
+			recipes.put(new ComparableStack(ModItems.ore_deepcleaned, 1, i), new ItemStack[] {
+					new ItemStack(ModItems.ore_enriched, 1, i),
+					new ItemStack(ModItems.ore_enriched, 1, i),
+					ItemStackUtil.carefulCopy(by2),
+					ItemStackUtil.carefulCopy(by2) });
 		}
 		
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");

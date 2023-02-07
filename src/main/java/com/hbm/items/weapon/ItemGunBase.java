@@ -459,7 +459,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		list.add(I18nUtil.resolveKey(HbmCollection.durability, dura + " / " + mainConfig.durability));
 		
 		list.add("");
-		list.add(I18nUtil.resolveKey(HbmCollection.gunName, I18nUtil.resolveKey("gun.name." + mainConfig.name)));
+		String unloc = "gun.name." + mainConfig.name;
+		String loc = I18nUtil.resolveKey(unloc);
+		list.add(I18nUtil.resolveKey(HbmCollection.gunName, unloc.equals(loc) ? mainConfig.name : loc));
 		list.add(I18nUtil.resolveKey(HbmCollection.gunMaker, I18nUtil.resolveKey(mainConfig.manufacturer.getKey())));
 		
 		if(!mainConfig.comment.isEmpty()) {

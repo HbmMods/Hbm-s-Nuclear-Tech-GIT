@@ -107,6 +107,7 @@ public class Fluids {
 	public static FluidType SOLVENT; //oranic solvent in fact
 
 
+
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
 	protected static final List<FluidType> metaOrder = new ArrayList();
@@ -226,10 +227,11 @@ public class Fluids {
 		HYDRAZINE =			new FluidType("HYDRAZINE",			0x31517D, 2, 3, 2, EnumSymbol.NONE).addContainers(0x31517D, ExtContainer.CANISTER).addTraits((new FT_Flammable(500_000)), new FT_Combustible(FuelGrade.HIGH, 1_250_000), new FT_Corrosive(30), LIQUID);	
 		BLOODGAS =			new FluidType("BLOODGAS",		    0x591000, 3, 1, 1, EnumSymbol.NONE).addContainers(0x591000, ExtContainer.CANISTER).addTraits(new FT_Flammable(86_666), new FT_Combustible(FuelGrade.AERO, 666_665)).addTraits(LIQUID);
 		AIR =				new FluidType("AIR",				0xD1CEBE, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
-		BLOOD_HOT =			new FluidType("BLOOD_HOT",			0x830404, 2, 0, 0, EnumSymbol.NONE).setTemp(200).addTraits(LIQUID);
+		BLOOD_HOT =			new FluidType(85, "BLOOD_HOT",		0xE4E3EF, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID).setTemp(666);
 		SOLVENT =			new FluidType(90, "SOLVENT",		0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
 		//TODO: fire diamonds
 		//sh
+
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -375,14 +377,12 @@ public class Fluids {
 		
 		MUG.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(400, 1, MUG_HOT, 1));
 		MUG_HOT.addTraits(new FT_Coolable(MUG, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
-		
-		double eff_bloodturbine = 1.1D;
-		double eff_blood_cool = 0.4D;
-		
+			
 		BLOOD.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(300, 1, BLOOD_HOT, 1));
 		BLOOD_HOT.addTraits(new FT_Coolable(BLOOD, 1, 1, 500).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 	
 		
+
 		
 		if(idMapping.size() != metaOrder.size()) {
 			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());

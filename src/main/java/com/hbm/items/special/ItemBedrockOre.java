@@ -1,6 +1,8 @@
 package com.hbm.items.special;
 
 import com.hbm.items.ItemEnumMulti;
+import com.hbm.items.special.ItemByproduct.EnumByproduct;
+import static com.hbm.items.special.ItemByproduct.EnumByproduct.*;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.EnumUtil;
 
@@ -75,21 +77,25 @@ public class ItemBedrockOre extends ItemEnumMulti {
 	 */
 
 	public static enum EnumBedrockOre {
-		IRON("Iron", 0xE2C0AA), //titanium, sulfur from pyrite
-		COPPER("Copper", 0xEC9A63), //sulfur sulfur sulfur sulfur
-		BORAX("Borax", 0xE4BE74), //calcium from ulexite, uhhh lithium?
-		ASBESTOS("Asbestos", 0xBFBFB9), //quartz i guess?
-		NIOBIUM("Niobium", 0xAF58D8), //iron in columbite, often found along tantalite
-		TITANIUM("Titanium", 0xF2EFE2), //titanite is titanium + calcium + silicon with traces of iron and aluminium
-		TUNGSTEN("Tungsten", 0x2C293C), //ferberite has iron, raspite has lead, russelite is bismuth tungsten
-		GOLD("Gold", 0xF9D738); //occours with copper, lead and rare bismuthide
+		//Ore					Byproduct	1,			2,			3
+		IRON("Iron", 0xE2C0AA,			B_SULFUR,	B_TITANIUM,	B_TITANIUM), //titanium, sulfur from pyrite
+		COPPER("Copper", 0xEC9A63,		B_SULFUR,	B_SULFUR,	B_SULFUR), //sulfur sulfur sulfur sulfur
+		BORAX("Borax", 0xE4BE74, 		B_LITHIUM, 	B_CALCIUM, 	B_CALCIUM), //calcium from ulexite, uhhh lithium?
+		ASBESTOS("Asbestos", 0xBFBFB9,	B_SILICON,	B_SILICON,	B_SILICON), //quartz i guess?
+		NIOBIUM("Niobium", 0xAF58D8,	B_IRON,		B_IRON,		B_IRON), //iron in columbite, often found along tantalite
+		TITANIUM("Titanium", 0xF2EFE2,	B_SILICON,	B_CALCIUM,	B_ALUMINIUM), //titanite is titanium + calcium + silicon with traces of iron and aluminium
+		TUNGSTEN("Tungsten", 0x2C293C,	B_LEAD,		B_IRON,		B_BISMUTH), //ferberite has iron, raspite has lead, russelite is bismuth tungsten
+		GOLD("Gold", 0xF9D738,			B_LEAD,		B_COPPER,	B_BISMUTH); //occurs with copper, lead and rare bismuthide
 		
 		public String oreName;
 		public int color;
+		public EnumByproduct[] byproducts;
 		
-		private EnumBedrockOre(String name, int color) {
+		/** Byproduct count must be consistent with current tier count, use NULL if no byproduct should be generated! */
+		private EnumBedrockOre(String name, int color, EnumByproduct... by) {
 			this.oreName = name;
 			this.color = color;
+			this.byproducts = by;
 		}
 	}
 }

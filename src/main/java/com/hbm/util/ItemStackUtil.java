@@ -13,10 +13,8 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ItemStackUtil {
 	
 	public static ItemStack carefulCopy(ItemStack stack) {
-		if(stack == null)
-			return null;
-		else
-			return stack.copy();
+		if(stack == null) return null;
+		return stack.copy();
 	}
 	
 	public static ItemStack carefulCopyWithSize(ItemStack stack, int size) {
