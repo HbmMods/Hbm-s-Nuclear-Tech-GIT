@@ -104,6 +104,7 @@ public class Fluids {
 	public static FluidType HYDRAZINE;
 	public static FluidType BLOODGAS;
 	public static FluidType SOLVENT;
+	public static FluidType BLOOD_HOT;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -225,8 +226,7 @@ public class Fluids {
 		BLOODGAS =			new FluidType("BLOODGAS",		    0x591000, 1, 0, 3, EnumSymbol.NONE).addContainers(0x591000, ExtContainer.CANISTER).addTraits(new FT_Flammable(86_666), new FT_Combustible(FuelGrade.AERO, 666_665)).addTraits(LIQUID);
 		AIR =				new FluidType("AIR",				0xD1CEBE, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 		SOLVENT =			new FluidType(83, "SOLVENT",		0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
-		//TODO: fire diamonds
-		//sh
+		BLOOD_HOT =			new FluidType(85, "BLOOD_HOT",		0xE4E3EF, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID).setTemp(666); //it's funny because it's the satan number
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -253,6 +253,8 @@ public class Fluids {
 		metaOrder.add(CRYOGEL);
 		metaOrder.add(MUG);
 		metaOrder.add(MUG_HOT);
+		metaOrder.add(BLOOD);
+		metaOrder.add(BLOOD_HOT);
 		//pure elements, cyogenic gasses
 		metaOrder.add(HYDROGEN);
 		metaOrder.add(DEUTERIUM);
@@ -369,6 +371,9 @@ public class Fluids {
 		
 		MUG.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(400, 1, MUG_HOT, 1));
 		MUG_HOT.addTraits(new FT_Coolable(MUG, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
+		
+		BLOOD.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(500, 1, BLOOD_HOT, 1));
+		BLOOD_HOT.addTraits(new FT_Coolable(BLOOD, 1, 1, 500).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		
 		if(idMapping.size() != metaOrder.size()) {
 			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());
