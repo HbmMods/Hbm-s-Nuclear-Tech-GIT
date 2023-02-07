@@ -37,6 +37,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -49,10 +52,11 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank[] tanks;
 	public FluidTank plasma;
+	public static final int CoolReq = 1;
 	
 	public int progress;
 	public static final int duration = 100;
-	
+	EntityPlayer player;
 	@SideOnly(Side.CLIENT)
 	public int blanket;
 	
@@ -99,6 +103,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 				tanks[3].setTankType(step.typeProduced);
 			}
 			else {
+				tanks[2].setTankType(Fluids.NONE);
 				tanks[3].setTankType(Fluids.NONE);
 			}
 			/// START Processing part ///
@@ -108,7 +113,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			}
 			
 			//explode either if there's plasma that is too hot or if the reactor is turned on but the magnets have no power
-			if(plasma.getFill() > 0 && tanks[2].getFill() < 0 && (this.plasma.getTankType().temperature >= this.getShield() || (this.isOn && this.power < this.powerReq))) {
+			if(plasma.getFill() > 0 && (this.plasma.getTankType().temperature >= this.getShield() || (this.isOn && this.power < this.powerReq || tanks[2].getFill() == 0 || tanks[3].getFill() == tanks[3].getMaxFill()))) {
 				this.explode();
 			}
 			
