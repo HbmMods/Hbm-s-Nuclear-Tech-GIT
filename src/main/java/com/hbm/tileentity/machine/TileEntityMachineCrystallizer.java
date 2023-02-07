@@ -139,7 +139,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	
 	private void processItem() {
 
-		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0]);
+		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
 		
 		if(result == null) //never happens but you can't be sure enough
 			return;
@@ -151,7 +151,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		else if(slots[2].stackSize + stack.stackSize <= slots[2].getMaxStackSize())
 			slots[2].stackSize += stack.stackSize;
 		
-		tank.setFill(tank.getFill() - result.acid.fill);
+		tank.setFill(tank.getFill() - result.acidAmount);
 		
 		float freeChance = this.getFreeChance();
 		
@@ -168,14 +168,13 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		if(power < getPowerRequired())
 			return false;
 		
-		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0]);
+		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
 		
 		//Or output?
 		if(result == null)
 			return false;
 		
-		if(tank.getTankType() != result.acid.type) return false;
-		if(tank.getFill() < result.acid.fill) return false;
+		if(tank.getFill() < result.acidAmount) return false;
 		
 		ItemStack stack = result.output.copy();
 		
@@ -225,7 +224,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public short getDuration() {
 		
 		float durationMod = 1;
-		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0]);
+		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
 		
 		int base = result != null ? result.duration : 600;
 		
@@ -336,9 +335,9 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		
-		CrystallizerRecipe recipe = CrystallizerRecipes.getOutput(itemStack);
+		CrystallizerRecipe recipe = CrystallizerRecipes.getOutput(itemStack, tank.getTankType());
 		if(i == 0 && recipe != null) {
-			return recipe.acid.type == tank.getTankType();
+			return true;
 		}
 		
 		if(i == 1 && itemStack.getItem() instanceof IBatteryItem)

@@ -324,18 +324,18 @@ public class CentrifugeRecipes extends SerializableRecipe {
 					new ItemStack(ModItems.ore_enriched, 1, i) });
 			
 			EnumByproduct tier1 = ore.byproducts[0];
-			ItemStack by1 = tier1 == null ? new ItemStack(ModItems.dust) : DictFrame.fromOne(ModItems.ore_byproduct, tier1, 2);
+			ItemStack by1 = tier1 == null ? new ItemStack(ModItems.dust) : DictFrame.fromOne(ModItems.ore_byproduct, tier1, 1);
 			recipes.put(new ComparableStack(ModItems.ore_nitrated, 1, i), new ItemStack[] {
-					new ItemStack(ModItems.ore_nitrocrystalline, 2, i),
-					new ItemStack(ModItems.ore_nitrocrystalline, 2, i),
+					new ItemStack(ModItems.ore_nitrocrystalline, 1, i),
+					new ItemStack(ModItems.ore_nitrocrystalline, 1, i),
 					ItemStackUtil.carefulCopy(by1),
 					ItemStackUtil.carefulCopy(by1) });
 			
 			EnumByproduct tier2 = ore.byproducts[1];
-			ItemStack by2 = tier2 == null ? new ItemStack(ModItems.dust) : DictFrame.fromOne(ModItems.ore_byproduct, tier2, 2);
+			ItemStack by2 = tier2 == null ? new ItemStack(ModItems.dust) : DictFrame.fromOne(ModItems.ore_byproduct, tier2, 1);
 			recipes.put(new ComparableStack(ModItems.ore_deepcleaned, 1, i), new ItemStack[] {
-					new ItemStack(ModItems.ore_enriched, 2, i),
-					new ItemStack(ModItems.ore_enriched, 2, i),
+					new ItemStack(ModItems.ore_enriched, 1, i),
+					new ItemStack(ModItems.ore_enriched, 1, i),
 					ItemStackUtil.carefulCopy(by2),
 					ItemStackUtil.carefulCopy(by2) });
 		}

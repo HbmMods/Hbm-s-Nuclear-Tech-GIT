@@ -9,6 +9,7 @@ import java.util.Set;
 import com.hbm.config.ToolConfig;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.inventory.recipes.CrystallizerRecipes.CrystallizerRecipe;
@@ -440,7 +441,7 @@ public abstract class ToolAbility {
 				block = Blocks.redstone_ore;
 			
 			ItemStack stack = new ItemStack(block, 1, meta);
-			CrystallizerRecipe result = CrystallizerRecipes.getOutput(stack);
+			CrystallizerRecipe result = CrystallizerRecipes.getOutput(stack, Fluids.ACID);
 			
 			if(result != null) {
 				world.setBlockToAir(x, y, z);
