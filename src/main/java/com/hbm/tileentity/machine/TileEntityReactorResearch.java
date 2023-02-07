@@ -413,9 +413,11 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setLevel(Context context, Arguments args) {
-		double newLevel = Double.parseDouble(args.checkString(0))/100.0;
-		if (newLevel > 1) { // check if its above 100 so the control rod wont do funny things
-			newLevel = 1;
+		double newLevel = args.checkDouble(0)/100.0;
+		if (newLevel > 1.0) {
+			newLevel = 1.0;
+		} else if (newLevel < 0.0) {
+			newLevel = 0.0;
 		}
 		targetLevel = newLevel;
 		return new Object[] {};
