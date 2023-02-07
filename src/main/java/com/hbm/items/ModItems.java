@@ -197,6 +197,9 @@ public class ModItems {
 	public static Item ore_separated;
 	public static Item ore_purified;
 	public static Item ore_enriched;
+	public static Item ore_nitrated;
+	public static Item ore_nitrocrystalline;
+	public static Item ore_deepcleaned;
 
 	public static Item billet_uranium;
 	public static Item billet_u233;
@@ -638,7 +641,6 @@ public class ModItems {
 
 	public static Item wiring_red_copper;
 
-	public static Item cap_aluminium;
 	public static Item hull_small_steel;
 	public static Item hull_small_aluminium;
 	public static Item hull_big_steel;
@@ -742,10 +744,6 @@ public class ModItems {
 	public static Item stamp_obsidian_plate;
 	public static Item stamp_obsidian_wire;
 	public static Item stamp_obsidian_circuit;
-	public static Item stamp_schrabidium_flat;
-	public static Item stamp_schrabidium_plate;
-	public static Item stamp_schrabidium_wire;
-	public static Item stamp_schrabidium_circuit;
 	public static Item stamp_desh_flat;
 	public static Item stamp_desh_plate;
 	public static Item stamp_desh_wire;
@@ -755,15 +753,10 @@ public class ModItems {
 	public static Item stamp_44;
 	public static Item stamp_9;
 	public static Item stamp_50;
-
-	public static Item blades_gold;
-	public static Item blades_aluminium;
-	public static Item blades_iron;
+	
 	public static Item blades_steel;
 	public static Item blades_titanium;
 	public static Item blades_advanced_alloy;
-	public static Item blades_combine_steel;
-	public static Item blades_schrabidium;
 	public static Item blades_desh;
 
 	public static Item mold_base;
@@ -3165,7 +3158,6 @@ public class ModItems {
 		gear_large = new ItemGear().setUnlocalizedName("gear_large").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":gear_large");
 		sawblade = new Item().setUnlocalizedName("sawblade").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":sawblade");
 		
-		cap_aluminium = new Item().setUnlocalizedName("cap_aluminium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":cap_aluminium");
 		hull_small_steel = new Item().setUnlocalizedName("hull_small_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":hull_small_steel");
 		hull_small_aluminium = new ItemCustomLore().setUnlocalizedName("hull_small_aluminium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":hull_small_aluminium");
 		hull_big_steel = new Item().setUnlocalizedName("hull_big_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":hull_big_steel");
@@ -3416,10 +3408,6 @@ public class ModItems {
 		stamp_obsidian_plate = new ItemStamp(170, StampType.PLATE).setUnlocalizedName("stamp_obsidian_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_obsidian_plate");
 		stamp_obsidian_wire = new ItemStamp(170, StampType.WIRE).setUnlocalizedName("stamp_obsidian_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_obsidian_wire");
 		stamp_obsidian_circuit = new ItemStamp(170, StampType.CIRCUIT).setUnlocalizedName("stamp_obsidian_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_obsidian_circuit");
-		stamp_schrabidium_flat = new ItemStamp(3000, StampType.FLAT).setUnlocalizedName("stamp_schrabidium_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_schrabidium_flat");
-		stamp_schrabidium_plate = new ItemStamp(3000, StampType.PLATE).setUnlocalizedName("stamp_schrabidium_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_schrabidium_plate");
-		stamp_schrabidium_wire = new ItemStamp(3000, StampType.WIRE).setUnlocalizedName("stamp_schrabidium_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_schrabidium_wire");
-		stamp_schrabidium_circuit = new ItemStamp(3000, StampType.CIRCUIT).setUnlocalizedName("stamp_schrabidium_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_schrabidium_circuit");
 		stamp_desh_flat = new ItemStamp(0, StampType.FLAT).setUnlocalizedName("stamp_desh_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_desh_flat");
 		stamp_desh_plate = new ItemStamp(0, StampType.PLATE).setUnlocalizedName("stamp_desh_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_desh_plate");
 		stamp_desh_wire = new ItemStamp(0, StampType.WIRE).setUnlocalizedName("stamp_desh_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_desh_wire");
@@ -3429,14 +3417,9 @@ public class ModItems {
 		stamp_9 = new ItemStamp(1000, StampType.C9).setUnlocalizedName("stamp_9").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_9");
 		stamp_50 = new ItemStamp(1000, StampType.C50).setUnlocalizedName("stamp_50").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_50");
 
-		blades_aluminium = new ItemBlades(20).setUnlocalizedName("blades_aluminium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_aluminium");
-		blades_gold = new ItemBlades(30).setUnlocalizedName("blades_gold").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_gold");
-		blades_iron = new ItemBlades(100).setUnlocalizedName("blades_iron").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_iron");
 		blades_steel = new ItemBlades(200).setUnlocalizedName("blades_steel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_steel");
 		blades_titanium = new ItemBlades(350).setUnlocalizedName("blades_titanium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_titanium");
 		blades_advanced_alloy = new ItemBlades(700).setUnlocalizedName("blades_advanced_alloy").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_advanced_alloy");
-		blades_combine_steel = new ItemBlades(1500).setUnlocalizedName("blades_combine_steel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_combine_steel");
-		blades_schrabidium = new ItemBlades(2000).setUnlocalizedName("blades_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_schrabidium");
 		blades_desh = new ItemBlades(0).setUnlocalizedName("blades_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_desh");
 
 		mold_base = new Item().setUnlocalizedName("mold_base").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":mold_base");
@@ -6413,7 +6396,6 @@ public class ModItems {
 		GameRegistry.registerItem(component_emitter, component_emitter.getUnlocalizedName());
 		
 		//Bomb Parts
-		GameRegistry.registerItem(cap_aluminium, cap_aluminium.getUnlocalizedName());
 		GameRegistry.registerItem(hull_small_steel, hull_small_steel.getUnlocalizedName());
 		GameRegistry.registerItem(hull_small_aluminium, hull_small_aluminium.getUnlocalizedName());
 		GameRegistry.registerItem(hull_big_steel, hull_big_steel.getUnlocalizedName());
@@ -6784,10 +6766,6 @@ public class ModItems {
 		GameRegistry.registerItem(stamp_obsidian_plate, stamp_obsidian_plate.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_obsidian_wire, stamp_obsidian_wire.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_obsidian_circuit, stamp_obsidian_circuit.getUnlocalizedName());
-		GameRegistry.registerItem(stamp_schrabidium_flat, stamp_schrabidium_flat.getUnlocalizedName());
-		GameRegistry.registerItem(stamp_schrabidium_plate, stamp_schrabidium_plate.getUnlocalizedName());
-		GameRegistry.registerItem(stamp_schrabidium_wire, stamp_schrabidium_wire.getUnlocalizedName());
-		GameRegistry.registerItem(stamp_schrabidium_circuit, stamp_schrabidium_circuit.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_desh_flat, stamp_desh_flat.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_desh_plate, stamp_desh_plate.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_desh_wire, stamp_desh_wire.getUnlocalizedName());
@@ -6920,14 +6898,9 @@ public class ModItems {
 		GameRegistry.registerItem(ams_catalyst_tungsten, ams_catalyst_tungsten.getUnlocalizedName());
 		
 		//Shredder Blades
-		GameRegistry.registerItem(blades_aluminium, blades_aluminium.getUnlocalizedName());
-		GameRegistry.registerItem(blades_gold, blades_gold.getUnlocalizedName());
-		GameRegistry.registerItem(blades_iron, blades_iron.getUnlocalizedName());
 		GameRegistry.registerItem(blades_steel, blades_steel.getUnlocalizedName());
 		GameRegistry.registerItem(blades_titanium, blades_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(blades_advanced_alloy, blades_advanced_alloy.getUnlocalizedName());
-		GameRegistry.registerItem(blades_combine_steel, blades_combine_steel.getUnlocalizedName());
-		GameRegistry.registerItem(blades_schrabidium, blades_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(blades_desh, blades_desh.getUnlocalizedName());
 		
 		//Generator Stuff

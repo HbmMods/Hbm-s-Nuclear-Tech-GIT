@@ -19,7 +19,19 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser {
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+import api.hbm.item.IDesignatorItem;
+import net.minecraft.block.Block;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.LaunchPad;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, SimpleComponent {
 
 	public ItemStack slots[];
 	
@@ -30,7 +42,6 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	private static final int[] slots_bottom = new int[] { 0, 1, 2};
 	private static final int[] slots_side = new int[] {0};
 	public int state = 0;
-	
 	private String customName;
 	
 	public TileEntityLaunchPad() {
@@ -255,5 +266,58 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+	
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "launch_pad";
+	}
+	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyStored(Context context, Arguments args) {
+		return new Object[] {getPower()};
+	}
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getMaxEnergy(Context context, Arguments args) {
+		return new Object[] {getMaxPower()};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoords(Context context, Arguments args) {
+		if (slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			int xCoord2 = slots[1].stackTagCompound.getInteger("xCoord");
+			int zCoord2 = slots[1].stackTagCompound.getInteger("zCoord");
+
+			// Not sure if i should have this
+			if(xCoord2 == xCoord && zCoord2 == zCoord) {
+				xCoord2 += 1;
+			}
+			
+			return new Object[] {xCoord2, zCoord2};
+		}
+		return new Object[] {"Designator not found"};
+	}
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setCoords(Context context, Arguments args) {
+		if (slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			slots[1].stackTagCompound.setInteger("xCoord", args.checkInteger(0));
+			slots[1].stackTagCompound.setInteger("zCoord", args.checkInteger(1));
+			
+			return new Object[] {"Success"};
+		}
+		return new Object[] {"Designator not found"};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] launch(Context context, Arguments args) {
+		//worldObj.getBlock(xCoord, yCoord, zCoord).explode(worldObj, xCoord, yCoord, zCoord);	
+		((LaunchPad) ModBlocks.launch_pad).explode(worldObj, xCoord, yCoord, zCoord);
+		return new Object[] {};
 	}
 }

@@ -60,11 +60,11 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 
 			// Stamps
 			for(ItemStack i : ItemStamp.stamps.get(StampType.PLATE))
-				if(i.getMaxDamage() > 0) allStacks.add(i.copy());
+				allStacks.add(i.copy());
 			for(ItemStack i : ItemStamp.stamps.get(StampType.WIRE))
-				if(i.getMaxDamage() > 0) allStacks.add(i.copy());
+				allStacks.add(i.copy());
 			for(ItemStack i : ItemStamp.stamps.get(StampType.CIRCUIT))
-				if(i.getMaxDamage() > 0) allStacks.add(i.copy());
+				allStacks.add(i.copy());
 			
 			// Tracks
 			for(int i = 1; i < ItemCassette.TrackType.values().length; i++) {

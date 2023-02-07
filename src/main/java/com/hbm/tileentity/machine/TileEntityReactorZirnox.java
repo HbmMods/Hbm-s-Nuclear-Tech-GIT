@@ -578,7 +578,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setActive(Context context, Arguments args) {
-		isOn = Boolean.parseBoolean(args.checkString(0));
+		isOn = args.checkBoolean(0);
 		return new Object[] {};
 	}
 }
