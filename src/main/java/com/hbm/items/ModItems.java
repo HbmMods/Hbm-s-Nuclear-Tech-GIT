@@ -287,6 +287,8 @@ public class ModItems {
 	public static Item wire_tungsten;
 	public static Item neutron_reflector;
 	public static Item ingot_steel;
+	public static Item ingot_stainless;
+	public static Item plate_stainless;
 	public static Item plate_steel;
 	public static Item plate_iron;
 	public static Item ingot_lead;
@@ -2732,6 +2734,8 @@ public class ModItems {
 		ingot_beryllium = new Item().setUnlocalizedName("ingot_beryllium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_beryllium");
 		ingot_steel = new Item().setUnlocalizedName("ingot_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_steel");
 		plate_steel = new Item().setUnlocalizedName("plate_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_steel");
+		ingot_stainless = new Item().setUnlocalizedName("ingot_stainless").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_stainless");
+		plate_stainless = new Item().setUnlocalizedName("plate_stainless").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_stainless");
 		plate_iron = new Item().setUnlocalizedName("plate_iron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_iron");
 		ingot_lead = new Item().setUnlocalizedName("ingot_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_lead");
 		plate_lead = new Item().setUnlocalizedName("plate_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_lead");
@@ -5914,6 +5918,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_tungsten, ingot_tungsten.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_aluminium, ingot_aluminium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_steel, ingot_steel.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_stainless, ingot_stainless.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_tcalloy, ingot_tcalloy.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_lead, ingot_lead.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_bismuth, ingot_bismuth.getUnlocalizedName());
@@ -6299,6 +6304,7 @@ public class ModItems {
 		GameRegistry.registerItem(plate_nickel, plate_nickel.getUnlocalizedName());
 		GameRegistry.registerItem(plate_aluminium, plate_aluminium.getUnlocalizedName());
 		GameRegistry.registerItem(plate_steel, plate_steel.getUnlocalizedName());
+		GameRegistry.registerItem(plate_stainless, plate_stainless.getUnlocalizedName());
 		GameRegistry.registerItem(plate_lead, plate_lead.getUnlocalizedName());
 		GameRegistry.registerItem(plate_copper, plate_copper.getUnlocalizedName());
 		GameRegistry.registerItem(plate_advanced_alloy, plate_advanced_alloy.getUnlocalizedName());

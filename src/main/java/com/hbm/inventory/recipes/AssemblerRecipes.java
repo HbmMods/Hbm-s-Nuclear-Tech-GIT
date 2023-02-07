@@ -152,6 +152,7 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.plate_nickel, 2), new AStack[] {new OreDictStack(NI.ingot(), 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_aluminium, 2), new AStack[] {new OreDictStack(AL.ingot(), 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_steel, 2), new AStack[] {new OreDictStack(STEEL.ingot(), 3), },30);
+		makeRecipe(new ComparableStack(ModItems.plate_stainless, 2), new AStack[] {new OreDictStack(STAINLESS.ingot(), 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_lead, 2), new AStack[] {new OreDictStack(PB.ingot(), 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_copper, 2), new AStack[] {new OreDictStack(CU.ingot(), 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_advanced_alloy, 2), new AStack[] {new OreDictStack(ALLOY.ingot(), 3), },30);
