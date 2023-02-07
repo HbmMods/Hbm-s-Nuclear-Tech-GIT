@@ -96,6 +96,7 @@ public class CrystallizerRecipes {
 
 		FluidStack nitric = new FluidStack(Fluids.NITRIC_ACID, 500);
 		FluidStack organic = new FluidStack(Fluids.SOLVENT, 500);
+		
 		int oreTime = 200;
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {

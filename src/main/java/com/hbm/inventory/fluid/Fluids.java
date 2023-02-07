@@ -98,6 +98,8 @@ public class Fluids {
 	public static FluidType SEEDSLURRY;
 	public static FluidType NITRIC_ACID;
 	public static FluidType SOLVENT; //oranic solvent in fact
+	public static FluidType BLOOD; //BLOOD ORB! BLOOD ORB! BLOOD ORB!
+	public static FluidType BLOOD_HOT;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -211,7 +213,9 @@ public class Fluids {
 		COALCREOSOTE =		new FluidType("COALCREOSOTE",		0x51694F, 3, 2, 0, EnumSymbol.NONE).addContainers(0x285A3F, ExtContainer.CANISTER).addTraits(LIQUID);
 		SEEDSLURRY =		new FluidType("SEEDSLURRY",			0x7CC35E, 0, 0, 0, EnumSymbol.NONE).addContainers(0x7CC35E, ExtContainer.CANISTER).addTraits(LIQUID);
 		NITRIC_ACID =		new FluidType("NITRIC_ACID",		0xBB7A1E, 3, 0, 2, EnumSymbol.OXIDIZER).addTraits(LIQUID, new FT_Corrosive(60));
-		SOLVENT =			new FluidType(83, "SOLVENT",		0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
+		SOLVENT =			new FluidType("SOLVENT",			0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
+		BLOOD =				new FluidType("BLOOD",				0xB22424, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		BLOOD_HOT =			new FluidType(85, "BLOOD_HOT",		0xE4E3EF, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID).setTemp(666); //it's funny because it's the satan number
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -238,6 +242,8 @@ public class Fluids {
 		metaOrder.add(CRYOGEL);
 		metaOrder.add(MUG);
 		metaOrder.add(MUG_HOT);
+		metaOrder.add(BLOOD);
+		metaOrder.add(BLOOD_HOT);
 		//pure elements, cyogenic gasses
 		metaOrder.add(HYDROGEN);
 		metaOrder.add(DEUTERIUM);
@@ -347,6 +353,9 @@ public class Fluids {
 		
 		MUG.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(400, 1, MUG_HOT, 1));
 		MUG_HOT.addTraits(new FT_Coolable(MUG, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
+		
+		BLOOD.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(500, 1, BLOOD_HOT, 1));
+		BLOOD_HOT.addTraits(new FT_Coolable(BLOOD, 1, 1, 500).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		
 		if(idMapping.size() != metaOrder.size()) {
 			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());
