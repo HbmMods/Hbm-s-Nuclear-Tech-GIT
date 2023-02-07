@@ -239,7 +239,6 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			if(in.hasTrait(FT_Coolable.class)) {
 				FT_Coolable trait = in.getTrait(FT_Coolable.class);
 				double eff = trait.getEfficiency(CoolingType.TURBINE) * 0.85D; //small turbine is only 85% efficient
-				double beff = trait.getEfficiency(CoolingType.TURBLOOD) * 0.75D;
 				if(eff > 0) {
 					tanks[1].setTankType(trait.coolsTo);
 					int inputOps = tanks[0].getFill() / trait.amountReq;
@@ -249,17 +248,6 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
 					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
 					this.power += (ops * trait.heatEnergy * eff);
-					valid = true;
-				}
-				if(beff > 0) {
-					tanks[1].setTankType(trait.coolsTo);
-					int inputOps = tanks[0].getFill() / trait.amountReq;
-					int outputOps = (tanks[1].getMaxFill() - tanks[1].getFill()) / trait.amountProduced;
-					int cap = 6_000 / trait.amountReq;
-					int ops = Math.min(inputOps, Math.min(outputOps, cap));
-					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
-					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
-					this.power += (ops * trait.heatEnergy * beff); //tell me how to do this better
 					valid = true;
 				}
 			}

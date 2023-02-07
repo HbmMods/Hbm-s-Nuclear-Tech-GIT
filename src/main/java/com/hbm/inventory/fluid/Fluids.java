@@ -266,9 +266,6 @@ public class Fluids {
 		metaOrder.add(BLOOD);
 		metaOrder.add(BLOODGAS);
 		metaOrder.add(BLOOD_HOT);
-		metaOrder.add(BLOODSTEAM);
-		metaOrder.add(DENSEBLOODSTEAM);
-		metaOrder.add(EVAPBLOOD); //im starting to think that the novelty of blood is getting a bit overdone
 		//pure elements, cyogenic gasses
 		metaOrder.add(HYDROGEN);
 		metaOrder.add(DEUTERIUM);
@@ -355,8 +352,6 @@ public class Fluids {
 		double eff_steam_boil = 1.0D;
 		double eff_steam_heatex = 0.25D;
 		
-		double eff_blood_boil = 0.8D; //it boils my blood that im adding this
-		double eff_blood_heatex = 0.15D;
 		
 		WATER.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, eff_steam_boil).setEff(HeatingType.HEATEXCHANGER, eff_steam_heatex)
 				.addStep(200, 1, STEAM, 100)
@@ -392,12 +387,7 @@ public class Fluids {
 		
 		BLOOD.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(300, 1, BLOOD_HOT, 1));
 		BLOOD_HOT.addTraits(new FT_Coolable(BLOOD, 1, 1, 500).setEff(CoolingType.HEATEXCHANGER, 1.0D));
-		
-		BLOOD_HOT.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, eff_blood_boil).setEff(HeatingType.HEATEXCHANGER, eff_blood_heatex)
-		.addStep(100, 1, BLOODSTEAM, 50)
-		.addStep(120, 1, DENSEBLOODSTEAM, 5));
-		BLOODSTEAM.addTraits(new FT_Coolable(EVAPBLOOD, 100, 1, 200).setEff(CoolingType.TURBLOOD, eff_bloodturbine).setEff(CoolingType.HEATEXCHANGER, eff_blood_cool));
-		DENSEBLOODSTEAM.addTraits(new FT_Coolable(BLOODSTEAM, 1, 10, 2).setEff(CoolingType.TURBLOOD, eff_bloodturbine).setEff(CoolingType.HEATEXCHANGER, eff_blood_cool));
+	
 		
 		
 		if(idMapping.size() != metaOrder.size()) {
