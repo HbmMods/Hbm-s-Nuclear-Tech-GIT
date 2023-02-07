@@ -1002,16 +1002,6 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.coin_siege");
 		ignoreMappings.add("hbm:item.source");
 		ignoreMappings.add("hbm:item.gun_brimstone");
-		ignoreMappings.add("hbm:item.stamp_schrabidium_flat");
-		ignoreMappings.add("hbm:item.stamp_schrabidium_plate");
-		ignoreMappings.add("hbm:item.stamp_schrabidium_wire");
-		ignoreMappings.add("hbm:item.stamp_schrabidium_circuit");
-		ignoreMappings.add("hbm:item.blades_combine_steel");
-		ignoreMappings.add("hbm:item.blades_schrabidium");
-		ignoreMappings.add("hbm:item.blades_aluminium");
-		ignoreMappings.add("hbm:item.blades_gold");
-		ignoreMappings.add("hbm:item.blades_iron");
-		ignoreMappings.add("hbm:item.cap_aluminium");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

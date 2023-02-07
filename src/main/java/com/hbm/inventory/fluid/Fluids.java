@@ -106,6 +106,7 @@ public class Fluids {
 	private static FluidType BLOOD_HOT;
 	public static FluidType SOLVENT; //oranic solvent in fact
 
+
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
 	protected static final List<FluidType> metaOrder = new ArrayList();
@@ -227,7 +228,6 @@ public class Fluids {
 		AIR =				new FluidType("AIR",				0xD1CEBE, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 		BLOOD_HOT =			new FluidType("BLOOD_HOT",			0x830404, 2, 0, 0, EnumSymbol.NONE).setTemp(200).addTraits(LIQUID);
 		SOLVENT =			new FluidType(90, "SOLVENT",		0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
-	
 		//TODO: fire diamonds
 		//sh
 		

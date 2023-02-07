@@ -241,7 +241,6 @@ public class ItemLemon extends ItemFood {
 }
 
 
-
     @Override
 	protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player)
     {
