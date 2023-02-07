@@ -95,7 +95,7 @@ public class CrystallizerRecipes {
 			registerRecipe(new ComparableStack(ModItems.scrap_plastic, 1, i), new CrystallizerRecipe(new ItemStack(ModItems.circuit_star_piece, 1, i), baseTime));
 		}
 
-		FluidStack nitric = new FluidStack(Fluids.NITRIC_ACID, 500);
+
 		FluidStack organic = new FluidStack(Fluids.SOLVENT, 500);
 		int oreTime = 200;
 		
