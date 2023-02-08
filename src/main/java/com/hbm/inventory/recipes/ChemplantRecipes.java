@@ -21,6 +21,7 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -372,6 +373,12 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(105, "AMMONIUM", 250)
 				.inputFluids(new FluidStack(Fluids.AMMONIA, 500), new FluidStack(Fluids.NITROGEN, 1000))
 				.outputItems(new ItemStack(ModItems.ammonium_nitrate, 4)));
+		recipes.add(new ChemRecipe(106, "ARSENIDE", 250)
+				.inputFluids(new FluidStack(Fluids.WATER, 500), new FluidStack(Fluids.LIGHTOIL, 900))
+				.inputItems(
+						new ComparableStack(ModItems.ingot_gallium),
+						new ComparableStack(ModItems.ingot_arsenic))
+				.outputItems(new ItemStack(ModItems.ingot_gaas, 1)));
 	}
 	
 	

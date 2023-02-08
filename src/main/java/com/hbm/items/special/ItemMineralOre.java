@@ -21,8 +21,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
@@ -32,7 +34,7 @@ public class ItemMineralOre extends Item {
 
 	protected IIcon overlayIcon;
 
-	public static Mineral[] itemTypes =	new Mineral[ /* >>> */ 5 /* <<< */ ];
+	public static Mineral[] itemTypes =	new Mineral[ /* >>> */ 6 /* <<< */ ];
 	String name;
 
 	/* item types */
@@ -41,6 +43,7 @@ public class ItemMineralOre extends Item {
 	public final int CLUMP_SULFURIC = 2;
 	public final int CLUMP_SOLVENT = 3;
 	public final int CLUMP_HYDROCHLORIC = 4;
+	public final int CLUMP_SCHRABIDIC = 5;
 	/* non-item shell types */
 	
 	public ItemMineralOre() {
@@ -48,6 +51,36 @@ public class ItemMineralOre extends Item {
 		this.setCreativeTab(MainRegistry.partsTab);
 		init();
 
+	}
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+
+		String r = EnumChatFormatting.RED + "";
+		String y = EnumChatFormatting.YELLOW + "";
+		String b = EnumChatFormatting.BLUE + "";
+		String o = EnumChatFormatting.GOLD + "";
+		String g = EnumChatFormatting.GREEN + "";
+		
+		switch(stack.getItemDamage()) {
+		case CLUMP_PEROXIDE:
+			list.add(y + "[Peroxide]");
+			break;
+		case CLUMP_NITRIC:
+			list.add(o + "[Nitric]");
+			break;
+		case CLUMP_SULFURIC:
+			list.add(y + "[Sulfuric]");
+			break;
+		case CLUMP_SOLVENT:
+			list.add(r + "[Solvent]");
+			break;
+		case CLUMP_HYDROCHLORIC:
+			list.add(g + "[Chloric]");
+			break;
+		case CLUMP_SCHRABIDIC:
+			list.add(b + "[Schrabidic]");
+			break;
+		}
 	}
 	private IIcon[] icons = new IIcon[itemTypes.length];
 
@@ -59,6 +92,7 @@ public class ItemMineralOre extends Item {
 		list.add(new ItemStack(item, 1, CLUMP_SULFURIC));
 		list.add(new ItemStack(item, 1, CLUMP_SOLVENT));
 		list.add(new ItemStack(item, 1, CLUMP_HYDROCHLORIC));
+		list.add(new ItemStack(item, 1, CLUMP_SCHRABIDIC));
 	}
 
 
@@ -117,6 +151,7 @@ public class ItemMineralOre extends Item {
 		this.itemTypes[CLUMP_SULFURIC] = new Mineral("clump_sulfuric") {};
 		this.itemTypes[CLUMP_SOLVENT] = new Mineral("clump_solvent") {};
 		this.itemTypes[CLUMP_HYDROCHLORIC] = new Mineral("clump_hydrochloric") {};
+		this.itemTypes[CLUMP_SCHRABIDIC] = new Mineral("clump_schrabidic") {};
 	}
 
 	/*
@@ -127,6 +162,7 @@ public class ItemMineralOre extends Item {
 	 */
 	//i made a flow chart for this already
 
+	/*
 	public static enum EnumMineralOre {
 		//Ore					Byproduct	1,			2,			3
 		PEROXIDE("Peroxide",			B_SULFUR,	B_TITANIUM,	B_TITANIUM), 
@@ -140,11 +176,11 @@ public class ItemMineralOre extends Item {
 		
 		public EnumProduct[] byproducts;
 		
-		/** Byproduct count must be consistent with current tier count, use NULL if no byproduct should be generated! */
+		 Byproduct count must be consistent with current tier count, use NULL if no byproduct should be generated! 
 	
 	 	private EnumMineralOre(String name, EnumProduct... by) {
 			this.oreName = name;
 	 	}
-	}
+	 	*/
 	
 }

@@ -377,8 +377,8 @@ public class OreDictManager {
 		FIBER																.ingot(ingot_fiberglass)																											.block(block_fiberglass);
 		ASBESTOS	.asbestos(1F)											.ingot(ingot_asbestos)												.dust(powder_asbestos)											.block(block_asbestos)		.ore(ore_asbestos, ore_gneiss_asbestos, basalt_asbestos, DictFrame.fromOne(stone_resource, EnumStoneType.ASBESTOS));
 		OSMIRIDIUM	.nugget(nugget_osmiridium)								.ingot(ingot_osmiridium);
-		MIN			.dust(mineral_dust);
-		ZI			.nugget(nugget_zinc)									.ingot(ingot_zinc)													.dust(powder_zinc);
+		//MIN			.dust(mineral_dust) 									.specore(ore_mineral);
+		ZI			.nugget(nugget_zinc)									.ingot(ingot_zinc)													.dust(powder_zinc)		.ore(ore_zinc);
 		GALLIUM		.nugget(nugget_gallium)									.ingot(ingot_gallium)												.dust(powder_gallium)		.dustSmall(powder_gallium_tiny);
 		GAAS		.nugget(nugget_gaas)									.ingot(ingot_gaas)													.billet(billet_gaas);	
 		PLATNIUM	.nugget(nugget_platnium)								.ingot(ingot_platnium)												.dust(powder_platnium);
@@ -720,6 +720,7 @@ public class OreDictManager {
 			hazMult = HazardRegistry.ore;
 			return makeObject(ORE, ore);
 		}
+		
 		public DictFrame oreNether(Object... oreNether) {
 			hazMult = HazardRegistry.ore;
 			return makeObject(ORENETHER, oreNether);

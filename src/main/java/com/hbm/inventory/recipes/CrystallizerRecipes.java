@@ -61,7 +61,7 @@ public class CrystallizerRecipes {
 		registerRecipe(LI.ore(),		new CrystallizerRecipe(ModItems.crystal_lithium, baseTime), sulfur);
 		registerRecipe(STAR.ore(),		new CrystallizerRecipe(ModItems.crystal_starmetal, baseTime), sulfur);
 		registerRecipe(CO.ore(),		new CrystallizerRecipe(ModItems.crystal_cobalt, baseTime), sulfur);
-		registerRecipe(MIN.dust(),		new CrystallizerRecipe(ModItems.crystal_mineral, baseTime)); //temp
+		registerRecipe((new ComparableStack(ModBlocks.ore_mineral)),		new CrystallizerRecipe(ModItems.crystal_mineral, baseTime)); //temp
 		
 		registerRecipe("oreRareEarth",	new CrystallizerRecipe(ModItems.crystal_rare, baseTime), sulfur);
 		registerRecipe("oreCinnabar",	new CrystallizerRecipe(ModItems.crystal_cinnebar, baseTime));
@@ -101,6 +101,7 @@ public class CrystallizerRecipes {
 		FluidStack nitric = new FluidStack(Fluids.NITRIC_ACID, 500);
 		FluidStack organic = new FluidStack(Fluids.SOLVENT, 500);
 		FluidStack chloric = new FluidStack(Fluids.HCL, 500);
+		FluidStack schrabidic = new FluidStack(Fluids.SCHRABIDIC, 500);
 		
 		int oreTime = 200;
 		
@@ -118,6 +119,7 @@ public class CrystallizerRecipes {
 		registerRecipe(new ComparableStack(ModItems.mineral_dust),	new CrystallizerRecipe(new ItemStack(ModItems.mineral_fragment, 1, 2), mineraltime), sulfur);
 		registerRecipe(new ComparableStack(ModItems.mineral_dust),	new CrystallizerRecipe(new ItemStack(ModItems.mineral_fragment, 1, 3), mineraltime), organic);
 		registerRecipe(new ComparableStack(ModItems.mineral_dust),	new CrystallizerRecipe(new ItemStack(ModItems.mineral_fragment, 1, 4), mineraltime), chloric);
+		registerRecipe(new ComparableStack(ModItems.mineral_dust),	new CrystallizerRecipe(new ItemStack(ModItems.mineral_fragment, 1, 5), mineraltime), schrabidic);
 		
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");
 		

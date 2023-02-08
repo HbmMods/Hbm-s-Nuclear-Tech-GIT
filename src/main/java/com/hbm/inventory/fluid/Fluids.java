@@ -227,8 +227,8 @@ public class Fluids {
 		HYDRAZINE =			new FluidType("HYDRAZINE",			0x31517D, 2, 3, 2, EnumSymbol.NONE).addContainers(0x31517D, ExtContainer.CANISTER).addTraits((new FT_Flammable(500_000)), new FT_Combustible(FuelGrade.HIGH, 1_250_000), new FT_Corrosive(30), LIQUID);	
 		BLOODGAS =			new FluidType("BLOODGAS",		    0x591000, 3, 1, 1, EnumSymbol.NONE).addContainers(0x591000, ExtContainer.CANISTER).addTraits(new FT_Flammable(86_666), new FT_Combustible(FuelGrade.AERO, 666_665)).addTraits(LIQUID);
 		AIR =				new FluidType("AIR",				0xD1CEBE, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
-		BLOOD_HOT =			new FluidType(89, "BLOOD_HOT",		0xE4E3EF, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID).setTemp(666);
-		SOLVENT =			new FluidType(90, "SOLVENT",		0x890404, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
+		BLOOD_HOT =			new FluidType(89, "BLOOD_HOT",		0x890404, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID).setTemp(666);//0xE4E3EF
+		SOLVENT =			new FluidType(90, "SOLVENT",		0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
 		HCL =				new FluidType("HCL",				0x00D452, 3, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(30), LIQUID);
 		//TODO: fire diamonds
 		//sh

@@ -200,6 +200,20 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(Items.carrot, new ItemStack(Items.sugar, 1));
 		ShredderRecipes.setRecipe(ModItems.crystal_mineral, new ItemStack(ModItems.mineral_dust, 1));
 		ShredderRecipes.setRecipe(ModItems.crystal_cleaned, new ItemStack(ModItems.mineral_dust, 4));
+		
+		//BYPRODUCTS
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 0), new ItemStack(ModItems.powder_iron, 10));
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 1), new ItemStack(ModItems.powder_copper, 10));
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 2), new ItemStack(ModItems.powder_lithium, 10));
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 3), new ItemStack(ModItems.powder_quartz, 8));
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 4), new ItemStack(ModItems.powder_lead, 6));
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 5), new ItemStack(ModItems.powder_titanium, 9));
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 6), new ItemStack(ModItems.powder_aluminium, 12));
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 7), new ItemStack(ModItems.sulfur, 6));
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 8), new ItemStack(Items.bone, 4));
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 9), new ItemStack(ModItems.nugget_bismuth, 5));
+		
+		
 
 		
 		List<ItemStack> logs = OreDictionary.getOres("logWood");

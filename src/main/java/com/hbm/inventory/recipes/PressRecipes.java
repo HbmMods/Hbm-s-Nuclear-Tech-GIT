@@ -74,6 +74,7 @@ public class PressRecipes {
 
 		makeRecipe(StampType.WIRE, new OreDictStack(AL.ingot()),		new ItemStack(ModItems.wire_aluminium, 8));
 		makeRecipe(StampType.WIRE, new OreDictStack(CU.ingot()),		new ItemStack(ModItems.wire_copper, 8));
+		makeRecipe(StampType.WIRE, new OreDictStack(ZI.ingot()),		new ItemStack(ModItems.wire_zinc, 8));
 		makeRecipe(StampType.WIRE, new OreDictStack(W.ingot()),			new ItemStack(ModItems.wire_tungsten, 8));
 		makeRecipe(StampType.WIRE, new OreDictStack(MINGRADE.ingot()),	new ItemStack(ModItems.wire_red_copper, 8));
 		makeRecipe(StampType.WIRE, new OreDictStack(GOLD.ingot()),		new ItemStack(ModItems.wire_gold, 8));

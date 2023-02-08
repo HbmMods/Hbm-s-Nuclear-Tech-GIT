@@ -79,6 +79,9 @@ public class ModBlocks {
 	public static Block ore_cinnebar;
 	public static Block ore_coltan;
 	public static Block ore_alexandrite;
+	public static Block ore_mineral;
+	public static Block ore_zinc;
+
 
 	public static Block ore_random;
 	public static Block ore_bedrock;
@@ -1347,6 +1350,8 @@ public class ModBlocks {
 		ore_niter = new BlockOre(Material.rock).setBlockName("ore_niter").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_niter");
 		ore_copper = new BlockGeneric(Material.rock).setBlockName("ore_copper").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_copper");
 		ore_nickel = new BlockGeneric(Material.rock).setBlockName("ore_nickel").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_nickel");
+		ore_mineral = new BlockGeneric(Material.rock).setBlockName("ore_mineral").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_mineral");
+		ore_zinc = new BlockGeneric(Material.rock).setBlockName("ore_zinc").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_zinc");
 		ore_tungsten = new BlockGeneric(Material.rock).setBlockName("ore_tungsten").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_tungsten");
 		ore_aluminium = new BlockGeneric(Material.rock).setBlockName("ore_aluminium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_aluminium");
 		ore_fluorite = new BlockOre(Material.rock).setBlockName("ore_fluorite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_fluorite");
@@ -2457,6 +2462,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_niter, ore_niter.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_copper, ore_copper.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_nickel, ore_nickel.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_mineral, ore_mineral.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_zinc, ore_zinc.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_tungsten, ore_tungsten.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_aluminium, ore_aluminium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_fluorite, ore_fluorite.getUnlocalizedName());
