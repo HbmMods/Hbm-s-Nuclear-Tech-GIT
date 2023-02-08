@@ -120,7 +120,12 @@ public class OreDictManager {
 	public static final DictFrame PU241 = new DictFrame("Plutonium241", "Pu241");
 	public static final DictFrame AM241 = new DictFrame("Americium241", "Am241");
 	public static final DictFrame AM242 = new DictFrame("Americium242", "Am242");
+	public static final DictFrame CM242 = new DictFrame ("Curium247", "Cm242");
 	public static final DictFrame BK247 = new DictFrame ("Berkelium247", "Bk247");
+	public static final DictFrame CF251 = new DictFrame ("Californium251", "Cf251");
+	public static final DictFrame CF252 = new DictFrame ("Californium252", "Cf252");
+	public static final DictFrame ES253 = new DictFrame ("Einsteinium253", "Es253");
+	public static final DictFrame ES255 = new DictFrame ("Einsteinium255", "Es255");
 	public static final DictFrame AMRG = new DictFrame("AmericiumRG");
 	public static final DictFrame NP237 = new DictFrame("Neptunium237", "Np237", "Neptunium");
 	public static final DictFrame PO210 = new DictFrame("Polonium210", "Po210", "Polonium");
@@ -185,6 +190,13 @@ public class OreDictManager {
 	public static final DictFrame FIBER = new DictFrame("Fiberglass");
 	public static final DictFrame ASBESTOS = new DictFrame("Asbestos");
 	public static final DictFrame OSMIRIDIUM = new DictFrame("Osmiridium");
+	public static final DictFrame IRIDIUM = new DictFrame("Iridium");
+	public static final DictFrame ZI = new DictFrame("Zinc");
+	public static final DictFrame GALLIUM = new DictFrame("Gallium");
+	public static final DictFrame GAAS = new DictFrame("GalliumArsenide");
+	public static final DictFrame PLATNIUM = new DictFrame("Platnium");
+	
+	public static final DictFrame MIN = new DictFrame("Mineral");
 	/*
 	 * DUST AND GEM ORES
 	 */
@@ -306,7 +318,12 @@ public class OreDictManager {
 		PU241	.rad(HazardRegistry.pu241)							.nugget(nugget_pu241)		.billet(billet_pu241)		.ingot(ingot_pu241);																//.block(block_pu241);
 		AM241	.rad(HazardRegistry.am241)							.nugget(nugget_am241)		.billet(billet_am241)		.ingot(ingot_am241);
 		AM242	.rad(HazardRegistry.am242)							.nugget(nugget_am242)		.billet(billet_am242)		.ingot(ingot_am242);
+		CM242	.rad(HazardRegistry.cm242)																					.ingot(ingot_cm242);
 		BK247   .rad(HazardRegistry.bk247)							.nugget(nugget_bk247)		.billet(billet_bk247)		.ingot(ingot_bk247);
+		CF251   .rad(HazardRegistry.cf251)																					.ingot(ingot_cf251);
+		CF252	.rad(HazardRegistry.cf252)																					.ingot(ingot_cf252);
+		ES253	.rad(HazardRegistry.es253)																					.ingot(ingot_es253);		
+		ES255	.rad(HazardRegistry.es255)																					.ingot(ingot_es255);
 		AMRG	.rad(HazardRegistry.amrg)							.nugget(nugget_am_mix)		.billet(billet_am_mix)		.ingot(ingot_am_mix);
 		NP237	.rad(HazardRegistry.np237)							.nugget(nugget_neptunium)	.billet(billet_neptunium)	.ingot(ingot_neptunium)		.dust(powder_neptunium)									.block(block_neptunium);
 		PO210	.rad(HazardRegistry.po210)	.hot(3)					.nugget(nugget_polonium)	.billet(billet_polonium)	.ingot(ingot_polonium)		.dust(powder_polonium)									.block(block_polonium);
@@ -360,6 +377,14 @@ public class OreDictManager {
 		FIBER																.ingot(ingot_fiberglass)																											.block(block_fiberglass);
 		ASBESTOS	.asbestos(1F)											.ingot(ingot_asbestos)												.dust(powder_asbestos)											.block(block_asbestos)		.ore(ore_asbestos, ore_gneiss_asbestos, basalt_asbestos, DictFrame.fromOne(stone_resource, EnumStoneType.ASBESTOS));
 		OSMIRIDIUM	.nugget(nugget_osmiridium)								.ingot(ingot_osmiridium);
+		MIN			.dust(mineral_dust);
+		ZI			.nugget(nugget_zinc)									.ingot(ingot_zinc)													.dust(powder_zinc);
+		GALLIUM		.nugget(nugget_gallium)									.ingot(ingot_gallium)												.dust(powder_gallium)		.dustSmall(powder_gallium_tiny);
+		GAAS		.nugget(nugget_gaas)									.ingot(ingot_gaas)													.billet(billet_gaas);	
+		PLATNIUM	.nugget(nugget_platnium)								.ingot(ingot_platnium)												.dust(powder_platnium);
+		IRIDIUM		.nugget(nugget_zinc)									.ingot(ingot_zinc)													.dust(powder_zinc);
+	
+		
 
 		/*
 		 * DUST AND GEM ORES

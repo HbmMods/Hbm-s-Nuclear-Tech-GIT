@@ -29,6 +29,7 @@ public class MineralRecipes {
 		
 		add1To9Pair(ModItems.dust, ModItems.dust_tiny);
 		add1To9Pair(ModItems.powder_coal, ModItems.powder_coal_tiny);
+		add1To9Pair(ModItems.powder_gallium, ModItems.powder_gallium_tiny);
 		add1To9Pair(ModItems.ingot_mercury, ModItems.nugget_mercury);
 		add1To9Pair(ModItems.ingot_nickel, ModItems.nugget_nickel);
 
@@ -76,8 +77,12 @@ public class MineralRecipes {
 		add1To9Pair(ModItems.ingot_ra226, ModItems.nugget_ra226);
 		add1To9Pair(ModItems.ingot_actinium, ModItems.nugget_actinium);
 		add1To9Pair(ModItems.ingot_arsenic, ModItems.nugget_arsenic);
-		add1To9Pair(ModItems.ingot_bk247, ModItems.nugget_bk247);
+		add1To9Pair(ModItems.ingot_bk247, ModItems.nugget_bk247);// TODO: ACTINIDE NUGGETS
 
+		add1To9Pair(ModItems.ingot_gaas, ModItems.nugget_gaas);
+		add1To9Pair(ModItems.ingot_platnium, ModItems.nugget_platnium);
+		add1To9Pair(ModItems.ingot_zinc, ModItems.nugget_zinc);
+		add1To9Pair(ModItems.ingot_gallium, ModItems.nugget_gallium);
 		add1To9Pair(ModItems.ingot_pu241, ModItems.nugget_pu241);
 		add1To9Pair(ModItems.ingot_am241, ModItems.nugget_am241);
 		add1To9Pair(ModItems.ingot_am242, ModItems.nugget_am242);
@@ -103,6 +108,7 @@ public class MineralRecipes {
 		add1To9Pair(ModItems.ingot_neptunium_fuel, ModItems.nugget_neptunium_fuel);
 		
 		addBillet(ModItems.billet_cobalt,				ModItems.ingot_cobalt,				ModItems.nugget_cobalt);
+		addBillet(ModItems.billet_gaas,					ModItems.ingot_gaas,				ModItems.nugget_gaas);
 		addBillet(ModItems.billet_co60,					ModItems.ingot_co60,				ModItems.nugget_co60);
 		addBillet(ModItems.billet_sr90,					ModItems.ingot_sr90,				ModItems.nugget_sr90, SR90.allNuggets());
 		addBillet(ModItems.billet_uranium,				ModItems.ingot_uranium,				ModItems.nugget_uranium, U.allNuggets());

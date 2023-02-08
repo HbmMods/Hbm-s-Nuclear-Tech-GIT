@@ -95,7 +95,12 @@ public class HazardRegistry {
 	public static final float pu241 = 25.0F;
 	public static final float puf = 4.25F;
 	public static final float am241 = 8.5F;
+	public static final float cm242 = 9.3F;
 	public static final float bk247 = 10.5F;
+	public static final float cf251 = 14.3F;
+	public static final float cf252 = 15.3F;
+	public static final float es253 = 18.3F;
+	public static final float es255 = 19.3F;
 	public static final float am242 = 9.5F;
 	public static final float amrg = 9.0F;
 	public static final float amf = 4.75F;

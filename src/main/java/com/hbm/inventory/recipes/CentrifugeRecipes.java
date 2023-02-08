@@ -21,6 +21,7 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.items.special.ItemByproduct.EnumByproduct;
+import com.hbm.items.special.ItemMineralOre.EnumMineralOre;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ItemStackUtil;
 
@@ -340,6 +341,32 @@ public class CentrifugeRecipes extends SerializableRecipe {
 					ItemStackUtil.carefulCopy(by2) });
 		}
 		
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 0), new ItemStack[] { //peroxide
+				new ItemStack(ModItems.powder_cobalt, 2),
+				new ItemStack(ModItems.powder_iron, 1),
+				new ItemStack(ModItems.powder_copper, 1),
+				new ItemStack(Blocks.gravel, 1) });
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 1), new ItemStack[] { //nitric
+				new ItemStack(ModItems.powder_cobalt, 2),
+				new ItemStack(ModItems.powder_iron, 1),
+				new ItemStack(ModItems.powder_copper, 1),
+				new ItemStack(Blocks.gravel, 1) });
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 2), new ItemStack[] { //sulfuric
+				new ItemStack(ModItems.nugget_bismuth, 1),
+				new ItemStack(ModItems.powder_nickel, 1),
+				new ItemStack(ModItems.nugget_arsenic, 1),
+				new ItemStack(Blocks.gravel, 1) });
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 3), new ItemStack[] { //solvent
+				new ItemStack(ModItems.powder_cobalt, 2),
+				new ItemStack(ModItems.powder_iron, 1),
+				new ItemStack(ModItems.powder_copper, 1),
+				new ItemStack(Blocks.gravel, 1) });
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 4), new ItemStack[] { //hydrochloric
+				new ItemStack(ModItems.powder_cobalt, 2),
+				new ItemStack(ModItems.powder_iron, 1),
+				new ItemStack(ModItems.powder_copper, 1),
+				new ItemStack(Blocks.gravel, 1) });
+		
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");
 		
 		if(quartz != null && !quartz.isEmpty()) {
@@ -383,6 +410,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(ModItems.crystal_lithium), new ItemStack[] { new ItemStack(ModItems.powder_lithium, 2), new ItemStack(ModItems.powder_lithium, 2), new ItemStack(ModItems.powder_quartz, 1), new ItemStack(ModItems.fluorite, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_starmetal), new ItemStack[] { new ItemStack(ModItems.powder_dura_steel, 3), new ItemStack(ModItems.powder_cobalt, 3), new ItemStack(ModItems.powder_astatine, 2), new ItemStack(ModItems.ingot_mercury, 5) });
 		recipes.put(new ComparableStack(ModItems.crystal_cobalt), new ItemStack[] { new ItemStack(ModItems.powder_cobalt, 2), new ItemStack(ModItems.powder_iron, 3), new ItemStack(ModItems.powder_copper, 3), new ItemStack(ModItems.powder_lithium_tiny, 1) });
+		recipes.put(new ComparableStack(ModItems.crystal_mineral), new ItemStack[] { new ItemStack(ModItems.crystal_cleaned, 1), new ItemStack(ModItems.powder_iron, 2), new ItemStack(ModItems.powder_aluminium, 2), new ItemStack(ModItems.powder_lithium_tiny, 1) });
 	}
 	
 	@Override
