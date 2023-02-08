@@ -36,6 +36,7 @@ public class ItemFELCrystal extends Item {
 		IR("wavelengths.name.ir", "wavelengths.waveRange.ir", 0xBB1010, 0xCC4040, EnumChatFormatting.RED),
 		VISIBLE("wavelengths.name.visible", "wavelengths.waveRange.visible", 0, 0, EnumChatFormatting.GREEN),
 		UV("wavelengths.name.uv", "wavelengths.waveRange.uv", 0x0A1FC4, 0x00EFFF, EnumChatFormatting.AQUA),
+		XRAY("wavelengths.name.xray", "wavelengths.waveRange.xray", 0xF8E6A7, 0xF8E6A7, EnumChatFormatting.GOLD),
 		GAMMA("wavelengths.name.gamma", "wavelengths.waveRange.gamma", 0x150560, 0xEF00FF, EnumChatFormatting.LIGHT_PURPLE),
 		DRX("wavelengths.name.drx", "wavelengths.waveRange.drx", 0xFF0000, 0xFF0000, EnumChatFormatting.DARK_RED);
 

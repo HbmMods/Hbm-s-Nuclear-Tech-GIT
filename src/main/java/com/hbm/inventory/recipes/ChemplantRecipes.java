@@ -366,8 +366,12 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(Fluids.SEEDSLURRY, 300), new FluidStack(Fluids.SULFURIC_ACID, 300))
 				.outputFluids(new FluidStack(Fluids.SOLVENT, 400)));
 		recipes.add(new ChemRecipe(104, "HCL", 250)
-				.inputFluids(new FluidStack(Fluids.SALIENT, 300))
-				.outputFluids(new FluidStack(Fluids.SOLVENT, 400)));
+				.inputFluids(new FluidStack(Fluids.HYDROGEN, 300))
+				.inputItems(new ComparableStack(ModItems.powder_poison, 10))
+				.outputFluids(new FluidStack(Fluids.HCL, 400)));
+		recipes.add(new ChemRecipe(105, "AMMONIUM", 250)
+				.inputFluids(new FluidStack(Fluids.AMMONIA, 500), new FluidStack(Fluids.NITROGEN, 1000))
+				.outputItems(new ItemStack(ModItems.ammonium_nitrate, 4)));
 	}
 	
 	

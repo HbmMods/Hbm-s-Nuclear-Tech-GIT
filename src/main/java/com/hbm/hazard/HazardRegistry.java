@@ -164,6 +164,8 @@ public class HazardRegistry {
 		
 		HazardSystem.register(new ItemStack(Item.getItemFromBlock(ModBlocks.bobblehead), 1, 22), makeData(ASBESTOS, 1F)); //this works okay
 		
+		HazardSystem.register(ModItems.ammonium_nitrate, makeData(EXPLOSIVE, 4F));
+		
 		HazardSystem.register(ball_dynamite, makeData(EXPLOSIVE, 2F));
 		HazardSystem.register(stick_dynamite, makeData(EXPLOSIVE, 1F));
 		HazardSystem.register(stick_tnt, makeData(EXPLOSIVE, 1.5F));

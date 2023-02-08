@@ -382,7 +382,7 @@ public class OreDictManager {
 		GALLIUM		.nugget(nugget_gallium)									.ingot(ingot_gallium)												.dust(powder_gallium)		.dustSmall(powder_gallium_tiny);
 		GAAS		.nugget(nugget_gaas)									.ingot(ingot_gaas)													.billet(billet_gaas);	
 		PLATNIUM	.nugget(nugget_platnium)								.ingot(ingot_platnium)												.dust(powder_platnium);
-		IRIDIUM		.nugget(nugget_zinc)									.ingot(ingot_zinc)													.dust(powder_zinc);
+		IRIDIUM		.nugget(nugget_zinc);							
 	
 		
 
