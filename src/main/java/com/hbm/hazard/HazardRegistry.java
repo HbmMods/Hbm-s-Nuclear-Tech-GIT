@@ -156,6 +156,7 @@ public class HazardRegistry {
 	public static final HazardTypeBase HYDROACTIVE = new HazardTypeHydroactive();
 	public static final HazardTypeBase EXPLOSIVE = new HazardTypeExplosive();
 	public static final HazardTypeBase AUTISM = new HazardTypeAutism();
+	public static final HazardTypeBase GLITCH = new HazardTypeGlitch();
 	
 	public static void registerItems() {
 		
@@ -164,6 +165,8 @@ public class HazardRegistry {
 		HazardSystem.register(Items.pumpkin_pie, makeData(EXPLOSIVE, 1F));
 		
 		HazardSystem.register(new ItemStack(Item.getItemFromBlock(ModBlocks.bobblehead), 1, 22), makeData(ASBESTOS, 1F)); //this works okay
+		
+		HazardSystem.register(new ItemStack(Item.getItemFromBlock(ModBlocks.bobblehead), 1, 25), makeData(GLITCH, 1F)); 
 		
 		HazardSystem.register(ModItems.ammonium_nitrate, makeData(EXPLOSIVE, 4F));
 		

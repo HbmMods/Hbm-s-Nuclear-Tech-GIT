@@ -191,8 +191,8 @@ public class BlockBobble extends BlockContainer {
 		CIRNO(			"Cirno",							"Cirno",		"the only multi layered skin i had",						"No brain. Head empty.",																			true,	ScrapType.BOARD_BLANK),
 		GWEN(			"Gwen",								"Gwen",			"Numero Uno Homie",											"KILL YOURSELF",																					true,	ScrapType.BOARD_BLANK),
 		JUICE(			"Juicy_Lad",						"Juicy_Lad",	"The Mojave Testing for this funny fork",					"\"What should the Inscription be?\",$ \"Uhh.. I'll think about it.\"",								true,	ScrapType.BOARD_BLANK),
-		DIVINE_RAY(			"Divine_Ray",					"Divine_Ray",		"Heat Sink Model",										"Warning: may contain traces of paperclips",																					true,	ScrapType.BOARD_BLANK),
-		SAERKAL(		"Saerkal",							"Saerkal",			"Caracal Model",										"Endorsed by the United States Government!",																					true,	ScrapType.BOARD_BLANK),
+		DIVINE_RAY(			"Divine_Ray",					"Divine_Ray",		"Heat Sink Model",										"Warning: may contain traces of paperclips",														true,	ScrapType.BOARD_BLANK),
+		SAERKAL(		"Saerkal",							"Saerkal",			"Caracal Model",										"Endorsed by the United States Government!",														true,	ScrapType.BOARD_BLANK),
 		JAMESH_2(			"JamesH_2",						"JamesH_2",			"The fork itself",										"COME ON AND SLAM",																					true,	ScrapType.BOARD_BLANK);
 		
 		public String name;			//the title of the tooltip
