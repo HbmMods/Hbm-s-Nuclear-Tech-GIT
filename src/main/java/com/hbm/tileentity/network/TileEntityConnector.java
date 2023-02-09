@@ -3,6 +3,8 @@ package com.hbm.tileentity.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import api.hbm.energy.IEnergyConductor;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -27,14 +29,32 @@ public class TileEntityConnector extends TileEntityPylonBase {
 	public List<int[]> getConnectionPoints() {
 		List<int[]> pos = new ArrayList(connected);
 		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-			pos.add(new int[] {xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ});
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+		//pos.add(new int[] {xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ});
+		
+		TileEntity te = worldObj.getTileEntity(xCoord, yCoord, zCoord);
+		
+		if(te instanceof IEnergyConductor) {
+			
+			IEnergyConductor conductor = (IEnergyConductor) te;
+			
+			if(conductor.canConnect(dir.getOpposite())) {
+				
+				if(this.getPowerNet() == null && conductor.getPowerNet() != null) {
+					conductor.getPowerNet().joinLink(this);
+				}
+				
+				if(this.getPowerNet() != null && conductor.getPowerNet() != null && this.getPowerNet() != conductor.getPowerNet()) {
+					conductor.getPowerNet().joinNetworks(this.getPowerNet());
+				}
+			}
 		}
+		
 		return pos;
 	}
 
 	@Override
 	public boolean canConnect(ForgeDirection dir) { //i've about had it with your fucking bullshit
-		return true;
+		return ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite() == dir;
 	}
 }
