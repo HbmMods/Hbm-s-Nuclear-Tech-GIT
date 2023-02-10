@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
+import com.hbm.entity.projectile.EntityTom;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.world.WorldProviderNTM;
@@ -29,6 +30,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -62,6 +64,19 @@ public class ModEventHandlerImpact {
 			if(data.fire > 0) {
 				data.fire = Math.max(0, (data.fire - cool));
 				data.dust = Math.min(1, (data.dust + cool));
+				data.markDirty();
+			}
+			
+			if(data.time > 0) {
+				data.time--;
+				if(data.time==data.dtime)
+				{
+					EntityTom tom = new EntityTom(event.world);
+					tom.setPosition(data.x + 0.5, 600, data.z + 0.5);
+					event.world.spawnEntityInWorld(tom);
+					IChunkProvider provider = event.world.getChunkProvider();
+					provider.loadChunk(data.x >> 4, data.z >> 4);
+				}
 				data.markDirty();
 			}
 			

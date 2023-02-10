@@ -263,7 +263,14 @@ public class ModEventHandlerClient {
 				RenderScreenOverlay.renderShieldBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
 			}
 		}
-		
+        if (!event.isCanceled() && event.type == event.type.ALL)
+        {
+        	long time = ImpactWorldHandler.getTimeForClient(player.worldObj);
+        	if(time>0)
+        	{
+        		RenderScreenOverlay.renderCountdown(event.resolution, Minecraft.getMinecraft().ingameGUI, Minecraft.getMinecraft().theWorld);	
+        	}        	
+        }
 		if(!event.isCanceled() && event.type == event.type.ARMOR) {
 			
 			if(ForgeHooks.getTotalArmorValue(player) == 0/* && GuiIngameForge.left_height == 59*/) {

@@ -10,6 +10,10 @@ public class TomSaveData extends WorldSavedData {
 	public float dust;
 	public float fire;
 	public boolean impact;
+	public long time;
+	public long dtime;
+	public int x;
+	public int z;
 	
 	private static TomSaveData lastCachedUnsafe = null;
 
@@ -42,6 +46,10 @@ public class TomSaveData extends WorldSavedData {
 		this.dust = compound.getFloat("dust");
 		this.fire = compound.getFloat("fire");
 		this.impact = compound.getBoolean("impact");
+		this.time = compound.getLong("time");
+		this.dtime = compound.getLong("dtime");
+		this.x = compound.getInteger("x");
+		this.z = compound.getInteger("z");
 	}
 
 	@Override
@@ -49,5 +57,9 @@ public class TomSaveData extends WorldSavedData {
 		nbt.setFloat("dust", dust);
 		nbt.setFloat("fire", fire);
 		nbt.setBoolean("impact", impact);
+		nbt.setLong("time", time);
+		nbt.setLong("dtime", dtime);
+		nbt.setInteger("x", x);
+		nbt.setInteger("z", z);
 	}
 }
