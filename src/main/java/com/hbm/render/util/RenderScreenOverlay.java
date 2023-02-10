@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.interfaces.Untested;
 import com.hbm.lib.RefStrings;
@@ -19,6 +20,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.client.GuiIngameForge;
 
 public class RenderScreenOverlay {
@@ -353,6 +355,46 @@ public class RenderScreenOverlay {
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
+	
+	public static void renderCountdown(ScaledResolution resolution, Gui gui, World world) {
+        GL11.glPushMatrix();
+        GL11.glTranslatef(0, 0, 0.0F);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glDisable(GL11.GL_BLEND);
+
+        int left = 5;
+        int top = 5;
+
+        final long ticks = ImpactWorldHandler.getTimeForClient(world);
+        final int seconds = (int)(ticks/20) % 60;
+        final int minutes = (int) Math.floor(ticks / (60 * 20)) % 60; 
+        final int hours = (int) Math.floor(ticks / (60 * 60 * 20));
+        if(minutes<10)
+        {
+            if(seconds<10)
+            {
+            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":0"+minutes+":0"+seconds, left, top, 0xFF0000);	
+            }
+            else
+            {
+            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":0"+minutes+":"+seconds, left, top, 0xFF0000);
+            }
+        }        
+        else
+        {
+            if(seconds<10)
+            {
+            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":"+minutes+":0"+seconds, left, top, 0xFF0000);	
+            }
+            else
+            {
+            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":"+minutes+":"+seconds, left, top, 0xFF0000);
+            }
+        }
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glPopMatrix();
+    }	
 	
 	public enum Crosshair {
 
