@@ -58,7 +58,7 @@ public interface IEnergyUser extends IEnergyConnector {
 		if(te instanceof IEnergyConductor) {
 			IEnergyConductor con = (IEnergyConductor) te;
 			
-			if(con.getPowerNet() != null && con.getPowerNet().isSubscribed(this)) {
+			if(con.canConnect(dir.getOpposite()) && con.getPowerNet() != null && con.getPowerNet().isSubscribed(this)) {
 				con.getPowerNet().unsubscribe(this);
 				wasSubscribed = true;
 			}
@@ -105,7 +105,8 @@ public interface IEnergyUser extends IEnergyConnector {
 		
 	public default void updateStandardConnections(World world, int x, int y, int z) {
 		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			this.trySubscribe(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir);
+		}
 	}
 }
