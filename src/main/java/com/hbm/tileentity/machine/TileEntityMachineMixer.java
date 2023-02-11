@@ -46,7 +46,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		this.tanks = new FluidTank[3];
 		this.tanks[0] = new FluidTank(Fluids.NONE, 16_000);
 		this.tanks[1] = new FluidTank(Fluids.NONE, 16_000);
-		this.tanks[2] = new FluidTank(Fluids.NONE, 16_000);
+		this.tanks[2] = new FluidTank(Fluids.NONE, 24_000);
 	}
 
 	@Override
