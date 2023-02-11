@@ -369,26 +369,53 @@ public class RenderScreenOverlay {
         final int seconds = (int)(ticks/20) % 60;
         final int minutes = (int) Math.floor(ticks / (60 * 20)) % 60; 
         final int hours = (int) Math.floor(ticks / (60 * 60 * 20));
+        
+        int color = 0x000000;
+        if(hours>=10)
+        {
+        	color=0x55FF55;
+        }
+        if(hours<10)
+        {
+        	color=0xFFFFFF;
+        }
+        if(hours<5)
+        {
+        	color=0xFFFF55;
+        }
+        if(hours<1)
+        {
+        	color=0xFFAA00;
+        }
+        if(minutes<20)
+        {
+        	color=0xFF5555;
+        }
+        if(minutes<2)
+        {
+        	color=0xAA0000;
+        }
+        
         if(minutes<10)
         {
             if(seconds<10)
             {
-            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":0"+minutes+":0"+seconds, left, top, 0xFF0000);	
+            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":0"+minutes+":0"+seconds, left, top, color);	
             }
             else
             {
-            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":0"+minutes+":"+seconds, left, top, 0xFF0000);
+            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":0"+minutes+":"+seconds, left, top, color);
             }
         }        
         else
         {
             if(seconds<10)
             {
-            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":"+minutes+":0"+seconds, left, top, 0xFF0000);	
+            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":"+minutes+":0"+seconds, left, top, color);	
             }
             else
             {
-            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":"+minutes+":"+seconds, left, top, 0xFF0000);
+            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":"+minutes+":"+seconds, left, top, color);
             }
         }
         GL11.glEnable(GL11.GL_BLEND);
