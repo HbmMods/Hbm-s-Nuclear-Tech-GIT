@@ -80,6 +80,7 @@ public class ModBlocks {
 
 	public static Block ore_random;
 	public static Block ore_bedrock;
+	public static Block ore_volcano;
 	
 	public static Block ore_bedrock_coltan;
 
@@ -552,6 +553,7 @@ public class ModBlocks {
 	public static Block tnt;
 	public static Block semtex;
 	public static Block c4;
+	public static Block fissure_bomb;
 
 	public static Block charge_dynamite;
 	public static Block charge_miner;
@@ -1401,6 +1403,7 @@ public class ModBlocks {
 		
 		ore_random = new BlockMotherOfAllOres().setBlockName("ore_random").setCreativeTab(MainRegistry.blockTab);
 		ore_bedrock = new BlockBedrockOreTE().setBlockName("ore_bedrock").setCreativeTab(null);
+		ore_volcano = new BlockFissure().setBlockName("ore_volcano").setLightLevel(1F).setCreativeTab(MainRegistry.blockTab);
 
 		depth_brick = new BlockDepth().setBlockName("depth_brick").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":depth_brick");
 		depth_tiles = new BlockDepth().setBlockName("depth_tiles").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":depth_tiles");
@@ -1849,6 +1852,7 @@ public class ModBlocks {
 		tnt = new BlockTNT().setBlockName("tnt_ntm").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.nukeTab).setHardness(0.0F).setBlockTextureName(RefStrings.MODID + ":tnt");
 		semtex = new BlockSemtex().setBlockName("semtex").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.nukeTab).setHardness(0.0F).setBlockTextureName(RefStrings.MODID + ":semtex");
 		c4 = new BlockC4().setBlockName("c4").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.nukeTab).setHardness(0.0F).setBlockTextureName(RefStrings.MODID + ":c4");
+		fissure_bomb = new BlockFissureBomb().setBlockName("fissure_bomb").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.nukeTab).setHardness(0.0F).setBlockTextureName(RefStrings.MODID + ":fissure_bomb");
 		
 		heater_firebox = new HeaterFirebox().setBlockName("heater_firebox").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		heater_oven = new HeaterOven().setBlockName("heater_oven").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
@@ -2539,6 +2543,7 @@ public class ModBlocks {
 		
 		//Bedrock ore
 		register(ore_bedrock);
+		register(ore_volcano);
 		
 		//Crystals
 		GameRegistry.registerBlock(crystal_power, crystal_power.getUnlocalizedName());
@@ -2928,6 +2933,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(tnt, tnt.getUnlocalizedName());
 		GameRegistry.registerBlock(semtex, semtex.getUnlocalizedName());
 		GameRegistry.registerBlock(c4, c4.getUnlocalizedName());
+		register(fissure_bomb);
 		
 		//Turrets
 		GameRegistry.registerBlock(turret_chekhov, turret_chekhov.getUnlocalizedName());

@@ -4391,6 +4391,7 @@ tile.fireworks.name=Firework Battery
 tile.fireworks.charges=Charges Loaded: %s
 tile.fireworks.message=Message: %s
 tile.fireworks.color=Color: %s
+tile.fissure_bomb.name=Fissure Bomb
 tile.flame_war.name=Flame War in a Box
 tile.float_bomb.name=Levitation Bomb
 tile.fluid_duct.name=Universal Fluid Duct (Deprecated)
