@@ -2,11 +2,16 @@ package com.hbm.inventory.recipes;
 
 import static com.hbm.inventory.OreDictManager.KNO;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -14,14 +19,19 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 
-public class MixerRecipes {
+import net.minecraft.item.ItemStack;
+
+import com.hbm.items.ItemEnums.EnumTarType;
+public class MixerRecipes extends SerializableRecipe {
 
 	public static HashMap<FluidType, MixerRecipe> recipes = new HashMap();
 	
-	public static void register() {
+	@Override
+	public void registerDefaults() {
 		recipes.put(Fluids.COOLANT, new MixerRecipe(2_000, 50).setStack1(new FluidStack(Fluids.WATER, 1_800)).setSolid(new OreDictStack(KNO.dust())));
 		recipes.put(Fluids.CRYOGEL, new MixerRecipe(2_000, 50).setStack1(new FluidStack(Fluids.COOLANT, 1_800)).setSolid(new ComparableStack(ModItems.powder_ice)));
 		recipes.put(Fluids.NITAN, new MixerRecipe(1_000, 50).setStack1(new FluidStack(Fluids.KEROSENE, 600)).setStack2(new FluidStack(Fluids.MERCURY, 200)).setSolid(new ComparableStack(ModItems.powder_nitan_mix)));
@@ -65,7 +75,62 @@ public class MixerRecipes {
 		
 		return recipes;
 	}
+	@Override
+	public String getFileName() {
+		return "hbmMixer.json";
+	}
+
+	@Override
+	public Object getRecipeObject() {
+		return recipes;
+	}
+
+	@Override
+	public void deleteRecipes() {
+		recipes.clear();
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		AStack inputItems = this.readAStack(obj.get("inputItems").getAsJsonArray());
+		//FluidStack inputFluid1 = this.readFluidArray((JsonArray)obj.get("inputFluid"))[0];
+		//FluidStack inputFluid2 = this.readFluidArray((JsonArray)obj.get("inputFluid"))[1];
+		FluidStack inputFluid1 = this.readFluidStack(obj.get("inputFluid1").getAsJsonArray());
+		FluidStack inputFluid2 = this.readFluidStack(obj.get("inputFluid2").getAsJsonArray());
+		FluidStack outputFluid = this.readFluidStack(obj.get("outputFluid").getAsJsonArray());
+		int duration = obj.get("duration").getAsInt();
+		if(inputItems instanceof ComparableStack) {
+			recipes.put(outputFluid.type, 
+		            new MixerRecipe(outputFluid.fill, duration).
+					setStack1(inputFluid1).
+					setStack2(inputFluid2).
+					setSolid(((ComparableStack) inputItems).makeSingular()));
+		}
+		else if(inputItems instanceof OreDictStack){
+			recipes.put(outputFluid.type, 
+		            new MixerRecipe(outputFluid.fill, duration).
+					setStack1(inputFluid1).
+					setStack2(inputFluid2).
+					setSolid(((OreDictStack) inputItems).copy()));
+		}
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		Entry<FluidType, MixerRecipe> rec = (Entry<FluidType, MixerRecipe>) recipe;
+		FluidStack key = new FluidStack(rec.getKey(), rec.getValue().output);
+		writer.name("duration").value(rec.getValue().processTime);
+		writer.name("inputItems");
+		this.writeAStack((ComparableStack) rec.getValue().solidInput,writer);
 	
+		writer.name("inputFluid1");
+		this.writeFluidStack(rec.getValue().input1, writer);
+		writer.name("inputFluid2");
+		this.writeFluidStack(rec.getValue().input2, writer);
+		writer.name("outputFluid");
+		this.writeFluidStack(key, writer);
+	}
 	public static class MixerRecipe {
 		public FluidStack input1;
 		public FluidStack input2;

@@ -48,6 +48,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new CyclotronRecipes());
 		recipeHandlers.add(new HadronRecipes());
 		recipeHandlers.add(new FuelPoolRecipes());
+		recipeHandlers.add(new MixerRecipes());
 		recipeHandlers.add(new MatDistribution());
 	}
 	
