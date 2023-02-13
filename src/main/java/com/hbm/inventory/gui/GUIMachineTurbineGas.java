@@ -1,14 +1,8 @@
 package com.hbm.inventory.gui;
 
-import java.awt.event.MouseListener;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineTurbineGas;
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -20,7 +14,6 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
@@ -121,9 +114,9 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 36, guiTop + 36, 16, 66, mouseX, mouseY, new String[] {(turbinegas.powerSliderPos) * 100 / 60 + "% power"});	
 		
 		if(turbinegas.temp >= 20)
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 23, 8, 72, mouseX, mouseY, new String[] {"Temperature: " + (turbinegas.temp) + " °C"});
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 23, 8, 72, mouseX, mouseY, new String[] {"Temperature: " + (turbinegas.temp) + "Â°C"});
 		else
-			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 23, 8, 72, mouseX, mouseY, new String[] {"Temperature: 20 °C"});
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 23, 8, 72, mouseX, mouseY, new String[] {"Temperature: 20Â°C"});
 		
 		turbinegas.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 16, 16, 48);
 		turbinegas.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 70, 16, 32);

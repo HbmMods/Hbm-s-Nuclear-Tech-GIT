@@ -48,6 +48,9 @@
     "block.warnOverspeed": {"category": "block", "sounds": [{"name": "block/warnOverspeed", "stream": false}]},
     "block.boilerGroan": {"category": "block", "sounds": ["block/boilerGroan0", "block/boilerGroan1", "block/boilerGroan2"]},
     "block.steamEngineOperate": {"category": "block", "sounds": [{"name": "block/steamEngineOperate", "stream": false}]},
+    "block.turbinegasStartup": {"category": "block", "sounds": [{"name": "block/turbinegasStartup", "stream": true}]},
+    "block.turbinegasRunning": {"category": "block", "sounds": [{"name": "block/turbinegasRunning", "stream": false}]},
+    "block.turbinegasShutdown": {"category": "block", "sounds": [{"name": "block/turbinegasShutdown", "stream": true}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},

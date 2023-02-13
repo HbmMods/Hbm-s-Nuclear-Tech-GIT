@@ -7,26 +7,32 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
+import com.hbm.inventory.gui.GUIMachineTurbineGas;
+import com.hbm.inventory.container.ContainerMachineTurbineGas;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyGenerator, IControlReceiver{
+public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyGenerator, IControlReceiver, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 1000000L;
@@ -124,22 +130,22 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-			this.sendPower(worldObj, xCoord - dir.offsetZ * 5, yCoord + 1, zCoord + dir.offsetX * 5, dir); //sends out power
+			
+			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
+			this.sendPower(worldObj, xCoord - dir.offsetZ * 5, yCoord + 1, zCoord + dir.offsetX * 5, rot); //sends out power
+			
 			for(int i = 0; i < 2; i++) { //fuel and lube
-				this.trySubscribe(tanks[i].getTankType(), worldObj, xCoord - dir.offsetX * 2 - dir.offsetZ * 1, yCoord, zCoord + dir.offsetX * 1 - dir.offsetZ * 2, dir);
-				this.trySubscribe(tanks[i].getTankType(), worldObj, xCoord + dir.offsetX * 2 - dir.offsetZ * 1, yCoord, zCoord + dir.offsetX * 1 + dir.offsetZ * 2, dir);
+				this.trySubscribe(tanks[i].getTankType(), worldObj, xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite());
+				this.trySubscribe(tanks[i].getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, dir);
 			}
 			//water
-			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord - dir.offsetX * 2 + dir.offsetZ * 4, yCoord, zCoord - dir.offsetX * 4 - dir.offsetZ * 2, dir);
-			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord + dir.offsetX * 2 + dir.offsetZ * 4, yCoord, zCoord - dir.offsetX * 4 + dir.offsetZ * 2, dir);
+			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord - dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * -4, dir.getOpposite());
+			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -4, dir);
 			//steam
-			this.sendFluid(tanks[3].getTankType(), worldObj, xCoord + dir.offsetZ * 6, yCoord + 1, zCoord - dir.offsetX * 6, dir);
+			this.sendFluid(tanks[3].getTankType(), worldObj, xCoord + dir.offsetZ * 6, yCoord + 1, zCoord - dir.offsetX * 6, rot.getOpposite());
 			
 			if(audio != null)
 				audio.updatePitch((float) (0.45 + 0.05 * rpm / 10));
-			
-			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
 			
 			NBTTagCompound data = new NBTTagCompound();
 			
@@ -444,28 +450,28 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
-		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
+		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 25;
 	}
 	
 	@Override
 	public void onChunkUnload() {
-    	
-    	if(audio != null) {
+
+		if(audio != null) {
 			audio.stopSound();
 			audio = null;
-    	}
-    }
-	
+		}
+	}
+
 	@Override
-    public void invalidate() {
-    	
-    	super.invalidate();
-    	
-    	if(audio != null) {
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
 			audio.stopSound();
 			audio = null;
-    	}
-    }
+		}
+	}
 
 	@Override
 	public void setPower(long power) {
@@ -523,5 +529,16 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
 		return dir != ForgeDirection.DOWN;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMachineTurbineGas(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineTurbineGas(player.inventory, this);
 	}
 }
