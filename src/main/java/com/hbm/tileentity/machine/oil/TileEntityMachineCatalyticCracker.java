@@ -10,7 +10,7 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.recipes.RefineryRecipes;
+import com.hbm.inventory.recipes.CrackingRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -93,7 +93,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 	
 	private void crack() {
 		
-		Pair<FluidStack, FluidStack> quart = RefineryRecipes.getCracking(tanks[0].getTankType());
+		Pair<FluidStack, FluidStack> quart = CrackingRecipes.getCracking(tanks[0].getTankType());
 		
 		if(quart != null) {
 			
@@ -118,7 +118,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 	
 	private void setupTanks() {
 		
-		Pair<FluidStack, FluidStack> quart = RefineryRecipes.getCracking(tanks[0].getTankType());
+		Pair<FluidStack, FluidStack> quart = CrackingRecipes.getCracking(tanks[0].getTankType());
 		
 		if(quart != null) {
 			tanks[1].setTankType(Fluids.STEAM);

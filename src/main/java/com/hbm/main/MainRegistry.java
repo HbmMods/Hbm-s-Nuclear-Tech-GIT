@@ -781,16 +781,15 @@ public class MainRegistry {
 		AnvilRecipes.register();
 		PressRecipes.register();
 		RefineryRecipes.registerRefinery();
-		RefineryRecipes.registerFractions();
-		RefineryRecipes.registerCracking();
-		RadiolysisRecipes.registerRadiolysis();
 		GasCentrifugeRecipes.register();
 		CombinationRecipes.register();
-		MixerRecipes.register();
 
 		//the good stuff
 		SerializableRecipe.registerAllHandlers();
 		SerializableRecipe.initialize();
+
+		//has to register after cracking, and therefore after all serializable recipes
+		RadiolysisRecipes.registerRadiolysis();
 		
 		FalloutConfigJSON.initialize();
 
