@@ -116,7 +116,7 @@ public class RogueWorldHandler {
 
 	@SideOnly(Side.CLIENT)
 	public static float getDistanceForClient(World world) {
-		if(world != lastSyncWorld) return 1F;
+		if(world != lastSyncWorld) return 1.0F;
 		return distance;
 	}
 
