@@ -9,16 +9,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemZirnoxBreedingRod extends ItemZirnoxRodDeprecated {
-
-	public ItemZirnoxBreedingRod(int life, int heat) {
-		super(life, heat);
+public class ItemZirnoxRodDeprecated extends ItemFuelRod {
+	
+	public int heat;
+	
+	public ItemZirnoxRodDeprecated(int life, int heat) {
+		super(life);
+		this.heat = heat;
 	}
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		
-		String[] descLocs = I18nUtil.resolveKeyArray("desc.item.zirnoxBreedingRod", BobMathUtil.getShortNumber(lifeTime));
+		String[] descLocs = I18nUtil.resolveKeyArray("desc.item.zirnoxRod", heat, BobMathUtil.getShortNumber(lifeTime));
 		
 		for(String loc : descLocs) {
 			list.add(loc);

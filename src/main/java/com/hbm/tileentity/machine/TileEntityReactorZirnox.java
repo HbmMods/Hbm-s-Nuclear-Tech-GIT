@@ -21,7 +21,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemZirnoxBreedingRod;
-import com.hbm.items.machine.ItemZirnoxRod;
+import com.hbm.items.machine.ItemZirnoxRodDeprecated;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -95,12 +95,12 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		return i < 24 && stack.getItem() instanceof ItemZirnoxRod;
+		return i < 24 && stack.getItem() instanceof ItemZirnoxRodDeprecated;
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
-		return i < 24 && !(stack.getItem() instanceof ItemZirnoxRod);
+		return i < 24 && !(stack.getItem() instanceof ItemZirnoxRodDeprecated);
 	}
 
 	@Override
@@ -201,7 +201,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 				for(int i = 0; i < 24; i++) {
 
 					if(slots[i] != null) {
-						if(slots[i].getItem() instanceof ItemZirnoxRod)
+						if(slots[i].getItem() instanceof ItemZirnoxRodDeprecated)
 							decay(i);
 						else if(slots[i].getItem() == ModItems.meteorite_sword_bred)
 							slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
@@ -263,7 +263,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	private boolean hasFuelRod(int id) {
 		if(slots[id] != null) {
 			if(!(slots[id].getItem() instanceof ItemZirnoxBreedingRod)) {
-				return slots[id].getItem() instanceof ItemZirnoxRod;
+				return slots[id].getItem() instanceof ItemZirnoxRodDeprecated;
 			}
 		}
 
@@ -296,11 +296,11 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		}
 
 		for(int i = 0; i < decay; i++) {
-			ItemZirnoxRod rod = ((ItemZirnoxRod) slots[id].getItem());
+			ItemZirnoxRodDeprecated rod = ((ItemZirnoxRodDeprecated) slots[id].getItem());
 			this.heat += rod.heat;
-			ItemZirnoxRod.setLifeTime(slots[id], ItemZirnoxRod.getLifeTime(slots[id]) + 1);
+			ItemZirnoxRodDeprecated.setLifeTime(slots[id], ItemZirnoxRodDeprecated.getLifeTime(slots[id]) + 1);
 			
-			if(ItemZirnoxRod.getLifeTime(slots[id]) > rod.lifeTime) {
+			if(ItemZirnoxRodDeprecated.getLifeTime(slots[id]) > rod.lifeTime) {
 				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id))).copy();
 				break;
 			}
