@@ -383,7 +383,7 @@ public class SILEXRecipes {
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_coal_tiny), 5 + 10 * i)) );
 			
 			// DRX //
-			recipes.put(new ComparableStack(ModItems.rbmk_pellet_drx, 1, i), new SILEXRecipe(600, 100, 4)
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_drx, 1, i), new SILEXRecipe(600, 100, 5)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.undefined), 1))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.undefined), 1))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.undefined), 1))
@@ -391,7 +391,7 @@ public class SILEXRecipes {
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.undefined), 1))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.undefined), 1)) );
 			
-			recipes.put(new ComparableStack(ModItems.rbmk_pellet_drx, 1, i + 5), new SILEXRecipe(600, 100, 4)
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_drx, 1, i + 5), new SILEXRecipe(600, 100, 5)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.undefined), 1))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.undefined), 1))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.undefined), 1))

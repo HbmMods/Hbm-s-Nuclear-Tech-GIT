@@ -78,7 +78,7 @@ public class GUISILEX extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(silex.mode != EnumWavelengths.NULL) {
-			float freq = 0.1F * (float)Math.pow(2, silex.mode.ordinal());
+			float freq = 0.05F * (float)Math.pow(2, silex.mode.ordinal());
 			int color = (silex.mode != EnumWavelengths.VISIBLE) ? silex.mode.guiColor : Color.HSBtoRGB(silex.getWorldObj().getTotalWorldTime() / 50.0F, 0.5F, 1F) & 16777215;
 			drawWave(81, 46, 16, 84, 0.5F, freq, color, 3F, 1F);
 		}
