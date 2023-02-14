@@ -3579,6 +3579,7 @@ tile.fireworks.name=Feuerwerksbatterie
 tile.fireworks.charges=Ladungen: %s
 tile.fireworks.message=Nachricht: %s
 tile.fireworks.color=Farbe: %s
+tile.fissure_bomb.name=Geofissur-Bombe
 tile.flame_war.name=Flamewar aus der Box
 tile.float_bomb.name=Schwebebombe
 tile.fluid_duct.name=Universelles Flüssigkeitsrohr (Veraltet)

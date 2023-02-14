@@ -44,6 +44,7 @@ import com.hbm.items.armor.IDamageHandler;
 import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.ItemModRevive;
 import com.hbm.items.armor.ItemModShackles;
+import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
@@ -60,6 +61,7 @@ import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.EntityDamageUtil;
+import com.hbm.util.EnumUtil;
 import com.hbm.world.generator.TimedGenerator;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -1100,7 +1102,7 @@ public class ModEventHandler {
 	
 	@SubscribeEvent
 	public void onItemPickup(PlayerEvent.ItemPickupEvent event) {
-		if(event.pickedUp.getEntityItem().getItem() == ModItems.canned_jizz)
+		if(event.pickedUp.getEntityItem().getItem() == ModItems.canned_conserve && EnumUtil.grabEnumSafely(EnumFoodType.class, event.pickedUp.getEntityItem().getItemDamage()) == EnumFoodType.JIZZ)
 			event.player.triggerAchievement(MainRegistry.achC20_5);
 		if(event.pickedUp.getEntityItem().getItem() == Items.slime_ball)
 			event.player.triggerAchievement(MainRegistry.achSlimeball);
