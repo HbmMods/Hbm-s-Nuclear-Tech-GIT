@@ -505,6 +505,10 @@ public class ModBlocks {
 	public static Block frozen_grass;
 	public static Block frozen_log;
 	public static Block frozen_planks;
+	public static Block frozen_gravel;
+	public static Block frozen_farmland;
+	public static Block frozen_leaves;
+	public static Block cold_ice;
 	public static Block dirt_dead;
 	public static Block dirt_oily;
 	public static Block sand_dirty;
@@ -1792,6 +1796,10 @@ public class ModBlocks {
 		frozen_grass = new WasteEarth(Material.ground, false).setBlockName("frozen_grass").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
 		frozen_log = new WasteLog(Material.wood).setBlockName("frozen_log").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
 		frozen_planks = new BlockOre(Material.wood).setBlockName("frozen_planks").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":frozen_planks");
+		frozen_farmland = new FrozenFarmland(Material.ground, true).setBlockName("frozen_farmland").setStepSound(Block.soundTypeGlass).setCreativeTab(CreativeTabs.tabBlock).setHardness(0.5F).setResistance(2.5F);
+		frozen_gravel = new BlockFallingFrozen(Material.ground).setBlockName("frozen_gravel").setStepSound(Block.soundTypeGlass).setCreativeTab(CreativeTabs.tabBlock).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + "frozen_gravel");
+		cold_ice = new ColdIce(true).setHardness(0.5F).setLightOpacity(3).setCreativeTab(CreativeTabs.tabBlock).setStepSound(Block.soundTypeGlass).setBlockName("cold_ice");
+		frozen_leaves = new WasteLeaves(Material.leaves).setBlockName("frozen_leaves").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setBlockTextureName(RefStrings.MODID + ":frozen_leaves");
 		fallout = new BlockFallout(Material.snow).setBlockName("fallout").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":ash");
 		foam_layer = new BlockLayering(Material.snow).setBlockName("foam_layer").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":foam");
 		sand_boron_layer = new BlockLayering(Material.sand).setBlockName("sand_boron_layer").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":sand_boron");
@@ -2913,6 +2921,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(frozen_dirt, frozen_dirt.getUnlocalizedName());
 		GameRegistry.registerBlock(frozen_log, frozen_log.getUnlocalizedName());
 		GameRegistry.registerBlock(frozen_planks, frozen_planks.getUnlocalizedName());
+		GameRegistry.registerBlock(frozen_farmland, frozen_farmland.getUnlocalizedName());
+		GameRegistry.registerBlock(frozen_gravel, frozen_gravel.getUnlocalizedName());
+		GameRegistry.registerBlock(cold_ice, cold_ice.getUnlocalizedName());
+		GameRegistry.registerBlock(frozen_leaves, frozen_leaves.getUnlocalizedName());
 		GameRegistry.registerBlock(dirt_dead, dirt_dead.getUnlocalizedName());
 		GameRegistry.registerBlock(dirt_oily, dirt_oily.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_dirty, sand_dirty.getUnlocalizedName());

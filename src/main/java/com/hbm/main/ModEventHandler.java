@@ -1104,8 +1104,8 @@ public class ModEventHandler {
 			event.player.triggerAchievement(MainRegistry.achC20_5);
 		if(event.pickedUp.getEntityItem().getItem() == Items.slime_ball)
 			event.player.triggerAchievement(MainRegistry.achSlimeball);
-		if(event.pickedUp.getEntityItem().getItem() == ModItems.egg_balefire)
-			event.player.triggerAchievement(MainRegistry.rotConsum);
+		//if(event.pickedUp.getEntityItem().getItem() == ModItems.egg_balefire)
+			//event.player.triggerAchievement(MainRegistry.rotConsum);
 	}
 	
 	@SubscribeEvent

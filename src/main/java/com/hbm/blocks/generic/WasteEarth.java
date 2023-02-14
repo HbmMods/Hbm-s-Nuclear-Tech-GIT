@@ -5,8 +5,11 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
+import com.hbm.handler.RogueWorldHandler;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ModEventHandlerRogue;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.RogueWorldSaveData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -170,6 +173,22 @@ public class WasteEarth extends Block {
 				world.setBlock(x, y + 1, z, ModBlocks.mush);
 			}
 		}
+    	if(this == ModBlocks.frozen_grass)
+    	{
+        	RogueWorldSaveData data = RogueWorldSaveData.forWorld(world);
+    		float temp = ModEventHandlerRogue.getTemperatureAtDepth(y, world);
+    		if(temp <0)
+    		{
+    			for(int i = -1; i < 2; i++) {
+    				for(int j = -1; j < 2; j++) {
+    					for(int k = -1; k < 2; k++) {
+    						RogueWorldHandler.freeze(world, x+i, y+j, z+k, temp);
+    					}
+    				}
+    			}
+    		}
+    	}    	
+
 	}
 	
 	@Override
