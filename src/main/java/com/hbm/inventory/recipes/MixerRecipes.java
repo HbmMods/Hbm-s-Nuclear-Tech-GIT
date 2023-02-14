@@ -23,12 +23,10 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 
-import net.minecraft.item.ItemStack;
-
-import com.hbm.items.ItemEnums.EnumTarType;
 public class MixerRecipes extends SerializableRecipe {
 
 	public static HashMap<FluidType, MixerRecipe> recipes = new HashMap();
+
 	
 	@Override
 	public void registerDefaults() {
@@ -93,43 +91,82 @@ public class MixerRecipes extends SerializableRecipe {
 	@Override
 	public void readRecipe(JsonElement recipe) {
 		JsonObject obj = (JsonObject) recipe;
-		AStack inputItems = this.readAStack(obj.get("inputItems").getAsJsonArray());
-		//FluidStack inputFluid1 = this.readFluidArray((JsonArray)obj.get("inputFluid"))[0];
-		//FluidStack inputFluid2 = this.readFluidArray((JsonArray)obj.get("inputFluid"))[1];
-		FluidStack inputFluid1 = this.readFluidStack(obj.get("inputFluid1").getAsJsonArray());
-		FluidStack inputFluid2 = this.readFluidStack(obj.get("inputFluid2").getAsJsonArray());
-		FluidStack outputFluid = this.readFluidStack(obj.get("outputFluid").getAsJsonArray());
+		AStack inputItems=new ComparableStack(ModItems.antiknock);
+		FluidStack inputFluid1=new FluidStack(Fluids.WATER, 0),inputFluid2=new FluidStack(Fluids.WATER, 0),outputFluid;
+		if(obj.has("inputItems"))
+		{inputItems = this.readAStack(obj.get("inputItems").getAsJsonArray());}
+		if(obj.has("inputFluid1"))
+		{inputFluid1 = this.readFluidStack(obj.get("inputFluid1").getAsJsonArray());}
+		if(obj.has("inputFluid2"))
+		{inputFluid2 = this.readFluidStack(obj.get("inputFluid2").getAsJsonArray());}
+		 outputFluid = this.readFluidStack(obj.get("outputFluid").getAsJsonArray());
 		int duration = obj.get("duration").getAsInt();
-		if(inputItems instanceof ComparableStack) {
-			recipes.put(outputFluid.type, 
-		            new MixerRecipe(outputFluid.fill, duration).
-					setStack1(inputFluid1).
-					setStack2(inputFluid2).
-					setSolid(((ComparableStack) inputItems).makeSingular()));
+
+			if(obj.has("inputItems")&&obj.has("inputFluid1")&&obj.has("inputFluid2"))//full
+			   {if(inputItems instanceof ComparableStack) {
+				recipes.put(outputFluid.type, 
+						new MixerRecipe(outputFluid.fill, duration).
+						setStack1(inputFluid1).
+						setStack2(inputFluid2).
+						setSolid(((ComparableStack) inputItems).makeSingular()));
+			}
+			    else if(inputItems instanceof OreDictStack){
+				recipes.put(outputFluid.type, 
+						new MixerRecipe(outputFluid.fill, duration).
+						setStack1(inputFluid1).
+						setStack2(inputFluid2).
+						setSolid(((OreDictStack) inputItems).copy()));}
+					}
+			 if(!obj.has("inputItems")&&obj.has("inputFluid1")&&obj.has("inputFluid2"))//just no item
+			    {recipes.put(outputFluid.type, 
+			    new MixerRecipe(outputFluid.fill, duration).
+			    setStack1(inputFluid1).
+			    setStack2(inputFluid2));}
+			else if(!obj.has("inputItems")&&obj.has("inputFluid1")&&!obj.has("inputFluid2"))//just fluid1
+				{recipes.put(outputFluid.type, 
+						new MixerRecipe(outputFluid.fill, duration).
+						setStack1(inputFluid1));}
+            else if(obj.has("inputItems")&&obj.has("inputFluid1")&&!obj.has("inputFluid2")){//just no fluid2{
+					if(inputItems instanceof ComparableStack) {
+					recipes.put(outputFluid.type, 
+							new MixerRecipe(outputFluid.fill, duration).
+							setStack1(inputFluid1).
+							setSolid(((ComparableStack) inputItems).makeSingular()));
+				    }
+				    else if(inputItems instanceof OreDictStack){
+					recipes.put(outputFluid.type, 
+							new MixerRecipe(outputFluid.fill, duration).
+							setStack1(inputFluid1).
+							setSolid(((OreDictStack) inputItems).copy()));}
+				}
+
 		}
-		else if(inputItems instanceof OreDictStack){
-			recipes.put(outputFluid.type, 
-		            new MixerRecipe(outputFluid.fill, duration).
-					setStack1(inputFluid1).
-					setStack2(inputFluid2).
-					setSolid(((OreDictStack) inputItems).copy()));
-		}
-	}
+	
 
 	@Override
 	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
 		Entry<FluidType, MixerRecipe> rec = (Entry<FluidType, MixerRecipe>) recipe;
 		FluidStack key = new FluidStack(rec.getKey(), rec.getValue().output);
 		writer.name("duration").value(rec.getValue().processTime);
-		writer.name("inputItems");
-		this.writeAStack((ComparableStack) rec.getValue().solidInput,writer);
-	
-		writer.name("inputFluid1");
-		this.writeFluidStack(rec.getValue().input1, writer);
-		writer.name("inputFluid2");
-		this.writeFluidStack(rec.getValue().input2, writer);
 		writer.name("outputFluid");
 		this.writeFluidStack(key, writer);
+		if(rec.getValue().solidInput!=null){
+			    writer.name("inputItems");
+		        if(rec.getValue().solidInput instanceof OreDictStack) {
+			    this.writeAStack((OreDictStack) rec.getValue().solidInput, writer);
+		        } else if(rec.getValue().solidInput instanceof ComparableStack) {
+			    this.writeAStack((ComparableStack) rec.getValue().solidInput,writer);
+		        }
+		}
+		if(rec.getValue().input1!=null){
+			    writer.name("inputFluid1");
+		        this.writeFluidStack(rec.getValue().input1, writer);
+			}
+		if(rec.getValue().input2!=null){
+			    writer.name("inputFluid2");
+		        this.writeFluidStack(rec.getValue().input2, writer);
+			}
+		
 	}
 	public static class MixerRecipe {
 		public FluidStack input1;
