@@ -24,8 +24,10 @@ import net.minecraft.world.World;
 
 public abstract class BlockTNTBase extends BlockFlammable implements IToolable {
 
-	@SideOnly(Side.CLIENT) private IIcon topIcon;
-	@SideOnly(Side.CLIENT) private IIcon bottomIcon;
+	@SideOnly(Side.CLIENT)
+	private IIcon topIcon;
+	@SideOnly(Side.CLIENT)
+	private IIcon bottomIcon;
 
 	public BlockTNTBase() {
 		super(Material.tnt, 15, 100);
