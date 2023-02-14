@@ -79,6 +79,10 @@ public class MixerRecipes extends SerializableRecipe {
 	}
 
 	@Override
+	public String getComment() {
+		return "There must be 'duration','outputFluid' and 'inputFluid1' in a recipe";
+	}
+	@Override
 	public Object getRecipeObject() {
 		return recipes;
 	}
