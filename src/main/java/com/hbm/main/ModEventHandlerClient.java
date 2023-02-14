@@ -866,18 +866,18 @@ public class ModEventHandlerClient {
 				
 				IRenderHandler sky = world.provider.getSkyRenderer();
 				
-				if(ImpactWorldHandler.getDustForClient(world) > 0 || ImpactWorldHandler.getFireForClient(world) > 0) {
+				//if(ImpactWorldHandler.getDustForClient(world) > 0 || ImpactWorldHandler.getFireForClient(world) > 0) {
 
 					//using a chainloader isn't necessary since none of the sky effects should render anyway
 					if(!(sky instanceof RenderNTMSkyboxImpact)) {
 						world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
 					}
-				} else {
+				/*} else {
 
 					if(!(sky instanceof RenderNTMSkyboxChainloader)) {
 						world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
 					}
-				}
+				}*/
 			}
 		}
 	}

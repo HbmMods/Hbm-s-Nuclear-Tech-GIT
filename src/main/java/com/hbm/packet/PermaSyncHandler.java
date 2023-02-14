@@ -1,6 +1,8 @@
 package com.hbm.packet;
 
 import com.hbm.handler.ImpactWorldHandler;
+import com.hbm.handler.RogueWorldHandler;
+import com.hbm.saveddata.RogueWorldSaveData;
 import com.hbm.saveddata.TomSaveData;
 
 import io.netty.buffer.ByteBuf;
@@ -18,11 +20,20 @@ public class PermaSyncHandler {
 	public static void writePacket(ByteBuf buf, World world, EntityPlayerMP player) {
 		
 		/// TOM IMPACT DATA ///
-		TomSaveData data = TomSaveData.forWorld(world);
-		buf.writeFloat(data.fire);
-		buf.writeFloat(data.dust);
-		buf.writeBoolean(data.impact);
+		TomSaveData impact = TomSaveData.forWorld(world);
+		buf.writeFloat(impact.fire);
+		buf.writeFloat(impact.dust);
+		buf.writeBoolean(impact.impact);
+		buf.writeLong(impact.time);
 		/// TOM IMPACT DATA ///
+		
+		/// ROGUE PLANET DATA ///
+		RogueWorldSaveData rogue = RogueWorldSaveData.forWorld(world);
+		buf.writeFloat(rogue.atmosphere);
+		buf.writeFloat(rogue.distance);
+		buf.writeBoolean(rogue.star);
+		buf.writeBoolean(rogue.rogue);
+		/// ROGUE PLANET DATA ///
 	}
 	
 	public static void readPacket(ByteBuf buf, World world, EntityPlayer player) {
@@ -33,5 +44,13 @@ public class PermaSyncHandler {
 		ImpactWorldHandler.dust = buf.readFloat();
 		ImpactWorldHandler.impact = buf.readBoolean();
 		/// TOM IMPACT DATA ///
+		
+		/// ROGUE PLANET DATA ///
+		RogueWorldHandler.lastSyncWorld = player.worldObj;
+		RogueWorldHandler.atmosphere = buf.readFloat();
+		RogueWorldHandler.distance = buf.readFloat();
+		RogueWorldHandler.star = buf.readBoolean();
+		RogueWorldHandler.rogue = buf.readBoolean();
+		/// ROGUE PLANET DATA ///
 	}
 }

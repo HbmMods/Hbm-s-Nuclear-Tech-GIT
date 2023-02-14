@@ -15,6 +15,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ImpactWorldHandler;
+import com.hbm.handler.RogueWorldHandler;
+import com.hbm.main.ModEventHandlerRogue;
 
 import java.util.Random;
 
@@ -82,7 +84,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
 		float atmosphericDust = ImpactWorldHandler.getDustForClient(world);
-
+		float distance = RogueWorldHandler.getDistanceForClient(world);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		Vec3 vec3 = world.getSkyColor(mc.renderViewEntity, partialTicks);
 		float f1 = (float) vec3.xCoord;
@@ -144,7 +146,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
 		// Some blanking to conceal the stars
-		f10 = 30.0F;
+		f10 = 30.0F/distance;
 		tessellator.startDrawingQuads();
 		tessellator.addVertex(-f10, 99.9D, -f10);
 		tessellator.addVertex(f10, 99.9D, -f10);
@@ -163,7 +165,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 			tessellator.draw();
 		}
 		{
-			GL11.glColor4d(1, 1, 1, rain);
+			GL11.glColor4d(1*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), 1*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), 1*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), rain);
 			f10 = 20.0F;
 			FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderNTMSkyboxImpact.moonTexture);
 			float sinphi = FMLClientHandler.instance().getClient().theWorld.getMoonPhase();
@@ -208,7 +210,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 			GL11.glPopMatrix();
 
 			GL11.glPushMatrix();
-			GL11.glColor4f(brightness, brightness, brightness, rain);
+			GL11.glColor4f(brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), rain);
 			GL11.glRotatef(-40.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef((System.currentTimeMillis() % (360 * 1000) / 1000F), 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef((System.currentTimeMillis() % (360 * 100) / 100F), 1.0F, 0.0F, 0.0F);

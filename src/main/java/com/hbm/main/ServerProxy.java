@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.saveddata.RogueWorldSaveData;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
 
@@ -81,5 +82,21 @@ public class ServerProxy {
 	
 	public boolean getImpact(World world) {
 		return TomSaveData.forWorld(world).impact;
+	}
+	
+	public float getPlanetDistance(World world) {
+		return RogueWorldSaveData.forWorld(world).distance;
+	}
+	
+	public float getAtmosphere(World world) {
+		return RogueWorldSaveData.forWorld(world).atmosphere;
+	}
+	
+	public boolean getStar(World world) {
+		return RogueWorldSaveData.forWorld(world).star;
+	}
+	
+	public boolean getRogue(World world) {
+		return RogueWorldSaveData.forWorld(world).rogue;
 	}
 }

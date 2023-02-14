@@ -2,15 +2,22 @@ package com.hbm.entity.projectile;
 
 import com.hbm.entity.effect.EntityCloudTom;
 import com.hbm.entity.logic.EntityTomBlast;
+import com.hbm.entity.logic.IChunkLoader;
+import com.hbm.main.MainRegistry;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 
-public class EntityTom extends EntityThrowable {
-
+public class EntityTom extends EntityThrowable implements IChunkLoader {
+	private Ticket loaderTicket;
 	public EntityTom(World p_i1582_1_) {
 		super(p_i1582_1_);
 		this.ignoreFrustumCheck = true;
@@ -46,7 +53,26 @@ public class EntityTom extends EntityThrowable {
 			this.setDead();
 		}
 	}
+	@Override
+	protected void entityInit() {
+		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
+	}
+	public void init(Ticket ticket) {
+		if(!worldObj.isRemote) {
 
+            if(ticket != null) {
+
+                if(loaderTicket == null) {
+
+                	loaderTicket = ticket;
+                	loaderTicket.bindEntity(this);
+                	loaderTicket.getModData();
+                }
+
+                ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(chunkCoordX, chunkCoordZ));
+            }
+        }
+	}
 	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_) {
 	}
