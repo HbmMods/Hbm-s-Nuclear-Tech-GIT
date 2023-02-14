@@ -5,7 +5,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ModEventHandlerRogue;
 import com.hbm.saveddata.RogueWorldSaveData;
-import com.hbm.saveddata.TomSaveData;
+//import com.hbm.saveddata.TomSaveData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -134,7 +134,7 @@ public class RogueWorldHandler {
 	
 	@SideOnly(Side.CLIENT)
 	public static float getAtmosphereForClient(World world) {
-		if(world != lastSyncWorld) return 1;
+		if(world != lastSyncWorld) return 1.0F;
 		return atmosphere;
 	}
 }
