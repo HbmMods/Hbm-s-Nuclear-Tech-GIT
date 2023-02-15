@@ -298,7 +298,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 		for(int i = 0; i < decay; i++) {
 			this.heat += num.heat;
-			ItemZirnoxRod.incrementLifeTime(slots[id]);;
+			ItemZirnoxRod.incrementLifeTime(slots[id]);
 			
 			if(ItemZirnoxRod.getLifeTime(slots[id]) > num.maxLife) {
 				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id))).copy();

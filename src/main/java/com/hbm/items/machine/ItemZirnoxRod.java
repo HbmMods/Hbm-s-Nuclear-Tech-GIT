@@ -65,6 +65,11 @@ public class ItemZirnoxRod extends ItemEnumMulti {
     	EnumZirnoxType num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
 		String[] loc = I18nUtil.resolveKeyArray("desc.item.zirnox" + (num.breeding ? "BreedingRod" : "Rod"), BobMathUtil.getShortNumber(num.maxLife));
 		
+		if(num.breeding)
+			loc = I18nUtil.resolveKeyArray("desc.item.zirnoxBreedingRod", BobMathUtil.getShortNumber(num.maxLife));
+		else
+			loc = I18nUtil.resolveKeyArray("desc.item.zirnoxRod", num.heat, BobMathUtil.getShortNumber(num.maxLife));
+		
 		for(String s : loc) {
 			list.add(s);
 		}
