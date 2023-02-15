@@ -42,6 +42,9 @@ public class MixerRecipes extends SerializableRecipe {
 		recipes.put(Fluids.LUBRICANT, new MixerRecipe(1_000, 20).setStack1(new FluidStack(Fluids.HEATINGOIL, 500)).setStack2(new FluidStack(Fluids.UNSATURATEDS, 500)));
 		recipes.put(Fluids.PETROIL, new MixerRecipe(1_000, 30).setStack1(new FluidStack(Fluids.RECLAIMED, 800)).setStack2(new FluidStack(Fluids.LUBRICANT, 200)));
 
+		recipes.put(Fluids.SYNGAS, new MixerRecipe(1_000, 50).setStack1(new FluidStack(Fluids.COALOIL, 500)).setStack2(new FluidStack(Fluids.STEAM, 500)));
+		recipes.put(Fluids.OXYHYDROGEN, new MixerRecipe(1_000, 50).setStack1(new FluidStack(Fluids.HYDROGEN, 500)).setStack2(new FluidStack(Fluids.OXYGEN, 500)));
+
 		recipes.put(Fluids.PETROIL_LEADED, new MixerRecipe(1_000, 40).setStack1(new FluidStack(Fluids.PETROIL, 800)).setSolid(new ComparableStack(ModItems.antiknock)));
 		recipes.put(Fluids.GASOLINE_LEADED, new MixerRecipe(1_000, 40).setStack1(new FluidStack(Fluids.GASOLINE, 800)).setSolid(new ComparableStack(ModItems.antiknock)));
 		recipes.put(Fluids.COALGAS_LEADED, new MixerRecipe(1_000, 40).setStack1(new FluidStack(Fluids.COALGAS, 800)).setSolid(new ComparableStack(ModItems.antiknock)));

@@ -6,7 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
-import com.hbm.inventory.fluid.trait.FT_Flammable;
+import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.inventory.gui.GUIMachineTurbineGas;
 import com.hbm.inventory.container.ContainerMachineTurbineGas;
 import com.hbm.inventory.fluid.FluidType;
@@ -43,7 +43,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	public int tempIdle = 300;
 	
 	public int powerSliderPos; //goes from 0 to 60, 0 is idle, 60 is max power
-	public int throttle; //the same thing, but goes from0 to 100
+	public int throttle; //the same thing, but goes from 0 to 100
 	
 	public boolean autoMode;
 	public int state = 0; //0 is offline, -1 is startup, 1 is online
@@ -59,19 +59,20 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	
 	static {
 		fuelMaxCons.put(Fluids.GAS, 50D);
-		fuelMaxCons.put(Fluids.PETROLEUM, 5D);
-		fuelMaxCons.put(Fluids.LPG, 5D);
-		//fuelMaxCons.put(Fluids.BIOGAS, 1D); currently useless
+		//fuelMaxCons.put(Fluids.PETROLEUM, 5D);
+		//fuelMaxCons.put(Fluids.LPG, 5D);
+		
+		// default to 5 if not in list
 	}
 	
-	public static HashMap<FluidType, Integer> fuelMaxTemp = new HashMap(); //power production at maxT is half the normal production multiplied by (maxtemp - 300) / 500
+	/*public static HashMap<FluidType, Integer> fuelMaxTemp = new HashMap(); //power production at maxT is half the normal production multiplied by (maxtemp - 300) / 500
 	
 	static {
 		fuelMaxTemp.put(Fluids.GAS, 600);
 		fuelMaxTemp.put(Fluids.PETROLEUM, 800);
 		fuelMaxTemp.put(Fluids.LPG, 400);
 		//fuelMaxTemp.put(Fluids.BIOGAS, 500);
-	}
+	}*/ //i don't think we need even more variance between fuel types - types already have a combustion value
 	
 	//TODO particles from heat exchanger maybe? maybe in a future
 	
@@ -93,8 +94,9 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			
 			if(slots[1] != null && slots[1].getItem() instanceof IItemFluidIdentifier) {
 				FluidType fluid = ((IItemFluidIdentifier) slots[1].getItem()).getType(worldObj, xCoord, yCoord, zCoord, slots[1]);
-				if(fuelMaxTemp.get(fluid) != null)
+				if(fluid.hasTrait(FT_Combustible.class) && fluid.getTrait(FT_Combustible.class).getGrade() == FuelGrade.GAS) {
 					tanks[0].setTankType(fluid);
+				}
 			}
 			
 			switch(state) { //what to do when turbine offline, starting up and online			
@@ -102,11 +104,11 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				shutdown();	
 				break;
 			case -1:
-				isReady();
+				stopIfNotReady();
 				startup();
 				break;
 			case 1:			
-				isReady();
+				stopIfNotReady();
 				run();
 				break;
 			default:
@@ -115,6 +117,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			
 			if(autoMode) { //power production depending on power requirement
 				
+				//scales the slider proportionally to the power gauge
 				int powerSliderTarget = 60 - (int) (60 * power / maxPower);
 				
 				if(powerSliderTarget > powerSliderPos) { //makes the auto slider slide instead of snapping into position
@@ -171,7 +174,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				
 		} else { //client side, for sounds n shit
 			
-			if(rpm >= 10 && state != -1) { //if conditions are right, play thy sound
+			if(rpm >= 10 && state != -1) { //if conditions are right, play the sound
 				
 				if(audio == null) { //if there is no sound playing, start it
 					
@@ -197,19 +200,22 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 	}
 	
-	private void isReady() { //checks if the turbine can make power, if not shutdown TODO make this a bool maybe?
+	private void stopIfNotReady() {
 		
 		if(tanks[0].getFill() == 0 || tanks[1].getFill() == 0) {
 			state = 0;
 		}
-		if (!hasAcceptableFuel())
+		if(!hasAcceptableFuel()) {
 			state = 0;
+		}
 	}
 	
-	public boolean hasAcceptableFuel() { //TODO useless check?
+	public boolean hasAcceptableFuel() {
 		
-		if (fuelMaxTemp.get(tanks[0].getTankType()) != null)
-			return true;
+		if(tanks[0].getTankType().hasTrait(FT_Combustible.class)) {
+			return tanks[0].getTankType().getTrait(FT_Combustible.class).getGrade() == FuelGrade.GAS;
+		}
+		
 		return false;
 	}
 	
@@ -261,16 +267,18 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			
 			rpm = (int) (rpmLast * (counter) / 225);
 			temp = (int) (tempLast * (counter) / 225);
-		}
-		else if(rpm > 11) { //quickly slows down the turbine to idle before shutdown
+			
+		} else if(rpm > 11) { //quickly slows down the turbine to idle before shutdown
 			counter = 42069; //absolutely necessary to avoid fuckeries on shutdown
 			rpm--;
-			return;
-		}
-		else if(rpm == 11) {
+		} else if(rpm == 11) {
 			counter = 225;
 			rpm--;
 		}
+	}
+	
+	protected int getFluidBurnTemp(FluidType type) {
+		return 800;
 	}
 	
 	private void run() {
@@ -285,17 +293,20 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			}
 		}
 		
-		if(throttle * 5 * (fuelMaxTemp.get(tanks[0].getTankType()) - tempIdle) / 500 > temp - tempIdle) { //simulates the heat exchanger's resistance to temperature variation
+		int maxTemp = getFluidBurnTemp(tanks[0].getTankType()); // fuelMaxTemp.get(tanks[0].getTankType())
+		
+		if(throttle * 5 * (maxTemp - tempIdle) / 500 > temp - tempIdle) { //simulates the heat exchanger's resistance to temperature variation
 			if(worldObj.getTotalWorldTime() % 2 == 0) {
 				temp++;
 			}
-		} else if(throttle * 5 * (fuelMaxTemp.get(tanks[0].getTankType()) - tempIdle) / 500 < temp - tempIdle) {
+		} else if(throttle * 5 * (maxTemp - tempIdle) / 500 < temp - tempIdle) {
 			if(worldObj.getTotalWorldTime() % 2 == 0) {
 				temp--;
 			}
 		}
 		
-		makePower(fuelMaxCons.get(tanks[0].getTankType()), throttle);
+		double consumption = fuelMaxCons.containsKey(tanks[0].getTankType()) ? fuelMaxCons.get(tanks[0].getTankType()) : 5D;
+		makePower(consumption, throttle);
 	}
 	
 	
@@ -326,15 +337,10 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 		
 		
-		long energy; //energy per mb of fuel
+		long energy = 0; //energy per mb of fuel
 		
 		if(tanks[0].getTankType().hasTrait(FT_Combustible.class)) {
-			FT_Combustible a = tanks[0].getTankType().getTrait(FT_Combustible.class);
-			energy = a.getCombustionEnergy() / 1000;
-		}
-		else {
-			FT_Flammable b = tanks[0].getTankType().getTrait(FT_Flammable.class);
-			energy = b.getHeatEnergy() / 1000;
+			energy = tanks[0].getTankType().getTrait(FT_Combustible.class).getCombustionEnergy() / 1000;
 		}
 		
 		//consMax*energy is equivalent to power production at 100%
