@@ -26,7 +26,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -59,6 +58,8 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	
 	static {
 		fuelMaxCons.put(Fluids.GAS, 50D);
+		fuelMaxCons.put(Fluids.SYNGAS, 10D);
+		fuelMaxCons.put(Fluids.OXYHYDROGEN, 100D);
 		//fuelMaxCons.put(Fluids.PETROLEUM, 5D);
 		//fuelMaxCons.put(Fluids.LPG, 5D);
 		
@@ -502,13 +503,21 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	}
 	
 	AxisAlignedBB bb = null;
-		
+	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		
-		if(bb == null) return bb;
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 5,
+					yCoord,
+					zCoord - 5,
+					xCoord + 6,
+					yCoord + 3,
+					zCoord + 6
+					);
+		}
 		
-		this.bb = AxisAlignedBB.getBoundingBox(xCoord - 10, yCoord, zCoord - 10, xCoord + 10, yCoord + 3, zCoord + 10);
 		return bb;
 	}
 		

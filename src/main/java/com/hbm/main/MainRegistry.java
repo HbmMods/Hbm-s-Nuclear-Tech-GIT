@@ -1008,6 +1008,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.blades_gold");
 		ignoreMappings.add("hbm:item.blades_iron");
 		ignoreMappings.add("hbm:item.cap_aluminium");
+		ignoreMappings.add("hbm:tile.dummy_block_refinery");
+		ignoreMappings.add("hbm:tile.dummy_port_refinery");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

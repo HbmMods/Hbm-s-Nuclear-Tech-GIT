@@ -12,7 +12,6 @@ import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.util.ItemStackUtil;
-import com.hbm.util.Tuple.Pair;
 import com.hbm.util.Tuple.Quintet;
 
 import net.minecraft.item.ItemStack;

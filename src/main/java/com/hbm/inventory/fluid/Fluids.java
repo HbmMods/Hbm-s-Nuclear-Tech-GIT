@@ -218,7 +218,7 @@ public class Fluids {
 		SOLVENT =			new FluidType("SOLVENT",			0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
 		BLOOD =				new FluidType("BLOOD",				0xB22424, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		BLOOD_HOT =			new FluidType("BLOOD_HOT",			0xE4E3EF, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID).setTemp(666); //it's funny because it's the satan number
-		SYNGAS =			new FluidType("SYNGAS",				0xffffff, 3, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+		SYNGAS =			new FluidType("SYNGAS",				0x131313, 3, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 		OXYHYDROGEN =		new FluidType(87, "OXYHYDROGEN",	0x483FC1, 3, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 		
 		
@@ -427,8 +427,8 @@ public class Fluids {
 
 		registerCalculatedFuel(SOLVENT, 100_000, 0, null); // flammable, sure, but not combustable
 
-		registerCalculatedFuel(SYNGAS, coalHeat * 10 * flammabilityNormal * demandMedium * complexityChemplant, 1.25, FuelGrade.GAS); //1:1 same base stats as coal oil but with combustability and higher processing bonuses
-		registerCalculatedFuel(OXYHYDROGEN, 5_000, 3, FuelGrade.GAS); // TODO: figure out how well that works with hydrogen production costs
+		registerCalculatedFuel(SYNGAS, (coalHeat * (1000 /* bucket */ / 100 /* mB per coal */) * flammabilityLow * demandLow * complexityChemplant) * 1.5, 1.25, FuelGrade.GAS); //same as coal oil, +50% bonus
+		registerCalculatedFuel(OXYHYDROGEN, 5_000, 3, FuelGrade.GAS); // whatever
 	}
 	
 	private static void registerCalculatedFuel(FluidType type, double base, double combustMult, FuelGrade grade) {

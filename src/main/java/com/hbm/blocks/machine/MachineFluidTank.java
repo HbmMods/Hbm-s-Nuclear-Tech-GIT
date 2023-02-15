@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.IPersistentInfoProvider;
-import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.main.MainRegistry;
@@ -21,7 +20,6 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -151,23 +149,6 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void printHook(Pre event, World world, int x, int y, int z) {
-		
-		List<AStack> materials = IRepairable.getRepairMaterials(world, x, y, z, this, Minecraft.getMinecraft().thePlayer);
-		
-		if(materials == null) return;
-		
-		List<String> text = new ArrayList();
-		text.add(EnumChatFormatting.GOLD + "Repair with:");
-		
-		for(AStack stack : materials) {
-			try {
-				ItemStack display = stack.extractForCyclingDisplay(20);
-				text.add("- " + display.getDisplayName() + " x" + display.stackSize);
-			} catch(Exception ex) {
-				text.add(EnumChatFormatting.RED + "- ERROR");
-			}
-		}
-		
-		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+		IRepairable.addGenericOverlay(event, world, x, y, z, this);
 	}
 }
