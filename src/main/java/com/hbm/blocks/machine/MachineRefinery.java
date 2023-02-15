@@ -7,6 +7,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.main.MainRegistry;
@@ -27,6 +28,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -127,6 +129,13 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 		
 		if(!refinery.hasExploded) {
 			refinery.explode(world, x, y, z);
+			
+			if(explosion.exploder != null && explosion.exploder instanceof EntityBombletZeta) {
+				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class,
+						AxisAlignedBB.getBoundingBox(x + 0.5, y + 0.5, z + 0.5, x + 0.5, y + 0.5, z + 0.5).expand(100, 100, 100));
+				
+				for(EntityPlayer p : players) p.triggerAchievement(MainRegistry.achInferno);
+			}
 		} else {
 			world.setBlock(pos[0], pos[1], pos[2], Blocks.air);
 		}

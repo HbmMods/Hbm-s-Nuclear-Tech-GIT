@@ -168,6 +168,16 @@ public class ExplosionLarge {
 		}
 	}
 	
+	public static void explode(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel, Entity exploder) {
+		world.createExplosion(exploder, x, y, z, strength, true);
+		if(cloud)
+			spawnParticles(world, x, y, z, cloudFunction((int)strength));
+		if(rubble)
+			spawnRubble(world, x, y, z, rubbleFunction((int)strength));
+		if(shrapnel)
+			spawnShrapnels(world, x, y, z, shrapnelFunction((int)strength));
+	}
+	
 	public static void explode(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel) {
 		world.createExplosion(null, x, y, z, strength, true);
 		if(cloud)
