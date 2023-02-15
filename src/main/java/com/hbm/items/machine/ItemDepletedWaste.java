@@ -12,9 +12,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ItemNuclearWasteMulti extends ItemEnumMulti {
+public class ItemDepletedWaste extends ItemEnumMulti {
 
-	public ItemNuclearWasteMulti(Class<? extends Enum> theEnum, boolean multiName, boolean multiTexture) {
+	public ItemDepletedWaste(Class<? extends Enum> theEnum, boolean multiName, boolean multiTexture) {
 		super(theEnum, multiName, multiTexture);
 	}
 	
