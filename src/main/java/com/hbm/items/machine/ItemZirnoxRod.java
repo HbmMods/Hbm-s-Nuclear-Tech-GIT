@@ -64,26 +64,18 @@ public class ItemZirnoxRod extends ItemEnumMulti {
 	public static enum EnumZirnoxType {
 		NATURAL_URANIUM_FUEL(250_000, 30),
 		URANIUM_FUEL(200_000, 50),
-		TH232(20_000, 0, true),
+		TH232(20_000, 0),
 		THORIUM_FUEL(200_000, 40),
 		MOX_FUEL(165_000, 75),
 		PLUTONIUM_FUEL(175_000, 65),
 		U233_FUEL(150_000, 100),
 		U235_FUEL(165_000, 85),
 		LES_FUEL(150_000, 150),
-		LITHIUM(20_000, 0, true),
+		LITHIUM(20_000, 0),
 		ZFB_MOX(50_000, 35);
 		
 		public int maxLife;
 		public int heat;
-		/** Doesn't auto-generate a waste type, waste rods, etc.  */
-		public boolean breeding = false;
-		
-		private EnumZirnoxType(int life, int heat, boolean breeding) {
-			this.maxLife = life;
-			this.heat = heat;
-			this.breeding = breeding;
-		}
 		
 		private EnumZirnoxType(int life, int heat) {
 			this.maxLife = life;
