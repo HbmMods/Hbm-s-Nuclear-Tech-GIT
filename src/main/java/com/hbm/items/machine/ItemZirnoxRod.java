@@ -14,6 +14,7 @@ public class ItemZirnoxRod extends ItemEnumMulti {
 
 	public ItemZirnoxRod() {
 		super(EnumZirnoxType.class, true, true);
+		this.setMaxStackSize(1);
 	}
 	
 	public static void setLifeTime(ItemStack stack, int time) {

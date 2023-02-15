@@ -22,6 +22,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemZirnoxBreedingRod;
 import com.hbm.items.machine.ItemZirnoxRodDeprecated;
+import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -63,17 +64,17 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	public static final HashMap<ComparableStack, ItemStack> fuelMap = new HashMap<ComparableStack, ItemStack>();
 	static {
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_natural_uranium_fuel), new ItemStack(ModItems.rod_zirnox_natural_uranium_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_uranium_fuel), new ItemStack(ModItems.rod_zirnox_uranium_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_th232), new ItemStack(ModItems.rod_zirnox_thorium_fuel));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_thorium_fuel), new ItemStack(ModItems.rod_zirnox_thorium_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_mox_fuel), new ItemStack(ModItems.rod_zirnox_mox_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_plutonium_fuel), new ItemStack(ModItems.rod_zirnox_plutonium_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_u233_fuel), new ItemStack(ModItems.rod_zirnox_u233_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_u235_fuel), new ItemStack(ModItems.rod_zirnox_u235_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_les_fuel), new ItemStack(ModItems.rod_zirnox_les_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_lithium), new ItemStack(ModItems.rod_zirnox_tritium));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_zfb_mox), new ItemStack(ModItems.rod_zirnox_zfb_mox_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.NATURAL_URANIUM_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_natural_uranium_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.URANIUM_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_uranium_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.TH232.ordinal()), new ItemStack(ModItems.rod_zirnox, 1, EnumZirnoxType.THORIUM_FUEL.ordinal()));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.THORIUM_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_thorium_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.MOX_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_mox_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.PLUTONIUM_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_plutonium_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.U233_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_u233_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.U235_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_u235_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.LES_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_les_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.LITHIUM.ordinal()), new ItemStack(ModItems.rod_zirnox_tritium));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.ZFB_MOX.ordinal()), new ItemStack(ModItems.rod_zirnox_zfb_mox_depleted));
 	}
 
 	public TileEntityReactorZirnox() {
