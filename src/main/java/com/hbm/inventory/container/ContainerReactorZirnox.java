@@ -3,7 +3,7 @@ package com.hbm.inventory.container;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.machine.ItemZirnoxRodDeprecated;
+import com.hbm.items.machine.ItemZirnoxRod;
 import com.hbm.tileentity.machine.TileEntityReactorZirnox;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -88,7 +88,7 @@ public class ContainerReactorZirnox extends Container {
 
 				} else {
 
-					if(stack.getItem() instanceof ItemZirnoxRodDeprecated) {
+					if(stack.getItem() instanceof ItemZirnoxRod) {
 
 						if(!this.mergeItemStack(stack, 0, 24, true))
 							return null;

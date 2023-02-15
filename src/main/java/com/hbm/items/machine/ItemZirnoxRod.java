@@ -1,11 +1,16 @@
 package com.hbm.items.machine;
 
+import java.util.List;
+
 import com.hbm.items.ItemEnumMulti;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
@@ -15,6 +20,17 @@ public class ItemZirnoxRod extends ItemEnumMulti {
 	public ItemZirnoxRod() {
 		super(EnumZirnoxType.class, true, true);
 		this.setMaxStackSize(1);
+		this.canRepair = false;
+	}
+	
+	public static void incrementLifeTime(ItemStack stack) {
+		
+		if(!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+		
+		int time = stack.stackTagCompound.getInteger("life");
+		
+		stack.stackTagCompound.setInteger("life", time + 1);
 	}
 	
 	public static void setLifeTime(ItemStack stack, int time) {
@@ -43,6 +59,16 @@ public class ItemZirnoxRod extends ItemEnumMulti {
     	EnumZirnoxType num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
         return (double)getLifeTime(stack) / (double)num.maxLife;
     }
+    
+    @Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+    	EnumZirnoxType num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
+		String[] loc = I18nUtil.resolveKeyArray("desc.item.zirnox" + (num.breeding ? "BreedingRod" : "Rod"), BobMathUtil.getShortNumber(num.maxLife));
+		
+		for(String s : loc) {
+			list.add(s);
+		}
+	}
 	
     @Override
 	@SideOnly(Side.CLIENT)
@@ -65,22 +91,30 @@ public class ItemZirnoxRod extends ItemEnumMulti {
 	public static enum EnumZirnoxType {
 		NATURAL_URANIUM_FUEL(250_000, 30),
 		URANIUM_FUEL(200_000, 50),
-		TH232(20_000, 0),
+		TH232(20_000, 0, true),
 		THORIUM_FUEL(200_000, 40),
 		MOX_FUEL(165_000, 75),
 		PLUTONIUM_FUEL(175_000, 65),
 		U233_FUEL(150_000, 100),
 		U235_FUEL(165_000, 85),
 		LES_FUEL(150_000, 150),
-		LITHIUM(20_000, 0),
+		LITHIUM(20_000, 0, true),
 		ZFB_MOX(50_000, 35);
 		
-		public int maxLife;
-		public int heat;
+		public final int maxLife;
+		public final int heat;
+		public final boolean breeding;
+		
+		private EnumZirnoxType(int life, int heat, boolean breeding) {
+			this.maxLife = life;
+			this.heat = heat;
+			this.breeding = breeding;
+		}
 		
 		private EnumZirnoxType(int life, int heat) {
 			this.maxLife = life;
 			this.heat = heat;
+			this.breeding = false;
 		}
 	}
 }

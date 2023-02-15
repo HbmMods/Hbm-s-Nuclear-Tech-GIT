@@ -20,29 +20,28 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemZirnoxBreedingRod;
-import com.hbm.items.machine.ItemZirnoxRodDeprecated;
+import com.hbm.items.machine.ItemZirnoxRod;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import cpw.mods.fml.common.Optional;
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent {
@@ -96,12 +95,12 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		return i < 24 && stack.getItem() instanceof ItemZirnoxRodDeprecated;
+		return i < 24 && stack.getItem() instanceof ItemZirnoxRod;
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
-		return i < 24 && !(stack.getItem() instanceof ItemZirnoxRodDeprecated);
+		return i < 24 && !(stack.getItem() instanceof ItemZirnoxRod);
 	}
 
 	@Override
@@ -202,7 +201,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 				for(int i = 0; i < 24; i++) {
 
 					if(slots[i] != null) {
-						if(slots[i].getItem() instanceof ItemZirnoxRodDeprecated)
+						if(slots[i].getItem() instanceof ItemZirnoxRod)
 							decay(i);
 						else if(slots[i].getItem() == ModItems.meteorite_sword_bred)
 							slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
@@ -263,8 +262,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	private boolean hasFuelRod(int id) {
 		if(slots[id] != null) {
-			if(!(slots[id].getItem() instanceof ItemZirnoxBreedingRod)) {
-				return slots[id].getItem() instanceof ItemZirnoxRodDeprecated;
+			if(slots[id].getItem() instanceof ItemZirnoxRod) {
+				final EnumZirnoxType num = EnumUtil.grabEnumSafely(EnumZirnoxType.class, slots[id].getItemDamage());
+				return !num.breeding;
 			}
 		}
 
@@ -291,17 +291,16 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	// itemstack in slots[id] has to contain ItemZirnoxRod
 	private void decay(int id) {
 		int decay = getNeighbourCount(id);
+		final EnumZirnoxType num = EnumUtil.grabEnumSafely(EnumZirnoxType.class, slots[id].getItemDamage());
 
-		if(!(slots[id].getItem() instanceof ItemZirnoxBreedingRod)) {
+		if(!num.breeding)
 			decay++;
-		}
 
 		for(int i = 0; i < decay; i++) {
-			ItemZirnoxRodDeprecated rod = ((ItemZirnoxRodDeprecated) slots[id].getItem());
-			this.heat += rod.heat;
-			ItemZirnoxRodDeprecated.setLifeTime(slots[id], ItemZirnoxRodDeprecated.getLifeTime(slots[id]) + 1);
+			this.heat += num.heat;
+			ItemZirnoxRod.incrementLifeTime(slots[id]);;
 			
-			if(ItemZirnoxRodDeprecated.getLifeTime(slots[id]) > rod.lifeTime) {
+			if(ItemZirnoxRod.getLifeTime(slots[id]) > num.maxLife) {
 				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id))).copy();
 				break;
 			}
