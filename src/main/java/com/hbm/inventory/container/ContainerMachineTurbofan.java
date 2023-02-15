@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,21 +24,21 @@ public class ContainerMachineTurbofan extends Container {
 		this.addSlotToContainer(new Slot(tedf, 0, 17, 17));
 		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 17, 53));
 		this.addSlotToContainer(new Slot(tedf, 2, 107, 17));
+		this.addSlotToContainer(new Slot(tedf, 3, 60, 77));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 107, 77));
 		
-		for(int i = 0; i < 3; i++)
-		{
-			for(int j = 0; j < 9; j++)
-			{
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+		int offset = 20;
+
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 9; j++) {
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + offset));
 			}
 		}
-		
-		for(int i = 0; i < 9; i++)
-		{
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+
+		for(int i = 0; i < 9; i++) {
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142 + offset));
 		}
 	}
-	
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
@@ -64,6 +65,7 @@ public class ContainerMachineTurbofan extends Container {
 			else if (!this.mergeItemStack(var5, 0, 1, false))
 			{
 				if (!this.mergeItemStack(var5, 2, 3, false))
+					if (!this.mergeItemStack(var5, 4, 5, false))
 					return null;
 			}
 			
@@ -76,7 +78,6 @@ public class ContainerMachineTurbofan extends Container {
 				var4.onSlotChanged();
 			}
 		}
-		
 		return var3;
     }
 

@@ -3,6 +3,8 @@ package com.hbm.items;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.I18nUtil;
@@ -18,6 +20,7 @@ import net.minecraft.util.EnumChatFormatting;
 public class ItemCustomLore extends Item {
 	
 	EnumRarity rarity;
+	private ItemStack stack;
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
@@ -70,6 +73,7 @@ public class ItemCustomLore extends Item {
 			}
 		}
 	}
+	
 	
 	static int setSize = 0;
 

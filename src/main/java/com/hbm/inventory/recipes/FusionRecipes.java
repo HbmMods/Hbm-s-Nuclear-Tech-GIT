@@ -58,17 +58,30 @@ public class FusionRecipes {
 	
 	public static HashMap<FluidType, Integer> steamprod = new HashMap();
 	static {
-		steamprod.put(Fluids.PLASMA_DT, 30);
-		steamprod.put(Fluids.PLASMA_DH3, 50);
-		steamprod.put(Fluids.PLASMA_HD, 20);
-		steamprod.put(Fluids.PLASMA_HT, 25);
-		steamprod.put(Fluids.PLASMA_XM, 60);
-		steamprod.put(Fluids.PLASMA_BF, 160);
+		steamprod.put(Fluids.PLASMA_DT, 70);
+		steamprod.put(Fluids.PLASMA_DH3, 90);
+		steamprod.put(Fluids.PLASMA_HD, 50);
+		steamprod.put(Fluids.PLASMA_HT, 65);
+		steamprod.put(Fluids.PLASMA_XM, 110);
+		steamprod.put(Fluids.PLASMA_BF, 200);
+	}
+	public static HashMap<FluidType, Integer> coolprod = new HashMap();
+	static {
+		coolprod.put(Fluids.PLASMA_DT, 2);
+		coolprod.put(Fluids.PLASMA_DH3, 5);
+		coolprod.put(Fluids.PLASMA_HD, 2); //because god forbid coolant flows through faster than my dad when he found out i was born
+		coolprod.put(Fluids.PLASMA_HT, 2);
+		coolprod.put(Fluids.PLASMA_XM, 10);
+		coolprod.put(Fluids.PLASMA_BF, 20);
 	}
 	
 	public static int getSteamProduction(FluidType plasma) {
 		Integer steam = steamprod.get(plasma);
 		return steam != null ? steam : 0;
+	}
+	public static int getCoolant(FluidType plasma) {
+		Integer cool = coolprod.get(plasma);
+		return cool != null ? cool : 0;
 	}
 	
 	public static HashMap<ItemStack, ItemStack> getRecipes() {

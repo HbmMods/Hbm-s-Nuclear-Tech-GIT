@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -13,6 +14,7 @@ import com.hbm.items.ModItems;
 
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class MagicRecipes {
@@ -95,6 +97,11 @@ public class MagicRecipes {
 				new ComparableStack(ModItems.plate_polymer),
 				new ComparableStack(ModItems.nugget_pu239),
 				new ComparableStack(ModItems.circuit_aluminium)));
+		
+		recipes.add(new MagicRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.bobblehead), 1, 21),
+				new ComparableStack(ModItems.ingot_gwenium), 
+				new ComparableStack(ModItems.ingot_dineutronium), 
+				new ComparableStack(ModItems.ingot_dineutronium)));
 	}
 	
 	public static List<MagicRecipe> getRecipes() {

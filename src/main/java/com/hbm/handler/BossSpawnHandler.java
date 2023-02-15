@@ -7,6 +7,8 @@ import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.entity.mob.EntityFBI;
 import com.hbm.entity.mob.EntityGhost;
+import com.hbm.particle.ParticleProblem;
+import com.hbm.particle.ParticleRadiationFog;
 import com.hbm.entity.mob.EntityMaskMan;
 import com.hbm.entity.mob.EntityRADBeast;
 import com.hbm.entity.projectile.EntityMeteor;
@@ -16,6 +18,8 @@ import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -137,7 +141,27 @@ public class BossSpawnHandler {
 				}
 			}
 		}
+		if(world.getTotalWorldTime() % 20 == 0) {
+			
+			if(world.rand.nextInt(5) == 0 && !world.playerEntities.isEmpty() && world.provider.isSurfaceWorld()) {
+				
+				EntityPlayer player = (EntityPlayer) world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));
+				TextureManager man = Minecraft.getMinecraft().renderEngine;
+				if(HbmLivingProps.getDigamma(player) > 0) {
+					Vec3 vec = Vec3.createVectorHelper(75, 0, 0);
+					vec.rotateAroundY((float)(Math.PI * 2) * world.rand.nextFloat());
+					double spawnX = player.posX + vec.xCoord + world.rand.nextGaussian();
+					double spawnZ = player.posZ + vec.zCoord + world.rand.nextGaussian();
+					double spawnY = world.getHeightValue((int)spawnX, (int)spawnZ);
+					//trySpawn(world, (float)spawnX, (float)spawnY, (float)spawnZ, new ParticleProblem(world));
+					ParticleProblem contrail = new ParticleProblem(man, world, spawnX, spawnY, spawnZ);
+					Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+					
+				}
+			}
+		}
 	}
+	
 	
 	private static void trySpawn(World world, float x, float y, float z, EntityLiving e) {
 

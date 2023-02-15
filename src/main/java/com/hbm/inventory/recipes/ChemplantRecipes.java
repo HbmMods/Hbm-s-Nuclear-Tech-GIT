@@ -21,6 +21,7 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -352,7 +353,43 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(new OreDictStack(DIAMOND.dust(), 1))
 				.inputFluids(new FluidStack(Fluids.XPJUICE, 500))
 				.outputFluids(new FluidStack(Fluids.ENDERJUICE, 100)));
+		//recipes.add(new ChemRecipe(99, "NITROCRYO", 150)
+				//.inputItems(new ComparableStack(ModItems.powder_ice, 4))
+				//.inputFluids(new FluidStack(Fluids.BLOOD, 1000))
+				//.outputItems(new ItemStack(Blocks.sand, 4))
+				//.outputFluids(new FluidStack(Fluids.NITROGEN, 1000)));
+		recipes.add(new ChemRecipe(99, "NITROACID", 100)
+				.inputFluids(new FluidStack(Fluids.AMMONIA, 1000), new FluidStack(Fluids.WATER, 500))
+				.outputFluids(new FluidStack(Fluids.NITRIC_ACID, 1000)));
+		recipes.add(new ChemRecipe(100, "HYDRAZINE", 250)
+				.inputFluids(new FluidStack(Fluids.NITRIC_ACID, 2000), new FluidStack(Fluids.AMMONIA, 1000))
+				.outputFluids(new FluidStack(Fluids.HYDRAZINE, 800)));
+		recipes.add(new ChemRecipe(101, "AMONGUS", 250)
+				.inputFluids(new FluidStack(Fluids.NITROGEN, 600), new FluidStack(Fluids.WATER, 1000))
+				.outputFluids(new FluidStack(Fluids.AMMONIA, 800)));
+		recipes.add(new ChemRecipe(102, "BLOODFUEL", 250)
+				.inputFluids(new FluidStack(Fluids.LIGHTOIL, 700), new FluidStack(Fluids.BLOOD, 700))
+				.outputFluids(new FluidStack(Fluids.BLOODGAS, 800)));
+		recipes.add(new ChemRecipe(103, "SOLVENT", 250)
+				.inputFluids(new FluidStack(Fluids.SEEDSLURRY, 300), new FluidStack(Fluids.SULFURIC_ACID, 300))
+				.outputFluids(new FluidStack(Fluids.SOLVENT, 400)));
+		recipes.add(new ChemRecipe(104, "HCL", 250)
+				.inputFluids(new FluidStack(Fluids.HYDROGEN, 300))
+				.inputItems(new ComparableStack(ModItems.powder_poison, 10))
+				.outputFluids(new FluidStack(Fluids.HCL, 400)));
+		recipes.add(new ChemRecipe(105, "AMMONIUM", 250)
+				.inputFluids(new FluidStack(Fluids.AMMONIA, 500), new FluidStack(Fluids.NITROGEN, 1000))
+				.outputItems(new ItemStack(ModItems.ammonium_nitrate, 4)));
+		recipes.add(new ChemRecipe(106, "ARSENIDE", 250)
+				.inputFluids(new FluidStack(Fluids.WATER, 500), new FluidStack(Fluids.LIGHTOIL, 900))
+				.inputItems(
+						new ComparableStack(ModItems.ingot_gallium),
+						new ComparableStack(ModItems.ingot_arsenic))
+				.outputItems(new ItemStack(ModItems.ingot_gaas, 1)));
 	}
+	
+	
+	
 	
 	public static void registerFuelProcessing() {
 		recipes.add(new ChemRecipe(0, "FP_HEAVYOIL", 50)

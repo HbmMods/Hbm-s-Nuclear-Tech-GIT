@@ -36,7 +36,6 @@ public class ContainerCombustionEngine extends Container {
 			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 179));
 		}
 	}
-
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
 		ItemStack var3 = null;

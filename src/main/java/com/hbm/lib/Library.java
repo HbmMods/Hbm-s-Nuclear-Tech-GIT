@@ -169,6 +169,7 @@ public class Library {
 				tileentity instanceof IFluidSource)) || 
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_shredder_large ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.fusion_hatch ||
@@ -402,6 +403,10 @@ public class Library {
 		}
 		//Turbofan
 		if(block == ModBlocks.dummy_port_turbofan)
+		{
+			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
+		}
+		if(block == ModBlocks.dummy_block_shredder_large)
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}

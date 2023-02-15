@@ -14,6 +14,9 @@ public class WorldConfig {
 	public static int sulfurSpawn = 5;
 	public static int aluminiumSpawn = 7;
 	public static int copperSpawn = 12;
+	public static int nickelSpawn = 9;
+	public static int zincSpawn = 8;
+	public static int mineralSpawn = 5;
 	public static int fluoriteSpawn = 6;
 	public static int niterSpawn = 6;
 	public static int tungstenSpawn = 10;
@@ -131,6 +134,9 @@ public class WorldConfig {
 		oilSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.21_oilSpawnRate", "Spawns an oil bubble every nTH chunk", 100);
 		bedrockOilSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.22_bedrockOilSpawnRate", "Spawns a bedrock oil node every nTH chunk", 200);
 		meteoriteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.23_meteoriteSpawnRate", "Spawns a fallen meteorite every nTH chunk", 200);
+		nickelSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.24_nickelSpawnrate", "Amount of nickel ore veins per chunk", 12);
+		zincSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.24_zincSpawnrate", "Amount of zinc ore veins per chunk", 8);
+		mineralSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.24_mineralSpawnrate", "Amount of mineral ore veins per chunk", 4);
 
 		bedrockIronSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B00_bedrockIronSpawn", "Spawns a bedrock iron deposit every nTH chunk", 200);
 		bedrockCopperSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B01_bedrockCopperSpawn", "Spawns a bedrock copper deposit every nTH chunk", 200);

@@ -61,6 +61,10 @@ public class ItemWandD extends Item {
 			//data.z=pos.blockZ;
 			RogueWorldSaveData data = RogueWorldSaveData.forWorld(world);
 			data.rogue = true;
+			data.atmosphere = 1F;
+			data.distance = 1F;
+			data.rtime = 1;
+			
 			//data.fire = 0F;
 			//data.dust = 0F;
 			data.markDirty();

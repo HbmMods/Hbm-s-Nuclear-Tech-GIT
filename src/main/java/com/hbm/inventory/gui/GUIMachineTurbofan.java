@@ -21,15 +21,16 @@ public class GUIMachineTurbofan extends GuiInfoContainer {
 		diFurnace = tedf;
 		
 		this.xSize = 176;
-		this.ySize = 166;
+		this.ySize = 185;
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 53, guiTop + 69 - 52, 34, 52);
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152 - 9, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.maxPower);
+		diFurnace.tank[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 53, guiTop + 69 - 52, 34, 52);
+		diFurnace.tank[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 130, guiTop + 69 - 52, 34, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 157 - 9, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.maxPower);
 
 		String[] text = new String[] { "Acceptable upgrades:",
 				" -Pink (afterburner)" };
@@ -52,7 +53,7 @@ public class GUIMachineTurbofan extends GuiInfoContainer {
 		
 		if(diFurnace.power > 0) {
 			int i = (int)diFurnace.getPowerScaled(52);
-			drawTexturedModalRect(guiLeft + 152 - 9, guiTop + 69 - i, 176 + 16, 52 - i, 16, i);
+			drawTexturedModalRect(guiLeft + 161 - 9, guiTop + 69 - i, 176 + 16, 52 - i, 16, i);
 		}
 		
 		if(diFurnace.afterburner > 0) {
@@ -62,6 +63,7 @@ public class GUIMachineTurbofan extends GuiInfoContainer {
 
 		this.drawInfoPanel(guiLeft + 96, guiTop + 21, 8, 8, 8);
 		
-		diFurnace.tank.renderTank(guiLeft + 53, guiTop + 69, this.zLevel, 34, 52);
+		diFurnace.tank[0].renderTank(guiLeft + 53, guiTop + 69, this.zLevel, 34, 52);
+		diFurnace.tank[1].renderTank(guiLeft + 130, guiTop + 69, this.zLevel, 16, 52);
 	}
 }

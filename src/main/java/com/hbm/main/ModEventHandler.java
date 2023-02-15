@@ -247,7 +247,6 @@ public class ModEventHandler {
 		}
 		
 	}
-	
 	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event) {
 		
@@ -265,7 +264,9 @@ public class ModEventHandler {
 		if(event.entity.getUniqueID().toString().equals(Library.HbMinecraft) || event.entity.getCommandSenderName().equals("HbMinecraft")) {
 			event.entity.dropItem(ModItems.book_of_, 1);
 		}
-		
+		if(event.entityLiving instanceof EntityPlayer&& event.entityLiving.getRNG().nextInt(2) == 0) {
+			event.entityLiving.dropItem(ModItems.flesh, 10);
+	}
 		if(event.entity instanceof EntityTaintedCreeper && event.source == ModDamageSource.boxcar) {
 			
 			for(Object o : event.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, event.entity.boundingBox.expand(50, 50, 50))) {
@@ -298,9 +299,12 @@ public class ModEventHandler {
 				if(event.entityLiving instanceof EntityCyberCrab && event.entityLiving.getRNG().nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.wd40, 1);
 				}
+				if(event.entityLiving instanceof EntityVillager&& event.entityLiving.getRNG().nextInt(1) == 0) {
+					event.entityLiving.dropItem(ModItems.flesh, 5);
 			}
 		}
 	}
+}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityDeathLast(LivingDeathEvent event) {
@@ -1100,6 +1104,8 @@ public class ModEventHandler {
 			event.player.triggerAchievement(MainRegistry.achC20_5);
 		if(event.pickedUp.getEntityItem().getItem() == Items.slime_ball)
 			event.player.triggerAchievement(MainRegistry.achSlimeball);
+		//if(event.pickedUp.getEntityItem().getItem() == ModItems.egg_balefire)
+			//event.player.triggerAchievement(MainRegistry.rotConsum);
 	}
 	
 	@SubscribeEvent
@@ -1127,7 +1133,9 @@ public class ModEventHandler {
 		}
 	}
 	
-	private static final String hash = "41eb77f138ce350932e33b6b26b233df9aad0c0c80c6a49cb9a54ddd8fae3f83";
+	//private static final String hash = "41eb77f138ce350932e33b6b26b233df9aad0c0c80c6a49cb9a54ddd8fae3f83";
+	
+	private static final String lol = "popbobisgod";
 	
 	@SubscribeEvent
 	public void onClickSign(PlayerInteractEvent event) {
@@ -1144,10 +1152,10 @@ public class ModEventHandler {
 			String result = smoosh(sign.signText[0], sign.signText[1], sign.signText[2], sign.signText[3]);
 			//System.out.println(result);
 			
-			if(result.equals(hash)) {
+			if(result.equals(lol)) {
 				world.func_147480_a(x, y, z, false);
 				EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
-				entityitem.delayBeforeCanPickup = 10;
+				entityitem.delayBeforeCanPickup = 1;
 				world.spawnEntityInWorld(entityitem);
 			}
 		}

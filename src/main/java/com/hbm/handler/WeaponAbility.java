@@ -5,6 +5,7 @@ import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -27,6 +28,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -35,7 +37,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.WeightedRandom;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 
 public abstract class WeaponAbility {
@@ -129,6 +133,49 @@ public abstract class WeaponAbility {
 		@Override
 		public String getFullName() {
 			return I18n.format(getName()) + " (" + duration + ")";
+		}
+	}
+	public static class BlendAbility extends WeaponAbility {
+		
+		int divider;
+		
+		public BlendAbility(int divider) {
+			this.divider = divider;
+		}
+
+		@Override
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+			
+			if(victim instanceof EntityLivingBase) {
+				
+				EntityLivingBase living = (EntityLivingBase) victim;
+				
+				
+				if(living.getHealth() <= 0.0F) {
+					int count = Math.min((int)Math.ceil(living.getMaxHealth() / divider), 250); //safeguard to prevent funnies from bosses with obscene health
+					world.playSoundEffect(living.posX, living.posY + living.height * 0.5, living.posZ, "mob.zombie.woodbreak", 0.5F, 1.0F);
+					victim.attackEntityFrom(ModDamageSource.turbofan, 100);
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "giblets");
+						data.setInteger("count", count * 4);
+						data.setInteger("ent", victim.getEntityId());
+						data.setInteger("cDiv", 5);
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, victim.posX, victim.posY + victim.height * 0.5, victim.posZ), new TargetPoint(victim.dimension, victim.posX, victim.posY + victim.height * 0.5, victim.posZ, 150));
+						living.entityDropItem(new ItemStack(ModItems.flesh, 10, 0), 0.0F);
+			    }
+			}
+		}
+	
+
+				
+		@Override
+		public String getName() {
+			return "weapon.ability.blender";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName()) + " (1:" + divider + ")";
 		}
 	}
 	
@@ -298,6 +345,7 @@ public abstract class WeaponAbility {
 				}
 			}
 		}
+		
 
 		@Override
 		public String getName() {
@@ -310,6 +358,8 @@ public abstract class WeaponAbility {
 		}
 	}
 	
+
+
 	public static class BobbleAbility extends WeaponAbility {
 
 		@Override
@@ -341,3 +391,4 @@ public abstract class WeaponAbility {
 		}
 	}
 }
+

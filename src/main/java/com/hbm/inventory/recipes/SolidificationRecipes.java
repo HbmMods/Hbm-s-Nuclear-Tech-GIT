@@ -65,6 +65,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(MERCURY,		125,			ModItems.ingot_mercury);
 		registerRecipe(BIOGAS,		250,			ModItems.biomass_compressed);
 		registerRecipe(SALIENT,		1280,			new ItemStack(ModItems.bio_wafer, 8)); //4 (food val) * 2 (sat mod) * 2 (constant) * 10 (quanta) * 8 (batch size)
+		registerRecipe(BLOOD,		1290,			new ItemStack(ModItems.flesh_wafer, 5));
 		registerRecipe(ENDERJUICE,	100,			Items.ender_pearl);
 
 		registerRecipe(OIL,				SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
@@ -96,6 +97,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(UNSATURATEDS,	SF_UNSAT,		ModItems.solid_fuel);
 		
 		registerRecipe(BALEFIRE,		250,			ModItems.solid_fuel_bf);
+		
 		
 		registerSFAuto(SMEAR);
 		registerSFAuto(HEATINGOIL);

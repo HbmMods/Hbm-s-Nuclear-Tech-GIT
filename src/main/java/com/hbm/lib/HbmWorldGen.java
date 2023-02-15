@@ -138,6 +138,9 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.sulfurSpawn, 8, 5, 30, ModBlocks.ore_sulfur);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.aluminiumSpawn, 6, 5, 40, ModBlocks.ore_aluminium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperSpawn, 6, 5, 45, ModBlocks.ore_copper);
+			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.nickelSpawn, 6, 5, 16, ModBlocks.ore_nickel);
+			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.zincSpawn, 6, 5, 32, ModBlocks.ore_zinc);
+			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.mineralSpawn, 10, 12, 32, ModBlocks.ore_mineral);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.fluoriteSpawn, 4, 5, 45, ModBlocks.ore_fluorite);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.niterSpawn, 6, 5, 30, ModBlocks.ore_niter);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.tungstenSpawn, 8, 5, 30, ModBlocks.ore_tungsten);
@@ -160,7 +163,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.IRON,													1, WorldConfig.bedrockIronSpawn);
 			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.COPPER,												1, WorldConfig.bedrockCopperSpawn);
 			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.BORAX,	new FluidStack(Fluids.SULFURIC_ACID, 500),	3, WorldConfig.bedrockBoraxSpawn);
-			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.ASBESTOS,												2, WorldConfig.bedrockAsbestosSpawn);
+			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.ASBESTOS,	new FluidStack(Fluids.NITRIC_ACID, 500),  2, WorldConfig.bedrockAsbestosSpawn);
 			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.NIOBIUM,	new FluidStack(Fluids.ACID, 1_000),			2, WorldConfig.bedrockNiobiumSpawn);
 			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500),	2, WorldConfig.bedrockTitaniumSpawn);
 			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.TUNGSTEN,	new FluidStack(Fluids.ACID, 1_000),			2, WorldConfig.bedrockTungstenSpawn);

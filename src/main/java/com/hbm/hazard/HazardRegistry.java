@@ -5,6 +5,7 @@ import static com.hbm.items.ModItems.*;
 import static com.hbm.inventory.OreDictManager.*;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.hazard.modifier.*;
 import com.hbm.hazard.transformer.*;
@@ -45,7 +46,7 @@ public class HazardRegistry {
 	//PU239		        24,000a		α	005.00Rad/s
 	//PU240		         6,600a		α	007.50Rad/s
 	//PU241		            14a		β−	025.00Rad/s	Spicy
-	//AM241		           432a		α	008.50Rad/s
+	//		           432a		α	008.50Rad/s
 	//AM242		           141a		β−	009.50Rad/s
 
 	//simplified groups for ReC compat
@@ -94,6 +95,12 @@ public class HazardRegistry {
 	public static final float pu241 = 25.0F;
 	public static final float puf = 4.25F;
 	public static final float am241 = 8.5F;
+	public static final float cm242 = 9.3F;
+	public static final float bk247 = 10.5F;
+	public static final float cf251 = 14.3F;
+	public static final float cf252 = 15.3F;
+	public static final float es253 = 18.3F;
+	public static final float es255 = 19.3F;
 	public static final float am242 = 9.5F;
 	public static final float amrg = 9.0F;
 	public static final float amf = 4.75F;
@@ -130,6 +137,7 @@ public class HazardRegistry {
 	public static final float powder = ingot * powder_mult;
 	public static final float powder_tiny = nugget * powder_mult;
 	public static final float ore = ingot;
+	public static final float specore = ingot;
 	public static final float block = 10.0F;
 	public static final float crystal = block;
 	public static final float billet = 0.5F;
@@ -147,6 +155,8 @@ public class HazardRegistry {
 	public static final HazardTypeBase COAL = new HazardTypeCoal();
 	public static final HazardTypeBase HYDROACTIVE = new HazardTypeHydroactive();
 	public static final HazardTypeBase EXPLOSIVE = new HazardTypeExplosive();
+	public static final HazardTypeBase AUTISM = new HazardTypeAutism();
+	public static final HazardTypeBase GLITCH = new HazardTypeGlitch();
 	
 	public static void registerItems() {
 		
@@ -154,12 +164,20 @@ public class HazardRegistry {
 		HazardSystem.register(Blocks.tnt, makeData(EXPLOSIVE, 4F));
 		HazardSystem.register(Items.pumpkin_pie, makeData(EXPLOSIVE, 1F));
 		
+		HazardSystem.register(new ItemStack(Item.getItemFromBlock(ModBlocks.bobblehead), 1, 22), makeData(ASBESTOS, 1F)); //this works okay
+		
+		HazardSystem.register(new ItemStack(Item.getItemFromBlock(ModBlocks.bobblehead), 1, 25), makeData(GLITCH, 1F)); 
+		
+		HazardSystem.register(ModItems.ammonium_nitrate, makeData(EXPLOSIVE, 4F));
+		
 		HazardSystem.register(ball_dynamite, makeData(EXPLOSIVE, 2F));
 		HazardSystem.register(stick_dynamite, makeData(EXPLOSIVE, 1F));
 		HazardSystem.register(stick_tnt, makeData(EXPLOSIVE, 1.5F));
 		HazardSystem.register(stick_semtex, makeData(EXPLOSIVE, 2.5F));
 		HazardSystem.register(stick_c4, makeData(EXPLOSIVE, 2.5F));
 
+		HazardSystem.register(ModItems.sat_gerald, makeData(AUTISM, 1F));
+		
 		HazardSystem.register(cordite, makeData(EXPLOSIVE, 2F));
 		HazardSystem.register(ballistite, makeData(EXPLOSIVE, 1F));
 

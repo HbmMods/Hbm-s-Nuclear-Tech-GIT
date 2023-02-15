@@ -252,6 +252,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+		
+		case ModBlocks.guiID_machine_shredder_large: {
+			if(entity instanceof TileEntityMachineShredderLarge) {
+				return new ContainerMachineShredderLarge(player.inventory, (TileEntityMachineShredderLarge) entity);
+			}
+			return null;
+		}
 
 		case ModBlocks.guiID_combine_factory: {
 			if(entity instanceof TileEntityMachineCMBFactory) {
@@ -357,7 +364,6 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
-
 		case ModBlocks.guiID_ams_emitter: {
 			if(entity instanceof TileEntityAMSEmitter) {
 				return new ContainerAMSEmitter(player.inventory, (TileEntityAMSEmitter) entity);
