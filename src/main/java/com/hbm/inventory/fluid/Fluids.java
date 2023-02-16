@@ -218,8 +218,8 @@ public class Fluids {
 		SOLVENT =			new FluidType("SOLVENT",			0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
 		BLOOD =				new FluidType("BLOOD",				0xB22424, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		BLOOD_HOT =			new FluidType("BLOOD_HOT",			0xE4E3EF, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID).setTemp(666); //it's funny because it's the satan number
-		SYNGAS =			new FluidType("SYNGAS",				0x131313, 3, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
-		OXYHYDROGEN =		new FluidType(87, "OXYHYDROGEN",	0x483FC1, 3, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+		SYNGAS =			new FluidType("SYNGAS",				0x131313, 1, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
+		OXYHYDROGEN =		new FluidType(87, "OXYHYDROGEN",	0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^

@@ -601,7 +601,7 @@ public class InventoryUtil {
 				if(consumedStacks > requiredStacks)
 					break;
 				if(itemStack != null && stack.matchesRecipe(itemStack, true)) {
-					final int toConsume = Math.min(itemStack.stackSize, requiredStacks - consumedStacks);
+					int toConsume = Math.min(itemStack.stackSize, requiredStacks - consumedStacks);
 					itemStack.stackSize -= toConsume;
 					consumedStacks += toConsume;
 				}

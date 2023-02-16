@@ -57,23 +57,11 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	public static HashMap<FluidType, Double> fuelMaxCons = new HashMap(); //fuel consumption per tick at max power
 	
 	static {
-		fuelMaxCons.put(Fluids.GAS, 50D);
-		fuelMaxCons.put(Fluids.SYNGAS, 10D);
-		fuelMaxCons.put(Fluids.OXYHYDROGEN, 100D);
-		//fuelMaxCons.put(Fluids.PETROLEUM, 5D);
-		//fuelMaxCons.put(Fluids.LPG, 5D);
-		
+		fuelMaxCons.put(Fluids.GAS, 50D);			// natgas doesn't burn well so it burns faster to compensate
+		fuelMaxCons.put(Fluids.SYNGAS, 10D);		// syngas just fucks
+		fuelMaxCons.put(Fluids.OXYHYDROGEN, 100D);	// oxyhydrogen is terrible so it needs to burn a ton for the bare minimum
 		// default to 5 if not in list
 	}
-	
-	/*public static HashMap<FluidType, Integer> fuelMaxTemp = new HashMap(); //power production at maxT is half the normal production multiplied by (maxtemp - 300) / 500
-	
-	static {
-		fuelMaxTemp.put(Fluids.GAS, 600);
-		fuelMaxTemp.put(Fluids.PETROLEUM, 800);
-		fuelMaxTemp.put(Fluids.LPG, 400);
-		//fuelMaxTemp.put(Fluids.BIOGAS, 500);
-	}*/ //i don't think we need even more variance between fuel types - types already have a combustion value
 	
 	//TODO particles from heat exchanger maybe? maybe in a future
 	

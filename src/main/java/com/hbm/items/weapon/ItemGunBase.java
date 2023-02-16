@@ -317,11 +317,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		}
 		
 		if(getReloadCycle(stack) <= 0) {
-
 			
 			BulletConfiguration prevCfg = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
 			
-			if (getMag(stack) == 0)
+			if(getMag(stack) == 0)
 				resetAmmoType(stack, world, player);
 			
 			BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));

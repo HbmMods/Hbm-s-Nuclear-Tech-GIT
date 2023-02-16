@@ -1,8 +1,15 @@
 package com.hbm.inventory.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineTurbineGas;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -125,8 +132,16 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		
 		String[] info = I18nUtil.resolveKeyArray("desc.gui.turbinegas.automode");
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 34, 16, 16, guiLeft - 8, guiTop + 44 + 16, info);
-		String[] fuels = I18nUtil.resolveKeyArray("desc.gui.turbinegas.fuels");
+		
+		List<String> fuels = new ArrayList();
+		fuels.add(I18nUtil.resolveKey("desc.gui.turbinegas.fuels"));
+		for(FluidType type : Fluids.getInNiceOrder()) {
+			if(type.hasTrait(FT_Combustible.class) && type.getTrait(FT_Combustible.class).getGrade() == FuelGrade.GAS) {
+				fuels.add("  " + I18nUtil.resolveKey(type.getUnlocalizedName()));
+			}
+		}
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 34 + 16, 16, 16, guiLeft - 8, guiTop + 44 + 16, fuels);
+		
 		String[] warning = I18nUtil.resolveKeyArray("desc.gui.turbinegas.warning");
 		if(turbinegas.tanks[0].getFill() < 5000 || turbinegas.tanks[1].getFill() < 1000)
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 34 + 32, 16, 16, guiLeft - 8, guiTop + 44 + 16, warning);
