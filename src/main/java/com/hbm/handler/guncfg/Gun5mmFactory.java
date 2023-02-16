@@ -39,7 +39,7 @@ public class Gun5mmFactory {
 		config.durability = 10000;
 		config.firingSound = "hbm:weapon.lacunaeShoot";
 		
-		config.config = HbmCollection.fiveMM;
+		config.config = HbmCollection.r5;
 		
 		config.ejector = EJECTOR_MINIGUN;
 		
@@ -75,7 +75,7 @@ public class Gun5mmFactory {
 		config.name = "lacunae";
 		config.manufacturer = EnumGunManufacturer.ROCKWELL_U;
 		
-		config.config = HbmCollection.fiveMMBolt;
+		config.config = HbmCollection.r5Bolt;
 		
 		return config;
 	}

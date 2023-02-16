@@ -1670,7 +1670,6 @@ public class ModItems {
 	public static Item gun_revolver;
 	public static Item gun_revolver_saturnite;
 	//public static Item gun_revolver_ammo;
-	public static Item gun_revolver_iron;
 	//public static Item gun_revolver_iron_ammo;
 	public static Item gun_revolver_gold;
 	//public static Item gun_revolver_gold_ammo;
@@ -1696,7 +1695,6 @@ public class ModItems {
 	public static Item gun_flechette;
 	public static Item gun_ar15;
 	public static Item gun_calamity;
-	public static Item gun_calamity_dual;
 	//public static Item gun_calamity_ammo;
 	public static Item gun_minigun;
 	public static Item gun_avenger;
@@ -1777,6 +1775,7 @@ public class ModItems {
 	public static Item gun_darter;
 	public static Item gun_detonator;
 	public static Item gun_glass_cannon;
+	public static Item gun_m2;
 	
 	// We'll figure this part out later
 	//public static Item gun_llr, gun_mlr, gun_hlr, gun_twr, gun_lunatic, gun_lunatic_shotty, gun_lunatic_marksman;
@@ -4478,7 +4477,7 @@ public class ModItems {
 		gun_revolver = new ItemGunBase(Gun357MagnumFactory.getRevolverConfig()).setUnlocalizedName("gun_revolver").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver");
 		gun_revolver_saturnite = new ItemGunBase(Gun357MagnumFactory.getRevolverSaturniteConfig()).setUnlocalizedName("gun_revolver_saturnite").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_saturnite");
 		//gun_revolver_iron_ammo = new Item().setUnlocalizedName("gun_revolver_iron_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_iron_ammo");
-		gun_revolver_iron = new ItemGunBase(Gun357MagnumFactory.getRevolverIronConfig()).setUnlocalizedName("gun_revolver_iron").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_iron");
+		//gun_revolver_iron = new ItemGunBase(Gun357MagnumFactory.getRevolverIronConfig()).setUnlocalizedName("gun_revolver_iron").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_iron");
 		//gun_revolver_gold_ammo = new Item().setUnlocalizedName("gun_revolver_gold_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_gold_ammo");
 		gun_revolver_gold = new ItemGunBase(Gun357MagnumFactory.getRevolverGoldConfig()).setUnlocalizedName("gun_revolver_gold").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_gold");
 		//gun_revolver_lead_ammo = new Item().setUnlocalizedName("gun_revolver_lead_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_lead_ammo");
@@ -4499,12 +4498,11 @@ public class ModItems {
 		gun_revolver_silver = new ItemGunBase(Gun44MagnumFactory.getSilverConfig()).setUnlocalizedName("gun_revolver_silver").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_silver");
 		gun_revolver_red = new ItemGunBase(Gun44MagnumFactory.getRedConfig()).setUnlocalizedName("gun_revolver_red").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_red");
 		gun_deagle = new ItemGunBase(Gun50AEFactory.getDeagleConfig()).setUnlocalizedName("gun_deagle").setFull3D().setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_deagle");
-		gun_bio_revolver = new ItemGunBio(Gun45ACPFactory.getRevolverBioConfig()).setUnlocalizedName("gun_bio_revolver").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_bio_revolver");
+		gun_bio_revolver = new ItemGunBio(Gun357MagnumFactory.getRevolverBioConfig()).setUnlocalizedName("gun_bio_revolver").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_bio_revolver");
 		gun_flechette = new ItemGunBase(Gun556mmFactory.getSPIWConfig(), Gun556mmFactory.getGLauncherConfig()).setUnlocalizedName("gun_flechette").setFull3D().setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_flechette");
 		gun_ar15 = new ItemGunBase(Gun50BMGFactory.getAR15Config()).setUnlocalizedName("gun_ar15").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_ar15");
 		//gun_calamity_ammo = new ItemCustomLore().setUnlocalizedName("gun_calamity_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_calamity_ammo");
-		gun_calamity = new ItemGunBase(Gun50BMGFactory.getCalamityConfig()).setUnlocalizedName("gun_calamity").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_calamity");
-		gun_calamity_dual = new ItemGunBase(Gun50BMGFactory.getSaddleConfig()).setUnlocalizedName("gun_calamity_dual").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_calamity_dual");
+		gun_calamity = new ItemGunBase(Gun762mmFactory.getCalamityConfig()).setUnlocalizedName("gun_calamity").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_calamity");
 		//gun_lacunae_ammo = new ItemCustomLore().setUnlocalizedName("gun_lacunae_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_lacunae_ammo");
 		gun_minigun = new ItemGunLacunae(Gun5mmFactory.get53Config()).setUnlocalizedName("gun_minigun").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_minigun");
 		gun_avenger = new ItemGunLacunae(Gun5mmFactory.get57Config()).setUnlocalizedName("gun_avenger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_avenger");
@@ -4584,6 +4582,7 @@ public class ModItems {
 		gun_darter = new ItemGunDart(GunDartFactory.getDarterConfig()).setFull3D().setUnlocalizedName("gun_darter").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_darter");
 		gun_detonator = new ItemGunDetonator(GunDetonatorFactory.getDetonatorConfig()).setFull3D().setUnlocalizedName("gun_detonator").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_darter");
 		gun_glass_cannon = new ItemEnergyGunBase(GunPoweredFactory.getGlassCannonConfig()).setFull3D().setUnlocalizedName("gun_glass_cannon").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_darter");
+		gun_m2 = new  ItemGunBase(Gun50BMGFactory.getM2Config()).setFull3D().setUnlocalizedName("gun_m2").setCreativeTab(MainRegistry.weaponTab);
 		
 		ToolMaterial matCrucible = EnumHelper.addToolMaterial("CRUCIBLE", 10, 3, 50.0F, 100.0F, 0);
 		crucible = new ItemCrucible(5000, 1F, matCrucible).setUnlocalizedName("crucible").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":crucible");
@@ -7292,7 +7291,6 @@ public class ModItems {
 		GameRegistry.registerItem(sat_designator, sat_designator.getUnlocalizedName());
 		
 		//Guns
-		GameRegistry.registerItem(gun_revolver_iron, gun_revolver_iron.getUnlocalizedName());
 		GameRegistry.registerItem(gun_revolver, gun_revolver.getUnlocalizedName());
 		GameRegistry.registerItem(gun_revolver_saturnite, gun_revolver_saturnite.getUnlocalizedName());
 		GameRegistry.registerItem(gun_revolver_gold, gun_revolver_gold.getUnlocalizedName());
@@ -7311,7 +7309,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_flechette, gun_flechette.getUnlocalizedName());
 		GameRegistry.registerItem(gun_ar15, gun_ar15.getUnlocalizedName());
 		GameRegistry.registerItem(gun_calamity, gun_calamity.getUnlocalizedName());
-		GameRegistry.registerItem(gun_calamity_dual, gun_calamity_dual.getUnlocalizedName());
+		GameRegistry.registerItem(gun_m2, gun_m2.getUnlocalizedName());
 		GameRegistry.registerItem(gun_minigun, gun_minigun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_avenger, gun_avenger.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lacunae, gun_lacunae.getUnlocalizedName());

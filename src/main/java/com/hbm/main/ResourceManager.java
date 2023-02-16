@@ -692,6 +692,7 @@ public class ResourceManager {
 	public static final IModelCustom chemthrower = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/chemthrower.obj")).asDisplayList();
 	public static final IModelCustom novac = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/novac.obj"));
 	public static final IModelCustom novac_scoped = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/novac_scoped.obj"));
+	public static final IModelCustom m2 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/m2_browning.obj")).asDisplayList(); //large fella should be a display list
 	
 	public static final IModelCustom lance = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lance.obj"));
 
@@ -776,6 +777,7 @@ public class ResourceManager {
 	public static final ResourceLocation blackjack_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/blackjack.png");
 	public static final ResourceLocation lent_gun_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lent_gun.png");
 	public static final ResourceLocation red_key_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/red_key.png");
+	public static final ResourceLocation m2_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/m2_browning.png");
 	
 	public static final ResourceLocation lance_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lance.png");
 

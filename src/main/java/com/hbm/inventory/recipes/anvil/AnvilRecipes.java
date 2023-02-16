@@ -522,7 +522,7 @@ public class AnvilRecipes {
 			{ModItems.ammo_44.stackFromEnum(10, Ammo44Magnum.STOCK),		ModItems.pellet_chlorophyte,	ModItems.ammo_44.stackFromEnum(10, Ammo44Magnum.CHLOROPHYTE),	3},
 
 			{ModItems.ammo_45.stackFromEnum(20, Ammo45ACP.STOCK),			DURA.ingot(),					ModItems.ammo_45.stackFromEnum(20, Ammo45ACP.AP),				3},
-			{ModItems.ammo_45.stackFromEnum(10, Ammo45ACP.DU),				U238.ingot(),					ModItems.ammo_45.stackFromEnum(10, Ammo45ACP.DU),				3},
+			{ModItems.ammo_45.stackFromEnum(10, Ammo45ACP.STOCK),			U238.ingot(),					ModItems.ammo_45.stackFromEnum(10, Ammo45ACP.DU),				3},
 
 			{ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.STOCK),	ModItems.ingot_semtex,					ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.EXPLOSIVE),		2},
 			{ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.STOCK),	U238.ingot(),							ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.DU),				2},

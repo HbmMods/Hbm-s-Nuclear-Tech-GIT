@@ -808,7 +808,7 @@ public class ModEventHandler {
 				
 				BulletConfiguration firedConfig = null;
 
-				for(Integer config : HbmCollection.twelveGauge) {
+				for(Integer config : HbmCollection.g12) {
 					BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
 					
 					if(InventoryUtil.doesPlayerHaveAStack(player, cfg.ammo, true, true)) {

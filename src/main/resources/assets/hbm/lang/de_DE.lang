@@ -1783,6 +1783,7 @@ item.gun_lever_action_ammo.name=12x74 Schrotmunition (LEGACY)
 item.gun_lever_action_dark.name=Mare's Leg (Dunkel)
 item.gun_lever_action_sonata.name=Verkehrter Mare's Leg
 item.gun_lever_action_sonata_2.name=§cSonatas Mikrophon§r
+item.gun_m2.name=üsMG
 item.gun_minigun.name=CZ53 Persönliche Minigun
 item.gun_mirv.name=M42 Nukleares Katapult "Experimentelles MIRV"
 item.gun_mirv_ammo.name=Achtfaches MIRV (LEGACY)
