@@ -8,7 +8,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 @Mod(modid = ExampleMod.MODID, version = ExampleMod.VERSION)
 public class ExampleMod
 {
-    public static final String MODID = "examplemod";
+    public static final String MODID = "examplemodd";
     public static final String VERSION = "1.0";
     
     @EventHandler

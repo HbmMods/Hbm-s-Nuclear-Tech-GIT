@@ -345,12 +345,12 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.powder_cobalt, 2),
 				new ItemStack(ModItems.powder_platnium, 1),
 				new ItemStack(ModItems.powder_copper, 4),
-				new ItemStack(ModItems.ore_byproduct, 8, 3) });
+				new ItemStack(ModItems.ore_byproduct, 3, 3) });
 		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 1), new ItemStack[] { //nitric
 				new ItemStack(ModItems.nugget_zinc, 6),
 				new ItemStack(ModItems.nugget_nickel, 1),
 				new ItemStack(ModItems.powder_gallium_tiny, 1),
-				new ItemStack(ModItems.ore_byproduct, 5, 0) });
+				new ItemStack(ModItems.ore_byproduct, 2, 0) });
 		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 2), new ItemStack[] { //sulfuric
 				new ItemStack(ModItems.nugget_bismuth, 1),
 				new ItemStack(ModItems.powder_nickel, 5),
@@ -360,17 +360,17 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget_zirconium, 1),
 				new ItemStack(ModItems.nugget_tantalium, 1),
 				new ItemStack(ModItems.powder_copper, 1),
-				new ItemStack(ModItems.ore_byproduct, 8, 6) });
+				new ItemStack(ModItems.ore_byproduct, 2, 6) });
 		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 4), new ItemStack[] { //hydrochloric
 				new ItemStack(ModItems.powder_platnium, 2),
 				new ItemStack(ModItems.powder_zinc, 1),
-				new ItemStack(ModItems.nugget_gallium, 4),
-				new ItemStack(ModItems.ore_byproduct, 10, 4) });
+				new ItemStack(ModItems.powder_cobalt_tiny, 2),
+				new ItemStack(ModItems.ore_byproduct, 1, 4) });
 		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 5), new ItemStack[] { //schrabidic
 				new ItemStack(ModItems.powder_co60, 2),
 				new ItemStack(ModItems.powder_zirconium, 5),
 				new ItemStack(ModItems.ingot_mercury, 12),
-				new ItemStack(ModItems.ore_byproduct, 12, 9) });
+				new ItemStack(ModItems.ore_byproduct, 2, 9) });
 		
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");
 		

@@ -33,7 +33,7 @@ public class ItemFELCrystal extends Item {
 	public static enum EnumWavelengths{
 		NULL("la creatura", "6 dollar", 0x010101, 0x010101, EnumChatFormatting.WHITE), //why do you exist?
 		
-		MICRO("wavelengths.name.micro", "wavelengths.waveRange.micro", 0xBB1010, 0xCC4040, EnumChatFormatting.GRAY),
+		//MICRO("wavelengths.name.micro", "wavelengths.waveRange.micro", 0xBB1010, 0xCC4040, EnumChatFormatting.GRAY),
 		IR("wavelengths.name.ir", "wavelengths.waveRange.ir", 0xBB1010, 0xCC4040, EnumChatFormatting.RED),
 		VISIBLE("wavelengths.name.visible", "wavelengths.waveRange.visible", 0, 0, EnumChatFormatting.GREEN),
 		UV("wavelengths.name.uv", "wavelengths.waveRange.uv", 0x0A1FC4, 0x00EFFF, EnumChatFormatting.AQUA),

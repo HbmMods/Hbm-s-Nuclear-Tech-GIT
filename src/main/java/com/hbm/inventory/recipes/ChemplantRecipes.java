@@ -71,11 +71,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(new OreDictStack(S.dust()))
 				.inputFluids(new FluidStack(Fluids.ACID, 800))
 				.outputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500)));
-		recipes.add(new ChemRecipe(92, "NITRIC_ACID", 50)
-				.inputItems(new OreDictStack(KNO.dust()))
-				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500))
-				.outputFluids(new FluidStack(Fluids.NITRIC_ACID, 500)));
-		recipes.add(new ChemRecipe(93, "SOLVENT", 50)
+		recipes.add(new ChemRecipe(92, "SOLVENT", 50)
 				.inputFluids(new FluidStack(Fluids.NAPHTHA, 500), new FluidStack(Fluids.AROMATICS, 500))
 				.outputFluids(new FluidStack(Fluids.SOLVENT, 1000)));
 		recipes.add(new ChemRecipe(41, "CIRCUIT_4", 200)
@@ -383,9 +379,9 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(106, "ARSENIDE", 250)
 				.inputFluids(new FluidStack(Fluids.WATER, 500), new FluidStack(Fluids.LIGHTOIL, 900))
 				.inputItems(
-						new ComparableStack(ModItems.ingot_gallium),
-						new ComparableStack(ModItems.ingot_arsenic))
-				.outputItems(new ItemStack(ModItems.ingot_gaas, 1)));
+						new ComparableStack(ModItems.nugget_gallium),
+						new ComparableStack(ModItems.nugget_arsenic))
+				.outputItems(new ItemStack(ModItems.nugget_gaas, 1)));
 	}
 	
 	

@@ -394,6 +394,7 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_mea, amrg * rod_rbmk, wst * rod_rbmk * 30.5F);
 		registerRBMKRod(rbmk_fuel_hea241, am241 * rod_rbmk, wst * rod_rbmk * 33.5F);
 		registerRBMKRod(rbmk_fuel_hea242, am242 * rod_rbmk, wst * rod_rbmk * 34F);
+		registerRBMKRod(rbmk_fuel_bk247, bk247 * rod_rbmk, wst * rod_rbmk * 38F);
 		registerRBMKRod(rbmk_fuel_men, npf * rod_rbmk, wst * rod_rbmk * 22.5F);
 		registerRBMKRod(rbmk_fuel_hen, np237 * rod_rbmk, wst * rod_rbmk * 30F);
 		registerRBMKRod(rbmk_fuel_mox, mox * rod_rbmk, wst * rod_rbmk * 25.5F);
@@ -426,6 +427,7 @@ public class HazardRegistry {
 		registerRBMKPellet(rbmk_pellet_mea, amrg * billet, wst * billet * 30.5F);
 		registerRBMKPellet(rbmk_pellet_hea241, am241 * billet, wst * billet * 33.5F);
 		registerRBMKPellet(rbmk_pellet_hea242, am242 * billet, wst * billet * 34F);
+		registerRBMKPellet(rbmk_pellet_bk247, bk247 * billet, wst * billet * 37F);
 		registerRBMKPellet(rbmk_pellet_men, npf * billet, wst * billet * 22.5F);
 		registerRBMKPellet(rbmk_pellet_hen, np237 * billet, wst * billet * 30F);
 		registerRBMKPellet(rbmk_pellet_mox, mox * billet, wst * billet * 25.5F);

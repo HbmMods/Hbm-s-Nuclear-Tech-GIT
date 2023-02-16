@@ -106,6 +106,7 @@ public class RodRecipes {
 		addRBMKRod(AMRG, ModItems.rbmk_fuel_mea);
 		addRBMKRod(AM241, ModItems.rbmk_fuel_hea241);
 		addRBMKRod(AM242, ModItems.rbmk_fuel_hea242);
+		addRBMKRod(BK247, ModItems.rbmk_fuel_bk247);
 		addRBMKRod(ModItems.billet_neptunium_fuel, ModItems.rbmk_fuel_men);
 		addRBMKRod(NP237, ModItems.rbmk_fuel_hen);
 		addRBMKRod(ModItems.billet_po210be, ModItems.rbmk_fuel_po210be);
