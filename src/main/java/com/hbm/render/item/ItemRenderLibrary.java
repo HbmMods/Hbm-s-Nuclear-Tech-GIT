@@ -1074,10 +1074,10 @@ public class ItemRenderLibrary {
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_tower_large), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -3, 0);
-				GL11.glScaled(3, 3, 3);
+				GL11.glScaled(4 * 0.95, 4 * 0.95, 4 * 0.95);
 			}
 			public void renderCommon() {
-				GL11.glScaled(0.5, 0.5, 0.5);
+				GL11.glScaled(0.25, 0.25, 0.25);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.tower_large_tex); ResourceManager.tower_large.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);

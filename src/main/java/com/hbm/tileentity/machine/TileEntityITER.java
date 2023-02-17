@@ -34,6 +34,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -315,6 +316,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		
 		if(slots[1] != null && slots[1].getItem() == ModItems.meteorite_sword_fused)
 			out = new BreederRecipe(ModItems.meteorite_sword_baleful, 4000);
+	
+		if(slots[1] != null && slots[1].getItem() == Item.getItemFromBlock(ModBlocks.lattice_log))
+			out = new BreederRecipe(ModItems.woodemium_briquette, 4000);
 		
 		if(out == null) {
 			this.progress = 0;

@@ -67,6 +67,7 @@ public class Fluids {
 	public static FluidType BLOOD;				//WEEE
 	public static FluidType XENON;
 	public static FluidType AIR;				//cant believe im adding this
+	public static FluidType MINSOL;
 	public static FluidType BALEFIRE;
 	public static FluidType MERCURY;
 	public static FluidType PAIN;				//tantalite solution
@@ -230,6 +231,7 @@ public class Fluids {
 		BLOOD_HOT =			new FluidType(89, "BLOOD_HOT",		0x890404, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID).setTemp(666);//0xE4E3EF
 		SOLVENT =			new FluidType(90, "SOLVENT",		0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
 		HCL =				new FluidType("HCL",				0x00D452, 3, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(30), LIQUID);
+		MINSOL =			new FluidType("MINSOL",				0xFADF6A, 3, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(10), LIQUID);
 		//TODO: fire diamonds
 		//sh
 
@@ -339,6 +341,8 @@ public class Fluids {
 		//garbage
 		metaOrder.add(XPJUICE);
 		metaOrder.add(ENDERJUICE);
+		//slurry
+		metaOrder.add(MINSOL);
 		//plasma
 		metaOrder.add(PLASMA_DT);
 		metaOrder.add(PLASMA_HD);

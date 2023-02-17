@@ -26,7 +26,10 @@ public class GasCentrifugeRecipes {
 		PF6			(300,	0,		NONE,		false,	new ItemStack(ModItems.nugget_pu238, 1), new ItemStack(ModItems.nugget_pu_mix, 2), new ItemStack(ModItems.fluorite, 1)),
 		
 		MUD_HEAVY	(500,	0,		NONE,		false,	new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.dust, 1), new ItemStack(ModItems.nuclear_waste_tiny, 1)),
-		MUD			(1000,	500,	MUD_HEAVY,	false,	new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.dust, 1));
+		MUD			(1000,	500,	MUD_HEAVY,	false,	new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.dust, 1)),
+		
+		MINSOLEE	(1000, 0,		NONE,		false,	new ItemStack(ModItems.crystal_cleaned, 1)),
+		MINSOLE		(1000, 1000,	MINSOLEE,	false,	new ItemStack(ModItems.powder_iron, 1));
 		
 		//TODO for bob: consider more fluid types
 		//Schraranium Trisulfide for more schrab-containing, pre-SILEX processing using the crystals?
@@ -110,5 +113,8 @@ public class GasCentrifugeRecipes {
 				{new ItemStack(ModItems.nugget_pu238, 3), new ItemStack(ModItems.nugget_pu_mix, 6), new ItemStack(ModItems.fluorite, 3)}, false, 1 });
 		gasCent.put(new FluidStack(1000, Fluids.WATZ), new Object[] { new ItemStack[] 
 				{new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.nuclear_waste_tiny, 1), new ItemStack(ModItems.dust, 2)}, false, 2 });
+		gasCent.put(new FluidStack(1000, Fluids.MINSOL), new Object[] { new ItemStack[] 
+				{new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.crystal_cleaned, 1),}, false, 2 });
+		
 	}
 }

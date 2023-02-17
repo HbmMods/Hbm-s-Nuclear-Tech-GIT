@@ -54,6 +54,9 @@ public class MineralRecipes {
 		add1To9Pair(ModBlocks.block_rubber, ModItems.ingot_rubber);
 		add1To9Pair(ModBlocks.block_osmiridium, ModItems.ingot_osmiridium);
 		
+		add1To9Pair(ModBlocks.bf_log, ModItems.woodemium_briquette);
+		//add1To9Pair(ModItems.powder_wd2004, ModItems.powder_wd2004_tiny);
+		
 		for(int i = 0; i < EnumCokeType.values().length; i++) {
 			add1To9PairSameMeta(Item.getItemFromBlock(ModBlocks.block_coke), ModItems.coke, i);
 		}

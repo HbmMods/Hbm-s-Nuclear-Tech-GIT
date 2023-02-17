@@ -50,6 +50,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		fluidConversions.put(Fluids.UF6, PseudoFluidType.NUF6);
 		fluidConversions.put(Fluids.PUF6, PseudoFluidType.PF6);
 		fluidConversions.put(Fluids.WATZ, PseudoFluidType.MUD);
+		fluidConversions.put(Fluids.MINSOL, PseudoFluidType.MINSOLE); //not a good idea
 	}
 	
 	public TileEntityMachineGasCent() {

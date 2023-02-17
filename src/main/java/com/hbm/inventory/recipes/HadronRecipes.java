@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
@@ -114,6 +115,38 @@ public class HadronRecipes extends SerializableRecipe {
 				100,
 				new ItemStack(ModItems.nugget),
 				new ItemStack(ModItems.nugget),
+				false
+				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(Items.chicken),
+				new ItemStack(Items.chicken),
+				100,
+				new ItemStack(ModItems.nugget),
+				new ItemStack(ModItems.nugget),
+				false
+				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(ModBlocks.waste_log),
+				new ItemStack(ModItems.particle_strange),
+				500000,
+				new ItemStack(ModItems.burnt_bark),
+				new ItemStack(ModItems.nugget_au198),
+				false
+				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(ModBlocks.primed_log),
+				new ItemStack(ModItems.particle_aproton),
+				100000,
+				new ItemStack(ModBlocks.lattice_log),
+				new ItemStack(ModItems.fallout),
+				false
+				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(ModBlocks.eu_log, 5),
+				new ItemStack(ModItems.particle_digamma),
+				1000000,
+				new ItemStack(ModItems.powder_wd2004_tiny),
+				new ItemStack(ModItems.fallout),
 				false
 				));
 	}

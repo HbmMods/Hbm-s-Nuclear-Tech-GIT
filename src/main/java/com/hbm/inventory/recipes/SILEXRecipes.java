@@ -636,11 +636,42 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_au198), 1))
 				);
 		
-		recipes.put(new ComparableStack(Blocks.gravel, 1), new SILEXRecipe(1000, 250, EnumWavelengths.VISIBLE)
+		recipes.put(new ComparableStack(Blocks.gravel, 1), new SILEXRecipe(1000, 1000, EnumWavelengths.VISIBLE)
 				.addOut(new WeightedRandomObject(new ItemStack(Items.flint), 80))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_boron), 5))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_lithium), 10))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.fluorite), 5))
+				);
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 0), new SILEXRecipe(1000, 1000, EnumWavelengths.IR) //peroxide
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_nickel, 3), 50))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_boron_tiny), 20))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_platnium, 2), 5))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.fluorite), 25))
+				);
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 3), new SILEXRecipe(1000, 1000, EnumWavelengths.VISIBLE)//solvent
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_niobium_tiny), 40))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_neodymium), 30))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_zirconium), 26))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_gallium_tiny), 4))
+				);
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 1), new SILEXRecipe(1000, 1000, EnumWavelengths.UV)//nitric
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_arsenic), 30))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_aluminium, 5), 50))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_cerium_tiny), 7))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_asbestos), 13))
+				);
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 2), new SILEXRecipe(1000, 1000, EnumWavelengths.XRAY)//chloric and sulfuric
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_boron), 40))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_tantalium), 40))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_iodine), 15))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_cobalt), 5))
+				);
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 4), new SILEXRecipe(1000, 1000, EnumWavelengths.XRAY)
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_lanthanium_tiny), 44))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_zinc), 21))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_tantalium), 30))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_gallium), 3))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_caesium), 2))
 				);
 	}
 	

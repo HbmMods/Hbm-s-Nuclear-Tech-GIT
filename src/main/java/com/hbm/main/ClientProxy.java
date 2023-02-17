@@ -817,6 +817,10 @@ public class ClientProxy extends ServerProxy {
 
 			ParticleRadiationFog fog = new ParticleRadiationFog(man, world, x, y, z);
 			Minecraft.getMinecraft().effectRenderer.addEffect(fog);
+			
+		case 4:
+			ParticleProblem prob = new ParticleProblem(man, world, x, y, z);
+			Minecraft.getMinecraft().effectRenderer.addEffect(prob);
 			break;
 		}
 	}
@@ -854,6 +858,10 @@ public class ClientProxy extends ServerProxy {
 		}
 		if("radSmoke".equals(type)) {
 			ParticleRadiationFog contrail = new ParticleRadiationFog(man, world, x, y, z);
+			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+		}
+		if("chance".equals(type)) {
+			ParticleProblem contrail = new ParticleProblem(man, world, x, y, z);
 			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
 		}
 	}
@@ -1803,6 +1811,11 @@ public class ClientProxy extends ServerProxy {
 			for(int i = 0; i < ejector.getAmount(); i++) {
 				ejector.spawnCasing(man, casingConfig, world, x, y, z, data.getFloat("pitch"), data.getFloat("yaw"), data.getBoolean("crouched"));
 			}
+		}
+		if("contrail".equals(type)) {
+			ParticleProblem prob = new ParticleProblem(man, world, x, y, z);
+			Minecraft.getMinecraft().effectRenderer.addEffect(prob);
+			//hopefully......
 		}
 	}
 	

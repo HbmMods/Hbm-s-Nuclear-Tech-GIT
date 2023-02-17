@@ -39,6 +39,8 @@ public class MixerRecipes {
 		recipes.put(Fluids.PETROIL_LEADED, new MixerRecipe(1_000, 40).setStack1(new FluidStack(Fluids.PETROIL, 800)).setSolid(new ComparableStack(ModItems.antiknock)));
 		recipes.put(Fluids.GASOLINE_LEADED, new MixerRecipe(1_000, 40).setStack1(new FluidStack(Fluids.GASOLINE, 800)).setSolid(new ComparableStack(ModItems.antiknock)));
 		recipes.put(Fluids.COALGAS_LEADED, new MixerRecipe(1_000, 40).setStack1(new FluidStack(Fluids.COALGAS, 800)).setSolid(new ComparableStack(ModItems.antiknock)));
+		
+		recipes.put(Fluids.MINSOL, new MixerRecipe(1_000, 40).setStack1(new FluidStack(Fluids.FRACKSOL, 800)).setSolid(new ComparableStack(ModItems.crystal_mineral)));
 	}
 	
 	public static MixerRecipe getOutput(FluidType type) {

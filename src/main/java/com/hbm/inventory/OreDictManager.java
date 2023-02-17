@@ -645,8 +645,7 @@ public class OreDictManager {
 		/** Returns an ItemStack composed of the supplied item with the meta being the enum's ordinal. Purely syntactic candy */
 		public static ItemStack fromOne(Item item, Enum en) {
 			return new ItemStack(item, 1, en.ordinal());
-		}
-		public static ItemStack fromOne(Block block, Enum en) {
+		}		public static ItemStack fromOne(Block block, Enum en) {
 			return new ItemStack(block, 1, en.ordinal());
 		}
 		public static ItemStack fromOne(Item item, Enum en, int stacksize) {

@@ -46,7 +46,7 @@ public class SatelliteHorizons extends Satellite {
 		long finalDecent = (600-world.getHeightValue(x, z));
 		
 		TomSaveData data = TomSaveData.forWorld(world);
-		data.dtime = finalDecent;
+		data.dtime = finalDecent * 2;
 		data.time = 24000;//One MC day before impact
 		data.x = x;
 		data.z = z;

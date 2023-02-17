@@ -178,6 +178,10 @@ public class HazardRegistry {
 
 		HazardSystem.register(ModItems.sat_gerald, makeData(AUTISM, 1F));
 		
+		
+		HazardSystem.register(ModItems.powder_wd2004, makeData(DIGAMMA, 1F));
+		HazardSystem.register(ModItems.powder_wd2004_tiny, makeData(DIGAMMA, 0.05F));
+		
 		HazardSystem.register(cordite, makeData(EXPLOSIVE, 2F));
 		HazardSystem.register(ballistite, makeData(EXPLOSIVE, 1F));
 
