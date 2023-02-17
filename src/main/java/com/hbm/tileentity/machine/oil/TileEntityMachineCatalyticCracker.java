@@ -101,7 +101,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 			int right = quart.getValue().fill;
 			
 			for(int i = 0; i < 2; i++) {
-				if(tanks[0].getFill() >= 100 && tanks[1].getFill() >= 100 && hasSpace(left, right)) {
+				if(tanks[0].getFill() >= 100 && tanks[1].getFill() >= 200 && hasSpace(left, right)) {
 					tanks[0].setFill(tanks[0].getFill() - 100);
 					tanks[1].setFill(tanks[1].getFill() - 200);
 					tanks[2].setFill(tanks[2].getFill() + left);
@@ -113,7 +113,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 	}
 	
 	private boolean hasSpace(int left, int right) {
-		return tanks[2].getFill() + left <= tanks[2].getMaxFill() && tanks[3].getFill() + right <= tanks[3].getMaxFill() && tanks[4].getFill() + 200 <= tanks[4].getMaxFill();
+		return tanks[2].getFill() + left <= tanks[2].getMaxFill() && tanks[3].getFill() + right <= tanks[3].getMaxFill() && tanks[4].getFill() + 2 <= tanks[4].getMaxFill();
 	}
 	
 	private void setupTanks() {

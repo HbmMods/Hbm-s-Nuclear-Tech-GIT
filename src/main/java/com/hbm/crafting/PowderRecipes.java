@@ -4,6 +4,7 @@ import static com.hbm.inventory.OreDictManager.*;
 
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemChemicalDye.EnumChemDye;
 import com.hbm.main.CraftingManager;
 
 import net.minecraft.init.Blocks;
@@ -69,6 +70,17 @@ public class PowderRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 4), new Object[] { F.dust(), KEY_SAND });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 8), new Object[] { PB.dust(), S.dust(), KEY_SAND });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 16), new Object[] { BORAX.dust(), KEY_SAND });
+		
+		//Unleash the colores
+		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.GRAY, 2),			new Object[] { DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.BLACK),		DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.WHITE) });
+		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.SILVER, 2),		new Object[] { DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.GRAY),		DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.WHITE) });
+		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.ORANGE, 2),		new Object[] { DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.RED),		DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.YELLOW) });
+		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.LIME, 2),			new Object[] { DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.GREEN),		DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.WHITE) });
+		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.CYAN, 2),			new Object[] { DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.BLUE),		DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.GREEN) });
+		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.PURPLE, 2),		new Object[] { DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.RED),		DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.BLUE) });
+		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.BROWN, 2),		new Object[] { DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.ORANGE),	DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.BLACK) });
+		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.MAGENTA, 2),		new Object[] { DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.RED),		DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.PURPLE) });
+		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.LIGHTBLUE, 2),	new Object[] { DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.BLUE),		DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.WHITE) });
 
 	}
 }

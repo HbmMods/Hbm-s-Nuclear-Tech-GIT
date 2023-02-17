@@ -332,6 +332,7 @@ public class ModItems {
 	public static Item thruster_nuclear;
 	public static Item safety_fuse;
 	public static Item part_generic;
+	public static Item chemical_dye;
 	
 	public static Item undefined;
 	
@@ -2764,6 +2765,7 @@ public class ModItems {
 		thruster_nuclear = new Item().setUnlocalizedName("thruster_nuclear").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":thruster_nuclear");
 		safety_fuse = new Item().setUnlocalizedName("safety_fuse").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":safety_fuse");
 		part_generic = new ItemGenericPart().setUnlocalizedName("part_generic").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":part_generic");
+		chemical_dye = new ItemChemicalDye().setUnlocalizedName("chemical_dye").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":chemical_dye");
 		
 		undefined = new ItemCustomLore().setUnlocalizedName("undefined").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":undefined");
 
@@ -6355,6 +6357,7 @@ public class ModItems {
 		GameRegistry.registerItem(chlorine_pinwheel, chlorine_pinwheel.getUnlocalizedName());
 		GameRegistry.registerItem(ring_starmetal, ring_starmetal.getUnlocalizedName());
 		GameRegistry.registerItem(deuterium_filter, deuterium_filter.getUnlocalizedName());
+		GameRegistry.registerItem(chemical_dye, chemical_dye.getUnlocalizedName());
 		GameRegistry.registerItem(part_generic, part_generic.getUnlocalizedName());
 		GameRegistry.registerItem(parts_legendary, parts_legendary.getUnlocalizedName());
 		GameRegistry.registerItem(gear_large, gear_large.getUnlocalizedName());

@@ -480,6 +480,13 @@ public class OreDictManager {
 		OreDictionary.registerOre("slabWoodPink", pink_slab);
 		OreDictionary.registerOre("stairWood", pink_stairs);
 		OreDictionary.registerOre("stairWoodPink", pink_stairs);
+		
+		String[] dyes = { "Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "LightGray", "Gray", "Pink", "Lime", "Yellow", "LightBlue", "Magenta", "Orange", "White" };
+		for(int i = 0; i < 16; i++) {
+			String dyeName = "dye" + dyes[i];
+			OreDictionary.registerOre(dyeName, new ItemStack(ModItems.chemical_dye, 1, i));
+			OreDictionary.registerOre("dye", new ItemStack(ModItems.chemical_dye, 1, i));
+		}
 
 		OreDictionary.registerOre("dyeRed", cinnebar);
 		OreDictionary.registerOre("dye", cinnebar);
