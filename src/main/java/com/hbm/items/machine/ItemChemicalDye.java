@@ -12,7 +12,7 @@ import net.minecraft.util.IIcon;
 
 public class ItemChemicalDye extends ItemEnumMulti {
 
-	protected IIcon overlayIcon;
+	@SideOnly(Side.CLIENT) protected IIcon overlayIcon;
 
 	public ItemChemicalDye() {
 		super(EnumChemDye.class, true, false);
