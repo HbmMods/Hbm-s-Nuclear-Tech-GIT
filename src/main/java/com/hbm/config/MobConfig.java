@@ -24,9 +24,9 @@ public class MobConfig {
 	public static int elementalAmount = 10;
 	public static int elementalDistance = 32;
 
-	//public static boolean solution = false;
-	//public static int prchance = 3; //DEBUGGING
-	//public static int prdelay = 60 * 60 * 60;
+	public static boolean disablesolution = true;
+	public static int prchance = 3; //DEBUGGING
+	public static int prdelay = 60 * 60 * 60;
 	
 	public static boolean enableDucks = true;
 	public static boolean enableMobGear = true;
@@ -34,9 +34,9 @@ public class MobConfig {
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY = CommonConfig.CATEGORY_MOBS;
-		//solution= CommonConfig.createConfigBool(config, CATEGORY, "12.X01_Solution", "doesnt solve the problem, but it does stop it.", false);
-		//prdelay = CommonConfig.createConfigInt(config, CATEGORY, "12.X01_maskmanDelay", "How many world ticks need to pass for a check to be performed", 60 * 60 * 60);
-		//prchance = CommonConfig.createConfigInt(config, CATEGORY, "12.X02_maskmanChance", "1:x chance to spawn mask man, must be at least 1", 3);
+		disablesolution= CommonConfig.createConfigBool(config, CATEGORY, "12.X01_Solution", "doesnt solve the problem, but it does stop it.", false);
+		prdelay = CommonConfig.createConfigInt(config, CATEGORY, "12.X01_problemDelay", "How many world ticks need to pass for a check to be performed", 60 * 60 * 60);
+		prchance = CommonConfig.createConfigInt(config, CATEGORY, "12.X02_problemChance", "1:x chance to watch, must be at least 1", 3);
 		
 		enableMaskman = CommonConfig.createConfigBool(config, CATEGORY, "12.M00_enableMaskman", "Whether mask man should spawn", true);
 		maskmanDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.M01_maskmanDelay", "How many world ticks need to pass for a check to be performed", 60 * 60 * 60);

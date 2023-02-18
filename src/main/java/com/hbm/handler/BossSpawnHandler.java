@@ -141,7 +141,27 @@ public class BossSpawnHandler {
 				}
 			}
 		}
+		if(world.getTotalWorldTime() % MobConfig.prdelay == 0) {
+			
+			if(world.rand.nextInt(MobConfig.prchance) == 0 && !world.playerEntities.isEmpty() && world.provider.isSurfaceWorld()) {	//33% chance only if there is a player online
+				
+				EntityPlayer player = (EntityPlayer) world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));	//choose a random player
+				{
+					TextureManager man = Minecraft.getMinecraft().renderEngine;
+
+					Vec3 vec = Vec3.createVectorHelper(75, 0, 0);
+					vec.rotateAroundY((float)(Math.PI * 2) * world.rand.nextFloat());
+					double spawnX = player.posX + vec.xCoord + world.rand.nextGaussian();
+					double spawnZ = player.posZ + vec.zCoord + world.rand.nextGaussian();
+					double spawnY = world.getHeightValue((int)spawnX, (int)spawnZ);
+						//trySpawn(world, (float)spawnX, (float)spawnY, (float)spawnZ, new ParticleProblem(world));
+					ParticleProblem contrail = new ParticleProblem(man, world, spawnX, spawnY, spawnZ);
+					Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+				
+			}
+		}
 	}
+}
 	
 	
 	private static void trySpawn(World world, float x, float y, float z, EntityLiving e) {
