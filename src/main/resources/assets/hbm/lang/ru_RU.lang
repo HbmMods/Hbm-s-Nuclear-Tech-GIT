@@ -148,6 +148,8 @@ achievement.sulfuric.desc=
 achievement.sulfuric=я не должен был окунать свои яйца в серную кислоту.
 achievement.witchtaunter.desc=Эти твари ничего тебе не сделают!
 achievement.witchtaunter=Насмехайтесь над ведьмами
+achievement.inferno.desc="Превратите его в пепел! Этого недостаточно! Сбросьте еще бомбы!"
+achievement.inferno=Операция "Каннибал"
 
 cannery.f1=[ Нажмите f1 для справки ]
 
@@ -668,6 +670,9 @@ desc.watz.pelPowerMulti=Множитель энергии: %s%%
 desc.item.wasteCooling=Охладите в бочке с отработанным топливом
 desc.misc.lctrl=§Удерживайте <§e§oLCTRL§8§o> %s
 desc.misc.lshift=§8Удерживайте <§e§oLSHIFT§8§o> %s
+desc.gui.turbinegas.automode=§2Автоматический режим турбины§r$Нажав кнопку "AUTO", турбина автоматически$отрегулирует выработку электроэнергии$в зависимости от мощности, требуемой от сети
+desc.gui.turbinegas.fuels=§6Принимаемое топливо:
+desc.gui.turbinegas.warning=§cНизкий уровень торлива или смазки!§r
 
 wavelengths.name.ir=Инфракрасный
 wavelengths.name.visible=Видимый свет
@@ -1131,6 +1136,8 @@ hbmfluid.blood=Кровь
 hbmfluid.blood_hot=Горячая кровь
 hbmfluid.nitric_acid=Азотная кислота
 hbmfluid.solvent=Растворитель
+hbmfluid.oxyhydrogen=Гремучий газом
+hbmfluid.syngas=Синтгаз
 
 hbmmat.actinium227=Актиний-227
 hbmmat.advancedalloy=Продвинутый сплав
@@ -1433,6 +1440,9 @@ chem.TNT=Синтез ТНТ
 chem.DYNAMITE=Синтез динамита
 chem.ARSENIC=Экстракция мышьяка
 chem.SULFURIC_ACID=Производство серной кислоты
+chem.AMMONIUM=Затвердевание нитрата аммония
+chem.NITRIC_ACID=Производство азотной кислоты
+chem.SOLVENT=Смешивание органического растворителя
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -2025,6 +2035,8 @@ container.rttySender=Редстоун-радио передатчик
 tile.machine_combustion_engine.name=Промышленный двигатель внутреннего сгорания
 tile.machine_mixer.name=Промышленный смеситель
 container.machineMixer=Промышленный смеситель
+tile.machine_turbinegas.name=Газовая турбина комбинированного цикла
+container.turbinegas=Газовая турбина комбинированного цикла
 
 container.hadron=Ускоритель частиц
 tile.hadron_access.name=Терминал доступа ускорителя частиц
@@ -2816,6 +2828,17 @@ item.ore_nitrated.name=Азотированная %s бедроковая руд
 item.ore_nitrocrystalline.name=Нитрокристаллическая %s бедроковая руда
 item.ore_purified.name=Промытая %s бедроковая руда
 item.ore_separated.name=Отделённая %s бедроковая руда
+item.ore_byproduct.b_iron.name=Железный побочный продукт
+item.ore_byproduct.b_copper.name=Медный побочный продукт
+item.ore_byproduct.b_lithium.name=Литиевый побочный продукт
+item.ore_byproduct.b_lead.name=Свинцовый побочный продукт
+item.ore_byproduct.b_silicon.name=Кремниевый побочный продукт
+item.ore_byproduct.b_calcium.name=Кальциевый побочный продукт
+item.ore_byproduct.b_titanium.name=Титановый побочный продукт
+item.ore_byproduct.b_aluminium.name=Алюминиевый побочный продукт
+item.ore_byproduct.b_sulfur.name=Серный побочный продукт
+item.ore_byproduct.b_bismuth.name=Висмутовый побочный продукт
+item.ammonium_nitrate.name=Нитрат аммония
 
 tile.bobblehead.name=Болванчик
 tile.deco_titanium.name=Титановый декоративный блок
@@ -3018,6 +3041,10 @@ tile.fire_door.name=Пожарная дверь
 item.door_metal.name=Металлическая дверь
 item.door_office.name=Офисная дверь
 item.door_bunker.name=Бункерная дверь
+
+tile.door_metal.name=Металлическая дверь
+tile.door_office.name=Офисная дверь
+tile.door_bunker.name=Бункерная дверь
 
 item.nugget_uranium.name=Урановый самородок
 item.nugget_plutonium.name=Плутониевый самородок
@@ -3565,6 +3592,40 @@ item.pellet_gas.name=Ядовитый газовый баллон
 item.pellet_gas.desc=Используется в многоцелевых бомбах:$*кхе-кхе* Астанавитесь пжлст!
 item.magnetron.name=Магнетрон
 item.powder_thermite.name=Термит
+
+item.chemical_dye.black.name=Химический краситель (Черный)
+item.chemical_dye.blue.name=Химический краситель (Синий)
+item.chemical_dye.brown.name=Химический краситель (Коричневый)
+item.chemical_dye.cyan.name=Химический краситель (Голубой)
+item.chemical_dye.gray.name=Химический краситель (Серый)
+item.chemical_dye.green.name=Химический краситель (Зелёный)
+item.chemical_dye.lightblue.name=Химический краситель (Светло-синий)
+item.chemical_dye.lime.name=Химический краситель (Лаймовый)
+item.chemical_dye.magenta.name=Химический краситель (Пурпурный)
+item.chemical_dye.orange.name=Химический краситель (Оранжевый)
+item.chemical_dye.pink.name=Химический краситель (Розовый)
+item.chemical_dye.purple.name=Химический краситель (Фиолетовый)
+item.chemical_dye.red.name=Химический краситель (Красный)
+item.chemical_dye.silver.name=Химический краситель (Светло-серый)
+item.chemical_dye.white.name=Химический краситель (Белый)
+item.chemical_dye.yellow.name=Химический краситель (Жёлтый)
+
+item.crayon.black.name=Черный мелок
+item.crayon.blue.name=Синий мелок
+item.crayon.brown.name=Коричневый мелок
+item.crayon.cyan.name=Голубой мелок
+item.crayon.gray.name=Серый мелок
+item.crayon.green.name=Зелёный
+item.crayon.lightblue.name=Светло-синий мелок
+item.crayon.lime.name=Лаймовый мелок
+item.crayon.magenta.name=Пурпурный мелок
+item.crayon.orange.name=Оранжевый мелок
+item.crayon.pink.name=Розовый мелок
+item.crayon.purple.name=Фиолетовый мелок
+item.crayon.red.name=Красный мелок
+item.crayon.silver.name=Светло-серый мелок
+item.crayon.white.name=Белый мелок
+item.crayon.yellow.name=Желтый мелок
 
 item.nuke_starter_kit.name=Стартовый набор ядерщика
 item.nuke_commercially_kit.name=Набор ядерщика для продажи
@@ -4378,6 +4439,7 @@ tile.tnt_ntm.name=Настоящий ТНТ
 tile.det_cord.name=Детонирующий шнур
 tile.det_charge.name=Заряд взрывчатки
 tile.det_nuke.name=Ядерный заряд
+tile.fissure_bomb.name=Вулканическая бомба
 tile.det_miner.name=Шахтёрский заряд
 tile.red_barrel.name=Взрывная бочка
 tile.pink_barrel.name=Керосиновая бочка
@@ -4445,6 +4507,7 @@ item.mp_warhead_15_boxcar.name=Грузовой Вагон? 15-го размер
 item.mp_warhead_15_n2.name=N² Мина 15-го размера
 item.mp_warhead_15_balefire.name=Жар-Боеголовка 15-го размера
 item.mp_warhead_15_turbine.name=Реактивный двигатель 15-го размера
+item.mp_warhead_15_nuclear_mimi.name=Голова Мими-чана 15-го размера
 
 item.mp_fuselage_10_kerosene.name=Керосиновый фюзеляж 10-го размера
 item.mp_fuselage_10_kerosene_camo.name=Керосиновый фюзеляж 10-го размера
@@ -4518,6 +4581,7 @@ item.mp_fuselage_15_solid_roses.name=Твердотопливный фюзеля
 item.mp_fuselage_15_hydrogen.name=Водородный фюзеляж 15-го размера
 item.mp_fuselage_15_hydrogen_cathedral.name=Водородный фюзеляж 15-го размера
 item.mp_fuselage_15_balefire.name=Жар-фюзеляж 15-го размера
+item.mp_fuselage_15_solid_mimi.name=Твердотопливный фюзеляж Мими-чана 15-го размера
 
 item.mp_fuselage_15_20_kerosene.name=Керосиновый фюзеляж 15/20 размера
 item.mp_fuselage_15_20_kerosene_magnusson.name=Керосиновый фюзеляж 15/20 размера
@@ -5059,6 +5123,10 @@ item.drillbit_hss.name=Головка бура из высокоскоростн
 item.drillbit_hss_diamond.name=Головка бура из высокоскоростной стали (с алмазным напылением)
 item.drillbit_steel.name=Головка бура из стали
 item.drillbit_steel_diamond.name=Головка бура из стали (с алмазным напылением)
+item.drillbit_ferro.name=Головка бура из ферроурана
+item.drillbit_ferro_diamond.name=Головка бура из ферроурана (с алмазным напылением)
+item.drillbit_tcalloy.name=Головка бура из технециевой стали
+item.drillbit_tcalloy_diamond.name=Головка бура из технециевой стали (с алмазным напылением)
 
 item.stamp_stone_flat.name=Плоский штамп (Камень)
 item.stamp_stone_plate.name=Штамп пластины (Камень)
@@ -5200,6 +5268,7 @@ item.multitool_mega.name=Силовая Перчатка (Суперудар)
 item.multitool_joule.name=Силовая Перчатка (Гигаджоуль)
 item.multitool_decon.name=Силовая Перчатка (Обеззараживатель)
 item.rubber_gloves.name=Толстые резиновые перчатки
+item.ballistitc_gauntlet.name=Баллистическая перчатка
 
 item.australium_iii.name=Увеличитель жизни Марк III
 item.australium_iv.name=Увеличитель жизни Марк IV
