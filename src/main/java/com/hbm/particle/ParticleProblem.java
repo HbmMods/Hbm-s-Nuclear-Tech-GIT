@@ -19,7 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-//@SideOnly(Side.CLIENT)
+
 public class ParticleProblem extends EntityFX {
 
 	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/entity/theproblem.png");
