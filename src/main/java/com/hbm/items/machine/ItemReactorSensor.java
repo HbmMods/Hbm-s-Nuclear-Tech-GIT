@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class ItemReactorSensor extends Item {
@@ -26,6 +27,10 @@ public class ItemReactorSensor extends Item {
 			stack.stackTagCompound.setInteger("x", x);
 			stack.stackTagCompound.setInteger("y", y);
 			stack.stackTagCompound.setInteger("z", z);
+
+			if(world.isRemote) {
+				player.addChatMessage(new ChatComponentText("Position set!"));
+			}
 
 			world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
 
