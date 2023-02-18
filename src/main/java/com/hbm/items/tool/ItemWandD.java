@@ -20,7 +20,9 @@ import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.world.feature.OilSpot;
 import com.hbm.world.generator.DungeonToolbox;
+import com.hbm.extprop.HbmLivingProps;
 
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -33,10 +35,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IntHashMap;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.structure.MapGenStronghold;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class ItemWandD extends Item {
 
@@ -49,6 +53,9 @@ public class ItemWandD extends Item {
 		MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
 		
 		if(pos != null) {
+	
+			
+			
 			
 			TomSaveData data = TomSaveData.forWorld(world);
 			data.impact = false;
@@ -170,6 +177,8 @@ public class ItemWandD extends Item {
 		
 		return stack;
 	}
+
+
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)

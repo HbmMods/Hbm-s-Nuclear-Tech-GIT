@@ -102,7 +102,7 @@ public class CrystallizerRecipes {
 		FluidStack nitric = new FluidStack(Fluids.NITRIC_ACID, 500);
 		FluidStack organic = new FluidStack(Fluids.SOLVENT, 500);
 		FluidStack chloric = new FluidStack(Fluids.HCL, 500);
-		FluidStack schrabidic = new FluidStack(Fluids.SCHRABIDIC, 500);
+		FluidStack schrabidic = new FluidStack(Fluids.SCHRABIDIC, 1000);
 		
 		int oreTime = 200;
 		

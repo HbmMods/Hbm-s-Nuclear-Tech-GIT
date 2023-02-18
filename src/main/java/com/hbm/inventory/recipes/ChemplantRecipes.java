@@ -366,17 +366,14 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(102, "BLOODFUEL", 250)
 				.inputFluids(new FluidStack(Fluids.LIGHTOIL, 700), new FluidStack(Fluids.BLOOD, 700))
 				.outputFluids(new FluidStack(Fluids.BLOODGAS, 800)));
-		recipes.add(new ChemRecipe(103, "SOLVENT", 250)
-				.inputFluids(new FluidStack(Fluids.SEEDSLURRY, 300), new FluidStack(Fluids.SULFURIC_ACID, 300))
-				.outputFluids(new FluidStack(Fluids.SOLVENT, 400)));
-		recipes.add(new ChemRecipe(104, "HCL", 250)
+		recipes.add(new ChemRecipe(103, "HCL", 250)
 				.inputFluids(new FluidStack(Fluids.HYDROGEN, 300))
 				.inputItems(new ComparableStack(ModItems.powder_poison, 10))
 				.outputFluids(new FluidStack(Fluids.HCL, 400)));
-		recipes.add(new ChemRecipe(105, "AMMONIUM", 250)
+		recipes.add(new ChemRecipe(104, "AMMONIUM", 250)
 				.inputFluids(new FluidStack(Fluids.AMMONIA, 500), new FluidStack(Fluids.NITROGEN, 1000))
 				.outputItems(new ItemStack(ModItems.ammonium_nitrate, 4)));
-		recipes.add(new ChemRecipe(106, "ARSENIDE", 250)
+		recipes.add(new ChemRecipe(105, "ARSENIDE", 250)
 				.inputFluids(new FluidStack(Fluids.WATER, 500), new FluidStack(Fluids.LIGHTOIL, 900))
 				.inputItems(
 						new ComparableStack(ModItems.nugget_gallium),
