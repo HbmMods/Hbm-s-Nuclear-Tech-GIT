@@ -2,10 +2,7 @@ package com.hbm.handler;
 
 import java.util.List;
 
-import org.apache.logging.log4j.Level;
-
 import com.hbm.blocks.ModBlocks;
-import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandlerRogue;
 import com.hbm.saveddata.RogueWorldSaveData;
 //import com.hbm.saveddata.TomSaveData;
@@ -19,10 +16,6 @@ import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockVine;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -64,7 +57,6 @@ public class RogueWorldHandler {
 						//if(temp < 0) {
 							freeze(world, X, Y, Z, temp);
 						//}
-	
 					}
 				}
 			}
