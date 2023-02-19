@@ -517,6 +517,8 @@ public class EntityEffectHandler {
 							forward = 1;
 
 						player.addVelocity(lookingIn.xCoord * forward + strafeVec.xCoord * strafe, 0, lookingIn.zCoord * forward + strafeVec.zCoord * strafe);
+						player.motionY = 0;
+						player.fallDistance = 0F;
 						player.playSound("hbm:player.dash", 1.0F, 1.0F);
 						
 						props.setDashCooldown(HbmPlayerProps.dashCooldownLength);

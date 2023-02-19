@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
+import com.hbm.items.special.ItemByproduct.EnumByproduct;
 import com.hbm.main.CraftingManager;
 
 import static com.hbm.inventory.OreDictManager.*;
@@ -442,6 +443,17 @@ public class MineralRecipes {
 		
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_fireclay, 4), new Object[] { Items.clay_ball, Items.clay_ball, Items.clay_ball, AL.dust() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_fireclay, 4), new Object[] { Items.clay_ball, Items.clay_ball, Items.clay_ball, AL.ore() });
+
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_IRON), new ItemStack(ModItems.powder_iron));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_COPPER), new ItemStack(ModItems.powder_copper));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_LITHIUM), new ItemStack(ModItems.powder_lithium));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_SILICON), new ItemStack(ModItems.powder_quartz));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_LEAD), new ItemStack(ModItems.powder_lead));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_TITANIUM), new ItemStack(ModItems.powder_titanium));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_ALUMINIUM), new ItemStack(ModItems.powder_aluminium));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_SULFUR), new ItemStack(ModItems.sulfur));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_CALCIUM), new ItemStack(ModItems.powder_calcium));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_BISMUTH), new ItemStack(ModItems.powder_bismuth));
 	}
 	
 	//Bundled 1/9 recipes

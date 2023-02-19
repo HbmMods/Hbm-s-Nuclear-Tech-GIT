@@ -141,12 +141,12 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 	protected int heatFromBlock(int x, int y, int z) {
 		Block b = worldObj.getBlock(x, y, z);
 		
-		if(b == Blocks.lava || b == Blocks.flowing_lava)	return 200;
-		if(b == ModBlocks.volcanic_lava_block)				return 800;
+		if(b == Blocks.lava || b == Blocks.flowing_lava)	return 25;
+		if(b == ModBlocks.volcanic_lava_block)				return 500;
 		
 		if(b == ModBlocks.ore_volcano) {
 			this.fissureScanTime = worldObj.getTotalWorldTime();
-			return 2_000;
+			return 1_000;
 		}
 		
 		return 0;
@@ -161,7 +161,7 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 		}
 		
 		if(fissure) {
-			heat *= 5;
+			heat *= 3;
 		}
 		
 		return heat;
@@ -187,14 +187,14 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 	private DirPos[] getConPos() {
 		
 		return new DirPos[] {
-				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
-				new DirPos(xCoord + 1, yCoord + 11, zCoord, Library.POS_X),
-				new DirPos(xCoord - 1, yCoord + 11, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord + 11, zCoord + 1, Library.POS_Z),
-				new DirPos(xCoord, yCoord + 11, zCoord - 1, Library.NEG_Z)
+				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z),
+				new DirPos(xCoord + 2, yCoord + 11, zCoord, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord + 11, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord + 11, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord, yCoord + 11, zCoord - 2, Library.NEG_Z)
 		};
 	}
 

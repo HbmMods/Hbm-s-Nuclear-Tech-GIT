@@ -146,6 +146,9 @@ public class ResourceManager {
 	//Magnusson Device
 	public static final IModelCustom microwave = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/microwave.obj"));
 	
+	//Big Man Johnson
+	public static final IModelCustom autosaw = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/autosaw.obj"));
+	
 	//Mining Drill
 	public static final IModelCustom drill_body = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/drill_main.obj"));
 	public static final IModelCustom drill_bolt = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/drill_bolt.obj"));
@@ -470,6 +473,9 @@ public class ResourceManager {
 	
 	//Magnusson Device
 	public static final ResourceLocation microwave_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/microwave.png");
+	
+	//Big Man Johnson
+	public static final ResourceLocation autosaw_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/autosaw.png");
 	
 	//Mining Drill
 	public static final ResourceLocation drill_body_tex = new ResourceLocation(RefStrings.MODID, "textures/models/mining_drill.png");

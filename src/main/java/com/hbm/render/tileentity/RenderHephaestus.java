@@ -2,14 +2,18 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.tileentity.machine.TileEntityMachineHephaestus;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.client.IItemRenderer;
 
-public class RenderHephaestus extends TileEntitySpecialRenderer {
+public class RenderHephaestus extends TileEntitySpecialRenderer implements IItemRendererProvider {
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
@@ -67,5 +71,38 @@ public class RenderHephaestus extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 		
 		GL11.glPopMatrix();
+	}
+
+	@Override
+	public Item getItemForRenderer() {
+		return Item.getItemFromBlock(ModBlocks.machine_hephaestus);
+	}
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -4.5, 0);
+				GL11.glScaled(2.25, 2.25, 2.25);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.5, 0.5, 0.5);
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.hephaestus_tex);
+				ResourceManager.hephaestus.renderPart("Main");
+				
+				GL11.glPushMatrix();
+				
+				for(int i = 0; i < 3; i++) {
+					ResourceManager.hephaestus.renderPart("Rotor");
+					GL11.glRotated(120, 0, 1, 0);
+				}
+				GL11.glEnable(GL11.GL_CULL_FACE);
+				GL11.glShadeModel(GL11.GL_FLAT);
+				GL11.glPopMatrix();
+				bindTexture(RenderExcavator.cobble);
+				ResourceManager.hephaestus.renderPart("Core");
+			}};
 	}
 }
