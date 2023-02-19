@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.apache.logging.log4j.Level;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
@@ -62,6 +61,7 @@ public class ModEventHandlerRogue {
 			RogueWorldSaveData data = RogueWorldSaveData.forWorld(event.world);
 			data.distance = 1F;
 			data.atmosphere = 1F;
+			
 			if(data.star == true && data.rogue == false) {
 				data.rtime ++;
 				data.markDirty();
