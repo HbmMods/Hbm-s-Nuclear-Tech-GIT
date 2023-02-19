@@ -67,6 +67,7 @@ public class ModEventHandlerImpact {
 				data.markDirty();
 			}
 			
+			
 			if(data.time > 0) {
 				data.time--;
 				if(data.time==data.dtime)
