@@ -120,8 +120,9 @@ public class WorldProviderNTM extends WorldProviderSurface {
 	/**
 	 * Return Vec3D with biome specific fog color
 	 */
-	@SideOnly(Side.CLIENT)
+	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public Vec3 getFogColor(float p_76562_1_, float p_76562_2_) {
 		Vec3 fog = super.getFogColor(p_76562_1_, p_76562_2_);
 		float dust = MainRegistry.proxy.getImpactDust(worldObj);

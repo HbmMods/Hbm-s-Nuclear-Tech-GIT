@@ -99,4 +99,5 @@ public class ServerProxy {
 	public boolean getRogue(World world) {
 		return RogueWorldSaveData.forWorld(world).rogue;
 	}
+	
 }

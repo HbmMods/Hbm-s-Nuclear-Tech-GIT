@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.projectile.EntityTom;
@@ -58,21 +60,23 @@ public class ModEventHandlerRogue {
 			
 			RogueWorldHandler.frostEffects(event.world);
 			RogueWorldSaveData data = RogueWorldSaveData.forWorld(event.world);
-			
+			data.distance = 1F;
+			data.atmosphere = 1F;
 			if(data.star == true && data.rogue == false) {
 				data.rtime ++;
 				data.markDirty();
 			}
 			
-			if(data.rtime >= 96000 ) {
+			if(data.rtime >= 1000 ) {
 				data.rogue = true;
 				data.markDirty();
 			}
 			
-			if(data.rogue = true && data.rtime >= 96000 ) {
+			if(data.rogue = true && data.rtime >= 1000 ) { //96000
 				data.distance += escape;
 				data.temperature= ((int) ((5800 * Math.pow((1F/215F)/(2F* data.distance), 0.5) * Math.pow((1f-0.3f), 0.25)) * Math.max(1, (1.125d * Math.pow(data.atmosphere, 0.25)))))-273;
 				data.markDirty();
+				
 			}						
 			
 			/*if(!event.world.loadedEntityList.isEmpty()) {
@@ -134,6 +138,7 @@ public class ModEventHandlerRogue {
     	
     	return (int) (voidTemp-(voidTemp-data.temperature)*((bedrockLevel+Math.min(seaLevel, Y)/(seaLevel+bedrockLevel))));
     }
+    
 
     public static float getSolarBrightness(World world) {
     	RogueWorldSaveData data = RogueWorldSaveData.forWorld(world);
@@ -157,7 +162,7 @@ public class ModEventHandlerRogue {
 	}
     
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onLoad(WorldEvent.Load event) {
+	public void S(WorldEvent.Load event) {
 		
 		if(GeneralConfig.enableImpactWorldProvider) {
 			DimensionManager.unregisterProviderType(0);
