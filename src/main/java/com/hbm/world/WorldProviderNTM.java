@@ -110,6 +110,7 @@ public class WorldProviderNTM extends WorldProviderSurface {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public float getSunBrightnessFactor(float par1) {
 		float dust = MainRegistry.proxy.getImpactDust(worldObj);
 		float sunBr = worldObj.getSunBrightnessFactor(par1);
@@ -162,6 +163,7 @@ public class WorldProviderNTM extends WorldProviderSurface {
 		return Vec3.createVectorHelper((double) f4 * (fire + (1 - dust))*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj), (double) f5 * (fire + (1 - dust))*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj), (double) f6 * (fire + (1 - dust))*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj));
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public Vec3 drawClouds(float partialTicks) {
 		Vec3 clouds = super.drawClouds(partialTicks);
