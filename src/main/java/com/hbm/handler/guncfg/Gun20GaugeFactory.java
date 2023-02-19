@@ -63,7 +63,7 @@ public class Gun20GaugeFactory {
 						)
 				);
 		
-		config.config = HbmCollection.twentyGauge;
+		config.config = HbmCollection.g20;
 		
 		config.ejector = EJECTOR_SHOTGUN;
 		
@@ -82,7 +82,7 @@ public class Gun20GaugeFactory {
 		config.name = "win1887";
 		config.manufacturer = EnumGunManufacturer.WINCHESTER;
 
-		config.config = HbmCollection.twentyGauge;
+		config.config = HbmCollection.g20;
 		
 		return config;
 	}
@@ -99,7 +99,7 @@ public class Gun20GaugeFactory {
 		config.name = "win1887Inox";
 		config.manufacturer = EnumGunManufacturer.WINCHESTER;
 
-		config.config = HbmCollection.twentyGauge;
+		config.config = HbmCollection.g20;
 		
 		return config;
 	}
@@ -135,7 +135,7 @@ public class Gun20GaugeFactory {
 		config.name = "win20Inox";
 		config.manufacturer = EnumGunManufacturer.WINCHESTER;
 		
-		config.config = HbmCollection.twentyGauge;
+		config.config = HbmCollection.g20;
 		
 		return config;
 	}
@@ -171,7 +171,7 @@ public class Gun20GaugeFactory {
 		config.name = "win20Poly";
 		config.manufacturer = EnumGunManufacturer.WINCHESTER;
 		
-		config.config = HbmCollection.twentyGauge;
+		config.config = HbmCollection.g20;
 		
 		return config;
 	}
@@ -207,7 +207,7 @@ public class Gun20GaugeFactory {
 		config.name = "win20Satur";
 		config.manufacturer = EnumGunManufacturer.WINCHESTER_BIGMT;
 		
-		config.config = HbmCollection.twentyGauge;
+		config.config = HbmCollection.g20;
 		
 		return config;
 	}

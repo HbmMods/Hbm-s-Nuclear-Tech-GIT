@@ -77,7 +77,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 
 		if(!worldObj.isRemote) {
 			
-			//meta below 121 means that it's an old multiblock configuration
+			//meta below 12 means that it's an old multiblock configuration
 			if(this.getBlockMetadata() < 12) {
 				//get old direction
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getRotation(ForgeDirection.DOWN);
@@ -316,6 +316,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		
 		mode = nbt.getShort("mode");
 		tank.readFromNBT(nbt, "tank");
+		hasExploded = nbt.getBoolean("exploded");
 	}
 	
 	@Override
@@ -324,6 +325,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		
 		nbt.setShort("mode", mode);
 		tank.writeToNBT(nbt, "tank");
+		nbt.setBoolean("exploded", hasExploded);
 	}
 
 	@Override
