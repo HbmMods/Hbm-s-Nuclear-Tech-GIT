@@ -78,7 +78,7 @@ public class Gun75BoltFactory {
 		config.name = "bolter";
 		config.manufacturer = EnumGunManufacturer.CERIX;
 
-		config.config = HbmCollection.seventyFive;
+		config.config = HbmCollection.b75;
 		
 		return config;
 	}

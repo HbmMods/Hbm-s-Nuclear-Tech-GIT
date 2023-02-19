@@ -72,7 +72,7 @@ public class Gun12GaugeFactory {
 		config.comment.add("\"Here, I have a more suitable gun for you. You'll need it - Catch!\"");
 		config.comment.add("Alt-fire with Mouse 2 (Right-click) to fire 2 shells at once");
 		
-		config.config = HbmCollection.twelveGauge;
+		config.config = HbmCollection.g12;
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("SPAS_RECOIL_TRANSLATE", new BusAnimationSequence()
@@ -109,7 +109,7 @@ public class Gun12GaugeFactory {
 		config.firingSound = "hbm:weapon.shotgunPump";
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		
-		config.config = HbmCollection.twelveGauge;
+		config.config = HbmCollection.g12;
 		
 		config.ejector = EJECTOR_SPAS_ALT;
 
@@ -137,7 +137,7 @@ public class Gun12GaugeFactory {
 		config.name = "uboinik";
 		config.manufacturer = EnumGunManufacturer.METRO;
 
-		config.config = HbmCollection.twelveGauge;
+		config.config = HbmCollection.g12;
 		
 		config.ejector = EJECTOR_UBOINIK;
 		
@@ -190,7 +190,7 @@ public class Gun12GaugeFactory {
 		config.manufacturer = EnumGunManufacturer.UAC;
 		config.comment.add("God-damned ARCH-VILES!");
 		
-		config.config = HbmCollection.twelveGauge;
+		config.config = HbmCollection.g12;
 		
 		config.ejector = EJECTOR_SSG;
 		

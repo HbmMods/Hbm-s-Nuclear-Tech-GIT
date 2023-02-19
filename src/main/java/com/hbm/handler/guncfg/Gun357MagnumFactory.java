@@ -12,6 +12,7 @@ import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
+import com.hbm.lib.HbmCollection;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -200,6 +201,23 @@ public class Gun357MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NIGHT2_REVOLVER);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getRevolverBioConfig() {
+		
+		GunConfiguration config = getBaseConfig();
+		
+		config.durability = 100000;
+		config.firingSound = "hbm:weapon.deagleShoot";
+		config.reloadDuration = 53;
+		config.crosshair = Crosshair.CIRCLE;
+		
+		config.name = "bio";
+		config.manufacturer = EnumGunManufacturer.RYAN;
+		
+		config.config = HbmCollection.acp45;
 		
 		return config;
 	}

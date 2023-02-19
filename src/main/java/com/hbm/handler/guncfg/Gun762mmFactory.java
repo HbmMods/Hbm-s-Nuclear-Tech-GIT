@@ -13,6 +13,10 @@ import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.potion.PotionEffect;
@@ -25,6 +29,49 @@ public class Gun762mmFactory {
 	static {
 		EJECTOR_RIFLE = new CasingEjector().setMotion(-0.35, 0.6, 0).setOffset(-0.35, 0, 0.35).setAngleRange(0.01F, 0.03F);
 		CASING762NATO = new SpentCasing(CasingType.BOTTLENECK).setScale(1.7F).setBounceMotion(0.01F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS);
+	}
+	
+	public static GunConfiguration getCalamityConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 1;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.reloadDuration = 20;
+		config.firingDuration = 0;
+		config.ammoCap = 50;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.NONE;
+		config.durability = 15 * 50 * 10; //15 * capacity * default wear
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.firingSound = "hbm:weapon.calShoot";
+		config.reloadSoundEnd = false;
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+						)
+				);
+		
+		config.animations.put(AnimType.RELOAD, new BusAnimation()
+				.addBus("MAG", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, -1, 0, 500))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
+						)
+				);
+		
+		config.name = "mg3";
+		config.manufacturer = EnumGunManufacturer.WGW;
+		
+		config.config = HbmCollection.r762;
+		
+		config.ejector = EJECTOR_RIFLE;
+		
+		return config;
 	}
 	
 	public static GunConfiguration getUACDMRConfig() {
@@ -49,7 +96,7 @@ public class Gun762mmFactory {
 		config.name = "uacDMR";
 		config.manufacturer = EnumGunManufacturer.UAC;
 
-		config.config.addAll(HbmCollection.threeZeroEight);
+		config.config.addAll(HbmCollection.r762);
 		
 		config.ejector = EJECTOR_RIFLE;
 
@@ -104,7 +151,7 @@ public class Gun762mmFactory {
 		config.manufacturer = EnumGunManufacturer.SACO;
 		config.comment.add("\"Get some!\"");
 		config.comment.add(" ~ Stuart Brown (aka Ahoy)");
-		config.config.addAll(HbmCollection.threeZeroEight);
+		config.config.addAll(HbmCollection.r762);
 		
 		config.ejector = EJECTOR_RIFLE;
 

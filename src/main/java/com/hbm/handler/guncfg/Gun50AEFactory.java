@@ -56,7 +56,7 @@ public class Gun50AEFactory {
 		config.zoomFOV = 0.5F;
 		
 		config.hasSights = true;
-		config.config = HbmCollection.fiftyAE;
+		config.config = HbmCollection.ae50;
 		
 		config.ejector = EJECTOR_PISTOL;
 		
