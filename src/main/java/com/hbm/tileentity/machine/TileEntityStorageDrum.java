@@ -102,7 +102,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					if(item == ModItems.ingot_au198 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 100) == 0) {
 						slots[i] = new ItemStack(ModItems.ingot_mercury, 1, meta);
 					}
-					if(item == ModItems.ingot_au198 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 20) == 0) {
+					if(item == ModItems.nugget_au198 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 20) == 0) {
 						slots[i] = new ItemStack(ModItems.nugget_mercury, 1, meta);
 					}
 					
@@ -111,6 +111,16 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					}
 					if(item == ModItems.nugget_pb209 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 10) == 0) {
 						slots[i] = new ItemStack(ModItems.nugget_bismuth, 1, meta);
+					}
+					if(slots[i]!=null)
+					{
+						if(slots[i].hasTagCompound())
+						{
+							float activation = slots[i].stackTagCompound.getFloat("ntmNeutron");
+							slots[i].stackTagCompound.setFloat("ntmNeutron",activation*0.999916f);
+							if(activation<1e-5)
+								slots[i].stackTagCompound.removeTag("ntmNeutron");
+						}
 					}
 				}
 			}

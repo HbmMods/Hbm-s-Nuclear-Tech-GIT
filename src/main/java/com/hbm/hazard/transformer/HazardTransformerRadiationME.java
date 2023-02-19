@@ -21,13 +21,16 @@ public class HazardTransformerRadiationME extends HazardTransformerBase {
 		if(name.equals("appeng.items.storage.ItemBasicStorageCell") || name.equals("appeng.items.tools.powered.ToolPortableCell")) {
 			List<ItemStack> stacks = Compat.scrapeItemFromME(stack);
 			float radiation = 0;
-			
+			float neutrons = 0;
 			for(ItemStack held : stacks) {
 				radiation += HazardSystem.getHazardLevelFromStack(held, HazardRegistry.RADIATION) * held.stackSize;
+				neutrons += HazardSystem.getHazardLevelFromStack(held, HazardRegistry.NEUTRON) * held.stackSize;
 			}
-			
 			if(radiation > 0) {
 				entries.add(new HazardEntry(HazardRegistry.RADIATION, radiation));
+			}
+			if(neutrons > 0) {
+				entries.add(new HazardEntry(HazardRegistry.NEUTRON, neutrons));
 			}
 		}
 	}

@@ -664,6 +664,23 @@ public class ModEventHandler {
 				        	if(entity instanceof EntityPlayer)
 				        		((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadPoison);
 						}
+						
+			        	if(entity instanceof EntityPlayer)
+			        	{
+			        		EntityPlayer player = (EntityPlayer) entity;
+							int randSlot = rand.nextInt(player.inventory.mainInventory.length);
+							ItemStack stack2 = player.inventory.getStackInSlot(randSlot);
+							if(stack2!=null)
+							{
+								if(stack2.hasTagCompound())
+								{
+									float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
+									if(activation<1e-5)
+										stack2.stackTagCompound.removeTag("ntmNeutron");
+									stack2.stackTagCompound.setFloat("ntmNeutron",activation*0.999916f);		
+								}	
+							}
+			        	}
 					}
 					
 					if(e instanceof EntityItem) {

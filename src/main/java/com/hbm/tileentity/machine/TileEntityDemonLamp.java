@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
+import com.hbm.config.RadiationConfig;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -9,6 +10,9 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -29,6 +33,7 @@ public class TileEntityDemonLamp extends TileEntity {
 		
 		float rads = 100000F;
 		double range = 25D;
+		
 		
 		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x + 0.5, y + 0.5, z + 0.5, x + 0.5, y + 0.5, z + 0.5).expand(range, range, range));
 		
@@ -57,6 +62,41 @@ public class TileEntityDemonLamp extends TileEntity {
 			eRads /= (float)(len * len);
 			
 			ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, eRads);
+			ContaminationUtil.contaminate(e, HazardType.NEUTRON, ContaminationType.CREATIVE, eRads);
+			if(e instanceof EntityPlayer && !RadiationConfig.disableNeutron) {
+				//Random rand = target.getRNG();
+				EntityPlayer player = (EntityPlayer) e;
+				for(int i2 = 0; i2 < player.inventory.mainInventory.length; i2++)
+				{
+					ItemStack stack2 = player.inventory.getStackInSlot(i2);
+					
+					//if(rand.nextInt(100) == 0) {
+						//stack2 = player.inventory.armorItemInSlot(rand.nextInt(4));
+					//}
+					
+					//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
+					if(stack2 != null) {
+							if(!stack2.hasTagCompound())
+								stack2.stackTagCompound = new NBTTagCompound();
+							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
+							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(eRads/stack2.stackSize));
+							
+						//}
+					}
+				}
+				for(int i2 = 0; i2 < player.inventory.armorInventory.length; i2++)
+				{
+					ItemStack stack2 = player.inventory.armorItemInSlot(i2);
+					
+					//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
+					if(stack2 != null) {					
+							if(!stack2.hasTagCompound())
+								stack2.stackTagCompound = new NBTTagCompound();
+							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
+							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(eRads/stack2.stackSize));
+					}
+				}	
+			}
 			
 			if(len < 2) {
 				e.attackEntityFrom(DamageSource.inFire, 100);

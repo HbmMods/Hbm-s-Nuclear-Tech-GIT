@@ -22,6 +22,7 @@ public class RadiationConfig {
 	public static boolean disableHydro = false;
 	public static boolean disableBlinding = false;
 	public static boolean disableFibrosis = false;
+	public static boolean disableNeutron = false;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -49,5 +50,6 @@ public class RadiationConfig {
 		disableHydro = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_04_disableHydroactive", "When turned off, all hydroactive hazards are disabled", false);
 		disableBlinding = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_05_disableBlinding", "When turned off, all blinding hazards are disabled", false);
 		disableFibrosis = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_06_disableFibrosis", "When turned off, all fibrosis hazards are disabled", false);
+		disableNeutron = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_01_disableNeutrons", "When turned off, all neutron radiation hazards are disabled", false);
 	}
 }
