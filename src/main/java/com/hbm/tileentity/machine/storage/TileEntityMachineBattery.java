@@ -206,7 +206,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			//if it's a cable, buffer both the network and all subscribers of the net
 			if(te instanceof IEnergyConductor) {
 				IEnergyConductor con = (IEnergyConductor) te;
-				if(con.getPowerNet() != null) {
+				if(con.canConnect(dir.getOpposite()) && con.getPowerNet() != null) {
 					nets.add(con.getPowerNet());
 					con.getPowerNet().unsubscribe(this);
 					consumers.addAll(con.getPowerNet().getSubscribers());

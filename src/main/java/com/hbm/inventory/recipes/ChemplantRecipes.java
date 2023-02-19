@@ -70,6 +70,13 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(new OreDictStack(S.dust()))
 				.inputFluids(new FluidStack(Fluids.ACID, 800))
 				.outputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500)));
+		recipes.add(new ChemRecipe(92, "NITRIC_ACID", 50)
+				.inputItems(new OreDictStack(KNO.dust()))
+				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500))
+				.outputFluids(new FluidStack(Fluids.NITRIC_ACID, 500)));
+		recipes.add(new ChemRecipe(93, "SOLVENT", 50)
+				.inputFluids(new FluidStack(Fluids.NAPHTHA, 500), new FluidStack(Fluids.AROMATICS, 500))
+				.outputFluids(new FluidStack(Fluids.SOLVENT, 1000)));
 		recipes.add(new ChemRecipe(41, "CIRCUIT_4", 200)
 				.inputItems(
 						new ComparableStack(ModItems.circuit_red_copper),
@@ -368,26 +375,26 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(0, "FP_HEAVYOIL", 50)
 				.inputFluids(new FluidStack(1000, Fluids.HEAVYOIL))
 				.outputFluids(
-						new FluidStack(RefineryRecipes.heavy_frac_bitu * 10, Fluids.BITUMEN),
-						new FluidStack(RefineryRecipes.heavy_frac_smear * 10, Fluids.SMEAR)
+						new FluidStack(FractionRecipes.heavy_frac_bitu * 10, Fluids.BITUMEN),
+						new FluidStack(FractionRecipes.heavy_frac_smear * 10, Fluids.SMEAR)
 						));
 		recipes.add(new ChemRecipe(1, "FP_SMEAR", 50)
 				.inputFluids(new FluidStack(1000, Fluids.SMEAR))
 				.outputFluids(
-						new FluidStack(RefineryRecipes.smear_frac_heat * 10, Fluids.HEATINGOIL),
-						new FluidStack(RefineryRecipes.smear_frac_lube * 10, Fluids.LUBRICANT)
+						new FluidStack(FractionRecipes.smear_frac_heat * 10, Fluids.HEATINGOIL),
+						new FluidStack(FractionRecipes.smear_frac_lube * 10, Fluids.LUBRICANT)
 						));
 		recipes.add(new ChemRecipe(2, "FP_NAPHTHA", 50)
 				.inputFluids(new FluidStack(1000, Fluids.NAPHTHA))
 				.outputFluids(
-						new FluidStack(RefineryRecipes.napht_frac_heat * 10, Fluids.HEATINGOIL),
-						new FluidStack(RefineryRecipes.napht_frac_diesel * 10, Fluids.DIESEL)
+						new FluidStack(FractionRecipes.napht_frac_heat * 10, Fluids.HEATINGOIL),
+						new FluidStack(FractionRecipes.napht_frac_diesel * 10, Fluids.DIESEL)
 						));
 		recipes.add(new ChemRecipe(3, "FP_LIGHTOIL", 50)
 				.inputFluids(new FluidStack(1000, Fluids.LIGHTOIL))
 				.outputFluids(
-						new FluidStack(RefineryRecipes.light_frac_diesel * 10, Fluids.DIESEL),
-						new FluidStack(RefineryRecipes.light_frac_kero * 10, Fluids.KEROSENE)
+						new FluidStack(FractionRecipes.light_frac_diesel * 10, Fluids.DIESEL),
+						new FluidStack(FractionRecipes.light_frac_kero * 10, Fluids.KEROSENE)
 						));
 	}
 

@@ -74,12 +74,12 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 			}
 		}
 
-		boolean pX = Library.canConnectFluid(world, x + 1, y, z, Library.NEG_X, type);
-		boolean nX = Library.canConnectFluid(world, x - 1, y, z, Library.POS_X, type);
-		boolean pY = Library.canConnectFluid(world, x, y + 1, z, Library.NEG_Y, type);
-		boolean nY = Library.canConnectFluid(world, x, y - 1, z, Library.POS_Y, type);
-		boolean pZ = Library.canConnectFluid(world, x, y, z + 1, Library.NEG_Z, type);
-		boolean nZ = Library.canConnectFluid(world, x, y, z - 1, Library.POS_Z, type);
+		boolean pX = Library.canConnectFluid(world, x + 1, y, z, Library.POS_X, type);
+		boolean nX = Library.canConnectFluid(world, x - 1, y, z, Library.NEG_X, type);
+		boolean pY = Library.canConnectFluid(world, x, y + 1, z, Library.POS_Y, type);
+		boolean nY = Library.canConnectFluid(world, x, y - 1, z, Library.NEG_Y, type);
+		boolean pZ = Library.canConnectFluid(world, x, y, z + 1, Library.POS_Z, type);
+		boolean nZ = Library.canConnectFluid(world, x, y, z - 1, Library.NEG_Z, type);
 
 		int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
 		int count = 0 + (pX ? 1 : 0) + (nX ? 1 : 0) + (pY ? 1 : 0) + (nY ? 1 : 0) + (pZ ? 1 : 0) + (nZ ? 1 : 0);

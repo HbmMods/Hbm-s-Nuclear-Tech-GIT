@@ -50,10 +50,10 @@ public class ItemPistons extends ItemEnumMulti {
 	}
 	
 	public static enum EnumPistonType {
-		STEEL		(1.00, 0.75, 0.25, 0.00),
-		DURA		(0.50, 1.00, 0.90, 0.50),
-		DESH		(0.00, 0.50, 1.00, 0.75),
-		STARMETAL	(0.50, 0.75, 1.00, 0.90);
+		STEEL		(1.00, 0.75, 0.25, 0.00, 0.00),
+		DURA		(0.50, 1.00, 0.90, 0.50, 0.00),
+		DESH		(0.00, 0.50, 1.00, 0.75, 0.00),
+		STARMETAL	(0.50, 0.75, 1.00, 0.90, 0.50);
 		
 		public double[] eff;
 		

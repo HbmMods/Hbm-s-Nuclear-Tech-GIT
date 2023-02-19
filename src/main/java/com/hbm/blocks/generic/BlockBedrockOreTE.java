@@ -98,6 +98,7 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 		return Blocks.bedrock.getIcon(0, 0);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 
