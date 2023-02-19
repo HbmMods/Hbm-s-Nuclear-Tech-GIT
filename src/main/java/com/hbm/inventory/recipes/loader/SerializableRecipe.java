@@ -43,11 +43,14 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new ChemplantRecipes());
 		recipeHandlers.add(new CrucibleRecipes());
 		recipeHandlers.add(new CentrifugeRecipes());
+		recipeHandlers.add(new FractionRecipes());
+		recipeHandlers.add(new CrackingRecipes());
 		recipeHandlers.add(new LiquefactionRecipes());
 		recipeHandlers.add(new SolidificationRecipes());
 		recipeHandlers.add(new CyclotronRecipes());
 		recipeHandlers.add(new HadronRecipes());
 		recipeHandlers.add(new FuelPoolRecipes());
+		recipeHandlers.add(new MixerRecipes());
 		recipeHandlers.add(new MatDistribution());
 	}
 	
@@ -213,7 +216,7 @@ public abstract class SerializableRecipe {
 			OreDictStack ore = (OreDictStack) astack;
 			writer.value("dict");			//DICT identifier
 			writer.value(ore.name);			//dict name
-			writer.value(ore.stacksize);	//stacksize
+			if(ore.stacksize != 1) writer.value(ore.stacksize);	//stacksize
 		}
 		writer.endArray();
 		writer.setIndent("  ");

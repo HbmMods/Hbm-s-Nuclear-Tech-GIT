@@ -46,11 +46,11 @@ public class EntityBombletZeta extends EntityThrowable {
     		if(!this.worldObj.isRemote)
     		{
     			if(type == 0) {
-    				ExplosionLarge.explode(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 5.0F, true, false, false);
+    				ExplosionLarge.explode(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 5.0F, true, false, false, this);
     	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "hbm:entity.bombDet", 25.0F, 0.8F + rand.nextFloat() * 0.4F);
     			}
     			if(type == 1) {
-    				ExplosionLarge.explode(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 2.5F, false, false, false);
+    				ExplosionLarge.explode(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 2.5F, false, false, false, this);
     				ExplosionChaos.burn(worldObj, (int)posX, (int)posY, (int)posZ, 9);
     				ExplosionChaos.flameDeath(worldObj, (int)posX, (int)posY, (int)posZ, 14);
     	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "hbm:entity.bombDet", 25.0F, 1.0F);

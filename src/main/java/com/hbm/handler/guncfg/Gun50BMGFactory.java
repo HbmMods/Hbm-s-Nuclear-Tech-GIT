@@ -49,77 +49,6 @@ public class Gun50BMGFactory {
 		CASINGLUNA = new SpentCasing(CasingType.BOTTLENECK).setScale(4F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(0.125F, 0.5D, 60, 30);
 	}
 	
-	public static GunConfiguration getCalamityConfig() {
-		
-		GunConfiguration config = new GunConfiguration();
-		
-		config.rateOfFire = 1;
-		config.roundsPerCycle = 1;
-		config.gunMode = GunConfiguration.MODE_NORMAL;
-		config.firingMode = GunConfiguration.FIRE_AUTO;
-		config.reloadDuration = 20;
-		config.firingDuration = 0;
-		config.ammoCap = 50;
-		config.reloadType = GunConfiguration.RELOAD_FULL;
-		config.allowsInfinity = true;
-		config.crosshair = Crosshair.NONE;
-		config.durability = 15 * 50 * 10; //15 * capacity * default wear
-		config.reloadSound = GunConfiguration.RSOUND_MAG;
-		config.firingSound = "hbm:weapon.calShoot";
-		config.reloadSoundEnd = false;
-		
-		config.animations.put(AnimType.CYCLE, new BusAnimation()
-				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
-						)
-				);
-		
-		config.animations.put(AnimType.RELOAD, new BusAnimation()
-				.addBus("MAG", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, -1, 0, 500))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
-						)
-				);
-		
-		config.name = "mg42";
-		config.manufacturer = EnumGunManufacturer.WGW;
-		
-		config.config = HbmCollection.fiftyBMG;
-		
-		config.ejector = EJECTOR_BMG;
-		
-		return config;
-	}
-	
-	public static GunConfiguration getSaddleConfig() {
-		
-		GunConfiguration config = new GunConfiguration();
-		
-		config.rateOfFire = 3;
-		config.roundsPerCycle = 1;
-		config.gunMode = GunConfiguration.MODE_NORMAL;
-		config.firingMode = GunConfiguration.FIRE_AUTO;
-		config.reloadDuration = 30;
-		config.firingDuration = 0;
-		config.ammoCap = 100;
-		config.reloadType = GunConfiguration.RELOAD_FULL;
-		config.allowsInfinity = true;
-		config.crosshair = Crosshair.L_BOX;
-		config.durability = 3500;
-		config.reloadSound = GunConfiguration.RSOUND_MAG;
-		config.firingSound = "hbm:weapon.calShoot";
-		
-		config.name = "maximDouble";
-		config.manufacturer = EnumGunManufacturer.UNKNOWN;
-		
-		config.config = HbmCollection.fiftyBMG;
-		
-		config.ejector = EJECTOR_BMG;
-		
-		return config;
-	}
-	
 	public static BulletConfiguration getLunaticSabotRound() {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 
@@ -183,7 +112,7 @@ public class Gun50BMGFactory {
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.NONE;
-		config.durability = 100000;
+		config.durability = 100_000;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:turret.howard_fire";
 		
@@ -205,6 +134,41 @@ public class Gun50BMGFactory {
 		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK);
 		
 		config.ejector = EJECTOR_BMG;
+		
+		return config;
+	}
+	
+	public static GunConfiguration getM2Config() {
+		GunConfiguration config = getAR15Config();
+		
+		config.rateOfFire = 2;
+		config.durability *= 10;
+		config.ammoCap = 0;
+		config.crosshair = Crosshair.L_BOX;
+		config.reloadType = GunConfiguration.RELOAD_NONE;
+		config.hasSights = true;
+		config.zoomFOV = 0.66F;
+		config.allowsInfinity = true;
+		config.durability = 10_000;
+		config.firingSound = "hbm:turret.chekhov_fire";
+		config.equipSound = "hbm:turret.howard_reload";
+		
+		config.name = "m2";
+		config.manufacturer = EnumGunManufacturer.COLT;
+		config.comment.add("\"A single man can do unbelievable things...");
+		config.comment.add("A single man with a .50 cal machine gun can do even more.\"");
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+						)
+				);
+		
+		config.ejector = EJECTOR_BMG;
+		
+		config.config.clear();
+		config.config.addAll(HbmCollection.bmg50);
 		
 		return config;
 	}
