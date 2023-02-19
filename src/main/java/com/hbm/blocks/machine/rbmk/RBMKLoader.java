@@ -18,8 +18,8 @@ public class RBMKLoader extends BlockGeneric implements IFluidConnectorBlock {
 
 	@Override
 	public boolean canConnect(FluidType type, IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
-		if(type.hasTrait(FT_Heatable.class)) return dir == ForgeDirection.DOWN;
-		return type.hasTrait(FT_Coolable.class) && dir != ForgeDirection.DOWN;
+		if(dir == ForgeDirection.UP) return type.hasTrait(FT_Heatable.class);
+		return type.hasTrait(FT_Coolable.class);
 	}
 
 }

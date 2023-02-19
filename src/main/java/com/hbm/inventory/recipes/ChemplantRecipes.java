@@ -71,12 +71,9 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(new OreDictStack(S.dust()))
 				.inputFluids(new FluidStack(Fluids.ACID, 800))
 				.outputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500)));
-<<<<<<< HEAD
 		recipes.add(new ChemRecipe(92, "SOLVENT", 50)
 				.inputFluids(new FluidStack(Fluids.NAPHTHA, 500), new FluidStack(Fluids.AROMATICS, 500))
 				.outputFluids(new FluidStack(Fluids.SOLVENT, 1000)));
-=======
->>>>>>> parent of 20f900224 (Merge branch 'hopefullya' of https://github.com/JameH2/Hbm-s-Nuclear-Tech-GIT into hopefullya)
 		recipes.add(new ChemRecipe(41, "CIRCUIT_4", 200)
 				.inputItems(
 						new ComparableStack(ModItems.circuit_red_copper),

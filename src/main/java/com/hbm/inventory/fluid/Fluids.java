@@ -106,11 +106,7 @@ public class Fluids {
 	public static FluidType BLOODGAS;
 	private static FluidType BLOOD_HOT;
 	public static FluidType SOLVENT; //oranic solvent in fact
-<<<<<<< HEAD
 	public static FluidType HCL;
-=======
-
->>>>>>> parent of 20f900224 (Merge branch 'hopefullya' of https://github.com/JameH2/Hbm-s-Nuclear-Tech-GIT into hopefullya)
 
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
@@ -234,11 +230,8 @@ public class Fluids {
 		AIR =				new FluidType("AIR",				0xD1CEBE, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 		BLOOD_HOT =			new FluidType(89, "BLOOD_HOT",		0x890404, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID).setTemp(666);//0xE4E3EF
 		SOLVENT =			new FluidType(90, "SOLVENT",		0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
-<<<<<<< HEAD
 		HCL =				new FluidType("HCL",				0x00D452, 3, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(30), LIQUID);
 		MINSOL =			new FluidType("MINSOL",				0xFADF6A, 3, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(10), LIQUID);
-=======
->>>>>>> parent of 20f900224 (Merge branch 'hopefullya' of https://github.com/JameH2/Hbm-s-Nuclear-Tech-GIT into hopefullya)
 		//TODO: fire diamonds
 		//sh
 

@@ -72,7 +72,7 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 
 	@Override
 	public boolean canConnect(ForgeDirection dir) {
-		return true;
+		return dir != ForgeDirection.UNKNOWN;
 	}
 
 	@Override
