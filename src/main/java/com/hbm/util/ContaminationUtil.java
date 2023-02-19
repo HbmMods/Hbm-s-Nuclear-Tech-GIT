@@ -2,6 +2,7 @@ package com.hbm.util;
 
 import java.util.HashSet;
 
+import com.hbm.config.RadiationConfig;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityQuackos;
@@ -159,6 +160,8 @@ public class ContaminationUtil {
 
 		double eRad = ((int)(HbmLivingProps.getRadiation(player) * 10)) / 10D;
 
+		double neut = ((int)(HbmLivingProps.getNeutronActivation(player) * 10)) / 10D;
+		
 		double rads = ((int)(ChunkRadiationManager.proxy.getRadiation(world, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ)) * 10)) / 10D;
 		double env = ((int)(HbmLivingProps.getRadBuf(player) * 10D)) / 10D;
 		
@@ -192,6 +195,7 @@ public class ContaminationUtil {
 		player.addChatMessage(new ChatComponentTranslation("geiger.chunkRad").appendSibling(new ChatComponentText(" " + chunkPrefix + rads + " RAD/s")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 		player.addChatMessage(new ChatComponentTranslation("geiger.envRad").appendSibling(new ChatComponentText(" " + envPrefix + env + " RAD/s")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 		player.addChatMessage(new ChatComponentTranslation("geiger.playerRad").appendSibling(new ChatComponentText(" " + radPrefix + eRad + " RAD")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+		player.addChatMessage(new ChatComponentTranslation("geiger.playerAct").appendSibling(new ChatComponentText(" " + envPrefix + neut + " RAD/s")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 		player.addChatMessage(new ChatComponentTranslation("geiger.playerRes").appendSibling(new ChatComponentText(" " + resPrefix + res + "% (" + resKoeff + ")")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 	}
 	
@@ -244,6 +248,7 @@ public class ContaminationUtil {
 	
 	public static enum HazardType {
 		RADIATION,
+		NEUTRON,
 		DIGAMMA
 	}
 	
@@ -270,6 +275,11 @@ public class ContaminationUtil {
 			HbmLivingProps.setRadEnv(entity, radEnv + amount);
 		}
 		
+		if(hazard == HazardType.NEUTRON && !RadiationConfig.disableNeutron) {
+			float radEnv = HbmLivingProps.getRadEnv(entity);
+			HbmLivingProps.setRadEnv(entity, radEnv + amount*10);
+		}
+		
 		if(entity instanceof EntityPlayer) {
 			
 			EntityPlayer player = (EntityPlayer)entity;
@@ -294,6 +304,7 @@ public class ContaminationUtil {
 		
 		switch(hazard) {
 		case RADIATION: HbmLivingProps.incrementRadiation(entity, amount * (cont == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity))); break;
+		case NEUTRON: HbmLivingProps.incrementNeutronActivation(entity, amount * (cont == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity))); break;
 		case DIGAMMA: HbmLivingProps.incrementDigamma(entity, amount); break;
 		}
 		

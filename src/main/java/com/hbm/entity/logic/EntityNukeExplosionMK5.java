@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Level;
 
 import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.RadiationConfig;
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRayBatched;
@@ -17,6 +18,7 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
@@ -128,6 +130,36 @@ public class EntityNukeExplosionMK5 extends Entity {
 			eRads /= (float)(len * len);
 			
 			ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, eRads);
+			ContaminationUtil.contaminate(e, HazardType.NEUTRON, ContaminationType.CREATIVE, eRads);
+			if(e instanceof EntityPlayer && !RadiationConfig.disableNeutron) {
+				//Random rand = target.getRNG();
+				EntityPlayer player = (EntityPlayer) e;
+				for(int i2 = 0; i2 < player.inventory.mainInventory.length; i2++)
+				{
+					ItemStack stack2 = player.inventory.getStackInSlot(i2);
+					
+					if(stack2 != null) {
+							if(!stack2.hasTagCompound())
+								stack2.stackTagCompound = new NBTTagCompound();
+							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
+							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(eRads/stack2.stackSize));
+							
+						//}
+					}
+				}
+				for(int i2 = 0; i2 < player.inventory.armorInventory.length; i2++)
+				{
+					ItemStack stack2 = player.inventory.armorItemInSlot(i2);
+					
+					//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
+					if(stack2 != null) {					
+							if(!stack2.hasTagCompound())
+								stack2.stackTagCompound = new NBTTagCompound();
+							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
+							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(eRads/stack2.stackSize));
+					}
+				}	
+			}
 		}
 	}
 

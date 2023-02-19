@@ -999,6 +999,7 @@ geiger.chunkRad=Current chunk radiation:
 geiger.envRad=Total environmental radiation:
 geiger.playerRad=Player contamination:
 geiger.playerRes=Player resistance:
+geiger.playerAct=Player radioactivity:
 geiger.title=GEIGER COUNTER
 geiger.title.dosimeter=DOSIMETER
 
@@ -5050,6 +5051,7 @@ trait.hlParticle=Particle Half-Life: %s
 trait.hlPlayer=Player Half-Life: %s
 trait.hot=Pyrophoric / Hot
 trait.hydro=Hydroreactive
+trait.neutron=Neutron Radiation
 trait.radioactive=Radioactive
 trait.radResistance=Radiation resistance: %s
 
