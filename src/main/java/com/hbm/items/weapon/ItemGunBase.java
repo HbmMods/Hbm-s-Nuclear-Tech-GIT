@@ -164,11 +164,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	//whether or not the gun can shoot in its current state
 	protected boolean tryShoot(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
-		if(getIsReloading(stack) && mainConfig.reloadType == mainConfig.RELOAD_SINGLE) {
-			setReloadCycle(stack, 0);
-			setIsReloading(stack, false);
-		}
-		
 		if(main && getDelay(stack) == 0 && !getIsReloading(stack) && getItemWear(stack) < mainConfig.durability) {
 			return hasAmmo(stack, player, main);
 		}
@@ -317,10 +312,11 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		}
 		
 		if(getReloadCycle(stack) <= 0) {
+
 			
 			BulletConfiguration prevCfg = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
 			
-			if(getMag(stack) == 0)
+			if (getMag(stack) == 0)
 				resetAmmoType(stack, world, player);
 			
 			BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));

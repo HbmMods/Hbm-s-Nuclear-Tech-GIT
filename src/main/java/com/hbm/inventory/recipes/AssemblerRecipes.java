@@ -919,14 +919,6 @@ public class AssemblerRecipes {
 				new OreDictStack(OreDictManager.getReflector(), 8),
 				new OreDictStack(CU.plate(), 12)
 			}, 150);
-		
-		makeRecipe(new ComparableStack(ModBlocks.machine_hephaestus, 1), new AStack[] {
-				new ComparableStack(ModItems.pipes_steel, 1),
-				new OreDictStack(STEEL.ingot(), 12),
-				new OreDictStack(CU.plate(), 24),
-				new OreDictStack(RUBBER.ingot(), 8),
-				new ComparableStack(ModBlocks.glass_quartz, 16)
-			}, 150);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);

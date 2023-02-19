@@ -25,15 +25,12 @@ import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.entity.mob.EntityTaintedCreeper;
-import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BobmazonOfferFactory;
 import com.hbm.handler.BossSpawnHandler;
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
@@ -49,7 +46,6 @@ import com.hbm.items.armor.ItemModRevive;
 import com.hbm.items.armor.ItemModShackles;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.ItemGunBase;
-import com.hbm.lib.HbmCollection;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
@@ -64,8 +60,6 @@ import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.EntityDamageUtil;
-import com.hbm.util.EnumUtil;
-import com.hbm.util.InventoryUtil;
 import com.hbm.world.generator.TimedGenerator;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -129,7 +123,6 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
@@ -812,47 +805,6 @@ public class ModEventHandler {
 		
 		if(e.inventory.armorInventory[2] != null && e.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
 			((ArmorFSB)e.inventory.armorInventory[2].getItem()).handleFall(e);
-	}
-	
-	@SubscribeEvent
-	public void onPlayerPunch(AttackEntityEvent event) {
-		
-		EntityPlayer player = event.entityPlayer;
-		ItemStack chestplate = player.inventory.armorInventory[2];
-		
-		if(player.getHeldItem() == null && chestplate != null && ArmorModHandler.hasMods(chestplate)) {
-			ItemStack[] mods = ArmorModHandler.pryMods(chestplate);
-			ItemStack servo = mods[ArmorModHandler.servos];
-			
-			if(servo != null && servo.getItem() == ModItems.ballistic_gauntlet) {
-				
-				BulletConfiguration firedConfig = null;
-
-				for(Integer config : HbmCollection.g12) {
-					BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
-					
-					if(InventoryUtil.doesPlayerHaveAStack(player, cfg.ammo, true, true)) {
-						firedConfig = cfg;
-						break;
-					}
-				}
-				
-				if(firedConfig != null) {
-					int bullets = firedConfig.bulletsMin;
-					
-					if(firedConfig.bulletsMax > firedConfig.bulletsMin) {
-						bullets += player.getRNG().nextInt(firedConfig.bulletsMax - firedConfig.bulletsMin);
-					}
-					
-					for(int i = 0; i < bullets; i++) {
-						EntityBulletBase bullet = new EntityBulletBase(player.worldObj, BulletConfigSyncingUtil.getKey(firedConfig), player);
-						player.worldObj.spawnEntityInWorld(bullet);
-					}
-					
-					player.worldObj.playSoundAtEntity(player, "hbm:weapon.shotgunShoot", 1.0F, 1.0F);
-				}
-			}
-		}
 	}
 	
 	@SubscribeEvent

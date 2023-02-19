@@ -70,7 +70,7 @@ public class Gun556mmFactory {
 		//config.config = new ArrayList();
 		//config.config.add(BulletConfigSyncingUtil.R556_GOLD);
 		
-		config.config = HbmCollection.r556;
+		config.config = HbmCollection.NATO;
 		
 		return config;
 	}
@@ -109,7 +109,7 @@ public class Gun556mmFactory {
 		config.comment.add("Find his arms nailed to the trees");
 		config.comment.add("Napalm sticks to kids");
 
-		config.config = HbmCollection.r556Flechette;
+		config.config = HbmCollection.NATOFlechette;
 		
 		config.ejector = EJECTOR_RIFLE;
 		

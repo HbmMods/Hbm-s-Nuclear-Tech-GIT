@@ -61,7 +61,7 @@ public class Gun44MagnumFactory {
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.reloadSoundEnd = false;
 		
-		config.config.addAll(HbmCollection.m44Normal);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		config.ejector = EJECTOR_PIP;
 		
@@ -100,7 +100,7 @@ public class Gun44MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_PIP);
-		config.config.addAll(HbmCollection.m44Normal);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -118,7 +118,7 @@ public class Gun44MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_BJ);
-		config.config.addAll(HbmCollection.m44Normal);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		config.ejector = EJECTOR_PIP.clone().setAmount(5);
 		
@@ -139,7 +139,7 @@ public class Gun44MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_SILVER);
-		config.config.addAll(HbmCollection.m44Normal);
+		config.config.addAll(HbmCollection.fourtyFourMagBasic);
 		
 		return config;
 	}
@@ -157,7 +157,7 @@ public class Gun44MagnumFactory {
 		config.comment.add("...from afar!");
 		
 		config.config = new ArrayList<Integer>();
-		config.config.addAll(HbmCollection.m44All);
+		config.config.addAll(HbmCollection.fourtyFourMagAll);
 		
 		config.ejector = EJECTOR_PIP.clone().setAmount(64);
 		

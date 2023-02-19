@@ -341,14 +341,6 @@ public class AnvilRecipes {
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
-						new OreDictStack(STEEL.plate(), 12),
-						new OreDictStack(IRON.ingot(), 8),
-						new OreDictStack(CU.ingot(), 2),
-						new ComparableStack(ModItems.sawblade)
-				}, new AnvilOutput(new ItemStack(ModBlocks.machine_autosaw))).setTier(2));
-
-		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {
 						new OreDictStack(STEEL.ingot(), 6),
 						new OreDictStack(IRON.plate(), 8),
 						new OreDictStack(ANY_PLASTIC.ingot(), 4),
@@ -549,7 +541,7 @@ public class AnvilRecipes {
 			{ModItems.ammo_44.stackFromEnum(10, Ammo44Magnum.STOCK),		ModItems.pellet_chlorophyte,	ModItems.ammo_44.stackFromEnum(10, Ammo44Magnum.CHLOROPHYTE),	3},
 
 			{ModItems.ammo_45.stackFromEnum(20, Ammo45ACP.STOCK),			DURA.ingot(),					ModItems.ammo_45.stackFromEnum(20, Ammo45ACP.AP),				3},
-			{ModItems.ammo_45.stackFromEnum(10, Ammo45ACP.STOCK),			U238.ingot(),					ModItems.ammo_45.stackFromEnum(10, Ammo45ACP.DU),				3},
+			{ModItems.ammo_45.stackFromEnum(10, Ammo45ACP.DU),				U238.ingot(),					ModItems.ammo_45.stackFromEnum(10, Ammo45ACP.DU),				3},
 
 			{ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.STOCK),	ModItems.ingot_semtex,					ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.EXPLOSIVE),		2},
 			{ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.STOCK),	U238.ingot(),							ModItems.ammo_5mm.stackFromEnum(100, Ammo5mm.DU),				2},

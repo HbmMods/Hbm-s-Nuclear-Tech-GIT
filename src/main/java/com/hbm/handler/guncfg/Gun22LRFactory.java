@@ -45,7 +45,7 @@ public class Gun22LRFactory {
 		config.manufacturer = EnumGunManufacturer.IMI;
 		config.comment.add("Mom, where are my mittens?");
 		
-		config.config = HbmCollection.lr22;
+		config.config = HbmCollection.twentyTwoLR;
 		
 		config.ejector = EJECTOR_22LR;
 		
@@ -61,7 +61,7 @@ public class Gun22LRFactory {
 		config.name = "uziSatur";
 		config.manufacturer = EnumGunManufacturer.IMI_BIGMT;
 
-		config.config = HbmCollection.lr22Inc;
+		config.config = HbmCollection.twentyTwoLRFire;
 		
 		return config;
 	}
