@@ -1,9 +1,16 @@
 package com.hbm.blocks.bomb;
 
+import org.apache.logging.log4j.Level;
+
+import com.hbm.config.GeneralConfig;
+import com.hbm.main.MainRegistry;
+
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
@@ -53,5 +60,14 @@ public class DetCord extends Block implements IDetConnectible {
 			world.setBlock(x, y, z, Blocks.air);
 			world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 1.5F, true);
 		}
+	}
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+	if(!world.isRemote) {
+			if(GeneralConfig.enableExtendedLogging) {
+			MainRegistry.logger.log(Level.INFO, "[BOMBPL]" + this.getLocalizedName() + " placed at " + x + " / " + y + " / " + z + "! " + "by "+ player.getCommandSenderName());
+		}	
+	}
+
 	}
 }

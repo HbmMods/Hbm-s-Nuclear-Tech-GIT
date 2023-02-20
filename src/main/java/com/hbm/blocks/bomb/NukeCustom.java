@@ -2,6 +2,8 @@ package com.hbm.blocks.bomb;
 
 import java.util.Random;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
@@ -15,6 +17,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
+import com.hbm.config.GeneralConfig;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -234,7 +237,12 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		if (i == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		}
+		if(!world.isRemote) {
+			if(GeneralConfig.enableExtendedLogging) {
+				MainRegistry.logger.log(Level.INFO, "[BOMBPL]" + this.getLocalizedName() + " placed at " + x + " / " + y + " / " + z + "! " + "by "+ player.getCommandSenderName());
+		}	
 	}
+}
 
 	@Override
 	public BombReturnCode explode(World world, int x, int y, int z) {

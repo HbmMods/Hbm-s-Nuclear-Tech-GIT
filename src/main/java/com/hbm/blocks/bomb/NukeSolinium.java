@@ -2,8 +2,11 @@ package com.hbm.blocks.bomb;
 
 import java.util.Random;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
+import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityCloudSolinium;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.interfaces.IBomb;
@@ -164,7 +167,12 @@ public class NukeSolinium extends BlockContainer implements IBomb {
 		if(i == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		}
+		if(!world.isRemote) {
+			if(GeneralConfig.enableExtendedLogging) {
+				MainRegistry.logger.log(Level.INFO, "[BOMBPL]" + this.getLocalizedName() + " placed at " + x + " / " + y + " / " + z + "! " + "by "+ player.getCommandSenderName());
+		}	
 	}
+}
 
 	@Override
 	public BombReturnCode explode(World world, int x, int y, int z) {

@@ -1,7 +1,11 @@
 package com.hbm.blocks.bomb;
 
+import org.apache.logging.log4j.Level;
+
+import com.hbm.config.GeneralConfig;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityFireworks;
 
 import cpw.mods.fml.relauncher.Side;
@@ -9,9 +13,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemDye;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
@@ -93,6 +99,14 @@ public class BlockFireworks extends BlockContainer {
 		player.addChatComponentMessage(new ChatComponentTranslation(this.getUnlocalizedName() + ".message", te.message).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 		
 		return true;
+	}
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+	if(!world.isRemote) {
+			if(GeneralConfig.enableExtendedLogging) {
+			MainRegistry.logger.log(Level.INFO, "[BOMBPL]" + this.getLocalizedName() + " placed at " + x + " / " + y + " / " + z + "! " + "by "+ player.getCommandSenderName());
+		}	
+	}
 	}
 
 }

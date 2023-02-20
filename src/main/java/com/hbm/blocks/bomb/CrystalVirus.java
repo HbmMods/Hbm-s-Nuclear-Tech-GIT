@@ -2,13 +2,17 @@ package com.hbm.blocks.bomb;
 
 import java.util.Random;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class CrystalVirus extends Block {
@@ -47,6 +51,7 @@ public class CrystalVirus extends Block {
     		}
 			world.setBlock(x, y, z, ModBlocks.crystal_hardened);
     	}
+    	
     }
     
     @Override

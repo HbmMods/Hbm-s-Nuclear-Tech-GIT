@@ -1,11 +1,17 @@
 package com.hbm.blocks.bomb;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.blocks.machine.BlockMachineBase;
+import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.IBomb;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeBalefire;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -44,6 +50,14 @@ public class NukeBalefire extends BlockMachineBase implements IBomb {
 			explode(world, x, y, z);
 		}
 	}
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+		if(!world.isRemote) {
+			if(GeneralConfig.enableExtendedLogging) {
+				MainRegistry.logger.log(Level.INFO, "[BOMBPL]" + this.getLocalizedName() + " placed at " + x + " / " + y + " / " + z + "! " + "by "+ player.getCommandSenderName());
+		}	
+	}
+	}
 
 	@Override
 	public BombReturnCode explode(World world, int x, int y, int z) {
@@ -63,3 +77,4 @@ public class NukeBalefire extends BlockMachineBase implements IBomb {
 	}
 
 }
+

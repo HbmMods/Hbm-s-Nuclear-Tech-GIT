@@ -1,8 +1,12 @@
 package com.hbm.blocks.bomb;
 
+import org.apache.logging.log4j.Level;
+
+import com.hbm.config.GeneralConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.interfaces.IBomb;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -46,6 +50,12 @@ public class BlockPlasticExplosive extends Block implements IBomb {
 	public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
 		int l = determineOrientation(p_149689_1_, p_149689_2_, p_149689_3_, p_149689_4_, p_149689_5_);
 		p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, l, 2);
+		
+		if(!p_149689_1_.isRemote) {
+				if(GeneralConfig.enableExtendedLogging) {
+				MainRegistry.logger.log(Level.INFO, "[BOMBPL]" + this.getLocalizedName() + " placed at " + p_149689_2_ + " / " + p_149689_3_ + " / " + p_149689_4_ + "! " + "by "+ p_149689_5_.getCommandSenderName());
+			}	
+		}
 	}
 
 	public static int determineOrientation(World world, int x, int y, int z, EntityLivingBase player) {
@@ -89,4 +99,5 @@ public class BlockPlasticExplosive extends Block implements IBomb {
 		
 		return BombReturnCode.DETONATED;
 	}
+	
 }

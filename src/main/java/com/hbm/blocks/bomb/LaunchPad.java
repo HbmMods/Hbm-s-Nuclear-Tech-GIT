@@ -148,6 +148,11 @@ public class LaunchPad extends BlockContainer implements IBomb {
 		if(i == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		}
+		if(!world.isRemote) {
+			if(GeneralConfig.enableExtendedLogging) {
+				MainRegistry.logger.log(Level.INFO, "[BOMBPL]" + this.getLocalizedName() + " placed at " + x + " / " + y + " / " + z + "! " + "by "+ player.getCommandSenderName());
+		}	
+	}
 	}
 
 	/*

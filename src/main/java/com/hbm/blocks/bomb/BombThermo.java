@@ -2,18 +2,24 @@ package com.hbm.blocks.bomb;
 
 import java.util.Random;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
@@ -82,4 +88,12 @@ public class BombThermo extends Block implements IBomb {
 		world.createExplosion(null, x, y, z, 5.0F, true);
 		return BombReturnCode.DETONATED;
 	}
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+	if(!world.isRemote) {
+			if(GeneralConfig.enableExtendedLogging) {
+			MainRegistry.logger.log(Level.INFO, "[BOMBPL]" + this.getLocalizedName() + " placed at " + x + " / " + y + " / " + z + "! " + "by "+ player.getCommandSenderName());
+		}	
+	}
+}
 }

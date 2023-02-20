@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
@@ -77,6 +78,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLever;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -187,6 +189,7 @@ public class ModEventHandler {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.beta));
 		}
 	}
+	
 
 	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing event)  {
@@ -1226,6 +1229,28 @@ public class ModEventHandler {
 		}
 		
 	}
+	@SubscribeEvent
+	public void onPull(PlayerInteractEvent event) {
+		int x = event.x;
+		int y = event.y;
+		int z = event.z;
+		World world = event.world;
+		
+		if(!world.isRemote && event.action == Action.RIGHT_CLICK_BLOCK && world.getBlock(x, y, z) == Blocks.lever) {
+			
+			EntityPlayer player = event.entityPlayer;
+			BlockLever sign = (BlockLever)world.getBlock(x, y, z);
+			
+
+			MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by " + player.getDisplayName() + "!");
+			
+			//System.out.println(result);
+		
+			}
+		}
+	
+	
+		
 	
 	private String smoosh(String s1, String s2, String s3, String s4) {
 		

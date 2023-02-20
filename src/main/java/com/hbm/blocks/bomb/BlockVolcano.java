@@ -3,12 +3,16 @@ package com.hbm.blocks.bomb;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.entity.projectile.EntityShrapnel;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -19,6 +23,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -276,5 +281,13 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 			dPart.setString("mode", "volcano");
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(dPart, xCoord + 0.5, yCoord + 10, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 10, zCoord + 0.5, 250));
 		}
+	}
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+	if(!world.isRemote) {
+			if(GeneralConfig.enableExtendedLogging) {
+			MainRegistry.logger.log(Level.INFO, "[BOMBPL]" + this.getLocalizedName() + " placed at " + x + " / " + y + " / " + z + "! " + "by "+ player.getCommandSenderName());
+		}	
+	}
 	}
 }

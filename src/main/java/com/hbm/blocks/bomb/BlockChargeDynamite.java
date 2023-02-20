@@ -1,9 +1,15 @@
 package com.hbm.blocks.bomb;
 
+import org.apache.logging.log4j.Level;
+
+import com.hbm.config.GeneralConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class BlockChargeDynamite extends BlockChargeBase {
@@ -30,5 +36,13 @@ public class BlockChargeDynamite extends BlockChargeBase {
 	@Override
 	public int getRenderType() {
 		return renderID;
+	}
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+	if(!world.isRemote) {
+			if(GeneralConfig.enableExtendedLogging) {
+			MainRegistry.logger.log(Level.INFO, "[BOMBPL]" + this.getLocalizedName() + " placed at " + x + " / " + y + " / " + z + "! " + "by "+ player.getCommandSenderName());
+		}	
+	}
 	}
 }
