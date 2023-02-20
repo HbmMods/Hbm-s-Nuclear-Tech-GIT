@@ -253,5 +253,23 @@
     "alarm.classic": {"category": "record", "sounds": [{"name": "alarm/classicSiren", "stream": false}]},
     "alarm.gambit": {"category": "record", "sounds": [{"name": "alarm/gambit", "stream": true}]},
     "alarm.soyuzed": {"category": "record", "sounds": [{"name": "alarm/soyuzed", "stream": false}]},
-    "alarm.chime": {"category": "record", "sounds": [{"name": "alarm/chime", "stream": false}]}
+    "alarm.chime": {"category": "record", "sounds": [{"name": "alarm/chime", "stream": false}]},
+    "alarm.ducc": {
+        "category": "record",
+        "sounds": [
+          {
+            "name": "alarm/ducc",
+            "stream": false
+          }
+        ]
+      },
+      "alarm.mama": {
+        "category": "record",
+        "sounds": [
+          {
+            "name": "alarm/mama",
+            "stream": false
+          }
+        ]
+      }
 }
