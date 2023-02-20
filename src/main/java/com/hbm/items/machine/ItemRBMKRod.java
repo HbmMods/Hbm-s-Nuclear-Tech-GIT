@@ -231,7 +231,7 @@ public class ItemRBMKRod extends Item {
 		LINEAR(EnumChatFormatting.RED + "DANGEROUS / LINEAR"),				//x * reactivity
 		QUADRATIC(EnumChatFormatting.RED + "DANGEROUS / QUADRATIC"),		//x^2 / 100 * reactivity
 		EXPERIMENTAL(EnumChatFormatting.RED + "EXPERIMENTAL / SINE SLOPE"), 	//x * (sin(x) + 1)
-		TEST(EnumChatFormatting.GREEN + "wooo-ooo-ooooo");
+		VONGO(EnumChatFormatting.GREEN + "wooo-ooo-ooooo");
 		
 		public String title = "";
 		
@@ -258,7 +258,7 @@ public class ItemRBMKRod extends Item {
 		case LINEAR: return flux / 100D * reactivity;
 		case QUADRATIC: return flux * flux / 10000D * reactivity;
 		case EXPERIMENTAL: return flux * (Math.sin(flux) + 1) * reactivity;
-		case TEST: return Math.sqrt(2 * flux + 30) / 10 * reactivity /2.5;
+		case VONGO: return Math.sqrt(2 * flux + 30) / 10 * reactivity /2.5;
 		}
 		
 		return 0;
@@ -287,7 +287,7 @@ public class ItemRBMKRod extends Item {
 			break;
 		case EXPERIMENTAL: function = "%1$s * (sin(%1$s) + 1) * %2$s";
 			break;
-		case TEST: function = "sqrt(2 * %1$s + 30) /10 * %2$s / 2.5";
+		case VONGO: function = "sqrt(2 * %1$s + 30) / 10 * %2$s / 2.5";
 		    break;
 		default: function = "ERROR";
 		}
@@ -311,7 +311,7 @@ public class ItemRBMKRod extends Item {
 		BOOSTED_SLOPE,	//for strong breeding fuels such Th232, maximum of 132% at 64% depletion
 		GENTLE_SLOPE,	//recommended for most fuels, maximum barely over the start, near the beginning
 		STATIC, 		//for arcade-style neutron sources
-		TEST;           //newguy thing, very strong and intended to simulate californium buildup in curium rods, caps at ~193% around 60% depletion
+		CF_SLOPE;           //newguy thing, very strong and intended to simulate californium buildup in curium rods, caps at ~193% around 60% depletion
 	}
 	
 	public double reactivityModByEnrichment(double enrichment) {
@@ -323,7 +323,7 @@ public class ItemRBMKRod extends Item {
 		case BOOSTED_SLOPE: return enrichment + Math.sin((enrichment - 1) * (enrichment - 1) * Math.PI); //x + sin([x - 1]^2 * pi) works
 		case RAISING_SLOPE: return enrichment + (Math.sin(enrichment * Math.PI) / 2D); //x + (sin(x * pi) / 2) actually works
 		case GENTLE_SLOPE: return enrichment + (Math.sin(enrichment * Math.PI) / 3D); //x + (sin(x * pi) / 3) also works
-		case TEST: return enrichment + (Math.sin(enrichment * Math.PI)) * 1.4;
+		case CF_SLOPE: return enrichment + (Math.sin(enrichment * Math.PI)) * 1.4;
 		}
 	}
 	
