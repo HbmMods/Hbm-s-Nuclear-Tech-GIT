@@ -3333,9 +3333,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_drill, machine_drill.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_autosaw, machine_autosaw.getUnlocalizedName());
 		register(machine_excavator);
-		GameRegistry.registerBlock(machine_mining_laser, ItemBlockBase.class, machine_mining_laser.getUnlocalizedName());
-		GameRegistry.registerBlock(barricade, barricade.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_turbofan, ItemBlockBase.class, machine_turbofan.getUnlocalizedName());
+		register(machine_mining_laser);
+		register(barricade);
+		register(machine_turbofan);
+		register(machine_turbinegas);
 		GameRegistry.registerBlock(machine_schrabidium_transmutator, machine_schrabidium_transmutator.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_combine_factory, machine_combine_factory.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_teleporter, machine_teleporter.getUnlocalizedName());
