@@ -1070,6 +1070,7 @@ public class ModBlocks {
 
 	public static Block machine_turbofan;
 	public static final int guiID_machine_turbofan = 52;
+	public static Block machine_turbinegas;
 
 	
 	public static Block machine_selenium;
