@@ -86,6 +86,7 @@ public class ModBlocks {
 
 	public static Block ore_random;
 	public static Block ore_bedrock;
+	public static Block ore_volcano;
 	
 	public static Block ore_bedrock_coltan;
 
@@ -1426,6 +1427,7 @@ public class ModBlocks {
 		
 		ore_random = new BlockMotherOfAllOres().setBlockName("ore_random").setCreativeTab(MainRegistry.blockTab);
 		ore_bedrock = new BlockBedrockOreTE().setBlockName("ore_bedrock").setCreativeTab(null);
+		ore_volcano = new BlockFissure().setBlockName("ore_volcano").setLightLevel(1F).setCreativeTab(MainRegistry.blockTab);
 
 		depth_brick = new BlockDepth().setBlockName("depth_brick").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":depth_brick");
 		depth_tiles = new BlockDepth().setBlockName("depth_tiles").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":depth_tiles");
@@ -2581,6 +2583,7 @@ public class ModBlocks {
 		
 		//Bedrock ore
 		register(ore_bedrock);
+		register(ore_volcano);
 		
 		//Crystals
 		GameRegistry.registerBlock(crystal_power, crystal_power.getUnlocalizedName());
