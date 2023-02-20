@@ -288,6 +288,9 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 				break;
 			case XENON:
 				break;
+			case HYDRAZINE:
+				smoke = "exHydrazine";
+			break;
 			}
 
 			for(int i = 0; i < velocity; i++)

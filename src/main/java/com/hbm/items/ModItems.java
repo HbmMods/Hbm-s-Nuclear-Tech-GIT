@@ -6516,7 +6516,7 @@ public class ModItems {
 		GameRegistry.registerItem(magnet_circular, magnet_circular.getUnlocalizedName());
 		//GameRegistry.registerItem(cyclotron_tower, cyclotron_tower.getUnlocalizedName());
 		GameRegistry.registerItem(reactor_core, reactor_core.getUnlocalizedName());
-		GameRegistry.registerItem(rtg_unit, rtg_unit.getUnlocalizedName());
+		GameRegistry.registerItem(rtg_unit, rtg_unit.getUnlocalizedName()); 
 		//GameRegistry.registerItem(thermo_unit_empty, thermo_unit_empty.getUnlocalizedName());
 		//GameRegistry.registerItem(thermo_unit_endo, thermo_unit_endo.getUnlocalizedName());
 		//GameRegistry.registerItem(thermo_unit_exo, thermo_unit_exo.getUnlocalizedName());
