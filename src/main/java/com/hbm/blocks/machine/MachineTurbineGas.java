@@ -22,7 +22,7 @@ public class MachineTurbineGas extends BlockDummyable implements ILookOverlay {
 	
 	public MachineTurbineGas(Material mat) {
 		super(mat);
-	}
+	} //github
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
