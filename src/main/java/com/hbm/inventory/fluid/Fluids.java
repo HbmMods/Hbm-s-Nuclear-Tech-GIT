@@ -106,7 +106,8 @@ public class Fluids {
 	private static FluidType BLOOD_HOT;
 	public static FluidType SOLVENT; //oranic solvent in fact
 	public static FluidType HCL;
-
+	public static FluidType SYNGAS;
+	public static FluidType OXYHYDROGEN;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -230,9 +231,8 @@ public class Fluids {
 		BLOOD_HOT =			new FluidType(89, "BLOOD_HOT",		0x890404, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID).setTemp(666);//0xE4E3EF
 		SOLVENT =			new FluidType(90, "SOLVENT",		0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
 		HCL =				new FluidType("HCL",				0x00D452, 3, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(30), LIQUID);
-		//TODO: fire diamonds
-		//sh
-
+		SYNGAS =			new FluidType("SYNGAS",				0x131313, 1, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
+		OXYHYDROGEN =		new FluidType(94, "OXYHYDROGEN",	0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -291,6 +291,8 @@ public class Fluids {
 		metaOrder.add(GAS);
 		metaOrder.add(PETROLEUM);
 		metaOrder.add(LPG);
+		metaOrder.add(SYNGAS);
+		metaOrder.add(OXYHYDROGEN);
 		metaOrder.add(AROMATICS);
 		metaOrder.add(UNSATURATEDS);
 		metaOrder.add(DIESEL);
@@ -411,7 +413,7 @@ public class Fluids {
 		/// the allmighty excel spreadsheet has spoken! ///
 		registerCalculatedFuel(OIL, (baseline / 1D * flammabilityLow * demandLow), 0, null);
 		registerCalculatedFuel(CRACKOIL, (baseline / 1D * flammabilityLow * demandLow * complexityCracking), 0, null);
-		registerCalculatedFuel(GAS, (baseline / 1D * flammabilityNormal * demandVeryLow), 0, null);
+		registerCalculatedFuel(GAS, (baseline / 1D * flammabilityNormal * demandVeryLow), 1.25, FuelGrade.GAS);
 		registerCalculatedFuel(HEAVYOIL, (baseline / 0.5 * flammabilityLow * demandLow * complexityRefinery), 1.25D, FuelGrade.LOW);
 		registerCalculatedFuel(SMEAR, (baseline / 0.35 * flammabilityLow * demandLow * complexityRefinery * complexityFraction), 1.25D, FuelGrade.LOW);
 		registerCalculatedFuel(RECLAIMED, (baseline / 0.28 * flammabilityLow * demandLow * complexityRefinery * complexityFraction * complexityChemplant), 1.25D, FuelGrade.LOW);
@@ -427,7 +429,7 @@ public class Fluids {
 		registerCalculatedFuel(LIGHTOIL, (baseline / 0.15 * flammabilityNormal * demandHigh * complexityRefinery), 1.5D, FuelGrade.MEDIUM);
 		registerCalculatedFuel(LIGHTOIL_CRACK, (baseline / 0.30 * flammabilityNormal * demandHigh * complexityRefinery * complexityCracking), 1.5D, FuelGrade.MEDIUM);
 		registerCalculatedFuel(KEROSENE, (baseline / 0.09 * flammabilityNormal * demandHigh * complexityRefinery * complexityFraction), 1.5D, FuelGrade.AERO);
-		registerCalculatedFuel(PETROLEUM, (baseline / 0.10 * flammabilityNormal * demandMedium * complexityRefinery), 0, null);
+		registerCalculatedFuel(PETROLEUM, (baseline / 0.10 * flammabilityNormal * demandMedium * complexityRefinery), 1.25, FuelGrade.GAS);
 		registerCalculatedFuel(AROMATICS, (baseline / 0.15 * flammabilityLow * demandHigh * complexityRefinery * complexityCracking), 0, null);
 		registerCalculatedFuel(UNSATURATEDS, (baseline / 0.15 * flammabilityHigh * demandHigh * complexityRefinery * complexityCracking), 0, null);
 		registerCalculatedFuel(LPG, (baseline / 0.05 * flammabilityNormal * demandMedium * complexityRefinery * complexityChemplant), 2.5, FuelGrade.HIGH);
@@ -442,13 +444,16 @@ public class Fluids {
 
 		registerCalculatedFuel(ETHANOL, 275_000D /* diesel / 2 */, 2.5D, FuelGrade.HIGH);
 
-		registerCalculatedFuel(BIOGAS, 250_000D * flammabilityLow /* biofuel with half compression, terrible flammability */, 0, null);
+		registerCalculatedFuel(BIOGAS, 250_000D * flammabilityLow /* biofuel with half compression, terrible flammability */, 1.25, FuelGrade.GAS);
 		registerCalculatedFuel(BIOFUEL, 500_000D /* slightly below diesel */, 2.5D, FuelGrade.HIGH);
 
 		registerCalculatedFuel(WOODOIL, 110_000 /* 20_000 TU per 250mB + a bonus */, 0, null);
 		registerCalculatedFuel(COALCREOSOTE, 250_000 /* 20_000 TU per 100mB + a bonus */, 0, null);
-		
-		registerCalculatedFuel(SOLVENT, 100_000, 0, null);
+
+		registerCalculatedFuel(SOLVENT, 100_000, 0, null); // flammable, sure, but not combustable
+
+		registerCalculatedFuel(SYNGAS, (coalHeat * (1000 /* bucket */ / 100 /* mB per coal */) * flammabilityLow * demandLow * complexityChemplant) * 1.5, 1.25, FuelGrade.GAS); //same as coal oil, +50% bonus
+		registerCalculatedFuel(OXYHYDROGEN, 5_000, 3, FuelGrade.GAS); // whatever
 	}
 	
 	private static void registerCalculatedFuel(FluidType type, double base, double combustMult, FuelGrade grade) {

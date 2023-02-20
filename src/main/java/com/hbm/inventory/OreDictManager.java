@@ -161,8 +161,9 @@ public class OreDictManager {
 	public static final DictFrame TCALLOY = new DictFrame("TcAlloy");
 	/** LEAD */ 
 	public static final DictFrame PB = new DictFrame("Lead");
-	//public static final DictFrame BI = new DictFrame("Bismuth");
+	public static final DictFrame BI = new DictFrame("Bismuth");
 	public static final DictFrame AS = new DictFrame("Arsenic");
+	public static final DictFrame CA = new DictFrame("Calcium");
 	/** TANTALUM */ 
 	public static final DictFrame TA = new DictFrame("Tantalum");
 	public static final DictFrame COLTAN = new DictFrame("Coltan");
@@ -353,8 +354,9 @@ public class OreDictManager {
 		STAINLESS															.ingot(ingot_stainless)			 																	.plate(plate_stainless);		
 		TCALLOY																.ingot(ingot_tcalloy)												.dust(powder_tcalloy);
 		PB			.nugget(nugget_lead)									.ingot(ingot_lead)													.dust(powder_lead)				.plate(plate_lead)				.block(block_lead)			.ore(ore_lead, ore_meteor_lead);
-		//BI		.nugget(nugget_bismuth)									.ingot(ingot_bismuth); THAT'S WHAT YOU THOUGHT!
+		BI			.nugget(nugget_bismuth)									.ingot(ingot_bismuth)												.dust(powder_bismuth);
 		AS			.nugget(nugget_arsenic)									.ingot(ingot_arsenic);
+		CA																	.ingot(ingot_calcium)												.dust(powder_calcium);
 		TA			.nugget(nugget_tantalium)	.gem(gem_tantalium)			.ingot(ingot_tantalium)												.dust(powder_tantalium)											.block(block_tantalium);
 		COLTAN																.ingot(fragment_coltan)												.dust(powder_coltan_ore)										.block(block_coltan)		.ore(ore_coltan);
 		NB			.nugget(fragment_niobium)								.ingot(ingot_niobium)			.dustSmall(powder_niobium_tiny)		.dust(powder_niobium)											.block(block_niobium);
@@ -511,6 +513,17 @@ public class OreDictManager {
 		OreDictionary.registerOre("slabWoodPink", pink_slab);
 		OreDictionary.registerOre("stairWood", pink_stairs);
 		OreDictionary.registerOre("stairWoodPink", pink_stairs);
+		
+		String[] dyes = { "Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "LightGray", "Gray", "Pink", "Lime", "Yellow", "LightBlue", "Magenta", "Orange", "White" };
+		for(int i = 0; i < 16; i++) {
+			String dyeName = "dye" + dyes[i];
+			
+			OreDictionary.registerOre(dyeName, new ItemStack(ModItems.chemical_dye, 1, i));
+			OreDictionary.registerOre("dye", new ItemStack(ModItems.chemical_dye, 1, i));
+			
+			OreDictionary.registerOre(dyeName, new ItemStack(ModItems.crayon, 1, i));
+			OreDictionary.registerOre("dye", new ItemStack(ModItems.crayon, 1, i));
+		}
 
 		OreDictionary.registerOre("dyeRed", cinnebar);
 		OreDictionary.registerOre("dye", cinnebar);

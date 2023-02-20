@@ -88,7 +88,7 @@ public class Gun4GaugeFactory {
 		config.name = "ks23";
 		config.manufacturer = EnumGunManufacturer.TULSKY;
 
-		config.config = HbmCollection.fourGauge;
+		config.config = HbmCollection.g4;
 		
 		return config;
 	}
@@ -135,7 +135,7 @@ public class Gun4GaugeFactory {
 						)
 				);
 		
-		config.config = HbmCollection.fourGauge;
+		config.config = HbmCollection.g4;
 		
 		return config;
 	}

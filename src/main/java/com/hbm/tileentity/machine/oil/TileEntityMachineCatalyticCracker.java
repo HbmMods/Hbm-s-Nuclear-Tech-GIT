@@ -10,7 +10,7 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.recipes.RefineryRecipes;
+import com.hbm.inventory.recipes.CrackingRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -93,7 +93,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 	
 	private void crack() {
 		
-		Pair<FluidStack, FluidStack> quart = RefineryRecipes.getCracking(tanks[0].getTankType());
+		Pair<FluidStack, FluidStack> quart = CrackingRecipes.getCracking(tanks[0].getTankType());
 		
 		if(quart != null) {
 			
@@ -101,7 +101,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 			int right = quart.getValue().fill;
 			
 			for(int i = 0; i < 2; i++) {
-				if(tanks[0].getFill() >= 100 && tanks[1].getFill() >= 100 && hasSpace(left, right)) {
+				if(tanks[0].getFill() >= 100 && tanks[1].getFill() >= 200 && hasSpace(left, right)) {
 					tanks[0].setFill(tanks[0].getFill() - 100);
 					tanks[1].setFill(tanks[1].getFill() - 200);
 					tanks[2].setFill(tanks[2].getFill() + left);
@@ -113,12 +113,12 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 	}
 	
 	private boolean hasSpace(int left, int right) {
-		return tanks[2].getFill() + left <= tanks[2].getMaxFill() && tanks[3].getFill() + right <= tanks[3].getMaxFill() && tanks[4].getFill() + 200 <= tanks[4].getMaxFill();
+		return tanks[2].getFill() + left <= tanks[2].getMaxFill() && tanks[3].getFill() + right <= tanks[3].getMaxFill() && tanks[4].getFill() + 2 <= tanks[4].getMaxFill();
 	}
 	
 	private void setupTanks() {
 		
-		Pair<FluidStack, FluidStack> quart = RefineryRecipes.getCracking(tanks[0].getTankType());
+		Pair<FluidStack, FluidStack> quart = CrackingRecipes.getCracking(tanks[0].getTankType());
 		
 		if(quart != null) {
 			tanks[1].setTankType(Fluids.STEAM);

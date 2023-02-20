@@ -176,7 +176,12 @@ public class BulletConfigSyncingUtil {
 	public static int R556_FLECHETTE_SLEEK = i++;
 	public static int R556_K = i++;
 	
-	public static int W308 = i++;
+	public static int R762_NORMAL = i++;
+	public static int R762_PHOSPHORUS = i++;
+	public static int R762_AP = i++;
+	public static int R762_DU = i++;
+	public static int R762_TRACER = i++;
+	public static int R762_K = i++;
 
 	public static int B75_NORMAL = i++;
 	public static int B75_INCENDIARY = i++;
@@ -453,7 +458,12 @@ public class BulletConfigSyncingUtil {
 		configSet.put(R556_FLECHETTE_SLEEK, Gun556mmFactory.get556FlechetteSleekConfig());
 		configSet.put(R556_K, Gun556mmFactory.get556KConfig());
 
-		configSet.put(W308, Gun762mmFactory.get762NATOConfig());
+		configSet.put(R762_NORMAL, Gun762mmFactory.get762NATOConfig());
+		configSet.put(R762_PHOSPHORUS, Gun762mmFactory.get762WPConfig());
+		configSet.put(R762_AP, Gun762mmFactory.get762APConfig());
+		configSet.put(R762_DU, Gun762mmFactory.get762DUConfig());
+		configSet.put(R762_TRACER, Gun762mmFactory.get762TracerConfig());
+		configSet.put(R762_K, Gun762mmFactory.get762BlankConfig());
 		
 		configSet.put(B75_NORMAL, Gun75BoltFactory.get75BoltConfig());
 		configSet.put(B75_INCENDIARY, Gun75BoltFactory.get75BoltIncConfig());

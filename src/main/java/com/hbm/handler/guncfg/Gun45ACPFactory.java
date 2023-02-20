@@ -2,9 +2,7 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
@@ -19,39 +17,12 @@ import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
-import net.minecraft.util.Vec3;
-
 public class Gun45ACPFactory {
 	
-	private static final CasingEjector EJECTOR_REVOLVER;
 	private static final SpentCasing CASING45;
 	
 	static {
-		EJECTOR_REVOLVER = new CasingEjector().setMotion(Vec3.createVectorHelper(0, 0, -0.03)).setOffset(Vec3.createVectorHelper(0, -0.15, 0)).setAngleRange(0.01F, 0.05F).setAfterReload().setAmount(6);
 		CASING45 = new SpentCasing(CasingType.STRAIGHT).setBounceMotion(0.01F, 0.05F).setScale(1.25F, 1.25F, 1F).setColor(SpentCasing.COLOR_CASE_BRASS).register("45ACP");
-	}
-	
-	public static GunConfiguration getBaseConfig() {
-		
-		GunConfiguration config = new GunConfiguration();
-		
-		config.rateOfFire = 10;
-		config.roundsPerCycle = 1;
-		config.gunMode = GunConfiguration.MODE_NORMAL;
-		config.firingMode = GunConfiguration.FIRE_MANUAL;
-		config.reloadDuration = 10;
-		config.firingDuration = 0;
-		config.ammoCap = 6;
-		config.reloadType = GunConfiguration.RELOAD_FULL;
-		config.allowsInfinity = true;
-		config.crosshair = Crosshair.L_CLASSIC;
-		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
-		config.firingSound = "hbm:weapon.revolverShoot";
-		config.reloadSoundEnd = false;
-		
-		config.ejector = EJECTOR_REVOLVER;
-		
-		return config;
 	}
 
 	public static GunConfiguration getThompsonConfig() {
@@ -77,25 +48,8 @@ public class Gun45ACPFactory {
 		config.manufacturer = EnumGunManufacturer.AUTO_ORDINANCE;
 
 		config.config = new ArrayList<Integer>();
-		config.config.addAll(HbmCollection.fourtyFiveACP);
+		config.config.addAll(HbmCollection.acp45);
 
-		return config;
-	}
-	
-	public static GunConfiguration getRevolverBioConfig() {
-		
-		GunConfiguration config = getBaseConfig();
-		
-		config.durability = 100000;
-		config.firingSound = "hbm:weapon.deagleShoot";
-		config.reloadDuration = 53;
-		config.crosshair = Crosshair.CIRCLE;
-		
-		config.name = "bio";
-		config.manufacturer = EnumGunManufacturer.RYAN;
-		
-		config.config = HbmCollection.fourtyFiveACP;
-		
 		return config;
 	}
 
@@ -121,7 +75,7 @@ public class Gun45ACPFactory {
 		config.name = "uacPistol";
 		config.manufacturer = EnumGunManufacturer.UAC;
 
-		config.config.addAll(HbmCollection.fourtyFiveACP);
+		config.config.addAll(HbmCollection.acp45);
 
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("SLIDE", new BusAnimationSequence()
@@ -158,7 +112,7 @@ public class Gun45ACPFactory {
 		config.name = "uacSMG";
 		config.manufacturer = EnumGunManufacturer.UAC;
 
-		config.config.addAll(HbmCollection.fourtyFiveACP);
+		config.config.addAll(HbmCollection.acp45);
 
 		return config;
 	}
