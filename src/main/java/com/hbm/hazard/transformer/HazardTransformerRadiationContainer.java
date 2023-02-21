@@ -41,7 +41,7 @@ public class HazardTransformerRadiationContainer extends HazardTransformerBase {
 		
 		if(isBox) {
 
-			ItemStack[] fromNBT = ItemStackUtil.readStacksFromNBT(stack);
+			ItemStack[] fromNBT = ItemStackUtil.readStacksFromNBT(stack, 20);
 			if(fromNBT == null) return;
 			
 			for(ItemStack held : fromNBT) {

@@ -54,10 +54,10 @@ public class ItemLeadBox extends Item implements IGUIProvider {
 			if(!box.hasTagCompound())
 				box.setTagCompound(new NBTTagCompound());
 			
-			ItemStack[] fromNBT = ItemStackUtil.readStacksFromNBT(box);
+			ItemStack[] fromNBT = ItemStackUtil.readStacksFromNBT(box, slots.length);
 			
 			if(fromNBT != null) {
-				for(int i = 0; i < Math.min(slots.length, fromNBT.length); i++) {
+				for(int i = 0; i < slots.length; i++) {
 					slots[i] = fromNBT[i];
 				}
 			}
