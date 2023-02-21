@@ -11,6 +11,7 @@ import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
+import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
 import com.hbm.blocks.network.BlockCablePaintable.TileEntityCablePaintable;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.blocks.network.FluidDuctGauge.TileEntityPipeGauge;
@@ -78,6 +79,7 @@ public class TileMappings {
 		put(TileEntityHatch.class, "tileentity_seal_lid");
 		put(TileEntityMachineIGenerator.class, "tileentity_igenerator");
 		put(TileEntityDummy.class, "tileentity_dummy");
+		put(TileEntityPartEmitter.class, "tileentity_partemitter");
 		put(TileEntityMachineCyclotron.class, "tileentity_cyclotron");
 		put(TileEntityOilDuct.class, "tileentity_oil_duct");
 		put(TileEntityOilDuctSolid.class, "tileentity_oil_duct_solid");

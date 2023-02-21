@@ -41,7 +41,7 @@ public class PartEmitter extends BlockContainer implements IToolable, ITooltipPr
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityEmitter();
+		return new TileEntityPartEmitter();
 	}
 	
 	@Override
@@ -62,14 +62,14 @@ public class PartEmitter extends BlockContainer implements IToolable, ITooltipPr
 		if(world.isRemote)
 			return true;
 		
-		TileEntityEmitter te = (TileEntityEmitter)world.getTileEntity(x, y, z);
+		TileEntityPartEmitter te = (TileEntityPartEmitter)world.getTileEntity(x, y, z);
 		return false;
 	}
 
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 
-		TileEntityEmitter te = (TileEntityEmitter)world.getTileEntity(x, y, z);
+		TileEntityPartEmitter te = (TileEntityPartEmitter)world.getTileEntity(x, y, z);
 		if(tool == ToolType.HAND_DRILL) {
 			te.effect = (te.effect + 1) % te.effectCount;
 			te.markDirty();
@@ -79,10 +79,19 @@ public class PartEmitter extends BlockContainer implements IToolable, ITooltipPr
 		return false;
 	}
 
-	public static class TileEntityEmitter extends TileEntity implements INBTPacketReceiver {
+	public static class TileEntityPartEmitter extends TileEntity implements INBTPacketReceiver {
 
 		public static final int range = 100;
 		public int effect = 0;
+		public String type;
+		public float lift;
+		public int life;
+		public int color;
+		public float max;
+		public float base;
+		public double posX;
+		public double posY;
+		public double posZ;
 		public static final int effectCount = 5;
 		@Override
 		public void updateEntity() {
@@ -106,38 +115,52 @@ public class PartEmitter extends BlockContainer implements IToolable, ITooltipPr
 						}
 					}
 				}
+				//NBTTagCompound data  = new NBTTagCompound();
 				
-				
+				NBTTagCompound data = new NBTTagCompound();
 				if(effect == 1) {
-					
+
+					data.setInteger("effect", this.effect);
 					ParticleUtil.spawnGasFlame(worldObj, xCoord + worldObj.rand.nextDouble(), yCoord + 4.5 + worldObj.rand.nextDouble(), zCoord + worldObj.rand.nextDouble(), worldObj.rand.nextGaussian() * 0.2, 0.1, worldObj.rand.nextGaussian() * 0.2);
 					
 				}
 				
 				if(effect == 2) {
-					NBTTagCompound ree  = new NBTTagCompound();
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(ree, xCoord + 0.5, yCoord + 1, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
-					MainRegistry.proxy.effectNT(ree);
-					ree.setString("type", "tower");
-					ree.setFloat("lift", 1F);
-					ree.setFloat("base", 0.25F);
-					ree.setFloat("max", 3F);
-					ree.setInteger("life", 150 + worldObj.rand.nextInt(20));
-					ree.setInteger("color",0x404040);
 
-					ree.setDouble("posX", xCoord + 0.5);
-					ree.setDouble("posZ", zCoord + 0.5);
-					ree.setDouble("posY", yCoord + 11);
+					data.setInteger("effect", this.effect);
+					data.setString("type", "tower");
+					data.setFloat("lift", 5F);
+					data.setFloat("base", 0.25F);
+					data.setFloat("max", 5F);
+					data.setInteger("life", 560 + worldObj.rand.nextInt(20));
+					data.setInteger("color",0x404040);
+
+					data.setDouble("posX", xCoord + 0.5);
+					data.setDouble("posZ", zCoord + 0.5);
+					data.setDouble("posY", yCoord);
+					MainRegistry.proxy.effectNT(data);
+					//PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5, yCoord + 1, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 				}
 				if(effect == 3) {
+					data.setInteger("effect",this.effect);
+					data.setString("type", "tower");
+					data.setFloat("lift", 0.5F);
+					data.setFloat("base", 1F);
+					data.setFloat("max", 10F);
+					data.setInteger("life", 750 + worldObj.rand.nextInt(250));
+		
+					data.setDouble("posX", xCoord + 0.5 + worldObj.rand.nextDouble() * 3 - 1.5);
+					data.setDouble("posZ", zCoord + 0.5 + worldObj.rand.nextDouble() * 3 - 1.5);
+					data.setDouble("posY", yCoord + 1);
 					
+					MainRegistry.proxy.effectNT(data);
 					
 				}
 				if(effect == 4) {
 					
 					
 				}
-				NBTTagCompound data = new NBTTagCompound();
+
 				data.setInteger("effect", this.effect);
 				PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(data, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 			}
@@ -159,11 +182,32 @@ public class PartEmitter extends BlockContainer implements IToolable, ITooltipPr
 		public void readFromNBT(NBTTagCompound nbt) {
 			super.readFromNBT(nbt);
 			this.effect = nbt.getInteger("effect");
+			this.type = nbt.getString("type");
+			this.color = nbt.getInteger("color");
+			this.life = nbt.getInteger("life");
+			this.max = nbt.getFloat("max");
+			this.base = nbt.getFloat("base");
+			this.posX = nbt.getDouble("posX");
+			this.posY = nbt.getDouble("posY");
+			this.posZ = nbt.getDouble("posZ");
+			
+			
 		}
 
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
+			super.writeToNBT(nbt);
 			nbt.setInteger("effect", this.effect);
+			nbt.setString("type", "tower");
+			nbt.setFloat("lift", 1F);
+			nbt.setFloat("base", 0.25F);
+			nbt.setFloat("max", 3F);
+			nbt.setInteger("life", 150 + worldObj.rand.nextInt(20));
+			nbt.setInteger("color",0x404040);
+
+			nbt.setDouble("posX", xCoord + 0.5);
+			nbt.setDouble("posZ", zCoord + 0.5);
+			nbt.setDouble("posY", yCoord);
 		}
 		
 		@Override
