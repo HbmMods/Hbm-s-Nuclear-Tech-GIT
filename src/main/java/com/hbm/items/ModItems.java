@@ -2636,7 +2636,6 @@ public class ModItems {
 	public static final int guiID_item_fluid = 1100;
 	public static final int guiID_item_designator = 10100;
 	public static final int guiID_item_sat_interface = 10101;
-	public static final int guiID_item_box = 10102;
 	public static final int guiID_item_bobmazon = 10103;
 	public static final int guiID_item_sat_coord = 10104;
 	public static final int guiID_item_book = 10105;

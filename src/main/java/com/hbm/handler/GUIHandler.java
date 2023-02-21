@@ -8,7 +8,6 @@ import com.hbm.entity.cart.EntityMinecartDestroyer;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.container.*;
 import com.hbm.inventory.gui.*;
-import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.bomb.*;
@@ -802,7 +801,6 @@ public class GUIHandler implements IGuiHandler {
 		// NON-TE CONTAINERS
 
 		switch(ID) {
-		case ModItems.guiID_item_box: return new ContainerLeadBox(player, player.inventory, new InventoryLeadBox(player.getHeldItem()));
 		case ModItems.guiID_item_book: return new ContainerBook(player.inventory);
 		case ModItems.guiID_cart_crate: return new ContainerCrateSteel(player.inventory, (EntityMinecartCrate)player.worldObj.getEntityByID(x));
 		case ModItems.guiID_cart_destroyer: return new ContainerCartDestroyer(player.inventory, (EntityMinecartDestroyer)player.worldObj.getEntityByID(x));
@@ -1593,8 +1591,6 @@ public class GUIHandler implements IGuiHandler {
 			return new GUIScreenSatInterface(player);
 		case ModItems.guiID_item_sat_coord:
 			return new GUIScreenSatCoord(player);
-		case ModItems.guiID_item_box:
-			return new GUILeadBox(new ContainerLeadBox(player, player.inventory, new InventoryLeadBox(player.getHeldItem())));
 		case ModItems.guiID_item_bobmazon:
 			if(BobmazonOfferFactory.getOffers(player.getHeldItem()) != null)
 				return new GUIScreenBobmazon(player, BobmazonOfferFactory.getOffers(player.getHeldItem()));

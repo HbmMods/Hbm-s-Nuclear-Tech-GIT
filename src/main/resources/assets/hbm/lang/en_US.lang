@@ -2118,6 +2118,7 @@ item.coltan_tool.name=Coltass
 item.combine_scrap.name=CMB Scrap Metal
 item.component_emitter.name=Emitter Component
 item.component_limiter.name=Stabilizer Component
+item.containment_box.name=Containment Box
 item.cordite.name=Cordite
 item.cotton_candy.name=Radioactive Cotton Candy
 item.crate_caller.name=Supply Drop Requester

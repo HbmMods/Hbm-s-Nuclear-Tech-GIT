@@ -1470,6 +1470,7 @@ item.coltan_tool.name=Koltass
 item.combine_scrap.name=CMB Schrott
 item.component_emitter.name=Emitterkomponente
 item.component_limiter.name=Stabilisatorkomponente
+item.containment_box.name=Sicherheitsbehälter
 item.cordite.name=Kordit
 item.cotton_candy.name=Radioaktive Zuckerwatte
 item.crate_caller.name=Nachschub-Requester
