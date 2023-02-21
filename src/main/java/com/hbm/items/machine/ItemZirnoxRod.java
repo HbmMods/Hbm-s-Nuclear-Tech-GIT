@@ -22,8 +22,9 @@ public class ItemZirnoxRod extends ItemFuelRod {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
 		double depletionPercentage = 0d;
-		try { depletionPercentage = Math.round(((double) itemstack.stackTagCompound.getInteger("life") / (double) this.lifeTime * 100) * 100.0) / 100.0;
-		} catch (Exception e) {}
+		if (itemstack.hasTagCompound()) {
+			depletionPercentage = Math.round(((double) itemstack.stackTagCompound.getInteger("life") / (double) this.lifeTime * 100) * 100.0) / 100.0;
+		}
 
 		String[] descLocs = I18nUtil.resolveKeyArray("desc.item.zirnoxRod", heat, BobMathUtil.getShortNumber(lifeTime));
 		
