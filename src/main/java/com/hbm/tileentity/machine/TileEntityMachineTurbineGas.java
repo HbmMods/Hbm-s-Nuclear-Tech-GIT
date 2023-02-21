@@ -157,7 +157,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				data.setInteger("instantPow", this.instantPowerOutput); //sent while running
 			}
 			
-			tanks[0].writeToNBT(data, "fuel");
+			tanks[0].writeToNBT(data, "gas");
 			tanks[1].writeToNBT(data, "lube");
 			tanks[2].writeToNBT(data, "water");
 			tanks[3].writeToNBT(data, "steam");
@@ -378,17 +378,17 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		this.state = nbt.getInteger("state");
 		this.autoMode = nbt.getBoolean("automode");
 		this.powerSliderPos = nbt.getInteger("slidpos");
-		this.throttle = nbt.getInteger("throttle");			
+		this.throttle = nbt.getInteger("throttle");		
 		
+		this.tanks[0].readFromNBT(nbt, "gas");
+		this.tanks[1].readFromNBT(nbt, "lube");
+		this.tanks[2].readFromNBT(nbt, "water");
+		this.tanks[3].readFromNBT(nbt, "steam");
 		if(nbt.hasKey("counter"))
 			this.counter = nbt.getInteger("counter"); //state 0 and -1
 		else
 			this.instantPowerOutput = nbt.getInteger("instantPow"); //state 1
 		
-		this.tanks[0].readFromNBT(nbt, "fuel");
-		this.tanks[1].readFromNBT(nbt, "lube");
-		this.tanks[2].readFromNBT(nbt, "water");
-		this.tanks[3].readFromNBT(nbt, "steam");
 	}
 	
 	@Override

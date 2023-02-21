@@ -61,6 +61,7 @@ public class LoopedEntitySoundPacket implements IMessage {
 		        case 6:
 		        case 7:
 		        case 8: n = 1; break;
+		        case 9: n = 3; break;
 		        default: n = 2; break;
 		        }
 		        
@@ -75,6 +76,8 @@ public class LoopedEntitySoundPacket implements IMessage {
 						Minecraft.getMinecraft().getSoundHandler().playSound(new MovingSoundBomber(new ResourceLocation("hbm:entity.bomberSmallLoop"), (EntityBomber)e));
 					if(n == 1)
 						Minecraft.getMinecraft().getSoundHandler().playSound(new MovingSoundBomber(new ResourceLocation("hbm:entity.bomberLoop"), (EntityBomber)e));
+					if(n == 3)
+						Minecraft.getMinecraft().getSoundHandler().playSound(new MovingSoundBomber(new ResourceLocation("hbm:entity.civFly"), (EntityBomber)e));
 				}
 			}
 			
