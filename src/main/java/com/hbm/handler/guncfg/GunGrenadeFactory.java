@@ -35,6 +35,7 @@ public class GunGrenadeFactory {
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
 		config.hasSights = true;
+		config.zoomFOV = 0.66F;
 		config.reloadDuration = 40;
 		config.firingDuration = 0;
 		config.ammoCap = 1;

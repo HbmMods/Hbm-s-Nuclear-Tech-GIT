@@ -339,9 +339,10 @@ public class AnvilRecipes {
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
-						new OreDictStack(STEEL.plate(), 12),
-						new OreDictStack(IRON.ingot(), 8),
+						new OreDictStack(STEEL.plate(), 4),
+						new OreDictStack(IRON.ingot(), 12),
 						new OreDictStack(CU.ingot(), 2),
+						new ComparableStack(ModItems.circuit_aluminium),
 						new ComparableStack(ModItems.sawblade)
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_autosaw))).setTier(2));
 

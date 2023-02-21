@@ -133,7 +133,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			if(this.getBlockMetadata() < 12) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getRotation(ForgeDirection.DOWN);
 				worldObj.removeTileEntity(xCoord, yCoord, zCoord);
-				worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.machine_fluidtank, dir.ordinal() + 10, 3);
+				worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.machine_refinery, dir.ordinal() + 10, 3);
 				MultiblockHandlerXR.fillSpace(worldObj, xCoord, yCoord, zCoord, ((BlockDummyable) ModBlocks.machine_refinery).getDimensions(), ModBlocks.machine_refinery, dir);
 				NBTTagCompound data = new NBTTagCompound();
 				this.writeToNBT(data);
@@ -421,6 +421,11 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	@Override
 	public FluidTank[] getAllTanks() {
 		return tanks;
+	}
+
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.DOWN;
 	}
 
 	@Override

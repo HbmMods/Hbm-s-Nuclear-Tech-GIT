@@ -11,6 +11,7 @@ import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -18,6 +19,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
@@ -45,6 +47,15 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 	@Override
 	public String getName() {
 		return "container.assemfac";
+	}
+
+	@Override
+	public void setInventorySlotContents(int i, ItemStack stack) {
+		super.setInventorySlotContents(i, stack);
+		
+		if(stack != null && i >= 1 && i <= 4 && stack.getItem() instanceof ItemMachineUpgrade) {
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+		}
 	}
 
 	@Override

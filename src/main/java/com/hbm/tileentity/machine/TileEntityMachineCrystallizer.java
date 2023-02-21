@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
@@ -24,7 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidStandardReceiver {
+public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver {
 	
 	public long power;
 	public static final long maxPower = 1000000;
@@ -283,24 +282,6 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		return (progress * i) / duration;
 	}
 
-	@Override public void setFillForSync(int fill, int index) { }
-	@Override public void setTypeForSync(FluidType type, int index) { }
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		return tank.getFill();
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return tank.getMaxFill();
-	}
-
 	@Override
 	public void setPower(long i) {
 		this.power = i;
@@ -364,8 +345,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
 
@@ -373,8 +353,9 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public void setInventorySlotContents(int i, ItemStack stack) {
 		super.setInventorySlotContents(i, stack);
 		
-		if(stack != null && i >= 5 && i <= 6 && stack.getItem() instanceof ItemMachineUpgrade)
+		if(stack != null && i >= 5 && i <= 6 && stack.getItem() instanceof ItemMachineUpgrade) {
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+		}
 	}
 
 	@Override

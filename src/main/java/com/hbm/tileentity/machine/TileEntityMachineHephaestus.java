@@ -141,12 +141,12 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 	protected int heatFromBlock(int x, int y, int z) {
 		Block b = worldObj.getBlock(x, y, z);
 		
-		if(b == Blocks.lava || b == Blocks.flowing_lava)	return 25;
-		if(b == ModBlocks.volcanic_lava_block)				return 500;
+		if(b == Blocks.lava || b == Blocks.flowing_lava)	return 5;
+		if(b == ModBlocks.volcanic_lava_block)				return 150;
 		
 		if(b == ModBlocks.ore_volcano) {
 			this.fissureScanTime = worldObj.getTotalWorldTime();
-			return 1_000;
+			return 300;
 		}
 		
 		return 0;
@@ -196,6 +196,22 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 				new DirPos(xCoord, yCoord + 11, zCoord + 2, Library.POS_Z),
 				new DirPos(xCoord, yCoord + 11, zCoord - 2, Library.NEG_Z)
 		};
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.input.readFromNBT(nbt, "0");
+		this.output.readFromNBT(nbt, "1");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		this.input.writeToNBT(nbt, "0");
+		this.output.writeToNBT(nbt, "1");
 	}
 
 	@Override

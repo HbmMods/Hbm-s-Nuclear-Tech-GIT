@@ -42,6 +42,18 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 	}
 
 	@Override
+	public void setInventorySlotContents(int i, ItemStack stack) {
+		super.setInventorySlotContents(i, stack);
+		
+		if(stack != null) {
+			
+			if((stack.getItem() == ModItems.upgrade_ejector && i == 19) || (stack.getItem() == ModItems.upgrade_stack && i == 18)) {
+				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+			}
+		}
+	}
+
+	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
