@@ -78,7 +78,7 @@ public class WorldProviderNTM extends WorldProviderSurface {
 	public float getStarBrightness(float par1) {
 		float starBr = worldObj.getStarBrightnessBody(par1);
 		float dust = MainRegistry.proxy.getImpactDust(worldObj);
-		float distance = 1-MainRegistry.proxy.getPlanetDistance(worldObj);
+		float distance = 1-MainRegistry.proxy.getDistance(worldObj);
 		float f1 = worldObj.getCelestialAngle(par1);
 		float f2 = 1.0F - (MathHelper.cos(f1 * (float) Math.PI * 2.0F) * 2.0F + 0.25F);
 
@@ -100,23 +100,14 @@ public class WorldProviderNTM extends WorldProviderSurface {
 		return ((sunBr * 0.8F + 0.2F) * (1 - dust))*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj);
 	}
 	
-	@SideOnly(Side.CLIENT)
-	public float getStellarBrightness(float par2) {
-		float dist = RogueWorldHandler.getDistanceForClient(MainRegistry.proxy.me().worldObj);
-		float sunBr = worldObj.getSunBrightnessFactor(par2);
-		return ((sunBr * 0.8F + 0.2F) * (1 - dist))*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj);
-	}
 
 	@Override
 	public boolean isDaytime() {
 		float dust = MainRegistry.proxy.getImpactDust(worldObj);
-		float dist = MainRegistry.proxy.getPlanetDistance(worldObj);
 
 		if(dust >= 0.75F) {
 			return false;
-		}else if(dist > 1)
-		return false;
-		{
+		}else{
 		return super.isDaytime();
 	}
 	}

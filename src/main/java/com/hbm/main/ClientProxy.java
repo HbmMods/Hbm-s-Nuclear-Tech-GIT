@@ -1913,7 +1913,7 @@ public class ClientProxy extends ServerProxy {
 		return RogueWorldHandler.getAtmosphereForClient(world);
 	}
 	@Override
-	public float getPlanetDistance(World world) {
+	public float getDistance(World world) {
 		return RogueWorldHandler.getDistanceForClient(world);
 	}
 

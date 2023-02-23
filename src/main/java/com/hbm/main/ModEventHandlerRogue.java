@@ -152,7 +152,7 @@ public class ModEventHandlerRogue {
 	}
 
     public static float getSolarBrightnessClient(World world) {    	
-    	return (float) (1/Math.max(1,Math.pow(MainRegistry.proxy.getPlanetDistance(world), 2)));
+    	return (float) (1/Math.max(1,Math.pow(MainRegistry.proxy.getDistance(world), 2)));
     }
 
     public static float getPlanetaryLightLevelMultiplierClient(World world) {
@@ -246,9 +246,6 @@ public class ModEventHandlerRogue {
 				if(type == event.type.LAKE) {
 					event.setResult(Result.DENY);
 				}
-				if(type == event.type.TREE) {
-					event.setResult(Result.ALLOW);
-				}
 			
 		} else {
 			event.setResult(Result.DEFAULT);
@@ -282,6 +279,10 @@ public class ModEventHandlerRogue {
 										storage.func_150818_a(x, y, z, ModBlocks.frozen_grass);
 									} else if(storage.getBlockByExtId(x, y, z) == Blocks.log) {
 										storage.func_150818_a(x, y, z, ModBlocks.frozen_log);
+									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockLog) {
+										storage.func_150818_a(x, y, z, ModBlocks.frozen_log);
+									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockLeaves) {
+										storage.func_150818_a(x, y, z, ModBlocks.frozen_leaves);
 									} else if(storage.getBlockByExtId(x, y, z)== Blocks.leaves) {
 										storage.func_150818_a(x, y, z, ModBlocks.frozen_leaves);
 									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockDirt) {

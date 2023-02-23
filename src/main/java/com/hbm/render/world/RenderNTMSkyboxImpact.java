@@ -16,7 +16,10 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.RogueWorldHandler;
+import com.hbm.main.ClientProxy;
+import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandlerRogue;
+import com.hbm.saveddata.RogueWorldSaveData;
 
 import java.util.Random;
 
@@ -91,8 +94,6 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 		float f2 = (float) vec3.yCoord;
 		float f3 = (float) vec3.zCoord;
 		float f6;
-		float rdist = Math.max((1.0F - (distance * 2)), 0);
-		float drain = rdist * (1.0F - world.getRainStrength(partialTicks));
 		float dust = Math.max((1.0F - (atmosphericDust * 2)), 0);
 		float rain = dust * (1.0F - world.getRainStrength(partialTicks));
 
@@ -148,6 +149,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
 		// Some blanking to conceal the stars
+		System.out.println("Distance: "+distance);
 		f10 = 30.0F/distance;
 		tessellator.startDrawingQuads();
 		tessellator.addVertex(-f10, 99.9D, -f10);
@@ -212,7 +214,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 			GL11.glPopMatrix();
 
 			GL11.glPushMatrix();
-			GL11.glColor4f(brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), drain);
+			GL11.glColor4f(brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), dust);
 			GL11.glRotatef(-40.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef((System.currentTimeMillis() % (360 * 1000) / 1000F), 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef((System.currentTimeMillis() % (360 * 100) / 100F), 1.0F, 0.0F, 0.0F);
