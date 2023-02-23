@@ -31,7 +31,7 @@ public class PermaSyncHandler {
 		RogueWorldSaveData rogue = RogueWorldSaveData.forWorld(world);
 		buf.writeFloat(rogue.distance);
 		buf.writeFloat(rogue.distance); //dont ask me how, or why, it just works okay :(
-		buf.writeFloat(rogue.distance);
+		buf.writeFloat(rogue.distance); //and it for some REASON IT SPECIFICALLY **NEEDS** 3!??!?? like it can work with more but 3 is the minimum
 		buf.writeFloat(rogue.atmosphere);
 		buf.writeBoolean(rogue.star);
 		buf.writeBoolean(rogue.rogue);
