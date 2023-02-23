@@ -1,11 +1,8 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIdentifier;
-import com.hbm.items.machine.ItemZirnoxRod;
 import com.hbm.tileentity.machine.TileEntityMachineTurbineGas;
 
 import api.hbm.energy.IBatteryItem;
@@ -13,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ContainerMachineTurbineGas extends Container {
