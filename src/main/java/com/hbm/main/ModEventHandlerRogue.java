@@ -120,8 +120,8 @@ public class ModEventHandlerRogue {
 		if(data.rogue == true) {
 			if(!(event.entity instanceof EntityPlayer) && event.entity instanceof EntityLivingBase) {
 				EntityLivingBase living = (EntityLivingBase) event.entity;
-				if(event.world.provider.dimensionId == 0 && data.temperature >-20) {// && getTemperatureAtDepth((int) event.entity.posY, event.world)>-20
-					if(event.entity.height >= 0.85f || event.entity.width >= 0.85f && event.entity.ticksExisted < 20) {
+				if(event.world.provider.dimensionId == 0 && data.temperature <- 20) {// && getTemperatureAtDepth((int) event.entity.posY, event.world)>-20
+					if(event.entity.height >= 0.85f || event.entity.width >= 0.85f && event.entity.ticksExisted < 20 ) {
 						event.setCanceled(true);
 					}
 				}
@@ -136,7 +136,7 @@ public class ModEventHandlerRogue {
     	int seaLevel = 64;
     	
     	return data.temperature;
-    			//(int) (voidTemp-(voidTemp-data.temperature)*((bedrockLevel+Math.min(seaLevel, Y)/(seaLevel+bedrockLevel))));
+    	//return (int) (voidTemp-(voidTemp-data.temperature)*((bedrockLevel+Math.min(seaLevel, Y)/(seaLevel+bedrockLevel))));
     }
 
     public static float getSolarBrightness(World world) {
@@ -204,7 +204,7 @@ public class ModEventHandlerRogue {
 
 	
 	@SubscribeEvent
-	public void postImpactGeneration(BiomeEvent event) {
+	public void postRogueGeneration(BiomeEvent event) {
 		/// Disables post-impact surface replacement for superflat worlds
 		/// because they are retarded and crash with a NullPointerException if
 		/// you try to look for biome-specific blocks.
@@ -241,19 +241,26 @@ public class ModEventHandlerRogue {
 			EventType type = event.type;
 				
 				if(type == event.type.GRASS || type == event.type.REED) {
-					event.setResult(Result.DEFAULT);
+					event.setResult(Result.DENY);
+				}
+				if(type == event.type.LAKE) {
+					event.setResult(Result.DENY);
+				}
+				if(type == event.type.TREE) {
+					event.setResult(Result.ALLOW);
 				}
 			
 		} else {
 			event.setResult(Result.DEFAULT);
 		}
+		
 	}
 
 	@SubscribeEvent
 	public void populateChunkPre(PopulateChunkEvent.Pre event) {
 		RogueWorldSaveData.forWorld(event.world); /* forces the data to be cached so it is accurate by the time ModEventHandlerImpact#modifyVillageGen is called. */
 	}
-
+	
 	@SubscribeEvent
 	public void populateChunkPost(PopulateChunkEvent.Post event) {
 		
@@ -269,25 +276,28 @@ public class ModEventHandlerRogue {
 					for(int x = 0; x < 16; ++x) {
 						for(int y = 0; y < 16; ++y) {
 							for(int z = 0; z < 16; ++z) {
-								
-								if(data.temperature > -50) {
-									if(storage.getBlockByExtId(x, y, z) == Blocks.grass) {
-										storage.func_150818_a(x, y, z, ModBlocks.frozen_dirt);
+							
+								if(data.temperature <- 50) {
+									if(storage.getBlockByExtId(x, y, z) == ModBlocks.waste_earth) {
+										storage.func_150818_a(x, y, z, ModBlocks.frozen_grass);
+									} else if(storage.getBlockByExtId(x, y, z).getMaterial() == Material.wood) {
+										storage.func_150818_a(x, y, z, ModBlocks.frozen_log);
 									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockLog) {
 										storage.func_150818_a(x, y, z, ModBlocks.frozen_log);
-									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockLeaves) {
-										storage.func_150818_a(x, y, z, ModBlocks.frozen_leaves);
-									} else if(storage.getBlockByExtId(x, y, z).getMaterial() == Material.leaves) {
+									} else if(storage.getBlockByExtId(x, y, z)== ModBlocks.waste_leaves) {
 										storage.func_150818_a(x, y, z, ModBlocks.frozen_leaves);
 									} else if(storage.getBlockByExtId(x, y, z).getMaterial() == Material.plants) {
 										storage.func_150818_a(x, y, z, ModBlocks.plant_dead);
 									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockDirt) {
 										storage.func_150818_a(x, y, z, ModBlocks.frozen_dirt);
-									} else if(storage.getBlockByExtId(x, y, z) .getMaterial() == Material.water) {
+									} else if(storage.getBlockByExtId(x, y, z) == Blocks.water) {
 										storage.func_150818_a(x, y, z, ModBlocks.cold_ice);
-									
-								}
+									} else if(storage.getBlockByExtId(x, y, z) == Blocks.flowing_water) {
+										storage.func_150818_a(x, y, z, ModBlocks.cold_ice);
+									} else if(storage.getBlockByExtId(x, y, z)== Blocks.gravel) {
+										storage.func_150818_a(x, y, z, ModBlocks.frozen_gravel);
 							}
+						
 						}
 					}
 				}
@@ -296,3 +306,5 @@ public class ModEventHandlerRogue {
 	}
 }
 }
+}
+
