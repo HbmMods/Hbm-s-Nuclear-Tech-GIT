@@ -29,8 +29,10 @@ public class PermaSyncHandler {
 		
 		/// ROGUE PLANET DATA ///
 		RogueWorldSaveData rogue = RogueWorldSaveData.forWorld(world);
-		buf.writeFloat(rogue.atmosphere);
 		buf.writeFloat(rogue.distance);
+		buf.writeFloat(rogue.distance);
+		buf.writeFloat(rogue.distance);
+		buf.writeFloat(rogue.atmosphere);
 		buf.writeBoolean(rogue.star);
 		buf.writeBoolean(rogue.rogue);
 		/// ROGUE PLANET DATA ///
@@ -47,8 +49,11 @@ public class PermaSyncHandler {
 		
 		/// ROGUE PLANET DATA ///
 		RogueWorldHandler.lastSyncWorld = player.worldObj;
-		RogueWorldHandler.atmosphere = buf.readFloat();
 		RogueWorldHandler.distance = buf.readFloat();
+		//RogueWorldHandler.distance = buf.readFloat();
+		RogueWorldHandler.distance = buf.readFloat();
+		RogueWorldHandler.distance = buf.readFloat();
+		RogueWorldHandler.atmosphere = buf.readFloat();
 		RogueWorldHandler.star = buf.readBoolean();
 		RogueWorldHandler.rogue = buf.readBoolean();
 		/// ROGUE PLANET DATA ///
