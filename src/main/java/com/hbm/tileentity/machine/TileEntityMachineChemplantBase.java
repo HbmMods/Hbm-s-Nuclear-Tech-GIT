@@ -13,6 +13,7 @@ import com.hbm.inventory.recipes.ChemplantRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
@@ -33,7 +34,7 @@ import net.minecraft.util.ChunkCoordinates;
  * Tanks follow the order R1(I1, I2, O1, O2), R2(I1, I2, O1, O2) ...
  * @author hbm
  */
-public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor, IFluidUser {
+public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor, IFluidUser, IGUIProvider {
 
 	public long power;
 	public int[] progress;

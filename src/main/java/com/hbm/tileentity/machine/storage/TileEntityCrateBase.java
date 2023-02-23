@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.storage;
 
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public abstract class TileEntityCrateBase extends TileEntityLockableBase implements ISidedInventory {
+public abstract class TileEntityCrateBase extends TileEntityLockableBase implements ISidedInventory, IGUIProvider {
 
 	protected ItemStack slots[];
 	public String customName;

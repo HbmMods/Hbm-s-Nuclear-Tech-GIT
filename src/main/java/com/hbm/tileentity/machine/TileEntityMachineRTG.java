@@ -1,22 +1,28 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.config.VersatileConfig;
+import com.hbm.inventory.container.ContainerMachineRTG;
+import com.hbm.inventory.gui.GUIMachineRTG;
 import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.RTGUtil;
 
 import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator {
+public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator, IGUIProvider {
 
 	private ItemStack slots[];
 	
@@ -231,5 +237,15 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 	@Override
 	public void setPower(long i) {
 		this.power = i;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMachineRTG(player.inventory, this);
+	}
+
+	@Override
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineRTG(player.inventory, this);
 	}
 }

@@ -1,16 +1,21 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.inventory.container.ContainerMachineSatLinker;
+import com.hbm.inventory.gui.GUIMachineSatLinker;
 import com.hbm.items.ISatChip;
-import com.hbm.items.machine.ItemSatChip;
+import com.hbm.tileentity.IGUIProvider;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
-public class TileEntityMachineSatLinker extends TileEntity implements ISidedInventory {
+public class TileEntityMachineSatLinker extends TileEntity implements ISidedInventory, IGUIProvider {
 
 	private ItemStack slots[];
 	
@@ -183,5 +188,15 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 				ISatChip.setFreqS(slots[2], worldObj.rand.nextInt(100000));
 			}
 		}
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMachineSatLinker(player.inventory, this);
+	}
+
+	@Override
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineSatLinker(player.inventory, this);
 	}
 }

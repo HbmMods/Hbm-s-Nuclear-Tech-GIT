@@ -43,7 +43,6 @@ public class ModBlocks {
 	public static Block test_bomb;
 	public static Block test_bomb_advanced;
 	public static Block test_nuke;
-	public static final int guiID_test_nuke = 2;
 	public static Block event_tester;
 	public static Block obj_tester;
 	public static Block test_core;
@@ -615,8 +614,7 @@ public class ModBlocks {
 	public static Block sat_resonator;
 
 	public static Block sat_dock;
-	public static final int guiID_dock = 80;
-
+	
 	public static Block soyuz_capsule;
 	public static final int guiID_capsule = 93;
 	
@@ -628,32 +626,20 @@ public class ModBlocks {
 	public static Block mass_storage;
 	
 	public static Block nuke_gadget;
-	public static final int guiID_nuke_gadget = 3;
 	public static Block nuke_boy;
-	public static final int guiID_nuke_boy = 4;
 	public static Block nuke_man;
-	public static final int guiID_nuke_man = 6;
 	public static Block nuke_mike;
-	public static final int guiID_nuke_mike = 11;
 	public static Block nuke_tsar;
-	public static final int guiID_nuke_tsar = 12;
 	public static Block nuke_fleija;
-	public static final int guiID_nuke_fleija = 17;
 	public static Block nuke_prototype;
-	public static final int guiID_nuke_prototype = 23;
 	public static Block nuke_custom;
-	public static final int guiID_nuke_custom = 37;
 	public static Block nuke_solinium;
-	public static final int guiID_nuke_solinium = 60;
 	public static Block nuke_n2;
-	public static final int guiID_nuke_n2 = 61;
 	public static Block nuke_n45;
-	public static final int guiID_nuke_n45 = 77;
 	public static Block nuke_fstbmb;
 	public static final int guiID_nuke_fstbmb = 96;
 	public static Block bomb_multi;
-	public static final int guiID_bomb_multi = 10;
-
+	
 	public static Block heater_firebox;
 	public static Block heater_oven;
 	public static Block heater_oilburner;
@@ -679,15 +665,13 @@ public class ModBlocks {
 	public static Block machine_difurnace_on;
 	public static Block machine_difurnace_rtg_off;
 	public static Block machine_difurnace_rtg_on;
-	public static final int guiID_test_difurnace = 1;
+	//public static final int guiID_test_difurnace = 1; historical
 	public static final int guiID_rtg_difurnace = 125;
 	
 	public static Block machine_centrifuge;
-	public static final int guiID_centrifuge = 5;
 	
 	public static Block machine_gascent;
-	public static final int guiID_gascent = 71;
-
+	
 	public static Block machine_fel;
 	public static final int guiID_fel = 110;
 	public static Block machine_silex;
@@ -697,30 +681,23 @@ public class ModBlocks {
 	public static final int guiID_crystallizer = 94;
 	
 	public static Block machine_uf6_tank;
-	public static final int guiID_uf6_tank = 7;
 	
 	public static Block machine_puf6_tank;
-	public static final int guiID_puf6_tank = 8;
 
 	public static Block machine_reactor_breeding;
-	public static final int guiID_reactor_breeding = 9;
 	
 	public static Block machine_nuke_furnace_off;
 	public static Block machine_nuke_furnace_on;
-	public static final int guiID_nuke_furnace = 13;
 	
 	public static Block machine_rtg_furnace_off;
 	public static Block machine_rtg_furnace_on;
-	public static final int guiID_rtg_furnace = 14;
-
+	
 	public static Block machine_generator;
 
 	public static Block machine_industrial_generator;
-	public static final int guiID_machine_industrial_generator = 39;
-
+	
 	public static Block machine_cyclotron;
-	public static final int guiID_machine_cyclotron = 41;
-
+	
 	public static Block hadron_plating;
 	public static Block hadron_plating_blue;
 	public static Block hadron_plating_black;
@@ -751,31 +728,26 @@ public class ModBlocks {
 	
 	public static Block machine_electric_furnace_off;
 	public static Block machine_electric_furnace_on;
-	public static final int guiID_electric_furnace = 16;
-
+	
 	public static Block machine_microwave;
 	public static final int guiID_microwave = 97;
 	
 	public static Block machine_arc_furnace_off;
 	public static Block machine_arc_furnace_on;
-	public static final int guiID_machine_arc = 82;
-
+	
 	//public static Block machine_deuterium;
-	public static final int guiID_machine_deuterium = 20;
-
+	
 	public static Block machine_battery_potato;
 	public static Block machine_battery;
 	public static Block machine_lithium_battery;
 	public static Block machine_schrabidium_battery;
 	public static Block machine_dineutronium_battery;
 	public static Block machine_fensu;
-	public static final int guiID_machine_battery = 21;
 	public static final int guiID_machine_fensu = 99;
 	
 	public static Block machine_coal_off;
 	public static Block machine_coal_on;
-	public static final int guiID_machine_coal = 22;
-
+	
 	public static Block red_wire_coated;
 	public static Block red_cable;
 	public static Block red_cable_classic;
@@ -869,8 +841,7 @@ public class ModBlocks {
 	public static Block reactor_inserter;
 	public static Block reactor_conductor;
 	public static Block reactor_computer;
-	public static final int guiID_reactor_multiblock = 26;
-
+	
 	public static Block fusion_conductor;
 	public static Block fusion_center;
 	public static Block fusion_motor;
@@ -894,8 +865,7 @@ public class ModBlocks {
 	public static Block watz_hatch;
 	public static Block watz_conductor;
 	public static Block watz_core;
-	public static final int guiID_watz_multiblock = 32;
-
+	
 	public static Block fwatz_conductor;
 	public static Block fwatz_cooler;
 	public static Block fwatz_tank;
@@ -904,50 +874,37 @@ public class ModBlocks {
 	public static Block fwatz_computer;
 	public static Block fwatz_core;
 	public static Block fwatz_plasma;
-	public static final int guiID_fwatz_multiblock = 33;
 
 	public static Block balefire;
 	public static Block fire_digamma;
 	public static Block digamma_matter;
 
 	public static Block ams_base;
-	public static final int guiID_ams_base = 54;
 	public static Block ams_emitter;
-	public static final int guiID_ams_emitter = 55;
 	public static Block ams_limiter;
-	public static final int guiID_ams_limiter = 56;
-
+	
 	public static Block dfc_emitter;
-	public static final int guiID_dfc_emitter = 87;
 	public static Block dfc_injector;
-	public static final int guiID_dfc_injector = 90;
 	public static Block dfc_receiver;
-	public static final int guiID_dfc_receiver = 88;
 	public static Block dfc_stabilizer;
-	public static final int guiID_dfc_stabilizer = 91;
 	public static Block dfc_core;
-	public static final int guiID_dfc_core = 89;
-
+	
 	public static Block machine_converter_he_rf;
 	public static final int guiID_converter_he_rf = 28;
 	public static Block machine_converter_rf_he;
 
 	public static Block machine_schrabidium_transmutator;
-	public static final int guiID_schrabidium_transmutator = 30;
-
+	
 	public static Block machine_diesel;
-	public static final int guiID_machine_diesel = 31;
 	public static Block machine_combustion_engine;
 
 	public static Block machine_shredder;
-	public static final int guiID_machine_shredder = 34;
 
 	public static Block machine_shredder_large;
 	public static final int guiID_machine_shredder_large = 76;
 
 	public static Block machine_combine_factory;
-	public static final int guiID_combine_factory = 35;
-
+	
 	public static Block machine_teleporter;
 	public static Block teleanchor;
 	public static Block field_disturber;
@@ -956,7 +913,6 @@ public class ModBlocks {
 	public static final int guiID_machine_reix_mainframe = 38;
 
 	public static Block machine_rtg_grey;
-	public static final int guiID_machine_rtg = 42;
 	//public static Block machine_rtg_red;
 	//public static Block machine_rtg_orange;
 	//public static Block machine_rtg_yellow;
@@ -973,31 +929,25 @@ public class ModBlocks {
 	
 	public static Block machine_well;
 	public static Block oil_pipe;
-	public static final int guiID_machine_well = 40;
 	public static Block machine_pumpjack;
 	public static Block machine_fracking_tower;
 
 	public static Block machine_flare;
-	public static final int guiID_machine_flare = 44;
-
+	
 	public static Block machine_refinery;
-	public static final int guiID_machine_refinery = 43;
-
+	
 	public static Block machine_fraction_tower;
 	public static Block fraction_spacer;
 	public static Block machine_catalytic_cracker;
 
 	public static Block machine_boiler_off;
 	public static Block machine_boiler_on;
-	public static final int guiID_machine_boiler = 72;
-
+	
 	public static Block machine_boiler_electric_off;
 	public static Block machine_boiler_electric_on;
-	public static final int guiID_machine_boiler_electric = 73;
-
+	
 	public static Block machine_steam_engine;
 	public static Block machine_turbine;
-	public static final int guiID_machine_turbine = 74;
 	public static Block machine_large_turbine;
 	public static final int guiID_machine_large_turbine = 100;
 	
@@ -1019,7 +969,6 @@ public class ModBlocks {
 
 	public static Block machine_drill;
 	public static Block drill_pipe;
-	public static final int guiID_machine_drill = 45;
 	public static Block machine_excavator;
 	
 	public static Block machine_autosaw;
@@ -1029,11 +978,9 @@ public class ModBlocks {
 	public static final int guiID_mining_laser = 95;
 
 	public static Block machine_assembler;
-	public static final int guiID_machine_assembler = 48;
 	public static Block machine_assemfac;
 
 	public static Block machine_chemplant;
-	public static final int guiID_machine_chemplant = 49;
 	public static Block machine_chemfac;
 	public static Block machine_mixer;
 
@@ -1042,71 +989,53 @@ public class ModBlocks {
 	public static Block machine_orbus;
 
 	public static Block launch_pad;
-	public static final int guiID_launch_pad = 19;
-
+	
 	public static Block machine_missile_assembly;
-	public static final int guiID_missile_assembly = 83;
-
+	
 	public static Block compact_launcher;
-	public static final int guiID_compact_launcher = 85;
-
+	
 	public static Block launch_table;
-	public static final int guiID_launch_table = 84;
-
+	
 	public static Block soyuz_launcher;
-	public static final int guiID_soyuz_launcher = 86;
-
+	
 	public static Block machine_radar;
-	public static final int guiID_radar = 59;
-
+	
 	public static Block machine_turbofan;
-	public static final int guiID_machine_turbofan = 52;
 	public static Block machine_turbinegas;
 
 	public static Block machine_selenium;
-	public static final int guiID_machine_selenium = 63;
-
+	
 	public static Block press_preheater;
 	public static Block machine_press;
-	public static final int guiID_machine_press = 53;
 	public static Block machine_epress;
-	public static final int guiID_machine_epress = 81;
-
+	
 	public static Block machine_siren;
-	public static final int guiID_siren = 57;
-
+	
 	public static Block machine_radgen;
-	public static final int guiID_radgen = 58;
-
+	
 	public static Block machine_satlinker;
-	public static final int guiID_satlinker = 64;
 	public static Block machine_keyforge;
-	public static final int guiID_keyforge = 67;
-
+	
 	public static Block machine_armor_table;
 	public static final int guiID_armor_table = 102;
 
 	public static Block reactor_research;
-	public static final int guiID_reactor_research = 65;
 	public static Block reactor_zirnox;
 	public static final int guiID_reactor_zirnox = 124;
 	public static Block zirnox_destroyed;
 
 	public static Block machine_controller;
-	public static final int guiID_machine_controller = 78;
-
+	
 	public static Block machine_spp_bottom;
 	public static Block machine_spp_top;
 
 	public static Block radiobox;
-	public static final int guiID_radiobox = 66;
 	public static Block radiorec;
 
 	public static Block machine_forcefield;
 	public static final int guiID_forcefield = 75;
 
 	public static Block machine_waste_drum;
-	public static final int guiID_waste_drum = 79;
 	public static Block machine_storage_drum;
 	public static final int guiID_storage_drum = 118;
 
@@ -1166,13 +1095,7 @@ public class ModBlocks {
 	public static Block rbmk_heater;
 	public static Block rbmk_console;
 	public static Block rbmk_crane_console;
-	public static final int guiID_rbmk_rod = 113;
-	public static final int guiID_rbmk_boiler = 114;
-	public static final int guiID_rbmk_control = 115;
-	public static final int guiID_rbmk_control_auto = 116;
 	public static final int guiID_rbmk_console = 117;
-	public static final int guiID_rbmk_outgasser = 119;
-	public static final int guiID_rbmk_storage = 123;
 	public static Block rbmk_loader;
 	public static Block rbmk_steam_inlet;
 	public static Block rbmk_steam_outlet;

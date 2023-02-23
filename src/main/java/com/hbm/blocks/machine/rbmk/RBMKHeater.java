@@ -23,7 +23,7 @@ public class RBMKHeater extends RBMKBase {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		return openInv(world, x, y, z, player, 0);
+		return openInv(world, x, y, z, player);
 	}
 	
 	@Override

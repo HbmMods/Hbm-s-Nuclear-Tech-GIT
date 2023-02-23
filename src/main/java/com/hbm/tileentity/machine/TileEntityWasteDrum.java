@@ -1,19 +1,25 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.container.ContainerWasteDrum;
+import com.hbm.inventory.gui.GUIWasteDrum;
 import com.hbm.inventory.recipes.FuelPoolRecipes;
 import com.hbm.items.machine.ItemRBMKRod;
+import com.hbm.tileentity.IGUIProvider;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
+public class TileEntityWasteDrum extends TileEntity implements ISidedInventory, IGUIProvider {
 
 	private ItemStack slots[];
 	
@@ -212,5 +218,15 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory {
 				}
 			}
 		}
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerWasteDrum(player.inventory, this);
+	}
+
+	@Override
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIWasteDrum(player.inventory, this);
 	}
 }

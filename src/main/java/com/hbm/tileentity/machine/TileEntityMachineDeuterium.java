@@ -1,17 +1,23 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.inventory.container.ContainerMachineDeuterium;
+import com.hbm.inventory.gui.GUIMachineDeuterium;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IGUIProvider;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
-public class TileEntityMachineDeuterium extends TileEntity implements ISidedInventory {
+public class TileEntityMachineDeuterium extends TileEntity implements ISidedInventory, IGUIProvider {
 
 	private ItemStack slots[];
 	
@@ -295,5 +301,15 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 				process = 0;
 			}
 		}
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMachineDeuterium(player.inventory, this);
+	}
+
+	@Override
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineDeuterium(player.inventory, this);
 	}
 }

@@ -3,11 +3,15 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.inventory.container.ContainerAutocrafter;
+import com.hbm.inventory.gui.GUIAutocrafter;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ItemStackUtil;
 
 import api.hbm.energy.IEnergyUser;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -16,8 +20,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
-public class TileEntityMachineAutocrafter extends TileEntityMachineBase implements IEnergyUser {
+public class TileEntityMachineAutocrafter extends TileEntityMachineBase implements IEnergyUser, IGUIProvider {
 
 	public static final String MODE_EXACT = "exact";
 	public static final String MODE_WILDCARD = "wildcard";
@@ -421,5 +426,15 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		}
 		
 		nbt.setInteger("rec", this.recipeIndex);
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerAutocrafter(player.inventory, this);
+	}
+
+	@Override
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIAutocrafter(player.inventory, this);
 	}
 }
