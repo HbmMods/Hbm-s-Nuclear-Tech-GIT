@@ -30,7 +30,7 @@ public class PermaSyncHandler {
 		/// ROGUE PLANET DATA ///
 		RogueWorldSaveData rogue = RogueWorldSaveData.forWorld(world);
 		buf.writeFloat(rogue.distance);
-		buf.writeFloat(rogue.distance);
+		buf.writeFloat(rogue.distance); //dont ask me how, or why, it just works okay :(
 		buf.writeFloat(rogue.distance);
 		buf.writeFloat(rogue.atmosphere);
 		buf.writeBoolean(rogue.star);
@@ -50,7 +50,6 @@ public class PermaSyncHandler {
 		/// ROGUE PLANET DATA ///
 		RogueWorldHandler.lastSyncWorld = player.worldObj;
 		RogueWorldHandler.distance = buf.readFloat();
-		//RogueWorldHandler.distance = buf.readFloat();
 		RogueWorldHandler.distance = buf.readFloat();
 		RogueWorldHandler.distance = buf.readFloat();
 		RogueWorldHandler.atmosphere = buf.readFloat();
