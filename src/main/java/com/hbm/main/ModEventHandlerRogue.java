@@ -278,16 +278,12 @@ public class ModEventHandlerRogue {
 							for(int z = 0; z < 16; ++z) {
 							
 								if(data.temperature <- 50) {
-									if(storage.getBlockByExtId(x, y, z) == ModBlocks.waste_earth) {
+									if(storage.getBlockByExtId(x, y, z) == Blocks.grass) {
 										storage.func_150818_a(x, y, z, ModBlocks.frozen_grass);
-									} else if(storage.getBlockByExtId(x, y, z).getMaterial() == Material.wood) {
+									} else if(storage.getBlockByExtId(x, y, z) == Blocks.log) {
 										storage.func_150818_a(x, y, z, ModBlocks.frozen_log);
-									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockLog) {
-										storage.func_150818_a(x, y, z, ModBlocks.frozen_log);
-									} else if(storage.getBlockByExtId(x, y, z)== ModBlocks.waste_leaves) {
+									} else if(storage.getBlockByExtId(x, y, z)== Blocks.leaves) {
 										storage.func_150818_a(x, y, z, ModBlocks.frozen_leaves);
-									} else if(storage.getBlockByExtId(x, y, z).getMaterial() == Material.plants) {
-										storage.func_150818_a(x, y, z, ModBlocks.plant_dead);
 									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockDirt) {
 										storage.func_150818_a(x, y, z, ModBlocks.frozen_dirt);
 									} else if(storage.getBlockByExtId(x, y, z) == Blocks.water) {
