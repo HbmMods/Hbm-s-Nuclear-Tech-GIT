@@ -21,6 +21,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockCrops;
+import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
@@ -116,10 +117,10 @@ public class ModEventHandlerRogue {
 		
 		RogueWorldSaveData data = RogueWorldSaveData.forWorld(event.world);
 		
-		if(data.rogue) {
+		if(data.rogue == true) {
 			if(!(event.entity instanceof EntityPlayer) && event.entity instanceof EntityLivingBase) {
 				EntityLivingBase living = (EntityLivingBase) event.entity;
-				if(event.world.provider.dimensionId == 0 && getTemperatureAtDepth((int) event.entity.posY, event.world)>-20) {
+				if(event.world.provider.dimensionId == 0 && data.temperature >-20) {// && getTemperatureAtDepth((int) event.entity.posY, event.world)>-20
 					if(event.entity.height >= 0.85f || event.entity.width >= 0.85f && event.entity.ticksExisted < 20) {
 						event.setCanceled(true);
 					}
@@ -173,27 +174,26 @@ public class ModEventHandlerRogue {
 		Block b = event.original;
 		Material mat = event.original.getMaterial();
 		
-		TomSaveData data = TomSaveData.getLastCachedOrNull();
+		RogueWorldSaveData data = RogueWorldSaveData.getLastCachedOrNull();
 		
 		if(event.biome == null) {
 			return;
 		}
 		
-		if(data.impact) {
-			if(mat == Material.wood || mat == Material.glass || b == Blocks.ladder || b instanceof BlockCrops ||
-					b == Blocks.chest || b instanceof BlockDoor || mat == Material.cloth || mat == Material.water || b == Blocks.stone_slab) {
-				event.replacement = Blocks.air;
+		if(data.rogue && data.temperature > -50) {
+			if(mat == Material.water) {
+				event.replacement = Blocks.packed_ice;
 				
-			} else if(b == Blocks.cobblestone || b == Blocks.stonebrick) {
+			} else if(mat == Material.wood) {
 				if(rand.nextInt(3) == 1) {
-					event.replacement = Blocks.gravel;
-				}
-			} else if(b == Blocks.sandstone) {
-				if(rand.nextInt(3) == 1) {
-					event.replacement = Blocks.sand;
+					event.replacement = ModBlocks.frozen_log;
 				}
 			} else if(b == Blocks.farmland) {
-				event.replacement = Blocks.dirt;
+				if(rand.nextInt(3) == 1) {
+					event.replacement = ModBlocks.frozen_farmland;
+				}
+			} else if(b == Blocks.planks) {
+				event.replacement = ModBlocks.frozen_planks;
 			}
 		}
 		
@@ -208,16 +208,26 @@ public class ModEventHandlerRogue {
 		/// Disables post-impact surface replacement for superflat worlds
 		/// because they are retarded and crash with a NullPointerException if
 		/// you try to look for biome-specific blocks.
-		TomSaveData data = TomSaveData.getLastCachedOrNull(); //despite forcing the data, we cannot rule out canceling events or custom firing shenanigans 
+		RogueWorldSaveData data = RogueWorldSaveData.getLastCachedOrNull(); //despite forcing the data, we cannot rule out canceling events or custom firing shenanigans 
 		if(data != null && event.biome != null) {
 			if(event.biome.topBlock != null) {
 				if(event.biome.topBlock == Blocks.grass) {
-					if(data.impact && (data.dust > 0 || data.fire > 0)) {
-						event.biome.topBlock = ModBlocks.impact_dirt;
+					if(data.rogue && (data.temperature > -20)) {
+						event.biome.topBlock = ModBlocks.frozen_grass;
 					} else {
 						event.biome.topBlock = Blocks.grass;
 					}
 				}
+			if(event.biome.fillerBlock != null) {
+				if(event.biome.fillerBlock == Blocks.dirt) {
+					if(data.rogue && (data.temperature > -20)) {
+						event.biome.fillerBlock = ModBlocks.frozen_dirt;
+					} else {
+						event.biome.fillerBlock = Blocks.dirt;
+					}
+				}
+			}
+
 			}
 		}
 	}
@@ -225,30 +235,14 @@ public class ModEventHandlerRogue {
 	@SubscribeEvent
 	public void postImpactDecoration(DecorateBiomeEvent.Decorate event) {
 		
-		TomSaveData data = TomSaveData.forWorld(event.world);
+		RogueWorldSaveData data = RogueWorldSaveData.forWorld(event.world);
 		
-		if(data.impact) {
+		if(data.rogue) {
 			EventType type = event.type;
-			
-			if(data.dust > 0 || data.fire > 0) {
-				if(type == event.type.TREE || type == event.type.BIG_SHROOM || type == event.type.GRASS || type == event.type.REED || type == event.type.FLOWERS || type == event.type.DEAD_BUSH
-						|| type == event.type.CACTUS || type == event.type.PUMPKIN || type == event.type.LILYPAD) {
-					event.setResult(Result.DENY);
-				}
-				
-			} else if(data.dust == 0 && data.fire == 0) {
-				if(type == event.type.TREE || type == event.type.BIG_SHROOM || type == event.type.CACTUS) {
-					if(event.world.rand.nextInt(9) == 0) {
-						event.setResult(Result.DEFAULT);
-					} else {
-						event.setResult(Result.DENY);
-					}
-				}
 				
 				if(type == event.type.GRASS || type == event.type.REED) {
 					event.setResult(Result.DEFAULT);
 				}
-			}
 			
 		} else {
 			event.setResult(Result.DEFAULT);
@@ -257,15 +251,15 @@ public class ModEventHandlerRogue {
 
 	@SubscribeEvent
 	public void populateChunkPre(PopulateChunkEvent.Pre event) {
-		TomSaveData.forWorld(event.world); /* forces the data to be cached so it is accurate by the time ModEventHandlerImpact#modifyVillageGen is called. */
+		RogueWorldSaveData.forWorld(event.world); /* forces the data to be cached so it is accurate by the time ModEventHandlerImpact#modifyVillageGen is called. */
 	}
 
 	@SubscribeEvent
 	public void populateChunkPost(PopulateChunkEvent.Post event) {
 		
-		TomSaveData data = TomSaveData.forWorld(event.world);
+		RogueWorldSaveData data = RogueWorldSaveData.forWorld(event.world);
 		
-		if(data.impact) {
+		if(data.rogue) {
 			Chunk chunk = event.world.getChunkFromChunkCoords(event.chunkX, event.chunkZ);
 			
 			for(ExtendedBlockStorage storage : chunk.getBlockStorageArray()) {
@@ -276,20 +270,22 @@ public class ModEventHandlerRogue {
 						for(int y = 0; y < 16; ++y) {
 							for(int z = 0; z < 16; ++z) {
 								
-								if(data.dust > 0.25 || data.fire > 0) {
+								if(data.temperature > -50) {
 									if(storage.getBlockByExtId(x, y, z) == Blocks.grass) {
-										storage.func_150818_a(x, y, z, ModBlocks.impact_dirt);
+										storage.func_150818_a(x, y, z, ModBlocks.frozen_dirt);
 									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockLog) {
-										storage.func_150818_a(x, y, z, Blocks.air);
+										storage.func_150818_a(x, y, z, ModBlocks.frozen_log);
 									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockLeaves) {
-										storage.func_150818_a(x, y, z, Blocks.air);
+										storage.func_150818_a(x, y, z, ModBlocks.frozen_leaves);
 									} else if(storage.getBlockByExtId(x, y, z).getMaterial() == Material.leaves) {
-										storage.func_150818_a(x, y, z, Blocks.air);
+										storage.func_150818_a(x, y, z, ModBlocks.frozen_leaves);
 									} else if(storage.getBlockByExtId(x, y, z).getMaterial() == Material.plants) {
-										storage.func_150818_a(x, y, z, Blocks.air);
-									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockBush) {
-										storage.func_150818_a(x, y, z, Blocks.air);
-									}
+										storage.func_150818_a(x, y, z, ModBlocks.plant_dead);
+									} else if(storage.getBlockByExtId(x, y, z) instanceof BlockDirt) {
+										storage.func_150818_a(x, y, z, ModBlocks.frozen_dirt);
+									} else if(storage.getBlockByExtId(x, y, z) .getMaterial() == Material.water) {
+										storage.func_150818_a(x, y, z, ModBlocks.cold_ice);
+									
 								}
 							}
 						}
@@ -298,4 +294,5 @@ public class ModEventHandlerRogue {
 			}
 		}
 	}
+}
 }
