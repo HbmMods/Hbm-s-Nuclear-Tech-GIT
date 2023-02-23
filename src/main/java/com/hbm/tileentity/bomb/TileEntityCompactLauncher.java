@@ -630,6 +630,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineCompactLauncher(player.inventory, this);
 	}

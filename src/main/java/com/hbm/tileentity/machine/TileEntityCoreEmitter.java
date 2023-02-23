@@ -367,6 +367,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICoreEmitter(player.inventory, this);
 	}

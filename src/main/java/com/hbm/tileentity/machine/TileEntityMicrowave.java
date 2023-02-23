@@ -215,6 +215,7 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMicrowave(player.inventory, this);
 	}

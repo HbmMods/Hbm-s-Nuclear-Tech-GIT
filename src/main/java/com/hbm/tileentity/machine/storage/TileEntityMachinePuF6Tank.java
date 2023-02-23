@@ -241,6 +241,7 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachinePuF6Tank(player.inventory, this);
 	}

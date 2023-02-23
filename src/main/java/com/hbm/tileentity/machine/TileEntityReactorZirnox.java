@@ -593,6 +593,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIReactorZirnox(player.inventory, this);
 	}

@@ -243,6 +243,7 @@ public class TileEntityMachineUF6Tank extends TileEntity implements ISidedInvent
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineUF6Tank(player.inventory, this);
 	}

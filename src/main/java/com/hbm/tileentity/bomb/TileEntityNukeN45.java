@@ -323,6 +323,7 @@ public class TileEntityNukeN45 extends TileEntity implements ISidedInventory, IG
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUINukeN45(player.inventory, this);
 	}

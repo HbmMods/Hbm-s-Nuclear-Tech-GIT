@@ -9,6 +9,10 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUITurretRichard;
 import com.hbm.items.ItemAmmoEnums.AmmoRocket;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import com.hbm.items.ModItems;
 
 import net.minecraft.client.gui.GuiScreen;
@@ -171,6 +175,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITurretRichard(player.inventory, this);
 	}

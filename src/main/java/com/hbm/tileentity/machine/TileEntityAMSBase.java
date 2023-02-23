@@ -541,6 +541,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IF
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIAMSBase(player.inventory, this);
 	}

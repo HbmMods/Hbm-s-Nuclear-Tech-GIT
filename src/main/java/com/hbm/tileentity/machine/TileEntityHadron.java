@@ -22,6 +22,8 @@ import com.hbm.tileentity.machine.TileEntityHadronDiode.DiodeConfig;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.GuiScreen;
@@ -752,6 +754,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIHadron(player.inventory, this);
 	}

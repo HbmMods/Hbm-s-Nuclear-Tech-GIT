@@ -5,6 +5,8 @@ import com.hbm.inventory.gui.GUIMachineSatLinker;
 import com.hbm.items.ISatChip;
 import com.hbm.tileentity.IGUIProvider;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -196,6 +198,7 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineSatLinker(player.inventory, this);
 	}

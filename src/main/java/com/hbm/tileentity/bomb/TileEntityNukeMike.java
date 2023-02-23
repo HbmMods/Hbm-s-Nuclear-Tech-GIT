@@ -233,6 +233,7 @@ public class TileEntityNukeMike extends TileEntity implements ISidedInventory, I
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUINukeMike(player.inventory, this);
 	}

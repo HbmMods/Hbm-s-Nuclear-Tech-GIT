@@ -7,6 +7,8 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.CasingEjector;
 import com.hbm.inventory.gui.GUITurretFriendly;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -46,6 +48,7 @@ public class TileEntityTurretFriendly extends TileEntityTurretChekhov {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITurretFriendly(player.inventory, this);
 	}

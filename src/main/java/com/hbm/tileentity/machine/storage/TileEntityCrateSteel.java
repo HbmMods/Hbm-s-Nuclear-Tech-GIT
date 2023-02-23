@@ -3,6 +3,8 @@ package com.hbm.tileentity.machine.storage;
 import com.hbm.inventory.container.ContainerCrateSteel;
 import com.hbm.inventory.gui.GUICrateSteel;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -26,6 +28,7 @@ public class TileEntityCrateSteel extends TileEntityCrateBase implements ISidedI
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICrateSteel(player.inventory, this);
 	}

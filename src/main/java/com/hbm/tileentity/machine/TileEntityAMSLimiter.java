@@ -428,6 +428,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIAMSLimiter(player.inventory, this);
 	}
