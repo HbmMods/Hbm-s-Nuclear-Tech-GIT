@@ -157,7 +157,7 @@ public class MachineUF6Tank extends BlockContainer implements IMultiblock {
 			TileEntityMachineUF6Tank entity = (TileEntityMachineUF6Tank) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_uf6_tank, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

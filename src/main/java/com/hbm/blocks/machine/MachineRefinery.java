@@ -63,7 +63,7 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 			
 			if(tank.hasExploded) return false;
 
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_refinery, world, pos[0], pos[1], pos[2]);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {
 			return true;

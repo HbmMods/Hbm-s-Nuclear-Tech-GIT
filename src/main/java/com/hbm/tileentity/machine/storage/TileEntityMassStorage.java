@@ -1,15 +1,20 @@
 package com.hbm.tileentity.machine.storage;
 
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.container.ContainerMassStorage;
+import com.hbm.inventory.gui.GUIMassStorage;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.INBTPacketReceiver;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPacketReceiver, IControlReceiver {
 	
@@ -185,5 +190,16 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return new int[] { 0, 2 };
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMassStorage(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMassStorage(player.inventory, this);
 	}
 }

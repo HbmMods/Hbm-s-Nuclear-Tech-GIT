@@ -1,27 +1,33 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.inventory.container.ContainerCoreStabilizer;
+import com.hbm.inventory.gui.GUICoreStabilizer;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemLens;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraftforge.common.util.ForgeDirection;
-
-import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.inventory.Container;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyUser, SimpleComponent {
+public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyUser, SimpleComponent, IGUIProvider {
 
 	public long power;
 	public static final long maxPower = 2500000000L;
@@ -205,5 +211,16 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		}
 		watts = newOutput;
 		return new Object[] {};
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerCoreStabilizer(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUICoreStabilizer(player.inventory, this);
 	}
 }

@@ -85,7 +85,7 @@ public class NukeN45 extends BlockContainer implements IBomb {
 		} else if(!player.isSneaking()) {
 			TileEntityNukeN45 entity = (TileEntityNukeN45) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_nuke_n45, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

@@ -2,21 +2,29 @@ package com.hbm.tileentity.machine;
 
 import java.util.Arrays;
 
+import com.hbm.inventory.container.ContainerMachineSiren;
+import com.hbm.inventory.gui.GUIMachineSiren;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemCassette.SoundType;
 import com.hbm.items.machine.ItemCassette.TrackType;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TESirenPacket;
+import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
-public class TileEntityMachineSiren extends TileEntity implements ISidedInventory {
+public class TileEntityMachineSiren extends TileEntity implements ISidedInventory, IGUIProvider {
 
 	private ItemStack slots[];
 	
@@ -216,5 +224,16 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 		}
 		
 		return TrackType.NULL;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMachineSiren(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineSiren(player.inventory, this);
 	}
 }

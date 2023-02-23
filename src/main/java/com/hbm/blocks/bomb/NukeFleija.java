@@ -96,7 +96,7 @@ public class NukeFleija extends BlockContainer implements IBomb {
 		} else if(!player.isSneaking()) {
 			TileEntityNukeFleija entity = (TileEntityNukeFleija) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_nuke_fleija, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

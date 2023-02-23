@@ -61,7 +61,7 @@ public class SoyuzLauncher extends BlockDummyable {
 			TileEntitySoyuzLauncher entity = (TileEntitySoyuzLauncher) world.getTileEntity(pos[0], pos[1], pos[2]);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_soyuz_launcher, world, pos[0], pos[1], pos[2]);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			}
 			return true;
 		} else {

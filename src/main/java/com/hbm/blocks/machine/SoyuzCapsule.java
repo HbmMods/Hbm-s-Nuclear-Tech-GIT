@@ -52,7 +52,7 @@ public class SoyuzCapsule extends BlockContainer {
 		} else if(!player.isSneaking())
 		{
 			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_capsule, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 				
 			return true;
 		} else {

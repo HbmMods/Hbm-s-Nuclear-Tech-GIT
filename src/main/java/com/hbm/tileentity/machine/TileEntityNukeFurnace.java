@@ -4,19 +4,27 @@ import java.util.HashMap;
 
 import com.hbm.blocks.machine.MachineNukeFurnace;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.container.ContainerNukeFurnace;
+import com.hbm.inventory.gui.GUINukeFurnace;
 import com.hbm.items.ItemCustomLore;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBreedingRod.*;
+import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
+import com.hbm.tileentity.IGUIProvider;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
-public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory {
+public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory, IGUIProvider {
 
 	private ItemStack slots[];
 	
@@ -390,5 +398,16 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 			return fuels.get(sta);
 		
 		return 0;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerNukeFurnace(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUINukeFurnace(player.inventory, this);
 	}
 }

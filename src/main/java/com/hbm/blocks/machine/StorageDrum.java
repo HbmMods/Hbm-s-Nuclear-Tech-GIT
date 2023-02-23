@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 
 public class StorageDrum extends BlockMachineBase {
 
-	public StorageDrum(Material mat, int guiID) {
-		super(mat, guiID);
+	public StorageDrum(Material mat) {
+		super(mat, 0);
 	}
 
 	@Override

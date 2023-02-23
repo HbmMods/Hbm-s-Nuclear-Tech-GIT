@@ -3,6 +3,7 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.inventory.gui.GUITurretMaxwell;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -13,6 +14,7 @@ import com.hbm.util.EntityDamageUtil;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -20,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 
@@ -231,5 +234,11 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 			beam = 5;
 		else
 			super.networkUnpack(nbt);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUITurretMaxwell(player.inventory, this);
 	}
 }

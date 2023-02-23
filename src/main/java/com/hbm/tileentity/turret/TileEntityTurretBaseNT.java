@@ -15,12 +15,14 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.particle.SpentCasing;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
@@ -37,12 +39,14 @@ import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -51,7 +55,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @author hbm
  *
  */
-public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyUser, IControlReceiver {
+public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyUser, IControlReceiver, IGUIProvider {
 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
@@ -870,5 +874,11 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, spawn.xCoord, spawn.yCoord, spawn.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		
 		cachedCasingConfig = null;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerTurretBase(player.inventory, this);
 	}
 }

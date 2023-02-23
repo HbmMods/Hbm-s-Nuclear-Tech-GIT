@@ -2633,22 +2633,7 @@ public class ModItems {
 	public static Item digamma_know;
 	public static Item digamma_kauai_moho;
 	public static Item digamma_up_on_top;
-
-	public static final int guiID_item_folder = 1099;
-	public static final int guiID_item_fluid = 1100;
-	public static final int guiID_item_designator = 10100;
-	public static final int guiID_item_sat_interface = 10101;
-	public static final int guiID_item_bobmazon = 10103;
-	public static final int guiID_item_sat_coord = 10104;
-	public static final int guiID_item_book = 10105;
-	public static final int guiID_item_guide = 10106;
-	public static final int guiID_item_bobble = 10107;
-	public static final int guiID_item_holo_image = 10108;
-	public static final int guiID_item_snowglobe = 10109;
-
-	public static final int guiID_cart_crate = 2000;
-	public static final int guiID_cart_destroyer = 2001;
-
+	
 	public static Item mysteryshovel;
 	public static Item memory;
 

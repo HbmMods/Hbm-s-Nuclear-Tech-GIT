@@ -82,7 +82,7 @@ public class MachineDiesel extends BlockContainer implements ITooltipProvider {
 			TileEntityMachineDiesel entity = (TileEntityMachineDiesel) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_diesel, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {
