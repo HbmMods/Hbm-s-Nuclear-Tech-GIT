@@ -49,8 +49,8 @@ public class PermaSyncHandler {
 		
 		/// ROGUE PLANET DATA ///
 		RogueWorldHandler.lastSyncWorld = player.worldObj;
-		RogueWorldHandler.distance = buf.readFloat();
-		RogueWorldHandler.distance = buf.readFloat();
+		RogueWorldHandler.distance = buf.readFloat();// SOMEONE PLEASE explain to me why my code is acting like a 5 year old
+		RogueWorldHandler.distance = buf.readFloat();//mommy i want three! and only three! otherwise im not gonna work at all waahhh!!!!
 		RogueWorldHandler.distance = buf.readFloat();
 		RogueWorldHandler.atmosphere = buf.readFloat();
 		RogueWorldHandler.star = buf.readBoolean();

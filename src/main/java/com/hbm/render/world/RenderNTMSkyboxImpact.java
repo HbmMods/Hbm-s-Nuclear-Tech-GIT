@@ -149,7 +149,6 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
 		// Some blanking to conceal the stars
-		System.out.println("Distance: "+distance);
 		f10 = 30.0F/distance;
 		tessellator.startDrawingQuads();
 		tessellator.addVertex(-f10, 99.9D, -f10);
