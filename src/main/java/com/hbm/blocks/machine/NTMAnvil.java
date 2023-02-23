@@ -176,6 +176,7 @@ public class NTMAnvil extends BlockFalling implements ITooltipProvider, IGUIProv
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIAnvil(player.inventory, ((NTMAnvil)world.getBlock(x, y, z)).tier);
 	}
