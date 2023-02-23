@@ -89,7 +89,7 @@ public class RBMKConsole extends BlockDummyable {
 				}
 				
 				if(world.isRemote)
-					FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_rbmk_console, world, pos[0], pos[1], pos[2]);
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			}
 			return true;
 			

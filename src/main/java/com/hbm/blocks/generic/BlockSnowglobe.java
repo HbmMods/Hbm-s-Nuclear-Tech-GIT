@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.wiaj.WorldInAJar;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -13,11 +14,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -88,7 +91,7 @@ public class BlockSnowglobe extends BlockContainer {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
 		if(world.isRemote) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModItems.guiID_item_snowglobe, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 			
 		} else {

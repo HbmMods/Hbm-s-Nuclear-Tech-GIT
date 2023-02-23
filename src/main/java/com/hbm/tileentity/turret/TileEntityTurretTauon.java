@@ -5,13 +5,17 @@ import java.util.List;
 
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.inventory.gui.GUITurretTauon;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 
@@ -149,5 +153,10 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 			beam = 3;
 		else
 			super.networkUnpack(nbt);
+	}
+
+	@Override
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUITurretTauon(player.inventory, this);
 	}
 }

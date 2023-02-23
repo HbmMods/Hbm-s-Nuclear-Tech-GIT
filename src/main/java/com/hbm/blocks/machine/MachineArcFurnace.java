@@ -159,7 +159,7 @@ public class MachineArcFurnace extends BlockContainer {
 			TileEntityMachineArcFurnace entity = (TileEntityMachineArcFurnace) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_arc, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

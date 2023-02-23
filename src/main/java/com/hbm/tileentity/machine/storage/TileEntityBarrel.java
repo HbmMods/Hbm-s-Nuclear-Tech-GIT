@@ -9,12 +9,15 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidContainerRegistry;
+import com.hbm.inventory.container.ContainerBarrel;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Corrosive;
+import com.hbm.inventory.gui.GUIBarrel;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -25,13 +28,16 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.fluid.IPipeNet;
 import api.hbm.fluid.PipeNet;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
-public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IPersistentNBT {
+public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -329,5 +335,15 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
 		this.tank.readFromNBT(data, "tank");
 		this.mode = data.getShort("nbt");
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerBarrel(player.inventory, this);
+	}
+
+	@Override
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIBarrel(player.inventory, this);
 	}
 }

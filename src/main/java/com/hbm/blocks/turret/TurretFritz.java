@@ -27,6 +27,6 @@ public class TurretFritz extends TurretBaseNT {
 
 	@Override
 	public void openGUI(World world, EntityPlayer player, int x, int y, int z) {
-		FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fritz, world, x, y, z);
+		FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 	}
 }

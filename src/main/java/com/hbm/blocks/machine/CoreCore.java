@@ -44,7 +44,7 @@ public class CoreCore extends BlockContainer {
 			return true;
 		} else if(!player.isSneaking()) {
 			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_core, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 			
 		} else {

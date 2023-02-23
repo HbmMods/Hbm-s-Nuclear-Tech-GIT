@@ -57,7 +57,7 @@ public class MachineMissileAssembly extends BlockContainer {
 
 			TileEntityMachineMissileAssembly entity = (TileEntityMachineMissileAssembly) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_missile_assembly, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

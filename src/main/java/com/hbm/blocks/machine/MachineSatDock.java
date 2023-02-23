@@ -76,7 +76,7 @@ public class MachineSatDock extends BlockContainer implements IMultiblock {
 			TileEntityMachineSatDock entity = (TileEntityMachineSatDock) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dock, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

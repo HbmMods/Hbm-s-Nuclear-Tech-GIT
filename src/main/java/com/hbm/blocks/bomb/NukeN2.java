@@ -94,7 +94,7 @@ public class NukeN2 extends BlockContainer implements IBomb {
 		} else if(!player.isSneaking()) {
 			TileEntityNukeN2 entity = (TileEntityNukeN2) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_nuke_n2, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {
