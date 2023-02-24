@@ -8,7 +8,7 @@ public class RogueWorldSaveData extends WorldSavedData {
 
 	public final static String key = "rogueWorldData";
 	public float distance = 1F;
-	public float temperature;
+	public float temperature = 14F;
 	public boolean rogue;
 	public boolean star;
 	public long rtime;

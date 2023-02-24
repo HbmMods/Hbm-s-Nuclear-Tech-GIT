@@ -291,6 +291,8 @@ public class ModEventHandlerRogue {
 										storage.func_150818_a(x, y, z, ModBlocks.cold_ice);
 									} else if(storage.getBlockByExtId(x, y, z)== Blocks.gravel) {
 										storage.func_150818_a(x, y, z, ModBlocks.frozen_gravel);
+									} else if(storage.getBlockByExtId(x, y, z)== Blocks.sand) {
+										storage.func_150818_a(x, y, z, ModBlocks.frozen_sand);
 							}
 						
 						}
