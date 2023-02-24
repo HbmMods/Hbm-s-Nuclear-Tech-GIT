@@ -152,7 +152,7 @@ public class ModEventHandlerRogue {
 	}
 
     public static float getSolarBrightnessClient(World world) {    	
-    	return (float) (1/Math.max(1,Math.pow(MainRegistry.proxy.getDistance(world), 2)));
+    	return (float) (1/Math.max(1,Math.pow(MainRegistry.proxy.getDistance(world), 1)));
     }
 
     public static float getPlanetaryLightLevelMultiplierClient(World world) {

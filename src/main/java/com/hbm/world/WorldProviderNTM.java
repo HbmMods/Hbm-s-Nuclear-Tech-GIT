@@ -63,10 +63,12 @@ public class WorldProviderNTM extends WorldProviderSurface {
 			float f5 = (f3 - f4) / f2 * 0.5F + 0.5F;
 			float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * (float) Math.PI)) * 0.99F;
 			f6 *= f6;
-			this.colorsSunriseSunset[0] = (f5 * 0.3F + 0.7F)* ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj) * MainRegistry.proxy.getAtmosphere(worldObj) * (1 - dust);
-			this.colorsSunriseSunset[1] = (f5 * f5 * 0.7F + 0.2F)* ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj) * MainRegistry.proxy.getAtmosphere(worldObj) * (1 - dust);
-			this.colorsSunriseSunset[2] = (f5 * f5 * 0.0F + 0.2F)* ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj) * MainRegistry.proxy.getAtmosphere(worldObj) * (1 - dust);
-			this.colorsSunriseSunset[3] = f6* ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj) * MainRegistry.proxy.getAtmosphere(worldObj) * (1 - dust);
+			this.colorsSunriseSunset[0] = (f5 * 0.3F + 0.7F)* Math.min(1, ModEventHandlerRogue.getSolarBrightnessClient(worldObj)) * MainRegistry.proxy.getAtmosphere(worldObj) * (1 - dust);
+			this.colorsSunriseSunset[1] = (f5 * f5 * 0.7F + 0.2F)*  Math.min(1, ModEventHandlerRogue.getSolarBrightnessClient(worldObj)) * MainRegistry.proxy.getAtmosphere(worldObj) * (1 - dust);
+			this.colorsSunriseSunset[2] = (f5 * f5 * 0.0F + 0.2F)*  Math.min(1, ModEventHandlerRogue.getSolarBrightnessClient(worldObj)) * MainRegistry.proxy.getAtmosphere(worldObj) * (1 - dust);
+			this.colorsSunriseSunset[3] = f6*  Math.min(1, ModEventHandlerRogue.getSolarBrightnessClient(worldObj)) * MainRegistry.proxy.getAtmosphere(worldObj) * (1 - dust);
+			System.out.println( ModEventHandlerRogue.getSolarBrightnessClient(worldObj));
+			System.out.println(colorsSunriseSunset);
 			return this.colorsSunriseSunset;
 		} else {
 			return null;
@@ -82,8 +84,8 @@ public class WorldProviderNTM extends WorldProviderSurface {
 		float f1 = worldObj.getCelestialAngle(par1);
 		float f2 = 1.0F - (MathHelper.cos(f1 * (float) Math.PI * 2.0F) * 2.0F + 0.25F);
 
-		if(f2 < Math.max(0,1-ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj))) {
-			f2 = Math.max(0,1-ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj));
+		if(f2 < Math.max(0,1-ModEventHandlerRogue.getSolarBrightnessClient(worldObj))) {
+			f2 = Math.max(0,1-ModEventHandlerRogue.getSolarBrightnessClient(worldObj));
 		}
 
 		if(f2 > 1.0F) {
@@ -97,7 +99,7 @@ public class WorldProviderNTM extends WorldProviderSurface {
 	public float getSunBrightness(float par1) {
 		float dust = ImpactWorldHandler.getDustForClient(MainRegistry.proxy.me().worldObj);
 		float sunBr = worldObj.getSunBrightnessFactor(par1);
-		return ((sunBr * 0.8F + 0.2F) * (1 - dust))*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj);
+		return ((sunBr * 0.8F + 0.2F) * (1 - dust))*ModEventHandlerRogue.getSolarBrightnessClient(worldObj);
 	}
 	
 
@@ -117,7 +119,7 @@ public class WorldProviderNTM extends WorldProviderSurface {
 	public float getSunBrightnessFactor(float par1) {
 		float dust = MainRegistry.proxy.getImpactDust(worldObj);
 		float sunBr = worldObj.getSunBrightnessFactor(par1);
-		float dimSun = (sunBr * (1 - dust))*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj);
+		float dimSun = (sunBr * (1 - dust))*ModEventHandlerRogue.getSolarBrightnessClient(worldObj);
 		return dimSun;
 	}
 
@@ -139,7 +141,7 @@ public class WorldProviderNTM extends WorldProviderSurface {
 		if(fire > 0) {
 			return Vec3.createVectorHelper((double) f3 * (Math.max((1 - (dust * 2)), 0)), (double) f4 * (Math.max((1 - (dust * 2)), 0)), (double) f5 * (Math.max((1 - (dust * 2)), 0)));
 		}
-		return Vec3.createVectorHelper((double) f3*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj) * (1 - dust), (double) f4*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj) * (1 - dust), (double) f5 * (1 - dust)*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj));
+		return Vec3.createVectorHelper((double) f3*ModEventHandlerRogue.getSolarBrightnessClient(worldObj) * (1 - dust), (double) f4*ModEventHandlerRogue.getSolarBrightnessClient(worldObj) * (1 - dust), (double) f5 * (1 - dust)*ModEventHandlerRogue.getSolarBrightnessClient(worldObj));
 	}
 
 	@Override
@@ -163,7 +165,7 @@ public class WorldProviderNTM extends WorldProviderSurface {
 			f6 = (float) sky.zCoord * (1 - dust);
 		}
 
-		return Vec3.createVectorHelper((double) f4*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj) * (fire + (1 - dust)), (double) f5*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj) * (fire + (1 - dust)), (double) f6*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj) * (fire + (1 - dust)));
+		return Vec3.createVectorHelper((double) f4*ModEventHandlerRogue.getSolarBrightnessClient(worldObj) * (fire + (1 - dust)), (double) f5*ModEventHandlerRogue.getSolarBrightnessClient(worldObj) * (fire + (1 - dust)), (double) f6*ModEventHandlerRogue.getSolarBrightnessClient(worldObj) * (fire + (1 - dust)));
 	}
 
 	@Override
@@ -174,7 +176,7 @@ public class WorldProviderNTM extends WorldProviderSurface {
 		float f3 = (float) clouds.xCoord;
 		float f4 = (float) clouds.yCoord;
 		float f5 = (float) clouds.zCoord;
-		return Vec3.createVectorHelper((double) f3 * (1 - dust)*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj), (double) f4 * (1 - dust)*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj), (double) f5 * (1 - dust)*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj));
+		return Vec3.createVectorHelper((double) f3 * (1 - dust)*ModEventHandlerRogue.getSolarBrightnessClient(worldObj), (double) f4 * (1 - dust)*ModEventHandlerRogue.getSolarBrightnessClient(worldObj), (double) f5 * (1 - dust)*ModEventHandlerRogue.getSolarBrightnessClient(worldObj));
 	}
 	/*@Override
     public boolean canBlockFreeze(int x, int y, int z, boolean byWater)
