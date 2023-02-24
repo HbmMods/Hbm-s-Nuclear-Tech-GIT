@@ -84,7 +84,8 @@ public class ServerProxy {
 		return TomSaveData.forWorld(world).impact;
 	}
 	
-	public float getPlanetDistance(World world) {
+	public float getDistance(World world) {
+		System.out.println("getDistanceForServer: " + RogueWorldSaveData.forWorld(world).distance);
 		return RogueWorldSaveData.forWorld(world).distance;
 	}
 	
