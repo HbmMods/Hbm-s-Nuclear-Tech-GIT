@@ -89,7 +89,7 @@ public class WorldProviderNTM extends WorldProviderSurface {
 		if(f2 > 1.0F) {
 			f2 = 1.0F;
 		}
-		return f2 * (1 - dust);
+		return f2 * (1 - dust)*0.5f;
 	}
 
 	@Override
