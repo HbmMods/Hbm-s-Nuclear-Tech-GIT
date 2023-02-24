@@ -176,11 +176,8 @@ public class ModEventHandlerRogue {
 		
 		RogueWorldSaveData data = RogueWorldSaveData.getLastCachedOrNull();
 		
-		if(event.biome == null) {
-			return;
-		}
-		
-		if(data.rogue && data.temperature > -50) {
+		if(data != null && event.biome != null) {
+			if(data.rogue && data.temperature > -50) {
 			if(mat == Material.water) {
 				event.replacement = Blocks.packed_ice;
 				
@@ -200,6 +197,7 @@ public class ModEventHandlerRogue {
 		if(event.replacement != null) {
 			event.setResult(Result.DENY);
 		}
+	}
 	}
 
 	
