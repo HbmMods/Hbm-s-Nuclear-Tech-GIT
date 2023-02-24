@@ -1015,6 +1015,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.dummy_port_refinery");
 		ignoreMappings.add("hbm:item.gun_revolver_iron");
 		ignoreMappings.add("hbm:item.gun_calamity_dual");
+		ignoreMappings.add("hbm:item.gun_revolver_lead");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
