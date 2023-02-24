@@ -168,7 +168,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 			tessellator.draw();
 		}
 		{
-			GL11.glColor4d(1*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), 1*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), 1*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), rain);
+			GL11.glColor4d(1*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(world), 1*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(world), 1*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(world), rain);
 			f10 = 20.0F;
 			FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderNTMSkyboxImpact.moonTexture);
 			float sinphi = FMLClientHandler.instance().getClient().theWorld.getMoonPhase();
@@ -213,7 +213,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 			GL11.glPopMatrix();
 
 			GL11.glPushMatrix();
-			GL11.glColor4f(brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplier(world), dust);
+			GL11.glColor4f(brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(world), brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(world), brightness*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(world), rain);
 			GL11.glRotatef(-40.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef((System.currentTimeMillis() % (360 * 1000) / 1000F), 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef((System.currentTimeMillis() % (360 * 100) / 100F), 1.0F, 0.0F, 0.0F);

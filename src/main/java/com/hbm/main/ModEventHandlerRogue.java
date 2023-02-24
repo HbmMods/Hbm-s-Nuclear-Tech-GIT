@@ -156,7 +156,7 @@ public class ModEventHandlerRogue {
     }
 
     public static float getPlanetaryLightLevelMultiplierClient(World world) {
-		double log2Multiplier = (Math.log10(getSolarBrightness(world))/Math.log10(4));
+		double log2Multiplier = (Math.log10(getSolarBrightnessClient(world))/Math.log10(4));
 		return (float) Math.pow(1.5, log2Multiplier);
 	}
     
