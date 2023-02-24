@@ -1277,6 +1277,12 @@ public class ModBlocks {
 	public static Block sulfuric_acid_block;
 	public static Fluid sulfuric_acid_fluid;
 
+	public static Block ln2_block;
+	public static Fluid ln2_fluid;
+
+	public static Block lox_block;
+	public static Fluid lox_fluid;
+
 	public static Block concrete_liquid;
 
 	public static Block volcano_core;
@@ -2409,6 +2415,14 @@ public class ModBlocks {
 		FluidRegistry.registerFluid(sulfuric_acid_fluid);
 		sulfuric_acid_block = new GenericFluidBlock(sulfuric_acid_fluid, Material.water, "sulfuric_acid_still", "sulfuric_acid_flowing").setDamage(ModDamageSource.acid, 5F).setBlockName("sulfuric_acid_block").setResistance(500F);
 		
+		ln2_fluid = new GenericFluid("liquid_nitrogen").setDensity(807).setViscosity(1000).setTemperature(77);
+		FluidRegistry.registerFluid(ln2_fluid);
+		ln2_block = new CryogenicBlock(ln2_fluid, Material.water, "ln2_still", "ln2_flowing").setDamage(ModDamageSource.s_cryolator, 5F).setBlockName("liquid_nitrogen_block").setResistance(500F);
+
+		lox_fluid = new GenericFluid("liquid_oxygen").setDensity(1141).setViscosity(1000).setTemperature(90);
+		FluidRegistry.registerFluid(lox_fluid);
+		lox_block = new CryogenicBlock(lox_fluid, Material.water, "lox_still", "lox_flowing").setDamage(ModDamageSource.s_cryolator, 5F).setBlockName("liquid_oxygen_block").setResistance(500F);
+
 		Fluid liquidConcrete = new GenericFluid("concrete_liquid").setViscosity(2000);
 		concrete_liquid = new GenericFiniteFluid(liquidConcrete, Material.rock, "concrete_liquid", "concrete_liquid_flowing").setQuantaPerBlock(4).setBlockName("concrete_liquid").setResistance(500F);
 
@@ -3490,6 +3504,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(corium_block, corium_block.getUnlocalizedName());
 		GameRegistry.registerBlock(volcanic_lava_block, volcanic_lava_block.getUnlocalizedName());
 		GameRegistry.registerBlock(sulfuric_acid_block, sulfuric_acid_block.getUnlocalizedName());
+		GameRegistry.registerBlock(ln2_block, ln2_block.getUnlocalizedName());
+		GameRegistry.registerBlock(lox_block, lox_block.getUnlocalizedName());
 		//GameRegistry.registerBlock(concrete_liquid, concrete_liquid.getUnlocalizedName());
 		
 		//Multiblock Dummy Blocks
