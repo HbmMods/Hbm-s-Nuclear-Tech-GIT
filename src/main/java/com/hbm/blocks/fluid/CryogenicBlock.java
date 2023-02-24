@@ -88,46 +88,27 @@ public class CryogenicBlock extends BlockFluidClassic {
 	}
 
 	@Override
+	public void onBlockAdded(World world, int x, int y, int z) {
+		super.onBlockAdded(world, x, y, z);
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+
+			RogueWorldHandler.freeze(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, -180);
+		}
+	}
+	
+	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 		super.onNeighborBlockChange(world, x, y, z, block);
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 
 			RogueWorldHandler.freeze(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, -180);
-			/*if(reactToBlocks(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
-				world.setBlock(x, y, z, ModBlocks.sellafield_slaked);
-				break;
-			}*/
 		}
-	}
-	
-	public boolean reactToBlocks(World world, int x, int y, int z) {
-		if(world.getBlock(x, y, z).getMaterial() != this.getMaterial()) {
-			if(world.getBlock(x, y, z).getMaterial().isLiquid()) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	@Override
 	public int tickRate(World p_149738_1_) {
 		return 15;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-		super.randomDisplayTick(world, x, y, z, rand);
-
-		double ix = x + 0.5F + rand.nextDouble() * 2 - 1D;
-		double iy = y + 1;
-		double iz = z + 0.5F + rand.nextDouble() * 2 - 1D;
-
-		NBTTagCompound data = new NBTTagCompound();
-		data.setString("type", "cloud");
-		data.setDouble("posX", ix);
-		data.setDouble("posY", iy);
-		data.setDouble("posZ", iz);
-		MainRegistry.proxy.effectNT(data);
 	}
 }
