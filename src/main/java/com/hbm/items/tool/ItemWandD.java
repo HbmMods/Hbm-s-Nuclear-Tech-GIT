@@ -40,17 +40,30 @@ import net.minecraft.world.gen.structure.MapGenStronghold;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
-
+	boolean flag = false;
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		
+
 		if(world.isRemote)
 			return stack;
 		
 		MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
 		
 		if(pos != null) {
+
+			boolean flag = true;
+			if(flag) {
+			RogueWorldSaveData data = RogueWorldSaveData.forWorld(world);
+			data.star= true;
+			//data.atmosphere = 1F;
+			//data.distance = 1F;
+			//data.rtime = 1;
 			
+			//data.fire = 0F;
+			//data.dust = 0F;
+			data.markDirty();
+		}
+	
 			//TomSaveData data = TomSaveData.forWorld(world);
 			//data.impact = false;
 			//data.fire = 0F;
@@ -59,15 +72,6 @@ public class ItemWandD extends Item {
 			//data.time=3600;
 			//data.x=pos.blockX;
 			//data.z=pos.blockZ;
-			RogueWorldSaveData data = RogueWorldSaveData.forWorld(world);
-			data.rogue = true;
-			data.atmosphere = 1F;
-			data.distance = 1F;
-			data.rtime = 1;
-			
-			//data.fire = 0F;
-			//data.dust = 0F;
-			data.markDirty();
 			
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;

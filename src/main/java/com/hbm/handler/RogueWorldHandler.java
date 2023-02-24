@@ -53,7 +53,8 @@ public class RogueWorldHandler {
 						int Y = world.getHeightValue(X, Z) - world.rand.nextInt(Math.max(1, world.getHeightValue(X, Z)));
 
 						RogueWorldSaveData data = RogueWorldSaveData.forWorld(world);
-						float temp = ModEventHandlerRogue.getTemperatureAtDepth(Y, world);
+						//float temp = ModEventHandlerRogue.getTemperatureAtDepth(Y, world);
+						float temp = data.temperature;
 						//if(temp < 0) {
 							freeze(world, X, Y, Z, temp);
 						//}

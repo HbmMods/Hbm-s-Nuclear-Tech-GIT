@@ -58,18 +58,20 @@ public class ModEventHandlerRogue {
 			
 			RogueWorldHandler.frostEffects(event.world);
 			RogueWorldSaveData data = RogueWorldSaveData.forWorld(event.world);
+			//data.atmosphere = 1F;
+			//data.distance = 1F;
 			
 			if(data.star == true && data.rogue == false) {
 				data.rtime ++;
 				data.markDirty();
 			}
 			
-			if(data.rtime >= 96000 ) {
+			if(data.rtime >= 500 ) {//96000
 				data.rogue = true;
 				data.markDirty();
 			}
 			
-			if(data.rogue = true && data.rtime >= 96000 ) {
+			if(data.rogue = true && data.rtime >= 500 ) {
 				data.distance += escape;
 				data.temperature= ((int) ((5800 * Math.pow((1F/215F)/(2F* data.distance), 0.5) * Math.pow((1f-0.3f), 0.25)) * Math.max(1, (1.125d * Math.pow(data.atmosphere, 0.25)))))-273;
 				data.markDirty();
@@ -125,14 +127,15 @@ public class ModEventHandlerRogue {
 			}
 		}
 	}
-    public static int getTemperatureAtDepth(int Y, World world) 
+    public static float getTemperatureAtDepth(int Y, World world) 
     {
 		RogueWorldSaveData data = RogueWorldSaveData.forWorld(world);
     	int voidTemp = 50;
     	int bedrockLevel = -5;
     	int seaLevel = 64;
     	
-    	return (int) (voidTemp-(voidTemp-data.temperature)*((bedrockLevel+Math.min(seaLevel, Y)/(seaLevel+bedrockLevel))));
+    	return data.temperature;
+    			//(int) (voidTemp-(voidTemp-data.temperature)*((bedrockLevel+Math.min(seaLevel, Y)/(seaLevel+bedrockLevel))));
     }
 
     public static float getSolarBrightness(World world) {

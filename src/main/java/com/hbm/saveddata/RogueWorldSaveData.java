@@ -7,12 +7,12 @@ import net.minecraft.world.WorldSavedData;
 public class RogueWorldSaveData extends WorldSavedData {
 
 	public final static String key = "rogueWorldData";
-	public float distance;
+	public float distance = 1F;
 	public float temperature;
 	public boolean rogue;
 	public boolean star;
 	public long rtime;
-	public float atmosphere;
+	public float atmosphere = 1F;
 	
 	private static RogueWorldSaveData lastCachedUnsafe = null;
 

@@ -110,6 +110,7 @@ public class WorldProviderNTM extends WorldProviderSurface {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public float getSunBrightnessFactor(float par1) {
 		float dust = MainRegistry.proxy.getImpactDust(worldObj);
 		float sunBr = worldObj.getSunBrightnessFactor(par1);
@@ -120,8 +121,9 @@ public class WorldProviderNTM extends WorldProviderSurface {
 	/**
 	 * Return Vec3D with biome specific fog color
 	 */
-	@SideOnly(Side.CLIENT)
+	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public Vec3 getFogColor(float p_76562_1_, float p_76562_2_) {
 		Vec3 fog = super.getFogColor(p_76562_1_, p_76562_2_);
 		float dust = MainRegistry.proxy.getImpactDust(worldObj);
@@ -161,6 +163,7 @@ public class WorldProviderNTM extends WorldProviderSurface {
 		return Vec3.createVectorHelper((double) f4 * (fire + (1 - dust))*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj), (double) f5 * (fire + (1 - dust))*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj), (double) f6 * (fire + (1 - dust))*ModEventHandlerRogue.getPlanetaryLightLevelMultiplierClient(worldObj));
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public Vec3 drawClouds(float partialTicks) {
 		Vec3 clouds = super.drawClouds(partialTicks);
