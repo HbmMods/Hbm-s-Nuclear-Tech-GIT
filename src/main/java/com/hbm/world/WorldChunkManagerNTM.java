@@ -1,6 +1,7 @@
 package com.hbm.world;
 
 import com.hbm.handler.ImpactWorldHandler;
+import com.hbm.handler.RogueWorldHandler;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
