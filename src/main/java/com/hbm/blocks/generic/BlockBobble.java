@@ -3,9 +3,11 @@ package com.hbm.blocks.generic;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.inventory.gui.GUIScreenBobble;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -13,10 +15,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,7 +34,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockBobble extends BlockContainer {
+public class BlockBobble extends BlockContainer implements IGUIProvider {
 
 	public BlockBobble() {
 		super(Material.iron);
@@ -89,7 +93,7 @@ public class BlockBobble extends BlockContainer {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
 		if(world.isRemote) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModItems.guiID_item_bobble, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 			
 		} else {
@@ -205,5 +209,16 @@ public class BlockBobble extends BlockContainer {
 			this.skinLayers = layers;
 			this.scrap = scrap;
 		}
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return null;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIScreenBobble((TileEntityBobble) world.getTileEntity(x, y, z));
 	}
 }

@@ -1,20 +1,24 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.container.ContainerArmorTable;
+import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockArmorTable extends Block {
+public class BlockArmorTable extends Block implements IGUIProvider {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
@@ -47,11 +51,22 @@ public class BlockArmorTable extends Block {
 			return true;
 		} else if(!player.isSneaking()) {
 
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_armor_table, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 		}
 		
 		return false;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerArmorTable(player.inventory);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIArmorTable(player.inventory);
 	}
 
 }

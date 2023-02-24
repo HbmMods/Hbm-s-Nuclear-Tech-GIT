@@ -1,8 +1,15 @@
 package com.hbm.tileentity.machine.storage;
 
+import com.hbm.inventory.container.ContainerCrateTungsten;
+import com.hbm.inventory.gui.GUICrateTungsten;
 import com.hbm.items.ModItems;
 
 import api.hbm.block.ILaserable;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.World;
@@ -93,5 +100,16 @@ public class TileEntityCrateTungsten extends TileEntityCrateBase implements ILas
 				slots[i].stackSize *= size;
 			}
 		}
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerCrateTungsten(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUICrateTungsten(player.inventory, this);
 	}
 }

@@ -1,19 +1,25 @@
 package com.hbm.tileentity.bomb;
 
+import com.hbm.inventory.container.ContainerNukeN2;
+import com.hbm.inventory.gui.GUINukeN2;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 
-public class TileEntityNukeN2 extends TileEntity implements ISidedInventory {
+public class TileEntityNukeN2 extends TileEntity implements ISidedInventory, IGUIProvider {
 
 	public ItemStack slots[];
 	private String customName;
@@ -208,5 +214,16 @@ public class TileEntityNukeN2 extends TileEntity implements ISidedInventory {
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerNukeN2(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUINukeN2(player.inventory, this);
 	}
 }

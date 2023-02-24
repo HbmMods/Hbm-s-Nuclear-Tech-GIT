@@ -62,7 +62,7 @@ public class LaunchTable extends BlockContainer implements IMultiblock, IBomb {
 		} else if(!player.isSneaking()) {
 			TileEntityLaunchTable entity = (TileEntityLaunchTable) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_launch_table, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

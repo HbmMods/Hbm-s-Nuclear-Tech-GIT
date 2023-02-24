@@ -127,7 +127,7 @@ public class ReactorHatch extends Block implements IFluidConnectorBlock {
 				{
 					if(((TileEntityMachineReactorLarge)world.getTileEntity(x, y, z + 2)).checkBody())
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x, y, z + 2);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z + 2);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Nuclear Reactor] Error: Reactor Structure not valid!"));
 					}
@@ -141,7 +141,7 @@ public class ReactorHatch extends Block implements IFluidConnectorBlock {
 				{
 					if(((TileEntityMachineReactorLarge)world.getTileEntity(x, y, z - 2)).checkBody())
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x, y, z - 2);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z - 2);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Nuclear Reactor] Error: Reactor Structure not valid!"));
 					}
@@ -155,7 +155,7 @@ public class ReactorHatch extends Block implements IFluidConnectorBlock {
 				{
 					if(((TileEntityMachineReactorLarge)world.getTileEntity(x + 2, y, z)).checkBody())
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x + 2, y, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x + 2, y, z);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Nuclear Reactor] Error: Reactor Structure not valid!"));
 					}
@@ -169,7 +169,7 @@ public class ReactorHatch extends Block implements IFluidConnectorBlock {
 				{
 					if(((TileEntityMachineReactorLarge)world.getTileEntity(x - 2, y, z)).checkBody())
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x - 2, y, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x - 2, y, z);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Nuclear Reactor] Error: Reactor Structure not valid!"));
 					}

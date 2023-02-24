@@ -136,7 +136,7 @@ public class MachineDiFurnace extends BlockContainer {
 			TileEntityDiFurnace entity = (TileEntityDiFurnace) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_test_difurnace, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

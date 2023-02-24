@@ -6,8 +6,11 @@ import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.container.ContainerAnvil;
+import com.hbm.inventory.gui.GUIAnvil;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -16,9 +19,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
@@ -27,7 +32,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class NTMAnvil extends BlockFalling implements ITooltipProvider {
+public class NTMAnvil extends BlockFalling implements ITooltipProvider, IGUIProvider {
 	
 	public final int tier;
 	
@@ -107,7 +112,7 @@ public class NTMAnvil extends BlockFalling implements ITooltipProvider {
 			return true;
 		} else if(!player.isSneaking()) {
 
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_anvil, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 		}
 		
@@ -163,5 +168,16 @@ public class NTMAnvil extends BlockFalling implements ITooltipProvider {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		list.add(EnumChatFormatting.GOLD + "Tier " + tier + " Anvil");
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerAnvil(player.inventory, ((NTMAnvil)world.getBlock(x, y, z)).tier);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIAnvil(player.inventory, ((NTMAnvil)world.getBlock(x, y, z)).tier);
 	}
 }

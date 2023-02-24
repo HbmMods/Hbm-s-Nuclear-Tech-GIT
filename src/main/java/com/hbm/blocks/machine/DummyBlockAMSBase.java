@@ -94,7 +94,7 @@ public class DummyBlockAMSBase extends BlockContainer implements IDummy {
     			TileEntityAMSBase entity = (TileEntityAMSBase) world.getTileEntity(a, b, c);
     			if(entity != null)
     			{
-    				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_ams_base, world, a, b, c);
+    				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, a, b, c);
     			}
     		}
 			return true;

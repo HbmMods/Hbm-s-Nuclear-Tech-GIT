@@ -2,16 +2,22 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import com.hbm.inventory.gui.GUIScreenHolotape;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.EnumUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemHolotapeImage extends ItemHoloTape {
+public class ItemHolotapeImage extends ItemHoloTape implements IGUIProvider {
 
 	public ItemHolotapeImage() {
 		super(EnumHoloImage.class, false, false);
@@ -19,7 +25,7 @@ public class ItemHolotapeImage extends ItemHoloTape {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		if(world.isRemote) player.openGui(MainRegistry.instance, ModItems.guiID_item_holo_image, world, 0, 0, 0);
+		if(world.isRemote) player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
 		return stack;
 	}
 
@@ -67,5 +73,16 @@ public class ItemHolotapeImage extends ItemHoloTape {
 		public String getText() {
 			return this.text;
 		}
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return null;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIScreenHolotape();
 	}
 }

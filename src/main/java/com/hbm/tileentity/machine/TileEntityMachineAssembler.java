@@ -7,14 +7,17 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.container.ContainerMachineAssembler;
+import com.hbm.inventory.gui.GUIMachineAssembler;
+import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
@@ -24,6 +27,9 @@ import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -31,8 +37,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 
-public class TileEntityMachineAssembler extends TileEntityMachineBase implements IEnergyUser {
+public class TileEntityMachineAssembler extends TileEntityMachineBase implements IEnergyUser, IGUIProvider {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -604,5 +611,16 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 					count++;
 		
 		return count;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMachineAssembler(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineAssembler(player.inventory, this);
 	}
 }

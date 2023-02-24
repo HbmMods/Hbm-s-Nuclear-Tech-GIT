@@ -139,7 +139,7 @@ public class MachineRtgFurnace extends BlockContainer {
 			TileEntityRtgFurnace entity = (TileEntityRtgFurnace) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_rtg_furnace, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

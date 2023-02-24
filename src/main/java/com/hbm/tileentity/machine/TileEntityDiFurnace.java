@@ -1,23 +1,31 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.MachineDiFurnace;
+import com.hbm.inventory.container.ContainerDiFurnace;
+import com.hbm.inventory.gui.GUIDiFurnace;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPellet;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.util.RTGUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
-public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, INBTPacketReceiver {
+public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, INBTPacketReceiver, IGUIProvider {
 
 	private ItemStack slots[];
 
@@ -358,5 +366,16 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 		this.sideFuel = modes[0];
 		this.sideUpper = modes[1];
 		this.sideLower = modes[2];
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerDiFurnace(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIDiFurnace(player.inventory, this);
 	}
 }

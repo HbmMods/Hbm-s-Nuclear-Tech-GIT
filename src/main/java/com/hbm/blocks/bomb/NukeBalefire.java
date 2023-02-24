@@ -11,8 +11,8 @@ import net.minecraft.world.World;
 
 public class NukeBalefire extends BlockMachineBase implements IBomb {
 
-	public NukeBalefire(Material mat, int guiID) {
-		super(mat, guiID);
+	public NukeBalefire(Material mat) {
+		super(mat, 0);
 		rotatable = true;
 	}
 

@@ -6,7 +6,9 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WeaponConfig;
 import com.hbm.extprop.HbmLivingProps;
-import com.hbm.interfaces.Untested;
+import com.hbm.inventory.container.ContainerMachineRadar;
+import com.hbm.inventory.gui.GUIMachineRadar;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityTickingBase;
 
 import api.hbm.energy.IEnergyUser;
@@ -14,14 +16,17 @@ import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 
-public class TileEntityMachineRadar extends TileEntityTickingBase implements IEnergyUser {
+public class TileEntityMachineRadar extends TileEntityTickingBase implements IEnergyUser, IGUIProvider {
 
 	public List<Entity> entList = new ArrayList();
 	public List<int[]> nearbyMissiles = new ArrayList();
@@ -278,5 +283,16 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMachineRadar(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineRadar(player.inventory, this);
 	}
 }

@@ -123,7 +123,7 @@ public class MachineDiFurnaceRTG extends BlockContainer {
 		} else if(!player.isSneaking()) {
 			TileEntityDiFurnaceRTG entity = (TileEntityDiFurnaceRTG) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_rtg_difurnace, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

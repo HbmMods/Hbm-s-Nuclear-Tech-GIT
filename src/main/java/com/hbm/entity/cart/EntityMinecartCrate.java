@@ -3,24 +3,29 @@ package com.hbm.entity.cart;
 import java.io.IOException;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.container.ContainerCrateSteel;
+import com.hbm.inventory.gui.GUICrateSteel;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemModMinecart;
 import com.hbm.items.tool.ItemModMinecart.EnumCartBase;
 import com.hbm.items.tool.ItemModMinecart.EnumMinecart;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class EntityMinecartCrate extends EntityMinecartContainerBase {
+public class EntityMinecartCrate extends EntityMinecartContainerBase implements IGUIProvider {
 
 	public EntityMinecartCrate(World world) {
 		super(world);
@@ -40,7 +45,7 @@ public class EntityMinecartCrate extends EntityMinecartContainerBase {
 		if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, player)))
 			return true;
 		if(!this.worldObj.isRemote) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModItems.guiID_cart_crate, worldObj, this.getEntityId(), 0, 0);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, worldObj, this.getEntityId(), 0, 0);
 		}
 
 		return true;
@@ -98,5 +103,16 @@ public class EntityMinecartCrate extends EntityMinecartContainerBase {
 	@Override
 	public ItemStack getCartItem() {
 		return ItemModMinecart.createCartItem(EnumCartBase.VANILLA, EnumMinecart.CRATE);
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerCrateSteel(player.inventory, (EntityMinecartCrate)player.worldObj.getEntityByID(x));
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUICrateSteel(player.inventory, (EntityMinecartCrate) player.worldObj.getEntityByID(x));
 	}
 }

@@ -1,23 +1,31 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.inventory.container.ContainerMachineShredder;
+import com.hbm.inventory.gui.GUIMachineShredder;
 import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.items.machine.ItemBlades;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineShredder extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser {
+public class TileEntityMachineShredder extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IGUIProvider {
 
 	private ItemStack slots[];
 
@@ -413,5 +421,16 @@ public class TileEntityMachineShredder extends TileEntityLoadedBase implements I
 		}
 		
 		return 0;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMachineShredder(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineShredder(player.inventory, this);
 	}
 }
