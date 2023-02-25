@@ -15,6 +15,7 @@ public class ContainerLeadBox extends Container {
 	
 	public ContainerLeadBox(InventoryPlayer invPlayer, InventoryLeadBox box) {
 		this.box = box;
+		this.box.openInventory();
 		
 		for(int i = 0; i < 4; i++) {
 			for(int j = 0; j < 5; j++) {
@@ -72,5 +73,11 @@ public class ContainerLeadBox extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return box.isUseableByPlayer(player);
+	}
+	
+	@Override
+	public void onContainerClosed(EntityPlayer player) {
+		super.onContainerClosed(player);
+		this.box.closeInventory();
 	}
 }

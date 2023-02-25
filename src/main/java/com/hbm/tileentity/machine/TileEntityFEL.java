@@ -84,7 +84,14 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 			
 			int range = 24;
 			boolean silexSpacing = false;
-			if(this.isOn && power >= powerReq * Math.pow(3, mode.ordinal()) && this.mode != EnumWavelengths.NULL) {
+			
+			int req = (int) (powerReq * ((mode.ordinal() == 0) ? 0 : Math.pow(3, mode.ordinal())));
+			
+			if(this.isOn && this.mode != EnumWavelengths.NULL && power < req) {
+				this.power = 0;
+			}
+			
+			if(this.isOn && power >= req && this.mode != EnumWavelengths.NULL) {
 				
 				int distance = this.distance-1;
 				double blx = Math.min(xCoord, xCoord + dir.offsetX * distance) + 0.2;
@@ -106,7 +113,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 					}
 				}
 				
-				power -= powerReq * ((mode.ordinal() == 0) ? 0 : Math.pow(3, mode.ordinal()));
+				power -= req;
 				for(int i = 3; i < range; i++) {
 				
 					int x = xCoord + dir.offsetX * i;

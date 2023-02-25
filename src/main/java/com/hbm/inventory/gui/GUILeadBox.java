@@ -44,7 +44,11 @@ public class GUILeadBox extends GuiContainer {
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = this.inventory.getInventoryName();
+		String name = I18n.format(this.inventory.getInventoryName());
+		
+		if(inventory.hasCustomInventoryName()) {
+			name = inventory.box.getDisplayName();
+		}
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);

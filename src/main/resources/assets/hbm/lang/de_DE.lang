@@ -316,6 +316,7 @@ container.iGenerator=Industrieller Generator
 container.keyForge=Schlossertisch
 container.launchPad=Raketenabschussrampe
 container.launchTable=Große Startrampe
+container.leadBox=Sicherheitsbehälter
 container.machineBoiler=Ölwärmer
 container.machineCMB=CMB-Stahl Hochofen
 container.machineCoal=Verbrennungsgenerator

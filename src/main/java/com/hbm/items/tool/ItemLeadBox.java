@@ -33,21 +33,23 @@ public class ItemLeadBox extends Item implements IGUIProvider {
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new ContainerLeadBox(player.inventory, new InventoryLeadBox(player.getHeldItem()));
+		return new ContainerLeadBox(player.inventory, new InventoryLeadBox(player, player.getHeldItem()));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUILeadBox(player.inventory, new InventoryLeadBox(player.getHeldItem()));
+		return new GUILeadBox(player.inventory, new InventoryLeadBox(player, player.getHeldItem()));
 	}
 	
 	public static class InventoryLeadBox implements IInventory {
 		
+		public final EntityPlayer player;
 		public final ItemStack box;
 		public ItemStack[] slots;
 		
-		public InventoryLeadBox(ItemStack box) {
+		public InventoryLeadBox(EntityPlayer player, ItemStack box) {
+			this.player = player;
 			this.box = box;
 			slots = new ItemStack[this.getSizeInventory()];
 			
@@ -137,8 +139,15 @@ public class ItemLeadBox extends Item implements IGUIProvider {
 			return true;
 		}
 
-		@Override public void openInventory() { }
-		@Override public void closeInventory() { }
+		@Override
+		public void openInventory() {
+			player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:block.crateOpen", 1.0F, 0.8F);
+		}
+
+		@Override
+		public void closeInventory() {
+			player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:block.crateClose", 1.0F, 0.8F);
+		}
 
 		@Override
 		public boolean isItemValidForSlot(int slot, ItemStack stack) {
