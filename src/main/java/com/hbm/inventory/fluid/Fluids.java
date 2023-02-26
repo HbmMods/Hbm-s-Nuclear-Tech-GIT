@@ -110,6 +110,13 @@ public class Fluids {
 	public static FluidType SYNGAS;
 	public static FluidType OXYHYDROGEN;
 
+	//noble gasses
+	public static FluidType HELIUM;
+	public static FluidType NEON;
+	public static FluidType ARGON;
+	public static FluidType KRYPTON;
+
+
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
 	protected static final List<FluidType> metaOrder = new ArrayList();
@@ -235,8 +242,11 @@ public class Fluids {
 		MINSOL =			new FluidType("MINSOL",				0xFADF6A, 3, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(10), LIQUID);
 		SYNGAS =			new FluidType("SYNGAS",				0x131313, 1, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
 		OXYHYDROGEN =		new FluidType(94, "OXYHYDROGEN",	0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
-		
-		
+
+		HELIUM = 			new FluidType("HELIUM", 0xEC983B,0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
+		NEON =  			new FluidType("NEON", 0xF1F600,0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
+		ARGON = 			new FluidType("ARGON", 0xFD70D0,0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
+		KRYPTON = 			new FluidType("KRYPTON", 0x9AC6E6,0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -352,6 +362,13 @@ public class Fluids {
 		metaOrder.add(PLASMA_DH3);
 		metaOrder.add(PLASMA_XM);
 		metaOrder.add(PLASMA_BF);
+		//noble gasses
+		metaOrder.add(HELIUM);
+		metaOrder.add(KRYPTON);
+		metaOrder.add(ARGON);
+		metaOrder.add(NEON);
+
+
 
 		double eff_steam_boil = 1.0D;
 		double eff_steam_heatex = 0.25D;
