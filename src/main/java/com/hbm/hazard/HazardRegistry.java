@@ -51,6 +51,8 @@ public class HazardRegistry {
 	//PU241		            14a		β−	025.00Rad/s	Spicy
 	//		           432a		α	008.50Rad/s
 	//AM242		           141a		β−	009.50Rad/s
+	
+	//from newguy: if the neutron system is a bit convoluted for you (or i'm just retarded), basically just assign the radiation value here as usual, then in OreDictManager add ".neutron(HazardRegistry.yourmaterial/number you want to divide by", which will take the radiation value assigned here and divide it by the number you put there
 
 	//simplified groups for ReC compat
 	public static final float gen_S = 10_000F;
@@ -104,6 +106,7 @@ public class HazardRegistry {
 	public static final float cm245 = 0.8F;
 	public static final float cm246 = 2.5F;
 	public static final float cm247 = 0.2F;
+	public static final float fcm = 6.0F;
 	public static final float bk247 = 10.5F;
 	public static final float cf251 = 14.3F;
 	public static final float cf252 = 15.3F;
@@ -346,6 +349,7 @@ public class HazardRegistry {
 		HazardSystem.register(billet_americium_fuel, makeData(RADIATION, amf * billet));
 		HazardSystem.register(ingot_americium_fuel, makeData(RADIATION, amf * ingot));
 		
+		
 		HazardSystem.register(nugget_schrabidium_fuel, makeData().addEntry(RADIATION, saf * nugget).addEntry(BLINDING, 5F * nugget));
 		HazardSystem.register(billet_schrabidium_fuel, makeData().addEntry(RADIATION, saf * billet).addEntry(BLINDING, 5F * billet));
 		HazardSystem.register(ingot_schrabidium_fuel, makeData().addEntry(RADIATION, saf * ingot).addEntry(BLINDING, 5F * ingot));
@@ -430,6 +434,7 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_zfb_pu241, pu239 * rod_rbmk * 0.1F, wst * rod_rbmk * 7.5F);
 		registerRBMKRod(rbmk_fuel_zfb_am_mix, pu241 * rod_rbmk * 0.1F, wst * rod_rbmk * 10F);
 		registerRBMK(rbmk_fuel_drx, bf * rod_rbmk, bf * rod_rbmk * 100F, true, true, 0, 1F/3F);
+		registryRBMKRod(rbmk_fuel_lec,  )
 		
 		registerRBMKPellet(rbmk_pellet_ueu, u * billet, wst * billet * 20F);
 		registerRBMKPellet(rbmk_pellet_meu, uf * billet, wst * billet * 21.5F);
