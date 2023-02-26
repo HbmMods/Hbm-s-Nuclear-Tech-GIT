@@ -1830,6 +1830,8 @@ tile.crate_steel.name=Стальной ящик
 container.crateSteel=Стальной ящик
 tile.crate_desh.name=Деш-ящик
 container.crateDesh=Деш-ящик
+item.containment_box.name=Защитная коробка
+container.leadBox=Защитная коробка
 container.crateTungsten=Вольфрамовый ящик
 tile.crate_tungsten.name=Вольфрамовый ящик
 tile.mass_storage.name=Накопительный блок
@@ -2639,7 +2641,7 @@ item.assembly_556.name=Сборка 5.56мм пули
 item.assembly_uzi.name=Сборка .22 LR пули
 item.assembly_actionexpress.name=Сборка .50 AE пули
 item.assembly_calamity.name=Сборка .50 BMG пули
-item.assembly_lacunae.name=Сборка .5мм пули
+item.assembly_lacunae.name=Сборка 5мм пули
 
 item.piston_selenium.name=Поршень двигателя внутреннего сгорания
 item.piston_set_desh.name=Набор деш-поршней
