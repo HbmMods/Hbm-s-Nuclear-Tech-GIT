@@ -666,7 +666,6 @@ public class ModBlocks {
 	//public static final int guiID_test_difurnace = 1; historical
 	
 	public static Block machine_centrifuge;
-	
 	public static Block machine_gascent;
 	
 	public static Block machine_fel;

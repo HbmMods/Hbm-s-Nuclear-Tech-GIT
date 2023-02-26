@@ -963,11 +963,11 @@ public class ModEventHandler {
 		
 		if(event.phase == TickEvent.Phase.START) {
 			int x = MathHelper.floor_double(player.posX);
-			int y = MathHelper.floor_double(player.posY - player.yOffset - 0.5);
+			int y = MathHelper.floor_double(player.posY - player.yOffset - 0.01);
 			int z = MathHelper.floor_double(player.posZ);
 			Block b = player.worldObj.getBlock(x, y, z);
 			
-			if(b instanceof IStepTickReceiver) {
+			if(b instanceof IStepTickReceiver && !player.capabilities.isFlying) {
 				IStepTickReceiver step = (IStepTickReceiver) b;
 				step.onPlayerStep(player.worldObj, x, y, z, player);
 			}

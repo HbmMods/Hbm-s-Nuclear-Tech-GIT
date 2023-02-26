@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 
 public class ItemZirnoxRod extends ItemEnumMulti {
@@ -50,21 +51,24 @@ public class ItemZirnoxRod extends ItemEnumMulti {
 		
 		return stack.stackTagCompound.getInteger("life");
 	}
-    
-    public boolean showDurabilityBar(ItemStack stack) {
-        return getDurabilityForDisplay(stack) > 0D;
-    }
-    
-    public double getDurabilityForDisplay(ItemStack stack) {
-    	EnumZirnoxType num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
-        return (double)getLifeTime(stack) / (double)num.maxLife;
-    }
-    
-    @Override
+
+	public boolean showDurabilityBar(ItemStack stack) {
+		return getDurabilityForDisplay(stack) > 0D;
+	}
+
+	public double getDurabilityForDisplay(ItemStack stack) {
+		EnumZirnoxType num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
+		return (double) getLifeTime(stack) / (double) num.maxLife;
+	}
+
+	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-    	EnumZirnoxType num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
-		String[] loc = I18nUtil.resolveKeyArray("desc.item.zirnox" + (num.breeding ? "BreedingRod" : "Rod"), BobMathUtil.getShortNumber(num.maxLife));
 		
+		
+		EnumZirnoxType num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.depletion", ((int)((((double)getLifeTime(stack)) / (double)num.maxLife) * 100000)) / 1000D + "%"));
+		String[] loc = I18nUtil.resolveKeyArray("desc.item.zirnox" + (num.breeding ? "BreedingRod" : "Rod"), BobMathUtil.getShortNumber(num.maxLife));
+
 		if(num.breeding)
 			loc = I18nUtil.resolveKeyArray("desc.item.zirnoxBreedingRod", BobMathUtil.getShortNumber(num.maxLife));
 		else
@@ -75,7 +79,7 @@ public class ItemZirnoxRod extends ItemEnumMulti {
 		}
 	}
 	
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
 		Enum[] enums = theEnum.getEnumConstants();
@@ -86,13 +90,13 @@ public class ItemZirnoxRod extends ItemEnumMulti {
 			this.icons[i] = reg.registerIcon(this.getIconString() + "_" + num.name().toLowerCase());
 		}
 	}
-    
-    @Override
+
+	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		Enum num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
 		return super.getUnlocalizedName() + "_" + num.name().toLowerCase();
 	}
-    
+
 	public static enum EnumZirnoxType {
 		NATURAL_URANIUM_FUEL(250_000, 30),
 		URANIUM_FUEL(200_000, 50),
