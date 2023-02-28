@@ -1,23 +1,16 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerRBMKOutgasser;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIRBMKOutgasser;
-import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.inventory.recipes.OutgasserRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardSender;
@@ -25,23 +18,20 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IFluidSource, IFluidStandardSender {
+public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IFluidStandardSender {
 
-	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank gas;
 	public double progress;
 	public static final int duration = 10000;
 
 	public TileEntityRBMKOutgasser() {
 		super(2);
-		gas = new FluidTank(Fluids.TRITIUM, 64000, 0);
+		gas = new FluidTank(Fluids.TRITIUM, 64000);
 	}
 
 	@Override
@@ -53,14 +43,11 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			gas.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			
-			if(worldObj.getTotalWorldTime() % 10 == 0)
-				fillFluidInit(gas.getTankType());
 			
 			if(!canProcess()) {
 				this.progress = 0;
 			}
+			
 			for(DirPos pos : getOutputPos()) {
 				if(this.gas.getFill() > 0) this.sendFluid(gas.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
@@ -113,154 +100,51 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		}
 	}
 	
-	private static HashMap<Object, ItemStack> recipes = new HashMap();
-	
-	static {
-		recipes.put("blockLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Fluids.TRITIUM.getID()), 10000));
-		recipes.put("ingotLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Fluids.TRITIUM.getID()), 1000));
-		recipes.put("dustLithium", ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Fluids.TRITIUM.getID()), 1000));
-		recipes.put(new ComparableStack(ModItems.powder_lithium_tiny), ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Fluids.TRITIUM.getID()), 100));
-		recipes.put("ingotGold", new ItemStack(ModItems.ingot_au198));
-		recipes.put("nuggetGold", new ItemStack(ModItems.nugget_au198));
-		recipes.put("dustGold", new ItemStack(ModItems.powder_au198));
-		recipes.put("ingotThorium", new ItemStack(ModItems.ingot_thorium_fuel));
-		recipes.put("nuggetThorium", new ItemStack(ModItems.nugget_thorium_fuel));
-		recipes.put("billetThorium", new ItemStack(ModItems.billet_thorium_fuel));
-		recipes.put(new ComparableStack(Blocks.brown_mushroom), new ItemStack(ModBlocks.mush));
-		recipes.put(new ComparableStack(Blocks.red_mushroom), new ItemStack(ModBlocks.mush));
-		recipes.put(new ComparableStack(Items.mushroom_stew), new ItemStack(ModItems.glowing_stew));
-	}
-	
 	public boolean canProcess() {
 		
 		if(slots[0] == null)
 			return false;
 		
-		ItemStack output = getOutput(slots[0]);
+		Pair<ItemStack, FluidStack> output = OutgasserRecipes.getOutput(slots[0]);
 		
 		if(output == null)
 			return false;
 		
-		if(output.getItem() == ModItems.fluid_icon) {
-			return output.getItemDamage() == gas.getTankType().getID() && gas.getFill() + ItemFluidIcon.getQuantity(output) <= gas.getMaxFill();
+		FluidStack fluid = output.getValue();
+
+		if(fluid != null) {
+			if(gas.getTankType() != fluid.type && gas.getFill() > 0) return false;
+			gas.setTankType(fluid.type);
+			if(gas.getFill() + fluid.fill > gas.getMaxFill()) return false;
 		}
 		
-		if(slots[1] == null)
+		ItemStack out = output.getKey();
+		
+		if(slots[1] == null || out == null)
 			return true;
 		
-		return slots[1].getItem() == output.getItem() && slots[1].getItemDamage() == output.getItemDamage() && slots[1].stackSize + output.stackSize <= slots[1].getMaxStackSize();
-	}
-	
-	public static ItemStack getOutput(ItemStack stack) {
-		
-		if(stack == null || stack.getItem() == null)
-			return null;
-		
-		ComparableStack comp = new ComparableStack(stack);
-		
-		if(recipes.containsKey(comp))
-			return recipes.get(comp);
-		
-		String[] dictKeys = comp.getDictKeys();
-		
-		for(String key : dictKeys) {
-			
-			if(recipes.containsKey(key))
-				return recipes.get(key);
-		}
-		
-		return null;
+		return slots[1].getItem() == out.getItem() && slots[1].getItemDamage() == out.getItemDamage() && slots[1].stackSize + out.stackSize <= slots[1].getMaxStackSize();
 	}
 	
 	private void process() {
 		
-		ItemStack output = getOutput(slots[0]);
+		Pair<ItemStack, FluidStack> output = OutgasserRecipes.getOutput(slots[0]);
 		this.decrStackSize(0, 1);
 		this.progress = 0;
 		
-		if(output.getItem() == ModItems.fluid_icon) {
-			gas.setFill(gas.getFill() + ItemFluidIcon.getQuantity(output));
-			return;
+		if(output.getValue() != null) {
+			gas.setFill(gas.getFill() + output.getValue().fill);
 		}
 		
-		if(slots[1] == null) {
-			slots[1] = output.copy();
-		} else {
-			slots[1].stackSize += output.stackSize;
+		ItemStack out = output.getKey();
+		
+		if(out != null) {
+			if(slots[1] == null) {
+				slots[1] = out.copy();
+			} else {
+				slots[1].stackSize += out.stackSize;
+			}
 		}
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, getTact(), type);
-		
-		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
-
-			fillFluid(this.xCoord + 1, this.yCoord - 1, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord - 1, this.yCoord - 1, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord + 1, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord - 1, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord, getTact(), type);
-		}
-		
-		if(worldObj.getBlock(xCoord, yCoord - 2, zCoord) == ModBlocks.rbmk_loader) {
-
-			fillFluid(this.xCoord + 1, this.yCoord - 2, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord - 1, this.yCoord - 2, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord + 1, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord - 1, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 3, this.zCoord, getTact(), type);
-		}
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-	
-	@Override
-	@Deprecated //why are we still doing this?
-	public boolean getTact() { return worldObj.getTotalWorldTime() % 20 < 10; }
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-
-		if(index == 0)
-			gas.setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		
-		if(type == gas.getTankType())
-			gas.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-
-		if(index == 0)
-			gas.setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		
-		if(type == gas.getTankType())
-			return gas.getFill();
-		
-		return 0;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		list.clear();
 	}
 	
 	@Override
@@ -308,7 +192,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return getOutput(itemStack) != null && i == 0;
+		return OutgasserRecipes.getOutput(itemStack) != null && i == 0;
 	}
 
 	@Override

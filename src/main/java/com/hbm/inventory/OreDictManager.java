@@ -271,7 +271,7 @@ public class OreDictManager {
 	public static final DictFrame ANY_COKE = new DictFrame("AnyCoke", "Coke");
 	public static final DictFrame ANY_CONCRETE = new DictFrame("Concrete");			//no any prefix means that any has to be appended with the any() or anys() getters, registering works with the any (i.e. no shape) setter
 	public static final DictGroup ANY_TAR = new DictGroup("Tar", KEY_OIL_TAR, KEY_COAL_TAR, KEY_CRACK_TAR, KEY_WOOD_TAR);
-	/** Any special psot-RBMK gating material, namely bismuth and arsenic */
+	/** Any special post-RBMK gating material, namely bismuth and arsenic */
 	public static final DictFrame ANY_BISMOID = new DictFrame("AnyBismoid");
 	
 	public static void registerOres() {
@@ -512,6 +512,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("dyeBlack", fromOne(oil_tar, EnumTarType.CRACK));
 		OreDictionary.registerOre("dyeGray", fromOne(oil_tar, EnumTarType.COAL));
 		OreDictionary.registerOre("dyeBrown", fromOne(oil_tar, EnumTarType.WOOD));
+		OreDictionary.registerOre("dyeCyan", fromOne(oil_tar, EnumTarType.WAX));
 		OreDictionary.registerOre("dye", oil_tar);
 
 		OreDictionary.registerOre("blockGlass", glass_boron);

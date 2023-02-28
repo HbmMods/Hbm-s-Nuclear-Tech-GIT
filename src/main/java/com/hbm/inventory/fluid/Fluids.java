@@ -102,6 +102,7 @@ public class Fluids {
 	public static FluidType BLOOD_HOT;
 	public static FluidType SYNGAS;
 	public static FluidType OXYHYDROGEN;
+	public static FluidType RADIOSOLVENT;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -215,11 +216,12 @@ public class Fluids {
 		COALCREOSOTE =		new FluidType("COALCREOSOTE",		0x51694F, 3, 2, 0, EnumSymbol.NONE).addContainers(0x285A3F, ExtContainer.CANISTER).addTraits(LIQUID);
 		SEEDSLURRY =		new FluidType("SEEDSLURRY",			0x7CC35E, 0, 0, 0, EnumSymbol.NONE).addContainers(0x7CC35E, ExtContainer.CANISTER).addTraits(LIQUID);
 		NITRIC_ACID =		new FluidType("NITRIC_ACID",		0xBB7A1E, 3, 0, 2, EnumSymbol.OXIDIZER).addTraits(LIQUID, new FT_Corrosive(60));
-		SOLVENT =			new FluidType("SOLVENT",			0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID);
+		SOLVENT =			new FluidType("SOLVENT",			0xE4E3EF, 2, 3, 0, EnumSymbol.NONE).addContainers(0xE4E3EF, ExtContainer.CANISTER).addTraits(LIQUID, new FT_Corrosive(30));
 		BLOOD =				new FluidType("BLOOD",				0xB22424, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		BLOOD_HOT =			new FluidType("BLOOD_HOT",			0xF22419, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID).setTemp(666); //it's funny because it's the satan number
 		SYNGAS =			new FluidType("SYNGAS",				0x131313, 1, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
-		OXYHYDROGEN =		new FluidType(87, "OXYHYDROGEN",	0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
+		OXYHYDROGEN =		new FluidType("OXYHYDROGEN",		0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
+		RADIOSOLVENT =		new FluidType(88, "RADIOSOLVENT",	0xA4D7DD, 3, 3, 0, EnumSymbol.NONE).addTraits(LIQUID, LEADCON, new FT_Corrosive(50), new FT_VentRadiation(0.01F));
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -302,6 +304,7 @@ public class Fluids {
 		metaOrder.add(SULFURIC_ACID);
 		metaOrder.add(NITRIC_ACID);
 		metaOrder.add(SOLVENT);
+		metaOrder.add(RADIOSOLVENT);
 		metaOrder.add(SCHRABIDIC);
 		metaOrder.add(UF6);
 		metaOrder.add(PUF6);
@@ -426,6 +429,7 @@ public class Fluids {
 		registerCalculatedFuel(COALCREOSOTE, 250_000 /* 20_000 TU per 100mB + a bonus */, 0, null);
 
 		registerCalculatedFuel(SOLVENT, 100_000, 0, null); // flammable, sure, but not combustable
+		registerCalculatedFuel(RADIOSOLVENT, 150_000, 0, null);
 
 		registerCalculatedFuel(SYNGAS, (coalHeat * (1000 /* bucket */ / 100 /* mB per coal */) * flammabilityLow * demandLow * complexityChemplant) * 1.5, 1.25, FuelGrade.GAS); //same as coal oil, +50% bonus
 		registerCalculatedFuel(OXYHYDROGEN, 5_000, 3, FuelGrade.GAS); // whatever

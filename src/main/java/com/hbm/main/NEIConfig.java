@@ -65,8 +65,9 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new CombinationHandler());
 		registerHandler(new SawmillHandler());
 		registerHandler(new MixerHandler());
+		registerHandler(new OutgasserHandler());
 		
-		registerHandler(new ChunkyHandler());
+		//registerHandler(new ChunkyHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));
