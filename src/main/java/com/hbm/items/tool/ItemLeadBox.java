@@ -19,6 +19,10 @@ import net.minecraft.world.World;
 
 public class ItemLeadBox extends Item implements IGUIProvider {
 
+	public ItemLeadBox() {
+		this.setMaxStackSize(1);
+	}
+	
 	@Override
 	public int getMaxItemUseDuration(ItemStack stack) {
 		return 1;

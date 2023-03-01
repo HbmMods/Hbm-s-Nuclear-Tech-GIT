@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -103,13 +104,15 @@ public class ExplosionNukeRayBatched {
 
 				double fac = 100 - ((double) i) / ((double) length) * 100;
 				fac *= 0.07D;
+				
+				Block block = world.getBlock(iX, iY, iZ);
 
-				if(!world.getBlock(iX, iY, iZ).getMaterial().isLiquid())
-					res -= Math.pow(world.getBlock(iX, iY, iZ).getExplosionResistance(null), 7.5D - fac);
+				if(!block.getMaterial().isLiquid())
+					res -= Math.pow(block.getExplosionResistance(null), 7.5D - fac);
 				//else
 				//	res -= Math.pow(Blocks.air.getExplosionResistance(null), 7.5D - fac); // air is 0, might want to raise that is necessary
 
-				if(res > 0 && world.getBlock(iX, iY, iZ) != Blocks.air) {
+				if(res > 0 && block != Blocks.air) {
 					lastPos = new FloatTriplet(x0, y0, z0);
 					//all-air chunks don't need to be buffered at all
 					ChunkCoordIntPair chunkPos = new ChunkCoordIntPair(iX >> 4, iZ >> 4);

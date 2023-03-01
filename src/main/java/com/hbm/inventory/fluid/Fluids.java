@@ -103,6 +103,7 @@ public class Fluids {
 	public static FluidType SYNGAS;
 	public static FluidType OXYHYDROGEN;
 	public static FluidType RADIOSOLVENT;
+	public static FluidType CHLORINE; //everone's favorite!
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -221,7 +222,8 @@ public class Fluids {
 		BLOOD_HOT =			new FluidType("BLOOD_HOT",			0xF22419, 3, 0, 0, EnumSymbol.NONE).addTraits(LIQUID).setTemp(666); //it's funny because it's the satan number
 		SYNGAS =			new FluidType("SYNGAS",				0x131313, 1, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
 		OXYHYDROGEN =		new FluidType("OXYHYDROGEN",		0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
-		RADIOSOLVENT =		new FluidType(88, "RADIOSOLVENT",	0xA4D7DD, 3, 3, 0, EnumSymbol.NONE).addTraits(LIQUID, LEADCON, new FT_Corrosive(50), new FT_VentRadiation(0.01F));
+		RADIOSOLVENT =		new FluidType("RADIOSOLVENT",		0xA4D7DD, 3, 3, 0, EnumSymbol.NONE).addTraits(LIQUID, LEADCON, new FT_Corrosive(50), new FT_VentRadiation(0.01F));
+		CHLORINE =			new FluidType(89, "CHLORINE",		0xBAB572, 4, 0, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(25), new FT_Poison(true, 1));
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -257,6 +259,7 @@ public class Fluids {
 		metaOrder.add(HELIUM3);
 		metaOrder.add(OXYGEN);
 		metaOrder.add(XENON);
+		metaOrder.add(CHLORINE);
 		metaOrder.add(MERCURY);
 		//oils, fuels
 		metaOrder.add(OIL);
