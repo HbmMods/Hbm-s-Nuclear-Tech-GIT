@@ -28,7 +28,7 @@ public class GUIMachineCentrifuge extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 69 - 52, 16, 52, centrifuge.power, centrifuge.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 9, guiTop + 13, 16, 34, centrifuge.power, centrifuge.maxPower);
 	}
 
 	@Override

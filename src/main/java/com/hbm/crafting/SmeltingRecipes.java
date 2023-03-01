@@ -9,6 +9,7 @@ import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumPlantType;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemHot;
+import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
@@ -177,6 +178,11 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.battery_steam, ItemBattery.getFullBattery(ModItems.battery_steam), 1.0F);
 		
 		GameRegistry.addSmelting(new ItemStack(ModItems.scrap_plastic, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.ingot_polymer), 0.1F);
+		
+		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
+			int i = ore.ordinal();
+			GameRegistry.addSmelting(new ItemStack(ModBlocks.ore_bedrock, 1, i), new ItemStack(Blocks.cobblestone, 16), 0.1F);
+		}
 		
 		for(int i = 0; i < 10; i++)
 			GameRegistry.addSmelting(new ItemStack(ModItems.ingot_steel_dusted, 1, i), ItemHot.heatUp(new ItemStack(ModItems.ingot_steel_dusted, 1, i)), 1.0F);
