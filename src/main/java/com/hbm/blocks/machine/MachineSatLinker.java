@@ -65,7 +65,7 @@ public class MachineSatLinker extends BlockContainer {
 			TileEntityMachineSatLinker entity = (TileEntityMachineSatLinker) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_satlinker, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

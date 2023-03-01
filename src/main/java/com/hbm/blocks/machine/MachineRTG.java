@@ -64,7 +64,7 @@ public class MachineRTG extends BlockContainer {
 				TileEntityMachineRTG entity = (TileEntityMachineRTG) world.getTileEntity(x, y, z);
 				if(entity != null)
 				{
-					FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_rtg, world, x, y, z);
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 				}
 			}
 			return true;

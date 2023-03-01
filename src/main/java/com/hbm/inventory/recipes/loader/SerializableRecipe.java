@@ -39,6 +39,7 @@ public abstract class SerializableRecipe {
 	 */
 	
 	public static void registerAllHandlers() {
+		recipeHandlers.add(new BlastFurnaceRecipes());
 		recipeHandlers.add(new ShredderRecipes());
 		recipeHandlers.add(new ChemplantRecipes());
 		recipeHandlers.add(new CrucibleRecipes());
@@ -51,6 +52,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new HadronRecipes());
 		recipeHandlers.add(new FuelPoolRecipes());
 		recipeHandlers.add(new MixerRecipes());
+		recipeHandlers.add(new OutgasserRecipes());
 		recipeHandlers.add(new MatDistribution());
 	}
 	

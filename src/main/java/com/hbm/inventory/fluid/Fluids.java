@@ -109,6 +109,8 @@ public class Fluids {
 	public static FluidType HCL;
 	public static FluidType SYNGAS;
 	public static FluidType OXYHYDROGEN;
+	public static FluidType RADIOSOLVENT;
+	public static FluidType CHLORINE; //everone's favorite!
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -235,7 +237,8 @@ public class Fluids {
 		MINSOL =			new FluidType("MINSOL",				0xFADF6A, 3, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(10), LIQUID);
 		SYNGAS =			new FluidType("SYNGAS",				0x131313, 1, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
 		OXYHYDROGEN =		new FluidType(94, "OXYHYDROGEN",	0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
-		
+		RADIOSOLVENT =		new FluidType("RADIOSOLVENT",		0xA4D7DD, 3, 3, 0, EnumSymbol.NONE).addTraits(LIQUID, LEADCON, new FT_Corrosive(50), new FT_VentRadiation(0.01F));
+		CHLORINE =			new FluidType(96, "CHLORINE",		0xBAB572, 4, 0, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(25), new FT_Poison(true, 1));		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -272,6 +275,7 @@ public class Fluids {
 		metaOrder.add(HELIUM3);
 		metaOrder.add(OXYGEN);
 		metaOrder.add(XENON);
+		metaOrder.add(CHLORINE);
 		metaOrder.add(MERCURY);
 		metaOrder.add(NITROGEN);
 		//oils, fuels
@@ -325,6 +329,7 @@ public class Fluids {
 		metaOrder.add(HCL);
 		metaOrder.add(AMMONIA);
 		metaOrder.add(SOLVENT);
+		metaOrder.add(RADIOSOLVENT);
 		metaOrder.add(SCHRABIDIC);
 		metaOrder.add(UF6);
 		metaOrder.add(PUF6);
@@ -455,6 +460,7 @@ public class Fluids {
 		registerCalculatedFuel(COALCREOSOTE, 250_000 /* 20_000 TU per 100mB + a bonus */, 0, null);
 
 		registerCalculatedFuel(SOLVENT, 100_000, 0, null); // flammable, sure, but not combustable
+		registerCalculatedFuel(RADIOSOLVENT, 150_000, 0, null);
 
 		registerCalculatedFuel(SYNGAS, (coalHeat * (1000 /* bucket */ / 100 /* mB per coal */) * flammabilityLow * demandLow * complexityChemplant) * 1.5, 1.25, FuelGrade.GAS); //same as coal oil, +50% bonus
 		registerCalculatedFuel(OXYHYDROGEN, 5_000, 3, FuelGrade.GAS); // whatever

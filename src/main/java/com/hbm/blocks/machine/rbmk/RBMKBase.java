@@ -56,7 +56,7 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 		return 0;
 	}
 	
-	public boolean openInv(World world, int x, int y, int z, EntityPlayer player, int gui) {
+	public boolean openInv(World world, int x, int y, int z, EntityPlayer player) {
 		
 		if(world.isRemote) {
 			return true;
@@ -81,7 +81,7 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 		}
 		
 		if(!player.isSneaking()) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, gui, world, pos[0], pos[1], pos[2]);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {
 			return true;

@@ -99,7 +99,7 @@ public class FWatzHatch extends Block implements IFluidConnectorBlock {
 				{
 					if(((TileEntityFWatzCore)world.getTileEntity(x, y + 11, z + 9)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fwatz_multiblock, world, x, y + 11, z + 9);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y + 11, z + 9);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Fusionary Watz Plant] Error: Reactor Structure not valid!"));
 					}
@@ -113,7 +113,7 @@ public class FWatzHatch extends Block implements IFluidConnectorBlock {
 				{
 					if(((TileEntityFWatzCore)world.getTileEntity(x, y + 11, z - 9)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fwatz_multiblock, world, x, y + 11, z - 9);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y + 11, z - 9);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Fusionary Watz Plant] Error: Reactor Structure not valid!"));
 					}
@@ -127,7 +127,7 @@ public class FWatzHatch extends Block implements IFluidConnectorBlock {
 				{
 					if(((TileEntityFWatzCore)world.getTileEntity(x + 9, y + 11, z)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fwatz_multiblock, world, x + 9, y + 11, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x + 9, y + 11, z);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Fusionary Watz Plant] Error: Reactor Structure not valid!"));
 					}
@@ -141,7 +141,7 @@ public class FWatzHatch extends Block implements IFluidConnectorBlock {
 				{
 					if(((TileEntityFWatzCore)world.getTileEntity(x - 9, y + 11, z)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fwatz_multiblock, world, x - 9, y + 11, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x - 9, y + 11, z);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Fusionary Watz Plant] Error: Reactor Structure not valid!"));
 					}

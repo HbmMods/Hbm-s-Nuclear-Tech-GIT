@@ -922,9 +922,10 @@ public class AssemblerRecipes {
 		
 		makeRecipe(new ComparableStack(ModBlocks.machine_hephaestus, 1), new AStack[] {
 				new ComparableStack(ModItems.pipes_steel, 1),
-				new OreDictStack(STEEL.ingot(), 12),
+				new OreDictStack(STEEL.ingot(), 24),
 				new OreDictStack(CU.plate(), 24),
-				new OreDictStack(RUBBER.ingot(), 8),
+				new OreDictStack(NB.ingot(), 4),
+				new OreDictStack(RUBBER.ingot(), 12),
 				new ComparableStack(ModBlocks.glass_quartz, 16)
 			}, 150);
 

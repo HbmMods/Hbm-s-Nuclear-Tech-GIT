@@ -64,7 +64,7 @@ public class ItemBedrockOre extends ItemEnumMulti {
 	/*
 	 * BYPRODUCT TIER 1: NITRIC ACID - CHEMPLANT GATE / NO GATE
 	 * BYPRODUCT TIER 2: ORGANIC SOLVENT - CRACKING OIL GATE
-	 * BYPRODUCT TIER 3: ??? - RBMK GATE?
+	 * BYPRODUCT TIER 3: HIPERF SOLVENT - RBMK GATE
 	 * BYPRODUCT TIER 4: SCHRABIDIC ACID - FUSION GATE?
 	 */
 	
@@ -72,8 +72,12 @@ public class ItemBedrockOre extends ItemEnumMulti {
 	 * [BEDROCK x1] -C-> [CENTRIFUGED x4] -(PER)-> [CLEANED x4] -C-> [SEPARATED x16] -(SUL)-> [PURIFIED x16] -C-> [ENRICHED x64]
 	 *                                                                       \
 	 *                                                                        \-------(NIT)-> [NITRATED x16] -C-> [NITROCRYSTALLINE x32] -(ORG)-> [DEEP-CLEANED x32] -C-> [ENRICHED x64]
-	 *                                                                                                        v                                                       v
-	 *                                                                                                [BYPRODUCT TIER 1]                                      [BYPRODUCT TIER 2]
+	 *                                                                                                        v             \                                         v
+	 *                                                                                                [BYPRODUCT TIER 1]     \                                [BYPRODUCT TIER 2]
+	 *                                                                                                                        \
+	 *                                                                                                                         \-----------(HPS)-> [SEARED x32] -C-> [ENRICHED x64]
+	 *                                                                                                                                                           v
+	 *                                                                                                                                                   [BYPRODUCT TIER 3]
 	 */
 
 	public static enum EnumBedrockOre {

@@ -21,6 +21,7 @@ public class ItemCrayon extends ItemFood {
 
 	public ItemCrayon() {
 		super(3, false);
+		this.setHasSubtypes(true);
 		this.setAlwaysEdible();
 	}
 

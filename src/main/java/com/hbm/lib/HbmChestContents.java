@@ -6,6 +6,7 @@ import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
+import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.items.special.ItemBookLore.BookLoreType;
 
 import net.minecraft.init.Items;
@@ -178,15 +179,15 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.rod_dual, BreedingRodType.PU239.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_quad, BreedingRodType.U235.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_quad, BreedingRodType.PU239.ordinal(), 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.rod_zirnox_uranium_fuel, 0, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.rod_zirnox_plutonium_fuel, 0, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.rod_zirnox_mox_fuel, 0, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.rod_zirnox_lithium, 0, 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.rod_zirnox_thorium_fuel, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.rod_zirnox, EnumZirnoxType.URANIUM_FUEL.ordinal(), 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.rod_zirnox, EnumZirnoxType.PLUTONIUM_FUEL.ordinal(), 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.rod_zirnox, EnumZirnoxType.MOX_FUEL.ordinal(), 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.rod_zirnox, EnumZirnoxType.LITHIUM.ordinal(), 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.rod_zirnox, EnumZirnoxType.THORIUM_FUEL.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_dual, BreedingRodType.THF.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_zirnox_tritium, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.rod_zirnox_u233_fuel, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.rod_zirnox_u235_fuel, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.rod_zirnox, EnumZirnoxType.U233_FUEL.ordinal(), 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.rod_zirnox, EnumZirnoxType.U235_FUEL.ordinal(), 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.pellet_rtg, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.powder_thorium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_neptunium, 0, 1, 1, 1),

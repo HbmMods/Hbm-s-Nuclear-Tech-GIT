@@ -1,17 +1,26 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+import java.util.Random;
+
 import com.hbm.entity.missile.EntityMinerRocket;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.inventory.container.ContainerSatDock;
+import com.hbm.inventory.gui.GUISatDock;
 import com.hbm.items.ISatChip;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.saveddata.satellites.SatelliteMiner;
 import com.hbm.saveddata.satellites.SatelliteMinerCargoRegistry;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.WeightedRandomObject;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -20,11 +29,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.WeightedRandom;
+import net.minecraft.world.World;
 
-import java.util.List;
-import java.util.Random;
-
-public class TileEntityMachineSatDock extends TileEntity implements ISidedInventory {
+public class TileEntityMachineSatDock extends TileEntity implements ISidedInventory, IGUIProvider {
 
 	private ItemStack[] slots;
 	
@@ -363,5 +370,16 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerSatDock(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUISatDock(player.inventory, this);
 	}
 }

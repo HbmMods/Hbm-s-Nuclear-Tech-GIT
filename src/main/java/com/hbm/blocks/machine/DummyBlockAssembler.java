@@ -43,7 +43,7 @@ public class DummyBlockAssembler extends DummyOldBase {
     			TileEntityMachineAssembler entity = (TileEntityMachineAssembler) world.getTileEntity(a, b, c);
     			if(entity != null)
     			{
-    				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_assembler, world, a, b, c);
+    				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, a, b, c);
     			}
     		}
 			return true;

@@ -1,23 +1,31 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.MachineDiFurnace;
+import com.hbm.inventory.container.ContainerDiFurnace;
+import com.hbm.inventory.gui.GUIDiFurnace;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPellet;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.util.RTGUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
-public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, INBTPacketReceiver {
+public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, INBTPacketReceiver, IGUIProvider {
 
 	private ItemStack slots[];
 
@@ -287,40 +295,40 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 
 	@Override
 	public void updateEntity() {
-		
-		boolean flag1 = false;
-
-		if(hasPower() && isProcessing()) {
-			this.dualPower = this.dualPower - 1;
-
-			if(this.dualPower < 0) {
-				this.dualPower = 0;
-			}
-		}
-		if(this.hasItemPower(this.slots[2]) && this.dualPower <= (TileEntityDiFurnace.maxPower - TileEntityDiFurnace.getItemPower(this.slots[2]))) {
-			this.dualPower += getItemPower(this.slots[2]);
-			if(this.slots[2] != null) {
-				flag1 = true;
-				this.slots[2].stackSize--;
-				if(this.slots[2].stackSize == 0) {
-					this.slots[2] = this.slots[2].getItem().getContainerItem(this.slots[2]);
-				}
-			}
-		}
-
-		if(hasPower() && canProcess()) {
-			dualCookTime++;
-
-			if(this.dualCookTime == TileEntityDiFurnace.processingSpeed) {
-				this.dualCookTime = 0;
-				this.processItem();
-				flag1 = true;
-			}
-		} else {
-			dualCookTime = 0;
-		}
 
 		if(!worldObj.isRemote) {
+
+			boolean flag1 = false;
+
+			if(hasPower() && isProcessing()) {
+				this.dualPower = this.dualPower - 1;
+
+				if(this.dualPower < 0) {
+					this.dualPower = 0;
+				}
+			}
+			if(this.hasItemPower(this.slots[2]) && this.dualPower <= (TileEntityDiFurnace.maxPower - TileEntityDiFurnace.getItemPower(this.slots[2]))) {
+				this.dualPower += getItemPower(this.slots[2]);
+				if(this.slots[2] != null) {
+					flag1 = true;
+					this.slots[2].stackSize--;
+					if(this.slots[2].stackSize == 0) {
+						this.slots[2] = this.slots[2].getItem().getContainerItem(this.slots[2]);
+					}
+				}
+			}
+
+			if(hasPower() && canProcess()) {
+				dualCookTime++;
+
+				if(this.dualCookTime == TileEntityDiFurnace.processingSpeed) {
+					this.dualCookTime = 0;
+					this.processItem();
+					flag1 = true;
+				}
+			} else {
+				dualCookTime = 0;
+			}
 			boolean trigger = true;
 
 			if(hasPower() && canProcess() && this.dualCookTime == 0) {
@@ -337,16 +345,16 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 				flag1 = true;
 				MachineDiFurnace.updateBlockState(this.dualCookTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
-			
+
 			NBTTagCompound data = new NBTTagCompound();
 			data.setShort("time", (short) this.dualCookTime);
 			data.setShort("fuel", (short) this.dualPower);
-			data.setByteArray("modes", new byte[] {(byte) sideFuel, (byte) sideUpper, (byte) sideLower});
+			data.setByteArray("modes", new byte[] { (byte) sideFuel, (byte) sideUpper, (byte) sideLower });
 			INBTPacketReceiver.networkPack(this, data, 15);
-		}
 
-		if(flag1) {
-			this.markDirty();
+			if(flag1) {
+				this.markDirty();
+			}
 		}
 	}
 
@@ -358,5 +366,16 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 		this.sideFuel = modes[0];
 		this.sideUpper = modes[1];
 		this.sideLower = modes[2];
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerDiFurnace(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIDiFurnace(player.inventory, this);
 	}
 }

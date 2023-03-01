@@ -27,10 +27,11 @@ public class NEIConfig implements IConfigureNEI {
 	@Override
 	public void loadConfig() {
 		registerHandler(new AlloyFurnaceRecipeHandler());
+		registerHandler(new ShredderRecipeHandler());
+		registerHandler(new PressRecipeHandler());
 		registerHandler(new CentrifugeRecipeHandler());
 		registerHandler(new GasCentrifugeRecipeHandler());
 		registerHandler(new BreederRecipeHandler());
-		registerHandler(new ShredderRecipeHandler());
 		registerHandler(new CMBFurnaceRecipeHandler());
 		registerHandler(new CyclotronRecipeHandler());
 		registerHandler(new AssemblerRecipeHandler());
@@ -38,7 +39,6 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new BoilerRecipeHandler());
 		registerHandler(new ChemplantRecipeHandler());
 		registerHandler(new FluidRecipeHandler());
-		registerHandler(new PressRecipeHandler());
 		registerHandler(new CrystallizerRecipeHandler());
 		registerHandler(new BookRecipeHandler());
 		registerHandler(new FusionRecipeHandler());
@@ -65,8 +65,9 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new CombinationHandler());
 		registerHandler(new SawmillHandler());
 		registerHandler(new MixerHandler());
+		registerHandler(new OutgasserHandler());
 		
-		registerHandler(new ChunkyHandler());
+		//registerHandler(new ChunkyHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));

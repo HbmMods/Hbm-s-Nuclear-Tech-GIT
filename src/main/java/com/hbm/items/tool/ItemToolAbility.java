@@ -31,16 +31,18 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IShearable;
 
 public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRockTool {
 	
-	private EnumToolType toolType;
-	private EnumRarity rarity = EnumRarity.common;
+	protected boolean isShears = false;
+	protected EnumToolType toolType;
+	protected EnumRarity rarity = EnumRarity.common;
 	//was there a reason for this to be private?
 	protected float damage;
 	protected double movement;
-	private List<ToolAbility> breakAbility = new ArrayList() {{ add(null); }};
-	private List<WeaponAbility> hitAbility = new ArrayList();
+	protected List<ToolAbility> breakAbility = new ArrayList() {{ add(null); }};
+	protected List<WeaponAbility> hitAbility = new ArrayList();
 	
 	public static enum EnumToolType {
 		
@@ -71,6 +73,11 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 
 		public Set<Material> materials = new HashSet();
 		public Set<Block> blocks = new HashSet();
+	}
+	
+	public ItemToolAbility setShears() {
+		this.isShears = true;
+		return this;
 	}
 
 	public ItemToolAbility(float damage, double movement, ToolMaterial material, EnumToolType type) {
@@ -129,7 +136,7 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 		Block block = world.getBlock(x, y, z);
 		int meta = world.getBlockMetadata(x, y, z);
 
-		if(!world.isRemote && canHarvestBlock(block, stack) && this.getCurrentAbility(stack) != null && canOperate(stack))
+		if(!world.isRemote && (canHarvestBlock(block, stack) || canShearBlock(block, stack, world, x, y, z)) && this.getCurrentAbility(stack) != null && canOperate(stack))
 			return this.getCurrentAbility(stack).onDig(world, x, y, z, player, block, meta, this);
 
 		return false;
@@ -252,9 +259,7 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 	}
 
 	private ToolAbility getCurrentAbility(ItemStack stack) {
-
 		int ability = getAbility(stack) % this.breakAbility.size();
-
 		return this.breakAbility.get(ability);
 	}
 
@@ -288,5 +293,10 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 	@Override
 	public boolean canBreakRock(World world, EntityPlayer player, ItemStack tool, Block block, int x, int y, int z) {
 		return canOperate(tool) && this.rockBreaker;
+	}
+
+	@Override
+	public boolean isShears(ItemStack stack) {
+		return this.isShears;
 	}
 }

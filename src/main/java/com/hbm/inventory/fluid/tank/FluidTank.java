@@ -8,7 +8,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
-import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
@@ -28,6 +27,7 @@ public class FluidTank {
 	static {
 		loadingHandlers.add(new FluidLoaderStandard());
 		loadingHandlers.add(new FluidLoaderFillableItem());
+		loadingHandlers.add(new FluidLoaderInfinite());
 	}
 	
 	FluidType type;
@@ -104,25 +104,6 @@ public class FluidTank {
 		if(slots[in] == null)
 			return false;
 		
-		if(slots[in].getItem() == ModItems.fluid_barrel_infinite && type != Fluids.NONE) {
-			this.fluid = this.maxFluid;
-			return true;
-		}
-
-		if(slots[in].getItem() == ModItems.inf_water && this.type == Fluids.WATER) {
-			this.fluid += 50;
-			if(this.fluid > this.maxFluid)
-				this.fluid = this.maxFluid;
-			return true;
-		}
-
-		if(slots[in].getItem() == ModItems.inf_water_mk2 && this.type == Fluids.WATER) {
-			this.fluid += 500;
-			if(this.fluid > this.maxFluid)
-				this.fluid = this.maxFluid;
-			return true;
-		}
-		
 		int prev = this.getFill();
 		
 		for(FluidLoadingHandler handler : loadingHandlers) {
@@ -139,25 +120,6 @@ public class FluidTank {
 		
 		if(slots[in] == null)
 			return false;
-		
-		if(slots[in].getItem() == ModItems.fluid_barrel_infinite) {
-			this.fluid = 0;
-			return true;
-		}
-		
-		if(slots[in].getItem() == ModItems.inf_water && type == Fluids.WATER) {
-			this.fluid -= 50;
-			if(this.fluid < 0)
-				this.fluid = 0;
-			return true;
-		}
-		
-		if(slots[in].getItem() == ModItems.inf_water_mk2 && type == Fluids.WATER) {
-			this.fluid -= 500;
-			if(this.fluid < 0)
-				this.fluid = 0;
-			return true;
-		}
 		
 		int prev = this.getFill();
 		

@@ -3,21 +3,25 @@ package com.hbm.items.tool;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.inventory.gui.GUIScreenGuide;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class ItemGuideBook extends Item {
+public class ItemGuideBook extends Item implements IGUIProvider {
 	
 	public ItemGuideBook() {
 		this.setMaxStackSize(1);
@@ -28,7 +32,7 @@ public class ItemGuideBook extends Item {
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
 		if(world.isRemote)
-			player.openGui(MainRegistry.instance, ModItems.guiID_item_guide, world, 0, 0, 0);
+			player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
 		
 		return stack;
 	}
@@ -312,5 +316,16 @@ public class ItemGuideBook extends Item {
 			this.sizeX = sizeX;
 			this.sizeY = sizeY;
 		}
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return null;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIScreenGuide(player);
 	}
 }

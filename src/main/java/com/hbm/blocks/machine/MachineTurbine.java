@@ -70,7 +70,7 @@ public class MachineTurbine extends BlockContainer implements ITooltipProvider {
 			TileEntityMachineTurbine entity = (TileEntityMachineTurbine) te;
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_turbine, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			
 			return true;

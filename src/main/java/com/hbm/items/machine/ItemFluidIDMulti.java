@@ -6,21 +6,25 @@ import java.util.Objects;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.gui.GUIScreenFluid;
 import com.hbm.items.IItemControlReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.conductor.TileEntityFluidDuctSimple;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,7 +33,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IItemControlReceiver {
+public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IItemControlReceiver, IGUIProvider {
 
 	IIcon overlayIcon;
 
@@ -46,7 +50,7 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 		}
 		
 		if(world.isRemote && player.isSneaking()) {
-			player.openGui(MainRegistry.instance, ModItems.guiID_item_fluid, world, 0, 0, 0);
+			player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
 		}
 		
 		return stack;
@@ -218,5 +222,16 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 				}
 			}
 		}
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return null;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIScreenFluid(player);
 	}
 }

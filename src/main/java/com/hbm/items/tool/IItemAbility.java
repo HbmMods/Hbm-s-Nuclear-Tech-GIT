@@ -1,20 +1,33 @@
 package com.hbm.items.tool;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
+import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.world.BlockEvent;
 
 public interface IItemAbility {
 	
 	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack);
+	public boolean isShears(ItemStack stack);
+	
+	public default boolean canShearBlock(Block block, ItemStack stack, World world, int x, int y, int z) {
+		return this.isShears(stack) && block instanceof IShearable && ((IShearable) block).isShearable(stack, world, x, y, z);
+	}
 
 	public default void breakExtraBlock(World world, int x, int y, int z, EntityPlayer playerEntity, int refX, int refY, int refZ) {
 
@@ -30,7 +43,7 @@ public interface IItemAbility {
 		Block block = world.getBlock(x, y, z);
 		int meta = world.getBlockMetadata(x, y, z);
 
-		if(!canHarvestBlock(block, stack) || block == Blocks.bedrock)
+		if(!(canHarvestBlock(block, stack) || canShearBlock(block, stack, world, x, y, z)) || block == Blocks.bedrock)
 			return;
 
 		Block refBlock = world.getBlock(refX, refY, refZ);
@@ -58,9 +71,13 @@ public interface IItemAbility {
 		player.getCurrentEquippedItem().func_150999_a(world, block, x, y, z, player);
 
 		if(!world.isRemote) {
+			
+			if(canShearBlock(block, stack, world, x, y, z)) {
+				shearBlock(world, x, y, z, block, player);
+			}
 
 			block.onBlockHarvested(world, x, y, z, meta, player);
-
+			
 			if(block.removedByPlayer(world, player, x, y, z, true)) {
 				block.onBlockDestroyedByPlayer(world, x, y, z, meta);
 				block.harvestBlock(world, player, x, y, z, meta);
@@ -84,6 +101,31 @@ public interface IItemAbility {
 			}
 
 			Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C07PacketPlayerDigging(2, x, y, z, Minecraft.getMinecraft().objectMouseOver.sideHit));
+		}
+	}
+	
+	/** Assumes a canShearBlock check has passed, will most likely crash otherwise! */
+	public static void shearBlock(World world, int x, int y, int z, Block block, EntityPlayer player) {
+		
+		ItemStack held = player.getHeldItem();
+
+		IShearable target = (IShearable) block;
+		if(target.isShearable(held, player.worldObj, x, y, z)) {
+			ArrayList<ItemStack> drops = target.onSheared(held, player.worldObj, x, y, z, EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, held));
+			Random rand = new Random();
+
+			for(ItemStack stack : drops) {
+				float f = 0.7F;
+				double d = (double) (rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
+				double d1 = (double) (rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
+				double d2 = (double) (rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
+				EntityItem entityitem = new EntityItem(player.worldObj, (double) x + d, (double) y + d1, (double) z + d2, stack);
+				entityitem.delayBeforeCanPickup = 10;
+				player.worldObj.spawnEntityInWorld(entityitem);
+			}
+
+			held.damageItem(1, player);
+			player.addStat(StatList.mineBlockStatArray[Block.getIdFromBlock(block)], 1);
 		}
 	}
 	

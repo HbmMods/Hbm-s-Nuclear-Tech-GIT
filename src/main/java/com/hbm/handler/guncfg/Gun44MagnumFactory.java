@@ -93,6 +93,7 @@ public class Gun44MagnumFactory {
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Poppin' mentats like tic tacs");
 		
+		config.allowsInfinity = false;
 		config.hasSights = true;
 		config.absoluteFOV = true;
 		config.zoomFOV = 0.25F;
@@ -111,7 +112,8 @@ public class Gun44MagnumFactory {
 		
 		config.durability = 4000;
 		config.ammoCap = 5;
-		
+
+		config.allowsInfinity = false;
 		config.name = "ifVanity";
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Alcoholism is cool!");
@@ -131,7 +133,8 @@ public class Gun44MagnumFactory {
 		
 		config.durability = 4000;
 		config.ammoCap = 6;
-		
+
+		config.allowsInfinity = false;
 		config.name = "ifStorm";
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Our friendship is based on abusive behaviour");
@@ -149,8 +152,9 @@ public class Gun44MagnumFactory {
 		GunConfiguration config = getBaseConfig();
 		
 		config.durability = 4000;
-		config.ammoCap = 64;
-		
+		config.ammoCap = 8;
+
+		config.allowsInfinity = false;
 		config.name = "ifPit";
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Explore the other side");

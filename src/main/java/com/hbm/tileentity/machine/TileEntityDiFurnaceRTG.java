@@ -1,14 +1,23 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.MachineDiFurnaceRTG;
+import com.hbm.inventory.container.ContainerMachineDiFurnaceRTG;
+import com.hbm.inventory.gui.GUIMachineDiFurnaceRTG;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
-import com.hbm.util.RTGUtil;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.RTGUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
-public class TileEntityDiFurnaceRTG extends TileEntityMachineBase
+public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGUIProvider
 {
 	public short progress;
 	private short processSpeed = 0;
@@ -171,6 +180,17 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase
 	@Override
 	public String getName() {
 		return "container.diFurnaceRTG";
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMachineDiFurnaceRTG(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineDiFurnaceRTG(player.inventory, this);
 	}
 
 }

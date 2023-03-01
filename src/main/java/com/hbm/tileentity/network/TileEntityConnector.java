@@ -32,7 +32,7 @@ public class TileEntityConnector extends TileEntityPylonBase {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
 		//pos.add(new int[] {xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ});
 		
-		TileEntity te = worldObj.getTileEntity(xCoord, yCoord, zCoord);
+		TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 		
 		if(te instanceof IEnergyConductor) {
 			

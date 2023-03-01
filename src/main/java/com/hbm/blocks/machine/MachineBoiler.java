@@ -159,7 +159,7 @@ public class MachineBoiler extends BlockContainer {
 				TileEntityMachineBoiler entity = (TileEntityMachineBoiler) te;
 				if(entity != null)
 				{
-					FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_boiler, world, x, y, z);
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 				}
 			}
 			
@@ -168,7 +168,7 @@ public class MachineBoiler extends BlockContainer {
 				TileEntityMachineBoilerElectric entity = (TileEntityMachineBoilerElectric) te;
 				if(entity != null)
 				{
-					FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_boiler_electric, world, x, y, z);
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 				}
 			}
 			return true;

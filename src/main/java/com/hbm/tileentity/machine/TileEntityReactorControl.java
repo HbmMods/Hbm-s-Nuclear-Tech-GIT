@@ -3,24 +3,27 @@ package com.hbm.tileentity.machine;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.ReactorResearch;
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.container.ContainerReactorControl;
+import com.hbm.inventory.gui.GUIReactorControl;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlAuto.RBMKFunction;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRedstoneComparator;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
-public class TileEntityReactorControl extends TileEntityMachineBase implements IControlReceiver {
+public class TileEntityReactorControl extends TileEntityMachineBase implements IControlReceiver, IGUIProvider {
 
 	private static final int[] slots_io = new int[] {0};
 	
@@ -241,5 +244,16 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 		LINEAR,
 		QUAD,
 		LOG
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerReactorControl(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIReactorControl(player.inventory, this);
 	}
 }

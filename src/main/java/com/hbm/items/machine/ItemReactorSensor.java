@@ -3,11 +3,14 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.util.ChatBuilder;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemReactorSensor extends Item {
@@ -20,8 +23,15 @@ public class ItemReactorSensor extends Item {
 
 		if (b == ModBlocks.reactor_research) {
 
-			if (stack.stackTagCompound == null)
+			if(stack.stackTagCompound == null)
 				stack.stackTagCompound = new NBTTagCompound();
+
+			if(!world.isRemote) {
+				player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
+						.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
+						.next("] ").color(EnumChatFormatting.DARK_AQUA)
+						.next("Position set!").color(EnumChatFormatting.GREEN).flush());
+			}
 
 			stack.stackTagCompound.setInteger("x", x);
 			stack.stackTagCompound.setInteger("y", y);

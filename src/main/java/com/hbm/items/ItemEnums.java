@@ -18,7 +18,8 @@ public class ItemEnums {
 		CRUDE,
 		CRACK,
 		COAL,
-		WOOD
+		WOOD,
+		WAX
 	}
 
 	public static enum EnumBriquetteType {

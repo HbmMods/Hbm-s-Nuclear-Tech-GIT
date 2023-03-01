@@ -81,7 +81,7 @@ public class GUIDiFurnace extends GuiContainer {
 		int j1 = diFurnace.getDiFurnaceProgressScaled(24);
 		drawTexturedModalRect(guiLeft + 101, guiTop + 35, 176, 14, j1 + 1, 17);
 
-		if(diFurnace.hasPower() && diFurnace.canProcess()) {
+		if(diFurnace.hasPower() && (diFurnace.canProcess() || j1 > 0)) {
 			drawTexturedModalRect(guiLeft + 63, guiTop + 37, 176, 0, 14, 14);
 		}
 	}

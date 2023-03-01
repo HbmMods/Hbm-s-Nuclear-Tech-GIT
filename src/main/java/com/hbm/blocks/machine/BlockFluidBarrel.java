@@ -69,7 +69,7 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 			return true;
 			
 		} else if(!player.isSneaking()) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_barrel, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 			
 		} else {
