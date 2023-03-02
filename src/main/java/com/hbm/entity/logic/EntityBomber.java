@@ -32,6 +32,7 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 public class EntityBomber extends Entity implements IChunkLoader {
 	
 	int timer = 200;
+	int civtimer = 600;
 	int bombStart = 75;
 	int bombStop = 125;
 	int bombRate = 3;
@@ -69,10 +70,12 @@ public class EntityBomber extends Entity implements IChunkLoader {
                 {
                     this.killBomber();
                 }
+                /*
                 if (this.health <= 0 && type == 9)
                 {
-                    this.killBomber();
+                    this.killBomber(); //not really needed wtf
                 }
+                */
             }
 
             return true;
@@ -140,6 +143,9 @@ public class EntityBomber extends Entity implements IChunkLoader {
 		
 		if(this.ticksExisted > timer)
 			this.setDead();
+		else if(type == 8 && ticksExisted > civtimer){
+			this.setDead();
+		}
 		
 		if(!worldObj.isRemote && this.health > 0 && this.ticksExisted > bombStart && this.ticksExisted < bombStop && this.ticksExisted % bombRate == 0) {
 			
@@ -418,7 +424,7 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	bomber.bombStop = 125;
     	bomber.bombRate = 90000;
 
-    	bomber.fac(world, x, y, z);
+    	bomber.fac(world, x, y+60, z);
     	
     	bomber.getDataWatcher().updateObject(16, (byte)9);
     	

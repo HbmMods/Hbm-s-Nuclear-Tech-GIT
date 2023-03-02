@@ -44,8 +44,7 @@ public class ItemBombCaller extends Item {
         if(itemstack.getItemDamage() == 7)
     		list.add("Type: Cloud the cloud oh god the cloud");
         if(itemstack.getItemDamage() == 8)
-    		list.add("A hacked together remote that sends"
-    		+ "a request to the nearest airliner to approach your location, disguised as ATC");
+    		list.add("Civilian Airliner.");
 	}
 	
 	@Override
@@ -93,7 +92,7 @@ public class ItemBombCaller extends Item {
 		    	player.addChatMessage(new ChatComponentText("Called in airstrike!"));
 		        world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
 	        }else if(b2){
-		    	player.addChatMessage(new ChatComponentText("Rerouted Civillian Traffic!"));
+		    	player.addChatMessage(new ChatComponentText("Rerouted Civilian Traffic!"));
 		        world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
 	        } else {
 		        world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);

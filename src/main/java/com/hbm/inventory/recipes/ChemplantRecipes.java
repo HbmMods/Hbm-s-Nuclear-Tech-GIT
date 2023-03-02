@@ -367,8 +367,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(Fluids.LIGHTOIL, 700), new FluidStack(Fluids.BLOOD, 700))
 				.outputFluids(new FluidStack(Fluids.BLOODGAS, 800)));
 		recipes.add(new ChemRecipe(103, "HCL", 250)
-				.inputFluids(new FluidStack(Fluids.HYDROGEN, 300))
-				.inputItems(new ComparableStack(ModItems.powder_poison, 10))
+				.inputFluids(new FluidStack(Fluids.HYDROGEN, 300), new FluidStack(Fluids.CHLORINE, 1000))
 				.outputFluids(new FluidStack(Fluids.HCL, 400)));
 		recipes.add(new ChemRecipe(104, "AMMONIUM", 250)
 				.inputFluids(new FluidStack(Fluids.AMMONIA, 500), new FluidStack(Fluids.NITROGEN, 1000))
