@@ -20,6 +20,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IEnergyUser, IFluidStandardTransceiver {
 	float rotSpeed;
+	int consumption = 200;
 	public float rot;
 	public float prevRot;
 	public long power = 0;
@@ -44,11 +45,13 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 			this.updateConnections();
 			
 			if(hasPower() && !hasTooMuch() && tanks.getMaxFill() > tanks.getFill()) {
-				int collect = Math.min(tanks.getMaxFill(), tanks.getFill()) + 20;
+				int collect = Math.min(tanks.getMaxFill(), tanks.getFill()) + 50;
 				collect = Math.min(collect, tanks.getMaxFill() - tanks.getFill());
 				
 				tanks.setFill(tanks.getFill() + collect);
-				power -= this.getMaxPower() / 20;
+				power -= this.getMaxPower() / 100;
+				//tank.setFill(tank.getFill() - 1);
+				//this.power -= this.consumption;
 	
 		}
 		
@@ -118,7 +121,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 	}
 
 	public boolean hasPower() {
-		return power >= this.getMaxPower() / 20;
+		return power >= this.getMaxPower() / 100;
 	}
 
 	public boolean hasTooMuch() {

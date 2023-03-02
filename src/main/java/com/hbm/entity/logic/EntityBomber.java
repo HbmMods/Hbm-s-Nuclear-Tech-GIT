@@ -9,6 +9,7 @@ import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityRocketHoming;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.LoopedEntitySoundPacket;
@@ -19,6 +20,8 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -86,7 +89,12 @@ public class EntityBomber extends Entity implements IChunkLoader {
         ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
     	if(type == 8) {
     		worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "hbm:entity.warCrimeShotDown", 25.0F, 1.0F);
-    	}else {
+			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(200, 200, 200));
+
+			for(EntityPlayer player : players) {
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.coin_airliner));
+			}
+			}else {
     	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "hbm:entity.planeShotDown", 25.0F, 1.0F);
     	
     	}
@@ -429,6 +437,7 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	bomber.getDataWatcher().updateObject(16, (byte)9);
     	
     	bomber.type = 8;
+    	
     	
     	return bomber;
     }

@@ -291,7 +291,7 @@ public class ItemMissile extends Item {
 		case BALEFIRE:
 			return EnumChatFormatting.GREEN + "BF Rocket Fuel / Peroxide";
 		case HYDRAZINE:
-			return EnumChatFormatting.DARK_BLUE + "Hydrazine";
+			return EnumChatFormatting.BLUE + "Hydrazine";
 		default:
 			return EnumChatFormatting.BOLD + "N/A";
 		}

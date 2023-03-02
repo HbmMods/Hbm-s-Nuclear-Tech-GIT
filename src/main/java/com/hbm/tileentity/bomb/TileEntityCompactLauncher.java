@@ -332,6 +332,9 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 				tanks[0].setFill(tanks[0].getFill() - fuel);
 				tanks[1].setFill(tanks[1].getFill() - fuel);
 				break;
+			case HYDRAZINE:
+				tanks[0].setFill(tanks[0].getFill() - fuel);
+				break;
 			case SOLID:
 				this.solid -= fuel; break;
 			default: break;
@@ -400,6 +403,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 			case HYDROGEN:
 			case XENON:
 			case BALEFIRE:
+			case HYDRAZINE:
 				
 				if(tanks[0].getFill() >= (Float)fuselage.attributes[1])
 					return 1;
@@ -459,6 +463,9 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 			case BALEFIRE:
 				tanks[0].setTankType(Fluids.BALEFIRE);
 				tanks[1].setTankType(Fluids.ACID);
+				break;
+			case HYDRAZINE:
+				tanks[0].setTankType(Fluids.HYDRAZINE);
 				break;
 			default: break;
 		}

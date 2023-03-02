@@ -853,6 +853,10 @@ public class ClientProxy extends ServerProxy {
 			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z, 0.2F, 0.7F, 0.2F, 1F);
 			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
 		}
+		if("exHydrazine".equals(type)) {
+			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z);
+			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+		}
 		if("radSmoke".equals(type)) {
 			ParticleRadiationFog contrail = new ParticleRadiationFog(man, world, x, y, z);
 			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
