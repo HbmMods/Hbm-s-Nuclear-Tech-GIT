@@ -8102,6 +8102,7 @@ public class ModItems {
 		//GameRegistry.registerItem(canned_kerosene, canned_kerosene.getUnlocalizedName());
 		//GameRegistry.registerItem(canned_recursion, canned_recursion.getUnlocalizedName());
 		//GameRegistry.registerItem(canned_bark, canned_bark.getUnlocalizedName());
+		GameRegistry.registerItem(canned_conserve, canned_conserve.getUnlocalizedName());
 		
 		//Money
 		GameRegistry.registerItem(cap_nuka, cap_nuka.getUnlocalizedName());
