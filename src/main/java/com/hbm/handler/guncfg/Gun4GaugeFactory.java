@@ -526,7 +526,7 @@ public class Gun4GaugeFactory {
 						for(EntityCreature creature : creatures) {
 							
 							if(creature.getClass().getCanonicalName().startsWith("net.minecraft.entity.titan")) {
-								ExplosionNukeSmall.explode(bullet.worldObj, creature.posX, creature.posY, creature.posZ, ExplosionNukeSmall.medium);
+								BulletConfigFactory.nuclearExplosion(creature, 0, 0, 0, ExplosionNukeSmall.PARAMS_TOTS);
 
 								bullet.worldObj.removeEntity(creature);
 								bullet.worldObj.unloadEntities(new ArrayList() {{ add(creature); }});

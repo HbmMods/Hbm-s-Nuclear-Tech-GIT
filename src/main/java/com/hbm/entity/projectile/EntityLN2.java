@@ -3,7 +3,6 @@ package com.hbm.entity.projectile;
 import java.util.List;
 
 import com.hbm.explosion.ExplosionThermo;
-import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 
 import cpw.mods.fml.relauncher.Side;
@@ -17,7 +16,6 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
 import net.minecraft.util.AxisAlignedBB;
@@ -48,9 +46,6 @@ public class EntityLN2 extends Entity implements IProjectile
     private double damage = 2.0D;
     /** The amount of knockback an arrow applies when it hits a mob. */
     private int knockbackStrength;
-    private static final String __OBFID = "CL_00001715";
-    
-
     public EntityLN2(World p_i1753_1_)
     {
         super(p_i1753_1_);

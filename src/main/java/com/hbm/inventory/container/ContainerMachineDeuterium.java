@@ -14,7 +14,6 @@ public class ContainerMachineDeuterium extends Container {
 
 private TileEntityMachineDeuterium nukeBoy;
 
-	private int power;
 	private int water;
 	private int sulfur;
 	private int progress;

@@ -8,9 +8,6 @@ import org.apache.logging.log4j.Level;
 
 import com.google.common.annotations.Beta;
 import com.hbm.hazard.HazardRegistry;
-import com.hbm.interfaces.ICustomWarhead.EnumCustomWarhead.EnumBioType;
-import com.hbm.interfaces.ICustomWarhead.EnumCustomWarhead.EnumChemicalType;
-import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;

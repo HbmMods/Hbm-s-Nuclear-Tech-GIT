@@ -2,13 +2,11 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
-import com.hbm.items.ModItems;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 
 public class ItemPileRod extends Item {
 	

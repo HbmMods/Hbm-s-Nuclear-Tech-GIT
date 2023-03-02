@@ -17,7 +17,7 @@ public class ItemWaffle extends ItemFood {
     public void onFoodEaten(ItemStack stack, World world, EntityPlayer player) {
 		
 		if(!world.isRemote)
-			ExplosionNukeSmall.explode(world, player.posX, player.posY + 0.5, player.posZ, ExplosionNukeSmall.medium);
+			ExplosionNukeSmall.explode(world, player.posX, player.posY + 0.5, player.posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
     }
 
 }

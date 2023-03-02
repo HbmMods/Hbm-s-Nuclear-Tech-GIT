@@ -2,7 +2,6 @@ package com.hbm.items.food;
 
 import java.util.List;
 
-import com.hbm.entity.effect.EntityVortex;
 import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;

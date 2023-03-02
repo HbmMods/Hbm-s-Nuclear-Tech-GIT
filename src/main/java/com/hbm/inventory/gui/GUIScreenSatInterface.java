@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ISatChip;
 import com.hbm.items.tool.ItemSatInterface;

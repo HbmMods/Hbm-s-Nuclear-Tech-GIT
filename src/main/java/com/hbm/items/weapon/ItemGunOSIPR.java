@@ -1,6 +1,5 @@
 package com.hbm.items.weapon;
 
-import com.hbm.entity.projectile.EntityCombineBall;
 import com.hbm.entity.projectile.EntityCombineBallNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.GunConfiguration;

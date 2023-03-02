@@ -165,7 +165,7 @@ public class Landmine extends BlockContainer implements IBomb {
 			}
 			if(this == ModBlocks.mine_fat) {
 
-				ExplosionNukeSmall.explode(world, x + 0.5, y + 0.5, z + 0.5, ExplosionNukeSmall.medium);
+				ExplosionNukeSmall.explode(world, x + 0.5, y + 0.5, z + 0.5, ExplosionNukeSmall.PARAMS_MEDIUM);
 			}
 		}
 

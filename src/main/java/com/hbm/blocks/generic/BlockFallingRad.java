@@ -10,13 +10,10 @@ import net.minecraft.world.World;
 public class BlockFallingRad extends BlockFalling {
 
 	private float radIn = 0.0F;
-	private float radMax = 0.0F;
-
 	public BlockFallingRad(Material mat, float rad, float max) {
 		super(mat);
 		this.setTickRandomly(true);
 		radIn = rad;
-		radMax = max;
 	}
 
 	@Override

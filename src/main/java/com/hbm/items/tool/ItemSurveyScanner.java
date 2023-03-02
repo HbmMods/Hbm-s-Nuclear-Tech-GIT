@@ -1,7 +1,5 @@
 package com.hbm.items.tool;
 
-import java.util.Random;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 

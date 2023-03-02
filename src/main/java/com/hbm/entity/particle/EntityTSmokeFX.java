@@ -4,8 +4,6 @@ import net.minecraft.world.World;
 
 public class EntityTSmokeFX extends EntityModFX
 {
-    private static final String __OBFID = "CL_00000924";
-
     public EntityTSmokeFX(World world) {
     	super(world, 0, 0, 0);
     }

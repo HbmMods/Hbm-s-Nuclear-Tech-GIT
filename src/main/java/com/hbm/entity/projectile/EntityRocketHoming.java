@@ -13,7 +13,6 @@ import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
-import com.hbm.main.ModEventHandler;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -52,7 +51,6 @@ public class EntityRocketHoming extends Entity implements IProjectile
     private double damage = 2.0D;
     private int knockbackStrength;
     private float explosionStrength;
-    private static final String __OBFID = "CL_00001715";
 
     // specifies the type of stinger rocket that was fired
     /*  0  =  Normal
@@ -754,8 +752,8 @@ public class EntityRocketHoming extends Entity implements IProjectile
     		case 1: ExplosionLarge.explode(worldObj, posX, posY, posZ, strength * 2, true, false, true); break;
     		case 2: ExplosionLarge.explodeFire(worldObj, posX, posY, posZ, strength, true, false, false); break;
     		case 4:
-    			ExplosionLarge.explode(worldObj, posX, posY, posZ, strength * 3, false, false, true);
-    			ExplosionNukeSmall.explode(worldObj, posX, posY, posZ, (int)strength * 5);
+    			//ExplosionLarge.explode(worldObj, posX, posY, posZ, strength * 3, false, false, true);
+    			ExplosionNukeSmall.explode(worldObj, posX, posY, posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
     			break;
     		default: break;
     	}

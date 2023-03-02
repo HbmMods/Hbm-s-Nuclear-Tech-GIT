@@ -12,7 +12,7 @@ public class BlockFissureBomb extends BlockTNTBase {
 
 	@Override
 	public void explodeEntity(World world, double x, double y, double z, EntityTNTPrimedBase entity) {
-		ExplosionNukeSmall.explode(world, x, y, z, ExplosionNukeSmall.medium);
+		ExplosionNukeSmall.explode(world, x, y, z, ExplosionNukeSmall.PARAMS_MEDIUM);
 		
 		int range = 5;
 		

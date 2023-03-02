@@ -3,10 +3,6 @@ package com.hbm.entity.mob;
 import java.util.List;
 
 import com.hbm.entity.mob.ai.EntityAINearestAttackableTargetNT;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
-
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;

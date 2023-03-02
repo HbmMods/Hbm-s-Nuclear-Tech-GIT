@@ -2,41 +2,14 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
-import com.hbm.config.WorldConfig;
-import com.hbm.entity.effect.EntityNukeTorex;
-import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.entity.logic.EntityTomBlast;
-import com.hbm.entity.mob.siege.EntitySiegeTunneler;
-import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBookLore;
-import com.hbm.items.special.ItemBookLore.BookLoreType;
-import com.hbm.items.special.ItemKitCustom;
-import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
-import com.hbm.world.feature.OilSpot;
-import com.hbm.world.generator.DungeonToolbox;
 
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EntityTracker;
-import net.minecraft.entity.EntityTrackerEntry;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IntHashMap;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.gen.structure.MapGenStronghold;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
 

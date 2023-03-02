@@ -5,7 +5,6 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.ContainerCartDestroyer;
 import com.hbm.inventory.gui.GUICartDestroyer;
-import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemModMinecart;
 import com.hbm.items.tool.ItemModMinecart.EnumCartBase;
 import com.hbm.items.tool.ItemModMinecart.EnumMinecart;

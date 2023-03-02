@@ -50,9 +50,6 @@ public class EntityMinerBeam extends Entity implements IProjectile
     private double damage = 2.0D;
     /** The amount of knockback an arrow applies when it hits a mob. */
     private int knockbackStrength;
-    private static final String __OBFID = "CL_00001715";
-    
-
     public EntityMinerBeam(World p_i1753_1_)
     {
         super(p_i1753_1_);

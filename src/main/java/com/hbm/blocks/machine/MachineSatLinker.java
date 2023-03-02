@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineSatLinker;
@@ -26,7 +25,6 @@ import net.minecraft.world.World;
 public class MachineSatLinker extends BlockContainer {
 
     private final Random field_149933_a = new Random();
-	private Random rand;
 	private static boolean keepInventory;
 	
 	@SideOnly(Side.CLIENT)

@@ -10,11 +10,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerRBMKControlAuto extends Container {
 
-	private TileEntityRBMKControlAuto rbmk;
-
 	public ContainerRBMKControlAuto(InventoryPlayer invPlayer, TileEntityRBMKControlAuto tedf) {
-		rbmk = tedf;
-
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + 20));

@@ -1,7 +1,5 @@
 package com.hbm.blocks.machine.pile;
 
-import java.util.ArrayList;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;

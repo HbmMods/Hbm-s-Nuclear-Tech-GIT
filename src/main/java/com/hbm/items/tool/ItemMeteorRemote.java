@@ -3,7 +3,6 @@ package com.hbm.items.tool;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.handler.BossSpawnHandler;
 
 import net.minecraft.entity.player.EntityPlayer;

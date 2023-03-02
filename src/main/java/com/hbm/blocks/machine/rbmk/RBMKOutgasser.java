@@ -1,6 +1,5 @@
 package com.hbm.blocks.machine.rbmk;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKOutgasser;
 
