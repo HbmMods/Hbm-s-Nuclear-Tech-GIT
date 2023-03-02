@@ -298,9 +298,11 @@ public class TileMappings {
 		put(TileEntityMachineFrackingTower.class, "tileentity_fracking_tower");
 		put(TileEntityMachineGasFlare.class, "tileentity_gasflare");
 		put(TileEntityMachineRefinery.class, "tileentity_refinery");
+		put(TileEntityMachineVacuumDistill.class, "tileentity_vacuuum_distill");
 		put(TileEntityMachineFractionTower.class, "tileentity_fraction_tower");
 		put(TileEntitySpacer.class, "tileentity_fraction_spacer");
 		put(TileEntityMachineCatalyticCracker.class, "tileentity_catalytic_cracker");
+		put(TileEntityMachineCatalyticReformer.class, "tileentity_catalytic_reformer");
 		
 		put(TileEntityReactorZirnox.class, "tileentity_zirnox");
 		put(TileEntityZirnoxDestroyed.class, "tileentity_zirnox_destroyed");
