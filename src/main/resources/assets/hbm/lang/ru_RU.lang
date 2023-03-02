@@ -1138,6 +1138,8 @@ hbmfluid.nitric_acid=Азотная кислота
 hbmfluid.solvent=Растворитель
 hbmfluid.oxyhydrogen=Гремучий газ
 hbmfluid.syngas=Синтгаз
+hbmfluid.chlorine=Хлор
+hbmfluid.radiosolvent=Высокоэффективный растворитель
 
 hbmmat.actinium227=Актиний-227
 hbmmat.advancedalloy=Продвинутый сплав
@@ -2834,6 +2836,8 @@ item.ore_deepcleaned.name=Глубоко очищенная %s бедроков�
 item.ore_enriched.name=Обогащённая %s бедроковая руда
 item.ore_nitrated.name=Азотированная %s бедроковая руда
 item.ore_nitrocrystalline.name=Нитрокристаллическая %s бедроковая руда
+item.ore_radcleaned.name=Рад-очищенная %s бедроковая руда
+item.ore_seared.name=Осушенная %s бедроковая руда
 item.ore_purified.name=Промытая %s бедроковая руда
 item.ore_separated.name=Отделённая %s бедроковая руда
 item.ore_byproduct.b_iron.name=Железный побочный продукт
@@ -3361,6 +3365,7 @@ item.oil_tar.crude.name=Нефтяная смола
 item.oil_tar.crack.name=Крекинговая нефтяная смола
 item.oil_tar.coal.name=Угольная смола
 item.oil_tar.wood.name=Древесная смола
+item.oil_tar.wax.name=Хлорированный нефтяной воск
 
 item.canister_empty.name=Пустая канистра
 item.canister_smear.name=Канистра с промышленным маслом (LEGACY)
