@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.food.ItemConserve.EnumFoodType;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
@@ -47,38 +49,34 @@ public class BlockCanCrate extends Block {
     	
     	return true;
     }
-
+    
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+    	ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+    	
+    	int count = quantityDropped(metadata, fortune, world.rand);
+    	for(int i = 0; i < count; i++) {
+    		Item item = getItemDropped(metadata, world.rand, fortune);
+    		if(item != null)
+    			ret.add(new ItemStack(item, 1, damageDropped(metadata, world.rand, item)));
+    	}
+    	
+    	return ret;
+    }
+    
+    //pain
+    public int damageDropped(int meta, Random rand, Item item) {
+    	if(item != ModItems.canned_conserve)
+    		return damageDropped(meta);
+    	else
+    		return Math.abs(rand.nextInt() % EnumFoodType.values().length);
+    }
+    
     @Override
 	public Item getItemDropped(int i, Random rand, int j) {
     	
     	List<Item> items = new ArrayList();
-    	items.add(ModItems.canned_beef);
-    	items.add(ModItems.canned_tuna);
-    	items.add(ModItems.canned_mystery);
-    	items.add(ModItems.canned_pashtet);
-    	items.add(ModItems.canned_cheese);
-    	items.add(ModItems.canned_jizz);
-    	items.add(ModItems.canned_milk);
-    	items.add(ModItems.canned_ass);
-    	items.add(ModItems.canned_pizza);
-    	items.add(ModItems.canned_tomato);
-    	items.add(ModItems.canned_tube);
-    	items.add(ModItems.canned_asbestos);
-    	items.add(ModItems.canned_bhole);
-    	items.add(ModItems.canned_hotdogs);
-    	items.add(ModItems.canned_leftovers);
-    	items.add(ModItems.canned_yogurt);
-    	items.add(ModItems.canned_stew);
-    	items.add(ModItems.canned_chinese);
-    	items.add(ModItems.canned_oil);
-    	items.add(ModItems.canned_fist);
-    	items.add(ModItems.canned_spam);
-    	items.add(ModItems.canned_fried);
-    	items.add(ModItems.canned_napalm);
-    	items.add(ModItems.canned_diesel);
-    	items.add(ModItems.canned_kerosene);
-    	items.add(ModItems.canned_recursion);
-    	items.add(ModItems.canned_bark);
+    	for(int a = 0; a < EnumFoodType.values().length; a++)
+    		items.add(ModItems.canned_conserve);
     	items.add(ModItems.can_smart);
     	items.add(ModItems.can_creature);
     	items.add(ModItems.can_redbomb);

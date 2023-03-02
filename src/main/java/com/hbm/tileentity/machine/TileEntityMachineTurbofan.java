@@ -455,4 +455,22 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineTurbofan(player.inventory, this);
 	}
+
+	@Override
+	public int getMaxFluidFill(FluidType type) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setFluidFill(int fill, FluidType type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFluidFill(FluidType type) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

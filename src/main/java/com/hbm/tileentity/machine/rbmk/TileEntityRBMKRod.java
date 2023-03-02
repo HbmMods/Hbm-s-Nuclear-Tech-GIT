@@ -1,11 +1,8 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import java.util.List;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.blocks.machine.rbmk.RBMKRod;
-import com.hbm.config.RadiationConfig;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.container.ContainerRBMKRod;
@@ -14,9 +11,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.Compat;
-import com.hbm.util.ContaminationUtil;
-import com.hbm.util.ContaminationUtil.ContaminationType;
-import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -244,48 +238,6 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			
 			if(!worldObj.getBlock(x, y + h, z).isOpaqueCube())
 				hits++;
-			
-			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x + 0.5, y + 0.5, z + 0.5, x + 0.5, y + 0.5, z + 0.5));
-			
-			if(entities != null)
-				for(EntityLivingBase e : entities) {
-					ContaminationUtil.contaminate(e, HazardType.NEUTRON, ContaminationType.CREATIVE, (float)flux);
-					ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, (float)flux / 2);
-					if(e instanceof EntityPlayer && RadiationConfig.disableNeutron) {
-						//Random rand = target.getRNG();
-						EntityPlayer player = (EntityPlayer) e;
-						for(int i2 = 0; i2 < player.inventory.mainInventory.length; i2++)
-						{
-							ItemStack stack2 = player.inventory.getStackInSlot(i2);
-							
-							//if(rand.nextInt(100) == 0) {
-								//stack2 = player.inventory.armorItemInSlot(rand.nextInt(4));
-							//}
-							
-							//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-							if(stack2 != null) {
-									if(!stack2.hasTagCompound())
-										stack2.stackTagCompound = new NBTTagCompound();
-									float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-									stack2.stackTagCompound.setFloat("ntmNeutron", activation+(float)(flux/stack2.stackSize));
-									
-								//}
-							}
-						}
-						for(int i2 = 0; i2 < player.inventory.armorInventory.length; i2++)
-						{
-							ItemStack stack2 = player.inventory.armorItemInSlot(i2);
-							
-							//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-							if(stack2 != null) {					
-									if(!stack2.hasTagCompound())
-										stack2.stackTagCompound = new NBTTagCompound();
-									float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-									stack2.stackTagCompound.setFloat("ntmNeutron", activation+(float)(flux/stack2.stackSize));
-							}
-						}	
-					}
-				}
 		}
 		
 		if(hits > 0)

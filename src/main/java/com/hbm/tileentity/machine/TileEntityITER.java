@@ -683,4 +683,52 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIITER(player.inventory, this);
 	}
+
+	@Override
+	public void setFluidFill(int fill, FluidType type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFluidFill(FluidType type) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void fillFluidInit(FluidType type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean getTact() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void clearFluidList(FluidType type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getMaxFluidFill(FluidType type) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
