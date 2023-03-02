@@ -15,6 +15,8 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+
+//tfw no multiple inheritance
 public class ItemConserve extends ItemEnumMulti {
 	
 	public ItemConserve() {

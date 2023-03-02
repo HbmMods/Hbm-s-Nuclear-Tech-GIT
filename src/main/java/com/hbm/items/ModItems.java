@@ -1081,8 +1081,9 @@ public class ModItems {
 	//public static Item canned_kerosene;
 	//public static Item canned_recursion;
 	//public static Item canned_bark;
-	public static Item can_key;
 	public static ItemEnumMulti canned_conserve;
+	public static Item can_key;
+	
 	
 
 	public static Item cart;
@@ -8774,6 +8775,7 @@ public class ModItems {
 		addRemap("rod_zirnox_les_fuel", rod_zirnox, EnumZirnoxType.LES_FUEL);
 		addRemap("rod_zirnox_lithium", rod_zirnox, EnumZirnoxType.LITHIUM);
 		addRemap("rod_zirnox_zfb_mox", rod_zirnox, EnumZirnoxType.ZFB_MOX);
+		
 		
 	}
 	
