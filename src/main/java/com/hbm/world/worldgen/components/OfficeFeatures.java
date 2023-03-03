@@ -5,8 +5,6 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.util.LootGenerator;
-import com.hbm.world.worldgen.components.Component.ConcreteBricks;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;

@@ -1,37 +1,8 @@
 package com.hbm.items.weapon;
 
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
-import com.hbm.entity.projectile.EntityBeamVortex;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.lib.Library;
-import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
-import com.hbm.packet.GunAnimationPacket;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.particle.ParticleVortexCircle;
-import com.hbm.particle.ParticleVortexGlow;
-import com.hbm.particle.ParticleVortexParticle;
-import com.hbm.render.anim.HbmAnimations.AnimType;
-import com.hbm.util.BobMathUtil;
-import com.hbm.util.EntityDamageUtil;
-
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
 
 public class ItemGunVortex extends ItemGunBase {
 	

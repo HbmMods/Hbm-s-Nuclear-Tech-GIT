@@ -10,7 +10,6 @@ import com.hbm.items.weapon.ItemGrenade;
 
 public class EntityGrenadeFire extends EntityGrenadeBouncyBase
 {
-    private static final String __OBFID = "CL_00001722";
     public Entity shooter;
 
     public EntityGrenadeFire(World p_i1773_1_)

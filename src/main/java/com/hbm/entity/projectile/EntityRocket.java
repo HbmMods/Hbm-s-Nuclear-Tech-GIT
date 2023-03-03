@@ -6,8 +6,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.items.ModItems;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -17,7 +15,6 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
 import net.minecraft.util.AxisAlignedBB;
@@ -47,9 +44,6 @@ public class EntityRocket extends Entity implements IProjectile
     private double damage = 2.0D;
     /** The amount of knockback an arrow applies when it hits a mob. */
     private int knockbackStrength;
-    private static final String __OBFID = "CL_00001715";
-    
-
     public EntityRocket(World p_i1753_1_)
     {
         super(p_i1753_1_);

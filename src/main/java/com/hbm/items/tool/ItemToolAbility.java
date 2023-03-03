@@ -31,7 +31,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IShearable;
 
 public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRockTool {
 	

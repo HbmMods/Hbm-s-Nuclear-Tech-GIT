@@ -9,8 +9,6 @@ import net.minecraft.world.World;
 
 public class EntityGrenadeElectric extends EntityGrenadeBouncyBase
 {
-    private static final String __OBFID = "CL_00001722";
-
     public EntityGrenadeElectric(World p_i1773_1_)
     {
         super(p_i1773_1_);

@@ -1,10 +1,6 @@
 package com.hbm.items.tool;
 
-import java.util.List;
-
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidDuct;
-import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.tileentity.network.TileEntityPylon;

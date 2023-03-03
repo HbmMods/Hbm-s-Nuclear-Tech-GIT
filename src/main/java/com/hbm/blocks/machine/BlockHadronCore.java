@@ -1,6 +1,5 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;

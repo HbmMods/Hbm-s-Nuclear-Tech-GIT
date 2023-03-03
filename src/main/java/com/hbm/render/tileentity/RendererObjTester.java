@@ -1,6 +1,5 @@
 package com.hbm.render.tileentity;
 
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 import org.lwjgl.BufferUtils;
@@ -9,19 +8,11 @@ import org.lwjgl.opengl.GL12;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.HorsePronter;
-import com.hbm.render.util.RenderMiscEffects;
-import com.hbm.render.util.BeamPronter.EnumBeamType;
-import com.hbm.render.util.BeamPronter.EnumWaveType;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 

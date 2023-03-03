@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.common.annotations.Beta;
-import com.hbm.config.MachineConfig;
 import com.hbm.config.VersatileConfig;
 import com.hbm.interfaces.Untested;
 

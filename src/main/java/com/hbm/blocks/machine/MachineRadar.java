@@ -1,6 +1,5 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WeaponConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;

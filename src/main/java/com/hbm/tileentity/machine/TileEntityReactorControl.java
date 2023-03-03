@@ -25,8 +25,6 @@ import net.minecraft.world.World;
 
 public class TileEntityReactorControl extends TileEntityMachineBase implements IControlReceiver, IGUIProvider {
 
-	private static final int[] slots_io = new int[] {0};
-	
 	public TileEntityReactorControl() {
 		super(1);
 	}

@@ -14,12 +14,8 @@ public class ContainerRtgFurnace extends Container {
 	
 	private TileEntityRtgFurnace diFurnace;
 	private int dualCookTime;
-	private int lastItemBurnTime;
-	
 	public ContainerRtgFurnace(InventoryPlayer invPlayer, TileEntityRtgFurnace tedf) {
 		dualCookTime = 0;
-		lastItemBurnTime = 0;
-		
 		diFurnace = tedf;
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 56, 17));

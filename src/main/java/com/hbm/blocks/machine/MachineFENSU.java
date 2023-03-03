@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.IPersistentInfoProvider;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.storage.TileEntityMachineFENSU;

@@ -18,7 +18,6 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderSmallNukeMK4 extends Render {
@@ -89,22 +88,6 @@ public class RenderSmallNukeMK4 extends Render {
         	renderFlash(scale);
             GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
     		GL11.glPopMatrix();
-        }
-	}
-	
-	@Deprecated
-	private void shockwaveWrapper(EntityNukeCloudSmall cloud, float interp) {
-        
-        if(cloud.age < 300) {
-
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_CULL_FACE);
-    		
-    		GL11.glShadeModel(GL11.GL_SMOOTH);
-            
-        	renderShockwave((cloud.age + interp) * 0.5D);
-            
-    		GL11.glShadeModel(GL11.GL_FLAT);
         }
 	}
 	
@@ -302,20 +285,6 @@ public class RenderSmallNukeMK4 extends Render {
         RenderHelper.enableStandardItemLighting();
 	}
 	
-	@Deprecated
-	private void renderShockwave(double scale) {
-		
-		GL11.glPushMatrix();
-		
-		double s = 3;
-		double timescale = 250;
-		
-        bindTexture(ResourceManager.dust);
-        printShockwave(scale * s, 5, 32, -(System.currentTimeMillis() % timescale * 8) / (timescale));
-		
-		GL11.glPopMatrix();
-	}
-	
 	/**
 	 * Render call for the mush head model
 	 * Includes offset and smoothing
@@ -406,63 +375,5 @@ public class RenderSmallNukeMK4 extends Render {
 		tess.addVertexWithUV((double)(posX + f1 * scale + f3 * scale), (double)(posY + f5 * scale), (double)(posZ + f2 * scale + f4 * scale), 0, 0);
 		tess.addVertexWithUV((double)(posX + f1 * scale - f3 * scale), (double)(posY - f5 * scale), (double)(posZ + f2 * scale - f4 * scale), 0, 1);
 		
-	}
-	
-	/*
-	 *     //////  //////  //////  //    //  //////  //////  //////  //////
-	 *    //  //  //  //    //    ////  //    //    //      //  //  //
-	 *   //////  ////      //    //  ////    //    ////    ////    //////
-	 *  //      //  //    //    //    //    //    //      //  //      //
-	 * //      //  //  //////  //    //    //    //////  //  //  //////
-	 */
-	
-	@Deprecated
-	private void printShockwave(double scale, double radius, int segments, double offset) {
-		
-		double angle = 360D / segments;
-
-		double[][] verts = new double[12][3];
-		double[][] lastverts = new double[12][3];
-		
-		Tessellator tess = Tessellator.instance;
-		tess.startDrawingQuads();
-		
-		for(int i = -1; i < segments; i++) {
-			
-			double rot = i * angle;
-			
-			for(int j = 0; j < 12; j++) {
-				
-				Vec3 vec = Vec3.createVectorHelper(radius, 0, 0);
-				vec.rotateAroundZ((float) Math.toRadians(360D /12D * j));
-				vec.rotateAroundY((float) Math.toRadians(rot));
-				
-				lastverts[j] = verts[j];
-				verts[j] = new double[] {vec.xCoord, vec.yCoord, vec.zCoord};
-			}
-			
-			if(i == -1)
-				continue;
-
-			Vec3 rotor = Vec3.createVectorHelper(scale, 0, 0);
-			rotor.rotateAroundY((float) Math.toRadians(rot));
-			Vec3 last = Vec3.createVectorHelper(scale, 0, 0);
-			last.rotateAroundY((float) Math.toRadians(rot - angle));
-			
-			for(int k = 0; k < 12; k++) {
-				
-				int n = (k + 1) % 12;
-
-				double uvlower = offset * 0.125;
-				double uvupper = 1 + offset * 0.125;
-
-				tess.addVertexWithUV(lastverts[k][0] + last.xCoord, lastverts[k][1], lastverts[k][2] + last.zCoord, uvlower, 0);
-				tess.addVertexWithUV(verts[k][0] + rotor.xCoord, verts[k][1], verts[k][2] + rotor.zCoord, uvlower, 1);
-				tess.addVertexWithUV(verts[n][0] + rotor.xCoord, verts[n][1], verts[n][2] + rotor.zCoord, uvupper, 1);
-				tess.addVertexWithUV(lastverts[n][0] + last.xCoord, lastverts[n][1], lastverts[n][2] + last.zCoord, uvupper, 0);
-			}
-		}
-		
-		tess.draw();
 	}
 }

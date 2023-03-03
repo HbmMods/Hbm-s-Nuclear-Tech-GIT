@@ -325,9 +325,9 @@ public class EntityNuclearCreeper extends EntityMob {
 			} else {
 
 				if(flag) {
-					ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.medium);
+					ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
 				} else {
-					ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.safe);
+					ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.PARAMS_SAFE);
 				}
 			}
 

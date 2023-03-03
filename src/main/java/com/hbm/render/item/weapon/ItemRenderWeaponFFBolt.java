@@ -2,11 +2,9 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.items.ModItems;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
