@@ -15,10 +15,6 @@ public class PacketDispatcher {
 	{
 		int i = 0;
 		
-		//Packet sent for every connected electricity pole, for wire rendering
-		//wrapper.registerMessage(TEPylonSenderPacket.Handler.class, TEPylonSenderPacket.class, i++, Side.CLIENT);
-		//Resets connection list in client-sided pole rendering
-		//wrapper.registerMessage(TEPylonDestructorPacket.Handler.class, TEPylonDestructorPacket.class, i++, Side.CLIENT);
 		//Machine type for marker rendering
 		wrapper.registerMessage(TEStructurePacket.Handler.class, TEStructurePacket.class, i++, Side.CLIENT);
 		//Mining drill rotation for rendering
@@ -35,10 +31,6 @@ public class PacketDispatcher {
 		wrapper.registerMessage(LoopedSoundPacket.Handler.class, LoopedSoundPacket.class, i++, Side.CLIENT);
 		//Signals server to consume items and create template
 		wrapper.registerMessage(ItemFolderPacket.Handler.class, ItemFolderPacket.class, i++, Side.SERVER);
-		//Turbofan spin for rendering
-		wrapper.registerMessage(TETurbofanPacket.Handler.class, TETurbofanPacket.class, i++, Side.CLIENT);
-		//Press item for rendering
-		wrapper.registerMessage(TEPressPacket.Handler.class, TEPressPacket.class, i++, Side.CLIENT);
 		//Electricity gauge for GUI rendering
 		wrapper.registerMessage(AuxElectricityPacket.Handler.class, AuxElectricityPacket.class, i++, Side.CLIENT);
 		//Universal package for machine gauges and states
