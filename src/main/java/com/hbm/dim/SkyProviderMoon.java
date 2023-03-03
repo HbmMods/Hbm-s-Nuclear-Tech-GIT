@@ -15,7 +15,7 @@ public class SkyProviderMoon extends IRenderHandler {
 	private static final ResourceLocation sun = new ResourceLocation("minecraft:textures/environment/sun.png");
 	// private static final ResourceLocation sun = new
 	// ResourceLocation("hfr:textures/sky/sun.png");
-
+	//thanks xradar
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
 
