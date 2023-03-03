@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.util.TimeAnalyzer;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
@@ -23,11 +25,18 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
-			TomSaveData data = TomSaveData.forWorld(world);
+			TimeAnalyzer.startCount("setBlock");
+			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
+			TimeAnalyzer.startEndCount("getBlock");
+			world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+			TimeAnalyzer.endCount();
+			TimeAnalyzer.dump();
+			
+			/*TomSaveData data = TomSaveData.forWorld(world);
 			data.impact = false;
 			data.fire = 0F;
 			data.dust = 0F;
-			data.markDirty();
+			data.markDirty();*/
 			
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;
