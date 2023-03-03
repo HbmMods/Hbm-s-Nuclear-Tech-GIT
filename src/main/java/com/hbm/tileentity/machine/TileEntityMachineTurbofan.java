@@ -48,7 +48,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbofan extends TileEntityMachineBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider {
+public class TileEntityMachineTurbofan extends TileEntityMachineBase implements ISidedInventory, IEnergyGenerator, IFluidStandardTransceiver, IGUIProvider {
 
 	public long power;
 	public static final long maxPower = 500_000;
@@ -454,23 +454,5 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineTurbofan(player.inventory, this);
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }
