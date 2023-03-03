@@ -18,6 +18,8 @@ import com.hbm.handler.ImpactWorldHandler;
 
 import java.util.Random;
 
+import javax.swing.text.Position;
+
 public class RenderNTMSkyboxImpact extends IRenderHandler {
 	
 	private static final ResourceLocation sunTexture = new ResourceLocation("textures/environment/sun.png");

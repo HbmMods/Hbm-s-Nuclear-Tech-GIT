@@ -16,6 +16,7 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.ChestGenHooks;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -39,6 +40,7 @@ import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.cache.AbstractCache;
 import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
@@ -46,6 +48,8 @@ import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.config.*;
 import com.hbm.creativetabs.*;
+import com.hbm.dim.WorldGeneratorMoon;
+import com.hbm.dim.WorldProviderMoon;
 import com.hbm.entity.EntityMappings;
 import com.hbm.entity.grenade.*;
 import com.hbm.entity.logic.*;
@@ -101,6 +105,8 @@ public class MainRegistry {
 
 	@Metadata
 	public static ModMetadata meta;
+	
+	public static WorldGeneratorMoon worldGenMoon = new WorldGeneratorMoon(); //eventually i will need to rewrite this shit.
 
 	public static Logger logger = LogManager.getLogger("HBM");
 
@@ -225,6 +231,7 @@ public class MainRegistry {
 	public static Achievement achBreeding;
 	public static Achievement achFusion;
 	public static Achievement achMeltdown;
+	public static Achievement achRotConsum;
 	
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -332,6 +339,7 @@ public class MainRegistry {
 
 		EntityMappings.writeMappings();
 		
+		
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 
 			@Override
@@ -344,6 +352,10 @@ public class MainRegistry {
 				}
 			}
 		});
+		
+		GameRegistry.registerWorldGenerator(worldGenMoon, 0);
+		DimensionManager.registerProviderType(15, WorldProviderMoon.class, false);
+	    DimensionManager.registerDimension(15, 15);
 
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_generic, new BehaviorProjectileDispense() {
 
@@ -746,7 +758,8 @@ public class MainRegistry {
 				achFusion,
 				achMeltdown,
 				achRedBalloons,
-				achManhattan
+				achManhattan,
+				achRotConsum
 		}));
 
 		// MUST be initialized AFTER achievements!!

@@ -2,9 +2,12 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.dim.DebugTeleporter;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
 import com.hbm.config.WorldConfig;
+import com.hbm.dim.DebugTeleporter;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.logic.EntityTomBlast;
@@ -30,6 +33,7 @@ import net.minecraft.entity.EntityTracker;
 import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -55,7 +59,16 @@ public class ItemWandD extends Item {
 		if(pos != null) {
 	
 			
-			
+
+				
+			EntityPlayerMP thePlayer = (EntityPlayerMP) player;
+				
+			if(!player.isSneaking())
+					thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, 15, new DebugTeleporter(thePlayer.getServerForPlayer()));
+			else
+			System.out.println(player.dimension);
+			/*
+			return stack;
 			
 			TomSaveData data = TomSaveData.forWorld(world);
 			data.impact = false;

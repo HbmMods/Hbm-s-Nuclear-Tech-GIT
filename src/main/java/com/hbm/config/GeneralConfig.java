@@ -30,6 +30,7 @@ public class GeneralConfig {
 	public static boolean enableChunkyNEIHandler = true;
 	public static boolean enableSkyboxes = true;
 	public static boolean enableImpactWorldProvider = true;
+	public static boolean moreStars; //debugging
 	public static int hintPos = 0;
 
 	public static boolean enable528 = false;
@@ -85,6 +86,7 @@ public class GeneralConfig {
 		enableChunkyNEIHandler = config.get(CATEGORY_GENERAL, "1.30_enableChunkyNEIHandler", true, "If enabled, registers a NEI handler that will show the chosen item in a larger view.").getBoolean(true);
 		enableSkyboxes = config.get(CATEGORY_GENERAL, "1.31_enableSkyboxes", true, "If enabled, will try to use NTM's custom skyboxes.").getBoolean(true);
 		enableImpactWorldProvider = config.get(CATEGORY_GENERAL, "1.32_enableImpactWorldProvider", true, "If enabled, registers custom world provider which modifies lighting and sky colors for post impact effects.").getBoolean(true);
+		moreStars = CommonConfig.createConfigBool(config, CATEGORY_GENERAL, "More_Stars","used for debugging",true);
 		
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;
 
@@ -124,6 +126,7 @@ public class GeneralConfig {
 		enableLBSMSafeMEDrives = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_safeMEDrives", "When enabled, prevents ME Drives and Portable Cells from becoming radioactive", true);
 		enableLBSMIGen = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_iGen", "When enabled, restores the industrial generator to pre-nerf power", true);
 		schrabRate = CommonConfig.createConfigInt(config, CATEGORY_LBSM, "LBSM_schrabOreRate", "Changes the amount of uranium ore needed on average to create one schrabidium ore using nukes. Standard mode value is 100", 20);
+		
 		
 		if(enable528) enableLBSM = false;
 	}
