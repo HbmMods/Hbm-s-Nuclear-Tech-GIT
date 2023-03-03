@@ -11,7 +11,7 @@ import net.minecraftforge.client.IRenderHandler;
 
 public class SkyProviderMoon extends IRenderHandler {
 
-	private static final ResourceLocation earth = new ResourceLocation("hfr:textures/sky/earth.png");
+	private static final ResourceLocation earth = new ResourceLocation("hbm:textures/misc/eart2h.png");
 	private static final ResourceLocation sun = new ResourceLocation("minecraft:textures/environment/sun.png");
 	// private static final ResourceLocation sun = new
 	// ResourceLocation("hfr:textures/sky/sun.png");
