@@ -57,7 +57,7 @@ public class BiomeGenMoon extends BiomeGenBase {
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == Blocks.stone)
+                    if (block2 == ModBlocks.moon_rock)
                     {
                         if (k == -1)
                         {
@@ -65,7 +65,7 @@ public class BiomeGenMoon extends BiomeGenBase {
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = Blocks.stone;
+                                block1 = ModBlocks.moon_rock;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {
@@ -98,7 +98,7 @@ public class BiomeGenMoon extends BiomeGenBase {
                             else if (l1 < 56 - l)
                             {
                                 block = null;
-                                block1 = Blocks.stone;
+                                block1 = ModBlocks.moon_rock;
                                 blocks[i2] = Blocks.gravel;
                             }
                             else
