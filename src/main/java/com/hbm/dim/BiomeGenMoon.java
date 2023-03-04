@@ -28,7 +28,7 @@ public class BiomeGenMoon extends BiomeGenBase {
         this.setHeight(height);
         
         this.topBlock = ModBlocks.moon_turf;
-        this.fillerBlock = ModBlocks.moon_turf;
+        this.fillerBlock = ModBlocks.moon_rock;
 	}
 
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
