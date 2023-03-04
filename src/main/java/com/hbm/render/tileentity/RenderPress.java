@@ -54,8 +54,8 @@ public class RenderPress extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 		
 		renderTileEntityAt3(tileEntity, x, y, z, f);
-    }
-    
+	}
+
 	public void renderTileEntityAt3(TileEntity tileEntity, double x, double y, double z, float f) {
 		itemRenderer = new RenderDecoItem(this);
 		itemRenderer.setRenderManager(renderManager);
