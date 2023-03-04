@@ -6,7 +6,6 @@ import com.hbm.tileentity.machine.TileEntityMachinePress;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -14,18 +13,7 @@ public class ContainerMachinePress extends Container {
 
 	private TileEntityMachinePress press;
 
-	private int power;
-	private int progress;
-	private int burnTime;
-	private int maxBurn;
-
 	public ContainerMachinePress(InventoryPlayer invPlayer, TileEntityMachinePress tedf) {
-
-		power = 0;
-		progress = 0;
-		burnTime = 0;
-		maxBurn = 0;
-
 		press = tedf;
 
 		// Coal
@@ -79,51 +67,5 @@ public class ContainerMachinePress extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return press.isUseableByPlayer(player);
-	}
-
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-
-		for(int i = 0; i < this.crafters.size(); i++) {
-			ICrafting par1 = (ICrafting) this.crafters.get(i);
-
-			if(this.power != this.press.power) {
-				par1.sendProgressBarUpdate(this, 0, this.press.power);
-			}
-
-			if(this.progress != this.press.progress) {
-				par1.sendProgressBarUpdate(this, 1, this.press.progress);
-			}
-
-			if(this.burnTime != this.press.burnTime) {
-				par1.sendProgressBarUpdate(this, 2, this.press.burnTime);
-			}
-
-			if(this.maxBurn != this.press.maxBurn) {
-				par1.sendProgressBarUpdate(this, 3, this.press.maxBurn);
-			}
-		}
-
-		this.power = this.press.power;
-		this.progress = this.press.progress;
-		this.burnTime = this.press.burnTime;
-		this.maxBurn = this.press.maxBurn;
-	}
-
-	@Override
-	public void updateProgressBar(int i, int j) {
-		if(i == 0) {
-			press.power = j;
-		}
-		if(i == 1) {
-			press.progress = j;
-		}
-		if(i == 2) {
-			press.burnTime = j;
-		}
-		if(i == 3) {
-			press.maxBurn = j;
-		}
 	}
 }

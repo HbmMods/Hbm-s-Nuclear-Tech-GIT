@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
-import com.hbm.world.feature.OilSpot;
-import com.hbm.world.generator.DungeonToolbox;
-import com.hbm.extprop.HbmLivingProps;
+import com.hbm.util.TimeAnalyzer;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -16,6 +14,7 @@ import net.minecraft.entity.EntityTracker;
 import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
@@ -41,7 +40,14 @@ public class ItemWandD extends Item {
 			
 			
 			
-			TomSaveData data = TomSaveData.forWorld(world);
+			TimeAnalyzer.startCount("setBlock");
+			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
+			TimeAnalyzer.startEndCount("getBlock");
+			world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+			TimeAnalyzer.endCount();
+			TimeAnalyzer.dump();
+			
+			/*TomSaveData data = TomSaveData.forWorld(world);
 			data.impact = false;
 			data.fire = 0F;
 			data.dust = 0F;
