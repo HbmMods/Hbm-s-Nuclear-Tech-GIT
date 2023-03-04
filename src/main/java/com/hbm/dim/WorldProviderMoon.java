@@ -61,19 +61,19 @@ public class WorldProviderMoon extends WorldProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getStarBrightness(float par1) {
-		float starBr = worldObj.getStarBrightnessBody(par1);
+		/*float starBr = worldObj.getStarBrightnessBody(par1);
 		float dust = MainRegistry.proxy.getImpactDust(worldObj);
 		float f1 = worldObj.getCelestialAngle(par1);
 		float f2 = 1.0F - (MathHelper.cos(f1 * (float) Math.PI * 2.0F) * 2.0F + 0.25F);
 
-		if(f2 < 0.0F) {
-			f2 = 0.0F;
+		if(f2 < 0.2F) {
+			f2 = 0.2F;
 		}
 
 		if(f2 > 1.0F) {
 			f2 = 1.0F;
-		}
-		return starBr * (1 - dust);
+		}*/
+		return 0.5f;
 	}
     public boolean canRespawnHere()
     {
