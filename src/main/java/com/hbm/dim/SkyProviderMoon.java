@@ -162,6 +162,7 @@ public class SkyProviderMoon extends IRenderHandler {
 			GL11.glPushMatrix();
 			GL11.glColor4d(1, 1, 1, 1);
 			GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(-60.0F, 5.0F, 0.0F, 5.0F);
 			f10 = 20.0F;
 			FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.earth);
 			tessellator.startDrawingQuads();
