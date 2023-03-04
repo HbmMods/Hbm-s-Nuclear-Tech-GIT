@@ -71,6 +71,8 @@ public class HbmWorldGen implements IWorldGenerator {
 			generateSurface(world, rand, chunkX * 16, chunkZ * 16); break;
 		case 1:
 			generateEnd(world, rand, chunkX * 16, chunkZ * 16); break;
+		case 15:
+			generateMoon(world, rand, chunkX * 16, chunkZ * 16); break;
 		default:
 			if(GeneralConfig.enableMDOres)
 				generateSurface(world, rand, chunkX * 16, chunkZ * 16); break;
@@ -756,6 +758,12 @@ public class HbmWorldGen implements IWorldGenerator {
 					if(world.getBlock(x, y, z) == Blocks.air && world.getBlock(x, y + 1, z).isSideSolid(world, x, y, z, ForgeDirection.DOWN))
 						world.setBlock(x, y, z, ModBlocks.crystal_trixite);
 			}*/
+		}
+	}
+	private void generateMoon(World world, Random rand, int i, int j) {
+		if(WorldConfig.overworldOre) {
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.nickelSpawn, 6, 5, 16, ModBlocks.moon_nickel);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumSpawn, 6, 5, 8, ModBlocks.moon_titanium);
 		}
 	}
 
