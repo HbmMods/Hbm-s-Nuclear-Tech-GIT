@@ -1,7 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
+import com.hbm.tileentity.machine.oil.TileEntityMachineVacuumDistill;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -10,20 +10,20 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMachineRefinery extends Container {
+public class ContainerMachineVacuumDistill extends Container {
 
-	private TileEntityMachineRefinery testNuke;
+	private TileEntityMachineVacuumDistill distill;
 	
-	public ContainerMachineRefinery(InventoryPlayer invPlayer, TileEntityMachineRefinery tedf) {
+	public ContainerMachineVacuumDistill(InventoryPlayer invPlayer, TileEntityMachineVacuumDistill tedf) {
 		
-		testNuke = tedf;
+		distill = tedf;
 		
 		//Battery
-		this.addSlotToContainer(new Slot(tedf, 0, 8, 90));
+		this.addSlotToContainer(new Slot(tedf, 0, 26, 90));
 		//Canister Input
-		this.addSlotToContainer(new Slot(tedf, 1, 35, 90));
+		this.addSlotToContainer(new Slot(tedf, 1, 44, 90));
 		//Canister Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 35, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 44, 108));
 		//Heavy Oil Input
 		this.addSlotToContainer(new Slot(tedf, 3, 80, 90));
 		//Heavy Oil Output
@@ -40,20 +40,15 @@ public class ContainerMachineRefinery extends Container {
 		this.addSlotToContainer(new Slot(tedf, 9, 134, 90));
 		//Petroleum Output
 		this.addSlotToContainer(new SlotMachineOutput(tedf, 10, 134, 108));
-		//Sulfur Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 11, 152, 36));
 		
-		for(int i = 0; i < 3; i++)
-		{
-			for(int j = 0; j < 9; j++)
-			{
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + 56));
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 9; j++) {
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 156 + i * 18));
 			}
 		}
-		
-		for(int i = 0; i < 9; i++)
-		{
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142 + 56));
+
+		for(int i = 0; i < 9; i++) {
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 214));
 		}
 	}
 	
@@ -71,8 +66,8 @@ public class ContainerMachineRefinery extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= 11) {
-				if(!this.mergeItemStack(var5, 12, this.inventorySlots.size(), true)) {
+			if(par2 <= 10) {
+				if(!this.mergeItemStack(var5, 11, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else if(!this.mergeItemStack(var5, 0, 1, false))
@@ -93,9 +88,9 @@ public class ContainerMachineRefinery extends Container {
 
 		return var3;
 	}
-
+	
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return testNuke.isUseableByPlayer(player);
+		return distill.isUseableByPlayer(player);
 	}
 }
