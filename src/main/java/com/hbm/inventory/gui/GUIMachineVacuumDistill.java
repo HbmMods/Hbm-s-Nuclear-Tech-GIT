@@ -40,7 +40,7 @@ public class GUIMachineVacuumDistill extends GuiInfoContainer {
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.refinery.hasCustomInventoryName() ? this.refinery.getInventoryName() : I18n.format(this.refinery.getInventoryName());
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 0xffffff);
+		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 5, 0xffffff);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 
@@ -51,9 +51,9 @@ public class GUIMachineVacuumDistill extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		int j = (int) (refinery.power * 54 / refinery.maxPower);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 70 - j, 176, 52 - j, 16, j);
+		drawTexturedModalRect(guiLeft + 26, guiTop + 70 - j, 176, 52 - j, 16, j);
 		
-		refinery.tanks[0].renderTank(guiLeft + 26, guiTop + 70, this.zLevel, 34, 52);
+		refinery.tanks[0].renderTank(guiLeft + 44, guiTop + 70, this.zLevel, 16, 52);
 		refinery.tanks[1].renderTank(guiLeft + 80, guiTop + 70, this.zLevel, 16, 52);
 		refinery.tanks[2].renderTank(guiLeft + 98, guiTop + 70, this.zLevel, 16, 52);
 		refinery.tanks[3].renderTank(guiLeft + 116, guiTop + 70, this.zLevel, 16, 52);
