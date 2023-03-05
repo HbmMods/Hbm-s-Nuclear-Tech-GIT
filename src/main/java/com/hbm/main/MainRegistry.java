@@ -790,7 +790,7 @@ public class MainRegistry {
 	}
 
 	@EventHandler
-	public static void PostLoad(FMLPostInitializationEvent PostEvent, World world) {
+	public static void PostLoad(FMLPostInitializationEvent PostEvent) {
 		CrystallizerRecipes.register();
 		TileEntityNukeFurnace.registerFuels();
 		BreederRecipes.registerRecipes();
@@ -832,10 +832,8 @@ public class MainRegistry {
 		new OreCave(ModBlocks.stone_resource, 1).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);											//asbestos
 		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
 		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
-		if(world.provider.dimensionId != 15) {
-			new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.CONGLOMERATE.ordinal());	
-			System.out.println("genned!");
-		}
+		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.CONGLOMERATE.ordinal());	
+		
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
 	}
