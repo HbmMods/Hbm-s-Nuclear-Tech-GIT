@@ -409,6 +409,9 @@ public class ModBlocks {
 	public static Block moon_rock;
 	public static Block moon_nickel;
 	public static Block moon_titanium;
+	public static Block moon_lithium;
+	public static Block moon_conglomerate;
+	public static Block moon_aluminium;
 	
 
 	public static Block brick_jungle;
@@ -1605,7 +1608,9 @@ public class ModBlocks {
 		moon_rock = new BlockGeneric(Material.rock).setBlockName("moon_rock").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":moon_rock");
 		moon_nickel = new BlockOre(Material.rock).noFortune().setBlockName("moon_nickel").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":moon_nickel");
 		moon_titanium = new BlockOre(Material.rock).noFortune().setBlockName("moon_titanium").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":moon_titanium");
-		
+		moon_lithium = new BlockOre(Material.rock).noFortune().setBlockName("moon_lithium").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":moon_lithium_ore");
+		moon_aluminium = new BlockOre(Material.rock).noFortune().setBlockName("moon_aluminium").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":moon_aluminum_ore");
+		moon_conglomerate = new BlockOre(Material.rock).noFortune().setBlockName("moon_conglomerate").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":moon_conglomerate_ore");
 		
 		
 		brick_jungle = new BlockGeneric(Material.rock).setBlockName("brick_jungle").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle");
@@ -2827,6 +2832,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(moon_rock, moon_rock.getUnlocalizedName());
 		GameRegistry.registerBlock(moon_nickel, moon_nickel.getUnlocalizedName());
 		GameRegistry.registerBlock(moon_titanium, moon_titanium.getUnlocalizedName());
+		GameRegistry.registerBlock(moon_lithium, moon_lithium.getUnlocalizedName());
+		GameRegistry.registerBlock(moon_aluminium, moon_aluminium.getUnlocalizedName());
+		GameRegistry.registerBlock(moon_conglomerate, moon_conglomerate.getUnlocalizedName());
+		
 		
 		//Waste
 		GameRegistry.registerBlock(waste_earth, waste_earth.getUnlocalizedName());

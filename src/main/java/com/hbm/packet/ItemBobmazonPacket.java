@@ -2,6 +2,7 @@ package com.hbm.packet;
 
 import java.util.Random;
 
+import com.hbm.dim.WorldProviderMoon;
 import com.hbm.entity.missile.EntityBobmazon;
 import com.hbm.handler.BobmazonOfferFactory;
 import com.hbm.inventory.gui.GUIScreenBobmazon.Offer;
@@ -57,10 +58,13 @@ public class ItemBobmazonPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(ItemBobmazonPacket m, MessageContext ctx) {
-			
 			EntityPlayerMP p = ctx.getServerHandler().playerEntity;
 			World world = p.worldObj;
-
+			if(world.provider instanceof WorldProviderMoon)
+			{
+				p.addChatMessage(new ChatComponentText("[BOBMAZON] Out Of Range!"));
+				return null;
+			}
 			Offer offer = null;
 			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_materials)
 				offer = BobmazonOfferFactory.materials.get(m.offer);
@@ -80,11 +84,11 @@ public class ItemBobmazonPacket implements IMessage {
 				p.motionY = 2.0D;
 				return null;
 			}
+
 			
 			ItemStack stack = offer.offer;
 			
 			Achievement req = offer.requirement.achievement;
-			
 			if(req != null && p.func_147099_x().hasAchievementUnlocked(req) || p.capabilities.isCreativeMode) {
 				
 				if(countCaps(p) >= offer.cost || p.capabilities.isCreativeMode) {
