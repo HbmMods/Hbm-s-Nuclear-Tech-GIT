@@ -34,7 +34,7 @@ public class OreLayer3D {
 
 		World world = event.world;
 		
-		if(world.provider.dimensionId != 0)
+		if(world.provider.dimensionId != 0 && world.provider.dimensionId != 15)
 			return;
 		
 		int cX = event.chunkX;

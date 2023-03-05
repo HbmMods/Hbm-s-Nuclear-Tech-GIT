@@ -52,6 +52,9 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProviderEnd;
+import net.minecraft.world.WorldProviderHell;
+import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBeach;
 import net.minecraft.world.biome.BiomeGenForest;
@@ -81,7 +84,7 @@ public class HbmWorldGen implements IWorldGenerator {
 	private void generateSurface(World world, Random rand, int i, int j) {
 
 		//Failsafe to prevent overworld ores attempting to generate in space and crashing.
-		if(world.provider instanceof WorldProviderMoon)
+		if(!(world.provider instanceof WorldProviderEnd) && !(world.provider instanceof WorldProviderHell) && !(world.provider instanceof WorldProviderSurface))
 		{
 			return;
 		}
