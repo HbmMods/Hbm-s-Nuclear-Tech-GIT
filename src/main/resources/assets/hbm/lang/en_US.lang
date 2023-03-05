@@ -1148,6 +1148,9 @@ hbm.key.toggleBack=Toggle Backpack
 hbm.key.toggleHUD=Toggle HUD
 hbm.key.reload=Reload
 
+hbmfluid.krypton=Krypton Gas
+hbmfluid.argon=Argon Gas
+hbmfluid.neon=Neon Gas
 hbmfluid.acid=Hydrogen Peroxide
 hbmfluid.amat=Antimatter
 hbmfluid.ammonia=Ammonia
@@ -2133,6 +2136,7 @@ item.coil_gold_torus.name=Golden Ring Coil
 item.coil_magnetized_tungsten.name=4000K High Temperature Super Conducting Coil
 item.coil_tungsten.name=Heating Coil
 item.coin_creeper.name=Nuclear Creeper Coin
+item.coin_airliner.name=Airliner Coin
 item.coin_maskman.name=Maskman Coin
 item.coin_radiation.name=Radiation Coin
 item.coin_siege.name=Siege Coin
