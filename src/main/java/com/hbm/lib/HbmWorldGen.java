@@ -8,6 +8,7 @@ import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.dim.WorldProviderMoon;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -81,6 +82,12 @@ public class HbmWorldGen implements IWorldGenerator {
 	
 	private void generateSurface(World world, Random rand, int i, int j) {
 
+		//Failsafe to prevent overworld ores attempting to generate in space and crashing.
+		if(world.provider instanceof WorldProviderMoon)
+		{
+			return;
+		}
+		
 		BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(i, j);
 
 		if(!TomSaveData.forWorld(world).impact) {
@@ -708,6 +715,12 @@ public class HbmWorldGen implements IWorldGenerator {
 
 	private void generateNether(World world, Random rand, int i, int j) {
 
+		//Failsafe to prevent Nether ores attempting to generate in space and crashing.
+		if(world.provider instanceof WorldProviderMoon)
+		{
+			return;
+		}
+		
 		if(WorldConfig.netherOre) {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherUraniumuSpawn, 6, 0, 127, ModBlocks.ore_nether_uranium, Blocks.netherrack);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherTungstenSpawn, 10, 0, 127, ModBlocks.ore_nether_tungsten, Blocks.netherrack);
@@ -746,6 +759,12 @@ public class HbmWorldGen implements IWorldGenerator {
 
 	private void generateEnd(World world, Random rand, int i, int j) {
 		
+		//Failsafe to prevent End ores attempting to generate in space and crashing.
+		if(world.provider instanceof WorldProviderMoon)
+		{
+			return;
+		}
+		
 		if(WorldConfig.endOre) {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.endTikiteSpawn, 6, 0, 127, ModBlocks.ore_tikite, Blocks.end_stone);
 	
@@ -762,8 +781,8 @@ public class HbmWorldGen implements IWorldGenerator {
 	}
 	private void generateMoon(World world, Random rand, int i, int j) {
 		if(WorldConfig.overworldOre) {
-		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.nickelSpawn, 6, 5, 16, ModBlocks.moon_nickel);
-		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumSpawn, 6, 5, 8, ModBlocks.moon_titanium);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.nickelSpawn, 6, 5, 16, ModBlocks.moon_nickel, ModBlocks.moon_rock);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumSpawn, 6, 5, 8, ModBlocks.moon_titanium, ModBlocks.moon_rock);
 		}
 	}
 
