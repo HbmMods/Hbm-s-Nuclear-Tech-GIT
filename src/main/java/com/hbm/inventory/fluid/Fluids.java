@@ -117,6 +117,13 @@ public class Fluids {
 	public static FluidType SOURGAS;
 	public static FluidType XYLENE;
 
+	//noble gasses
+	public static FluidType HELIUM;
+	public static FluidType NEON;
+	public static FluidType ARGON;
+	public static FluidType KRYPTON;
+
+
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
 	protected static final List<FluidType> metaOrder = new ArrayList();
@@ -249,8 +256,10 @@ public class Fluids {
 		LIGHTOIL_VACUUM =	new FluidType("LIGHTOIL_VACUUM",	0x8C8851, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		SOURGAS =			new FluidType("SOURGAS",			0xC9BE0D, 4, 4, 0, EnumSymbol.ACID).addTraits(GASEOUS, new FT_Corrosive(10));
 		XYLENE =			new FluidType(101, "XYLENE",			0x5C4E76, 2, 3, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		
-		
+		HELIUM = 			new FluidType("HELIUM", 0xEC983B,0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
+		NEON =  			new FluidType("NEON", 0xF1F600,0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
+		ARGON = 			new FluidType("ARGON", 0xFD70D0,0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
+		KRYPTON = 			new FluidType("KRYPTON", 0x9AC6E6,0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -373,6 +382,13 @@ public class Fluids {
 		metaOrder.add(PLASMA_DH3);
 		metaOrder.add(PLASMA_XM);
 		metaOrder.add(PLASMA_BF);
+		//noble gasses
+		metaOrder.add(HELIUM);
+		metaOrder.add(KRYPTON);
+		metaOrder.add(ARGON);
+		metaOrder.add(NEON);
+
+
 
 		double eff_steam_boil = 1.0D;
 		double eff_steam_heatex = 0.25D;
