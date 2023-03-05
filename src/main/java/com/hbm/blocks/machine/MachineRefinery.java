@@ -17,7 +17,6 @@ import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
 import com.hbm.util.I18nUtil;
 
 import api.hbm.block.IToolable;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -49,24 +48,7 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		
-		if(world.isRemote) {
-			return true;
-		} else if(!player.isSneaking()) {
-			int[] pos = this.findCore(world, x, y, z);
-
-			if(pos == null)
-				return false;
-			
-			TileEntityMachineRefinery tank = (TileEntityMachineRefinery) world.getTileEntity(pos[0], pos[1], pos[2]);
-			
-			if(tank.hasExploded) return false;
-
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
-			return true;
-		} else {
-			return true;
-		}
+		return standardOpenBehavior(world, x, y, z, player, side);
 	}
 
 	@Override

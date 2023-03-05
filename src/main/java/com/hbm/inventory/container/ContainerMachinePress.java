@@ -1,12 +1,9 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
 
-import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
