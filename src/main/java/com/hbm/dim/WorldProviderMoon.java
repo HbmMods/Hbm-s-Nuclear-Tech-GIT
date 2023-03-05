@@ -1,6 +1,7 @@
 package com.hbm.dim;
 
 import com.hbm.main.MainRegistry;
+import com.hbm.util.AstronomyUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -73,7 +74,7 @@ public class WorldProviderMoon extends WorldProvider {
 		if(f2 > 1.0F) {
 			f2 = 1.0F;
 		}*/
-		return 0.5f;
+		return 1f;
 	}
     public boolean canRespawnHere()
     {
@@ -90,4 +91,33 @@ public class WorldProviderMoon extends WorldProvider {
 	public IRenderHandler getSkyRenderer() {
 		return new SkyProviderMoon();
 	}
+	
+    public long getDayLength()
+    {
+    	return (long) (AstronomyUtil.MunP*24000);
+    }
+    
+    @Override
+    public float calculateCelestialAngle(long par1, float par3)
+    {
+        par1 = this.getWorldTime();
+        int j = (int) (par1 % this.getDayLength());
+        float f1 = (j + par3) / this.getDayLength() - 0.25F;
+
+        if (f1 < 0.0F)
+        {
+            ++f1;
+        }
+
+        if (f1 > 1.0F)
+        {
+            --f1;
+        }
+
+        float f2 = f1;
+        f1 = 0.5F - MathHelper.cos(f1 * 3.1415927F) / 2.0F;
+        return f2 + (f1 - f2) / 3.0F;
+    }
+
+
 }
