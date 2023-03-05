@@ -249,7 +249,7 @@ public class Fluids {
 		REFORMATE =			new FluidType("REFORMATE",			0x835472, 2, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		LIGHTOIL_VACUUM =	new FluidType("LIGHTOIL_VACUUM",	0x8C8851, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		SOURGAS =			new FluidType("SOURGAS",			0xC9BE0D, 4, 4, 0, EnumSymbol.ACID).addTraits(GASEOUS, new FT_Corrosive(10));
-		XYLENE =			new FluidType(102, "XYLENE",			0x5C4E76, 2, 3, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		XYLENE =			new FluidType(103, "XYLENE",			0x5C4E76, 2, 3, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
