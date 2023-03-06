@@ -59,7 +59,8 @@ public class Mats {
 	public static final NTMMaterial MAT_GOLD			= makeSmeltable(7900,		GOLD,		0xE8D754).omitAutoGen();
 	public static final NTMMaterial MAT_REDSTONE		= makeSmeltable(_VS + 01,	REDSTONE,	0xFF1000).omitAutoGen();
 	public static final NTMMaterial MAT_OBSIDIAN		= makeSmeltable(_VS + 02,	df("Obsidian"), 0x3D234D).omitAutoGen();
-	public static final NTMMaterial MAT_HEMATITE		= makeAdditive(	2601, 		HEMATITE,	0x6E463D).omitAutoGen();
+	public static final NTMMaterial MAT_HEMATITE		= makeAdditive(	2601, 		HEMATITE,		0x6E463D).omitAutoGen();
+	public static final NTMMaterial MAT_CONGLOMERATE	= makeAdditive(	2993, 		CONGLOMERATE,	0x797979).omitAutoGen();
 	public static final NTMMaterial MAT_WROUGHTIRON		= makeSmeltable(2602,		df("WroughtIron"),	0xFAAB89).omitAutoGen();
 	public static final NTMMaterial MAT_PIGIRON			= makeSmeltable(2603,		df("PigIron"),		0xFF8B59).omitAutoGen();
 	public static final NTMMaterial MAT_METEORICIRON	= makeSmeltable(2604,		df("MeteoricIron"),	0x715347).omitAutoGen();

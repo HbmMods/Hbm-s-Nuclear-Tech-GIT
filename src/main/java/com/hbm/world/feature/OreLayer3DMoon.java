@@ -10,7 +10,7 @@ import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 
-public class OreLayer3D {
+public class OreLayer3DMoon {
 
 	NoiseGeneratorPerlin noiseX;
 	NoiseGeneratorPerlin noiseY;
@@ -19,7 +19,7 @@ public class OreLayer3D {
 	Block block;
 	int meta;
 	
-	public OreLayer3D(Block block, int meta) {
+	public OreLayer3DMoon(Block block, int meta) {
 		this.block = block;
 		this.meta = meta;
 		MinecraftForge.EVENT_BUS.register(this);
@@ -34,7 +34,7 @@ public class OreLayer3D {
 
 		World world = event.world;
 		
-		if(world.provider.dimensionId != 0 && world.provider.dimensionId != 15)//& world.provider.dimensionId != 15
+		if(world.provider.dimensionId != 15)//& world.provider.dimensionId != 15
 			return;
 		
 		int cX = event.chunkX;

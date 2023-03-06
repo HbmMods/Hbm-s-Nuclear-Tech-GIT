@@ -14,6 +14,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProviderEnd;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.DimensionManager;
@@ -50,6 +51,8 @@ import com.hbm.config.*;
 import com.hbm.creativetabs.*;
 import com.hbm.dim.WorldGeneratorMoon;
 import com.hbm.dim.WorldProviderMoon;
+import com.hbm.dim.duna.WorldGeneratorDuna;
+import com.hbm.dim.duna.WorldProviderDuna;
 import com.hbm.entity.EntityMappings;
 import com.hbm.entity.grenade.*;
 import com.hbm.entity.logic.*;
@@ -107,7 +110,8 @@ public class MainRegistry {
 	public static ModMetadata meta;
 	
 	public static WorldGeneratorMoon worldGenMoon = new WorldGeneratorMoon(); //eventually i will need to rewrite this shit.
-
+	public static WorldGeneratorDuna worldGenDuna = new WorldGeneratorDuna(); 
+	
 	public static Logger logger = LogManager.getLogger("HBM");
 
 	// Tool Materials
@@ -357,6 +361,9 @@ public class MainRegistry {
 		DimensionManager.registerProviderType(15, WorldProviderMoon.class, false);
 	    DimensionManager.registerDimension(15, 15);
 
+		GameRegistry.registerWorldGenerator(worldGenDuna, 1);
+		DimensionManager.registerProviderType(16, WorldProviderDuna.class, false);
+	    DimensionManager.registerDimension(16, 16);
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_generic, new BehaviorProjectileDispense() {
 
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
@@ -831,6 +838,9 @@ public class MainRegistry {
 		new OreCave(ModBlocks.stone_resource, 1).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);											//asbestos
 		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
 		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
+		new OreLayer3DMoon(ModBlocks.stone_resource, EnumStoneType.CONGLOMERATE.ordinal());	//this was such a fucking pain in the ass
+		//if there is something better tell me, i would greatly appreciate it
+		//i didnt want to create a new class for this believe me, but for some reason registering dimension types doesnt work here.
 		
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
