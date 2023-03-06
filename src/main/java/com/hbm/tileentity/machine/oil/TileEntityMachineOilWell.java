@@ -94,12 +94,14 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
         if(worldObj.getBlock(x, y, z) == ModBlocks.duna_oil) {
             this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDunaDepsoit);
             if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
-        }else {
-        this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDepsoit);
-        if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
-        this.tanks[1].setFill(this.tanks[1].getFill() + (gasPerDepositMin + worldObj.rand.nextInt((gasPerDepositMax - gasPerDepositMin + 1))));
-        if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) this.tanks[1].setFill(tanks[1].getMaxFill());
-       
+        }
+        if(worldObj.getBlock(x, y, z) == ModBlocks.ore_oil) {
+            this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDepsoit);
+            if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
+            this.tanks[1].setFill(this.tanks[1].getFill() + (gasPerDepositMin + worldObj.rand.nextInt((gasPerDepositMax - gasPerDepositMin + 1))));
+            if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) this.tanks[1].setFill(tanks[1].getMaxFill());
+           
+        } 
         if(worldObj.rand.nextDouble() < drainChance) {
         	if(worldObj.getBlock(x, y, z)== ModBlocks.duna_oil) {
         		worldObj.setBlock(x, y, z, ModBlocks.duna_oil_empty);
@@ -107,7 +109,6 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
         	}
     	worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
         }
-	}
 	}
 
 	@Override
