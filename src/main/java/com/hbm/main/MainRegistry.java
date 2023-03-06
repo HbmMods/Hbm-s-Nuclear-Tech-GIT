@@ -832,7 +832,9 @@ public class MainRegistry {
 		new OreCave(ModBlocks.stone_resource, 1).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);											//asbestos
 		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
 		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
-		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.CONGLOMERATE.ordinal());	
+		new OreLayer3DMoon(ModBlocks.stone_resource, EnumStoneType.CONGLOMERATE.ordinal());	//this was such a fucking pain in the ass
+		//if there is something better tell me, i would greatly appreciate it
+		//i didnt want to create a new class for this believe me, but for some reason registering dimension types doesnt work here.
 		
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
