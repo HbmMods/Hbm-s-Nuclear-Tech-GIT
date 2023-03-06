@@ -92,6 +92,10 @@ public class CrucibleRecipes extends SerializableRecipe {
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_TECHNIETIUM, n))
 				.outputs(new MaterialStack(Mats.MAT_TCALLOY, i)));
 		
+		recipes.add(new CrucibleRecipe(12, "crucible.conglomerate", 6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.CONGLOMERATE))
+				.inputs(new MaterialStack(Mats.MAT_CONGLOMERATE, i * 2), new MaterialStack(Mats.MAT_TECHNIETIUM, 0))
+				.outputs(new MaterialStack(Mats.MAT_IRON, n * 7), new MaterialStack(Mats.MAT_NICKEL, n * 2)));
+		
 		registerMoldsForNEI();
 	}
 

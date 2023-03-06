@@ -717,7 +717,7 @@ public class HbmWorldGen implements IWorldGenerator {
 	private void generateNether(World world, Random rand, int i, int j) {
 
 		//Failsafe to prevent Nether ores attempting to generate in space and crashing.
-		if(world.provider instanceof WorldProviderMoon)
+		if(!(world.provider instanceof WorldProviderEnd) && !(world.provider instanceof WorldProviderHell) && !(world.provider instanceof WorldProviderSurface))
 		{
 			return;
 		}
@@ -761,11 +761,10 @@ public class HbmWorldGen implements IWorldGenerator {
 	private void generateEnd(World world, Random rand, int i, int j) {
 		
 		//Failsafe to prevent End ores attempting to generate in space and crashing.
-		if(world.provider instanceof WorldProviderMoon)
+		if(!(world.provider instanceof WorldProviderEnd) && !(world.provider instanceof WorldProviderHell) && !(world.provider instanceof WorldProviderSurface))
 		{
 			return;
 		}
-		
 		if(WorldConfig.endOre) {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.endTikiteSpawn, 6, 0, 127, ModBlocks.ore_tikite, Blocks.end_stone);
 	
