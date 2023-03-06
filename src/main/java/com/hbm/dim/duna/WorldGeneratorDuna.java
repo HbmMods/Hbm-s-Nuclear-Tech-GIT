@@ -6,6 +6,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.world.feature.OilBubble;
+import com.hbm.world.feature.OilBubbleDuna;
 import com.hbm.world.feature.OreLayer3D;
 import com.hbm.world.generator.DungeonToolbox;
 
@@ -20,11 +22,11 @@ public class WorldGeneratorDuna implements IWorldGenerator {
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
 		switch (world.provider.dimensionId) {
-		case 15:
-			generateMoon(world, random, chunkX * 16, chunkZ * 16); break;
+		case 16:
+			generateDuna(world, random, chunkX * 16, chunkZ * 16); break;
 		}
 	}
-	private void generateMoon(World world, Random rand, int i, int j) {
+	private void generateDuna(World world, Random rand, int i, int j) {
 		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.nickelSpawn, 8, 1, 43, ModBlocks.moon_nickel, ModBlocks.moon_rock);
 	///	//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumSpawn, 9, 4, 27, ModBlocks.moon_titanium, ModBlocks.moon_rock);
 		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.lithiumSpawn,  4, 4, 8, ModBlocks.moon_lithium, ModBlocks.moon_rock);
@@ -33,5 +35,14 @@ public class WorldGeneratorDuna implements IWorldGenerator {
 		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.nickelSpawn, 6, 5, 16, ModBlocks.moon_nickel);
 		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumSpawn, 6, 5, 8, ModBlocks.moon_titanium);
 		//new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
+		if(WorldConfig.dunaoilSpawn > 0 && rand.nextInt(WorldConfig.dunaoilSpawn) == 0) {
+			int randPosX = i + rand.nextInt(16);
+			int randPosY = rand.nextInt(25);
+			int randPosZ = j + rand.nextInt(16);
+
+			OilBubbleDuna.spawnOil(world, randPosX, randPosY, randPosZ, 10 + rand.nextInt(7));
+		}
+		
 	}
+	
 }

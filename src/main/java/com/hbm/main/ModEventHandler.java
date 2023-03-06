@@ -61,6 +61,7 @@ import com.hbm.packet.PermaSyncPacket;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
@@ -95,6 +96,7 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.event.ClickEvent;
@@ -191,7 +193,25 @@ public class ModEventHandler {
 		}
 	}
 	
-
+	@SubscribeEvent
+	public void StopSpawninginSpace(EntityJoinWorldEvent event) {
+		
+		if(!(event.entity instanceof EntityPlayer) && event.entity instanceof EntityLivingBase) {
+			EntityLivingBase living = (EntityLivingBase) event.entity;
+			if(event.world.provider.dimensionId == 16) {
+				if( event.entity.ticksExisted < 20 && !(event.entity instanceof EntityWaterMob) && !living.isChild()) {
+					event.setCanceled(true);
+				}
+			}
+			if(event.entity instanceof EntityWaterMob && event.entity.ticksExisted < 20) {
+				Random rand = new Random();
+				if(rand.nextInt(9) != 0) {
+					event.setCanceled(true);
+					}
+				}
+			}
+		}
+	
 	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing event)  {
 		
