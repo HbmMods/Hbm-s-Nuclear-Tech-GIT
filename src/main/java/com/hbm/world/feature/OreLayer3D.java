@@ -18,15 +18,23 @@ public class OreLayer3D {
 	
 	Block block;
 	int meta;
+	int dim = 0;
 	
 	public OreLayer3D(Block block, int meta) {
 		this.block = block;
 		this.meta = meta;
 		MinecraftForge.EVENT_BUS.register(this);
 	}
+	
+	public OreLayer3D setDimension(int dim) {
+		this.dim = dim;
+		return this;
+	}
 
 	@SubscribeEvent
 	public void onDecorate(DecorateBiomeEvent.Pre event) {
+		
+		if(event.world.provider.dimensionId != this.dim) return;
 
 		if(this.noiseX == null) this.noiseX = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 101), 4);
 		if(this.noiseY == null) this.noiseY = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 102), 4);

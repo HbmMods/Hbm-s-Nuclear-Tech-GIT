@@ -94,6 +94,7 @@ public class ItemModLens extends ItemArmorMod implements ISatChip {
 						if(addIf(ModBlocks.deco_loot, b, 1, aX, seg, aZ, null, 0x800000, player)) hits++;
 						if(addIf(ModBlocks.crate_ammo, b, 1, aX, seg, aZ, null, 0x800000, player)) hits++;
 						if(addIf(ModBlocks.crate_can, b, 1, aX, seg, aZ, null, 0x800000, player)) hits++;
+						if(addIf(ModBlocks.ore_bedrock, b, 1, aX, seg, aZ, "Bedrock Ore", 0xff0000, player)) hits++;
 						
 						if(hits > 100) return;
 					}

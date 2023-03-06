@@ -33,6 +33,8 @@ public class CrackingRecipes extends SerializableRecipe {
 	public static final int kero_crack_petro = 60;
 	public static final int wood_crack_aroma = 10;
 	public static final int wood_crack_heat = 40;
+	public static final int xyl_crack_aroma = 80;
+	public static final int xyl_crack_petro = 20;
 	
 	private static Map<FluidType, Pair<FluidStack, FluidStack>> cracking = new HashMap();
 	
@@ -46,6 +48,7 @@ public class CrackingRecipes extends SerializableRecipe {
 		cracking.put(Fluids.DIESEL_CRACK,	new Pair(new FluidStack(Fluids.KEROSENE,	diesel_crack_kero),	new FluidStack(Fluids.PETROLEUM,	diesel_crack_petro)));
 		cracking.put(Fluids.KEROSENE,		new Pair(new FluidStack(Fluids.PETROLEUM,	kero_crack_petro),	new FluidStack(Fluids.NONE,			0)));
 		cracking.put(Fluids.WOODOIL,		new Pair(new FluidStack(Fluids.HEATINGOIL,	wood_crack_heat),	new FluidStack(Fluids.AROMATICS,	wood_crack_aroma)));
+		cracking.put(Fluids.XYLENE,			new Pair(new FluidStack(Fluids.AROMATICS,	xyl_crack_aroma),	new FluidStack(Fluids.PETROLEUM,	xyl_crack_petro)));
 	}
 	
 	public static Pair<FluidStack, FluidStack> getCracking(FluidType oil) {
