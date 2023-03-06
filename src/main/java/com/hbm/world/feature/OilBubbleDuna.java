@@ -23,7 +23,7 @@ public class OilBubbleDuna {
 					int ZZ = YY + zz * zz;
 					if (ZZ < r22) {
 						if(world.getBlock(X, Y, Z) == ModBlocks.duna_rock)
-							world.setBlock(X, Y, Z, ModBlocks.ore_oil);
+							world.setBlock(X, Y, Z, ModBlocks.duna_oil);
 					}
 				}
 			}

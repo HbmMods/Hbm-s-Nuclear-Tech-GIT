@@ -414,6 +414,10 @@ public class ModBlocks {
 	
 	public static Block duna_sands;
 	public static Block duna_rock;
+	public static Block duna_oil;
+	public static Block duna_oil_empty;
+	public static Block duna_zinc;
+	public static Block duna_iron;
 	
 
 	public static Block brick_jungle;
@@ -1616,7 +1620,11 @@ public class ModBlocks {
 		
 		duna_sands = new BlockFalling(Material.sand).setBlockName("duna_sands").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":duna_sands");
 		duna_rock = new BlockGeneric(Material.rock).setBlockName("duna_rock").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_rock");
-		
+		duna_zinc = new BlockGeneric(Material.rock).setBlockName("duna_zinc").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_zinc");
+		duna_oil = new BlockGeneric(Material.rock).setBlockName("duna_oil").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_oil");
+		duna_oil_empty = new BlockGeneric(Material.rock).setBlockName("duna_oil_empty").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_oil_empty");
+		duna_iron = new BlockGeneric(Material.rock).setBlockName("duna_iron").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":duna_iron");
+
 		
 		brick_jungle = new BlockGeneric(Material.rock).setBlockName("brick_jungle").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle");
 		brick_jungle_cracked = new BlockGeneric(Material.rock).setBlockName("brick_jungle_cracked").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle_cracked");
@@ -2842,6 +2850,11 @@ public class ModBlocks {
 	
 		GameRegistry.registerBlock(duna_sands, duna_sands.getUnlocalizedName());
 		GameRegistry.registerBlock(duna_rock, duna_rock.getUnlocalizedName());
+		GameRegistry.registerBlock(duna_oil, duna_oil.getUnlocalizedName());
+		GameRegistry.registerBlock(duna_oil_empty, duna_oil_empty.getUnlocalizedName());
+		GameRegistry.registerBlock(duna_zinc, duna_zinc.getUnlocalizedName());
+		GameRegistry.registerBlock(duna_iron, duna_iron.getUnlocalizedName());
+		
 		
 		//Waste
 		GameRegistry.registerBlock(waste_earth, waste_earth.getUnlocalizedName());

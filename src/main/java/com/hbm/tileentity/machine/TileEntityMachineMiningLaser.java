@@ -373,6 +373,18 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 				item.setDead();
 				continue;
 			}
+			if(item.getEntityItem().getItem() == Item.getItemFromBlock(ModBlocks.duna_oil)) {
+				
+				tank.setTankType(Fluids.OIL); //just to be sure
+				
+				tank.setFill(tank.getFill() + 200);
+				if(tank.getFill() > tank.getMaxFill())
+					tank.setFill(tank.getMaxFill());
+				
+				item.setDead();
+				continue;
+			}
+			
 			
 			ItemStack stack = InventoryUtil.tryAddItemToInventory(slots, 9, 29, item.getEntityItem().copy());
 			
