@@ -63,6 +63,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	public List<IFluidAcceptor> list4 = new ArrayList();
 	
 	public boolean hasExploded = false;
+	public boolean onFire = false;
 	public Explosion lastExplosion = null;
 
 	private static final int[] slot_access = new int[] {11};
@@ -99,6 +100,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		tanks[4].readFromNBT(nbt, "petroleum");
 		sulfur = nbt.getInteger("sulfur");
 		hasExploded = nbt.getBoolean("exploded");
+		onFire = nbt.getBoolean("onFire");
 	}
 	
 	@Override
@@ -113,6 +115,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		tanks[4].writeToNBT(nbt, "petroleum");
 		nbt.setInteger("sulfur", sulfur);
 		nbt.setBoolean("exploded", hasExploded);
+		nbt.setBoolean("onFire", onFire);
 	}
 	
 	@Override
@@ -175,17 +178,17 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 						}
 					}
 				}
-			} else {
+			} else if(onFire){
 				
-				boolean isBurning = false;
+				boolean hasFuel = false;
 				for(int i = 0; i < 5; i++) {
 					if(tanks[i].getFill() > 0) {
 						tanks[i].setFill(Math.max(tanks[i].getFill() - 10, 0));
-						isBurning = true;
+						hasFuel = true;
 					}
 				}
 				
-				if(isBurning) {
+				if(hasFuel) {
 					List<Entity> affected = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord - 1.5, yCoord, zCoord - 1.5, xCoord + 2.5, yCoord + 8, zCoord + 2.5));
 					for(Entity e : affected) e.setFire(5);
 					Random rand = worldObj.rand;
@@ -197,6 +200,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			data.setLong("power", this.power);
 			for(int i = 0; i < 5; i++) tanks[i].writeToNBT(data, "" + i);
 			data.setBoolean("exploded", hasExploded);
+			data.setBoolean("onFire", onFire);
 			this.networkPack(data, 150);
 		}
 	}
@@ -206,6 +210,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		this.power = nbt.getLong("power");
 		for(int i = 0; i < 5; i++) tanks[i].readFromNBT(nbt, "" + i);
 		this.hasExploded = nbt.getBoolean("exploded");
+		this.onFire = nbt.getBoolean("onFire");
 	}
 	
 	private void refine() {
@@ -439,7 +444,28 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		if(this.hasExploded) return;
 		
 		this.hasExploded = true;
+		this.onFire = true;
 		this.markChanged();
+	}
+
+	@Override
+	public void tryExtinguish(World world, int x, int y, int z, EnumExtinguishType type) {
+		if(!this.hasExploded || !this.onFire) return;
+		
+		if(type == EnumExtinguishType.FOAM || type == EnumExtinguishType.CO2) {
+			this.onFire = false;
+			this.markChanged();
+			return;
+		}
+		
+		if(type == EnumExtinguishType.WATER) {
+			for(FluidTank tank : tanks) {
+				if(tank.getFill() > 0) {
+					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, 5F, true, true);
+					return;
+				}
+			}
+		}
 	}
 
 	@Override
@@ -471,6 +497,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		NBTTagCompound data = new NBTTagCompound();
 		for(int i = 0; i < 5; i++) this.tanks[i].writeToNBT(data, "" + i);
 		data.setBoolean("hasExploded", hasExploded);
+		data.setBoolean("onFire", onFire);
 		nbt.setTag(NBT_PERSISTENT_KEY, data);
 	}
 
@@ -479,6 +506,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
 		for(int i = 0; i < 5; i++) this.tanks[i].readFromNBT(data, "" + i);
 		this.hasExploded = data.getBoolean("hasExploded");
+		this.onFire = data.getBoolean("onFire");
 	}
 
 	@Override

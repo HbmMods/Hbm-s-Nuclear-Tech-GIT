@@ -15,7 +15,10 @@ import com.hbm.inventory.fluid.trait.FT_Poison;
 import com.hbm.inventory.fluid.trait.FT_VentRadiation;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IRepairable;
+import com.hbm.tileentity.IRepairable.EnumExtinguishType;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.CompatExternal;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -30,6 +33,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MathHelper;
@@ -43,7 +47,7 @@ public class EntityChemical extends EntityThrowableNT {
 	/*
 	 * TYPE INFO:
 	 * 
-	 * if ANTIMATTER: ignore all other traits, become a gamme beam with no gravity
+	 * if ANTIMATTER: ignore all other traits, become a gamma beam with no gravity
 	 * if HOT: set fire and deal extra fire damage, scaling with the temperature
 	 * if COLD: freeze, duration scaling with temperature, assuming COMBUSTIBLE does not apply
 	 * if GAS: short range with the spread going up
@@ -253,8 +257,14 @@ public class EntityChemical extends EntityThrowableNT {
 		}
 	}
 	
+	/* whether this type should extinguish entities */
 	protected boolean isExtinguishing() {
 		return this.getStyle() == ChemicalStyle.LIQUID && this.getType().temperature < 50 && !this.getType().hasTrait(FT_Flammable.class);
+	}
+
+	/* the extinguish type for burning multiblocks, roughly identical to the fire extinguisher */
+	protected EnumExtinguishType getExtinguishingType(FluidType type) {
+		return type == Fluids.CARBONDIOXIDE ? EnumExtinguishType.CO2 : type == Fluids.WATER || type == Fluids.HEAVYWATER || type == Fluids.COOLANT ? EnumExtinguishType.WATER : null;
 	}
 	
 	protected DamageSource getDamage(String name) {
@@ -375,6 +385,14 @@ public class EntityChemical extends EntityThrowableNT {
 						if(worldObj.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.fire) {
 							worldObj.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, Blocks.air);
 						}
+					}
+				}
+				
+				EnumExtinguishType fext = this.getExtinguishingType(type);
+				if(fext != null) {
+					TileEntity core = CompatExternal.getCoreFromPos(worldObj, x, y, z);
+					if(core instanceof IRepairable) {
+						((IRepairable) core).tryExtinguish(worldObj, x, y, z, fext);
 					}
 				}
 				

@@ -84,4 +84,13 @@ public interface IRepairable {
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(dummyable.getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
+	
+	public void tryExtinguish(World world, int x, int y, int z, EnumExtinguishType type);
+	
+	public static enum EnumExtinguishType {
+		WATER,
+		FOAM,
+		SAND,
+		CO2
+	}
 }
