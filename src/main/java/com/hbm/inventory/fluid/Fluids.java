@@ -111,6 +111,14 @@ public class Fluids {
 	public static FluidType OXYHYDROGEN;
 	public static FluidType RADIOSOLVENT;
 	public static FluidType CHLORINE; //everone's favorite!
+	public static FluidType METHANOL; //syngas + methane, or + natgas? or just from cracking natgas?
+	public static FluidType METHANE;// found on tekto
+	public static FluidType	METHALOX; //methanol + oxygen, ore just methane
+
+	
+	
+	
+	
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
