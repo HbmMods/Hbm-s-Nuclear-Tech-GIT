@@ -9,14 +9,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeGenDuna extends BiomeGenBase {
+public class BiomeGenDunaRiver extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.125F, 0.05F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(-0.525F, 0.0F);
 
     //TODO: avoid doing an extra planets and make each planet unique and cool.
-	public BiomeGenDuna(int id) {
+	public BiomeGenDunaRiver(int id) {
 		super(id);
-		this.setBiomeName("Dunaian Plains");
+		this.setBiomeName("Dunaian Riverbed");
 		this.setDisableRain();
 		
         this.spawnableCreatureList.clear();

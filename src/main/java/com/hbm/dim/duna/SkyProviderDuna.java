@@ -82,12 +82,12 @@ public class SkyProviderDuna extends IRenderHandler {
 
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
-		float atmosphericDust = ImpactWorldHandler.getDustForClient(world);
-        float solar = (AstronomyUtil.KerbolRadius*4/(AstronomyUtil.KerbinAU*AstronomyUtil.AUToKm))*360;
-        double MohoKerbin = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.MohoAU, AstronomyUtil.MohoP, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP);
-        double EveKerbin = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.EveAU, AstronomyUtil.EveP, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP);
+		//float atmosphericDust = ImpactWorldHandler.getDustForClient(world);
+        float solar = (AstronomyUtil.KerbolRadius*4/(AstronomyUtil.DunaAU*AstronomyUtil.AUToKm))*360;
+        double MohoDuna = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.MohoAU, AstronomyUtil.MohoP, AstronomyUtil.DunaAU, AstronomyUtil.DunaP);
+        double EveDuna = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.EveAU, AstronomyUtil.EveP, AstronomyUtil.DunaAU, AstronomyUtil.DunaP);
         double KerbinDuna = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP, AstronomyUtil.DunaAU, AstronomyUtil.DunaP);
-        double KerbinJool = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP, AstronomyUtil.JoolAU, AstronomyUtil.JoolP);
+        double DunaJool = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.DunaAU, AstronomyUtil.DunaP, AstronomyUtil.JoolAU, AstronomyUtil.JoolP);
 
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		Vec3 vec3 = world.getSkyColor(mc.renderViewEntity, partialTicks);
@@ -211,8 +211,8 @@ public class SkyProviderDuna extends IRenderHandler {
 		{
     		GL11.glPushMatrix();
     		//GL11.glDisable(GL11.GL_BLEND);
-    		f10 = (float) (0.15F/KerbinJool);
-    		GL11.glColor4d(0.4588f, 0.6784f, 0.3059f, 1/KerbinJool);
+    		f10 = (float) (0.15F/DunaJool);
+    		GL11.glColor4d(0.4588f, 0.6784f, 0.3059f, 1/DunaJool);
     		GL11.glRotatef(AstronomyUtil.calculatePlanetAngle(world.getWorldTime(), partialTicks, AstronomyUtil.KerbinP, AstronomyUtil.JoolP) * -360.0F, 1.0F, 0.0F, 0.0F);        		
     		GL11.glRotatef(280F, 1.0F, 0.0F, 0.0F);
     		mc.renderEngine.bindTexture(this.planet);
@@ -226,34 +226,38 @@ public class SkyProviderDuna extends IRenderHandler {
     		GL11.glPopMatrix();
     	}
 		{
-    		GL11.glPushMatrix();
-    		//GL11.glDisable(GL11.GL_BLEND);
-    		f10 = (float) (0.15F/KerbinDuna);
-    		GL11.glColor4d(0.6471f, 0.2824f, 0.1608f, 1/KerbinDuna);
-    		GL11.glRotatef(AstronomyUtil.calculatePlanetAngle(world.getWorldTime(), partialTicks, AstronomyUtil.KerbinP, AstronomyUtil.DunaP) * -360.0F, 1.0F, 0.0F, 0.0F);        		
-    		GL11.glRotatef(280F, 1.0F, 0.0F, 0.0F);
-    		mc.renderEngine.bindTexture(this.planet);
-    		tessellator.startDrawingQuads();
-    		tessellator.addVertexWithUV(-f10, -100.0D, f10, 0.0D, 0.0D);
-    		tessellator.addVertexWithUV(f10, -100.0D, f10, 1.0D, 0.0D);
-    		tessellator.addVertexWithUV(f10, -100.0D, -f10, 1.0D, 1.0D);
-    		tessellator.addVertexWithUV(-f10, -100.0D, -f10, 0.0D, 1.0D);
-    		tessellator.draw();
-    		//GL11.glEnable(GL11.GL_BLEND);
+        	GL11.glPushMatrix();        	
+        	float KerbinRad = 0.15F;
+        	float KerbinSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.KerbinP, AstronomyUtil.DunaP);
+        		//System.out.println("Venus-Earth distance: "+VenusEarth);
+        	float sine = (float) Math.sin(((Math.PI/2)/(KerbinSyn/4))*(world.getWorldTime()+AstronomyUtil.offset));
+        	double elong = AstronomyUtil.getMaxPlanetaryElongation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.KerbinAU, AstronomyUtil.DunaAU);
+        	GL11.glRotatef((float) (sine*elong), 1.0F, 0.0F, 0.0F);
+        	GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+        	GL11.glEnable(GL11.GL_TEXTURE_2D);
+        	GL11.glColor4d(0.2863F, 0.3882F, 0.4745F, 1/KerbinDuna);
+        	f10 = (float) (KerbinRad/KerbinDuna);
+        	mc.renderEngine.bindTexture(this.planet);
+        	tessellator.startDrawingQuads();
+        	tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
+        	tessellator.addVertexWithUV(f10, 100.0D, -f10, 1.0D, 0.0D);
+        	tessellator.addVertexWithUV(f10, 100.0D, f10, 1.0D, 1.0D);
+        	tessellator.addVertexWithUV(-f10, 100.0D, f10, 0.0D, 1.0D);
+        	tessellator.draw();
     		GL11.glPopMatrix();
     	}
         {
         	GL11.glPushMatrix();        	
         	float EveRad = 0.15F;
-        	float EveSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.EveP, AstronomyUtil.KerbinP);
+        	float EveSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.EveP, AstronomyUtil.DunaP);
         		//System.out.println("Venus-Earth distance: "+VenusEarth);
         	float sine = (float) Math.sin(((Math.PI/2)/(EveSyn/4))*(world.getWorldTime()+AstronomyUtil.offset));
-        	double elong = AstronomyUtil.getMaxPlanetaryElongation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.EveAU, AstronomyUtil.KerbinAU);
+        	double elong = AstronomyUtil.getMaxPlanetaryElongation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.EveAU, AstronomyUtil.DunaAU);
         	GL11.glRotatef((float) (sine*elong), 1.0F, 0.0F, 0.0F);
         	GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
         	GL11.glEnable(GL11.GL_TEXTURE_2D);
-        	GL11.glColor4d(0.408F, 0.298F, 0.553F, 1/EveKerbin);
-        	f10 = (float) (EveRad/EveKerbin);
+        	GL11.glColor4d(0.408F, 0.298F, 0.553F, 1/EveDuna);
+        	f10 = (float) (EveRad/EveDuna);
         	mc.renderEngine.bindTexture(this.planet);
         	tessellator.startDrawingQuads();
         	tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -266,14 +270,14 @@ public class SkyProviderDuna extends IRenderHandler {
     	{
     		GL11.glPushMatrix();
         	float MohoRad = 0.15F;
-        	float MohoSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.MohoP, AstronomyUtil.KerbinP);
+        	float MohoSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.MohoP, AstronomyUtil.DunaP);
         	float sine = (float) Math.sin(((Math.PI/2)/(MohoSyn/4))*(world.getWorldTime()+AstronomyUtil.offset));
-        	double elong = AstronomyUtil.getMaxPlanetaryElongation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.MohoAU, AstronomyUtil.KerbinAU);
+        	double elong = AstronomyUtil.getMaxPlanetaryElongation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.MohoAU, AstronomyUtil.DunaAU);
         	GL11.glRotatef((float) (sine*elong), 1.0F, 0.0F, 0.0F);
         	GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
         	GL11.glEnable(GL11.GL_TEXTURE_2D);
-        	GL11.glColor4d(0.4863F, 0.4F, 0.3456, 1/MohoKerbin);
-        	f10 = Math.max(0.1F, (float) (MohoRad/MohoKerbin));
+        	GL11.glColor4d(0.4863F, 0.4F, 0.3456, 1/MohoDuna);
+        	f10 = Math.max(0.1F, (float) (MohoRad/MohoDuna));
         	mc.renderEngine.bindTexture(this.planet);
         	tessellator.startDrawingQuads();
         	tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);

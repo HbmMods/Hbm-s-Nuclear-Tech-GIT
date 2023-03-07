@@ -40,7 +40,7 @@ public class AstronomyUtil
     public static final float DunaAU=20726155.264F/AUToKm;
     public static final float DresAU=40839348.203F/AUToKm;
     public static final float JoolAU=68773560.320F/AUToKm;
-    //public static final float SarnusAU=9.54F;
+    public static final float SarnusAU=125798522.368F/AUToKm;
     //public static final float UrlumAU=19.19F;
     //public static final float NeidonAU=30.1F;
     //public static final float PlockAU=39.5F;
@@ -51,7 +51,7 @@ public class AstronomyUtil
     public static final float DunaP=801.6389F;
     public static final float DresP=2217.27F;
     public static final float JoolP=4845.4367F;
-   // public static final float SarnusP=10756;
+    public static final float SarnusP=11987.096F;
    // public static final float UrlumP=30687;
    // public static final float NeidonP=60190;
    // public static final float PlockP=90553;
