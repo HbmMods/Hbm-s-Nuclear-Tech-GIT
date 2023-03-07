@@ -200,6 +200,11 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 	}
 
 	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.DOWN;
+	}
+
+	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
 		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.DOWN;
 	}

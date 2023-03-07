@@ -1,6 +1,7 @@
 package com.hbm.items.tool;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
 import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
@@ -19,15 +20,16 @@ public class ItemSurveyScanner extends Item {
 		
 		if(!world.isRemote) {
 			
-			int x = (int)Math.floor(player.posX);
-			int y = (int)Math.floor(player.posY);
-			int z = (int)Math.floor(player.posZ);
+			int x = (int) Math.floor(player.posX);
+			int y = (int) Math.floor(player.posY);
+			int z = (int) Math.floor(player.posZ);
 			
 			boolean hasOil = false;
 			boolean hasColtan = false;
 			boolean hasDepth = false;
 			boolean hasSchist = false;
 			boolean hasAussie = false;
+			TileEntityBedrockOre tile = null;
 			
 			for(int a = -5; a <= 5; a++) {
 				for(int b = -5; b <= 5; b++) {
@@ -46,6 +48,12 @@ public class ItemSurveyScanner extends Item {
 						else if(block == ModBlocks.ore_australium)
 							hasAussie = true;
 					}
+					
+					Block block = world.getBlock(x + a * 2, 0, z + b * 2);
+					
+					if(block == ModBlocks.ore_bedrock) {
+						tile = (TileEntityBedrockOre) world.getTileEntity(x + a * 2, 0, z + b * 2);
+					}
 				}
 			}
 
@@ -59,6 +67,8 @@ public class ItemSurveyScanner extends Item {
 				player.addChatComponentMessage(new ChatComponentText("Found SCHIST!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_AQUA)));
 			if(hasAussie)
 				player.addChatComponentMessage(new ChatComponentText("Found AUSTRALIUM!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+			if(tile != null && tile.resource != null)
+				player.addChatComponentMessage(new ChatComponentText("Found BEDROCK ORE for " + tile.resource.getDisplayName() + "!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 		}
 		
 		player.swingItem();
