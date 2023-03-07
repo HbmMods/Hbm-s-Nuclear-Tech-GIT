@@ -116,13 +116,12 @@ public class Fluids {
 	public static FluidType LIGHTOIL_VACUUM;
 	public static FluidType SOURGAS;
 	public static FluidType XYLENE;
-
-	//noble gasses
-	public static FluidType HELIUM;
 	public static FluidType NEON;
 	public static FluidType ARGON;
 	public static FluidType KRYPTON;
-
+	public static FluidType COFFEE;
+	public static FluidType TEA;
+	public static FluidType HONEY;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -255,11 +254,13 @@ public class Fluids {
 		REFORMATE =			new FluidType("REFORMATE",			0x835472, 2, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		LIGHTOIL_VACUUM =	new FluidType("LIGHTOIL_VACUUM",	0x8C8851, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		SOURGAS =			new FluidType("SOURGAS",			0xC9BE0D, 4, 4, 0, EnumSymbol.ACID).addTraits(GASEOUS, new FT_Corrosive(10));
-		XYLENE =			new FluidType(101, "XYLENE",			0x5C4E76, 2, 3, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		HELIUM = 			new FluidType("HELIUM", 0xEC983B,0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
-		NEON =  			new FluidType("NEON", 0xF1F600,0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
-		ARGON = 			new FluidType("ARGON", 0xFD70D0,0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
-		KRYPTON = 			new FluidType("KRYPTON", 0x9AC6E6,0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
+		XYLENE =			new FluidType(101, "XYLENE",		0x5C4E76, 2, 3, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		NEON =  			new FluidType("NEON", 0xF1F600,		0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
+		ARGON = 			new FluidType("ARGON", 0xFD70D0,	0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
+		KRYPTON = 			new FluidType("KRYPTON", 0x9AC6E6,	0, 0,0,EnumSymbol.CROYGENIC).addTraits(GASEOUS);
+		COFFEE =			new FluidType("COFFEE",				0x457F2D, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID); //because fuck you, this is my fork, and i love you.
+		TEA =				new FluidType("TEA",				0x457F2D, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);
+		HONEY =				new FluidType("HONEY",				0x457F2D, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -383,10 +384,13 @@ public class Fluids {
 		metaOrder.add(PLASMA_XM);
 		metaOrder.add(PLASMA_BF);
 		//noble gasses
-		metaOrder.add(HELIUM);
 		metaOrder.add(KRYPTON);
 		metaOrder.add(ARGON);
 		metaOrder.add(NEON);
+		//misc for cute dates
+		metaOrder.add(TEA);
+		metaOrder.add(HONEY);
+		metaOrder.add(COFFEE);
 
 
 
