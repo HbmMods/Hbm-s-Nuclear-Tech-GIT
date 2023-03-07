@@ -111,15 +111,18 @@ public class Fluids {
 	public static FluidType OXYHYDROGEN;
 	public static FluidType RADIOSOLVENT;
 	public static FluidType CHLORINE; //everone's favorite!
-	public static FluidType METHANOL; //syngas + methane, or + natgas? or just from cracking natgas?
-	public static FluidType METHANE;// found on tekto
-	public static FluidType	METHALOX; //methanol + oxygen, ore just methane
-
+	//public static FluidType METHANOL; //syngas + methane, or + natgas? or just from cracking natgas?
+	//public static FluidType METHANE;// found on tekto
+	//public static FluidType METHALOX; //methanol + oxygen, or just methane
+	//public static FluidType POLYTHYLENE; //this is so that you wont need to go through microcrafting hell on circuits //idea is that rubber solution makes these casts that can then be imprinted in the assembly machine without needing to go through the resources to make the circuits one by one, it would be gated behind oil though.
+	//public static FluidType FLUORINE; //why not
+	//public static FluidType HYALURONIC; // from mobs, more efficent than engine lubricant.
+	//public static FluidType DUNAAIR; //yields mostly carbon dioxide
+	//public static FluidType EVEAIR; // when cryogenically distillated, can yield stuff like mercury, that one chemical pu suggested involving something purple i forgot, and possibly iodine
+	//public static FluidType TEKTOAIR; // makes methane, and some hydrocarbons too. literally free...
+	//public static FluidType LAYTHEAIR;
 	
 	
-	
-	
-
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
 	protected static final List<FluidType> metaOrder = new ArrayList();
