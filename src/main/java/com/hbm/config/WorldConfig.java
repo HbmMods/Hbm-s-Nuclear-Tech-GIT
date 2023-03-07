@@ -103,6 +103,15 @@ public class WorldConfig {
 	public static int meteorShowerChance = 20 * 60 * 5;
 	public static int meteorShowerDuration = 6000;
 	
+	public static int moonDimension = 15;
+	public static int dunaDimension = 16;
+	
+	public static int moonBiome = 111;
+	public static int dunaBiome = 112;
+	public static int dunaLowlandsBiome = 113;
+	public static int dunaPolarBiome = 114;
+	public static int dunaRiverBiome = 115;
+	
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_OREGEN = CommonConfig.CATEGORY_ORES;
@@ -206,6 +215,15 @@ public class WorldConfig {
 		meteorShowerChance = CommonConfig.createConfigInt(config, CATEGORY_METEOR, "5.04_meteorShowerChance", "The probability of a meteor spawning during meteor shower (an average of once every nTH ticks)", 20 * 60 * 15);
 		meteorShowerDuration = CommonConfig.createConfigInt(config, CATEGORY_METEOR, "5.05_meteorShowerDuration", "Max duration of meteor shower in ticks", 20 * 60 * 30);
 
+		final String CATEGORY_BIOME = CommonConfig.CATEGORY_BIOMES;
+		moonDimension = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.00_moonDimension", "Mun Dimension ID", 15);
+		dunaDimension = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.01_dunaDimension", "Duna Dimension ID", 16);
+		moonBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.02_moonBiome", "Mun Biome ID", 111);
+		dunaBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.03_dunaBiome", "Duna Biome ID", 112);
+		dunaLowlandsBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.04_dunaLowlandsBiome", "Duna Lowlands Biome ID", 113);
+		dunaPolarBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.05_dunaPolarBiome", "Duna Polar Biome ID", 114);
+		dunaRiverBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.05_dunaRiverBiome", "Duna River Biome ID", 115);
+		
 		radioStructure = CommonConfig.setDefZero(radioStructure, 1000);
 		antennaStructure = CommonConfig.setDefZero(antennaStructure, 1000);
 		atomStructure = CommonConfig.setDefZero(atomStructure, 1000);

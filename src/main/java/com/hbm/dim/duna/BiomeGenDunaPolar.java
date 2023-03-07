@@ -8,16 +8,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.BiomeDictionary;
 
-public class BiomeGenDuna extends BiomeGenBase {
+public class BiomeGenDunaPolar extends BiomeGenBase {
 	
     public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.125F, 0.05F);
 
     //TODO: avoid doing an extra planets and make each planet unique and cool.
-	public BiomeGenDuna(int id) {
+	public BiomeGenDunaPolar(int id) {
 		super(id);
-		this.setBiomeName("Dunaian Plains");
+		this.setBiomeName("Dunaian Polar Ice Sheet");
 		this.setDisableRain();
 		
         this.spawnableCreatureList.clear();
@@ -29,9 +28,8 @@ public class BiomeGenDuna extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.duna_sands;
-        this.fillerBlock = ModBlocks.duna_rock;
-        BiomeDictionary.registerBiomeType(this, BiomeDictionary.Type.COLD, BiomeDictionary.Type.DRY, BiomeDictionary.Type.DEAD);
+        this.topBlock = Blocks.snow;
+        this.fillerBlock = Blocks.snow;
 	}
 
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
