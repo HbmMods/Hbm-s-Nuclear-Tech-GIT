@@ -16,6 +16,9 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraftforge.common.AchievementPage;
+import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.common.BiomeManager.BiomeEntry;
+import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -51,6 +54,7 @@ import com.hbm.config.*;
 import com.hbm.creativetabs.*;
 import com.hbm.dim.WorldGeneratorMoon;
 import com.hbm.dim.WorldProviderMoon;
+import com.hbm.dim.duna.BiomeGenDuna;
 import com.hbm.dim.duna.WorldGeneratorDuna;
 import com.hbm.dim.duna.WorldProviderDuna;
 import com.hbm.entity.EntityMappings;
@@ -364,6 +368,8 @@ public class MainRegistry {
 		GameRegistry.registerWorldGenerator(worldGenDuna, 1);
 		DimensionManager.registerProviderType(16, WorldProviderDuna.class, false);
 	    DimensionManager.registerDimension(16, 16);
+	   
+	    
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_generic, new BehaviorProjectileDispense() {
 
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {

@@ -10,14 +10,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 
-public class BiomeGenDuna extends BiomeGenBase {
+public class BiomeGenDunaTesting extends BiomeGenBase {
 	
     public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.125F, 0.05F);
 
     //TODO: avoid doing an extra planets and make each planet unique and cool.
-	public BiomeGenDuna(int id) {
+	public BiomeGenDunaTesting(int id) {
 		super(id);
-		this.setBiomeName("Duna");
+		this.setBiomeName("Dunatesting");
 		this.setDisableRain();
 		
         this.spawnableCreatureList.clear();
@@ -29,9 +29,9 @@ public class BiomeGenDuna extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.duna_sands;
-        this.fillerBlock = ModBlocks.duna_rock;
-        BiomeDictionary.registerBiomeType(this, BiomeDictionary.Type.COLD, BiomeDictionary.Type.DRY, BiomeDictionary.Type.DEAD);
+        this.topBlock = ModBlocks.duna_iron;
+        this.fillerBlock = ModBlocks.duna_iron;
+        BiomeDictionary.registerBiomeType(this, BiomeDictionary.Type.DEAD);
 	}
 
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
@@ -68,7 +68,7 @@ public class BiomeGenDuna extends BiomeGenBase {
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.duna_rock;
+                                block1 = ModBlocks.duna_iron;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {

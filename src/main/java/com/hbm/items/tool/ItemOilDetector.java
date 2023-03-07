@@ -35,45 +35,45 @@ public class ItemOilDetector extends Item {
 		int z = (int)player.posZ;
 
 		for(int i =  y + 15; i > 5; i--)
-			if(world.getBlock(x, i, z) == ModBlocks.ore_oil)
+			if(world.getBlock(x, i, z) == ModBlocks.ore_oil ||world.getBlock(x, i, z) == ModBlocks.duna_oil)
 				direct = true;
 		for(int i =  y + 15; i > 5; i--)
-			if(world.getBlock(x + 5, i, z) == ModBlocks.ore_oil)
+			if(world.getBlock(x + 5, i, z) == ModBlocks.ore_oil || world.getBlock(x + 5, i, z) == ModBlocks.duna_oil)
 				oil = true;
 		for(int i =  y + 15; i > 5; i--)
-			if(world.getBlock(x - 5, i, z) == ModBlocks.ore_oil)
+			if(world.getBlock(x - 5, i, z) == ModBlocks.ore_oil ||world.getBlock(x - 5, i, z) == ModBlocks.duna_oil)
 				oil = true;
 		for(int i =  y + 15; i > 5; i--)
-			if(world.getBlock(x, i, z + 5) == ModBlocks.ore_oil)
+			if(world.getBlock(x, i, z + 5) == ModBlocks.ore_oil ||world.getBlock(x, i, z + 5) == ModBlocks.duna_oil)
 				oil = true;
 		for(int i =  y + 15; i > 5; i--)
-			if(world.getBlock(x, i, z - 5) == ModBlocks.ore_oil)
+			if(world.getBlock(x, i, z - 5) == ModBlocks.ore_oil || world.getBlock(x, i, z - 5) == ModBlocks.duna_oil)
 				oil = true;
 		
 		for(int i =  y + 15; i > 10; i--)
-			if(world.getBlock(x + 10, i, z) == ModBlocks.ore_oil)
+			if(world.getBlock(x + 10, i, z) == ModBlocks.ore_oil ||world.getBlock(x + 10, i, z) == ModBlocks.duna_oil)
 				oil = true;
 		for(int i =  y + 15; i > 10; i--)
-			if(world.getBlock(x - 10, i, z) == ModBlocks.ore_oil)
+			if(world.getBlock(x - 10, i, z) == ModBlocks.ore_oil||world.getBlock(x - 10, i, z) == ModBlocks.duna_oil)
 				oil = true;
 		for(int i =  y + 15; i > 10; i--)
-			if(world.getBlock(x, i, z + 10) == ModBlocks.ore_oil)
+			if(world.getBlock(x, i, z + 10) == ModBlocks.ore_oil ||world.getBlock(x, i, z + 10) == ModBlocks.duna_oil)
 				oil = true;
 		for(int i =  y + 15; i > 10; i--)
-			if(world.getBlock(x, i, z - 10) == ModBlocks.ore_oil)
+			if(world.getBlock(x, i, z - 10) == ModBlocks.ore_oil || world.getBlock(x, i, z - 10) == ModBlocks.duna_oil)
 				oil = true;
 
 		for(int i =  y + 15; i > 5; i--)
-			if(world.getBlock(x + 5, i, z + 5) == ModBlocks.ore_oil)
+			if(world.getBlock(x + 5, i, z + 5) == ModBlocks.ore_oil ||world.getBlock(x + 5, i, z + 5) == ModBlocks.duna_oil)
 				oil = true;
 		for(int i =  y + 15; i > 5; i--)
-			if(world.getBlock(x - 5, i, z + 5) == ModBlocks.ore_oil)
+			if(world.getBlock(x - 5, i, z + 5) == ModBlocks.ore_oil || world.getBlock(x - 5, i, z + 5) == ModBlocks.duna_oil)
 				oil = true;
 		for(int i =  y + 15; i > 5; i--)
-			if(world.getBlock(x + 5, i, z - 5) == ModBlocks.ore_oil)
+			if(world.getBlock(x + 5, i, z - 5) == ModBlocks.ore_oil || world.getBlock(x + 5, i, z - 5)  == ModBlocks.duna_oil)
 				oil = true;
 		for(int i =  y + 15; i > 5; i--)
-			if(world.getBlock(x - 5, i, z - 5) == ModBlocks.ore_oil)
+			if(world.getBlock(x - 5, i, z - 5) == ModBlocks.ore_oil || world.getBlock(x - 5, i, z - 5) == ModBlocks.duna_oil)
 				oil = true;
 		
 		if(direct)

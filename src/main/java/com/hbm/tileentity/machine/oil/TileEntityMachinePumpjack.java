@@ -34,6 +34,8 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 	protected static int gasPerDepositMin = 50;
 	protected static int gasPerDepositMax = 250;
 	protected static double drainChance = 0.025D;
+	protected static double DunadrainChance = 0.08D; //essentially, duna is supposed to produce weaker oil than the overworld. laythe on the other hand... 
+	protected static int oilPerDunaDepsoit = 250;
 	
 	public float rot = 0;
 	public float prevRot = 0;
@@ -125,19 +127,32 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 	@Override
 	public void onSuck(int x, int y, int z) {
 		
-		this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDepsoit);
-		if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
-		this.tanks[1].setFill(this.tanks[1].getFill() + (gasPerDepositMin + worldObj.rand.nextInt((gasPerDepositMax - gasPerDepositMin + 1))));
-		if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) this.tanks[1].setFill(tanks[1].getMaxFill());
-		
-        if(worldObj.rand.nextDouble() < drainChance) {
-            if(worldObj.provider.dimensionId == 16) {
-                worldObj.setBlock(x, y, z, ModBlocks.duna_oil_empty);
-                return;
-            }
-            worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
+        if(worldObj.getBlock(x, y, z) == ModBlocks.duna_oil) {
+            this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDunaDepsoit);
+            if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
         }
+        if(worldObj.getBlock(x, y, z) == ModBlocks.ore_oil) {
+            this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDepsoit);
+            if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
+            this.tanks[1].setFill(this.tanks[1].getFill() + (gasPerDepositMin + worldObj.rand.nextInt((gasPerDepositMax - gasPerDepositMin + 1))));
+            if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) this.tanks[1].setFill(tanks[1].getMaxFill());
+           
+        }
+        if(worldObj.getBlock(x, y, z)== ModBlocks.ore_oil) {
+        if(worldObj.rand.nextDouble() < drainChance) {
+        	worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
+        	}
+        }
+        
+        if(worldObj.getBlock(x, y, z)== ModBlocks.duna_oil) {
+        	if(worldObj.rand.nextDouble() < DunadrainChance) {
+	    		worldObj.setBlock(x, y, z, ModBlocks.duna_oil_empty);
+	    		//return; 
+		 }
 	}
+}
+        
+
 	@Override
 	public void fillFluidInit(FluidType type) {
 		
