@@ -64,7 +64,7 @@ public class ItemWandD extends Item {
 			EntityPlayerMP thePlayer = (EntityPlayerMP) player;
 				
 			if(!player.isSneaking())
-					thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, 16, new DebugTeleporter(thePlayer.getServerForPlayer()));
+					thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 			else
 			System.out.println(player.dimension);
 			/*

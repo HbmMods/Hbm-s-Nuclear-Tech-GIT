@@ -295,7 +295,7 @@ public class SkyProviderDuna extends IRenderHandler {
 			GL11.glRotatef(world.getCelestialAngle(partialTicks) * -180.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-			f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MunKerbinKm)*90;
+			f10 = (AstronomyUtil.DunaRadius/AstronomyUtil.MunKerbinKm)*90;
 			FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.ike);
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);

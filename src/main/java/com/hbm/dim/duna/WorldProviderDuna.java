@@ -96,7 +96,7 @@ public class WorldProviderDuna extends WorldProvider {
 	
     public long getDayLength()
     {
-    	return (long) (AstronomyUtil.DunaP*24000);
+    	return (long) (AstronomyUtil.DunaP * 50);
     }
     
     @Override
