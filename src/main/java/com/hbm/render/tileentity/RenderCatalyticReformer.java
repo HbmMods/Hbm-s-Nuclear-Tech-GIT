@@ -1,6 +1,7 @@
 package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
@@ -46,12 +47,13 @@ public class RenderCatalyticReformer extends TileEntitySpecialRenderer implement
 		GL11.glShadeModel(GL11.GL_FLAT);
 
 		/// rapidly spinning dicks ///
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glTranslated(-1.125, 1.375, 1);
 		double s = 0.125D;
 		GL11.glScaled(s, s, s);
 		GL11.glRotated(System.currentTimeMillis() / 5D % 360D, 0, -1, 0);
 		GL11.glTranslated(0, 0.1, -0.5);
-		
+
 		this.bindTexture(extra);
 		HorsePronter.reset();
 		double r = 60;

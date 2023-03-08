@@ -1,13 +1,16 @@
 package com.hbm.tileentity.machine.oil;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.container.ContainerMachineCatalyticReformer;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineCatalyticReformer;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -46,6 +49,61 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 	@Override
 	public void updateEntity() {
 		
+		if(!worldObj.isRemote) {
+			
+			this.updateConnections();
+			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+			tanks[0].setType(9, slots);
+			tanks[0].loadTank(1, 2, slots);
+			
+			reform();
+
+			tanks[1].unloadTank(3, 4, slots);
+			tanks[2].unloadTank(5, 6, slots);
+			tanks[3].unloadTank(7, 8, slots);
+			
+			for(DirPos pos : getConPos()) {
+				for(int i = 1; i < 4; i++) {
+					if(tanks[i].getFill() > 0) {
+						this.sendFluid(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					}
+				}
+			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", this.power);
+			for(int i = 0; i < 4; i++) tanks[i].writeToNBT(data, "" + i);
+			this.networkPack(data, 150);
+		}
+	}
+	
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "" + i);
+	}
+	
+	private void reform() {
+		//TODO: add recipe handler
+	}
+	
+	private void updateConnections() {
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	public DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		return new DirPos[] {
+				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, dir),
+				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ, dir),
+				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ, dir.getOpposite())
+		};
 	}
 	
 	@Override

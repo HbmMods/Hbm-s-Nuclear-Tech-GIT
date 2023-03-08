@@ -427,7 +427,7 @@ public class OreDictManager {
 		ANY_GUNPOWDER			.dust(Items.gunpowder, ballistite, cordite);
 		ANY_SMOKELESS			.dust(ballistite, cordite);
 		ANY_PLASTICEXPLOSIVE	.ingot(ingot_semtex, ingot_c4);
-		ANY_HIGHEXPLOSIVE		.ingot(ball_tnt);
+		ANY_HIGHEXPLOSIVE		.ingot(ball_tnt).ingot(ball_tatb);
 		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_asbestos, ducrete, ducrete_smooth);
 		for(int i = 0; i < 16; i++) { ANY_CONCRETE.any(new ItemStack(ModBlocks.concrete_colored, 1, i)); }
 		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class)).block(fromAll(block_coke, EnumCokeType.class));
