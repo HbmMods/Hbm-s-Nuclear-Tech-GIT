@@ -3172,10 +3172,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_storage_drum, machine_storage_drum.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_shredder, machine_shredder.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_shredder_large, machine_shredder_large.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_well, machine_well.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_pumpjack, machine_pumpjack.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_fracking_tower, machine_fracking_tower.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_flare, ItemBlockBase.class, machine_flare.getUnlocalizedName());
+		register(machine_well);
+		register(machine_pumpjack);
+		register(machine_fracking_tower);
+		register(machine_flare);
 		register(machine_refinery);
 		register(machine_vacuum_distill);
 		GameRegistry.registerBlock(machine_fraction_tower, machine_fraction_tower.getUnlocalizedName());

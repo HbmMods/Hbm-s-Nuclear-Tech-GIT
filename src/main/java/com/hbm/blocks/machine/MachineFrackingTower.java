@@ -1,19 +1,31 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineFrackingTower;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineFrackingTower extends BlockDummyable {
+public class MachineFrackingTower extends BlockDummyable implements IPersistentInfoProvider {
 
 	public MachineFrackingTower() {
 		super(Material.iron);
@@ -87,6 +99,21 @@ public class MachineFrackingTower extends BlockDummyable {
 			return true;
 		} else {
 			return true;
+		}
+	}
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		return IPersistentNBT.getDrops(world, x, y, z, this);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, NBTTagCompound persistentTag, EntityPlayer player, List list, boolean ext) {
+		list.add(EnumChatFormatting.GREEN + BobMathUtil.getShortNumber(persistentTag.getLong("power")) + "HE");
+		for(int i = 0; i < 2; i++) {
+			FluidTank tank = new FluidTank(Fluids.NONE, 0);
+			tank.readFromNBT(persistentTag, "t" + i);
+			list.add(EnumChatFormatting.YELLOW + "" + tank.getFill() + "/" + tank.getMaxFill() + "mB " + I18nUtil.resolveKey(tank.getTankType().getUnlocalizedName()));
 		}
 	}
 }

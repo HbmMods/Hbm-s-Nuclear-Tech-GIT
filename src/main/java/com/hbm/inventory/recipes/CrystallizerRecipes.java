@@ -1,17 +1,24 @@
 package com.hbm.inventory.recipes;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
 import static com.hbm.inventory.OreDictManager.*;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemicalDye.EnumChemDye;
@@ -30,12 +37,13 @@ import net.minecraftforge.oredict.OreDictionary;
 
 //This time we're doing this right
 //...right?
-public class CrystallizerRecipes {
+public class CrystallizerRecipes extends SerializableRecipe {
 	
 	//'Object' is either a ComparableStack or the key for the ore dict
 	private static HashMap<Pair<Object, FluidType>, CrystallizerRecipe> recipes = new HashMap();
-	
-	public static void register() {
+
+	@Override
+	public void registerDefaults() {
 
 		int baseTime = 600;
 		int utilityTime = 100;
@@ -211,5 +219,55 @@ public class CrystallizerRecipes {
 			this.duration = duration;
 			this.acidAmount = 500;
 		}
+	}
+
+	@Override
+	public String getFileName() {
+		return "hbmCrystallizer.json";
+	}
+
+	@Override
+	public Object getRecipeObject() {
+		return recipes;
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+
+		ItemStack output = this.readItemStack(obj.get("output").getAsJsonArray());
+		AStack input = this.readAStack(obj.get("input").getAsJsonArray());
+		FluidStack fluid = this.readFluidStack(obj.get("fluid").getAsJsonArray());
+		int duration = obj.get("duration").getAsInt();
+		
+		CrystallizerRecipe cRecipe = new CrystallizerRecipe(output, duration);
+		cRecipe.acidAmount = fluid.fill;
+		if(input instanceof ComparableStack) {
+			recipes.put(new Pair(((ComparableStack) input).makeSingular(), fluid.type), cRecipe);
+		} else if(input instanceof OreDictStack) {
+			recipes.put(new Pair(((OreDictStack) input).name, fluid.type), cRecipe);
+		}
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		Entry<Pair, CrystallizerRecipe> rec = (Entry<Pair, CrystallizerRecipe>) recipe;
+		CrystallizerRecipe cRecipe = rec.getValue();
+		Pair<Object, FluidType> pair = rec.getKey();
+		AStack input = pair.getKey() instanceof String ? new OreDictStack((String )pair.getKey()) : (ComparableStack) pair.getKey();
+		FluidStack fluid = new FluidStack(pair.value, cRecipe.acidAmount);
+
+		writer.name("duration").value(cRecipe.duration);
+		writer.name("fluid");
+		this.writeFluidStack(fluid, writer);
+		writer.name("input");
+		this.writeAStack(input, writer);
+		writer.name("output");
+		this.writeItemStack(cRecipe.output, writer);
+	}
+
+	@Override
+	public void deleteRecipes() {
+		recipes.clear();
 	}
 }

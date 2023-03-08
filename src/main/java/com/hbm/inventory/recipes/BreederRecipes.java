@@ -1,20 +1,28 @@
 package com.hbm.inventory.recipes;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
+import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class BreederRecipes {
+public class BreederRecipes extends SerializableRecipe {
 
 	private static HashMap<ComparableStack, BreederRecipe> recipes = new HashMap();
-	
-	public static void registerRecipes() {
+
+	@Override
+	public void registerDefaults() {
 		
 		setRecipe(BreedingRodType.LITHIUM, BreedingRodType.TRITIUM, 200);
 		setRecipe(BreedingRodType.CO, BreedingRodType.CO60, 100);
@@ -73,4 +81,40 @@ public class BreederRecipes {
 		}
 	}
 
+	@Override
+	public String getFileName() {
+		return "hbmBreeder.json";
+	}
+
+	@Override
+	public Object getRecipeObject() {
+		return recipes;
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		
+		AStack in = this.readAStack(obj.get("input").getAsJsonArray());
+		int flux = obj.get("flux").getAsInt();
+		ItemStack out = this.readItemStack(obj.get("output").getAsJsonArray());
+		recipes.put(((ComparableStack) in), new BreederRecipe(out, flux));
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		Entry<ComparableStack, BreederRecipe> rec = (Entry<ComparableStack, BreederRecipe>) recipe;
+		ComparableStack in = rec.getKey();
+
+		writer.name("input");
+		this.writeAStack(in, writer);
+		writer.name("flux").value(rec.getValue().flux);
+		writer.name("output");
+		this.writeItemStack(rec.getValue().output, writer);
+	}
+
+	@Override
+	public void deleteRecipes() {
+		recipes.clear();
+	}
 }

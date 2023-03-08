@@ -488,11 +488,11 @@ public class OreDictManager {
 			String dyeName = "dye" + dyes[i];
 			
 			OreDictionary.registerOre(dyeName, new ItemStack(ModItems.chemical_dye, 1, i));
-			OreDictionary.registerOre("dye", new ItemStack(ModItems.chemical_dye, 1, i));
 			
 			OreDictionary.registerOre(dyeName, new ItemStack(ModItems.crayon, 1, i));
-			OreDictionary.registerOre("dye", new ItemStack(ModItems.crayon, 1, i));
 		}
+		OreDictionary.registerOre("dye", new ItemStack(chemical_dye, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("dye", new ItemStack(crayon, 1, OreDictionary.WILDCARD_VALUE));
 
 		OreDictionary.registerOre("dyeRed", cinnebar);
 		OreDictionary.registerOre("dye", cinnebar);
@@ -513,7 +513,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("dyeGray", fromOne(oil_tar, EnumTarType.COAL));
 		OreDictionary.registerOre("dyeBrown", fromOne(oil_tar, EnumTarType.WOOD));
 		OreDictionary.registerOre("dyeCyan", fromOne(oil_tar, EnumTarType.WAX));
-		OreDictionary.registerOre("dye", oil_tar);
+		OreDictionary.registerOre("dye", new ItemStack(oil_tar, 1, OreDictionary.WILDCARD_VALUE));
 
 		OreDictionary.registerOre("blockGlass", glass_boron);
 		OreDictionary.registerOre("blockGlass", glass_lead);
