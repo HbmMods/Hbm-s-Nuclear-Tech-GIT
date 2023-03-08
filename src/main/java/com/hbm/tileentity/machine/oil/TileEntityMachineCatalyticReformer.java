@@ -1,15 +1,18 @@
 package com.hbm.tileentity.machine.oil;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerMachineCatalyticReformer;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineCatalyticReformer;
+import com.hbm.inventory.recipes.ReformingRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.Tuple.Triplet;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
@@ -84,7 +87,32 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 	}
 	
 	private void reform() {
-		//TODO: add recipe handler
+		
+		Triplet<FluidStack, FluidStack, FluidStack> out = ReformingRecipes.getOutput(tanks[0].getTankType());
+		if(out == null) {
+			tanks[1].setTankType(Fluids.NONE);
+			tanks[2].setTankType(Fluids.NONE);
+			tanks[3].setTankType(Fluids.NONE);
+			return;
+		}
+
+		tanks[1].setTankType(out.getX().type);
+		tanks[2].setTankType(out.getY().type);
+		tanks[3].setTankType(out.getZ().type);
+		
+		if(power < 20_000) return;
+		if(tanks[0].getFill() < 100) return;
+
+		if(tanks[1].getFill() + out.getX().fill > tanks[1].getMaxFill()) return;
+		if(tanks[2].getFill() + out.getY().fill > tanks[2].getMaxFill()) return;
+		if(tanks[3].getFill() + out.getZ().fill > tanks[3].getMaxFill()) return;
+
+		tanks[0].setFill(tanks[0].getFill() - 100);
+		tanks[1].setFill(tanks[1].getFill() + out.getX().fill);
+		tanks[2].setFill(tanks[2].getFill() + out.getY().fill);
+		tanks[3].setFill(tanks[3].getFill() + out.getZ().fill);
+		
+		power -= 20_000;
 	}
 	
 	private void updateConnections() {
