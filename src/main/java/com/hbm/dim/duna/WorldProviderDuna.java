@@ -19,7 +19,7 @@ public class WorldProviderDuna extends WorldProvider {
 	
 	public void registerWorldChunkManager() {
 		
-		this.worldChunkMgr = new WorldChunkManagerDuna3();
+		this.worldChunkMgr = new WorldChunkManagerDuna3(worldObj);
 		//this.dimensionId = WorldConfig.dunaDimension;
 		//this.hasNoSky = false;
 	}
