@@ -776,17 +776,17 @@ public class MainRegistry {
 
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent) {
-		CrystallizerRecipes.register();
+		//CrystallizerRecipes.register();
 		TileEntityNukeFurnace.registerFuels();
-		BreederRecipes.registerRecipes();
+		//BreederRecipes.registerRecipes();
 		AssemblerRecipes.loadRecipes();
 		MagicRecipes.register();
 		SILEXRecipes.register();
 		AnvilRecipes.register();
-		PressRecipes.register();
+		//PressRecipes.register();
 		RefineryRecipes.registerRefinery();
 		GasCentrifugeRecipes.register();
-		CombinationRecipes.register();
+		//CombinationRecipes.register();
 
 		//the good stuff
 		SerializableRecipe.registerAllHandlers();

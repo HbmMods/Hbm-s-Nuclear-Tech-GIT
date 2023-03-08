@@ -22,7 +22,9 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.MatDistribution;
 import com.hbm.inventory.recipes.*;
+import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.item.Item;
@@ -54,6 +56,10 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new MixerRecipes());
 		recipeHandlers.add(new OutgasserRecipes());
 		recipeHandlers.add(new MatDistribution());
+		recipeHandlers.add(new CrystallizerRecipes());
+		recipeHandlers.add(new BreederRecipes());
+		recipeHandlers.add(new CombinationRecipes());
+		recipeHandlers.add(new PressRecipes());
 	}
 	
 	public static void initialize() {

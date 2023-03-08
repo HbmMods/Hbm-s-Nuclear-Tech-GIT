@@ -1,12 +1,18 @@
 package com.hbm.inventory.recipes;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.items.ItemAmmoEnums.Ammo556mm;
@@ -20,7 +26,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class PressRecipes {
+public class PressRecipes extends SerializableRecipe {
 
 	public static HashMap<Pair<AStack, StampType>, ItemStack> recipes = new HashMap();
 	
@@ -43,7 +49,7 @@ public class PressRecipes {
 		return null;
 	}
 	
-	public static void register() {
+	public void registerDefaults() {
 
 		makeRecipe(StampType.FLAT, new OreDictStack(NETHERQUARTZ.dust()),					Items.quartz);
 		makeRecipe(StampType.FLAT, new OreDictStack(LAPIS.dust()),							new ItemStack(Items.dye, 1, 4));
@@ -113,5 +119,41 @@ public class PressRecipes {
 	}
 	public static void makeRecipe(StampType type, AStack in, ItemStack out) {
 		recipes.put(new Pair<AStack, StampType>(in, type),  out);
+	}
+	@Override
+	public String getFileName() {
+		return "hbmPress.json";
+	}
+
+	@Override
+	public Object getRecipeObject() {
+		return recipes;
+	}
+
+	@Override
+	public void deleteRecipes() {
+		recipes.clear();
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		StampType Type=StampType.valueOf(obj.get("StampType").getAsString());
+		AStack in = this.readAStack(obj.get("input").getAsJsonArray());
+		ItemStack out = this.readItemStack(obj.get("output").getAsJsonArray());
+		recipes.put(new Pair(in,Type), out);
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		Entry<Pair<AStack,StampType>, ItemStack> entry = (Entry<Pair<AStack,StampType>, ItemStack>) recipe;
+		AStack in = entry.getKey().getKey();
+		StampType type = entry.getKey().getValue();
+		ItemStack out = entry.getValue();
+		writer.name("StampType").value(type.name());
+		writer.name("input");
+		this.writeAStack(in, writer);
+		writer.name("output");
+		this.writeItemStack(out, writer);
 	}
 }
