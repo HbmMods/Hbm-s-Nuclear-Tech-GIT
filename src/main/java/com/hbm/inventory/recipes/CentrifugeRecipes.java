@@ -299,7 +299,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(ModBlocks.block_slag), new ItemStack[] {
 				new ItemStack(Blocks.gravel, 1),
 				new ItemStack(ModItems.powder_fire, 1),
-				new ItemStack(Items.dye, 1, 15), //temp
+				new ItemStack(ModItems.powder_calcium), //temp
 				new ItemStack(ModItems.dust) });
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {

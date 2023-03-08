@@ -97,13 +97,18 @@ public class Fluids {
 	public static FluidType COALCREOSOTE;
 	public static FluidType SEEDSLURRY;
 	public static FluidType NITRIC_ACID;
-	public static FluidType SOLVENT; //oranic solvent in fact
-	public static FluidType BLOOD; //BLOOD ORB! BLOOD ORB! BLOOD ORB!
+	public static FluidType SOLVENT;			//oranic solvent in fact
+	public static FluidType BLOOD;				//BLOOD ORB! BLOOD ORB! BLOOD ORB!
 	public static FluidType BLOOD_HOT;
 	public static FluidType SYNGAS;
 	public static FluidType OXYHYDROGEN;
 	public static FluidType RADIOSOLVENT;
-	public static FluidType CHLORINE; //everone's favorite!
+	public static FluidType CHLORINE;			//everone's favorite!
+	public static FluidType HEAVYOIL_VACUUM;
+	public static FluidType REFORMATE;
+	public static FluidType LIGHTOIL_VACUUM;
+	public static FluidType SOURGAS;
+	public static FluidType XYLENE;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -223,7 +228,12 @@ public class Fluids {
 		SYNGAS =			new FluidType("SYNGAS",				0x131313, 1, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
 		OXYHYDROGEN =		new FluidType("OXYHYDROGEN",		0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
 		RADIOSOLVENT =		new FluidType("RADIOSOLVENT",		0xA4D7DD, 3, 3, 0, EnumSymbol.NONE).addTraits(LIQUID, LEADCON, new FT_Corrosive(50), new FT_VentRadiation(0.01F));
-		CHLORINE =			new FluidType(89, "CHLORINE",		0xBAB572, 4, 0, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(25), new FT_Poison(true, 1));
+		CHLORINE =			new FluidType("CHLORINE",			0xBAB572, 4, 0, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(25), new FT_Poison(true, 1));
+		HEAVYOIL_VACUUM =	new FluidType("HEAVYOIL_VACUUM",	0x131214, 2, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		REFORMATE =			new FluidType("REFORMATE",			0x835472, 2, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		LIGHTOIL_VACUUM =	new FluidType("LIGHTOIL_VACUUM",	0x8C8851, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		SOURGAS =			new FluidType("SOURGAS",			0xC9BE0D, 4, 4, 0, EnumSymbol.ACID).addTraits(GASEOUS, new FT_Corrosive(10));
+		XYLENE =			new FluidType(94, "XYLENE",			0x5C4E76, 2, 3, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -268,10 +278,13 @@ public class Fluids {
 		metaOrder.add(HOTOIL);
 		metaOrder.add(HOTCRACKOIL);
 		metaOrder.add(HEAVYOIL);
+		metaOrder.add(HEAVYOIL_VACUUM);
 		metaOrder.add(NAPHTHA);
 		metaOrder.add(NAPHTHA_CRACK);
+		metaOrder.add(REFORMATE);
 		metaOrder.add(LIGHTOIL);
 		metaOrder.add(LIGHTOIL_CRACK);
+		metaOrder.add(LIGHTOIL_VACUUM);
 		metaOrder.add(BITUMEN);
 		metaOrder.add(SMEAR);
 		metaOrder.add(HEATINGOIL);
@@ -279,11 +292,13 @@ public class Fluids {
 		metaOrder.add(LUBRICANT);
 		metaOrder.add(GAS);
 		metaOrder.add(PETROLEUM);
+		metaOrder.add(SOURGAS);
 		metaOrder.add(LPG);
 		metaOrder.add(SYNGAS);
 		metaOrder.add(OXYHYDROGEN);
 		metaOrder.add(AROMATICS);
 		metaOrder.add(UNSATURATEDS);
+		metaOrder.add(XYLENE);
 		metaOrder.add(DIESEL);
 		metaOrder.add(DIESEL_CRACK);
 		metaOrder.add(KEROSENE);

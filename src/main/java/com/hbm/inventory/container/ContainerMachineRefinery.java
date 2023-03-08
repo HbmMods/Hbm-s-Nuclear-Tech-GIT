@@ -28,9 +28,9 @@ public class ContainerMachineRefinery extends Container {
 		this.addSlotToContainer(new Slot(tedf, 3, 80, 90));
 		//Heavy Oil Output
 		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 80, 108));
-		//Nahptha Input
+		//Naphtha Input
 		this.addSlotToContainer(new Slot(tedf, 5, 98, 90));
-		//Nahptha Output
+		//Naphtha Output
 		this.addSlotToContainer(new SlotMachineOutput(tedf, 6, 98, 108));
 		//Light Oil Input
 		this.addSlotToContainer(new Slot(tedf, 7, 116, 90));

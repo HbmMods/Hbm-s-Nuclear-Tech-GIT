@@ -36,6 +36,8 @@ public class FractionRecipes extends SerializableRecipe {
 	public static final int coal_frac_oil = 70;
 	public static final int creo_frac_coaloil = 10;
 	public static final int creo_frac_bitu = 90;
+	public static final int reform_frac_arom = 40;
+	public static final int reform_frac_xyle = 60;
 	
 	private static Map<FluidType, Pair<FluidStack, FluidStack>> fractions = new HashMap();
 	
@@ -49,6 +51,7 @@ public class FractionRecipes extends SerializableRecipe {
 		fractions.put(Fluids.LIGHTOIL_CRACK,	new Pair(new FluidStack(Fluids.KEROSENE,	lcrack_frac_kero),	new FluidStack(Fluids.PETROLEUM,	lcrack_frac_petro)));
 		fractions.put(Fluids.COALOIL,			new Pair(new FluidStack(Fluids.COALGAS,		coal_frac_coalgas),	new FluidStack(Fluids.OIL,			coal_frac_oil)));
 		fractions.put(Fluids.COALCREOSOTE,		new Pair(new FluidStack(Fluids.COALOIL,		creo_frac_coaloil),	new FluidStack(Fluids.BITUMEN,		creo_frac_bitu)));
+		fractions.put(Fluids.REFORMATE,			new Pair(new FluidStack(Fluids.AROMATICS,	reform_frac_arom),	new FluidStack(Fluids.XYLENE,		reform_frac_xyle)));
 	}
 	
 	public static Pair<FluidStack, FluidStack> getFractions(FluidType oil) {

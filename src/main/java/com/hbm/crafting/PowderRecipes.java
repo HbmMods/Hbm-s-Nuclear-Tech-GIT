@@ -69,6 +69,7 @@ public class PowderRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 2), new Object[] { COAL.dust(), KEY_SAND });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 4), new Object[] { F.dust(), KEY_SAND });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 8), new Object[] { PB.dust(), S.dust(), KEY_SAND });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 12), new Object[] { CA.dust(), KEY_SAND });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 16), new Object[] { BORAX.dust(), KEY_SAND });
 		
 		//Unleash the colores

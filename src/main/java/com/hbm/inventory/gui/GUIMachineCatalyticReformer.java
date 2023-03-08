@@ -2,22 +2,22 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerMachineVacuumDistill;
+import com.hbm.inventory.container.ContainerMachineCatalyticReformer;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.oil.TileEntityMachineVacuumDistill;
+import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticReformer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineVacuumDistill extends GuiInfoContainer {
+public class GUIMachineCatalyticReformer extends GuiInfoContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_vacuum_distill.png");
-	private TileEntityMachineVacuumDistill refinery;
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_catalytic_reformer.png");
+	private TileEntityMachineCatalyticReformer refinery;
 
-	public GUIMachineVacuumDistill(InventoryPlayer invPlayer, TileEntityMachineVacuumDistill tedf) {
-		super(new ContainerMachineVacuumDistill(invPlayer, tedf));
+	public GUIMachineCatalyticReformer(InventoryPlayer invPlayer, TileEntityMachineCatalyticReformer tedf) {
+		super(new ContainerMachineCatalyticReformer(invPlayer, tedf));
 		refinery = tedf;
 		
 		this.xSize = 176;
@@ -32,7 +32,6 @@ public class GUIMachineVacuumDistill extends GuiInfoContainer {
 		refinery.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 70 - 52, 16, 52);
 		refinery.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 98, guiTop + 70 - 52, 16, 52);
 		refinery.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 70 - 52, 16, 52);
-		refinery.tanks[4].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 70 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 70 - 52, 16, 52, refinery.power, refinery.maxPower);
 	}
 	
@@ -57,6 +56,5 @@ public class GUIMachineVacuumDistill extends GuiInfoContainer {
 		refinery.tanks[1].renderTank(guiLeft + 80, guiTop + 70, this.zLevel, 16, 52);
 		refinery.tanks[2].renderTank(guiLeft + 98, guiTop + 70, this.zLevel, 16, 52);
 		refinery.tanks[3].renderTank(guiLeft + 116, guiTop + 70, this.zLevel, 16, 52);
-		refinery.tanks[4].renderTank(guiLeft + 134, guiTop + 70, this.zLevel, 16, 52);
 	}
 }
