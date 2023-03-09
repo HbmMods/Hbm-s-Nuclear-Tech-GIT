@@ -766,7 +766,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "casing");
-		data.setFloat("pitch", -(float) Math.toRadians(entity.rotationPitch));
+		data.setFloat("pitch", (float) Math.toRadians(entity.rotationPitch));
 		data.setFloat("yaw", (float) Math.toRadians(entity.rotationYaw));
 		data.setBoolean("crouched", entity.isSneaking());
 		data.setString("name", bullet.spentCasing.getName());

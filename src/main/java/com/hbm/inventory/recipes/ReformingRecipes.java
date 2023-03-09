@@ -11,7 +11,10 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.util.Tuple.Triplet;
+
+import net.minecraft.item.ItemStack;
 
 public class ReformingRecipes extends SerializableRecipe {
 	
@@ -33,6 +36,21 @@ public class ReformingRecipes extends SerializableRecipe {
 	
 	public static Triplet<FluidStack, FluidStack, FluidStack> getOutput(FluidType type) {
 		return recipes.get(type);
+	}
+	
+	public static HashMap<Object, Object[]> getRecipes() {
+
+		HashMap<Object, Object[]> map = new HashMap<Object, Object[]>();
+		
+		for(Entry<FluidType, Triplet<FluidStack, FluidStack, FluidStack>> recipe : recipes.entrySet()) {
+			map.put(ItemFluidIcon.make(recipe.getKey(), 1000),
+					new ItemStack[] {
+							ItemFluidIcon.make(recipe.getValue().getX().type,	recipe.getValue().getX().fill * 10),
+							ItemFluidIcon.make(recipe.getValue().getY().type,	recipe.getValue().getY().fill * 10),
+							ItemFluidIcon.make(recipe.getValue().getZ().type,	recipe.getValue().getZ().fill * 10) });
+		}
+		
+		return map;
 	}
 
 	@Override

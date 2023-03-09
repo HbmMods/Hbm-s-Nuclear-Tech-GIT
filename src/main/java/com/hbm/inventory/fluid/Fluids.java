@@ -239,11 +239,11 @@ public class Fluids {
 		LIGHTOIL_VACUUM =		new FluidType("LIGHTOIL_VACUUM",	0x8C8851, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		SOURGAS =				new FluidType("SOURGAS",			0xC9BE0D, 4, 4, 0, EnumSymbol.ACID).addTraits(GASEOUS, new FT_Corrosive(10));
 		XYLENE =				new FluidType("XYLENE",				0x5C4E76, 2, 3, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		HEATINGOIL_VACUUM =		new FluidType("HEATINGOIL_VACUUM",	0x211806, 2, 2, 0, EnumSymbol.NONE);
-		DIESEL_REFORM =			new FluidType("DIESEL_REFORM",		0xf2eed5, 1, 2, 0, EnumSymbol.NONE);
-		DIESEL_CRACK_REFORM =	new FluidType("DIESEL_CRACK_REFORM",0xf2eed5, 1, 2, 0, EnumSymbol.NONE);
-		KEROSENE_REFORM =		new FluidType("KEROSENE_REFORM",	0xffa5d2, 1, 2, 0, EnumSymbol.NONE);
-		REFORMGAS =				new FluidType(98, "REFORMGAS",		0x628FAE, 1, 4, 1, EnumSymbol.NONE);
+		HEATINGOIL_VACUUM =		new FluidType("HEATINGOIL_VACUUM",	0x211D06, 2, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		DIESEL_REFORM =			new FluidType("DIESEL_REFORM",		0xCDC3C6, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		DIESEL_CRACK_REFORM =	new FluidType("DIESEL_CRACK_REFORM",0xCDC3CC, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		KEROSENE_REFORM =		new FluidType("KEROSENE_REFORM",	0xFFA5F3, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		REFORMGAS =				new FluidType(99, "REFORMGAS",		0x6362AE, 1, 4, 1, EnumSymbol.NONE).addTraits(GASEOUS);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -446,6 +446,11 @@ public class Fluids {
 		registerCalculatedFuel(LPG, (baseline / 0.05 * flammabilityNormal * demandMedium * complexityRefinery * complexityChemplant), 2.5, FuelGrade.HIGH);
 		registerCalculatedFuel(NITAN, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 25L, 2.5, FuelGrade.HIGH);
 		registerCalculatedFuel(BALEFIRE, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 100L, 2.5, FuelGrade.HIGH);
+		
+		//TODO: consult the spreadsheet for the values of the vacuum oils
+		//all hail the spreadsheet
+		//the spreadsheet must not be questioned
+		//none may enter the orb- i mean the spreadsheet
 		
 		int coalHeat = 400_000; // 200TU/t for 2000 ticks
 		registerCalculatedFuel(COALOIL, (coalHeat * (1000 /* bucket */ / 100 /* mB per coal */) * flammabilityLow * demandLow * complexityChemplant), 0, null);

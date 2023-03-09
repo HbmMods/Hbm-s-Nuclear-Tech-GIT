@@ -37,9 +37,10 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new AssemblerRecipeHandler());
 		registerHandler(new RefineryRecipeHandler());
 		registerHandler(new VacuumRecipeHandler());
+		registerHandler(new CrackingHandler());
+		registerHandler(new ReformingHandler());
 		registerHandler(new BoilerRecipeHandler());
 		registerHandler(new ChemplantRecipeHandler());
-		registerHandler(new FluidRecipeHandler());
 		registerHandler(new CrystallizerRecipeHandler());
 		registerHandler(new BookRecipeHandler());
 		registerHandler(new FusionRecipeHandler());
@@ -60,13 +61,15 @@ public class NEIConfig implements IConfigureNEI {
 		}
 		registerHandler(new LiquefactionHandler());
 		registerHandler(new SolidificationHandler());
-		registerHandler(new CrackingHandler());
 		registerHandler(new FractioningHandler());
 		registerHandler(new BoilingHandler());
 		registerHandler(new CombinationHandler());
 		registerHandler(new SawmillHandler());
 		registerHandler(new MixerHandler());
 		registerHandler(new OutgasserHandler());
+		
+		//fluids
+		registerHandler(new FluidRecipeHandler());
 		
 		//registerHandler(new ChunkyHandler());
 
