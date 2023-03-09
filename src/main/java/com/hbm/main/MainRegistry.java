@@ -88,6 +88,7 @@ import com.hbm.util.ArmorUtil;
 import com.hbm.util.Compat;
 import com.hbm.util.SuicideThreadDump;
 import com.hbm.world.ModBiomes;
+import com.hbm.world.PlanetGen;
 import com.hbm.world.feature.*;
 import com.hbm.world.generator.CellularDungeonFactory;
 
@@ -116,9 +117,6 @@ public class MainRegistry {
 	@Metadata
 	public static ModMetadata meta;
 	
-	public static WorldGeneratorMoon worldGenMoon = new WorldGeneratorMoon(); //eventually i will need to rewrite this shit.
-	public static WorldGeneratorDuna worldGenDuna = new WorldGeneratorDuna(); 
-	public static WorldGeneratorIke worldGenIke = new WorldGeneratorIke();
 	
 	public static Logger logger = LogManager.getLogger("HBM");
 
@@ -779,19 +777,7 @@ public class MainRegistry {
 		IMCHandler.registerHandler("crystallizer", new IMCCrystallizer());
 		IMCHandler.registerHandler("centrifuge", new IMCCentrifuge());
 		
-		//moving it to init should fix the initilization issue
-		GameRegistry.registerWorldGenerator(worldGenMoon, 0);
-		DimensionManager.registerProviderType(WorldConfig.moonDimension, WorldProviderMoon.class, false);
-	    DimensionManager.registerDimension(WorldConfig.moonDimension, WorldConfig.moonDimension);
-
-		GameRegistry.registerWorldGenerator(worldGenDuna, 1);
-		DimensionManager.registerProviderType(WorldConfig.dunaDimension, WorldProviderDuna.class, false);
-	    DimensionManager.registerDimension(WorldConfig.dunaDimension, WorldConfig.dunaDimension);
-	    
-		GameRegistry.registerWorldGenerator(worldGenMoon, 2);
-		DimensionManager.registerProviderType(WorldConfig.ikeDimension, WorldProviderIke.class, false);
-	    DimensionManager.registerDimension(WorldConfig.ikeDimension, WorldConfig.ikeDimension);
-
+		PlanetGen.init();
 	}
 	
 	@EventHandler

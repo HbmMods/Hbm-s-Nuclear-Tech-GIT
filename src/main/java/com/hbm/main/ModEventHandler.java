@@ -19,6 +19,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
+import com.hbm.config.WorldConfig;
+import com.hbm.dim.WorldProviderMoon;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.mob.EntityCyberCrab;
@@ -211,7 +213,7 @@ public class ModEventHandler {
 				}
 			}
 		}
-	
+
 	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing event)  {
 		
@@ -1016,6 +1018,53 @@ public class ModEventHandler {
 				step.onPlayerStep(player.worldObj, x, y, z, player);
 			}
 		}
+		if(player.worldObj.provider.dimensionId == WorldConfig.moonDimension) {
+			
+			if(!player.capabilities.isFlying) {
+					player.motionY += 0.029D; // i could really do better
+				}
+				player.fallDistance = 0;
+			}
+		if(player.worldObj.provider.dimensionId == WorldConfig.dunaDimension) {
+			
+			if(!player.capabilities.isFlying) {
+					player.motionY += 0.02D; // i could really do better
+				}
+				player.fallDistance = 0;
+			}
+		if(player.worldObj.provider.dimensionId == WorldConfig.ikeDimension) {
+			
+			if(!player.capabilities.isFlying) {
+					player.motionY += 0.0299D; // i could really do better
+				}
+				player.fallDistance = 0;
+			}
+		
+		/*
+		if(player.worldObj.provider instanceof WorldProviderMoon) {
+			
+			if(!player.capabilities.isFlying) {
+
+				if(player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ModItems.lead_boots) {
+					player.motionY += 0.02D;
+				} else {
+					player.motionY += 0.035D;
+				}
+				player.fallDistance = 0;
+			}
+		} else {
+
+			if(!player.capabilities.isFlying) {
+				if(player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ModItems.lead_boots) {
+					player.motionY -= 0.04D;
+					player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 20, 2));
+				}
+			}
+		}
+	}
+	*/
+		
+	
 		
 		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {
 			

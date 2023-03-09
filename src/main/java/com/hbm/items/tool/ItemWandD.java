@@ -1,6 +1,7 @@
 package com.hbm.items.tool;
 
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.dim.DebugTeleporter;
 
@@ -23,6 +24,9 @@ import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.world.feature.OilSpot;
 import com.hbm.world.generator.DungeonToolbox;
+import com.hbm.world.machine.FWatz;
+import com.hbm.world.machine.NuclearReactor;
+import com.hbm.world.machine.Watz;
 import com.hbm.extprop.HbmLivingProps;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -36,7 +40,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IntHashMap;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -48,6 +54,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 
 public class ItemWandD extends Item {
 
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
@@ -60,10 +67,71 @@ public class ItemWandD extends Item {
 	
 			EntityPlayerMP thePlayer = (EntityPlayerMP) player;
 				
+			//if(!player.isSneaking())
+			//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.ikeDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
+			//else
+			//System.out.println(player.dimension);
+			
+			if(stack.stackTagCompound == null)
+			{
+				stack.stackTagCompound = new NBTTagCompound();
+				stack.stackTagCompound.setInteger("building", 0);
+			}
+			
+			boolean up = player.rotationPitch <= 0.5F;
+			
 			if(!player.isSneaking())
+			{
+				Random rand = new Random();
+				
+				switch(stack.stackTagCompound.getInteger("dim"))
+				{
+				case 0:
+					thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.moonDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
+					break;
+				case 1:
 					thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.ikeDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
-			else
-			System.out.println(player.dimension);
+					break;
+				case 2:
+					thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
+					break;
+				}
+				
+			}
+			if(player.isSneaking())
+			{
+				if(stack.stackTagCompound == null)
+				{
+					stack.stackTagCompound = new NBTTagCompound();
+					stack.stackTagCompound.setInteger("dim", 0);
+				} else {
+					int i = stack.stackTagCompound.getInteger("dim");
+					i++;
+					stack.stackTagCompound.setInteger("dim", i);
+					if(i >= 3) {
+						stack.stackTagCompound.setInteger("dim", 0);
+					}
+					
+					switch(i)
+					{
+						case 0:
+							player.addChatMessage(new ChatComponentText("Dim: Moon"));
+							break;
+						case 1:
+							player.addChatMessage(new ChatComponentText("Dim:Ike"));
+							break;
+						case 2:
+							player.addChatMessage(new ChatComponentText("Dim:Duna"));
+							break;
+						default:
+							player.addChatMessage(new ChatComponentText("Dim: Moon"));
+							break;
+						}
+					}
+				}
+			}
+					
+			
 			/*
 			return stack;
 			
@@ -183,10 +251,12 @@ public class ItemWandD extends Item {
 					}
 				}
 			}*/
+		return stack;
 		}
 		
-		return stack;
-	}
+
+	
+	
 
 
 
@@ -194,5 +264,21 @@ public class ItemWandD extends Item {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
 		list.add("Used for debugging purposes.");
+
+		if(itemstack.stackTagCompound != null)
+		{
+			switch(itemstack.stackTagCompound.getInteger("dim"))
+			{
+			case 0:
+				list.add("Dim: Moon");
+				break;
+			case 1:
+				list.add("Dim:Ike");
+				break;
+			case 2:
+				list.add("Dim:Duna");
+				break;
+	}
+}
 	}
 }

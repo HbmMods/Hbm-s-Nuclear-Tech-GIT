@@ -116,7 +116,7 @@ public class ChunkProviderIke implements IChunkProvider {
 		//seaLevel = 0;
 		//oceanBlock = dimProperties.getOceanBlock();
 		
-		fillblock = ModBlocks.moon_rock;
+		fillblock = ModBlocks.ike_stone;
 		
 		NoiseGenerator[] noiseGens = {octave1, octave2, octave3, octave4, noiseGen5, noiseGen6, mobSpawnerNoise};
 		noiseGens = TerrainGen.getModdedNoiseGenerators(IkeWorld, this.rand, noiseGens);
