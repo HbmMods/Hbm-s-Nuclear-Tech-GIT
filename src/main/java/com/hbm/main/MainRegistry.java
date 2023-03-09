@@ -54,6 +54,8 @@ import com.hbm.config.*;
 import com.hbm.creativetabs.*;
 import com.hbm.dim.WorldGeneratorMoon;
 import com.hbm.dim.WorldProviderMoon;
+import com.hbm.dim.Ike.WorldGeneratorIke;
+import com.hbm.dim.Ike.WorldProviderIke;
 import com.hbm.dim.duna.BiomeGenDuna;
 import com.hbm.dim.duna.WorldGeneratorDuna;
 import com.hbm.dim.duna.WorldProviderDuna;
@@ -116,6 +118,7 @@ public class MainRegistry {
 	
 	public static WorldGeneratorMoon worldGenMoon = new WorldGeneratorMoon(); //eventually i will need to rewrite this shit.
 	public static WorldGeneratorDuna worldGenDuna = new WorldGeneratorDuna(); 
+	public static WorldGeneratorIke worldGenIke = new WorldGeneratorIke();
 	
 	public static Logger logger = LogManager.getLogger("HBM");
 
@@ -370,6 +373,11 @@ public class MainRegistry {
 		GameRegistry.registerWorldGenerator(worldGenDuna, 1);
 		DimensionManager.registerProviderType(WorldConfig.dunaDimension, WorldProviderDuna.class, false);
 	    DimensionManager.registerDimension(WorldConfig.dunaDimension, WorldConfig.dunaDimension);
+	    
+		GameRegistry.registerWorldGenerator(worldGenMoon, 2);
+		DimensionManager.registerProviderType(WorldConfig.ikeDimension, WorldProviderIke.class, false);
+	    DimensionManager.registerDimension(WorldConfig.ikeDimension, WorldConfig.ikeDimension);
+
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_generic, new BehaviorProjectileDispense() {
 
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {

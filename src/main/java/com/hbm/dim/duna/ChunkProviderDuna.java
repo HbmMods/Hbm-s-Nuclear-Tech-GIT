@@ -399,7 +399,7 @@ public class ChunkProviderDuna implements IChunkProvider
         byte[] abyte = new byte[65536];
         int x = par2 << 4;
         int z = par3 << 4;
-        BlockFalling.fallInstantly = true;
+        BlockFalling.fallInstantly = false;
         int k = par2 * 16;
         int l = par3 * 16;
         BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(k + 16, l + 16);

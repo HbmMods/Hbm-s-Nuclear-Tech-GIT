@@ -1,4 +1,4 @@
-package com.hbm.dim.duna;
+package com.hbm.dim.Ike;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
@@ -21,10 +21,10 @@ import java.util.Random;
 
 import javax.swing.text.Position;
 
-public class SkyProviderDuna extends IRenderHandler {
+public class SkyProviderIke extends IRenderHandler {
 	
 	private static final ResourceLocation sunTexture = new ResourceLocation("textures/environment/sun.png");
-	private static final ResourceLocation ike = new ResourceLocation("hbm:textures/misc/ike.png");
+	private static final ResourceLocation duna = new ResourceLocation("hbm:textures/misc/duna.png");
 	private static final ResourceLocation planet = new ResourceLocation("hbm:textures/misc/planet.png");
 	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/night.png");
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
@@ -37,7 +37,7 @@ public class SkyProviderDuna extends IRenderHandler {
 	protected double y;
 	protected double z;
 
-	public SkyProviderDuna() {
+	public SkyProviderIke() {
 		GL11.glPushMatrix();
 		GL11.glNewList(this.starGLCallList, GL11.GL_COMPILE);
 		this.renderStars();
@@ -82,7 +82,7 @@ public class SkyProviderDuna extends IRenderHandler {
 
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
-		//float atmosphericDust = ImpactWorldHandler.getDustForClient(world);
+		float atmosphericDust = ImpactWorldHandler.getDustForClient(world);
         float solar = (AstronomyUtil.KerbolRadius*4/(AstronomyUtil.DunaAU*AstronomyUtil.AUToKm))*360;
         double MohoDuna = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.MohoAU, AstronomyUtil.MohoP, AstronomyUtil.DunaAU, AstronomyUtil.DunaP);
         double EveDuna = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.EveAU, AstronomyUtil.EveP, AstronomyUtil.DunaAU, AstronomyUtil.DunaP);
@@ -295,8 +295,8 @@ public class SkyProviderDuna extends IRenderHandler {
 			GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(0.0F, 0.0F, 1.0F, 0.0F);
-			f10 = (AstronomyUtil.IkeRadius/AstronomyUtil.IkeDunaKm)*180;
-			FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.ike);
+			f10 = (AstronomyUtil.IkeRadius/AstronomyUtil.IkeDunaKm)*720;
+			FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.duna);
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
 			tessellator.addVertexWithUV(f10, 100.0D, -f10, 1.0D, 0.0D);

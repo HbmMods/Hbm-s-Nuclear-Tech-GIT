@@ -27,6 +27,7 @@ public class AstronomyUtil
     public static final float EveRadius=700;
     public static final float KerbinRadius=600F;    
     public static final float DunaRadius=320;
+    public static final float IkeRadius=130F; 
     public static final float DresRadius=138;
     public static final float JoolRadius=6000;
     //public static final float SarnusRadius=60268;
@@ -61,7 +62,7 @@ public class AstronomyUtil
     
     public static final float MunKerbinKm=12000;
     public static final float MinmusKerbinKm=47000;
-    //public static final float IkeDunaKm=9377.2F-DunaRadius;
+    public static final float IkeDunaKm=9377.2F-DunaRadius;
     
     public static ResourceLocation mohoTexture = new ResourceLocation("hbm:textures/misc/moho.png");
     public static ResourceLocation eveTexture = new ResourceLocation("hbm:textures/misc/eve.png");

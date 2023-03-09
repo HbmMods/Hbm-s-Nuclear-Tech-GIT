@@ -105,12 +105,14 @@ public class WorldConfig {
 	
 	public static int moonDimension = 15;
 	public static int dunaDimension = 16;
+	public static int ikeDimension = 17;
 	
 	public static int moonBiome = 111;
 	public static int dunaBiome = 112;
 	public static int dunaLowlandsBiome = 113;
 	public static int dunaPolarBiome = 114;
 	public static int dunaRiverBiome = 115;
+	public static int ikeBiome = 145;
 	
 	public static void loadFromConfig(Configuration config) {
 
