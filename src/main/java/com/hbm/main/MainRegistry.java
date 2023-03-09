@@ -366,18 +366,6 @@ public class MainRegistry {
 			}
 		});
 		
-		GameRegistry.registerWorldGenerator(worldGenMoon, 0);
-		DimensionManager.registerProviderType(WorldConfig.moonDimension, WorldProviderMoon.class, false);
-	    DimensionManager.registerDimension(WorldConfig.moonDimension, WorldConfig.moonDimension);
-
-		GameRegistry.registerWorldGenerator(worldGenDuna, 1);
-		DimensionManager.registerProviderType(WorldConfig.dunaDimension, WorldProviderDuna.class, false);
-	    DimensionManager.registerDimension(WorldConfig.dunaDimension, WorldConfig.dunaDimension);
-	    
-		GameRegistry.registerWorldGenerator(worldGenMoon, 2);
-		DimensionManager.registerProviderType(WorldConfig.ikeDimension, WorldProviderIke.class, false);
-	    DimensionManager.registerDimension(WorldConfig.ikeDimension, WorldConfig.ikeDimension);
-
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_generic, new BehaviorProjectileDispense() {
 
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
@@ -790,6 +778,20 @@ public class MainRegistry {
 		IMCHandler.registerHandler("blastfurnace", new IMCBlastFurnace());
 		IMCHandler.registerHandler("crystallizer", new IMCCrystallizer());
 		IMCHandler.registerHandler("centrifuge", new IMCCentrifuge());
+		
+		//moving it to init should fix the initilization issue
+		GameRegistry.registerWorldGenerator(worldGenMoon, 0);
+		DimensionManager.registerProviderType(WorldConfig.moonDimension, WorldProviderMoon.class, false);
+	    DimensionManager.registerDimension(WorldConfig.moonDimension, WorldConfig.moonDimension);
+
+		GameRegistry.registerWorldGenerator(worldGenDuna, 1);
+		DimensionManager.registerProviderType(WorldConfig.dunaDimension, WorldProviderDuna.class, false);
+	    DimensionManager.registerDimension(WorldConfig.dunaDimension, WorldConfig.dunaDimension);
+	    
+		GameRegistry.registerWorldGenerator(worldGenMoon, 2);
+		DimensionManager.registerProviderType(WorldConfig.ikeDimension, WorldProviderIke.class, false);
+	    DimensionManager.registerDimension(WorldConfig.ikeDimension, WorldConfig.ikeDimension);
+
 	}
 	
 	@EventHandler
