@@ -27,8 +27,8 @@ public class BiomeGenIke extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.moon_turf;
-        this.fillerBlock = ModBlocks.moon_rock;
+        this.topBlock = ModBlocks.ike_regolith;
+        this.fillerBlock = ModBlocks.ike_regolith; //thiccer regolith due to uhhhhhh...................
 	}
 
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
@@ -57,7 +57,7 @@ public class BiomeGenIke extends BiomeGenBase {
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == ModBlocks.moon_rock)
+                    if (block2 == ModBlocks.ike_stone)
                     {
                         if (k == -1)
                         {
@@ -65,7 +65,7 @@ public class BiomeGenIke extends BiomeGenBase {
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.moon_rock;
+                                block1 = ModBlocks.ike_stone;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {
@@ -98,7 +98,7 @@ public class BiomeGenIke extends BiomeGenBase {
                             else if (l1 < 56 - l)
                             {
                                 block = null;
-                                block1 = ModBlocks.moon_rock;
+                                block1 = ModBlocks.ike_stone;
                                 blocks[i2] = Blocks.gravel;
                             }
                             else

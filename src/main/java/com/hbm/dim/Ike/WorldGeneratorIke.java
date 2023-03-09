@@ -25,13 +25,8 @@ public class WorldGeneratorIke implements IWorldGenerator {
 		}
 	}
 	private void generateIke(World world, Random rand, int i, int j) {
-		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.nickelSpawn, 8, 1, 43, ModBlocks.moon_nickel, ModBlocks.moon_rock);
-		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumSpawn, 9, 4, 27, ModBlocks.moon_titanium, ModBlocks.moon_rock);
-		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.lithiumSpawn,  4, 4, 8, ModBlocks.moon_lithium, ModBlocks.moon_rock);
-		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.aluminiumSpawn,  6, 5, 40, ModBlocks.moon_aluminium, ModBlocks.moon_rock);
-		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.hematiteSpawn, 10, 4, 80, ModBlocks.moon_conglomerate, ModBlocks.moon_rock);
-		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.nickelSpawn, 6, 5, 16, ModBlocks.moon_nickel);
-		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumSpawn, 6, 5, 8, ModBlocks.moon_titanium);
-		//new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.asbestosSpawn, 4, 3, 22, ModBlocks.ike_asbestos, ModBlocks.moon_rock);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperSpawn, 9, 4, 27, ModBlocks.ike_copper, ModBlocks.moon_rock);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.ironClusterSpawn,  8, 1, 33, ModBlocks.ike_iron, ModBlocks.moon_rock);
 	}
 }

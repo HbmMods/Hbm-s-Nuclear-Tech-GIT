@@ -293,9 +293,9 @@ public class SkyProviderDuna extends IRenderHandler {
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glColor4d(1, 1, 1, 1);
 			GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
-			GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(-80.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(0.0F, 0.0F, 1.0F, 0.0F);
-			f10 = (AstronomyUtil.IkeRadius/AstronomyUtil.IkeDunaKm)*180;
+			f10 = (AstronomyUtil.IkeRadius/AstronomyUtil.IkeDunaKm)*470;
 			FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.ike);
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);

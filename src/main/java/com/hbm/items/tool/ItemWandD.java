@@ -58,9 +58,6 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 	
-			
-
-				
 			EntityPlayerMP thePlayer = (EntityPlayerMP) player;
 				
 			if(!player.isSneaking())

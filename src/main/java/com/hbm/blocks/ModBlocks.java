@@ -419,6 +419,12 @@ public class ModBlocks {
 	public static Block duna_zinc;
 	public static Block duna_iron;
 	
+	public static Block ike_regolith;
+	public static Block ike_stone; //Genuinely wish i stopped fucking doing this 5000 stone type shit
+	public static Block ike_asbestos;
+	public static Block ike_copper;
+	public static Block ike_iron;
+	
 
 	public static Block brick_jungle;
 	public static Block brick_jungle_cracked;
@@ -1624,7 +1630,13 @@ public class ModBlocks {
 		duna_oil = new BlockGeneric(Material.rock).setBlockName("duna_oil").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_oil");
 		duna_oil_empty = new BlockGeneric(Material.rock).setBlockName("duna_oil_empty").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_oil_empty");
 		duna_iron = new BlockGeneric(Material.rock).setBlockName("duna_iron").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":duna_iron");
-
+		
+		ike_regolith = new BlockGeneric(Material.rock).setBlockName("ike_regolith").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_regolith");
+		ike_stone = new BlockGeneric(Material.rock).setBlockName("ike_stone").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_stone");
+		ike_asbestos = new BlockGeneric(Material.rock).setBlockName("ike_asbestos").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_asbestos");
+		ike_copper = new BlockGeneric(Material.rock).setBlockName("ike_copper").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_copper");
+		ike_iron = new BlockGeneric(Material.rock).setBlockName("ike_iron").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_iron");
+		
 		
 		brick_jungle = new BlockGeneric(Material.rock).setBlockName("brick_jungle").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle");
 		brick_jungle_cracked = new BlockGeneric(Material.rock).setBlockName("brick_jungle_cracked").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle_cracked");
@@ -2855,6 +2867,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(duna_zinc, duna_zinc.getUnlocalizedName());
 		GameRegistry.registerBlock(duna_iron, duna_iron.getUnlocalizedName());
 		
+		GameRegistry.registerBlock(ike_regolith, ike_regolith.getUnlocalizedName());
+		GameRegistry.registerBlock(ike_stone, ike_stone.getUnlocalizedName());
+		GameRegistry.registerBlock(ike_asbestos, ike_asbestos.getUnlocalizedName());
+		GameRegistry.registerBlock(ike_copper, ike_copper.getUnlocalizedName());
+		GameRegistry.registerBlock(ike_iron, ike_iron.getUnlocalizedName());
 		
 		//Waste
 		GameRegistry.registerBlock(waste_earth, waste_earth.getUnlocalizedName());
