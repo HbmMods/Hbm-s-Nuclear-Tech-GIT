@@ -11,7 +11,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenIke extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.125F, 0.05F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.325F, 0.05F);
 
 	public BiomeGenIke(int id) {
 		super(id);
@@ -38,7 +38,7 @@ public class BiomeGenIke extends BiomeGenBase {
         byte b0 = (byte)(this.field_150604_aj & 255);
         Block block1 = this.fillerBlock;
         int k = -1;
-        int l = (int)(noise / 3.0D + 3.0D + rand.nextDouble() * 0.25D);
+        int l = (int)(noise / 8.0D + 8.0D + rand.nextDouble() * 0.50D);
         int i1 = x & 15;
         int j1 = z & 15;
         int k1 = blocks.length / 256;
@@ -126,5 +126,4 @@ public class BiomeGenIke extends BiomeGenBase {
             }
         }
     }
-
 }

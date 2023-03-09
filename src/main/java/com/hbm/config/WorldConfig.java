@@ -113,6 +113,7 @@ public class WorldConfig {
 	public static int dunaPolarBiome = 114;
 	public static int dunaRiverBiome = 115;
 	public static int ikeBiome = 145;
+	public static int ikecfreq = 90;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -225,6 +226,8 @@ public class WorldConfig {
 		dunaLowlandsBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.04_dunaLowlandsBiome", "Duna Lowlands Biome ID", 113);
 		dunaPolarBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.05_dunaPolarBiome", "Duna Polar Biome ID", 114);
 		dunaRiverBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.05_dunaRiverBiome", "Duna River Biome ID", 115);
+		ikeBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.07_IkeBiome", "Ike Biome ID", 145);
+		
 		
 		radioStructure = CommonConfig.setDefZero(radioStructure, 1000);
 		antennaStructure = CommonConfig.setDefZero(antennaStructure, 1000);
@@ -250,6 +253,8 @@ public class WorldConfig {
 		jungleStructure = CommonConfig.setDefZero(jungleStructure, 1000);
 		capsuleStructure = CommonConfig.setDefZero(capsuleStructure, 100);
 		arcticStructure = CommonConfig.setDefZero(arcticStructure, 500);
+		
+		ikecfreq = CommonConfig.setDefZero(ikecfreq, 90);
 		
 		meteorStrikeChance = CommonConfig.setDef(meteorStrikeChance, 1000);
 		meteorShowerChance = CommonConfig.setDef(meteorShowerChance, 1000);
