@@ -5,6 +5,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineVacuumDistill;
+import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
@@ -87,17 +88,17 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 		
 		if(power < 10_000) return;
 		if(tanks[0].getFill() < 100) return;
-		if(tanks[1].getFill() + 40 > tanks[1].getMaxFill()) return;
-		if(tanks[2].getFill() + 25 > tanks[2].getMaxFill()) return;
-		if(tanks[3].getFill() + 15 > tanks[3].getMaxFill()) return;
-		if(tanks[4].getFill() + 10 > tanks[4].getMaxFill()) return;
+		if(tanks[1].getFill() + RefineryRecipes.vac_frac_heavy > tanks[1].getMaxFill()) return;
+		if(tanks[2].getFill() + RefineryRecipes.vac_frac_reform > tanks[2].getMaxFill()) return;
+		if(tanks[3].getFill() + RefineryRecipes.vac_frac_light > tanks[3].getMaxFill()) return;
+		if(tanks[4].getFill() + RefineryRecipes.vac_frac_sour > tanks[4].getMaxFill()) return;
 		
 		power -= 10_000;
 		tanks[0].setFill(tanks[0].getFill() - 100);
-		tanks[1].setFill(tanks[1].getFill() + 40);
-		tanks[2].setFill(tanks[2].getFill() + 25);
-		tanks[3].setFill(tanks[3].getFill() + 15);
-		tanks[4].setFill(tanks[4].getFill() + 10);
+		tanks[1].setFill(tanks[1].getFill() + RefineryRecipes.vac_frac_heavy);
+		tanks[2].setFill(tanks[2].getFill() + RefineryRecipes.vac_frac_reform);
+		tanks[3].setFill(tanks[3].getFill() + RefineryRecipes.vac_frac_light);
+		tanks[4].setFill(tanks[4].getFill() + RefineryRecipes.vac_frac_sour);
 	}
 	
 	private void updateConnections() {
@@ -127,9 +128,9 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 		power = nbt.getLong("power");
 		tanks[0].readFromNBT(nbt, "input");
 		tanks[1].readFromNBT(nbt, "heavy");
-		tanks[2].readFromNBT(nbt, "naphtha");
+		tanks[2].readFromNBT(nbt, "reformate");
 		tanks[3].readFromNBT(nbt, "light");
-		tanks[4].readFromNBT(nbt, "petroleum");
+		tanks[4].readFromNBT(nbt, "gas");
 	}
 	
 	@Override
@@ -139,9 +140,9 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 		nbt.setLong("power", power);
 		tanks[0].writeToNBT(nbt, "input");
 		tanks[1].writeToNBT(nbt, "heavy");
-		tanks[2].writeToNBT(nbt, "naphtha");
+		tanks[2].writeToNBT(nbt, "reformate");
 		tanks[3].writeToNBT(nbt, "light");
-		tanks[4].writeToNBT(nbt, "petroleum");
+		tanks[4].writeToNBT(nbt, "gas");
 	}
 	
 	AxisAlignedBB bb = null;

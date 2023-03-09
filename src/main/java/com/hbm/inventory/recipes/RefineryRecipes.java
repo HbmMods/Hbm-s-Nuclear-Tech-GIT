@@ -28,6 +28,11 @@ public class RefineryRecipes {
 	public static final int crack_frac_aroma = 15;
 	public static final int crack_frac_unsat = 15;
 
+	public static final int vac_frac_heavy = 40;
+	public static final int vac_frac_reform = 25;
+	public static final int vac_frac_light = 20;
+	public static final int vac_frac_sour = 15;
+
 	private static Map<FluidType, Quintet<FluidStack, FluidStack, FluidStack, FluidStack, ItemStack>> refinery = new HashMap();
 	
 	public static Map<Object, Object[]> getRefineryRecipe() {
@@ -46,6 +51,19 @@ public class RefineryRecipes {
 							ItemFluidIcon.make(fluids.getY().type, fluids.getY().fill * 10),
 							ItemStackUtil.carefulCopy(fluids.getZ()) });
 		}
+		
+		return recipes;
+	}
+	
+	public static HashMap<Object, Object[]> getVacuumRecipe() {
+
+		HashMap<Object, Object[]> recipes = new HashMap<Object, Object[]>();
+		recipes.put(ItemFluidIcon.make(Fluids.OIL, 1000),
+				new ItemStack[] {
+						ItemFluidIcon.make(Fluids.HEAVYOIL_VACUUM,	vac_frac_heavy * 10),
+						ItemFluidIcon.make(Fluids.REFORMATE,		vac_frac_reform * 10),
+						ItemFluidIcon.make(Fluids.LIGHTOIL_VACUUM,	vac_frac_light * 10),
+						ItemFluidIcon.make(Fluids.SOURGAS,			vac_frac_sour * 10) });
 		
 		return recipes;
 	}

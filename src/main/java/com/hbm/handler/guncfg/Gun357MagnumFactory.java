@@ -12,7 +12,6 @@ import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
-import com.hbm.lib.HbmCollection;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -193,8 +192,12 @@ public class Gun357MagnumFactory {
 		
 		config.name = "bio";
 		config.manufacturer = EnumGunManufacturer.RYAN;
-		
-		config.config = HbmCollection.acp45;
+
+		config.config.add(BulletConfigSyncingUtil.STEEL_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.GOLD_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.IRON_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.LEAD_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
 		return config;
 	}

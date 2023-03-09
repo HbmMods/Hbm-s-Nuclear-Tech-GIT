@@ -39,15 +39,20 @@ public abstract class SerializableRecipe {
 	 */
 	
 	public static void registerAllHandlers() {
+		recipeHandlers.add(new PressRecipes());
 		recipeHandlers.add(new BlastFurnaceRecipes());
 		recipeHandlers.add(new ShredderRecipes());
 		recipeHandlers.add(new ChemplantRecipes());
+		recipeHandlers.add(new CombinationRecipes());
 		recipeHandlers.add(new CrucibleRecipes());
 		recipeHandlers.add(new CentrifugeRecipes());
+		recipeHandlers.add(new CrystallizerRecipes());
 		recipeHandlers.add(new FractionRecipes());
 		recipeHandlers.add(new CrackingRecipes());
+		recipeHandlers.add(new ReformingRecipes());
 		recipeHandlers.add(new LiquefactionRecipes());
 		recipeHandlers.add(new SolidificationRecipes());
+		recipeHandlers.add(new BreederRecipes());
 		recipeHandlers.add(new CyclotronRecipes());
 		recipeHandlers.add(new HadronRecipes());
 		recipeHandlers.add(new FuelPoolRecipes());
@@ -211,7 +216,7 @@ public abstract class SerializableRecipe {
 			ComparableStack comp = (ComparableStack) astack;
 			writer.value("item");														//ITEM  identifier
 			writer.value(Item.itemRegistry.getNameForObject(comp.toStack().getItem()));	//item name
-			if(comp.stacksize != 1) writer.value(comp.stacksize);						//stack size
+			if(comp.stacksize != 1 || comp.meta > 0) writer.value(comp.stacksize);						//stack size
 			if(comp.meta > 0) writer.value(comp.meta);									//metadata
 		}
 		if(astack instanceof OreDictStack) {

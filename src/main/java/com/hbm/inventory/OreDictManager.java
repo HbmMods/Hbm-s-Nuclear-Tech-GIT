@@ -458,7 +458,7 @@ public class OreDictManager {
 		ANY_GUNPOWDER			.dust(Items.gunpowder, ballistite, cordite);
 		ANY_SMOKELESS			.dust(ballistite, cordite);
 		ANY_PLASTICEXPLOSIVE	.ingot(ingot_semtex, ingot_c4);
-		ANY_HIGHEXPLOSIVE		.ingot(ball_tnt);
+		ANY_HIGHEXPLOSIVE		.ingot(ball_tnt).ingot(ball_tatb);
 		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_asbestos, ducrete, ducrete_smooth);
 		for(int i = 0; i < 16; i++) { ANY_CONCRETE.any(new ItemStack(ModBlocks.concrete_colored, 1, i)); }
 		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class)).block(fromAll(block_coke, EnumCokeType.class));
@@ -519,11 +519,11 @@ public class OreDictManager {
 			String dyeName = "dye" + dyes[i];
 			
 			OreDictionary.registerOre(dyeName, new ItemStack(ModItems.chemical_dye, 1, i));
-			OreDictionary.registerOre("dye", new ItemStack(ModItems.chemical_dye, 1, i));
 			
 			OreDictionary.registerOre(dyeName, new ItemStack(ModItems.crayon, 1, i));
-			OreDictionary.registerOre("dye", new ItemStack(ModItems.crayon, 1, i));
 		}
+		OreDictionary.registerOre("dye", new ItemStack(chemical_dye, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("dye", new ItemStack(crayon, 1, OreDictionary.WILDCARD_VALUE));
 
 		OreDictionary.registerOre("dyeRed", cinnebar);
 		OreDictionary.registerOre("dye", cinnebar);
@@ -544,7 +544,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("dyeGray", fromOne(oil_tar, EnumTarType.COAL));
 		OreDictionary.registerOre("dyeBrown", fromOne(oil_tar, EnumTarType.WOOD));
 		OreDictionary.registerOre("dyeCyan", fromOne(oil_tar, EnumTarType.WAX));
-		OreDictionary.registerOre("dye", oil_tar);
+		OreDictionary.registerOre("dye", new ItemStack(oil_tar, 1, OreDictionary.WILDCARD_VALUE));
 
 		OreDictionary.registerOre("blockGlass", glass_boron);
 		OreDictionary.registerOre("blockGlass", glass_lead);

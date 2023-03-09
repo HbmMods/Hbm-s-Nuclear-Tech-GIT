@@ -21,6 +21,7 @@ import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Amat;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
 import com.hbm.inventory.gui.GUIMachineFluidTank;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -56,6 +57,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	public static final short modes = 4;
 	public boolean hasExploded = false;
 	protected boolean sendingBrake = false;
+	public boolean onFire = false;
 	
 	public Explosion lastExplosion = null;
 	
@@ -149,6 +151,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	/** called when the tank breaks due to hazardous materials or external force, can be used to quickly void part of the tank or spawn a mushroom cloud */
 	public void explode() {
 		this.hasExploded = true;
+		this.onFire = tank.getTankType().hasTrait(FT_Flammable.class);
 		this.markChanged();
 	}
 	
@@ -165,13 +168,13 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		if(type.hasTrait(FT_Amat.class)) {
 			new ExplosionVNT(worldObj, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, 5F).makeAmat().setBlockAllocator(null).setBlockProcessor(null).explode();
 			
-		} else if(tank.getTankType().hasTrait(FT_Flammable.class)) {
+		} else if(type.hasTrait(FT_Flammable.class) && onFire) {
 			List<Entity> affected = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord - 1.5, yCoord, zCoord - 1.5, xCoord + 2.5, yCoord + 5, zCoord + 2.5));
 			for(Entity e : affected) e.setFire(5);
 			Random rand = worldObj.rand;
 			ParticleUtil.spawnGasFlame(worldObj, xCoord + rand.nextDouble(), yCoord + 0.5 + rand.nextDouble(), zCoord + rand.nextDouble(), rand.nextGaussian() * 0.2, 0.1, rand.nextGaussian() * 0.2);
 			
-		} else if(tank.getTankType().hasTrait(FT_Gaseous.class) || tank.getTankType().hasTrait(FT_Gaseous_ART.class)) {
+		} else if(type.hasTrait(FT_Gaseous.class) || type.hasTrait(FT_Gaseous_ART.class)) {
 			
 			if(worldObj.getTotalWorldTime() % 5 == 0) {
 				NBTTagCompound data = new NBTTagCompound();
@@ -190,9 +193,29 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	public void explode(World world, int x, int y, int z) {
 		
 		if(this.hasExploded) return;
-		
+		this.onFire = tank.getTankType().hasTrait(FT_Flammable.class);
 		this.hasExploded = true;
 		this.markChanged();
+	}
+
+	@Override
+	public void tryExtinguish(World world, int x, int y, int z, EnumExtinguishType type) {
+		if(!this.hasExploded || !this.onFire) return;
+		
+		if(type == EnumExtinguishType.WATER) {
+			if(tank.getTankType().hasTrait(FT_Liquid.class)) { // extinguishing oil with water is a terrible idea!
+				worldObj.newExplosion(null, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, 5F, true, true);
+			} else {
+				this.onFire = false;
+				this.markChanged();
+				return;
+			}
+		}
+		
+		if(type == EnumExtinguishType.FOAM || type == EnumExtinguishType.CO2) {
+			this.onFire = false;
+			this.markChanged();
+		}
 	}
 	
 	protected DirPos[] getConPos() {
@@ -317,6 +340,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		mode = nbt.getShort("mode");
 		tank.readFromNBT(nbt, "tank");
 		hasExploded = nbt.getBoolean("exploded");
+		onFire = nbt.getBoolean("onFire");
 	}
 	
 	@Override
@@ -326,6 +350,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		nbt.setShort("mode", mode);
 		tank.writeToNBT(nbt, "tank");
 		nbt.setBoolean("exploded", hasExploded);
+		nbt.setBoolean("onFire", onFire);
 	}
 
 	@Override
@@ -356,6 +381,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		this.tank.writeToNBT(data, "tank");
 		data.setShort("mode", mode);
 		data.setBoolean("hasExploded", hasExploded);
+		data.setBoolean("onFire", onFire);
 		nbt.setTag(NBT_PERSISTENT_KEY, data);
 	}
 
@@ -365,6 +391,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		this.tank.readFromNBT(data, "tank");
 		this.mode = data.getShort("mode");
 		this.hasExploded = data.getBoolean("hasExploded");
+		this.onFire = data.getBoolean("onFire");
 	}
 
 	@Override
