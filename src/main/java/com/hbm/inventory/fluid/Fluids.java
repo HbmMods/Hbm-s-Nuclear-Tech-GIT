@@ -115,13 +115,18 @@ public class Fluids {
 	public static FluidType REFORMATE;
 	public static FluidType LIGHTOIL_VACUUM;
 	public static FluidType SOURGAS;
-	public static FluidType XYLENE;
 	public static FluidType NEON;
 	public static FluidType ARGON;
 	public static FluidType KRYPTON;
 	public static FluidType COFFEE;
 	public static FluidType TEA;
 	public static FluidType HONEY;
+	public static FluidType XYLENE;				//BTX: benzene, terephthalate and xylene
+	public static FluidType HEATINGOIL_VACUUM;
+	public static FluidType DIESEL_REFORM;
+	public static FluidType DIESEL_CRACK_REFORM;
+	public static FluidType KEROSENE_REFORM;
+	public static FluidType REFORMGAS;			//MAPD: propyne, propadiene
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -261,6 +266,11 @@ public class Fluids {
 		COFFEE =			new FluidType("COFFEE",				0x457F2D, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID); //because fuck you, this is my fork, and i love you.
 		TEA =				new FluidType("TEA",				0x457F2D, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);
 		HONEY =				new FluidType("HONEY",				0x457F2D, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);
+		HEATINGOIL_VACUUM =	new FluidType("HEATINGOIL_VACUUM",	0x211D06, 2, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		DIESEL_REFORM =		new FluidType("DIESEL_REFORM",		0xCDC3C6, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		DIESEL_CRACK_REFORM =	new FluidType("DIESEL_CRACK_REFORM",0xCDC3CC, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		KEROSENE_REFORM =		new FluidType("KEROSENE_REFORM",	0xFFA5F3, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		REFORMGAS =				new FluidType(99, "REFORMGAS",		0x6362AE, 1, 4, 1, EnumSymbol.NONE).addTraits(GASEOUS);
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -316,6 +326,7 @@ public class Fluids {
 		metaOrder.add(BITUMEN);
 		metaOrder.add(SMEAR);
 		metaOrder.add(HEATINGOIL);
+		metaOrder.add(HEATINGOIL_VACUUM);
 		metaOrder.add(RECLAIMED);
 		metaOrder.add(LUBRICANT);
 		metaOrder.add(GAS);
@@ -327,9 +338,13 @@ public class Fluids {
 		metaOrder.add(AROMATICS);
 		metaOrder.add(UNSATURATEDS);
 		metaOrder.add(XYLENE);
+		metaOrder.add(REFORMGAS);
 		metaOrder.add(DIESEL);
+		metaOrder.add(DIESEL_REFORM);
 		metaOrder.add(DIESEL_CRACK);
+		metaOrder.add(DIESEL_CRACK_REFORM);
 		metaOrder.add(KEROSENE);
+		metaOrder.add(KEROSENE_REFORM);
 		metaOrder.add(PETROIL);
 		metaOrder.add(PETROIL_LEADED);
 		metaOrder.add(GASOLINE);
@@ -481,6 +496,12 @@ public class Fluids {
 		registerCalculatedFuel(NITAN, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 25L, 2.5, FuelGrade.HIGH);
 		registerCalculatedFuel(BALEFIRE, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 100L, 2.5, FuelGrade.HIGH);
 		registerCalculatedFuel(BLOODGAS, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * 0.8, 2.5, FuelGrade.AERO); //0.8
+		
+		//TODO: consult the spreadsheet for the values of the vacuum oils
+		//all hail the spreadsheet
+		//the spreadsheet must not be questioned
+		//none may enter the orb- i mean the spreadsheet
+		
 		int coalHeat = 400_000; // 200TU/t for 2000 ticks
 		registerCalculatedFuel(COALOIL, (coalHeat * (1000 /* bucket */ / 100 /* mB per coal */) * flammabilityLow * demandLow * complexityChemplant), 0, null);
 		long coaloil = COALOIL.getTrait(FT_Flammable.class).getHeatEnergy();
