@@ -418,6 +418,7 @@ public class ModBlocks {
 	public static Block duna_oil_empty;
 	public static Block duna_zinc;
 	public static Block duna_iron;
+	public static Block dry_ice;
 	
 	public static Block ike_regolith;
 	public static Block ike_stone; //Genuinely wish i stopped fucking doing this 5000 stone type shit
@@ -425,7 +426,6 @@ public class ModBlocks {
 	public static Block ike_copper;
 	public static Block ike_iron;
 	
-
 	public static Block brick_jungle;
 	public static Block brick_jungle_cracked;
 	public static Block brick_jungle_fragile;
@@ -1630,6 +1630,7 @@ public class ModBlocks {
 		duna_oil = new BlockGeneric(Material.rock).setBlockName("duna_oil").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_oil");
 		duna_oil_empty = new BlockGeneric(Material.rock).setBlockName("duna_oil_empty").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_oil_empty");
 		duna_iron = new BlockGeneric(Material.rock).setBlockName("duna_iron").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":duna_iron");
+		dry_ice = new BlockGeneric(Material.ice).setBlockName("dry_ice").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":ice_dry");
 		
 		ike_regolith = new BlockGeneric(Material.rock).setBlockName("ike_regolith").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_regolith");
 		ike_stone = new BlockGeneric(Material.rock).setBlockName("ike_stone").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_stone");
@@ -2866,6 +2867,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(duna_oil_empty, duna_oil_empty.getUnlocalizedName());
 		GameRegistry.registerBlock(duna_zinc, duna_zinc.getUnlocalizedName());
 		GameRegistry.registerBlock(duna_iron, duna_iron.getUnlocalizedName());
+		GameRegistry.registerBlock(dry_ice, dry_ice.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(ike_regolith, ike_regolith.getUnlocalizedName());
 		GameRegistry.registerBlock(ike_stone, ike_stone.getUnlocalizedName());

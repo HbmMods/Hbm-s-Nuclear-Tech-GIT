@@ -93,7 +93,13 @@ public class BiomeGenDunaPolar extends BiomeGenBase {
 
                             if (l1 >= 62)
                             {
-                            	blocks[i2] = block;
+                                if (Math.random() > 0.4) {
+                                	blocks[i2] = block;
+                                }
+                                else
+                                {
+                                    blocks[i2] = ModBlocks.dry_ice;   	
+                                }
                             	meta[i2] = b0;
                             }
                             else if (l1 < 56 - l)

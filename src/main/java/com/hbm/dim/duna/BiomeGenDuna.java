@@ -30,7 +30,7 @@ public class BiomeGenDuna extends BiomeGenBase {
         this.setHeight(height);
         
         this.topBlock = ModBlocks.duna_sands;
-        this.fillerBlock = ModBlocks.duna_rock;
+        this.fillerBlock = ModBlocks.duna_sands;
         BiomeDictionary.registerBiomeType(this, BiomeDictionary.Type.COLD, BiomeDictionary.Type.DRY, BiomeDictionary.Type.DEAD);
 	}
 
@@ -98,11 +98,17 @@ public class BiomeGenDuna extends BiomeGenBase {
                             	blocks[i2] = block;
                             	meta[i2] = b0;
                             }
-                            else if (l1 < 56 - l)
+                            else if (l1 < 62)
                             {
                                 block = null;
                                 block1 = ModBlocks.duna_rock;
-                                blocks[i2] = Blocks.gravel;
+                                if (Math.random() > 0.4) {
+                                	blocks[i2] = ModBlocks.duna_rock;
+                                }
+                                else
+                                {
+                                    blocks[i2] = ModBlocks.duna_sands;   	
+                                }
                             }
                             else
                             {
