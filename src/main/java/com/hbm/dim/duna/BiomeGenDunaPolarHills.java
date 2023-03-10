@@ -9,14 +9,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeGenDunaRiver extends BiomeGenBase {
+public class BiomeGenDunaPolarHills extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(-0.525F, 0.0F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.725F, 0.8F);
 
     //TODO: avoid doing an extra planets and make each planet unique and cool.
-	public BiomeGenDunaRiver(int id) {
+	public BiomeGenDunaPolarHills(int id) {
 		super(id);
-		this.setBiomeName("Dunaian Riverbed");
+		this.setBiomeName("Dunaian Polar Mountains");
 		this.setDisableRain();
 		
         this.spawnableCreatureList.clear();
@@ -28,8 +28,8 @@ public class BiomeGenDunaRiver extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.duna_sands;
-        this.fillerBlock = ModBlocks.duna_rock;
+        this.topBlock = Blocks.snow;
+        this.fillerBlock = Blocks.snow;
 	}
 
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)

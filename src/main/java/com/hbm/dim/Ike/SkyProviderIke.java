@@ -29,15 +29,23 @@ public class SkyProviderIke extends IRenderHandler {
 	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/night.png");
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
 
-	public int starGLCallList = GLAllocation.generateDisplayLists(3);
-	public int glSkyList;
-	public int glSkyList2;
+	public static boolean displayListsInitialized = false;
+	public static int starGLCallList;
+	public static int glSkyList;
+	public static int glSkyList2;
 
 	protected double x;
 	protected double y;
 	protected double z;
 
 	public SkyProviderIke() {
+	    if (!displayListsInitialized) {
+	        initializeDisplayLists();
+	    }
+	}
+
+	private void initializeDisplayLists() {
+	    starGLCallList = GLAllocation.generateDisplayLists(3);
 		GL11.glPushMatrix();
 		GL11.glNewList(this.starGLCallList, GL11.GL_COMPILE);
 		this.renderStars();
@@ -78,6 +86,7 @@ public class SkyProviderIke extends IRenderHandler {
 
 		tessellator.draw();
 		GL11.glEndList();
+		displayListsInitialized = true;
 	}
 
 	@Override
@@ -294,8 +303,8 @@ public class SkyProviderIke extends IRenderHandler {
 			GL11.glColor4d(1, 1, 1, 1);
 			GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
-			GL11.glRotatef(0.0F, 0.0F, 1.0F, 0.0F);
-			f10 = (AstronomyUtil.IkeRadius/AstronomyUtil.IkeDunaKm)*720;
+			GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
+			f10 = (AstronomyUtil.DunaRadius/AstronomyUtil.IkeDunaKm)*720;
 			FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.duna);
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);

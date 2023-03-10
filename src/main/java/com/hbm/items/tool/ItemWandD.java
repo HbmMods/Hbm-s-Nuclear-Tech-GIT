@@ -87,13 +87,20 @@ public class ItemWandD extends Item {
 				switch(stack.stackTagCompound.getInteger("dim"))
 				{
 				case 0:
-					thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.moonDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
+					DebugTeleporter.teleport(player, WorldConfig.moonDimension, player.posX, 300, player.posZ);
+					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.moonDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				case 1:
-					thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.ikeDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
+					DebugTeleporter.teleport(player, WorldConfig.ikeDimension, player.posX, 300, player.posZ);
+					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.ikeDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				case 2:
-					thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
+					DebugTeleporter.teleport(player, WorldConfig.dunaDimension, player.posX, 300, player.posZ);
+					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
+					break;
+				case 3:
+					DebugTeleporter.teleport(player, 0, player.posX, 300, player.posZ);
+					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				}
 				

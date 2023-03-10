@@ -29,15 +29,23 @@ public class SkyProviderDuna extends IRenderHandler {
 	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/night.png");
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
 
-	public int starGLCallList = GLAllocation.generateDisplayLists(3);
-	public int glSkyList;
-	public int glSkyList2;
+	public static boolean displayListsInitialized = false;
+	public static int starGLCallList;
+	public static int glSkyList;
+	public static int glSkyList2;
 
 	protected double x;
 	protected double y;
 	protected double z;
 
 	public SkyProviderDuna() {
+	    if (!displayListsInitialized) {
+	        initializeDisplayLists();
+	    }
+	}
+
+	private void initializeDisplayLists() {
+	    starGLCallList = GLAllocation.generateDisplayLists(3);
 		GL11.glPushMatrix();
 		GL11.glNewList(this.starGLCallList, GL11.GL_COMPILE);
 		this.renderStars();
@@ -78,6 +86,7 @@ public class SkyProviderDuna extends IRenderHandler {
 
 		tessellator.draw();
 		GL11.glEndList();
+		displayListsInitialized = true;
 	}
 
 	@Override
@@ -303,6 +312,7 @@ public class SkyProviderDuna extends IRenderHandler {
 			tessellator.addVertexWithUV(f10, 100.0D, f10, 1.0D, 1.0D);
 			tessellator.addVertexWithUV(-f10, 100.0D, f10, 0.0D, 1.0D);
 			tessellator.draw();
+			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glPopMatrix();
 		}
 		{
