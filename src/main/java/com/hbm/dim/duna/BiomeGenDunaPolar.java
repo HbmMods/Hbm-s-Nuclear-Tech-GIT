@@ -11,12 +11,12 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenDunaPolar extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.125F, 0.05F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.425F, 0.05F);
 
     //TODO: avoid doing an extra planets and make each planet unique and cool.
 	public BiomeGenDunaPolar(int id) {
 		super(id);
-		this.setBiomeName("Dunaian Polar Ice Sheet");
+		this.setBiomeName("Dunaian Ice Sheet");
 		this.setDisableRain();
 		
         this.spawnableCreatureList.clear();
@@ -93,7 +93,13 @@ public class BiomeGenDunaPolar extends BiomeGenBase {
 
                             if (l1 >= 62)
                             {
-                            	blocks[i2] = block;
+                                if (Math.random() > 0.4) {
+                                	blocks[i2] = block;
+                                }
+                                else
+                                {
+                                    blocks[i2] = ModBlocks.dry_ice;   	
+                                }
                             	meta[i2] = b0;
                             }
                             else if (l1 < 56 - l)

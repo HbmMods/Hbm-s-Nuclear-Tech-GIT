@@ -19,7 +19,7 @@ public class WorldProviderDuna extends WorldProvider {
 	
 	public void registerWorldChunkManager() {
 		
-		this.worldChunkMgr = new WorldChunkManagerDuna3(worldObj);
+		this.worldChunkMgr = new WorldChunkManagerDuna(worldObj);
 		//this.dimensionId = WorldConfig.dunaDimension;
 		//this.hasNoSky = false;
 	}
@@ -40,12 +40,12 @@ public class WorldProviderDuna extends WorldProvider {
     @SideOnly(Side.CLIENT)
     public Vec3 getFogColor(float x, float y) {
         float f = 1.0F - this.getStarBrightness(1.0F);
-      return Vec3.createVectorHelper(210F / 255F * f, 120F / 255F * f, 59F / 255F * f);
+      return Vec3.createVectorHelper(212F / 255F * f, 112F / 255F * f, 78F / 255F * f);
     }
     
     public Vec3 getSkyColor(Entity camera, float partialTicks) {
         float f = 1.0F - this.getStarBrightness(1.0F);
-      return Vec3.createVectorHelper(154 / 255.0F * f, 114 / 255.0F * f, 66 / 255.0F * f);
+      return Vec3.createVectorHelper(125 / 255.0F * f, 69 / 255.0F * f, 48 / 255.0F * f);
     }
     
     @SideOnly(Side.CLIENT)

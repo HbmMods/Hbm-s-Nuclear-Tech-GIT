@@ -32,6 +32,7 @@ public class BiomeGenDunaLowlands extends BiomeGenBase {
         this.fillerBlock = ModBlocks.duna_rock;
 	}
 
+	@Override
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
     {
         boolean flag = true;
@@ -96,11 +97,17 @@ public class BiomeGenDunaLowlands extends BiomeGenBase {
                             	blocks[i2] = block;
                             	meta[i2] = b0;
                             }
-                            else if (l1 < 56 - l)
+                            else if (l1 < 62)
                             {
                                 block = null;
                                 block1 = ModBlocks.duna_rock;
-                                blocks[i2] = Blocks.gravel;
+                                if (Math.random() > 0.4) {
+                                	blocks[i2] = ModBlocks.duna_rock;
+                                }
+                                else
+                                {
+                                    blocks[i2] = ModBlocks.duna_sands;   	
+                                }
                             }
                             else
                             {

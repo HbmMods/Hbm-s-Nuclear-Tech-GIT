@@ -6,9 +6,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 
-public class GenLayerDunaLowlands extends GenLayer
+public class GenLayerDunaPolarHills extends GenLayer
 {
-    public GenLayerDunaLowlands(long seed, GenLayer genLayer)
+    public GenLayerDunaPolarHills(long seed, GenLayer genLayer)
     {
         super(seed);
         this.parent = genLayer;
@@ -35,7 +35,7 @@ public class GenLayerDunaLowlands extends GenLayer
                 this.initChunkSeed((long)(j1 + p_151626_1_), (long)(i1 + p_151626_2_));
                 int k1 = aint[j1 + 1 + (i1 + 1) * k];
 
-                if (k1 == BiomeGenBaseDuna.dunaLowlands.biomeID)
+                if (k1 == BiomeGenBaseDuna.dunaPlains.biomeID)
                 {
                     int l1 = aint[j1 + 1 + (i1 + 1 - 1) * k];
                     int i2 = aint[j1 + 1 + 1 + (i1 + 1) * k];
@@ -49,7 +49,7 @@ public class GenLayerDunaLowlands extends GenLayer
                     );
                     if (flag)
                     {
-                        k1 = BiomeGenBaseDuna.dunaLowlands.biomeID;
+                        k1 = BiomeGenBaseDuna.dunaHills.biomeID;
                     }
                 }
 

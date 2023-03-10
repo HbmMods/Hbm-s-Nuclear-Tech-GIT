@@ -30,9 +30,10 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 	private static final ResourceLocation planet = new ResourceLocation("hbm:textures/misc/planet.png");
 	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/night.png");
 	
-	public int starGLCallList = GLAllocation.generateDisplayLists(3);
-	public int glSkyList;
-	public int glSkyList2;
+	public static boolean displayListsInitialized = false;
+	public static int starGLCallList;
+	public static int glSkyList;
+	public static int glSkyList2;
 
 	protected double x;
 	protected double y;
@@ -42,6 +43,13 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 	/// make the skybox render correctly after Tom. Sorry about that. -Pu
 
 	public RenderNTMSkyboxImpact() {
+	    if (!displayListsInitialized) {
+	        initializeDisplayLists();
+	    }
+	}
+
+	private void initializeDisplayLists() {
+	    starGLCallList = GLAllocation.generateDisplayLists(3);
 		GL11.glPushMatrix();
 		GL11.glNewList(this.starGLCallList, GL11.GL_COMPILE);
 		this.renderStars();
@@ -82,6 +90,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 
 		tessellator.draw();
 		GL11.glEndList();
+		displayListsInitialized = true;
 	}
 
 	@Override
