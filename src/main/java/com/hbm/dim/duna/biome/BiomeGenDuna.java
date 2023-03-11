@@ -1,4 +1,4 @@
-package com.hbm.dim.duna;
+package com.hbm.dim.duna.biome;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -8,15 +8,16 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeDictionary;
 
-public class BiomeGenDunaHills extends BiomeGenBase {
+public class BiomeGenDuna extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.525F, 0.4F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.125F, 0.05F);
 
     //TODO: avoid doing an extra planets and make each planet unique and cool.
-	public BiomeGenDunaHills(int id) {
+	public BiomeGenDuna(int id) {
 		super(id);
-		this.setBiomeName("Weathered Dunaian Hills");
+		this.setBiomeName("Dunaian Plains");
 		this.setDisableRain();
 		
         this.spawnableCreatureList.clear();
@@ -29,7 +30,8 @@ public class BiomeGenDunaHills extends BiomeGenBase {
         this.setHeight(height);
         
         this.topBlock = ModBlocks.duna_sands;
-        this.fillerBlock = ModBlocks.duna_rock;
+        this.fillerBlock = ModBlocks.duna_sands;
+        BiomeDictionary.registerBiomeType(this, BiomeDictionary.Type.COLD, BiomeDictionary.Type.DRY, BiomeDictionary.Type.DEAD);
 	}
 
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)

@@ -3,6 +3,7 @@ package com.hbm.blocks.fluid;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
@@ -16,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
@@ -101,4 +103,29 @@ public class GenericFluidBlock extends BlockFluidClassic {
 			}
 		}
 	}
+	
+   /* @SideOnly(Side.CLIENT)
+    public int colorMultiplier(IBlockAccess p_149720_1_, int p_149720_2_, int p_149720_3_, int p_149720_4_)
+    {
+    	if(this==ModBlocks.mercury_block)
+    	{
+            int l = 0;
+            int i1 = 0;
+            int j1 = 0;
+
+            for (int k1 = -1; k1 <= 1; ++k1)
+            {
+                for (int l1 = -1; l1 <= 1; ++l1)
+                {
+                    int i2 = p_149720_1_.getBiomeGenForCoords(p_149720_2_ + l1, p_149720_4_ + k1).getWaterColorMultiplier();
+                    l += (i2 & 16711680) >> 16;
+                    i1 += (i2 & 65280) >> 8;
+                    j1 += i2 & 255;
+                }
+            }
+
+            return (l / 9 & 255) << 16 | (i1 / 9 & 255) << 8 | j1 / 9 & 255;
+    	}
+		return 16777215;    	
+    }*/
 }

@@ -5,9 +5,10 @@ import com.hbm.dim.WorldGeneratorMoon;
 import com.hbm.dim.WorldProviderMoon;
 import com.hbm.dim.Ike.WorldGeneratorIke;
 import com.hbm.dim.Ike.WorldProviderIke;
-import com.hbm.dim.duna.BiomeGenBaseDuna;
 import com.hbm.dim.duna.WorldGeneratorDuna;
 import com.hbm.dim.duna.WorldProviderDuna;
+import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
+import com.hbm.dim.eve.WorldProviderEve;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.common.BiomeDictionary;
@@ -32,6 +33,9 @@ public class PlanetGen {
 		GameRegistry.registerWorldGenerator(worldGenIke, 1);
 		DimensionManager.registerProviderType(WorldConfig.ikeDimension, WorldProviderIke.class, false);
 	    DimensionManager.registerDimension(WorldConfig.ikeDimension, WorldConfig.ikeDimension);
+	    
+		DimensionManager.registerProviderType(WorldConfig.eveDimension, WorldProviderEve.class, false);
+	    DimensionManager.registerDimension(WorldConfig.eveDimension, WorldConfig.eveDimension);
     }
 }
 

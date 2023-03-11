@@ -5,14 +5,17 @@
  * To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
  ******************************************************************************/
 
-package com.hbm.dim.duna;
+package com.hbm.dim.eve;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.dim.duna.GenLayerDuna.GenLayerDuna;
-import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
+import com.hbm.dim.eve.GenLayerEve.GenLayerEve;
+import com.hbm.dim.eve.biome.BiomeGenBaseEve;
+
+//import com.hbm.dim.duna.GenLayerDuna.GenLayerDuna;
+//import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
 
 //import stevekung.mods.moreplanets.planets.fronos.worldgen.biome.BiomeGenBaseFronos;
 import net.minecraft.world.ChunkPosition;
@@ -24,33 +27,31 @@ import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 
-public class WorldChunkManagerDuna extends WorldChunkManager
+public class WorldChunkManagerEve extends WorldChunkManager
 {
 	private GenLayer unzoomedBiomes;
 	private GenLayer zoomedBiomes;
 	private BiomeCache myBiomeCache;
 	private List<BiomeGenBase> myBiomesToSpawnIn;
 
-	protected WorldChunkManagerDuna()
+	protected WorldChunkManagerEve()
 	{
 		this.myBiomeCache = new BiomeCache(this);
 		this.myBiomesToSpawnIn = new ArrayList();
-		this.myBiomesToSpawnIn.add(BiomeGenBaseDuna.dunaPlains);
-		this.myBiomesToSpawnIn.add(BiomeGenBaseDuna.dunaLowlands);
-		this.myBiomesToSpawnIn.add(BiomeGenBaseDuna.dunaPolar);
-		this.myBiomesToSpawnIn.add(BiomeGenBaseDuna.dunaHills);
-		this.myBiomesToSpawnIn.add(BiomeGenBaseDuna.dunaPolarHills);
+		this.myBiomesToSpawnIn.add(BiomeGenBaseEve.evePlains);
+		this.myBiomesToSpawnIn.add(BiomeGenBaseEve.eveOcean);
+		this.myBiomesToSpawnIn.add(BiomeGenBaseEve.eveMountains);
 	}
 
-	public WorldChunkManagerDuna(long seed, WorldType type)
+	public WorldChunkManagerEve(long seed, WorldType type)
 	{
 		this();
-		GenLayer[] genLayers = GenLayerDuna.makeTheWorld(seed);
+		GenLayer[] genLayers = GenLayerEve.makeTheWorld(seed);
 		this.unzoomedBiomes = genLayers[0];
 		this.zoomedBiomes = genLayers[1];
 	}
 
-	public WorldChunkManagerDuna(World world)
+	public WorldChunkManagerEve(World world)
 	{
 		this(world.getSeed(), world.getWorldInfo().getTerrainType());
 	}
@@ -68,7 +69,7 @@ public class WorldChunkManagerDuna extends WorldChunkManager
 
 		if (biome == null)
 		{
-			return BiomeGenBaseDuna.dunaPlains;
+			return BiomeGenBaseEve.evePlains;
 		}
 		return biome;
 	}
@@ -119,7 +120,7 @@ public class WorldChunkManagerDuna extends WorldChunkManager
 			}
 			else
 			{
-				par1ArrayOfBiomeGenBase[i] = BiomeGenBaseDuna.dunaPlains;
+				par1ArrayOfBiomeGenBase[i] = BiomeGenBaseEve.evePlains;
 			}
 		}
 		return par1ArrayOfBiomeGenBase;
@@ -156,7 +157,7 @@ public class WorldChunkManagerDuna extends WorldChunkManager
 			}
 			else
 			{
-				par1ArrayOfBiomeGenBase[i] = BiomeGenBaseDuna.dunaPlains;
+				par1ArrayOfBiomeGenBase[i] = BiomeGenBaseEve.evePlains;
 			}
 		}
 		return par1ArrayOfBiomeGenBase;

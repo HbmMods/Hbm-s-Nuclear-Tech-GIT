@@ -1,4 +1,4 @@
-package com.hbm.dim.duna;
+package com.hbm.dim.eve.biome;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -10,15 +10,16 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 
-public class BiomeGenDunaTesting extends BiomeGenBase {
+public class BiomeGenEve extends BiomeGenBase {
 	
     public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.125F, 0.05F);
 
     //TODO: avoid doing an extra planets and make each planet unique and cool.
-	public BiomeGenDunaTesting(int id) {
+	public BiomeGenEve(int id) {
 		super(id);
-		this.setBiomeName("Dunatesting");
+		this.setBiomeName("Eve Plains");
 		this.setDisableRain();
+		this.waterColorMultiplier=0x5b009a;
 		
         this.spawnableCreatureList.clear();
         this.spawnableMonsterList.clear();
@@ -29,9 +30,9 @@ public class BiomeGenDunaTesting extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.duna_iron;
-        this.fillerBlock = ModBlocks.duna_iron;
-        BiomeDictionary.registerBiomeType(this, BiomeDictionary.Type.DEAD);
+        this.topBlock = ModBlocks.eve_silt;
+        this.fillerBlock = ModBlocks.eve_silt;
+        BiomeDictionary.registerBiomeType(this, BiomeDictionary.Type.HOT, BiomeDictionary.Type.DRY, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.SPOOKY);
 	}
 
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
@@ -60,7 +61,7 @@ public class BiomeGenDunaTesting extends BiomeGenBase {
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == ModBlocks.duna_rock)
+                    if (block2 == ModBlocks.eve_rock)
                     {
                         if (k == -1)
                         {
@@ -68,7 +69,7 @@ public class BiomeGenDunaTesting extends BiomeGenBase {
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.duna_iron;
+                                block1 = ModBlocks.eve_rock;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {
@@ -98,11 +99,17 @@ public class BiomeGenDunaTesting extends BiomeGenBase {
                             	blocks[i2] = block;
                             	meta[i2] = b0;
                             }
-                            else if (l1 < 56 - l)
+                            else if (l1 < 62)
                             {
                                 block = null;
-                                block1 = ModBlocks.duna_rock;
-                                blocks[i2] = Blocks.gravel;
+                                block1 = ModBlocks.eve_rock;
+                                if (Math.random() > 0.4) {
+                                	blocks[i2] = ModBlocks.eve_rock;
+                                }
+                                else
+                                {
+                                    blocks[i2] = ModBlocks.basalt_smooth;   	
+                                }
                             }
                             else
                             {
