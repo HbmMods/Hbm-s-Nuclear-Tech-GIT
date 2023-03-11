@@ -102,6 +102,10 @@ public class ItemWandD extends Item {
 					DebugTeleporter.teleport(player, 0, player.posX, 300, player.posZ);
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
+				case 4:
+					DebugTeleporter.teleport(player, WorldConfig.eveDimension, player.posX, 300, player.posZ);
+					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
+					break;
 				}
 				
 			}
@@ -115,7 +119,7 @@ public class ItemWandD extends Item {
 					int i = stack.stackTagCompound.getInteger("dim");
 					i++;
 					stack.stackTagCompound.setInteger("dim", i);
-					if(i >= 3) {
+					if(i >= 5) {
 						stack.stackTagCompound.setInteger("dim", 0);
 					}
 					
@@ -125,10 +129,16 @@ public class ItemWandD extends Item {
 							player.addChatMessage(new ChatComponentText("Dim: Moon"));
 							break;
 						case 1:
-							player.addChatMessage(new ChatComponentText("Dim:Ike"));
+							player.addChatMessage(new ChatComponentText("Dim: Ike"));
 							break;
 						case 2:
-							player.addChatMessage(new ChatComponentText("Dim:Duna"));
+							player.addChatMessage(new ChatComponentText("Dim: Duna"));
+							break;
+						case 3:
+							player.addChatMessage(new ChatComponentText("Dim: Kerbin"));
+							break;
+						case 4:
+							player.addChatMessage(new ChatComponentText("Dim: Eve"));
 							break;
 						default:
 							player.addChatMessage(new ChatComponentText("Dim: Moon"));

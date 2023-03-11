@@ -1,14 +1,15 @@
-package com.hbm.dim.duna.GenLayerDuna;
+package com.hbm.dim.eve.GenLayerEve;
 
 import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
+import com.hbm.dim.eve.biome.BiomeGenBaseEve;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 
-public class GenLayerDunaPolarHills extends GenLayer
+public class GenLayerEveOceans extends GenLayer
 {
-    public GenLayerDunaPolarHills(long seed, GenLayer genLayer)
+    public GenLayerEveOceans(long seed, GenLayer genLayer)
     {
         super(seed);
         this.parent = genLayer;
@@ -35,21 +36,21 @@ public class GenLayerDunaPolarHills extends GenLayer
                 this.initChunkSeed((long)(j1 + p_151626_1_), (long)(i1 + p_151626_2_));
                 int k1 = aint[j1 + 1 + (i1 + 1) * k];
 
-                if (k1 == BiomeGenBaseDuna.dunaPlains.biomeID)
+                if (k1 == BiomeGenBaseEve.eveOcean.biomeID)
                 {
                     int l1 = aint[j1 + 1 + (i1 + 1 - 1) * k];
                     int i2 = aint[j1 + 1 + 1 + (i1 + 1) * k];
                     int j2 = aint[j1 + 1 - 1 + (i1 + 1) * k];
                     int k2 = aint[j1 + 1 + (i1 + 1 + 1) * k];
                     boolean flag = (
-                        (l1 == BiomeGenBaseDuna.dunaPlains.biomeID)
-                        || (i2 == BiomeGenBaseDuna.dunaPlains.biomeID)
-                        || (j2 == BiomeGenBaseDuna.dunaPlains.biomeID)
-                        || (k2 == BiomeGenBaseDuna.dunaPlains.biomeID)
+                        (l1 == BiomeGenBaseEve.evePlains.biomeID)
+                        || (i2 == BiomeGenBaseEve.evePlains.biomeID)
+                        || (j2 == BiomeGenBaseEve.evePlains.biomeID)
+                        || (k2 == BiomeGenBaseEve.evePlains.biomeID)
                     );
                     if (flag)
                     {
-                        k1 = BiomeGenBaseDuna.dunaHills.biomeID;
+                        k1 = BiomeGenBaseEve.eveOcean.biomeID;
                     }
                 }
 

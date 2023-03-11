@@ -1,4 +1,4 @@
-package com.hbm.dim.duna;
+package com.hbm.dim.eve.biome;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -9,15 +9,16 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeGenDunaPolar extends BiomeGenBase {
+public class BiomeGenEveOcean extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.425F, 0.05F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(-0.6F, 0.01F);
 
     //TODO: avoid doing an extra planets and make each planet unique and cool.
-	public BiomeGenDunaPolar(int id) {
+	public BiomeGenEveOcean(int id) {
 		super(id);
-		this.setBiomeName("Dunaian Ice Sheet");
+		this.setBiomeName("Explodium Ocean");
 		this.setDisableRain();
+		this.waterColorMultiplier=0x5b009a;
 		
         this.spawnableCreatureList.clear();
         this.spawnableMonsterList.clear();
@@ -28,10 +29,11 @@ public class BiomeGenDunaPolar extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = Blocks.snow;
-        this.fillerBlock = Blocks.snow;
+        this.topBlock = ModBlocks.eve_silt;
+        this.fillerBlock = ModBlocks.eve_silt;
 	}
 
+	@Override
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
     {
         boolean flag = true;
@@ -93,20 +95,20 @@ public class BiomeGenDunaPolar extends BiomeGenBase {
 
                             if (l1 >= 62)
                             {
-                                if (Math.random() > 0.4) {
-                                	blocks[i2] = block;
-                                }
-                                else
-                                {
-                                    blocks[i2] = ModBlocks.dry_ice;   	
-                                }
+                            	blocks[i2] = block;
                             	meta[i2] = b0;
                             }
-                            else if (l1 < 56 - l)
+                            else if (l1 < 62)
                             {
                                 block = null;
                                 block1 = ModBlocks.duna_rock;
-                                blocks[i2] = Blocks.gravel;
+                                if (Math.random() > 0.4) {
+                                	blocks[i2] = ModBlocks.duna_rock;
+                                }
+                                else
+                                {
+                                    blocks[i2] = ModBlocks.duna_sands;   	
+                                }
                             }
                             else
                             {

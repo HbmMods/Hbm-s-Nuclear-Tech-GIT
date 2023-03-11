@@ -1,16 +1,17 @@
-package com.hbm.dim.duna.GenLayerDuna;
+package com.hbm.dim.eve.GenLayerEve;
 
 import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
+import com.hbm.dim.eve.biome.BiomeGenBaseEve;
 
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 
-public class GenLayerDunaBiomes extends GenLayer
+public class GenLayerEveBiomes extends GenLayer
 {
-    private static final BiomeGenBase[] biomes = new BiomeGenBase[] { BiomeGenBaseDuna.dunaPlains, BiomeGenBaseDuna.dunaLowlands, BiomeGenBaseDuna.dunaPolar, BiomeGenBaseDuna.dunaHills, BiomeGenBaseDuna.dunaPolarHills};
+    private static final BiomeGenBase[] biomes = new BiomeGenBase[] { BiomeGenBaseEve.evePlains, BiomeGenBaseEve.eveOcean, BiomeGenBaseEve.eveMountains};
 
-    public GenLayerDunaBiomes(long l)
+    public GenLayerEveBiomes(long l)
     {
         super(l);
     }

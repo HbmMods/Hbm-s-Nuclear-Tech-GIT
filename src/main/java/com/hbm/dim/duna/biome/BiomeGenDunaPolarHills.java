@@ -1,4 +1,4 @@
-package com.hbm.dim.duna;
+package com.hbm.dim.duna.biome;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;

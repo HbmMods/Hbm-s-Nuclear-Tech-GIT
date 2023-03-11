@@ -13,6 +13,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
+import com.hbm.dim.eve.WorldProviderEve;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -78,6 +79,7 @@ import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
@@ -114,6 +116,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.IRenderHandler;
+import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
+import net.minecraftforge.client.event.EntityViewRenderEvent.RenderFogEvent;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -1020,18 +1024,24 @@ public class ModEventHandlerClient {
 		}
 	}
 	
-	/*@SubscribeEvent
+	@SubscribeEvent
 	public void setupFog(RenderFogEvent event) {
-		event.setResult(Result.DENY);
+		if(event.entity.worldObj.provider instanceof WorldProviderEve)
+		{
+			event.setResult(Result.DENY);
+		}
 	}
 	
 	@SubscribeEvent
 	public void thickenFog(FogDensity event) {
-		event.density = 0.05F;
-		event.setCanceled(true);
+		if(event.entity.worldObj.provider instanceof WorldProviderEve)
+		{
+			event.density = 0.04F;
+			event.setCanceled(true);
+		}
 	}
 	
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void tintFog(FogColors event) {
 		event.red = 0.5F;
 		event.green = 0.0F;

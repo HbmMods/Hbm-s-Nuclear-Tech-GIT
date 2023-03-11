@@ -1,4 +1,4 @@
-package com.hbm.dim.duna;
+package com.hbm.dim.duna.biome;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -9,14 +9,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeGenDunaLowlands extends BiomeGenBase {
+public class BiomeGenDunaPolar extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(-0.6F, 0.01F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.425F, 0.05F);
 
     //TODO: avoid doing an extra planets and make each planet unique and cool.
-	public BiomeGenDunaLowlands(int id) {
+	public BiomeGenDunaPolar(int id) {
 		super(id);
-		this.setBiomeName("Dunaian Lowland Plains");
+		this.setBiomeName("Dunaian Ice Sheet");
 		this.setDisableRain();
 		
         this.spawnableCreatureList.clear();
@@ -28,11 +28,10 @@ public class BiomeGenDunaLowlands extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.duna_sands;
-        this.fillerBlock = ModBlocks.duna_rock;
+        this.topBlock = Blocks.snow;
+        this.fillerBlock = Blocks.snow;
 	}
 
-	@Override
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
     {
         boolean flag = true;
@@ -94,20 +93,20 @@ public class BiomeGenDunaLowlands extends BiomeGenBase {
 
                             if (l1 >= 62)
                             {
-                            	blocks[i2] = block;
-                            	meta[i2] = b0;
-                            }
-                            else if (l1 < 62)
-                            {
-                                block = null;
-                                block1 = ModBlocks.duna_rock;
                                 if (Math.random() > 0.4) {
-                                	blocks[i2] = ModBlocks.duna_rock;
+                                	blocks[i2] = block;
                                 }
                                 else
                                 {
-                                    blocks[i2] = ModBlocks.duna_sands;   	
+                                    blocks[i2] = ModBlocks.dry_ice;   	
                                 }
+                            	meta[i2] = b0;
+                            }
+                            else if (l1 < 56 - l)
+                            {
+                                block = null;
+                                block1 = ModBlocks.duna_rock;
+                                blocks[i2] = Blocks.gravel;
                             }
                             else
                             {

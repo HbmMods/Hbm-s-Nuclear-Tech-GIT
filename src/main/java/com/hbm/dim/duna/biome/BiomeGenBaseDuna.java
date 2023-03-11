@@ -5,7 +5,7 @@
  * To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
  ******************************************************************************/
 
-package com.hbm.dim.duna;
+package com.hbm.dim.duna.biome;
 
 import java.util.Random;
 

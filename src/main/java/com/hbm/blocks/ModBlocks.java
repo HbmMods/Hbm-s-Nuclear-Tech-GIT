@@ -426,6 +426,9 @@ public class ModBlocks {
 	public static Block ike_copper;
 	public static Block ike_iron;
 	
+	public static Block eve_silt;
+	public static Block eve_rock;
+	
 	public static Block brick_jungle;
 	public static Block brick_jungle_cracked;
 	public static Block brick_jungle_fragile;
@@ -1190,6 +1193,9 @@ public class ModBlocks {
 
 	public static Block sulfuric_acid_block;
 	public static Fluid sulfuric_acid_fluid;
+	
+	public static Block mercury_block;
+	public static Fluid mercury_fluid;
 
 	public static Block concrete_liquid;
 
@@ -1631,6 +1637,9 @@ public class ModBlocks {
 		duna_oil_empty = new BlockGeneric(Material.rock).setBlockName("duna_oil_empty").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_oil_empty");
 		duna_iron = new BlockGeneric(Material.rock).setBlockName("duna_iron").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":duna_iron");
 		dry_ice = new BlockGeneric(Material.ice).setBlockName("dry_ice").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":ice_dry");
+		
+		eve_silt = new BlockFalling(Material.sand).setBlockName("eve_silt").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":eve_silt");
+		eve_rock = new BlockGeneric(Material.rock).setBlockName("eve_rock").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":eve_rock");
 		
 		ike_regolith = new BlockGeneric(Material.rock).setBlockName("ike_regolith").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_regolith");
 		ike_stone = new BlockGeneric(Material.rock).setBlockName("ike_stone").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_stone");
@@ -2347,6 +2356,10 @@ public class ModBlocks {
 		FluidRegistry.registerFluid(sulfuric_acid_fluid);
 		sulfuric_acid_block = new GenericFluidBlock(sulfuric_acid_fluid, Material.water, "sulfuric_acid_still", "sulfuric_acid_flowing").setDamage(ModDamageSource.acid, 5F).setBlockName("sulfuric_acid_block").setResistance(500F);
 		
+		mercury_fluid = new GenericFluid("mercury_fluid").setDensity(1840).setViscosity(1000).setTemperature(273);
+		FluidRegistry.registerFluid(mercury_fluid);
+		mercury_block = new GenericFluidBlock(mercury_fluid, Material.water, "mercury_still", "mercury_flowing").setDamage(ModDamageSource.lead, 1F).setBlockName("mercury_block").setResistance(500F);
+		
 		Fluid liquidConcrete = new GenericFluid("concrete_liquid").setViscosity(2000);
 		concrete_liquid = new GenericFiniteFluid(liquidConcrete, Material.rock, "concrete_liquid", "concrete_liquid_flowing").setQuantaPerBlock(4).setBlockName("concrete_liquid").setResistance(500F);
 
@@ -2868,6 +2881,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(duna_zinc, duna_zinc.getUnlocalizedName());
 		GameRegistry.registerBlock(duna_iron, duna_iron.getUnlocalizedName());
 		GameRegistry.registerBlock(dry_ice, dry_ice.getUnlocalizedName());
+		
+		GameRegistry.registerBlock(eve_silt, eve_silt.getUnlocalizedName());
+		GameRegistry.registerBlock(eve_rock, eve_rock.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(ike_regolith, ike_regolith.getUnlocalizedName());
 		GameRegistry.registerBlock(ike_stone, ike_stone.getUnlocalizedName());
@@ -3457,7 +3473,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(corium_block, corium_block.getUnlocalizedName());
 		GameRegistry.registerBlock(volcanic_lava_block, volcanic_lava_block.getUnlocalizedName());
 		GameRegistry.registerBlock(sulfuric_acid_block, sulfuric_acid_block.getUnlocalizedName());
-		//GameRegistry.registerBlock(concrete_liquid, concrete_liquid.getUnlocalizedName());
+		GameRegistry.registerBlock(mercury_block, mercury_block.getUnlocalizedName());
 		
 		//Multiblock Dummy Blocks
 		GameRegistry.registerBlock(dummy_block_drill, dummy_block_drill.getUnlocalizedName());

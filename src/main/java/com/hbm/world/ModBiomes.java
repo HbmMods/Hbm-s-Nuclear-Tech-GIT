@@ -1,6 +1,6 @@
 package com.hbm.world;
 
-import com.hbm.dim.duna.BiomeGenBaseDuna;
+import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
 
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
