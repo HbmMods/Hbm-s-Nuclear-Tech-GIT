@@ -167,7 +167,6 @@ public class Library {
 			return true;
 		if((tileentity != null && (tileentity instanceof IFluidAcceptor || 
 				tileentity instanceof IFluidSource)) || 
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.fusion_hatch ||
@@ -394,11 +393,6 @@ public class Library {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
 		
-		//Turbofan
-		if(block == ModBlocks.dummy_port_turbofan)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
 		//Large Nuclear Reactor
 		if(block == ModBlocks.reactor_hatch && worldObj.getBlock(x, y, z + 2) == ModBlocks.reactor_computer)
 		{

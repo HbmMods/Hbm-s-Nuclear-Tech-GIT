@@ -765,6 +765,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.struct_plasma_core, 1), new Object[] { "CBC", "BHB", "CBC", 'C', ModItems.circuit_gold, 'B', ModBlocks.machine_lithium_battery, 'H', ModBlocks.fusion_heater });
 		addShapelessAuto(new ItemStack(ModBlocks.fusion_heater), new Object[] { ModBlocks.fusion_hatch });
 		addShapelessAuto(new ItemStack(ModItems.energy_core), new Object[] { ModItems.fusion_core, ModItems.fuse });
+		addRecipeAuto(new ItemStack(ModItems.catalytic_converter, 1), new Object[] { "PCP", "PBP", "PCP", 'P', ANY_HARDPLASTIC.ingot(), 'C', CO.dust(), 'B', BI.ingot() });
 
 		addRecipeAuto(new ItemStack(ModItems.upgrade_nullifier, 1), new Object[] { "SPS", "PUP", "SPS", 'S', STEEL.plate(), 'P', ModItems.powder_fire, 'U', ModItems.upgrade_template });
 		addRecipeAuto(new ItemStack(ModItems.upgrade_smelter, 1), new Object[] { "PHP", "CUC", "DTD", 'P', CU.plate(), 'H', Blocks.hopper, 'C', ModItems.coil_tungsten, 'U', ModItems.upgrade_template, 'D', ModItems.coil_copper, 'T', ModBlocks.machine_transformer });
@@ -912,24 +913,6 @@ public class CraftingManager {
 		
 		addShapelessAuto(new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_RESTORED.ordinal()), new Object[] { new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_DIGAMMA.ordinal()), KEY_TOOL_SCREWDRIVER, ModItems.ducttape, ModItems.armor_polish });
 		addShapelessAuto(new ItemStack(ModItems.holotape_damaged), new Object[] { DictFrame.fromOne(ModItems.holotape_image, EnumHoloImage.HOLO_RESTORED), ModBlocks.muffler, ModItems.crt_display, ModItems.gem_alexandrite /* placeholder for amplifier */ });
-
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.SMEAR.getID()), new Object[] { ModItems.canister_smear });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.LUBRICANT.getID()), new Object[] { ModItems.canister_canola });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.OIL.getID()), new Object[] { ModItems.canister_oil });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.DIESEL.getID()), new Object[] { ModItems.canister_fuel });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.KEROSENE.getID()), new Object[] { ModItems.canister_kerosene });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.RECLAIMED.getID()), new Object[] { ModItems.canister_reoil });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.PETROIL.getID()), new Object[] { ModItems.canister_petroil });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.GASOLINE_LEADED.getID()), new Object[] { ModItems.canister_gasoline });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.FRACKSOL.getID()), new Object[] { ModItems.canister_fracksol });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.NITAN.getID()), new Object[] { ModItems.canister_NITAN });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.HEAVYOIL.getID()), new Object[] { ModItems.canister_heavyoil });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.BITUMEN.getID()), new Object[] { ModItems.canister_bitumen });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.HEATINGOIL.getID()), new Object[] { ModItems.canister_heatingoil });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.NAPHTHA.getID()), new Object[] { ModItems.canister_naphtha });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.LIGHTOIL.getID()), new Object[] { ModItems.canister_lightoil });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.BIOFUEL.getID()), new Object[] { ModItems.canister_biofuel });
-		addShapelessAuto(new ItemStack(ModItems.canister_full, 1, Fluids.ETHANOL.getID()), new Object[] { ModItems.canister_ethanol });
 
 		addRecipeAuto(DictFrame.fromOne(ModItems.part_generic, EnumPartType.PISTON_PNEUMATIC, 4), new Object[] { " I ", "CPC", " I ", 'I', IRON.ingot(), 'C', CU.ingot(), 'P', IRON.plate() });
 		addRecipeAuto(DictFrame.fromOne(ModItems.part_generic, EnumPartType.PISTON_HYDRAULIC, 4), new Object[] { " I ", "CPC", " I ", 'I', STEEL.ingot(), 'C', TI.ingot(), 'P', Fluids.LUBRICANT.getDict(1000) });

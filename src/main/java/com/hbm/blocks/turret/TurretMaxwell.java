@@ -23,9 +23,4 @@ public class TurretMaxwell extends TurretBaseNT {
 			return new TileEntityTurretMaxwell();
 		return new TileEntityProxyCombo().inventory().power();
 	}
-
-	@Override
-	public void openGUI(World world, EntityPlayer player, int x, int y, int z) {
-		FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
-	}
 }

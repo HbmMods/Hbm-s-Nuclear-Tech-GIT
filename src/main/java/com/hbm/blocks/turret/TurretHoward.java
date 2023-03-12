@@ -47,21 +47,4 @@ public class TurretHoward extends BlockDummyable {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
-
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote) {
-			return true;
-		} else if(!player.isSneaking()) {
-			int[] pos = this.findCore(world, x, y, z);
-
-			if(pos == null)
-				return false;
-			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
-			return true;
-		} else {
-			return false;
-		}
-	}
 }

@@ -14,6 +14,7 @@ public class OreNames {
 	public static final String GEM = "gem";
 	public static final String CRYSTAL = "crystal";
 	public static final String PLATE = "plate";
+	public static final String PLATECAST = "plateTriple";
 	public static final String BILLET = "billet";
 	public static final String BLOCK = "block";
 	public static final String ORE = "ore";

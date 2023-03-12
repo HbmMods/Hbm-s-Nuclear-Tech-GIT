@@ -127,6 +127,7 @@ public class HazardRegistry {
 	public static final float ingot = 1.0F;
 	public static final float gem = 1.0F;
 	public static final float plate = 1.0F;
+	public static final float plateCast = 3.0F;
 	public static final float powder_mult = 3.0F;
 	public static final float powder = ingot * powder_mult;
 	public static final float powder_tiny = nugget * powder_mult;

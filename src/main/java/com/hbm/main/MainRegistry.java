@@ -1014,6 +1014,25 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.gun_revolver_iron");
 		ignoreMappings.add("hbm:item.gun_calamity_dual");
 		ignoreMappings.add("hbm:item.gun_revolver_lead");
+		ignoreMappings.add("hbm:tile.dummy_block_turbofan");
+		ignoreMappings.add("hbm:tile.dummy_port_turbofan");
+		ignoreMappings.add("hbm:item.canister_smear");
+		ignoreMappings.add("hbm:item.canister_canola");
+		ignoreMappings.add("hbm:item.canister_oil");
+		ignoreMappings.add("hbm:item.canister_fuel");
+		ignoreMappings.add("hbm:item.canister_kerosene");
+		ignoreMappings.add("hbm:item.canister_reoil");
+		ignoreMappings.add("hbm:item.canister_petroil");
+		ignoreMappings.add("hbm:item.canister_gasoline");
+		ignoreMappings.add("hbm:item.canister_fracksol");
+		ignoreMappings.add("hbm:item.canister_NITAN");
+		ignoreMappings.add("hbm:item.canister_heavyoil");
+		ignoreMappings.add("hbm:item.canister_bitumen");
+		ignoreMappings.add("hbm:item.canister_heatingoil");
+		ignoreMappings.add("hbm:item.canister_naphtha");
+		ignoreMappings.add("hbm:item.canister_lightoil");
+		ignoreMappings.add("hbm:item.canister_biofuel");
+		ignoreMappings.add("hbm:item.canister_ethanol");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

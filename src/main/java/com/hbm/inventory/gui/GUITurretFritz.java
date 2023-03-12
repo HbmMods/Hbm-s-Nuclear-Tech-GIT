@@ -28,8 +28,7 @@ public class GUITurretFritz extends GUITurretBase {
 		super.drawGuiContainerBackgroundLayer(p_146976_1_, mX, mY);
 		
 		FluidTank tank = ((TileEntityTurretFritz)this.turret).tank;
-		
-		tank.renderTank(guiLeft + 134, guiTop + 116, this.zLevel, 7, 52);
+		tank.renderTank(guiLeft + 134, guiTop + 115, this.zLevel, 7, 52);
 	}
 	
 	protected ResourceLocation getTexture() {

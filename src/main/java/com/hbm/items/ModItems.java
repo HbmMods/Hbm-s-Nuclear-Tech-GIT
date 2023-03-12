@@ -763,6 +763,7 @@ public class ModItems {
 	public static Item mold_base;
 	public static Item mold;
 	public static Item scraps;
+	public static Item plate_cast;
 
 	public static Item part_lithium;
 	public static Item part_beryllium;
@@ -777,7 +778,9 @@ public class ModItems {
 	public static Item laser_crystal_digamma;
 
 	public static Item thermo_element;
-	//public static Item limiter;
+
+	public static Item catalytic_converter;
+	public static Item crackpipe;
 
 	public static Item pellet_rtg_depleted;
 	
@@ -898,25 +901,7 @@ public class ModItems {
 
 	public static Item canister_empty;
 	public static Item canister_full;
-	@Deprecated public static Item canister_smear;
-	@Deprecated public static Item canister_canola;
-	@Deprecated public static Item canister_oil;
-	@Deprecated public static Item canister_fuel;
-	@Deprecated public static Item canister_kerosene;
-	@Deprecated public static Item canister_reoil;
-	@Deprecated public static Item canister_petroil;
 	public static Item canister_napalm;
-	@Deprecated public static Item canister_gasoline;
-	@Deprecated public static Item canister_NITAN;
-	@Deprecated public static Item canister_fracksol;
-
-	@Deprecated public static Item canister_heavyoil;
-	@Deprecated public static Item canister_bitumen;
-	@Deprecated public static Item canister_heatingoil;
-	@Deprecated public static Item canister_naphtha;
-	@Deprecated public static Item canister_lightoil;
-	@Deprecated public static Item canister_biofuel;
-	@Deprecated public static Item canister_ethanol;
 
 	public static Item gas_empty;
 	public static Item gas_full;
@@ -3415,6 +3400,7 @@ public class ModItems {
 		mold_base = new Item().setUnlocalizedName("mold_base").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":mold_base");
 		mold = new ItemMold().setUnlocalizedName("mold").setCreativeTab(MainRegistry.controlTab);
 		scraps = new ItemScraps().setUnlocalizedName("scraps").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":scraps");
+		plate_cast = new ItemPlateCast().setUnlocalizedName("plate_cast").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_cast");
 
 		part_lithium = new Item().setUnlocalizedName("part_lithium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_lithium");
 		part_beryllium = new Item().setUnlocalizedName("part_beryllium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_beryllium");
@@ -3430,29 +3416,13 @@ public class ModItems {
 		
 		thermo_element = new Item().setUnlocalizedName("thermo_element").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":thermo_element");
 		//limiter = new Item().setUnlocalizedName("limiter").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":limiter");
+		catalytic_converter = new Item().setUnlocalizedName("catalytic_converter").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":catalytic_converter");
 
 		antiknock = new Item().setUnlocalizedName("antiknock").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":antiknock");
 		
 		canister_empty = new ItemCustomLore().setUnlocalizedName("canister_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":canister_empty");
 		canister_full = new ItemCanister().setUnlocalizedName("canister_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_empty");
-		canister_smear = new ItemCustomLore().setUnlocalizedName("canister_smear").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_smear");
-		canister_canola = new ItemCustomLore().setUnlocalizedName("canister_canola").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_canola");
-		canister_oil = new ItemCustomLore().setUnlocalizedName("canister_oil").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_oil");
-		canister_fuel = new ItemCustomLore().setUnlocalizedName("canister_fuel").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_fuel");
-		canister_kerosene = new ItemCustomLore().setUnlocalizedName("canister_kerosene").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_kerosene");
-		canister_reoil = new ItemCustomLore().setUnlocalizedName("canister_reoil").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_reoil");
-		canister_petroil = new ItemCustomLore().setUnlocalizedName("canister_petroil").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_petroil");
 		canister_napalm = new ItemCustomLore().setUnlocalizedName("canister_napalm").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_napalm");
-		canister_gasoline = new ItemCustomLore().setUnlocalizedName("canister_gasoline").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_gasoline");
-		canister_fracksol = new ItemCustomLore().setUnlocalizedName("canister_fracksol").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_fracksol");
-		canister_NITAN = new ItemCustomLore().setUnlocalizedName("canister_NITAN").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_superfuel");
-		canister_heavyoil = new ItemCustomLore().setUnlocalizedName("canister_heavyoil").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_heavyoil");
-		canister_bitumen = new ItemCustomLore().setUnlocalizedName("canister_bitumen").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_bitumen");
-		canister_heatingoil = new ItemCustomLore().setUnlocalizedName("canister_heatingoil").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_heatingoil");
-		canister_naphtha = new ItemCustomLore().setUnlocalizedName("canister_naphtha").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_naphtha");
-		canister_lightoil = new ItemCustomLore().setUnlocalizedName("canister_lightoil").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_lightoil");
-		canister_biofuel = new ItemCustomLore().setUnlocalizedName("canister_biofuel").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_biofuel");
-		canister_ethanol = new ItemCustomLore().setUnlocalizedName("canister_ethanol").setCreativeTab(null).setTextureName(RefStrings.MODID + ":canister_ethanol");
 		gas_empty = new Item().setUnlocalizedName("gas_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":gas_empty");
 		gas_full = new Item().setUnlocalizedName("gas_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_full");
 		gas_petroleum = new Item().setUnlocalizedName("gas_petroleum").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_petroleum");
@@ -3532,6 +3502,7 @@ public class ModItems {
 		gun_kit_2 = new ItemSyringe().setUnlocalizedName("gun_kit_2").setMaxStackSize(16).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":gun_kit_2");
 		cbt_device = new ItemSyringe().setUnlocalizedName("cbt_device").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":cbt_device");
 		cigarette = new ItemCigarette().setUnlocalizedName("cigarette").setFull3D().setMaxStackSize(16).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cigarette");
+		crackpipe = new ItemCigarette().setUnlocalizedName("crackpipe").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":crackpipe");
 		
 		attachment_mask = new ItemModGasmask().setUnlocalizedName("attachment_mask").setTextureName(RefStrings.MODID + ":attachment_mask");
 		attachment_mask_mono = new ItemModGasmask().setUnlocalizedName("attachment_mask_mono").setTextureName(RefStrings.MODID + ":attachment_mask_mono");
@@ -6310,6 +6281,9 @@ public class ModItems {
 		GameRegistry.registerItem(plate_armor_fau, plate_armor_fau.getUnlocalizedName());
 		GameRegistry.registerItem(plate_armor_dnt, plate_armor_dnt.getUnlocalizedName());
 		
+		//Heavy/Cast Plate
+		GameRegistry.registerItem(plate_cast, plate_cast.getUnlocalizedName());
+		
 		//Boards
 		GameRegistry.registerItem(board_copper, board_copper.getUnlocalizedName());
 		
@@ -6644,24 +6618,7 @@ public class ModItems {
 		GameRegistry.registerItem(antiknock, antiknock.getUnlocalizedName());
 		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());
 		GameRegistry.registerItem(canister_full, canister_full.getUnlocalizedName());
-		GameRegistry.registerItem(canister_oil, canister_oil.getUnlocalizedName());
-		GameRegistry.registerItem(canister_heavyoil, canister_heavyoil.getUnlocalizedName());
-		GameRegistry.registerItem(canister_bitumen, canister_bitumen.getUnlocalizedName());
-		GameRegistry.registerItem(canister_smear, canister_smear.getUnlocalizedName());
-		GameRegistry.registerItem(canister_heatingoil, canister_heatingoil.getUnlocalizedName());
-		GameRegistry.registerItem(canister_canola, canister_canola.getUnlocalizedName());
-		GameRegistry.registerItem(canister_naphtha, canister_naphtha.getUnlocalizedName());
-		GameRegistry.registerItem(canister_fuel, canister_fuel.getUnlocalizedName());
-		GameRegistry.registerItem(canister_kerosene, canister_kerosene.getUnlocalizedName());
-		GameRegistry.registerItem(canister_lightoil, canister_lightoil.getUnlocalizedName());
-		GameRegistry.registerItem(canister_reoil, canister_reoil.getUnlocalizedName());
-		GameRegistry.registerItem(canister_petroil, canister_petroil.getUnlocalizedName());
-		GameRegistry.registerItem(canister_biofuel, canister_biofuel.getUnlocalizedName());
-		GameRegistry.registerItem(canister_ethanol, canister_ethanol.getUnlocalizedName());
 		GameRegistry.registerItem(canister_napalm, canister_napalm.getUnlocalizedName());
-		GameRegistry.registerItem(canister_gasoline, canister_gasoline.getUnlocalizedName());
-		GameRegistry.registerItem(canister_fracksol, canister_fracksol.getUnlocalizedName());
-		GameRegistry.registerItem(canister_NITAN, canister_NITAN.getUnlocalizedName());
 		
 		//Gas Tanks
 		GameRegistry.registerItem(gas_empty, gas_empty.getUnlocalizedName());
@@ -6896,7 +6853,7 @@ public class ModItems {
 		
 		//Generator Stuff
 		GameRegistry.registerItem(thermo_element, thermo_element.getUnlocalizedName());
-		//GameRegistry.registerItem(limiter, limiter.getUnlocalizedName());
+		GameRegistry.registerItem(catalytic_converter, catalytic_converter.getUnlocalizedName());
 		
 		//AMS Components
 		GameRegistry.registerItem(ams_focus_blank, ams_focus_blank.getUnlocalizedName());
@@ -7974,6 +7931,7 @@ public class ModItems {
 		GameRegistry.registerItem(chocolate_milk, chocolate_milk.getUnlocalizedName());
 		GameRegistry.registerItem(cbt_device, cbt_device.getUnlocalizedName());
 		GameRegistry.registerItem(cigarette, cigarette.getUnlocalizedName());
+		GameRegistry.registerItem(crackpipe, crackpipe.getUnlocalizedName());
 		
 		//Armor mods
 		GameRegistry.registerItem(attachment_mask, attachment_mask.getUnlocalizedName());

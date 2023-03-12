@@ -10,6 +10,7 @@ import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ModItems;
@@ -389,7 +390,7 @@ public class AnvilRecipes {
 						new ComparableStack(ModBlocks.concrete_asbestos, 4),
 						new ComparableStack(ModBlocks.steel_scaffold, 16),
 						new ComparableStack(ModBlocks.deco_pipe_quad, 12),
-						new OreDictStack("dustSulfur", 32),
+						new OreDictStack(Fluids.SOURGAS.getDict(1_000), 8),
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_deuterium_tower))).setTier(4));
 		

@@ -14,7 +14,7 @@ public class NTMMaterial {
 	public MaterialShapes[] shapes = new MaterialShapes[0];
 	public boolean omitItemGen = false;
 	public SmeltingBehavior smeltable = SmeltingBehavior.NOT_SMELTABLE;
-	public int solidColor = 0xFF4A00; //TODO
+	public int solidColor = 0xFF4A00;
 	public int moltenColor = 0xFF4A00;
 	
 	public NTMMaterial smeltsInto;
@@ -64,6 +64,11 @@ public class NTMMaterial {
 	/** Defines smelting behavior */
 	public NTMMaterial smeltable(SmeltingBehavior behavior) {
 		this.smeltable = behavior;
+		return this;
+	}
+	
+	public NTMMaterial setSolidColor(int color) {
+		this.solidColor = color;
 		return this;
 	}
 	

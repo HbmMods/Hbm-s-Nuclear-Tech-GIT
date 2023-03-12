@@ -110,7 +110,9 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(new ItemStack(ModItems.ingot_rubber)));
 		recipes.add(new ChemRecipe(94, "PET", 100)
 				.inputItems(new OreDictStack(AL.dust()))
-				.inputFluids(new FluidStack(Fluids.XYLENE, 500))
+				.inputFluids(
+						new FluidStack(Fluids.XYLENE, 500),
+						new FluidStack(Fluids.OXYGEN, 100))
 				.outputItems(new ItemStack(ModItems.ingot_pet)));
 		recipes.add(new ChemRecipe(89, "DYNAMITE", 50)
 				.inputItems(

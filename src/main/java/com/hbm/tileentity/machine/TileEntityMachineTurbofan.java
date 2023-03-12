@@ -2,6 +2,9 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.UpgradeManager;
@@ -14,6 +17,7 @@ import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.inventory.gui.GUIMachineTurbofan;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
+import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -24,7 +28,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,7 +37,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -41,14 +44,16 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbofan extends TileEntityMachineBase implements ISidedInventory, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider {
+public class TileEntityMachineTurbofan extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IGUIProvider {
 
 	public long power;
-	public static final long maxPower = 500_000;
+	public static final long maxPower = 1_000_000;
 	public FluidTank tank;
+	public FluidTank blood;
 	
 	public int afterburner;
 	public boolean wasOn;
+	public boolean showBlood = false;
 
 	public float spin;
 	public float lastSpin;
@@ -57,8 +62,9 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	private AudioWrapper audio;
 
 	public TileEntityMachineTurbofan() {
-		super(3);
-		tank = new FluidTank(Fluids.KEROSENE, 24000, 0);
+		super(5);
+		tank = new FluidTank(Fluids.KEROSENE, 24000);
+		blood = new FluidTank(Fluids.BLOOD, 24000);
 	}
 
 	@Override
@@ -72,6 +78,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 
 		this.power = nbt.getLong("powerTime");
 		tank.readFromNBT(nbt, "fuel");
+		blood.readFromNBT(nbt, "blood");
+		this.showBlood = nbt.getBoolean("showBlood");
 	}
 
 	@Override
@@ -80,6 +88,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 		
 		nbt.setLong("powerTime", power);
 		tank.writeToNBT(nbt, "fuel");
+		blood.writeToNBT(nbt, "blood");
+		nbt.setBoolean("showBlood", showBlood);
 	}
 
 	public long getPowerScaled(long i) {
@@ -88,7 +98,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	
 	protected DirPos[] getConPos() {
 		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 		
 		return new DirPos[] {
@@ -104,12 +114,31 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 		
 		if(!worldObj.isRemote) {
 			
-			for(DirPos pos : getConPos()) {
-				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			//meta below 12 means that it's an old multiblock configuration
+			if(this.getBlockMetadata() < 12) {
+				//get old direction
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+				//remove tile from the world to prevent inventory dropping
+				worldObj.removeTileEntity(xCoord, yCoord, zCoord);
+				//use fillspace to create a new multiblock configuration
+				worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.machine_turbofan, dir.ordinal() + 10, 3);
+				MultiblockHandlerXR.fillSpace(worldObj, xCoord, yCoord, zCoord, ((BlockDummyable) ModBlocks.machine_turbofan).getDimensions(), ModBlocks.machine_turbofan, dir);
+				//restore connections
+				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+				((BlockDummyable) ModBlocks.machine_turbofan).makeExtra(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
+				((BlockDummyable) ModBlocks.machine_turbofan).makeExtra(worldObj, xCoord + dir.offsetX - rot.offsetX, yCoord, zCoord + dir.offsetZ - rot.offsetZ);
+				((BlockDummyable) ModBlocks.machine_turbofan).makeExtra(worldObj, xCoord - dir.offsetX, yCoord, zCoord - dir.offsetZ);
+				((BlockDummyable) ModBlocks.machine_turbofan).makeExtra(worldObj, xCoord - dir.offsetX - rot.offsetX, yCoord, zCoord - dir.offsetZ - rot.offsetZ);
+				//load the tile data to restore the old values
+				NBTTagCompound data = new NBTTagCompound();
+				this.writeToNBT(data);
+				worldObj.getTileEntity(xCoord, yCoord, zCoord).readFromNBT(data);
+				return;
 			}
 			
+			tank.setType(4, slots);
 			tank.loadTank(0, 1, slots);
+			blood.setTankType(Fluids.BLOOD);
 			
 			this.wasOn = false;
 			
@@ -119,27 +148,32 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			if(slots[2] != null && slots[2].getItem() == ModItems.flame_pony)
 				this.afterburner = 100;
 			
-			long burn = 0;
+			long burnValue = 0;
 			int amount = 1 + this.afterburner;
 			
 			if(tank.getTankType().hasTrait(FT_Combustible.class) && tank.getTankType().getTrait(FT_Combustible.class).getGrade() == FuelGrade.AERO) {
-				burn = tank.getTankType().getTrait(FT_Combustible.class).getCombustionEnergy() / 1_000;
+				burnValue = tank.getTankType().getTrait(FT_Combustible.class).getCombustionEnergy() / 1_000;
 			}
 			
-			int toBurn = Math.min(amount, this.tank.getFill());
+			int amountToBurn = Math.min(amount, this.tank.getFill());
 			
-			if(toBurn > 0) {
+			if(amountToBurn > 0) {
 				this.wasOn = true;
-				this.tank.setFill(this.tank.getFill() - toBurn);
-				this.power += burn * toBurn;
-				if(this.power > this.maxPower) {
-					this.power = this.maxPower;
-				}
+				this.tank.setFill(this.tank.getFill() - amountToBurn);
+				this.power += burnValue * amountToBurn;
 			}
 			
-			if(toBurn > 0) {
+			power = Library.chargeItemsFromTE(slots, 3, power, power);
+			
+			for(DirPos pos : getConPos()) {
+				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.blood.getFill() > 0) this.sendFluid(blood.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
+			
+			if(burnValue > 0 && amountToBurn > 0) {
 
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
 				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 				
 				if(this.afterburner > 0) {
@@ -155,9 +189,13 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, this.xCoord + 0.5F - dir.offsetX * (3 - i), this.yCoord + 1.5F, this.zCoord + 0.5F - dir.offsetZ * (3 - i)), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 					}
 					
-					/*if(this.afterburner > 90 && worldObj.rand.nextInt(30) == 0) {
+					/*if(this.afterburner > 90 && worldObj.rand.nextInt(60) == 0) {
 						worldObj.newExplosion(null, xCoord + 0.5 + dir.offsetX * 3.5, yCoord + 0.5, zCoord + 0.5 + dir.offsetZ * 3.5, 3F, false, false);
 					}*/
+					
+					if(this.afterburner > 90 && worldObj.rand.nextInt(30) == 0) {
+						worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, "hbm:block.damage", 3.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+					}
 					
 					if(this.afterburner > 90) {
 						NBTTagCompound data = new NBTTagCompound();
@@ -220,15 +258,27 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY + e.height * 0.5, e.posZ, 150));
 						
 						worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+						
+						blood.setFill(blood.getFill() + 50); 
+						if(blood.getFill() > blood.getMaxFill()) {
+							blood.setFill(blood.getMaxFill());
+						}
+						this.showBlood = true;
 					}
 				}
+			}
+			
+			if(this.power > this.maxPower) {
+				this.power = this.maxPower;
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setByte("after", (byte) afterburner);
 			data.setBoolean("wasOn", wasOn);
+			data.setBoolean("showBlood", showBlood);
 			tank.writeToNBT(data, "tank");
+			blood.writeToNBT(data, "blood");
 			this.networkPack(data, 150);
 			
 		} else {
@@ -326,7 +376,9 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 		this.power = nbt.getLong("power");
 		this.afterburner = nbt.getByte("after");
 		this.wasOn = nbt.getBoolean("wasOn");
+		this.showBlood = nbt.getBoolean("showBlood");
 		tank.readFromNBT(nbt, "tank");
+		blood.readFromNBT(nbt, "blood");
 	}
 	
 	public AudioWrapper createAudioLoop() {
@@ -398,11 +450,10 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
 
@@ -412,8 +463,13 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	}
 
 	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { blood };
+	}
+
+	@Override
 	public FluidTank[] getAllTanks() {
-		return new FluidTank[] { tank };
+		return new FluidTank[] { tank, blood };
 	}
 
 	@Override

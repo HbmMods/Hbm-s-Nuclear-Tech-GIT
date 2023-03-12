@@ -47,6 +47,8 @@ public class ItemMold extends Item {
 		registerMold(new MoldShape(		3, S, "plate", MaterialShapes.PLATE));
 		registerMold(new MoldWire(		4, S, "wire"));
 		
+		registerMold(new MoldShape(		19, S, "plate_cast", MaterialShapes.CASTPLATE));
+		
 		registerMold(new MoldMulti(		5, S, "blade", MaterialShapes.INGOT.q(3),
 				Mats.MAT_TITANIUM, new ItemStack(ModItems.blade_titanium),
 				Mats.MAT_TUNGSTEN, new ItemStack(ModItems.blade_tungsten)));
@@ -173,7 +175,7 @@ public class ItemMold extends Item {
 		public ItemStack getOutput(NTMMaterial mat) {
 			
 			for(String name : mat.names) {
-				String od = shape.name().toLowerCase() + name;
+				String od = shape.name() + name;
 				List<ItemStack> ores = OreDictionary.getOres(od);
 				if(!ores.isEmpty()) {
 					ItemStack copy = ores.get(0).copy();
@@ -192,7 +194,7 @@ public class ItemMold extends Item {
 
 		@Override
 		public String getTitle() {
-			return I18nUtil.resolveKey("shape." + shape.name().toLowerCase()) + " x" + amount;
+			return I18nUtil.resolveKey("shape." + shape.name()) + " x" + amount;
 		}
 	}
 

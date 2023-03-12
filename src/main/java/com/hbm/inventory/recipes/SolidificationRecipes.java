@@ -71,51 +71,40 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(CRACKOIL,		SF_CRACK,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));
 		registerRecipe(COALOIL,			SF_COALOIL,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL));
 		registerRecipe(HEAVYOIL,		SF_HEAVY,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
+		registerRecipe(HEAVYOIL_VACUUM,	SF_HEAVY,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(BITUMEN,			SF_BITUMEN,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(COALCREOSOTE,	SF_CREOSOTE,	DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL));
 		registerRecipe(WOODOIL,			SF_WOOD,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WOOD));
 
-		registerRecipe(SMEAR,			SF_SMEAR,		ModItems.solid_fuel);
-		registerRecipe(HEATINGOIL,		SF_HEATING,		ModItems.solid_fuel);
-		registerRecipe(RECLAIMED,		SF_RECLAIMED,	ModItems.solid_fuel);
-		registerRecipe(PETROIL,			SF_PETROIL,		ModItems.solid_fuel);
-		registerRecipe(LUBRICANT,		SF_LUBE,		ModItems.solid_fuel);
-		registerRecipe(NAPHTHA,			SF_NAPH,		ModItems.solid_fuel);
-		registerRecipe(NAPHTHA_CRACK,	SF_NAPH,		ModItems.solid_fuel);
-		registerRecipe(DIESEL,			SF_DIESEL,		ModItems.solid_fuel);
-		registerRecipe(DIESEL_CRACK,	SF_DIESEL,		ModItems.solid_fuel);
-		registerRecipe(LIGHTOIL,		SF_LIGHT,		ModItems.solid_fuel);
-		registerRecipe(LIGHTOIL_CRACK,	SF_LIGHT,		ModItems.solid_fuel);
-		registerRecipe(KEROSENE,		SF_KEROSENE,	ModItems.solid_fuel);
-		registerRecipe(GAS,				SF_GAS,			ModItems.solid_fuel);
-		registerRecipe(PETROLEUM,		SF_PETROLEUM,	ModItems.solid_fuel);
-		registerRecipe(LPG,				SF_LPG,			ModItems.solid_fuel);
-		registerRecipe(BIOGAS,			SF_BIOGAS,		ModItems.solid_fuel);
-		registerRecipe(BIOFUEL,			SF_BIOFUEL,		ModItems.solid_fuel);
-		registerRecipe(AROMATICS,		SF_AROMA,		ModItems.solid_fuel);
-		registerRecipe(UNSATURATEDS,	SF_UNSAT,		ModItems.solid_fuel);
-		
 		registerRecipe(BALEFIRE,		250,			ModItems.solid_fuel_bf);
 		
 		registerSFAuto(SMEAR);
 		registerSFAuto(HEATINGOIL);
+		registerSFAuto(HEATINGOIL_VACUUM);
 		registerSFAuto(RECLAIMED);
 		registerSFAuto(PETROIL);
-		//registerSFAuto(LUBRICANT);
 		registerSFAuto(NAPHTHA);
 		registerSFAuto(NAPHTHA_CRACK);
 		registerSFAuto(DIESEL);
+		registerSFAuto(DIESEL_REFORM);
 		registerSFAuto(DIESEL_CRACK);
+		registerSFAuto(DIESEL_CRACK_REFORM);
 		registerSFAuto(LIGHTOIL);
 		registerSFAuto(LIGHTOIL_CRACK);
+		registerSFAuto(LIGHTOIL_VACUUM);
 		registerSFAuto(KEROSENE);
 		registerSFAuto(GAS);
+		registerSFAuto(SOURGAS);
+		registerSFAuto(REFORMGAS);
+		registerSFAuto(SYNGAS);
 		registerSFAuto(PETROLEUM);
 		registerSFAuto(LPG);
 		registerSFAuto(BIOGAS);
 		registerSFAuto(BIOFUEL);
 		registerSFAuto(AROMATICS);
 		registerSFAuto(UNSATURATEDS);
+		registerSFAuto(REFORMATE);
+		registerSFAuto(XYLENE);
 		registerSFAuto(BALEFIRE, 24000000L, ModItems.solid_fuel_bf); //holy shit this is energy dense*/
 		
 	}
