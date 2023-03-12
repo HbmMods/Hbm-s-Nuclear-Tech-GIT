@@ -1103,6 +1103,14 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.bolt_dura_steel, 12),
 				new OreDictStack(KEY_YELLOW, 4)
 			}, 5000);
+			
+		makeRecipe(new ComparableStack(ModBlocks.fluid_pump, 1), new AStack[]{
+				new ComparableStack(ModItems.motor, 1),
+				new OreDictStack(STEEL.plate(), 4),
+				new ComparableStack(ModItems.tank_steel, 1),
+				new ComparableStack(ModItems.hull_big_steel, 1),
+				new ComparableStack(ModItems.circuit_aluminium, 1)
+			}, 200);
 		
 		if(Loader.isModLoaded("Mekanism")) {
 			
