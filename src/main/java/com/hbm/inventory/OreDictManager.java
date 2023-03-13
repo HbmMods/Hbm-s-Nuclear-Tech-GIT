@@ -21,6 +21,7 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
+import com.hbm.inventory.material.NTMMaterial.SmeltingBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemEnums.EnumCokeType;
@@ -461,7 +462,9 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_arsenic);
 		
 		for(NTMMaterial mat : Mats.orderedList) {
-			for(String name : mat.names) OreDictionary.registerOre("plateTriple" + name, new ItemStack(ModItems.plate_cast, 1, mat.id));
+			if(mat.smeltable == SmeltingBehavior.SMELTABLE && mat.shapes.contains(MaterialShapes.CASTPLATE)) {
+				for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.CASTPLATE.name() + name, new ItemStack(ModItems.plate_cast, 1, mat.id));
+			}
 		}
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
@@ -612,6 +615,9 @@ public class OreDictManager {
 		public String[] billets() {		return appendToAll(BILLET); }
 		public String[] blocks() {		return appendToAll(BLOCK); }
 		public String[] ores() {		return appendToAll(ORE); }
+		
+		/** Returns cast (triple) plates if 528 mode is enabled or normal plates if not */
+		public String plate528() { return GeneralConfig.enable528 ? plateCast() : plate(); }
 		
 		private String[] appendToAll(String... prefix) {
 			

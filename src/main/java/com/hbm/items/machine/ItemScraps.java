@@ -8,6 +8,7 @@ import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemAutogen;
 import com.hbm.util.I18nUtil;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.material.NTMMaterial.SmeltingBehavior;
@@ -19,11 +20,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 
-public class ItemScraps extends Item {
+public class ItemScraps extends ItemAutogen {
 
 	public ItemScraps() {
-		this.setHasSubtypes(true);
+		super(null);
 	}
 
 	@Override
@@ -35,6 +37,11 @@ public class ItemScraps extends Item {
 			}
 		}
 	}
+
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
+		return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+	}
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
@@ -43,18 +50,6 @@ public class ItemScraps extends Item {
 		if(contents != null) {
 			list.add(I18nUtil.resolveKey(contents.material.getUnlocalizedName()) + ", " + Mats.formatAmount(contents.amount, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)));
 		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack stack, int layer) {
-		
-		NTMMaterial mat = Mats.matById.get(stack.getItemDamage());
-		
-		if(mat != null) {
-			return mat.solidColor;
-		}
-		
-		return 0xffffff;
 	}
 	
 	public static MaterialStack getMats(ItemStack stack) {

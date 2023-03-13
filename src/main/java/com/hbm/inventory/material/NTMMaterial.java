@@ -1,5 +1,8 @@
 package com.hbm.inventory.material;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.hbm.inventory.OreDictManager.DictFrame;
 
 /**
@@ -11,8 +14,7 @@ public class NTMMaterial {
 
 	public final int id;
 	public String[] names;
-	public MaterialShapes[] shapes = new MaterialShapes[0];
-	public boolean omitItemGen = false;
+	public Set<MaterialShapes> shapes = new HashSet();
 	public SmeltingBehavior smeltable = SmeltingBehavior.NOT_SMELTABLE;
 	public int solidColor = 0xFF4A00;
 	public int moltenColor = 0xFF4A00;
@@ -51,13 +53,7 @@ public class NTMMaterial {
 	
 	/** Shapes for autogen */
 	public NTMMaterial setShapes(MaterialShapes... shapes) {
-		this.shapes = shapes;
-		return this;
-	}
-	
-	/** Turn off autogen for this material, use this for vanilla stuff */
-	public NTMMaterial omitAutoGen() {
-		this.omitItemGen = true;
+		for(MaterialShapes shape : shapes) this.shapes.add(shape);
 		return this;
 	}
 	

@@ -62,7 +62,7 @@ public class MaterialShapes {
 		return this.quantity * amount;
 	}
 	
-	public int q(int unitsUsed, int itemsProduced) { //eg rails: INOGT.q(6, 16) since the recipe uses 6 ton ingots producing 16 individual rail blocks
+	public int q(int unitsUsed, int itemsProduced) { //eg rails: INOGT.q(6, 16) since the recipe uses 6 iron ingots producing 16 individual rail blocks
 		return this.quantity * unitsUsed / itemsProduced;
 	}
 
