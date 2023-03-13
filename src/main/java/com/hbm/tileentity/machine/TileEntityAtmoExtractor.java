@@ -19,7 +19,7 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IEnergyUser, IFluidStandardSender {
+public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IFluidSource, IEnergyUser, IFluidStandardSender {
 	float rotSpeed;
 	int consumption = 200;
 	public float rot;
@@ -175,13 +175,13 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 		return 0;
 	}
 
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(type == tanks.getTankType())
-			return tanks.getMaxFill();
+	//@Override
+	//public int getMaxFluidFill(FluidType type) {
+	//	if(type == tanks.getTankType())
+	//		return tanks.getMaxFill();
 
-		return 0;
-	}
+	//	return 0;
+	//}
 
 	@Override
 	public void setFillForSync(int fill, int index) { }
