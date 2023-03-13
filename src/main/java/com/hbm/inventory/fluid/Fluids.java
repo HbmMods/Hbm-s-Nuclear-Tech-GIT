@@ -110,7 +110,9 @@ public class Fluids {
 	public static FluidType SYNGAS;
 	public static FluidType OXYHYDROGEN;
 	public static FluidType RADIOSOLVENT;
-	public static FluidType CHLORINE; //everone's favorite!
+	public static FluidType CHLORINE; //everone's favorite! //KMnO₄
+	public static FluidType EVEAIR; // when cryogenically distillated, can yield stuff like mercury, that one chemical pu suggested involving something purple i forgot, and possibly iodine
+	public static FluidType KMnO4;
 	//public static FluidType METHANOL; //syngas + methane, or + natgas? or just from cracking natgas?
 	//public static FluidType METHANE;// found on tekto
 	//public static FluidType METHALOX; //methanol + oxygen, or just methane
@@ -118,7 +120,6 @@ public class Fluids {
 	//public static FluidType FLUORINE; //why not
 	//public static FluidType HYALURONIC; // from mobs, more efficent than engine lubricant.
 	//public static FluidType DUNAAIR; //yields mostly carbon dioxide
-	//public static FluidType EVEAIR; // when cryogenically distillated, can yield stuff like mercury, that one chemical pu suggested involving something purple i forgot, and possibly iodine
 	//public static FluidType TEKTOAIR; // makes methane, and some hydrocarbons too. literally free...
 	//public static FluidType LAYTHEAIR;
 	
@@ -250,7 +251,9 @@ public class Fluids {
 		OXYHYDROGEN =		new FluidType(94, "OXYHYDROGEN",	0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
 		RADIOSOLVENT =		new FluidType("RADIOSOLVENT",		0xA4D7DD, 3, 3, 0, EnumSymbol.NONE).addTraits(LIQUID, LEADCON, new FT_Corrosive(50), new FT_VentRadiation(0.01F));
 		CHLORINE =			new FluidType(96, "CHLORINE",		0xBAB572, 4, 0, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(25), new FT_Poison(true, 1));		
-		
+		EVEAIR =			new FluidType("EVEAIR",				0xBAB572, 4, 0, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(25), new FT_Poison(true, 1));	
+		KMnO4 =				new FluidType("KMnO4",				0xBAB572, 4, 0, 0, EnumSymbol.ACID).addTraits(LIQUID, new FT_Corrosive(15), new FT_Poison(true, 1));	
+
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -334,8 +337,11 @@ public class Fluids {
 		metaOrder.add(SEEDSLURRY);
 		metaOrder.add(ACID);
 		metaOrder.add(SULFURIC_ACID);
-		//NITRIC_ACID
+		//airs
+		metaOrder.add(EVEAIR); //iodine, mercury, potassium permenganate
+		metaOrder.add(KMnO4);
 		metaOrder.add(AIR); //do it for love, do it for life, for mankiiiiiind!!
+		//NITRIC_ACID
 		metaOrder.add(NITRIC_ACID);
 		metaOrder.add(HCL);
 		metaOrder.add(AMMONIA);

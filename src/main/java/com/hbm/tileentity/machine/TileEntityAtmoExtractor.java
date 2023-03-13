@@ -5,17 +5,25 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.config.WorldConfig;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FT_Flammable;
+import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IEnergyUser, IFluidStandardTransceiver {
@@ -52,9 +60,21 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 				power -= this.getMaxPower() / 100;
 				//tank.setFill(tank.getFill() - 1);
 				//this.power -= this.consumption;
-	
 		}
-		
+			
+		if(worldObj.provider.dimensionId == WorldConfig.eveDimension) {
+			tanks.setTankType(Fluids.EVEAIR);
+			this.markDirty();
+			//player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase())).appendSibling(new ChatComponentText("!")));
+			//System.out.println("among us has been detected at " + WorldConfig.eveDimension);
+			}
+		if(worldObj.provider.dimensionId == WorldConfig.dunaDimension) {
+			tanks.setTankType(Fluids.CARBONDIOXIDE);
+			this.markDirty();
+			//player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase())).appendSibling(new ChatComponentText("!")));
+			//System.out.println("among us has been detected at " + WorldConfig.eveDimension);
+			}
+
 		this.sendFluidToAll(tanks.getTankType(), this);
 		fillFluidInit(tanks.getTankType());
 
