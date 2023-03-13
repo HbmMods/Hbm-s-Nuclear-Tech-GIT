@@ -20,7 +20,13 @@ public class TextureAtlasSpriteMutatable extends TextureAtlasSprite {
 	@Override
 	public void loadSprite(BufferedImage[] frames, AnimationMetadataSection animMeta, boolean anisotropicFiltering) {
 		
-		if(mutator != null) for(BufferedImage frame : frames) mutator.mutate(frame);
+		if(mutator != null) {
+			for(int i = 0; i < frames.length; i++) {
+				BufferedImage frame = frames[i];
+				mutator.mutate(frame, i, frames.length);
+			}
+		}
+		
 		super.loadSprite(frames, animMeta, anisotropicFiltering);
 	}
 }

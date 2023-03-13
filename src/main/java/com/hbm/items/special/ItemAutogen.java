@@ -7,12 +7,16 @@ import java.util.Map.Entry;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
+import com.hbm.items.tool.ItemColtanCompass.TextureColtass;
 import com.hbm.lib.RefStrings;
+import com.hbm.render.icon.RGBMutatorMultiplicative;
+import com.hbm.render.icon.TextureAtlasSpriteMutatable;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -40,6 +44,15 @@ public class ItemAutogen extends Item {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
 		super.registerIcons(reg);
+		
+		/*if(reg instanceof TextureMap) {
+			TextureMap map = (TextureMap) reg;
+			TextureAtlasSpriteMutatable jumpstart_my_shart = new TextureAtlasSpriteMutatable(this.getIconString(), new RGBMutatorMultiplicative(0xff0000));
+			map.setTextureEntry(this.getIconString(), jumpstart_my_shart);
+			this.itemIcon = jumpstart_my_shart;
+		} else {
+			this.itemIcon = reg.registerIcon(this.getIconString());
+		}*/
 		
 		for(Entry<NTMMaterial, String> tex : textureOverrides.entrySet()) {
 			iconOverrides.put(tex.getKey(), reg.registerIcon(RefStrings.MODID + ":" + tex.getValue()));
@@ -84,7 +97,7 @@ public class ItemAutogen extends Item {
 		NTMMaterial mat = Mats.matById.get(stack.getItemDamage());
 		
 		if(mat != null) {
-			return mat.solidColor;
+			//return mat.solidColor;
 		}
 		
 		return 0xffffff;
