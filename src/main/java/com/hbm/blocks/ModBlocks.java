@@ -3204,7 +3204,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_forcefield, machine_forcefield.getUnlocalizedName());
 		GameRegistry.registerBlock(radiorec, radiorec.getUnlocalizedName());
 		GameRegistry.registerBlock(radiobox, radiobox.getUnlocalizedName());
-		GameRegistry.registerBlock(fluid_pump, fluid_pump.getUnlocalizedName());
+		register(fluid_pump);
 		
 		//Multiblock Helpers
 		GameRegistry.registerBlock(marker_structure, marker_structure.getUnlocalizedName());

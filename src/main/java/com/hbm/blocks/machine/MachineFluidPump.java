@@ -36,7 +36,6 @@ public class MachineFluidPump extends BlockContainer implements ILookOverlay, IT
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		meta = 0;
 		return new TileEntityFluidPump();
 	}
 	
@@ -78,7 +77,7 @@ public class MachineFluidPump extends BlockContainer implements ILookOverlay, IT
 				
 				TileEntityFluidPump pump = (TileEntityFluidPump) te;
 				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, x, y, z, player.getHeldItem());
-				pump.tanks[0].setTankType(type);
+				pump.tank.setTankType(type);
 				pump.markDirty();
 				player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase())).appendSibling(new ChatComponentText("!")));
 				
@@ -102,8 +101,8 @@ public class MachineFluidPump extends BlockContainer implements ILookOverlay, IT
 		TileEntityFluidPump pump = (TileEntityFluidPump) te;
 		
 		List<String> text = new ArrayList();
-		text.add((pump.power < pump.getMaxPower() / 20 ? EnumChatFormatting.RED : EnumChatFormatting.GREEN) + "Power: " + BobMathUtil.getShortNumber(pump.power) + "HE");
-		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + pump.tanks[0].getTankType().getName().toLowerCase()) + ": " + pump.tanks[0].getFill() + "/" + pump.tanks[0].getMaxFill() + "mB");
+		text.add((pump.power < 5 ? EnumChatFormatting.RED : EnumChatFormatting.GREEN) + "Power: " + BobMathUtil.getShortNumber(pump.power) + "HE");
+		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + pump.tank.getTankType().getName().toLowerCase()) + ": " + pump.tank.getFill() + "/" + pump.tank.getMaxFill() + "mB");
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
