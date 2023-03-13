@@ -432,7 +432,7 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	bomber.bombStop = 125;
     	bomber.bombRate = 90000;
 
-    	bomber.fac(world, x, y+60, z);
+    	bomber.fac(world, x, y+30, z);
     	
     	bomber.getDataWatcher().updateObject(16, (byte)9);
     	
