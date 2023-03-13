@@ -124,7 +124,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 	public boolean hasPower() {
 		return power >= this.getMaxPower() / 100;
 	}
-
+	
 	public boolean hasTooMuch() {
 		return tanks.getFill() >= 50000;
 	}
