@@ -113,11 +113,18 @@ public class Fluids {
 	public static FluidType CHLORINE; //everone's favorite! //KMnO₄
 	public static FluidType EVEAIR; // when cryogenically distillated, can yield stuff like mercury, that one chemical pu suggested involving something purple i forgot, and possibly iodine
 	public static FluidType KMnO4;
-	//public static FluidType METHANOL; //syngas + methane, or + natgas? or just from cracking natgas?
-	//public static FluidType METHANE;// found on tekto
-	//public static FluidType METHALOX; //methanol + oxygen, or just methane
-	//public static FluidType POLYTHYLENE; //this is so that you wont need to go through microcrafting hell on circuits //idea is that rubber solution makes these casts that can then be imprinted in the assembly machine without needing to go through the resources to make the circuits one by one, it would be gated behind oil though.
-	//public static FluidType FLUORINE; //why not
+	public static FluidType METHANOL; //syngas + methane, or + natgas? or just from cracking natgas?
+	public static FluidType METHANE;// found on tekto
+	public static FluidType METHALOX; //methanol + oxygen, or just methane
+	public static FluidType METHYLENE;
+	public static FluidType POLYTHYLENE; //this is so that you wont need to go through microcrafting hell on circuits //idea is that rubber solution makes these casts that can then be imprinted in the assembly machine without needing to go through the resources to make the circuits one by one, it would be gated behind oil though.
+	public static FluidType MILK;
+	public static FluidType SMILK;
+	public static FluidType COFFEE;
+	public static FluidType TEA;
+	public static FluidType HONEY;
+	public static FluidType OLIVEOIL;
+	public static FluidType FLUORINE; //why not
 	//public static FluidType HYALURONIC; // from mobs, more efficent than engine lubricant.
 	//public static FluidType DUNAAIR; //yields mostly carbon dioxide
 	//public static FluidType TEKTOAIR; // makes methane, and some hydrocarbons too. literally free...
@@ -251,8 +258,22 @@ public class Fluids {
 		OXYHYDROGEN =		new FluidType(94, "OXYHYDROGEN",	0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
 		RADIOSOLVENT =		new FluidType("RADIOSOLVENT",		0xA4D7DD, 3, 3, 0, EnumSymbol.NONE).addTraits(LIQUID, LEADCON, new FT_Corrosive(50), new FT_VentRadiation(0.01F));
 		CHLORINE =			new FluidType(96, "CHLORINE",		0xBAB572, 4, 0, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(25), new FT_Poison(true, 1));		
-		EVEAIR =			new FluidType("EVEAIR",				0xBAB572, 4, 0, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(25), new FT_Poison(true, 1));	
-		KMnO4 =				new FluidType("KMnO4",				0xBAB572, 4, 0, 0, EnumSymbol.ACID).addTraits(LIQUID, new FT_Corrosive(15), new FT_Poison(true, 1));	
+		EVEAIR =			new FluidType("EVEAIR",				0xAD008D, 4, 0, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(25), new FT_Poison(true, 1));	
+		KMnO4 =				new FluidType("KMnO4",				0x560046, 4, 0, 0, EnumSymbol.ACID).addTraits(LIQUID, new FT_Corrosive(15), new FT_Poison(true, 1));	
+		METHANE =			new FluidType("METHANE",			0x5F5F7A, 2, 4, 0, EnumSymbol.NONE).addTraits(GASEOUS).addTraits(new FT_Flammable(200_000));	
+		METHANOL =			new FluidType("METHANOL",			0x88739F, 3, 4, 0, EnumSymbol.NONE).addTraits(GASEOUS).addTraits(new FT_Flammable(400_000)).addTraits(new FT_Combustible(FuelGrade.HIGH, 600_000), LIQUID);	//ethanol but more etha per nol
+		METHALOX =			new FluidType("METHALOX",			0x7EB1BB, 1, 4, 0, EnumSymbol.NONE).addTraits(GASEOUS).addTraits(new FT_Flammable(600_000)).addTraits(new FT_Combustible(FuelGrade.HIGH, 900_000), LIQUID);	 //just realized irl this isnt how this works but idk
+		METHYLENE =			new FluidType("METHYLENE",			0xBBA9A0, 2, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+		POLYTHYLENE =		new FluidType("POLYTHYLENE",		0x35302E, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID).addTraits(new FT_Flammable(50_000));	
+		MILK =				new FluidType("MILK",				0xCFCFCF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);//F5DEE4
+		SMILK =				new FluidType("SMILK",				0xF5DEE4, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		COFFEE =			new FluidType("COFFEE",				0x57493D, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		TEA =				new FluidType("TEA",				0x76523C, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		HONEY =				new FluidType("HONEY",				0xD99A02, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		OLIVEOIL =			new FluidType("OLIVEOIL",			0xA9B98E, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		FLUORINE =			new FluidType("FLUORINE",			0xC5C539, 4, 4, 4, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(32), new FT_Poison(true, 1)).addTraits(new FT_Flammable(10_000));		
+
+		
 
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -290,6 +311,7 @@ public class Fluids {
 		metaOrder.add(OXYGEN);
 		metaOrder.add(XENON);
 		metaOrder.add(CHLORINE);
+		metaOrder.add(FLUORINE);
 		metaOrder.add(MERCURY);
 		metaOrder.add(NITROGEN);
 		//oils, fuels
@@ -337,6 +359,12 @@ public class Fluids {
 		metaOrder.add(SEEDSLURRY);
 		metaOrder.add(ACID);
 		metaOrder.add(SULFURIC_ACID);
+		//meths
+		metaOrder.add(METHALOX);
+		metaOrder.add(METHANE);
+		metaOrder.add(METHANOL);
+		metaOrder.add(POLYTHYLENE);
+		metaOrder.add(METHYLENE);
 		//airs
 		metaOrder.add(EVEAIR); //iodine, mercury, potassium permenganate
 		metaOrder.add(KMnO4);
@@ -356,6 +384,13 @@ public class Fluids {
 		metaOrder.add(WATZ);
 		//solutions and working fluids
 		metaOrder.add(FRACKSOL);
+		//edibles
+		metaOrder.add(MILK);
+		metaOrder.add(SMILK);
+		metaOrder.add(COFFEE);
+		metaOrder.add(TEA);
+		metaOrder.add(HONEY);
+		metaOrder.add(OLIVEOIL);
 		//antimatter
 		metaOrder.add(AMAT);
 		metaOrder.add(ASCHRAB);
@@ -469,6 +504,8 @@ public class Fluids {
 		registerCalculatedFuel(COALGAS_LEADED, (coaloil / 0.3 * flammabilityNormal * demandMedium * complexityChemplant * complexityFraction * complexityLeaded), 1.5, FuelGrade.MEDIUM);
 
 		registerCalculatedFuel(ETHANOL, 275_000D /* diesel / 2 */, 2.5D, FuelGrade.HIGH);
+		registerCalculatedFuel(METHANOL, 375_000D /* diesel / 2 */, 2.5D, FuelGrade.HIGH);
+		registerCalculatedFuel(METHALOX, 480_000D /* diesel / 2 */, 2.5D, FuelGrade.HIGH);
 
 		registerCalculatedFuel(BIOGAS, 250_000D * flammabilityLow /* biofuel with half compression, terrible flammability */, 1.25, FuelGrade.GAS);
 		registerCalculatedFuel(BIOFUEL, 500_000D /* slightly below diesel */, 2.5D, FuelGrade.HIGH);

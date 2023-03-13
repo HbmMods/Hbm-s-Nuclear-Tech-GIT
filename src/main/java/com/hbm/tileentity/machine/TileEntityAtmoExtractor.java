@@ -72,10 +72,12 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 		if(worldObj.provider.dimensionId == WorldConfig.dunaDimension) {
 			tanks.setTankType(Fluids.CARBONDIOXIDE);
 			this.markDirty();
-			//player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase())).appendSibling(new ChatComponentText("!")));
-			//System.out.println("among us has been detected at " + WorldConfig.eveDimension);
 			}
-
+		if(worldObj.provider.dimensionId != WorldConfig.dunaDimension && worldObj.provider.dimensionId != WorldConfig.eveDimension ) {
+			tanks.setTankType(Fluids.NONE);
+			this.markDirty();
+			return;
+		}
 		this.sendFluidToAll(tanks.getTankType(), this);
 		fillFluidInit(tanks.getTankType());
 
