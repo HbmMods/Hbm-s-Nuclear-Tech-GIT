@@ -75,9 +75,7 @@ public class AtmoVent extends BlockDummyable implements ILookOverlay {
 
 		List<String> text = new ArrayList();
 		text.add((tower.power < tower.getMaxPower() / 20 ? EnumChatFormatting.RED : EnumChatFormatting.GREEN) + "Power: " + BobMathUtil.getShortNumber(tower.power) + "HE");
-
-		for(int i = 0; i < tower.tanks.index; i++)
-			text.add((i < 1 ? (EnumChatFormatting.GREEN + "-> ") : (EnumChatFormatting.RED + "<- ")) + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + tower.tanks.getTankType().getName().toLowerCase()) + ": " + tower.tanks.getFill() + "/" + tower.tanks.getMaxFill() + "mB");
+		text.add(((EnumChatFormatting.RED + "<- ")) + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + tower.tanks.getTankType().getName().toLowerCase()) + ": " + tower.tanks.getFill() + "/" + tower.tanks.getMaxFill() + "mB");
 
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
