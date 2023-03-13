@@ -18,6 +18,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardSender;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
@@ -26,7 +27,7 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IEnergyUser, IFluidStandardTransceiver {
+public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IFluidSource, IEnergyUser, IFluidStandardSender {
 	float rotSpeed;
 	int consumption = 200;
 	public float rot;
@@ -37,7 +38,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 
 	public TileEntityAtmoExtractor() {
 		super(0);
-		tanks = new FluidTank(Fluids.AIR, 1000, 0);
+		tanks = new FluidTank(Fluids.AIR, 50000, 0);
 	}
 
 	@Override
@@ -53,10 +54,10 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 			this.updateConnections();
 			
 			if(hasPower() && !hasTooMuch() && tanks.getMaxFill() > tanks.getFill()) {
-				int collect = Math.min(tanks.getMaxFill(), tanks.getFill()) + 50;
-				collect = Math.min(collect, tanks.getMaxFill() - tanks.getFill());
+				//int collect = Math.min(tanks.getMaxFill(), tanks.getFill()) / 50;
+				//collect = Math.min(collect, tanks.getMaxFill() - tanks.getFill());
 				
-				tanks.setFill(tanks.getFill() + collect);
+				tanks.setFill(tanks.getFill() + 50);
 				power -= this.getMaxPower() / 100;
 				//tank.setFill(tank.getFill() - 1);
 				//this.power -= this.consumption;
@@ -143,9 +144,9 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 	public boolean hasPower() {
 		return power >= this.getMaxPower() / 100;
 	}
-
+	
 	public boolean hasTooMuch() {
-		return tanks.getFill() >= 1000;
+		return tanks.getFill() >= 50000;
 	}
 
 	@Override
@@ -194,13 +195,13 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 		return 0;
 	}
 
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(type == tanks.getTankType())
-			return tanks.getMaxFill();
+	//@Override
+	//public int getMaxFluidFill(FluidType type) {
+	//	if(type == tanks.getTankType())
+	//		return tanks.getMaxFill();
 
-		return 0;
-	}
+	//	return 0;
+	//}
 
 	@Override
 	public void setFillForSync(int fill, int index) { }
@@ -238,10 +239,10 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 		return new FluidTank[] { tanks };
 	}
 
-	@Override
-	public FluidTank[] getReceivingTanks() {
-		return new FluidTank[] { tanks };
-	}
+	//@Override
+	//public FluidTank[] getReceivingTanks() {
+	//	return new FluidTank[] { tanks };
+	//}
 
 	@Override
 	public FluidTank[] getAllTanks() {
