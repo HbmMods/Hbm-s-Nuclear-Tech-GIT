@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
-import com.hbm.items.tool.ItemColtanCompass.TextureColtass;
+import com.hbm.inventory.material.NTMMaterial.SmeltingBehavior;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.icon.RGBMutatorInterpolatedComponentRemap;
 import com.hbm.render.icon.TextureAtlasSpriteMutatable;
@@ -49,9 +49,10 @@ public class ItemAutogen extends Item {
 			TextureMap map = (TextureMap) reg;
 			
 			for(NTMMaterial mat : Mats.orderedList) {
-				if(!textureOverrides.containsKey(mat)) {
+				if(!textureOverrides.containsKey(mat) && mat.solidColorLight != mat.solidColorDark) {
 					String placeholderName = this.getIconString() + "-" + mat.names[0]; //the part after the dash is discarded - the name only has to be unique so that the hashmap which holds all the icon definitions can hold multiple references
-					TextureAtlasSpriteMutatable mutableIcon = new TextureAtlasSpriteMutatable(placeholderName, new RGBMutatorInterpolatedComponentRemap(0xFFFFFF, 0x565656, mat.solidColorLight, mat.solidColorDark));
+					//TextureAtlasSpriteMutatable mutableIcon = new TextureAtlasSpriteMutatable(placeholderName, new RGBMutatorInterpolatedComponentRemap(0xFFFFFF, 0x565656, mat.solidColorLight, mat.solidColorDark));
+					TextureAtlasSpriteMutatable mutableIcon = new TextureAtlasSpriteMutatable(placeholderName, new RGBMutatorInterpolatedComponentRemap(0xFFFFFF, 0x505050, mat.solidColorLight, mat.solidColorDark));
 					map.setTextureEntry(placeholderName, mutableIcon);
 					iconMap.put(mat, mutableIcon);
 				}
@@ -67,8 +68,15 @@ public class ItemAutogen extends Item {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		
-		for(NTMMaterial mat : Mats.orderedList) {
+		/*for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.shapes.contains(this.shape)) {
+				list.add(new ItemStack(item, 1, mat.id));
+			}
+		}*/
+		
+
+		for(NTMMaterial mat : Mats.orderedList) {
+			if(mat.smeltable == SmeltingBehavior.SMELTABLE || mat.smeltable == SmeltingBehavior.ADDITIVE) {
 				list.add(new ItemStack(item, 1, mat.id));
 			}
 		}
@@ -101,7 +109,7 @@ public class ItemAutogen extends Item {
 		NTMMaterial mat = Mats.matById.get(stack.getItemDamage());
 		
 		if(mat != null) {
-			//return mat.solidColor;
+			return mat.solidColorLight;
 		}
 		
 		return 0xffffff;

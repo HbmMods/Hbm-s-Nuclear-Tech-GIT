@@ -39,7 +39,7 @@ public class RGBMutatorInterpolatedComponentRemap implements RGBMutator {
 		int nR = (int) shiftComponent(compR(lighter), compR(darker), compR(boundLighter), compR(boundDarker), r);
 		int nG = (int) shiftComponent(compG(lighter), compG(darker), compG(boundLighter), compG(boundDarker), g);
 		int nB = (int) shiftComponent(compB(lighter), compB(darker), compB(boundLighter), compB(boundDarker), b);
-
+		
 		r = nR & 0xff;
 		g = nG & 0xff;
 		b = nB & 0xff;

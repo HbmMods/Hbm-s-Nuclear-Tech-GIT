@@ -23,13 +23,19 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class TextureAtlasSpriteMutatable extends TextureAtlasSprite {
 	
-	//private boolean multiTexture;
 	private RGBMutator mutator;
 	public String basePath = "textures/items";
 
 	public TextureAtlasSpriteMutatable(String iconName, RGBMutator mutator) {
 		super(iconName);
 		this.mutator = mutator;
+	}
+	
+	public TextureAtlasSpriteMutatable setBlockAtlas() {
+		int mipmap = Minecraft.getMinecraft().gameSettings.mipmapLevels;
+		int anisotropic = Minecraft.getMinecraft().gameSettings.anisotropicFiltering;
+		this.basePath = "textures/blocks";
+		return this;
 	}
 
 	@Override
