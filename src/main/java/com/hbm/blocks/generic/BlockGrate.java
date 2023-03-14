@@ -1,5 +1,8 @@
 package com.hbm.blocks.generic;
 
+import java.util.List;
+
+import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -8,6 +11,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -21,12 +27,14 @@ public class BlockGrate extends Block {
 	
 	public BlockGrate(Material material) {
 		super(material);
+		
+		//this.maxY = 0.999D;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":grate_top");
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + (this == ModBlocks.steel_grate ? ":grate_top" : ":grate_wide_top"));
 		this.sideIcon = iconRegister.registerIcon(RefStrings.MODID + ":grate_side");
 	}
 	
@@ -56,13 +64,13 @@ public class BlockGrate extends Block {
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
-		this.setBlockBounds(0F, meta * 0.125F, 0F, 1F, meta * 0.125F + 0.125F, 1F);
+		this.setBlockBounds(0F, meta * 0.125F, 0F, 1F, meta * 0.125F + 0.125F - (this == ModBlocks.steel_grate_wide ? 0.001F : 0), 1F);
 	}
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
-		this.setBlockBounds(0F, meta * 0.125F, 0F, 1F, meta * 0.125F + 0.125F, 1F);
+		this.setBlockBounds(0F, meta * 0.125F, 0F, 1F, meta * 0.125F + 0.125F - (this == ModBlocks.steel_grate_wide ? 0.001F : 0), 1F);
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
 
@@ -82,5 +90,19 @@ public class BlockGrate extends Block {
 			return 0;
 		
 		return (int)Math.floor(hY * 8D);
+	}
+
+	@Override
+	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
+		if(this != ModBlocks.steel_grate_wide || !(entity instanceof EntityItem || entity instanceof EntityXPOrb)) {
+			super.addCollisionBoxesToList(world, x, y, z, entityBounding, list, entity);
+		}
+		
+		if((entity instanceof EntityItem || entity instanceof EntityXPOrb) && entity.posY < y + 1.5) {
+			entity.motionX = 0;
+			entity.motionZ = 0;
+			
+			entity.setPosition(entity.posX, entity.posY - 0.125, entity.posZ);
+		}
 	}
 }
