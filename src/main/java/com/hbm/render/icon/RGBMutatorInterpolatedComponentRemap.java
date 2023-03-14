@@ -2,12 +2,18 @@ package com.hbm.render.icon;
 
 import java.awt.image.BufferedImage;
 
-public class RGBMutatorMultiplicative implements RGBMutator {
+public class RGBMutatorInterpolatedComponentRemap implements RGBMutator {
+
+	int sourceLight;
+	int sourceDark;
+	int targetLight;
+	int targetDark;
 	
-	int color;
-	
-	public RGBMutatorMultiplicative(int color) {
-		this.color = color;
+	public RGBMutatorInterpolatedComponentRemap(int sourceLight, int sourceDark, int targetLight, int targetDark) {
+		this.sourceLight = sourceLight;
+		this.sourceDark = sourceDark;
+		this.targetLight = targetLight;
+		this.targetDark = targetDark;
 	}
 
 	@Override
@@ -17,12 +23,7 @@ public class RGBMutatorMultiplicative implements RGBMutator {
 			for(int y = 0; y < image.getHeight(); y++) {
 				
 				int pix = image.getRGB(x, y);
-				int boundLighter = 0xffffff;
-				int lighter = 0xFFEE3F;
-				int boundDarker = 0x505050;
-				int darker = 0xC0471F;
-				
-				int rgb = shiftColor(boundLighter, boundDarker, lighter, darker, pix);
+				int rgb = shiftColor(sourceLight, sourceDark, targetLight, targetDark, pix);
 				image.setRGB(x, y, rgb);
 			}
 		}
@@ -48,8 +49,7 @@ public class RGBMutatorMultiplicative implements RGBMutator {
 	
 	private static double shiftComponent(int lighter, int darker, int boundLighter, int boundDarker, int component) {
 		double scaledComponent = getPosFromComp(boundLighter, boundDarker, component);
-		double newComp = getCompFromFunc(lighter, darker, scaledComponent);
-		return newComp;
+		return getCompFromFunc(lighter, darker, scaledComponent);
 	}
 	
 	private static double getCompFromFunc(int lower, int upper, double interp) {

@@ -16,7 +16,8 @@ public class NTMMaterial {
 	public String[] names;
 	public Set<MaterialShapes> shapes = new HashSet();
 	public SmeltingBehavior smeltable = SmeltingBehavior.NOT_SMELTABLE;
-	public int solidColor = 0xFF4A00;
+	public int solidColorLight = 0xFF4A00;
+	public int solidColorDark = 0x802000;
 	public int moltenColor = 0xFF4A00;
 	
 	public NTMMaterial smeltsInto;
@@ -63,8 +64,9 @@ public class NTMMaterial {
 		return this;
 	}
 	
-	public NTMMaterial setSolidColor(int color) {
-		this.solidColor = color;
+	public NTMMaterial setSolidColor(int colorLight, int colorDark) {
+		this.solidColorLight = colorLight;
+		this.solidColorDark = colorDark;
 		return this;
 	}
 	
