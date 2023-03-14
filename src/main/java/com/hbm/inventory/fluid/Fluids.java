@@ -127,7 +127,7 @@ public class Fluids {
 	public static FluidType FLUORINE; //why not
 	//public static FluidType HYALURONIC; // from mobs, more efficent than engine lubricant.
 	//public static FluidType DUNAAIR; //yields mostly carbon dioxide
-	//public static FluidType TEKTOAIR; // makes methane, and some hydrocarbons too. literally free...
+	public static FluidType TEKTOAIR; // makes methane, and some hydrocarbons too. literally free... //can be distilled for methane, chlorine, aromatics, or can be cracked for chlorine, unsats, and possibly methanol
 	//public static FluidType LAYTHEAIR;
 	
 	
@@ -271,7 +271,8 @@ public class Fluids {
 		TEA =				new FluidType("TEA",				0x76523C, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		HONEY =				new FluidType("HONEY",				0xD99A02, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		OLIVEOIL =			new FluidType("OLIVEOIL",			0xA9B98E, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		FLUORINE =			new FluidType("FLUORINE",			0xC5C539, 4, 4, 4, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(32), new FT_Poison(true, 1)).addTraits(new FT_Flammable(10_000));		
+		FLUORINE =			new FluidType("FLUORINE",			0xC5C539, 4, 4, 4, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(60), new FT_Poison(true, 1)).addTraits(new FT_Flammable(10_000));	
+		TEKTOAIR =			new FluidType("TEKTOAIR",			0xC5C539, 4, 2, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS,new FT_Poison(true, 1)).addTraits(new FT_Flammable(30_000));		
 
 		
 
@@ -368,6 +369,7 @@ public class Fluids {
 		//airs
 		metaOrder.add(EVEAIR); //iodine, mercury, potassium permenganate
 		metaOrder.add(KMnO4);
+		metaOrder.add(TEKTOAIR);
 		metaOrder.add(AIR); //do it for love, do it for life, for mankiiiiiind!!
 		//NITRIC_ACID
 		metaOrder.add(NITRIC_ACID);
