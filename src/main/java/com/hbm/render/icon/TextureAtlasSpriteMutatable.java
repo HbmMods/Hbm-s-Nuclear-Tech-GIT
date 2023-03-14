@@ -25,6 +25,8 @@ public class TextureAtlasSpriteMutatable extends TextureAtlasSprite {
 	
 	private RGBMutator mutator;
 	public String basePath = "textures/items";
+	private int mipmap = 0;
+	private int anisotropic = 0;
 
 	public TextureAtlasSpriteMutatable(String iconName, RGBMutator mutator) {
 		super(iconName);
@@ -32,8 +34,8 @@ public class TextureAtlasSpriteMutatable extends TextureAtlasSprite {
 	}
 	
 	public TextureAtlasSpriteMutatable setBlockAtlas() {
-		int mipmap = Minecraft.getMinecraft().gameSettings.mipmapLevels;
-		int anisotropic = Minecraft.getMinecraft().gameSettings.anisotropicFiltering;
+		this.mipmap = Minecraft.getMinecraft().gameSettings.mipmapLevels;
+		this.anisotropic = Minecraft.getMinecraft().gameSettings.anisotropicFiltering;
 		this.basePath = "textures/blocks";
 		return this;
 	}
@@ -59,10 +61,6 @@ public class TextureAtlasSpriteMutatable extends TextureAtlasSprite {
 	@Override
 	public boolean load(IResourceManager man, ResourceLocation resourcelocation) {
 
-		//the system is currently only applicable to items - mipmaps and whatnot aren't needed
-		int mipmap = 0;//Minecraft.getMinecraft().gameSettings.mipmapLevels;
-		int anisotropic = 0;//Minecraft.getMinecraft().gameSettings.anisotropicFiltering;
-		
 		String pathName = resourcelocation.getResourcePath();
 		String tunkatedPath = pathName.substring(0, pathName.indexOf('-')); //fuck regex
 		//so basically we remove the dash and everything trailing it (see ItemAutogen.java), this allows us to have unique icon names for what is actually the same icon file
