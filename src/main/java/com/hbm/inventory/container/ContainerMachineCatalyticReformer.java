@@ -1,8 +1,11 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticReformer;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -70,14 +73,28 @@ public class ContainerMachineCatalyticReformer extends Container {
 				if(!this.mergeItemStack(var5, 11, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(var5, 0, 1, false))
-				if(!this.mergeItemStack(var5, 1, 2, false))
-					if(!this.mergeItemStack(var5, 3, 4, false))
-						if(!this.mergeItemStack(var5, 5, 6, false))
-							if(!this.mergeItemStack(var5, 7, 8, false))
-								if(!this.mergeItemStack(var5, 9, 11, false)) {
+			} else {
+				
+				if(var3.getItem() instanceof IBatteryItem) {
+					if(!this.mergeItemStack(var5, 0, 1, false)) {
+						return null;
+					}
+				} else if(var3.getItem() instanceof IItemFluidIdentifier) {
+					if(!this.mergeItemStack(var5, 9, 10, false)) {
+						return null;
+					}
+				} else if(var3.getItem() == ModItems.catalytic_converter) {
+					if(!this.mergeItemStack(var5, 10, 11, false)) {
+						return null;
+					}
+				} else {
+					if(!this.mergeItemStack(var5, 1, 2, false))
+						if(!this.mergeItemStack(var5, 3, 4, false))
+							if(!this.mergeItemStack(var5, 5, 6, false))
+								if(!this.mergeItemStack(var5, 7, 8, false))
 									return null;
-								}
+				}
+			}
 
 			if(var5.stackSize == 0) {
 				var4.putStack((ItemStack) null);

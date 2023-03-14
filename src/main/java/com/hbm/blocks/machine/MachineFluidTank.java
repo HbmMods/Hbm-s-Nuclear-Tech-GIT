@@ -70,9 +70,10 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 			
 			TileEntityMachineFluidTank tank = (TileEntityMachineFluidTank) world.getTileEntity(pos[0], pos[1], pos[2]);
 			
-			if(tank.hasExploded) return false;
-
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
+			if(tank != null) {
+				if(tank.hasExploded) return false;
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
+			}
 			return true;
 		} else {
 			return true;

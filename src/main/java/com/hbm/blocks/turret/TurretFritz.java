@@ -1,12 +1,9 @@
 package com.hbm.blocks.turret;
 
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.turret.TileEntityTurretFritz;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -22,10 +19,5 @@ public class TurretFritz extends TurretBaseNT {
 		if(meta >= 12)
 			return new TileEntityTurretFritz();
 		return new TileEntityProxyCombo().inventory().power().fluid();
-	}
-
-	@Override
-	public void openGUI(World world, EntityPlayer player, int x, int y, int z) {
-		FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 	}
 }

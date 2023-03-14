@@ -19,6 +19,9 @@ import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.material.MaterialShapes;
+import com.hbm.inventory.material.Mats;
+import com.hbm.inventory.material.NTMMaterial;
+import com.hbm.inventory.material.NTMMaterial.SmeltingBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemEnums.EnumCokeType;
@@ -179,6 +182,8 @@ public class OreDictManager {
 	public static final DictFrame DURA = new DictFrame("DuraSteel");
 	public static final DictFrame POLYMER = new DictFrame("Polymer");
 	public static final DictFrame BAKELITE = new DictFrame("Bakelite");
+	public static final DictFrame PET = new DictFrame("PET");
+	public static final DictFrame PVC = new DictFrame("PVC");
 	public static final DictFrame RUBBER = new DictFrame("Rubber");
 	public static final DictFrame MAGTUNG = new DictFrame("MagnetizedTungsten");
 	public static final DictFrame CMB = new DictFrame("CMBSteel");
@@ -276,6 +281,8 @@ public class OreDictManager {
 	 */
 	/** Any post oil polymer like teflon ("polymer") or bakelite */
 	public static final DictGroup ANY_PLASTIC = new DictGroup("AnyPlastic", POLYMER, BAKELITE);		//using the Any prefix means that it's just the secondary prefix, and that shape prefixes are applicable
+	/** Any post vacuum polymer like PET or PVC */
+	public static final DictGroup ANY_HARDPLASTIC = new DictGroup("AnyHardPlastic", PET, PVC);
 	/** Any "powder" propellant like gunpowder, ballistite and cordite */
 	public static final DictFrame ANY_GUNPOWDER = new DictFrame("AnyPropellant");
 	/** Any smokeless powder like ballistite and cordite */
@@ -368,6 +375,8 @@ public class OreDictManager {
 		POLYMER																.ingot(ingot_polymer)												.dust(powder_polymer)											.block(block_polymer);
 		BAKELITE															.ingot(ingot_bakelite)												.dust(powder_bakelite)											.block(block_bakelite);
 		RUBBER																.ingot(ingot_rubber)																												.block(block_rubber);
+		PET																	.ingot(ingot_pet);
+		PVC																	.ingot(ingot_pvc);
 		MAGTUNG																.ingot(ingot_magnetized_tungsten)									.dust(powder_magnetized_tungsten)								.block(block_magnetized_tungsten);
 		CMB																	.ingot(ingot_combine_steel)											.dust(powder_combine_steel)		.plate(plate_combine_steel)		.block(block_combine_steel);
 		DESH		.nugget(nugget_desh)									.ingot(ingot_desh)													.dust(powder_desh)												.block(block_desh);
@@ -483,6 +492,12 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_bismuth);
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_arsenic);
 		
+		for(NTMMaterial mat : Mats.orderedList) {
+			if(mat.smeltable == SmeltingBehavior.SMELTABLE && mat.shapes.contains(MaterialShapes.CASTPLATE)) {
+				for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.CASTPLATE.name() + name, new ItemStack(ModItems.plate_cast, 1, mat.id));
+			}
+		}
+		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
 			OreDictionary.registerOre("ore" + ore.oreName, new ItemStack(ModItems.ore_enriched, 1, ore.ordinal()));
 		}
@@ -566,6 +581,7 @@ public class OreDictManager {
 	
 	public static void registerGroups() {
 		ANY_PLASTIC.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(BLOCK, true);
+		ANY_HARDPLASTIC.addPrefix(INGOT, true);
 		ANY_TAR.addPrefix(ANY, false);
 	}
 	
@@ -603,18 +619,19 @@ public class OreDictManager {
 		/*
 		 * Quick access methods to grab ore names for recipes.
 		 */
-		public String any() {			return ANY		+ mats[0]; }
-		public String nugget() {		return NUGGET	+ mats[0]; }
-		public String tiny() {			return TINY		+ mats[0]; }
-		public String ingot() {			return INGOT	+ mats[0]; }
-		public String dustTiny() {		return DUSTTINY	+ mats[0]; }
-		public String dust() {			return DUST		+ mats[0]; }
-		public String gem() {			return GEM		+ mats[0]; }
-		public String crystal() {		return CRYSTAL	+ mats[0]; }
-		public String plate() {			return PLATE	+ mats[0]; }
-		public String billet() {		return BILLET	+ mats[0]; }
-		public String block() {			return BLOCK	+ mats[0]; }
-		public String ore() {			return ORE		+ mats[0]; }
+		public String any() {			return ANY			+ mats[0]; }
+		public String nugget() {		return NUGGET		+ mats[0]; }
+		public String tiny() {			return TINY			+ mats[0]; }
+		public String ingot() {			return INGOT		+ mats[0]; }
+		public String dustTiny() {		return DUSTTINY		+ mats[0]; }
+		public String dust() {			return DUST			+ mats[0]; }
+		public String gem() {			return GEM			+ mats[0]; }
+		public String crystal() {		return CRYSTAL		+ mats[0]; }
+		public String plate() {			return PLATE		+ mats[0]; }
+		public String plateCast() {		return PLATECAST	+ mats[0]; }
+		public String billet() {		return BILLET		+ mats[0]; }
+		public String block() {			return BLOCK		+ mats[0]; }
+		public String ore() {			return ORE			+ mats[0]; }
 		public String[] anys() {		return appendToAll(ANY); }
 		public String[] nuggets() {		return appendToAll(NUGGET); }
 		public String[] tinys() {		return appendToAll(TINY); }
@@ -625,9 +642,13 @@ public class OreDictManager {
 		public String[] gems() {		return appendToAll(GEM); }
 		public String[] crystals() {	return appendToAll(CRYSTAL); }
 		public String[] plates() {		return appendToAll(PLATE); }
+		public String[] plateCasts() {	return appendToAll(PLATECAST); }
 		public String[] billets() {		return appendToAll(BILLET); }
 		public String[] blocks() {		return appendToAll(BLOCK); }
 		public String[] ores() {		return appendToAll(ORE); }
+		
+		/** Returns cast (triple) plates if 528 mode is enabled or normal plates if not */
+		public String plate528() { return GeneralConfig.enable528 ? plateCast() : plate(); }
 		
 		private String[] appendToAll(String... prefix) {
 			
@@ -718,6 +739,10 @@ public class OreDictManager {
 		public DictFrame plate(Object... plate) {
 			hazMult = HazardRegistry.plate;
 			return makeObject(PLATE, plate);
+		}
+		public DictFrame plateCast(Object... plate) {
+			hazMult = HazardRegistry.plateCast;
+			return makeObject(PLATECAST, plate);
 		}
 		public DictFrame billet(Object... billet) {
 			hazMult = HazardRegistry.billet;

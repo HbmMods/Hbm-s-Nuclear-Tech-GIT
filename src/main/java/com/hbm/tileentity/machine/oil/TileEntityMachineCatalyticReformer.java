@@ -8,6 +8,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineCatalyticReformer;
 import com.hbm.inventory.recipes.ReformingRecipes;
+import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
@@ -102,6 +103,7 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 		
 		if(power < 20_000) return;
 		if(tanks[0].getFill() < 100) return;
+		if(slots[10] == null || slots[10].getItem() != ModItems.catalytic_converter) return;
 
 		if(tanks[1].getFill() + out.getX().fill > tanks[1].getMaxFill()) return;
 		if(tanks[2].getFill() + out.getY().fill > tanks[2].getMaxFill()) return;

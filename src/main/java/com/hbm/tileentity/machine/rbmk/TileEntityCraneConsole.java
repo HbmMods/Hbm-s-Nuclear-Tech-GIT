@@ -351,15 +351,19 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 				case "up":
 					tiltFront = 30;
 					if(!worldObj.isRemote) posFront += speed;
+					break;
 				case "down":
 					tiltFront = -30;
 					if(!worldObj.isRemote) posFront -= speed;
+					break;
 				case "left":
 					tiltLeft = 30;
 					if(!worldObj.isRemote) posLeft += speed;
+					break;
 				case "right":
 					tiltLeft = -30;
 					if(!worldObj.isRemote) posLeft -= speed;
+					break;
 			}
 			
 			return new Object[] {};

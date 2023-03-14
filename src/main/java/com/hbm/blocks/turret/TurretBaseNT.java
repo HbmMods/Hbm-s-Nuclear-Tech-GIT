@@ -37,20 +37,6 @@ public abstract class TurretBaseNT extends BlockDummyable {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote) {
-			return true;
-		} else if(!player.isSneaking()) {
-			int[] pos = this.findCore(world, x, y, z);
-
-			if(pos == null)
-				return false;
-			
-			openGUI(world, player, pos[0], pos[1], pos[2]);
-			return true;
-		} else {
-			return false;
-		}
+		return this.standardOpenBehavior(world, x, y, z, player, 0);
 	}
-	
-	public abstract void openGUI(World world, EntityPlayer player, int x, int y, int z);
 }
