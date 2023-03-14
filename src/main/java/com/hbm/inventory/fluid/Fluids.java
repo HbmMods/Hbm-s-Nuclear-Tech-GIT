@@ -121,6 +121,9 @@ public class Fluids {
 	public static FluidType COFFEE;
 	public static FluidType TEA;
 	public static FluidType HONEY;
+	public static FluidType OLIVEOIL;
+	public static FluidType MILK;
+	public static FluidType SMILK;
 	public static FluidType XYLENE;				//BTX: benzene, terephthalate and xylene
 	public static FluidType HEATINGOIL_VACUUM;
 	public static FluidType DIESEL_REFORM;
@@ -271,6 +274,13 @@ public class Fluids {
 		DIESEL_CRACK_REFORM =	new FluidType("DIESEL_CRACK_REFORM",0xCDC3CC, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		KEROSENE_REFORM =		new FluidType("KEROSENE_REFORM",	0xFFA5F3, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		REFORMGAS =				new FluidType(112, "REFORMGAS",		0x6362AE, 1, 4, 1, EnumSymbol.NONE).addTraits(GASEOUS);
+		MILK =				new FluidType("MILK",				0xCFCFCF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);//F5DEE4
+		SMILK =				new FluidType("SMILK",				0xF5DEE4, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		COFFEE =			new FluidType("COFFEE",				0x57493D, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		TEA =				new FluidType("TEA",				0x76523C, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		HONEY =				new FluidType("HONEY",				0xD99A02, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		OLIVEOIL =			new FluidType("OLIVEOIL",			0xA9B98E, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		//FLUORINE =			new FluidType("FLUORINE",			0xC5C539, 4, 4, 4, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(32), new FT_Poison(true, 1)).addTraits(new FT_Flammable(10_000));		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -406,6 +416,9 @@ public class Fluids {
 		metaOrder.add(TEA);
 		metaOrder.add(HONEY);
 		metaOrder.add(COFFEE);
+		metaOrder.add(MILK);
+		metaOrder.add(SMILK);
+		metaOrder.add(OLIVEOIL);
 
 
 
