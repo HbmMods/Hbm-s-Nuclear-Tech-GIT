@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
@@ -8,8 +7,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMachineTurbofan;
 import com.hbm.inventory.fluid.FluidType;
@@ -28,12 +25,9 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
-import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -43,8 +37,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -68,10 +60,6 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	public int momentum = 0;
 	
 	private AudioWrapper audio;
-	public static HashMap<FuelGrade, Double> fuelEfficiency = new HashMap();
-	static {
-		fuelEfficiency.put(FuelGrade.AERO,		1.0D);
-	}
 
 	public TileEntityMachineTurbofan() {
 		super(5);
@@ -84,12 +72,6 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 		return "container.machineTurbofan";
 	}
 
-	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		if (i == 0)
-			if (FluidContainerRegistry.getFluidContent(stack, tank[0].getTankType()) > 0)
-				return true;
-		return false;
-	}
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -153,10 +135,6 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 				worldObj.getTileEntity(xCoord, yCoord, zCoord).readFromNBT(data);
 				return;
 			}
-			FluidType last = tank[0].getTankType();
-			if(tank[0].setType(3, 4, slots)) this.unsubscribeToAllAround(last, this);
-			tank[0].loadTank(0, 1, slots);
-			tank[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			tank.setType(4, slots);
 			tank.loadTank(0, 1, slots);
@@ -271,10 +249,6 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 				for(Entity e : list) {
 					e.attackEntityFrom(ModDamageSource.turbofan, 1000);
 					e.setInWeb();
-					tank[1].setFill(tank[1].getFill() + 120); 
-					if(tank[1].getFill() > tank[1].getMaxFill()) {
-						tank[1].setFill(tank[1].getMaxFill());
-					} 
 					
 					if(!e.isEntityAlive() && e instanceof EntityLivingBase) {
 						NBTTagCompound vdat = new NBTTagCompound();
@@ -350,7 +324,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			 * All movement related stuff has to be repeated on the client, but only for the client's player
 			 * Otherwise this could lead to desync since the motion is never sent form the server
 			 */
-			if(tank[0].getFill() > 0 && !MainRegistry.proxy.me().capabilities.isCreativeMode) {
+			if(tank.getFill() > 0 && !MainRegistry.proxy.me().capabilities.isCreativeMode) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 				
@@ -398,7 +372,6 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 		}
 	}
 	
-	
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
 		this.afterburner = nbt.getByte("after");
@@ -407,8 +380,6 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 		tank.readFromNBT(nbt, "tank");
 		blood.readFromNBT(nbt, "blood");
 	}
-	
-		
 	
 	public AudioWrapper createAudioLoop() {
 		return MainRegistry.proxy.getLoopedSound("hbm:block.turbofanOperate", xCoord, yCoord, zCoord, 5.0F, 1.0F);
@@ -420,9 +391,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 		if(audio != null) {
 			audio.stopSound();
 			audio = null;
-			
 		}
-
 	}
 
 	@Override
@@ -450,6 +419,32 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	public void setPower(long i) {
 		this.power = i;
 	}
+
+	@Override
+	public void setFillForSync(int fill, int index) {
+		tank.setFill(fill);
+	}
+
+	@Override
+	public void setTypeForSync(FluidType type, int index) {
+		tank.setTankType(type);
+	}
+
+	@Override
+	public int getMaxFluidFill(FluidType type) {
+		return type == this.tank.getTankType() ? tank.getMaxFill() : 0;
+	}
+
+	@Override
+	public int getFluidFill(FluidType type) {
+		return type == this.tank.getTankType() ? tank.getFill() : 0;
+	}
+
+	@Override
+	public void setFluidFill(int i, FluidType type) {
+		if(type == tank.getTankType())
+			tank.setFill(i);
+	}
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
@@ -461,8 +456,10 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
+
+	@Override
 	public FluidTank[] getReceivingTanks() {
-		return new FluidTank[] { tank[0]};
+		return new FluidTank[] { tank };
 	}
 
 	@Override
@@ -474,15 +471,6 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { tank, blood };
 	}
-
-	public void setFillForSync(int fill, int index) {
-		tank[0].setFill(fill);
-	}
-
-	public void setTypeForSync(FluidType type, int index) {
-		tank[0].setTankType(type);
-	}
-	
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {

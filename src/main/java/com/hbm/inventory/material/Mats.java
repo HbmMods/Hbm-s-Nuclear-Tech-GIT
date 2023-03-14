@@ -105,8 +105,6 @@ public class Mats {
 	public static final NTMMaterial MAT_TANTALIUM	= makeSmeltable(7300,		TA,			0xA89B74).setShapes(NUGGET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_NIOBIUM		= makeSmeltable(4100,		NB,			0xD576B1).setShapes(NUGGET, DUSTTINY, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_BERYLLIUM	= makeSmeltable(400,		BE,			0xAE9572).setShapes(NUGGET, INGOT, DUST, BLOCK);
-	public static final NTMMaterial MAT_COBALT		= makeSmeltable(2700,		CO,			0x8F72AE).setShapes(NUGGET, DUSTTINY, BILLET, INGOT, DUST, BLOCK);
-	public static final NTMMaterial MAT_BORON		= makeSmeltable(500,		B,			0xAD72AE).setShapes(DUSTTINY, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_NICKEL		= makeSmeltable(2650,		NI,			0xAE9572).setShapes(NUGGET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_GAAS		= makeSmeltable(320,		GAAS,		0x6F4A57).setShapes(NUGGET, INGOT, BILLET);
 	public static final NTMMaterial MAT_GALLIUM		= makeSmeltable(120,		GALLIUM,	0x52687F).setShapes(NUGGET, INGOT, DUST, DUSTTINY);
