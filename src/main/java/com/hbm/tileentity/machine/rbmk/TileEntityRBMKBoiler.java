@@ -361,6 +361,11 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		return new Object[] {feed.getMaxFill()};
 	}
 
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {heat, steam.getFill(), steam.getMaxFill(), feed.getFill(), feed.getMaxFill()};
+	}
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerRBMKGeneric(player.inventory);
