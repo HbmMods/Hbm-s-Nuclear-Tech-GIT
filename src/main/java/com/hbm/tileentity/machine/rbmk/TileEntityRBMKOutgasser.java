@@ -226,6 +226,25 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	public String getComponentName() {
 		return "rbmk_outgasser";
 	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getGas(Context context, Arguments args) {
+		return new Object[] {gas.getFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getGasMax(Context context, Arguments args) {
+		return new Object[] {gas.getMaxFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getProgress(Context context, Arguments args) {
+		return new Object[] {progress};
+	}
+
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
