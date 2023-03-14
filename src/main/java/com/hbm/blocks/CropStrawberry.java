@@ -8,8 +8,12 @@ import com.hbm.lib.RefStrings;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 public class CropStrawberry extends BlockCrop {
     /**
@@ -18,16 +22,20 @@ public class CropStrawberry extends BlockCrop {
     @Override
     public int quantityDropped(int parMetadata, int parFortune, Random parRand)
     {
-        return (parMetadata/2);
+    	if(parMetadata == 7) { //dividing is probably better, but thats the point?? plus i want players to fully grow their crops
+    		return(4);
+    	}
+    	else {
+            return (parMetadata/2);	
+    	}
     }
 
     @Override
     public Item getItemDropped(int parMetadata, Random parRand, int parFortune)  
     {
-     // DEBUG
-     System.out.println("am2");
-        return (ModItems.strawberry);
+       return (ModItems.strawberry);
     }
+    
     
     @Override
     @SideOnly(Side.CLIENT)
@@ -39,9 +47,11 @@ public class CropStrawberry extends BlockCrop {
           iIcon[0] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_1");
           iIcon[1] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_1");
           iIcon[2] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_2");
-          iIcon[3] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_3");
-          iIcon[4] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_4");
-          iIcon[5] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_5");
+          iIcon[3] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_2");
+          iIcon[4] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_3");
+          iIcon[5] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_3");
+          iIcon[6] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_4");
+          iIcon[7] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_5");
          // iIcon[6] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_5");
           //iIcon[7] = parIIconRegister.registerIcon(RefStrings.MODID + ":strawberry_5");
     }

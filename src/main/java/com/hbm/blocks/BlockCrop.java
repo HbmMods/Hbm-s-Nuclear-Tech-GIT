@@ -7,6 +7,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
@@ -15,7 +17,7 @@ import net.minecraft.world.World;
 
 public class BlockCrop extends BlockBush implements IGrowable
 {
-    protected int maxGrowthStage = 5;
+    protected int maxGrowthStage = 7;
 
 
     @SideOnly(Side.CLIENT)
@@ -78,7 +80,19 @@ public class BlockCrop extends BlockBush implements IGrowable
     {
      return iIcon[parGrowthStage];
     }
-   
+    
+	protected void checkAndDropBlock(World world, int x, int y, int z) {
+		if(!this.canBlockStay(world, x, y, z)) {
+			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+			world.setBlock(x, y, z, getBlockById(0), 0, 2);
+		}
+	}
+
+	@Override
+	public boolean canBlockStay(World world, int x, int y, int z) {
+		return canPlaceBlockOn(world.getBlock(x, y - 1, z));
+	}
+
     /*
      * Need to implement the IGrowable interface methods
      */
@@ -88,9 +102,9 @@ public class BlockCrop extends BlockBush implements IGrowable
         super.updateTick(parWorld, parX, parY, parZ, parRand);
         int growStage = parWorld.getBlockMetadata(parX, parY, parZ) + 1;
 
-        if (growStage > 5)
+        if (growStage > 7)
         {
-            growStage = 5;
+            growStage = 7;
         }
 
         parWorld.setBlockMetadataWithNotify(parX, parY, parZ, growStage, 2);
