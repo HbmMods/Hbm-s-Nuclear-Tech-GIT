@@ -41,6 +41,13 @@ public class ItemEnergy extends Item {
 		return this;
 	}
 	
+	public ItemEnergy makeGlass() {
+		this.container = ModItems.glass_empty;
+		this.requiresOpener = false;
+		this.setContainerItem(this.container);
+		return this;
+	}
+	
 	public ItemEnergy makeBottle(Item bottle, Item cap) {
 		this.container = bottle;
 		this.cap = cap;
@@ -122,6 +129,9 @@ public class ItemEnergy extends Item {
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
 				player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
 				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
+			}
+			if(this == ModItems.glass_smilk) {
+				player.heal(6F); //ideas welcome pls thanks
 			}
 			if(this == ModItems.bottle_quantum) {
 				player.heal(10F);
