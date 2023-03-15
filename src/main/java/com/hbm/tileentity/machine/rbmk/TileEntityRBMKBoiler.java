@@ -366,6 +366,40 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {heat, steam.getFill(), steam.getMaxFill(), feed.getFill(), feed.getMaxFill()};
 	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSteamType(Context context, Arguments args) {
+		FluidType type = steam.getTankType();
+		if(type == Fluids.STEAM) {return new Object[] {"0"};}
+		else if(type == Fluids.HOTSTEAM) {return new Object[] {"1"};}
+		else if(type == Fluids.SUPERHOTSTEAM) {return new Object[] {"2"};}
+		else if(type == Fluids.ULTRAHOTSTEAM) {return new Object[] {"3"};}
+		else {return new Object[] {"Unknown Error"};}
+	}
+
+	public Object[] setSteamType(Context context, Arguments args) {
+		int type = args.checkInteger(0);
+		if(type > 3) {
+			type = 3;
+		} else if(type < 0) {
+			type = 0;
+		}
+		if(type == 0) {
+			steam.setTankType(Fluids.STEAM);
+			return new Object[] {"true"};
+		} else if(type == 1) {
+			steam.setTankType(Fluids.HOTSTEAM);
+			return new Object[] {"true"};
+		} else if(type == 2) {
+			steam.setTankType(Fluids.SUPERHOTSTEAM);
+			return new Object[] {"true"};
+		} else {
+			steam.setTankType(Fluids.ULTRAHOTSTEAM);
+			return new Object[] {"true"};
+		}
+	}
+
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerRBMKGeneric(player.inventory);
