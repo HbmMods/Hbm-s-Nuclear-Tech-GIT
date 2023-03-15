@@ -49,7 +49,7 @@ public class ItemAutogen extends Item {
 			TextureMap map = (TextureMap) reg;
 			
 			for(NTMMaterial mat : Mats.orderedList) {
-				if(!textureOverrides.containsKey(mat) && mat.solidColorLight != mat.solidColorDark) {
+				if(!textureOverrides.containsKey(mat) && mat.solidColorLight != mat.solidColorDark && (shape == null || mat.shapes.contains(shape))) { //only generate icons if there is no override, color variation is available and if the icon will actually be used
 					String placeholderName = this.getIconString() + "-" + mat.names[0]; //the part after the dash is discarded - the name only has to be unique so that the hashmap which holds all the icon definitions can hold multiple references
 					//TextureAtlasSpriteMutatable mutableIcon = new TextureAtlasSpriteMutatable(placeholderName, new RGBMutatorInterpolatedComponentRemap(0xFFFFFF, 0x565656, mat.solidColorLight, mat.solidColorDark));
 					TextureAtlasSpriteMutatable mutableIcon = new TextureAtlasSpriteMutatable(placeholderName, new RGBMutatorInterpolatedComponentRemap(0xFFFFFF, 0x505050, mat.solidColorLight, mat.solidColorDark));
@@ -68,18 +68,18 @@ public class ItemAutogen extends Item {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		
-		/*for(NTMMaterial mat : Mats.orderedList) {
+		for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.shapes.contains(this.shape)) {
 				list.add(new ItemStack(item, 1, mat.id));
 			}
-		}*/
+		}
 		
 
-		for(NTMMaterial mat : Mats.orderedList) {
+		/*for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.smeltable == SmeltingBehavior.SMELTABLE || mat.smeltable == SmeltingBehavior.ADDITIVE) {
 				list.add(new ItemStack(item, 1, mat.id));
 			}
-		}
+		}*/
 	}
 	
 	@Override
