@@ -1097,8 +1097,8 @@ public class ItemRenderLibrary {
 			}});
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_atmo_vent), new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glTranslated(0, -5, 0);
-				GL11.glScaled(3, 3, 3);
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(7, 7, 7);
 			}
 
 			public void renderCommon() {

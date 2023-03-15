@@ -81,7 +81,6 @@ public class WorldProviderMoon extends WorldProvider {
         return false;
     }
     
-   
     
     @SideOnly(Side.CLIENT)
     public float getCloudHeight()
