@@ -30,6 +30,10 @@ public class HazardTypeRadiation extends HazardTypeBase {
 		
 		level *= stack.stackSize;
 		
+		if(stack.hasTagCompound() && stack.stackTagCompound.hasKey("ntmNeutron")) {
+			level += stack.stackTagCompound.getFloat("ntmNeutron");
+		}
+		
 		if(level > 0) {
 			float rad = level / 20F;
 			
@@ -51,6 +55,10 @@ public class HazardTypeRadiation extends HazardTypeBase {
 	public void addHazardInformation(EntityPlayer player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
 		
 		level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
+		
+		if(stack.hasTagCompound() && stack.stackTagCompound.hasKey("ntmNeutron")) {
+			level += stack.stackTagCompound.getFloat("ntmNeutron");
+		}
 		
 		if(level < 1e-5)
 			return;
