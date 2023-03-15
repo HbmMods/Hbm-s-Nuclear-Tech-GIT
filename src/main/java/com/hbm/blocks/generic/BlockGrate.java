@@ -2,8 +2,10 @@ package com.hbm.blocks.generic;
 
 import java.util.List;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -14,13 +16,15 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockGrate extends Block {
+public class BlockGrate extends Block implements ITooltipProvider {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon sideIcon;
@@ -104,5 +108,10 @@ public class BlockGrate extends Block {
 			
 			entity.setPosition(entity.posX, entity.posY - 0.125, entity.posZ);
 		}
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		list.add(I18nUtil.resolveKey(this.getUnlocalizedName() + ".desc"));
 	}
 }
