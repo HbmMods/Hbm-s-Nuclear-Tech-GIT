@@ -420,6 +420,25 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		}
 		return new Object[] {"N/A"};
 	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoreHeat(Context context, Arguments args) {
+		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+			return new Object[] {ItemRBMKRod.getCoreHeat(slots[0])};
+		}
+		return new Object[] {"N/A"};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSkinHeat(Context context, Arguments args) {
+		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+			return new Object[] {ItemRBMKRod.getHullHeat(slots[0])};
+		}
+		return new Object[] {"N/A"};
+	}
+
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
