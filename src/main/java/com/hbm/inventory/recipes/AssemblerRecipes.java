@@ -906,7 +906,7 @@ public class AssemblerRecipes {
 				new OreDictStack(ANY_PLASTICEXPLOSIVE.ingot(), 8),
 				new OreDictStack(KEY_ANYPANE, 6),
 				new OreDictStack(STEEL.plate(), 4),
-		}, 100);
+			}, 100);
 		
 		makeRecipe(new ComparableStack(ModBlocks.machine_difurnace_rtg_off, 1), new AStack[] {
 				new ComparableStack(ModBlocks.machine_difurnace_off, 1),
@@ -915,6 +915,17 @@ public class AssemblerRecipes {
 				new OreDictStack(PB.plate528(), 6),
 				new OreDictStack(OreDictManager.getReflector(), 8),
 				new OreDictStack(CU.plate(), 12)
+			}, 150);
+		
+		makeRecipe(new ComparableStack(ModBlocks.machine_catalytic_reformer, 1), new AStack[] {
+				new OreDictStack(STEEL.plateCast(), 12),
+				new OreDictStack(CU.plate528(), 8),
+				new OreDictStack(NB.ingot(), 8),
+				new OreDictStack(TCALLOY.ingot(), 4),
+				new ComparableStack(ModItems.hull_big_steel, 3),
+				new ComparableStack(ModItems.pipes_steel, 1),
+				new ComparableStack(ModItems.motor, 1),
+				new ComparableStack(ModItems.circuit_red_copper, 3)
 			}, 150);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
