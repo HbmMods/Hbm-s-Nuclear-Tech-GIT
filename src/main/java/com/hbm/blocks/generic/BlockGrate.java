@@ -100,10 +100,12 @@ public class BlockGrate extends Block implements ITooltipProvider {
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
 		if(this != ModBlocks.steel_grate_wide || !(entity instanceof EntityItem || entity instanceof EntityXPOrb)) {
 			super.addCollisionBoxesToList(world, x, y, z, entityBounding, list, entity);
+			return;
 		}
 		
 		if((entity instanceof EntityItem || entity instanceof EntityXPOrb) && entity.posY < y + 1.5) {
 			entity.motionX = 0;
+			entity.motionY = -0.25;
 			entity.motionZ = 0;
 			
 			entity.setPosition(entity.posX, entity.posY - 0.125, entity.posZ);

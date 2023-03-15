@@ -51,9 +51,9 @@ public class RenderTurretHIMARS extends TileEntitySpecialRenderer implements IIt
 		
 		if(turret.typeLoaded >= 0) {
 			HIMARSRocket type = ItemAmmoHIMARS.itemTypes[turret.typeLoaded];
+			bindTexture(type.texture);
 			
 			if(type.modelType == 0) {
-			bindTexture(ResourceManager.himars_standard_tex);
 				ResourceManager.turret_himars.renderPart("TubeStandard");
 				
 				for(int i = 0; i < turret.ammo; i++) {
@@ -62,7 +62,6 @@ public class RenderTurretHIMARS extends TileEntitySpecialRenderer implements IIt
 			}
 			
 			if(type.modelType == 1) {
-			bindTexture(ResourceManager.himars_single_tex);
 				ResourceManager.turret_himars.renderPart("TubeSingle");
 				
 				if(turret.hasAmmo()) {

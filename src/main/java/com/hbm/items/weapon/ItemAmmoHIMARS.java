@@ -173,7 +173,7 @@ public class ItemAmmoHIMARS extends Item {
 			}
 		};
 		
-		this.itemTypes[SMALL_WP] = new HIMARSRocket("standard_he", "himars_standard_he", 0) {
+		this.itemTypes[SMALL_WP] = new HIMARSRocket("standard_wp", "himars_standard_wp", 0) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
 				standardExplosion(rocket, mop, 20F, 3F, false);
 				ExplosionLarge.spawnShrapnels(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 30);
@@ -203,7 +203,7 @@ public class ItemAmmoHIMARS extends Item {
 				standardMush(rocket, mop, 20);
 			}};
 			
-		this.itemTypes[LARGE_TB] = new HIMARSRocket("standard_tb", "himars_standard_tb", 0) {
+		this.itemTypes[LARGE_TB] = new HIMARSRocket("single_tb", "himars_single_tb", 1) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
 				standardExplosion(rocket, mop, 50F, 12F, true);
 				ExplosionLarge.spawnShrapnels(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 30);
