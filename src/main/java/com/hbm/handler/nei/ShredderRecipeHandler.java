@@ -112,7 +112,7 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 	public void loadUsageRecipes(ItemStack ingredient) {
 		Map<Object, Object> recipes = ShredderRecipes.getShredderRecipes();
 		for(Map.Entry<Object, Object> recipe : recipes.entrySet()) {
-			if(NEIServerUtils.areStacksSameType(ingredient, ((ComparableStack) recipe.getKey()).toStack()))
+			if(NEIServerUtils.areStacksSameTypeCrafting(ingredient, ((ComparableStack) recipe.getKey()).toStack()))
 				this.arecipes.add(new SmeltingSet(((ComparableStack) recipe.getKey()).toStack(), (ItemStack) recipe.getValue()));
 		}
 	}

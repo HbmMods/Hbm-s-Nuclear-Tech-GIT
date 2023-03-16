@@ -39,13 +39,13 @@ public class ItemAmmoHIMARS extends Item {
 	
 	public static HIMARSRocket[] itemTypes = new HIMARSRocket[ /* >>> */ 7 /* <<< */ ];
 
-	public final int SMALL = 0;
-	public final int LARGE = 1;
-	public final int SMALL_HE = 2;
-	public final int SMALL_WP = 3;
-	public final int SMALL_TB = 4;
-	public final int LARGE_TB = 5;
-	public final int SMALL_MINI_NUKE = 6;
+	public static final int SMALL = 0;
+	public static final int LARGE = 1;
+	public static final int SMALL_HE = 2;
+	public static final int SMALL_WP = 3;
+	public static final int SMALL_TB = 4;
+	public static final int LARGE_TB = 5;
+	public static final int SMALL_MINI_NUKE = 6;
 	
 	public ItemAmmoHIMARS() {
 		this.setHasSubtypes(true);
