@@ -417,6 +417,12 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {heat, level, targetLevel, totalFlux};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] setLevel(Context context, Arguments args) {
 		double newLevel = args.checkDouble(0)/100.0;
 		if (newLevel > 1.0) {

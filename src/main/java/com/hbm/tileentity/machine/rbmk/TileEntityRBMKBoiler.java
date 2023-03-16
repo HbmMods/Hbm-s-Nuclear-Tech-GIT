@@ -364,7 +364,14 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {heat, steam.getFill(), steam.getMaxFill(), feed.getFill(), feed.getMaxFill()};
+		FluidType type = steam.getTankType();
+		Object type_1;
+		if(type == Fluids.STEAM) {type_1 = "0";}
+		else if(type == Fluids.HOTSTEAM) {type_1 = "1";}
+		else if(type == Fluids.SUPERHOTSTEAM) {type_1 = "2";}
+		else if(type == Fluids.ULTRAHOTSTEAM) {type_1 = "3";}
+		else {type_1 = "Unknown Error";}
+		return new Object[] {heat, steam.getFill(), steam.getMaxFill(), feed.getFill(), feed.getMaxFill(), type_1};
 	}
 
 	@Callback
