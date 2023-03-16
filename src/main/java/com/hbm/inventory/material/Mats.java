@@ -31,7 +31,6 @@ public class Mats {
 	public static HashMap<String, MaterialShapes> prefixByName = new HashMap();
 	public static HashMap<Integer, NTMMaterial> matById = new HashMap();
 	public static HashMap<String, NTMMaterial> matByName = new HashMap();
-	//public static HashMap<String, NTMMaterial> matRemap = new HashMap();
 	public static HashMap<ComparableStack, List<MaterialStack>> materialEntries = new HashMap();
 	public static HashMap<String, List<MaterialStack>> materialOreEntries = new HashMap();
 	
