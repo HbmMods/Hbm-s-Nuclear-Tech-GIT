@@ -102,7 +102,7 @@ public class Fluids {
 	public static FluidType BLOOD_HOT;
 	public static FluidType SYNGAS;
 	public static FluidType OXYHYDROGEN;
-	public static FluidType RADIOSOLVENT;
+	public static FluidType RADIOSOLVENT;		//DCM-ish made by wacky radio cracking
 	public static FluidType CHLORINE;			//everone's favorite!
 	public static FluidType HEAVYOIL_VACUUM;
 	public static FluidType REFORMATE;
@@ -114,6 +114,9 @@ public class Fluids {
 	public static FluidType DIESEL_CRACK_REFORM;
 	public static FluidType KEROSENE_REFORM;
 	public static FluidType REFORMGAS;			//MAPD: propyne, propadiene
+	public static FluidType COLLOID;
+	public static FluidType PHOSGENE;
+	public static FluidType MUSTARDGAS;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -233,17 +236,20 @@ public class Fluids {
 		SYNGAS =				new FluidType("SYNGAS",				0x131313, 1, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
 		OXYHYDROGEN =			new FluidType("OXYHYDROGEN",		0x483FC1, 0, 4, 2, EnumSymbol.NONE).addTraits(GASEOUS);
 		RADIOSOLVENT =			new FluidType("RADIOSOLVENT",		0xA4D7DD, 3, 3, 0, EnumSymbol.NONE).addTraits(LIQUID, LEADCON, new FT_Corrosive(50), new FT_VentRadiation(0.01F));
-		CHLORINE =				new FluidType("CHLORINE",			0xBAB572, 4, 0, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(25), new FT_Poison(true, 1));
+		CHLORINE =				new FluidType("CHLORINE",			0xBAB572, 3, 0, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(25), new FT_Poison(true, 1));
 		HEAVYOIL_VACUUM =		new FluidType("HEAVYOIL_VACUUM",	0x131214, 2, 1, 0, EnumSymbol.NONE).addTraits(LIQUID).addContainers(0x513F39, ExtContainer.CANISTER);
 		REFORMATE =				new FluidType("REFORMATE",			0x835472, 2, 2, 0, EnumSymbol.NONE).addTraits(LIQUID).addContainers(0xD180D6, ExtContainer.CANISTER);
 		LIGHTOIL_VACUUM =		new FluidType("LIGHTOIL_VACUUM",	0x8C8851, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID).addContainers(0xB46B52, ExtContainer.CANISTER);
-		SOURGAS =				new FluidType("SOURGAS",			0xC9BE0D, 4, 4, 0, EnumSymbol.ACID).addTraits(GASEOUS, new FT_Corrosive(10));
+		SOURGAS =				new FluidType("SOURGAS",			0xC9BE0D, 4, 4, 0, EnumSymbol.ACID).addTraits(GASEOUS, new FT_Corrosive(10), new FT_Poison(false, 1));
 		XYLENE =				new FluidType("XYLENE",				0x5C4E76, 2, 3, 0, EnumSymbol.NONE).addTraits(LIQUID).addContainers(0xA380D6, ExtContainer.CANISTER);
 		HEATINGOIL_VACUUM =		new FluidType("HEATINGOIL_VACUUM",	0x211D06, 2, 2, 0, EnumSymbol.NONE).addTraits(LIQUID).addContainers(0x694235, ExtContainer.CANISTER);
 		DIESEL_REFORM =			new FluidType("DIESEL_REFORM",		0xCDC3C6, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID).addContainers(0xFFC500, ExtContainer.CANISTER);
 		DIESEL_CRACK_REFORM =	new FluidType("DIESEL_CRACK_REFORM",0xCDC3CC, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID).addContainers(0xFFC500, ExtContainer.CANISTER);
 		KEROSENE_REFORM =		new FluidType("KEROSENE_REFORM",	0xFFA5F3, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID).addContainers(0xFF377D, ExtContainer.CANISTER);
-		REFORMGAS =				new FluidType(99, "REFORMGAS",		0x6362AE, 1, 4, 1, EnumSymbol.NONE).addTraits(GASEOUS);
+		REFORMGAS =				new FluidType("REFORMGAS",			0x6362AE, 1, 4, 1, EnumSymbol.NONE).addTraits(GASEOUS);
+		COLLOID =				new FluidType("COLLOID",			0x787878, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		PHOSGENE =				new FluidType("PHOSGENE",			0xCFC4A4, 4, 0, 1, EnumSymbol.NONE).addTraits(GASEOUS);
+		MUSTARDGAS =			new FluidType(102, "MUSTARDGAS",	0xBAB572, 4, 1, 1, EnumSymbol.NONE).addTraits(GASEOUS);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -333,6 +339,7 @@ public class Fluids {
 		//processing fluids
 		metaOrder.add(SALIENT);
 		metaOrder.add(SEEDSLURRY);
+		metaOrder.add(COLLOID);
 		metaOrder.add(ACID);
 		metaOrder.add(SULFURIC_ACID);
 		metaOrder.add(NITRIC_ACID);
@@ -347,6 +354,9 @@ public class Fluids {
 		metaOrder.add(WATZ);
 		//solutions and working fluids
 		metaOrder.add(FRACKSOL);
+		//the fun guys
+		metaOrder.add(PHOSGENE);
+		metaOrder.add(MUSTARDGAS);
 		//antimatter
 		metaOrder.add(AMAT);
 		metaOrder.add(ASCHRAB);
