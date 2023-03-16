@@ -248,9 +248,8 @@ public class Fluids {
 		KEROSENE_REFORM =		new FluidType("KEROSENE_REFORM",	0xFFA5F3, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID).addContainers(0xFF377D, ExtContainer.CANISTER);
 		REFORMGAS =				new FluidType("REFORMGAS",			0x6362AE, 1, 4, 1, EnumSymbol.NONE).addTraits(GASEOUS);
 		COLLOID =				new FluidType("COLLOID",			0x787878, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		//TODO
-		PHOSGENE =				new FluidType("PHOSGENE",			0xffffff, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
-		MUSTARDGAS =			new FluidType(102, "MUSTARDGAS",	0xffffff, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+		PHOSGENE =				new FluidType("PHOSGENE",			0xCFC4A4, 4, 0, 1, EnumSymbol.NONE).addTraits(GASEOUS);
+		MUSTARDGAS =			new FluidType(102, "MUSTARDGAS",	0xBAB572, 4, 1, 1, EnumSymbol.NONE).addTraits(GASEOUS);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -355,6 +354,9 @@ public class Fluids {
 		metaOrder.add(WATZ);
 		//solutions and working fluids
 		metaOrder.add(FRACKSOL);
+		//the fun guys
+		metaOrder.add(PHOSGENE);
+		metaOrder.add(MUSTARDGAS);
 		//antimatter
 		metaOrder.add(AMAT);
 		metaOrder.add(ASCHRAB);
