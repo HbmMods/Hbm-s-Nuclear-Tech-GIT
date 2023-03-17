@@ -233,6 +233,12 @@ public class TileEntityMachineReactorBreeding extends TileEntityMachineBase impl
 		return new Object[] {progress};
 	}
 
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {flux, progress};
+	}
+
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerMachineReactorBreeding(player.inventory, this);

@@ -202,6 +202,18 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		Object lens_damage_buf;
+		if(slots[0] != null && slots[0].getItem() == ModItems.ams_lens && ItemLens.getLensDamage(slots[0]) < ((ItemLens)ModItems.ams_lens).maxDamage) {
+			lens_damage_buf = ItemLens.getLensDamage(slots[0]);
+		} else {
+			lens_damage_buf = "N/A";
+		}
+		return new Object[] {power, maxPower, watts, lens_damage_buf};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] setInput(Context context, Arguments args) {
 		int newOutput = args.checkInteger(0);
 		if (newOutput > 100) {

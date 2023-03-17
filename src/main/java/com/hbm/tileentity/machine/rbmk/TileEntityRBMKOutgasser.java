@@ -14,8 +14,13 @@ import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardSender;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -23,7 +28,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IFluidStandardSender {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IFluidStandardSender, SimpleComponent {
 
 	public FluidTank gas;
 	public double progress;
@@ -213,6 +219,36 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	@Override
 	public FluidTank[] getSendingTanks() {
 		return new FluidTank[] {gas};
+	}
+
+	//do some opencomputers stuff
+	@Override
+	public String getComponentName() {
+		return "rbmk_outgasser";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getGas(Context context, Arguments args) {
+		return new Object[] {gas.getFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getGasMax(Context context, Arguments args) {
+		return new Object[] {gas.getMaxFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getProgress(Context context, Arguments args) {
+		return new Object[] {progress};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {gas.getFill(), gas.getMaxFill(), progress};
 	}
 
 	@Override

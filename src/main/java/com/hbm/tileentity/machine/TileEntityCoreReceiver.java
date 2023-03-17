@@ -209,6 +209,12 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 		return new Object[] {tank.getFill()};
 	}
 
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {joules, power, tank.getFill()};
+	}
+
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerCoreReceiver(player.inventory, this);

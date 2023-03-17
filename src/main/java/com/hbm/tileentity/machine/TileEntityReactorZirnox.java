@@ -583,6 +583,12 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {heat, pressure, water.getFill(), steam.getFill(), carbonDioxide.getFill(), isOn};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] setActive(Context context, Arguments args) {
 		isOn = args.checkBoolean(0);
 		return new Object[] {};
