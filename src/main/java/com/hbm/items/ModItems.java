@@ -347,6 +347,7 @@ public class ModItems {
 	public static Item ingot_bakelite;
 	public static Item ingot_rubber;
 	public static Item ingot_pet;
+	public static Item ingot_pc;
 	public static Item ingot_pvc;
 	
 	public static Item ingot_fiberglass;
@@ -907,9 +908,6 @@ public class ModItems {
 
 	public static Item gas_empty;
 	public static Item gas_full;
-	public static Item gas_petroleum;
-	public static Item gas_biogas;
-	public static Item gas_lpg;
 
 	public static Item fluid_tank_full;
 	public static Item fluid_tank_empty;
@@ -1044,18 +1042,7 @@ public class ModItems {
 	public static Item rod_quad;
 	
 	public static Item rod_zirnox_empty;
-	//public static Item rod_zirnox_natural_uranium_fuel;
-	//public static Item rod_zirnox_uranium_fuel;
-	//public static Item rod_zirnox_th232;
-	//public static Item rod_zirnox_thorium_fuel;
-	//public static Item rod_zirnox_mox_fuel;
-	//public static Item rod_zirnox_plutonium_fuel;
-	//public static Item rod_zirnox_u233_fuel;
-	//public static Item rod_zirnox_u235_fuel;
-	//public static Item rod_zirnox_les_fuel;
-	//public static Item rod_zirnox_lithium;
 	public static Item rod_zirnox_tritium;
-	//public static Item rod_zirnox_zfb_mox;
 	public static ItemEnumMulti rod_zirnox;
 
 	public static Item rod_zirnox_natural_uranium_fuel_depleted;
@@ -2808,7 +2795,8 @@ public class ModItems {
 		ingot_polymer = new ItemCustomLore().setUnlocalizedName("ingot_polymer").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_polymer");
 		ingot_bakelite = new ItemCustomLore().setUnlocalizedName("ingot_bakelite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_bakelite");
 		ingot_rubber = new ItemCustomLore().setUnlocalizedName("ingot_rubber").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_rubber");
-		ingot_pet = new ItemCustomLore().setUnlocalizedName("ingot_pet").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_pet");
+		//ingot_pet = new ItemCustomLore().setUnlocalizedName("ingot_pet").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_pet");
+		ingot_pc = new ItemCustomLore().setUnlocalizedName("ingot_pc").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_pc");
 		ingot_pvc = new ItemCustomLore().setUnlocalizedName("ingot_pvc").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_pvc");
 		ingot_desh = new ItemCustomLore().setUnlocalizedName("ingot_desh").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_desh");
 		nugget_desh = new ItemCustomLore().setUnlocalizedName("nugget_desh").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_desh");
@@ -3426,10 +3414,7 @@ public class ModItems {
 		canister_full = new ItemCanister().setUnlocalizedName("canister_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_empty");
 		canister_napalm = new ItemCustomLore().setUnlocalizedName("canister_napalm").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_napalm");
 		gas_empty = new Item().setUnlocalizedName("gas_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":gas_empty");
-		gas_full = new Item().setUnlocalizedName("gas_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_full");
-		gas_petroleum = new Item().setUnlocalizedName("gas_petroleum").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_petroleum");
-		gas_biogas = new Item().setUnlocalizedName("gas_biogas").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_biogas");
-		gas_lpg = new Item().setUnlocalizedName("gas_lpg").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_lpg");
+		gas_full = new ItemGasTank().setUnlocalizedName("gas_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_empty");
 		
 		tank_waste = new ItemTankWaste().setUnlocalizedName("tank_waste").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab);
 
@@ -5735,7 +5720,8 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_polymer, ingot_polymer.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_bakelite, ingot_bakelite.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_rubber, ingot_rubber.getUnlocalizedName());
-		GameRegistry.registerItem(ingot_pet, ingot_pet.getUnlocalizedName());
+		//GameRegistry.registerItem(ingot_pet, ingot_pet.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_pc, ingot_pc.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_pvc, ingot_pvc.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_schraranium, ingot_schraranium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_schrabidium, ingot_schrabidium.getUnlocalizedName());
@@ -6473,9 +6459,6 @@ public class ModItems {
 		//Gas Tanks
 		GameRegistry.registerItem(gas_empty, gas_empty.getUnlocalizedName());
 		GameRegistry.registerItem(gas_full, gas_full.getUnlocalizedName());
-		GameRegistry.registerItem(gas_petroleum, gas_petroleum.getUnlocalizedName());
-		GameRegistry.registerItem(gas_biogas, gas_biogas.getUnlocalizedName());
-		GameRegistry.registerItem(gas_lpg, gas_lpg.getUnlocalizedName());
 		
 		//Universal Tank
 		GameRegistry.registerItem(fluid_tank_empty, fluid_tank_empty.getUnlocalizedName());
@@ -8248,143 +8231,6 @@ public class ModItems {
 		GameRegistry.registerItem(mysteryshovel, mysteryshovel.getUnlocalizedName());
 		GameRegistry.registerItem(memory, memory.getUnlocalizedName());
 		
-		addRemap("ammo_nuke_tots", 5594, ammo_nuke, AmmoFatman.TOTS);
-		addRemap("ammo_12gauge_incendiary", 5455, ammo_12gauge, Ammo12Gauge.INCENDIARY);
-		addRemap("ammo_12gauge_shrapnel", 5456, ammo_12gauge, Ammo12Gauge.SHRAPNEL);
-		addRemap("ammo_stinger_rocket_bones", 5572, ammo_stinger_rocket, AmmoStinger.BONES);
-		addRemap("ammo_556_flechette_phosphorus", 5515, ammo_556, Ammo556mm.FLECHETTE_PHOSPHORUS);
-		addRemap("ammo_50ae_chlorophyte", 5527, ammo_50ae, Ammo50AE.CHLOROPHYTE);
-		addRemap("gun_revolver_nightmare2_ammo", 5440, ammo_357, Ammo357Magnum.NIGHTMARE2);
-		addRemap("gun_revolver_iron_ammo", 5432, ammo_357, Ammo357Magnum.IRON);
-		addRemap("ammo_50bmg_star", 5534, ammo_50bmg, Ammo50BMG.STAR);
-		addRemap("ammo_556_star", 5509, ammo_556, Ammo556mm.STAR);
-		addRemap("ammo_556_flechette", 5513, ammo_556, Ammo556mm.FLECHETTE);
-		addRemap("ammo_12gauge_du", 5457, ammo_12gauge, Ammo12Gauge.DU);
-		addRemap("ammo_shell_apfsds_t", 5586, ammo_shell, Ammo240Shell.APFSDS_T);
-		addRemap("ammo_4gauge_void", 5481, ammo_4gauge, Ammo4Gauge.VOID);
-		addRemap("ammo_shell_apfsds_du", 5587, ammo_shell, Ammo240Shell.APFSDS_DU);
-		addRemap("ammo_fireext_foam", 5549, ammo_fireext, AmmoFireExt.FOAM);
-		addRemap("ammo_556_flechette_chlorophyte", 5517, ammo_556, Ammo556mm.FLECHETTE_CHLOROPHYTE);
-		addRemap("ammo_fuel_vaporizer", 5546, ammo_fuel, AmmoFlamethrower.VAPORIZER);
-		addRemap("ammo_4gauge_titan", 5482, ammo_4gauge, Ammo4Gauge.QUACK);
-		addRemap("ammo_556_phosphorus", 5506, ammo_556, Ammo556mm.PHOSPHORUS);
-		addRemap("ammo_4gauge_flechette_phosphorus", 5473, ammo_4gauge, Ammo4Gauge.FLECHETTE_PHOSPHORUS);
-		addRemap("ammo_shell_w9", 5588, ammo_shell, Ammo240Shell.W9);
-		addRemap("gun_revolver_gold_ammo", 5434, ammo_357, Ammo357Magnum.GOLD);
-		addRemap("ammo_556_flechette_du", 5516, ammo_556, Ammo556mm.FLECHETTE_DU);
-		addRemap("ammo_20gauge_incendiary", 5463, ammo_20gauge, Ammo20Gauge.INCENDIARY);
-		addRemap("ammo_shell_explosive", 5585, ammo_shell, Ammo240Shell.EXPLOSIVE);
-		addRemap("ammo_20gauge_explosive", 5465, ammo_20gauge, Ammo20Gauge.EXPLOSIVE);
-		addRemap("ammo_556_k", 5519, ammo_556, Ammo556mm.K);
-		addRemap("ammo_44_phosphorus", 5487, ammo_44, Ammo44Magnum.PHOSPHORUS);
-		addRemap("gun_revolver_cursed_ammo", 5437, ammo_357, Ammo357Magnum.STEEL);
-		addRemap("ammo_556_flechette_incendiary", 5514, ammo_556, Ammo556mm.FLECHETTE_INCENDIARY);
-		addRemap("ammo_75bolt_he", 5542, ammo_75bolt, Ammo75Bolt.HE);
-		addRemap("ammo_20gauge_flechette", 5462, ammo_20gauge, Ammo20Gauge.FLECHETTE);
-		addRemap("ammo_rocket_shrapnel", 5559, ammo_rocket, AmmoRocket.SHRAPNEL);
-		addRemap("ammo_556_chlorophyte", 5510, ammo_556, Ammo556mm.CHLOROPHYTE);
-		addRemap("ammo_12gauge_marauder", 5459, ammo_12gauge, Ammo12Gauge.MARAUDER);
-		addRemap("ammo_50bmg_chlorophyte", 5535, ammo_50bmg, Ammo50BMG.CHLOROPHYTE);
-		addRemap("ammo_rocket_emp", 5560, ammo_rocket, AmmoRocket.EMP);
-		addRemap("ammo_4gauge_vampire", 5480, ammo_4gauge, Ammo4Gauge.VAMPIRE);
-		addRemap("ammo_5mm_du", 5496, ammo_5mm, Ammo5mm.DU);
-		addRemap("ammo_9mm_rocket", 5503, ammo_9mm, Ammo9mm.ROCKET);
-		addRemap("gun_revolver_ammo", 5433, ammo_357, Ammo357Magnum.LEAD);
-		addRemap("ammo_grenade_sleek", 5580, ammo_grenade, AmmoGrenade.SLEEK);
-		addRemap("ammo_4gauge_slug", 5471, ammo_4gauge, Ammo4Gauge.SLUG);
-		addRemap("ammo_4gauge_kampf", 5477, ammo_4gauge, Ammo4Gauge.KAMPF);
-		addRemap("ammo_20gauge_shrapnel", 5464, ammo_20gauge, Ammo20Gauge.SHRAPNEL);
-		addRemap("ammo_5mm_explosive", 5495, ammo_5mm, Ammo5mm.EXPLOSIVE);
-		addRemap("gun_revolver_nightmare_ammo", 5438, ammo_357, Ammo357Magnum.NIGHTMARE1);
-		addRemap("ammo_stinger_rocket_he", 5569, ammo_stinger_rocket, AmmoStinger.HE);
-		addRemap("ammo_20gauge_caustic", 5466, ammo_20gauge, Ammo20Gauge.CAUSTIC);
-		addRemap("ammo_4gauge_semtex", 5475, ammo_4gauge, Ammo4Gauge.MINING);
-		addRemap("ammo_grenade_kampf", 5583, ammo_grenade, AmmoGrenade.KAMPF);
-		addRemap("ammo_556_flechette_sleek", 5518, ammo_556, Ammo556mm.FLECHETTE_SLEEK);
-		addRemap("ammo_mirv_special", 5602, ammo_nuke, AmmoFatman.MIRV_SPECIAL);
-		addRemap("ammo_50bmg_flechette", 5536, ammo_50bmg, Ammo50BMG.FLECHETTE);
-		addRemap("ammo_556_sleek", 5511, ammo_556, Ammo556mm.SLEEK);
-		addRemap("ammo_9mm_chlorophyte", 5502, ammo_9mm, Ammo9mm.CHLOROPHYTE);
-		addRemap("ammo_nuke_barrel", 5597, ammo_nuke, AmmoFatman.BARREL);
-		addRemap("ammo_nuke_low", 5592, ammo_nuke, AmmoFatman.LOW);
-		addRemap("ammo_fireext_sand", 5550, ammo_fireext, AmmoFireExt.SAND);
-		addRemap("ammo_44_silver", 5492, ammo_44, Ammo44Magnum.SILVER);
-		addRemap("ammo_grenade_concussion", 5578, ammo_grenade, AmmoGrenade.CONCUSSION);
-		addRemap("ammo_20gauge_shock", 5467, ammo_20gauge, Ammo20Gauge.SHOCK);
-		addRemap("ammo_4gauge_flechette", 5472, ammo_4gauge, Ammo4Gauge.FLECHETTE);
-		addRemap("ammo_rocket_toxic", 5562, ammo_rocket, AmmoRocket.CHLORINE);
-		addRemap("ammo_50bmg_explosive", 5531, ammo_50bmg, Ammo50BMG.EXPLOSIVE);
-		addRemap("ammo_grenade_finned", 5579, ammo_grenade, AmmoGrenade.FINNED);
-		addRemap("ammo_dart_nuclear", 5553, ammo_dart, AmmoDart.NUCLEAR);
-		addRemap("ammo_grenade_phosphorus", 5576, ammo_grenade, AmmoGrenade.PHOSPHORUS);
-		addRemap("ammo_5mm_star", 5497, ammo_5mm, Ammo5mm.STAR);
-		addRemap("ammo_4gauge_sleek", 5483, ammo_4gauge, Ammo4Gauge.SLEEK);
-		addRemap("ammo_mirv_high", 5600, ammo_nuke, AmmoFatman.MIRV_HIGH);
-		addRemap("ammo_5mm_chlorophyte", 5498, ammo_5mm, Ammo5mm.CHLOROPHYTE);
-		addRemap("ammo_50bmg_flechette_po", 5538, ammo_50bmg, Ammo50BMG.FLECHETTE_PO);
-		addRemap("ammo_50ae_star", 5526, ammo_50ae, Ammo50AE.STAR);
-		addRemap("ammo_50bmg_flechette_am", 5537, ammo_50bmg, Ammo50BMG.FLECHETTE_AM);
-		addRemap("ammo_9mm_ap", 5500, ammo_9mm, Ammo9mm.AP);
-		addRemap("ammo_mirv", 5598, ammo_nuke, AmmoFatman.MIRV);
-		addRemap("ammo_4gauge_claw", 5479, ammo_4gauge, Ammo4Gauge.CLAW);
-		addRemap("ammo_rocket_glare", 5561, ammo_rocket, AmmoRocket.GLARE);
-		addRemap("ammo_stinger_rocket_incendiary", 5570, ammo_stinger_rocket, AmmoStinger.INCENDIARY);
-		addRemap("ammo_rocket_incendiary", 5557, ammo_rocket, AmmoRocket.INCENDIARY);
-		addRemap("ammo_50ae_ap", 5524, ammo_50ae, Ammo50AE.AP);
-		addRemap("ammo_mirv_safe", 5601, ammo_nuke, AmmoFatman.MIRV_SAFE);
-		addRemap("ammo_4gauge_canister", 5478, ammo_4gauge, Ammo4Gauge.CANISTER);
-		addRemap("ammo_50ae_du", 5525, ammo_50ae, Ammo50AE.DU);
-		addRemap("ammo_44_ap", 5485, ammo_44, Ammo44Magnum.AP);
-		addRemap("ammo_44_bj", 5491, ammo_44, Ammo44Magnum.BJ);
-		addRemap("ammo_rocket_sleek", 5564, ammo_rocket, AmmoRocket.SLEEK);
-		addRemap("ammo_nuke_high", 5593, ammo_nuke, AmmoFatman.HIGH);
-		addRemap("ammo_grenade_incendiary", 5575, ammo_grenade, AmmoGrenade.INCENDIARY);
-		addRemap("ammo_44_du", 5486, ammo_44, Ammo44Magnum.DU);
-		addRemap("ammo_50bmg_ap", 5532, ammo_50bmg, Ammo50BMG.AP);
-		addRemap("ammo_50bmg_du", 5533, ammo_50bmg, Ammo50BMG.DU);
-		addRemap("ammo_9mm_du", 5501, ammo_9mm, Ammo9mm.DU);
-		addRemap("ammo_20gauge_slug", 5461, ammo_20gauge, Ammo20Gauge.SLUG);
-		addRemap("ammo_grenade_tracer", 5582, ammo_grenade, AmmoGrenade.TRACER);
-		addRemap("ammo_fuel_phosphorus", 5545, ammo_fuel, AmmoFlamethrower.PHOSPHORUS);
-		addRemap("ammo_44_pip", 5490, ammo_44, Ammo44Magnum.PIP);
-		addRemap("ammo_grenade_toxic", 5577, ammo_grenade, AmmoGrenade.CHLORINE);
-		addRemap("ammo_nuke_safe", 5595, ammo_nuke, AmmoFatman.SAFE);
-		addRemap("gun_mp_ammo", 5505, ammo_556, Ammo556mm.GOLD);
-		addRemap("gun_revolver_lead_ammo", 5435, ammo_357, Ammo357Magnum.NUCLEAR);
-		addRemap("ammo_stinger_rocket_nuclear", 5571, ammo_stinger_rocket, AmmoStinger.NUCLEAR);
-		addRemap("ammo_grenade_nuclear", 5581, ammo_grenade, AmmoGrenade.NUCLEAR);
-		addRemap("ammo_rocket_digamma", 5567, ammo_rocket, AmmoRocket.DIGAMMA);
-		addRemap("ammo_rocket_nuclear", 5565, ammo_rocket, AmmoRocket.NUCLEAR);
-		addRemap("ammo_mirv_low", 5599, ammo_nuke, AmmoFatman.MIRV_LOW);
-		addRemap("ammo_44_chlorophyte", 5489, ammo_44, Ammo44Magnum.CHLOROPHYTE);
-		addRemap("ammo_22lr_chlorophyte", 5522, ammo_22lr, Ammo22LR.CHLOROPHYTE);
-		addRemap("ammo_12gauge_sleek", 5458, ammo_12gauge, Ammo12Gauge.SLEEK);
-		addRemap("ammo_20gauge_sleek", 5469, ammo_20gauge, Ammo20Gauge.SLEEK);
-		addRemap("ammo_4gauge_explosive", 5474, ammo_4gauge, Ammo4Gauge.EXPLOSIVE);
-		addRemap("ammo_50bmg_incendiary", 5529, ammo_50bmg, Ammo50BMG.INCENDIARY);
-		addRemap("ammo_556_du", 5508, ammo_556, Ammo556mm.DU);
-		addRemap("ammo_fuel_napalm", 5544, ammo_fuel, AmmoFlamethrower.NAPALM);
-		addRemap("gun_revolver_schrabidium_ammo", 5436, ammo_357, Ammo357Magnum.SCHRABIDIUM);
-		addRemap("ammo_556_ap", 5507, ammo_556, Ammo556mm.AP);
-		addRemap("ammo_20gauge_wither", 5468, ammo_20gauge, Ammo20Gauge.WITHER);
-		addRemap("ammo_rocket_rpc", 5566, ammo_rocket, AmmoRocket.RPC);
-		addRemap("ammo_fuel_gas", 5547, ammo_fuel, AmmoFlamethrower.CHLORINE);
-		addRemap("ammo_22lr_ap", 5521, ammo_22lr, Ammo22LR.AP);
-		addRemap("ammo_grenade_he", 5574, ammo_grenade, AmmoGrenade.HE);
-		addRemap("ammo_4gauge_balefire", 5476, ammo_4gauge, Ammo4Gauge.BALEFIRE);
-		addRemap("ammo_357_desh", 5439, ammo_357, Ammo357Magnum.DESH);
-		addRemap("ammo_nuke_pumpkin", 5596, ammo_nuke, AmmoFatman.PUMPKIN);
-		addRemap("ammo_44_star", 5488, ammo_44, Ammo44Magnum.STAR);
-		addRemap("ammo_50bmg_sleek", 5539, ammo_50bmg, Ammo50BMG.SLEEK);
-		addRemap("ammo_dart_nerf", 5554, ammo_dart, AmmoDart.NERF);
-		addRemap("ammo_50bmg_phosphorus", 5530, ammo_50bmg, Ammo50BMG.PHOSPHORUS);
-		addRemap("ammo_44_rocket", 5493, ammo_44, Ammo44Magnum.ROCKET);
-		addRemap("ammo_rocket_he", 5556, ammo_rocket, AmmoRocket.HE);
-		addRemap("ammo_556_tracer", 5512, ammo_556, Ammo556mm.TRACER);
-		addRemap("ammo_75bolt_incendiary", 5541, ammo_75bolt, Ammo75Bolt.INCENDIARY);
-		addRemap("ammo_rocket_canister", 5563, ammo_rocket, AmmoRocket.CANISTER);
-		addRemap("ammo_rocket_phosphorus", 5558, ammo_rocket, AmmoRocket.PHOSPHORUS);
-		
 		//CONSERVE REMAP
 		addRemap("canned_beef", canned_conserve, EnumFoodType.BEEF);
 		addRemap("canned_tuna", canned_conserve, EnumFoodType.TUNA);
@@ -8425,7 +8271,10 @@ public class ModItems {
 		addRemap("rod_zirnox_les_fuel", rod_zirnox, EnumZirnoxType.LES_FUEL);
 		addRemap("rod_zirnox_lithium", rod_zirnox, EnumZirnoxType.LITHIUM);
 		addRemap("rod_zirnox_zfb_mox", rod_zirnox, EnumZirnoxType.ZFB_MOX);
-		
+
+		addRemap("gas_petroleum", gas_full, Fluids.PETROLEUM.getID());
+		addRemap("gas_biogas", gas_full, Fluids.BIOGAS.getID());
+		addRemap("gas_lpg", gas_full, Fluids.LPG.getID());
 	}
 	
 	public static void addRemap(String unloc, int removoingTheseWouldTakeForever, Item item, Enum sub) {

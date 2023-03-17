@@ -1033,6 +1033,15 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.canister_lightoil");
 		ignoreMappings.add("hbm:item.canister_biofuel");
 		ignoreMappings.add("hbm:item.canister_ethanol");
+		ignoreMappings.add("hbm:item.gun_revolver_nightmare2_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_iron_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_gold_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_cursed_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_nightmare_ammo");
+		ignoreMappings.add("hbm:item.gun_mp_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_lead_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_schrabidium_ammo");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
@@ -1040,6 +1049,12 @@ public class MainRegistry {
 		remapItems.put("hbm:item.briquette_lignite", ModItems.briquette);
 		
 		for(MissingMapping mapping : event.get()) {
+			
+			// ignore all ammo prefixes because those are from the time we threw out all the ammo items
+			if(mapping.name.startsWith("hbm:item.ammo_")) {
+				mapping.ignore();
+				continue;
+			}
 
 			if(ignoreMappings.contains(mapping.name)) {
 				mapping.ignore();

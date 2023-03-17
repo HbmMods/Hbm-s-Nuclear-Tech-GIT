@@ -3,8 +3,9 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids.CD_Canister;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.Fluids.CD_Gastank;
+import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,11 +16,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
-public class ItemCanister extends Item {
+public class ItemGasTank extends Item {
 
 	IIcon overlayIcon;
+	IIcon labelIcon;
 
-	public ItemCanister() {
+	public ItemGasTank() {
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
 	}
@@ -32,7 +34,7 @@ public class ItemCanister extends Item {
 		for(int i = 1; i < order.length; ++i) {
 			FluidType type = order[i];
 			
-			if(type.getContainer(CD_Canister.class) != null) {
+			if(type.getContainer(CD_Gastank.class) != null) {
 				list.add(new ItemStack(item, 1, type.getID()));
 			}
 		}
@@ -54,18 +56,24 @@ public class ItemCanister extends Item {
 	public boolean requiresMultipleRenderPasses() {
 		return true;
 	}
+	
+	@Override
+	public int getRenderPasses(int meta) {
+		return 3;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
 		super.registerIcons(reg);
-		this.overlayIcon = reg.registerIcon("hbm:canister_overlay");
+		this.overlayIcon = reg.registerIcon(RefStrings.MODID + ":gas_bottle");
+		this.labelIcon = reg.registerIcon(RefStrings.MODID + ":gas_label");
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int p_77618_1_, int p_77618_2_) {
-		return p_77618_2_ == 1 ? this.overlayIcon : super.getIconFromDamageForRenderPass(p_77618_1_, p_77618_2_);
+	public IIcon getIconFromDamageForRenderPass(int damage, int pass) {
+		return pass == 2 ? this.labelIcon : pass == 1 ? this.overlayIcon : super.getIconFromDamageForRenderPass(damage, pass);
 	}
 
 	@Override
@@ -75,14 +83,11 @@ public class ItemCanister extends Item {
 			return 16777215;
 		} else {
 			
-			CD_Canister canister = Fluids.fromID(stack.getItemDamage()).getContainer(CD_Canister.class);
-			int j = canister == null ? -1 : canister.color;
-
-			if(j < 0) {
-				j = 16777215;
-			}
-
-			return j;
+			CD_Gastank tank = Fluids.fromID(stack.getItemDamage()).getContainer(CD_Gastank.class);
+			
+			if(tank == null) return 0xffffff;
+			
+			return pass == 1 ? tank.bottleColor : tank.labelColor;
 		}
 	}
 }

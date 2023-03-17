@@ -956,7 +956,16 @@ public class AssemblerRecipes {
 				new OreDictStack(OreDictManager.getReflector(), 8),
 				new OreDictStack(CU.plate(), 12)
 			}, 150);
-		
+
+		makeRecipe(new ComparableStack(ModBlocks.machine_vacuum_distill, 1), new AStack[] {
+				new OreDictStack(STEEL.plateCast(), 16),
+				new OreDictStack(CU.plate528(), 16),
+				new OreDictStack(TCALLOY.ingot(), 4),
+				new ComparableStack(ModItems.sphere_steel, 1),
+				new ComparableStack(ModItems.pipes_steel, 1),
+				new ComparableStack(ModItems.motor_desh, 3),
+				new ComparableStack(ModItems.circuit_gold, 1)
+			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_catalytic_reformer, 1), new AStack[] {
 				new OreDictStack(STEEL.plateCast(), 12),
 				new OreDictStack(CU.plate528(), 8),
@@ -966,7 +975,7 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.pipes_steel, 1),
 				new ComparableStack(ModItems.motor, 1),
 				new ComparableStack(ModItems.circuit_red_copper, 3)
-			}, 150);
+			}, 200);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);
@@ -978,7 +987,6 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_star, 1), new AStack[] { new ComparableStack(ModItems.cap_star, 128) }, 10);
 
 		if(!GeneralConfig.enable528) {
-		
 			makeRecipe(new ComparableStack(ModBlocks.machine_hephaestus, 1), new AStack[] { new ComparableStack(ModItems.pipes_steel, 1), new OreDictStack(STEEL.ingot(), 24), new OreDictStack(CU.plate(), 24), new OreDictStack(NB.ingot(), 4), new OreDictStack(RUBBER.ingot(), 12), new ComparableStack(ModBlocks.glass_quartz, 16) }, 150);
 			makeRecipe(new ComparableStack(ModBlocks.reactor_element, 1), new AStack[] {new OreDictStack(STEEL.ingot(), 2), new OreDictStack(OreDictManager.getReflector(), 4), new OreDictStack(PB.plate(), 2), new OreDictStack(ZR.ingot(), 2), },150);
 			makeRecipe(new ComparableStack(ModBlocks.reactor_control, 1), new AStack[] {new OreDictStack(STEEL.ingot(), 4), new OreDictStack(PB.ingot(), 6), new ComparableStack(ModItems.bolt_tungsten, 6), new ComparableStack(ModItems.motor, 1), },100);
@@ -999,6 +1007,8 @@ public class AssemblerRecipes {
 			addTantalium(new ComparableStack(ModBlocks.machine_silex, 1), 15);
 			addTantalium(new ComparableStack(ModBlocks.machine_radar, 1), 20);
 			addTantalium(new ComparableStack(ModBlocks.machine_mining_laser, 1), 30);
+			addTantalium(new ComparableStack(ModBlocks.machine_vacuum_distill, 1), 50);
+			addTantalium(new ComparableStack(ModBlocks.machine_catalytic_reformer, 1), 50);
 			
 			addTantalium(new ComparableStack(ModBlocks.turret_chekhov, 1), 3);
 			addTantalium(new ComparableStack(ModBlocks.turret_friendly, 1), 3);
@@ -1145,7 +1155,7 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.motor_desh, 16),
 				new ComparableStack(ModItems.bolt_dura_steel, 12),
 				new OreDictStack(KEY_YELLOW, 4)
-			}, 5000);
+			}, 1200);
 		
 		if(Loader.isModLoaded("Mekanism")) {
 			

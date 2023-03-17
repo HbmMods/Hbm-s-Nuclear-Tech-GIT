@@ -108,12 +108,23 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(new OreDictStack(S.dust()))
 				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500))
 				.outputItems(new ItemStack(ModItems.ingot_rubber)));
-		recipes.add(new ChemRecipe(94, "PET", 100)
+		/*recipes.add(new ChemRecipe(94, "PET", 100)
 				.inputItems(new OreDictStack(AL.dust()))
 				.inputFluids(
 						new FluidStack(Fluids.XYLENE, 500),
 						new FluidStack(Fluids.OXYGEN, 100))
-				.outputItems(new ItemStack(ModItems.ingot_pet)));
+				.outputItems(new ItemStack(ModItems.ingot_pet)));*/
+		recipes.add(new ChemRecipe(94, "PC", 100)
+				.inputFluids(
+						new FluidStack(Fluids.XYLENE, 500),
+						new FluidStack(Fluids.PHOSGENE, 500))
+				.outputItems(new ItemStack(ModItems.ingot_pc)));
+		recipes.add(new ChemRecipe(96, "PVC", 100)
+				.inputItems(new OreDictStack(CA.dust())) //placeholder!
+				.inputFluids(
+						new FluidStack(Fluids.UNSATURATEDS, 250),
+						new FluidStack(Fluids.CHLORINE, 250))
+				.outputItems(new ItemStack(ModItems.ingot_pvc)));
 		recipes.add(new ChemRecipe(89, "DYNAMITE", 50)
 				.inputItems(
 						new ComparableStack(Items.sugar),
