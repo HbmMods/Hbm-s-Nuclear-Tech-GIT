@@ -24,11 +24,11 @@ import javax.swing.text.Position;
 public class RenderNTMSkyboxImpact extends IRenderHandler {
 	
 	private static final ResourceLocation sunTexture = new ResourceLocation("textures/environment/sun.png");
-	private static final ResourceLocation moonTexture = new ResourceLocation("hbm:textures/misc/mun_phases.png");
-	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
-	private static final ResourceLocation bobmazonSat = new ResourceLocation("hbm:textures/misc/sat_bobmazon.png");
-	private static final ResourceLocation planet = new ResourceLocation("hbm:textures/misc/planet.png");
-	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/night.png");
+	private static final ResourceLocation moonTexture = new ResourceLocation("hbm:textures/misc/space/mun_phases.png");
+	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/space/star_digamma.png");
+	private static final ResourceLocation bobmazonSat = new ResourceLocation("hbm:textures/misc/space/sat_bobmazon.png");
+	private static final ResourceLocation planet = new ResourceLocation("hbm:textures/misc/space/planet.png");
+	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/space/night.png");
 	
 	public static boolean displayListsInitialized = false;
 	public static int starGLCallList;
@@ -343,24 +343,27 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 			tessellator.draw();
 			GL11.glPopMatrix();
 
-			GL11.glPushMatrix();
-			GL11.glColor4f(brightness, brightness, brightness, rain);
-			GL11.glRotatef(-40.0F, 1.0F, 0.0F, 0.0F);
-			GL11.glRotatef((System.currentTimeMillis() % (360 * 1000) / 1000F), 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef((System.currentTimeMillis() % (360 * 100) / 100F), 1.0F, 0.0F, 0.0F);
+			if(!ImpactWorldHandler.getImpactForClient(world))
+			{
+				GL11.glPushMatrix();
+				GL11.glColor4f(brightness, brightness, brightness, rain);
+				GL11.glRotatef(-40.0F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef((System.currentTimeMillis() % (360 * 1000) / 1000F), 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef((System.currentTimeMillis() % (360 * 100) / 100F), 1.0F, 0.0F, 0.0F);
 
-			FMLClientHandler.instance().getClient().renderEngine.bindTexture(bobmazonSat);
+				FMLClientHandler.instance().getClient().renderEngine.bindTexture(bobmazonSat);
 
-			var12 = 0.5F;
-			dist = 100D;
+				var12 = 0.5F;
+				dist = 100D;
 
-			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-var12, dist, -var12, 0.0D, 0.0D);
-			tessellator.addVertexWithUV(var12, dist, -var12, 0.0D, 1.0D);
-			tessellator.addVertexWithUV(var12, dist, var12, 1.0D, 1.0D);
-			tessellator.addVertexWithUV(-var12, dist, var12, 1.0D, 0.0D);
-			tessellator.draw();
-			GL11.glPopMatrix();
+				tessellator.startDrawingQuads();
+				tessellator.addVertexWithUV(-var12, dist, -var12, 0.0D, 0.0D);
+				tessellator.addVertexWithUV(var12, dist, -var12, 0.0D, 1.0D);
+				tessellator.addVertexWithUV(var12, dist, var12, 1.0D, 1.0D);
+				tessellator.addVertexWithUV(-var12, dist, var12, 1.0D, 0.0D);
+				tessellator.draw();
+				GL11.glPopMatrix();	
+			}			
 		}
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 

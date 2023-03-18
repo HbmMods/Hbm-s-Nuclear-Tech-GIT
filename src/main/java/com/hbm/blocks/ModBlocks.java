@@ -1198,6 +1198,9 @@ public class ModBlocks {
 	public static Fluid mercury_fluid;
 
 	public static Block concrete_liquid;
+	
+	public static Block flesh_block;
+	public static Fluid flesh_fluid;
 
 	public static Block volcano_core;
 
@@ -2342,7 +2345,7 @@ public class ModBlocks {
 
 		schrabidic_fluid = new SchrabidicFluid().setDensity(31200).setViscosity(500).setTemperature(273).setUnlocalizedName("schrabidic_fluid");
 		FluidRegistry.registerFluid(schrabidic_fluid);
-		schrabidic_block = new SchrabidicBlock(schrabidic_fluid, fluidschrabidic.setReplaceable(), ModDamageSource.radiation).setBlockName("schrabidic_block").setResistance(500F);
+		schrabidic_block = new SchrabidicBlock(schrabidic_fluid, Material.water, ModDamageSource.radiation).setBlockName("schrabidic_block").setResistance(500F);
 
 		corium_fluid = new CoriumFluid().setDensity(600000).setViscosity(12000).setLuminosity(10).setTemperature(1500).setUnlocalizedName("corium_fluid");
 		FluidRegistry.registerFluid(corium_fluid);
@@ -2363,6 +2366,10 @@ public class ModBlocks {
 		Fluid liquidConcrete = new GenericFluid("concrete_liquid").setViscosity(2000);
 		concrete_liquid = new GenericFiniteFluid(liquidConcrete, Material.rock, "concrete_liquid", "concrete_liquid_flowing").setQuantaPerBlock(4).setBlockName("concrete_liquid").setResistance(500F);
 
+		flesh_fluid = new GenericFluid("flesh_fluid").setDensity(1840).setViscosity(1000).setTemperature(273);
+		FluidRegistry.registerFluid(flesh_fluid);
+		flesh_block = new MeltedFlesh(flesh_fluid, Material.water, "melted_flesh", "melted_flesh").setBlockName("melted_flesh").setResistance(500F);
+		
 		dummy_block_drill = new DummyBlockDrill(Material.iron, false).setBlockName("dummy_block_drill").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_lead");
 		dummy_port_drill = new DummyBlockDrill(Material.iron, true).setBlockName("dummy_port_drill").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_lead");
 		dummy_block_assembler = new DummyBlockAssembler(Material.iron, false).setBlockName("dummy_block_assembler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3474,6 +3481,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(volcanic_lava_block, volcanic_lava_block.getUnlocalizedName());
 		GameRegistry.registerBlock(sulfuric_acid_block, sulfuric_acid_block.getUnlocalizedName());
 		GameRegistry.registerBlock(mercury_block, mercury_block.getUnlocalizedName());
+		GameRegistry.registerBlock(flesh_block, flesh_block.getUnlocalizedName());
 		
 		//Multiblock Dummy Blocks
 		GameRegistry.registerBlock(dummy_block_drill, dummy_block_drill.getUnlocalizedName());

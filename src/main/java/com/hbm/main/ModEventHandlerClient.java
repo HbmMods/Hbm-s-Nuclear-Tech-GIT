@@ -24,7 +24,9 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.ImpactWorldHandler;
+import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
@@ -678,6 +680,27 @@ public class ModEventHandlerClient {
 			} else {
 				list.add(EnumChatFormatting.RED + "No Ore Dict data!");
 			}
+		}
+		
+		///NEUTRON ACTIVATION
+		float level = 0;
+		float rads = HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.RADIATION);
+		if(HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.RADIATION)==0)
+		{
+			if(stack.hasTagCompound() && stack.stackTagCompound.hasKey("ntmNeutron")) {
+				level += stack.stackTagCompound.getFloat("ntmNeutron");
+			}
+			
+			if(level < 1e-5)
+				return;
+			
+			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey("trait.radioactive") + "]");
+			String rads2 = "" + (Math.floor(level* 1000) / 1000);
+			list.add(EnumChatFormatting.YELLOW + (rads2 + "RAD/s"));
+			
+			if(stack.stackSize > 1) {
+				list.add(EnumChatFormatting.YELLOW + "Stack: " + ((Math.floor(level * 1000 * stack.stackSize) / 1000) + "RAD/s"));
+			}	
 		}
 		
 		/// NUCLEAR FURNACE FUELS ///
