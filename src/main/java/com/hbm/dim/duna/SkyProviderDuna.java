@@ -24,10 +24,10 @@ import javax.swing.text.Position;
 public class SkyProviderDuna extends IRenderHandler {
 	
 	private static final ResourceLocation sunTexture = new ResourceLocation("textures/environment/sun.png");
-	private static final ResourceLocation ike = new ResourceLocation("hbm:textures/misc/ike.png");
-	private static final ResourceLocation planet = new ResourceLocation("hbm:textures/misc/planet.png");
-	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/night.png");
-	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
+	private static final ResourceLocation ike = new ResourceLocation("hbm:textures/misc/space/ike.png");
+	private static final ResourceLocation planet = new ResourceLocation("hbm:textures/misc/space/planet.png");
+	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/space/night.png");
+	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/space/star_digamma.png");
 
 	public static boolean displayListsInitialized = false;
 	public static int starGLCallList;

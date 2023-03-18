@@ -38,6 +38,7 @@ import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.EntityEffectHandler;
+import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
@@ -71,6 +72,8 @@ import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.InventoryUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.world.generator.TimedGenerator;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -550,7 +553,11 @@ public class ModEventHandler {
 				}
 			}
 		}
-		
+		//TODO: Add spacesuits
+		if(!ArmorUtil.checkForAsbestos(event.entityLiving) && event.entityLiving.worldObj.provider.dimensionId==WorldConfig.eveDimension)
+		{
+			event.entityLiving.attackEntityFrom(ModDamageSource.eve, 4);
+		}
 		EntityEffectHandler.onUpdate(event.entityLiving);
 		
 		if(!event.entity.worldObj.isRemote && !(event.entityLiving instanceof EntityPlayer)) {
@@ -1123,7 +1130,27 @@ public class ModEventHandler {
 					PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(((IEnergyConductor) player.worldObj.getTileEntity(x, y, z)).getPowerNet() + ""), (EntityPlayerMP) player);
 				}
 			}*/
-
+			for(int i = 0; i < player.inventory.mainInventory.length; i++)
+			{
+				ItemStack stack2 = player.inventory.getStackInSlot(i);
+				
+				//if(rand.nextInt(100) == 0) {
+					//stack2 = player.inventory.armorItemInSlot(rand.nextInt(4));
+				//}
+				
+				//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
+				if(stack2 != null) {
+						if(stack2.hasTagCompound() && HazardSystem.getHazardLevelFromStack(stack2, HazardRegistry.RADIATION)==0)
+						{
+							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
+							//System.out.println("activation: "+activation);
+							ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.CREATIVE, activation/20);
+						}
+						
+						
+					//}
+				}
+			}
 			/// NEW ITEM SYS START ///
 			HazardSystem.updatePlayerInventory(player);
 			/// NEW ITEM SYS END ///

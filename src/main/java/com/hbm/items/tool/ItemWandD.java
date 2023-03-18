@@ -106,6 +106,13 @@ public class ItemWandD extends Item {
 					DebugTeleporter.teleport(player, WorldConfig.eveDimension, player.posX, 300, player.posZ);
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
+				case 5:
+					TomSaveData data = TomSaveData.forWorld(world);
+					data.impact = true;
+					data.fire = 1F;
+					//DebugTeleporter.teleport(player, WorldConfig.eveDimension, player.posX, 300, player.posZ);
+					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
+					break;
 				}
 				
 			}
@@ -119,7 +126,7 @@ public class ItemWandD extends Item {
 					int i = stack.stackTagCompound.getInteger("dim");
 					i++;
 					stack.stackTagCompound.setInteger("dim", i);
-					if(i >= 5) {
+					if(i >= 6) {
 						stack.stackTagCompound.setInteger("dim", 0);
 					}
 					
@@ -139,6 +146,9 @@ public class ItemWandD extends Item {
 							break;
 						case 4:
 							player.addChatMessage(new ChatComponentText("Dim: Eve"));
+							break;
+						case 5:
+							player.addChatMessage(new ChatComponentText("Impact Event"));
 							break;
 						default:
 							player.addChatMessage(new ChatComponentText("Dim: Moon"));
@@ -294,6 +304,15 @@ public class ItemWandD extends Item {
 				break;
 			case 2:
 				list.add("Dim:Duna");
+				break;
+			case 3:
+				list.add("Dim:Kerbin");
+				break;
+			case 4:
+				list.add("Dim:Eve");
+				break;
+			case 5:
+				list.add("Impact");
 				break;
 	}
 }
