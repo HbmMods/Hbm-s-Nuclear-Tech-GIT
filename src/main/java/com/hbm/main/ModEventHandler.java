@@ -553,7 +553,11 @@ public class ModEventHandler {
 				}
 			}
 		}
-		
+		//TODO: Add spacesuits
+		if(!ArmorUtil.checkForAsbestos(event.entityLiving) && event.entityLiving.worldObj.provider.dimensionId==WorldConfig.eveDimension)
+		{
+			event.entityLiving.attackEntityFrom(ModDamageSource.eve, 4);
+		}
 		EntityEffectHandler.onUpdate(event.entityLiving);
 		
 		if(!event.entity.worldObj.isRemote && !(event.entityLiving instanceof EntityPlayer)) {
