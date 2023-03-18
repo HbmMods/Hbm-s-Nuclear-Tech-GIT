@@ -103,7 +103,9 @@ public class BlockGrate extends Block implements ITooltipProvider {
 			return;
 		}
 		
-		if((entity instanceof EntityItem || entity instanceof EntityXPOrb) && entity.posY < y + 1.5) {
+		int meta = world.getBlockMetadata(x, y, z);
+		
+		if((entity instanceof EntityItem || entity instanceof EntityXPOrb) && entity.posY < y + meta * 0.125D + 0.375) {
 			entity.motionX = 0;
 			entity.motionY = -0.25;
 			entity.motionZ = 0;

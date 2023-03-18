@@ -8,14 +8,18 @@ import com.hbm.entity.projectile.EntitySawblade;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter.InventoryCraftingAuto;
 import com.hbm.util.ItemStackUtil;
 
 import api.hbm.tile.IHeatSource;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -87,10 +91,20 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 					}
 					
 					AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(-1D, 0.375D, -1D, -0.875, 2.375D, 1D);
-					aabb = BlockDummyable.getAABBRotationOffset(aabb, xCoord, yCoord, zCoord, ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getRotation(ForgeDirection.UP));
+					aabb = BlockDummyable.getAABBRotationOffset(aabb, xCoord + 0.5, yCoord, zCoord + 0.5, ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getRotation(ForgeDirection.UP));
 					for(Object o : worldObj.getEntitiesWithinAABB(EntityLivingBase.class, aabb)) {
-						EntityLivingBase living = (EntityLivingBase) o;
-						living.attackEntityFrom(ModDamageSource.turbofan, 100);
+						EntityLivingBase e = (EntityLivingBase) o;
+						if(e.isEntityAlive() && e.attackEntityFrom(ModDamageSource.turbofan, 100)) {
+							worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+							int count = Math.min((int)Math.ceil(e.getMaxHealth() / 4), 250);
+							NBTTagCompound data = new NBTTagCompound();
+							data.setString("type", "vanillaburst");
+							data.setInteger("count", count * 4);
+							data.setDouble("motion", 0.1D);
+							data.setString("mode", "blockdust");
+							data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
+							PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 50));
+						}
 					}
 					
 				} else {

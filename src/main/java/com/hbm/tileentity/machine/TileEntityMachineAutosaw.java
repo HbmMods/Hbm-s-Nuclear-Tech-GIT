@@ -2,13 +2,18 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockTallPlant.EnumTallFlower;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.fluid.IFluidStandardReceiver;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -80,7 +85,17 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IN
 				List<EntityLivingBase> affected = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(cX - 1, cY - 0.25, cZ - 1, cX + 1, cY + 0.25, cZ + 1));
 				
 				for(EntityLivingBase e : affected) {
-					e.attackEntityFrom(ModDamageSource.turbofan, 100);
+					if(e.isEntityAlive() && e.attackEntityFrom(ModDamageSource.turbofan, 100)) {
+						worldObj.playSoundEffect(e.posX, e.posY, e.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+						int count = Math.min((int)Math.ceil(e.getMaxHealth() / 4), 250);
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "vanillaburst");
+						data.setInteger("count", count * 4);
+						data.setDouble("motion", 0.1D);
+						data.setString("mode", "blockdust");
+						data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 50));
+					}
 				}
 				
 				if(state == 0) {
@@ -109,7 +124,11 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IN
 						Block b = worldObj.getBlock(pos.blockX, pos.blockY, pos.blockZ);
 						
 						if(b.getMaterial() == Material.wood || b.getMaterial() == Material.leaves || b.getMaterial() == Material.plants) {
-							state = 1;
+							
+							int meta = worldObj.getBlockMetadata(pos.blockX, pos.blockY, pos.blockZ);
+							if(!shouldIgnore(b, meta)) {
+								state = 1;
+							}
 						}
 					}
 				}
@@ -184,9 +203,23 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IN
 		}
 	}
 	
+	/** Anything additionally that the detector nor the blades should pick up on, like non-mature willows */
+	public static boolean shouldIgnore(Block b, int meta) {
+		if(b == ModBlocks.plant_tall) {
+			return meta == EnumTallFlower.CD2.ordinal() + 8 || meta == EnumTallFlower.CD3.ordinal() + 8;
+		}
+		
+		return false;
+	}
+	
 	protected void tryInteract(int x, int y, int z) {
 		
 		Block b = worldObj.getBlock(x, y, z);
+		int meta = worldObj.getBlockMetadata(x, y, z);
+		
+		if(shouldIgnore(b, meta)) {
+			return;
+		}
 		
 		if(b.getMaterial() == Material.leaves || b.getMaterial() == Material.plants) {
 			worldObj.func_147480_a(x, y, z, true);

@@ -120,11 +120,11 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.PHOSGENE, 500))
 				.outputItems(new ItemStack(ModItems.ingot_pc)));
 		recipes.add(new ChemRecipe(96, "PVC", 100)
-				.inputItems(new OreDictStack(CA.dust())) //placeholder!
+				.inputItems(new OreDictStack(CD.dust()))
 				.inputFluids(
 						new FluidStack(Fluids.UNSATURATEDS, 250),
 						new FluidStack(Fluids.CHLORINE, 250))
-				.outputItems(new ItemStack(ModItems.ingot_pvc)));
+				.outputItems(new ItemStack(ModItems.ingot_pvc, 2)));
 		recipes.add(new ChemRecipe(89, "DYNAMITE", 50)
 				.inputItems(
 						new ComparableStack(Items.sugar),

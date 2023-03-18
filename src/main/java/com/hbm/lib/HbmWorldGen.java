@@ -156,6 +156,7 @@ public class HbmWorldGen implements IWorldGenerator {
 
 			//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.hematiteSpawn, 10, 4, 80, ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn, 10, 6, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal());
+			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.limestoneSpawn, 12, 25, 30, ModBlocks.stone_resource, EnumStoneType.LIMESTONE.ordinal());
 			
 			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.IRON,													1, WorldConfig.bedrockIronSpawn);
 			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.COPPER,												1, WorldConfig.bedrockCopperSpawn);
@@ -613,7 +614,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 			
 			DungeonToolbox.generateOre(world, rand, i, j, 16, 8, 10, 50, ModBlocks.stone_porous);
-			OilSpot.generateOilSpot(world, randPosX, randPosZ, 5, 50);
+			OilSpot.generateOilSpot(world, randPosX, randPosZ, 5, 50, true);
 		}
 
 		if(WorldConfig.meteoriteSpawn > 0 && rand.nextInt(WorldConfig.meteoriteSpawn) == 0) {
