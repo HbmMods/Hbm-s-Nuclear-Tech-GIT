@@ -271,7 +271,7 @@ public class Fluids {
 		TEA =				new FluidType("TEA",				0x76523C, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		HONEY =				new FluidType("HONEY",				0xD99A02, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		OLIVEOIL =			new FluidType("OLIVEOIL",			0xA9B98E, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		FLUORINE =			new FluidType("FLUORINE",			0xC5C539, 4, 4, 4, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(60), new FT_Poison(true, 1)).addTraits(new FT_Flammable(10_000));	
+		FLUORINE =			new FluidType("FLUORINE",			0xC5C539, 4, 4, 4, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(40), new FT_Poison(true, 1)).addTraits(new FT_Flammable(10_000));	
 		TEKTOAIR =			new FluidType("TEKTOAIR",			0xC5C539, 4, 2, 0, EnumSymbol.OXIDIZER).addTraits(GASEOUS,new FT_Poison(true, 1)).addTraits(new FT_Flammable(30_000));		
 
 		

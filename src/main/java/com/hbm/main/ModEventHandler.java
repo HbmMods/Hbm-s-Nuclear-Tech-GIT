@@ -1040,6 +1040,14 @@ public class ModEventHandler {
 				player.fallDistance = 0;
 			}
 		
+		if(player.worldObj.provider.dimensionId == WorldConfig.dresDimension) {
+			
+			if(!player.capabilities.isFlying) {
+					player.motionY += 0.0260D; // i could really do better
+				}
+				player.fallDistance = 0;
+			}
+		
 		/*
 		if(player.worldObj.provider instanceof WorldProviderMoon) {
 			

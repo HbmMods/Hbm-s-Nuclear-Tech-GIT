@@ -5,6 +5,7 @@ import com.hbm.dim.WorldGeneratorMoon;
 import com.hbm.dim.WorldProviderMoon;
 import com.hbm.dim.Ike.WorldGeneratorIke;
 import com.hbm.dim.Ike.WorldProviderIke;
+import com.hbm.dim.dres.WorldProviderDres;
 import com.hbm.dim.duna.WorldGeneratorDuna;
 import com.hbm.dim.duna.WorldProviderDuna;
 import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
@@ -36,6 +37,9 @@ public class PlanetGen {
 	    
 		DimensionManager.registerProviderType(WorldConfig.eveDimension, WorldProviderEve.class, false);
 	    DimensionManager.registerDimension(WorldConfig.eveDimension, WorldConfig.eveDimension);
+	    
+		DimensionManager.registerProviderType(WorldConfig.dresDimension, WorldProviderDres.class, false);
+	    DimensionManager.registerDimension(WorldConfig.dresDimension, WorldConfig.dresDimension);
     }
 }
 

@@ -1,7 +1,6 @@
-package com.hbm.dim.eve;
+package com.hbm.dim.dres;
 
 import com.hbm.config.WorldConfig;
-import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.AstronomyUtil;
 
@@ -16,23 +15,23 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.client.IRenderHandler;
 
-public class WorldProviderEve extends WorldProvider {
+public class WorldProviderDres extends WorldProvider {
 	
 	public void registerWorldChunkManager() {
 		
-		this.worldChunkMgr = new WorldChunkManagerEve(worldObj);
-		//this.dimensionId = WorldConfig.dunaDimension;
-		//this.hasNoSky = false;
+		this.worldChunkMgr = new WorldChunkManagerDres(worldObj);
+		this.dimensionId = WorldConfig.dresDimension;
+		this.hasNoSky = false;
 	}
 
 	@Override
 	public String getDimensionName() {
-		return "Eve";
+		return "Dres";
 	}
 	
     public IChunkProvider createChunkGenerator()
     {
-        return new ChunkProviderEve(this.worldObj, this.getSeed(), false);
+        return new ChunkProviderDres(this.worldObj, this.getSeed(), false);
     }
     
 	public void renderClouds() {
@@ -40,13 +39,11 @@ public class WorldProviderEve extends WorldProvider {
     
     @SideOnly(Side.CLIENT)
     public Vec3 getFogColor(float x, float y) {
-        float f = 1.0F - this.getStarBrightness(1.0F);
-      return Vec3.createVectorHelper(53F / 255F * f, 32F / 255F * f, 74F / 255F * f);
+      return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
     }
     
     public Vec3 getSkyColor(Entity camera, float partialTicks) {
-        float f = 1.0F - this.getStarBrightness(1.0F);
-      return Vec3.createVectorHelper(92 / 255.0F * f, 54 / 255.0F * f, 131 / 255.0F * f);
+      return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
     }
     
     @SideOnly(Side.CLIENT)
@@ -66,7 +63,19 @@ public class WorldProviderEve extends WorldProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getStarBrightness(float par1) {
-		return 0;
+		/*float starBr = worldObj.getStarBrightnessBody(par1);
+		float dust = MainRegistry.proxy.getImpactDust(worldObj);
+		float f1 = worldObj.getCelestialAngle(par1);
+		float f2 = 1.0F - (MathHelper.cos(f1 * (float) Math.PI * 2.0F) * 2.0F + 0.25F);
+
+		if(f2 < 0.2F) {
+			f2 = 0.2F;
+		}
+
+		if(f2 > 1.0F) {
+			f2 = 1.0F;
+		}*/
+		return 1f;
 	}
     public boolean canRespawnHere()
     {
@@ -81,12 +90,12 @@ public class WorldProviderEve extends WorldProvider {
 
 	@SideOnly(Side.CLIENT)
 	public IRenderHandler getSkyRenderer() {
-		return new SkyProviderEve();
+		return new SkyProviderDres();
 	}
 	
     public long getDayLength()
     {
-    	return (long) (3.045*24000);
+    	return (long) (AstronomyUtil.MunP*24000);
     }
     
     @Override
@@ -111,10 +120,5 @@ public class WorldProviderEve extends WorldProvider {
         return f2 + (f1 - f2) / 3.0F;
     }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public float getSunBrightness(float par1) {
-		float sunBr = worldObj.getSunBrightnessFactor(par1);
-		return (sunBr * 0.3F);
-	}
+
 }

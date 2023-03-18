@@ -106,6 +106,10 @@ public class ItemWandD extends Item {
 					DebugTeleporter.teleport(player, WorldConfig.eveDimension, player.posX, 300, player.posZ);
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
+				case 5:
+					DebugTeleporter.teleport(player, WorldConfig.dresDimension, player.posX, 300, player.posZ);
+					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
+					break;
 				}
 				
 			}
@@ -119,7 +123,7 @@ public class ItemWandD extends Item {
 					int i = stack.stackTagCompound.getInteger("dim");
 					i++;
 					stack.stackTagCompound.setInteger("dim", i);
-					if(i >= 5) {
+					if(i >= 6) {
 						stack.stackTagCompound.setInteger("dim", 0);
 					}
 					
@@ -139,6 +143,9 @@ public class ItemWandD extends Item {
 							break;
 						case 4:
 							player.addChatMessage(new ChatComponentText("Dim: Eve"));
+							break;
+						case 5:
+							player.addChatMessage(new ChatComponentText("Dim: Dres"));
 							break;
 						default:
 							player.addChatMessage(new ChatComponentText("Dim: Moon"));

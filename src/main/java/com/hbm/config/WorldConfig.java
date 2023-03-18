@@ -120,6 +120,10 @@ public class WorldConfig {
 	public static int ikeBiome = 145;
 	public static int ikecfreq = 90;
 	
+	public static int DresBiome = 120;
+	public static int dreBasins = 121;
+	public static int dresDimension = 19;
+	
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY_OREGEN = CommonConfig.CATEGORY_ORES;
@@ -228,6 +232,7 @@ public class WorldConfig {
 		dunaDimension = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.01_dunaDimension", "Duna Dimension ID", 16);
 		ikeDimension = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.01_ikeDimension", "Ike Dimension ID", 17);
 		eveDimension = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.01_eveDimension", "Eve Dimension ID", 18);
+		dresDimension = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.01_dresDimension", "Dres Dimension ID", 19);
 		moonBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.02_moonBiome", "Mun Biome ID", 111);
 		dunaBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.03_dunaBiome", "Duna Biome ID", 112);
 		dunaLowlandsBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.04_dunaLowlandsBiome", "Duna Lowlands Biome ID", 113);
