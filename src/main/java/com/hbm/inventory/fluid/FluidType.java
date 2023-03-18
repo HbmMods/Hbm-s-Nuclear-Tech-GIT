@@ -198,7 +198,9 @@ public class FluidType {
 			}
 		}
 	}
-	
+	public static enum ExtContainer {
+		CANISTER
+	}
 	//shitty wrapper delegates, go!
 	//only used for compatibility purposes, these will be removed soon
 	//don't use these, dumbfuck
