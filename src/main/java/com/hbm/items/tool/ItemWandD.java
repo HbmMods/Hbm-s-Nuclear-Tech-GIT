@@ -129,7 +129,7 @@ public class ItemWandD extends Item {
 					int i = stack.stackTagCompound.getInteger("dim");
 					i++;
 					stack.stackTagCompound.setInteger("dim", i);
-					if(i >= 6) {
+					if(i >= 7) {
 						stack.stackTagCompound.setInteger("dim", 0);
 					}
 					
