@@ -60,7 +60,7 @@ public class BobmazonOfferFactory {
 		materials.add(new Offer(new ItemStack(ModItems.canister_full, 1, Fluids.GASOLINE.getID()), Requirement.OIL, 20 * inflation));
 		materials.add(new Offer(new ItemStack(ModItems.canister_full, 1, Fluids.KEROSENE.getID()), Requirement.OIL, 20 * inflation));
 		materials.add(new Offer(new ItemStack(ModItems.canister_full, 1, Fluids.NITAN.getID()), Requirement.OIL, 100 * inflation));
-		materials.add(new Offer(new ItemStack(ModItems.gas_petroleum), Requirement.OIL, 8 * inflation));
+		materials.add(new Offer(new ItemStack(ModItems.gas_full, 1, Fluids.PETROLEUM.getID()), Requirement.OIL, 8 * inflation));
 		materials.add(new Offer(new ItemStack(ModItems.motor), Requirement.ASSEMBLY, 12 * inflation));
 		materials.add(new Offer(new ItemStack(ModItems.rtg_unit), Requirement.NUCLEAR, 25 * inflation));
 		materials.add(new Offer(new ItemStack(ModItems.circuit_aluminium), Requirement.ASSEMBLY, 4 * inflation));

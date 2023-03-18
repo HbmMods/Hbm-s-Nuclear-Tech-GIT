@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.fluid.Fluids.CD_Canister;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.tileentity.machine.TileEntityMachineCombustionEngine;
@@ -36,9 +37,10 @@ public class RenderCombustionEngine extends TileEntitySpecialRenderer implements
 		ResourceManager.combustion_engine.renderPart("Engine");
 		
 		TileEntityMachineCombustionEngine engine = (TileEntityMachineCombustionEngine) tile;
+		CD_Canister canister = engine.tank.getTankType().getContainer(CD_Canister.class);
 		
-		int color = engine.tank.getTankType().getContainerColor();
-		if(color != 0xffffff) {
+		if(canister != null) {
+			int color = canister.color;
 			float r = ((color & 0xff0000) >> 16) / 256F;
 			float g = ((color & 0x00ff00) >> 8) / 256F;
 			float b = ((color & 0x0000ff) >> 0) / 256F;

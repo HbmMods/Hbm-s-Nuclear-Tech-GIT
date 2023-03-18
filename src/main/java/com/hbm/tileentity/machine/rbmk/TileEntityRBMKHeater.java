@@ -27,8 +27,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 
-public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
+public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, SimpleComponent {
 
 	public FluidTank feed;
 	public FluidTank steam;
@@ -266,6 +272,60 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {feed};
+	}
+
+	//opencomputers stuff
+
+	@Override
+	public String getComponentName() {
+		return "rbmk_heater";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getHeat(Context context, Arguments args) {
+		return new Object[] {heat};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFill(Context context, Arguments args) {
+		return new Object[] {feed.getFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFillMax(Context context, Arguments args) {
+		return new Object[] {feed.getMaxFill()};
+	}
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getExport(Context context, Arguments args) {
+		return new Object[] {steam.getFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getExportMax(Context context, Arguments args) {
+		return new Object[] {steam.getMaxFill()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFillType(Context context, Arguments args) {
+		return new Object[] {feed.getTankType().getID()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getExportType(Context context, Arguments args) {
+		return new Object[] {steam.getTankType().getID()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {heat, feed.getFill(), feed.getMaxFill(), steam.getFill(), steam.getMaxFill(), feed.getTankType().getID(), steam.getTankType().getID()};
 	}
 
 	@Override

@@ -5,6 +5,9 @@ import java.util.Set;
 
 import com.hbm.inventory.OreDictManager.DictFrame;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
 /**
  * Encapsulates most materials that are currently listed as DictFrames, even vanilla ones.
  * @author hbm
@@ -16,7 +19,8 @@ public class NTMMaterial {
 	public String[] names;
 	public Set<MaterialShapes> shapes = new HashSet();
 	public SmeltingBehavior smeltable = SmeltingBehavior.NOT_SMELTABLE;
-	public int solidColor = 0xFF4A00;
+	public int solidColorLight = 0xFF4A00;
+	public int solidColorDark = 0x802000;
 	public int moltenColor = 0xFF4A00;
 	
 	public NTMMaterial smeltsInto;
@@ -63,14 +67,23 @@ public class NTMMaterial {
 		return this;
 	}
 	
-	public NTMMaterial setSolidColor(int color) {
-		this.solidColor = color;
+	public NTMMaterial setSolidColor(int colorLight, int colorDark) {
+		this.solidColorLight = colorLight;
+		this.solidColorDark = colorDark;
 		return this;
 	}
 	
 	public NTMMaterial setMoltenColor(int color) {
 		this.moltenColor = color;
 		return this;
+	}
+	
+	public ItemStack make(Item item, int amount) {
+		return new ItemStack(item, amount, this.id);
+	}
+	
+	public ItemStack make(Item item) {
+		return make(item, 1);
 	}
 	
 	public static enum SmeltingBehavior {

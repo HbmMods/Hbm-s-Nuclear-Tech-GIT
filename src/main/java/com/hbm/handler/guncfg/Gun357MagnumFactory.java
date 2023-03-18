@@ -193,11 +193,11 @@ public class Gun357MagnumFactory {
 		config.name = "bio";
 		config.manufacturer = EnumGunManufacturer.RYAN;
 
-		config.config.add(BulletConfigSyncingUtil.STEEL_REVOLVER);
-		config.config.add(BulletConfigSyncingUtil.GOLD_REVOLVER);
-		config.config.add(BulletConfigSyncingUtil.IRON_REVOLVER);
-		config.config.add(BulletConfigSyncingUtil.LEAD_REVOLVER);
-		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.STEEL_HS);
+		config.config.add(BulletConfigSyncingUtil.GOLD_HS);
+		config.config.add(BulletConfigSyncingUtil.IRON_HS);
+		config.config.add(BulletConfigSyncingUtil.LEAD_HS);
+		config.config.add(BulletConfigSyncingUtil.DESH_HS);
 		
 		return config;
 	}

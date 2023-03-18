@@ -5,6 +5,9 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockEnumMulti;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockDeadPlant.EnumDeadPlantType;
+import com.hbm.blocks.generic.BlockTallPlant.EnumTallFlower;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
@@ -17,19 +20,26 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, IGrowable, ITooltipProvider {
 
 	public BlockNTMFlower() {
 		super(Material.plants, EnumFlowerType.class, true, true);
+		this.setTickRandomly(true);
 	}
 	
 	public static enum EnumFlowerType {
-		FOXGLOVE,
-		TOBACCO,
-		NIGHTSHADE,
-		WEED
+		FOXGLOVE(false),
+		TOBACCO(false),
+		NIGHTSHADE(false),
+		WEED(false),
+		CD0(true),
+		CD1(true);
+		
+		public boolean needsOil;
+		private EnumFlowerType(boolean needsOil) {
+			this.needsOil = needsOil;
+		}
 	}
 
 	@Override
@@ -53,7 +63,7 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, IGrowa
 	}
 
 	protected boolean canPlaceBlockOn(Block block) {
-		return block == Blocks.grass || block == Blocks.dirt || block == Blocks.farmland;
+		return block == Blocks.grass || block == Blocks.dirt || block == Blocks.farmland || block == ModBlocks.dirt_dead || block == ModBlocks.dirt_oily;
 	}
 
 	@Override
@@ -65,13 +75,13 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, IGrowa
 	protected void checkAndDropBlock(World world, int x, int y, int z) {
 		if(!this.canBlockStay(world, x, y, z)) {
 			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-			world.setBlock(x, y, z, getBlockById(0), 0, 2);
+			world.setBlock(x, y, z, Blocks.air, 0, 2);
 		}
 	}
 
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z) {
-		return world.getBlock(x, y - 1, z).canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, this);
+		return canPlaceBlockOn(world.getBlock(x, y - 1, z));
 	}
 
 	@Override
@@ -96,24 +106,96 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, IGrowa
 
 	@Override
 	public int damageDropped(int meta) {
+		
+		if(meta == EnumFlowerType.CD1.ordinal()) {
+			return EnumFlowerType.CD0.ordinal();
+		}
+		
 		return meta;
+	}
+
+	@Override
+	public void updateTick(World world, int x, int y, int z, Random rand) {
+
+		if(world.isRemote) return; //not possible i believe, but better safe than sorry
+		
+		int meta = world.getBlockMetadata(x, y, z);
+		EnumFlowerType type = EnumFlowerType.values()[rectify(meta)];
+		
+		if(!(type == EnumFlowerType.WEED || type == EnumFlowerType.CD0 || type == EnumFlowerType.CD1)) return;
+		
+		if(func_149851_a(world, x, y, z, false) && func_149852_a(world, rand, x, y, z) && rand.nextInt(3) == 0) {
+			func_149853_b(world, rand, x, y, z);
+		}
 	}
 
 	/* grow condition */
 	@Override
 	public boolean func_149851_a(World world, int x, int y, int z, boolean b) {
+		
+		int meta = world.getBlockMetadata(x, y, z);
+		
+		//cadmium willows can only grow with water
+		if(meta == EnumFlowerType.CD0.ordinal() || meta == EnumFlowerType.CD1.ordinal()) {
+			
+			if(world.getBlock(x + 1, y - 1, z).getMaterial() != Material.water &&
+					world.getBlock(x - 1, y - 1, z).getMaterial() != Material.water &&
+					world.getBlock(x, y - 1, z + 1).getMaterial() != Material.water &&
+					world.getBlock(x, y - 1, z - 1).getMaterial() != Material.water) {
+				return false;
+			}
+		}
+		
+		if(meta == EnumFlowerType.WEED.ordinal() ||  meta == EnumFlowerType.CD1.ordinal()) {
+			return world.isAirBlock(x, y + 1, z);
+		}
 		return true;
 	}
 
 	/* chance */
 	@Override
-	public boolean func_149852_a(World p_149852_1_, Random p_149852_2_, int p_149852_3_, int p_149852_4_, int p_149852_5_) {
+	public boolean func_149852_a(World world, Random rand, int x, int y, int z) {
+		
+		int meta = world.getBlockMetadata(x, y, z);
+		
+		if(meta == EnumFlowerType.WEED.ordinal() || meta == EnumFlowerType.CD0.ordinal() || meta == EnumFlowerType.CD1.ordinal()) {
+			return rand.nextFloat() < 0.33F;
+		}
+		
 		return true;
 	}
 
 	/* grow */
 	@Override
 	public void func_149853_b(World world, Random rand, int x, int y, int z) {
+
+		int meta = world.getBlockMetadata(x, y, z);
+		Block onTop = world.getBlock(x, y - 1, z);
+		
+		if(meta == EnumFlowerType.WEED.ordinal()) {
+			if(onTop == ModBlocks.dirt_dead || onTop == ModBlocks.dirt_oily) {
+				world.setBlock(x, y, z, ModBlocks.plant_dead, EnumDeadPlantType.GENERIC.ordinal(), 3);
+				return;
+			}
+		}
+		
+		if(meta == EnumFlowerType.WEED.ordinal()) {
+			world.setBlock(x, y, z, ModBlocks.plant_tall, EnumTallFlower.WEED.ordinal(), 3);
+			world.setBlock(x, y + 1, z, ModBlocks.plant_tall, EnumTallFlower.WEED.ordinal() + 8, 3);
+			return;
+		}
+		
+		if(meta == EnumFlowerType.CD0.ordinal()) {
+			world.setBlock(x, y, z, ModBlocks.plant_flower, EnumFlowerType.CD1.ordinal(), 3);
+			return;
+		}
+		
+		if(meta == EnumFlowerType.CD1.ordinal()) {
+			world.setBlock(x, y, z, ModBlocks.plant_tall, EnumTallFlower.CD2.ordinal(), 3);
+			world.setBlock(x, y + 1, z, ModBlocks.plant_tall, EnumTallFlower.CD2.ordinal() + 8, 3);
+			return;
+		}
+		
 		this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 	}
 

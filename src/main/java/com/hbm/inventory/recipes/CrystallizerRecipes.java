@@ -19,6 +19,7 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ItemEnums.EnumPlantType;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemicalDye.EnumChemDye;
@@ -93,6 +94,9 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(new ComparableStack(Items.rotten_flesh),			new CrystallizerRecipe(Items.leather, utilityTime));
 		registerRecipe(new ComparableStack(ModItems.coal_infernal),		new CrystallizerRecipe(ModItems.solid_fuel, utilityTime));
 		registerRecipe(new ComparableStack(ModBlocks.stone_gneiss),		new CrystallizerRecipe(ModItems.powder_lithium, utilityTime));
+		registerRecipe(new ComparableStack(Items.dye, 1, 15),			new CrystallizerRecipe(new ItemStack(Items.slime_ball, 4), 20), new FluidStack(Fluids.SULFURIC_ACID, 250));
+		registerRecipe(new ComparableStack(Items.bone),					new CrystallizerRecipe(new ItemStack(Items.slime_ball, 16), 20), new FluidStack(Fluids.SULFURIC_ACID, 1_000));
+		registerRecipe(new ComparableStack(DictFrame.fromOne(ModItems.plant_item, EnumPlantType.MUSTARDWILLOW)), new CrystallizerRecipe(new ItemStack(ModItems.powder_cadmium), 100).setReq(10), new FluidStack(Fluids.RADIOSOLVENT, 250));
 		
 		registerRecipe(DIAMOND.dust(), 									new CrystallizerRecipe(Items.diamond, utilityTime));
 		registerRecipe(EMERALD.dust(), 									new CrystallizerRecipe(Items.emerald, utilityTime));
@@ -144,6 +148,8 @@ public class CrystallizerRecipes extends SerializableRecipe {
 
 		registerRecipe(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE)),	new CrystallizerRecipe(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WAX), 20), new FluidStack(Fluids.CHLORINE, 250));
 		registerRecipe(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK)),	new CrystallizerRecipe(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WAX), 20), new FluidStack(Fluids.CHLORINE, 100));
+		
+		registerRecipe(KEY_SAND, new CrystallizerRecipe(Blocks.clay, 20), new FluidStack(Fluids.COLLOID, 1_000));
 		
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");
 		
@@ -197,10 +203,12 @@ public class CrystallizerRecipes extends SerializableRecipe {
 			FluidType acid = key.getValue();
 			
 			if(input instanceof String) {
-				OreDictStack stack = new OreDictStack((String) input);
+				OreDictStack stack = new OreDictStack((String) input, recipe.itemAmount);
 				recipes.put(new Object[] {ItemFluidIcon.make(acid, recipe.acidAmount), stack}, recipe.output);
 			} else {
-				ComparableStack stack = (ComparableStack) input;
+				ComparableStack stack = ((ComparableStack) input);
+				stack = (ComparableStack) stack.copy();
+				stack.stacksize = recipe.itemAmount;
 				if(stack.item == ModItems.scrap_plastic) continue;
 				recipes.put(new Object[] {ItemFluidIcon.make(acid, recipe.acidAmount), stack}, recipe.output);
 			}
@@ -220,11 +228,17 @@ public class CrystallizerRecipes extends SerializableRecipe {
 	
 	public static class CrystallizerRecipe {
 		public int acidAmount;
+		public int itemAmount = 1;
 		public int duration;
 		public ItemStack output;
 		
 		public CrystallizerRecipe(Block output, int duration) { this(new ItemStack(output), duration); }
 		public CrystallizerRecipe(Item output, int duration) { this(new ItemStack(output), duration); }
+		
+		public CrystallizerRecipe setReq(int amount) {
+			this.itemAmount = amount;
+			return this;
+		}
 		
 		public CrystallizerRecipe(ItemStack output, int duration) {
 			this.output = output;
@@ -252,10 +266,11 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		FluidStack fluid = this.readFluidStack(obj.get("fluid").getAsJsonArray());
 		int duration = obj.get("duration").getAsInt();
 		
-		CrystallizerRecipe cRecipe = new CrystallizerRecipe(output, duration);
+		CrystallizerRecipe cRecipe = new CrystallizerRecipe(output, duration).setReq(input.stacksize);
+		input.stacksize = 1;
 		cRecipe.acidAmount = fluid.fill;
 		if(input instanceof ComparableStack) {
-			recipes.put(new Pair(((ComparableStack) input).makeSingular(), fluid.type), cRecipe);
+			recipes.put(new Pair(((ComparableStack) input), fluid.type), cRecipe);
 		} else if(input instanceof OreDictStack) {
 			recipes.put(new Pair(((OreDictStack) input).name, fluid.type), cRecipe);
 		}
@@ -266,7 +281,8 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		Entry<Pair, CrystallizerRecipe> rec = (Entry<Pair, CrystallizerRecipe>) recipe;
 		CrystallizerRecipe cRecipe = rec.getValue();
 		Pair<Object, FluidType> pair = rec.getKey();
-		AStack input = pair.getKey() instanceof String ? new OreDictStack((String )pair.getKey()) : (ComparableStack) pair.getKey();
+		AStack input = pair.getKey() instanceof String ? new OreDictStack((String )pair.getKey()) : ((ComparableStack) pair.getKey()).copy();
+		input.stacksize = cRecipe.itemAmount;
 		FluidStack fluid = new FluidStack(pair.value, cRecipe.acidAmount);
 
 		writer.name("duration").value(cRecipe.duration);
@@ -281,5 +297,10 @@ public class CrystallizerRecipes extends SerializableRecipe {
 	@Override
 	public void deleteRecipes() {
 		recipes.clear();
+	}
+
+	@Override
+	public String getComment() {
+		return "The acidizer also supports stack size requirements for input items, eg. the cadmium recipe requires 10 willow leaves.";
 	}
 }

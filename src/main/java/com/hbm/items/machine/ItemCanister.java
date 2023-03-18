@@ -3,7 +3,7 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.FluidType.ExtContainer;
+import com.hbm.inventory.fluid.Fluids.CD_Canister;
 import com.hbm.inventory.fluid.Fluids;
 
 import cpw.mods.fml.relauncher.Side;
@@ -32,7 +32,7 @@ public class ItemCanister extends Item {
 		for(int i = 1; i < order.length; ++i) {
 			FluidType type = order[i];
 			
-			if(type.containers.contains(ExtContainer.CANISTER)) {
+			if(type.getContainer(CD_Canister.class) != null) {
 				list.add(new ItemStack(item, 1, type.getID()));
 			}
 		}
@@ -70,11 +70,13 @@ public class ItemCanister extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack stack, int p_82790_2_) {
-		if(p_82790_2_ == 0) {
+	public int getColorFromItemStack(ItemStack stack, int pass) {
+		if(pass == 0) {
 			return 16777215;
 		} else {
-			int j = Fluids.fromID(stack.getItemDamage()).getContainerColor();
+			
+			CD_Canister canister = Fluids.fromID(stack.getItemDamage()).getContainer(CD_Canister.class);
+			int j = canister == null ? -1 : canister.color;
 
 			if(j < 0) {
 				j = 16777215;

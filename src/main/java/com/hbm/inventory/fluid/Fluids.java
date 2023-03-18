@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hbm.inventory.fluid.FluidType.ExtContainer;
 import com.hbm.inventory.fluid.trait.*;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
@@ -109,7 +108,7 @@ public class Fluids {
 	public static FluidType HCL;
 	public static FluidType SYNGAS;
 	public static FluidType OXYHYDROGEN;
-	public static FluidType RADIOSOLVENT;
+	public static FluidType RADIOSOLVENT;		//DCM-ish made by wacky radio cracking
 	public static FluidType CHLORINE;			//everone's favorite!
 	public static FluidType HEAVYOIL_VACUUM;
 	public static FluidType REFORMATE;
@@ -130,6 +129,9 @@ public class Fluids {
 	public static FluidType DIESEL_CRACK_REFORM;
 	public static FluidType KEROSENE_REFORM;
 	public static FluidType REFORMGAS;			//MAPD: propyne, propadiene
+	public static FluidType COLLOID;
+	public static FluidType PHOSGENE;
+	public static FluidType MUSTARDGAS;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -277,6 +279,11 @@ public class Fluids {
 		MILK =				new FluidType("MILK",				0xCFCFCF, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);//F5DEE4
 		SMILK =				new FluidType("SMILK",				0xF5DEE4, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);
 		OLIVEOIL =			new FluidType("OLIVEOIL",			0xA9B98E, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);
+		COLLOID =			new FluidType("COLLOID",			0x787878, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		PHOSGENE =			new FluidType("PHOSGENE",			0xCFC4A4, 4, 0, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xCFC4A4, 0x361414)).addTraits(GASEOUS);
+		MUSTARDGAS =		new FluidType(118, "MUSTARDGAS",	0xBAB572, 4, 1, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xBAB572, 0x361414)).addTraits(GASEOUS);
+	
+
 		//FLUORINE =			new FluidType("FLUORINE",			0xC5C539, 4, 4, 4, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(32), new FT_Poison(true, 1)).addTraits(new FT_Flammable(10_000));		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -369,6 +376,7 @@ public class Fluids {
 		//processing fluids
 		metaOrder.add(SALIENT);
 		metaOrder.add(SEEDSLURRY);
+		metaOrder.add(COLLOID);
 		metaOrder.add(ACID);
 		metaOrder.add(SULFURIC_ACID);
 		//NITRIC_ACID
@@ -387,6 +395,9 @@ public class Fluids {
 		metaOrder.add(WATZ);
 		//solutions and working fluids
 		metaOrder.add(FRACKSOL);
+		//the fun guys
+		metaOrder.add(PHOSGENE);
+		metaOrder.add(MUSTARDGAS);
 		//antimatter
 		metaOrder.add(AMAT);
 		metaOrder.add(ASCHRAB);
@@ -616,5 +627,15 @@ public class Fluids {
 		}
 		
 		return all;
+	}
+	
+	public static class CD_Canister {
+		public int color;
+		public CD_Canister(int color) { this.color = color; }
+	}
+	
+	public static class CD_Gastank {
+		public int bottleColor, labelColor;
+		public CD_Gastank(int color1, int color2) { this.bottleColor = color1; this.labelColor = color2; }
 	}
 }

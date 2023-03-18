@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.TimeAnalyzer;
+import com.hbm.world.feature.OilSpot;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -40,12 +41,12 @@ public class ItemWandD extends Item {
 			
 			
 			
-			TimeAnalyzer.startCount("setBlock");
+			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
 			TimeAnalyzer.startEndCount("getBlock");
 			world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
 			TimeAnalyzer.endCount();
-			TimeAnalyzer.dump();
+			TimeAnalyzer.dump();*/
 			
 			/*TomSaveData data = TomSaveData.forWorld(world);
 			data.impact = false;
@@ -79,7 +80,7 @@ public class ItemWandD extends Item {
 			//MapGenStronghold.Start startS = new MapGenStronghold.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
 			//startS.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));
 			
-			/*OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 20, 500);*/
+			OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 3, 50, true);
 			
 			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);

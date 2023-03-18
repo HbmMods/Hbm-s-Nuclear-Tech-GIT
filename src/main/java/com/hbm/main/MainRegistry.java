@@ -2,7 +2,9 @@ package com.hbm.main;
 
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
+import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.init.Items;
@@ -12,6 +14,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.AchievementPage;
@@ -60,6 +63,7 @@ import com.hbm.inventory.recipes.*;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemFertilizer;
 import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
@@ -603,6 +607,27 @@ public class MainRegistry {
 				return new EntityGrenadeDynamite(world, position.getX(), position.getY(), position.getZ());
 			}
 		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.powder_fertilizer, new BehaviorDefaultDispenseItem() {
+
+			private boolean dispenseSound = true;
+			@Override protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+				
+				EnumFacing facing = BlockDispenser.func_149937_b(source.getBlockMetadata());
+				World world = source.getWorld();
+				int x = source.getXInt() + facing.getFrontOffsetX();
+				int y = source.getYInt() + facing.getFrontOffsetY();
+				int z = source.getZInt() + facing.getFrontOffsetZ();
+				this.dispenseSound = ItemFertilizer.useFertillizer(stack, world, x, y, z);
+				return stack;
+			}
+			@Override protected void playDispenseSound(IBlockSource source) {
+				if(this.dispenseSound) {
+					source.getWorld().playAuxSFX(1000, source.getXInt(), source.getYInt(), source.getZInt(), 0);
+				} else {
+					source.getWorld().playAuxSFX(1001, source.getXInt(), source.getYInt(), source.getZInt(), 0);
+				}
+			}
+		});
 	}
 
 	@EventHandler
@@ -1036,6 +1061,15 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.canister_lightoil");
 		ignoreMappings.add("hbm:item.canister_biofuel");
 		ignoreMappings.add("hbm:item.canister_ethanol");
+		ignoreMappings.add("hbm:item.gun_revolver_nightmare2_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_iron_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_gold_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_cursed_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_nightmare_ammo");
+		ignoreMappings.add("hbm:item.gun_mp_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_lead_ammo");
+		ignoreMappings.add("hbm:item.gun_revolver_schrabidium_ammo");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
@@ -1043,6 +1077,12 @@ public class MainRegistry {
 		remapItems.put("hbm:item.briquette_lignite", ModItems.briquette);
 		
 		for(MissingMapping mapping : event.get()) {
+			
+			// ignore all ammo prefixes because those are from the time we threw out all the ammo items
+			if(mapping.name.startsWith("hbm:item.ammo_")) {
+				mapping.ignore();
+				continue;
+			}
 
 			if(ignoreMappings.contains(mapping.name)) {
 				mapping.ignore();

@@ -7,9 +7,8 @@ import java.util.Map.Entry;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
-import com.hbm.items.tool.ItemColtanCompass.TextureColtass;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.icon.RGBMutatorMultiplicative;
+import com.hbm.render.icon.RGBMutatorInterpolatedComponentRemap;
 import com.hbm.render.icon.TextureAtlasSpriteMutatable;
 import com.hbm.util.I18nUtil;
 
@@ -28,7 +27,7 @@ public class ItemAutogen extends Item {
 	MaterialShapes shape;
 	
 	private HashMap<NTMMaterial, String> textureOverrides = new HashMap();
-	private HashMap<NTMMaterial, IIcon> iconOverrides = new HashMap();
+	private HashMap<NTMMaterial, IIcon> iconMap = new HashMap();
 	
 	public ItemAutogen(MaterialShapes shape) {
 		this.setHasSubtypes(true);
@@ -45,17 +44,22 @@ public class ItemAutogen extends Item {
 	public void registerIcons(IIconRegister reg) {
 		super.registerIcons(reg);
 		
-		/*if(reg instanceof TextureMap) {
+		if(reg instanceof TextureMap) {
 			TextureMap map = (TextureMap) reg;
-			TextureAtlasSpriteMutatable jumpstart_my_shart = new TextureAtlasSpriteMutatable(this.getIconString(), new RGBMutatorMultiplicative(0xff0000));
-			map.setTextureEntry(this.getIconString(), jumpstart_my_shart);
-			this.itemIcon = jumpstart_my_shart;
-		} else {
-			this.itemIcon = reg.registerIcon(this.getIconString());
-		}*/
+			
+			for(NTMMaterial mat : Mats.orderedList) {
+				if(!textureOverrides.containsKey(mat) && mat.solidColorLight != mat.solidColorDark && (shape == null || mat.shapes.contains(shape))) { //only generate icons if there is no override, color variation is available and if the icon will actually be used
+					String placeholderName = this.getIconString() + "-" + mat.names[0]; //the part after the dash is discarded - the name only has to be unique so that the hashmap which holds all the icon definitions can hold multiple references
+					//TextureAtlasSpriteMutatable mutableIcon = new TextureAtlasSpriteMutatable(placeholderName, new RGBMutatorInterpolatedComponentRemap(0xFFFFFF, 0x565656, mat.solidColorLight, mat.solidColorDark));
+					TextureAtlasSpriteMutatable mutableIcon = new TextureAtlasSpriteMutatable(placeholderName, new RGBMutatorInterpolatedComponentRemap(0xFFFFFF, 0x505050, mat.solidColorLight, mat.solidColorDark));
+					map.setTextureEntry(placeholderName, mutableIcon);
+					iconMap.put(mat, mutableIcon);
+				}
+			}
+		}
 		
 		for(Entry<NTMMaterial, String> tex : textureOverrides.entrySet()) {
-			iconOverrides.put(tex.getKey(), reg.registerIcon(RefStrings.MODID + ":" + tex.getValue()));
+			iconMap.put(tex.getKey(), reg.registerIcon(RefStrings.MODID + ":" + tex.getValue()));
 		}
 	}
 
@@ -68,6 +72,13 @@ public class ItemAutogen extends Item {
 				list.add(new ItemStack(item, 1, mat.id));
 			}
 		}
+		
+
+		/*for(NTMMaterial mat : Mats.orderedList) {
+			if(mat.smeltable == SmeltingBehavior.SMELTABLE || mat.smeltable == SmeltingBehavior.ADDITIVE) {
+				list.add(new ItemStack(item, 1, mat.id));
+			}
+		}*/
 	}
 	
 	@Override
@@ -77,7 +88,7 @@ public class ItemAutogen extends Item {
 		NTMMaterial mat = Mats.matById.get(meta);
 		
 		if(mat != null) {
-			IIcon override = iconOverrides.get(mat);
+			IIcon override = iconMap.get(mat);
 			if(override != null) {
 				return override;
 			}
@@ -97,7 +108,7 @@ public class ItemAutogen extends Item {
 		NTMMaterial mat = Mats.matById.get(stack.getItemDamage());
 		
 		if(mat != null) {
-			//return mat.solidColor;
+			return mat.solidColorLight;
 		}
 		
 		return 0xffffff;

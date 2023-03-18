@@ -2,6 +2,9 @@ package com.hbm.world.feature;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockDeadPlant.EnumDeadPlantType;
+import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
+import com.hbm.blocks.generic.BlockTallPlant;
+import com.hbm.blocks.generic.BlockTallPlant.EnumTallFlower;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
@@ -15,7 +18,7 @@ import net.minecraftforge.common.IPlantable;
 
 public class OilSpot {
 
-	public static void generateOilSpot(World world, int x, int z, int width, int count) {
+	public static void generateOilSpot(World world, int x, int z, int width, int count, boolean addWillows) {
 		
 		for(int i = 0; i < count; i++) {
 			int rX = x + (int)(world.rand.nextGaussian() * width);
@@ -26,6 +29,11 @@ public class OilSpot {
 
 				Block below = world.getBlock(rX, y - 1, rZ);
 				Block ground = world.getBlock(rX, y, rZ);
+				int meta = world.getBlockMetadata(rX, y, rZ);
+
+				/* don't affect mustard willows */
+				if(ground == ModBlocks.plant_flower && (meta == EnumFlowerType.CD0.ordinal() || meta == EnumFlowerType.CD1.ordinal())) continue;
+				if(ground == ModBlocks.plant_tall && (meta == EnumTallFlower.CD2.ordinal() || meta == EnumTallFlower.CD3.ordinal() || meta == EnumTallFlower.CD4.ordinal())) continue;
 				
 				if(below.isNormalCube() && ground != ModBlocks.plant_dead) {
 					if(ground instanceof BlockTallGrass) {
@@ -40,7 +48,7 @@ public class OilSpot {
 						}
 					} else if(ground instanceof BlockFlower) {
 						world.setBlock(rX, y, rZ, ModBlocks.plant_dead, EnumDeadPlantType.FLOWER.ordinal(), 3);
-					} else if(ground instanceof BlockDoublePlant) {
+					} else if(ground instanceof BlockDoublePlant || ground instanceof BlockTallPlant) {
 						world.setBlock(rX, y, rZ, ModBlocks.plant_dead, EnumDeadPlantType.BIGFLOWER.ordinal(), 3);
 					} else if(ground instanceof BlockBush) {
 						world.setBlock(rX, y, rZ, ModBlocks.plant_dead, EnumDeadPlantType.GENERIC.ordinal(), 3);
@@ -51,6 +59,13 @@ public class OilSpot {
 				
 				if(ground == Blocks.grass || ground == Blocks.dirt) {
 					world.setBlock(rX, y, rZ, world.rand.nextInt(10) == 0 ? ModBlocks.dirt_oily : ModBlocks.dirt_dead);
+					
+					if(addWillows && world.rand.nextInt(50) == 0) {
+						if(ModBlocks.plant_flower.canPlaceBlockAt(world, rX, y + 1, rZ)) {
+							world.setBlock(rX, y + 1, rZ, ModBlocks.plant_flower, EnumFlowerType.CD0.ordinal(), 3);
+						}
+					}
+					
 					break;
 					
 				} else if(ground == Blocks.sand || ground == ModBlocks.ore_oil_sand) {
