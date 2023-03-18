@@ -107,11 +107,14 @@ public class ItemWandD extends Item {
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				case 5:
+					DebugTeleporter.teleport(player, WorldConfig.dresDimension, player.posX, 300, player.posZ);
+					//DebugTeleporter.teleport(player, WorldConfig.eveDimension, player.posX, 300, player.posZ);
+					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
+					break;
+				case 6:
 					TomSaveData data = TomSaveData.forWorld(world);
 					data.impact = true;
 					data.fire = 1F;
-					//DebugTeleporter.teleport(player, WorldConfig.eveDimension, player.posX, 300, player.posZ);
-					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				}
 				
@@ -149,6 +152,8 @@ public class ItemWandD extends Item {
 							break;
 						case 5:
 							player.addChatMessage(new ChatComponentText("Dim: Dres"));
+							break;
+						case 6:
 							player.addChatMessage(new ChatComponentText("Impact Event"));
 							break;
 						default:
