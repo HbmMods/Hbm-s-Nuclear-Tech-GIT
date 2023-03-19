@@ -19,8 +19,8 @@ public class ArmorHazmat extends ArmorFSB {
 
 	private ResourceLocation hazmatBlur = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_hazmat.png");
 
-	public ArmorHazmat(ArmorMaterial material, int layer, int slot, String texture) {
-		super(material, layer, slot, texture);
+	public ArmorHazmat(ArmorMaterial material, int slot, String texture) {
+		super(material, slot, texture);
 	}
 	
 	@SideOnly(Side.CLIENT)

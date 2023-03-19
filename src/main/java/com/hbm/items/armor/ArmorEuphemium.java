@@ -15,8 +15,8 @@ import com.hbm.util.ArmorUtil;
 
 public class ArmorEuphemium extends ItemArmor {
 	
-	public ArmorEuphemium(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
-		super(armorMaterial, renderIndex, armorType);
+	public ArmorEuphemium(ArmorMaterial armorMaterial, int armorType) {
+		super(armorMaterial, 0, armorType);
 		this.setCreativeTab(null);
 	}
 	

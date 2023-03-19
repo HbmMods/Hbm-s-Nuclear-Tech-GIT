@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 public class WingsMurk extends ItemArmor {
 
 	public WingsMurk(ArmorMaterial material) {
-		super(material, 7, 1);
+		super(material, 0, 1);
 	}
 
 	@SideOnly(Side.CLIENT)

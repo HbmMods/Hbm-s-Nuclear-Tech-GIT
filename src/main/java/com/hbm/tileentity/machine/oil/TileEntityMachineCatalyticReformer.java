@@ -132,7 +132,9 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, dir),
 				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ, dir),
 				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ, dir.getOpposite())
+				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ, dir.getOpposite()),
+				new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, dir),
+				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, dir)
 		};
 	}
 	
@@ -205,7 +207,7 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 
 	@Override
 	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] {tanks[1], tanks[2], tanks[3], tanks[4]};
+		return new FluidTank[] {tanks[1], tanks[2], tanks[3]};
 	}
 
 	@Override
@@ -225,7 +227,7 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 
 	@Override
 	public void writeNBT(NBTTagCompound nbt) {
-		if(tanks[0].getFill() == 0 && tanks[1].getFill() == 0 && tanks[2].getFill() == 0 && tanks[3].getFill() == 0 && tanks[4].getFill() == 0) return;
+		if(tanks[0].getFill() == 0 && tanks[1].getFill() == 0 && tanks[2].getFill() == 0 && tanks[3].getFill() == 0) return;
 		NBTTagCompound data = new NBTTagCompound();
 		for(int i = 0; i < 4; i++) this.tanks[i].writeToNBT(data, "" + i);
 		nbt.setTag(NBT_PERSISTENT_KEY, data);

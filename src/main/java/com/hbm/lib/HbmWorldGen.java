@@ -192,37 +192,37 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 			
 			if(GeneralConfig.enable528ColtanDeposit) {
-				for (int k = 0; k < 2; k++) {
-					
+				for(int k = 0; k < 2; k++) {
+
 					for(int r = 1; r <= 5; r++) {
 						int randPosX = i + rand.nextInt(16);
 						int randPosY = rand.nextInt(25) + 15;
 						int randPosZ = j + rand.nextInt(16);
-						
+
 						int range = colRange / r;
-			
+
 						if(randPosX <= colX + range && randPosX >= colX - range && randPosZ <= colZ + range && randPosZ >= colZ - range) {
 							(new WorldGenMinable(ModBlocks.ore_coltan, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
 						}
 					}
 				}
 			}
-	
-			for (int k = 0; k < rand.nextInt(4); k++) {
+
+			for(int k = 0; k < rand.nextInt(4); k++) {
 				int randPosX = i + rand.nextInt(16);
 				int randPosY = rand.nextInt(15) + 15;
 				int randPosZ = j + rand.nextInt(16);
-	
+
 				if(randPosX <= -350 && randPosX >= -450 && randPosZ <= -350 && randPosZ >= -450)
 					(new WorldGenMinable(ModBlocks.ore_australium, 50)).generate(world, rand, randPosX, randPosY, randPosZ);
 			}
 		}
 
-		if (GeneralConfig.enableDungeons && world.provider.isSurfaceWorld()) {
+		if(GeneralConfig.enableDungeons && world.provider.isSurfaceWorld()) {
 
-			if (biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {
-				if (WorldConfig.radioStructure > 0 && rand.nextInt(WorldConfig.radioStructure) == 0) {
-					for (int a = 0; a < 1; a++) {
+			if(biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {
+				if(WorldConfig.radioStructure > 0 && rand.nextInt(WorldConfig.radioStructure) == 0) {
+					for(int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
 						int y = world.getHeightValue(x, z);
@@ -232,9 +232,9 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (biome.temperature >= 0.4F && biome.rainfall <= 0.6F) {
-				if (WorldConfig.antennaStructure > 0 && rand.nextInt(WorldConfig.antennaStructure) == 0) {
-					for (int a = 0; a < 1; a++) {
+			if(biome.temperature >= 0.4F && biome.rainfall <= 0.6F) {
+				if(WorldConfig.antennaStructure > 0 && rand.nextInt(WorldConfig.antennaStructure) == 0) {
+					for(int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
 						int y = world.getHeightValue(x, z);
@@ -245,8 +245,8 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 
 			if(!biome.canSpawnLightningBolt() && biome.temperature >= 1.5F) {
-				if (WorldConfig.atomStructure > 0 && rand.nextInt(WorldConfig.atomStructure) == 0) {
-					for (int a = 0; a < 1; a++) {
+				if(WorldConfig.atomStructure > 0 && rand.nextInt(WorldConfig.atomStructure) == 0) {
+					for(int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
 						int y = world.getHeightValue(x, z);
@@ -256,14 +256,14 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (!biome.canSpawnLightningBolt() && biome.temperature >= 2F) {
-				if (WorldConfig.vertibirdStructure > 0 && rand.nextInt(WorldConfig.vertibirdStructure) == 0) {
-					for (int a = 0; a < 1; a++) {
+			if(!biome.canSpawnLightningBolt() && biome.temperature >= 2F) {
+				if(WorldConfig.vertibirdStructure > 0 && rand.nextInt(WorldConfig.vertibirdStructure) == 0) {
+					for(int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
 						int y = world.getHeightValue(x, z);
 
-						if (rand.nextInt(2) == 0) {
+						if(rand.nextInt(2) == 0) {
 							new Vertibird().generate(world, rand, x, y, z);
 						} else {
 							new CrashedVertibird().generate(world, rand, x, y, z);
@@ -273,16 +273,16 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (WorldConfig.dungeonStructure > 0 && rand.nextInt(WorldConfig.dungeonStructure) == 0) {
+			if(WorldConfig.dungeonStructure > 0 && rand.nextInt(WorldConfig.dungeonStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int y = rand.nextInt(256);
 				int z = j + rand.nextInt(16);
 				new LibraryDungeon().generate(world, rand, x, y, z);
 			}
 
-			if (biome.temperature == 0.5F || biome.temperature == 2.0F) {
-				if (WorldConfig.relayStructure > 0 && rand.nextInt(WorldConfig.relayStructure) == 0) {
-					for (int a = 0; a < 1; a++) {
+			if(biome.temperature == 0.5F || biome.temperature == 2.0F) {
+				if(WorldConfig.relayStructure > 0 && rand.nextInt(WorldConfig.relayStructure) == 0) {
+					for(int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
 						int y = world.getHeightValue(x, z);
@@ -291,10 +291,10 @@ public class HbmWorldGen implements IWorldGenerator {
 					}
 				}
 			}
-			
-			if (biome.temperature == 0.5F || biome.temperature == 2.0F) {
-				if (WorldConfig.satelliteStructure > 0 && rand.nextInt(WorldConfig.satelliteStructure) == 0) {
-					for (int a = 0; a < 1; a++) {
+
+			if(biome.temperature == 0.5F || biome.temperature == 2.0F) {
+				if(WorldConfig.satelliteStructure > 0 && rand.nextInt(WorldConfig.satelliteStructure) == 0) {
+					for(int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
 						int y = world.getHeightValue(x, z);
@@ -303,10 +303,10 @@ public class HbmWorldGen implements IWorldGenerator {
 					}
 				}
 			}
-			
-			if (!biome.canSpawnLightningBolt() && biome.temperature >= 1.5F) {
-				if (rand.nextInt(200) == 0) {
-					for (int a = 0; a < 1; a++) {
+
+			if(!biome.canSpawnLightningBolt() && biome.temperature >= 1.5F) {
+				if(rand.nextInt(200) == 0) {
+					for(int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
 						int y = world.getHeightValue(x, z);
@@ -316,7 +316,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (WorldConfig.bunkerStructure > 0 && rand.nextInt(WorldConfig.bunkerStructure) == 0) {
+			if(WorldConfig.bunkerStructure > 0 && rand.nextInt(WorldConfig.bunkerStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -324,7 +324,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				new Bunker().generate(world, rand, x, y, z);
 			}
 
-			if (WorldConfig.siloStructure > 0 && rand.nextInt(WorldConfig.siloStructure) == 0) {
+			if(WorldConfig.siloStructure > 0 && rand.nextInt(WorldConfig.siloStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -332,7 +332,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				new Silo().generate(world, rand, x, y, z);
 			}
 
-			if (WorldConfig.factoryStructure > 0 && rand.nextInt(WorldConfig.factoryStructure) == 0) {
+			if(WorldConfig.factoryStructure > 0 && rand.nextInt(WorldConfig.factoryStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -340,7 +340,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				new Factory().generate(world, rand, x, y, z);
 			}
 
-			if (WorldConfig.dudStructure > 0 && rand.nextInt(WorldConfig.dudStructure) == 0) {
+			if(WorldConfig.dudStructure > 0 && rand.nextInt(WorldConfig.dudStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -348,15 +348,15 @@ public class HbmWorldGen implements IWorldGenerator {
 				new Dud().generate(world, rand, x, y, z);
 			}
 
-			if (WorldConfig.spaceshipStructure > 0 && rand.nextInt(WorldConfig.spaceshipStructure) == 0) {
+			if(WorldConfig.spaceshipStructure > 0 && rand.nextInt(WorldConfig.spaceshipStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
 
 				new Spaceship().generate(world, rand, x, y, z);
 			}
-			
-			if (WorldConfig.barrelStructure > 0 && biome.temperature >= 1.5F && !biome.canSpawnLightningBolt() && rand.nextInt(WorldConfig.barrelStructure) == 0) {
+
+			if(WorldConfig.barrelStructure > 0 && biome.temperature >= 1.5F && !biome.canSpawnLightningBolt() && rand.nextInt(WorldConfig.barrelStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -364,7 +364,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				new Barrel().generate(world, rand, x, y, z);
 			}
 
-			if (WorldConfig.broadcaster > 0 && rand.nextInt(WorldConfig.broadcaster) == 0) {
+			if(WorldConfig.broadcaster > 0 && rand.nextInt(WorldConfig.broadcaster) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -377,20 +377,29 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (WorldConfig.minefreq > 0 && GeneralConfig.enableMines && rand.nextInt(WorldConfig.minefreq) == 0) {
+			if(WorldConfig.minefreq > 0 && GeneralConfig.enableMines && rand.nextInt(WorldConfig.minefreq) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
 
 				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
 					world.setBlock(x, y, z, ModBlocks.mine_ap);
-				
+
 					if(GeneralConfig.enableDebugMode)
-						MainRegistry.logger.info("[Debug] Successfully spawned landmine at " + x + " " + (y) +" " + z);
+						MainRegistry.logger.info("[Debug] Successfully spawned landmine at " + x + " " + (y) + " " + z);
 				}
 			}
-			
-			if (WorldConfig.radfreq > 0 && GeneralConfig.enableRad && rand.nextInt(WorldConfig.radfreq) == 0 && biome == BiomeGenBase.desert) {
+
+			if(GeneralConfig.enable528 && GeneralConfig.enable528BosniaSimulator && rand.nextInt(16) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = world.getHeightValue(x, z);
+				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
+					world.setBlock(x, y, z, ModBlocks.mine_he);
+				}
+			}
+
+			if(WorldConfig.radfreq > 0 && GeneralConfig.enableRad && rand.nextInt(WorldConfig.radfreq) == 0 && biome == BiomeGenBase.desert) {
 				
 				for (int a = 0; a < 1; a++) {
 					int x = i + rand.nextInt(16);

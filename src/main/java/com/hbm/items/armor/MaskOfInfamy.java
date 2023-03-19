@@ -8,8 +8,8 @@ import net.minecraft.item.ItemStack;
 
 public class MaskOfInfamy extends ItemArmor {
 
-	public MaskOfInfamy(ArmorMaterial p_i45325_1_, int p_i45325_2_, int p_i45325_3_) {
-		super(p_i45325_1_, p_i45325_2_, p_i45325_3_);
+	public MaskOfInfamy(ArmorMaterial mat, int slot) {
+		super(mat, 0, slot);
 	}
 	
 	@Override

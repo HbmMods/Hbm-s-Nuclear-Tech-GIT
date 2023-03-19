@@ -76,6 +76,7 @@ public class PowderRecipes {
 			CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_dura_steel, 2), new Object[] { STEEL.dust(), CO.dust() });
 			CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_dura_steel, 4), new Object[] { IRON.dust(), COAL.dust(), W.dust(), W.dust() });
 			CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_dura_steel, 4), new Object[] { IRON.dust(), COAL.dust(), CO.dust(), CO.dust() });
+			CraftingManager.addRecipeAuto(new ItemStack(ModItems.ingot_firebrick, 4), new Object[] { "BN", "NB", 'B', Items.brick, 'N', Items.netherbrick });
 		}
 		
 		//Unleash the colores

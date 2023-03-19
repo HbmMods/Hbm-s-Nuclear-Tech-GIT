@@ -118,7 +118,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		
 		if(in instanceof DictFrame) {
 			DictFrame recipeItem = (DictFrame) in;
-			recipeItem1 = new AStack[] { new OreDictStack(recipeItem.ingot()), new OreDictStack(recipeItem.dust()), new OreDictStack(recipeItem.plate()), new OreDictStack(recipeItem.gem()) };
+			recipeItem1 = new AStack[] { new OreDictStack(recipeItem.ingot()), new OreDictStack(recipeItem.plate()), new OreDictStack(recipeItem.gem()), new OreDictStack(recipeItem.dust()) };
 		
 		} else if(in instanceof AStack) {
 			recipeItem1 = new AStack[] { (AStack) in };

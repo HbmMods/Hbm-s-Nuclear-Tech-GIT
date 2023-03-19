@@ -461,9 +461,9 @@ public class ShredderRecipes extends SerializableRecipe {
 	@Override
 	public void readRecipe(JsonElement recipe) {
 		JsonObject obj = (JsonObject) recipe;
-		ComparableStack comp = new ComparableStack(this.readItemStack(obj.get("input").getAsJsonArray())).makeSingular();
+		ItemStack stack = this.readItemStack(obj.get("input").getAsJsonArray());
+		ComparableStack comp = new ComparableStack(stack).makeSingular();
 		ItemStack out = this.readItemStack(obj.get("output").getAsJsonArray());
-		
 		this.shredderRecipes.put(comp, out);
 	}
 

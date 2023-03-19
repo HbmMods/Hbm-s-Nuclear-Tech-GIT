@@ -11,8 +11,8 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class ArmorHat extends ArmorModel implements IAttackHandler, IDamageHandler {
 
-	public ArmorHat(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
-		super(armorMaterial, renderIndex, armorType);
+	public ArmorHat(ArmorMaterial armorMaterial, int armorType) {
+		super(armorMaterial, armorType);
 	}
 
 	@Override

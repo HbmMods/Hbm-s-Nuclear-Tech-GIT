@@ -126,12 +126,6 @@ public class ClientProxy extends ServerProxy {
 		
 		Jars.initJars();
 
-		RenderingRegistry.addNewArmourRendererPrefix("5");
-		RenderingRegistry.addNewArmourRendererPrefix("6");
-		RenderingRegistry.addNewArmourRendererPrefix("7");
-		RenderingRegistry.addNewArmourRendererPrefix("8");
-		RenderingRegistry.addNewArmourRendererPrefix("9");
-
 		//SoundUtil.addSoundCategory("ntmMachines");
 	}
 	
