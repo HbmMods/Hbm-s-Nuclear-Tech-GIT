@@ -550,6 +550,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("dyeBrown", fromOne(oil_tar, EnumTarType.WOOD));
 		OreDictionary.registerOre("dyeCyan", fromOne(oil_tar, EnumTarType.WAX));
 		OreDictionary.registerOre("dye", new ItemStack(oil_tar, 1, OreDictionary.WILDCARD_VALUE));
+		OreDictionary.registerOre("dyeOrange", powder_cadmium);
+		OreDictionary.registerOre("dye", powder_cadmium);
 
 		OreDictionary.registerOre("blockGlass", glass_boron);
 		OreDictionary.registerOre("blockGlass", glass_lead);
