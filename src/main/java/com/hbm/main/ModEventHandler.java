@@ -313,6 +313,23 @@ public class ModEventHandler {
 		
 		if(!event.entityLiving.worldObj.isRemote) {
 			
+			if(event.source==ModDamageSource.eve)
+			{
+				for(int i = -1; i < 2; i++) {
+					for(int j = -1; j < 2; j++) {
+						for(int k = -1; k < 2; k++) {
+							if(event.entityLiving.worldObj.getBlock((int)event.entityLiving.posX+i, (int)event.entityLiving.posY+j, (int)event.entityLiving.posZ+k)==Blocks.air)
+							{
+								if(ModBlocks.flesh_block.canPlaceBlockAt(event.entityLiving.worldObj, (int)event.entityLiving.posX+i, (int)event.entityLiving.posY+j, (int)event.entityLiving.posZ+k))
+								{
+									event.entityLiving.worldObj.setBlock((int)event.entityLiving.posX+i, (int)event.entityLiving.posY+j, (int)event.entityLiving.posZ+k, ModBlocks.flesh_block);	
+								}								
+							}
+						}
+					}
+				}
+			}
+			
 			if(event.source instanceof EntityDamageSource && ((EntityDamageSource)event.source).getEntity() instanceof EntityPlayer
 					 && !(((EntityDamageSource)event.source).getEntity() instanceof FakePlayer)) {
 				

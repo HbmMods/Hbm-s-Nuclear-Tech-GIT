@@ -1059,7 +1059,7 @@ public class ModEventHandlerClient {
 	public void thickenFog(FogDensity event) {
 		if(event.entity.worldObj.provider instanceof WorldProviderEve)
 		{
-			event.density = 0.04F;
+			event.density = 0.045F;
 			event.setCanceled(true);
 		}
 	}

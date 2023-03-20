@@ -1200,7 +1200,9 @@ public class ModBlocks {
 	public static Block concrete_liquid;
 	
 	public static Block flesh_block;
-	public static Fluid flesh_fluid;
+	public static Block charred_flesh_block;
+	public static Block carbonized_flesh_block;
+	//public static Fluid flesh_fluid;
 
 	public static Block volcano_core;
 
@@ -2366,9 +2368,9 @@ public class ModBlocks {
 		Fluid liquidConcrete = new GenericFluid("concrete_liquid").setViscosity(2000);
 		concrete_liquid = new GenericFiniteFluid(liquidConcrete, Material.rock, "concrete_liquid", "concrete_liquid_flowing").setQuantaPerBlock(4).setBlockName("concrete_liquid").setResistance(500F);
 
-		flesh_fluid = new GenericFluid("flesh_fluid").setDensity(1840).setViscosity(1000).setTemperature(273);
-		FluidRegistry.registerFluid(flesh_fluid);
-		flesh_block = new MeltedFlesh(flesh_fluid, Material.water, "melted_flesh", "melted_flesh").setBlockName("melted_flesh").setResistance(500F);
+		flesh_block = new MeltedFlesh(Material.snow).setBlockName("flesh_block").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":meltedFlesh");
+		charred_flesh_block = new MeltedFlesh(Material.snow).setBlockName("charred_flesh_block").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":charredFlesh");
+		carbonized_flesh_block = new MeltedFlesh(Material.snow).setBlockName("carbonized_flesh_block").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":carbonizedFlesh");
 		
 		dummy_block_drill = new DummyBlockDrill(Material.iron, false).setBlockName("dummy_block_drill").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_lead");
 		dummy_port_drill = new DummyBlockDrill(Material.iron, true).setBlockName("dummy_port_drill").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_lead");
@@ -3482,6 +3484,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(sulfuric_acid_block, sulfuric_acid_block.getUnlocalizedName());
 		GameRegistry.registerBlock(mercury_block, mercury_block.getUnlocalizedName());
 		GameRegistry.registerBlock(flesh_block, flesh_block.getUnlocalizedName());
+		GameRegistry.registerBlock(charred_flesh_block, charred_flesh_block.getUnlocalizedName());
+		GameRegistry.registerBlock(carbonized_flesh_block, carbonized_flesh_block.getUnlocalizedName());
 		
 		//Multiblock Dummy Blocks
 		GameRegistry.registerBlock(dummy_block_drill, dummy_block_drill.getUnlocalizedName());
