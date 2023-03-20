@@ -58,6 +58,10 @@ public class EntityChemical extends EntityThrowableNT {
 	 * if CORROSIVE: apply extra acid damage, poison effect as well as armor degradation
 	 */
 
+	public double lastClientPosX = -1;
+	public double lastClientPosY = -1;
+	public double lastClientPosZ = -1;
+
 	public EntityChemical(World world) {
 		super(world);
 		this.ignoreFrustumCheck = true;
@@ -160,6 +164,15 @@ public class EntityChemical extends EntityThrowableNT {
 			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, ModDamageSource.radiation, 1F);
 			if(living != null) {
 				ContaminationUtil.contaminate(living, HazardType.RADIATION, ContaminationType.CREATIVE, 50F * (float) intensity);
+				return;
+			}
+		}
+		
+		if(style == ChemicalStyle.LIGHTNING) {
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, ModDamageSource.electricity, 0.5F);
+			if(living != null) {
+				living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 60, 9));
+				living.addPotionEffect(new PotionEffect(Potion.weakness.id, 60, 9));
 				return;
 			}
 		}
@@ -423,6 +436,7 @@ public class EntityChemical extends EntityThrowableNT {
 		ChemicalStyle type = getStyle();
 
 		if(type == ChemicalStyle.AMAT) return 1F;
+		if(type == ChemicalStyle.LIGHTNING) return 1F;
 		if(type == ChemicalStyle.GAS) return 0.95F;
 		
 		return 0.99F;
@@ -434,6 +448,7 @@ public class EntityChemical extends EntityThrowableNT {
 		ChemicalStyle type = getStyle();
 
 		if(type == ChemicalStyle.AMAT) return 1F;
+		if(type == ChemicalStyle.LIGHTNING) return 1F;
 		if(type == ChemicalStyle.GAS) return 1F;
 		
 		return 0.8F;
@@ -443,6 +458,7 @@ public class EntityChemical extends EntityThrowableNT {
 		
 		switch(this.getStyle()) {
 		case AMAT: return 100;
+		case LIGHTNING: return 5;
 		case BURNING:return 600;
 		case GAS: return 60;
 		case GASFLAME: return 20;
@@ -457,6 +473,7 @@ public class EntityChemical extends EntityThrowableNT {
 		ChemicalStyle type = getStyle();
 
 		if(type == ChemicalStyle.AMAT) return 0D;
+		if(type == ChemicalStyle.LIGHTNING) return 0D;
 		if(type == ChemicalStyle.GAS) return 0D;
 		if(type == ChemicalStyle.GASFLAME) return -0.01D;
 		
@@ -468,6 +485,10 @@ public class EntityChemical extends EntityThrowableNT {
 	}
 	
 	public static ChemicalStyle getStyleFromType(FluidType type) {
+		
+		if(type == Fluids.IONGEL) {
+			return ChemicalStyle.LIGHTNING;
+		}
 		
 		if(type.isAntimatter()) {
 			return ChemicalStyle.AMAT;
@@ -499,6 +520,7 @@ public class EntityChemical extends EntityThrowableNT {
 	 */
 	public static enum ChemicalStyle {
 		AMAT,		//renders as beam
+		LIGHTNING,	//renders as beam
 		LIQUID,		//no renderer, fluid particles
 		GAS,		//renders as particles
 		GASFLAME,	//renders as fire particles

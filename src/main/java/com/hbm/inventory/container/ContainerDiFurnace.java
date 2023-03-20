@@ -38,7 +38,7 @@ public class ContainerDiFurnace extends Container {
 		
 		if(index >= 0 && index < 3 && button == 1 && mode == 0) {
 			Slot slot = this.getSlot(index);
-			if(!slot.getHasStack()) {
+			if(!slot.getHasStack() && player.inventory.getItemStack() == null) {
 				if(!player.worldObj.isRemote) {
 					if(index == 0) diFurnace.sideUpper = (byte) ((diFurnace.sideUpper + 1) % 6);
 					if(index == 1) diFurnace.sideLower = (byte) ((diFurnace.sideLower + 1) % 6);

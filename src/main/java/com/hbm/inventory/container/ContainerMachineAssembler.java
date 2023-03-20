@@ -76,18 +76,21 @@ private TileEntityMachineAssembler assembler;
 				if (!this.mergeItemStack(var5, 0, 4, false))
 					return null;
 			
-			if (var5.stackSize == 0)
-			{
+			if(var5.stackSize == 0) {
 				var4.putStack((ItemStack) null);
-			}
-			else
-			{
+			} else {
 				var4.onSlotChanged();
 			}
+
+			if(var5.stackSize == var3.stackSize) {
+				return null;
+			}
+
+			var4.onPickupFromSlot(p_82846_1_, var3);
 		}
-		
+
 		return var3;
-    }
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {

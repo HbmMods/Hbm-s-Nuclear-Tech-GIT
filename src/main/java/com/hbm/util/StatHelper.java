@@ -16,6 +16,9 @@ import net.minecraft.util.ChatComponentTranslation;
 
 public class StatHelper {
 	
+	/*
+	 * God is dead and we are pissing on his grave
+	 */
 	public static Map publicReferenceToOneshotStatListPleaseAllPointAndLaugh;
 	
 	/**
@@ -25,15 +28,15 @@ public class StatHelper {
 	 * The problem in that? Item remapping. Modded items probably don't even exist at that point and even if they did,
 	 * the system would break because modded items have dynamic IDs and the stats register fixed IDs instead of item instances.
 	 * What did forge do to solve this issue? Well nothing, of course! The injected bits comment on that in vanilla's stat
-	 * registering code, but instead of fixing anything it jsut slaps a fat "TODO" onto it. Wow! Really helpful!
+	 * registering code, but instead of fixing anything it just slaps a fat "TODO" onto it. Wow! Really helpful!
 	 * 
 	 * So what do we do? Every time the world starts and we know the IDs are now correct, we smack that fucker up nice and good.
-	 * All ID-bound stats get deep-cleaned out of this mess and registered 1:1 again. Is this terrible and prine to breaking with
+	 * All ID-bound stats get deep-cleaned out of this mess and registered 1:1 again. Is this terrible and prone to breaking with
 	 * mods that do their own stat handling? Hard to say, but the possibility is there.
 	 */
 	public static void resetStatShitFuck() {
 		
-		publicReferenceToOneshotStatListPleaseAllPointAndLaugh = ReflectionHelper.getPrivateValue(StatList.class, null, "oneShotStats");
+		publicReferenceToOneshotStatListPleaseAllPointAndLaugh = ReflectionHelper.getPrivateValue(StatList.class, null, "oneShotStats"); //TODO: not fuck up the mapping here
 		
 		for(int i = 0; i < StatList.objectCraftStats.length; i++) StatList.objectCraftStats[i] = null;
 		for(int i = 0; i < StatList.mineBlockStatArray.length; i++) StatList.mineBlockStatArray[i] = null;
@@ -48,6 +51,13 @@ public class StatHelper {
 		initItemBreakStats();
 	}
 	
+	/**
+	 * For reasons beyond human comprehension, this bit originally only registered items that are the result
+	 * of an IRecipe instead of just all items outright like the item usage stats. The logical consequence of this is:
+	 * 1) The code has to iterate over thousands of recipes to get recipe results which is no more performant than just going over
+	 *    32k potential items, most of which are going to be null anyway
+	 * 2) The system just will never work with items that don't have crafting table recipes
+	 */
 	private static void initCraftItemStats() {
 		/*HashSet hashset = new HashSet();
 		Iterator iterator = CraftingManager.getInstance().getRecipeList().iterator();

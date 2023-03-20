@@ -663,6 +663,7 @@ public class ModBlocks {
 	
 	public static Block machine_difurnace_off;
 	public static Block machine_difurnace_on;
+	public static Block machine_difurnace_extension;
 	public static Block machine_difurnace_rtg_off;
 	public static Block machine_difurnace_rtg_on;
 	//public static final int guiID_test_difurnace = 1; historical
@@ -899,17 +900,8 @@ public class ModBlocks {
 	public static Block teleanchor;
 	public static Block field_disturber;
 
-	public static Block machine_reix_mainframe;
-	public static final int guiID_machine_reix_mainframe = 38;
-
 	public static Block machine_rtg_grey;
-	//public static Block machine_rtg_red;
-	//public static Block machine_rtg_orange;
-	//public static Block machine_rtg_yellow;
-	//public static Block machine_rtg_green;
 	public static Block machine_rtg_cyan;
-	//public static Block machine_rtg_blue;
-	//public static Block machine_rtg_purple;
 	public static Block machine_amgen;
 	public static Block machine_geo;
 	public static Block machine_minirtg;
@@ -1774,6 +1766,7 @@ public class ModBlocks {
 		
 		machine_difurnace_off = new MachineDiFurnace(false).setBlockName("machine_difurnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_on = new MachineDiFurnace(true).setBlockName("machine_difurnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
+		machine_difurnace_extension = new MachineDiFurnaceExtension().setBlockName("machine_difurnace_extension").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_rtg_off = new MachineDiFurnaceRTG(false).setBlockName("machine_difurnace_rtg_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_rtg_on = new MachineDiFurnaceRTG(true).setBlockName("machine_difurnace_rtg_on").setHardness(5.0F).setResistance(10.0F).setLightLevel(2.0F).setCreativeTab(null);
 		
@@ -2201,8 +2194,6 @@ public class ModBlocks {
 
 		machine_schrabidium_transmutator = new MachineSchrabidiumTransmutator(Material.iron).setBlockName("machine_schrabidium_transmutator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
 
-		machine_reix_mainframe = new MachineReiXMainframe(Material.iron).setBlockName("machine_reix_mainframe").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
-		
 		machine_siren = new MachineSiren(Material.iron).setBlockName("machine_siren").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_siren");
 		
 		machine_spp_bottom = new SPPBottom(Material.iron).setBlockName("machine_spp_bottom").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -2979,8 +2970,9 @@ public class ModBlocks {
 		register(foundry_channel);
 		register(foundry_tank);
 		register(foundry_outlet);
-		GameRegistry.registerBlock(machine_difurnace_off, machine_difurnace_off.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_difurnace_on, machine_difurnace_on.getUnlocalizedName());
+		register(machine_difurnace_off);
+		register(machine_difurnace_on);
+		register(machine_difurnace_extension);
 		GameRegistry.registerBlock(machine_difurnace_rtg_off, machine_difurnace_rtg_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_difurnace_rtg_on, machine_difurnace_rtg_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_centrifuge, machine_centrifuge.getUnlocalizedName());

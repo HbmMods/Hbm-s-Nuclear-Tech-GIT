@@ -116,6 +116,7 @@ public class Fluids {
 	public static FluidType COLLOID;
 	public static FluidType PHOSGENE;
 	public static FluidType MUSTARDGAS;
+	public static FluidType IONGEL;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -248,7 +249,8 @@ public class Fluids {
 		REFORMGAS =				new FluidType("REFORMGAS",			0x6362AE, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0x9392FF, 0xFFB992)).addTraits(GASEOUS);
 		COLLOID =				new FluidType("COLLOID",			0x787878, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		PHOSGENE =				new FluidType("PHOSGENE",			0xCFC4A4, 4, 0, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xCFC4A4, 0x361414)).addTraits(GASEOUS);
-		MUSTARDGAS =			new FluidType(102, "MUSTARDGAS",	0xBAB572, 4, 1, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xBAB572, 0x361414)).addTraits(GASEOUS);
+		MUSTARDGAS =			new FluidType("MUSTARDGAS",			0xBAB572, 4, 1, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xBAB572, 0x361414)).addTraits(GASEOUS);
+		IONGEL =				new FluidType(103, "IONGEL",		0xB8FFFF, 1, 0, 4, EnumSymbol.NONE).addTraits(LIQUID);
 		
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -339,6 +341,7 @@ public class Fluids {
 		metaOrder.add(SALIENT);
 		metaOrder.add(SEEDSLURRY);
 		metaOrder.add(COLLOID);
+		metaOrder.add(IONGEL);
 		metaOrder.add(ACID);
 		metaOrder.add(SULFURIC_ACID);
 		metaOrder.add(NITRIC_ACID);
