@@ -33,6 +33,7 @@ public class ItemEnergy extends Item {
 		this.setCreativeTab(MainRegistry.consumableTab);
 	}
 	
+	
 	public ItemEnergy makeCan() {
 		this.container = ModItems.can_empty;
 		this.cap = ModItems.ring_pull;
@@ -41,19 +42,27 @@ public class ItemEnergy extends Item {
 		return this;
 	}
 	
-	public ItemEnergy makeGlass() {
+	public ItemEnergy makeGrass() {
 		this.container = ModItems.glass_empty;
+		this.cap = ModItems.ring_pull;
 		this.requiresOpener = false;
 		this.setContainerItem(this.container);
 		return this;
 	}
-	
+	 
 	public ItemEnergy makeBottle(Item bottle, Item cap) {
 		this.container = bottle;
 		this.cap = cap;
 		this.requiresOpener = true;
 		this.setContainerItem(this.container);
 		this.setCreativeTab(MainRegistry.consumableTab);
+		return this;
+	}
+	
+	public ItemEnergy makeGlass(Item i) {
+		this.container = i;
+		this.requiresOpener = false;
+		this.setContainerItem(this.container);
 		return this;
 	}
 

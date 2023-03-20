@@ -498,6 +498,7 @@ public class ModBlocks {
 	public static Block reeds;
 	
 	public static Block crop_strawberry;
+	public static Block crop_coffee;
 
 	public static Block waste_earth;
 	public static Block waste_mycelium;
@@ -1689,6 +1690,7 @@ public class ModBlocks {
 		reeds = new BlockReeds().setBlockName("plant_reeds").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 
 		crop_strawberry = new CropStrawberry().setBlockName("crop_strawberry").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
+		crop_coffee = new CropCoffee ().setBlockName("crop_coffee").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 
 		
 		waste_earth = new WasteEarth(Material.ground, true).setBlockName("waste_earth").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.blockTab).setHardness(0.6F).setBlockTextureName(RefStrings.MODID + ":waste_earth");
@@ -2816,6 +2818,7 @@ public class ModBlocks {
 		register(reeds);
 		register(fissure_bomb);  
 		register(crop_strawberry);
+		register(crop_coffee);
 		GameRegistry.registerBlock(mush, mush.getUnlocalizedName());
 		GameRegistry.registerBlock(mush_block, mush_block.getUnlocalizedName());
 		GameRegistry.registerBlock(mush_block_stem, mush_block_stem.getUnlocalizedName());

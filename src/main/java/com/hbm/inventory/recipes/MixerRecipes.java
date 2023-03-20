@@ -63,6 +63,8 @@ public class MixerRecipes extends SerializableRecipe {
 		recipes.put(Fluids.KEROSENE_REFORM, new MixerRecipe(1_000, 50).setStack1(new FluidStack(Fluids.KEROSENE, 900)).setStack2(new FluidStack(Fluids.REFORMATE, 100)));
 		
 		recipes.put(Fluids.SMILK, new MixerRecipe(500, 50).setStack1(new FluidStack(Fluids.MILK, 500)).setSolid(new ComparableStack(ModItems.strawberry, 4)));
+		recipes.put(Fluids.COFFEE, new MixerRecipe(100, 50).setStack1(new FluidStack(Fluids.WATER, 500)).setSolid(new ComparableStack(ModItems.powder_coffee, 4)));
+
 	}
 	
 	public static MixerRecipe getOutput(FluidType type) {
