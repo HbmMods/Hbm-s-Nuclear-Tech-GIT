@@ -41,14 +41,6 @@ public class ItemEnergy extends Item {
 		this.setContainerItem(this.container);
 		return this;
 	}
-	
-	public ItemEnergy makeGrass() {
-		this.container = ModItems.glass_empty;
-		this.cap = ModItems.ring_pull;
-		this.requiresOpener = false;
-		this.setContainerItem(this.container);
-		return this;
-	}
 	 
 	public ItemEnergy makeBottle(Item bottle, Item cap) {
 		this.container = bottle;
@@ -59,10 +51,8 @@ public class ItemEnergy extends Item {
 		return this;
 	}
 	
-	public ItemEnergy makeGlass(Item i) {
-		this.container = i;
+	public ItemEnergy makeGlass() {
 		this.requiresOpener = false;
-		this.setContainerItem(this.container);
 		return this;
 	}
 
@@ -112,6 +102,8 @@ public class ItemEnergy extends Item {
 				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
 				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
 				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 30 * 20, 2));
+				System.out.println(this.container);
+
 			}
 			if(this == ModItems.can_bepis) {
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 3));
@@ -141,6 +133,10 @@ public class ItemEnergy extends Item {
 			}
 			if(this == ModItems.glass_smilk) {
 				player.heal(6F); //ideas welcome pls thanks
+				this.setContainerItem(ModItems.glass_empty);
+				this.container = ModItems.glass_empty;
+				//System.out.println(this.container);
+
 			}
 			if(this == ModItems.bottle_quantum) {
 				player.heal(10F);
@@ -200,6 +196,9 @@ public class ItemEnergy extends Item {
 			if(this == ModItems.coffee) {
 				player.heal(10);
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
+				this.setContainerItem(ModItems.cmug_empty);
+				this.container = ModItems.cmug_empty;
+				System.out.println(this.container);
 			}
 			if(this == ModItems.coffee_radium) {
 				player.heal(10);
