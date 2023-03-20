@@ -10,10 +10,14 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class SlotMachineOutput extends Slot {
+public class SlotCraftingOutput extends Slot {
+	
+	private EntityPlayer player;
+	private int craftBuffer;
 
-	public SlotMachineOutput(IInventory inventory, int i, int j, int k) {
+	public SlotCraftingOutput(EntityPlayer player, IInventory inventory, int i, int j, int k) {
 		super(inventory, i, j, k);
+		this.player = player;
 	}
 
 	@Override
@@ -59,10 +63,30 @@ public class SlotMachineOutput extends Slot {
 			player.triggerAchievement(MainRegistry.achFusion);
 	}
 	
-	@Override 
+	@Override
+	public ItemStack decrStackSize(int amount) {
+		if(this.getHasStack()) {
+			this.craftBuffer += Math.min(amount, this.getStack().stackSize);
+		}
+		return super.decrStackSize(amount);
+	}
+
+	@Override
 	public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
-		checkAchievements(player, stack);
-			
-        this.onSlotChanged();
-    }
+		this.onCrafting(stack);
+		super.onPickupFromSlot(player, stack);
+	}
+
+	@Override
+	protected void onCrafting(ItemStack stack, int amount) {
+		this.craftBuffer += amount;
+		this.onCrafting(stack);
+	}
+	
+	@Override
+	protected void onCrafting(ItemStack stack) {
+		stack.onCrafting(this.player.worldObj, this.player, this.craftBuffer);
+		checkAchievements(this.player, stack);
+		this.craftBuffer = 0;
+	}
 }

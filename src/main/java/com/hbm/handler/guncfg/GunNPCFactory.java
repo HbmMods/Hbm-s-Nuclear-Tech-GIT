@@ -173,6 +173,7 @@ public class GunNPCFactory {
 		bullet.velocity = 1.0F;
 		bullet.dmgMin = 20;
 		bullet.dmgMax = 30;
+		bullet.blockDamage = false;
 		bullet.incendiary = 3;
 		bullet.explosive = 2.5F;
 		bullet.style = BulletConfiguration.STYLE_METEOR;

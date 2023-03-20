@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,7 +25,7 @@ private TileEntityMachineAssembler assembler;
 		//Schematic
 		this.addSlotToContainer(new Slot(te, 4, 80, 54));
 		//Output
-		this.addSlotToContainer(new SlotMachineOutput(te, 5, 134, 90));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, te, 5, 134, 90));
 		//Input
 		this.addSlotToContainer(new Slot(te, 6, 8, 18));
 		this.addSlotToContainer(new Slot(te, 7, 26, 18));
@@ -64,7 +64,7 @@ private TileEntityMachineAssembler assembler;
 		{
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			SlotMachineOutput.checkAchievements(p_82846_1_, var5);
+			SlotCraftingOutput.checkAchievements(p_82846_1_, var5);
 			
             if (par2 <= 17) {
 				if (!this.mergeItemStack(var5, 18, this.inventorySlots.size(), true))

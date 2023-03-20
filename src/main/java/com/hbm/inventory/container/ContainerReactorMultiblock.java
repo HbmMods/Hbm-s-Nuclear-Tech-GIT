@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -19,20 +19,20 @@ public class ContainerReactorMultiblock extends Container {
 		//Water in
 		this.addSlotToContainer(new Slot(tedf, 0, 8, 90));
 		//Water out
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 8, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 1, 8, 108));
 		//Coolant in
 		this.addSlotToContainer(new Slot(tedf, 2, 26, 90));
 		//Coolant out
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 26, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 3, 26, 108));
 		
 		//Fuel in
 		this.addSlotToContainer(new Slot(tedf, 4, 80, 36));
 		//Fuel out
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 5, 80, 72));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 5, 80, 72));
 		//Waste in
 		this.addSlotToContainer(new Slot(tedf, 6, 152, 36));
 		//Waste out
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 7, 152, 72));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 7, 152, 72));
 		
 		for(int i = 0; i < 3; i++)
 		{

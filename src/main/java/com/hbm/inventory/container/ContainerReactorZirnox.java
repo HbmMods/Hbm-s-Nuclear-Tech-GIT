@@ -1,7 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.FluidContainerRegistry;
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.machine.ItemZirnoxRod;
 import com.hbm.tileentity.machine.TileEntityReactorZirnox;
@@ -47,9 +47,9 @@ public class ContainerReactorZirnox extends Container {
 
 		// Fluid IO
 		this.addSlotToContainer(new Slot(te, 24, 143, 124));
-		this.addSlotToContainer(new SlotMachineOutput(te, 26, 143, 142));
+		this.addSlotToContainer(new SlotTakeOnly(te, 26, 143, 142));
 		this.addSlotToContainer(new Slot(te, 25, 179, 124));
-		this.addSlotToContainer(new SlotMachineOutput(te, 27, 179, 142));
+		this.addSlotToContainer(new SlotTakeOnly(te, 27, 179, 142));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {

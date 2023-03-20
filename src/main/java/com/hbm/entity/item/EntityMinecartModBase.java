@@ -65,7 +65,7 @@ public abstract class EntityMinecartModBase extends EntityMinecart
     private static IMinecartCollisionHandler collisionHandler = null;
 
     /* Instance versions of the above physics properties */
-    private float currentSpeedRail = getMaxCartSpeedOnRail();
+    //private float currentSpeedRail = getMaxCartSpeedOnRail();
     protected float maxSpeedAirLateral = defaultMaxSpeedAirLateral;
     protected float maxSpeedAirVertical = defaultMaxSpeedAirVertical;
     protected double dragAir = defaultDragAir;

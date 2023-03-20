@@ -55,7 +55,6 @@ public class TileMappings {
 		put(TileEntityDecoSteelPoles.class, "tileentity_steelpoles");
 		put(TileEntityDecoPoleTop.class, "tileentity_poletop");
 		put(TileEntityDecoPoleSatelliteReceiver.class, "tileentity_satellitereceicer");
-		put(TileEntityMachineDeuterium.class, "tileentity_deuterium");
 		put(TileEntityMachineBattery.class, "tileentity_battery");
 		put(TileEntityMachineCoal.class, "tileentity_coal");
 		put(TileEntityRedBarrel.class, "tileentity_barrel");

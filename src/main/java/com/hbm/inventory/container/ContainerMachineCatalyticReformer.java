@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticReformer;
@@ -26,19 +26,19 @@ public class ContainerMachineCatalyticReformer extends Container {
 		//Canister Input
 		this.addSlotToContainer(new Slot(tedf, 1, 35, 90));
 		//Canister Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 35, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 2, 35, 108));
 		//Reformate Input
 		this.addSlotToContainer(new Slot(tedf, 3, 107, 90));
 		//Reformate Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 107, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 4, 107, 108));
 		//Gas Input
 		this.addSlotToContainer(new Slot(tedf, 5, 125, 90));
 		//Gas Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 6, 125, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 6, 125, 108));
 		//Hydrogen Input
 		this.addSlotToContainer(new Slot(tedf, 7, 143, 90));
 		//Hydrogen Oil Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 8, 143, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 8, 143, 108));
 		//Fluid ID
 		this.addSlotToContainer(new Slot(tedf, 9, 17, 108));
 		//Catalyst

@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityHeaterOilburner;
 
@@ -21,7 +21,7 @@ public class ContainerOilburner extends Container {
 		//In
 		this.addSlotToContainer(new Slot(tedf, 0, 26, 17));
 		//Out
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 26, 53));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 1, 26, 53));
 		//Fluid ID
 		this.addSlotToContainer(new Slot(tedf, 2, 44, 71));
 		

@@ -77,6 +77,7 @@ import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.Compat;
+import com.hbm.util.StatHelper;
 import com.hbm.util.SuicideThreadDump;
 import com.hbm.world.feature.*;
 import com.hbm.world.generator.CellularDungeonFactory;
@@ -89,6 +90,7 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -883,6 +885,15 @@ public class MainRegistry {
 		RBMKDials.createDials(world);
 		SiegeOrchestrator.createGameRules(world);
 		event.registerServerCommand(new CommandReloadRecipes());
+	}
+	
+	@EventHandler
+	public void serverStart(FMLServerStartedEvent event) {
+		
+		if(GeneralConfig.enableStatReRegistering) {
+			logger.info("Attempting to re-register item stats...");
+			StatHelper.resetStatShitFuck(); //shit yourself
+		}
 	}
 	
 	private void loadConfig(FMLPreInitializationEvent event) {

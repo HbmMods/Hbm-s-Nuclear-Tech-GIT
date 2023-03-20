@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotUpgrade;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;
@@ -24,10 +24,10 @@ public class ContainerCrystallizer extends Container {
 		//Battery
 		this.addSlotToContainer(new Slot(tedf, 1, 152, 72));
 		//Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 113, 45));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 2, 113, 45));
 		//Fluid slots
 		this.addSlotToContainer(new Slot(tedf, 3, 17, 18));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 17, 54));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 4, 17, 54));
 		//Upgrades
 		this.addSlotToContainer(new SlotUpgrade(tedf, 5, 80, 18));
 		this.addSlotToContainer(new SlotUpgrade(tedf, 6, 98, 18));
@@ -53,7 +53,7 @@ public class ContainerCrystallizer extends Container {
 		if(var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			SlotMachineOutput.checkAchievements(p_82846_1_, var5);
+			SlotCraftingOutput.checkAchievements(p_82846_1_, var5);
 
 			if(par2 <= diFurnace.getSizeInventory() - 1) {
 				if(!this.mergeItemStack(var5, diFurnace.getSizeInventory(), this.inventorySlots.size(), true)) {

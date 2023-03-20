@@ -2,6 +2,7 @@ package com.hbm.handler;
 
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
@@ -18,7 +19,11 @@ import com.hbm.util.ContaminationUtil;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatBase;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
@@ -41,7 +46,10 @@ public class BossSpawnHandler {
 					
 					EntityPlayer player = (EntityPlayer) world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));	//choose a random player
 					
-					if(ContaminationUtil.getRads(player) >= MobConfig.maskmanMinRad && (world.getHeightValue((int)player.posX, (int)player.posZ) > player.posY + 3 || !MobConfig.maskmanUnderground)) {	//if the player has more than 50 RAD and is underground
+					StatBase statBase = StatList.objectCraftStats[Item.getIdFromItem(Item.getItemFromBlock(ModBlocks.machine_crystallizer))];
+					boolean acidizerStat = !GeneralConfig.enableStatReRegistering || (statBase != null && player instanceof EntityPlayerMP && ((EntityPlayerMP)player).func_147099_x().writeStat(statBase) > 0);
+					
+					if(acidizerStat && ContaminationUtil.getRads(player) >= MobConfig.maskmanMinRad && (world.getHeightValue((int)player.posX, (int)player.posZ) > player.posY + 3 || !MobConfig.maskmanUnderground)) {	//if the player has more than 50 RAD and is underground
 
 						player.addChatComponentMessage(new ChatComponentText("The mask man is about to claim another victim.").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 						

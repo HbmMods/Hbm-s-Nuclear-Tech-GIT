@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +21,7 @@ public class ContainerMachineTurbofan extends Container {
 		diFurnace = tedf;
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 17, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 17, 53));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 1, 17, 53));
 		this.addSlotToContainer(new Slot(tedf, 2, 98, 71));
 		this.addSlotToContainer(new Slot(tedf, 3, 143, 71));
 		this.addSlotToContainer(new Slot(tedf, 4, 44, 71));

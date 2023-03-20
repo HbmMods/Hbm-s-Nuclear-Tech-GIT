@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
 
@@ -25,7 +25,7 @@ public class ContainerMachinePress extends Container {
 		// Input
 		this.addSlotToContainer(new Slot(tedf, 2, 80, 53));
 		// Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 140, 35));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 3, 140, 35));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {

@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.tileentity.machine.TileEntityMachineCMBFactory;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,8 +24,8 @@ public class ContainerMachineCMBFactory extends Container {
 		this.addSlotToContainer(new Slot(tedf, 1, 80 + 9, 17));
 		this.addSlotToContainer(new Slot(tedf, 2, 62 + 9, 53));
 		this.addSlotToContainer(new Slot(tedf, 3, 80 + 9, 53));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 134 + 9, 35));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 5, 62 - 9, 53));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 4, 134 + 9, 35));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 5, 62 - 9, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{
