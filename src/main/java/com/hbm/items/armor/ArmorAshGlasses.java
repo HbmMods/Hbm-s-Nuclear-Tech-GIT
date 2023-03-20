@@ -14,8 +14,8 @@ public class ArmorAshGlasses extends ItemArmor {
 	@SideOnly(Side.CLIENT)
 	private ModelGlasses modelGoggles;
 
-	public ArmorAshGlasses(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
-		super(armorMaterial, renderIndex, armorType);
+	public ArmorAshGlasses(ArmorMaterial armorMaterial, int armorType) {
+		super(armorMaterial, 0, armorType);
 	}
 
 	@SideOnly(Side.CLIENT)

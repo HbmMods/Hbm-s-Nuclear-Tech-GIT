@@ -9,8 +9,8 @@ import net.minecraft.item.ItemStack;
 
 public class ModArmor extends ItemArmor {
 
-	public ModArmor(ArmorMaterial p_i45325_1_, int p_i45325_2_, int p_i45325_3_) {
-		super(p_i45325_1_, p_i45325_2_, p_i45325_3_);
+	public ModArmor(ArmorMaterial material, int slot) {
+		super(material, 0, slot);
 	}
 	
 	@Override

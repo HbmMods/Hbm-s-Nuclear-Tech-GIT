@@ -9,8 +9,8 @@ import net.minecraft.item.ItemStack;
 
 public class ArmorBismuth extends ArmorFSB {
 	
-	public ArmorBismuth(ArmorMaterial material, int layer, int slot, String texture) {
-		super(material, layer, slot, texture);
+	public ArmorBismuth(ArmorMaterial material, int slot, String texture) {
+		super(material, slot, texture);
 	}
 
 	@SideOnly(Side.CLIENT)

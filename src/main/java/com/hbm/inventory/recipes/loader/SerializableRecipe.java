@@ -1,6 +1,7 @@
 package com.hbm.inventory.recipes.loader;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -174,7 +175,7 @@ public abstract class SerializableRecipe {
 			for(JsonElement recipe : recipes) {
 				this.readRecipe(recipe);
 			}
-		} catch(Exception ex) { }
+		} catch(FileNotFoundException ex) { }
 	}
 	
 	/*
@@ -234,9 +235,9 @@ public abstract class SerializableRecipe {
 			Item item = (Item) Item.itemRegistry.getObject(array.get(0).getAsString());
 			int stacksize = array.size() > 1 ? array.get(1).getAsInt() : 1;
 			int meta = array.size() > 2 ? array.get(2).getAsInt() : 0;
-			return new ItemStack(item, stacksize, meta);
+			if(item != null) return new ItemStack(item, stacksize, meta);
 		} catch(Exception ex) { }
-		MainRegistry.logger.error("Error reading stack array " + array.toString());
+		MainRegistry.logger.error("Error reading stack array " + array.toString() + " - defaulting to NOTHING item!");
 		return new ItemStack(ModItems.nothing);
 	}
 	

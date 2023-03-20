@@ -9,8 +9,8 @@ import net.minecraft.item.ItemStack;
 
 public class ArmorTest extends ItemArmor {
 	
-	public ArmorTest(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
-		super(armorMaterial, renderIndex, armorType);
+	public ArmorTest(ArmorMaterial armorMaterial, int armorType) {
+		super(armorMaterial, 0, armorType);
 	}
 	
 	@Override

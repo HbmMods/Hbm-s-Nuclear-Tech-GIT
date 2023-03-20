@@ -16,8 +16,8 @@ import net.minecraft.world.World;
 
 public class ArmorLiquidatorMask extends ArmorLiquidator implements IGasMask {
 
-	public ArmorLiquidatorMask(ArmorMaterial material, int layer, int slot, String texture) {
-		super(material, layer, slot, texture);
+	public ArmorLiquidatorMask(ArmorMaterial material, int slot, String texture) {
+		super(material, slot, texture);
 	}
 
 	@Override

@@ -146,7 +146,7 @@ public class GUIAnvil extends GuiContainer {
 			}
 		}
 
-		if(guiLeft <= x && guiLeft + xSize > x && guiTop < y && guiTop + ySize >= y) {
+		if(guiLeft <= x && guiLeft + xSize > x && guiTop < y && guiTop + ySize >= y && getSlotAtPosition(x, y) == null) {
 			if(!Mouse.isButtonDown(0) && !Mouse.isButtonDown(1) && Mouse.next()) {
 				int scroll = Mouse.getEventDWheel();
 				
@@ -154,6 +154,22 @@ public class GUIAnvil extends GuiContainer {
 				if(scroll < 0 && this.index < this.size) this.index++;
 			}
 		}
+	}
+	
+	private Slot getSlotAtPosition(int x, int y) {
+		for(int k = 0; k < this.inventorySlots.inventorySlots.size(); ++k) {
+			Slot slot = (Slot) this.inventorySlots.inventorySlots.get(k);
+
+			if(this.isMouseOverSlot(slot, x, y)) {
+				return slot;
+			}
+		}
+
+		return null;
+	}
+	
+	private boolean isMouseOverSlot(Slot slot, int x, int y) {
+		return this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y);
 	}
 	
 	@Override

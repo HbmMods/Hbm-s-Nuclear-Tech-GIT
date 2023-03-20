@@ -27,8 +27,8 @@ public class ArmorAsbestos extends ItemArmor implements ISpecialArmor {
 
 	private ResourceLocation asbestosBlur = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_asbestos.png");
 
-	public ArmorAsbestos(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
-		super(armorMaterial, renderIndex, armorType);
+	public ArmorAsbestos(ArmorMaterial armorMaterial, int armorType) {
+		super(armorMaterial, 0, armorType);
 	}
 
 	@Override

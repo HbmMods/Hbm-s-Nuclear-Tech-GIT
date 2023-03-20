@@ -50,8 +50,8 @@ public class ArmorModel extends ItemArmor {
 	private ResourceLocation goggleBlur4 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_4.png");
 	private ResourceLocation goggleBlur5 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_5.png");
 
-	public ArmorModel(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
-		super(armorMaterial, renderIndex, armorType);
+	public ArmorModel(ArmorMaterial armorMaterial, int armorType) {
+		super(armorMaterial, 0, armorType);
 	}
 
 	@Override

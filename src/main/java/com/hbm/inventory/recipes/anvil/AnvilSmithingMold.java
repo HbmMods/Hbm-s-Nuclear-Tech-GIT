@@ -32,6 +32,11 @@ public class AnvilSmithingMold extends AnvilSmithingRecipe {
 			List<String> names = ItemStackUtil.getOreDictNames(left);
 			
 			for(String name : names) {
+				
+				if(matchesPrefix.name.equals("plate") && name.startsWith("plateTriple")) { //fuck me 
+					return false;
+				}
+				
 				if(name.startsWith(matchesPrefix.name)) {
 					return true;
 				}
