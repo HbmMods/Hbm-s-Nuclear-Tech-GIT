@@ -38,8 +38,8 @@ public class ItemRenderLunaticSniper implements IItemRenderer {
 	static final String fullRound = "Full_Round_Bullet";
 	
 	static final float scale1 = 0.2F;
-	static final float scale2 = 0.15F;
-	static final float scale3 = 0.3F;
+	static final float scale2 = 0.1F;
+	static final float scale3 = 0.15F;
 	static final float scale4 = 0.7F;
 	
 	@Override
@@ -61,11 +61,13 @@ public class ItemRenderLunaticSniper implements IItemRenderer {
 				GL11.glPopMatrix();
 				return;
 			}
-			
+
+			GL11.glRotatef(-10F, 0F, 1F, 0F);
+			GL11.glRotatef(-10F, 0F, 0F, 1F);
 			GL11.glRotatef(90F, 1F, 0F, 0F);
 			GL11.glRotatef(-58.5F, 0F, 1F, 0F);
 			GL11.glRotatef(90F, 0F, 0F, 1F);
-			GL11.glTranslatef(-0.5F, -0.15F, 0F);
+			GL11.glTranslatef(-0.5F, 0F, 0F);
 			GL11.glScalef(scale1, scale1, scale1);
 			
 			/// Begin animations ///
@@ -100,10 +102,12 @@ public class ItemRenderLunaticSniper implements IItemRenderer {
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED:// In hand from other's POV
+			GL11.glRotatef(-5F, 0F, 1F, 0F);
+			GL11.glRotatef(-5F, 0F, 0F, 1F);
 			GL11.glRotatef(90F, 1F, 0F, 0F);
 			GL11.glRotatef(-50F, 0F, 1F, 0F);
 			GL11.glRotatef(90F, 0F, 0F, 1F);
-			GL11.glTranslatef(0F, -0.25F, -0.76F);
+			GL11.glTranslatef(-0.05F, -0.2F, -0.75F);
 			GL11.glScalef(scale2 - scale2 * 2, scale2, scale2);
 			GL11.glPushMatrix();
 //			GL11.glTranslated(eject[0] / 2, 0, -5);
@@ -117,7 +121,7 @@ public class ItemRenderLunaticSniper implements IItemRenderer {
 			GL11.glTranslatef(10F, 11.5F, 0F);
 			GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(-135F, 1.0F, 0.0F, 0.0F);
-			GL11.glScalef(scale4, scale4, scale4);
+			GL11.glScalef(-scale4, scale4, scale4);
 			break;
 		default:
 			break;
