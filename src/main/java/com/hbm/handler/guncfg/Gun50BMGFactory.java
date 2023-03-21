@@ -14,6 +14,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo50BMG;
 import com.hbm.items.ItemAmmoEnums.AmmoLunaticSniper;
 import com.hbm.lib.HbmCollection;
+import com.hbm.lib.RefStrings;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -34,6 +35,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
 
 public class Gun50BMGFactory {
 	
@@ -77,7 +79,7 @@ public class Gun50BMGFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.INCENDIARY));
 
 		bullet.ammo.meta = 1;
-		bullet.incendiary = 50;
+		bullet.incendiary = 10;
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaInc");
 
@@ -170,6 +172,49 @@ public class Gun50BMGFactory {
 		config.config.clear();
 		config.config.addAll(HbmCollection.bmg50);
 		
+		return config;
+	}
+	
+	public static final ResourceLocation scope_luna = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_luna.png");
+	
+	public static GunConfiguration getLunaticMarksman() {
+		GunConfiguration config = new GunConfiguration();
+
+		config.rateOfFire = 15;
+		config.reloadDuration = 15;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.roundsPerCycle = 1;
+		config.firingSound = "hbm:weapon.heavyShootPB3";
+		config.firingPitch = 0.75F;
+		config.ammoCap = 4;
+		config.reloadType = GunConfiguration.RELOAD_SINGLE;
+		config.hasSights = true;
+		config.zoomFOV = 0.2F; //x5 magnification
+		config.scopeTexture = scope_luna;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_CLASSIC;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.reloadSoundEnd = true;
+		config.durability = 500_000;
+
+		config.name = "lunaSniper";
+		config.manufacturer = EnumGunManufacturer.LUNA;
+		config.comment.add("\"You do not spark joy\"");
+
+		config.config = new ArrayList();
+		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_SABOT);
+		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_EXPLOSIVE);
+
+		config.animations.put(AnimType.CYCLE,
+				new BusAnimation()
+						.addBus("RECOIL", new BusAnimationSequence()
+								.addKeyframe(new BusAnimationKeyframe(-0.45, 0.15, 0, 40)) // Moves back  and raise slightly
+								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))) // Then forward  again
+						.addBus("EJECT", new BusAnimationSequence().addKeyframe(new BusAnimationKeyframe(0, 0, 0, 30)) // Wait
+								.addKeyframe(new BusAnimationKeyframe(50, 0, 0, 120)))); // Fly // out
+
+		config.ejector = EJECTOR_SNIPER;
 		return config;
 	}
 
