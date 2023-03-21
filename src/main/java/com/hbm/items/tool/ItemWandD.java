@@ -306,18 +306,21 @@ public class ItemWandD extends Item {
 				list.add("Dim: Moon");
 				break;
 			case 1:
-				list.add("Dim:Ike");
+				list.add("Dim: Ike");
 				break;
 			case 2:
-				list.add("Dim:Duna");
+				list.add("Dim: Duna");
 				break;
 			case 3:
-				list.add("Dim:Kerbin");
+				list.add("Dim: Kerbin");
 				break;
 			case 4:
-				list.add("Dim:Eve");
+				list.add("Dim: Eve");
 				break;
 			case 5:
+				list.add("Dim: Dres");
+				break;
+			case 6:
 				list.add("Impact");
 				break;
 	}
