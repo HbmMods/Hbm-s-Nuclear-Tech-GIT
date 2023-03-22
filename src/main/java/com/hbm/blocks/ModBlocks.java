@@ -847,7 +847,6 @@ public class ModBlocks {
 	public static Block plasma_heater;
 	
 	public static Block watz;
-	public static final int guiID_watz = 98;
 
 	public static Block watz_element;
 	public static Block watz_control;

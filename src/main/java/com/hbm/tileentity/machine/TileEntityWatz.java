@@ -1,7 +1,9 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.inventory.container.ContainerWatz;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.gui.GUIWatz;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -73,12 +75,12 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
+		return new ContainerWatz(player.inventory, this);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
+		return new GUIWatz(player.inventory, this);
 	}
 }
