@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.config.GeneralConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -36,7 +37,7 @@ public class HazardTypeRadiation extends HazardTypeBase {
 			if(GeneralConfig.enable528 && reacher) {
 				rad = (float) (rad / 49F);	//More realistic function for 528: x / distance^2
 			} else if(reacher) {
-				rad = (float) Math.sqrt(rad + 1F / ((rad + 2F) * (rad + 2F))) - 1F / (rad + 2F); //Reworked radiation function: sqrt(x+1/(x+2)^2)-1/(x+2)
+				rad = (float) BobMathUtil.squirt(rad); //Reworked radiation function: sqrt(x+1/(x+2)^2)-1/(x+2)
 			}											
 			
 			ContaminationUtil.contaminate(target, HazardType.RADIATION, ContaminationType.CREATIVE, rad);

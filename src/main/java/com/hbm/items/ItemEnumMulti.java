@@ -44,6 +44,7 @@ public class ItemEnumMulti extends Item {
 	
 	protected IIcon[] icons;
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
 		
@@ -60,6 +61,7 @@ public class ItemEnumMulti extends Item {
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int meta) {
 		

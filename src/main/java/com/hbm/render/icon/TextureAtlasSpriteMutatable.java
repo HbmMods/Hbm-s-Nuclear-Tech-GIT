@@ -20,6 +20,12 @@ import net.minecraft.client.resources.data.TextureMetadataSection;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * TODO: using this with a missing texture for some reason crashes the game
+ * TexMan's mip map levels seem to be -1 for some reason, run debugger
+ * 
+ * @author hbm
+ */
 @SideOnly(Side.CLIENT)
 public class TextureAtlasSpriteMutatable extends TextureAtlasSprite {
 	

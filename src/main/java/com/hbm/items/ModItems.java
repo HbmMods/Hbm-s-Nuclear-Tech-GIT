@@ -1160,6 +1160,8 @@ public class ModItems {
 	public static ItemRBMKPellet rbmk_pellet_zfb_am_mix;
 	public static ItemRBMKPellet rbmk_pellet_drx;
 
+	public static Item watz_pellet;
+
 	public static Item scrap_plastic;
 	public static Item scrap;
 	public static Item scrap_oil;
@@ -1803,18 +1805,7 @@ public class ModItems {
 	public static Item arc_electrode;
 	public static Item arc_electrode_burnt;
 	public static Item arc_electrode_desh;
-	/*public static Item dynosphere_base;
-	public static Item dynosphere_desh;
-	public static Item dynosphere_desh_charged;
-	public static Item dynosphere_schrabidium;
-	public static Item dynosphere_schrabidium_charged;
-	public static Item dynosphere_euphemium;
-	public static Item dynosphere_euphemium_charged;
-	public static Item dynosphere_dineutronium;
-	public static Item dynosphere_dineutronium_charged;*/
 	
-	public static Item tank_waste;
-
 	/*public static Item factory_core_titanium;
 	public static Item factory_core_advanced;*/
 
@@ -3256,8 +3247,6 @@ public class ModItems {
 		gas_empty = new Item().setUnlocalizedName("gas_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":gas_empty");
 		gas_full = new ItemGasTank().setUnlocalizedName("gas_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_empty");
 		
-		tank_waste = new ItemTankWaste().setUnlocalizedName("tank_waste").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab);
-
 		syringe_empty = new Item().setUnlocalizedName("syringe_empty").setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":syringe_empty");
 		syringe_antidote = new ItemSyringe().setUnlocalizedName("syringe_antidote").setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":syringe_antidote");
 		syringe_poison = new ItemSyringe().setUnlocalizedName("syringe_poison").setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":syringe_poison");
@@ -3824,6 +3813,8 @@ public class ModItems {
 				.setHeat(1.0D)
 				.setMeltingPoint(100000)
 				.setUnlocalizedName("rbmk_fuel_test").setTextureName(RefStrings.MODID + ":rbmk_fuel_test");
+		
+		watz_pellet = new ItemWatzPellet().setUnlocalizedName("watz_pellet").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":watz_pellet");
 		
 		trinitite = new ItemNuclearWaste().setUnlocalizedName("trinitite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":trinitite_new");
 		nuclear_waste_long = new ItemWasteLong().setUnlocalizedName("nuclear_waste_long").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_long");
@@ -4847,11 +4838,11 @@ public class ModItems {
 
 		ArmorMaterial aMatHEV = EnumHelper.addArmorMaterial("HBM_HEV", 150, new int[] { 3, 8, 6, 3 }, 100);
 		aMatHEV.customCraftingMaterial = ModItems.plate_armor_hev;
-		hev_helmet = new ArmorHEV(aMatHEV, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 2500, 0).setMod(0.25F).setCap(4.0F).setThreshold(2.0F)
+		hev_helmet = new ArmorHEV(aMatHEV, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 2500, 0).setMod(0.20F).setCap(4.0F).setThreshold(2.0F)
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1))
 				.addEffect(new PotionEffect(Potion.jump.id, 20, 0))
 				.setBlastProtection(0.25F)
-				.setMod(0.2F)
+				.setProtectionLevel(500F)
 				.setHasGeigerSound(true)
 				.setHasCustomGeiger(true)
 				.addResistance("fall", 0.5F)
@@ -6269,9 +6260,6 @@ public class ModItems {
 		GameRegistry.registerItem(inf_water, inf_water.getUnlocalizedName());
 		GameRegistry.registerItem(inf_water_mk2, inf_water_mk2.getUnlocalizedName());
 		
-		//Large Tanks
-		GameRegistry.registerItem(tank_waste, tank_waste.getUnlocalizedName());
-		
 		//Canisters
 		GameRegistry.registerItem(antiknock, antiknock.getUnlocalizedName());
 		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());
@@ -6666,6 +6654,8 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_pellet_zfb_pu241, rbmk_pellet_zfb_pu241.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_zfb_am_mix, rbmk_pellet_zfb_am_mix.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_drx, rbmk_pellet_drx.getUnlocalizedName());
+		
+		GameRegistry.registerItem(watz_pellet, watz_pellet.getUnlocalizedName());
 		
 		GameRegistry.registerItem(debris_graphite, debris_graphite.getUnlocalizedName());
 		GameRegistry.registerItem(debris_metal, debris_metal.getUnlocalizedName());

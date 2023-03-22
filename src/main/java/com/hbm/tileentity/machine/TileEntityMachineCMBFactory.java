@@ -130,7 +130,7 @@ public class TileEntityMachineCMBFactory extends TileEntityLoadedBase implements
 				return true;
 			break;
 		case 2:
-			if(stack.getItem() == ModItems.bucket_mud || (stack.getItem() == ModItems.tank_waste && stack.getItemDamage() > 0))
+			if(stack.getItem() == ModItems.bucket_mud)
 				return true;
 			break;
 		case 3:
@@ -225,7 +225,7 @@ public class TileEntityMachineCMBFactory extends TileEntityLoadedBase implements
 			if (itemStack.getItem() instanceof IBatteryItem && ((IBatteryItem)itemStack.getItem()).getCharge(itemStack) == 0)
 				return true;
 		if(i == 2)
-			if(itemStack.getItem() == Items.bucket || (itemStack.getItem() == ModItems.tank_waste && itemStack.getItemDamage() <= 0))
+			if(itemStack.getItem() == Items.bucket)
 				return true;
 		
 		return false;

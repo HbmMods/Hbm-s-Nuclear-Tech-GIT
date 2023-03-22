@@ -499,4 +499,9 @@ public class ItemRBMKRod extends Item {
 		setCoreHeat(stack, 20.0D);
 		setHullHeat(stack, 20.0D);
 	}
+	
+	@Override
+	public void onCreated(ItemStack stack, World world, EntityPlayer player) {
+		setNBTDefaults(stack); //minimize the window where NBT screwups can happen
+	}
 }

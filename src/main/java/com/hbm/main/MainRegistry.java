@@ -1078,6 +1078,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.gun_mp_ammo");
 		ignoreMappings.add("hbm:item.gun_revolver_lead_ammo");
 		ignoreMappings.add("hbm:item.gun_revolver_schrabidium_ammo");
+		ignoreMappings.add("hbm:item.tank_waste");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

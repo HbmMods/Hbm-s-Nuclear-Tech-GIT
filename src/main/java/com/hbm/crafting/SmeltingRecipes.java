@@ -108,7 +108,6 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.powder_cadmium, new ItemStack(ModItems.ingot_cadmium), 1.0F);
 
 		GameRegistry.addSmelting(ModItems.combine_scrap, new ItemStack(ModItems.ingot_combine_steel), 1.0F);
-		GameRegistry.addSmelting(ModItems.tank_waste, new ItemStack(ModItems.tank_waste), 0.0F);
 		GameRegistry.addSmelting(ModItems.rag_damp, new ItemStack(ModItems.rag), 0.1F);
 		GameRegistry.addSmelting(ModItems.rag_piss, new ItemStack(ModItems.rag), 0.1F);
 		GameRegistry.addSmelting(DictFrame.fromOne(ModBlocks.plant_flower, EnumFlowerType.TOBACCO), DictFrame.fromOne(ModItems.plant_item, EnumPlantType.TOBACCO), 0.1F);
