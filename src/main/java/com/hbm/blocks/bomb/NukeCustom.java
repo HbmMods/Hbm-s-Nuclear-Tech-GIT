@@ -14,6 +14,7 @@ import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityFallingNuke;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
@@ -165,14 +166,20 @@ public class NukeCustom extends BlockContainer implements IBomb {
     	/// ANTIMATTER ///
 		} else if(amat > 0) {
 
-			amat += hydro / 2 + nuke / 4 + tnt / 8;
+			//amat += hydro / 2 + nuke / 4 + tnt / 8;
 			amat = Math.min(amat, maxAmat);
-
-			EntityBalefire bf = new EntityBalefire(worldObj);
-    		bf.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
-			bf.destructionRange = (int) amat;
-			worldObj.spawnEntityInWorld(bf);
-			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, amat * 1.5F, 1000));
+			if(amat > 25)
+			{
+				EntityBalefire bf = new EntityBalefire(worldObj);
+	    		bf.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
+				bf.destructionRange = (int) amat;
+				worldObj.spawnEntityInWorld(bf);
+				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, amat * 1.5F, 1000));	
+			}
+			else
+			{
+				new ExplosionVNT(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, amat).makeAmat().explode();
+			}
 			
 		/// HYDROGEN ///
 		} else if(hydro > 0) {

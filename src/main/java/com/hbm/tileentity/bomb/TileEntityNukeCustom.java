@@ -315,7 +315,7 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory,
 		
 		if(tnt < 16) nuke = 0;
 		if(nuke < 100) hydro = 0;
-		if(nuke < 50) amat = 0;
+		//if(nuke < 50) amat = 0;
 		if(nuke < 50) schrab = 0;
 		if(schrab == 0) euph = 0;
 
