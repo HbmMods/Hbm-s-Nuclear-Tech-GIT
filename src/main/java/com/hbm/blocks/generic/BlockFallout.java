@@ -3,8 +3,10 @@ package com.hbm.blocks.generic;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
 
@@ -73,8 +75,25 @@ public class BlockFallout extends Block {
 			return true;
 		}
 	}
+	
+	public void onBlockAdded(World world, int x, int y, int z) {
+		super.onBlockAdded(world, x, y, z);
+		if(this==ModBlocks.salted_fallout)
+		{
+			world.scheduleBlockUpdate(x, y, z, this, 20);	
+		}
+	}
 
 	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
 		return true;
+	}
+	
+	@Override
+	public void updateTick(World world, int x, int y, int z, Random rand) {
+		if(this==ModBlocks.salted_fallout)
+		{
+			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 50);
+			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));	
+		}
 	}
 }
