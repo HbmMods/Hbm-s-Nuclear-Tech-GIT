@@ -354,7 +354,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIBarrel(player.inventory, this);
 	}
-	
+	//tileentitybarrel
 	@Override
     public void invalidate()
     {
@@ -362,33 +362,35 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
     	
     	float amat = Math.min(this.getFluidFill(Fluids.AMAT)/200,500);
     	float aschrab = Math.min(this.getFluidFill(Fluids.ASCHRAB)/66,500);
-		if(amat>0)
-		{
-			if(amat >= 25)
-			{
-				EntityBalefire bf = new EntityBalefire(worldObj);
-	    		bf.setPosition(xCoord, yCoord, zCoord);
-				bf.destructionRange = (int) amat;
-				worldObj.spawnEntityInWorld(bf);
-				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord, yCoord, zCoord, amat * 1.5F, 1000));
-				return;
-			}
-			else
-			{
-				new ExplosionVNT(worldObj, xCoord, yCoord, zCoord, amat).makeAmat().explode();
-			}
-		}
-		if(aschrab>0)
-		{
-			EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, (int) aschrab);
-			if(!ex.isDead) {
-				worldObj.spawnEntityInWorld(ex);
-	
-				EntityCloudFleija cloud = new EntityCloudFleija(worldObj, (int) aschrab);
-				cloud.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
-				worldObj.spawnEntityInWorld(cloud);
-			}
-			return;			
-		}
+    	if(!worldObj.isRemote) {
+    		if(amat>0)
+    		{
+    			if(amat >= 25)
+    			{
+    				EntityBalefire bf = new EntityBalefire(worldObj);
+    	    		bf.setPosition(xCoord, yCoord, zCoord);
+    				bf.destructionRange = (int) amat;
+    				worldObj.spawnEntityInWorld(bf);
+    				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord, yCoord, zCoord, amat * 1.5F, 1000));
+    				return;
+    			}
+    			else
+    			{
+    				new ExplosionVNT(worldObj, xCoord, yCoord, zCoord, amat).makeAmat().explode();
+    			}
+    		}
+    		if(aschrab>0)
+    		{
+    			EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, (int) aschrab);
+    			if(!ex.isDead) {
+    				worldObj.spawnEntityInWorld(ex);
+    	
+    				EntityCloudFleija cloud = new EntityCloudFleija(worldObj, (int) aschrab);
+    				cloud.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
+    				worldObj.spawnEntityInWorld(cloud);
+    			}
+    			return;			
+    		}	
+    	}
     }
 }

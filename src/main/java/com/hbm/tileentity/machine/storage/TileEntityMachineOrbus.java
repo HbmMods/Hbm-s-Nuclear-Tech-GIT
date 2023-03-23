@@ -99,6 +99,7 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
     	
     	float amat = Math.min(this.getFluidFill(Fluids.AMAT)/200,500);
     	float aschrab = Math.min(this.getFluidFill(Fluids.ASCHRAB)/66,500);
+    	if(!worldObj.isRemote) {
 		if(amat>0)
 		{
 			if(amat >= 25)
@@ -128,4 +129,5 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 			return;			
 		}
     }
+}
 }
