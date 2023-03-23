@@ -19,6 +19,7 @@ import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Compat;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -217,7 +218,12 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 8), new ItemStack(Items.bone, 4));
 		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 9), new ItemStack(ModItems.nugget_bismuth, 5));
 		
-		
+		//space
+		ShredderRecipes.setRecipe(ModBlocks.duna_iron, new ItemStack(ModItems.powder_iron, 4));
+		ShredderRecipes.setRecipe(ModBlocks.duna_zinc, new ItemStack(ModItems.powder_zinc, 4));
+		ShredderRecipes.setRecipe(ModBlocks.ike_asbestos, new ItemStack(ModItems.powder_asbestos, 3));
+		ShredderRecipes.setRecipe(ModBlocks.ike_copper, new ItemStack(ModItems.powder_copper, 4));
+		ShredderRecipes.setRecipe(ModBlocks.ike_iron, new ItemStack(ModItems.powder_iron, 4));
 
 		
 		List<ItemStack> logs = OreDictionary.getOres("logWood");

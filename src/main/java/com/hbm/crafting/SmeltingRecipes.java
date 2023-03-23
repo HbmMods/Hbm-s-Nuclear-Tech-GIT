@@ -54,6 +54,11 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_starmetal), new ItemStack(ModItems.ingot_starmetal), 50.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_cobalt), new ItemStack(ModItems.ingot_cobalt), 2.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_nether_cobalt), new ItemStack(ModItems.ingot_cobalt), 2.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.duna_iron), new ItemStack(Items.iron_ingot, 2), 20.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.duna_zinc), new ItemStack(ModItems.ingot_zinc, 2), 20.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ike_asbestos), new ItemStack(ModItems.ingot_asbestos, 1), 20.0F); //we
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ike_iron), new ItemStack(Items.iron_ingot, 3), 20.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ike_copper), new ItemStack(ModItems.ingot_copper, 3), 20.0F);
 
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_gneiss_iron), new ItemStack(Items.iron_ingot), 5.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_gneiss_gold), new ItemStack(Items.gold_ingot), 5.0F);
