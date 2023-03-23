@@ -3,6 +3,8 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.items.ItemEnumMulti;
+import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.icon.RGBMutatorInterpolatedComponentRemap;
 import com.hbm.render.icon.TextureAtlasSpriteMutatable;
 import com.hbm.util.EnumUtil;
@@ -25,6 +27,8 @@ public class ItemWatzPellet extends ItemEnumMulti {
 
 	public ItemWatzPellet() {
 		super(EnumWatzType.class, true, true);
+		this.setMaxStackSize(16);
+		this.setCreativeTab(MainRegistry.controlTab);
 	}
 
 	public static enum EnumWatzType {
@@ -69,15 +73,37 @@ public class ItemWatzPellet extends ItemEnumMulti {
 			TextureMap map = (TextureMap) reg;
 			
 			for(int i = 0; i < EnumWatzType.values().length; i++) {
-				EnumWatzType mat = EnumWatzType.values()[i];
-				String placeholderName = this.getIconString() + "-" + mat.name(); 
-				TextureAtlasSpriteMutatable mutableIcon = new TextureAtlasSpriteMutatable(placeholderName, new RGBMutatorInterpolatedComponentRemap(0xD2D2D2, 0x333333, mat.colorLight, mat.colorDark));
+				EnumWatzType type = EnumWatzType.values()[i];
+				String placeholderName = this.getIconString() + "-" + (type.name() + this.getUnlocalizedName());
+				int light = this == ModItems.watz_pellet_depleted ? desaturate(type.colorLight) : type.colorLight;
+				int dark = this == ModItems.watz_pellet_depleted ? desaturate(type.colorDark) : type.colorDark;
+				TextureAtlasSpriteMutatable mutableIcon = new TextureAtlasSpriteMutatable(placeholderName, new RGBMutatorInterpolatedComponentRemap(0xD2D2D2, 0x333333, light, dark));
 				map.setTextureEntry(placeholderName, mutableIcon);
 				icons[i] = mutableIcon;
 			}
 		}
 		
 		this.itemIcon = reg.registerIcon(this.getIconString());
+	}
+	
+	public static int desaturate(int color) {
+		int r = (color & 0xff0000) >> 16;
+		int g = (color & 0x00ff00) >> 8;
+		int b = (color & 0x0000ff);
+		
+		int avg = (r + g + b) / 3;
+		double approach = 0.9;
+		double mult = 0.75;
+
+		r -= (r - avg) * approach;
+		g -= (g - avg) * approach;
+		b -= (b - avg) * approach;
+
+		r *= mult;
+		g *= mult;
+		b *= mult;
+		
+		return (r << 16) | (g << 8) | b;
 	}
 
 	@Override

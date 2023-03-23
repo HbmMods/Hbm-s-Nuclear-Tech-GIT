@@ -36,7 +36,7 @@ public class StatHelper {
 	 */
 	public static void resetStatShitFuck() {
 		
-		publicReferenceToOneshotStatListPleaseAllPointAndLaugh = ReflectionHelper.getPrivateValue(StatList.class, null, "oneShotStats"); //TODO: not fuck up the mapping here
+		publicReferenceToOneshotStatListPleaseAllPointAndLaugh = ReflectionHelper.getPrivateValue(StatList.class, null, "field_75942_a", "oneShotStats"); //TODO: not fuck up the mapping here
 		
 		for(int i = 0; i < StatList.objectCraftStats.length; i++) StatList.objectCraftStats[i] = null;
 		for(int i = 0; i < StatList.mineBlockStatArray.length; i++) StatList.mineBlockStatArray[i] = null;

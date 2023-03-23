@@ -6,6 +6,8 @@ import java.util.List;
 import com.hbm.inventory.container.ContainerWatz;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Heatable;
+import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.gui.GUIWatz;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
@@ -30,6 +32,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 	
 	public FluidTank[] tanks;
 	public int heat;
+	public double fluxLastBase;
 	public double fluxLastReaction; //stores the flux created by the reaction, excludes passive emission
 	public double fluxDisplay;
 	
@@ -55,17 +58,86 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 		
 		if(!worldObj.isRemote && !updateLock()) {
 			
-			//TODO: figure out how to make fluid transport instant instead of sloshy,
-			//perhaps an initial count that combines all tanks into one large virtual one?
+			List<TileEntityWatz> segments = new ArrayList();
+			segments.add(this);
 			
-			updateManual(true);
+			/* accumulate all segments */
+			for(int y = yCoord - 3; y >= 0; y -= 3) {
+				TileEntity tile = Compat.getTileStandard(worldObj, xCoord, y, zCoord);
+				if(tile instanceof TileEntityWatz) {
+					segments.add((TileEntityWatz) tile);
+				} else {
+					break;
+				}
+			}
+			
+			/* set up shared tanks */
+			FluidTank[] sharedTanks = new FluidTank[3];
+			for(int i = 0; i < 3; i++) sharedTanks[i] = new FluidTank(tanks[i].getTankType(), 0);
+			
+			for(TileEntityWatz segment : segments) {
+				for(int i = 0; i < 3; i++) {
+					sharedTanks[i].changeTankSize(sharedTanks[i].getMaxFill() + segment.tanks[i].getMaxFill());
+					sharedTanks[i].setFill(sharedTanks[i].getFill() + segment.tanks[i].getFill());
+				}
+			}
+			
+			//update coolant, bottom to top
+			for(int i = segments.size() - 1; i >= 0; i--) {
+				TileEntityWatz segment = segments.get(i);
+				segment.updateCoolant(sharedTanks);
+			}
+			
+			/* update reaction, top to bottom */
+			this.updateReaction(null);
+			for(int i = 1; i < segments.size(); i++) {
+				TileEntityWatz segment = segments.get(i);
+				TileEntityWatz above = segments.get(i - 1);
+				segment.updateReaction(above);
+			}
+			
+			//TODO: call fluidSend on the bottom-most segment
+			
+			/* re-distribute fluid from shared tanks back into actual tanks, bottom to top */
+			for(int i = segments.size() - 1; i >= 0; i--) {
+				TileEntityWatz segment = segments.get(i);
+				for(int j = 0; j < 3; j++) {
+					int min = Math.min(segment.tanks[j].getMaxFill(), sharedTanks[j].getFill());
+					segment.tanks[j].setFill(min);
+					sharedTanks[j].setFill(sharedTanks[j].getFill() - min);
+				}
+			}
+			
+			/* send sync packets (order doesn't matter) */
+			for(TileEntityWatz segment : segments) {
+				segment.sendPacket(sharedTanks);
+				segment.heat *= 0.99; //cool 1% per tick
+			}
+			
 		}
+	}
+	
+	public void updateCoolant(FluidTank[] tanks) {
+		
+		double coolingFactor = 0.05D; //20% per tick, TEMP
+		double heatToUse = this.heat * coolingFactor;
+		
+		//TODO: add sanity checking so fucking with the tank type doesn't instantly crash the game
+		FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
+		HeatingStep step = trait.getFirstStep();
+		
+		int heatCycles = (int) (heatToUse / step.heatReq);
+		int coolCycles = tanks[0].getFill() / step.amountReq;
+		int hotCycles = (tanks[1].getMaxFill() - tanks[1].getFill()) / step.amountProduced;
+		
+		int cycles = Math.min(heatCycles, Math.min(hotCycles, coolCycles));
+		this.heat -= cycles * step.heatReq;
+		tanks[0].setFill(tanks[0].getFill() - coolCycles * step.amountReq);
+		tanks[1].setFill(tanks[1].getFill() + hotCycles * step.amountProduced);
 	}
 
 	/** enforces strict top to bottom update order (instead of semi-random based on placement) */
-	public void updateManual(boolean topMost) {
-		
-		//TODO: do heat to coolant first
+	public void updateReaction(TileEntityWatz above) {
 		
 		List<ItemStack> pellets = new ArrayList();
 		
@@ -111,35 +183,43 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 		}
 		
 		this.heat += addedHeat;
+		this.fluxLastBase = baseFlux;
 		this.fluxLastReaction = addedFlux;
+	}
+	
+	public void sendPacket(FluidTank[] tanks) {
 		
 		NBTTagCompound data = new NBTTagCompound();
 		data.setInteger("heat", this.heat);
-		data.setDouble("flux", this.fluxLastReaction + baseFlux);
+		data.setDouble("flux", this.fluxLastReaction + this.fluxLastBase);
 		for(int i = 0; i < tanks.length; i++) {
 			tanks[i].writeToNBT(data, "t" + i);
 		}
 		this.networkPack(data, 25);
-		
-		TileEntity below = Compat.getTileStandard(worldObj, xCoord, yCoord - 3, zCoord);
-		if(below instanceof TileEntityWatz) {
-			TileEntityWatz watz = (TileEntityWatz) below;
-			//TODO: move down fluids and exchange pellets
-			watz.updateManual(false);
-		}
 	}
 	
 	/** Prevent manual updates when another segment is above this one */
 	public boolean updateLock() {
 		return Compat.getTileStandard(worldObj, xCoord, yCoord + 3, zCoord) instanceof TileEntityWatz;
 	}
-	
+
+	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.heat = nbt.getInteger("heat");
 		this.fluxDisplay = nbt.getDouble("flux");
 		for(int i = 0; i < tanks.length; i++) {
 			tanks[i].readFromNBT(nbt, "t" + i);
 		}
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		return stack.getItem() == ModItems.watz_pellet;
+	}
+
+	@Override
+	public int getInventoryStackLimit() {
+		return 1;
 	}
 
 	AxisAlignedBB bb = null;

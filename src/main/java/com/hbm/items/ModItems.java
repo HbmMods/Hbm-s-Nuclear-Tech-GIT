@@ -1161,6 +1161,7 @@ public class ModItems {
 	public static ItemRBMKPellet rbmk_pellet_drx;
 
 	public static Item watz_pellet;
+	public static Item watz_pellet_depleted;
 
 	public static Item scrap_plastic;
 	public static Item scrap;
@@ -3814,7 +3815,8 @@ public class ModItems {
 				.setMeltingPoint(100000)
 				.setUnlocalizedName("rbmk_fuel_test").setTextureName(RefStrings.MODID + ":rbmk_fuel_test");
 		
-		watz_pellet = new ItemWatzPellet().setUnlocalizedName("watz_pellet").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":watz_pellet");
+		watz_pellet = new ItemWatzPellet().setUnlocalizedName("watz_pellet").setTextureName(RefStrings.MODID + ":watz_pellet");
+		watz_pellet_depleted = new ItemWatzPellet().setUnlocalizedName("watz_pellet_depleted").setTextureName(RefStrings.MODID + ":watz_pellet");
 		
 		trinitite = new ItemNuclearWaste().setUnlocalizedName("trinitite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":trinitite_new");
 		nuclear_waste_long = new ItemWasteLong().setUnlocalizedName("nuclear_waste_long").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_long");
@@ -6656,6 +6658,7 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_pellet_drx, rbmk_pellet_drx.getUnlocalizedName());
 		
 		GameRegistry.registerItem(watz_pellet, watz_pellet.getUnlocalizedName());
+		GameRegistry.registerItem(watz_pellet_depleted, watz_pellet_depleted.getUnlocalizedName());
 		
 		GameRegistry.registerItem(debris_graphite, debris_graphite.getUnlocalizedName());
 		GameRegistry.registerItem(debris_metal, debris_metal.getUnlocalizedName());

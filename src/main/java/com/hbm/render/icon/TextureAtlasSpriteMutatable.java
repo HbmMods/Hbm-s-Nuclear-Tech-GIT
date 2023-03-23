@@ -115,8 +115,10 @@ public class TextureAtlasSpriteMutatable extends TextureAtlasSprite {
 			loadSprite(abufferedimage, animationmetadatasection, (float) anisotropic > 1.0F);
 		} catch(RuntimeException runtimeexception) {
 			cpw.mods.fml.client.FMLClientHandler.instance().trackBrokenTexture(resourcelocation1, runtimeexception.getMessage());
+			return true; //return TRUE to prevent stitching non-existent texture, vanilla loading will deal with that!
 		} catch(IOException ioexception1) {
 			cpw.mods.fml.client.FMLClientHandler.instance().trackMissingTexture(resourcelocation1);
+			return true;
 		}
 
 		return false; //FALSE! prevents vanilla loading (we just did that ourselves)

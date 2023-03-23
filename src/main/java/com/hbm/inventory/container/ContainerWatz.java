@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.tileentity.machine.TileEntityWatz;
 import com.hbm.util.InventoryUtil;
 
@@ -21,7 +22,7 @@ public class ContainerWatz extends Container {
 			for(int i = 0; i < 6; i++) {
 
 				if(i + j > 1 && i + j < 9 && 5 - i + j > 1 && i + 5 - j > 1) {
-					this.addSlotToContainer(new Slot(watz, index, 17 + i * 18, 8 + j * 18));
+					this.addSlotToContainer(new SlotNonRetarded(watz, index, 17 + i * 18, 8 + j * 18));
 					index++;
 				}
 			}
