@@ -98,7 +98,7 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
     	super.invalidate();
     	
     	float amat = Math.min(this.getFluidFill(Fluids.AMAT)/200,500);
-    	float aschrab = Math.min(this.getFluidFill(Fluids.ASCHRAB)/20,500);
+    	float aschrab = Math.min(this.getFluidFill(Fluids.ASCHRAB)/66,500);
 		if(amat>0)
 		{
 			if(amat >= 25)
