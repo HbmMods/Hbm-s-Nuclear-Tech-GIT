@@ -168,7 +168,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 
 			//amat += hydro / 2 + nuke / 4 + tnt / 8;
 			amat = Math.min(amat, maxAmat);
-			if(amat > 25)
+			if(amat >= 25)
 			{
 				EntityBalefire bf = new EntityBalefire(worldObj);
 	    		bf.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
