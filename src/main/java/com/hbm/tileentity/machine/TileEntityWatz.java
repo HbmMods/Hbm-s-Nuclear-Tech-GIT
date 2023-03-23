@@ -1,11 +1,19 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.inventory.container.ContainerWatz;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIWatz;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.Compat;
+import com.hbm.util.EnumUtil;
+import com.hbm.util.function.Function;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -13,6 +21,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
@@ -20,7 +30,8 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 	
 	public FluidTank[] tanks;
 	public int heat;
-	public int flux;
+	public double fluxLastReaction; //stores the flux created by the reaction, excludes passive emission
+	public double fluxDisplay;
 	
 	/* lock types for item IO */
 	public boolean isLocked = false;
@@ -42,10 +53,93 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 	@Override
 	public void updateEntity() {
 		
-		if(!worldObj.isRemote) {
+		if(!worldObj.isRemote && !updateLock()) {
 			
+			//TODO: figure out how to make fluid transport instant instead of sloshy,
+			//perhaps an initial count that combines all tanks into one large virtual one?
+			
+			updateManual(true);
+		}
+	}
+
+	/** enforces strict top to bottom update order (instead of semi-random based on placement) */
+	public void updateManual(boolean topMost) {
+		
+		//TODO: do heat to coolant first
+		
+		List<ItemStack> pellets = new ArrayList();
+		
+		for(int i = 0; i < 24; i++) {
+			ItemStack stack = slots[i];
+			if(stack != null && stack.getItem() == ModItems.watz_pellet) {
+				pellets.add(stack);
+			}
 		}
 		
+		double baseFlux = 0D;
+		
+		/* init base flux */
+		for(ItemStack stack : pellets) {
+			EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
+			baseFlux += type.passive;
+		}
+		
+		double inputFlux = baseFlux + fluxLastReaction;
+		double addedFlux = 0D;
+		double addedHeat = 0D;
+		
+		for(ItemStack stack : pellets) {
+			EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
+			Function burnFunc = type.burnFunc;
+			Function heatMod = type.heatMult;
+			
+			if(burnFunc != null) {
+				double mod = heatMod != null ? heatMod.effonix(heat) : 1D;
+				double burn = burnFunc.effonix(inputFlux) * mod;
+				addedFlux += burn;
+				addedHeat += type.heatEmission * burn;
+			}
+		}
+		
+		for(ItemStack stack : pellets) {
+			EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
+			Function absorbFunc = type.absorbFunc;
+			
+			if(absorbFunc != null) {
+				addedHeat += absorbFunc.effonix(baseFlux + fluxLastReaction);
+			}
+		}
+		
+		this.heat += addedHeat;
+		this.fluxLastReaction = addedFlux;
+		
+		NBTTagCompound data = new NBTTagCompound();
+		data.setInteger("heat", this.heat);
+		data.setDouble("flux", this.fluxLastReaction + baseFlux);
+		for(int i = 0; i < tanks.length; i++) {
+			tanks[i].writeToNBT(data, "t" + i);
+		}
+		this.networkPack(data, 25);
+		
+		TileEntity below = Compat.getTileStandard(worldObj, xCoord, yCoord - 3, zCoord);
+		if(below instanceof TileEntityWatz) {
+			TileEntityWatz watz = (TileEntityWatz) below;
+			//TODO: move down fluids and exchange pellets
+			watz.updateManual(false);
+		}
+	}
+	
+	/** Prevent manual updates when another segment is above this one */
+	public boolean updateLock() {
+		return Compat.getTileStandard(worldObj, xCoord, yCoord + 3, zCoord) instanceof TileEntityWatz;
+	}
+	
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.heat = nbt.getInteger("heat");
+		this.fluxDisplay = nbt.getDouble("flux");
+		for(int i = 0; i < tanks.length; i++) {
+			tanks[i].readFromNBT(nbt, "t" + i);
+		}
 	}
 
 	AxisAlignedBB bb = null;

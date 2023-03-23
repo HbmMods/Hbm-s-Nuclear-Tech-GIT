@@ -90,7 +90,6 @@ public class ItemEnumMulti extends Item {
 	public String getUnlocalizedName(ItemStack stack) {
 		
 		if(multiName) {
-			
 			Enum num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
 			return super.getUnlocalizedName() + "." + num.name().toLowerCase();
 		} else {
