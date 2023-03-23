@@ -1,7 +1,13 @@
 package com.hbm.tileentity.machine.storage;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityBalefire;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
@@ -86,4 +92,40 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
+	@Override
+    public void invalidate()
+    {
+    	super.invalidate();
+    	
+    	float amat = Math.min(this.getFluidFill(Fluids.AMAT)/200,500);
+    	float aschrab = Math.min(this.getFluidFill(Fluids.ASCHRAB)/66,500);
+		if(amat>0)
+		{
+			if(amat >= 25)
+			{
+				EntityBalefire bf = new EntityBalefire(worldObj);
+	    		bf.setPosition(xCoord, yCoord, zCoord);
+				bf.destructionRange = (int) amat;
+				worldObj.spawnEntityInWorld(bf);
+				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord, yCoord, zCoord, amat * 1.5F, 1000));
+				return;
+			}
+			else
+			{
+				new ExplosionVNT(worldObj, xCoord, yCoord, zCoord, amat).makeAmat().explode();
+			}
+		}
+		if(aschrab>0)
+		{
+			EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, (int) aschrab);
+			if(!ex.isDead) {
+				worldObj.spawnEntityInWorld(ex);
+	
+				EntityCloudFleija cloud = new EntityCloudFleija(worldObj, (int) aschrab);
+				cloud.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
+				worldObj.spawnEntityInWorld(cloud);
+			}
+			return;			
+		}
+    }
 }
