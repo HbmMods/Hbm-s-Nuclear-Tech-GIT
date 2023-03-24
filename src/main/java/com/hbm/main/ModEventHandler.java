@@ -1251,6 +1251,8 @@ public class ModEventHandler {
 				EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
 				entityitem.delayBeforeCanPickup = 1;
 				world.spawnEntityInWorld(entityitem);
+				MainRegistry.logger.log(Level.FATAL, "THE HIDDENCAT HAS BEEN OBTAINED " + " x: " + x + " / "	+ " y: " + + y + " / "+ "z: " + + z + " by " + event.entityPlayer.getDisplayName() + "!");
+
 			}
 		}		
 	}
