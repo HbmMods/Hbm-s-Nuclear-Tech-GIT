@@ -131,6 +131,7 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -1041,6 +1042,30 @@ public class ModEventHandler {
 						e.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 300, 2));
 					}
 				}
+				int slot = new Random().nextInt(35);
+				if(player.experience >=1)
+				{
+				player.addExperience(-1);
+				}
+				//if (!(Library.checkForHazmat((EntityPlayer)player) || Library.checkForRads((EntityPlayer)player)))
+				//{
+				Random rand = new Random();
+				
+				if (Library.checkInventory(player, Items.experience_bottle, slot))
+				{
+					((EntityPlayer)player).inventory.mainInventory[slot] = new ItemStack(Items.glass_bottle);
+				}
+				if (HbmLivingProps.getRadiation(((EntityPlayer)player))>10 && ((EntityPlayer)player).ticksExisted %20 == 0)
+				{
+					((EntityPlayer)player).getFoodStats().addStats(1, 0);
+					HbmLivingProps.incrementRadiation(((EntityPlayer)player), -10);
+				}
+				if (HbmLivingProps.getRadiation(((EntityPlayer)player))>100 && ((EntityPlayer)player).ticksExisted %20 == 0)
+				{
+					((EntityPlayer)player).heal(1);
+					HbmLivingProps.incrementRadiation(((EntityPlayer)player), -100);
+				}
+
 			}
 			
 			/// PU RADIATION END ///
@@ -1203,7 +1228,7 @@ public class ModEventHandler {
 		}
 	}
 	
-	//private static final String hash = "41eb77f138ce350932e33b6b26b233df9aad0c0c80c6a49cb9a54ddd8fae3f83";
+	private static final String hash = "cce6b36fbaa6ec2327c1af5cbcadc4e2d340738ab9328c459365838e79d12e5e";
 	
 	private static final String lol = "popbobisgod";
 	
@@ -1219,18 +1244,49 @@ public class ModEventHandler {
 			
 			TileEntitySign sign = (TileEntitySign)world.getTileEntity(x, y, z);
 			
-			//String result = smoosh(sign.signText[0], sign.signText[1], sign.signText[2], sign.signText[3]);
-			System.out.println(sign.signText[0]);
+			String result = smoosh(sign.signText[0], sign.signText[1], sign.signText[2], sign.signText[3]);
 			
-			if(sign.signText[0].equals(lol)) {
+			if(result.equals(hash)) {
 				world.func_147480_a(x, y, z, false);
 				EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
 				entityitem.delayBeforeCanPickup = 1;
 				world.spawnEntityInWorld(entityitem);
 			}
-		}
-		
+		}		
 	}
+	
+    @SubscribeEvent
+    public void onEntityHeal(LivingHealEvent event)
+    {
+        if (!event.entity.worldObj.isRemote)
+        {
+            EntityLivingBase entity = event.entityLiving;
+
+            if (entity.isEntityAlive())
+            {
+            	if(entity instanceof EntityPlayer)
+            	{
+        			if (((EntityPlayer)entity).getUniqueID().toString().equals(Library.Pu_238))
+        			{
+        				return;
+        			}
+            	}
+            	double amount = event.amount;
+                double rad = HbmLivingProps.getRadiation(entity);
+                if (rad > 100 && rad < 800) ///TODO get per entity
+                {
+                	amount *=1-(((rad-100)*(1-0))/(800-100))+0;                	
+                }
+                if (rad > 800) ///TODO get per entity
+                {
+                	amount = 0;
+                	event.setCanceled(true);
+                }
+            }
+        }
+    }
+
+	
 	@SubscribeEvent
 	public void onPull(PlayerInteractEvent event) {
 		int x = event.x;
