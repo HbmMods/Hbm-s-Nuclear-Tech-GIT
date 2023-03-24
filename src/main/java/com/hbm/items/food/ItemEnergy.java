@@ -148,7 +148,7 @@ public class ItemEnergy extends Item {
 			if(this == ModItems.bottle_honey) {
 				player.heal(9F);  //sweet sorrow
 				float digamma = HbmLivingProps.getDigamma(player);
-				HbmLivingProps.setDigamma(player, Math.max(digamma - 0.5F, 0F));
+				HbmLivingProps.setDigamma(player, Math.max(digamma - 0.3F, 0F));
 				
 				this.setContainerItem(Items.glass_bottle);
 				this.container = Items.glass_bottle;
