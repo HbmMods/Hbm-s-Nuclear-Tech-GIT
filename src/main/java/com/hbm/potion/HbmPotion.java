@@ -9,6 +9,7 @@ import com.hbm.config.PotionConfig;
 import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
@@ -26,6 +27,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 public class HbmPotion extends Potion {
 
@@ -41,6 +43,8 @@ public class HbmPotion extends Potion {
 	public static HbmPotion stability;
 	public static HbmPotion potionsickness;
 	public static HbmPotion death;
+	public static HbmPotion run;
+
 
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);
@@ -59,6 +63,7 @@ public class HbmPotion extends Potion {
 		stability = registerPotion(PotionConfig.stabilityID, false, 0xD0D0D0, "potion.hbm_stability", 2, 1);
 		potionsickness = registerPotion(PotionConfig.potionsicknessID, false, 0xff8080, "potion.hbm_potionsickness", 3, 1);
 		death = registerPotion(PotionConfig.deathID, false, 1118481, "potion.hbm_death", 4, 1);
+		run = registerPotion(PotionConfig.runID, true, 1118481, "potion.hbm_run", 14, 0);
 	}
 
 	public static HbmPotion registerPotion(int id, boolean isBad, int color, String name, int x, int y) {
@@ -144,6 +149,22 @@ public class HbmPotion extends Potion {
 				cow.entityDropItem(new ItemStack(ModItems.cheese, toDrop), 1.0F);
 			}
 		}
+		if(this == run) {
+			
+			entity.attackEntityFrom(ModDamageSource.run, 1000);
+			entity.setHealth(0.0F);
+			//World world = Minecraft.getMinecraft().theWorld;
+			if(!entity.worldObj.isRemote) {
+				new ExplosionVNT(entity.worldObj, entity.posX, entity.posY, entity.posZ, 12).makeAmat().explode();
+
+			}
+			entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:weapon.mukeExplosion", 100.0F, 1.0F);
+
+			if (!(entity instanceof EntityPlayer))
+				entity.setDead();
+			if ((entity instanceof EntityPlayer))
+				entity.setDead();
+		}
 		if(this == lead) {
 			
 			entity.attackEntityFrom(ModDamageSource.lead, (level + 1));
@@ -176,6 +197,9 @@ public class HbmPotion extends Potion {
 		}
 		
 		if(this == bang) {
+			return par1 <= 10;
+		}
+		if(this == run) {
 			return par1 <= 10;
 		}
 		

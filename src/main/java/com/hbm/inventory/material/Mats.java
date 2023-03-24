@@ -108,7 +108,6 @@ public class Mats {
 	public static final NTMMaterial MAT_ZINC		= makeSmeltable(2230,		ZI,			0xA79DA8).setShapes(NUGGET, INGOT, DUST, WIRE);
 	
 	//Alloys
-	public static final NTMMaterial MAT_STAINLESS	= makeSmeltable(_AS + 12,	STAINLESS,	0x4A4A4A).setShapes(INGOT, PLATE);
 	public static final NTMMaterial MAT_ARSENIC		= makeSmeltable(3300,		AS,			0x6CBABA, 0x242525, 0x558080).setShapes(NUGGET, INGOT);
 	public static final NTMMaterial MAT_TANTALIUM	= makeSmeltable(7300,		TA,			0xFFFFFF, 0x1D1D36, 0xA89B74).setShapes(NUGGET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_NIOBIUM		= makeSmeltable(4100,		NB,			0xB76EC9, 0x2F2D42, 0xD576B1).setShapes(NUGGET, DUSTTINY, INGOT, DUST, BLOCK);
@@ -132,6 +131,8 @@ public class Mats {
 	public static final NTMMaterial MAT_SLAG		= makeSmeltable(_AS + 11,	SLAG,		0x554940, 0x34281F, 0x6C6562).setShapes(BLOCK);
 	public static final NTMMaterial MAT_DESH		= makeSmeltable(_AS + 12,	DESH,		0xFF6D6D, 0x720000, 0xF22929).setShapes(INGOT, DUST, CASTPLATE, BLOCK);
 	public static final NTMMaterial MAT_CDALLOY		= makeSmeltable(_AS + 13,	CDALLOY,	0xF7DF8F, 0x604308, 0xFBD368).setShapes(INGOT, CASTPLATE);
+	public static final NTMMaterial MAT_STAINLESS	= makeSmeltable(_AS + 14,	STAINLESS,	0x4A4A4A).setShapes(INGOT, PLATE);
+
 	
 	@Deprecated public static NTMMaterial makeSmeltable(int id, DictFrame dict, int color) { return makeSmeltable(id, dict, color, color, color); }
 	@Deprecated public static NTMMaterial makeAdditive(int id, DictFrame dict, int color) { return makeAdditive(id, dict, color, color, color); }

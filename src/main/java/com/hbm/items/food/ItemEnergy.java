@@ -15,6 +15,7 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -136,7 +137,21 @@ public class ItemEnergy extends Item {
 				this.setContainerItem(ModItems.glass_empty);
 				this.container = ModItems.glass_empty;
 				//System.out.println(this.container);
+			}
+			if(this == ModItems.teacup) {
+				player.heal(3F); 				
+				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 4));
 
+				this.setContainerItem(ModItems.teacup_empty);
+				this.container = ModItems.teacup_empty;
+			}
+			if(this == ModItems.bottle_honey) {
+				player.heal(9F);  //sweet sorrow
+				float digamma = HbmLivingProps.getDigamma(player);
+				HbmLivingProps.setDigamma(player, Math.max(digamma - 0.5F, 0F));
+				
+				this.setContainerItem(Items.glass_bottle);
+				this.container = Items.glass_bottle;
 			}
 			if(this == ModItems.bottle_quantum) {
 				player.heal(10F);

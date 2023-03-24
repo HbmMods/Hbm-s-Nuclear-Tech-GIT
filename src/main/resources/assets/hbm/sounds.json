@@ -223,6 +223,7 @@
     "step.powered": {"category": "player", "sounds": ["footsteps/powered1", "footsteps/powered2", "footsteps/powered3"]},
     
     "player.vomit": {"category": "player", "sounds": [{"name": "player/vomit", "stream": false}]},
+    "player.oil": {"category": "player", "sounds": [{"name": "player/oil", "stream": false}]},
     "player.cough": {"category": "player", "sounds": ["player/cough1", "player/cough2", "player/cough3", "player/cough4"]},
     "player.dash": {"category": "player", "sounds": [{"name": "player/dash", "stream": false}]},
     "player.dashRecharge": {"category": "player", "sounds": [{"name": "player/dashRecharge", "stream": false}]},
@@ -275,4 +276,5 @@
           }
         ]
       }
+      
 }

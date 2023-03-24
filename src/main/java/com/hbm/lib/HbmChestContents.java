@@ -22,6 +22,9 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.ingot_steel, 0, 2, 5, 7),
 			new WeightedRandomChestContent(ModItems.ingot_beryllium, 0, 1, 2, 4),
 			new WeightedRandomChestContent(ModItems.ingot_titanium, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.strawberry, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.bean_raw, 0, 1, 2, 4),
+			new WeightedRandomChestContent(ModItems.tea_leaf, 0, 1, 3, 4),
 			new WeightedRandomChestContent(ModItems.circuit_targeting_tier1, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.ammo_357, Ammo357Magnum.LEAD.ordinal(), 2, 6, 4),
@@ -46,6 +49,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.canister_full, Fluids.BIOFUEL.getID(), 1, 2, 3),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 3)  };
+		
 	
 	public static WeightedRandomChestContent[] machineParts = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.plate_steel, 0, 1, 5, 5),
