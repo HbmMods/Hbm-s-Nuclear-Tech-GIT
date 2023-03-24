@@ -1245,8 +1245,6 @@ public class ModEventHandler {
 			TileEntitySign sign = (TileEntitySign)world.getTileEntity(x, y, z);
 			
 			String result = smoosh(sign.signText[0], sign.signText[1], sign.signText[2], sign.signText[3]);
-			System.out.println(sign.signText[0]);
-			System.out.println(result);
 			
 			if(result.equals(hash)) {
 				world.func_147480_a(x, y, z, false);
