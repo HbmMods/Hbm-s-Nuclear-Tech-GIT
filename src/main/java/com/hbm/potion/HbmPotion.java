@@ -154,15 +154,11 @@ public class HbmPotion extends Potion {
 			entity.attackEntityFrom(ModDamageSource.run, 1000);
 			entity.setHealth(0.0F);
 			//World world = Minecraft.getMinecraft().theWorld;
-			if(!entity.worldObj.isRemote) {
-				new ExplosionVNT(entity.worldObj, entity.posX, entity.posY, entity.posZ, 12).makeAmat().explode();
-
-			}
+	
+			new ExplosionVNT(entity.worldObj, entity.posX, entity.posY, entity.posZ, 12).makeAmat().explode();
 			entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:weapon.mukeExplosion", 100.0F, 1.0F);
 
 			if (!(entity instanceof EntityPlayer))
-				entity.setDead();
-			if ((entity instanceof EntityPlayer))
 				entity.setDead();
 		}
 		if(this == lead) {
