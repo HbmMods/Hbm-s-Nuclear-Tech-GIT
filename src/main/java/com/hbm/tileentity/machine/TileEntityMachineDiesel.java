@@ -98,18 +98,22 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return side == 0 ? slots_bottom : (side == 1 ? slots_top : slots_side);
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		if (i == 1)
-			if (itemStack.getItem() == ModItems.canister_empty || itemStack.getItem() == ModItems.tank_steel)
+	public boolean canExtractItem(int i, ItemStack stack, int j) {
+		if(i == 1) {
+			if(stack.getItem() == ModItems.canister_empty || stack.getItem() == ModItems.tank_steel) {
 				return true;
-		if (i == 2)
-			if (itemStack.getItem() instanceof IBatteryItem && ((IBatteryItem)itemStack.getItem()).getCharge(itemStack) == ((IBatteryItem)itemStack.getItem()).getMaxCharge())
+			}
+		}
+		if(i == 2) {
+			if(stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == ((IBatteryItem) stack.getItem()).getMaxCharge()) {
 				return true;
+			}
+		}
 
 		return false;
 	}
@@ -183,7 +187,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 
 	public void generate() {
 		
-		if (hasAcceptableFuel()) {
+		if(hasAcceptableFuel()) {
 			if (tank.getFill() > 0) {
 				
 				if(!shutUp) {
