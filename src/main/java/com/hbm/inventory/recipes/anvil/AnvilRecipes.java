@@ -338,6 +338,8 @@ public class AnvilRecipes {
 						new ComparableStack(ModItems.circuit_aluminium),
 						new ComparableStack(ModItems.sawblade)
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_autosaw))).setTier(2));
+		
+		pullFromAssembler(new ComparableStack(ModBlocks.machine_diesel), 2);
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {

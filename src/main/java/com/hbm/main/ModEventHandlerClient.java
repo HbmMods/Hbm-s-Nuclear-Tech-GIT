@@ -33,6 +33,7 @@ import com.hbm.items.ISyncButtons;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
+import com.hbm.items.armor.ArmorNo9;
 import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.JetpackBase;
 import com.hbm.items.weapon.ItemGunBase;
@@ -788,6 +789,7 @@ public class ModEventHandlerClient {
 	public void clentTick(ClientTickEvent event) {
 		
 		Minecraft mc = Minecraft.getMinecraft();
+		ArmorNo9.updateWorldHook(mc.theWorld);
 		
 		if(mc.gameSettings.renderDistanceChunks > 16 && GeneralConfig.enableRenderDistCheck && ! FMLClientHandler.instance().hasOptifine()) {
 			mc.gameSettings.renderDistanceChunks = 16;

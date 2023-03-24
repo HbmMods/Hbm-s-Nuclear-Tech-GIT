@@ -47,8 +47,8 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	public static int fluidCap = 16000;
 	public static HashMap<FuelGrade, Double> fuelEfficiency = new HashMap();
 	static {
-		fuelEfficiency.put(FuelGrade.MEDIUM,	0.9D);
-		fuelEfficiency.put(FuelGrade.HIGH,		1.0D);
+		fuelEfficiency.put(FuelGrade.MEDIUM,	0.5D);
+		fuelEfficiency.put(FuelGrade.HIGH,		0.75D);
 		fuelEfficiency.put(FuelGrade.AERO,		0.1D);
 	}
 	public static boolean shutUp = false;
@@ -59,7 +59,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 
 	public TileEntityMachineDiesel() {
 		super(5);
-		tank = new FluidTank(Fluids.DIESEL, 16000, 0);
+		tank = new FluidTank(Fluids.DIESEL, 4_000, 0);
 	}
 
 	@Override
@@ -192,7 +192,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 				
 				if(!shutUp) {
 					if (soundCycle == 0) {
-						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.5F * this.getVolume(3), 0.5F);
+						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 0.75F * this.getVolume(3), 0.5F);
 					}
 					soundCycle++;
 				}
