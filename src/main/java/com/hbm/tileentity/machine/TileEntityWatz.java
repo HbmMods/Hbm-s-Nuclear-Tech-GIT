@@ -15,8 +15,10 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.function.Function;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -27,13 +29,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IGUIProvider {
 	
 	public FluidTank[] tanks;
 	public int heat;
-	public double fluxLastBase;
-	public double fluxLastReaction; //stores the flux created by the reaction, excludes passive emission
+	public double fluxLastBase;		//flux created by the previous passive emission, only used for display
+	public double fluxLastReaction;	//flux created by the previous reaction, used for the next reaction
 	public double fluxDisplay;
 	
 	/* lock types for item IO */
@@ -60,6 +63,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 			
 			List<TileEntityWatz> segments = new ArrayList();
 			segments.add(this);
+			this.subscribeToTop();
 			
 			/* accumulate all segments */
 			for(int y = yCoord - 3; y >= 0; y -= 3) {
@@ -76,6 +80,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 			for(int i = 0; i < 3; i++) sharedTanks[i] = new FluidTank(tanks[i].getTankType(), 0);
 			
 			for(TileEntityWatz segment : segments) {
+				segment.setupCoolant();
 				for(int i = 0; i < 3; i++) {
 					sharedTanks[i].changeTankSize(sharedTanks[i].getMaxFill() + segment.tanks[i].getMaxFill());
 					sharedTanks[i].setFill(sharedTanks[i].getFill() + segment.tanks[i].getFill());
@@ -89,11 +94,11 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 			}
 			
 			/* update reaction, top to bottom */
-			this.updateReaction(null);
+			this.updateReaction(null, sharedTanks);
 			for(int i = 1; i < segments.size(); i++) {
 				TileEntityWatz segment = segments.get(i);
 				TileEntityWatz above = segments.get(i - 1);
-				segment.updateReaction(above);
+				segment.updateReaction(above, sharedTanks);
 			}
 			
 			//TODO: call fluidSend on the bottom-most segment
@@ -114,7 +119,18 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 				segment.heat *= 0.99; //cool 1% per tick
 			}
 			
+			segments.get(segments.size() - 1).sendOutBottom();
 		}
+	}
+	
+	/** basic sanity checking, usually wouldn't do anything except when NBT loading borks */
+	public void setupCoolant() {
+		
+		if(!tanks[0].getTankType().hasTrait(FT_Heatable.class)) {
+			tanks[0].setTankType(Fluids.COOLANT);
+		}
+		
+		tanks[1].setTankType(tanks[0].getTankType().getTrait(FT_Heatable.class).getFirstStep().typeProduced);
 	}
 	
 	public void updateCoolant(FluidTank[] tanks) {
@@ -122,7 +138,6 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 		double coolingFactor = 0.05D; //20% per tick, TEMP
 		double heatToUse = this.heat * coolingFactor;
 		
-		//TODO: add sanity checking so fucking with the tank type doesn't instantly crash the game
 		FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
 		HeatingStep step = trait.getFirstStep();
 		
@@ -137,7 +152,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 	}
 
 	/** enforces strict top to bottom update order (instead of semi-random based on placement) */
-	public void updateReaction(TileEntityWatz above) {
+	public void updateReaction(TileEntityWatz above, FluidTank[] tanks) {
 		
 		List<ItemStack> pellets = new ArrayList();
 		
@@ -185,6 +200,26 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 		this.heat += addedHeat;
 		this.fluxLastBase = baseFlux;
 		this.fluxLastReaction = addedFlux;
+		
+		if(above != null) {
+			for(int i = 0; i < 24; i++) {
+				ItemStack stackBottom = slots[i];
+				ItemStack stackTop = above.slots[i];
+				
+				/* items fall down if the bottom slot is empty */
+				if(stackBottom == null && stackTop != null) {
+					slots[i] = stackTop.copy();
+					above.decrStackSize(i, stackTop.stackSize);
+				}
+				
+				/* items switch places if the top slot is depleted */
+				if(stackBottom != null && stackBottom.getItem() == ModItems.watz_pellet && stackTop != null && stackTop.getItem() == ModItems.watz_pellet_depleted) {
+					ItemStack buf = stackTop.copy();
+					above.slots[i] = stackBottom.copy();
+					slots[i] = buf;
+				}
+			}
+		}
 	}
 	
 	public void sendPacket(FluidTank[] tanks) {
@@ -201,6 +236,32 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 	/** Prevent manual updates when another segment is above this one */
 	public boolean updateLock() {
 		return Compat.getTileStandard(worldObj, xCoord, yCoord + 3, zCoord) instanceof TileEntityWatz;
+	}
+	
+	protected void subscribeToTop() {
+		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord, yCoord + 3, zCoord, ForgeDirection.UP);
+		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord + 2, yCoord + 3, zCoord, ForgeDirection.UP);
+		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord - 2, yCoord + 3, zCoord, ForgeDirection.UP);
+		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord, yCoord + 3, zCoord + 2, ForgeDirection.UP);
+		this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord, yCoord + 3, zCoord - 2, ForgeDirection.UP);
+	}
+	
+	protected void sendOutBottom() {
+		
+		for(DirPos pos : getSendingPos()) {
+			if(tanks[1].getFill() > 0) this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			if(tanks[2].getFill() > 0) this.sendFluid(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
+	
+	protected DirPos[] getSendingPos() {
+		return new DirPos[] {
+				new DirPos(xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN),
+				new DirPos(xCoord + 2, yCoord - 1, zCoord, ForgeDirection.DOWN),
+				new DirPos(xCoord - 2, yCoord - 1, zCoord, ForgeDirection.DOWN),
+				new DirPos(xCoord, yCoord - 1, zCoord + 2, ForgeDirection.DOWN),
+				new DirPos(xCoord, yCoord - 1, zCoord - 2, ForgeDirection.DOWN)
+		};
 	}
 
 	@Override
@@ -256,5 +317,20 @@ public class TileEntityWatz extends TileEntityMachineBase implements IGUIProvide
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIWatz(player.inventory, this);
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tanks[1], tanks[2] };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[0] };
 	}
 }
