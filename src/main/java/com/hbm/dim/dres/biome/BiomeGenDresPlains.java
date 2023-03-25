@@ -57,7 +57,7 @@ public class BiomeGenDresPlains extends BiomeGenBase {
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == ModBlocks.ike_stone)
+                    if (block2 == ModBlocks.dres_rock)
                     {
                         if (k == -1)
                         {
@@ -65,7 +65,7 @@ public class BiomeGenDresPlains extends BiomeGenBase {
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.ike_stone;
+                                block1 = ModBlocks.dres_rock;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {
@@ -98,7 +98,7 @@ public class BiomeGenDresPlains extends BiomeGenBase {
                             else if (l1 < 56 - l)
                             {
                                 block = null;
-                                block1 = ModBlocks.ike_stone;
+                                block1 = ModBlocks.dres_rock;
                                 blocks[i2] = Blocks.gravel;
                             }
                             else

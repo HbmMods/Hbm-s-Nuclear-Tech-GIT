@@ -28,8 +28,8 @@ public class BiomeGenDresCanyon extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.ike_stone;
-        this.fillerBlock = ModBlocks.ike_stone;
+        this.topBlock = ModBlocks.dres_rock;
+        this.fillerBlock = ModBlocks.dres_rock;
 	}
 
 	@Override
