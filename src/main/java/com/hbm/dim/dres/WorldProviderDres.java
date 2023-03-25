@@ -95,7 +95,7 @@ public class WorldProviderDres extends WorldProvider {
 	
     public long getDayLength()
     {
-    	return (long) (AstronomyUtil.MunP*24000);
+    	return (long) (AstronomyUtil.DresP*12);
     }
     
     @Override

@@ -11,7 +11,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenDresPlains extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.325F, 0.05F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.325F, 0.08F);
 
 	public BiomeGenDresPlains(int id) {
 		super(id);
@@ -27,8 +27,8 @@ public class BiomeGenDresPlains extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.ike_regolith;
-        this.fillerBlock = ModBlocks.ike_regolith; //thiccer regolith due to uhhhhhh...................
+        this.topBlock = ModBlocks.basalt;
+        this.fillerBlock = ModBlocks.dres_rock; //thiccer regolith due to uhhhhhh...................
 	}
 
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)

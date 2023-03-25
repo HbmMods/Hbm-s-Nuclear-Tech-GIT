@@ -116,7 +116,7 @@ public class ChunkProviderDres implements IChunkProvider {
 		//seaLevel = 0;
 		//oceanBlock = dimProperties.getOceanBlock();
 		
-		fillblock = ModBlocks.ike_stone;
+		fillblock = ModBlocks.dres_rock;
 		
 		NoiseGenerator[] noiseGens = {octave1, octave2, octave3, octave4, noiseGen5, noiseGen6, mobSpawnerNoise};
 		noiseGens = TerrainGen.getModdedNoiseGenerators(DresWorld, this.rand, noiseGens);
