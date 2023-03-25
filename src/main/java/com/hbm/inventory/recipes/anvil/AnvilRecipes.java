@@ -243,7 +243,7 @@ public class AnvilRecipes {
 						new ComparableStack(ModItems.pipes_steel, 1),
 						new OreDictStack(TI.ingot(), 12),
 						new OreDictStack(CU.ingot(), 8)
-				}, new AnvilOutput(new ItemStack(ModBlocks.heater_oilburner))).setTier(3));
+				}, new AnvilOutput(new ItemStack(ModBlocks.heater_oilburner))).setTier(2));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {

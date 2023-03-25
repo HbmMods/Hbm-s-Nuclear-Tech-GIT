@@ -58,15 +58,14 @@ public class Gun50BMGFactory {
 		bullet.spread = 0.0F;
 		bullet.dmgMax = 500F;
 		bullet.dmgMin = 450F;
-		bullet.headshotMult = 2.5f;
+		bullet.headshotMult = 2.5F;
 		bullet.wear = 2000;
-		bullet.velocity = 100;
+		bullet.velocity = 10F;
 		bullet.doesPenetrate = true;
 		bullet.leadChance = 20;
-		bullet.incendiary = 10;
 
-		bullet.blockDamage = true;
-		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 5.0F, true, false);
+		bullet.blockDamage = false;
+		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 2.0F, false, false);
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaStock");
 
@@ -80,6 +79,7 @@ public class Gun50BMGFactory {
 
 		bullet.ammo.meta = 1;
 		bullet.incendiary = 10;
+		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 5.0F, true, false);
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaInc");
 
@@ -93,6 +93,7 @@ public class Gun50BMGFactory {
 
 		bullet.ammo.meta = 2;
 		bullet.explosive = 25;
+		bullet.destroysBlocks = true;
 		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 25.0F, true, false);
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaExp");
@@ -184,7 +185,7 @@ public class Gun50BMGFactory {
 		config.reloadDuration = 15;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
 		config.roundsPerCycle = 1;
-		config.firingSound = "hbm:weapon.heavyShootPB3";
+		config.firingSound = "hbm:weapon.hicalShot";
 		config.firingPitch = 0.75F;
 		config.ammoCap = 4;
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;

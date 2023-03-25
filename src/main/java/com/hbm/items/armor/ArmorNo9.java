@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.lib.Library;
 import com.hbm.render.model.ModelNo9;
@@ -19,6 +20,7 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -34,11 +36,13 @@ public class ArmorNo9 extends ArmorModel implements IAttackHandler, IDamageHandl
 
 	public ArmorNo9(ArmorMaterial armorMaterial, int armorType) {
 		super(armorMaterial, armorType);
+		this.setMaxDamage(0);
 	}
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		list.add(EnumChatFormatting.BLUE + "+0.5 DT");
+		list.add(EnumChatFormatting.YELLOW + "Lets you breathe coal, neat!");
 	}
 
 	@Override
@@ -78,13 +82,35 @@ public class ArmorNo9 extends ArmorModel implements IAttackHandler, IDamageHandl
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
 		
-		if(world.isRemote && HbmPlayerProps.getData(player).enableHUD) {
+		if(!world.isRemote) {
+			if(!armor.hasTagCompound()) {
+				armor.stackTagCompound = new NBTTagCompound();
+			}
+			
+			boolean turnOn = HbmPlayerProps.getData(player).enableHUD;
+			boolean wasOn = armor.getTagCompound().getBoolean("isOn");
 
+			if(turnOn && !wasOn) world.playSoundAtEntity(player, "fire.ignite", 1F, 1.5F);
+			if(!turnOn && wasOn) world.playSoundAtEntity(player, "random.fizz", 0.5F, 2F);
+			armor.getTagCompound().setBoolean("isOn", turnOn); // a crude way of syncing the "enableHUD" prop to other players is just by piggybacking off the NBT sync
+			
+			if(HbmLivingProps.getBlackLung(player) > HbmLivingProps.maxBlacklung * 0.9) {
+				HbmLivingProps.setBlackLung(player, (int) (HbmLivingProps.maxBlacklung * 0.9));
+			}
+			
+			if(HbmLivingProps.getBlackLung(player) >= HbmLivingProps.maxBlacklung * 0.25) {
+				HbmLivingProps.setBlackLung(player, HbmLivingProps.getBlackLung(player) - 1);
+			}
+		}
+		
+		if(world.isRemote && world.getTotalWorldTime() % 2 == 0 && armor.hasTagCompound() && armor.getTagCompound().getBoolean("isOn")) {
+
+			//originally it would have just been a bright aura like a torch, but that's boring
 			/*int x = (int) Math.floor(player.posX);
 			int y = (int) Math.floor(player.posY + player.eyeHeight);
 			int z = (int) Math.floor(player.posZ);*/
 			
-			if(world.getTotalWorldTime() % 2 == 0) checkLights(world, false);
+			checkLights(world, false);
 			float range = 50F;
 			MovingObjectPosition mop = Library.rayTrace(player, range, 0F, false, true, false);
 			
@@ -145,7 +171,7 @@ public class ArmorNo9 extends ArmorModel implements IAttackHandler, IDamageHandl
 		if(world == null || !world.isRemote) return;
 		Long last = lastChecks.get(world);
 		
-		if(last != null && last < world.getTotalWorldTime() + 10) {
+		if(last != null && last < world.getTotalWorldTime() + 15) {
 			checkLights(world, false);
 		}
 	}

@@ -42,7 +42,6 @@ import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
-import com.hbm.items.armor.ArmorNo9;
 import com.hbm.items.armor.IAttackHandler;
 import com.hbm.items.armor.IDamageHandler;
 import com.hbm.items.armor.ItemArmorMod;
