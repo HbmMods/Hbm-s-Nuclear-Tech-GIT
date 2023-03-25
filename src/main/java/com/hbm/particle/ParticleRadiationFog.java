@@ -22,7 +22,6 @@ public class ParticleRadiationFog extends EntityFX {
 
 	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/particle/fog.png");
 	private TextureManager theRenderEngine;
-	private int age;
 	private int maxAge;
 
 	public ParticleRadiationFog(TextureManager p_i1213_1_, World p_i1218_1_, double p_i1218_2_, double p_i1218_4_, double p_i1218_6_) {

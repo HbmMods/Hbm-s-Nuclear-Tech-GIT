@@ -1,9 +1,7 @@
 package com.hbm.blocks.test;
 
-import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.logic.EntityNukeExplosionNT;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
 
 import cpw.mods.fml.relauncher.Side;

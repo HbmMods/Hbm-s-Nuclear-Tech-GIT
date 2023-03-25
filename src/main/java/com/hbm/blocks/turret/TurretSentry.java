@@ -36,7 +36,7 @@ public class TurretSentry extends BlockContainer {
 			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 		} else {
-			return true;
+			return false;
 		}
 	}
 

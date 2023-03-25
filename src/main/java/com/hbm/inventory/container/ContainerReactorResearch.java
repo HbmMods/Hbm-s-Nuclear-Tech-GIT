@@ -1,6 +1,5 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.items.machine.ItemPlateFuel;
 import com.hbm.tileentity.machine.TileEntityReactorResearch;
 import net.minecraft.entity.player.EntityPlayer;

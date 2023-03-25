@@ -54,7 +54,6 @@ public class GUINukeCustom extends GuiInfoContainer {
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 52, guiTop + 89, 18, 18, mouseX, mouseY, text);
 		
 		text = new String[] { EnumChatFormatting.YELLOW + "Antimatter (Level " + testNuke.amat + "/" + testNuke.getAmatAdj() + ")",
-				"Requires nuclear level 50",
 				"Caps at " + NukeCustom.maxAmat,
 				EnumChatFormatting.ITALIC + "\"Antimatter, Balefire, whatever.\"" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 70, guiTop + 89, 18, 18, mouseX, mouseY, text);

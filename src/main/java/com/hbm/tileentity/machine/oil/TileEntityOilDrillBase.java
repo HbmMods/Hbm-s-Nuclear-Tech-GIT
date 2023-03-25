@@ -16,6 +16,7 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple;
@@ -33,8 +34,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider {
-	
+public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidStandardTransceiver, IConfigurableMachine, IPersistentNBT, IGUIProvider {
+
 	public int indicator = 0;
 	
 	public long power;
@@ -54,6 +55,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
+		this.power = nbt.getLong("power");
 		for(int i = 0; i < this.tanks.length; i++)
 			this.tanks[i].readFromNBT(nbt, "t" + i);
 	}
@@ -62,8 +64,30 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		
+		nbt.setLong("power", power);
 		for(int i = 0; i < this.tanks.length; i++)
 			this.tanks[i].writeToNBT(nbt, "t" + i);
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound nbt) {
+		
+		boolean empty = power == 0;
+		for(FluidTank tank : tanks) if(tank.getFill() > 0) empty = false;
+		
+		if(!empty) {
+			nbt.setLong("power", power);
+			for(int i = 0; i < this.tanks.length; i++) {
+				this.tanks[i].writeToNBT(nbt, "t" + i);
+			}
+		}
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		for(int i = 0; i < this.tanks.length; i++)
+			this.tanks[i].readFromNBT(nbt, "t" + i);
 	}
 
 	public int speedLevel;

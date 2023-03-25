@@ -876,7 +876,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		cachedCasingConfig = null;
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerTurretBase(player.inventory, this);

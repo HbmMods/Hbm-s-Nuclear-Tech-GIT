@@ -56,8 +56,6 @@ public abstract class EntityMinecartModBase extends EntityMinecart
     private double velocityY;
     @SideOnly(Side.CLIENT)
     private double velocityZ;
-    private static final String __OBFID = "CL_00001670";
-
     /* Forge: Minecart Compatibility Layer Integration. */
     public static float defaultMaxSpeedAirLateral = 0.4f;
     public static float defaultMaxSpeedAirVertical = -1f;

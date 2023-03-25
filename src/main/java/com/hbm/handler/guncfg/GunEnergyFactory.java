@@ -22,6 +22,9 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.tileentity.IRepairable;
+import com.hbm.tileentity.IRepairable.EnumExtinguishType;
+import com.hbm.util.CompatExternal;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
@@ -30,6 +33,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.tileentity.TileEntity;
 
 public class GunEnergyFactory {
 	
@@ -366,6 +370,8 @@ public class GunEnergyFactory {
 		bullet.style = BulletConfiguration.STYLE_NONE;
 		bullet.plink = BulletConfiguration.PLINK_NONE;
 		
+		bullet.bHurt = (bulletEntity, target) -> { target.extinguish(); };
+		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
 			@Override
@@ -389,6 +395,11 @@ public class GunEnergyFactory {
 								}
 							}
 						}
+					}
+					
+					TileEntity core = CompatExternal.getCoreFromPos(bullet.worldObj, ix, iy, iz);
+					if(core instanceof IRepairable) {
+						((IRepairable) core).tryExtinguish(bullet.worldObj, ix, iy, iz, EnumExtinguishType.WATER);
 					}
 					
 					if(fizz)
@@ -468,6 +479,12 @@ public class GunEnergyFactory {
 					
 					Block b = bullet.worldObj.getBlock(ix, iy, iz);
 					
+					TileEntity core = CompatExternal.getCoreFromPos(bullet.worldObj, ix, iy, iz);
+					if(core instanceof IRepairable) {
+						((IRepairable) core).tryExtinguish(bullet.worldObj, ix, iy, iz, EnumExtinguishType.FOAM);
+						return;
+					}
+					
 					if(b.isReplaceable(bullet.worldObj, ix, iy, iz) && ModBlocks.foam_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
 						
 						if(b != ModBlocks.foam_layer) {
@@ -520,6 +537,8 @@ public class GunEnergyFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.SAND));
 		bullet.spread = 0.1F;
 		
+		bullet.bHurt = null; // does not extinguish entities
+		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
 			@Override
@@ -532,6 +551,12 @@ public class GunEnergyFactory {
 					int iz = (int)Math.floor(bullet.posZ);
 					
 					Block b = bullet.worldObj.getBlock(ix, iy, iz);
+					
+					TileEntity core = CompatExternal.getCoreFromPos(bullet.worldObj, ix, iy, iz);
+					if(core instanceof IRepairable) {
+						((IRepairable) core).tryExtinguish(bullet.worldObj, ix, iy, iz, EnumExtinguishType.SAND);
+						return;
+					}
 					
 					if((b.isReplaceable(bullet.worldObj, ix, iy, iz) || b == ModBlocks.sand_boron_layer) && ModBlocks.sand_boron_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
 						

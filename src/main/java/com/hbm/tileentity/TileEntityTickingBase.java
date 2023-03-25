@@ -5,7 +5,6 @@ import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidTank;
 
 public abstract class TileEntityTickingBase extends TileEntityLoadedBase implements INBTPacketReceiver {

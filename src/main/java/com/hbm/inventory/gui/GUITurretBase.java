@@ -93,9 +93,11 @@ public abstract class GUITurretBase extends GuiInfoContainer {
 					lines.add(list.subList(0, list.size() / 2).toArray());
 					lines.add(list.subList(list.size() / 2, list.size()).toArray());
 				} else {
-					lines.add(list.subList(0, list.size() / 3).toArray());
-					lines.add(list.subList(list.size() / 3, list.size() / 3 * 2).toArray());
-					lines.add(list.subList(list.size() / 3 * 2, list.size()).toArray());
+					int bound0 = (int) Math.ceil(list.size() / 3D);
+					int bound1 = (int) Math.ceil(list.size() / 3D * 2D);
+					lines.add(list.subList(0, bound0).toArray());
+					lines.add(list.subList(bound0, bound1).toArray());
+					lines.add(list.subList(bound1, list.size()).toArray());
 				}
 				
 				lines.add(new Object[] {I18nUtil.resolveKey(selected.getDisplayName())});

@@ -76,7 +76,6 @@ public class EntityMappings {
 		addEntity(EntityGrenadeMk2.class, "entity_grenade_mk2", 500);
 		addEntity(EntityGrenadeZOMG.class, "entity_grenade_zomg", 500);
 		addEntity(EntityGrenadeASchrab.class, "entity_grenade_aschrab", 500);
-		addEntity(EntityNukeCloudNoShroom.class, "entity_nuke_cloud_no", 1000);
 		addEntity(EntityFalloutRain.class, "entity_fallout", 1000);
 		addEntity(EntityDischarge.class, "entity_emp_discharge", 500);
 		addEntity(EntityEMPBlast.class, "entity_emp_blast", 1000);

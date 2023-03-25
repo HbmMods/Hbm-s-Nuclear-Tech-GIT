@@ -133,7 +133,8 @@ public class HazardRegistry {
 	public static final float nugget = 0.1F;
 	public static final float ingot = 1.0F;
 	public static final float gem = 1.0F;
-	public static final float plate = 1.0F;
+	public static final float plate = ingot;
+	public static final float plateCast = plate * 3;
 	public static final float powder_mult = 3.0F;
 	public static final float powder = ingot * powder_mult;
 	public static final float powder_tiny = nugget * powder_mult;
@@ -535,11 +536,9 @@ public class HazardRegistry {
 	
 	public static void registerTrafos() {
 		HazardSystem.trafos.add(new HazardTransformerRadiationNBT());
-		HazardSystem.trafos.add(new HazardTransformerRadiationContainer());
 		
-		if(!(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSafeMEDrives)) {
-			HazardSystem.trafos.add(new HazardTransformerRadiationME());
-		}
+		if(!(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSafeCrates))	HazardSystem.trafos.add(new HazardTransformerRadiationContainer());
+		if(!(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSafeMEDrives))	HazardSystem.trafos.add(new HazardTransformerRadiationME());
 	}
 	
 	private static HazardData makeData() { return new HazardData(); }

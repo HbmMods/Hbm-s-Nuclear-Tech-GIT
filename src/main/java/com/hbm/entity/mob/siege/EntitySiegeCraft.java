@@ -4,11 +4,8 @@ import java.util.List;
 
 import com.hbm.entity.mob.EntityUFOBase;
 import com.hbm.entity.projectile.EntitySiegeLaser;
-import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.SiegeOrchestrator;
-import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.ContaminationUtil;

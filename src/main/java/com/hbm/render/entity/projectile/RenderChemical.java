@@ -1,6 +1,7 @@
 package com.hbm.render.entity.projectile;
 
 import java.awt.Color;
+import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
@@ -89,13 +90,18 @@ public class RenderChemical extends Render {
 		Tessellator tess = Tessellator.instance;
 		GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+		
+		Random rand = new Random(chem.getEntityId());
+		int i = rand.nextInt(2);
+		int j = rand.nextInt(2);
+		
 		tess.startDrawingQuads();
 		tess.setNormal(0.0F, 1.0F, 0.0F);
 		tess.setColorRGBA_I(color, (int) Math.max(127 * (1 - exp), 0));
-		tess.addVertexWithUV(-size, -size, 0.0D, 1, 1);
-		tess.addVertexWithUV(size, -size, 0.0D, 0, 1);
-		tess.addVertexWithUV(size, size, 0.0D, 0, 0);
-		tess.addVertexWithUV(-size, size, 0.0D, 1, 0);
+		tess.addVertexWithUV(-size, -size, 0.0D, 1 - i, 1 - j);
+		tess.addVertexWithUV(size, -size, 0.0D, i, 1 - j);
+		tess.addVertexWithUV(size, size, 0.0D, i, j);
+		tess.addVertexWithUV(-size, size, 0.0D, 1 - i, j);
 		tess.draw();
 
 		GL11.glDepthMask(true);

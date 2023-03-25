@@ -25,8 +25,6 @@ public class BlockModDoor extends Block {
 	private IIcon[] field_150017_a;
 	@SideOnly(Side.CLIENT)
 	private IIcon[] field_150016_b;
-	private static final String __OBFID = "CL_00000230";
-
 	public BlockModDoor(Material p_i45402_1_) {
 		super(p_i45402_1_);
 		float f = 0.5F;

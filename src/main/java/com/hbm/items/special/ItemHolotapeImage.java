@@ -3,7 +3,6 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.inventory.gui.GUIScreenHolotape;
-import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.EnumUtil;

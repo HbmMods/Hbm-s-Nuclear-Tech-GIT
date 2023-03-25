@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityWasteDrum;

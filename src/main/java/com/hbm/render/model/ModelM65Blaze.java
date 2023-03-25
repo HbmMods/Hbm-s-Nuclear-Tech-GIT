@@ -8,8 +8,6 @@ package com.hbm.render.model;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.mob.EntityRADBeast;
-
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;

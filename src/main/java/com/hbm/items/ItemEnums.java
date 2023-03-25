@@ -36,6 +36,7 @@ public class ItemEnums {
 
 	public static enum EnumPlantType {
 		TOBACCO,
-		ROPE
+		ROPE,
+		MUSTARDWILLOW
 	}
 }

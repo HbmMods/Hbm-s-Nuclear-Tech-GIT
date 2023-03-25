@@ -161,7 +161,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		float freeChance = this.getFreeChance();
 		
 		if(freeChance == 0 || freeChance < worldObj.rand.nextFloat())
-			this.decrStackSize(0, 1);
+			this.decrStackSize(0, result.itemAmount);
 	}
 	
 	private boolean canProcess() {
@@ -177,6 +177,10 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		
 		//Or output?
 		if(result == null)
+			return false;
+		
+		//Not enough of the input item?
+		if(slots[0].stackSize < result.itemAmount)
 			return false;
 		
 		if(tank.getFill() < result.acidAmount) return false;

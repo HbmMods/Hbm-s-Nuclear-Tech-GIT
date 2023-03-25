@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.IPersistentInfoProvider;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -59,9 +58,9 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 			if(pos == null)
 				return false;
 			
-			TileEntityMachineRefinery tank = (TileEntityMachineRefinery) world.getTileEntity(pos[0], pos[1], pos[2]);
+			TileEntityMachineRefinery refinery = (TileEntityMachineRefinery) world.getTileEntity(pos[0], pos[1], pos[2]);
 			
-			if(tank.hasExploded) return false;
+			if(refinery.hasExploded) return false;
 
 			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			return true;

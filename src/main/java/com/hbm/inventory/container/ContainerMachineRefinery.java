@@ -28,9 +28,9 @@ public class ContainerMachineRefinery extends Container {
 		this.addSlotToContainer(new Slot(tedf, 3, 80, 90));
 		//Heavy Oil Output
 		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 80, 108));
-		//Nahptha Input
+		//Naphtha Input
 		this.addSlotToContainer(new Slot(tedf, 5, 98, 90));
-		//Nahptha Output
+		//Naphtha Output
 		this.addSlotToContainer(new SlotMachineOutput(tedf, 6, 98, 108));
 		//Light Oil Input
 		this.addSlotToContainer(new Slot(tedf, 7, 116, 90));
@@ -63,43 +63,36 @@ public class ContainerMachineRefinery extends Container {
 	}
 	
 	@Override
-    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
-    {
+	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
 		ItemStack var3 = null;
 		Slot var4 = (Slot) this.inventorySlots.get(par2);
-		
-		if (var4 != null && var4.getHasStack())
-		{
+
+		if(var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			
-            if (par2 <= 11) {
-				if (!this.mergeItemStack(var5, 12, this.inventorySlots.size(), true))
-				{
+
+			if(par2 <= 11) {
+				if(!this.mergeItemStack(var5, 12, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			}
-			else if (!this.mergeItemStack(var5, 0, 1, false))
-				if (!this.mergeItemStack(var5, 1, 2, false))
-					if (!this.mergeItemStack(var5, 3, 4, false))
-						if (!this.mergeItemStack(var5, 5, 6, false))
-							if (!this.mergeItemStack(var5, 7, 8, false))
-								if (!this.mergeItemStack(var5, 9, 10, false)) {
-					return null;
-			}
-			
-			if (var5.stackSize == 0)
-			{
+			} else if(!this.mergeItemStack(var5, 0, 1, false))
+				if(!this.mergeItemStack(var5, 1, 2, false))
+					if(!this.mergeItemStack(var5, 3, 4, false))
+						if(!this.mergeItemStack(var5, 5, 6, false))
+							if(!this.mergeItemStack(var5, 7, 8, false))
+								if(!this.mergeItemStack(var5, 9, 10, false)) {
+									return null;
+								}
+
+			if(var5.stackSize == 0) {
 				var4.putStack((ItemStack) null);
-			}
-			else
-			{
+			} else {
 				var4.onSlotChanged();
 			}
 		}
-		
+
 		return var3;
-    }
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {

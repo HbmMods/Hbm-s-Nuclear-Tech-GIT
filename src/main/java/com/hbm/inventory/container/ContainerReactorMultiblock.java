@@ -12,8 +12,6 @@ public class ContainerReactorMultiblock extends Container {
 	
 	private TileEntityMachineReactorLarge diFurnace;
 	
-	private int heat;
-	
 	public ContainerReactorMultiblock(InventoryPlayer invPlayer, TileEntityMachineReactorLarge tedf) {
 		
 		diFurnace = tedf;

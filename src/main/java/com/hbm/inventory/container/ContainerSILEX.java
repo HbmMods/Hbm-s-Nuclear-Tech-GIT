@@ -1,7 +1,8 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.items.ModItems;
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntitySILEX;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -57,17 +58,25 @@ public class ContainerSILEX extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= silex.getSizeInventory() - 1) {
-				if(!this.mergeItemStack(var5, silex.getSizeInventory(), this.inventorySlots.size(), true)) {
+			if(par2 <= 10) {
+				if(!this.mergeItemStack(var5, 11, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(var5.getItem() == ModItems.turret_chip) { //did i copy this from turrets? tf is happening lol
+			} else {
 				
-				if(!this.mergeItemStack(var5, 0, 1, false))
-					return null;
-				
-			} else if(!this.mergeItemStack(var5, 1, silex.getSizeInventory(), false)) {
-				return null;
+				if(var3.getItem() instanceof IItemFluidIdentifier) {
+					if(!this.mergeItemStack(var5, 1, 2, false)) {
+						return null;
+					}
+				} else if(FluidContainerRegistry.getFluidContent(var3, silex.tank.getTankType()) > 0) {
+					if(!this.mergeItemStack(var5, 2, 3, false)) {
+						return null;
+					}
+				} else {
+					if(!this.mergeItemStack(var5, 0, 1, false)) {
+						return null;
+					}
+				}
 			}
 
 			if(var5.stackSize == 0) {

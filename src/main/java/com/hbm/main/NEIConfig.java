@@ -36,9 +36,11 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new CyclotronRecipeHandler());
 		registerHandler(new AssemblerRecipeHandler());
 		registerHandler(new RefineryRecipeHandler());
+		registerHandler(new VacuumRecipeHandler());
+		registerHandler(new CrackingHandler());
+		registerHandler(new ReformingHandler());
 		registerHandler(new BoilerRecipeHandler());
 		registerHandler(new ChemplantRecipeHandler());
-		registerHandler(new FluidRecipeHandler());
 		registerHandler(new CrystallizerRecipeHandler());
 		registerHandler(new BookRecipeHandler());
 		registerHandler(new FusionRecipeHandler());
@@ -59,13 +61,15 @@ public class NEIConfig implements IConfigureNEI {
 		}
 		registerHandler(new LiquefactionHandler());
 		registerHandler(new SolidificationHandler());
-		registerHandler(new CrackingHandler());
 		registerHandler(new FractioningHandler());
 		registerHandler(new BoilingHandler());
 		registerHandler(new CombinationHandler());
 		registerHandler(new SawmillHandler());
 		registerHandler(new MixerHandler());
 		registerHandler(new OutgasserHandler());
+		
+		//fluids
+		registerHandler(new FluidRecipeHandler());
 		
 		//registerHandler(new ChunkyHandler());
 
@@ -96,7 +100,6 @@ public class NEIConfig implements IConfigureNEI {
 		}
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_assembler));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_drill));
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_turbofan));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_base));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_limiter));
@@ -106,7 +109,6 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_puf6));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_assembler));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_drill));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_turbofan));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_base));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_limiter));
@@ -162,5 +164,4 @@ public class NEIConfig implements IConfigureNEI {
 	public String getVersion() {
 		return RefStrings.VERSION;
 	}
-
 }

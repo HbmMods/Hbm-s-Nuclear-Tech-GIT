@@ -19,7 +19,7 @@ public class BlockEnumMulti extends BlockMulti {
 		this.multiTexture = multiTexture;
 	}
 	
-	private IIcon[] icons;
+	protected IIcon[] icons;
 
 	@Override
 	@SideOnly(Side.CLIENT)

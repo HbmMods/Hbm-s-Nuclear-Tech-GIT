@@ -3,7 +3,6 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.inventory.gui.GUIScreenDesignator;
-import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 

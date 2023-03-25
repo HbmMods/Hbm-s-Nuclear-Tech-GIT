@@ -3,7 +3,6 @@ package com.hbm.entity.missile;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemSatChip;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;

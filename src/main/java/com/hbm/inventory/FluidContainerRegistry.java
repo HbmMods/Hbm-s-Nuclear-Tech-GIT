@@ -6,7 +6,8 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.FluidType.ExtContainer;
+import com.hbm.inventory.fluid.Fluids.CD_Canister;
+import com.hbm.inventory.fluid.Fluids.CD_Gastank;
 import com.hbm.items.ModItems;
 import com.hbm.util.Compat;
 
@@ -26,15 +27,11 @@ public class FluidContainerRegistry {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_schrabidic_acid), new ItemStack(Items.bucket), Fluids.SCHRABIDIC, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_sulfuric_acid), new ItemStack(Items.bucket), Fluids.SULFURIC_ACID, 1000));
 
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_full), new ItemStack(ModItems.gas_empty), Fluids.GAS, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_petroleum), new ItemStack(ModItems.gas_empty), Fluids.PETROLEUM, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_lpg), new ItemStack(ModItems.gas_empty), Fluids.LPG, 1000));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_biogas), new ItemStack(ModItems.gas_empty), Fluids.BIOGAS, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.red_barrel), new ItemStack(ModItems.tank_steel), Fluids.DIESEL, 10000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.pink_barrel), new ItemStack(ModItems.tank_steel), Fluids.KEROSENE, 10000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.lox_barrel), new ItemStack(ModItems.tank_steel), Fluids.OXYGEN, 10000));
 
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_oil), null, Fluids.OIL, 250));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_oil), null, Fluids.OIL, 20)); //excuse me?? not on my fucking watch
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_gneiss_gas), null, Fluids.PETROLEUM, 250));
 
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_deuterium), new ItemStack(ModItems.cell_empty), Fluids.DEUTERIUM, 1000));
@@ -66,24 +63,28 @@ public class FluidContainerRegistry {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.iv_xp), new ItemStack(ModItems.iv_xp_empty), Fluids.XPJUICE, 100));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.iv_blood), new ItemStack(ModItems.iv_empty), Fluids.BLOOD, 100));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.experience_bottle), new ItemStack(Items.glass_bottle), Fluids.XPJUICE, 100));
-
+	
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.glass_smilk), new ItemStack(ModItems.glass_empty), Fluids.SMILK, 100));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.can_mug), new ItemStack(ModItems.can_empty), Fluids.MUG, 100));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.milk_bucket), new ItemStack(Items.bucket), Fluids.MILK, 1000));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.coffee), new ItemStack(ModItems.cmug_empty), Fluids.COFFEE, 100));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.teacup), new ItemStack(ModItems.teacup_empty), Fluids.TEA, 100));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bottle_honey), new ItemStack(Items.glass_bottle), Fluids.HONEY, 100));
+
 		
 		FluidType[] fluids = Fluids.getAll();
 		for(int i = 1; i < fluids.length; i++) {
 			
 			FluidType type = fluids[i];
 			
-			if(type.containers.contains(ExtContainer.CANISTER))
-				FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_full, 1, i), new ItemStack(ModItems.canister_empty), Fluids.fromID(i), 1000));
+			if(type.getContainer(CD_Canister.class) != null) FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_full, 1, i), new ItemStack(ModItems.canister_empty), Fluids.fromID(i), 1000));
+			if(type.getContainer(CD_Gastank.class) != null) FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_full, 1, i), new ItemStack(ModItems.gas_empty), Fluids.fromID(i), 1000));
 			
-			if(type.hasNoContainer())
-				continue;
+			if(type.hasNoContainer()) continue;
 
 			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_lead_full, 1, i), new ItemStack(ModItems.fluid_tank_lead_empty), Fluids.fromID(i), 1000));
 			
-			if(type.needsLeadContainer())
-				continue;
+			if(type.needsLeadContainer()) continue;
 			
 			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_full, 1, i), new ItemStack(ModItems.fluid_tank_empty), Fluids.fromID(i), 1000));
 			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_barrel_full, 1, i), new ItemStack(ModItems.fluid_barrel_empty), Fluids.fromID(i), 16000));

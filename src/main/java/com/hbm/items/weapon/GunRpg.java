@@ -26,8 +26,6 @@ public class GunRpg extends Item {
 	public static final String[] bowPullIconNameArray = new String[] { "pulling_0", "pulling_1", "pulling_2" };
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
-	private static final String __OBFID = "CL_00001777";
-
 	public GunRpg() {
 		this.maxStackSize = 1;
 		this.setMaxDamage(500);

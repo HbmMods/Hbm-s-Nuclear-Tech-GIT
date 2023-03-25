@@ -27,7 +27,7 @@ public class GUIMachineEPress extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 		
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 69 - 52, 16, 52, press.power, press.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 17, guiTop + 69 - 52, 16, 52, press.power, press.maxPower);
 	}
 
 	@Override
@@ -44,10 +44,10 @@ public class GUIMachineEPress extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = (int)press.getPowerScaled(52);
-		drawTexturedModalRect(guiLeft + 26, guiTop + 69 - i, 176, 52 - i, 16, i);
+		int i = (int) (press.power * 52 / press.maxPower);
+		drawTexturedModalRect(guiLeft + 17, guiTop + 69 - i, 176, 52 - i, 16, i);
 		
-		int k = press.getProgressScaled(16);
-        this.drawTexturedModalRect(guiLeft + 79, guiTop + 35, 192, 0, 18, k);
+		int k = (int) (press.renderPress * 16 / press.maxPress);
+		this.drawTexturedModalRect(guiLeft + 79, guiTop + 35, 192, 0, 18, k);
 	}
 }

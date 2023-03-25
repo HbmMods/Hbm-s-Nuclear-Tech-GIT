@@ -74,7 +74,7 @@ public class CrucibleCastingHandler extends TemplateRecipeHandler {
 		
 		if(outputId.equals("ntmCrucibleFoundry")) {
 			
-			for(ItemStack[] recipe : CrucibleRecipes.moldRecipes) {
+			for(ItemStack[] recipe : CrucibleRecipes.getMoldRecipes()) {
 				this.arecipes.add(new RecipeSet(recipe));
 			}
 		} else {
@@ -85,7 +85,7 @@ public class CrucibleCastingHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
 		
-		for(ItemStack[] recipe : CrucibleRecipes.moldRecipes) {
+		for(ItemStack[] recipe : CrucibleRecipes.getMoldRecipes()) {
 			if(NEIServerUtils.areStacksSameTypeCrafting(recipe[3], result)) {
 				this.arecipes.add(new RecipeSet(recipe));
 			}
@@ -105,7 +105,7 @@ public class CrucibleCastingHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		
-		for(ItemStack[] recipe : CrucibleRecipes.moldRecipes) {
+		for(ItemStack[] recipe : CrucibleRecipes.getMoldRecipes()) {
 			
 			for(int i = 0; i < 3; i++) {
 				if(NEIServerUtils.areStacksSameTypeCrafting(recipe[i], ingredient)) {

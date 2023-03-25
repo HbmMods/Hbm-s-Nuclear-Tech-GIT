@@ -23,8 +23,7 @@ public class EntityMissileMicro extends EntityMissileBaseAdvanced {
 	@Override
 	public void onImpact() {
 		if(!this.worldObj.isRemote) {
-
-			ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.high);
+			ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.PARAMS_HIGH);
 		}
 	}
 

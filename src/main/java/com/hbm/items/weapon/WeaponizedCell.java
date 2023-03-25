@@ -5,8 +5,6 @@ import java.util.List;
 import com.hbm.config.WeaponConfig;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.main.MainRegistry;
-
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
