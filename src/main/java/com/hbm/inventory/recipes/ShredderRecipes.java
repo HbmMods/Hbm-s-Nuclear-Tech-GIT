@@ -204,10 +204,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(Items.carrot, new ItemStack(Items.sugar, 1));
 		ShredderRecipes.setRecipe(ModItems.crystal_cleaned, new ItemStack(ModItems.mineral_dust, 4));
 		
-		ShredderRecipes.setRecipe(ModBlocks.moon_nickel, new ItemStack(ModItems.powder_nickel, 4));
-		ShredderRecipes.setRecipe(ModBlocks.moon_titanium, new ItemStack(ModItems.powder_titanium, 4));
-		ShredderRecipes.setRecipe(ModBlocks.moon_aluminium, new ItemStack(ModItems.powder_aluminium, 4));
-		ShredderRecipes.setRecipe(ModBlocks.moon_lithium, new ItemStack(ModItems.powder_lithium, 4));
 		
 		ShredderRecipes.setRecipe(ModItems.bean_roast,  new ItemStack(ModItems.powder_coffee, 1));
 		
@@ -223,12 +219,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 8), new ItemStack(Items.bone, 4));
 		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 9), new ItemStack(ModItems.nugget_bismuth, 5));
 		
-		//space
-		ShredderRecipes.setRecipe(ModBlocks.duna_iron, new ItemStack(ModItems.powder_iron, 4));
-		ShredderRecipes.setRecipe(ModBlocks.duna_zinc, new ItemStack(ModItems.powder_zinc, 4));
-		ShredderRecipes.setRecipe(ModBlocks.ike_asbestos, new ItemStack(ModItems.powder_asbestos, 3));
-		ShredderRecipes.setRecipe(ModBlocks.ike_copper, new ItemStack(ModItems.powder_copper, 4));
-		ShredderRecipes.setRecipe(ModBlocks.ike_iron, new ItemStack(ModItems.powder_iron, 4));
 
 		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), new ItemStack(ModItems.powder_calcium, 4));
 		

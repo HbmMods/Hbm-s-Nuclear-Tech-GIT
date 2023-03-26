@@ -2,7 +2,7 @@ package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.tileentity.machine.TileEntityITER;
-
+import com.hbm.inventory.SlotTakeOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -26,7 +26,8 @@ private TileEntityITER iter;
 		//Plasma Shield
 		this.addSlotToContainer(new Slot(tedf, 3, 98, 18));
 		//Byproduct
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 134, 18));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 4, 134, 18));
+		
 		this.addSlotToContainer(new Slot(tedf, 5, 6, 89));
 		
 		for(int i = 0; i < 3; i++)
