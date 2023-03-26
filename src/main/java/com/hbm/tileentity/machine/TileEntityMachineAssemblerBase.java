@@ -261,7 +261,7 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 	
 	/**
 	 * @param index
-	 * @return A size 4 int array containing min input, max input and output indices in that order.
+	 * @return A size 3 int array containing min input, max input and output indices in that order.
 	 */
 	public abstract int[] getSlotIndicesFromIndex(int index);
 	public abstract ChunkCoordinates[] getInputPositions();

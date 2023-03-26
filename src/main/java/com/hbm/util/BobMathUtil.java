@@ -178,4 +178,19 @@ public class BobMathUtil {
 		
 		return Long.toString(l);
 	}
+	
+	/**
+	 * Adjusted sqrt, approaches standard sqrt but sqrt(x) is never bigger than x
+	 * 
+	 *      ____________
+	 *     /       1    |     1
+	 * _  / x + ――――――――  - ―――――
+	 *  \/      (x + 2)²    x + 2
+	 * 
+	 * @param x
+	 * @return
+	 */
+	public static double squirt(double x) {
+		return Math.sqrt(x + 1D / ((x + 2D) * (x + 2D))) - 1D / (x + 2D);
+	}
 }

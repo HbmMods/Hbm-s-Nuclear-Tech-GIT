@@ -1,9 +1,12 @@
 package com.hbm.blocks.machine;
 
+import com.hbm.blocks.IProxyController;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyInventory;
+import com.hbm.tileentity.machine.TileEntityHadron;
+import com.hbm.util.Compat;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -19,7 +22,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockHadronAccess extends BlockContainer {
+public class BlockHadronAccess extends BlockContainer implements IProxyController {
 
 	public BlockHadronAccess(Material mat) {
 		super(mat);
@@ -59,19 +62,11 @@ public class BlockHadronAccess extends BlockContainer {
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
 			
-			/*for(ForgeDirection d : ForgeDirection.VALID_DIRECTIONS) {
-				System.out.println(d.name() + " " + d.getOpposite().name());
-			}
-			
-			System.out.println(dir.name());*/
-			
 			for(int i = 1; i < 3; i++) {
 				
 				if(world.getBlock(x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i) == ModBlocks.hadron_core) {
 					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i);
 				}
-				
-				//System.out.println(world.getBlock(x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i).getUnlocalizedName());
 			}
 			
 			return true;
@@ -79,5 +74,20 @@ public class BlockHadronAccess extends BlockContainer {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public TileEntity getCore(World world, int x, int y, int z) {
+		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
+
+		for(int i = 1; i < 3; i++) {
+			TileEntity te = Compat.getTileStandard(world, x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i);
+
+			if(te instanceof TileEntityHadron) {
+				return te;
+			}
+		}
+		
+		return null;
 	}
 }

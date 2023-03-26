@@ -104,6 +104,7 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 		tank.readFromNBT(nbt, "tank");
 		isOn = nbt.getBoolean("isOn");
 		heatEnergy = nbt.getInteger("heatEnergy");
+		setting = nbt.getByte("setting");
 	}
 	
 	@Override
@@ -112,6 +113,7 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 		tank.writeToNBT(nbt, "tank");
 		nbt.setBoolean("isOn", isOn);
 		nbt.setInteger("heatEnergy", heatEnergy);
+		nbt.setByte("setting", (byte) this.setting);
 	}
 	
 	public void toggleSetting() {

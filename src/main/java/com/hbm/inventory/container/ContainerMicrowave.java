@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.tileentity.machine.TileEntityMicrowave;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +18,7 @@ private TileEntityMicrowave microwave;
 		microwave = tedf;
 
 		this.addSlotToContainer(new Slot(tedf, 0, 80, 35));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 140, 35));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 1, 140, 35));
 		this.addSlotToContainer(new Slot(tedf, 2, 8, 53));
 		
 		for(int i = 0; i < 3; i++)

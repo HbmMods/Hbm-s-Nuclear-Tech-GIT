@@ -3,8 +3,6 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.lib.Library;
-import com.hbm.saveddata.TomSaveData;
-import com.hbm.util.TimeAnalyzer;
 import com.hbm.world.feature.OilSpot;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -15,7 +13,6 @@ import net.minecraft.entity.EntityTracker;
 import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;

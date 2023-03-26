@@ -30,6 +30,7 @@ public class GeneralConfig {
 	public static boolean enableChunkyNEIHandler = true;
 	public static boolean enableSkyboxes = true;
 	public static boolean enableImpactWorldProvider = true;
+	public static boolean enableStatReRegistering = true;
 	public static int hintPos = 0;
 
 	public static boolean enable528 = false;
@@ -87,6 +88,7 @@ public class GeneralConfig {
 		enableChunkyNEIHandler = config.get(CATEGORY_GENERAL, "1.30_enableChunkyNEIHandler", true, "If enabled, registers a NEI handler that will show the chosen item in a larger view.").getBoolean(true);
 		enableSkyboxes = config.get(CATEGORY_GENERAL, "1.31_enableSkyboxes", true, "If enabled, will try to use NTM's custom skyboxes.").getBoolean(true);
 		enableImpactWorldProvider = config.get(CATEGORY_GENERAL, "1.32_enableImpactWorldProvider", true, "If enabled, registers custom world provider which modifies lighting and sky colors for post impact effects.").getBoolean(true);
+		enableStatReRegistering = config.get(CATEGORY_GENERAL, "1.33_enableStatReRegistering", true, "If enabled, will re-register item crafting/breaking/usage stats in order to fix a forge bug where modded items just won't show up.").getBoolean(true);
 		
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;
 

@@ -55,7 +55,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	//fewer messy recursive operations
 	public TileEntity getTile() {
 		
-		if(tile == null) {
+		if(tile == null || tile.isInvalid()) {
 			tile = this.getTE();
 		}
 		

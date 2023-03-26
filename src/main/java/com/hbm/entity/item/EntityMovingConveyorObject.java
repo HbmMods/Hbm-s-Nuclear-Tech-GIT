@@ -82,8 +82,9 @@ public abstract class EntityMovingConveyorObject extends Entity {
 			int blockZ = (int) Math.floor(posZ);
 			
 			Block b = worldObj.getBlock(blockX, blockY, blockZ);
+			boolean isOnConveyor = b instanceof IConveyorBelt && ((IConveyorBelt) b).canItemStay(worldObj, blockX, blockY, blockZ, Vec3.createVectorHelper(posX, posY, posZ));
 			
-			if(!(b instanceof IConveyorBelt)) {
+			if(!isOnConveyor) {
 				
 				if(onLeaveConveyor()) {
 					return;

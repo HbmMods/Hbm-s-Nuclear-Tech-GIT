@@ -1,21 +1,14 @@
 package com.hbm.inventory.gui;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineDiesel;
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
-import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineDiesel extends GuiInfoContainer {
@@ -37,24 +30,12 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 
 		diesel.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 69 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 69 - 52, 16, 52, diesel.power, diesel.powerCap);
-
-		List<String> text = new ArrayList();
-		text.add(EnumChatFormatting.YELLOW + "Accepted Fuels:");
 		
-		for(FluidType type : Fluids.getInNiceOrder()) {
-			long energy = diesel.getHEFromFuel(type);
-			
-			if(energy > 0)
-				text.add("  " + I18nUtil.resolveKey(type.getUnlocalizedName()) + " (" + BobMathUtil.getShortNumber(energy) + "HE/t)");
-		}
-		
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text.toArray(new String[0]));
-		
-		String[] text1 = new String[] { "Fuel consumption rate:",
+		String[] text = new String[] { "Fuel consumption rate:",
 				"  1 mB/t",
 				"  20 mB/s",
 				"(Consumption rate is constant)" };
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 		
 		if(!diesel.hasAcceptableFuel()) {
 			
@@ -89,7 +70,6 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 		}
 
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
-		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
 		
 		if(!diesel.hasAcceptableFuel())
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);

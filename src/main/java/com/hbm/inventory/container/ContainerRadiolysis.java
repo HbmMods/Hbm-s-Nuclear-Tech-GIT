@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.tileentity.machine.TileEntityMachineRadiolysis;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,11 +25,11 @@ public class ContainerRadiolysis extends Container {
 		
 		//Fluid IO
 		this.addSlotToContainer(new Slot(tile, 10, 34, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tile, 11, 34, 53));
+		this.addSlotToContainer(new SlotTakeOnly(tile, 11, 34, 53));
 		
 		//Sterilization
 		this.addSlotToContainer(new Slot(tile, 12, 148, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tile, 13, 148, 53));
+		this.addSlotToContainer(new SlotTakeOnly(tile, 13, 148, 53));
 		
 		//Battery
 		this.addSlotToContainer(new Slot(tile, 14, 8, 53));

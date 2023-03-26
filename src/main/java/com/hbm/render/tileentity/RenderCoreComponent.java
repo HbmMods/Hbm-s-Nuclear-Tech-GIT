@@ -2,7 +2,9 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
@@ -12,10 +14,13 @@ import com.hbm.tileentity.machine.TileEntityCoreReceiver;
 import com.hbm.tileentity.machine.TileEntityCoreStabilizer;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.client.IItemRenderer;
 
-public class RenderCoreComponent extends TileEntitySpecialRenderer {
+public class RenderCoreComponent extends TileEntitySpecialRenderer implements IItemRendererProvider {
 	
 	public RenderCoreComponent() { }
 
@@ -104,4 +109,46 @@ public class RenderCoreComponent extends TileEntitySpecialRenderer {
         GL11.glPopMatrix();
     }
 
+	@Override
+	public Item getItemForRenderer() { return null; }
+
+	@Override
+	public Item[] getItemsForRenderer() {
+		return new Item[] {
+				Item.getItemFromBlock(ModBlocks.dfc_emitter),
+				Item.getItemFromBlock(ModBlocks.dfc_receiver),
+				Item.getItemFromBlock(ModBlocks.dfc_injector),
+				Item.getItemFromBlock(ModBlocks.dfc_stabilizer)
+		};
+	}
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -2.5, 0);
+				double scale = 5;
+				GL11.glScaled(scale, scale, scale);
+			}
+			public void renderCommonWithStack(ItemStack item) {
+				GL11.glScaled(2, 2, 2);
+				GL11.glRotated(90, 0, 1, 0);
+				if(item.getItem() == Item.getItemFromBlock(ModBlocks.dfc_emitter)) {
+					bindTexture(ResourceManager.dfc_emitter_tex);
+					ResourceManager.dfc_emitter.renderAll();
+				}
+				if(item.getItem() == Item.getItemFromBlock(ModBlocks.dfc_receiver)) {
+					bindTexture(ResourceManager.dfc_receiver_tex);
+					ResourceManager.dfc_receiver.renderAll();
+				}
+				if(item.getItem() == Item.getItemFromBlock(ModBlocks.dfc_injector)) {
+					bindTexture(ResourceManager.dfc_injector_tex);
+					ResourceManager.dfc_injector.renderAll();
+				}
+				if(item.getItem() == Item.getItemFromBlock(ModBlocks.dfc_stabilizer)) {
+					bindTexture(ResourceManager.dfc_stabilizer_tex);
+					ResourceManager.dfc_injector.renderAll();
+				}
+			}};
+	}
 }

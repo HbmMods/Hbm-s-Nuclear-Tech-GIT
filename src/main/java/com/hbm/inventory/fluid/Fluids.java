@@ -134,6 +134,7 @@ public class Fluids {
 	public static FluidType COLLOID;
 	public static FluidType PHOSGENE;
 	public static FluidType MUSTARDGAS;
+	public static FluidType IONGEL;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -283,10 +284,10 @@ public class Fluids {
 		OLIVEOIL =				new FluidType("OLIVEOIL",			0xA9B98E, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);
 		COLLOID =				new FluidType("COLLOID",			0x787878, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		PHOSGENE =				new FluidType("PHOSGENE",			0xCFC4A4, 4, 0, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xCFC4A4, 0x361414)).addTraits(GASEOUS);
-		MUSTARDGAS =			new FluidType(118, "MUSTARDGAS",	0xBAB572, 4, 1, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xBAB572, 0x361414)).addTraits(GASEOUS);
-	
-
-		//FLUORINE =			new FluidType("FLUORINE",			0xC5C539, 4, 4, 4, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(32), new FT_Poison(true, 1)).addTraits(new FT_Flammable(10_000));		
+		MUSTARDGAS =			new FluidType("MUSTARDGAS",			0xBAB572, 4, 1, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xBAB572, 0x361414)).addTraits(GASEOUS);
+		IONGEL =				new FluidType(119, "IONGEL",		0xB8FFFF, 1, 0, 4, EnumSymbol.NONE).addTraits(LIQUID);
+		
+		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		//AND DON'T FORGET THE META DOWN HERE
@@ -379,6 +380,7 @@ public class Fluids {
 		metaOrder.add(SALIENT);
 		metaOrder.add(SEEDSLURRY);
 		metaOrder.add(COLLOID);
+		metaOrder.add(IONGEL);
 		metaOrder.add(ACID);
 		metaOrder.add(SULFURIC_ACID);
 		//NITRIC_ACID

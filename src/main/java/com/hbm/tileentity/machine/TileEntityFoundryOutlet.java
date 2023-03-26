@@ -2,10 +2,13 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.util.CrucibleUtil;
 
 import api.hbm.block.ICrucibleAcceptor;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -76,7 +79,26 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase {
 		if(acc == null)
 			return stack;
 		
-		return acc.pour(world, mop[0].blockX, mop[0].blockY, mop[0].blockZ, mop[0].hitVec.xCoord, mop[0].hitVec.yCoord, mop[0].hitVec.zCoord, ForgeDirection.UP, stack);
+		MaterialStack didPour = acc.pour(world, mop[0].blockX, mop[0].blockY, mop[0].blockZ, mop[0].hitVec.xCoord, mop[0].hitVec.yCoord, mop[0].hitVec.zCoord, ForgeDirection.UP, stack);
+		
+
+		if(stack != null) {
+			
+			ForgeDirection dir = side.getOpposite();
+			double hitY = mop[0].blockY + 1;
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "foundry");
+			data.setInteger("color", stack.material.moltenColor);
+			data.setByte("dir", (byte) dir.ordinal());
+			data.setFloat("off", 0.375F);
+			data.setFloat("base", 0F);
+			data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(hitY) - 0.875)));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D - dir.offsetX * 0.125, yCoord + 0.125, zCoord + 0.5D - dir.offsetZ * 0.125), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord, zCoord + 0.5, 50));
+		
+		}
+		
+		return didPour;
 	}
 
 	@Override

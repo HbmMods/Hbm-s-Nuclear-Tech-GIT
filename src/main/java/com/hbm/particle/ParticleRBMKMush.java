@@ -58,7 +58,7 @@ public class ParticleRBMKMush extends EntityFX {
 		return 3;
 	}
 
-	public void renderParticle(Tessellator tessellaator, float p_70539_2_, float x, float y, float z, float sx, float sz) {
+	public void renderParticle(Tessellator tessellator, float p_70539_2_, float x, float y, float z, float sx, float sz) {
 
 		this.theRenderEngine.bindTexture(texture);
 
@@ -80,21 +80,21 @@ public class ParticleRBMKMush extends EntityFX {
 		boolean fog = GL11.glIsEnabled(GL11.GL_FOG);
 		if(fog) GL11.glDisable(GL11.GL_FOG);
 
-		tessellaator.startDrawingQuads();
+		tessellator.startDrawingQuads();
 
-		tessellaator.setNormal(0.0F, 1.0F, 0.0F);
-		tessellaator.setBrightness(240);
+		tessellator.setNormal(0.0F, 1.0F, 0.0F);
+		tessellator.setBrightness(240);
 
 		float scale = this.particleScale;
 		float pX = (float) ((this.prevPosX + (this.posX - this.prevPosX) * (double) p_70539_2_ - interpPosX));
 		float pY = (float) ((this.prevPosY + (this.posY - this.prevPosY) * (double) p_70539_2_ - interpPosY)) + particleScale;
 		float pZ = (float) ((this.prevPosZ + (this.posZ - this.prevPosZ) * (double) p_70539_2_ - interpPosZ));
 
-		tessellaator.addVertexWithUV((double) (pX - x * scale - sx * scale), (double) (pY - y * scale), (double) (pZ - z * scale - sz * scale), 1, (prog + 1) * frame);
-		tessellaator.addVertexWithUV((double) (pX - x * scale + sx * scale), (double) (pY + y * scale), (double) (pZ - z * scale + sz * scale), 1, prog * frame);
-		tessellaator.addVertexWithUV((double) (pX + x * scale + sx * scale), (double) (pY + y * scale), (double) (pZ + z * scale + sz * scale), 0, prog * frame);
-		tessellaator.addVertexWithUV((double) (pX + x * scale - sx * scale), (double) (pY - y * scale), (double) (pZ + z * scale - sz * scale), 0, (prog + 1) * frame);
-		tessellaator.draw();
+		tessellator.addVertexWithUV((double) (pX - x * scale - sx * scale), (double) (pY - y * scale), (double) (pZ - z * scale - sz * scale), 1, (prog + 1) * frame);
+		tessellator.addVertexWithUV((double) (pX - x * scale + sx * scale), (double) (pY + y * scale), (double) (pZ - z * scale + sz * scale), 1, prog * frame);
+		tessellator.addVertexWithUV((double) (pX + x * scale + sx * scale), (double) (pY + y * scale), (double) (pZ + z * scale + sz * scale), 0, prog * frame);
+		tessellator.addVertexWithUV((double) (pX + x * scale - sx * scale), (double) (pY - y * scale), (double) (pZ + z * scale - sz * scale), 0, (prog + 1) * frame);
+		tessellator.draw();
 
 		if(fog) GL11.glEnable(GL11.GL_FOG);
 		GL11.glPolygonOffset(0.0F, 0.0F);
