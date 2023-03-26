@@ -2,16 +2,16 @@ package com.hbm.blocks.machine;
 
 import java.util.List;
 
-import com.hbm.main.MainRegistry;
-
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
+import api.hbm.block.IToolable;
+import api.hbm.block.IToolable.ToolType;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -19,7 +19,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineFan extends BlockContainer {
+public class MachineFan extends BlockContainer implements IToolable {
 
 	public MachineFan() {
 		super(Material.iron);
@@ -113,5 +113,29 @@ public class MachineFan extends BlockContainer {
 				this.spin -= 360;
 			}
 		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public double getMaxRenderDistanceSquared() {
+			return 65536.0D;
+		}
+	}
+
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		if(tool != ToolType.SCREWDRIVER) return false;
+		int meta = world.getBlockMetadata(x, y, z);
+
+		if(meta == 0) world.setBlockMetadataWithNotify(x, y, z, 1, 3);
+		if(meta == 1) world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+		if(meta == 2) world.setBlockMetadataWithNotify(x, y, z, 3, 3);
+		if(meta == 3) world.setBlockMetadataWithNotify(x, y, z, 2, 3);
+		if(meta == 4) world.setBlockMetadataWithNotify(x, y, z, 5, 3);
+		if(meta == 5) world.setBlockMetadataWithNotify(x, y, z, 4, 3);
+		
+		//TileEntityFan fan = (TileEntityFan) world.getTileEntity(x, y, z);
+		//fan.blockMetadata = -1;
+		
+		return true;
 	}
 }

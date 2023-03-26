@@ -143,6 +143,7 @@ public class BlockLoot extends BlockContainer {
 			
 			for(int i = 0; i < count; i++) {
 				ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("item" + i));
+				if(stack == null || stack.getItem() == null) continue;
 				double x = nbt.getDouble("x" + i);
 				double y = nbt.getDouble("y" + i);
 				double z = nbt.getDouble("z" + i);
@@ -158,6 +159,7 @@ public class BlockLoot extends BlockContainer {
 			
 			for(int i = 0; i < items.size(); i++) {
 				Quartet<ItemStack, Double, Double, Double> item = items.get(i);
+				if(item == null || item.getW() == null) continue;
 				NBTTagCompound stack = new NBTTagCompound();
 				item.getW().writeToNBT(stack);
 				nbt.setTag("item" + i, stack);

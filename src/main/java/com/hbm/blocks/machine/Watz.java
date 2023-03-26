@@ -6,6 +6,7 @@ import com.hbm.tileentity.machine.TileEntityWatz;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class Watz extends BlockDummyable {
@@ -25,7 +26,9 @@ public class Watz extends BlockDummyable {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		return super.standardOpenBehavior(world, x, y, z, player, 0);
+		if(!world.isRemote) player.addChatComponentMessage(new ChatComponentText("Oh gee, I wonder if the nameless uncraftable thing that isn't even in the changelog works yet, maybe if I click often enough it will work!!"));
+		return true;
+		//return super.standardOpenBehavior(world, x, y, z, player, 0);
 	}
 
 	@Override
