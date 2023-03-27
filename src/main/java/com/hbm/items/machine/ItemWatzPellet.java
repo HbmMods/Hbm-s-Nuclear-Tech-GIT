@@ -17,8 +17,10 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 /*
  * Watz Isotropic Fuel, Oxidized
@@ -34,18 +36,20 @@ public class ItemWatzPellet extends ItemEnumMulti {
 	public static enum EnumWatzType {
 
 		//TODO: durability
-		SCHRABIDIUM(	0x32FFFF, 0x005C5C, 200,	1D,	new FunctionLogarithmic(10), null, null),
-		HES(			0xffffff, 0x000000, 0,		0,	null, null, null),
-		LES(			0xffffff, 0x000000, 0,		0,	null, null, null),
-		MES(			0xffffff, 0x000000, 0,		0,	null, null, null),
-		NP(				0xffffff, 0x000000, 0,		0,	null, null, null),
-		MEU(			0xffffff, 0x000000, 0,		0,	null, null, null),
-		MEP(			0xffffff, 0x000000, 0,		0,	null, null, null),
-		LEAD(			0xA6A6B2, 0x03030F, 0,		0,	null, null, new FunctionSqrt(10)), //standard absorber, negative coefficient
-		DU(				0xC1C7BD, 0x2B3227, 0,		0, 	null, null, new FunctionQuadratic(1D, 1D).withDiv(100)); //absorber with positive coefficient 
+		SCHRABIDIUM(	0x32FFFF, 0x005C5C, 2_000,	10D,	new FunctionLogarithmic(10), null, null),
+		HES(			0x66DCD6, 0x023933, 1_500,	10D,	null, null, null),
+		LES(			0xABB4A8, 0x0C1105, 500,	10D,	null, null, null),
+		MES(			0xCBEADF, 0x28473C, 1_000,	10D,	null, null, null),
+		NP(				0xA6B2A6, 0x030F03, 0,		10D,	null, null, null),
+		MEU(			0xC1C7BD, 0x2B3227, 0,		10D,	null, null, null),
+		MEP(			0x9AA3A0, 0x111A17, 0,		10D,	null, null, null),
+		LEAD(			0xA6A6B2, 0x03030F, 0,		0,		null, null, new FunctionSqrt(10)), //standard absorber, negative coefficient
+		DU(				0xC1C7BD, 0x2B3227, 0,		0, 		null, null, new FunctionQuadratic(1D, 1D).withDiv(100)); //absorber with positive coefficient 
 		
+		public double yield = 1_000_000_000;
 		public int colorLight;
 		public int colorDark;
+		public double mudContent;	//how much mud per reaction flux should be produced
 		public double passive;		//base flux emission
 		public double heatEmission;	//reactivity(1) to heat (heat per outgoing flux)
 		public Function burnFunc;	//flux to reactivity(0) (classic reactivity)
@@ -128,5 +132,48 @@ public class ItemWatzPellet extends ItemEnumMulti {
 		}
 		if(num.heatMult != null) list.add(color + "Thermal coefficient: " + reset + num.heatMult.getLabelForFuel());
 		if(num.absorbFunc != null) list.add(color + "Flux capture: " + reset + num.absorbFunc.getLabelForFuel());
+	}
+
+	@Override
+	public boolean showDurabilityBar(ItemStack stack) {
+		return getDurabilityForDisplay(stack) > 0D;
+	}
+
+	@Override
+	public double getDurabilityForDisplay(ItemStack stack) {
+		return 1D - getEnrichment(stack);
+	}
+	
+	public static double getEnrichment(ItemStack stack) {
+		return getYield(stack) / ((ItemRBMKRod) stack.getItem()).yield;
+	}
+	
+	public static double getYield(ItemStack stack) {
+		return getDouble(stack, "yield");
+	}
+	
+	public static void setYield(ItemStack stack, double yield) {
+		setDouble(stack, "yield", yield);
+	}
+	
+	public static void setDouble(ItemStack stack, String key, double yield) {
+		if(!stack.hasTagCompound()) setNBTDefaults(stack);
+		stack.stackTagCompound.setDouble(key, yield);
+	}
+	
+	public static double getDouble(ItemStack stack, String key) {
+		if(!stack.hasTagCompound()) setNBTDefaults(stack);
+		return stack.stackTagCompound.getDouble(key);
+	}
+	
+	private static void setNBTDefaults(ItemStack stack) {
+		EnumWatzType num = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
+		stack.stackTagCompound = new NBTTagCompound();
+		setYield(stack, num.yield);
+	}
+	
+	@Override
+	public void onCreated(ItemStack stack, World world, EntityPlayer player) {
+		setNBTDefaults(stack); //minimize the window where NBT screwups can happen
 	}
 }

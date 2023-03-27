@@ -10,6 +10,7 @@ import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.gui.GUIWatz;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemWatzPellet;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -101,8 +102,6 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 				segment.updateReaction(above, sharedTanks);
 			}
 			
-			//TODO: call fluidSend on the bottom-most segment
-			
 			/* re-distribute fluid from shared tanks back into actual tanks, bottom to top */
 			for(int i = segments.size() - 1; i >= 0; i--) {
 				TileEntityWatz segment = segments.get(i);
@@ -183,8 +182,10 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			if(burnFunc != null) {
 				double mod = heatMod != null ? heatMod.effonix(heat) : 1D;
 				double burn = burnFunc.effonix(inputFlux) * mod;
+				ItemWatzPellet.setYield(stack, ItemWatzPellet.getYield(stack) - burn);
 				addedFlux += burn;
 				addedHeat += type.heatEmission * burn;
+				tanks[2].setFill(tanks[2].getFill() + (int) Math.round(type.mudContent * burn));
 			}
 		}
 		
@@ -205,6 +206,12 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			for(int i = 0; i < 24; i++) {
 				ItemStack stackBottom = slots[i];
 				ItemStack stackTop = above.slots[i];
+				
+				/* deplete */
+				if(stackBottom != null && stackBottom.getItem() == ModItems.watz_pellet && ItemWatzPellet.getYield(stackBottom) <= 0) {
+					slots[i] = new ItemStack(ModItems.watz_pellet_depleted, 1, stackBottom.getItemDamage());
+					continue; // depleted pellets may persist for one tick
+				}
 				
 				/* items fall down if the bottom slot is empty */
 				if(stackBottom == null && stackTop != null) {
