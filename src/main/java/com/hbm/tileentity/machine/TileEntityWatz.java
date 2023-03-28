@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerWatz;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -32,7 +33,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IGUIProvider {
+public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IControlReceiver, IGUIProvider {
 	
 	public FluidTank[] tanks;
 	public int heat;
@@ -42,10 +43,11 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	
 	/* lock types for item IO */
 	public boolean isLocked = false;
-	public ItemStack[] locks = new ItemStack[24];
+	public ItemStack[] locks;
 	
 	public TileEntityWatz() {
 		super(24);
+		this.locks = new ItemStack[slots.length];
 		this.tanks = new FluidTank[3];
 		this.tanks[0] = new FluidTank(Fluids.COOLANT, 64_000);
 		this.tanks[1] = new FluidTank(Fluids.COOLANT_HOT, 64_000);
@@ -281,8 +283,41 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	}
 
 	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return this.isUseableByPlayer(player);
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		
+		if(data.hasKey("lock")) {
+			
+			if(this.isLocked) {
+				this.locks = new ItemStack[slots.length];
+			} else {
+				for(int i = 0; i < slots.length; i++) {
+					this.locks[i] = slots[i];
+				}
+			}
+			
+			this.isLocked = !this.isLocked;
+			this.markChanged();
+		}
+	}
+
+	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		return stack.getItem() == ModItems.watz_pellet;
+	}
+	
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack stack, int j) {
+		return stack.getItem() != ModItems.watz_pellet;
 	}
 
 	@Override
