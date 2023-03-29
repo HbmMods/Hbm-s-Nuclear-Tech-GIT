@@ -350,6 +350,7 @@ public class TileMappings {
 		put(TileEntityCraneBoxer.class, "tileentity_boxer");
 		put(TileEntityCraneUnboxer.class, "tileentity_unboxer");
 		put(TileEntityCraneRouter.class, "tileentity_router");
+		put(TileEntityCraneSplitter.class, "tileentity_splitter");
 		put(TileEntityFan.class, "tileentity_fan");
 
 		put(TileEntityRadioTorchSender.class, "tileentity_rtty_sender");
