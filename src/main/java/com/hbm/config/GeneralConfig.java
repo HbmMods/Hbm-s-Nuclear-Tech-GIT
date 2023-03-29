@@ -57,6 +57,7 @@ public class GeneralConfig {
 	public static boolean enableLBSMSafeCrates = true;
 	public static boolean enableLBSMSafeMEDrives = true;
 	public static boolean enableLBSMIGen = true;
+	public static boolean enableLBSMNeutronDecon = true;
 	public static int schrabRate = 20;
 	
 	public static void loadFromConfig(Configuration config) {
@@ -129,6 +130,7 @@ public class GeneralConfig {
 		enableLBSMSafeCrates = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_safeCrates", "When enabled, prevents crates from becoming radioactive", true);
 		enableLBSMSafeMEDrives = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_safeMEDrives", "When enabled, prevents ME Drives and Portable Cells from becoming radioactive", true);
 		enableLBSMIGen = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_iGen", "When enabled, restores the industrial generator to pre-nerf power", true);
+		enableLBSMNeutronDecon = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_NeuCon", "When enabled, Player Decontaminators can decontaminate radioactive items stemmed from neutron rads.", true);
 		schrabRate = CommonConfig.createConfigInt(config, CATEGORY_LBSM, "LBSM_schrabOreRate", "Changes the amount of uranium ore needed on average to create one schrabidium ore using nukes. Standard mode value is 100", 20);
 		
 		if(enable528) enableLBSM = false;
