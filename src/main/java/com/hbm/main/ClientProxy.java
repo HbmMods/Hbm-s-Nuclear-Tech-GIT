@@ -65,6 +65,7 @@ import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
 import com.hbm.particle.*;
+import com.hbm.particle.psys.engine.EventHandlerParticleEngine;
 import com.hbm.render.anim.*;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.*;
@@ -115,6 +116,7 @@ public class ClientProxy extends ServerProxy {
 
 		registerClientEventHandler(new ModEventHandlerClient());
 		registerClientEventHandler(new ModEventHandlerRenderer());
+		registerClientEventHandler(new EventHandlerParticleEngine());
 		registerClientEventHandler(theInfoSystem);
 
 		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
