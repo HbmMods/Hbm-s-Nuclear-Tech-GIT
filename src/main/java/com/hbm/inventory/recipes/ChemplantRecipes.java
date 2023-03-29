@@ -404,6 +404,11 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(
 						new ComparableStack(ModItems.canned_conserve, 1, 5))
 				.outputItems(new ItemStack(ModItems.animan, 1)));
+		recipes.add(new ChemRecipe(107, "ELBOWS", 250)
+				.inputFluids(new FluidStack(Fluids.ACID, 100), new FluidStack(Fluids.ELBOWGREASE, 900))
+				.inputItems(
+						new ComparableStack(ModBlocks.sand_dirty, 1, 5))
+				.outputItems(new ItemStack(ModItems.ingot_iridium, 1)));
 		
 	}
 	

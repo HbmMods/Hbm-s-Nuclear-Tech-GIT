@@ -433,6 +433,8 @@ public class Fluids {
 		metaOrder.add(MILK);
 		metaOrder.add(SMILK);
 		metaOrder.add(OLIVEOIL);
+		metaOrder.add(ELBOWGREASE);
+
 
 
 
