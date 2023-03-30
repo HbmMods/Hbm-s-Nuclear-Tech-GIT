@@ -416,7 +416,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFuelType(Context context, Arguments args) {
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
-			return new Object[] {slots[0].getItem()};
+			return new Object[] {rod.getName()};
 		}
 		return new Object[] {"N/A"};
 	}
@@ -457,7 +457,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 			OC_enrich_buf = ItemRBMKRod.getEnrichment(slots[0]);
 			OC_poison_buf = ItemRBMKRod.getPoison(slots[0]);
-			OC_fuelType = slots[0].getItem();
+			OC_fuelType = rod.getName();
 		} else {
 			OC_enrich_buf = "N/A";
 			OC_poison_buf = "N/A";
