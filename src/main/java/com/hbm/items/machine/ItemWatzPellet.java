@@ -145,7 +145,8 @@ public class ItemWatzPellet extends ItemEnumMulti {
 	}
 	
 	public static double getEnrichment(ItemStack stack) {
-		return getYield(stack) / ((ItemRBMKRod) stack.getItem()).yield;
+		EnumWatzType num = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
+		return getYield(stack) / num.yield;
 	}
 	
 	public static double getYield(ItemStack stack) {
