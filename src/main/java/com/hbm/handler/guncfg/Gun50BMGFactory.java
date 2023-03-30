@@ -186,7 +186,7 @@ public class Gun50BMGFactory {
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
 		config.roundsPerCycle = 1;
 		config.firingSound = "hbm:weapon.hicalShot";
-		config.firingPitch = 0.75F;
+		config.firingPitch = 1F;
 		config.ammoCap = 4;
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		config.hasSights = true;
