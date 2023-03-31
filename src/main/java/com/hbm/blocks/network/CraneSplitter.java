@@ -28,7 +28,10 @@ public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnt
 	@SideOnly(Side.CLIENT) public IIcon iconTopRight;
 	@SideOnly(Side.CLIENT) public IIcon iconFrontLeft;
 	@SideOnly(Side.CLIENT) public IIcon iconFrontRight;
-	@SideOnly(Side.CLIENT) public IIcon iconBottom;
+	@SideOnly(Side.CLIENT) public IIcon iconBackLeft;
+	@SideOnly(Side.CLIENT) public IIcon iconBackRight;
+	@SideOnly(Side.CLIENT) public IIcon iconLeft;
+	@SideOnly(Side.CLIENT) public IIcon iconRight;
 	@SideOnly(Side.CLIENT) public IIcon iconBelt;
 	@SideOnly(Side.CLIENT) public IIcon iconInner;
 	
@@ -55,7 +58,16 @@ public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnt
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		super.registerBlockIcons(iconRegister);
+		this.iconTopLeft = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_top_left");
+		this.iconTopRight = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_top_right");
+		this.iconFrontLeft = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_front_left");
+		this.iconFrontRight = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_front_right");
+		this.iconBackLeft = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_back_left");
+		this.iconBackRight = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_back_right");
+		this.iconLeft = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_left");
+		this.iconRight = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_right");
 		this.iconBelt = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_belt");
+		this.iconInner = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_inner");
 	}
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();

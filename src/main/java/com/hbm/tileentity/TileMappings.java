@@ -347,6 +347,7 @@ public class TileMappings {
 
 		put(TileEntityCraneInserter.class, "tileentity_inserter");
 		put(TileEntityCraneExtractor.class, "tileentity_extractor");
+		put(TileEntityCraneGrabber.class, "tileentity_grabber");
 		put(TileEntityCraneBoxer.class, "tileentity_boxer");
 		put(TileEntityCraneUnboxer.class, "tileentity_unboxer");
 		put(TileEntityCraneRouter.class, "tileentity_router");

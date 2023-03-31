@@ -775,6 +775,7 @@ public class ModBlocks {
 	public static Block conveyor_lift;
 	public static Block crane_extractor;
 	public static Block crane_inserter;
+	public static Block crane_grabber;
 	public static Block crane_router;
 	public static Block crane_boxer;
 	public static Block crane_unboxer;
@@ -1900,10 +1901,11 @@ public class ModBlocks {
 		conveyor_lift = new BlockConveyorLift().setBlockName("conveyor_lift").setHardness(2.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":conveyor");
 		crane_extractor = new CraneExtractor().setBlockName("crane_extractor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crane_inserter = new CraneInserter().setBlockName("crane_inserter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		crane_grabber = new CraneGrabber().setBlockName("crane_grabber").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crane_router = new CraneRouter().setBlockName("crane_router").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crane_boxer = new CraneBoxer().setBlockName("crane_boxer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crane_unboxer = new CraneUnboxer().setBlockName("crane_unboxer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		crane_splitter = new CraneSplitter().setBlockName("crane_splitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		crane_splitter = new CraneSplitter().setBlockName("crane_splitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":crane_side");
 		fan = new MachineFan().setBlockName("fan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		chain = new BlockChain(Material.iron).setBlockName("dungeon_chain").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":chain");
@@ -3095,6 +3097,7 @@ public class ModBlocks {
 
 		GameRegistry.registerBlock(crane_extractor, crane_extractor.getUnlocalizedName());
 		GameRegistry.registerBlock(crane_inserter, crane_inserter.getUnlocalizedName());
+		GameRegistry.registerBlock(crane_grabber, crane_grabber.getUnlocalizedName());
 		GameRegistry.registerBlock(crane_router, crane_router.getUnlocalizedName());
 		GameRegistry.registerBlock(crane_boxer, crane_boxer.getUnlocalizedName());
 		GameRegistry.registerBlock(crane_unboxer, crane_unboxer.getUnlocalizedName());

@@ -2,7 +2,7 @@ package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotUpgrade;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.network.TileEntityCraneExtractor;
+import com.hbm.tileentity.network.TileEntityCraneGrabber;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -10,30 +10,23 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerCraneExtractor extends Container {
+public class ContainerCraneGrabber extends Container {
 	
-	protected TileEntityCraneExtractor extractor;
+	protected TileEntityCraneGrabber grabber;
 	
-	public ContainerCraneExtractor(InventoryPlayer invPlayer, TileEntityCraneExtractor extractor) {
-		this.extractor = extractor;
+	public ContainerCraneGrabber(InventoryPlayer invPlayer, TileEntityCraneGrabber grabber) {
+		this.grabber = grabber;
 		
 		//filter
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new Slot(extractor, j + i * 3, 71 + j * 18, 17 + i * 18));
-			}
-		}
-		
-		//buffer
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new Slot(extractor, 9 + j + i * 3, 8 + j * 18, 17 + i * 18));
+				this.addSlotToContainer(new Slot(grabber, j + i * 3, 40 + j * 18, 17 + i * 18));
 			}
 		}
 		
 		//upgrades
-		this.addSlotToContainer(new SlotUpgrade(extractor, 18, 152, 23));
-		this.addSlotToContainer(new SlotUpgrade(extractor, 19, 152, 47));
+		this.addSlotToContainer(new SlotUpgrade(grabber, 9, 121, 23));
+		this.addSlotToContainer(new SlotUpgrade(grabber, 10, 121, 47));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -59,20 +52,18 @@ public class ContainerCraneExtractor extends Container {
 				return null;
 			}
 
-			if(slot <= extractor.getSizeInventory() - 1) {
-				if(!this.mergeItemStack(var5, extractor.getSizeInventory(), this.inventorySlots.size(), true)) {
+			if(slot <= grabber.getSizeInventory() - 1) {
+				if(!this.mergeItemStack(var5, grabber.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
 				
 				if(var3.getItem() == ModItems.upgrade_stack) {
-					 if(!this.mergeItemStack(var5, 18, 19, false))
+					 if(!this.mergeItemStack(var5, 9, 10, false))
 						 return null;
 				} else if(var3.getItem() == ModItems.upgrade_ejector) {
-					 if(!this.mergeItemStack(var5, 19, 20, false))
+					 if(!this.mergeItemStack(var5, 10, 11, false))
 						 return null;
-				} else if(!this.mergeItemStack(var5, 9, extractor.getSizeInventory(), false)) {
-					 return null;
 				}
 				
 				return null;
@@ -92,7 +83,7 @@ public class ContainerCraneExtractor extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return extractor.isUseableByPlayer(player);
+		return grabber.isUseableByPlayer(player);
 	}
 
 	@Override
@@ -116,7 +107,7 @@ public class ContainerCraneExtractor extends Container {
 			ret = slot.getStack().copy();
 		
 		if(button == 1 && mode == 0 && slot.getHasStack()) {
-			extractor.nextMode(index);
+			grabber.nextMode(index);
 			return ret;
 			
 		} else {
@@ -127,7 +118,7 @@ public class ContainerCraneExtractor extends Container {
 			}
 			
 			slot.onSlotChanged();
-			extractor.matcher.initPatternStandard(extractor.getWorldObj(), slot.getStack(), index);
+			grabber.matcher.initPatternStandard(grabber.getWorldObj(), slot.getStack(), index);
 			
 			return ret;
 		}

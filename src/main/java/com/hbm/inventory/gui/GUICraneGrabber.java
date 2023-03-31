@@ -4,11 +4,11 @@ import java.util.Arrays;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerCraneExtractor;
+import com.hbm.inventory.container.ContainerCraneGrabber;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.network.TileEntityCraneExtractor;
+import com.hbm.tileentity.network.TileEntityCraneGrabber;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -19,14 +19,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
-public class GUICraneExtractor extends GuiInfoContainer {
+public class GUICraneGrabber extends GuiInfoContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_crane_ejector.png");
-	private TileEntityCraneExtractor ejector;
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_crane_grabber.png");
+	private TileEntityCraneGrabber grabber;
 
-	public GUICraneExtractor(InventoryPlayer invPlayer, TileEntityCraneExtractor tedf) {
-		super(new ContainerCraneExtractor(invPlayer, tedf));
-		ejector = tedf;
+	public GUICraneGrabber(InventoryPlayer invPlayer, TileEntityCraneGrabber tedf) {
+		super(new ContainerCraneGrabber(invPlayer, tedf));
+		grabber = tedf;
 		
 		this.xSize = 176;
 		this.ySize = 185;
@@ -40,14 +40,14 @@ public class GUICraneExtractor extends GuiInfoContainer {
 			for(int i = 0; i < 9; ++i) {
 				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
 	
-				if(this.isMouseOverSlot(slot, x, y) && ejector.matcher.modes[i] != null) {
+				if(this.isMouseOverSlot(slot, x, y) && grabber.matcher.modes[i] != null) {
 					
 					String label = EnumChatFormatting.YELLOW + "";
 					
-					switch(ejector.matcher.modes[i]) {
+					switch(grabber.matcher.modes[i]) {
 					case "exact": label += "Item and meta match"; break;
 					case "wildcard": label += "Item matches"; break;
-					default: label += "Ore dict key matches: " + ejector.matcher.modes[i]; break;
+					default: label += "Ore dict key matches: " + grabber.matcher.modes[i]; break;
 					}
 					
 					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", label }), x, y - 30);
@@ -60,18 +60,18 @@ public class GUICraneExtractor extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 
-		if(guiLeft + 128 <= x && guiLeft + 128 + 14 > x && guiTop + 30 < y && guiTop + 30 + 26 >= y) {
+		if(guiLeft + 97 <= x && guiLeft + 97 + 14 > x && guiTop + 30 < y && guiTop + 30 + 26 >= y) {
 
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("whitelist", true);
-			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, ejector.xCoord, ejector.yCoord, ejector.zCoord));
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, grabber.xCoord, grabber.yCoord, grabber.zCoord));
 		}
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = this.ejector.hasCustomInventoryName() ? this.ejector.getInventoryName() : I18n.format(this.ejector.getInventoryName());
+		String name = this.grabber.hasCustomInventoryName() ? this.grabber.getInventoryName() : I18n.format(this.grabber.getInventoryName());
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
@@ -82,10 +82,10 @@ public class GUICraneExtractor extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(ejector.isWhitelist) {
-			drawTexturedModalRect(guiLeft + 139, guiTop + 33, 176, 0, 3, 6);
+		if(grabber.isWhitelist) {
+			drawTexturedModalRect(guiLeft + 108, guiTop + 33, 176, 0, 3, 6);
 		} else {
-			drawTexturedModalRect(guiLeft + 139, guiTop + 47, 176, 0, 3, 6);
+			drawTexturedModalRect(guiLeft + 108, guiTop + 47, 176, 0, 3, 6);
 		}
 	}
 }
