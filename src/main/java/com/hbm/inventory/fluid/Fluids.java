@@ -136,8 +136,8 @@ public class Fluids {
 	public static FluidType MUSTARDGAS;
 	public static FluidType IONGEL;
 	public static FluidType ELBOWGREASE;
-	public static FluidType NMASSTETRANOL;
-	public static FluidType NMASS;
+	public static FluidType NMASSTETRANOL; //stronger, not suitable for FTL due to its Carbon-Chain content
+	public static FluidType NMASS; //weaker, much more suitable for FTL
 
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
