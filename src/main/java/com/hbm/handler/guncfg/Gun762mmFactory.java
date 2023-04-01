@@ -10,6 +10,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo762NATO;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.main.MainRegistry;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
@@ -157,7 +158,72 @@ public class Gun762mmFactory {
 
 		return config;
 	}
+	public static GunConfiguration getBoltConfig() {
 
+		GunConfiguration config = Gun20GaugeFactory.getShotgunConfig();
+
+		config.ammoCap = 5;
+		config.rateOfFire = 35;
+		config.durability = 3000;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingSound = "hbm:weapon.revolverShoot";
+		config.firingPitch = 0.75F;
+		config.crosshair = Crosshair.CLASSIC;
+
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+				)
+				.addBus("LEVER_PULL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 375)) //wait out recoil and lever flick
+						.addKeyframe(new BusAnimationKeyframe(-1, 0, 0, 375)) //pull back bolt
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 375)) //release bolt
+				)
+				.addBus("LEVER_ROTATE", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250)) //wait out recoil
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 125)) //flick up lever in  125ms
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 750)) //pull action
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 125)) //flick down lever again
+				)
+		);
+
+		config.name = "win20Inox";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER;
+		config.ejector = EJECTOR_RIFLE;
+		config.config = HbmCollection.r762;
+		return config;
+	}
+	public static GunConfiguration getBoltGreenConfig() {
+
+		GunConfiguration config = getBoltConfig();
+
+
+		config.durability = 2500;
+		config.name = "win20Poly";
+
+
+
+		return config;
+	}
+
+	public static GunConfiguration getBoltSaturniteConfig() {
+
+		GunConfiguration config = getBoltConfig();
+
+
+		config.durability = 4000;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingSound = "hbm:weapon.revolverShoot";
+		config.firingPitch = 0.75F;
+		config.hasSights = true;
+		config.zoomFOV = 0.2F; //x5 magnification
+		config.scopeTexture = Gun50BMGFactory.scope_luna;
+		config.name = "win20Satur";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER_BIGMT;
+
+		return config;
+	}
 	public static BulletConfiguration get762NATOConfig() {
 		final BulletConfiguration bullet = Gun556mmFactory.get556Config().clone();
 
@@ -216,7 +282,7 @@ public class Gun762mmFactory {
 		bullet.vPFX = "reddust";
 		final PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList<PotionEffect>();
+		bullet.effects = new ArrayList<>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		bullet.spentCasing = CASING762NATO.clone().register("762NATOPhos");
