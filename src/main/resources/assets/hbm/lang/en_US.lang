@@ -386,6 +386,13 @@ book_lore.memo_schrab_nuke.page.1=Our most recent investigation led us to the ef
 book_lore.memo_schrab_nuke.page.2=Only our cyclotron has actually created saralloy previously. However, at our underground shot at Everwerpen, miniscule traces of saralloy were found in uranium ore at the site. All pure, metallic uranium nearby had fissioned.
 book_lore.memo_schrab_nuke.page.3=As such, given enough uranium ore concentrated around an explosive, or perhaps even a dirty bomb rich in waste containing fissionable material, one could hypothetically create enough saralloy to collect manually.
 
+book_lore.book_space1.name=DRX-Test Findings
+book_lore.book_space1.author=Kryaxiaur
+book_lore.book_space1.page.1=It appears that we have been unable to synthesize anything useful from this weird infared mass that was accidentally made in the lab a week ago. If its any trouble, we could contact the Launchpad Division for inquiries.
+book_lore.book_space1.page.2=Due to its near memetic nature, many have voted to get rid of this componenet. It has been resulting in a lot of odd behaviour in our collegues. i dont want to be the one to panic but this might actually end the world if 
+book_lore.book_space1.page.3=Mishandled. Its best we act accordingly to whatever plan of action we take on this material.
+
+
 cannery.f1=[ Press F1 for help ]
 
 cannery.centrifuge=Gas Centrifuge

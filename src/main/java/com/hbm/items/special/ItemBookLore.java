@@ -126,6 +126,7 @@ public class ItemBookLore extends Item implements IGUIProvider {
 		MEMO_SCHRAB_GSA(false, "memo_schrab_gsa", 2, GUIAppearance.LOOSEPAPERS),
 		MEMO_SCHRAB_RD(false, "memo_schrab_rd", 4, GUIAppearance.LOOSEPAPERS),
 		MEMO_SCHRAB_NUKE(true, "memo_schrab_nuke", 3, GUIAppearance.LOOSEPAPERS),
+		TEST_LORE(true, "book_space1", 3, GUIAppearance.LOOSEPAPERS),
 		;
 		
 		//Why? it's quite simple; i am too burnt out and also doing it the other way

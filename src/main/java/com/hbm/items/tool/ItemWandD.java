@@ -192,11 +192,11 @@ public class ItemWandD extends Item {
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
 			
-			/*ItemStack itemStack = new ItemStack(ModItems.book_lore);
-			BookLoreType.setTypeForStack(itemStack, BookLoreType.BOOK_IODINE);
+			ItemStack itemStack = new ItemStack(ModItems.book_lore);
+			BookLoreType.setTypeForStack(itemStack, BookLoreType.TEST_LORE);
 			
 			player.inventory.addItemStackToInventory(itemStack);
-			player.inventoryContainer.detectAndSendChanges();*/
+			player.inventoryContainer.detectAndSendChanges();
 			
 			//use sparingly
 			/*int k = ((pos.blockX >> 4) << 4) + 8;
