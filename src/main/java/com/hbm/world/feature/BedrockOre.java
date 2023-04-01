@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
 import com.hbm.inventory.FluidStack;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -15,17 +16,20 @@ public class BedrockOre {
 		for(int ix = x - 1; ix <= x + 1; ix++) {
 			for(int iz = z - 1; iz <= z + 1; iz++) {
 				
-				if((ix == x && iz == z) || world.rand.nextBoolean()) {
-					
-					world.setBlock(ix, 0, iz, ModBlocks.ore_bedrock);
-					TileEntityBedrockOre ore = (TileEntityBedrockOre) world.getTileEntity(ix, 0, iz);
-					ore.resource = stack;
-					ore.color = color;
-					ore.shape = world.rand.nextInt(10);
-					ore.acidRequirement = acid;
-					ore.tier = tier;
-					world.markBlockForUpdate(ix, 0, iz);
-					world.markTileEntityChunkModified(ix, 0, iz, ore);
+				Block b = world.getBlock(ix, 0, iz);
+				if(b.isReplaceableOreGen(world, ix, 0, iz, Blocks.bedrock)) {
+					if((ix == x && iz == z) || world.rand.nextBoolean()) {
+						
+						world.setBlock(ix, 0, iz, ModBlocks.ore_bedrock);
+						TileEntityBedrockOre ore = (TileEntityBedrockOre) world.getTileEntity(ix, 0, iz);
+						ore.resource = stack;
+						ore.color = color;
+						ore.shape = world.rand.nextInt(10);
+						ore.acidRequirement = acid;
+						ore.tier = tier;
+						world.markBlockForUpdate(ix, 0, iz);
+						world.markTileEntityChunkModified(ix, 0, iz, ore);
+					}
 				}
 			}
 		}
@@ -35,7 +39,11 @@ public class BedrockOre {
 				
 				for(int iy = 1; iy < 7; iy++) {
 					if(iy < 3 || world.getBlock(ix, iy, iz) == Blocks.bedrock) {
-						world.setBlock(ix, iy, iz, ModBlocks.stone_depth);
+						
+						Block b = world.getBlock(ix, iy, iz);
+						if(b.isReplaceableOreGen(world, ix, iy, iz, Blocks.stone) || b.isReplaceableOreGen(world, ix, iy, iz, Blocks.bedrock)) {
+							world.setBlock(ix, iy, iz, ModBlocks.stone_depth);
+						}
 					}
 				}
 			}

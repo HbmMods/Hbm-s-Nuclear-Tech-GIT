@@ -31,6 +31,7 @@ public class GeneralConfig {
 	public static boolean enableSkyboxes = true;
 	public static boolean enableImpactWorldProvider = true;
 	public static boolean moreStars; //debugging
+	public static boolean enableStatReRegistering = true;
 	public static int hintPos = 0;
 
 	public static boolean enable528 = false;
@@ -57,6 +58,7 @@ public class GeneralConfig {
 	public static boolean enableLBSMSafeCrates = true;
 	public static boolean enableLBSMSafeMEDrives = true;
 	public static boolean enableLBSMIGen = true;
+	public static boolean enableLBSMNeutronDecon = true;
 	public static int schrabRate = 20;
 	
 	public static void loadFromConfig(Configuration config) {
@@ -89,6 +91,7 @@ public class GeneralConfig {
 		enableSkyboxes = config.get(CATEGORY_GENERAL, "1.31_enableSkyboxes", true, "If enabled, will try to use NTM's custom skyboxes.").getBoolean(true);
 		enableImpactWorldProvider = config.get(CATEGORY_GENERAL, "1.32_enableImpactWorldProvider", true, "If enabled, registers custom world provider which modifies lighting and sky colors for post impact effects.").getBoolean(true);
 		moreStars = CommonConfig.createConfigBool(config, CATEGORY_GENERAL, "More_Stars","used for debugging",true);
+		enableStatReRegistering = config.get(CATEGORY_GENERAL, "1.33_enableStatReRegistering", true, "If enabled, will re-register item crafting/breaking/usage stats in order to fix a forge bug where modded items just won't show up.").getBoolean(true);
 		
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;
 
@@ -129,6 +132,7 @@ public class GeneralConfig {
 		enableLBSMSafeCrates = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_safeCrates", "When enabled, prevents crates from becoming radioactive", true);
 		enableLBSMSafeMEDrives = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_safeMEDrives", "When enabled, prevents ME Drives and Portable Cells from becoming radioactive", true);
 		enableLBSMIGen = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_iGen", "When enabled, restores the industrial generator to pre-nerf power", true);
+		enableLBSMNeutronDecon = CommonConfig.createConfigBool(config, CATEGORY_LBSM, "LBSM_NeuCon", "When enabled, Player Decontaminators can decontaminate radioactive items stemmed from neutron rads.", true);
 		schrabRate = CommonConfig.createConfigInt(config, CATEGORY_LBSM, "LBSM_schrabOreRate", "Changes the amount of uranium ore needed on average to create one schrabidium ore using nukes. Standard mode value is 100", 20);
 		
 		

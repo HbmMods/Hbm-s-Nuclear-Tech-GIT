@@ -7,6 +7,7 @@ import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ModItems;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.ItemStackUtil;
 
 import net.minecraft.block.Block;
@@ -50,7 +51,7 @@ public class HazardTransformerRadiationContainer extends HazardTransformerBase {
 				}
 			}
 			
-			radiation = (float) Math.sqrt(radiation + 1F / ((radiation + 2F) * (radiation + 2F))) - 1F / (radiation + 2F);
+			radiation = (float) BobMathUtil.squirt(radiation);
 		}
 		
 		if(radiation > 0) {

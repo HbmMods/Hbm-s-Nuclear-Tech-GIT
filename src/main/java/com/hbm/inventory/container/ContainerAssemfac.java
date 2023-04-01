@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineAssemfac;
 
@@ -39,7 +40,7 @@ public class ContainerAssemfac extends Container {
 		
 		for(int i = 0; i < 8; i++) {
 			this.addSlotToContainer(new Slot(tile, 17 + i * 14, 106, 13 + i * 19 - (i % 2 == 1 ? 1 : 0)));
-			this.addSlotToContainer(new Slot(tile, 18 + i * 14, 234, 13 + i * 16));
+			this.addSlotToContainer(new SlotCraftingOutput(playerInv.player, tile, 18 + i * 14, 234, 13 + i * 16));
 		}
 		
 		for(int i = 0; i < 3; i++) {

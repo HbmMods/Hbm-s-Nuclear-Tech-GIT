@@ -90,6 +90,7 @@ import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.Compat;
+import com.hbm.util.StatHelper;
 import com.hbm.util.SuicideThreadDump;
 import com.hbm.world.ModBiomes;
 import com.hbm.world.PlanetGen;
@@ -104,6 +105,7 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -197,6 +199,7 @@ public class MainRegistry {
 	public static Achievement achSlimeball;
 	public static Achievement achSulfuric;
 	public static Achievement achWitchtaunter;
+	public static Achievement achNo9;
 	public static Achievement achInferno;
 	public static Achievement bobHidden;
 	public static Achievement horizonsStart;
@@ -346,11 +349,13 @@ public class MainRegistry {
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(ModItems.bathwater), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.MINESHAFT_CORRIDOR, new WeightedRandomChestContent(new ItemStack(ModItems.bathwater), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.MINESHAFT_CORRIDOR, new WeightedRandomChestContent(new ItemStack(ModItems.serum), 1, 1, 5));
+		ChestGenHooks.addItem(ChestGenHooks.MINESHAFT_CORRIDOR, new WeightedRandomChestContent(new ItemStack(ModItems.no9), 1, 1, 5));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.heart_piece), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.heart_piece), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.heart_piece), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.scrumpy), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.scrumpy), 1, 1, 1));
+		ChestGenHooks.addItem(ChestGenHooks.BONUS_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.no9), 1, 1, 7));
 
 		EntityMappings.writeMappings();
 		
@@ -665,6 +670,7 @@ public class MainRegistry {
 		achOmega12 = new Achievement("achievement.omega12", "omega12", 17, -1, ModItems.particle_digamma, null).initIndependentStat().setSpecial().registerStat();
 
 		achWitchtaunter = new Achievement("achievement.witchtaunter", "witchtaunter", -8, 7, ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.VAMPIRE), null).initIndependentStat().setSpecial().registerStat();
+		achNo9 = new Achievement("achievement.no9", "no9", -8, 12, ModItems.no9, null).initIndependentStat().registerStat();
 		achSlimeball = new Achievement("achievement.slimeball", "slimeball", -10, 6, Items.slime_ball, null).initIndependentStat().registerStat();
 		achSulfuric = new Achievement("achievement.sulfuric", "sulfuric", -10, 8, ModItems.bucket_sulfuric_acid, achSlimeball).initIndependentStat().setSpecial().registerStat();
 		achInferno = new Achievement("achievement.inferno", "inferno", -8, 10, ModItems.canister_napalm, null).initIndependentStat().setSpecial().registerStat();
@@ -745,6 +751,7 @@ public class MainRegistry {
 				achRadPoison,
 				achRadDeath,
 				achWitchtaunter,
+				achNo9,
 				achInferno,
 				achSlimeball,
 				achSulfuric,
@@ -910,6 +917,15 @@ public class MainRegistry {
 		RBMKDials.createDials(world);
 		SiegeOrchestrator.createGameRules(world);
 		event.registerServerCommand(new CommandReloadRecipes());
+	}
+	
+	@EventHandler
+	public void serverStart(FMLServerStartedEvent event) {
+		
+		if(GeneralConfig.enableStatReRegistering) {
+			logger.info("Attempting to re-register item stats...");
+			StatHelper.resetStatShitFuck(); //shit yourself
+		}
 	}
 	
 	private void loadConfig(FMLPreInitializationEvent event) {
@@ -1095,6 +1111,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.gun_mp_ammo");
 		ignoreMappings.add("hbm:item.gun_revolver_lead_ammo");
 		ignoreMappings.add("hbm:item.gun_revolver_schrabidium_ammo");
+		ignoreMappings.add("hbm:item.tank_waste");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.tileentity.machine.TileEntityMachineRadGen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -23,7 +23,7 @@ public class ContainerMachineRadGen extends Container {
 		}
 		for(int i = 0; i < 4; i++) {
 			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new SlotMachineOutput(tedf, j + i * 3 + 12, 116 + j * 18, 17 + i * 18));
+				this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, j + i * 3 + 12, 116 + j * 18, 17 + i * 18));
 			}
 		}
 		

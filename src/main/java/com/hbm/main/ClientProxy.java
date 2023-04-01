@@ -47,6 +47,7 @@ import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
+import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.entity.cart.*;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
@@ -262,6 +263,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrucible.class, new RenderCrucible());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeatBoiler.class, new RenderBoiler());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySteamEngine.class, new RenderSteamEngine());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineDiesel.class, new RenderDieselGen());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineCombustionEngine.class, new RenderCombustionEngine());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineExcavator.class, new RenderExcavator());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineMixer.class, new RenderMixer());
@@ -269,6 +271,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineAutosaw.class, new RenderAutosaw());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineVacuumDistill.class, new RenderVacuumDistill());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineCatalyticReformer.class, new RenderCatalyticReformer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFan.class, new RenderFan());
 		//Foundry
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoundryBasin.class, new RenderFoundry());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoundryMold.class, new RenderFoundry());
@@ -503,6 +506,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_blackjack, new ItemRenderWeaponNovac());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_silver, new ItemRenderWeaponNovac());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_red, new ItemRenderWeaponNovac());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_lunatic_marksman, new ItemRenderLunaticSniper());
 		//multitool
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_dig, new ItemRenderMultitool());
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_silk, new ItemRenderMultitool());
@@ -750,6 +754,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderBlockDecoModel(ModBlocks.deco_computer.getRenderType(), ResourceManager.deco_computer));
 		RenderingRegistry.registerBlockHandler(new RenderReeds());
 		RenderingRegistry.registerBlockHandler(new RenderRTTY());
+		RenderingRegistry.registerBlockHandler(new RenderDiFurnaceExtension());
 
 		RenderingRegistry.registerBlockHandler(new RenderFoundryBasin());
 		RenderingRegistry.registerBlockHandler(new RenderFoundryMold());
@@ -1811,6 +1816,17 @@ public class ClientProxy extends ServerProxy {
 			ParticleRadiationFog contrail = new ParticleRadiationFog(man, world, x, y, z);
 			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
 			//hopefully......
+		}
+		
+		if("foundry".equals(type)) {
+			int color = data.getInteger("color");
+			byte dir = data.getByte("dir");
+			float length = data.getFloat("len");
+			float base = data.getFloat("base");
+			float offset = data.getFloat("off");
+			
+			ParticleFoundry sploosh = new ParticleFoundry(man, world, x, y, z, color, dir, length, base, offset);
+			Minecraft.getMinecraft().effectRenderer.addEffect(sploosh);
 		}
 	}
 	

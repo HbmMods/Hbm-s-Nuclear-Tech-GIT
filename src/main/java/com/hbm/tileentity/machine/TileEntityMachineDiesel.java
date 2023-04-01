@@ -47,8 +47,8 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	public static int fluidCap = 16000;
 	public static HashMap<FuelGrade, Double> fuelEfficiency = new HashMap();
 	static {
-		fuelEfficiency.put(FuelGrade.MEDIUM,	0.9D);
-		fuelEfficiency.put(FuelGrade.HIGH,		1.0D);
+		fuelEfficiency.put(FuelGrade.MEDIUM,	0.5D);
+		fuelEfficiency.put(FuelGrade.HIGH,		0.75D);
 		fuelEfficiency.put(FuelGrade.AERO,		0.1D);
 	}
 	public static boolean shutUp = false;
@@ -59,7 +59,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 
 	public TileEntityMachineDiesel() {
 		super(5);
-		tank = new FluidTank(Fluids.DIESEL, 16000, 0);
+		tank = new FluidTank(Fluids.DIESEL, 4_000, 0);
 	}
 
 	@Override
@@ -98,18 +98,22 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return side == 0 ? slots_bottom : (side == 1 ? slots_top : slots_side);
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		if (i == 1)
-			if (itemStack.getItem() == ModItems.canister_empty || itemStack.getItem() == ModItems.tank_steel)
+	public boolean canExtractItem(int i, ItemStack stack, int j) {
+		if(i == 1) {
+			if(stack.getItem() == ModItems.canister_empty || stack.getItem() == ModItems.tank_steel) {
 				return true;
-		if (i == 2)
-			if (itemStack.getItem() instanceof IBatteryItem && ((IBatteryItem)itemStack.getItem()).getCharge(itemStack) == ((IBatteryItem)itemStack.getItem()).getMaxCharge())
+			}
+		}
+		if(i == 2) {
+			if(stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == ((IBatteryItem) stack.getItem()).getMaxCharge()) {
 				return true;
+			}
+		}
 
 		return false;
 	}
@@ -183,12 +187,12 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 
 	public void generate() {
 		
-		if (hasAcceptableFuel()) {
+		if(hasAcceptableFuel()) {
 			if (tank.getFill() > 0) {
 				
 				if(!shutUp) {
 					if (soundCycle == 0) {
-						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.5F * this.getVolume(3), 0.5F);
+						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 0.75F * this.getVolume(3), 0.5F);
 					}
 					soundCycle++;
 				}

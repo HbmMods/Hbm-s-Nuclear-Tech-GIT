@@ -1,6 +1,7 @@
 package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
@@ -9,11 +10,13 @@ import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo50BMG;
 import com.hbm.items.ItemAmmoEnums.AmmoLunaticSniper;
 import com.hbm.lib.HbmCollection;
+import com.hbm.lib.RefStrings;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -32,8 +35,15 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import scala.collection.parallel.ParIterableLike.Count;
 
 public class Gun50BMGFactory {
 	
@@ -42,11 +52,14 @@ public class Gun50BMGFactory {
 	private static final SpentCasing CASING50BMG;
 	private static final SpentCasing CASINGLUNA;
 
+
+
 	static {
 		EJECTOR_BMG = new CasingEjector().setMotion(-0.35, 0.9, 0).setOffset(-0.45, -0.2, 0.35).setAngleRange(0.01F, 0.05F);
 		EJECTOR_SNIPER = new CasingEjector().setMotion(-2, 0.15, 0).setOffset(-0.45, -0.2, 0.35).setAngleRange(0.02F, 0.05F);
 		CASING50BMG = new SpentCasing(CasingType.BOTTLENECK).setScale(3F).setBounceMotion(0.01F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(0.125F, 0.5D, 60, 20);
 		CASINGLUNA = new SpentCasing(CasingType.BOTTLENECK).setScale(4F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(0.125F, 0.5D, 60, 30);
+
 	}
 	
 	public static BulletConfiguration getLunaticSabotRound() {
@@ -56,20 +69,48 @@ public class Gun50BMGFactory {
 		bullet.spread = 0.0F;
 		bullet.dmgMax = 500F;
 		bullet.dmgMin = 450F;
-		bullet.headshotMult = 2.5f;
+		bullet.headshotMult = 2.5F;
 		bullet.wear = 2000;
-		bullet.velocity = 100;
+		bullet.velocity = 10F;
 		bullet.doesPenetrate = true;
 		bullet.leadChance = 20;
-		bullet.incendiary = 10;
 
-		bullet.blockDamage = true;
-		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 5.0F, true, false);
+		bullet.blockDamage = false;
+		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 2.0F, false, false);
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaStock");
+		bullet.bUpdate = new IBulletUpdateBehavior() {
 
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(!bullet.worldObj.isRemote) {
+					Vec3 vec = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ);
+					double x = bullet.posX - vec.xCoord;
+					double y = bullet.posY - vec.yCoord;
+					double z = bullet.posZ - vec.zCoord;
+					//AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(radius, radius, radius);
+					//List<Entity> list = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet.shooter, aabb);
+	
+					if(!(bullet.ticksExisted > 1)) {
+						NBTTagCompound data = new NBTTagCompound();
+						int count = 12;
+						data.setString("type", "smoke");
+						data.setString("mode", "cloud");
+						data.setInteger("count", count);
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ),  new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 200));
+						
+						//PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(bullet.dimension, x, y, z, 100));
+						System.out.println(x + " " + y + " " + z);
+					}
+				}
+			}	
+		};	
+		
 		return bullet;
 	}
+
+
 
 	public static BulletConfiguration getLunaticIncendiaryRound() {
 		BulletConfiguration bullet = getLunaticSabotRound().clone();
@@ -77,7 +118,8 @@ public class Gun50BMGFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.INCENDIARY));
 
 		bullet.ammo.meta = 1;
-		bullet.incendiary = 50;
+		bullet.incendiary = 10;
+		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 5.0F, true, false);
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaInc");
 
@@ -91,6 +133,7 @@ public class Gun50BMGFactory {
 
 		bullet.ammo.meta = 2;
 		bullet.explosive = 25;
+		bullet.destroysBlocks = true;
 		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 25.0F, true, false);
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaExp");
@@ -172,6 +215,49 @@ public class Gun50BMGFactory {
 		
 		return config;
 	}
+	
+	public static final ResourceLocation scope_luna = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_luna.png");
+	
+	public static GunConfiguration getLunaticMarksman() {
+		GunConfiguration config = new GunConfiguration();
+
+		config.rateOfFire = 15;
+		config.reloadDuration = 15;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.roundsPerCycle = 1;
+		config.firingSound = "hbm:weapon.hicalShot";
+		config.firingPitch = 1F;
+		config.ammoCap = 5;
+		config.reloadType = GunConfiguration.RELOAD_SINGLE;
+		config.hasSights = true;
+		config.zoomFOV = 0.2F; //x5 magnification
+		config.scopeTexture = scope_luna;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_CLASSIC;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.reloadSoundEnd = true;
+		config.durability = 500_000;
+
+		config.name = "lunaSniper";
+		config.manufacturer = EnumGunManufacturer.LUNA;
+		config.comment.add("\"You do not spark joy\"");
+
+		config.config = new ArrayList();
+		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_SABOT);
+		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_EXPLOSIVE);
+
+		config.animations.put(AnimType.CYCLE,
+				new BusAnimation()
+						.addBus("RECOIL", new BusAnimationSequence()
+								.addKeyframe(new BusAnimationKeyframe(-0.45, 0.15, 0, 40)) // Moves back  and raise slightly
+								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))) // Then forward  again
+						.addBus("EJECT", new BusAnimationSequence().addKeyframe(new BusAnimationKeyframe(0, 0, 0, 30)) // Wait
+								.addKeyframe(new BusAnimationKeyframe(50, 0, 0, 120)))); // Fly // out
+
+		config.ejector = EJECTOR_SNIPER;
+		return config;
+	}
 
 	static float inaccuracy = 2.5F;
 	public static BulletConfiguration get50BMGConfig() {
@@ -182,7 +268,6 @@ public class Gun50BMGFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
-		
 		bullet.spentCasing = CASING50BMG.clone().register("50BMGStock");
 		
 		return bullet;

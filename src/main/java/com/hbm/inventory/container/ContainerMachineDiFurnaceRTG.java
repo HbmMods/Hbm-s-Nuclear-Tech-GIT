@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.tileentity.IRadioisotopeFuel;
 import com.hbm.tileentity.machine.TileEntityDiFurnaceRTG;
 
@@ -20,7 +20,7 @@ public class ContainerMachineDiFurnaceRTG extends Container {
 		this.addSlotToContainer(new Slot(teIn, 0, 80, 18));
 		this.addSlotToContainer(new Slot(teIn, 1, 80, 54));
 		// Output
-		this.addSlotToContainer(new SlotMachineOutput(teIn, 2, 134, 36));
+		this.addSlotToContainer(new SlotCraftingOutput(playerInv.player, teIn, 2, 134, 36));
 		// RTG pellets
 		this.addSlotToContainer(new Slot(teIn, 3, 22, 18));
 		this.addSlotToContainer(new Slot(teIn, 4, 40, 18));

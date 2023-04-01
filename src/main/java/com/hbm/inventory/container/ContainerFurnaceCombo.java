@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotSmelting;
 import com.hbm.tileentity.machine.TileEntityFurnaceCombination;
 
@@ -22,7 +22,7 @@ public class ContainerFurnaceCombo extends Container {
 		//output
 		this.addSlotToContainer(new SlotSmelting(invPlayer.player, furnace, 1, 89, 36));
 		this.addSlotToContainer(new Slot(furnace, 2, 136, 18));
-		this.addSlotToContainer(new SlotMachineOutput(furnace, 3, 136, 54));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, furnace, 3, 136, 54));
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {

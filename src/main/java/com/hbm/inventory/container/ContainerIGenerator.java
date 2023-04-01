@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +21,7 @@ public class ContainerIGenerator extends Container {
 		this.addSlotToContainer(new Slot(te, 0, 8, 134));
 		//Water
 		this.addSlotToContainer(new Slot(te, 1, 62, 112));
-		this.addSlotToContainer(new SlotMachineOutput(te, 2, 154, 112));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, te, 2, 154, 112));
 		//Solid Fuel
 		this.addSlotToContainer(new Slot(te, 3, 67, 51));
 		this.addSlotToContainer(new Slot(te, 4, 85, 51));
@@ -29,10 +29,10 @@ public class ContainerIGenerator extends Container {
 		this.addSlotToContainer(new Slot(te, 6, 85, 87));
 		//Lubricant
 		this.addSlotToContainer(new Slot(te, 7, 132, 33));
-		this.addSlotToContainer(new SlotMachineOutput(te, 8, 132, 51));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, te, 8, 132, 51));
 		//Fuel
 		this.addSlotToContainer(new Slot(te, 9, 132, 69));
-		this.addSlotToContainer(new SlotMachineOutput(te, 10, 132, 87));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, te, 10, 132, 87));
 		//RTG
 		for(int i = 0; i < 5; i++) {
 			for(int j = 0; j < 2; j++) {

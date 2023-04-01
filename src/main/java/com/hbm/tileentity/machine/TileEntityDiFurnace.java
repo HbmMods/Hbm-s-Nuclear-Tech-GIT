@@ -1,14 +1,14 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineDiFurnace;
 import com.hbm.inventory.container.ContainerDiFurnace;
 import com.hbm.inventory.gui.GUIDiFurnace;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
-import com.hbm.util.RTGUtil;
+import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,21 +17,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, INBTPacketReceiver, IGUIProvider {
+public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIProvider {
 
-	private ItemStack slots[];
-
-	public int dualCookTime;
-	public int dualPower;
-	public static final int maxPower = 12800;
+	public int progress;
+	public int fuel;
+	public static final int maxFuel = 12800;
 	public static final int processingSpeed = 400;
 
 	private static final int[] slots_io = new int[] { 0, 1, 2, 3 };
@@ -39,100 +34,34 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 	public byte sideUpper = 1;
 	public byte sideLower = 1;
 
-	private String customName;
-
 	public TileEntityDiFurnace() {
-		slots = new ItemStack[4];
+		super(4);
 	}
 
 	@Override
-	public int getSizeInventory() {
-		return slots.length;
+	public String getName() {
+		return "container.diFurnace";
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		return i != 3;
 	}
 
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if(slots[i] != null) {
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
-			itemStack.stackSize = getInventoryStackLimit();
-		}
-	}
-
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.diFurnace";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-
-	public void setCustomName(String name) {
-		this.customName = name;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
-			return false;
-		} else {
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
-		}
-	}
-
-	// You scrubs aren't needed for anything (right now)
-	@Override
-	public void openInventory() {
-	}
-
-	@Override
-	public void closeInventory() {
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(i == 3) {
-			return false;
-		}
-
-		return true;
-	}
-
-	public boolean hasItemPower(ItemStack itemStack) {
-		return getItemPower(itemStack) > 0;
+	public boolean hasItemPower(ItemStack stack) {
+		return getItemPower(stack) > 0;
 	}
 
 	//TODO: replace this terribleness
-	private static int getItemPower(ItemStack itemStack) {
-		if(itemStack == null) {
+	private static int getItemPower(ItemStack stack) {
+		if(stack == null) {
 			return 0;
 		} else {
-			Item item = itemStack.getItem();
+			Item item = stack.getItem();
 
 			if(item == Items.coal) return 200;
 			if(item == Item.getItemFromBlock(Blocks.coal_block)) return 2000;
+			if(item == Item.getItemFromBlock(ModBlocks.block_coke)) return 4000;
 			if(item == Items.lava_bucket) return 12800;
 			if(item == Items.blaze_rod) return 1000;
 			if(item == Items.blaze_powder) return 300;
@@ -148,40 +77,11 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(slots[i] != null) {
-			if(slots[i].stackSize <= j) {
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
-			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if(slots[i].stackSize == 0) {
-				slots[i] = null;
-			}
-
-			return itemStack1;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
 
-		this.dualPower = nbt.getInteger("powerTime");
-		this.dualCookTime = nbt.getShort("cookTime");
-		slots = new ItemStack[getSizeInventory()];
-
-		for(int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length) {
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
+		this.fuel = nbt.getInteger("powerTime");
+		this.progress = nbt.getShort("cookTime");
 		
 		byte[] modes = nbt.getByteArray("modes");
 		this.sideFuel = modes[0];
@@ -192,20 +92,8 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("powerTime", dualPower);
-		nbt.setShort("cookTime", (short) dualCookTime);
-		NBTTagList list = new NBTTagList();
-
-		for(int i = 0; i < slots.length; i++) {
-			if(slots[i] != null) {
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte) i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
-		
+		nbt.setInteger("powerTime", fuel);
+		nbt.setShort("cookTime", (short) progress);
 		nbt.setByteArray("modes", new byte[] {(byte) sideFuel, (byte) sideUpper, (byte) sideLower});
 	}
 
@@ -231,17 +119,22 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 	}
 
 	public int getDiFurnaceProgressScaled(int i) {
-		return (dualCookTime * i) / processingSpeed;
+		return (progress * i) / processingSpeed;
 	}
 
 	public int getPowerRemainingScaled(int i) {
-		return (dualPower * i) / maxPower;
+		return (fuel * i) / maxFuel;
 	}
 
 	public boolean canProcess() {
 		if(slots[0] == null || slots[1] == null) {
 			return false;
 		}
+		
+		if(!this.hasPower()) {
+			return false;
+		}
+		
 		ItemStack itemStack = BlastFurnaceRecipes.getOutput(slots[0], slots[1]);
 		if(itemStack == null) {
 			return false;
@@ -263,34 +156,25 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 	}
 
 	private void processItem() {
-		if(canProcess()) {
-			ItemStack itemStack = BlastFurnaceRecipes.getOutput(slots[0], slots[1]);
+		ItemStack itemStack = BlastFurnaceRecipes.getOutput(slots[0], slots[1]);
 
-			if(slots[3] == null) {
-				slots[3] = itemStack.copy();
-			} else if(slots[3].isItemEqual(itemStack)) {
-				slots[3].stackSize += itemStack.stackSize;
-			}
+		if(slots[3] == null) {
+			slots[3] = itemStack.copy();
+		} else if(slots[3].isItemEqual(itemStack)) {
+			slots[3].stackSize += itemStack.stackSize;
+		}
 
-			for(int i = 0; i < 2; i++) {
-				if(slots[i].stackSize <= 0) {
-					slots[i] = new ItemStack(slots[i].getItem().setFull3D());
-				} else {
-					slots[i].stackSize--;
-				}
-				if(slots[i].stackSize <= 0) {
-					slots[i] = null;
-				}
-			}
+		for(int i = 0; i < 2; i++) {
+			this.decrStackSize(i, 1);
 		}
 	}
 
 	public boolean hasPower() {
-		return dualPower > 0;
+		return fuel > 0;
 	}
 
 	public boolean isProcessing() {
-		return this.dualCookTime > 0;
+		return this.progress > 0;
 	}
 
 	@Override
@@ -298,19 +182,12 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 
 		if(!worldObj.isRemote) {
 
-			boolean flag1 = false;
-
-			if(hasPower() && isProcessing()) {
-				this.dualPower = this.dualPower - 1;
-
-				if(this.dualPower < 0) {
-					this.dualPower = 0;
-				}
-			}
-			if(this.hasItemPower(this.slots[2]) && this.dualPower <= (TileEntityDiFurnace.maxPower - TileEntityDiFurnace.getItemPower(this.slots[2]))) {
-				this.dualPower += getItemPower(this.slots[2]);
+			boolean markDirty = false;
+			
+			if(this.hasItemPower(this.slots[2]) && this.fuel <= (TileEntityDiFurnace.maxFuel - TileEntityDiFurnace.getItemPower(this.slots[2]))) {
+				this.fuel += getItemPower(this.slots[2]);
 				if(this.slots[2] != null) {
-					flag1 = true;
+					markDirty = true;
 					this.slots[2].stackSize--;
 					if(this.slots[2].stackSize == 0) {
 						this.slots[2] = this.slots[2].getItem().getContainerItem(this.slots[2]);
@@ -318,41 +195,45 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 				}
 			}
 
-			if(hasPower() && canProcess()) {
-				dualCookTime++;
+			if(canProcess()) {
+				boolean extension = worldObj.getBlock(xCoord, yCoord + 1, zCoord) == ModBlocks.machine_difurnace_extension;
 
-				if(this.dualCookTime == TileEntityDiFurnace.processingSpeed) {
-					this.dualCookTime = 0;
+				//fuel -= extension ? 2 : 1;
+				fuel -= 1; //switch it up on me, fuel efficiency, on fumes i'm running - running - running - running
+				progress += extension ? 3 : 1;
+
+				if(this.progress >= TileEntityDiFurnace.processingSpeed) {
+					this.progress = 0;
 					this.processItem();
-					flag1 = true;
+					markDirty = true;
 				}
+				
+				if(fuel < 0) {
+					fuel = 0;
+				}
+				
 			} else {
-				dualCookTime = 0;
+				progress = 0;
 			}
+
 			boolean trigger = true;
 
-			if(hasPower() && canProcess() && this.dualCookTime == 0) {
+			if(canProcess() && this.progress == 0) {
 				trigger = false;
 			}
 
-			if(this.slots[2] != null && (this.slots[2].getItem() instanceof ItemRTGPellet)) {
-				this.dualPower += RTGUtil.updateRTGs(slots, new int[] { 2 });
-				if(this.dualPower > maxPower)
-					this.dualPower = maxPower;
-			}
-
 			if(trigger) {
-				flag1 = true;
-				MachineDiFurnace.updateBlockState(this.dualCookTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+				markDirty = true;
+				MachineDiFurnace.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
 
 			NBTTagCompound data = new NBTTagCompound();
-			data.setShort("time", (short) this.dualCookTime);
-			data.setShort("fuel", (short) this.dualPower);
+			data.setShort("time", (short) this.progress);
+			data.setShort("fuel", (short) this.fuel);
 			data.setByteArray("modes", new byte[] { (byte) sideFuel, (byte) sideUpper, (byte) sideLower });
 			INBTPacketReceiver.networkPack(this, data, 15);
 
-			if(flag1) {
+			if(markDirty) {
 				this.markDirty();
 			}
 		}
@@ -360,8 +241,8 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory, 
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
-		this.dualCookTime = nbt.getShort("time");
-		this.dualPower = nbt.getShort("fuel");
+		this.progress = nbt.getShort("time");
+		this.fuel = nbt.getShort("fuel");
 		byte[] modes = nbt.getByteArray("modes");
 		this.sideFuel = modes[0];
 		this.sideUpper = modes[1];

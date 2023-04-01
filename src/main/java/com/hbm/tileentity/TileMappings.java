@@ -12,6 +12,7 @@ import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
+import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.network.BlockCablePaintable.TileEntityCablePaintable;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.blocks.network.FluidDuctGauge.TileEntityPipeGauge;
@@ -56,7 +57,6 @@ public class TileMappings {
 		put(TileEntityDecoSteelPoles.class, "tileentity_steelpoles");
 		put(TileEntityDecoPoleTop.class, "tileentity_poletop");
 		put(TileEntityDecoPoleSatelliteReceiver.class, "tileentity_satellitereceicer");
-		put(TileEntityMachineDeuterium.class, "tileentity_deuterium");
 		put(TileEntityMachineBattery.class, "tileentity_battery");
 		put(TileEntityMachineCoal.class, "tileentity_coal");
 		put(TileEntityRedBarrel.class, "tileentity_barrel");
@@ -356,6 +356,7 @@ public class TileMappings {
 		put(TileEntityCraneBoxer.class, "tileentity_boxer");
 		put(TileEntityCraneUnboxer.class, "tileentity_unboxer");
 		put(TileEntityCraneRouter.class, "tileentity_router");
+		put(TileEntityFan.class, "tileentity_fan");
 
 		put(TileEntityRadioTorchSender.class, "tileentity_rtty_sender");
 		put(TileEntityRadioTorchReceiver.class, "tileentity_rtty_rec");

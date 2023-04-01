@@ -224,11 +224,11 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.definitelyfood, 1), new Object[] { "DDD", "SDS", "DDD", 'D', Blocks.dirt, 'S', STEEL.plate() });
 		addRecipeAuto(new ItemStack(ModItems.turbine_tungsten, 1), new Object[] { "BBB", "BSB", "BBB", 'B', ModItems.blade_tungsten, 'S', DURA.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.ring_starmetal, 1), new Object[] { " S ", "S S", " S ", 'S', STAR.ingot() });
-		addRecipeAuto(new ItemStack(ModItems.flywheel_beryllium, 1), new Object[] { "BBB", "BTB", "BBB", 'B', BE.block(), 'T', ModItems.bolt_compound });
+		addRecipeAuto(new ItemStack(ModItems.flywheel_beryllium, 1), new Object[] { "IBI", "BTB", "IBI", 'B', BE.block(), 'I', IRON.plateCast(), 'T', ModItems.bolt_compound });
 
 		addShapelessAuto(new ItemStack(ModItems.cmug_empty, 1), new Object[] {Items.clay_ball });
 		addRecipeAuto(new ItemStack(ModItems.glass_empty, 1), new Object[] { "G G", "GGG", " G ", 'G', Blocks.glass });
-		addShapelessAuto(new ItemStack(ModItems.teacup_empty, 1), new Object[] {Items.clay_ball, ModItems.powder_iron});
+		addShapelessAuto(new ItemStack(ModItems.teacup_empty, 1), new Object[] {Items.clay_ball, ModItems.powder_calcium});
 
 		addShapelessAuto(new ItemStack(ModItems.powder_poison), new Object[] { DictFrame.fromOne(ModBlocks.plant_flower, EnumFlowerType.NIGHTSHADE) });
 		addShapelessAuto(new ItemStack(ModItems.syringe_metal_stimpak), new Object[] { ModItems.syringe_metal_empty, Items.carrot, DictFrame.fromOne(ModBlocks.plant_flower, EnumFlowerType.FOXGLOVE) }); //xander root and broc flower
@@ -268,6 +268,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.conveyor_lift, 3), new Object[] { "IGI", "IGI", "ICI" , 'I', IRON.ingot(), 'G', ModBlocks.chain, 'C', ModBlocks.conveyor });
 
 		//addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_difurnace_off), 1), new Object[] { "T T", "PHP", "TFT", 'T', W.ingot(), 'P', ModItems.board_copper, 'H', Blocks.hopper, 'F', Blocks.furnace });
+		addRecipeAuto(new ItemStack(ModBlocks.machine_difurnace_extension, 1), new Object[] { " C ", "BGB", "BGB", 'C', CU.plate(), 'B', ModItems.ingot_firebrick, 'G', ModBlocks.steel_grate });
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_uf6_tank), 1), new Object[] { "WTW", "WTW", "SRS", 'S', IRON.plate(), 'W', ModItems.coil_tungsten, 'T', ModItems.tank_steel, 'W', ModItems.coil_tungsten,'R', MINGRADE.ingot() });
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_puf6_tank), 1), new Object[] { "WTW", "WTW", "SRS", 'S', STEEL.plate(), 'W', ModItems.coil_tungsten, 'T', ModItems.tank_steel, 'W', ModItems.coil_tungsten,'R', MINGRADE.ingot() });
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_nuke_furnace_off), 1), new Object[] { "SSS", "LFL", "CCC", 'S', STEEL.plate(), 'C', ModItems.board_copper, 'L', PB.plate(), 'F', Item.getItemFromBlock(Blocks.furnace) });
@@ -284,10 +285,6 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModBlocks.red_cable, 1), new Object[] { ModBlocks.red_cable_classic });
 		addRecipeAuto(new ItemStack(ModBlocks.red_connector, 4), new Object[] { "C", "I", "S", 'C', ModItems.coil_copper, 'I', ModItems.plate_polymer, 'S', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.red_pylon, 4), new Object[] { "CWC", "PWP", " T ", 'C', ModItems.coil_copper, 'W', KEY_PLANKS, 'P', ModItems.plate_polymer, 'T', ModBlocks.red_wire_coated });
-		/*addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.oil_duct_solid), 16), new Object[] { "SPS", "P P", "SPS", 'S', STEEL.ingot(), 'P', IRON.plate() });
-		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.oil_duct), 16), new Object[] { "SIS", "   ", "SIS", 'S', STEEL.plate(), 'I', IRON.plate() });
-		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.gas_duct_solid), 16), new Object[] { "SPS", "P P", "SPS", 'S', STEEL.ingot(), 'P', CU.plate() });
-		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.gas_duct), 16), new Object[] { "SIS", "   ", "SIS", 'S', STEEL.plate(), 'I', CU.plate() });*/
 		addRecipeAuto(new ItemStack(ModBlocks.machine_battery_potato, 1), new Object[] { "PCP", "WRW", "PCP", 'P', ItemBattery.getEmptyBattery(ModItems.battery_potato), 'C', CU.ingot(), 'R', REDSTONE.block(), 'W', KEY_PLANKS });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_coal_off, 1), new Object[] { "STS", "SCS", "SFS", 'S', STEEL.ingot(), 'T', ModItems.tank_steel, 'C', MINGRADE.ingot(), 'F', Blocks.furnace });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_boiler_off, 1), new Object[] { "SPS", "TFT", "SPS", 'S', STEEL.ingot(), 'P', ModItems.board_copper, 'T', ModItems.tank_steel, 'F', Blocks.furnace });
@@ -317,6 +314,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.fraction_spacer), new Object[] { "BHB", 'H', ModItems.hull_big_steel, 'B', Blocks.iron_bars });
 		addRecipeAuto(new ItemStack(ModBlocks.furnace_iron), new Object[] { "III", "IFI", "BBB", 'I', IRON.ingot(), 'F', Blocks.furnace, 'B', Blocks.stonebrick });
 		addRecipeAuto(new ItemStack(ModBlocks.machine_mixer), new Object[] { "PIP", "GCG", "PMP", 'P', STEEL.plate(), 'I', DURA.ingot(), 'G', KEY_ANYPANE, 'C', ModItems.circuit_copper, 'M', ModItems.motor });
+		addRecipeAuto(new ItemStack(ModBlocks.fan), new Object[] { "BPB", "PRP", "BPB", 'B', ModItems.bolt_tungsten, 'P', IRON.plate(), 'R', REDSTONE.dust() });
 
 		addRecipeAuto(new ItemStack(ModBlocks.muffler, 1), new Object[] { "III", "IWI", "III", 'I', ModItems.plate_polymer, 'W', Blocks.wool });
 
@@ -338,6 +336,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.black_hole, 1), new Object[] { "SSS", "SCS", "SSS", 'C', ModItems.singularity, 'S', ModItems.crystal_xen });
 		addRecipeAuto(new ItemStack(ModItems.crystal_xen, 1), new Object[] { "EEE", "EIE", "EEE", 'E', ModItems.powder_power, 'I', EUPH.ingot() });
 
+		addShapelessAuto(new ItemStack(ModItems.fuse, 1), new Object[] { STEEL.plate(), ModItems.plate_polymer, ModItems.wire_tungsten });
 		addShapelessAuto(new ItemStack(ModItems.overfuse, 1), new Object[] { ModItems.bolt_tungsten, NP237.dust(), I.dust(), TH232.dust(), AT.dust(), ND.dust(), ModItems.board_copper, ModItems.black_hole, CS.dust() });
 		addShapelessAuto(new ItemStack(ModItems.overfuse, 1), new Object[] { ModItems.bolt_tungsten, ST.dust(), BR.dust(), CO.dust(), TS.dust(), NB.dust(), ModItems.board_copper, ModItems.black_hole, CE.dust() });
 		
@@ -572,7 +571,6 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.battery_sc_americium), new Object[] { "NBN", "PCP", "NBN", 'N', TA.nugget(), 'B', AM241.billet(), 'P', ANY_PLASTIC.ingot(), 'C', ModItems.battery_sc_lead });
 		
 		addRecipeAuto(new ItemStack(ModItems.wiring_red_copper, 1), new Object[] { "PPP", "PIP", "PPP", 'P', STEEL.plate(), 'I', STEEL.ingot() });
-		addRecipeAuto(new ItemStack(ModItems.tank_waste, 1), new Object[] { "PTP", "PTP", "PTP", 'T', ModItems.tank_steel, 'P', STEEL.plate() });
 		
 		addRecipeAuto(new ItemStack(ModItems.jetpack_tank, 1), new Object[] { " S ", "BKB", " S ", 'S', STEEL.plate(), 'B', ModItems.bolt_tungsten, 'K', Fluids.KEROSENE.getDict(1000) });
 		addRecipeAuto(new ItemStack(ModItems.gun_kit_1, 4), new Object[] { "I ", "LB", "P ", 'I', ModItems.plate_polymer, 'L', Fluids.LUBRICANT.getDict(1000), 'B', ModItems.bolt_tungsten, 'P', IRON.plate() });

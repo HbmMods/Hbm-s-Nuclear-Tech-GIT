@@ -23,7 +23,6 @@ public class BreederRecipes extends SerializableRecipe {
 
 	@Override
 	public void registerDefaults() {
-		
 		setRecipe(BreedingRodType.LITHIUM, BreedingRodType.TRITIUM, 200);
 		setRecipe(BreedingRodType.CO, BreedingRodType.CO60, 100);
 		setRecipe(BreedingRodType.RA226, BreedingRodType.AC227, 300);

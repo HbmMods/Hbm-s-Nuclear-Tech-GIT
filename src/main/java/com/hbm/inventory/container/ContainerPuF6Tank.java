@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.tileentity.machine.storage.TileEntityMachinePuF6Tank;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,9 +18,9 @@ public class ContainerPuF6Tank extends Container {
 		testNuke = tedf;
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 44, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 44, 53));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 1, 44, 53));
 		this.addSlotToContainer(new Slot(tedf, 2, 116, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 116, 53));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 3, 116, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{

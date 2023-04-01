@@ -512,7 +512,7 @@ public class InventoryUtil {
 							slot.putStack(current);
 							success = true;
 						} else if(current.stackSize < max) {
-							stack.stackSize -= stack.getMaxStackSize() - current.stackSize;
+							stack.stackSize -= max - current.stackSize;
 							current.stackSize = max;
 							slot.putStack(current);
 							success = true;

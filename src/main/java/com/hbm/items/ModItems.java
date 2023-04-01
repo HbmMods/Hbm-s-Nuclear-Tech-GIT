@@ -1233,6 +1233,9 @@ public class ModItems {
 	public static ItemRBMKPellet rbmk_pellet_zfb_am_mix;
 	public static ItemRBMKPellet rbmk_pellet_drx;
 
+	public static Item watz_pellet;
+	public static Item watz_pellet_depleted;
+
 	public static Item scrap_plastic;
 	public static Item scrap;
 	public static Item scrap_oil;
@@ -1570,222 +1573,55 @@ public class ModItems {
 
 	public static Item ammo_cell;
 
-	/*public static Item ammo_12gauge;
-	public static Item ammo_12gauge_incendiary;
-	public static Item ammo_12gauge_shrapnel;
-	public static Item ammo_12gauge_du;
-	public static Item ammo_12gauge_sleek;
-	public static Item ammo_12gauge_marauder;
-	public static Item ammo_20gauge;
-	public static Item ammo_20gauge_slug;
-	public static Item ammo_20gauge_flechette;
-	public static Item ammo_20gauge_incendiary;
-	public static Item ammo_20gauge_shrapnel;
-	public static Item ammo_20gauge_explosive;
-	public static Item ammo_20gauge_caustic;
-	public static Item ammo_20gauge_shock;
-	public static Item ammo_20gauge_wither;
-	public static Item ammo_20gauge_sleek;
-	public static Item ammo_4gauge;
-	public static Item ammo_4gauge_slug;
-	public static Item ammo_4gauge_flechette;
-	public static Item ammo_4gauge_flechette_phosphorus;
-	public static Item ammo_4gauge_explosive;
-	public static Item ammo_4gauge_semtex;
-	public static Item ammo_4gauge_balefire;
-	public static Item ammo_4gauge_kampf;
-	public static Item ammo_4gauge_canister;
-	public static Item ammo_4gauge_claw;
-	public static Item ammo_4gauge_vampire;
-	public static Item ammo_4gauge_void;
-	public static Item ammo_4gauge_titan;
-	public static Item ammo_4gauge_sleek;
-	public static Item ammo_357_desh;
-	public static Item ammo_44;
-	public static Item ammo_44_ap;
-	public static Item ammo_44_du;
-	public static Item ammo_44_phosphorus;
-	public static Item ammo_44_star;
-	public static Item ammo_44_chlorophyte;
-	public static Item ammo_44_pip;
-	public static Item ammo_44_bj;
-	public static Item ammo_44_silver;
-	public static Item ammo_44_rocket;
-	public static Item ammo_5mm;
-	public static Item ammo_5mm_explosive;
-	public static Item ammo_5mm_du;
-	public static Item ammo_5mm_star;
-	public static Item ammo_5mm_chlorophyte;
-	public static Item ammo_9mm;
-	public static Item ammo_9mm_ap;
-	public static Item ammo_9mm_du;
-	public static Item ammo_9mm_chlorophyte;
-	public static Item ammo_9mm_rocket;
-	public static Item ammo_556;
-	public static Item ammo_566_gold;
-	public static Item ammo_556_phosphorus;
-	public static Item ammo_556_ap;
-	public static Item ammo_556_du;
-	public static Item ammo_556_star;
-	public static Item ammo_556_chlorophyte;
-	public static Item ammo_556_sleek;
-	public static Item ammo_556_tracer;
-	public static Item ammo_556_flechette;
-	public static Item ammo_556_flechette_incendiary;
-	public static Item ammo_556_flechette_phosphorus;
-	public static Item ammo_556_flechette_du;
-	public static Item ammo_556_flechette_chlorophyte;
-	public static Item ammo_556_flechette_sleek;
-	public static Item ammo_556_k;
-	public static Item ammo_22lr;
-	public static Item ammo_22lr_ap;
-	public static Item ammo_22lr_chlorophyte;
-	public static Item ammo_50ae;
-	public static Item ammo_50ae_ap;
-	public static Item ammo_50ae_du;
-	public static Item ammo_50ae_star;
-	public static Item ammo_50ae_chlorophyte;
-	public static Item ammo_50bmg;
-	public static Item ammo_50bmg_incendiary;
-	public static Item ammo_50bmg_phosphorus;
-	public static Item ammo_50bmg_explosive;
-	public static Item ammo_50bmg_ap;
-	public static Item ammo_50bmg_du;
-	public static Item ammo_50bmg_star;
-	public static Item ammo_50bmg_chlorophyte;
-	public static Item ammo_50bmg_flechette;
-	public static Item ammo_50bmg_flechette_am;
-	public static Item ammo_50bmg_flechette_po;
-	public static Item ammo_50bmg_sleek;
-	public static Item ammo_75bolt;
-	public static Item ammo_75bolt_incendiary;
-	public static Item ammo_75bolt_he;*/
 	public static Item ammo_folly;
 	public static Item ammo_folly_nuclear;
 	public static Item ammo_folly_du;
-	/*public static Item ammo_rocket;
-	public static Item ammo_rocket_he;
-	public static Item ammo_rocket_incendiary;
-	public static Item ammo_rocket_phosphorus;
-	public static Item ammo_rocket_shrapnel;
-	public static Item ammo_rocket_emp;
-	public static Item ammo_rocket_glare;
-	public static Item ammo_rocket_toxic;
-	public static Item ammo_rocket_canister;
-	public static Item ammo_rocket_sleek;
-	public static Item ammo_rocket_nuclear;
-	public static Item ammo_rocket_rpc;
-	public static Item ammo_rocket_digamma;
-	public static Item ammo_grenade;
-	public static Item ammo_grenade_he;
-	public static Item ammo_grenade_incendiary;
-	public static Item ammo_grenade_phosphorus;
-	public static Item ammo_grenade_toxic;
-	public static Item ammo_grenade_concussion;
-	public static Item ammo_grenade_finned;
-	public static Item ammo_grenade_sleek;
-	public static Item ammo_grenade_nuclear;
-	public static Item ammo_grenade_tracer;
-	public static Item ammo_grenade_kampf;
-	public static Item ammo_shell;
-	public static Item ammo_shell_explosive;
-	public static Item ammo_shell_apfsds_t;
-	public static Item ammo_shell_apfsds_du;
-	public static Item ammo_shell_w9;*/
 	public static Item ammo_dgk;
 	public static Item ammo_arty;
 	public static Item ammo_himars;
-	/*public static Item ammo_nuke;
-	public static Item ammo_nuke_low;
-	public static Item ammo_nuke_high;
-	public static Item ammo_nuke_tots;
-	public static Item ammo_nuke_safe;
-	public static Item ammo_nuke_pumpkin;
-	public static Item ammo_nuke_barrel;
-	public static Item ammo_mirv;
-	public static Item ammo_mirv_low;
-	public static Item ammo_mirv_high;
-	public static Item ammo_mirv_safe;
-	public static Item ammo_mirv_special;
-	public static Item ammo_fuel;
-	public static Item ammo_fuel_napalm;
-	public static Item ammo_fuel_phosphorus;
-	public static Item ammo_fuel_vaporizer;
-	public static Item ammo_fuel_gas;
-	public static Item ammo_fireext;
-	public static Item ammo_fireext_foam;
-	public static Item ammo_fireext_sand;
-	public static Item ammo_cell;
-	public static Item ammo_dart;
-	public static Item ammo_dart_nuclear;
-	public static Item ammo_dart_nerf;
-	public static Item ammo_stinger_rocket;
-	public static Item ammo_stinger_rocket_he;
-	public static Item ammo_stinger_rocket_incendiary;
-	public static Item ammo_stinger_rocket_nuclear;
-	public static Item ammo_stinger_rocket_bones;*/
 	
 	public static Item gun_fel;
 	public static Item gun_rpg;
-	//public static Item gun_rpg_ammo;
 	public static Item gun_karl;
 	public static Item gun_panzerschreck;
 	public static Item gun_quadro;
 	public static Item gun_hk69;
 	public static Item gun_stinger;
 	public static Item gun_skystinger;
-	//public static Item gun_stinger_ammo;
 	public static Item gun_revolver;
 	public static Item gun_revolver_saturnite;
-	//public static Item gun_revolver_ammo;
-	//public static Item gun_revolver_iron_ammo;
 	public static Item gun_revolver_gold;
-	//public static Item gun_revolver_gold_ammo;
-	//public static Item gun_revolver_lead_ammo;
 	public static Item gun_revolver_schrabidium;
-	//public static Item gun_revolver_schrabidium_ammo;
 	public static Item gun_revolver_cursed;
-	//public static Item gun_revolver_cursed_ammo;
 	public static Item gun_revolver_nightmare;
-	//public static Item gun_revolver_nightmare_ammo;
 	public static Item gun_revolver_nightmare2;
-	//public static Item gun_revolver_nightmare2_ammo;
 	public static Item gun_revolver_pip;
-	//public static Item gun_revolver_pip_ammo;
 	public static Item gun_revolver_nopip;
 	public static Item gun_revolver_blackjack;
 	public static Item gun_revolver_silver;
 	public static Item gun_revolver_red;
-	//public static Item gun_revolver_nopip_ammo;
 	public static Item gun_bio_revolver;
 	public static Item gun_deagle;
 	public static Item gun_flechette;
 	public static Item gun_ar15;
 	public static Item gun_calamity;
-	//public static Item gun_calamity_ammo;
 	public static Item gun_minigun;
 	public static Item gun_avenger;
 	public static Item gun_lacunae;
-	//public static Item gun_lacunae_ammo;
 	public static Item gun_folly;
 	public static Item gun_fatman;
 	public static Item gun_proto;
-	//public static Item gun_fatman_ammo;
 	public static Item gun_mirv;
-	//public static Item gun_mirv_ammo;
 	public static Item gun_bf;
 	public static Item gun_bf_ammo;
 	public static Item gun_chemthrower;
 	public static Item gun_mp40;
-	//public static Item gun_mp40_ammo;
 	public static Item gun_thompson;
 	public static Item gun_uzi;
 	public static Item gun_uzi_silencer;
 	public static Item gun_uzi_saturnite;
 	public static Item gun_uzi_saturnite_silencer;
-	//public static Item gun_uzi_ammo;
 	public static Item gun_uboinik;
-	//public static Item gun_uboinik_ammo;
 	public static Item gun_spas12;
 	public static Item gun_supershotgun;
 	public static Item gun_ks23;
@@ -1793,11 +1629,9 @@ public class ModItems {
 	public static Item gun_lever_action;
 	public static Item gun_lever_action_dark;
 	public static Item gun_lever_action_sonata;
-	//public static Item gun_lever_action_ammo;
 	public static Item gun_bolt_action;
 	public static Item gun_bolt_action_green;
 	public static Item gun_bolt_action_saturnite;
-	//public static Item gun_bolt_action_ammo;
 	public static Item gun_mymy;
 	public static Item gun_b92;
 	public static Item gun_b92_ammo;
@@ -1843,11 +1677,12 @@ public class ModItems {
 	public static Item gun_detonator;
 	public static Item gun_glass_cannon;
 	public static Item gun_m2;
+	public static Item gun_lunatic_marksman;
 	
 	// We'll figure this part out later
-	//public static Item gun_llr, gun_mlr, gun_hlr, gun_twr, gun_lunatic, gun_lunatic_shotty, gun_lunatic_marksman;
+	//public static Item gun_llr, gun_mlr, gun_hlr, gun_twr, gun_lunatic, gun_lunatic_shotty;
 	//public static Item gun_uac_pistol, gun_uac_dmr, gun_uac_carbine, gun_uac_lmg;
-	//public static Item gun_m2, gun_benelli, gun_benelli_mod, gun_g36, spear_bishamonten, pagoda;
+	//public static Item gun_benelli, gun_benelli_mod, gun_g36, spear_bishamonten, pagoda;
 	
 	public static Item crucible;
 
@@ -2049,18 +1884,7 @@ public class ModItems {
 	public static Item arc_electrode;
 	public static Item arc_electrode_burnt;
 	public static Item arc_electrode_desh;
-	/*public static Item dynosphere_base;
-	public static Item dynosphere_desh;
-	public static Item dynosphere_desh_charged;
-	public static Item dynosphere_schrabidium;
-	public static Item dynosphere_schrabidium_charged;
-	public static Item dynosphere_euphemium;
-	public static Item dynosphere_euphemium_charged;
-	public static Item dynosphere_dineutronium;
-	public static Item dynosphere_dineutronium_charged;*/
 	
-	public static Item tank_waste;
-
 	/*public static Item factory_core_titanium;
 	public static Item factory_core_advanced;*/
 
@@ -2117,6 +1941,7 @@ public class ModItems {
 	public static Item oxy_mask;
 	public static Item hat;
 	public static Item beta;
+	public static Item no9;
 
 	public static Item t45_helmet;
 	public static Item t45_plate;
@@ -3559,8 +3384,6 @@ public class ModItems {
 		gas_empty = new Item().setUnlocalizedName("gas_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":gas_empty");
 		gas_full = new ItemGasTank().setUnlocalizedName("gas_full").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.gas_empty).setTextureName(RefStrings.MODID + ":gas_empty");
 		
-		tank_waste = new ItemTankWaste().setUnlocalizedName("tank_waste").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab);
-
 		syringe_empty = new Item().setUnlocalizedName("syringe_empty").setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":syringe_empty");
 		syringe_antidote = new ItemSyringe().setUnlocalizedName("syringe_antidote").setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":syringe_antidote");
 		syringe_poison = new ItemSyringe().setUnlocalizedName("syringe_poison").setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":syringe_poison");
@@ -4155,6 +3978,9 @@ public class ModItems {
 				.setMeltingPoint(100000)
 				.setUnlocalizedName("rbmk_fuel_test").setTextureName(RefStrings.MODID + ":rbmk_fuel_test");
 		
+		watz_pellet = new ItemWatzPellet().setUnlocalizedName("watz_pellet").setTextureName(RefStrings.MODID + ":watz_pellet");
+		watz_pellet_depleted = new ItemWatzPellet().setUnlocalizedName("watz_pellet_depleted").setTextureName(RefStrings.MODID + ":watz_pellet");
+		
 		trinitite = new ItemNuclearWaste().setUnlocalizedName("trinitite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":trinitite_new");
 		nuclear_waste_long = new ItemWasteLong().setUnlocalizedName("nuclear_waste_long").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_long");
 		nuclear_waste_long_tiny = new ItemWasteLong().setUnlocalizedName("nuclear_waste_long_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_long_tiny");
@@ -4550,6 +4376,7 @@ public class ModItems {
 		gun_fel = new ItemEnergyGunBase(GunMiniFELFactory.getMiniFelConfiguration()).setUnlocalizedName("gun_fel").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_rpg");
 
 		gun_m2 = new  ItemGunBase(Gun50BMGFactory.getM2Config()).setFull3D().setUnlocalizedName("gun_m2").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_darter");
+		gun_lunatic_marksman = new ItemGunBase(Gun50BMGFactory.getLunaticMarksman()).setFull3D().setUnlocalizedName("gun_lunatic_marksman").setCreativeTab(MainRegistry.weaponTab);
 		
 		ToolMaterial matCrucible = EnumHelper.addToolMaterial("CRUCIBLE", 10, 3, 50.0F, 100.0F, 0);
 		crucible = new ItemCrucible(5000, 1F, matCrucible).setUnlocalizedName("crucible").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":crucible");
@@ -4969,6 +4796,7 @@ public class ModItems {
 		mask_rag = new ModArmor(aMatRags, 0).setUnlocalizedName("mask_rag").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mask_rag");
 		mask_piss = new ModArmor(aMatRags, 0).setUnlocalizedName("mask_piss").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mask_piss");
 		hat = new ArmorHat(MainRegistry.aMatAlloy, 0).setUnlocalizedName("nossy_hat").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":hat");
+		no9 = new ArmorNo9(MainRegistry.aMatSteel, 0).setUnlocalizedName("no9").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":no9");
 		beta = new ItemDrop().setUnlocalizedName("beta").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":beta");
 		//oxy_mask = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("oxy_mask").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":oxy_mask");
 
@@ -5185,11 +5013,11 @@ public class ModItems {
 
 		ArmorMaterial aMatHEV = EnumHelper.addArmorMaterial("HBM_HEV", 150, new int[] { 3, 8, 6, 3 }, 100);
 		aMatHEV.customCraftingMaterial = ModItems.plate_armor_hev;
-		hev_helmet = new ArmorHEV(aMatHEV, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 2500, 0).setMod(0.25F).setCap(4.0F).setThreshold(2.0F)
+		hev_helmet = new ArmorHEV(aMatHEV, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 2500, 0).setMod(0.20F).setCap(4.0F).setThreshold(2.0F)
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1))
 				.addEffect(new PotionEffect(Potion.jump.id, 20, 0))
 				.setBlastProtection(0.25F)
-				.setMod(0.2F)
+				.setProtectionLevel(500F)
 				.setHasGeigerSound(true)
 				.setHasCustomGeiger(true)
 				.addResistance("fall", 0.5F)
@@ -5378,6 +5206,7 @@ public class ModItems {
 		
 		desh_pickaxe = new ItemToolAbility(5F, -0.05, MainRegistry.tMatDesh, EnumToolType.PICKAXE)
 				.addBreakAbility(new ToolAbility.HammerAbility(1))
+				.addBreakAbility(new ToolAbility.HammerSilkAbility(1))
 				.addBreakAbility(new ToolAbility.RecursionAbility(3))
 				.addBreakAbility(new ToolAbility.SilkAbility())
 				.addBreakAbility(new LuckAbility(2)).setUnlocalizedName("desh_pickaxe").setTextureName(RefStrings.MODID + ":desh_pickaxe");
@@ -6659,9 +6488,6 @@ public class ModItems {
 		GameRegistry.registerItem(inf_water, inf_water.getUnlocalizedName());
 		GameRegistry.registerItem(inf_water_mk2, inf_water_mk2.getUnlocalizedName());
 		
-		//Large Tanks
-		GameRegistry.registerItem(tank_waste, tank_waste.getUnlocalizedName());
-		
 		//Canisters
 		GameRegistry.registerItem(antiknock, antiknock.getUnlocalizedName());
 		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());
@@ -7060,6 +6886,9 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_pellet_zfb_am_mix, rbmk_pellet_zfb_am_mix.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_drx, rbmk_pellet_drx.getUnlocalizedName());
 		
+		//GameRegistry.registerItem(watz_pellet, watz_pellet.getUnlocalizedName());
+		//GameRegistry.registerItem(watz_pellet_depleted, watz_pellet_depleted.getUnlocalizedName());
+		
 		GameRegistry.registerItem(debris_graphite, debris_graphite.getUnlocalizedName());
 		GameRegistry.registerItem(debris_metal, debris_metal.getUnlocalizedName());
 		GameRegistry.registerItem(debris_fuel, debris_fuel.getUnlocalizedName());
@@ -7396,6 +7225,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_detonator, gun_detonator.getUnlocalizedName());
 		GameRegistry.registerItem(crucible, crucible.getUnlocalizedName());
 		GameRegistry.registerItem(gun_glass_cannon, gun_glass_cannon.getUnlocalizedName());
+		GameRegistry.registerItem(gun_lunatic_marksman, gun_lunatic_marksman.getUnlocalizedName());
 		
 		//Ammo
 		/*GameRegistry.registerItem(gun_revolver_iron_ammo, gun_revolver_iron_ammo.getUnlocalizedName());
@@ -8116,6 +7946,7 @@ public class ModItems {
 		//GameRegistry.registerItem(oxy_mask, oxy_mask.getUnlocalizedName());
 		GameRegistry.registerItem(hat, hat.getUnlocalizedName());
 		GameRegistry.registerItem(beta, beta.getUnlocalizedName());
+		GameRegistry.registerItem(no9, no9.getUnlocalizedName());
 		
 		GameRegistry.registerItem(steel_helmet, steel_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(steel_plate, steel_plate.getUnlocalizedName());

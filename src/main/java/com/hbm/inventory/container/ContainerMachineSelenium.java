@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,11 +30,11 @@ private TileEntityMachineSeleniumEngine seleniumEngine;
 		
 		//Fluid IO
 		this.addSlotToContainer(new Slot(tedf, 9, 80, 18));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 10, 80, 54));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 10, 80, 54));
 		
 		//Fluid IDs
 		this.addSlotToContainer(new Slot(tedf, 11, 152, 18));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 12, 152, 54));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 12, 152, 54));
 		
 		//Battery
 		this.addSlotToContainer(new Slot(tedf, 13, 116, 90));

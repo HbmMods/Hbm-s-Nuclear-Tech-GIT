@@ -19,4 +19,8 @@ public class OreNames {
 	public static final String BLOCK = "block";
 	public static final String ORE = "ore";
 	public static final String ORENETHER = "oreNether";
+	
+	public static final String[] prefixes = new String[] {
+			ANY, NUGGET, TINY, INGOT, DUSTTINY, DUST, GEM, CRYSTAL, PLATE, PLATECAST, BILLET, BLOCK, ORE, ORENETHER
+	};
 }

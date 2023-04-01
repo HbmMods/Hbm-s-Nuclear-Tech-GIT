@@ -14,7 +14,6 @@ import com.hbm.tileentity.TileEntityTickingBase;
 import api.hbm.energy.IEnergyUser;
 import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectable.RadarTargetType;
-import cpw.mods.fml.client.config.GuiEditArrayEntries;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

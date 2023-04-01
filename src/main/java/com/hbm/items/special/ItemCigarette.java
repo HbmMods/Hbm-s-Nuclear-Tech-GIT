@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -48,6 +49,11 @@ public class ItemCigarette extends Item  {
 				HbmLivingProps.incrementBlackLung(player, 2000);
 				HbmLivingProps.incrementAsbestos(player, 2000);
 				HbmLivingProps.incrementRadiation(player, 100F);
+				
+				ItemStack helmet = player.getEquipmentInSlot(4);
+				if(helmet != null && helmet.getItem() == ModItems.no9) {
+					player.triggerAchievement(MainRegistry.achNo9);
+				}
 			}
 			
 			if(this == ModItems.crackpipe) {

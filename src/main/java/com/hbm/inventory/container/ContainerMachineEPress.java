@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotUpgrade;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -29,7 +29,7 @@ private TileEntityMachineEPress nukeBoy;
 		//Input
 		this.addSlotToContainer(new Slot(tedf, 2, 80, 53));
 		//Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 140, 35));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 3, 140, 35));
 		//Upgrade
 		this.addSlotToContainer(new SlotUpgrade(tedf, 4, 44, 21));
 		

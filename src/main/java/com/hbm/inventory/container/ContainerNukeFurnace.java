@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.InventoryUtil;
 
@@ -31,7 +31,7 @@ public class ContainerNukeFurnace extends Container {
 		});
 
 		this.addSlotToContainer(new Slot(tedf, 1, 56, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 116, 35));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 2, 116, 35));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {

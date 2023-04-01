@@ -72,37 +72,6 @@ public class MachineReactorControl extends BlockContainer {
 		return blockIcon;
 	}
 	
-	private void setDefaultDirection(World world, int x, int y, int z) {
-		if(!world.isRemote)
-		{
-			Block block1 = world.getBlock(x, y, z - 1);
-			Block block2 = world.getBlock(x, y, z + 1);
-			Block block3 = world.getBlock(x - 1, y, z);
-			Block block4 = world.getBlock(x + 1, y, z);
-			
-			byte b0 = 3;
-			
-			if(block1.func_149730_j() && !block2.func_149730_j())
-			{
-				b0 = 3;
-			}
-			if(block2.func_149730_j() && !block1.func_149730_j())
-			{
-				b0 = 2;
-			}
-			if(block3.func_149730_j() && !block4.func_149730_j())
-			{
-				b0 = 5;
-			}
-			if(block4.func_149730_j() && !block3.func_149730_j())
-			{
-				b0 = 4;
-			}
-			
-			world.setBlockMetadataWithNotify(x, y, z, b0, 2);
-		}
-	}
-	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;

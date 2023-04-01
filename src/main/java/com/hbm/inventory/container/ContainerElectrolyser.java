@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.tileentity.machine.TileEntityElectrolyser;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,31 +35,31 @@ public class ContainerElectrolyser extends Container {
 		this.addSlotToContainer(new Slot(tile, 2, 186, 158));
 		
 		this.addSlotToContainer(new Slot(tile, 3, 6, 18));
-		this.addSlotToContainer(new SlotMachineOutput(tile, 4, 6, 54));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 4, 6, 54));
 		
 		this.addSlotToContainer(new Slot(tile, 5, 24, 18));
-		this.addSlotToContainer(new SlotMachineOutput(tile, 6, 24, 54));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 6, 24, 54));
 		
 		this.addSlotToContainer(new Slot(tile, 7, 78, 18));
-		this.addSlotToContainer(new SlotMachineOutput(tile, 8, 78, 54));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 8, 78, 54));
 		
 		this.addSlotToContainer(new Slot(tile, 9, 134, 18));
-		this.addSlotToContainer(new SlotMachineOutput(tile, 10, 134, 54));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 10, 134, 54));
 		
 		for(int i = 0; i < 3; i++) {
-			this.addSlotToContainer(new SlotMachineOutput(tile, 11+i, 154, 18+(18*i)));
+			this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 11+i, 154, 18+(18*i)));
 		}
 		
 		this.addSlotToContainer(new Slot(tile, 14, 10, 90));
 		
 		this.addSlotToContainer(new Slot(tile, 15, 37, 122));
 		
-		this.addSlotToContainer(new SlotMachineOutput(tile, 16, 60, 112));
-		this.addSlotToContainer(new SlotMachineOutput(tile, 16, 98, 112));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 16, 60, 112));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 16, 98, 112));
 		
 		for(int i = 0; i < 2; i++) {
 			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new SlotMachineOutput(tile, 17+(i*3)+j, 136+(18*i), 86+(18*j)));
+				this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 17+(i*3)+j, 136+(18*i), 86+(18*j)));
 			}
 		}
 		

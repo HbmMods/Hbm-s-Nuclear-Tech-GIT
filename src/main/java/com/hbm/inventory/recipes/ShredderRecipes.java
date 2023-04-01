@@ -208,6 +208,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.moon_titanium, new ItemStack(ModItems.powder_titanium, 4));
 		ShredderRecipes.setRecipe(ModBlocks.moon_aluminium, new ItemStack(ModItems.powder_aluminium, 4));
 		ShredderRecipes.setRecipe(ModBlocks.moon_lithium, new ItemStack(ModItems.powder_lithium, 4));
+		
 		ShredderRecipes.setRecipe(ModItems.bean_roast,  new ItemStack(ModItems.powder_coffee, 1));
 		
 		//BYPRODUCTS

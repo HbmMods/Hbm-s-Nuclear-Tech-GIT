@@ -29,7 +29,13 @@ public class RenderChemical extends Render {
 		EntityChemical chem = (EntityChemical) entity;
 		ChemicalStyle style = chem.getStyle();
 		
-		if(style == ChemicalStyle.AMAT)
+		if(chem.lastClientPosX == -1 && chem.lastClientPosY == -1 && chem.lastClientPosZ == -1) {
+			chem.lastClientPosX = chem.posX - chem.motionX;
+			chem.lastClientPosY = chem.posY - chem.motionY;
+			chem.lastClientPosZ = chem.posZ - chem.motionZ;
+		}
+		
+		if(style == ChemicalStyle.AMAT || style == ChemicalStyle.LIGHTNING)
 			renderAmatBeam(chem, f1);
 		
 		if(style == ChemicalStyle.GAS) {
@@ -41,6 +47,10 @@ public class RenderChemical extends Render {
 			this.bindEntityTexture(chem);
 			renderGasFire(chem, f1);
 		}
+		
+		chem.lastClientPosX = chem.prevPosX + (chem.posX - chem.prevPosX) * f1;
+		chem.lastClientPosY = chem.prevPosX + (chem.posY - chem.prevPosY) * f1;
+		chem.lastClientPosZ = chem.prevPosX + (chem.posZ - chem.prevPosZ) * f1;
 
 		GL11.glPopMatrix();
 	}
@@ -124,6 +134,10 @@ public class RenderChemical extends Render {
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glDepthMask(false);
+		
+		/*double x0 = chem.prevPosX + (chem.posX - chem.prevPosX) * interp;
+		double y0 = chem.prevPosX + (chem.posY - chem.prevPosY) * interp;
+		double z0 = chem.prevPosX + (chem.posZ - chem.prevPosZ) * interp;*/
 		
 		double length = Vec3.createVectorHelper(chem.motionX, chem.motionY, chem.motionZ).lengthVector() * (chem.ticksExisted + interp) * 0.75;
 		double size = 0.0625;
