@@ -9,6 +9,7 @@ import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
+import com.hbm.interfaces.IFlashBehaviour;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.lib.ModDamageSource;
@@ -92,7 +93,7 @@ public class BulletConfiguration implements Cloneable {
 	public IBulletRicochetBehavior bRicochet;
 	public IBulletImpactBehavior bImpact;
 	public IBulletUpdateBehavior bUpdate;
-	
+	public IFlashBehaviour lupdate;
 	//appearance
 	public int style;
 	//additional appearance data, i.e. particle effects
@@ -118,6 +119,7 @@ public class BulletConfiguration implements Cloneable {
 	public boolean dmgFire = false;
 	public boolean dmgExplosion = false;
 	public boolean dmgBypass = false;
+
 
 	public static final int STYLE_NONE = -1;
 	public static final int STYLE_NORMAL = 0;
