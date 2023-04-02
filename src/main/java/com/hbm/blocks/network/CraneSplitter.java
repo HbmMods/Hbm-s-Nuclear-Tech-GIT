@@ -34,6 +34,7 @@ public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnt
 	@SideOnly(Side.CLIENT) public IIcon iconRight;
 	@SideOnly(Side.CLIENT) public IIcon iconBelt;
 	@SideOnly(Side.CLIENT) public IIcon iconInner;
+	@SideOnly(Side.CLIENT) public IIcon iconInnerSide;
 	
 	public CraneSplitter() {
 		super(Material.iron);
@@ -68,6 +69,7 @@ public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnt
 		this.iconRight = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_right");
 		this.iconBelt = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_belt");
 		this.iconInner = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_inner");
+		this.iconInnerSide = iconRegister.registerIcon(RefStrings.MODID + ":crane_splitter_inner_side");
 	}
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
