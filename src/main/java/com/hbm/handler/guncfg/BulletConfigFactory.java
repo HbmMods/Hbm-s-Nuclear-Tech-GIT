@@ -84,6 +84,7 @@ public class BulletConfigFactory {
 		bullet.ricochetAngle = 5;
 		bullet.HBRC = 2;
 		bullet.LBRC = 95;
+		bullet.headshotMult = 1.25F;
 		bullet.bounceMod = 0.8;
 		bullet.doesPenetrate = true;
 		bullet.doesBreakGlass = true;
