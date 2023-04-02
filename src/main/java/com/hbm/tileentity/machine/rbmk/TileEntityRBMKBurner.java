@@ -35,7 +35,6 @@ public class TileEntityRBMKBurner extends TileEntityRBMKBase implements IFluidAc
 	
 	public FluidTank tank;
 	private int lastHot;
-	
 	public TileEntityRBMKBurner() {
 		super();
 		

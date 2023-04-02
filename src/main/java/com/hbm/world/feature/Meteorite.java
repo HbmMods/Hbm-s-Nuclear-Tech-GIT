@@ -714,6 +714,8 @@ public class Meteorite {
 			ores.add(new ItemStack(ModBlocks.ore_meteor_lithium));
 		for(int i = 0; i < 1; i++)
 			ores.add(new ItemStack(ModBlocks.ore_meteor_starmetal));
+		for(int i = 0; i < 9; i++)
+			ores.add(new ItemStack(ModBlocks.ore_meteor_iron));
 
 		return ores;
 	}
@@ -748,5 +750,7 @@ public class Meteorite {
 		replacables.add(ModBlocks.ore_meteor_lead);
 		replacables.add(ModBlocks.ore_meteor_lithium);
 		replacables.add(ModBlocks.ore_meteor_starmetal);
+		replacables.add(ModBlocks.ore_meteor_iron);
+
 	}
 }
