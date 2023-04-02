@@ -116,6 +116,7 @@ public class BulletConfigSyncingUtil {
 	public static int ROUND_LUNA_SNIPER_SABOT = i++;
 	public static int ROUND_LUNA_SNIPER_INCENDIARY = i++;
 	public static int ROUND_LUNA_SNIPER_EXPLOSIVE = i++;
+	public static int ROUND_LUNA_SNIPER_DANGER = i++;
 
 	public static int R5_NORMAL = i++;
 	public static int R5_EXPLOSIVE = i++;
@@ -399,6 +400,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(ROUND_LUNA_SNIPER_SABOT, Gun50BMGFactory.getLunaticSabotRound());
 		configSet.put(ROUND_LUNA_SNIPER_INCENDIARY, Gun50BMGFactory.getLunaticIncendiaryRound());
 		configSet.put(ROUND_LUNA_SNIPER_EXPLOSIVE, Gun50BMGFactory.getLunaticExplosiveRound());
+		configSet.put(ROUND_LUNA_SNIPER_DANGER, Gun50BMGFactory.getLunaticDangerRound());
+
 		
 		configSet.put(R5_NORMAL, Gun5mmFactory.get5mmConfig());
 		configSet.put(R5_EXPLOSIVE, Gun5mmFactory.get5mmExplosiveConfig());

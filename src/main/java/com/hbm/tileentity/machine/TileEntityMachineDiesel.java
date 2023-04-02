@@ -47,6 +47,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	public static int fluidCap = 16000;
 	public static HashMap<FuelGrade, Double> fuelEfficiency = new HashMap();
 	static {
+		fuelEfficiency.put(FuelGrade.LOW	,	0.05D);
 		fuelEfficiency.put(FuelGrade.MEDIUM,	0.5D);
 		fuelEfficiency.put(FuelGrade.HIGH,		0.75D);
 		fuelEfficiency.put(FuelGrade.AERO,		0.1D);

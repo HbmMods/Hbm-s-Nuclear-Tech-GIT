@@ -3,6 +3,8 @@ package com.hbm.tileentity.machine;
 import java.util.Iterator;
 import java.util.List;
 
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.WorldConfig;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -127,8 +129,8 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 
 	public void teleport(Entity entity) {
 		
-		if(this.power < consumption || tank.getFill() < flucu) return;
-		
+		if(this.power < consumption) return;
+		if(GeneralConfig.enable528 && tank.getFill() < flucu)return; //renders N-MASS useless unless you like punching yourself in the balls
 		worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, "mob.endermen.portal", 1.0F, 1.0F);
 		
 		if((entity instanceof EntityPlayerMP)) {
@@ -167,9 +169,11 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 		this.power -= consumption;
 
 		//this.tank.setFill(this.tank.getFill() - 120);
-		int amountToBurn = Math.min(1000, this.tank.getFill());
-		if(amountToBurn > 0) {
-			this.tank.setFill(this.tank.getFill() - amountToBurn);
+		if(GeneralConfig.enable528) {
+			int amountToBurn = Math.min(1000, this.tank.getFill());
+			if(amountToBurn > 0) {
+				this.tank.setFill(this.tank.getFill() - amountToBurn);
+			}	
 		}
 		this.markDirty();
 	}

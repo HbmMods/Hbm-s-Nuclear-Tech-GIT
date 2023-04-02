@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
@@ -98,7 +99,7 @@ public abstract class TileEntityPileBase extends TileEntity {
 				for(EntityLivingBase e : entities) {
 					ContaminationUtil.contaminate(e, HazardType.NEUTRON, ContaminationType.CREATIVE, flux);
 					ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, flux / 2);
-					if(e instanceof EntityPlayer && RadiationConfig.disableNeutron) {
+					if(e instanceof EntityPlayer && RadiationConfig.disableNeutron && !GeneralConfig.enable528) {
 						//Random rand = target.getRNG();
 						EntityPlayer player = (EntityPlayer) e;
 						for(int i2 = 0; i2 < player.inventory.mainInventory.length; i2++)

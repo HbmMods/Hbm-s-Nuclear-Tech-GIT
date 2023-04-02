@@ -204,7 +204,7 @@ public class OreDictManager {
 	public static final DictFrame ZI = new DictFrame("Zinc");
 	public static final DictFrame GALLIUM = new DictFrame("Gallium");
 	public static final DictFrame GAAS = new DictFrame("GalliumArsenide");
-	public static final DictFrame PLATNIUM = new DictFrame("Platnium");
+	public static final DictFrame PLATNIUM = new DictFrame("Platnium"); //ah shit forgot this was in the mod
 	
 	public static final DictFrame MIN = new DictFrame("Mineral");
 	/*

@@ -3,7 +3,10 @@ package com.hbm.handler.guncfg;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
@@ -140,6 +143,34 @@ public class Gun50BMGFactory {
 
 		return bullet;
 	}
+	public static BulletConfiguration getLunaticDangerRound() {
+		BulletConfiguration bullet = getLunaticSabotRound().clone();
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.DANGER));
+
+		bullet.ammo.meta = 3;
+		bullet.explosive = 25;
+		bullet.destroysBlocks = true;
+		//bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 25.0F, true, false);
+		bullet.wear = 10000;
+		bullet.spentCasing = CASINGLUNA.clone().register("LunaExp");
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(bullet.worldObj, x + 0.5, y + 0.5, z + 0.5, (int) 12);
+				if(!ex.isDead) {
+					bullet.worldObj.spawnEntityInWorld(ex);
+		
+					EntityCloudFleija cloud = new EntityCloudFleija(bullet.worldObj, (int) 12);
+					cloud.setPosition(x + 0.5, y + 0.5, z + 0.5);
+					bullet.worldObj.spawnEntityInWorld(cloud);
+			}
+		};
+	};
+		
+		return bullet;
+	}
 
 	public static GunConfiguration getAR15Config() {
 		
@@ -246,6 +277,7 @@ public class Gun50BMGFactory {
 		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_SABOT);
 		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_INCENDIARY);
 		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_DANGER);
 
 		config.animations.put(AnimType.CYCLE,
 				new BusAnimation()
