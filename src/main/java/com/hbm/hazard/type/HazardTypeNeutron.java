@@ -35,7 +35,7 @@ public class HazardTypeNeutron extends HazardTypeBase {
 		level *= stack.stackSize;
 		
 		if(level > 0) {
-			float rad = level / 20F;
+			float rad = (level / 20F)*ContaminationUtil.calculateRadiationMod(target);
 			
 			if(GeneralConfig.enable528 && reacher) {
 				rad = (float) (rad / 49F);	//More realistic function for 528: x / distance^2

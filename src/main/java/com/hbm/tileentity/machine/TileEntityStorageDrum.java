@@ -63,7 +63,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 		if(!worldObj.isRemote) {
 			
 			float rad = 0;
-			
+			float digamma = 0;
 			int liquid = 0;
 			int gas = 0;
 			
@@ -75,6 +75,11 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					
 					if(worldObj.getTotalWorldTime() % 20 == 0) {
 						rad += HazardSystem.getHazardLevelFromStack(slots[i], HazardRegistry.RADIATION);
+						digamma += HazardSystem.getHazardLevelFromStack(slots[i], HazardRegistry.DIGAMMA);
+						if(item == ModItems.particle_digamma)
+						{
+							digamma+=0.333f;
+						}
 					}
 					
 					int meta = slots[i].getItemDamage();
@@ -164,13 +169,13 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
-			if(rad > 0) {
-				radiate(worldObj, xCoord, yCoord, zCoord, rad);
+			if(rad > 0 || digamma > 0) {
+				radiate(worldObj, xCoord, yCoord, zCoord, rad, digamma);
 			}
 		}
 	}
 	
-	private void radiate(World world, int x, int y, int z, float rads) {
+	private void radiate(World world, int x, int y, int z, float rads, float digamma) {
 		
 		double range = 32D;
 		

@@ -97,11 +97,35 @@ public class WorldProviderNTM extends WorldProviderSurface {
 		Vec3 fog = super.getFogColor(p_76562_1_, p_76562_2_);
 		float dust = MainRegistry.proxy.getImpactDust(worldObj);
 		float fire = MainRegistry.proxy.getImpactFire(worldObj);
+		boolean impact = MainRegistry.proxy.getImpact(worldObj);
+		float f3;
+		float f4;
+		float f5;
+		if(impact && fire == 0)
+		{
+	        float f2 = MathHelper.cos(p_76562_1_ * (float)Math.PI * 2.0F) * 2.0F + 0.5F;
 
-		float f3 = (float) fog.xCoord;
-		float f4 = (float) fog.yCoord * (1 - (dust * 0.5F));
-		float f5 = (float) fog.zCoord * (1 - dust);
+	        if (f2 < 0.0F)
+	        {
+	            f2 = 0.0F;
+	        }
 
+	        if (f2 > 1.0F)
+	        {
+	            f2 = 1.0F;
+	        }
+
+	        f3 = 1.0F;
+	        f4 = 0.80392157F* (1 - (dust * 0.5F));;
+	        f5 = 0.80392157F * (1 - dust);
+	        f3 *= f2 * 0.94F + 0.06F;
+	        f4 *= f2 * 0.94F + 0.06F;
+	        f5 *= f2 * 0.91F + 0.09F;
+			return Vec3.createVectorHelper((double) f3 * (1 - dust), (double) f4 * (1 - dust), (double) f5 * (1 - dust));
+		}
+		f3 = (float) fog.xCoord;
+		f4 = (float) fog.yCoord * (1 - (dust * 0.5F));
+		f5 = (float) fog.zCoord * (1 - dust);
 		if(fire > 0) {
 			return Vec3.createVectorHelper((double) f3 * (Math.max((1 - (dust * 2)), 0)), (double) f4 * (Math.max((1 - (dust * 2)), 0)), (double) f5 * (Math.max((1 - (dust * 2)), 0)));
 		}

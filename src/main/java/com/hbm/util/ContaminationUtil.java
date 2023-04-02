@@ -66,12 +66,12 @@ public class ContaminationUtil {
 			return true;
 		
 		if(immuneEntities.isEmpty()) {
-			immuneEntities.add(EntityNuclearCreeper.class);
-			immuneEntities.add(EntityMooshroom.class);
-			immuneEntities.add(EntityZombie.class);
-			immuneEntities.add(EntitySkeleton.class);
+			//immuneEntities.add(EntityNuclearCreeper.class);
+			//immuneEntities.add(EntityMooshroom.class);
+			//immuneEntities.add(EntityZombie.class);
+			//immuneEntities.add(EntitySkeleton.class);
 			immuneEntities.add(EntityQuackos.class);
-			immuneEntities.add(EntityOcelot.class);
+			//immuneEntities.add(EntityOcelot.class);
 			immuneEntities.add(IRadiationImmune.class);
 		}
 		
