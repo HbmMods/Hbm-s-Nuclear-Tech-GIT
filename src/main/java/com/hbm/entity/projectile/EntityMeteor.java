@@ -51,7 +51,7 @@ public class EntityMeteor extends Entity {
 				ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ - 5, 75);
 			}
 
-			(new Meteorite()).generate(worldObj, rand, (int) Math.round(this.posX - 0.5D), (int) Math.round(this.posY - 0.5D), (int) Math.round(this.posZ - 0.5D), safe, true);
+			(new Meteorite()).generate(worldObj, rand, (int) Math.round(this.posX - 0.5D), (int) Math.round(this.posY - 0.5D), (int) Math.round(this.posZ - 0.5D), safe, true, true);
 			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:entity.oldExplosion", 10000.0F, 0.5F + this.rand.nextFloat() * 0.1F);
 			this.setDead();
 		}
