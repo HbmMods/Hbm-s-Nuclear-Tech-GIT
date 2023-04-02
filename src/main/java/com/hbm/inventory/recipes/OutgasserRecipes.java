@@ -43,6 +43,16 @@ public class OutgasserRecipes extends SerializableRecipe {
 		recipes.put(new OreDictStack(GOLD.nugget()),	new Pair(new ItemStack(ModItems.nugget_au198), null));
 		recipes.put(new OreDictStack(GOLD.dust()),		new Pair(new ItemStack(ModItems.powder_au198), null));
 
+		/* cobalt to cobalt-60 */
+		recipes.put(new OreDictStack(CO.ingot()),		new Pair(new ItemStack(ModItems.ingot_co60), null));
+		recipes.put(new OreDictStack(CO.nugget()),	new Pair(new ItemStack(ModItems.nugget_co60), null));
+		recipes.put(new OreDictStack(CO.dust()),		new Pair(new ItemStack(ModItems.powder_co60), null));
+	
+		/* bismuth to polonium */
+		recipes.put(new OreDictStack(BI.ingot()),		new Pair(new ItemStack(ModItems.ingot_polonium), null));
+		recipes.put(new OreDictStack(BI.nugget()),	new Pair(new ItemStack(ModItems.nugget_polonium), null));
+		recipes.put(new OreDictStack(BI.dust()),		new Pair(new ItemStack(ModItems.powder_polonium), null));
+		
 		/* thorium to thorium fuel */
 		recipes.put(new OreDictStack(TH232.ingot()),	new Pair(new ItemStack(ModItems.ingot_thorium_fuel), null));
 		recipes.put(new OreDictStack(TH232.nugget()),	new Pair(new ItemStack(ModItems.nugget_thorium_fuel), null));

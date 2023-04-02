@@ -17,6 +17,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -82,6 +83,11 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static void incrementRadiation(EntityLivingBase entity, float rad) {
 		if(!RadiationConfig.enableContamination)
 			return;
+		
+		if (entity.getCreatureAttribute()==EnumCreatureAttribute.UNDEAD)
+		{
+			rad*=10;
+		}
 		
 		HbmLivingProps data = getData(entity);
 		float radiation = getData(entity).radiation + rad;

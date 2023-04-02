@@ -20,6 +20,8 @@ import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.world.biome.BiomeGenBase;
 
 public class EntityMappings {
 
@@ -229,6 +231,10 @@ public class EntityMappings {
 		for(Quartet<Class<? extends Entity>, String, Integer, Integer> entry : mobMappings) {
 			EntityRegistry.registerGlobalEntityID(entry.getW(), entry.getX(), EntityRegistry.findGlobalUniqueEntityId(), entry.getY(), entry.getZ());
 		}
+		EntityRegistry.addSpawn(EntityDuck.class, 10, 4, 4, EnumCreatureType.creature, BiomeGenBase.swampland);
+		EntityRegistry.addSpawn(EntityDuck.class, 10, 4, 4, EnumCreatureType.creature, BiomeGenBase.river);
+		EntityRegistry.addSpawn(EntityDuck.class, 10, 4, 4, EnumCreatureType.creature, BiomeGenBase.forest);
+		
 	}
 	
 	private static void addEntity(Class<? extends Entity> clazz, String name, int trackingRange) {
