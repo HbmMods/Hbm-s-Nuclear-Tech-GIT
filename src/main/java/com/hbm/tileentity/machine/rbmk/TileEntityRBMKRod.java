@@ -411,6 +411,15 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		}
 		return new Object[] {"N/A"};
 	}
+	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFuelType(Context context, Arguments args) {
+		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+			return new Object[] {rod.getName()};
+		}
+		return new Object[] {"N/A"};
+	}
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
@@ -444,14 +453,17 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public Object[] getInfo(Context context, Arguments args) {
 		Object OC_enrich_buf;
 		Object OC_poison_buf;
+		Object OC_fuelType;
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 			OC_enrich_buf = ItemRBMKRod.getEnrichment(slots[0]);
 			OC_poison_buf = ItemRBMKRod.getPoison(slots[0]);
+			OC_fuelType = rod.getName();
 		} else {
 			OC_enrich_buf = "N/A";
 			OC_poison_buf = "N/A";
+			OC_fuelType = "N/A";
 		}
-		return new Object[] {heat, fluxSlow, fluxFast, OC_enrich_buf, OC_poison_buf};
+		return new Object[] {heat, fluxSlow, fluxFast, OC_enrich_buf, OC_poison_buf, OC_fuelType};
 	}
 
 	@Override
