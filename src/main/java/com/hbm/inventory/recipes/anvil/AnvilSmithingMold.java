@@ -32,12 +32,11 @@ public class AnvilSmithingMold extends AnvilSmithingRecipe {
 		if(matchesPrefix != null && left.stackSize == matchesPrefix.stacksize) {
 			List<String> names = ItemStackUtil.getOreDictNames(left);
 			
-			outer:
 			for(String name : names) {
 				
 				for(String otherPrefix : OreNames.prefixes) {
 					if(otherPrefix.length() > matchesPrefix.name.length() && name.startsWith(otherPrefix)) {
-						continue outer; //ignore if there's a longer prefix that matches (i.e. a more accurate match)
+						return false; //ignore if there's a longer prefix that matches (i.e. a more accurate match)
 					}
 				}
 				

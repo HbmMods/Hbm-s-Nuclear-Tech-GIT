@@ -7,7 +7,7 @@ import com.hbm.main.ResourceManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
-public class RenderWatz extends TileEntitySpecialRenderer {
+public class RenderWatzPump extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float f) {
@@ -20,8 +20,8 @@ public class RenderWatz extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING);
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		bindTexture(ResourceManager.watz_tex);
-		ResourceManager.watz.renderAll();
+		bindTexture(ResourceManager.watz_pump_tex);
+		ResourceManager.watz_pump.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();
