@@ -145,23 +145,11 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		
 		if(recipe == null) return false;
 		
-		if(recipe.input1 != null) {
-			
-			if(recipe.input1.type != tanks[0].getTankType()) {
-				tanks[0].setTankType(recipe.input1.type);
-			}
-			
-			if(tanks[0].getFill() < recipe.input1.fill) return false;
-		}
-		
-		if(recipe.input2 != null) {
-			
-			if(recipe.input2.type != tanks[1].getTankType()) {
-				tanks[1].setTankType(recipe.input2.type);
-			}
-			
-			if(tanks[1].getFill() < recipe.input2.fill) return false;
-		}
+		tanks[0].setTankType(recipe.input1.type);
+		tanks[1].setTankType(recipe.input2.type);
+
+		if(recipe.input1 != null && tanks[0].getFill() < recipe.input1.fill) return false;
+		if(recipe.input2 != null && tanks[1].getFill() < recipe.input2.fill) return false;
 		
 		/* simplest check would usually go first, but fluid checks also do the setup and we want that to happen even without power */
 		if(this.power < getConsumption()) return false;

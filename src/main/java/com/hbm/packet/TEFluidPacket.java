@@ -11,6 +11,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
+@Deprecated
 public class TEFluidPacket implements IMessage {
 
 	int x;
