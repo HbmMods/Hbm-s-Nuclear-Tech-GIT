@@ -140,12 +140,18 @@ public class CrystallizerRecipes extends SerializableRecipe {
 
 		registerRecipe(KEY_SAND, new CrystallizerRecipe(Blocks.clay, 20), new FluidStack(Fluids.COLLOID, 1_000));
 		
+		/// COMPAT CERTUS QUARTZ ///
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");
-		
 		if(quartz != null && !quartz.isEmpty()) {
 			ItemStack qItem = quartz.get(0).copy();
 			qItem.stackSize = 12;
 			registerRecipe("oreCertusQuartz", new CrystallizerRecipe(qItem, baseTime));
+		}
+
+		/// COMPAT WHITE PHOSPHORUS DUST ///
+		List<ItemStack> dustWhitePhosphorus = OreDictionary.getOres(P_WHITE.dust());
+		if(dustWhitePhosphorus != null && !dustWhitePhosphorus.isEmpty()) {
+			registerRecipe(P_WHITE.dust(), new CrystallizerRecipe(new ItemStack(ModItems.ingot_phosphorus), utilityTime), new FluidStack(Fluids.AROMATICS, 50));
 		}
 		
 		if(!IMCCrystallizer.buffer.isEmpty()) {
