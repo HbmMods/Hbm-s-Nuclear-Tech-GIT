@@ -25,7 +25,6 @@ import net.minecraft.world.World;
 public class Landmine extends BlockContainer implements IBomb {
 
 	public static boolean safeMode = false;
-	static Random rand = new Random();;
 
 	public Landmine(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -100,18 +99,23 @@ public class Landmine extends BlockContainer implements IBomb {
 		}
 
 		if(flag) {
-			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-			world.setBlockToAir(x, y, z);
+
+			if(!safeMode) {
+				explode(world, x, y, z);
+			} else {
+				world.setBlockToAir(x, y, z);
+			}
 		}
 	}
 
-	public void breakBlock(World world, int x, int y, int z, Block block, int i) {
+	@Override
+	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int meta) {
 
 		if(!safeMode) {
 			explode(world, x, y, z);
 		}
 
-		super.breakBlock(world, x, y, z, block, i);
+		super.onBlockDestroyedByPlayer(world, x, y, z, meta);
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i, float fx, float fy, float fz) {
