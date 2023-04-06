@@ -153,7 +153,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 			}
 			
 			if(tanks[0].getFill() < recipe.input1.fill) return false;
-			if(tanks[1].getFill() < recipe.input2.fill) return false;
+			if(recipe.input2 != null && tanks[1].getFill() < recipe.input2.fill) return false;
 		}
 		
 		
