@@ -453,7 +453,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public Object[] getInfo(Context context, Arguments args) {
 		Object OC_enrich_buf;
 		Object OC_poison_buf;
-		Object OC_fuelType;
+		Object OC_item_Data;
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 			OC_enrich_buf = ItemRBMKRod.getEnrichment(slots[0]);
 			OC_poison_buf = ItemRBMKRod.getPoison(slots[0]);
