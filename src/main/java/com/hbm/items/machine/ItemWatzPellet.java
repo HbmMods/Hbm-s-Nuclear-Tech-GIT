@@ -37,14 +37,16 @@ public class ItemWatzPellet extends ItemEnumMulti {
 
 		SCHRABIDIUM(	0x32FFFF, 0x005C5C, 2_000,	10D,	new FunctionLogarithmic(10), null, null),
 		HES(			0x66DCD6, 0x023933, 1_500,	10D,	null, null, null),
-		LES(			0xABB4A8, 0x0C1105, 500,	10D,	null, null, null),
 		MES(			0xCBEADF, 0x28473C, 1_000,	10D,	null, null, null),
+		LES(			0xABB4A8, 0x0C1105, 500,	10D,	null, null, null),
 		HEN(			0xA6B2A6, 0x030F03, 0,		10D,	null, null, null),
 		MEU(			0xC1C7BD, 0x2B3227, 0,		10D,	null, null, null),
 		MEP(			0x9AA3A0, 0x111A17, 0,		10D,	null, null, null),
 		LEAD(			0xA6A6B2, 0x03030F, 0,		0,		null, null, new FunctionSqrt(10)), //standard absorber, negative coefficient
 		BORON(			0xBDC8D2, 0x29343E, 0,		0,		null, null, new FunctionLinear(10)), //improved absorber, linear
-		DU(				0xC1C7BD, 0x2B3227, 0,		0, 		null, null, new FunctionQuadratic(1D, 1D).withDiv(100)); //absorber with positive coefficient 
+		DU(				0xC1C7BD, 0x2B3227, 0,		0, 		null, null, new FunctionQuadratic(1D, 1D).withDiv(100)), //absorber with positive coefficient
+		NQD(			0x4B4B4B, 0x121212, 0,		0,		null, null, null),
+		NQR(			0x2D2D2D, 0x0B0B0B, 0,		0,		null, null, null);
 		
 		public double yield = 1_000_000_000;
 		public int colorLight;
