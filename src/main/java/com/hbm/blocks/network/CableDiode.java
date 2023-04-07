@@ -12,6 +12,7 @@ import com.hbm.util.I18nUtil;
 import api.hbm.block.IToolable;
 import api.hbm.energy.IEnergyUser;
 import api.hbm.energy.IEnergyConnector.ConnectionPriority;
+import api.hbm.energy.IEnergyConnectorBlock;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,7 +33,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class CableDiode extends BlockContainer implements ILookOverlay, IToolable, ITooltipProvider {
+public class CableDiode extends BlockContainer implements IEnergyConnectorBlock, ILookOverlay, IToolable, ITooltipProvider {
 	
 	public CableDiode(Material mat) {
 		super(mat);
@@ -64,6 +65,11 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
 		int l = BlockPistonBase.determineOrientation(world, x, y, z, player);
 		world.setBlockMetadataWithNotify(x, y, z, l, 2);
+	}
+
+	@Override
+	public boolean canConnect(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
+		return true;
 	}
 
 	@Override
@@ -178,6 +184,11 @@ public class CableDiode extends BlockContainer implements ILookOverlay, IToolabl
 					this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 				}
 			}
+		}
+
+		@Override
+		public boolean canConnect(ForgeDirection dir) {
+			return dir != getDir();
 		}
 		
 		private boolean recursionBrake = false;

@@ -36,7 +36,7 @@ public class AnvilSmithingMold extends AnvilSmithingRecipe {
 				
 				for(String otherPrefix : OreNames.prefixes) {
 					if(otherPrefix.length() > matchesPrefix.name.length() && name.startsWith(otherPrefix)) {
-						continue; //ignore if there's a longer prefix that matches (i.e. a more accurate match)
+						return false; //ignore if there's a longer prefix that matches (i.e. a more accurate match)
 					}
 				}
 				
