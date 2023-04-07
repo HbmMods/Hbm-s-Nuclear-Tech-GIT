@@ -2,7 +2,6 @@ package com.hbm.blocks.network;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityCraneBoxer;
-import com.hbm.tileentity.network.TileEntityCraneInserter;
 
 import api.hbm.conveyor.IConveyorItem;
 import api.hbm.conveyor.IConveyorPackage;
@@ -81,7 +80,7 @@ public class CraneBoxer extends BlockCraneBase implements IEnterableBlock {
 	
 	@Override
 	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
-		return Container.calcRedstoneFromInventory((TileEntityCraneInserter)world.getTileEntity(x, y, z));
+		return Container.calcRedstoneFromInventory((TileEntityCraneBoxer)world.getTileEntity(x, y, z));
 	}
 
 	@Override

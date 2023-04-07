@@ -145,8 +145,8 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		
 		if(recipe == null) return false;
 		
-		tanks[0].setTankType(recipe.input1.type);
-		tanks[1].setTankType(recipe.input2.type);
+		tanks[0].setTankType(recipe.input1 != null ? recipe.input1.type : Fluids.NONE);
+		tanks[1].setTankType(recipe.input2 != null ? recipe.input2.type : Fluids.NONE);
 
 		if(recipe.input1 != null && tanks[0].getFill() < recipe.input1.fill) return false;
 		if(recipe.input2 != null && tanks[1].getFill() < recipe.input2.fill) return false;
