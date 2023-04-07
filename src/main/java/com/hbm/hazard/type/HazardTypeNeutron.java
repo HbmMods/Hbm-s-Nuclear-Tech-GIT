@@ -58,7 +58,7 @@ public class HazardTypeNeutron extends HazardTypeBase {
 							if(!stack2.hasTagCompound())
 								stack2.stackTagCompound = new NBTTagCompound();
 							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(rad/stack2.stackSize));
+							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(rad/stack2.stackSize)/10);
 							
 						//}
 					}
@@ -72,7 +72,7 @@ public class HazardTypeNeutron extends HazardTypeBase {
 							if(!stack2.hasTagCompound())
 								stack2.stackTagCompound = new NBTTagCompound();
 							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(rad/stack2.stackSize));
+							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(rad/stack2.stackSize)/10);
 					}
 				}	
 			}

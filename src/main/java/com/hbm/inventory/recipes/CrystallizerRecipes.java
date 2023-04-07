@@ -49,6 +49,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		int baseTime = 600;
 		int utilityTime = 100;
 		FluidStack sulfur = new FluidStack(Fluids.SULFURIC_ACID, 500);
+		FluidStack nitric = new FluidStack(Fluids.NITRIC_ACID, 500);
 
 		registerRecipe(COAL.ore(),		new CrystallizerRecipe(ModItems.crystal_coal, baseTime));
 		registerRecipe(IRON.ore(),		new CrystallizerRecipe(ModItems.crystal_iron, baseTime));
@@ -72,6 +73,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(LI.ore(),		new CrystallizerRecipe(ModItems.crystal_lithium, baseTime), sulfur);
 		registerRecipe(STAR.ore(),		new CrystallizerRecipe(ModItems.crystal_starmetal, baseTime), sulfur);
 		registerRecipe(CO.ore(),		new CrystallizerRecipe(ModItems.crystal_cobalt, baseTime), sulfur);
+		registerRecipe(NI.ore(),		new CrystallizerRecipe(ModItems.crystal_nickel, baseTime), nitric);
 		registerRecipe((new ComparableStack(ModBlocks.ore_mineral)),		new CrystallizerRecipe(ModItems.crystal_mineral, baseTime)); //temp
 		
 		registerRecipe("oreRareEarth",	new CrystallizerRecipe(ModItems.crystal_rare, baseTime), sulfur);
@@ -113,7 +115,6 @@ public class CrystallizerRecipes extends SerializableRecipe {
 			registerRecipe(new ComparableStack(ModItems.scrap_plastic, 1, i), new CrystallizerRecipe(new ItemStack(ModItems.circuit_star_piece, 1, i), baseTime));
 		}
 
-		FluidStack nitric = new FluidStack(Fluids.NITRIC_ACID, 500);
 		FluidStack organic = new FluidStack(Fluids.SOLVENT, 500);
 		FluidStack chloric = new FluidStack(Fluids.HCL, 500);
 		FluidStack schrabidic = new FluidStack(Fluids.SCHRABIDIC, 1000);

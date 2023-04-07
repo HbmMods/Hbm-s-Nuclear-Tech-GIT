@@ -71,6 +71,12 @@ public class TileEntityDecon extends TileEntity {
 				if(e instanceof EntityPlayer) {
 					//Random rand = target.getRNG();
 					EntityPlayer player = (EntityPlayer) e;
+					float neut = HbmLivingProps.getNeutronActivation(player);
+					
+					if(neut > 0 && !RadiationConfig.disableNeutron) {
+						ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, neut / 20F);
+						HbmLivingProps.setNeutronActivation(player,neut*0.899916F);//20 minute half life not really
+					}
 					for(int i2 = 0; i2 < player.inventory.mainInventory.length; i2++)
 					{
 						ItemStack stack2 = player.inventory.getStackInSlot(i2);
@@ -78,7 +84,6 @@ public class TileEntityDecon extends TileEntity {
 						//if(rand.nextInt(100) == 0) {
 							//stack2 = player.inventory.armorItemInSlot(rand.nextInt(4));
 						//}
-						
 						//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
 						if(stack2 != null) {
 								if(!stack2.hasTagCompound())
