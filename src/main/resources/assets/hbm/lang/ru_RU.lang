@@ -2953,6 +2953,7 @@ tile.block_cap_sunset.name=Блок крышек от Сансет Сарсап�
 tile.block_tritium.name=Блок тритиевых пробирок
 tile.hazmat.name=Блок защитной ткани
 tile.deco_emitter.name=Декоративный источник света
+tile.part_emitter.name=Декоративный источник частиц
 tile.plant_flower.foxglove.name=Наперстянка
 tile.plant_flower.nightshade.name=Белладонна
 tile.plant_flower.tobacco.name=Табак
