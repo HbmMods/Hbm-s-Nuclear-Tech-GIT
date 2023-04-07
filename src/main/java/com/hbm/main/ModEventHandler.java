@@ -40,6 +40,7 @@ import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
@@ -74,6 +75,7 @@ import com.hbm.world.generator.TimedGenerator;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
@@ -195,7 +197,7 @@ public class ModEventHandler {
 	
 
 	@SubscribeEvent
-	public void onEntityConstructing(EntityEvent.EntityConstructing event)  {
+	public void onEntityConstructing(EntityEvent.EntityConstructing event) {
 		
 		if(event.entity instanceof EntityPlayer) {
 			
@@ -211,6 +213,14 @@ public class ModEventHandler {
 			EntityLivingBase living = (EntityLivingBase) event.entity;
 			HbmLivingProps.getData(living); //ditto
 		}
+	}
+
+	@SubscribeEvent
+	public void onPlayerChaangeDimension(PlayerChangedDimensionEvent event) {
+		EntityPlayer player = event.player;
+		HbmPlayerProps data = HbmPlayerProps.getData(player);
+		data.setKeyPressed(EnumKeybind.JETPACK, false);
+		data.setKeyPressed(EnumKeybind.DASH, false);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
