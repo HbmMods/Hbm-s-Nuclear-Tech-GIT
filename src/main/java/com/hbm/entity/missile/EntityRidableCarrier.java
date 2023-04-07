@@ -1,8 +1,14 @@
 package com.hbm.entity.missile;
 
+import java.util.List;
+import java.util.Random;
+
+import com.hbm.config.WorldConfig;
+import com.hbm.dim.DebugTeleporter;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -11,14 +17,20 @@ import com.hbm.saveddata.satellites.Satellite;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-public class EntityRidableCarrier extends EntityThrowable {
+public class EntityRidableCarrier extends Entity {
 
 	double acceleration = 0.00D;
 	
@@ -29,12 +41,78 @@ public class EntityRidableCarrier extends EntityThrowable {
 		this.ignoreFrustumCheck = true;
         this.setSize(3.0F, 26.0F);
 	}
+
+
+	@Override
+	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
+		// TODO Auto-generated method stub
+		
+	}
+	/*
+	public void onUpdate() {
+	    super.onUpdate();
+
+	    // Check if a player is riding the missile
+	    if (!worldObj.isRemote && riddenByEntity instanceof EntityPlayer) {
+	        EntityPlayer rider = (EntityPlayer)riddenByEntity;
+	        
+	        // Update the missile's motion based on rider input
+	        double dx = Math.sin(Math.toRadians(rider.rotationYawHead)) * Math.cos(Math.toRadians(rider.rotationPitch));
+	        double dy = -Math.sin(Math.toRadians(rider.rotationPitch));
+	        double dz = -Math.cos(Math.toRadians(rider.rotationYawHead)) * Math.cos(Math.toRadians(rider.rotationPitch));
+	        motionX = dx * 0.1;
+	        motionY = dy * 0.1;
+	        motionZ = dz * 0.1;
+	        
+	        // Update the missile's position based on rider's position
+	        posX = rider.posX + dx;
+	        posY = rider.posY + rider.getEyeHeight() + dy;
+	        posZ = rider.posZ + dz;
+	        
+	        // Set the missile's rotation to the rider's
+	        rotationYaw = rider.rotationYaw;
+	        rotationPitch = rider.rotationPitch;
+	    }
+	    else {
+	        // Update the missile's motion and position
+	        motionX = accelX;
+	        motionY = accelY;
+	        motionZ = accelZ;
+	        moveEntity(motionX, motionY, motionZ);
+	    }
+
+	    // Destroy the missile if it collides with a block or entity
+	    if (!worldObj.isRemote) {
+	        List<Entity> collidingEntities = worldObj.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().expand(0.2, 0.2, 0.2));
+	        for (Entity entity : collidingEntities) {
+	            if (entity instanceof EntityLivingBase) {
+	                EntityLivingBase livingEntity = (EntityLivingBase)entity;
+	                livingEntity.attackEntityFrom(DamageSource.causeExplosionDamage((Explosion)null), 6);
+	            }
+	            else if (entity instanceof EntityRidableCarrier) {
+	            	EntityRidableCarrier missile = (EntityRidableCarrier)entity;
+	                missile.setDead();
+	            }
+	        }
+	        
+	    }
+	}*/
+
 	
 	@Override
 	public void onUpdate() {
 		
 		//this.setDead();
-		
+	    //if (!worldObj.isRemote && riddenByEntity instanceof EntityPlayer) {
+	      //  EntityPlayer rider = (EntityPlayer)riddenByEntity;
+	   // }
+	
 		if(motionY < 3.0D) {
 			acceleration += 0.0005D;
 			motionY += acceleration;
@@ -78,15 +156,18 @@ public class EntityRidableCarrier extends EntityThrowable {
 				ExplosionLarge.spawnShock(worldObj, posX, posY, posZ, 13 + rand.nextInt(3), 4 + rand.nextGaussian() * 2);
 			}
 		}
-		
 		if(this.posY > 300 && this.dataWatcher.getWatchableObjectInt(8) == 1)
 			this.disengageBoosters();
 			//this.setDead();
 		
 		if(this.posY > 600) {
-			deployPayload();
+			EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
+			DebugTeleporter.teleport(riding, WorldConfig.moonDimension, riding.posX, 300, riding.posZ);
+			this.setDead();
 		}
 	}
+
+
 	
 	private void deployPayload() {
 
@@ -110,9 +191,9 @@ public class EntityRidableCarrier extends EntityThrowable {
 		    	Satellite.orbit(worldObj, Satellite.getIDFromItem(payload.getItem()), freq, posX, posY, posZ);
 			}
 		}
-		
 		this.setDead();
 	}
+
 
 	@Override
 	protected void entityInit() {
@@ -165,9 +246,9 @@ public class EntityRidableCarrier extends EntityThrowable {
 		}
 	}
 
-	@Override
-	protected void onImpact(MovingObjectPosition p_70184_1_) {
-	}
+	//@Override
+	//protected void onImpact(MovingObjectPosition p_70184_1_) {
+	//}
 	
     @Override
 	@SideOnly(Side.CLIENT)
@@ -175,4 +256,21 @@ public class EntityRidableCarrier extends EntityThrowable {
     {
         return distance < 500000;
     }
+    
+	@Override
+	public boolean canBeCollidedWith() {
+		return true;
+	}
+
+	@Override
+	public boolean interactFirst(EntityPlayer player) {
+		if(super.interactFirst(player)) {
+			return true;
+		} else if(!this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == player)) {
+			player.mountEntity(this);
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

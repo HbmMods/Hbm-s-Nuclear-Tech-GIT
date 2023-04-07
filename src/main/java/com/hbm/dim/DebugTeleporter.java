@@ -70,8 +70,11 @@ public class DebugTeleporter extends Teleporter {
 				if (player.ridingEntity == null && player.riddenByEntity == null && player instanceof EntityPlayer){
 					FMLCommonHandler.instance().getMinecraftServerInstance();
 					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dim, new com.hbm.dim.DebugTeleporter(mServer.worldServerForDimension(dim), x, y, z));
+					}else if (player.ridingEntity != null && player instanceof EntityPlayer) {
+						playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dim, new com.hbm.dim.DebugTeleporter(mServer.worldServerForDimension(dim), x, y, z));
+
+					}
 				}
 			}
 		}
 	}	
-}
