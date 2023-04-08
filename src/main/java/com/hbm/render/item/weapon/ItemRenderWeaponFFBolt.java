@@ -63,9 +63,9 @@ public class ItemRenderWeaponFFBolt implements IItemRenderer {
 			if(player.isSneaking()){
 			if (item.getItem() != ModItems.gun_bolt_action_saturnite) {
 				//GL11.glRotated(75, 0, -1, 0);
-				GL11.glTranslated(0.1, 0.6, -1.5);
-				GL11.glRotated(5, 0, 0, 1);
-				GL11.glRotated(14, 0, 1, 0);
+				GL11.glTranslated(0.1, 0.7, -1.57);
+				GL11.glRotated(9, 0, 0, 1);
+				GL11.glRotated(14.5, 0, 1, 0);
 			} else {
 				GL11.glPopMatrix();
 				return;

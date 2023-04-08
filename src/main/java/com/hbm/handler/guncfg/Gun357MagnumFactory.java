@@ -76,11 +76,14 @@ public class Gun357MagnumFactory {
 		
 		GunConfiguration config = getBaseConfig();
 		
-		config.durability = 3500;
-		
+		config.durability = 4500;
+		config.ammoCap = 7;
 		config.name = "ffivSatur";
+		config.reloadDuration = 4;
+		config.rateOfFire = 5;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
 		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
-		
+		config.comment.add("Don't ask why it now has an extra cartridge, just enjoy");
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SATURNITE_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);

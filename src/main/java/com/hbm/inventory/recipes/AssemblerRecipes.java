@@ -35,6 +35,7 @@ import com.hbm.items.weapon.ItemAmmoHIMARS;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.ModClassLoader;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -612,7 +613,17 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.powder_magic, 4),
 				new OreDictStack(ASBESTOS.ingot(), 8)
 			}, 200);
+		makeRecipe(new ComparableStack(ModItems.gun_lunatic_marksman, 1), new AStack[] {
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 3),
+				new ComparableStack(ModItems.mechanism_special, 1),
+				new ComparableStack(ModItems.plate_paa, 14),
+				new OreDictStack(FERRO.ingot(), 8),
+				new ComparableStack(ModItems.hull_small_steel, 4),
+				new ComparableStack(ModItems.wire_magnetized_tungsten, 8),
+				new OreDictStack(STEEL.plate(), 3),
+				new ComparableStack(ModBlocks.glass_quartz, 4),
 
+		}, 200);
 		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.STOCK.ordinal()), new AStack[] {
 				new OreDictStack(STEEL.plate(), 2),
 				new OreDictStack(CU.plate(), 1),

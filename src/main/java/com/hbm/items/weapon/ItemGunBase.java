@@ -220,6 +220,16 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			
 			for(int i = 0; i < bullets; i++) {
 				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
+				if(mainConfig.hasSmoke){
+					world.spawnParticle("smoke"
+							, player.posX + player.getLookVec().xCoord + world.rand.nextGaussian() * 0.35
+							, player.posY + player.getLookVec().xCoord + world.rand.nextGaussian() * 0.35 + player.getEyeHeight()
+							, player.posZ + player.getLookVec().xCoord + world.rand.nextGaussian() * 0.35
+							, player.getLookVec().xCoord
+							, player.getLookVec().yCoord
+							, player.getLookVec().zCoord
+					);
+				}
 			}
 			
 			useUpAmmo(player, stack, true);

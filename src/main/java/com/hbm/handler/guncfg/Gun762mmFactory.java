@@ -22,6 +22,8 @@ import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.potion.PotionEffect;
 
+import static com.hbm.handler.GunConfiguration.RELOAD_FULL;
+
 public class Gun762mmFactory {
 	
 	private static final CasingEjector EJECTOR_RIFLE;
@@ -43,7 +45,7 @@ public class Gun762mmFactory {
 		config.reloadDuration = 20;
 		config.firingDuration = 0;
 		config.ammoCap = 50;
-		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.reloadType = RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.NONE;
 		config.durability = 15 * 50 * 10; //15 * capacity * default wear
@@ -168,6 +170,9 @@ public class Gun762mmFactory {
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.revolverShoot";
 		config.firingPitch = 0.75F;
+		config.hasSights = true;
+		config.absoluteFOV = true;
+		config.zoomFOV = 0.4F;
 		config.crosshair = Crosshair.CLASSIC;
 
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
@@ -212,14 +217,17 @@ public class Gun762mmFactory {
 		GunConfiguration config = getBoltConfig();
 
 
-		config.durability = 4000;
+		config.durability = 5500;
+		config.rateOfFire = 30;
+		config.ammoCap = 8;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.revolverShoot";
-		config.firingPitch = 0.75F;
+		config.firingPitch = 0.65F;
 		config.hasSights = true;
-		config.zoomFOV = 0.2F; //x5 magnification
+		config.zoomFOV = 0.2F;
 		config.scopeTexture = Gun50BMGFactory.scope_luna;
 		config.name = "win20Satur";
+		config.reloadType = RELOAD_FULL;
 		config.manufacturer = EnumGunManufacturer.WINCHESTER_BIGMT;
 
 		return config;
@@ -228,8 +236,8 @@ public class Gun762mmFactory {
 		final BulletConfiguration bullet = Gun556mmFactory.get556Config().clone();
 
 		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.STOCK));
-		bullet.dmgMax *= 2;
-		bullet.dmgMin *= 2;
+		bullet.dmgMax *= 1.5;
+		bullet.dmgMin *= 1.5;
 		bullet.velocity *= 2.5;
 		bullet.maxAge *= 2;
 		bullet.spread /= 2;
@@ -245,7 +253,7 @@ public class Gun762mmFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.AP));
 		bullet.dmgMax *= 1.5;
 		bullet.dmgMin *= 1.5;
-		
+		bullet.doesPenetrate = true;
 		bullet.spentCasing = CASING762NATO.clone().register("762NATOAP");
 
 		return bullet;
@@ -257,7 +265,7 @@ public class Gun762mmFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.DU));
 		bullet.dmgMax *= 2;
 		bullet.dmgMin *= 2;
-		
+		bullet.doesPenetrate = true;
 		bullet.spentCasing = CASING762NATO.clone().register("762NATODU");
 
 		return bullet;

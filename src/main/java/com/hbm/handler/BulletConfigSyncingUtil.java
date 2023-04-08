@@ -362,8 +362,8 @@ public class BulletConfigSyncingUtil {
 
 		configSet.put(LR22_NORMAL, Gun22LRFactory.get22LRConfig());
 		configSet.put(LR22_AP, Gun22LRFactory.get22LRAPConfig());
-		configSet.put(LR22_NORMAL_FIRE, Gun22LRFactory.get22LRConfig().setToFire(3));
-		configSet.put(LR22_AP_FIRE, Gun22LRFactory.get22LRAPConfig().setToFire(3));
+		configSet.put(LR22_NORMAL_FIRE, Gun22LRFactory.get22LRSatConfig().setToFire(6));
+		configSet.put(LR22_AP_FIRE, Gun22LRFactory.get22LRAPConfig().setToFire(5));
 
 		configSet.put(M44_NORMAL, Gun44MagnumFactory.getNoPipConfig());
 		configSet.put(M44_AP, Gun44MagnumFactory.getNoPipAPConfig());
