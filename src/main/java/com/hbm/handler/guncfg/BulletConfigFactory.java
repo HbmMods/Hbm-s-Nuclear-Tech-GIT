@@ -6,6 +6,7 @@ import java.util.Random;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.explosion.ExplosionNukeSmall.MukeParams;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
@@ -291,13 +292,13 @@ public class BulletConfigFactory {
 	 * 3 - medium
 	 * 4 - big
 	 */
-	public static void nuclearExplosion(EntityBulletBase bullet, int x, int y, int z, int size) {
+	public static void nuclearExplosion(Entity entity, int x, int y, int z, MukeParams params) {
 		
-		if(!bullet.worldObj.isRemote) {
+		if(!entity.worldObj.isRemote) {
 
-			double posX = bullet.posX;
-			double posY = bullet.posY + 0.5;
-			double posZ = bullet.posZ;
+			double posX = entity.posX;
+			double posY = entity.posY + 0.5;
+			double posZ = entity.posZ;
 			
 			if(y >= 0) {
 				posX = x + 0.5;
@@ -305,7 +306,7 @@ public class BulletConfigFactory {
 				posZ = z + 0.5;
 			}
 			
-			ExplosionNukeSmall.explode(bullet.worldObj, posX, posY, posZ, size);
+			ExplosionNukeSmall.explode(entity.worldObj, posX, posY, posZ, params);
 		}
 	}
 	

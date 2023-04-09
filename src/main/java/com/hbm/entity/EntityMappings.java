@@ -76,7 +76,6 @@ public class EntityMappings {
 		addEntity(EntityGrenadeMk2.class, "entity_grenade_mk2", 500);
 		addEntity(EntityGrenadeZOMG.class, "entity_grenade_zomg", 500);
 		addEntity(EntityGrenadeASchrab.class, "entity_grenade_aschrab", 500);
-		addEntity(EntityNukeCloudNoShroom.class, "entity_nuke_cloud_no", 1000);
 		addEntity(EntityFalloutRain.class, "entity_fallout", 1000);
 		addEntity(EntityDischarge.class, "entity_emp_discharge", 500);
 		addEntity(EntityEMPBlast.class, "entity_emp_blast", 1000);
@@ -119,6 +118,7 @@ public class EntityMappings {
 		addEntity(EntityCloudSolinium.class, "entity_cloud_rainbow", 1000);
 		addEntity(EntityRagingVortex.class, "entity_raging_vortex", 250);
 		addEntity(EntityCarrier.class, "entity_missile_carrier", 1000);
+		addEntity(EntityRidableCarrier.class, "entity_rocket_carrier", 1000);
 		addEntity(EntityBooster.class, "entity_missile_booster", 1000);
 		addEntity(EntityModBeam.class, "entity_beam_bang", 1000);
 		addEntity(EntityMissileBHole.class, "entity_missile_blackhole", 1000);

@@ -1,13 +1,10 @@
 package com.hbm.entity.mob;
 
-import com.hbm.config.GeneralConfig;
-import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 

@@ -23,8 +23,8 @@ import net.minecraft.world.World;
 
 public class ArmorBJJetpack extends ArmorBJ {
 
-	public ArmorBJJetpack(ArmorMaterial material, int layer, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
-		super(material, layer, slot, texture, maxPower, chargeRate, consumption, drain);
+	public ArmorBJJetpack(ArmorMaterial material, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
+		super(material, slot, texture, maxPower, chargeRate, consumption, drain);
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -1,8 +1,6 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blocks.IRadResistantBlock;
-import com.hbm.handler.radiation.ChunkRadiationHandlerNT;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;

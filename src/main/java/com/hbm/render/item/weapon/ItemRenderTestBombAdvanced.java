@@ -3,7 +3,6 @@ package com.hbm.render.item.weapon;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.render.model.ModelTestBombAdvanced;
 import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
 
 import net.minecraft.client.Minecraft;
@@ -13,12 +12,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 public class ItemRenderTestBombAdvanced implements IItemRenderer {
-	
-	private ModelTestBombAdvanced bombModel;
-
-	public ItemRenderTestBombAdvanced() {
-		bombModel = new ModelTestBombAdvanced();
-	}
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {

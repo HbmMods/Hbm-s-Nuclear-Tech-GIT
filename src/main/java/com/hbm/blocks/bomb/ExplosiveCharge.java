@@ -39,15 +39,21 @@ public class ExplosiveCharge extends Block implements IBomb, IDetConnectible {
 	public void registerBlockIcons(IIconRegister iconRegister) {
 
 		super.registerBlockIcons(iconRegister);
-
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":det_nuke_top");
+		if(this == ModBlocks.det_nuke)
+		{
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":det_nuke_top");	
+		}
+		if(this == ModBlocks.det_salt)
+		{
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":det_cobalt_top");	
+		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
 
-		if(this != ModBlocks.det_nuke)
+		if(this != ModBlocks.det_nuke && this != ModBlocks.det_salt)
 			return this.blockIcon;
 
 		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
@@ -84,6 +90,15 @@ public class ExplosiveCharge extends Block implements IBomb, IDetConnectible {
 			}
 			if(this == ModBlocks.det_nuke) {
 				world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));
+
+				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, BombConfig.missileRadius * 0.005F);
+				entity2.posX = x;
+				entity2.posY = y;
+				entity2.posZ = z;
+				world.spawnEntityInWorld(entity2);
+			}
+			if(this == ModBlocks.det_salt) {
+				world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacSalted(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));
 
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, BombConfig.missileRadius * 0.005F);
 				entity2.posX = x;

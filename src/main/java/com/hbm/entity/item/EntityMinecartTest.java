@@ -16,8 +16,6 @@ import net.minecraft.world.World;
 public class EntityMinecartTest extends EntityMinecartModBase
 {
     private int minecartTNTFuse = -1;
-    private static final String __OBFID = "CL_00001680";
-
     public EntityMinecartTest(World p_i1727_1_)
     {
         super(p_i1727_1_);

@@ -6,7 +6,6 @@ import com.hbm.lib.RefStrings;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderChicken;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderDuck extends RenderChicken {

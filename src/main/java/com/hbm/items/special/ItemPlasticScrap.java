@@ -2,8 +2,6 @@ package com.hbm.items.special;
 
 import com.hbm.items.ItemEnumMulti;
 
-import net.minecraft.item.Item;
-
 public class ItemPlasticScrap extends ItemEnumMulti {
 
 	public ItemPlasticScrap() {

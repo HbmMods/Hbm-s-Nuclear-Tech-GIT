@@ -16,11 +16,6 @@ public class EntityChopperMine extends Entity implements IProjectile {
 	
 	public int timer = 0;
 	public Entity shooter;
-	private int field_145791_d = -1;
-	private int field_145792_e = -1;
-	private int field_145789_f = -1;
-	private boolean inGround;
-
 	public EntityChopperMine(World p_i1582_1_) {
 		super(p_i1582_1_);
 	}

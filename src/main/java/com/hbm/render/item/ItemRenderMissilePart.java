@@ -2,6 +2,7 @@ package com.hbm.render.item;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.weapon.ItemMissile.PartType;
 import com.hbm.render.util.MissilePart;
 
 import net.minecraft.client.Minecraft;
@@ -68,18 +69,19 @@ public class ItemRenderMissilePart implements IItemRenderer {
 			double scale = size / height;
 			
 			GL11.glTranslated(height / 2 * scale, 0, 0);
-
 			GL11.glRotated(135, 0, 0, 1);
 			GL11.glRotated(145, 1, 0, 0);
 			
+			if(part.type == PartType.WARHEAD) {
+				GL11.glTranslated(0, height / 8 * scale, 0);
+			}
+			
+			if(part.type == PartType.FUSELAGE) {
+				GL11.glTranslated(0, height / 4 * scale, 0);
+			}
+			
 			GL11.glTranslated(3.5, 14, 0);
-			
 			GL11.glScaled(-scale, -scale, -scale);
-			
-			/*if(part.type.name().equals(PartType.FINS.name())) {
-				GL11.glTranslated(0, 0, 0);
-				//GL11.glRotated(-45, 1, 0, 0);
-			}*/
 
 			GL11.glRotatef(System.currentTimeMillis() / 25 % 360, 0, -1, 0);
 			Minecraft.getMinecraft().renderEngine.bindTexture(part.texture);

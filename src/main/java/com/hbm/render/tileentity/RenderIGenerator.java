@@ -4,14 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.util.BeamPronter;
-import com.hbm.render.util.BeamPronter.EnumBeamType;
-import com.hbm.render.util.BeamPronter.EnumWaveType;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Vec3;
 
 public class RenderIGenerator extends TileEntitySpecialRenderer {
 

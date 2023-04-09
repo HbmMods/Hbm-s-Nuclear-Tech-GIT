@@ -16,8 +16,8 @@ import net.minecraft.item.ItemStack;
 
 public class ArmorDesh extends ArmorFSBFueled {
 
-	public ArmorDesh(ArmorMaterial material, int layer, int slot, String texture, FluidType fuelType, int maxFuel, int fillRate, int consumption, int drain) {
-		super(material, layer, slot, texture, fuelType, maxFuel, fillRate, consumption, drain);
+	public ArmorDesh(ArmorMaterial material, int slot, String texture, FluidType fuelType, int maxFuel, int fillRate, int consumption, int drain) {
+		super(material, slot, texture, fuelType, maxFuel, fillRate, consumption, drain);
 	}
 	
 	@Override

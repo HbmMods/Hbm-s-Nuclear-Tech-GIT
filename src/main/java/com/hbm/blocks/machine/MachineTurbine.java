@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineTurbine;

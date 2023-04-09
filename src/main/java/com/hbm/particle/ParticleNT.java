@@ -8,11 +8,8 @@ import net.minecraft.world.World;
 @SideOnly(Side.CLIENT)
 public class ParticleNT extends EntityFX {
 	
-	private ParticleDefinition definition;
-
 	public ParticleNT(World world, double x, double y, double z, ParticleDefinition definition) {
 		super(world, x, y, z);
-		this.definition = definition;
 	}
 
 	public ParticleNT(World world, double x, double y, double z, double moX, double moY, double moZ, ParticleDefinition definition) {

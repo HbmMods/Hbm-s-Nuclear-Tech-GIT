@@ -28,9 +28,9 @@ public class WorldGeneratorDres implements IWorldGenerator {
 		}
 	}
 	private void generateDres(World world, Random rand, int i, int j) {
-		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.asbestosSpawn, 4, 3, 22, ModBlocks.ike_asbestos, ModBlocks.ike_stone);
-		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperSpawn, 9, 4, 27, ModBlocks.ike_copper, ModBlocks.ike_stone);
-		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.ironClusterSpawn,  8, 1, 33, ModBlocks.ike_iron, ModBlocks.ike_stone);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.asbestosSpawn, 4, 3, 22, ModBlocks.ike_asbestos, ModBlocks.dres_rock);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperSpawn, 9, 4, 27, ModBlocks.ike_copper, ModBlocks.dres_rock);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.ironClusterSpawn,  8, 1, 33, ModBlocks.ike_iron, ModBlocks.dres_rock);
 		
 		if (WorldConfig.ikecfreq > 0 && rand.nextInt(WorldConfig.ikecfreq) == 0) {
 			

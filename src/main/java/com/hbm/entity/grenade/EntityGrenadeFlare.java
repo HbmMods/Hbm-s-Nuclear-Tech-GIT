@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 
 public class EntityGrenadeFlare extends EntityThrowable
 {
-    private static final String __OBFID = "CL_00001722";
     public Entity shooter;
 
     public EntityGrenadeFlare(World p_i1773_1_)

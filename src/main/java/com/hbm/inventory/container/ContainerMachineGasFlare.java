@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
@@ -26,7 +26,7 @@ public class ContainerMachineGasFlare extends Container {
 		//Fluid in
 		this.addSlotToContainer(new Slot(tedf, 1, 17, 17));
 		//Fluid out
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 17, 53));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 2, 17, 53));
 		//Fluid ID
 		this.addSlotToContainer(new Slot(tedf, 3, 35, 71));
 		//Upgrades

@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.tileentity.machine.TileEntityDiFurnace;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +20,7 @@ public class ContainerDiFurnace extends Container {
 		this.addSlotToContainer(new Slot(tedf, 0, 80, 18));
 		this.addSlotToContainer(new Slot(tedf, 1, 80, 54));
 		this.addSlotToContainer(new Slot(tedf, 2, 8, 36));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 134, 36));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 3, 134, 36));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -38,7 +38,7 @@ public class ContainerDiFurnace extends Container {
 		
 		if(index >= 0 && index < 3 && button == 1 && mode == 0) {
 			Slot slot = this.getSlot(index);
-			if(!slot.getHasStack()) {
+			if(!slot.getHasStack() && player.inventory.getItemStack() == null) {
 				if(!player.worldObj.isRemote) {
 					if(index == 0) diFurnace.sideUpper = (byte) ((diFurnace.sideUpper + 1) % 6);
 					if(index == 1) diFurnace.sideLower = (byte) ((diFurnace.sideLower + 1) % 6);

@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+
 import com.hbm.inventory.SlotUpgrade;
 import com.hbm.tileentity.machine.oil.TileEntityMachineShredderLarge;
 

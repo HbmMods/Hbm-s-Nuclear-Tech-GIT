@@ -1,6 +1,5 @@
 package com.hbm.blocks.machine.rbmk;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKRod;

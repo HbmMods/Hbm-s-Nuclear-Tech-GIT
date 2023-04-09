@@ -388,6 +388,12 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		return new Object[] {getMaxPower()};
 	}
 
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
+	}
+
 	@Override
 	public void writeNBT(NBTTagCompound nbt) {
 		NBTTagCompound data = new NBTTagCompound();

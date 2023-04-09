@@ -1,7 +1,6 @@
 package com.hbm.blocks.machine.rbmk;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.items.ModItems;

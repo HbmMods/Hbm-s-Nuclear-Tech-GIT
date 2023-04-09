@@ -60,7 +60,7 @@ public class ItemBobmazonPacket implements IMessage {
 		public IMessage onMessage(ItemBobmazonPacket m, MessageContext ctx) {
 			EntityPlayerMP p = ctx.getServerHandler().playerEntity;
 			World world = p.worldObj;
-			if(world.provider instanceof WorldProviderMoon)
+			if(world.provider.dimensionId != 0)
 			{
 				p.addChatMessage(new ChatComponentText("[BOBMAZON] Out Of Range!"));
 				return null;

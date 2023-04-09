@@ -11,7 +11,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenDresPlains extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.325F, 0.05F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.325F, 0.08F);
 
 	public BiomeGenDresPlains(int id) {
 		super(id);
@@ -27,8 +27,8 @@ public class BiomeGenDresPlains extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.ike_regolith;
-        this.fillerBlock = ModBlocks.ike_regolith; //thiccer regolith due to uhhhhhh...................
+        this.topBlock = ModBlocks.basalt;
+        this.fillerBlock = ModBlocks.dres_rock; //thiccer regolith due to uhhhhhh...................
 	}
 
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
@@ -57,7 +57,7 @@ public class BiomeGenDresPlains extends BiomeGenBase {
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == ModBlocks.ike_stone)
+                    if (block2 == ModBlocks.dres_rock)
                     {
                         if (k == -1)
                         {
@@ -65,7 +65,7 @@ public class BiomeGenDresPlains extends BiomeGenBase {
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.ike_stone;
+                                block1 = ModBlocks.dres_rock;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {
@@ -98,7 +98,7 @@ public class BiomeGenDresPlains extends BiomeGenBase {
                             else if (l1 < 56 - l)
                             {
                                 block = null;
-                                block1 = ModBlocks.ike_stone;
+                                block1 = ModBlocks.dres_rock;
                                 blocks[i2] = Blocks.gravel;
                             }
                             else

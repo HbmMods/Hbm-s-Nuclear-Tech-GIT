@@ -1,7 +1,5 @@
 package com.hbm.hazard.modifier;
 
-import com.hbm.items.machine.ItemFuelRod;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 

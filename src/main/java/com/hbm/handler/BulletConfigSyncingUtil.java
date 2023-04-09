@@ -29,6 +29,7 @@ public class BulletConfigSyncingUtil {
 	public static int IRON_HS = i++;
 	public static int STEEL_HS = i++;
 	public static int GOLD_HS = i++;
+	public static int LEAD_HS = i++;
 	public static int DESH_HS = i++;
 
 	public static int G20_NORMAL = i++;
@@ -305,6 +306,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(IRON_HS, Gun357MagnumFactory.getRevIronConfig().setHeadshot(3F));
 		configSet.put(STEEL_HS, Gun357MagnumFactory.getRevCursedConfig().setHeadshot(3F));
 		configSet.put(GOLD_HS, Gun357MagnumFactory.getRevGoldConfig().setHeadshot(3F));
+		configSet.put(LEAD_HS, Gun357MagnumFactory.getRevLeadConfig().setHeadshot(3F));
 		configSet.put(DESH_HS, Gun357MagnumFactory.getRevDeshConfig().setHeadshot(3F));
 
 		configSet.put(G20_NORMAL, Gun20GaugeFactory.get20GaugeConfig());

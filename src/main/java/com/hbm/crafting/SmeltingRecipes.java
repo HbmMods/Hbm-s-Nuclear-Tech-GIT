@@ -54,6 +54,11 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_starmetal), new ItemStack(ModItems.ingot_starmetal), 50.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_cobalt), new ItemStack(ModItems.ingot_cobalt), 2.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_nether_cobalt), new ItemStack(ModItems.ingot_cobalt), 2.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.duna_iron), new ItemStack(Items.iron_ingot, 2), 20.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.duna_zinc), new ItemStack(ModItems.ingot_zinc, 2), 20.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ike_asbestos), new ItemStack(ModItems.ingot_asbestos, 1), 20.0F); //we
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ike_iron), new ItemStack(Items.iron_ingot, 3), 20.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ike_copper), new ItemStack(ModItems.ingot_copper, 3), 20.0F);
 
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_gneiss_iron), new ItemStack(Items.iron_ingot), 5.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_gneiss_gold), new ItemStack(Items.gold_ingot), 5.0F);
@@ -115,9 +120,11 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.powder_niobium, new ItemStack(ModItems.ingot_niobium), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_bismuth, new ItemStack(ModItems.ingot_bismuth), 1.0F);
 		GameRegistry.addSmelting(ModItems.powder_calcium, new ItemStack(ModItems.ingot_calcium), 1.0F);
+		GameRegistry.addSmelting(ModItems.powder_cadmium, new ItemStack(ModItems.ingot_cadmium), 1.0F);
+		
+		GameRegistry.addSmelting(ModItems.bean_raw, new ItemStack(ModItems.bean_roast), 1.0F);
 
 		GameRegistry.addSmelting(ModItems.combine_scrap, new ItemStack(ModItems.ingot_combine_steel), 1.0F);
-		GameRegistry.addSmelting(ModItems.tank_waste, new ItemStack(ModItems.tank_waste), 0.0F);
 		GameRegistry.addSmelting(ModItems.rag_damp, new ItemStack(ModItems.rag), 0.1F);
 		GameRegistry.addSmelting(ModItems.rag_piss, new ItemStack(ModItems.rag), 0.1F);
 		GameRegistry.addSmelting(DictFrame.fromOne(ModBlocks.plant_flower, EnumFlowerType.TOBACCO), DictFrame.fromOne(ModItems.plant_item, EnumPlantType.TOBACCO), 0.1F);

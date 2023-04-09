@@ -16,12 +16,15 @@ import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.inventory.recipes.CrucibleRecipes.CrucibleRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CrucibleUtil;
 
 import api.hbm.tile.IHeatSource;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -152,7 +155,19 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, this.wasteStack, MaterialShapes.NUGGET.q(1), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, this.wasteStack, MaterialShapes.NUGGET.q(2), impact);
+				
+				if(didPour != null) {
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "foundry");
+					data.setInteger("color", didPour.material.moltenColor);
+					data.setByte("dir", (byte) dir.ordinal());
+					data.setFloat("off", 0.625F);
+					data.setFloat("base", 0.625F);
+					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875)));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord, zCoord + 0.5D + dir.offsetZ * 1.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+				
+				}
 			}
 			
 			/* pour recipe stack */
@@ -178,7 +193,19 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				}
 				
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, toCast, MaterialShapes.NUGGET.q(1), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, toCast, MaterialShapes.NUGGET.q(2), impact);
+
+				if(didPour != null) {
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "foundry");
+					data.setInteger("color", didPour.material.moltenColor);
+					data.setByte("dir", (byte) dir.ordinal());
+					data.setFloat("off", 0.625F);
+					data.setFloat("base", 0.625F);
+					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875)));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord, zCoord + 0.5D + dir.offsetZ * 1.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+				
+				}
 			}
 
 			/* clean up stacks */

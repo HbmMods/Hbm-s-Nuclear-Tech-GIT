@@ -71,6 +71,17 @@ public class HorsePronter {
 		enableWings();
 	}
 	
+	public static void poseStandardSit() {
+		double r = 60;
+		pose(HorsePronter.id_body, 0, -r, 0);
+		pose(HorsePronter.id_tail, 0, 45, 90);
+		pose(HorsePronter.id_lbl, 0, -90 + r, 35);
+		pose(HorsePronter.id_rbl, 0, -90 + r, -35);
+		pose(HorsePronter.id_lfl, 0, r - 10, 5);
+		pose(HorsePronter.id_rfl, 0, r - 10, -5);
+		pose(HorsePronter.id_head, 0, r, 0);
+	}
+	
 	public static void pose(int id, double yaw, double pitch, double roll) {
 		pose[id].xCoord = yaw;
 		pose[id].yCoord = pitch;
@@ -80,6 +91,7 @@ public class HorsePronter {
 	public static void pront() {
 		
 		GL11.glPushMatrix();
+		GL11.glDisable(GL11.GL_CULL_FACE);
 		doTransforms(id_body);
 		
 		horse.renderPart("Body");
@@ -100,7 +112,8 @@ public class HorsePronter {
 			horse.renderPart("LeftWing");
 			horse.renderPart("RightWing");
 		}
-		
+
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 	}
 	

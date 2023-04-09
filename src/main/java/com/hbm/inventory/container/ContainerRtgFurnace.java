@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.tileentity.machine.TileEntityRtgFurnace;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,19 +14,15 @@ public class ContainerRtgFurnace extends Container {
 	
 	private TileEntityRtgFurnace diFurnace;
 	private int dualCookTime;
-	private int lastItemBurnTime;
-	
 	public ContainerRtgFurnace(InventoryPlayer invPlayer, TileEntityRtgFurnace tedf) {
 		dualCookTime = 0;
-		lastItemBurnTime = 0;
-		
 		diFurnace = tedf;
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 56, 17));
 		this.addSlotToContainer(new Slot(tedf, 1, 38, 53));
 		this.addSlotToContainer(new Slot(tedf, 2, 56, 53));
 		this.addSlotToContainer(new Slot(tedf, 3, 74, 53));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 116, 35));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 4, 116, 35));
 		
 		for(int i = 0; i < 3; i++)
 		{

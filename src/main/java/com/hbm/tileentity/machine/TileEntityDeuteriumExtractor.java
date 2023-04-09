@@ -41,13 +41,13 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 			
 			this.updateConnections();
 			
-			if(hasPower() && hasEnoughWater() && tanks[1].getMaxFill() > tanks[1].getFill()) {
+			if(hasPower()&& this.power > 200 && hasEnoughWater() && tanks[1].getMaxFill() > tanks[1].getFill()) {
 				int convert = Math.min(tanks[1].getMaxFill(), tanks[0].getFill()) / 50;
 				convert = Math.min(convert, tanks[1].getMaxFill() - tanks[1].getFill());
 				
 				tanks[0].setFill(tanks[0].getFill() - convert * 50); //dividing first, then multiplying, will remove any rounding issues
 				tanks[1].setFill(tanks[1].getFill() + convert);
-				power -= this.getMaxPower() / 20;
+				power -= this.getMaxPower() / 100;
 			}
 			
 			this.subscribeToAllAround(tanks[0].getTankType(), this);
@@ -76,7 +76,7 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 	}
 
 	public boolean hasPower() {
-		return power >= this.getMaxPower() / 20;
+		return power >= this.getMaxPower() / 100;
 	}
 
 	public boolean hasEnoughWater() {

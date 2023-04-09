@@ -37,9 +37,7 @@ public class TestNuke extends BlockContainer {
     private final Random field_149933_a = new Random();
 	private static boolean keepInventory = false;
     private Map field_77288_k = new HashMap();
-    private boolean isExploding = false;
-
-	public TestNuke(Material p_i45386_1_) {
+    public TestNuke(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}
 

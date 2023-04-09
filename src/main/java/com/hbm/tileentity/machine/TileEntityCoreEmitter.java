@@ -337,6 +337,12 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower(), tank.getFill(), watts, isOn};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] isActive(Context context, Arguments args) {
 		return new Object[] {isOn};
 	}

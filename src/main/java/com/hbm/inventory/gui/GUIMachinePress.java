@@ -7,27 +7,34 @@ import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachinePress extends GuiContainer {
+public class GUIMachinePress extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_press.png");
-	private TileEntityMachinePress assembler;
+	private TileEntityMachinePress press;
 	
 	public GUIMachinePress(InventoryPlayer invPlayer, TileEntityMachinePress tedf) {
 		super(new ContainerMachinePress(invPlayer, tedf));
-		assembler = tedf;
+		press = tedf;
 		
 		this.xSize = 176;
 		this.ySize = 166;
 	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 25, guiTop + 16, 18, 18, mouseX, mouseY, (press.speed * 100 / press.maxSpeed) + "%");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 25, guiTop + 34, 18, 18, mouseX, mouseY, (press.burnTime / 200) + " operations left");
+	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
-		String name = this.assembler.hasCustomInventoryName() ? this.assembler.getInventoryName() : I18n.format(this.assembler.getInventoryName());
+		String name = this.press.hasCustomInventoryName() ? this.press.getInventoryName() : I18n.format(this.press.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
@@ -39,13 +46,14 @@ public class GUIMachinePress extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = assembler.getPowerScaled(12);
+		int i = press.speed * 12 / press.maxSpeed;
 		drawTexturedModalRect(guiLeft + 25, guiTop + 16, 176, 14 + 18 * i, 18, 18);
 		
-		int l = assembler.getBurnScaled(13);
-        this.drawTexturedModalRect(guiLeft + 27, guiTop + 49 - l, 176, 13 - l, 13, l);
+		if(press.burnTime >= 20) {
+			this.drawTexturedModalRect(guiLeft + 27, guiTop + 36, 176, 0, 14, 14);
+		}
 		
-		int k = assembler.getProgressScaled(16);
-        this.drawTexturedModalRect(guiLeft + 79, guiTop + 35, 194, 0, 18, k);
+		int k = (int) (press.renderPress * 16 / press.maxPress);
+		this.drawTexturedModalRect(guiLeft + 79, guiTop + 35, 194, 0, 18, k);
 	}
 }

@@ -16,6 +16,7 @@ import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
@@ -105,16 +106,37 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(new OreDictStack(S.dust()))
 				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500))
 				.outputItems(new ItemStack(ModItems.ingot_rubber)));
-		recipes.add(new ChemRecipe(83, "TNT", 150)
-				.inputItems(new OreDictStack(KNO.dust()))
-				.inputFluids(new FluidStack(Fluids.AROMATICS, 500))
-				.outputItems(new ItemStack(ModItems.ball_tnt, 4)));
+		/*recipes.add(new ChemRecipe(94, "PET", 100)
+				.inputItems(new OreDictStack(AL.dust()))
+				.inputFluids(
+						new FluidStack(Fluids.XYLENE, 500),
+						new FluidStack(Fluids.OXYGEN, 100))
+				.outputItems(new ItemStack(ModItems.ingot_pet)));*/
+		recipes.add(new ChemRecipe(94, "PC", 100)
+				.inputFluids(
+						new FluidStack(Fluids.XYLENE, 500),
+						new FluidStack(Fluids.PHOSGENE, 500))
+				.outputItems(new ItemStack(ModItems.ingot_pc)));
+		recipes.add(new ChemRecipe(96, "PVC", 100)
+				.inputItems(new OreDictStack(CD.dust()))
+				.inputFluids(
+						new FluidStack(Fluids.UNSATURATEDS, 250),
+						new FluidStack(Fluids.CHLORINE, 250))
+				.outputItems(new ItemStack(ModItems.ingot_pvc, 2)));
 		recipes.add(new ChemRecipe(89, "DYNAMITE", 50)
 				.inputItems(
 						new ComparableStack(Items.sugar),
 						new OreDictStack(KNO.dust()),
 						new OreDictStack("sand"))
 				.outputItems(new ItemStack(ModItems.ball_dynamite, 2)));
+		recipes.add(new ChemRecipe(83, "TNT", 150)
+				.inputItems(new OreDictStack(KNO.dust()))
+				.inputFluids(new FluidStack(Fluids.AROMATICS, 500))
+				.outputItems(new ItemStack(ModItems.ball_tnt, 4)));
+		recipes.add(new ChemRecipe(95, "TATB", 50)
+				.inputItems(new ComparableStack(ModItems.ball_tnt))
+				.inputFluids(new FluidStack(Fluids.SOURGAS, 200), new FluidStack(Fluids.NITRIC_ACID, 10))
+				.outputItems(new ItemStack(ModItems.ball_tatb)));
 		recipes.add(new ChemRecipe(84, "C4", 150)
 				.inputItems(new OreDictStack(KNO.dust()))
 				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500))
@@ -364,8 +386,8 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(Fluids.NITROGEN, 600), new FluidStack(Fluids.WATER, 1000))
 				.outputFluids(new FluidStack(Fluids.AMMONIA, 800)));
 		recipes.add(new ChemRecipe(102, "BLOODFUEL", 250)
-				.inputFluids(new FluidStack(Fluids.AMMONIA, 700), new FluidStack(Fluids.BLOOD, 700))
-				.outputFluids(new FluidStack(Fluids.BLOODGAS, 800)));
+				.inputFluids(new FluidStack(Fluids.AMMONIA, 350), new FluidStack(Fluids.BLOOD, 800))
+				.outputFluids(new FluidStack(Fluids.BLOODGAS, 1000)));
 		recipes.add(new ChemRecipe(103, "HCL", 250)
 				.inputFluids(new FluidStack(Fluids.HYDROGEN, 300), new FluidStack(Fluids.CHLORINE, 1000))
 				.outputFluids(new FluidStack(Fluids.HCL, 400)));
@@ -378,6 +400,55 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.nugget_gallium),
 						new ComparableStack(ModItems.nugget_arsenic))
 				.outputItems(new ItemStack(ModItems.nugget_gaas, 1)));
+		recipes.add(new ChemRecipe(106, "ANIMAN", 250)
+				.inputFluids(new FluidStack(Fluids.OLIVEOIL, 500))
+				.inputItems(
+						new ComparableStack(ModItems.canned_conserve, 1, 5))
+				.outputItems(new ItemStack(ModItems.animan, 1)));
+		recipes.add(new ChemRecipe(107, "ELBOWS", 250)
+				.inputFluids(new FluidStack(Fluids.ACID, 100), new FluidStack(Fluids.ELBOWGREASE, 900))
+				.inputItems(
+						new ComparableStack(ModBlocks.sand_dirty, 20))
+				.outputItems(new ItemStack(ModItems.ingot_iridium, 1)));
+		recipes.add(new ChemRecipe(108, "ELBOMB", 300)
+				.inputFluids(new FluidStack(Fluids.ELBOWGREASE, 100))
+				.inputItems(
+						new ComparableStack(ModItems.ingot_lead, 1),
+						new OreDictStack(ANY_SMOKELESS.dust(), 1))
+				.outputItems(new ItemStack(ModItems.assembly_smg, 32)));
+		recipes.add(new ChemRecipe(109, "ELBOOB", 350)
+				.inputFluids(new FluidStack(Fluids.ELBOWGREASE, 100))
+				.inputItems(
+						new ComparableStack(ModItems.ingot_copper, 1),
+						new OreDictStack(ANY_SMOKELESS.dust(), 1))
+				.outputItems(new ItemStack(ModItems.assembly_762, 32)));
+		recipes.add(new ChemRecipe(110, "ELGORE", 250)
+				.inputFluids(new FluidStack(Fluids.ELBOWGREASE, 100))
+				.inputItems(
+						new ComparableStack(ModItems.ingot_copper, 1),
+						new ComparableStack(ModItems.ingot_lead, 1),
+						new OreDictStack(ANY_SMOKELESS.dust(), 1))
+				.outputItems(new ItemStack(ModItems.assembly_556, 32)));
+		recipes.add(new ChemRecipe(111, "FIVEFIVE", 300)
+				.inputFluids(new FluidStack(Fluids.ELBOWGREASE, 100))
+				.inputItems(
+						new ComparableStack(ModItems.ingot_copper, 1),
+						new ComparableStack(ModItems.ingot_steel, 1),
+						new OreDictStack(ANY_SMOKELESS.dust(), 1))
+				.outputItems(new ItemStack(ModItems.assembly_lacunae, 32)));
+		recipes.add(new ChemRecipe(112, "NMASSIII", 300)
+				.inputFluids(new FluidStack(Fluids.DEATH, 16000), (new FluidStack(Fluids.ELBOWGREASE, 6000)))
+				.inputItems(
+						new ComparableStack(ModBlocks.dfc_core, 1),
+						new ComparableStack(ModBlocks.block_euphemium, 32),
+						new OreDictStack(ANY_SMOKELESS.dust(), 1))
+				.outputFluids(new FluidStack(Fluids.NMASSTETRANOL, 100), new FluidStack(Fluids.ETHANOL, 24000)));
+		recipes.add(new ChemRecipe(113, "NMASSII", 300)
+				.inputFluids(new FluidStack(Fluids.SCHRABIDIC, 650), (new FluidStack(Fluids.IONGEL, 800)))
+				.inputItems(
+						new ComparableStack(ModItems.pellet_charged, 1),
+						new ComparableStack(ModItems.ingot_euphemium, 1))
+				.outputFluids(new FluidStack(Fluids.NMASS, 1000), new FluidStack(Fluids.WASTEGAS, 2000)));
 	}
 	
 	

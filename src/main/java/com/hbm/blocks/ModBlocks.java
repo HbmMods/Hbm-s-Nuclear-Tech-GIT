@@ -425,6 +425,8 @@ public class ModBlocks {
 	public static Block ike_asbestos;
 	public static Block ike_copper;
 	public static Block ike_iron;
+	public static Block dres_rock;
+
 	
 	public static Block eve_silt;
 	public static Block eve_rock;
@@ -460,6 +462,7 @@ public class ModBlocks {
 	public static Block steel_beam;
 	public static Block steel_scaffold;
 	public static Block steel_grate;
+	public static Block steel_grate_wide;
 
 	public static Block deco_pipe;
 	public static Block deco_pipe_rusted;
@@ -514,8 +517,13 @@ public class ModBlocks {
 	public static Block mush_block_stem;
 
 	public static Block plant_flower;
+	public static Block plant_tall;
 	public static Block plant_dead;
 	public static Block reeds;
+	
+	public static Block crop_strawberry;
+	public static Block crop_coffee;
+	public static Block crop_tea;
 
 	public static Block waste_earth;
 	public static Block waste_mycelium;
@@ -539,6 +547,7 @@ public class ModBlocks {
 	public static Block impact_dirt;
 	
 	public static Block fallout;
+	public static Block salted_fallout;
 	public static Block foam_layer;
 	public static Block sand_boron_layer;
 	public static Block leaves_layer;
@@ -568,6 +577,7 @@ public class ModBlocks {
 	public static Block det_cord;
 	public static Block det_charge;
 	public static Block det_nuke;
+	public static Block det_salt;
 	public static Block det_miner;
 	public static Block red_barrel;
 	public static Block pink_barrel;
@@ -691,6 +701,7 @@ public class ModBlocks {
 	
 	public static Block machine_difurnace_off;
 	public static Block machine_difurnace_on;
+	public static Block machine_difurnace_extension;
 	public static Block machine_difurnace_rtg_off;
 	public static Block machine_difurnace_rtg_on;
 	//public static final int guiID_test_difurnace = 1; historical
@@ -805,6 +816,8 @@ public class ModBlocks {
 	public static Block crane_router;
 	public static Block crane_boxer;
 	public static Block crane_unboxer;
+	
+	public static Block fan;
 
 	public static Block chain;
 
@@ -874,7 +887,6 @@ public class ModBlocks {
 	public static Block plasma_heater;
 	
 	public static Block watz;
-	public static final int guiID_watz = 98;
 
 	public static Block watz_element;
 	public static Block watz_control;
@@ -927,17 +939,8 @@ public class ModBlocks {
 	public static Block teleanchor;
 	public static Block field_disturber;
 
-	public static Block machine_reix_mainframe;
-	public static final int guiID_machine_reix_mainframe = 38;
-
 	public static Block machine_rtg_grey;
-	//public static Block machine_rtg_red;
-	//public static Block machine_rtg_orange;
-	//public static Block machine_rtg_yellow;
-	//public static Block machine_rtg_green;
 	public static Block machine_rtg_cyan;
-	//public static Block machine_rtg_blue;
-	//public static Block machine_rtg_purple;
 	public static Block machine_amgen;
 	public static Block machine_geo;
 	public static Block machine_minirtg;
@@ -953,10 +956,11 @@ public class ModBlocks {
 	public static Block machine_flare;
 	
 	public static Block machine_refinery;
-	
+	public static Block machine_vacuum_distill;
 	public static Block machine_fraction_tower;
 	public static Block fraction_spacer;
 	public static Block machine_catalytic_cracker;
+	public static Block machine_catalytic_reformer;
 
 	public static Block machine_boiler_off;
 	public static Block machine_boiler_on;
@@ -1008,6 +1012,8 @@ public class ModBlocks {
 	public static Block machine_orbus;
 
 	public static Block launch_pad;
+	public static Block launch_pad_passenger;
+
 	
 	public static Block machine_missile_assembly;
 	
@@ -1210,10 +1216,6 @@ public class ModBlocks {
 	public static Block dummy_port_drill;
 	public static Block dummy_block_assembler;
 	public static Block dummy_port_assembler;
-	public static Block dummy_block_turbofan;
-	public static Block dummy_port_turbofan;
-	public static Block dummy_block_shredder_large;
-	public static Block dummy_port_shredder_large;
 	public static Block dummy_block_ams_limiter;
 	public static Block dummy_port_ams_limiter;
 	public static Block dummy_block_ams_emitter;
@@ -1651,7 +1653,8 @@ public class ModBlocks {
 		ike_asbestos = new BlockGeneric(Material.rock).setBlockName("ike_asbestos").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_asbestos");
 		ike_copper = new BlockGeneric(Material.rock).setBlockName("ike_copper").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_copper");
 		ike_iron = new BlockGeneric(Material.rock).setBlockName("ike_iron").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_iron");
-		
+		dres_rock = new BlockGeneric(Material.rock).setBlockName("dres_rock").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":dresbase");
+
 		
 		brick_jungle = new BlockGeneric(Material.rock).setBlockName("brick_jungle").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle");
 		brick_jungle_cracked = new BlockGeneric(Material.rock).setBlockName("brick_jungle_cracked").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle_cracked");
@@ -1671,7 +1674,6 @@ public class ModBlocks {
 		brick_forgotten = new BlockGeneric(Material.rock).setBlockName("brick_forgotten").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(1000000).setBlockTextureName(RefStrings.MODID + ":brick_forgotten");
 		
 		deco_computer = new BlockDecoModel(Material.iron, DecoComputerEnum.class, true, false).setBlockBoundsTo(.160749F, 0F, 0F, .839251F, .867849F, .622184F).setBlockName("deco_computer").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_computer");
-		
 		filing_cabinet = new BlockDecoContainer(Material.iron, DecoCabinetEnum.class, true, false, TileEntityFileCabinet.class).setBlockBoundsTo(.1875F, 0F, 0F, .8125F, 1F, .75F).setBlockName("filing_cabinet").setCreativeTab(MainRegistry.blockTab).setHardness(10.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		tape_recorder = new DecoTapeRecorder(Material.iron).setBlockName("tape_recorder").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":deco_tape_recorder");
@@ -1684,6 +1686,7 @@ public class ModBlocks {
 		steel_beam = new DecoBlock(Material.iron).setBlockName("steel_beam").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":steel_beam");
 		steel_scaffold = new BlockScaffold().setBlockName("steel_scaffold").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":deco_steel_orig");
 		steel_grate = new BlockGrate(Material.iron).setBlockName("steel_grate").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F);
+		steel_grate_wide = new BlockGrate(Material.iron).setBlockName("steel_grate_wide").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F);
 		
 		deco_pipe = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 0).setBlockName("deco_pipe").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
 		deco_pipe_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 0).setBlockName("deco_pipe_rusted").setStepSound(soundTypeGrate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
@@ -1737,9 +1740,14 @@ public class ModBlocks {
 		mush_block_stem = new BlockMushHuge(Material.plants).setBlockName("mush_block_stem").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_stem");
 		
 		plant_flower = new BlockNTMFlower().setBlockName("plant_flower").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
+		plant_tall = new BlockTallPlant().setBlockName("plant_tall").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 		plant_dead = new BlockDeadPlant().setBlockName("plant_dead").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 		reeds = new BlockReeds().setBlockName("plant_reeds").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 
+		crop_strawberry = new CropStrawberry().setBlockName("crop_strawberry").setStepSound(Block.soundTypeGrass).setHardness(0.0F);
+		crop_coffee = new CropCoffee().setBlockName("crop_coffee").setStepSound(Block.soundTypeGrass).setHardness(0.0F);
+		crop_tea = new CropTea().setBlockName("crop_tea").setStepSound(Block.soundTypeGrass).setHardness(0.0F);
+		
 		waste_earth = new WasteEarth(Material.ground, true).setBlockName("waste_earth").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.blockTab).setHardness(0.6F).setBlockTextureName(RefStrings.MODID + ":waste_earth");
 		waste_mycelium = new WasteEarth(Material.ground, true).setBlockName("waste_mycelium").setStepSound(Block.soundTypeGrass).setLightLevel(1F).setCreativeTab(MainRegistry.blockTab).setHardness(0.6F).setBlockTextureName(RefStrings.MODID + ":waste_mycelium_side");
 		waste_trinitite = new BlockOre(Material.sand).noFortune().setBlockName("waste_trinitite").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":waste_trinitite");
@@ -1752,6 +1760,7 @@ public class ModBlocks {
 		frozen_log = new WasteLog(Material.wood).setBlockName("frozen_log").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
 		frozen_planks = new BlockOre(Material.wood).setBlockName("frozen_planks").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":frozen_planks");
 		fallout = new BlockFallout(Material.snow).setBlockName("fallout").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":ash");
+		salted_fallout = new BlockFallout(Material.snow).setBlockName("salted_fallout").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":ash");
 		foam_layer = new BlockLayering(Material.snow).setBlockName("foam_layer").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":foam");
 		sand_boron_layer = new BlockLayering(Material.sand).setBlockName("sand_boron_layer").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":sand_boron");
 		leaves_layer = new BlockLayering(Material.leaves).setBlockName("leaves_layer").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":waste_leaves");
@@ -1807,6 +1816,7 @@ public class ModBlocks {
 		det_cord = new DetCord(Material.iron).setBlockName("det_cord").setCreativeTab(MainRegistry.nukeTab).setHardness(0.1F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":det_cord");
 		det_charge = new ExplosiveCharge(Material.iron).setBlockName("det_charge").setCreativeTab(MainRegistry.nukeTab).setHardness(0.1F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":det_charge");
 		det_nuke = new ExplosiveCharge(Material.iron).setBlockName("det_nuke").setCreativeTab(MainRegistry.nukeTab).setHardness(0.1F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":det_nuke");
+		det_salt = new ExplosiveCharge(Material.iron).setBlockName("det_salt").setCreativeTab(MainRegistry.nukeTab).setHardness(0.1F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":det_nuke");
 		det_miner = new DetMiner(Material.iron, RefStrings.MODID + ":det_miner_top").setBlockName("det_miner").setCreativeTab(MainRegistry.nukeTab).setHardness(0.1F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":det_miner_side");
 		red_barrel = new RedBarrel(Material.iron).setBlockName("red_barrel").setCreativeTab(MainRegistry.nukeTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":barrel_red");
 		pink_barrel = new RedBarrel(Material.iron).setBlockName("pink_barrel").setCreativeTab(MainRegistry.nukeTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":barrel_pink");
@@ -1853,6 +1863,7 @@ public class ModBlocks {
 		
 		machine_difurnace_off = new MachineDiFurnace(false).setBlockName("machine_difurnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_on = new MachineDiFurnace(true).setBlockName("machine_difurnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
+		machine_difurnace_extension = new MachineDiFurnaceExtension().setBlockName("machine_difurnace_extension").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_rtg_off = new MachineDiFurnaceRTG(false).setBlockName("machine_difurnace_rtg_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_rtg_on = new MachineDiFurnaceRTG(true).setBlockName("machine_difurnace_rtg_on").setHardness(5.0F).setResistance(10.0F).setLightLevel(2.0F).setCreativeTab(null);
 		
@@ -1924,7 +1935,7 @@ public class ModBlocks {
 		machine_coal_off = new MachineCoal(false).setBlockName("machine_coal_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_coal_on = new MachineCoal(true).setBlockName("machine_coal_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
 
-		machine_diesel = new MachineDiesel(Material.iron).setBlockName("machine_diesel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_diesel = new MachineDiesel().setBlockName("machine_diesel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_combustion_engine = new MachineCombustionEngine().setBlockName("machine_combustion_engine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		machine_shredder = new MachineShredder(Material.iron).setBlockName("machine_shredder").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -1963,12 +1974,12 @@ public class ModBlocks {
 		cable_detector = new CableDetector(Material.iron).setBlockName("cable_detector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		cable_diode = new CableDiode(Material.iron).setBlockName("cable_diode").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":cable_diode");
 		machine_detector = new PowerDetector(Material.iron).setBlockName("machine_detector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_detector_off");
-		oil_duct_solid = new OilDuctSolid(Material.iron).setBlockName("oil_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":oil_duct_solid_alt");
+		oil_duct_solid = new OilDuctSolid(Material.iron).setBlockName("oil_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":oil_duct_solid_alt");
 		oil_duct = new BlockOilDuct(Material.iron).setBlockName("oil_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":oil_duct_icon_alt");
 		gas_duct_solid = new GasDuctSolid(Material.iron).setBlockName("gas_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":gas_duct_solid");
 		gas_duct = new BlockGasDuct(Material.iron).setBlockName("gas_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":gas_duct_icon");
 		fluid_duct = new BlockFluidDuct(Material.iron).setBlockName("fluid_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":fluid_duct_icon");
-		fluid_duct_solid = new BlockFluidDuctSolid(Material.iron).setBlockName("fluid_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_solid");
+		fluid_duct_solid = new BlockFluidDuctSolid(Material.iron).setBlockName("fluid_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":fluid_duct_solid");
 		fluid_duct_neo = new FluidDuctStandard(Material.iron).setBlockName("fluid_duct_neo").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pipe_neo");
 		fluid_duct_box = new FluidDuctBox(Material.iron).setBlockName("fluid_duct_box").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_box");
 		fluid_duct_paintable = new FluidDuctPaintable().setBlockName("fluid_duct_paintable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -1987,6 +1998,7 @@ public class ModBlocks {
 		crane_router = new CraneRouter().setBlockName("crane_router").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crane_boxer = new CraneBoxer().setBlockName("crane_boxer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crane_unboxer = new CraneUnboxer().setBlockName("crane_unboxer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		fan = new MachineFan().setBlockName("fan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		chain = new BlockChain(Material.iron).setBlockName("dungeon_chain").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":chain");
 
@@ -2117,6 +2129,7 @@ public class ModBlocks {
 
 		muffler = new BlockGeneric(Material.cloth).setBlockName("muffler").setHardness(0.8F).setStepSound(Block.soundTypeCloth).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":muffler");
 		
+		launch_pad_passenger = new LaunchPadPassenger(Material.iron).setBlockName("launch_pad_passenger").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		machine_radar = new MachineRadar(Material.iron).setBlockName("machine_radar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":machine_radar");
 
@@ -2209,9 +2222,11 @@ public class ModBlocks {
 		oil_pipe = new BlockNoDrop(Material.iron).setBlockName("oil_pipe").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":oil_pipe");
 		machine_flare = new MachineGasFlare(Material.iron).setBlockName("machine_flare").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_refinery = new MachineRefinery(Material.iron).setBlockName("machine_refinery").setHardness(5.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_refinery");
+		machine_vacuum_distill = new MachineVacuumDistill(Material.iron).setBlockName("machine_vacuum_distill").setHardness(5.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_fraction_tower = new MachineFractionTower(Material.iron).setBlockName("machine_fraction_tower").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		fraction_spacer = new FractionSpacer(Material.iron).setBlockName("fraction_spacer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_catalytic_cracker = new MachineCatalyticCracker(Material.iron).setBlockName("machine_catalytic_cracker").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_catalytic_reformer = new MachineCatalyticReformer(Material.iron).setBlockName("machine_catalytic_reformer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_autosaw = new MachineAutosaw().setBlockName("machine_autosaw").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_drill = new MachineMiningDrill(Material.iron).setBlockName("machine_drill").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_drill");
 		machine_excavator = new MachineExcavator().setBlockName("machine_excavator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -2282,8 +2297,6 @@ public class ModBlocks {
 
 		machine_schrabidium_transmutator = new MachineSchrabidiumTransmutator(Material.iron).setBlockName("machine_schrabidium_transmutator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
 
-		machine_reix_mainframe = new MachineReiXMainframe(Material.iron).setBlockName("machine_reix_mainframe").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
-		
 		machine_siren = new MachineSiren(Material.iron).setBlockName("machine_siren").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_siren");
 		
 		machine_spp_bottom = new SPPBottom(Material.iron).setBlockName("machine_spp_bottom").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -2376,10 +2389,6 @@ public class ModBlocks {
 		dummy_port_drill = new DummyBlockDrill(Material.iron, true).setBlockName("dummy_port_drill").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_lead");
 		dummy_block_assembler = new DummyBlockAssembler(Material.iron, false).setBlockName("dummy_block_assembler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_port_assembler = new DummyBlockAssembler(Material.iron, true).setBlockName("dummy_port_assembler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		dummy_block_turbofan = new DummyBlockTurbofan(Material.iron, false).setBlockName("dummy_block_turbofan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		dummy_port_turbofan = new DummyBlockTurbofan(Material.iron, true).setBlockName("dummy_port_turbofan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		dummy_block_shredder_large = new DummyBlockShredderLarge(Material.iron, false).setBlockName("dummy_block_shredder_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		dummy_port_shredder_large = new DummyBlockShredderLarge(Material.iron, true).setBlockName("dummy_port_shredder_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_block_ams_limiter = new DummyBlockAMSLimiter(Material.iron).setBlockName("dummy_block_ams_limiter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_copper");
 		dummy_port_ams_limiter = new DummyBlockAMSLimiter(Material.iron).setBlockName("dummy_port_ams_limiter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_copper");
 		dummy_block_ams_emitter = new DummyBlockAMSEmitter(Material.iron).setBlockName("dummy_block_ams_emitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_copper");
@@ -2844,6 +2853,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(steel_beam, steel_beam.getUnlocalizedName());
 		register(steel_scaffold);
 		GameRegistry.registerBlock(steel_grate, steel_grate.getUnlocalizedName());
+		register(steel_grate_wide);
 		GameRegistry.registerBlock(deco_pipe, ItemBlockBase.class, deco_pipe.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_pipe_rusted, ItemBlockBase.class, deco_pipe_rusted.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_pipe_green, ItemBlockBase.class, deco_pipe_green.getUnlocalizedName());
@@ -2869,9 +2879,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(deco_pipe_quad_red, ItemBlockBase.class, deco_pipe_quad_red.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_pipe_quad_marked, ItemBlockBase.class, deco_pipe_quad_marked.getUnlocalizedName());
 		register(plant_flower);
+		register(plant_tall);
 		register(plant_dead);
 		register(reeds);
 		register(fissure_bomb);  
+		register(crop_strawberry);
+		register(crop_coffee);
+		register(crop_tea);
 		GameRegistry.registerBlock(mush, mush.getUnlocalizedName());
 		GameRegistry.registerBlock(mush_block, mush_block.getUnlocalizedName());
 		GameRegistry.registerBlock(mush_block_stem, mush_block_stem.getUnlocalizedName());
@@ -2895,6 +2909,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(eve_rock, eve_rock.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(ike_regolith, ike_regolith.getUnlocalizedName());
+		GameRegistry.registerBlock(dres_rock, dres_rock.getUnlocalizedName());
 		GameRegistry.registerBlock(ike_stone, ike_stone.getUnlocalizedName());
 		GameRegistry.registerBlock(ike_asbestos, ike_asbestos.getUnlocalizedName());
 		GameRegistry.registerBlock(ike_copper, ike_copper.getUnlocalizedName());
@@ -2918,6 +2933,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(sand_dirty_red, sand_dirty_red.getUnlocalizedName());
 		GameRegistry.registerBlock(stone_cracked, stone_cracked.getUnlocalizedName());
 		GameRegistry.registerBlock(fallout, fallout.getUnlocalizedName());
+		GameRegistry.registerBlock(salted_fallout, salted_fallout.getUnlocalizedName());
 		GameRegistry.registerBlock(foam_layer, foam_layer.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_boron_layer, sand_boron_layer.getUnlocalizedName());
 		GameRegistry.registerBlock(leaves_layer, leaves_layer.getUnlocalizedName());
@@ -3002,6 +3018,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(det_cord, det_cord.getUnlocalizedName());
 		GameRegistry.registerBlock(det_charge, det_charge.getUnlocalizedName());
 		GameRegistry.registerBlock(det_nuke, det_nuke.getUnlocalizedName());
+		GameRegistry.registerBlock(det_salt, det_salt.getUnlocalizedName());
 		GameRegistry.registerBlock(det_miner, det_miner.getUnlocalizedName());
 		GameRegistry.registerBlock(red_barrel, ItemBlockLore.class, red_barrel.getUnlocalizedName());
 		GameRegistry.registerBlock(pink_barrel, ItemBlockLore.class, pink_barrel.getUnlocalizedName());
@@ -3110,8 +3127,9 @@ public class ModBlocks {
 		register(foundry_channel);
 		register(foundry_tank);
 		register(foundry_outlet);
-		GameRegistry.registerBlock(machine_difurnace_off, machine_difurnace_off.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_difurnace_on, machine_difurnace_on.getUnlocalizedName());
+		register(machine_difurnace_off);
+		register(machine_difurnace_on);
+		register(machine_difurnace_extension);
 		GameRegistry.registerBlock(machine_difurnace_rtg_off, machine_difurnace_rtg_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_difurnace_rtg_on, machine_difurnace_rtg_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_centrifuge, machine_centrifuge.getUnlocalizedName());
@@ -3234,11 +3252,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(crane_boxer, crane_boxer.getUnlocalizedName());
 		GameRegistry.registerBlock(crane_unboxer, crane_unboxer.getUnlocalizedName());
 		GameRegistry.registerBlock(conveyor, conveyor.getUnlocalizedName());
-		//GameRegistry.registerBlock(conveyor_classic, conveyor_classic.getUnlocalizedName());
 		GameRegistry.registerBlock(conveyor_double, conveyor_double.getUnlocalizedName());
 		GameRegistry.registerBlock(conveyor_triple, conveyor_triple.getUnlocalizedName());
 		GameRegistry.registerBlock(conveyor_chute, conveyor_chute.getUnlocalizedName());
 		GameRegistry.registerBlock(conveyor_lift, conveyor_lift.getUnlocalizedName());
+		GameRegistry.registerBlock(fan, fan.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(chain, chain.getUnlocalizedName());
 		GameRegistry.registerBlock(ladder_sturdy, ladder_sturdy.getUnlocalizedName());
@@ -3307,15 +3325,16 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_storage_drum, machine_storage_drum.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_shredder, machine_shredder.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_shredder_large, machine_shredder_large.getUnlocalizedName());
-		//GameRegistry.registerBlock(machine_deuterium, machine_deuterium.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_well, machine_well.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_pumpjack, machine_pumpjack.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_fracking_tower, machine_fracking_tower.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_flare, ItemBlockBase.class, machine_flare.getUnlocalizedName());
+		register(machine_well);
+		register(machine_pumpjack);
+		register(machine_fracking_tower);
+		register(machine_flare);
 		register(machine_refinery);
+		register(machine_vacuum_distill);
 		GameRegistry.registerBlock(machine_fraction_tower, machine_fraction_tower.getUnlocalizedName());
 		GameRegistry.registerBlock(fraction_spacer, fraction_spacer.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_catalytic_cracker, machine_catalytic_cracker.getUnlocalizedName());
+		register(machine_catalytic_reformer);
 		GameRegistry.registerBlock(machine_drill, machine_drill.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_autosaw, machine_autosaw.getUnlocalizedName());
 		register(machine_excavator);
@@ -3434,6 +3453,7 @@ public class ModBlocks {
 		//Missile Blocks
 		GameRegistry.registerBlock(machine_missile_assembly, machine_missile_assembly.getUnlocalizedName());
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());
+		GameRegistry.registerBlock(launch_pad_passenger, launch_pad_passenger.getUnlocalizedName());
 		GameRegistry.registerBlock(compact_launcher, compact_launcher.getUnlocalizedName());
 		GameRegistry.registerBlock(launch_table, launch_table.getUnlocalizedName());
 		GameRegistry.registerBlock(soyuz_launcher, soyuz_launcher.getUnlocalizedName());
@@ -3492,10 +3512,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(dummy_port_drill, dummy_port_drill.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_block_assembler, dummy_block_assembler.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_port_assembler, dummy_port_assembler.getUnlocalizedName());
-		GameRegistry.registerBlock(dummy_block_turbofan, dummy_block_turbofan.getUnlocalizedName());
-		GameRegistry.registerBlock(dummy_port_turbofan, dummy_port_turbofan.getUnlocalizedName());
-		GameRegistry.registerBlock(dummy_block_shredder_large, dummy_block_shredder_large.getUnlocalizedName());
-		GameRegistry.registerBlock(dummy_port_shredder_large, dummy_port_shredder_large.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_block_ams_limiter, dummy_block_ams_limiter.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_port_ams_limiter, dummy_port_ams_limiter.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_block_ams_emitter, dummy_block_ams_emitter.getUnlocalizedName());

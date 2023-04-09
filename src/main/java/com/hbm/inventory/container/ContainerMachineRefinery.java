@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,25 +23,25 @@ public class ContainerMachineRefinery extends Container {
 		//Canister Input
 		this.addSlotToContainer(new Slot(tedf, 1, 35, 90));
 		//Canister Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 35, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 2, 35, 108));
 		//Heavy Oil Input
 		this.addSlotToContainer(new Slot(tedf, 3, 80, 90));
 		//Heavy Oil Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 80, 108));
-		//Nahptha Input
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 4, 80, 108));
+		//Naphtha Input
 		this.addSlotToContainer(new Slot(tedf, 5, 98, 90));
-		//Nahptha Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 6, 98, 108));
+		//Naphtha Output
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 6, 98, 108));
 		//Light Oil Input
 		this.addSlotToContainer(new Slot(tedf, 7, 116, 90));
 		//Light Oil Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 8, 116, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 8, 116, 108));
 		//Petroleum Input
 		this.addSlotToContainer(new Slot(tedf, 9, 134, 90));
 		//Petroleum Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 10, 134, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 10, 134, 108));
 		//Sulfur Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 11, 152, 36));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 11, 152, 36));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -63,43 +63,36 @@ public class ContainerMachineRefinery extends Container {
 	}
 	
 	@Override
-    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
-    {
+	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
 		ItemStack var3 = null;
 		Slot var4 = (Slot) this.inventorySlots.get(par2);
-		
-		if (var4 != null && var4.getHasStack())
-		{
+
+		if(var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			
-            if (par2 <= 11) {
-				if (!this.mergeItemStack(var5, 12, this.inventorySlots.size(), true))
-				{
+
+			if(par2 <= 11) {
+				if(!this.mergeItemStack(var5, 12, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			}
-			else if (!this.mergeItemStack(var5, 0, 1, false))
-				if (!this.mergeItemStack(var5, 1, 2, false))
-					if (!this.mergeItemStack(var5, 3, 4, false))
-						if (!this.mergeItemStack(var5, 5, 6, false))
-							if (!this.mergeItemStack(var5, 7, 8, false))
-								if (!this.mergeItemStack(var5, 9, 10, false)) {
-					return null;
-			}
-			
-			if (var5.stackSize == 0)
-			{
+			} else if(!this.mergeItemStack(var5, 0, 1, false))
+				if(!this.mergeItemStack(var5, 1, 2, false))
+					if(!this.mergeItemStack(var5, 3, 4, false))
+						if(!this.mergeItemStack(var5, 5, 6, false))
+							if(!this.mergeItemStack(var5, 7, 8, false))
+								if(!this.mergeItemStack(var5, 9, 10, false)) {
+									return null;
+								}
+
+			if(var5.stackSize == 0) {
 				var4.putStack((ItemStack) null);
-			}
-			else
-			{
+			} else {
 				var4.onSlotChanged();
 			}
 		}
-		
+
 		return var3;
-    }
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {

@@ -8,9 +8,7 @@ import com.hbm.blocks.generic.RedBarrel;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 
 public class ItemBlockLore extends ItemBlockBase {
 

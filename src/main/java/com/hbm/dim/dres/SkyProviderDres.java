@@ -172,7 +172,8 @@ public class SkyProviderDres extends IRenderHandler {
 	        GL11.glRotatef(90.0F, 0.0F, 0.0F, 1.0F);
 	        renderSkyboxSide(tessellator, 3);
 	        GL11.glDisable(3553);
-	        GL11.glPopMatrix();	        
+	        GL11.glPopMatrix();	       
+	        
 			/*GL11.glPushMatrix();
 			GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
@@ -198,7 +199,7 @@ public class SkyProviderDres extends IRenderHandler {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
 		// Some blanking to conceal the stars
-		f10 = (AstronomyUtil.KerbolRadius/(AstronomyUtil.KerbinAU*AstronomyUtil.AUToKm))*360;
+		f10 = (AstronomyUtil.KerbolRadius/(AstronomyUtil.DresAU*AstronomyUtil.AUToKm))*360;
 		tessellator.startDrawingQuads();
 		tessellator.addVertex(-f10, 99.9D, -f10);
 		tessellator.addVertex(f10, 99.9D, -f10);

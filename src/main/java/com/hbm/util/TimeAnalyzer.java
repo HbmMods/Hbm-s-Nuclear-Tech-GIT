@@ -40,9 +40,15 @@ public class TimeAnalyzer {
 			milliTime.put(delta.getKey(), total);
 		}
 		
+		long total = 0;
+		
 		for(Entry<String, Long> entry : milliTime.entrySet()) {
-			System.out.println(entry.getKey() + ": " + entry.getValue() + "ns");
+			total += entry.getValue();
+			String time = String.format("%,d", entry.getValue());
+			System.out.println(entry.getKey() + ": " + time + "ns");
 		}
+
+		System.out.println("Total time passed: " + String.format("%,d", total) + "ns (" + (total / 1_000_000_000) + "s)");
 		
 		currentSection = "";
 		sectionStartTime = 0;

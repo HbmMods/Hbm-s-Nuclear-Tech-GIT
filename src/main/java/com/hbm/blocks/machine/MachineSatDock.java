@@ -26,8 +26,6 @@ import net.minecraft.world.World;
 public class MachineSatDock extends BlockContainer implements IMultiblock {
 
     private final Random field_149933_a = new Random();
-	private Random rand;
-
 	public MachineSatDock(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}

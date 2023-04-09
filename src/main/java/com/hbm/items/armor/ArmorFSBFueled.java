@@ -22,8 +22,8 @@ public class ArmorFSBFueled extends ArmorFSB implements IFillableItem {
 	public int consumption;
 	public int drain;
 
-	public ArmorFSBFueled(ArmorMaterial material, int layer, int slot, String texture, FluidType fuelType, int maxFuel, int fillRate, int consumption, int drain) {
-		super(material, layer, slot, texture);
+	public ArmorFSBFueled(ArmorMaterial material, int slot, String texture, FluidType fuelType, int maxFuel, int fillRate, int consumption, int drain) {
+		super(material, slot, texture);
 		this.fuelType = fuelType;
 		this.fillRate = fillRate;
 		this.consumption = consumption;

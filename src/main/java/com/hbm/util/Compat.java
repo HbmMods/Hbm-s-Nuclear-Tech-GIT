@@ -199,9 +199,7 @@ public class Compat {
 	
 	/** A standard implementation of safely grabbing a tile entity without loading chunks, might have more fluff added to it later on. */
 	public static TileEntity getTileStandard(World world, int x, int y, int z) {
-		
 		if(!world.getChunkProvider().chunkExists(x >> 4, z >> 4)) return null;
-		
 		return world.getTileEntity(x, y, z);
 	}
 }

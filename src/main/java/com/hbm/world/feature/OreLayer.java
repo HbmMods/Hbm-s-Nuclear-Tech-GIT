@@ -26,6 +26,7 @@ public class OreLayer {
 	private int maxRange = 4;
 	/** The y-level around which the stratum is centered. */
 	private int yLevel = 30;
+	int dim = 0;
 	
 	public OreLayer(Block ore, float density) {
 		this(ore, 0, Blocks.stone, density);
@@ -57,9 +58,16 @@ public class OreLayer {
 		this.yLevel = yLevel;
 		return this;
 	}
+	
+	public OreLayer setDimension(int dim) {
+		this.dim = dim;
+		return this;
+	}
 
 	@SubscribeEvent
 	public void onDecorate(DecorateBiomeEvent.Pre event) {
+		
+		if(event.world.provider.dimensionId != this.dim) return;
 		
 		if(this.noise == null) {
 			this.noise = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + (ore.getID() * 31) + yLevel), 4);

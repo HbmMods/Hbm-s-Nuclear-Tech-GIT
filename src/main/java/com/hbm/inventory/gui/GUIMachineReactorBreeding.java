@@ -3,7 +3,6 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineReactorBreeding;
-import com.hbm.inventory.recipes.BreederRecipes;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineReactorBreeding;
 

@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,16 +26,16 @@ public class ContainerMachineChemplant extends Container {
 		// Schematic
 		this.addSlotToContainer(new Slot(tedf, 4, 80, 54));
 		// Outputs
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 5, 134, 90));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 6, 152, 90));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 7, 134, 108));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 8, 152, 108));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 5, 134, 90));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 6, 152, 90));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 7, 134, 108));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 8, 152, 108));
 		// Fluid Output In
 		this.addSlotToContainer(new Slot(tedf, 9, 134, 54));
 		this.addSlotToContainer(new Slot(tedf, 10, 152, 54));
 		// Fluid Outputs Out
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 11, 134, 72));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 12, 152, 72));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 11, 134, 72));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 12, 152, 72));
 		// Input
 		this.addSlotToContainer(new Slot(tedf, 13, 8, 90));
 		this.addSlotToContainer(new Slot(tedf, 14, 26, 90));
@@ -44,8 +45,8 @@ public class ContainerMachineChemplant extends Container {
 		this.addSlotToContainer(new Slot(tedf, 17, 8, 54));
 		this.addSlotToContainer(new Slot(tedf, 18, 26, 54));
 		// Fluid Input Out
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 19, 8, 72));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 20, 26, 72));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 19, 8, 72));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 20, 26, 72));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -66,7 +67,7 @@ public class ContainerMachineChemplant extends Container {
 		if(var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			SlotMachineOutput.checkAchievements(p_82846_1_, var5);
+			SlotCraftingOutput.checkAchievements(p_82846_1_, var5);
 
 			if(par2 <= 20) {
 				if(!this.mergeItemStack(var5, 21, this.inventorySlots.size(), true)) {

@@ -9,8 +9,6 @@ import com.hbm.items.weapon.ItemGrenade;
 
 public class EntityGrenadeCluster extends EntityGrenadeBouncyBase
 {
-    private static final String __OBFID = "CL_00001722";
-
     public EntityGrenadeCluster(World p_i1773_1_)
     {
         super(p_i1773_1_);

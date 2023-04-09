@@ -1,14 +1,8 @@
 package com.hbm.items.machine;
 
-import java.util.List;
-
-import com.hbm.lib.Library;
-
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumChatFormatting;
 
 public class ItemFuelRod extends Item {
 

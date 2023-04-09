@@ -5,18 +5,29 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.config.VersatileConfig;
+import com.hbm.entity.logic.EntityBomber;
+import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.sound.MovingSoundBomber;
 import com.hbm.util.I18nUtil;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.sound.PlaySoundEvent;
 
 public class ItemPill extends ItemFood {
 
@@ -78,7 +89,25 @@ public class ItemPill extends ItemFood {
 				float digamma = HbmLivingProps.getDigamma(player);
 				HbmLivingProps.setDigamma(player, Math.max(digamma - 0.5F, 0F));
 			}
+			if(this == ModItems.animan) {
+				int x = (int)MathHelper.floor_double(player.posX);
+				int y = (int)MathHelper.floor_double(player.posY);
+				int z = (int)MathHelper.floor_double(player.posZ);
+				world.playSoundEffect(x, y, z, "hbm:player.oil", 1.0F, 1.0F);
+				
+				player.addPotionEffect(new PotionEffect(HbmPotion.run.id, 10 * 20, 0));
+				
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "vomit");
+				nbt.setString("mode", "normal");
+				nbt.setInteger("count", 25);
+				nbt.setInteger("entity", player.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(player.dimension, x, y, z, 25));
+				
+				world.playSoundEffect(x, y, z, "hbm:player.vomit", 1.0F, 1.0F);
+				player.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
 			
+			}
 			if(this == ModItems.chocolate) {
 				if(rand.nextInt(25) == 0) {
 					player.attackEntityFrom(ModDamageSource.overdose, 1000);
@@ -100,6 +129,8 @@ public class ItemPill extends ItemFood {
 			}
 		}
 	}
+	
+	
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {

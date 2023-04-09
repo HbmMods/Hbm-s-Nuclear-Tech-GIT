@@ -11,7 +11,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenDresCanyon extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(-0.6F, 0.01F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(-1F, 0.02F);
 
     //TODO: avoid doing an extra planets and make each planet unique and cool.
 	public BiomeGenDresCanyon(int id) {
@@ -28,8 +28,8 @@ public class BiomeGenDresCanyon extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.ike_stone;
-        this.fillerBlock = ModBlocks.ike_stone;
+        this.topBlock = ModBlocks.basalt;
+        this.fillerBlock = ModBlocks.dres_rock;
 	}
 
 	@Override

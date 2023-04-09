@@ -5,7 +5,6 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerRadiolysis;
-import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineRadiolysis;

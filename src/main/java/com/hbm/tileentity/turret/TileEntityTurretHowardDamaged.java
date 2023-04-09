@@ -2,8 +2,6 @@ package com.hbm.tileentity.turret;
 
 import com.hbm.config.WeaponConfig;
 import com.hbm.handler.guncfg.GunDGKFactory;
-import com.hbm.inventory.container.ContainerTurretBase;
-import com.hbm.inventory.gui.GUITurretHoward;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;

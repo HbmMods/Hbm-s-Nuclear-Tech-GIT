@@ -57,7 +57,7 @@ public class ArmorGasMask extends ItemArmor implements IGasMask {
 	};
 
 	public ArmorGasMask() {
-		super(ArmorMaterial.IRON, 7, 0);
+		super(ArmorMaterial.IRON, 0, 0);
 	}
 
 	@Override

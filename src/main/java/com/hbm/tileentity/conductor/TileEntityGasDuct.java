@@ -3,11 +3,13 @@ package com.hbm.tileentity.conductor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
 import com.hbm.interfaces.IFluidDuct;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,10 +22,18 @@ public class TileEntityGasDuct extends TileEntity implements IFluidDuct {
 	public ForgeDirection[] connections = new ForgeDirection[6];
 	public FluidType type = Fluids.GAS;
 	public List<UnionOfTileEntitiesAndBooleansForFluids> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForFluids>();
-
+	
 	@Override
 	public void updateEntity() {
-		this.updateConnections();
+		
+		//this.updateConnections();
+		
+		worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.fluid_duct_neo, 1, 3);
+		
+		TileEntity tile = worldObj.getTileEntity(xCoord, yCoord, zCoord);
+		if(tile instanceof TileEntityPipeBaseNT) {
+			((TileEntityPipeBaseNT) tile).setType(this.type);
+		}
 	}
 
 	public void updateConnections() {

@@ -26,7 +26,6 @@ import net.minecraft.world.World;
 public class MachineSchrabidiumTransmutator extends BlockContainer {
 
     private final Random field_149933_a = new Random();
-	private Random rand;
 	private static boolean keepInventory;
 	
 	@SideOnly(Side.CLIENT)
@@ -50,7 +49,6 @@ public class MachineSchrabidiumTransmutator extends BlockContainer {
 
 	public MachineSchrabidiumTransmutator(Material p_i45386_1_) {
 		super(p_i45386_1_);
-		rand = new Random();
 	}
 	
 	@Override

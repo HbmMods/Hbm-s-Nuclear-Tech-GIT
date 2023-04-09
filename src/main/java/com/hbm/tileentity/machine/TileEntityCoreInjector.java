@@ -212,6 +212,12 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 		return new Object[] {tanks[1].getFill()};
 	}
 
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill(), tanks[1].getFill()};
+	}
+
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerCoreInjector(player.inventory, this);

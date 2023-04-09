@@ -33,8 +33,8 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class ArmorDNT extends ArmorFSBPowered {
 
-	public ArmorDNT(ArmorMaterial material, int layer, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
-		super(material, layer, slot, texture, maxPower, chargeRate, consumption, drain);
+	public ArmorDNT(ArmorMaterial material, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
+		super(material, slot, texture, maxPower, chargeRate, consumption, drain);
 	}
 
 	@SideOnly(Side.CLIENT)

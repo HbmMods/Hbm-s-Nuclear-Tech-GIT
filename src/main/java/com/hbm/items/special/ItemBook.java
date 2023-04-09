@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hbm.inventory.container.ContainerBook;
 import com.hbm.inventory.gui.GUIBook;
-import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 

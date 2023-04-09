@@ -171,7 +171,9 @@ public class MachineSawmill extends BlockDummyable implements ILookOverlay, IToo
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) { }
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
+	}
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {

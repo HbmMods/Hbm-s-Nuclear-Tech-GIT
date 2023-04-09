@@ -64,7 +64,8 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		addRecipe(CO,									ModBlocks.block_meteor,							new ItemStack(ModItems.ingot_meteorite));
 		addRecipe(ModItems.meteorite_sword_hardened,	CO,												new ItemStack(ModItems.meteorite_sword_alloyed));
 		addRecipe(ModBlocks.block_meteor,				CO,												new ItemStack(ModItems.ingot_meteorite));
-		
+		addRecipe(CO.ingot(),							STAINLESS.ingot(),								new ItemStack(ModItems.ingot_dura_steel));
+
 		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) {
 			addRecipe(ModItems.canister_empty, COAL, new ItemStack(ModItems.canister_full, 1, Fluids.OIL.getID()));
 		}
@@ -119,7 +120,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		
 		if(in instanceof DictFrame) {
 			DictFrame recipeItem = (DictFrame) in;
-			recipeItem1 = new AStack[] { new OreDictStack(recipeItem.ingot()), new OreDictStack(recipeItem.dust()), new OreDictStack(recipeItem.plate()), new OreDictStack(recipeItem.gem()) };
+			recipeItem1 = new AStack[] { new OreDictStack(recipeItem.ingot()), new OreDictStack(recipeItem.plate()), new OreDictStack(recipeItem.gem()), new OreDictStack(recipeItem.dust()) };
 		
 		} else if(in instanceof AStack) {
 			recipeItem1 = new AStack[] { (AStack) in };

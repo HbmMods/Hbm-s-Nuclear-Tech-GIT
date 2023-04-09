@@ -3,8 +3,6 @@ package com.hbm.entity.mob.siege;
 import com.hbm.entity.mob.EntityUFOBase;
 import com.hbm.entity.projectile.EntitySiegeLaser;
 import com.hbm.handler.SiegeOrchestrator;
-import com.hbm.items.ModItems;
-
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;

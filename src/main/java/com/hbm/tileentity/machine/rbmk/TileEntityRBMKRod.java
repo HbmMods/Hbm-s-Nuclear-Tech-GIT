@@ -421,6 +421,39 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		return new Object[] {"N/A"};
 	}
 
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoreHeat(Context context, Arguments args) {
+		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+			return new Object[] {ItemRBMKRod.getCoreHeat(slots[0])};
+		}
+		return new Object[] {"N/A"};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSkinHeat(Context context, Arguments args) {
+		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+			return new Object[] {ItemRBMKRod.getHullHeat(slots[0])};
+		}
+		return new Object[] {"N/A"};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		Object OC_enrich_buf;
+		Object OC_poison_buf;
+		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
+			OC_enrich_buf = ItemRBMKRod.getEnrichment(slots[0]);
+			OC_poison_buf = ItemRBMKRod.getPoison(slots[0]);
+		} else {
+			OC_enrich_buf = "N/A";
+			OC_poison_buf = "N/A";
+		}
+		return new Object[] {heat, fluxSlow, fluxFast, OC_enrich_buf, OC_poison_buf};
+	}
+
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerRBMKRod(player.inventory, this);

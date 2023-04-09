@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.inventory.gui.GUIScreenBobble;
-import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;

@@ -10,7 +10,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGrenade;
 
 public class EntityGrenadeGas extends EntityGrenadeBouncyBase {
-	private static final String __OBFID = "CL_00001722";
 	Random rand = new Random();
 
 	public EntityGrenadeGas(World p_i1773_1_) {

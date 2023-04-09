@@ -10,8 +10,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.interfaces.Untested;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
@@ -19,6 +21,7 @@ import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Compat;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -164,7 +167,8 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(Blocks.sandstone_stairs, new ItemStack(Blocks.sand, 6));
 		ShredderRecipes.setRecipe(Blocks.clay, new ItemStack(Items.clay_ball, 4));
 		ShredderRecipes.setRecipe(Blocks.hardened_clay, new ItemStack(Items.clay_ball, 4));
-		ShredderRecipes.setRecipe(Blocks.tnt, new ItemStack(Items.gunpowder, 5));
+		ShredderRecipes.setRecipe(Blocks.tnt, new ItemStack(Items.gunpowder, Compat.isModLoaded(Compat.MOD_GT6) ? 4 : 5));
+		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), new ItemStack(ModItems.powder_calcium));
 		ShredderRecipes.setRecipe(ModBlocks.stone_gneiss, new ItemStack(ModItems.powder_lithium_tiny, 1));
 		ShredderRecipes.setRecipe(ModItems.powder_lapis, new ItemStack(ModItems.powder_cobalt_tiny, 1));
 		ShredderRecipes.setRecipe(ModItems.fragment_neodymium, new ItemStack(ModItems.powder_neodymium_tiny, 1));
@@ -205,6 +209,8 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.moon_aluminium, new ItemStack(ModItems.powder_aluminium, 4));
 		ShredderRecipes.setRecipe(ModBlocks.moon_lithium, new ItemStack(ModItems.powder_lithium, 4));
 		
+		ShredderRecipes.setRecipe(ModItems.bean_roast,  new ItemStack(ModItems.powder_coffee, 1));
+		
 		//BYPRODUCTS
 		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 0), new ItemStack(ModItems.powder_iron, 10));
 		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 1), new ItemStack(ModItems.powder_copper, 10));
@@ -217,8 +223,14 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 8), new ItemStack(Items.bone, 4));
 		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 9), new ItemStack(ModItems.nugget_bismuth, 5));
 		
-		
+		//space
+		ShredderRecipes.setRecipe(ModBlocks.duna_iron, new ItemStack(ModItems.powder_iron, 4));
+		ShredderRecipes.setRecipe(ModBlocks.duna_zinc, new ItemStack(ModItems.powder_zinc, 4));
+		ShredderRecipes.setRecipe(ModBlocks.ike_asbestos, new ItemStack(ModItems.powder_asbestos, 3));
+		ShredderRecipes.setRecipe(ModBlocks.ike_copper, new ItemStack(ModItems.powder_copper, 4));
+		ShredderRecipes.setRecipe(ModBlocks.ike_iron, new ItemStack(ModItems.powder_iron, 4));
 
+		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), new ItemStack(ModItems.powder_calcium, 4));
 		
 		List<ItemStack> logs = OreDictionary.getOres("logWood");
 		List<ItemStack> planks = OreDictionary.getOres("plankWood");
@@ -478,9 +490,9 @@ public class ShredderRecipes extends SerializableRecipe {
 	@Override
 	public void readRecipe(JsonElement recipe) {
 		JsonObject obj = (JsonObject) recipe;
-		ComparableStack comp = new ComparableStack(this.readItemStack(obj.get("input").getAsJsonArray())).makeSingular();
+		ItemStack stack = this.readItemStack(obj.get("input").getAsJsonArray());
+		ComparableStack comp = new ComparableStack(stack).makeSingular();
 		ItemStack out = this.readItemStack(obj.get("output").getAsJsonArray());
-		
 		this.shredderRecipes.put(comp, out);
 	}
 
