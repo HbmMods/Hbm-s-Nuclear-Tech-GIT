@@ -56,14 +56,7 @@ public class TileEntityDecon extends TileEntity {
 	}
 		
 	public void deconNeutron() {
-		//List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(this.xCoord - 0.5, this.yCoord, this.zCoord - 0.5, this.xCoord + 1.5, this.yCoord + 2, this.zCoord + 1.5));
 
-		//if(entities instanceof EntityPlayer) {
-			//float activation = player.inventory.getStackInSlot(blockMetadata).stackTagCompound.getFloat("ntmNeutron");
-		//	player.inventory.getStackInSlot(int slot).stackTagCompound.setFloat("ntmNeutron",activation*0.899916f);
-			//if(activation<1e-5)
-			//	player.inventory.getStackInSlot(blockMetadata).stackTagCompound.removeTag("ntmNeutron");
-		//}
 		List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(this.xCoord - 0.5, this.yCoord, this.zCoord - 0.5, this.xCoord + 1.5, this.yCoord + 2, this.zCoord + 1.5));
 		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMNeutronDecon) {
 		if(entities != null)
