@@ -205,7 +205,7 @@ public class ItemRBMKRod extends Item {
 			double avg = (heat + hullHeat + coreHeat) / 3D;
 			this.setCoreHeat(stack, avg);
 			this.setHullHeat(stack, avg);
-			return avg;
+			return avg - heat;
 		}
 		
 		if(hullHeat <= heat)

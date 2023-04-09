@@ -26,18 +26,8 @@ import net.minecraftforge.client.model.IModelCustom;
 public class RendererObjTester extends TileEntitySpecialRenderer {
 	
 	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/TestObj.obj");
-	//private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/Prototype.obj");
-	private IModelCustom objTesterModel;
-    private ResourceLocation objTesterTexture;
-	
-	public RendererObjTester()
-    {
-		objTesterModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		objTesterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TestObj.png");
-		//objTesterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/Prototype.png");
-    }
 
-    @Override
+	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5, y, z + 0.5);

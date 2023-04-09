@@ -214,6 +214,7 @@ public class ResourceManager {
 	
 	//Watz
 	public static final IModelCustom watz = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/reactors/watz.obj"));
+	public static final IModelCustom watz_pump = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/watz_pump.obj"));
 	
 	//FENSU
 	public static final IModelCustom fensu = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/fensu.obj"));
@@ -561,6 +562,7 @@ public class ResourceManager {
 	
 	//Watz
 	public static final ResourceLocation watz_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/watz.png");
+	public static final ResourceLocation watz_pump_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/watz_pump.png");
 	
 	//FENSU
 	public static final ResourceLocation fensu_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/fensu.png");

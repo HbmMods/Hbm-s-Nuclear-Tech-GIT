@@ -26,5 +26,4 @@ public class RenderWatz extends TileEntitySpecialRenderer {
 		
 		GL11.glPopMatrix();
 	}
-
 }

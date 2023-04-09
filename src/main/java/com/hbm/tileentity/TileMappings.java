@@ -11,7 +11,9 @@ import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
+import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
+import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
 import com.hbm.blocks.network.BlockCablePaintable.TileEntityCablePaintable;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.blocks.network.FluidDuctGauge.TileEntityPipeGauge;
@@ -77,6 +79,7 @@ public class TileMappings {
 		put(TileEntityMachineTeleporter.class, "tileentity_teleblock");
 		put(TileEntityHatch.class, "tileentity_seal_lid");
 		put(TileEntityMachineIGenerator.class, "tileentity_igenerator");
+		put(TileEntityPartEmitter.class, "tileentity_partemitter");
 		put(TileEntityDummy.class, "tileentity_dummy");
 		put(TileEntityMachineCyclotron.class, "tileentity_cyclotron");
 		put(TileEntityOilDuct.class, "tileentity_oil_duct");
@@ -183,7 +186,6 @@ public class TileMappings {
 		put(TileEntityPipeBaseNT.class, "tileentity_pipe_base");
 		put(TileEntityPipePaintable.class, "tileentity_pipe_paintable");
 		put(TileEntityPipeGauge.class, "tileentity_pipe_gauge");
-		put(TileEntityWatz.class, "tileentity_watz");
 		put(TileEntityMachineBAT9000.class, "tileentity_bat9000");
 		put(TileEntityMachineOrbus.class, "tileentity_orbus");
 		
@@ -306,6 +308,9 @@ public class TileMappings {
 		
 		put(TileEntityReactorZirnox.class, "tileentity_zirnox");
 		put(TileEntityZirnoxDestroyed.class, "tileentity_zirnox_destroyed");
+
+		put(TileEntityWatz.class, "tileentity_watz");
+		put(TileEntityWatzPump.class, "tileentity_watz_pump");
 	}
 	
 	private static void putPile() {
@@ -347,6 +352,7 @@ public class TileMappings {
 
 		put(TileEntityCraneInserter.class, "tileentity_inserter");
 		put(TileEntityCraneExtractor.class, "tileentity_extractor");
+		put(TileEntityCraneGrabber.class, "tileentity_grabber");
 		put(TileEntityCraneBoxer.class, "tileentity_boxer");
 		put(TileEntityCraneUnboxer.class, "tileentity_unboxer");
 		put(TileEntityCraneRouter.class, "tileentity_router");

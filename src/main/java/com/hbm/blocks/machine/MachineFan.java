@@ -3,7 +3,6 @@ package com.hbm.blocks.machine;
 import java.util.List;
 
 import api.hbm.block.IToolable;
-import api.hbm.block.IToolable.ToolType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
@@ -132,9 +131,6 @@ public class MachineFan extends BlockContainer implements IToolable {
 		if(meta == 3) world.setBlockMetadataWithNotify(x, y, z, 2, 3);
 		if(meta == 4) world.setBlockMetadataWithNotify(x, y, z, 5, 3);
 		if(meta == 5) world.setBlockMetadataWithNotify(x, y, z, 4, 3);
-		
-		//TileEntityFan fan = (TileEntityFan) world.getTileEntity(x, y, z);
-		//fan.blockMetadata = -1;
 		
 		return true;
 	}

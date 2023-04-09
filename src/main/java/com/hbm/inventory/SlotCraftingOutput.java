@@ -31,7 +31,7 @@ public class SlotCraftingOutput extends Slot {
 		
 		if(item == Item.getItemFromBlock(ModBlocks.machine_chemplant))
 			player.triggerAchievement(MainRegistry.achChemplant);
-		if(item == Item.getItemFromBlock(ModBlocks.concrete) || item == Item.getItemFromBlock(ModBlocks.concrete_asbestos))
+		if(item == Item.getItemFromBlock(ModBlocks.concrete_smooth) || item == Item.getItemFromBlock(ModBlocks.concrete_asbestos))
 			player.triggerAchievement(MainRegistry.achConcrete);
 		if(item == ModItems.ingot_polymer)
 			player.triggerAchievement(MainRegistry.achPolymer);
