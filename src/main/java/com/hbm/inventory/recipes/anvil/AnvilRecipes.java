@@ -932,6 +932,12 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(ModItems.plate_lead, 2)),
 						new AnvilOutput(new ItemStack(ModItems.nuclear_waste_vitrified, 10))
 				}).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.flask_infusion, 1, EnumInfusion.NITAN.ordinal()), new AnvilOutput[] {
+				new AnvilOutput(new ItemStack(ModBlocks.glass_quartz, 3)),
+				new AnvilOutput(new ItemStack(ModItems.powder_magic, 3)),
+				new AnvilOutput(new ItemStack(ModItems.pill_herbal, 2))
+		}).setTier(2));
 	}
 	
 	public static void pullFromAssembler(ComparableStack result, int tier) {
