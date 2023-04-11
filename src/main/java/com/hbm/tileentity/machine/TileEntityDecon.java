@@ -85,6 +85,9 @@ public class TileEntityDecon extends TileEntity {
 								stack2.stackTagCompound.setFloat("ntmNeutron",activation*0.899916f);
 								if(activation<1e-5)
 								stack2.stackTagCompound.removeTag("ntmNeutron");
+								if (stack2.stackTagCompound.hasNoTags()){ 
+									stack2.setTagCompound((NBTTagCompound)null); 
+								}
 								
 							//}
 						}
@@ -101,6 +104,9 @@ public class TileEntityDecon extends TileEntity {
 								stack2.stackTagCompound.setFloat("ntmNeutron",activation*0.899916f);
 								if(activation<1e-5)
 								stack2.stackTagCompound.removeTag("ntmNeutron");
+								if (stack2.stackTagCompound.hasNoTags()){ 
+									stack2.setTagCompound((NBTTagCompound)null); 
+								}
 						}
 					}	
 				}

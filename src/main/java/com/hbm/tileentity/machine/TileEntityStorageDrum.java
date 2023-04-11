@@ -129,15 +129,13 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					{
 						if(slots[i].hasTagCompound())
 						{
-							NBTTagCompound itemNBT = slots[i].getTagCompound(); 
-
+							//NBTTagCompound itemNBT = slots[i].getTagCompound(); 
 							float activation = slots[i].stackTagCompound.getFloat("ntmNeutron");
 							slots[i].stackTagCompound.setFloat("ntmNeutron",activation*0.9899916f);
 							if(activation<1e-5)
 								slots[i].stackTagCompound.removeTag("ntmNeutron");
-							if (itemNBT != null && itemNBT.hasNoTags()){ 
-							    itemNBT = null;
-							    slots[i].setTagCompound(itemNBT); //fuck you nbt 
+							if (slots[i].stackTagCompound.hasNoTags()){ 
+							    slots[i].setTagCompound((NBTTagCompound)null); //fuck you nbt 
 							}
 						}
 					}
