@@ -862,18 +862,19 @@ public class OreDictManager {
 			return this;
 		}
 		
-		public String any() {			return ANY		+ groupName; }
-		public String nugget() {		return NUGGET	+ groupName; }
-		public String tiny() {			return TINY		+ groupName; }
-		public String ingot() {			return INGOT	+ groupName; }
-		public String dustTiny() {		return DUSTTINY	+ groupName; }
-		public String dust() {			return DUST		+ groupName; }
-		public String gem() {			return GEM		+ groupName; }
-		public String crystal() {		return CRYSTAL	+ groupName; }
-		public String plate() {			return PLATE	+ groupName; }
-		public String billet() {		return BILLET	+ groupName; }
-		public String block() {			return BLOCK	+ groupName; }
-		public String ore() {			return ORE		+ groupName; }
+		public String any() {			return ANY			+ groupName; }
+		public String nugget() {		return NUGGET		+ groupName; }
+		public String tiny() {			return TINY			+ groupName; }
+		public String ingot() {			return INGOT		+ groupName; }
+		public String dustTiny() {		return DUSTTINY		+ groupName; }
+		public String dust() {			return DUST			+ groupName; }
+		public String gem() {			return GEM			+ groupName; }
+		public String crystal() {		return CRYSTAL		+ groupName; }
+		public String plate() {			return PLATE		+ groupName; }
+		public String plateTriple() {	return PLATECAST	+ groupName; }
+		public String billet() {		return BILLET		+ groupName; }
+		public String block() {			return BLOCK		+ groupName; }
+		public String ore() {			return ORE			+ groupName; }
 	}
 	
 	private static void addReRegistration(String original, String additional) {
