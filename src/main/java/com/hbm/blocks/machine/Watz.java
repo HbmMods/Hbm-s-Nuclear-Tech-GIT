@@ -45,7 +45,7 @@ public class Watz extends BlockDummyable {
 	}
 
 	@Override
-	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
 		x += dir.offsetX * o;
@@ -59,5 +59,6 @@ public class Watz extends BlockDummyable {
 		this.makeExtra(world, x - 2, y + 2, z);
 		this.makeExtra(world, x, y + 2, z + 2);
 		this.makeExtra(world, x, y + 2, z - 2);
+		this.makeExtra(world, x, y + 2, z);
 	}
 }
