@@ -49,6 +49,11 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		int baseTime = 600;
 		int utilityTime = 100;
 		FluidStack sulfur = new FluidStack(Fluids.SULFURIC_ACID, 500);
+		FluidStack nitric = new FluidStack(Fluids.NITRIC_ACID, 500);
+		FluidStack organic = new FluidStack(Fluids.SOLVENT, 500);
+		FluidStack chloric = new FluidStack(Fluids.HCL, 500);
+		FluidStack schrabidic = new FluidStack(Fluids.SCHRABIDIC, 1000);
+		FluidStack hiperf = new FluidStack(Fluids.RADIOSOLVENT, 500);
 
 		registerRecipe(COAL.ore(),		new CrystallizerRecipe(ModItems.crystal_coal, baseTime));
 		registerRecipe(IRON.ore(),		new CrystallizerRecipe(ModItems.crystal_iron, baseTime));
@@ -82,6 +87,12 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(new ComparableStack(ModBlocks.gravel_diamond),	new CrystallizerRecipe(ModItems.crystal_diamond, baseTime));
 		registerRecipe(new ComparableStack(ModItems.crystal_mineral),	new CrystallizerRecipe(ModItems.crystal_diamond, baseTime));
 		registerRecipe(SRN.ingot(),										new CrystallizerRecipe(ModItems.crystal_schraranium, baseTime));
+
+		registerRecipe((new ComparableStack(ModBlocks.dres_cadmium)),		new CrystallizerRecipe(ModItems.powder_cadmium, baseTime), hiperf); 
+		registerRecipe((new ComparableStack(ModBlocks.dres_cobalt)),		new CrystallizerRecipe(ModItems.crystal_cobalt, baseTime), sulfur); 
+		registerRecipe((new ComparableStack(ModBlocks.dres_diamond)),		new CrystallizerRecipe(ModItems.crystal_diamond, baseTime), chloric); 
+		registerRecipe((new ComparableStack(ModBlocks.dres_niobium)),		new CrystallizerRecipe(ModItems.powder_niobium, baseTime), nitric); 
+
 		
 		registerRecipe("sand",				new CrystallizerRecipe(ModItems.ingot_fiberglass, utilityTime));
 		registerRecipe(REDSTONE.block(),	new CrystallizerRecipe(ModItems.ingot_mercury, baseTime));
@@ -114,11 +125,6 @@ public class CrystallizerRecipes extends SerializableRecipe {
 			registerRecipe(new ComparableStack(ModItems.scrap_plastic, 1, i), new CrystallizerRecipe(new ItemStack(ModItems.circuit_star_piece, 1, i), baseTime));
 		}
 
-		FluidStack nitric = new FluidStack(Fluids.NITRIC_ACID, 500);
-		FluidStack organic = new FluidStack(Fluids.SOLVENT, 500);
-		FluidStack chloric = new FluidStack(Fluids.HCL, 500);
-		FluidStack schrabidic = new FluidStack(Fluids.SCHRABIDIC, 1000);
-		FluidStack hiperf = new FluidStack(Fluids.RADIOSOLVENT, 500);
 		
 		int oreTime = 200;
 		

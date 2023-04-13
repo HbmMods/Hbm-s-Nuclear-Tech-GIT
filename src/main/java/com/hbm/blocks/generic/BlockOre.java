@@ -49,6 +49,9 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_niter) {
 			return ModItems.niter;
 		}
+		if(this == ModBlocks.dres_diamond) {
+			return Items.diamond;
+		}
 		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur || this == ModBlocks.basalt_sulfur) {
 			return ModItems.sulfur;
 		}

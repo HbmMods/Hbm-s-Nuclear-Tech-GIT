@@ -425,9 +425,15 @@ public class ModBlocks {
 	public static Block ike_asbestos;
 	public static Block ike_copper;
 	public static Block ike_iron;
-	public static Block dres_rock;
-
 	
+	public static Block dres_rock;
+	public static Block dres_cadmium;
+	public static Block dres_cobalt;
+	public static Block dres_iron;
+	public static Block dres_lithium;
+	public static Block dres_niobium;
+	public static Block dres_diamond;
+
 	public static Block eve_silt;
 	public static Block eve_rock;
 	
@@ -1653,9 +1659,15 @@ public class ModBlocks {
 		ike_asbestos = new BlockGeneric(Material.rock).setBlockName("ike_asbestos").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_asbestos");
 		ike_copper = new BlockGeneric(Material.rock).setBlockName("ike_copper").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_copper");
 		ike_iron = new BlockGeneric(Material.rock).setBlockName("ike_iron").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_iron");
-		dres_rock = new BlockGeneric(Material.rock).setBlockName("dres_rock").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":dresbase");
-
 		
+		dres_rock = new BlockGeneric(Material.rock).setBlockName("dres_rock").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":dresbase");
+		dres_cadmium = new BlockGeneric(Material.rock).setBlockName("dres_cadmium").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":dres_cadmium");
+		dres_cobalt = new BlockCluster(Material.rock).setBlockName("dres_cobalt").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":dres_cobalt");
+		dres_diamond = new BlockOre(Material.rock).setBlockName("dres_diamond").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":dres_diamond");
+		dres_niobium = new BlockGeneric(Material.rock).setBlockName("dres_niobium").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":dres_niobium");
+		dres_iron = new BlockGeneric(Material.rock).setBlockName("dres_iron").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":dres_iron");
+		dres_lithium = new BlockGeneric(Material.rock).setBlockName("dres_lithium").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":dres_lithium");
+
 		brick_jungle = new BlockGeneric(Material.rock).setBlockName("brick_jungle").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle");
 		brick_jungle_cracked = new BlockGeneric(Material.rock).setBlockName("brick_jungle_cracked").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle_cracked");
 		brick_jungle_fragile = new FragileBrick(Material.rock).setBlockName("brick_jungle_fragile").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle_fragile");
@@ -2909,11 +2921,19 @@ public class ModBlocks {
 		GameRegistry.registerBlock(eve_rock, eve_rock.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(ike_regolith, ike_regolith.getUnlocalizedName());
-		GameRegistry.registerBlock(dres_rock, dres_rock.getUnlocalizedName());
 		GameRegistry.registerBlock(ike_stone, ike_stone.getUnlocalizedName());
 		GameRegistry.registerBlock(ike_asbestos, ike_asbestos.getUnlocalizedName());
 		GameRegistry.registerBlock(ike_copper, ike_copper.getUnlocalizedName());
 		GameRegistry.registerBlock(ike_iron, ike_iron.getUnlocalizedName());
+		
+		GameRegistry.registerBlock(dres_rock, dres_rock.getUnlocalizedName());
+		GameRegistry.registerBlock(dres_cadmium, dres_cadmium.getUnlocalizedName());
+		GameRegistry.registerBlock(dres_cobalt, dres_cobalt.getUnlocalizedName());
+		GameRegistry.registerBlock(dres_diamond, dres_diamond.getUnlocalizedName());
+		GameRegistry.registerBlock(dres_lithium, dres_lithium.getUnlocalizedName());
+		GameRegistry.registerBlock(dres_iron, dres_iron.getUnlocalizedName());
+		GameRegistry.registerBlock(dres_niobium, dres_niobium.getUnlocalizedName());
+
 		
 		//Waste
 		GameRegistry.registerBlock(waste_earth, waste_earth.getUnlocalizedName());
