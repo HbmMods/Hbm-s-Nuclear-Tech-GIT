@@ -58,10 +58,6 @@ public class EntityChemical extends EntityThrowableNT {
 	 * if CORROSIVE: apply extra acid damage, poison effect as well as armor degradation
 	 */
 
-	public double lastClientPosX = -1;
-	public double lastClientPosY = -1;
-	public double lastClientPosZ = -1;
-
 	public EntityChemical(World world) {
 		super(world);
 		this.ignoreFrustumCheck = true;
