@@ -175,12 +175,12 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 		
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 2,
+					xCoord - 4,
 					yCoord,
-					zCoord - 2,
-					xCoord + 3,
-					yCoord + 7,
-					zCoord + 3
+					zCoord - 3,
+					xCoord + 6,
+					yCoord + 5,
+					zCoord + 4
 					);
 		}
 		

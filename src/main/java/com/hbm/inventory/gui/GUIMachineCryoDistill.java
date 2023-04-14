@@ -28,12 +28,12 @@ public class GUIMachineCryoDistill extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		cryo.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 35, guiTop + 70 - 52, 16, 52);
-		cryo.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 107, guiTop + 70 - 52, 16, 52);
-		cryo.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 125, guiTop + 70 - 52, 16, 52);
-		cryo.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 143, guiTop + 70 - 52, 16, 52);
-		cryo.tanks[4].renderTankInfo(this, mouseX, mouseY, guiLeft + 150, guiTop + 70 - 52, 16, 52);
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 17, guiTop + 70 - 52, 16, 52, cryo.power, cryo.maxPower);
+		cryo.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 15, guiTop + 70 - 53, 20, 52);
+		cryo.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 55, guiTop + 70 - 52, 16, 52);
+		cryo.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 75, guiTop + 70 - 52, 16, 52);
+		cryo.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 100, guiTop + 70 - 52, 16, 52);
+		cryo.tanks[4].renderTankInfo(this, mouseX, mouseY, guiLeft + 120, guiTop + 70 - 52, 16, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 144, guiTop + 70 - 52, 16, 52, cryo.power, cryo.maxPower);
 	}
 	
 	@Override
@@ -53,11 +53,11 @@ public class GUIMachineCryoDistill extends GuiInfoContainer {
 		int j = (int) (cryo.power * 54 / cryo.maxPower);
 		drawTexturedModalRect(guiLeft + 17, guiTop + 70 - j, 176, 52 - j, 16, j);
 		
-		cryo.tanks[0].renderTank(guiLeft + 35, guiTop + 70, this.zLevel, 16, 52);
-		cryo.tanks[1].renderTank(guiLeft + 107, guiTop + 70, this.zLevel, 16, 52);
-		cryo.tanks[2].renderTank(guiLeft + 125, guiTop + 70, this.zLevel, 16, 52);
-		cryo.tanks[3].renderTank(guiLeft + 143, guiTop + 70, this.zLevel, 16, 52);
-		cryo.tanks[3].renderTank(guiLeft + 143, guiTop + 70, this.zLevel, 16, 52);
+		cryo.tanks[0].renderTank(guiLeft + 15, guiTop + 70, this.zLevel, 16, 52);
+		cryo.tanks[1].renderTank(guiLeft + 55, guiTop + 70, this.zLevel, 16, 52);
+		cryo.tanks[2].renderTank(guiLeft + 75, guiTop + 70, this.zLevel, 16, 52);
+		cryo.tanks[3].renderTank(guiLeft + 100, guiTop + 70, this.zLevel, 16, 52);
+		cryo.tanks[3].renderTank(guiLeft + 120, guiTop + 70, this.zLevel, 16, 52);
 
 	}
 }

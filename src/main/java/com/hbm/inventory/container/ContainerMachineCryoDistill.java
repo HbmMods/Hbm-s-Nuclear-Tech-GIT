@@ -41,7 +41,7 @@ public class ContainerMachineCryoDistill extends Container {
 		//Hydrogen Oil Output
 		this.addSlotToContainer(new SlotTakeOnly(tedf, 8, 143, 108));
 		//Fluid ID
-		this.addSlotToContainer(new Slot(tedf, 9, 17, 108));
+		this.addSlotToContainer(new Slot(tedf, 9, 17, 11));
 		//Catalyst
 		this.addSlotToContainer(new Slot(tedf, 10, 71, 36));
 		//4th
