@@ -24,22 +24,26 @@ public class MachineCryoDistill extends BlockDummyable {
 		if(meta >= 6) return new TileEntityProxyCombo().fluid().power();
 		return null;
 	}
+
+	@Override
+	public int[] getDimensions() {
+		return new int[] {4, 0, 2, 1, 4, 3};
+	}
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		return standardOpenBehavior(world, x, y, z, player, side);
+		return this.standardOpenBehavior(world, x, y, z, player, 0);
 	}
 
 	@Override
-	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
-		return super.checkRequirement(world, x, y, z, dir, o) &&
-				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{3, 3, 1, 0, -1, 2}, x, y, z, dir) &&
-				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[]{3, -3, 1, 1, 2, 0}, x, y, z, dir);
+	public int getOffset() {
+		return 2;
 	}
 
 	@Override
-	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
+
 		x += dir.offsetX * o;
 		z += dir.offsetZ * o;
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
@@ -55,15 +59,8 @@ public class MachineCryoDistill extends BlockDummyable {
 		this.makeExtra(world, x + rot.offsetX * 3 - dir.offsetX * 3, y, z + rot.offsetZ * 3 - dir.offsetZ * 3);
 		this.makeExtra(world, x - rot.offsetX * 4 + dir.offsetX * 2, y, z - rot.offsetZ * 4 + dir.offsetZ * 2);
 		this.makeExtra(world, x - rot.offsetX * 4 - dir.offsetX * 3, y, z - rot.offsetZ * 4 - dir.offsetZ * 3);
-	}
-
-	@Override
-	public int[] getDimensions() {
-		return new int[] {3, 0, 4, 3, 4, 3};
-	}
-
-	@Override
-	public int getOffset() {
-		return 1;
+		
+		this.safeRem = false;
 	}
 }
+
