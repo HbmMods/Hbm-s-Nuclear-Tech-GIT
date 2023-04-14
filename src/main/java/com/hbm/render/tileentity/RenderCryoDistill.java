@@ -30,18 +30,24 @@ public class RenderCryoDistill extends TileEntitySpecialRenderer implements IIte
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(x + 0.09, y, z+ 0.09); //how did i fuck this up badly
+		GL11.glTranslated(x + 0.09, y, z); //how did i fuck this up badly
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		switch(tile.getBlockMetadata() - BlockDummyable.offset) {
+		
 		case 2: GL11.glRotatef(-90, 0F, 1F, 0F); 
-		GL11.glTranslatef(+1f, 0, -1f);break;
+		GL11.glTranslatef(+1f, 0, -1f);
+		GL11.glTranslatef(+0, 0, +0.18f);break;
+		
 		case 4: GL11.glRotatef(-180, 0F, 1F, 0F);
-		GL11.glTranslatef(-1f, 0, +0f);break;
+		GL11.glTranslatef(-1f, 0, + 0.09f);break;
+
 		case 3: GL11.glRotatef(-270, 0F, 1F, 0F);
-		GL11.glTranslatef(+0f, 0, 0f);break;
+		GL11.glTranslatef(+0f, 0, + 0.09f);break; //this is such a horrid mess i could have done this in blender but im out of options at this point....
+		
 		case 5: GL11.glRotatef(0, 0F, 1F, 0F);
-		GL11.glTranslatef(0f, 0, +1f);break;
+		GL11.glTranslatef(0f, 0, +1f);
+		GL11.glTranslatef(0f, 0, + 0.09f);break;
 		}
 		GL11.glRotated(90, 0, 1, 0);
 		
