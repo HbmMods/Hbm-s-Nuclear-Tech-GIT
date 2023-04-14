@@ -2,11 +2,9 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerMachineCatalyticReformer;
 import com.hbm.inventory.container.ContainerMachineCryoDistill;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineCryoDistill;
-import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticReformer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -15,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineCryoDistill extends GuiInfoContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_catalytic_reformer.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_cryodistill.png");
 	private TileEntityMachineCryoDistill cryo;
 
 	public GUIMachineCryoDistill(InventoryPlayer invPlayer, TileEntityMachineCryoDistill tedf) {
@@ -34,7 +32,7 @@ public class GUIMachineCryoDistill extends GuiInfoContainer {
 		cryo.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 107, guiTop + 70 - 52, 16, 52);
 		cryo.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 125, guiTop + 70 - 52, 16, 52);
 		cryo.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 143, guiTop + 70 - 52, 16, 52);
-		cryo.tanks[4].renderTankInfo(this, mouseX, mouseY, guiLeft + 143, guiTop + 70 - 52, 16, 52);
+		cryo.tanks[4].renderTankInfo(this, mouseX, mouseY, guiLeft + 150, guiTop + 70 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 17, guiTop + 70 - 52, 16, 52, cryo.power, cryo.maxPower);
 	}
 	

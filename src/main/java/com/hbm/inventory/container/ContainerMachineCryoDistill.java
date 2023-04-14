@@ -74,7 +74,7 @@ public class ContainerMachineCryoDistill extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= 10) {
+			if(par2 <= 12) {
 				if(!this.mergeItemStack(var5, 11, this.inventorySlots.size(), true)) {
 					return null;
 				}
@@ -85,7 +85,7 @@ public class ContainerMachineCryoDistill extends Container {
 						return null;
 					}
 				} else if(var3.getItem() instanceof IItemFluidIdentifier) {
-					if(!this.mergeItemStack(var5, 9, 10, false)) {
+					if(!this.mergeItemStack(var5, 11, 12, false)) {
 						return null;
 					}
 				} else {

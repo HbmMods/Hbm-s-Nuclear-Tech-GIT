@@ -36,9 +36,9 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 	public FluidTank[] tanks;
 
 	public TileEntityMachineCryoDistill() {
-		super(11);
+		super(13);
 		
-		this.tanks = new FluidTank[4];
+		this.tanks = new FluidTank[5];
 		this.tanks[0] = new FluidTank(Fluids.AIR, 64_000);
 		this.tanks[1] = new FluidTank(Fluids.NITROGEN, 24_000);
 		this.tanks[2] = new FluidTank(Fluids.OXYGEN, 24_000);
@@ -66,7 +66,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 			tanks[1].unloadTank(3, 4, slots);
 			tanks[2].unloadTank(5, 6, slots);
 			tanks[3].unloadTank(7, 8, slots);
-			tanks[4].unloadTank(7, 8, slots);
+			tanks[4].unloadTank(11, 12, slots);
 
 			
 			for(DirPos pos : getConPos()) {
