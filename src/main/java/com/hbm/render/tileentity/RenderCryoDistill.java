@@ -30,7 +30,7 @@ public class RenderCryoDistill extends TileEntitySpecialRenderer implements IIte
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(x, y, z);
+		GL11.glTranslated(x + 0.09, y, z); //how did i fuck this up badly
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		switch(tile.getBlockMetadata() - BlockDummyable.offset) {
