@@ -46,7 +46,7 @@ public class MachineCryoDistill extends BlockDummyable {
 
 		x += dir.offsetX * o;
 		z += dir.offsetZ * o;
-		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
 		this.safeRem = true;
 

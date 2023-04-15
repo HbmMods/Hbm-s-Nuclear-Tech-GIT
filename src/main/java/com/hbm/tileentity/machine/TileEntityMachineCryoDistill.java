@@ -36,7 +36,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 	public FluidTank[] tanks;
 
 	public TileEntityMachineCryoDistill() {
-		super(13);
+		super(11);
 		
 		this.tanks = new FluidTank[5];
 		this.tanks[0] = new FluidTank(Fluids.AIR, 64_000);
@@ -58,19 +58,19 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 			
 			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			tanks[0].setType(9, slots);
-			tanks[0].loadTank(1, 2, slots);
+			tanks[0].setType(7, slots);
+			//tanks[0].loadTank();
 			
 			distill();
 
-			tanks[1].unloadTank(3, 4, slots);
-			tanks[2].unloadTank(5, 6, slots);
-			tanks[3].unloadTank(7, 8, slots);
-			tanks[4].unloadTank(11, 12, slots);
+			tanks[1].unloadTank(1, 2, slots);
+			tanks[2].unloadTank(3, 4, slots);
+			tanks[3].unloadTank(5, 6, slots);
+			tanks[4].unloadTank(8, 9, slots);
 
 			
 			for(DirPos pos : getConPos()) {
-				for(int i = 1; i < 4; i++) {
+				for(int i = 1; i < 1; i++) {
 					if(tanks[i].getFill() > 0) {
 						this.sendFluid(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 					}
@@ -79,7 +79,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
-			for(int i = 0; i < 4; i++) tanks[i].writeToNBT(data, "" + i);
+			for(int i = 0; i < 1; i++) tanks[i].writeToNBT(data, "" + i);
 			this.networkPack(data, 150);
 		}
 	}
@@ -87,7 +87,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
-		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "" + i);
+		for(int i = 0; i < 1; i++) tanks[i].readFromNBT(nbt, "" + i);
 	}
 	
 	private void distill() {
@@ -119,7 +119,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 		tanks[1].setFill(tanks[1].getFill() + out.getX().fill);
 		tanks[2].setFill(tanks[2].getFill() + out.getY().fill);
 		tanks[3].setFill(tanks[3].getFill() + out.getZ().fill);
-		tanks[4].setFill(tanks[3].getFill() + out.getW().fill);
+		tanks[4].setFill(tanks[4].getFill() + out.getW().fill);
 
 		
 		power -= 20_000;
@@ -137,12 +137,46 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
 		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, dir),
-				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ, dir),
-				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ, dir.getOpposite()),
+				//new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, dir),
+				//new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ, dir),
+				//new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite()),
+				////new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ, dir.getOpposite()),
+				//new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, dir),
+				//new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, dir)
 				new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, dir),
-				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, dir)
+				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, dir),
+				new DirPos(xCoord - dir.offsetX - 1, yCoord, zCoord+ dir.offsetZ - 2, dir), 
+				new DirPos( xCoord - dir.offsetX - 1, yCoord, zCoord- dir.offsetZ + 3, dir), 
+				new DirPos( xCoord- dir.offsetX - 1, yCoord, zCoord+ dir.offsetZ - 1, dir),
+
+				new DirPos( xCoord- dir.offsetX - 2, yCoord, zCoord- dir.offsetZ - 3, dir),
+				new DirPos( xCoord- dir.offsetX - 2, yCoord, zCoord+ dir.offsetZ + 2, dir),
+				new DirPos( xCoord- dir.offsetX - 2, yCoord, zCoord+ dir.offsetZ + 1, dir), 
+				
+				new DirPos( xCoord- dir.offsetX + 2, yCoord, zCoord+ dir.offsetZ - 2, dir), 
+				new DirPos( xCoord- dir.offsetX + 2, yCoord, zCoord- dir.offsetZ + 3, dir), 
+				new DirPos( xCoord- dir.offsetX + 2, yCoord, zCoord+ dir.offsetZ - 1, dir),
+				
+				new DirPos( xCoord- dir.offsetX + 1, yCoord, zCoord+ dir.offsetZ + 1, dir), 
+				new DirPos( xCoord- dir.offsetX + 1, yCoord, zCoord+ dir.offsetZ + 2, dir),
+				new DirPos( xCoord- dir.offsetX + 1, yCoord, zCoord- dir.offsetZ - 3, dir),
+				
+				//NS
+				new DirPos( xCoord+ dir.offsetX + 2, yCoord, zCoord- dir.offsetZ - 1, dir),
+				new DirPos( xCoord- dir.offsetX - 3, yCoord, zCoord- dir.offsetZ - 1, dir), 
+				new DirPos( xCoord+ dir.offsetX - 2, yCoord, zCoord- dir.offsetZ - 1, dir), 
+				
+				new DirPos( xCoord- dir.offsetX + 2, yCoord, zCoord- dir.offsetZ - 2, dir),
+				new DirPos( xCoord- dir.offsetX + 3, yCoord, zCoord- dir.offsetZ - 2, dir),
+				new DirPos( xCoord+ dir.offsetX - 2, yCoord, zCoord- dir.offsetZ - 2, dir),
+
+				new DirPos( xCoord- dir.offsetX - 3, yCoord, zCoord- dir.offsetZ + 2, dir),
+				new DirPos( xCoord- dir.offsetX - 2, yCoord, zCoord- dir.offsetZ + 2, dir),
+				new DirPos( xCoord+ dir.offsetX + 2, yCoord, zCoord- dir.offsetZ + 2, dir), 
+				
+				new DirPos( xCoord- dir.offsetX + 2, yCoord, zCoord- dir.offsetZ + 3, dir), 
+				new DirPos( xCoord- dir.offsetX + 3, yCoord, zCoord- dir.offsetZ + 1, dir), 
+				new DirPos( xCoord+ dir.offsetX - 2, yCoord, zCoord- dir.offsetZ + 1, dir)
 		};
 	}
 	
@@ -155,6 +189,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 		tanks[1].readFromNBT(nbt, "o1");
 		tanks[2].readFromNBT(nbt, "o2");
 		tanks[3].readFromNBT(nbt, "o3");
+		tanks[4].readFromNBT(nbt, "o4");
 	}
 	
 	@Override
@@ -166,6 +201,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 		tanks[1].writeToNBT(nbt, "o1");
 		tanks[2].writeToNBT(nbt, "o2");
 		tanks[3].writeToNBT(nbt, "o3");
+		tanks[4].writeToNBT(nbt, "o4");
 	}
 	
 	AxisAlignedBB bb = null;
@@ -237,14 +273,14 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 	public void writeNBT(NBTTagCompound nbt) {
 		if(tanks[0].getFill() == 0 && tanks[1].getFill() == 0 && tanks[2].getFill() == 0 && tanks[3].getFill() == 0 && tanks[4].getFill() == 0) return;
 		NBTTagCompound data = new NBTTagCompound();
-		for(int i = 0; i < 4; i++) this.tanks[i].writeToNBT(data, "" + i);
+		for(int i = 0; i < 1; i++) this.tanks[i].writeToNBT(data, "" + i);
 		nbt.setTag(NBT_PERSISTENT_KEY, data);
 	}
 
 	@Override
 	public void readNBT(NBTTagCompound nbt) {
 		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
-		for(int i = 0; i < 4; i++) this.tanks[i].readFromNBT(data, "" + i);
+		for(int i = 0; i < 1; i++) this.tanks[i].readFromNBT(data, "" + i);
 	}
 
 	@Override

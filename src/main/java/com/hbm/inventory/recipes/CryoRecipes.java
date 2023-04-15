@@ -70,7 +70,7 @@ public class CryoRecipes extends SerializableRecipe {
 		FluidStack output1 = this.readFluidStack(obj.get("output1").getAsJsonArray());
 		FluidStack output2 = this.readFluidStack(obj.get("output2").getAsJsonArray());
 		FluidStack output3 = this.readFluidStack(obj.get("output3").getAsJsonArray());
-		FluidStack output4 = this.readFluidStack(obj.get("output3").getAsJsonArray());
+		FluidStack output4 = this.readFluidStack(obj.get("output4").getAsJsonArray());
 
 		
 		recipes.put(input, new Quartet(output1, output2, output3, output4));

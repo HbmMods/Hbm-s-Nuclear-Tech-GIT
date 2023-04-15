@@ -51,9 +51,9 @@ public class GUIMachineCryoDistill extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		int j = (int) (cryo.power * 54 / cryo.maxPower);
-		drawTexturedModalRect(guiLeft + 17, guiTop + 70 - j, 176, 52 - j, 16, j);
+		drawTexturedModalRect(guiLeft + 145, guiTop + 69 - j, 176, 52 - j, 16, j);
 		
-		cryo.tanks[0].renderTank(guiLeft + 15, guiTop + 70, this.zLevel, 16, 52);
+		cryo.tanks[0].renderTank(guiLeft + 19, guiTop + 69, this.zLevel, 16, 52);
 		cryo.tanks[1].renderTank(guiLeft + 55, guiTop + 70, this.zLevel, 16, 52);
 		cryo.tanks[2].renderTank(guiLeft + 75, guiTop + 70, this.zLevel, 16, 52);
 		cryo.tanks[3].renderTank(guiLeft + 100, guiTop + 70, this.zLevel, 16, 52);
