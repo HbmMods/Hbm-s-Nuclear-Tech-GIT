@@ -29,6 +29,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -41,6 +42,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	public double fluxLastBase;		//flux created by the previous passive emission, only used for display
 	public double fluxLastReaction;	//flux created by the previous reaction, used for the next reaction
 	public double fluxDisplay;
+	public boolean isOn;
 	
 	/* lock types for item IO */
 	public boolean isLocked = false;
@@ -106,20 +108,21 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 				segment.updateReaction(above, sharedTanks, turnedOn);
 			}
 			
+			/* send sync packets (order doesn't matter) */
+			for(TileEntityWatz segment : segments) {
+				segment.isOn = turnedOn;
+				segment.sendPacket(sharedTanks);
+				segment.heat *= 0.99; //cool 1% per tick
+			}
+			
 			/* re-distribute fluid from shared tanks back into actual tanks, bottom to top */
 			for(int i = segments.size() - 1; i >= 0; i--) {
 				TileEntityWatz segment = segments.get(i);
 				for(int j = 0; j < 3; j++) {
 					int min = Math.min(segment.tanks[j].getMaxFill(), sharedTanks[j].getFill());
-					segment.tanks[j].setFill(min);
 					sharedTanks[j].setFill(sharedTanks[j].getFill() - min);
+					segment.tanks[j].setFill(min);
 				}
-			}
-			
-			/* send sync packets (order doesn't matter) */
-			for(TileEntityWatz segment : segments) {
-				segment.sendPacket(sharedTanks);
-				segment.heat *= 0.99; //cool 1% per tick
 			}
 			
 			segments.get(segments.size() - 1).sendOutBottom();
@@ -150,8 +153,8 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		
 		int cycles = Math.min(heatCycles, Math.min(hotCycles, coolCycles));
 		this.heat -= cycles * step.heatReq;
-		tanks[0].setFill(tanks[0].getFill() - coolCycles * step.amountReq);
-		tanks[1].setFill(tanks[1].getFill() + hotCycles * step.amountProduced);
+		tanks[0].setFill(tanks[0].getFill() - cycles * step.amountReq);
+		tanks[1].setFill(tanks[1].getFill() + cycles * step.amountProduced);
 	}
 
 	/** enforces strict top to bottom update order (instead of semi-random based on placement) */
@@ -244,11 +247,24 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		
 		NBTTagCompound data = new NBTTagCompound();
 		data.setInteger("heat", this.heat);
+		data.setBoolean("isOn", isOn);
+		data.setBoolean("lock", isLocked);
 		data.setDouble("flux", this.fluxLastReaction + this.fluxLastBase);
 		for(int i = 0; i < tanks.length; i++) {
 			tanks[i].writeToNBT(data, "t" + i);
 		}
 		this.networkPack(data, 25);
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.heat = nbt.getInteger("heat");
+		this.isOn = nbt.getBoolean("isOn");
+		this.isLocked = nbt.getBoolean("lock");
+		this.fluxDisplay = nbt.getDouble("flux");
+		for(int i = 0; i < tanks.length; i++) {
+			tanks[i].readFromNBT(nbt, "t" + i);
+		}
 	}
 	
 	/** Prevent manual updates when another segment is above this one */
@@ -281,14 +297,49 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 				new DirPos(xCoord, yCoord - 1, zCoord - 2, ForgeDirection.DOWN)
 		};
 	}
-
+	
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.heat = nbt.getInteger("heat");
-		this.fluxDisplay = nbt.getDouble("flux");
-		for(int i = 0; i < tanks.length; i++) {
-			tanks[i].readFromNBT(nbt, "t" + i);
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		NBTTagList list = nbt.getTagList("locks", 10);
+		
+		for(int i = 0; i < list.tagCount(); i++) {
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
+			byte b0 = nbt1.getByte("slot");
+			if(b0 >= 0 && b0 < slots.length) {
+				locks[b0] = ItemStack.loadItemStackFromNBT(nbt1);
+			}
 		}
+		
+		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
+		this.fluxLastBase = nbt.getDouble("lastFluxB");
+		this.fluxLastReaction = nbt.getDouble("lastFluxR");
+		
+		this.isLocked = nbt.getBoolean("isLocked");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		NBTTagList list = new NBTTagList();
+		
+		for(int i = 0; i < locks.length; i++) {
+			if(locks[i] != null) {
+				NBTTagCompound nbt1 = new NBTTagCompound();
+				nbt1.setByte("slot", (byte) i);
+				locks[i].writeToNBT(nbt1);
+				list.appendTag(nbt1);
+			}
+		}
+		nbt.setTag("locks", list);
+		
+		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(nbt, "t" + i);
+		nbt.setDouble("lastFluxB", fluxLastBase);
+		nbt.setDouble("lastFluxR", fluxLastReaction);
+		
+		nbt.setBoolean("isLocked", isLocked);
 	}
 
 	@Override
