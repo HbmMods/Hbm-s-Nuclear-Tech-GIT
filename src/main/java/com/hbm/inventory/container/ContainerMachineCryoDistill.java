@@ -23,31 +23,25 @@ public class ContainerMachineCryoDistill extends Container {
 		cryo = tedf;
 		
 		//Battery
-		this.addSlotToContainer(new Slot(tedf, 0, 17, 90));
-		//Canister Input
-		this.addSlotToContainer(new Slot(tedf, 1, 35, 90));
-		//Canister Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 2, 35, 108));
+		this.addSlotToContainer(new Slot(tedf, 0, 145,  71));
 		//Reformate Input
-		this.addSlotToContainer(new Slot(tedf, 3, 107, 90));
+		this.addSlotToContainer(new Slot(tedf, 1, 57,  71));
 		//Reformate Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 4, 107, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 2, 57,  89));
 		//Gas Input
-		this.addSlotToContainer(new Slot(tedf, 5, 125, 90));
+		this.addSlotToContainer(new Slot(tedf, 3, 79,  71));
 		//Gas Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 6, 125, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 4,  79,  89));
 		//Hydrogen Input
-		this.addSlotToContainer(new Slot(tedf, 7, 143, 90));
+		this.addSlotToContainer(new Slot(tedf, 5,  101, 71));
 		//Hydrogen Oil Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 8, 143, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 6, 101,  89));
 		//Fluid ID
-		this.addSlotToContainer(new Slot(tedf, 9, 17, 11));
-		//Catalyst
-		this.addSlotToContainer(new Slot(tedf, 10, 71, 36));
+		this.addSlotToContainer(new Slot(tedf, 7, 19, 71));
 		//4th
-		this.addSlotToContainer(new Slot(tedf, 11, 143, 90));
+		this.addSlotToContainer(new Slot(tedf, 8, 123,  71));
 		//Hydrogen Oil Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 12, 143, 108));
+		this.addSlotToContainer(new SlotTakeOnly(tedf, 9, 123, 89));
 		int offset = 6;
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -74,8 +68,8 @@ public class ContainerMachineCryoDistill extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= 12) {
-				if(!this.mergeItemStack(var5, 11, this.inventorySlots.size(), true)) {
+			if(par2 <= 9) {
+				if(!this.mergeItemStack(var5, 8, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
@@ -93,7 +87,7 @@ public class ContainerMachineCryoDistill extends Container {
 						if(!this.mergeItemStack(var5, 3, 4, false))
 							if(!this.mergeItemStack(var5, 5, 6, false))
 								if(!this.mergeItemStack(var5, 7, 8, false))
-									if(!this.mergeItemStack(var5, 11, 12, false))
+									if(!this.mergeItemStack(var5, 9, 10, false))
 									return null;
 				}
 			}
