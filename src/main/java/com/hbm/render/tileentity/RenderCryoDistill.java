@@ -43,7 +43,7 @@ public class RenderCryoDistill extends TileEntitySpecialRenderer implements IIte
 		GL11.glTranslatef(-1f, 0, + 0.09f);break;
 
 		case 3: GL11.glRotatef(-270, 0F, 1F, 0F);
-		GL11.glTranslatef(+0f, 0, + 0.09f);break; //this is such a horrid mess i could have done this in blender but im out of options at this point....
+		GL11.glTranslatef(+0f, 0, 0f);break; //this is such a horrid mess i could have done this in blender but im out of options at this point....
 		
 		case 5: GL11.glRotatef(0, 0F, 1F, 0F);
 		GL11.glTranslatef(0f, 0, +1f);

@@ -48,15 +48,15 @@ public class ContainerMachineCryoDistill extends Container {
 		this.addSlotToContainer(new Slot(tedf, 11, 143, 90));
 		//Hydrogen Oil Output
 		this.addSlotToContainer(new SlotTakeOnly(tedf, 12, 143, 108));
-		
+		int offset = 6;
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 156 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 156 + i * 18 - offset));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 214));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 214 - offset));
 		}
 	}
 	

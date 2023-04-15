@@ -50,15 +50,47 @@ public class MachineCryoDistill extends BlockDummyable {
 		
 		this.safeRem = true;
 
-		this.makeExtra(world, x + dir.offsetX * 3 + rot.offsetX * 2, y, z + dir.offsetZ * 3 + rot.offsetZ * 2);
-		this.makeExtra(world, x + dir.offsetX * 3 - rot.offsetX * 3, y, z + dir.offsetZ * 3 - rot.offsetZ * 3);
-		this.makeExtra(world, x - dir.offsetX * 4 + rot.offsetX * 2, y, z - dir.offsetZ * 4 + rot.offsetZ * 2);
-		this.makeExtra(world, x - dir.offsetX * 4 - rot.offsetX * 3, y, z - dir.offsetZ * 4 - rot.offsetZ * 3);
+		//this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ + 1);
+		//this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ - 1);
+		
+		//this.makeExtra(world, x - dir.offsetX - 2, y, z - dir.offsetZ + 1);
+		//this.makeExtra(world, x - dir.offsetX + 2, y, z - dir.offsetZ + 3);
+		
+		///this.makeExtra(world, x - dir.offsetX + 3, y, z - dir.offsetZ + 1);
+		//this.makeExtra(world, x - dir.offsetX + 2, y, z - dir.offsetZ - 2);
+		
+		//this.makeExtra(world, x - dir.offsetX + 2, y, z - dir.offsetZ - 1);
+		
+		//EAST-WEST
+		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ - 2);
+		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ + 3);
+		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ - 1);
 
-		this.makeExtra(world, x + rot.offsetX * 3 + dir.offsetX * 2, y, z + rot.offsetZ * 3 + dir.offsetZ * 2);
-		this.makeExtra(world, x + rot.offsetX * 3 - dir.offsetX * 3, y, z + rot.offsetZ * 3 - dir.offsetZ * 3);
-		this.makeExtra(world, x - rot.offsetX * 4 + dir.offsetX * 2, y, z - rot.offsetZ * 4 + dir.offsetZ * 2);
-		this.makeExtra(world, x - rot.offsetX * 4 - dir.offsetX * 3, y, z - rot.offsetZ * 4 - dir.offsetZ * 3);
+		this.makeExtra(world, x - dir.offsetX - 2, y, z - dir.offsetZ - 3);
+		this.makeExtra(world, x - dir.offsetX - 2, y, z - dir.offsetZ + 2);
+		this.makeExtra(world, x - dir.offsetX - 2, y, z - dir.offsetZ + 1);
+		
+		this.makeExtra(world, x - dir.offsetX + 2, y, z - dir.offsetZ - 3);
+		this.makeExtra(world, x - dir.offsetX + 2, y, z - dir.offsetZ + 2);
+		this.makeExtra(world, x - dir.offsetX + 2, y, z - dir.offsetZ + 1);
+
+		//this.makeExtra(world, x - dir.offsetX - 3, y, z - dir.offsetZ - 1);
+		
+		this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ + 1);
+		this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ + 2);
+		this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ - 3);
+		
+		//NS
+		
+		
+		//this.makeExtra(world, x - dir.offsetX + rot.offsetX * 2, y, z - dir.offsetZ + rot.offsetZ * 2);
+		//this.makeExtra(world, x - dir.offsetX - rot.offsetX * 2, y, z - dir.offsetZ - rot.offsetZ * 2);
+		//this.makeExtra(world, x - dir.offsetX - 2 - rot.offsetX - 1, y, z - dir.offsetZ + 1 - rot.offsetZ);
+		//this.makeExtra(world, x - dir.offsetX + 2 - rot.offsetX + 1, y, z - dir.offsetZ - 1 + rot.offsetZ);
+		//this.makeExtra(world, x + dir.offsetX + 2 + rot.offsetX + 1, y, z + dir.offsetZ + 1);
+		//this.makeExtra(world, x + rot.offsetX - 3 + dir.offsetX + 2, y, z + rot.offsetZ - 3 + dir.offsetZ + 2);
+
+
 		
 		this.safeRem = false;
 	}
