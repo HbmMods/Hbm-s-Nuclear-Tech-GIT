@@ -1,6 +1,7 @@
 package com.hbm.items.machine;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.ModItems;
@@ -122,6 +123,8 @@ public class ItemWatzPellet extends ItemEnumMulti {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		EnumWatzType num = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
+		
+		list.add(EnumChatFormatting.GREEN + "Depletion: " + String.format(Locale.US, "%.1f", getDurabilityForDisplay(stack) * 100D) + "%");
 		
 		String color = EnumChatFormatting.GOLD + "";
 		String reset = EnumChatFormatting.RESET + "";

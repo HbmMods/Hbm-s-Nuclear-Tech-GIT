@@ -29,12 +29,6 @@ public class RenderChemical extends Render {
 		EntityChemical chem = (EntityChemical) entity;
 		ChemicalStyle style = chem.getStyle();
 		
-		if(chem.lastClientPosX == -1 && chem.lastClientPosY == -1 && chem.lastClientPosZ == -1) {
-			chem.lastClientPosX = chem.posX - chem.motionX;
-			chem.lastClientPosY = chem.posY - chem.motionY;
-			chem.lastClientPosZ = chem.posZ - chem.motionZ;
-		}
-		
 		if(style == ChemicalStyle.AMAT || style == ChemicalStyle.LIGHTNING)
 			renderAmatBeam(chem, f1);
 		
@@ -47,10 +41,6 @@ public class RenderChemical extends Render {
 			this.bindEntityTexture(chem);
 			renderGasFire(chem, f1);
 		}
-		
-		chem.lastClientPosX = chem.prevPosX + (chem.posX - chem.prevPosX) * f1;
-		chem.lastClientPosY = chem.prevPosX + (chem.posY - chem.prevPosY) * f1;
-		chem.lastClientPosZ = chem.prevPosX + (chem.posZ - chem.prevPosZ) * f1;
 
 		GL11.glPopMatrix();
 	}
