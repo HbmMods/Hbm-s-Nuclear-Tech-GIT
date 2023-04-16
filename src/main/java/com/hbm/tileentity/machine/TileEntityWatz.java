@@ -131,11 +131,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	
 	/** basic sanity checking, usually wouldn't do anything except when NBT loading borks */
 	public void setupCoolant() {
-		
-		if(!tanks[0].getTankType().hasTrait(FT_Heatable.class)) {
-			tanks[0].setTankType(Fluids.COOLANT);
-		}
-		
+		tanks[0].setTankType(Fluids.COOLANT);
 		tanks[1].setTankType(tanks[0].getTankType().getTrait(FT_Heatable.class).getFirstStep().typeProduced);
 	}
 	

@@ -64,6 +64,7 @@ import com.hbm.handler.CasingEjector;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.items.IAnimatedItem;
 import com.hbm.items.ModItems;
 import com.hbm.particle.*;
 import com.hbm.particle.psys.engine.EventHandlerParticleEngine;
@@ -428,6 +429,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.mese_gavel, new ItemRenderGavel());
 		MinecraftForgeClient.registerItemRenderer(ModItems.crucible, new ItemRenderCrucible());
 		MinecraftForgeClient.registerItemRenderer(ModItems.chainsaw, new ItemRenderChainsaw());
+		MinecraftForgeClient.registerItemRenderer(ModItems.boltgun, new ItemRenderBoltgun());
 		//guns
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg, new ItemRenderRpg());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_karl, new ItemRenderRpg());
@@ -1630,8 +1632,10 @@ public class ClientProxy extends ServerProxy {
 		
 		if("anim".equals(type)) {
 			
+			String mode = data.getString("mode");
+			
 			/* crucible deploy */
-			if("crucible".equals(data.getString("mode")) && player.getHeldItem() != null) {
+			if("crucible".equals(mode) && player.getHeldItem() != null) {
 				
 				BusAnimation animation = new BusAnimation()
 						.addBus("GUARD_ROT", new BusAnimationSequence()
@@ -1643,7 +1647,7 @@ public class ClientProxy extends ServerProxy {
 			}
 			
 			/* crucible swing */
-			if("cSwing".equals(data.getString("mode"))) {
+			if("cSwing".equals(mode)) {
 				
 				if(HbmAnimations.getRelevantTransformation("SWING_ROT")[0] == 0) {
 					
@@ -1666,7 +1670,7 @@ public class ClientProxy extends ServerProxy {
 			}
 			
 			/* chainsaw swing */
-			if("sSwing".equals(data.getString("mode")) || "lSwing".equals(data.getString("mode"))) { //temp for lance
+			if("sSwing".equals(mode) || "lSwing".equals(mode)) { //temp for lance
 
 				int forward = 150;
 				int sideways = 100;
@@ -1707,6 +1711,19 @@ public class ClientProxy extends ServerProxy {
 									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)));
 					
 					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
+				}
+			}
+			
+			if("generic".equals(mode)) {
+				ItemStack stack = player.getHeldItem();
+				
+				if(stack != null && stack.getItem() instanceof IAnimatedItem) {
+					IAnimatedItem item = (IAnimatedItem) stack.getItem();
+					BusAnimation anim = item.getAnimation(data, stack);
+					
+					if(anim != null) {
+						HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), anim);
+					}
 				}
 			}
 		}
