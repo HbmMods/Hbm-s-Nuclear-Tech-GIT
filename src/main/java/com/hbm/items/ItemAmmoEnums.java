@@ -11,7 +11,8 @@ public class ItemAmmoEnums {
 	public enum AmmoLunaticSniper implements IAmmoItemEnum {
 		SABOT("ammo_luna"),
 		INCENDIARY("ammo_luna_incendiary"),
-		EXPLOSIVE("ammo_luna_explosive");
+		EXPLOSIVE("ammo_luna_explosive"),
+		DANGER("ammo_luna_danger");
 		
 		private final Set<AmmoItemTrait> traits;
 		private final String unloc;

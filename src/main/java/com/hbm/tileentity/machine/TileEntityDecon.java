@@ -56,14 +56,7 @@ public class TileEntityDecon extends TileEntity {
 	}
 		
 	public void deconNeutron() {
-		//List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(this.xCoord - 0.5, this.yCoord, this.zCoord - 0.5, this.xCoord + 1.5, this.yCoord + 2, this.zCoord + 1.5));
 
-		//if(entities instanceof EntityPlayer) {
-			//float activation = player.inventory.getStackInSlot(blockMetadata).stackTagCompound.getFloat("ntmNeutron");
-		//	player.inventory.getStackInSlot(int slot).stackTagCompound.setFloat("ntmNeutron",activation*0.899916f);
-			//if(activation<1e-5)
-			//	player.inventory.getStackInSlot(blockMetadata).stackTagCompound.removeTag("ntmNeutron");
-		//}
 		List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(this.xCoord - 0.5, this.yCoord, this.zCoord - 0.5, this.xCoord + 1.5, this.yCoord + 2, this.zCoord + 1.5));
 		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMNeutronDecon) {
 		if(entities != null)
@@ -71,6 +64,12 @@ public class TileEntityDecon extends TileEntity {
 				if(e instanceof EntityPlayer) {
 					//Random rand = target.getRNG();
 					EntityPlayer player = (EntityPlayer) e;
+					float neut = HbmLivingProps.getNeutronActivation(player);
+					
+					if(neut > 0 && !RadiationConfig.disableNeutron) {
+						ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, neut / 20F);
+						HbmLivingProps.setNeutronActivation(player,neut*0.899916F);//20 minute half life not really
+					}
 					for(int i2 = 0; i2 < player.inventory.mainInventory.length; i2++)
 					{
 						ItemStack stack2 = player.inventory.getStackInSlot(i2);
@@ -78,7 +77,6 @@ public class TileEntityDecon extends TileEntity {
 						//if(rand.nextInt(100) == 0) {
 							//stack2 = player.inventory.armorItemInSlot(rand.nextInt(4));
 						//}
-						
 						//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
 						if(stack2 != null) {
 								if(!stack2.hasTagCompound())
@@ -87,6 +85,9 @@ public class TileEntityDecon extends TileEntity {
 								stack2.stackTagCompound.setFloat("ntmNeutron",activation*0.899916f);
 								if(activation<1e-5)
 								stack2.stackTagCompound.removeTag("ntmNeutron");
+								if (stack2.stackTagCompound.hasNoTags()){ 
+									stack2.setTagCompound((NBTTagCompound)null); 
+								}
 								
 							//}
 						}
@@ -103,6 +104,9 @@ public class TileEntityDecon extends TileEntity {
 								stack2.stackTagCompound.setFloat("ntmNeutron",activation*0.899916f);
 								if(activation<1e-5)
 								stack2.stackTagCompound.removeTag("ntmNeutron");
+								if (stack2.stackTagCompound.hasNoTags()){ 
+									stack2.setTagCompound((NBTTagCompound)null); 
+								}
 						}
 					}	
 				}

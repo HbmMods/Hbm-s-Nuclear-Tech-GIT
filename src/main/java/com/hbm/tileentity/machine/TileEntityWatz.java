@@ -3,6 +3,8 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerWatz;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -10,6 +12,7 @@ import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.gui.GUIWatz;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemWatzPellet;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -31,7 +34,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IGUIProvider {
+public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IControlReceiver, IGUIProvider {
 	
 	public FluidTank[] tanks;
 	public int heat;
@@ -41,10 +44,11 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	
 	/* lock types for item IO */
 	public boolean isLocked = false;
-	public ItemStack[] locks = new ItemStack[24];
+	public ItemStack[] locks;
 	
 	public TileEntityWatz() {
 		super(24);
+		this.locks = new ItemStack[slots.length];
 		this.tanks = new FluidTank[3];
 		this.tanks[0] = new FluidTank(Fluids.COOLANT, 64_000);
 		this.tanks[1] = new FluidTank(Fluids.COOLANT_HOT, 64_000);
@@ -61,6 +65,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		
 		if(!worldObj.isRemote && !updateLock()) {
 			
+			boolean turnedOn = worldObj.getBlock(xCoord, yCoord + 3, zCoord) == ModBlocks.watz_pump && worldObj.getIndirectPowerLevelTo(xCoord, yCoord + 5, zCoord, 0) > 0;
 			List<TileEntityWatz> segments = new ArrayList();
 			segments.add(this);
 			this.subscribeToTop();
@@ -94,14 +99,12 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			}
 			
 			/* update reaction, top to bottom */
-			this.updateReaction(null, sharedTanks);
+			this.updateReaction(null, sharedTanks, turnedOn);
 			for(int i = 1; i < segments.size(); i++) {
 				TileEntityWatz segment = segments.get(i);
 				TileEntityWatz above = segments.get(i - 1);
-				segment.updateReaction(above, sharedTanks);
+				segment.updateReaction(above, sharedTanks, turnedOn);
 			}
-			
-			//TODO: call fluidSend on the bottom-most segment
 			
 			/* re-distribute fluid from shared tanks back into actual tanks, bottom to top */
 			for(int i = segments.size() - 1; i >= 0; i--) {
@@ -152,59 +155,74 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	}
 
 	/** enforces strict top to bottom update order (instead of semi-random based on placement) */
-	public void updateReaction(TileEntityWatz above, FluidTank[] tanks) {
+	public void updateReaction(TileEntityWatz above, FluidTank[] tanks, boolean turnedOn) {
 		
-		List<ItemStack> pellets = new ArrayList();
-		
-		for(int i = 0; i < 24; i++) {
-			ItemStack stack = slots[i];
-			if(stack != null && stack.getItem() == ModItems.watz_pellet) {
-				pellets.add(stack);
-			}
-		}
-		
-		double baseFlux = 0D;
-		
-		/* init base flux */
-		for(ItemStack stack : pellets) {
-			EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
-			baseFlux += type.passive;
-		}
-		
-		double inputFlux = baseFlux + fluxLastReaction;
-		double addedFlux = 0D;
-		double addedHeat = 0D;
-		
-		for(ItemStack stack : pellets) {
-			EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
-			Function burnFunc = type.burnFunc;
-			Function heatMod = type.heatMult;
+		if(turnedOn) {
+			List<ItemStack> pellets = new ArrayList();
 			
-			if(burnFunc != null) {
-				double mod = heatMod != null ? heatMod.effonix(heat) : 1D;
-				double burn = burnFunc.effonix(inputFlux) * mod;
-				addedFlux += burn;
-				addedHeat += type.heatEmission * burn;
+			for(int i = 0; i < 24; i++) {
+				ItemStack stack = slots[i];
+				if(stack != null && stack.getItem() == ModItems.watz_pellet) {
+					pellets.add(stack);
+				}
 			}
-		}
-		
-		for(ItemStack stack : pellets) {
-			EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
-			Function absorbFunc = type.absorbFunc;
 			
-			if(absorbFunc != null) {
-				addedHeat += absorbFunc.effonix(baseFlux + fluxLastReaction);
+			double baseFlux = 0D;
+			
+			/* init base flux */
+			for(ItemStack stack : pellets) {
+				EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
+				baseFlux += type.passive;
 			}
+			
+			double inputFlux = baseFlux + fluxLastReaction;
+			double addedFlux = 0D;
+			double addedHeat = 0D;
+			
+			for(ItemStack stack : pellets) {
+				EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
+				Function burnFunc = type.burnFunc;
+				Function heatMod = type.heatMult;
+				
+				if(burnFunc != null) {
+					double mod = heatMod != null ? heatMod.effonix(heat) : 1D;
+					double burn = burnFunc.effonix(inputFlux) * mod;
+					ItemWatzPellet.setYield(stack, ItemWatzPellet.getYield(stack) - burn);
+					addedFlux += burn;
+					addedHeat += type.heatEmission * burn;
+					tanks[2].setFill(tanks[2].getFill() + (int) Math.round(type.mudContent * burn));
+				}
+			}
+			
+			for(ItemStack stack : pellets) {
+				EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
+				Function absorbFunc = type.absorbFunc;
+				
+				if(absorbFunc != null) {
+					addedHeat += absorbFunc.effonix(baseFlux + fluxLastReaction);
+				}
+			}
+			
+			this.heat += addedHeat;
+			this.fluxLastBase = baseFlux;
+			this.fluxLastReaction = addedFlux;
+			
+		} else {
+			this.fluxLastBase = 0;
+			this.fluxLastReaction = 0;
+			
 		}
-		
-		this.heat += addedHeat;
-		this.fluxLastBase = baseFlux;
-		this.fluxLastReaction = addedFlux;
 		
 		if(above != null) {
 			for(int i = 0; i < 24; i++) {
 				ItemStack stackBottom = slots[i];
 				ItemStack stackTop = above.slots[i];
+				
+				/* deplete */
+				if(stackBottom != null && stackBottom.getItem() == ModItems.watz_pellet && ItemWatzPellet.getYield(stackBottom) <= 0) {
+					slots[i] = new ItemStack(ModItems.watz_pellet_depleted, 1, stackBottom.getItemDamage());
+					continue; // depleted pellets may persist for one tick
+				}
 				
 				/* items fall down if the bottom slot is empty */
 				if(stackBottom == null && stackTop != null) {
@@ -274,8 +292,43 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	}
 
 	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return this.isUseableByPlayer(player);
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		
+		if(data.hasKey("lock")) {
+			
+			if(this.isLocked) {
+				this.locks = new ItemStack[slots.length];
+			} else {
+				for(int i = 0; i < slots.length; i++) {
+					this.locks[i] = slots[i];
+				}
+			}
+			
+			this.isLocked = !this.isLocked;
+			this.markChanged();
+		}
+	}
+
+	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		return stack.getItem() == ModItems.watz_pellet;
+		if(stack.getItem() != ModItems.watz_pellet) return false;
+		if(!this.isLocked) return true;
+		return this.locks[i] != null && this.locks[i].getItem() == stack.getItem() && locks[i].getItemDamage() == stack.getItemDamage();
+	}
+	
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack stack, int j) {
+		return stack.getItem() != ModItems.watz_pellet;
 	}
 
 	@Override

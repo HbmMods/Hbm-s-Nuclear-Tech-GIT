@@ -46,6 +46,7 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_titanium), new ItemStack(ModItems.ingot_titanium, 2), 6.0F );
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_aluminium), new ItemStack(ModItems.ingot_aluminium, 2), 6.0F );
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_lithium), new ItemStack(ModItems.lithium, 1), 6.0F );
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_iron), new ItemStack(Items.iron_ingot, 3), 6.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_copper), new ItemStack(ModItems.ingot_copper, 3), 5.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_tungsten), new ItemStack(ModItems.ingot_tungsten, 3), 12.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_aluminium), new ItemStack(ModItems.ingot_aluminium, 3), 5.0F);

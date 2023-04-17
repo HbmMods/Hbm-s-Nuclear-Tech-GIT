@@ -24,7 +24,7 @@ public class SchistStratum {
 
 		World world = event.world;
 		
-		if(world.provider.dimensionId != 0)
+		if(world.provider == null || world.provider.dimensionId != 0)
 			return;
 		
 		int cX = event.chunkX;

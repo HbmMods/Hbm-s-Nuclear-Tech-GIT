@@ -33,8 +33,10 @@ public class OreLayer3D {
 
 	@SubscribeEvent
 	public void onDecorate(DecorateBiomeEvent.Pre event) {
+
+		World world = event.world;
 		
-		if(event.world.provider.dimensionId != this.dim) return;
+		if(world.provider == null || world.provider.dimensionId != this.dim) return;
 
 		if(this.noiseX == null) this.noiseX = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 101), 4);
 		if(this.noiseY == null) this.noiseY = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 102), 4);

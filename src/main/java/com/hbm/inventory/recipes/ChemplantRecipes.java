@@ -103,7 +103,9 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.PETROLEUM, 500))
 				.outputItems(new ItemStack(ModItems.ingot_bakelite)));
 		recipes.add(new ChemRecipe(82, "RUBBER", 100)
-				.inputItems(new OreDictStack(S.dust()))
+				.inputItems(
+						new OreDictStack(S.dust()),
+						new OreDictStack(ZI.dust()))
 				.inputFluids(new FluidStack(Fluids.UNSATURATEDS, 500))
 				.outputItems(new ItemStack(ModItems.ingot_rubber)));
 		/*recipes.add(new ChemRecipe(94, "PET", 100)
@@ -415,29 +417,29 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(
 						new ComparableStack(ModItems.ingot_lead, 1),
 						new OreDictStack(ANY_SMOKELESS.dust(), 1))
-				.outputItems(new ItemStack(ModItems.assembly_smg, 32)));
+				.outputItems(new ItemStack(ModItems.assembly_smg, 32))); //9mm
 		recipes.add(new ChemRecipe(109, "ELBOOB", 350)
 				.inputFluids(new FluidStack(Fluids.ELBOWGREASE, 100))
 				.inputItems(
 						new ComparableStack(ModItems.ingot_copper, 1),
 						new OreDictStack(ANY_SMOKELESS.dust(), 1))
-				.outputItems(new ItemStack(ModItems.assembly_762, 32)));
+				.outputItems(new ItemStack(ModItems.assembly_762, 32))); //762
 		recipes.add(new ChemRecipe(110, "ELGORE", 250)
 				.inputFluids(new FluidStack(Fluids.ELBOWGREASE, 100))
 				.inputItems(
 						new ComparableStack(ModItems.ingot_copper, 1),
 						new ComparableStack(ModItems.ingot_lead, 1),
 						new OreDictStack(ANY_SMOKELESS.dust(), 1))
-				.outputItems(new ItemStack(ModItems.assembly_556, 32)));
+				.outputItems(new ItemStack(ModItems.assembly_556, 32))); //556
 		recipes.add(new ChemRecipe(111, "FIVEFIVE", 300)
 				.inputFluids(new FluidStack(Fluids.ELBOWGREASE, 100))
 				.inputItems(
 						new ComparableStack(ModItems.ingot_copper, 1),
 						new ComparableStack(ModItems.ingot_steel, 1),
 						new OreDictStack(ANY_SMOKELESS.dust(), 1))
-				.outputItems(new ItemStack(ModItems.assembly_lacunae, 32)));
+				.outputItems(new ItemStack(ModItems.assembly_lacunae, 32))); //5mm
 		recipes.add(new ChemRecipe(112, "NMASSIII", 300)
-				.inputFluids(new FluidStack(Fluids.DEATH, 16000), (new FluidStack(Fluids.ELBOWGREASE, 6000)))
+				.inputFluids(new FluidStack(Fluids.DEATH, 7000), (new FluidStack(Fluids.ELBOWGREASE, 6000)))
 				.inputItems(
 						new ComparableStack(ModBlocks.dfc_core, 1),
 						new ComparableStack(ModBlocks.block_euphemium, 32),
@@ -449,6 +451,14 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.pellet_charged, 1),
 						new ComparableStack(ModItems.ingot_euphemium, 1))
 				.outputFluids(new FluidStack(Fluids.NMASS, 1000), new FluidStack(Fluids.WASTEGAS, 2000)));
+		recipes.add(new ChemRecipe(114, "LUNAE", 250)
+				.inputFluids(new FluidStack(Fluids.NMASS, 3000), new FluidStack(Fluids.ASCHRAB, 500)) //eventually used to actually warp to other stars
+				.inputItems(
+						new ComparableStack(ModItems.powder_power, 5),
+						new ComparableStack(ModItems.ingot_ferrouranium, 1),
+						new ComparableStack(ModItems.ingot_copper, 1),
+						new OreDictStack(ANY_SMOKELESS.dust(), 1))
+				.outputItems(new ItemStack(ModItems.ammo_luna_sniper, 1, 3))); //556
 	}
 	
 	

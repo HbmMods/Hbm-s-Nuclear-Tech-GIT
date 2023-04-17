@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.crypto.Data;
+
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -681,7 +683,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+		this.power = nbt.getLong("power");
 		tank.readFromNBT(nbt, "oil");
 		isOn = nbt.getBoolean("isOn");
 	}
@@ -689,7 +691,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+		nbt.setLong("power", power);
 		tank.writeToNBT(nbt, "oil");
 		nbt.setBoolean("isOn", isOn);
 	}

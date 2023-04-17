@@ -53,6 +53,10 @@ public class FluidTank {
 	
 	public void setTankType(FluidType type) {
 		
+		if(type == null) {
+			type = Fluids.NONE;
+		}
+		
 		if(this.type == type)
 			return;
 		
@@ -85,16 +89,16 @@ public class FluidTank {
 	}
 	
 	//Called on TE update
-	public void updateTank(TileEntity te) {
+	@Deprecated public void updateTank(TileEntity te) {
 		updateTank(te, 100);
 	}
-	public void updateTank(TileEntity te, int range) {
+	@Deprecated public void updateTank(TileEntity te, int range) {
 		updateTank(te.xCoord, te.yCoord, te.zCoord, te.getWorldObj().provider.dimensionId, range);
 	}
-	public void updateTank(int x, int y, int z, int dim) {
+	@Deprecated public void updateTank(int x, int y, int z, int dim) {
 		updateTank(x, y, z, dim, 100);
 	}
-	public void updateTank(int x, int y, int z, int dim, int range) {
+	@Deprecated public void updateTank(int x, int y, int z, int dim, int range) {
 		PacketDispatcher.wrapper.sendToAllAround(new TEFluidPacket(x, y, z, fluid, index, type), new TargetPoint(dim, x, y, z, range));
 	}
 	

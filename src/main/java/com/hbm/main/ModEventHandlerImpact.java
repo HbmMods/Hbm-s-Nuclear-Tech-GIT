@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
+import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.projectile.EntityTom;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.saveddata.TomSaveData;
@@ -27,6 +28,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
@@ -135,6 +137,27 @@ public class ModEventHandlerImpact {
 				}
 			}
 		}
+		if(!(event.entity instanceof EntityPlayer) && event.entity instanceof EntityDuck) {
+			double range = 2D;
+				
+			List<EntityLivingBase> entities = event.world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(event.entity.posX, event.entity.posY, event.entity.posZ, event.entity.posX, event.entity.posY, event.entity.posZ).expand(range, range, range));
+			if(data.impact)
+			{
+				event.setCanceled(false);
+				return;
+			}
+			for(EntityLivingBase e : entities) {
+				if(e instanceof EntityPlayer || e instanceof EntityDuck || data.impact)
+				{
+					event.setCanceled(false);
+					return;
+				}
+			}
+			//if(entities.size()==0 && !data.impact)
+			//{
+			//	event.setCanceled(true);	
+			//}
+		}		
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -216,7 +239,8 @@ public class ModEventHandlerImpact {
 				
 			} else if(data.dust == 0 && data.fire == 0) {
 				if(type == event.type.TREE || type == event.type.BIG_SHROOM || type == event.type.CACTUS) {
-					if(event.world.rand.nextInt(9) == 0) {
+					Random rand = new Random();
+					if(rand.nextInt(4) == 0) {
 						event.setResult(Result.DEFAULT);
 					} else {
 						event.setResult(Result.DENY);

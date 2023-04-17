@@ -150,6 +150,7 @@ public class Fluids {
 	public static FluidType ELBOWGREASE;
 	public static FluidType NMASSTETRANOL; //stronger, not suitable for FTL due to its Carbon-Chain content
 	public static FluidType NMASS; //weaker, much more suitable for FTL
+	public static FluidType RIZZ;
 
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
@@ -314,7 +315,8 @@ public class Fluids {
 		ELBOWGREASE =			new FluidType("ELBOWGREASE",		0xCBC433, 1, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xCBC433)).addTraits(new FT_Flammable(600_000), LIQUID);
 		NMASSTETRANOL =			new FluidType("NMASSTETRANOL",		0xF1DB0F, 1, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xF1DB0F)).addTraits(new FT_Flammable(1_000_000), LIQUID, new FT_Corrosive(70), new FT_Poison(true, 0), new FT_VentRadiation(0.01F));
 		NMASS =					new FluidType("NMASS",				0x53A9F4, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(10), new FT_Poison(true, 0), new FT_VentRadiation(0.04F));
-
+		RIZZ =					new FluidType("RIZZ",				0x53A9F4, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(10), new FT_Poison(true, 0));
+		//i was dared....
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -355,6 +357,7 @@ public class Fluids {
 		metaOrder.add(FLUORINE);
 		metaOrder.add(MERCURY);
 		metaOrder.add(NITROGEN);
+		metaOrder.add(RIZZ);
 		//oils, fuels
 		metaOrder.add(OIL);
 		metaOrder.add(CRACKOIL);

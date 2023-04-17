@@ -7,6 +7,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.machine.TileEntityStorageDrum;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -35,7 +36,7 @@ public class HazardTypeNeutron extends HazardTypeBase {
 		level *= stack.stackSize;
 		
 		if(level > 0) {
-			float rad = level / 20F;
+			float rad = (level / 20F)*ContaminationUtil.calculateRadiationMod(target);
 			
 			if(GeneralConfig.enable528 && reacher) {
 				rad = (float) (rad / 49F);	//More realistic function for 528: x / distance^2
@@ -58,7 +59,7 @@ public class HazardTypeNeutron extends HazardTypeBase {
 							if(!stack2.hasTagCompound())
 								stack2.stackTagCompound = new NBTTagCompound();
 							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(rad/stack2.stackSize));
+							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(rad/stack2.stackSize)/10);
 							
 						//}
 					}
@@ -72,7 +73,7 @@ public class HazardTypeNeutron extends HazardTypeBase {
 							if(!stack2.hasTagCompound())
 								stack2.stackTagCompound = new NBTTagCompound();
 							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(rad/stack2.stackSize));
+							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(rad/stack2.stackSize)/10);
 					}
 				}	
 			}
