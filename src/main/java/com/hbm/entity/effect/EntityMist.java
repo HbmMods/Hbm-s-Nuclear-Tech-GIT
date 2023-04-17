@@ -15,6 +15,7 @@ public class EntityMist extends Entity {
 
 	public EntityMist(World world) {
 		super(world);
+		this.noClip = true;
 	}
 
 	@Override
@@ -30,15 +31,21 @@ public class EntityMist extends Entity {
 	public FluidType getType() {
 		return Fluids.fromID(this.dataWatcher.getWatchableObjectInt(10));
 	}
+	
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbt) {
+	public void onEntityUpdate() {
 		
 	}
 
 	@Override
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
+		this.setFluid(Fluids.fromID(nbt.getInteger("type")));
+	}
+
+	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
-		
+		nbt.setInteger("type", this.getType().getID());
 	}
 	
 	public static SprayStyle getStyleFromType(FluidType type) {
