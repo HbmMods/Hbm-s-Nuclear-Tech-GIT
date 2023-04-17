@@ -7,6 +7,9 @@ import com.hbm.blocks.BlockEnums.*;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.fluid.*;
 import com.hbm.blocks.gas.*;
+//import com.hbm.blocks.gas.air.BlockAir;
+//import com.hbm.blocks.gas.air.BlockAirFlow;
+//import com.hbm.blocks.gas.air.BlockAirSource;
 import com.hbm.blocks.machine.*;
 import com.hbm.blocks.machine.pile.*;
 import com.hbm.blocks.machine.rbmk.*;
@@ -1143,6 +1146,18 @@ public class ModBlocks {
 	public static Block vent_chlorine_seal;
 	public static Block chlorine_gas;
 
+	public static Block air_vent;
+	public static Block air_block;
+	public static Block air_block1;
+	public static Block air_block2;
+	public static Block air_block3;
+	public static Block air_block4;
+	public static Block air_block5;
+	public static Block air_block6;
+	public static Block air_block7;
+	public static Block air_block8;
+	public static Block air_block9;
+	
 	public static Block gas_radon;
 	public static Block gas_radon_dense;
 	public static Block gas_radon_tomb;
@@ -2320,6 +2335,18 @@ public class ModBlocks {
 		vent_pink_cloud = new BlockVent(Material.iron).setBlockName("vent_pink_cloud").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vent_pink_cloud");
 		vent_chlorine_seal = new BlockClorineSeal(Material.iron).setBlockName("vent_chlorine_seal").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		chlorine_gas = new BlockGasClorine().setBlockName("chlorine_gas").setHardness(0.0F).setResistance(0.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":chlorine_gas");
+	
+		air_vent = new BlockAirPump(Material.iron).setBlockName("air_vent").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		air_block = new BlockGasAir().setBlockName("air_block").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":air");
+		air_block1 = new BlockGasAir().setBlockName("air_block1").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":air");
+		air_block2 = new BlockGasAir().setBlockName("air_block2").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":air");
+		air_block3 = new BlockGasAir().setBlockName("air_block3").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":air");
+		air_block4 = new BlockGasAir().setBlockName("air_block4").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":air");
+		air_block5 = new BlockGasAir().setBlockName("air_block5").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":air");
+		air_block6 = new BlockGasAir().setBlockName("air_block6").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":air");
+		air_block7 = new BlockGasAir().setBlockName("air_block7").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":air");
+		air_block8 = new BlockGasAir().setBlockName("air_block8").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":air");
+		air_block9 = new BlockGasAir().setBlockName("air_block9").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":air");
 		
 		gas_radon = new BlockGasRadon().setBlockName("gas_radon").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_radon");
 		gas_radon_dense = new BlockGasRadonDense().setBlockName("gas_radon_dense").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_radon_dense");
@@ -3546,6 +3573,17 @@ public class ModBlocks {
 		GameRegistry.registerBlock(gas_flammable, gas_flammable.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_explosive, gas_explosive.getUnlocalizedName());
 		GameRegistry.registerBlock(vacuum, vacuum.getUnlocalizedName());
+		GameRegistry.registerBlock(air_vent, air_vent.getUnlocalizedName());
+		GameRegistry.registerBlock(air_block, air_block.getUnlocalizedName());
+		GameRegistry.registerBlock(air_block1, air_block1.getUnlocalizedName());
+		GameRegistry.registerBlock(air_block2, air_block2.getUnlocalizedName());
+		GameRegistry.registerBlock(air_block3, air_block3.getUnlocalizedName());
+		GameRegistry.registerBlock(air_block4, air_block4.getUnlocalizedName());
+		GameRegistry.registerBlock(air_block5, air_block5.getUnlocalizedName());
+		GameRegistry.registerBlock(air_block6, air_block6.getUnlocalizedName());
+		GameRegistry.registerBlock(air_block7, air_block7.getUnlocalizedName());
+		GameRegistry.registerBlock(air_block8, air_block8.getUnlocalizedName());
+		GameRegistry.registerBlock(air_block9, air_block9.getUnlocalizedName());
 		
 		//???
 		GameRegistry.registerBlock(crystal_virus, crystal_virus.getUnlocalizedName());
