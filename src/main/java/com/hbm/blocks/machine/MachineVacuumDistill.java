@@ -1,16 +1,23 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineVacuumDistill;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineVacuumDistill extends BlockDummyable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MachineVacuumDistill extends BlockDummyable implements ILookOverlay{
 
 	public MachineVacuumDistill(Material mat) {
 		super(mat);
@@ -46,5 +53,23 @@ public class MachineVacuumDistill extends BlockDummyable {
 	@Override
 	public int getOffset() {
 		return 1;
+	}
+	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
+
+		int[] pos = this.findCore(world, x, y, z);
+
+		if(pos == null)
+			return;
+
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+
+		if(!(te instanceof TileEntityMachineVacuumDistill))
+			return;
+
+		TileEntityMachineVacuumDistill heater = (TileEntityMachineVacuumDistill) te;
+		List<String> text = new ArrayList();
+		text.add(heater.heat + "TU");
+		text.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.heating_pgain") + String.format("%.2f", heater.pincrease)  );
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 }

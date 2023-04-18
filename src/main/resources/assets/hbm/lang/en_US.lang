@@ -1380,6 +1380,10 @@ info.template_out=Output:
 info.template_out_p=Outputs:
 info.template_seconds=seconds
 info.template_time=Production Time:
+info.heating_gain=Improved production efficiency:
+info.heating_pgain=Yield increase rate:
+info.hold_heat=Hold heat mode
+info.hold=Hold:
 
 item.acetylene_torch.name=Acetylene Welding Torch
 item.ajr_boots.name=Steel Ranger Boots

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
@@ -29,16 +30,19 @@ import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.IRepairable;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.machine.TileEntityHeaterElectric;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.Tuple.Quintet;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.tile.IHeatSource;
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -54,6 +58,8 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 
 	public long power = 0;
 	public int sulfur = 0;
+	public int heat =0;
+	public double pincrease=0;
 	public static final int maxSulfur = 100;
 	public static final long maxPower = 1000;
 	public FluidTank[] tanks;
@@ -93,6 +99,8 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		super.readFromNBT(nbt);
 
 		power = nbt.getLong("power");
+		heat = nbt.getInteger("heat");
+		pincrease = nbt.getDouble("pincrease");
 		tanks[0].readFromNBT(nbt, "input");
 		tanks[1].readFromNBT(nbt, "heavy");
 		tanks[2].readFromNBT(nbt, "naphtha");
@@ -108,6 +116,8 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		super.writeToNBT(nbt);
 		
 		nbt.setLong("power", power);
+		nbt.setInteger("heat", heat);
+		nbt.setDouble("pincrease", pincrease);
 		tanks[0].writeToNBT(nbt, "input");
 		tanks[1].writeToNBT(nbt, "heavy");
 		tanks[2].writeToNBT(nbt, "naphtha");
@@ -137,7 +147,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			
+			tryPullHeat();
 			if(this.getBlockMetadata() < 12) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getRotation(ForgeDirection.DOWN);
 				worldObj.removeTileEntity(xCoord, yCoord, zCoord);
@@ -163,7 +173,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 				}
 				
 				tanks[0].loadTank(1, 2, slots);
-				
+				this.pincrease=Math.max(Math.log(this.heat/100+1)-Math.sin(3*this.heat/100-3)-1,0.1D);
 				refine();
 	
 				tanks[1].unloadTank(3, 4, slots);
@@ -198,6 +208,8 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
+			data.setInteger("heat", this.heat);
+			data.setDouble("pincrease", this.pincrease);
 			for(int i = 0; i < 5; i++) tanks[i].writeToNBT(data, "" + i);
 			data.setBoolean("exploded", hasExploded);
 			data.setBoolean("onFire", onFire);
@@ -208,6 +220,8 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
+		this.heat = nbt.getInteger("heat");
+		this.pincrease = nbt.getDouble("pincrease");
 		for(int i = 0; i < 5; i++) tanks[i].readFromNBT(nbt, "" + i);
 		this.hasExploded = nbt.getBoolean("exploded");
 		this.onFire = nbt.getBoolean("onFire");
@@ -228,20 +242,20 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			return;
 
 		for(int i = 0; i < stacks.length; i++) {
-			if(tanks[i + 1].getFill() + stacks[i].fill > tanks[i + 1].getMaxFill()) {
+			if(tanks[i + 1].getFill() + (int)(stacks[i].fill * pincrease) > tanks[i + 1].getMaxFill()) {
 				return;
 			}
 		}
-		
+		this.heat = Math.max(this.heat - Math.max(this.heat / 50, 1), 0);
 		tanks[0].setFill(tanks[0].getFill() - 100);
 
 		for(int i = 0; i < stacks.length; i++)
-			tanks[i + 1].setFill(tanks[i + 1].getFill() + stacks[i].fill);
+			tanks[i + 1].setFill(tanks[i + 1].getFill() + (int)(stacks[i].fill * pincrease));
 		
 		this.sulfur++;
 		
-		if(this.sulfur >= maxSulfur) {
-			this.sulfur -= maxSulfur;
+		if(this.sulfur >= maxSulfur * pincrease) {
+			this.sulfur -= maxSulfur * pincrease;
 			
 			ItemStack out = refinery.getZ();
 			
@@ -256,7 +270,12 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 					}
 				}
 			}
-			
+			if(worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof IHeatSource){
+				if(slots[11]!=null) {
+					worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord + 0.5, yCoord + 10.0, zCoord + 0.5, slots[11]));
+					slots[11] = null;
+				}
+			}
 			this.markDirty();
 		}
 		
@@ -282,7 +301,46 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z)
 		};
 	}
-	
+
+	protected void tryPullHeat() {
+		TileEntity con = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
+
+		if(con instanceof IHeatSource) {
+
+			IHeatSource source = (IHeatSource) con;
+			TileEntityHeaterElectric mode;
+			int heatSrc = (int) (source.getHeatStored() * 0.1D);
+			if(con instanceof TileEntityHeaterElectric) {
+				mode = (TileEntityHeaterElectric) con;
+				if(mode.mode) {
+					if (heatSrc > 0) {
+						source.useUpHeat(mode.holdheat);
+						this.heat = mode.holdheat;
+						return;
+					}
+				}
+				else{
+					if (heatSrc > 0) {
+						source.useUpHeat(heatSrc);
+						this.heat += heatSrc;
+						return;
+					}
+				}
+			}
+
+			else {
+				if (heatSrc > 0) {
+					source.useUpHeat(heatSrc);
+					this.heat += heatSrc;
+					return;
+				}
+			}
+
+		}
+
+		this.heat = Math.max(this.heat - Math.max(this.heat / 100, 1), 0);
+	}
+
 	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}

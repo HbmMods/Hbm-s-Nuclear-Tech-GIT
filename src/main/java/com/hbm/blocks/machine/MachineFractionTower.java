@@ -113,10 +113,11 @@ public class MachineFractionTower extends BlockDummyable implements ILookOverlay
 		TileEntityMachineFractionTower cracker = (TileEntityMachineFractionTower) te;
 		
 		List<String> text = new ArrayList();
-
+		text.add(cracker.heat + "TU");
+		text.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.heating_pgain") + String.format("%.2f", cracker.pincrease)  );
 		for(int i = 0; i < cracker.tanks.length; i++)
 			text.add((i == 0 ? (EnumChatFormatting.GREEN + "-> ") : (EnumChatFormatting.RED + "<- ")) + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + cracker.tanks[i].getTankType().getName().toLowerCase()) + ": " + cracker.tanks[i].getFill() + "/" + cracker.tanks[i].getMaxFill() + "mB");
-		
+
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 }

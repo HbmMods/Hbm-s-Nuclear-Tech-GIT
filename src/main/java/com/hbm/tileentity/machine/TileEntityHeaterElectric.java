@@ -17,7 +17,9 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 	
 	public long power;
 	public int heatEnergy;
+	public int holdheat;
 	protected int setting = 0;
+	public boolean mode;
 
 	@Override
 	public void updateEntity() {
@@ -33,14 +35,21 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 			
 			this.tryPullHeat();
 			
-			if(setting > 0 && this.power >= this.getConsumption()) {
+			if(setting > 0 && this.power >= this.getConsumption() && !this.mode) {
 				this.power -= this.getConsumption();
 				this.heatEnergy += getHeatGen();
+			}
+			if(setting > 0 && this.power >= this.getConsumption() && this.mode) {
+				this.power -= this.getConsumption();
+				this.heatEnergy += getHeatGen();
+				this.holdheat = getHoldHeat();
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setByte("s", (byte) this.setting);
 			data.setInteger("h", this.heatEnergy);
+			data.setInteger("hd", this.holdheat);
+			data.setBoolean("b",this.mode);
 			INBTPacketReceiver.networkPack(this, data, 25);
 		}
 	}
@@ -48,7 +57,9 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.setting = nbt.getByte("s");
+		this.mode = nbt.getBoolean("b");
 		this.heatEnergy = nbt.getInteger("h");
+		this.holdheat = nbt.getInteger("hd");
 	}
 	
 	@Override
@@ -58,6 +69,8 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 		this.power = nbt.getLong("power");
 		this.setting = nbt.getInteger("setting");
 		this.heatEnergy = nbt.getInteger("heatEnergy");
+		this.holdheat = nbt.getInteger("holdheat");
+		this.mode = nbt.getBoolean("mode");
 	}
 	
 	@Override
@@ -67,6 +80,8 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 		nbt.setLong("power", power);
 		nbt.setInteger("setting", setting);
 		nbt.setInteger("heatEnergy", heatEnergy);
+		nbt.setInteger("holdheat", holdheat);
+		nbt.setBoolean("mode", mode);
 	}
 	
 	protected void tryPullHeat() {
@@ -78,12 +93,17 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 			source.useUpHeat(source.getHeatStored());
 		}
 	}
+
 	
 	public void toggleSetting() {
 		setting++;
 		
 		if(setting > 10)
 			setting = 0;
+		    holdheat = 0;
+	}
+	public void modeSetting() {
+		this.mode=!this.mode;
 	}
 
 	@Override
@@ -104,6 +124,9 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 		return this.setting * 100;
 	}
 
+	public int getHoldHeat() {
+		return this.setting * 100;
+	}
 	@Override
 	public void setPower(long power) {
 		this.power = power;

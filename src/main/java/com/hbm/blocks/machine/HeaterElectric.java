@@ -75,17 +75,25 @@ public class HeaterElectric extends BlockDummyable implements ILookOverlay, IToo
 		TileEntityHeaterElectric heater = (TileEntityHeaterElectric) te;
 
 		List<String> text = new ArrayList();
-		text.add(String.format("%,d", heater.heatEnergy) + " TU");
-		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + heater.getConsumption() + " HE/t");
-		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + heater.getHeatGen() + " TU/t");
-		
+        if(!heater.mode)
+		{
+			text.add(String.format("%,d", heater.heatEnergy) + " TU");
+			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + heater.getConsumption() + " HE/t");
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + heater.getHeatGen() + " TU/t");
+		}
+		else {
+			text.add( I18nUtil.resolveKey("info.hold_heat"));
+			text.add(String.format("%,d", heater.heatEnergy) + " TU");
+			text.add(I18nUtil.resolveKey("info.hold") + String.format("%,d", heater.holdheat) + " TU");
+			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + heater.getConsumption() + " HE/t");
+		}
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 		
-		if(tool != ToolType.SCREWDRIVER)
+		if(tool != ToolType.SCREWDRIVER && tool != ToolType.HAND_DRILL)
 			return false;
 		
 		if(world.isRemote) return true;
@@ -99,8 +107,16 @@ public class HeaterElectric extends BlockDummyable implements ILookOverlay, IToo
 		if(!(te instanceof TileEntityHeaterElectric)) return false;
 		
 		TileEntityHeaterElectric tile = (TileEntityHeaterElectric) te;
-		tile.toggleSetting();
+		switch (tool) {
+			case SCREWDRIVER:
+                tile.toggleSetting();
+                break;
+            case HAND_DRILL:
+                tile.modeSetting();
+                break;
+		}
 		tile.markDirty();
+
 		
 		return true;
 	}

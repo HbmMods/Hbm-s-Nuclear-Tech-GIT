@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.oil;
 import java.util.ArrayList;
 import java.util.List;
 
+import api.hbm.tile.IHeatSource;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
@@ -13,6 +14,7 @@ import com.hbm.inventory.recipes.FractionRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.machine.TileEntityHeaterElectric;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -27,6 +29,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityMachineFractionTower extends TileEntityLoadedBase implements IFluidSource, IFluidAcceptor, INBTPacketReceiver, IFluidStandardTransceiver {
 	
 	public FluidTank[] tanks;
+	public int heat ;
+	public double pincrease;
 	public List<IFluidAcceptor> list1 = new ArrayList();
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	
@@ -41,12 +45,13 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			
+			tryPullHeat();
 			TileEntity stack = worldObj.getTileEntity(xCoord, yCoord + 3, zCoord);
 			
 			if(stack instanceof TileEntityMachineFractionTower) {
 				TileEntityMachineFractionTower frac = (TileEntityMachineFractionTower) stack;
-				
+				frac.heat = this.heat;
+				frac.pincrease = this.pincrease;
 				//make types equal
 				for(int i = 0; i < 3; i++) {
 					frac.tanks[i].setTankType(tanks[i].getTankType());
@@ -68,7 +73,7 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 			
 			setupTanks();
 			this.updateConnections();
-			
+			this.pincrease=Math.max(Math.log(this.heat/100+1)-Math.sin(3*this.heat/100-3)-1,0.1D);
 			if(worldObj.getTotalWorldTime() % 20 == 0)
 				fractionate();
 			
@@ -80,7 +85,8 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 			this.sendFluid();
 			
 			NBTTagCompound data = new NBTTagCompound();
-
+			data.setInteger("heat",this.heat);
+			data.setDouble("pincrease",this.pincrease);
 			for(int i = 0; i < 3; i++)
 				tanks[i].writeToNBT(data, "tank" + i);
 			
@@ -90,6 +96,8 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		this.heat =  nbt.getInteger("heat");
+		this.pincrease = nbt.getDouble("pincrease");
 		for(int i = 0; i < 3; i++)
 			tanks[i].readFromNBT(nbt, "tank" + i);
 	}
@@ -138,8 +146,8 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 		
 		if(quart != null) {
 			
-			int left = quart.getKey().fill;
-			int right = quart.getValue().fill;
+			int left = (int)(quart.getKey().fill*pincrease);
+			int right = (int)(quart.getValue().fill*pincrease);
 			
 			if(tanks[0].getFill() >= 100 && hasSpace(left, right)) {
 				tanks[0].setFill(tanks[0].getFill() - 100);
@@ -148,7 +156,55 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 			}
 		}
 	}
-	
+
+	protected void tryPullHeat() {
+		TileEntity con = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
+
+		if(con instanceof IHeatSource) {
+			IHeatSource source = (IHeatSource) con;
+			TileEntityHeaterElectric mode;
+			int heatSrc = (int) (source.getHeatStored() * 0.1D);
+			if(con instanceof TileEntityHeaterElectric) {
+				mode = (TileEntityHeaterElectric) con;
+				if(mode.mode) {
+					if (heatSrc > 0) {
+						source.useUpHeat(heatSrc);
+						this.heat = mode.holdheat;
+						return;
+					}
+				}
+				else{
+					if (heatSrc > 0) {
+						if (this.heat + heatSrc <= 12000) {
+							source.useUpHeat(heatSrc);
+							this.heat += heatSrc;
+						} else {
+							source.useUpHeat(12000 - this.heat);
+							this.heat = 12000;
+						}
+						return;
+					}
+				}
+			}
+
+			else {
+				if (heatSrc > 0) {
+
+					if (this.heat + heatSrc <= 12000) {
+						source.useUpHeat(heatSrc);
+						this.heat += heatSrc;
+					} else {
+						source.useUpHeat(12000 - this.heat);
+						this.heat = 12000;
+					}
+					return;
+				}
+			}
+		}
+
+		this.heat = Math.max(this.heat - Math.max(this.heat / 100, 1), 0);
+	}
+
 	private boolean hasSpace(int left, int right) {
 		return tanks[1].getFill() + left <= tanks[1].getMaxFill() && tanks[2].getFill() + right <= tanks[2].getMaxFill();
 	}
@@ -156,7 +212,8 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-
+		heat = nbt.getInteger("heat");
+		pincrease = nbt.getDouble("pincrease");
 		for(int i = 0; i < 3; i++)
 			tanks[i].readFromNBT(nbt, "tank" + i);
 	}
@@ -164,7 +221,8 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-
+		nbt.setInteger("heat", heat);
+		nbt.setDouble("pincrease", pincrease);
 		for(int i = 0; i < 3; i++)
 			tanks[i].writeToNBT(nbt, "tank" + i);
 	}

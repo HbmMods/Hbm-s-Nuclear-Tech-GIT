@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.oil;
 
+import api.hbm.tile.IHeatSource;
 import com.hbm.inventory.container.ContainerMachineVacuumDistill;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -10,6 +11,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.machine.TileEntityHeaterElectric;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
@@ -20,6 +22,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -27,6 +30,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implements IEnergyUser, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider {
 	
 	public long power;
+	public int heat =0;
+	public double pincrease=0;
 	public static final long maxPower = 1_000_000;
 	
 	public FluidTank[] tanks;
@@ -51,11 +56,12 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
+			tryPullHeat();
 			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[0].loadTank(1, 2, slots);
-			
+
+			this.pincrease=Math.max(Math.log(this.heat/100+1)-Math.sin(3*this.heat/100-3)-1,0.1D);
 			refine();
 
 			tanks[1].unloadTank(3, 4, slots);
@@ -73,6 +79,8 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
+			data.setInteger("heat", this.heat);
+			data.setDouble("pincrease", this.pincrease);
 			for(int i = 0; i < 5; i++) tanks[i].writeToNBT(data, "" + i);
 			this.networkPack(data, 150);
 		}
@@ -81,6 +89,8 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
+		this.heat = nbt.getInteger("heat");
+		this.pincrease = nbt.getDouble("pincrease");
 		for(int i = 0; i < 5; i++) tanks[i].readFromNBT(nbt, "" + i);
 	}
 	
@@ -88,17 +98,17 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 		
 		if(power < 10_000) return;
 		if(tanks[0].getFill() < 100) return;
-		if(tanks[1].getFill() + RefineryRecipes.vac_frac_heavy > tanks[1].getMaxFill()) return;
-		if(tanks[2].getFill() + RefineryRecipes.vac_frac_reform > tanks[2].getMaxFill()) return;
-		if(tanks[3].getFill() + RefineryRecipes.vac_frac_light > tanks[3].getMaxFill()) return;
-		if(tanks[4].getFill() + RefineryRecipes.vac_frac_sour > tanks[4].getMaxFill()) return;
+		if(tanks[1].getFill() + (int)(RefineryRecipes.vac_frac_heavy * pincrease) > tanks[1].getMaxFill()) return;
+		if(tanks[2].getFill() + (int)(RefineryRecipes.vac_frac_reform * pincrease)> tanks[2].getMaxFill()) return;
+		if(tanks[3].getFill() + (int)(RefineryRecipes.vac_frac_light * pincrease)> tanks[3].getMaxFill()) return;
+		if(tanks[4].getFill() + (int)(RefineryRecipes.vac_frac_sour * pincrease)> tanks[4].getMaxFill()) return;
 		
 		power -= 10_000;
 		tanks[0].setFill(tanks[0].getFill() - 100);
-		tanks[1].setFill(tanks[1].getFill() + RefineryRecipes.vac_frac_heavy);
-		tanks[2].setFill(tanks[2].getFill() + RefineryRecipes.vac_frac_reform);
-		tanks[3].setFill(tanks[3].getFill() + RefineryRecipes.vac_frac_light);
-		tanks[4].setFill(tanks[4].getFill() + RefineryRecipes.vac_frac_sour);
+		tanks[1].setFill(tanks[1].getFill() + (int)(RefineryRecipes.vac_frac_heavy * pincrease));
+		tanks[2].setFill(tanks[2].getFill() + (int)(RefineryRecipes.vac_frac_reform * pincrease));
+		tanks[3].setFill(tanks[3].getFill() + (int)(RefineryRecipes.vac_frac_light * pincrease));
+		tanks[4].setFill(tanks[4].getFill() + (int)(RefineryRecipes.vac_frac_sour * pincrease));
 	}
 	
 	private void updateConnections() {
@@ -120,12 +130,69 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z)
 		};
 	}
-	
+
+	protected void tryPullHeat() {
+		TileEntity con = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
+
+		if(con instanceof IHeatSource) {
+			IHeatSource source = (IHeatSource) con;
+			TileEntityHeaterElectric mode;
+			int heatSrc = (int) (source.getHeatStored() * 0.1D);
+			if(con instanceof TileEntityHeaterElectric) {
+				mode = (TileEntityHeaterElectric) con;
+				if(mode.mode) {
+					if (heatSrc > 0) {
+						if (mode.holdheat <= 1000) {
+							source.useUpHeat(mode.holdheat);
+							this.heat = mode.holdheat;
+						} else {
+							source.useUpHeat(1000 - this.heat);
+							this.heat = 1000;
+						}
+						return;
+					}
+				}
+				else{
+					if (heatSrc > 0) {
+						if (this.heat + heatSrc <= 1000) {
+							source.useUpHeat(heatSrc);
+							this.heat += heatSrc;
+						} else {
+							source.useUpHeat(1000 - this.heat);
+							this.heat = 1000;
+						}
+						return;
+					}
+				}
+			}
+
+			else {
+				if (heatSrc > 0) {
+
+					if (this.heat + heatSrc <= 1000) {
+						source.useUpHeat(heatSrc);
+						this.heat += heatSrc;
+					} else {
+						source.useUpHeat(1000 - this.heat);
+						this.heat = 1000;
+					}
+					return;
+				}
+			}
+		}
+
+		this.heat = Math.max(this.heat - Math.max(this.heat / 100, 1), 0);
+	}
+
+
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
 		power = nbt.getLong("power");
+		heat = nbt.getInteger("heat");
+		pincrease = nbt.getDouble("pincrease");
 		tanks[0].readFromNBT(nbt, "input");
 		tanks[1].readFromNBT(nbt, "heavy");
 		tanks[2].readFromNBT(nbt, "reformate");
@@ -138,6 +205,8 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 		super.writeToNBT(nbt);
 		
 		nbt.setLong("power", power);
+		nbt.setInteger("heat",heat);
+		nbt.setDouble("pincrease",pincrease);
 		tanks[0].writeToNBT(nbt, "input");
 		tanks[1].writeToNBT(nbt, "heavy");
 		tanks[2].writeToNBT(nbt, "reformate");

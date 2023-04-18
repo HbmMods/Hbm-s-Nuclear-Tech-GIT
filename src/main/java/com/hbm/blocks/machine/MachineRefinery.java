@@ -161,5 +161,22 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 	@SideOnly(Side.CLIENT)
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		IRepairable.addGenericOverlay(event, world, x, y, z, this);
+		int[] pos = this.findCore(world, x, y, z);
+
+		if(pos == null)
+			return;
+
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+
+		if(!(te instanceof TileEntityMachineRefinery))
+			return;
+
+		TileEntityMachineRefinery heater = (TileEntityMachineRefinery) te;
+		List<String> text = new ArrayList();
+		text.add(heater.heat + "TU");
+		text.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.heating_pgain") + String.format("%.2f", heater.pincrease)  );
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
+
+
 }

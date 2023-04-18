@@ -17,10 +17,12 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.machine.TileEntityHeaterElectric;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -28,11 +30,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class TileEntityMachineLiquefactor extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidStandardSender, IGUIProvider {
 
+	public int heat ;
+	public double pincrease;
 	public long power;
 	public static final long maxPower = 100000;
 	public static final int usageBase = 500;
@@ -57,6 +62,7 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			tryPullHeat();
 			this.power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			tank.updateTank(this);
 			
@@ -65,12 +71,13 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 			UpgradeManager.eval(slots, 2, 3);
 			int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			int power = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
-
-			this.processTime = processTimeBase - (processTimeBase / 4) * speed;
+			this.pincrease=Math.max(Math.abs(3*(Math.sin(this.heat/100)-Math.cos(this.heat/100))),0.1);
+			this.processTime = (int)((processTimeBase - (processTimeBase / 4) * speed)/Math.max(Math.log(this.heat/100),0.1));
 			this.usage = (usageBase + (usageBase * speed))  / (power + 1);
-			
-			if(this.canProcess())
+
+			if(this.canProcess()) {
 				this.process();
+			}
 			else
 				this.progress = 0;
 			
@@ -81,10 +88,12 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 			this.sendFluid();
 			
 			NBTTagCompound data = new NBTTagCompound();
+			data.setInteger("heat",this.heat);
 			data.setLong("power", this.power);
 			data.setInteger("progress", this.progress);
 			data.setInteger("usage", this.usage);
 			data.setInteger("processTime", this.processTime);
+			data.setDouble("pincrease",this.pincrease);
 			this.networkPack(data, 50);
 		}
 	}
@@ -121,7 +130,56 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return new int[] { 0 };
 	}
-	
+
+	protected void tryPullHeat() {
+		TileEntity con = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
+
+		if(con instanceof IHeatSource) {
+			IHeatSource source = (IHeatSource) con;
+			TileEntityHeaterElectric mode;
+			int heatSrc = (int) (source.getHeatStored() * 0.1D);
+			if(con instanceof TileEntityHeaterElectric) {
+				mode = (TileEntityHeaterElectric) con;
+				if(mode.mode) {
+				if (heatSrc > 0) {
+					source.useUpHeat(mode.holdheat);
+					this.heat = mode.holdheat;
+					return;
+			    }
+			    }
+				else{
+					if (heatSrc > 0) {
+						if (this.heat + heatSrc <= 12000) {
+							source.useUpHeat(heatSrc);
+							this.heat += heatSrc;
+						} else {
+							source.useUpHeat(12000 - this.heat);
+							this.heat = 12000;
+						}
+						return;
+					}
+				}
+		    }
+
+			else {
+				if (heatSrc > 0) {
+
+					if (this.heat + heatSrc <= 12000) {
+						source.useUpHeat(heatSrc);
+						this.heat += heatSrc;
+					} else {
+						source.useUpHeat(12000 - this.heat);
+						this.heat = 12000;
+					}
+					return;
+				}
+			}
+		}
+
+		this.heat = Math.max(this.heat - Math.max(this.heat / 100, 1), 0);
+	}
+
+
 	public boolean canProcess() {
 		
 		if(this.power < usage)
@@ -138,7 +196,7 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 		if(out.type != tank.getTankType() && tank.getFill() > 0)
 			return false;
 		
-		if(out.fill + tank.getFill() > tank.getMaxFill())
+		if(out.fill * pincrease + tank.getFill() > tank.getMaxFill())
 			return false;
 		
 		return true;
@@ -148,38 +206,44 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 		
 		this.power -= usage;
 		
-		progress++;
-		
-		if(progress >= processTime) {
+		progress ++;
+
+		this.heat = Math.max(this.heat - Math.max(this.heat / 50, 1), 0);
+		if(progress >= processTime ) {
 			
 			FluidStack out = LiquefactionRecipes.getOutput(slots[0]);
 			tank.setTankType(out.type);
-			tank.setFill(tank.getFill() + out.fill);
+			tank.setFill(tank.getFill() + (int)(out.fill*pincrease));
 			this.decrStackSize(0, 1);
 			
 			progress = 0;
-			
 			this.markDirty();
 		}
 	}
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		this.heat =  nbt.getInteger("heat");
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
 		this.usage = nbt.getInteger("usage");
 		this.processTime = nbt.getInteger("processTime");
+		this.pincrease = nbt.getDouble("pincrease");
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+		nbt.setInteger("heat", heat);
+		nbt.setDouble("pincrease", pincrease);
 		tank.readFromNBT(nbt, "tank");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		nbt.setInteger("heat", heat);
+		nbt.setDouble("pincrease", pincrease);
 		tank.writeToNBT(nbt, "tank");
 	}
 
