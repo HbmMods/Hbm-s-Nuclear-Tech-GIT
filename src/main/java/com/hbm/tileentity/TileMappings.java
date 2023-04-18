@@ -209,6 +209,7 @@ public class TileMappings {
 
 		put(TileEntityRandomOre.class, "tileentity_mother_of_all_ores");
 		put(TileEntityBedrockOre.class, "tileentity_bedrock_ore");
+		put(TileEntityAirPump.class, "tileentity_air_vent");
 		
 		putNetwork();
 		putBombs();

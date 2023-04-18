@@ -113,8 +113,14 @@ public class ItemWandD extends Item {
 					break;
 				case 6:
 					TomSaveData data = TomSaveData.forWorld(world);
-					data.impact = true;
-					data.fire = 1F;
+					data.impact = false;
+					data.fire = 0F;
+					data.dust = 0F;
+					data.dtime=(600-pos.blockY)/2;
+					data.time=3600;
+					data.x=pos.blockX;
+					data.z=pos.blockZ;
+					data.markDirty();
 					break;
 				}
 				
@@ -190,7 +196,7 @@ public class ItemWandD extends Item {
 			tom.posY = pos.blockY;
 			tom.posZ = pos.blockZ;
 			tom.destructionRange = 600;
-			world.spawnEntityInWorld(tom);*/
+			world.spawnEntityInWorld(tom);
 			
 			ItemStack itemStack = new ItemStack(ModItems.book_lore);
 			BookLoreType.setTypeForStack(itemStack, BookLoreType.TEST_LORE);
@@ -207,7 +213,7 @@ public class ItemWandD extends Item {
 			//MapGenStronghold.Start startS = new MapGenStronghold.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
 			//startS.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));
 			
-			OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 3, 50, true);
+			//OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 3, 50, true);
 			
 			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
