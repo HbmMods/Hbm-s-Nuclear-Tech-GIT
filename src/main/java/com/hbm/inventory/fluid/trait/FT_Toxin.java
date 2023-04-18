@@ -32,6 +32,10 @@ public class FT_Toxin extends FluidTrait {
 			entry.addInfo(info);
 		}
 	}
+	
+	public void affect(EntityLivingBase entity, double intensity) {
+		
+	}
 
 	public static abstract class ToxinEntry {
 		
@@ -60,7 +64,7 @@ public class FT_Toxin extends FluidTrait {
 			return hasMask && hasSuit;
 		}
 
-		public abstract void poison(EntityLivingBase entity);
+		public abstract void poison(EntityLivingBase entity, double intensity);
 		public abstract void addInfo(List<String> info);
 	}
 
@@ -78,12 +82,12 @@ public class FT_Toxin extends FluidTrait {
 		}
 
 		@Override
-		public void poison(EntityLivingBase entity) {
+		public void poison(EntityLivingBase entity, double intensity) {
 			
 			if(isProtected(entity)) return;
 			
 			if(delay == 0 || entity.worldObj.getTotalWorldTime() % delay == 0) {
-				entity.attackEntityFrom(damage, amount);
+				entity.attackEntityFrom(damage, (float) (amount * intensity));
 			}
 		}
 
@@ -102,15 +106,15 @@ public class FT_Toxin extends FluidTrait {
 		}
 		
 		public ToxinEffects add(PotionEffect... effs) {
-			for(PotionEffect eff : effs)this.effects.add(eff);
+			for(PotionEffect eff : effs) this.effects.add(eff);
 			return this;
 		}
 
 		@Override
-		public void poison(EntityLivingBase entity) {
+		public void poison(EntityLivingBase entity, double intensity) {
 			
 			for(PotionEffect eff : effects) {
-				entity.addPotionEffect(new PotionEffect(eff));
+				entity.addPotionEffect(new PotionEffect(eff.getPotionID(), (int) (eff.getDuration() * intensity), eff.getAmplifier()));
 			}
 		}
 
