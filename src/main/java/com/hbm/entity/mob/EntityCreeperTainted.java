@@ -11,9 +11,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
-public class EntityTaintedCreeper extends EntityCreeper implements IRadiationImmune {
+public class EntityCreeperTainted extends EntityCreeper implements IRadiationImmune {
 
-	public EntityTaintedCreeper(World world) {
+	public EntityCreeperTainted(World world) {
 		super(world);
 	}
 

@@ -45,9 +45,12 @@ public class EntityCreeperNuclear extends EntityCreeper {
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
+		
+		// for some reason the nuclear explosion would damage the already dead entity, reviving it and forcing it to play the death animation
+		if(this.isDead) return false;
 
 		if(source == ModDamageSource.radiation || source == ModDamageSource.mudPoisoning) {
-			this.heal(amount);
+			if(this.isEntityAlive()) this.heal(amount);
 			return false;
 		}
 
@@ -96,7 +99,7 @@ public class EntityCreeperNuclear extends EntityCreeper {
 		
 		super.onUpdate();
 		
-		if(this.getHealth() < this.getMaxHealth() && this.ticksExisted % 10 == 0) {
+		if(this.isEntityAlive() && this.getHealth() < this.getMaxHealth() && this.ticksExisted % 10 == 0) {
 			this.heal(1.0F);
 		}
 	}
@@ -104,6 +107,9 @@ public class EntityCreeperNuclear extends EntityCreeper {
 	@Override
 	public void func_146077_cc() {
 		if(!this.worldObj.isRemote) {
+
+			this.setDead();
+			
 			boolean flag = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 
 			if(this.getPowered()) {
@@ -126,8 +132,6 @@ public class EntityCreeperNuclear extends EntityCreeper {
 					ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.PARAMS_SAFE);
 				}
 			}
-
-			this.setDead();
 		}
 	}
 }
