@@ -293,6 +293,7 @@ public class ModBlocks {
 	public static Block deco_rbmk_smooth;
 
 	public static Block deco_emitter;
+	public static Block part_emitter;
 	public static Block deco_loot;
 	public static Block bobblehead;
 	public static Block snowglobe;
@@ -822,6 +823,7 @@ public class ModBlocks {
 	public static Block struct_soyuz_core;
 	public static Block struct_iter_core;
 	public static Block struct_plasma_core;
+	public static Block struct_watz_core;
 	
 	public static Block factory_titanium_hull;
 	@Deprecated public static Block factory_titanium_furnace;
@@ -1465,6 +1467,7 @@ public class ModBlocks {
 		deco_rbmk_smooth = new BlockGeneric(Material.iron).setBlockName("deco_rbmk_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_top");
 		
 		deco_emitter = new BlockEmitter().setBlockName("deco_emitter").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":emitter");
+		part_emitter = new PartEmitter().setBlockName("part_emitter").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":part_top");
 		deco_loot = new BlockLoot().setBlockName("deco_loot").setCreativeTab(null).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		bobblehead = new BlockBobble().setBlockName("bobblehead").setCreativeTab(MainRegistry.blockTab).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		snowglobe = new BlockSnowglobe().setBlockName("snowglobe").setCreativeTab(MainRegistry.blockTab).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":glass_boron");
@@ -1948,6 +1951,7 @@ public class ModBlocks {
 		struct_soyuz_core = new BlockSoyuzStruct(Material.iron).setBlockName("struct_soyuz_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":struct_soyuz_core");
 		struct_iter_core = new BlockITERStruct(Material.iron).setBlockName("struct_iter_core").setLightLevel(1F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":struct_iter_core");
 		struct_plasma_core = new BlockPlasmaStruct(Material.iron).setBlockName("struct_plasma_core").setLightLevel(1F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":struct_plasma_core");
+		struct_watz_core = new BlockWatzStruct(Material.iron).setBlockName("struct_watz_core").setLightLevel(1F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":struct_watz_core");
 		
 		factory_titanium_hull = new BlockGeneric(Material.iron).setBlockName("factory_titanium_hull").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_hull");
 		factory_titanium_furnace = new FactoryHatch(Material.iron).setBlockName("factory_titanium_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_furnace");
@@ -1977,7 +1981,7 @@ public class ModBlocks {
 		watz_element = new BlockPillar(Material.iron, RefStrings.MODID + ":watz_element_top").setBlockName("watz_element").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_element_side");
 		watz_control = new BlockPillar(Material.iron, RefStrings.MODID + ":watz_control_top").setBlockName("watz_control").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_control_side");
 		watz_cooler = new BlockGeneric(Material.iron).setBlockName("watz_cooler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_cooler");
-		watz_end = new BlockGeneric(Material.iron).setBlockName("watz_end").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_casing");
+		watz_end = new BlockBoltable(Material.iron).setBlockName("watz_end").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_casing");
 		watz_hatch = new WatzHatch(Material.iron).setBlockName("watz_hatch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_hatch");
 		watz_conductor = new BlockCableConnect(Material.iron).setBlockName("watz_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_conductor_top");
 		watz_core = new WatzCore(Material.iron).setBlockName("watz_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_computer");
@@ -2589,6 +2593,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(deco_beryllium, deco_beryllium.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_asbestos, deco_asbestos.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_emitter, ItemBlockBase.class, deco_emitter.getUnlocalizedName());
+		GameRegistry.registerBlock(part_emitter, ItemBlockBase.class, part_emitter.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_loot, deco_loot.getUnlocalizedName());
 		GameRegistry.registerBlock(bobblehead, ItemBlockMeta.class, bobblehead.getUnlocalizedName());
 		GameRegistry.registerBlock(snowglobe, ItemBlockMeta.class, snowglobe.getUnlocalizedName());
@@ -3218,6 +3223,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(struct_soyuz_core, struct_soyuz_core.getUnlocalizedName());
 		GameRegistry.registerBlock(struct_iter_core, struct_iter_core.getUnlocalizedName());
 		GameRegistry.registerBlock(struct_plasma_core, struct_plasma_core.getUnlocalizedName());
+		GameRegistry.registerBlock(struct_watz_core, struct_watz_core.getUnlocalizedName());
 		
 		//Absorbers
 		GameRegistry.registerBlock(absorber, absorber.getUnlocalizedName());
@@ -3257,7 +3263,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(watz_element, watz_element.getUnlocalizedName());
 		GameRegistry.registerBlock(watz_control, watz_control.getUnlocalizedName());
 		GameRegistry.registerBlock(watz_cooler, watz_cooler.getUnlocalizedName());
-		GameRegistry.registerBlock(watz_end, watz_end.getUnlocalizedName());
+		register(watz_end);
 		GameRegistry.registerBlock(watz_hatch, watz_hatch.getUnlocalizedName());
 		GameRegistry.registerBlock(watz_conductor, watz_conductor.getUnlocalizedName());
 		GameRegistry.registerBlock(watz_core, watz_core.getUnlocalizedName());

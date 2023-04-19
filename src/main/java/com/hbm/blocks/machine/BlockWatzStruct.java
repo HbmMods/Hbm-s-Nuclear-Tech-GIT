@@ -1,21 +1,21 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.tileentity.machine.TileEntityITERStruct;
+import com.hbm.tileentity.machine.TileEntityWatzStruct;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockITERStruct extends BlockContainer {
+public class BlockWatzStruct extends BlockContainer {
 
-	public BlockITERStruct(Material mat) {
+	public BlockWatzStruct(Material mat) {
 		super(mat);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityITERStruct();
+		return new TileEntityWatzStruct();
 	}
 
 	@Override

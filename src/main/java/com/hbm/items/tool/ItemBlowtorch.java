@@ -28,6 +28,7 @@ import net.minecraft.world.World;
 public class ItemBlowtorch extends Item implements IFillableItem {
 
 	public ItemBlowtorch() {
+		this.setMaxStackSize(1);
 		this.setFull3D();
 		this.setCreativeTab(MainRegistry.controlTab);
 	}

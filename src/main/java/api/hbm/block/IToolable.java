@@ -12,6 +12,7 @@ public interface IToolable {
 		HAND_DRILL,
 		DEFUSER,
 		WRENCH,
-		TORCH
+		TORCH,
+		BOLT
 	}
 }

@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -85,5 +86,15 @@ public class CraneUnboxer extends BlockCraneBase implements IEnterableBlock {
 				world.spawnEntityInWorld(drop);
 			}
 		}
+	}
+	
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+	
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+		return Container.calcRedstoneFromInventory((TileEntityCraneUnboxer)world.getTileEntity(x, y, z));
 	}
 }
