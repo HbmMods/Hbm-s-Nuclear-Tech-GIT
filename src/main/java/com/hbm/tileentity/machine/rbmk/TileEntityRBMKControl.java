@@ -1,16 +1,14 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
-
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.nbt.NBTTagCompound;
-
-import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
+import net.minecraft.nbt.NBTTagCompound;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase implements SimpleComponent {
@@ -140,6 +138,11 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 		return new Object[] {targetLevel * 100};
 	}
 
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoordinates(Context context, Arguments args) {
+		return new Object[] {xCoord, yCoord, zCoord};
+	}
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
@@ -150,7 +153,7 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {heat, getMult() * 100, targetLevel * 100};
+		return new Object[] {heat, getMult() * 100, targetLevel * 100, xCoord, yCoord, zCoord};
 	}
 
 	@Callback

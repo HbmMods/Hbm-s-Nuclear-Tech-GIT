@@ -11,7 +11,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.Compat;
-
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -411,15 +410,6 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		}
 		return new Object[] {"N/A"};
 	}
-	
-	@Callback
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getItemData(Context context, Arguments args) {
-		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
-			return new Object[] {slots[0]};
-		}
-		return new Object[] {"N/A"};
-	}
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
@@ -453,17 +443,26 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public Object[] getInfo(Context context, Arguments args) {
 		Object OC_enrich_buf;
 		Object OC_poison_buf;
-		Object OC_item_Data;
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 			OC_enrich_buf = ItemRBMKRod.getEnrichment(slots[0]);
 			OC_poison_buf = ItemRBMKRod.getPoison(slots[0]);
-			OC_item_Data = slots[0];
 		} else {
 			OC_enrich_buf = "N/A";
 			OC_poison_buf = "N/A";
-			OC_item_Data = "N/A";
 		}
-		return new Object[] {heat, fluxSlow, fluxFast, OC_enrich_buf, OC_poison_buf, OC_item_Data};
+		return new Object[] {heat, fluxSlow, fluxFast, OC_enrich_buf, OC_poison_buf, ((RBMKRod)this.getBlockType()).moderated, xCoord, yCoord, zCoord};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getModerated(Context context, Arguments args) {
+		return new Object[] {((RBMKRod)this.getBlockType()).moderated};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoordinates(Context context, Arguments args) {
+		return new Object[] {xCoord, yCoord, zCoord};
 	}
 
 	@Override
