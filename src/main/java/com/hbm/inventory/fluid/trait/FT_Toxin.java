@@ -35,6 +35,9 @@ public class FT_Toxin extends FluidTrait {
 	
 	public void affect(EntityLivingBase entity, double intensity) {
 		
+		for(ToxinEntry entry : entries) {
+			entry.poison(entity, intensity);
+		}
 	}
 
 	public static abstract class ToxinEntry {

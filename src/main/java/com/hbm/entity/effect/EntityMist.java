@@ -66,7 +66,7 @@ public class EntityMist extends Entity {
 	public void onEntityUpdate() {
 		
 		float height = this.dataWatcher.getWatchableObjectFloat(12);
-		this.yOffset = height / 2F;
+		this.yOffset = -height / 2F;
 		this.setSize(this.dataWatcher.getWatchableObjectFloat(11), height);
 		
 		if(!worldObj.isRemote) {
