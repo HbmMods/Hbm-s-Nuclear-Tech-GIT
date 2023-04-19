@@ -102,6 +102,13 @@ processResources {
 	}
 }
 
+// add AT to meta-inf
+jar {
+    manifest {
+        attributes 'FMLAT': 'HBM_at.cfg'
+    }
+}
+
 task version {
 	doFirst {
 		println project.version
