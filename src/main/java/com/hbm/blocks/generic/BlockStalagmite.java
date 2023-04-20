@@ -45,6 +45,11 @@ public class BlockStalagmite extends BlockEnumMulti {
 		
 		return null;
 	}
+
+	@Override
+	public int damageDropped(int meta) {
+		return 0;
+	}
 	
 	public static int getMetaFromResource(int meta) {
 		return meta;

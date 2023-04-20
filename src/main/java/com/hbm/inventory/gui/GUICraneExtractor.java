@@ -22,11 +22,11 @@ import net.minecraft.util.ResourceLocation;
 public class GUICraneExtractor extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_crane_ejector.png");
-	private TileEntityCraneExtractor inserter;
+	private TileEntityCraneExtractor ejector;
 
 	public GUICraneExtractor(InventoryPlayer invPlayer, TileEntityCraneExtractor tedf) {
 		super(new ContainerCraneExtractor(invPlayer, tedf));
-		inserter = tedf;
+		ejector = tedf;
 		
 		this.xSize = 176;
 		this.ySize = 185;
@@ -40,14 +40,14 @@ public class GUICraneExtractor extends GuiInfoContainer {
 			for(int i = 0; i < 9; ++i) {
 				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
 	
-				if(this.isMouseOverSlot(slot, x, y) && inserter.matcher.modes[i] != null) {
+				if(this.isMouseOverSlot(slot, x, y) && ejector.matcher.modes[i] != null) {
 					
 					String label = EnumChatFormatting.YELLOW + "";
 					
-					switch(inserter.matcher.modes[i]) {
+					switch(ejector.matcher.modes[i]) {
 					case "exact": label += "Item and meta match"; break;
 					case "wildcard": label += "Item matches"; break;
-					default: label += "Ore dict key matches: " + inserter.matcher.modes[i]; break;
+					default: label += "Ore dict key matches: " + ejector.matcher.modes[i]; break;
 					}
 					
 					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", label }), x, y - 30);
@@ -65,13 +65,13 @@ public class GUICraneExtractor extends GuiInfoContainer {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("whitelist", true);
-			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, inserter.xCoord, inserter.yCoord, inserter.zCoord));
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, ejector.xCoord, ejector.yCoord, ejector.zCoord));
 		}
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = this.inserter.hasCustomInventoryName() ? this.inserter.getInventoryName() : I18n.format(this.inserter.getInventoryName());
+		String name = this.ejector.hasCustomInventoryName() ? this.ejector.getInventoryName() : I18n.format(this.ejector.getInventoryName());
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
@@ -82,7 +82,7 @@ public class GUICraneExtractor extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(inserter.isWhitelist) {
+		if(ejector.isWhitelist) {
 			drawTexturedModalRect(guiLeft + 139, guiTop + 33, 176, 0, 3, 6);
 		} else {
 			drawTexturedModalRect(guiLeft + 139, guiTop + 47, 176, 0, 3, 6);

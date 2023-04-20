@@ -22,9 +22,9 @@ import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
-import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.mob.EntityQuackos;
-import com.hbm.entity.mob.EntityTaintedCreeper;
+import com.hbm.entity.mob.EntityCreeperTainted;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.extprop.HbmLivingProps;
@@ -38,6 +38,7 @@ import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
@@ -72,6 +73,7 @@ import com.hbm.world.generator.TimedGenerator;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
@@ -190,7 +192,7 @@ public class ModEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onEntityConstructing(EntityEvent.EntityConstructing event)  {
+	public void onEntityConstructing(EntityEvent.EntityConstructing event) {
 		
 		if(event.entity instanceof EntityPlayer) {
 			
@@ -206,6 +208,14 @@ public class ModEventHandler {
 			EntityLivingBase living = (EntityLivingBase) event.entity;
 			HbmLivingProps.getData(living); //ditto
 		}
+	}
+
+	@SubscribeEvent
+	public void onPlayerChaangeDimension(PlayerChangedDimensionEvent event) {
+		EntityPlayer player = event.player;
+		HbmPlayerProps data = HbmPlayerProps.getData(player);
+		data.setKeyPressed(EnumKeybind.JETPACK, false);
+		data.setKeyPressed(EnumKeybind.DASH, false);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -274,7 +284,7 @@ public class ModEventHandler {
 			event.entity.dropItem(ModItems.book_of_, 1);
 		}
 		
-		if(event.entity instanceof EntityTaintedCreeper && event.source == ModDamageSource.boxcar) {
+		if(event.entity instanceof EntityCreeperTainted && event.source == ModDamageSource.boxcar) {
 			
 			for(Object o : event.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, event.entity.boundingBox.expand(50, 50, 50))) {
 				EntityPlayer player = (EntityPlayer)o;
@@ -567,7 +577,7 @@ public class ModEventHandler {
 						if(entity instanceof EntityCreeper && eRad >= 200 && entity.getHealth() > 0) {
 							
 							if(event.world.rand.nextInt(3) == 0 ) {
-								EntityNuclearCreeper creep = new EntityNuclearCreeper(event.world);
+								EntityCreeperNuclear creep = new EntityCreeperNuclear(event.world);
 								creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
 				        		
 				        		if(!entity.isDead)

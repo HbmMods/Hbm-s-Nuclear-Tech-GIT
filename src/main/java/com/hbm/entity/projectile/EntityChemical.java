@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.trait.FT_Combustible;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FT_Poison;
+import com.hbm.inventory.fluid.trait.FT_Toxin;
 import com.hbm.inventory.fluid.trait.FT_VentRadiation;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -57,10 +58,6 @@ public class EntityChemical extends EntityThrowableNT {
 	 * if FLAMMABLE: if GAS or EVAP apply, do the same as COMBUSTIBLE, otherwise create a neutral spray that adds the "soaked" effect
 	 * if CORROSIVE: apply extra acid damage, poison effect as well as armor degradation
 	 */
-
-	public double lastClientPosX = -1;
-	public double lastClientPosY = -1;
-	public double lastClientPosZ = -1;
 
 	public EntityChemical(World world) {
 		super(world);
@@ -254,6 +251,14 @@ public class EntityChemical extends EntityThrowableNT {
 			
 			if(living != null) {
 				living.addPotionEffect(new PotionEffect(trait.isWithering() ? Potion.wither.id : Potion.poison.id, (int) (5 * 20 * intensity)));
+			}
+		}
+		
+		if(type.hasTrait(FT_Toxin.class)) {
+			FT_Toxin trait = type.getTrait(FT_Toxin.class);
+			
+			if(living != null) {
+				trait.affect(living, intensity);
 			}
 		}
 		

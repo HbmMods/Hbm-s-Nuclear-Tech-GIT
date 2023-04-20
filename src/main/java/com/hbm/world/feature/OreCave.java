@@ -73,16 +73,13 @@ public class OreCave {
 	@SubscribeEvent
 	public void onDecorate(DecorateBiomeEvent.Pre event) {
 		
-		if(event.world.provider.dimensionId != this.dim) return;
+		World world = event.world;
+		
+		if(world.provider == null || world.provider.dimensionId != this.dim) return;
 		
 		if(this.noise == null) {
 			this.noise = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + (ore.getID() * 31) + yLevel), 2);
 		}
-		
-		World world = event.world;
-		
-		if(world.provider.dimensionId != 0)
-			return;
 		
 		int cX = event.chunkX;
 		int cZ = event.chunkZ;

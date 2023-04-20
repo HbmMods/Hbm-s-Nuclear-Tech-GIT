@@ -50,7 +50,7 @@ public class StatHelper {
 			initBlockMineStats();
 			initItemUseStats();
 			initItemBreakStats();
-		} catch(Exception ex) { } // just to be sure
+		} catch(Throwable ex) { } // just to be sure
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class StatHelper {
 				int i = Item.getIdFromItem(item);
 				try {
 					StatList.objectCraftStats[i] = registerStat(new StatCrafting("stat.craftItem." + i, new ChatComponentTranslation("stat.craftItem", new Object[] { (new ItemStack(item)).func_151000_E() }), item));
-				} catch(Exception ex) { }
+				} catch(Throwable ex) { }
 			}
 		}
 
@@ -89,7 +89,7 @@ public class StatHelper {
 						StatList.mineBlockStatArray[i] = registerStat(new StatCrafting("stat.mineBlock." + i, new ChatComponentTranslation("stat.mineBlock", new Object[] { (new ItemStack(block)).func_151000_E() }), Item.getItemFromBlock(block)));
 						StatList.objectMineStats.add((StatCrafting) StatList.mineBlockStatArray[i]);
 					}
-				} catch(Exception ex) { }
+				} catch(Throwable ex) { }
 			}
 		}
 
@@ -109,7 +109,7 @@ public class StatHelper {
 					if(!(item instanceof ItemBlock)) {
 						StatList.itemStats.add((StatCrafting) StatList.objectUseStats[i]);
 					}
-				} catch(Exception ex) { }
+				} catch(Throwable ex) { }
 			}
 		}
 
@@ -128,7 +128,7 @@ public class StatHelper {
 					if(item.isDamageable()) {
 						StatList.objectBreakStats[i] = registerStat(new StatCrafting("stat.breakItem." + i, new ChatComponentTranslation("stat.breakItem", new Object[] { (new ItemStack(item)).func_151000_E() }), item));
 					}
-				} catch(Exception ex) { }
+				} catch(Throwable ex) { }
 			}
 		}
 
