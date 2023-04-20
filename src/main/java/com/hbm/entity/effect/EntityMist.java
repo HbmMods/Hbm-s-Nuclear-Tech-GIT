@@ -37,15 +37,22 @@ public class EntityMist extends Entity {
 	public EntityMist(World world) {
 		super(world);
 		this.noClip = true;
-		this.setSize(10F, 3F);
+	}
+	
+	public EntityMist setArea(float width, float height) {
+		this.dataWatcher.updateObject(11, width);
+		this.dataWatcher.updateObject(12, height);
+		return this;
 	}
 
 	@Override
 	protected void entityInit() {
 		this.dataWatcher.addObject(10, new Integer(0));
+		this.dataWatcher.addObject(11, new Float(0));
+		this.dataWatcher.addObject(12, new Float(0));
 	}
 	
-	public EntityMist setFluid(FluidType fluid) {
+	public EntityMist setType(FluidType fluid) {
 		this.dataWatcher.updateObject(10, fluid.getID());
 		return this;
 	}
@@ -57,6 +64,10 @@ public class EntityMist extends Entity {
 
 	@Override
 	public void onEntityUpdate() {
+		
+		float height = this.dataWatcher.getWatchableObjectFloat(12);
+		this.yOffset = -height / 2F;
+		this.setSize(this.dataWatcher.getWatchableObjectFloat(11), height);
 		
 		if(!worldObj.isRemote) {
 			
@@ -114,7 +125,7 @@ public class EntityMist extends Entity {
 			}
 		}
 		
-		if(type.hasTrait(FT_Flammable.class)) {
+		if(type.hasTrait(FT_Flammable.class) && type.hasTrait(FT_Liquid.class)) {
 			if(living != null) {
 				HbmLivingProps.setOil(living, 200); //doused in oil for 10 seconds
 			}
@@ -169,7 +180,7 @@ public class EntityMist extends Entity {
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
-		this.setFluid(Fluids.fromID(nbt.getInteger("type")));
+		this.setType(Fluids.fromID(nbt.getInteger("type")));
 	}
 
 	@Override

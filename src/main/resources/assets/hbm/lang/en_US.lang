@@ -948,6 +948,7 @@ entity.hbm.entity_ntm_ufo.name=Martian Invasion Ship
 entity.entity_mob_hunter_chopper.name=Hunter Chopper
 entity.entity_mob_mask_man.name=Mask Man
 entity.entity_mob_nuclear_creeper.name=Nuclear Creeper
+entity.entity_mob_phosgene_creeper.name=Phosgene Creeper
 entity.entity_mob_tainted_creeper.name=Tainted Creeper
 entity.entity_taint_crab.name=Taint Crab
 entity.entity_tesla_crab.name=Tesla Crab

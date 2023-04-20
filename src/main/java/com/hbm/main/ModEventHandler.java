@@ -22,9 +22,9 @@ import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
-import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.mob.EntityQuackos;
-import com.hbm.entity.mob.EntityTaintedCreeper;
+import com.hbm.entity.mob.EntityCreeperTainted;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.extprop.HbmLivingProps;
@@ -284,7 +284,7 @@ public class ModEventHandler {
 			event.entity.dropItem(ModItems.book_of_, 1);
 		}
 		
-		if(event.entity instanceof EntityTaintedCreeper && event.source == ModDamageSource.boxcar) {
+		if(event.entity instanceof EntityCreeperTainted && event.source == ModDamageSource.boxcar) {
 			
 			for(Object o : event.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, event.entity.boundingBox.expand(50, 50, 50))) {
 				EntityPlayer player = (EntityPlayer)o;
@@ -577,7 +577,7 @@ public class ModEventHandler {
 						if(entity instanceof EntityCreeper && eRad >= 200 && entity.getHealth() > 0) {
 							
 							if(event.world.rand.nextInt(3) == 0 ) {
-								EntityNuclearCreeper creep = new EntityNuclearCreeper(event.world);
+								EntityCreeperNuclear creep = new EntityCreeperNuclear(event.world);
 								creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
 				        		
 				        		if(!entity.isDead)

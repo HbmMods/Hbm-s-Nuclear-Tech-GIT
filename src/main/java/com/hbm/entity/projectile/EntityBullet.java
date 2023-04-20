@@ -32,7 +32,7 @@ import net.minecraft.world.World;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
 import com.hbm.entity.grenade.EntityGrenadeTau;
-import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
@@ -494,7 +494,7 @@ public class EntityBullet extends Entity implements IProjectile {
 									if (entitylivingbase instanceof EntityPlayer
 											&& ArmorUtil.checkForHazmat((EntityPlayer) entitylivingbase)) {
 									} else if (entitylivingbase instanceof EntityCreeper) {
-										EntityNuclearCreeper creep = new EntityNuclearCreeper(this.worldObj);
+										EntityCreeperNuclear creep = new EntityCreeperNuclear(this.worldObj);
 										creep.setLocationAndAngles(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ,
 												entitylivingbase.rotationYaw, entitylivingbase.rotationPitch);
 										if (!entitylivingbase.isDead)
@@ -509,7 +509,7 @@ public class EntityBullet extends Entity implements IProjectile {
 										if (!this.worldObj.isRemote)
 											this.worldObj.spawnEntityInWorld(creep);
 									} else if (entitylivingbase instanceof EntityLivingBase
-											&& !(entitylivingbase instanceof EntityNuclearCreeper)
+											&& !(entitylivingbase instanceof EntityCreeperNuclear)
 											&& !(entitylivingbase instanceof EntityMooshroom)
 											&& !(entitylivingbase instanceof EntityZombie)) {
 										entitylivingbase.addPotionEffect(new PotionEffect(Potion.poison.getId(), 2 * 60 * 20, 2));
