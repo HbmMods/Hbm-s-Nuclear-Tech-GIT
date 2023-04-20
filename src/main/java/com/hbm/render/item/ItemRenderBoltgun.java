@@ -34,6 +34,7 @@ public class ItemRenderBoltgun implements IItemRenderer {
 		GL11.glPushMatrix();
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.boltgun_tex);
 		
 		switch(type) {
@@ -56,11 +57,12 @@ public class ItemRenderBoltgun implements IItemRenderer {
 			
 		case EQUIPPED:
 
-			double scale = -0.375D;
+			double scale = 0.25D;
 			GL11.glScaled(scale, scale, scale);
-			GL11.glRotated(85, 0, 1, 0);
-			GL11.glRotated(135D, 1.0D, 0.0D, 0.0D);
-			GL11.glTranslated(-0.125, -2.0, 1.75);
+			GL11.glRotated(10, 0, 1, 0);
+			GL11.glRotated(10, 0, 0, 1);
+			GL11.glRotated(10, 1, 0, 0);
+			GL11.glTranslated(1.5, -0.25, 1);
 			
 			break;
 			
@@ -86,7 +88,6 @@ public class ItemRenderBoltgun implements IItemRenderer {
 		default: break;
 		}
 
-		GL11.glShadeModel(GL11.GL_SMOOTH);
 		ResourceManager.boltgun.renderPart("Gun");
 		if(type != type.EQUIPPED_FIRST_PERSON) {
 			ResourceManager.boltgun.renderPart("Barrel");
