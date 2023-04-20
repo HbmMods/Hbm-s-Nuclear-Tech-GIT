@@ -26,6 +26,8 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 
 	public ItemBoltgun() {
 		this.setMaxStackSize(1);
+		
+		ToolType.BOLT.register(new ItemStack(this));
 	}
 	
 	@Override

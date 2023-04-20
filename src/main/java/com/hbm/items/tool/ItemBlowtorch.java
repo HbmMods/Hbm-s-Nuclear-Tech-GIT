@@ -31,6 +31,8 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 		this.setMaxStackSize(1);
 		this.setFull3D();
 		this.setCreativeTab(MainRegistry.controlTab);
+		
+		ToolType.TORCH.register(new ItemStack(this));
 	}
 	
 	@Override

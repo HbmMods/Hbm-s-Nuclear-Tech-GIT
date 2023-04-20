@@ -32,12 +32,19 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 	public final String display;
 	public final ItemStack[] machine;
 	public final HashMap<Object, Object> recipes;
+	public HashMap<Object, Object> machineOverrides;
 	/// SETUP ///
-	
+
 	public NEIUniversalHandler(String display, ItemStack machine[], HashMap recipes) {
 		this.display = display;
 		this.machine = machine;
 		this.recipes = recipes;
+		this.machineOverrides = null;
+	}
+	
+	public NEIUniversalHandler(String display, HashMap recipes, HashMap machines) {
+		this(display, (ItemStack[]) null, recipes);
+		this.machineOverrides = machines;
 	}
 
 	public NEIUniversalHandler(String display, ItemStack machine, HashMap recipes) {	this(display, new ItemStack[]{machine}, recipes); }
@@ -50,7 +57,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 		PositionedStack[] output;
 		PositionedStack machinePositioned;
 
-		public RecipeSet(ItemStack[][] in, ItemStack[][] out) {
+		public RecipeSet(ItemStack[][] in, ItemStack[][] out, Object originalInputInstance /* for custom machine lookup */) {
 			
 			input = new PositionedStack[in.length];
 			for(int i = 0; i < in.length; i++) {
@@ -65,7 +72,17 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 				this.output[i] = new PositionedStack(sub, 102 + i * 18 - ((twos && i > 1) ? 36 : 0), 24 + (twos ? (i < 2 ? -9 : 9) : 0));
 			}
 			
-			this.machinePositioned = new PositionedStack(machine, 75, 31);
+			ItemStack[] m = machine;
+			
+			if(NEIUniversalHandler.this.machineOverrides != null) {
+				Object key = NEIUniversalHandler.this.machineOverrides.get(originalInputInstance);
+				
+				if(key != null) {
+					this.machinePositioned = new PositionedStack(key, 75, 31);
+				}
+			}
+			
+			if(machinePositioned == null) this.machinePositioned = new PositionedStack(m, 75, 31);
 		}
 
 		@Override
@@ -123,7 +140,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 			for(Entry<Object, Object> recipe : recipes.entrySet()) {
 				ItemStack[][] ins = InventoryUtil.extractObject(recipe.getKey());
 				ItemStack[][] outs = InventoryUtil.extractObject(recipe.getValue());
-				this.arecipes.add(new RecipeSet(ins, outs));
+				this.arecipes.add(new RecipeSet(ins, outs, recipe.getKey()));
 			}
 			
 		} else {
@@ -142,7 +159,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 			for(ItemStack[] array : outs) {
 				for(ItemStack stack : array) {
 					if(NEIServerUtils.areStacksSameTypeCrafting(stack, result)) {
-						this.arecipes.add(new RecipeSet(ins, outs));
+						this.arecipes.add(new RecipeSet(ins, outs, recipe.getKey()));
 						break match;
 					}
 				}
@@ -170,7 +187,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 			for(ItemStack[] array : ins) {
 				for(ItemStack stack : array) {
 					if(NEIServerUtils.areStacksSameTypeCrafting(stack, ingredient)) {
-						this.arecipes.add(new RecipeSet(ins, outs));
+						this.arecipes.add(new RecipeSet(ins, outs, recipe.getKey()));
 						break match;
 					}
 				}

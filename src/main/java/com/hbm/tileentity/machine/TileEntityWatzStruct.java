@@ -49,15 +49,15 @@ public class TileEntityWatzStruct extends TileEntity {
 			if(!cbr(ModBlocks.watz_cooler, -1, i, -2)) return;
 			
 			for(int j = -1; j < 2; j++) {
-				if(!cbr(ModBlocks.watz_end, 3, i, j)) return;
-				if(!cbr(ModBlocks.watz_end, j, i, 3)) return;
-				if(!cbr(ModBlocks.watz_end, -3, i, j)) return;
-				if(!cbr(ModBlocks.watz_end, j, i, -3)) return;
+				if(!cbr(ModBlocks.watz_end, 1, 3, i, j)) return;
+				if(!cbr(ModBlocks.watz_end, 1, j, i, 3)) return;
+				if(!cbr(ModBlocks.watz_end, 1, -3, i, j)) return;
+				if(!cbr(ModBlocks.watz_end, 1, j, i, -3)) return;
 			}
-			if(!cbr(ModBlocks.watz_end, 2, i, 2)) return;
-			if(!cbr(ModBlocks.watz_end, 2, i, -2)) return;
-			if(!cbr(ModBlocks.watz_end, -2, i, 2)) return;
-			if(!cbr(ModBlocks.watz_end, -2, i, -2)) return;
+			if(!cbr(ModBlocks.watz_end, 1, 2, i, 2)) return;
+			if(!cbr(ModBlocks.watz_end, 1, 2, i, -2)) return;
+			if(!cbr(ModBlocks.watz_end, 1, -2, i, 2)) return;
+			if(!cbr(ModBlocks.watz_end, 1, -2, i, -2)) return;
 		}
 		
 		Watz watz = (Watz)ModBlocks.watz;
@@ -72,9 +72,17 @@ public class TileEntityWatzStruct extends TileEntity {
 		return worldObj.getBlock(xCoord + x, yCoord + y, zCoord + z);
 	}
 	
+	/** [G]et [M]eta at [R]elative position */
+	private int gmr(int x, int y, int z) {
+		return worldObj.getBlockMetadata(xCoord + x, yCoord + y, zCoord + z);
+	}
+	
 	/** [C]heck [B]lock at [R]elative position */
 	private boolean cbr(Block b, int x, int y, int z) {
 		return b == gbr(x, y, z);
+	}
+	private boolean cbr(Block b, int meta, int x, int y, int z) {
+		return b == gbr(x, y, z) && meta == gmr(x, y, z);
 	}
 
 	AxisAlignedBB bb = null;
