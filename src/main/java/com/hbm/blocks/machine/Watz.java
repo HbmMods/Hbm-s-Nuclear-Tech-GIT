@@ -1,12 +1,17 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityWatz;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -70,5 +75,22 @@ public class Watz extends BlockDummyable {
 		this.makeExtra(world, x, y + 2, z + 2);
 		this.makeExtra(world, x, y + 2, z - 2);
 		this.makeExtra(world, x, y + 2, z);
+	}
+	
+	public static boolean drop = true;
+	
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int i) {
+
+		if(i >= 12 && drop) {
+
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.watz_end, 48)));
+			for(int j = 0; j < 3; j++) world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.bolt_dura_steel, 64)));
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.watz_element, 36)));
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.watz_cooler, 26)));
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_watz_core, 1)));
+		}
+
+		super.breakBlock(world, x, y, z, block, i);
 	}
 }

@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.hbm.blocks.BlockBase;
-import com.hbm.blocks.IBlockMulti;
+import com.hbm.blocks.BlockMulti;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -23,16 +22,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class BlockToolConversion extends BlockBase implements IToolable, ILookOverlay, IBlockMulti {
+public class BlockToolConversion extends BlockMulti implements IToolable, ILookOverlay {
 	
 	public IIcon[] icons;
 	public String[] names;
@@ -44,14 +41,6 @@ public class BlockToolConversion extends BlockBase implements IToolable, ILookOv
 	public BlockToolConversion addVariant(String... name) {
 		this.names = name;
 		return this;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-		for(int i = 0; i < getSubCount(); ++i) {
-			list.add(new ItemStack(item, 1, i));
-		}
 	}
 	
 	@Override
@@ -65,6 +54,18 @@ public class BlockToolConversion extends BlockBase implements IToolable, ILookOv
 				icons[i] = iconRegister.registerIcon(getTextureName() + names[i]);
 			}
 		}
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		
+		int meta = stack.getItemDamage() - 1;
+		
+		if(meta == -1 || names == null || meta >= names.length) {
+			return this.getUnlocalizedName();
+		}
+		
+		return this.getUnlocalizedName() + names[meta];
 	}
 
 	@Override
