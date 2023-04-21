@@ -46,6 +46,7 @@ import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
+import com.hbm.blocks.generic.BlockToolConversion;
 import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.config.*;
 import com.hbm.creativetabs.*;
@@ -829,6 +830,7 @@ public class MainRegistry {
 		HazmatRegistry.registerHazmats();
 		FluidContainerRegistry.register();
 		TileEntityMachineReactorLarge.registerAll();
+		BlockToolConversion.registerRecipes();
 
 		proxy.registerMissileItems();
 		

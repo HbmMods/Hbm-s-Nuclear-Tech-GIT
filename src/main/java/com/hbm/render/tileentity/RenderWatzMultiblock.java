@@ -44,15 +44,15 @@ public class RenderWatzMultiblock extends TileEntitySpecialRenderer {
 			SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_cooler, 0, 1F, i, -2F);
 			SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_cooler, 0, -1F, i, -2F);
 			for(int j = -1; j < 2; j++) {
-				SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 0, 3F, i, j);
-				SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 0, j, i, 3F);
-				SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 0, -3F, i, j);
-				SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 0, j, i, -3F);
+				SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 1, 3F, i, j);
+				SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 1, j, i, 3F);
+				SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 1, -3F, i, j);
+				SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 1, j, i, -3F);
 			}
-			SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 0, 2F, i, 2F);
-			SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 0, 2F, i, -2F);
-			SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 0, -2F, i, 2F);
-			SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 0, -2F, i, -2F);
+			SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 1, 2F, i, 2F);
+			SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 1, 2F, i, -2F);
+			SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 1, -2F, i, 2F);
+			SmallBlockPronter.drawSmolBlockAt(ModBlocks.watz_end, 1, -2F, i, -2F);
 		}
 		
 		SmallBlockPronter.draw();

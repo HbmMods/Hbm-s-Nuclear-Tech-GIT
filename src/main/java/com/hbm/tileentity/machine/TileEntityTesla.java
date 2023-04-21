@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.mob.EntityCyberCrab;
-import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTeslaCrab;
 import com.hbm.lib.Library;
@@ -132,10 +131,6 @@ public class TileEntityTesla extends TileEntityMachineBase implements IEnergyUse
 			
 			if(e instanceof EntityCreeper) {
 				((EntityCreeper)e).getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
-			}
-			
-			if(e instanceof EntityNuclearCreeper) {
-				((EntityNuclearCreeper)e).getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
 			}
 			
 			double offset = 0;

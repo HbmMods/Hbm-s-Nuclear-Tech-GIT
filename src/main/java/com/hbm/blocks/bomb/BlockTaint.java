@@ -6,7 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.mob.EntityTaintCrab;
-import com.hbm.entity.mob.EntityTaintedCreeper;
+import com.hbm.entity.mob.EntityCreeperTainted;
 import com.hbm.entity.mob.EntityTeslaCrab;
 import com.hbm.potion.HbmPotion;
 
@@ -186,7 +186,7 @@ public class BlockTaint extends Block/*Container*/ {
     	}
     	
     	if(entity instanceof EntityCreeper) {
-    		EntityTaintedCreeper creep = new EntityTaintedCreeper(world);
+    		EntityCreeperTainted creep = new EntityCreeperTainted(world);
     		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
 
     		if(!world.isRemote) {
