@@ -95,9 +95,10 @@ public class BlockToolConversion extends BlockMulti implements IToolable, ILookO
 		
 		if(list == null || list.isEmpty() || InventoryUtil.doesPlayerHaveAStacks(player, list, true)) {
 			world.setBlock(x, y, z, result.value.block, result.value.meta, 3);
+			return true;
 		}
 		
-		return true;
+		return false;
 	}
 
 	@Override

@@ -78,6 +78,7 @@
     "item.vice": {"category": "player", "sounds": [{"name": "tool/vice", "stream": false}]},
     "item.upgradePlug": {"category": "player", "sounds": [{"name": "tool/upgradePlug", "stream": false}]},
     "item.battery": {"category": "player", "sounds": [{"name": "tool/battery", "stream": false}]},
+    "item.boltgun": {"category": "player", "sounds": [{"name": "tool/boltgun", "stream": false}]},
 
 	"music.recordLambdaCore": {"category": "record", "sounds": [{"name": "music/recordLambdaCore", "stream": true}]},
 	"music.recordSectorSweep": {"category": "record", "sounds": [{"name": "music/recordSectorSweep", "stream": true}]},

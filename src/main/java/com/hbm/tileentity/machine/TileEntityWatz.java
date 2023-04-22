@@ -181,11 +181,11 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			for(ItemStack stack : pellets) {
 				EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
 				Function burnFunc = type.burnFunc;
-				Function heatMod = type.heatMult;
+				Function heatDiv = type.heatDiv;
 				
 				if(burnFunc != null) {
-					double mod = heatMod != null ? heatMod.effonix(heat) : 1D;
-					double burn = burnFunc.effonix(inputFlux) * mod;
+					double div = heatDiv != null ? heatDiv.effonix(heat) : 1D;
+					double burn = burnFunc.effonix(inputFlux) / div;
 					ItemWatzPellet.setYield(stack, ItemWatzPellet.getYield(stack) - burn);
 					addedFlux += burn;
 					addedHeat += type.heatEmission * burn;
@@ -198,7 +198,10 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 				Function absorbFunc = type.absorbFunc;
 				
 				if(absorbFunc != null) {
-					addedHeat += absorbFunc.effonix(baseFlux + fluxLastReaction);
+					double absorb = absorbFunc.effonix(baseFlux + fluxLastReaction);
+					addedHeat += absorb;
+					ItemWatzPellet.setYield(stack, ItemWatzPellet.getYield(stack) - absorb);
+					tanks[2].setFill(tanks[2].getFill() + (int) Math.round(type.mudContent * absorb));
 				}
 			}
 			
@@ -309,6 +312,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		}
 		
 		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
+		this.heat = nbt.getInteger("heat");
 		this.fluxLastBase = nbt.getDouble("lastFluxB");
 		this.fluxLastReaction = nbt.getDouble("lastFluxR");
 		
@@ -332,6 +336,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		nbt.setTag("locks", list);
 		
 		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(nbt, "t" + i);
+		nbt.setInteger("heat", this.heat);
 		nbt.setDouble("lastFluxB", fluxLastBase);
 		nbt.setDouble("lastFluxR", fluxLastReaction);
 		

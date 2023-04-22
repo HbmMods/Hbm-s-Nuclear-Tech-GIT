@@ -10,6 +10,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.util.EntityDamageUtil;
 
 import api.hbm.block.IToolable;
 import api.hbm.block.IToolable.ToolType;
@@ -58,9 +59,10 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 				if(slot != null) {
 					if(slot.getItem() == item) {
 						if(!world.isRemote) {
+							world.playSoundAtEntity(entity, "hbm:item.boltgun", 1.0F, 1.0F);
 							player.inventory.decrStackSize(i, 1);
 							player.inventoryContainer.detectAndSendChanges();
-							entity.attackEntityFrom(DamageSource.causePlayerDamage(player).setDamageBypassesArmor(), 10F);
+							EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, DamageSource.causePlayerDamage(player).setDamageBypassesArmor(), 10F);
 
 							NBTTagCompound data = new NBTTagCompound();
 							data.setString("type", "vanillaExt");
@@ -92,7 +94,8 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 		if(b instanceof IToolable && ((IToolable)b).onScrew(world, player, x, y, z, side, fX, fY, fZ, ToolType.BOLT)) {
 
 			if(!world.isRemote) {
-				
+
+				world.playSoundAtEntity(player, "hbm:item.boltgun", 1.0F, 1.0F);
 				player.inventoryContainer.detectAndSendChanges();
 				ForgeDirection dir = ForgeDirection.getOrientation(side);
 				double off = 0.25;
