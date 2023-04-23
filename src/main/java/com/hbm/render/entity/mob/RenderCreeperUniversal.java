@@ -71,7 +71,7 @@ public class RenderCreeperUniversal extends RenderCreeper {
 				GL11.glDisable(GL11.GL_LIGHTING);
 				GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
 				return 1;
-			}
+			}//s
 
 			if(pass == 2) {
 				GL11.glMatrixMode(GL11.GL_TEXTURE);
