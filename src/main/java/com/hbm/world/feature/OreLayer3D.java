@@ -42,7 +42,7 @@ public class OreLayer3D {
 		if(this.noiseY == null) this.noiseY = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 102), 4);
 		if(this.noiseZ == null) this.noiseZ = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 103), 4);
 
-		World world = event.world;
+		//World world = event.world;
 		
 		if(world.provider.dimensionId != 0 && world.provider.dimensionId != 15)//& world.provider.dimensionId != 15
 			return;

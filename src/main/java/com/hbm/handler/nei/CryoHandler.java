@@ -7,7 +7,7 @@ import com.hbm.inventory.recipes.ReformingRecipes;
 public class CryoHandler extends NEIUniversalHandler {
 
 	public CryoHandler() {
-		super("Cryogenic Distillation", ModBlocks.machine_cryo_distill, CryoRecipes.getRecipes());
+		super("Cryogenic Distillation", ModBlocks.machine_cryo_distill, CryoRecipes.getCryoRecipes());
 	}
 
 	@Override

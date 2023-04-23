@@ -26,7 +26,21 @@ public class CryoRecipes extends SerializableRecipe {
 				new FluidStack(Fluids.NITROGEN, 50),
 				new FluidStack(Fluids.OXYGEN, 15),
 				new FluidStack(Fluids.KRYPTON, 10),
-				new FluidStack(Fluids.CARBONDIOXIDE, 10)
+				new FluidStack(Fluids.CARBONDIOXIDE, 5)
+				));
+		
+		recipes.put(Fluids.TEKTOAIR, new Quartet(
+				new FluidStack(Fluids.CHLORINE, 45),
+				new FluidStack(Fluids.AROMATICS, 25),
+				new FluidStack(Fluids.METHANE, 15),
+				new FluidStack(Fluids.GAS, 5)
+				));
+		
+		recipes.put(Fluids.EVEAIR, new Quartet(
+				new FluidStack(Fluids.KMnO4, 30),
+				new FluidStack(Fluids.MERCURY, 25),
+				new FluidStack(Fluids.XENON, 15),
+				new FluidStack(Fluids.AMMONIA, 5)
 				));
 		
 	} // this is such a sexy machine might use your code for atmospheric distillator
@@ -35,17 +49,17 @@ public class CryoRecipes extends SerializableRecipe {
 		return recipes.get(type);
 	}
 	
-	public static HashMap<Object, Object[]> getRecipes() {
+	public static HashMap<Object, Object[]> getCryoRecipes() {
 
 		HashMap<Object, Object[]> map = new HashMap<Object, Object[]>();
 		
 		for(Entry<FluidType, Quartet<FluidStack, FluidStack, FluidStack, FluidStack>> recipe : recipes.entrySet()) {
 			map.put(ItemFluidIcon.make(recipe.getKey(), 1000),
 					new ItemStack[] {
-							ItemFluidIcon.make(recipe.getValue().getX().type,	recipe.getValue().getX().fill * 10),
-							ItemFluidIcon.make(recipe.getValue().getY().type,	recipe.getValue().getY().fill * 10),
-							ItemFluidIcon.make(recipe.getValue().getZ().type,	recipe.getValue().getZ().fill * 10),
-							ItemFluidIcon.make(recipe.getValue().getW().type,	recipe.getValue().getZ().fill * 10) });
+							ItemFluidIcon.make(recipe.getValue().getW().type,	recipe.getValue().getX().fill * 10),
+							ItemFluidIcon.make(recipe.getValue().getX().type,	recipe.getValue().getY().fill * 10),
+							ItemFluidIcon.make(recipe.getValue().getY().type,	recipe.getValue().getZ().fill * 10),
+							ItemFluidIcon.make(recipe.getValue().getZ().type,	recipe.getValue().getW().fill * 10)});
 
 		}
 		
@@ -81,10 +95,10 @@ public class CryoRecipes extends SerializableRecipe {
 		Entry<FluidType, Quartet<FluidStack, FluidStack, FluidStack, FluidStack>> rec = (Entry<FluidType, Quartet<FluidStack, FluidStack, FluidStack, FluidStack>>) recipe;
 		
 		writer.name("input").value(rec.getKey().getName());
-		writer.name("output1"); this.writeFluidStack(rec.getValue().getX(), writer);
-		writer.name("output2"); this.writeFluidStack(rec.getValue().getY(), writer);
-		writer.name("output3"); this.writeFluidStack(rec.getValue().getZ(), writer);
-		writer.name("output4"); this.writeFluidStack(rec.getValue().getW(), writer);
+		writer.name("output1"); this.writeFluidStack(rec.getValue().getW(), writer);
+		writer.name("output2"); this.writeFluidStack(rec.getValue().getZ(), writer);
+		writer.name("output3"); this.writeFluidStack(rec.getValue().getY(), writer);
+		writer.name("output4"); this.writeFluidStack(rec.getValue().getX(), writer);
 
 	}
 

@@ -54,7 +54,7 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 			
 			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			tanks[0].loadTank(1, 2, slots);
+			//tanks[0].loadTank(1, 2, slots);
 			
 			refine();
 
