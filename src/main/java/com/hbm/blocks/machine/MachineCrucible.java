@@ -11,6 +11,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityCrucible;
 
+import api.hbm.block.ICrucibleAcceptor;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,8 +25,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineCrucible extends BlockDummyable {
+public class MachineCrucible extends BlockDummyable implements ICrucibleAcceptor {
 
 	public MachineCrucible() {
 		super(Material.rock);
@@ -151,4 +153,31 @@ public class MachineCrucible extends BlockDummyable {
 		for(AxisAlignedBB aabb : this.bounding) event.context.drawOutlinedBoundingBox(aabb.expand(exp, exp, exp).getOffsetBoundingBox(x - dX + 0.5, y - dY, z - dZ + 0.5), -1);
 		ICustomBlockHighlight.cleanup();
 	}
+
+	@Override
+	public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
+		
+		int[] pos = this.findCore(world, x, y, z);
+		if(pos == null) return false;
+		TileEntity tile = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if(!(tile instanceof TileEntityCrucible)) return false;
+		TileEntityCrucible crucible = (TileEntityCrucible) tile;
+		
+		return crucible.canAcceptPartialPour(world, x, y, z, dX, dY, dZ, side, stack);
+	}
+
+	@Override
+	public MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
+		
+		int[] pos = this.findCore(world, x, y, z);
+		if(pos == null) return stack;
+		TileEntity tile = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if(!(tile instanceof TileEntityCrucible)) return stack;
+		TileEntityCrucible crucible = (TileEntityCrucible) tile;
+		
+		return crucible.pour(world, x, y, z, dX, dY, dZ, side, stack);
+	}
+
+	@Override public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return false; }
+	@Override public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return null; }
 }

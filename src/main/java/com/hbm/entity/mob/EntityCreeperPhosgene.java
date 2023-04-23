@@ -32,6 +32,7 @@ public class EntityCreeperPhosgene extends EntityCreeper {
 		if(!this.worldObj.isRemote) {
 			this.setDead();
 			
+			worldObj.createExplosion(this, posX, posY + this.height / 2, posZ, 2F, false);
 			EntityMist mist = new EntityMist(worldObj);
 			mist.setType(Fluids.PHOSGENE);
 			mist.setPosition(posX, posY, posZ);

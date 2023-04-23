@@ -64,6 +64,13 @@ public abstract class Function {
 		@Override public String getDangerFromFuel() { return EnumChatFormatting.YELLOW + "MEDIUM / SQUARE ROOT"; }
 	}
 	
+	public static class FunctionSqrtFalling extends FunctionSqrt {
+		public FunctionSqrtFalling(double fallFactor) {
+			super(1D / fallFactor);
+			this.withOff(fallFactor * fallFactor);
+		}
+	}
+	
 	public static class FunctionLinear extends FunctionSingleArg {
 		public FunctionLinear(double level) { super(level); }
 		@Override public double effonix(double x) { return getX(x) * this.level; }

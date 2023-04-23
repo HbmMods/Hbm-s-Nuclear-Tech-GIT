@@ -36,18 +36,18 @@ public class ItemWatzPellet extends ItemEnumMulti {
 
 	public static enum EnumWatzType {
 
-		SCHRABIDIUM(	0x32FFFF, 0x005C5C, 2_000,	20D,	0.02D,		new FunctionLinear(1.5D), new FunctionSqrt(1D/20D).withOff(20D * 20D), null),
-		HES(			0x66DCD6, 0x023933, 1_750,	20D,	0.01D,		new FunctionLinear(1.25D), new FunctionSqrt(1/15D).withOff(15D*15D), null),
-		MES(			0xCBEADF, 0x28473C, 1_500,	15D,	0.005D,		new FunctionLinear(1.15D), new FunctionSqrt(1/15D).withOff(15D*15D), null),
-		LES(			0xABB4A8, 0x0C1105, 1_250,	15D,	0.0025D,	new FunctionLinear(1D), new FunctionSqrt(1/10D).withOff(10D*10D), null),
-		HEN(			0xA6B2A6, 0x030F03, 0,		10D,	0.001D,		new FunctionSqrt(100), null, null),
-		MEU(			0xC1C7BD, 0x2B3227, 0,		10D,	0.001D,		new FunctionSqrt(75), null, null),
-		MEP(			0x9AA3A0, 0x111A17, 0,		15D,	0.001D,		new FunctionSqrt(150), new FunctionSqrt(1D/20D).withOff(20D * 20D), null),
-		LEAD(			0xA6A6B2, 0x03030F, 0,		0,		0.005D,		null, null, new FunctionSqrt(10)), //standard absorber, negative coefficient
-		BORON(			0xBDC8D2, 0x29343E, 0,		0,		0.005D,		null, null, new FunctionLinear(10)), //improved absorber, linear
-		DU(				0xC1C7BD, 0x2B3227, 0,		0,		0.005D,		null, null, new FunctionQuadratic(1D, 1D).withDiv(100)), //absorber with positive coefficient
-		NQD(			0x4B4B4B, 0x121212, 2_000,	20,		0.02D,		new FunctionLinear(2D), new FunctionSqrt(1D/25D).withOff(25D * 25D), null),
-		NQR(			0x2D2D2D, 0x0B0B0B, 2_500,	30,		0.02D,		new FunctionLinear(1.5D), new FunctionSqrt(1D/25D).withOff(25D * 25D), null);
+		SCHRABIDIUM(	0x32FFFF, 0x005C5C, 2_000,	20D,	0.01D,		new FunctionLinear(1.5D), new FunctionSqrtFalling(10D), null),
+		HES(			0x66DCD6, 0x023933, 1_750,	20D,	0.005D,		new FunctionLinear(1.25D), new FunctionSqrtFalling(15D), null),
+		MES(			0xCBEADF, 0x28473C, 1_500,	15D,	0.0025D,	new FunctionLinear(1.15D), new FunctionSqrtFalling(15D), null),
+		LES(			0xABB4A8, 0x0C1105, 1_250,	15D,	0.00125D,	new FunctionLinear(1D), new FunctionSqrtFalling(20D), null),
+		HEN(			0xA6B2A6, 0x030F03, 0,		10D,	0.0005D,	new FunctionSqrt(100), new FunctionSqrtFalling(10D), null),
+		MEU(			0xC1C7BD, 0x2B3227, 0,		10D,	0.0005D,	new FunctionSqrt(75), new FunctionSqrtFalling(10D), null),
+		MEP(			0x9AA3A0, 0x111A17, 0,		15D,	0.0005D,	new FunctionSqrt(150), new FunctionSqrtFalling(10D), null),
+		LEAD(			0xA6A6B2, 0x03030F, 0,		0,		0.0025D,	null, null, new FunctionSqrt(10)), //standard absorber, negative coefficient
+		BORON(			0xBDC8D2, 0x29343E, 0,		0,		0.0025D,	null, null, new FunctionLinear(10)), //improved absorber, linear
+		DU(				0xC1C7BD, 0x2B3227, 0,		0,		0.0025D,	null, null, new FunctionQuadratic(1D, 1D).withDiv(100)), //absorber with positive coefficient
+		NQD(			0x4B4B4B, 0x121212, 2_000,	20,		0.01D,		new FunctionLinear(2D), new FunctionSqrt(1D/25D).withOff(25D * 25D), null),
+		NQR(			0x2D2D2D, 0x0B0B0B, 2_500,	30,		0.01D,		new FunctionLinear(1.5D), new FunctionSqrt(1D/25D).withOff(25D * 25D), null);
 		
 		public double yield = 1_000_000_000;
 		public int colorLight;
@@ -123,6 +123,9 @@ public class ItemWatzPellet extends ItemEnumMulti {
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		
+		if(this != ModItems.watz_pellet) return;
+		
 		EnumWatzType num = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
 		
 		list.add(EnumChatFormatting.GREEN + "Depletion: " + String.format(Locale.US, "%.1f", getDurabilityForDisplay(stack) * 100D) + "%");
@@ -145,7 +148,7 @@ public class ItemWatzPellet extends ItemEnumMulti {
 
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
-		return getDurabilityForDisplay(stack) > 0D;
+		return this == ModItems.watz_pellet && getDurabilityForDisplay(stack) > 0D;
 	}
 
 	@Override
@@ -184,6 +187,7 @@ public class ItemWatzPellet extends ItemEnumMulti {
 	
 	@Override
 	public void onCreated(ItemStack stack, World world, EntityPlayer player) {
+		if(this != ModItems.watz_pellet) return;
 		setNBTDefaults(stack); //minimize the window where NBT screwups can happen
 	}
 }

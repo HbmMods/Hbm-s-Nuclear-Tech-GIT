@@ -223,8 +223,8 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 		case 4: return new int[][] {
 			{102, 24 - 9},
 			{120, 24 - 9},
-			{138 + 36, 24 + 9},
-			{156 + 36, 24 + 9}
+			{102, 24 + 9},
+			{120, 24 + 9}
 		};
 		}
 		
