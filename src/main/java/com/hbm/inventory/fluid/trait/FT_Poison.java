@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.util.EnumChatFormatting;
 
+@Deprecated //use FT_Toxin instead
 public class FT_Poison extends FluidTrait {
 
 	protected boolean withering = false;

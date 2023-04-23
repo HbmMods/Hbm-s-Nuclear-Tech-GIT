@@ -80,10 +80,15 @@ public class EntityShrapnel extends EntityThrowable {
 					}
 				}
 				
+			} else if(this.dataWatcher.getWatchableObjectByte(16) == 3) {
+				
+				if(worldObj.getBlock(mop.blockX, mop.blockY + 1, mop.blockZ).isReplaceable(worldObj, mop.blockX, mop.blockY + 1, mop.blockZ)) {
+					worldObj.setBlock(mop.blockX, mop.blockY + 1, mop.blockZ, ModBlocks.mud_block);
+				}
+				
 			} else {
 				
-				for(int i = 0; i < 5; i++)
-					worldObj.spawnParticle("lava", posX, posY, posZ, 0.0, 0.0, 0.0);
+				for(int i = 0; i < 5; i++) worldObj.spawnParticle("lava", posX, posY, posZ, 0.0, 0.0, 0.0);
 			}
 
 			worldObj.playSoundEffect(posX, posY, posZ, "random.fizz", 1.0F, 1.0F);
@@ -96,5 +101,9 @@ public class EntityShrapnel extends EntityThrowable {
 
 	public void setVolcano(boolean b) {
 		this.dataWatcher.updateObject(16, (byte) (b ? 2 : 0));
+	}
+
+	public void setWatz(boolean b) {
+		this.dataWatcher.updateObject(16, (byte) (b ? 3 : 0));
 	}
 }

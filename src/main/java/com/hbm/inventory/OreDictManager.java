@@ -28,9 +28,11 @@ import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumTarType;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.Compat;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -110,7 +112,7 @@ public class OreDictManager {
 	/*
 	 * RADIOACTIVE
 	 */
-	public static final DictFrame U = new DictFrame("Uranium");
+	public static final DictFrame U = new DictFrame(Compat.isModLoaded(Compat.MOD_GT6) ? "Uraninite" : "Uranium");
 	public static final DictFrame U233 = new DictFrame("Uranium233", "U233");
 	public static final DictFrame U235 = new DictFrame("Uranium235", "U235");
 	public static final DictFrame U238 = new DictFrame("Uranium238", "U238");
@@ -143,6 +145,7 @@ public class OreDictManager {
 	public static final DictFrame SBD = new DictFrame("Schrabidate");
 	public static final DictFrame SRN = new DictFrame("Schraranium");
 	public static final DictFrame GH336 = new DictFrame("Ghiorsium336", "Gh336");
+	public static final DictFrame MUD = new DictFrame("WatzMud");
 	/*
 	 * STABLE
 	 */
@@ -312,7 +315,7 @@ public class OreDictManager {
 		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron, ore_meteor_iron);
 		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold);
 		LAPIS.dust(powder_lapis);
-		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz);
+		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz).ore(Blocks.quartz_ore);
 		DIAMOND.dust(powder_diamond).ore(gravel_diamond);
 		EMERALD.dust(powder_emerald);
 		
@@ -352,6 +355,7 @@ public class OreDictManager {
 		SBD		.rad(HazardRegistry.sb)		.blinding(50F)																	.ingot(ingot_schrabidate)	.dust(powder_schrabidate)								.block(block_schrabidate);
 		SRN		.rad(HazardRegistry.sr)		.blinding(50F)																	.ingot(ingot_schraranium)															.block(block_schraranium);
 		GH336	.rad(HazardRegistry.gh336)							.nugget(nugget_gh336)		.billet(billet_gh336)		.ingot(ingot_gh336);
+		MUD		.rad(HazardRegistry.mud)																					.ingot(ingot_mud);
 		
 		/*
 		 * STABLE
@@ -897,18 +901,19 @@ public class OreDictManager {
 			return this;
 		}
 		
-		public String any() {			return ANY		+ groupName; }
-		public String nugget() {		return NUGGET	+ groupName; }
-		public String tiny() {			return TINY		+ groupName; }
-		public String ingot() {			return INGOT	+ groupName; }
-		public String dustTiny() {		return DUSTTINY	+ groupName; }
-		public String dust() {			return DUST		+ groupName; }
-		public String gem() {			return GEM		+ groupName; }
-		public String crystal() {		return CRYSTAL	+ groupName; }
-		public String plate() {			return PLATE	+ groupName; }
-		public String billet() {		return BILLET	+ groupName; }
-		public String block() {			return BLOCK	+ groupName; }
-		public String ore() {			return ORE		+ groupName; }
+		public String any() {			return ANY			+ groupName; }
+		public String nugget() {		return NUGGET		+ groupName; }
+		public String tiny() {			return TINY			+ groupName; }
+		public String ingot() {			return INGOT		+ groupName; }
+		public String dustTiny() {		return DUSTTINY		+ groupName; }
+		public String dust() {			return DUST			+ groupName; }
+		public String gem() {			return GEM			+ groupName; }
+		public String crystal() {		return CRYSTAL		+ groupName; }
+		public String plate() {			return PLATE		+ groupName; }
+		public String plateTriple() {	return PLATECAST	+ groupName; }
+		public String billet() {		return BILLET		+ groupName; }
+		public String block() {			return BLOCK		+ groupName; }
+		public String ore() {			return ORE			+ groupName; }
 	}
 	
 	private static void addReRegistration(String original, String additional) {

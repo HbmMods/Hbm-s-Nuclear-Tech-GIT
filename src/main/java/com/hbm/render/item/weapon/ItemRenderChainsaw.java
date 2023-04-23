@@ -12,8 +12,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.IItemRenderer;
 
 public class ItemRenderChainsaw implements IItemRenderer {
-	
-	public ItemRenderChainsaw() { }
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -29,7 +27,6 @@ public class ItemRenderChainsaw implements IItemRenderer {
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-		
 		return type == ItemRenderType.ENTITY && (helper == ItemRendererHelper.ENTITY_ROTATION || helper == ItemRendererHelper.ENTITY_BOBBING);
 	}
 
