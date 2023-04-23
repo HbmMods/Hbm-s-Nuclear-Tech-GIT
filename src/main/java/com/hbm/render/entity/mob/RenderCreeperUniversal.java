@@ -63,7 +63,7 @@ public class RenderCreeperUniversal extends RenderCreeper {
 				float x = time * 0.01F;
 				float y = time * 0.01F;
 				GL11.glTranslatef(x, y, 0.0F);
-				this.setRenderPassModel(this.mainModel);
+				this.setRenderPassModel(this.creeperModel);
 				GL11.glMatrixMode(GL11.GL_MODELVIEW);
 				GL11.glEnable(GL11.GL_BLEND);
 				float flashColor = 0.5F;
