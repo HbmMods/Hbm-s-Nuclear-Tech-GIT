@@ -49,6 +49,7 @@ import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockToolConversion;
 import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.config.*;
+import com.hbm.crafting.RodRecipes;
 import com.hbm.creativetabs.*;
 import com.hbm.entity.EntityMappings;
 import com.hbm.entity.grenade.*;
@@ -637,6 +638,8 @@ public class MainRegistry {
 
 	@EventHandler
 	public static void load(FMLInitializationEvent event) {
+		
+		RodRecipes.registerInit();
 
 		achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", -3, 1, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
 		achImpossible = new Achievement("achievement.impossible", "impossible", 18, 10, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();

@@ -928,6 +928,7 @@ public class ModBlocks {
 	public static Block fraction_spacer;
 	public static Block machine_catalytic_cracker;
 	public static Block machine_catalytic_reformer;
+	public static Block machine_coker;
 
 	public static Block machine_boiler_off;
 	public static Block machine_boiler_on;
@@ -2139,6 +2140,7 @@ public class ModBlocks {
 		fraction_spacer = new FractionSpacer(Material.iron).setBlockName("fraction_spacer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_catalytic_cracker = new MachineCatalyticCracker(Material.iron).setBlockName("machine_catalytic_cracker").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_catalytic_reformer = new MachineCatalyticReformer(Material.iron).setBlockName("machine_catalytic_reformer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_coker = new MachineCoker(Material.iron).setBlockName("machine_coker").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_autosaw = new MachineAutosaw().setBlockName("machine_autosaw").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_drill = new MachineMiningDrill(Material.iron).setBlockName("machine_drill").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_drill");
 		machine_excavator = new MachineExcavator().setBlockName("machine_excavator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3186,12 +3188,13 @@ public class ModBlocks {
 		register(machine_flare);
 		register(machine_refinery);
 		register(machine_vacuum_distill);
-		GameRegistry.registerBlock(machine_fraction_tower, machine_fraction_tower.getUnlocalizedName());
-		GameRegistry.registerBlock(fraction_spacer, fraction_spacer.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_catalytic_cracker, machine_catalytic_cracker.getUnlocalizedName());
+		register(machine_fraction_tower);
+		register(fraction_spacer);
+		register(machine_catalytic_cracker);
 		register(machine_catalytic_reformer);
-		GameRegistry.registerBlock(machine_drill, machine_drill.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_autosaw, machine_autosaw.getUnlocalizedName());
+		register(machine_coker);
+		register(machine_drill);
+		register(machine_autosaw);
 		register(machine_excavator);
 		register(machine_mining_laser);
 		register(barricade);
