@@ -169,7 +169,6 @@ public class ItemWandD extends Item {
 					}
 				}
 			}
-					
 			
 			/*
 			return stack;

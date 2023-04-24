@@ -143,8 +143,8 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 				////new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ, dir.getOpposite()),
 				//new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, dir),
 				//new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, dir)
-				new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, dir),
-				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, dir),
+				//new DirPos(xCoord + rot.offsetX * 3, yCoord, zCoord + rot.offsetZ * 3, dir),
+				//new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, dir),
 				new DirPos(xCoord - dir.offsetX - 1, yCoord, zCoord+ dir.offsetZ - 2, dir), 
 				new DirPos( xCoord - dir.offsetX - 1, yCoord, zCoord- dir.offsetZ + 3, dir), 
 				new DirPos( xCoord- dir.offsetX - 1, yCoord, zCoord+ dir.offsetZ - 1, dir),

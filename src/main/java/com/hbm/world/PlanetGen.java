@@ -2,6 +2,7 @@ package com.hbm.world;
 
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.WorldGeneratorMoon;
+import com.hbm.dim.dres.WorldGeneratorDres;
 import com.hbm.dim.WorldProviderMoon;
 import com.hbm.dim.Ike.WorldGeneratorIke;
 import com.hbm.dim.Ike.WorldProviderIke;
@@ -20,6 +21,8 @@ public class PlanetGen {
 	public static WorldGeneratorMoon worldGenMoon = new WorldGeneratorMoon(); //eventually i will need to rewrite this shit.
 	public static WorldGeneratorDuna worldGenDuna = new WorldGeneratorDuna(); 
 	public static WorldGeneratorIke worldGenIke = new WorldGeneratorIke(); 
+	public static WorldGeneratorDres worldGenDres = new WorldGeneratorDres(); //eventually i will need to rewrite this shit.
+
     public static void init()
     {
 		GameRegistry.registerWorldGenerator(worldGenMoon, 0);
@@ -40,6 +43,8 @@ public class PlanetGen {
 	    
 		DimensionManager.registerProviderType(WorldConfig.dresDimension, WorldProviderDres.class, false);
 	    DimensionManager.registerDimension(WorldConfig.dresDimension, WorldConfig.dresDimension);
+		GameRegistry.registerWorldGenerator(worldGenDres, 2);
+
     }
 }
 

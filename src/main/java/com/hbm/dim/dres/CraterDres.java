@@ -35,11 +35,11 @@ public class CraterDres {
 					dig(world, x + a, z + b, dep);
 
 					if(r + rand.nextInt(3) <= radius / 3D) {
-						place(world, x + a, z + b, 3, ModBlocks.ike_regolith, 1);
+						place(world, x + a, z + b, 3, ModBlocks.basalt, 1);
 					} else if(r - rand.nextInt(3) <= radius / 3D * 2D) {
-						place(world, x + a, z + b, 3, ModBlocks.ike_stone);
+						place(world, x + a, z + b, 3, ModBlocks.dres_rock);
 					} else {
-						place(world, x + a, z + b, 3, ModBlocks.ike_stone);
+						place(world, x + a, z + b, 3, ModBlocks.dres_rock); //at least something happened on this boring fuck of a planet
 					}
 				}
 			}

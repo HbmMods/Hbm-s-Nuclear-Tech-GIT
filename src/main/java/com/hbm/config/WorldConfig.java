@@ -120,6 +120,8 @@ public class WorldConfig {
 	public static int eveOceanBiome = 119;
 	public static int ikeBiome = 145;
 	public static int ikecfreq = 90;
+	public static int drescfreq = 90;
+
 	
 	public static int DresBiome = 120;
 	public static int dreBasins = 121;
@@ -273,6 +275,8 @@ public class WorldConfig {
 		arcticStructure = CommonConfig.setDefZero(arcticStructure, 500);
 		
 		ikecfreq = CommonConfig.setDefZero(ikecfreq, 90);
+		drescfreq = CommonConfig.setDefZero(drescfreq, 90);
+
 		
 		meteorStrikeChance = CommonConfig.setDef(meteorStrikeChance, 1000);
 		meteorShowerChance = CommonConfig.setDef(meteorShowerChance, 1000);
