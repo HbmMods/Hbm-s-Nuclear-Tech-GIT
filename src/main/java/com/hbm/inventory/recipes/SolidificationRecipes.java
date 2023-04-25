@@ -94,13 +94,13 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerSFAuto(LIGHTOIL_CRACK);
 		registerSFAuto(LIGHTOIL_VACUUM);
 		registerSFAuto(KEROSENE);
-		registerSFAuto(GAS);
+		//registerSFAuto(GAS);
 		registerSFAuto(SOURGAS);
 		registerSFAuto(REFORMGAS);
 		registerSFAuto(SYNGAS);
 		registerSFAuto(PETROLEUM);
 		registerSFAuto(LPG);
-		registerSFAuto(BIOGAS);
+		//registerSFAuto(BIOGAS);
 		registerSFAuto(BIOFUEL);
 		registerSFAuto(AROMATICS);
 		registerSFAuto(UNSATURATEDS);
@@ -111,7 +111,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 	}
 
 	private static void registerSFAuto(FluidType fluid) {
-		registerSFAuto(fluid, 144000L, ModItems.solid_fuel); //3200 burntime * 1.5 burntime bonus * 300 TU/t
+		registerSFAuto(fluid, 1_440_000L, ModItems.solid_fuel); //3200 burntime * 1.5 burntime bonus * 300 TU/t
 	}
 	private static void registerSFAuto(FluidType fluid, long tuPerSF, Item fuel) {
 		long tuPerBucket = fluid.getTrait(FT_Flammable.class).getHeatEnergy();

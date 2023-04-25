@@ -20,7 +20,7 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 	public FluidTank[] tanks;
 
 	public TileEntityMachineCoker() {
-		super(1);
+		super(2);
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.HEAVYOIL, 16_000);
 		tanks[1] = new FluidTank(Fluids.GAS, 8_000);
