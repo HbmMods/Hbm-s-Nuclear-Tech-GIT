@@ -433,13 +433,6 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.fusion_shield_tungsten, 1), new AStack[] {new OreDictStack(W.block(), 32), new OreDictStack(OreDictManager.getReflector(), 96)}, 600);
 		makeRecipe(new ComparableStack(ModItems.fusion_shield_desh, 1), new AStack[] {new OreDictStack(DESH.block(), 16), new OreDictStack(CO.block(), 16), new OreDictStack(BIGMT.plate(), 96)}, 600);
 		makeRecipe(new ComparableStack(ModItems.fusion_shield_chlorophyte, 1), new AStack[] {new OreDictStack(W.block(), 16), new OreDictStack(DURA.block(), 16), new OreDictStack(OreDictManager.getReflector(), 48), new ComparableStack(ModItems.powder_chlorophyte, 48)}, 600);
-		makeRecipe(new ComparableStack(ModItems.rbmk_component_card, 1), new AStack[] {
-				new ComparableStack(ModItems.circuit_red_copper, 2),
-				new OreDictStack(STEEL.plate(), 4),
-				new ComparableStack(ModItems.wire_gold, 8),
-				new OreDictStack(ANY_PLASTIC.ingot(), 4),
-				new OreDictStack(U238.nugget(), 1)
-		}, 50);
 		makeRecipe(new ComparableStack(ModBlocks.machine_fensu, 1), new AStack[] {
 				new ComparableStack(ModItems.ingot_electronium, 32),
 				new ComparableStack(ModBlocks.machine_dineutronium_battery, 16),

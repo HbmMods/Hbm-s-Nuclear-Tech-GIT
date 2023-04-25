@@ -1,7 +1,5 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.extprop.HbmPlayerProps;
@@ -10,10 +8,14 @@ import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.INBTPacketReceiver;
-
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,11 +25,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import cpw.mods.fml.common.Optional;
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
+import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityCraneConsole extends TileEntity implements INBTPacketReceiver, SimpleComponent {
@@ -341,7 +339,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		return "rbmk_crane";
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] move(Context context, Arguments args) {
 		if(setUpCrane == true) {
@@ -371,7 +369,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		return new Object[] {"Crane not found"};
 	}
 	
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] load(Context context, Arguments args) {
 		if (setUpCrane == true) {
@@ -381,7 +379,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		return new Object[] {"Crane not found"};
 	}
 	
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getDepletion(Context context, Arguments args) {
 		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
@@ -390,7 +388,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		return new Object[] {"N/A"};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getXenonPoison(Context context, Arguments args) {
 		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {

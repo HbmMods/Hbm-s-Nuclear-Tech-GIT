@@ -332,41 +332,41 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		return "rbmk_boiler";
 	}
 	
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
 		return new Object[] {heat};
 	}
 	
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getSteam(Context context, Arguments args) {
 		return new Object[] {steam.getFill()};
 	}
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getSteamMax(Context context, Arguments args) {
 		return new Object[] {steam.getMaxFill()};
 	}
 	
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getWater(Context context, Arguments args) {
 		return new Object[] {feed.getFill()};
 	}
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getWaterMax(Context context, Arguments args) {
 		return new Object[] {feed.getMaxFill()};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoordinates(Context context, Arguments args) {
 		return new Object[] {xCoord, yCoord, zCoord};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		FluidType type = steam.getTankType();
@@ -379,7 +379,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		return new Object[] {heat, steam.getFill(), steam.getMaxFill(), feed.getFill(), feed.getMaxFill(), type_1, xCoord, yCoord, zCoord};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getSteamType(Context context, Arguments args) {
 		FluidType type = steam.getTankType();
@@ -390,6 +390,8 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		else {return new Object[] {"Unknown Error"};}
 	}
 
+	@Callback(direct = true, limit = 8)
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] setSteamType(Context context, Arguments args) {
 		int type = args.checkInteger(0);
 		if(type > 3) {
