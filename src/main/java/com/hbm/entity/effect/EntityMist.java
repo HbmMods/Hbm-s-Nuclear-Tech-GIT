@@ -29,6 +29,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -66,8 +67,9 @@ public class EntityMist extends Entity {
 	public void onEntityUpdate() {
 		
 		float height = this.dataWatcher.getWatchableObjectFloat(12);
-		this.yOffset = -height / 2F;
+		this.yOffset = 0;
 		this.setSize(this.dataWatcher.getWatchableObjectFloat(11), height);
+		this.setPosition(this.posX, this.posY, this.posZ);
 		
 		if(!worldObj.isRemote) {
 			
@@ -90,10 +92,19 @@ public class EntityMist extends Entity {
 				return;
 			}
 			
-			List<Entity> affected = worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox);
+			AxisAlignedBB aabb = this.boundingBox.copy();
+			List<Entity> affected = worldObj.getEntitiesWithinAABBExcludingEntity(this, aabb.offset(-this.width / 2, 0, -this.width / 2));
 			
 			for(Entity e : affected) {
 				this.affect(e, intensity);
+			}
+		} else {
+			
+			for(int i = 0; i < 2; i++) {
+				double x = this.boundingBox.minX + rand.nextDouble() * (this.boundingBox.maxX - this.boundingBox.minX);
+				double y = this.boundingBox.minY + rand.nextDouble() * (this.boundingBox.maxY - this.boundingBox.minY);
+				double z = this.boundingBox.minZ + rand.nextDouble() * (this.boundingBox.maxZ - this.boundingBox.minZ);
+				worldObj.spawnParticle("cloud", x, y, z, 0, 0, 0);
 			}
 		}
 	}

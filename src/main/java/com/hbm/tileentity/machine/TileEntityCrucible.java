@@ -23,6 +23,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CrucibleUtil;
 
+import api.hbm.block.ICrucibleAcceptor;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -41,7 +42,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCrucible extends TileEntityMachineBase implements IGUIProvider, IConfigurableMachine {
+public class TileEntityCrucible extends TileEntityMachineBase implements IGUIProvider, ICrucibleAcceptor, IConfigurableMachine {
 
 	public int heat;
 	public int progress;
@@ -529,4 +530,57 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
+
+	@Override
+	public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
+		
+		CrucibleRecipe recipe = getLoadedRecipe();
+		
+		if(recipe == null) {
+			return getQuantaFromType(this.wasteStack, null) < this.wasteZCapacity;
+		}
+		
+		int recipeContent = recipe.getInputAmount();
+		int recipeInputRequired = getQuantaFromType(recipe.input, stack.material);
+		int matMaximum = recipeInputRequired * this.recipeZCapacity / recipeContent;
+		int amountStored = getQuantaFromType(recipeStack, stack.material);
+		
+		return amountStored < matMaximum;
+	}
+
+	@Override
+	public MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
+		
+		CrucibleRecipe recipe = getLoadedRecipe();
+		
+		if(recipe == null) {
+			
+			int amount = getQuantaFromType(this.wasteStack, null);
+			
+			if(amount + stack.amount <= this.wasteZCapacity) {
+				this.addToStack(this.wasteStack, stack.copy());
+				return null;
+			} else {
+				int toAdd = this.wasteZCapacity - amount;
+				this.addToStack(this.wasteStack, new MaterialStack(stack.material, toAdd));
+				return new MaterialStack(stack.material, stack.amount - toAdd);
+			}
+		}
+		
+		int recipeContent = recipe.getInputAmount();
+		int recipeInputRequired = getQuantaFromType(recipe.input, stack.material);
+		int matMaximum = recipeInputRequired * this.recipeZCapacity / recipeContent;
+		
+		if(recipeInputRequired + stack.amount <= matMaximum) {
+			this.addToStack(this.recipeStack, stack.copy());
+			return null;
+		}
+		
+		int toAdd = matMaximum - stack.amount;
+		this.addToStack(this.recipeStack, new MaterialStack(stack.material, toAdd));
+		return new MaterialStack(stack.material, stack.amount - toAdd);
+	}
+
+	@Override public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return false; }
+	@Override public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return null; }
 }

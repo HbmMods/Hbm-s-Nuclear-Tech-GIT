@@ -690,7 +690,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		GunConfiguration gcfg = gun.mainConfig;
 		
 		if(type == ElementType.HOTBAR) {
-			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(stack)));
+			int mag = ItemGunBase.getMagType(stack);
+			if(gun.mainConfig.config.size() == 0) return;
+			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(mag < gun.mainConfig.config.size() ? mag : 0));
 			
 			if(bcfg == null) {
 				return;

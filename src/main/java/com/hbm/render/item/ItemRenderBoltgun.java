@@ -6,6 +6,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -33,6 +34,8 @@ public class ItemRenderBoltgun implements IItemRenderer {
 		
 		GL11.glPushMatrix();
 		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.boltgun_tex);
@@ -50,6 +53,7 @@ public class ItemRenderBoltgun implements IItemRenderer {
 			GL11.glPushMatrix();
 			double[] anim = HbmAnimations.getRelevantTransformation("RECOIL");
 			GL11.glTranslated(0, 0, -anim[0]);
+			if(anim[0] != 0) player.isSwingInProgress = false;
 			ResourceManager.boltgun.renderPart("Barrel");
 			GL11.glPopMatrix();
 			
