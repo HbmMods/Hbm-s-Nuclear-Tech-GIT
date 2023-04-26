@@ -75,6 +75,10 @@ public class CokerRecipes extends SerializableRecipe {
 	private static void registerRecipe(FluidType type, int quantity, ItemStack output, FluidStack byproduct) {
 		recipes.put(type, new Triplet(quantity, output, byproduct));
 	}
+	
+	public static Triplet<Integer, ItemStack, FluidStack> getOutput(FluidType type) {
+		return recipes.get(type);
+	}
 
 	public static HashMap<ItemStack, ItemStack[]> getRecipes() {
 		
@@ -87,7 +91,10 @@ public class CokerRecipes extends SerializableRecipe {
 			ItemStack out = entry.getValue().getY().copy();
 			FluidStack byproduct = entry.getValue().getZ();
 			
-			recipes.put(ItemFluidIcon.make(type, amount), new ItemStack[] {out, ItemFluidIcon.make(byproduct)});
+
+			if(out != null && byproduct != null) recipes.put(ItemFluidIcon.make(type, amount), new ItemStack[] {out, ItemFluidIcon.make(byproduct)});
+			if(out != null && byproduct == null) recipes.put(ItemFluidIcon.make(type, amount), new ItemStack[] {out});
+			if(out == null && byproduct != null) recipes.put(ItemFluidIcon.make(type, amount), new ItemStack[] {ItemFluidIcon.make(byproduct)});
 		}
 		
 		return recipes;
@@ -112,8 +119,8 @@ public class CokerRecipes extends SerializableRecipe {
 	public void readRecipe(JsonElement recipe) {
 		JsonObject obj = (JsonObject) recipe;
 		FluidStack in = this.readFluidStack(obj.get("input").getAsJsonArray());
-		ItemStack out = this.readItemStack(obj.get("output").getAsJsonArray());
-		FluidStack byproduct = this.readFluidStack(obj.get("byproduct").getAsJsonArray());
+		ItemStack out = obj.has("output") ? this.readItemStack(obj.get("output").getAsJsonArray()) : null;
+		FluidStack byproduct = obj.has("byproduct") ? this.readFluidStack(obj.get("byproduct").getAsJsonArray()) : null;
 		recipes.put(in.type, new Triplet(in.fill, out, byproduct));
 	}
 
@@ -123,9 +130,13 @@ public class CokerRecipes extends SerializableRecipe {
 		FluidStack in = new FluidStack(rec.getKey(), rec.getValue().getX());
 		writer.name("input");
 		this.writeFluidStack(in, writer);
-		writer.name("output");
-		this.writeItemStack(rec.getValue().getY(), writer);
-		writer.name("byproduct");
-		this.writeFluidStack(rec.getValue().getZ(), writer);
+		if(rec.getValue().getY() != null) {
+			writer.name("output");
+			this.writeItemStack(rec.getValue().getY(), writer);
+		}
+		if(rec.getValue().getZ() != null) {
+			writer.name("byproduct");
+			this.writeFluidStack(rec.getValue().getZ(), writer);
+		}
 	}
 }
