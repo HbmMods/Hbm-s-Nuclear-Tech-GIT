@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineCryoDistill;
@@ -47,55 +48,17 @@ public class MachineCryoDistill extends BlockDummyable {
 		x += dir.offsetX * o;
 		z += dir.offsetZ * o;
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
+		//		world.setBlock( x + dir.offsetX - rot.offsetX * 2, y, z + rot.offsetZ * 3 + dir.offsetZ, ModBlocks.ntm_dirt);
+
 		this.safeRem = true;
+		
+		this.makeExtra(world, x + dir.offsetX - rot.offsetX * 2, y, z + rot.offsetZ * 3 - dir.offsetZ *2);
+		this.makeExtra(world, x + dir.offsetX - rot.offsetX * -3, y, z + rot.offsetZ * -2 - dir.offsetZ *2);
+		this.makeExtra(world, x + dir.offsetX - rot.offsetX * -2, y, z + rot.offsetZ * -1 - dir.offsetZ *2);
 
-		//this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ + 1);
-		//this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ - 1);
-		
-		//this.makeExtra(world, x - dir.offsetX - 2, y, z - dir.offsetZ + 1);
-		//this.makeExtra(world, x - dir.offsetX + 2, y, z - dir.offsetZ + 3);
-		
-		///this.makeExtra(world, x - dir.offsetX + 3, y, z - dir.offsetZ + 1);
-		//this.makeExtra(world, x - dir.offsetX + 2, y, z - dir.offsetZ - 2);
-		
-		//this.makeExtra(world, x - dir.offsetX + 2, y, z - dir.offsetZ - 1);
-		
-		//EAST-WEST
-		this.makeExtra(world, x - dir.offsetX - 1, y, z + dir.offsetZ - 2); 
-		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ + 3); 
-		this.makeExtra(world, x - dir.offsetX - 1, y, z + dir.offsetZ - 1);
-
-		this.makeExtra(world, x - dir.offsetX - 2, y, z - dir.offsetZ - 3);
-		this.makeExtra(world, x - dir.offsetX - 2, y, z + dir.offsetZ + 2);
-		this.makeExtra(world, x - dir.offsetX - 2, y, z + dir.offsetZ + 1); 
-		
-		this.makeExtra(world, x - dir.offsetX + 2, y, z + dir.offsetZ - 2); 
-		this.makeExtra(world, x - dir.offsetX + 2, y, z - dir.offsetZ + 3); 
-		this.makeExtra(world, x - dir.offsetX + 2, y, z + dir.offsetZ - 1);
-		
-		this.makeExtra(world, x - dir.offsetX + 1, y, z + dir.offsetZ + 1); 
-		this.makeExtra(world, x - dir.offsetX + 1, y, z + dir.offsetZ + 2);
-		this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ - 3);
-		
-		//NS
-		this.makeExtra(world, x + dir.offsetX + 2, y, z - dir.offsetZ - 1);
-		this.makeExtra(world, x - dir.offsetX - 3, y, z - dir.offsetZ - 1); 
-		this.makeExtra(world, x + dir.offsetX - 2, y, z - dir.offsetZ - 1); 
-		
-		this.makeExtra(world, x - dir.offsetX + 2, y, z - dir.offsetZ - 2);
-		this.makeExtra(world, x - dir.offsetX + 3, y, z - dir.offsetZ - 2);
-		this.makeExtra(world, x + dir.offsetX - 2, y, z - dir.offsetZ - 2);
-
-		this.makeExtra(world, x - dir.offsetX - 3, y, z - dir.offsetZ + 2);
-		this.makeExtra(world, x - dir.offsetX - 2, y, z - dir.offsetZ + 2);
-		this.makeExtra(world, x + dir.offsetX + 2, y, z - dir.offsetZ + 2); 
-		
-		this.makeExtra(world, x - dir.offsetX + 2, y, z - dir.offsetZ + 3); 
-		this.makeExtra(world, x - dir.offsetX + 3, y, z - dir.offsetZ + 1); 
-		this.makeExtra(world, x + dir.offsetX - 2, y, z - dir.offsetZ + 1); 
-
-
+		this.makeExtra(world, x - dir.offsetX * 2 - rot.offsetX * 2, y, z + rot.offsetZ * 3 + dir.offsetZ * 1);
+		this.makeExtra(world, x - dir.offsetX * 2 - rot.offsetX * -2, y, z + rot.offsetZ * -1 + dir.offsetZ * 1);
+		this.makeExtra(world, x - dir.offsetX * 2 - rot.offsetX * -3, y, z + rot.offsetZ * -2 + dir.offsetZ * 1);
 
 		
 		this.safeRem = false;
