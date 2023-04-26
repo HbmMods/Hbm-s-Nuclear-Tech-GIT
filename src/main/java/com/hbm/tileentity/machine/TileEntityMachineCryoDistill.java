@@ -70,7 +70,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 
 			
 			for(DirPos pos : getConPos()) {
-				for(int i = 1; i < 1; i++) {
+				for(int i = 1; i < 5; i++) {
 					if(tanks[i].getFill() > 0) {
 						this.sendFluid(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 					}
@@ -79,7 +79,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
-			for(int i = 0; i < 1; i++) tanks[i].writeToNBT(data, "" + i);
+			for(int i = 0; i < 5; i++) tanks[i].writeToNBT(data, "" + i);
 			this.networkPack(data, 150);
 		}
 	}
@@ -87,7 +87,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
-		for(int i = 0; i < 1; i++) tanks[i].readFromNBT(nbt, "" + i);
+		for(int i = 0; i < 5; i++) tanks[i].readFromNBT(nbt, "" + i);
 	}
 	
 	private void distill() {
@@ -101,25 +101,25 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 			return;
 		}
 
-		tanks[1].setTankType(out.getX().type);
-		tanks[2].setTankType(out.getY().type);
-		tanks[3].setTankType(out.getZ().type);
+		tanks[1].setTankType(out.getW().type);
+		tanks[2].setTankType(out.getX().type);
+		tanks[3].setTankType(out.getY().type);
 		tanks[4].setTankType(out.getZ().type);
 		
 		if(power < 20_000) return;
 		if(tanks[0].getFill() < 100) return;
 
-		if(tanks[1].getFill() + out.getX().fill > tanks[1].getMaxFill()) return;
-		if(tanks[2].getFill() + out.getY().fill > tanks[2].getMaxFill()) return;
-		if(tanks[3].getFill() + out.getZ().fill > tanks[3].getMaxFill()) return;
+		if(tanks[1].getFill() + out.getW().fill > tanks[1].getMaxFill()) return;
+		if(tanks[2].getFill() + out.getX().fill > tanks[2].getMaxFill()) return;
+		if(tanks[3].getFill() + out.getY().fill > tanks[3].getMaxFill()) return;
 		if(tanks[4].getFill() + out.getZ().fill > tanks[4].getMaxFill()) return;
 
 
 		tanks[0].setFill(tanks[0].getFill() - 100);
-		tanks[1].setFill(tanks[1].getFill() + out.getX().fill);
-		tanks[2].setFill(tanks[2].getFill() + out.getY().fill);
-		tanks[3].setFill(tanks[3].getFill() + out.getZ().fill);
-		tanks[4].setFill(tanks[4].getFill() + out.getW().fill);
+		tanks[1].setFill(tanks[1].getFill() + out.getW().fill);
+		tanks[2].setFill(tanks[2].getFill() + out.getX().fill);
+		tanks[3].setFill(tanks[3].getFill() + out.getY().fill);
+		tanks[4].setFill(tanks[4].getFill() + out.getZ().fill);
 
 		
 		power -= 20_000;
@@ -137,11 +137,9 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
 		return new DirPos[] {
-				//new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, dir),
 				new DirPos(xCoord + dir.offsetX - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 - dir.offsetZ *2, dir),
 				new DirPos(xCoord + dir.offsetX - rot.offsetX * -3, yCoord, zCoord + rot.offsetZ * -2 - dir.offsetZ *2, dir),
 				new DirPos(xCoord + dir.offsetX - rot.offsetX * -2, yCoord, zCoord + rot.offsetZ * -1 - dir.offsetZ *2, dir),
-
 				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 + dir.offsetZ * 1, dir),
 				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * -2, yCoord, zCoord + rot.offsetZ * -1 + dir.offsetZ * 1, dir),
 				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * -3, yCoord, zCoord + rot.offsetZ * -2 + dir.offsetZ * 1, dir),
@@ -241,14 +239,14 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 	public void writeNBT(NBTTagCompound nbt) {
 		if(tanks[0].getFill() == 0 && tanks[1].getFill() == 0 && tanks[2].getFill() == 0 && tanks[3].getFill() == 0 && tanks[4].getFill() == 0) return;
 		NBTTagCompound data = new NBTTagCompound();
-		for(int i = 0; i < 1; i++) this.tanks[i].writeToNBT(data, "" + i);
+		for(int i = 0; i < 5; i++) this.tanks[i].writeToNBT(data, "" + i);
 		nbt.setTag(NBT_PERSISTENT_KEY, data);
 	}
 
 	@Override
 	public void readNBT(NBTTagCompound nbt) {
 		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
-		for(int i = 0; i < 1; i++) this.tanks[i].readFromNBT(data, "" + i);
+		for(int i = 0; i < 5; i++) this.tanks[i].readFromNBT(data, "" + i);
 	}
 
 	@Override
