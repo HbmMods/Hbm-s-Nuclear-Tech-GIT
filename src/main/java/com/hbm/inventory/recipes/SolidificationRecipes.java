@@ -35,7 +35,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 	public static final int SF_HEATING =	50;
 	public static final int SF_RECLAIMED =	100;
 	public static final int SF_PETROIL =	125;
-	public static final int SF_LUBE =		125;
+	public static final int SF_LUBE =		100;
 	public static final int SF_NAPH =		150;
 	public static final int SF_DIESEL =		200;
 	public static final int SF_LIGHT =		225;
@@ -76,6 +76,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(BITUMEN,			SF_BITUMEN,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(COALCREOSOTE,	SF_CREOSOTE,	DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL));
 		registerRecipe(WOODOIL,			SF_WOOD,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WOOD));
+		registerRecipe(LUBRICANT,		SF_LUBE,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.PARAFFIN));
 
 		registerRecipe(BALEFIRE,		250,			ModItems.solid_fuel_bf);
 		

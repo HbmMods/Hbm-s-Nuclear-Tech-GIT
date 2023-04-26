@@ -7,6 +7,7 @@ import java.util.List;
 import com.hbm.inventory.fluid.trait.*;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.potion.HbmPotion;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
@@ -126,6 +127,9 @@ public class Fluids {
 	public static FluidType OIL_COKER;			//heavy fractions from coking, mostly bitumen
 	public static FluidType NAPHTHA_COKER;		//medium fractions from coking, aromatics and fuel oil
 	public static FluidType GAS_COKER;			//light fractions from coking, natgas and co2
+	public static FluidType EGG;
+	public static FluidType CHOLESTEROL;
+	public static FluidType ESTRADIOL;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -263,7 +267,10 @@ public class Fluids {
 		IONGEL =				new FluidType("IONGEL",				0xB8FFFF, 1, 0, 4, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		OIL_COKER =				new FluidType("OIL_COKER",			0x001802, 2, 1, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		NAPHTHA_COKER =			new FluidType("NAPHTHA_COKER",		0x495944, 2, 1, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
-		GAS_COKER =				new FluidType(106, "GAS_COKER",		0xDEF4CA, 1, 4, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+		GAS_COKER =				new FluidType("GAS_COKER",			0xDEF4CA, 1, 4, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+		EGG =					new FluidType("EGG",				0xD2C273, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		CHOLESTEROL =			new FluidType("CHOLESTEROL",		0xD6D2BD, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		ESTRADIOL =				new FluidType(109, "ESTRADIOL",		0xCDD5D8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -369,11 +376,14 @@ public class Fluids {
 		metaOrder.add(PAIN);
 		metaOrder.add(DEATH);
 		metaOrder.add(WATZ);
+		metaOrder.add(EGG);
+		metaOrder.add(CHOLESTEROL);
 		//solutions and working fluids
 		metaOrder.add(FRACKSOL);
 		//the fun guys
 		metaOrder.add(PHOSGENE);
 		metaOrder.add(MUSTARDGAS);
+		metaOrder.add(ESTRADIOL);
 		//antimatter
 		metaOrder.add(AMAT);
 		metaOrder.add(ASCHRAB);
@@ -395,6 +405,7 @@ public class Fluids {
 		PHOSGENE.addTraits(new FT_Toxin().addEntry(new ToxinDirectDamage(ModDamageSource.cloud, 4F, 20, HazardClass.GAS_CHLORINE, false)));
 		MUSTARDGAS.addTraits(new FT_Toxin().addEntry(new ToxinDirectDamage(ModDamageSource.cloud, 4F, 10, HazardClass.GAS_CORROSIVE, false))
 				.addEntry(new ToxinEffects(HazardClass.GAS_CORROSIVE, true).add(new PotionEffect(Potion.wither.id, 100, 1), new PotionEffect(Potion.confusion.id, 100, 0))));
+		ESTRADIOL.addTraits(new FT_Toxin().addEntry(new ToxinEffects(HazardClass.PARTICLE_FINE, false).add(new PotionEffect(HbmPotion.mutation.id, 60 * 60 * 20, 0))));
 
 		double eff_steam_boil = 1.0D;
 		double eff_steam_heatex = 0.25D;

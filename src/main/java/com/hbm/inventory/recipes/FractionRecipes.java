@@ -59,6 +59,7 @@ public class FractionRecipes extends SerializableRecipe {
 		fractions.put(Fluids.REFORMATE,			new Pair(new FluidStack(Fluids.AROMATICS,	reform_frac_arom),	new FluidStack(Fluids.XYLENE,				reform_frac_xyle)));
 		fractions.put(Fluids.LIGHTOIL_VACUUM,	new Pair(new FluidStack(Fluids.KEROSENE,	lvac_frac_kero),	new FluidStack(Fluids.REFORMGAS,			lvac_frac_gas)));
 		fractions.put(Fluids.SOURGAS,			new Pair(new FluidStack(Fluids.GAS,			30),				new FluidStack(Fluids.PETROLEUM,			20)));
+		fractions.put(Fluids.EGG,				new Pair(new FluidStack(Fluids.CHOLESTEROL,	50),				new FluidStack(Fluids.RADIOSOLVENT,			50)));
 	}
 	
 	public static Pair<FluidStack, FluidStack> getFractions(FluidType oil) {
