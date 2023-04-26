@@ -6,6 +6,7 @@ import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineCryoDistill;
 import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticReformer;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -59,7 +60,6 @@ public class MachineCryoDistill extends BlockDummyable {
 		this.makeExtra(world, x - dir.offsetX * 2 - rot.offsetX * 2, y, z + rot.offsetZ * 3 + dir.offsetZ * 1);
 		this.makeExtra(world, x - dir.offsetX * 2 - rot.offsetX * -2, y, z + rot.offsetZ * -1 + dir.offsetZ * 1);
 		this.makeExtra(world, x - dir.offsetX * 2 - rot.offsetX * -3, y, z + rot.offsetZ * -2 + dir.offsetZ * 1);
-		//world.setBlock(x - dir.offsetX * 2 - rot.offsetX * -2, y, z + rot.offsetZ * -1 + dir.offsetZ * 1, ModBlocks.ntm_dirt);
 
 		
 		this.safeRem = false;
