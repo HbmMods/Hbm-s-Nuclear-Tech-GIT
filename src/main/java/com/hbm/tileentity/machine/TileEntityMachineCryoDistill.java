@@ -30,7 +30,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCryoDistill extends TileEntityMachineBase implements IEnergyUser, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider{
+public class TileEntityMachineCryoDistill extends TileEntityMachineBase implements IEnergyUser, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, IEnergyConnector, IFluidConnector{
 	
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -61,8 +61,11 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[0].setType(7, slots);
 			//tanks[0].loadTank();
-			//ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			//ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+			
+			this.trySubscribe(worldObj, xCoord - dir.offsetX * 3 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 + dir.offsetZ * 2, dir);
+			this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 - dir.offsetZ *3, dir);
 			distill();
 
 			tanks[1].unloadTank(1, 2, slots);
@@ -129,8 +132,8 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 	
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {
-			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			//this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 	
@@ -139,10 +142,10 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
 		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 - dir.offsetZ *3, dir),
+				//new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 - dir.offsetZ *3, dir),
 				new DirPos(xCoord + dir.offsetX * 2- rot.offsetX * -3, yCoord, zCoord + rot.offsetZ * -2 - dir.offsetZ *3, dir),
 				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * -2, yCoord, zCoord + rot.offsetZ * -1 - dir.offsetZ *3, dir),
-				new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 + dir.offsetZ * 2, dir),
+				//new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 + dir.offsetZ * 2, dir),
 				new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * -2, yCoord, zCoord + rot.offsetZ * -1 + dir.offsetZ * 2, dir),
 				new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * -3, yCoord, zCoord + rot.offsetZ * -2 + dir.offsetZ * 2, dir),
 		};
