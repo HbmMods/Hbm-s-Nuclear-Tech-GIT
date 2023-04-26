@@ -185,9 +185,9 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		return new DirPos[] {
 				new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
 				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 1, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
 				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 1, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
 		};
 	}
 	
