@@ -88,40 +88,60 @@ public class MachineCryoDistill extends BlockDummyable implements ILookOverlay {
 		TileEntityMachineCryoDistill turbine = (TileEntityMachineCryoDistill) te;
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(turbine.getBlockMetadata() - this.offset);
-		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		List<String> text = new ArrayList();
 		
-		if(hitCheck(dir, pos[0], pos[1], pos[2], -2, 2, 0, x, y, z)) {
+		if(hitCheck(dir, pos[0], pos[1], pos[2], 1, 2, 3, 2, 0, x, y, z)) {
 			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[0].getTankType().getName().toLowerCase()));
 		}
-		//if(hitCheck(dir, pos[0], pos[1], pos[2], -1, -1, 0, x, y, z) || hitCheck(dir, pos[0], pos[1], pos[2], 1, 2, 0, x, y, z) {
-			//text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[1].getTankType().getName().toLowerCase()));
-			//text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[2].getTankType().getName().toLowerCase()));
-			//text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[3].getTankType().getName().toLowerCase()));
-			//text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[4].getTankType().getName().toLowerCase()));
-		//}
+		if(hitCheck(dir, pos[0], pos[1], pos[2], 1, -3, -2, 2, 0, x, y, z) || (hitCheck(dir, pos[0], pos[1], pos[2], 1, -2, -1, 2, 0, x, y, z))) {
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[1].getTankType().getName().toLowerCase()));
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[2].getTankType().getName().toLowerCase()));
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[3].getTankType().getName().toLowerCase()));
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[4].getTankType().getName().toLowerCase()));
+		}
 		
+		if(shitCheck(dir, pos[0], pos[1], pos[2], 2, -2, -1, 1, 0, x, y, z) ||(shitCheck(dir, pos[0], pos[1], pos[2], 2, -3, -2, 1, 0, x, y, z)))  {
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[1].getTankType().getName().toLowerCase()));
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[2].getTankType().getName().toLowerCase()));
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[3].getTankType().getName().toLowerCase()));
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[4].getTankType().getName().toLowerCase()));
+		}
 		
-		//if(hitCheck(dir, pos[0], pos[1], pos[2], -2, -3, 0, x, y, z)|| hitCheck(dir, pos[0], pos[1], pos[2], 2, -1, -4, x, y, z)) {
-			//text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + "Power");
-		///	//world.setBlock( x, y, z, ModBlocks.ntm_dirt);
-		//}
+		if(shitCheck(dir, pos[0], pos[1], pos[2], 2, 2, 3, 1, 0, x, y, z)) {
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + "Power");
+		}
 		
 		if(!text.isEmpty()) {
 			ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 		}
 	}
 	
-	protected boolean hitCheck(ForgeDirection dir, int coreX, int coreY, int coreZ, int exDir, int exRot, int exY, int hitX, int hitY, int hitZ) {
+	protected boolean hitCheck(ForgeDirection dir, int coreX, int coreY, int coreZ, int exDir, int exRot, int exDirZ, int exRotZ, int exY, int hitX, int hitY, int hitZ) {
 		
-		ForgeDirection turn = dir.getRotation(ForgeDirection.DOWN);
-		//World world = Minecraft.getMinecraft().theWorld;
-		int iX = coreX + dir.offsetX * exDir + turn.offsetX * exRot;
+		ForgeDirection turn = dir.getRotation(ForgeDirection.UP);
+		
+
+		
+		int iX = coreX + dir.offsetX * exDir - turn.offsetX * exRot;
 		int iY = coreY + exY;
-		int iZ = coreZ + dir.offsetZ * exDir + turn.offsetZ * exRot;
-		//world.setBlock( iX, iY, iZ, ModBlocks.ntm_dirt);
+		int iZ = coreZ + turn.offsetZ * exDirZ - dir.offsetZ * exRotZ;
+		
+		
+		return iX == hitX && iZ == hitZ && iY == hitY;
+	}
+	protected boolean shitCheck(ForgeDirection dir, int coreX, int coreY, int coreZ, int exDir, int exRot, int exDirZ, int exRotZ, int exY, int hitX, int hitY, int hitZ) { //i cannot for the fucking life of me figure this shit out somedays.
+		
+		ForgeDirection turn = dir.getRotation(ForgeDirection.UP);
+		
+
+		
+		int iX = coreX - dir.offsetX * exDir - turn.offsetX * exRot;
+		int iY = coreY + exY;
+		int iZ = coreZ + turn.offsetZ * exDirZ + dir.offsetZ * exRotZ;
+		
+
+		
 		return iX == hitX && iZ == hitZ && iY == hitY;
 	}
 }
-
-
