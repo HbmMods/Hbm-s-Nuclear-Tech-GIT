@@ -54,10 +54,10 @@ public class GUIMachineCryoDistill extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft + 145, guiTop + 69 - j, 176, 52 - j, 16, j);
 		
 		cryo.tanks[0].renderTank(guiLeft + 19, guiTop + 69, this.zLevel, 16, 52);
-		cryo.tanks[1].renderTank(guiLeft + 55, guiTop + 70, this.zLevel, 16, 52);
-		cryo.tanks[2].renderTank(guiLeft + 75, guiTop + 70, this.zLevel, 16, 52);
-		cryo.tanks[3].renderTank(guiLeft + 100, guiTop + 70, this.zLevel, 16, 52);
-		cryo.tanks[3].renderTank(guiLeft + 120, guiTop + 70, this.zLevel, 16, 52);
+		cryo.tanks[1].renderTank(guiLeft + 57, guiTop + 69, this.zLevel, 16, 52);
+		cryo.tanks[2].renderTank(guiLeft + 79, guiTop + 69, this.zLevel, 16, 52);
+		cryo.tanks[3].renderTank(guiLeft + 101, guiTop + 69, this.zLevel, 16, 52);
+		cryo.tanks[4].renderTank(guiLeft + 123, guiTop + 69, this.zLevel, 16, 52);
 
 	}
 }

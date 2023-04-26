@@ -55,7 +55,6 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
 			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[0].setType(7, slots);
@@ -68,7 +67,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 			tanks[3].unloadTank(5, 6, slots);
 			tanks[4].unloadTank(8, 9, slots);
 
-			
+
 			for(DirPos pos : getConPos()) {
 				for(int i = 1; i < 5; i++) {
 					if(tanks[i].getFill() > 0) {
@@ -137,12 +136,12 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
 		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 - dir.offsetZ *2, dir),
-				new DirPos(xCoord + dir.offsetX - rot.offsetX * -3, yCoord, zCoord + rot.offsetZ * -2 - dir.offsetZ *2, dir),
-				new DirPos(xCoord + dir.offsetX - rot.offsetX * -2, yCoord, zCoord + rot.offsetZ * -1 - dir.offsetZ *2, dir),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 + dir.offsetZ * 1, dir),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * -2, yCoord, zCoord + rot.offsetZ * -1 + dir.offsetZ * 1, dir),
-				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * -3, yCoord, zCoord + rot.offsetZ * -2 + dir.offsetZ * 1, dir),
+				new DirPos(xCoord + dir.offsetX - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 - dir.offsetZ *3, dir),
+				new DirPos(xCoord + dir.offsetX - rot.offsetX * -3, yCoord, zCoord + rot.offsetZ * -2 - dir.offsetZ *3, dir),
+				new DirPos(xCoord + dir.offsetX - rot.offsetX * -2, yCoord, zCoord + rot.offsetZ * -1 - dir.offsetZ *3, dir),
+				new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 + dir.offsetZ * 2, dir),
+				new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * -2, yCoord, zCoord + rot.offsetZ * -1 + dir.offsetZ * 2, dir),
+				new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * -3, yCoord, zCoord + rot.offsetZ * -2 + dir.offsetZ * 2, dir),
 		};
 	}
 	

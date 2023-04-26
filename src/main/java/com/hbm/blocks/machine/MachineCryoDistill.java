@@ -59,6 +59,7 @@ public class MachineCryoDistill extends BlockDummyable {
 		this.makeExtra(world, x - dir.offsetX * 2 - rot.offsetX * 2, y, z + rot.offsetZ * 3 + dir.offsetZ * 1);
 		this.makeExtra(world, x - dir.offsetX * 2 - rot.offsetX * -2, y, z + rot.offsetZ * -1 + dir.offsetZ * 1);
 		this.makeExtra(world, x - dir.offsetX * 2 - rot.offsetX * -3, y, z + rot.offsetZ * -2 + dir.offsetZ * 1);
+		//world.setBlock(x - dir.offsetX * 2 - rot.offsetX * -2, y, z + rot.offsetZ * -1 + dir.offsetZ * 1, ModBlocks.ntm_dirt);
 
 		
 		this.safeRem = false;
