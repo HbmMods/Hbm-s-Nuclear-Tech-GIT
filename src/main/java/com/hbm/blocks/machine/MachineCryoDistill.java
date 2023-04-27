@@ -109,7 +109,7 @@ public class MachineCryoDistill extends BlockDummyable implements ILookOverlay {
 		}
 		
 		if(shitCheck(dir, pos[0], pos[1], pos[2], 2, 2, 3, 1, 0, x, y, z)) {
-			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + "Power");
+			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + "Power");
 		}
 		
 		if(!text.isEmpty()) {
