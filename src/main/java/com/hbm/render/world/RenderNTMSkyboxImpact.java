@@ -29,6 +29,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 	private static final ResourceLocation bobmazonSat = new ResourceLocation("hbm:textures/misc/space/sat_bobmazon.png");
 	private static final ResourceLocation planet = new ResourceLocation("hbm:textures/misc/space/planet.png");
 	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/space/night.png");
+	private static int week = 24000*7;
 	
 	public static boolean displayListsInitialized = false;
 	public static int starGLCallList;
@@ -101,7 +102,8 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
         double EveKerbin = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.EveAU, AstronomyUtil.EveP, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP);
         double KerbinDuna = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP, AstronomyUtil.DunaAU, AstronomyUtil.DunaP);
         double KerbinJool = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP, AstronomyUtil.JoolAU, AstronomyUtil.JoolP);
-		
+        long time = ImpactWorldHandler.getTimeForClient(world);
+        
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		Vec3 vec3 = world.getSkyColor(mc.renderViewEntity, partialTicks);
 		float f1 = (float) vec3.xCoord;
@@ -189,6 +191,8 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 			GL11.glPopMatrix();*/
 		}
 
+		
+		
 		GL11.glShadeModel(GL11.GL_FLAT);
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -316,6 +320,30 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 			tessellator.addVertexWithUV(-f10, -100.0D, -f10, zz, rand7);
 			tessellator.draw();
 		}
+        {
+        	if(time<week)
+        	{
+            	GL11.glPushMatrix();        	
+            	float timeF = (float)(week-time)/168000f;
+            	//float EveSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.EveP, AstronomyUtil.KerbinP);
+            		//System.out.println("Venus-Earth distance: "+VenusEarth);
+            	//float sine = (float) Math.sin(((Math.PI/2)/(EveSyn/4))*(world.getWorldTime()+AstronomyUtil.offset));
+            	//double elong = AstronomyUtil.getMaxPlanetaryElongation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.EveAU, AstronomyUtil.KerbinAU);
+            	//GL11.glRotatef((float) (sine*elong), 1.0F, 0.0F, 0.0F);
+            	GL11.glRotatef(45F, 1.0F, 0.0F, 0.0F);
+            	GL11.glEnable(GL11.GL_TEXTURE_2D);
+            	GL11.glColor4d(1, 1, 1, f18*timeF);
+            	f10 = (float) (1.5f*timeF);
+            	mc.renderEngine.bindTexture(this.planet);
+            	tessellator.startDrawingQuads();
+            	tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
+            	tessellator.addVertexWithUV(f10, 100.0D, -f10, 1.0D, 0.0D);
+            	tessellator.addVertexWithUV(f10, 100.0D, f10, 1.0D, 1.0D);
+            	tessellator.addVertexWithUV(-f10, 100.0D, f10, 0.0D, 1.0D);
+            	tessellator.draw();
+        		GL11.glPopMatrix();	
+        	}
+        }
 		{
 			OpenGlHelper.glBlendFunc(770, 1, 1, 0);
 

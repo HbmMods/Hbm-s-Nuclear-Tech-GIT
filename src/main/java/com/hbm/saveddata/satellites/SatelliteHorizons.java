@@ -44,10 +44,11 @@ public class SatelliteHorizons extends Satellite {
 		SatelliteSavedData.getData(world).markDirty();
 		
 		long finalDecent = (600-world.getHeightValue(x, z));
-		
+		long w = world.getWorldTime()%24000;
+		long delay = (30*24000)+3460;
 		TomSaveData data = TomSaveData.forWorld(world);
 		data.dtime = finalDecent * 2;
-		data.time = 24000;//One MC day before impact
+		data.time = (world.getWorldTime()-w)+delay;//24000;//One MC day before impact
 		data.x = x;
 		data.z = z;
 
