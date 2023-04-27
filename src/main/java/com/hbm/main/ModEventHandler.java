@@ -574,7 +574,7 @@ public class ModEventHandler {
 						
 						float eRad = HbmLivingProps.getRadiation(entity);
 						
-						if(entity instanceof EntityCreeper && eRad >= 200 && entity.getHealth() > 0) {
+						if(entity.getClass().equals(EntityCreeper.class) && eRad >= 200 && entity.getHealth() > 0) {
 							
 							if(event.world.rand.nextInt(3) == 0 ) {
 								EntityCreeperNuclear creep = new EntityCreeperNuclear(event.world);
