@@ -9,6 +9,7 @@ import com.hbm.config.WorldConfig;
 import com.hbm.entity.mob.EntityFBI;
 import com.hbm.entity.mob.EntityGhost;
 import com.hbm.particle.ParticleRadiationFog;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.entity.mob.EntityMaskMan;
 import com.hbm.entity.mob.EntityRADBeast;
 import com.hbm.entity.projectile.EntityMeteor;
@@ -42,13 +43,15 @@ public class BossSpawnHandler {
 	
 	public static void rollTheDice(World world) {
 		
+		TomSaveData data = TomSaveData.forWorld(world);
+		
 		/*
 		 * Spawns every 3 hours with a 33% chance if
 		 * - the player is 3 blocks below the surface
 		 * - the player has at least 50 RAD
 		 * - the player has either crafted or placed an ore acidizer before
 		 */
-		if(MobConfig.enableMaskman) {
+		if(MobConfig.enableMaskman && !data.impact) {
 			
 			if(world.getTotalWorldTime() % MobConfig.maskmanDelay == 0) {
 				
@@ -79,7 +82,7 @@ public class BossSpawnHandler {
 			}
 		}
 		
-		if(MobConfig.enableRaids) {
+		if(MobConfig.enableRaids && !data.impact) {
 			
 			if(world.getTotalWorldTime() % MobConfig.raidDelay == 0) {
 				

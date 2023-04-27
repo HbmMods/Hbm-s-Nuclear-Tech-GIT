@@ -30,7 +30,7 @@ public class AstronomyUtil
     public static final float IkeRadius=130F; 
     public static final float DresRadius=138;
     public static final float JoolRadius=6000;
-    //public static final float SarnusRadius=60268;
+    public static final float SarnusRadius=5300;
     //public static final float UrlumRadius=25559;
     //public static final float NeidonRadius=24766;
     //public static final float PlockRadius=1184;
