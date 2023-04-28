@@ -31,7 +31,7 @@ public class WorldGeneratorDres implements IWorldGenerator {
 	       DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.cobaltSpawn, 4, 3, 22, ModBlocks.dres_cobalt, ModBlocks.block_meteor_broken);
 	        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperSpawn, 9, 4, 27, ModBlocks.ore_meteor_iron, ModBlocks.block_meteor_broken);
 	        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.lithiumSpawn, 4, 4, 8, ModBlocks.ore_meteor_lithium, ModBlocks.block_meteor_broken);
-	        DungeonToolbox.generateOre(world, rand, i, j, 12,  8, 1, 33, ModBlocks.dres_niobium, ModBlocks.dres_rock);
+	        DungeonToolbox.generateOre(world, rand, i, j, 12,  8, 1, 33, ModBlocks.dres_niobium, ModBlocks.block_meteor_broken);
 	        DungeonToolbox.generateOre(world, rand, i, j, 1, 1, 1, 33, ModBlocks.ore_meteor_osmiridium, ModBlocks.block_meteor_broken);
 		
 		if (WorldConfig.ikecfreq > 0 && rand.nextInt(WorldConfig.ikecfreq) == 0) {
