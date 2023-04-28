@@ -17,7 +17,6 @@ import com.hbm.dim.dres.biome.BiomeGenBaseDres;
 //import com.hbm.dim.duna.GenLayerDuna.GenLayerDuna;
 //import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
 
-//import stevekung.mods.moreplanets.planets.fronos.worldgen.biome.BiomeGenBaseFronos;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
