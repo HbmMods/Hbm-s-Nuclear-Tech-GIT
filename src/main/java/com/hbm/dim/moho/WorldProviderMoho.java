@@ -1,4 +1,4 @@
-package com.hbm.dim.dres;
+package com.hbm.dim.moho;
 
 import com.hbm.config.WorldConfig;
 import com.hbm.main.MainRegistry;
@@ -15,23 +15,23 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.client.IRenderHandler;
 
-public class WorldProviderDres extends WorldProvider {
+public class WorldProviderMoho extends WorldProvider {
 	
 	public void registerWorldChunkManager() {
 		
-		this.worldChunkMgr = new WorldChunkManagerDres(worldObj);
-		this.dimensionId = WorldConfig.dresDimension;
+		this.worldChunkMgr = new WorldChunkManagerHell(new BiomeGenMoho(WorldConfig.mohoBiome), dimensionId);
+		this.dimensionId = WorldConfig.mohoDimension;
 		this.hasNoSky = false;
 	}
 
 	@Override
 	public String getDimensionName() {
-		return "Dres";
+		return "Moho";
 	}
 	
     public IChunkProvider createChunkGenerator()
     {
-        return new ChunkProviderDres(this.worldObj, this.getSeed(), false);
+        return new ChunkProviderMoho(this.worldObj, this.getSeed(), false);
     }
     
 	public void renderClouds() {
@@ -90,12 +90,12 @@ public class WorldProviderDres extends WorldProvider {
 
 	@SideOnly(Side.CLIENT)
 	public IRenderHandler getSkyRenderer() {
-		return new SkyProviderDres();
+		return new SkyProviderMoho();
 	}
 	
     public long getDayLength()
     {
-    	return (long) (1.612*24000);
+    	return (long) (56.019*24000);
     }
     
     @Override

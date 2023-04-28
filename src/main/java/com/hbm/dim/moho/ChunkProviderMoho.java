@@ -1,4 +1,4 @@
-package com.hbm.dim.dres;
+package com.hbm.dim.moho;
 
 import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.*;
 
@@ -38,7 +38,7 @@ import net.minecraftforge.event.terraingen.ChunkProviderEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
-public class ChunkProviderDres implements IChunkProvider {
+public class ChunkProviderMoho implements IChunkProvider {
 	/** RNG. */
 	private Random rand;
 	private NoiseGeneratorOctaves octave1;
@@ -86,11 +86,11 @@ public class ChunkProviderDres implements IChunkProvider {
 		
 	}
 
-	public ChunkProviderDres(World DresWorld, long il, boolean ib)
+	public ChunkProviderMoho(World IkeWorld, long il, boolean ib)
 	{
-		this.worldObj = DresWorld;
+		this.worldObj = IkeWorld;
 		this.mapFeaturesEnabled = ib;
-		this.field_147435_p = DresWorld.getWorldInfo().getTerrainType();
+		this.field_147435_p = IkeWorld.getWorldInfo().getTerrainType();
 		this.rand = new Random(il);
 		this.octave1 = new NoiseGeneratorOctaves(this.rand, 16);
 		this.octave2 = new NoiseGeneratorOctaves(this.rand, 16);
@@ -116,10 +116,10 @@ public class ChunkProviderDres implements IChunkProvider {
 		//seaLevel = 0;
 		//oceanBlock = dimProperties.getOceanBlock();
 		
-		fillblock = ModBlocks.block_meteor_broken;
+		fillblock = ModBlocks.moho_stone;
 		
 		NoiseGenerator[] noiseGens = {octave1, octave2, octave3, octave4, noiseGen5, noiseGen6, mobSpawnerNoise};
-		noiseGens = TerrainGen.getModdedNoiseGenerators(DresWorld, this.rand, noiseGens);
+		noiseGens = TerrainGen.getModdedNoiseGenerators(IkeWorld, this.rand, noiseGens);
 		this.octave1 = (NoiseGeneratorOctaves)noiseGens[0];
 		this.octave2 = (NoiseGeneratorOctaves)noiseGens[1];
 		this.octave3 = (NoiseGeneratorOctaves)noiseGens[2];
@@ -141,7 +141,7 @@ public class ChunkProviderDres implements IChunkProvider {
 	{
 		int b0 = seaLevel;
 		//TODO: may break for little planets
-		this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration, p_147424_1_ * 4 - 2, p_147424_2_ * 4 - 2, 10, 10);
+		this.biomesForGeneration = ((WorldChunkManagerHell)this.worldObj.getWorldChunkManager()).getBiomesForGeneration(this.biomesForGeneration, p_147424_1_ * 4 - 2, p_147424_2_ * 4 - 2, 10, 10);
 		this.func_147423_a(p_147424_1_ * 4, 0, p_147424_2_ * 4);
 
 		for (int k = 0; k < 4; ++k)

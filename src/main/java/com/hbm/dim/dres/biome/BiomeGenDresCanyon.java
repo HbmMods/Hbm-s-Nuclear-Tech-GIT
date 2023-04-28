@@ -28,8 +28,8 @@ public class BiomeGenDresCanyon extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.basalt;
-        this.fillerBlock = ModBlocks.dres_rock;
+        this.topBlock = ModBlocks.block_meteor_broken;
+        this.fillerBlock = ModBlocks.block_meteor_broken;
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class BiomeGenDresCanyon extends BiomeGenBase {
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == ModBlocks.duna_rock)
+                    if (block2 == ModBlocks.block_meteor_broken)
                     {
                         if (k == -1)
                         {
@@ -67,7 +67,7 @@ public class BiomeGenDresCanyon extends BiomeGenBase {
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.duna_rock;
+                                block1 = ModBlocks.block_meteor_broken;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {
@@ -97,16 +97,16 @@ public class BiomeGenDresCanyon extends BiomeGenBase {
                             	blocks[i2] = block;
                             	meta[i2] = b0;
                             }
-                            else if (l1 < 62)
+                            else if (l1 < 68)
                             {
                                 block = null;
-                                block1 = ModBlocks.duna_rock;
+                                block1 = ModBlocks.block_meteor_broken;
                                 if (Math.random() > 0.4) {
-                                	blocks[i2] = ModBlocks.duna_rock;
+                                	blocks[i2] = ModBlocks.block_meteor_cobble;
                                 }
                                 else
                                 {
-                                    blocks[i2] = ModBlocks.duna_sands;   	
+                                    blocks[i2] = ModBlocks.block_meteor_broken;   	
                                 }
                             }
                             else

@@ -27,8 +27,8 @@ public class BiomeGenDresPlains extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.basalt;
-        this.fillerBlock = ModBlocks.dres_rock; //thiccer regolith due to uhhhhhh...................
+        this.topBlock = ModBlocks.block_meteor_broken;
+        this.fillerBlock = ModBlocks.block_meteor_broken; //thiccer regolith due to uhhhhhh...................
 	}
 
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
@@ -57,7 +57,7 @@ public class BiomeGenDresPlains extends BiomeGenBase {
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == ModBlocks.dres_rock)
+                    if (block2 == ModBlocks.block_meteor_broken)
                     {
                         if (k == -1)
                         {
@@ -65,7 +65,7 @@ public class BiomeGenDresPlains extends BiomeGenBase {
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.dres_rock;
+                                block1 = ModBlocks.block_meteor_broken;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {
@@ -95,11 +95,17 @@ public class BiomeGenDresPlains extends BiomeGenBase {
                             	blocks[i2] = block;
                             	meta[i2] = b0;
                             }
-                            else if (l1 < 56 - l)
+                            else if (l1 < 68)
                             {
                                 block = null;
-                                block1 = ModBlocks.dres_rock;
-                                blocks[i2] = Blocks.gravel;
+                                block1 = ModBlocks.block_meteor_broken;
+                                if (Math.random() > 0.4) {
+                                	blocks[i2] = ModBlocks.block_meteor_cobble;
+                                }
+                                else
+                                {
+                                    blocks[i2] = ModBlocks.block_meteor_broken;   	
+                                }
                             }
                             else
                             {

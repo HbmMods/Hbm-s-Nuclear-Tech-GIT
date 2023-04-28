@@ -24,6 +24,7 @@ import javax.swing.text.Position;
 public class SkyProviderDres extends IRenderHandler {
 	
 	private static final ResourceLocation sunTexture = new ResourceLocation("textures/environment/sun.png");
+	private static final ResourceLocation flare = new ResourceLocation("hbm:textures/misc/space/flare.png");
 	private static final ResourceLocation planet = new ResourceLocation("hbm:textures/misc/planet.png");
 	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/night.png");
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
@@ -200,6 +201,7 @@ public class SkyProviderDres extends IRenderHandler {
 		GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
 		// Some blanking to conceal the stars
 		f10 = (AstronomyUtil.KerbolRadius/(AstronomyUtil.DresAU*AstronomyUtil.AUToKm))*360;
+		float f11 = f10*2;
 		tessellator.startDrawingQuads();
 		tessellator.addVertex(-f10, 99.9D, -f10);
 		tessellator.addVertex(f10, 99.9D, -f10);
@@ -215,6 +217,17 @@ public class SkyProviderDres extends IRenderHandler {
 			tessellator.addVertexWithUV(f10, 100.0D, -f10, 1.0D, 0.0D);
 			tessellator.addVertexWithUV(f10, 100.0D, f10, 1.0D, 1.0D);
 			tessellator.addVertexWithUV(-f10, 100.0D, f10, 0.0D, 1.0D);
+			tessellator.draw();
+		}
+		{
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.6f);
+			mc.renderEngine.bindTexture(this.flare);
+			tessellator.startDrawingQuads();
+			tessellator.addVertexWithUV(-f11, 100.0D, -f11, 0.0D, 0.0D);
+			tessellator.addVertexWithUV(f11, 100.0D, -f11, 1.0D, 0.0D);
+			tessellator.addVertexWithUV(f11, 100.0D, f11, 1.0D, 1.0D);
+			tessellator.addVertexWithUV(-f11, 100.0D, f11, 0.0D, 1.0D);
 			tessellator.draw();
 		}
 		{

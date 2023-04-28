@@ -112,6 +112,11 @@ public class ItemWandD extends Item {
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				case 6:
+					DebugTeleporter.teleport(player, WorldConfig.mohoDimension, player.posX, 300, player.posZ);
+					//DebugTeleporter.teleport(player, WorldConfig.eveDimension, player.posX, 300, player.posZ);
+					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
+					break;
+				case 7:
 					TomSaveData data = TomSaveData.forWorld(world);
 					data.impact = false;
 					data.fire = 0F;
@@ -124,6 +129,7 @@ public class ItemWandD extends Item {
 					break;
 				}
 				
+				
 			}
 			if(player.isSneaking())
 			{
@@ -135,7 +141,7 @@ public class ItemWandD extends Item {
 					int i = stack.stackTagCompound.getInteger("dim");
 					i++;
 					stack.stackTagCompound.setInteger("dim", i);
-					if(i >= 7) {
+					if(i >= 8) {
 						stack.stackTagCompound.setInteger("dim", 0);
 					}
 					
@@ -160,6 +166,9 @@ public class ItemWandD extends Item {
 							player.addChatMessage(new ChatComponentText("Dim: Dres"));
 							break;
 						case 6:
+							player.addChatMessage(new ChatComponentText("Dim: Moho"));
+							break;
+						case 7:
 							player.addChatMessage(new ChatComponentText("Impact Event"));
 							break;
 						default:
@@ -181,7 +190,7 @@ public class ItemWandD extends Item {
 			TimeAnalyzer.endCount();
 			TimeAnalyzer.dump();*/
 			
-			TomSaveData data = TomSaveData.forWorld(world);
+			/*TomSaveData data = TomSaveData.forWorld(world);
 			data.impact = true;
 			data.fire = 0F;
 			data.dust = 0F;
@@ -189,7 +198,7 @@ public class ItemWandD extends Item {
 			//data.time=3600;
 			//data.x=pos.blockX;
 			//data.z=pos.blockZ;
-			data.markDirty();
+			data.markDirty();*/
 			
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;
@@ -334,6 +343,9 @@ public class ItemWandD extends Item {
 				list.add("Dim: Dres");
 				break;
 			case 6:
+				list.add("Dim: Moho");
+				break;
+			case 7:
 				list.add("Impact");
 				break;
 	}

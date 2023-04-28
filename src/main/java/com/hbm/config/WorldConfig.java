@@ -108,6 +108,7 @@ public class WorldConfig {
 	public static int dunaDimension = 16;
 	public static int ikeDimension = 17;
 	public static int eveDimension = 18;
+	public static int mohoDimension = 20;
 	
 	public static int moonBiome = 111;
 	public static int dunaBiome = 112;
@@ -124,6 +125,8 @@ public class WorldConfig {
 	public static int DresBiome = 120;
 	public static int dreBasins = 121;
 	public static int dresDimension = 19;
+	
+	public static int mohoBiome = 122;
 	
 	public static void loadFromConfig(Configuration config) {
 
