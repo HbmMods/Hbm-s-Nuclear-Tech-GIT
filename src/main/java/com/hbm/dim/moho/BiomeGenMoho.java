@@ -1,4 +1,4 @@
-package com.hbm.dim.dres.biome;
+package com.hbm.dim.moho;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -9,16 +9,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeGenEveMountains extends BiomeGenBase {
+public class BiomeGenMoho extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.525F, 0.4F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.325F, 0.05F);
 
-    //TODO: avoid doing an extra planets and make each planet unique and cool.
-	public BiomeGenEveMountains(int id) {
+	public BiomeGenMoho(int id) {
 		super(id);
-		this.setBiomeName("Eve Mountains");
+		this.setBiomeName("Moho");
 		this.setDisableRain();
-		this.waterColorMultiplier=0x5b009a;
 		
         this.spawnableCreatureList.clear();
         this.spawnableMonsterList.clear();
@@ -29,8 +27,8 @@ public class BiomeGenEveMountains extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.eve_silt;
-        this.fillerBlock = ModBlocks.eve_rock;
+        this.topBlock = ModBlocks.moho_regolith;
+        this.fillerBlock = ModBlocks.moho_regolith; //thiccer regolith due to uhhhhhh...................
 	}
 
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
@@ -40,7 +38,7 @@ public class BiomeGenEveMountains extends BiomeGenBase {
         byte b0 = (byte)(this.field_150604_aj & 255);
         Block block1 = this.fillerBlock;
         int k = -1;
-        int l = (int)(noise / 6.0D + 6.0D + rand.nextDouble() * 0.85D);
+        int l = (int)(noise / 8.0D + 8.0D + rand.nextDouble() * 0.50D);
         int i1 = x & 15;
         int j1 = z & 15;
         int k1 = blocks.length / 256;
@@ -59,7 +57,7 @@ public class BiomeGenEveMountains extends BiomeGenBase {
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == ModBlocks.eve_rock)
+                    if (block2 == ModBlocks.moho_stone)
                     {
                         if (k == -1)
                         {
@@ -67,7 +65,7 @@ public class BiomeGenEveMountains extends BiomeGenBase {
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.eve_rock;
+                                block1 = ModBlocks.moho_stone;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {
@@ -97,17 +95,11 @@ public class BiomeGenEveMountains extends BiomeGenBase {
                             	blocks[i2] = block;
                             	meta[i2] = b0;
                             }
-                            else if (l1 < 62)
+                            else if (l1 < 56 - l)
                             {
                                 block = null;
-                                block1 = ModBlocks.eve_rock;
-                                if (Math.random() > 0.4) {
-                                	blocks[i2] = ModBlocks.eve_rock;
-                                }
-                                else
-                                {
-                                    blocks[i2] = ModBlocks.basalt_smooth;   	
-                                }
+                                block1 = ModBlocks.moho_stone;
+                                blocks[i2] = Blocks.gravel;
                             }
                             else
                             {
@@ -134,5 +126,4 @@ public class BiomeGenEveMountains extends BiomeGenBase {
             }
         }
     }
-
 }

@@ -310,7 +310,7 @@ public class OreDictManager {
 		 * VANILLA
 		 */
 		COAL.gem(Items.coal).dustSmall(powder_coal_tiny).dust(powder_coal);
-		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron, dres_iron, duna_iron, ore_meteor_iron);
+		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron, /*dres_iron,*/ duna_iron, ore_meteor_iron);
 		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold);
 		LAPIS.dust(powder_lapis);
 		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz);
@@ -426,7 +426,7 @@ public class OreDictManager {
 		/*
 		 * HAZARDS, MISC
 		 */
-		LI	.hydro(1F)	.ingot(lithium)	.dustSmall(powder_lithium_tiny)	.dust(powder_lithium)	.block(block_lithium)	.ore(ore_gneiss_lithium, ore_meteor_lithium, moon_lithium, dres_lithium);
+		LI	.hydro(1F)	.ingot(lithium)	.dustSmall(powder_lithium_tiny)	.dust(powder_lithium)	.block(block_lithium)	.ore(ore_gneiss_lithium, ore_meteor_lithium, moon_lithium/*, dres_lithium*/);
 
 		/*
 		 * PHOSPHORUS

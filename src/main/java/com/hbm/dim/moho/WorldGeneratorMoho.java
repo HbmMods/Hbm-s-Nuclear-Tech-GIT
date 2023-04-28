@@ -1,4 +1,4 @@
-package com.hbm.dim.dres;
+package com.hbm.dim.moho;
 
 import java.util.Random;
 
@@ -18,23 +18,21 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 
-public class WorldGeneratorDres implements IWorldGenerator {
+public class WorldGeneratorMoho implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
 		switch (world.provider.dimensionId) {
-		case 19:
-			generateDres(world, random, chunkX * 16, chunkZ * 16); break;
+		case 20:
+			generateMoho(world, random, chunkX * 16, chunkZ * 16); break;
 		}
 	}
-	private void generateDres(World world, Random rand, int i, int j) {
-	       DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.cobaltSpawn, 4, 3, 22, ModBlocks.dres_cobalt, ModBlocks.block_meteor_broken);
-	        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperSpawn, 9, 4, 27, ModBlocks.ore_meteor_iron, ModBlocks.block_meteor_broken);
-	        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.lithiumSpawn, 4, 4, 8, ModBlocks.ore_meteor_lithium, ModBlocks.block_meteor_broken);
-	        DungeonToolbox.generateOre(world, rand, i, j, 12,  8, 1, 33, ModBlocks.dres_niobium, ModBlocks.block_meteor_broken);
-	        DungeonToolbox.generateOre(world, rand, i, j, 1, 1, 1, 33, ModBlocks.ore_meteor_osmiridium, ModBlocks.block_meteor_broken);
+	private void generateMoho(World world, Random rand, int i, int j) {
+		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.asbestosSpawn, 4, 3, 22, ModBlocks.ike_asbestos, ModBlocks.ike_stone);
+		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperSpawn, 9, 4, 27, ModBlocks.ike_copper, ModBlocks.ike_stone);
+		//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.ironClusterSpawn,  8, 1, 33, ModBlocks.ike_iron, ModBlocks.ike_stone);
 		
-		if (WorldConfig.drescfreq > 0 && rand.nextInt(WorldConfig.drescfreq) == 0) {
+		if (WorldConfig.ikecfreq > 0 && rand.nextInt(WorldConfig.ikecfreq) == 0) {
 			
 			for (int a = 0; a < 1; a++) {
 				int x = i + rand.nextInt(16);
@@ -45,7 +43,7 @@ public class WorldGeneratorDres implements IWorldGenerator {
 				if(rand.nextInt(50) == 0)
 					r = 50;
 
-				new CraterDres().generate(world, x, z, r, r * 0.35D);
+				new CraterMoho().generate(world, x, z, r, r * 0.35D);
 
 				if(GeneralConfig.enableDebugMode)
 					MainRegistry.logger.info("[Debug] Successfully spawned crater at " + x + " " + z);
