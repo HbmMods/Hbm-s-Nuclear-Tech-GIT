@@ -8,7 +8,7 @@ import java.util.Map;
 
 import com.hbm.inventory.gui.GUIMachineBoiler;
 import com.hbm.inventory.gui.GUIMachineBoilerElectric;
-import com.hbm.inventory.recipes.MachineRecipes;
+import com.hbm.inventory.recipes.FluidsEditor;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.PositionedStack;
@@ -68,7 +68,7 @@ public class BoilerRecipeHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("ntmboiler")) && getClass() == BoilerRecipeHandler.class) {
-			Map<Object, Object> recipes = MachineRecipes.instance().getBoilerRecipes();
+			Map<Object, Object> recipes = FluidsEditor.getBoilerRecipes();
 			for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
 				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), 
 						(ItemStack)recipe.getValue()));
@@ -80,7 +80,7 @@ public class BoilerRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<Object, Object> recipes = MachineRecipes.instance().getBoilerRecipes();
+		Map<Object, Object> recipes = FluidsEditor.getBoilerRecipes();
 		for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
 			if (compareFluidStacks((ItemStack)recipe.getValue(), result) || 
 					compareFluidStacks((ItemStack)recipe.getValue(), result))
@@ -100,7 +100,7 @@ public class BoilerRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<Object, Object> recipes = MachineRecipes.instance().getBoilerRecipes();
+		Map<Object, Object> recipes = FluidsEditor.getBoilerRecipes();
 		for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
 			if (compareFluidStacks(ingredient, (ItemStack)recipe.getKey()))
 				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), 

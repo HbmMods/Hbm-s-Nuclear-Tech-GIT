@@ -8,6 +8,7 @@ import com.hbm.inventory.FluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.items.ModItems;
 
 import net.minecraft.init.Blocks;
@@ -27,7 +28,10 @@ public class MachineRecipes {
 	
 	//return: FluidType, amount produced, amount required, heat required (°C * 100)
 	public static Object[] getBoilerOutput(FluidType type) {
-		
+		if(type.hasTrait(FT_Heatable.class)) return new Object[] {
+				type.getTrait(FT_Heatable.class).getFirstStep().typeProduced,
+				type.getTrait(FT_Heatable.class).getFirstStep().amountProduced,
+				type.getTrait(FT_Heatable.class).getFirstStep().amountReq, 35000 };
 		if(type == Fluids.OIL) return new Object[] { Fluids.HOTOIL, 5, 5, 35000 };
 		if(type == Fluids.CRACKOIL) return new Object[] { Fluids.HOTCRACKOIL, 5, 5, 35000 };
 		
@@ -143,32 +147,7 @@ public class MachineRecipes {
 		
 		return false;
 	}
-	
-	
-	public Map<Object, Object> getBoilerRecipes() {
 
-		Map<Object, Object> recipes = new HashMap<Object, Object>();
-		
-		for(int i = 0; i < Fluids.getAll().length; i++) {
-			Object[] outs = getBoilerOutput(Fluids.fromID(i));
-			
-			if(outs != null) {
-
-				ItemStack in = new ItemStack(ModItems.fluid_icon, 1, i);
-				in.stackTagCompound = new NBTTagCompound();
-				in.stackTagCompound.setInteger("fill", (Integer) outs[2]);
-				
-				ItemStack out = new ItemStack(ModItems.fluid_icon, 1, ((FluidType)outs[0]).getID());
-				out.stackTagCompound = new NBTTagCompound();
-				out.stackTagCompound.setInteger("fill", (Integer) outs[1]);
-				
-				recipes.put(in, out);
-			}
-		}
-		
-		return recipes;
-	}
-	
 	public Map<Object, Object> getFluidContainers() {
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		

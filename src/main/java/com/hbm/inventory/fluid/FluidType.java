@@ -100,7 +100,9 @@ public class FluidType {
 	public boolean hasTrait(Class<? extends FluidTrait> trait) {
 		return this.traits.containsKey(trait);
 	}
-	
+	public void removeTrait(Class<? extends FluidTrait> trait) {
+		this.traits.remove(trait.getClass());
+	}
 	public <T extends FluidTrait> T getTrait(Class<? extends T> trait) { //generics, yeah!
 		return (T) this.traits.get(trait);
 	}
