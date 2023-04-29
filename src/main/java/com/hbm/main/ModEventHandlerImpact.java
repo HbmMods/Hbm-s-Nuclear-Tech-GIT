@@ -88,7 +88,7 @@ public class ModEventHandlerImpact {
 						Random rand = new Random();
 						if(rand.nextInt(100)==0)
 						{
-							BossSpawnHandler.spawnMeteorAtPlayer(e, false);
+							BossSpawnHandler.spawnMeteorAtPlayer(e, false, true);
 						}	
 					}
 				}

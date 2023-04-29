@@ -24,10 +24,10 @@ import net.minecraft.world.World;
 public class Meteorite {
 	
 	public static boolean safeMode = false;
-
-	public void generate(World world, Random rand, int x, int y, int z, boolean safe, boolean allowSpecials, boolean damagingImpact) {
+	public static boolean osmiridium = false;
+	public void generate(World world, Random rand, int x, int y, int z, boolean safe, boolean allowSpecials, boolean damagingImpact, boolean osmiridic) {
 		safeMode = safe;
-		
+		osmiridium = osmiridic;
 		if(replacables.isEmpty()) {
 			generateReplacables();
 		}
@@ -51,7 +51,7 @@ public class Meteorite {
 			case 1:
 				// Large ore-only meteorite
 				List<ItemStack> list1 = new ArrayList<ItemStack>();
-				list1.addAll(this.getRandomOre(rand));
+				list1.addAll(this.getRandomOre(rand,osmiridium));
 				int i = list1.size();
 				for(int j = 0; j < i; j++)
 					list1.add(new ItemStack(ModBlocks.block_meteor_broken));
@@ -60,7 +60,7 @@ public class Meteorite {
 			case 2:
 				// Medium ore-only meteorite
 				List<ItemStack> list2 = new ArrayList<ItemStack>();
-				list2.addAll(this.getRandomOre(rand));
+				list2.addAll(this.getRandomOre(rand,osmiridium));
 				int k = list2.size() / 2;
 				for(int j = 0; j < k; j++)
 					list2.add(new ItemStack(ModBlocks.block_meteor_broken));
@@ -69,7 +69,7 @@ public class Meteorite {
 			case 3:
 				// Small pure ore meteorite
 				List<ItemStack> list3 = new ArrayList<ItemStack>();
-				list3.addAll(this.getRandomOre(rand));
+				list3.addAll(this.getRandomOre(rand,osmiridium));
 				generateBox(world, rand, x, y, z, list3);
 				return;
 			case 4:
@@ -112,7 +112,7 @@ public class Meteorite {
 				List<ItemStack> list9 = new ArrayList<ItemStack>();
 				list9.add(new ItemStack(ModBlocks.block_meteor_broken));
 				generateSphere9x9(world, rand, x, y, z, list9);
-				generateSphere7x7(world, rand, x, y, z, this.getRandomOre(rand));
+				generateSphere7x7(world, rand, x, y, z, this.getRandomOre(rand,osmiridium));
 				return;
 			case 10:
 				// Tainted Meteorite
@@ -237,7 +237,7 @@ public class Meteorite {
 			coreL.add(new ItemStack(ModBlocks.block_meteor_treasure));
 			break;
 		case 2:
-			coreL.addAll(this.getRandomOre(rand));
+			coreL.addAll(this.getRandomOre(rand,osmiridium));
 			break;
 		}
 
@@ -348,7 +348,7 @@ public class Meteorite {
 			coreL.add(new ItemStack(ModBlocks.block_meteor_treasure));
 			break;
 		case 2:
-			coreL.addAll(this.getRandomOre(rand));
+			coreL.addAll(this.getRandomOre(rand,osmiridium));
 			break;
 		}
 
@@ -466,7 +466,7 @@ public class Meteorite {
 		generateSphere7x7(world, rand, x, y, z, hull);
 		generateSphere5x5(world, rand, x, y, z, op);
 		generateBox(world, rand, x, y, z, ip);
-		generateStar3x3(world, rand, x, y, z, this.getRandomOre(rand));
+		generateStar3x3(world, rand, x, y, z, this.getRandomOre(rand,osmiridium));
 		ItemStack stack = core.get(rand.nextInt(core.size()));
 		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
@@ -475,7 +475,7 @@ public class Meteorite {
 		generateSphere7x7(world, rand, x, y, z, hull);
 		generateSphere5x5(world, rand, x, y, z, op);
 		generateStar5x5(world, rand, x, y, z, ip);
-		generateStar3x3(world, rand, x, y, z, this.getRandomOre(rand));
+		generateStar3x3(world, rand, x, y, z, this.getRandomOre(rand,osmiridium));
 		ItemStack stack = core.get(rand.nextInt(core.size()));
 		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
@@ -518,7 +518,7 @@ public class Meteorite {
 	public void genM6(World world, Random rand, int x, int y, int z, List<ItemStack> hull, List<ItemStack> op, List<ItemStack> ip, List<ItemStack> core) {
 		generateSphere5x5(world, rand, x, y, z, hull);
 		generateBox(world, rand, x, y, z, ip);
-		generateStar3x3(world, rand, x, y, z, this.getRandomOre(rand));
+		generateStar3x3(world, rand, x, y, z, this.getRandomOre(rand,osmiridium));
 		ItemStack stack = core.get(rand.nextInt(core.size()));
 		setBlock(world, x, y, z, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
@@ -692,7 +692,7 @@ public class Meteorite {
 		setBlock(world, x, y, z - 1, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 	}
 
-	public List<ItemStack> getRandomOre(Random rand) {
+	public List<ItemStack> getRandomOre(Random rand, boolean osmiridic) {
 
 		List<ItemStack> ores = new ArrayList<ItemStack>();
 
@@ -716,6 +716,12 @@ public class Meteorite {
 			ores.add(new ItemStack(ModBlocks.ore_meteor_lithium));
 		for(int i = 0; i < 1; i++)
 			ores.add(new ItemStack(ModBlocks.ore_meteor_starmetal));
+		if(osmiridic)
+		{
+			System.out.println("osmiridic");
+			for(int i = 0; i < 6; i++)
+				ores.add(new ItemStack(ModBlocks.ore_meteor_osmiridium));
+		}
 		for(int i = 0; i < 9; i++)
 			ores.add(new ItemStack(ModBlocks.ore_meteor_iron));
 
