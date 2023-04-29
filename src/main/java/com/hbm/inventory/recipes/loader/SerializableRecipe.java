@@ -61,10 +61,6 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new MixerRecipes());
 		recipeHandlers.add(new OutgasserRecipes());
 		recipeHandlers.add(new MatDistribution());
-		recipeHandlers.add(new CrystallizerRecipes());
-		recipeHandlers.add(new BreederRecipes());
-		recipeHandlers.add(new CombinationRecipes());
-		recipeHandlers.add(new PressRecipes());
 		recipeHandlers.add(new FluidsEditor());
 	}
 	
