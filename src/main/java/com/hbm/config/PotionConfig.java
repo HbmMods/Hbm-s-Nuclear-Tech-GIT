@@ -17,6 +17,7 @@ public class PotionConfig {
 	public static int potionsicknessID = 72;
 	public static int deathID = 72;
 	public static int nitanID = 73;
+	public static int flashbangID = 73;
 	
 	public static int potionSickness = 0;
 	
@@ -36,6 +37,7 @@ public class PotionConfig {
 		potionsicknessID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.10_potionsicknessID", "What potion ID the potion sickness effect will have", 72);
 		deathID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.11_deathID", "What potion ID the death effect will have", 73);
 		nitanID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.11_nitanID", "What potion ID the NITAN Ambrosia will have", 74);
+		flashbangID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.12_flashbangID", "What potion ID the flashbang effect will have", 75);
 
 		String s = CommonConfig.createConfigString(config, CATEGORY_POTION, "8.S0_potionSickness", "Valid configs include \"NORMAL\" and \"TERRARIA\", otherwise potion sickness is turned off", "OFF");
 

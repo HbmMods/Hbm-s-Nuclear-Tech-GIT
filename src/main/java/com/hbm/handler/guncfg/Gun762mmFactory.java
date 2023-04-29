@@ -236,7 +236,7 @@ public class Gun762mmFactory {
 		final BulletConfiguration bullet = Gun556mmFactory.get556Config().clone();
 
 		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.STOCK));
-		bullet.dmgMax *= 1.5;
+		bullet.dmgMax *= 1.4;
 		bullet.dmgMin *= 1.5;
 		bullet.velocity *= 2.5;
 		bullet.maxAge *= 2;

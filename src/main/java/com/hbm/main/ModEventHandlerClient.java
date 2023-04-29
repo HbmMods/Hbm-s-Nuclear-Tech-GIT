@@ -234,7 +234,12 @@ public class ModEventHandlerClient {
 				RenderScreenOverlay.renderScope(resolution, config.scopeTexture);
 			}
 		}
-		
+		int potionRemaining = player.getActivePotionEffect(HbmPotion.flashbang).getDuration();
+		/// HANDLE FLASHBANG OVERLAY///
+		if(player.isPotionActive(HbmPotion.flashbang)) {
+            potionRemaining--;
+			RenderScreenOverlay.renderFlashbangOverlay(event.resolution, potionRemaining);
+		}
 		/// HANDLE FSB HUD ///
 		ItemStack helmet = player.inventory.armorInventory[3];
 		
@@ -246,7 +251,7 @@ public class ModEventHandlerClient {
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			if(props.getDashCount() > 0) {
 				RenderScreenOverlay.renderDashBar(event.resolution, Minecraft.getMinecraft().ingameGUI, props);
-					
+
 			}
 		}
 	}
