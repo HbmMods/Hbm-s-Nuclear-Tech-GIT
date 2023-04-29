@@ -216,7 +216,7 @@ public class BossSpawnHandler {
 					}
 					
 					if(strike)
-						spawnMeteorAtPlayer(p, repell);
+						spawnMeteorAtPlayer(p, repell, false);
 				}
 			}
 		}
@@ -235,7 +235,7 @@ public class BossSpawnHandler {
 		}
 	}
 	
-	public static void spawnMeteorAtPlayer(EntityPlayer player, boolean repell) {
+	public static void spawnMeteorAtPlayer(EntityPlayer player, boolean repell, boolean osmiridic) {
 
 		EntityMeteor meteor = new EntityMeteor(player.worldObj);
 		meteor.setPositionAndRotation(player.posX + meteorRand.nextInt(201) - 100, 384, player.posZ + meteorRand.nextInt(201) - 100, 0, 0);
@@ -250,7 +250,10 @@ public class BossSpawnHandler {
 			vec = Vec3.createVectorHelper(meteorRand.nextDouble() - 0.5D, 0, 0);
 			vec.rotateAroundY((float) (Math.PI * meteorRand.nextDouble()));
 		}
-		
+		if(osmiridic)
+		{
+			meteor.osmiridium = true;
+		}
 		meteor.motionX = vec.xCoord;
 		meteor.motionY = -2.5;
 		meteor.motionZ = vec.zCoord;

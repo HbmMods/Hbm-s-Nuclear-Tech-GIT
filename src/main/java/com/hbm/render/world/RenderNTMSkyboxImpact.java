@@ -321,7 +321,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 			tessellator.draw();
 		}
         {
-        	if(time<week)
+        	if(time<week && time > 0)
         	{
             	GL11.glPushMatrix();        	
             	float timeF = (float)(week-time)/168000f;

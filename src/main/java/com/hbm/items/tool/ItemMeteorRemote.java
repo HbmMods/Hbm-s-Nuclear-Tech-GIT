@@ -31,7 +31,7 @@ public class ItemMeteorRemote extends Item {
 		stack.damageItem(1, player);
 
 		if(!world.isRemote) {
-			BossSpawnHandler.spawnMeteorAtPlayer(player, false);
+			BossSpawnHandler.spawnMeteorAtPlayer(player, false, true);
 			player.addChatMessage(new ChatComponentText("Watch your head!"));
 		}
 
