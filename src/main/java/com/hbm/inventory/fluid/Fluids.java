@@ -145,6 +145,7 @@ public class Fluids {
 	public static FluidType NMASSTETRANOL; //stronger, not suitable for FTL due to its Carbon-Chain content
 	public static FluidType NMASS; //weaker, much more suitable for FTL
 	public static FluidType RIZZ;
+	public static FluidType HTcO4;//we
 
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
@@ -302,6 +303,8 @@ public class Fluids {
 		NMASSTETRANOL =			new FluidType("NMASSTETRANOL",		0xF1DB0F, 1, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xF1DB0F)).addTraits(new FT_Flammable(1_000_000), LIQUID, new FT_Corrosive(70), new FT_Poison(true, 0), new FT_VentRadiation(0.01F));
 		NMASS =					new FluidType("NMASS",				0x53A9F4, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(10), new FT_Poison(true, 0), new FT_VentRadiation(0.04F));
 		RIZZ =					new FluidType("RIZZ",				0x53A9F4, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(10), new FT_Poison(true, 0));
+		HTcO4 =					new FluidType("HTcO4",				0x675454, 1, 3, 0, EnumSymbol.RADIATION).addTraits(LIQUID, new FT_Corrosive(10), new FT_VentRadiation(0.5F));
+
 		//i was dared....
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
@@ -408,6 +411,7 @@ public class Fluids {
 		metaOrder.add(AMMONIA);
 		metaOrder.add(SOLVENT);
 		metaOrder.add(RADIOSOLVENT);
+		metaOrder.add(HTcO4);
 		metaOrder.add(SCHRABIDIC);
 		metaOrder.add(UF6);
 		metaOrder.add(PUF6);
