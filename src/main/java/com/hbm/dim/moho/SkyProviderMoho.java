@@ -200,7 +200,7 @@ public class SkyProviderMoho extends IRenderHandler {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
 		// Some blanking to conceal the stars
-		f10 = (AstronomyUtil.KerbolRadius/(AstronomyUtil.MohoAU*AstronomyUtil.AUToKm))*360;
+		f10 = (AstronomyUtil.KerbolRadius/(AstronomyUtil.MohoAU*AstronomyUtil.AUToKm))*720;
 		float f11 = f10*2;
 		tessellator.startDrawingQuads();
 		tessellator.addVertex(-f10, 99.9D, -f10);
@@ -210,6 +210,7 @@ public class SkyProviderMoho extends IRenderHandler {
 		tessellator.draw();
 		{
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1);
 			mc.renderEngine.bindTexture(this.sunTexture);
 			tessellator.startDrawingQuads();
