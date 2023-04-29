@@ -25,11 +25,14 @@ public class GUIMachineCoker extends GuiInfoContainer {
 	}
 	
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float f) {
-		super.drawScreen(mouseX, mouseY, f);
+	public void drawScreen(int x, int y, float f) {
+		super.drawScreen(x, y, f);
 
-		refinery.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 35, guiTop + 18, 16, 52);
-		refinery.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 125, guiTop + 18, 16, 52);
+		refinery.tanks[0].renderTankInfo(this, x, y, guiLeft + 35, guiTop + 18, 16, 52);
+		refinery.tanks[1].renderTankInfo(this, x, y, guiLeft + 125, guiTop + 18, 16, 52);
+		
+		this.drawCustomInfoStat(x, y, guiLeft + 60, guiTop + 45, 54, 7, x, y, new String[] { String.format("%,d", refinery.progress) + " / " + String.format("%,d", refinery.processTime) + "TU" });
+		this.drawCustomInfoStat(x, y, guiLeft + 60, guiTop + 54, 54, 7, x, y, new String[] { String.format("%,d", refinery.heat) + " / " + String.format("%,d", refinery.maxHeat) + "TU" });
 	}
 	
 	@Override
@@ -45,6 +48,12 @@ public class GUIMachineCoker extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		int p = refinery.progress * 53 / refinery.processTime;
+		drawTexturedModalRect(guiLeft + 61, guiTop + 46, 176, 0, p, 5);
+		
+		int h = refinery.heat * 52 / refinery.maxHeat;
+		drawTexturedModalRect(guiLeft + 61, guiTop + 55, 176, 5, h, 5);
 		
 		refinery.tanks[0].renderTank(guiLeft + 35, guiTop + 70, this.zLevel, 16, 52);
 		refinery.tanks[1].renderTank(guiLeft + 125, guiTop + 70, this.zLevel, 16, 52);

@@ -30,45 +30,47 @@ public class CokerRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 
-		registerAuto(HEAVYOIL,				new FluidStack(Fluids.OIL_COKER,		20));
-		registerAuto(HEAVYOIL_VACUUM,		new FluidStack(Fluids.REFORMATE,		20));
-		registerAuto(COALCREOSOTE,			new FluidStack(Fluids.NAPHTHA_COKER,	20));
-		registerAuto(WOODOIL,				new FluidStack(Fluids.NAPHTHA_COKER,	20));
-		registerAuto(SMEAR,					new FluidStack(Fluids.OIL_COKER,		20));
-		registerAuto(HEATINGOIL,			new FluidStack(Fluids.OIL_COKER,		20));
-		registerAuto(HEATINGOIL_VACUUM,		new FluidStack(Fluids.OIL_COKER,		20));
-		registerAuto(RECLAIMED,				new FluidStack(Fluids.NAPHTHA_COKER,	20));
-		registerAuto(NAPHTHA,				new FluidStack(Fluids.NAPHTHA_COKER,	20));
-		registerAuto(NAPHTHA_CRACK,			new FluidStack(Fluids.NAPHTHA_COKER,	20));
-		registerAuto(DIESEL,				new FluidStack(Fluids.NAPHTHA_COKER,	20));
-		registerAuto(DIESEL_REFORM,			new FluidStack(Fluids.NAPHTHA_COKER,	20));
-		registerAuto(DIESEL_CRACK,			new FluidStack(Fluids.GAS_COKER,		20));
-		registerAuto(DIESEL_CRACK_REFORM,	new FluidStack(Fluids.GAS_COKER,		20));
-		registerAuto(LIGHTOIL,				new FluidStack(Fluids.GAS_COKER,		20));
-		registerAuto(LIGHTOIL_CRACK,		new FluidStack(Fluids.GAS_COKER,		20));
-		registerAuto(LIGHTOIL_VACUUM,		new FluidStack(Fluids.GAS_COKER,		20));
-		registerAuto(BIOFUEL,				new FluidStack(Fluids.GAS_COKER,		20));
-		registerAuto(AROMATICS,				new FluidStack(Fluids.GAS_COKER,		20));
-		registerAuto(REFORMATE,				new FluidStack(Fluids.GAS_COKER,		20));
-		registerAuto(XYLENE,				new FluidStack(Fluids.GAS_COKER,		20));
+		registerAuto(HEAVYOIL,				Fluids.OIL_COKER);
+		registerAuto(HEAVYOIL_VACUUM,		Fluids.REFORMATE);
+		registerAuto(COALCREOSOTE,			Fluids.NAPHTHA_COKER);
+		registerAuto(WOODOIL,				Fluids.NAPHTHA_COKER);
+		registerAuto(SMEAR,					Fluids.OIL_COKER);
+		registerAuto(HEATINGOIL,			Fluids.OIL_COKER);
+		registerAuto(HEATINGOIL_VACUUM,		Fluids.OIL_COKER);
+		registerAuto(RECLAIMED,				Fluids.NAPHTHA_COKER);
+		registerAuto(NAPHTHA,				Fluids.NAPHTHA_COKER);
+		registerAuto(NAPHTHA_CRACK,			Fluids.NAPHTHA_COKER);
+		registerAuto(DIESEL,				Fluids.NAPHTHA_COKER);
+		registerAuto(DIESEL_REFORM,			Fluids.NAPHTHA_COKER);
+		registerAuto(DIESEL_CRACK,			Fluids.GAS_COKER);
+		registerAuto(DIESEL_CRACK_REFORM,	Fluids.GAS_COKER);
+		registerAuto(LIGHTOIL,				Fluids.GAS_COKER);
+		registerAuto(LIGHTOIL_CRACK,		Fluids.GAS_COKER);
+		registerAuto(LIGHTOIL_VACUUM,		Fluids.GAS_COKER);
+		registerAuto(BIOFUEL,				Fluids.GAS_COKER);
+		registerAuto(AROMATICS,				Fluids.GAS_COKER);
+		registerAuto(REFORMATE,				Fluids.GAS_COKER);
+		registerAuto(XYLENE,				Fluids.GAS_COKER);
 	}
 
-	private static void registerAuto(FluidType fluid, FluidStack byproduct) {
-		registerSFAuto(fluid, 800_000L, DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), byproduct); //3200 burntime * 1.25 burntime bonus * 200 TU/t
+	private static void registerAuto(FluidType fluid, FluidType type) {
+		registerSFAuto(fluid, 820_000L, DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), type); //3200 burntime * 1.25 burntime bonus * 200 TU/t + 20000TU per operation
 	}
-	private static void registerSFAuto(FluidType fluid, long tuPerSF, ItemStack fuel, FluidStack byproduct) {
+	private static void registerSFAuto(FluidType fluid, long tuPerSF, ItemStack fuel, FluidType type) {
 		long tuFlammable = fluid.hasTrait(FT_Flammable.class) ? fluid.getTrait(FT_Flammable.class).getHeatEnergy() : 0;
 		long tuCombustible = fluid.hasTrait(FT_Combustible.class) ? fluid.getTrait(FT_Combustible.class).getCombustionEnergy() : 0;
 		
 		long tuPerBucket = Math.max(tuFlammable, tuCombustible);
 		
-		double penalty = 1.1D;
+		double penalty = 1;//1.1D; //no penalty
 		
 		int mB = (int) (tuPerSF * 1000L * penalty / tuPerBucket);
 
 		if(mB > 10_000) mB -= (mB % 1000);
 		else if(mB > 1_000) mB -= (mB % 100);
 		else if(mB > 100) mB -= (mB % 10);
+		
+		FluidStack byproduct = type == null ? null : new FluidStack(type, Math.max(10, mB / 10));
 
 		registerRecipe(fluid, mB, fuel, byproduct);
 	}
