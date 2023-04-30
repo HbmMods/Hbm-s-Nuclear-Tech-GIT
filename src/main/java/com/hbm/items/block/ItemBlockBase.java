@@ -2,12 +2,11 @@ package com.hbm.items.block;
 
 import java.util.List;
 
-import com.hbm.blocks.BlockEnumMulti;
+import com.hbm.blocks.BlockMulti;
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.IPersistentNBT;
-import com.hbm.util.EnumUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -41,10 +40,8 @@ public class ItemBlockBase extends ItemBlock {
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		
-		if(field_150939_a instanceof BlockEnumMulti && ((BlockEnumMulti)field_150939_a).multiName) {
-			
-			Enum num = EnumUtil.grabEnumSafely(((BlockEnumMulti)field_150939_a).theEnum, stack.getItemDamage());
-			return super.getUnlocalizedName() + "." + num.name().toLowerCase();
+		if(field_150939_a instanceof BlockMulti) {
+			return ((BlockMulti)field_150939_a).getUnlocalizedName(stack);
 		} else {
 			return super.getUnlocalizedName(stack);
 		}

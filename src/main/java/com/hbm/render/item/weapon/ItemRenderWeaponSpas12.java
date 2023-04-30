@@ -112,5 +112,4 @@ public class ItemRenderWeaponSpas12 implements IItemRenderer {
 		
 		GL11.glPopMatrix();
 	}
-
 }

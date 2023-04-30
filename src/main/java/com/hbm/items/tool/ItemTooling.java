@@ -18,6 +18,8 @@ public class ItemTooling extends ItemCraftingDegradation {
 		this.type = type;
 		this.setFull3D();
 		this.setCreativeTab(MainRegistry.controlTab);
+		
+		type.register(new ItemStack(this));
 	}
 
 	@Override

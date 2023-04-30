@@ -10,4 +10,10 @@ public interface IEnergyGenerator extends IEnergyUser {
 	public default long transferPower(long power) {
 		return power;
 	}
+
+	/* should stop making non-receivers from interfering by applying their weight which doesn't even matter */
+	@Override
+	public default long getTransferWeight() {
+		return 0;
+	}
 }

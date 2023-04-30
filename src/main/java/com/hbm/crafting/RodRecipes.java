@@ -3,12 +3,14 @@ package com.hbm.crafting;
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
+import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.main.CraftingManager;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
@@ -123,6 +125,23 @@ public class RodRecipes {
 		addRBMKRod(ModItems.billet_zfb_pu241, ModItems.rbmk_fuel_zfb_pu241);
 		addRBMKRod(ModItems.billet_zfb_am_mix, ModItems.rbmk_fuel_zfb_am_mix);
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rbmk_fuel_drx, 1), new Object[] { ModItems.rbmk_fuel_balefire, ModItems.particle_digamma });
+
+		addPellet(SA326,							EnumWatzType.SCHRABIDIUM);
+		addPellet(ModItems.ingot_hes,				EnumWatzType.HES);
+		addPellet(ModItems.ingot_schrabidium_fuel,	EnumWatzType.MES);
+		addPellet(ModItems.ingot_les,				EnumWatzType.LES);
+		addPellet(NP237,							EnumWatzType.HEN);
+		addPellet(ModItems.ingot_uranium_fuel,		EnumWatzType.MEU);
+		addPellet(ModItems.ingot_pu_mix,			EnumWatzType.MEP);
+		addPellet(PB,								EnumWatzType.LEAD);
+		addPellet(B,								EnumWatzType.BORON);
+		addPellet(U238,								EnumWatzType.DU);
+	}
+	
+	public static void registerInit() {
+		/* GT6 */
+		if(OreDictionary.doesOreNameExist("ingotNaquadah-Enriched"))	addPellet(new DictFrame("Naquadah-Enriched"),	EnumWatzType.NQD);
+		if(OreDictionary.doesOreNameExist("ingotNaquadria"))			addPellet(new DictFrame("Naquadria"),			EnumWatzType.NQR);
 	}
 	
 	//Fill rods with one billet. For fuels only, therefore no unloading or ore dict
@@ -222,5 +241,13 @@ public class RodRecipes {
 	/** Fill ZIRNOX rod with two billets with OreDict **/
 	public static void addZIRNOXRod(DictFrame mat, EnumZirnoxType num) {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod_zirnox, 1, num.ordinal()), new Object[] { ModItems.rod_zirnox_empty, mat.billet(), mat.billet() });
+	}
+	
+	/** Watz pellet crafting **/
+	public static void addPellet(DictFrame mat, EnumWatzType num) {
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.watz_pellet, 1, num.ordinal()), new Object[] { " I ", "IGI", " I ", 'I', mat.ingot(), 'G', GRAPHITE.ingot() });
+	}
+	public static void addPellet(Item item, EnumWatzType num) {
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.watz_pellet, 1, num.ordinal()), new Object[] { " I ", "IGI", " I ", 'I', item, 'G', GRAPHITE.ingot() });
 	}
 }

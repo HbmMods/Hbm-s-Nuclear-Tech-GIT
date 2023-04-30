@@ -236,8 +236,9 @@ public class Gun762mmFactory {
 		final BulletConfiguration bullet = Gun556mmFactory.get556Config().clone();
 
 		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.STOCK));
-		bullet.dmgMax *= 1.4;
-		bullet.dmgMin *= 1.5;
+
+		bullet.dmgMax = 20;
+		bullet.dmgMin = 24;
 		bullet.velocity *= 2.5;
 		bullet.maxAge *= 2;
 		bullet.spread /= 2;
@@ -251,9 +252,11 @@ public class Gun762mmFactory {
 		final BulletConfiguration bullet = get762NATOConfig();
 
 		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.AP));
-		bullet.dmgMax *= 1.5;
-		bullet.dmgMin *= 1.5;
 		bullet.doesPenetrate = true;
+
+		bullet.dmgMax = 24;
+		bullet.dmgMin = 28;
+		
 		bullet.spentCasing = CASING762NATO.clone().register("762NATOAP");
 
 		return bullet;
@@ -263,9 +266,9 @@ public class Gun762mmFactory {
 		final BulletConfiguration bullet = get762NATOConfig();
 
 		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.DU));
-		bullet.dmgMax *= 2;
-		bullet.dmgMin *= 2;
 		bullet.doesPenetrate = true;
+		bullet.dmgMax = 36;
+		bullet.dmgMin = 40;
 		bullet.spentCasing = CASING762NATO.clone().register("762NATODU");
 
 		return bullet;
