@@ -28,7 +28,7 @@ public class EntityGrenadeFlare extends EntityThrowable
     @Override
 	public void onUpdate() {
     	super.onUpdate();
-    	if(this.ticksExisted > 250)
+    	if(this.ticksExisted > 25)
     	{
     		this.setDead();
     	}

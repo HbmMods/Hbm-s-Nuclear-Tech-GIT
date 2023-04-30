@@ -758,9 +758,10 @@ public class ModEventHandler {
 			EntityPlayer player = (EntityPlayer) e;
 			
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
-			if(props.shield > 0) {
-				float reduce = Math.min(props.shield, event.ammount);
+			if(props.shield > 0 |props.nitanHealth > 0) {
+				float reduce = Math.min(props.shield+props.nitanHealth, event.ammount);
 				props.shield -= reduce;
+				props.nitanHealth -= reduce;
 				event.ammount -= reduce;
 			}
 			props.lastDamage = player.ticksExisted;
