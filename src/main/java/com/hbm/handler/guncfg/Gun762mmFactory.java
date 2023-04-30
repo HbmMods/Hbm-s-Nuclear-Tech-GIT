@@ -229,7 +229,7 @@ public class Gun762mmFactory {
 		config.name = "win20Satur";
 		config.reloadType = RELOAD_FULL;
 		config.manufacturer = EnumGunManufacturer.WINCHESTER_BIGMT;
-
+		config.config = HbmCollection.r762_hs;
 		return config;
 	}
 	public static BulletConfiguration get762NATOConfig() {

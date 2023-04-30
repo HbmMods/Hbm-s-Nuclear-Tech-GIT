@@ -374,9 +374,9 @@ public class RenderScreenOverlay {
 	
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
-	public static void renderFlashbangOverlay(ScaledResolution resolution, int potionRemaining) {
+	public static void renderFlashbangOverlay(ScaledResolution resolution) {
 
-        float alphaChange = potionRemaining/1000;
+      
 		ResourceLocation tex = new ResourceLocation (RefStrings.MODID + ":textures/misc/overlay_flashbang.png");
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(tex);
@@ -398,7 +398,7 @@ public class RenderScreenOverlay {
 		GL11.glDepthMask(true);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F-alphaChange);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 	public enum Crosshair {
 

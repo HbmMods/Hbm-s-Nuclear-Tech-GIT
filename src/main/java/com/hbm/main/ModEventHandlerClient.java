@@ -234,11 +234,10 @@ public class ModEventHandlerClient {
 				RenderScreenOverlay.renderScope(resolution, config.scopeTexture);
 			}
 		}
-		int potionRemaining = player.getActivePotionEffect(HbmPotion.flashbang).getDuration();
+		
 		/// HANDLE FLASHBANG OVERLAY///
-		if(player.isPotionActive(HbmPotion.flashbang)) {
-            potionRemaining--;
-			RenderScreenOverlay.renderFlashbangOverlay(event.resolution, potionRemaining);
+		if(player.isPotionActive(HbmPotion.flashbang)) {		
+			RenderScreenOverlay.renderFlashbangOverlay(event.resolution);
 		}
 		/// HANDLE FSB HUD ///
 		ItemStack helmet = player.inventory.armorInventory[3];

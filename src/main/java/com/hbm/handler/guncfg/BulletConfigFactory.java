@@ -361,17 +361,19 @@ public class BulletConfigFactory {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
 				bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:weapon.flashbang", 1F,1F);
+				
 				List<Entity> hit = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet, AxisAlignedBB.getBoundingBox(bullet.posX - radius, bullet.posY - radius, bullet.posZ - radius, bullet.posX + radius, bullet.posY + radius, bullet.posZ + radius));
-
+				
+				EntityGrenadeFlare flash = new EntityGrenadeFlare(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ );
+				bullet.worldObj.spawnEntityInWorld(flash);
+				
 				for(Entity e : hit) {
 
 					if(!Library.isObstructed(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
 
 						if(e instanceof EntityLivingBase) {
-
-							EntityGrenadeFlare explosion = new EntityGrenadeFlare(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ );
-							bullet.worldObj.spawnEntityInWorld(explosion);
 							EntityLivingBase entity = (EntityLivingBase) e;
 							if (ArmorRegistry.hasAllProtection(entity, 3, HazardClass.LIGHT) && !isSuper) {
 								continue;

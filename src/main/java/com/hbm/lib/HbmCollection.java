@@ -53,6 +53,8 @@ public class HbmCollection {
 	public static final List<Integer> r556Flechette = ImmutableList.of(BulletConfigSyncingUtil.R556_FLECHETTE, BulletConfigSyncingUtil.R556_FLECHETTE_INCENDIARY, BulletConfigSyncingUtil.R556_FLECHETTE_PHOSPHORUS, BulletConfigSyncingUtil.R556_FLECHETTE_DU, BulletConfigSyncingUtil.CHL_R556_FLECHETTE, BulletConfigSyncingUtil.R556_FLECHETTE_SLEEK, BulletConfigSyncingUtil.R556_K);
 	/** 7.62x51mm NATO **/
 	public static final List<Integer> r762 = ImmutableList.of(BulletConfigSyncingUtil.R762_NORMAL, BulletConfigSyncingUtil.R762_PHOSPHORUS, BulletConfigSyncingUtil.R762_AP, BulletConfigSyncingUtil.R762_DU, BulletConfigSyncingUtil.R762_TRACER, BulletConfigSyncingUtil.R762_K);
+	public static final List<Integer> r762_hs = ImmutableList.of(BulletConfigSyncingUtil.R762_NORMAL_HS, BulletConfigSyncingUtil.R762_PHOSPHORUS_HS, BulletConfigSyncingUtil.R762_AP_HS, BulletConfigSyncingUtil.R762_DU_HS, BulletConfigSyncingUtil.R762_TRACER_HS, BulletConfigSyncingUtil.R762_K_HS);
+
 	/** 5MM **/
 	public static final List<Integer> r5 = ImmutableList.of(BulletConfigSyncingUtil.R5_NORMAL, BulletConfigSyncingUtil.R5_EXPLOSIVE, BulletConfigSyncingUtil.R5_DU, BulletConfigSyncingUtil.R5_STAR, BulletConfigSyncingUtil.CHL_R5);
 	/** 5MM LACUNAE **/
