@@ -545,7 +545,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		int matMaximum = recipeInputRequired * this.recipeZCapacity / recipeContent;
 		int amountStored = getQuantaFromType(recipeStack, stack.material);
 		
-		return amountStored < matMaximum;
+		return amountStored < matMaximum && getQuantaFromType(this.recipeStack, null) < this.recipeZCapacity;
 	}
 
 	@Override
@@ -577,6 +577,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		}
 		
 		int toAdd = matMaximum - stack.amount;
+		toAdd = Math.min(toAdd, this.recipeZCapacity - getQuantaFromType(this.recipeStack, null));
 		this.addToStack(this.recipeStack, new MaterialStack(stack.material, toAdd));
 		return new MaterialStack(stack.material, stack.amount - toAdd);
 	}

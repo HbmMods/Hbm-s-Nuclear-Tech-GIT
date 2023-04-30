@@ -312,6 +312,8 @@ public class TileMappings {
 		put(TileEntityMachineCatalyticReformer.class, "tileentity_catalytic_reformer");
 		put(TileEntityMachineCryoDistill.class, "tileentity_cryogenic_distillator");
 
+		put(TileEntityMachineCoker.class, "tileentity_coker");
+		
 		put(TileEntityReactorZirnox.class, "tileentity_zirnox");
 		put(TileEntityZirnoxDestroyed.class, "tileentity_zirnox_destroyed");
 
