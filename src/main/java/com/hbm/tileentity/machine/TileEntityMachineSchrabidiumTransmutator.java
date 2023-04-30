@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.config.VersatileConfig;
+import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.container.ContainerMachineSchrabidiumTransmutator;
 import com.hbm.inventory.gui.GUIMachineSchrabidiumTransmutator;
 import com.hbm.inventory.recipes.MachineRecipes;
@@ -50,7 +51,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		switch (i) {
 		case 0:
-			if (MachineRecipes.mODE(stack, "ingotUranium"))
+			if (MachineRecipes.mODE(stack, OreDictManager.U.ingot()))
 				return true;
 			break;
 		case 2:
@@ -113,7 +114,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 	}
 
 	public boolean canProcess() {
-		if (power >= 4990000 && slots[0] != null && MachineRecipes.mODE(slots[0], "ingotUranium") && slots[2] != null
+		if (power >= 4990000 && slots[0] != null && MachineRecipes.mODE(slots[0], OreDictManager.U.ingot()) && slots[2] != null
 				&& slots[2].getItem() == ModItems.redcoil_capacitor
 				&& ItemCapacitor.getDura(slots[2]) > 0
 				&& (slots[1] == null || (slots[1] != null && slots[1].getItem() == VersatileConfig.getTransmutatorItem()

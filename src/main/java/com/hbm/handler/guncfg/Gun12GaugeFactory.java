@@ -48,6 +48,44 @@ public class Gun12GaugeFactory {
 		
 		CASING12GAUGE = new SpentCasing(CasingType.SHOTGUN).setScale(1.5F).setBounceMotion(0.05F, 0.02F).setupSmoke(0.5F, 0.5D, 60, 20);
 	}
+
+	public static GunConfiguration getRemington870Config() {
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 25;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.reloadDuration = 10;
+		config.firingDuration = 5;
+		config.ammoCap = 5;
+		config.durability = 1000;
+		config.reloadType = GunConfiguration.RELOAD_SINGLE;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.CIRCLE;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingSound = "hbm:weapon.shotgunPump";
+		
+		config.name = "remington870";
+		config.manufacturer = EnumGunManufacturer.REMINGTON;
+		
+		config.config = HbmCollection.g12hs;
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL_TRANSLATE", new BusAnimationSequence()
+					.addKeyframe(new BusAnimationKeyframe(0, 0, -2, 100))
+					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+					)
+				.addBus("PUMP", new BusAnimationSequence()
+					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 450))
+					.addKeyframe(new BusAnimationKeyframe(0, 0, -1.8, 200))
+					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+					)
+				);
+		
+		config.ejector = EJECTOR_SPAS;
+		return config;
+	}
 	
 	public static GunConfiguration getSpas12Config() {
 		
@@ -109,7 +147,7 @@ public class Gun12GaugeFactory {
 		config.firingSound = "hbm:weapon.shotgunPump";
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		
-		config.config = HbmCollection.g12;
+		config.config = HbmCollection.g12hs;
 		
 		config.ejector = EJECTOR_SPAS_ALT;
 
@@ -137,7 +175,7 @@ public class Gun12GaugeFactory {
 		config.name = "uboinik";
 		config.manufacturer = EnumGunManufacturer.METRO;
 
-		config.config = HbmCollection.g12;
+		config.config = HbmCollection.g12hs;
 		
 		config.ejector = EJECTOR_UBOINIK;
 		
@@ -190,7 +228,7 @@ public class Gun12GaugeFactory {
 		config.manufacturer = EnumGunManufacturer.UAC;
 		config.comment.add("God-damned ARCH-VILES!");
 		
-		config.config = HbmCollection.g12;
+		config.config = HbmCollection.g12hs;
 		
 		config.ejector = EJECTOR_SSG;
 		
@@ -346,5 +384,4 @@ public class Gun12GaugeFactory {
 		
 		return bullet;
 	}
-
 }

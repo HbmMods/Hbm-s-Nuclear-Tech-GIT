@@ -1,9 +1,12 @@
 package com.hbm.blocks;
 
+import com.hbm.util.EnumUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 public class BlockEnumMulti extends BlockMulti {
@@ -36,6 +39,16 @@ public class BlockEnumMulti extends BlockMulti {
 		} else {
 			this.blockIcon = reg.registerIcon(this.getTextureName());
 		}
+	}
+	
+	public String getUnlocalizedName(ItemStack stack) {
+		
+		if(this.multiName) {
+			Enum num = EnumUtil.grabEnumSafely(this.theEnum, stack.getItemDamage());
+			return super.getUnlocalizedName() + "." + num.name().toLowerCase();
+		}
+		
+		return this.getUnlocalizedName();
 	}
 	
 	@Override

@@ -117,13 +117,4 @@ public class ArmorRegistry {
 			this.lang = lang;
 		}
 	}
-	
-	/*public static enum ArmorClass {
-		MASK_FILTERED,
-		MASK_OXY,
-		GOGGLES,
-		HAZMAT_HEAT,
-		HAZMAT_RADIATION,
-		HAZMAT_BIO;
-	}*/
 }

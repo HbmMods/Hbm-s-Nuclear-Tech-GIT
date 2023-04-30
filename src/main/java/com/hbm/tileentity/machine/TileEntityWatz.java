@@ -2,8 +2,11 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.projectile.EntityShrapnel;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerWatz;
 import com.hbm.inventory.fluid.Fluids;
@@ -14,6 +17,9 @@ import com.hbm.inventory.gui.GUIWatz;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemWatzPellet;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
+import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Compat;
@@ -22,13 +28,17 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.function.Function;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -41,6 +51,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	public double fluxLastBase;		//flux created by the previous passive emission, only used for display
 	public double fluxLastReaction;	//flux created by the previous reaction, used for the next reaction
 	public double fluxDisplay;
+	public boolean isOn;
 	
 	/* lock types for item IO */
 	public boolean isLocked = false;
@@ -106,39 +117,59 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 				segment.updateReaction(above, sharedTanks, turnedOn);
 			}
 			
+			/* send sync packets (order doesn't matter) */
+			for(TileEntityWatz segment : segments) {
+				segment.isOn = turnedOn;
+				segment.sendPacket(sharedTanks);
+				segment.heat *= 0.99; //cool 1% per tick
+			}
+			
 			/* re-distribute fluid from shared tanks back into actual tanks, bottom to top */
 			for(int i = segments.size() - 1; i >= 0; i--) {
 				TileEntityWatz segment = segments.get(i);
 				for(int j = 0; j < 3; j++) {
 					int min = Math.min(segment.tanks[j].getMaxFill(), sharedTanks[j].getFill());
-					segment.tanks[j].setFill(min);
 					sharedTanks[j].setFill(sharedTanks[j].getFill() - min);
+					segment.tanks[j].setFill(min);
 				}
 			}
 			
-			/* send sync packets (order doesn't matter) */
-			for(TileEntityWatz segment : segments) {
-				segment.sendPacket(sharedTanks);
-				segment.heat *= 0.99; //cool 1% per tick
-			}
-			
 			segments.get(segments.size() - 1).sendOutBottom();
+			
+			/* explode on mud overflow */
+			if(sharedTanks[2].getFill() > 0) {
+				for(int x = -3; x <= 3; x++) {
+					for(int y = 3; y < 6; y++) {
+						for(int z = -3; z <= 3; z++) {
+							worldObj.setBlock(xCoord + x, yCoord + y, zCoord + z, Blocks.air);
+						}
+					}
+				}
+				this.disassemble();
+				
+				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord + 1, zCoord, 1_000F);
+				
+				worldObj.playSoundEffect(xCoord + 0.5, yCoord + 2, zCoord + 0.5, "hbm:block.rbmk_explosion", 50.0F, 1.0F);
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "rbmkmush");
+				data.setFloat("scale", 5);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5, yCoord + 2, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
+				MainRegistry.proxy.effectNT(data);
+				
+				return;
+			}
 		}
 	}
 	
 	/** basic sanity checking, usually wouldn't do anything except when NBT loading borks */
 	public void setupCoolant() {
-		
-		if(!tanks[0].getTankType().hasTrait(FT_Heatable.class)) {
-			tanks[0].setTankType(Fluids.COOLANT);
-		}
-		
+		tanks[0].setTankType(Fluids.COOLANT);
 		tanks[1].setTankType(tanks[0].getTankType().getTrait(FT_Heatable.class).getFirstStep().typeProduced);
 	}
 	
 	public void updateCoolant(FluidTank[] tanks) {
 		
-		double coolingFactor = 0.05D; //20% per tick, TEMP
+		double coolingFactor = 0.1D; //10% per tick, TEMP
 		double heatToUse = this.heat * coolingFactor;
 		
 		FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
@@ -150,8 +181,8 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		
 		int cycles = Math.min(heatCycles, Math.min(hotCycles, coolCycles));
 		this.heat -= cycles * step.heatReq;
-		tanks[0].setFill(tanks[0].getFill() - coolCycles * step.amountReq);
-		tanks[1].setFill(tanks[1].getFill() + hotCycles * step.amountProduced);
+		tanks[0].setFill(tanks[0].getFill() - cycles * step.amountReq);
+		tanks[1].setFill(tanks[1].getFill() + cycles * step.amountProduced);
 	}
 
 	/** enforces strict top to bottom update order (instead of semi-random based on placement) */
@@ -182,11 +213,11 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			for(ItemStack stack : pellets) {
 				EnumWatzType type = EnumUtil.grabEnumSafely(EnumWatzType.class, stack.getItemDamage());
 				Function burnFunc = type.burnFunc;
-				Function heatMod = type.heatMult;
+				Function heatDiv = type.heatDiv;
 				
 				if(burnFunc != null) {
-					double mod = heatMod != null ? heatMod.effonix(heat) : 1D;
-					double burn = burnFunc.effonix(inputFlux) * mod;
+					double div = heatDiv != null ? heatDiv.effonix(heat) : 1D;
+					double burn = burnFunc.effonix(inputFlux) / div;
 					ItemWatzPellet.setYield(stack, ItemWatzPellet.getYield(stack) - burn);
 					addedFlux += burn;
 					addedHeat += type.heatEmission * burn;
@@ -199,7 +230,10 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 				Function absorbFunc = type.absorbFunc;
 				
 				if(absorbFunc != null) {
-					addedHeat += absorbFunc.effonix(baseFlux + fluxLastReaction);
+					double absorb = absorbFunc.effonix(baseFlux + fluxLastReaction);
+					addedHeat += absorb;
+					ItemWatzPellet.setYield(stack, ItemWatzPellet.getYield(stack) - absorb);
+					tanks[2].setFill(tanks[2].getFill() + (int) Math.round(type.mudContent * absorb));
 				}
 			}
 			
@@ -213,16 +247,20 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			
 		}
 		
+		for(int i = 0; i < 24; i++) {
+			ItemStack stack = slots[i];
+			
+			/* deplete */
+			if(stack != null && stack.getItem() == ModItems.watz_pellet && ItemWatzPellet.getEnrichment(stack) <= 0) {
+				slots[i] = new ItemStack(ModItems.watz_pellet_depleted, 1, stack.getItemDamage());
+				continue; // depleted pellets may persist for one tick
+			}
+		}
+		
 		if(above != null) {
 			for(int i = 0; i < 24; i++) {
 				ItemStack stackBottom = slots[i];
 				ItemStack stackTop = above.slots[i];
-				
-				/* deplete */
-				if(stackBottom != null && stackBottom.getItem() == ModItems.watz_pellet && ItemWatzPellet.getYield(stackBottom) <= 0) {
-					slots[i] = new ItemStack(ModItems.watz_pellet_depleted, 1, stackBottom.getItemDamage());
-					continue; // depleted pellets may persist for one tick
-				}
 				
 				/* items fall down if the bottom slot is empty */
 				if(stackBottom == null && stackTop != null) {
@@ -244,11 +282,24 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		
 		NBTTagCompound data = new NBTTagCompound();
 		data.setInteger("heat", this.heat);
+		data.setBoolean("isOn", isOn);
+		data.setBoolean("lock", isLocked);
 		data.setDouble("flux", this.fluxLastReaction + this.fluxLastBase);
 		for(int i = 0; i < tanks.length; i++) {
 			tanks[i].writeToNBT(data, "t" + i);
 		}
 		this.networkPack(data, 25);
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.heat = nbt.getInteger("heat");
+		this.isOn = nbt.getBoolean("isOn");
+		this.isLocked = nbt.getBoolean("lock");
+		this.fluxDisplay = nbt.getDouble("flux");
+		for(int i = 0; i < tanks.length; i++) {
+			tanks[i].readFromNBT(nbt, "t" + i);
+		}
 	}
 	
 	/** Prevent manual updates when another segment is above this one */
@@ -281,14 +332,51 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 				new DirPos(xCoord, yCoord - 1, zCoord - 2, ForgeDirection.DOWN)
 		};
 	}
-
+	
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.heat = nbt.getInteger("heat");
-		this.fluxDisplay = nbt.getDouble("flux");
-		for(int i = 0; i < tanks.length; i++) {
-			tanks[i].readFromNBT(nbt, "t" + i);
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		NBTTagList list = nbt.getTagList("locks", 10);
+		
+		for(int i = 0; i < list.tagCount(); i++) {
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
+			byte b0 = nbt1.getByte("slot");
+			if(b0 >= 0 && b0 < slots.length) {
+				locks[b0] = ItemStack.loadItemStackFromNBT(nbt1);
+			}
 		}
+		
+		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
+		this.heat = nbt.getInteger("heat");
+		this.fluxLastBase = nbt.getDouble("lastFluxB");
+		this.fluxLastReaction = nbt.getDouble("lastFluxR");
+		
+		this.isLocked = nbt.getBoolean("isLocked");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		NBTTagList list = new NBTTagList();
+		
+		for(int i = 0; i < locks.length; i++) {
+			if(locks[i] != null) {
+				NBTTagCompound nbt1 = new NBTTagCompound();
+				nbt1.setByte("slot", (byte) i);
+				locks[i].writeToNBT(nbt1);
+				list.appendTag(nbt1);
+			}
+		}
+		nbt.setTag("locks", list);
+		
+		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(nbt, "t" + i);
+		nbt.setInteger("heat", this.heat);
+		nbt.setDouble("lastFluxB", fluxLastBase);
+		nbt.setDouble("lastFluxR", fluxLastReaction);
+		
+		nbt.setBoolean("isLocked", isLocked);
 	}
 
 	@Override
@@ -353,6 +441,73 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		}
 		
 		return bb;
+	}
+	
+	private void disassemble() {
+
+		int count = 20;
+		Random rand = worldObj.rand;
+		for(int i = 0; i < count * 5; i++) {
+			EntityShrapnel shrapnel = new EntityShrapnel(worldObj);
+			shrapnel.posX = xCoord + 0.5;
+			shrapnel.posY = yCoord + 3;
+			shrapnel.posZ = zCoord + 0.5;
+			shrapnel.motionY = ((rand.nextFloat() * 0.5) + 0.5) * (1 + (count / (15 + rand.nextInt(21)))) + (rand.nextFloat() / 50 * count);
+			shrapnel.motionX = rand.nextGaussian() * 1	* (1 + (count / 100));
+			shrapnel.motionZ = rand.nextGaussian() * 1	* (1 + (count / 100));
+			shrapnel.setWatz(true);
+			worldObj.spawnEntityInWorld(shrapnel);
+		}
+
+		worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.mud_block);
+		worldObj.setBlock(xCoord, yCoord + 1, zCoord, ModBlocks.mud_block);
+		worldObj.setBlock(xCoord, yCoord + 2, zCoord, ModBlocks.mud_block);
+		
+		setBrokenColumn(0, ModBlocks.watz_element, 0, 1, 0);
+		setBrokenColumn(0, ModBlocks.watz_element, 0, 2, 0);
+		setBrokenColumn(0, ModBlocks.watz_element, 0, 0, 1);
+		setBrokenColumn(0, ModBlocks.watz_element, 0, 0, 2);
+		setBrokenColumn(0, ModBlocks.watz_element, 0, -1, 0);
+		setBrokenColumn(0, ModBlocks.watz_element, 0, -2, 0);
+		setBrokenColumn(0, ModBlocks.watz_element, 0, 0, -1);
+		setBrokenColumn(0, ModBlocks.watz_element, 0, 0, -2);
+		setBrokenColumn(0, ModBlocks.watz_element, 0, 1, 1);
+		setBrokenColumn(0, ModBlocks.watz_element, 0, 1, -1);
+		setBrokenColumn(0, ModBlocks.watz_element, 0, -1, 1);
+		setBrokenColumn(0, ModBlocks.watz_element, 0, -1, -1);
+		setBrokenColumn(0, ModBlocks.watz_cooler, 0, 2, 1);
+		setBrokenColumn(0, ModBlocks.watz_cooler, 0, 2, -1);
+		setBrokenColumn(0, ModBlocks.watz_cooler, 0, 1, 2);
+		setBrokenColumn(0, ModBlocks.watz_cooler, 0, -1, 2);
+		setBrokenColumn(0, ModBlocks.watz_cooler, 0, -2, 1);
+		setBrokenColumn(0, ModBlocks.watz_cooler, 0, -2, -1);
+		setBrokenColumn(0, ModBlocks.watz_cooler, 0, 1, -2);
+		setBrokenColumn(0, ModBlocks.watz_cooler, 0, -1, -2);
+		
+		for(int j = -1; j < 2; j++) {
+			setBrokenColumn(1, ModBlocks.watz_end, 1, 3, j);
+			setBrokenColumn(1, ModBlocks.watz_end, 1, j, 3);
+			setBrokenColumn(1, ModBlocks.watz_end, 1, -3, j);
+			setBrokenColumn(1, ModBlocks.watz_end, 1, j, -3);
+		}
+		setBrokenColumn(1, ModBlocks.watz_end, 1, 2, 2);
+		setBrokenColumn(1, ModBlocks.watz_end, 1, 2, -2);
+		setBrokenColumn(1, ModBlocks.watz_end, 1, -2, 2);
+		setBrokenColumn(1, ModBlocks.watz_end, 1, -2, -2);
+	}
+	
+	private void setBrokenColumn(int minHeight, Block b, int meta, int x, int z) {
+		
+		int height = minHeight + worldObj.rand.nextInt(3 - minHeight);
+		
+		for(int i = 0; i < 3; i++) {
+			
+			if(i <= height) {
+				worldObj.setBlock(xCoord + x, yCoord + i, zCoord + z, b, meta, 3);
+			} else {
+				worldObj.setBlock(xCoord + x, yCoord + i, zCoord + z, ModBlocks.mud_block);
+			}
+		}
 	}
 	
 	@Override

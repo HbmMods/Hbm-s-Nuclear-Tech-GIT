@@ -32,12 +32,19 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 	public final String display;
 	public final ItemStack[] machine;
 	public final HashMap<Object, Object> recipes;
+	public HashMap<Object, Object> machineOverrides;
 	/// SETUP ///
-	
+
 	public NEIUniversalHandler(String display, ItemStack machine[], HashMap recipes) {
 		this.display = display;
 		this.machine = machine;
 		this.recipes = recipes;
+		this.machineOverrides = null;
+	}
+	
+	public NEIUniversalHandler(String display, HashMap recipes, HashMap machines) {
+		this(display, (ItemStack[]) null, recipes);
+		this.machineOverrides = machines;
 	}
 
 	public NEIUniversalHandler(String display, ItemStack machine, HashMap recipes) {	this(display, new ItemStack[]{machine}, recipes); }
@@ -50,22 +57,32 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 		PositionedStack[] output;
 		PositionedStack machinePositioned;
 
-		public RecipeSet(ItemStack[][] in, ItemStack[][] out) {
+		public RecipeSet(ItemStack[][] in, ItemStack[][] out, Object originalInputInstance /* for custom machine lookup */) {
 			
 			input = new PositionedStack[in.length];
+			int[][] inPos = NEIUniversalHandler.getInputCoords(in.length);
 			for(int i = 0; i < in.length; i++) {
 				ItemStack[] sub = in[i];
-				this.input[i] = new PositionedStack(sub, 48 + i * -18, 24);
+				this.input[i] = new PositionedStack(sub, inPos[i][0], inPos[i][1]);
 			}
 			output = new PositionedStack[out.length];
+			int[][] outPos = NEIUniversalHandler.getOutputCoords(out.length);
 			for(int i = 0; i < out.length; i++) {
 				ItemStack[] sub = out[i];
-				
-				boolean twos = out.length > 3;
-				this.output[i] = new PositionedStack(sub, 102 + i * 18 - ((twos && i > 1) ? 36 : 0), 24 + (twos ? (i < 2 ? -9 : 9) : 0));
+				this.output[i] = new PositionedStack(sub, outPos[i][0], outPos[i][1]);
 			}
 			
-			this.machinePositioned = new PositionedStack(machine, 75, 31);
+			ItemStack[] m = machine;
+			
+			if(NEIUniversalHandler.this.machineOverrides != null) {
+				Object key = NEIUniversalHandler.this.machineOverrides.get(originalInputInstance);
+				
+				if(key != null) {
+					this.machinePositioned = new PositionedStack(key, 75, 31);
+				}
+			}
+			
+			if(machinePositioned == null) this.machinePositioned = new PositionedStack(m, 75, 31);
 		}
 
 		@Override
@@ -104,15 +121,114 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 		super.drawBackground(recipe);
 		
 		RecipeSet rec = (RecipeSet) this.arecipes.get(recipe);
-		
-		for(int i = 0; i < rec.input.length; i++)
-			drawTexturedModalRect(47 + i * -18, 23, 5, 87, 18, 18);
-		for(int i = 0; i < rec.output.length; i++) {
-			boolean twos = rec.output.length > 3;
-			drawTexturedModalRect(101 + i * 18 - ((twos && i > 1) ? 36 : 0), 23 + (twos ? (i < 2 ? -9 : 9) : 0), 5, 87, 18, 18);
+
+		int[][] inPos = NEIUniversalHandler.getInputCoords(rec.input.length);
+		for(int[] pos : inPos) {
+			drawTexturedModalRect(pos[0] - 1, pos[1] - 1, 5, 87, 18, 18);
+		}
+		int[][] outPos = NEIUniversalHandler.getOutputCoords(rec.output.length);
+		for(int[] pos : outPos) {
+			drawTexturedModalRect(pos[0] - 1, pos[1] - 1, 5, 87, 18, 18);
 		}
 		
 		drawTexturedModalRect(74, 14, 59, 87, 18, 38);
+	}
+	
+	public static int[][] getInputCoords(int count) {
+		
+		switch(count) {
+		case 1: return new int[][] {
+			{48, 24}
+		};
+		case 2: return new int[][] {
+			{48, 24},
+			{30, 24}
+		};
+		case 3: return new int[][] {
+			{48, 24},
+			{30, 24},
+			{12, 24}
+		};
+		case 4: return new int[][] {
+			{48, 24 - 9},
+			{30, 24 - 9},
+			{48, 24 + 9},
+			{30, 24 + 9}
+		};
+		case 5: return new int[][] {
+			{48, 24 - 9},
+			{30, 24 - 9},
+			{12, 24},
+			{48, 24 + 9},
+			{30, 24 + 9},
+		};
+		case 6: return new int[][] {
+			{48, 24 - 9},
+			{30, 24 - 9},
+			{12, 24 - 9},
+			{48, 24 + 9},
+			{30, 24 + 9},
+			{12, 24 + 9}
+		};
+		case 7: return new int[][] {
+			{48, 24 - 18},
+			{30, 24 - 9},
+			{12, 24 - 9},
+			{48, 24},
+			{30, 24 + 9},
+			{12, 24 + 9},
+			{48, 24 + 18}
+		};
+		case 8: return new int[][] {
+			{48, 24 - 18},
+			{30, 24 - 18},
+			{12, 24 - 9},
+			{48, 24},
+			{30, 24},
+			{12, 24 + 9},
+			{48, 24 + 18},
+			{30, 24 + 18}
+		};
+		case 9: return new int[][] {
+			{48, 24 - 18},
+			{30, 24 - 18},
+			{12, 24 - 18},
+			{48, 24},
+			{30, 24},
+			{12, 24},
+			{48, 24 + 18},
+			{30, 24 + 18},
+			{12, 24 + 18}
+		};
+		}
+		
+		return new int[count][2];
+	}
+	
+	public static int[][] getOutputCoords(int count) {
+		
+		switch(count) {
+		case 1: return new int[][] {
+			{102, 24}
+		};
+		case 2: return new int[][] {
+			{102, 24},
+			{120, 24}
+		};
+		case 3: return new int[][] {
+			{102, 24},
+			{120, 24},
+			{138, 24}
+		};
+		case 4: return new int[][] {
+			{102, 24 - 9},
+			{120, 24 - 9},
+			{102, 24 + 9},
+			{120, 24 + 9}
+		};
+		}
+		
+		return new int[count][2];
 	}
 
 	@Override
@@ -123,7 +239,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 			for(Entry<Object, Object> recipe : recipes.entrySet()) {
 				ItemStack[][] ins = InventoryUtil.extractObject(recipe.getKey());
 				ItemStack[][] outs = InventoryUtil.extractObject(recipe.getValue());
-				this.arecipes.add(new RecipeSet(ins, outs));
+				this.arecipes.add(new RecipeSet(ins, outs, recipe.getKey()));
 			}
 			
 		} else {
@@ -142,7 +258,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 			for(ItemStack[] array : outs) {
 				for(ItemStack stack : array) {
 					if(NEIServerUtils.areStacksSameTypeCrafting(stack, result)) {
-						this.arecipes.add(new RecipeSet(ins, outs));
+						this.arecipes.add(new RecipeSet(ins, outs, recipe.getKey()));
 						break match;
 					}
 				}
@@ -170,7 +286,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 			for(ItemStack[] array : ins) {
 				for(ItemStack stack : array) {
 					if(NEIServerUtils.areStacksSameTypeCrafting(stack, ingredient)) {
-						this.arecipes.add(new RecipeSet(ins, outs));
+						this.arecipes.add(new RecipeSet(ins, outs, recipe.getKey()));
 						break match;
 					}
 				}

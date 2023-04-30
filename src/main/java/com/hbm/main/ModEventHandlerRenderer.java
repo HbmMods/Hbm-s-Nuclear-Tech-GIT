@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
-import com.hbm.potion.HbmPotion;
+import com.hbm.packet.PermaSyncHandler;
 import com.hbm.render.model.ModelMan;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -36,7 +36,7 @@ public class ModEventHandlerRenderer {
 		EntityPlayer player = event.entityPlayer;
 		RenderPlayer renderer = event.renderer;
 
-		boolean isManly = player.isPotionActive(HbmPotion.death.id);
+		boolean isManly = PermaSyncHandler.boykissers.contains(player.getEntityId());
 
 		for(int j = 0; j < 7; j++) {
 
@@ -78,7 +78,7 @@ public class ModEventHandlerRenderer {
 		EntityPlayer player = event.entityPlayer;
 		RenderPlayer renderer = event.renderer;
 
-		boolean isManly = player.isPotionActive(HbmPotion.death.id);
+		boolean isManly = PermaSyncHandler.boykissers.contains(player.getEntityId());
 
 		if(isManly) {
 			if(manlyModel == null)
@@ -117,7 +117,7 @@ public class ModEventHandlerRenderer {
 		EntityPlayer player = event.entityPlayer;
 		//RenderPlayer renderer = event.renderer;
 
-		boolean isManly = player.isPotionActive(HbmPotion.death.id);
+		boolean isManly = PermaSyncHandler.boykissers.contains(player.getEntityId());
 
 		if(!isManly)
 			return;

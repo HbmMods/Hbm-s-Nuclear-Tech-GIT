@@ -366,7 +366,8 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.mechanism_launcher_1, 1), new Object[] { "TTT", "SSS", "BBI", 'T', TI.plate(), 'S', STEEL.ingot(), 'B', ModItems.bolt_tungsten, 'I', MINGRADE.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.mechanism_launcher_2, 1), new Object[] { "TTT", "SSS", "BBI", 'T', ALLOY.plate(), 'S', ANY_PLASTIC.ingot(), 'B', ModItems.bolt_dura_steel, 'I', DESH.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.mechanism_special, 1), new Object[] { "PCI", "ISS", "PCI", 'P', ModItems.plate_desh, 'C', ModItems.coil_advanced_alloy, 'I', STAR.ingot(), 'S', ModItems.circuit_targeting_tier3 });
-		
+
+		addRecipeAuto(new ItemStack(ModBlocks.watz_pump, 1), new Object[] { "MPM", "PCP", "PSP", 'M', ModItems.motor_desh, 'P', ANY_RESISTANTALLOY.plateTriple(), 'C', KEY_CIRCUIT_BISMUTH, 'S', ModItems.pipes_steel });
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.fwatz_cooler), 1), new Object[] { "IPI", "IPI", "IPI", 'I', TI.ingot(), 'P', TI.plate() });
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.fwatz_tank), 1), new Object[] { "CGC", "GGG", "CGC", 'C', CMB.plate(), 'G', KEY_ANYPANE });
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.fwatz_scaffold), 1), new Object[] { "IPI", "P P", "IPI", 'I', W.ingot(), 'P', getReflector() });
@@ -765,6 +766,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.barrel_antimatter, 1), new Object[] { "IPI", "IBI", "IPI", 'I', BIGMT.plate(), 'P', ModItems.coil_advanced_torus, 'B', ModItems.battery_sc_technetium });
 		addRecipeAuto(new ItemStack(ModBlocks.tesla, 1), new Object[] { "CCC", "PIP", "WTW", 'C', ModItems.coil_copper, 'I', IRON.ingot(), 'P', ANY_PLASTIC.ingot(), 'T', ModBlocks.machine_transformer, 'W', KEY_PLANKS });
 		addRecipeAuto(new ItemStack(ModBlocks.struct_plasma_core, 1), new Object[] { "CBC", "BHB", "CBC", 'C', ModItems.circuit_gold, 'B', ModBlocks.machine_lithium_battery, 'H', ModBlocks.fusion_heater });
+		addRecipeAuto(new ItemStack(ModBlocks.struct_watz_core, 1), new Object[] { "CBC", "BHB", "CBC", 'C', ModItems.circuit_schrabidium, 'B', ANY_RESISTANTALLOY.plateTriple(), 'H', ModBlocks.watz_cooler });
 		addShapelessAuto(new ItemStack(ModBlocks.fusion_heater), new Object[] { ModBlocks.fusion_hatch });
 		addShapelessAuto(new ItemStack(ModItems.energy_core), new Object[] { ModItems.fusion_core, ModItems.fuse });
 		addRecipeAuto(new ItemStack(ModItems.catalytic_converter, 1), new Object[] { "PCP", "PBP", "PCP", 'P', ANY_HARDPLASTIC.ingot(), 'C', CO.dust(), 'B', BI.ingot() });

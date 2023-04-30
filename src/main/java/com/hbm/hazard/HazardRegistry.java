@@ -9,10 +9,12 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.hazard.modifier.*;
 import com.hbm.hazard.transformer.*;
 import com.hbm.hazard.type.*;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
+import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.items.special.ItemHolotapeImage.EnumHoloImage;
 import com.hbm.util.Compat;
@@ -104,6 +106,7 @@ public class HazardRegistry {
 	public static final float saf = 5.85F;
 	public static final float sas3 = 5F;
 	public static final float gh336 = 5.0F;
+	public static final float mud = 1.0F;
 	public static final float radsource_mult = 3.0F;
 	public static final float pobe = po210 * radsource_mult;
 	public static final float rabe = ra226 * radsource_mult;
@@ -428,6 +431,17 @@ public class HazardRegistry {
 		registerRBMKPellet(rbmk_pellet_zfb_pu241, pu239 * billet * 0.1F, wst * billet * 7.5F);
 		registerRBMKPellet(rbmk_pellet_zfb_am_mix, pu241 * billet * 0.1F, wst * billet * 10F);
 		registerRBMKPellet(rbmk_pellet_drx, bf * billet, bf * billet * 100F, true, 0F, 1F/24F);
+		
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.SCHRABIDIUM), makeData(RADIATION, sa326 * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.HES), makeData(RADIATION, saf * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.MES), makeData(RADIATION, saf * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.LES), makeData(RADIATION, saf * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.HEN), makeData(RADIATION, np237 * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.MEU), makeData(RADIATION, uf * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.MEP), makeData(RADIATION, purg * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.DU), makeData(RADIATION, u238 * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.NQD), makeData(RADIATION, u235 * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.NQR), makeData(RADIATION, pu239 * ingot * 4));
 		
 		HazardSystem.register(powder_yellowcake, makeData(RADIATION, yc * powder));
 		HazardSystem.register(block_yellowcake, makeData(RADIATION, yc * block * powder_mult));

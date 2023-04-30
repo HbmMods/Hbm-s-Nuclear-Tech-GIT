@@ -215,12 +215,16 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.tank.readFromNBT(nbt, "tank");
+		this.progress = nbt.getInteger("prog");
+		this.heat = nbt.getInteger("heat");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		this.tank.writeToNBT(nbt, "tank");
+		nbt.setInteger("prog", progress);
+		nbt.setInteger("heat", heat);
 	}
 
 	@Override

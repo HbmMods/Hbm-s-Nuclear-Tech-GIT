@@ -8,7 +8,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.PotionConfig;
 import com.hbm.entity.mob.EntityRADBeast;
 import com.hbm.entity.mob.EntityTaintCrab;
-import com.hbm.entity.mob.EntityTaintedCreeper;
+import com.hbm.entity.mob.EntityCreeperTainted;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
@@ -113,7 +113,7 @@ public class HbmPotion extends Potion {
 
 		if(this == taint) {
 			
-			if(!(entity instanceof EntityTaintedCreeper) && !(entity instanceof EntityTaintCrab) && entity.worldObj.rand.nextInt(40) == 0)
+			if(!(entity instanceof EntityCreeperTainted) && !(entity instanceof EntityTaintCrab) && entity.worldObj.rand.nextInt(40) == 0)
 				entity.attackEntityFrom(ModDamageSource.taint, (level + 1));
 			
 			if(GeneralConfig.enableHardcoreTaint && !entity.worldObj.isRemote) {
