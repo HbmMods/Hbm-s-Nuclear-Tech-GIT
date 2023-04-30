@@ -204,6 +204,16 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 		
 		this.heat = Math.max(this.heat - Math.max(this.heat / 1000, 1), 0);
 	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+		return true;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 1 };
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {

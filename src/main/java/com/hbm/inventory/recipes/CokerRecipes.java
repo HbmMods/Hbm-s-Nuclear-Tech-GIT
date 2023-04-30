@@ -12,7 +12,6 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
@@ -21,6 +20,7 @@ import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.util.Tuple.Triplet;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class CokerRecipes extends SerializableRecipe {
@@ -30,27 +30,32 @@ public class CokerRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 
-		registerAuto(HEAVYOIL,				Fluids.OIL_COKER);
-		registerAuto(HEAVYOIL_VACUUM,		Fluids.REFORMATE);
-		registerAuto(COALCREOSOTE,			Fluids.NAPHTHA_COKER);
-		registerAuto(WOODOIL,				Fluids.NAPHTHA_COKER);
-		registerAuto(SMEAR,					Fluids.OIL_COKER);
-		registerAuto(HEATINGOIL,			Fluids.OIL_COKER);
-		registerAuto(HEATINGOIL_VACUUM,		Fluids.OIL_COKER);
-		registerAuto(RECLAIMED,				Fluids.NAPHTHA_COKER);
-		registerAuto(NAPHTHA,				Fluids.NAPHTHA_COKER);
-		registerAuto(NAPHTHA_CRACK,			Fluids.NAPHTHA_COKER);
-		registerAuto(DIESEL,				Fluids.NAPHTHA_COKER);
-		registerAuto(DIESEL_REFORM,			Fluids.NAPHTHA_COKER);
-		registerAuto(DIESEL_CRACK,			Fluids.GAS_COKER);
-		registerAuto(DIESEL_CRACK_REFORM,	Fluids.GAS_COKER);
-		registerAuto(LIGHTOIL,				Fluids.GAS_COKER);
-		registerAuto(LIGHTOIL_CRACK,		Fluids.GAS_COKER);
-		registerAuto(LIGHTOIL_VACUUM,		Fluids.GAS_COKER);
-		registerAuto(BIOFUEL,				Fluids.GAS_COKER);
-		registerAuto(AROMATICS,				Fluids.GAS_COKER);
-		registerAuto(REFORMATE,				Fluids.GAS_COKER);
-		registerAuto(XYLENE,				Fluids.GAS_COKER);
+		registerAuto(HEAVYOIL,				OIL_COKER);
+		registerAuto(HEAVYOIL_VACUUM,		REFORMATE);
+		registerAuto(COALCREOSOTE,			NAPHTHA_COKER);
+		registerAuto(SMEAR,					OIL_COKER);
+		registerAuto(HEATINGOIL,			OIL_COKER);
+		registerAuto(HEATINGOIL_VACUUM,		OIL_COKER);
+		registerAuto(RECLAIMED,				NAPHTHA_COKER);
+		registerAuto(NAPHTHA,				NAPHTHA_COKER);
+		registerAuto(NAPHTHA_CRACK,			NAPHTHA_COKER);
+		registerAuto(DIESEL,				NAPHTHA_COKER);
+		registerAuto(DIESEL_REFORM,			NAPHTHA_COKER);
+		registerAuto(DIESEL_CRACK,			GAS_COKER);
+		registerAuto(DIESEL_CRACK_REFORM,	GAS_COKER);
+		registerAuto(LIGHTOIL,				GAS_COKER);
+		registerAuto(LIGHTOIL_CRACK,		GAS_COKER);
+		registerAuto(LIGHTOIL_VACUUM,		GAS_COKER);
+		registerAuto(BIOFUEL,				GAS_COKER);
+		registerAuto(AROMATICS,				GAS_COKER);
+		registerAuto(REFORMATE,				GAS_COKER);
+		registerAuto(XYLENE,				GAS_COKER);
+
+		registerSFAuto(WOODOIL, 340_000L, new ItemStack(Items.coal, 1, 1), GAS_COKER);
+
+		registerRecipe(WATZ, 4_000, new ItemStack(ModItems.ingot_mud, 4), null);
+		registerRecipe(BITUMEN, 16_000, DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), new FluidStack(OIL_COKER, 1_600));
+		registerRecipe(LUBRICANT, 12_000, DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), new FluidStack(OIL_COKER, 1_200));
 	}
 
 	private static void registerAuto(FluidType fluid, FluidType type) {
