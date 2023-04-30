@@ -1,14 +1,8 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.lwjgl.opengl.GL11;
-
+import api.hbm.fluid.IFluidConductor;
+import api.hbm.fluid.IFluidConnector;
+import api.hbm.fluid.IPipeNet;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.entity.effect.EntitySpear;
@@ -25,10 +19,6 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.Compat;
 import com.hbm.util.I18nUtil;
-
-import api.hbm.fluid.IFluidConductor;
-import api.hbm.fluid.IFluidConnector;
-import api.hbm.fluid.IPipeNet;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -46,6 +36,9 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.lwjgl.opengl.GL11;
+
+import java.util.*;
 
 /**
  * Base class for all RBMK components, active or passive. Handles heat and the explosion sequence
