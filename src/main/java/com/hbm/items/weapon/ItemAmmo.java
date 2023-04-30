@@ -92,6 +92,7 @@ public class ItemAmmo extends ItemEnumMulti {
 		PRO_PERCUSSION,
 		PRO_PHOSPHORUS,
 		PRO_PHOSPHORUS_SPLASH,
+		PRO_FLASH,
 		PRO_POISON_GAS,
 		PRO_RADIUS,
 		PRO_RADIUS_HIGH,

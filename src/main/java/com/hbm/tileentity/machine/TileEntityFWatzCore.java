@@ -313,27 +313,30 @@ public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedI
 					
 					if(i == 1 && tanks[1].getFill() - 75 >= 0 && tanks[2].getFill() - 75 >= 0) {
 						tanks[0].setFill(tanks[0].getFill() - 150);
-						tanks[1].setFill(tanks[1].getFill() - 75);
-						tanks[2].setFill(tanks[2].getFill() - 75);
-						power += 5000000;
+
+						tanks[1].setFill(tanks[1].getFill() - 10);
+						tanks[2].setFill(tanks[2].getFill() - 10);
+						power += 7000000;
 					}
 					if(i == 2 && tanks[1].getFill() - 75 >= 0 && tanks[2].getFill() - 35 >= 0) {
 						tanks[0].setFill(tanks[0].getFill() - 75);
-						tanks[1].setFill(tanks[1].getFill() - 35);
-						tanks[2].setFill(tanks[2].getFill() - 30);
-						power += 2500000;
+						tanks[1].setFill(tanks[1].getFill() - 5);
+						tanks[2].setFill(tanks[2].getFill() - 5);
+						power += 5000000;
+
 					}
-					if(i == 3 && tanks[1].getFill() - 75 >= 0 && tanks[2].getFill() - 140 >= 0) {
+					if(i == 3 && tanks[1].getFill() - 75 >= 0) {
 						tanks[0].setFill(tanks[0].getFill() - 300);
-						tanks[1].setFill(tanks[1].getFill() - 75);
-						tanks[2].setFill(tanks[2].getFill() - 140);
+						tanks[1].setFill(tanks[1].getFill() - 30);
+
 						power += 10000000;
 					}
 					if(i == 4 && tanks[1].getFill() - 100 >= 0 && tanks[2].getFill() - 100 >= 0) {
-						tanks[0].setFill(tanks[0].getFill() - 100);
-						tanks[1].setFill(tanks[1].getFill() - 100);
-						tanks[2].setFill(tanks[2].getFill() - 100);
-						power += 10000000;
+						tanks[0].setFill(tanks[0].getFill() - 150);
+						tanks[1].setFill(tanks[1].getFill() - 16);
+						tanks[2].setFill(tanks[2].getFill() - 16);
+						power += 185000000;
+
 					}
 					if(i == 5 && tanks[1].getFill() - 15 >= 0 && tanks[2].getFill() - 15 >= 0) {
 						tanks[0].setFill(tanks[0].getFill() - 150);

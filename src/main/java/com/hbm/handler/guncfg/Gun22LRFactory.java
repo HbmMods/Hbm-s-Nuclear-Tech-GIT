@@ -36,7 +36,7 @@ public class Gun22LRFactory {
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CROSS;
-		config.durability = 3000;
+		config.durability = 4000;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:weapon.uziShoot";
 		config.reloadSoundEnd = false;
@@ -56,9 +56,10 @@ public class Gun22LRFactory {
 		
 		GunConfiguration config = getUziConfig();
 		
-		config.durability = 4500;
-		
+		config.durability = 7500;
+		config.ammoCap = 64;
 		config.name = "uziSatur";
+		config.reloadDuration = 10;
 		config.manufacturer = EnumGunManufacturer.IMI_BIGMT;
 
 		config.config = HbmCollection.lr22Inc;
@@ -66,21 +67,34 @@ public class Gun22LRFactory {
 		return config;
 	}
 
-	static float inaccuracy = 5;
+	static float inaccuracy = 4;
 	public static BulletConfiguration get22LRConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_22lr.stackFromEnum(Ammo22LR.STOCK));
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 6;
-		bullet.dmgMax = 8;
-		
+		bullet.dmgMin = 8;
+		bullet.dmgMax = 12;
+		bullet.wear = 5;
 		bullet.spentCasing = CASING22LR.clone().register("22LRStock");
 		
 		return bullet;
 	}
-	
+	public static BulletConfiguration get22LRSatConfig() {
+
+		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_22lr.stackFromEnum(Ammo22LR.STOCK));
+		bullet.spread *= inaccuracy;
+		bullet.dmgMin = 18;
+		bullet.dmgMax = 26;
+		bullet.dmgFire = true;
+		bullet.wear = 5;
+		bullet.spentCasing = CASING22LR.clone().register("22LRStock");
+
+		return bullet;
+	}
 	public static BulletConfiguration get22LRAPConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
@@ -90,7 +104,7 @@ public class Gun22LRFactory {
 		bullet.dmgMin = 12;
 		bullet.dmgMax = 16;
 		bullet.leadChance = 10;
-		bullet.wear = 15;
+		bullet.wear = 10;
 		
 		bullet.spentCasing = CASING22LR.clone().register("22LRAP");
 		

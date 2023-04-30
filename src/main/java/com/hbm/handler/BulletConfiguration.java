@@ -208,7 +208,6 @@ public class BulletConfiguration implements Cloneable {
 		this.ammo = new ComparableStack(ammo);
 		return getChlorophyte();
 	}
-	
 	public BulletConfiguration accuracyMod(float mod) {
 		
 		this.spread *= mod;
