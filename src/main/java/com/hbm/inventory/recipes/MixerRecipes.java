@@ -68,6 +68,8 @@ public class MixerRecipes extends SerializableRecipe {
 
 		recipes.put(Fluids.ELBOWGREASE, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.REFORMGAS, 500)).setStack2(new FluidStack(Fluids.SYNGAS, 500)));
 
+		recipes.put(Fluids.HTcO4, new MixerRecipe(500, 50).setStack1(new FluidStack(Fluids.NITRIC_ACID, 500)).setSolid(new ComparableStack(ModItems.ingot_technetium)));
+
 
 	}
 	

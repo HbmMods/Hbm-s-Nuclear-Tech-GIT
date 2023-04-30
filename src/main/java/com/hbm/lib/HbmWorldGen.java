@@ -169,6 +169,9 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500),	2, WorldConfig.bedrockTitaniumSpawn);
 			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.TUNGSTEN,	new FluidStack(Fluids.ACID, 1_000),			2, WorldConfig.bedrockTungstenSpawn);
 			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.GOLD,		new FluidStack(Fluids.HCL, 500),			1, WorldConfig.bedrockGoldSpawn);
+			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.BISMUTH,	new FluidStack(Fluids.HTcO4, 1_000),		2, WorldConfig.bedrockBismuthSpawn);
+			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.CAD,	new FluidStack(Fluids.HTcO4, 1_000),			2, WorldConfig.bedrockBismuthSpawn);
+
 
 			for(int k = 0; k < WorldConfig.randomSpawn; k++) {
 				BlockMotherOfAllOres.shuffleOverride(rand);
