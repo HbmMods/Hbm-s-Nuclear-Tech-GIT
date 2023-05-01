@@ -32,7 +32,7 @@ public class ItemGunGauss extends ItemGunBase {
 		
 		if(!main && getStored(stack) > 0) {
 			EntityBulletBase bullet = new EntityBulletBase(world, altConfig.config.get(0), player);
-			bullet.overrideDamage = Math.min(getStored(stack), 1) * 10F;
+			bullet.overrideDamage = Math.max(getStored(stack), 1) * 10F;
 			world.spawnEntityInWorld(bullet);
 			world.playSoundAtEntity(player, "hbm:weapon.tauShoot", 0.5F, 0.75F);
 			setItemWear(stack, getItemWear(stack) + (getCharge(stack)) * 2);
