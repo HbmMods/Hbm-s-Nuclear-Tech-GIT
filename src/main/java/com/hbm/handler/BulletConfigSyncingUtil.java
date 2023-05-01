@@ -496,12 +496,12 @@ public class BulletConfigSyncingUtil {
 		configSet.put(R762_TRACER, Gun762mmFactory.get762TracerConfig());
 		configSet.put(R762_K, Gun762mmFactory.get762BlankConfig());
 		
-		configSet.put(R762_NORMAL_HS, Gun762mmFactory.get762NATOConfig()).setHeadshot(2.5F);
-		configSet.put(R762_PHOSPHORUS_HS, Gun762mmFactory.get762WPConfig()).setHeadshot(2.5F);
-		configSet.put(R762_AP_HS, Gun762mmFactory.get762APConfig()).setHeadshot(2.5F);
-		configSet.put(R762_DU_HS, Gun762mmFactory.get762DUConfig()).setHeadshot(2.5F);
-		configSet.put(R762_TRACER_HS, Gun762mmFactory.get762TracerConfig()).setHeadshot(2.5F);
-		configSet.put(R762_K_HS, Gun762mmFactory.get762BlankConfig()).setHeadshot(2.5F);
+		configSet.put(R762_NORMAL_HS, Gun762mmFactory.get762NATOConfig().setHeadshot(2.5F));
+		configSet.put(R762_PHOSPHORUS_HS, Gun762mmFactory.get762WPConfig().setHeadshot(2.5F));
+		configSet.put(R762_AP_HS, Gun762mmFactory.get762APConfig().setHeadshot(2.5F));
+		configSet.put(R762_DU_HS, Gun762mmFactory.get762DUConfig().setHeadshot(2.5F));
+		configSet.put(R762_TRACER_HS, Gun762mmFactory.get762TracerConfig().setHeadshot(2.5F));
+		configSet.put(R762_K_HS, Gun762mmFactory.get762BlankConfig().setHeadshot(2.5F));
 		
 		configSet.put(B75_NORMAL, Gun75BoltFactory.get75BoltConfig());
 		configSet.put(B75_INCENDIARY, Gun75BoltFactory.get75BoltIncConfig());
