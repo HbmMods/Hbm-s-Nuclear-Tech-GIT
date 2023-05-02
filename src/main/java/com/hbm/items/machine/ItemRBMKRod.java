@@ -231,7 +231,7 @@ public class ItemRBMKRod extends Item {
 		LINEAR(EnumChatFormatting.RED + "DANGEROUS / LINEAR"),				//x * reactivity
 		QUADRATIC(EnumChatFormatting.RED + "DANGEROUS / QUADRATIC"),		//x^2 / 100 * reactivity
 		EXPERIMENTAL(EnumChatFormatting.RED + "EXPERIMENTAL / SINE SLOPE"), 	//x * (sin(x) + 1)
-		VONGO(EnumChatFormatting.GREEN + "wooo-ooo-ooooo");
+		SLOW_LINEAR(EnumChatFormatting.YELLOW + "MEDIUM / SLOW LINEAR");          //sqrt(2 * x + 30) / 10 * reactivity / 2.5 very | fucky i know, i don't know what i was thinking
 		
 		public String title = "";
 		
@@ -258,7 +258,7 @@ public class ItemRBMKRod extends Item {
 		case LINEAR: return flux / 100D * reactivity;
 		case QUADRATIC: return flux * flux / 10000D * reactivity;
 		case EXPERIMENTAL: return flux * (Math.sin(flux) + 1) * reactivity;
-		case VONGO: return Math.sqrt(2 * flux + 30) / 10 * reactivity /2.5;
+		case SLOW_LINEAR: return Math.sqrt(2 * flux + 30) / 10 * reactivity / 2.5;
 		}
 		
 		return 0;
@@ -287,7 +287,7 @@ public class ItemRBMKRod extends Item {
 			break;
 		case EXPERIMENTAL: function = "%1$s * (sin(%1$s) + 1) * %2$s";
 			break;
-		case VONGO: function = "sqrt(2 * %1$s + 30) / 10 * %2$s / 2.5";
+		case SLOW_LINEAR: function = "sqrt(2 * %1$s + 30) / 10 * %2$s / 2.5";
 		    break;
 		default: function = "ERROR";
 		}

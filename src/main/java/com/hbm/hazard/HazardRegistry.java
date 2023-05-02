@@ -100,13 +100,14 @@ public class HazardRegistry {
 	public static final float pu241 = 25.0F;
 	public static final float puf = 4.25F;
 	public static final float am241 = 8.5F;
-	public static final float cm242 = 9.3F;
-	public static final float cm243 = 5.6F;
-	public static final float cm244 = 2.0F;
-	public static final float cm245 = 0.8F;
-	public static final float cm246 = 2.5F;
-	public static final float cm247 = 0.2F;
-	public static final float fcm = 6.0F;
+	public static final float cm242 = 9.3F; //fertile but probably unused
+	public static final float cm243 = 5.6F; //fissile
+	public static final float cm244 = 2.0F; //fertile
+	public static final float cm245 = 0.8F; //fissile
+	public static final float cm246 = 2.5F; //fertile 
+	public static final float cm247 = 0.2F; //fissile
+	public static final float cmrg = 6.0F; //reactor-grade curium
+	public static final float cmf = 2.2F; //curium fuel
 	public static final float bk247 = 10.5F;
 	public static final float cf251 = 14.3F;
 	public static final float cf252 = 15.3F;
@@ -434,7 +435,10 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_zfb_pu241, pu239 * rod_rbmk * 0.1F, wst * rod_rbmk * 7.5F);
 		registerRBMKRod(rbmk_fuel_zfb_am_mix, pu241 * rod_rbmk * 0.1F, wst * rod_rbmk * 10F);
 		registerRBMK(rbmk_fuel_drx, bf * rod_rbmk, bf * rod_rbmk * 100F, true, true, 0, 1F/3F);
-		registryRBMKRod(rbmk_fuel_lec,  )
+		registerRBMKRod(rbmk_fuel_lec, cmrg * 2.2F * rod_rbmk / 5F, wst * rod_rbmk);
+		registerRBMKRod(rbmk_fuel_mec, cmrg * 2.2F * rod_rbmk / 3F, wst * rod_rbmk * 3F);
+		registerRBMKRod(rbmk_fuel_hec, cmrg * 2.2F * rod_rbmk /1.5F, wst * rod_rbmk * 5F);
+		
 		
 		registerRBMKPellet(rbmk_pellet_ueu, u * billet, wst * billet * 20F);
 		registerRBMKPellet(rbmk_pellet_meu, uf * billet, wst * billet * 21.5F);
@@ -468,6 +472,9 @@ public class HazardRegistry {
 		registerRBMKPellet(rbmk_pellet_zfb_pu241, pu239 * billet * 0.1F, wst * billet * 7.5F);
 		registerRBMKPellet(rbmk_pellet_zfb_am_mix, pu241 * billet * 0.1F, wst * billet * 10F);
 		registerRBMKPellet(rbmk_pellet_drx, bf * billet, bf * billet * 100F, true, 0F, 1F/24F, 0);
+		registerRBMKPellet(rbmk_pellet_lec, cmrg * billet, wst * cf252 * 2.5F);
+		registerRBMKPellet(rbmk_pellet_mec, cmrg * billet, wst * cf252 * 2.6F);
+		registerRBMKPellet(rbmk_pellet_hec, cmrg * billet, wst * cf252 * 2.7F);
 		
 		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.SCHRABIDIUM), makeData(RADIATION, sa326 * ingot * 4));
 		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.HES), makeData(RADIATION, saf * ingot * 4));

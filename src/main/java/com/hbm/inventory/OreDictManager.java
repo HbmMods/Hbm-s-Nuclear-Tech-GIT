@@ -131,6 +131,8 @@ public class OreDictManager {
 	public static final DictFrame CM245 = new DictFrame ("Curium245", "Cm245");
 	public static final DictFrame CM246 = new DictFrame ("Curium246", "Cm246");
 	public static final DictFrame CM247 = new DictFrame ("Curium247", "Cm247");
+	public static final DictFrame CMRG = new DictFrame ("CuriumRG");
+	public static final DictFrame CMF = new DictFrame ("CuriumFuel");
 	public static final DictFrame BK247 = new DictFrame ("Berkelium247", "Bk247");
 	public static final DictFrame CF251 = new DictFrame ("Californium251", "Cf251");
 	public static final DictFrame CF252 = new DictFrame ("Californium252", "Cf252");
@@ -342,16 +344,17 @@ public class OreDictManager {
 		AM241	.rad(HazardRegistry.am241)							.nugget(nugget_am241)		.billet(billet_am241)		.ingot(ingot_am241);
 		AM242	.rad(HazardRegistry.am242)							.nugget(nugget_am242)		.billet(billet_am242)		.ingot(ingot_am242);
 		CM242	.rad(HazardRegistry.cm242)							.nugget(nugget_cm242)		.billet(billet_cm242)		.ingot(ingot_cm242);
-		CM243	.rad(HazardRegistry.cm243)							.nugget(nugget_cm243)		.billet(billet_cm243)		.ingot(ingot_cm243);
-		CM244	.rad(HazardRegistry.cm244)							.nugget(nugget_cm244)		.billet(billet_cm244)		.ingot(ingot_cm244);
-		CM245	.rad(HazardRegistry.cm245)							.nugget(nugget_cm245)		.billet(billet_cm245)		.ingot(ingot_cm245);
-		CM246	.rad(HazardRegistry.cm246)							.nugget(nugget_cm246)		.billet(billet_cm246)		.ingot(ingot_cm246);
+		CM243	.rad(HazardRegistry.cm243).neutron(HazardRegistry.cm243/80f)							.nugget(nugget_cm243)		.billet(billet_cm243)		.ingot(ingot_cm243);
+		CM244	.rad(HazardRegistry.cm244).neutron(HazardRegistry.cm244/50f)							.nugget(nugget_cm244)		.billet(billet_cm244)		.ingot(ingot_cm244);
+		CM245	.rad(HazardRegistry.cm245).neutron(HazardRegistry.cm245/100f)							.nugget(nugget_cm245)		.billet(billet_cm245)		.ingot(ingot_cm245);
+		CM246	.rad(HazardRegistry.cm246).neutron(HazardRegistry.cm246/50f)							.nugget(nugget_cm246)		.billet(billet_cm246)		.ingot(ingot_cm246);
 		CM247	.rad(HazardRegistry.cm247)							.nugget(nugget_cm247)		.billet(billet_cm247)		.ingot(ingot_cm247);
-		
+		CMRG    .rad(HazardRegistry.cmrg).neutron(HazardRegistry.cmrg/60f)                             .nugget(nugget_cm_mix)         .billet(billet_cm_mix)		.ingot(ingot_cm_mix);
+		CMF    .rad(HazardRegistry.cmf).neutron(HazardRegistry.cmf/120f)                             .nugget(nugget_cm_fuel)         .billet(billet_cm_fuel)		.ingot(ingot_cm_fuel);
 		BK247   .rad(HazardRegistry.bk247)							.nugget(nugget_bk247)		.billet(billet_bk247)		.ingot(ingot_bk247);
-		CF251   .rad(HazardRegistry.cf251)																					.ingot(ingot_cf251);
-		CF252	.rad(HazardRegistry.cf252).neutron(HazardRegistry.cf252/10f)																				.ingot(ingot_cf252);
-		ES253	.rad(HazardRegistry.es253)																					.ingot(ingot_es253);		
+		CF251   .rad(HazardRegistry.cf251).hot(2)										.nugget(nugget_cf251)				.billet(billet_cf251)    	.ingot(ingot_cf251);
+		CF252	.rad(HazardRegistry.cf252).neutron(HazardRegistry.cf252/5f).hot(3)						.nugget(nugget_cf252)								.billet(billet_cf252)		.ingot(ingot_cf252);
+		ES253	.rad(HazardRegistry.es253).neutron(HazardRegistry.es253/40).hot(4)                          .nugget(nugget_es253)	   	.billet(billet_es253)       .ingot(ingot_es253);		
 		ES255	.rad(HazardRegistry.es255)																					.ingot(ingot_es255);
 		AMRG	.rad(HazardRegistry.amrg)							.nugget(nugget_am_mix)		.billet(billet_am_mix)		.ingot(ingot_am_mix);
 		NP237	.rad(HazardRegistry.np237)							.nugget(nugget_neptunium)	.billet(billet_neptunium)	.ingot(ingot_neptunium)		.dust(powder_neptunium)									.block(block_neptunium);
