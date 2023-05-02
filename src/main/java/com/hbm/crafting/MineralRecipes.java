@@ -94,6 +94,11 @@ public class MineralRecipes {
 		add1To9Pair(ModItems.ingot_am_mix, ModItems.nugget_am_mix);
 		add1To9Pair(ModItems.ingot_americium_fuel, ModItems.nugget_americium_fuel);
 		
+		add1To9Pair(ModItems.ingot_cm242, ModItems.nugget_cm242);
+		add1To9Pair(ModItems.ingot_cm243, ModItems.nugget_cm243);
+		add1To9Pair(ModItems.ingot_cm244, ModItems.nugget_cm244);
+		
+		
 		add1To9Pair(ModItems.ingot_gh336, ModItems.nugget_gh336);
 
 		for(int i = 0; i < ItemWasteLong.WasteClass.values().length; i++) {
