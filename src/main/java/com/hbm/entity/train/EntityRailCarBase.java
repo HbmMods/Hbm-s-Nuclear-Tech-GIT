@@ -75,7 +75,7 @@ public abstract class EntityRailCarBase extends Entity {
 				
 				anchor = this.getCurentAnchorPos(); //reset origin to new position
 				Vec3 frontPos = getRelPosAlongRail(anchor, this.getLengthSpan());
-				Vec3 backPos = getRelPosAlongRail(anchor, -this.getLengthSpan());
+				Vec3 backPos = getRelPosAlongRail(anchor, this.getLengthSpan());
 
 				if(frontPos == null || backPos == null) {
 					this.derail();
@@ -91,7 +91,7 @@ public abstract class EntityRailCarBase extends Entity {
 		double overshoot = 0;
 		float yaw = this.rotationYaw;
 		
-		Vec3 next = null;
+		Vec3 next = Vec3.createVectorHelper(posX, posY, posZ);
 		
 		do {
 			
@@ -100,7 +100,7 @@ public abstract class EntityRailCarBase extends Entity {
 			int z = anchor.getZ();
 			Block block = worldObj.getBlock(x, y, z);
 			
-			Vec3 rot = Vec3.createVectorHelper(1, 0, 0);
+			Vec3 rot = Vec3.createVectorHelper(0, 0, 1);
 			rot.rotateAroundY(yaw);
 			
 			if(block instanceof IRailNTM) {
@@ -127,7 +127,10 @@ public abstract class EntityRailCarBase extends Entity {
 	}
 	
 	public float generateYaw(Vec3 front, Vec3 back) {
-		return 0F; //TODO
+		double deltaX = front.xCoord - back.xCoord;
+		double deltaZ = front.zCoord - back.zCoord;
+		double radians = Math.atan(deltaZ / deltaX);
+		return (float) MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI - 90);
 	}
 
 	/** Returns the amount of blocks that the train should move per tick */
@@ -144,6 +147,8 @@ public abstract class EntityRailCarBase extends Entity {
 	
 	public void derail() {
 		isOnRail = false;
+		this.setDead();
+		worldObj.createExplosion(this, posX, posY, posZ, 1F, false);
 	}
 	
 	@SideOnly(Side.CLIENT)

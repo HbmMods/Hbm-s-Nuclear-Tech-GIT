@@ -15,13 +15,18 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 
-	public RailStandardStraight(Material mat) {
-		super(mat);
+	public RailStandardStraight() {
+		super(Material.iron);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return null;
+	}
+
+	@Override
+	public int getRenderType() {
+		return 0;
 	}
 
 	@Override

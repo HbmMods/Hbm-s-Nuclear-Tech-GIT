@@ -127,6 +127,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public class ModEventHandlerClient {
@@ -200,6 +201,19 @@ public class ModEventHandlerClient {
 				GL11.glPopMatrix();
 				Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 			}*/
+			
+			List<String> text = new ArrayList();
+			text.add("YAW: " + player.rotationYaw);
+			text.add("PITCH: " + player.rotationPitch);
+			int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+			int j = 0;
+			if(i == 0) j = 2;
+			if(i == 1) j = 5;
+			if(i == 2) j = 3;
+			if(i == 3) j = 4;
+			ForgeDirection dir = ForgeDirection.getOrientation(j).getOpposite();
+			text.add("x: " + dir.offsetX + " z: " + dir.offsetZ);
+			ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);
 		}
 		
 		/// HANLDE ANIMATION BUSES ///
