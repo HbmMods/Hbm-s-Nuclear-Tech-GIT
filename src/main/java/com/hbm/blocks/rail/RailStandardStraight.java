@@ -2,6 +2,7 @@ package com.hbm.blocks.rail;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -47,16 +48,16 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 
 	@Override
 	public Vec3 getSnappingPos(World world, int x, int y, int z, double trainX, double trainY, double trainZ) {
-		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, 0, 0, 0, 0, new double[1]);
+		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, 0, 0, 0, 0, new RailLeaveInfo());
 	}
 
 	@Override
-	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, double[] leftover) {
-		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, motionX, motionY, motionZ, speed, leftover);
+	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailLeaveInfo info) {
+		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, motionX, motionY, motionZ, speed, info);
 	}
 	
 	/* Very simple function determining the snapping position and adding the motion value to it, if desired. */
-	public Vec3 snapAndMove(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, double[] leftover) {
+	public Vec3 snapAndMove(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailLeaveInfo info) {
 		int[] pos = this.findCore(world, x, y, z);
 		if(pos == null) return Vec3.createVectorHelper(trainX, trainY, trainZ);
 		int cX = pos[0];
@@ -81,7 +82,8 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 			vec.xCoord = MathHelper.clamp_double(targetX, x - 2, x + 3);
 			vec.yCoord = y;
 			vec.zCoord = z + 0.5;
-			leftover[0] = Math.abs(targetX - vec.xCoord);
+			info.dist(Math.abs(targetX - vec.xCoord));
+			info.pos(new BlockPos(vec.xCoord + (motionX > 0 ? 1 : -1), y, z));
 		} else {
 			double targetZ = trainZ;
 			if(motionZ > 0) {
@@ -92,7 +94,8 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 			vec.xCoord = x + 0.5;
 			vec.yCoord = y;
 			vec.zCoord = MathHelper.clamp_double(targetZ, z - 2, z + 3);
-			leftover[0] = Math.abs(targetZ - vec.zCoord);
+			info.dist(Math.abs(targetZ - vec.zCoord));
+			info.pos(new BlockPos(x, y, vec.zCoord + (motionZ > 0 ? 1 : -1)));
 		}
 		
 		return vec;

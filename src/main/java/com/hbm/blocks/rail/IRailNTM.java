@@ -1,8 +1,11 @@
 package com.hbm.blocks.rail;
 
+import com.hbm.util.fauxpointtwelve.BlockPos;
+
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+/** in retrospect, not the best name i could have chosen */
 public interface IRailNTM {
 
 	/** Returns a vector pointing to the closest snapping position given the starting position */
@@ -16,12 +19,22 @@ public interface IRailNTM {
 	 * Motion ends up being *-1 if the train is going in reverse, still pointing forwards despite the speed being negative.
 	 * Also features a double[] wrapper with size 1 which holds the speed value that overshoots the rail.
 	 * */
-	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, double[] leftover);
+	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailLeaveInfo info);
 	
-	/** Returns that rail'S gauge. Trains will derail if the gauge does not match. */
+	/** Returns that rail's gauge. Trains will derail if the gauge does not match. */
 	public TrackGauge getGauge(World world, int x, int y, int z);
 	
 	public static enum TrackGauge {
 		STANDARD //roughly 1.5m
+	}
+	
+	/** A wrapper for all relevant info required when leaving a rail */
+	public static class RailLeaveInfo {
+		/** The amount of blocks still left to travel after completing the rail */
+		public double overshoot;
+		/** The exit position of that rail */
+		public BlockPos pos;
+		public RailLeaveInfo dist(double d) { this.overshoot = d; return this; }
+		public RailLeaveInfo pos(BlockPos d) { this.pos = d; return this; }
 	}
 }
