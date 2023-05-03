@@ -34,6 +34,16 @@ public abstract class EntityRailCarBase extends Entity {
 	@Override protected void entityInit() { }
 	@Override protected void readEntityFromNBT(NBTTagCompound nbt) { }
 	@Override protected void writeEntityToNBT(NBTTagCompound nbt) { }
+
+	@Override
+	public boolean canBePushed() {
+		return true;
+	}
+
+	@Override
+	public boolean canBeCollidedWith() {
+		return !this.isDead;
+	}
 	
 	@Override
 	public void onUpdate() {
@@ -67,10 +77,11 @@ public abstract class EntityRailCarBase extends Entity {
 				Vec3 frontPos = getRelPosAlongRail(anchor, this.getLengthSpan());
 				Vec3 backPos = getRelPosAlongRail(anchor, -this.getLengthSpan());
 
-				if(frontPos == null) this.derail();
-				if(backPos == null) this.derail();
-				
-				if(frontPos != null && backPos != null) this.rotationYaw = generateYaw(frontPos, backPos);
+				if(frontPos == null || backPos == null) {
+					this.derail();
+				} else {
+					this.rotationYaw = generateYaw(frontPos, backPos);
+				}
 			}
 		}
 	}
