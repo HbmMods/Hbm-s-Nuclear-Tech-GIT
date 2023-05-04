@@ -435,9 +435,9 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_zfb_pu241, pu239 * rod_rbmk * 0.1F, wst * rod_rbmk * 7.5F);
 		registerRBMKRod(rbmk_fuel_zfb_am_mix, pu241 * rod_rbmk * 0.1F, wst * rod_rbmk * 10F);
 		registerRBMK(rbmk_fuel_drx, bf * rod_rbmk, bf * rod_rbmk * 100F, true, true, 0, 1F/3F);
-		registerRBMKRod(rbmk_fuel_lec, cmrg * 2.2F * rod_rbmk / 5F, wst * rod_rbmk);
-		registerRBMKRod(rbmk_fuel_mec, cmrg * 2.2F * rod_rbmk / 3F, wst * rod_rbmk * 3F);
-		registerRBMKRod(rbmk_fuel_hec, cmrg * 2.2F * rod_rbmk /1.5F, wst * rod_rbmk * 5F);
+		registerRBMKRod(rbmk_fuel_lecm, cmrg * 2.2F * rod_rbmk / 5F, wst * rod_rbmk);
+		registerRBMKRod(rbmk_fuel_mecm, cmrg * 2.2F * rod_rbmk / 3F, wst * rod_rbmk * 3F);
+		registerRBMKRod(rbmk_fuel_hecm, cmrg * 2.2F * rod_rbmk /1.5F, wst * rod_rbmk * 5F);
 		
 		
 		registerRBMKPellet(rbmk_pellet_ueu, u * billet, wst * billet * 20F);
@@ -472,9 +472,9 @@ public class HazardRegistry {
 		registerRBMKPellet(rbmk_pellet_zfb_pu241, pu239 * billet * 0.1F, wst * billet * 7.5F);
 		registerRBMKPellet(rbmk_pellet_zfb_am_mix, pu241 * billet * 0.1F, wst * billet * 10F);
 		registerRBMKPellet(rbmk_pellet_drx, bf * billet, bf * billet * 100F, true, 0F, 1F/24F, 0);
-		registerRBMKPellet(rbmk_pellet_lec, cmrg * billet, wst * cf252 * 2.5F);
-		registerRBMKPellet(rbmk_pellet_mec, cmrg * billet, wst * cf252 * 2.6F);
-		registerRBMKPellet(rbmk_pellet_hec, cmrg * billet, wst * cf252 * 2.7F);
+		registerRBMKPellet(rbmk_pellet_lecm, cmrg * billet, wst * cf252 * 2.5F);
+		registerRBMKPellet(rbmk_pellet_mecm, cmrg * billet, wst * cf252 * 2.6F);
+		registerRBMKPellet(rbmk_pellet_hecm, cmrg * billet, wst * cf252 * 2.7F);
 		
 		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.SCHRABIDIUM), makeData(RADIATION, sa326 * ingot * 4));
 		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.HES), makeData(RADIATION, saf * ingot * 4));

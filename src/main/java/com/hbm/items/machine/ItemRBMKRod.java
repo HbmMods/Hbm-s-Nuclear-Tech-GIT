@@ -311,7 +311,7 @@ public class ItemRBMKRod extends Item {
 		BOOSTED_SLOPE,	//for strong breeding fuels such Th232, maximum of 132% at 64% depletion
 		GENTLE_SLOPE,	//recommended for most fuels, maximum barely over the start, near the beginning
 		STATIC, 		//for arcade-style neutron sources
-		CF_SLOPE;           //newguy thing, very strong and intended to simulate californium buildup in curium rods, caps at ~193% around 60% depletion
+		CF_SLOPE;       //newguy thing, very strong and intended to simulate californium buildup in curium rods, caps at ~193% around 60% depletion
 	}
 	
 	public double reactivityModByEnrichment(double enrichment) {

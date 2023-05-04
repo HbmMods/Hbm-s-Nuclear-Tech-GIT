@@ -1246,9 +1246,12 @@ public class ModItems {
 	public static ItemRBMKRod rbmk_fuel_zfb_am_mix;
 	public static ItemRBMKRod rbmk_fuel_drx;
 	public static ItemRBMKRod rbmk_fuel_test;
-	public static ItemRBMKRod rbmk_fuel_lec;
-	public static ItemRBMKRod rbmk_fuel_mec;
-	public static ItemRBMKRod rbmk_fuel_hec;
+	public static ItemRBMKRod rbmk_fuel_lecm;
+	public static ItemRBMKRod rbmk_fuel_mecm;
+	public static ItemRBMKRod rbmk_fuel_hecm;
+	public static ItemRBMKRod rbmk_fuel_lecf;
+	public static ItemRBMKRod rbmk_fuel_mecf;
+	public static ItemRBMKRod rbmk_fuel_hecf;
 	public static ItemRBMKPellet rbmk_pellet_ueu;
 	public static ItemRBMKPellet rbmk_pellet_meu;
 	public static ItemRBMKPellet rbmk_pellet_heu233;
@@ -1281,9 +1284,12 @@ public class ModItems {
 	public static ItemRBMKPellet rbmk_pellet_zfb_pu241;
 	public static ItemRBMKPellet rbmk_pellet_zfb_am_mix;
 	public static ItemRBMKPellet rbmk_pellet_drx;
-	public static ItemRBMKPellet rbmk_pellet_lec;
-	public static ItemRBMKPellet rbmk_pellet_mec;
-	public static ItemRBMKPellet rbmk_pellet_hec;
+	public static ItemRBMKPellet rbmk_pellet_lecm;
+	public static ItemRBMKPellet rbmk_pellet_mecm;
+	public static ItemRBMKPellet rbmk_pellet_hecm;
+	public static ItemRBMKPellet rbmk_pellet_lecf;
+	public static ItemRBMKPellet rbmk_pellet_mecf;
+	public static ItemRBMKPellet rbmk_pellet_hecf;
 
 	public static Item watz_pellet;
 	public static Item watz_pellet_depleted;
@@ -3817,9 +3823,12 @@ public class ModItems {
 		rbmk_pellet_zfb_pu241 = (ItemRBMKPellet) new ItemRBMKPellet("Zirconium Fast Breeder - HEU-235/HEP-240#Pu-241").setUnlocalizedName("rbmk_pellet_zfb_pu241").setTextureName(RefStrings.MODID + ":rbmk_pellet_zfb_pu241");
 		rbmk_pellet_zfb_am_mix = (ItemRBMKPellet) new ItemRBMKPellet("Zirconium Fast Breeder - HEP-241#MEA").setUnlocalizedName("rbmk_pellet_zfb_am_mix").setTextureName(RefStrings.MODID + ":rbmk_pellet_zfb_am_mix");
 		rbmk_pellet_drx = (ItemRBMKPellet) new ItemRBMKPellet(EnumChatFormatting.OBFUSCATED + "can't you hear, can't you hear the thunder?").setUnlocalizedName("rbmk_pellet_drx").setTextureName(RefStrings.MODID + ":rbmk_pellet_drx");
-		rbmk_pellet_lec = (ItemRBMKPellet) new ItemRBMKPellet("Low Enriched Fissile Curium").setUnlocalizedName("rbmk_pellet_lec").setTextureName(RefStrings.MODID + ":rbmk_pellet_lec");
-		rbmk_pellet_mec = (ItemRBMKPellet) new ItemRBMKPellet("Medium Enriched Fissile Curium").setUnlocalizedName("rbmk_pellet_mec").setTextureName(RefStrings.MODID + ":rbmk_pellet_mec");
-		rbmk_pellet_hec = (ItemRBMKPellet) new ItemRBMKPellet("Highly Enriched Fissile Curium").setUnlocalizedName("rbmk_pellet_hec").setTextureName(RefStrings.MODID + ":rbmk_pellet_hec");
+		rbmk_pellet_lecm = (ItemRBMKPellet) new ItemRBMKPellet("Low Enriched Curium-245").setUnlocalizedName("rbmk_pellet_lecm").setTextureName(RefStrings.MODID + ":rbmk_pellet_lecm");
+		rbmk_pellet_mecm = (ItemRBMKPellet) new ItemRBMKPellet("Medium Enriched Curium-245").setUnlocalizedName("rbmk_pellet_mecm").setTextureName(RefStrings.MODID + ":rbmk_pellet_mecm");
+		rbmk_pellet_hecm = (ItemRBMKPellet) new ItemRBMKPellet("Highly Enriched Curium-245").setUnlocalizedName("rbmk_pellet_hecm").setTextureName(RefStrings.MODID + ":rbmk_pellet_hecm");
+		rbmk_pellet_lecf = (ItemRBMKPellet) new ItemRBMKPellet("Low Enriched Californium-252").setUnlocalizedName("rbmk_pellet_lecf").setTextureName(RefStrings.MODID + ":rbmk_pellet_lecf");
+		rbmk_pellet_mecf = (ItemRBMKPellet) new ItemRBMKPellet("Medium Enriched Californium-252").setUnlocalizedName("rbmk_pellet_mecf").setTextureName(RefStrings.MODID + ":rbmk_pellet_mecf");
+		rbmk_pellet_hecf = (ItemRBMKPellet) new ItemRBMKPellet("Highly Enriched Californium-252").setUnlocalizedName("rbmk_pellet_hecf").setTextureName(RefStrings.MODID + ":rbmk_pellet_hecf");
 		
 		rbmk_fuel_empty = new Item().setUnlocalizedName("rbmk_fuel_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_fuel_empty");
 		rbmk_fuel_ueu = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_ueu)
@@ -4074,7 +4083,7 @@ public class ModItems {
 				.setHeat(1.0D)
 				.setMeltingPoint(100000)
 				.setUnlocalizedName("rbmk_fuel_test").setTextureName(RefStrings.MODID + ":rbmk_fuel_test");
-		rbmk_fuel_lec = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_lec)
+		rbmk_fuel_lecm = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_lecm)
 				.setYield(30000000D)
 				.setStats(20, 5)
 				.setFunction(EnumBurnFunc.SLOW_LINEAR)
@@ -4082,8 +4091,8 @@ public class ModItems {
 				.setHeat(1.25D)
 				.setMeltingPoint(1340)
 				.setDiffusion(0.4D)
-				.setUnlocalizedName("rbmk_fuel_lec").setTextureName(RefStrings.MODID + ":rbmk_fuel_lec");
-		rbmk_fuel_mec = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_mec)
+				.setUnlocalizedName("rbmk_fuel_lecm").setTextureName(RefStrings.MODID + ":rbmk_fuel_lecm");
+		rbmk_fuel_mecm = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_mecm)
 				.setYield(27000000D)
 				.setStats(30, 10)
 				.setFunction(EnumBurnFunc.SLOW_LINEAR)
@@ -4091,8 +4100,8 @@ public class ModItems {
 				.setHeat(1.25D)
 				.setMeltingPoint(1720)
 				.setDiffusion(0.3D)
-				.setUnlocalizedName("rbmk_fuel_mec").setTextureName(RefStrings.MODID + ":rbmk_fuel_mec");
-		rbmk_fuel_hec =(ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_hec)
+				.setUnlocalizedName("rbmk_fuel_mecm").setTextureName(RefStrings.MODID + ":rbmk_fuel_mecm");
+		rbmk_fuel_hecm = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_hecm)
 				.setYield(24000000D)
 				.setStats(60, 25)
 				.setFunction(EnumBurnFunc.SLOW_LINEAR)
@@ -4100,7 +4109,35 @@ public class ModItems {
 				.setHeat(1.3D)
 				.setMeltingPoint(1880)
 				.setDiffusion(0.3D)
-				.setUnlocalizedName("rbmk_fuel_hec").setTextureName(RefStrings.MODID + ":rbmk_fuel_hec");
+				.setUnlocalizedName("rbmk_fuel_hecm").setTextureName(RefStrings.MODID + ":rbmk_fuel_hecm");
+		rbmk_fuel_lecf = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_lecf)
+				.setYield(8800000D)
+				.setStats(50, 30)
+				.setFunction(EnumBurnFunc.SLOW_LINEAR)
+				.setDepletionFunction(EnumDepleteFunc.CF_SLOPE)
+				.setHeat(1.3D)
+				.setMeltingPoint(1450)
+				.setDiffusion(0.3D)
+				.setUnlocalizedName("rbmk_fuel_lecf").setTextureName(RefStrings.MODID + ":rbmk_fuel_lecf");
+		rbmk_fuel_mecf = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_mecf)
+				.setYield(6800000D)
+				.setStats(70, 50)
+				.setFunction(EnumBurnFunc.SLOW_LINEAR)
+				.setDepletionFunction(EnumDepleteFunc.CF_SLOPE)
+				.setHeat(1.3D)
+				.setMeltingPoint(1450)
+				.setDiffusion(0.3D)
+				.setUnlocalizedName("rbmk_fuel_mecf").setTextureName(RefStrings.MODID + ":rbmk_fuel_mecf");
+		rbmk_fuel_hecf = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_hecf)
+				.setYield(6800000D)
+				.setStats(70, 50)
+				.setFunction(EnumBurnFunc.SLOW_LINEAR)
+				.setDepletionFunction(EnumDepleteFunc.CF_SLOPE)
+				.setHeat(1.3D)
+				.setMeltingPoint(1450)
+				.setDiffusion(0.3D)
+				.setUnlocalizedName("rbmk_fuel_hecf").setTextureName(RefStrings.MODID + ":rbmk_fuel_hecf");
+		
 		
 		watz_pellet = new ItemWatzPellet().setUnlocalizedName("watz_pellet").setTextureName(RefStrings.MODID + ":watz_pellet");
 		watz_pellet_depleted = new ItemWatzPellet().setUnlocalizedName("watz_pellet_depleted").setTextureName(RefStrings.MODID + ":watz_pellet");
@@ -7022,9 +7059,9 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_fuel_zfb_am_mix, rbmk_fuel_zfb_am_mix.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_drx, rbmk_fuel_drx.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_test, rbmk_fuel_test.getUnlocalizedName());
-		GameRegistry.registerItem(rbmk_fuel_lec, rbmk_fuel_lec.getUnlocalizedName());
-		GameRegistry.registerItem(rbmk_fuel_mec, rbmk_fuel_mec.getUnlocalizedName());
-		GameRegistry.registerItem(rbmk_fuel_hec, rbmk_fuel_hec.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_lecm, rbmk_fuel_lecm.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_mecm, rbmk_fuel_mecm.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_hecm, rbmk_fuel_hecm.getUnlocalizedName());
 
 		GameRegistry.registerItem(rbmk_pellet_ueu, rbmk_pellet_ueu.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_meu, rbmk_pellet_meu.getUnlocalizedName());
@@ -7058,9 +7095,9 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_pellet_zfb_pu241, rbmk_pellet_zfb_pu241.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_zfb_am_mix, rbmk_pellet_zfb_am_mix.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_drx, rbmk_pellet_drx.getUnlocalizedName());
-		GameRegistry.registerItem(rbmk_pellet_lec, rbmk_pellet_lec.getUnlocalizedName());
-		GameRegistry.registerItem(rbmk_pellet_mec, rbmk_pellet_mec.getUnlocalizedName());
-		GameRegistry.registerItem(rbmk_pellet_hec, rbmk_pellet_hec.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_pellet_lecm, rbmk_pellet_lecm.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_pellet_mecm, rbmk_pellet_mecm.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_pellet_hecm, rbmk_pellet_hecm.getUnlocalizedName());
 		
 		GameRegistry.registerItem(watz_pellet, watz_pellet.getUnlocalizedName());
 		GameRegistry.registerItem(watz_pellet_depleted, watz_pellet_depleted.getUnlocalizedName());

@@ -502,40 +502,41 @@ public class SILEXRecipes {
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 3))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.AMERICIUM241.ordinal()), 4 + 6 * i)));
 			//LEC//
-			recipes.put(new ComparableStack(ModItems.rbmk_pellet_lec, 1, i), new SILEXRecipe(600, 100, 4)
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_lecm, 1, i), new SILEXRecipe(600, 100, 4)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cm_fuel), 100 - i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu_mix), 50 - i * 10))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cm247), 1 + 2 * i / 50))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.CURIUM244.ordinal()), 2 + 1 * i))
 			        .addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.CURIUM245.ordinal()), 2 + 1 * i)));
 			
-			recipes.put(new ComparableStack(ModItems.rbmk_pellet_lec, 1, i + 5), new SILEXRecipe(600, 100, 4)
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_lecm, 1, i + 5), new SILEXRecipe(600, 100, 4)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cm_fuel), 100 - i * 20))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu_mix), 50 - i * 10))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cm247), 1 + 2 * i / 50))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 3))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.CURIUM244.ordinal()), 2 + 1 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.CURIUM245.ordinal()), 2 + 1 * i)));
 			//MEC//
-			recipes.put(new ComparableStack(ModItems.rbmk_pellet_mec, 1, i), new SILEXRecipe(600, 100, 4)
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_mecm, 1, i), new SILEXRecipe(600, 100, 4)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cm_mix), 100 - i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cm247), 2 + 4 * i / 30))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.CURIUM244.ordinal()), 4 + 4 * i))
 			        .addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.CURIUM245.ordinal()), 5 + 4 * i)));
 			
-			recipes.put(new ComparableStack(ModItems.rbmk_pellet_mec, 1, i + 5), new SILEXRecipe(600, 100, 4)
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_mecm, 1, i + 5), new SILEXRecipe(600, 100, 4)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cm_mix), 100 - i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cm247), 2 + 4 * i / 30))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 3))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.CURIUM244.ordinal()), 4 + 4 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.CURIUM245.ordinal()), 5 + 4 * i)));
 			//HEC//
-			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hec, 1, i), new SILEXRecipe(600, 100, 4)
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hecm, 1, i), new SILEXRecipe(600, 100, 4)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cm245), 100 - i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cm247), 3 + 5 * i / 30))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.CURIUM244.ordinal()), 6 + 7 * i))
 			        .addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.CURIUM245.ordinal()), 7 + 8 * i)));
 			
-			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hec, 1, i + 5), new SILEXRecipe(600, 100, 4)
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_hecm, 1, i + 5), new SILEXRecipe(600, 100, 4)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cm245), 100 - i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cm247), 3 + 5 * i / 30))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 3))

@@ -129,7 +129,10 @@ public class RodRecipes {
 		addRBMKRod(CMRG, ModItems.rbmk_fuel_mec);
 		addRBMKRod(CM245, ModItems.rbmk_fuel_hec);
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rbmk_fuel_drx, 1), new Object[] { ModItems.rbmk_fuel_balefire, ModItems.particle_digamma });
-
+		addRBMKRod(ModItems.billet_cm_fuel, ModItems.rbmk_fuel_lecm);
+		addRBMKRod(CMRG, ModItems.rbmk_fuel_mecm);
+		addRBMKRod(CM245, ModItems.rbmk_fuel_hecm);
+		
 		addPellet(SA326,							EnumWatzType.SCHRABIDIUM);
 		addPellet(ModItems.ingot_hes,				EnumWatzType.HES);
 		addPellet(ModItems.ingot_schrabidium_fuel,	EnumWatzType.MES);
@@ -146,6 +149,7 @@ public class RodRecipes {
 		/* GT6 */
 		if(OreDictionary.doesOreNameExist("ingotNaquadah-Enriched"))	addPellet(new DictFrame("Naquadah-Enriched"),	EnumWatzType.NQD);
 		if(OreDictionary.doesOreNameExist("ingotNaquadria"))			addPellet(new DictFrame("Naquadria"),			EnumWatzType.NQR);
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rbmk_fuel_drx, 1), new Object[] { ModItems.rbmk_fuel_balefire, ModItems.particle_digamma });
 
 	}
 	
