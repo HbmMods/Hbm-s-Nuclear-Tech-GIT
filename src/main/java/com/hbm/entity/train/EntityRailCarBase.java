@@ -75,7 +75,7 @@ public abstract class EntityRailCarBase extends Entity {
 				
 				anchor = this.getCurentAnchorPos(); //reset origin to new position
 				Vec3 frontPos = getRelPosAlongRail(anchor, this.getLengthSpan());
-				Vec3 backPos = getRelPosAlongRail(anchor, this.getLengthSpan());
+				Vec3 backPos = getRelPosAlongRail(anchor, -this.getLengthSpan());
 
 				if(frontPos == null || backPos == null) {
 					this.derail();
@@ -92,8 +92,16 @@ public abstract class EntityRailCarBase extends Entity {
 		float yaw = this.rotationYaw;
 		
 		Vec3 next = Vec3.createVectorHelper(posX, posY, posZ);
+		int it = 0;
 		
 		do {
+			
+			it++;
+			
+			if(it > 30) {
+				this.derail();
+				return null;
+			}
 			
 			int x = anchor.getX();
 			int y = anchor.getY();

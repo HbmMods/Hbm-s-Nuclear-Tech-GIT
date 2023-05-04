@@ -74,7 +74,7 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 		Vec3 vec = Vec3.createVectorHelper(trainX, trainY, trainZ);
 		
 		if(speed == 0) {
-			return vec;
+			//return vec;
 		}
 		
 		if(dir == Library.POS_X || dir == Library.NEG_X) {

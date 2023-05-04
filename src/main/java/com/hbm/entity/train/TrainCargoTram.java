@@ -4,6 +4,7 @@ import com.hbm.blocks.rail.IRailNTM.TrackGauge;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -26,10 +27,34 @@ public class TrainCargoTram extends EntityRailCarRidable {
 		super(world);
 		this.setSize(2F, 1F);
 	}
+	
+	public double speed = 0;
+	public static final double maxSpeed = 0.5;
+	public static final double acceleration = 0.01;
+	public static final double deceleration = 0.75;
 
 	@Override
-	public double getCurrentSpeed() {
-		return this.riddenByEntity instanceof EntityPlayer ? ((EntityPlayer) this.riddenByEntity).moveForward * 0.125D : 0;
+	public double getCurrentSpeed() { // in its current form, only call once per tick
+		
+		if(this.riddenByEntity instanceof EntityPlayer) {
+			
+			EntityPlayer player = (EntityPlayer) this.riddenByEntity;
+			
+			if(player.moveForward > 0) {
+				speed += acceleration;
+			} else if(player.moveForward < 0) {
+				speed -= acceleration;
+			} else {
+				speed *= deceleration;
+			}
+			
+		} else {
+			speed *= deceleration;
+		}
+		
+		speed = MathHelper.clamp_double(speed, -maxSpeed, maxSpeed);
+		
+		return speed;
 	}
 
 	@Override
