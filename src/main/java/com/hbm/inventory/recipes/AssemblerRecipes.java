@@ -925,6 +925,15 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.pipes_steel, 1),
 				new ComparableStack(ModItems.circuit_gold, 3)
 			}, 400);
+		makeRecipe(new ComparableStack(ModBlocks.machine_cryo_distill, 1), new AStack[] {
+				new OreDictStack(STAINLESS.ingot(), 12),
+				new OreDictStack(ANY_CONCRETE.block(), 4),
+				new ComparableStack(ModItems.tank_steel, 3),
+				new ComparableStack(ModItems.circuit_aluminium, 1),
+				new ComparableStack(ModItems.wire_copper, 4),
+				new ComparableStack(ModItems.wire_zinc, 3),
+				new ComparableStack(ModBlocks.heater_heatex, 1)
+			}, 200);
 		
 		makeRecipe(new ComparableStack(ModBlocks.machine_chemfac, 1), new AStack[] {
 				new OreDictStack(STEEL.ingot(), 48),
