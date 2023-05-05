@@ -207,6 +207,11 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget_cm_mix, 12),
 				new ItemStack(ModItems.nugget_cf252, 3),
 				new ItemStack(ModItems.nuclear_waste, 2) });
+		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.BK247)), new ItemStack[] {
+				new ItemStack(ModItems.ingot_mud, 1),
+				new ItemStack(ModItems.nugget_am_mix, 12),
+				new ItemStack(ModItems.nugget_pu239, 3),
+				new ItemStack(ModItems.nuclear_waste, 2) });
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.CF252)), new ItemStack[] {
 				new ItemStack(ModItems.ingot_mud, 1),
 				new ItemStack(ModItems.nugget_cf252, 6),
