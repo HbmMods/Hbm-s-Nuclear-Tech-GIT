@@ -3,6 +3,7 @@ package com.hbm.entity.train;
 import com.hbm.blocks.rail.IRailNTM;
 import com.hbm.blocks.rail.IRailNTM.RailLeaveInfo;
 import com.hbm.blocks.rail.IRailNTM.TrackGauge;
+import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.relauncher.Side;
@@ -71,6 +72,9 @@ public abstract class EntityRailCarBase extends Entity {
 			if(corePos == null) {
 				this.derail();
 			} else {
+				this.prevPosX = this.posX;
+				this.prevPosY = this.posY;
+				this.prevPosZ = this.posZ;
 				this.setPosition(corePos.xCoord, corePos.yCoord, corePos.zCoord);
 				
 				anchor = this.getCurentAnchorPos(); //reset origin to new position
@@ -80,7 +84,7 @@ public abstract class EntityRailCarBase extends Entity {
 				if(frontPos == null || backPos == null) {
 					this.derail();
 				} else {
-					this.rotationYaw = generateYaw(frontPos, backPos);
+					//this.rotationYaw = generateYaw(frontPos, backPos);
 				}
 			}
 		}
@@ -99,6 +103,7 @@ public abstract class EntityRailCarBase extends Entity {
 			it++;
 			
 			if(it > 30) {
+				worldObj.createExplosion(this, posX, posY, posZ, 5F, false);
 				this.derail();
 				return null;
 			}
@@ -109,7 +114,8 @@ public abstract class EntityRailCarBase extends Entity {
 			Block block = worldObj.getBlock(x, y, z);
 			
 			Vec3 rot = Vec3.createVectorHelper(0, 0, 1);
-			rot.rotateAroundY(yaw);
+			rot.rotateAroundY((float) (yaw * Math.PI / 180D));
+			
 			
 			if(block instanceof IRailNTM) {
 				IRailNTM rail = (IRailNTM) block;
@@ -156,7 +162,6 @@ public abstract class EntityRailCarBase extends Entity {
 	public void derail() {
 		isOnRail = false;
 		this.setDead();
-		worldObj.createExplosion(this, posX, posY, posZ, 1F, false);
 	}
 	
 	@SideOnly(Side.CLIENT)
