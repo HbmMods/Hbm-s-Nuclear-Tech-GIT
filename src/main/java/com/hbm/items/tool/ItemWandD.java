@@ -2,13 +2,24 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.blocks.rail.IRailNTM;
+import com.hbm.blocks.rail.IRailNTM.RailLeaveInfo;
 import com.hbm.lib.Library;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.PlayerInformPacket;
+import com.hbm.util.ParticleUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.world.feature.OilSpot;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ItemWandD extends Item {
@@ -22,6 +33,60 @@ public class ItemWandD extends Item {
 		MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
 		
 		if(pos != null) {
+			
+			float yaw = player.rotationYaw;
+			
+			Vec3 next = Vec3.createVectorHelper(pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord);
+			int it = 0;
+			
+			BlockPos anchor = new BlockPos(pos.blockX, pos.blockY, pos.blockZ);
+			
+			double distanceToCover = 2D;
+			
+			ParticleUtil.spawnGasFlame(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 0, 0.2, 0);
+			
+			do {
+				
+				it++;
+				
+				if(it > 30) {
+					world.createExplosion(player, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 5F, false);
+					return stack;
+				}
+				
+				int x = anchor.getX();
+				int y = anchor.getY();
+				int z = anchor.getZ();
+				Block block = world.getBlock(x, y, z);
+				
+				Vec3 rot = Vec3.createVectorHelper(0, 0, 1);
+				rot.rotateAroundY((float) (-yaw * Math.PI / 180D));
+				
+				if(block instanceof IRailNTM) {
+					IRailNTM rail = (IRailNTM) block;
+					
+					RailLeaveInfo info = new RailLeaveInfo();
+					Vec3 prev = next;
+					next = rail.getTravelLocation(world, x, y, z, prev.xCoord, prev.yCoord, prev.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, distanceToCover, info);
+					distanceToCover = info.overshoot;
+					anchor = info.pos;
+					
+					ParticleUtil.spawnGasFlame(world, next.xCoord, next.yCoord, next.zCoord, 0, 0.2 * it, 0);
+					
+					double deltaX = next.xCoord - prev.xCoord;
+					double deltaZ = next.zCoord - prev.zCoord;
+					double radians = -Math.atan2(deltaX, deltaZ);
+					yaw = (float) MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI);
+					
+					PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(new ChatComponentText("Yaw: " + yaw), 0, 3000), (EntityPlayerMP) player);
+
+					//if(info.overshoot > 0) System.out.println("[" + (worldObj.getTotalWorldTime() % 100) + "] Left track " + ((Block) rail).getUnlocalizedName() + " with " + ((int)(info.overshoot * 100) / 100D) + "m more to go!");
+					
+				} else {
+					return stack;
+				}
+				
+			} while(distanceToCover != 0); //if there's still length to cover, keep going
 			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
@@ -57,8 +122,6 @@ public class ItemWandD extends Item {
 			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));*/
 			//MapGenStronghold.Start startS = new MapGenStronghold.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
 			//startS.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));
-			
-			OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 3, 50, true);
 			
 			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);

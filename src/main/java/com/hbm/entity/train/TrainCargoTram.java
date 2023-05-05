@@ -69,7 +69,7 @@ public class TrainCargoTram extends EntityRailCarRidable {
 
 	@Override
 	public Vec3 getRiderSeatPosition() {
-		return Vec3.createVectorHelper(0.75, 1.75, 0.75);
+		return Vec3.createVectorHelper(0.375, 1.75, 0.5);
 	}
 
 	@Override

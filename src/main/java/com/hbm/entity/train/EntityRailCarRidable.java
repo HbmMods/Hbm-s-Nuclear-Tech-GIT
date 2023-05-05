@@ -31,7 +31,7 @@ public abstract class EntityRailCarRidable extends EntityRailCarBase {
 	public void updateRiderPosition() {
 		
 		Vec3 offset = getRiderSeatPosition();
-		offset.rotateAroundY((float) (this.rotationYaw * Math.PI / 180));
+		offset.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
 		
 		if(this.riddenByEntity != null) {
 			this.riddenByEntity.setPosition(this.posX + offset.xCoord, this.posY + offset.yCoord, this.posZ + offset.zCoord);

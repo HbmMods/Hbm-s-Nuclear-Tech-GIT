@@ -57,11 +57,6 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 		ForgeDirection dir = ForgeDirection.getOrientation(meta);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
-		List<String> context = new ArrayList();
-		context.add("=========================");
-		
-		boolean debug = Math.abs(speed) < 2;
-		
 		double turnRadius = 4.5D;
 
 		Vec3 vec = Vec3.createVectorHelper(trainX, trainY, trainZ);
@@ -78,15 +73,11 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 			return Vec3.createVectorHelper(axisX + dist.xCoord, y, axisZ + dist.zCoord);
 		}
 		
-		context.add("Speed: " + speed);
 		
 		double angleDeg = -Math.atan(dist.zCoord / dist.xCoord) * 180D / Math.PI;
+		if(dir == Library.NEG_X) angleDeg += 90;
 		double length90Deg = turnRadius * Math.PI / 2D;
 		double angularChange = speed / length90Deg * 90D;
-		
-		context.add("angleDeg: " + angleDeg);
-		context.add("length90Deg: " + length90Deg);
-		context.add("angularChange: " + angularChange);
 		
 		ForgeDirection moveDir = ForgeDirection.UNKNOWN;
 		
@@ -96,44 +87,31 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 			moveDir = motionZ > 0 ? Library.POS_Z : Library.NEG_Z;
 		}
 		
-		context.add("moveDir: " + moveDir);
-		
-		if(moveDir == dir || moveDir == rot) {
+		if(moveDir == dir || moveDir == rot.getOpposite()) {
 			angularChange *= -1;
 		}
 		
-		context.add("angularChange: " + angularChange);
-		
 		double effAngle = angleDeg + angularChange;
 		
-		context.add("effAngle: " + effAngle);
+		if(Math.abs(speed) != 2)PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(new ChatComponentText(angleDeg + ""), 999, 3000), (EntityPlayerMP) world.playerEntities.get(0));
 		
 		if(effAngle > 90) {
 			double angleOvershoot = effAngle - 90D;
 			double lengthOvershoot = angleOvershoot * length90Deg / 90D;
-			context.add("angleOvershoot: " + angleOvershoot);
-			context.add("lengthOvershoot: " + lengthOvershoot);
-			info.dist(lengthOvershoot).pos(new BlockPos(cX - dir.offsetX * 4 + rot.offsetX * 5, y, cZ - dir.offsetZ * 4 + rot.offsetZ * 5));
-			if(debug) for(String s : context) System.out.println(s);
+			info.dist(-lengthOvershoot).pos(new BlockPos(cX - dir.offsetX * 4 + rot.offsetX * 5, y, cZ - dir.offsetZ * 4 + rot.offsetZ * 5));
 			return Vec3.createVectorHelper(axisX - dir.offsetX * turnRadius + rot.offsetX * turnRadius, y, axisZ - dir.offsetZ * turnRadius + rot.offsetZ * turnRadius);
 		}
 		
 		if(effAngle < 0) {
-			double angleOvershoot = -effAngle;
+			double angleOvershoot = effAngle;
 			double lengthOvershoot = angleOvershoot * length90Deg / 90D;
-			context.add("angleOvershoot: " + angleOvershoot);
-			context.add("lengthOvershoot: " + lengthOvershoot);
 			info.dist(lengthOvershoot).pos(new BlockPos(cX + dir.offsetX , y, cZ + dir.offsetZ));
-			ParticleUtil.spawnGasFlame(world, axisX + 0.5 + dir.offsetX * 0.5, y, axisZ * 0.5 + dir.offsetZ * 0.5, 0, 0.2, 0);
-			if(debug) for(String s : context) System.out.println(s);
 			return Vec3.createVectorHelper(axisX + 0.5 + dir.offsetX * 0.5, y, axisZ * 0.5 + dir.offsetZ * 0.5);
 		}
 		
 		double radianChange = angularChange * Math.PI / 180D;
 		dist.rotateAroundY((float) radianChange);
 		
-		context.add("radianChange: " + radianChange);
-		if(debug) for(String s : context) System.out.println(s);
 		return Vec3.createVectorHelper(axisX + dist.xCoord, y, axisZ + dist.zCoord);
 	}
 
@@ -154,7 +132,6 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-		int meta = world.getBlockMetadata(x, y, z);
 		this.setBlockBounds(0F, 0F, 0F, 1F, 0.125F, 1F);
 	}
 

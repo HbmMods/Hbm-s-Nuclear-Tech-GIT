@@ -41,7 +41,6 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-		int meta = world.getBlockMetadata(x, y, z);
 		this.setBlockBounds(0F, 0F, 0F, 1F, 0.125F, 1F);
 	}
 
@@ -84,11 +83,11 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 			} else {
 				targetX -= speed;
 			}
-			vec.xCoord = MathHelper.clamp_double(targetX, x - 2, x + 3);
+			vec.xCoord = MathHelper.clamp_double(targetX, cX - 2, cX + 3);
 			vec.yCoord = y;
-			vec.zCoord = z + 0.5;
-			info.dist(Math.abs(targetX - vec.xCoord));
-			info.pos(new BlockPos(vec.xCoord + (motionX > 0 ? 1 : -1), y, z));
+			vec.zCoord = cZ + 0.5;
+			info.dist(Math.abs(targetX - vec.xCoord) * -Math.signum(speed));
+			info.pos(new BlockPos(cX + (motionX > 0 ? 3 : -3), y, cZ));
 		} else {
 			double targetZ = trainZ;
 			if(motionZ > 0) {
@@ -96,11 +95,11 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 			} else {
 				targetZ -= speed;
 			}
-			vec.xCoord = x + 0.5;
+			vec.xCoord = cX + 0.5;
 			vec.yCoord = y;
-			vec.zCoord = MathHelper.clamp_double(targetZ, z - 2, z + 3);
-			info.dist(Math.abs(targetZ - vec.zCoord));
-			info.pos(new BlockPos(x, y, vec.zCoord + (motionZ > 0 ? 1 : -1)));
+			vec.zCoord = MathHelper.clamp_double(targetZ, cZ - 2,cZ + 3);
+			info.dist(Math.abs(targetZ - vec.zCoord) * -Math.signum(speed));
+			info.pos(new BlockPos(cX, y, cZ + (motionZ > 0 ? 3 : -3)));
 		}
 		
 		return vec;
