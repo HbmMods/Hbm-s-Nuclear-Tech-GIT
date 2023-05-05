@@ -486,7 +486,14 @@ public class HazardRegistry {
 		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.DU), makeData(RADIATION, u238 * ingot * 4));
 		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.NQD), makeData(RADIATION, u235 * ingot * 4));
 		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.NQR), makeData(RADIATION, pu239 * ingot * 4));
-		
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.PU241), makeData(RADIATION, pu241 * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.AMRG), makeData(RADIATION, amrg * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.CMRG), makeData(RADIATION, cmrg * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.CMF), makeData(RADIATION, cmf * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.BK247), makeData(RADIATION, bk247 * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.CF252), makeData(RADIATION, cf252 * ingot * 4));
+		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.ES253), makeData(RADIATION, es253 * ingot * 4));
+
 		HazardSystem.register(powder_yellowcake, makeData(RADIATION, yc * powder));
 		HazardSystem.register(block_yellowcake, makeData(RADIATION, yc * block * powder_mult));
 		HazardSystem.register(ModItems.fallout, makeData(RADIATION, fo * powder));

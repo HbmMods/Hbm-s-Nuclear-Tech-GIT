@@ -140,6 +140,13 @@ public class RodRecipes {
 		addPellet(PB,								EnumWatzType.LEAD);
 		addPellet(B,								EnumWatzType.BORON);
 		addPellet(U238,								EnumWatzType.DU);
+		addPellet(PU241,							EnumWatzType.PU241);
+		addPellet(AMRG,								EnumWatzType.AMRG);
+		addPellet(CMRG,								EnumWatzType.CMRG);
+		addPellet(CMF,								EnumWatzType.CMF);
+		addPellet(BK247,							EnumWatzType.BK247);
+		addPellet(CF252,							EnumWatzType.CF252);
+		addPellet(ES253,							EnumWatzType.ES253);
 	}
 	
 	public static void registerInit() {
