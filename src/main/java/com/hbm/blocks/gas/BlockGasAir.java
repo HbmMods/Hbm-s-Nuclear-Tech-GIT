@@ -166,49 +166,15 @@ public class BlockGasAir extends BlockGasBase {
 		super.updateTick(world, x, y, z, rand);
 	}
 
-	private Block getResult()
-	{
-		if(this==ModBlocks.air_block9)
-		{
-			return ModBlocks.air_block8;
-		}
-		if(this==ModBlocks.air_block8)
-		{
-			return ModBlocks.air_block7;
-		}
-		if(this==ModBlocks.air_block7)
-		{
-			return ModBlocks.air_block6;
-		}
-		if(this==ModBlocks.air_block6)
-		{
-			return ModBlocks.air_block5;
-		}
-		if(this==ModBlocks.air_block5)
-		{
-			return ModBlocks.air_block4;
-		}
-		if(this==ModBlocks.air_block4)
-		{
-			return ModBlocks.air_block3;
-		}
-		if(this==ModBlocks.air_block3)
-		{
-			return ModBlocks.air_block2;
-		}
-		if(this==ModBlocks.air_block2)
-		{
-			return ModBlocks.air_block1;
-		}
-		if(this==ModBlocks.air_block1)
-		{
-			return ModBlocks.air_block;
-		}
-		//if(this==ModBlocks.air_block)
-		//{
-		//	return Blocks.air;
-		//}
-		return ModBlocks.air_block;
+	private Block[] airBlocks = {ModBlocks.air_block, ModBlocks.air_block1, ModBlocks.air_block2, ModBlocks.air_block3, ModBlocks.air_block4, ModBlocks.air_block5, ModBlocks.air_block6, ModBlocks.air_block7, ModBlocks.air_block8, ModBlocks.air_block9};
+
+	private Block getResult() {
+	    for (int i = 0; i < airBlocks.length - 1; i++) {
+	        if (this == airBlocks[i]) {
+	            return airBlocks[i+1];
+	        }
+	    }
+	    return ModBlocks.air_block;
 	}
 	
 	@Override

@@ -1,20 +1,49 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.gas.BlockGasAir;
+import com.hbm.config.GeneralConfig;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.tileentity.INBTPacketReceiver;
 
+import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityAirPump extends TileEntity {
+public class TileEntityAirPump extends TileEntity implements IFluidStandardReceiver, INBTPacketReceiver {
 	private static final int START_CONCENTRATION_VALUE = 15;
 	private int cooldownTicks = 0;
+	
+	public static final int flucue = 100;
+
+	public FluidTank tank;
+
+	public TileEntityAirPump() {
+		tank = new FluidTank(Fluids.OXYGEN, 16000);
+		
+	}
+
 	@Override
 	public void updateEntity() {
 		
-		if(!worldObj.isRemote && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
+		if(!this.worldObj.isRemote && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+			this.subscribeToAllAround(tank.getTankType(), this);
 			spread(xCoord, yCoord, zCoord, 0);
+
+			NBTTagCompound data = new NBTTagCompound();
+			tank.writeToNBT(data, "at");
+			INBTPacketReceiver.networkPack(this, data, 15);
+		}
 	}
+	
+
 	
 	/*private void releaseAir(final int xOffset, final int yOffset, final int zOffset) {
 		final Block block = worldObj.getBlock(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
@@ -44,6 +73,7 @@ public class TileEntityAirPump extends TileEntity {
 	
 	
 	private void spread(int x, int y, int z, int index) {
+		if(tank.getFill() < flucue)return; 
 		
 		if(index > 8)
 			return;
@@ -74,5 +104,48 @@ public class TileEntityAirPump extends TileEntity {
 			spread(x, y, z - 1, index + 1);
 			break;
 		}
+
+		if(this.tank.getFill() >= flucue) {
+			int amountToBurn = Math.min(10, this.tank.getFill());
+			if(amountToBurn > 0) {
+				this.tank.setFill(this.tank.getFill() - amountToBurn);
+			}	
+		}
+		this.markDirty();
+	}
+
+
+	
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.tank.readFromNBT(nbt, "at");
+
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.tank.readFromNBT(nbt, "at");
+
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		tank.writeToNBT(nbt, "at");
+
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
 	}
 }
+
+
