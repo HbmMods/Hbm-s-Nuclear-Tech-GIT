@@ -34,60 +34,6 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
-			float yaw = player.rotationYaw;
-			
-			Vec3 next = Vec3.createVectorHelper(pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord);
-			int it = 0;
-			
-			BlockPos anchor = new BlockPos(pos.blockX, pos.blockY, pos.blockZ);
-			
-			double distanceToCover = 2D;
-			
-			ParticleUtil.spawnGasFlame(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 0, 0.2, 0);
-			
-			do {
-				
-				it++;
-				
-				if(it > 30) {
-					world.createExplosion(player, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 5F, false);
-					return stack;
-				}
-				
-				int x = anchor.getX();
-				int y = anchor.getY();
-				int z = anchor.getZ();
-				Block block = world.getBlock(x, y, z);
-				
-				Vec3 rot = Vec3.createVectorHelper(0, 0, 1);
-				rot.rotateAroundY((float) (-yaw * Math.PI / 180D));
-				
-				if(block instanceof IRailNTM) {
-					IRailNTM rail = (IRailNTM) block;
-					
-					RailLeaveInfo info = new RailLeaveInfo();
-					Vec3 prev = next;
-					next = rail.getTravelLocation(world, x, y, z, prev.xCoord, prev.yCoord, prev.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, distanceToCover, info);
-					distanceToCover = info.overshoot;
-					anchor = info.pos;
-					
-					ParticleUtil.spawnGasFlame(world, next.xCoord, next.yCoord, next.zCoord, 0, 0.2 * it, 0);
-					
-					double deltaX = next.xCoord - prev.xCoord;
-					double deltaZ = next.zCoord - prev.zCoord;
-					double radians = -Math.atan2(deltaX, deltaZ);
-					yaw = (float) MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI);
-					
-					PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(new ChatComponentText("Yaw: " + yaw), 0, 3000), (EntityPlayerMP) player);
-
-					//if(info.overshoot > 0) System.out.println("[" + (worldObj.getTotalWorldTime() % 100) + "] Left track " + ((Block) rail).getUnlocalizedName() + " with " + ((int)(info.overshoot * 100) / 100D) + "m more to go!");
-					
-				} else {
-					return stack;
-				}
-				
-			} while(distanceToCover != 0); //if there's still length to cover, keep going
-			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
 			TimeAnalyzer.startEndCount("getBlock");

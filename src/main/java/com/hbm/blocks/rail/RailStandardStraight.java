@@ -86,8 +86,8 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 			vec.xCoord = MathHelper.clamp_double(targetX, cX - 2, cX + 3);
 			vec.yCoord = y;
 			vec.zCoord = cZ + 0.5;
-			info.dist(Math.abs(targetX - vec.xCoord) * -Math.signum(speed));
-			info.pos(new BlockPos(cX + (motionX > 0 ? 3 : -3), y, cZ));
+			info.dist(Math.abs(targetX - vec.xCoord) * Math.signum(speed));
+			info.pos(new BlockPos(cX + (motionX * speed > 0 ? 3 : -3), y, cZ));
 		} else {
 			double targetZ = trainZ;
 			if(motionZ > 0) {
@@ -98,8 +98,8 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 			vec.xCoord = cX + 0.5;
 			vec.yCoord = y;
 			vec.zCoord = MathHelper.clamp_double(targetZ, cZ - 2,cZ + 3);
-			info.dist(Math.abs(targetZ - vec.zCoord) * -Math.signum(speed));
-			info.pos(new BlockPos(cX, y, cZ + (motionZ > 0 ? 3 : -3)));
+			info.dist(Math.abs(targetZ - vec.zCoord) * Math.signum(speed));
+			info.pos(new BlockPos(cX, y, cZ + (motionZ * speed > 0 ? 3 : -3)));
 		}
 		
 		return vec;

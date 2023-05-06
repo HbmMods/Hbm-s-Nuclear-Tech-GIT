@@ -136,8 +136,6 @@ public abstract class EntityRailCarBase extends Entity {
 					distanceToCover = info.overshoot;
 					anchor = info.pos;
 					yaw = generateYaw(next, prev);
-
-					//if(info.overshoot > 0) System.out.println("[" + (worldObj.getTotalWorldTime() % 100) + "] Left track " + ((Block) rail).getUnlocalizedName() + " with " + ((int)(info.overshoot * 100) / 100D) + "m more to go!");
 					
 				} else {
 					return null;
@@ -154,8 +152,8 @@ public abstract class EntityRailCarBase extends Entity {
 	public float generateYaw(Vec3 front, Vec3 back) {
 		double deltaX = front.xCoord - back.xCoord;
 		double deltaZ = front.zCoord - back.zCoord;
-		double radians = Math.atan(deltaZ / deltaX);
-		return (float) MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI - 90);
+		double radians = -Math.atan2(deltaX, deltaZ);
+		return (float) MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI);
 	}
 
 	/** Returns the amount of blocks that the train should move per tick */
