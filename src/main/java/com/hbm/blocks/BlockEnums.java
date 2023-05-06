@@ -10,6 +10,11 @@ public class BlockEnums {
 		LIMESTONE
 	}
 
+	public static enum EnumBiomeType {
+		DESERT,
+		WOODLAND
+	}
+
 	public static enum EnumStalagmiteType {
 		SULFUR,
 		ASBESTOS

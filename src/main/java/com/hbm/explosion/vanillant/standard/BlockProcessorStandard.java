@@ -63,6 +63,7 @@ public class BlockProcessorStandard implements IBlockProcessor {
 				}
 				
 				block.onBlockExploded(world, blockX, blockY, blockZ, explosion.compat);
+				if(this.convert != null) this.convert.mutatePre(explosion, block, world.getBlockMetadata(blockX, blockY, blockZ), blockX, blockY, blockZ);
 			}
 		}
 		
@@ -78,7 +79,7 @@ public class BlockProcessorStandard implements IBlockProcessor {
 				Block block = world.getBlock(blockX, blockY, blockZ);
 				
 				if(block.getMaterial() == Material.air) {
-					this.convert.mutateAtPosition(explosion, blockX, blockY, blockZ);
+					this.convert.mutatePost(explosion, blockX, blockY, blockZ);
 				}
 			}
 		}

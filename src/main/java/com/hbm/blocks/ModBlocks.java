@@ -138,6 +138,7 @@ public class ModBlocks {
 	public static Block stone_resource;
 	public static Block stalagmite;
 	public static Block stalactite;
+	public static Block stone_biome;
 	public static Block stone_deep_cobble;
 
 	public static Block depth_brick;
@@ -1318,6 +1319,7 @@ public class ModBlocks {
 		stone_resource = new BlockResourceStone().setBlockName("stone_resource").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F);
 		stalagmite = new BlockStalagmite().setBlockName("stalagmite").setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.0F);
 		stalactite = new BlockStalagmite().setBlockName("stalactite").setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.0F);
+		stone_biome = new BlockBiomeStone().setBlockName("stone_biome").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F);
 		stone_deep_cobble = new BlockDeepCobble().setBlockName("stone_deep_cobble").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(30.0F);
 
 		basalt = new BlockGeneric(Material.rock).setBlockName("basalt").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt");
@@ -1443,7 +1445,7 @@ public class ModBlocks {
 		block_semtex = new BlockPlasticExplosive(Material.tnt).setBlockName("block_semtex").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(2.0F).setBlockTextureName(RefStrings.MODID + ":block_semtex");
 		block_c4 = new BlockPlasticExplosive(Material.tnt).setBlockName("block_c4").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(2.0F).setBlockTextureName(RefStrings.MODID + ":block_c4");
 		block_smore = new BlockPillar(Material.rock, RefStrings.MODID + ":block_smore_top").setBlockName("block_smore").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":block_smore_side");
-		block_slag = new BlockBeaconable(Material.iron).setBlockName("block_slag").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_slag");
+		block_slag = new BlockSlag(Material.rock).setBlockName("block_slag").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeStone).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_slag");
 		
 		block_australium = new BlockBeaconable(Material.iron).setBlockName("block_australium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_australium");
 		block_weidanium = new BlockBeaconable(Material.iron).setBlockName("block_weidanium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_weidanium");
@@ -2461,9 +2463,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(crystal_trixite, crystal_trixite.getUnlocalizedName());
 		
 		//Resource-bearing Stones
-		GameRegistry.registerBlock(stone_resource, ItemBlockBase.class, stone_resource.getUnlocalizedName());
-		GameRegistry.registerBlock(stalagmite, ItemBlockBase.class, stalagmite.getUnlocalizedName());
-		GameRegistry.registerBlock(stalactite, ItemBlockBase.class, stalactite.getUnlocalizedName());
+		register(stone_resource);
+		register(stalagmite);
+		register(stalactite);
+		register(stone_biome);
 		
 		//Stone Variants
 		GameRegistry.registerBlock(stone_porous, stone_porous.getUnlocalizedName());

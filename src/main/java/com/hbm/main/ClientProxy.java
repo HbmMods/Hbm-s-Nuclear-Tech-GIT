@@ -691,6 +691,8 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityCreeperNuclear.class, new RenderCreeperUniversal(RefStrings.MODID + ":" + "textures/entity/creeper.png", RefStrings.MODID + ":" + "textures/entity/creeper_armor.png").setSwellMod(5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityCreeperTainted.class, new RenderCreeperUniversal(RefStrings.MODID + ":" + "textures/entity/creeper_tainted.png", RefStrings.MODID + ":" + "textures/entity/creeper_armor_taint.png"));
 		RenderingRegistry.registerEntityRenderingHandler(EntityCreeperPhosgene.class, new RenderCreeperUniversal(RefStrings.MODID + ":" + "textures/entity/creeper_phosgene.png", "textures/entity/creeper/creeper_armor.png"));
+		RenderingRegistry.registerEntityRenderingHandler(EntityCreeperVolatile.class, new RenderCreeperUniversal(RefStrings.MODID + ":" + "textures/entity/creeper_volatile.png", "textures/entity/creeper/creeper_armor.png"));
+		RenderingRegistry.registerEntityRenderingHandler(EntityCreeperGold.class, new RenderCreeperUniversal(RefStrings.MODID + ":" + "textures/entity/creeper_gold.png", "textures/entity/creeper/creeper_armor.png"));
 		RenderingRegistry.registerEntityRenderingHandler(EntityHunterChopper.class, new RenderHunterChopper());
 		RenderingRegistry.registerEntityRenderingHandler(EntityCyberCrab.class, new RenderCyberCrab());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTeslaCrab.class, new RenderTeslaCrab());
