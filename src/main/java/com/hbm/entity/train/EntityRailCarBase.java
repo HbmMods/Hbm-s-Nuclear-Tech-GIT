@@ -1,7 +1,7 @@
 package com.hbm.entity.train;
 
 import com.hbm.blocks.rail.IRailNTM;
-import com.hbm.blocks.rail.IRailNTM.RailLeaveInfo;
+import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.blocks.rail.IRailNTM.TrackGauge;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
@@ -31,6 +31,7 @@ public abstract class EntityRailCarBase extends Entity {
 	private double trainZ;
 	private double trainYaw;
 	private double trainPitch;
+	private float movementYaw;
 	@SideOnly(Side.CLIENT) private double velocityX;
 	@SideOnly(Side.CLIENT) private double velocityY;
 	@SideOnly(Side.CLIENT) private double velocityZ;
@@ -57,7 +58,9 @@ public abstract class EntityRailCarBase extends Entity {
 	public void onUpdate() {
 
 		if(this.worldObj.isRemote) {
+			
 			if(this.turnProgress > 0) {
+				this.prevRotationYaw = this.rotationYaw;
 				double x = this.posX + (this.trainX - this.posX) / (double) this.turnProgress;
 				double y = this.posY + (this.trainY - this.posY) / (double) this.turnProgress;
 				double z = this.posZ + (this.trainZ - this.posZ) / (double) this.turnProgress;
@@ -67,11 +70,9 @@ public abstract class EntityRailCarBase extends Entity {
 				--this.turnProgress;
 				this.setPosition(x, y, z);
 				this.setRotation(this.rotationYaw, this.rotationPitch);
-				this.setRotation((float)this.trainYaw, this.rotationPitch);
 			} else {
 				this.setPosition(this.posX, this.posY, this.posZ);
 				this.setRotation(this.rotationYaw, this.rotationPitch);
-				this.setRotation((float)this.trainYaw, this.rotationPitch);
 			}
 		} else {
 			
@@ -81,11 +82,7 @@ public abstract class EntityRailCarBase extends Entity {
 			if(corePos == null) {
 				this.derail();
 			} else {
-				this.prevPosX = this.posX;
-				this.prevPosY = this.posY;
-				this.prevPosZ = this.posZ;
 				this.setPosition(corePos.xCoord, corePos.yCoord, corePos.zCoord);
-				
 				anchor = this.getCurentAnchorPos(); //reset origin to new position
 				Vec3 frontPos = getRelPosAlongRail(anchor, this.getLengthSpan());
 				Vec3 backPos = getRelPosAlongRail(anchor, -this.getLengthSpan());
@@ -93,17 +90,26 @@ public abstract class EntityRailCarBase extends Entity {
 				if(frontPos == null || backPos == null) {
 					this.derail();
 				} else {
-					this.rotationYaw = generateYaw(frontPos, backPos);
+					this.prevRotationYaw = this.rotationYaw;
+					this.rotationYaw = this.movementYaw = generateYaw(frontPos, backPos);
+					this.motionX = this.rotationYaw / 360D; // hijacking this crap for easy syncing
+					this.velocityChanged = true;
 				}
 			}
-			
-			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(new ChatComponentText("Yaw: " + this.rotationYaw), 665, 3000), (EntityPlayerMP) worldObj.playerEntities.get(0));
+
+			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(new ChatComponentText("Yaw: " + this.rotationYaw), 664, 3000), (EntityPlayerMP) worldObj.playerEntities.get(0));
+			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(new ChatComponentText("MYaw: " + this.movementYaw), 665, 3000), (EntityPlayerMP) worldObj.playerEntities.get(0));
 		}
 	}
 	
 	public Vec3 getRelPosAlongRail(BlockPos anchor, double distanceToCover) {
 		
 		float yaw = this.rotationYaw;
+		
+		if(distanceToCover < 0) {
+			distanceToCover *= -1;
+			yaw += 180;
+		}
 		
 		Vec3 next = Vec3.createVectorHelper(posX, posY, posZ);
 		int it = 0;
@@ -129,13 +135,20 @@ public abstract class EntityRailCarBase extends Entity {
 			if(block instanceof IRailNTM) {
 				IRailNTM rail = (IRailNTM) block;
 				
+				if(it == 1) {
+					next = rail.getTravelLocation(worldObj, x, y, z, next.xCoord, next.yCoord, next.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, 0, new RailContext());
+				}
+				
+				boolean flip = distanceToCover < 0;
+				
 				if(rail.getGauge(worldObj, x, y, z) == this.getGauge()) {
-					RailLeaveInfo info = new RailLeaveInfo();
+					RailContext info = new RailContext();
 					Vec3 prev = next;
-					next = rail.getTravelLocation(worldObj, x, y, z, posX, posY, posZ, rot.xCoord, rot.yCoord, rot.zCoord, distanceToCover, info);
+					next = rail.getTravelLocation(worldObj, x, y, z, prev.xCoord, prev.yCoord, prev.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, distanceToCover, info);
 					distanceToCover = info.overshoot;
 					anchor = info.pos;
-					yaw = generateYaw(next, prev);
+					
+					yaw = generateYaw(next, prev) * (flip ? -1 : 1);
 					
 				} else {
 					return null;
@@ -178,16 +191,18 @@ public abstract class EntityRailCarBase extends Entity {
 		this.trainX = posX;
 		this.trainY = posY;
 		this.trainZ = posZ;
-		this.trainYaw = (double) yaw;
+		//this.trainYaw = (double) yaw;
 		this.trainPitch = (double) pitch;
 		this.turnProgress = turnProg + 2;
 		this.motionX = this.velocityX;
 		this.motionY = this.velocityY;
 		this.motionZ = this.velocityZ;
+		this.trainYaw = this.movementYaw;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void setVelocity(double mX, double mY, double mZ) {
+		this.movementYaw = (float) this.motionX * 360F;
 		this.velocityX = this.motionX = mX;
 		this.velocityY = this.motionY = mY;
 		this.velocityZ = this.motionZ = mZ;

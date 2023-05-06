@@ -13,11 +13,12 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.blocks.rail.IRailNTM;
-import com.hbm.blocks.rail.IRailNTM.RailLeaveInfo;
+import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
+import com.hbm.entity.train.EntityRailCarRidable;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
@@ -217,7 +218,6 @@ public class ModEventHandlerClient {
 				float yaw = player.rotationYaw;
 				
 				Vec3 next = Vec3.createVectorHelper(pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord);
-				Vec3 first = next;
 				int it = 0;
 				
 				BlockPos anchor = new BlockPos(pos.blockX, pos.blockY, pos.blockZ);
@@ -243,12 +243,12 @@ public class ModEventHandlerClient {
 					
 					if(block instanceof IRailNTM) {
 						IRailNTM rail = (IRailNTM) block;
-						RailLeaveInfo info = new RailLeaveInfo();
+						RailContext info = new RailContext();
 						
 						boolean flip = distanceToCover < 0;
 						
 						if(it == 1) {
-							Vec3 snap = rail.getTravelLocation(world, x, y, z, next.xCoord, next.yCoord, next.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, 0, info);
+							Vec3 snap = next = rail.getTravelLocation(world, x, y, z, next.xCoord, next.yCoord, next.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, 0, info);
 							if(i == 0) world.spawnParticle("reddust", snap.xCoord, snap.yCoord + 0.25, snap.zCoord, 0.1, 1, 0.1);
 						}
 						
@@ -264,7 +264,7 @@ public class ModEventHandlerClient {
 						double radians = -Math.atan2(deltaX, deltaZ);
 						yaw = (float) MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI + (flip ? 180 : 0));
 						
-						text.add(it + ": " + distanceToCover);
+						text.add(it + ": " + yaw);
 						
 					} else {
 						break;

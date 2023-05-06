@@ -52,16 +52,16 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 
 	@Override
 	public Vec3 getSnappingPos(World world, int x, int y, int z, double trainX, double trainY, double trainZ) {
-		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, 0, 0, 0, 0, new RailLeaveInfo());
+		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, 0, 0, 0, 0, new RailContext());
 	}
 
 	@Override
-	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailLeaveInfo info) {
+	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info) {
 		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, motionX, motionY, motionZ, speed, info);
 	}
 	
 	/* Very simple function determining the snapping position and adding the motion value to it, if desired. */
-	public Vec3 snapAndMove(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailLeaveInfo info) {
+	public Vec3 snapAndMove(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info) {
 		int[] pos = this.findCore(world, x, y, z);
 		if(pos == null) return Vec3.createVectorHelper(trainX, trainY, trainZ);
 		int cX = pos[0];
@@ -80,8 +80,10 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 			double targetX = trainX;
 			if(motionX > 0) {
 				targetX += speed;
+				info.yaw(-90F);
 			} else {
 				targetX -= speed;
+				info.yaw(90F);
 			}
 			vec.xCoord = MathHelper.clamp_double(targetX, cX - 2, cX + 3);
 			vec.yCoord = y;
@@ -92,8 +94,10 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 			double targetZ = trainZ;
 			if(motionZ > 0) {
 				targetZ += speed;
+				info.yaw(0F);
 			} else {
 				targetZ -= speed;
+				info.yaw(180F);
 			}
 			vec.xCoord = cX + 0.5;
 			vec.yCoord = y;

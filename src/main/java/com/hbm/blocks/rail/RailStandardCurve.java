@@ -11,6 +11,7 @@ import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -39,16 +40,16 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 
 	@Override
 	public Vec3 getSnappingPos(World world, int x, int y, int z, double trainX, double trainY, double trainZ) {
-		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, 0, 0, 0, 0, new RailLeaveInfo());
+		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, 0, 0, 0, 0, new RailContext());
 	}
 
 	@Override
-	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailLeaveInfo info) {
+	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info) {
 		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, motionX, motionY, motionZ, speed, info);
 	}
 	
 	/* Very simple function determining the snapping position and adding the motion value to it, if desired. */
-	public Vec3 snapAndMove(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailLeaveInfo info) {
+	public Vec3 snapAndMove(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info) {
 		int[] pos = this.findCore(world, x, y, z);
 		if(pos == null) return Vec3.createVectorHelper(trainX, trainY, trainZ);
 		int cX = pos[0];
@@ -69,15 +70,17 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 		dist.xCoord *= turnRadius;
 		dist.zCoord *= turnRadius;
 		
+		double moveAngle = Math.atan2(motionX, motionZ) * 180D / Math.PI + 90;
+		
 		if(speed == 0) {
-			info.dist(0).pos(new BlockPos(x, y, z));
+			info.dist(0).pos(new BlockPos(x, y, z)).yaw((float) moveAngle);
 			return Vec3.createVectorHelper(axisX + dist.xCoord, y, axisZ + dist.zCoord);
 		}
 		
-		
-		double angleDeg = -Math.atan(dist.zCoord / dist.xCoord) * 180D / Math.PI;
-		if(dir == Library.NEG_X) angleDeg += 90;
-		if(dir == Library.POS_X) angleDeg -= 90;
+		double angleDeg = Math.atan2(dist.xCoord, dist.zCoord) * 180D / Math.PI + 90;
+		if(dir == Library.NEG_X) angleDeg -= 90;
+		if(dir == Library.POS_X) angleDeg += 90;
+		if(dir == Library.POS_Z) angleDeg += 180;
 		angleDeg = MathHelper.wrapAngleTo180_double(angleDeg);
 		double length90Deg = turnRadius * Math.PI / 2D;
 		double angularChange = speed / length90Deg * 90D;
@@ -95,20 +98,22 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 		}
 		
 		double effAngle = angleDeg + angularChange;
-		effAngle = MathHelper.wrapAngleTo180_double(effAngle);
+		moveAngle += angularChange;
 		
 		if(effAngle > 90) {
 			double angleOvershoot = effAngle - 90D;
+			moveAngle -= angleOvershoot;
 			double lengthOvershoot = angleOvershoot * length90Deg / 90D;
-			info.dist(lengthOvershoot * Math.signum(speed * angularChange)).pos(new BlockPos(cX - dir.offsetX * 4 + rot.offsetX * 5, y, cZ - dir.offsetZ * 4 + rot.offsetZ * 5));
+			info.dist(lengthOvershoot * Math.signum(speed * angularChange)).pos(new BlockPos(cX - dir.offsetX * 4 + rot.offsetX * 5, y, cZ - dir.offsetZ * 4 + rot.offsetZ * 5)).yaw((float) moveAngle);
 			return Vec3.createVectorHelper(axisX - dir.offsetX * turnRadius, y, axisZ - dir.offsetZ * turnRadius);
 		}
 		
 		if(effAngle < 0) {
 			double angleOvershoot = -effAngle;
+			moveAngle -= angleOvershoot;
 			double lengthOvershoot = angleOvershoot * length90Deg / 90D;
-			info.dist(-lengthOvershoot * Math.signum(speed * angularChange)).pos(new BlockPos(cX + dir.offsetX , y, cZ + dir.offsetZ));
-			return Vec3.createVectorHelper(axisX + 0.5 + dir.offsetX * 0.5, y, axisZ * 0.5 + dir.offsetZ * 0.5);
+			info.dist(-lengthOvershoot * Math.signum(speed * angularChange)).pos(new BlockPos(cX + dir.offsetX , y, cZ + dir.offsetZ)).yaw((float) moveAngle);
+			return Vec3.createVectorHelper(axisX - rot.offsetX * turnRadius, y, axisZ -rot.offsetZ * turnRadius);
 		}
 		
 		double radianChange = angularChange * Math.PI / 180D;
