@@ -31,7 +31,7 @@ public class TrainCargoTram extends EntityRailCarRidable {
 	public double speed = 0;
 	public static final double maxSpeed = 0.5;
 	public static final double acceleration = 0.01;
-	public static final double deceleration = 0.75;
+	public static final double deceleration = 0.95;
 
 	@Override
 	public double getCurrentSpeed() { // in its current form, only call once per tick
@@ -79,5 +79,18 @@ public class TrainCargoTram extends EntityRailCarRidable {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public boolean shouldRiderSit() {
+		return true;
+	}
+
+	@Override
+	public Vec3[] getPassengerSeats() {
+		return new Vec3[] {
+				Vec3.createVectorHelper(0.5, 1.75, -1.5),
+				Vec3.createVectorHelper(-0.5, 1.75, -1.5)
+		};
 	}
 }

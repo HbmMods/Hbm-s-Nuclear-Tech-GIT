@@ -3,21 +3,13 @@ package com.hbm.entity.train;
 import com.hbm.blocks.rail.IRailNTM;
 import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.blocks.rail.IRailNTM.TrackGauge;
-import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
-import com.hbm.util.ChatBuilder;
-import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -96,9 +88,6 @@ public abstract class EntityRailCarBase extends Entity {
 					this.velocityChanged = true;
 				}
 			}
-
-			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(new ChatComponentText("Yaw: " + this.rotationYaw), 664, 3000), (EntityPlayerMP) worldObj.playerEntities.get(0));
-			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(new ChatComponentText("MYaw: " + this.movementYaw), 665, 3000), (EntityPlayerMP) worldObj.playerEntities.get(0));
 		}
 	}
 	

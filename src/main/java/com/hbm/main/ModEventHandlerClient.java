@@ -210,7 +210,7 @@ public class ModEventHandlerClient {
 				Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 			}*/
 			
-			List<String> text = new ArrayList();
+			/*List<String> text = new ArrayList();
 			MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
 			
 			for(int i = 0; i < 2; i++) if(pos != null && pos.typeOfHit == pos.typeOfHit.BLOCK) {
@@ -273,7 +273,7 @@ public class ModEventHandlerClient {
 				} while(distanceToCover != 0);
 				
 				ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);
-			}
+			}*/
 		}
 		
 		/// HANLDE ANIMATION BUSES ///

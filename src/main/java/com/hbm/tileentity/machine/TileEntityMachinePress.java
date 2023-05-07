@@ -124,7 +124,12 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 			
 			if(slots[0] != null && burnTime < 200 && TileEntityFurnace.getItemBurnTime(slots[0]) > 0) { // less than one operation stored? burn more fuel!
 				burnTime += TileEntityFurnace.getItemBurnTime(slots[0]);
-				this.decrStackSize(0, 1);
+				
+				if(slots[0].stackSize == 1 && slots[0].getItem().hasContainerItem(slots[0])) {
+					slots[0] = slots[0].getItem().getContainerItem(slots[0]).copy();
+				} else {
+					this.decrStackSize(0, 1);
+				}
 				this.markChanged();
 			}
 			
