@@ -4430,6 +4430,8 @@ entity.hbm.entity_balls_o_tron.name=Баллс-О-Трон Прайм
 entity.hbm.entity_balls_o_tron_seg.name=Баллс-О-Трон Сегмент
 entity.hbm.entity_ntm_ufo.name=Марсианский корабль вторжения
 entity.entity_ntm_dtrooper.name=Тёмный солдат
+entity.entity_mob_gold_creeper.name=Золотой крипер
+entity.entity_mob_volatile_creeper.name=Возгораемый крипер
 
 eye.respond.no=§c"Нет"
 eye.respond.nothing=...Оно не отвечает
