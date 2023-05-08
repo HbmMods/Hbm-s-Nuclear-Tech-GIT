@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public abstract class EntityRailCarRidable extends EntityRailCarBase {
+public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 	
 	public SeatDummyEntity[] passengerSeats;
 	

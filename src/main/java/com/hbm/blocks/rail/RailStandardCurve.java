@@ -1,21 +1,12 @@
 package com.hbm.blocks.rail;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
-import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;

@@ -1,14 +1,21 @@
 package com.hbm.entity.train;
 
 import com.hbm.blocks.rail.IRailNTM.TrackGauge;
+import com.hbm.inventory.container.ContainerCrateSteel;
+import com.hbm.inventory.gui.GUICrateSteel;
+import com.hbm.tileentity.IGUIProvider;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TrainCargoTram extends EntityRailCarRidable {
+public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider {
 
 	/*
 	 * 
@@ -92,5 +99,28 @@ public class TrainCargoTram extends EntityRailCarRidable {
 				Vec3.createVectorHelper(0.5, 1.75, -1.5),
 				Vec3.createVectorHelper(-0.5, 1.75, -1.5)
 		};
+	}
+
+	@Override
+	public int getSizeInventory() {
+		return 27;
+	}
+
+	@Override
+	public String getInventoryName() {
+		return this.hasCustomInventoryName() ? this.getEntityName() : "container.trainTram";
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		//return new ContainerTrainCargoTram(player.inventory, (TrainCargoTram)player.worldObj.getEntityByID(x));
+		return null;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		//return new GUITrainCargoTram(player.inventory, (TrainCargoTram) player.worldObj.getEntityByID(x));
+		return null;
 	}
 }
