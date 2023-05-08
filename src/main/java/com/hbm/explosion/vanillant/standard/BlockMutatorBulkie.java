@@ -21,7 +21,7 @@ public class BlockMutatorBulkie implements IBlockMutator {
 
 	@Override
 	public void mutatePre(ExplosionVNT explosion, Block block, int meta, int x, int y, int z) {
-		if(!block.isBlockNormalCube()) return;
+		if(!block.isNormalCube()) return;
 		Vec3 vec = Vec3.createVectorHelper(x + 0.5 - explosion.posX, y + 0.5 - explosion.posY, z + 0.5 - explosion.posZ);
 		if(vec.lengthVector() >= explosion.size - 0.5) {
 			explosion.world.setBlock(x, y, z, metaBlock.block, metaBlock.meta, 3);
