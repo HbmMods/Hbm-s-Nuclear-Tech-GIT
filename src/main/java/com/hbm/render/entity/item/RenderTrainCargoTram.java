@@ -16,11 +16,16 @@ public class RenderTrainCargoTram extends Render {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
 
-		GL11.glRotated( -entity.rotationYaw, 0, 1, 0);
-		GL11.glRotated(-entity.rotationPitch, 0, 0, 1);
+		float yaw = entity.rotationYaw;
+		float prevYaw = entity.prevRotationYaw;
 
-		MainRegistry.proxy.displayTooltip("Render Yaw: " + entity.rotationYaw, 666);
-		MainRegistry.proxy.displayTooltip("Render Pitch: " + entity.rotationPitch, 667);
+		if(yaw - prevYaw > 180) yaw -= 360;
+		if(prevYaw - yaw > 180) prevYaw -= 360;
+		
+		float yawInterp = prevYaw + (yaw - prevYaw) * interp - 720;
+
+		GL11.glRotated(-yawInterp, 0, 1, 0);
+		GL11.glRotated(-entity.rotationPitch, 0, 0, 1);
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		bindTexture(ResourceManager.train_tram);
