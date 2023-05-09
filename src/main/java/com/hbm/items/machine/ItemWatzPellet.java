@@ -135,7 +135,7 @@ public class ItemWatzPellet extends ItemEnumMulti {
 
 		if(num.passive > 0){
 			list.add(color + "Base fission rate: " + reset + num.passive);
-			list.add(EnumChatFormatting.RED + "Self-ingiting!");
+			list.add(EnumChatFormatting.RED + "Self-igniting!");
 		}
 		if(num.heatEmission > 0) list.add(color + "Heat per flux: " + reset + num.heatEmission + " TU");
 		if(num.burnFunc != null) {

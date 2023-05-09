@@ -16,6 +16,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
+import com.hbm.entity.train.EntityRailCarRidable;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
@@ -84,12 +85,14 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -103,6 +106,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C0CPacketInput;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
@@ -199,6 +204,71 @@ public class ModEventHandlerClient {
 				GL11.glColor3f(1F, 1F, 1F);
 				GL11.glPopMatrix();
 				Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
+			}*/
+			
+			/*List<String> text = new ArrayList();
+			MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
+			
+			for(int i = 0; i < 2; i++) if(pos != null && pos.typeOfHit == pos.typeOfHit.BLOCK) {
+				
+				float yaw = player.rotationYaw;
+				
+				Vec3 next = Vec3.createVectorHelper(pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord);
+				int it = 0;
+				
+				BlockPos anchor = new BlockPos(pos.blockX, pos.blockY, pos.blockZ);
+				
+				double distanceToCover = 4D * (i == 0 ? 1 : -1);
+				
+				do {
+					
+					it++;
+					
+					if(it > 30) {
+						world.createExplosion(player, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 5F, false);
+						break;
+					}
+					
+					int x = anchor.getX();
+					int y = anchor.getY();
+					int z = anchor.getZ();
+					Block block = world.getBlock(x, y, z);
+					
+					Vec3 rot = Vec3.createVectorHelper(0, 0, 1);
+					rot.rotateAroundY((float) (-yaw * Math.PI / 180D));
+					
+					if(block instanceof IRailNTM) {
+						IRailNTM rail = (IRailNTM) block;
+						RailContext info = new RailContext();
+						
+						boolean flip = distanceToCover < 0;
+						
+						if(it == 1) {
+							Vec3 snap = next = rail.getTravelLocation(world, x, y, z, next.xCoord, next.yCoord, next.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, 0, info);
+							if(i == 0) world.spawnParticle("reddust", snap.xCoord, snap.yCoord + 0.25, snap.zCoord, 0.1, 1, 0.1);
+						}
+						
+						Vec3 prev = next;
+						next = rail.getTravelLocation(world, x, y, z, prev.xCoord, prev.yCoord, prev.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, distanceToCover, info);
+						distanceToCover = info.overshoot;
+						anchor = info.pos;
+						if(i == 0) world.spawnParticle("reddust", next.xCoord, next.yCoord + 0.25, next.zCoord, 0, distanceToCover != 0 ? 0.5 : 0, 0);
+						else world.spawnParticle("reddust", next.xCoord, next.yCoord + 0.25, next.zCoord, 0, distanceToCover != 0 ? 0.5 : 0, 1);
+						
+						double deltaX = next.xCoord - prev.xCoord;
+						double deltaZ = next.zCoord - prev.zCoord;
+						double radians = -Math.atan2(deltaX, deltaZ);
+						yaw = (float) MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI + (flip ? 180 : 0));
+						
+						text.add(it + ": " + yaw);
+						
+					} else {
+						break;
+					}
+					
+				} while(distanceToCover != 0);
+				
+				ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);
 			}*/
 		}
 		
@@ -1090,6 +1160,23 @@ public class ModEventHandlerClient {
 			tess.addVertexWithUV(0.5, -0.5 + o, p * 0.5, 1, 1);
 			tess.draw();
 			GL11.glEnable(GL11.GL_LIGHTING);
+		}
+	}
+	
+	@SubscribeEvent
+	public void worldTick(WorldTickEvent event) {
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
+		if(player != null && player.ridingEntity instanceof EntityRailCarRidable && player instanceof EntityClientPlayerMP) {
+			EntityRailCarRidable train = (EntityRailCarRidable) player.ridingEntity;
+			EntityClientPlayerMP client = (EntityClientPlayerMP) player;
+			
+			//mojank compensation, because apparently the "this makes the render work" method also determines the fucking input
+			if(!train.shouldRiderSit()) {
+				client.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(client.rotationYaw, client.rotationPitch, client.onGround));
+				client.sendQueue.addToSendQueue(new C0CPacketInput(client.moveStrafing, client.moveForward, client.movementInput.jump, client.movementInput.sneak));
+			}
 		}
 	}
 }

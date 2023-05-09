@@ -14,11 +14,17 @@ import com.hbm.entity.mob.botprime.*;
 import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
+import com.hbm.entity.train.EntityRailCarRidable.SeatDummyEntity;
+import com.hbm.entity.train.TrainCargoTram;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 
 public class EntityMappings {
 
@@ -204,10 +210,15 @@ public class EntityMappings {
 		addEntity(EntitySawblade.class, "entity_stray_saw", 1000);
 		addEntity(EntityChemical.class, "entity_chemthrower_splash", 1000);
 		addEntity(EntityMist.class, "entity_mist", 1000);
+
+		addEntity(SeatDummyEntity.class, "entity_ntm_seat_dummy", 250, false);
+		addEntity(TrainCargoTram.class, "entity_ntm_cargo_tram", 250, false);
 		
 		addMob(EntityCreeperNuclear.class, "entity_mob_nuclear_creeper", 0x204131, 0x75CE00);
 		addMob(EntityCreeperTainted.class, "entity_mob_tainted_creeper", 0x813b9b, 0xd71fdd);
 		addMob(EntityCreeperPhosgene.class, "entity_mob_phosgene_creeper", 0xE3D398, 0xB8A06B);
+		addMob(EntityCreeperVolatile.class, "entity_mob_volatile_creeper", 0xC28153, 0x4D382C);
+		addMob(EntityCreeperGold.class, "entity_mob_gold_creeper", 0xECC136, 0x9E8B3E);
 		addMob(EntityHunterChopper.class, "entity_mob_hunter_chopper", 0x000020, 0x2D2D72);
 		addMob(EntityCyberCrab.class, "entity_cyber_crab", 0xAAAAAA, 0x444444);
 		addMob(EntityTeslaCrab.class, "entity_tesla_crab", 0xAAAAAA, 0x440000);
@@ -221,6 +232,10 @@ public class EntityMappings {
 		addMob(EntitySiegeSkeleton.class, "entity_meme_skeleton", 0x303030, 0x000080);
 		addMob(EntitySiegeUFO.class, "entity_meme_ufo", 0x303030, 0x800000);
 		addMob(EntitySiegeCraft.class, "entity_meme_craft", 0x303030, 0x808000);
+
+		addSpawn(EntityCreeperPhosgene.class, 5, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
+		addSpawn(EntityCreeperVolatile.class, 10, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
+		addSpawn(EntityCreeperGold.class, 1, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		
 		int id = 0;
 		for(Quartet<Class<? extends Entity>, String, Integer, Boolean> entry : entityMappings) {
@@ -242,5 +257,27 @@ public class EntityMappings {
 	
 	private static void addMob(Class<? extends Entity> clazz, String name, int color1, int color2) {
 		mobMappings.add(new Quartet(clazz, name, color1, color2));
+	}
+
+	public static void addSpawn(Class<? extends EntityLiving> entityClass, int weightedProb, int min, int max, EnumCreatureType typeOfCreature, BiomeGenBase... biomes) {
+		
+		for(BiomeGenBase biome : biomes) {
+			
+			if(biome == null) continue;
+			
+			List<SpawnListEntry> spawns = biome.getSpawnableList(typeOfCreature);
+
+			for(SpawnListEntry entry : spawns) {
+				// Adjusting an existing spawn entry
+				if(entry.entityClass == entityClass) {
+					entry.itemWeight = weightedProb;
+					entry.minGroupCount = min;
+					entry.maxGroupCount = max;
+					break;
+				}
+			}
+
+			spawns.add(new SpawnListEntry(entityClass, weightedProb, min, max));
+		}
 	}
 }

@@ -137,6 +137,7 @@ public class BulletConfiguration implements Cloneable {
 	public static final int STYLE_APDS = 14;
 	public static final int STYLE_BLADE = 15;
 	public static final int STYLE_BARREL = 16;
+	public static final int STYLE_TAU = 17;
 
 	public static final int PLINK_NONE = 0;
 	public static final int PLINK_BULLET = 1;

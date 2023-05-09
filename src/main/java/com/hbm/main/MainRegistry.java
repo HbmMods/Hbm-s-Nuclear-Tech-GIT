@@ -49,6 +49,7 @@ import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockToolConversion;
 import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.config.*;
+import com.hbm.crafting.RodRecipes;
 import com.hbm.creativetabs.*;
 import com.hbm.entity.EntityMappings;
 import com.hbm.entity.grenade.*;
@@ -254,7 +255,6 @@ public class MainRegistry {
 		logger.info("Let us celebrate the fact that the logger finally works again!");
 
 		// Reroll Polaroid
-
 		if(generalOverride > 0 && generalOverride < 19) {
 			polaroidID = generalOverride;
 		} else {
@@ -637,6 +637,8 @@ public class MainRegistry {
 
 	@EventHandler
 	public static void load(FMLInitializationEvent event) {
+		
+		RodRecipes.registerInit();
 
 		achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", -3, 1, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
 		achImpossible = new Achievement("achievement.impossible", "impossible", 18, 10, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
@@ -845,6 +847,7 @@ public class MainRegistry {
 		new OreCave(ModBlocks.stone_resource, 0).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);	//sulfur
 		new OreCave(ModBlocks.stone_resource, 1).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);											//asbestos
 		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
+		//new BiomeCave().setThreshold(1.5D).setRangeMult(20).setYLevel(40).setMaxRange(20);
 		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
 		
 		Compat.handleRailcraftNonsense();

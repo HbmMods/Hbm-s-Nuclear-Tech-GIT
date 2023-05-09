@@ -45,6 +45,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_nos = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/nos.png");
 	public static final ResourceLocation bobble_drillgon = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/drillgon200.png");
 	public static final ResourceLocation bobble_cirno = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/cirno.png");
+	public static final ResourceLocation bobble_microwave = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/microwave.png");
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float intero) {
@@ -94,6 +95,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case VAER:		bindTexture(bobble_vaer); break;
 		case NOS:		bindTexture(bobble_nos); break;
 		case DRILLGON:	bindTexture(bobble_drillgon); break;
+		case MICROWAVE: bindTexture(bobble_microwave); break;
 		default:		bindTexture(ResourceManager.universal);
 		}
 		
@@ -311,19 +313,19 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public void renderPellet(BobbleType type) {
 
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		
+
 		GL11.glPushMatrix();
 		GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		bobble.renderPart("Pellet");
-		
+
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0);
-		
+
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-		GL11.glColor4f(1.0F, 1.0F, 0.0F, 0.1F + (float)Math.sin(System.currentTimeMillis() * 0.001D) * 0.05F);
+		GL11.glColor4f(1.0F, 1.0F, 0.0F, 0.1F + (float) Math.sin(System.currentTimeMillis() * 0.001D) * 0.05F);
 		bobble.renderPart("PelletShine");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 

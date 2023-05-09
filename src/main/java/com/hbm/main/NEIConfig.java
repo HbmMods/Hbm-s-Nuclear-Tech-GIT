@@ -63,6 +63,7 @@ public class NEIConfig implements IConfigureNEI {
 		}
 		registerHandler(new LiquefactionHandler());
 		registerHandler(new SolidificationHandler());
+		registerHandler(new CokingHandler());
 		registerHandler(new FractioningHandler());
 		registerHandler(new BoilingHandler());
 		registerHandler(new CombinationHandler());
@@ -72,8 +73,6 @@ public class NEIConfig implements IConfigureNEI {
 		
 		//fluids
 		registerHandler(new FluidRecipeHandler());
-		
-		//registerHandler(new ChunkyHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));

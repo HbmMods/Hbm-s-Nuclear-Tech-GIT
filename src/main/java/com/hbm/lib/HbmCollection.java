@@ -24,6 +24,7 @@ public class HbmCollection {
 	// SHOTGUNS
 	/** 12 GAUGE **/
 	public static final List<Integer> g12 = ImmutableList.of(BulletConfigSyncingUtil.G12_NORMAL, BulletConfigSyncingUtil.G12_INCENDIARY, BulletConfigSyncingUtil.G12_SHRAPNEL, BulletConfigSyncingUtil.G12_DU, BulletConfigSyncingUtil.G12_AM, BulletConfigSyncingUtil.G12_SLEEK, BulletConfigSyncingUtil.G12_PERCUSSION);
+	public static final List<Integer> g12hs = ImmutableList.of(BulletConfigSyncingUtil.G12HS_NORMAL, BulletConfigSyncingUtil.G12HS_INCENDIARY, BulletConfigSyncingUtil.G12HS_SHRAPNEL, BulletConfigSyncingUtil.G12HS_DU, BulletConfigSyncingUtil.G12HS_AM, BulletConfigSyncingUtil.G12HS_SLEEK, BulletConfigSyncingUtil.G12HS_PERCUSSION);
 	/** 20 GAUGE **/
 	public static final List<Integer> g20 = ImmutableList.of(BulletConfigSyncingUtil.G20_NORMAL, BulletConfigSyncingUtil.G20_SLUG, BulletConfigSyncingUtil.G20_FLECHETTE, BulletConfigSyncingUtil.G20_FIRE, BulletConfigSyncingUtil.G20_SHRAPNEL, BulletConfigSyncingUtil.G20_EXPLOSIVE, BulletConfigSyncingUtil.G20_CAUSTIC, BulletConfigSyncingUtil.G20_SHOCK, BulletConfigSyncingUtil.G20_WITHER, BulletConfigSyncingUtil.G20_SLEEK);
 	/** 4 GAUGE **/
@@ -140,6 +141,8 @@ public class HbmCollection {
 		LUNA,
 		/**Raytheon Missile Systems**/
 		RAYTHEON,
+		/**Remingotn Arms**/
+		REMINGTON,
 		/**Rockwell International Corporation**/
 		ROCKWELL,
 		/**Rockwell International Corporation?**/
@@ -181,6 +184,7 @@ public class HbmCollection {
 	public static final String gunName = "desc.item.gun.name";
 	public static final String gunMaker = "desc.item.gun.manufacturer";
 	public static final String gunDamage = "desc.item.gun.damage";
+	public static final String gunPellets = "desc.item.gun.pellets";
 	// MISC
 	public static final String capacity = "desc.block.barrel.capacity";
 	public static final String durability = "desc.item.durability";

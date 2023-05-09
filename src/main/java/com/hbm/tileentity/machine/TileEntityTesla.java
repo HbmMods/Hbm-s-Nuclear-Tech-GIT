@@ -125,13 +125,15 @@ public class TileEntityTesla extends TileEntityMachineBase implements IEnergyUse
 				continue;
 			}
 			
+			if(e instanceof EntityCreeper) {
+				((EntityCreeper)e).getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
+				ret.add(new double[] {e.posX, e.posY + e.height / 2, e.posZ});
+				continue;
+			}
+			
 			if(!(e instanceof EntityPlayer && ArmorUtil.checkForFaraday((EntityPlayer)e)))
 				if(e.attackEntityFrom(ModDamageSource.electricity, MathHelper.clamp_float(e.getMaxHealth() * 0.5F, 3, 20) / (float)targets.size()))
 					worldObj.playSoundAtEntity(e, "hbm:weapon.tesla", 1.0F, 1.0F);
-			
-			if(e instanceof EntityCreeper) {
-				((EntityCreeper)e).getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
-			}
 			
 			double offset = 0;
 			
