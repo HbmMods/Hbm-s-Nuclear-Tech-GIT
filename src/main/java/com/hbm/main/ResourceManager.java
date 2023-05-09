@@ -1279,6 +1279,7 @@ public class ResourceManager {
 	public static final ResourceLocation cart_powder_tex = new ResourceLocation(RefStrings.MODID, "textures/blocks/block_gunpowder.png");
 	public static final ResourceLocation cart_semtex_side = new ResourceLocation(RefStrings.MODID, "textures/blocks/semtex_side.png");
 	public static final ResourceLocation cart_semtex_top = new ResourceLocation(RefStrings.MODID, "textures/blocks/semtex_bottom.png");
+	public static final ResourceLocation train_tram = new ResourceLocation(RefStrings.MODID, "textures/models/trains/tram.png");
 	
 	//ISBRHs
 	public static final IModelCustom scaffold = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/scaffold.obj"));

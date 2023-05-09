@@ -23,7 +23,7 @@ public class RenderTrainCargoTram extends Render {
 		MainRegistry.proxy.displayTooltip("Render Pitch: " + entity.rotationPitch, 667);
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
-		bindTexture(ResourceManager.universal);
+		bindTexture(ResourceManager.train_tram);
 		ResourceManager.train_cargo_tram.renderAll();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
@@ -32,6 +32,6 @@ public class RenderTrainCargoTram extends Render {
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return ResourceManager.universal;
+		return ResourceManager.train_tram;
 	}
 }

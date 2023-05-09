@@ -1,8 +1,6 @@
 package com.hbm.entity.train;
 
 import com.hbm.blocks.rail.IRailNTM.TrackGauge;
-import com.hbm.inventory.container.ContainerCrateSteel;
-import com.hbm.inventory.gui.GUICrateSteel;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.relauncher.Side;
@@ -71,12 +69,12 @@ public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider
 
 	@Override
 	public double getLengthSpan() {
-		return 2;
+		return 1.5;
 	}
 
 	@Override
 	public Vec3 getRiderSeatPosition() {
-		return Vec3.createVectorHelper(0.375, 1.75, 0.5);
+		return Vec3.createVectorHelper(0.375, 2.25, 0.5);
 	}
 
 	@Override
@@ -90,7 +88,7 @@ public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider
 
 	@Override
 	public boolean shouldRiderSit() {
-		return true;
+		return false;
 	}
 
 	@Override
