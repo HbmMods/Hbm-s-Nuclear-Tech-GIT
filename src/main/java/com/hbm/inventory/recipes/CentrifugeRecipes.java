@@ -187,7 +187,42 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget_polonium, 12),
 				new ItemStack(ModItems.nugget_pu238, 6),
 				new ItemStack(ModItems.nuclear_waste, 2) });
-		
+		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.PU241)), new ItemStack[] {
+				new ItemStack(ModItems.ingot_mud, 1),
+				new ItemStack(ModItems.nugget_am242, 12),
+				new ItemStack(ModItems.nugget_am241, 6),
+				new ItemStack(ModItems.nuclear_waste, 2) });
+		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.AMRG)), new ItemStack[] {
+				new ItemStack(ModItems.ingot_mud, 1),
+				new ItemStack(ModItems.nugget_cm_mix, 12),
+				new ItemStack(ModItems.nugget_bk247, 6),
+				new ItemStack(ModItems.nuclear_waste, 2) });
+		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.CMF)), new ItemStack[] {
+				new ItemStack(ModItems.ingot_mud, 1),
+				new ItemStack(ModItems.nugget_cm_mix, 12),
+				new ItemStack(ModItems.nugget_es253, 3),
+				new ItemStack(ModItems.nuclear_waste, 2) });
+		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.CMRG)), new ItemStack[] {
+				new ItemStack(ModItems.ingot_mud, 1),
+				new ItemStack(ModItems.nugget_cm_mix, 12),
+				new ItemStack(ModItems.nugget_cf252, 3),
+				new ItemStack(ModItems.nuclear_waste, 2) });
+		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.BK247)), new ItemStack[] {
+				new ItemStack(ModItems.ingot_mud, 1),
+				new ItemStack(ModItems.nugget_am_mix, 12),
+				new ItemStack(ModItems.nugget_pu239, 3),
+				new ItemStack(ModItems.nuclear_waste, 2) });
+		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.CF252)), new ItemStack[] {
+				new ItemStack(ModItems.ingot_mud, 1),
+				new ItemStack(ModItems.nugget_cf252, 6),
+				new ItemStack(ModItems.nugget_cf251, 3),
+				new ItemStack(ModItems.nuclear_waste, 2) });
+		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.ES253)), new ItemStack[] {
+				new ItemStack(ModItems.ingot_mud, 2),
+				new ItemStack(ModItems.nugget_es253, 3),
+				new ItemStack(ModItems.nugget_cf252, 3),
+				new ItemStack(ModItems.nuclear_waste, 24) });
+
 		if(OreDictionary.doesOreNameExist("nuggetNaquadria")) {
 			ItemStack nuggetNQR = OreDictionary.getOres("nuggetNaquadria").get(0);
 			ItemStack copy = nuggetNQR.copy();
