@@ -255,7 +255,6 @@ public class MainRegistry {
 		logger.info("Let us celebrate the fact that the logger finally works again!");
 
 		// Reroll Polaroid
-
 		if(generalOverride > 0 && generalOverride < 19) {
 			polaroidID = generalOverride;
 		} else {
