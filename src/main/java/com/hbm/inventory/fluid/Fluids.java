@@ -336,7 +336,7 @@ public class Fluids {
 		GAS_COKER =				new FluidType("GAS_COKER",			0xDEF4CA, 1, 4, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 		EGG =					new FluidType("EGG",				0xD2C273, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		CHOLESTEROL =			new FluidType("CHOLESTEROL",		0xD6D2BD, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		ESTRADIOL =				new FluidType(130, "ESTRADIOL",		0xCDD5D8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		ESTRADIOL =				new FluidType(139, "ESTRADIOL",		0xCDD5D8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
