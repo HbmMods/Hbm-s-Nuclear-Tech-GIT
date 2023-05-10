@@ -120,6 +120,7 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 	
 	public abstract Vec3[] getPassengerSeats();
 	
+	/** Dynamic seats generated when a player clicks near a seat-spot, moves and rotates with the train as one would expect. */
 	public static class SeatDummyEntity extends Entity {
 		public SeatDummyEntity(World world) { super(world); this.setSize(0.5F, 0.1F);}
 		@Override protected void entityInit() { }

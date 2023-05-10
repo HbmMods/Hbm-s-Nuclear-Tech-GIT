@@ -196,4 +196,14 @@ public abstract class EntityRailCarBase extends Entity {
 		this.velocityY = this.motionY = mY;
 		this.velocityZ = this.motionZ = mZ;
 	}
+	
+	/** Invisible entities that make up the dynamic bounding structure of the train, moving as the train rotates. */
+	public static class BoundingBoxDummyEntity extends Entity {
+		public BoundingBoxDummyEntity(World world) { this(world, 1F, 1F); }
+		public BoundingBoxDummyEntity(World world, float width, float height) { super(world); this.setSize(width, height);}
+		@Override protected void entityInit() { }
+		@Override protected void writeEntityToNBT(NBTTagCompound nbt) { }
+		@Override public boolean writeToNBTOptional(NBTTagCompound nbt) { return false; }
+		@Override public void readEntityFromNBT(NBTTagCompound nbt) { this.setDead(); }
+	}
 }

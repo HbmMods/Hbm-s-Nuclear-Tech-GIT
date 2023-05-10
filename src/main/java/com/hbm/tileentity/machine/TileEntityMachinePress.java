@@ -202,7 +202,7 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		return side == 0 ? new int[] { 3 } : new int[] { 0, 1, 2 };
+		return new int[] { 0, 1, 2, 3 };
 	}
 
 	@Override
