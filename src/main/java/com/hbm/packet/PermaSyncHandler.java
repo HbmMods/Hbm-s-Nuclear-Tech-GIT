@@ -1,6 +1,11 @@
 package com.hbm.packet;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 import com.hbm.handler.ImpactWorldHandler;
+import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.TomSaveData;
 
 import io.netty.buffer.ByteBuf;
@@ -14,6 +19,8 @@ import net.minecraft.world.World;
  * @author hbm
  */
 public class PermaSyncHandler {
+	
+	public static HashSet<Integer> boykissers = new HashSet();
 
 	public static void writePacket(ByteBuf buf, World world, EntityPlayerMP player) {
 		
@@ -24,6 +31,18 @@ public class PermaSyncHandler {
 		buf.writeBoolean(data.impact);
 		buf.writeLong(data.time);
 		/// TOM IMPACT DATA ///
+
+		/// SHITTY MEMES ///
+		List<Integer> ids = new ArrayList();
+		for(Object o : world.playerEntities) {
+			EntityPlayer p = (EntityPlayer) o;
+			if(p.isPotionActive(HbmPotion.death.id)) {
+				ids.add(p.getEntityId());
+			}
+		}
+		buf.writeShort((short) ids.size());
+		for(Integer i : ids) buf.writeInt(i);
+		/// SHITTY MEMES ///
 	}
 	
 	public static void readPacket(ByteBuf buf, World world, EntityPlayer player) {
@@ -35,5 +54,11 @@ public class PermaSyncHandler {
 		ImpactWorldHandler.impact = buf.readBoolean();
 		ImpactWorldHandler.time = buf.readLong();
 		/// TOM IMPACT DATA ///
+
+		/// SHITTY MEMES ///
+		boykissers.clear();
+		int ids = buf.readShort();
+		for(int i = 0; i < ids; i++) boykissers.add(buf.readInt());
+		/// SHITTY MEMES ///
 	}
 }

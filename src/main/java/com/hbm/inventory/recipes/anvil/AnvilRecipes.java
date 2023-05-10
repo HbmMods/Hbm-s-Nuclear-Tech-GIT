@@ -463,7 +463,7 @@ public class AnvilRecipes {
 				new AStack[] {new ComparableStack(ModItems.nugget_bismuth, 2), new OreDictStack(U238.billet(), 2), new OreDictStack(NB.dust(), 1)},
 				new AnvilOutput(new ItemStack(ModItems.plate_bismuth, 1))).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack(EUPH.ingot(), 4), new OreDictStack(AT.dust(), 2), new OreDictStack(VOLCANIC.gem(), 1)},
+				new AStack[] {new OreDictStack(EUPH.ingot(), 4), new OreDictStack(AT.dust(), 3), new OreDictStack(BI.dust(), 1), new OreDictStack(VOLCANIC.gem(), 1), new ComparableStack(ModItems.ingot_osmiridium)},
 				new AnvilOutput(new ItemStack(ModItems.plate_euphemium, 4))).setTier(6));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new OreDictStack(DNT.ingot(), 4), new ComparableStack(ModItems.powder_spark_mix, 2), new OreDictStack(DESH.ingot(), 1)},
@@ -489,7 +489,11 @@ public class AnvilRecipes {
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_dnt))).setTier(7));
 		
 		pullFromAssembler(new ComparableStack(ModItems.plate_mixed, 4), 3);
-
+		
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {new ComparableStack(ModBlocks.glass_quartz, 3), new ComparableStack(ModItems.pill_herbal, 2), new ComparableStack(ModItems.powder_magic, 2)},
+				new AnvilOutput(new ItemStack(ModItems.flask_infusion, 1, EnumInfusion.NITAN.ordinal()))).setTier(2));
+		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new OreDictStack(GAAS.ingot()), new OreDictStack(REDSTONE.dust(), 4), new OreDictStack(ASBESTOS.ingot(), 2)},
 				new AnvilOutput(new ItemStack(ModItems.circuit_arsenic_raw))).setTier(5));
@@ -524,7 +528,8 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(IRON.plate()), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_9))).setTier(1));
 		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(IRON.plate()), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_50))).setTier(1));
 		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(IRON.plate()), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_buckshot))).setTier(1));
-		
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(8, Ammo4Gauge.STOCK)), new OreDictStack(P_RED.dust()), new OreDictStack(AL.dust()),  new OreDictStack(KNO.dust())}, new AnvilOutput(ModItems.ammo_4gauge.stackFromEnum(8, Ammo4Gauge.LTBL))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(8, Ammo4Gauge.STOCK)), new ComparableStack(ModItems.wire_schrabidium), new OreDictStack(AL.dust()),  new OreDictStack(KNO.dust())}, new AnvilOutput(ModItems.ammo_4gauge.stackFromEnum(8, Ammo4Gauge.LTBL_SUPER))).setTier(3));
 		Object[][] recs = new Object[][] {
 			{ModItems.ammo_12gauge.stackFromEnum(20, Ammo12Gauge.STOCK),	P_RED.dust(),										ModItems.ammo_12gauge.stackFromEnum(20, Ammo12Gauge.INCENDIARY),	2},
 			{ModItems.ammo_12gauge.stackFromEnum(20, Ammo12Gauge.STOCK),	Item.getItemFromBlock(ModBlocks.gravel_obsidian),	ModItems.ammo_12gauge.stackFromEnum(20, Ammo12Gauge.SHRAPNEL),		2},

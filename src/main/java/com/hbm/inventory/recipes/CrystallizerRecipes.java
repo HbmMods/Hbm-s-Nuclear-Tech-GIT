@@ -128,16 +128,38 @@ public class CrystallizerRecipes extends SerializableRecipe {
 
 		
 		int oreTime = 200;
-		
+		FluidStack technetic = new FluidStack(Fluids.HTcO4, 500);
+
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
 			int i = ore.ordinal();
-
+			FluidStack fluidStack = technetic;
+			FluidStack hcl = chloric;
+		    if (i == 8) {
+		    	registerRecipe(new ComparableStack(ModItems.ore_centrifuged, 1, 8),			new CrystallizerRecipe(new ItemStack(ModItems.ore_cleaned, 1, 8), oreTime), fluidStack);
+		    	registerRecipe(new ComparableStack(ModItems.ore_separated, 1, 8),			new CrystallizerRecipe(new ItemStack(ModItems.ore_purified, 1, 8), oreTime), hcl);
+				registerRecipe(new ComparableStack(ModItems.ore_separated, 1, 8),			new CrystallizerRecipe(new ItemStack(ModItems.ore_nitrated, 1, 8), oreTime), nitric); //theoretically
+				registerRecipe(new ComparableStack(ModItems.ore_nitrocrystalline, 1, 8),	new CrystallizerRecipe(new ItemStack(ModItems.ore_deepcleaned, 1, 8), oreTime), organic);
+				registerRecipe(new ComparableStack(ModItems.ore_nitrocrystalline, 1, 8),	new CrystallizerRecipe(new ItemStack(ModItems.ore_seared, 1, 8), oreTime), hiperf);
+		    }
+		    else if(i == 9) {
+		    	registerRecipe(new ComparableStack(ModItems.ore_centrifuged, 1, 9),			new CrystallizerRecipe(new ItemStack(ModItems.ore_cleaned, 1, 9), oreTime), fluidStack);
+		    	registerRecipe(new ComparableStack(ModItems.ore_separated, 1, 9),			new CrystallizerRecipe(new ItemStack(ModItems.ore_purified, 1, 9), oreTime), hcl);
+		    	
+				registerRecipe(new ComparableStack(ModItems.ore_separated, 1, 9),			new CrystallizerRecipe(new ItemStack(ModItems.ore_nitrated, 1, 9), oreTime), nitric); //theoretically
+				registerRecipe(new ComparableStack(ModItems.ore_nitrocrystalline, 1, 9),	new CrystallizerRecipe(new ItemStack(ModItems.ore_deepcleaned, 1, 9), oreTime), organic);
+				registerRecipe(new ComparableStack(ModItems.ore_nitrocrystalline, 1, 9),	new CrystallizerRecipe(new ItemStack(ModItems.ore_seared, 1, 9), oreTime), hiperf);
+		    }
+		    
+		    else {
 			registerRecipe(new ComparableStack(ModItems.ore_centrifuged, 1, i),			new CrystallizerRecipe(new ItemStack(ModItems.ore_cleaned, 1, i), oreTime));
 			registerRecipe(new ComparableStack(ModItems.ore_separated, 1, i),			new CrystallizerRecipe(new ItemStack(ModItems.ore_purified, 1, i), oreTime), sulfur);
 			registerRecipe(new ComparableStack(ModItems.ore_separated, 1, i),			new CrystallizerRecipe(new ItemStack(ModItems.ore_nitrated, 1, i), oreTime), nitric);
 			registerRecipe(new ComparableStack(ModItems.ore_nitrocrystalline, 1, i),	new CrystallizerRecipe(new ItemStack(ModItems.ore_deepcleaned, 1, i), oreTime), organic);
 			registerRecipe(new ComparableStack(ModItems.ore_nitrocrystalline, 1, i),	new CrystallizerRecipe(new ItemStack(ModItems.ore_seared, 1, i), oreTime), hiperf);
+			
 		}
+	}
+
 		int mineraltime = 300;
 		registerRecipe(new ComparableStack(ModItems.mineral_dust),	new CrystallizerRecipe(new ItemStack(ModItems.mineral_fragment, 1, 0), mineraltime));
 		registerRecipe(new ComparableStack(ModItems.mineral_dust),	new CrystallizerRecipe(new ItemStack(ModItems.mineral_fragment, 1, 1), mineraltime), nitric);
@@ -154,9 +176,10 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(CU.dust(),		new CrystallizerRecipe(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.GREEN, 4), 20), woodOil);
 		registerRecipe(CO.dust(),		new CrystallizerRecipe(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.BLUE, 4), 20), woodOil);
 
-		registerRecipe(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE)),	new CrystallizerRecipe(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WAX), 20),	new FluidStack(Fluids.CHLORINE, 250));
-		registerRecipe(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK)),	new CrystallizerRecipe(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WAX), 20),	new FluidStack(Fluids.CHLORINE, 100));
-		registerRecipe(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WAX)), 	new CrystallizerRecipe(new ItemStack(ModItems.pellet_charged), 200), 				new FluidStack(Fluids.IONGEL, 500));
+		registerRecipe(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE)),		new CrystallizerRecipe(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WAX), 20),	new FluidStack(Fluids.CHLORINE, 250));
+		registerRecipe(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK)),		new CrystallizerRecipe(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WAX), 20),	new FluidStack(Fluids.CHLORINE, 100));
+		registerRecipe(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WAX)), 		new CrystallizerRecipe(new ItemStack(ModItems.pellet_charged), 200), 				new FluidStack(Fluids.IONGEL, 500));
+		registerRecipe(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.PARAFFIN)), 	new CrystallizerRecipe(new ItemStack(ModItems.pill_red), 200), 						new FluidStack(Fluids.ESTRADIOL, 250));
 
 		registerRecipe(KEY_SAND, new CrystallizerRecipe(Blocks.clay, 20), new FluidStack(Fluids.COLLOID, 1_000));
 		

@@ -78,6 +78,7 @@
     "item.vice": {"category": "player", "sounds": [{"name": "tool/vice", "stream": false}]},
     "item.upgradePlug": {"category": "player", "sounds": [{"name": "tool/upgradePlug", "stream": false}]},
     "item.battery": {"category": "player", "sounds": [{"name": "tool/battery", "stream": false}]},
+    "item.boltgun": {"category": "player", "sounds": [{"name": "tool/boltgun", "stream": false}]},
 
 	"music.recordLambdaCore": {"category": "record", "sounds": [{"name": "music/recordLambdaCore", "stream": true}]},
 	"music.recordSectorSweep": {"category": "record", "sounds": [{"name": "music/recordSectorSweep", "stream": true}]},
@@ -105,6 +106,7 @@
 	"weapon.zomgShoot": {"category": "player", "sounds": [{"name": "weapon/zomgShoot", "stream": false}]},
 	"weapon.flamethrowerIgnite": {"category": "player", "sounds": [{"name": "weapon/flamethrowerIgnite", "stream": false}]},
 	"weapon.flamethrowerShoot": {"category": "player", "sounds": [{"name": "weapon/flamethrowerShoot", "stream": false}]},
+   "weapon.flashbang": {"category": "hostile", "sounds": [{"name": "weapon/flashbang", "stream": false}]},
 	"weapon.immolatorIgnite": {"category": "player", "sounds": [{"name": "weapon/immolatorIgnite", "stream": false}]},
 	"weapon.immolatorShoot": {"category": "player", "sounds": [{"name": "weapon/immolatorShoot", "stream": false}]},
 	"weapon.cryolatorShoot": {"category": "player", "sounds": [{"name": "weapon/cryolatorShoot", "stream": false}]},

@@ -52,8 +52,10 @@ import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
+import com.hbm.blocks.generic.BlockToolConversion;
 import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.config.*;
+import com.hbm.crafting.RodRecipes;
 import com.hbm.creativetabs.*;
 import com.hbm.dim.WorldGeneratorMoon;
 import com.hbm.dim.WorldProviderMoon;
@@ -656,6 +658,8 @@ public class MainRegistry {
 
 	@EventHandler
 	public static void load(FMLInitializationEvent event) {
+		
+		RodRecipes.registerInit();
 
 		achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", -3, 1, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
 		achImpossible = new Achievement("achievement.impossible", "impossible", 18, 10, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
@@ -853,6 +857,7 @@ public class MainRegistry {
 		HazmatRegistry.registerHazmats();
 		FluidContainerRegistry.register();
 		TileEntityMachineReactorLarge.registerAll();
+		BlockToolConversion.registerRecipes();
 
 		proxy.registerMissileItems();
 		

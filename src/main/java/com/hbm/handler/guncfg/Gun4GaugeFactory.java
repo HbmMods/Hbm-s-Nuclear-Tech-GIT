@@ -3,6 +3,7 @@ package com.hbm.handler.guncfg;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.entity.grenade.EntityGrenadeFlare;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
@@ -282,6 +283,44 @@ public class Gun4GaugeFactory {
 		return bullet;
 	}
 
+		public static BulletConfiguration get4GaugeLTBLConfig() {
+
+			BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
+
+			bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.LTBL));
+			bullet.velocity *= 3;
+			bullet.gravity *= 3;
+			bullet.dmgMin = 10;
+			bullet.dmgMax = 15;
+			bullet.setToFire(5);
+			bullet.wear = 25;
+			bullet.trail = 1;
+			bullet.explosive = 0.0F;
+
+			bullet.bImpact = BulletConfigFactory.getFlashbangEffect(4,4*20,false);
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaSem").setColor(0x5C5C5C, SpentCasing.COLOR_CASE_4GA);
+
+		return bullet;
+	}
+	public static BulletConfiguration get4GaugeLTBLSConfig() {
+
+		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.LTBL_SUPER));
+		bullet.velocity *= 3;
+		bullet.gravity *= 3;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.setToFire(60);
+		bullet.wear = 25;
+		bullet.trail = 1;
+		bullet.explosive = 0.0F;
+
+		bullet.bImpact = BulletConfigFactory.getFlashbangEffect(8,6*20,true);
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaSem").setColor(0x5C5C5C, SpentCasing.COLOR_CASE_4GA);
+
+		return bullet;
+	}
 	public static BulletConfiguration get4GaugeBalefireConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
@@ -352,14 +391,14 @@ public class Gun4GaugeFactory {
 
 			@Override
 			public void behaveUpdate(EntityBulletBase bullet) {
-				
+
 				if(!bullet.worldObj.isRemote) {
-					
+
 					if(bullet.ticksExisted > 10) {
 						bullet.setDead();
-						
+
 						for(int i = 0; i < 50; i++) {
-							
+
 							EntityBulletBase bolt = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.M44_AP);
 							bolt.setPosition(bullet.posX, bullet.posY, bullet.posZ);
 							bolt.setThrowableHeading(bullet.motionX, bullet.motionY, bullet.motionZ, 0.25F, 0.1F);

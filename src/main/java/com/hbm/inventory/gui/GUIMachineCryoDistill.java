@@ -41,7 +41,7 @@ public class GUIMachineCryoDistill extends GuiInfoContainer {
 		String name = this.cryo.hasCustomInventoryName() ? this.cryo.getInventoryName() : I18n.format(this.cryo.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 5, 0xffffff);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 100, 4210752);
 	}
 
 	@Override

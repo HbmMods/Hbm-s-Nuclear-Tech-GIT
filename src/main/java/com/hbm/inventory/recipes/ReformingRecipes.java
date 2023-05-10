@@ -53,7 +53,13 @@ public class ReformingRecipes extends SerializableRecipe {
 				new FluidStack(Fluids.BALEFIRE, 12) //absurdly hard to get
 				));
 		
-	} // this is such a sexy machine might use your code for atmospheric distillator
+	 // this is such a sexy machine might use your code for atmospheric distillator
+		recipes.put(Fluids.CHOLESTEROL, new Triplet(
+				new FluidStack(Fluids.ESTRADIOL, 50),
+				new FluidStack(Fluids.REFORMGAS, 35),
+				new FluidStack(Fluids.HYDROGEN, 15)
+				));
+	}
 	
 	public static Triplet<FluidStack, FluidStack, FluidStack> getOutput(FluidType type) {
 		return recipes.get(type);

@@ -177,12 +177,7 @@ public class BlockTallPlant extends BlockEnumMulti implements IPlantable, IGrowa
 	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
 		
 		if(meta > 7) {
-			
-			if(world.getBlock(x, y - 1, z) == this) {
-				if(!player.capabilities.isCreativeMode) {
-					this.dropBlockAsItem(world, x, y - 1, z, world.getBlockMetadata(x, y - 1, z), 0);
-				}
-			}
+			// dead
 		} else if(world.getBlock(x, y + 1, z) == this) {
 			
 			if(player.capabilities.isCreativeMode) {

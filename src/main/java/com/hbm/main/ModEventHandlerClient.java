@@ -46,6 +46,7 @@ import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.SyncButtonsPacket;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
@@ -240,6 +241,10 @@ public class ModEventHandlerClient {
 			}
 		}
 		
+		/// HANDLE FLASHBANG OVERLAY///
+		if(player.isPotionActive(HbmPotion.flashbang)) {		
+			RenderScreenOverlay.renderFlashbangOverlay(event.resolution);
+		}
 		/// HANDLE FSB HUD ///
 		ItemStack helmet = player.inventory.armorInventory[3];
 		
@@ -251,7 +256,7 @@ public class ModEventHandlerClient {
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			if(props.getDashCount() > 0) {
 				RenderScreenOverlay.renderDashBar(event.resolution, Minecraft.getMinecraft().ingameGUI, props);
-					
+
 			}
 		}
 	}
@@ -268,6 +273,9 @@ public class ModEventHandlerClient {
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			if(props.maxShield > 0) {
 				RenderScreenOverlay.renderShieldBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
+			}
+			if(player.isPotionActive(HbmPotion.nitan)) {
+				RenderScreenOverlay.renderTaintBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
 			}
 		}
         if (!event.isCanceled() && event.type == event.type.ALL)
