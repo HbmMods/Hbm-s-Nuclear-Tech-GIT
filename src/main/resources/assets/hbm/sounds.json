@@ -224,6 +224,7 @@
     "step.iron": {"category": "player", "sounds": ["footsteps/iron1", "footsteps/iron2", "footsteps/iron3", "footsteps/iron4"]},
     "step.metalBlock": {"category": "block", "sounds": ["footsteps/metalStep1", "footsteps/metalStep2", "footsteps/metalStep3", "footsteps/metalStep4"]},
     "step.powered": {"category": "player", "sounds": ["footsteps/powered1", "footsteps/powered2", "footsteps/powered3"]},
+    "step.morkite": {"category": "player", "sounds": ["mining/MorkiteMiningB_3", "mining/MorkiteMiningB_2", "mining/MorkiteMiningB_1"]},
     
     "player.vomit": {"category": "player", "sounds": [{"name": "player/vomit", "stream": false}]},
     "player.oil": {"category": "player", "sounds": [{"name": "player/oil", "stream": false}]},

@@ -58,6 +58,7 @@ public class ModBlocks {
 	public static Block ore_titanium;
 	public static Block ore_sulfur;
 	public static Block ore_thorium;
+	public static Block ore_morkite;
 	public static Block ore_niter;
 	public static Block ore_copper;
 	public static Block ore_nickel;
@@ -562,6 +563,7 @@ public class ModBlocks {
 	public static Block vitrified_barrel;
 	public static Block lox_barrel;
 	public static Block taint_barrel;
+	public static Block oil_barrel;
 	public static Block crashed_balefire;
 	public static Block rejuvinator;
 	public static Block fireworks;
@@ -1223,8 +1225,24 @@ public class ModBlocks {
 	public static Block ff;
 	
 	public static Material materialGas = new MaterialGas();
-	
+		
 	public static Block.SoundType soundTypeGrate = new ModSoundType("metalBlock", 0.5F, 1.0F) {
+
+		@Override
+		public String func_150496_b() {
+			return Block.soundTypeMetal.func_150496_b();
+		}
+		@Override
+		public String getStepResourcePath() {
+			return "hbm:" + super.getStepResourcePath();
+		}
+		@Override
+		public String getBreakSound() {
+			return "dig.stone";
+		}
+	};
+	
+	public static Block.SoundType soundTypecustom = new ModSoundType("stone", 0.5F, 1.0F) {
 
 		@Override
 		public String func_150496_b() {
@@ -1233,11 +1251,10 @@ public class ModBlocks {
 		
 		@Override
 		public String getBreakSound() {
-			return "dig.stone";
+			return "hbm:step.morkite";
 		}
 	};
 
-	
 	private static void initializeBlock() {
 		
 		test_render = new TestRender(Material.rock).setBlockName("test_render").setCreativeTab(null);
@@ -1259,6 +1276,8 @@ public class ModBlocks {
 		ore_sulfur = new BlockOre(Material.rock).setBlockName("ore_sulfur").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_sulfur");
 		ore_thorium = new BlockGeneric(Material.rock).setBlockName("ore_thorium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_thorium");
 		
+		ore_morkite = new BlockGeneric(Material.rock).setBlockName("ore_morkite").setCreativeTab(MainRegistry.blockTab).setStepSound(soundTypecustom).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_morkite");
+
 		ore_niter = new BlockOre(Material.rock).setBlockName("ore_niter").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_niter");
 		ore_copper = new BlockGeneric(Material.rock).setBlockName("ore_copper").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_copper");
 		ore_nickel = new BlockGeneric(Material.rock).setBlockName("ore_nickel").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_nickel");
@@ -1773,6 +1792,7 @@ public class ModBlocks {
 		red_barrel = new RedBarrel(Material.iron).setBlockName("red_barrel").setCreativeTab(MainRegistry.nukeTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":barrel_red");
 		pink_barrel = new RedBarrel(Material.iron).setBlockName("pink_barrel").setCreativeTab(MainRegistry.nukeTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":barrel_pink");
 		yellow_barrel = new YellowBarrel(Material.iron).setBlockName("yellow_barrel").setCreativeTab(MainRegistry.nukeTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":barrel_yellow");
+		oil_barrel = new BrownBarrel(Material.iron).setBlockName("oil_barrel").setCreativeTab(MainRegistry.nukeTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":barrel_oily");
 		vitrified_barrel = new YellowBarrel(Material.iron).setBlockName("vitrified_barrel").setCreativeTab(MainRegistry.nukeTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":barrel_vitrified");
 		lox_barrel = new RedBarrel(Material.iron).setBlockName("lox_barrel").setCreativeTab(MainRegistry.nukeTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":barrel_lox");
 		taint_barrel = new RedBarrel(Material.iron).setBlockName("taint_barrel").setCreativeTab(MainRegistry.nukeTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":barrel_taint");
@@ -2395,6 +2415,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_uranium, ore_uranium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_uranium_scorched, ore_uranium_scorched.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_thorium, ore_thorium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_morkite, ore_morkite.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_titanium, ore_titanium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_sulfur, ore_sulfur.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_niter, ore_niter.getUnlocalizedName());
@@ -2955,7 +2976,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(taint_barrel, taint_barrel.getUnlocalizedName());
 		GameRegistry.registerBlock(yellow_barrel, yellow_barrel.getUnlocalizedName());
 		GameRegistry.registerBlock(vitrified_barrel, vitrified_barrel.getUnlocalizedName());
-		
+		GameRegistry.registerBlock(oil_barrel, oil_barrel.getUnlocalizedName());
+
 		//Siren
 		GameRegistry.registerBlock(machine_siren, machine_siren.getUnlocalizedName());
 		
