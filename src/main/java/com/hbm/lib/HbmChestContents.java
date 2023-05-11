@@ -165,6 +165,7 @@ public class HbmChestContents {
 	public static WeightedRandomChestContent[] nuclear = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_u235, 0, 3, 12, 5),
 			new WeightedRandomChestContent(ModItems.nugget_pu238, 0, 3, 12, 5),
+			new WeightedRandomChestContent(ModItems.nugget_ra226, 0, 3, 6, 5),
 			new WeightedRandomChestContent(ModItems.rod, BreedingRodType.U235.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_dual, BreedingRodType.U235.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_quad, BreedingRodType.U235.ordinal(), 1, 1, 3),

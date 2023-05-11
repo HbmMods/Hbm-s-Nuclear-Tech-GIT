@@ -1,12 +1,9 @@
 package com.hbm.tileentity.machine.storage;
 
-import com.hbm.lib.Library;
-
 import api.hbm.energy.IEnergyConductor;
 import api.hbm.energy.IEnergyConnector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -20,21 +17,9 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	
 	@Override
 	public void updateEntity() {
+		super.updateEntity();
 		
-		if(!worldObj.isRemote) {
-			
-			this.transmitPower();
-			
-			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
-			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
-			
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setLong("power", power);
-			nbt.setShort("redLow", redLow);
-			nbt.setShort("redHigh", redHigh);
-			nbt.setByte("priority", (byte) this.priority.ordinal());
-			this.networkPack(nbt, 250);
-		} else {
+		if(worldObj.isRemote) {
 			this.prevRotation = this.rotation;
 			this.rotation += this.getSpeed();
 			
@@ -42,16 +27,10 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 				rotation -= 360;
 				prevRotation -= 360;
 			}
-			
-			for(int i = 1; i < this.log.length; i++) {
-				this.log[i - 1] = this.log[i];
-			}
-			
-			this.log[19] = this.power;
 		}
 	}
 	
-	protected void transmitPower() {
+	@Deprecated protected void transmitPower() {
 		
 		short mode = (short) this.getRelevantMode();
 		
@@ -127,8 +106,7 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
 }

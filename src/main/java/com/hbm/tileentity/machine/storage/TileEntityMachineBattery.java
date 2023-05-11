@@ -227,6 +227,16 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		if(this.power > 0 && (mode == mode_buffer || mode == mode_output)) {
 			List<IEnergyConnector> con = new ArrayList();
 			con.addAll(consumers);
+			
+			if(PowerNet.trackingInstances == null) {
+				PowerNet.trackingInstances = new ArrayList();
+			}
+			PowerNet.trackingInstances.clear();
+			
+			nets.forEach(x -> {
+				if(x instanceof PowerNet) PowerNet.trackingInstances.add((PowerNet) x);
+			});
+			
 			this.power = PowerNet.fairTransfer(con, this.power);
 		}
 		
@@ -256,9 +266,17 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			if(mode == mode_buffer || mode == mode_output) {
 				if(te instanceof IEnergyConnector) {
 					IEnergyConnector con = (IEnergyConnector) te;
+					
+					long max = getMaxTransfer();
+					long toTransfer = Math.min(max, this.power);
+					long remainder = this.power - toTransfer;
+					this.power = toTransfer;
+					
 					long oldPower = this.power;
 					long transfer = this.power - con.transferPower(this.power);
 					this.power = oldPower - transfer;
+					
+					power += remainder;
 				}
 			}
 			
@@ -277,6 +295,10 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 				}
 			}
 		}
+	}
+	
+	public long getMaxTransfer() {
+		return this.getMaxPower();
 	}
 
 	@Override
