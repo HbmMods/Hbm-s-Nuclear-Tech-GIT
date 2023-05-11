@@ -139,6 +139,7 @@ public class OreDictManager {
 	public static final DictFrame ES253 = new DictFrame ("Einsteinium253", "Es253");
 	public static final DictFrame ES255 = new DictFrame ("Einsteinium255", "Es255");
 	public static final DictFrame AMRG = new DictFrame("AmericiumRG");
+	public static final DictFrame AMF = new DictFrame("AmericiumFuel");
 	public static final DictFrame NP237 = new DictFrame("Neptunium237", "Np237", "Neptunium");
 	public static final DictFrame PO210 = new DictFrame("Polonium210", "Po210", "Polonium");
 	public static final DictFrame TC99 = new DictFrame("Technetium99", "Tc99");
