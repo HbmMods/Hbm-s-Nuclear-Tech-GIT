@@ -1,8 +1,11 @@
 package com.hbm.entity.train;
 
+import com.hbm.util.BobMathUtil;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -32,9 +35,13 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 			
 			seat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
 			double x = posX + seat.xCoord;
-			double y = posY + seat.yCoord;
 			double z = posZ + seat.zCoord;
-			double dist = Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector();
+
+			double deltaX = player.posX - x;
+			double deltaZ = player.posZ - z;
+			double radians = -Math.atan2(deltaX, deltaZ);
+			double degrees = MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI - 90);
+			double dist = Math.abs(BobMathUtil.angularDifference(degrees, player.rotationYaw));
 			
 			if(dist < nearestDist) {
 				nearestDist = dist;
@@ -46,9 +53,13 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 			Vec3 seat = getRiderSeatPosition();
 			seat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
 			double x = posX + seat.xCoord;
-			double y = posY + seat.yCoord;
 			double z = posZ + seat.zCoord;
-			double dist = Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector();
+
+			double deltaX = player.posX - x;
+			double deltaZ = player.posZ - z;
+			double radians = -Math.atan2(deltaX, deltaZ);
+			double degrees = MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI - 90);
+			double dist = Math.abs(BobMathUtil.angularDifference(degrees, player.rotationYaw));
 	
 			if(dist < nearestDist) {
 				nearestDist = dist;
@@ -56,7 +67,7 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 			}
 		}
 		
-		if(nearestDist > 20) return true;
+		if(nearestDist > 180) return true;
 		
 		if(nearestSeat == -1) {
 			player.mountEntity(this);

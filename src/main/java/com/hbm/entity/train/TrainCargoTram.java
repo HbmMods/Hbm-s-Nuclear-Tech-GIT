@@ -30,7 +30,7 @@ public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider
 
 	public TrainCargoTram(World world) {
 		super(world);
-		this.setSize(2F, 1F);
+		this.setSize(1F, 1F);
 	}
 	
 	public double speed = 0;
@@ -78,7 +78,16 @@ public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_) {
+	public DummyConfig[] getDummies() {
+		return new DummyConfig[] {
+				new DummyConfig(2F, 1F, Vec3.createVectorHelper(0, 0, 1.5)),
+				new DummyConfig(2F, 1F, Vec3.createVectorHelper(0, 0, 0)),
+				new DummyConfig(2F, 1F, Vec3.createVectorHelper(0, 0, -1.5))
+		};
+	}
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if(!this.worldObj.isRemote && !this.isDead) {
 			this.setDead();
 		}

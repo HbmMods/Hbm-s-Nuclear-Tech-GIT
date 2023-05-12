@@ -9,13 +9,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public abstract class EntityRailCarBase extends Entity {
-	
+
 	public boolean isOnRail = true;
 	private int turnProgress;
 	private double trainX;
@@ -27,6 +29,9 @@ public abstract class EntityRailCarBase extends Entity {
 	@SideOnly(Side.CLIENT) private double velocityX;
 	@SideOnly(Side.CLIENT) private double velocityY;
 	@SideOnly(Side.CLIENT) private double velocityZ;
+	
+	public boolean initDummies = false;
+	public BoundingBoxDummyEntity[] dummies = new BoundingBoxDummyEntity[0];
 
 	public EntityRailCarBase(World world) {
 		super(world);
@@ -68,6 +73,22 @@ public abstract class EntityRailCarBase extends Entity {
 			}
 		} else {
 			
+			DummyConfig[] definitions = this.getDummies();
+			
+			if(!this.initDummies) {
+				this.dummies = new BoundingBoxDummyEntity[definitions.length];
+				
+				for(int i = 0; i < definitions.length; i++) {
+					DummyConfig def = definitions[i];
+					BoundingBoxDummyEntity dummy = new BoundingBoxDummyEntity(worldObj, this, def.width, def.height);
+					dummy.setPosition(posX, posY, posZ);
+					worldObj.spawnEntityInWorld(dummy);
+					this.dummies[i] = dummy;
+				}
+				
+				this.initDummies = true;
+			}
+			
 			BlockPos anchor = this.getCurentAnchorPos();
 			Vec3 corePos = getRelPosAlongRail(anchor, this.getCurrentSpeed());
 			
@@ -81,12 +102,25 @@ public abstract class EntityRailCarBase extends Entity {
 
 				if(frontPos == null || backPos == null) {
 					this.derail();
+					return;
 				} else {
 					this.prevRotationYaw = this.rotationYaw;
 					this.rotationYaw = this.movementYaw = generateYaw(frontPos, backPos);
 					this.motionX = this.rotationYaw / 360D; // hijacking this crap for easy syncing
 					this.velocityChanged = true;
 				}
+			}
+			
+			for(int i = 0; i < definitions.length; i++) {
+				DummyConfig def = definitions[i];
+				BoundingBoxDummyEntity dummy = dummies[i];
+				Vec3 rot = Vec3.createVectorHelper(def.offset.xCoord, def.offset.yCoord, def.offset.zCoord);
+				rot.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
+				double x = posX + rot.xCoord;
+				double y = posY + rot.yCoord;
+				double z = posZ + rot.zCoord;
+				dummy.setSize(def.width, def.height); // TEMP
+				dummy.setPosition(x, y, z);
 			}
 		}
 	}
@@ -199,11 +233,85 @@ public abstract class EntityRailCarBase extends Entity {
 	
 	/** Invisible entities that make up the dynamic bounding structure of the train, moving as the train rotates. */
 	public static class BoundingBoxDummyEntity extends Entity {
-		public BoundingBoxDummyEntity(World world) { this(world, 1F, 1F); }
-		public BoundingBoxDummyEntity(World world, float width, float height) { super(world); this.setSize(width, height);}
-		@Override protected void entityInit() { }
+
+		private int turnProgress;
+		private double trainX;
+		private double trainY;
+		private double trainZ;
+		public EntityRailCarBase train;
+		
+		public BoundingBoxDummyEntity(World world) { this(world, null, 1F, 1F); }
+		public BoundingBoxDummyEntity(World world, EntityRailCarBase train, float width, float height) {
+			super(world);
+			this.setSize(width, height);
+			this.train = train;
+			if(train != null) this.dataWatcher.updateObject(3, train.getEntityId());
+		}
+		
+		@Override protected void setSize(float width, float height) {
+			super.setSize(width, height);
+			this.dataWatcher.updateObject(4, width);
+			this.dataWatcher.updateObject(5, height);
+		}
+		
+		@Override protected void entityInit() {
+			this.dataWatcher.addObject(3, new Integer(1));
+			this.dataWatcher.addObject(4, new Float(1F));
+			this.dataWatcher.addObject(5, new Float(1F));
+		}
+		
 		@Override protected void writeEntityToNBT(NBTTagCompound nbt) { }
 		@Override public boolean writeToNBTOptional(NBTTagCompound nbt) { return false; }
 		@Override public void readEntityFromNBT(NBTTagCompound nbt) { this.setDead(); }
+		@Override public boolean canBePushed() { return true; }
+		@Override public boolean canBeCollidedWith() { return !this.isDead; }
+		
+		@Override public boolean attackEntityFrom(DamageSource source, float amount) { if(train != null) return train.attackEntityFrom(source, amount); return super.attackEntityFrom(source, amount); }
+		@Override public boolean interactFirst(EntityPlayer player) { if(train != null) return train.interactFirst(player); return super.interactFirst(player); }
+		
+		@Override public void onUpdate() {
+			if(!worldObj.isRemote) {
+				if(this.train.isDead) {
+					this.setDead();
+				}
+			} else {
+				
+				if(this.turnProgress > 0) {
+					this.prevRotationYaw = this.rotationYaw;
+					double x = this.posX + (this.trainX - this.posX) / (double) this.turnProgress;
+					double y = this.posY + (this.trainY - this.posY) / (double) this.turnProgress;
+					double z = this.posZ + (this.trainZ - this.posZ) / (double) this.turnProgress;
+					--this.turnProgress;
+					this.setPosition(x, y, z);
+				} else {
+					this.setPosition(this.posX, this.posY, this.posZ);
+				}
+				
+				this.setSize(this.dataWatcher.getWatchableObjectFloat(4), this.dataWatcher.getWatchableObjectFloat(5));
+			}
+		}
+		
+		@Override @SideOnly(Side.CLIENT) public void setPositionAndRotation2(double posX, double posY, double posZ, float yaw, float pitch, int turnProg) {
+			this.trainX = posX;
+			this.trainY = posY;
+			this.trainZ = posZ;
+			this.turnProgress = turnProg + 2;
+		}
+	}
+	
+	public DummyConfig[] getDummies() {
+		return new DummyConfig[0];
+	}
+	
+	public static class DummyConfig {
+		public Vec3 offset;
+		public float width;
+		public float height;
+		
+		public DummyConfig(float width, float height, Vec3 offset) {
+			this.width = width;
+			this.height = height;
+			this.offset = offset;
+		}
 	}
 }
