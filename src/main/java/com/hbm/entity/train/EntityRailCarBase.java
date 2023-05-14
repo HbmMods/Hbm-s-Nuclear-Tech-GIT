@@ -81,7 +81,12 @@ public abstract class EntityRailCarBase extends Entity {
 				for(int i = 0; i < definitions.length; i++) {
 					DummyConfig def = definitions[i];
 					BoundingBoxDummyEntity dummy = new BoundingBoxDummyEntity(worldObj, this, def.width, def.height);
-					dummy.setPosition(posX, posY, posZ);
+					Vec3 rot = Vec3.createVectorHelper(def.offset.xCoord, def.offset.yCoord, def.offset.zCoord);
+					rot.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
+					double x = posX + rot.xCoord;
+					double y = posY + rot.yCoord;
+					double z = posZ + rot.zCoord;
+					dummy.setPosition(x, y, z);
 					worldObj.spawnEntityInWorld(dummy);
 					this.dummies[i] = dummy;
 				}

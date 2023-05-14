@@ -2,7 +2,6 @@ package com.hbm.render.entity.item;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
