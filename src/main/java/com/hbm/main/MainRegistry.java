@@ -908,6 +908,9 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(radiationSystem);
 		FMLCommonHandler.instance().bus().register(radiationSystem);
 		
+		NewAirHandler randler = new NewAirHandler();
+		MinecraftForge.EVENT_BUS.register(randler);
+		
 		if(event.getSide() == Side.CLIENT) {
 			HbmKeybinds.register();
 			HbmKeybinds keyHandler = new HbmKeybinds();

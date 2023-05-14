@@ -12,7 +12,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
-
+import com.hbm.handler.*;
 import com.google.common.collect.Multimap;
 import com.hbm.blocks.IStepTickReceiver;
 import com.hbm.blocks.ModBlocks;
@@ -32,18 +32,10 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
-import com.hbm.handler.ArmorModHandler;
-import com.hbm.handler.BobmazonOfferFactory;
-import com.hbm.handler.BossSpawnHandler;
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
-import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
-import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -77,6 +69,7 @@ import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.world.generator.TimedGenerator;
 
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -147,6 +140,7 @@ import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
@@ -1334,7 +1328,6 @@ public class ModEventHandler {
 	
 	@SubscribeEvent
 	public void onBlockBreak(BreakEvent event) {
-		
 		if(!(event.getPlayer() instanceof EntityPlayerMP))
 			return;
 		
@@ -1356,7 +1349,7 @@ public class ModEventHandler {
 			}
 		}
 	}
-	
+
 	private static final String hash = "cce6b36fbaa6ec2327c1af5cbcadc4e2d340738ab9328c459365838e79d12e5e";
 	
 	private static final String lol = "popbobisgod";
@@ -1385,7 +1378,6 @@ public class ModEventHandler {
 			}
 		}		
 	}
-	
     @SubscribeEvent
     public void onEntityHeal(LivingHealEvent event)
     {
@@ -1594,6 +1586,16 @@ public class ModEventHandler {
 		}
 	}
 	
+    @SubscribeEvent
+    public void preQuackosianDuckSpawn(LivingSpawnEvent.CheckSpawn event)
+    {
+        TomSaveData data = TomSaveData.forWorld(event.world);
+        if(event.entity instanceof EntityDuck && !data.impact)
+        {
+            event.setResult(Result.DENY);
+        }
+    }
+    
 	@SubscribeEvent
 	public void onFoodEaten(PlayerUseItemEvent.Finish event) {
 		
