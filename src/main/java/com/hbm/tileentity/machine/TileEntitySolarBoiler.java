@@ -56,8 +56,8 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 			water.setFill(water.getFill() - process);
 			steam.setFill(steam.getFill() + process * 100);
 
-			this.sendFluid(steam.getTankType(), worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
-			this.sendFluid(steam.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
+			this.sendFluid(steam, worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
+			this.sendFluid(steam, worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			
 			heat = 0;
 		} else {

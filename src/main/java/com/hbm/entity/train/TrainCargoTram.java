@@ -30,7 +30,7 @@ public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider
 
 	public TrainCargoTram(World world) {
 		super(world);
-		this.setSize(1F, 1F);
+		this.setSize(5F, 2F);
 	}
 	
 	public double speed = 0;

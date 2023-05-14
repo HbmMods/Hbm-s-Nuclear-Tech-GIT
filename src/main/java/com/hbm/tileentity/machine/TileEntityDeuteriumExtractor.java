@@ -43,7 +43,7 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 			}
 			
 			this.subscribeToAllAround(tanks[0].getTankType(), this);
-			this.sendFluidToAll(tanks[1].getTankType(), this);
+			this.sendFluidToAll(tanks[1], this);
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);

@@ -2,6 +2,8 @@ package com.hbm.entity.train;
 
 import com.hbm.util.BobMathUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -72,7 +74,7 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 		if(nearestSeat == -1) {
 			player.mountEntity(this);
 		} else {
-			SeatDummyEntity dummySeat = new SeatDummyEntity(worldObj);
+			SeatDummyEntity dummySeat = new SeatDummyEntity(worldObj, this);
 			Vec3 passengerSeat = this.getPassengerSeats()[nearestSeat];
 			passengerSeat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
 			double x = posX + passengerSeat.xCoord;
@@ -108,7 +110,6 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 						double y = posY + rot.yCoord;
 						double z = posZ + rot.zCoord;
 						seat.setPosition(x, y - 1, z);
-						seat.updateRiderPosition();
 					}
 				}
 			}
@@ -133,11 +134,51 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 	
 	/** Dynamic seats generated when a player clicks near a seat-spot, moves and rotates with the train as one would expect. */
 	public static class SeatDummyEntity extends Entity {
+
+		private int turnProgress;
+		private double trainX;
+		private double trainY;
+		private double trainZ;
+		public EntityRailCarBase train;
+
 		public SeatDummyEntity(World world) { super(world); this.setSize(0.5F, 0.1F);}
-		@Override protected void entityInit() { }
+		public SeatDummyEntity(World world, EntityRailCarBase train) {
+			this(world);
+			this.train = train;
+			if(train != null) this.dataWatcher.updateObject(3, train.getEntityId());
+		}
+		
+		@Override protected void entityInit() { this.dataWatcher.addObject(3, new Integer(0)); }
 		@Override protected void writeEntityToNBT(NBTTagCompound nbt) { }
 		@Override public boolean writeToNBTOptional(NBTTagCompound nbt) { return false; }
 		@Override public void readEntityFromNBT(NBTTagCompound nbt) { this.setDead(); }
+		
+		@Override public void onUpdate() {
+			if(!worldObj.isRemote) {
+				if(this.train == null || this.train.isDead) {
+					this.setDead();
+				}
+			} else {
+				
+				if(this.turnProgress > 0) {
+					this.prevRotationYaw = this.rotationYaw;
+					double x = this.posX + (this.trainX - this.posX) / (double) this.turnProgress;
+					double y = this.posY + (this.trainY - this.posY) / (double) this.turnProgress;
+					double z = this.posZ + (this.trainZ - this.posZ) / (double) this.turnProgress;
+					--this.turnProgress;
+					this.setPosition(x, y, z);
+				} else {
+					this.setPosition(this.posX, this.posY, this.posZ);
+				}
+			}
+		}
+		
+		@Override @SideOnly(Side.CLIENT) public void setPositionAndRotation2(double posX, double posY, double posZ, float yaw, float pitch, int turnProg) {
+			this.trainX = posX;
+			this.trainY = posY;
+			this.trainZ = posZ;
+			this.turnProgress = turnProg + 2;
+		}
 
 		@Override
 		public void updateRiderPosition() {

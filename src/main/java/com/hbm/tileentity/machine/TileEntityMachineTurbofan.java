@@ -168,7 +168,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			for(DirPos pos : getConPos()) {
 				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(this.blood.getFill() > 0) this.sendFluid(blood.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.blood.getFill() > 0) this.sendFluid(blood, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			if(burnValue > 0 && amountToBurn > 0) {

@@ -75,7 +75,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			this.sendingBrake = true;
-			tank.setFill(transmitFluidFairly(worldObj, tank.getTankType(), this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
+			tank.setFill(transmitFluidFairly(worldObj, tank, this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
 			this.sendingBrake = false;
 			
 			age++;
@@ -106,10 +106,12 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		};
 	}
 	
-	protected static int transmitFluidFairly(World world, FluidType type, IFluidConnector that, int fill, boolean connect, boolean send, DirPos[] connections) {
+	protected static int transmitFluidFairly(World world, FluidTank tank, IFluidConnector that, int fill, boolean connect, boolean send, DirPos[] connections) {
 		
 		Set<IPipeNet> nets = new HashSet();
 		Set<IFluidConnector> consumers = new HashSet();
+		FluidType type = tank.getTankType();
+		int pressure = tank.getPressure();
 		
 		for(DirPos pos : connections) {
 			
@@ -144,7 +146,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				if(x instanceof PipeNet) PipeNet.trackingInstances.add((PipeNet) x);
 			});
 			
-			fill = (int) PipeNet.fairTransfer(con, type, fill);
+			fill = (int) PipeNet.fairTransfer(con, type, pressure, fill);
 		}
 		
 		//resubscribe to buffered nets, if necessary

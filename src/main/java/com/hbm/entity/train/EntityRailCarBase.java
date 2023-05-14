@@ -41,7 +41,7 @@ public abstract class EntityRailCarBase extends Entity {
 	@Override protected void readEntityFromNBT(NBTTagCompound nbt) { }
 	@Override protected void writeEntityToNBT(NBTTagCompound nbt) { }
 
-	@Override
+	/*@Override
 	public boolean canBePushed() {
 		return true;
 	}
@@ -49,7 +49,7 @@ public abstract class EntityRailCarBase extends Entity {
 	@Override
 	public boolean canBeCollidedWith() {
 		return !this.isDead;
-	}
+	}*/
 	
 	@Override
 	public void onUpdate() {
@@ -260,7 +260,7 @@ public abstract class EntityRailCarBase extends Entity {
 		}
 		
 		@Override protected void entityInit() {
-			this.dataWatcher.addObject(3, new Integer(1));
+			this.dataWatcher.addObject(3, new Integer(0));
 			this.dataWatcher.addObject(4, new Float(1F));
 			this.dataWatcher.addObject(5, new Float(1F));
 		}
@@ -276,7 +276,7 @@ public abstract class EntityRailCarBase extends Entity {
 		
 		@Override public void onUpdate() {
 			if(!worldObj.isRemote) {
-				if(this.train.isDead) {
+				if(this.train == null || this.train.isDead) {
 					this.setDead();
 				}
 			} else {

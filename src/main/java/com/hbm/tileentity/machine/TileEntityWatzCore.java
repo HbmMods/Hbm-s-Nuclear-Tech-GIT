@@ -565,10 +565,10 @@ public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedIn
 				this.sendPower(worldObj, xCoord, yCoord + 7, zCoord, ForgeDirection.UP);
 				this.sendPower(worldObj, xCoord, yCoord - 7, zCoord, ForgeDirection.DOWN);
 
-				this.sendFluid(tank.getTankType(), worldObj, xCoord + 4, yCoord, zCoord, Library.POS_X);
-				this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord, zCoord + 4, Library.POS_Z);
-				this.sendFluid(tank.getTankType(), worldObj, xCoord - 4, yCoord, zCoord, Library.NEG_X);
-				this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord, zCoord - 4, Library.NEG_Z);
+				this.sendFluid(tank, worldObj, xCoord + 4, yCoord, zCoord, Library.POS_X);
+				this.sendFluid(tank, worldObj, xCoord, yCoord, zCoord + 4, Library.POS_Z);
+				this.sendFluid(tank, worldObj, xCoord - 4, yCoord, zCoord, Library.NEG_X);
+				this.sendFluid(tank, worldObj, xCoord, yCoord, zCoord - 4, Library.NEG_Z);
 	
 				if (age == 9 || age == 19) {
 					fillFluidInit(tank.getTankType());

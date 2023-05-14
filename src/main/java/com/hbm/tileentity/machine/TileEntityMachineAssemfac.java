@@ -91,7 +91,7 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 			this.consumption *= (overLevel + 1);
 			
 			for(DirPos pos : getConPos()) {
-				this.sendFluid(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			if(steam.getFill() > 0) {

@@ -230,7 +230,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			}
 			
 			for(DirPos pos : getConPos()) {
-				this.sendFluid(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			checkIfMeltdown();

@@ -174,7 +174,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 				for(DirPos pos : getConPos()) {
 					for(int i = 1; i < 5; i++) {
 						if(tanks[i].getFill() > 0) {
-							this.sendFluid(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+							this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 						}
 					}
 				}
