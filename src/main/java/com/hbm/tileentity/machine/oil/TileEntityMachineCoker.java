@@ -101,7 +101,7 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 			}
 			
 			for(DirPos pos : getConPos()) {
-				if(this.tanks[1].getFill() > 0) this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();

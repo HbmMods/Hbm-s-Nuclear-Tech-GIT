@@ -107,7 +107,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 					age = 0;
 				
 				this.sendingBrake = true;
-				tank.setFill(TileEntityBarrel.transmitFluidFairly(worldObj, tank.getTankType(), this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
+				tank.setFill(TileEntityBarrel.transmitFluidFairly(worldObj, tank, this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
 				this.sendingBrake = false;
 				
 				if((mode == 1 || mode == 2) && (age == 9 || age == 19))
@@ -359,17 +359,19 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	}
 
 	@Override
-	public long transferFluid(FluidType type, long fluid) {
-		long toTransfer = Math.min(getDemand(type), fluid);
+	public long transferFluid(FluidType type, int pressure, long fluid) {
+		long toTransfer = Math.min(getDemand(type, pressure), fluid);
 		tank.setFill(tank.getFill() + (int) toTransfer);
 		return fluid - toTransfer;
 	}
 
 	@Override
-	public long getDemand(FluidType type) {
+	public long getDemand(FluidType type, int pressure) {
 		
 		if(this.mode == 2 || this.mode == 3 || this.sendingBrake)
 			return 0;
+		
+		if(tank.getPressure() != pressure) return 0;
 		
 		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
 	}

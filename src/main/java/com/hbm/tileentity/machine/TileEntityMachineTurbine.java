@@ -261,7 +261,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			if(!valid) tanks[1].setTankType(Fluids.NONE);
 			if(power > maxPower) power = maxPower;
 			
-			this.sendFluidToAll(tanks[1].getTankType(), this);
+			this.sendFluidToAll(tanks[1], this);
 			
 			tanks[1].unloadTank(5, 6, slots);
 			

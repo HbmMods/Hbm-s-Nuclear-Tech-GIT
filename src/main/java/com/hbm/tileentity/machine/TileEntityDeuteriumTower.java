@@ -20,7 +20,8 @@ public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 		tanks[0] = new FluidTank(Fluids.WATER, 50000, 0);
 		tanks[1] = new FluidTank(Fluids.HEAVYWATER, 5000, 1);
 	}
-	
+
+	@Override
 	protected void updateConnections() {
 
 		for(DirPos pos : getConPos()) {
@@ -28,17 +29,19 @@ public class TileEntityDeuteriumTower extends TileEntityDeuteriumExtractor {
 		}
 	}
 	
+	@Override
 	public void subscribeToAllAround(FluidType type, World world, int x, int y, int z) {
 
 		for(DirPos pos : getConPos()) {
 			this.trySubscribe(type, world, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
-	
-	public void sendFluidToAll(FluidType type, TileEntity te) {
+
+	@Override
+	public void sendFluidToAll(FluidTank tank, TileEntity te) {
 
 		for(DirPos pos : getConPos()) {
-			this.sendFluid(type, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 	

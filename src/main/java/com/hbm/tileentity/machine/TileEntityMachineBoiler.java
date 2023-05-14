@@ -218,7 +218,7 @@ public class TileEntityMachineBoiler extends TileEntityLoadedBase implements ISi
 		if(!worldObj.isRemote) {
 			
 			this.subscribeToAllAround(tanks[0].getTankType(), this);
-			this.sendFluidToAll(tanks[1].getTankType(), this);
+			this.sendFluidToAll(tanks[1], this);
 			
 			age++;
 			if(age >= 20)

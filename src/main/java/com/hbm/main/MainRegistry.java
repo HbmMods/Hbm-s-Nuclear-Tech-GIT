@@ -47,6 +47,7 @@ import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockToolConversion;
+import com.hbm.commands.CommandDebugChunkLoad;
 import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.config.*;
 import com.hbm.crafting.RodRecipes;
@@ -895,6 +896,7 @@ public class MainRegistry {
 		RBMKDials.createDials(world);
 		SiegeOrchestrator.createGameRules(world);
 		event.registerServerCommand(new CommandReloadRecipes());
+		event.registerServerCommand(new CommandDebugChunkLoad());
 	}
 	
 	@EventHandler

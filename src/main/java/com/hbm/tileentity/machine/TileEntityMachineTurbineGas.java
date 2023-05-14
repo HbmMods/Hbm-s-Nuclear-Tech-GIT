@@ -139,7 +139,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord - dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * -4, dir.getOpposite());
 			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -4, dir);
 			//steam
-			this.sendFluid(tanks[3].getTankType(), worldObj, xCoord + dir.offsetZ * 6, yCoord + 1, zCoord - dir.offsetX * 6, rot.getOpposite());
+			this.sendFluid(tanks[3], worldObj, xCoord + dir.offsetZ * 6, yCoord + 1, zCoord - dir.offsetX * 6, rot.getOpposite());
 			
 			//if(audio != null) // audio shouldn't even exist serverside
 			//	audio.updatePitch((float) (0.45 + 0.05 * rpm / 10));

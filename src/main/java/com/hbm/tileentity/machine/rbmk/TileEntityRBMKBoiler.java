@@ -95,7 +95,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 			
 			this.trySubscribe(feed.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			for(DirPos pos : getOutputPos()) {
-				if(this.steam.getFill() > 0) this.sendFluid(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.steam.getFill() > 0) this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 		}
 		

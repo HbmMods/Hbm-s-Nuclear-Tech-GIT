@@ -148,8 +148,8 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 				fillFluidInit(tanks[1].getTankType());
 			}
 
-			this.sendFluidToAll(tanks[0].getTankType(), this);
-			this.sendFluidToAll(tanks[1].getTankType(), this);
+			this.sendFluidToAll(tanks[0], this);
+			this.sendFluidToAll(tanks[1], this);
 
 			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);

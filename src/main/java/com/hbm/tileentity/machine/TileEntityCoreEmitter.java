@@ -3,9 +3,7 @@ package com.hbm.tileentity.machine;
 import api.hbm.block.ILaserable;
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
-import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.container.ContainerCoreEmitter;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICoreEmitter;
@@ -35,7 +33,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider {
+public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyUser, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 1000000000L;
@@ -196,38 +194,6 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	
 	public int getWattsScaled(int i) {
 		return (watts * i) / 100;
-	}
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tank.getTankType().name()))
-			tank.setFill(i);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if(type.name().equals(tank.getTankType().name()))
-			return tank.getFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(type.name().equals(tank.getTankType().name()))
-			return tank.getMaxFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
 	}
 
 	@Override

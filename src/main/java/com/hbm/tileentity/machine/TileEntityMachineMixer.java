@@ -100,7 +100,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 			}
 			
 			for(DirPos pos : getConPos()) {
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
