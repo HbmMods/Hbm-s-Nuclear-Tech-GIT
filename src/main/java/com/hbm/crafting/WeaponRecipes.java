@@ -157,7 +157,7 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_fireext, 1), new Object[] { "HB", " T", 'H', ModItems.hull_small_steel, 'B', ModItems.bolt_tungsten, 'T', ModItems.tank_steel });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_spas12, 1), new Object[] { "TPS", "HHR", "  L", 'T', ModItems.bolt_tungsten, 'P', STEEL.plate(), 'S', STEEL.ingot(), 'H', ModItems.hull_small_steel, 'R', ModItems.mechanism_rifle_1, 'L', ANY_PLASTIC.ingot()});
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_glass_cannon, 1), new Object[] { "GGC", "GTM", 'G', Item.getItemFromBlock(ModBlocks.glass_quartz), 'C', ModItems.battery_lithium_cell, 'T', ModItems.crt_display, 'M', ModItems.mechanism_special });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_lunatic_marksman, 1), new Object[] { "S W", "WTM", "PPP", 'P', STAINLESS.plate(), 'M', ModItems.mechanism_special, 'S', ModBlocks.glass_quartz, 'T', ModItems.hull_small_steel, 'W', ModItems.ring_starmetal });
+		//CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_lunatic_marksman, 1), new Object[] { "S W", "WTM", "PPP", 'P', STAINLESS.plate(), 'M', ModItems.mechanism_special, 'S', ModBlocks.glass_quartz, 'T', ModItems.hull_small_steel, 'W', ModItems.ring_starmetal });
 
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_remington, 1), new Object[] { "PPM", "S L", 'P', STEEL.plate(), 'M', ModItems.mechanism_rifle_1, 'S', KEY_SLAB, 'L', KEY_LOG });
 		
