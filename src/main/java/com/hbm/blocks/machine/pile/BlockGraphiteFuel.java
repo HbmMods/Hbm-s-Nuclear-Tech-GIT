@@ -5,6 +5,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.pile.TileEntityPileFuel;
 
+import api.hbm.block.IBlowable;
 import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -19,7 +20,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolable {
+public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolable, IBlowable {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int mets) {
@@ -67,5 +68,11 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
 	@Override
 	protected Item getInsertedItem(int meta) {
 		return (meta & 8) == 8 ? ModItems.pile_rod_pu239 : ModItems.pile_rod_uranium;
+	}
+	
+	@Override
+	public void applyFan(World world, int x, int y, int z, ForgeDirection dir, int dist) {
+		TileEntityPileFuel pile = (TileEntityPileFuel) world.getTileEntity(x, y, z);
+		pile.heat -= pile.heat * 0.025;
 	}
 }
