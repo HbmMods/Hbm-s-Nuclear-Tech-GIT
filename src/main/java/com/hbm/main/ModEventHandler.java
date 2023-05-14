@@ -63,6 +63,7 @@ import com.hbm.packet.PermaSyncPacket;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
@@ -72,6 +73,7 @@ import com.hbm.util.EnumUtil;
 import com.hbm.util.InventoryUtil;
 import com.hbm.world.generator.TimedGenerator;
 
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -179,7 +181,15 @@ public class ModEventHandler {
 			}
 		}
 	}
-	
+    @SubscribeEvent
+    public void preQuackosianDuckSpawn(LivingSpawnEvent.CheckSpawn event)
+    {
+        TomSaveData data = TomSaveData.forWorld(event.world);
+        if(event.entity instanceof EntityDuck && !data.impact)
+        {
+            event.setResult(Result.DENY);
+        }
+    }
 	@SubscribeEvent
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		
