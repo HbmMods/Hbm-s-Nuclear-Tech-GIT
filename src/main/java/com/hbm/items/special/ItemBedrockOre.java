@@ -3,6 +3,9 @@ package com.hbm.items.special;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.special.ItemByproduct.EnumByproduct;
 import static com.hbm.items.special.ItemByproduct.EnumByproduct.*;
+
+import java.util.Locale;
+
 import com.hbm.lib.RefStrings;
 import com.hbm.util.EnumUtil;
 
@@ -57,7 +60,7 @@ public class ItemBedrockOre extends ItemEnumMulti {
 	public String getItemStackDisplayName(ItemStack stack) {
 		
 		EnumBedrockOre ore = EnumUtil.grabEnumSafely(EnumBedrockOre.class, stack.getItemDamage());
-		String oreName = StatCollector.translateToLocal("item.ore." + ore.oreName.toLowerCase());
+		String oreName = StatCollector.translateToLocal("item.ore." + ore.oreName.toLowerCase(Locale.US));
 		return StatCollector.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", oreName);
 	}
 	

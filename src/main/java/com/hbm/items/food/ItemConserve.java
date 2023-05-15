@@ -1,6 +1,7 @@
 package com.hbm.items.food;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.entity.effect.EntityVortex;
 import com.hbm.items.ItemEnumMulti;
@@ -93,14 +94,14 @@ public class ItemConserve extends ItemEnumMulti {
 		
 		for(int i = 0; i < icons.length; i++) {
 			Enum num = enums[i];
-			this.icons[i] = reg.registerIcon(this.getIconString() + "_" + num.name().toLowerCase());
+			this.icons[i] = reg.registerIcon(this.getIconString() + "_" + num.name().toLowerCase(Locale.US));
 		}
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		Enum num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
-		return "item.canned_" + num.name().toLowerCase();
+		return "item.canned_" + num.name().toLowerCase(Locale.US);
 	}
 	
 	public static enum EnumFoodType {

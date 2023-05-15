@@ -1,6 +1,7 @@
 package com.hbm.blocks.generic;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 import com.hbm.blocks.BlockEnumMulti;
@@ -87,8 +88,8 @@ public class BlockTallPlant extends BlockEnumMulti implements IPlantable, IGrowa
 		
 		for(int i = 0; i < icons.length; i++) {
 			Enum num = enums[i];
-			this.icons[i] = reg.registerIcon(this.getTextureName() + "." + num.name().toLowerCase() + ".upper");
-			this.bottomIcons[i] = reg.registerIcon(this.getTextureName() + "." + num.name().toLowerCase() + ".lower");
+			this.icons[i] = reg.registerIcon(this.getTextureName() + "." + num.name().toLowerCase(Locale.US) + ".upper");
+			this.bottomIcons[i] = reg.registerIcon(this.getTextureName() + "." + num.name().toLowerCase(Locale.US) + ".lower");
 		}
 	}
 	

@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import com.google.common.collect.HashMultimap;
@@ -90,7 +91,7 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 			this.setHarvestLevel("pickaxe", material.getHarvestLevel());
 			this.setHarvestLevel("shovel", material.getHarvestLevel());
 		} else {
-			this.setHarvestLevel(type.toString().toLowerCase(), material.getHarvestLevel());
+			this.setHarvestLevel(type.toString().toLowerCase(Locale.US), material.getHarvestLevel());
 		}
 	}
 

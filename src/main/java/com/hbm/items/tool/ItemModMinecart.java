@@ -1,6 +1,7 @@
 package com.hbm.items.tool;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.entity.cart.*;
 import com.hbm.items.ModItems;
@@ -103,7 +104,7 @@ public class ItemModMinecart extends Item {
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		EnumMinecart cart = EnumUtil.grabEnumSafely(EnumMinecart.class, stack.getItemDamage());
-		return super.getUnlocalizedName() + "." + cart.name().toLowerCase();
+		return super.getUnlocalizedName() + "." + cart.name().toLowerCase(Locale.US);
 	}
 
 	@Override
@@ -126,7 +127,7 @@ public class ItemModMinecart extends Item {
 		
 		for(int i = 0; i < EnumCartBase.values().length; i++) {
 			EnumCartBase base = EnumCartBase.values()[i];
-			bases[i] = reg.registerIcon(this.getIconString() + "." + base.name().toLowerCase());
+			bases[i] = reg.registerIcon(this.getIconString() + "." + base.name().toLowerCase(Locale.US));
 		}
 		
 		EnumMinecart[] enums = EnumMinecart.values();
@@ -134,7 +135,7 @@ public class ItemModMinecart extends Item {
 
 		for(int i = 0; i < icons.length; i++) {
 			Enum num = enums[i];
-			this.icons[i] = reg.registerIcon(this.getIconString() + "_overlay." + num.name().toLowerCase());
+			this.icons[i] = reg.registerIcon(this.getIconString() + "_overlay." + num.name().toLowerCase(Locale.US));
 		}
 	}
 	

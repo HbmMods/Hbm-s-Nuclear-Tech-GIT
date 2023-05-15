@@ -3,6 +3,7 @@ package com.hbm.items.weapon;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import com.hbm.items.ItemAmmoEnums.AmmoRocket;
@@ -108,7 +109,7 @@ public class ItemAmmo extends ItemEnumMulti {
 		public String key = "desc.item.ammo.";
 		
 		private AmmoItemTrait() {
-			key += this.toString().toLowerCase();
+			key += this.toString().toLowerCase(Locale.US);
 		}
 	}
 	

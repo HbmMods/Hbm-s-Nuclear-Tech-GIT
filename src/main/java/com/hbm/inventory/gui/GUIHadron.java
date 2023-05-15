@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.lwjgl.opengl.GL11;
 
@@ -51,7 +52,7 @@ public class GUIHadron extends GuiInfoContainer {
 		
 		List<String> stats = new ArrayList();
 		stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("hadron.stats"));
-		stats.add((hadron.stat_success ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + I18n.format("hadron." + this.hadron.stat_state.name().toLowerCase()));
+		stats.add((hadron.stat_success ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + I18n.format("hadron." + this.hadron.stat_state.name().toLowerCase(Locale.US)));
 		if(this.hadron.state.showCoord) stats.add(EnumChatFormatting.RED + I18nUtil.resolveKey("hadron.stats_coord", hadron.stat_x, hadron.stat_y, hadron.stat_z));
 		stats.add(EnumChatFormatting.GRAY + I18nUtil.resolveKey("hadron.stats_momentum", String.format("%,d", hadron.stat_charge)));
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 41, guiTop + 92, 25, 11, mouseX, mouseY, stats.toArray(new String[0]));
@@ -89,7 +90,7 @@ public class GUIHadron extends GuiInfoContainer {
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 		
-		String state = I18n.format("hadron." + this.hadron.state.name().toLowerCase());
+		String state = I18n.format("hadron." + this.hadron.state.name().toLowerCase(Locale.US));
 		this.fontRendererObj.drawString(state, this.xSize / 2 - this.fontRendererObj.getStringWidth(state) / 2, 76, this.hadron.state.color);
 	}
 	

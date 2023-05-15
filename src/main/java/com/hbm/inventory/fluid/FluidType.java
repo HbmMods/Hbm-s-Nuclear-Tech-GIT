@@ -3,6 +3,7 @@ package com.hbm.inventory.fluid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 import org.lwjgl.input.Keyboard;
@@ -55,12 +56,12 @@ public class FluidType {
 	public FluidType(String name, int color, int p, int f, int r, EnumSymbol symbol) {
 		this.stringId = name;
 		this.color = color;
-		this.unlocalized = "hbmfluid." + name.toLowerCase();
+		this.unlocalized = "hbmfluid." + name.toLowerCase(Locale.US);
 		this.poison = p;
 		this.flammability = f;
 		this.reactivity = r;
 		this.symbol = symbol;
-		this.texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids/" + name.toLowerCase() + ".png");
+		this.texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids/" + name.toLowerCase(Locale.US) + ".png");
 		
 		this.id = Fluids.registerSelf(this);
 	}
@@ -124,7 +125,7 @@ public class FluidType {
 		return this.unlocalized;
 	}
 	public String getDict(int quantity) {
-		return "container" + quantity + this.stringId.replace("_", "").toLowerCase();
+		return "container" + quantity + this.stringId.replace("_", "").toLowerCase(Locale.US);
 	}
 	
 	public boolean isHot() {

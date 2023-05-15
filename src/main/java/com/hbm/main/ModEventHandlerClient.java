@@ -3,6 +3,7 @@ package com.hbm.main;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
@@ -446,7 +447,7 @@ public class ModEventHandlerClient {
 		if(invis != null && invis.getAmplifier() > 0)
 			event.setCanceled(true);
 
-		if(player.getDisplayName().toLowerCase().equals("martmn")) {
+		if(player.getDisplayName().toLowerCase(Locale.US).equals("martmn")) {
 			
 			event.setCanceled(true);
 			

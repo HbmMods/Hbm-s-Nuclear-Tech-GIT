@@ -1,6 +1,7 @@
 package com.hbm.items.food;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.items.machine.ItemChemicalDye.EnumChemDye;
 import com.hbm.lib.RefStrings;
@@ -44,7 +45,7 @@ public class ItemCrayon extends ItemFood {
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		Enum num = EnumUtil.grabEnumSafely(EnumChemDye.class, stack.getItemDamage());
-		return super.getUnlocalizedName() + "." + num.name().toLowerCase();
+		return super.getUnlocalizedName() + "." + num.name().toLowerCase(Locale.US);
 	}
 
 	@Override

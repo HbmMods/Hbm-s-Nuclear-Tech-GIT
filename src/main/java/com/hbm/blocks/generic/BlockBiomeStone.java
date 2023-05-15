@@ -1,5 +1,7 @@
 package com.hbm.blocks.generic;
 
+import java.util.Locale;
+
 import com.hbm.blocks.BlockEnumMulti;
 import com.hbm.blocks.BlockEnums.EnumBiomeType;
 
@@ -30,9 +32,9 @@ public class BlockBiomeStone extends BlockEnumMulti {
 		
 		for(int i = 0; i < icons.length; i++) {
 			Enum num = enums[i];
-			this.icons[i] = reg.registerIcon(this.getTextureName() + "." + num.name().toLowerCase());
-			this.iconsTop[i] = reg.registerIcon(this.getTextureName() + "_top." + num.name().toLowerCase());
-			this.iconsLayer[i] = reg.registerIcon(this.getTextureName() + "_layer." + num.name().toLowerCase());
+			this.icons[i] = reg.registerIcon(this.getTextureName() + "." + num.name().toLowerCase(Locale.US));
+			this.iconsTop[i] = reg.registerIcon(this.getTextureName() + "_top." + num.name().toLowerCase(Locale.US));
+			this.iconsLayer[i] = reg.registerIcon(this.getTextureName() + "_layer." + num.name().toLowerCase(Locale.US));
 		}
 	}
 

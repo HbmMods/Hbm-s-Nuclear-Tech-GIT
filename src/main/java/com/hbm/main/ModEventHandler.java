@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -1310,7 +1311,7 @@ public class ModEventHandler {
 			
 			String[] msg = message.split(" ");
 			
-			String m = msg[0].substring(1, msg[0].length()).toLowerCase();
+			String m = msg[0].substring(1, msg[0].length()).toLowerCase(Locale.US);
 			
 			if("gv".equals(m)) {
 				
