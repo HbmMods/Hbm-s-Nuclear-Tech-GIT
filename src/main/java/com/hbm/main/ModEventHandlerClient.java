@@ -83,6 +83,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -101,6 +102,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
@@ -949,6 +951,52 @@ public class ModEventHandlerClient {
 
 					if(!(sky instanceof RenderNTMSkyboxChainloader)) {
 						world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
+					}
+				}
+			}
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onMouseClicked(InputEvent.KeyInputEvent event) {
+		
+		if(GeneralConfig.enableKeybindOverlap) {
+			boolean state = Mouse.getEventButtonState();
+			int keyCode = Mouse.getEventButton() - 100;
+			
+			//if anything errors here, run ./gradlew clean setupDecompWorkSpace
+			for(Object o : KeyBinding.keybindSet) {
+				KeyBinding key = (KeyBinding) o;
+				
+				if(key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
+					
+					key.pressed = state;
+					if(state) {
+						key.pressTime++;
+					}
+				}
+			}
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onKeyTyped(InputEvent.KeyInputEvent event) {
+
+		if(GeneralConfig.enableKeybindOverlap) {
+			boolean state = Keyboard.getEventKeyState();
+			int keyCode = Keyboard.getEventKey();
+			
+			//if anything errors here, run ./gradlew clean setupDecompWorkSpace
+			for(Object o : KeyBinding.keybindSet) {
+				KeyBinding key = (KeyBinding) o;
+				
+				if(key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
+					
+					key.pressed = state;
+					if(state) {
+						key.pressTime++;
 					}
 				}
 			}

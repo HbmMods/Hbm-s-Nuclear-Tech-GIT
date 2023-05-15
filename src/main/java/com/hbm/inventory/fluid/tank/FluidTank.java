@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 
 public class FluidTank {
 	
@@ -258,7 +259,9 @@ public class FluidTank {
 		fluid = nbt.getInteger(s);
 		int max = nbt.getInteger(s + "_max");
 		if(max > 0)
-			maxFluid = nbt.getInteger(s + "_max");
+			maxFluid = max;
+		
+		fluid = MathHelper.clamp_int(fluid, 0, max);
 		
 		type = Fluids.fromName(nbt.getString(s + "_type")); //compat
 		if(type == Fluids.NONE)
