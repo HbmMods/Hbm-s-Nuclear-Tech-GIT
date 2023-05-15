@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import api.hbm.entity.ITurretImmune;
+import api.hbm.entity.ITurretTargetable;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
@@ -597,8 +599,12 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		List<String> wl = getWhitelist();
 		
 		if(wl != null) {
-			
-			if(e instanceof EntityPlayer) {
+
+			if(e instanceof ITurretImmune)
+				return false;
+			else if(e instanceof ITurretTargetable)
+				return true;
+			else if(e instanceof EntityPlayer) {
 				if(wl.contains(((EntityPlayer)e).getDisplayName())) {
 					return false;
 				}
