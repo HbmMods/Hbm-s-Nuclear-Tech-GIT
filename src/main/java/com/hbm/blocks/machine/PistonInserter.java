@@ -5,12 +5,16 @@ import com.hbm.tileentity.INBTPacketReceiver;
 
 import api.hbm.block.IInsertable;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -37,12 +41,13 @@ public class PistonInserter extends BlockContainerBase {
 			if(world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).isNormalCube())
 				return; //no obstructions allowed!
 			
-			if(checkRedstone(world, x, y, z)) { //if necessary, add lastState (if block updates are too unreliable).
-				TileEntityPistonInserter piston = (TileEntityPistonInserter)world.getTileEntity(x, y, z);
-				
-				if(piston.extend <= 0)
-					piston.isRetracting = false;
-			}
+			boolean flag = checkRedstone(world, x, y, z);
+			TileEntityPistonInserter piston = (TileEntityPistonInserter)world.getTileEntity(x, y, z);
+			
+			if(flag && !piston.lastState && piston.extend <= 0)
+				piston.isRetracting = false;
+			
+			piston.lastState = flag;
 		}
 	}
 	
@@ -52,6 +57,69 @@ public class PistonInserter extends BlockContainerBase {
 				return true;
 		}
 		
+		return false;
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		
+		if(player.getHeldItem() != null) {
+			if(!world.isRemote) {
+				TileEntityPistonInserter piston = (TileEntityPistonInserter)world.getTileEntity(x, y, z);
+				
+				if(piston.slot == null) {
+					piston.slot = player.inventory.decrStackSize(player.inventory.currentItem, 1);
+					player.inventoryContainer.detectAndSendChanges();
+				}
+			}
+			
+			return true;
+		} else if(player.isSneaking()) {
+			if(!world.isRemote) {
+				TileEntityPistonInserter piston = (TileEntityPistonInserter)world.getTileEntity(x, y, z);
+				
+				if(piston.slot != null) {
+					ForgeDirection dir = ForgeDirection.getOrientation(piston.getBlockMetadata());
+					
+					EntityItem dust = new EntityItem(world, x + 0.5D + dir.offsetX * 0.75D, y + 0.5D + dir.offsetY * 0.75D, z + 0.5D + dir.offsetZ * 0.75D, piston.slot);
+					piston.slot = null;
+					
+					dust.motionX = dir.offsetX * 0.25;
+					dust.motionY = dir.offsetY * 0.25;
+					dust.motionZ = dir.offsetZ * 0.25;
+					world.spawnEntityInWorld(dust);
+				}
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
+		int l = BlockPistonBase.determineOrientation(world, x, y, z, player);
+		world.setBlockMetadataWithNotify(x, y, z, l, 2);
+	}
+	
+	@Override
+	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
+		return world.getBlockMetadata(x, y, z) != side.ordinal();
+	}
+	
+	@Override
+	public int getRenderType(){
+		return -1;
+	}
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
 		return false;
 	}
 	
@@ -94,10 +162,11 @@ public class PistonInserter extends BlockContainerBase {
 		
 		public int extend;
 		public static final int maxExtend = 25;
-		public boolean isRetracting;
+		public boolean isRetracting = true;
 		public int delay;
 		
-		private int lastState;
+		//prevents funkies from happening with block updates or loading into a server
+		private boolean lastState;
 		
 		public TileEntityPistonInserter() { }
 		
@@ -155,6 +224,33 @@ public class PistonInserter extends BlockContainerBase {
 				this.slot = ItemStack.loadItemStackFromNBT(stack);
 			} else
 				this.slot = null;
+		}
+		
+		/* :3 NBT stuff */
+		
+		@Override
+		public void writeToNBT(NBTTagCompound nbt) {
+			nbt.setInteger("extend", extend);
+			nbt.setBoolean("retract", isRetracting);
+			nbt.setBoolean("state", lastState); //saved so loading into a world doesn't cause issues
+			if(this.slot != null) {
+				NBTTagCompound stack = new NBTTagCompound();
+				slot.writeToNBT(stack);
+				nbt.setTag("stack", stack);
+			}
+		}
+		
+		@Override
+		public void readFromNBT(NBTTagCompound nbt) {
+			this.extend = nbt.getInteger("extend");
+			this.isRetracting = nbt.getBoolean("retract");
+			this.lastState = nbt.getBoolean("state");
+			if(nbt.hasKey("stack")) {
+				NBTTagCompound stack = nbt.getCompoundTag("stack");
+				this.slot = ItemStack.loadItemStackFromNBT(stack);
+			} else {
+				this.slot = null;
+			}
 		}
 		
 		/* BS inventory stuff */
