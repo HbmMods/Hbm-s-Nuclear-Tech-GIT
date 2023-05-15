@@ -960,13 +960,14 @@ public class ModEventHandlerClient {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onMouseClicked(InputEvent.KeyInputEvent event) {
-		
-		if(GeneralConfig.enableKeybindOverlap) {
+
+		Minecraft mc = Minecraft.getMinecraft();
+		if(GeneralConfig.enableKeybindOverlap && (mc.currentScreen == null || mc.currentScreen.allowUserInput)) {
 			boolean state = Mouse.getEventButtonState();
 			int keyCode = Mouse.getEventButton() - 100;
 			
 			//if anything errors here, run ./gradlew clean setupDecompWorkSpace
-			for(Object o : KeyBinding.keybindSet) {
+			for(Object o : KeyBinding.keybindArray) {
 				KeyBinding key = (KeyBinding) o;
 				
 				if(key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
@@ -984,12 +985,13 @@ public class ModEventHandlerClient {
 	@SubscribeEvent
 	public void onKeyTyped(InputEvent.KeyInputEvent event) {
 
-		if(GeneralConfig.enableKeybindOverlap) {
+		Minecraft mc = Minecraft.getMinecraft();
+		if(GeneralConfig.enableKeybindOverlap && (mc.currentScreen == null || mc.currentScreen.allowUserInput)) {
 			boolean state = Keyboard.getEventKeyState();
 			int keyCode = Keyboard.getEventKey();
 			
 			//if anything errors here, run ./gradlew clean setupDecompWorkSpace
-			for(Object o : KeyBinding.keybindSet) {
+			for(Object o : KeyBinding.keybindArray) {
 				KeyBinding key = (KeyBinding) o;
 				
 				if(key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
