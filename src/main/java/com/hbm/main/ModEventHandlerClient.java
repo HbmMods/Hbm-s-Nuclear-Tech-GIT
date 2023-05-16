@@ -95,6 +95,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -124,6 +125,7 @@ import net.minecraft.world.WorldProviderSurface;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -1227,6 +1229,30 @@ public class ModEventHandlerClient {
 			if(!train.shouldRiderSit()) {
 				client.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(client.rotationYaw, client.rotationPitch, client.onGround));
 				client.sendQueue.addToSendQueue(new C0CPacketInput(client.moveStrafing, client.moveForward, client.movementInput.jump, client.movementInput.sneak));
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onOpenGUI(GuiOpenEvent event) {
+		
+		if(event.gui instanceof GuiMainMenu) {
+			GuiMainMenu main = (GuiMainMenu) event.gui;
+			int rand = (int)(Math.random() * 150);
+			
+			switch(rand) {
+			case 0: main.splashText = "Floppenheimer!"; break;
+			case 1: main.splashText = "i should dip my balls in sulfuic acid"; break;
+			case 2: main.splashText = "All answers are popbob!"; break;
+			case 3: main.splashText = "None shall enter The Orb!"; break;
+			case 4: main.splashText = "Wacarb was here"; break;
+			case 5: main.splashText = "SpongeBoy me Bob I am overdosing on keramine agagagagaga"; break;
+			case 6: main.splashText = "I know where you live, " + System.getProperty("user.name"); break;
+			case 7: main.splashText = "Nice toes, now hand them over."; break;
+			case 8: main.splashText = "I smell burnt toast!"; break;
+			case 9: main.splashText = "There are bugs under your skin!"; break;
+			case 10: main.splashText = "Fentanyl!"; break;
+			case 11: main.splashText = "Do drugs!"; break;
 			}
 		}
 	}
