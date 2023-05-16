@@ -71,7 +71,7 @@ public class PistonInserter extends BlockContainerBase {
 			if(!world.isRemote) {
 				TileEntityPistonInserter piston = (TileEntityPistonInserter)world.getTileEntity(x, y, z);
 				
-				if(piston.slot != null) {
+				if(piston.slot != null && piston.isRetracting) {
 					ForgeDirection dir = ForgeDirection.getOrientation(piston.getBlockMetadata());
 					
 					EntityItem dust = new EntityItem(world, x + 0.5D + dir.offsetX * 0.75D, y + 0.5D + dir.offsetY * 0.75D, z + 0.5D + dir.offsetZ * 0.75D, piston.slot);
@@ -112,6 +112,8 @@ public class PistonInserter extends BlockContainerBase {
 		int meta = world.getBlockMetadata(x, y, z);
 		return meta != side.ordinal() && meta != side.getOpposite().ordinal();
 	}
+	
+	//TODO make item drop when block is broken
 	
 	@Override
 	public int getRenderType(){
@@ -252,6 +254,7 @@ public class PistonInserter extends BlockContainerBase {
 		
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
+			super.writeToNBT(nbt);
 			nbt.setInteger("extend", extend);
 			nbt.setBoolean("retract", isRetracting);
 			nbt.setBoolean("state", lastState); //saved so loading into a world doesn't cause issues
@@ -264,10 +267,11 @@ public class PistonInserter extends BlockContainerBase {
 		
 		@Override
 		public void readFromNBT(NBTTagCompound nbt) {
+			super.readFromNBT(nbt);
 			this.extend = nbt.getInteger("extend");
 			this.isRetracting = nbt.getBoolean("retract");
 			this.lastState = nbt.getBoolean("state");
-			if(nbt.hasKey("stack")) {
+			if(nbt.hasKey("stack")) { //TODO double check that these work
 				NBTTagCompound stack = nbt.getCompoundTag("stack");
 				this.slot = ItemStack.loadItemStackFromNBT(stack);
 			} else {

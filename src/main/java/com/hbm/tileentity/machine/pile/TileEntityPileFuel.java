@@ -9,6 +9,7 @@ import com.hbm.packet.PacketDispatcher;
 import api.hbm.block.IPileNeutronReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 
 public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutronReceiver {
 
@@ -24,7 +25,7 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 		
 		if(!worldObj.isRemote) {
 			dissipateHeat();
-			react();
+			checkRedstone(react());
 			transmute();
 			
 			if(this.heat >= this.maxHeat) {
@@ -53,22 +54,35 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 		this.heat -= (this.getBlockMetadata() & 4) == 4 ? heat * 0.065 : heat * 0.05; //remove 5% of the stored heat per tick; 6.5% for windscale
 	}
 	
-	private void react() {
+	private int react() {
 		
 		int reaction = (int) (this.neutrons * (1D - ((double)this.heat / (double)this.maxHeat) * 0.5D)); //max heat reduces reaction by 50% due to thermal expansion
 		
 		this.lastNeutrons = this.neutrons;
 		this.neutrons = 0;
 		
+		int lastProgress = this.progress;
+		
 		this.progress += reaction;
 		
 		if(reaction <= 0)
-			return;
+			return lastProgress;
 		
 		this.heat += reaction;
 		
 		for(int i = 0; i < 12; i++)
 			this.castRay((int) Math.max(reaction * 0.25, 1), 5);
+		
+		return lastProgress;
+	}
+	
+	private void checkRedstone(int lastProgress) {
+		int lastLevel = MathHelper.clamp_int((lastProgress * 16) / maxProgress, 0, 15);
+		int newLevel = MathHelper.clamp_int((progress * 16) / maxProgress, 0, 15);
+		if(lastLevel != newLevel) //TODO TEST
+			System.out.println(lastLevel + ", " + newLevel + "; " + lastProgress + ", " + progress);
+		if(lastLevel != newLevel) //the block update doesn't seem to update the comparators... need to troubleshoot and fix
+			worldObj.scheduleBlockUpdate(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1); //TODO test
 	}
 	
 	private void transmute() {

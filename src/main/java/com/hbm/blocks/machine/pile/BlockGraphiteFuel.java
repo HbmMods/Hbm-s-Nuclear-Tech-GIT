@@ -17,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -32,6 +33,17 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		super.registerBlockIcons(iconRegister);
 		this.blockIconAluminum = iconRegister.registerIcon(RefStrings.MODID + ":block_graphite_fuel_aluminum");
+	}
+	
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+	
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) { //serverside? maybe
+		TileEntityPileFuel pile = (TileEntityPileFuel)world.getTileEntity(x, y, z);
+		return MathHelper.clamp_int((pile.progress * 16) / pile.maxProgress, 0, 15); //potentially wip
 	}
 	
 	@Override
