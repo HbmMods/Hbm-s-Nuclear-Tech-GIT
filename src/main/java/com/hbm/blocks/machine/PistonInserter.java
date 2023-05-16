@@ -109,7 +109,8 @@ public class PistonInserter extends BlockContainerBase {
 	
 	@Override
 	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
-		return world.getBlockMetadata(x, y, z) != side.ordinal();
+		int meta = world.getBlockMetadata(x, y, z);
+		return meta != side.ordinal() && meta != side.getOpposite().ordinal();
 	}
 	
 	@Override
@@ -273,6 +274,8 @@ public class PistonInserter extends BlockContainerBase {
 				this.slot = null;
 			}
 		}
+		
+		//TODO: render AABB that extends out in direction of piston so it will render
 		
 		/* BS inventory stuff */
 		

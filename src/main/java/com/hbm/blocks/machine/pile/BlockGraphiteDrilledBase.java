@@ -177,6 +177,9 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements
 			int oldMeta = pureMeta | baseBlock.meta; //metablocks are kinda inconvenient to work with so 
 			Block oldBlock = baseBlock.block;
 			NBTTagCompound oldTag = new NBTTagCompound(); //In case of TEs
+			oldTag.setInteger("x", x); //giving tags prevents issues and resets any lingering tes.
+			oldTag.setInteger("y", y);
+			oldTag.setInteger("z", z);
 			
 			//now actually make the change
 			for(int i = 0; i <= 3; i++) { //yeah yeah we know it's safe but let's be *extra cautious* of infinite loops
@@ -193,15 +196,13 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements
 					if(newBlock instanceof BlockGraphiteDrilledTE) {
 						TileEntity te = world.getTileEntity(ix, iy, iz);
 						te.writeToNBT(newTag);
-						newTag.setInteger("x", newTag.getInteger("x") + dir.offsetX); //malformed positions is very very bad and prevents the pile TEs from ticking
-						newTag.setInteger("y", newTag.getInteger("y") + dir.offsetY);
-						newTag.setInteger("z", newTag.getInteger("z") + dir.offsetZ);
+						newTag.setInteger("x", te.xCoord + dir.offsetX); //malformed positions is very very bad and prevents the pile TEs from ticking
+						newTag.setInteger("y", te.yCoord + dir.offsetY);
+						newTag.setInteger("z", te.zCoord + dir.offsetZ);
 					}
 					
 					world.setBlock(ix, iy, iz, oldBlock, (oldMeta & ~0b100) | (newMeta & 0b100), 2);
 					
-					//TODO: fix buggy interaction when a pu239 rod is inserted into another pu239 rod. the te doesn't disappear in time (even when invalidated) so the progress is 'duplicated' in the new rod.
-					//the fix might be to make an additional part after the oldTag is initalized, where the id + x,y,z are set, meaning that all other values will be set back to 0 and fixed.
 					if(oldBlock instanceof BlockGraphiteDrilledTE && !oldTag.hasNoTags()) { //safety first
 						TileEntity te = world.getTileEntity(ix, iy, iz);
 						te.readFromNBT(oldTag);
