@@ -145,8 +145,7 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements
 		if(baseBlock == null) return false;
 		
 		final int side = dir.ordinal();
-		final int baseMeta = world.getBlockMetadata(x, y, z);
-		final int pureMeta = baseMeta & 3; //in case it's shrouded in aluminum
+		final int pureMeta = world.getBlockMetadata(x, y, z) & 3; //in case it's shrouded in aluminum
 
 		if(side == pureMeta * 2 || side == pureMeta * 2 + 1) {
 			//first, make sure we can even push rods out
@@ -157,13 +156,14 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements
 				
 				Block b = world.getBlock(ix, iy, iz);
 				
-				if(b instanceof BlockGraphiteDrilledBase) { 
-					if((world.getBlockMetadata(ix, iy, iz) & 3) != pureMeta) //wrong orientation
+				if(b instanceof BlockGraphiteDrilledBase) {
+					int baseMeta = world.getBlockMetadata(ix, iy, iz);
+					if((baseMeta & 3) != pureMeta) //wrong orientation
 						return false;
 					
-					if(((BlockGraphiteDrilledBase)b).getInsertedItem() == null) //if there's nothing to push
+					if(((BlockGraphiteDrilledBase)b).getInsertedItem(baseMeta) == null) //if there's nothing to push
 						break;
-					else if(i >= 4) //if there is stuff to push and we reach our limit
+					else if(i >= 3) //if there is stuff to push and we reach our limit
 						return false;
 				} else {
 					if(b.isNormalCube()) //obstructions
@@ -174,7 +174,7 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements
 			}
 			
 			//TODO convert old methods to use itemstack for flexibility
-			int oldMeta = baseMeta | baseBlock.meta; //metablocks are kinda inconvenient to work with so 
+			int oldMeta = pureMeta | baseBlock.meta; //metablocks are kinda inconvenient to work with so 
 			Block oldBlock = baseBlock.block;
 			NBTTagCompound oldTag = new NBTTagCompound(); //In case of TEs
 			
@@ -193,10 +193,15 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements
 					if(newBlock instanceof BlockGraphiteDrilledTE) {
 						TileEntity te = world.getTileEntity(ix, iy, iz);
 						te.writeToNBT(newTag);
+						newTag.setInteger("x", newTag.getInteger("x") + dir.offsetX); //malformed positions is very very bad and prevents the pile TEs from ticking
+						newTag.setInteger("y", newTag.getInteger("y") + dir.offsetY);
+						newTag.setInteger("z", newTag.getInteger("z") + dir.offsetZ);
 					}
 					
 					world.setBlock(ix, iy, iz, oldBlock, (oldMeta & ~0b100) | (newMeta & 0b100), 2);
 					
+					//TODO: fix buggy interaction when a pu239 rod is inserted into another pu239 rod. the te doesn't disappear in time (even when invalidated) so the progress is 'duplicated' in the new rod.
+					//the fix might be to make an additional part after the oldTag is initalized, where the id + x,y,z are set, meaning that all other values will be set back to 0 and fixed.
 					if(oldBlock instanceof BlockGraphiteDrilledTE && !oldTag.hasNoTags()) { //safety first
 						TileEntity te = world.getTileEntity(ix, iy, iz);
 						te.readFromNBT(oldTag);
@@ -211,7 +216,7 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements
 				} else {
 					Item eject = ((BlockGraphiteDrilledBase) oldBlock).getInsertedItem(oldMeta); //TODO old methods to itemstack
 					this.ejectItem(world, ix - dir.offsetX, iy - dir.offsetY, iz - dir.offsetZ, dir, new ItemStack(eject));
-					world.playSoundEffect(ix + 0.5, iy + 0.5, iz + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+					world.playSoundEffect(ix + 0.5, iy + 0.5, iz + 0.5, "hbm:item.upgradePlug", 1.25F, 1.0F);
 					
 					break;
 				}

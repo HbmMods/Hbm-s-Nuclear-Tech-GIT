@@ -4,6 +4,8 @@ import com.hbm.blocks.BlockContainerBase;
 import com.hbm.tileentity.INBTPacketReceiver;
 
 import api.hbm.block.IInsertable;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
@@ -53,7 +55,7 @@ public class PistonInserter extends BlockContainerBase {
 	
 	protected boolean checkRedstone(World world, int x, int y, int z) {
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-			if(world.getIndirectPowerOutput(x, y, z, dir.ordinal()))
+			if(world.getIndirectPowerOutput(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.ordinal()))
 				return true;
 		}
 		
@@ -63,18 +65,9 @@ public class PistonInserter extends BlockContainerBase {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
-		if(player.getHeldItem() != null) {
-			if(!world.isRemote) {
-				TileEntityPistonInserter piston = (TileEntityPistonInserter)world.getTileEntity(x, y, z);
-				
-				if(piston.slot == null) {
-					piston.slot = player.inventory.decrStackSize(player.inventory.currentItem, 1);
-					player.inventoryContainer.detectAndSendChanges();
-				}
-			}
-			
-			return true;
-		} else if(player.isSneaking()) {
+		if(side != world.getBlockMetadata(x, y, z)) return false;
+		
+		if(player.isSneaking()) {
 			if(!world.isRemote) {
 				TileEntityPistonInserter piston = (TileEntityPistonInserter)world.getTileEntity(x, y, z);
 				
@@ -88,6 +81,17 @@ public class PistonInserter extends BlockContainerBase {
 					dust.motionY = dir.offsetY * 0.25;
 					dust.motionZ = dir.offsetZ * 0.25;
 					world.spawnEntityInWorld(dust);
+				}
+			}
+			
+			return true;
+		} else if(player.getHeldItem() != null) {
+			if(!world.isRemote) {
+				TileEntityPistonInserter piston = (TileEntityPistonInserter)world.getTileEntity(x, y, z);
+				
+				if(piston.slot == null) {
+					piston.slot = player.inventory.decrStackSize(player.inventory.currentItem, 1);
+					player.inventoryContainer.detectAndSendChanges();
 				}
 			}
 			
@@ -160,7 +164,7 @@ public class PistonInserter extends BlockContainerBase {
 		
 		public ItemStack slot;
 		
-		public int extend;
+		public int extend; //why don't we just make all these ones serverside? we're never using them on the client anyway
 		public static final int maxExtend = 25;
 		public boolean isRetracting = true;
 		public int delay;
@@ -168,10 +172,16 @@ public class PistonInserter extends BlockContainerBase {
 		//prevents funkies from happening with block updates or loading into a server
 		private boolean lastState;
 		
+		//when a fake animatorcel gives you something so 20fps you gotta hit him with the true interpolation stare 
+		@SideOnly(Side.CLIENT) public double renderExtend;
+		@SideOnly(Side.CLIENT) public double lastExtend;
+		@SideOnly(Side.CLIENT) private int syncExtend; //what are these for?
+		@SideOnly(Side.CLIENT) private int turnProgress; //idk man, i can't find the convo bob had about them
+		
 		public TileEntityPistonInserter() { }
 		
 		@Override
-		public void updateEntity() { //what is this amalgamation
+		public void updateEntity() {
 			
 			if(!worldObj.isRemote) {
 				
@@ -183,7 +193,7 @@ public class PistonInserter extends BlockContainerBase {
 						this.extend++;
 						
 						if(this.extend >= this.maxExtend) {
-							worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
+							worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.pressOperate", 1.0F, 1.5F);
 							
 							ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 							Block b = worldObj.getBlock(xCoord + dir.offsetX * 2, yCoord + dir.offsetY * 2, zCoord + dir.offsetZ * 2);
@@ -211,19 +221,30 @@ public class PistonInserter extends BlockContainerBase {
 				
 				INBTPacketReceiver.networkPack(this, data, 25);
 				
+			} else {
+				this.lastExtend = this.renderExtend;
+				
+				if(this.turnProgress > 0) {
+					this.renderExtend += (this.syncExtend - this.renderExtend) / (double) this.turnProgress;
+					this.turnProgress--;
+				} else {
+					this.renderExtend = this.syncExtend;
+				}
 			}
 			
 		}
 		
 		@Override
 		public void networkUnpack(NBTTagCompound nbt) {
-			this.extend = nbt.getInteger("extend");
+			this.syncExtend = nbt.getInteger("extend");
 			
 			if(nbt.hasKey("stack")) {
 				NBTTagCompound stack = nbt.getCompoundTag("stack");
 				this.slot = ItemStack.loadItemStackFromNBT(stack);
 			} else
 				this.slot = null;
+			
+			this.turnProgress = 2;
 		}
 		
 		/* :3 NBT stuff */

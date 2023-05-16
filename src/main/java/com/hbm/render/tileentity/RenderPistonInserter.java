@@ -10,6 +10,7 @@ import com.hbm.render.item.ItemRenderBase;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.IItemRenderer;
 
 public class RenderPistonInserter extends TileEntitySpecialRenderer implements IItemRendererProvider {
@@ -36,8 +37,8 @@ public class RenderPistonInserter extends TileEntitySpecialRenderer implements I
 			ResourceManager.piston_inserter.renderPart("Frame");
 			
 			TileEntityPistonInserter piston = (TileEntityPistonInserter)tile;
-			double e = piston.extend / (double)piston.maxExtend;
-			GL11.glTranslated(0, -e, 0);
+			double e = (piston.lastExtend + (piston.renderExtend - piston.lastExtend) * interp) / (double) piston.maxExtend;
+			GL11.glTranslated(0, e * 0.9375D, 0);
 			ResourceManager.piston_inserter.renderPart("Piston");
 		
 		GL11.glPopMatrix();
