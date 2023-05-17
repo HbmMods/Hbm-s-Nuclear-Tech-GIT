@@ -13,6 +13,7 @@ import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
+import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
 import com.hbm.blocks.network.BlockCablePaintable.TileEntityCablePaintable;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
@@ -361,6 +362,7 @@ public class TileMappings {
 		put(TileEntityCraneRouter.class, "tileentity_router");
 		put(TileEntityCraneSplitter.class, "tileentity_splitter");
 		put(TileEntityFan.class, "tileentity_fan");
+		put(TileEntityPistonInserter.class, "tileentity_piston_inserter");
 
 		put(TileEntityRadioTorchSender.class, "tileentity_rtty_sender");
 		put(TileEntityRadioTorchReceiver.class, "tileentity_rtty_rec");

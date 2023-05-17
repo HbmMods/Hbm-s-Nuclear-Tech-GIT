@@ -786,6 +786,8 @@ public class ModBlocks {
 	public static Block crane_splitter;
 	
 	public static Block fan;
+	
+	public static Block piston_inserter;
 
 	public static Block chain;
 
@@ -1912,6 +1914,8 @@ public class ModBlocks {
 		crane_unboxer = new CraneUnboxer().setBlockName("crane_unboxer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crane_splitter = new CraneSplitter().setBlockName("crane_splitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":crane_side");
 		fan = new MachineFan().setBlockName("fan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		
+		piston_inserter = new PistonInserter().setBlockName("piston_inserter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		chain = new BlockChain(Material.iron).setBlockName("dungeon_chain").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":chain");
 
@@ -3121,6 +3125,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(conveyor_lift, conveyor_lift.getUnlocalizedName());
 		GameRegistry.registerBlock(crane_splitter, crane_splitter.getUnlocalizedName());
 		GameRegistry.registerBlock(fan, fan.getUnlocalizedName());
+		
+		GameRegistry.registerBlock(piston_inserter, piston_inserter.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(chain, chain.getUnlocalizedName());
 		GameRegistry.registerBlock(ladder_sturdy, ladder_sturdy.getUnlocalizedName());

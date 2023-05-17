@@ -4462,6 +4462,7 @@ tile.deco_beryllium.name=Beryllium Deco Block
 tile.deco_computer.ibm_300pl.name=IBM Personal Computer 300PL
 tile.deco_emitter.name=Deco Light Emitter
 tile.part_emitter.name=Deco Particle Emitter
+tile.piston_inserter.name=Inserter
 tile.deco_lead.name=Lead Deco Block
 tile.deco_rbmk.name=RBMK Deco Block
 tile.deco_rbmk_smooth.name=Smooth RBMK Deco Block
