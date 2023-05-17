@@ -201,12 +201,14 @@ public abstract class BlockGraphiteDrilledBase extends BlockFlammable implements
 						newTag.setInteger("z", te.zCoord + dir.offsetZ);
 					}
 					
-					world.setBlock(ix, iy, iz, oldBlock, (oldMeta & ~0b100) | (newMeta & 0b100), 2);
+					world.setBlock(ix, iy, iz, oldBlock, (oldMeta & ~0b100) | (newMeta & 0b100), 0);
 					
 					if(oldBlock instanceof BlockGraphiteDrilledTE && !oldTag.hasNoTags()) { //safety first
 						TileEntity te = world.getTileEntity(ix, iy, iz);
 						te.readFromNBT(oldTag);
 					}
+					
+					world.markAndNotifyBlock(ix, iy, iz, world.getChunkFromBlockCoords(ix, iz), newBlock, oldBlock, 3); //in case setBlock returns false due to = meta / block
 					
 					oldMeta = newMeta;
 					oldBlock = newBlock;

@@ -16,6 +16,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -179,7 +180,7 @@ public class PistonInserter extends BlockContainerBase {
 		@SideOnly(Side.CLIENT) public double renderExtend;
 		@SideOnly(Side.CLIENT) public double lastExtend;
 		@SideOnly(Side.CLIENT) private int syncExtend; //what are these for?
-		@SideOnly(Side.CLIENT) private int turnProgress; //idk man, i can't find the convo bob had about them
+		@SideOnly(Side.CLIENT) private int turnProgress;
 		
 		public TileEntityPistonInserter() { }
 		
@@ -271,7 +272,7 @@ public class PistonInserter extends BlockContainerBase {
 			this.extend = nbt.getInteger("extend");
 			this.isRetracting = nbt.getBoolean("retract");
 			this.lastState = nbt.getBoolean("state");
-			if(nbt.hasKey("stack")) { //TODO double check that these work
+			if(nbt.hasKey("stack")) {
 				NBTTagCompound stack = nbt.getCompoundTag("stack");
 				this.slot = ItemStack.loadItemStackFromNBT(stack);
 			} else {
@@ -279,7 +280,19 @@ public class PistonInserter extends BlockContainerBase {
 			}
 		}
 		
-		//TODO: render AABB that extends out in direction of piston so it will render
+		@SideOnly(Side.CLIENT)
+		private AxisAlignedBB aabb;
+		
+		@Override
+		public AxisAlignedBB getRenderBoundingBox() {
+			
+			if(aabb != null)
+				return aabb;
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+			aabb = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).addCoord(dir.offsetX, dir.offsetY, dir.offsetZ);
+			return aabb;
+		}
 		
 		/* BS inventory stuff */
 		

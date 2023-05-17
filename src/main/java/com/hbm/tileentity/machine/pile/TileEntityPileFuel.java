@@ -18,7 +18,7 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 	public int neutrons;
 	public int lastNeutrons;
 	public int progress;
-	public static final int maxProgress = GeneralConfig.enable528 ? 75000 : 50000;
+	public static final int maxProgress = GeneralConfig.enable528 ? 75000 : 50000; //might double to reduce compact setup's effectiveness
 
 	@Override
 	public void updateEntity() {
@@ -79,10 +79,8 @@ public class TileEntityPileFuel extends TileEntityPileBase implements IPileNeutr
 	private void checkRedstone(int lastProgress) {
 		int lastLevel = MathHelper.clamp_int((lastProgress * 16) / maxProgress, 0, 15);
 		int newLevel = MathHelper.clamp_int((progress * 16) / maxProgress, 0, 15);
-		if(lastLevel != newLevel) //TODO TEST
-			System.out.println(lastLevel + ", " + newLevel + "; " + lastProgress + ", " + progress);
-		if(lastLevel != newLevel) //the block update doesn't seem to update the comparators... need to troubleshoot and fix
-			worldObj.scheduleBlockUpdate(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1); //TODO test
+		if(lastLevel != newLevel)
+			worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, this.getBlockType());
 	}
 	
 	private void transmute() {
