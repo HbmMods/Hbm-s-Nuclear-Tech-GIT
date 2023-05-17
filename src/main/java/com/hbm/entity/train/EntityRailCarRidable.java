@@ -13,11 +13,63 @@ import net.minecraft.world.World;
 
 public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 	
+	public double engineSpeed;
 	public SeatDummyEntity[] passengerSeats;
 	
 	public EntityRailCarRidable(World world) {
 		super(world);
 		this.passengerSeats = new SeatDummyEntity[this.getPassengerSeats().length];
+	}
+
+	/** Returns the linear speed added per tick when using powered movement */
+	public abstract double getPoweredAcceleration();
+	/** A mulitplier used on the speed either is there is no player in the train or if the parking brake is active */
+	public abstract double getPassivBrake();
+	/** The parking brake can be toggled, assuming a player is present, otherwise it is implicitly ON */
+	public abstract boolean shouldUseEngineBrake(EntityPlayer player);
+	/** The max speed the engine can provide in both directions */
+	public abstract double getMaxPoweredSpeed();
+	/** Whether the engine is turned on */
+	public abstract boolean canAccelerate();
+	/** Called every tick if acceleration is successful */
+	public void consumeFuel() { }
+	
+	/** An additive to the engine's speed yielding the total speed, caused by uneven surfaces */
+	public double getGravitySpeed() {
+		return 0D;
+	}
+
+	@Override
+	public double getCurrentSpeed() { // in its current form, only call once per tick
+		
+		if(this.riddenByEntity instanceof EntityPlayer) {
+			
+			EntityPlayer player = (EntityPlayer) this.riddenByEntity;
+			
+			if(this.canAccelerate()) {
+				if(player.moveForward > 0) {
+					engineSpeed += this.getPoweredAcceleration();
+				} else if(player.moveForward < 0) {
+					engineSpeed -= this.getPoweredAcceleration();
+				} else {
+					if(this.shouldUseEngineBrake(player)) {
+						engineSpeed *= this.getPassivBrake();
+					}
+				}
+			} else {
+				if(this.shouldUseEngineBrake(player)) {
+					engineSpeed *= this.getPassivBrake();
+				}
+			}
+			
+		} else {
+			engineSpeed *= this.getPassivBrake();
+		}
+		
+		double maxSpeed = this.getMaxPoweredSpeed();
+		engineSpeed = MathHelper.clamp_double(engineSpeed, -maxSpeed, maxSpeed);
+		
+		return engineSpeed + this.getGravitySpeed();
 	}
 
 	@Override

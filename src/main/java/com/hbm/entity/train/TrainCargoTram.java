@@ -19,12 +19,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider {
+public class TrainCargoTram extends EntityRailCarElectric implements IGUIProvider {
 
 	/*
 	 * 
@@ -43,35 +42,11 @@ public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider
 		super(world);
 		this.setSize(5F, 2F);
 	}
-	
-	public double speed = 0;
-	public static final double maxSpeed = 0.5;
-	public static final double acceleration = 0.01;
-	public static final double deceleration = 0.95;
 
-	@Override
-	public double getCurrentSpeed() { // in its current form, only call once per tick
-		
-		if(this.riddenByEntity instanceof EntityPlayer) {
-			
-			EntityPlayer player = (EntityPlayer) this.riddenByEntity;
-			
-			if(player.moveForward > 0) {
-				speed += acceleration;
-			} else if(player.moveForward < 0) {
-				speed -= acceleration;
-			} else {
-				speed *= deceleration;
-			}
-			
-		} else {
-			speed *= deceleration;
-		}
-		
-		speed = MathHelper.clamp_double(speed, -maxSpeed, maxSpeed);
-		
-		return speed;
-	}
+	@Override public double getPoweredAcceleration() { return 0.01; }
+	@Override public double getPassivBrake() { return 0.95; }
+	@Override public boolean shouldUseEngineBrake(EntityPlayer player) { return Math.abs(this.engineSpeed) < 0.1; }
+	@Override public double getMaxPoweredSpeed() { return 0.5; }
 
 	@Override public TrackGauge getGauge() { return TrackGauge.STANDARD; }
 	@Override public double getLengthSpan() { return 1.5; }
@@ -79,6 +54,11 @@ public class TrainCargoTram extends EntityRailCarRidable implements IGUIProvider
 	@Override public boolean shouldRiderSit() { return false; }
 	@Override public int getSizeInventory() { return 29; }
 	@Override public String getInventoryName() { return this.hasCustomInventoryName() ? this.getEntityName() : "container.trainTram"; }
+
+	@Override public int getMaxPower() { return this.getPowerConsumption() * 100; }
+	@Override public int getPowerConsumption() { return 50; }
+	@Override public boolean hasChargeSlot() { return true; }
+	@Override public int getChargeSlot() { return 28; }
 
 	@Override
 	public DummyConfig[] getDummies() {
