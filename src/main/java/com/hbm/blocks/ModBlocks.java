@@ -908,6 +908,9 @@ public class ModBlocks {
 
 	public static Block machine_schrabidium_transmutator;
 	
+	public static Block machine_discharger;
+
+	
 	public static Block machine_diesel;
 	public static Block machine_combustion_engine;
 
@@ -2277,6 +2280,8 @@ public class ModBlocks {
 
 		machine_schrabidium_transmutator = new MachineSchrabidiumTransmutator(Material.iron).setBlockName("machine_schrabidium_transmutator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
 
+		machine_discharger = new MachineDischarger(Material.iron).setBlockName("machine_discharger").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
+		
 		machine_siren = new MachineSiren(Material.iron).setBlockName("machine_siren").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_siren");
 		
 		machine_spp_bottom = new SPPBottom(Material.iron).setBlockName("machine_spp_bottom").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -3298,6 +3303,7 @@ public class ModBlocks {
 		register(machine_turbofan);
 		register(machine_turbinegas);
 		GameRegistry.registerBlock(machine_schrabidium_transmutator, machine_schrabidium_transmutator.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_discharger, machine_discharger.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_combine_factory, machine_combine_factory.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_teleporter, machine_teleporter.getUnlocalizedName());
 		GameRegistry.registerBlock(teleanchor, teleanchor.getUnlocalizedName());

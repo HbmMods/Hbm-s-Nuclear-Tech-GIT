@@ -1,0 +1,291 @@
+package com.hbm.tileentity.machine;
+
+import com.hbm.config.VersatileConfig;
+import com.hbm.inventory.OreDictManager;
+import com.hbm.inventory.container.ContainerMachineDischarger;
+import com.hbm.inventory.gui.GUIMachineDischarger;
+import com.hbm.inventory.recipes.MachineRecipes;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemCapacitor;
+import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.render.tileentity.RenderTurretMaxwell;
+import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.TileEntityMachineBase;
+
+import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyGenerator;
+import api.hbm.energy.IEnergyUser;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
+public class TileEntityMachineDischarger extends TileEntityMachineBase implements IEnergyGenerator, IGUIProvider {
+
+	public long power = 0;
+	public int process = 0;
+	public int temp = 20;
+	public boolean processed = false;
+	public static final int maxtemp = 2000;
+	public static final long maxPower = 5000000;
+	public static long Gen = 20000;
+	public static final int processSpeed = 600;
+	
+	private AudioWrapper audio;
+
+	private static final int[] slots_top = new int[] { 0 };
+	private static final int[] slots_bottom = new int[] { 1, 2 };
+	private static final int[] slots_side = new int[] { 3, 2 };
+
+	public TileEntityMachineDischarger() {
+		super(2);
+	}
+
+	@Override
+	public String getName() {
+		return "container.machine_discharger";
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		switch (i) {
+		case 0:
+			if (MachineRecipes.mODE(stack, OreDictManager.U.ingot()))
+				return true;
+			else if(process >= processSpeed){
+				  return stack.getItem() == ModItems.ingot_schrabidium && stack.stackSize < stack.getMaxStackSize();
+			}
+		break;
+        default:
+		case 1:
+			if (stack.getItem() instanceof IBatteryItem)
+				return true;
+			break;
+		}
+		return false;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		power = nbt.getLong("power");
+		process = nbt.getInteger("process");
+		temp = nbt.getInteger("temp");
+		processed = nbt.getBoolean("processed");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setLong("power", power);
+		nbt.setInteger("process", process);
+		nbt.setInteger("temp", temp);
+		nbt.setBoolean("processed", processed);
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack stack, int j) {
+
+		if (i == 0) {
+			return true;
+		}
+
+		if (i == 1) {
+			if (stack.getItem() instanceof IBatteryItem && ((IBatteryItem)stack.getItem()).getCharge(stack) == 0)
+				return true;
+		}
+
+		return false;
+	}
+
+	public long getPowerScaled(long i) {
+		return (power * i) / maxPower;
+	}
+	
+	public long getTempScaled(int i) {
+		return (temp * i) / maxtemp;
+	}
+	
+	public int getProgressScaled(int i) {
+		return (process * i) / processSpeed;
+	}
+
+	public boolean canProcess() {
+		if (temp >= 20 && slots[0] != null && MachineRecipes.mODE(slots[0], OreDictManager.SA326.ingot()) && slots[0] != null
+				&& (slots[0] == null || (slots[0] != null && slots[0].getItem() == ModItems.ingot_schrabidium && processed == false)
+						&& slots[0].stackSize < slots[0].getMaxStackSize())) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isProcessing() {
+		return process > 0;
+	}
+
+	public void process() {
+		process++;
+
+		if (process >= processSpeed) {
+
+			power = Gen++;
+			process = 0;
+			temp = maxtemp;
+			
+			slots[0].stackSize--;
+			if (slots[0].stackSize <= 0) {
+				slots[0] = null;
+			}
+
+			if (slots[0] == null) {
+			    slots[0] = new ItemStack(ModItems.ingot_titanium);
+			} else {
+			    if (slots[0].getItem() == ModItems.ingot_titanium && slots[0].stackSize < slots[0].getMaxStackSize()) {
+			        slots[0].stackSize++;
+			    }
+			}
+			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "ambient.weather.thunder", 10000.0F,
+					0.8F + this.worldObj.rand.nextFloat() * 0.2F);
+			coolDown();
+			
+		}
+	}
+	int countdown = 0;
+	int tempLast;
+	public int coolDown() {
+		temp = tempLast;
+		countdown--;
+	
+		temp = (int) (tempLast * (countdown) / 225);
+		if(temp == 20) {
+			processed = false; //i uh, dont know how efficent this is.
+			return temp;
+		};
+		return temp;
+		}
+	@Override
+	public void updateEntity() {
+
+		if (!worldObj.isRemote) {
+			
+			this.updateConnections();
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir.getOpposite());
+			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
+
+			if(canProcess()) {
+				process();
+			} else {
+				process = 0;
+			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			data.setInteger("progress", process);
+			data.setInteger("temp", temp);
+			data.setBoolean("processed", processed);
+			this.networkPack(data, 50);
+			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+		} else {
+
+			if(process > 0) {
+				
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+			} else {
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
+		}
+	}
+	
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+	}
+	
+	@Override
+	public int getInventoryStackLimit() {
+		return 1;
+	}
+	private void updateConnections() {
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+	}
+
+	public void onChunkUnload() {
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+	
+	@Override
+	public void networkUnpack(NBTTagCompound data) {
+
+		this.power = data.getLong("power");
+		this.process = data.getInteger("progress");
+		this.temp = data.getInteger("temp");
+		this.processed = data.getBoolean("processed");
+	}
+
+	@Override
+	public void setPower(long i) {
+		power = i;
+	}
+
+	@Override
+	public long getPower() {
+		return power;
+	}
+
+	@Override
+	public long getMaxPower() {
+		return maxPower;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMachineDischarger(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineDischarger(player.inventory, this);
+	}
+}
