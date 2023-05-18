@@ -49,17 +49,19 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 			if(this.canAccelerate()) {
 				if(player.moveForward > 0) {
 					engineSpeed += this.getPoweredAcceleration();
+					this.consumeFuel();
 				} else if(player.moveForward < 0) {
 					engineSpeed -= this.getPoweredAcceleration();
+					this.consumeFuel();
 				} else {
 					if(this.shouldUseEngineBrake(player)) {
 						engineSpeed *= this.getPassivBrake();
+					} else {
+						this.consumeFuel();
 					}
 				}
 			} else {
-				if(this.shouldUseEngineBrake(player)) {
-					engineSpeed *= this.getPassivBrake();
-				}
+				engineSpeed *= this.getPassivBrake();
 			}
 			
 		} else {

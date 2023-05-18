@@ -1,5 +1,7 @@
 package com.hbm.entity.train;
 
+import java.util.Arrays;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.rail.IRailNTM.TrackGauge;
@@ -19,6 +21,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -56,7 +59,7 @@ public class TrainCargoTram extends EntityRailCarElectric implements IGUIProvide
 	@Override public String getInventoryName() { return this.hasCustomInventoryName() ? this.getEntityName() : "container.trainTram"; }
 
 	@Override public int getMaxPower() { return this.getPowerConsumption() * 100; }
-	@Override public int getPowerConsumption() { return 50; }
+	@Override public int getPowerConsumption() { return 10; }
 	@Override public boolean hasChargeSlot() { return true; }
 	@Override public int getChargeSlot() { return 28; }
 
@@ -181,6 +184,12 @@ public class TrainCargoTram extends EntityRailCarElectric implements IGUIProvide
 		}
 		
 		@Override
+		public void drawScreen(int x, int y, float interp) {
+			super.drawScreen(x, y, interp);
+			this.drawElectricityInfo(this, x, y, guiLeft + 152, guiTop + 18, 16, 52, train.getPower(), train.getMaxPower());
+		}
+		
+		@Override
 		protected void drawGuiContainerForegroundLayer(int i, int j) {
 			String name = this.train.hasCustomInventoryName() ? this.train.getInventoryName() : I18n.format(this.train.getInventoryName());
 			this.fontRendererObj.drawString(name, 140 / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 0xffffff);
@@ -192,6 +201,13 @@ public class TrainCargoTram extends EntityRailCarElectric implements IGUIProvide
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 			drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+			
+			int i = train.getPower() * 53 / train.getMaxPower();
+			drawTexturedModalRect(guiLeft + 152, guiTop + 70 - i, 176, 52 - i, 16, i);
+			
+			if(train.getPower() > train.getPowerConsumption()) {
+				drawTexturedModalRect(guiLeft + 156, guiTop + 4, 176, 52, 9, 12);
+			}
 		}
 	}
 }
