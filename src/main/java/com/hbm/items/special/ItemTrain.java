@@ -1,5 +1,7 @@
 package com.hbm.items.special;
 
+import java.util.List;
+
 import com.hbm.blocks.rail.IRailNTM;
 import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.entity.train.TrainCargoTram;
@@ -7,23 +9,52 @@ import com.hbm.items.ItemEnumMulti;
 import com.hbm.util.EnumUtil;
 
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemTrain extends ItemEnumMulti {
 
 	public ItemTrain() {
 		super(EnumTrainType.class, true, true);
+		this.setCreativeTab(CreativeTabs.tabTransport);
+		this.setMaxStackSize(1);
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		EnumTrainType train = EnumUtil.grabEnumSafely(this.theEnum, stack.getItemDamage());
+
+		list.add(EnumChatFormatting.GREEN + "Engine: " + EnumChatFormatting.RESET + train.engine);
+		list.add(EnumChatFormatting.GREEN + "Gauge: " + EnumChatFormatting.RESET + train.gauge);
+		list.add(EnumChatFormatting.GREEN + "Max Speed: " + EnumChatFormatting.RESET + train.maxSpeed);
+		list.add(EnumChatFormatting.GREEN + "Acceleration: " + EnumChatFormatting.RESET + train.acceleration);
+		list.add(EnumChatFormatting.GREEN + "Engine Brake Threshold: " + EnumChatFormatting.RESET + train.brakeThreshold);
+		list.add(EnumChatFormatting.GREEN + "Parking Brake: " + EnumChatFormatting.RESET + train.parkingBrake);
 	}
 
 	public static enum EnumTrainType {
 		
-		CARGO_TRAM(TrainCargoTram.class);
+		//                               Engine          Gauge              Max Speed   Accel.      Eng. Brake  Parking Brake
+		CARGO_TRAM(TrainCargoTram.class, "Electric",	"Standard Gauge",	"10m/s",	"0.2m/s",	"<1m/s",	"Yes");
 		
 		public Class<? extends EntityRailCarBase> train;
-		private EnumTrainType(Class<? extends EntityRailCarBase> train) {
+		public String engine;
+		public String maxSpeed;
+		public String acceleration;
+		public String brakeThreshold;
+		public String parkingBrake;
+		public String gauge;
+		private EnumTrainType(Class<? extends EntityRailCarBase> train, String engine, String gauge, String maxSpeed, String acceleration, String brakeThreshold, String parkingBrake) {
 			this.train = train;
+			this.engine = engine;
+			this.maxSpeed = maxSpeed;
+			this.acceleration = acceleration;
+			this.brakeThreshold = brakeThreshold;
+			this.parkingBrake = parkingBrake;
+			this.gauge = gauge;
 		}
 	}
 

@@ -40,7 +40,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private int asbestos;
 	public static final int maxAsbestos = 60 * 60 * 20;
 	private int blacklung;
-	public static final int maxBlacklung = 60 * 60 * 20;
+	public static final int maxBlacklung = 2 * 60 * 60 * 20;
 	private float radEnv;
 	private float radBuf;
 	private int bombTimer;

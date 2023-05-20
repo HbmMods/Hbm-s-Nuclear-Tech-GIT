@@ -359,7 +359,7 @@ public class EntityEffectHandler {
 			
 			int bl = HbmLivingProps.getBlackLung(entity);
 			
-			if(bl > 0 && bl < HbmLivingProps.maxBlacklung * 0.25)
+			if(bl > 0 && bl < HbmLivingProps.maxBlacklung * 0.5)
 				HbmLivingProps.setBlackLung(entity, HbmLivingProps.getBlackLung(entity) - 1);
 		}
 
