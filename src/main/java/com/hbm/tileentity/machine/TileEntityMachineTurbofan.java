@@ -309,6 +309,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 					audio = rebootAudio(audio);
 				}
 
+				audio.keepAlive();
 				audio.updateVolume(momentum);
 				audio.updatePitch(momentum / 200F + 0.5F + this.afterburner * 0.16F);
 				
