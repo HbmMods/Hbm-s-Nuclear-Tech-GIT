@@ -7,6 +7,7 @@ import java.util.List;
 import com.hbm.blocks.bomb.BlockVolcano.TileEntityVolcanoCore;
 import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
+import com.hbm.blocks.generic.BlockDynamicSlag.TileEntitySlag;
 import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
@@ -268,6 +269,8 @@ public class TileMappings {
 		put(TileEntityFoundryChannel.class, "tileentity_foundry_channel");
 		put(TileEntityFoundryTank.class, "tileentity_foundry_tank");
 		put(TileEntityFoundryOutlet.class, "tileentity_foundry_outlet");
+		put(TileEntityFoundrySlagtap.class, "tileentity_foundry_slagtap");
+		put(TileEntitySlag.class, "tileentity_foundry_slag");
 		
 		put(TileEntityMachineAutocrafter.class, "tileentity_autocrafter");
 		put(TileEntityDiFurnaceRTG.class, "tileentity_rtg_difurnace");

@@ -170,12 +170,12 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				
 				if(audio == null) { //if there is no sound playing, start it
 					
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F);
 					audio.startSound();
 					
 				} else if(!audio.isPlaying()) {
 					audio.stopSound();
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F);
 					audio.startSound();
 				}
 				

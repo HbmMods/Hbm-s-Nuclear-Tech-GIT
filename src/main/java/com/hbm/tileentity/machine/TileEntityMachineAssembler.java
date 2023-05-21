@@ -256,7 +256,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 	
 	@Override
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.assemblerOperate", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.assemblerOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
 	}
 	
 	private void updateConnections() {

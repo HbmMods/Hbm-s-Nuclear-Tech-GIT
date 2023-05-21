@@ -25,7 +25,8 @@ public interface IRailNTM {
 	public TrackGauge getGauge(World world, int x, int y, int z);
 	
 	public static enum TrackGauge {
-		STANDARD //roughly 1.5m
+		STANDARD,	//roughly 1.5m
+		NARROW		//roughly 0.75m
 	}
 	
 	/** A wrapper for all relevant info required when leaving a rail */

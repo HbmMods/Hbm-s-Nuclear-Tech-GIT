@@ -49,12 +49,13 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 		int meta = world.getBlockMetadata(cX, cY, cZ) - this.offset;
 		ForgeDirection dir = ForgeDirection.getOrientation(meta);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
-		double turnRadius = 4.5D;
+
+		double turnRadius = 4D;
+		double axisDist = 4.5D;
 
 		Vec3 vec = Vec3.createVectorHelper(trainX, trainY, trainZ);
-		double axisX = cX + 0.5  + dir.offsetX * 0.5 + rot.offsetX * turnRadius;
-		double axisZ = cZ + 0.5  + dir.offsetZ * 0.5 + rot.offsetZ * turnRadius;
+		double axisX = cX + 0.5  + dir.offsetX * 0.5 + rot.offsetX * axisDist;
+		double axisZ = cZ + 0.5  + dir.offsetZ * 0.5 + rot.offsetZ * axisDist;
 		
 		Vec3 dist = Vec3.createVectorHelper(vec.xCoord - axisX, 0, vec.zCoord - axisZ);
 		dist = dist.normalize();

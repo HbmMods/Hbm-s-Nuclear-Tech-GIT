@@ -20,7 +20,9 @@ import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -41,7 +43,11 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 	public int heat;
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list = new ArrayList();
+	public boolean isOn;
 	public boolean hasExploded = false;
+	
+	private AudioWrapper audio;
+	private int audioTime;
 	
 	/* CONFIGURABLE */
 	public static int maxHeat = 12_800_000; //the heat required to turn 64k of water into steam
@@ -76,6 +82,7 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 				data.setInteger("heat", lastHeat);
 
 				tanks[0].writeToNBT(data, "0");
+				this.isOn = false;
 				this.tryConvert();
 				tanks[1].writeToNBT(data, "1");
 				
@@ -84,9 +91,59 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 					fillFluidInit(tanks[1].getTankType());
 				}
 			}
-			
+
 			data.setBoolean("exploded", this.hasExploded);
+			data.setBoolean("isOn", this.isOn);
 			INBTPacketReceiver.networkPack(this, data, 25);
+		} else {
+			
+			if(this.isOn) audioTime = 20;
+			
+			if(audioTime > 0) {
+				
+				audioTime--;
+				
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+				
+				audio.keepAlive();
+				
+			} else {
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
+		}
+	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.boiler", xCoord, yCoord, zCoord, 0.125F, 10F, 1.0F, 20);
+	}
+
+	@Override
+	public void onChunkUnload() {
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
 	}
 
@@ -96,6 +153,7 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 		this.heat = nbt.getInteger("heat");
 		this.tanks[0].readFromNBT(nbt, "0");
 		this.tanks[1].readFromNBT(nbt, "1");
+		this.isOn = nbt.getBoolean("isOn");
 	}
 	
 	protected void tryPullHeat() {
@@ -157,6 +215,10 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 				
 				if(ops > 0 && worldObj.rand.nextInt(400) == 0) {
 					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 2, zCoord + 0.5, "hbm:block.boilerGroan", 0.5F, 1.0F);
+				}
+				
+				if(ops > 0) {
+					this.isOn = true;
 				}
 				
 				if(outputOps == 0 && canExplode) {

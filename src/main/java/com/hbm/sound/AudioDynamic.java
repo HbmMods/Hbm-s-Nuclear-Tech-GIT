@@ -10,14 +10,18 @@ import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
 public class AudioDynamic extends MovingSound {
-	
-	public float intendedVolume;
+
+	public float maxVolume = 1;
+	public float range;
+	public int keepAlive;
+	public int timeSinceKA;;
+	public boolean shouldExpire = false;;
 
 	protected AudioDynamic(ResourceLocation loc) {
 		super(loc);
 		this.repeat = true;
-		this.field_147666_i = ISound.AttenuationType.LINEAR;
-		this.intendedVolume = 10;
+		this.field_147666_i = ISound.AttenuationType.NONE;
+		this.range = 10;
 	}
 	
 	public void setPosition(float x, float y, float z) {
@@ -34,9 +38,18 @@ public class AudioDynamic extends MovingSound {
 		
 		if(player != null) {
 			f = (float)Math.sqrt(Math.pow(xPosF - player.posX, 2) + Math.pow(yPosF - player.posY, 2) + Math.pow(zPosF - player.posZ, 2));
-			volume = func(f, intendedVolume);
+			volume = func(f);
 		} else {
-			volume = intendedVolume;
+			volume = maxVolume;
+		}
+		
+		if(this.shouldExpire) {
+			
+			if(this.timeSinceKA > this.keepAlive) {
+				this.stop();
+			}
+			
+			this.timeSinceKA++;
 		}
 	}
 	
@@ -49,15 +62,28 @@ public class AudioDynamic extends MovingSound {
 	}
 	
 	public void setVolume(float volume) {
-		this.intendedVolume = volume;
+		this.volume = volume;
+	}
+	
+	public void setRange(float range) {
+		this.range = range;
+	}
+	
+	public void setKeepAlive(int keepAlive) {
+		this.keepAlive = keepAlive;
+		this.shouldExpire = true;
+	}
+	
+	public void keepAlive() {
+		this.timeSinceKA = 0;
 	}
 	
 	public void setPitch(float pitch) {
 		this.field_147663_c = pitch;
 	}
 	
-	public float func(float f, float v) {
-		return (f / v) * -2 + 2;
+	public float func(float dist) {
+		return (dist / range) * -maxVolume + maxVolume;
 	}
 
 	public boolean isPlaying() {

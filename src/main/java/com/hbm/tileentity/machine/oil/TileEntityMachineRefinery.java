@@ -24,6 +24,8 @@ import com.hbm.inventory.gui.GUIMachineRefinery;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.IPersistentNBT;
@@ -65,6 +67,10 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	public boolean hasExploded = false;
 	public boolean onFire = false;
 	public Explosion lastExplosion = null;
+	
+	private AudioWrapper audio;
+	private int audioTime;
+	public boolean isOn;
 
 	private static final int[] slot_access = new int[] {11};
 	
@@ -138,6 +144,8 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 
 		if(!worldObj.isRemote) {
 			
+			this.isOn = false;
+			
 			if(this.getBlockMetadata() < 12) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getRotation(ForgeDirection.DOWN);
 				worldObj.removeTileEntity(xCoord, yCoord, zCoord);
@@ -201,7 +209,57 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			for(int i = 0; i < 5; i++) tanks[i].writeToNBT(data, "" + i);
 			data.setBoolean("exploded", hasExploded);
 			data.setBoolean("onFire", onFire);
+			data.setBoolean("isOn", this.isOn);
 			this.networkPack(data, 150);
+		} else {
+			
+			if(this.isOn) audioTime = 20;
+			
+			if(audioTime > 0) {
+				
+				audioTime--;
+				
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+				
+				audio.keepAlive();
+				
+			} else {
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
+		}
+	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.boiler", xCoord, yCoord, zCoord, 0.25F, 15F, 1.0F, 20);
+	}
+
+	@Override
+	public void onChunkUnload() {
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
 	}
 	
@@ -211,6 +269,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		for(int i = 0; i < 5; i++) tanks[i].readFromNBT(nbt, "" + i);
 		this.hasExploded = nbt.getBoolean("exploded");
 		this.onFire = nbt.getBoolean("onFire");
+		this.isOn = nbt.getBoolean("isOn");
 	}
 	
 	private void refine() {
@@ -233,6 +292,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			}
 		}
 		
+		this.isOn = true;
 		tanks[0].setFill(tanks[0].getFill() - 100);
 
 		for(int i = 0; i < stacks.length; i++)

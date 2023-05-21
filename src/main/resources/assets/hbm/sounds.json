@@ -52,6 +52,8 @@
     "block.turbinegasRunning": {"category": "block", "sounds": [{"name": "block/turbinegasRunning", "stream": false}]},
     "block.turbinegasShutdown": {"category": "block", "sounds": [{"name": "block/turbinegasShutdown", "stream": true}]},
     "block.damage": {"category": "block", "sounds": ["block/dam1", "block/dam2", "block/dam3", "block/dam4"]},
+    "block.electricHum": {"category": "block", "sounds": [{"name": "block/electricHum", "stream": false}]},
+    "block.boiler": {"category": "block", "sounds": [{"name": "block/boiler", "stream": false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},

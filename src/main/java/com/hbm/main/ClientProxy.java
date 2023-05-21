@@ -782,6 +782,9 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderFoundryChannel());
 		RenderingRegistry.registerBlockHandler(new RenderFoundryTank());
 		RenderingRegistry.registerBlockHandler(new RenderFoundryOutlet());
+
+		RenderingRegistry.registerBlockHandler(new RenderNarrowStraightRail());
+		RenderingRegistry.registerBlockHandler(new RenderNarrowCurveRail());
 		
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_dynamite.getRenderType(), ResourceManager.charge_dynamite));
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_c4.getRenderType(), ResourceManager.charge_c4));
@@ -1875,13 +1878,23 @@ public class ClientProxy extends ServerProxy {
 	}
 	
 	@Override
-	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float pitch) {
+	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch) {
 		
 		AudioWrapperClient audio = new AudioWrapperClient(new ResourceLocation(sound));
 		audio.updatePosition(x, y, z);
+		audio.updateVolume(volume);
+		audio.updateRange(range);
 		return audio;
 	}
 	
+	@Override
+	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch, int keepAlive) {
+		AudioWrapper audio = getLoopedSound(sound, x, y, z, volume, range, pitch);
+		audio.setKeepAlive(keepAlive);
+		return audio;
+	}
+	
+	/** Only used for doors */
 	@Override
 	public AudioWrapper getLoopedSoundStartStop(World world, String sound, String start, String stop, float x, float y, float z, float volume, float pitch) {
 		AudioWrapperClientStartStop audio = new AudioWrapperClientStartStop(world, sound == null ? null : new ResourceLocation(sound), start, stop, volume * 5);

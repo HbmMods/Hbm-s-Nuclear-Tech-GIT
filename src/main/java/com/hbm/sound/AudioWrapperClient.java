@@ -15,6 +15,18 @@ public class AudioWrapperClient extends AudioWrapper {
 	}
 	
 	@Override
+	public void setKeepAlive(int keepAlive) {
+		if(sound != null)
+			sound.setKeepAlive(keepAlive);
+	}
+	
+	@Override
+	public void keepAlive() {
+		if(sound != null)
+			sound.keepAlive();
+	}
+	
+	@Override
 	public void updatePosition(float x, float y, float z) {
 		if(sound != null)
 			sound.setPosition(x, y, z);
@@ -24,6 +36,12 @@ public class AudioWrapperClient extends AudioWrapper {
 	public void updateVolume(float volume) {
 		if(sound != null)
 			sound.setVolume(volume);
+	}
+
+	@Override
+	public void updateRange(float range) {
+		if(sound != null)
+			sound.setRange(range);
 	}
 
 	@Override

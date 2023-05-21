@@ -59,7 +59,7 @@ public class ItemGunGauss extends ItemGunBase {
 	public void startActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) {
 
 		if(!main && getItemWear(stack) < mainConfig.durability && player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) {
-			chargeLoop = MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop2", (float)player.posX, (float)player.posY, (float)player.posZ, 1.0F, 0.75F);
+			chargeLoop = MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop2", (float)player.posX, (float)player.posY, (float)player.posZ, 1.0F, 5F, 0.75F);
 			world.playSoundAtEntity(player, "hbm:weapon.tauChargeLoop2", 1.0F, 0.75F);
 			
 			if(chargeLoop != null) {
@@ -120,7 +120,7 @@ public class ItemGunGauss extends ItemGunBase {
 	
 	public AudioWrapper rebootAudio(AudioWrapper wrapper, EntityPlayer player) {
 		wrapper.stopSound();
-		AudioWrapper audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop2", (float)player.posX, (float)player.posY, (float)player.posZ, wrapper.getVolume(), wrapper.getPitch());
+		AudioWrapper audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop2", (float)player.posX, (float)player.posY, (float)player.posZ, wrapper.getVolume(), wrapper.getRange(), wrapper.getPitch());
 		audio.startSound();
 		return audio;
 	}

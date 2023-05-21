@@ -93,8 +93,8 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			this.isProgressing = false;
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
-			if(!tanks[0].loadTank(17, 19, slots)) tanks[0].unloadTank(17, 19, slots);
-			if(!tanks[1].loadTank(18, 20, slots)) tanks[1].unloadTank(18, 20, slots);
+			if(!tanks[0].loadTank(17, 19, slots) && (slots[17] == null || slots[17].getItem() != ModItems.fluid_barrel_infinite)) tanks[0].unloadTank(17, 19, slots);
+			if(!tanks[1].loadTank(18, 20, slots) && (slots[18] == null || slots[18].getItem() != ModItems.fluid_barrel_infinite)) tanks[1].unloadTank(18, 20, slots);
 			
 			tanks[2].unloadTank(9, 11, slots);
 			tanks[3].unloadTank(10, 12, slots);
@@ -162,7 +162,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				worldObj.spawnParticle("cloud", x, y, z, 0.0, 0.1, 0.0);
 			}
 			
-			float volume = this.getVolume(2);
+			float volume = 1;//this.getVolume(2);
 			
 			if(isProgressing && volume > 0) {
 				
@@ -187,7 +187,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	
 	@Override
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.chemplantOperate", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.chemplantOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
 	}
 
 	@Override
