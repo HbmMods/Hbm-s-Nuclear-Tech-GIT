@@ -3280,7 +3280,7 @@ public class ModItems {
 		}).setUnlocalizedName("iv_blood").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":iv_blood");
 		
 		iv_xp_empty = new ItemSimpleConsumable().setUseActionServer((stack, user) -> {
-			if(user.experienceTotal >= 100) {
+			if(EnchantmentUtil.getTotalExperience(user) >= 100) {
 				ItemSimpleConsumable.giveSoundAndDecrement(stack, user, "hbm:item.syringe", new ItemStack(ModItems.iv_xp));
 				EnchantmentUtil.setExperience(user, EnchantmentUtil.getTotalExperience(user) - 100);
 			}
