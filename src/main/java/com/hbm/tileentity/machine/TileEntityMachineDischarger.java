@@ -14,11 +14,13 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.tileentity.RenderTurretMaxwell;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.energy.IEnergyUser;
+import api.hbm.energy.IEnergyConnector.ConnectionPriority;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -30,16 +32,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDischarger extends TileEntityMachineBase implements IEnergyGenerator, IGUIProvider {
+public class TileEntityMachineDischarger extends TileEntityMachineBase implements IEnergyGenerator, IGUIProvider, IPersistentNBT {
 
 	public long power = 0;
 	public int process = 0;
 	public int temp = 20;
-	public boolean processed = false;
 	public static final int maxtemp = 2000;
-	public static final long maxPower = 5000000;
-	public static long Gen = 20000;
-	public static final int processSpeed = 600;
+	public static final long maxPower = 50000000;
+	public static long Gen = 20000000;
+	public static final int processSpeed = 100;
+	public static final int CoolDown = 400;
 	
 	private AudioWrapper audio;
 
@@ -60,10 +62,8 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		switch (i) {
 		case 0:
-			if (MachineRecipes.mODE(stack, OreDictManager.U.ingot()))
-				return true;
-			else if(process >= processSpeed){
-				  return stack.getItem() == ModItems.ingot_schrabidium && stack.stackSize < stack.getMaxStackSize();
+			if(process >= processSpeed){
+				  return stack.getItem() == ModItems.ingot_schrabidium && stack.stackSize <= stack.getMaxStackSize();
 			}
 		break;
         default:
@@ -82,7 +82,6 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 		power = nbt.getLong("power");
 		process = nbt.getInteger("process");
 		temp = nbt.getInteger("temp");
-		processed = nbt.getBoolean("processed");
 	}
 
 	@Override
@@ -91,9 +90,19 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 		nbt.setLong("power", power);
 		nbt.setInteger("process", process);
 		nbt.setInteger("temp", temp);
-		nbt.setBoolean("processed", processed);
 	}
-
+	@Override
+	public int getInventoryStackLimit() {
+		return 1;
+	}
+	@Override
+	public void setInventorySlotContents(int i, ItemStack itemStack) {
+		slots[i] = itemStack;
+		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
+			itemStack.stackSize = getInventoryStackLimit();
+		}
+		
+	}
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
 		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
@@ -125,10 +134,14 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 	public int getProgressScaled(int i) {
 		return (process * i) / processSpeed;
 	}
+	
+	public int getCoolDownScaled(int i) {
+		return (temp * i) / CoolDown;
+	}
 
 	public boolean canProcess() {
-		if (temp >= 20 && slots[0] != null && MachineRecipes.mODE(slots[0], OreDictManager.SA326.ingot()) && slots[0] != null
-				&& (slots[0] == null || (slots[0] != null && slots[0].getItem() == ModItems.ingot_schrabidium && processed == false)
+		if (temp <= 20 && slots[0] != null && MachineRecipes.mODE(slots[0], OreDictManager.SA326.ingot()) && slots[0] != null
+				&& (slots[0] == null || (slots[0] != null && slots[0].getItem() == ModItems.ingot_schrabidium)
 						&& slots[0].stackSize < slots[0].getMaxStackSize())) {
 			return true;
 		}
@@ -141,10 +154,9 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 
 	public void process() {
 		process++;
-
 		if (process >= processSpeed) {
 
-			power = Gen++;
+			power += Gen;
 			process = 0;
 			temp = maxtemp;
 			
@@ -162,23 +174,9 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 			}
 			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "ambient.weather.thunder", 10000.0F,
 					0.8F + this.worldObj.rand.nextFloat() * 0.2F);
-			coolDown();
-			
 		}
 	}
-	int countdown = 0;
-	int tempLast;
-	public int coolDown() {
-		temp = tempLast;
-		countdown--;
-	
-		temp = (int) (tempLast * (countdown) / 225);
-		if(temp == 20) {
-			processed = false; //i uh, dont know how efficent this is.
-			return temp;
-		};
-		return temp;
-		}
+
 	@Override
 	public void updateEntity() {
 
@@ -194,14 +192,41 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 			} else {
 				process = 0;
 			}
+
+			if(worldObj.getTotalWorldTime() % 10 == 0) {
+				if(temp > 20) {
+					temp = temp - 5;
+				}	
+				if(temp < 20) { //70k for the love of fuck this was only when i was debugging
+					temp = 20;
+				}
+				
+			}
+
+
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("progress", process);
 			data.setInteger("temp", temp);
-			data.setBoolean("processed", processed);
 			this.networkPack(data, 50);
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			
+			if(temp > 20) {
+			if(worldObj.getTotalWorldTime() % 7 == 0)
+				this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 11, this.zCoord, "random.fizz", 0.5F, 0.5F);
+			data.setString("type", "tower");
+			data.setFloat("lift", 0.1F);
+			data.setFloat("base", 0.3F);
+			data.setFloat("max", 1F);
+			data.setInteger("life", 20 + worldObj.rand.nextInt(20));
+
+			data.setDouble("posX", xCoord + 0.5 + worldObj.rand.nextDouble() - 0.5);
+			data.setDouble("posZ", zCoord + 0.5 + worldObj.rand.nextDouble() -0.5);
+			data.setDouble("posY", yCoord + 1);
+			
+			MainRegistry.proxy.effectNT(data);
+		}	
 		} else {
 
 			if(process > 0) {
@@ -220,16 +245,13 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 				}
 			}
 		}
+
 	}
 	
 	public AudioWrapper createAudioLoop() {
 		return MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 1.0F);
 	}
 	
-	@Override
-	public int getInventoryStackLimit() {
-		return 1;
-	}
 	private void updateConnections() {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
@@ -260,7 +282,6 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 		this.power = data.getLong("power");
 		this.process = data.getInteger("progress");
 		this.temp = data.getInteger("temp");
-		this.processed = data.getBoolean("processed");
 	}
 
 	@Override
@@ -287,5 +308,22 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineDischarger(player.inventory, this);
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setLong("power", power);
+		data.setInteger("progress", process);
+		data.setInteger("temp", temp);
+		nbt.setTag(NBT_PERSISTENT_KEY, data);
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound nbt) {
+		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
+		this.power = data.getLong("power");
+		this.temp = data.getInteger("temp");
+		this.process = data.getInteger("procsess");
 	}
 }
