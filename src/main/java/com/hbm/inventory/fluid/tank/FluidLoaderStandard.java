@@ -87,4 +87,25 @@ public class FluidLoaderStandard extends FluidLoadingHandler {
 		return false;
 	}
 
+	@Override
+	public boolean canFillItem(ItemStack stack, FluidTank tank) {
+		if(stack == null)
+			return true;
+		
+		FluidType type = tank.getTankType();
+		ItemStack full = FluidContainerRegistry.getFullContainer(stack.copy(), type);
+		
+		return (full != null && stack != null && tank.getFill() >= FluidContainerRegistry.getFluidContent(full, type));
+	}
+
+	@Override
+	public boolean canEmptyItem(ItemStack stack, FluidTank tank) {
+		if(stack == null)
+			return true;
+		
+		FluidType type = tank.getTankType();
+		int amount = FluidContainerRegistry.getFluidContent(stack.copy(), type);
+		return (amount > 0 && tank.getFill() + amount <= tank.maxFluid);
+	}
+
 }

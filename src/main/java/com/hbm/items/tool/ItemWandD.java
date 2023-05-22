@@ -8,7 +8,6 @@ import com.hbm.config.WorldConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.logic.EntityTomBlast;
-import com.hbm.entity.mob.siege.EntitySiegeTunneler;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;

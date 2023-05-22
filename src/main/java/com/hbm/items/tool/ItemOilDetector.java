@@ -2,14 +2,14 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.LordWeeder.EconomyPlus.compatibility.xradar.dataStructures.TerritoryClusterNew.ProvinceHandler;
-import com.LordWeeder.EconomyPlus.compatibility.xradar.nodes.OilResource;
+import com.EconomyPlus.compatibility.xradar.dataStructures.TerritoryCluster;
+import com.EconomyPlus.compatibility.xradar.dataStructures.TerritoryCluster.ProvinceHandler;
+import com.EconomyPlus.compatibility.xradar.nodes.OilResource;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.util.ChatBuilder;
-import com.hfr.clowder.ClowderTerritory;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,7 +37,7 @@ public class ItemOilDetector extends Item {
 		int y = (int)player.posY;
 		int z = (int)player.posZ;
 
-		ProvinceHandler p = ClowderTerritory.territories().getProvinceFromBlockCoords(x, z);
+		ProvinceHandler p = TerritoryCluster.instance().getProvinceFromBlockCoords(x, z, player.dimension);
 		direct = p.exists() && p.hasResource() && p.getResource() instanceof OilResource;
 		
 		if(direct)

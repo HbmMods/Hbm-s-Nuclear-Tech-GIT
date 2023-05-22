@@ -6,4 +6,6 @@ public abstract class FluidLoadingHandler {
 
 	public abstract boolean fillItem(ItemStack[] slots, int in, int out, FluidTank tank);
 	public abstract boolean emptyItem(ItemStack[] slots, int in, int out, FluidTank tank);
+	public abstract boolean canFillItem(ItemStack stack, FluidTank tank);
+	public abstract boolean canEmptyItem(ItemStack stack, FluidTank tank);
 }

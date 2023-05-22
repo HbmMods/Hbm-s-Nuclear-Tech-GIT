@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.LordWeeder.EconomyPlus.compatibility.ntm.HBMRecipes;
-import com.LordWeeder.EconomyPlus.dataStructures.CraftingStack;
+import com.EconomyPlus.compatibility.ntm.HBMRecipes;
+import com.EconomyPlus.lib.dataStructures.CraftingStack;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

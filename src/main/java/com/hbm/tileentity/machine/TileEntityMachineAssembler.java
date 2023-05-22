@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.LordWeeder.EconomyPlus.compatibility.ntm.HBMRecipes;
-import com.LordWeeder.EconomyPlus.dataStructures.CraftingStack;
+import com.EconomyPlus.compatibility.ntm.HBMRecipes;
+import com.EconomyPlus.lib.dataStructures.CraftingStack;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -257,7 +257,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 		return MainRegistry.proxy.getLoopedSound("hbm:block.assemblerOperate", xCoord, yCoord, zCoord, 1.0F, 1.0F);
 	}
 	
-	private void updateConnections() {
+	protected void updateConnections() {
 		this.getBlockMetadata();
 		
 		if(this.blockMetadata == 5) {

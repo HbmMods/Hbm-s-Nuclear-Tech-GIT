@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine;
 
-import com.LordWeeder.EconomyPlus.compatibility.ntm.HBMRecipes;
-import com.LordWeeder.EconomyPlus.dataStructures.CraftingStack;
+import com.EconomyPlus.compatibility.ntm.HBMRecipes;
+import com.EconomyPlus.lib.dataStructures.CraftingStack;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.ItemStamp;

@@ -69,4 +69,20 @@ public class FluidLoaderFillableItem extends FluidLoadingHandler {
 		
 		return tank.getFill() == tank.getMaxFill();
 	}
+
+	@Override
+	public boolean canFillItem(ItemStack stack, FluidTank tank) {
+		return stack != null && (stack.getItem() instanceof IFillableItem);
+	}
+
+	@Override
+	public boolean canEmptyItem(ItemStack stack, FluidTank tank) {
+		FluidType type = tank.getTankType();
+		
+		if(!(stack.getItem() instanceof IFillableItem)) return false;
+		
+		IFillableItem fillable = (IFillableItem) stack.getItem();
+		
+		return fillable.providesFluid(type, stack) && fillable.tryEmpty(type, tank.getMaxFill() - tank.getFill(), stack.copy()) <= tank.getMaxFill() - tank.getFill(); 
+	}
 }

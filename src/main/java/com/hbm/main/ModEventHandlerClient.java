@@ -106,6 +106,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -157,13 +158,16 @@ public class ModEventHandlerClient {
 			World world = mc.theWorld;
 			MovingObjectPosition mop = mc.objectMouseOver;
 			
-			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK ) {
-				
-				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ILookOverlay) {
-					((ILookOverlay) player.getHeldItem().getItem()).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
-					
-				} else if(world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
-					((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+			if(mop != null) {
+				if(mop.typeOfHit == mop.typeOfHit.BLOCK ) {
+					if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ILookOverlay) {
+						((ILookOverlay) player.getHeldItem().getItem()).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+						
+					} else if(world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
+						((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+					}
+				} else if(mop.typeOfHit == MovingObjectType.ENTITY && mop.entityHit instanceof ILookOverlay) {
+					((ILookOverlay)mop.entityHit).printHook(event, world, mop.entityHit.chunkCoordX, mop.entityHit.chunkCoordY, mop.entityHit.chunkCoordZ);
 				}
 			}
 			

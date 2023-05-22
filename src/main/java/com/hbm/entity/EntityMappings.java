@@ -209,9 +209,9 @@ public class EntityMappings {
 		addMob(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", 0x204131, 0x75CE00);
 		addMob(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", 0x813b9b, 0xd71fdd);
 		addMob(EntityHunterChopper.class, "entity_mob_hunter_chopper", 0x000020, 0x2D2D72);
-		addMob(EntityCyberCrab.class, "entity_cyber_crab", 0xAAAAAA, 0x444444);
-		addMob(EntityTeslaCrab.class, "entity_tesla_crab", 0xAAAAAA, 0x440000);
-		addMob(EntityTaintCrab.class, "entity_taint_crab", 0xAAAAAA, 0xFF00FF);
+//		addMob(EntityCyberCrab.class, "entity_cyber_crab", 0xAAAAAA, 0x444444);
+//		addMob(EntityTeslaCrab.class, "entity_tesla_crab", 0xAAAAAA, 0x440000);
+//		addMob(EntityTaintCrab.class, "entity_taint_crab", 0xAAAAAA, 0xFF00FF);
 		addMob(EntityMaskMan.class, "entity_mob_mask_man", 0x818572, 0xC7C1B7);
 		addMob(EntityDuck.class, "entity_fucc_a_ducc", 0xd0d0d0, 0xFFBF00);
 		addMob(EntityQuackos.class, "entity_elder_one", 0xd0d0d0, 0xFFBF00);

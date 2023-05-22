@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import com.LordWeeder.EconomyPlus.compatibility.xradar.dataStructures.TerritoryClusterNew.ProvinceHandler;
-import com.LordWeeder.EconomyPlus.compatibility.xradar.nodes.OilResource;
+import com.EconomyPlus.compatibility.xradar.dataStructures.TerritoryCluster;
+import com.EconomyPlus.compatibility.xradar.dataStructures.TerritoryCluster.ProvinceHandler;
+import com.EconomyPlus.compatibility.xradar.nodes.OilResource;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
@@ -21,7 +22,6 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple;
 import com.hbm.util.Tuple.Triplet;
-import com.hfr.clowder.ClowderTerritory;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
@@ -162,7 +162,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	}
 	
 	public boolean canPump() {
-		ProvinceHandler p = ClowderTerritory.territories().getProvinceFromBlockCoords(xCoord, zCoord);
+		ProvinceHandler p = TerritoryCluster.instance().getProvinceFromBlockCoords(xCoord, zCoord, worldObj.provider.dimensionId);
 		if(p.exists() && p.hasResource() && p.getResource() instanceof OilResource)
 			return true;
 		this.indicator = 1;

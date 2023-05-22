@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import java.io.IOException;
+import java.util.stream.IntStream;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
@@ -9,15 +10,19 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidLoadingHandler;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.RTGUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
@@ -249,15 +254,103 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return i >= 3 && i <= 6 && TileEntityFurnace.getItemBurnTime(itemStack) > 0;
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		return true;
 	}
-
+	
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		return new int[] { 3, 4, 5, 6 };
+		return IntStream.rangeClosed(0, 20).toArray();
 	}
-
+	
+	@Override
+	public boolean canInsertItem(int i, ItemStack stack, int j) {
+		
+		switch(i) {
+		//Battery
+		case 0: 
+			return stack.getItem() instanceof ItemBattery && ((ItemBattery)stack.getItem()).getCharge(stack) > 0;
+		//Water input
+		case 1:
+			for(FluidLoadingHandler handler : FluidTank.loadingHandlers) {
+				if(handler.canEmptyItem(stack, tanks[0])) {
+					return true;
+				}
+			}
+			return false;
+		//Burnables
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+			return TileEntityFurnace.getItemBurnTime(stack) > 0;
+		//Lubricant input
+		case 7:
+			for(FluidLoadingHandler handler : FluidTank.loadingHandlers) {
+				if(handler.canEmptyItem(stack, tanks[2])) {
+					return true;
+				}
+			}
+			return false;
+		//Heating oil input
+		case 9:
+			for(FluidLoadingHandler handler : FluidTank.loadingHandlers) {
+				if(handler.canEmptyItem(stack, tanks[1])) {
+					return true;
+				}
+			}
+			return false;
+		//RTG pellets
+		case 11:
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+		case 20:
+			return stack.getItem() instanceof ItemRTGPellet && ((ItemRTGPellet)stack.getItem()).getLifespan(stack) > 0;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean canExtractItem(int i, ItemStack stack, int j) {
+		switch(i) {
+		//Battery
+		case 0: 
+			return stack.getItem() instanceof ItemBattery && ((ItemBattery)stack.getItem()).getCharge(stack) <= 0;
+		//Water output
+		case 2:
+			return true;
+		//Leftovers from burnables (ie bucket from lava bucket)
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+			return TileEntityFurnace.getItemBurnTime(stack) <= 0;
+		//Lubricant & Heating oil output
+		case 8:
+		case 10:
+			return true;
+		//RTG pellets
+		case 11:
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+		case 20:
+			return !(stack.getItem() instanceof ItemRTGPellet) || ((ItemRTGPellet)stack.getItem()).getLifespan(stack) <= 0;
+		}
+		return false;
+	}
+	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");

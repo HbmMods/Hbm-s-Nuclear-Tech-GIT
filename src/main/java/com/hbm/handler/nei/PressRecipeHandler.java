@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.LordWeeder.EconomyPlus.compatibility.ntm.HBMRecipes;
+import com.EconomyPlus.compatibility.ntm.HBMRecipes;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
