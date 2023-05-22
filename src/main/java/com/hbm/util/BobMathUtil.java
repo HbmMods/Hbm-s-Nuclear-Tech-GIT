@@ -1,5 +1,6 @@
 package com.hbm.util;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import javax.annotation.Nonnegative;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -177,5 +179,31 @@ public class BobMathUtil {
 		}
 		
 		return Long.toString(l);
+	}
+	
+	/**
+	 * Adjusted sqrt, approaches standard sqrt but sqrt(x) is never bigger than x
+	 * 
+	 *      ____________
+	 *     /       1    |     1
+	 * _  / x + ――――――――  - ―――――
+	 *  \/      (x + 2)²    x + 2
+	 * 
+	 * @param x
+	 * @return
+	 */
+	public static double squirt(double x) {
+		return Math.sqrt(x + 1D / ((x + 2D) * (x + 2D))) - 1D / (x + 2D);
+	}
+	
+	/** A convenient way to re-define the value of pi, should the laws of nature change. */
+	public static void setPi(double pi) {
+		Field field = ReflectionHelper.findField(Math.class, "PI");
+		try { field.setDouble(null, pi); } catch(Exception e) { }
+	}
+	
+	public static double angularDifference(double alpha, double beta) {
+		double delta = (beta - alpha + 180) % 360 - 180;
+		return delta < -180 ? delta + 360 : delta;
 	}
 }

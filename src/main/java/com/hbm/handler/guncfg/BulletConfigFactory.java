@@ -6,10 +6,13 @@ import java.util.Random;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.explosion.ExplosionNukeSmall.MukeParams;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -37,8 +40,8 @@ public class BulletConfigFactory {
 	public static BulletConfiguration getTestConfig() {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
-		
-//		bullet.ammo = ModItems.gun_revolver_ammo;
+
+		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.LEAD));
 		bullet.velocity = 5.0F;
 		bullet.spread = 0.05F;
 		bullet.wear = 10;
@@ -62,6 +65,8 @@ public class BulletConfigFactory {
 		
 	}
 	
+	public static final float defaultSpread = 0.005F;
+	
 	/// STANDARD CONFIGS ///
 	//do not include damage or ammo
 	public static BulletConfiguration standardBulletConfig() {
@@ -69,7 +74,7 @@ public class BulletConfigFactory {
 		BulletConfiguration bullet = new BulletConfiguration();
 		
 		bullet.velocity = 5.0F;
-		bullet.spread = 0.005F;
+		bullet.spread = defaultSpread;
 		bullet.wear = 10;
 		bullet.bulletsMin = 1;
 		bullet.bulletsMax = 1;
@@ -95,9 +100,9 @@ public class BulletConfigFactory {
 		BulletConfiguration bullet = new BulletConfiguration();
 		
 		bullet.velocity = 5.0F;
-		bullet.spread = 0.05F;
+		bullet.spread = defaultSpread * 10F;
 		bullet.wear = 10;
-		bullet.bulletsMin = 5;
+		bullet.bulletsMin = 6;
 		bullet.bulletsMax = 8;
 		bullet.gravity = 0D;
 		bullet.maxAge = 100;
@@ -175,7 +180,7 @@ public class BulletConfigFactory {
 		BulletConfiguration bullet = new BulletConfiguration();
 		
 		bullet.velocity = 2.0F;
-		bullet.spread = 0.005F;
+		bullet.spread = defaultSpread;
 		bullet.wear = 10;
 		bullet.bulletsMin = 1;
 		bullet.bulletsMax = 1;
@@ -201,7 +206,7 @@ public class BulletConfigFactory {
 		BulletConfiguration bullet = new BulletConfiguration();
 		
 		bullet.velocity = 2.0F;
-		bullet.spread = 0.005F;
+		bullet.spread = defaultSpread;
 		bullet.wear = 10;
 		bullet.bulletsMin = 1;
 		bullet.bulletsMax = 1;
@@ -227,7 +232,7 @@ public class BulletConfigFactory {
 		BulletConfiguration bullet = new BulletConfiguration();
 		
 		bullet.velocity = 3.0F;
-		bullet.spread = 0.005F;
+		bullet.spread = defaultSpread;
 		bullet.wear = 10;
 		bullet.bulletsMin = 1;
 		bullet.bulletsMax = 1;
@@ -252,7 +257,7 @@ public class BulletConfigFactory {
 		BulletConfiguration bullet = new BulletConfiguration();
 		
 		bullet.velocity = 3.0F;
-		bullet.spread = 0.005F;
+		bullet.spread = defaultSpread;
 		bullet.wear = 10;
 		bullet.bulletsMin = 1;
 		bullet.bulletsMax = 1;
@@ -281,13 +286,13 @@ public class BulletConfigFactory {
 	 * 3 - medium
 	 * 4 - big
 	 */
-	public static void nuclearExplosion(EntityBulletBase bullet, int x, int y, int z, int size) {
+	public static void nuclearExplosion(Entity entity, int x, int y, int z, MukeParams params) {
 		
-		if(!bullet.worldObj.isRemote) {
+		if(!entity.worldObj.isRemote) {
 
-			double posX = bullet.posX;
-			double posY = bullet.posY + 0.5;
-			double posZ = bullet.posZ;
+			double posX = entity.posX;
+			double posY = entity.posY + 0.5;
+			double posZ = entity.posZ;
 			
 			if(y >= 0) {
 				posX = x + 0.5;
@@ -295,7 +300,7 @@ public class BulletConfigFactory {
 				posZ = z + 0.5;
 			}
 			
-			ExplosionNukeSmall.explode(bullet.worldObj, posX, posY, posZ, size);
+			ExplosionNukeSmall.explode(entity.worldObj, posX, posY, posZ, params);
 		}
 	}
 	

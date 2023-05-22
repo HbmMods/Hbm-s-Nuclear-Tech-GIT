@@ -47,8 +47,9 @@ public class WorldConfig {
 	public static int aluminiumClusterSpawn = 3;
 	public static int copperClusterSpawn = 4;
 	public static int alexandriteSpawn = 100;
-	
+
 	public static int malachiteSpawn = 1;
+	public static int limestoneSpawn = 1;
 
 	public static int netherUraniumuSpawn = 8;
 	public static int netherTungstenSpawn = 10;
@@ -147,6 +148,7 @@ public class WorldConfig {
 		copperClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C03_copperClusterSpawn", "Amount of copper cluster veins per chunk", 4);
 
 		malachiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.L01_malachiteSpawn", "Amount of malachite block veins per chunk", 1);
+		limestoneSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.L02_limestoneSpawn", "Amount of limestone block veins per chunk", 1);
 
 		netherUraniumuSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N00_uraniumSpawnrate", "Amount of nether uranium per chunk", 8);
 		netherTungstenSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.N01_tungstenSpawnrate", "Amount of nether tungsten per chunk", 10);

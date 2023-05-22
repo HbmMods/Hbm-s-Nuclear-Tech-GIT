@@ -124,10 +124,10 @@ public class ItemFolderPacket implements IMessage {
 						tryConvert(p, ModItems.stamp_obsidian_flat, stack.getItem());
 						return null;
 					}
-					if(stack.getItem() == ModItems.stamp_schrabidium_plate || 
-							stack.getItem() == ModItems.stamp_schrabidium_wire || 
-							stack.getItem() == ModItems.stamp_schrabidium_circuit) {
-						tryConvert(p, ModItems.stamp_schrabidium_flat, stack.getItem());
+					if(stack.getItem() == ModItems.stamp_desh_plate || 
+							stack.getItem() == ModItems.stamp_desh_wire || 
+							stack.getItem() == ModItems.stamp_desh_circuit) {
+						tryConvert(p, ModItems.stamp_desh_flat, stack.getItem());
 						return null;
 					}
 			//}

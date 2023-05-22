@@ -16,7 +16,6 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 
@@ -57,8 +56,8 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 			water.setFill(water.getFill() - process);
 			steam.setFill(steam.getFill() + process * 100);
 
-			this.sendFluid(steam.getTankType(), worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
-			this.sendFluid(steam.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
+			this.sendFluid(steam, worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
+			this.sendFluid(steam, worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			
 			heat = 0;
 		} else {

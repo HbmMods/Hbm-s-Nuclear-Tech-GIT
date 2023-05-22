@@ -1,6 +1,5 @@
 package com.hbm.handler.guncfg;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import com.hbm.entity.projectile.EntityBulletBase;
@@ -9,14 +8,21 @@ import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
+import com.hbm.lib.HbmCollection;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -25,15 +31,23 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class Gun4GaugeFactory {
+	
+	private static final CasingEjector EJECTOR_SHOTGUN;
+	private static final SpentCasing CASING4GAUGE;
+
+	static {
+		EJECTOR_SHOTGUN = new CasingEjector().setMotion(Vec3.createVectorHelper(-0.4, 0.4, 0)).setOffset(Vec3.createVectorHelper(-0.5, 0, 0.5)).setAngleRange(0.01F, 0.03F);
+		CASING4GAUGE = new SpentCasing(CasingType.SHOTGUN).setScale(2.5F).setBounceMotion(0.01F, 0.03F);
+	}
 	
 	private static GunConfiguration getShotgunConfig() {
 		
@@ -49,8 +63,12 @@ public class Gun4GaugeFactory {
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		config.allowsInfinity = true;
 		config.hasSights = true;
+		config.absoluteFOV = true;
+		config.zoomFOV = 0.5F;
 		config.crosshair = Crosshair.L_CIRCLE;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		
+		config.ejector = EJECTOR_SHOTGUN;
 		
 		return config;
 	}
@@ -64,23 +82,10 @@ public class Gun4GaugeFactory {
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.firingPitch = 0.65F;
 		
-		config.name = "KS-23";
-		config.manufacturer = "Tulsky Oruzheiny Zavod";
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G4_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G4_SLUG);
-		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE);
-		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.G4_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.G4_SEMTEX);
-		config.config.add(BulletConfigSyncingUtil.G4_BALEFIRE);
-		config.config.add(BulletConfigSyncingUtil.G4_KAMPF);
-		config.config.add(BulletConfigSyncingUtil.G4_CANISTER);
-		config.config.add(BulletConfigSyncingUtil.G4_CLAW);
-		config.config.add(BulletConfigSyncingUtil.G4_VAMPIRE);
-		config.config.add(BulletConfigSyncingUtil.G4_VOID);
-		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
+		config.name = "ks23";
+		config.manufacturer = EnumGunManufacturer.TULSKY;
+
+		config.config = HbmCollection.g4;
 		
 		return config;
 	}
@@ -98,8 +103,10 @@ public class Gun4GaugeFactory {
 		config.firingSound = "hbm:weapon.sauergun";
 		config.firingPitch = 1.0F;
 		
-		config.name = "Sauer Shotgun";
-		config.manufacturer = "Cube 2: Sauerbraten";
+		config.ejector = EJECTOR_SHOTGUN.clone().setDelay(12);
+		
+		config.name = "sauer";
+		config.manufacturer = EnumGunManufacturer.CUBE;
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("SAUER_RECOIL", new BusAnimationSequence()
@@ -125,20 +132,7 @@ public class Gun4GaugeFactory {
 						)
 				);
 		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.G4_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.G4_SLUG);
-		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE);
-		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.G4_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.G4_SEMTEX);
-		config.config.add(BulletConfigSyncingUtil.G4_BALEFIRE);
-		config.config.add(BulletConfigSyncingUtil.G4_KAMPF);
-		config.config.add(BulletConfigSyncingUtil.G4_CANISTER);
-		config.config.add(BulletConfigSyncingUtil.G4_CLAW);
-		config.config.add(BulletConfigSyncingUtil.G4_VAMPIRE);
-		config.config.add(BulletConfigSyncingUtil.G4_VOID);
-		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
+		config.config = HbmCollection.g4;
 		
 		return config;
 	}
@@ -147,11 +141,13 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.STOCK));
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 8;
 		bullet.bulletsMin *= 2;
 		bullet.bulletsMax *= 2;
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaStock").setColor(0xFFD800, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}
@@ -160,11 +156,13 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_slug;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.SLUG));
 		bullet.dmgMin = 25;
 		bullet.dmgMax = 32;
 		bullet.wear = 7;
 		bullet.style = BulletConfiguration.STYLE_NORMAL;
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaSlug").setColor(0xE01A1A, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}
@@ -173,7 +171,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_flechette;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.FLECHETTE));
 		bullet.dmgMin = 8;
 		bullet.dmgMax = 15;
 		bullet.bulletsMin *= 2;
@@ -182,6 +180,8 @@ public class Gun4GaugeFactory {
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.HBRC = 2;
 		bullet.LBRC = 95;
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaFlech").setColor(0x1537FF, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}
@@ -190,7 +190,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_flechette;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.FLECHETTE_PHOSPHORUS));
 		bullet.dmgMin = 8;
 		bullet.dmgMax = 15;
 		bullet.bulletsMin *= 2;
@@ -199,8 +199,6 @@ public class Gun4GaugeFactory {
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.HBRC = 2;
 		bullet.LBRC = 95;
-		
-		bullet.ammo = ModItems.ammo_4gauge_flechette_phosphorus;
 		bullet.incendiary = 5;
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
@@ -223,6 +221,8 @@ public class Gun4GaugeFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaPhos").setColor(0xF6871A, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 
@@ -230,13 +230,15 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_explosive;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.EXPLOSIVE));
 		bullet.velocity *= 2;
 		bullet.gravity *= 2;
 		bullet.dmgMin = 20;
 		bullet.dmgMax = 25;
 		bullet.wear = 25;
 		bullet.trail = 1;
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaExp").setColor(0x3F8243, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}
@@ -245,7 +247,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_semtex;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.MINING));
 		bullet.velocity *= 2;
 		bullet.gravity *= 2;
 		bullet.dmgMin = 10;
@@ -272,6 +274,8 @@ public class Gun4GaugeFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaSem").setColor(0x5C5C5C, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 
@@ -279,7 +283,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_balefire;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.BALEFIRE));
 		bullet.velocity *= 2;
 		bullet.gravity *= 2;
 		bullet.dmgMin = 50;
@@ -305,6 +309,8 @@ public class Gun4GaugeFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaBale").setColor(0x7BFF44, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 
@@ -312,7 +318,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_kampf;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.KAMPF));
 		bullet.spread = 0.0F;
 		bullet.gravity = 0.0D;
 		bullet.wear = 15;
@@ -321,6 +327,8 @@ public class Gun4GaugeFactory {
 		bullet.trail = 4;
 		bullet.vPFX = "smoke";
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaKampf").setColor(0xE7BA48, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 
@@ -328,7 +336,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_canister;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.CANISTER));
 		bullet.spread = 0.0F;
 		bullet.gravity = 0.0D;
 		bullet.wear = 15;
@@ -359,6 +367,8 @@ public class Gun4GaugeFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaCan").setColor(0xCACACA, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 
@@ -366,16 +376,18 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_sleek;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.SLEEK));
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaIF").setColor(0x1D1D1D, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}
 	
 	public static BulletConfiguration get4GaugeClawConfig() {
 		
-		BulletConfiguration bullet = get4GaugeConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_claw;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.CLAW));
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 9;
 		bullet.bulletsMin *= 2;
@@ -405,14 +417,16 @@ public class Gun4GaugeFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaClaw").setColor(0x5E38CC, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 	
 	public static BulletConfiguration get4GaugeVampireConfig() {
 		
-		BulletConfiguration bullet = get4GaugeConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_vampire;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.VAMPIRE));
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 9;
 		bullet.bulletsMin *= 2;
@@ -443,14 +457,16 @@ public class Gun4GaugeFactory {
 			}
 		};
 		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaVamp").setColor(0x278400, SpentCasing.COLOR_CASE_4GA);
+		
 		return bullet;
 	}
 	
 	public static BulletConfiguration get4GaugeVoidConfig() {
 		
-		BulletConfiguration bullet = get4GaugeConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = ModItems.ammo_4gauge_void;
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.VOID));
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 9;
 		bullet.bulletsMin *= 2;
@@ -473,6 +489,53 @@ public class Gun4GaugeFactory {
 				}
 			}
 		};
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaVoid").setColor(0x3F3F3F, SpentCasing.COLOR_CASE_4GA);
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration get4GaugeQuackConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.QUACK));
+		bullet.velocity *= 2D;
+		bullet.spread = 0.0F;
+		bullet.gravity = 0.0D;
+		bullet.wear = 10;
+		bullet.explosive = 1F;
+		bullet.style = BulletConfiguration.STYLE_BOLT;
+		bullet.trail = 4;
+		bullet.vPFX = "explode";
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(!bullet.worldObj.isRemote) {
+					
+					if(bullet.ticksExisted % 2 == 0) {
+						
+						List<EntityCreature> creatures = bullet.worldObj.getEntitiesWithinAABB(EntityCreature.class, bullet.boundingBox.expand(10, 10, 10));
+						
+						for(EntityCreature creature : creatures) {
+							
+							if(creature.getClass().getCanonicalName().startsWith("net.minecraft.entity.titan")) {
+								BulletConfigFactory.nuclearExplosion(creature, 0, 0, 0, ExplosionNukeSmall.PARAMS_TOTS);
+
+								bullet.worldObj.removeEntity(creature);
+								bullet.worldObj.unloadEntities(new ArrayList() {{ add(creature); }});
+							}
+						}
+						
+					}
+				}
+			}
+		};
+		
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaDucc").setColor(0x1E1E1E, SpentCasing.COLOR_CASE_4GA);
 		
 		return bullet;
 	}

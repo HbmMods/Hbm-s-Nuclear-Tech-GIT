@@ -28,7 +28,6 @@ import net.minecraft.world.World;
 public class MachineNukeFurnace extends BlockContainer {
 
     private final Random field_149933_a = new Random();
-	private Random rand;
 	private final boolean isActive;
 	private static boolean keepInventory;
 	
@@ -39,7 +38,6 @@ public class MachineNukeFurnace extends BlockContainer {
 
 	public MachineNukeFurnace(boolean blockState) {
 		super(Material.iron);
-		rand = new Random();
 		isActive = blockState;
 	}
 	
@@ -137,7 +135,7 @@ public class MachineNukeFurnace extends BlockContainer {
 			TileEntityNukeFurnace entity = (TileEntityNukeFurnace) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_nuke_furnace, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

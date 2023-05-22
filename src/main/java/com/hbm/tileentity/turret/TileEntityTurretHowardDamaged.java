@@ -1,17 +1,23 @@
 package com.hbm.tileentity.turret;
 
 import com.hbm.config.WeaponConfig;
+import com.hbm.handler.guncfg.GunDGKFactory;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.EntityDamageUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 public class TileEntityTurretHowardDamaged extends TileEntityTurretHoward {
 
@@ -70,6 +76,9 @@ public class TileEntityTurretHowardDamaged extends TileEntityTurretHoward {
 				
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.howard_fire", 4.0F, 0.7F + worldObj.rand.nextFloat() * 0.3F);
 				
+				this.cachedCasingConfig = GunDGKFactory.CASINGDGK;
+				this.spawnCasing();
+				
 				if(worldObj.rand.nextInt(100) + 1 <= WeaponConfig.ciwsHitrate * 0.5)
 					EntityDamageUtil.attackEntityFromIgnoreIFrame(this.target, ModDamageSource.shrapnel, 2F + worldObj.rand.nextInt(2));
 					
@@ -90,5 +99,16 @@ public class TileEntityTurretHowardDamaged extends TileEntityTurretHoward {
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord + vec.xCoord + hOff.xCoord, pos.yCoord + vec.yCoord + hOff.yCoord, pos.zCoord + vec.zCoord + hOff.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			}
 		}
+	}
+	
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return null;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return null;
 	}
 }

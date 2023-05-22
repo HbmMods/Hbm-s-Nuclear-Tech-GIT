@@ -3,14 +3,29 @@ package com.hbm.handler.guncfg;
 import java.util.ArrayList;
 
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoGrenade;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class GunGrenadeFactory {
+	
+	private static final CasingEjector EJECTOR_LAUNCHER;
+	private static final SpentCasing CASING40MM;
+
+	static {
+		EJECTOR_LAUNCHER = new CasingEjector().setAngleRange(0.02F, 0.03F).setAfterReload();
+		CASING40MM = new SpentCasing(CasingType.STRAIGHT).setScale(4F, 4F, 3F).setBounceMotion(0.02F, 0.03F).setColor(0x777777).setupSmoke(1F, 0.5D, 60, 40);
+	}
 	
 	public static GunConfiguration getHK69Config() {
 		
@@ -21,6 +36,7 @@ public class GunGrenadeFactory {
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
 		config.hasSights = true;
+		config.zoomFOV = 0.66F;
 		config.reloadDuration = 40;
 		config.firingDuration = 0;
 		config.ammoCap = 1;
@@ -31,8 +47,8 @@ public class GunGrenadeFactory {
 		config.reloadSound = GunConfiguration.RSOUND_GRENADE;
 		config.reloadSoundEnd = false;
 		
-		config.name = "Granatpistole HK69";
-		config.manufacturer = "Heckler & Koch";
+		config.name = "gPistol";
+		config.manufacturer = EnumGunManufacturer.H_AND_K;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.GRENADE_NORMAL);
@@ -48,6 +64,8 @@ public class GunGrenadeFactory {
 		config.config.add(BulletConfigSyncingUtil.GRENADE_KAMPF);
 		config.durability = 300;
 		
+		config.ejector = EJECTOR_LAUNCHER;
+		
 		return config;
 	}
 
@@ -55,12 +73,14 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.STOCK));
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.wear = 10;
 		bullet.trail = 0;
+		
+		bullet.spentCasing = CASING40MM.clone().register("40MMStock");
 		
 		return bullet;
 	}
@@ -69,13 +89,15 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_he;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.HE));
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 20;
 		bullet.dmgMax = 15;
 		bullet.wear = 15;
 		bullet.explosive = 5.0F;
 		bullet.trail = 1;
+		
+		bullet.spentCasing = CASING40MM.clone().register("40MMHE");
 		
 		return bullet;
 	}
@@ -84,13 +106,15 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_incendiary;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.INCENDIARY));
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 15;
 		bullet.wear = 15;
 		bullet.trail = 0;
 		bullet.incendiary = 2;
+		
+		bullet.spentCasing = CASING40MM.clone().register("40MMInc");
 		
 		return bullet;
 	}
@@ -99,7 +123,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_phosphorus;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.PHOSPHORUS));
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 15;
@@ -109,6 +133,8 @@ public class GunGrenadeFactory {
 		
 		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D, 1F);
 		
+		bullet.spentCasing = CASING40MM.clone().register("40MMPhos");
+		
 		return bullet;
 	}
 	
@@ -116,7 +142,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_toxic;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.CHLORINE));
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
@@ -125,6 +151,8 @@ public class GunGrenadeFactory {
 		bullet.explosive = 0;
 		bullet.chlorine = 50;
 		
+		bullet.spentCasing = CASING40MM.clone().register("40MMTox");
+		
 		return bullet;
 	}
 	
@@ -132,7 +160,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_sleek;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.SLEEK));
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
@@ -141,6 +169,8 @@ public class GunGrenadeFactory {
 		bullet.explosive = 7.5F;
 		bullet.jolt = 6.5D;
 		
+		bullet.spentCasing = CASING40MM.clone().register("40MMIF");
+		
 		return bullet;
 	}
 	
@@ -148,13 +178,15 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_concussion;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.CONCUSSION));
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 20;
 		bullet.blockDamage = false;
 		bullet.explosive = 10.0F;
 		bullet.trail = 3;
+		
+		bullet.spentCasing = CASING40MM.clone().register("40MMCon");
 		
 		return bullet;
 	}
@@ -163,10 +195,12 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = getGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_finned;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.FINNED));
 		bullet.gravity = 0.02;
 		bullet.explosive = 1.5F;
 		bullet.trail = 5;
+		
+		bullet.spentCasing = CASING40MM.clone().register("40MMFin");
 		
 		return bullet;
 	}
@@ -175,7 +209,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = getGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_nuclear;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.NUCLEAR));
 		bullet.velocity = 4;
 		bullet.explosive = 0.0F;
 		
@@ -183,9 +217,11 @@ public class GunGrenadeFactory {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 1);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_TOTS);
 			}
 		};
+		
+		bullet.spentCasing = CASING40MM.clone().register("40MMNuke");
 		
 		return bullet;
 	}
@@ -194,12 +230,14 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_tracer;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.TRACER));
 		bullet.velocity = 2.0F;
 		bullet.wear = 10;
 		bullet.explosive = 0F;
 		bullet.trail = 5;
 		bullet.vPFX = "bluedust";
+		
+		bullet.spentCasing = CASING40MM.clone().register("40MMTrac").setColor(0xEEEEEE);
 		
 		return bullet;
 	}
@@ -208,7 +246,7 @@ public class GunGrenadeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = ModItems.ammo_grenade_kampf;
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.KAMPF));
 		bullet.spread = 0.0F;
 		bullet.gravity = 0.0D;
 		bullet.wear = 15;
@@ -216,6 +254,8 @@ public class GunGrenadeFactory {
 		bullet.style = BulletConfiguration.STYLE_GRENADE;
 		bullet.trail = 4;
 		bullet.vPFX = "smoke";
+		
+		//bullet.spentCasing = CASING40MM.clone().register("40MMKampf").setColor(0xEBC35E); //does not eject, whole cartridge leaves the gun
 		
 		return bullet;
 	}

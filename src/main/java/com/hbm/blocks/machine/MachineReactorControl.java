@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityReactorControl;
@@ -71,37 +70,6 @@ public class MachineReactorControl extends BlockContainer {
 			return iconBack;
 		
 		return blockIcon;
-	}
-	
-	private void setDefaultDirection(World world, int x, int y, int z) {
-		if(!world.isRemote)
-		{
-			Block block1 = world.getBlock(x, y, z - 1);
-			Block block2 = world.getBlock(x, y, z + 1);
-			Block block3 = world.getBlock(x - 1, y, z);
-			Block block4 = world.getBlock(x + 1, y, z);
-			
-			byte b0 = 3;
-			
-			if(block1.func_149730_j() && !block2.func_149730_j())
-			{
-				b0 = 3;
-			}
-			if(block2.func_149730_j() && !block1.func_149730_j())
-			{
-				b0 = 2;
-			}
-			if(block3.func_149730_j() && !block4.func_149730_j())
-			{
-				b0 = 5;
-			}
-			if(block4.func_149730_j() && !block3.func_149730_j())
-			{
-				b0 = 4;
-			}
-			
-			world.setBlockMetadataWithNotify(x, y, z, b0, 2);
-		}
 	}
 	
 	@Override
@@ -204,7 +172,7 @@ public class MachineReactorControl extends BlockContainer {
 			TileEntityReactorControl entity = (TileEntityReactorControl) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_controller, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

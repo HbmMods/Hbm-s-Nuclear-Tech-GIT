@@ -1,15 +1,12 @@
 package com.hbm.inventory.fluid;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 import org.lwjgl.input.Keyboard;
-
-import java.util.Set;
 
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.*;
@@ -32,8 +29,6 @@ public class FluidType {
 	private String stringId;
 	//Approximate HEX Color of the fluid, used for pipe rendering
 	private int color;
-	//The color for containers, not the liquid itself. Used for canisters.
-	private int containerColor = 0xffffff;
 	//Unlocalized string ID of the fluid
 	private String unlocalized;
 	
@@ -52,7 +47,7 @@ public class FluidType {
 	/** How much "stuff" there is in one mB. 1mB of water turns into 100mB of steam, therefore steam has a compression of 0.01. Compression is only used for translating fluids into other fluids, heat calculations should ignore this. */
 	public double compression = DEFAULT_COMPRESSION;
 	
-	public Set<ExtContainer> containers = new HashSet();
+	public HashMap<Class, Object> containers = new HashMap();
 	private HashMap<Class<? extends FluidTrait>, FluidTrait> traits = new HashMap();
 	//public List<EnumFluidTrait> enumTraits = new ArrayList();
 	
@@ -61,12 +56,12 @@ public class FluidType {
 	public FluidType(String name, int color, int p, int f, int r, EnumSymbol symbol) {
 		this.stringId = name;
 		this.color = color;
-		this.unlocalized = "hbmfluid." + name.toLowerCase();
+		this.unlocalized = "hbmfluid." + name.toLowerCase(Locale.US);
 		this.poison = p;
 		this.flammability = f;
 		this.reactivity = r;
 		this.symbol = symbol;
-		this.texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids/" + name.toLowerCase() + ".png");
+		this.texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids/" + name.toLowerCase(Locale.US) + ".png");
 		
 		this.id = Fluids.registerSelf(this);
 	}
@@ -89,16 +84,14 @@ public class FluidType {
 		return this;
 	}
 	
-	public FluidType addContainers(int color, ExtContainer... containers) {
-		this.containerColor = color;
-		Collections.addAll(this.containers, containers);
+	public FluidType addContainers(Object... containers) {
+		for(Object container : containers) this.containers.put(container.getClass(), container);
 		return this;
 	}
 	
-	/*public FluidType addTraits(EnumFluidTrait... traits) {
-		Collections.addAll(this.enumTraits, traits);
-		return this;
-	}*/
+	public <T> T getContainer(Class<? extends T> container) {
+		return (T) this.containers.get(container);
+	}
 	
 	public FluidType addTraits(FluidTrait... traits) {
 		for(FluidTrait trait : traits) this.traits.put(trait.getClass(), trait);
@@ -125,9 +118,6 @@ public class FluidType {
 		return this.color;
 	}
 
-	public int getContainerColor() {
-		return this.containerColor;
-	}
 	public ResourceLocation getTexture() {
 		return this.texture;
 	}
@@ -135,7 +125,7 @@ public class FluidType {
 		return this.unlocalized;
 	}
 	public String getDict(int quantity) {
-		return "container" + quantity + this.stringId.replace("_", "").toLowerCase();
+		return "container" + quantity + this.stringId.replace("_", "").toLowerCase(Locale.US);
 	}
 	
 	public boolean isHot() {
@@ -208,10 +198,6 @@ public class FluidType {
 						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
 			}
 		}
-	}
-	
-	public static enum ExtContainer {
-		CANISTER
 	}
 	
 	//shitty wrapper delegates, go!

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.lib.RefStrings;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -34,6 +36,8 @@ public class BlockMultiSlab extends BlockSlab {
 				recipeGen.add(new Object[] {slabMaterials[i], this, i});
 			}
 		}
+		
+		this.setBlockTextureName(RefStrings.MODID + ":concrete_smooth");
 	}
 	
 	@Override

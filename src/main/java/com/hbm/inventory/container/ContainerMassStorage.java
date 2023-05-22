@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.inventory.SlotPattern;
 import com.hbm.tileentity.machine.storage.TileEntityMassStorage;
 
@@ -20,7 +20,7 @@ public class ContainerMassStorage extends Container {
 
 		this.addSlotToContainer(new Slot(storage, 0, 61, 17));
 		this.addSlotToContainer(new SlotPattern(storage, 1, 61, 53));
-		this.addSlotToContainer(new SlotMachineOutput(storage, 2, 61, 89));
+		this.addSlotToContainer(new SlotTakeOnly(storage, 2, 61, 89));
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {

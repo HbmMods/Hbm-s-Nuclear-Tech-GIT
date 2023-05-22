@@ -1,12 +1,11 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -59,7 +58,7 @@ private TileEntityMachineAssembler assembler;
 		{
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			SlotMachineOutput.checkAchievements(p_82846_1_, var5);
+			SlotCraftingOutput.checkAchievements(p_82846_1_, var5);
 			
 			//Since I added 24 input slots - LordWeeder
             if (par2 <= (17 + 24)) {
@@ -72,18 +71,21 @@ private TileEntityMachineAssembler assembler;
 				if (!this.mergeItemStack(var5, 0, 4, false))
 					return null;
 			
-			if (var5.stackSize == 0)
-			{
+			if(var5.stackSize == 0) {
 				var4.putStack((ItemStack) null);
-			}
-			else
-			{
+			} else {
 				var4.onSlotChanged();
 			}
+
+			if(var5.stackSize == var3.stackSize) {
+				return null;
+			}
+
+			var4.onPickupFromSlot(p_82846_1_, var3);
 		}
-		
+
 		return var3;
-    }
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {

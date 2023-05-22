@@ -11,13 +11,20 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.ItemAmmoEnums.AmmoFireExt;
+import com.hbm.items.ItemAmmoEnums.AmmoFlamethrower;
 import com.hbm.items.ModItems;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.tileentity.IRepairable;
+import com.hbm.tileentity.IRepairable.EnumExtinguishType;
+import com.hbm.util.CompatExternal;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
@@ -26,6 +33,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.tileentity.TileEntity;
 
 public class GunEnergyFactory {
 	
@@ -42,7 +50,7 @@ public class GunEnergyFactory {
 		config.crosshair = Crosshair.CIRCLE;
 		
 		config.name = "Chemical Thrower";
-		config.manufacturer = "Langford Research Laboratories";
+		config.manufacturer = EnumGunManufacturer.LANGFORD;
 		
 		config.config = new ArrayList<Integer>();
 		
@@ -67,7 +75,7 @@ public class GunEnergyFactory {
 		config.firingSound = "hbm:weapon.teslaShoot";
 		
 		config.name = "EMP Orb Projector";
-		config.manufacturer = "MWT Prototype Labs";
+		config.manufacturer = EnumGunManufacturer.MWT;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SPECIAL_EMP);
@@ -95,7 +103,7 @@ public class GunEnergyFactory {
 		config.reloadSound = "hbm:weapon.flamerReload";
 		
 		config.name = "Heavy Duty Flamer";
-		config.manufacturer = "MWT Prototype Labs";
+		config.manufacturer = EnumGunManufacturer.MWT;
 
 		config.comment.add("Dragon-slaying: Advanced techniques, part 1:");
 		config.comment.add("Try not to get eaten by the dragon.");
@@ -132,7 +140,7 @@ public class GunEnergyFactory {
 		config.reloadSound = "hbm:weapon.b92Reload";
 		
 		config.name = "EMC101 Prismatic Negative Energy Cannon";
-		config.manufacturer = "MWT Prototype Labs";
+		config.manufacturer = EnumGunManufacturer.MWT;
 
 		config.comment.add("Taste the rainbow!");
 		
@@ -162,7 +170,7 @@ public class GunEnergyFactory {
 		config.reloadSound = "hbm:weapon.flamerReload";
 		
 		config.name = "PROTEX Fire Exinguisher 6kg";
-		config.manufacturer = "Gloria GmbH";
+		config.manufacturer = EnumGunManufacturer.GLORIA;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.FEXT_NORMAL);
@@ -184,7 +192,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-//		bullet.ammo = ModItems.gun_emp_ammo;
+		bullet.ammo = new ComparableStack(ModItems.gun_emp_ammo);
 		
 		bullet.velocity = 1F;
 		bullet.spread = 0.0F;
@@ -217,7 +225,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = ModItems.ammo_fuel;
+		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.DIESEL));
 		bullet.ammoCount = 100;
 		
 		bullet.velocity = 0.75F;
@@ -265,7 +273,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = ModItems.ammo_fuel_napalm;
+		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.NAPALM));
 		bullet.wear = 2;
 		bullet.dmgMin = 4;
 		bullet.dmgMax = 6;
@@ -278,7 +286,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = ModItems.ammo_fuel_phosphorus;
+		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.PHOSPHORUS));
 		bullet.wear = 2;
 		bullet.spread = 0.0F;
 		bullet.bulletsMin = 1;
@@ -297,7 +305,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = ModItems.ammo_fuel_vaporizer;
+		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.VAPORIZER));
 		bullet.wear = 4;
 		bullet.spread = 0.25F;
 		bullet.bulletsMin = 8;
@@ -322,7 +330,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = ModItems.ammo_fuel_gas;
+		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.CHLORINE));
 		bullet.wear = 1;
 		bullet.spread = 0.05F;
 		bullet.gravity = 0D;
@@ -344,7 +352,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = ModItems.ammo_fireext;
+		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.WATER));
 		bullet.ammoCount = 300;
 		
 		bullet.velocity = 0.75F;
@@ -361,6 +369,8 @@ public class GunEnergyFactory {
 		bullet.doesBreakGlass = false;
 		bullet.style = BulletConfiguration.STYLE_NONE;
 		bullet.plink = BulletConfiguration.PLINK_NONE;
+		
+		bullet.bHurt = (bulletEntity, target) -> { target.extinguish(); };
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
@@ -385,6 +395,11 @@ public class GunEnergyFactory {
 								}
 							}
 						}
+					}
+					
+					TileEntity core = CompatExternal.getCoreFromPos(bullet.worldObj, ix, iy, iz);
+					if(core instanceof IRepairable) {
+						((IRepairable) core).tryExtinguish(bullet.worldObj, ix, iy, iz, EnumExtinguishType.WATER);
 					}
 					
 					if(fizz)
@@ -432,7 +447,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFextConfig();
 		
-		bullet.ammo = ModItems.ammo_fireext_foam;
+		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.FOAM));
 		bullet.spread = 0.05F;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -463,6 +478,12 @@ public class GunEnergyFactory {
 					}
 					
 					Block b = bullet.worldObj.getBlock(ix, iy, iz);
+					
+					TileEntity core = CompatExternal.getCoreFromPos(bullet.worldObj, ix, iy, iz);
+					if(core instanceof IRepairable) {
+						((IRepairable) core).tryExtinguish(bullet.worldObj, ix, iy, iz, EnumExtinguishType.FOAM);
+						return;
+					}
 					
 					if(b.isReplaceable(bullet.worldObj, ix, iy, iz) && ModBlocks.foam_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
 						
@@ -513,8 +534,10 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFextConfig();
 		
-		bullet.ammo = ModItems.ammo_fireext_sand;
+		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.SAND));
 		bullet.spread = 0.1F;
+		
+		bullet.bHurt = null; // does not extinguish entities
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
@@ -528,6 +551,12 @@ public class GunEnergyFactory {
 					int iz = (int)Math.floor(bullet.posZ);
 					
 					Block b = bullet.worldObj.getBlock(ix, iy, iz);
+					
+					TileEntity core = CompatExternal.getCoreFromPos(bullet.worldObj, ix, iy, iz);
+					if(core instanceof IRepairable) {
+						((IRepairable) core).tryExtinguish(bullet.worldObj, ix, iy, iz, EnumExtinguishType.SAND);
+						return;
+					}
 					
 					if((b.isReplaceable(bullet.worldObj, ix, iy, iz) || b == ModBlocks.sand_boron_layer) && ModBlocks.sand_boron_layer.canPlaceBlockAt(bullet.worldObj, ix, iy, iz)) {
 						
@@ -578,7 +607,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = ModItems.nugget_euphemium;
+		bullet.ammo = new ComparableStack(ModItems.nugget_euphemium);
 		bullet.ammoCount = 1000;
 		bullet.wear = 1;
 		bullet.velocity = 1F;
@@ -621,7 +650,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = ModItems.nothing;
+		bullet.ammo = new ComparableStack(ModItems.nothing);
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 150;
 		bullet.velocity = 1F;

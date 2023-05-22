@@ -9,7 +9,7 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.recipes.RefineryRecipes;
+import com.hbm.inventory.recipes.FractionRecipes;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -104,8 +104,8 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 	private void sendFluid() {
 		
 		for(DirPos pos : getConPos()) {
-			this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.sendFluid(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 	
@@ -120,7 +120,7 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 	
 	private void setupTanks() {
 		
-		Pair<FluidStack, FluidStack> quart = RefineryRecipes.getFractions(tanks[0].getTankType());
+		Pair<FluidStack, FluidStack> quart = FractionRecipes.getFractions(tanks[0].getTankType());
 		
 		if(quart != null) {
 			tanks[1].setTankType(quart.getKey().type);
@@ -134,7 +134,7 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 	
 	private void fractionate() {
 		
-		Pair<FluidStack, FluidStack> quart = RefineryRecipes.getFractions(tanks[0].getTankType());
+		Pair<FluidStack, FluidStack> quart = FractionRecipes.getFractions(tanks[0].getTankType());
 		
 		if(quart != null) {
 			

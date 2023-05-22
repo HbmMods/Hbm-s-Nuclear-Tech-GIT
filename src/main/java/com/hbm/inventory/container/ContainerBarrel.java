@@ -13,11 +13,7 @@ import net.minecraft.item.ItemStack;
 public class ContainerBarrel extends Container {
 	
 	private TileEntityBarrel diFurnace;
-	private int power;
-	
 	public ContainerBarrel(InventoryPlayer invPlayer, TileEntityBarrel tedf) {
-		power = 0;
-		
 		diFurnace = tedf;
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 8, 17));

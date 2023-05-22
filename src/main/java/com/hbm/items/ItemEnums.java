@@ -18,7 +18,9 @@ public class ItemEnums {
 		CRUDE,
 		CRACK,
 		COAL,
-		WOOD
+		WOOD,
+		WAX,
+		PARAFFIN
 	}
 
 	public static enum EnumBriquetteType {
@@ -35,6 +37,7 @@ public class ItemEnums {
 
 	public static enum EnumPlantType {
 		TOBACCO,
-		ROPE
+		ROPE,
+		MUSTARDWILLOW
 	}
 }

@@ -1,7 +1,5 @@
 package com.hbm.render.tileentity;
 
-import java.util.Random;
-
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;

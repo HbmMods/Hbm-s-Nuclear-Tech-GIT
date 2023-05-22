@@ -63,7 +63,7 @@ public class CompactLauncher extends BlockContainer implements IMultiblock, IBom
 		} else if(!player.isSneaking()) {
 			TileEntityCompactLauncher entity = (TileEntityCompactLauncher) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_compact_launcher, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

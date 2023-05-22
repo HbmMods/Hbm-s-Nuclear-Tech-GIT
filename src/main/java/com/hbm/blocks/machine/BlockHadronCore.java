@@ -1,6 +1,5 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -75,7 +74,7 @@ public class BlockHadronCore extends BlockContainer {
 			
 			TileEntityHadron entity = (TileEntityHadron) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_hadron, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			
 			return true;

@@ -205,7 +205,7 @@ public class ItemRBMKRod extends Item {
 			double avg = (heat + hullHeat + coreHeat) / 3D;
 			this.setCoreHeat(stack, avg);
 			this.setHullHeat(stack, avg);
-			return avg;
+			return avg - heat;
 		}
 		
 		if(hullHeat <= heat)
@@ -500,5 +500,10 @@ public class ItemRBMKRod extends Item {
 		setYield(stack, ((ItemRBMKRod)stack.getItem()).yield);
 		setCoreHeat(stack, 20.0D);
 		setHullHeat(stack, 20.0D);
+	}
+	
+	@Override
+	public void onCreated(ItemStack stack, World world, EntityPlayer player) {
+		setNBTDefaults(stack); //minimize the window where NBT screwups can happen
 	}
 }

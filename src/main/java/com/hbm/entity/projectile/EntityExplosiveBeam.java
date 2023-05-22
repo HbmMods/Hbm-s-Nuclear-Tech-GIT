@@ -2,7 +2,6 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
-import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
@@ -40,11 +39,6 @@ public class EntityExplosiveBeam extends Entity implements IProjectile
     private int ticksInGround;
     private int ticksInAir;
     private double damage = 2.0D;
-    /** The amount of knockback an arrow applies when it hits a mob. */
-    private int knockbackStrength;
-    private static final String __OBFID = "CL_00001715";
-    
-
     public EntityExplosiveBeam(World p_i1753_1_)
     {
         super(p_i1753_1_);
@@ -429,7 +423,6 @@ public class EntityExplosiveBeam extends Entity implements IProjectile
      */
     public void setKnockbackStrength(int p_70240_1_)
     {
-        this.knockbackStrength = p_70240_1_;
     }
 
     /**

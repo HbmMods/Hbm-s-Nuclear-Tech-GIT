@@ -37,9 +37,7 @@ public class TestNuke extends BlockContainer {
     private final Random field_149933_a = new Random();
 	private static boolean keepInventory = false;
     private Map field_77288_k = new HashMap();
-    private boolean isExploding = false;
-
-	public TestNuke(Material p_i45386_1_) {
+    public TestNuke(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}
 
@@ -117,7 +115,7 @@ public class TestNuke extends BlockContainer {
 			TileEntityTestNuke entity = (TileEntityTestNuke) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_test_nuke, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -13,7 +14,10 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.AmmoFatman;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -43,8 +47,8 @@ public class GunFatmanFactory {
 		config.reloadSound = GunConfiguration.RSOUND_FATMAN;
 		config.reloadSoundEnd = false;
 		
-		config.name = "M-42 Tactical Nuclear Catapult";
-		config.manufacturer = "Fort Strong";
+		config.name = "m42";
+		config.manufacturer = EnumGunManufacturer.F_STRONG;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_NORMAL);
@@ -63,8 +67,8 @@ public class GunFatmanFactory {
 		
 		GunConfiguration config = getFatmanConfig();
 		
-		config.name = "M-42 Experimental MIRV";
-		config.manufacturer = "Fort Strong";
+		config.name = "m42MIRV";
+		config.manufacturer = EnumGunManufacturer.F_STRONG;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_NORMAL);
@@ -81,8 +85,8 @@ public class GunFatmanFactory {
 		
 		GunConfiguration config = getFatmanConfig();
 		
-		config.name = "Balefire Egg Launcher";
-		config.manufacturer = "Fort Strong";
+		config.name = "bel";
+		config.manufacturer = EnumGunManufacturer.F_STRONG;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_AMAT);
@@ -108,8 +112,8 @@ public class GunFatmanFactory {
 		config.reloadSound = GunConfiguration.RSOUND_FATMAN;
 		config.reloadSoundEnd = false;
 		
-		config.name = "M-42 Tactical Nuclear Catapult";
-		config.manufacturer = "Fort Strong";
+		config.name = "m42";
+		config.manufacturer = EnumGunManufacturer.F_STRONG;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_NORMAL);
@@ -127,13 +131,13 @@ public class GunFatmanFactory {
 	public static BulletConfiguration getNukeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
-		bullet.ammo = ModItems.ammo_nuke;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.STOCK));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 3);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_MEDIUM);
 			}
 		};
 		
@@ -143,13 +147,13 @@ public class GunFatmanFactory {
 	public static BulletConfiguration getNukeLowConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
-		bullet.ammo = ModItems.ammo_nuke_low;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.LOW));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 2);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_LOW);
 			}
 		};
 		
@@ -159,13 +163,13 @@ public class GunFatmanFactory {
 	public static BulletConfiguration getNukeHighConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
-		bullet.ammo = ModItems.ammo_nuke_high;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.HIGH));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 4);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_HIGH);
 			}
 		};
 		
@@ -175,7 +179,7 @@ public class GunFatmanFactory {
 	public static BulletConfiguration getNukeTotsConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
-		bullet.ammo = ModItems.ammo_nuke_tots;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.TOTS));
 		bullet.bulletsMin = 8;
 		bullet.bulletsMax = 8;
 		bullet.spread = 0.1F;
@@ -185,7 +189,7 @@ public class GunFatmanFactory {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 1);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_TOTS);
 			}
 		};
 		
@@ -195,13 +199,13 @@ public class GunFatmanFactory {
 	public static BulletConfiguration getNukeSafeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
-		bullet.ammo = ModItems.ammo_nuke_safe;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.SAFE));
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 0);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_SAFE);
 			}
 		};
 		
@@ -211,7 +215,7 @@ public class GunFatmanFactory {
 	public static BulletConfiguration getNukePumpkinConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
-		bullet.ammo = ModItems.ammo_nuke_pumpkin;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.PUMPKIN));
 		bullet.explosive = 10F;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -242,7 +246,7 @@ public class GunFatmanFactory {
 	public static BulletConfiguration getNukeBarrelConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
-		bullet.ammo = ModItems.ammo_nuke_barrel;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.BARREL));
 		bullet.explosive = 3F;
 		bullet.style = bullet.STYLE_BARREL;
 		
@@ -300,7 +304,7 @@ public class GunFatmanFactory {
 		
 		BulletConfiguration bullet = getNukeConfig();
 		
-		bullet.ammo = ModItems.ammo_mirv;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.MIRV));
 		bullet.style = BulletConfiguration.STYLE_MIRV;
 		bullet.velocity *= 3;
 		
@@ -337,7 +341,7 @@ public class GunFatmanFactory {
 		
 		BulletConfiguration bullet = getNukeLowConfig();
 		
-		bullet.ammo = ModItems.ammo_mirv_low;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.MIRV_LOW));
 		bullet.style = BulletConfiguration.STYLE_MIRV;
 		bullet.velocity *= 3;
 		
@@ -374,7 +378,7 @@ public class GunFatmanFactory {
 		
 		BulletConfiguration bullet = getNukeHighConfig();
 		
-		bullet.ammo = ModItems.ammo_mirv_high;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.MIRV_HIGH));
 		bullet.style = BulletConfiguration.STYLE_MIRV;
 		bullet.velocity *= 3;
 		
@@ -411,7 +415,7 @@ public class GunFatmanFactory {
 		
 		BulletConfiguration bullet = getNukeSafeConfig();
 		
-		bullet.ammo = ModItems.ammo_mirv_safe;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.MIRV_SAFE));
 		bullet.style = BulletConfiguration.STYLE_MIRV;
 		bullet.velocity *= 3;
 		
@@ -448,7 +452,7 @@ public class GunFatmanFactory {
 		
 		BulletConfiguration bullet = getNukeConfig();
 		
-		bullet.ammo = ModItems.ammo_mirv_special;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.MIRV_SPECIAL));
 		bullet.style = BulletConfiguration.STYLE_MIRV;
 		bullet.velocity *= 3;
 		
@@ -496,7 +500,7 @@ public class GunFatmanFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
 		
-//		bullet.ammo = ModItems.gun_bf_ammo;
+		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.BALEFIRE));
 		bullet.style = BulletConfiguration.STYLE_BF;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {

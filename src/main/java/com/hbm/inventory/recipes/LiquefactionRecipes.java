@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -39,6 +40,7 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		recipes.put(KEY_CRACK_TAR,									new FluidStack(100, Fluids.BITUMEN));
 		recipes.put(KEY_COAL_TAR,									new FluidStack(50, Fluids.BITUMEN));
 		recipes.put(KEY_LOG,										new FluidStack(100, Fluids.MUG));
+		recipes.put(KNO.dust(),										new FluidStack(250, Fluids.NITRIC_ACID));
 		//general utility recipes because why not
 		recipes.put(new ComparableStack(Blocks.netherrack),			new FluidStack(250, Fluids.LAVA));
 		recipes.put(new ComparableStack(Blocks.cobblestone),		new FluidStack(250, Fluids.LAVA));
@@ -51,6 +53,8 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(Items.ender_pearl),			new FluidStack(100, Fluids.ENDERJUICE));
 
 		recipes.put(new ComparableStack(Items.sugar),				new FluidStack(100, Fluids.ETHANOL));
+		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 3), new FluidStack(150, Fluids.ETHANOL));
+		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 4), new FluidStack(50, Fluids.ETHANOL));
 		recipes.put(new ComparableStack(ModItems.biomass),			new FluidStack(125, Fluids.BIOGAS));
 
 		recipes.put(new ComparableStack(Items.wheat_seeds),			new FluidStack(50, Fluids.SEEDSLURRY));

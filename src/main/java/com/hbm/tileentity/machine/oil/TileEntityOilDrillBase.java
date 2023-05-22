@@ -18,6 +18,8 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple;
@@ -35,8 +37,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidStandardTransceiver, IConfigurableMachine {
-	
+public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidStandardTransceiver, IConfigurableMachine, IPersistentNBT, IGUIProvider {
+
 	public int indicator = 0;
 	
 	public long power;
@@ -56,6 +58,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
+		this.power = nbt.getLong("power");
 		for(int i = 0; i < this.tanks.length; i++)
 			this.tanks[i].readFromNBT(nbt, "t" + i);
 	}
@@ -64,8 +67,30 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		
+		nbt.setLong("power", power);
 		for(int i = 0; i < this.tanks.length; i++)
 			this.tanks[i].writeToNBT(nbt, "t" + i);
+	}
+
+	@Override
+	public void writeNBT(NBTTagCompound nbt) {
+		
+		boolean empty = power == 0;
+		for(FluidTank tank : tanks) if(tank.getFill() > 0) empty = false;
+		
+		if(!empty) {
+			nbt.setLong("power", power);
+			for(int i = 0; i < this.tanks.length; i++) {
+				this.tanks[i].writeToNBT(nbt, "t" + i);
+			}
+		}
+	}
+
+	@Override
+	public void readNBT(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		for(int i = 0; i < this.tanks.length; i++)
+			this.tanks[i].readFromNBT(nbt, "t" + i);
 	}
 
 	public int speedLevel;
@@ -110,8 +135,8 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 				this.fillFluidInit(tanks[1].getTankType());
 			
 			for(DirPos pos : getConPos()) {
-				if(tanks[0].getFill() > 0) this.sendFluid(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[0].getFill() > 0) this.sendFluid(tanks[0], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			if(this.power >= this.getPowerReqEff() && this.tanks[0].getFill() < this.tanks[0].getMaxFill() && this.tanks[1].getFill() < this.tanks[1].getMaxFill()) {
@@ -158,7 +183,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	
 	public int getDelayEff() {
 		int delay = getDelay();
-		return Math.max((delay - (delay / 4 * this.speedLevel) + (delay / 10 * this.energyLevel) / this.overLevel), 1);
+		return Math.max((delay - (delay / 4 * this.speedLevel) + (delay / 10 * this.energyLevel)) / this.overLevel, 1);
 	}
 	
 	public boolean canPump() {

@@ -5,21 +5,33 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WeaponConfig;
-import com.hbm.interfaces.Untested;
+import com.hbm.extprop.HbmLivingProps;
+import com.hbm.inventory.container.ContainerMachineRadar;
+import com.hbm.inventory.gui.GUIMachineRadar;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityTickingBase;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectable.RadarTargetType;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 
-public class TileEntityMachineRadar extends TileEntityTickingBase implements IEnergyUser {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityMachineRadar extends TileEntityTickingBase implements IEnergyUser, IGUIProvider, SimpleComponent {
 
 	public List<Entity> entList = new ArrayList();
 	public List<int[]> nearbyMissiles = new ArrayList();
@@ -264,5 +276,54 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+
+	// do some opencomputer stuff
+
+	@Override
+	public String getComponentName() {
+		return "ntm_radar";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPower(Context context, Arguments args) {
+		return new Object[] {power};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isJammed(Context context, Arguments args) {
+		return new Object[] {jammed};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEntities(Context context, Arguments args) {
+		int index = args.checkInteger(0);
+		boolean raw = args.checkBoolean(1);
+		if(!raw && !jammed) {
+			Entity e = entList.get(index);
+			double a = (e.posX);
+			double b = (e.posY);
+			double c = (e.posZ);
+			boolean d = (e instanceof EntityPlayer);
+			return new Object[] {a, b, c, d};
+		} else if (!jammed) {
+			return new Object[] {entList};
+		} else {
+			return new Object[] {"Radar jammed!"};
+		}
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMachineRadar(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineRadar(player.inventory, this);
 	}
 }

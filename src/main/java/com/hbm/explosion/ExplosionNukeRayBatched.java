@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -97,18 +98,24 @@ public class ExplosionNukeRayBatched {
 				float y0 = (float) (posY + (vec.yCoord * i));
 				float z0 = (float) (posZ + (vec.zCoord * i));
 
+				int iX = (int) Math.floor(x0);
+				int iY = (int) Math.floor(y0);
+				int iZ = (int) Math.floor(z0);
+
 				double fac = 100 - ((double) i) / ((double) length) * 100;
 				fac *= 0.07D;
+				
+				Block block = world.getBlock(iX, iY, iZ);
 
-				if(!world.getBlock((int)x0, (int)y0, (int)z0).getMaterial().isLiquid())
-					res -= Math.pow(world.getBlock((int)x0, (int)y0, (int)z0).getExplosionResistance(null), 7.5D - fac);
+				if(!block.getMaterial().isLiquid())
+					res -= Math.pow(block.getExplosionResistance(null), 7.5D - fac);
 				//else
 				//	res -= Math.pow(Blocks.air.getExplosionResistance(null), 7.5D - fac); // air is 0, might want to raise that is necessary
 
-				if(res > 0 && world.getBlock((int)x0, (int)y0, (int)z0) != Blocks.air) {
+				if(res > 0 && block != Blocks.air) {
 					lastPos = new FloatTriplet(x0, y0, z0);
 					//all-air chunks don't need to be buffered at all
-					ChunkCoordIntPair chunkPos = new ChunkCoordIntPair(((int) x0) >> 4, ((int) z0) >> 4);
+					ChunkCoordIntPair chunkPos = new ChunkCoordIntPair(iX >> 4, iZ >> 4);
 					chunkCoords.add(chunkPos);
 				}
 
@@ -185,9 +192,9 @@ public class ExplosionNukeRayBatched {
 			
 			boolean inChunk = false;
 			for(int i = enter; i < vec.lengthVector(); i++) {
-				int x0 = (int)(posX + pX * i);
-				int y0 = (int)(posY + pY * i);
-				int z0 = (int)(posZ + pZ * i);
+				int x0 = (int) Math.floor(posX + pX * i);
+				int y0 = (int) Math.floor(posY + pY * i);
+				int z0 = (int) Math.floor(posZ + pZ * i);
 				
 				if(x0 >> 4 != chunkX || z0 >> 4 != chunkZ) {
 					if(inChunk) {

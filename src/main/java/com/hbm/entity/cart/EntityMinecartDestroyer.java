@@ -3,26 +3,30 @@ package com.hbm.entity.cart;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.items.ModItems;
+import com.hbm.inventory.container.ContainerCartDestroyer;
+import com.hbm.inventory.gui.GUICartDestroyer;
 import com.hbm.items.tool.ItemModMinecart;
 import com.hbm.items.tool.ItemModMinecart.EnumCartBase;
 import com.hbm.items.tool.ItemModMinecart.EnumMinecart;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.entity.item.RenderNeoCart;
+import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class EntityMinecartDestroyer extends EntityMinecartContainerBase {
+public class EntityMinecartDestroyer extends EntityMinecartContainerBase implements IGUIProvider {
 
 	public EntityMinecartDestroyer(World world) {
 		super(world);
@@ -36,9 +40,9 @@ public class EntityMinecartDestroyer extends EntityMinecartContainerBase {
 	public boolean interactFirst(EntityPlayer player) {
 		if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, player)))
 			return true;
-//		if(!this.worldObj.isRemote) {
-//			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModItems.guiID_cart_destroyer, worldObj, this.getEntityId(), 0, 0);
-//		}
+		if(!this.worldObj.isRemote) {
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, worldObj, this.getEntityId(), 0, 0);
+		}
 
 		return true;
 	}
@@ -134,5 +138,16 @@ public class EntityMinecartDestroyer extends EntityMinecartContainerBase {
 	public void renderSpecialContent(RenderNeoCart renderer) {
 		renderer.bindTexture(ResourceManager.cart_destroyer_tex);
 		ResourceManager.cart_destroyer.renderAll();
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerCartDestroyer(player.inventory, (EntityMinecartDestroyer)player.worldObj.getEntityByID(x));
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUICartDestroyer(player.inventory, (EntityMinecartDestroyer) player.worldObj.getEntityByID(x));
 	}
 }

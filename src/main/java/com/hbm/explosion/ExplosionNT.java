@@ -36,7 +36,7 @@ public class ExplosionNT extends Explosion {
 	protected int resolution = 16;
 	protected Map affectedEntities = new HashMap();
 
-	public static final List<ExAttrib> nukeAttribs = Arrays.asList(new ExAttrib[] { ExAttrib.FIRE, ExAttrib.NOPARTICLE, ExAttrib.NOSOUND, ExAttrib.NODROP, ExAttrib.NOHURT });
+	@Deprecated public static final List<ExAttrib> nukeAttribs = Arrays.asList(new ExAttrib[] { ExAttrib.FIRE, ExAttrib.NOPARTICLE, ExAttrib.NOSOUND, ExAttrib.NODROP, ExAttrib.NOHURT });
 
 	public ExplosionNT(World world, Entity exploder, double x, double y, double z, float strength) {
 		super(world, exploder, x, y, z, strength);

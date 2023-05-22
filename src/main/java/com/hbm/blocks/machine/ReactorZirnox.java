@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.main.MainRegistry;
@@ -46,7 +45,7 @@ public class ReactorZirnox extends BlockDummyable {
 			if(pos == null)
 				return false;
 
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_zirnox, world, pos[0], pos[1], pos[2]);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {
 			return false;

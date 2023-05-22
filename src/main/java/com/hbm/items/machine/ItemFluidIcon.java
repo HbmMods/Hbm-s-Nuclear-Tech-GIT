@@ -9,13 +9,13 @@ import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 
 public class ItemFluidIcon extends Item {
 
@@ -71,8 +71,9 @@ public class ItemFluidIcon extends Item {
 		return stack.getTagCompound().getInteger("fill");
 	}
 
+	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		String s = (I18n.format(Fluids.fromID(stack.getItemDamage()).getUnlocalizedName())).trim();
+		String s = (StatCollector.translateToLocal(Fluids.fromID(stack.getItemDamage()).getUnlocalizedName())).trim();
 
 		if(s != null) {
 			return s;
@@ -80,27 +81,6 @@ public class ItemFluidIcon extends Item {
 
 		return "Unknown";
 	}
-
-	/*
-	 * @Override
-	 * 
-	 * @SideOnly(Side.CLIENT) public boolean requiresMultipleRenderPasses() {
-	 * return true; }
-	 * 
-	 * @Override
-	 * 
-	 * @SideOnly(Side.CLIENT) public void registerIcons(IIconRegister
-	 * p_94581_1_) { super.registerIcons(p_94581_1_);
-	 * 
-	 * this.overlayIcon =
-	 * p_94581_1_.registerIcon("hbm:fluid_identifier_overlay"); }
-	 * 
-	 * @Override
-	 * 
-	 * @SideOnly(Side.CLIENT) public IIcon getIconFromDamageForRenderPass(int
-	 * p_77618_1_, int p_77618_2_) { return p_77618_2_ == 1 ? this.overlayIcon :
-	 * super.getIconFromDamageForRenderPass(p_77618_1_, p_77618_2_); }
-	 */
 
 	@Override
 	@SideOnly(Side.CLIENT)

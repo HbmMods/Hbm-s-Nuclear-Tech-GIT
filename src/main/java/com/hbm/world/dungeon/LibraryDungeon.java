@@ -7,8 +7,6 @@ import static net.minecraftforge.common.ChestGenHooks.DUNGEON_CHEST;
 import java.util.Random;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.main.MainRegistry;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;

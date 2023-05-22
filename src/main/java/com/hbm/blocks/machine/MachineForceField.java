@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityForceField;
 
@@ -54,7 +53,7 @@ public class MachineForceField extends BlockContainer {
 		if(world.isRemote) {
 			return true;
 		} else if(!player.isSneaking()) {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_forcefield, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 		} else {
 			return true;

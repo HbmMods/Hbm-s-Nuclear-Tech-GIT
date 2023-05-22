@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
@@ -121,7 +120,7 @@ public class MachineSeleniumEngine extends BlockContainer implements ITooltipPro
 		} else if(!player.isSneaking()) {
 			TileEntityMachineSeleniumEngine entity = (TileEntityMachineSeleniumEngine) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_selenium, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

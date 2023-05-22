@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
@@ -29,8 +30,8 @@ public class SILEXRecipes {
 	public static void register() {
 
 		itemTranslation.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.UF6.getID()), new ComparableStack(ModItems.ingot_uranium));
-		dictTranslation.put("dustUranium", "ingotUranium");
-		recipes.put("ingotUranium", new SILEXRecipe(900, 100, EnumWavelengths.UV)
+		dictTranslation.put(U.dust(), U.ingot());
+		recipes.put(U.ingot(), new SILEXRecipe(900, 100, EnumWavelengths.UV)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u235), 1))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u238), 11))
 				);
@@ -46,8 +47,8 @@ public class SILEXRecipes {
 				);
 
 		itemTranslation.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.PUF6.getID()), new ComparableStack(ModItems.ingot_plutonium));
-		dictTranslation.put("dustPlutonium", "ingotPlutonium");
-		recipes.put("ingotPlutonium", new SILEXRecipe(900, 100, 2)
+		dictTranslation.put(PU.dust(), PU.ingot());
+		recipes.put(PU.ingot(), new SILEXRecipe(900, 100, 2)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu238), 3))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu239), 4))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu240), 2))

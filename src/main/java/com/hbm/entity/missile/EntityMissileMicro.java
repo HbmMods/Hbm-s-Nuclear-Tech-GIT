@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.items.ModItems;
 
 import net.minecraft.item.ItemStack;
@@ -22,8 +23,7 @@ public class EntityMissileMicro extends EntityMissileBaseAdvanced {
 	@Override
 	public void onImpact() {
 		if(!this.worldObj.isRemote) {
-
-			ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.high);
+			ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.PARAMS_HIGH);
 		}
 	}
 
@@ -42,7 +42,7 @@ public class EntityMissileMicro extends EntityMissileBaseAdvanced {
 
 	@Override
 	public ItemStack getDebrisRareDrop() {
-		return new ItemStack(ModItems.ammo_nuke_high, 1);
+		return ModItems.ammo_nuke.stackFromEnum(AmmoFatman.HIGH);
 	}
 
 	@Override

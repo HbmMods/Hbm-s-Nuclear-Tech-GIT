@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
 
@@ -20,10 +20,10 @@ public class ContainerCentrifuge extends Container {
 
 		this.addSlotToContainer(new Slot(tedf, 0, 36, 50));
 		this.addSlotToContainer(new Slot(tedf, 1, 9, 50));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 63, 50));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 83, 50));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 103, 50));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 5, 123, 50));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 2, 63, 50));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 3, 83, 50));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 4, 103, 50));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 5, 123, 50));
 		this.addSlotToContainer(new SlotUpgrade(tedf, 6, 149, 22));
 		this.addSlotToContainer(new SlotUpgrade(tedf, 7, 149, 40));
 
@@ -46,7 +46,7 @@ public class ContainerCentrifuge extends Container {
 		if(var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			SlotMachineOutput.checkAchievements(p_82846_1_, var5);
+			SlotCraftingOutput.checkAchievements(p_82846_1_, var5);
 
 			if(par2 <= 6) {
 				if(!this.mergeItemStack(var5, 6, this.inventorySlots.size(), true)) {

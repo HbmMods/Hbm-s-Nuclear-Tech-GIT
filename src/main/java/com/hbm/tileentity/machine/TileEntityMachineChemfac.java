@@ -1,25 +1,30 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.UpgradeManager;
-import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.container.ContainerChemfac;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.gui.GUIChemfac;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
@@ -36,6 +41,15 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 
 		water = new FluidTank(Fluids.WATER, 64_000, tanks.length);
 		steam = new FluidTank(Fluids.SPENTSTEAM, 64_000, tanks.length + 1);
+	}
+
+	@Override
+	public void setInventorySlotContents(int i, ItemStack stack) {
+		super.setInventorySlotContents(i, stack);
+		
+		if(stack != null && i >= 1 && i <= 4 && stack.getItem() instanceof ItemMachineUpgrade) {
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+		}
 	}
 
 	@Override
@@ -59,7 +73,7 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 			
 			for(DirPos pos : getConPos()) for(FluidTank tank : outTanks()) {
 				if(tank.getTankType() != Fluids.NONE && tank.getFill() > 0) {
-					this.sendFluid(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
 			
@@ -201,58 +215,6 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 	}
 
 	@Override
-	public void fillFluidInit(FluidType type) {
-		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
-		for(int i = 0; i < 6; i++) {
-			fillFluid(xCoord + dir.offsetX * (2 - i) + rot.offsetX * 3, yCoord + 4, zCoord + dir.offsetZ * (2 - i) + rot.offsetZ * 3, this.getTact(), type);
-			fillFluid(xCoord + dir.offsetX * (2 - i) - rot.offsetX * 2, yCoord + 4, zCoord + dir.offsetZ * (2 - i) - rot.offsetZ * 2, this.getTact(), type);
-
-			for(int j = 0; j < 2; j++) {
-				fillFluid(xCoord + dir.offsetX * (2 - i) + rot.offsetX * 5, yCoord + 1 + j, zCoord + dir.offsetZ * (2 - i) + rot.offsetZ * 5, this.getTact(), type);
-				fillFluid(xCoord + dir.offsetX * (2 - i) - rot.offsetX * 4, yCoord + 1 + j, zCoord + dir.offsetZ * (2 - i) - rot.offsetZ * 4, this.getTact(), type);
-			}
-		}
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		return this.worldObj.getTotalWorldTime() % 20 < 10;
-	}
-
-	private HashMap<FluidType, List<IFluidAcceptor>> fluidMap = new HashMap();
-	
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		
-		List<IFluidAcceptor> list = fluidMap.get(type);
-		
-		if(list == null) {
-			list = new ArrayList();
-			fluidMap.put(type, list);
-		}
-		
-		return list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		
-		List<IFluidAcceptor> list = fluidMap.get(type);
-		
-		if(list != null) {
-			list.clear();
-		}
-	}
-
-	@Override
 	public int getRecipeCount() {
 		return 8;
 	}
@@ -349,11 +311,6 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 		
 		return outTanks;
 	}
-
-	@Override
-	public int getMaxFluidFillForReceive(FluidType type) {
-		return super.getMaxFluidFillForReceive(type);
-	}
 	
 	AxisAlignedBB bb = null;
 	
@@ -378,5 +335,16 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerChemfac(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIChemfac(player.inventory, this);
 	}
 }

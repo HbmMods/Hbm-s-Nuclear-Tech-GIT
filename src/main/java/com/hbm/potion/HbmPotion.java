@@ -7,7 +7,7 @@ import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.PotionConfig;
 import com.hbm.entity.mob.EntityTaintCrab;
-import com.hbm.entity.mob.EntityTaintedCreeper;
+import com.hbm.entity.mob.EntityCreeperTainted;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
@@ -36,7 +36,7 @@ public class HbmPotion extends Potion {
 	public static HbmPotion radx;
 	public static HbmPotion lead;
 	public static HbmPotion radaway;
-	public static HbmPotion telekinesis;
+	//public static HbmPotion telekinesis;
 	public static HbmPotion phosphorus;
 	public static HbmPotion stability;
 	public static HbmPotion potionsickness;
@@ -54,7 +54,7 @@ public class HbmPotion extends Potion {
 		radx = registerPotion(PotionConfig.radxID, false, 0xBB4B00, "potion.hbm_radx", 5, 0);
 		lead = registerPotion(PotionConfig.leadID, true, 0x767682, "potion.hbm_lead", 6, 0);
 		radaway = registerPotion(PotionConfig.radawayID, false, 0xBB4B00, "potion.hbm_radaway", 7, 0);
-		telekinesis = registerPotion(PotionConfig.telekinesisID, true, 0x00F3FF, "potion.hbm_telekinesis", 0, 1);
+		//telekinesis = registerPotion(PotionConfig.telekinesisID, true, 0x00F3FF, "potion.hbm_telekinesis", 0, 1);
 		phosphorus = registerPotion(PotionConfig.phosphorusID, true, 0xFFFF00, "potion.hbm_phosphorus", 1, 1);
 		stability = registerPotion(PotionConfig.stabilityID, false, 0xD0D0D0, "potion.hbm_stability", 2, 1);
 		potionsickness = registerPotion(PotionConfig.potionsicknessID, false, 0xff8080, "potion.hbm_potionsickness", 3, 1);
@@ -102,7 +102,7 @@ public class HbmPotion extends Potion {
 
 		if(this == taint) {
 			
-			if(!(entity instanceof EntityTaintedCreeper) && !(entity instanceof EntityTaintCrab) && entity.worldObj.rand.nextInt(40) == 0)
+			if(!(entity instanceof EntityCreeperTainted) && !(entity instanceof EntityTaintCrab) && entity.worldObj.rand.nextInt(40) == 0)
 				entity.attackEntityFrom(ModDamageSource.taint, (level + 1));
 			
 			if(GeneralConfig.enableHardcoreTaint && !entity.worldObj.isRemote) {
@@ -148,7 +148,7 @@ public class HbmPotion extends Potion {
 			
 			entity.attackEntityFrom(ModDamageSource.lead, (level + 1));
 		}
-		if(this == telekinesis) {
+		/*if(this == telekinesis) {
 			
 			int remaining = entity.getActivePotionEffect(this).getDuration();
 			
@@ -158,7 +158,7 @@ public class HbmPotion extends Potion {
 				entity.motionY = -2;
 				entity.fallDistance = 50;
 			}
-		}
+		}*/
 		if(this == phosphorus && !entity.worldObj.isRemote) {
 			
 			entity.setFire(1);
@@ -171,7 +171,7 @@ public class HbmPotion extends Potion {
 			return par1 % 2 == 0;
 		}
 		
-		if(this == radiation || this == radaway || this == telekinesis || this == phosphorus) {
+		if(this == radiation || this == radaway || /*this == telekinesis ||*/ this == phosphorus) {
 			return true;
 		}
 		

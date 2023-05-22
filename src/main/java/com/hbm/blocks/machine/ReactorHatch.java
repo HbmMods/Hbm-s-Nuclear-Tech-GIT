@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
@@ -61,37 +60,6 @@ public class ReactorHatch extends Block implements IFluidConnectorBlock {
 		//this.setDefaultDirection(world, x, y, z);
 	}
 	
-	private void setDefaultDirection(World world, int x, int y, int z) {
-		if(!world.isRemote)
-		{
-			Block block1 = world.getBlock(x, y, z - 1);
-			Block block2 = world.getBlock(x, y, z + 1);
-			Block block3 = world.getBlock(x - 1, y, z);
-			Block block4 = world.getBlock(x + 1, y, z);
-			
-			byte b0 = 3;
-			
-			if(block1.func_149730_j() && !block2.func_149730_j())
-			{
-				b0 = 3;
-			}
-			if(block2.func_149730_j() && !block1.func_149730_j())
-			{
-				b0 = 2;
-			}
-			if(block3.func_149730_j() && !block4.func_149730_j())
-			{
-				b0 = 5;
-			}
-			if(block4.func_149730_j() && !block3.func_149730_j())
-			{
-				b0 = 4;
-			}
-			
-			world.setBlockMetadataWithNotify(x, y, z, b0, 2);
-		}
-	}
-	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
@@ -127,7 +95,7 @@ public class ReactorHatch extends Block implements IFluidConnectorBlock {
 				{
 					if(((TileEntityMachineReactorLarge)world.getTileEntity(x, y, z + 2)).checkBody())
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x, y, z + 2);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z + 2);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Nuclear Reactor] Error: Reactor Structure not valid!"));
 					}
@@ -141,7 +109,7 @@ public class ReactorHatch extends Block implements IFluidConnectorBlock {
 				{
 					if(((TileEntityMachineReactorLarge)world.getTileEntity(x, y, z - 2)).checkBody())
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x, y, z - 2);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z - 2);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Nuclear Reactor] Error: Reactor Structure not valid!"));
 					}
@@ -155,7 +123,7 @@ public class ReactorHatch extends Block implements IFluidConnectorBlock {
 				{
 					if(((TileEntityMachineReactorLarge)world.getTileEntity(x + 2, y, z)).checkBody())
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x + 2, y, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x + 2, y, z);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Nuclear Reactor] Error: Reactor Structure not valid!"));
 					}
@@ -169,7 +137,7 @@ public class ReactorHatch extends Block implements IFluidConnectorBlock {
 				{
 					if(((TileEntityMachineReactorLarge)world.getTileEntity(x - 2, y, z)).checkBody())
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x - 2, y, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x - 2, y, z);
 					} else {
 						player.addChatMessage(new ChatComponentText("[Nuclear Reactor] Error: Reactor Structure not valid!"));
 					}

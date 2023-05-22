@@ -48,6 +48,12 @@
     "block.warnOverspeed": {"category": "block", "sounds": [{"name": "block/warnOverspeed", "stream": false}]},
     "block.boilerGroan": {"category": "block", "sounds": ["block/boilerGroan0", "block/boilerGroan1", "block/boilerGroan2"]},
     "block.steamEngineOperate": {"category": "block", "sounds": [{"name": "block/steamEngineOperate", "stream": false}]},
+    "block.turbinegasStartup": {"category": "block", "sounds": [{"name": "block/turbinegasStartup", "stream": true}]},
+    "block.turbinegasRunning": {"category": "block", "sounds": [{"name": "block/turbinegasRunning", "stream": false}]},
+    "block.turbinegasShutdown": {"category": "block", "sounds": [{"name": "block/turbinegasShutdown", "stream": true}]},
+    "block.damage": {"category": "block", "sounds": ["block/dam1", "block/dam2", "block/dam3", "block/dam4"]},
+    "block.electricHum": {"category": "block", "sounds": [{"name": "block/electricHum", "stream": false}]},
+    "block.boiler": {"category": "block", "sounds": [{"name": "block/boiler", "stream": false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},
@@ -74,6 +80,7 @@
     "item.vice": {"category": "player", "sounds": [{"name": "tool/vice", "stream": false}]},
     "item.upgradePlug": {"category": "player", "sounds": [{"name": "tool/upgradePlug", "stream": false}]},
     "item.battery": {"category": "player", "sounds": [{"name": "tool/battery", "stream": false}]},
+    "item.boltgun": {"category": "player", "sounds": [{"name": "tool/boltgun", "stream": false}]},
 
 	"music.recordLambdaCore": {"category": "record", "sounds": [{"name": "music/recordLambdaCore", "stream": true}]},
 	"music.recordSectorSweep": {"category": "record", "sounds": [{"name": "music/recordSectorSweep", "stream": true}]},
@@ -167,6 +174,7 @@
     "weapon.robin_explosion": {"category": "player", "sounds": [{"name": "weapon/robin_explosion", "stream": false}]},
     "weapon.shotgunPump": {"category": "player", "sounds": [{"name": "weapon/shotgunShootPump", "stream": false}]},
     "weapon.explosionMedium": {"category": "player", "sounds": [{"name": "weapon/explosion_medium", "stream": false}]},
+    "weapon.hicalShot": {"category": "player", "sounds": [{"name": "weapon/hicalShot", "stream": false}]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 

@@ -1,7 +1,6 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyEnergy;
 import com.hbm.tileentity.machine.TileEntityFEL;
@@ -58,7 +57,7 @@ public class MachineFEL extends BlockDummyable {
 			if(pos == null)
 				return false;
 			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fel, world, pos[0], pos[1], pos[2]);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {
 			return false;

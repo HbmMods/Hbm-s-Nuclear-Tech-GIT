@@ -5,7 +5,6 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityDiFurnace;
 import com.hbm.tileentity.machine.TileEntityDiFurnaceRTG;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -123,7 +122,7 @@ public class MachineDiFurnaceRTG extends BlockContainer {
 		} else if(!player.isSneaking()) {
 			TileEntityDiFurnaceRTG entity = (TileEntityDiFurnaceRTG) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_rtg_difurnace, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

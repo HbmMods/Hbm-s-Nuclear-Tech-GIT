@@ -4,12 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.item.EntityTNTPrimedBase;
 
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderTNTPrimedBase extends Render {

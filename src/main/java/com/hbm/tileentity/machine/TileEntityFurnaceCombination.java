@@ -62,14 +62,14 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 					
 					for(int y = yCoord; y <= yCoord + 1; y++) {
 						for(int j = -1; j <= 1; j++) {
-							if(tank.getFill() > 0) this.sendFluid(tank.getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * j, y, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
+							if(tank.getFill() > 0) this.sendFluid(tank, worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * j, y, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
 						}
 					}
 				}
 	
 				for(int x = xCoord - 1; x <= xCoord + 1; x++) {
 					for(int z = zCoord - 1; z <= zCoord + 1; z++) {
-						if(tank.getFill() > 0) this.sendFluid(tank.getTankType(), worldObj, x, yCoord + 2, z, ForgeDirection.UP);
+						if(tank.getFill() > 0) this.sendFluid(tank, worldObj, x, yCoord + 2, z, ForgeDirection.UP);
 					}
 				}
 			}
@@ -215,12 +215,16 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.tank.readFromNBT(nbt, "tank");
+		this.progress = nbt.getInteger("prog");
+		this.heat = nbt.getInteger("heat");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		this.tank.writeToNBT(nbt, "tank");
+		nbt.setInteger("prog", progress);
+		nbt.setInteger("heat", heat);
 	}
 
 	@Override

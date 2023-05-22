@@ -47,7 +47,16 @@ public class EntityRocketHoming extends Entity implements IProjectile
     private int ticksInAir;
     private double damage = 2.0D;
     private int knockbackStrength;
-    private static final String __OBFID = "CL_00001715";
+    private float explosionStrength;
+
+    // specifies the type of stinger rocket that was fired
+    /*  0  =  Normal
+     *  1  =  HE
+     *  2  =  Incendiary
+     *  4  =  Nuclear
+     *  42 =  bone-seeking
+     */ 
+    public int type;
     
 
     public EntityRocketHoming(World p_i1753_1_)
@@ -721,5 +730,19 @@ public class EntityRocketHoming extends Entity implements IProjectile
     {
         byte b0 = this.dataWatcher.getWatchableObjectByte(16);
         return (b0 & 1) != 0;
+    }
+    
+    public void Explode(int type, float strength) {
+    	switch(type) {
+    		case 42: ChunkRadiationManager.proxy.incrementRad(worldObj, (int)posX, (int)posY, (int)posZ, 2000);
+    		case 0: ExplosionLarge.explode(worldObj, posX, posY, posZ, strength, true, false, true); break;
+    		case 1: ExplosionLarge.explode(worldObj, posX, posY, posZ, strength * 2, true, false, true); break;
+    		case 2: ExplosionLarge.explodeFire(worldObj, posX, posY, posZ, strength, true, false, false); break;
+    		case 4:
+    			//ExplosionLarge.explode(worldObj, posX, posY, posZ, strength * 3, false, false, true);
+    			ExplosionNukeSmall.explode(worldObj, posX, posY, posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
+    			break;
+    		default: break;
+    	}
     }
 }

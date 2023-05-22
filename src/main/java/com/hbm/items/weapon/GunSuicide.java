@@ -28,7 +28,6 @@ public class GunSuicide extends Item {
     public static final String[] bowPullIconNameArray = new String[] {"pulling_0", "pulling_1", "pulling_2"};
     @SideOnly(Side.CLIENT)
     private IIcon[] iconArray;
-    private static final String __OBFID = "CL_00001777";
     private Item ammo;
     Random rand = new Random();
 
@@ -40,7 +39,7 @@ public class GunSuicide extends Item {
         	this.setMaxDamage(500);
         }
         
-//        this.ammo = ModItems.gun_revolver_ammo;
+        this.ammo = ModItems.ammo_357;
     }
 
     /**

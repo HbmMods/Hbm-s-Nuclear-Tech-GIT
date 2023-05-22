@@ -88,10 +88,12 @@ public class EntityOrangeFX extends EntityModFX {
 		}
 	}
 
+	@Override
 	public boolean writeToNBTOptional(NBTTagCompound nbt) {
 		return false;
 	}
 
+	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
 		this.setDead();

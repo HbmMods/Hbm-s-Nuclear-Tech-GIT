@@ -18,8 +18,8 @@ public class ArmorAustralium extends ItemArmor {
 
 	Random rand = new Random();
 	
-	public ArmorAustralium(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
-		super(armorMaterial, renderIndex, armorType);
+	public ArmorAustralium(ArmorMaterial armorMaterial, int armorType) {
+		super(armorMaterial, 0, armorType);
 	}
 
 	@Override

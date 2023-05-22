@@ -10,12 +10,7 @@ import com.hbm.items.tool.ItemLock;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
-import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
-import com.hbm.tileentity.machine.storage.TileEntityCrateDesh;
-import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
-import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
-import com.hbm.tileentity.machine.storage.TileEntityCrateTungsten;
-import com.hbm.tileentity.machine.storage.TileEntitySafe;
+import com.hbm.tileentity.machine.storage.*;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -27,6 +22,8 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -140,6 +137,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti {
 					
 					if(abyte.length > 6000) {
 						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
+						world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(this)));
 						return world.setBlockToAir(x, y, z);
 					}
 					
@@ -269,5 +267,15 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti {
 	@Override
 	public int getSubCount() {
 		return 0;
+	}
+	
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+	
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+		return Container.calcRedstoneFromInventory((IInventory) world.getTileEntity(x, y, z));
 	}
 }

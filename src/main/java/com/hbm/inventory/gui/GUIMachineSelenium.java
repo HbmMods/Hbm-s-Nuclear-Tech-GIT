@@ -2,16 +2,12 @@ package com.hbm.inventory.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
-
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineSelenium;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;

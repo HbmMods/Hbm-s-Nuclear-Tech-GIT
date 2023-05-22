@@ -1,6 +1,7 @@
 package com.hbm.inventory.recipes.loader;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -39,15 +40,26 @@ public abstract class SerializableRecipe {
 	 */
 	
 	public static void registerAllHandlers() {
+		recipeHandlers.add(new PressRecipes());
+		recipeHandlers.add(new BlastFurnaceRecipes());
 		recipeHandlers.add(new ShredderRecipes());
 		recipeHandlers.add(new ChemplantRecipes());
+		recipeHandlers.add(new CombinationRecipes());
 		recipeHandlers.add(new CrucibleRecipes());
 		recipeHandlers.add(new CentrifugeRecipes());
+		recipeHandlers.add(new CrystallizerRecipes());
+		recipeHandlers.add(new FractionRecipes());
+		recipeHandlers.add(new CrackingRecipes());
+		recipeHandlers.add(new ReformingRecipes());
 		recipeHandlers.add(new LiquefactionRecipes());
 		recipeHandlers.add(new SolidificationRecipes());
+		recipeHandlers.add(new CokerRecipes());
+		recipeHandlers.add(new BreederRecipes());
 		recipeHandlers.add(new CyclotronRecipes());
 		recipeHandlers.add(new HadronRecipes());
 		recipeHandlers.add(new FuelPoolRecipes());
+		recipeHandlers.add(new MixerRecipes());
+		recipeHandlers.add(new OutgasserRecipes());
 		recipeHandlers.add(new MatDistribution());
 	}
 	
@@ -164,7 +176,7 @@ public abstract class SerializableRecipe {
 			for(JsonElement recipe : recipes) {
 				this.readRecipe(recipe);
 			}
-		} catch(Exception ex) { }
+		} catch(FileNotFoundException ex) { }
 	}
 	
 	/*
@@ -206,14 +218,14 @@ public abstract class SerializableRecipe {
 			ComparableStack comp = (ComparableStack) astack;
 			writer.value("item");														//ITEM  identifier
 			writer.value(Item.itemRegistry.getNameForObject(comp.toStack().getItem()));	//item name
-			if(comp.stacksize != 1) writer.value(comp.stacksize);						//stack size
+			if(comp.stacksize != 1 || comp.meta > 0) writer.value(comp.stacksize);						//stack size
 			if(comp.meta > 0) writer.value(comp.meta);									//metadata
 		}
 		if(astack instanceof OreDictStack) {
 			OreDictStack ore = (OreDictStack) astack;
 			writer.value("dict");			//DICT identifier
 			writer.value(ore.name);			//dict name
-			writer.value(ore.stacksize);	//stacksize
+			if(ore.stacksize != 1) writer.value(ore.stacksize);	//stacksize
 		}
 		writer.endArray();
 		writer.setIndent("  ");
@@ -224,9 +236,9 @@ public abstract class SerializableRecipe {
 			Item item = (Item) Item.itemRegistry.getObject(array.get(0).getAsString());
 			int stacksize = array.size() > 1 ? array.get(1).getAsInt() : 1;
 			int meta = array.size() > 2 ? array.get(2).getAsInt() : 0;
-			return new ItemStack(item, stacksize, meta);
+			if(item != null) return new ItemStack(item, stacksize, meta);
 		} catch(Exception ex) { }
-		MainRegistry.logger.error("Error reading stack array " + array.toString());
+		MainRegistry.logger.error("Error reading stack array " + array.toString() + " - defaulting to NOTHING item!");
 		return new ItemStack(ModItems.nothing);
 	}
 	

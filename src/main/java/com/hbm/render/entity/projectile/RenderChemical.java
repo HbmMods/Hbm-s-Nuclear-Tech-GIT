@@ -1,6 +1,7 @@
 package com.hbm.render.entity.projectile;
 
 import java.awt.Color;
+import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
@@ -28,7 +29,7 @@ public class RenderChemical extends Render {
 		EntityChemical chem = (EntityChemical) entity;
 		ChemicalStyle style = chem.getStyle();
 		
-		if(style == ChemicalStyle.AMAT)
+		if(style == ChemicalStyle.AMAT || style == ChemicalStyle.LIGHTNING)
 			renderAmatBeam(chem, f1);
 		
 		if(style == ChemicalStyle.GAS) {
@@ -89,13 +90,18 @@ public class RenderChemical extends Render {
 		Tessellator tess = Tessellator.instance;
 		GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+		
+		Random rand = new Random(chem.getEntityId());
+		int i = rand.nextInt(2);
+		int j = rand.nextInt(2);
+		
 		tess.startDrawingQuads();
 		tess.setNormal(0.0F, 1.0F, 0.0F);
 		tess.setColorRGBA_I(color, (int) Math.max(127 * (1 - exp), 0));
-		tess.addVertexWithUV(-size, -size, 0.0D, 1, 1);
-		tess.addVertexWithUV(size, -size, 0.0D, 0, 1);
-		tess.addVertexWithUV(size, size, 0.0D, 0, 0);
-		tess.addVertexWithUV(-size, size, 0.0D, 1, 0);
+		tess.addVertexWithUV(-size, -size, 0.0D, 1 - i, 1 - j);
+		tess.addVertexWithUV(size, -size, 0.0D, i, 1 - j);
+		tess.addVertexWithUV(size, size, 0.0D, i, j);
+		tess.addVertexWithUV(-size, size, 0.0D, 1 - i, j);
 		tess.draw();
 
 		GL11.glDepthMask(true);
@@ -118,6 +124,10 @@ public class RenderChemical extends Render {
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glDepthMask(false);
+		
+		/*double x0 = chem.prevPosX + (chem.posX - chem.prevPosX) * interp;
+		double y0 = chem.prevPosX + (chem.posY - chem.prevPosY) * interp;
+		double z0 = chem.prevPosX + (chem.posZ - chem.prevPosZ) * interp;*/
 		
 		double length = Vec3.createVectorHelper(chem.motionX, chem.motionY, chem.motionZ).lengthVector() * (chem.ticksExisted + interp) * 0.75;
 		double size = 0.0625;

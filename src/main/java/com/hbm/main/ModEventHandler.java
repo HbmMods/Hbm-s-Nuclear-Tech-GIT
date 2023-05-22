@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -22,19 +23,23 @@ import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
-import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.mob.EntityQuackos;
-import com.hbm.entity.mob.EntityTaintedCreeper;
+import com.hbm.entity.mob.EntityCreeperTainted;
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BobmazonOfferFactory;
 import com.hbm.handler.BossSpawnHandler;
+import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
@@ -42,8 +47,10 @@ import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.ItemModRevive;
 import com.hbm.items.armor.ItemModShackles;
+import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.ItemGunBase;
+import com.hbm.lib.HbmCollection;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
@@ -58,11 +65,14 @@ import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.EntityDamageUtil;
+import com.hbm.util.EnumUtil;
+import com.hbm.util.InventoryUtil;
 import com.hbm.world.generator.TimedGenerator;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -123,6 +133,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
@@ -183,7 +194,7 @@ public class ModEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onEntityConstructing(EntityEvent.EntityConstructing event)  {
+	public void onEntityConstructing(EntityEvent.EntityConstructing event) {
 		
 		if(event.entity instanceof EntityPlayer) {
 			
@@ -199,6 +210,14 @@ public class ModEventHandler {
 			EntityLivingBase living = (EntityLivingBase) event.entity;
 			HbmLivingProps.getData(living); //ditto
 		}
+	}
+
+	@SubscribeEvent
+	public void onPlayerChaangeDimension(PlayerChangedDimensionEvent event) {
+		EntityPlayer player = event.player;
+		HbmPlayerProps data = HbmPlayerProps.getData(player);
+		data.setKeyPressed(EnumKeybind.JETPACK, false);
+		data.setKeyPressed(EnumKeybind.DASH, false);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -267,7 +286,7 @@ public class ModEventHandler {
 			event.entity.dropItem(ModItems.book_of_, 1);
 		}
 		
-		if(event.entity instanceof EntityTaintedCreeper && event.source == ModDamageSource.boxcar) {
+		if(event.entity instanceof EntityCreeperTainted && event.source == ModDamageSource.boxcar) {
 			
 			for(Object o : event.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, event.entity.boundingBox.expand(50, 50, 50))) {
 				EntityPlayer player = (EntityPlayer)o;
@@ -549,10 +568,10 @@ public class ModEventHandler {
 						
 						float eRad = HbmLivingProps.getRadiation(entity);
 						
-						if(entity instanceof EntityCreeper && eRad >= 200 && entity.getHealth() > 0) {
+						if(entity.getClass().equals(EntityCreeper.class) && eRad >= 200 && entity.getHealth() > 0) {
 							
 							if(event.world.rand.nextInt(3) == 0 ) {
-								EntityNuclearCreeper creep = new EntityNuclearCreeper(event.world);
+								EntityCreeperNuclear creep = new EntityCreeperNuclear(event.world);
 								creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
 				        		
 				        		if(!entity.isDead)
@@ -770,6 +789,47 @@ public class ModEventHandler {
 	}
 	
 	@SubscribeEvent
+	public void onPlayerPunch(AttackEntityEvent event) {
+		
+		EntityPlayer player = event.entityPlayer;
+		ItemStack chestplate = player.inventory.armorInventory[2];
+		
+		if(player.getHeldItem() == null && chestplate != null && ArmorModHandler.hasMods(chestplate)) {
+			ItemStack[] mods = ArmorModHandler.pryMods(chestplate);
+			ItemStack servo = mods[ArmorModHandler.servos];
+			
+			if(servo != null && servo.getItem() == ModItems.ballistic_gauntlet) {
+				
+				BulletConfiguration firedConfig = null;
+
+				for(Integer config : HbmCollection.g12) {
+					BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
+					
+					if(InventoryUtil.doesPlayerHaveAStack(player, cfg.ammo, true, true)) {
+						firedConfig = cfg;
+						break;
+					}
+				}
+				
+				if(firedConfig != null) {
+					int bullets = firedConfig.bulletsMin;
+					
+					if(firedConfig.bulletsMax > firedConfig.bulletsMin) {
+						bullets += player.getRNG().nextInt(firedConfig.bulletsMax - firedConfig.bulletsMin);
+					}
+					
+					for(int i = 0; i < bullets; i++) {
+						EntityBulletBase bullet = new EntityBulletBase(player.worldObj, BulletConfigSyncingUtil.getKey(firedConfig), player);
+						player.worldObj.spawnEntityInWorld(bullet);
+					}
+					
+					player.worldObj.playSoundAtEntity(player, "hbm:weapon.shotgunShoot", 1.0F, 1.0F);
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
 	public void onEntityJump(LivingJumpEvent event) {
 		
 		EntityLivingBase e = event.entityLiving;
@@ -897,11 +957,11 @@ public class ModEventHandler {
 
 		if(event.phase == TickEvent.Phase.START) {
 			int x = MathHelper.floor_double(player.posX);
-			int y = MathHelper.floor_double(player.posY - player.yOffset - 0.5);
+			int y = MathHelper.floor_double(player.posY - player.yOffset - 0.01);
 			int z = MathHelper.floor_double(player.posZ);
 			Block b = player.worldObj.getBlock(x, y, z);
-
-			if(b instanceof IStepTickReceiver) {
+			
+			if(b instanceof IStepTickReceiver && !player.capabilities.isFlying) {
 				IStepTickReceiver step = (IStepTickReceiver) b;
 				step.onPlayerStep(player.worldObj, x, y, z, player);
 			}
@@ -1079,7 +1139,7 @@ public class ModEventHandler {
 	
 	@SubscribeEvent
 	public void onItemPickup(PlayerEvent.ItemPickupEvent event) {
-		if(event.pickedUp.getEntityItem().getItem() == ModItems.canned_jizz)
+		if(event.pickedUp.getEntityItem().getItem() == ModItems.canned_conserve && EnumUtil.grabEnumSafely(EnumFoodType.class, event.pickedUp.getEntityItem().getItemDamage()) == EnumFoodType.JIZZ)
 			event.player.triggerAchievement(MainRegistry.achC20_5);
 		if(event.pickedUp.getEntityItem().getItem() == Items.slime_ball)
 			event.player.triggerAchievement(MainRegistry.achSlimeball);
@@ -1234,7 +1294,7 @@ public class ModEventHandler {
 			
 			String[] msg = message.split(" ");
 			
-			String m = msg[0].substring(1, msg[0].length()).toLowerCase();
+			String m = msg[0].substring(1, msg[0].length()).toLowerCase(Locale.US);
 			
 			if("gv".equals(m)) {
 				

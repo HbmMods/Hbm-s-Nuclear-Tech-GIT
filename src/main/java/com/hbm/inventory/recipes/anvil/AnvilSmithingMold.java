@@ -2,6 +2,7 @@ package com.hbm.inventory.recipes.anvil;
 
 import java.util.List;
 
+import com.hbm.inventory.OreNames;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
@@ -32,6 +33,13 @@ public class AnvilSmithingMold extends AnvilSmithingRecipe {
 			List<String> names = ItemStackUtil.getOreDictNames(left);
 			
 			for(String name : names) {
+				
+				for(String otherPrefix : OreNames.prefixes) {
+					if(otherPrefix.length() > matchesPrefix.name.length() && name.startsWith(otherPrefix)) {
+						return false; //ignore if there's a longer prefix that matches (i.e. a more accurate match)
+					}
+				}
+				
 				if(name.startsWith(matchesPrefix.name)) {
 					return true;
 				}

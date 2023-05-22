@@ -16,12 +16,16 @@ import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.inventory.recipes.CrucibleRecipes.CrucibleRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CrucibleUtil;
 
+import api.hbm.block.ICrucibleAcceptor;
 import api.hbm.tile.IHeatSource;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -38,7 +42,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCrucible extends TileEntityMachineBase implements IGUIProvider, IConfigurableMachine {
+public class TileEntityCrucible extends TileEntityMachineBase implements IGUIProvider, ICrucibleAcceptor, IConfigurableMachine {
 
 	public int heat;
 	public int progress;
@@ -152,7 +156,19 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, this.wasteStack, MaterialShapes.NUGGET.q(1), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, this.wasteStack, MaterialShapes.NUGGET.q(2), impact);
+				
+				if(didPour != null) {
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "foundry");
+					data.setInteger("color", didPour.material.moltenColor);
+					data.setByte("dir", (byte) dir.ordinal());
+					data.setFloat("off", 0.625F);
+					data.setFloat("base", 0.625F);
+					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875)));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord, zCoord + 0.5D + dir.offsetZ * 1.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+				
+				}
 			}
 			
 			/* pour recipe stack */
@@ -178,7 +194,19 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				}
 				
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, toCast, MaterialShapes.NUGGET.q(1), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord + 0.25D, zCoord + 0.5D + dir.offsetZ * 1.875D, 6, true, toCast, MaterialShapes.NUGGET.q(2), impact);
+
+				if(didPour != null) {
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "foundry");
+					data.setInteger("color", didPour.material.moltenColor);
+					data.setByte("dir", (byte) dir.ordinal());
+					data.setFloat("off", 0.625F);
+					data.setFloat("base", 0.625F);
+					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875)));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 1.875D, yCoord, zCoord + 0.5D + dir.offsetZ * 1.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+				
+				}
 			}
 
 			/* clean up stacks */
@@ -502,4 +530,58 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
+
+	@Override
+	public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
+		
+		CrucibleRecipe recipe = getLoadedRecipe();
+		
+		if(recipe == null) {
+			return getQuantaFromType(this.wasteStack, null) < this.wasteZCapacity;
+		}
+		
+		int recipeContent = recipe.getInputAmount();
+		int recipeInputRequired = getQuantaFromType(recipe.input, stack.material);
+		int matMaximum = recipeInputRequired * this.recipeZCapacity / recipeContent;
+		int amountStored = getQuantaFromType(recipeStack, stack.material);
+		
+		return amountStored < matMaximum && getQuantaFromType(this.recipeStack, null) < this.recipeZCapacity;
+	}
+
+	@Override
+	public MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
+		
+		CrucibleRecipe recipe = getLoadedRecipe();
+		
+		if(recipe == null) {
+			
+			int amount = getQuantaFromType(this.wasteStack, null);
+			
+			if(amount + stack.amount <= this.wasteZCapacity) {
+				this.addToStack(this.wasteStack, stack.copy());
+				return null;
+			} else {
+				int toAdd = this.wasteZCapacity - amount;
+				this.addToStack(this.wasteStack, new MaterialStack(stack.material, toAdd));
+				return new MaterialStack(stack.material, stack.amount - toAdd);
+			}
+		}
+		
+		int recipeContent = recipe.getInputAmount();
+		int recipeInputRequired = getQuantaFromType(recipe.input, stack.material);
+		int matMaximum = recipeInputRequired * this.recipeZCapacity / recipeContent;
+		
+		if(recipeInputRequired + stack.amount <= matMaximum) {
+			this.addToStack(this.recipeStack, stack.copy());
+			return null;
+		}
+		
+		int toAdd = matMaximum - stack.amount;
+		toAdd = Math.min(toAdd, this.recipeZCapacity - getQuantaFromType(this.recipeStack, null));
+		this.addToStack(this.recipeStack, new MaterialStack(stack.material, toAdd));
+		return new MaterialStack(stack.material, stack.amount - toAdd);
+	}
+
+	@Override public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return false; }
+	@Override public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return null; }
 }

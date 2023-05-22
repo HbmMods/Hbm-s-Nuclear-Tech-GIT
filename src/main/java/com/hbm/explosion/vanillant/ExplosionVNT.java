@@ -39,10 +39,10 @@ public class ExplosionVNT {
 	//since we want to reduce each effect to the bare minimum (sound, particles, etc. being separate) we definitely need multiple most of the time
 	private IExplosionSFX[] sfx;
 	
-	protected World world;
-	protected double posX;
-	protected double posY;
-	protected double posZ;
+	public World world;
+	public double posX;
+	public double posY;
+	public double posZ;
 	public float size;
 	public Entity exploder;
 

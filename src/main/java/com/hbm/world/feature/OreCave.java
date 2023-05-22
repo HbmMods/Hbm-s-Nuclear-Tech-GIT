@@ -28,6 +28,7 @@ public class OreCave {
 	/** The y-level around which the stratum is centered. */
 	private int yLevel = 30;
 	private Block fluid;
+	int dim = 0;
 	
 	public OreCave(Block ore) {
 		this(ore, 0);
@@ -62,19 +63,23 @@ public class OreCave {
 		this.fluid = fluid;
 		return this;
 	}
+	
+	public OreCave setDimension(int dim) {
+		this.dim = dim;
+		return this;
+	}
 
 	@SuppressWarnings("incomplete-switch")
 	@SubscribeEvent
 	public void onDecorate(DecorateBiomeEvent.Pre event) {
 		
+		World world = event.world;
+		
+		if(world.provider == null || world.provider.dimensionId != this.dim) return;
+		
 		if(this.noise == null) {
 			this.noise = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + (ore.getID() * 31) + yLevel), 2);
 		}
-		
-		World world = event.world;
-		
-		if(world.provider.dimensionId != 0)
-			return;
 		
 		int cX = event.chunkX;
 		int cZ = event.chunkZ;

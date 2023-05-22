@@ -1,7 +1,5 @@
 package com.hbm.blocks.siege;
 
-import java.util.Random;
-
 import com.hbm.blocks.BlockBase;
 import com.hbm.blocks.ModBlocks;
 

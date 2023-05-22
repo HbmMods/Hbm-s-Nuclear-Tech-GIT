@@ -68,8 +68,8 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 	public String jump;
 	public String fall;
 
-	public ArmorFSB(ArmorMaterial material, int layer, int slot, String texture) {
-		super(material, layer, slot);
+	public ArmorFSB(ArmorMaterial material, int slot, String texture) {
+		super(material, 0, slot);
 		this.texture = texture;
 	}
 

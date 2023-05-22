@@ -28,8 +28,8 @@ public class ArmorLiquidator extends ArmorFSB {
 	private ModelM65 model;
 	private ResourceLocation hazmatBlur = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_dark.png");
 
-	public ArmorLiquidator(ArmorMaterial material, int layer, int slot, String texture) {
-		super(material, layer, slot, texture);
+	public ArmorLiquidator(ArmorMaterial material, int slot, String texture) {
+		super(material, slot, texture);
 	}
 
 	@Override

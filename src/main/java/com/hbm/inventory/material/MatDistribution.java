@@ -12,7 +12,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.BlockEnums.EnumStoneType;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.OreDictManager;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
@@ -43,20 +46,14 @@ public class MatDistribution extends SerializableRecipe {
 		//castables
 		registerEntry(ModItems.blade_titanium,			MAT_TITANIUM,		INGOT.q(2));
 		registerEntry(ModItems.blade_tungsten,			MAT_TUNGSTEN,		INGOT.q(2));
-		registerEntry(ModItems.blades_gold,				MAT_GOLD,			INGOT.q(4));
-		registerEntry(ModItems.blades_aluminium,		MAT_ALUMINIUM,		INGOT.q(4));
-		registerEntry(ModItems.blades_iron,				MAT_IRON,			INGOT.q(4));
 		registerEntry(ModItems.blades_steel,			MAT_STEEL,			INGOT.q(4));
 		registerEntry(ModItems.blades_titanium,			MAT_TITANIUM, 		INGOT.q(4));
 		registerEntry(ModItems.blades_advanced_alloy,	MAT_ALLOY,			INGOT.q(4));
-		registerEntry(ModItems.blades_combine_steel,	MAT_CMB,			INGOT.q(4));
-		registerEntry(ModItems.blades_schrabidium,		MAT_SCHRABIDIUM,	INGOT.q(4));
 		registerEntry(ModItems.stamp_stone_flat,		MAT_STONE,			INGOT.q(3));
 		registerEntry(ModItems.stamp_iron_flat,			MAT_IRON,			INGOT.q(3));
 		registerEntry(ModItems.stamp_steel_flat,		MAT_STEEL,			INGOT.q(3));
 		registerEntry(ModItems.stamp_titanium_flat,		MAT_TITANIUM,		INGOT.q(3));
 		registerEntry(ModItems.stamp_obsidian_flat,		MAT_OBSIDIAN,		INGOT.q(3));
-		registerEntry(ModItems.stamp_schrabidium_flat,	MAT_SCHRABIDIUM,	INGOT.q(3));
 		registerEntry(ModItems.hull_small_steel,		MAT_STEEL,			INGOT.q(2));
 		registerEntry(ModItems.hull_small_aluminium,	MAT_ALUMINIUM,		INGOT.q(2));
 		registerEntry(ModItems.hull_big_steel,			MAT_STEEL,			INGOT.q(6));
@@ -85,7 +82,9 @@ public class MatDistribution extends SerializableRecipe {
 		registerOre(OreDictManager.HEMATITE.ore(), MAT_HEMATITE, INGOT.q(4));
 		registerOre(OreDictManager.MALACHITE.ore(), MAT_MALACHITE, INGOT.q(4));
 		
+		registerEntry(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), MAT_FLUX, DUST.q(10));
 		registerEntry(ModItems.powder_flux, MAT_FLUX, DUST.q(1));
+		registerEntry(new ItemStack(Items.coal, 1, 1), MAT_CARBON, NUGGET.q(3));
 	}
 	
 	public static void registerEntry(Object key, Object... matDef) {

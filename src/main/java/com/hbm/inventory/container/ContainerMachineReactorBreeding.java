@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.items.machine.ItemBreedingRod;
 import com.hbm.tileentity.machine.TileEntityMachineReactorBreeding;
 
@@ -19,7 +19,7 @@ public class ContainerMachineReactorBreeding extends Container {
 		reactor = tedf;
 
 		this.addSlotToContainer(new Slot(tedf, 0, 35, 35));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 125, 35));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 1, 125, 35));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {

@@ -23,7 +23,7 @@ public interface IFluidStandardTransceiver extends IFluidUser {
 	public FluidTank[] getReceivingTanks();
 	
 	@Override
-	public default long getTotalFluidForSend(FluidType type) {
+	public default long getTotalFluidForSend(FluidType type, int pressure) {
 		
 		for(FluidTank tank : getSendingTanks()) {
 			if(tank.getTankType() == type) {
@@ -35,7 +35,7 @@ public interface IFluidStandardTransceiver extends IFluidUser {
 	}
 	
 	@Override
-	public default void removeFluidForTransfer(FluidType type, long amount) {
+	public default void removeFluidForTransfer(FluidType type, int pressure, long amount) {
 		
 		for(FluidTank tank : getSendingTanks()) {
 			if(tank.getTankType() == type) {
@@ -46,7 +46,7 @@ public interface IFluidStandardTransceiver extends IFluidUser {
 	}
 
 	@Override
-	public default long getDemand(FluidType type) {
+	public default long getDemand(FluidType type, int pressure) {
 		
 		for(FluidTank tank : getReceivingTanks()) {
 			if(tank.getTankType() == type) {
@@ -58,7 +58,7 @@ public interface IFluidStandardTransceiver extends IFluidUser {
 	}
 	
 	@Override
-	public default long transferFluid(FluidType type, long amount) {
+	public default long transferFluid(FluidType type, int pressure, long amount) {
 
 		for(FluidTank tank : getReceivingTanks()) {
 			if(tank.getTankType() == type) {

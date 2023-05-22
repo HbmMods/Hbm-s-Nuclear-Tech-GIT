@@ -58,7 +58,7 @@ public class RenderMixer extends TileEntitySpecialRenderer implements IItemRende
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 0.75F);
 			GL11.glTranslated(0, 1, 0);
 			
-			GL11.glScaled(1, (double) totalFill / (double) totalMax, 1);
+			GL11.glScaled(1, (double) totalFill / (double) totalMax * 0.99, 1);
 			GL11.glTranslated(0, -1, 0);
 			ResourceManager.mixer.renderPart("Fluid");
 

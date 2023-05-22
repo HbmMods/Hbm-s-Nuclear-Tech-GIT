@@ -22,8 +22,8 @@ public class ArmorHazmatMask extends ArmorHazmat implements IGasMask {
 	@SideOnly(Side.CLIENT)
 	private ModelM65 modelM65;
 
-	public ArmorHazmatMask(ArmorMaterial material, int layer, int slot, String texture) {
-		super(material, layer, slot, texture);
+	public ArmorHazmatMask(ArmorMaterial material, int slot, String texture) {
+		super(material, slot, texture);
 	}
 
 	@Override

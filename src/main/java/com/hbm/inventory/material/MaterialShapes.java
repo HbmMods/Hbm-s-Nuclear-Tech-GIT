@@ -19,6 +19,7 @@ public class MaterialShapes {
 	public static final MaterialShapes CRYSTAL = new MaterialShapes(INGOT.quantity, "crystal");
 	public static final MaterialShapes DUST = new MaterialShapes(INGOT.quantity, "dust");
 	public static final MaterialShapes PLATE = new MaterialShapes(INGOT.quantity, "plate");
+	public static final MaterialShapes CASTPLATE = new MaterialShapes(INGOT.quantity * 3, "plateTriple");
 	public static final MaterialShapes QUART = new MaterialShapes(162);
 	public static final MaterialShapes BLOCK = new MaterialShapes(INGOT.quantity * 9, "block");
 	
@@ -61,7 +62,7 @@ public class MaterialShapes {
 		return this.quantity * amount;
 	}
 	
-	public int q(int unitsUsed, int itemsProduced) { //eg rails: INOGT.q(6, 16) since the recipe uses 6 ton ingots producing 16 individual rail blocks
+	public int q(int unitsUsed, int itemsProduced) { //eg rails: INOGT.q(6, 16) since the recipe uses 6 iron ingots producing 16 individual rail blocks
 		return this.quantity * unitsUsed / itemsProduced;
 	}
 

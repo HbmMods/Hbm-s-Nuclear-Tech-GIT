@@ -3,7 +3,6 @@ package com.hbm.render.entity.projectile;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.projectile.EntityBeamBase;
-import com.hbm.entity.projectile.EntityLaser;
 import com.hbm.lib.Library;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;

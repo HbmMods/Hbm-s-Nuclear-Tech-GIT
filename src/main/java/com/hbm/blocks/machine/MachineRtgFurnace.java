@@ -30,7 +30,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class MachineRtgFurnace extends BlockContainer {
 
     private final Random field_149933_a = new Random();
-	private Random rand;
 	private final boolean isActive;
 	private static boolean keepInventory;
 	
@@ -41,7 +40,6 @@ public class MachineRtgFurnace extends BlockContainer {
 
 	public MachineRtgFurnace(boolean blockState) {
 		super(Material.iron);
-		rand = new Random();
 		isActive = blockState;
 	}
 	
@@ -139,7 +137,7 @@ public class MachineRtgFurnace extends BlockContainer {
 			TileEntityRtgFurnace entity = (TileEntityRtgFurnace) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_rtg_furnace, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

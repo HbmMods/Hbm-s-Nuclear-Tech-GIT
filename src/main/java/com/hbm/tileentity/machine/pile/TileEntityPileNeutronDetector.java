@@ -1,12 +1,10 @@
 package com.hbm.tileentity.machine.pile;
 
 import api.hbm.block.IPileNeutronReceiver;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.pile.BlockGraphiteNeutronDetector;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPileNeutronDetector extends TileEntity implements IPileNeutronReceiver {
 	

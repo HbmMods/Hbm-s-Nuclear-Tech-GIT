@@ -19,7 +19,8 @@ public class ItemTooling extends ItemCraftingDegradation {
 		this.setMaxStackSize(1);
 		this.setFull3D();
 		this.setCreativeTab(MainRegistry.controlTab);
-		this.setMaxDamage(durability);
+		
+		type.register(new ItemStack(this));
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineCombustionEngine;
@@ -21,7 +21,7 @@ public class ContainerCombustionEngine extends Container {
 		this.engine.openInventory();
 
 		this.addSlotToContainer(new Slot(tedf, 0, 17, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 17, 53));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 1, 17, 53));
 		this.addSlotToContainer(new Slot(tedf, 2, 88, 71));
 		this.addSlotToContainer(new Slot(tedf, 3, 143, 71));
 		this.addSlotToContainer(new Slot(tedf, 4, 35, 71));

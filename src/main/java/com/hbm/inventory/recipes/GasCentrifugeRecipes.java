@@ -2,6 +2,7 @@ package com.hbm.inventory.recipes;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -60,7 +61,7 @@ public class GasCentrifugeRecipes {
 		}
 		
 		public String getName() {
-			return I18nUtil.resolveKey("hbmpseudofluid.".concat(this.toString().toLowerCase()));
+			return I18nUtil.resolveKey("hbmpseudofluid.".concat(this.toString().toLowerCase(Locale.US)));
 		}
 		
 		public boolean getIfHighSpeed() {

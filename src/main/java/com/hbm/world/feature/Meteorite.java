@@ -9,6 +9,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WorldConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 
@@ -19,21 +20,24 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
+@Spaghetti("why")
 public class Meteorite {
 	
 	public static boolean safeMode = false;
 
-	public void generate(World world, Random rand, int x, int y, int z, boolean safe, boolean allowSpecials) {
+	public void generate(World world, Random rand, int x, int y, int z, boolean safe, boolean allowSpecials, boolean damagingImpact) {
 		safeMode = safe;
 		
 		if(replacables.isEmpty()) {
 			generateReplacables();
 		}
 
-		List<Entity> list = (List<Entity>) world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(x - 7.5, y - 7.5, z - 7.5, x + 7.5, y + 7.5, z + 7.5));
-
-		for(Entity e : list) {
-			e.attackEntityFrom(ModDamageSource.meteorite, 1000);
+		if(damagingImpact) {
+			List<Entity> list = (List<Entity>) world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(x - 7.5, y - 7.5, z - 7.5, x + 7.5, y + 7.5, z + 7.5));
+	
+			for(Entity e : list) {
+				e.attackEntityFrom(ModDamageSource.meteorite, 1000);
+			}
 		}
 
 		if(WorldConfig.enableSpecialMeteors && allowSpecials)
@@ -120,7 +124,7 @@ public class Meteorite {
 			case 11:
 				// Atomic meteorite
 				
-				ExplosionNukeSmall.explode(world, x + 0.5, y + 0.5, z + 0.5, safe ? ExplosionNukeSmall.safe : ExplosionNukeSmall.medium);
+				ExplosionNukeSmall.explode(world, x + 0.5, y + 0.5, z + 0.5, safe ? ExplosionNukeSmall.PARAMS_SAFE : ExplosionNukeSmall.PARAMS_MEDIUM);
 				return;
 			case 12:
 				// Star Blaster

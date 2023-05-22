@@ -1,6 +1,7 @@
 package com.hbm.entity.projectile;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
@@ -14,12 +15,15 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.GunConfiguration;
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.Tuple.Pair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -32,6 +36,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
@@ -47,6 +52,11 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	private BulletConfiguration config;
 	public EntityLivingBase shooter;
 	public float overrideDamage;
+
+	public double prevRenderX;
+	public double prevRenderY;
+	public double prevRenderZ;
+	public final List<Pair<Vec3, Double>> trailNodes = new ArrayList();
 	
 	public BulletConfiguration getConfig() {
 		return config;
@@ -80,14 +90,29 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.config = BulletConfigSyncingUtil.pullConfig(config);
 		this.dataWatcher.updateObject(18, config);
 		shooter = entity;
+		
+		ItemStack gun = entity.getHeldItem();
+		boolean offsetShot = true;
+		
+		if(gun != null && gun.getItem() instanceof ItemGunBase) {
+			GunConfiguration cfg = ((ItemGunBase) gun.getItem()).mainConfig;
+			
+			if(cfg != null && cfg.hasSights && entity.isSneaking()) {
+				offsetShot = false;
+			}
+		}
 
 		this.setLocationAndAngles(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, entity.rotationYaw, entity.rotationPitch);
 		
-		double sideOffset = 0.16D;
-		
-		this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * sideOffset;
-		this.posY -= 0.1D;
-		this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * sideOffset;
+		if(offsetShot) {
+			double sideOffset = 0.16D;
+			
+			this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * sideOffset;
+			this.posY -= 0.1D;
+			this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * sideOffset;
+		} else {
+			this.posY -= 0.1D;
+		}
 		this.setPosition(this.posX, this.posY, this.posZ);
 		
 		this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
@@ -97,7 +122,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
 
-		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread);
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread * (offsetShot ? 1F : 0.25F));
 		
 		this.dataWatcher.updateObject(16, (byte)this.config.style);
 		this.dataWatcher.updateObject(17, (byte)this.config.trail);
@@ -218,6 +243,15 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			return;
 		}
 		
+		if(worldObj.isRemote && config.style == config.STYLE_TAU) {
+			if(trailNodes.isEmpty()) {
+				this.ignoreFrustumCheck = true;
+				trailNodes.add(new Pair<Vec3, Double>(Vec3.createVectorHelper(-motionX * 2, -motionY * 2, -motionZ * 2), 0D));
+			} else {
+				trailNodes.add(new Pair<Vec3, Double>(Vec3.createVectorHelper(0, 0, 0), 1D));
+			}
+		}
+		
 		if(this.config.blackPowder && this.ticksExisted == 1) {
 			
 			for(int i = 0; i < 15; i++) {
@@ -233,6 +267,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 		
 		if(config.maxAge == 0) {
+			
+			if(this.config.bUpdate != null)
+				this.config.bUpdate.behaveUpdate(this);
+			
 			this.setDead();
 			return;
 		}
@@ -292,10 +330,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
 
 		boolean didBounce = false;
 		
-        if (movement != null) {
-        	
-        	//handle entity collision
-        	if(movement.entityHit != null) {
+		if(movement != null) {
+			
+			//handle entity collision
+			if(movement.entityHit != null) {
 
 				DamageSource damagesource = this.config.getDamage(this, shooter);
 
@@ -325,7 +363,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 					}
 				}
 				
-        		if(!victim.attackEntityFrom(damagesource, damage)) {
+				if(victim != null && !victim.attackEntityFrom(damagesource, damage)) {
 
 					try {
 						Field lastDamage = ReflectionHelper.findField(EntityLivingBase.class, "lastDamage", "field_110153_bc");
@@ -337,12 +375,12 @@ public class EntityBulletBase extends Entity implements IProjectile {
 						}
 					} catch (Exception x) { }
 					
-        		}
-        		
-        		if(!worldObj.isRemote && headshot) {
-        			if(victim instanceof EntityLivingBase) {
-    					EntityLivingBase living = (EntityLivingBase) victim;
-    					double head = living.height - living.getEyeHeight();
+				}
+
+				if(!worldObj.isRemote && headshot) {
+					if(victim instanceof EntityLivingBase) {
+						EntityLivingBase living = (EntityLivingBase) victim;
+						double head = living.height - living.getEyeHeight();
 						NBTTagCompound data = new NBTTagCompound();
 						data.setString("type", "vanillaburst");
 						data.setInteger("count", 15);

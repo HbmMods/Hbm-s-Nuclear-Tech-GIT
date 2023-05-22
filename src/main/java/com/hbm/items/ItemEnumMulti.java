@@ -1,6 +1,7 @@
 package com.hbm.items;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.util.EnumUtil;
@@ -44,6 +45,7 @@ public class ItemEnumMulti extends Item {
 	
 	protected IIcon[] icons;
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
 		
@@ -53,13 +55,14 @@ public class ItemEnumMulti extends Item {
 			
 			for(int i = 0; i < icons.length; i++) {
 				Enum num = enums[i];
-				this.icons[i] = reg.registerIcon(this.getIconString() + "." + num.name().toLowerCase());
+				this.icons[i] = reg.registerIcon(this.getIconString() + "." + num.name().toLowerCase(Locale.US));
 			}
 		} else {
 			this.itemIcon = reg.registerIcon(this.getIconString());
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int meta) {
 		
@@ -75,9 +78,7 @@ public class ItemEnumMulti extends Item {
 		}
 	}
 	
-	/*
-	 * Returns null when the wrong enum is passed. Only really used for recipes anyway so it's good.
-	 */
+	/** Returns null when the wrong enum is passed. Only really used for recipes anyway so it's good. */
 	public ItemStack stackFromEnum(int count, Enum num) {
 		
 		if(num.getClass() != this.theEnum)
@@ -94,9 +95,8 @@ public class ItemEnumMulti extends Item {
 	public String getUnlocalizedName(ItemStack stack) {
 		
 		if(multiName) {
-			
 			Enum num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
-			return super.getUnlocalizedName() + "." + num.name().toLowerCase();
+			return super.getUnlocalizedName() + "." + num.name().toLowerCase(Locale.US);
 		} else {
 			return super.getUnlocalizedName(stack);
 		}

@@ -13,7 +13,7 @@ public class ItemHotDusted extends ItemHot {
 	}
 	
 	@Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		list.add("Forged " + stack.getItemDamage() + " time(s)");
 	}
 	

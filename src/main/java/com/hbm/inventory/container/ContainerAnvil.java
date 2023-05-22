@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.anvil.AnvilSmithingRecipe;
 
@@ -25,7 +25,7 @@ public class ContainerAnvil extends Container {
 		
 		this.addSlotToContainer(new SmithingSlot(input, 0, 17, 27));
 		this.addSlotToContainer(new SmithingSlot(input, 1, 53, 27));
-		this.addSlotToContainer(new SlotMachineOutput(output, 0, 89, 27) {
+		this.addSlotToContainer(new SlotCraftingOutput(inventory.player, output, 0, 89, 27) {
 			
 			@Override
 			public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {

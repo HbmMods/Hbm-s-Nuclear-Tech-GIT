@@ -9,8 +9,6 @@ import com.hbm.items.weapon.ItemGrenade;
 
 public class EntityGrenadeBlackHole extends EntityGrenadeBouncyBase
 {
-    private static final String __OBFID = "CL_00001722";
-
     public EntityGrenadeBlackHole(World p_i1773_1_)
     {
         super(p_i1773_1_);

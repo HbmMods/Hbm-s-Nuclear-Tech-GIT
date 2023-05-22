@@ -102,7 +102,7 @@ public class LaunchPad extends BlockContainer implements IBomb {
 		} else if(!player.isSneaking()) {
 			TileEntityLaunchPad entity = (TileEntityLaunchPad) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_launch_pad, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

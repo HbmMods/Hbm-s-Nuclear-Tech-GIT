@@ -80,7 +80,7 @@ public class EntityEffectHandler {
 				HbmLivingProps.setTimer(entity, timer - 1);
 				
 				if(timer == 1) {
-					ExplosionNukeSmall.explode(entity.worldObj, entity.posX, entity.posY, entity.posZ, ExplosionNukeSmall.medium);
+					ExplosionNukeSmall.explode(entity.worldObj, entity.posX, entity.posY, entity.posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
 				}
 			}
 			
@@ -359,7 +359,7 @@ public class EntityEffectHandler {
 			
 			int bl = HbmLivingProps.getBlackLung(entity);
 			
-			if(bl > 0 && bl < HbmLivingProps.maxBlacklung * 0.25)
+			if(bl > 0 && bl < HbmLivingProps.maxBlacklung * 0.5)
 				HbmLivingProps.setBlackLung(entity, HbmLivingProps.getBlackLung(entity) - 1);
 		}
 
@@ -517,6 +517,8 @@ public class EntityEffectHandler {
 							forward = 1;
 
 						player.addVelocity(lookingIn.xCoord * forward + strafeVec.xCoord * strafe, 0, lookingIn.zCoord * forward + strafeVec.zCoord * strafe);
+						player.motionY = 0;
+						player.fallDistance = 0F;
 						player.playSound("hbm:player.dash", 1.0F, 1.0F);
 						
 						props.setDashCooldown(HbmPlayerProps.dashCooldownLength);

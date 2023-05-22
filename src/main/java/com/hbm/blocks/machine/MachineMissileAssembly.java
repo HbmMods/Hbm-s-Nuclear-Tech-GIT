@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
@@ -57,7 +56,7 @@ public class MachineMissileAssembly extends BlockContainer {
 
 			TileEntityMachineMissileAssembly entity = (TileEntityMachineMissileAssembly) world.getTileEntity(x, y, z);
 			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_missile_assembly, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
 			return true;
 		} else {

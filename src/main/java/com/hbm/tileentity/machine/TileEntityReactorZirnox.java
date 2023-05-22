@@ -16,35 +16,41 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.container.ContainerReactorZirnox;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.gui.GUIReactorZirnox;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemZirnoxBreedingRod;
 import com.hbm.items.machine.ItemZirnoxRod;
+import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.common.util.ForgeDirection;
-
-import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent {
+public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IGUIProvider {
 
 	public int heat;
 	public static final int maxHeat = 100000;
@@ -63,17 +69,17 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	public static final HashMap<ComparableStack, ItemStack> fuelMap = new HashMap<ComparableStack, ItemStack>();
 	static {
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_natural_uranium_fuel), new ItemStack(ModItems.rod_zirnox_natural_uranium_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_uranium_fuel), new ItemStack(ModItems.rod_zirnox_uranium_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_th232), new ItemStack(ModItems.rod_zirnox_thorium_fuel));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_thorium_fuel), new ItemStack(ModItems.rod_zirnox_thorium_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_mox_fuel), new ItemStack(ModItems.rod_zirnox_mox_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_plutonium_fuel), new ItemStack(ModItems.rod_zirnox_plutonium_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_u233_fuel), new ItemStack(ModItems.rod_zirnox_u233_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_u235_fuel), new ItemStack(ModItems.rod_zirnox_u235_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_les_fuel), new ItemStack(ModItems.rod_zirnox_les_fuel_depleted));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_lithium), new ItemStack(ModItems.rod_zirnox_tritium));
-		fuelMap.put(new ComparableStack(ModItems.rod_zirnox_zfb_mox), new ItemStack(ModItems.rod_zirnox_zfb_mox_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.NATURAL_URANIUM_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_natural_uranium_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.URANIUM_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_uranium_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.TH232.ordinal()), new ItemStack(ModItems.rod_zirnox, 1, EnumZirnoxType.THORIUM_FUEL.ordinal()));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.THORIUM_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_thorium_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.MOX_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_mox_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.PLUTONIUM_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_plutonium_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.U233_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_u233_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.U235_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_u235_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.LES_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_les_fuel_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.LITHIUM.ordinal()), new ItemStack(ModItems.rod_zirnox_tritium));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.ZFB_MOX.ordinal()), new ItemStack(ModItems.rod_zirnox_zfb_mox_depleted));
 	}
 
 	public TileEntityReactorZirnox() {
@@ -222,7 +228,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			}
 			
 			for(DirPos pos : getConPos()) {
-				this.sendFluid(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
 			checkIfMeltdown();
@@ -260,8 +266,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	private boolean hasFuelRod(int id) {
 		if(slots[id] != null) {
-			if(!(slots[id].getItem() instanceof ItemZirnoxBreedingRod)) {
-				return slots[id].getItem() instanceof ItemZirnoxRod;
+			if(slots[id].getItem() instanceof ItemZirnoxRod) {
+				final EnumZirnoxType num = EnumUtil.grabEnumSafely(EnumZirnoxType.class, slots[id].getItemDamage());
+				return !num.breeding;
 			}
 		}
 
@@ -288,17 +295,16 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	// itemstack in slots[id] has to contain ItemZirnoxRod
 	private void decay(int id) {
 		int decay = getNeighbourCount(id);
+		final EnumZirnoxType num = EnumUtil.grabEnumSafely(EnumZirnoxType.class, slots[id].getItemDamage());
 
-		if(!(slots[id].getItem() instanceof ItemZirnoxBreedingRod)) {
+		if(!num.breeding)
 			decay++;
-		}
 
 		for(int i = 0; i < decay; i++) {
-			ItemZirnoxRod rod = ((ItemZirnoxRod) slots[id].getItem());
-			this.heat += rod.heat;
-			ItemZirnoxRod.setLifeTime(slots[id], ItemZirnoxRod.getLifeTime(slots[id]) + 1);
+			this.heat += num.heat;
+			ItemZirnoxRod.incrementLifeTime(slots[id]);
 			
-			if(ItemZirnoxRod.getLifeTime(slots[id]) > rod.lifeTime) {
+			if(ItemZirnoxRod.getLifeTime(slots[id]) > num.maxLife) {
 				slots[id] = fuelMap.get(new ComparableStack(getStackInSlot(id))).copy();
 				break;
 			}
@@ -575,8 +581,25 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {heat, pressure, water.getFill(), steam.getFill(), carbonDioxide.getFill(), isOn};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] setActive(Context context, Arguments args) {
-		isOn = Boolean.parseBoolean(args.checkString(0));
+		isOn = args.checkBoolean(0);
 		return new Object[] {};
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerReactorZirnox(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIReactorZirnox(player.inventory, this);
 	}
 }

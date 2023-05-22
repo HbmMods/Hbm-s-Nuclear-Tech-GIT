@@ -17,9 +17,9 @@ public class BlockITERStruct extends BlockContainer {
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityITERStruct();
 	}
-	
-    public boolean isOpaqueCube() {
-    	
-        return false;
-    }
+
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
 }

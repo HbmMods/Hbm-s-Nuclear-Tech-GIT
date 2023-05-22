@@ -6,7 +6,6 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.main.MainRegistry;
 import com.hbm.world.feature.HugeMush;
 
 import net.minecraft.block.Block;

@@ -1,6 +1,11 @@
 package com.hbm.items.special;
 
 import com.hbm.items.ItemEnumMulti;
+import com.hbm.items.special.ItemByproduct.EnumByproduct;
+import static com.hbm.items.special.ItemByproduct.EnumByproduct.*;
+
+import java.util.Locale;
+
 import com.hbm.lib.RefStrings;
 import com.hbm.util.EnumUtil;
 
@@ -55,26 +60,49 @@ public class ItemBedrockOre extends ItemEnumMulti {
 	public String getItemStackDisplayName(ItemStack stack) {
 		
 		EnumBedrockOre ore = EnumUtil.grabEnumSafely(EnumBedrockOre.class, stack.getItemDamage());
-		String oreName = StatCollector.translateToLocal("item.ore." + ore.oreName.toLowerCase());
+		String oreName = StatCollector.translateToLocal("item.ore." + ore.oreName.toLowerCase(Locale.US));
 		return StatCollector.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", oreName);
 	}
+	
+	/*
+	 * BYPRODUCT TIER 1: NITRIC ACID - CHEMPLANT GATE / NO GATE
+	 * BYPRODUCT TIER 2: ORGANIC SOLVENT - CRACKING OIL GATE
+	 * BYPRODUCT TIER 3: HIPERF SOLVENT - RBMK GATE
+	 * BYPRODUCT TIER 4: SCHRABIDIC ACID - FUSION GATE?
+	 */
+	
+	/*
+	 * [BEDROCK x1] -C-> [CENTRIFUGED x4] -(PER)-> [CLEANED x4] -C-> [SEPARATED x16] -(SUL)-> [PURIFIED x16] -C-> [ENRICHED x64]
+	 *                                                                       \
+	 *                                                                        \-------(NIT)-> [NITRATED x16] -C-> [NITROCRYSTALLINE x32] -(ORG)-> [DEEP-CLEANED x32] -C-> [ENRICHED x64]
+	 *                                                                                                        v             \                                         v
+	 *                                                                                                [BYPRODUCT TIER 1]     \                                [BYPRODUCT TIER 2]
+	 *                                                                                                                        \
+	 *                                                                                                                         \-----------(HPS)-> [SEARED x32] -C-> [ENRICHED x64]
+	 *                                                                                                                                                           v
+	 *                                                                                                                                                   [BYPRODUCT TIER 3]
+	 */
 
 	public static enum EnumBedrockOre {
-		IRON("Iron", 0xE2C0AA),
-		COPPER("Copper", 0xEC9A63),
-		BORAX("Borax", 0xE4BE74),
-		ASBESTOS("Asbestos", 0xBFBFB9),
-		NIOBIUM("Niobium", 0xAF58D8),
-		TITANIUM("Titanium", 0xF2EFE2),
-		TUNGSTEN("Tungsten", 0x2C293C),
-		GOLD("Gold", 0xF9D738);
+		//Ore					Byproduct	1,			2,			3
+		IRON("Iron", 0xE2C0AA,			B_SULFUR,	B_TITANIUM,	B_TITANIUM), //titanium, sulfur from pyrite
+		COPPER("Copper", 0xEC9A63,		B_SULFUR,	B_SULFUR,	B_SULFUR), //sulfur sulfur sulfur sulfur
+		BORAX("Borax", 0xE4BE74, 		B_LITHIUM, 	B_CALCIUM, 	B_CALCIUM), //calcium from ulexite, uhhh lithium?
+		ASBESTOS("Asbestos", 0xBFBFB9,	B_SILICON,	B_SILICON,	B_SILICON), //quartz i guess?
+		NIOBIUM("Niobium", 0xAF58D8,	B_IRON,		B_IRON,		B_IRON), //iron in columbite, often found along tantalite
+		TITANIUM("Titanium", 0xF2EFE2,	B_SILICON,	B_CALCIUM,	B_ALUMINIUM), //titanite is titanium + calcium + silicon with traces of iron and aluminium
+		TUNGSTEN("Tungsten", 0x2C293C,	B_LEAD,		B_IRON,		B_BISMUTH), //ferberite has iron, raspite has lead, russelite is bismuth tungsten
+		GOLD("Gold", 0xF9D738,			B_LEAD,		B_COPPER,	B_BISMUTH); //occurs with copper, lead and rare bismuthide
 		
 		public String oreName;
 		public int color;
+		public EnumByproduct[] byproducts;
 		
-		private EnumBedrockOre(String name, int color) {
+		/** Byproduct count must be consistent with current tier count, use NULL if no byproduct should be generated! */
+		private EnumBedrockOre(String name, int color, EnumByproduct... by) {
 			this.oreName = name;
 			this.color = color;
+			this.byproducts = by;
 		}
 	}
 }

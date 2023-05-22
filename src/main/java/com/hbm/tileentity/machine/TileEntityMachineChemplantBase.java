@@ -13,6 +13,7 @@ import com.hbm.inventory.recipes.ChemplantRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
@@ -33,7 +34,7 @@ import net.minecraft.util.ChunkCoordinates;
  * Tanks follow the order R1(I1, I2, O1, O2), R2(I1, I2, O1, O2) ...
  * @author hbm
  */
-public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor, IFluidUser {
+public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBase implements IEnergyUser, IFluidUser, IGUIProvider {
 
 	public long power;
 	public int[] progress;
@@ -72,15 +73,6 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 			for(int i = 0; i < count; i++) {
 				loadItems(i);
 				unloadItems(i);
-			}
-			
-			if(worldObj.getTotalWorldTime() % 10 == 0) {
-
-				for(FluidTank tank : this.outTanks()) {
-					if(tank.getTankType() != Fluids.NONE && tank.getFill() > 0) {
-						this.fillFluidInit(tank.getTankType());
-					}
-				}
 			}
 
 			
@@ -318,17 +310,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		this.power = power;
 	}
 
-	@Override
-	public void setFillForSync(int fill, int index) { }
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) { }
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) { }
-
-	@Override
-	public int getFluidFill(FluidType type) {
+	/*public int getFluidFill(FluidType type) {
 		
 		int fill = 0;
 		
@@ -345,10 +327,9 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		}
 		
 		return fill;
-	}
+	}*/
 
 	/* For input only! */
-	@Override
 	public int getMaxFluidFill(FluidType type) {
 		
 		int maxFill = 0;
@@ -360,20 +341,6 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		}
 		
 		return maxFill;
-	}
-
-	@Override
-	public int getFluidFillForReceive(FluidType type) {
-		
-		int fill = 0;
-		
-		for(FluidTank tank : inTanks()) {
-			if(tank.getTankType() == type) {
-				fill += tank.getFill();
-			}
-		}
-		
-		return fill;
 	}
 	
 	protected List<FluidTank> inTanks() {
@@ -390,8 +357,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		return inTanks;
 	}
 
-	@Override
-	public void receiveFluid(int amount, FluidType type) {
+	/*public void receiveFluid(int amount, FluidType type) {
 		
 		if(amount <= 0)
 			return;
@@ -427,15 +393,14 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 			
 			tank.setFill(tank.getFill() + part);
 		}
-	}
+	}*/
 
-	@Override
-	public int getFluidFillForTransfer(FluidType type) {
+	public int getFluidFillForTransfer(FluidType type, int pressure) {
 		
 		int fill = 0;
 		
 		for(FluidTank tank : outTanks()) {
-			if(tank.getTankType() == type) {
+			if(tank.getTankType() == type && tank.getPressure() == pressure) {
 				fill += tank.getFill();
 			}
 		}
@@ -443,8 +408,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		return fill;
 	}
 	
-	@Override
-	public void transferFluid(int amount, FluidType type) {
+	public void transferFluid(int amount, FluidType type, int pressure) {
 		
 		/*
 		 * this whole new fluid mumbo jumbo extra abstraction layer might just be a bandaid
@@ -458,7 +422,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		List<FluidTank> send = new ArrayList();
 		
 		for(FluidTank tank : outTanks()) {
-			if(tank.getTankType() == type) {
+			if(tank.getTankType() == type && tank.getPressure() == pressure) {
 				send.add(tank);
 			}
 		}
@@ -520,7 +484,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 	}
 
 	@Override
-	public long transferFluid(FluidType type, long fluid) {
+	public long transferFluid(FluidType type, int pressure, long fluid) {
 		int amount = (int) fluid;
 		
 		if(amount <= 0)
@@ -529,7 +493,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		List<FluidTank> rec = new ArrayList();
 		
 		for(FluidTank tank : inTanks()) {
-			if(tank.getTankType() == type) {
+			if(tank.getTankType() == type && tank.getPressure() == pressure) {
 				rec.add(tank);
 			}
 		}
@@ -563,18 +527,18 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 	}
 
 	@Override
-	public long getDemand(FluidType type) {
-		return getMaxFluidFill(type) - getFluidFillForTransfer(type);
+	public long getDemand(FluidType type, int pressure) {
+		return getMaxFluidFill(type) - getFluidFillForTransfer(type, pressure);
 	}
 
 	@Override
-	public long getTotalFluidForSend(FluidType type) {
-		return getFluidFillForTransfer(type);
+	public long getTotalFluidForSend(FluidType type, int pressure) {
+		return getFluidFillForTransfer(type, pressure);
 	}
 
 	@Override
-	public void removeFluidForTransfer(FluidType type, long amount) {
-		this.transferFluid((int) amount, type);
+	public void removeFluidForTransfer(FluidType type, int pressure, long amount) {
+		this.transferFluid((int) amount, type, pressure);
 	}
 	
 	@Override

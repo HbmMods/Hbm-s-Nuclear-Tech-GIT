@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.util.EnumChatFormatting;
@@ -27,7 +28,7 @@ public class GunPoweredFactory {
 		config.chargeRate = 2500;
 		
 		config.name = "LIY2001 Anti-Material Electromagnetic Rifle Prototype";
-		config.manufacturer = "OxfordEM technologies";
+		config.manufacturer = EnumGunManufacturer.OXFORD;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.GLASS_EMRADIO);
@@ -40,35 +41,6 @@ public class GunPoweredFactory {
 		
 		return config;
 	}
-	
-	/*public static BulletConfiguration getGlassBoltConfig() {
-		
-		BulletConfiguration bullet = new BulletConfiguration();
-		
-		bullet.velocity = 2.0F;
-		bullet.spread = 0F;
-		bullet.dmgMin = 30;
-		bullet.dmgMax = 40;
-		bullet.bulletsMin = 1;
-		bullet.bulletsMax = 1;
-		bullet.gravity = 0D;
-		bullet.maxAge = 100;
-		bullet.doesRicochet = true;
-		bullet.ricochetAngle = 90;
-		bullet.HBRC = 2;
-		bullet.LBRC = 90;
-		bullet.bounceMod = 1;
-		bullet.doesPenetrate = true;
-		bullet.style = BulletConfiguration.STYLE_BOLT;
-		bullet.plink = BulletConfiguration.PLINK_ENERGY;
-		bullet.trail = BulletConfiguration.BOLT_LASER;
-		bullet.dischargePerShot = 1000;
-		bullet.firingRate = 5;
-		bullet.modeName = "testMode";
-		bullet.chatColour = EnumChatFormatting.RED;
-		
-		return bullet;
-	}*/
 	
 	public static BulletConfiguration getEMRadioConfig() {
 		

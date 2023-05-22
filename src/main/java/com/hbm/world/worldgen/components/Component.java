@@ -10,10 +10,7 @@ import com.hbm.config.StructureConfig;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBookLore.BookLoreType;
-import com.hbm.lib.HbmChestContents;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
-import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWeb;
 import net.minecraft.block.material.Material;

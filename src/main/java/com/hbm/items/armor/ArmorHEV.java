@@ -20,8 +20,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
 public class ArmorHEV extends ArmorFSBPowered {
 
-	public ArmorHEV(ArmorMaterial material, int layer, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
-		super(material, layer, slot, texture, maxPower, chargeRate, consumption, drain);
+	public ArmorHEV(ArmorMaterial material, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
+		super(material, slot, texture, maxPower, chargeRate, consumption, drain);
 	}
 
 	@SideOnly(Side.CLIENT)

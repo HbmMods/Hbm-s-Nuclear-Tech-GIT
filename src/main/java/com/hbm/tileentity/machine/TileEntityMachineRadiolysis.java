@@ -3,34 +3,41 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.container.ContainerRadiolysis;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.gui.GUIRadiolysis;
 import com.hbm.inventory.recipes.RadiolysisRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.items.machine.ItemRTGPelletDepleted;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.RTGUtil;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, IFluidSource, IFluidContainer, IFluidStandardTransceiver {
+public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyGenerator, IFluidAcceptor, IFluidSource, IFluidContainer, IFluidStandardTransceiver, IGUIProvider {
 	
 	public long power;
 	public static final int maxPower = 1000000;
@@ -135,8 +142,8 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			for(DirPos pos : getConPos()) {
 				this.sendPower(worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
-				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
+				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
@@ -215,14 +222,20 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 				if(slots[12].stackSize <= 0)
 					slots[12] = null;
 				slots[13] = output;
-				slots[13].stackTagCompound.setBoolean("ntmContagion", false);
+				slots[13].stackTagCompound.removeTag("ntmContagion");
+				if(slots[13].stackTagCompound.hasNoTags()) {
+					slots[13].stackTagCompound = null;
+				}
 			} else if(slots[13].isItemEqual(output) && slots[13].stackSize + output.stackSize <= slots[13].getMaxStackSize()) {
 				slots[12].stackSize -= output.stackSize;
 				if(slots[12].stackSize <= 0)
 					slots[12] = null;
 			
 				slots[13].stackSize += output.stackSize;
-				slots[13].stackTagCompound.setBoolean("ntmContagion", false);
+				slots[13].stackTagCompound.removeTag("ntmContagion");
+				if(slots[13].stackTagCompound.hasNoTags()) {
+					slots[13].stackTagCompound = null;
+				}
 			}
 		}
 	}
@@ -357,5 +370,16 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerRadiolysis(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIRadiolysis(player.inventory, this);
 	}
 }

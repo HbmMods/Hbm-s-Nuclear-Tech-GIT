@@ -21,8 +21,6 @@ public class RenderMinecartTest extends RenderMinecart
 	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/LilBoy1.obj");
 	private IModelCustom boyModel;
     private ResourceLocation boyTexture;
-    private static final String __OBFID = "CL_00001029";
-    
     public RenderMinecartTest() {
 		boyModel = AdvancedModelLoader.loadModel(objTesterModelRL);
 		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/LilBoy2.png");

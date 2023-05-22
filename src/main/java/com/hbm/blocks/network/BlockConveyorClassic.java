@@ -50,6 +50,11 @@ public class BlockConveyorClassic extends Block implements IConveyorBelt {
 	}
 
 	@Override
+	public boolean canItemStay(World world, int x, int y, int z, Vec3 itemPos) {
+		return true;
+	}
+
+	@Override
 	public Vec3 getTravelLocation(World world, int x, int y, int z, Vec3 itemPos, double speed) {
 		
 		ForgeDirection dir = getTravelDirection(world, x, y, z, itemPos, speed);

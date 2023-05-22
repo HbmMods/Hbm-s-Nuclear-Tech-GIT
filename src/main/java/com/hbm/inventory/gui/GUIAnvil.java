@@ -2,8 +2,10 @@ package com.hbm.inventory.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -24,6 +26,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
@@ -83,7 +86,7 @@ public class GUIAnvil extends GuiContainer {
 	
 	private void search(String search) {
 		
-		search = search.toLowerCase();
+		search = search.toLowerCase(Locale.US);
 
 		this.recipes.clear();
 		
@@ -111,6 +114,63 @@ public class GUIAnvil extends GuiContainer {
 		this.index = 0;
 		this.selection = -1;
 		this.size = Math.max(0, (int)Math.ceil((this.recipes.size() - 10) / 2D));
+	}
+	
+	/*@Override
+	protected void mouseMovedOrUp(int x, int y, int mode) {
+		super.mouseMovedOrUp(x, y, mode);
+
+		if(mode == -1) return; // we don't care about mouseMove
+		for(Object obj : this.inventorySlots.inventorySlots) {
+			Slot slot = (Slot) obj;
+			
+			// if the mouse is over a slot, cancel
+			if(this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y)) {
+				return;
+			}
+		}
+
+		if(mode == 0 && this.index > 0) this.index--;
+		if(mode == 1 && this.index < this.size) this.index++;
+	}*/
+	
+	@Override
+	public void drawScreen(int x, int y, float interp) {
+		super.drawScreen(x, y, interp);
+		
+		for(Object obj : this.inventorySlots.inventorySlots) {
+			Slot slot = (Slot) obj;
+			
+			// if the mouse is over a slot, cancel
+			if(this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y) && slot.getHasStack()) {
+				return;
+			}
+		}
+
+		if(guiLeft <= x && guiLeft + xSize > x && guiTop < y && guiTop + ySize >= y && getSlotAtPosition(x, y) == null) {
+			if(!Mouse.isButtonDown(0) && !Mouse.isButtonDown(1) && Mouse.next()) {
+				int scroll = Mouse.getEventDWheel();
+				
+				if(scroll > 0 && this.index > 0) this.index--;
+				if(scroll < 0 && this.index < this.size) this.index++;
+			}
+		}
+	}
+	
+	private Slot getSlotAtPosition(int x, int y) {
+		for(int k = 0; k < this.inventorySlots.inventorySlots.size(); ++k) {
+			Slot slot = (Slot) this.inventorySlots.inventorySlots.get(k);
+
+			if(this.isMouseOverSlot(slot, x, y)) {
+				return slot;
+			}
+		}
+
+		return null;
+	}
+	
+	private boolean isMouseOverSlot(Slot slot, int x, int y) {
+		return this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y);
 	}
 	
 	@Override
@@ -261,7 +321,7 @@ public class GUIAnvil extends GuiContainer {
 		for(AStack stack : recipe.input) {
 			if(stack instanceof ComparableStack)  {
 				ItemStack input = ((ComparableStack) stack).toStack();
-				list.add(input.getDisplayName().toLowerCase());
+				list.add(input.getDisplayName().toLowerCase(Locale.US));
 				
 			} else if(stack instanceof OreDictStack) {
 				OreDictStack input = (OreDictStack) stack;
@@ -269,7 +329,7 @@ public class GUIAnvil extends GuiContainer {
 				
 				if(ores.size() > 0) {
 					for(ItemStack ore : ores) {
-						list.add(ore.getDisplayName().toLowerCase());
+						list.add(ore.getDisplayName().toLowerCase(Locale.US));
 					}
 					
 				}
@@ -277,7 +337,7 @@ public class GUIAnvil extends GuiContainer {
 		}
 		
 		for(AnvilOutput stack : recipe.output) {
-			list.add(stack.stack.getDisplayName().toLowerCase());
+			list.add(stack.stack.getDisplayName().toLowerCase(Locale.US));
 		}
 		
 		return list;

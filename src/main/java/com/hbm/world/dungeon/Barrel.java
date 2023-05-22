@@ -8,7 +8,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntitySellafield;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 

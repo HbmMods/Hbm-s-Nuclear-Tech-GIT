@@ -2,6 +2,7 @@ package com.hbm.handler;
 
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
@@ -18,7 +19,11 @@ import com.hbm.util.ContaminationUtil;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatBase;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
@@ -33,6 +38,12 @@ public class BossSpawnHandler {
 	
 	public static void rollTheDice(World world) {
 		
+		/*
+		 * Spawns every 3 hours with a 33% chance if
+		 * - the player is 3 blocks below the surface
+		 * - the player has at least 50 RAD
+		 * - the player has either crafted or placed an ore acidizer before
+		 */
 		if(MobConfig.enableMaskman) {
 			
 			if(world.getTotalWorldTime() % MobConfig.maskmanDelay == 0) {
@@ -40,8 +51,17 @@ public class BossSpawnHandler {
 				if(world.rand.nextInt(MobConfig.maskmanChance) == 0 && !world.playerEntities.isEmpty() && world.provider.isSurfaceWorld()) {	//33% chance only if there is a player online
 					
 					EntityPlayer player = (EntityPlayer) world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));	//choose a random player
+					int id = Item.getIdFromItem(Item.getItemFromBlock(ModBlocks.machine_crystallizer));
+
+					StatBase statCraft = StatList.objectCraftStats[id];
+					StatBase statPlace = StatList.objectUseStats[id];
 					
-					if(ContaminationUtil.getRads(player) >= MobConfig.maskmanMinRad && (world.getHeightValue((int)player.posX, (int)player.posZ) > player.posY + 3 || !MobConfig.maskmanUnderground)) {	//if the player has more than 50 RAD and is underground
+					if(!(player instanceof EntityPlayerMP)) return;
+					EntityPlayerMP playerMP = (EntityPlayerMP) player;
+					
+					boolean acidizerStat = !GeneralConfig.enableStatReRegistering || (statCraft != null && playerMP.func_147099_x().writeStat(statCraft) > 0)|| (statPlace != null && playerMP.func_147099_x().writeStat(statPlace) > 0);
+					
+					if(acidizerStat && ContaminationUtil.getRads(player) >= MobConfig.maskmanMinRad && (world.getHeightValue((int)player.posX, (int)player.posZ) > player.posY + 3 || !MobConfig.maskmanUnderground)) {	//if the player has more than 50 RAD and is underground
 
 						player.addChatComponentMessage(new ChatComponentText("The mask man is about to claim another victim.").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 						

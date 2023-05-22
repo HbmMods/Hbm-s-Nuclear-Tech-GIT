@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 public class DummyBlockMachine extends DummyOldBase {
 
-	private int id;
 	private Block drop;
 	float oX = 0;
 	float oY = 0;
@@ -30,9 +29,8 @@ public class DummyBlockMachine extends DummyOldBase {
 		super(p_i45386_1_, port);
 	}
 
-	public DummyBlockMachine(Material mat, int id, Block drop, boolean port) {
+	public DummyBlockMachine(Material mat, Block drop, boolean port) {
 		super(mat, port);
-		this.id = id;
 		this.drop = drop;
 	}
 	
@@ -66,7 +64,7 @@ public class DummyBlockMachine extends DummyOldBase {
 				int c = ((TileEntityDummy) te).targetZ;
 
 				if(te != null) {
-					FMLNetworkHandler.openGui(player, MainRegistry.instance, id, world, a, b, c);
+					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, a, b, c);
 				}
 			}
 			return true;

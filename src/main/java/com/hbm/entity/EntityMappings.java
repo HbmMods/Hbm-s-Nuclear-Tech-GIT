@@ -13,12 +13,18 @@ import com.hbm.entity.mob.*;
 import com.hbm.entity.mob.botprime.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
-import com.hbm.entity.qic.*;
+import com.hbm.entity.train.EntityRailCarBase.BoundingBoxDummyEntity;
+import com.hbm.entity.train.EntityRailCarRidable.SeatDummyEntity;
+import com.hbm.entity.train.TrainCargoTram;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 
 public class EntityMappings {
 
@@ -75,7 +81,6 @@ public class EntityMappings {
 		addEntity(EntityGrenadeMk2.class, "entity_grenade_mk2", 500);
 		addEntity(EntityGrenadeZOMG.class, "entity_grenade_zomg", 500);
 		addEntity(EntityGrenadeASchrab.class, "entity_grenade_aschrab", 500);
-		addEntity(EntityNukeCloudNoShroom.class, "entity_nuke_cloud_no", 1000);
 		addEntity(EntityFalloutRain.class, "entity_fallout", 1000);
 		addEntity(EntityDischarge.class, "entity_emp_discharge", 500);
 		addEntity(EntityEMPBlast.class, "entity_emp_blast", 1000);
@@ -104,7 +109,7 @@ public class EntityMappings {
 		addEntity(EntityTSmokeFX.class, "entity_t_smoke_fx", 1000);
 		addEntity(EntityNukeExplosionMK3.class, "entity_nuke_mk3", 1000);
 		addEntity(EntityVortex.class, "entity_vortex", 250);
-		addEntity(EntityMeteor.class, "entity_meteor", 1000);
+		addEntity(EntityMeteor.class, "entity_meteor", 250);
 		addEntity(EntityLaser.class, "entity_laser", 1000);
 		addEntity(EntityBoxcar.class, "entity_boxcar", 1000);
 		addEntity(EntityMissileTaint.class, "entity_missile_taint", 1000);
@@ -205,9 +210,17 @@ public class EntityMappings {
 		addEntity(EntityCog.class, "entity_stray_cog", 1000);
 		addEntity(EntitySawblade.class, "entity_stray_saw", 1000);
 		addEntity(EntityChemical.class, "entity_chemthrower_splash", 1000);
+		addEntity(EntityMist.class, "entity_mist", 1000);
+
+		addEntity(SeatDummyEntity.class, "entity_ntm_seat_dummy", 250, false);
+		addEntity(BoundingBoxDummyEntity.class, "entity_ntm_bounding_dummy", 250, false);
+		addEntity(TrainCargoTram.class, "entity_ntm_cargo_tram", 250, false);
 		
-		addMob(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", 0x204131, 0x75CE00);
-		addMob(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", 0x813b9b, 0xd71fdd);
+		addMob(EntityCreeperNuclear.class, "entity_mob_nuclear_creeper", 0x204131, 0x75CE00);
+		addMob(EntityCreeperTainted.class, "entity_mob_tainted_creeper", 0x813b9b, 0xd71fdd);
+		addMob(EntityCreeperPhosgene.class, "entity_mob_phosgene_creeper", 0xE3D398, 0xB8A06B);
+		addMob(EntityCreeperVolatile.class, "entity_mob_volatile_creeper", 0xC28153, 0x4D382C);
+		addMob(EntityCreeperGold.class, "entity_mob_gold_creeper", 0xECC136, 0x9E8B3E);
 		addMob(EntityHunterChopper.class, "entity_mob_hunter_chopper", 0x000020, 0x2D2D72);
 //		addMob(EntityCyberCrab.class, "entity_cyber_crab", 0xAAAAAA, 0x444444);
 //		addMob(EntityTeslaCrab.class, "entity_tesla_crab", 0xAAAAAA, 0x440000);
@@ -242,5 +255,27 @@ public class EntityMappings {
 	
 	private static void addMob(Class<? extends Entity> clazz, String name, int color1, int color2) {
 		mobMappings.add(new Quartet(clazz, name, color1, color2));
+	}
+
+	public static void addSpawn(Class<? extends EntityLiving> entityClass, int weightedProb, int min, int max, EnumCreatureType typeOfCreature, BiomeGenBase... biomes) {
+		
+		for(BiomeGenBase biome : biomes) {
+			
+			if(biome == null) continue;
+			
+			List<SpawnListEntry> spawns = biome.getSpawnableList(typeOfCreature);
+
+			for(SpawnListEntry entry : spawns) {
+				// Adjusting an existing spawn entry
+				if(entry.entityClass == entityClass) {
+					entry.itemWeight = weightedProb;
+					entry.minGroupCount = min;
+					entry.maxGroupCount = max;
+					break;
+				}
+			}
+
+			spawns.add(new SpawnListEntry(entityClass, weightedProb, min, max));
+		}
 	}
 }

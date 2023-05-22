@@ -13,12 +13,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class ElectricityRenderer extends Render {
 	private Item field_94151_a;
-	private int field_94150_f;
-	private static final String __OBFID = "CL_00001008";
-
 	public ElectricityRenderer(Item p_i1259_1_, int p_i1259_2_) {
 		this.field_94151_a = p_i1259_1_;
-		this.field_94150_f = p_i1259_2_;
 	}
 
 	public ElectricityRenderer(Item p_i1260_1_) {

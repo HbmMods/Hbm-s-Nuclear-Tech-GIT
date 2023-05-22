@@ -46,7 +46,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		this.tanks = new FluidTank[3];
 		this.tanks[0] = new FluidTank(Fluids.NONE, 16_000);
 		this.tanks[1] = new FluidTank(Fluids.NONE, 16_000);
-		this.tanks[2] = new FluidTank(Fluids.NONE, 16_000);
+		this.tanks[2] = new FluidTank(Fluids.NONE, 24_000);
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 			}
 			
 			for(DirPos pos : getConPos()) {
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
@@ -145,23 +145,11 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		
 		if(recipe == null) return false;
 		
-		if(recipe.input1 != null) {
-			
-			if(recipe.input1.type != tanks[0].getTankType()) {
-				tanks[0].setTankType(recipe.input1.type);
-			}
-			
-			if(tanks[0].getFill() < recipe.input1.fill) return false;
-		}
-		
-		if(recipe.input2 != null) {
-			
-			if(recipe.input2.type != tanks[1].getTankType()) {
-				tanks[1].setTankType(recipe.input2.type);
-			}
-			
-			if(tanks[1].getFill() < recipe.input2.fill) return false;
-		}
+		tanks[0].setTankType(recipe.input1 != null ? recipe.input1.type : Fluids.NONE);
+		tanks[1].setTankType(recipe.input2 != null ? recipe.input2.type : Fluids.NONE);
+
+		if(recipe.input1 != null && tanks[0].getFill() < recipe.input1.fill) return false;
+		if(recipe.input2 != null && tanks[1].getFill() < recipe.input2.fill) return false;
 		
 		/* simplest check would usually go first, but fluid checks also do the setup and we want that to happen even without power */
 		if(this.power < getConsumption()) return false;
@@ -197,9 +185,9 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		return new DirPos[] {
 				new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
 				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 1, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
 				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 1, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
 		};
 	}
 	

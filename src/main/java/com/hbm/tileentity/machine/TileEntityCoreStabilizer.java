@@ -1,27 +1,33 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.inventory.container.ContainerCoreStabilizer;
+import com.hbm.inventory.gui.GUICoreStabilizer;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemLens;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraftforge.common.util.ForgeDirection;
-
-import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.inventory.Container;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyUser, SimpleComponent {
+public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyUser, SimpleComponent, IGUIProvider {
 
 	public long power;
 	public static final long maxPower = 2500000000L;
@@ -167,25 +173,25 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		return "dfc_stabilizer";
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyStored(Context context, Arguments args) {
 		return new Object[] {power};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getMaxEnergy(Context context, Arguments args) {
 		return new Object[] {maxPower};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInput(Context context, Arguments args) {
 		return new Object[] {watts};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getDurability(Context context, Arguments args) {
 		if(slots[0] != null && slots[0].getItem() == ModItems.ams_lens && ItemLens.getLensDamage(slots[0]) < ((ItemLens)ModItems.ams_lens).maxDamage) {
@@ -194,14 +200,39 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		return new Object[] {"N/A"};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		Object lens_damage_buf;
+		if(slots[0] != null && slots[0].getItem() == ModItems.ams_lens && ItemLens.getLensDamage(slots[0]) < ((ItemLens)ModItems.ams_lens).maxDamage) {
+			lens_damage_buf = ItemLens.getLensDamage(slots[0]);
+		} else {
+			lens_damage_buf = "N/A";
+		}
+		return new Object[] {power, maxPower, watts, lens_damage_buf};
+	}
+
+	@Callback(direct = true, limit = 2)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setInput(Context context, Arguments args) {
-		int newOutput = Integer.parseInt(args.checkString(0));
+		int newOutput = args.checkInteger(0);
 		if (newOutput > 100) {
 			newOutput = 100;
+		} else if (newOutput < 0) {
+			newOutput = 0;
 		}
 		watts = newOutput;
 		return new Object[] {};
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerCoreStabilizer(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUICoreStabilizer(player.inventory, this);
 	}
 }

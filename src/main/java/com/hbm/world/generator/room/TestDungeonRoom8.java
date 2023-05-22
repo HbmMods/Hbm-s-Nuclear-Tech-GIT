@@ -12,9 +12,6 @@ import com.hbm.world.generator.DungeonToolbox;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
 import net.minecraft.world.World;
 
 public class TestDungeonRoom8 extends CellularDungeonRoom {
