@@ -996,7 +996,7 @@ public class ModEventHandlerClient {
 			for(Object o : KeyBinding.keybindArray) {
 				KeyBinding key = (KeyBinding) o;
 				
-				if(key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
+				if(keyCode != 0 && key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
 					
 					key.pressed = state;
 					if(state) {
