@@ -21,11 +21,15 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class MixerRecipes extends SerializableRecipe {
 
 	public static HashMap<FluidType, MixerRecipe> recipes = new HashMap();
+	
+	public static HashMap<FluidType, MixerRecipe[]> recipes_experimental = new HashMap();
 	
 	@Override
 	public void registerDefaults() {
@@ -40,6 +44,8 @@ public class MixerRecipes extends SerializableRecipe {
 		recipes.put(Fluids.MUSTARDGAS, new MixerRecipe(1000, 20).setStack1(new FluidStack(Fluids.REFORMGAS, 750)).setStack2(new FluidStack(Fluids.CHLORINE, 250)).setSolid(new OreDictStack(S.dust())));
 		recipes.put(Fluids.IONGEL, new MixerRecipe(1_000, 50).setStack1(new FluidStack(Fluids.WATER, 1000)).setStack2(new FluidStack(Fluids.HYDROGEN, 200)).setSolid(new ComparableStack(ModItems.pellet_charged)));
 		recipes.put(Fluids.EGG, new MixerRecipe(1_000, 50).setStack1(new FluidStack(Fluids.RADIOSOLVENT, 500)).setSolid(new ComparableStack(Items.egg)));
+		recipes.put(Fluids.FISHOIL, new MixerRecipe(100, 50).setSolid(new ComparableStack(Items.fish, 1, OreDictionary.WILDCARD_VALUE)));
+		recipes.put(Fluids.SUNFLOWEROIL, new MixerRecipe(100, 50).setSolid(new ComparableStack(Blocks.double_plant, 1, 0)));
 
 		recipes.put(Fluids.SOLVENT, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.NAPHTHA, 500)).setStack2(new FluidStack(Fluids.AROMATICS, 500)));
 		recipes.put(Fluids.SULFURIC_ACID, new MixerRecipe(500, 50).setStack1(new FluidStack(Fluids.ACID, 800)).setSolid(new OreDictStack(S.dust())));
@@ -60,6 +66,22 @@ public class MixerRecipes extends SerializableRecipe {
 		recipes.put(Fluids.DIESEL_REFORM, new MixerRecipe(1_000, 50).setStack1(new FluidStack(Fluids.DIESEL, 900)).setStack2(new FluidStack(Fluids.REFORMATE, 100)));
 		recipes.put(Fluids.DIESEL_CRACK_REFORM, new MixerRecipe(1_000, 50).setStack1(new FluidStack(Fluids.DIESEL_CRACK, 900)).setStack2(new FluidStack(Fluids.REFORMATE, 100)));
 		recipes.put(Fluids.KEROSENE_REFORM, new MixerRecipe(1_000, 50).setStack1(new FluidStack(Fluids.KEROSENE, 900)).setStack2(new FluidStack(Fluids.REFORMATE, 100)));
+	}
+	
+	public static void registerExperimental(FluidType type, MixerRecipe... recipes) {
+		recipes_experimental.put(type, recipes);
+	}
+	
+	public static MixerRecipe[] getOutputExperimental(FluidType type) {
+		return recipes_experimental.get(type);
+	}
+	
+	public static MixerRecipe getOutputExperimental(FluidType type, int index) {
+		MixerRecipe[] recs = recipes_experimental.get(type);
+		
+		if(recs == null) return null;
+		
+		return recs[index % recs.length];
 	}
 	
 	public static MixerRecipe getOutput(FluidType type) {
@@ -126,6 +148,30 @@ public class MixerRecipes extends SerializableRecipe {
 			if(recipe.solidInput != null) objects.add(recipe.solidInput);
 			
 			recipes.put(objects.toArray(), ItemFluidIcon.make(output));
+		}
+		
+		return recipes;
+	}
+
+	public static HashMap getRecipesExperimental() {
+		
+		HashMap<Object[], Object> recipes = new HashMap<Object[], Object>();
+		
+		for(Entry<FluidType, MixerRecipe[]> entry : MixerRecipes.recipes_experimental.entrySet()) {
+			
+			FluidType type = entry.getKey();
+			MixerRecipe[] recs = entry.getValue();
+			
+			for(MixerRecipe recipe : recs) {
+				FluidStack output = new FluidStack(type, recipe.output);
+	
+				List<Object> objects = new ArrayList();
+				if(recipe.input1 != null) objects.add(ItemFluidIcon.make(recipe.input1));
+				if(recipe.input2 != null) objects.add(ItemFluidIcon.make(recipe.input2));
+				if(recipe.solidInput != null) objects.add(recipe.solidInput);
+				
+				recipes.put(objects.toArray(), ItemFluidIcon.make(output));
+			}
 		}
 		
 		return recipes;

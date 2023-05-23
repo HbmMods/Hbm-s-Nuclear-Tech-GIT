@@ -186,11 +186,11 @@ public class CrucibleRecipes extends SerializableRecipe {
 			input[i] = new MaterialStack(Mats.matByName.get(matname), amount);
 		}
 		MaterialStack[] output = new MaterialStack[obj.get("output").getAsJsonArray().size()];
-		for(int i = 0; i < input.length; i++) {
+		for(int i = 0; i < output.length; i++) {
 			JsonArray entry = obj.get("output").getAsJsonArray().get(i).getAsJsonArray();
 			String matname = entry.get(0).getAsString();
 			int amount = entry.get(1).getAsInt();
-			input[i] = new MaterialStack(Mats.matByName.get(matname), amount);
+			output[i] = new MaterialStack(Mats.matByName.get(matname), amount);
 		}
 		recipes.add(new CrucibleRecipe(id, name, freq, icon).inputs(input).outputs(output));
 	}

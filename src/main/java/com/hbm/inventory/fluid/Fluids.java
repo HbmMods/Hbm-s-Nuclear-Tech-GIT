@@ -130,6 +130,8 @@ public class Fluids {
 	public static FluidType EGG;
 	public static FluidType CHOLESTEROL;
 	public static FluidType ESTRADIOL;
+	public static FluidType FISHOIL;
+	public static FluidType SUNFLOWEROIL;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -270,7 +272,9 @@ public class Fluids {
 		GAS_COKER =				new FluidType("GAS_COKER",			0xDEF4CA, 1, 4, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 		EGG =					new FluidType("EGG",				0xD2C273, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		CHOLESTEROL =			new FluidType("CHOLESTEROL",		0xD6D2BD, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		ESTRADIOL =				new FluidType(109, "ESTRADIOL",		0xCDD5D8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		ESTRADIOL =				new FluidType("ESTRADIOL",			0xCDD5D8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		FISHOIL =				new FluidType("FISHOIL",			0x4B4A45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		SUNFLOWEROIL =			new FluidType(111, "SUNFLOWEROIL",	0xCBAD45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -357,6 +361,8 @@ public class Fluids {
 		metaOrder.add(BIOGAS);
 		metaOrder.add(BIOFUEL);
 		metaOrder.add(ETHANOL);
+		metaOrder.add(FISHOIL);
+		metaOrder.add(SUNFLOWEROIL);
 		metaOrder.add(NITAN);
 		metaOrder.add(BALEFIRE);
 		//processing fluids
@@ -523,6 +529,8 @@ public class Fluids {
 
 		registerCalculatedFuel(WOODOIL, 110_000 /* 20_000 TU per 250mB + a bonus */, 0, null);
 		registerCalculatedFuel(COALCREOSOTE, 250_000 /* 20_000 TU per 100mB + a bonus */, 0, null);
+		registerCalculatedFuel(FISHOIL, 75_000, 0, null);
+		registerCalculatedFuel(SUNFLOWEROIL, 50_000, 0, null);
 
 		registerCalculatedFuel(SOLVENT, 100_000, 0, null); // flammable, sure, but not combustable
 		registerCalculatedFuel(RADIOSOLVENT, 150_000, 0, null);

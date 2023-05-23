@@ -50,6 +50,8 @@ public class CokerRecipes extends SerializableRecipe {
 		registerAuto(AROMATICS,				GAS_COKER);
 		registerAuto(REFORMATE,				GAS_COKER);
 		registerAuto(XYLENE,				GAS_COKER);
+		registerAuto(FISHOIL,				NAPHTHA_COKER);
+		registerAuto(SUNFLOWEROIL,			GAS_COKER);
 
 		registerSFAuto(WOODOIL, 340_000L, new ItemStack(Items.coal, 1, 1), GAS_COKER);
 
