@@ -210,7 +210,8 @@ public class TileMappings {
 
 		put(TileEntityRandomOre.class, "tileentity_mother_of_all_ores");
 		put(TileEntityBedrockOre.class, "tileentity_bedrock_ore");
-		
+
+		put(TileEntityBaseMent.class, "tileentity_basement");
 		putNetwork();
 		putBombs();
 		putTurrets();

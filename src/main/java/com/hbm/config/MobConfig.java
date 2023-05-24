@@ -11,6 +11,7 @@ public class MobConfig {
 	public static boolean maskmanUnderground = true;
 	
 	public static boolean enableRaids = false;
+	public static boolean enableRaidsBreakBlock = false;
 	public static int raidDelay = 30 * 60 * 60;
 	public static int raidChance = 3;
 	public static int raidAmount = 15;
@@ -26,6 +27,9 @@ public class MobConfig {
 
 	public static boolean enableDucks = true;
 	public static boolean enableMobGear = true;
+
+	public static boolean enableBaseMent = true;
+
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -38,6 +42,7 @@ public class MobConfig {
 		maskmanUnderground = CommonConfig.createConfigBool(config, CATEGORY, "12.M04_maskmanUnderound", "Whether players need to be underground for mask man to spawn", true);
 
 		enableRaids = CommonConfig.createConfigBool(config, CATEGORY, "12.F00_enableFBIRaids", "Whether there should be FBI raids", false);
+		enableRaidsBreakBlock = CommonConfig.createConfigBool(config, CATEGORY, "12.F00_enableFBIBreakBlock", "Whether FBI can break blocks", false);
 		raidDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.F01_raidDelay", "How many world ticks need to pass for a check to be performed", 30 * 60 * 60);
 		raidChance = CommonConfig.createConfigInt(config, CATEGORY, "12.F02_raidChance", "1:x chance to spawn a raid, must be at least 1", 3);
 		raidAmount = CommonConfig.createConfigInt(config, CATEGORY, "12.F03_raidAmount", "How many FBI agents are spawned each raid", 15);

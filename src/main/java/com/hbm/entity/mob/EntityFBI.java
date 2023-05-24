@@ -46,7 +46,9 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
 		super(world);
         this.getNavigator().setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIBreaking(this));
+		if(MobConfig.enableRaidsBreakBlock) {
+			this.tasks.addTask(1, new EntityAIBreaking(this));
+		}
         this.tasks.addTask(2, new EntityAIArrowAttack(this, 1D, 20, 25, 15.0F));
         this.tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, true));
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
@@ -201,7 +203,7 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
             
             if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK) {
             	
-            	if(canDestroy.contains(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ)))
+            	if(canDestroy.contains(worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ)) && MobConfig.enableRaidsBreakBlock)
             		worldObj.func_147480_a(mop.blockX, mop.blockY, mop.blockZ, false);
             }
     	}
