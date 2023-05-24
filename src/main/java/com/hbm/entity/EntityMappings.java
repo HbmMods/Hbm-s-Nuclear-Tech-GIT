@@ -16,7 +16,7 @@ import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.entity.train.EntityRailCarBase.BoundingBoxDummyEntity;
 import com.hbm.entity.train.EntityRailCarRidable.SeatDummyEntity;
-import com.hbm.entity.train.TrainCargoTram;
+import com.hbm.entity.train.*;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Quartet;
 
@@ -218,6 +218,7 @@ public class EntityMappings {
 		addEntity(SeatDummyEntity.class, "entity_ntm_seat_dummy", 250, false);
 		addEntity(BoundingBoxDummyEntity.class, "entity_ntm_bounding_dummy", 250, false);
 		addEntity(TrainCargoTram.class, "entity_ntm_cargo_tram", 250, false);
+		addEntity(TrainCargoTramTrailer.class, "entity_ntm_cargo_tram_trailer", 250, false);
 		
 		addMob(EntityCreeperNuclear.class, "entity_mob_nuclear_creeper", 0x204131, 0x75CE00);
 		addMob(EntityCreeperTainted.class, "entity_mob_tainted_creeper", 0x813b9b, 0xd71fdd);

@@ -66,8 +66,6 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 			
 			watts = MathHelper.clamp_int(watts, 1, 100);
 			long demand = maxPower * watts / 2000;
-
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			beam = 0;
 			
@@ -175,6 +173,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 			data.setLong("prev", prev);
 			data.setInteger("beam", beam);
 			data.setBoolean("isOn", isOn);
+			tank.writeToNBT(data, "tank");
 			this.networkPack(data, 250);
 		}
 	}
@@ -186,6 +185,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 		prev = data.getLong("prev");
 		beam = data.getInteger("beam");
 		isOn = data.getBoolean("isOn");
+		tank.readFromNBT(data, "tank");
 	}
 	
 	public long getPowerScaled(long i) {

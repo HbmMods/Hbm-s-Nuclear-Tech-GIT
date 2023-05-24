@@ -276,7 +276,7 @@ public class Fluids {
 		ESTRADIOL =				new FluidType("ESTRADIOL",			0xCDD5D8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		FISHOIL =				new FluidType("FISHOIL",			0x4B4A45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		SUNFLOWEROIL =			new FluidType("SUNFLOWEROIL",		0xCBAD45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		NITROGLYCERIN =			new FluidType(112, "SUNFLOWEROIL",	0xCBAD45, 0, 4, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		NITROGLYCERIN =			new FluidType(112, "NITROGLYCERIN",	0x92ACA6, 0, 4, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE

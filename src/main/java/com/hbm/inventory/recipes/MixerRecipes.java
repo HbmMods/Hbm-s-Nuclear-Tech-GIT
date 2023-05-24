@@ -142,8 +142,6 @@ public class MixerRecipes extends SerializableRecipe {
 		
 		for(MixerRecipe mix : recipes) {
 			writer.beginObject();
-			FluidStack output = new FluidStack(rec.getKey(), mix.output);
-			
 			writer.name("duration").value(mix.processTime);
 			writer.name("outputAmount").value(mix.output);
 			

@@ -691,6 +691,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(SeatDummyEntity.class, new RenderEmpty());
 		RenderingRegistry.registerEntityRenderingHandler(BoundingBoxDummyEntity.class, new RenderEmpty());
 		RenderingRegistry.registerEntityRenderingHandler(TrainCargoTram.class, new RenderTrainCargoTram());
+		RenderingRegistry.registerEntityRenderingHandler(TrainCargoTramTrailer.class, new RenderTrainCargoTramTrailer());
 		//items
 		RenderingRegistry.registerEntityRenderingHandler(EntityMovingItem.class, new RenderMovingItem());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMovingPackage.class, new RenderMovingPackage());
