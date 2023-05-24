@@ -212,6 +212,9 @@ public class EntityMappings {
 		addEntity(EntityChemical.class, "entity_chemthrower_splash", 1000);
 		addEntity(EntityMist.class, "entity_mist", 1000);
 
+		addEntity(EntityItemWaste.class, "entity_item_waste", 100);
+		addEntity(EntityItemBuoyant.class, "entity_item_buoyant", 100);
+
 		addEntity(SeatDummyEntity.class, "entity_ntm_seat_dummy", 250, false);
 		addEntity(BoundingBoxDummyEntity.class, "entity_ntm_bounding_dummy", 250, false);
 		addEntity(TrainCargoTram.class, "entity_ntm_cargo_tram", 250, false);

@@ -67,6 +67,7 @@ import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemFertilizer;
+import com.hbm.items.weapon.ItemGenericGrenade;
 import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
@@ -611,6 +612,18 @@ public class MainRegistry {
 
 			protected IProjectile getProjectileEntity(World world, IPosition position) {
 				return new EntityGrenadeDynamite(world, position.getX(), position.getY(), position.getZ());
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_kyiv, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World world, IPosition position) {
+				return new EntityGrenadeImpactGeneric(world, position.getX(), position.getY(), position.getZ()).setType((ItemGenericGrenade) ModItems.grenade_kyiv);
+			}
+		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.stick_dynamite_fishing, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World world, IPosition position) {
+				return new EntityGrenadeImpactGeneric(world, position.getX(), position.getY(), position.getZ()).setType((ItemGenericGrenade) ModItems.stick_dynamite_fishing);
 			}
 		});
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.powder_fertilizer, new BehaviorDefaultDispenseItem() {

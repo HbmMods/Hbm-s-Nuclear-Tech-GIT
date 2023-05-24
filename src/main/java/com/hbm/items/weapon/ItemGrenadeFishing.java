@@ -2,10 +2,11 @@ package com.hbm.items.weapon;
 
 import java.util.Random;
 
+import com.hbm.entity.item.EntityItemBuoyant;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -32,8 +33,8 @@ public class ItemGrenadeFishing extends ItemGenericGrenade {
 			if(world.getBlock(rX, rY, rZ).getMaterial() == Material.water) {
 				ItemStack loot = this.getRandomLoot(world.rand);
 				if(loot != null) {
-					EntityItem item = new EntityItem(world, rX + 0.5, rY + 0.5, rZ + 0.5, loot.copy());
-					item.motionY = 3;
+					EntityItemBuoyant item = new EntityItemBuoyant(world, rX + 0.5, rY + 0.5, rZ + 0.5, loot.copy());
+					item.motionY = 1;
 					world.spawnEntityInWorld(item);
 				}
 			}
