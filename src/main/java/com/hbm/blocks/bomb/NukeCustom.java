@@ -171,10 +171,11 @@ public class NukeCustom extends BlockContainer implements IBomb {
 			if(amat >= 25)
 			{
 				EntityBalefire bf = new EntityBalefire(worldObj);
+				bf.antimatter();
 	    		bf.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
 				bf.destructionRange = (int) amat;
 				worldObj.spawnEntityInWorld(bf);
-				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, amat * 1.5F, 1000));	
+				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacAnti(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, amat * 1.5F, 1000));	
 			}
 			else
 			{

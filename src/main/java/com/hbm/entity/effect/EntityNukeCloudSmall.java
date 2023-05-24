@@ -124,6 +124,17 @@ public class EntityNukeCloudSmall extends Entity {
 		return cloud;
 	}
 	
+	public static EntityNukeCloudSmall statFacAnti(World world, double x, double y, double z, float radius, int maxAge) {
+		
+		EntityNukeCloudSmall cloud = new EntityNukeCloudSmall(world, (int)radius * 5, radius * 0.005F);
+		cloud.posX = x;
+		cloud.posY = y;
+		cloud.posZ = z;
+		cloud.dataWatcher.updateObject(19, (byte)2);
+		
+		return cloud;
+	}
+	
     @Override
 	@SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double distance)

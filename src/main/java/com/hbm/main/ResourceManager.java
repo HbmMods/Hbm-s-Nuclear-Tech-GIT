@@ -1021,6 +1021,7 @@ public class ResourceManager {
 	////Texture Entities
 	
 	//Blast
+	public static final ResourceLocation antimatter = new ResourceLocation(RefStrings.MODID, "textures/models/explosion/antimatter.png");
 	public static final ResourceLocation fireball = new ResourceLocation(RefStrings.MODID, "textures/models/explosion/fireball.png");
 	public static final ResourceLocation balefire = new ResourceLocation(RefStrings.MODID, "textures/models/explosion/balefire.png");
 	public static final ResourceLocation tomblast = new ResourceLocation(RefStrings.MODID, "textures/models/explosion/tomblast.png");
