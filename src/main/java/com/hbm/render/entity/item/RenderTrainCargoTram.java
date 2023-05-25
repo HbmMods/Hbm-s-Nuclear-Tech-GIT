@@ -2,6 +2,7 @@ package com.hbm.render.entity.item;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -13,6 +14,18 @@ public class RenderTrainCargoTram extends Render {
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float swing, float interp) {
 		GL11.glPushMatrix();
+		
+		EntityRailCarBase train = (EntityRailCarBase) entity;
+		double iX = train.prevPosX + (train.posX - train.prevPosX) * interp;
+		double iY = train.prevPosY + (train.posY - train.prevPosY) * interp;
+		double iZ = train.prevPosZ + (train.posZ - train.prevPosZ) * interp;
+		double rX = train.lastRenderX + (train.renderX - train.lastRenderX) * interp;
+		double rY = train.lastRenderY + (train.renderY - train.lastRenderY) * interp;
+		double rZ = train.lastRenderZ + (train.renderZ - train.lastRenderZ) * interp;
+		x -= iX - rX;
+		y -= iY - rY;
+		z -= iZ - rZ;
+		
 		GL11.glTranslated(x, y, z);
 
 		float yaw = entity.rotationYaw;

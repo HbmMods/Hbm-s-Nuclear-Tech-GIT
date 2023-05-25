@@ -90,8 +90,8 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 			if(passengerSeats[i] != null) continue;
 			
 			seat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
-			double x = posX + seat.xCoord;
-			double z = posZ + seat.zCoord;
+			double x = renderX + seat.xCoord;
+			double z = renderZ + seat.zCoord;
 
 			double deltaX = player.posX - x;
 			double deltaZ = player.posZ - z;
@@ -108,8 +108,8 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 		if(this.riddenByEntity == null) {
 			Vec3 seat = getRiderSeatPosition();
 			seat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
-			double x = posX + seat.xCoord;
-			double z = posZ + seat.zCoord;
+			double x = renderX + seat.xCoord;
+			double z = renderZ + seat.zCoord;
 
 			double deltaX = player.posX - x;
 			double deltaZ = player.posZ - z;
@@ -131,9 +131,9 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 			SeatDummyEntity dummySeat = new SeatDummyEntity(worldObj, this);
 			Vec3 passengerSeat = this.getPassengerSeats()[nearestSeat];
 			passengerSeat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
-			double x = posX + passengerSeat.xCoord;
-			double y = posY + passengerSeat.yCoord;
-			double z = posZ + passengerSeat.zCoord;
+			double x = renderX + passengerSeat.xCoord;
+			double y = renderY + passengerSeat.yCoord;
+			double z = renderZ + passengerSeat.zCoord;
 			dummySeat.setPosition(x, y - 1, z);
 			passengerSeats[nearestSeat] = dummySeat;
 			worldObj.spawnEntityInWorld(dummySeat);
@@ -160,9 +160,9 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 					} else {
 						Vec3 rot = seats[i];
 						rot.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
-						double x = posX + rot.xCoord;
-						double y = posY + rot.yCoord;
-						double z = posZ + rot.zCoord;
+						double x = renderX + rot.xCoord;
+						double y = renderY + rot.yCoord;
+						double z = renderZ + rot.zCoord;
 						seat.setPosition(x, y - 1, z);
 					}
 				}
@@ -177,7 +177,7 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 		offset.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
 		
 		if(this.riddenByEntity != null) {
-			this.riddenByEntity.setPosition(this.posX + offset.xCoord, this.posY + offset.yCoord, this.posZ + offset.zCoord);
+			this.riddenByEntity.setPosition(this.renderX + offset.xCoord, this.renderY + offset.yCoord, this.renderZ + offset.zCoord);
 		}
 	}
 
