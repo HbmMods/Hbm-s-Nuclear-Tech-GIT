@@ -77,6 +77,7 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 	@Override
 	public boolean interactFirst(EntityPlayer player) {
 		
+		if(super.interactFirst(player)) return true;
 		if(worldObj.isRemote) return true;
 		
 		double nearestDist = Double.POSITIVE_INFINITY;
