@@ -20,3 +20,9 @@ build
 
 # other
 run
+
+# CurseForge configuration
+/curseforge.properties
+
+# Changelog backup
+/changelog.bak
