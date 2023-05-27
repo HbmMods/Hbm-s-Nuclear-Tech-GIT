@@ -5,10 +5,11 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.siege.Basement.TileEntityBaseMent;
 import com.hbm.config.MobConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
-import com.hbm.tileentity.machine.TileEntityBaseMent;
+//import com.hbm.tileentity.machine.TileEntityBaseMent;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 
 import net.minecraft.block.Block;
