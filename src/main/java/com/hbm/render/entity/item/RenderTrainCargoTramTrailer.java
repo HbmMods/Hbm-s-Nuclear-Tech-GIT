@@ -2,30 +2,17 @@ package com.hbm.render.entity.item;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderTrainCargoTram extends Render {
+public class RenderTrainCargoTramTrailer extends Render {
 
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float swing, float interp) {
 		GL11.glPushMatrix();
-		
-		EntityRailCarBase train = (EntityRailCarBase) entity;
-		double iX = train.prevPosX + (train.posX - train.prevPosX) * interp;
-		double iY = train.prevPosY + (train.posY - train.prevPosY) * interp;
-		double iZ = train.prevPosZ + (train.posZ - train.prevPosZ) * interp;
-		double rX = train.lastRenderX + (train.renderX - train.lastRenderX) * interp;
-		double rY = train.lastRenderY + (train.renderY - train.lastRenderY) * interp;
-		double rZ = train.lastRenderZ + (train.renderZ - train.lastRenderZ) * interp;
-		x -= iX - rX;
-		y -= iY - rY;
-		z -= iZ - rZ;
-		
 		GL11.glTranslated(x, y, z);
 
 		float yaw = entity.rotationYaw;
@@ -40,8 +27,8 @@ public class RenderTrainCargoTram extends Render {
 		GL11.glRotated(-entity.rotationPitch, 0, 0, 1);
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
-		bindTexture(ResourceManager.train_tram);
-		ResourceManager.train_cargo_tram.renderAll();
+		bindTexture(ResourceManager.tram_trailer);
+		ResourceManager.train_cargo_tram_trailer.renderAll();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		GL11.glPopMatrix();
@@ -49,6 +36,6 @@ public class RenderTrainCargoTram extends Render {
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return ResourceManager.train_tram;
+		return ResourceManager.tram_trailer;
 	}
 }

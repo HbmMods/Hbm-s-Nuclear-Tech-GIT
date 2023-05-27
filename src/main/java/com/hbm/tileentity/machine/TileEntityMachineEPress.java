@@ -171,8 +171,8 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		
-		if(stack.getItem() instanceof ItemStamp && i == 1)
-			return true;
+		if(stack.getItem() instanceof ItemStamp)
+			return i == 1;
 		
 		return i == 2;
 	}

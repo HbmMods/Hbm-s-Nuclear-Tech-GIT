@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.blocks.rail.IRailNTM;
 import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.entity.train.TrainCargoTram;
+import com.hbm.entity.train.TrainCargoTramTrailer;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.util.EnumUtil;
 
@@ -27,18 +28,19 @@ public class ItemTrain extends ItemEnumMulti {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		EnumTrainType train = EnumUtil.grabEnumSafely(this.theEnum, stack.getItemDamage());
 
-		list.add(EnumChatFormatting.GREEN + "Engine: " + EnumChatFormatting.RESET + train.engine);
+		if(train.engine != null) list.add(EnumChatFormatting.GREEN + "Engine: " + EnumChatFormatting.RESET + train.engine);
 		list.add(EnumChatFormatting.GREEN + "Gauge: " + EnumChatFormatting.RESET + train.gauge);
-		list.add(EnumChatFormatting.GREEN + "Max Speed: " + EnumChatFormatting.RESET + train.maxSpeed);
-		list.add(EnumChatFormatting.GREEN + "Acceleration: " + EnumChatFormatting.RESET + train.acceleration);
-		list.add(EnumChatFormatting.GREEN + "Engine Brake Threshold: " + EnumChatFormatting.RESET + train.brakeThreshold);
-		list.add(EnumChatFormatting.GREEN + "Parking Brake: " + EnumChatFormatting.RESET + train.parkingBrake);
+		if(train.maxSpeed != null) list.add(EnumChatFormatting.GREEN + "Max Speed: " + EnumChatFormatting.RESET + train.maxSpeed);
+		if(train.acceleration != null) list.add(EnumChatFormatting.GREEN + "Acceleration: " + EnumChatFormatting.RESET + train.acceleration);
+		if(train.brakeThreshold != null) list.add(EnumChatFormatting.GREEN + "Engine Brake Threshold: " + EnumChatFormatting.RESET + train.brakeThreshold);
+		if(train.parkingBrake != null) list.add(EnumChatFormatting.GREEN + "Parking Brake: " + EnumChatFormatting.RESET + train.parkingBrake);
 	}
 
 	public static enum EnumTrainType {
 		
-		//                               Engine          Gauge              Max Speed   Accel.      Eng. Brake  Parking Brake
-		CARGO_TRAM(TrainCargoTram.class, "Electric",	"Standard Gauge",	"10m/s",	"0.2m/s",	"<1m/s",	"Yes");
+		//                                              Engine          Gauge               Max Speed   Accel.      Eng. Brake  Parking Brake
+		CARGO_TRAM(TrainCargoTram.class, 				"Electric",		"Standard Gauge",	"10m/s",	"0.2m/s",	"<1m/s",	"Yes"),
+		CARGO_TRAM_TRAILER(TrainCargoTramTrailer.class,	null,			"Standard Gauge",	"Yes",		null,		null,		"No");
 		
 		public Class<? extends EntityRailCarBase> train;
 		public String engine;

@@ -132,6 +132,7 @@ public class Fluids {
 	public static FluidType ESTRADIOL;
 	public static FluidType FISHOIL;
 	public static FluidType SUNFLOWEROIL;
+	public static FluidType NITROGLYCERIN;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -274,7 +275,8 @@ public class Fluids {
 		CHOLESTEROL =			new FluidType("CHOLESTEROL",		0xD6D2BD, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		ESTRADIOL =				new FluidType("ESTRADIOL",			0xCDD5D8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		FISHOIL =				new FluidType("FISHOIL",			0x4B4A45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		SUNFLOWEROIL =			new FluidType(111, "SUNFLOWEROIL",	0xCBAD45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		SUNFLOWEROIL =			new FluidType("SUNFLOWEROIL",		0xCBAD45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		NITROGLYCERIN =			new FluidType(112, "NITROGLYCERIN",	0x92ACA6, 0, 4, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -390,6 +392,7 @@ public class Fluids {
 		metaOrder.add(PHOSGENE);
 		metaOrder.add(MUSTARDGAS);
 		metaOrder.add(ESTRADIOL);
+		metaOrder.add(NITROGLYCERIN);
 		//antimatter
 		metaOrder.add(AMAT);
 		metaOrder.add(ASCHRAB);
