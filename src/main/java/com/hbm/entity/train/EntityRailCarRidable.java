@@ -129,7 +129,7 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 		if(nearestSeat == -1) {
 			player.mountEntity(this);
 		} else {
-			SeatDummyEntity dummySeat = new SeatDummyEntity(worldObj, this);
+			SeatDummyEntity dummySeat = new SeatDummyEntity(worldObj, this, nearestSeat);
 			Vec3 passengerSeat = this.getPassengerSeats()[nearestSeat];
 			passengerSeat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
 			double x = renderX + passengerSeat.xCoord;
@@ -194,16 +194,17 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 		private double trainX;
 		private double trainY;
 		private double trainZ;
-		public EntityRailCarBase train;
+		public EntityRailCarRidable train;
 
 		public SeatDummyEntity(World world) { super(world); this.setSize(0.5F, 0.1F);}
-		public SeatDummyEntity(World world, EntityRailCarBase train) {
+		public SeatDummyEntity(World world, EntityRailCarRidable train, int index) {
 			this(world);
 			this.train = train;
 			if(train != null) this.dataWatcher.updateObject(3, train.getEntityId());
+			this.dataWatcher.updateObject(4, index);
 		}
 		
-		@Override protected void entityInit() { this.dataWatcher.addObject(3, new Integer(0)); }
+		@Override protected void entityInit() { this.dataWatcher.addObject(3, new Integer(0)); this.dataWatcher.addObject(4, new Integer(0)); }
 		@Override protected void writeEntityToNBT(NBTTagCompound nbt) { }
 		@Override public boolean writeToNBTOptional(NBTTagCompound nbt) { return false; }
 		@Override public void readEntityFromNBT(NBTTagCompound nbt) { this.setDead(); }
@@ -238,7 +239,30 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 		@Override
 		public void updateRiderPosition() {
 			if(this.riddenByEntity != null) {
-				this.riddenByEntity.setPosition(this.posX, this.posY + 1, this.posZ);
+				
+				if(train == null) {
+					int eid = this.dataWatcher.getWatchableObjectInt(3);
+					Entity entity = worldObj.getEntityByID(eid);
+					if(entity instanceof EntityRailCarRidable) {
+						train = (EntityRailCarRidable) entity;
+					}
+				}
+				
+				//fallback for when train is null
+				if(train == null) {
+					this.riddenByEntity.setPosition(posX, posY + 1, posZ);
+					return;
+				}
+				
+				//doing it like this instead of with the position directly removes any discrepancies caused by entity tick order
+				//mmhmhmhm silky smooth
+				int index = this.dataWatcher.getWatchableObjectInt(4);
+				Vec3 rot = this.train.getPassengerSeats()[index];
+				rot.rotateAroundY((float) (-train.rotationYaw * Math.PI / 180));
+				double x = train.renderX + rot.xCoord;
+				double y = train.renderY + rot.yCoord;
+				double z = train.renderZ + rot.zCoord;
+				this.riddenByEntity.setPosition(x, y, z);
 			}
 		}
 	}

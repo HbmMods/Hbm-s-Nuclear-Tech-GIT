@@ -1,5 +1,6 @@
 package com.hbm.entity.train;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.rail.IRailNTM;
@@ -93,6 +94,7 @@ public abstract class EntityRailCarBase extends Entity {
 					if(neighbor.getCoupledTo(closestNeighborCoupling) != null) continue;
 					this.couple(closestOwnCoupling, neighbor);
 					neighbor.couple(closestNeighborCoupling, this);
+					player.swingItem();
 					return true;
 				}
 			}
@@ -282,8 +284,12 @@ public abstract class EntityRailCarBase extends Entity {
 	public abstract TrackGauge getGauge();
 	/** Returns the length between the core and one of the bogies */
 	public abstract double getLengthSpan();
-	/* Returns a collision box, usually smaller than the entity's AABB for rendering, which is used for colliding trains */
+	/** Returns a collision box, usually smaller than the entity's AABB for rendering, which is used for colliding trains */
 	public AxisAlignedBB getCollisionBox() {
+		return this.boundingBox;
+	}
+	/** Returns a collision box used for block collisions when derailed */
+	@Override public AxisAlignedBB getBoundingBox() {
 		return this.boundingBox;
 	}
 	
@@ -417,6 +423,8 @@ public abstract class EntityRailCarBase extends Entity {
 		
 		if(dist <= 0) return null;
 		
+		if(coupling == TrainCoupling.BACK) dist *= -1;
+		
 		Vec3 rot = Vec3.createVectorHelper(0, 0, dist);
 		rot.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180D));
 		rot.xCoord += this.renderX;
@@ -432,5 +440,12 @@ public abstract class EntityRailCarBase extends Entity {
 	public void couple(TrainCoupling coupling, EntityRailCarBase to) {
 		if(coupling == TrainCoupling.FRONT) this.coupledFront = to;
 		if(coupling == TrainCoupling.BACK) this.coupledBack = to;
+	}
+	
+	public static class LogicalTrainUnit {
+		
+		List<EntityRailCarBase> trains = new ArrayList();
+		
+		//TBI
 	}
 }

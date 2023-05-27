@@ -8,12 +8,14 @@ import com.hbm.entity.train.TrainCargoTram;
 import com.hbm.entity.train.TrainCargoTramTrailer;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ItemTrain extends ItemEnumMulti {
@@ -74,7 +76,13 @@ public class ItemTrain extends ItemEnumMulti {
 			if(train != null && train.getGauge() == ((IRailNTM) b).getGauge(world, x, y, z)) {
 				if(!world.isRemote) {
 					train.setPosition(x + fx, y + fy, z + fz);
+					BlockPos anchor = train.getCurentAnchorPos();
 					train.rotationYaw = entity.rotationYaw;
+					Vec3 corePos = train.getRelPosAlongRail(anchor, 0);
+					train.setPosition(corePos.xCoord, corePos.yCoord, corePos.zCoord);
+					Vec3 frontPos = train.getRelPosAlongRail(anchor, train.getLengthSpan());
+					Vec3 backPos = train.getRelPosAlongRail(anchor, -train.getLengthSpan());
+					train.rotationYaw = train.generateYaw(frontPos, backPos);
 					world.spawnEntityInWorld(train);
 				}
 				

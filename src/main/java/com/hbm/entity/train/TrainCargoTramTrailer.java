@@ -2,6 +2,7 @@ package com.hbm.entity.train;
 
 import com.hbm.blocks.rail.IRailNTM.TrackGauge;
 
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -28,6 +29,8 @@ public class TrainCargoTramTrailer extends EntityRailCarCargo {
 	@Override public double getLengthSpan() { return 1.5; }
 	@Override public int getSizeInventory() { return 29; }
 	@Override public String getInventoryName() { return this.hasCustomInventoryName() ? this.getEntityName() : "container.trainTramTrailer"; }
+	@Override public AxisAlignedBB getCollisionBox() { return AxisAlignedBB.getBoundingBox(renderX, renderY, renderZ, renderX, renderY + 1, renderZ).expand(4, 0, 4); }
+	@Override public double getCouplingDist(TrainCoupling coupling) { return coupling != null ? 2.75 : 0; }
 
 	@Override
 	public double getCurrentSpeed() {
