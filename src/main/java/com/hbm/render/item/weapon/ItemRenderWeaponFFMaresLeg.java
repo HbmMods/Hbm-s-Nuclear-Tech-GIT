@@ -67,6 +67,9 @@ public class ItemRenderWeaponFFMaresLeg implements IItemRenderer {
 				GL11.glTranslated(-0.71, 0.375, 0);
 				GL11.glRotated(25, 1, 0, 0);
 				GL11.glRotated(1, 0, 1, 0);
+				GL11.glRotated(-3, 0, 0, 1);
+				GL11.glRotated(0.2, 0, 1, 0);
+				GL11.glTranslated(-0.006, -0.005, 0.4);
 			}
 
 			double[] recoil = HbmAnimations.getRelevantTransformation("LEVER_RECOIL");

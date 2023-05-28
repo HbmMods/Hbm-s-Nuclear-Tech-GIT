@@ -2436,17 +2436,12 @@ public class ModItems {
 	public static Item nothing;
 	public static Item void_anim;
 
+	public static Item achievement_icon;
 	public static Item bob_metalworks;
 	public static Item bob_assembly;
 	public static Item bob_chemistry;
 	public static Item bob_oil;
 	public static Item bob_nuclear;
-	
-	public static Item digamma_see;
-	public static Item digamma_feel;
-	public static Item digamma_know;
-	public static Item digamma_kauai_moho;
-	public static Item digamma_up_on_top;
 	
 	public static Item mysteryshovel;
 	public static Item memory;
@@ -5452,16 +5447,12 @@ public class ModItems {
 		void_anim = new Item().setUnlocalizedName("void_anim").setTextureName(RefStrings.MODID + ":void_anim");
 
 
+		achievement_icon = new ItemEnumMulti(ItemEnums.EnumAchievementType.class, true, true).setUnlocalizedName("achievement_icon");
 		bob_metalworks = new Item().setUnlocalizedName("bob_metalworks").setTextureName(RefStrings.MODID + ":bob_metalworks");
 		bob_assembly = new Item().setUnlocalizedName("bob_assembly").setTextureName(RefStrings.MODID + ":bob_assembly");
 		bob_chemistry = new Item().setUnlocalizedName("bob_chemistry").setTextureName(RefStrings.MODID + ":bob_chemistry");
 		bob_oil = new Item().setUnlocalizedName("bob_oil").setTextureName(RefStrings.MODID + ":bob_oil");
 		bob_nuclear = new Item().setUnlocalizedName("bob_nuclear").setTextureName(RefStrings.MODID + ":bob_nuclear");
-		digamma_see = new Item().setUnlocalizedName("digamma_see").setTextureName(RefStrings.MODID + ":digamma_see");
-		digamma_feel = new Item().setUnlocalizedName("digamma_feel").setTextureName(RefStrings.MODID + ":digamma_feel");
-		digamma_know = new Item().setUnlocalizedName("digamma_know").setTextureName(RefStrings.MODID + ":digamma_know");
-		digamma_kauai_moho = new Item().setUnlocalizedName("digamma_kauai_moho").setTextureName(RefStrings.MODID + ":digamma_kauai_moho");
-		digamma_up_on_top = new Item().setUnlocalizedName("digamma_up_on_top").setTextureName(RefStrings.MODID + ":digamma_up_on_top");
 		
 		mysteryshovel = new ItemMS().setUnlocalizedName("mysteryshovel").setFull3D().setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cursed_shovel");
 		memory = new ItemBattery(Long.MAX_VALUE / 100L, 100000000000000L, 100000000000000L).setUnlocalizedName("memory").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mo8_anim");
@@ -8055,16 +8046,12 @@ public class ModItems {
 		GameRegistry.registerItem(ln2_10, ln2_10.getUnlocalizedName());
 		GameRegistry.registerItem(nothing, nothing.getUnlocalizedName());
 		GameRegistry.registerItem(void_anim, void_anim.getUnlocalizedName());
+		GameRegistry.registerItem(achievement_icon, achievement_icon.getUnlocalizedName());
 		GameRegistry.registerItem(bob_metalworks, bob_metalworks.getUnlocalizedName());
 		GameRegistry.registerItem(bob_assembly, bob_assembly.getUnlocalizedName());
 		GameRegistry.registerItem(bob_chemistry, bob_chemistry.getUnlocalizedName());
 		GameRegistry.registerItem(bob_oil, bob_oil.getUnlocalizedName());
 		GameRegistry.registerItem(bob_nuclear, bob_nuclear.getUnlocalizedName());
-		GameRegistry.registerItem(digamma_see, digamma_see.getUnlocalizedName());
-		GameRegistry.registerItem(digamma_feel, digamma_feel.getUnlocalizedName());
-		GameRegistry.registerItem(digamma_know, digamma_know.getUnlocalizedName());
-		GameRegistry.registerItem(digamma_kauai_moho, digamma_kauai_moho.getUnlocalizedName());
-		GameRegistry.registerItem(digamma_up_on_top, digamma_up_on_top.getUnlocalizedName());
 		GameRegistry.registerItem(mysteryshovel, mysteryshovel.getUnlocalizedName());
 		GameRegistry.registerItem(memory, memory.getUnlocalizedName());
 		

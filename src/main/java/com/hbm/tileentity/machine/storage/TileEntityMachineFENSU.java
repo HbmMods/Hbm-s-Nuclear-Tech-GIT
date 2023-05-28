@@ -1,9 +1,12 @@
 package com.hbm.tileentity.machine.storage;
 
+import com.hbm.lib.Library;
+
 import api.hbm.energy.IEnergyConductor;
 import api.hbm.energy.IEnergyConnector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -17,7 +20,41 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	
 	@Override
 	public void updateEntity() {
-		super.updateEntity();
+		
+		if(!worldObj.isRemote) {
+			
+			long prevPower = this.power;
+			
+			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
+			
+			//////////////////////////////////////////////////////////////////////
+			this.transmitPowerFairly();
+			//////////////////////////////////////////////////////////////////////
+			
+			byte comp = this.getComparatorPower();
+			if(comp != this.lastRedstone)
+				this.markDirty();
+			this.lastRedstone = comp;
+			
+			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
+
+			long avg = (power / 2 + prevPower / 2);
+			this.delta = avg - this.log[0];
+			
+			for(int i = 1; i < this.log.length; i++) {
+				this.log[i - 1] = this.log[i];
+			}
+			
+			this.log[19] = avg;
+			
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setLong("power", avg);
+			nbt.setLong("delta", delta);
+			nbt.setShort("redLow", redLow);
+			nbt.setShort("redHigh", redHigh);
+			nbt.setByte("priority", (byte) this.priority.ordinal());
+			this.networkPack(nbt, 20);
+		}
 		
 		if(worldObj.isRemote) {
 			this.prevRotation = this.rotation;

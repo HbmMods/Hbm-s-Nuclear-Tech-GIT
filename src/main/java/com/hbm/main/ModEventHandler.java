@@ -63,6 +63,7 @@ import com.hbm.packet.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.tileentity.network.RTTYSystem;
+import com.hbm.util.AchievementHandler;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
@@ -1111,31 +1112,12 @@ public class ModEventHandler {
 	
 	@SubscribeEvent
 	public void itemCrafted(PlayerEvent.ItemCraftedEvent e) {
-		
-		Item item = e.crafting.getItem();
-
-		if(item == ModItems.gun_mp40) {
-			e.player.addStat(MainRegistry.achFreytag, 1);
-		}
-		if(item == ModItems.piston_selenium || item == ModItems.gun_b92) {
-			e.player.addStat(MainRegistry.achSelenium, 1);
-		}
-		if(item == ModItems.battery_potatos) {
-			e.player.addStat(MainRegistry.achPotato, 1);
-		}
-		if(item == ModItems.gun_revolver_pip) {
-			e.player.addStat(MainRegistry.achC44, 1);
-		}
-		if(item == Item.getItemFromBlock(ModBlocks.machine_press)) {
-			e.player.triggerAchievement(MainRegistry.achBurnerPress);
-		}
-		if(item == ModItems.rbmk_fuel_empty) {
-			e.player.triggerAchievement(MainRegistry.achRBMK);
-		}
+		AchievementHandler.fire(e.player, e.crafting);
 	}
 	
 	@SubscribeEvent
 	public void itemSmelted(PlayerEvent.ItemSmeltedEvent e) {
+		AchievementHandler.fire(e.player, e.smelting);
 		
 		if(!e.player.worldObj.isRemote && e.smelting.getItem() == Items.iron_ingot && e.player.getRNG().nextInt(64) == 0) {
 			

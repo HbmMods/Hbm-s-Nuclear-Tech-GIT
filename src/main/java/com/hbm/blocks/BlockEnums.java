@@ -7,7 +7,8 @@ public class BlockEnums {
 		ASBESTOS,
 		HEMATITE,
 		MALACHITE,
-		LIMESTONE
+		LIMESTONE,
+		BAUXITE
 	}
 
 	public static enum EnumBiomeType {

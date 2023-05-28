@@ -8,14 +8,12 @@ import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
-import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import com.hbm.tileentity.machine.storage.TileEntitySoyuzCapsule;
+import com.hbm.util.WeightedRandomGeneric;
 import com.hbm.world.dungeon.AncientTomb;
 import com.hbm.world.dungeon.Antenna;
 import com.hbm.world.dungeon.ArcticVault;
@@ -32,6 +30,7 @@ import com.hbm.world.dungeon.Silo;
 import com.hbm.world.dungeon.Spaceship;
 import com.hbm.world.dungeon.Vertibird;
 import com.hbm.world.feature.BedrockOre;
+import com.hbm.world.feature.BedrockOre.BedrockOreDefinition;
 import com.hbm.world.feature.DepthDeposit;
 import com.hbm.world.feature.Dud;
 import com.hbm.world.feature.Geyser;
@@ -49,6 +48,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntitySkull;
+import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -154,18 +154,16 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.aluminiumClusterSpawn, 6, 15, 35, ModBlocks.cluster_aluminium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperClusterSpawn, 6, 15, 20, ModBlocks.cluster_copper);
 
-			//DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.hematiteSpawn, 10, 4, 80, ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal());
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn, 10, 6, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal());
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.limestoneSpawn, 12, 25, 30, ModBlocks.stone_resource, EnumStoneType.LIMESTONE.ordinal());
 			
-			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.IRON,													1, WorldConfig.bedrockIronSpawn);
-			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.COPPER,												1, WorldConfig.bedrockCopperSpawn);
-			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.BORAX,	new FluidStack(Fluids.SULFURIC_ACID, 500),	3, WorldConfig.bedrockBoraxSpawn);
-			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.ASBESTOS,												2, WorldConfig.bedrockAsbestosSpawn);
-			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.NIOBIUM,	new FluidStack(Fluids.ACID, 1_000),			2, WorldConfig.bedrockNiobiumSpawn);
-			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500),	2, WorldConfig.bedrockTitaniumSpawn);
-			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.TUNGSTEN,	new FluidStack(Fluids.ACID, 1_000),			2, WorldConfig.bedrockTungstenSpawn);
-			DungeonToolbox.generateBedrockOreWithChance(world, rand, i, j, EnumBedrockOre.GOLD,													1, WorldConfig.bedrockGoldSpawn);
+			if(rand.nextInt(3) == 0) {
+				WeightedRandomGeneric<BedrockOreDefinition> item = (WeightedRandomGeneric<BedrockOreDefinition>) WeightedRandom.getRandomItem(rand, BedrockOre.weightedOres);
+				BedrockOreDefinition def = item.get();
+				int randPosX = i + rand.nextInt(2) + 8;
+				int randPosZ = j + rand.nextInt(2) + 8;
+				BedrockOre.generate(world, randPosX, randPosZ, def.stack, def.acid, def.color, def.tier);
+			}
 
 			for(int k = 0; k < WorldConfig.randomSpawn; k++) {
 				BlockMotherOfAllOres.shuffleOverride(rand);

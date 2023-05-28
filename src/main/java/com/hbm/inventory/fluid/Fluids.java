@@ -133,6 +133,7 @@ public class Fluids {
 	public static FluidType FISHOIL;
 	public static FluidType SUNFLOWEROIL;
 	public static FluidType NITROGLYCERIN;
+	public static FluidType REDMUD;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -276,7 +277,8 @@ public class Fluids {
 		ESTRADIOL =				new FluidType("ESTRADIOL",			0xCDD5D8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		FISHOIL =				new FluidType("FISHOIL",			0x4B4A45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		SUNFLOWEROIL =			new FluidType("SUNFLOWEROIL",		0xCBAD45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		NITROGLYCERIN =			new FluidType(112, "NITROGLYCERIN",	0x92ACA6, 0, 4, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		NITROGLYCERIN =			new FluidType("NITROGLYCERIN",		0x92ACA6, 0, 4, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		REDMUD =				new FluidType(113, "REDMUD",		0xD85638, 3, 0, 4, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, LEADCON, new FT_Corrosive(60), new FT_Flammable(1_000));
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -384,6 +386,7 @@ public class Fluids {
 		metaOrder.add(PAIN);
 		metaOrder.add(DEATH);
 		metaOrder.add(WATZ);
+		metaOrder.add(REDMUD);
 		metaOrder.add(EGG);
 		metaOrder.add(CHOLESTEROL);
 		//solutions and working fluids
@@ -415,6 +418,7 @@ public class Fluids {
 		MUSTARDGAS.addTraits(new FT_Toxin().addEntry(new ToxinDirectDamage(ModDamageSource.cloud, 4F, 10, HazardClass.GAS_CORROSIVE, false))
 				.addEntry(new ToxinEffects(HazardClass.GAS_CORROSIVE, true).add(new PotionEffect(Potion.wither.id, 100, 1), new PotionEffect(Potion.confusion.id, 100, 0))));
 		ESTRADIOL.addTraits(new FT_Toxin().addEntry(new ToxinEffects(HazardClass.PARTICLE_FINE, false).add(new PotionEffect(HbmPotion.death.id, 60 * 60 * 20, 0))));
+		REDMUD.addTraits(new FT_Toxin().addEntry(new ToxinEffects(HazardClass.GAS_CORROSIVE, false).add(new PotionEffect(Potion.wither.id, 30 * 20, 2))));
 
 		double eff_steam_boil = 1.0D;
 		double eff_steam_heatex = 0.25D;

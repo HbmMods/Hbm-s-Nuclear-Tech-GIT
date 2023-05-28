@@ -92,7 +92,9 @@ public class ItemBedrockOre extends ItemEnumMulti {
 		NIOBIUM("Niobium", 0xAF58D8,	B_IRON,		B_IRON,		B_IRON), //iron in columbite, often found along tantalite
 		TITANIUM("Titanium", 0xF2EFE2,	B_SILICON,	B_CALCIUM,	B_ALUMINIUM), //titanite is titanium + calcium + silicon with traces of iron and aluminium
 		TUNGSTEN("Tungsten", 0x2C293C,	B_LEAD,		B_IRON,		B_BISMUTH), //ferberite has iron, raspite has lead, russelite is bismuth tungsten
-		GOLD("Gold", 0xF9D738,			B_LEAD,		B_COPPER,	B_BISMUTH); //occurs with copper, lead and rare bismuthide
+		GOLD("Gold", 0xF9D738,			B_LEAD,		B_COPPER,	B_BISMUTH), //occurs with copper, lead and rare bismuthide
+		URANIUM("Uranium", 0x868D82,	B_LEAD,		B_RADIUM,	B_POLONIUM), //uranium and its decay products
+		THORIUM("Thorium", 0x7D401D,	B_SILICON,	B_URANIUM,	B_TECHNETIUM); //thorium occours with uraninite and decay products
 		
 		public String oreName;
 		public int color;
