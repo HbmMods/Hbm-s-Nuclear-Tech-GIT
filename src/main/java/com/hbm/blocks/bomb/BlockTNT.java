@@ -25,3 +25,4 @@ public class BlockTNT extends BlockTNTBase {
 	}
 	}
 } //hjf8asdugfhyewu8oflirerg
+//2 amonguses
