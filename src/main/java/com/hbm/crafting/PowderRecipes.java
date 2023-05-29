@@ -41,11 +41,11 @@ public class PowderRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(Items.gunpowder, 3), new Object[] { S.dust(), KNO.dust(), new ItemStack(Items.coal, 1, 1) });
 		
 		//Blends
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_power, 5), new Object[] { REDSTONE.dust(), "dustGlowstone", DIAMOND.dust(), NP237.dust(), MAGTUNG.dust() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_power, 3), new Object[] { "dustGlowstone", DIAMOND.dust(), MAGTUNG.dust() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_nitan_mix, 6), new Object[] { NP237.dust(), I.dust(), TH232.dust(), AT.dust(), ND.dust(), CS.dust() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_nitan_mix, 6), new Object[] { ST.dust(), CO.dust(), BR.dust(), TS.dust(), NB.dust(), CE.dust() });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_spark_mix, 5), new Object[] { DESH.dust(), EUPH.dust(), ModItems.powder_meteorite, ModItems.powder_power, ModItems.powder_nitan_mix });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_meteorite, 5), new Object[] { IRON.dust(), CU.dust(), LI.dust(), W.dust(), U.dust() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_spark_mix, 3), new Object[] { DESH.dust(), EUPH.dust(), ModItems.powder_power });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_meteorite, 4), new Object[] { IRON.dust(), CU.dust(), LI.dust(), NETHERQUARTZ.dust() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_thermite, 4), new Object[] { IRON.dust(), IRON.dust(), IRON.dust(), AL.dust() });
 		
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_desh_mix, 1), new Object[] { B.dustTiny(), B.dustTiny(), LA.dustTiny(), LA.dustTiny(), CE.dustTiny(), CO.dustTiny(), LI.dustTiny(), ND.dustTiny(), NB.dustTiny() });

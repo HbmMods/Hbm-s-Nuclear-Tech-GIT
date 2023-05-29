@@ -25,6 +25,7 @@ public class TrainCargoTramTrailer extends EntityRailCarCargo {
 		this.setSize(5F, 2F);
 	}
 
+	@Override public double getMaxRailSpeed() { return 1; }
 	@Override public TrackGauge getGauge() { return TrackGauge.STANDARD; }
 	@Override public double getLengthSpan() { return 1.5; }
 	@Override public int getSizeInventory() { return 29; }

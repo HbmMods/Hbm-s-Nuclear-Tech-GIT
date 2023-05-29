@@ -1,14 +1,19 @@
 package com.hbm.entity.train;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.hbm.blocks.rail.IRailNTM;
 import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.blocks.rail.IRailNTM.TrackGauge;
 import com.hbm.items.ModItems;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -23,6 +28,7 @@ import net.minecraft.world.World;
 
 public abstract class EntityRailCarBase extends Entity {
 
+	public LogicalTrainUnit ltu;
 	public boolean isOnRail = true;
 	private int turnProgress;
 	/* Clientside position that should be approached with smooth interpolation */
@@ -94,9 +100,26 @@ public abstract class EntityRailCarBase extends Entity {
 					if(neighbor.getCoupledTo(closestNeighborCoupling) != null) continue;
 					this.couple(closestOwnCoupling, neighbor);
 					neighbor.couple(closestNeighborCoupling, this);
+					if(this.ltu != null) this.ltu.dissolve();
+					if(neighbor.ltu != null) neighbor.ltu.dissolve();
 					player.swingItem();
 					return true;
 				}
+			}
+		}
+		
+		if(this.ltu != null) {
+			
+			String id = Integer.toHexString(ltu.hashCode());
+			
+			for(EntityRailCarBase train : ltu.trains) {
+
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "debug");
+				data.setInteger("color", 0x0000ff);
+				data.setFloat("scale", 1.5F);
+				data.setString("text", id);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, train.posX, train.posY + 1, train.posZ), new TargetPoint(this.dimension, train.posX, train.posY + 1, train.posZ, 50));
 			}
 		}
 		
@@ -127,14 +150,7 @@ public abstract class EntityRailCarBase extends Entity {
 				this.setPosition(this.posX, this.posY, this.posZ);
 				this.setRotation(this.rotationYaw, this.rotationPitch);
 			}
-
-			/*
-			 * TODO: move movement into the world tick event handler.
-			 * step 1: detect linked trains, move linked units (LTUs) as one later
-			 * step 2: move LTUs together using coupling rules (important to happen first, consistency has to be achieved before major movement)
-			 * step 3: move LTUs based on their engine and gravity speed
-			 * step 4: move LTUs based on collisions between LTUs (important to happen last, collision is most important)
-			 */
+			
 			BlockPos anchor = this.getCurentAnchorPos();
 			Vec3 frontPos = getRelPosAlongRail(anchor, this.getLengthSpan());
 			Vec3 backPos = getRelPosAlongRail(anchor, -this.getLengthSpan());
@@ -150,6 +166,19 @@ public abstract class EntityRailCarBase extends Entity {
 			}
 			
 		} else {
+
+			if(this.coupledFront != null && this.coupledFront.isDead) {
+				this.coupledFront = null;
+				if(this.ltu != null) this.ltu.dissolve();
+			}
+			if(this.coupledBack != null && this.coupledBack.isDead) {
+				this.coupledBack = null;
+				if(this.ltu != null) this.ltu.dissolve();
+			}
+			
+			if(this.ltu == null && (this.coupledFront == null || this.coupledBack == null)) {
+				LogicalTrainUnit.generate(this);
+			}
 			
 			DummyConfig[] definitions = this.getDummies();
 			
@@ -172,31 +201,6 @@ public abstract class EntityRailCarBase extends Entity {
 				this.initDummies = true;
 			}
 			
-			BlockPos anchor = this.getCurentAnchorPos();
-			Vec3 corePos = getRelPosAlongRail(anchor, this.getCurrentSpeed());
-			
-			if(corePos == null) {
-				this.derail();
-			} else {
-				this.setPosition(corePos.xCoord, corePos.yCoord, corePos.zCoord);
-				anchor = this.getCurentAnchorPos(); //reset origin to new position
-				Vec3 frontPos = getRelPosAlongRail(anchor, this.getLengthSpan());
-				Vec3 backPos = getRelPosAlongRail(anchor, -this.getLengthSpan());
-
-				if(frontPos == null || backPos == null) {
-					this.derail();
-					return;
-				} else {
-					this.renderX = (frontPos.xCoord + backPos.xCoord) / 2D;
-					this.renderY = (frontPos.yCoord + backPos.yCoord) / 2D;
-					this.renderZ = (frontPos.zCoord + backPos.zCoord) / 2D;
-					this.prevRotationYaw = this.rotationYaw;
-					this.rotationYaw = this.movementYaw = generateYaw(frontPos, backPos);
-					this.motionX = this.rotationYaw / 360D; // hijacking this crap for easy syncing
-					this.velocityChanged = true;
-				}
-			}
-			
 			for(int i = 0; i < definitions.length; i++) {
 				DummyConfig def = definitions[i];
 				BoundingBoxDummyEntity dummy = dummies[i];
@@ -212,15 +216,16 @@ public abstract class EntityRailCarBase extends Entity {
 	}
 	
 	public Vec3 getRelPosAlongRail(BlockPos anchor, double distanceToCover) {
-		
-		float yaw = this.rotationYaw;
+		return getRelPosAlongRail(anchor, distanceToCover, this.getGauge(), this.worldObj, Vec3.createVectorHelper(posX, posY, posZ), this.rotationYaw);
+	}
+	
+	public static Vec3 getRelPosAlongRail(BlockPos anchor, double distanceToCover, TrackGauge gauge, World worldObj, Vec3 next, float yaw) {
 		
 		if(distanceToCover < 0) {
 			distanceToCover *= -1;
 			yaw += 180;
 		}
 		
-		Vec3 next = Vec3.createVectorHelper(posX, posY, posZ);
 		int it = 0;
 		
 		do {
@@ -228,8 +233,6 @@ public abstract class EntityRailCarBase extends Entity {
 			it++;
 			
 			if(it > 30) {
-				worldObj.createExplosion(this, posX, posY, posZ, 5F, false);
-				this.derail();
 				return null;
 			}
 			
@@ -250,7 +253,7 @@ public abstract class EntityRailCarBase extends Entity {
 				
 				boolean flip = distanceToCover < 0;
 				
-				if(rail.getGauge(worldObj, x, y, z) == this.getGauge()) {
+				if(rail.getGauge(worldObj, x, y, z) == gauge) {
 					RailContext info = new RailContext();
 					Vec3 prev = next;
 					next = rail.getTravelLocation(worldObj, x, y, z, prev.xCoord, prev.yCoord, prev.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, distanceToCover, info);
@@ -271,15 +274,34 @@ public abstract class EntityRailCarBase extends Entity {
 		return next;
 	}
 	
-	public float generateYaw(Vec3 front, Vec3 back) {
+	public static float generateYaw(Vec3 front, Vec3 back) {
 		double deltaX = front.xCoord - back.xCoord;
 		double deltaZ = front.zCoord - back.zCoord;
 		double radians = -Math.atan2(deltaX, deltaZ);
 		return (float) MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI);
 	}
+	
+	public static void updateMotion(World world) {
+		Set<LogicalTrainUnit> ltus = new HashSet();
+		
+		/* gather all LTUs */
+		for(Object o : world.loadedEntityList) {
+			if(o instanceof EntityRailCarBase) {
+				EntityRailCarBase train = (EntityRailCarBase) o;
+				if(train.ltu != null) ltus.add(train.ltu);
+			}
+		}
+		
+		/* Move carts together with links */
+		for(LogicalTrainUnit ltu : ltus) ltu.combineLinks();
+		
+		/* Move carts with unified speed */
+		for(LogicalTrainUnit ltu : ltus) ltu.moveLinks();
+	}
 
 	/** Returns the amount of blocks that the train should move per tick */
 	public abstract double getCurrentSpeed();
+	public abstract double getMaxRailSpeed();
 	/** Returns the gauge of this train */
 	public abstract TrackGauge getGauge();
 	/** Returns the length between the core and one of the bogies */
@@ -289,9 +311,9 @@ public abstract class EntityRailCarBase extends Entity {
 		return this.boundingBox;
 	}
 	/** Returns a collision box used for block collisions when derailed */
-	@Override public AxisAlignedBB getBoundingBox() {
+	/*@Override public AxisAlignedBB getBoundingBox() {
 		return this.boundingBox;
-	}
+	}*/
 	
 	/** Returns the "true" position of the train, i.e. the block it wants to snap to */
 	public BlockPos getCurentAnchorPos() {
@@ -437,6 +459,10 @@ public abstract class EntityRailCarBase extends Entity {
 		return coupling == TrainCoupling.FRONT ? this.coupledFront : coupling == TrainCoupling.BACK ? this.coupledBack : null;
 	}
 	
+	public TrainCoupling getCouplingFrom(EntityRailCarBase coupledTo) {
+		return coupledTo == this.coupledFront ? TrainCoupling.FRONT : coupledTo == this.coupledBack ? TrainCoupling.BACK : null;
+	}
+	
 	public void couple(TrainCoupling coupling, EntityRailCarBase to) {
 		if(coupling == TrainCoupling.FRONT) this.coupledFront = to;
 		if(coupling == TrainCoupling.BACK) this.coupledBack = to;
@@ -444,8 +470,142 @@ public abstract class EntityRailCarBase extends Entity {
 	
 	public static class LogicalTrainUnit {
 		
-		List<EntityRailCarBase> trains = new ArrayList();
+		protected EntityRailCarBase trains[];
 		
-		//TBI
+		/** Assumes that the train is an endpoint, i.e. that only one coupling is in use */
+		public static LogicalTrainUnit generate(EntityRailCarBase train) {
+			List<EntityRailCarBase> links = new ArrayList();
+			Set<EntityRailCarBase> brake = new HashSet();
+			links.add(train);
+			brake.add(train);
+			LogicalTrainUnit ltu = new LogicalTrainUnit();
+			
+			if(train.coupledFront == null && train.coupledFront == null) {
+				ltu.trains = new EntityRailCarBase[] {train};
+				train.ltu = ltu;
+				return ltu;
+			}
+			
+			EntityRailCarBase prevCar = train;
+			EntityRailCarBase nextCar = train.coupledBack == null ? train.coupledFront : train.coupledBack;
+			
+			while(nextCar != null) {
+				links.add(nextCar);
+				brake.add(nextCar);
+				
+				EntityRailCarBase currentCar = nextCar;
+				nextCar = nextCar.coupledBack == prevCar ? nextCar.coupledFront : nextCar.coupledBack;
+				prevCar = currentCar;
+				
+				if(brake.contains(nextCar)) {
+					break;
+				}
+			}
+			
+			ltu.trains = new EntityRailCarBase[links.size()];
+			
+			for(int i = 0; i < ltu.trains.length; i++) {
+				ltu.trains[i] = links.get(i);
+				ltu.trains[i].ltu = ltu;
+			}
+			
+			return ltu;
+		}
+		
+		public void dissolve() {
+			for(EntityRailCarBase train : trains) {
+				train.ltu = null;
+			}
+		}
+		
+		public void combineLinks() {
+			
+			if(trains.length <= 1) return;
+			
+			boolean odd = trains.length % 2 == 1;
+			int centerIndex = odd ? trains.length / 2 : trains.length / 2 - 1;
+			EntityRailCarBase center = trains[centerIndex];
+			EntityRailCarBase prev = center;
+			
+			for(int i = centerIndex - 1; i >= 0; i--) {
+				EntityRailCarBase next = trains[i];
+				moveTo(prev, next);
+				prev = next;
+			}
+			
+			prev = center;
+			for(int i = centerIndex + 1; i < trains.length; i++) {
+				EntityRailCarBase next = trains[i];
+				moveTo(prev, next);
+				prev = next;
+			}
+		}
+		
+		public static void moveTo(EntityRailCarBase prev, EntityRailCarBase next) {
+			TrainCoupling prevCouple = prev.getCouplingFrom(next);
+			TrainCoupling nextCouple = next.getCouplingFrom(prev);
+			Vec3 prevLoc = prev.getCouplingPos(prevCouple);
+			Vec3 nextLoc = next.getCouplingPos(nextCouple);
+			Vec3 delta = Vec3.createVectorHelper(prevLoc.xCoord - nextLoc.xCoord, 0, prevLoc.zCoord - nextLoc.zCoord);
+			double len = delta.lengthVector();
+			len *= 0.25D; //suspension, causes movements to be less rigid
+			BlockPos anchor = new BlockPos(next.posX, next.posY, next.posZ);
+			Vec3 trainPos = Vec3.createVectorHelper(next.posX, next.posY, next.posZ);
+			float yaw = EntityRailCarBase.generateYaw(prevLoc, nextLoc);
+			Vec3 newPos = EntityRailCarBase.getRelPosAlongRail(anchor, len, next.getGauge(), next.worldObj, trainPos, yaw);
+			next.setPosition(newPos.xCoord, newPos.yCoord, newPos.zCoord);
+		}
+		
+		public void moveLinks() {
+			
+			EntityRailCarBase prev = trains[0];
+			TrainCoupling dir = prev.getCouplingFrom(null);
+			double totalSpeed = 0;
+			double maxSpeed = Double.POSITIVE_INFINITY;
+			
+			for(EntityRailCarBase train : this.trains) {
+				boolean con = train.getCouplingFrom(prev) == dir;
+				double speed = train.getCurrentSpeed();
+				if(!con) speed *= -1;
+				totalSpeed += speed;
+				maxSpeed = Math.min(maxSpeed, train.getMaxRailSpeed());
+				prev = train;
+			}
+			
+			if(Math.abs(totalSpeed) > maxSpeed) {
+				totalSpeed = maxSpeed * Math.signum(totalSpeed);
+			}
+			
+			for(EntityRailCarBase train : this.trains) {
+				
+				BlockPos anchor = train.getCurentAnchorPos();
+				Vec3 corePos = train.getRelPosAlongRail(anchor, totalSpeed);
+				
+				if(corePos == null) {
+					train.derail();
+					this.dissolve();
+					return;
+				} else {
+					train.setPosition(corePos.xCoord, corePos.yCoord, corePos.zCoord);
+					anchor = train.getCurentAnchorPos(); //reset origin to new position
+					Vec3 frontPos = train.getRelPosAlongRail(anchor, train.getLengthSpan());
+					Vec3 backPos = train.getRelPosAlongRail(anchor, -train.getLengthSpan());
+
+					if(frontPos == null || backPos == null) {
+						train.derail();
+						this.dissolve();
+						return;
+					} else {
+						train.renderX = (frontPos.xCoord + backPos.xCoord) / 2D;
+						train.renderY = (frontPos.yCoord + backPos.yCoord) / 2D;
+						train.renderZ = (frontPos.zCoord + backPos.zCoord) / 2D;
+						train.prevRotationYaw = train.rotationYaw;
+						train.rotationYaw = train.movementYaw = generateYaw(frontPos, backPos);
+						train.motionX = train.rotationYaw / 360D; // hijacking this crap for easy syncing
+						train.velocityChanged = true;
+					}
+				}
+			}
+		}
 	}
 }

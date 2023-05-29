@@ -48,6 +48,7 @@ public class TrainCargoTram extends EntityRailCarElectric implements IGUIProvide
 	@Override public double getPassivBrake() { return 0.95; }
 	@Override public boolean shouldUseEngineBrake(EntityPlayer player) { return Math.abs(this.engineSpeed) < 0.1; }
 	@Override public double getMaxPoweredSpeed() { return 0.5; }
+	@Override public double getMaxRailSpeed() { return 1; }
 
 	@Override public TrackGauge getGauge() { return TrackGauge.STANDARD; }
 	@Override public double getLengthSpan() { return 1.5; }

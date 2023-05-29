@@ -28,6 +28,7 @@ import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.entity.mob.EntityCreeperTainted;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
+import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
@@ -692,6 +693,11 @@ public class ModEventHandler {
 				 */
 			}
 			/// RADIATION STUFF END ///
+			
+			
+			if(event.phase == Phase.END) {
+				EntityRailCarBase.updateMotion(event.world);
+			}
 		}
 		
 		if(event.phase == Phase.START) {

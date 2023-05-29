@@ -529,6 +529,26 @@ public class AssemblerRecipes {
 				new OreDictStack(DIAMOND.dust(), 32)
 			}, 100);
 		
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.TCALLOY.ordinal()), new AStack[] {
+				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 20),
+				new OreDictStack(DESH.ingot(), 12),
+				new OreDictStack(RUBBER.ingot(), 8)
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.TCALLOY_DIAMOND.ordinal()), new AStack[] {
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.TCALLOY.ordinal()),
+				new OreDictStack(DIAMOND.dust(), 48)
+			}, 100);
+		
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.FERRO.ordinal()), new AStack[] {
+				new OreDictStack(FERRO.ingot(), 24),
+				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 12),
+				new OreDictStack(BI.ingot(), 4),
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.FERRO_DIAMOND.ordinal()), new AStack[] {
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.FERRO.ordinal()),
+				new OreDictStack(DIAMOND.dust(), 56)
+			}, 100);
+		
 		makeRecipe(new ComparableStack(ModBlocks.machine_large_turbine, 1), new AStack[] {
 				new OreDictStack(STEEL.plate528(), 12),
 				new OreDictStack(RUBBER.ingot(), 4),
@@ -953,7 +973,7 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.sphere_steel, 1),
 				new ComparableStack(ModItems.pipes_steel, 1),
 				new ComparableStack(ModItems.motor_desh, 3),
-				new ComparableStack(ModItems.circuit_gold, 1)
+				new OreDictStack(KEY_CIRCUIT_BISMUTH, 1)
 			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_catalytic_reformer, 1), new AStack[] {
 				new OreDictStack(STEEL.plateCast(), 12),
