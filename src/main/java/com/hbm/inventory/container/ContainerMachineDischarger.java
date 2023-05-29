@@ -1,7 +1,9 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotCraftingOutput;
+import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.tileentity.machine.TileEntityMachineDischarger;
+import com.hbm.util.InventoryUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -47,17 +49,12 @@ private TileEntityMachineDischarger nukeBoy;
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 3) {
-				if (!this.mergeItemStack(var5, 4, this.inventorySlots.size(), true))
-				{
+			if(par2 <= nukeBoy.getSizeInventory() - 1) {
+				if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, nukeBoy.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-			}
-			else if (!this.mergeItemStack(var5, 0, 1, false))
-			{
-				if (!this.mergeItemStack(var5, 3, 4, false))
-					if (!this.mergeItemStack(var5, 2, 3, false))
-						return null;
+			} else if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, 0, nukeBoy.getSizeInventory(), false)) {
+				return null;
 			}
 			
 			if (var5.stackSize == 0)

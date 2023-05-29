@@ -31,7 +31,7 @@ public class GUIMachineDischarger extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 106 - 88, 16, 88, diFurnace.power, diFurnace.maxPower);
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 30, guiTop + 10, 8, 72, mouseX, mouseY, new String[] {"Temperature: " + (diFurnace.temp) + "°C"});
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 30, guiTop + 25, 8, 80, mouseX, mouseY, new String[] {"Temperature: " + (diFurnace.temp) + "°C"});
 	}
 	
 	@Override
@@ -59,13 +59,22 @@ public class GUIMachineDischarger extends GuiInfoContainer {
 	    }
 
 	    if (diFurnace.isProcessing()) {
-	        int j1 = diFurnace.getProgressScaled(66);
+	        int j1 = diFurnace.getProgressScaled(88);
 	        Minecraft.getMinecraft().getTextureManager().bindTexture(geer);
 	        drawTexturedModalRect(guiLeft - 36, guiTop + 109 - j1, 176, 88 - j1, 185, 108);
 	    }
 	    if(diFurnace.temp > 20) {
 	    	 int i = (int) diFurnace.getTempScaled(88);
 	    	 drawTexturedModalRect(guiLeft + 30, guiTop + 106 - i, 192, 88 - i, 20, i);
+	 	    if(diFurnace.temp < 2000) {
+	 		    drawTexturedModalRect(guiLeft + 28, guiTop + 108, 176, 88, 8, 19);		    
+	 		    }
+	 		    if(diFurnace.temp < 800) {
+	 		    drawTexturedModalRect(guiLeft + 28, guiTop + 108, 184, 88, 8, 19);	
+	 		    }
+	 		    if(diFurnace.temp < 200) {
+	 		    drawTexturedModalRect(guiLeft + 28, guiTop + 108, 192, 88, 8, 19);	
+	 		    }	 
 	    }
 	}
 }

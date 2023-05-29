@@ -1,11 +1,20 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.machine.TileEntityMachineDischarger;
+import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -14,16 +23,20 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class MachineDischarger extends BlockContainer {
+public class MachineDischarger extends BlockContainer{
 
     private final Random field_149933_a = new Random();
 	private static boolean keepInventory;
@@ -54,7 +67,7 @@ public class MachineDischarger extends BlockContainer {
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
-        return Item.getItemFromBlock(ModBlocks.machine_schrabidium_transmutator);
+        return Item.getItemFromBlock(ModBlocks.machine_discharger);
     }
 	
 	@Override
@@ -78,6 +91,26 @@ public class MachineDischarger extends BlockContainer {
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityMachineDischarger();
+	}
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		return IPersistentNBT.getDrops(world, x, y, z, this);
+	}
+	
+	@Override
+	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
+		
+		if(!player.capabilities.isCreativeMode) {
+			harvesters.set(player);
+			this.dropBlockAsItem(world, x, y, z, meta, 0);
+			harvesters.set(null);
+		}
+	}
+	
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
+		player.addExhaustion(0.025F);
 	}
 	
 	@Override
@@ -131,8 +164,30 @@ public class MachineDischarger extends BlockContainer {
 
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
+    
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
-	public static void main(String[] args) {
+		if(i == 0) {
+			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
+		}
+		if(i == 1) {
+			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
+		}
+		if(i == 2) {
+			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
+		}
+		if(i == 3) {
+			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+		}
 
+		if(itemStack.hasDisplayName()) {
+			((TileEntityMachineBattery) world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
+		}
+		
+		IPersistentNBT.restoreData(world, x, y, z, itemStack);
 	}
+
+
 }
