@@ -190,7 +190,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		//for when you fill antimatter into a matter tank
 		if(b != ModBlocks.barrel_antimatter && tank.getTankType().isAntimatter()) {
 			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
-			worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
+			new ExplosionVNT(worldObj, xCoord, yCoord, zCoord, 5).makeAmat().explode();
+			//worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 		}
 		
 		//for when you fill hot or corrosive liquids into a plastic tank
@@ -368,10 +369,11 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
     			if(amat >= 25)
     			{
     				EntityBalefire bf = new EntityBalefire(worldObj);
+    				bf.antimatter();
     	    		bf.setPosition(xCoord, yCoord, zCoord);
     				bf.destructionRange = (int) amat;
     				worldObj.spawnEntityInWorld(bf);
-    				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord, yCoord, zCoord, amat * 1.5F, 1000));
+    				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacAnti(worldObj, xCoord, yCoord, zCoord, amat * 1.5F, 1000));
     				return;
     			}
     			else
