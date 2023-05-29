@@ -9,11 +9,11 @@ public interface IFluidConductor extends IFluidConnector {
 	public void setPipeNet(FluidType type, IPipeNet network);
 	
 	@Override
-	public default long transferFluid(FluidType type, long amount) {
+	public default long transferFluid(FluidType type, int pressure, long amount) {
 		
 		if(this.getPipeNet(type) == null)
 			return amount;
 
-		return this.getPipeNet(type).transferFluid(amount);
+		return this.getPipeNet(type).transferFluid(amount, pressure);
 	}
 }

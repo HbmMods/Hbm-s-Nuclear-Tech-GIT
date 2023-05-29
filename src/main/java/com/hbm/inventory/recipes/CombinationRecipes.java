@@ -9,6 +9,8 @@ import static com.hbm.inventory.OreDictManager.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.BlockEnums.EnumStoneType;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -43,6 +45,7 @@ public class CombinationRecipes extends SerializableRecipe {
 		
 		recipes.put(CINNABAR.crystal(), new Pair(new ItemStack(ModItems.sulfur), new FluidStack(Fluids.MERCURY, 100)));
 		recipes.put(new ComparableStack(Items.glowstone_dust), new Pair(new ItemStack(ModItems.sulfur), new FluidStack(Fluids.CHLORINE, 50)));
+		recipes.put(new ComparableStack(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.BAUXITE)), new Pair(new ItemStack(ModItems.ingot_aluminium, 2), new FluidStack(Fluids.REDMUD, 250)));
 
 		recipes.put(KEY_LOG,		new Pair(new ItemStack(Items.coal, 1 ,1),	new FluidStack(Fluids.WOODOIL, 250)));
 		recipes.put(KEY_SAPLING,	new Pair(null,								new FluidStack(Fluids.WOODOIL, 50)));

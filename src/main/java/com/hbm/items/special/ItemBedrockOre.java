@@ -3,6 +3,9 @@ package com.hbm.items.special;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.special.ItemByproduct.EnumByproduct;
 import static com.hbm.items.special.ItemByproduct.EnumByproduct.*;
+
+import java.util.Locale;
+
 import com.hbm.lib.RefStrings;
 import com.hbm.util.EnumUtil;
 
@@ -66,7 +69,7 @@ public class ItemBedrockOre extends ItemEnumMulti {
 	public String getItemStackDisplayName(ItemStack stack) {
 		
 		EnumBedrockOre ore = EnumUtil.grabEnumSafely(EnumBedrockOre.class, stack.getItemDamage());
-		String oreName = StatCollector.translateToLocal("item.ore." + ore.oreName.toLowerCase());
+		String oreName = StatCollector.translateToLocal("item.ore." + ore.oreName.toLowerCase(Locale.US));
 		return StatCollector.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", oreName);
 	}
 	
@@ -101,7 +104,8 @@ public class ItemBedrockOre extends ItemEnumMulti {
 		GOLD("Gold", 0xF9D738,			B_LEAD,		B_COPPER,	B_BISMUTH), //occurs with copper, lead and rare bismuthide
 		BISMUTH("Bismuth", 0xffffff,	B_LEAD,		B_COPPER,	B_SULFUR), //seems to be similar, based off Aikinite
 		CAD("Cadmium", 0xA85400,		B_SULFUR,	B_CALCIUM,	B_SULFUR); //seems to be similar as well
-
+		URANIUM("Uranium", 0x868D82,	B_LEAD,		B_RADIUM,	B_POLONIUM), //uranium and its decay products
+		THORIUM("Thorium", 0x7D401D,	B_SILICON,	B_URANIUM,	B_TECHNETIUM); //thorium occours with uraninite and decay products
 		
 		public String oreName;
 		public int color;

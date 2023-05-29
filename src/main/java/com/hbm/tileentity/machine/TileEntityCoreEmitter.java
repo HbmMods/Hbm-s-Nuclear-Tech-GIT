@@ -1,20 +1,15 @@
 package com.hbm.tileentity.machine;
 
-import java.util.List;
-
-import com.hbm.interfaces.IFluidAcceptor;
+import api.hbm.block.ILaserable;
+import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import com.hbm.inventory.container.ContainerCoreEmitter;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICoreEmitter;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
-
-import api.hbm.block.ILaserable;
-import api.hbm.energy.IEnergyUser;
-import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,8 +30,10 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.List;
+
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider {
+public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyUser, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 1000000000L;
@@ -69,8 +66,6 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 			
 			watts = MathHelper.clamp_int(watts, 1, 100);
 			long demand = maxPower * watts / 2000;
-
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			beam = 0;
 			
@@ -178,6 +173,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 			data.setLong("prev", prev);
 			data.setInteger("beam", beam);
 			data.setBoolean("isOn", isOn);
+			tank.writeToNBT(data, "tank");
 			this.networkPack(data, 250);
 		}
 	}
@@ -189,6 +185,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 		prev = data.getLong("prev");
 		beam = data.getInteger("beam");
 		isOn = data.getBoolean("isOn");
+		tank.readFromNBT(data, "tank");
 	}
 	
 	public long getPowerScaled(long i) {
@@ -197,38 +194,6 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	
 	public int getWattsScaled(int i) {
 		return (watts * i) / 100;
-	}
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tank.getTankType().name()))
-			tank.setFill(i);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if(type.name().equals(tank.getTankType().name()))
-			return tank.getFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(type.name().equals(tank.getTankType().name()))
-			return tank.getMaxFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
 	}
 
 	@Override
@@ -311,50 +276,50 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 		return "dfc_emitter";
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyStored(Context context, Arguments args) {
 		return new Object[] {getPower()};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getMaxEnergy(Context context, Arguments args) {
 		return new Object[] {getMaxPower()};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCryogel(Context context, Arguments args) {
 		return new Object[] {tank.getFill()};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInput(Context context, Arguments args) {
 		return new Object[] {watts};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower(), tank.getFill(), watts, isOn};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 2)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] isActive(Context context, Arguments args) {
 		return new Object[] {isOn};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 2)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setActive(Context context, Arguments args) {
 		isOn = args.checkBoolean(0);
 		return new Object[] {};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 2)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setInput(Context context, Arguments args) {
 		int newOutput = args.checkInteger(0);

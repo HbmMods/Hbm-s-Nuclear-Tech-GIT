@@ -1,5 +1,6 @@
 package api.hbm.energy;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -32,4 +33,5 @@ public interface IPowerNet {
 	public List<IEnergyConnector> getSubscribers();
 	
 	public long transferPower(long power);
+	public BigInteger getTotalTransfer();
 }

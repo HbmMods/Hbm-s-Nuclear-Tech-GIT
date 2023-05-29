@@ -168,7 +168,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			for(DirPos pos : getConPos()) {
 				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(this.blood.getFill() > 0) this.sendFluid(blood.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.blood.getFill() > 0) this.sendFluid(blood, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			if(burnValue > 0 && amountToBurn > 0) {
@@ -309,6 +309,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 					audio = rebootAudio(audio);
 				}
 
+				audio.keepAlive();
 				audio.updateVolume(momentum);
 				audio.updatePitch(momentum / 200F + 0.5F + this.afterburner * 0.16F);
 				
@@ -382,7 +383,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	}
 	
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.turbofanOperate", xCoord, yCoord, zCoord, 5.0F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.turbofanOperate", xCoord, yCoord, zCoord, 1.0F, 50F, 1.0F, 20);
 	}
 
 	@Override

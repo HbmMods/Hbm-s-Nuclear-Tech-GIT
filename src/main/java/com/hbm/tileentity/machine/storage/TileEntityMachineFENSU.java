@@ -23,18 +23,40 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 		
 		if(!worldObj.isRemote) {
 			
-			this.transmitPower();
+			long prevPower = this.power;
 			
-			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
 			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
 			
+			//////////////////////////////////////////////////////////////////////
+			this.transmitPowerFairly();
+			//////////////////////////////////////////////////////////////////////
+			
+			byte comp = this.getComparatorPower();
+			if(comp != this.lastRedstone)
+				this.markDirty();
+			this.lastRedstone = comp;
+			
+			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
+
+			long avg = (power / 2 + prevPower / 2);
+			this.delta = avg - this.log[0];
+			
+			for(int i = 1; i < this.log.length; i++) {
+				this.log[i - 1] = this.log[i];
+			}
+			
+			this.log[19] = avg;
+			
 			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setLong("power", power);
+			nbt.setLong("power", avg);
+			nbt.setLong("delta", delta);
 			nbt.setShort("redLow", redLow);
 			nbt.setShort("redHigh", redHigh);
 			nbt.setByte("priority", (byte) this.priority.ordinal());
-			this.networkPack(nbt, 250);
-		} else {
+			this.networkPack(nbt, 20);
+		}
+		
+		if(worldObj.isRemote) {
 			this.prevRotation = this.rotation;
 			this.rotation += this.getSpeed();
 			
@@ -42,16 +64,10 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 				rotation -= 360;
 				prevRotation -= 360;
 			}
-			
-			for(int i = 1; i < this.log.length; i++) {
-				this.log[i - 1] = this.log[i];
-			}
-			
-			this.log[19] = this.power;
 		}
 	}
 	
-	protected void transmitPower() {
+	@Deprecated protected void transmitPower() {
 		
 		short mode = (short) this.getRelevantMode();
 		
@@ -127,8 +143,7 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
 }

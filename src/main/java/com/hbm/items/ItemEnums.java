@@ -40,4 +40,16 @@ public class ItemEnums {
 		ROPE,
 		MUSTARDWILLOW
 	}
+
+	public static enum EnumAchievementType {
+		GOFISH,
+		ACID,
+		BALLS,
+		DIGAMMASEE,
+		DIGAMMAFEEL,
+		DIGAMMAKNOW,
+		DIGAMMAKAUAIMOHO,
+		DIGAMMAUPONTOP,
+		DIGAMMAFOROURRIGHT
+	}
 }

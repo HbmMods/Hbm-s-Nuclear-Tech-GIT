@@ -153,6 +153,10 @@ public class Fluids {
 	public static FluidType EGG;
 	public static FluidType CHOLESTEROL;
 	public static FluidType ESTRADIOL;
+	public static FluidType FISHOIL;
+	public static FluidType SUNFLOWEROIL;
+	public static FluidType NITROGLYCERIN;
+	public static FluidType REDMUD;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -315,7 +319,11 @@ public class Fluids {
 		GAS_COKER =				new FluidType("GAS_COKER",			0xDEF4CA, 1, 4, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 		EGG =					new FluidType("EGG",				0xD2C273, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		CHOLESTEROL =			new FluidType("CHOLESTEROL",		0xD6D2BD, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		ESTRADIOL =				new FluidType(130, "ESTRADIOL",		0xCDD5D8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		ESTRADIOL =				new FluidType("ESTRADIOL",			0xCDD5D8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		FISHOIL =				new FluidType("FISHOIL",			0x4B4A45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		SUNFLOWEROIL =			new FluidType("SUNFLOWEROIL",		0xCBAD45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		NITROGLYCERIN =			new FluidType("NITROGLYCERIN",		0x92ACA6, 0, 4, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		REDMUD =				new FluidType(133, "REDMUD",		0xD85638, 3, 0, 4, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, LEADCON, new FT_Corrosive(60), new FT_Flammable(1_000));
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -407,6 +415,8 @@ public class Fluids {
 		metaOrder.add(BIOFUEL);
 		metaOrder.add(ETHANOL);
 		metaOrder.add(NMASSTETRANOL);
+		metaOrder.add(FISHOIL);
+		metaOrder.add(SUNFLOWEROIL);
 		metaOrder.add(NITAN);
 		metaOrder.add(HYDRAZINE);
 		metaOrder.add(BALEFIRE);
@@ -432,6 +442,7 @@ public class Fluids {
 		metaOrder.add(PAIN);
 		metaOrder.add(DEATH);
 		metaOrder.add(WATZ);
+		metaOrder.add(REDMUD);
 		metaOrder.add(EGG);
 		metaOrder.add(CHOLESTEROL);
 		//solutions and working fluids
@@ -440,6 +451,7 @@ public class Fluids {
 		metaOrder.add(PHOSGENE);
 		metaOrder.add(MUSTARDGAS);
 		metaOrder.add(ESTRADIOL);
+		metaOrder.add(NITROGLYCERIN);
 		//antimatter
 		metaOrder.add(AMAT);
 		metaOrder.add(ASCHRAB);
@@ -480,6 +492,7 @@ public class Fluids {
 		MUSTARDGAS.addTraits(new FT_Toxin().addEntry(new ToxinDirectDamage(ModDamageSource.cloud, 4F, 10, HazardClass.GAS_CORROSIVE, false))
 				.addEntry(new ToxinEffects(HazardClass.GAS_CORROSIVE, true).add(new PotionEffect(Potion.wither.id, 100, 1), new PotionEffect(Potion.confusion.id, 100, 0))));
 		ESTRADIOL.addTraits(new FT_Toxin().addEntry(new ToxinEffects(HazardClass.PARTICLE_FINE, false).add(new PotionEffect(HbmPotion.death.id, 60 * 60 * 20, 0))));
+		REDMUD.addTraits(new FT_Toxin().addEntry(new ToxinEffects(HazardClass.GAS_CORROSIVE, false).add(new PotionEffect(Potion.wither.id, 30 * 20, 2))));
 
 		double eff_steam_boil = 1.0D;
 		double eff_steam_heatex = 0.25D;
@@ -603,6 +616,8 @@ public class Fluids {
 
 		registerCalculatedFuel(WOODOIL, 110_000 /* 20_000 TU per 250mB + a bonus */, 0, null);
 		registerCalculatedFuel(COALCREOSOTE, 250_000 /* 20_000 TU per 100mB + a bonus */, 0, null);
+		registerCalculatedFuel(FISHOIL, 75_000, 0, null);
+		registerCalculatedFuel(SUNFLOWEROIL, 50_000, 0, null);
 
 		registerCalculatedFuel(SOLVENT, 100_000, 0, null); // flammable, sure, but not combustable
 		registerCalculatedFuel(RADIOSOLVENT, 150_000, 0, null);

@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.GeneralConfig;
-import com.hbm.config.RadiationConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -14,8 +12,6 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import api.hbm.block.IPileNeutronReceiver;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -27,11 +23,8 @@ public abstract class TileEntityPileBase extends TileEntity {
 	public abstract void updateEntity();
 	
 	protected void castRay(int flux, int range) {
-		
 		Random rand = worldObj.rand;
-		int[] vecVals = { 0, 0, 0,};
-		vecVals[rand.nextInt(3)] = 1;
-		Vec3 vec = Vec3.createVectorHelper(vecVals[0], vecVals[1], vecVals[2]);
+		Vec3 vec = Vec3.createVectorHelper(1, 0, 0);
 		vec.rotateAroundZ((float)(rand.nextDouble() * Math.PI * 2D));
 		vec.rotateAroundY((float)(rand.nextDouble() * Math.PI * 2D));
 		vec.rotateAroundX((float)(rand.nextDouble() * Math.PI * 2D));
@@ -53,13 +46,14 @@ public abstract class TileEntityPileBase extends TileEntity {
 			prevY = y;
 			prevZ = z;
 			
-			if(i == range) {
+			/*if(i == range || i == 1) {
 				NBTTagCompound data2 = new NBTTagCompound();
 				data2.setString("type", "vanillaExt");
-				data2.setString("mode", "greendust");
-				data2.setDouble("posX", xCoord + 0.5 + vec.xCoord * range);
-				data2.setDouble("posY", yCoord + 0.5 + vec.yCoord * range);
-				data2.setDouble("posZ", zCoord + 0.5 + vec.zCoord * range);
+				data2.setString("mode", i == range ? "greendust" : 
+										i == 1 ? "reddust" : "bluedust");
+				data2.setDouble("posX", xCoord + 0.5 + vec.xCoord * i);
+				data2.setDouble("posY", yCoord + 0.5 + vec.yCoord * i);
+				data2.setDouble("posZ", zCoord + 0.5 + vec.zCoord * i);
 				MainRegistry.proxy.effectNT(data2);
 			}
 			
@@ -97,44 +91,8 @@ public abstract class TileEntityPileBase extends TileEntity {
 			
 			if(entities != null)
 				for(EntityLivingBase e : entities) {
-					ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, flux / 2);
-					if(!RadiationConfig.disableNeutron && GeneralConfig.enable528) {
-						ContaminationUtil.contaminate(e, HazardType.NEUTRON, ContaminationType.CREATIVE, flux);
-						if(e instanceof EntityPlayer) {
-							//Random rand = target.getRNG();
-							EntityPlayer player = (EntityPlayer) e;
-							for(int i2 = 0; i2 < player.inventory.mainInventory.length; i2++)
-							{
-								ItemStack stack2 = player.inventory.getStackInSlot(i2);
-								
-								//if(rand.nextInt(100) == 0) {
-									//stack2 = player.inventory.armorItemInSlot(rand.nextInt(4));
-								//}
-								
-								//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-								if(stack2 != null) {
-										if(!stack2.hasTagCompound())
-											stack2.stackTagCompound = new NBTTagCompound();
-										float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-										stack2.stackTagCompound.setFloat("ntmNeutron", activation+(flux/stack2.stackSize));
-										
-									//}
-								}
-							}
-							for(int i2 = 0; i2 < player.inventory.armorInventory.length; i2++)
-							{
-								ItemStack stack2 = player.inventory.armorItemInSlot(i2);
-								
-								//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-								if(stack2 != null) {					
-										if(!stack2.hasTagCompound())
-											stack2.stackTagCompound = new NBTTagCompound();
-										float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-										stack2.stackTagCompound.setFloat("ntmNeutron", activation+(flux/stack2.stackSize));
-								}
-							}	
-						}
-					}	
+					
+					ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, flux / 4F);
 				}
 		}
 	}

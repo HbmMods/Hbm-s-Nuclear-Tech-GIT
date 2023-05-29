@@ -16,6 +16,10 @@ public class OreLayer3D {
 	NoiseGeneratorPerlin noiseY;
 	NoiseGeneratorPerlin noiseZ;
 	
+	double scaleH;
+	double scaleV;
+	double threshold;
+	
 	Block block;
 	int meta;
 	int dim = 0;
@@ -28,6 +32,21 @@ public class OreLayer3D {
 	
 	public OreLayer3D setDimension(int dim) {
 		this.dim = dim;
+		return this;
+	}
+	
+	public OreLayer3D setScaleH(double scale) {
+		this.scaleH = scale;
+		return this;
+	}
+	
+	public OreLayer3D setScaleV(double scale) {
+		this.scaleV = scale;
+		return this;
+	}
+	
+	public OreLayer3D setThreshold(double threshold) {
+		this.threshold = threshold;
 		return this;
 	}
 
@@ -44,9 +63,6 @@ public class OreLayer3D {
 		
 		int cX = event.chunkX;
 		int cZ = event.chunkZ;
-
-		double scaleH = 0.04D;
-		double scaleV = 0.25D;
 		
 		for(int x = cX + 8; x < cX + 24; x++) {
 			for(int z = cZ + 8; z < cZ + 24; z++) {
@@ -55,7 +71,7 @@ public class OreLayer3D {
 					double nY = this.noiseY.func_151601_a(x * scaleH, z * scaleH);
 					double nZ = this.noiseZ.func_151601_a(x * scaleH, y * scaleV);
 					
-					if(nX * nY * nZ > 220) {
+					if(nX * nY * nZ > threshold) {
 						Block target = world.getBlock(x, y, z);
 						
 						if(target.isNormalCube() && target.getMaterial() == Material.rock) {
