@@ -101,10 +101,7 @@ public class MineralRecipes {
 		add1To9Pair(ModItems.ingot_americium_fuel, ModItems.nugget_americium_fuel);
 		add1To9Pair(ModItems.ingot_cm_fuel, ModItems.nugget_cm_fuel);
 		add1To9Pair(ModItems.ingot_cm_mix, ModItems.nugget_cm_mix);
-		
-		add1To9Pair(ModItems.ingot_cm242, ModItems.nugget_cm242);
-		add1To9Pair(ModItems.ingot_cm243, ModItems.nugget_cm243);
-		add1To9Pair(ModItems.ingot_cm244, ModItems.nugget_cm244);
+
 		
 		
 		add1To9Pair(ModItems.ingot_gh336, ModItems.nugget_gh336);
@@ -148,7 +145,7 @@ public class MineralRecipes {
 		addBillet(ModItems.billet_cm244,				ModItems.ingot_cm244,				ModItems.nugget_cm244, CM244.allNuggets());
 		addBillet(ModItems.billet_cm245,				ModItems.ingot_cm245,				ModItems.nugget_cm245, CM245.allNuggets());
 		addBillet(ModItems.billet_cm246,				ModItems.ingot_cm246,				ModItems.nugget_cm246, CM246.allNuggets());
-		addBillet(ModItems.billet_cm247,				ModItems.ingot_cm247,				ModItems.nugget_cm247, CM242.allNuggets());
+		addBillet(ModItems.billet_cm247,				ModItems.ingot_cm247,				ModItems.nugget_cm247, CM247.allNuggets());
 		addBillet(ModItems.billet_am_mix,				ModItems.ingot_am_mix,				ModItems.nugget_am_mix);
 		addBillet(ModItems.billet_cm_mix,				ModItems.ingot_cm_mix,				ModItems.nugget_cm_mix);
 		addBillet(ModItems.billet_neptunium,			ModItems.ingot_neptunium,			ModItems.nugget_neptunium, NP237.allNuggets());

@@ -79,6 +79,7 @@ public class Library {
 	public static String Barnaby99_x = "b04cf173-cff0-4acd-aa19-3d835224b43d";
 	public static String Ma118 = "1121cb7a-8773-491f-8e2b-221290c93d81";
 	public static String Adam29Adam29 = "bbae7bfa-0eba-40ac-a0dd-f3b715e73e61";
+	public static String DUODEC_ = "85d54b8c-1862-4c86-b351-5ef1b998aa32";
 
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf

@@ -61,6 +61,7 @@ public class TileMappings {
 		put(TileEntityMachineBattery.class, "tileentity_battery");
 		put(TileEntityMachineCoal.class, "tileentity_coal");
 		put(TileEntityRedBarrel.class, "tileentity_barrel");
+		put(TileEntityBrownBarrel.class, "tileentity_brown_barrel");
 		put(TileEntityYellowBarrel.class, "tileentity_nukebarrel");
 		put(TileEntityLaunchPad.class, "tileentity_launch1");
 		put(TileEntityDecoBlock.class, "tileentity_deco");
@@ -71,6 +72,7 @@ public class TileMappings {
 		put(TileEntityConverterHeRf.class, "tileentity_converter_herf");
 		put(TileEntityConverterRfHe.class, "tileentity_converter_rfhe");
 		put(TileEntityMachineSchrabidiumTransmutator.class, "tileentity_schrabidium_transmutator");
+		put(TileEntityMachineDischarger.class, "tileentity_discharger");
 		put(TileEntityMachineDiesel.class, "tileentity_diesel_generator");
 		put(TileEntityWatzCore.class, "tileentity_watz_multiblock");
 		put(TileEntityMachineShredder.class, "tileentity_machine_shredder");
