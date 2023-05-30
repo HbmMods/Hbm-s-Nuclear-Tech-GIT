@@ -1,0 +1,14 @@
+## Added
+* Laminate glass
+  * A new variant of refinroced glass with higher blast resistance
+
+## Changed
+* Updated russian localization
+* Rebalanced some powder recipes like meteorite powder, spark blend and energy powder
+* Changed spark battery recipes, the total cost and crafting steps for higher tier batteries should no longer be as insane as before
+* Technetium steel and ferrouranium drillbits are now craftable
+* The vacuum refinery now requires a bismuth chipset
+* Paraffin wax can now also be used to make chlorated petroleum wax
+* Retextured schrabidium batteries, the cap is now black instead of red
+
+## Fixed
