@@ -12,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraft.stats.StatList;
 
 /**
  * For the loading and unloading of fuel rods
@@ -141,11 +142,13 @@ public class RodRecipes {
 		addPellet(B,								EnumWatzType.BORON);
 		addPellet(U238,								EnumWatzType.DU);
 		addPellet(PU241,							EnumWatzType.PU241);
+		addPellet(AMF,								EnumWatzType.AMF);
 		addPellet(AMRG,								EnumWatzType.AMRG);
 		addPellet(CMRG,								EnumWatzType.CMRG);
 		addPellet(CMF,								EnumWatzType.CMF);
 		addPellet(BK247,							EnumWatzType.BK247);
 		addPellet(CF252,							EnumWatzType.CF252);
+		addPellet(CF251,							EnumWatzType.CF251);
 		addPellet(ES253,							EnumWatzType.ES253);
 	}
 	

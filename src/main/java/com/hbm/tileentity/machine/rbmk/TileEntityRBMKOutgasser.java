@@ -54,7 +54,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 			}
 			
 			for(DirPos pos : getOutputPos()) {
-				if(this.gas.getFill() > 0) this.sendFluid(gas.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.gas.getFill() > 0) this.sendFluid(gas, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 		}
 		

@@ -1,13 +1,9 @@
 package com.hbm.blocks.generic;
 
-import java.util.List;
-import java.util.Random;
-
 import com.hbm.inventory.gui.GUIScreenBobble;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,6 +28,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class BlockBobble extends BlockContainer implements IGUIProvider {
 
@@ -197,8 +196,9 @@ public class BlockBobble extends BlockContainer implements IGUIProvider {
 		DIVINE_RAY(			"Divine_Ray",					"Divine_Ray",	"Heat Sink Model",										"Warning: may contain traces of paperclips",															true,	ScrapType.BOARD_BLANK),
 		SAERKAL(		"Saerkal",							"Saerkal",		"Caracal Model",										"Endorsed by the United States Government!",															true,	ScrapType.BOARD_BLANK),
 		JAMESH_2(		"JamesH_2",							"JamesH_2",		"The fork itself",										"COME ON AND SLAM",																						true,	ScrapType.BOARD_BLANK),
-		PEEP(			"Le Peeper Sauvage",				"Le Peeper Sauvage",	"737 Model",									"Scan the streets in search of something better",														true,	ScrapType.BOARD_BLANK);
-		
+		PEEP(			"Le Peeper Sauvage",				"Le Peeper Sauvage",	"737 Model",									"Scan the streets in search of something better",														true,	ScrapType.BOARD_BLANK),
+		MICROWAVE(	    "Microwave",						"Microwave",   "adding OC compat",                                              "they call me the food heater",                                                                    true, ScrapType.BRIDGE_BIOS);
+
 		public String name;			//the title of the tooltip
 		public String label;		//the name engraved in the socket
 		public String contribution;	//what contributions this person has made, if applicable

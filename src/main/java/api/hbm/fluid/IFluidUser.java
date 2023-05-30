@@ -13,7 +13,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public interface IFluidUser extends IFluidConnector {
 	
-	public default void sendFluid(FluidType type, World world, int x, int y, int z, ForgeDirection dir) {
+	public default void sendFluid(FluidTank tank, World world, int x, int y, int z, ForgeDirection dir) {
+		sendFluid(tank.getTankType(), tank.getPressure(), world, x, y, z, dir);
+	}
+	
+	public default void sendFluid(FluidType type, int pressure, World world, int x, int y, int z, ForgeDirection dir) {
 		
 		TileEntity te = world.getTileEntity(x, y, z);
 		boolean wasSubscribed = false;
@@ -32,9 +36,9 @@ public interface IFluidUser extends IFluidConnector {
 			IFluidConnector con = (IFluidConnector) te;
 			
 			if(con.canConnect(type, dir.getOpposite())) {
-				long toSend = this.getTotalFluidForSend(type);
-				long transfer = toSend - con.transferFluid(type, toSend);
-				this.removeFluidForTransfer(type, transfer);
+				long toSend = this.getTotalFluidForSend(type, pressure);
+				long transfer = toSend - con.transferFluid(type, pressure, toSend);
+				this.removeFluidForTransfer(type, pressure, transfer);
 				red = true;
 			}
 		}
@@ -77,15 +81,21 @@ public interface IFluidUser extends IFluidConnector {
 		return null;
 	}
 	
-	public default void sendFluidToAll(FluidType type, TileEntity te) {
+	/** Use more common conPos method instead */
+	@Deprecated public default void sendFluidToAll(FluidTank tank, TileEntity te) {
+		sendFluidToAll(tank.getTankType(), tank.getPressure(), te);
+	}
+
+	/** Use more common conPos method instead */
+	@Deprecated public default void sendFluidToAll(FluidType type, int pressure, TileEntity te) {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-			sendFluid(type, te.getWorldObj(), te.xCoord + dir.offsetX, te.yCoord + dir.offsetY, te.zCoord + dir.offsetZ, dir);
+			sendFluid(type, pressure, te.getWorldObj(), te.xCoord + dir.offsetX, te.yCoord + dir.offsetY, te.zCoord + dir.offsetZ, dir);
 		}
 	}
 
-	public default long getTotalFluidForSend(FluidType type) { return 0; }
-	public default void removeFluidForTransfer(FluidType type, long amount) { }
+	public default long getTotalFluidForSend(FluidType type, int pressure) { return 0; }
+	public default void removeFluidForTransfer(FluidType type, int pressure, long amount) { }
 	
 	public default void subscribeToAllAround(FluidType type, TileEntity te) {
 		subscribeToAllAround(type, te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);

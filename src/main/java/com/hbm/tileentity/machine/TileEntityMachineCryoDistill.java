@@ -78,7 +78,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 			for(DirPos pos : getConPos()) {
 				for(int i = 1; i < 5; i++) {
 					if(tanks[i].getFill() > 0) {
-						this.sendFluid(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+						this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 					}
 				}
 			}
@@ -134,7 +134,7 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {
 			//this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 	

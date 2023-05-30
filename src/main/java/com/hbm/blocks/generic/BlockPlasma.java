@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class BlockPlasma extends Block {
@@ -33,6 +34,7 @@ public class BlockPlasma extends Block {
     @Override
 	public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity p_149670_5_)
     {
+    	p_149670_5_.attackEntityFrom(DamageSource.inFire, 40);
         p_149670_5_.setFire(10);
         p_149670_5_.setInWeb();
     }

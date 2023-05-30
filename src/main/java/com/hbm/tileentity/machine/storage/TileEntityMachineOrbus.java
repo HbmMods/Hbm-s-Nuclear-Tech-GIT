@@ -105,10 +105,11 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 			if(amat >= 25)
 			{
 				EntityBalefire bf = new EntityBalefire(worldObj);
+				bf.antimatter();
 	    		bf.setPosition(xCoord, yCoord, zCoord);
 				bf.destructionRange = (int) amat;
 				worldObj.spawnEntityInWorld(bf);
-				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord, yCoord, zCoord, amat * 1.5F, 1000));
+				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacAnti(worldObj, xCoord, yCoord, zCoord, amat * 1.5F, 1000));
 				return;
 			}
 			else

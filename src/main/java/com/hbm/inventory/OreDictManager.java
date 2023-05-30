@@ -139,6 +139,7 @@ public class OreDictManager {
 	public static final DictFrame ES253 = new DictFrame ("Einsteinium253", "Es253");
 	public static final DictFrame ES255 = new DictFrame ("Einsteinium255", "Es255");
 	public static final DictFrame AMRG = new DictFrame("AmericiumRG");
+	public static final DictFrame AMF = new DictFrame("AmericiumFuel");
 	public static final DictFrame NP237 = new DictFrame("Neptunium237", "Np237", "Neptunium");
 	public static final DictFrame PO210 = new DictFrame("Polonium210", "Po210", "Polonium");
 	public static final DictFrame TC99 = new DictFrame("Technetium99", "Tc99");
@@ -500,6 +501,7 @@ public class OreDictManager {
 		ANY_HIGHEXPLOSIVE		.ingot(ball_tnt).ingot(ball_tatb);
 		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_asbestos, ducrete, ducrete_smooth);
 		for(int i = 0; i < 16; i++) { ANY_CONCRETE.any(new ItemStack(ModBlocks.concrete_colored, 1, i)); }
+		for(int i = 0; i < 16; i++) { ANY_CONCRETE.any(new ItemStack(ModBlocks.concrete_colored_ext, 1, i)); }
 		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class)).block(fromAll(block_coke, EnumCokeType.class));
 		ANY_BISMOID				.ingot(ingot_bismuth, ingot_arsenic).nugget(nugget_bismuth, nugget_arsenic).block(block_bismuth);
 

@@ -1,10 +1,6 @@
 package com.hbm.tileentity.machine.storage;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import api.hbm.fluid.*;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
@@ -26,14 +22,13 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
-
-import api.hbm.fluid.IFluidConductor;
-import api.hbm.fluid.IFluidConnector;
-import api.hbm.fluid.IFluidStandardTransceiver;
-import api.hbm.fluid.IPipeNet;
-import api.hbm.fluid.PipeNet;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,7 +39,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
-public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider {
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
+public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, SimpleComponent, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -79,7 +80,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			this.sendingBrake = true;
-			tank.setFill(transmitFluidFairly(worldObj, tank.getTankType(), this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
+			tank.setFill(transmitFluidFairly(worldObj, tank, this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
 			this.sendingBrake = false;
 			
 			age++;
@@ -110,10 +111,12 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		};
 	}
 	
-	protected static int transmitFluidFairly(World world, FluidType type, IFluidConnector that, int fill, boolean connect, boolean send, DirPos[] connections) {
+	protected static int transmitFluidFairly(World world, FluidTank tank, IFluidConnector that, int fill, boolean connect, boolean send, DirPos[] connections) {
 		
 		Set<IPipeNet> nets = new HashSet();
 		Set<IFluidConnector> consumers = new HashSet();
+		FluidType type = tank.getTankType();
+		int pressure = tank.getPressure();
 		
 		for(DirPos pos : connections) {
 			
@@ -148,7 +151,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				if(x instanceof PipeNet) PipeNet.trackingInstances.add((PipeNet) x);
 			});
 			
-			fill = (int) PipeNet.fairTransfer(con, type, fill);
+			fill = (int) PipeNet.fairTransfer(con, type, pressure, fill);
 		}
 		
 		//resubscribe to buffered nets, if necessary
@@ -190,7 +193,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		//for when you fill antimatter into a matter tank
 		if(b != ModBlocks.barrel_antimatter && tank.getTankType().isAntimatter()) {
 			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
-			worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
+			new ExplosionVNT(worldObj, xCoord, yCoord, zCoord, 5).makeAmat().explode();
+			//worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 		}
 		
 		//for when you fill hot or corrosive liquids into a plastic tank
@@ -368,10 +372,11 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
     			if(amat >= 25)
     			{
     				EntityBalefire bf = new EntityBalefire(worldObj);
+    				bf.antimatter();
     	    		bf.setPosition(xCoord, yCoord, zCoord);
     				bf.destructionRange = (int) amat;
     				worldObj.spawnEntityInWorld(bf);
-    				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord, yCoord, zCoord, amat * 1.5F, 1000));
+    				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacAnti(worldObj, xCoord, yCoord, zCoord, amat * 1.5F, 1000));
     				return;
     			}
     			else
@@ -393,4 +398,33 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
     		}	
     	}
     }
+
+	@Override
+	public String getComponentName() {
+		return "ntm_fluid_tank";
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluidStored(Context context, Arguments args) {
+		return new Object[] {tank.getFill()};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getMaxStored(Context context, Arguments args) {
+		return new Object[] {tank.getMaxFill()};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getTypeStored(Context context, Arguments args) {
+		return new Object[] {tank.getTankType().getName()};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};
+	}
 }

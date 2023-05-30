@@ -8,7 +8,13 @@ public class BlockEnums {
 		HEMATITE,
 		MALACHITE,
 		LIMESTONE,
+		BAUXITE,
 		CONGLOMERATE
+	}
+
+	public static enum EnumBiomeType {
+		DESERT,
+		WOODLAND
 	}
 
 	public static enum EnumStalagmiteType {

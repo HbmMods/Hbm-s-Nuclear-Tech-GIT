@@ -53,7 +53,7 @@ public class TileEntityTowerChimney extends TileEntityCondenser { //actually bad
 		this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord, yCoord, zCoord + 3, Library.POS_Z);
 		this.trySubscribe(this.tanks[0].getTankType(), worldObj, xCoord, yCoord, zCoord - 3, Library.NEG_Z);
 	}
-
+/*
 	@Override
 	public void sendFluidToAll(FluidType type, TileEntity te) {
 		this.sendFluid(this.tanks[1].getTankType(), worldObj, xCoord + 3, yCoord, zCoord, Library.POS_X);
@@ -61,7 +61,7 @@ public class TileEntityTowerChimney extends TileEntityCondenser { //actually bad
 		this.sendFluid(this.tanks[1].getTankType(), worldObj, xCoord, yCoord, zCoord + 3, Library.POS_Z);
 		this.sendFluid(this.tanks[1].getTankType(), worldObj, xCoord, yCoord, zCoord - 3, Library.NEG_Z);
 	}
-
+*/
 	@Override
 	public void fillFluidInit(FluidType type) {
 		

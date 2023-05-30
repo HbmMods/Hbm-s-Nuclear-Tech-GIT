@@ -1,14 +1,26 @@
 package com.hbm.entity.logic;
 
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.RadiationConfig;
 import com.hbm.explosion.ExplosionBalefire;
+import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityBalefire extends Entity {
@@ -19,6 +31,7 @@ public class EntityBalefire extends Entity {
 	public int speed = 1;
 	public boolean did = false;
 	public boolean mute = false;
+	public boolean antimatter = false;
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
@@ -27,9 +40,9 @@ public class EntityBalefire extends Entity {
 		speed = nbt.getInteger("speed");
 		did = nbt.getBoolean("did");
 		mute = nbt.getBoolean("mute");
-		
+		antimatter = nbt.getBoolean("antimatter");
     	
-		exp = new ExplosionBalefire((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange);
+		exp = new ExplosionBalefire((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.antimatter);
 		exp.readFromNbt(nbt, "exp_");
     	
     	this.did = true;
@@ -43,6 +56,7 @@ public class EntityBalefire extends Entity {
 		nbt.setInteger("speed", speed);
 		nbt.setBoolean("did", did);
 		nbt.setBoolean("mute", mute);
+		nbt.setBoolean("antimatter", antimatter);
     	
 		if(exp != null)
 			exp.saveToNbt(nbt, "exp_");
@@ -62,7 +76,7 @@ public class EntityBalefire extends Entity {
     		if(GeneralConfig.enableExtendedLogging && !worldObj.isRemote)
     			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized BF explosion at " + posX + " / " + posY + " / " + posZ + " with strength " + destructionRange + "!");
     		
-        	exp = new ExplosionBalefire((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange);
+        	exp = new ExplosionBalefire((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.antimatter);
         	
         	this.did = true;
         }
@@ -78,7 +92,9 @@ public class EntityBalefire extends Entity {
         		this.setDead();
         	}
         }
-        
+		if(!worldObj.isRemote && antimatter && this.ticksExisted < 10) {
+			radiate(40000*this.destructionRange, this.destructionRange * 2);
+		}
     	if(!mute && rand.nextInt(5) == 0)
         	this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
         	
@@ -93,11 +109,58 @@ public class EntityBalefire extends Entity {
         age++;
     }
 
+	private void radiate(float rads, double range) {
+		
+		List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX, posY, posZ).expand(range, range, range));
+		
+		for(EntityLivingBase e : entities) {
+			
+			Vec3 vec = Vec3.createVectorHelper(e.posX - posX, (e.posY + e.getEyeHeight()) - posY, e.posZ - posZ);
+			double len = vec.lengthVector();
+			vec = vec.normalize();
+			
+			float res = 0;
+			
+			for(int i = 1; i < len; i++) {
+
+				int ix = (int)Math.floor(posX + vec.xCoord * i);
+				int iy = (int)Math.floor(posY + vec.yCoord * i);
+				int iz = (int)Math.floor(posZ + vec.zCoord * i);
+				
+				res += worldObj.getBlock(ix, iy, iz).getExplosionResistance(null);
+			}
+			
+			if(res < 1)
+				res = 1;
+			
+			float eRads = rads;
+			eRads /= (float)res;
+			eRads /= (float)(len * len);
+			
+			ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, eRads);
+			if(eRads>=500)
+			{
+				if(!(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode))
+				{
+					e.setHealth(0);
+					this.worldObj.createExplosion(this, e.posX, e.posY, e.posZ, 2.0F, true);
+					ExplosionChaos.plasma(this.worldObj, (int) e.posX, (int) e.posY, (int) e.posZ, 4);
+					e.setDead();
+				}
+			}
+		}
+	}
+    
 	@Override
 	protected void entityInit() { }
 	
 	public EntityBalefire mute() {
 		this.mute = true;
+		return this;
+	}
+	
+	public EntityBalefire antimatter() {
+		this.antimatter = true;
 		return this;
 	}
 }

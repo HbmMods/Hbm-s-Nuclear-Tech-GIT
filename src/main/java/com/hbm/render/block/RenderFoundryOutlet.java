@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 
 public class RenderFoundryOutlet implements ISimpleBlockRenderingHandler {
@@ -82,7 +83,8 @@ public class RenderFoundryOutlet implements ISimpleBlockRenderingHandler {
 		
 		FoundryOutlet outlet = (FoundryOutlet) block;
 		int meta = world.getBlockMetadata(x, y, z);
-		TileEntityFoundryOutlet tile = (TileEntityFoundryOutlet) world.getTileEntity(x, y, z);
+		TileEntity tile = world.getTileEntity(x, y, z);
+		TileEntityFoundryOutlet tileOutlet = tile instanceof TileEntityFoundryOutlet ? (TileEntityFoundryOutlet) tile : null;
 
 		int brightness = block.getMixedBrightnessForBlock(world, x, y, z);
 		tessellator.setBrightness(brightness);
@@ -105,13 +107,13 @@ public class RenderFoundryOutlet implements ISimpleBlockRenderingHandler {
 			renderer.renderFaceXPos(block, x, y, z, outlet.iconFront);
 			renderer.renderFaceXNeg(block, x, y, z, outlet.iconFront);
 			
-			if(tile.filter != null) {
+			if(tileOutlet != null && tileOutlet.filter != null) {
 				renderer.setRenderBounds(0.96875D, 0.0625, 0.375D, 0.96875D, top, 0.625D);
 				renderer.renderFaceXPos(block, x, y, z, outlet.iconFilter);
 				renderer.renderFaceXNeg(block, x, y, z, outlet.iconFilter);
 			}
 			
-			if(tile.isClosed()) {
+			if(tileOutlet != null && tileOutlet.isClosed()) {
 				renderer.setRenderBounds(0.9375D, 0.0625, 0.375D, 0.9375D, top, 0.625D);
 				renderer.renderFaceXPos(block, x, y, z, outlet.iconLock);
 				renderer.renderFaceXNeg(block, x, y, z, outlet.iconLock);
@@ -136,13 +138,13 @@ public class RenderFoundryOutlet implements ISimpleBlockRenderingHandler {
 			renderer.renderFaceXPos(block, x, y, z, outlet.iconFront);
 			renderer.renderFaceXNeg(block, x, y, z, outlet.iconFront);
 			
-			if(tile.filter != null) {
+			if(tileOutlet != null && tileOutlet.filter != null) {
 				renderer.setRenderBounds(0.03125D, 0.0625, 0.375D, 0.03125D, top, 0.625D);
 				renderer.renderFaceXPos(block, x, y, z, outlet.iconFilter);
 				renderer.renderFaceXNeg(block, x, y, z, outlet.iconFilter);
 			}
 			
-			if(tile.isClosed()) {
+			if(tileOutlet != null && tileOutlet.isClosed()) {
 				renderer.setRenderBounds(0.0625D, 0.0625, 0.375D, 0.0625D, top, 0.625D);
 				renderer.renderFaceXPos(block, x, y, z, outlet.iconLock);
 				renderer.renderFaceXNeg(block, x, y, z, outlet.iconLock);
@@ -167,13 +169,13 @@ public class RenderFoundryOutlet implements ISimpleBlockRenderingHandler {
 			renderer.renderFaceZPos(block, x, y, z, outlet.iconFront);
 			renderer.renderFaceZNeg(block, x, y, z, outlet.iconFront);
 			
-			if(tile.filter != null) {
+			if(tileOutlet != null && tileOutlet.filter != null) {
 				renderer.setRenderBounds(0.375D, 0.0625, 0.96875D, 0.625D, top, 0.96875D);
 				renderer.renderFaceZPos(block, x, y, z, outlet.iconFilter);
 				renderer.renderFaceZNeg(block, x, y, z, outlet.iconFilter);
 			}
 			
-			if(tile.isClosed()) {
+			if(tileOutlet != null && tileOutlet.isClosed()) {
 				renderer.setRenderBounds(0.375D, 0.0625, 0.9375D, 0.625D, top, 0.9375D);
 				renderer.renderFaceZPos(block, x, y, z, outlet.iconLock);
 				renderer.renderFaceZNeg(block, x, y, z, outlet.iconLock);
@@ -198,13 +200,13 @@ public class RenderFoundryOutlet implements ISimpleBlockRenderingHandler {
 			renderer.renderFaceZPos(block, x, y, z, outlet.iconFront);
 			renderer.renderFaceZNeg(block, x, y, z, outlet.iconFront);
 			
-			if(tile.filter != null) {
+			if(tileOutlet != null && tileOutlet.filter != null) {
 				renderer.setRenderBounds(0.375D, 0.0625D, 0.03125, 0.625D, top, 0.03125D);
 				renderer.renderFaceZPos(block, x, y, z, outlet.iconFilter);
 				renderer.renderFaceZNeg(block, x, y, z, outlet.iconFilter);
 			}
 			
-			if(tile.isClosed()) {
+			if(tileOutlet != null && tileOutlet.isClosed()) {
 				renderer.setRenderBounds(0.375D, 0.0625, 0.0625D, 0.625D, top, 0.0625D);
 				renderer.renderFaceZPos(block, x, y, z, outlet.iconLock);
 				renderer.renderFaceZNeg(block, x, y, z, outlet.iconLock);

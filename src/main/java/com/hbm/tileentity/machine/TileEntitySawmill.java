@@ -273,7 +273,7 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 		}
 		
 		if(names.contains("plankWood")) {
-			return new ItemStack(Items.stick, 4);
+			return new ItemStack(Items.stick, 6);
 		}
 		
 		if(names.contains("treeSapling")) {

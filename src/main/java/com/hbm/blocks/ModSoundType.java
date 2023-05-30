@@ -13,7 +13,7 @@ public class ModSoundType extends Block.SoundType {
 	}
 
 	public String getStepResourcePath() {
-		return "hbm:" + super.getStepResourcePath();
+		return super.getStepResourcePath();
 	}
 
 }

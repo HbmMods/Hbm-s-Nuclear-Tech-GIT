@@ -24,8 +24,9 @@ public class ServerProxy {
 	public static final int ID_HUD = 5;
 	public static final int ID_DETONATOR = 6;
 	public static final int ID_FLUID_ID = 7;
-	public static final int ID_GUN_MODE = 8;
-	public static final int ID_GAS_HAZARD = 9;
+	public static final int ID_TOOLABILITY = 8;
+	public static final int ID_GUN_MODE = 9;
+	public static final int ID_GAS_HAZARD = 10;
 	
 	public void registerRenderInfo() { }
 	public void registerTileEntitySpecialRenderer() { }
@@ -41,7 +42,8 @@ public class ServerProxy {
 
 	public void registerMissileItems() { }
 
-	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float pitch) { return null; }
+	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch) { return null; }
+	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch, int keepAlive) { return null; }
 	public AudioWrapper getLoopedSoundStartStop(World world, String sound, String start, String stop, float x, float y, float z, float volume, float pitch) { return null; }
 	
 	public void playSound(String sound, Object data) { }

@@ -74,7 +74,7 @@ public class EntityMeteor extends Entity {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean isInRangeToRenderDist(double distance) {
-		return distance < 500000;
+		return true;
 	}
 
 	@Override

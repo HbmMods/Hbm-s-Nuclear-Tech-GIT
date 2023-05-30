@@ -2,9 +2,11 @@ package com.hbm.blocks.machine;
 
 import java.util.List;
 
+import api.hbm.block.IBlowable;
 import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
@@ -79,7 +81,13 @@ public class MachineFan extends BlockContainer implements IToolable {
 				double push = 0.1;
 				
 				for(int i = 1; i <= range; i++) {
-					if(worldObj.getBlock(xCoord + dir.offsetX * i, yCoord + dir.offsetY * i, zCoord + dir.offsetZ * i).isNormalCube()) {
+					Block block = worldObj.getBlock(xCoord + dir.offsetX * i, yCoord + dir.offsetY * i, zCoord + dir.offsetZ * i);
+					boolean blowable = block instanceof IBlowable;
+					
+					if(block.isNormalCube() || blowable) {
+						if(!worldObj.isRemote && blowable)
+							((IBlowable) block).applyFan(worldObj, xCoord + dir.offsetX * i, yCoord + dir.offsetY * i, zCoord + dir.offsetZ * i, dir, i);
+						
 						break;
 					}
 					

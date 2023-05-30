@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.IBlockMulti;
@@ -68,7 +69,7 @@ public class MachineHeatBoiler extends BlockDummyable implements ILookOverlay, I
 				if(type.hasTrait(FT_Heatable.class) && type.getTrait(FT_Heatable.class).getEfficiency(HeatingType.BOILER) > 0) {
 					boiler.tanks[0].setTankType(type);
 					boiler.markDirty();
-					player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase())).appendSibling(new ChatComponentText("!")));
+					player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase(Locale.US))).appendSibling(new ChatComponentText("!")));
 				}
 				return true;
 			}

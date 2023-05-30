@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.tileentity.machine.TileEntityMachineAutosaw;
@@ -50,7 +51,7 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay {
 		TileEntityMachineAutosaw saw = (TileEntityMachineAutosaw) te;
 		
 		List<String> text = new ArrayList();
-		text.add(I18nUtil.resolveKey("hbmfluid." + saw.tank.getTankType().getName().toLowerCase()) + ": " + saw.tank.getFill() + "/" + saw.tank.getMaxFill() + "mB");
+		text.add(I18nUtil.resolveKey("hbmfluid." + saw.tank.getTankType().getName().toLowerCase(Locale.US)) + ": " + saw.tank.getFill() + "/" + saw.tank.getMaxFill() + "mB");
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}

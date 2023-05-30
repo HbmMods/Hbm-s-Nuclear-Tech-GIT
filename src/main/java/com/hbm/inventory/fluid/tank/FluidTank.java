@@ -19,6 +19,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 
 public class FluidTank {
 	
@@ -34,10 +36,16 @@ public class FluidTank {
 	int fluid;
 	int maxFluid;
 	public int index = 0;
+	int pressure = 0;
 	
 	public FluidTank(FluidType type, int maxFluid) {
 		this.type = type;
 		this.maxFluid = maxFluid;
+	}
+	
+	public FluidTank withPressure(int pressure) {
+		this.pressure = pressure;
+		return this;
 	}
 	
 	@Deprecated // indices are no longer needed
@@ -76,6 +84,10 @@ public class FluidTank {
 		return maxFluid;
 	}
 	
+	public int getPressure() {
+		return pressure;
+	}
+	
 	public int changeTankSize(int size) {
 		maxFluid = size;
 		
@@ -107,6 +119,8 @@ public class FluidTank {
 		
 		if(slots[in] == null)
 			return false;
+		
+		if(this.pressure != 0) return false; //for now, canisters can only be loaded from high-pressure tanks, not unloaded
 		
 		int prev = this.getFill();
 		
@@ -223,6 +237,10 @@ public class FluidTank {
 			list.add(I18n.format(this.type.getUnlocalizedName()));
 			list.add(fluid + "/" + maxFluid + "mB");
 			
+			if(this.pressure != 0) {
+				list.add(EnumChatFormatting.RED + "" + this.pressure + "mB/l");
+			}
+			
 			type.addInfo(list);
 			gui.drawInfo(list.toArray(new String[0]), mouseX, mouseY);
 		}
@@ -233,6 +251,7 @@ public class FluidTank {
 		nbt.setInteger(s, fluid);
 		nbt.setInteger(s + "_max", maxFluid);
 		nbt.setInteger(s + "_type", type.getID());
+		nbt.setShort(s + "_p", (short) pressure);
 	}
 	
 	//Called by TE to load fillstate
@@ -240,11 +259,15 @@ public class FluidTank {
 		fluid = nbt.getInteger(s);
 		int max = nbt.getInteger(s + "_max");
 		if(max > 0)
-			maxFluid = nbt.getInteger(s + "_max");
+			maxFluid = max;
+		
+		fluid = MathHelper.clamp_int(fluid, 0, max);
 		
 		type = Fluids.fromName(nbt.getString(s + "_type")); //compat
 		if(type == Fluids.NONE)
 			type = Fluids.fromID(nbt.getInteger(s + "_type"));
+		
+		this.pressure = nbt.getShort(s + "_p");
 	}
 
 }

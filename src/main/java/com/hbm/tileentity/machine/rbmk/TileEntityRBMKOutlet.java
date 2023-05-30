@@ -54,7 +54,7 @@ public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluid
 			}
 			
 			fillFluidInit(this.steam.getTankType());
-			this.sendFluidToAll(steam.getTankType(), this);
+			this.sendFluidToAll(steam, this);
 		}
 	}
 	
