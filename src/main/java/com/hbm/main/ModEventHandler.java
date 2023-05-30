@@ -1263,6 +1263,7 @@ public class ModEventHandler {
 				
 				player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
 			}
+			
 		}
 	}
 	

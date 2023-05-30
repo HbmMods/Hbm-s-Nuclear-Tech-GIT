@@ -208,7 +208,12 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_cobalt || this == ModBlocks.ore_nether_cobalt) {
 			return ModItems.fragment_cobalt;
 		}
-
+		if(this == ModBlocks.moho_rich_iron) {
+			return ModItems.crystal_iron;
+		}
+		if(this == ModBlocks.moho_sulfur) {
+			return ModItems.sulfur;
+		}
 		return Item.getItemFromBlock(this);
 	}
 
@@ -238,7 +243,12 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_nether_cobalt) {
 			return 5 + rand.nextInt(8);
 		}
-
+		if(this == ModBlocks.moho_rich_iron) {
+			return 5 + rand.nextInt(8);
+		}
+		if(this == ModBlocks.moho_sulfur) {
+			return 2 + rand.nextInt(4);
+		}
 		return 1;
 	}
 	

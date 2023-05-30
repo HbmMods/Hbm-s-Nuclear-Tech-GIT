@@ -451,7 +451,18 @@ public class ModBlocks {
 	
 	public static Block moho_regolith;
 	public static Block moho_stone;
-	
+	public static Block moho_cobalt;
+	public static Block moho_copper_cluster;
+	public static Block moho_gold;
+	public static Block moho_iron;
+	public static Block moho_iron_cluster;
+	public static Block moho_starmetal_cluster;
+	public static Block moho_rich_iron;
+	public static Block moho_rich_beryl;
+	public static Block moho_niobium_cluster;
+	public static Block moho_tungsten;
+	public static Block moho_sulfur;
+
 	public static Block brick_jungle;
 	public static Block brick_jungle_cracked;
 	public static Block brick_jungle_fragile;
@@ -1740,6 +1751,16 @@ public class ModBlocks {
 
 		moho_regolith = new BlockGeneric(Material.rock).setBlockName("moho_regolith").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_regolith");
 		moho_stone = new BlockGeneric(Material.rock).setBlockName("moho_stone").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_stone");
+		moho_cobalt = new BlockGeneric(Material.rock).setBlockName("moho_cobalt").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_cobalt");
+		moho_gold = new BlockGeneric(Material.rock).setBlockName("moho_gold").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_gold");
+		moho_iron = new BlockGeneric(Material.rock).setBlockName("moho_iron").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_iron");
+		moho_iron_cluster = new BlockCluster(Material.rock).setBlockName("moho_iron_cluster").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_iron_cluster");
+		moho_copper_cluster = new BlockCluster(Material.rock).setBlockName("moho_copper_cluster").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_copper_cluster");
+		moho_niobium_cluster = new BlockCluster(Material.rock).setBlockName("moho_niobium_cluster").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_niobium_cluster");
+		moho_rich_iron = new BlockOre(Material.rock).setBlockName("moho_rich_iron").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_rich_iron");
+		moho_starmetal_cluster = new BlockCluster(Material.rock).setBlockName("moho_starmetal_cluster").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_starmetal_cluster");
+		moho_tungsten = new BlockGeneric(Material.rock).setBlockName("moho_tungsten").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_tungsten");
+		moho_sulfur = new BlockOre(Material.rock).setBlockName("moho_sulfur").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_sulfur");
 		
 		brick_jungle = new BlockGeneric(Material.rock).setBlockName("brick_jungle").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle");
 		brick_jungle_cracked = new BlockGeneric(Material.rock).setBlockName("brick_jungle_cracked").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle_cracked");
@@ -3041,7 +3062,16 @@ public class ModBlocks {
 
 		GameRegistry.registerBlock(moho_regolith, moho_regolith.getUnlocalizedName());
 		GameRegistry.registerBlock(moho_stone, moho_stone.getUnlocalizedName());
-		
+		GameRegistry.registerBlock(moho_cobalt, moho_cobalt.getUnlocalizedName());
+		GameRegistry.registerBlock(moho_gold, moho_gold.getUnlocalizedName());
+		GameRegistry.registerBlock(moho_iron, moho_iron.getUnlocalizedName());
+		GameRegistry.registerBlock(moho_iron_cluster, moho_iron_cluster.getUnlocalizedName());
+		GameRegistry.registerBlock(moho_copper_cluster, moho_copper_cluster.getUnlocalizedName());
+		GameRegistry.registerBlock(moho_niobium_cluster, moho_niobium_cluster.getUnlocalizedName());
+		GameRegistry.registerBlock(moho_rich_iron, moho_rich_iron.getUnlocalizedName());
+		GameRegistry.registerBlock(moho_starmetal_cluster, moho_starmetal_cluster.getUnlocalizedName());
+		GameRegistry.registerBlock(moho_tungsten, moho_tungsten.getUnlocalizedName());
+		GameRegistry.registerBlock(moho_sulfur, moho_sulfur.getUnlocalizedName());
 		//Waste
 		GameRegistry.registerBlock(waste_earth, waste_earth.getUnlocalizedName());
 		GameRegistry.registerBlock(waste_mycelium, waste_mycelium.getUnlocalizedName());
