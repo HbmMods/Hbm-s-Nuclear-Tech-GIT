@@ -49,9 +49,9 @@ public class MachineDischarger extends BlockContainer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (":transmutator_top"));
-		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + (":transmutator_bottom"));
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":transmutator_side");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (":discharger_top"));
+		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + (":discharger_bottom"));
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":discharger_side");
 	}
 	
 	@Override
