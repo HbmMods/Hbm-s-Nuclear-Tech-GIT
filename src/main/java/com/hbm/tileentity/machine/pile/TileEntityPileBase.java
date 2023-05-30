@@ -94,6 +94,7 @@ public abstract class TileEntityPileBase extends TileEntity {
 					
 					ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, flux / 4F);
 				}
+				*/
 		}
 	}
 }

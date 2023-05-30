@@ -198,7 +198,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 					this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 				if(tanks[3].getFill() > 0) {
-					this.sendFluid(tanks[3].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.sendFluid(tanks[3], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
 			

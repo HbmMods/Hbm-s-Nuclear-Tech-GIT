@@ -87,7 +87,7 @@ public class TileEntityAtmoVent extends TileEntityAtmoExtractor {
 		}
 	}
 	
-	public void sendFluidToAll(FluidType type, TileEntity te) {
+	public void sendFluidToAll(FluidTank type, TileEntity te) {
 
 		for(DirPos pos : getConPos()) {
 			this.sendFluid(type, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());

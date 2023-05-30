@@ -249,7 +249,7 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 	}
 	
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 1.0F, 1.0F);
 	}
 	
 	private void updateConnections() {
