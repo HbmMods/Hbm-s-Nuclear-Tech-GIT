@@ -114,6 +114,16 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.XYLENE, 500),
 						new FluidStack(Fluids.OXYGEN, 100))
 				.outputItems(new ItemStack(ModItems.ingot_pet)));*/
+		
+		//Laminate Glass going here
+		recipes.add(new ChemRecipe(97, "LAMINATE", 100)
+				.inputFluids(
+						new FluidStack(Fluids.XYLENE, 250),
+						new FluidStack(Fluids.PHOSGENE, 250))
+				.inputItems(
+						new ComparableStack(com.hbm.blocks.ModBlocks.reinforced_glass),
+						new ComparableStack(com.hbm.items.ModItems.bolt_tungsten, 4))
+				.outputItems(new ItemStack(com.hbm.blocks.ModBlocks.reinforced_laminate)));
 		recipes.add(new ChemRecipe(94, "PC", 100)
 				.inputFluids(
 						new FluidStack(Fluids.XYLENE, 500),

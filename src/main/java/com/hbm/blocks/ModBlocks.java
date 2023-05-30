@@ -317,6 +317,7 @@ public class ModBlocks {
 	public static Block reinforced_sand;
 	public static Block reinforced_lamp_off;
 	public static Block reinforced_lamp_on;
+	public static Block reinforced_laminate;
 
 	public static Block lamp_tritium_green_off;
 	public static Block lamp_tritium_green_on;
@@ -1501,7 +1502,8 @@ public class ModBlocks {
 		reinforced_sand = new BlockGeneric(Material.rock).setBlockName("reinforced_sand").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(400.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_sand");
 		reinforced_lamp_off = new ReinforcedLamp(Material.rock, false).setBlockName("reinforced_lamp_off").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(300.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_lamp_off");
 		reinforced_lamp_on = new ReinforcedLamp(Material.rock, true).setBlockName("reinforced_lamp_on").setHardness(15.0F).setResistance(300.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_lamp_on");
-
+		reinforced_laminate = new BlockNTMGlassCT(1, RefStrings.MODID + ":reinforced_laminate", Material.rock).setBlockName("reinforced_laminate").setCreativeTab(MainRegistry.blockTab).setLightOpacity(0).setHardness(15.0F).setResistance(1000.0F);
+		
 		lamp_tritium_green_off = new ReinforcedLamp(Material.redstoneLight, false).setBlockName("lamp_tritium_green_off").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":lamp_tritium_green_off");
 		lamp_tritium_green_on = new ReinforcedLamp(Material.redstoneLight, true).setBlockName("lamp_tritium_green_on").setStepSound(Block.soundTypeGlass).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":lamp_tritium_green_on");
 		lamp_tritium_blue_off = new ReinforcedLamp(Material.redstoneLight, false).setBlockName("lamp_tritium_blue_off").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":lamp_tritium_blue_off");
@@ -2645,6 +2647,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(reinforced_sand, ItemBlockBlastInfo.class, reinforced_sand.getUnlocalizedName());
 		GameRegistry.registerBlock(reinforced_lamp_off, ItemBlockBlastInfo.class, reinforced_lamp_off.getUnlocalizedName());
 		GameRegistry.registerBlock(reinforced_lamp_on, ItemBlockBlastInfo.class, reinforced_lamp_on.getUnlocalizedName());
+		GameRegistry.registerBlock(reinforced_laminate, ItemBlockBlastInfo.class, reinforced_laminate.getUnlocalizedName());
 
 		//Bricks
 		GameRegistry.registerBlock(reinforced_stone, ItemBlockBlastInfo.class, reinforced_stone.getUnlocalizedName());
