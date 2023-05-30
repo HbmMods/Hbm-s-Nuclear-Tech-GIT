@@ -1,9 +1,13 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.config.VersatileConfig;
+import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.container.ContainerMachineDischarger;
 import com.hbm.inventory.gui.GUIMachineDischarger;
+import com.hbm.inventory.recipes.BreederRecipes;
+
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCapacitor;
@@ -38,7 +42,7 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 	public int process = 0;
 	public int temp = 20;
 	public static final int maxtemp = 2000;
-	public static final long maxPower = 50000000;
+	public static final long maxPower = 500000000;
 	public static long Gen = 20000000;
 	public static final int processSpeed = 100;
 	public static final int CoolDown = 400;
@@ -62,10 +66,13 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		switch (i) {
 		case 0:
-			if(process >= processSpeed){
-				  return stack.getItem() == ModItems.ingot_schrabidium && stack.stackSize <= stack.getMaxStackSize();
-			}
+			if(MachineRecipes.mODE(stack, OreDictManager.SA326.ingot()))
+				return true;
 		break;
+		case 2:
+			if(MachineRecipes.mODE(stack, OreDictManager.U233.ingot()))
+				return true;
+			break;
         default:
 		case 1:
 			if (stack.getItem() instanceof IBatteryItem)
@@ -140,11 +147,21 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 	}
 
 	public boolean canProcess() {
-		if (temp <= 20 && slots[0] != null && MachineRecipes.mODE(slots[0], OreDictManager.SA326.ingot()) && slots[0] != null
-				&& (slots[0] == null || (slots[0] != null && slots[0].getItem() == ModItems.ingot_schrabidium)
-						&& slots[0].stackSize < slots[0].getMaxStackSize())) {
-			return true;
-		}
+		//please PLEASE tell me how i can do better ffs
+			if (temp <= 20 && slots[0] != null && MachineRecipes.mODE(slots[0], OreDictManager.SA326.ingot())) {
+				return true;
+			}
+			
+			if (temp <= 20 && slots[0] != null && MachineRecipes.mODE(slots[0], OreDictManager.U233.ingot())) {
+				return true;
+			}
+			
+			if (temp <= 20 && slots[0] != null && slots[0].getItem() == ModItems.ingot_electronium) {
+				return true;
+			}
+			if (temp <= 20 && slots[0] != null && slots[0].getItem() == ModItems.battery_creative) {
+				return true;
+			}
 		return false;
 	}
 
@@ -156,25 +173,51 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 		process++;
 		if (process >= processSpeed) {
 
-			power += Gen;
+		
 			process = 0;
 			temp = maxtemp;
 			
 			slots[0].stackSize--;
-			if (slots[0].stackSize <= 0) {
+			if (slots[0].stackSize <= 0 && slots[0].getItem() == ModItems.ingot_u233) {
+				power += Gen;
 				slots[0] = null;
+				slots[0] = new ItemStack(ModItems.ingot_titanium);
+				if (slots[0].getItem() == ModItems.ingot_titanium && slots[0].stackSize < slots[0].getMaxStackSize()) {
+					  slots[0].stackSize++;
+				}
 			}
-
-			if (slots[0] == null) {
-			    slots[0] = new ItemStack(ModItems.ingot_titanium);
-			} else {
-			    if (slots[0].getItem() == ModItems.ingot_titanium && slots[0].stackSize < slots[0].getMaxStackSize()) {
-			        slots[0].stackSize++;
-			    }
+			if (slots[0].stackSize <= 0 && slots[0].getItem() == ModItems.ingot_schrabidium) {
+				power += Gen * 2;
+				slots[0] = null;
+				slots[0] = new ItemStack(ModItems.ingot_lanthanium);
+				if (slots[0].getItem() == ModItems.ingot_lanthanium && slots[0].stackSize < slots[0].getMaxStackSize()) {
+					  slots[0].stackSize++;
+				}
+			}
+			if (slots[0].stackSize <= 0 && slots[0].getItem() == ModItems.ingot_electronium) {
+				power += Gen * 4;
+				slots[0] = null;
+				slots[0] = new ItemStack(ModItems.ingot_dineutronium);
+				if (slots[0].getItem() == ModItems.ingot_dineutronium && slots[0].stackSize < slots[0].getMaxStackSize()) {
+					  slots[0].stackSize++;
+				}
+			}
+			if (slots[0].stackSize <= 0 && slots[0].getItem() == ModItems.battery_creative) {
+				EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, (int) 120);
+				if(!ex.isDead) {
+					worldObj.spawnEntityInWorld(ex);
+		
+					EntityCloudFleija cloud = new EntityCloudFleija(worldObj, (int) 120);
+					cloud.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
+					worldObj.spawnEntityInWorld(cloud);
+				}		
 			}
 			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "ambient.weather.thunder", 10000.0F,
 					0.8F + this.worldObj.rand.nextFloat() * 0.2F);
-		}
+			}
+		
+	
+		
 	}
 
 	@Override
@@ -249,7 +292,7 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 	}
 	
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 1.0F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
 	}
 	
 	private void updateConnections() {
