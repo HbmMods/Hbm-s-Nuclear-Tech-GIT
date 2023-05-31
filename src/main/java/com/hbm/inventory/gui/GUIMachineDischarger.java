@@ -32,6 +32,12 @@ public class GUIMachineDischarger extends GuiInfoContainer {
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 106 - 88, 16, 88, diFurnace.power, diFurnace.maxPower);
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 30, guiTop + 25, 8, 80, mouseX, mouseY, new String[] {"Temperature: " + (diFurnace.temp) + "°C"});
+		String[] text = new String[] { "Accepted Fuels:",
+				"Uranium-233",
+				"Schrabidium",
+				"Dineutronium" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		
 	}
 	
 	@Override
@@ -75,6 +81,8 @@ public class GUIMachineDischarger extends GuiInfoContainer {
 	 		    if(diFurnace.temp < 200) {
 	 		    drawTexturedModalRect(guiLeft + 28, guiTop + 108, 192, 88, 8, 19);	
 	 		    }	 
+	 		    
+	 		   this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 	    }
 	}
 }

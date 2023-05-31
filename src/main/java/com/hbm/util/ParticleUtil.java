@@ -32,7 +32,7 @@ public class ParticleUtil {
 	public static void spawnJesusFlame(World world, double x, double y, double z) {
 		Random rand = new Random();
 
-		if(rand.nextInt(7) == 0) {
+		if(rand.nextInt(12) == 0) {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "duodec");
 		if(world.isRemote) {
@@ -47,7 +47,7 @@ public class ParticleUtil {
 	}
 	public static void spawnTuneFlame(World world, double x, double y, double z) {
 		Random rand = new Random();
-		if(rand.nextInt(7) == 0) {
+		if(rand.nextInt(12) == 0) {
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "duoewe");
 			if(world.isRemote) {
