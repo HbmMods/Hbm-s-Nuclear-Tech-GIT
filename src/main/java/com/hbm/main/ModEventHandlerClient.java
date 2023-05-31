@@ -104,6 +104,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
@@ -171,13 +172,22 @@ public class ModEventHandlerClient {
 			World world = mc.theWorld;
 			MovingObjectPosition mop = mc.objectMouseOver;
 			
-			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK ) {
+			if(mop != null) {
 				
-				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ILookOverlay) {
-					((ILookOverlay) player.getHeldItem().getItem()).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+				if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
 					
-				} else if(world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
-					((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+					if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ILookOverlay) {
+						((ILookOverlay) player.getHeldItem().getItem()).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+						
+					} else if(world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
+						((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+					}
+				} else if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
+					Entity entity = mop.entityHit;
+					
+					if(entity instanceof ILookOverlay) {
+						((ILookOverlay) entity).printHook(event, world, 0, 0, 0);
+					}
 				}
 			}
 			

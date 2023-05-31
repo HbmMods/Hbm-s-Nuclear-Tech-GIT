@@ -1,5 +1,10 @@
 package com.hbm.entity.train;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hbm.blocks.ILookOverlay;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.BobMathUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -10,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 	
@@ -80,8 +86,30 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 		if(super.interactFirst(player)) return true;
 		if(worldObj.isRemote) return true;
 		
+		int nearestSeat = this.getNearestSeat(player);
+		
+		if(nearestSeat == -1) {
+			player.mountEntity(this);
+		} else if(nearestSeat >= 0) {
+			SeatDummyEntity dummySeat = new SeatDummyEntity(worldObj, this, nearestSeat);
+			Vec3 passengerSeat = this.getPassengerSeats()[nearestSeat];
+			passengerSeat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
+			double x = renderX + passengerSeat.xCoord;
+			double y = renderY + passengerSeat.yCoord;
+			double z = renderZ + passengerSeat.zCoord;
+			dummySeat.setPosition(x, y - 1, z);
+			passengerSeats[nearestSeat] = dummySeat;
+			worldObj.spawnEntityInWorld(dummySeat);
+			player.mountEntity(dummySeat);
+		}
+
+		return true;
+	}
+	
+	public int getNearestSeat(EntityPlayer player) {
+		
 		double nearestDist = Double.POSITIVE_INFINITY;
-		int nearestSeat = -1;
+		int nearestSeat = -2;
 		
 		Vec3[] seats = getPassengerSeats();
 		for(int i = 0; i < seats.length; i++) {
@@ -124,24 +152,9 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 			}
 		}
 		
-		if(nearestDist > 180) return true;
+		if(nearestDist > 180) return -2;
 		
-		if(nearestSeat == -1) {
-			player.mountEntity(this);
-		} else {
-			SeatDummyEntity dummySeat = new SeatDummyEntity(worldObj, this, nearestSeat);
-			Vec3 passengerSeat = this.getPassengerSeats()[nearestSeat];
-			passengerSeat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
-			double x = renderX + passengerSeat.xCoord;
-			double y = renderY + passengerSeat.yCoord;
-			double z = renderZ + passengerSeat.zCoord;
-			dummySeat.setPosition(x, y - 1, z);
-			passengerSeats[nearestSeat] = dummySeat;
-			worldObj.spawnEntityInWorld(dummySeat);
-			player.mountEntity(dummySeat);
-		}
-
-		return true;
+		return nearestSeat;
 	}
 	
 	@Override
@@ -265,5 +278,16 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 				this.riddenByEntity.setPosition(x, y, z);
 			}
 		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
+		List<String> text = new ArrayList();
+		/*text.add("LTU: " + this.ltu);
+		text.add("Front: " + this.coupledFront);
+		text.add("Back: " + this.coupledBack);*/
+		text.add("Nearest seat: " + this.getNearestSeat(MainRegistry.proxy.me()));
+		ILookOverlay.printGeneric(event, this.toString(), 0xffff00, 0x404000, text);
 	}
 }

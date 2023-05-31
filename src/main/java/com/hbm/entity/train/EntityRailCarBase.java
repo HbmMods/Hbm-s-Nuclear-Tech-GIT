@@ -5,15 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.rail.IRailNTM;
 import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.blocks.rail.IRailNTM.TrackGauge;
 import com.hbm.items.ModItems;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -25,8 +23,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
-public abstract class EntityRailCarBase extends Entity {
+public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 
 	public LogicalTrainUnit ltu;
 	public boolean isOnRail = true;
@@ -100,15 +99,16 @@ public abstract class EntityRailCarBase extends Entity {
 					if(neighbor.getCoupledTo(closestNeighborCoupling) != null) continue;
 					this.couple(closestOwnCoupling, neighbor);
 					neighbor.couple(closestNeighborCoupling, this);
-					if(this.ltu != null) this.ltu.dissolve();
-					if(neighbor.ltu != null) neighbor.ltu.dissolve();
+					if(this.ltu != null) this.ltu.dissolveTrain();
+					if(neighbor.ltu != null) neighbor.ltu.dissolveTrain();
 					player.swingItem();
 					return true;
 				}
 			}
 		}
 		
-		if(this.ltu != null) {
+		//DEBUG
+		/*if(this.ltu != null) {
 			
 			String id = Integer.toHexString(ltu.hashCode());
 			
@@ -121,7 +121,7 @@ public abstract class EntityRailCarBase extends Entity {
 				data.setString("text", id);
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, train.posX, train.posY + 1, train.posZ), new TargetPoint(this.dimension, train.posX, train.posY + 1, train.posZ, 50));
 			}
-		}
+		}*/
 		
 		return false;
 	}
@@ -169,15 +169,15 @@ public abstract class EntityRailCarBase extends Entity {
 
 			if(this.coupledFront != null && this.coupledFront.isDead) {
 				this.coupledFront = null;
-				if(this.ltu != null) this.ltu.dissolve();
+				if(this.ltu != null) this.ltu.dissolveTrain();
 			}
 			if(this.coupledBack != null && this.coupledBack.isDead) {
 				this.coupledBack = null;
-				if(this.ltu != null) this.ltu.dissolve();
+				if(this.ltu != null) this.ltu.dissolveTrain();
 			}
 			
 			if(this.ltu == null && (this.coupledFront == null || this.coupledBack == null)) {
-				LogicalTrainUnit.generate(this);
+				LogicalTrainUnit.generateTrain(this);
 			}
 			
 			DummyConfig[] definitions = this.getDummies();
@@ -293,10 +293,10 @@ public abstract class EntityRailCarBase extends Entity {
 		}
 		
 		/* Move carts together with links */
-		for(LogicalTrainUnit ltu : ltus) ltu.combineLinks();
+		for(LogicalTrainUnit ltu : ltus) ltu.combineWagons();
 		
 		/* Move carts with unified speed */
-		for(LogicalTrainUnit ltu : ltus) ltu.moveLinks();
+		for(LogicalTrainUnit ltu : ltus) ltu.moveTrain();
 	}
 
 	/** Returns the amount of blocks that the train should move per tick */
@@ -473,7 +473,7 @@ public abstract class EntityRailCarBase extends Entity {
 		protected EntityRailCarBase trains[];
 		
 		/** Assumes that the train is an endpoint, i.e. that only one coupling is in use */
-		public static LogicalTrainUnit generate(EntityRailCarBase train) {
+		public static LogicalTrainUnit generateTrain(EntityRailCarBase train) {
 			List<EntityRailCarBase> links = new ArrayList();
 			Set<EntityRailCarBase> brake = new HashSet();
 			links.add(train);
@@ -512,13 +512,15 @@ public abstract class EntityRailCarBase extends Entity {
 			return ltu;
 		}
 		
-		public void dissolve() {
+		/** Removes the LTU from all wagons */
+		public void dissolveTrain() {
 			for(EntityRailCarBase train : trains) {
 				train.ltu = null;
 			}
 		}
 		
-		public void combineLinks() {
+		/** Find the center fo the train, then moves all wagons towards that center until the coupling points roughly touch */
+		public void combineWagons() {
 			
 			if(trains.length <= 1) return;
 			
@@ -529,19 +531,20 @@ public abstract class EntityRailCarBase extends Entity {
 			
 			for(int i = centerIndex - 1; i >= 0; i--) {
 				EntityRailCarBase next = trains[i];
-				moveTo(prev, next);
+				moveWagonTo(prev, next);
 				prev = next;
 			}
 			
 			prev = center;
 			for(int i = centerIndex + 1; i < trains.length; i++) {
 				EntityRailCarBase next = trains[i];
-				moveTo(prev, next);
+				moveWagonTo(prev, next);
 				prev = next;
 			}
 		}
 		
-		public static void moveTo(EntityRailCarBase prev, EntityRailCarBase next) {
+		/** Moves one wagon to ne next until the coupling points roughly touch */
+		public static void moveWagonTo(EntityRailCarBase prev, EntityRailCarBase next) {
 			TrainCoupling prevCouple = prev.getCouplingFrom(next);
 			TrainCoupling nextCouple = next.getCouplingFrom(prev);
 			Vec3 prevLoc = prev.getCouplingPos(prevCouple);
@@ -556,7 +559,8 @@ public abstract class EntityRailCarBase extends Entity {
 			next.setPosition(newPos.xCoord, newPos.yCoord, newPos.zCoord);
 		}
 		
-		public void moveLinks() {
+		/** Generates the speed of the train, then moves the rain along the rail */
+		public void moveTrain() {
 			
 			EntityRailCarBase prev = trains[0];
 			TrainCoupling dir = prev.getCouplingFrom(null);
@@ -576,6 +580,12 @@ public abstract class EntityRailCarBase extends Entity {
 				totalSpeed = maxSpeed * Math.signum(totalSpeed);
 			}
 			
+			this.moveTrainBy(totalSpeed);
+		}
+		
+		/** Moves the entire train along the rail by a certain speed */
+		public void moveTrainBy(double totalSpeed) {
+			
 			for(EntityRailCarBase train : this.trains) {
 				
 				BlockPos anchor = train.getCurentAnchorPos();
@@ -583,7 +593,7 @@ public abstract class EntityRailCarBase extends Entity {
 				
 				if(corePos == null) {
 					train.derail();
-					this.dissolve();
+					this.dissolveTrain();
 					return;
 				} else {
 					train.setPosition(corePos.xCoord, corePos.yCoord, corePos.zCoord);
@@ -593,7 +603,7 @@ public abstract class EntityRailCarBase extends Entity {
 
 					if(frontPos == null || backPos == null) {
 						train.derail();
-						this.dissolve();
+						this.dissolveTrain();
 						return;
 					} else {
 						train.renderX = (frontPos.xCoord + backPos.xCoord) / 2D;
@@ -607,5 +617,15 @@ public abstract class EntityRailCarBase extends Entity {
 				}
 			}
 		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
+		/*List<String> text = new ArrayList();
+		text.add("LTU: " + this.ltu);
+		text.add("Front: " + this.coupledFront);
+		text.add("Back: " + this.coupledBack);
+		ILookOverlay.printGeneric(event, this.toString(), 0xffff00, 0x404000, text);*/ //none of this shit is going to work anyway
 	}
 }
