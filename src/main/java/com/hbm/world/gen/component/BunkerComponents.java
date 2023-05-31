@@ -141,7 +141,7 @@ public class BunkerComponents {
 			placeBlockAtCurrentPosition(world, ModBlocks.fan, 0, 5, 4, 5, box);
 			//machine
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_tungsten, 0, 3, 1, 6, box);
-			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(2), 4, 1, 6, HbmChestContents.antenna/*TODO change */, 5);
+			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(3), 4, 1, 6, HbmChestContents.antenna/*TODO change */, 5);
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_tungsten, 0, 5, 1, 6, box);
 			fillWithMetadataBlocks(world, box, 3, 2, 6, 5, 2, 6, ModBlocks.concrete_smooth_stairs, getStairMeta(2) | 4);
 			fillWithMetadataBlocks(world, box, 3, 3, 6, 5, 3, 6, ModBlocks.tape_recorder, getDecoMeta(2));
@@ -149,7 +149,7 @@ public class BunkerComponents {
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, getStairMeta(1) | 4, 3, 1, 4, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, getStairMeta(3) | 4, 4, 1, 4, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, getStairMeta(0) | 4, 5, 1, 4, box);
-			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(0), 4, 2, 4, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(1), 4, 2, 4, box);
 			//clear out entryways based on path
 			if(paths[0]) fillWithAir(world, box, 7, 1, 2, 7, 2, 3);
 			if(paths[1]) fillWithAir(world, box, 3, 1, 0, 4, 2, 0);
@@ -162,13 +162,17 @@ public class BunkerComponents {
 	public static class Corridor extends Component implements ProceduralComponent {
 		
 		private boolean path;
+		private int[] decorations = new int[2];
 		
 		public Corridor() { }
 		
-		public Corridor(int componentType, StructureBoundingBox box, int coordMode) {
+		public Corridor(int componentType, StructureBoundingBox box, int coordMode, Random rand) {
 			super(componentType);
 			this.boundingBox = box;
 			this.coordBaseMode = coordMode;
+			
+			decorations[0] = rand.nextInt(6);
+			decorations[1] = rand.nextInt(6);
 		}
 		
 		/** write to nbt */
@@ -176,6 +180,7 @@ public class BunkerComponents {
 		protected void func_143012_a(NBTTagCompound nbt) {
 			super.func_143012_a(nbt);
 			nbt.setBoolean("p", path);
+			nbt.setIntArray("d", decorations);
 		}
 		
 		/** read from nbt */
@@ -183,6 +188,7 @@ public class BunkerComponents {
 		protected void func_143011_b(NBTTagCompound nbt) {
 			super.func_143011_b(nbt);
 			path = nbt.getBoolean("p");
+			decorations = nbt.getIntArray("d");
 		}
 		
 		@Override
@@ -212,18 +218,57 @@ public class BunkerComponents {
 			//lamps
 			fillWithBlocks(world, box, 2, 5, 3, 3, 5, 3, ModBlocks.reinforced_lamp_off);
 			fillWithBlocks(world, box, 2, 4, 3, 3, 4, 3, ModBlocks.fan);
-			//table w/ chairs
-			final int stairMetaS = getStairMeta(3);
+			//deco misc
+			final int stairMetaW = getStairMeta(0);
+			final int stairMetaE = getStairMeta(1);
 			final int stairMetaN = getStairMeta(2);
+			final int stairMetaS = getStairMeta(3);
+			final int decoMetaE = getDecoMeta(4);
+			final int decoMetaW = getDecoMeta(5);
 			
-			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaS, 1, 1, 2, box);
-			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaN, 1, 1, 4, box);
-			placeBlockAtCurrentPosition(world, Blocks.fence, 0, 1, 1, 3, box);
-			placeBlockAtCurrentPosition(world, Blocks.wooden_pressure_plate, 1, 1, 2, 3, box);
-			//desk w/ computer
-			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS | 4, 4, 1, 2, box);
-			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaN, 4, 1, 4, box);
-			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(1), 4, 2, 2, box);
+			for(int i = 0; i <= 1; i++) {
+				final int x = 1 + i * 3;
+				switch (decorations[i]) {
+					default: //table w/ chairs
+						placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaS, x, 1, 2, box);
+						placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaN, x, 1, 4, box);
+						placeBlockAtCurrentPosition(world, Blocks.fence, 0, x, 1, 3, box);
+						placeBlockAtCurrentPosition(world, Blocks.wooden_pressure_plate, 1, x, 2, 3, box);
+						break;
+					case 1://desk w/ computer
+						placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS | 4, x, 1, 2, box);
+						placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaN, x, 1, 4, box);
+						placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(1), x, 2, 2, box);
+						break;
+					case 2: //couch
+						placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaS, x, 1, 2, box);
+						placeBlockAtCurrentPosition(world, Blocks.oak_stairs, i < 1 ? stairMetaE : stairMetaW, x, 1, 3, box);
+						placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaN, x, 1, 4, box);
+						break;
+					case 3:
+						placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS | 4, x, 1, 2, box);
+						placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, (i < 1 ? stairMetaE : stairMetaW) | 4, x, 1, 3, box);
+						placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaN | 4, x, 1, 4, box);
+						placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, x, 2, 2, box);
+						break;
+					case 4:
+						fillWithBlocks(world, box, x, 1, 1, x, 3, 1, ModBlocks.deco_tungsten);
+						placeBlockAtCurrentPosition(world, ModBlocks.deco_tungsten, 0, x, 1, 3, box);
+						fillWithMetadataBlocks(world, box, x, 3, 2, x, 3, 4, ModBlocks.concrete_smooth_stairs, i < 1 ? stairMetaE : stairMetaW);
+						fillWithBlocks(world, box, x, 1, 5, x, 3, 5, ModBlocks.deco_tungsten);
+						fillWithMetadataBlocks(world, box, x, 1, 2, x, 2, 2, ModBlocks.tape_recorder, i < 1 ? decoMetaW : decoMetaE); //don't ask me
+						fillWithMetadataBlocks(world, box, x, 1, 4, x, 2, 4, ModBlocks.tape_recorder, i < 1 ? decoMetaW : decoMetaE);
+						placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, i < 1 ? getDecoModelMeta(3) : getDecoModelMeta(2), x, 2, 3, box);
+						break;
+					case 5:
+						placeBlockAtCurrentPosition(world, Blocks.fence, 0, x, 1, 1, box);
+						placeBlockAtCurrentPosition(world, Blocks.wooden_pressure_plate, 0, x, 2, 1, box);
+						placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS | 4, x, 1, 3, box);
+						placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaN | 4, x, 1, 4, box);
+						placeBlockAtCurrentPosition(world, ModBlocks.radiorec, i < 1 ? decoMetaE : decoMetaW, x, 2, 3, box);
+						break;
+				}
+			}
 			//doors
 			placeDoor(world, box, ModBlocks.door_bunker, 1, true, rand.nextBoolean(), 2, 1, 0);
 			placeDoor(world, box, ModBlocks.door_bunker, 1, false, rand.nextBoolean(), 3, 1, 0);
@@ -234,7 +279,7 @@ public class BunkerComponents {
 		
 		public static StructureComponent findValidPlacement(List components, Random rand, int x, int y, int z, int coordMode, int type) {
 			StructureBoundingBox box = ProceduralStructureStart.getComponentToAddBoundingBox(x, y, z, -3, -1, 0, 6, 6, 7, coordMode);
-			return box.minY > 10 && StructureComponent.findIntersecting(components, box) == null ? new Corridor(type, box, coordMode) : null;
+			return box.minY > 10 && StructureComponent.findIntersecting(components, box) == null ? new Corridor(type, box, coordMode, rand) : null;
 		}
 	}
 	
