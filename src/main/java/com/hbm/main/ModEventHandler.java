@@ -74,6 +74,7 @@ import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.InventoryUtil;
+import com.hbm.util.ParticleUtil;
 import com.hbm.world.generator.TimedGenerator;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -1143,6 +1144,19 @@ public class ModEventHandler {
 				vec.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2));
 				
 				player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
+			}
+			String name = player.getDisplayName();
+			if(name.startsWith("Player")) {
+				
+				Vec3 vec = Vec3.createVectorHelper(3 * rand.nextDouble(), 0, 0);
+				
+				vec.rotateAroundZ((float) (rand.nextDouble() * Math.PI));
+				vec.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2));
+				
+				//player.worldObj.spawnParticle("magicCrit", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
+				ParticleUtil.spawnTuneFlame(player.worldObj, player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord);
+				ParticleUtil.spawnJesusFlame(player.worldObj, player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord);
+
 			}
 		}
 	}
