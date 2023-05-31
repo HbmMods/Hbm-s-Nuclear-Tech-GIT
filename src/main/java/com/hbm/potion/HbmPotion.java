@@ -76,7 +76,7 @@ public class HbmPotion extends Potion {
 		death = registerPotion(PotionConfig.deathID, false, 1118481, "potion.hbm_death", 4, 1);
 		run = registerPotion(PotionConfig.runID, true, 1118481, "potion.hbm_run", 14, 0);
 		nitan = registerPotion(PotionConfig.nitanID, false, 8388736, "potion.hbm_nitan", 3, 1);
-		flashbang = registerPotion(PotionConfig.flashbangID, false, 0xD0D0D0, "potion.hbm_flashbang", 6, 1);
+		flashbang = registerPotion(PotionConfig.flashbangID, false, 0xD0D0D0, "potion.hbm_flashbang", 15, 1);
 
 	}
 
