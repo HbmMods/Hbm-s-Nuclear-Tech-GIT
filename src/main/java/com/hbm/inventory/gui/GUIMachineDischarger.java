@@ -37,7 +37,7 @@ public class GUIMachineDischarger extends GuiInfoContainer {
 				"Schrabidium",
 				"Dineutronium" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
-		
+
 	}
 	
 	@Override
@@ -57,7 +57,7 @@ public class GUIMachineDischarger extends GuiInfoContainer {
 	    Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 	    drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 	    if (diFurnace.getPower() > 0) {
 	        int i = (int) diFurnace.getPowerScaled(88);
 	        drawTexturedModalRect(guiLeft + 8, guiTop + 106 - i, 176, 88 - i, 16, i);
@@ -82,7 +82,6 @@ public class GUIMachineDischarger extends GuiInfoContainer {
 	 		    drawTexturedModalRect(guiLeft + 28, guiTop + 108, 192, 88, 8, 19);	
 	 		    }	 
 	 		    
-	 		   this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 	    }
 	}
 }
