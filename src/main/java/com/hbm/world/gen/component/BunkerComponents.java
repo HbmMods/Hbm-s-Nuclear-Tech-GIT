@@ -113,7 +113,7 @@ public class BunkerComponents {
 			fillWithRandomizedBlocks(world, box, 7, 0, 0, 7, 4, 7, rand, ConcreteBricks);
 			fillWithRandomizedBlocks(world, box, 1, 0, 0, 6, 4, 0, rand, ConcreteBricks);
 			//meh, fix the area later
-			final int hpos = Component.getAverageHeight(world, boundingBox, box, componentType - boundingBox.minY); 
+			final int hpos = Component.getAverageHeight(world, boundingBox, box, boundingBox.maxY) - boundingBox.minY; 
 			//top hatch
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_slab, 1, 0, hpos, 5, box);
 			fillWithMetadataBlocks(world, box, 1, hpos, 4, 1, hpos, 6, ModBlocks.concrete_smooth_stairs, getStairMeta(0));
