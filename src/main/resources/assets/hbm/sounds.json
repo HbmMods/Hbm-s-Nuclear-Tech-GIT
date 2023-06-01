@@ -87,6 +87,7 @@
 	"music.recordVortalCombat": {"category": "record", "sounds": [{"name": "music/recordVortalCombat", "stream": true}]},
 	"music.transmission": {"category": "record", "sounds": [{"name": "music/recordGlass", "stream": true}]},
     "music.recordGodSpeed": {"category": "record", "sounds": [{"name": "music/recordGodSpeed", "stream": true}]},
+    "music.recordGoop": {"category": "record", "sounds": [{"name": "music/recordGoop", "stream": true}]},
 
 	"weapon.tauShoot": {"category": "player", "sounds": [{"name": "weapon/tauShoot", "stream": false}]},
     "weapon.tauChargeLoop": {"category": "player", "sounds": [{"name": "weapon/tauChargeLoop", "stream": true}]},
