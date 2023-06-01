@@ -13,6 +13,7 @@ import com.hbm.blocks.machine.rbmk.*;
 import com.hbm.blocks.network.*;
 import com.hbm.blocks.rail.RailNarrowCurve;
 import com.hbm.blocks.rail.RailNarrowStraight;
+import com.hbm.blocks.rail.RailStandardBuffer;
 import com.hbm.blocks.rail.RailStandardCurve;
 import com.hbm.blocks.rail.RailStandardStraight;
 import com.hbm.blocks.siege.*;
@@ -1100,6 +1101,7 @@ public class ModBlocks {
 	public static Block rail_narrow_curve;
 	public static Block rail_large_straight;
 	public static Block rail_large_curve;
+	public static Block rail_large_buffer;
 	
 	public static Block statue_elb;
 	public static Block statue_elb_g;
@@ -2129,6 +2131,7 @@ public class ModBlocks {
 		rail_narrow_curve = new RailNarrowCurve().setBlockName("rail_narrow_curve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabTransport).setBlockTextureName(RefStrings.MODID + ":rail_narrow_neo");
 		rail_large_straight = new RailStandardStraight().setBlockName("rail_large_straight").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabTransport).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		rail_large_curve = new RailStandardCurve().setBlockName("rail_large_curve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabTransport).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		rail_large_buffer = new RailStandardBuffer().setBlockName("rail_large_buffer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabTransport).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		crate = new BlockCrate(Material.wood).setBlockName("crate").setStepSound(Block.soundTypeWood).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab).setBlockTextureName(RefStrings.MODID + ":crate");
 		crate_weapon = new BlockCrate(Material.wood).setBlockName("crate_weapon").setStepSound(Block.soundTypeWood).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab).setBlockTextureName(RefStrings.MODID + ":crate_weapon");
@@ -3359,6 +3362,7 @@ public class ModBlocks {
 		register(rail_narrow_curve);
 		register(rail_large_straight);
 		register(rail_large_curve);
+		register(rail_large_buffer);
 		
 		//Crate
 		GameRegistry.registerBlock(crate, crate.getUnlocalizedName());

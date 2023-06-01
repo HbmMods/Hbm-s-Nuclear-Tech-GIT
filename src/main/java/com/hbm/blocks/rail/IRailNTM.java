@@ -19,7 +19,7 @@ public interface IRailNTM {
 	 * Motion ends up being *-1 if the train is going in reverse, still pointing forwards despite the speed being negative.
 	 * Also features a double[] wrapper with size 1 which holds the speed value that overshoots the rail.
 	 * */
-	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info);
+	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info, MoveContext context);
 	
 	/** Returns that rail's gauge. Trains will derail if the gauge does not match. */
 	public TrackGauge getGauge(World world, int x, int y, int z);
@@ -40,5 +40,23 @@ public interface IRailNTM {
 		public RailContext yaw(float y) { this.yaw = y; return this; }
 		public RailContext dist(double d) { this.overshoot = d; return this; }
 		public RailContext pos(BlockPos d) { this.pos = d; return this; }
+	}
+	
+	/** A wrapper for additional information like stopping on rails and what type of check we're doing */
+	public static class MoveContext {
+		public RailCheckType type;
+		public boolean collision = false; //if a buffer stop or similar applies
+		public double overshoot; //how much of the travel distance was cut shor
+		
+		public MoveContext(RailCheckType type) {
+			this.type = type;
+		}
+	}
+	
+	public static enum RailCheckType {
+		CORE,
+		FRONT,
+		BACK,
+		OTHER
 	}
 }

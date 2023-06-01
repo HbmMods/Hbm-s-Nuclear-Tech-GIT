@@ -7,6 +7,8 @@ import java.util.Set;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.rail.IRailNTM;
+import com.hbm.blocks.rail.IRailNTM.MoveContext;
+import com.hbm.blocks.rail.IRailNTM.RailCheckType;
 import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.blocks.rail.IRailNTM.TrackGauge;
 import com.hbm.items.ModItems;
@@ -18,7 +20,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -152,8 +153,8 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			}
 			
 			BlockPos anchor = this.getCurentAnchorPos();
-			Vec3 frontPos = getRelPosAlongRail(anchor, this.getLengthSpan());
-			Vec3 backPos = getRelPosAlongRail(anchor, -this.getLengthSpan());
+			Vec3 frontPos = getRelPosAlongRail(anchor, this.getLengthSpan(), new MoveContext(RailCheckType.FRONT));
+			Vec3 backPos = getRelPosAlongRail(anchor, -this.getLengthSpan(), new MoveContext(RailCheckType.BACK));
 
 			this.lastRenderX = this.renderX;
 			this.lastRenderY = this.renderY;
@@ -215,11 +216,11 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 		}
 	}
 	
-	public Vec3 getRelPosAlongRail(BlockPos anchor, double distanceToCover) {
-		return getRelPosAlongRail(anchor, distanceToCover, this.getGauge(), this.worldObj, Vec3.createVectorHelper(posX, posY, posZ), this.rotationYaw);
+	public Vec3 getRelPosAlongRail(BlockPos anchor, double distanceToCover, MoveContext context) {
+		return getRelPosAlongRail(anchor, distanceToCover, this.getGauge(), this.worldObj, Vec3.createVectorHelper(posX, posY, posZ), this.rotationYaw, context);
 	}
 	
-	public static Vec3 getRelPosAlongRail(BlockPos anchor, double distanceToCover, TrackGauge gauge, World worldObj, Vec3 next, float yaw) {
+	public static Vec3 getRelPosAlongRail(BlockPos anchor, double distanceToCover, TrackGauge gauge, World worldObj, Vec3 next, float yaw, MoveContext context) {
 		
 		if(distanceToCover < 0) {
 			distanceToCover *= -1;
@@ -248,7 +249,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				IRailNTM rail = (IRailNTM) block;
 				
 				if(it == 1) {
-					next = rail.getTravelLocation(worldObj, x, y, z, next.xCoord, next.yCoord, next.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, 0, new RailContext());
+					next = rail.getTravelLocation(worldObj, x, y, z, next.xCoord, next.yCoord, next.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, 0, new RailContext(), context);
 				}
 				
 				boolean flip = distanceToCover < 0;
@@ -256,7 +257,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				if(rail.getGauge(worldObj, x, y, z) == gauge) {
 					RailContext info = new RailContext();
 					Vec3 prev = next;
-					next = rail.getTravelLocation(worldObj, x, y, z, prev.xCoord, prev.yCoord, prev.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, distanceToCover, info);
+					next = rail.getTravelLocation(worldObj, x, y, z, prev.xCoord, prev.yCoord, prev.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, distanceToCover, info, context);
 					distanceToCover = info.overshoot;
 					anchor = info.pos;
 					
@@ -292,6 +293,18 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			}
 		}
 		
+		//TODO: rethink this entire concept
+		/*
+		 * first, figure out which train is the "front" when moving
+		 * if the train is not in motion, reuse the contract ("combine") function we have now
+		 * move the first wagon until either it finishes or bumps into a buffer
+		 * if it derails, continue using the velocity
+		 * then take the second wagon and move it towards the first wagon's collision point, assuming it didn't derail
+		 * continue with all further wagons
+		 * 
+		 * step 3 may also do collision checks for other trains, which is good because that's an issue we would have to solve sooner or later
+		 */
+		
 		/* Move carts together with links */
 		for(LogicalTrainUnit ltu : ltus) ltu.combineWagons();
 		
@@ -306,10 +319,12 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 	public abstract TrackGauge getGauge();
 	/** Returns the length between the core and one of the bogies */
 	public abstract double getLengthSpan();
+	/** Returns the length between the core and the collision points */
+	public abstract double getCollisionSpan();
 	/** Returns a collision box, usually smaller than the entity's AABB for rendering, which is used for colliding trains */
-	public AxisAlignedBB getCollisionBox() {
+	/*public AxisAlignedBB getCollisionBox() {
 		return this.boundingBox;
-	}
+	}*/
 	/** Returns a collision box used for block collisions when derailed */
 	/*@Override public AxisAlignedBB getBoundingBox() {
 		return this.boundingBox;
@@ -555,7 +570,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			BlockPos anchor = new BlockPos(next.posX, next.posY, next.posZ);
 			Vec3 trainPos = Vec3.createVectorHelper(next.posX, next.posY, next.posZ);
 			float yaw = EntityRailCarBase.generateYaw(prevLoc, nextLoc);
-			Vec3 newPos = EntityRailCarBase.getRelPosAlongRail(anchor, len, next.getGauge(), next.worldObj, trainPos, yaw);
+			Vec3 newPos = EntityRailCarBase.getRelPosAlongRail(anchor, len, next.getGauge(), next.worldObj, trainPos, yaw, new MoveContext(RailCheckType.CORE));
 			next.setPosition(newPos.xCoord, newPos.yCoord, newPos.zCoord);
 		}
 		
@@ -589,7 +604,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			for(EntityRailCarBase train : this.trains) {
 				
 				BlockPos anchor = train.getCurentAnchorPos();
-				Vec3 corePos = train.getRelPosAlongRail(anchor, totalSpeed);
+				Vec3 corePos = train.getRelPosAlongRail(anchor, totalSpeed, new MoveContext(RailCheckType.CORE));
 				
 				if(corePos == null) {
 					train.derail();
@@ -598,8 +613,8 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				} else {
 					train.setPosition(corePos.xCoord, corePos.yCoord, corePos.zCoord);
 					anchor = train.getCurentAnchorPos(); //reset origin to new position
-					Vec3 frontPos = train.getRelPosAlongRail(anchor, train.getLengthSpan());
-					Vec3 backPos = train.getRelPosAlongRail(anchor, -train.getLengthSpan());
+					Vec3 frontPos = train.getRelPosAlongRail(anchor, train.getLengthSpan(), new MoveContext(RailCheckType.FRONT));
+					Vec3 backPos = train.getRelPosAlongRail(anchor, -train.getLengthSpan(), new MoveContext(RailCheckType.BACK));
 
 					if(frontPos == null || backPos == null) {
 						train.derail();
