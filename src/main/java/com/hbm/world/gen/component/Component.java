@@ -261,13 +261,13 @@ abstract public class Component extends StructureComponent {
 		if(!box.isVecInside(posX, posY, posZ)) return;
 		
 		switch(this.coordBaseMode) {
-		default:
+		default: //South
 			break;
-		case 1:
+		case 1: //West
 			dirMeta = (dirMeta + 1) % 4; break;
-		case 2:
+		case 2: //North
 			dirMeta ^= 2; break; //Flip second bit
-		case 3:
+		case 3: //East
 			dirMeta = (dirMeta - 1) % 4; break;
 		}
 		
@@ -279,6 +279,16 @@ abstract public class Component extends StructureComponent {
 			world.setBlock(posX, posY, posZ, door, metaBottom, 2);
 			world.setBlock(posX, posY + 1, posZ, door, metaTop, 2);
 		}
+	}
+	
+	protected void placeLever(World world, StructureBoundingBox box, int dirMeta, boolean on, int featureX, int featureY, int featureZ) {
+		int posX = this.getXWithOffset(featureX, featureZ);
+		int posY = this.getYWithOffset(featureY);
+		int posZ = this.getZWithOffset(featureX, featureZ);
+		
+		if(!box.isVecInside(posX, posY, posZ)) return;
+		
+		//levers suck ass
 	}
 	
 	/**N:0 W:1 S:2 E:3 */
