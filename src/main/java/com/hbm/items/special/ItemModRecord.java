@@ -92,6 +92,8 @@ public class ItemModRecord extends ItemRecord {
 			s = RefStrings.MODID + ":music.recordVortalCombat";
 		if(name.equals("records.glass"))
 			s = RefStrings.MODID + ":music.transmission";
+		if(name.equals("records.gs"))
+			s = RefStrings.MODID + ":music.recordGodSpeed";
 
 		return new ResourceLocation(s);
 	}
