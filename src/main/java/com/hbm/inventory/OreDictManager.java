@@ -209,6 +209,7 @@ public class OreDictManager {
 	public static final DictFrame LIGCOKE = new DictFrame("LigniteCoke");
 	public static final DictFrame CINNABAR = new DictFrame("Cinnabar");
 	public static final DictFrame BORAX = new DictFrame("Borax");
+	public static final DictFrame CHLOROCALCITE = new DictFrame("Chlorocalcite");
 	public static final DictFrame VOLCANIC = new DictFrame("Volcanic");
 	public static final DictFrame HEMATITE = new DictFrame("Hematite");
 	public static final DictFrame MALACHITE = new DictFrame("Malachite");
@@ -390,6 +391,7 @@ public class OreDictManager {
 		LIGCOKE							.gem(fromOne(coke, EnumCokeType.LIGNITE))								.block(fromOne(block_coke, EnumCokeType.LIGNITE));
 		CINNABAR	.crystal(cinnebar)	.gem(cinnebar)																					.ore(ore_cinnebar, ore_depth_cinnebar);
 		BORAX																			.dust(powder_borax)								.ore(ore_depth_borax);
+		CHLOROCALCITE																	.dust(powder_chlorocalcite);
 		VOLCANIC						.gem(gem_volcanic)																				.ore(basalt_gem);
 		HEMATITE																														.ore(fromOne(stone_resource, EnumStoneType.HEMATITE));
 		MALACHITE																														.ore(fromOne(stone_resource, EnumStoneType.MALACHITE));

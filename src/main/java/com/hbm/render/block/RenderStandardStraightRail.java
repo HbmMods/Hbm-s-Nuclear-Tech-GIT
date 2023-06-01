@@ -42,13 +42,21 @@ public class RenderStandardStraightRail implements ISimpleBlockRenderingHandler 
 
 		float rotation = 0;
 
-		if(meta == 12) rotation = 90F / 180F * (float) Math.PI;
-		if(meta == 14) rotation = 180F / 180F * (float) Math.PI;
-		if(meta == 13) rotation = 270F / 180F * (float) Math.PI;
+		if(meta == 14 || meta == 15) rotation = 90F / 180F * (float) Math.PI;
+
+		if(meta == 12) tessellator.addTranslation(0.5F, 0F, 0F);
+		if(meta == 13) tessellator.addTranslation(-0.5F, 0F, 0F);
+		if(meta == 14) tessellator.addTranslation(0F, 0F, -0.5F);
+		if(meta == 15) tessellator.addTranslation(0F, 0F, 0.5F);
 
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
 		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_straight, block.getIcon(1, 0), tessellator, rotation, true);
 		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
+
+		if(meta == 12) tessellator.addTranslation(-0.5F, 0F, 0F);
+		if(meta == 13) tessellator.addTranslation(0.5F, 0F, 0F);
+		if(meta == 14) tessellator.addTranslation(0F, 0F, 0.5F);
+		if(meta == 15) tessellator.addTranslation(0F, 0F, -0.5F);
 
 		return true;
 	}
