@@ -191,7 +191,7 @@ public class BlockBobble extends BlockContainer implements IGUIProvider {
 		NOS(			"Dr Nostalgia",						"Dr Nostalgia",	"SSG and Vortex models",									"Take a picture, I'ma pose, paparazzi$I've been drinking, moving like a zombie",					true,	ScrapType.BOARD_TRANSISTOR),
 		DRILLGON(		"Drillgon200",						"Drillgon200",	"1.12 Port",												null,																								false,	ScrapType.CPU_LOGIC),
 		CIRNO(			"Cirno",							"Cirno",		"the only multi layered skin i had",						"No brain. Head empty.",																			true,	ScrapType.BOARD_BLANK),
-		GWEN(			"Gwen",								"Gwen",			"Numero Uno Homie",											"KILL YOURSELF",																					true,	ScrapType.BOARD_BLANK),
+		GWEN(			"Gwen",								"Gwen",			"Numero Uno Homie",											"HELP ME I'M TRAPPED IN THIS FUCKING POLYRESIN PRISON YOU NEED TO LET ME OUT PLEASE SMASH IT OPEN DO IT NOW CRACK IT",																					true,	ScrapType.BOARD_BLANK),
 		JUICE(			"Juicy_Lad",						"Juicy_Lad",	"The Mojave Testing for this funny fork",					"\"What should the Inscription be?\",$ \"Uhh.. I'll think about it.\"",								true,	ScrapType.BOARD_BLANK),
 		DIVINE_RAY(			"Divine_Ray",					"Divine_Ray",	"Heat Sink Model",										"Warning: may contain traces of paperclips",															true,	ScrapType.BOARD_BLANK),
 		SAERKAL(		"Saerkal",							"Saerkal",		"Caracal Model",										"Endorsed by the United States Government!",															true,	ScrapType.BOARD_BLANK),
