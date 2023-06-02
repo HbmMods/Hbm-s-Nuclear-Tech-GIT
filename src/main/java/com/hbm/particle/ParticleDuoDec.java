@@ -17,7 +17,7 @@ public class ParticleDuoDec extends EntityFX {
 		particleIcon = ModEventHandlerClient.particleSwen;
 		this.particleRed =  this.particleGreen = this.particleBlue = 1F - world.rand.nextFloat() * 0.2F;
 		this.particleScale = 0.3F;
-		this.particleMaxAge = 30 + world.rand.nextInt(50);
+		this.particleMaxAge = 50 + world.rand.nextInt(50);
 		this.particleGravity = 0.2F;
 	}
 
