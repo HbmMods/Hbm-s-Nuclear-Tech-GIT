@@ -352,7 +352,7 @@ public class OreDictManager {
 		BI			.nugget(nugget_bismuth)									.ingot(ingot_bismuth)												.dust(powder_bismuth);
 		AS			.nugget(nugget_arsenic)									.ingot(ingot_arsenic);
 		CA																	.ingot(ingot_calcium)												.dust(powder_calcium);
-		CD																	.ingot(ingot_cadmium)												.dust(powder_cadmium);
+		CD																	.ingot(ingot_cadmium)												.dust(powder_cadmium)											.block(block_cadmium);
 		TA			.nugget(nugget_tantalium)	.gem(gem_tantalium)			.ingot(ingot_tantalium)												.dust(powder_tantalium)											.block(block_tantalium);
 		COLTAN																.ingot(fragment_coltan)												.dust(powder_coltan_ore)										.block(block_coltan)		.ore(ore_coltan);
 		NB			.nugget(fragment_niobium)								.ingot(ingot_niobium)			.dustSmall(powder_niobium_tiny)		.dust(powder_niobium)											.block(block_niobium);

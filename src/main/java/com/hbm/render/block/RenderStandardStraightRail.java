@@ -22,6 +22,8 @@ public class RenderStandardStraightRail implements ISimpleBlockRenderingHandler 
 		Tessellator tessellator = Tessellator.instance;
 
 		GL11.glTranslated(0, -0.0625, 0);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glScaled(0.3, 0.3, 0.3);
 		tessellator.startDrawingQuads();
 		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_straight, block.getIcon(1, 0), tessellator, 0, false);
 		tessellator.draw();

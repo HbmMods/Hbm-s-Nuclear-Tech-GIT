@@ -99,7 +99,7 @@ public class Mats {
 	public static final NTMMaterial MAT_TUNGSTEN	= makeSmeltable(7400,		W,			0x868686, 0x000000, 0x977474).setShapes(WIRE, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_ALUMINIUM	= makeSmeltable(1300,		AL,			0xFFFFFF, 0x344550, 0xD0B8EB).setShapes(WIRE, INGOT, DUST, PLATE, CASTPLATE, BLOCK);
 	public static final NTMMaterial MAT_LEAD		= makeSmeltable(8200,		PB,			0xA6A6B2, 0x03030F, 0x646470).setShapes(NUGGET, INGOT, DUST, PLATE, CASTPLATE, BLOCK);
-	public static final NTMMaterial MAT_BISMUTH		= makeSmeltable(8300,		df("Bismuth"), 0xB200FF).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_BISMUTH		= makeSmeltable(8300,		BI, 		0xB200FF).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_ARSENIC		= makeSmeltable(3300,		AS,			0x6CBABA, 0x242525, 0x558080).setShapes(NUGGET, INGOT);
 	public static final NTMMaterial MAT_TANTALIUM	= makeSmeltable(7300,		TA,			0xFFFFFF, 0x1D1D36, 0xA89B74).setShapes(NUGGET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_NIOBIUM		= makeSmeltable(4100,		NB,			0xB76EC9, 0x2F2D42, 0xD576B1).setShapes(NUGGET, DUSTTINY, INGOT, DUST, BLOCK);
@@ -107,6 +107,7 @@ public class Mats {
 	public static final NTMMaterial MAT_COBALT		= makeSmeltable(2700,		CO,			0xC2D1EE, 0x353554, 0x8F72AE).setShapes(NUGGET, DUSTTINY, BILLET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_BORON		= makeSmeltable(500,		B,			0xBDC8D2, 0x29343E, 0xAD72AE).setShapes(DUSTTINY, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_CADMIUM		= makeSmeltable(4800,		CD,			0xFFFADE, 0x350000, 0xA85600).setShapes(INGOT, DUST);
+	public static final NTMMaterial MAT_OSMIRIDIUM	= makeSmeltable(7699,		OSMIRIDIUM, 0xDBE3EF, 0x7891BE, 0xACBDD9).setShapes(NUGGET, INGOT, CASTPLATE);
 	
 	//Alloys
 	public static final NTMMaterial MAT_STEEL		= makeSmeltable(_AS + 0,	STEEL,		0xAFAFAF, 0x0F0F0F, 0x4A4A4A).setShapes(DUSTTINY, INGOT, DUST, PLATE, CASTPLATE, BLOCK);

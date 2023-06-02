@@ -8107,10 +8107,6 @@ public class ModItems {
 		addRemap("gas_lpg", gas_full, Fluids.LPG.getID());
 	}
 	
-	public static void addRemap(String unloc, int removoingTheseWouldTakeForever, Item item, Enum sub) {
-		addRemap(unloc, item, sub.ordinal());
-	}
-	
 	public static void addRemap(String unloc, Item item, Enum sub) {
 		addRemap(unloc, item, sub.ordinal());
 	}

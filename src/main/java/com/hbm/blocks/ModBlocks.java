@@ -33,6 +33,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.*;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -207,8 +208,11 @@ public class ModBlocks {
 	public static Block block_aluminium;
 	public static Block block_fluorite;
 	public static Block block_steel;
+	public static Block block_tcalloy;
+	public static Block block_cdalloy;
 	public static Block block_lead;
 	public static Block block_bismuth;
+	public static Block block_cadmium;
 	public static Block block_coltan;
 	public static Block block_tantalium;
 	public static Block block_niobium;
@@ -1395,8 +1399,11 @@ public class ModBlocks {
 		block_aluminium = new BlockBeaconable(Material.iron).setBlockName("block_aluminium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_aluminium");
 		block_fluorite = new BlockBeaconable(Material.iron).setBlockName("block_fluorite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_fluorite");
 		block_steel = new BlockBeaconable(Material.iron).setBlockName("block_steel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		block_tcalloy = new BlockBeaconable(Material.iron).setBlockName("block_tcalloy").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_tcalloy");
+		block_cdalloy = new BlockBeaconable(Material.iron).setBlockName("block_cdalloy").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_cdalloy");
 		block_lead = new BlockBeaconable(Material.iron).setBlockName("block_lead").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(30.0F).setBlockTextureName(RefStrings.MODID + ":block_lead");
 		block_bismuth = new BlockBeaconable(Material.iron).setBlockName("block_bismuth").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(30.0F).setBlockTextureName(RefStrings.MODID + ":block_bismuth");
+		block_cadmium = new BlockBeaconable(Material.iron).setBlockName("block_cadmium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(30.0F).setBlockTextureName(RefStrings.MODID + ":block_cadmium");
 		block_coltan = new BlockBeaconable(Material.iron).setBlockName("block_coltan").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(30.0F).setBlockTextureName(RefStrings.MODID + ":block_coltan");
 		block_tantalium = new BlockBeaconable(Material.iron).setBlockName("block_tantalium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(30.0F).setBlockTextureName(RefStrings.MODID + ":block_tantalium");
 		block_niobium = new BlockBeaconable(Material.iron).setBlockName("block_niobium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(30.0F);
@@ -2533,8 +2540,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_beryllium, block_beryllium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_cobalt, block_cobalt.getUnlocalizedName());
 		GameRegistry.registerBlock(block_steel, block_steel.getUnlocalizedName());
+		GameRegistry.registerBlock(block_tcalloy, block_tcalloy.getUnlocalizedName());
+		GameRegistry.registerBlock(block_cdalloy, block_cdalloy.getUnlocalizedName());
 		GameRegistry.registerBlock(block_lead, block_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(block_bismuth, block_bismuth.getUnlocalizedName());
+		GameRegistry.registerBlock(block_cadmium, block_cadmium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_coltan, block_coltan.getUnlocalizedName());
 		GameRegistry.registerBlock(block_tantalium, block_tantalium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_niobium, block_niobium.getUnlocalizedName());
@@ -3451,7 +3461,12 @@ public class ModBlocks {
 		GameRegistry.registerBlock(b, ItemBlockBase.class, b.getUnlocalizedName());
 	}
 	
-	/*private static void register(Block b, Class<? extends ItemBlock> clazz) {
+	private static void register(Block b, Class<? extends ItemBlock> clazz) {
 		GameRegistry.registerBlock(b, clazz, b.getUnlocalizedName());
-	}*/
+	}
+	
+	public static void addRemap(String unloc, Block block, int meta) {
+		Block remap = new BlockRemap(block, meta).setBlockName(unloc);
+		register(remap, ItemBlockRemap.class);
+	}
 }
