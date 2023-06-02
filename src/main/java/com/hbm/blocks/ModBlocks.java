@@ -1209,7 +1209,7 @@ public class ModBlocks {
 	public static Block pink_stairs;
 	
 	public static Block ff;
-	public static Block basement_block;
+	public static Block base_block;
 	
 	public static Material materialGas = new MaterialGas();
 	
@@ -2337,7 +2337,7 @@ public class ModBlocks {
 		pink_stairs = new BlockGenericStairs(pink_planks, 0).setBlockName("pink_stairs").setStepSound(Block.soundTypeWood).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pink_planks");
 		
 		ff = new BlockFF(Material.iron).setBlockName("ff").setHardness(0.5F).setStepSound(Block.soundTypeGravel).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":code");
-	    basement_block = new Basement().setBlockName("basement_block").setHardness(5F).setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":siege_circuit_1");
+	    base_block = new Base().setBlockName("base_block").setHardness(5F).setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":siege_circuit_1");
 	}
 
 	private static void registerBlock() {
@@ -3441,7 +3441,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(pink_stairs, pink_stairs.getUnlocalizedName());
 		GameRegistry.registerBlock(ff, ff.getUnlocalizedName());
 		//GameRegistry.registerBlock(basement_block,basement_block.getUnlocalizedName());
-		register(basement_block);
+		register(base_block);
 	}
 	
 	private static void register(Block b) {

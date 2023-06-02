@@ -20,7 +20,7 @@ import com.hbm.blocks.network.BlockCablePaintable.TileEntityCablePaintable;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.blocks.network.FluidDuctGauge.TileEntityPipeGauge;
 import com.hbm.blocks.network.FluidDuctPaintable.TileEntityPipePaintable;
-import com.hbm.blocks.siege.Basement.TileEntityBaseMent;
+import com.hbm.blocks.siege.Base.TileEntityBaseMent;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.tileentity.bomb.*;

@@ -4217,6 +4217,7 @@ tile.basalt_polished.name=Polished Basalt
 tile.basalt_smooth.name=Smooth Basalt
 tile.basalt_sulfur.name=Sulfur-Rich Basalt
 tile.basalt_tiles.name=Basalt Tiles
+tile.base_block.name=Stronghold core
 tile.blast_door.name=Sliding Blast Door
 tile.block_actinium.name=Block of Actinium
 tile.block_advanced_alloy.name=Block of Advanced Alloy

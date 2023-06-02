@@ -5,18 +5,15 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.siege.Basement.TileEntityBaseMent;
 import com.hbm.config.MobConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
-//import com.hbm.tileentity.machine.TileEntityBaseMent;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDoor;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
@@ -1626,7 +1623,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 7, y + 4, z + 7, Blocks.air, 0, 3);
 		world.setBlock(x + 8, y + 4, z + 7, ModBlocks.tape_recorder, 4, 3);
 		if(MobConfig.enableBaseMent){
-			world.setBlock(x + 9, y + 4, z + 7, ModBlocks.basement_block, 0, 3);
+			world.setBlock(x + 9, y + 4, z + 7, ModBlocks.base_block, 0, 3);
 		}
 		else world.setBlock(x + 9, y + 4, z + 7, ModBlocks.deco_steel, 0, 3);
 		world.setBlock(x + 10, y + 4, z + 7, Library.getRandomConcrete(), 0, 3);
