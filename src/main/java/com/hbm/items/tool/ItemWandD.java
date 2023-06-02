@@ -67,7 +67,7 @@ public class ItemWandD extends Item {
 			world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
 			TimeAnalyzer.endCount();
 			TimeAnalyzer.dump();*/
-			
+			/*
 			TomSaveData data = TomSaveData.forWorld(world);
 			data.impact = true;
 			data.fire = 0F;
@@ -86,9 +86,26 @@ public class ItemWandD extends Item {
 			world.spawnEntityInWorld(tom);*/
 			
 			ItemStack itemStack = new ItemStack(ModItems.book_lore);
+			ItemStack itemStack1 = new ItemStack(ModItems.book_lore);
+			ItemStack itemStack2 = new ItemStack(ModItems.book_lore);
+			ItemStack itemStack3 = new ItemStack(ModItems.book_lore);
+			ItemStack itemStack4 = new ItemStack(ModItems.book_lore);
+			ItemStack itemStack5 = new ItemStack(ModItems.book_lore);
+
 			BookLoreType.setTypeForStack(itemStack, BookLoreType.BOOK_IODINE);
-			
+			BookLoreType.setTypeForStack(itemStack1, BookLoreType.BOOK_DUST);
+			BookLoreType.setTypeForStack(itemStack2, BookLoreType.BOOK_FLOWER);
+			BookLoreType.setTypeForStack(itemStack3, BookLoreType.BOOK_MERCURY);
+			BookLoreType.setTypeForStack(itemStack4, BookLoreType.BOOK_PHOSPHOROUS);
+			BookLoreType.setTypeForStack(itemStack5, BookLoreType.BOOK_SYRINGE);
+
 			player.inventory.addItemStackToInventory(itemStack);
+			player.inventory.addItemStackToInventory(itemStack1);
+			player.inventory.addItemStackToInventory(itemStack2);
+			player.inventory.addItemStackToInventory(itemStack3);
+			player.inventory.addItemStackToInventory(itemStack4);
+			player.inventory.addItemStackToInventory(itemStack5);
+
 			player.inventoryContainer.detectAndSendChanges();
 			
 			//use sparingly
