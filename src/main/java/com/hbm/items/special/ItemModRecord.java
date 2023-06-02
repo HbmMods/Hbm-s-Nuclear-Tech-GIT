@@ -96,6 +96,8 @@ public class ItemModRecord extends ItemRecord {
 			s = RefStrings.MODID + ":music.recordGodSpeed";
 		if(name.equals("records.gp"))
 			s = RefStrings.MODID + ":music.recordGoop";
+		if(name.equals("records.el"))
+			s = RefStrings.MODID + ":music.recordEthereal";
 
 		return new ResourceLocation(s);
 	}

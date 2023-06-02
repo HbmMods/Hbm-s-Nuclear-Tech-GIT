@@ -1729,6 +1729,7 @@ item.record.ss.desc=Valve - Sector Sweep
 item.record.vc.desc=Valve - Vortal Combat
 item.record.gs.desc=DUODEC - GODSPEEEEEEEEEEEEEED
 item.record.gp.desc=DUODEC - Goop
+item.record.el.desc=DUODEC - Ethereal
 
 death.attack.nuclearBlast=%1$s was blown away by a nuclear explosion.
 death.attack.revolverBullet=%1$s was shot in the head by %2$s.
