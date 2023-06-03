@@ -1,43 +1,45 @@
 package com.hbm.blocks.generic;
 
-import java.util.Random;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.BlockPane;
 import net.minecraft.block.material.Material;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockNTMGlassPane extends BlockBreakable {
-
+public class BlockNTMGlassPane extends BlockPane
+{
 	int renderLayer;
 	boolean doesDrop = false;
 	
-	public BlockNTMGlassPane(int layer, String name, Material material) {
-		this(layer, name, material, false);
-	}
-
-	public BlockNTMGlassPane(int layer, String name, Material material, boolean doesDrop) {
-		super(name, material, false);
+    //NOTE when you have eclipse make the constructor for you it *WILL BE 'protected'* so make sure to make this public like below.
+	/*public BlockNTMGlassPane(String flatFaceTextureName, String rimTextureName,
+		Material mat, boolean bool) {
+	super(flatFaceTextureName, rimTextureName, mat, bool);
+	// TODO Auto-generated constructor stub
+		this.setLightOpacity(1);
+		this.opaque = true;
+	}*/
+	
+	public BlockNTMGlassPane(int layer, String name, String rimTextureName, Material material, boolean doesDrop) {
+		super(name, rimTextureName, material, false);
 		this.renderLayer = layer;
 		this.doesDrop = doesDrop;
+		this.opaque = true;
+		this.setLightOpacity(1);
+		
+		
 	}
-
-	public int quantityDropped(Random rand) {
-		return doesDrop ? 1 : 0;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public int getRenderBlockPass() {
-		return renderLayer;
-	}
-
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	protected boolean canSilkHarvest() {
-		return true;
-	}
+	
+	public boolean canPaneConnectTo(IBlockAccess world, int x, int y, int z, ForgeDirection dir)
+    {
+        
+		if (getIdFromBlock(world.getBlock(x,y,z)) == 0)
+			return false;
+		else
+			return true;
+		
+		/*return canPaneConnectToBlock(world.getBlock(x, y, z)) || 
+                world.isSideSolid(x, y, z, dir.getOpposite(), false);*/
+		
+    }
 
 }
