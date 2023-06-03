@@ -28,7 +28,7 @@ public class TileEntityAntimatter extends TileEntityMachineBase implements IGUIP
 	public int timer;
 
 	public TileEntityAntimatter() {
-		super(2);
+		super(8);
 		timer = 18000;
 	}
 

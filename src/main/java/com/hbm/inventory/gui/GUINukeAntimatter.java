@@ -38,7 +38,7 @@ public class GUINukeAntimatter extends GuiInfoContainer {
 		super.initGui();
 
 		Keyboard.enableRepeatEvents(true);
-		this.timer = new GuiTextField(this.fontRendererObj, guiLeft + 94, guiTop + 40, 29, 12);
+		this.timer = new GuiTextField(this.fontRendererObj, guiLeft + 80, guiTop + 108, 29, 12);
 		this.timer.setTextColor(0xff0000);
 		this.timer.setDisabledTextColour(0x800000);
 		this.timer.setEnableBackgroundDrawing(false);

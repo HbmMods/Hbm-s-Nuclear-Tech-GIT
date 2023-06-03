@@ -16,8 +16,11 @@ private TileEntityAntimatter SillyBomb;
 		
 		SillyBomb = tedf;
 
-		this.addSlotToContainer(new Slot(tedf, 0, 17, 36));
-		this.addSlotToContainer(new Slot(tedf, 1, 53, 36));
+		this.addSlotToContainer(new Slot(tedf, 1, 26, 15));
+		this.addSlotToContainer(new Slot(tedf, 2, 134, 14));
+		this.addSlotToContainer(new Slot(tedf, 3, 81, 15));
+		this.addSlotToContainer(new Slot(tedf, 4, 26, 44));
+		this.addSlotToContainer(new Slot(tedf, 5, 134, 43));
 		
 		for(int i = 0; i < 3; i++)
 		{
