@@ -661,7 +661,7 @@ public class ModBlocks {
 	public static Block nuke_n2;
 	public static Block nuke_n45;
 	public static Block nuke_fstbmb;
-	public static Block nuke_Blomb;
+	public static Block nuke_Antimatter;
 	public static Block bomb_multi;
 	
 	public static Block heater_firebox;
@@ -1796,7 +1796,7 @@ public class ModBlocks {
 		nuke_n2 = new NukeN2(Material.iron).setBlockName("nuke_n2").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":nuke_n2");
 		nuke_n45 = new NukeN45(Material.iron).setBlockName("nuke_n45").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":code");
 		nuke_fstbmb = new NukeBalefire(Material.iron).setBlockName("nuke_fstbmb").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":nuke_fstbmb");
-		nuke_Blomb = new NukeBlomb(Material.iron).setBlockName("nuke_Blomb").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":nuke_Blomb");
+		nuke_Antimatter = new NukeAntimatter(Material.iron).setBlockName("nuke_antimatter").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":nuke_antimatter");
 		
 		bomb_multi = new BombMulti(Material.iron).setBlockName("bomb_multi").setCreativeTab(MainRegistry.nukeTab).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":bomb_multi1");
 		//bomb_multi_large = new BombMultiLarge(Material.iron).setBlockName("bomb_multi_large").setCreativeTab(MainRegistry.tabNuke).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":bomb_multi_large");
@@ -2947,7 +2947,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(nuke_solinium, nuke_solinium.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_n2, nuke_n2.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_n45, nuke_n45.getUnlocalizedName());
-		GameRegistry.registerBlock(nuke_Blomb, nuke_Blomb.getUnlocalizedName());
+		GameRegistry.registerBlock(nuke_Antimatter, nuke_Antimatter.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_fstbmb, nuke_fstbmb.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_custom, nuke_custom.getUnlocalizedName());
 		

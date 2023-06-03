@@ -2,10 +2,10 @@ package com.hbm.tileentity.bomb;
 
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityBalefire;
-import com.hbm.inventory.container.ContainerNukeBlomb;
-import com.hbm.inventory.container.ContainerNukeBlomb;
-import com.hbm.inventory.gui.GUINukeBlomb;
-import com.hbm.inventory.gui.GUINukeBlomb;
+import com.hbm.inventory.container.ContainerNukeAntimatter;
+import com.hbm.inventory.container.ContainerNukeAntimatter;
+import com.hbm.inventory.gui.GUINukeAntimatter;
+import com.hbm.inventory.gui.GUINukeAntimatter;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -21,20 +21,20 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityBlomb extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityAntimatter extends TileEntityMachineBase implements IGUIProvider {
 
 	public boolean loaded;
 	public boolean started;
 	public int timer;
 
-	public TileEntityBlomb() {
+	public TileEntityAntimatter() {
 		super(2);
 		timer = 18000;
 	}
 
 	@Override
 	public String getName() {
-		return "container.nukeBlomb";
+		return "container.nukeAntimatter";
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class TileEntityBlomb extends TileEntityMachineBase implements IGUIProvid
 				timer--;
 				
 				if(timer % 20 == 0)
-					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.BlombPing", 5.0F, 1.0F);
+					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.AntimatterPing", 5.0F, 1.0F);
 			}
 			
 			if(timer <= 0) {
@@ -75,7 +75,7 @@ public class TileEntityBlomb extends TileEntityMachineBase implements IGUIProvid
 	public void handleButtonPacket(int value, int meta) {
 		
 		if(meta == 0 && this.isLoaded()) {
-			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.BlombStart", 5.0F, 1.0F);
+			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.AntimatterStart", 5.0F, 1.0F);
 			started = true;
 		}
 		
@@ -183,12 +183,12 @@ public class TileEntityBlomb extends TileEntityMachineBase implements IGUIProvid
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new ContainerNukeBlomb(player.inventory, this);
+		return new ContainerNukeAntimatter(player.inventory, this);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUINukeBlomb(player.inventory, this);
+		return new GUINukeAntimatter(player.inventory, this);
 	}
 }

@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.bomb.TileEntityBlomb;
+import com.hbm.tileentity.bomb.TileEntityAntimatter;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -8,11 +8,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerNukeBlomb extends Container {
+public class ContainerNukeAntimatter extends Container {
 
-private TileEntityBlomb SillyBomb;
+private TileEntityAntimatter SillyBomb;
 	
-	public ContainerNukeBlomb(InventoryPlayer invPlayer, TileEntityBlomb tedf) {
+	public ContainerNukeAntimatter(InventoryPlayer invPlayer, TileEntityAntimatter tedf) {
 		
 		SillyBomb = tedf;
 

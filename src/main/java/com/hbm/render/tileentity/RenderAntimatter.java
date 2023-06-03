@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.RenderMiscEffects;
-import com.hbm.tileentity.bomb.TileEntityBlomb;
+import com.hbm.tileentity.bomb.TileEntityAntimatter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderBlomb extends TileEntitySpecialRenderer {
+public class RenderAntimatter extends TileEntitySpecialRenderer {
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
@@ -35,15 +35,14 @@ public class RenderBlomb extends TileEntitySpecialRenderer {
 		}
 
         GL11.glShadeModel(GL11.GL_SMOOTH);
-        bindTexture(ResourceManager.Blomb_tex);
-        ResourceManager.Blomb.renderPart("Body");
-        ResourceManager.Blomb.renderPart("Balefire");
+        bindTexture(ResourceManager.Antimatter_tex);
+        ResourceManager.Antimatter.renderAll();
         
-        TileEntityBlomb bf = (TileEntityBlomb)tileEntity;
+        TileEntityAntimatter bf = (TileEntityAntimatter)tileEntity;
         
         if(bf.loaded) {
 	        bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/misc/glintBF.png"));
-	        RenderMiscEffects.renderClassicGlint(tileEntity.getWorldObj(), f, ResourceManager.Blomb, "Balefire", 0.0F, 0.8F, 0.15F, 5, 2F);
+	        RenderMiscEffects.renderClassicGlint(tileEntity.getWorldObj(), f, ResourceManager.Antimatter, "Balefire", 0.0F, 0.8F, 0.15F, 5, 2F);
 	        
 	        FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 	        float f3 = 0.04F;

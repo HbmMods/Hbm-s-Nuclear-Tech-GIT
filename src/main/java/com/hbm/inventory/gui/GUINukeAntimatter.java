@@ -4,13 +4,13 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerNukeBlomb;
-import com.hbm.inventory.container.ContainerNukeBlomb;
+import com.hbm.inventory.container.ContainerNukeAntimatter;
+import com.hbm.inventory.container.ContainerNukeAntimatter;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.bomb.TileEntityBlomb;
-import com.hbm.tileentity.bomb.TileEntityBlomb;
+import com.hbm.tileentity.bomb.TileEntityAntimatter;
+import com.hbm.tileentity.bomb.TileEntityAntimatter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
@@ -19,15 +19,15 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
-public class GUINukeBlomb extends GuiInfoContainer {
+public class GUINukeAntimatter extends GuiInfoContainer {
 
 	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/BlombSchematic.png");
-	private TileEntityBlomb bomb;
+	private TileEntityAntimatter bomb;
 	private GuiTextField timer;
 
-	public GUINukeBlomb(InventoryPlayer invPlayer, TileEntityBlomb tileEntityBlomb) {
-		super(new ContainerNukeBlomb(invPlayer, tileEntityBlomb));
-		this.bomb = tileEntityBlomb;
+	public GUINukeAntimatter(InventoryPlayer invPlayer, TileEntityAntimatter tileEntityAntimatter) {
+		super(new ContainerNukeAntimatter(invPlayer, tileEntityAntimatter));
+		this.bomb = tileEntityAntimatter;
 
 		this.xSize = 176;
 		this.ySize = 222;
