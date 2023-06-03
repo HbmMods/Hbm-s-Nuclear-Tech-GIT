@@ -50,7 +50,7 @@ public class TileEntityAntimatter extends TileEntityMachineBase implements IGUIP
 				timer--;
 				
 				if(timer % 20 == 0)
-					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.AntimatterPing", 5.0F, 1.0F);
+					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.fstbmbPing", 5.0F, 1.0F);
 			}
 			
 			if(timer <= 0) {
@@ -75,7 +75,7 @@ public class TileEntityAntimatter extends TileEntityMachineBase implements IGUIP
 	public void handleButtonPacket(int value, int meta) {
 		
 		if(meta == 0 && this.isLoaded()) {
-			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.AntimatterStart", 5.0F, 1.0F);
+			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.fstbmbStart", 5.0F, 1.0F);
 			started = true;
 		}
 		
