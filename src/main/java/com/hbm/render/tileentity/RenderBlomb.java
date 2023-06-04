@@ -36,27 +36,9 @@ public class RenderBlomb extends TileEntitySpecialRenderer {
 
         GL11.glShadeModel(GL11.GL_SMOOTH);
         bindTexture(ResourceManager.Blomb_tex);
-        ResourceManager.Blomb.renderPart("Body");
-        ResourceManager.Blomb.renderPart("Balefire");
-        
-        TileEntityBlomb bf = (TileEntityBlomb)tileEntity;
-        
-        if(bf.loaded) {
-	        bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/misc/glintBF.png"));
-	        RenderMiscEffects.renderClassicGlint(tileEntity.getWorldObj(), f, ResourceManager.Blomb, "Balefire", 0.0F, 0.8F, 0.15F, 5, 2F);
-	        
-	        FontRenderer font = Minecraft.getMinecraft().fontRenderer;
-	        float f3 = 0.04F;
-	        GL11.glTranslatef(0.815F, 0.9275F, 0.5F);
-	        GL11.glScalef(f3, -f3, f3);
-	        GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
-	        GL11.glRotatef(90, 0, 1, 0);
-	        GL11.glDepthMask(false);
-	        GL11.glTranslatef(0, 1, 0);
-	        font.drawString(bf.getMinutes() + ":" + bf.getSeconds(), 0, 0, 0xff0000);
-	        GL11.glDepthMask(true);
-        }
-        
+        ResourceManager.Blomb.renderAll();
+       
+     
         GL11.glShadeModel(GL11.GL_FLAT);
 
         GL11.glPopMatrix();
