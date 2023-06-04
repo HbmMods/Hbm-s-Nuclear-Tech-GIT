@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.RenderMiscEffects;
-import com.hbm.tileentity.bomb.TileEntityBlomb;
+import com.hbm.tileentity.bomb.TileEntityAntimatter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderBlomb extends TileEntitySpecialRenderer {
+public class RenderAntimatter extends TileEntitySpecialRenderer {
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)

@@ -6,8 +6,8 @@ import com.hbm.blocks.machine.BlockMachineBase;
 import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.bomb.TileEntityBlomb;
-import com.hbm.tileentity.bomb.TileEntityBlomb;
+import com.hbm.tileentity.bomb.TileEntityAntimatter;
+import com.hbm.tileentity.bomb.TileEntityAntimatter;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -16,9 +16,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class NukeBlomb extends BlockMachineBase implements IBomb {
+public class NukeAntimatter extends BlockMachineBase implements IBomb {
 
-	public NukeBlomb(Material mat) {
+	public NukeAntimatter(Material mat) {
 		super(mat, 0);
 		rotatable = true;
 	}
@@ -26,7 +26,7 @@ public class NukeBlomb extends BlockMachineBase implements IBomb {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityBlomb();
+		return new TileEntityAntimatter();
 	}
 	
 	@Override
@@ -64,7 +64,7 @@ public class NukeBlomb extends BlockMachineBase implements IBomb {
 	public BombReturnCode explode(World world, int x, int y, int z) {
 		
 		if(!world.isRemote) {
-			TileEntityBlomb bomb = (TileEntityBlomb) world.getTileEntity(x, y, z);
+			TileEntityAntimatter bomb = (TileEntityAntimatter) world.getTileEntity(x, y, z);
 				
 			if(bomb.isLoaded()) {
 				bomb.explode();

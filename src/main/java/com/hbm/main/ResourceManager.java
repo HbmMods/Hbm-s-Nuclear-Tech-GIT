@@ -259,7 +259,7 @@ public class ResourceManager {
 	public static final IModelCustom n45_stand = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/bombs/n45_stand.obj"));
 	public static final IModelCustom n45_chain = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/bombs/n45_chain.obj"));
 	public static final IModelCustom fstbmb = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/fstbmb.obj"));
-	public static final IModelCustom Blomb = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/blomb.obj"));
+	public static final IModelCustom Antimatter = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/blomb.obj"));
 	public static final IModelCustom dud = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/BalefireCrashed.obj"));
 	
 	//Cel-Prime
@@ -620,7 +620,7 @@ public class ResourceManager {
 	public static final ResourceLocation n45_stand_tex = new ResourceLocation(RefStrings.MODID, "textures/models/n45_stand.png");
 	public static final ResourceLocation n45_chain_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/n45_chain.png");
 	public static final ResourceLocation fstbmb_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/fstbmb.png");
-	public static final ResourceLocation Blomb_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/blomb_tex.png");
+	public static final ResourceLocation Antimatter_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/blomb_tex.png");
 	public static final ResourceLocation dud_tex = new ResourceLocation(RefStrings.MODID, "textures/models/BalefireCrashed.png");
 	
 	//Satellites
