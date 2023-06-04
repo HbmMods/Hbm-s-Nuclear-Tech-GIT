@@ -58,6 +58,7 @@ import com.hbm.entity.logic.*;
 import com.hbm.entity.mob.siege.*;
 import com.hbm.handler.*;
 import com.hbm.handler.imc.*;
+import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.inventory.*;
@@ -903,6 +904,10 @@ public class MainRegistry {
 		ChunkRadiationManager radiationSystem = new ChunkRadiationManager();
 		MinecraftForge.EVENT_BUS.register(radiationSystem);
 		FMLCommonHandler.instance().bus().register(radiationSystem);
+
+		PollutionHandler pollution = new PollutionHandler();
+		MinecraftForge.EVENT_BUS.register(pollution);
+		FMLCommonHandler.instance().bus().register(pollution);
 		
 		if(event.getSide() == Side.CLIENT) {
 			HbmKeybinds.register();

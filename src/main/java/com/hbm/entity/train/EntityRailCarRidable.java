@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.BobMathUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -109,9 +108,14 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 	public int getNearestSeat(EntityPlayer player) {
 		
 		double nearestDist = Double.POSITIVE_INFINITY;
-		int nearestSeat = -2;
+		int nearestSeat = -3;
 		
 		Vec3[] seats = getPassengerSeats();
+		Vec3 look = player.getLook(2);
+		look.xCoord += player.posX;
+		look.yCoord += player.posY + player.eyeHeight - player.yOffset;
+		look.zCoord += player.posZ;
+		
 		for(int i = 0; i < seats.length; i++) {
 			
 			Vec3 seat = seats[i];
@@ -120,13 +124,11 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 			
 			seat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
 			double x = renderX + seat.xCoord;
+			double y = renderY + seat.yCoord;
 			double z = renderZ + seat.zCoord;
 
-			double deltaX = player.posX - x;
-			double deltaZ = player.posZ - z;
-			double radians = -Math.atan2(deltaX, deltaZ);
-			double degrees = MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI - 90);
-			double dist = Math.abs(BobMathUtil.angularDifference(degrees, player.rotationYaw));
+			Vec3 delta = Vec3.createVectorHelper(look.xCoord - x, look.yCoord - y, look.zCoord - z);
+			double dist = delta.lengthVector();
 			
 			if(dist < nearestDist) {
 				nearestDist = dist;
@@ -138,13 +140,11 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 			Vec3 seat = getRiderSeatPosition();
 			seat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
 			double x = renderX + seat.xCoord;
+			double y = renderY + seat.yCoord;
 			double z = renderZ + seat.zCoord;
 
-			double deltaX = player.posX - x;
-			double deltaZ = player.posZ - z;
-			double radians = -Math.atan2(deltaX, deltaZ);
-			double degrees = MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI - 90);
-			double dist = Math.abs(BobMathUtil.angularDifference(degrees, player.rotationYaw));
+			Vec3 delta = Vec3.createVectorHelper(look.xCoord - x, look.yCoord - y, look.zCoord - z);
+			double dist = delta.lengthVector();
 	
 			if(dist < nearestDist) {
 				nearestDist = dist;
@@ -288,6 +288,6 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 		text.add("Front: " + this.coupledFront);
 		text.add("Back: " + this.coupledBack);*/
 		text.add("Nearest seat: " + this.getNearestSeat(MainRegistry.proxy.me()));
-		ILookOverlay.printGeneric(event, this.toString(), 0xffff00, 0x404000, text);
+		ILookOverlay.printGeneric(event, this.getClass().getSimpleName() + " " + this.hashCode(), 0xffff00, 0x404000, text);
 	}
 }

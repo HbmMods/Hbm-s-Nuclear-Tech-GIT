@@ -78,7 +78,7 @@ public class ItemTrain extends ItemEnumMulti {
 			if(train != null && train.getGauge() == ((IRailNTM) b).getGauge(world, x, y, z)) {
 				if(!world.isRemote) {
 					train.setPosition(x + fx, y + fy, z + fz);
-					BlockPos anchor = train.getCurentAnchorPos();
+					BlockPos anchor = train.getCurrentAnchorPos();
 					train.rotationYaw = entity.rotationYaw;
 					Vec3 corePos = train.getRelPosAlongRail(anchor, 0, new MoveContext(RailCheckType.CORE));
 					train.setPosition(corePos.xCoord, corePos.yCoord, corePos.zCoord);
