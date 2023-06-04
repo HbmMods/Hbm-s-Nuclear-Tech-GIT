@@ -35,8 +35,8 @@ public class RenderAntimatter extends TileEntitySpecialRenderer {
 		}
 
         GL11.glShadeModel(GL11.GL_SMOOTH);
-        bindTexture(ResourceManager.Blomb_tex);
-        ResourceManager.Blomb.renderAll();
+        bindTexture(ResourceManager.Antimatter_tex);
+        ResourceManager.Antimatter.renderAll();
        
      
         GL11.glShadeModel(GL11.GL_FLAT);

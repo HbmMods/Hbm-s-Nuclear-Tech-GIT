@@ -87,16 +87,6 @@ public class GUINukeAntimatter extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		if(bomb.hasEgg())
-			drawTexturedModalRect(guiLeft + 19, guiTop + 90, 176, 0, 30, 16);
-
-		int battery = bomb.getBattery();
-
-		if(battery == 1)
-			drawTexturedModalRect(guiLeft + 88, guiTop + 93, 176, 16, 18, 10);
-		else if(battery == 2)
-			drawTexturedModalRect(guiLeft + 88, guiTop + 93, 194, 16, 18, 10);
-
 		if(bomb.started)
 			drawTexturedModalRect(guiLeft + 142, guiTop + 35, 176, 26, 18, 18);
 
