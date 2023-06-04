@@ -56,7 +56,7 @@ public class GUINukeAntimatter extends GuiInfoContainer {
 		this.timer.mouseClicked(x, y, i);
 
 		if(!bomb.started) {
-			if(guiLeft + 142 <= x && guiLeft + 142 + 18 > x && guiTop + 35 < y && guiTop + 35 + 18 >= y) {
+			if(guiLeft + 80 <= x && guiLeft + 80 + 18 > x && guiTop + 85 < y && guiTop + 85 + 18 >= y) {
 
 				PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(bomb.xCoord, bomb.yCoord, bomb.zCoord, 0, 0));
 			}
@@ -88,7 +88,7 @@ public class GUINukeAntimatter extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
 		if(bomb.started)
-			drawTexturedModalRect(guiLeft + 142, guiTop + 35, 176, 26, 18, 18);
+			drawTexturedModalRect(guiLeft + 80, guiTop + 85, 176, 26, 18, 18);
 
 		this.timer.drawTextBox();
 	}
