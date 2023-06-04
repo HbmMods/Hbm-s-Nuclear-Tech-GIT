@@ -85,33 +85,28 @@ public class TileEntityAntimatter extends TileEntityMachineBase implements IGUIP
 	
 	public boolean isLoaded() {
 		
-		return hasEgg() && hasBattery();
+		return hasAmatCore() && hasRest();
 	}
 	
-	public boolean hasEgg() {
+	public boolean hasAmatCore() {
 		
-		if(slots[0] != null && slots[0].getItem() == ModItems.egg_balefire) {
+		if(slots[2] != null && slots[2].getItem() == ModItems.cell_antimatter) {
 			return true;
 		}
 		
 		return false;
 	}
 	
-	public boolean hasBattery() {
+	public boolean hasRest() {
 		
-		return getBattery() > 0;
+		return getRest() > 0;
 	}
 	
-	public int getBattery() {
+	public int getRest() {
 		
-		if(slots[1] != null && slots[1].getItem() == ModItems.battery_spark &&
-				((IBatteryItem)ModItems.battery_spark).getCharge(slots[1]) == ((IBatteryItem)ModItems.battery_spark).getMaxCharge()) {
+		if(slots[1] != null && slots[1].getItem() == ModItems.particle_lead && slots[0].getItem() == ModItems.particle_lead && 
+				slots[3].getItem() == ModItems.ingot_gaas && slots[4].getItem() == ModItems.ingot_gaas) {
 			return 1;
-		}
-		
-		if(slots[1] != null && slots[1].getItem() == ModItems.battery_trixite &&
-				((IBatteryItem)ModItems.battery_trixite).getCharge(slots[1]) == ((IBatteryItem)ModItems.battery_trixite).getMaxCharge()) {
-			return 2;
 		}
 		
 		return 0;
@@ -128,9 +123,9 @@ public class TileEntityAntimatter extends TileEntityMachineBase implements IGUIP
 		bf.posX = xCoord + 0.5;
 		bf.posY = yCoord + 0.5;
 		bf.posZ = zCoord + 0.5;
-		bf.destructionRange = (int) 250;
+		bf.destructionRange = (int) 150;
 		worldObj.spawnEntityInWorld(bf);
-		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, 250 * 1.5F, 1000));
+		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacAnti(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, 150 * 1.5F, 1000));
 	}
 	
 	public String getMinutes() {
