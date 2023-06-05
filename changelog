@@ -15,3 +15,4 @@
 * Retextured schrabidium batteries, the cap is now black instead of red
 
 ## Fixed
+* Fixed hydroreactive stat not applying when an item is dropped in the rain
