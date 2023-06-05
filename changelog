@@ -16,3 +16,4 @@
 
 ## Fixed
 * Fixed hydroreactive stat not applying when an item is dropped in the rain
+* Fixed the liquefactor not working with ore dictionary recipes
