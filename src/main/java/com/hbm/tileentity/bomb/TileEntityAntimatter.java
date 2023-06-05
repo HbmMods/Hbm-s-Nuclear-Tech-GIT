@@ -90,7 +90,7 @@ public class TileEntityAntimatter extends TileEntityMachineBase implements IGUIP
 	
 	public boolean hasAmatCore() {
 		
-		if(slots[2] != null && slots[2].getItem() == ModItems.cell_antimatter) {
+		if(slots[2] != null && slots[2].getItem() == ModItems.pellet_antimatter) {
 			return true;
 		}
 		
@@ -104,7 +104,7 @@ public class TileEntityAntimatter extends TileEntityMachineBase implements IGUIP
 	
 	public int getRest() {
 		
-		if(slots[1] != null && slots[1].getItem() == ModItems.particle_lead && slots[0].getItem() == ModItems.particle_lead && 
+		if(slots[0] != null && slots[1] != null && slots[3] != null && slots[4] != null && slots[1].getItem() == ModItems.particle_lead && slots[0].getItem() == ModItems.particle_lead && 
 				slots[3].getItem() == ModItems.ingot_gaas && slots[4].getItem() == ModItems.ingot_gaas) {
 			return 1;
 		}
@@ -120,6 +120,7 @@ public class TileEntityAntimatter extends TileEntityMachineBase implements IGUIP
 		worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 		
 		EntityBalefire bf = new EntityBalefire(worldObj);
+		bf.antimatter();
 		bf.posX = xCoord + 0.5;
 		bf.posY = yCoord + 0.5;
 		bf.posZ = zCoord + 0.5;
