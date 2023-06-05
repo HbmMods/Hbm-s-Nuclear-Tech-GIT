@@ -42,7 +42,7 @@ public class RenderAntimatter extends TileEntitySpecialRenderer {
 		double scale = 0.1;
 		if(amat.hasAmatCore()) {
 			
-			GL11.glDisable(GL11.GL_LIGHTING);
+			//GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			int c = 0x010101;
 			GL11.glColor3ub((byte)((c & 0xff0000) >> 16), (byte)((c & 0x00ff00) >> 8), (byte)((c & 0x0000ff)));
