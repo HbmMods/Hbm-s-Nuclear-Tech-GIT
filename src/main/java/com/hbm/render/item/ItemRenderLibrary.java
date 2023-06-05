@@ -1032,8 +1032,9 @@ public class ItemRenderLibrary {
 			}});
 		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_Antimatter), new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glTranslated(0, -3, 0);
-				GL11.glScaled(2, 2, 2);
+				GL11.glTranslated(0, 7, 0);
+				GL11.glScaled(3.25, 3.25, 3.25);
+				GL11.glRotatef(180, 90, 0, 0);
 			}
 			public void renderCommon() {
 				GL11.glShadeModel(GL11.GL_SMOOTH);
