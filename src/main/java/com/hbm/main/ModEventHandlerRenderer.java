@@ -3,14 +3,17 @@ package com.hbm.main;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ICustomBlockHighlight;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.packet.PermaSyncHandler;
 import com.hbm.render.model.ModelMan;
 
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -23,6 +26,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
+import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
+import net.minecraftforge.client.event.EntityViewRenderEvent.RenderFogEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
 public class ModEventHandlerRenderer {
@@ -318,4 +324,30 @@ public class ModEventHandlerRenderer {
 			GL11.glPopMatrix();
 		}
 	}*/
+	
+	@SubscribeEvent
+	public void setupFog(RenderFogEvent event) {
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void thickenFog(FogDensity event) {
+		float soot = PermaSyncHandler.pollution[PollutionType.SOOT.ordinal()];
+		if(soot > 10) {
+			//event.density = Math.min((soot - 5) * 0.01F, 0.5F);
+			GL11.glFogf(GL11.GL_FOG_START, 0.0F);
+			float farPlaneDistance = (float) (Minecraft.getMinecraft().gameSettings.renderDistanceChunks * 16);
+			GL11.glFogf(GL11.GL_FOG_END, Math.max(farPlaneDistance * 0.8F / (soot * 0.05F), 5F));
+			event.setCanceled(true);
+		}
+	}
+	
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public void tintFog(FogColors event) {
+		float soot = PermaSyncHandler.pollution[PollutionType.SOOT.ordinal()];
+		if(soot > 10) {
+			event.red = 0.15F;
+			event.green = 0.15F;
+			event.blue = 0.15F;
+		}
+	}
 }

@@ -1,5 +1,10 @@
 package com.hbm.blocks.generic;
 
+import java.util.Random;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockPane;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.IBlockAccess;
@@ -25,21 +30,23 @@ public class BlockNTMGlassPane extends BlockPane
 		this.doesDrop = doesDrop;
 		this.opaque = true;
 		this.setLightOpacity(1);
-		
-		
 	}
-	
-	public boolean canPaneConnectTo(IBlockAccess world, int x, int y, int z, ForgeDirection dir)
-    {
-        
-		if (getIdFromBlock(world.getBlock(x,y,z)) == 0)
-			return false;
-		else
-			return true;
-		
-		/*return canPaneConnectToBlock(world.getBlock(x, y, z)) || 
-                world.isSideSolid(x, y, z, dir.getOpposite(), false);*/
-		
-    }
+
+	@Override
+	public boolean canPaneConnectTo(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
+		Block b = world.getBlock(x, y, z);
+		return super.canPaneConnectTo(world, x, y, z, dir) || b instanceof BlockNTMGlass;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderBlockPass() {
+		return renderLayer;
+	}
+
+	@Override
+	public int quantityDropped(Random rand) {
+		return doesDrop ? 1 : 0;
+	}
 
 }

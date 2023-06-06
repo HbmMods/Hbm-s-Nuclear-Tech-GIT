@@ -11,6 +11,10 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -18,12 +22,16 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
 public class PollutionHandler {
 	
 	public static final String fileName = "hbmpollution.dat";
 	public static HashMap<World, PollutionPerWorld> perWorld = new HashMap();
+	
+	/** Baserate of soot generation for a furnace-equivalent machine per second */
+	public static final float SOOT_PER_SECOND = 1F / 25F;
 	
 	///////////////////////
 	/// UTILITY METHODS ///
@@ -145,8 +153,52 @@ public class PollutionHandler {
 			eggTimer++;
 			if(eggTimer < 60) return;
 			eggTimer = 0;
+
 			
-			// TBI
+			for(Entry<World, PollutionPerWorld> entry : perWorld.entrySet()) {
+				HashMap<ChunkCoordIntPair, PollutionData> newPollution = new HashMap();
+				
+				for(Entry<ChunkCoordIntPair, PollutionData> chunk : entry.getValue().pollution.entrySet()) {
+					int x = chunk.getKey().chunkXPos;
+					int z = chunk.getKey().chunkZPos;
+					PollutionData data = chunk.getValue();
+					
+					float[] pollutionForNeightbors = new float[PollutionType.values().length];
+					int S = PollutionType.SOOT.ordinal();
+					int H = PollutionType.HEAVYMETAL.ordinal();
+					
+					/* CALCULATION */
+					if(data.pollution[S] > 15) {
+						pollutionForNeightbors[S] = data.pollution[S] * 0.05F;
+						data.pollution[S] *= 0.8F;
+					} else {
+						data.pollution[S] *= 0.99F;
+					}
+					
+					data.pollution[H] *= 0.999F;
+					
+					/* SPREADING */
+					//apply new data to self
+					PollutionData newData = newPollution.get(chunk.getKey());
+					if(newData == null) newData = new PollutionData();
+					
+					for(int i = 0; i < newData.pollution.length; i++) newData.pollution[i] += data.pollution[i];
+					newPollution.put(chunk.getKey(), newData);
+					
+					//apply neighbor data to neighboring chunks
+					int[][] offsets = new int[][] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+					for(int[] offset : offsets) {
+						ChunkCoordIntPair offPos = new ChunkCoordIntPair(x + offset[0], z + offset[1]);
+						PollutionData offsetData = newPollution.get(offPos);
+						if(offsetData == null) offsetData = new PollutionData();
+						
+						for(int i = 0; i < offsetData.pollution.length; i++) offsetData.pollution[i] += pollutionForNeightbors[i];
+						newPollution.put(offPos, offsetData);
+					}
+				}
+				
+				entry.getValue().pollution = newPollution;
+			}
 		}
 	}
 
@@ -212,5 +264,29 @@ public class PollutionHandler {
 	
 	public static enum PollutionType {
 		SOOT, POISON, HEAVYMETAL, FALLOUT;
+	}
+	
+	///////////////////
+	/// MOB EFFECTS ///
+	///////////////////
+
+	
+	@SubscribeEvent
+	public void decorateMob(LivingSpawnEvent event) {
+		
+		World world = event.world;
+		if(world.isRemote) return;
+		EntityLivingBase living = event.entityLiving;
+		
+		PollutionData data = getPollutionData(world, (int) Math.floor(event.x), (int) Math.floor(event.y), (int) Math.floor(event.z));
+		if(data == null) return;
+		
+		if(living instanceof IMob) {
+			
+			if(data.pollution[PollutionType.SOOT.ordinal()] > 15) {
+				if(living.getEntityAttribute(SharedMonsterAttributes.maxHealth) != null) living.getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(new AttributeModifier("Soot Anger Health Increase", 2D, 1));
+				if(living.getEntityAttribute(SharedMonsterAttributes.attackDamage) != null) living.getEntityAttribute(SharedMonsterAttributes.attackDamage).applyModifier(new AttributeModifier("Soot Anger Damage Increase", 1.5D, 1));
+			}
+		}
 	}
 }
