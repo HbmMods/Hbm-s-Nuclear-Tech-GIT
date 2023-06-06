@@ -56,8 +56,8 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 		this.iconSide[1] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side_desh");
 		this.iconTop[2] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top");
 		this.iconSide[2] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side");
-		this.iconTop[2] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top_wood");
-		this.iconSide[2] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side_wood");
+		this.iconTop[3] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top_wood");
+		this.iconSide[3] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side_wood");
 	}
 
 	@Override
@@ -245,7 +245,7 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 
 	@Override
 	public int getSubCount() {
-		return 3;
+		return 4;
 	}
 
 	@Override
