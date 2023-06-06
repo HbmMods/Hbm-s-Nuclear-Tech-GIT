@@ -385,6 +385,8 @@ public class ModItems {
 	public static Item ingot_niobium;
 	public static Item ingot_osmiridium;
 	public static Item nugget_osmiridium;
+	public static Item ingot_hafnium;
+	public static Item nugget_hafnium;
 	public static Item plate_lead;
 	public static Item nugget_schrabidium;
 	public static Item plate_schrabidium;
@@ -2977,6 +2979,8 @@ public class ModItems {
 		powder_platnium = new Item().setUnlocalizedName("powder_platnium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_platnium");
 		ingot_osmiridium = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("ingot_osmiridium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_osmiridium");
 		nugget_osmiridium = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("nugget_osmiridium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_osmiridium");
+		ingot_hafnium = new ItemCustomLore().setUnlocalizedName("ingot_hafnium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_hafnium");
+		nugget_hafnium = new ItemCustomLore().setUnlocalizedName("nugget_hafnium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_hafnium");
 		ingot_iridium = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("ingot_iridium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_iridium");
 		nugget_schrabidium = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("nugget_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_schrabidium");
 		nugget_beryllium = new Item().setUnlocalizedName("nugget_beryllium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_beryllium");
@@ -5952,6 +5956,8 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_gwenium, ingot_gwenium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_smore, ingot_smore.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_osmiridium, ingot_osmiridium.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_hafnium, ingot_hafnium.getUnlocalizedName());
+
 
 		//Meteorite Ingots
 		GameRegistry.registerItem(ingot_steel_dusted, ingot_steel_dusted.getUnlocalizedName());
@@ -6335,6 +6341,7 @@ public class ModItems {
 		GameRegistry.registerItem(nugget_euphemium, nugget_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_dineutronium, nugget_dineutronium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_osmiridium, nugget_osmiridium.getUnlocalizedName());
+		GameRegistry.registerItem(nugget_hafnium, nugget_hafnium.getUnlocalizedName());
 
 		//Plates
 		GameRegistry.registerItem(plate_iron, plate_iron.getUnlocalizedName());
