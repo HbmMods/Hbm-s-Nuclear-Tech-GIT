@@ -985,6 +985,15 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.motor, 1),
 				new ComparableStack(ModItems.circuit_red_copper, 3)
 			}, 200);
+		
+		makeRecipe(new ComparableStack(ModItems.euphemium_capacitor, 1), new AStack[]
+				{
+						new OreDictStack(NB.ingot(), 4),
+						new ComparableStack(ModItems.redcoil_capacitor, 1),
+						new ComparableStack(ModItems.ingot_euphemium, 4),
+						new ComparableStack(ModItems.circuit_tantalium, 6),
+						new ComparableStack(ModItems.powder_nitan_mix, 18),
+				}, 600);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);
