@@ -197,7 +197,8 @@ public class PollutionHandler {
 					}
 				}
 				
-				entry.getValue().pollution = newPollution;
+				entry.getValue().pollution.clear();
+				entry.getValue().pollution.putAll(newPollution);
 			}
 		}
 	}
