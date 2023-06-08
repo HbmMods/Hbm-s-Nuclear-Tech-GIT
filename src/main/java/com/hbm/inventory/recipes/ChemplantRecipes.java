@@ -380,6 +380,24 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(new OreDictStack(DIAMOND.dust(), 1))
 				.inputFluids(new FluidStack(Fluids.XPJUICE, 500))
 				.outputFluids(new FluidStack(Fluids.ENDERJUICE, 100)));
+		recipes.add(new ChemRecipe(98, "SHELL_CHLORINE", 100)
+				.inputItems(
+						new ComparableStack(ModItems.ammo_arty, 1, 0),
+						new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.CHLORINE, 4000))
+				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 9)));
+		recipes.add(new ChemRecipe(99, "SHELL_PHOSGENE", 100)
+				.inputItems(
+						new ComparableStack(ModItems.ammo_arty, 1, 0),
+						new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.PHOSGENE, 4000))
+				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 10)));
+		recipes.add(new ChemRecipe(100, "SHELL_MUSTARD", 100)
+				.inputItems(
+						new ComparableStack(ModItems.ammo_arty, 1, 0),
+						new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.MUSTARDGAS, 4000))
+				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 11)));
 	}
 	
 	public static void registerFuelProcessing() {

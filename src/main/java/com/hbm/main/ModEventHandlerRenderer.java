@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLContext;
 
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
@@ -9,9 +10,9 @@ import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.packet.PermaSyncHandler;
 import com.hbm.render.model.ModelMan;
 
-import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
@@ -28,7 +29,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
-import net.minecraftforge.client.event.EntityViewRenderEvent.RenderFogEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
 public class ModEventHandlerRenderer {
@@ -325,29 +325,55 @@ public class ModEventHandlerRenderer {
 		}
 	}*/
 	
+	float renderSoot = 0;
+	
 	@SubscribeEvent
-	public void setupFog(RenderFogEvent event) {
+	public void worldTick(WorldTickEvent event) {
+		
+		if(event.phase == event.phase.START) {
+
+			float step = 0.05F;
+			float soot = PermaSyncHandler.pollution[PollutionType.SOOT.ordinal()];
+			
+			if(Math.abs(renderSoot - soot) < step) {
+				renderSoot = soot;
+			} else if(renderSoot < soot) {
+				renderSoot += step;
+			} else if(renderSoot > soot) {
+				renderSoot -= step;
+			}
+		}
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void thickenFog(FogDensity event) {
-		float soot = PermaSyncHandler.pollution[PollutionType.SOOT.ordinal()];
-		if(soot > 10) {
+		float soot = renderSoot - 35;
+		if(soot > 0) {
 			//event.density = Math.min((soot - 5) * 0.01F, 0.5F);
-			GL11.glFogf(GL11.GL_FOG_START, 0.0F);
 			float farPlaneDistance = (float) (Minecraft.getMinecraft().gameSettings.renderDistanceChunks * 16);
-			GL11.glFogf(GL11.GL_FOG_END, Math.max(farPlaneDistance * 0.8F / (soot * 0.05F), 5F));
+			float fogDist = farPlaneDistance / (1 + soot * 0.05F);
+			GL11.glFogf(GL11.GL_FOG_START, 0);
+			GL11.glFogf(GL11.GL_FOG_END, fogDist);
+
+			if(GLContext.getCapabilities().GL_NV_fog_distance) {
+				GL11.glFogi(34138, 34139);
+			}
+			//GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+			//GL11.glFogf(GL11.GL_FOG_DENSITY, 2F);
 			event.setCanceled(true);
 		}
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void tintFog(FogColors event) {
-		float soot = PermaSyncHandler.pollution[PollutionType.SOOT.ordinal()];
-		if(soot > 10) {
-			event.red = 0.15F;
-			event.green = 0.15F;
-			event.blue = 0.15F;
+		float soot = renderSoot - 35;
+		float sootColor = 0.15F;
+		float sootReq = 100F;
+		if(soot > 0) {
+			float interp = Math.min(soot / sootReq, 1F);
+			event.red = event.red * (1 - interp) + sootColor * interp;
+			event.green = event.green * (1 - interp) + sootColor * interp;
+			event.blue = event.blue * (1 - interp) + sootColor * interp;
 		}
 	}
 }

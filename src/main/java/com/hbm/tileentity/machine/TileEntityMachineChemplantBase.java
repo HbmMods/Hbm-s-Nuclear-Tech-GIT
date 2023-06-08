@@ -3,8 +3,6 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;

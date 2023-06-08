@@ -2,35 +2,14 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.rail.IRailNTM;
-import com.hbm.blocks.rail.IRailNTM.RailContext;
-import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.explosion.vanillant.standard.BlockAllocatorBulkie;
-import com.hbm.explosion.vanillant.standard.BlockMutatorBulkie;
-import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
-import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
-import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
-import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.lib.Library;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
-import com.hbm.util.ParticleUtil;
-import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.world.feature.OilSpot;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ItemWandD extends Item {

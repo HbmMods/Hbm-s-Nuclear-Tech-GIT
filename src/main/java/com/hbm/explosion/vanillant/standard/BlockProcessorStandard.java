@@ -64,6 +64,8 @@ public class BlockProcessorStandard implements IBlockProcessor {
 				
 				block.onBlockExploded(world, blockX, blockY, blockZ, explosion.compat);
 				if(this.convert != null) this.convert.mutatePre(explosion, block, world.getBlockMetadata(blockX, blockY, blockZ), blockX, blockY, blockZ);
+			} else {
+				iterator.remove();
 			}
 		}
 		
