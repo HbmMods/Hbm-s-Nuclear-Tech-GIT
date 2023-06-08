@@ -15,6 +15,7 @@ import com.hbm.blocks.rail.RailNarrowCurve;
 import com.hbm.blocks.rail.RailNarrowStraight;
 import com.hbm.blocks.rail.RailStandardBuffer;
 import com.hbm.blocks.rail.RailStandardCurve;
+import com.hbm.blocks.rail.RailStandardRamp;
 import com.hbm.blocks.rail.RailStandardStraight;
 import com.hbm.blocks.siege.*;
 import com.hbm.blocks.test.*;
@@ -1107,6 +1108,7 @@ public class ModBlocks {
 	public static Block rail_narrow_curve;
 	public static Block rail_large_straight;
 	public static Block rail_large_curve;
+	public static Block rail_large_ramp;
 	public static Block rail_large_buffer;
 	
 	public static Block statue_elb;
@@ -2142,6 +2144,7 @@ public class ModBlocks {
 		rail_narrow_curve = new RailNarrowCurve().setBlockName("rail_narrow_curve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_narrow_neo");
 		rail_large_straight = new RailStandardStraight().setBlockName("rail_large_straight").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_straight");
 		rail_large_curve = new RailStandardCurve().setBlockName("rail_large_curve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_straight");
+		rail_large_ramp = new RailStandardRamp().setBlockName("rail_large_ramp").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_straight");
 		rail_large_buffer = new RailStandardBuffer().setBlockName("rail_large_buffer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		crate = new BlockCrate(Material.wood).setBlockName("crate").setStepSound(Block.soundTypeWood).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab).setBlockTextureName(RefStrings.MODID + ":crate");
@@ -3378,6 +3381,7 @@ public class ModBlocks {
 		register(rail_narrow_curve);
 		register(rail_large_straight);
 		register(rail_large_curve);
+		register(rail_large_ramp);
 		register(rail_large_buffer);
 		
 		//Crate

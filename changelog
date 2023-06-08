@@ -4,8 +4,11 @@
   * Chlorine
   * Phosgene
   * Mustard gas
+* Euphemium capacitor
+  * Used for schrabidium transmutation, has infinite durability
 
 ## Changed
+* Updated russian localization
 * Mist now spawns cloud particles with the correct color instead of standard white
 * HE artillery shells and rockets now turn blocks into slag
 

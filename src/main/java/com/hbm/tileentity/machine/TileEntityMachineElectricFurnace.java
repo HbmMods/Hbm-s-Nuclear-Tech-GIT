@@ -166,7 +166,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
-			this.updateConnections();
+			if(worldObj.getTotalWorldTime() % 40 == 0) this.updateConnections();
 
 			this.consumption = 50;
 			this.maxProgress = 100;

@@ -122,12 +122,12 @@ public class EntityEffectHandler {
 	
 	private static void handleRadiation(EntityLivingBase entity) {
 		
-		if(ContaminationUtil.isRadImmune(entity))
-			return;
-		
 		World world = entity.worldObj;
 		
 		if(!world.isRemote) {
+			
+			if(ContaminationUtil.isRadImmune(entity))
+				return;
 			
 			int ix = (int)MathHelper.floor_double(entity.posX);
 			int iy = (int)MathHelper.floor_double(entity.posY);
@@ -416,6 +416,10 @@ public class EntityEffectHandler {
 	}
 	
 	private static void handleOil(EntityLivingBase entity) {
+		
+		if(entity.worldObj.isRemote)
+			return;
+		
 		int oil = HbmLivingProps.getOil(entity);
 		
 		if(oil > 0) {

@@ -153,7 +153,6 @@ public class PollutionHandler {
 			eggTimer++;
 			if(eggTimer < 60) return;
 			eggTimer = 0;
-
 			
 			for(Entry<World, PollutionPerWorld> entry : perWorld.entrySet()) {
 				HashMap<ChunkCoordIntPair, PollutionData> newPollution = new HashMap();
@@ -182,8 +181,12 @@ public class PollutionHandler {
 					PollutionData newData = newPollution.get(chunk.getKey());
 					if(newData == null) newData = new PollutionData();
 					
-					for(int i = 0; i < newData.pollution.length; i++) newData.pollution[i] += data.pollution[i];
-					newPollution.put(chunk.getKey(), newData);
+					boolean shouldPut = false;
+					for(int i = 0; i < newData.pollution.length; i++) {
+						newData.pollution[i] += data.pollution[i];
+						if(newData.pollution[i] > 0) shouldPut = true;
+					}
+					if(shouldPut) newPollution.put(chunk.getKey(), newData);
 					
 					//apply neighbor data to neighboring chunks
 					int[][] offsets = new int[][] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
@@ -192,8 +195,12 @@ public class PollutionHandler {
 						PollutionData offsetData = newPollution.get(offPos);
 						if(offsetData == null) offsetData = new PollutionData();
 						
-						for(int i = 0; i < offsetData.pollution.length; i++) offsetData.pollution[i] += pollutionForNeightbors[i];
-						newPollution.put(offPos, offsetData);
+						shouldPut = false;
+						for(int i = 0; i < offsetData.pollution.length; i++) {
+							offsetData.pollution[i] += pollutionForNeightbors[i];
+							if(offsetData.pollution[i] > 0) shouldPut = true;
+						}
+						if(shouldPut) newPollution.put(offPos, offsetData);
 					}
 				}
 				

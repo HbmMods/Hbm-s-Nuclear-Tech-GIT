@@ -207,6 +207,8 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 					double y = posY + rot.yCoord;
 					double z = posZ + rot.zCoord;
 					dummy.setPosition(x, y, z);
+					dummy.setSize(def.width, def.height);
+					dummy.velocityChanged = true;
 					worldObj.spawnEntityInWorld(dummy);
 					this.dummies[i] = dummy;
 				}
@@ -222,7 +224,6 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				double x = renderX + rot.xCoord;
 				double y = renderY + rot.yCoord;
 				double z = renderZ + rot.zCoord;
-				dummy.setSize(def.width, def.height); // TEMP
 				dummy.setPosition(x, y, z);
 			}
 		}
@@ -372,7 +373,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 	
 	/** Returns the "true" position of the train, i.e. the block it wants to snap to */
 	public BlockPos getCurrentAnchorPos() {
-		return new BlockPos(posX, posY, posZ);
+		return new BlockPos(posX, posY + 0.25, posZ);
 	}
 	
 	public void derail() {
