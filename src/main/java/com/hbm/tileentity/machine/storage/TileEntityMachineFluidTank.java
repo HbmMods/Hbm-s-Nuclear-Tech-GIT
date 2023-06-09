@@ -5,6 +5,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -178,7 +179,8 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			for(Entity e : affected) e.setFire(5);
 			Random rand = worldObj.rand;
 			ParticleUtil.spawnGasFlame(worldObj, xCoord + rand.nextDouble(), yCoord + 0.5 + rand.nextDouble(), zCoord + rand.nextDouble(), rand.nextGaussian() * 0.2, 0.1, rand.nextGaussian() * 0.2);
-			
+			if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionHandler.PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * amount);
+
 		} else if(type.hasTrait(FT_Gaseous.class) || type.hasTrait(FT_Gaseous_ART.class)) {
 			
 			if(worldObj.getTotalWorldTime() % 5 == 0) {
