@@ -482,6 +482,11 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.stamp_9, 1), new Object[] { "RSR", "III", " C ", 'R', REDSTONE.dust(), 'S', ModItems.stamp_iron_flat, 'I', ModItems.plate_polymer, 'C', ModItems.casing_9 });
 		addRecipeAuto(new ItemStack(ModItems.stamp_50, 1), new Object[] { "RSR", "III", " C ", 'R', REDSTONE.dust(), 'S', ModItems.stamp_iron_flat, 'I', ModItems.plate_polymer, 'C', ModItems.casing_50 });
 
+		addRecipeAuto(new ItemStack(ModItems.stamp_desh_357, 1), new Object[] { "RSR", "III", " C ", 'R', ModItems.ingot_dura_steel, 'S', ModItems.stamp_desh_flat, 'I', ModItems.ingot_saturnite, 'C', ModItems.casing_357 });
+		addRecipeAuto(new ItemStack(ModItems.stamp_desh_44, 1), new Object[] { "RSR", "III", " C ", 'R', ModItems.ingot_dura_steel, 'S', ModItems.stamp_desh_flat, 'I', ModItems.ingot_saturnite, 'C', ModItems.casing_44 });
+		addRecipeAuto(new ItemStack(ModItems.stamp_desh_9, 1), new Object[] { "RSR", "III", " C ", 'R', ModItems.ingot_dura_steel, 'S', ModItems.stamp_desh_flat, 'I', ModItems.ingot_saturnite, 'C', ModItems.casing_9 });
+		addRecipeAuto(new ItemStack(ModItems.stamp_desh_50, 1), new Object[] { "RSR", "III", " C ", 'R', ModItems.ingot_dura_steel, 'S', ModItems.stamp_desh_flat, 'I', ModItems.ingot_saturnite, 'C', ModItems.casing_50 });
+		
 		addRecipeAuto(new ItemStack(ModBlocks.sat_dock, 1), new Object[] { "SSS", "PCP", 'S', STEEL.ingot(), 'P', ANY_PLASTIC.ingot(), 'C', ModBlocks.crate_iron });
 		addRecipeAuto(new ItemStack(ModBlocks.book_guide, 1), new Object[] { "IBI", "LBL", "IBI", 'B', Items.book, 'I', KEY_BLACK, 'L', KEY_BLUE });
 
