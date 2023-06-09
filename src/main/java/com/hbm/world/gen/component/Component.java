@@ -268,7 +268,7 @@ abstract public class Component extends StructureComponent {
 		case 2: //North
 			dirMeta ^= 2; break; //Flip second bit
 		case 3: //East
-			dirMeta = (dirMeta - 1) % 4; break;
+			dirMeta = Math.abs(dirMeta - 1) % 4; break; //fuck you modulo
 		}
 		
 		//hee hoo
@@ -280,7 +280,7 @@ abstract public class Component extends StructureComponent {
 			world.setBlock(posX, posY + 1, posZ, door, metaTop, 2);
 		}
 	}
-	
+	/** 1 for west face, 2 for east face, 3 for north, 4 for south*/
 	protected void placeLever(World world, StructureBoundingBox box, int dirMeta, boolean on, int featureX, int featureY, int featureZ) {
 		int posX = this.getXWithOffset(featureX, featureZ);
 		int posY = this.getYWithOffset(featureY);
@@ -288,7 +288,39 @@ abstract public class Component extends StructureComponent {
 		
 		if(!box.isVecInside(posX, posY, posZ)) return;
 		
-		//levers suck ass
+		if(dirMeta <= 0 || dirMeta >= 7) { //levers suck ass
+			switch(this.coordBaseMode) {
+			case 1: case 3: //west / east
+				dirMeta ^= 0b111;
+			}
+		} else if(dirMeta >= 5) {
+			switch(this.coordBaseMode) {
+			case 1: case 3: //west / east
+				dirMeta = (dirMeta + 1) % 2 + 5;
+			}
+		} else {
+			dirMeta = getButtonMeta(dirMeta);
+		}
+		
+		world.setBlock(posX, posY, posZ, Blocks.lever, on ? dirMeta | 8 : dirMeta, 2);
+	}
+	
+	/** pain. works for side-facing levers as well */
+	protected int getButtonMeta(int dirMeta) {
+		switch(this.coordBaseMode) { //are you ready for the pain?
+		case 1: //West
+			if(dirMeta <= 2) return dirMeta + 2;
+			else if(dirMeta < 4) return dirMeta - 1;
+			else return dirMeta - 3;// this shit sucks ass
+		case 2: //North
+			return dirMeta + (dirMeta % 2 == 0 ? -1 : 1);
+		case 3: //East
+			if(dirMeta <= 1) return dirMeta + 3;
+			else if(dirMeta <= 2) return dirMeta + 1;
+			else return dirMeta - 2;
+		default: //South
+			return dirMeta;
+		}
 	}
 	
 	/**N:0 W:1 S:2 E:3 */
