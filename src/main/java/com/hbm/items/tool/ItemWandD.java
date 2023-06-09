@@ -3,14 +3,12 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.lib.Library;
-import com.hbm.world.gen.component.BunkerComponents;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
 
@@ -51,13 +49,6 @@ public class ItemWandD extends Item {
 			tom.posZ = pos.blockZ;
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
-			
-			//use sparingly
-			int k = ((pos.blockX >> 4) << 4) + 8;
-			int l = ((pos.blockZ >> 4) << 4) + 8;
-			
-			BunkerComponents.BunkerStart start = new BunkerComponents.BunkerStart(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
-			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));
 			
 			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
