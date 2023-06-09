@@ -116,17 +116,16 @@ public class ExplosionBalefire
 					return;
 				}
 				Material m = worldObj.getBlock(pX, y, pZ).getMaterial();
-				if((m==Material.water || m==Material.craftedSnow || m==Material.snow || m==Material.ice || m==Material.packedIce) && antimatter)
+				if((m==Material.craftedSnow || m==Material.snow || m==Material.ice || m==Material.packedIce) && antimatter)
 				{
 					//ExplosionChaos.plasma(worldObj, pX, y, pZ, 4);
-					ParticleUtil.spawnGasFlame(worldObj, maxdepth, y, pZ, x, y, z);
+					ParticleUtil.spawnGasFlame(worldObj, pX, y, pZ, x, y, z);
 					continue;
-					//continue;
 				}
-				//if(worldObj.getBlock(pX, y, pZ)!=ModBlocks.plasma)
-				//{
-				//	worldObj.setBlockToAir(pX, y, pZ);
-				//}
+				if(worldObj.getBlock(pX, y, pZ)!=ModBlocks.plasma)
+				{
+					worldObj.setBlockToAir(pX, y, pZ);
+				}
 				
 				y--;
 			}
