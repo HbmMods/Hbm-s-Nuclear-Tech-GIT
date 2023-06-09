@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.StructureConfig;
+import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
 import com.hbm.world.gen.component.CivilianFeatures.*;
 import com.hbm.world.gen.component.OfficeFeatures.*;
 import com.hbm.world.gen.component.RuinFeatures.*;
@@ -89,6 +90,9 @@ public class MapGenNTMFeatures extends MapGenStructure {
 	/** Returns new StructureStart if structure can be spawned at coords */
 	@Override
 	protected StructureStart getStructureStart(int chunkX, int chunkZ) {
+		if(this.rand.nextInt(15) == 0) { //eh might as well, they'll already be prettty rare anyway
+			return new BunkerStart(this.worldObj, this.rand, chunkX, chunkZ);
+		}
 		return new MapGenNTMFeatures.Start(this.worldObj, this.rand, chunkX, chunkZ);
 	}
 	

@@ -8,6 +8,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.*;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.items.special.ItemBookLore.BookLoreType;
+import com.hbm.items.tool.ItemBlowtorch;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -353,6 +354,57 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.dust, 0, 1, 1, 40),
 			new WeightedRandomChestContent(ModItems.dust_tiny, 0, 1, 3, 75),
 			new WeightedRandomChestContent(ModItems.ink, 0, 1, 1, 1), //make that mf rare; 1:555 weight
+	};
+	
+	public static WeightedRandomChestContent[] solidFuel = new WeightedRandomChestContent[] {
+			new WeightedRandomChestContent(ModItems.solid_fuel, 0, 1, 5, 1),
+			new WeightedRandomChestContent(ModItems.solid_fuel_presto, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.ball_dynamite, 0, 1, 4, 2),
+			new WeightedRandomChestContent(Items.redstone, 0, 1, 3, 1),
+			new WeightedRandomChestContent(ModItems.niter, 0, 1, 3, 1)
+	};
+	
+	public static WeightedRandomChestContent[] labVault = new WeightedRandomChestContent[] {
+			new WeightedRandomChestContent(ItemBlowtorch.getEmptyTool(ModItems.blowtorch), 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.chemistry_set, 0, 1, 1, 15),
+			new WeightedRandomChestContent(ModItems.screwdriver, 0, 1, 1, 10),
+			new WeightedRandomChestContent(ModItems.nugget_mercury, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.morning_glory, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.filter_coal, 0, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.dust, 0, 1, 3, 25),
+			new WeightedRandomChestContent(Items.paper, 0, 1, 2, 15),
+			new WeightedRandomChestContent(ModItems.cell_empty, 0, 1, 1, 5),
+			new WeightedRandomChestContent(Items.glass_bottle, 0, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.powder_iodine, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.powder_bromine, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.powder_cobalt, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.powder_neodymium, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.powder_boron, 0, 1, 1, 1),
+	};
+	
+	public static WeightedRandomChestContent[] lockersVault = new WeightedRandomChestContent[] {
+			new WeightedRandomChestContent(ModItems.robes_helmet, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.robes_plate, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.robes_legs, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.robes_boots, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.jackt, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.jackt2, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.gas_mask_m65, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.gas_mask_mono, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.goggles, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.flame_opinion, 0, 1, 3, 5),
+			new WeightedRandomChestContent(ModItems.flame_conspiracy, 0, 1, 3, 5),
+			new WeightedRandomChestContent(ModItems.flame_politics, 0, 1, 3, 5),
+			new WeightedRandomChestContent(ModItems.cigarette, 0, 1, 8, 5),
+			new WeightedRandomChestContent(ModItems.canteen_13, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.armor_polish, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.gun_kit_1, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.rag, 0, 1, 3, 5),
+			new WeightedRandomChestContent(Items.paper, 0, 1, 6, 7),
+			new WeightedRandomChestContent(Items.clock, 0, 1, 1, 3),
+			new WeightedRandomChestContent(Items.book, 0, 1, 5, 10),
+			new WeightedRandomChestContent(Items.experience_bottle, 0, 1, 3, 1),
 	};
 	
 	/** ITEMBOOKLORE ARRAYS */

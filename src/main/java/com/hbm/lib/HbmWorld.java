@@ -6,6 +6,7 @@ import com.hbm.world.gen.component.BunkerComponents;
 import com.hbm.world.gen.component.CivilianFeatures;
 import com.hbm.world.gen.component.OfficeFeatures;
 import com.hbm.world.gen.component.RuinFeatures;
+import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -23,6 +24,7 @@ public class HbmWorld {
 		//MapGenStructureIO.registerStructure(StructureStartTest.class, "HFR_STRUCTURE");
 		//MapGenStructureIO.func_143031_a(StructureComponentTest.class, "HFR_COMPONENT");
 		MapGenStructureIO.registerStructure(MapGenNTMFeatures.Start.class, "NTMFeatures");
+		MapGenStructureIO.registerStructure(BunkerStart.class, "NTMBunker");
 		registerNTMFeatures();
 		
 		registerWorldGen(new HbmWorldGen(), 1);
