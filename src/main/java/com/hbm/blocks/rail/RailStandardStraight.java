@@ -4,6 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -24,9 +25,11 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 		return null;
 	}
 
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
+
 	@Override
 	public int getRenderType() {
-		return 0;
+		return renderID;
 	}
 
 	@Override
@@ -56,7 +59,7 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 	}
 
 	@Override
-	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info) {
+	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info, MoveContext context) {
 		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, motionX, motionY, motionZ, speed, info);
 	}
 	

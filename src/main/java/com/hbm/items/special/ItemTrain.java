@@ -3,6 +3,8 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.blocks.rail.IRailNTM;
+import com.hbm.blocks.rail.IRailNTM.MoveContext;
+import com.hbm.blocks.rail.IRailNTM.RailCheckType;
 import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.entity.train.TrainCargoTram;
 import com.hbm.entity.train.TrainCargoTramTrailer;
@@ -76,12 +78,12 @@ public class ItemTrain extends ItemEnumMulti {
 			if(train != null && train.getGauge() == ((IRailNTM) b).getGauge(world, x, y, z)) {
 				if(!world.isRemote) {
 					train.setPosition(x + fx, y + fy, z + fz);
-					BlockPos anchor = train.getCurentAnchorPos();
+					BlockPos anchor = train.getCurrentAnchorPos();
 					train.rotationYaw = entity.rotationYaw;
-					Vec3 corePos = train.getRelPosAlongRail(anchor, 0);
+					Vec3 corePos = train.getRelPosAlongRail(anchor, 0, new MoveContext(RailCheckType.CORE));
 					train.setPosition(corePos.xCoord, corePos.yCoord, corePos.zCoord);
-					Vec3 frontPos = train.getRelPosAlongRail(anchor, train.getLengthSpan());
-					Vec3 backPos = train.getRelPosAlongRail(anchor, -train.getLengthSpan());
+					Vec3 frontPos = train.getRelPosAlongRail(anchor, train.getLengthSpan(), new MoveContext(RailCheckType.FRONT));
+					Vec3 backPos = train.getRelPosAlongRail(anchor, -train.getLengthSpan(), new MoveContext(RailCheckType.BACK));
 					train.rotationYaw = train.generateYaw(frontPos, backPos);
 					world.spawnEntityInWorld(train);
 				}

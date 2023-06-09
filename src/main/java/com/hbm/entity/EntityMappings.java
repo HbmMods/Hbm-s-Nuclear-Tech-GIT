@@ -210,7 +210,7 @@ public class EntityMappings {
 		addEntity(EntityCog.class, "entity_stray_cog", 1000);
 		addEntity(EntitySawblade.class, "entity_stray_saw", 1000);
 		addEntity(EntityChemical.class, "entity_chemthrower_splash", 1000);
-		addEntity(EntityMist.class, "entity_mist", 1000);
+		addEntity(EntityMist.class, "entity_mist", 250, false);
 
 		addEntity(EntityItemWaste.class, "entity_item_waste", 100);
 		addEntity(EntityItemBuoyant.class, "entity_item_buoyant", 100);

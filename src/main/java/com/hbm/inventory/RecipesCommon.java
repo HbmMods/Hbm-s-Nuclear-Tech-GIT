@@ -169,7 +169,6 @@ public class RecipesCommon {
 			String[] entries = new String[ids.length];
 			
 			for(int i = 0; i < ids.length; i++) {
-				
 				entries[i] = OreDictionary.getOreName(ids[i]);
 			}
 			

@@ -114,6 +114,16 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.XYLENE, 500),
 						new FluidStack(Fluids.OXYGEN, 100))
 				.outputItems(new ItemStack(ModItems.ingot_pet)));*/
+		
+		//Laminate Glass going here
+		recipes.add(new ChemRecipe(97, "LAMINATE", 100)
+				.inputFluids(
+						new FluidStack(Fluids.XYLENE, 250),
+						new FluidStack(Fluids.PHOSGENE, 250))
+				.inputItems(
+						new ComparableStack(com.hbm.blocks.ModBlocks.reinforced_glass),
+						new ComparableStack(com.hbm.items.ModItems.bolt_tungsten, 4))
+				.outputItems(new ItemStack(com.hbm.blocks.ModBlocks.reinforced_laminate)));
 		recipes.add(new ChemRecipe(94, "PC", 100)
 				.inputFluids(
 						new FluidStack(Fluids.XYLENE, 500),
@@ -370,6 +380,24 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(new OreDictStack(DIAMOND.dust(), 1))
 				.inputFluids(new FluidStack(Fluids.XPJUICE, 500))
 				.outputFluids(new FluidStack(Fluids.ENDERJUICE, 100)));
+		recipes.add(new ChemRecipe(98, "SHELL_CHLORINE", 100)
+				.inputItems(
+						new ComparableStack(ModItems.ammo_arty, 1, 0),
+						new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.CHLORINE, 4000))
+				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 9)));
+		recipes.add(new ChemRecipe(99, "SHELL_PHOSGENE", 100)
+				.inputItems(
+						new ComparableStack(ModItems.ammo_arty, 1, 0),
+						new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.PHOSGENE, 4000))
+				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 10)));
+		recipes.add(new ChemRecipe(100, "SHELL_MUSTARD", 100)
+				.inputItems(
+						new ComparableStack(ModItems.ammo_arty, 1, 0),
+						new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.MUSTARDGAS, 4000))
+				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 11)));
 	}
 	
 	public static void registerFuelProcessing() {

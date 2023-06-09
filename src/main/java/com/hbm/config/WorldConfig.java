@@ -36,6 +36,7 @@ public class WorldConfig {
 	public static int bedrockIronSpawn = 100;
 	public static int bedrockCopperSpawn = 200;
 	public static int bedrockBoraxSpawn = 50;
+	public static int bedrockChlorocalciteSpawn = 35;
 	public static int bedrockAsbestosSpawn = 50;
 	public static int bedrockNiobiumSpawn = 50;
 	public static int bedrockTitaniumSpawn = 100;
@@ -153,6 +154,7 @@ public class WorldConfig {
 		bedrockNiterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B11_bedrockNiterWeight", "Spawn weight for niter bedrock ore", 50);
 		bedrockFluoriteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B12_bedrockFluoriteWeight", "Spawn weight for fluorite bedrock ore", 50);
 		bedrockRedstoneSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B13_bedrockRedstoneWeight", "Spawn weight for redstone bedrock ore", 50);
+		bedrockChlorocalciteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B14_bedrockbChlorocalciteWeight", "Spawn weight for chlorocalcite bedrock ore", 35);
 
 		ironClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C00_ironClusterSpawn", "Amount of iron cluster veins per chunk", 4);
 		titaniumClusterSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.C01_titaniumClusterSpawn", "Amount of titanium cluster veins per chunk", 2);

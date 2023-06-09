@@ -116,6 +116,8 @@ public class FT_Toxin extends FluidTrait {
 		@Override
 		public void poison(EntityLivingBase entity, double intensity) {
 			
+			if(isProtected(entity)) return;
+			
 			for(PotionEffect eff : effects) {
 				entity.addPotionEffect(new PotionEffect(eff.getPotionID(), (int) (eff.getDuration() * intensity), eff.getAmplifier()));
 			}

@@ -84,17 +84,18 @@ public class ItemBedrockOre extends ItemEnumMulti {
 	 */
 
 	public static enum EnumBedrockOre {
-		//Ore					Byproduct	1,			2,			3
-		IRON("Iron", 0xE2C0AA,			B_SULFUR,	B_TITANIUM,	B_TITANIUM), //titanium, sulfur from pyrite
-		COPPER("Copper", 0xEC9A63,		B_SULFUR,	B_SULFUR,	B_SULFUR), //sulfur sulfur sulfur sulfur
-		BORAX("Borax", 0xE4BE74, 		B_LITHIUM, 	B_CALCIUM, 	B_CALCIUM), //calcium from ulexite, uhhh lithium?
-		ASBESTOS("Asbestos", 0xBFBFB9,	B_SILICON,	B_SILICON,	B_SILICON), //quartz i guess?
-		NIOBIUM("Niobium", 0xAF58D8,	B_IRON,		B_IRON,		B_IRON), //iron in columbite, often found along tantalite
-		TITANIUM("Titanium", 0xF2EFE2,	B_SILICON,	B_CALCIUM,	B_ALUMINIUM), //titanite is titanium + calcium + silicon with traces of iron and aluminium
-		TUNGSTEN("Tungsten", 0x2C293C,	B_LEAD,		B_IRON,		B_BISMUTH), //ferberite has iron, raspite has lead, russelite is bismuth tungsten
-		GOLD("Gold", 0xF9D738,			B_LEAD,		B_COPPER,	B_BISMUTH), //occurs with copper, lead and rare bismuthide
-		URANIUM("Uranium", 0x868D82,	B_LEAD,		B_RADIUM,	B_POLONIUM), //uranium and its decay products
-		THORIUM("Thorium", 0x7D401D,	B_SILICON,	B_URANIUM,	B_TECHNETIUM); //thorium occours with uraninite and decay products
+		//Ore								Byproduct	1,			2,			3
+		IRON("Iron", 0xE2C0AA,						B_SULFUR,	B_TITANIUM,	B_TITANIUM), //titanium, sulfur from pyrite
+		COPPER("Copper", 0xEC9A63,					B_SULFUR,	B_SULFUR,	B_SULFUR), //sulfur sulfur sulfur sulfur
+		BORAX("Borax", 0xE4BE74, 					B_LITHIUM, 	B_CALCIUM, 	B_CALCIUM), //calcium from ulexite, uhhh lithium?
+		ASBESTOS("Asbestos", 0xBFBFB9,				B_SILICON,	B_SILICON,	B_SILICON), //quartz i guess?
+		NIOBIUM("Niobium", 0xAF58D8,				B_IRON,		B_IRON,		B_IRON), //iron in columbite, often found along tantalite
+		TITANIUM("Titanium", 0xF2EFE2,				B_SILICON,	B_CALCIUM,	B_ALUMINIUM), //titanite is titanium + calcium + silicon with traces of iron and aluminium
+		TUNGSTEN("Tungsten", 0x2C293C,				B_LEAD,		B_IRON,		B_BISMUTH), //ferberite has iron, raspite has lead, russelite is bismuth tungsten
+		GOLD("Gold", 0xF9D738,						B_LEAD,		B_COPPER,	B_BISMUTH), //occurs with copper, lead and rare bismuthide
+		URANIUM("Uranium", 0x868D82,				B_LEAD,		B_RADIUM,	B_POLONIUM), //uranium and its decay products
+		THORIUM("Thorium", 0x7D401D,				B_SILICON,	B_URANIUM,	B_TECHNETIUM), //thorium occours with uraninite and decay products
+		CHLOROCALCITE("Chlorocalcite", 0xCDE036, 	B_LITHIUM, 	B_SILICON, 	B_SILICON); //i guess?
 		
 		public String oreName;
 		public int color;

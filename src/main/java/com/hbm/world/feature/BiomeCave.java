@@ -4,11 +4,9 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockEnums.EnumBiomeType;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockStalagmite;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.TempCategory;

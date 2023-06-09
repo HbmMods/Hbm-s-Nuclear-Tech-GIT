@@ -27,6 +27,7 @@ public class BedrockOre {
 		registerBedrockOre(new BedrockOreDefinition(EnumBedrockOre.IRON,					1),													WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(new BedrockOreDefinition(EnumBedrockOre.COPPER,					1),													WorldConfig.bedrockCopperSpawn);
 		registerBedrockOre(new BedrockOreDefinition(EnumBedrockOre.BORAX,					3,	new FluidStack(Fluids.SULFURIC_ACID, 500)),		WorldConfig.bedrockBoraxSpawn);
+		registerBedrockOre(new BedrockOreDefinition(EnumBedrockOre.CHLOROCALCITE,			3,	new FluidStack(Fluids.SULFURIC_ACID, 500)),		WorldConfig.bedrockChlorocalciteSpawn);
 		registerBedrockOre(new BedrockOreDefinition(EnumBedrockOre.ASBESTOS,				2),													WorldConfig.bedrockAsbestosSpawn);
 		registerBedrockOre(new BedrockOreDefinition(EnumBedrockOre.NIOBIUM,					2,	new FluidStack(Fluids.ACID, 500)),				WorldConfig.bedrockNiobiumSpawn);
 		registerBedrockOre(new BedrockOreDefinition(EnumBedrockOre.TITANIUM,				2,	new FluidStack(Fluids.SULFURIC_ACID, 500)),		WorldConfig.bedrockTitaniumSpawn);

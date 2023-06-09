@@ -209,6 +209,7 @@ public class OreDictManager {
 	public static final DictFrame LIGCOKE = new DictFrame("LigniteCoke");
 	public static final DictFrame CINNABAR = new DictFrame("Cinnabar");
 	public static final DictFrame BORAX = new DictFrame("Borax");
+	public static final DictFrame CHLOROCALCITE = new DictFrame("Chlorocalcite");
 	public static final DictFrame VOLCANIC = new DictFrame("Volcanic");
 	public static final DictFrame HEMATITE = new DictFrame("Hematite");
 	public static final DictFrame MALACHITE = new DictFrame("Malachite");
@@ -345,13 +346,13 @@ public class OreDictManager {
 		W																	.ingot(ingot_tungsten)												.dust(powder_tungsten)											.block(block_tungsten)		.ore(ore_tungsten, ore_nether_tungsten, ore_meteor_tungsten)	.oreNether(ore_nether_tungsten);
 		AL																	.ingot(ingot_aluminium)												.dust(powder_aluminium)			.plate(plate_aluminium)			.block(block_aluminium)		.ore(ore_aluminium, ore_meteor_aluminium);
 		STEEL																.ingot(ingot_steel)				.dustSmall(powder_steel_tiny)		.dust(powder_steel)				.plate(plate_steel)				.block(block_steel);
-		TCALLOY																.ingot(ingot_tcalloy)												.dust(powder_tcalloy);
-		CDALLOY																.ingot(ingot_cdalloy);
+		TCALLOY																.ingot(ingot_tcalloy)												.dust(powder_tcalloy)											.block(block_tcalloy);
+		CDALLOY																.ingot(ingot_cdalloy)																												.block(block_cdalloy);
 		PB			.nugget(nugget_lead)									.ingot(ingot_lead)													.dust(powder_lead)				.plate(plate_lead)				.block(block_lead)			.ore(ore_lead, ore_meteor_lead);
 		BI			.nugget(nugget_bismuth)									.ingot(ingot_bismuth)												.dust(powder_bismuth);
 		AS			.nugget(nugget_arsenic)									.ingot(ingot_arsenic);
 		CA																	.ingot(ingot_calcium)												.dust(powder_calcium);
-		CD																	.ingot(ingot_cadmium)												.dust(powder_cadmium);
+		CD																	.ingot(ingot_cadmium)												.dust(powder_cadmium)											.block(block_cadmium);
 		TA			.nugget(nugget_tantalium)	.gem(gem_tantalium)			.ingot(ingot_tantalium)												.dust(powder_tantalium)											.block(block_tantalium);
 		COLTAN																.ingot(fragment_coltan)												.dust(powder_coltan_ore)										.block(block_coltan)		.ore(ore_coltan);
 		NB			.nugget(fragment_niobium)								.ingot(ingot_niobium)			.dustSmall(powder_niobium_tiny)		.dust(powder_niobium)											.block(block_niobium);
@@ -390,6 +391,7 @@ public class OreDictManager {
 		LIGCOKE							.gem(fromOne(coke, EnumCokeType.LIGNITE))								.block(fromOne(block_coke, EnumCokeType.LIGNITE));
 		CINNABAR	.crystal(cinnebar)	.gem(cinnebar)																					.ore(ore_cinnebar, ore_depth_cinnebar);
 		BORAX																			.dust(powder_borax)								.ore(ore_depth_borax);
+		CHLOROCALCITE																	.dust(powder_chlorocalcite);
 		VOLCANIC						.gem(gem_volcanic)																				.ore(basalt_gem);
 		HEMATITE																														.ore(fromOne(stone_resource, EnumStoneType.HEMATITE));
 		MALACHITE																														.ore(fromOne(stone_resource, EnumStoneType.MALACHITE));

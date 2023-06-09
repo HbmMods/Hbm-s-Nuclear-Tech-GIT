@@ -18,7 +18,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -52,11 +51,12 @@ public class TrainCargoTram extends EntityRailCarElectric implements IGUIProvide
 
 	@Override public TrackGauge getGauge() { return TrackGauge.STANDARD; }
 	@Override public double getLengthSpan() { return 1.5; }
+	@Override public double getCollisionSpan() { return 2.5; }
 	@Override public Vec3 getRiderSeatPosition() { return Vec3.createVectorHelper(0.375, 2.375, 0.5); }
 	@Override public boolean shouldRiderSit() { return false; }
 	@Override public int getSizeInventory() { return 29; }
 	@Override public String getInventoryName() { return this.hasCustomInventoryName() ? this.getEntityName() : "container.trainTram"; }
-	@Override public AxisAlignedBB getCollisionBox() { return AxisAlignedBB.getBoundingBox(renderX, renderY, renderZ, renderX, renderY + 1, renderZ).expand(4, 0, 4); }
+	//@Override public AxisAlignedBB getCollisionBox() { return AxisAlignedBB.getBoundingBox(renderX, renderY, renderZ, renderX, renderY + 1, renderZ).expand(4, 0, 4); }
 	@Override public double getCouplingDist(TrainCoupling coupling) { return coupling != null ? 2.75 : 0; }
 
 	@Override public int getMaxPower() { return this.getPowerConsumption() * 100; }

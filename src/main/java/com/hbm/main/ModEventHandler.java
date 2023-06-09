@@ -478,11 +478,7 @@ public class ModEventHandler {
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
 		
-		ItemStack[] prevArmor = null;
-		
-		try {
-			prevArmor = (ItemStack[]) ReflectionHelper.findField(EntityLivingBase.class, "field_82180_bT", "previousEquipment").get(event.entityLiving);
-		} catch(Exception e) { }
+		ItemStack[] prevArmor = event.entityLiving.previousEquipment;
 
 		if(event.entityLiving instanceof EntityPlayer && prevArmor != null && event.entityLiving.getHeldItem() != null 
 				&& (prevArmor[0] == null || prevArmor[0].getItem() != event.entityLiving.getHeldItem().getItem())

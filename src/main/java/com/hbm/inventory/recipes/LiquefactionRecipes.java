@@ -80,12 +80,11 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		if(recipes.containsKey(comp))
 			return recipes.get(comp);
 		
+		String[] dictKeys = comp.getDictKeys();
 		comp = new ComparableStack(stack.getItem(), 1, OreDictionary.WILDCARD_VALUE);
 		
 		if(recipes.containsKey(comp))
 			return recipes.get(comp);
-		
-		String[] dictKeys = comp.getDictKeys();
 		
 		for(String key : dictKeys) {
 
