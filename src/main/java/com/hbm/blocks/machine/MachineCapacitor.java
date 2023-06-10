@@ -21,6 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -41,21 +42,23 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 	@SideOnly(Side.CLIENT) public IIcon iconInnerSide;
 	
 	protected long power;
+	String name;
 
-	public MachineCapacitor(Material mat, long power) {
+	public MachineCapacitor(Material mat, long power, String name) {
 		super(mat);
 		this.power = power;
+		this.name = name;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		super.registerBlockIcons(iconRegister);
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":capacitor_copper_top");
-		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":capacitor_copper_side");
-		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":capacitor_copper_bottom");
-		this.iconInnerTop = iconRegister.registerIcon(RefStrings.MODID + ":capacitor_copper_inner_top");
-		this.iconInnerSide = iconRegister.registerIcon(RefStrings.MODID + ":capacitor_copper_inner_side");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":capacitor_" + name + "_top");
+		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":capacitor_" + name + "_side");
+		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":capacitor_" + name + "_bottom");
+		this.iconInnerTop = iconRegister.registerIcon(RefStrings.MODID + ":capacitor_" + name + "_inner_top");
+		this.iconInnerSide = iconRegister.registerIcon(RefStrings.MODID + ":capacitor_" + name + "_inner_side");
 	}
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
@@ -102,6 +105,11 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		return IPersistentNBT.getDrops(world, x, y, z, this);
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+		IPersistentNBT.restoreData(world, x, y, z, itemStack);
 	}
 
 	@Override
