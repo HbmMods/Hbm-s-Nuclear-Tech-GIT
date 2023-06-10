@@ -237,6 +237,12 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	public Object[] getGasMax(Context context, Arguments args) {
 		return new Object[] {gas.getMaxFill()};
 	}
+	
+		@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getGasType(Context context, Arguments args) {
+		return new Object[] {gas.getTankType().getID()};
+	}
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
@@ -253,7 +259,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {gas.getFill(), gas.getMaxFill(), progress, xCoord, yCoord, zCoord};
+		return new Object[] {gas.getFill(), gas.getMaxFill(), progress, gas.getTankType().getID(), xCoord, yCoord, zCoord};
 	}
 
 	@Override
