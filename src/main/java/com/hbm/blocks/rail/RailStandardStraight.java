@@ -90,7 +90,7 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 				info.yaw(90F);
 			}
 			vec.xCoord = MathHelper.clamp_double(targetX, cX - 2, cX + 3);
-			vec.yCoord = y;
+			vec.yCoord = y + 0.1875;
 			vec.zCoord = cZ + 0.5 + rot.offsetZ * 0.5;
 			info.dist(Math.abs(targetX - vec.xCoord) * Math.signum(speed));
 			info.pos(new BlockPos(cX + (motionX * speed > 0 ? 3 : -3), y, cZ));
@@ -104,7 +104,7 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 				info.yaw(180F);
 			}
 			vec.xCoord = cX + 0.5 + rot.offsetX * 0.5;
-			vec.yCoord = y;
+			vec.yCoord = y + 0.1875;
 			vec.zCoord = MathHelper.clamp_double(targetZ, cZ - 2,cZ + 3);
 			info.dist(Math.abs(targetZ - vec.zCoord) * Math.signum(speed));
 			info.pos(new BlockPos(cX, y, cZ + (motionZ * speed > 0 ? 3 : -3)));

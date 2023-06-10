@@ -13,10 +13,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
-import com.hbm.blocks.rail.IRailNTM;
-import com.hbm.blocks.rail.IRailNTM.MoveContext;
-import com.hbm.blocks.rail.IRailNTM.RailCheckType;
-import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityHunterChopper;
@@ -70,7 +66,6 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
-import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
@@ -953,22 +948,26 @@ public class ModEventHandlerClient {
 		if(event.phase == Phase.START && GeneralConfig.enableSkyboxes) {
 			
 			World world = Minecraft.getMinecraft().theWorld;
+			if(world == null) return;
 			
-			if(world != null && world.provider instanceof WorldProviderSurface) {
-				
-				IRenderHandler sky = world.provider.getSkyRenderer();
+			IRenderHandler sky = world.provider.getSkyRenderer();
+			
+			if(world.provider instanceof WorldProviderSurface) {
 				
 				if(ImpactWorldHandler.getDustForClient(world) > 0 || ImpactWorldHandler.getFireForClient(world) > 0) {
 
 					//using a chainloader isn't necessary since none of the sky effects should render anyway
 					if(!(sky instanceof RenderNTMSkyboxImpact)) {
 						world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
+						return;
 					}
-				} else {
-
-					if(!(sky instanceof RenderNTMSkyboxChainloader)) {
-						world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
-					}
+				}
+			}
+			
+			if(world.provider.dimensionId == 0) {
+				
+				if(!(sky instanceof RenderNTMSkyboxChainloader)) {
+					world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
 				}
 			}
 		}

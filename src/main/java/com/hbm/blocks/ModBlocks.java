@@ -760,6 +760,8 @@ public class ModBlocks {
 	public static Block capacitor_bus;
 	public static Block capacitor_copper;
 	public static Block capacitor_gold;
+	public static Block capacitor_niobium;
+	public static Block capacitor_tantalium;
 	
 	public static Block machine_coal_off;
 	public static Block machine_coal_on;
@@ -1886,6 +1888,8 @@ public class ModBlocks {
 		capacitor_bus = new MachineCapacitorBus(Material.iron).setBlockName("capacitor_bus").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		capacitor_copper = new MachineCapacitor(Material.iron, 1_000_000L, "copper").setBlockName("capacitor_copper").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_copper");
 		capacitor_gold = new MachineCapacitor(Material.iron, 5_000_000L, "gold").setBlockName("capacitor_gold").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName("gold_block");
+		capacitor_niobium = new MachineCapacitor(Material.iron, 25_000_000L, "niobium").setBlockName("capacitor_niobium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_niobium");
+		capacitor_tantalium = new MachineCapacitor(Material.iron, 100_000_000L, "tantalium").setBlockName("capacitor_tantalium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_tantalium");
 		
 		machine_coal_off = new MachineCoal(false).setBlockName("machine_coal_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_coal_on = new MachineCoal(true).setBlockName("machine_coal_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
@@ -3203,6 +3207,8 @@ public class ModBlocks {
 		register(capacitor_bus);
 		register(capacitor_copper);
 		register(capacitor_gold);
+		register(capacitor_niobium);
+		register(capacitor_tantalium);
 		GameRegistry.registerBlock(machine_transformer, machine_transformer.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_transformer_20, machine_transformer_20.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_transformer_dnt, machine_transformer_dnt.getUnlocalizedName());

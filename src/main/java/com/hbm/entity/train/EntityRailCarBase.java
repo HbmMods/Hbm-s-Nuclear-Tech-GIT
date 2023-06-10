@@ -47,6 +47,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 	private double trainYaw;
 	private double trainPitch;
 	private float movementYaw;
+	private float movementPitch;
 	@SideOnly(Side.CLIENT) private double velocityX;
 	@SideOnly(Side.CLIENT) private double velocityY;
 	@SideOnly(Side.CLIENT) private double velocityZ;
@@ -179,6 +180,9 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			}
 			
 		} else {
+			
+			PacketDispatcher.wrapper.sendToAllAround(new PlayerInformPacket(ChatBuilder.start("" + this.rotationPitch).color(EnumChatFormatting.RED).flush(), 1),
+					new TargetPoint(dimension, posX, posY + 1, posZ, 50));
 
 			if(this.coupledFront != null && this.coupledFront.isDead) {
 				this.coupledFront = null;
@@ -393,11 +397,13 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 		this.motionY = this.velocityY;
 		this.motionZ = this.velocityZ;
 		this.trainYaw = this.movementYaw;
+		this.trainPitch = this.movementPitch;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void setVelocity(double mX, double mY, double mZ) {
 		this.movementYaw = (float) this.motionX * 360F;
+		this.movementPitch = (float) this.motionY * 360F;
 		this.velocityX = this.motionX = mX;
 		this.velocityY = this.motionY = mY;
 		this.velocityZ = this.motionZ = mZ;
@@ -614,7 +620,8 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			Vec3 nextLoc = moving.getCouplingPos(nextCouple);
 			Vec3 delta = Vec3.createVectorHelper(prevLoc.xCoord - nextLoc.xCoord, 0, prevLoc.zCoord - nextLoc.zCoord);
 			double len = delta.lengthVector();
-			len *= 0.75; //suspension, causes movements to be less rigid
+			//len *= 0.25; //suspension, causes movements to be less rigid
+			len = (len / (0.5D / (len * len) + 1D)); //smart suspension
 			BlockPos anchor = new BlockPos(moving.posX, moving.posY, moving.posZ);
 			Vec3 trainPos = Vec3.createVectorHelper(moving.posX, moving.posY, moving.posZ);
 			float yaw = EntityRailCarBase.generateYaw(prevLoc, nextLoc);
@@ -740,15 +747,13 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			
 			EntityRailCarBase first = this.trains[0];
 			
-			for(int i = forward ? 0 : this.trains.length - 1; forward ? i < this.trains.length : i >= 0; i += forward ? 1 : -1) {
+			for(int i = !forward ? 0 : this.trains.length - 1; !forward ? i < this.trains.length : i >= 0; i += !forward ? 1 : -1) {
 				EntityRailCarBase current = this.trains[i];
 				
 				if(previous == null) {
-					PacketDispatcher.wrapper.sendToAllAround(new PlayerInformPacket(ChatBuilder.start("" + current.getClass() + " " + origSpeed).color(EnumChatFormatting.RED).flush(), 1),
-							new TargetPoint(current.dimension, current.posX, current.posY + 1, current.posZ, 50));
 					
 					boolean inReverse = first.getCouplingFrom(null) == current.getCouplingFrom(null);
-					int sigNum = inReverse ? -1 : 1;
+					int sigNum = inReverse ? 1 : -1;
 					BlockPos anchor = current.getCurrentAnchorPos();
 					Vec3 corePos = current.getRelPosAlongRail(anchor, speed * sigNum, new MoveContext(RailCheckType.CORE));
 					
@@ -786,7 +791,10 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			current.renderZ = (frontPos.zCoord + backPos.zCoord) / 2D;
 			current.prevRotationYaw = current.rotationYaw;
 			current.rotationYaw = current.movementYaw = generateYaw(frontPos, backPos);
+			Vec3 delta = Vec3.createVectorHelper(frontPos.xCoord - backPos.xCoord, frontPos.yCoord - backPos.yCoord, frontPos.zCoord - backPos.zCoord);
+			current.rotationPitch = current.movementPitch = (float) (Math.asin(delta.yCoord / delta.lengthVector()) * 180D / Math.PI);
 			current.motionX = current.rotationYaw / 360D; // hijacking this crap for easy syncing
+			current.motionY = current.rotationPitch / 360D;
 			current.velocityChanged = true;
 		}
 	}

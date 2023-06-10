@@ -1,5 +1,8 @@
 package com.hbm.blocks.machine;
 
+import java.util.List;
+
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.lib.RefStrings;
 
 import api.hbm.energy.IEnergyConnectorBlock;
@@ -10,13 +13,14 @@ import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineCapacitorBus extends Block implements IEnergyConnectorBlock {
+public class MachineCapacitorBus extends Block implements IEnergyConnectorBlock, ITooltipProvider {
 	
 	@SideOnly(Side.CLIENT) private IIcon topIcon;
 
@@ -46,5 +50,10 @@ public class MachineCapacitorBus extends Block implements IEnergyConnectorBlock 
 		int meta = world.getBlockMetadata(x, y, z);
 		ForgeDirection busDir = ForgeDirection.getOrientation(meta);
 		return dir == busDir;
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

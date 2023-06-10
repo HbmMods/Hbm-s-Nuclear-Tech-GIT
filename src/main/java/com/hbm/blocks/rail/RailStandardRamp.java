@@ -19,6 +19,11 @@ public class RailStandardRamp extends BlockDummyable implements IRailNTM {
 
 	public RailStandardRamp() {
 		super(Material.iron);
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-2.5, 0.0, -1.5, -1.5, 0.1, 0.5));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-1.5, 0.0, -1.5, -0.5, 0.3, 0.5));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.5, 0.0, -1.5, 0.5, 0.5, 0.5));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(0.5, 0.0, -1.5, 1.5, 0.7, 0.5));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(1.5, 0.0, -1.5, 2.5, 0.9, 0.5));
 	}
 
 	@Override
@@ -92,7 +97,7 @@ public class RailStandardRamp extends BlockDummyable implements IRailNTM {
 			}
 			double dist = (cX + 0.5 - targetX + 2.5) / 5;
 			vec.xCoord = MathHelper.clamp_double(targetX, cX - 2, cX + 3);
-			vec.yCoord = MathHelper.clamp_double(dir == Library.POS_X ? cY + dist : cY + 1 - dist, cY, cY + 1);
+			vec.yCoord = MathHelper.clamp_double(dir == Library.POS_X ? cY + dist : cY + 1 - dist, cY, cY + 1) + 0.1875;
 			vec.zCoord = cZ + 0.5 + rot.offsetZ * 0.5;
 			info.dist(Math.abs(targetX - vec.xCoord) * Math.signum(speed));
 			info.pos(new BlockPos(cX + (motionX * speed > 0 ? 3 : -3), cY + (motionX * speed > 0 ^ dir == Library.POS_X ? 1 : 0), cZ));
@@ -107,7 +112,7 @@ public class RailStandardRamp extends BlockDummyable implements IRailNTM {
 			}
 			double dist = (cZ + 0.5 - targetZ + 2.5) / 5;
 			vec.xCoord = cX + 0.5 + rot.offsetX * 0.5;
-			vec.yCoord = MathHelper.clamp_double(dir == Library.POS_Z ? cY + dist : cY + 1 - dist, cY, cY + 1);
+			vec.yCoord = MathHelper.clamp_double(dir == Library.POS_Z ? cY + dist : cY + 1 - dist, cY, cY + 1) + 0.1875;
 			vec.zCoord = MathHelper.clamp_double(targetZ, cZ - 2,cZ + 3);
 			info.dist(Math.abs(targetZ - vec.zCoord) * Math.signum(speed));
 			info.pos(new BlockPos(cX, cY + (motionZ * speed > 0 ^ dir == Library.POS_Z ? 1 : 0), cZ + (motionZ * speed > 0 ? 3 : -3)));

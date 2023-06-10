@@ -173,6 +173,7 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 						seat.setDead();
 					} else {
 						Vec3 rot = seats[i];
+						rot.rotateAroundX((float) (this.rotationPitch * Math.PI / 180));
 						rot.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
 						double x = renderX + rot.xCoord;
 						double y = renderY + rot.yCoord;
@@ -188,6 +189,7 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 	public void updateRiderPosition() {
 		
 		Vec3 offset = getRiderSeatPosition();
+		offset.rotateAroundX((float) (this.rotationPitch * Math.PI / 180));
 		offset.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
 		
 		if(this.riddenByEntity != null) {
@@ -271,6 +273,7 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 				//mmhmhmhm silky smooth
 				int index = this.dataWatcher.getWatchableObjectInt(4);
 				Vec3 rot = this.train.getPassengerSeats()[index];
+				rot.rotateAroundX((float) (train.rotationPitch * Math.PI / 180));
 				rot.rotateAroundY((float) (-train.rotationYaw * Math.PI / 180));
 				double x = train.renderX + rot.xCoord;
 				double y = train.renderY + rot.yCoord;
