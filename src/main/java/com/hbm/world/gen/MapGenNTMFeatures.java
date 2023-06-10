@@ -1,4 +1,4 @@
-package com.hbm.world.worldgen;
+package com.hbm.world.gen;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -7,9 +7,10 @@ import java.util.Random;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.StructureConfig;
-import com.hbm.world.worldgen.components.CivilianFeatures.*;
-import com.hbm.world.worldgen.components.OfficeFeatures.*;
-import com.hbm.world.worldgen.components.RuinFeatures.*;
+import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
+import com.hbm.world.gen.component.CivilianFeatures.*;
+import com.hbm.world.gen.component.OfficeFeatures.*;
+import com.hbm.world.gen.component.RuinFeatures.*;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -89,6 +90,9 @@ public class MapGenNTMFeatures extends MapGenStructure {
 	/** Returns new StructureStart if structure can be spawned at coords */
 	@Override
 	protected StructureStart getStructureStart(int chunkX, int chunkZ) {
+		if(this.rand.nextInt(15) == 0) { //eh might as well, they'll already be prettty rare anyway
+			return new BunkerStart(this.worldObj, this.rand, chunkX, chunkZ);
+		}
 		return new MapGenNTMFeatures.Start(this.worldObj, this.rand, chunkX, chunkZ);
 	}
 	
@@ -99,10 +103,8 @@ public class MapGenNTMFeatures extends MapGenStructure {
 		public Start(World world, Random rand, int chunkX, int chunkZ) {
 			super(chunkX, chunkZ);
 			
-			BiomeGenBase biome = world.getBiomeGenForCoords(chunkX * 16 + 8, chunkZ * 16 + 8);
-			int posY = world.getHeightValue(chunkX * 16 + 8, chunkZ * 16 + 8);
-			if(posY == 0)
-				posY = world.getTopSolidOrLiquidBlock(chunkX * 16 + 8, chunkZ * 16 + 8);
+			BiomeGenBase biome = world.getBiomeGenForCoords(chunkX * 16 + 8, chunkZ * 16 + 8); //Only gets the biome in the corner of the chunk.
+			final int posY = 64; // Terrain *does not exist* at this stage - at least, for vanilla. Here it has to be called after, but better safe than sorry.
 			
 			/*
 			 * Probably want to use nextInt() to increase the structures of rarity here. As a fallback, you could have generic stone brick/useless block ruins that will always be chosen if the

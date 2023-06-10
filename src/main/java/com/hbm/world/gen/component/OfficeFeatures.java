@@ -1,4 +1,4 @@
-package com.hbm.world.worldgen.components;
+package com.hbm.world.gen.component;
 
 import java.util.Random;
 
@@ -200,9 +200,9 @@ public class OfficeFeatures {
 			randomlyFillWithBlocks(world, box, rand, 0.25F, 6, 3, 1, sizeX - 1, 3, 6, Blocks.web);
 			randomlyFillWithBlocks(world, box, rand, 0.25F, 10, 3, 7, sizeX - 1, 3, sizeZ - 1, Blocks.web);
 			//Doors
-			placeDoor(world, box, ModBlocks.door_office, 3, 2, 1, 7);
-			placeDoor(world, box, ModBlocks.door_office, 3, 3, 1, 7);
-			placeDoor(world, box, ModBlocks.door_office, 0, 5, 1, 6);
+			placeDoor(world, box, ModBlocks.door_office, 3, false, rand.nextBoolean(), 2, 1, 7);
+			placeDoor(world, box, ModBlocks.door_office, 3, false, rand.nextBoolean(), 3, 1, 7);
+			placeDoor(world, box, ModBlocks.door_office, 0, false, rand.nextBoolean(), 5, 1, 6);
 			
 			//Woot
 			if(!this.hasPlacedLoot[0])
@@ -427,16 +427,16 @@ public class OfficeFeatures {
 			fillWithRandomizedBlocks(world, box, 2, 11, 10, 3, 11, 10, rand, ConcreteBricks);
 			fillWithRandomizedBlocks(world, box, 2, 9, 10, 2, 10, 10, rand, ConcreteBricks);
 			//Doors
-			placeDoor(world, box, Blocks.wooden_door, 3, 1, 1, 14);
-			placeDoor(world, box, Blocks.wooden_door, 3, 2, 1, 14);
-			placeDoor(world, box, Blocks.wooden_door, 0, 0, 1, 12);
-			placeDoor(world, box, Blocks.wooden_door, 0, 0, 1, 13);
-			placeDoor(world, box, ModBlocks.door_office, 0, 6, 1, 3);
-			placeDoor(world, box, ModBlocks.door_office, 0, 5, 5, 3);
-			placeDoor(world, box, ModBlocks.door_office, 2, 4, 5, 11);
-			placeDoor(world, box, ModBlocks.door_office, 0, 10, 9, 3);
-			placeDoor(world, box, ModBlocks.door_office, 1, 3, 9, 10);
-			placeDoor(world, box, ModBlocks.door_metal, 0, 5, 13, 3);
+			placeDoor(world, box, Blocks.wooden_door, 3, false, rand.nextBoolean(), 1, 1, 14);
+			placeDoor(world, box, Blocks.wooden_door, 3, true, rand.nextBoolean(), 2, 1, 14);
+			placeDoor(world, box, Blocks.wooden_door, 0, false, rand.nextBoolean(), 0, 1, 12);
+			placeDoor(world, box, Blocks.wooden_door, 0, true, rand.nextBoolean(), 0, 1, 13);
+			placeDoor(world, box, ModBlocks.door_office, 0, false, rand.nextBoolean(), 6, 1, 3);
+			placeDoor(world, box, ModBlocks.door_office, 0, false, rand.nextBoolean(), 5, 5, 3);
+			placeDoor(world, box, ModBlocks.door_office, 2, false, rand.nextBoolean(), 4, 5, 11);
+			placeDoor(world, box, ModBlocks.door_office, 0, false, rand.nextBoolean(), 10, 9, 3);
+			placeDoor(world, box, ModBlocks.door_office, 1, false, rand.nextBoolean(), 3, 9, 10);
+			placeDoor(world, box, ModBlocks.door_metal, 0, false, rand.nextBoolean(), 5, 13, 3);
 			//Furniture
 			//Floor 1
 			int NorthStairMeta = getStairMeta(2);

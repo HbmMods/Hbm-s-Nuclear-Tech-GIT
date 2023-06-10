@@ -54,21 +54,6 @@ public class ItemWandD extends Item {
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
 			
-			/*ItemStack itemStack = new ItemStack(ModItems.book_lore);
-			BookLoreType.setTypeForStack(itemStack, BookLoreType.BOOK_IODINE);
-			
-			player.inventory.addItemStackToInventory(itemStack);
-			player.inventoryContainer.detectAndSendChanges();*/
-			
-			//use sparingly
-			/*int k = ((pos.blockX >> 4) << 4) + 8;
-			int l = ((pos.blockZ >> 4) << 4) + 8;
-			
-			MapGenBunker.Start start = new MapGenBunker.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
-			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));*/
-			//MapGenStronghold.Start startS = new MapGenStronghold.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
-			//startS.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));
-			
 			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
 			torex.getDataWatcher().updateObject(10, 1.5F);
