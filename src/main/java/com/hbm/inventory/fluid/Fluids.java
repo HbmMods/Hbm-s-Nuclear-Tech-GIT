@@ -134,6 +134,12 @@ public class Fluids {
 	public static FluidType SUNFLOWEROIL;
 	public static FluidType NITROGLYCERIN;
 	public static FluidType REDMUD;
+	public static FluidType CHLOROCALCITE_SOLUTION;
+	public static FluidType CHLOROCALCITE_MIX;
+	public static FluidType CHLOROCALCITE_CLEANED;
+	public static FluidType POTASSIUM_CHLORIDE;
+	public static FluidType CALCIUM_CHLORIDE;
+	public static FluidType CALCIUM_SOLUTION;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -278,7 +284,13 @@ public class Fluids {
 		FISHOIL =				new FluidType("FISHOIL",			0x4B4A45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		SUNFLOWEROIL =			new FluidType("SUNFLOWEROIL",		0xCBAD45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		NITROGLYCERIN =			new FluidType("NITROGLYCERIN",		0x92ACA6, 0, 4, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		REDMUD =				new FluidType(113, "REDMUD",		0xD85638, 3, 0, 4, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, LEADCON, new FT_Corrosive(60), new FT_Flammable(1_000));
+		REDMUD =				new FluidType("REDMUD",				0xD85638, 3, 0, 4, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, LEADCON, new FT_Corrosive(60), new FT_Flammable(1_000));
+		CHLOROCALCITE_SOLUTION = new FluidType("CHLOROCALCITE_SOLUTION", 0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, NOCON, new FT_Corrosive(60));
+		CHLOROCALCITE_MIX =		new FluidType("CHLOROCALCITE_MIX",	0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, NOCON, new FT_Corrosive(60));
+		CHLOROCALCITE_CLEANED =	new FluidType("CHLOROCALCITE_CLEANED", 0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, NOCON, new FT_Corrosive(60));
+		POTASSIUM_CHLORIDE =	new FluidType("POTASSIUM_CHLORIDE",	0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, NOCON, new FT_Corrosive(60));
+		CALCIUM_CHLORIDE =		new FluidType("CALCIUM_CHLORIDE", 0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, NOCON, new FT_Corrosive(60));
+		CALCIUM_SOLUTION =		new FluidType(119, "CALCIUM_SOLUTION", 0x808080, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, NOCON, new FT_Corrosive(60));
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -389,6 +401,12 @@ public class Fluids {
 		metaOrder.add(REDMUD);
 		metaOrder.add(EGG);
 		metaOrder.add(CHOLESTEROL);
+		metaOrder.add(CHLOROCALCITE_SOLUTION);
+		metaOrder.add(CHLOROCALCITE_MIX);
+		metaOrder.add(CHLOROCALCITE_CLEANED);
+		metaOrder.add(POTASSIUM_CHLORIDE);
+		metaOrder.add(CALCIUM_CHLORIDE);
+		metaOrder.add(CALCIUM_SOLUTION);
 		//solutions and working fluids
 		metaOrder.add(FRACKSOL);
 		//the fun guys

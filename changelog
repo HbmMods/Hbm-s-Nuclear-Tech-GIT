@@ -19,9 +19,11 @@
 * Mist now spawns cloud particles with the correct color instead of standard white
 * HE artillery shells and rockets now turn blocks into slag
 * The old static bunker structure has been removed and replaced with dynamically generated ones, using the same style of generation as vanilla strongholds.
+* Changed the processing for chlorocalcite, instead of using a combination furnace it now requires a six step cleaning and electrolysis process
 
 ## Fixed
 * Fixed the TOXIC trait not respecting protection when applying potion effects
 * Fixed some armor recipes only accepting polymer and not bakelite
 * Fixed turbofans not sucking in players
 * Fixed NTM skybox not applying to superflat worlds
+* Fixed breeding slot in the fusion reactor never resettingthe progress after completing an operation
