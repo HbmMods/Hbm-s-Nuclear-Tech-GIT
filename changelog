@@ -1,5 +1,6 @@
 ## Added
 * Machines now emit soot. Soot collects in units of 4x4 chunks, and spreads into neighboring regions. High levels of soot cause visible smog.
+  * The system has yet to be balanced, it's possible that only a few machines cause way too much soot or barely any
 * Gas artillery shells
   * Chlorine
   * Phosgene
@@ -27,3 +28,6 @@
 * Fixed turbofans not sucking in players
 * Fixed NTM skybox not applying to superflat worlds
 * Fixed breeding slot in the fusion reactor never resettingthe progress after completing an operation
+* Fixed potential issue where tanks would send fluids to invalidated tile entities, voiding themselves almost instantly
+* Fixed cadmium and technetium steel blocks not having ore dict names
+* Fixed potential crash regarding certain potion code running clientside

@@ -24,9 +24,9 @@ public class ItemPollutionDetector extends Item {
 		PollutionData data = PollutionHandler.getPollutionData(world, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY), (int) Math.floor(entity.posZ));
 		if(data == null) data = new PollutionData();
 		
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Soot: " + data.pollution[PollutionType.SOOT.ordinal()]).color(EnumChatFormatting.RED).flush(), 100), (EntityPlayerMP) entity);
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Poison: " + data.pollution[PollutionType.POISON.ordinal()]).color(EnumChatFormatting.RED).flush(), 101), (EntityPlayerMP) entity);
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Heavy metal: " + data.pollution[PollutionType.HEAVYMETAL.ordinal()]).color(EnumChatFormatting.RED).flush(), 102), (EntityPlayerMP) entity);
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Fallout: " + data.pollution[PollutionType.FALLOUT.ordinal()]).color(EnumChatFormatting.RED).flush(), 103), (EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Soot: " + data.pollution[PollutionType.SOOT.ordinal()]).color(EnumChatFormatting.YELLOW).flush(), 100, 2000), (EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Poison: " + data.pollution[PollutionType.POISON.ordinal()]).color(EnumChatFormatting.YELLOW).flush(), 101, 2000), (EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Heavy metal: " + data.pollution[PollutionType.HEAVYMETAL.ordinal()]).color(EnumChatFormatting.YELLOW).flush(), 102, 2000), (EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Fallout: " + data.pollution[PollutionType.FALLOUT.ordinal()]).color(EnumChatFormatting.YELLOW).flush(), 103, 2000), (EntityPlayerMP) entity);
 	}
 }

@@ -99,6 +99,8 @@ public class HbmPotion extends Potion {
 	}
 
 	public void performEffect(EntityLivingBase entity, int level) {
+		
+		if(entity.worldObj.isRemote) return;
 
 		if(this == taint) {
 			
@@ -123,7 +125,6 @@ public class HbmPotion extends Potion {
 			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, (float)(level + 1F) * 0.05F);
 		}
 		if(this == radaway) {
-			
 			HbmLivingProps.incrementRadiation(entity, -(level + 1));
 			
 		}
@@ -145,22 +146,9 @@ public class HbmPotion extends Potion {
 			}
 		}
 		if(this == lead) {
-			
 			entity.attackEntityFrom(ModDamageSource.lead, (level + 1));
 		}
-		/*if(this == telekinesis) {
-			
-			int remaining = entity.getActivePotionEffect(this).getDuration();
-			
-			if(remaining > 1) {
-				entity.motionY = 0.5;
-			} else {
-				entity.motionY = -2;
-				entity.fallDistance = 50;
-			}
-		}*/
-		if(this == phosphorus && !entity.worldObj.isRemote) {
-			
+		if(this == phosphorus) {
 			entity.setFire(1);
 		}
 	}

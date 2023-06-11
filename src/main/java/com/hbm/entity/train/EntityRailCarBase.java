@@ -224,6 +224,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				DummyConfig def = definitions[i];
 				BoundingBoxDummyEntity dummy = dummies[i];
 				Vec3 rot = Vec3.createVectorHelper(def.offset.xCoord, def.offset.yCoord, def.offset.zCoord);
+				rot.rotateAroundX((float) (this.rotationPitch * Math.PI / 180D));
 				rot.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
 				double x = renderX + rot.xCoord;
 				double y = renderY + rot.yCoord;

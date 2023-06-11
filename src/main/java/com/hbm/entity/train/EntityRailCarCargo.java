@@ -82,6 +82,8 @@ public abstract class EntityRailCarCargo extends EntityRailCarBase implements II
 		if(stack != null && stack.stackSize > this.getInventoryStackLimit()) {
 			stack.stackSize = this.getInventoryStackLimit();
 		}
+		
+		if(!this.worldObj.isRemote) this.dataWatcher.updateObject(10, this.countVacantSlots());
 	}
 
 	@Override
