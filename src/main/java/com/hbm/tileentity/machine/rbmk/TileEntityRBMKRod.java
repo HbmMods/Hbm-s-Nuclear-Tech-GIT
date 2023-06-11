@@ -443,14 +443,20 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public Object[] getInfo(Context context, Arguments args) {
 		Object OC_enrich_buf;
 		Object OC_poison_buf;
+		Object OC_hull_buf;
+		Object OC_core_buf;
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 			OC_enrich_buf = ItemRBMKRod.getEnrichment(slots[0]);
 			OC_poison_buf = ItemRBMKRod.getPoison(slots[0]);
+			OC_hull_buf = ItemRBMKRod.getHullHeat(slots[0]);
+			OC_core_buf = ItemRBMKRod.getCoreHeat(slots[0]);
 		} else {
 			OC_enrich_buf = "N/A";
 			OC_poison_buf = "N/A";
+			OC_hull_buf = "N/A";
+			OC_core_buf = "N/A";
 		}
-		return new Object[] {heat, ItemRBMKRod.getHullHeat(slots[0]), ItemRBMKRod.getCoreHeat(slots[0]), fluxSlow, fluxFast, OC_enrich_buf, OC_poison_buf, ((RBMKRod)this.getBlockType()).moderated, xCoord, yCoord, zCoord};
+		return new Object[] {heat, OC_hull_buf, OC_core_buf, fluxSlow, fluxFast, OC_enrich_buf, OC_poison_buf, ((RBMKRod)this.getBlockType()).moderated, xCoord, yCoord, zCoord};
 	}
 
 	@Callback(direct = true, limit = 16)
