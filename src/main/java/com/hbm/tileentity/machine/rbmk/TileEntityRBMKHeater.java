@@ -280,54 +280,54 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 		return "rbmk_heater";
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
 		return new Object[] {heat};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFill(Context context, Arguments args) {
 		return new Object[] {feed.getFill()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFillMax(Context context, Arguments args) {
 		return new Object[] {feed.getMaxFill()};
 	}
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getExport(Context context, Arguments args) {
 		return new Object[] {steam.getFill()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getExportMax(Context context, Arguments args) {
 		return new Object[] {steam.getMaxFill()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFillType(Context context, Arguments args) {
 		return new Object[] {feed.getTankType().getID()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getExportType(Context context, Arguments args) {
 		return new Object[] {steam.getTankType().getID()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {heat, feed.getFill(), feed.getMaxFill(), steam.getFill(), steam.getMaxFill(), feed.getTankType().getID(), steam.getTankType().getID(), xCoord, yCoord, zCoord};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoordinates(Context context, Arguments args) {
 		return new Object[] {xCoord, yCoord, zCoord};
