@@ -103,7 +103,7 @@ public class MachineOrbus extends BlockDummyable implements IPersistentInfoProvi
 		
 		if(!tank.hasExploded) {
 			tank.explode(world, x, y, z);
-			
+			world.setBlock(pos[0], pos[1], pos[2], Blocks.air);
 		} else {
 			world.setBlock(pos[0], pos[1], pos[2], Blocks.air);
 		}

@@ -173,6 +173,7 @@ public class Fluids {
 	public static final FT_NoID NOID = new FT_NoID();
 	public static final FT_Delicious DELICIOUS = new FT_Delicious();
 	public static final FT_ULTRAKILL ULTRAKILL = new FT_ULTRAKILL();
+	public static final FT_EXPLOSIVE EXPLOSIVE = new FT_EXPLOSIVE();
 	
 	public static void init() {
 		
@@ -322,7 +323,7 @@ public class Fluids {
 		ESTRADIOL =				new FluidType("ESTRADIOL",			0xCDD5D8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		FISHOIL =				new FluidType("FISHOIL",			0x4B4A45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		SUNFLOWEROIL =			new FluidType("SUNFLOWEROIL",		0xCBAD45, 0, 1, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		NITROGLYCERIN =			new FluidType("NITROGLYCERIN",		0x92ACA6, 0, 4, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		NITROGLYCERIN =			new FluidType("NITROGLYCERIN",		0x92ACA6, 0, 4, 0, EnumSymbol.NONE).addTraits(LIQUID, EXPLOSIVE);
 		REDMUD =				new FluidType("REDMUD",		0xD85638, 3, 0, 4, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, LEADCON, new FT_Corrosive(60), new FT_Flammable(1_000));
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
