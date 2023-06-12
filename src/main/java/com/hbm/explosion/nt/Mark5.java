@@ -10,6 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+@Deprecated
 public class Mark5 implements IExplosionLogic {
 
 	//holds rays after being calculated up to where the blocks get removed
