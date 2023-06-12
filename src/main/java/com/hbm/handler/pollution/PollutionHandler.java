@@ -123,6 +123,7 @@ public class PollutionHandler {
 
 			try {
 				File pollutionFile = new File(dirPath, fileName);
+				if(!pollutionFile.getParentFile().exists()) pollutionFile.getParentFile().mkdirs();
 				if(!pollutionFile.exists()) pollutionFile.createNewFile();
 				NBTTagCompound data = perWorld.get(world).writeToNBT();
 				CompressedStreamTools.writeCompressed(data, new FileOutputStream(pollutionFile));
