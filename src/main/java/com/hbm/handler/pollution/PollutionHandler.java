@@ -173,17 +173,9 @@ public class PollutionHandler {
 						data.pollution[S] *= 0.8F;
 					} else {
 						data.pollution[S] *= 0.99F;
-						/* Clamp soot pollution to 0 near low values. */
-						if(data.pollution[S] < 0.0001F) {
-							data.pollution[S] = 0;
-						}
 					}
 
 					data.pollution[H] *= 0.999F;
-					/* Clamp Heavy pollution to 0 near low values. */
-					if(data.pollution[H] < 0.001F) {
-						data.pollution[H] = 0;
-					}
 
 					/* SPREADING */
 					//apply new data to self
