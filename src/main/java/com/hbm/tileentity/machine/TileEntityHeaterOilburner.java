@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.container.ContainerOilburner;
@@ -70,6 +72,8 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 					int heat = (int)(type.getHeatEnergy() / 1000);
 					
 					this.heatEnergy += heat * toBurn;
+
+					if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * burnRate * 0.5F);
 					
 					shouldCool = false;
 				}

@@ -22,6 +22,7 @@ public class FluidContainerRegistry {
 	
 	public static void register() {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.water_bucket), new ItemStack(Items.bucket), Fluids.WATER, 1000));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.potionitem), new ItemStack(Items.glass_bottle), Fluids.WATER, 250));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.lava_bucket), new ItemStack(Items.bucket), Fluids.LAVA, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_mud), new ItemStack(Items.bucket), Fluids.WATZ, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_schrabidic_acid), new ItemStack(Items.bucket), Fluids.SCHRABIDIC, 1000));

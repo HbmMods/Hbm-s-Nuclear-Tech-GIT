@@ -2,6 +2,8 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerFurnaceCombo;
 import com.hbm.inventory.fluid.Fluids;
@@ -119,6 +121,8 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 					
 					if(worldObj.getTotalWorldTime() % 10 == 0) this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 1, this.zCoord, "hbm:weapon.flamethrowerShoot", 0.25F, 0.5F);
 				}
+
+				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
 			} else {
 				this.progress = 0;
 			}

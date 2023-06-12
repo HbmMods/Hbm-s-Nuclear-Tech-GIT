@@ -226,34 +226,40 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		return "rbmk_outgasser";
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getGas(Context context, Arguments args) {
 		return new Object[] {gas.getFill()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getGasMax(Context context, Arguments args) {
 		return new Object[] {gas.getMaxFill()};
 	}
+	
+		@Callback(direct = true, limit = 8)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getGasType(Context context, Arguments args) {
+		return new Object[] {gas.getTankType().getID()};
+	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getProgress(Context context, Arguments args) {
 		return new Object[] {progress};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoordinates(Context context, Arguments args) {
 		return new Object[] {xCoord, yCoord, zCoord};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {gas.getFill(), gas.getMaxFill(), progress, xCoord, yCoord, zCoord};
+		return new Object[] {gas.getFill(), gas.getMaxFill(), progress, gas.getTankType().getID(), xCoord, yCoord, zCoord};
 	}
 
 	@Override

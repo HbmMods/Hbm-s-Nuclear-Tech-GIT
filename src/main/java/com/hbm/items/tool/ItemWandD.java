@@ -2,36 +2,14 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.rail.IRailNTM;
-import com.hbm.blocks.rail.IRailNTM.RailContext;
-import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.explosion.vanillant.standard.BlockAllocatorBulkie;
-import com.hbm.explosion.vanillant.standard.BlockMutatorBulkie;
-import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
-import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
-import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
-import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
-import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBookLore.BookLoreType;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.lib.Library;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
-import com.hbm.saveddata.TomSaveData;
-import com.hbm.util.ParticleUtil;
-import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.world.feature.OilSpot;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.structure.MapGenStronghold;
@@ -53,13 +31,15 @@ public class ItemWandD extends Item {
 			
 			
 			
-			ExplosionVNT vnt = new ExplosionVNT(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 7);
+			/*ExplosionVNT vnt = new ExplosionVNT(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 7);
 			vnt.setBlockAllocator(new BlockAllocatorBulkie(60));
 			vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorBulkie(ModBlocks.block_slag)).setNoDrop());
 			vnt.setEntityProcessor(new EntityProcessorStandard());
 			vnt.setPlayerProcessor(new PlayerProcessorStandard());
 			vnt.setSFX(new ExplosionEffectStandard());
-			vnt.explode();
+			vnt.explode();*/
+			
+			PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
 			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
@@ -84,38 +64,6 @@ public class ItemWandD extends Item {
 			tom.posZ = pos.blockZ;
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
-			
-			ItemStack itemStack = new ItemStack(ModItems.book_lore);
-			ItemStack itemStack1 = new ItemStack(ModItems.book_lore);
-			ItemStack itemStack2 = new ItemStack(ModItems.book_lore);
-			ItemStack itemStack3 = new ItemStack(ModItems.book_lore);
-			ItemStack itemStack4 = new ItemStack(ModItems.book_lore);
-			ItemStack itemStack5 = new ItemStack(ModItems.book_lore);
-
-			BookLoreType.setTypeForStack(itemStack, BookLoreType.BOOK_IODINE);
-			BookLoreType.setTypeForStack(itemStack1, BookLoreType.BOOK_DUST);
-			BookLoreType.setTypeForStack(itemStack2, BookLoreType.BOOK_FLOWER);
-			BookLoreType.setTypeForStack(itemStack3, BookLoreType.BOOK_MERCURY);
-			BookLoreType.setTypeForStack(itemStack4, BookLoreType.BOOK_PHOSPHOROUS);
-			BookLoreType.setTypeForStack(itemStack5, BookLoreType.BOOK_SYRINGE);
-
-			player.inventory.addItemStackToInventory(itemStack);
-			player.inventory.addItemStackToInventory(itemStack1);
-			player.inventory.addItemStackToInventory(itemStack2);
-			player.inventory.addItemStackToInventory(itemStack3);
-			player.inventory.addItemStackToInventory(itemStack4);
-			player.inventory.addItemStackToInventory(itemStack5);
-
-			player.inventoryContainer.detectAndSendChanges();
-			
-			//use sparingly
-			/*int k = ((pos.blockX >> 4) << 4) + 8;
-			int l = ((pos.blockZ >> 4) << 4) + 8;
-			
-			MapGenBunker.Start start = new MapGenBunker.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
-			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));*/
-			//MapGenStronghold.Start startS = new MapGenStronghold.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
-			//startS.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));
 			
 			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);

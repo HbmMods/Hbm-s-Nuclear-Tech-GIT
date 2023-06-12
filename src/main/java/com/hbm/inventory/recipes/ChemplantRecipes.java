@@ -114,6 +114,16 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.XYLENE, 500),
 						new FluidStack(Fluids.OXYGEN, 100))
 				.outputItems(new ItemStack(ModItems.ingot_pet)));*/
+		
+		//Laminate Glass going here
+		recipes.add(new ChemRecipe(97, "LAMINATE", 100)
+				.inputFluids(
+						new FluidStack(Fluids.XYLENE, 250),
+						new FluidStack(Fluids.PHOSGENE, 250))
+				.inputItems(
+						new ComparableStack(com.hbm.blocks.ModBlocks.reinforced_glass),
+						new ComparableStack(com.hbm.items.ModItems.bolt_tungsten, 4))
+				.outputItems(new ItemStack(com.hbm.blocks.ModBlocks.reinforced_laminate)));
 		recipes.add(new ChemRecipe(94, "PC", 100)
 				.inputFluids(
 						new FluidStack(Fluids.XYLENE, 500),
@@ -456,6 +466,34 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.ingot_copper, 1),
 						new OreDictStack(ANY_SMOKELESS.dust(), 1))
 				.outputItems(new ItemStack(ModItems.ammo_luna_sniper, 1, 3))); //556
+		recipes.add(new ChemRecipe(115, "SHELL_CHLORINE", 100)
+				.inputItems(
+						new ComparableStack(ModItems.ammo_arty, 1, 0),
+						new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.CHLORINE, 4000))
+				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 9)));
+		recipes.add(new ChemRecipe(116, "SHELL_PHOSGENE", 100)
+				.inputItems(
+						new ComparableStack(ModItems.ammo_arty, 1, 0),
+						new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.PHOSGENE, 4000))
+				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 10)));
+		recipes.add(new ChemRecipe(117, "SHELL_MUSTARD", 100)
+				.inputItems(
+						new ComparableStack(ModItems.ammo_arty, 1, 0),
+						new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.MUSTARDGAS, 4000))
+				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 11)));
+		recipes.add(new ChemRecipe(118, "CC_CENTRIFUGE", 200)
+				.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.WATER, 1_000))
+				.outputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250), new FluidStack(Fluids.CALCIUM_CHLORIDE, 250)));
+		recipes.add(new ChemRecipe(119, "PC_ELECTROLYSIS", 200)
+				.inputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250))
+				.outputItems(new ItemStack(ModItems.dust))
+				.outputFluids(new FluidStack(Fluids.CHLORINE, 125)));
+		recipes.add(new ChemRecipe(120, "CC_ELECTROLYSIS", 200)
+				.inputFluids(new FluidStack(Fluids.CALCIUM_CHLORIDE, 250))
+				.outputFluids(new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.CALCIUM_SOLUTION, 125)));
 	}
 	
 	

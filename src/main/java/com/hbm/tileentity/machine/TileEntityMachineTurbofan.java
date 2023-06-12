@@ -326,9 +326,9 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			 * Otherwise this could lead to desync since the motion is never sent form the server
 			 */
 			if(tank.getFill() > 0 && !MainRegistry.proxy.me().capabilities.isCreativeMode) {
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
 				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-				
+
 				double minX = this.xCoord + 0.5 - dir.offsetX * 3.5 - rot.offsetX * 1.5;
 				double maxX = this.xCoord + 0.5 - dir.offsetX * 19.5 + rot.offsetX * 1.5;
 				double minZ = this.zCoord + 0.5 - dir.offsetZ * 3.5 - rot.offsetZ * 1.5;

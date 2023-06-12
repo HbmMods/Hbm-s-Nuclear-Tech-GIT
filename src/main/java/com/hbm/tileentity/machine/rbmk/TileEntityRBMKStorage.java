@@ -95,26 +95,26 @@ public class TileEntityRBMKStorage extends TileEntityRBMKSlottedBase implements 
 	public String getComponentName() {
 		return "rbmk_storage_rod";
 	}
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoordinates(Context context, Arguments args) {
 		return new Object[] {xCoord, yCoord, zCoord};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
 		return new Object[] {heat};
 	}
 
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getStored(Context context, Arguments args) {
 		return new Object[] {slots[0], slots[1], slots[2], slots[3], slots[4], slots[5], slots[6], slots[7], slots[8], slots[9], slots[10], slots[11]};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {heat, slots[0], slots[1], slots[2], slots[3], slots[4], slots[5], slots[6], slots[7], slots[8], slots[9], slots[10], slots[11], xCoord, yCoord, zCoord};

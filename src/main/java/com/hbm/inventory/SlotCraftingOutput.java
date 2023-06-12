@@ -1,14 +1,10 @@
 package com.hbm.inventory;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
 import com.hbm.util.AchievementHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class SlotCraftingOutput extends Slot {

@@ -4,6 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -24,9 +25,11 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 		return null;
 	}
 
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
+
 	@Override
 	public int getRenderType() {
-		return 0;
+		return renderID;
 	}
 
 	@Override
@@ -35,7 +38,7 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 	}
 
 	@Override
-	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info) {
+	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info, MoveContext context) {
 		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, motionX, motionY, motionZ, speed, info);
 	}
 	
@@ -97,7 +100,7 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 			moveAngle -= angleOvershoot;
 			double lengthOvershoot = angleOvershoot * length90Deg / 90D;
 			info.dist(lengthOvershoot * Math.signum(speed * angularChange)).pos(new BlockPos(cX - dir.offsetX * 4 + rot.offsetX * 5, y, cZ - dir.offsetZ * 4 + rot.offsetZ * 5)).yaw((float) moveAngle);
-			return Vec3.createVectorHelper(axisX - dir.offsetX * turnRadius, y, axisZ - dir.offsetZ * turnRadius);
+			return Vec3.createVectorHelper(axisX - dir.offsetX * turnRadius, y + 0.1875, axisZ - dir.offsetZ * turnRadius);
 		}
 		
 		if(effAngle < 0) {
@@ -105,13 +108,13 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 			moveAngle -= angleOvershoot;
 			double lengthOvershoot = angleOvershoot * length90Deg / 90D;
 			info.dist(-lengthOvershoot * Math.signum(speed * angularChange)).pos(new BlockPos(cX + dir.offsetX , y, cZ + dir.offsetZ)).yaw((float) moveAngle);
-			return Vec3.createVectorHelper(axisX - rot.offsetX * turnRadius, y, axisZ -rot.offsetZ * turnRadius);
+			return Vec3.createVectorHelper(axisX - rot.offsetX * turnRadius, y + 0.1875, axisZ -rot.offsetZ * turnRadius);
 		}
 		
 		double radianChange = angularChange * Math.PI / 180D;
 		dist.rotateAroundY((float) radianChange);
 		
-		return Vec3.createVectorHelper(axisX + dist.xCoord, y, axisZ + dist.zCoord);
+		return Vec3.createVectorHelper(axisX + dist.xCoord, y + 0.1875, axisZ + dist.zCoord);
 	}
 
 	@Override

@@ -2,12 +2,14 @@ package com.hbm.items.weapon;
 
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityArtilleryRocket;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
@@ -143,7 +145,7 @@ public class ItemAmmoHIMARS extends Item {
 		ExplosionVNT xnt = new ExplosionVNT(rocket.worldObj, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, size);
 		if(breaksBlocks) {
 			xnt.setBlockAllocator(new BlockAllocatorStandard(48));
-			xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
+			xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop().withBlockEffect(new BlockMutatorDebris(ModBlocks.block_slag, 1)));
 		}
 		xnt.setEntityProcessor(new EntityProcessorCross(7.5).withRangeMod(rangeMod));
 		xnt.setPlayerProcessor(new PlayerProcessorStandard());

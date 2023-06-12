@@ -62,10 +62,10 @@ public class HbmPotion extends Potion {
 	}
 
 	public static void init() {
-		taint = registerPotion(PotionConfig.taintID, true, 8388736, "potion.hbm_taint", 0, 0);
-		radiation = registerPotion(PotionConfig.radiationID, true, 8700200, "potion.hbm_radiation", 1, 0);
-		bang = registerPotion(PotionConfig.bangID, true, 1118481, "potion.hbm_bang", 3, 0);
-		mutation = registerPotion(PotionConfig.mutationID, false, 8388736, "potion.hbm_mutation", 2, 0);
+		taint = registerPotion(PotionConfig.taintID, true, 0x800080, "potion.hbm_taint", 0, 0);
+		radiation = registerPotion(PotionConfig.radiationID, true, 0x84C128, "potion.hbm_radiation", 1, 0);
+		bang = registerPotion(PotionConfig.bangID, true, 0x111111, "potion.hbm_bang", 3, 0);
+		mutation = registerPotion(PotionConfig.mutationID, false, 0x800080, "potion.hbm_mutation", 2, 0);
 		radx = registerPotion(PotionConfig.radxID, false, 0xBB4B00, "potion.hbm_radx", 5, 0);
 		lead = registerPotion(PotionConfig.leadID, true, 0x767682, "potion.hbm_lead", 6, 0);
 		radaway = registerPotion(PotionConfig.radawayID, false, 0xBB4B00, "potion.hbm_radaway", 7, 0);
@@ -118,6 +118,8 @@ public class HbmPotion extends Potion {
 	}
 
 	public void performEffect(EntityLivingBase entity, int level) {
+		
+		if(entity.worldObj.isRemote) return;
 
 		if(this == taint) {
 			
@@ -142,7 +144,6 @@ public class HbmPotion extends Potion {
 			ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, (float)(level + 1F) * 0.05F);
 		}
 		if(this == radaway) {
-			
 			HbmLivingProps.incrementRadiation(entity, -(level + 1));
 			
 		}
@@ -176,22 +177,9 @@ public class HbmPotion extends Potion {
 				entity.setDead();
 		}
 		if(this == lead) {
-			
 			entity.attackEntityFrom(ModDamageSource.lead, (level + 1));
 		}
-		/*if(this == telekinesis) {
-			
-			int remaining = entity.getActivePotionEffect(this).getDuration();
-			
-			if(remaining > 1) {
-				entity.motionY = 0.5;
-			} else {
-				entity.motionY = -2;
-				entity.fallDistance = 50;
-			}
-		}*/
-		if(this == phosphorus && !entity.worldObj.isRemote) {
-			
+		if(this == phosphorus) {
 			entity.setFire(1);
 		}
         if(this == nitan && !entity.worldObj.isRemote) {
