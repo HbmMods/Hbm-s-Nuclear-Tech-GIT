@@ -136,6 +136,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		if(fill > 0 && send) {
 			List<IFluidConnector> con = new ArrayList();
 			con.addAll(consumers);
+
+			con.removeIf(x -> x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid());
 			
 			if(PipeNet.trackingInstances == null) {
 				PipeNet.trackingInstances = new ArrayList();

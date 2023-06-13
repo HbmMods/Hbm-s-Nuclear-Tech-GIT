@@ -1,8 +1,12 @@
 package com.hbm.inventory.fluid.trait;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
@@ -129,6 +133,78 @@ public class FT_Toxin extends FluidTrait {
 			
 			for(PotionEffect eff : effects) {
 				info.add(EnumChatFormatting.YELLOW + "   - " + I18nUtil.resolveKey(eff.getEffectName()) + (eff.getAmplifier() > 0 ? " " + StatCollector.translateToLocal("potion.potency." + eff.getAmplifier()).trim() : "") + " " + StringUtils.ticksToElapsedTime(eff.getDuration()));
+			}
+		}
+	}
+	
+	@Override public void serializeJSON(JsonWriter writer) throws IOException {
+		
+		writer.name("entries").beginArray();
+		
+		for(ToxinEntry entry : entries) {
+			writer.beginObject();
+
+			if(entry instanceof ToxinDirectDamage) {
+				ToxinDirectDamage e = (ToxinDirectDamage) entry;
+				writer.name("type").value("directdamage");
+				writer.name("amount").value(e.amount);
+				writer.name("source").value(e.damage.damageType);
+				writer.name("delay").value(e.delay);
+				writer.name("hazmat").value(e.fullBody);
+				writer.name("masktype").value(e.clazz.name());
+			}
+			if(entry instanceof ToxinEffects) {
+				ToxinEffects e = (ToxinEffects) entry;
+				writer.name("type").value("effects");
+				writer.name("effects").beginArray();
+				writer.setIndent("");
+				for(PotionEffect effect : e.effects) {
+					writer.beginArray();
+					writer.value(effect.getPotionID()).value(effect.getDuration()).value(effect.getAmplifier()).value(effect.getIsAmbient());
+					writer.endArray();
+				}
+				writer.endArray();
+				writer.setIndent("  ");
+				writer.name("hazmat").value(e.fullBody);
+				writer.name("masktype").value(e.clazz.name());
+			}
+			
+			writer.endObject();
+		}
+		
+		writer.endArray();
+	}
+	
+	@Override public void deserializeJSON(JsonObject obj) {
+		JsonArray array = obj.get("entries").getAsJsonArray();
+		
+		for(int i = 0; i < array.size(); i++) {
+			JsonObject entry = array.get(i).getAsJsonObject();
+			String name = entry.get("type").getAsString();
+			
+			if(name.equals("directdamage")) {
+				ToxinDirectDamage e = new ToxinDirectDamage(
+						new DamageSource(entry.get("source").getAsString()),
+						entry.get("amount").getAsFloat(),
+						entry.get("delay").getAsInt(),
+						HazardClass.valueOf(entry.get("masktype").getAsString()),
+						entry.get("hazmat").getAsBoolean()
+						);
+				this.entries.add(e);
+			}
+			
+			if(name.equals("effects")) {
+				ToxinEffects e = new ToxinEffects(
+						HazardClass.valueOf(entry.get("masktype").getAsString()),
+						entry.get("hazmat").getAsBoolean()
+						);
+				JsonArray effects = entry.get("effects").getAsJsonArray();
+				for(int j = 0; j < effects.size(); j++) {
+					JsonArray effect = effects.get(j).getAsJsonArray();
+					PotionEffect potion = new PotionEffect(effect.get(0).getAsInt(), effect.get(1).getAsInt(), effect.get(2).getAsInt(), effect.get(3).getAsBoolean());
+					e.effects.add(potion);
+				}
+				this.entries.add(e);
 			}
 		}
 	}

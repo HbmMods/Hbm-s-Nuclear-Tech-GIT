@@ -18,7 +18,6 @@ import com.hbm.world.dungeon.AncientTomb;
 import com.hbm.world.dungeon.Antenna;
 import com.hbm.world.dungeon.ArcticVault;
 import com.hbm.world.dungeon.Barrel;
-import com.hbm.world.dungeon.Bunker;
 import com.hbm.world.dungeon.CrashedVertibird;
 import com.hbm.world.dungeon.DesertAtom001;
 import com.hbm.world.dungeon.Factory;
@@ -312,14 +311,6 @@ public class HbmWorldGen implements IWorldGenerator {
 						OilSandBubble.spawnOil(world, x, y, z, 15 + rand.nextInt(31));
 					}
 				}
-			}
-
-			if(WorldConfig.bunkerStructure > 0 && rand.nextInt(WorldConfig.bunkerStructure) == 0) {
-				int x = i + rand.nextInt(16);
-				int z = j + rand.nextInt(16);
-				int y = world.getHeightValue(x, z);
-
-				new Bunker().generate(world, rand, x, y, z);
 			}
 
 			if(WorldConfig.siloStructure > 0 && rand.nextInt(WorldConfig.siloStructure) == 0) {

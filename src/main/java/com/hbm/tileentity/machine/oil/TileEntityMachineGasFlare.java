@@ -17,6 +17,7 @@ import com.hbm.inventory.fluid.trait.FT_Poison;
 import com.hbm.inventory.fluid.trait.FT_Toxin;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Leaded;
 import com.hbm.inventory.gui.GUIMachineGasFlare;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
@@ -180,7 +181,10 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 						if(worldObj.getTotalWorldTime() % 3 == 0)
 							this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 11, this.zCoord, "hbm:weapon.flamethrowerShoot", 1.5F, 0.75F);
 
-						if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 5);
+						if(worldObj.getTotalWorldTime() % 20 == 0) {
+							PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 5);
+							if(tank.getTankType().hasTrait(FT_Leaded.class)) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * 5);
+						}
 					}
 				}
 			}

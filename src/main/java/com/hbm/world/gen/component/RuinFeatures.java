@@ -1,4 +1,4 @@
-package com.hbm.world.worldgen.components;
+package com.hbm.world.gen.component;
 
 import java.util.Random;
 

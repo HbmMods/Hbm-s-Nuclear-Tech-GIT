@@ -1,4 +1,4 @@
-package com.hbm.world.worldgen.components;
+package com.hbm.world.gen.component;
 
 import java.util.Random;
 
@@ -16,7 +16,6 @@ import net.minecraft.block.BlockWeb;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemDoor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -106,6 +105,26 @@ abstract public class Component extends StructureComponent {
 		this.hpos = total / iterations; //finds mean of every block in bounding box
 		this.boundingBox.offset(0, this.hpos - this.boundingBox.minY, 0);
 		return true;
+	}
+	
+	protected static int getAverageHeight(World world, StructureBoundingBox area, StructureBoundingBox box, int y) {
+		
+		int total = 0;
+		int iterations = 0;
+		
+		for(int z = area.minZ; z <= area.maxZ; z++) {
+			for(int x = area.minX; x <= area.maxX; x++) {
+				if(box.isVecInside(x, y, z)) {
+					total += Math.max(world.getTopSolidOrLiquidBlock(x, z), world.provider.getAverageGroundLevel());
+					iterations++;
+				}
+			}
+		}
+		
+		if(iterations == 0)
+			return -1;
+		
+		return total / iterations;
 	}
 	
 	public int getCoordMode() {
@@ -224,35 +243,83 @@ abstract public class Component extends StructureComponent {
 		return metadata;
 	}
 	
-	/* For Later:
-	* 0/S: S->S; W->W; N->N; E->E
-	* 1/W: S->W; W->N; N->E; E->S
-	* 2/N: S->N; W->E; N->S; E->W
-	* 3/E: S->E; W->S; N->W; E->N
-	* 0/b00/W, 1/b01/N, 2/b10/E, 3/b11/S
-	*/
-	/**
-	 * Places door at specified location with orientation-adjusted meta
-	 * 0 = West, 1 = North, 2 = East, 3 = South
+	/* 
+	 * Assuming door is on opposite side of block from direction: East: 0, South: 1, West: 2, North: 3<br>
+	 * Doors cleverly take advantage of the use of two blocks to get around the 16 value limit on metadata, with the top and bottom blocks essentially relying on eachother for everything.<br>
+	 * <li>The 4th bit (0b1000 or 8) indicates whether it is the top block: on for yes, off for no.
+	 * <li>When the 4th bit is on, the 1st bit indicates whether the door opens to the right or not: on (0b1001) for yes, off (0b1000) for no.
+	 * <li>The bits 1 & 2 (0b0011 or 3) indicate the direction the door is facing.
+	 * <li>When the 4th bit is off, the 3rd bit (0b0100 or 4) indicates whether the door is open or not: on for yes, off for no. Used for doors' interactions with redstone power.
+	 * </li>
 	 */
-	protected void placeDoor(World world, StructureBoundingBox box, Block door, int meta, int featureX, int featureY, int featureZ) {
-		switch(this.coordBaseMode) {
-		default:
-			break;
-		case 1:
-			meta = (meta + 1) % 4; break;
-		case 2:
-			meta = meta ^ 2; break; //Flip second bit
-		case 3:
-			meta = (meta - 1) % 4; break;
-		}
-		
+	protected void placeDoor(World world, StructureBoundingBox box, Block door, int dirMeta, boolean opensRight, boolean isOpen, int featureX, int featureY, int featureZ) { //isOpen for randomly opened doors
 		int posX = this.getXWithOffset(featureX, featureZ);
 		int posY = this.getYWithOffset(featureY);
 		int posZ = this.getZWithOffset(featureX, featureZ);
 		
-		this.placeBlockAtCurrentPosition(world, door, meta, featureX, featureY, featureZ, box);
-		ItemDoor.placeDoorBlock(world, posX, posY, posZ, meta, door);
+		if(!box.isVecInside(posX, posY, posZ)) return;
+		
+		switch(this.coordBaseMode) {
+		default: //South
+			break;
+		case 1: //West
+			dirMeta = (dirMeta + 1) % 4; break;
+		case 2: //North
+			dirMeta ^= 2; break; //Flip second bit
+		case 3: //East
+			dirMeta = Math.abs(dirMeta - 1) % 4; break; //fuck you modulo
+		}
+		
+		//hee hoo
+		int metaTop = opensRight ? 0b1001 : 0b1000;
+		int metaBottom = dirMeta | (isOpen ? 0b100 : 0);
+		
+		if(world.doesBlockHaveSolidTopSurface(world, posX, posY - 1, posZ)) {
+			world.setBlock(posX, posY, posZ, door, metaBottom, 2);
+			world.setBlock(posX, posY + 1, posZ, door, metaTop, 2);
+		}
+	}
+	/** 1 for west face, 2 for east face, 3 for north, 4 for south*/
+	protected void placeLever(World world, StructureBoundingBox box, int dirMeta, boolean on, int featureX, int featureY, int featureZ) {
+		int posX = this.getXWithOffset(featureX, featureZ);
+		int posY = this.getYWithOffset(featureY);
+		int posZ = this.getZWithOffset(featureX, featureZ);
+		
+		if(!box.isVecInside(posX, posY, posZ)) return;
+		
+		if(dirMeta <= 0 || dirMeta >= 7) { //levers suck ass
+			switch(this.coordBaseMode) {
+			case 1: case 3: //west / east
+				dirMeta ^= 0b111;
+			}
+		} else if(dirMeta >= 5) {
+			switch(this.coordBaseMode) {
+			case 1: case 3: //west / east
+				dirMeta = (dirMeta + 1) % 2 + 5;
+			}
+		} else {
+			dirMeta = getButtonMeta(dirMeta);
+		}
+		
+		world.setBlock(posX, posY, posZ, Blocks.lever, on ? dirMeta | 8 : dirMeta, 2);
+	}
+	
+	/** pain. works for side-facing levers as well */
+	protected int getButtonMeta(int dirMeta) {
+		switch(this.coordBaseMode) { //are you ready for the pain?
+		case 1: //West
+			if(dirMeta <= 2) return dirMeta + 2;
+			else if(dirMeta < 4) return dirMeta - 1;
+			else return dirMeta - 3;// this shit sucks ass
+		case 2: //North
+			return dirMeta + (dirMeta % 2 == 0 ? -1 : 1);
+		case 3: //East
+			if(dirMeta <= 1) return dirMeta + 3;
+			else if(dirMeta <= 2) return dirMeta + 1;
+			else return dirMeta - 2;
+		default: //South
+			return dirMeta;
+		}
 	}
 	
 	/**N:0 W:1 S:2 E:3 */
