@@ -64,11 +64,11 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public static int coalGenRate = 20;
 	public static double rtgHeatMult = 0.15D;
 	public static double waterPowerMult = 1.0D;
-	public static double lubePowerMult = 1.0D;
-	public static double heatExponent = 1.1D;
+	public static double lubePowerMult = 1.5D;
+	public static double heatExponent = 1.15D;
 	public static int waterRate = 10;
 	public static int lubeRate = 1;
-	public static long fluidHeatDiv = 5_000L;
+	public static long fluidHeatDiv = 1_000L;
 
 	@Override
 	public String getConfigName() {
@@ -275,7 +275,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	
 	public int getPowerFromFuel(boolean con) {
 		FluidType type = tanks[1].getTankType();
-		return type.hasTrait(FT_Flammable.class) ? (int)(type.getTrait(FT_Flammable.class).getHeatEnergy() / (con ? 1000L : fluidHeatDiv)) : 0;
+		return type.hasTrait(FT_Flammable.class) ? (int)(type.getTrait(FT_Flammable.class).getHeatEnergy() / (con ? 5000L : fluidHeatDiv)) : 0;
 	}
 
 	@Override
