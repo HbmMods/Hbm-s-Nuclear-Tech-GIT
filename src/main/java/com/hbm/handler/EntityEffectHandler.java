@@ -12,6 +12,7 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IArmorModDash;
 import com.hbm.items.armor.ArmorFSB;
@@ -95,8 +96,8 @@ public class EntityEffectHandler {
 		handleDigamma(entity);
 		handleLungDisease(entity);
 		handleOil(entity);
-
-		handleDashing(entity);
+        handlePollution(entity);
+        handleDashing(entity);
 		handlePlinking(entity);
 	}
 	
@@ -441,7 +442,44 @@ public class EntityEffectHandler {
 			}
 		}
 	}
-	
+	private static void handlePollution(EntityLivingBase entity){
+		World world = entity.worldObj;
+
+		if(!world.isRemote){
+			int ix = (int)MathHelper.floor_double(entity.posX);
+			int iy = (int)MathHelper.floor_double(entity.posY);
+			int iz = (int)MathHelper.floor_double(entity.posZ);
+			PollutionHandler.PollutionData data = PollutionHandler.getPollutionData(world, ix, iy, iz);
+			if(data == null) return;
+			int poison = (int)data.pollution[PollutionHandler.PollutionType.POISON.ordinal()];
+			float soot = data.pollution[PollutionHandler.PollutionType.SOOT.ordinal()];
+			if(entity instanceof EntityLivingBase) {
+				if(soot > 5) {
+					if (!ArmorRegistry.hasProtection(entity, 3, ArmorRegistry.HazardClass.PARTICLE_COARSE)) {
+						HbmLivingProps.incrementBlackLung(entity, (int)data.pollution[PollutionHandler.PollutionType.SOOT.ordinal()]);
+					}
+				}
+				if(!ArmorRegistry.hasProtection(entity, 3, ArmorRegistry.HazardClass.GAS_CHLORINE)) {
+					if (poison > 5) {
+						entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 60 * poison / 2, poison / 2));
+						entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 60 * poison / 2, poison / 2));
+						entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60 * poison / 2,poison / 2));
+					}
+					if (poison > 10) {
+						entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 60 * poison / 2, 1));
+						entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 60 * poison / 2));
+					}
+					if (poison > 15) {
+						entity.addPotionEffect(new PotionEffect(Potion.poison.id, 60 * poison / 2, poison / 2));
+						if (!ArmorRegistry.hasProtection(entity, 3, ArmorRegistry.HazardClass.SAND))
+						{
+							entity.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * poison / 2, 1));
+						}
+					}
+				}
+		    }
+		}
+	}
 	private static void handleDashing(Entity entity) {
 		
 		//AAAAAAAAAAAAAAAAAAAAEEEEEEEEEEEEEEEEEEEE

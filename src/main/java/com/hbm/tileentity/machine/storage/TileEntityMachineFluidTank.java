@@ -16,6 +16,8 @@ import com.hbm.inventory.container.ContainerMachineFluidTank;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
+import com.hbm.inventory.fluid.trait.FT_Poison;
+import com.hbm.inventory.fluid.trait.FT_Toxin;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Amat;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
@@ -43,9 +45,12 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -192,6 +197,20 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 				data.setInteger("life", 100 + worldObj.rand.nextInt(20));
 				data.setInteger("color", tank.getTankType().getColor());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5, yCoord + 1, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			}
+			if(type.hasTrait(FT_Toxin.class) || type.hasTrait(FT_Poison.class)){
+				List<EntityLivingBase> affected = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord - 1.5, yCoord, zCoord - 1.5, xCoord + 2.5, yCoord + 5, zCoord + 2.5));
+				if(type.hasTrait(FT_Poison.class)) {
+					FT_Poison trait = type.getTrait(FT_Poison.class);
+					for (EntityLivingBase e : affected)
+						e.addPotionEffect(new PotionEffect(trait.isWithering() ? Potion.wither.id : Potion.poison.id, 5 * 20 ));
+				}
+				if(type.hasTrait(FT_Toxin.class)) {
+					FT_Toxin trait = type.getTrait(FT_Toxin.class);
+					for (EntityLivingBase e : affected)
+						trait.affect(e, 100);
+				}
+				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionHandler.PollutionType.POISON, PollutionHandler.POISON_PER_SECOND * amount / 5);
 			}
 		}
 	}

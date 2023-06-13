@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map.Entry;
 
+import com.hbm.extprop.HbmLivingProps;
+import com.hbm.util.ArmorRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -15,9 +17,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
@@ -32,6 +37,7 @@ public class PollutionHandler {
 	
 	/** Baserate of soot generation for a furnace-equivalent machine per second */
 	public static final float SOOT_PER_SECOND = 1F / 25F;
+	public static final float POISON_PER_SECOND = 1F / 50F;
 	
 	///////////////////////
 	/// UTILITY METHODS ///
@@ -165,6 +171,7 @@ public class PollutionHandler {
 					float[] pollutionForNeightbors = new float[PollutionType.values().length];
 					int S = PollutionType.SOOT.ordinal();
 					int H = PollutionType.HEAVYMETAL.ordinal();
+					int P = PollutionType.POISON.ordinal();
 					
 					/* CALCULATION */
 					if(data.pollution[S] > 15) {
@@ -173,7 +180,12 @@ public class PollutionHandler {
 					} else {
 						data.pollution[S] *= 0.99F;
 					}
-					
+					if(data.pollution[P] > 15) {
+						pollutionForNeightbors[P] = data.pollution[P] * 0.01F;
+						data.pollution[P] *= 0.6F;
+					} else {
+						data.pollution[P] *= 0.99F;
+					}
 					data.pollution[H] *= 0.999F;
 					
 					/* SPREADING */
@@ -284,11 +296,11 @@ public class PollutionHandler {
 		
 		World world = event.world;
 		if(world.isRemote) return;
+
 		EntityLivingBase living = event.entityLiving;
 		
 		PollutionData data = getPollutionData(world, (int) Math.floor(event.x), (int) Math.floor(event.y), (int) Math.floor(event.z));
 		if(data == null) return;
-		
 		if(living instanceof IMob) {
 			
 			if(data.pollution[PollutionType.SOOT.ordinal()] > 15) {

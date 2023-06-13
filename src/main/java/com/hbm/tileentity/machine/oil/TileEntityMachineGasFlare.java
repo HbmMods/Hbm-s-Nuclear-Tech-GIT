@@ -13,6 +13,8 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
+import com.hbm.inventory.fluid.trait.FT_Poison;
+import com.hbm.inventory.fluid.trait.FT_Toxin;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
 import com.hbm.inventory.gui.GUIMachineGasFlare;
@@ -29,9 +31,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -126,12 +131,27 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 						int eject = Math.min(maxVent, tank.getFill());
 						tank.setFill(tank.getFill() - eject);
 						tank.getTankType().onFluidRelease(this, tank, eject);
-						
 						if(worldObj.getTotalWorldTime() % 7 == 0)
 							this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 11, this.zCoord, "random.fizz", 1.5F, 0.5F);
+                        if(tank.getTankType().hasTrait(FT_Gaseous.class) || tank.getTankType().hasTrait(FT_Gaseous_ART.class)){
+
+							if(tank.getTankType().hasTrait(FT_Poison.class)) {
+								List<EntityLivingBase> affected = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord - 5, yCoord, zCoord - 5, xCoord + 5, yCoord + 50, zCoord + 5));
+								FT_Poison trait = tank.getTankType().getTrait(FT_Poison.class);
+								for (EntityLivingBase e : affected)
+									e.addPotionEffect(new PotionEffect(trait.isWithering() ? Potion.wither.id : Potion.poison.id, 5 * 20 ));
+							}
+							if(tank.getTankType().hasTrait(FT_Toxin.class)) {
+								List<EntityLivingBase> affected = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord - 5, yCoord, zCoord - 5, xCoord + 5, yCoord + 50, zCoord + 5));
+								FT_Toxin trait = tank.getTankType().getTrait(FT_Toxin.class);
+								for (EntityLivingBase e : affected)
+									trait.affect(e, 100);
+							}
+							if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionHandler.PollutionType.POISON, PollutionHandler.POISON_PER_SECOND * 5);
+						}
 					}
 				} else {
-					
+
 					if(tank.getTankType().hasTrait(FT_Flammable.class)) {
 						int eject = Math.min(maxBurn, tank.getFill());
 						tank.setFill(tank.getFill() - eject);
