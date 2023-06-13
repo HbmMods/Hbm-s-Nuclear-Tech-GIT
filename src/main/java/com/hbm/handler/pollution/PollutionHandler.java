@@ -176,9 +176,9 @@ public class PollutionHandler {
 					} else {
 						data.pollution[S] *= 0.99F;
 					}
-					
+
 					data.pollution[H] *= 0.999F;
-					
+
 					/* SPREADING */
 					//apply new data to self
 					PollutionData newData = newPollution.get(chunk.getKey());
