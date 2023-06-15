@@ -46,7 +46,7 @@ public class EntityGlyphid extends EntityMob {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(32D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.8D);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1D);
 	}
 	
 	@Override
@@ -57,7 +57,7 @@ public class EntityGlyphid extends EntityMob {
 			
 			if(armor != 0) { //if at least one bit of armor is present
 				int chance = amount < 10 ? 5 : amount < 20 ? 3 : 2; //chances of armor being broken off
-				if(this.rand.nextInt(chance) == 0) {
+				if(this.rand.nextInt(chance) == 0 && amount > 1) {
 					List<Integer> indices = Arrays.asList(0, 1, 2, 3, 4);
 					Collections.shuffle(indices);
 					
@@ -67,7 +67,8 @@ public class EntityGlyphid extends EntityMob {
 							armor &= ~bit; //...remove it
 							armor = (byte) (armor & 0b11111);
 							this.dataWatcher.updateObject(17, armor);
-							return false;
+							amount = 0;
+							break;
 						}
 					}
 				}
@@ -82,8 +83,6 @@ public class EntityGlyphid extends EntityMob {
 					divisor++;
 				}
 			}
-			
-			System.out.println("" + divisor);
 			
 			amount /= divisor;
 		}
