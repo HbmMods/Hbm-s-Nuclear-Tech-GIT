@@ -122,14 +122,15 @@ public class PollutionHandler {
 		if(!event.world.isRemote) {
 			WorldServer world = (WorldServer) event.world;
 			String dirPath = getDataDir(world);
+			File pollutionFile = new File(dirPath, fileName);
 
 			try {
-				File pollutionFile = new File(dirPath, fileName);
 				if(!pollutionFile.getParentFile().exists()) pollutionFile.getParentFile().mkdirs();
 				if(!pollutionFile.exists()) pollutionFile.createNewFile();
 				NBTTagCompound data = perWorld.get(world).writeToNBT();
 				CompressedStreamTools.writeCompressed(data, new FileOutputStream(pollutionFile));
 			} catch(Exception ex) {
+				System.out.println("Failed to write " + pollutionFile.getAbsolutePath());
 				ex.printStackTrace();
 			}
 		}

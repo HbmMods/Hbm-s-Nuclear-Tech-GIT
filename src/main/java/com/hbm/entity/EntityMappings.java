@@ -238,6 +238,7 @@ public class EntityMappings {
 		addMob(EntitySiegeSkeleton.class, "entity_meme_skeleton", 0x303030, 0x000080);
 		addMob(EntitySiegeUFO.class, "entity_meme_ufo", 0x303030, 0x800000);
 		addMob(EntitySiegeCraft.class, "entity_meme_craft", 0x303030, 0x808000);
+		addMob(EntityGlyphid.class, "entity_glyphid", 0x724A21, 0xD2BB72);
 
 		addSpawn(EntityCreeperPhosgene.class, 5, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityCreeperVolatile.class, 10, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
