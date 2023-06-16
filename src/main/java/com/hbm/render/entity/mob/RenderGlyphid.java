@@ -2,6 +2,7 @@ package com.hbm.render.entity.mob;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.mob.EntityGlyphid;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.model.ModelBase;
@@ -19,8 +20,9 @@ public class RenderGlyphid extends RenderLiving {
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return ResourceManager.glyphid_tex;
+	protected ResourceLocation getEntityTexture(Entity entity) {
+		EntityGlyphid glyphid = (EntityGlyphid) entity;
+		return glyphid.getSkin();
 	}
 	
 	public static class ModelGlyphid extends ModelBase {
@@ -40,6 +42,9 @@ public class RenderGlyphid extends RenderLiving {
 			GL11.glTranslatef(0, -1.5F, 0);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_CULL_FACE);
+			
+			double s = ((EntityGlyphid) entity).getScale();
+			GL11.glScaled(s, s, s);
 			
 			EntityLivingBase living = (EntityLivingBase) entity;
 			byte armor = living.getDataWatcher().getWatchableObjectByte(17);

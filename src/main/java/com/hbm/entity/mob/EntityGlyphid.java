@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.hbm.main.ResourceManager;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,6 +20,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class EntityGlyphid extends EntityMob {
@@ -32,7 +35,15 @@ public class EntityGlyphid extends EntityMob {
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-		this.setSize(2F, 1F);
+		this.setSize(1.75F, 1F);
+	}
+	
+	public ResourceLocation getSkin() {
+		return ResourceManager.glyphid_tex;
+	}
+	
+	public double getScale() {
+		return 1.0D;
 	}
 
 	@Override
@@ -45,8 +56,9 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(32D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(30D);
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1D);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(5D);
 	}
 	
 	@Override
@@ -56,38 +68,63 @@ public class EntityGlyphid extends EntityMob {
 			byte armor = this.dataWatcher.getWatchableObjectByte(17);
 			
 			if(armor != 0) { //if at least one bit of armor is present
-				int chance = amount < 10 ? 5 : amount < 20 ? 3 : 2; //chances of armor being broken off
+				
+				if(amount < getDamageThreshold()) return false;
+				
+				int chance = getArmorBreakChance(amount); //chances of armor being broken off
 				if(this.rand.nextInt(chance) == 0 && amount > 1) {
-					List<Integer> indices = Arrays.asList(0, 1, 2, 3, 4);
-					Collections.shuffle(indices);
-					
-					for(Integer i : indices) {
-						byte bit = (byte) (1 << i);
-						if((armor & bit) > 0) { //if this bit is present...
-							armor &= ~bit; //...remove it
-							armor = (byte) (armor & 0b11111);
-							this.dataWatcher.updateObject(17, armor);
-							amount = 0;
-							break;
-						}
-					}
+					breakOffArmor();
+					amount = 0;
 				}
 				
-				amount -= 0.5;
+				amount -= getDamageThreshold();
+				if(amount < 0) return false;
 			}
 			
-			int divisor = 1;
-			
-			for(int i = 0; i < 5; i++) {
-				if((armor & (1 << i)) > 0) {
-					divisor++;
-				}
-			}
-			
-			amount /= divisor;
+			amount = this.calculateDamage(amount);
 		}
 		
 		return super.attackEntityFrom(source, amount);
+	}
+	
+	public int getArmorBreakChance(float amount) {
+		return amount < 10 ? 5 : amount < 20 ? 3 : 2;
+	}
+	
+	public float calculateDamage(float amount) {
+
+		byte armor = this.dataWatcher.getWatchableObjectByte(17);
+		int divisor = 1;
+		
+		for(int i = 0; i < 5; i++) {
+			if((armor & (1 << i)) > 0) {
+				divisor++;
+			}
+		}
+		
+		amount /= divisor;
+		
+		return amount;
+	}
+	
+	public float getDamageThreshold() {
+		return 0.5F;
+	}
+	
+	public void breakOffArmor() {
+		byte armor = this.dataWatcher.getWatchableObjectByte(17);
+		List<Integer> indices = Arrays.asList(0, 1, 2, 3, 4);
+		Collections.shuffle(indices);
+		
+		for(Integer i : indices) {
+			byte bit = (byte) (1 << i);
+			if((armor & bit) > 0) {
+				armor &= ~bit;
+				armor = (byte) (armor & 0b11111);
+				this.dataWatcher.updateObject(17, armor);
+				break;
+			}
+		}
 	}
 
 	@Override
