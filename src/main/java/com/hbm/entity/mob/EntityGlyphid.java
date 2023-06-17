@@ -78,7 +78,7 @@ public class EntityGlyphid extends EntityMob {
 				}
 				
 				amount -= getDamageThreshold();
-				if(amount < 0) return false;
+				if(amount < 0) return true;
 			}
 			
 			amount = this.calculateDamage(amount);
@@ -141,7 +141,7 @@ public class EntityGlyphid extends EntityMob {
 		if(!this.worldObj.isRemote) {
 			this.setBesideClimbableBlock(this.isCollidedHorizontally);
 			
-			if(worldObj.getTotalWorldTime() % 100 == 0) {
+			if(worldObj.getTotalWorldTime() % 200 == 0) {
 				this.swingItem();
 			}
 		}

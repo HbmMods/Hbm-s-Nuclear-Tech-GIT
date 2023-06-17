@@ -6,16 +6,16 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class EntityGlyphidBrawler extends EntityGlyphid {
+public class EntityGlyphidBlaster extends EntityGlyphidBombardier {
 
-	public EntityGlyphidBrawler(World world) {
+	public EntityGlyphidBlaster(World world) {
 		super(world);
 		this.setSize(2F, 1.125F);
 	}
 	
 	@Override
 	public ResourceLocation getSkin() {
-		return ResourceManager.glyphid_brawler_tex;
+		return ResourceManager.glyphid_blaster_tex;
 	}
 
 	@Override
@@ -56,5 +56,25 @@ public class EntityGlyphidBrawler extends EntityGlyphid {
 	@Override
 	public float getDamageThreshold() {
 		return 1.0F;
+	}
+
+	@Override
+	public float getBombDamage() {
+		return 10F;
+	}
+
+	@Override
+	public int getBombCount() {
+		return 20;
+	}
+
+	@Override
+	public float getSpreadMult() {
+		return 0.75F;
+	}
+
+	@Override
+	public double getV0() {
+		return 1.25D;
 	}
 }

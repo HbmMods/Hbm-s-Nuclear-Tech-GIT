@@ -33,7 +33,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 
 	@Override
 	public int getArmorBreakChance(float amount) {
-		return amount < 15 ? 10 : amount < 25 ? 5 : amount > 75 ? 1 : 3;
+		return amount < 20 ? 10 : amount < 100 ? 5 : amount > 200 ? 1 : 3;
 	}
 
 	@Override

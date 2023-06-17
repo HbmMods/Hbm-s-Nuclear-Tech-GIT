@@ -663,6 +663,8 @@ public class ResourceManager {
 	public static final ResourceLocation glyphid_brawler_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_brawler.png");
 	public static final ResourceLocation glyphid_behemoth_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_behemoth.png");
 	public static final ResourceLocation glyphid_brenda_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_brenda.png");
+	public static final ResourceLocation glyphid_bombardier_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_bombardier.png");
+	public static final ResourceLocation glyphid_blaster_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_blaster.png");
 	
 	//ZIRNOX
 	public static final ResourceLocation zirnox_tex = new ResourceLocation(RefStrings.MODID, "textures/models/zirnox.png");
