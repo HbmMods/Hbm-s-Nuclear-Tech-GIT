@@ -12,7 +12,7 @@ public class EntityGlyphidBrenda extends EntityGlyphid {
 
 	public EntityGlyphidBrenda(World world) {
 		super(world);
-		this.setSize(2.5F, 2F);
+		this.setSize(2.5F, 1.75F);
 		this.isImmuneToFire = true;
 	}
 	
