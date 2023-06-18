@@ -484,16 +484,7 @@ public class EntityEffectHandler {
 					
 			int dashCount = armorDashCount + armorModDashCount;
 			
-			boolean dashActivated = false;
-			
-			
-			if(!GeneralConfig.enableCustomDashKeybind) {
-				dashActivated = !player.capabilities.isFlying && player.isSneaking();
-			} else {
-				dashActivated = props.getKeyPressed(EnumKeybind.DASH);
-			}
-					
-			//System.out.println(dashCount);
+			boolean dashActivated = props.getKeyPressed(EnumKeybind.DASH);
 			
 			if(dashCount * 30 < props.getStamina())
 				props.setStamina(dashCount * 30);

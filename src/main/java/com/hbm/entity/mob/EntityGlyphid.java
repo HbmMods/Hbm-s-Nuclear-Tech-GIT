@@ -61,6 +61,12 @@ public class EntityGlyphid extends EntityMob {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1D);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(5D);
 	}
+
+	@Override
+	protected Entity findPlayerToAttack() {
+		EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, 32.0D);
+		return entityplayer != null && this.canEntityBeSeen(entityplayer) ? entityplayer : null;
+	}
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
@@ -123,6 +129,7 @@ public class EntityGlyphid extends EntityMob {
 				armor &= ~bit;
 				armor = (byte) (armor & 0b11111);
 				this.dataWatcher.updateObject(17, armor);
+				worldObj.playSoundAtEntity(this, "mob.zombie.woodbreak", 1.0F, 1.25F);
 				break;
 			}
 		}

@@ -248,7 +248,7 @@ public class CrucibleRecipes extends SerializableRecipe {
 				
 				if(!ores.isEmpty()) {
 					List<ItemStack> stacks = new ArrayList();
-					stacks.add(ItemScraps.create(new MaterialStack(convert, (int) (shape.q(1) * out / in))));
+					stacks.add(ItemScraps.create(new MaterialStack(convert, (int) (shape.q(1) * out / in)), true));
 					map.put(new OreDictStack(name), stacks);
 				}
 			}
@@ -257,7 +257,7 @@ public class CrucibleRecipes extends SerializableRecipe {
 		for(Entry<String, List<MaterialStack>> entry : Mats.materialOreEntries.entrySet()) {
 			List<ItemStack> stacks = new ArrayList();
 			for(MaterialStack mat : entry.getValue()) {
-				stacks.add(ItemScraps.create(mat));
+				stacks.add(ItemScraps.create(mat, true));
 			}
 			map.put(new OreDictStack(entry.getKey()), stacks);
 		}
@@ -265,7 +265,7 @@ public class CrucibleRecipes extends SerializableRecipe {
 		for(Entry<ComparableStack, List<MaterialStack>> entry : Mats.materialEntries.entrySet()) {
 			List<ItemStack> stacks = new ArrayList();
 			for(MaterialStack mat : entry.getValue()) {
-				stacks.add(ItemScraps.create(mat));
+				stacks.add(ItemScraps.create(mat, true));
 			}
 			map.put(entry.getKey().copy(), stacks);
 		}
@@ -293,7 +293,7 @@ public class CrucibleRecipes extends SerializableRecipe {
 			for(Mold mold : ItemMold.molds) {
 				ItemStack out = mold.getOutput(material);
 				if(out != null) {
-					ItemStack scrap = ItemScraps.create(new MaterialStack(material, mold.getCost()));
+					ItemStack scrap = ItemScraps.create(new MaterialStack(material, mold.getCost()), true);
 					ItemStack shape = new ItemStack(ModItems.mold, 1, mold.id);
 					ItemStack basin = new ItemStack(mold.size == 0 ? ModBlocks.foundry_mold : mold.size == 1 ? ModBlocks.foundry_basin : Blocks.fire);
 					ItemStack[] entry = new ItemStack[] {scrap, shape, basin, out};
