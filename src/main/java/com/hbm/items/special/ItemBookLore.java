@@ -3,7 +3,6 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.inventory.gui.GUIBookLore;
-import com.hbm.inventory.gui.GUIBookLore.GUIAppearance;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
@@ -58,30 +57,52 @@ public class ItemBookLore extends Item implements IGUIProvider {
 		return "book_lore." + type.keyI18n;
 	}
 	
-	protected IIcon[] icons;
+	//Textures
 	
-	public final static String[] itemTextures = new String[] { ":book_guide", ":paper_loose", ":papers_loose", ":notebook" };
+	@SideOnly(Side.CLIENT) protected IIcon[] overlays;
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
-		String[] iconStrings = itemTextures;
-		this.icons = new IIcon[itemTextures.length];
+		super.registerIcons(reg);
 		
-		for(int i = 0; i < icons.length; i++) {
-			this.icons[i] = reg.registerIcon(RefStrings.MODID + itemTextures[i]);
+		this.overlays = new IIcon[2];
+		this.overlays[0] = reg.registerIcon(RefStrings.MODID + ":book_cover");
+		this.overlays[1] = reg.registerIcon(RefStrings.MODID + ":book_title");
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean requiresMultipleRenderPasses() { return true; }
+	
+	@Override
+	public int getRenderPasses(int metadata) { return 3; }
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconFromDamageForRenderPass(int meta, int pass) {
+		if(pass == 0) return this.itemIcon;
+		return overlays[pass - 1];
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack stack, int pass) {
+		switch(pass) {
+			default: return 0xFFFFFF;
+			case 1: //book cover
+				if(stack.hasTagCompound()) {
+					int color = stack.stackTagCompound.getInteger("cov_col");
+					if(color > 0) return color;
+				}
+				return 0x303030;
+			case 2: //title color
+				if(stack.hasTagCompound()) {
+					int color = stack.stackTagCompound.getInteger("tit_col");
+					if(color > 0) return color;
+				}
+				return 0xFFFFFF;
 		}
-	}
-	
-	@Override
-	public IIcon getIconIndex(ItemStack stack) {
-		return this.getIcon(stack, 1);
-	}
-	
-	@Override
-	public IIcon getIcon(ItemStack stack, int pass) {
-		BookLoreType type = BookLoreType.getTypeFromStack(stack);
-		
-		return this.icons[type.appearance.itemTexture];
 	}
 
 	@Override
@@ -96,57 +117,51 @@ public class ItemBookLore extends Item implements IGUIProvider {
 	}
 	
 	public enum BookLoreType {
-		TEST(true, "test", 5, GUIAppearance.NOTEBOOK),
-		BOOK_IODINE(true, "book_iodine", 3, GUIAppearance.LOOSEPAPERS) { 
+		TEST(true, "test", 5),
+		BOOK_IODINE(true, "book_iodine", 3) { 
 			public String resolveKey(String key, NBTTagCompound tag) {
 				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot"));
 		}},
-		BOOK_PHOSPHOROUS(true, "book_phosphorous", 2, GUIAppearance.LOOSEPAPERS) { 
+		BOOK_PHOSPHOROUS(true, "book_phosphorous", 2) { 
 			public String resolveKey(String key, NBTTagCompound tag) {
 				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
 		}},
-		BOOK_DUST(true, "book_dust", 3, GUIAppearance.LOOSEPAPERS) { 
+		BOOK_DUST(true, "book_dust", 3) { 
 			public String resolveKey(String key, NBTTagCompound tag) {
 				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
 		}},
-		BOOK_MERCURY(true, "book_mercury", 2, GUIAppearance.LOOSEPAPERS) { 
+		BOOK_MERCURY(true, "book_mercury", 2) { 
 			public String resolveKey(String key, NBTTagCompound tag) {
 				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
 		}},
-		BOOK_FLOWER(true, "book_flower", 2, GUIAppearance.LOOSEPAPERS) { 
+		BOOK_FLOWER(true, "book_flower", 2) { 
 			public String resolveKey(String key, NBTTagCompound tag) {
 				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
 		}},
-		BOOK_SYRINGE(true, "book_syringe", 2, GUIAppearance.LOOSEPAPERS) { 
+		BOOK_SYRINGE(true, "book_syringe", 2) { 
 			public String resolveKey(String key, NBTTagCompound tag) {
 				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
 		}},
-		RESIGNATION_NOTE(true, "resignation_note", 3, GUIAppearance.NOTEBOOK),
-		MEMO_STOCKS(false, "memo_stocks", 1, GUIAppearance.LOOSEPAPER),
-		MEMO_SCHRAB_GSA(false, "memo_schrab_gsa", 2, GUIAppearance.LOOSEPAPERS),
-		MEMO_SCHRAB_RD(false, "memo_schrab_rd", 4, GUIAppearance.LOOSEPAPERS),
-		MEMO_SCHRAB_NUKE(true, "memo_schrab_nuke", 3, GUIAppearance.LOOSEPAPERS),
+		RESIGNATION_NOTE(true, "resignation_note", 3),
+		MEMO_STOCKS(false, "memo_stocks", 1),
+		MEMO_SCHRAB_GSA(false, "memo_schrab_gsa", 2),
+		MEMO_SCHRAB_RD(false, "memo_schrab_rd", 4),
+		MEMO_SCHRAB_NUKE(true, "memo_schrab_nuke", 3),
 		;
-		
-		//Why? it's quite simple; i am too burnt out and also doing it the other way
-		//is too inflexible for my taste
-		public final GUIAppearance appearance; //gui and item texture appearance
 		
 		public boolean hasAuthor = false;
 		public final String keyI18n;
 		public final int pages;
 		
-		private BookLoreType(Boolean author, String key, int max, GUIAppearance appearance) {
+		private BookLoreType(Boolean author, String key, int max) {
 			this.hasAuthor = author;
 			this.keyI18n = key;
 			this.pages = max;
-			this.appearance = appearance;
 		}
 		
-		private BookLoreType(String key, int max, GUIAppearance appearance) {
+		private BookLoreType(String key, int max) {
 			this.keyI18n = key;
 			this.pages = max;
-			this.appearance = appearance;
 		}
 		
 		/** Function to resolve I18n keys using potential save-dependent information, a la format specifiers. */
