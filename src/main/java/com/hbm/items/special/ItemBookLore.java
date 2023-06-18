@@ -2,7 +2,10 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import com.hbm.inventory.gui.GUIBookLore;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
@@ -41,20 +44,22 @@ public class ItemBookLore extends Item implements IGUIProvider {
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		BookLoreType type = BookLoreType.getTypeFromStack(stack);
+		if(!stack.hasTagCompound()) return;
+		String key =  stack.stackTagCompound.getString("k");
+		if(key.isEmpty()) return;
 		
-		if(type.hasAuthor) {
-			String unloc = I18nUtil.resolveKey("book_lore.author", I18nUtil.resolveKey("book_lore." + type.keyI18n + ".author"));
-			
-			list.add(unloc);
-		}
+		key = "book_lore." + key + ".author";
+		String loc = I18nUtil.resolveKey(key);
+		
+		list.add(I18nUtil.resolveKey("book_lore.author", loc));
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		BookLoreType type = BookLoreType.getTypeFromStack(stack);
+		if(!stack.hasTagCompound()) return "book_lore.test";
+		String key = stack.stackTagCompound.getString("k");
 		
-		return "book_lore." + type.keyI18n;
+		return "book_lore." + (key.isEmpty() ? "test" : key);
 	}
 	
 	//Textures
@@ -116,6 +121,28 @@ public class ItemBookLore extends Item implements IGUIProvider {
 		return new GUIBookLore(player);
 	}
 	
+	public static ItemStack createBook(String key, int pages, int colorCov, int colorTit) {
+		ItemStack book = new ItemStack(ModItems.book_lore);
+		NBTTagCompound tag = new NBTTagCompound();
+		tag.setString("k", key);
+		tag.setShort("p", (short)pages);
+		tag.setInteger("cov_col", colorCov);
+		tag.setInteger("tit_col", colorTit);
+		
+		book.stackTagCompound = tag;
+		return book;
+	}
+	
+	public static void addArgs(ItemStack book, int page, String... args) {
+		if(!book.hasTagCompound()) return;
+		NBTTagCompound data = new NBTTagCompound();
+		for(int i = 0; i < args.length; i++) {
+			data.setString("a" + (i + 1), args[i]);
+		}
+		
+		book.stackTagCompound.setTag("p" + page, data);
+	}
+	//TODO remove this and fix any references
 	public enum BookLoreType {
 		TEST(true, "test", 5),
 		BOOK_IODINE(true, "book_iodine", 3) { 

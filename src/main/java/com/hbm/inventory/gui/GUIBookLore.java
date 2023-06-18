@@ -27,7 +27,7 @@ public class GUIBookLore extends GuiScreen {
 	protected static int sizeX = 272;
 	protected static int sizeY = 182;
 	
-	protected BookLoreType type;
+	protected String key;
 	protected NBTTagCompound tag;
 	
 	//judgement
@@ -39,19 +39,19 @@ public class GUIBookLore extends GuiScreen {
 	public GUIBookLore(EntityPlayer player) {
 		ItemStack stack = player.getHeldItem();
 		if(!stack.hasTagCompound()) return;
-		this.type = BookLoreType.getTypeFromStack(stack);
-		
-		if(type == null) return;
 		this.tag = stack.getTagCompound();
+		this.key = tag.getString("k");
+		if(key.isEmpty()) return;
+		
 		this.color = tag.getInteger("cov_col");
 		if(color <= 0)
 			color = 0x303030;
-		this.maxPage = (int)Math.ceil(type.pages / 2D) - 1;
+		this.maxPage = (int)Math.ceil(tag.getInteger("p") / 2D) - 1;
 	}
 	
 	@Override
 	public void initGui() {
-		if(type == null) this.mc.thePlayer.closeScreen();
+		if(key == null || key.isEmpty()) this.mc.thePlayer.closeScreen();
 		this.guiLeft = (this.width - this.sizeX) / 2;
 		this.guiTop = (this.height - this.sizeY) / 2;
 	}
@@ -93,13 +93,30 @@ public class GUIBookLore extends GuiScreen {
 	}
 	
 	protected void drawGuiContainerForegroundLayer(int x, int y) {
-		String key = "book_lore." + type.keyI18n + ".page.";
+		String k = "book_lore." + key + ".page.";
 		
 		for(int i = 0; i < 2; i++) {
 			int defacto = this.page * 2 + i; //TODO: force i18n to index from 0 instead of 1
 			
-			if(defacto < this.type.pages) {
-				String text = I18nUtil.resolveKey(key + defacto); //TODO tag-based argument formatting
+			if(defacto < tag.getInteger("p")) {
+				String text;
+				NBTTagCompound argTag = tag.getCompoundTag("p" + defacto);
+				
+				if(argTag.hasNoTags())
+					text = I18nUtil.resolveKey(k + defacto);
+				else {
+					List<String> args = new ArrayList();
+					int index = 1;
+					String arg = argTag.getString("a1");
+					
+					while(!arg.isEmpty()) {
+						args.add(arg);
+						index++;
+						arg = argTag.getString("a" + index);
+					}
+					
+					text = I18nUtil.resolveKey(k + defacto, args.toArray());
+				}
 				
 				float scale = 1;
 				int width = 100;
