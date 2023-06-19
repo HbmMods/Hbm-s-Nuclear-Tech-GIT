@@ -1,5 +1,6 @@
 package com.hbm.blocks.machine.rbmk;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKReflector;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +24,7 @@ public class RBMKReflector extends RBMKBase {
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 
-		if(tool != ToolType.SCREWDRIVER && tool != ToolType.HAND_DRILL)
+		if(tool != ToolType.SCREWDRIVER && tool != ToolType.HAND_DRILL && !GeneralConfig.enableAdjustableNeutronReflector)
 			return false;
 
 		if(world.isRemote) return true;

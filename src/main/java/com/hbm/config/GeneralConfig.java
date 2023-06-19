@@ -58,6 +58,7 @@ public class GeneralConfig {
 	public static boolean enableLBSMSafeCrates = true;
 	public static boolean enableLBSMSafeMEDrives = true;
 	public static boolean enableLBSMIGen = true;
+	public static boolean enableAdjustableNeutronReflector = false;
 	public static int schrabRate = 20;
 	
 	public static void loadFromConfig(Configuration config) {
@@ -108,7 +109,7 @@ public class GeneralConfig {
 		enable528BosniaSimulator = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enableBosniaSimulator", "Enables anti tank mines spawning all over the world.", true);
 		coltanRate = CommonConfig.createConfigInt(config, CATEGORY_528, "X528_oreColtanFrequency", "Determines how many coltan ore veins are to be expected in a chunk. These values do not affect the frequency in deposits, and only apply if random coltan spanwing is enabled.", 2);
 		bedrockRate = CommonConfig.createConfigInt(config, CATEGORY_528, "X528_bedrockColtanFrequency", "Determines how often (1 in X) bedrock coltan ores spawn. Applies for both the bedrock ores in the coltan deposit (if applicable) and the random bedrock ores (if applicable)", 50);
-		
+		enableAdjustableNeutronReflector = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_enableAdjustableNeutronReflector", "Enables Adjustable RBMK Neutron Reflector.", false);
 		
 		final String CATEGORY_LBSM = CommonConfig.CATEGORY_LBSM;
 
