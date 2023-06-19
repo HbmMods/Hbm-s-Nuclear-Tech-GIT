@@ -6,11 +6,10 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityRBMKReflector extends TileEntityRBMKBase {
 	protected int setting = 0;
-	protected String mode = "NORMAL";
+    protected String[] mode1 = new String[]{"NORMAL","NORTH","EAST","SOUTH","WEST"};
 	public void modeSetting() {
-		setting++;
-		if(setting > 4) {
-			setting = 0;
+		if(++setting > 4) {
+			setting = 1;
 		}
 		String[] mode = new String[]{"NORMAL","NORTH","EAST","SOUTH","WEST"};
 		this.mode = mode[setting];
@@ -35,12 +34,15 @@ public class TileEntityRBMKReflector extends TileEntityRBMKBase {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
-		this.mode = nbt.getString("mode");
-		//this.setting = nbt.getInteger("setting");
+		this.setting = nbt.getInteger("setting");
 	}
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setString("mode", this.mode);
+		nbt.setInteger("setting", setting);
+		nbt.setString("mode", mode1[setting]);
+		/*if(this.setting == 0){
+			nbt.setString("mode", "NORMAL");
+		}*/
 	}
 }
