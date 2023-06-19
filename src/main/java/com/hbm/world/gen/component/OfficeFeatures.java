@@ -201,7 +201,7 @@ public class OfficeFeatures {
 			randomlyFillWithBlocks(world, box, rand, 0.25F, 10, 3, 7, sizeX - 1, 3, sizeZ - 1, Blocks.web);
 			//Doors
 			placeDoor(world, box, ModBlocks.door_office, 3, false, rand.nextBoolean(), 2, 1, 7);
-			placeDoor(world, box, ModBlocks.door_office, 3, false, rand.nextBoolean(), 3, 1, 7);
+			placeDoor(world, box, ModBlocks.door_office, 3, true, rand.nextBoolean(), 3, 1, 7);
 			placeDoor(world, box, ModBlocks.door_office, 0, false, rand.nextBoolean(), 5, 1, 6);
 			
 			//Woot
@@ -209,7 +209,8 @@ public class OfficeFeatures {
 				this.hasPlacedLoot[0] = generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), sizeX - 4, 1, sizeZ - 1, HbmChestContents.officeTrash, 8);
 			if(!this.hasPlacedLoot[1]) {
 				this.hasPlacedLoot[1] = generateLockableContents(world, box, rand, ModBlocks.safe, getDecoMeta(3), 6, 1, 1, HbmChestContents.machineParts, 10, 0.5D);
-				generateLoreBook(world, box, rand, 6, 1, 1, 7, HbmChestContents.books_office_sch);
+				if(rand.nextInt(2) == 0)
+					generateLoreBook(world, box, 6, 1, 1, 7, HbmChestContents.generateOfficeBook(rand));
 			}
 			
 			//0b00/0 West, 0b01/1 East, 0b10/2 North, 0b11/3 South, 0b100/4 West UD, 0b101 East UD, 0b110 North UD, 0b111 South UD
@@ -431,12 +432,12 @@ public class OfficeFeatures {
 			placeDoor(world, box, Blocks.wooden_door, 3, true, rand.nextBoolean(), 2, 1, 14);
 			placeDoor(world, box, Blocks.wooden_door, 0, false, rand.nextBoolean(), 0, 1, 12);
 			placeDoor(world, box, Blocks.wooden_door, 0, true, rand.nextBoolean(), 0, 1, 13);
-			placeDoor(world, box, ModBlocks.door_office, 0, false, rand.nextBoolean(), 6, 1, 3);
-			placeDoor(world, box, ModBlocks.door_office, 0, false, rand.nextBoolean(), 5, 5, 3);
+			placeDoor(world, box, ModBlocks.door_office, 3, false, rand.nextBoolean(), 6, 1, 3);
+			placeDoor(world, box, ModBlocks.door_office, 3, false, rand.nextBoolean(), 5, 5, 3);
 			placeDoor(world, box, ModBlocks.door_office, 2, false, rand.nextBoolean(), 4, 5, 11);
-			placeDoor(world, box, ModBlocks.door_office, 0, false, rand.nextBoolean(), 10, 9, 3);
+			placeDoor(world, box, ModBlocks.door_office, 3, false, rand.nextBoolean(), 10, 9, 3);
 			placeDoor(world, box, ModBlocks.door_office, 1, false, rand.nextBoolean(), 3, 9, 10);
-			placeDoor(world, box, ModBlocks.door_metal, 0, false, rand.nextBoolean(), 5, 13, 3);
+			placeDoor(world, box, ModBlocks.door_metal, 3, false, rand.nextBoolean(), 5, 13, 3);
 			//Furniture
 			//Floor 1
 			int NorthStairMeta = getStairMeta(2);
@@ -533,7 +534,8 @@ public class OfficeFeatures {
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 2, 9, 5, HbmChestContents.filingCabinet, 4);
 			
 			generateLockableContents(world, box, rand, ModBlocks.safe, getDecoMeta(2), 1, 9, 13, HbmChestContents.officeTrash, 10, 1.0D);
-			generateLoreBook(world, box, rand, 1, 9, 13, 7, HbmChestContents.books_office_sch);
+			if(rand.nextInt(2) == 0)
+				generateLoreBook(world, box, 1, 9, 13, 7, HbmChestContents.generateOfficeBook(rand));
 			
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 2, 9, 13, HbmChestContents.filingCabinet, 4);
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 3, 9, 13, HbmChestContents.filingCabinet, 4);

@@ -2,11 +2,6 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.crafting.handlers.MKUCraftingHandler;
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.pollution.PollutionHandler.PollutionType;
-import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBookLore;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,24 +29,6 @@ public class ItemWandD extends Item {
 			vnt.setPlayerProcessor(new PlayerProcessorStandard());
 			vnt.setSFX(new ExplosionEffectStandard());
 			vnt.explode();*/
-			
-			MKUCraftingHandler.generateRecipe(world);
-			ItemStack[] recipe = MKUCraftingHandler.MKURecipe;
-			
-			if(recipe == null) //take no chances
-				return stack;
-			
-			int r = 0;
-			for(int i = 0; i < 9; i++) {
-				if(recipe[i] != null && recipe[i].getItem() == ModItems.powder_iodine) {
-					r = i + 1;
-				}
-			}
-			
-			ItemStack book = ItemBookLore.createBook("book_iodine", 3, 0x4C407A, 0xFFF7C1);
-			ItemBookLore.addArgs(book, 2, String.valueOf(r));
-			player.inventory.addItemStackToInventory(book);
-			player.inventoryContainer.detectAndSendChanges();
 			
 			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
 			

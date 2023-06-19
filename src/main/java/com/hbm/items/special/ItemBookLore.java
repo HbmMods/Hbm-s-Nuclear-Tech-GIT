@@ -45,13 +45,13 @@ public class ItemBookLore extends Item implements IGUIProvider {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		if(!stack.hasTagCompound()) return;
-		String key =  stack.stackTagCompound.getString("k");
+		String key = stack.stackTagCompound.getString("k");
 		if(key.isEmpty()) return;
 		
 		key = "book_lore." + key + ".author";
 		String loc = I18nUtil.resolveKey(key);
-		
-		list.add(I18nUtil.resolveKey("book_lore.author", loc));
+		if(!loc.equals(key))
+			list.add(I18nUtil.resolveKey("book_lore.author", loc));
 	}
 	
 	@Override
@@ -143,7 +143,7 @@ public class ItemBookLore extends Item implements IGUIProvider {
 		book.stackTagCompound.setTag("p" + page, data);
 	}
 	//TODO remove this and fix any references
-	public enum BookLoreType {
+	/*public enum BookLoreType {
 		TEST(true, "test", 5),
 		BOOK_IODINE(true, "book_iodine", 3) { 
 			public String resolveKey(String key, NBTTagCompound tag) {
@@ -192,7 +192,7 @@ public class ItemBookLore extends Item implements IGUIProvider {
 		}
 		
 		/** Function to resolve I18n keys using potential save-dependent information, a la format specifiers. */
-		public String resolveKey(String key, NBTTagCompound tag) {
+		/*public String resolveKey(String key, NBTTagCompound tag) {
 			return I18nUtil.resolveKey(key, tag);
 		}
 		
@@ -220,5 +220,5 @@ public class ItemBookLore extends Item implements IGUIProvider {
 			
 			return stack;
 		}
-	}
+	}*/
 }
