@@ -156,21 +156,21 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nuclear_waste_tiny, 1) });
 
 		recipes.put(new ComparableStack(ModItems.waste_leaus), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pb209, 1),
-				new ItemStack(ModItems.nugget_au198, 2),
-				new ItemStack(ModItems.nugget_australium_lesser, 1),
+				new ItemStack(Items.gold_nugget, 3),
+				new ItemStack(ModItems.nugget_australium, 2),
+				new ItemStack(ModItems.nugget_australium_lesser, 5),
 				new ItemStack(ModItems.nuclear_waste_tiny, 1) });
 
 		recipes.put(new ComparableStack(ModItems.waste_meaus), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pb209, 2),
-				new ItemStack(ModItems.nugget_au198, 3),
-				new ItemStack(ModItems.nugget_australium, 2),
-				new ItemStack(ModItems.nuclear_waste_tiny, 3) });
+				new ItemStack(Items.gold_nugget, 3),
+				new ItemStack(ModItems.nugget_australium_lesser, 5),
+				new ItemStack(ModItems.nugget_australium, 4),
+				new ItemStack(ModItems.nuclear_waste_tiny, 1) });
 
 		recipes.put(new ComparableStack(ModItems.waste_heaus), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pb209, 3),
-				new ItemStack(ModItems.nugget_au198, 5),
-				new ItemStack(ModItems.nugget_australium_greater, 1),
+				new ItemStack(ModItems.nugget_australium_lesser, 3),
+				new ItemStack(ModItems.nugget_australium, 2),
+				new ItemStack(ModItems.nugget_australium_greater, 4),
 				new ItemStack(ModItems.nuclear_waste_tiny, 1) });
 
 		recipes.put(new ComparableStack(ModItems.waste_gravel), new ItemStack[] {

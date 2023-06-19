@@ -8694,4 +8694,4 @@ GameRegistry.registerItem(bucket_ln2, bucket_ln2.getUnlocalizedName());
 		GameRegistry.registerItem(remap, remap.getUnlocalizedName());
 	}
 }
-}
+

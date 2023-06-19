@@ -80,6 +80,21 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.LES_FUEL.ordinal()), new ItemStack(ModItems.rod_zirnox_les_fuel_depleted));
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.LITHIUM.ordinal()), new ItemStack(ModItems.rod_zirnox_tritium));
 		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.ZFB_MOX.ordinal()), new ItemStack(ModItems.rod_zirnox_zfb_mox_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.PU_MIX.ordinal()), new ItemStack(ModItems.rod_zirnox_pu_mix_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.PU241.ordinal()), new ItemStack(ModItems.rod_zirnox_pu241_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.AMRG.ordinal()), new ItemStack(ModItems.rod_zirnox_amrg_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.AMF.ordinal()), new ItemStack(ModItems.rod_zirnox_amf_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.CMRG.ordinal()), new ItemStack(ModItems.rod_zirnox_cmrg_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.CMF.ordinal()), new ItemStack(ModItems.rod_zirnox_cmf_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.CF251.ordinal()), new ItemStack(ModItems.rod_zirnox_cf251_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.CF252.ordinal()), new ItemStack(ModItems.rod_zirnox_cf252_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.BK247.ordinal()), new ItemStack(ModItems.rod_zirnox_bk247_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.ES253.ordinal()), new ItemStack(ModItems.rod_zirnox_es253_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.LEAUS.ordinal()), new ItemStack(ModItems.rod_zirnox_leaus_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.MEAUS.ordinal()), new ItemStack(ModItems.rod_zirnox_meaus_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.HEAUS.ordinal()), new ItemStack(ModItems.rod_zirnox_heaus_depleted));
+		fuelMap.put(new ComparableStack(ModItems.rod_zirnox, 1, EnumZirnoxType.GRAVEL.ordinal()), new ItemStack(ModItems.rod_zirnox_gravel_enriched));
+
 	}
 
 	public TileEntityReactorZirnox() {
@@ -93,7 +108,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	public String getName() {
 		return "container.zirnox";
 	}
-	
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return slots_io;
@@ -166,7 +181,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		case 11: return new int[] { 4, 10, 12, 18 };
 		case 12: return new int[] { 5, 11, 13, 19 };
 		case 13: return new int[] { 6, 12, 20 };
-		case 14: return new int[] { 7, 15, 21 }; 
+		case 14: return new int[] { 7, 15, 21 };
 		case 15: return new int[] { 8, 14, 16, 22 };
 		case 16: return new int[] { 9, 15, 23 };
 		case 17: return new int[] { 10, 18 };
@@ -195,14 +210,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 			if(age == 9 || age == 19) {
 				fillFluidInit(steam.getTankType());
 			}
-			
+
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				this.updateConnections();
 			}
-			
+
 			carbonDioxide.loadTank(24, 26, slots);
 			water.loadTank(25, 27, slots);
-			
+
 			if(isOn) {
 				for(int i = 0; i < 24; i++) {
 
@@ -214,7 +229,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 					}
 				}
 			}
-			
+
 			//2(fill) + (x * fill%)
 			this.pressure = (this.carbonDioxide.getFill() * 2) + (int)((float)this.heat * ((float)this.carbonDioxide.getFill() / (float)this.carbonDioxide.getMaxFill()));
 
@@ -226,9 +241,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 				} else {
 					this.heat -= 10;
 				}
-				
+
 			}
-			
+
 			for(DirPos pos : getConPos()) {
 				this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
