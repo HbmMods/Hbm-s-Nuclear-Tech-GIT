@@ -3,10 +3,14 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.RogueWorldHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
+import com.hbm.main.ModEventHandlerRogue;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.RogueWorldSaveData;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -323,6 +327,22 @@ public class BlockOre extends Block {
 			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, rad);
 			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 		}
+		
+    	if(this == ModBlocks.frozen_planks || this == ModBlocks.frozen_dirt)
+    	{
+        	RogueWorldSaveData data = RogueWorldSaveData.forWorld(world);
+    		float temp = ModEventHandlerRogue.getTemperatureAtDepth(y, world);
+    		if(temp <0)
+    		{
+    			for(int i = -1; i < 2; i++) {
+    				for(int j = -1; j < 2; j++) {
+    					for(int k = -1; k < 2; k++) {
+    						RogueWorldHandler.freeze(world, x+i, y+j, z+k, temp);
+    					}
+    				}
+    			}
+    		}
+    	}
 	}
 
 	@Override

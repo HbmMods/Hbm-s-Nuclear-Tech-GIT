@@ -1,11 +1,8 @@
 package com.hbm.packet;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
 import com.hbm.handler.ImpactWorldHandler;
-import com.hbm.potion.HbmPotion;
+import com.hbm.handler.RogueWorldHandler;
+import com.hbm.saveddata.RogueWorldSaveData;
 import com.hbm.saveddata.TomSaveData;
 
 import io.netty.buffer.ByteBuf;
@@ -19,30 +16,26 @@ import net.minecraft.world.World;
  * @author hbm
  */
 public class PermaSyncHandler {
-	
-	public static HashSet<Integer> boykissers = new HashSet();
 
 	public static void writePacket(ByteBuf buf, World world, EntityPlayerMP player) {
 		
 		/// TOM IMPACT DATA ///
-		TomSaveData data = TomSaveData.forWorld(world);
-		buf.writeFloat(data.fire);
-		buf.writeFloat(data.dust);
-		buf.writeBoolean(data.impact);
-		buf.writeLong(data.time);
+		TomSaveData impact = TomSaveData.forWorld(world);
+		buf.writeFloat(impact.fire);
+		buf.writeFloat(impact.dust);
+		buf.writeBoolean(impact.impact);
+		buf.writeLong(impact.time);
 		/// TOM IMPACT DATA ///
-
-		/// SHITTY MEMES ///
-		List<Integer> ids = new ArrayList();
-		for(Object o : world.playerEntities) {
-			EntityPlayer p = (EntityPlayer) o;
-			if(p.isPotionActive(HbmPotion.death.id)) {
-				ids.add(p.getEntityId());
-			}
-		}
-		buf.writeShort((short) ids.size());
-		for(Integer i : ids) buf.writeInt(i);
-		/// SHITTY MEMES ///
+		
+		/// ROGUE PLANET DATA ///
+		RogueWorldSaveData rogue = RogueWorldSaveData.forWorld(world);
+		buf.writeFloat(rogue.distance);
+		buf.writeFloat(rogue.distance); //dont ask me how, or why, it just works okay :(
+		buf.writeFloat(rogue.distance); //and it for some REASON IT SPECIFICALLY **NEEDS** 3!??!?? like it can work with more but 3 is the minimum
+		buf.writeFloat(rogue.atmosphere);
+		buf.writeBoolean(rogue.star);
+		buf.writeBoolean(rogue.rogue);
+		/// ROGUE PLANET DATA ///
 	}
 	
 	public static void readPacket(ByteBuf buf, World world, EntityPlayer player) {
@@ -52,13 +45,16 @@ public class PermaSyncHandler {
 		ImpactWorldHandler.fire = buf.readFloat();
 		ImpactWorldHandler.dust = buf.readFloat();
 		ImpactWorldHandler.impact = buf.readBoolean();
-		ImpactWorldHandler.time = buf.readLong();
 		/// TOM IMPACT DATA ///
-
-		/// SHITTY MEMES ///
-		boykissers.clear();
-		int ids = buf.readShort();
-		for(int i = 0; i < ids; i++) boykissers.add(buf.readInt());
-		/// SHITTY MEMES ///
+		
+		/// ROGUE PLANET DATA ///
+		RogueWorldHandler.lastSyncWorld = player.worldObj;
+		RogueWorldHandler.distance = buf.readFloat();// SOMEONE PLEASE explain to me why my code is acting like a 5 year old
+		RogueWorldHandler.distance = buf.readFloat();//mommy i want three! and only three! otherwise im not gonna work at all waahhh!!!!
+		RogueWorldHandler.distance = buf.readFloat();
+		RogueWorldHandler.atmosphere = buf.readFloat();
+		RogueWorldHandler.star = buf.readBoolean();
+		RogueWorldHandler.rogue = buf.readBoolean();
+		/// ROGUE PLANET DATA ///
 	}
 }

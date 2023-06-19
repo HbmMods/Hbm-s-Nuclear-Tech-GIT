@@ -2487,6 +2487,8 @@ public class ModItems {
 	public static Item bucket_toxic;
 	public static Item bucket_schrabidic_acid;
 	public static Item bucket_sulfuric_acid;
+	public static Item bucket_ln2;
+	public static Item bucket_lox;
 
 	public static Item door_metal;
 	public static Item door_office;
@@ -5755,6 +5757,9 @@ public class ModItems {
 		bucket_toxic = new ItemModBucket(ModBlocks.toxic_block).setUnlocalizedName("bucket_toxic").setContainerItem(Items.bucket).setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":bucket_toxic");
 		bucket_schrabidic_acid = new ItemModBucket(ModBlocks.schrabidic_block).setUnlocalizedName("bucket_schrabidic_acid").setContainerItem(Items.bucket).setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":bucket_schrabidic_acid");
 		bucket_sulfuric_acid = new ItemModBucket(ModBlocks.sulfuric_acid_block).setUnlocalizedName("bucket_sulfuric_acid").setContainerItem(Items.bucket).setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":bucket_sulfuric_acid");
+		bucket_ln2 = new ItemModBucket(ModBlocks.ln2_block).setUnlocalizedName("bucket_ln2").setContainerItem(Items.bucket).setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":bucket_ln2");
+		bucket_lox = new ItemModBucket(ModBlocks.lox_block).setUnlocalizedName("bucket_lox").setContainerItem(Items.bucket).setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":bucket_lox");
+
 
 		door_metal = new ItemModDoor().setUnlocalizedName("door_metal").setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":door_metal");
 		door_office = new ItemModDoor().setUnlocalizedName("door_office").setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":door_office");
@@ -8516,6 +8521,8 @@ public class ModItems {
 		GameRegistry.registerItem(bucket_toxic, bucket_toxic.getUnlocalizedName());
 		GameRegistry.registerItem(bucket_schrabidic_acid, bucket_schrabidic_acid.getUnlocalizedName());
 		GameRegistry.registerItem(bucket_sulfuric_acid, bucket_sulfuric_acid.getUnlocalizedName());
+GameRegistry.registerItem(bucket_ln2, bucket_ln2.getUnlocalizedName());
+		GameRegistry.registerItem(bucket_lox, bucket_lox.getUnlocalizedName());
 
 		//Door Items
 		GameRegistry.registerItem(door_metal, door_metal.getUnlocalizedName());

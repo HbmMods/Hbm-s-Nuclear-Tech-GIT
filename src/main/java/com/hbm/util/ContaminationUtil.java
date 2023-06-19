@@ -8,8 +8,10 @@ import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.handler.RogueWorldHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.RogueWorldSaveData;
 import com.hbm.util.ArmorRegistry.HazardClass;
 
 import api.hbm.entity.IRadiationImmune;
@@ -168,6 +170,8 @@ public class ContaminationUtil {
 		double res = ((int)(10000D - ContaminationUtil.calculateRadiationMod(player) * 10000D)) / 100D;
 		double resKoeff = ((int)(HazmatRegistry.getResistance(player) * 100D)) / 100D;
 
+		RogueWorldSaveData data = RogueWorldSaveData.forWorld(world);
+		
 		String chunkPrefix = getPreffixFromRad(rads);
 		String envPrefix = getPreffixFromRad(env);
 		String radPrefix = "";
@@ -197,6 +201,8 @@ public class ContaminationUtil {
 		player.addChatMessage(new ChatComponentTranslation("geiger.playerRad").appendSibling(new ChatComponentText(" " + radPrefix + eRad + " RAD")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 		player.addChatMessage(new ChatComponentTranslation("geiger.playerAct").appendSibling(new ChatComponentText(" " + envPrefix + neut + " RAD/s")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 		player.addChatMessage(new ChatComponentTranslation("geiger.playerRes").appendSibling(new ChatComponentText(" " + resPrefix + res + "% (" + resKoeff + ")")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+		player.addChatMessage(new ChatComponentText("Temperature: "+data.temperature));
+		player.addChatMessage(new ChatComponentText("Distance: "+data.distance));
 	}
 	
 	public static void printDosimeterData(EntityPlayer player) {

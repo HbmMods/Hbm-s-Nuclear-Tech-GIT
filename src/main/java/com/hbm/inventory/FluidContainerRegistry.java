@@ -26,6 +26,8 @@ public class FluidContainerRegistry {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_mud), new ItemStack(Items.bucket), Fluids.WATZ, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_schrabidic_acid), new ItemStack(Items.bucket), Fluids.SCHRABIDIC, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_sulfuric_acid), new ItemStack(Items.bucket), Fluids.SULFURIC_ACID, 1000));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_ln2), new ItemStack(Items.bucket), Fluids.NITROGEN, 1000));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_lox), new ItemStack(Items.bucket), Fluids.OXYGEN, 1000));
 
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.red_barrel), new ItemStack(ModItems.tank_steel), Fluids.DIESEL, 10000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.pink_barrel), new ItemStack(ModItems.tank_steel), Fluids.KEROSENE, 10000));

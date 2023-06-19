@@ -63,6 +63,7 @@ import com.hbm.entity.projectile.*;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.ImpactWorldHandler;
+import com.hbm.handler.RogueWorldHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.IAnimatedItem;
 import com.hbm.items.ModItems;
@@ -1962,6 +1963,24 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public boolean getImpact(World world) {
 		return ImpactWorldHandler.getImpactForClient(world);
+	}
+	@Override
+	public float getAtmosphere(World world) {
+		return RogueWorldHandler.getAtmosphereForClient(world);
+	}
+	@Override
+	public float getDistance(World world) {
+		return RogueWorldHandler.getDistanceForClient(world);
+	}
+
+	@Override
+	public boolean getStar(World world) {
+		return RogueWorldHandler.getStarForClient(world);
+	}
+
+	@Override
+	public boolean getRogue(World world) {
+		return RogueWorldHandler.getRogueWorldForClient(world);
 	}
 }
 

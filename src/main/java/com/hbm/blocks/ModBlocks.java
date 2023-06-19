@@ -513,6 +513,11 @@ public class ModBlocks {
 	public static Block frozen_grass;
 	public static Block frozen_log;
 	public static Block frozen_planks;
+	public static Block frozen_gravel;
+	public static Block frozen_sand;
+	public static Block frozen_farmland;
+	public static Block frozen_leaves;
+	public static Block cold_ice;
 	public static Block dirt_dead;
 	public static Block dirt_oily;
 	public static Block sand_dirty;
@@ -1183,6 +1188,12 @@ public class ModBlocks {
 	public static Block sulfuric_acid_block;
 	public static Fluid sulfuric_acid_fluid;
 
+	public static Block ln2_block;
+	public static Fluid ln2_fluid;
+
+	public static Block lox_block;
+	public static Fluid lox_fluid;
+
 	public static Block concrete_liquid;
 
 	public static Block volcano_core;
@@ -1711,6 +1722,11 @@ public class ModBlocks {
 		frozen_grass = new WasteEarth(Material.ground, false).setBlockName("frozen_grass").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
 		frozen_log = new WasteLog(Material.wood).setBlockName("frozen_log").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
 		frozen_planks = new BlockOre(Material.wood).setBlockName("frozen_planks").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":frozen_planks");
+		frozen_farmland = new FrozenFarmland(Material.ground, true).setBlockName("frozen_farmland").setStepSound(Block.soundTypeGlass).setCreativeTab(CreativeTabs.tabBlock).setHardness(0.5F).setResistance(2.5F);
+		frozen_gravel = new BlockFallingFrozen(Material.ground).setBlockName("frozen_gravel").setStepSound(Block.soundTypeGlass).setCreativeTab(CreativeTabs.tabBlock).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":frozen_gravel");
+		frozen_sand = new BlockFallingFrozen(Material.ground).setBlockName("frozen_sand").setStepSound(Block.soundTypeGlass).setCreativeTab(CreativeTabs.tabBlock).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":frozen_sand");
+		cold_ice = new ColdIce(true).setHardness(0.5F).setLightOpacity(3).setCreativeTab(CreativeTabs.tabBlock).setStepSound(Block.soundTypeGlass).setBlockName("cold_ice");
+		frozen_leaves = new WasteLeaves(Material.leaves).setBlockName("frozen_leaves").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setBlockTextureName(RefStrings.MODID + ":frozen_leaves");
 		fallout = new BlockFallout(Material.snow).setBlockName("fallout").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":ash");
 		salted_fallout = new BlockFallout(Material.snow).setBlockName("salted_fallout").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":ash");
 		foam_layer = new BlockLayering(Material.snow).setBlockName("foam_layer").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(0.1F).setLightOpacity(0).setBlockTextureName(RefStrings.MODID + ":foam");
@@ -2334,6 +2350,14 @@ public class ModBlocks {
 		FluidRegistry.registerFluid(sulfuric_acid_fluid);
 		sulfuric_acid_block = new GenericFluidBlock(sulfuric_acid_fluid, Material.water, "sulfuric_acid_still", "sulfuric_acid_flowing").setDamage(ModDamageSource.acid, 5F).setBlockName("sulfuric_acid_block").setResistance(500F);
 		
+		ln2_fluid = new GenericFluid("liquid_nitrogen").setDensity(807).setViscosity(1000).setTemperature(77);
+		FluidRegistry.registerFluid(ln2_fluid);
+		ln2_block = new CryogenicBlock(ln2_fluid, Material.water, "ln2_still", "ln2_flowing").setDamage(ModDamageSource.s_cryolator, 5F).setBlockName("liquid_nitrogen_block").setResistance(500F);
+
+		lox_fluid = new GenericFluid("liquid_oxygen").setDensity(1141).setViscosity(1000).setTemperature(90);
+		FluidRegistry.registerFluid(lox_fluid);
+		lox_block = new CryogenicBlock(lox_fluid, Material.water, "lox_still", "lox_flowing").setDamage(ModDamageSource.s_cryolator, 5F).setBlockName("liquid_oxygen_block").setResistance(500F);
+
 		Fluid liquidConcrete = new GenericFluid("concrete_liquid").setViscosity(2000);
 		concrete_liquid = new GenericFiniteFluid(liquidConcrete, Material.rock, "concrete_liquid", "concrete_liquid_flowing").setQuantaPerBlock(4).setBlockName("concrete_liquid").setResistance(500F);
 
@@ -2854,8 +2878,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(waste_planks, waste_planks.getUnlocalizedName());
 		GameRegistry.registerBlock(frozen_grass, frozen_grass.getUnlocalizedName());
 		GameRegistry.registerBlock(frozen_dirt, frozen_dirt.getUnlocalizedName());
+		GameRegistry.registerBlock(frozen_sand, frozen_sand.getUnlocalizedName());
 		GameRegistry.registerBlock(frozen_log, frozen_log.getUnlocalizedName());
 		GameRegistry.registerBlock(frozen_planks, frozen_planks.getUnlocalizedName());
+		GameRegistry.registerBlock(frozen_farmland, frozen_farmland.getUnlocalizedName());
+		GameRegistry.registerBlock(frozen_gravel, frozen_gravel.getUnlocalizedName());
+		GameRegistry.registerBlock(cold_ice, cold_ice.getUnlocalizedName());
+		GameRegistry.registerBlock(frozen_leaves, frozen_leaves.getUnlocalizedName());
 		GameRegistry.registerBlock(dirt_dead, dirt_dead.getUnlocalizedName());
 		GameRegistry.registerBlock(dirt_oily, dirt_oily.getUnlocalizedName());
 		GameRegistry.registerBlock(sand_dirty, sand_dirty.getUnlocalizedName());
@@ -3437,6 +3466,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(corium_block, corium_block.getUnlocalizedName());
 		GameRegistry.registerBlock(volcanic_lava_block, volcanic_lava_block.getUnlocalizedName());
 		GameRegistry.registerBlock(sulfuric_acid_block, sulfuric_acid_block.getUnlocalizedName());
+		GameRegistry.registerBlock(ln2_block, ln2_block.getUnlocalizedName());
+		GameRegistry.registerBlock(lox_block, lox_block.getUnlocalizedName());
 		//GameRegistry.registerBlock(concrete_liquid, concrete_liquid.getUnlocalizedName());
 		
 		//Multiblock Dummy Blocks
