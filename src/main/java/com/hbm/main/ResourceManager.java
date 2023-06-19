@@ -313,6 +313,7 @@ public class ResourceManager {
 	public static final IModelCustom ufo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/ufo.obj"));
 	public static final IModelCustom mini_ufo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/mini_ufo.obj"));
 	public static final IModelCustom siege_ufo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/siege_ufo.obj"));
+	public static final IModelCustom glyphid = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/mobs/glyphid.obj"));
 	
 	//ZIRNOX
 	public static final IModelCustom zirnox = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/zirnox.obj"));
@@ -671,6 +672,13 @@ public class ResourceManager {
 	public static final ResourceLocation iou = new ResourceLocation(RefStrings.MODID, "textures/entity/iou.png");
 	public static final ResourceLocation spider_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/blockspider.png");
 	public static final ResourceLocation ufo_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/ufo.png");
+	public static final ResourceLocation glyphid_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid.png");
+	public static final ResourceLocation glyphid_brawler_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_brawler.png");
+	public static final ResourceLocation glyphid_behemoth_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_behemoth.png");
+	public static final ResourceLocation glyphid_brenda_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_brenda.png");
+	public static final ResourceLocation glyphid_bombardier_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_bombardier.png");
+	public static final ResourceLocation glyphid_blaster_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_blaster.png");
+	public static final ResourceLocation glyphid_scout_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_scout.png");
 	
 	//ZIRNOX
 	public static final ResourceLocation zirnox_tex = new ResourceLocation(RefStrings.MODID, "textures/models/zirnox.png");

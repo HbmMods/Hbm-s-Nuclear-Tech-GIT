@@ -40,7 +40,7 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 			return 0;
 		
 		if(simulate)
-			return 0;
+			return maxReceive;
 		
 		recursionBrake = true;
 		

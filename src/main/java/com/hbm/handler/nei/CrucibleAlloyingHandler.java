@@ -35,8 +35,8 @@ public class CrucibleAlloyingHandler extends TemplateRecipeHandler {
 		public RecipeSet(CrucibleRecipe recipe) {
 			List<ItemStack> inputs = new ArrayList();
 			List<ItemStack> outputs = new ArrayList();
-			for(MaterialStack stack : recipe.input) inputs.add(ItemScraps.create(stack));
-			for(MaterialStack stack : recipe.output) outputs.add(ItemScraps.create(stack));
+			for(MaterialStack stack : recipe.input) inputs.add(ItemScraps.create(stack, true));
+			for(MaterialStack stack : recipe.output) outputs.add(ItemScraps.create(stack, true));
 			
 			this.template = new PositionedStack(new ItemStack(ModItems.crucible_template, 1, recipe.getId()), 75, 6);
 			this.crucible = new PositionedStack(new ItemStack(ModBlocks.machine_crucible), 75, 42);

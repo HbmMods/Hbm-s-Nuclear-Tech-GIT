@@ -142,4 +142,60 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 		this.setBlockBounds(0F, 0F, 0F, 1F, 0.125F, 1F);
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
+
+	@Override
+	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		dir = dir.getOpposite();
+
+		int dX = dir.offsetX;
+		int dZ = dir.offsetZ;
+		int rX = rot.offsetX;
+		int rZ = rot.offsetZ;
+		
+		return world.getBlock(x + dX, y, z + dZ).isReplaceable(world, x + dX, y, z + dZ) &&
+				world.getBlock(x + rX, y, z + rZ).isReplaceable(world, x + rX, y, z + rZ) &&
+				world.getBlock(x + dX + rX, y, z + dZ + rZ).isReplaceable(world, x + dX + rX, y, z + dZ + rZ) &&
+				world.getBlock(x + dX + rX * 2, y, z + dZ + rZ * 2).isReplaceable(world, x + dX + rX * 2, y, z + dZ + rZ * 2) &&
+				world.getBlock(x + dX * 2 + rX, y, z + dZ * 2 + rZ).isReplaceable(world, x + dX * 2 + rX, y, z + dZ * 2 + rZ) &&
+				world.getBlock(x + dX * 2 + rX * 2, y, z + dZ * 2 + rZ * 2).isReplaceable(world, x + dX * 2 + rX * 2, y, z + dZ * 2 + rZ * 2) &&
+				world.getBlock(x + dX * 3 + rX, y, z + dZ * 3 + rZ).isReplaceable(world, x + dX * 3 + rX, y, z + dZ * 3 + rZ) &&
+				world.getBlock(x + dX * 3 + rX * 2, y, z + dZ * 3 + rZ * 2).isReplaceable(world, x + dX * 3 + rX * 2, y, z + dZ * 3 + rZ * 2) &&
+				world.getBlock(x + dX * 2 + rX * 3, y, z + dZ * 2 + rZ * 3).isReplaceable(world, x + dX * 2 + rX * 3, y, z + dZ * 2 + rZ * 3) &&
+				world.getBlock(x + dX * 3 + rX * 3, y, z + dZ * 3 + rZ * 3).isReplaceable(world, x + dX * 3 + rX * 3, y, z + dZ * 3 + rZ * 3) &&
+				world.getBlock(x + dX * 4 + rX * 3, y, z + dZ * 4 + rZ * 3).isReplaceable(world, x + dX * 4 + rX * 3, y, z + dZ * 4 + rZ * 3) &&
+				world.getBlock(x + dX * 3 + rX * 4, y, z + dZ * 3 + rZ * 4).isReplaceable(world, x + dX * 3 + rX * 4, y, z + dZ * 3 + rZ * 4) &&
+				world.getBlock(x + dX * 4 + rX * 4, y, z + dZ * 4 + rZ * 4).isReplaceable(world, x + dX * 4 + rX * 4, y, z + dZ * 4 + rZ * 4);
+	}
+
+	@Override
+	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		
+		BlockDummyable.safeRem = true;
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		dir = dir.getOpposite();
+
+		int dX = dir.offsetX;
+		int dZ = dir.offsetZ;
+		int rX = rot.offsetX;
+		int rZ = rot.offsetZ;
+		
+		world.setBlock(x + dX, y, z + dZ, this, dir.ordinal(), 3);
+		world.setBlock(x + rX, y, z + rZ, this, rot.ordinal(), 3);
+		world.setBlock(x + dX + rX, y, z + dZ + rZ, this, rot.ordinal(), 3);
+		world.setBlock(x + dX + rX * 2, y, z + dZ + rZ * 2, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 2 + rX, y, z + dZ * 2 + rZ, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 2 + rX * 2, y, z + dZ * 2 + rZ * 2, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 3 + rX, y, z + dZ * 3 + rZ, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 3 + rX * 2, y, z + dZ * 3 + rZ * 2, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 2 + rX * 3, y, z + dZ * 2 + rZ * 3, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 3 + rX * 3, y, z + dZ * 3 + rZ * 3, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 4 + rX * 3, y, z + dZ * 4 + rZ * 3, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 3 + rX * 4, y, z + dZ * 3 + rZ * 4, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 4 + rX * 4, y, z + dZ * 4 + rZ * 4, this, rot.ordinal(), 3);
+		
+		BlockDummyable.safeRem = false;
+	}
 }

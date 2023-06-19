@@ -132,7 +132,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				data.setString("type", "debug");
 				data.setInteger("color", 0x0000ff);
 				data.setFloat("scale", 1.5F);
-				data.setString("text", id);
+				data.setString("text", id + " (#" + train.ltuIndex + ")");
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, train.posX, train.posY + 1, train.posZ), new TargetPoint(this.dimension, train.posX, train.posY + 1, train.posZ, 50));
 			}
 		}
@@ -180,9 +180,6 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			}
 			
 		} else {
-			
-			PacketDispatcher.wrapper.sendToAllAround(new PlayerInformPacket(ChatBuilder.start("" + this.rotationPitch).color(EnumChatFormatting.RED).flush(), 1),
-					new TargetPoint(dimension, posX, posY + 1, posZ, 50));
 
 			if(this.coupledFront != null && this.coupledFront.isDead) {
 				this.coupledFront = null;
@@ -319,7 +316,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 		
 		for(LogicalTrainUnit ltu : ltus) {
 			
-			double speed = ltu.getTotalSpeed();
+			double speed = ltu.getTotalSpeed() + ltu.pushForce;
 			
 			if(Math.abs(speed) < 0.001) speed = 0;
 			
@@ -346,6 +343,10 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				} else {
 					ltu.setRenderPos(train, frontPos, backPos);
 				}
+
+				//ltu.pushForce *= 0.95;
+				ltu.pushForce = 0;
+				ltu.collideTrain(speed);
 				
 				continue;
 			}
@@ -354,6 +355,12 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				ltu.combineWagons();
 			} else {
 				ltu.moveTrainByApproach(speed);
+			}
+			
+			if(ltu.trains.length != 1) {
+				//ltu.pushForce *= 0.95;
+				ltu.pushForce = 0;
+				ltu.collideTrain(speed);
 			}
 		}
 	}
@@ -540,6 +547,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 	
 	public static class LogicalTrainUnit {
 		
+		protected double pushForce;
 		protected EntityRailCarBase trains[];
 		
 		/** Assumes that the train is an endpoint, i.e. that only one coupling is in use */
@@ -742,7 +750,6 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 		/** Determines the "front" wagon based on the movement and moves it, then moves all other wagons towards that */
 		public void moveTrainByApproach(double speed) {
 			boolean forward = speed < 0;
-			double origSpeed = speed;
 			speed = Math.abs(speed);
 			EntityRailCarBase previous = null;
 			
@@ -797,6 +804,55 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			current.motionX = current.rotationYaw / 360D; // hijacking this crap for easy syncing
 			current.motionY = current.rotationPitch / 360D;
 			current.velocityChanged = true;
+		}
+		
+		public void collideTrain(double speed) {
+			EntityRailCarBase collidingTrain = speed > 0 ? trains[0] : trains[trains.length - 1];
+			List<EntityRailCarBase> intersect = collidingTrain.worldObj.getEntitiesWithinAABB(EntityRailCarBase.class, collidingTrain.boundingBox.expand(1, 1, 1));
+			EntityRailCarBase collidesWith = null;
+			
+			for(EntityRailCarBase train : intersect) {
+				if(train.ltu != null && train.ltu != this) {
+					collidesWith = train;
+					break;
+				}
+			}
+			
+			if(collidesWith == null) return;
+			
+			Vec3 delta = Vec3.createVectorHelper(collidingTrain.posX - collidesWith.posX, 0, collidingTrain.posZ - collidesWith.posZ);
+			double totalSpan = collidingTrain.getCollisionSpan() + collidesWith.getCollisionSpan();
+			double diff = delta.lengthVector();
+			if(diff > totalSpan) return;
+			double push = (totalSpan - diff);
+			
+			//PacketDispatcher.wrapper.sendToAllAround(new PlayerInformPacket(ChatBuilder.start("" + collidesWith.ltuIndex + " " + collidingTrain.ltuIndex).color(EnumChatFormatting.RED).flush(), 1),
+			//		new TargetPoint(collidingTrain.dimension, collidingTrain.posX, collidingTrain.posY + 1, collidingTrain.posZ, 50));
+			
+			EntityRailCarBase[][] whatever = new EntityRailCarBase[][] {{collidingTrain, collidesWith}, {collidesWith, collidingTrain}};
+			for(EntityRailCarBase[] array : whatever) {
+				LogicalTrainUnit ltu = array[0].ltu;
+				if(ltu.trains.length == 1) {
+					Vec3 rot = Vec3.createVectorHelper(0, 0, array[0].getCollisionSpan());
+					rot.rotateAroundX((float) (array[0].rotationPitch * Math.PI / 180D));
+					rot.rotateAroundY((float) (-array[0].rotationYaw * Math.PI / 180));
+					Vec3 forward = Vec3.createVectorHelper(array[1].posX - (array[0].posX + rot.xCoord), 0, array[1].posZ - (array[0].posZ + rot.zCoord));
+					Vec3 backward = Vec3.createVectorHelper(array[1].posX - (array[0].posX - rot.xCoord), 0, array[1].posZ - (array[0].posZ - rot.zCoord));
+					
+					if(forward.lengthVector() > backward.lengthVector()) {
+						ltu.pushForce += push;
+					} else {
+						ltu.pushForce -= push;
+					}
+				} else {
+					
+					if(array[0].ltuIndex < ltu.trains.length / 2) {
+						ltu.pushForce -= push;
+					} else {
+						ltu.pushForce += push;
+					}
+				}
+			}
 		}
 	}
 	

@@ -211,6 +211,7 @@ public class EntityMappings {
 		addEntity(EntitySawblade.class, "entity_stray_saw", 1000);
 		addEntity(EntityChemical.class, "entity_chemthrower_splash", 1000);
 		addEntity(EntityMist.class, "entity_mist", 250, false);
+		addEntity(EntityAcidBomb.class, "entity_acid_bomb", 1000);
 
 		addEntity(EntityItemWaste.class, "entity_item_waste", 100);
 		addEntity(EntityItemBuoyant.class, "entity_item_buoyant", 100);
@@ -238,6 +239,13 @@ public class EntityMappings {
 		addMob(EntitySiegeSkeleton.class, "entity_meme_skeleton", 0x303030, 0x000080);
 		addMob(EntitySiegeUFO.class, "entity_meme_ufo", 0x303030, 0x800000);
 		addMob(EntitySiegeCraft.class, "entity_meme_craft", 0x303030, 0x808000);
+		addMob(EntityGlyphid.class, "entity_glyphid", 0x724A21, 0xD2BB72);
+		addMob(EntityGlyphidBrawler.class, "entity_glyphid_brawler", 0x273038, 0xD2BB72);
+		addMob(EntityGlyphidBehemoth.class, "entity_glyphid_behemoth", 0x267F00, 0xD2BB72);
+		addMob(EntityGlyphidBrenda.class, "entity_glyphid_brenda", 0x4FC0C0, 0xA0A0A0);
+		addMob(EntityGlyphidBombardier.class, "entity_glyphid_bombardier", 0xDDD919, 0xDBB79D);
+		addMob(EntityGlyphidBlaster.class, "entity_glyphid_blaster", 0xD83737, 0xDBB79D);
+		addMob(EntityGlyphidScout.class, "entity_glyphid_scout", 0x273038, 0xB9E36B);
 
 		addSpawn(EntityCreeperPhosgene.class, 5, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityCreeperVolatile.class, 10, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());

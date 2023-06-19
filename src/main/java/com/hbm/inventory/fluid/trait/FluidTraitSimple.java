@@ -49,11 +49,13 @@ public class FluidTraitSimple {
 			info.add(EnumChatFormatting.DARK_RED + "[Requires hazardous material tank to hold]");
 		}
 	}
+	
 	public static class FT_Delicious extends FluidTrait {
 		@Override public void addInfoHidden(List<String> info) {
 			info.add(EnumChatFormatting.DARK_GREEN + "[Delicious]");
 		}
 	}
+
 	public static class FT_ULTRAKILL extends FluidTrait {
 		@Override public void addInfoHidden(List<String> info) {
 		info.add(EnumChatFormatting.DARK_RED + "[ULTRAKILL]");
@@ -62,6 +64,13 @@ public class FluidTraitSimple {
 		@Override public void addInfoHidden(List<String> info) {
 		info.add(EnumChatFormatting.RED + "[Explosive]");
 	}}
+	
+	public static class FT_Leaded extends FluidTrait {
+		@Override public void addInfoHidden(List<String> info) {
+			info.add(EnumChatFormatting.BLUE + "[Leaded Fuel]");
+		}
+	}
+
 
 	public static class FT_NoID extends FluidTrait { }
 	public static class FT_NoContainer extends FluidTrait { }
