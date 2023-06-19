@@ -2,76 +2,61 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
-import com.hbm.config.WorldConfig;
-import com.hbm.entity.effect.EntityNukeTorex;
-import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.entity.logic.EntityTomBlast;
-import com.hbm.entity.mob.siege.EntitySiegeTunneler;
-import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBookLore;
-import com.hbm.items.special.ItemBookLore.BookLoreType;
-import com.hbm.items.special.ItemKitCustom;
-import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.lib.Library;
-import com.hbm.saveddata.RogueWorldSaveData;
-import com.hbm.saveddata.TomSaveData;
-import com.hbm.world.feature.OilSpot;
-import com.hbm.world.generator.DungeonToolbox;
 
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EntityTracker;
-import net.minecraft.entity.EntityTrackerEntry;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IntHashMap;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.structure.MapGenStronghold;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class ItemWandD extends Item {
-	boolean flag = false;
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-
+		
 		if(world.isRemote)
 			return stack;
 		
 		MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
 		
 		if(pos != null) {
-
-			boolean flag = true;
-			if(flag) {
-			RogueWorldSaveData data = RogueWorldSaveData.forWorld(world);
-			data.star= true;
-			//data.atmosphere = 1F;
-			//data.distance = 1F;
-			//data.rtime = 1;
-			
-			//data.fire = 0F;
-			//data.dust = 0F;
-			data.markDirty();
-		}
 	
-			//TomSaveData data = TomSaveData.forWorld(world);
-			//data.impact = false;
-			//data.fire = 0F;
-			//data.dust = 0F;
+			
+			
+			
+			/*ExplosionVNT vnt = new ExplosionVNT(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 7);
+			vnt.setBlockAllocator(new BlockAllocatorBulkie(60));
+			vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorBulkie(ModBlocks.block_slag)).setNoDrop());
+			vnt.setEntityProcessor(new EntityProcessorStandard());
+			vnt.setPlayerProcessor(new PlayerProcessorStandard());
+			vnt.setSFX(new ExplosionEffectStandard());
+			vnt.explode();*/
+			
+			PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
+			
+			/*TimeAnalyzer.startCount("setBlock");
+			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
+			TimeAnalyzer.startEndCount("getBlock");
+			world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+			TimeAnalyzer.endCount();
+			TimeAnalyzer.dump();*/
+			/*
+			TomSaveData data = TomSaveData.forWorld(world);
+			data.impact = true;
+			data.fire = 0F;
+			data.dust = 0F;
 			//data.dtime=(600-pos.blockY);
 			//data.time=3600;
 			//data.x=pos.blockX;
 			//data.z=pos.blockZ;
+			data.markDirty();
 			
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;
@@ -79,23 +64,6 @@ public class ItemWandD extends Item {
 			tom.posZ = pos.blockZ;
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
-			
-			/*ItemStack itemStack = new ItemStack(ModItems.book_lore);
-			BookLoreType.setTypeForStack(itemStack, BookLoreType.BOOK_IODINE);
-			
-			player.inventory.addItemStackToInventory(itemStack);
-			player.inventoryContainer.detectAndSendChanges();*/
-			
-			//use sparingly
-			/*int k = ((pos.blockX >> 4) << 4) + 8;
-			int l = ((pos.blockZ >> 4) << 4) + 8;
-			
-			MapGenBunker.Start start = new MapGenBunker.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
-			start.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));*/
-			//MapGenStronghold.Start startS = new MapGenStronghold.Start(world, world.rand, pos.blockX >> 4, pos.blockZ >> 4);
-			//startS.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));
-			
-			/*OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 20, 500);*/
 			
 			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
@@ -183,6 +151,8 @@ public class ItemWandD extends Item {
 		
 		return stack;
 	}
+
+
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)

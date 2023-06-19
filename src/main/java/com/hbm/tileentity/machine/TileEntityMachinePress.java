@@ -124,7 +124,12 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 			
 			if(slots[0] != null && burnTime < 200 && TileEntityFurnace.getItemBurnTime(slots[0]) > 0) { // less than one operation stored? burn more fuel!
 				burnTime += TileEntityFurnace.getItemBurnTime(slots[0]);
-				this.decrStackSize(0, 1);
+				
+				if(slots[0].stackSize == 1 && slots[0].getItem().hasContainerItem(slots[0])) {
+					slots[0] = slots[0].getItem().getContainerItem(slots[0]).copy();
+				} else {
+					this.decrStackSize(0, 1);
+				}
 				this.markChanged();
 			}
 			
@@ -186,8 +191,8 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		
-		if(stack.getItem() instanceof ItemStamp && i == 1)
-			return true;
+		if(stack.getItem() instanceof ItemStamp)
+			return i == 1;
 		
 		if(TileEntityFurnace.getItemBurnTime(stack) > 0 && i == 0)
 			return true;
@@ -197,7 +202,7 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		return side == 0 ? new int[] { 3 } : new int[] { 0, 1, 2 };
+		return new int[] { 0, 1, 2, 3 };
 	}
 
 	@Override

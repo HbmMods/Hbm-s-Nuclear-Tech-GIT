@@ -1,6 +1,7 @@
 package com.hbm.items;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.util.EnumUtil;
@@ -54,7 +55,7 @@ public class ItemEnumMulti extends Item {
 			
 			for(int i = 0; i < icons.length; i++) {
 				Enum num = enums[i];
-				this.icons[i] = reg.registerIcon(this.getIconString() + "." + num.name().toLowerCase());
+				this.icons[i] = reg.registerIcon(this.getIconString() + "." + num.name().toLowerCase(Locale.US));
 			}
 		} else {
 			this.itemIcon = reg.registerIcon(this.getIconString());
@@ -91,7 +92,7 @@ public class ItemEnumMulti extends Item {
 		
 		if(multiName) {
 			Enum num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
-			return super.getUnlocalizedName() + "." + num.name().toLowerCase();
+			return super.getUnlocalizedName() + "." + num.name().toLowerCase(Locale.US);
 		} else {
 			return super.getUnlocalizedName(stack);
 		}

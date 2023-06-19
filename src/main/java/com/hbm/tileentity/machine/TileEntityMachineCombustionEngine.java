@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCombustionEngine;
 import com.hbm.inventory.fluid.FluidType;
@@ -84,6 +86,8 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 					this.power += toBurn * (trait.getCombustionEnergy() / 10_000D) * eff;
 					fill -= toBurn;
 					
+					if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * setting * 0.1F);
+					
 					if(toBurn > 0) {
 						wasOn = true;
 					}
@@ -157,7 +161,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 	}
 	
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.igeneratorOperate", xCoord, yCoord, zCoord, 2.0F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.igeneratorOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
 	}
 
 	@Override

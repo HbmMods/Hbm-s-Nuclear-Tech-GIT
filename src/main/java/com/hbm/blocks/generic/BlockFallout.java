@@ -27,6 +27,10 @@ public class BlockFallout extends Block {
 	public BlockFallout(Material mat) {
 		super(mat);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
+		if(this==ModBlocks.salted_fallout)
+		{
+			this.setTickRandomly(true);	
+		}
 	}
 
 	public boolean isOpaqueCube() {
@@ -78,10 +82,6 @@ public class BlockFallout extends Block {
 	
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
-		if(this==ModBlocks.salted_fallout)
-		{
-			world.scheduleBlockUpdate(x, y, z, this, 20);	
-		}
 	}
 
 	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
@@ -93,7 +93,6 @@ public class BlockFallout extends Block {
 		if(this==ModBlocks.salted_fallout)
 		{
 			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 50);
-			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));	
 		}
 	}
 }

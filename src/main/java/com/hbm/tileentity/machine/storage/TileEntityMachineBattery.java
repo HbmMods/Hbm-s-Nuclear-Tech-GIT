@@ -1,10 +1,6 @@
 package com.hbm.tileentity.machine.storage;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import api.hbm.energy.*;
 import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.inventory.gui.GUIMachineBattery;
@@ -12,13 +8,6 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
-
-import api.hbm.energy.IBatteryItem;
-import api.hbm.energy.IEnergyConductor;
-import api.hbm.energy.IEnergyConnector;
-import api.hbm.energy.IEnergyUser;
-import api.hbm.energy.IPowerNet;
-import api.hbm.energy.PowerNet;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,6 +24,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
 public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyUser, IPersistentNBT, SimpleComponent, IGUIProvider {
@@ -233,6 +227,16 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		if(this.power > 0 && (mode == mode_buffer || mode == mode_output)) {
 			List<IEnergyConnector> con = new ArrayList();
 			con.addAll(consumers);
+			
+			if(PowerNet.trackingInstances == null) {
+				PowerNet.trackingInstances = new ArrayList();
+			}
+			PowerNet.trackingInstances.clear();
+			
+			nets.forEach(x -> {
+				if(x instanceof PowerNet) PowerNet.trackingInstances.add((PowerNet) x);
+			});
+			
 			this.power = PowerNet.fairTransfer(con, this.power);
 		}
 		
@@ -262,9 +266,17 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			if(mode == mode_buffer || mode == mode_output) {
 				if(te instanceof IEnergyConnector) {
 					IEnergyConnector con = (IEnergyConnector) te;
+					
+					long max = getMaxTransfer();
+					long toTransfer = Math.min(max, this.power);
+					long remainder = this.power - toTransfer;
+					this.power = toTransfer;
+					
 					long oldPower = this.power;
 					long transfer = this.power - con.transferPower(this.power);
 					this.power = oldPower - transfer;
+					
+					power += remainder;
 				}
 			}
 			
@@ -283,6 +295,10 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 				}
 			}
 		}
+	}
+	
+	public long getMaxTransfer() {
+		return this.getMaxPower();
 	}
 
 	@Override
@@ -379,19 +395,19 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		return "ntm_energy_storage"; // need a way to somehow detect the first word of the energy storage block so people wont get confused when it comes to multiple energy storage blocks
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyStored(Context context, Arguments args) {
 		return new Object[] {getPower()};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getMaxEnergy(Context context, Arguments args) {
 		return new Object[] {getMaxPower()};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower()};

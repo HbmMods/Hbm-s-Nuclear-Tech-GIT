@@ -44,6 +44,8 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation pheo = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapePheo.png");
 	private static ResourceLocation vaer = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeVaer.png");
 	private static ResourceLocation adam = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAdam.png");
+	private static ResourceLocation gwen = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeGwen.png");
+
 	
 	public static ResourceLocation getCloakFromPlayer(EntityPlayer player) {
 		
@@ -123,11 +125,14 @@ public class RenderAccessoryUtility {
 		if(uuid.equals(Library.Adam29Adam29)) {
 			return adam;
 		}
+		if(uuid.equals(Library.DUODEC_)) {
+			return gwen;
+		}
 		if(Library.contributors.contains(uuid)) {
 			return wiki;
 		}
 		if(name.startsWith("Player")) {
-			return test;
+			return gwen;
 		}
 		
 		return null;

@@ -99,7 +99,7 @@ public class ItemAutogen extends Item {
 		NTMMaterial mat = Mats.matById.get(stack.getItemDamage());
 		
 		if(mat != null) {
-			return mat.solidColorLight;
+			return mat.moltenColor;
 		}
 		
 		return 0xffffff;

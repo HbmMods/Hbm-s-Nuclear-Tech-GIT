@@ -1,7 +1,11 @@
 package com.hbm.explosion;
 
-import com.hbm.blocks.ModBlocks;
+import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.util.ParticleUtil;
+
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -21,7 +25,7 @@ public class ExplosionBalefire
 	private int shell;
 	private int leg;
 	private int element;
-	
+	private boolean antimatter = false;
 	public void saveToNbt(NBTTagCompound nbt, String name) {
 		nbt.setInteger(name + "posX", posX);
 		nbt.setInteger(name + "posY", posY);
@@ -35,6 +39,7 @@ public class ExplosionBalefire
 		nbt.setInteger(name + "shell", shell);
 		nbt.setInteger(name + "leg", leg);
 		nbt.setInteger(name + "element", element);
+		nbt.setBoolean(name + "antimatter", antimatter);
 	}
 	
 	public void readFromNbt(NBTTagCompound nbt, String name) {
@@ -50,9 +55,10 @@ public class ExplosionBalefire
 		shell = nbt.getInteger(name + "shell");
 		leg = nbt.getInteger(name + "leg");
 		element = nbt.getInteger(name + "element");
+		antimatter = nbt.getBoolean(name + "antimatter");
 	}
 	
-	public ExplosionBalefire(int x, int y, int z, World world, int rad)
+	public ExplosionBalefire(int x, int y, int z, World world, int rad, boolean antimatter)
 	{
 		this.posX = x;
 		this.posY = y;
@@ -64,6 +70,7 @@ public class ExplosionBalefire
 		this.radius2 = this.radius * this.radius;
 
 		this.nlimit = this.radius2 * 4;
+		this.antimatter=antimatter;
 	}
 	
 	public boolean update() {
@@ -100,7 +107,7 @@ public class ExplosionBalefire
 			
 			while(y > depth) {
 
-				if(worldObj.getBlock(pX, y, pZ) == ModBlocks.block_schrabidium_cluster) {
+				if(worldObj.getBlock(pX, y, pZ) == ModBlocks.block_schrabidium_cluster && !antimatter) {
 					
 					if(worldObj.rand.nextInt(10) == 0) {
 						worldObj.setBlock(pX, y + 1, pZ, ModBlocks.balefire);
@@ -108,20 +115,35 @@ public class ExplosionBalefire
 					}
 					return;
 				}
-				
-				worldObj.setBlockToAir(pX, y, pZ);
+				Material m = worldObj.getBlock(pX, y, pZ).getMaterial();
+				if((m==Material.craftedSnow || m==Material.snow || m==Material.ice || m==Material.packedIce) && antimatter)
+				{
+					//ExplosionChaos.plasma(worldObj, pX, y, pZ, 4);
+					ParticleUtil.spawnGasFlame(worldObj, pX, y, pZ, x, y, z);
+					continue;
+				}
+				if(worldObj.getBlock(pX, y, pZ)!=ModBlocks.plasma)
+				{
+					worldObj.setBlockToAir(pX, y, pZ);
+				}
 				
 				y--;
 			}
-			
-			if(worldObj.rand.nextInt(10) == 0) {
+			if(worldObj.rand.nextInt(10) == 0 && !antimatter) {
 				worldObj.setBlock(pX, depth + 1, pZ, ModBlocks.balefire);
 				
-				if(worldObj.getBlock(pX, y, pZ) == ModBlocks.block_schrabidium_cluster)
+				if(worldObj.getBlock(pX, y, pZ) == ModBlocks.block_schrabidium_cluster && !antimatter)
 					worldObj.setBlock(pX, y, pZ, ModBlocks.block_euphemium_cluster, worldObj.getBlockMetadata(pX, y, pZ), 3);
 			}
 
 			for(int i = depth; i > depth - 5; i--) {
+				Random rand = new Random();
+				double d = dist / 100;
+				double chance = 1-d;
+				if(rand.nextInt(dist) == 0 && antimatter) {
+					worldObj.setBlock(pX, depth, pZ, ModBlocks.volcanic_lava_block);
+				}
+				
 				if(worldObj.getBlock(pX, i, pZ) == Blocks.stone)
 					worldObj.setBlock(pX, i, pZ, ModBlocks.sellafield_slaked);
 			}

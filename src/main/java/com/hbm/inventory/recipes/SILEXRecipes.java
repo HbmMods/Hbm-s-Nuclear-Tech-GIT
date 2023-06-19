@@ -792,25 +792,27 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_lithium), 10))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.fluorite), 5))
 				);
+		
+		//okay so at this point, silex for ore processing should be a lategame incentive, instead of the standard
 		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 0), new SILEXRecipe(1000, 200, EnumWavelengths.IR) //peroxide
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_nickel), 50))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_boron), 20))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_platnium), 5))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_calcium), 5))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.fluorite), 25))
 				);
-		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 3), new SILEXRecipe(1000, 200, EnumWavelengths.VISIBLE)//solvent
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_niobium_tiny), 40))
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 1), new SILEXRecipe(1000, 200, EnumWavelengths.VISIBLE)//nitric
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_hafnium), 40))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_neodymium), 30))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_zirconium), 26))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_gallium_tiny), 4))
 				);
-		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 1), new SILEXRecipe(1000, 200, EnumWavelengths.UV)//nitric
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 2), new SILEXRecipe(1000, 200, EnumWavelengths.UV)//chloric and sulfuric
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_arsenic), 30))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_aluminium, 5), 50))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_cerium_tiny), 7))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_asbestos), 13))
 				);
-		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 2), new SILEXRecipe(1000, 200, EnumWavelengths.XRAY)//chloric and sulfuric
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 3), new SILEXRecipe(1000, 200, EnumWavelengths.XRAY)//solvent
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_boron), 40))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_tantalium), 40))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_iodine), 15))
@@ -818,7 +820,7 @@ public class SILEXRecipes {
 				);
 		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 4), new SILEXRecipe(1000, 200, EnumWavelengths.XRAY)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_desh_mix), 44))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_zinc), 21))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_boron), 21))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_tantalium), 30))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 3))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_caesium), 2))

@@ -80,7 +80,7 @@ public class OilSpot {
 					world.setBlock(rX, y, rZ, ModBlocks.stone_cracked);
 					break;
 					
-				} else if(ground.getMaterial() == Material.leaves) {
+				} else if(ground.getMaterial() == Material.leaves && (meta & 8) != 0 && (meta & 4) == 0) {
 					world.setBlockToAir(rX, y, rZ);
 					break;
 				}

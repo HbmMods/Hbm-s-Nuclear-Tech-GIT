@@ -167,12 +167,12 @@ public class FoundryOutlet extends BlockContainer implements ICrucibleAcceptor, 
 
 	@Override
 	public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		return ((TileEntityFoundryOutlet) world.getTileEntity(x, y, z)).canAcceptPartialFlow(world, x, y, z, side, stack);
+		return ((ICrucibleAcceptor) world.getTileEntity(x, y, z)).canAcceptPartialFlow(world, x, y, z, side, stack);
 	}
 	
 	@Override
 	public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
-		return ((TileEntityFoundryOutlet) world.getTileEntity(x, y, z)).flow(world, x, y, z, side, stack);
+		return ((ICrucibleAcceptor) world.getTileEntity(x, y, z)).flow(world, x, y, z, side, stack);
 	}
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();

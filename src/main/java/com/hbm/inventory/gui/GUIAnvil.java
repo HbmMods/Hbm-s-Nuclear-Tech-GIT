@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -85,7 +86,7 @@ public class GUIAnvil extends GuiContainer {
 	
 	private void search(String search) {
 		
-		search = search.toLowerCase();
+		search = search.toLowerCase(Locale.US);
 
 		this.recipes.clear();
 		
@@ -320,7 +321,7 @@ public class GUIAnvil extends GuiContainer {
 		for(AStack stack : recipe.input) {
 			if(stack instanceof ComparableStack)  {
 				ItemStack input = ((ComparableStack) stack).toStack();
-				list.add(input.getDisplayName().toLowerCase());
+				list.add(input.getDisplayName().toLowerCase(Locale.US));
 				
 			} else if(stack instanceof OreDictStack) {
 				OreDictStack input = (OreDictStack) stack;
@@ -328,7 +329,7 @@ public class GUIAnvil extends GuiContainer {
 				
 				if(ores.size() > 0) {
 					for(ItemStack ore : ores) {
-						list.add(ore.getDisplayName().toLowerCase());
+						list.add(ore.getDisplayName().toLowerCase(Locale.US));
 					}
 					
 				}
@@ -336,7 +337,7 @@ public class GUIAnvil extends GuiContainer {
 		}
 		
 		for(AnvilOutput stack : recipe.output) {
-			list.add(stack.stack.getDisplayName().toLowerCase());
+			list.add(stack.stack.getDisplayName().toLowerCase(Locale.US));
 		}
 		
 		return list;

@@ -1,5 +1,7 @@
 package com.hbm.items.food;
 
+import java.util.Locale;
+
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.lib.ModDamageSource;
@@ -35,7 +37,7 @@ public class ItemFlask extends ItemEnumMulti {
 
 		for(int i = 0; i < icons.length; i++) {
 			Enum num = enums[i];
-			this.icons[i] = reg.registerIcon(this.getIconString() + "_" + num.name().toLowerCase());
+			this.icons[i] = reg.registerIcon(this.getIconString() + "_" + num.name().toLowerCase(Locale.US));
 		}
 	}
 

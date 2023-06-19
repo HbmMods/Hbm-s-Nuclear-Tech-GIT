@@ -3,6 +3,7 @@ package com.hbm.inventory.gui;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -122,7 +123,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			return;
 		}
 		
-		sub = sub.toLowerCase();
+		sub = sub.toLowerCase(Locale.US);
 		
 		outer:
 		for(ItemStack stack : allStacks) {
@@ -132,7 +133,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				if(o instanceof String) {
 					String text = (String) o;
 					
-					if(text.toLowerCase().contains(sub)) {
+					if(text.toLowerCase(Locale.US).contains(sub)) {
 						stacks.add(stack);
 						continue outer;
 					}
@@ -142,7 +143,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			if(stack.getItem() == ModItems.fluid_identifier) {
 				FluidType fluid = Fluids.fromID(stack.getItemDamage());
 				
-				if(I18nUtil.resolveKey(fluid.getUnlocalizedName()).toLowerCase().contains(sub)) {
+				if(I18nUtil.resolveKey(fluid.getUnlocalizedName()).toLowerCase(Locale.US).contains(sub)) {
 					stacks.add(stack);
 				}
 			}

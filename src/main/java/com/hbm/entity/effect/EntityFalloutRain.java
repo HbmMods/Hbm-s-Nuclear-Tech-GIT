@@ -146,8 +146,8 @@ public class EntityFalloutRain extends Entity {
 
 				double d = dist / 100;
 
-				//double chance = 0.1 - Math.pow((d - 0.7) * 1.0, 2);
-				double chance = 1-d;
+				double chance = 0.1 - Math.pow((d - 0.7) * 1.0, 2);
+				//double chance = 1-d;
 				if(this.salted)
 				{
 					if(chance >= rand.nextDouble() && ModBlocks.fallout.canPlaceBlockAt(worldObj, x, y + 1, z))

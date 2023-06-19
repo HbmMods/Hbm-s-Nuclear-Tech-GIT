@@ -8,14 +8,16 @@ import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.tileentity.IOverpressurable;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineOrbus extends TileEntityBarrel {
+public class TileEntityMachineOrbus extends TileEntityBarrel implements IOverpressurable{
 
 	public TileEntityMachineOrbus() {
 		super(512000);
@@ -92,12 +94,10 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
+	// apathy is a tragedy and boredom is a crime
 	@Override
-    public void invalidate()
-    {
-    	super.invalidate();
-    	
-    	float amat = Math.min(this.getFluidFill(Fluids.AMAT)/200,500);
+	public void explode(World world, int x, int y, int z) {
+    	float amat = Math.min(this.getFluidFill(Fluids.AMAT)/50,100);
     	float aschrab = Math.min(this.getFluidFill(Fluids.ASCHRAB)/66,500);
     	if(!worldObj.isRemote) {
 		if(amat>0)
@@ -105,10 +105,11 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 			if(amat >= 25)
 			{
 				EntityBalefire bf = new EntityBalefire(worldObj);
+				bf.antimatter();
 	    		bf.setPosition(xCoord, yCoord, zCoord);
 				bf.destructionRange = (int) amat;
 				worldObj.spawnEntityInWorld(bf);
-				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord, yCoord, zCoord, amat * 1.5F, 1000));
+				worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacAnti(worldObj, xCoord, yCoord, zCoord, amat * 1.5F, 1000));
 				return;
 			}
 			else
@@ -128,6 +129,8 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 			}
 			return;			
 		}
+		this.markChanged();
     }
-}
+		
+	}
 }

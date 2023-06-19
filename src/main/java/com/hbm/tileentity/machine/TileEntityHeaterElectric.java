@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
@@ -17,7 +19,10 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 	
 	public long power;
 	public int heatEnergy;
+	public boolean isOn;
 	protected int setting = 0;
+	
+	private AudioWrapper audio;
 
 	@Override
 	public void updateEntity() {
@@ -32,16 +37,64 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 			this.heatEnergy *= 0.999;
 			
 			this.tryPullHeat();
-			
+
+			this.isOn = false;
 			if(setting > 0 && this.power >= this.getConsumption()) {
 				this.power -= this.getConsumption();
 				this.heatEnergy += getHeatGen();
+				this.isOn = true;
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setByte("s", (byte) this.setting);
 			data.setInteger("h", this.heatEnergy);
+			data.setBoolean("o", isOn);
 			INBTPacketReceiver.networkPack(this, data, 25);
+		} else {
+			
+			if(isOn) {
+				
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+				
+				audio.keepAlive();
+				
+			} else {
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
+		}
+	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.electricHum", xCoord, yCoord, zCoord, 0.25F, 7.5F, 1.0F, 20);
+	}
+
+	@Override
+	public void onChunkUnload() {
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
 	}
 
@@ -49,6 +102,7 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.setting = nbt.getByte("s");
 		this.heatEnergy = nbt.getInteger("h");
+		this.isOn = nbt.getBoolean("o");
 	}
 	
 	@Override

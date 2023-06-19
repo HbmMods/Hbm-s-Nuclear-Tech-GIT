@@ -257,7 +257,9 @@ public class ItemRenderLibrary {
 			}
 			public void renderCommon() {
 		        GL11.glDisable(GL11.GL_CULL_FACE);
+		        GL11.glShadeModel(GL11.GL_SMOOTH);
 		        bindTexture(ResourceManager.chemplant_body_tex); ResourceManager.chemplant_body.renderAll();
+		        GL11.glShadeModel(GL11.GL_FLAT);
 		        bindTexture(ResourceManager.chemplant_piston_tex); ResourceManager.chemplant_piston.renderAll();
 		        bindTexture(ResourceManager.chemplant_spinner_tex);
 				GL11.glTranslated(-0.625, 0, 0.625);
@@ -1026,6 +1028,17 @@ public class ItemRenderLibrary {
 			public void renderCommon() {
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.orbus_tex); ResourceManager.orbus.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_Antimatter), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, 7, 0);
+				GL11.glScaled(3.25, 3.25, 3.25);
+				GL11.glRotatef(180, 90, 0, 0);
+			}
+			public void renderCommon() {
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.Antimatter_tex); ResourceManager.Antimatter.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		

@@ -108,16 +108,11 @@ public class ModItems {
 	public static Item ingot_cm246;
 	public static Item ingot_cm247;
 	public static Item ingot_cm_fuel;
-
 	public static Item ingot_cm_mix;
-
 	public static Item ingot_bk247;
-
 	public static Item ingot_cf251;
-
 	public static Item ingot_es253;
 	public static Item ingot_es255;
-
 	public static Item ingot_neptunium;
 	public static Item ingot_polonium;
 	public static Item ingot_technetium;
@@ -872,7 +867,6 @@ public class ModItems {
 	public static Item stamp_desh_44;
 	public static Item stamp_desh_9;
 	public static Item stamp_desh_50;
-
 	public static Item blades_steel;
 	public static Item blades_titanium;
 	public static Item blades_advanced_alloy;
@@ -2626,7 +2620,6 @@ public class ModItems {
 	public static Item bob_chemistry;
 	public static Item bob_oil;
 	public static Item bob_nuclear;
-
 	public static Item mysteryshovel;
 	public static Item memory;
 
@@ -3179,7 +3172,6 @@ public class ModItems {
 		powder_impure_osmiridium = new Item().setUnlocalizedName("powder_impure_osmiridium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_impure_osmiridium");
 		powder_borax = new Item().setUnlocalizedName("powder_borax").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_borax");
 		powder_chlorocalcite = new Item().setUnlocalizedName("powder_chlorocalcite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_chlorocalcite");
-
 		fragment_neodymium = new Item().setUnlocalizedName("fragment_neodymium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_neodymium");
 		fragment_cobalt = new Item().setUnlocalizedName("fragment_cobalt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_cobalt");
 		fragment_niobium = new Item().setUnlocalizedName("fragment_niobium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_niobium");
@@ -3761,7 +3753,6 @@ public class ModItems {
 
 		cart = new ItemModMinecart().setUnlocalizedName("cart");
 		train = new ItemTrain().setUnlocalizedName("train");
-
 		coin_creeper = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_creeper").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_creeper");
 		coin_radiation = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_radiation").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_radiation");
 		coin_maskman = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_maskman").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_maskman");
@@ -6450,7 +6441,6 @@ public class ModItems {
 		GameRegistry.registerItem(plate_euphemium, plate_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(plate_dineutronium, plate_dineutronium.getUnlocalizedName());
 		GameRegistry.registerItem(plate_cn989, plate_cn989.getUnlocalizedName());
-
 		//Armor Plates
 		GameRegistry.registerItem(plate_armor_titanium, plate_armor_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(plate_armor_ajr, plate_armor_ajr.getUnlocalizedName());
@@ -6906,7 +6896,6 @@ public class ModItems {
 		GameRegistry.registerItem(stamp_desh_44, stamp_desh_44.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_desh_9, stamp_desh_9.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_desh_50, stamp_desh_50.getUnlocalizedName());
-
 		//Molds
 		GameRegistry.registerItem(mold_base, mold_base.getUnlocalizedName());
 		GameRegistry.registerItem(mold, mold.getUnlocalizedName());
@@ -8238,7 +8227,6 @@ public class ModItems {
 		//Minecarts
 		GameRegistry.registerItem(cart, cart.getUnlocalizedName());
 		GameRegistry.registerItem(train, train.getUnlocalizedName());
-
 		//High Explosive Lenses
 		GameRegistry.registerItem(early_explosive_lenses, early_explosive_lenses.getUnlocalizedName());
 		GameRegistry.registerItem(explosive_lenses, explosive_lenses.getUnlocalizedName());
@@ -8697,7 +8685,6 @@ GameRegistry.registerItem(bucket_ln2, bucket_ln2.getUnlocalizedName());
 		addRemap("gas_lpg", gas_full, Fluids.LPG.getID());
 
 	}
-
 	public static void addRemap(String unloc, Item item, Enum sub) {
 		addRemap(unloc, item, sub.ordinal());
 	}

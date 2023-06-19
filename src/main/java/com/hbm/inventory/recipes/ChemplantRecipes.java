@@ -114,6 +114,16 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.XYLENE, 500),
 						new FluidStack(Fluids.OXYGEN, 100))
 				.outputItems(new ItemStack(ModItems.ingot_pet)));*/
+		
+		//Laminate Glass going here
+		recipes.add(new ChemRecipe(97, "LAMINATE", 100)
+				.inputFluids(
+						new FluidStack(Fluids.XYLENE, 250),
+						new FluidStack(Fluids.PHOSGENE, 250))
+				.inputItems(
+						new ComparableStack(com.hbm.blocks.ModBlocks.reinforced_glass),
+						new ComparableStack(com.hbm.items.ModItems.bolt_tungsten, 4))
+				.outputItems(new ItemStack(com.hbm.blocks.ModBlocks.reinforced_laminate)));
 		recipes.add(new ChemRecipe(94, "PC", 100)
 				.inputFluids(
 						new FluidStack(Fluids.XYLENE, 500),
@@ -190,13 +200,13 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(55, "CONCRETE", 100)
 				.inputItems(
 						new ComparableStack(Blocks.gravel, 8),
-						new ComparableStack(Blocks.sand, 8))
+						new OreDictStack(KEY_SAND, 8))
 				.inputFluids(new FluidStack(Fluids.WATER, 2000))
 				.outputItems(new ItemStack(ModBlocks.concrete_smooth, 16)));
 		recipes.add(new ChemRecipe(56, "CONCRETE_ASBESTOS", 100)
 				.inputItems(
 						new ComparableStack(Blocks.gravel, 2),
-						new ComparableStack(Blocks.sand, 2),
+						new OreDictStack(KEY_SAND, 2),
 						(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) ?
 								new OreDictStack(ASBESTOS.ingot(), 1) :
 								new OreDictStack(ASBESTOS.ingot(), 4))
@@ -204,7 +214,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(new ItemStack(ModBlocks.concrete_asbestos, 16)));
 		recipes.add(new ChemRecipe(79, "DUCRETE", 150)
 				.inputItems(
-						new ComparableStack(Blocks.sand, 8),
+						new OreDictStack(KEY_SAND, 8),
 						new OreDictStack(U238.billet(), 2),
 						new ComparableStack(Items.clay_ball, 4))
 				.inputFluids(new FluidStack(Fluids.WATER, 2000))
@@ -229,14 +239,11 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputFluids(new FluidStack(Fluids.XENON, 50)));
 		recipes.add(new ChemRecipe(61, "SATURN", 60)
 				.inputItems(
-						new ComparableStack(ModItems.powder_dura_steel),
-						new OreDictStack(P_RED.dust()))
-				.inputFluids(
-						new FluidStack(Fluids.ACID, 100),
-						(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) ?
-								new FluidStack(Fluids.WATER, 200) :
-								new FluidStack(Fluids.MERCURY, 50))
-				.outputItems(new ItemStack(ModItems.ingot_saturnite, 2)));
+						new OreDictStack(DURA.dust(), 2),
+						new OreDictStack(CU.dust(), 1),
+						new OreDictStack(COAL.dust(), 1))
+				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
+				.outputItems(new ItemStack(ModItems.ingot_saturnite, 4)));
 		recipes.add(new ChemRecipe(62, "BALEFIRE", 100)
 				.inputItems(new ComparableStack(ModItems.egg_balefire_shard))
 				.inputFluids(new FluidStack(Fluids.KEROSENE, 6000))
@@ -459,6 +466,34 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.ingot_copper, 1),
 						new OreDictStack(ANY_SMOKELESS.dust(), 1))
 				.outputItems(new ItemStack(ModItems.ammo_luna_sniper, 1, 3))); //556
+		recipes.add(new ChemRecipe(115, "SHELL_CHLORINE", 100)
+				.inputItems(
+						new ComparableStack(ModItems.ammo_arty, 1, 0),
+						new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.CHLORINE, 4000))
+				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 9)));
+		recipes.add(new ChemRecipe(116, "SHELL_PHOSGENE", 100)
+				.inputItems(
+						new ComparableStack(ModItems.ammo_arty, 1, 0),
+						new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.PHOSGENE, 4000))
+				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 10)));
+		recipes.add(new ChemRecipe(117, "SHELL_MUSTARD", 100)
+				.inputItems(
+						new ComparableStack(ModItems.ammo_arty, 1, 0),
+						new OreDictStack(ANY_PLASTIC.ingot(), 1))
+				.inputFluids(new FluidStack(Fluids.MUSTARDGAS, 4000))
+				.outputItems(new ItemStack(ModItems.ammo_arty, 1, 11)));
+		recipes.add(new ChemRecipe(118, "CC_CENTRIFUGE", 200)
+				.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.WATER, 1_000))
+				.outputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250), new FluidStack(Fluids.CALCIUM_CHLORIDE, 250)));
+		recipes.add(new ChemRecipe(119, "PC_ELECTROLYSIS", 200)
+				.inputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250))
+				.outputItems(new ItemStack(ModItems.dust))
+				.outputFluids(new FluidStack(Fluids.CHLORINE, 125)));
+		recipes.add(new ChemRecipe(120, "CC_ELECTROLYSIS", 200)
+				.inputFluids(new FluidStack(Fluids.CALCIUM_CHLORIDE, 250))
+				.outputFluids(new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.CALCIUM_SOLUTION, 125)));
 	}
 	
 	

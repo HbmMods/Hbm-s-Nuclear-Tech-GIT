@@ -24,7 +24,7 @@ public interface IPipeNet {
 	
 	public boolean isValid();
 	
-	public long transferFluid(long fill);
+	public long transferFluid(long fill, int pressure);
 	public FluidType getType();
 	public BigInteger getTotalTransfer();
 }

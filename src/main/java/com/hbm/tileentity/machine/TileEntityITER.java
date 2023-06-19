@@ -195,10 +195,10 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			
 			for(DirPos pos : getConPos()) {
 				if(tanks[1].getFill() > 0) {
-					this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 				if(tanks[3].getFill() > 0) {
-					this.sendFluid(tanks[3].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.sendFluid(tanks[3], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
 			
@@ -346,6 +346,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		progress++;
 		
 		if(progress > this.duration) {
+			
+			this.progress = 0;
 			
 			if(slots[2] != null) {
 				slots[2].stackSize++;
