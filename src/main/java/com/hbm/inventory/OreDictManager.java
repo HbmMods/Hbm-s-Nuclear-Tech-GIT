@@ -574,6 +574,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockGlassLime", glass_trinitite);
 		OreDictionary.registerOre("blockGlassRed", glass_polonium);
 		OreDictionary.registerOre("blockGlassBlack", glass_ash);
+
+		OreDictionary.registerOre("container1000lubricant", bdcl);
 		
 		MaterialShapes.registerCompatShapes();
 	}

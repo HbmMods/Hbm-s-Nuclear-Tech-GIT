@@ -29,10 +29,10 @@ public class ItemPollutionDetector extends Item {
 		float heavymetal = data.pollution[PollutionType.HEAVYMETAL.ordinal()];
 		float fallout = data.pollution[PollutionType.FALLOUT.ordinal()];
 
-		soot = ((int) soot * 100) / 100F;
-		poison = ((int) poison * 100) / 100F;
-		heavymetal = ((int) heavymetal * 100) / 100F;
-		fallout = ((int) fallout * 100) / 100F;
+		soot = ((int) (soot * 100)) / 100F;
+		poison = ((int) (poison * 100)) / 100F;
+		heavymetal = ((int) (heavymetal * 100)) / 100F;
+		fallout = ((int) (fallout * 100)) / 100F;
 		
 		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Soot: " + soot).color(EnumChatFormatting.YELLOW).flush(), 100, 2000), (EntityPlayerMP) entity);
 		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Poison: " + poison).color(EnumChatFormatting.YELLOW).flush(), 101, 2000), (EntityPlayerMP) entity);

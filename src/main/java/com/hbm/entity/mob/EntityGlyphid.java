@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.hbm.entity.pathfinder.PathFinderUtils;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.Entity;
@@ -64,19 +65,15 @@ public class EntityGlyphid extends EntityMob {
 	protected void updateEntityActionState() {
 		super.updateEntityActionState();
 
-		if(this.entityToAttack != null) {
-			this.setPathToEntity(this.worldObj.getPathEntityToEntity(this, this.entityToAttack, 128F, true, false, false, true));
+		// hell yeah!!
+		if(this.entityToAttack != null && !this.hasPath()) {
+			this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, false, true));
 		}
 	}
 
 	@Override
 	protected boolean canDespawn() {
 		return entityToAttack == null;
-	}
-
-	@Override
-	public int getMaxSafePointTries() {
-		return 10;
 	}
 	
 	@Override

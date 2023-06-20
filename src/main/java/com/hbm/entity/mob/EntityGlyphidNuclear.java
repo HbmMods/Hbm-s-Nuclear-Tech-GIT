@@ -79,22 +79,30 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 
 		if(this.deathTicks == 100) {
 			
-			ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, 25, this);
-			vnt.setBlockAllocator(new BlockAllocatorStandard(24));
-			vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorDebris(ModBlocks.volcanic_lava_block, 0)).setNoDrop());
-			vnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(1.5F));
-			vnt.setPlayerProcessor(new PlayerProcessorStandard());
-			vnt.explode();
-
-			NBTTagCompound data = new NBTTagCompound();
-			data.setString("type", "muke");
-			// if the FX type is "muke", apply random BF effect
-			if(MainRegistry.polaroidID == 11 || rand.nextInt(100) == 0) {
-				data.setBoolean("balefire", true);
+			if(!worldObj.isRemote) {
+				ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, 25, this);
+				vnt.setBlockAllocator(new BlockAllocatorStandard(24));
+				vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorDebris(ModBlocks.volcanic_lava_block, 0)).setNoDrop());
+				vnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(1.5F));
+				vnt.setPlayerProcessor(new PlayerProcessorStandard());
+				vnt.explode();
+				
+				worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+	
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "muke");
+				// if the FX type is "muke", apply random BF effect
+				if(MainRegistry.polaroidID == 11 || rand.nextInt(100) == 0) {
+					data.setBoolean("balefire", true);
+				}
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
 			}
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
 			
 			this.setDead();
+		} else {
+			if(!worldObj.isRemote && this.deathTicks % 10 == 0) {
+				worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.fstbmbPing", 5.0F, 1.0F);
+			}
 		}
 	}
 }
