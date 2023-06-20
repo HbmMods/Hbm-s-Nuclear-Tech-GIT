@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.material.Mats;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityITER;
@@ -241,20 +243,23 @@ public class MachineITER extends BlockDummyable {
 	
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int i) {
-    	
-    	if(i >= 12 && drop) {
-            
-            for(int l = 0; l < 4; l++)
-            	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_conductor, 64)));
-            
-        	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_conductor, 36)));
-        	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_center, 64)));
-        	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_motor, 4)));
-        	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.reinforced_glass, 8)));
-        	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_iter_core, 1)));
-    	}
+
+		if(i >= 12 && drop) {
+
+			for(int l = 0; l < 4; l++) {
+				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_conductor, 64)));
+				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.plate_cast, 64, Mats.MAT_STEEL.id)));
+			}
+
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_conductor, 36)));
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.plate_cast, 36, Mats.MAT_STEEL.id)));
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_center, 64)));
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_motor, 4)));
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.reinforced_glass, 8)));
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_iter_core, 1)));
+		}
 
 		super.breakBlock(world, x, y, z, block, i);
-    }
+	}
 
 }
