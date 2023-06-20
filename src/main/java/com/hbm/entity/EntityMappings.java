@@ -246,6 +246,7 @@ public class EntityMappings {
 		addMob(EntityGlyphidBombardier.class, "entity_glyphid_bombardier", 0xDDD919, 0xDBB79D);
 		addMob(EntityGlyphidBlaster.class, "entity_glyphid_blaster", 0xD83737, 0xDBB79D);
 		addMob(EntityGlyphidScout.class, "entity_glyphid_scout", 0x273038, 0xB9E36B);
+		addMob(EntityGlyphidNuclear.class, "entity_glyphid_nuclear", 0x267F00, 0xA0A0A0);
 
 		addSpawn(EntityCreeperPhosgene.class, 5, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityCreeperVolatile.class, 10, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
