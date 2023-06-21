@@ -1217,6 +1217,15 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.pipes_steel, 3),
 				new ComparableStack(ModItems.circuit_copper, 1)
 			}, 500);
+		makeRecipe(new ComparableStack(ModBlocks.nuke_antimatter, 1), new AStack[] {
+				new ComparableStack(ModItems.hull_big_steel, 3),
+				new OreDictStack(STAINLESS.plate(), 16),
+				new ComparableStack(ModItems.wire_red_copper, 32),
+				new ComparableStack(ModItems.ingot_hafnium, 2),
+				new ComparableStack(ModItems.circuit_copper, 1),
+				new ComparableStack(ModItems.billet_gaas, 1),
+				new ComparableStack(ModItems.magnetron, 4)
+			}, 500);
 		if(Loader.isModLoaded("Mekanism")) {
 			
 			Block mb = (Block) Block.blockRegistry.getObject("Mekanism:MachineBlock");

@@ -33,6 +33,7 @@ public class MineralRecipes {
 		add1To9Pair(ModItems.powder_gallium, ModItems.powder_gallium_tiny);
 		add1To9Pair(ModItems.ingot_mercury, ModItems.nugget_mercury);
 		add1To9Pair(ModItems.ingot_nickel, ModItems.nugget_nickel);
+		add1To9Pair(ModItems.ingot_hafnium, ModItems.nugget_hafnium);
 
 		add1To9Pair(ModBlocks.sand_gold, ModItems.powder_gold);
 		add1To9Pair(ModBlocks.sand_gold198, ModItems.powder_au198);

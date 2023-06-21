@@ -1030,7 +1030,7 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.orbus_tex); ResourceManager.orbus.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
-		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_Antimatter), new ItemRenderBase() {
+		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_antimatter), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, 7, 0);
 				GL11.glScaled(3.25, 3.25, 3.25);
