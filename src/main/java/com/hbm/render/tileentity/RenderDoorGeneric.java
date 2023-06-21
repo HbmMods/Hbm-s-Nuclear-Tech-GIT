@@ -65,7 +65,7 @@ public class RenderDoorGeneric extends TileEntitySpecialRenderer {
 		AnimatedModel animModel = door.getAnimatedModel();
 		if(animModel != null){
 			Animation anim = door.getAnim();
-			bindTexture(door.getTextureForPart(""));
+			bindTexture(door.getTextureForPart(te.getSkinIndex(), ""));
 			long time = System.currentTimeMillis();
 			long startTime = te.state > 1 ? te.animStartTime : time;
 			boolean reverse = te.state == 1 || te.state == 2;
@@ -83,14 +83,14 @@ public class RenderDoorGeneric extends TileEntitySpecialRenderer {
 				if(!door.doesRender(p.getLeft(), false))
 					continue;
 				GL11.glPushMatrix();
-				bindTexture(door.getTextureForPart(p.getLeft()));
+				bindTexture(door.getTextureForPart(te.getSkinIndex(), p.getLeft()));
 				doPartTransform(door, p.getLeft(), openTicks, false);
 				GL11.glCallList(p.getRight());
 				for(String name : door.getChildren(p.getLeft())){
 					if(!door.doesRender(name, true))
 						continue;
 					GL11.glPushMatrix();
-					bindTexture(door.getTextureForPart(name));
+					bindTexture(door.getTextureForPart(te.getSkinIndex(), name));
 					doPartTransform(door, name, openTicks, true);
 					model.renderPart(name);
 					GL11.glPopMatrix();
