@@ -1,17 +1,20 @@
 package com.hbm.lib;
 
+import java.util.Random;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBreedingRod.*;
+import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
-import com.hbm.items.special.ItemBookLore.BookLoreType;
+import com.hbm.items.special.ItemBookLore;
 import com.hbm.items.tool.ItemBlowtorch;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 
 public class HbmChestContents {
@@ -407,15 +410,26 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(Items.experience_bottle, 0, 1, 3, 1),
 	};
 	
-	/** ITEMBOOKLORE ARRAYS */
-	//might make a wrapper class for this, if game-state knowledge using the nbt system becomes that relevant
-	public final static BookLoreType[] books_office_sch = new BookLoreType[] {
-			BookLoreType.RESIGNATION_NOTE,
-			BookLoreType.MEMO_STOCKS,
-			BookLoreType.MEMO_SCHRAB_GSA,
-			BookLoreType.MEMO_SCHRAB_RD,
-			BookLoreType.MEMO_SCHRAB_NUKE,
-	};
-	
-	
+	/** ITEMBOOKLORE SHIT */
+	//one downside of all this huge flexibility, make a wrapper if it's too annoying
+	public static ItemStack generateOfficeBook(Random rand) { //TODO rework this lore in general
+		String key;
+		int pages;
+		switch(rand.nextInt(5)) {
+		case 0:
+			key = "resignation_note"; pages = 3; break;
+		case 1:
+			key = "memo_stocks"; pages = 1; break;
+		case 2:
+			key = "memo_schrab_gsa"; pages = 2; break;
+		case 3:
+			key = "memo_schrab_rd"; pages = 4; break;
+		case 4:
+			key = "memo_schrab_nuke"; pages = 3; break;
+		default:
+			return null;
+		}
+		
+		return ItemBookLore.createBook(key, pages, 0x6BC8FF, 0x0A0A0A);
+	}
 }
