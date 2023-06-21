@@ -321,70 +321,70 @@ book.starter.page18=vær is just a guy who has been trapped in the grey void fea
 #book.rbmk.page16=§4§lAvoid.
 
 book_lore.author=By %s
-book_lore.test.name=Test
-book_lore.test.author=the dude
-book_lore.test.page.1=>hello anons before i begin let me clarify that i'm not gay. >Be me >This night >18 > At hanging out with my best friend with my parents gone for a few days >We've been best friends for a year now >Been drinking a bit and playing lots of video games and ordered a pizza >We were having a blast >At a certain point in the night like around 9:00 he makes a really funny joke that I don't remember but I know that it made us both laugh really hard > With out thinking I brush my right hand through his semi-curly black hair and call him a funny boy >He blushes >I realize I'm feeling flustered >We're kinda close >All of the sudden he kisses me and for some reason I kiss him back >We make love >Cuddle together and fall asleep >Wake up in the middle of the night with his head snuggled up on my chest and neck area >It feels nice but I'm not a homosexual
-book_lore.test.page.2=I'm typing this as he's asleep in my arms. How do I let my best friend down nicely? I don't want to be a [redacted] /b/
-book_lore.test.page.3=3
-book_lore.test.page.4=4
-book_lore.test.page.5=5
+book_lore.test.name=this book doesn't work...
+book_lore.test.author=me i trolled you hehe :3c
+book_lore.test.page.0=>hello anons before i begin let me clarify that i'm not gay. >Be me >This night >18 > At hanging out with my best friend with my parents gone for a few days >We've been best friends for a year now >Been drinking a bit and playing lots of video games and ordered a pizza >We were having a blast >At a certain point in the night like around 9:00 he makes a really funny joke that I don't remember but I know that it made us both laugh really hard > With out thinking I brush my right hand through his semi-curly black hair and call him a funny boy >He blushes >I realize I'm feeling flustered >We're kinda close >All of the sudden he kisses me and for some reason I kiss him back >We make love >Cuddle together and fall asleep >Wake up in the middle of the night with his head snuggled up on my chest and neck area >It feels nice but I'm not a homosexual
+book_lore.test.page.1=I'm typing this as he's asleep in my arms. How do I let my best friend down nicely? I don't want to be a [redacted] /b/
+book_lore.test.page.2=3
+book_lore.test.page.3=4
+book_lore.test.page.4=5
 
 book_lore.book_iodine.name=Note
 book_lore.book_iodine.author=Dave
-book_lore.book_iodine.page.1=alright you will not believe this, but old man weathervane finally managed to show up again since he left two weeks ago and what's more surprising is the fact that he actually decided to spill the beans on what they were doing in the canyon:
-book_lore.book_iodine.page.2=apparently the morons from R&D discovered a compound that is mostly inorganic, pretty much like a toxin in nature, but get this: the dying cells will reproduce said toxin and excrete it through the skin, creating an aerosol that is highly contagious.
-book_lore.book_iodine.page.3=it's just like a virus, but not a virus. the composition is weird, you can mix it in any household bottle but you do have to get the order right. the doc told me that the first ingredient which is just powdered iodine crystals goes into slot %d
+book_lore.book_iodine.page.0=alright you will not believe this, but old man weathervane finally managed to show up again since he left two weeks ago and what's more surprising is the fact that he actually decided to spill the beans on what they were doing in the canyon:
+book_lore.book_iodine.page.1=apparently the morons from R&D discovered a compound that is mostly inorganic, pretty much like a toxin in nature, but get this: the dying cells will reproduce said toxin and excrete it through the skin, creating an aerosol that is highly contagious.
+book_lore.book_iodine.page.2=it's just like a virus, but not a virus. the composition is weird, you can mix it in any household bottle but you do have to get the order right. the doc told me that the first ingredient which is just powdered iodine crystals goes into slot %d
 
 book_lore.book_phosphorous.name=Note
 book_lore.book_phosphorous.author=Dave
-book_lore.book_phosphorous.page.1=heyo, it's me again. i assume you got my last memo, the doc wasn't too happy about it. i'll have to do this quick, the dunderheads from R&D are currently moaning again, probably over money. again. anyway, doc weathervane found that the second
-book_lore.book_phosphorous.page.2=ingredient is red phosphorous, whihc has to be mixed into slot %d
+book_lore.book_phosphorous.page.0=heyo, it's me again. i assume you got my last memo, the doc wasn't too happy about it. i'll have to do this quick, the dunderheads from R&D are currently moaning again, probably over money. again. anyway, doc weathervane found that the second
+book_lore.book_phosphorous.page.1=ingredient is red phosphorous, whihc has to be mixed into slot %d
 
 book_lore.book_dust.name=Note
 book_lore.book_dust.author=Dave
-book_lore.book_dust.page.1=the doc was furious when he found out that the R&D dorks kept the one remaining sample, ranting about gross negligence this and a doomsday scenario that. i told him to chill for a minute, getting all worked up isn't good for his blood pressure, not
-book_lore.book_dust.page.2=that he has much blood left to begin with. one of the R&D morons slipped some more info into last week's circular, they call their little concoction \"MKU\" whatever that means, and that it contains actual household lint. can you believe that? one of the most
-book_lore.book_dust.page.3=dangerous inventions of theirs and it contains dust. strangely they also mentioned that it goes into slot %d
+book_lore.book_dust.page.0=the doc was furious when he found out that the R&D dorks kept the one remaining sample, ranting about gross negligence this and a doomsday scenario that. i told him to chill for a minute, getting all worked up isn't good for his blood pressure, not
+book_lore.book_dust.page.1=that he has much blood left to begin with. one of the R&D morons slipped some more info into last week's circular, they call their little concoction \"MKU\" whatever that means, and that it contains actual household lint. can you believe that? one of the most
+book_lore.book_dust.page.2=dangerous inventions of theirs and it contains dust. strangely they also mentioned that it goes into slot %d
 
 book_lore.book_mercury.name=Note
 book_lore.book_mercury.author=Dave
-book_lore.book_mercury.page.1=well that settles that. not counting the vomitting blood part, the toxicological report mostly resembles that of mercury poisoning. why? because our little mix also contains mercury! i just wonder where all that stuff comes from when being
-book_lore.book_mercury.page.2=replicated by the body? whatever, the mercury goes into slot %d
+book_lore.book_mercury.page.0=well that settles that. not counting the vomitting blood part, the toxicological report mostly resembles that of mercury poisoning. why? because our little mix also contains mercury! i just wonder where all that stuff comes from when being
+book_lore.book_mercury.page.1=replicated by the body? whatever, the mercury goes into slot %d
 
 book_lore.book_flower.name=Note
 book_lore.book_flower.author=Dave
-book_lore.book_flower.page.1=remember when i mentioned in my first memo that the compound is mostly anorganic? well guess what, the old man shared the fourth ingredient: ipomoea nil, a genus of flower. morning glory! it might be due to its low sulfur content, whatever might be the case,
-book_lore.book_flower.page.2=it does not work with other flowers. the morning glory goes into slot %d
+book_lore.book_flower.page.0=remember when i mentioned in my first memo that the compound is mostly anorganic? well guess what, the old man shared the fourth ingredient: ipomoea nil, a genus of flower. morning glory! it might be due to its low sulfur content, whatever might be the case,
+book_lore.book_flower.page.1=it does not work with other flowers. the morning glory goes into slot %d
 
 book_lore.book_syringe.name=Note
 book_lore.book_syringe.author=Dave
-book_lore.book_syringe.page.1=a little addendum to my fifth message, obviously you have to store this MKU stuff in a container. the R&D nuts used regular metal syringes that they got from medical. surplus ware i presume, they got thousands of needles just lying around. the metal
-book_lore.book_syringe.page.2=syringe goes into slot %d
+book_lore.book_syringe.page.0=a little addendum to my fifth message, obviously you have to store this MKU stuff in a container. the R&D nuts used regular metal syringes that they got from medical. surplus ware i presume, they got thousands of needles just lying around. the metal
+book_lore.book_syringe.page.1=syringe goes into slot %d
 
 book_lore.resignation_note.name=Letter of Resignation
 book_lore.resignation_note.author=Kosma
-book_lore.resignation_note.page.1=Management downsized our department again yesterday. Those idiots only have themselves to blame, I don't know what they were expecting after that fiasco. Who the hell leaks that sort of information? We're losing millions and
-book_lore.resignation_note.page.2=it's ME who's the one out of a job now. I'M the one being asked to resign. I hope you asshats finally learn from your overabundance of mistakes and take that stick out of your ass.
-book_lore.resignation_note.page.3=I'm not coming back on Friday. Just send the paycheck.
+book_lore.resignation_note.page.0=Management downsized our department again yesterday. Those idiots only have themselves to blame, I don't know what they were expecting after that fiasco. Who the hell leaks that sort of information? We're losing millions and
+book_lore.resignation_note.page.1=it's ME who's the one out of a job now. I'M the one being asked to resign. I hope you asshats finally learn from your overabundance of mistakes and take that stick out of your ass.
+book_lore.resignation_note.page.2=I'm not coming back on Friday. Just send the paycheck.
 
 book_lore.memo_stocks.name=Intracorporate Memorandum
-book_lore.memo_stocks.page.1=Investor Relations - $ $ There's been some glaring discrepancies in the figures provided for the latest quarterly report. It would be prudent for the financial department to make some adjustments, so there won't be any concern.
+book_lore.memo_stocks.page.0=Investor Relations - $ $ There's been some glaring discrepancies in the figures provided for the latest quarterly report. It would be prudent for the financial department to make some adjustments, so there won't be any concern.
 
 book_lore.memo_schrab_gsa.name=Internal Memorandum
-book_lore.memo_schrab_gsa.page.1=Contract Management - $ $ Legal has made a breakthrough with the DLA. They've awarded us with a 45 BILLION GSA Schedule for further procurement and research of saralloy. At current estimates, that would be at minimum
-book_lore.memo_schrab_gsa.page.2=a 40%% profit on related operations, let alone the possibility of future contracts. Due to the confidential nature, all fiscal evidence is to remain private.
+book_lore.memo_schrab_gsa.page.0=Contract Management - $ $ Legal has made a breakthrough with the DLA. They've awarded us with a 45 BILLION GSA Schedule for further procurement and research of saralloy. At current estimates, that would be at minimum
+book_lore.memo_schrab_gsa.page.1=a 40%% profit on related operations, let alone the possibility of future contracts. Due to the confidential nature, all fiscal evidence is to remain private.
 
 book_lore.memo_schrab_rd.name=Internal Memorandum
-book_lore.memo_schrab_rd.page.1=Research & Development - $ $ Our main production method of saralloy has been through the new particle accelerator. However, the energy costs are exorbitantly high compared to the amount of output.
-book_lore.memo_schrab_rd.page.2=Doctor Schrabauer, however, has discovered a new interaction - called "Strange Lepton Oscillation" - that could significantly reduce costs. Through a not entirely understood process, supplied electrons are transmuted into extremely
-book_lore.memo_schrab_rd.page.3=high-energy photons, through a strange charm. This is an extreme exception to many established particle conversion laws, but preliminary experiments have proved that these protons transmute into up and down quarks, eventually creating saralloy.
-book_lore.memo_schrab_rd.page.4=Strangely, the prototype requires Tungsten alloyed with small amounts of saralloy. In addition, a special capacitor is required to negate the leftover positive charge.
+book_lore.memo_schrab_rd.page.0=Research & Development - $ $ Our main production method of saralloy has been through the new particle accelerator. However, the energy costs are exorbitantly high compared to the amount of output.
+book_lore.memo_schrab_rd.page.1=Doctor Schrabauer, however, has discovered a new interaction - called "Strange Lepton Oscillation" - that could significantly reduce costs. Through a not entirely understood process, supplied electrons are transmuted into extremely
+book_lore.memo_schrab_rd.page.2=high-energy photons, through a strange charm. This is an extreme exception to many established particle conversion laws, but preliminary experiments have proved that these protons transmute into up and down quarks, eventually creating saralloy.
+book_lore.memo_schrab_rd.page.3=Strangely, the prototype requires Tungsten alloyed with small amounts of saralloy. In addition, a special capacitor is required to negate the leftover positive charge.
 
 book_lore.memo_schrab_nuke.name=Research Report
 book_lore.memo_schrab_nuke.author=Doctor Schrabauer
-book_lore.memo_schrab_nuke.page.1=Our most recent investigation led us to the effects of nuclear explosions on materials. Thanks to our grant money, we *accidentally* tested our theory on direct saralloy synthesis from uranium.
-book_lore.memo_schrab_nuke.page.2=Only our cyclotron has actually created saralloy previously. However, at our underground shot at Everwerpen, miniscule traces of saralloy were found in uranium ore at the site. All pure, metallic uranium nearby had fissioned.
-book_lore.memo_schrab_nuke.page.3=As such, given enough uranium ore concentrated around an explosive, or perhaps even a dirty bomb rich in waste containing fissionable material, one could hypothetically create enough saralloy to collect manually.
+book_lore.memo_schrab_nuke.page.0=Our most recent investigation led us to the effects of nuclear explosions on materials. Thanks to our grant money, we *accidentally* tested our theory on direct saralloy synthesis from uranium.
+book_lore.memo_schrab_nuke.page.1=Only our cyclotron has actually created saralloy previously. However, at our underground shot at Everwerpen, miniscule traces of saralloy were found in uranium ore at the site. All pure, metallic uranium nearby had fissioned.
+book_lore.memo_schrab_nuke.page.2=As such, given enough uranium ore concentrated around an explosive, or perhaps even a dirty bomb rich in waste containing fissionable material, one could hypothetically create enough saralloy to collect manually.
 
 cannery.f1=[ Press F1 for help ]
 

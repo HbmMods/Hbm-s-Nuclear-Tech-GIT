@@ -3,7 +3,7 @@ package com.hbm.world.generator.room;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.crafting.handlers.MKUCraftingHandler;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBookLore.BookLoreType;
+import com.hbm.items.special.ItemBookLore;
 import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import com.hbm.world.generator.CellularDungeon;
 import com.hbm.world.generator.CellularDungeonRoom;
@@ -53,7 +53,7 @@ public class TestDungeonRoom8 extends CellularDungeonRoom {
 				if(r == 0)
 					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, new ItemStack(ModItems.book_of_));
 				else if(r < 4)
-					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, generateMKU(world));
+					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, generateBook(world));
 				else
 					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, new ItemStack(Items.book));
 			}
@@ -61,56 +61,50 @@ public class TestDungeonRoom8 extends CellularDungeonRoom {
 		}
 	}
 	
-	public static ItemStack generateMKU(World world) {
-		ItemStack book = new ItemStack(ModItems.book_lore);
-		int i = world.rand.nextInt(books.length);
-		
-		BookLoreType.setTypeForStack(book, books[i]);
-		book.stackTagCompound.setInteger("mku_slot", getSlot(world, books[i]));
-		
-		return book;
-	}
-	
-	public static int getSlot(World world, BookLoreType type) {
-		
+	public static ItemStack generateBook(World world) {
 		MKUCraftingHandler.generateRecipe(world);
 		ItemStack[] recipe = MKUCraftingHandler.MKURecipe;
 		
+		if(recipe == null) return new ItemStack(ModItems.flame_pony);
+		
+		String key;
+		int pages;
 		Item item;
-		//fucking kill me
-		switch(type) {
-		case BOOK_DUST:
-			item = ModItems.dust; break;
-		case BOOK_FLOWER:
-			item = ModItems.morning_glory; break;
-		case BOOK_IODINE:
+		switch(world.rand.nextInt(6)) {
+		case 0:
+			key = "book_iodine"; pages = 3;
 			item = ModItems.powder_iodine; break;
-		case BOOK_MERCURY:
-			item = ModItems.ingot_mercury; break;
-		case BOOK_PHOSPHOROUS:
+		case 1:
+			key = "book_phosphorous"; pages = 2;
 			item = ModItems.powder_fire; break;
-		case BOOK_SYRINGE:
+		case 2:
+			key = "book_dust"; pages = 3;
+			item = ModItems.dust; break;
+		case 3:
+			key = "book_mercury"; pages = 2;
+			item = ModItems.ingot_mercury; break;
+		case 4:
+			key = "book_flower"; pages = 2;
+			item = ModItems.morning_glory; break;
+		case 5:
+			key = "book_syringe"; pages = 2;
 			item = ModItems.syringe_metal_empty; break;
 		default:
-			item = ModItems.nothing; break;
+			return new ItemStack(ModItems.flame_pony);
 		}
 		
-		if(recipe == null) //take no chances
-			return -2;
-		
+		int s = 1;
 		for(int i = 0; i < 9; i++) {
-			
 			if(recipe[i] != null && recipe[i].getItem() == item) {
-				return i + 1;
+				s = i + 1; break;
 			}
 		}
 		
-		return -1;
+		ItemStack book = ItemBookLore.createBook(key, pages, 0x271E44, 0xFBFFF4);
+		ItemBookLore.addArgs(book, pages - 1, String.valueOf(s));
+		
+		return book;
 	}
-	
-	private final static BookLoreType[] books = new BookLoreType[] { 
-			BookLoreType.BOOK_IODINE, BookLoreType.BOOK_PHOSPHOROUS, BookLoreType.BOOK_DUST, BookLoreType.BOOK_MERCURY, BookLoreType.BOOK_FLOWER, BookLoreType.BOOK_SYRINGE
-	};
 	
 	/*public static ItemStack genetateMKU(World world) {
 		

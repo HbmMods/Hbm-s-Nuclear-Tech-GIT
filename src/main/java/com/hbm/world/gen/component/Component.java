@@ -8,9 +8,8 @@ import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.config.StructureConfig;
 import com.hbm.handler.MultiblockHandlerXR;
-import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBookLore.BookLoreType;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWeb;
 import net.minecraft.block.material.Material;
@@ -267,7 +266,7 @@ abstract public class Component extends StructureComponent {
 		case 2: //North
 			dirMeta ^= 2; break; //Flip second bit
 		case 3: //East
-			dirMeta = Math.abs(dirMeta - 1) % 4; break; //fuck you modulo
+			dirMeta = (dirMeta + 3) % 4; break; //fuck you modulo
 		}
 		
 		//hee hoo
@@ -383,7 +382,7 @@ abstract public class Component extends StructureComponent {
 		int posY = this.getYWithOffset(featureY);
 		int posZ = this.getZWithOffset(featureX, featureZ);
 		
-		if(world.getBlock(posX, posY, posZ) == block) //replacement for hasPlacedLoot checks
+		if(!box.isVecInside(posX, posY, posZ) || world.getBlock(posX, posY, posZ) == block) //replacement for hasPlacedLoot checks
 			return true;
 		
 		this.placeBlockAtCurrentPosition(world, block, meta, featureX, featureY, featureZ, box);
@@ -414,7 +413,7 @@ abstract public class Component extends StructureComponent {
 		int posY = this.getYWithOffset(featureY);
 		int posZ = this.getZWithOffset(featureX, featureZ);
 		
-		if(world.getBlock(posX, posY, posZ) == block) //replacement for hasPlacedLoot checks
+		if(!box.isVecInside(posX, posY, posZ) || world.getBlock(posX, posY, posZ) == block) //replacement for hasPlacedLoot checks
 			return false;
 		
 		this.placeBlockAtCurrentPosition(world, block, meta, featureX, featureY, featureZ, box);
@@ -435,19 +434,17 @@ abstract public class Component extends StructureComponent {
 		return false;
 	}
 	
-	protected void generateLoreBook(World world, StructureBoundingBox box, Random rand, int featureX, int featureY, int featureZ, int slot, BookLoreType[] books) {
+	protected void generateLoreBook(World world, StructureBoundingBox box, int featureX, int featureY, int featureZ, int slot, ItemStack stack) { //kept for compat
 		int posX = this.getXWithOffset(featureX, featureZ);
 		int posY = this.getYWithOffset(featureY);
 		int posZ = this.getZWithOffset(featureX, featureZ);
 		
+		if(!box.isVecInside(posX, posY, posZ)) return;
+		
 		IInventory inventory = (IInventory) world.getTileEntity(posX, posY, posZ);
 		
 		if(inventory != null) {
-			ItemStack book = new ItemStack(ModItems.book_lore);
-			int i = rand.nextInt(books.length);
-			
-			BookLoreType.setTypeForStack(book, books[i]);
-			inventory.setInventorySlotContents(slot, book);
+			inventory.setInventorySlotContents(slot, stack);
 		}
 	}
 	
