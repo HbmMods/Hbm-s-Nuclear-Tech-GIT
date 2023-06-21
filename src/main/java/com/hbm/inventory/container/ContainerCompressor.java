@@ -1,7 +1,9 @@
 package com.hbm.inventory.container;
 
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineCompressor;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -16,7 +18,9 @@ public class ContainerCompressor extends Container {
 		compressor = tile;
 		
 		//Fluid ID
-		this.addSlotToContainer(new Slot(tile, 0, 35, 72));
+		this.addSlotToContainer(new Slot(tile, 0, 17, 72));
+		//Battery
+		this.addSlotToContainer(new Slot(tile, 1, 152, 72));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -43,12 +47,23 @@ public class ContainerCompressor extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(index == 0) {
-				if(!this.mergeItemStack(var5, 1, this.inventorySlots.size(), true)) {
+			if(index < 2) {
+				if(!this.mergeItemStack(var5, 2, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(var5, 0, 1, false)) {
-				return null;
+			} else {
+				
+				if(var3.getItem() instanceof IBatteryItem) {
+					if(!this.mergeItemStack(var5, 1, 2, false)) {
+						return null;
+					}
+				} else if(var3.getItem() instanceof IItemFluidIdentifier) {
+					if(!this.mergeItemStack(var5, 0, 1, false)) {
+						return null;
+					}
+				} else {
+					return null;
+				}
 			}
 
 			if(var5.stackSize == 0) {

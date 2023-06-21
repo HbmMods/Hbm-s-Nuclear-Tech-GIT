@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 public class TileEntityMachineCompressor extends TileEntityMachineBase implements IGUIProvider {
 
 	public TileEntityMachineCompressor() {
-		super(1);
+		super(2);
 	}
 
 	@Override
