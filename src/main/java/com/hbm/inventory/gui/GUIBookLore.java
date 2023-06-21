@@ -96,7 +96,7 @@ public class GUIBookLore extends GuiScreen {
 		String k = "book_lore." + key + ".page.";
 		
 		for(int i = 0; i < 2; i++) {
-			int defacto = this.page * 2 + i; //TODO: force i18n to index from 0 instead of 1
+			int defacto = this.page * 2 + i;
 			
 			if(defacto < tag.getInteger("p")) {
 				String text;
