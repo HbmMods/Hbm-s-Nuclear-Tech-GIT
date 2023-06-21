@@ -54,9 +54,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 			}
 		}
 
-		if(worldObj.isRemote) {
-
-		} else {
+		if(!worldObj.isRemote) {
 			
 			BlockPos pos = new BlockPos(this);
 			
@@ -284,10 +282,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 	//Ah yes piggy backing on this packet
 	@Override
 	public void setTextureState(byte tex){
-		if(tex > 0)
-			shouldUseBB = true;
-		else
-			shouldUseBB = false;
+		shouldUseBB = tex > 0;
 	}
 
 	public int getSkinIndex() {

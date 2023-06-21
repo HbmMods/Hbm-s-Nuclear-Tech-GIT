@@ -19,6 +19,6 @@ public interface IDoor {
 		CLOSED,
 		OPEN,
 		CLOSING,
-		OPENING;
+		OPENING
 	}
 }

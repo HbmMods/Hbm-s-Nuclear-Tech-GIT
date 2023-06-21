@@ -420,6 +420,4 @@ public abstract class DoorDecl {
         f[2] = z;
         return f;
     }
-
-    ;
 }
