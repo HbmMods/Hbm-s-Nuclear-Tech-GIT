@@ -2,12 +2,14 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerCompressor;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICompressor;
 import com.hbm.inventory.recipes.CompressorRecipes;
 import com.hbm.inventory.recipes.CompressorRecipes.CompressorRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -18,12 +20,15 @@ import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -35,6 +40,9 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 	public boolean isOn;
 	public int progress;
 	public int processTime = 100;
+	public static final int processTimeBase = 100;
+	public int powerRequirement;
+	public static final int powerRequirementBase = 10_000;
 	
 	public float fanSpin;
 	public float prevFanSpin;
@@ -43,7 +51,7 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 	public boolean pistonDir;
 
 	public TileEntityMachineCompressor() {
-		super(2);
+		super(4);
 		this.tanks = new FluidTank[2];
 		this.tanks[0] = new FluidTank(Fluids.NONE, 16_000);
 		this.tanks[1] = new FluidTank(Fluids.NONE, 16_000).withPressure(1);
@@ -67,10 +75,22 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 			this.tanks[0].setType(0, slots);
 			this.setupTanks();
 			
+			UpgradeManager.eval(slots, 1, 3);
+
+			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			int overLevel = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+
+			//there is a reason to do this but i'm not telling you
+			this.processTime = speedLevel == 3 ? 10 : speedLevel == 2 ? 20 : speedLevel == 1 ? 60 : this.processTimeBase;
+			this.powerRequirement = this.powerRequirementBase / (powerLevel + 1);
+			this.processTime = this.processTime / (overLevel + 1);
+			this.powerRequirement = this.powerRequirement * ((overLevel * 2) + 1);
+			
 			if(canProcess()) {
 				this.progress++;
 				this.isOn = true;
-				this.power -= 1_000;
+				this.power -= powerRequirement;
 				
 				if(progress >= this.processTime) {
 					progress = 0;
@@ -89,6 +109,8 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("progress", progress);
+			data.setInteger("processTime", processTime);
+			data.setInteger("powerRequirement", powerRequirement);
 			data.setLong("power", power);
 			tanks[0].writeToNBT(data, "0");
 			tanks[1].writeToNBT(data, "1");
@@ -109,11 +131,17 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 				}
 				
 				if(this.pistonDir) {
-					this.piston -= 0.1F;
-					if(this.piston <= 0) this.pistonDir = !this.pistonDir;
+					this.piston -= randSpeed;
+					if(this.piston <= 0) {
+						Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation("hbm:item.boltgun"), 0.5F, 0.75F, xCoord, yCoord, zCoord));
+						this.pistonDir = !this.pistonDir;
+					}
 				} else {
 					this.piston += 0.05F;
-					if(this.piston >= 1) this.pistonDir = !this.pistonDir;
+					if(this.piston >= 1) {
+						this.randSpeed = 0.085F + worldObj.rand.nextFloat() * 0.03F;
+						this.pistonDir = !this.pistonDir;
+					}
 				}
 				
 				this.piston = MathHelper.clamp_float(this.piston, 0F, 1F);
@@ -121,8 +149,12 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 		}
 	}
 	
+	private float randSpeed = 0.1F;
+	
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.progress = nbt.getInteger("progress");
+		this.processTime = nbt.getInteger("processTime");
+		this.powerRequirement = nbt.getInteger("powerRequirement");
 		this.power = nbt.getLong("power");
 		tanks[0].readFromNBT(nbt, "0");
 		tanks[1].readFromNBT(nbt, "1");
@@ -149,7 +181,7 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 	
 	public boolean canProcess() {
 		
-		if(this.power <= 1_000) return false;
+		if(this.power <= powerRequirement) return false;
 		
 		CompressorRecipe recipe = CompressorRecipes.recipes.get(new Pair(tanks[0].getTankType(), tanks[0].getPressure()));
 		
