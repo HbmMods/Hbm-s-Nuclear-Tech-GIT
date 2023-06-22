@@ -1,0 +1,44 @@
+## Added
+* Glpyhids
+  * Hives will spawn randomly in the world
+  * Hives will constantly spawn new glyphids
+  * If explosed to soot, hives will create glyphid scouts, which when far enough from another hive will explode and generate a new hive
+  * Higher soot levels create stronger glyphids
+  * Glyphids possess armor which has a chance of breaking off and fully abrosrbing damage
+  * Each glyphid has five armor plates
+  * Glyphid types include multiple tiers of melee glyphids as well as a few ranged ones, the scout, and a nuclear variant
+* Compressor
+  * Can compress fluids, turning them into higher pressure variants
+  * Can also turn steam into higher pressure types
+* A new rocket artillery ammo type that creates volcanic lava on impact
+* BDCL
+  * A type of lubricant that is easy to make and can be used in hydraulic piston and electric press recipes instead of regular lubricant
+* FBI drones
+  * A configurable amount of drones can now spawn during FBI raids
+  * They will hover over players, dropping bombs
+
+## Changed
+* Updated russian localization
+* Fluid traits can now be configured, any fluid can now have any fluid with variable stats assigned to them
+* Large explosions now load the central chunk they are in, this can be disabled in the config
+* Burning leaded fuels now releases poisonous heavy metals into the atmosphere
+* The pollution detector now displays rounded values
+* More machines and especially destroyed ones now release soot
+* The iGen has been rebalanced again, delete your machine config file for the changes to take effect
+  * The lubrican power multiplier has been increased from 1.1 to 1.5
+  * The fluid divisor has been lowered from 5,000 to 1,000, meaning the iGen now burns flammable liquids at full efficiency
+* Removed the config for having an additional keybind for dashing, the keybind is now always active since it no longer conflicts with crouching
+* Crucible recipes no longer use foundry scraps to visualize the recipes, instead they use a lava-like texture
+* Fusion reactors are now made from welded magnets which are created by weling a cast steel plate onto a magnet
+  * Due to the cost of the cast plates, fusion reactor magnets are now cheaper to compensate
+  * Consequently, particle accelerators are now also cheaper due to being made from mostly fusion reactor magnets
+* The blowtorch now consumes only 250mB per operation, allowing for up to 16 things to be welded with a single fill
+* The page and notebook items have been replaced with more dynamic book items that get their data from NBT
+* C4 can now be made by irradiating PVC
+  * Play stupid games, win stupid prizes
+
+## Fixed
+* Fixed potential crash or logspam regarding the pollution handler
+* Fixed missiles leaving behind a 3x3 grid of loaded chunks after being destroyed
+* Fixed coal ore yielding coal in the crucible instead of making carbon
+* Fixed a potential issue where BuildCraft generators can't supply the RF to HE converter

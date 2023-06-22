@@ -137,7 +137,7 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 				if(!world.isRemote) {
 					
 					if(this == ModItems.blowtorch) {
-						this.setFill(stack, Fluids.GAS, this.getFill(stack, Fluids.GAS) - 1000);
+						this.setFill(stack, Fluids.GAS, this.getFill(stack, Fluids.GAS) - 250);
 					}
 					
 					if(this == ModItems.acetylene_torch) {

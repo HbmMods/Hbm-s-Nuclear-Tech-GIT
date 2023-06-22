@@ -1,6 +1,8 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineCompressor;
 
 import net.minecraft.block.material.Material;
@@ -18,6 +20,7 @@ public class MachineCompressor extends BlockDummyable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityMachineCompressor();
+		if(meta >= extra) return new TileEntityProxyCombo().fluid().power();
 		
 		return null;
 	}
@@ -39,11 +42,25 @@ public class MachineCompressor extends BlockDummyable {
 
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
-		return super.checkRequirement(world, x, y, z, dir, o);
+		return super.checkRequirement(world, x, y, z, dir, o) &&
+				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, -3, 1, 1, 1, 1}, x, y, z, dir) &&
+				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {8, -4, 0, 0, 1, 1}, x, y, z, dir);
 	}
 
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
+
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, -3, 1, 1, 1, 1}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {8, -4, 0, 0, 1, 1}, this, dir);
+
+		x += dir.offsetX * o;
+		z += dir.offsetZ * o;
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+		this.makeExtra(world, x - dir.offsetX, y, z - dir.offsetZ);
+		this.makeExtra(world, x + rot.offsetX, y, z + rot.offsetZ);
+		this.makeExtra(world, x - rot.offsetX, y, z - rot.offsetZ);
 	}
 }
