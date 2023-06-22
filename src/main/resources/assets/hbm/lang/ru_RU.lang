@@ -3874,6 +3874,7 @@ item.grenade_strong.name=Усовершенствованная граната
 item.grenade_frag.name=Осколочная граната
 item.grenade_fire.name=Огненная осколочная граната
 item.grenade_shrapnel.name=Граната со шрапнелью
+item.grenate_cats.name=Граната с котами
 item.grenade_cluster.name=Кластерная бомба
 item.grenade_flare.name=Сигнальная ракета
 item.grenade_electric.name=Электрограната

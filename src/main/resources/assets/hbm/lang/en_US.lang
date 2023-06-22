@@ -2444,6 +2444,7 @@ item.grenade_aschrab.name=Tossable Antischrabidium Cell
 item.grenade_black_hole.name=Black Hole Grenade
 item.grenade_breach.name=Breaching Grenade
 item.grenade_burst.name=Digger Grenade
+item.grenate_cats.name=Grenade of Cats
 item.grenade_cloud.name=Jar of Cloud
 item.grenade_cluster.name=Cluster Bomb
 item.grenade_electric.name=Lightning Bomb
