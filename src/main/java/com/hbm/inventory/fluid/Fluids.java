@@ -1,12 +1,22 @@
 package com.hbm.inventory.fluid;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.fluid.trait.*;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
@@ -19,6 +29,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
 public class Fluids {
+
+	public static final Gson gson = new Gson();
 
 	public static FluidType NONE;
 	public static FluidType WATER;
@@ -155,6 +167,7 @@ public class Fluids {
 	public static final FT_NoContainer NOCON = new FT_NoContainer();
 	public static final FT_NoID NOID = new FT_NoID();
 	public static final FT_Delicious DELICIOUS = new FT_Delicious();
+	public static final FT_Leaded LEADED = new FT_Leaded();
 	
 	public static void init() {
 		
@@ -243,9 +256,9 @@ public class Fluids {
 		SALIENT =				new FluidType("SALIENT",			0x457F2D, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID, VISCOUS);
 		XPJUICE =				new FluidType("XPJUICE",			0xBBFF09, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		ENDERJUICE =			new FluidType("ENDERJUICE",			0x127766, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
-		PETROIL_LEADED =		new FluidType("PETROIL_LEADED",		0x44413d, 1, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x2331F6)).addTraits(new FT_Flammable(125_000), new FT_Combustible(FuelGrade.MEDIUM, 450_000), LIQUID);
-		GASOLINE_LEADED =		new FluidType("GASOLINE_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x2F775A)).addTraits(new FT_Flammable(400_000), new FT_Combustible(FuelGrade.HIGH, 1_500_000), LIQUID);
-		COALGAS_LEADED =		new FluidType("COALGAS_LEADED",		0x445772, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x1E155F)).addTraits(new FT_Flammable(75_000), new FT_Combustible(FuelGrade.MEDIUM, 250_000), LIQUID);
+		PETROIL_LEADED =		new FluidType("PETROIL_LEADED",		0x44413d, 1, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x2331F6)).addTraits(new FT_Flammable(125_000), new FT_Combustible(FuelGrade.MEDIUM, 450_000), LIQUID, LEADED);
+		GASOLINE_LEADED =		new FluidType("GASOLINE_LEADED",	0x445772, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x2F775A)).addTraits(new FT_Flammable(400_000), new FT_Combustible(FuelGrade.HIGH, 1_500_000), LIQUID, LEADED);
+		COALGAS_LEADED =		new FluidType("COALGAS_LEADED",		0x445772, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x1E155F)).addTraits(new FT_Flammable(75_000), new FT_Combustible(FuelGrade.MEDIUM, 250_000), LIQUID, LEADED);
 		SULFURIC_ACID =			new FluidType("SULFURIC_ACID",		0xB0AA64, 3, 0, 2, EnumSymbol.ACID).addTraits(new FT_Corrosive(50), LIQUID);
 		COOLANT_HOT =			new FluidType("COOLANT_HOT",		0x99525E, 1, 0, 0, EnumSymbol.NONE).setTemp(600).addTraits(LIQUID);
 		MUG =					new FluidType("MUG",				0x4B2D28, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);
@@ -562,6 +575,73 @@ public class Fluids {
 
 		registerCalculatedFuel(SYNGAS, (coalHeat * (1000 /* bucket */ / 100 /* mB per coal */) * flammabilityLow * demandLow * complexityChemplant) * 1.5, 1.25, FuelGrade.GAS); //same as coal oil, +50% bonus
 		registerCalculatedFuel(OXYHYDROGEN, 5_000, 3, FuelGrade.GAS); // whatever
+		
+		File folder = MainRegistry.configHbmDir;
+
+		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFluids.json");
+		File template = new File(folder.getAbsolutePath() + File.separatorChar + "_hbmFluids.json");
+		
+		if(!config.exists()) {
+			writeDefault(template);
+		} else {
+			readConfig(config);
+		}
+	}
+	
+	private static void writeDefault(File file) {
+
+		try {
+			JsonWriter writer = new JsonWriter(new FileWriter(file));
+			writer.setIndent("  ");
+			writer.beginObject();
+			
+			for(FluidType type : metaOrder) {
+				writer.name(type.getUnlocalizedName()).beginObject();
+				
+				for(Entry<Class<? extends FluidTrait>, FluidTrait> entry : type.traits.entrySet()) {
+					writer.name(FluidTrait.traitNameMap.inverse().get(entry.getKey())).beginObject();
+					entry.getValue().serializeJSON(writer);
+					writer.endObject();
+				}
+				
+				writer.endObject();
+			}
+			
+			writer.endObject();
+			writer.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void readConfig(File config) {
+		
+		try {
+			JsonObject json = gson.fromJson(new FileReader(config), JsonObject.class);
+			
+			for(FluidType type : metaOrder) {
+				
+				JsonElement element = json.get(type.getUnlocalizedName());
+				if(element != null) {
+					type.traits.clear();
+					JsonObject obj = element.getAsJsonObject();
+					
+					for(Entry<String, JsonElement> entry : obj.entrySet()) {
+						Class<? extends FluidTrait> traitClass = FluidTrait.traitNameMap.get(entry.getKey());
+						try {
+							FluidTrait trait = traitClass.newInstance();
+							trait.deserializeJSON(entry.getValue().getAsJsonObject());
+							type.addTraits(trait);
+						} catch(Exception ex) {
+							ex.printStackTrace();
+						}
+					}
+				}
+			}
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	private static void registerCalculatedFuel(FluidType type, double base, double combustMult, FuelGrade grade) {

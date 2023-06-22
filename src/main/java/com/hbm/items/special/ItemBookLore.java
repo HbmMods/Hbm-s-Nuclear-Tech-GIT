@@ -2,8 +2,10 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import com.hbm.inventory.gui.GUIBookLore;
-import com.hbm.inventory.gui.GUIBookLore.GUIAppearance;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
@@ -42,46 +44,70 @@ public class ItemBookLore extends Item implements IGUIProvider {
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		BookLoreType type = BookLoreType.getTypeFromStack(stack);
+		if(!stack.hasTagCompound()) return;
+		String key = stack.stackTagCompound.getString("k");
+		if(key.isEmpty()) return;
 		
-		if(type.hasAuthor) {
-			String unloc = I18nUtil.resolveKey("book_lore.author", I18nUtil.resolveKey("book_lore." + type.keyI18n + ".author"));
-			
-			list.add(unloc);
-		}
+		key = "book_lore." + key + ".author";
+		String loc = I18nUtil.resolveKey(key);
+		if(!loc.equals(key))
+			list.add(I18nUtil.resolveKey("book_lore.author", loc));
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		BookLoreType type = BookLoreType.getTypeFromStack(stack);
+		if(!stack.hasTagCompound()) return "book_lore.test";
+		String key = stack.stackTagCompound.getString("k");
 		
-		return "book_lore." + type.keyI18n;
+		return "book_lore." + (key.isEmpty() ? "test" : key);
 	}
 	
-	protected IIcon[] icons;
+	//Textures
 	
-	public final static String[] itemTextures = new String[] { ":book_guide", ":paper_loose", ":papers_loose", ":notebook" };
+	@SideOnly(Side.CLIENT) protected IIcon[] overlays;
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister reg) {
-		String[] iconStrings = itemTextures;
-		this.icons = new IIcon[itemTextures.length];
+		super.registerIcons(reg);
 		
-		for(int i = 0; i < icons.length; i++) {
-			this.icons[i] = reg.registerIcon(RefStrings.MODID + itemTextures[i]);
+		this.overlays = new IIcon[2];
+		this.overlays[0] = reg.registerIcon(RefStrings.MODID + ":book_cover");
+		this.overlays[1] = reg.registerIcon(RefStrings.MODID + ":book_title");
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean requiresMultipleRenderPasses() { return true; }
+	
+	@Override
+	public int getRenderPasses(int metadata) { return 3; }
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconFromDamageForRenderPass(int meta, int pass) {
+		if(pass == 0) return this.itemIcon;
+		return overlays[pass - 1];
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack stack, int pass) {
+		switch(pass) {
+			default: return 0xFFFFFF;
+			case 1: //book cover
+				if(stack.hasTagCompound()) {
+					int color = stack.stackTagCompound.getInteger("cov_col");
+					if(color > 0) return color;
+				}
+				return 0x303030;
+			case 2: //title color
+				if(stack.hasTagCompound()) {
+					int color = stack.stackTagCompound.getInteger("tit_col");
+					if(color > 0) return color;
+				}
+				return 0xFFFFFF;
 		}
-	}
-	
-	@Override
-	public IIcon getIconIndex(ItemStack stack) {
-		return this.getIcon(stack, 1);
-	}
-	
-	@Override
-	public IIcon getIcon(ItemStack stack, int pass) {
-		BookLoreType type = BookLoreType.getTypeFromStack(stack);
-		
-		return this.icons[type.appearance.itemTexture];
 	}
 
 	@Override
@@ -95,88 +121,25 @@ public class ItemBookLore extends Item implements IGUIProvider {
 		return new GUIBookLore(player);
 	}
 	
-	public enum BookLoreType {
-		TEST(true, "test", 5, GUIAppearance.NOTEBOOK),
-		BOOK_IODINE(true, "book_iodine", 3, GUIAppearance.LOOSEPAPERS) { 
-			public String resolveKey(String key, NBTTagCompound tag) {
-				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot"));
-		}},
-		BOOK_PHOSPHOROUS(true, "book_phosphorous", 2, GUIAppearance.LOOSEPAPERS) { 
-			public String resolveKey(String key, NBTTagCompound tag) {
-				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
-		}},
-		BOOK_DUST(true, "book_dust", 3, GUIAppearance.LOOSEPAPERS) { 
-			public String resolveKey(String key, NBTTagCompound tag) {
-				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
-		}},
-		BOOK_MERCURY(true, "book_mercury", 2, GUIAppearance.LOOSEPAPERS) { 
-			public String resolveKey(String key, NBTTagCompound tag) {
-				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
-		}},
-		BOOK_FLOWER(true, "book_flower", 2, GUIAppearance.LOOSEPAPERS) { 
-			public String resolveKey(String key, NBTTagCompound tag) {
-				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
-		}},
-		BOOK_SYRINGE(true, "book_syringe", 2, GUIAppearance.LOOSEPAPERS) { 
-			public String resolveKey(String key, NBTTagCompound tag) {
-				return I18nUtil.resolveKey(key, tag.getInteger("mku_slot")); 
-		}},
-		RESIGNATION_NOTE(true, "resignation_note", 3, GUIAppearance.NOTEBOOK),
-		MEMO_STOCKS(false, "memo_stocks", 1, GUIAppearance.LOOSEPAPER),
-		MEMO_SCHRAB_GSA(false, "memo_schrab_gsa", 2, GUIAppearance.LOOSEPAPERS),
-		MEMO_SCHRAB_RD(false, "memo_schrab_rd", 4, GUIAppearance.LOOSEPAPERS),
-		MEMO_SCHRAB_NUKE(true, "memo_schrab_nuke", 3, GUIAppearance.LOOSEPAPERS),
-		;
+	public static ItemStack createBook(String key, int pages, int colorCov, int colorTit) {
+		ItemStack book = new ItemStack(ModItems.book_lore);
+		NBTTagCompound tag = new NBTTagCompound();
+		tag.setString("k", key);
+		tag.setShort("p", (short)pages);
+		tag.setInteger("cov_col", colorCov);
+		tag.setInteger("tit_col", colorTit);
 		
-		//Why? it's quite simple; i am too burnt out and also doing it the other way
-		//is too inflexible for my taste
-		public final GUIAppearance appearance; //gui and item texture appearance
-		
-		public boolean hasAuthor = false;
-		public final String keyI18n;
-		public final int pages;
-		
-		private BookLoreType(Boolean author, String key, int max, GUIAppearance appearance) {
-			this.hasAuthor = author;
-			this.keyI18n = key;
-			this.pages = max;
-			this.appearance = appearance;
+		book.stackTagCompound = tag;
+		return book;
+	}
+	
+	public static void addArgs(ItemStack book, int page, String... args) {
+		if(!book.hasTagCompound()) return;
+		NBTTagCompound data = new NBTTagCompound();
+		for(int i = 0; i < args.length; i++) {
+			data.setString("a" + (i + 1), args[i]);
 		}
 		
-		private BookLoreType(String key, int max, GUIAppearance appearance) {
-			this.keyI18n = key;
-			this.pages = max;
-			this.appearance = appearance;
-		}
-		
-		/** Function to resolve I18n keys using potential save-dependent information, a la format specifiers. */
-		public String resolveKey(String key, NBTTagCompound tag) {
-			return I18nUtil.resolveKey(key, tag);
-		}
-		
-		public static BookLoreType getTypeFromStack(ItemStack stack) {
-			if(!stack.hasTagCompound()) {
-				stack.stackTagCompound = new NBTTagCompound();
-			}
-			
-			NBTTagCompound tag = stack.getTagCompound();
-			int ordinal = tag.getInteger("Book_Lore_Type");
-			
-			return BookLoreType.values()[Math.abs(ordinal) % BookLoreType.values().length];
-		}
-		
-		public static ItemStack setTypeForStack(ItemStack stack, BookLoreType num) {
-			
-			if(stack.getItem() instanceof ItemBookLore) {
-				if(!stack.hasTagCompound()) {
-					stack.stackTagCompound = new NBTTagCompound();
-				}
-				
-				NBTTagCompound tag = stack.getTagCompound();
-				tag.setInteger("Book_Lore_Type", num.ordinal());
-			}
-			
-			return stack;
-		}
+		book.stackTagCompound.setTag("p" + page, data);
 	}
 }

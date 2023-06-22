@@ -8,11 +8,10 @@ import com.hbm.explosion.ExplosionTom;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.TomSaveData;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class EntityTomBlast extends Entity {
+public class EntityTomBlast extends EntityExplosionChunkloading {
 
 	public int age = 0;
 	public int destructionRange = 0;
@@ -54,6 +53,8 @@ public class EntityTomBlast extends Entity {
 	public void onUpdate() {
 		super.onUpdate();
 
+		if(!worldObj.isRemote) loadChunk((int) Math.floor(posX / 16D), (int) Math.floor(posZ / 16D));
+
 		if(!this.did) {
 
 			if(GeneralConfig.enableExtendedLogging && !worldObj.isRemote)
@@ -88,9 +89,5 @@ public class EntityTomBlast extends Entity {
 		}
 
 		age++;
-	}
-
-	@Override
-	protected void entityInit() {
 	}
 }

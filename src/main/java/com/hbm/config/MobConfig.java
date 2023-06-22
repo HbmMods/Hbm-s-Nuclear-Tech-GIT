@@ -14,6 +14,7 @@ public class MobConfig {
 	public static int raidDelay = 30 * 60 * 60;
 	public static int raidChance = 3;
 	public static int raidAmount = 15;
+	public static int raidDrones = 5;
 	public static int raidAttackDelay = 40;
 	public static int raidAttackReach = 2;
 	public static int raidAttackDistance = 32;
@@ -44,6 +45,7 @@ public class MobConfig {
 		raidAttackDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.F04_raidAttackDelay", "Time between individual attempts to break machines", 40);
 		raidAttackReach = CommonConfig.createConfigInt(config, CATEGORY, "12.F05_raidAttackReach", "How far away machines can be broken", 2);
 		raidAttackDistance = CommonConfig.createConfigInt(config, CATEGORY, "12.F06_raidAttackDistance", "How far away agents will spawn from the targeted player", 32);
+		raidDrones = CommonConfig.createConfigInt(config, CATEGORY, "12.F07_raidDrones", "How many quadcopter drones are spawned each raid", 5);
 
 		enableElementals = CommonConfig.createConfigBool(config, CATEGORY, "12.E00_enableMeltdownElementals", "Whether there should be radiation elementals", true);
 		elementalDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.E01_elementalDelay", "How many world ticks need to pass for a check to be performed", 30 * 60 * 60);
