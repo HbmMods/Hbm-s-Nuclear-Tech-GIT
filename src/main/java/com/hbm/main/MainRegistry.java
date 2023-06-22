@@ -932,6 +932,7 @@ public class MainRegistry {
 		if(GeneralConfig.enableStatReRegistering) {
 			logger.info("Attempting to re-register item stats...");
 			StatHelper.resetStatShitFuck(); //shit yourself
+			logger.info("Item stats re-registered");
 		}
 	}
 	
