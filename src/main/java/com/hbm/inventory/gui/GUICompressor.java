@@ -68,7 +68,7 @@ public class GUICompressor extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		if(compressor.power >= 1_000) {
+		if(compressor.power >= compressor.powerRequirement) {
 			drawTexturedModalRect(guiLeft + 156, guiTop + 4, 176, 52, 9, 12);
 		}
 
@@ -76,6 +76,9 @@ public class GUICompressor extends GuiInfoContainer {
 		
 		int i = compressor.progress * 55 / compressor.processTime;
 		drawTexturedModalRect(guiLeft + 42, guiTop + 26, 192, 0, i, 17);
+		
+		int j = (int) (compressor.power * 52 / compressor.maxPower);
+		drawTexturedModalRect(guiLeft + 152, guiTop + 70 - j, 176, 52 - j, 16, j);
 		
 		compressor.tanks[0].renderTank(guiLeft + 17, guiTop + 70, this.zLevel, 16, 52);
 		compressor.tanks[1].renderTank(guiLeft + 107, guiTop + 70, this.zLevel, 16, 52);
