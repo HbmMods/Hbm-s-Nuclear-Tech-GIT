@@ -68,7 +68,7 @@ public class ItemWiring extends Item {
 							player.addChatMessage(new ChatComponentText("Wire end"));
 
 						} else {
-							player.addChatMessage(new ChatComponentText("Wire error"));
+							player.addChatMessage(new ChatComponentText("Wire error - " + TileEntityPylonBase.errorMessage));
 						}
 
 						stack.stackTagCompound = null;

@@ -18,14 +18,19 @@ import net.minecraft.world.WorldServer;
 public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 	
 	public List<int[]> connected = new ArrayList<int[]>();
+	public static String errorMessage = "";
 	
 	public static boolean canConnect(TileEntityPylonBase first, TileEntityPylonBase second) {
 		
-		if(first.getConnectionType() != second.getConnectionType())
+		if(first.getConnectionType() != second.getConnectionType()) {
+			errorMessage = "pylons are not the same type";
 			return false;
+		}
 		
-		if(first == second)
+		if(first == second) {
+			errorMessage = "cannot connect to the same pylon";
 			return false;
+		}
 		
 		double len = Math.min(first.getMaxWireLength(), second.getMaxWireLength());
 		
@@ -38,6 +43,7 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 				(secondPos.zCoord) - (firstPos.zCoord)
 				);
 		
+		errorMessage = "pylon too far away";
 		return len >= delta.lengthVector();
 	}
 	
