@@ -241,7 +241,7 @@ public class FluidTank {
 			list.add(fluid + "/" + maxFluid + "mB");
 			
 			if(this.pressure != 0) {
-				list.add(EnumChatFormatting.RED + "" + this.pressure + " PU");
+				list.add(EnumChatFormatting.RED + "Pressure: " + this.pressure + " PU");
 			}
 			
 			type.addInfo(list);

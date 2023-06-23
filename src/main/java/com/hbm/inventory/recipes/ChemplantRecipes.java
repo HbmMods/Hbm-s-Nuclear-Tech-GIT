@@ -147,7 +147,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(new ItemStack(ModItems.ball_tnt, 4)));
 		recipes.add(new ChemRecipe(95, "TATB", 50)
 				.inputItems(new ComparableStack(ModItems.ball_tnt))
-				.inputFluids(new FluidStack(Fluids.SOURGAS, 200), new FluidStack(Fluids.NITRIC_ACID, 10))
+				.inputFluids(new FluidStack(Fluids.SOURGAS, 200, 1), new FluidStack(Fluids.NITRIC_ACID, 10))
 				.outputItems(new ItemStack(ModItems.ball_tatb)));
 		recipes.add(new ChemRecipe(84, "C4", 150)
 				.inputItems(new OreDictStack(KNO.dust()))
@@ -352,7 +352,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.powder_paleogenite),
 						new OreDictStack(F.dust(), 8),
 						new ComparableStack(ModItems.nugget_bismuth, 4))
-				.inputFluids(new FluidStack(Fluids.ACID, 1000))
+				.inputFluids(new FluidStack(Fluids.ACID, 1000, 5))
 				.outputFluids(new FluidStack(Fluids.DEATH, 1000)));
 		//one bucket of ethanol equals 275_000 TU using the diesel baseline0
 		//the coal baseline is 400_000 per piece

@@ -10,6 +10,8 @@
 * Compressor
   * Can compress fluids, turning them into higher pressure variants
   * Can also turn steam into higher pressure types
+  * Vacuum refning now requires oil at 2 PU
+  * Some chemical plant recipes also require compressed fluid, TATB requires sour gas at 1 PU and osmiridic solution requires hydrogen peroxide at 5 PU
 * A new rocket artillery ammo type that creates volcanic lava on impact
 * BDCL
   * A type of lubricant that is easy to make and can be used in hydraulic piston and electric press recipes instead of regular lubricant
