@@ -42,7 +42,7 @@ public class ItemTeleLink extends Item {
 				
 				if(!stack.hasTagCompound()) {
 					world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
-					player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[TeleLink] No destiation set!"));
+					player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[TeleLink] No destination set!"));
 					return false;
 				}
 				

@@ -1256,7 +1256,7 @@ public class ModEventHandlerClient {
 			
 			switch(rand) {
 			case 0: main.splashText = "Floppenheimer!"; break;
-			case 1: main.splashText = "i should dip my balls in sulfuic acid"; break;
+			case 1: main.splashText = "i should dip my balls in sulfuric acid"; break;
 			case 2: main.splashText = "All answers are popbob!"; break;
 			case 3: main.splashText = "None shall enter The Orb!"; break;
 			case 4: main.splashText = "Wacarb was here"; break;
