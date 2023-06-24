@@ -12,6 +12,8 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IArmorModDash;
 import com.hbm.items.armor.ArmorFSB;
@@ -19,6 +21,7 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.HbmPotion;
 import com.hbm.packet.ExtPropPacket;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.util.ArmorRegistry;
@@ -48,42 +51,40 @@ import net.minecraft.world.World;
 public class EntityEffectHandler {
 
 	public static void onUpdate(EntityLivingBase entity) {
-		
+			
+		if(entity.ticksExisted % 20 == 0) {
+			HbmLivingProps.setRadBuf(entity, HbmLivingProps.getRadEnv(entity));
+			HbmLivingProps.setRadEnv(entity, 0);
+		}
+
+		if(entity instanceof EntityPlayerMP) {
+			HbmLivingProps props = HbmLivingProps.getData(entity);
+			HbmPlayerProps pprps = HbmPlayerProps.getData((EntityPlayerMP) entity);
+			NBTTagCompound data = new NBTTagCompound();
+
+			if(pprps.shield < pprps.maxShield && entity.ticksExisted > pprps.lastDamage + 60) {
+				int tsd = entity.ticksExisted - (pprps.lastDamage + 60);
+				pprps.shield += Math.min(pprps.maxShield - pprps.shield, 0.005F * tsd);
+			}
+
+			if(pprps.shield > pprps.maxShield)
+				pprps.shield = pprps.maxShield;
+
+			props.saveNBTData(data);
+			pprps.saveNBTData(data);
+			PacketDispatcher.wrapper.sendTo(new ExtPropPacket(data), (EntityPlayerMP) entity);
+		}
+
 		if(!entity.worldObj.isRemote) {
-			
-			if(entity.ticksExisted % 20 == 0) {
-				HbmLivingProps.setRadBuf(entity, HbmLivingProps.getRadEnv(entity));
-				HbmLivingProps.setRadEnv(entity, 0);
-			}
-			
-			
-			if(entity instanceof EntityPlayerMP) {
-				HbmLivingProps props = HbmLivingProps.getData(entity);
-				HbmPlayerProps pprps = HbmPlayerProps.getData((EntityPlayerMP) entity);
-				NBTTagCompound data = new NBTTagCompound();
-				
-				if(pprps.shield < pprps.maxShield && entity.ticksExisted > pprps.lastDamage + 60) {
-					int tsd = entity.ticksExisted - (pprps.lastDamage + 60);
-					pprps.shield += Math.min(pprps.maxShield - pprps.shield, 0.005F * tsd);
-				}
-				
-				if(pprps.shield > pprps.maxShield)
-					pprps.shield = pprps.maxShield;
-				
-				props.saveNBTData(data);
-				pprps.saveNBTData(data);
-				PacketDispatcher.wrapper.sendTo(new ExtPropPacket(data), (EntityPlayerMP) entity);
-			}
-			
 			int timer = HbmLivingProps.getTimer(entity);
 			if(timer > 0) {
 				HbmLivingProps.setTimer(entity, timer - 1);
-				
+	
 				if(timer == 1) {
 					ExplosionNukeSmall.explode(entity.worldObj, entity.posX, entity.posY, entity.posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
 				}
 			}
-			
+	
 			if(GeneralConfig.enable528 && entity instanceof EntityLivingBase && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
 				entity.setFire(5);
 			}
@@ -95,6 +96,7 @@ public class EntityEffectHandler {
 		handleDigamma(entity);
 		handleLungDisease(entity);
 		handleOil(entity);
+		handlePollution(entity);
 
 		handleDashing(entity);
 		handlePlinking(entity);
@@ -365,8 +367,11 @@ public class EntityEffectHandler {
 
 		double blacklung = Math.min(HbmLivingProps.getBlackLung(entity), HbmLivingProps.maxBlacklung);
 		double asbestos = Math.min(HbmLivingProps.getAsbestos(entity), HbmLivingProps.maxAsbestos);
+		double soot = PollutionHandler.getPollution(entity.worldObj, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY + entity.getEyeHeight()), (int) Math.floor(entity.posZ), PollutionType.SOOT);
 		
-		boolean coughs = blacklung / HbmLivingProps.maxBlacklung > 0.25D || asbestos / HbmLivingProps.maxAsbestos > 0.25D;
+		if(ArmorRegistry.hasProtection(entity, 3, HazardClass.PARTICLE_COARSE)) soot = 0;
+		
+		boolean coughs = blacklung / HbmLivingProps.maxBlacklung > 0.25D || asbestos / HbmLivingProps.maxAsbestos > 0.25D || soot > 30;
 		
 		if(!coughs)
 			return;
@@ -377,10 +382,9 @@ public class EntityEffectHandler {
 
 		double blacklungDelta = 1D - (blacklung / (double)HbmLivingProps.maxBlacklung);
 		double asbestosDelta = 1D - (asbestos / (double)HbmLivingProps.maxAsbestos);
+		double sootDelta = 1D - Math.min(soot / 100, 1D);
 		
 		double total = 1 - (blacklungDelta * asbestosDelta);
-		
-		int freq = Math.max((int) (1000 - 950 * total), 20);
 		
 		World world = entity.worldObj;
 		
@@ -391,6 +395,9 @@ public class EntityEffectHandler {
 		if(total > 0.95D) {
 			entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 100, 0));
 		}
+		
+		total = 1 - (blacklungDelta * asbestosDelta * sootDelta);
+		int freq = Math.max((int) (1000 - 950 * total), 20);
 		
 		if(world.getTotalWorldTime() % freq == entity.getEntityId() % freq) {
 			world.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:player.cough", 1.0F, 1.0F);
@@ -438,6 +445,41 @@ public class EntityEffectHandler {
 				nbt.setInteger("block", Block.getIdFromBlock(Blocks.coal_block));
 				nbt.setInteger("entity", entity.getEntityId());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			}
+		}
+	}
+	
+	private static void handlePollution(EntityLivingBase entity) {
+		
+		if(!ArmorRegistry.hasProtection(entity, 3, HazardClass.GAS_CORROSIVE) && entity.ticksExisted % 60 == 0) {
+			
+			float poison = PollutionHandler.getPollution(entity.worldObj, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY + entity.getEyeHeight()), (int) Math.floor(entity.posZ), PollutionType.POISON);
+			
+			if(poison > 10) {
+				
+				if(poison < 25) {
+					entity.addPotionEffect(new PotionEffect(Potion.poison.id, 100, 0));
+				} else if(poison < 50) {
+					entity.addPotionEffect(new PotionEffect(Potion.poison.id, 100, 2));
+				} else {
+					entity.addPotionEffect(new PotionEffect(Potion.wither.id, 100, 2));
+				}
+			}
+		}
+		
+		if(!ArmorRegistry.hasProtection(entity, 3, HazardClass.PARTICLE_FINE) && entity.ticksExisted % 60 == 0) {
+			
+			float poison = PollutionHandler.getPollution(entity.worldObj, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY + entity.getEyeHeight()), (int) Math.floor(entity.posZ), PollutionType.HEAVYMETAL);
+			
+			if(poison > 25) {
+				
+				if(poison < 50) {
+					entity.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 0));
+				} else if(poison < 75) {
+					entity.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 2));
+				} else {
+					entity.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 2));
+				}
 			}
 		}
 	}

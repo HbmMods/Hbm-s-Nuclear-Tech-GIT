@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.entity.mob.EntityGlyphid;
+import com.hbm.entity.mob.EntityGlyphidBehemoth;
 import com.hbm.entity.mob.EntityGlyphidBlaster;
 import com.hbm.entity.mob.EntityGlyphidBombardier;
 import com.hbm.entity.mob.EntityGlyphidBrawler;
+import com.hbm.entity.mob.EntityGlyphidBrenda;
+import com.hbm.entity.mob.EntityGlyphidNuclear;
 import com.hbm.entity.mob.EntityGlyphidScout;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
@@ -56,12 +59,13 @@ public class BlockGlyphidSpawner extends BlockContainer {
 		
 		public EntityGlyphid createGlyphid(float soot) {
 			Random rand = new Random();
+
+			if(soot < 1) return rand.nextInt(5) == 0 ? new EntityGlyphidBombardier(worldObj) : new EntityGlyphid(worldObj);
+			if(soot < 10) return rand.nextInt(5) == 0 ? new EntityGlyphidBombardier(worldObj) : new EntityGlyphidBrawler(worldObj);
+			if(soot < 50) return rand.nextInt(5) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidBehemoth(worldObj);
+			if(soot < 100) return rand.nextInt(5) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidBrenda(worldObj);
 			
-			if(soot < 1) {
-				return rand.nextInt(5) == 0 ? new EntityGlyphidBombardier(worldObj) : new EntityGlyphid(worldObj);
-			}
-			
-			return rand.nextInt(5) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidBrawler(worldObj);
+			return rand.nextInt(3) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidNuclear(worldObj);
 		}
 	}
 }
