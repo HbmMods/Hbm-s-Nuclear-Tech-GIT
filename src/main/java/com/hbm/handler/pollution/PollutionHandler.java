@@ -169,6 +169,7 @@ public class PollutionHandler {
 					float[] pollutionForNeightbors = new float[PollutionType.values().length];
 					int S = PollutionType.SOOT.ordinal();
 					int H = PollutionType.HEAVYMETAL.ordinal();
+					int P = PollutionType.POISON.ordinal();
 					
 					/* CALCULATION */
 					if(data.pollution[S] > 15) {
@@ -178,7 +179,14 @@ public class PollutionHandler {
 						data.pollution[S] *= 0.99F;
 					}
 
-					data.pollution[H] *= 0.999F;
+					data.pollution[H] *= 0.9995F;
+					
+					if(data.pollution[P] > 10) {
+						pollutionForNeightbors[P] = data.pollution[P] * 0.025F;
+						data.pollution[P] *= 0.9F;
+					} else {
+						data.pollution[P] *= 0.995F;
+					}
 
 					/* SPREADING */
 					//apply new data to self

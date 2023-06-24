@@ -19,6 +19,8 @@ import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -318,6 +320,7 @@ public class ItemAmmoArty extends Item {
 				mist.setPosition(mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord - 3, mop.hitVec.zCoord - vec.zCoord);
 				mist.setArea(15, 7.5F);
 				shell.worldObj.spawnEntityInWorld(mist);
+				PollutionHandler.incrementPollution(shell.worldObj, mop.blockX, mop.blockY, mop.blockZ, PollutionType.HEAVYMETAL, 5F);
 			}
 		};
 		this.itemTypes[PHOSGENE] = new ArtilleryShell("ammo_arty_phosgene", SpentCasing.COLOR_CASE_16INCH_NUKE) {
@@ -326,18 +329,20 @@ public class ItemAmmoArty extends Item {
 				Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
 				shell.worldObj.createExplosion(shell, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, 5F, false);
 				for(int i = 0; i < 3; i++) {
-				EntityMist mist = new EntityMist(shell.worldObj);
-				mist.setType(Fluids.PHOSGENE);
-				double x = mop.hitVec.xCoord - vec.xCoord;
-				double z = mop.hitVec.zCoord - vec.zCoord;
-				if(i > 0) {
-					x += rand.nextGaussian() * 15;
-					z += rand.nextGaussian() * 15;
+					EntityMist mist = new EntityMist(shell.worldObj);
+					mist.setType(Fluids.PHOSGENE);
+					double x = mop.hitVec.xCoord - vec.xCoord;
+					double z = mop.hitVec.zCoord - vec.zCoord;
+					if(i > 0) {
+						x += rand.nextGaussian() * 15;
+						z += rand.nextGaussian() * 15;
+					}
+					mist.setPosition(x, mop.hitVec.yCoord - vec.yCoord - 5, z);
+					mist.setArea(15, 10);
+					shell.worldObj.spawnEntityInWorld(mist);
 				}
-				mist.setPosition(x, mop.hitVec.yCoord - vec.yCoord - 5, z);
-				mist.setArea(15, 10);
-				shell.worldObj.spawnEntityInWorld(mist);
-			}
+				PollutionHandler.incrementPollution(shell.worldObj, mop.blockX, mop.blockY, mop.blockZ, PollutionType.HEAVYMETAL, 10F);
+				PollutionHandler.incrementPollution(shell.worldObj, mop.blockX, mop.blockY, mop.blockZ, PollutionType.POISON, 15F);
 			}
 		};
 		this.itemTypes[MUSTARD] = new ArtilleryShell("ammo_arty_mustard_gas", SpentCasing.COLOR_CASE_16INCH_NUKE) {
@@ -358,6 +363,8 @@ public class ItemAmmoArty extends Item {
 					mist.setArea(20, 10);
 					shell.worldObj.spawnEntityInWorld(mist);
 				}
+				PollutionHandler.incrementPollution(shell.worldObj, mop.blockX, mop.blockY, mop.blockZ, PollutionType.HEAVYMETAL, 15F);
+				PollutionHandler.incrementPollution(shell.worldObj, mop.blockX, mop.blockY, mop.blockZ, PollutionType.POISON, 30F);
 			}
 		};
 		

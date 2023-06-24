@@ -142,6 +142,8 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 					audio = rebootAudio(audio);
 				}
 				
+				audio.keepAlive();
+				
 			} else {
 				
 				if(audio != null) {
@@ -165,7 +167,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 	}
 	
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.igeneratorOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.igeneratorOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F, 20);
 	}
 
 	@Override

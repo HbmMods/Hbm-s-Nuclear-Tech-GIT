@@ -38,9 +38,14 @@
 * The page and notebook items have been replaced with more dynamic book items that get their data from NBT
 * C4 can now be made by irradiating PVC
   * Play stupid games, win stupid prizes
+* Gas grenades now use the new gas system which should be a lot more pleasant to look at and less heavy on the TPS
+* Leaded fuels now release heavy metal into the air, heavy metal can cause lead poisoning
+  * Lower heavy metal concentrations can also cause heavy metal poisoning when breaking blocks
+* Gas artillery shell now create heavy metal and poisonous pollution
 
 ## Fixed
 * Fixed potential crash or logspam regarding the pollution handler
 * Fixed missiles leaving behind a 3x3 grid of loaded chunks after being destroyed
 * Fixed coal ore yielding coal in the crucible instead of making carbon
 * Fixed a potential issue where BuildCraft generators can't supply the RF to HE converter
+* Fixed combustion engine sound sometimes continue playing even when turned off
