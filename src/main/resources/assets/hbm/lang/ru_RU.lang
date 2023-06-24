@@ -542,8 +542,8 @@ desc.gui.nukeGadget.desc=§1Требует:§r$ * 4 Набора взрывоо�
 desc.gui.nukeMan.desc=§1Требует:§r$ * 4 Набора взрывоопасных линз$   Первого поколения$ * Плутониевое ядро$ * Воспламенитель
 desc.gui.nukeMike.desc=§1Требует:§r$ * 4 Набора взрывоопасных линз$ * Плутониевое ядро$ * Блок охлаждения дейтерия$ * Дейтериевый бак с урановым покрытием$ * Дейтериевый бак
 desc.gui.nukeTsar.desc=§1Требует:§r$ * 4 Набора взрывоопасных линз$ * Плутониевое ядро$§9Опционально:§r$ * Ядро Царь-бомбы
-desc.item.zirnoxBreedingRod=§2[Стержень-размножитель Цирнокс]$§eРазмещать рядом с топливными стержнями$§eОсталось %d тиков
-desc.item.zirnoxRod=§a[Топливный стержень Цирнокс]$§eГенерирует %1$d тепла на тик$§eОсталость %2$d тиков
+desc.item.zirnoxBreedingRod=§2[Стержень-размножитель Цирнокс]$§eРазмещать рядом с топливными стержнями$§eВремя работы %d тиков
+desc.item.zirnoxRod=§a[Топливный стержень Цирнокс]$§eГенерирует %1$d тепла на тик$§Время работы %2$d тиков
 desc.item.ammo.con_accuracy2=- Сильно сниженная точность
 desc.item.ammo.con_damage=- Сильно сниженный урон
 desc.item.ammo.con_heavy_wear=- Сильно увеличенный износ
@@ -949,114 +949,114 @@ book.starter.page18=vær - просто парень, который слишк�
 
 book.lore.office0.title=Заявление об увольнении
 book.lore.office0.author=Kosma
-book.lore.office0.page1=Вчера руководство снова сократило наш отдел. Эти идиоты должны винить только самих себя, я не знаю, чего они ожидали после фиаско с Панаем. Кто, черт возьми, сливает такую информацию? Мы теряем миллионы, и  
-book.lore.office0.page2=это Я сейчас без работы. Это меня просят уйти в отставку. Я надеюсь, что вы, придурки, наконец-то извлекли урок из своего переизбытка ошибок и вытащили эту палку из своей задницы.
-book.lore.office0.page3=Я не вернусь в пятницу. Просто пришлите чек на зарплату.
+book.lore.office0.page0=Вчера руководство снова сократило наш отдел. Эти идиоты должны винить только самих себя, я не знаю, чего они ожидали после фиаско с Панаем. Кто, черт возьми, сливает такую информацию? Мы теряем миллионы, и  
+book.lore.office0.page1=это Я сейчас без работы. Это меня просят уйти в отставку. Я надеюсь, что вы, придурки, наконец-то извлекли урок из своего переизбытка ошибок и вытащили эту палку из своей задницы.
+book.lore.office0.page2=Я не вернусь в пятницу. Просто пришлите чек на зарплату.
 
 book.lore.office1.title=Заметка
 book.lore.office1.author=Jonas Quinn
-book.lore.office1.page1=
-book.lore.office2.page2=
+book.lore.office1.page0=
+book.lore.office2.page1=
 
 book_lore.author=By %s
 book_lore.book_iodine.name=Note
 book_lore.book_iodine.author=Dave
-book_lore.book_iodine.page.1=alright you will not believe this, but old man weathervane finally managed to show up again since he left two weeks ago and what's more surprising is the fact that he actually decided to spill the beans on what they were doing in the canyon:
-book_lore.book_iodine.page.2=apparently the morons from R&D discovered a compound that is mostly inorganic, pretty much like a toxin in nature, but get this: the dying cells will reproduce said toxin and excrete it through the skin, creating an aerosol that is highly contagious.
-book_lore.book_iodine.page.3=it's just like a virus, but not a virus. the composition is weird, you can mix it in any household bottle but you do have to get the order right. the doc told me that the first ingredient which is just powdered iodine crystals goes into slot %d
+book_lore.book_iodine.page.0=alright you will not believe this, but old man weathervane finally managed to show up again since he left two weeks ago and what's more surprising is the fact that he actually decided to spill the beans on what they were doing in the canyon:
+book_lore.book_iodine.page.1=apparently the morons from R&D discovered a compound that is mostly inorganic, pretty much like a toxin in nature, but get this: the dying cells will reproduce said toxin and excrete it through the skin, creating an aerosol that is highly contagious.
+book_lore.book_iodine.page.2=it's just like a virus, but not a virus. the composition is weird, you can mix it in any household bottle but you do have to get the order right. the doc told me that the first ingredient which is just powdered iodine crystals goes into slot %d
 
 book_lore.book_phosphorous.name=Note
 book_lore.book_phosphorous.author=Dave
-book_lore.book_phosphorous.page.1=heyo, it's me again. i assume you got my last memo, the doc wasn't too happy about it. i'll have to do this quick, the dunderheads from R&D are currently moaning again, probably over money. again. anyway, doc weathervane found that the second
-book_lore.book_phosphorous.page.2=ingredient is red phosphorous, whihc has to be mixed into slot %d
+book_lore.book_phosphorous.page.0=heyo, it's me again. i assume you got my last memo, the doc wasn't too happy about it. i'll have to do this quick, the dunderheads from R&D are currently moaning again, probably over money. again. anyway, doc weathervane found that the second
+book_lore.book_phosphorous.page.1=ingredient is red phosphorous, whihc has to be mixed into slot %d
 
 book_lore.book_dust.name=Note
 book_lore.book_dust.author=Dave
-book_lore.book_dust.page.1=the doc was furious when he found out that the R&D dorks kept the one remaining sample, ranting about gross negligence this and a doomsday scenario that. i told him to chill for a minute, getting all worked up isn't good for his blood pressure, not
-book_lore.book_dust.page.2=that he has much blood left to begin with. one of the R&D morons slipped some more info into last week's circular, they call their little concoction \"MKU\" whatever that means, and that it contains actual household lint. can you believe that? one of the most
-book_lore.book_dust.page.3=dangerous inventions of theirs and it contains dust. strangely they also mentioned that it goes into slot %d
+book_lore.book_dust.page.0=the doc was furious when he found out that the R&D dorks kept the one remaining sample, ranting about gross negligence this and a doomsday scenario that. i told him to chill for a minute, getting all worked up isn't good for his blood pressure, not
+book_lore.book_dust.page.1=that he has much blood left to begin with. one of the R&D morons slipped some more info into last week's circular, they call their little concoction \"MKU\" whatever that means, and that it contains actual household lint. can you believe that? one of the most
+book_lore.book_dust.page.2=dangerous inventions of theirs and it contains dust. strangely they also mentioned that it goes into slot %d
 
 book_lore.book_mercury.name=Note
 book_lore.book_mercury.author=Dave
-book_lore.book_mercury.page.1=well that settles that. not counting the vomitting blood part, the toxicological report mostly resembles that of mercury poisoning. why? because our little mix also contains mercury! i just wonder where all that stuff comes from when being
-book_lore.book_mercury.page.2=replicated by the body? whatever, the mercury goes into slot %d
+book_lore.book_mercury.page.0=well that settles that. not counting the vomitting blood part, the toxicological report mostly resembles that of mercury poisoning. why? because our little mix also contains mercury! i just wonder where all that stuff comes from when being
+book_lore.book_mercury.page.1=replicated by the body? whatever, the mercury goes into slot %d
 
 book_lore.book_flower.name=Note
 book_lore.book_flower.author=Dave
-book_lore.book_flower.page.1=remember when i mentioned in my first memo that the compound is mostly anorganic? well guess what, the old man shared the fourth ingredient: ipomoea nil, a genus of flower. morning glory! it might be due to its low sulfur content, whatever might be the case,
-book_lore.book_flower.page.2=it does not work with other flowers. the morning glory goes into slot %d
+book_lore.book_flower.page.0=remember when i mentioned in my first memo that the compound is mostly anorganic? well guess what, the old man shared the fourth ingredient: ipomoea nil, a genus of flower. morning glory! it might be due to its low sulfur content, whatever might be the case,
+book_lore.book_flower.page.1=it does not work with other flowers. the morning glory goes into slot %d
 
 book_lore.book_syringe.name=Note
 book_lore.book_syringe.author=Dave
-book_lore.book_syringe.page.1=a little addendum to my fifth message, obviously you have to store this MKU stuff in a container. the R&D nuts used regular metal syringes that they got from medical. surplus ware i presume, they got thousands of needles just lying around. the metal
-book_lore.book_syringe.page.2=syringe goes into slot %d
+book_lore.book_syringe.page.0=a little addendum to my fifth message, obviously you have to store this MKU stuff in a container. the R&D nuts used regular metal syringes that they got from medical. surplus ware i presume, they got thousands of needles just lying around. the metal
+book_lore.book_syringe.page.1=syringe goes into slot %d
 
 book_lore.resignation_note.name=Letter of Resignation
 book_lore.resignation_note.author=Kosma
-book_lore.resignation_note.page.1=Management downsized our department again yesterday. Those idiots only have themselves to blame, I don't know what they were expecting after that fiasco. Who the hell leaks that sort of information? We're losing millions and
-book_lore.resignation_note.page.2=it's ME who's the one out of a job now. I'M the one being asked to resign. I hope you asshats finally learn from your overabundance of mistakes and take that stick out of your ass.
-book_lore.resignation_note.page.3=I'm not coming back on Friday. Just send the paycheck.
+book_lore.resignation_note.page.0=Management downsized our department again yesterday. Those idiots only have themselves to blame, I don't know what they were expecting after that fiasco. Who the hell leaks that sort of information? We're losing millions and
+book_lore.resignation_note.page.1=it's ME who's the one out of a job now. I'M the one being asked to resign. I hope you asshats finally learn from your overabundance of mistakes and take that stick out of your ass.
+book_lore.resignation_note.page.2=I'm not coming back on Friday. Just send the paycheck.
 
 book_lore.memo_stocks.name=Intracorporate Memorandum
-book_lore.memo_stocks.page.1=Investor Relations - $ $ There's been some glaring discrepancies in the figures provided for the latest quarterly report. It would be prudent for the financial department to make some adjustments, so there won't be any concern.
+book_lore.memo_stocks.page.0=Investor Relations - $ $ There's been some glaring discrepancies in the figures provided for the latest quarterly report. It would be prudent for the financial department to make some adjustments, so there won't be any concern.
 
 book_lore.memo_schrab_gsa.name=Internal Memorandum
-book_lore.memo_schrab_gsa.page.1=Contract Management - $ $ Legal has made a breakthrough with the DLA. They've awarded us with a 45 BILLION GSA Schedule for further procurement and research of saralloy. At current estimates, that would be at minimum
-book_lore.memo_schrab_gsa.page.2=a 40%% profit on related operations, let alone the possibility of future contracts. Due to the confidential nature, all fiscal evidence is to remain private.
+book_lore.memo_schrab_gsa.page.0=Contract Management - $ $ Legal has made a breakthrough with the DLA. They've awarded us with a 45 BILLION GSA Schedule for further procurement and research of saralloy. At current estimates, that would be at minimum
+book_lore.memo_schrab_gsa.page.1=a 40%% profit on related operations, let alone the possibility of future contracts. Due to the confidential nature, all fiscal evidence is to remain private.
 
 book_lore.memo_schrab_rd.name=Internal Memorandum
-book_lore.memo_schrab_rd.page.1=Research & Development - $ $ Our main production method of saralloy has been through the new particle accelerator. However, the energy costs are exorbitantly high compared to the amount of output.
-book_lore.memo_schrab_rd.page.2=Doctor Schrabauer, however, has discovered a new interaction - called "Strange Lepton Oscillation" - that could significantly reduce costs. Through a not entirely understood process, supplied electrons are transmuted into extremely
-book_lore.memo_schrab_rd.page.3=high-energy photons, through a strange charm. This is an extreme exception to many established particle conversion laws, but preliminary experiments have proved that these protons transmute into up and down quarks, eventually creating saralloy.
-book_lore.memo_schrab_rd.page.4=Strangely, the prototype requires Tungsten alloyed with small amounts of saralloy. In addition, a special capacitor is required to negate the leftover positive charge.
+book_lore.memo_schrab_rd.page.0=Research & Development - $ $ Our main production method of saralloy has been through the new particle accelerator. However, the energy costs are exorbitantly high compared to the amount of output.
+book_lore.memo_schrab_rd.page.1=Doctor Schrabauer, however, has discovered a new interaction - called "Strange Lepton Oscillation" - that could significantly reduce costs. Through a not entirely understood process, supplied electrons are transmuted into extremely
+book_lore.memo_schrab_rd.page.2=high-energy photons, through a strange charm. This is an extreme exception to many established particle conversion laws, but preliminary experiments have proved that these protons transmute into up and down quarks, eventually creating saralloy.
+book_lore.memo_schrab_rd.page.3=Strangely, the prototype requires Tungsten alloyed with small amounts of saralloy. In addition, a special capacitor is required to negate the leftover positive charge.
 
 book_lore.memo_schrab_nuke.name=Research Report
 book_lore.memo_schrab_nuke.author=Doctor Schrabauer
-book_lore.memo_schrab_nuke.page.1=Our most recent investigation led us to the effects of nuclear explosions on materials. Thanks to our grant money, we *accidentally* tested our theory on direct saralloy synthesis from uranium.
-book_lore.memo_schrab_nuke.page.2=Only our cyclotron has actually created saralloy previously. However, at our underground shot at Everwerpen, miniscule traces of saralloy were found in uranium ore at the site. All pure, metallic uranium nearby had fissioned.
-book_lore.memo_schrab_nuke.page.3=As such, given enough uranium ore concentrated around an explosive, or perhaps even a dirty bomb rich in waste containing fissionable material, one could hypothetically create enough saralloy to collect manually.
+book_lore.memo_schrab_nuke.page.0=Our most recent investigation led us to the effects of nuclear explosions on materials. Thanks to our grant money, we *accidentally* tested our theory on direct saralloy synthesis from uranium.
+book_lore.memo_schrab_nuke.page.1=Only our cyclotron has actually created saralloy previously. However, at our underground shot at Everwerpen, miniscule traces of saralloy were found in uranium ore at the site. All pure, metallic uranium nearby had fissioned.
+book_lore.memo_schrab_nuke.page.2=As such, given enough uranium ore concentrated around an explosive, or perhaps even a dirty bomb rich in waste containing fissionable material, one could hypothetically create enough saralloy to collect manually.
 
 book_lore.insanity_1.name=Torn Page
 book_lore.insanity_1.author=D Ferguson
-book_lore.insanity_1.page.1=August 6th $ $ Months, no, years worth of dicking about wrestling with investors  and operating the greatest energy hog in the northern hemisphere has finally paid off.
-book_lore.insanity_1.page.2=While we aren't entirely sure what exactly we found - given we ran gigavolt collisions on particles that were still poorly documented - the results couldn't have been more exciting.
-book_lore.insanity_1.page.3=We haven't found a name for whatever it is we've found, nor are we sure if we're looking at a new type of particle, a wormhole leading into another dimension, or satan's anus, but I'm sure our PR people can come up with something.
+book_lore.insanity_1.page.0=August 6th $ $ Months, no, years worth of dicking about wrestling with investors  and operating the greatest energy hog in the northern hemisphere has finally paid off.
+book_lore.insanity_1.page.1=While we aren't entirely sure what exactly we found - given we ran gigavolt collisions on particles that were still poorly documented - the results couldn't have been more exciting.
+book_lore.insanity_1.page.2=We haven't found a name for whatever it is we've found, nor are we sure if we're looking at a new type of particle, a wormhole leading into another dimension, or satan's anus, but I'm sure our PR people can come up with something.
 
 book_lore.insanity_2.name=Torn Page
 book_lore.insanity_2.author=D Ferguson
-book_lore.insanity_2.page.1=August 8th $ $ We've kept "The Thing" (yes that's what we call it for now) in magnetic isolation for the past days. Spectroscopy tests ended up breaking our spectrometer, but we managed to gain some useful data.
-book_lore.insanity_2.page.2=For starters, this thing glows like a christmas tree, radiation photons of about every wavelength you could think of enveloped by a powerful infrared corona. The logical conclusion is that looking at it with your naked
-book_lore.insanity_2.page.3=eye would most likely kill you. Now that begs the question: How can a particle this tiny radiate such immense energy? What are you hiding, little man?
+book_lore.insanity_2.page.0=August 8th $ $ We've kept "The Thing" (yes that's what we call it for now) in magnetic isolation for the past days. Spectroscopy tests ended up breaking our spectrometer, but we managed to gain some useful data.
+book_lore.insanity_2.page.1=For starters, this thing glows like a christmas tree, radiation photons of about every wavelength you could think of enveloped by a powerful infrared corona. The logical conclusion is that looking at it with your naked
+book_lore.insanity_2.page.2=eye would most likely kill you. Now that begs the question: How can a particle this tiny radiate such immense energy? What are you hiding, little man?
 
 book_lore.insanity_3.name=Torn Page
 book_lore.insanity_3.author=D Ferguson
-book_lore.insanity_3.page.1=August 22nd $ $ I haven't slept right in days. Doc said he couldn't find anything. Been on all sorts of medication now, but the headaches only get worse. Lab boys suspect it might be contamination from the incident two weeks ago.
-book_lore.insanity_3.page.2=Doc said it's not that likely, ARS is different. I might need to take some time off if this continues. The Thing is still in containment, the lab boys speculate if the field goes down, the entire complex turns into a mushroom cloud.
-book_lore.insanity_3.page.3=I'm not sure how administration can keep this calm, but i don't get paid enough to waste thoughts on that.
+book_lore.insanity_3.page.0=August 22nd $ $ I haven't slept right in days. Doc said he couldn't find anything. Been on all sorts of medication now, but the headaches only get worse. Lab boys suspect it might be contamination from the incident two weeks ago.
+book_lore.insanity_3.page.1=Doc said it's not that likely, ARS is different. I might need to take some time off if this continues. The Thing is still in containment, the lab boys speculate if the field goes down, the entire complex turns into a mushroom cloud.
+book_lore.insanity_3.page.2=I'm not sure how administration can keep this calm, but i don't get paid enough to waste thoughts on that.
 
 book_lore.insanity_4.name=Torn Page
 book_lore.insanity_4.author=D Ferguson
-book_lore.insanity_4.page.1=August 28th $ $ They denied my request for leave and I've been pushing through the past few days. Headaches are getting worse. I'm not the only one who's feeling it, either. Some of the lab boys are in a similar situation.
-book_lore.insanity_4.page.2=All the while The Thing has left the complex - GOOD. Some suits came in yesterday and had it shipped off, god knows where. One of the lab boys, Zachary, said they're probably burying the containment vessel in the desert, slowly
-book_lore.insanity_4.page.3=trying to "fizzle out" The Thing far off from civilization. I say let's shoot it into space. Needless to say, our investors cut all funding for the time being. I should start looking for another job.
+book_lore.insanity_4.page.0=August 28th $ $ They denied my request for leave and I've been pushing through the past few days. Headaches are getting worse. I'm not the only one who's feeling it, either. Some of the lab boys are in a similar situation.
+book_lore.insanity_4.page.1=All the while The Thing has left the complex - GOOD. Some suits came in yesterday and had it shipped off, god knows where. One of the lab boys, Zachary, said they're probably burying the containment vessel in the desert, slowly
+book_lore.insanity_4.page.2=trying to "fizzle out" The Thing far off from civilization. I say let's shoot it into space. Needless to say, our investors cut all funding for the time being. I should start looking for another job.
 
 book_lore.insanity_5.name=Torn Page
 book_lore.insanity_5.author=D Ferguson
-book_lore.insanity_5.page.1=September 11th $ $ I'm having this re-occurring nightmare. I'm walking around in an open space and there's these people everywhere, people in rubber suits and freakishly deformed faces. It's always the same nightmare,
-book_lore.insanity_5.page.2=and one of the guys from the lab I've spoken with lately has had the same dream. Meanwhile my post has been rather boring, the accelerator has been shut down, all ongoing projects are on halt and our budget is slowly melting away.
-book_lore.insanity_5.page.3=Something is telling me that The Thing is still out there somewhere. I can feel it.
+book_lore.insanity_5.page.0=September 11th $ $ I'm having this re-occurring nightmare. I'm walking around in an open space and there's these people everywhere, people in rubber suits and freakishly deformed faces. It's always the same nightmare,
+book_lore.insanity_5.page.1=and one of the guys from the lab I've spoken with lately has had the same dream. Meanwhile my post has been rather boring, the accelerator has been shut down, all ongoing projects are on halt and our budget is slowly melting away.
+book_lore.insanity_5.page.2=Something is telling me that The Thing is still out there somewhere. I can feel it.
 
 book_lore.insanity_6.name=Torn Page
 book_lore.insanity_6.author=D Ferguson
-book_lore.insanity_6.page.1=October 3rd $ $ Half the staff is dead, most of the rest is in the ICU. My condition hasn't changed in the past weeks, for better or worse.
-book_lore.insanity_6.page.2=Reality is starting to feel less and less real however. Sometimes I look up into the sky at night and hallucinate that thing we discovered all those weeks ago.
-book_lore.insanity_6.page.3=That same brilliant sheen of crimson that our spectrometer spat out. My doc says it's delirium and stress caused by the incident, and perhaps hes right, but the meds aren't working at all.
+book_lore.insanity_6.page.0=October 3rd $ $ Half the staff is dead, most of the rest is in the ICU. My condition hasn't changed in the past weeks, for better or worse.
+book_lore.insanity_6.page.1=Reality is starting to feel less and less real however. Sometimes I look up into the sky at night and hallucinate that thing we discovered all those weeks ago.
+book_lore.insanity_6.page.2=That same brilliant sheen of crimson that our spectrometer spat out. My doc says it's delirium and stress caused by the incident, and perhaps hes right, but the meds aren't working at all.
 
 book_lore.insanity_7.name=Torn Page
 book_lore.insanity_7.author=D Ferguson
-book_lore.insanity_7.page.1=December 12th $ $ I've been out of a job, but to be honest I'm somewhat thankful about it. My old workplace has gone up in flames - or so they say.
-book_lore.insanity_7.page.2=The seismological observatory a couple miles south recorded constant earthquakes for days on end, not that anyone else would have noticed this deep in the desert.
-book_lore.insanity_7.page.3=I have concluded that this place was cursed, making everyone sick and then descending into hell like some sort of Edgar Allan Poe story. Good riddance.
+book_lore.insanity_7.page.0=December 12th $ $ I've been out of a job, but to be honest I'm somewhat thankful about it. My old workplace has gone up in flames - or so they say.
+book_lore.insanity_7.page.1=The seismological observatory a couple miles south recorded constant earthquakes for days on end, not that anyone else would have noticed this deep in the desert.
+book_lore.insanity_7.page.2=I have concluded that this place was cursed, making everyone sick and then descending into hell like some sort of Edgar Allan Poe story. Good riddance.
 
 hbmfluid.none=Ничего
 hbmfluid.water=Вода
@@ -2140,6 +2140,8 @@ tile.watz_pump.name=Нагнетающая помпа Ватцза
 tile.machine_coker.name=Коксовая установка
 tile.machine_coker.desc=Коксует жидкость, создавая жидкую побочку.$Требует внешний источник тепла.$Скорость передачи тепла: ΔT*0.025 TU/t
 container.machineCoker=Коксовая установка
+container.machineCompressor=Компрессор
+tile.machine_compressor.name=Компрессор
 
 container.hadron=Ускоритель частиц
 tile.hadron_access.name=Терминал доступа ускорителя частиц
@@ -2263,6 +2265,7 @@ tile.machine_tower_large.name=Градирня
 tile.machine_tower_small.name=Вспомогательная градирня
 
 tile.fusion_conductor.name=Сверхпроводящий магнит
+tile.fusion_conductor_welded.name=Сверхпроводящий магнит (Сваренный)
 tile.fusion_center.name=Центральный элемент магнита
 tile.fusion_motor.name=Элемент магнитного мотора
 tile.fusion_heater.name=Компонент нагревателя плазмы
@@ -4478,6 +4481,14 @@ entity.entity_taint_crab.name=Заражённый порчей теслакра
 entity.entity_elder_one.name=Крякос Старший
 entity.entity_ntm_fbi.name=Агент ФБР
 entity.entity_ntm_radiation_blaze.name=Элементаль Расплавления
+entity.entity_glyphid.name=Глифид
+entity.entity_glyphid_behemoth.name=Глифид-страж
+entity.entity_glyphid_brawler.name=Глифид-солдат
+entity.entity_glyphid_brenda.name=Бренда
+entity.entity_glyphid_nuclear.name=Чмяк
+entity.entity_glyphid_scout.name=Глифид-паучок
+entity.entity_glyphid_blaster.name=Глифид-стрелок
+entity.entity_glyphid_bombardier.name=Глифид-бомбардир
 entity.hbm.entity_balls_o_tron.name=Баллс-О-Трон Прайм
 entity.hbm.entity_balls_o_tron_seg.name=Баллс-О-Трон Сегмент
 entity.hbm.entity_ntm_ufo.name=Марсианский корабль вторжения
@@ -5079,6 +5090,8 @@ tile.meteor_brick_chiseled.name=Высеченные метеоритные ки
 tile.meteor_pillar.name=Метеоритный столб
 tile.meteor_spawner.name=Сборщик киберкрабов
 tile.meteor_battery.name=Генератор статического электричества из звездного металла
+tile.glyphid_base.name=Блок улья глифидов
+tile.glyphid_spawner.name=Спавнер улья глифидов
 tile.ore_tektite_osmiridium.name=Перемешанный с осмиридием Тектит
 tile.tektite.name=Тектит
 
@@ -5239,6 +5252,7 @@ item.bottle2_fritz.name=Фрицз-Кола
 item.bottle2_korl_special.name=Первый Корл
 item.bottle2_fritz_special.name=Первая Фрицз-Кола
 item.bottle2_sunset.name=Сансет Сарсапарилла
+item.bdcl.name=BDCL
 item.chocolate_milk.name=Молочный шоколад
 item.cap_nuka.name=Крышка
 item.cap_quantum.name=Крышка от Квантовой Ядер-колы
@@ -5594,7 +5608,6 @@ item.crystal_energy.desc=Densely packed energy powder.$Not edible.
 item.custom_core.name=Nuclear Fission Core
 item.detonator_de.desc=Взрывается при падении!
 item.detonator_deadman.desc=Shift+ПКМ, чтобы задать позицию,$выбросите для детонации!
-item.euphemium_capacitor.name=Redcoil Capacitor with Euphemium Positive Energy Negator
 item.eye.desc.11=§c"All humans, are afraid of monsters, the monsters they keep inside of them.$§cThey drove the species who are able to expose the monsters in them down the$§cpurgatory underground. There, in the purgatory deep inside the earth where$§cpeople are made, he was born. He hated, and loved, the monster that is$§cforming inside of him more than anyone else. Together with his second$§cmother, he climbed up to the world where the people who have driven him into$§cthe underground live. However, at that time, it was too late. This world$§cabove ground is waiting for its slow death, same as the people who are$§ccontinue to stay there. This world, this surface, is the realm of the dead.$§cAnd this species called humans, they have built for themselves a world of$§ctwilight. There, he met a ghost called 'father'. His second mother, who has$§ccome to this netherworld with him, remained there, while he returned to the$§cpurgatory where he was born. That place, the place where he lives, that$§cpurgatory. That should be the last world of humans."§r
 item.eye.desc=It's looking at me despite being closed,$or rather, through me...$into my soul.$It makes me uncomfortable
 item.eye.name=Eye?
