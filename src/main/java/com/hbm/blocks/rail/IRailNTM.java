@@ -45,11 +45,13 @@ public interface IRailNTM {
 	/** A wrapper for additional information like stopping on rails and what type of check we're doing */
 	public static class MoveContext {
 		public RailCheckType type;
+		public double collisionBogieDistance;
 		public boolean collision = false; //if a buffer stop or similar applies
-		public double overshoot; //how much of the travel distance was cut shor
+		public double overshoot; //how much of the travel distance was cut short
 		
-		public MoveContext(RailCheckType type) {
+		public MoveContext(RailCheckType type, double collisionBogieDistance) {
 			this.type = type;
+			this.collisionBogieDistance = collisionBogieDistance;
 		}
 	}
 	

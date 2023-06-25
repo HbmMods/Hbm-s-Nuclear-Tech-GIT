@@ -1000,6 +1000,7 @@ item.ammo_grenade_toxic.name=40mm Granate (Chemisch)
 item.ammo_grenade_tracer.name=40mm Übungsgranate
 item.ammo_himars_standard.name=227mm gelenkte Artillerierakete
 item.ammo_himars_standard_he.name=227mm Artillerielenkrakete (HE)
+item.ammo_himars_standard_lava.name=227mm Artillerielenkrakete (Lava)
 item.ammo_himars_standard_mini_nuke.name=227mm Artillerielenkrakete (Miniatombombe)
 item.ammo_himars_standard_tb.name=227mm Artillerielenkrakete (Thermobarisch)
 item.ammo_himars_standard_wp.name=227mm Artillerielenkrakete (WP)

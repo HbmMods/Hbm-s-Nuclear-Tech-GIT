@@ -866,6 +866,14 @@ public class AssemblerRecipes {
 				new OreDictStack(OreDictManager.getReflector(), 12),
 				new ComparableStack(ModItems.circuit_copper, 12)
 			}, 100);
+		makeRecipe(new ComparableStack(ModItems.ammo_himars, 1, ItemAmmoHIMARS.SMALL_LAVA), new AStack[] {
+				new OreDictStack(STEEL.plate(), 24),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 12),
+				new ComparableStack(ModItems.rocket_fuel, 32),
+				new ComparableStack(ModItems.ball_tatb, 4),
+				new OreDictStack(VOLCANIC.gem(), 1),
+				new ComparableStack(ModItems.circuit_copper, 6)
+			}, 100);
 		makeRecipe(new ComparableStack(ModItems.ammo_himars, 1, ItemAmmoHIMARS.LARGE), new AStack[] {
 				new OreDictStack(STEEL.plate(), 24),
 				new OreDictStack(ANY_HARDPLASTIC.ingot(), 12),

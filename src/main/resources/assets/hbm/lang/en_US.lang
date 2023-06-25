@@ -1580,6 +1580,7 @@ item.ammo_grenade_toxic.name=40mm Grenade (Chemical)
 item.ammo_grenade_tracer.name=40mm Training Grenade
 item.ammo_himars_standard.name=227mm Guided Artillery Rocket Pod
 item.ammo_himars_standard_he.name=227mm Guided Artillery Rocket Pod (HE)
+item.ammo_himars_standard_lava.name=227mm Guided Artillery Rocket Pod (Lava)
 item.ammo_himars_standard_mini_nuke.name=227mm Guided Artillery Rocket Pod (Mini Nuke)
 item.ammo_himars_standard_tb.name=227mm Guided Artillery Rocket Pod (Thermobaric)
 item.ammo_himars_standard_wp.name=227mm Guided Artillery Rocket Pod (WP)
