@@ -386,6 +386,51 @@ book_lore.memo_schrab_nuke.page.0=Our most recent investigation led us to the ef
 book_lore.memo_schrab_nuke.page.1=Only our cyclotron has actually created saralloy previously. However, at our underground shot at Everwerpen, miniscule traces of saralloy were found in uranium ore at the site. All pure, metallic uranium nearby had fissioned.
 book_lore.memo_schrab_nuke.page.2=As such, given enough uranium ore concentrated around an explosive, or perhaps even a dirty bomb rich in waste containing fissionable material, one could hypothetically create enough saralloy to collect manually.
 
+book_lore.bf_bomb_1.name=Private Notes
+book_lore.bf_bomb_1.author=M. Porter
+book_lore.bf_bomb_1.page.0=Took long enough, but my transfer was accepted. Those new grads were already hard to handle, let alone all the unprofessionalism of the lead. $ Not all good news - this lab was withholding further detail, and I didn't need more chaos over another magic new discovery.
+book_lore.bf_bomb_1.page.1=Of course that was the case. The alumni had their doubts (surprising, considering how bright-eyed they were), but my only... competent? colleague actually got his hands on the primer hand-out. Must have more connections than I thought. His memo is discouraging:
+book_lore.bf_bomb_1.page.2=apparently, there's yet ANOTHER miracle material that they prodded out of some concoction of antimatter and a fringe isotope. The brochure calls it "SWIRLMAT" - hell if I know - and that's it. No wonder they wanted a theoretical physicist,
+book_lore.bf_bomb_1.page.3=they don't even know what it is yet. Either way, practically any job would be better than my old position, so I can't complain much about sketchiness.
+
+book_lore.bf_bomb_2.name=Private Notes
+book_lore.bf_bomb_2.author=M. Porter
+book_lore.bf_bomb_2.page.0=Despite the absence of information in that primer, I still had some hope they knew a bit more. Not at all. Every other senior researcher has a blind faith in this material; their propositions were practically biblical. I was near speechless.
+book_lore.bf_bomb_2.page.1=And yet I can't even blame them. Swirlmat makes no goddamn sense - it is completely unlike any other substance I've seen before. Its appearance was near frightening, a literal mass of swirling colors, with darker lines permeating through the neon green surface.
+book_lore.bf_bomb_2.page.2=Even worse, this thing is an energy source. The existence of our sample is a violation of ALARA: the lab was vacated when it arrived, and the only person brave enough (one Dr. Melfyn) donned a level A hazmat just to carry it 20 meters.
+book_lore.bf_bomb_2.page.3=The empirical data isn't better, as we're breaking the first law of thermodynamics with how much energy it radiates. Being anywhere near that thing - even behind a meter of lead - was terrifying. We sprinted out of the chamber upon conclusion of the spectroscopy
+book_lore.bf_bomb_2.page.4=and we got nothing new out of it. Those idiots in the science team, god, did not even waver after all that. Sitting through those "discussions" was horrible; that quack of a head researcher even rumored that the test ban would be lifted, that we could be
+book_lore.bf_bomb_2.page.5=building bombs out of the shit in the coming weeks, who in their right mind would work on that? Hell, the one sane assistant (an Andrew) nicknamed it "balefire" - because burning to death on a funeral pyre would be painless by comparison. 
+
+book_lore.bf_bomb_3.name=Private Notes
+book_lore.bf_bomb_3.author=M. Porter
+book_lore.bf_bomb_3.page.0=The team and I have made some breakthroughs. Emphasis on the separation - isolating myself from the more devout has made working there so much more bearable. While we still have no idea about the actual properties of balefire (it's difficult to analyze
+book_lore.bf_bomb_3.page.1=a sample that fries your equipment) its interactions with other matter has proved fruitful. Notably, they synthesized a "gaseous" form: Andrew, of all people, informed me that it was really a colloid consisting of microscopic balefire particles, suspended in some
+book_lore.bf_bomb_3.page.2=noble gas. Each particle is enveloped by a positively-charged 'bubble' of ionized gas, preventing it from settling. Who could've guessed that fatal gamma radiation had a benefit? Not me. $ I'm choosing not to think about how they transformed the sample into
+book_lore.bf_bomb_3.page.3=particulate, but I can't understate the utility of this gaseous balefire - it's made it much safer to experiment on. $ Speaking of safety, the head researcher (in an act of callous disregard) made a discovery that also nearly took his head off. 
+book_lore.bf_bomb_3.page.4=He decided to get "dirty" by letting a cell of our new colloid interact directly with some very expensive antimatter: the resulting explosion turned the table it was on into a piece of radiation-bleached slag, carved a near-perfect hemisphere through
+book_lore.bf_bomb_3.page.5=the top, and gave the head a healthy dose of ARS. I guess we know how to make it explode now, but god, some people...
+
+book_lore.bf_bomb_4.name=Private Notes
+book_lore.bf_bomb_4.author=M. Porter
+book_lore.bf_bomb_4.page.0=I just can't escape my old work. They're the only place that's hiring despite all this godforsaken turmoil, but I'm not going back into that hole. $ They only tempted me because I need out, fast. Remember that atmospheric testing treaty we withdrew from a week ago?
+book_lore.bf_bomb_4.page.1=Well, the dipshit in charge of our lab got something right for once. The denunciation came with a flurry of new "scientists" joining, just so we could weaponize balefire. The lack of critical thought here is honestly baffling - bless him, Andrew even jumped ship the
+book_lore.bf_bomb_4.page.2=second the first fucking BOMB DESIGN was drafted. That ass Melfyn looked so happy with his little mechanism - perhaps he got brainworms from carrying that sample? - which involved some stupid shit using the solidified, base balefire and an HV
+book_lore.bf_bomb_4.page.3=battery. $ Apparently, the form matters for energy output and activation method or whatever, kind of like uranium versus plutonium in regular nukes, but the end result is an initial shock starting the explosion. I find it funny, hilarious even.
+book_lore.bf_bomb_4.page.4=All of them place such emphasis on the activation; they ignore the actual mechanism of it all because they don't have a single clue how it works! It may as well be magic at this point, and yet they're still trying to twist and bend it - just for more weapons of war.
+
+book_lore.bf_bomb_5.name=Private Notes
+book_lore.bf_bomb_5.author=M. Porter
+book_lore.bf_bomb_5.page.0=I just... can't come to grips with it, even days after. It was a foregone conclusion, really, with how flippant the science team was with safety. $ $ Doctor Melfyn, M.S., is gone. Dead, maybe. I saw it happen before my own eyes, in their test chamber.
+book_lore.bf_bomb_5.page.1=We had just gotten another batch of pure balefire, and he had recovered electrical equipment and an energy source to test his proposal. I don't know what caused it (was the power on? had he begun too soon?), but it seemingly progressed in agonizingly slow motion,
+book_lore.bf_bomb_5.page.2=as the green-tinted light consumed the table, the battery, and Dr. Melfyn standing only a meter away. Even when the table had degraded into a pool of broiling metal on the floor, he did not burn. I don't know what I saw in his eyes... $ $ Terror, or awe
+book_lore.bf_bomb_5.page.3=over his continued survival, maybe? Whatever our "miracle" material was, it didn't care. With a bright blaze of light, he disappeared in the next moment. Was he evaporated? incinerated? annihilated? sent to fucking hell itself, I don't know anymore!
+book_lore.bf_bomb_5.page.4=The head researcher sickens me. Said we could be more careful, keep trucking, whatever other morale-improving filth he spewed. That dipshit won't ever figure out that playing with fire will get you burned. $ I didn't bother
+book_lore.bf_bomb_5.page.5=resigning, I just grabbed my shit and ran for the hills. Not like it matters, anyway; considering the lack of calls, and the mushroom cloud that rose over my (now former) workplace, they've either blown everything up or entered full-on military jurisdiction.
+book_lore.bf_bomb_5.page.6=There's a vital distinction to be made between dissection and VIVISECTION, one which was clearly lost on them. They can dissect metal or atoms as much as they like, but tearing into, vivisecting reality itself is only going to end in more Dr. Melfyns. Who knows!
+book_lore.bf_bomb_5.page.7=The government wants to put this shit into bombs after all, maybe we'll see a couple more wars, couple more million resigned to a fate worse than death. They can't hide this forever. $ $ I don't care. Not anymore. Please, god, let me go back
+book_lore.bf_bomb_5.page.8=to actual science. $ $ Goddamnit, Mae, get ahold of yourself...
+
 cannery.f1=[ Press F1 for help ]
 
 cannery.centrifuge=Gas Centrifuge
