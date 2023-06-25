@@ -1506,6 +1506,7 @@ chem.TATB=Синтез TATB
 chem.CC_CENTRIFUGE=Отделение хлоркальцита
 chem.CC_ELECTROLYSIS=Электролиз хлорида кальция
 chem.PC_ELECTROLYSIS=Электролиз хлорида калия
+chem.LAMINATE=Производство ламината
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -2065,6 +2066,7 @@ item.ammo_himars_standard_he.name=227-мм управляемый артилле
 item.ammo_himars_standard_mini_nuke.name=227-мм управляемый артиллерийский ракетный снаряд (Мини-ядерный)
 item.ammo_himars_standard_tb.name=227-мм управляемый артиллерийский ракетный снаряд (Термобарический)
 item.ammo_himars_standard_wp.name=227-мм управляемый артиллерийский ракетный снаряд (БФ)
+item.ammo_himars_standard_lava.name=227-мм управляемый артиллерийский ракетный снаряд (Лава)
 item.ammo_himars_single.name=610-мм управляемый артиллерийский ракетный снаряд
 item.ammo_himars_single_tb.name=610-мм управляемый артиллерийский ракетный снаряд (Термобарический)
 tile.brick_asbestos_stairs.name=Ступени из асбестовых кирпичей
