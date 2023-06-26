@@ -434,7 +434,7 @@ public class HbmChestContents {
 			key = "bf_bomb_3"; pages = 6; break;
 		case 8:
 			key = "bf_bomb_4"; pages = 5; break;
-		case 10:
+		case 9:
 			key = "bf_bomb_5"; pages = 9; break;
 		default:
 			return null;
