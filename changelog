@@ -43,6 +43,7 @@
 * Leaded fuels now release heavy metal into the air, heavy metal can cause lead poisoning
   * Lower heavy metal concentrations can also cause heavy metal poisoning when breaking blocks
 * Gas artillery shell now create heavy metal and poisonous pollution
+* FBI agents will now target the player from a much larger distance
 
 ## Fixed
 * Fixed potential crash or logspam regarding the pollution handler
