@@ -86,4 +86,6 @@ public class ServerProxy {
 	public boolean getImpact(World world) {
 		return TomSaveData.forWorld(world).impact;
 	}
+	
+	public void playSoundFuckMojang(double x, double y, double z, String sound, float volume, float pitch) { }
 }
