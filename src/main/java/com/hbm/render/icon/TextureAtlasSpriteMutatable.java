@@ -52,7 +52,8 @@ public class TextureAtlasSpriteMutatable extends TextureAtlasSprite {
 		if(mutator != null) {
 			for(int i = 0; i < frames.length; i++) {
 				BufferedImage frame = frames[i];
-				mutator.mutate(frame, i, frames.length);
+				
+				if(frame != null) mutator.mutate(frame, i, frames.length);
 			}
 		}
 		

@@ -171,7 +171,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	
 	@Override
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 2.0F, 100F, 1.0F);
 	}
 	
     public void onChunkUnload() {

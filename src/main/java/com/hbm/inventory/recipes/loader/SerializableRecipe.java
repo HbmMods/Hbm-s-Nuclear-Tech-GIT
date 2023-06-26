@@ -60,6 +60,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new FuelPoolRecipes());
 		recipeHandlers.add(new MixerRecipes());
 		recipeHandlers.add(new OutgasserRecipes());
+		recipeHandlers.add(new CompressorRecipes());
 		recipeHandlers.add(new MatDistribution());
 	}
 	
@@ -266,7 +267,8 @@ public abstract class SerializableRecipe {
 		try {
 			FluidType type = Fluids.fromName(array.get(0).getAsString());
 			int fill = array.get(1).getAsInt();
-			return new FluidStack(type, fill);
+			int pressure = array.size() < 3 ? 0 : array.get(2).getAsInt();
+			return new FluidStack(type, fill, pressure);
 		} catch(Exception ex) { }
 		MainRegistry.logger.error("Error reading fluid array " + array.toString());
 		return new FluidStack(Fluids.NONE, 0);
@@ -287,6 +289,7 @@ public abstract class SerializableRecipe {
 		writer.setIndent("");
 		writer.value(stack.type.getName());	//fluid type
 		writer.value(stack.fill);			//amount in mB
+		if(stack.pressure != 0) writer.value(stack.pressure);
 		writer.endArray();
 		writer.setIndent("  ");
 	}

@@ -47,13 +47,17 @@ public class TrainCargoTram extends EntityRailCarElectric implements IGUIProvide
 	@Override public double getPassivBrake() { return 0.95; }
 	@Override public boolean shouldUseEngineBrake(EntityPlayer player) { return Math.abs(this.engineSpeed) < 0.1; }
 	@Override public double getMaxPoweredSpeed() { return 0.5; }
+	@Override public double getMaxRailSpeed() { return 1; }
 
 	@Override public TrackGauge getGauge() { return TrackGauge.STANDARD; }
 	@Override public double getLengthSpan() { return 1.5; }
-	@Override public Vec3 getRiderSeatPosition() { return Vec3.createVectorHelper(0.375, 2.25, 0.5); }
+	@Override public double getCollisionSpan() { return 2.5; }
+	@Override public Vec3 getRiderSeatPosition() { return Vec3.createVectorHelper(0.375, 2.375, 0.5); }
 	@Override public boolean shouldRiderSit() { return false; }
 	@Override public int getSizeInventory() { return 29; }
 	@Override public String getInventoryName() { return this.hasCustomInventoryName() ? this.getEntityName() : "container.trainTram"; }
+	//@Override public AxisAlignedBB getCollisionBox() { return AxisAlignedBB.getBoundingBox(renderX, renderY, renderZ, renderX, renderY + 1, renderZ).expand(4, 0, 4); }
+	@Override public double getCouplingDist(TrainCoupling coupling) { return coupling != null ? 2.75 : 0; }
 
 	@Override public int getMaxPower() { return this.getPowerConsumption() * 100; }
 	@Override public int getPowerConsumption() { return 10; }

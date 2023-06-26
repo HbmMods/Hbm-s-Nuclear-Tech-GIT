@@ -16,6 +16,7 @@ import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Viscous;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EntityDamageUtil;
@@ -101,10 +102,21 @@ public class EntityMist extends Entity {
 		} else {
 			
 			for(int i = 0; i < 2; i++) {
-				double x = this.boundingBox.minX + rand.nextDouble() * (this.boundingBox.maxX - this.boundingBox.minX);
+				double x = this.boundingBox.minX + (rand.nextDouble() - 0.5) * (this.boundingBox.maxX - this.boundingBox.minX);
 				double y = this.boundingBox.minY + rand.nextDouble() * (this.boundingBox.maxY - this.boundingBox.minY);
-				double z = this.boundingBox.minZ + rand.nextDouble() * (this.boundingBox.maxZ - this.boundingBox.minZ);
-				worldObj.spawnParticle("cloud", x, y, z, 0, 0, 0);
+				double z = this.boundingBox.minZ + (rand.nextDouble() - 0.5) * (this.boundingBox.maxZ - this.boundingBox.minZ);
+				
+				NBTTagCompound fx = new NBTTagCompound();
+				fx.setString("type", "tower");
+				fx.setFloat("lift", 0.5F);
+				fx.setFloat("base", 0.75F);
+				fx.setFloat("max", 2F);
+				fx.setInteger("life", 50 + worldObj.rand.nextInt(10));
+				fx.setInteger("color",this.getType().getColor());
+				fx.setDouble("posX", x);
+				fx.setDouble("posY", y);
+				fx.setDouble("posZ", z);
+				MainRegistry.proxy.effectNT(fx);
 			}
 		}
 	}
@@ -192,17 +204,26 @@ public class EntityMist extends Entity {
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		this.setType(Fluids.fromID(nbt.getInteger("type")));
+		this.setArea(nbt.getFloat("width"), nbt.getFloat("height"));
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
 		nbt.setInteger("type", this.getType().getID());
+		nbt.setFloat("width", this.dataWatcher.getWatchableObjectFloat(11));
+		nbt.setFloat("height", this.dataWatcher.getWatchableObjectFloat(12));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean canRenderOnFire() {
 		return false;
+	}
+
+	@Override public void moveEntity(double x, double y, double z) { }
+	@Override public void addVelocity(double x, double y, double z) { }
+	@Override public void setPosition(double x, double y, double z) {
+		if(this.ticksExisted == 0) super.setPosition(x, y, z); //honest to fucking god mojang suck my fucking nuts
 	}
 	
 	public static SprayStyle getStyleFromType(FluidType type) {

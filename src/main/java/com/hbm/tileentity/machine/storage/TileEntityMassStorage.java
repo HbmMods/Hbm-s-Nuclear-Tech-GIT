@@ -21,6 +21,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 	private int stack = 0;
 	public boolean output = false;
 	private int capacity;
+	public int redstone = 0;
 	
 	@SideOnly(Side.CLIENT) public ItemStack type;
 	
@@ -42,6 +43,13 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			int newRed = this.getStockpile() * 15 / this.capacity;
+			
+			if(newRed != this.redstone) {
+				this.redstone = newRed;
+				this.markDirty();
+			}
 			
 			if(slots[0] != null && slots[0].getItem() == ModItems.fluid_barrel_infinite) {
 				this.stack = this.getCapacity();
@@ -132,6 +140,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 		this.stack = nbt.getInteger("stack");
 		this.output = nbt.getBoolean("output");
 		this.capacity = nbt.getInteger("capacity");
+		this.redstone = nbt.getByte("redstone");
 		
 		if(this.capacity <= 0) {
 			this.capacity = 10_000;
@@ -144,6 +153,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 		nbt.setInteger("stack", stack);
 		nbt.setBoolean("output", output);
 		nbt.setInteger("capacity", capacity);
+		nbt.setByte("redstone", (byte) redstone);
 	}
 
 	@Override

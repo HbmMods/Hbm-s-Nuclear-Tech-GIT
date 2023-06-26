@@ -19,15 +19,17 @@ public abstract class EntityRailCarElectric extends EntityRailCarRidable {
 	public int getChargeSlot() { return 0; }
 	
 	@Override protected void entityInit() {
+		super.entityInit();
 		this.dataWatcher.addObject(3, new Integer(0));
 	}
 	
 	@Override public boolean canAccelerate() {
-		return this.getPower() >= this.getPowerConsumption();
+		return true;
+		//return this.getPower() >= this.getPowerConsumption();
 	}
 	
 	@Override public void consumeFuel() {
-		this.setPower(this.getPower() - this.getPowerConsumption());
+		//this.setPower(this.getPower() - this.getPowerConsumption());
 	}
 	
 	public void setPower(int power) {

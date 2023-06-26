@@ -400,7 +400,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getLevel(Context context, Arguments args) {
-		return new Object[] {level};
+		return new Object[] {level * 100};
 	}
 
 	@Callback

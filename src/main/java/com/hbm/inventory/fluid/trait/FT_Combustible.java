@@ -1,7 +1,10 @@
 package com.hbm.inventory.fluid.trait;
 
+import java.io.IOException;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.util.BobMathUtil;
 
 import net.minecraft.util.EnumChatFormatting;
@@ -10,6 +13,8 @@ public class FT_Combustible extends FluidTrait {
 	
 	protected FuelGrade fuelGrade;
 	protected long combustionEnergy;
+	
+	public FT_Combustible() { }
 	
 	public FT_Combustible(FuelGrade grade, long energy) {
 		this.fuelGrade = grade;
@@ -52,5 +57,17 @@ public class FT_Combustible extends FluidTrait {
 		public String getGrade() {
 			return this.grade;
 		}
+	}
+
+	@Override
+	public void serializeJSON(JsonWriter writer) throws IOException {
+		writer.name("energy").value(combustionEnergy);
+		writer.name("grade").value(fuelGrade.name());
+	}
+	
+	@Override
+	public void deserializeJSON(JsonObject obj) {
+		this.combustionEnergy = obj.get("energy").getAsLong();
+		this.fuelGrade = FuelGrade.valueOf(obj.get("grade").getAsString());
 	}
 }

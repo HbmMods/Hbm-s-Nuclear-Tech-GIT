@@ -1,6 +1,10 @@
 package com.hbm.entity.train;
 
-import com.hbm.util.BobMathUtil;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hbm.blocks.ILookOverlay;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -10,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 	
@@ -77,12 +82,40 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 	@Override
 	public boolean interactFirst(EntityPlayer player) {
 		
+		if(super.interactFirst(player)) return true;
 		if(worldObj.isRemote) return true;
 		
+		int nearestSeat = this.getNearestSeat(player);
+		
+		if(nearestSeat == -1) {
+			player.mountEntity(this);
+		} else if(nearestSeat >= 0) {
+			SeatDummyEntity dummySeat = new SeatDummyEntity(worldObj, this, nearestSeat);
+			Vec3 passengerSeat = this.getPassengerSeats()[nearestSeat];
+			passengerSeat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
+			double x = renderX + passengerSeat.xCoord;
+			double y = renderY + passengerSeat.yCoord;
+			double z = renderZ + passengerSeat.zCoord;
+			dummySeat.setPosition(x, y - 1, z);
+			passengerSeats[nearestSeat] = dummySeat;
+			worldObj.spawnEntityInWorld(dummySeat);
+			player.mountEntity(dummySeat);
+		}
+
+		return true;
+	}
+	
+	public int getNearestSeat(EntityPlayer player) {
+		
 		double nearestDist = Double.POSITIVE_INFINITY;
-		int nearestSeat = -1;
+		int nearestSeat = -3;
 		
 		Vec3[] seats = getPassengerSeats();
+		Vec3 look = player.getLook(2);
+		look.xCoord += player.posX;
+		look.yCoord += player.posY + player.eyeHeight - player.yOffset;
+		look.zCoord += player.posZ;
+		
 		for(int i = 0; i < seats.length; i++) {
 			
 			Vec3 seat = seats[i];
@@ -90,14 +123,12 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 			if(passengerSeats[i] != null) continue;
 			
 			seat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
-			double x = posX + seat.xCoord;
-			double z = posZ + seat.zCoord;
+			double x = renderX + seat.xCoord;
+			double y = renderY + seat.yCoord;
+			double z = renderZ + seat.zCoord;
 
-			double deltaX = player.posX - x;
-			double deltaZ = player.posZ - z;
-			double radians = -Math.atan2(deltaX, deltaZ);
-			double degrees = MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI - 90);
-			double dist = Math.abs(BobMathUtil.angularDifference(degrees, player.rotationYaw));
+			Vec3 delta = Vec3.createVectorHelper(look.xCoord - x, look.yCoord - y, look.zCoord - z);
+			double dist = delta.lengthVector();
 			
 			if(dist < nearestDist) {
 				nearestDist = dist;
@@ -108,14 +139,12 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 		if(this.riddenByEntity == null) {
 			Vec3 seat = getRiderSeatPosition();
 			seat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
-			double x = posX + seat.xCoord;
-			double z = posZ + seat.zCoord;
+			double x = renderX + seat.xCoord;
+			double y = renderY + seat.yCoord;
+			double z = renderZ + seat.zCoord;
 
-			double deltaX = player.posX - x;
-			double deltaZ = player.posZ - z;
-			double radians = -Math.atan2(deltaX, deltaZ);
-			double degrees = MathHelper.wrapAngleTo180_double(radians * 180D / Math.PI - 90);
-			double dist = Math.abs(BobMathUtil.angularDifference(degrees, player.rotationYaw));
+			Vec3 delta = Vec3.createVectorHelper(look.xCoord - x, look.yCoord - y, look.zCoord - z);
+			double dist = delta.lengthVector();
 	
 			if(dist < nearestDist) {
 				nearestDist = dist;
@@ -123,24 +152,9 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 			}
 		}
 		
-		if(nearestDist > 180) return true;
+		if(nearestDist > 180) return -2;
 		
-		if(nearestSeat == -1) {
-			player.mountEntity(this);
-		} else {
-			SeatDummyEntity dummySeat = new SeatDummyEntity(worldObj, this);
-			Vec3 passengerSeat = this.getPassengerSeats()[nearestSeat];
-			passengerSeat.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
-			double x = posX + passengerSeat.xCoord;
-			double y = posY + passengerSeat.yCoord;
-			double z = posZ + passengerSeat.zCoord;
-			dummySeat.setPosition(x, y - 1, z);
-			passengerSeats[nearestSeat] = dummySeat;
-			worldObj.spawnEntityInWorld(dummySeat);
-			player.mountEntity(dummySeat);
-		}
-
-		return true;
+		return nearestSeat;
 	}
 	
 	@Override
@@ -159,10 +173,11 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 						seat.setDead();
 					} else {
 						Vec3 rot = seats[i];
+						rot.rotateAroundX((float) (this.rotationPitch * Math.PI / 180));
 						rot.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
-						double x = posX + rot.xCoord;
-						double y = posY + rot.yCoord;
-						double z = posZ + rot.zCoord;
+						double x = renderX + rot.xCoord;
+						double y = renderY + rot.yCoord;
+						double z = renderZ + rot.zCoord;
 						seat.setPosition(x, y - 1, z);
 					}
 				}
@@ -174,10 +189,11 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 	public void updateRiderPosition() {
 		
 		Vec3 offset = getRiderSeatPosition();
+		offset.rotateAroundX((float) (this.rotationPitch * Math.PI / 180));
 		offset.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
 		
 		if(this.riddenByEntity != null) {
-			this.riddenByEntity.setPosition(this.posX + offset.xCoord, this.posY + offset.yCoord, this.posZ + offset.zCoord);
+			this.riddenByEntity.setPosition(this.renderX + offset.xCoord, this.renderY + offset.yCoord, this.renderZ + offset.zCoord);
 		}
 	}
 
@@ -193,16 +209,17 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 		private double trainX;
 		private double trainY;
 		private double trainZ;
-		public EntityRailCarBase train;
+		public EntityRailCarRidable train;
 
 		public SeatDummyEntity(World world) { super(world); this.setSize(0.5F, 0.1F);}
-		public SeatDummyEntity(World world, EntityRailCarBase train) {
+		public SeatDummyEntity(World world, EntityRailCarRidable train, int index) {
 			this(world);
 			this.train = train;
 			if(train != null) this.dataWatcher.updateObject(3, train.getEntityId());
+			this.dataWatcher.updateObject(4, index);
 		}
 		
-		@Override protected void entityInit() { this.dataWatcher.addObject(3, new Integer(0)); }
+		@Override protected void entityInit() { this.dataWatcher.addObject(3, new Integer(0)); this.dataWatcher.addObject(4, new Integer(0)); }
 		@Override protected void writeEntityToNBT(NBTTagCompound nbt) { }
 		@Override public boolean writeToNBTOptional(NBTTagCompound nbt) { return false; }
 		@Override public void readEntityFromNBT(NBTTagCompound nbt) { this.setDead(); }
@@ -237,8 +254,43 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 		@Override
 		public void updateRiderPosition() {
 			if(this.riddenByEntity != null) {
-				this.riddenByEntity.setPosition(this.posX, this.posY + 1, this.posZ);
+				
+				if(train == null) {
+					int eid = this.dataWatcher.getWatchableObjectInt(3);
+					Entity entity = worldObj.getEntityByID(eid);
+					if(entity instanceof EntityRailCarRidable) {
+						train = (EntityRailCarRidable) entity;
+					}
+				}
+				
+				//fallback for when train is null
+				if(train == null) {
+					this.riddenByEntity.setPosition(posX, posY + 1, posZ);
+					return;
+				}
+				
+				//doing it like this instead of with the position directly removes any discrepancies caused by entity tick order
+				//mmhmhmhm silky smooth
+				int index = this.dataWatcher.getWatchableObjectInt(4);
+				Vec3 rot = this.train.getPassengerSeats()[index];
+				rot.rotateAroundX((float) (train.rotationPitch * Math.PI / 180));
+				rot.rotateAroundY((float) (-train.rotationYaw * Math.PI / 180));
+				double x = train.renderX + rot.xCoord;
+				double y = train.renderY + rot.yCoord;
+				double z = train.renderZ + rot.zCoord;
+				this.riddenByEntity.setPosition(x, y, z);
 			}
 		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
+		List<String> text = new ArrayList();
+		/*text.add("LTU: " + this.ltu);
+		text.add("Front: " + this.coupledFront);
+		text.add("Back: " + this.coupledBack);*/
+		text.add("Nearest seat: " + this.getNearestSeat(MainRegistry.proxy.me()));
+		ILookOverlay.printGeneric(event, this.getClass().getSimpleName() + " " + this.hashCode(), 0xffff00, 0x404000, text);
 	}
 }

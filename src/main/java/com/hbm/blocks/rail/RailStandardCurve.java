@@ -4,6 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -24,9 +25,11 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 		return null;
 	}
 
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
+
 	@Override
 	public int getRenderType() {
-		return 0;
+		return renderID;
 	}
 
 	@Override
@@ -35,7 +38,7 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 	}
 
 	@Override
-	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info) {
+	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info, MoveContext context) {
 		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, motionX, motionY, motionZ, speed, info);
 	}
 	
@@ -49,12 +52,13 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 		int meta = world.getBlockMetadata(cX, cY, cZ) - this.offset;
 		ForgeDirection dir = ForgeDirection.getOrientation(meta);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
-		double turnRadius = 4.5D;
+
+		double turnRadius = 4D;
+		double axisDist = 4.5D;
 
 		Vec3 vec = Vec3.createVectorHelper(trainX, trainY, trainZ);
-		double axisX = cX + 0.5  + dir.offsetX * 0.5 + rot.offsetX * turnRadius;
-		double axisZ = cZ + 0.5  + dir.offsetZ * 0.5 + rot.offsetZ * turnRadius;
+		double axisX = cX + 0.5  + dir.offsetX * 0.5 + rot.offsetX * axisDist;
+		double axisZ = cZ + 0.5  + dir.offsetZ * 0.5 + rot.offsetZ * axisDist;
 		
 		Vec3 dist = Vec3.createVectorHelper(vec.xCoord - axisX, 0, vec.zCoord - axisZ);
 		dist = dist.normalize();
@@ -96,7 +100,7 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 			moveAngle -= angleOvershoot;
 			double lengthOvershoot = angleOvershoot * length90Deg / 90D;
 			info.dist(lengthOvershoot * Math.signum(speed * angularChange)).pos(new BlockPos(cX - dir.offsetX * 4 + rot.offsetX * 5, y, cZ - dir.offsetZ * 4 + rot.offsetZ * 5)).yaw((float) moveAngle);
-			return Vec3.createVectorHelper(axisX - dir.offsetX * turnRadius, y, axisZ - dir.offsetZ * turnRadius);
+			return Vec3.createVectorHelper(axisX - dir.offsetX * turnRadius, y + 0.1875, axisZ - dir.offsetZ * turnRadius);
 		}
 		
 		if(effAngle < 0) {
@@ -104,13 +108,13 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 			moveAngle -= angleOvershoot;
 			double lengthOvershoot = angleOvershoot * length90Deg / 90D;
 			info.dist(-lengthOvershoot * Math.signum(speed * angularChange)).pos(new BlockPos(cX + dir.offsetX , y, cZ + dir.offsetZ)).yaw((float) moveAngle);
-			return Vec3.createVectorHelper(axisX - rot.offsetX * turnRadius, y, axisZ -rot.offsetZ * turnRadius);
+			return Vec3.createVectorHelper(axisX - rot.offsetX * turnRadius, y + 0.1875, axisZ -rot.offsetZ * turnRadius);
 		}
 		
 		double radianChange = angularChange * Math.PI / 180D;
 		dist.rotateAroundY((float) radianChange);
 		
-		return Vec3.createVectorHelper(axisX + dist.xCoord, y, axisZ + dist.zCoord);
+		return Vec3.createVectorHelper(axisX + dist.xCoord, y + 0.1875, axisZ + dist.zCoord);
 	}
 
 	@Override
@@ -137,5 +141,61 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		this.setBlockBounds(0F, 0F, 0F, 1F, 0.125F, 1F);
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
+
+	@Override
+	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		dir = dir.getOpposite();
+
+		int dX = dir.offsetX;
+		int dZ = dir.offsetZ;
+		int rX = rot.offsetX;
+		int rZ = rot.offsetZ;
+		
+		return world.getBlock(x + dX, y, z + dZ).isReplaceable(world, x + dX, y, z + dZ) &&
+				world.getBlock(x + rX, y, z + rZ).isReplaceable(world, x + rX, y, z + rZ) &&
+				world.getBlock(x + dX + rX, y, z + dZ + rZ).isReplaceable(world, x + dX + rX, y, z + dZ + rZ) &&
+				world.getBlock(x + dX + rX * 2, y, z + dZ + rZ * 2).isReplaceable(world, x + dX + rX * 2, y, z + dZ + rZ * 2) &&
+				world.getBlock(x + dX * 2 + rX, y, z + dZ * 2 + rZ).isReplaceable(world, x + dX * 2 + rX, y, z + dZ * 2 + rZ) &&
+				world.getBlock(x + dX * 2 + rX * 2, y, z + dZ * 2 + rZ * 2).isReplaceable(world, x + dX * 2 + rX * 2, y, z + dZ * 2 + rZ * 2) &&
+				world.getBlock(x + dX * 3 + rX, y, z + dZ * 3 + rZ).isReplaceable(world, x + dX * 3 + rX, y, z + dZ * 3 + rZ) &&
+				world.getBlock(x + dX * 3 + rX * 2, y, z + dZ * 3 + rZ * 2).isReplaceable(world, x + dX * 3 + rX * 2, y, z + dZ * 3 + rZ * 2) &&
+				world.getBlock(x + dX * 2 + rX * 3, y, z + dZ * 2 + rZ * 3).isReplaceable(world, x + dX * 2 + rX * 3, y, z + dZ * 2 + rZ * 3) &&
+				world.getBlock(x + dX * 3 + rX * 3, y, z + dZ * 3 + rZ * 3).isReplaceable(world, x + dX * 3 + rX * 3, y, z + dZ * 3 + rZ * 3) &&
+				world.getBlock(x + dX * 4 + rX * 3, y, z + dZ * 4 + rZ * 3).isReplaceable(world, x + dX * 4 + rX * 3, y, z + dZ * 4 + rZ * 3) &&
+				world.getBlock(x + dX * 3 + rX * 4, y, z + dZ * 3 + rZ * 4).isReplaceable(world, x + dX * 3 + rX * 4, y, z + dZ * 3 + rZ * 4) &&
+				world.getBlock(x + dX * 4 + rX * 4, y, z + dZ * 4 + rZ * 4).isReplaceable(world, x + dX * 4 + rX * 4, y, z + dZ * 4 + rZ * 4);
+	}
+
+	@Override
+	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		
+		BlockDummyable.safeRem = true;
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		dir = dir.getOpposite();
+
+		int dX = dir.offsetX;
+		int dZ = dir.offsetZ;
+		int rX = rot.offsetX;
+		int rZ = rot.offsetZ;
+		
+		world.setBlock(x + dX, y, z + dZ, this, dir.ordinal(), 3);
+		world.setBlock(x + rX, y, z + rZ, this, rot.ordinal(), 3);
+		world.setBlock(x + dX + rX, y, z + dZ + rZ, this, rot.ordinal(), 3);
+		world.setBlock(x + dX + rX * 2, y, z + dZ + rZ * 2, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 2 + rX, y, z + dZ * 2 + rZ, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 2 + rX * 2, y, z + dZ * 2 + rZ * 2, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 3 + rX, y, z + dZ * 3 + rZ, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 3 + rX * 2, y, z + dZ * 3 + rZ * 2, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 2 + rX * 3, y, z + dZ * 2 + rZ * 3, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 3 + rX * 3, y, z + dZ * 3 + rZ * 3, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 4 + rX * 3, y, z + dZ * 4 + rZ * 3, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 3 + rX * 4, y, z + dZ * 3 + rZ * 4, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 4 + rX * 4, y, z + dZ * 4 + rZ * 4, this, rot.ordinal(), 3);
+		
+		BlockDummyable.safeRem = false;
 	}
 }

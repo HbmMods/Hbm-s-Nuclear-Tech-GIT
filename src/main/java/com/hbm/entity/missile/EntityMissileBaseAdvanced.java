@@ -48,46 +48,36 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 		targetZ = (int) posZ;
 	}
 	
-    public boolean canBeCollidedWith()
-    {
-        return true;
-    }
-    
-    public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_)
-    {
-        if (this.isEntityInvulnerable())
-        {
-            return false;
-        }
-        else
-        {
-            if (!this.isDead && !this.worldObj.isRemote)
-            {
-            	health -= p_70097_2_;
-            	
-                if (this.health <= 0)
-                {
-                    this.setDead();
-                    this.killMissile();
-                }
-            }
+	public boolean canBeCollidedWith() {
+		return true;
+	}
 
-            return true;
-        }
-    }
-    
-    private void killMissile() {
-        ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
-        ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
-        ExplosionLarge.spawnMissileDebris(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 0.25, getDebris(), getDebrisRareDrop());
-    }
+	public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_) {
+		if(this.isEntityInvulnerable()) {
+			return false;
+		} else {
+			if(!this.isDead && !this.worldObj.isRemote) {
+				health -= p_70097_2_;
+
+				if(this.health <= 0) {
+					this.setDead();
+					this.killMissile();
+				}
+			}
+
+			return true;
+		}
+	}
+
+	private void killMissile() {
+		ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
+		ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
+		ExplosionLarge.spawnMissileDebris(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 0.25, getDebris(), getDebrisRareDrop());
+	}
 
 	public EntityMissileBaseAdvanced(World world, float x, float y, float z, int a, int b) {
 		super(world);
 		this.ignoreFrustumCheck = true;
-		/*this.posX = x;
-		this.posY = y;
-		this.posZ = z;*/
 		this.setLocationAndAngles(x, y, z, 0, 0);
 		startX = (int) x;
 		startZ = (int) z;
@@ -95,19 +85,19 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 		targetZ = b;
 		this.motionY = 2;
 		
-        Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
-		accelXZ = decelY = 1/vector.lengthVector();
+		Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
+		accelXZ = decelY = 1 / vector.lengthVector();
 		decelY *= 2;
-		
+
 		velocity = 1;
 
-        this.setSize(1.5F, 1.5F);
+		this.setSize(1.5F, 1.5F);
 	}
 
 	@Override
 	protected void entityInit() {
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
-        this.dataWatcher.addObject(8, Integer.valueOf(this.health));
+		this.dataWatcher.addObject(8, Integer.valueOf(this.health));
 	}
 
 	@Override
@@ -212,7 +202,6 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	        }
 	
 			if(!this.worldObj.isRemote)
-				//this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(posX, posY, posZ, 2),
 						new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 300));
 	        
@@ -220,30 +209,28 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
         			this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.water && 
         			this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.flowing_water) {
         	
-    			if(!this.worldObj.isRemote)
-    			{
-    				onImpact();
-    			}
-    			this.setDead();
-    			return;
-        	}
-	        
-	        loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
-        
-        	if(motionY < -1 && this.isCluster && !worldObj.isRemote) {
-        		cluster();
-    			this.setDead();
-    			return;
-        	}
+				if(!this.worldObj.isRemote) {
+					onImpact();
+				}
+				this.killAndClear();
+				return;
+			}
+
+			loadNeighboringChunks((int) (posX / 16), (int) (posZ / 16));
+
+			if(motionY < -1 && this.isCluster && !worldObj.isRemote) {
+				cluster();
+				this.setDead();
+				return;
+			}
 		}
-    }
+	}
 	
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public boolean isInRangeToRenderDist(double distance)
-    {
-        return distance < 500000;
-    }
+	public boolean isInRangeToRenderDist(double distance) {
+		return true;
+	}
 
 	public abstract void onImpact();
 
@@ -272,30 +259,31 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 
 	List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
 
-    public void loadNeighboringChunks(int newChunkX, int newChunkZ)
-    {
-        if(!worldObj.isRemote && loaderTicket != null)
-        {
-            for(ChunkCoordIntPair chunk : loadedChunks)
-            {
-                ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-            }
+	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
+		if(!worldObj.isRemote && loaderTicket != null) {
+			
+			clearChunkLoader();
 
-            loadedChunks.clear();
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
-            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ - 1));
+			loadedChunks.clear();
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX + (int) Math.ceil((this.posX + this.motionX) / 16D), newChunkZ + (int) Math.ceil((this.posZ + this.motionZ) / 16D)));
 
-            for(ChunkCoordIntPair chunk : loadedChunks)
-            {
-                ForgeChunkManager.forceChunk(loaderTicket, chunk);
-            }
-        }
-    }
+			for(ChunkCoordIntPair chunk : loadedChunks) {
+				ForgeChunkManager.forceChunk(loaderTicket, chunk);
+			}
+		}
+	}
+	
+	public void killAndClear() {
+		this.setDead();
+		this.clearChunkLoader();
+	}
+	
+	public void clearChunkLoader() {
+		if(!worldObj.isRemote && loaderTicket != null) {
+			for(ChunkCoordIntPair chunk : loadedChunks) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
+		}
+	}
 }

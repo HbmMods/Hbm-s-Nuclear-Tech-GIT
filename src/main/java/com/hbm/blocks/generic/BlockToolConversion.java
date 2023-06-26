@@ -8,9 +8,11 @@ import java.util.Map.Entry;
 import com.hbm.blocks.BlockMulti;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.InventoryUtil;
@@ -150,6 +152,7 @@ public class BlockToolConversion extends BlockMulti implements IToolable, ILookO
 	
 	public static void registerRecipes() {
 		conversions.put(new Pair(ToolType.BOLT, new MetaBlock(ModBlocks.watz_end, 0)), new Pair(new AStack[] {new ComparableStack(ModItems.bolt_dura_steel, 4)}, new MetaBlock(ModBlocks.watz_end, 1)));
+		conversions.put(new Pair(ToolType.TORCH, new MetaBlock(ModBlocks.fusion_conductor, 0)), new Pair(new AStack[] {new OreDictStack(OreDictManager.STEEL.plateCast())}, new MetaBlock(ModBlocks.fusion_conductor, 1)));
 	}
 
 	public static HashMap<Object[], Object> bufferedRecipes = new HashMap();

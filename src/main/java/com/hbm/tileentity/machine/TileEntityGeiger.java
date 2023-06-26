@@ -4,9 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityGeiger extends TileEntity {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityGeiger extends TileEntity implements SimpleComponent {
 	
 	int timer = 0;
 	int ticker = 0;
@@ -56,6 +62,16 @@ public class TileEntityGeiger extends TileEntity {
 	public int check() {
 		int rads = (int)Math.ceil(ChunkRadiationManager.proxy.getRadiation(worldObj, xCoord, yCoord, zCoord));
 		return rads;
+	}
+	@Override
+	public String getComponentName() {
+		return "ntm_geiger";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getRads(Context context, Arguments args) {
+		return new Object[] {check()};
 	}
 
 }

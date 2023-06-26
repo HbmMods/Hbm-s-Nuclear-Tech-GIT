@@ -4,6 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -24,14 +25,16 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 		return null;
 	}
 
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
+
 	@Override
 	public int getRenderType() {
-		return 0;
+		return renderID;
 	}
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {0, 0, 2, 2, 0, 0};
+		return new int[] {0, 0, 2, 2, 1, 0};
 	}
 
 	@Override
@@ -56,7 +59,7 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 	}
 
 	@Override
-	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info) {
+	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info, MoveContext context) {
 		return snapAndMove(world, x, y, z, trainX, trainY, trainZ, motionX, motionY, motionZ, speed, info);
 	}
 	
@@ -69,6 +72,7 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 		int cZ = pos[2];
 		int meta = world.getBlockMetadata(cX, cY, cZ) - this.offset;
 		ForgeDirection dir = ForgeDirection.getOrientation(meta);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
 		Vec3 vec = Vec3.createVectorHelper(trainX, trainY, trainZ);
 		
@@ -86,8 +90,8 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 				info.yaw(90F);
 			}
 			vec.xCoord = MathHelper.clamp_double(targetX, cX - 2, cX + 3);
-			vec.yCoord = y;
-			vec.zCoord = cZ + 0.5;
+			vec.yCoord = y + 0.1875;
+			vec.zCoord = cZ + 0.5 + rot.offsetZ * 0.5;
 			info.dist(Math.abs(targetX - vec.xCoord) * Math.signum(speed));
 			info.pos(new BlockPos(cX + (motionX * speed > 0 ? 3 : -3), y, cZ));
 		} else {
@@ -99,8 +103,8 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM {
 				targetZ -= speed;
 				info.yaw(180F);
 			}
-			vec.xCoord = cX + 0.5;
-			vec.yCoord = y;
+			vec.xCoord = cX + 0.5 + rot.offsetX * 0.5;
+			vec.yCoord = y + 0.1875;
 			vec.zCoord = MathHelper.clamp_double(targetZ, cZ - 2,cZ + 3);
 			info.dist(Math.abs(targetZ - vec.zCoord) * Math.signum(speed));
 			info.pos(new BlockPos(cX, y, cZ + (motionZ * speed > 0 ? 3 : -3)));

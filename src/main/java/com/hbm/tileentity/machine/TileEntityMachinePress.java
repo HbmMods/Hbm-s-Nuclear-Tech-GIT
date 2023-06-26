@@ -191,8 +191,8 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		
-		if(stack.getItem() instanceof ItemStamp && i == 1)
-			return true;
+		if(stack.getItem() instanceof ItemStamp)
+			return i == 1;
 		
 		if(TileEntityFurnace.getItemBurnTime(stack) > 0 && i == 0)
 			return true;

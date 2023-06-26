@@ -78,6 +78,8 @@ public class Gun20GaugeFactory {
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.firingPitch = 0.75F;
+		config.hasSights = true;
+		config.zoomFOV = 0.75F;
 		
 		config.name = "win1887";
 		config.manufacturer = EnumGunManufacturer.WINCHESTER;
@@ -95,6 +97,8 @@ public class Gun20GaugeFactory {
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.firingPitch = 0.75F;
+		config.hasSights = true;
+		config.zoomFOV = 0.75F;
 		
 		config.name = "win1887Inox";
 		config.manufacturer = EnumGunManufacturer.WINCHESTER;

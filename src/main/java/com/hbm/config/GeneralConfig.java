@@ -24,7 +24,6 @@ public class GeneralConfig {
 	public static boolean enableCrosshairs = true;
 	public static boolean enableReflectorCompat = false;
 	public static boolean enableRenderDistCheck = true;
-	public static boolean enableCustomDashKeybind = false;
 	public static boolean enableReEval = true;
 	public static boolean enableSilentCompStackErrors = true;
 	public static boolean enableChunkyNEIHandler = true;
@@ -82,7 +81,6 @@ public class GeneralConfig {
 		enableCrosshairs = config.get(CATEGORY_GENERAL, "1.22_enableCrosshairs", true, "Shows custom crosshairs when an NTM gun is being held").getBoolean(true);
 		enableReflectorCompat = config.get(CATEGORY_GENERAL, "1.24_enableReflectorCompat", false, "Enable old reflector oredict name (\"plateDenseLead\") instead of new \"plateTungCar\"").getBoolean(false);
 		enableRenderDistCheck = config.get(CATEGORY_GENERAL, "1.25_enableRenderDistCheck", true, "Check invalid render distances (over 16, without OptiFine) and fix it").getBoolean(true);
-		enableCustomDashKeybind = config.get(CATEGORY_GENERAL, "1.26_enableCustomDashKeybind", false, "Enable custom dash keybind instead of shift").getBoolean(false);
 		enableReEval = config.get(CATEGORY_GENERAL, "1.27_enableReEval", true, "Allows re-evaluating power networks on link remove instead of destroying and recreating").getBoolean(true);
 		enableSilentCompStackErrors = config.get(CATEGORY_GENERAL, "1.28_enableSilentCompStackErrors", false, "Enabling this will disable log spam created by unregistered items in ComparableStack instances.").getBoolean(false);
 		hintPos = CommonConfig.createConfigInt(config, CATEGORY_GENERAL, "1.29_hudOverlayPosition", "0: Top left\n1: Top right\n2: Center right\n3: Center Left", 0);
