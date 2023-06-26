@@ -21,13 +21,11 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 	
 	public static int canConnect(TileEntityPylonBase first, TileEntityPylonBase second) {
 		
-		if(first.getConnectionType() != second.getConnectionType()) {
+		if(first.getConnectionType() != second.getConnectionType())
 			return 1;
-		}
 		
-		if(first == second) {
+		if(first == second)
 			return 2;
-		}
 		
 		double len = Math.min(first.getMaxWireLength(), second.getMaxWireLength());
 		
