@@ -11,6 +11,7 @@ import com.hbm.inventory.recipes.CompressorRecipes;
 import com.hbm.inventory.recipes.CompressorRecipes.CompressorRecipe;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Pair;
@@ -133,7 +134,7 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 				if(this.pistonDir) {
 					this.piston -= randSpeed;
 					if(this.piston <= 0) {
-						Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation("hbm:item.boltgun"), 0.5F, 0.75F, xCoord, yCoord, zCoord));
+						MainRegistry.proxy.playSoundFuckMojang(xCoord, yCoord, zCoord, "hbm:item.boltgun", 0.5F, 0.75F);
 						this.pistonDir = !this.pistonDir;
 					}
 				} else {
