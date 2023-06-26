@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -218,11 +219,11 @@ public class HbmWorldGen implements IWorldGenerator {
 
 		if(GeneralConfig.enableDungeons && world.provider.isSurfaceWorld()) {
 			
-			if(rand.nextInt(1000) == 0) {
+			if(MobConfig.enableHives && rand.nextInt(MobConfig.hiveSpawn) == 0) {
 				int x = i + rand.nextInt(16) + 8;
 				int z = j + rand.nextInt(16) + 8;
 				int y = world.getHeightValue(x, z);
-				GlyphidHive.generate(world, x, y, z, rand);
+				if(world.getBlock(x, y - 1, z).isNormalCube()) GlyphidHive.generate(world, x, y, z, rand);
 			}
 
 			if(biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {

@@ -1,6 +1,6 @@
 package com.hbm.entity.mob;
 
-import com.hbm.entity.grenade.EntityGrenadeGeneric;
+import com.hbm.entity.grenade.EntityGrenadeStrong;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.Vec3;
@@ -29,7 +29,7 @@ public class EntityFBIDrone extends EntityUFOBase {
 				Vec3 vec = Vec3.createVectorHelper(posX - target.posX, posY - target.posY, posZ - target.posZ);
 				if(Math.abs(vec.xCoord) < 5 && Math.abs(vec.zCoord) < 5 && vec.yCoord > 3) {
 					attackCooldown = 60;
-					EntityGrenadeGeneric grenade = new EntityGrenadeGeneric(worldObj);
+					EntityGrenadeStrong grenade = new EntityGrenadeStrong(worldObj);
 					grenade.setPosition(posX, posY, posZ);
 					worldObj.spawnEntityInWorld(grenade);
 				}

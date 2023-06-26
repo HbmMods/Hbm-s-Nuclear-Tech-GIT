@@ -3,10 +3,14 @@ package com.hbm.blocks.generic;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityGlyphid;
+import com.hbm.entity.mob.EntityGlyphidBehemoth;
 import com.hbm.entity.mob.EntityGlyphidBlaster;
 import com.hbm.entity.mob.EntityGlyphidBombardier;
 import com.hbm.entity.mob.EntityGlyphidBrawler;
+import com.hbm.entity.mob.EntityGlyphidBrenda;
+import com.hbm.entity.mob.EntityGlyphidNuclear;
 import com.hbm.entity.mob.EntityGlyphidScout;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
@@ -46,7 +50,7 @@ public class BlockGlyphidSpawner extends BlockContainer {
 					this.worldObj.spawnEntityInWorld(glyphid);
 				}
 				
-				if(worldObj.rand.nextInt(20) == 0 && soot > 0) {
+				if(worldObj.rand.nextInt(20) == 0 && soot >= MobConfig.scoutThreshold) {
 					EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
 					scout.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
 					this.worldObj.spawnEntityInWorld(scout);
@@ -56,12 +60,13 @@ public class BlockGlyphidSpawner extends BlockContainer {
 		
 		public EntityGlyphid createGlyphid(float soot) {
 			Random rand = new Random();
+
+			if(soot < MobConfig.tier2Threshold) return rand.nextInt(5) == 0 ? new EntityGlyphidBombardier(worldObj) : new EntityGlyphid(worldObj);
+			if(soot < MobConfig.tier3Threshold) return rand.nextInt(5) == 0 ? new EntityGlyphidBombardier(worldObj) : new EntityGlyphidBrawler(worldObj);
+			if(soot < MobConfig.tier4Threshold) return rand.nextInt(5) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidBehemoth(worldObj);
+			if(soot < MobConfig.tier5Threshold) return rand.nextInt(5) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidBrenda(worldObj);
 			
-			if(soot < 1) {
-				return rand.nextInt(5) == 0 ? new EntityGlyphidBombardier(worldObj) : new EntityGlyphid(worldObj);
-			}
-			
-			return rand.nextInt(5) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidBrawler(worldObj);
+			return rand.nextInt(3) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidNuclear(worldObj);
 		}
 	}
 }

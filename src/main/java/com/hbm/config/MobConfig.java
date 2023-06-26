@@ -28,6 +28,15 @@ public class MobConfig {
 	public static boolean enableDucks = true;
 	public static boolean enableMobGear = true;
 	
+	public static boolean enableHives = true;
+	public static int hiveSpawn = 128;
+	public static double scoutThreshold = 0.1;
+	public static double tier2Threshold = 1;
+	public static double tier3Threshold = 10;
+	public static double tier4Threshold = 50;
+	public static double tier5Threshold = 100;
+	
+	
 	public static void loadFromConfig(Configuration config) {
 
 		final String CATEGORY = CommonConfig.CATEGORY_MOBS;
@@ -55,5 +64,13 @@ public class MobConfig {
 		
 		enableDucks = CommonConfig.createConfigBool(config, CATEGORY, "12.D00_enableDucks", "Whether pressing O should allow the player to duck", true);
 		enableMobGear = CommonConfig.createConfigBool(config, CATEGORY, "12.D01_enableMobGear", "Whether zombies and skeletons should have additional gear when spawning", true);
+
+		enableHives = CommonConfig.createConfigBool(config, CATEGORY, "12.G00_enableHives", "Whether glyphid hives should spawn", true);
+		hiveSpawn = CommonConfig.createConfigInt(config, CATEGORY, "12.G01_hiveSpawn", "The average amount of chunks per hive", 128);
+		scoutThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G02_scoutThreshold", "Minimum amount of soot for scouts to spawn", 0.1);
+		tier2Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G03_tier2Threshold", "Minimum amount of soot for tier 2 glyphids to spawn", 1);
+		tier3Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G04_tier3Threshold", "Minimum amount of soot for tier 3 glyphids to spawn", 10);
+		tier4Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G05_tier4Threshold", "Minimum amount of soot for tier 4 glyphids to spawn", 50);
+		tier5Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G06_tier5Threshold", "Minimum amount of soot for tier 5 glyphids to spawn", 100);
 	}
 }

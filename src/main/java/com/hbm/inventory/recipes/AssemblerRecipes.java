@@ -866,6 +866,14 @@ public class AssemblerRecipes {
 				new OreDictStack(OreDictManager.getReflector(), 12),
 				new ComparableStack(ModItems.circuit_copper, 12)
 			}, 100);
+		makeRecipe(new ComparableStack(ModItems.ammo_himars, 1, ItemAmmoHIMARS.SMALL_LAVA), new AStack[] {
+				new OreDictStack(STEEL.plate(), 24),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 12),
+				new ComparableStack(ModItems.rocket_fuel, 32),
+				new ComparableStack(ModItems.ball_tatb, 4),
+				new OreDictStack(VOLCANIC.gem(), 1),
+				new ComparableStack(ModItems.circuit_copper, 6)
+			}, 100);
 		makeRecipe(new ComparableStack(ModItems.ammo_himars, 1, ItemAmmoHIMARS.LARGE), new AStack[] {
 				new OreDictStack(STEEL.plate(), 24),
 				new OreDictStack(ANY_HARDPLASTIC.ingot(), 12),
@@ -984,6 +992,14 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.pipes_steel, 1),
 				new ComparableStack(ModItems.motor, 1),
 				new ComparableStack(ModItems.circuit_red_copper, 3)
+			}, 200);
+
+		makeRecipe(new ComparableStack(ModBlocks.machine_compressor, 1), new AStack[] {
+				new OreDictStack(STEEL.plateCast(), 8),
+				new OreDictStack(CU.plate528(), 4),
+				new ComparableStack(ModItems.hull_big_steel, 2),
+				new ComparableStack(ModItems.motor, 3),
+				new ComparableStack(ModItems.circuit_red_copper, 1)
 			}, 200);
 		
 		makeRecipe(new ComparableStack(ModItems.euphemium_capacitor, 1), new AStack[]
