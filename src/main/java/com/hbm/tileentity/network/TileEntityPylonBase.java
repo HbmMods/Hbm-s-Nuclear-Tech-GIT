@@ -19,13 +19,15 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 	
 	public List<int[]> connected = new ArrayList<int[]>();
 	
-	public static boolean canConnect(TileEntityPylonBase first, TileEntityPylonBase second) {
+	public static int canConnect(TileEntityPylonBase first, TileEntityPylonBase second) {
 		
-		if(first.getConnectionType() != second.getConnectionType())
-			return false;
+		if(first.getConnectionType() != second.getConnectionType()) {
+			return 1;
+		}
 		
-		if(first == second)
-			return false;
+		if(first == second) {
+			return 2;
+		}
 		
 		double len = Math.min(first.getMaxWireLength(), second.getMaxWireLength());
 		
@@ -38,7 +40,7 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 				(secondPos.zCoord) - (firstPos.zCoord)
 				);
 		
-		return len >= delta.lengthVector();
+		return len >= delta.lengthVector() ? 0 : 3;
 	}
 	
 	public void addConnection(int x, int y, int z) {
