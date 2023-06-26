@@ -9,6 +9,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Leaded;
 import com.hbm.inventory.gui.GUICombustionEngine;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPistons.EnumPistonType;
@@ -86,7 +87,10 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 					this.power += toBurn * (trait.getCombustionEnergy() / 10_000D) * eff;
 					fill -= toBurn;
 					
-					if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * setting * 0.1F);
+					if(worldObj.getTotalWorldTime() % 20 == 0) {
+						PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * setting * 0.1F);
+						if(tank.getTankType().hasTrait(FT_Leaded.class))  PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * setting * 0.1F);
+					}
 					
 					if(toBurn > 0) {
 						wasOn = true;
@@ -138,6 +142,8 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 					audio = rebootAudio(audio);
 				}
 				
+				audio.keepAlive();
+				
 			} else {
 				
 				if(audio != null) {
@@ -161,7 +167,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 	}
 	
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.igeneratorOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.igeneratorOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F, 20);
 	}
 
 	@Override

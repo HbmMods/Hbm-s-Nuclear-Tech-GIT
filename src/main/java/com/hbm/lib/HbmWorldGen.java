@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -34,6 +35,7 @@ import com.hbm.world.feature.DepthDeposit;
 import com.hbm.world.feature.Dud;
 import com.hbm.world.feature.Geyser;
 import com.hbm.world.feature.GeyserLarge;
+import com.hbm.world.feature.GlyphidHive;
 import com.hbm.world.feature.Meteorite;
 import com.hbm.world.feature.OilBubble;
 import com.hbm.world.feature.OilSandBubble;
@@ -219,6 +221,13 @@ public class HbmWorldGen implements IWorldGenerator {
 		}
 
 		if(GeneralConfig.enableDungeons && world.provider.isSurfaceWorld()) {
+			
+			if(MobConfig.enableHives && rand.nextInt(MobConfig.hiveSpawn) == 0) {
+				int x = i + rand.nextInt(16) + 8;
+				int z = j + rand.nextInt(16) + 8;
+				int y = world.getHeightValue(x, z);
+				if(world.getBlock(x, y - 1, z).isNormalCube()) GlyphidHive.generate(world, x, y, z, rand);
+			}
 
 			if(biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {
 				if(WorldConfig.radioStructure > 0 && rand.nextInt(WorldConfig.radioStructure) == 0) {

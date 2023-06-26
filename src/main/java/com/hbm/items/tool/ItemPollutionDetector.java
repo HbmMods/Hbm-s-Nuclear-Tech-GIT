@@ -23,10 +23,20 @@ public class ItemPollutionDetector extends Item {
 		
 		PollutionData data = PollutionHandler.getPollutionData(world, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY), (int) Math.floor(entity.posZ));
 		if(data == null) data = new PollutionData();
+
+		float soot = data.pollution[PollutionType.SOOT.ordinal()];
+		float poison = data.pollution[PollutionType.POISON.ordinal()];
+		float heavymetal = data.pollution[PollutionType.HEAVYMETAL.ordinal()];
+		float fallout = data.pollution[PollutionType.FALLOUT.ordinal()];
+
+		soot = ((int) (soot * 100)) / 100F;
+		poison = ((int) (poison * 100)) / 100F;
+		heavymetal = ((int) (heavymetal * 100)) / 100F;
+		fallout = ((int) (fallout * 100)) / 100F;
 		
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Soot: " + data.pollution[PollutionType.SOOT.ordinal()]).color(EnumChatFormatting.YELLOW).flush(), 100, 2000), (EntityPlayerMP) entity);
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Poison: " + data.pollution[PollutionType.POISON.ordinal()]).color(EnumChatFormatting.YELLOW).flush(), 101, 2000), (EntityPlayerMP) entity);
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Heavy metal: " + data.pollution[PollutionType.HEAVYMETAL.ordinal()]).color(EnumChatFormatting.YELLOW).flush(), 102, 2000), (EntityPlayerMP) entity);
-		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Fallout: " + data.pollution[PollutionType.FALLOUT.ordinal()]).color(EnumChatFormatting.YELLOW).flush(), 103, 2000), (EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Soot: " + soot).color(EnumChatFormatting.YELLOW).flush(), 100, 2000), (EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Poison: " + poison).color(EnumChatFormatting.YELLOW).flush(), 101, 2000), (EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Heavy metal: " + heavymetal).color(EnumChatFormatting.YELLOW).flush(), 102, 2000), (EntityPlayerMP) entity);
+		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("Fallout: " + fallout).color(EnumChatFormatting.YELLOW).flush(), 103, 2000), (EntityPlayerMP) entity);
 	}
 }

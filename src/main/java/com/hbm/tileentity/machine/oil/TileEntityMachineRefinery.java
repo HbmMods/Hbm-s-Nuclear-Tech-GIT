@@ -203,6 +203,10 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 					for(Entity e : affected) e.setFire(5);
 					Random rand = worldObj.rand;
 					ParticleUtil.spawnGasFlame(worldObj, xCoord + rand.nextDouble(), yCoord + 1.5 + rand.nextDouble() * 3, zCoord + rand.nextDouble(), rand.nextGaussian() * 0.05, 0.1, rand.nextGaussian() * 0.05);
+
+					if(worldObj.getTotalWorldTime() % 20 == 0) {
+						PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 70);
+					}
 				}
 			}
 			

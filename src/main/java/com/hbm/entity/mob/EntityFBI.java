@@ -8,6 +8,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.ai.EntityAIBreaking;
 import com.hbm.entity.mob.ai.EntityAI_MLPF;
+import com.hbm.entity.pathfinder.PathFinderUtils;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.items.ModItems;
 
@@ -50,7 +51,7 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
         this.tasks.addTask(2, new EntityAIArrowAttack(this, 1D, 20, 25, 15.0F));
         this.tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, true));
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(6, new EntityAI_MLPF(this, EntityPlayer.class, 100, 1D, 16));
+        //this.tasks.addTask(6, new EntityAI_MLPF(this, EntityPlayer.class, 100, 1D, 16));
         this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
@@ -119,6 +120,20 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
     protected boolean isAIEnabled() {
         return true;
     }
+
+	@Override
+	protected void updateAITasks() {
+		super.updateAITasks();
+
+		if(this.getAttackTarget() == null) {
+			this.setAttackTarget(this.worldObj.getClosestVulnerablePlayerToEntity(this, 128.0D));
+		}
+
+		// hell yeah!!
+		if(this.getAttackTarget() != null) {
+			this.getNavigator().setPath(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.getAttackTarget(), 16F, true, false, false, true), 1);
+		}
+	}
     
     //combat vest = full diamond set
     public int getTotalArmorValue() {

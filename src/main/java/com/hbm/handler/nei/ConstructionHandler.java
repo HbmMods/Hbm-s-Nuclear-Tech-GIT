@@ -3,6 +3,7 @@ package com.hbm.handler.nei;
 import java.util.HashMap;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 import com.hbm.util.ItemStackUtil;
 
@@ -45,13 +46,13 @@ public class ConstructionHandler extends NEIUniversalHandler {
 		/* ITER */
 		ItemStack[] iter = new ItemStack[] {
 				new ItemStack(ModBlocks.fusion_conductor, 36),
-				new ItemStack(ModBlocks.fusion_conductor, 64),
-				new ItemStack(ModBlocks.fusion_conductor, 64),
-				new ItemStack(ModBlocks.fusion_conductor, 64),
-				new ItemStack(ModBlocks.fusion_conductor, 64),
+				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.fusion_conductor, 320), EnumChatFormatting.RED + "5x64"),
+				new ItemStack(ModItems.plate_cast, 36, Mats.MAT_STEEL.id),
+				ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.plate_cast, 320, Mats.MAT_STEEL.id), EnumChatFormatting.RED + "5x64"),
 				new ItemStack(ModBlocks.fusion_center, 64),
 				new ItemStack(ModBlocks.fusion_motor, 4),
-				new ItemStack(ModBlocks.reinforced_glass, 8)};
+				new ItemStack(ModBlocks.reinforced_glass, 8),
+				new ItemStack(ModItems.blowtorch)};
 
 		bufferedRecipes.put(iter, new ItemStack(ModBlocks.iter));
 		bufferedTools.put(iter, new ItemStack(ModBlocks.struct_iter_core));

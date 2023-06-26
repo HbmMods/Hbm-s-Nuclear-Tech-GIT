@@ -26,7 +26,7 @@ public interface IFluidStandardTransceiver extends IFluidUser {
 	public default long getTotalFluidForSend(FluidType type, int pressure) {
 		
 		for(FluidTank tank : getSendingTanks()) {
-			if(tank.getTankType() == type) {
+			if(tank.getTankType() == type && tank.getPressure() == pressure) {
 				return tank.getFill();
 			}
 		}
@@ -38,7 +38,7 @@ public interface IFluidStandardTransceiver extends IFluidUser {
 	public default void removeFluidForTransfer(FluidType type, int pressure, long amount) {
 		
 		for(FluidTank tank : getSendingTanks()) {
-			if(tank.getTankType() == type) {
+			if(tank.getTankType() == type && tank.getPressure() == pressure) {
 				tank.setFill(tank.getFill() - (int) amount);
 				return;
 			}
@@ -49,7 +49,7 @@ public interface IFluidStandardTransceiver extends IFluidUser {
 	public default long getDemand(FluidType type, int pressure) {
 		
 		for(FluidTank tank : getReceivingTanks()) {
-			if(tank.getTankType() == type) {
+			if(tank.getTankType() == type && tank.getPressure() == pressure) {
 				return tank.getMaxFill() - tank.getFill();
 			}
 		}
@@ -61,7 +61,7 @@ public interface IFluidStandardTransceiver extends IFluidUser {
 	public default long transferFluid(FluidType type, int pressure, long amount) {
 
 		for(FluidTank tank : getReceivingTanks()) {
-			if(tank.getTankType() == type) {
+			if(tank.getTankType() == type && tank.getPressure() == pressure) {
 				tank.setFill(tank.getFill() + (int) amount);
 				
 				if(tank.getFill() > tank.getMaxFill()) {
