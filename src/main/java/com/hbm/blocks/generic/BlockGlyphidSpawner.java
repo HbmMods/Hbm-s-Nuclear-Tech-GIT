@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityGlyphid;
 import com.hbm.entity.mob.EntityGlyphidBehemoth;
 import com.hbm.entity.mob.EntityGlyphidBlaster;
@@ -49,7 +50,7 @@ public class BlockGlyphidSpawner extends BlockContainer {
 					this.worldObj.spawnEntityInWorld(glyphid);
 				}
 				
-				if(worldObj.rand.nextInt(20) == 0 && soot > 0) {
+				if(worldObj.rand.nextInt(20) == 0 && soot >= MobConfig.scoutThreshold) {
 					EntityGlyphidScout scout = new EntityGlyphidScout(worldObj);
 					scout.setLocationAndAngles(xCoord + 0.5, yCoord + 1, zCoord + 0.5, worldObj.rand.nextFloat() * 360.0F, 0.0F);
 					this.worldObj.spawnEntityInWorld(scout);
@@ -60,10 +61,10 @@ public class BlockGlyphidSpawner extends BlockContainer {
 		public EntityGlyphid createGlyphid(float soot) {
 			Random rand = new Random();
 
-			if(soot < 1) return rand.nextInt(5) == 0 ? new EntityGlyphidBombardier(worldObj) : new EntityGlyphid(worldObj);
-			if(soot < 10) return rand.nextInt(5) == 0 ? new EntityGlyphidBombardier(worldObj) : new EntityGlyphidBrawler(worldObj);
-			if(soot < 50) return rand.nextInt(5) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidBehemoth(worldObj);
-			if(soot < 100) return rand.nextInt(5) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidBrenda(worldObj);
+			if(soot < MobConfig.tier2Threshold) return rand.nextInt(5) == 0 ? new EntityGlyphidBombardier(worldObj) : new EntityGlyphid(worldObj);
+			if(soot < MobConfig.tier3Threshold) return rand.nextInt(5) == 0 ? new EntityGlyphidBombardier(worldObj) : new EntityGlyphidBrawler(worldObj);
+			if(soot < MobConfig.tier4Threshold) return rand.nextInt(5) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidBehemoth(worldObj);
+			if(soot < MobConfig.tier5Threshold) return rand.nextInt(5) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidBrenda(worldObj);
 			
 			return rand.nextInt(3) == 0 ? new EntityGlyphidBlaster(worldObj) : new EntityGlyphidNuclear(worldObj);
 		}
