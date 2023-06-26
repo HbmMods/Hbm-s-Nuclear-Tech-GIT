@@ -48,6 +48,8 @@ public class ServerProxy {
 	
 	public void playSound(String sound, Object data) { }
 
+	public void playPositionnedSound(String sound, float volume, float pitch, int x, int y, int z) { }
+
 	public void displayTooltip(String msg, int id) {
 		displayTooltip(msg, 1000, id);
 	}

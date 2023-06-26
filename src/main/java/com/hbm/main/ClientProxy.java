@@ -1921,7 +1921,12 @@ public class ClientProxy extends ServerProxy {
 
 	@Override
 	public void playSound(String sound, Object data) { }
-	
+
+	@Override
+	public void playPositionnedSound(String sound, float volume, float pitch, int x, int y, int z) {
+		Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(sound), volume, pitch, x, y, z));
+	}
+
 	@Override
 	public void displayTooltip(String msg, int time, int id) {
 		
