@@ -39,7 +39,15 @@ public class BlockGlyphidSpawner extends BlockContainer {
 		public void updateEntity() {
 			
 			if(!worldObj.isRemote && worldObj.getTotalWorldTime() % 60 == 0 && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
-
+				
+				int count = 0;
+				
+				for(Object e : worldObj.loadedEntityList) {
+					if(e instanceof EntityGlyphid) {
+						count++;
+						if(count >= MobConfig.spawnMax) return;
+					}
+				}
 
 				float soot = PollutionHandler.getPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT);
 				List<EntityGlyphid> list = worldObj.getEntitiesWithinAABB(EntityGlyphid.class, AxisAlignedBB.getBoundingBox(xCoord - 6, yCoord + 1, zCoord - 6, xCoord + 7, yCoord + 9, zCoord + 7));
