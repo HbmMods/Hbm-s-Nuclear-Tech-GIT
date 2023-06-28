@@ -14,9 +14,11 @@ import com.hbm.entity.mob.EntityGlyphidNuclear;
 import com.hbm.entity.mob.EntityGlyphidScout;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.items.ModItems;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
@@ -26,6 +28,16 @@ public class BlockGlyphidSpawner extends BlockContainer {
 
 	public BlockGlyphidSpawner(Material p_i45386_1_) {
 		super(p_i45386_1_);
+	}
+
+	@Override
+	public Item getItemDropped(int meta, Random rand, int fortune) {
+		return ModItems.egg_glyphid;
+	}
+
+	@Override
+	public int quantityDropped(int meta, int fortune, Random rand) {
+		return 1 + rand.nextInt(3) + fortune;
 	}
 
 	@Override

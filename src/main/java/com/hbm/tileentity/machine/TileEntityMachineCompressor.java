@@ -21,15 +21,12 @@ import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -134,7 +131,7 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 				if(this.pistonDir) {
 					this.piston -= randSpeed;
 					if(this.piston <= 0) {
-						MainRegistry.proxy.playSoundFuckMojang(xCoord, yCoord, zCoord, "hbm:item.boltgun", 0.5F, 0.75F);
+						MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:item.boltgun", 0.5F, 0.75F);
 						this.pistonDir = !this.pistonDir;
 					}
 				} else {
