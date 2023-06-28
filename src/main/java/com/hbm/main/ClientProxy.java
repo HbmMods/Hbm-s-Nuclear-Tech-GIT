@@ -1990,7 +1990,7 @@ public class ClientProxy extends ServerProxy {
 	}
 
 	@Override
-	public void playSoundFuckMojang(double x, double y, double z, String sound, float volume, float pitch) {
+	public void playSoundClient(double x, double y, double z, String sound, float volume, float pitch) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(sound), volume, pitch, (float) x, (float) y, (float) z));
 	}
 }

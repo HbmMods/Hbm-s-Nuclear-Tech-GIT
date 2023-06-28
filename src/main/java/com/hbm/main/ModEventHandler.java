@@ -19,6 +19,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
+import com.hbm.config.RadiationConfig;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.mob.EntityCyberCrab;
@@ -218,7 +219,7 @@ public class ModEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onPlayerChaangeDimension(PlayerChangedDimensionEvent event) {
+	public void onPlayerChangeDimension(PlayerChangedDimensionEvent event) {
 		EntityPlayer player = event.player;
 		HbmPlayerProps data = HbmPlayerProps.getData(player);
 		data.setKeyPressed(EnumKeybind.JETPACK, false);
@@ -1176,18 +1177,20 @@ public class ModEventHandler {
 			}
 		}
 		
-		if(!ArmorRegistry.hasProtection(player, 3, HazardClass.PARTICLE_FINE)) {
-			
-			float metal = PollutionHandler.getPollution(player.worldObj, event.x, event.y, event.z, PollutionType.HEAVYMETAL);
-			
-			if(metal < 5) return;
-			
-			if(metal < 10) {
-				player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 0));
-			} else if(metal < 25) {
-				player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 1));
-			} else {
-				player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 2));
+		if(RadiationConfig.enablePollution && RadiationConfig.enableLeadFromBlocks) {
+			if(!ArmorRegistry.hasProtection(player, 3, HazardClass.PARTICLE_FINE)) {
+				
+				float metal = PollutionHandler.getPollution(player.worldObj, event.x, event.y, event.z, PollutionType.HEAVYMETAL);
+				
+				if(metal < 5) return;
+				
+				if(metal < 10) {
+					player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 0));
+				} else if(metal < 25) {
+					player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 1));
+				} else {
+					player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 2));
+				}
 			}
 		}
 	}

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.hbm.entity.pathfinder.PathFinderUtils;
+import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.Entity;
@@ -12,6 +13,7 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -53,6 +55,11 @@ public class EntityGlyphid extends EntityMob {
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(30D);
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1D);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(5D);
+	}
+	
+	@Override
+	protected void dropFewItems(boolean byPlayer, int looting) {
+		if(rand.nextInt(3) == 0) this.entityDropItem(new ItemStack(ModItems.glyphid_meat, 1 + rand.nextInt(2) + looting), 0F);
 	}
 
 	@Override
