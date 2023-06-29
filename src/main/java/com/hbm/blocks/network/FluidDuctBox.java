@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ILookOverlay;
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
@@ -73,14 +71,7 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
 
-		FluidType type = Fluids.NONE;
-		
 		TileEntity te = world.getTileEntity(x, y, z);
-		
-		if(te instanceof TileEntityPipeBaseNT) {
-			TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
-			type = pipe.getType();
-		}
 
 		boolean nX = canConnectTo(world, x, y, z, Library.NEG_X, te);
 		boolean pX = canConnectTo(world, x, y, z, Library.POS_X, te);

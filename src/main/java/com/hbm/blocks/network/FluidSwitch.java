@@ -10,7 +10,6 @@ import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +18,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class FluidSwitch extends BlockContainer implements ILookOverlay {
+public class FluidSwitch extends FluidDuctBase implements ILookOverlay {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconOn;

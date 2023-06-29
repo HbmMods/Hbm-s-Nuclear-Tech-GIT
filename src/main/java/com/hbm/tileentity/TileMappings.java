@@ -322,6 +322,7 @@ public class TileMappings {
 		put(TileEntityMachineCryoDistill.class, "tileentity_cryogenic_distillator");
 
 		put(TileEntityMachineCoker.class, "tileentity_coker");
+		put(TileEntityChimneyBrick.class, "tileentity_chimney_brick");
 		
 		put(TileEntityReactorZirnox.class, "tileentity_zirnox");
 		put(TileEntityZirnoxDestroyed.class, "tileentity_zirnox_destroyed");

@@ -1,8 +1,5 @@
 package com.hbm.tileentity.network;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.util.Compat;
@@ -15,22 +12,24 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPipeExhaust extends TileEntity implements IFluidConductor {
 	
-	public HashMap<FluidType, IPipeNet> nets = new HashMap();
+	public IPipeNet[] nets = new IPipeNet[3];
+	
+	public FluidType[] getSmokes() {
+		return new FluidType[] {Fluids.SMOKE, Fluids.SMOKE_LEADED, Fluids.SMOKE_POISON};
+	}
 
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote && canUpdate()) {
 			
-			//we got here either because the net doesn't exist or because it's not valid, so that's safe to assume
-			this.nets.clear();
-			
-			for(Entry<FluidType, IPipeNet> entry : nets.entrySet()) {
+			for(int i = 0; i < 3; i++) nets[i] = null;
+
+			for(FluidType type : getSmokes()) {
+				this.connect(type);
 				
-				this.connect(entry.getKey());
-				
-				if(this.getPipeNet(entry.getKey()) == null) {
-					this.setPipeNet(entry.getKey(), new PipeNet(entry.getKey()).joinLink(this));
+				if(this.getPipeNet(type) == null) {
+					this.setPipeNet(type, new PipeNet(type).joinLink(this));
 				}
 			}
 		}
@@ -59,10 +58,37 @@ public class TileEntityPipeExhaust extends TileEntity implements IFluidConductor
 			}
 		}
 	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		
+		if(!worldObj.isRemote) {
+			
+			for(int i = 0; i < 3; i++) {
+				if(nets[i] != null) {
+					nets[i].destroy();
+				}
+			}
+		}
+	}
+	@Override
+	public boolean canUpdate() {
+		
+		if(this.isInvalid()) return false;
+		
+		for(IPipeNet net : nets) {
+			if(net == null || !net.isValid()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
 	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
-		return type == Fluids.SMOKE || type == Fluids.SMOKE_LEADED || type == Fluids.SMOKE_POISON;
+		return dir != ForgeDirection.UNKNOWN && (type == Fluids.SMOKE || type == Fluids.SMOKE_LEADED || type == Fluids.SMOKE_POISON);
 	}
 
 	@Override
@@ -72,11 +98,18 @@ public class TileEntityPipeExhaust extends TileEntity implements IFluidConductor
 
 	@Override
 	public IPipeNet getPipeNet(FluidType type) {
-		return nets.get(type);
+
+		if(type == Fluids.SMOKE) return nets[0];
+		if(type == Fluids.SMOKE_LEADED) return nets[1];
+		if(type == Fluids.SMOKE_POISON) return nets[2];
+		return null;
 	}
 
 	@Override
 	public void setPipeNet(FluidType type, IPipeNet network) {
-		nets.put(type, network);
+
+		if(type == Fluids.SMOKE) nets[0] = network;
+		if(type == Fluids.SMOKE_LEADED) nets[1] = network;
+		if(type == Fluids.SMOKE_POISON) nets[2] = network;
 	}
 }
