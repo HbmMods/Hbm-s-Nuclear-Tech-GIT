@@ -1,12 +1,15 @@
 ## Added
 * Configs for all things pollution related
-  * Pollution in general can be turned off, smog can be disabeld and adjusted, different poison types can be disabled and the threshold for spawning tougher mobs can also be changed
+  * Pollution in general can be turned off, smog can be disabled and adjusted, different poison types can be disabled and the threshold for spawning tougher mobs can also be changed
 * Glyphid meat
   * Dropped by glyphids (duh)
   * Can be grilled
+* Fluid valves
+  * come in manual and restone variants
 
 ## Changed
 * Glyphids now have a config for a global spawn limit, which is 50 by default, no more than this many glyphids can be created at once
+* Removed the old oil and gas ducts for good
 
 ## Fixed
 * Fixed player extprops like the HUD or backpack toggles not saving

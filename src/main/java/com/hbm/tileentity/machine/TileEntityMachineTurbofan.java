@@ -5,6 +5,8 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.UpgradeManager;
@@ -161,6 +163,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 				this.wasOn = true;
 				this.tank.setFill(this.tank.getFill() - amountToBurn);
 				this.power += burnValue * amountToBurn;
+				
+				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * amountToBurn);
 			}
 			
 			power = Library.chargeItemsFromTE(slots, 3, power, power);

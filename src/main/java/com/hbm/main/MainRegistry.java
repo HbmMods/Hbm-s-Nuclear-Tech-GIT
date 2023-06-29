@@ -1123,6 +1123,10 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.digamma_know");
 		ignoreMappings.add("hbm:item.digamma_kauai_moho");
 		ignoreMappings.add("hbm:item.digamma_up_on_top");
+		ignoreMappings.add("hbm:tile.oil_duct_solid");
+		ignoreMappings.add("hbm:tile.oil_duct");
+		ignoreMappings.add("hbm:tile.gas_duct_solid");
+		ignoreMappings.add("hbm:tile.gas_duct");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
