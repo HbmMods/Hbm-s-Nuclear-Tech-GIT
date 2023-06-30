@@ -30,7 +30,7 @@ public class MachineDiFurnaceExtension extends BlockContainer implements IProxyC
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityProxyCombo().inventory();
+		return new TileEntityProxyCombo().inventory().fluid();
 	}
 	
 	@Override

@@ -35,7 +35,7 @@ public class FluidTank {
 	FluidType type;
 	int fluid;
 	int maxFluid;
-	public int index = 0;
+	@Deprecated public int index = 0;
 	int pressure = 0;
 	
 	public FluidTank(FluidType type, int maxFluid) {
