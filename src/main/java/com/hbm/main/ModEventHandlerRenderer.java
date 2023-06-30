@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 
 import com.hbm.blocks.ICustomBlockHighlight;
+import com.hbm.config.RadiationConfig;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
@@ -330,7 +331,7 @@ public class ModEventHandlerRenderer {
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
 		
-		if(event.phase == event.phase.START) {
+		if(event.phase == event.phase.START && RadiationConfig.enableSootFog) {
 
 			float step = 0.05F;
 			float soot = PermaSyncHandler.pollution[PollutionType.SOOT.ordinal()];
@@ -347,11 +348,11 @@ public class ModEventHandlerRenderer {
 
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void thickenFog(FogDensity event) {
-		float soot = renderSoot - 35;
-		if(soot > 0) {
-			//event.density = Math.min((soot - 5) * 0.01F, 0.5F);
+		float soot = (float) (renderSoot - RadiationConfig.sootFogThreshold);
+		if(soot > 0 && RadiationConfig.enableSootFog) {
+			
 			float farPlaneDistance = (float) (Minecraft.getMinecraft().gameSettings.renderDistanceChunks * 16);
-			float fogDist = farPlaneDistance / (1 + soot * 0.05F);
+			float fogDist = farPlaneDistance / (1 + soot * 5F / (float) RadiationConfig.sootFogDivisor);
 			GL11.glFogf(GL11.GL_FOG_START, 0);
 			GL11.glFogf(GL11.GL_FOG_END, fogDist);
 
@@ -366,10 +367,10 @@ public class ModEventHandlerRenderer {
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void tintFog(FogColors event) {
-		float soot = renderSoot - 35;
+		float soot = (float) (renderSoot - RadiationConfig.sootFogThreshold);
 		float sootColor = 0.15F;
-		float sootReq = 100F;
-		if(soot > 0) {
+		float sootReq = (float) RadiationConfig.sootFogDivisor;
+		if(soot > 0 && RadiationConfig.enableSootFog) {
 			float interp = Math.min(soot / sootReq, 1F);
 			event.red = event.red * (1 - interp) + sootColor * interp;
 			event.green = event.green * (1 - interp) + sootColor * interp;

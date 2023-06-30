@@ -451,7 +451,9 @@ public class EntityEffectHandler {
 	
 	private static void handlePollution(EntityLivingBase entity) {
 		
-		if(!ArmorRegistry.hasProtection(entity, 3, HazardClass.GAS_CORROSIVE) && entity.ticksExisted % 60 == 0) {
+		if(!RadiationConfig.enablePollution) return;
+		
+		if(RadiationConfig.enablePoison && !ArmorRegistry.hasProtection(entity, 3, HazardClass.GAS_CORROSIVE) && entity.ticksExisted % 60 == 0) {
 			
 			float poison = PollutionHandler.getPollution(entity.worldObj, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY + entity.getEyeHeight()), (int) Math.floor(entity.posZ), PollutionType.POISON);
 			
@@ -460,14 +462,14 @@ public class EntityEffectHandler {
 				if(poison < 25) {
 					entity.addPotionEffect(new PotionEffect(Potion.poison.id, 100, 0));
 				} else if(poison < 50) {
-					entity.addPotionEffect(new PotionEffect(Potion.poison.id, 100, 2));
+					entity.addPotionEffect(new PotionEffect(Potion.poison.id, 100, 1));
 				} else {
 					entity.addPotionEffect(new PotionEffect(Potion.wither.id, 100, 2));
 				}
 			}
 		}
 		
-		if(!ArmorRegistry.hasProtection(entity, 3, HazardClass.PARTICLE_FINE) && entity.ticksExisted % 60 == 0) {
+		if(RadiationConfig.enableLeadPoisoning && !ArmorRegistry.hasProtection(entity, 3, HazardClass.PARTICLE_FINE) && entity.ticksExisted % 60 == 0) {
 			
 			float poison = PollutionHandler.getPollution(entity.worldObj, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY + entity.getEyeHeight()), (int) Math.floor(entity.posZ), PollutionType.HEAVYMETAL);
 			
