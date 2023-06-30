@@ -16,11 +16,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class BlockTNTBase extends BlockFlammable implements IToolable {
 
@@ -44,6 +46,8 @@ public abstract class BlockTNTBase extends BlockFlammable implements IToolable {
 		if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
 			this.onBlockDestroyedByPlayer(world, x, y, z, 1);
 			world.setBlockToAir(x, y, z);
+		} else {
+			checkAndIgnite(world, x, y, z);
 		}
 	}
 
@@ -52,6 +56,19 @@ public abstract class BlockTNTBase extends BlockFlammable implements IToolable {
 		if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
 			this.onBlockDestroyedByPlayer(world, x, y, z, 1);
 			world.setBlockToAir(x, y, z);
+		} else {
+			checkAndIgnite(world, x, y, z);
+		}
+	}
+	
+	public void checkAndIgnite(World world, int x, int y, int z) {
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			if(world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.fire) {
+				this.onBlockDestroyedByPlayer(world, x, y, z, 1);
+				world.setBlockToAir(x, y, z);
+				return;
+			}
 		}
 	}
 

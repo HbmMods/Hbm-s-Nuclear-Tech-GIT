@@ -6,6 +6,10 @@
   * Can be grilled
 * Fluid valves
   * come in manual and restone variants
+* Chimney
+  * Most polluting machines can now be connected to a chimney with exhaust pipes
+  * The chimney will vent the pollution created by the machines, reducing it by 75%
+  * Compatible with soot, heavy metal and poison pollution
 
 ## Changed
 * Glyphids now have a config for a global spawn limit, which is 50 by default, no more than this many glyphids can be created at once
