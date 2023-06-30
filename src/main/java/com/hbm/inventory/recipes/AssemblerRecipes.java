@@ -1192,15 +1192,13 @@ public class AssemblerRecipes {
 			}, 1200);
 
 		makeRecipe(new ComparableStack(ModBlocks.sliding_blast_door, 1), new AStack[] {
-				new OreDictStack(STEEL.ingot(), 16),
+				new OreDictStack(STEEL.plate(), 16),
 				new OreDictStack(W.ingot(), 8),
 				new ComparableStack(ModBlocks.reinforced_glass, 4),
-				new ComparableStack(Blocks.quartz_block, 10),
-				new ComparableStack(ModItems.plate_polymer, 3),
-				new ComparableStack(ModItems.bolt_tungsten, 3),
-				new ComparableStack(ModItems.bolt_dura_steel, 3),
+				new ComparableStack(ModItems.plate_polymer, 4),
+				new ComparableStack(ModItems.bolt_dura_steel, 8),
 				new ComparableStack(ModItems.motor, 2)
-		}, 300);
+		}, 200);
 		
 		if(Loader.isModLoaded("Mekanism")) {
 			
