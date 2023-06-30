@@ -15,20 +15,22 @@ public class TEDoorAnimationPacket implements IMessage {
 
 	public int x, y, z;
 	public byte state;
+	public byte skinIndex;
 	public byte texture;
 	
 	public TEDoorAnimationPacket() {
 	}
 	
 	public TEDoorAnimationPacket(int x, int y, int z, byte state) {
-		this(x, y, z, state, (byte) -1);
+		this(x, y, z, state, (byte) 0, (byte) -1);
 	}
 	
-	public TEDoorAnimationPacket(int x, int y, int z, byte state, byte tex) {
+	public TEDoorAnimationPacket(int x, int y, int z, byte state, byte skinIndex, byte tex) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.state = state;
+		this.skinIndex = skinIndex;
 		this.texture = tex;
 	}
 	
@@ -38,6 +40,7 @@ public class TEDoorAnimationPacket implements IMessage {
 		y = buf.readInt();
 		z = buf.readInt();
 		state = buf.readByte();
+		skinIndex = buf.readByte();
 		if(buf.readableBytes() == 1){
 			texture = buf.readByte();
 		}
@@ -49,6 +52,7 @@ public class TEDoorAnimationPacket implements IMessage {
 		buf.writeInt(y);
 		buf.writeInt(z);
 		buf.writeByte(state);
+		buf.writeByte(skinIndex);
 		if(texture != -1){
 			buf.writeByte(texture);
 		}
@@ -63,6 +67,7 @@ public class TEDoorAnimationPacket implements IMessage {
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 			if(te instanceof IAnimatedDoor){
 				((IAnimatedDoor) te).handleNewState(m.state);
+				((IAnimatedDoor) te).setSkinIndex(m.skinIndex);
 				((IAnimatedDoor) te).setTextureState(m.texture);
 			}
 			
