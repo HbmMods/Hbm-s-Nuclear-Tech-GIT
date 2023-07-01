@@ -10,11 +10,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityMinerRocket extends Entity {
-	
 	//0 landing, 1 unloading, 2 lifting
 	public int timer = 0;
-	//0 asteroid, 1 moon
-	public String satelliteClassName = "com.hbm.saveddata.satellites.SatelliteMiner";
 
 	public EntityMinerRocket(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -24,13 +21,12 @@ public class EntityMinerRocket extends Entity {
 
 	@Override
 	protected void entityInit() {
-		this.dataWatcher.addObject(16, Integer.valueOf(0));
-		this.dataWatcher.addObject(17, Integer.valueOf(0));
+		this.dataWatcher.addObject(16, 0);
+		this.dataWatcher.addObject(17, 0);
 	}
 	
 	@Override
 	public void onUpdate() {
-		
 		if(dataWatcher.getWatchableObjectInt(16) == 0)
 			motionY = -0.75;
 		if(dataWatcher.getWatchableObjectInt(16) == 1)
@@ -43,7 +39,6 @@ public class EntityMinerRocket extends Entity {
 		
 		this.setPositionAndRotation(posX + motionX, posY + motionY, posZ + motionZ, 0.0F, 0.0F);
 
-		
 		if(dataWatcher.getWatchableObjectInt(16) == 0 && worldObj.getBlock((int)(posX - 0.5), (int)(posY - 0.5), (int)(posZ - 0.5)) == ModBlocks.sat_dock) {
 			dataWatcher.updateObject(16, 1);
 			motionY = 0;
@@ -55,7 +50,6 @@ public class EntityMinerRocket extends Entity {
 		}
 		
 		if(dataWatcher.getWatchableObjectInt(16) == 1) {
-			
 			if(!worldObj.isRemote && ticksExisted % 4 == 0)
 				ExplosionLarge.spawnShock(worldObj, posX, posY, posZ, 1 + rand.nextInt(3), 1 + rand.nextGaussian());
 			
@@ -79,7 +73,6 @@ public class EntityMinerRocket extends Entity {
 		dataWatcher.updateObject(16, nbt.getInteger("mode"));
 		dataWatcher.updateObject(17, nbt.getInteger("sat"));
 		timer = nbt.getInteger("timer");
-		satelliteClassName = nbt.getString("type");
 	}
 
 	@Override
@@ -87,7 +80,5 @@ public class EntityMinerRocket extends Entity {
 		nbt.setInteger("mode", dataWatcher.getWatchableObjectInt(16));
 		nbt.setInteger("sat", dataWatcher.getWatchableObjectInt(17));
 		nbt.setInteger("timer", timer);
-		nbt.setString("type", satelliteClassName);
 	}
-
 }

@@ -1,8 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.util.List;
-import java.util.Random;
-
 import com.hbm.entity.missile.EntityMinerRocket;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.inventory.container.ContainerSatDock;
@@ -11,10 +8,8 @@ import com.hbm.items.ISatChip;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.saveddata.satellites.SatelliteMiner;
-import com.hbm.saveddata.satellites.SatelliteMinerCargoRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.WeightedRandomObject;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -31,355 +26,334 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Random;
+
 public class TileEntityMachineSatDock extends TileEntity implements ISidedInventory, IGUIProvider {
+    private ItemStack[] slots;
 
-	private ItemStack[] slots;
-	
-	private static final int[] access = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
-	
-	private String customName;
-	
-	public TileEntityMachineSatDock() {
-		slots = new ItemStack[16];
+    private static final int[] access = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
+
+    private String customName;
+
+    public TileEntityMachineSatDock() {
+        slots = new ItemStack[16];
+    }
+
+    @Override
+    public int getSizeInventory() {
+        return slots.length;
+    }
+
+    @Override
+    public ItemStack getStackInSlot(int i) {
+        return slots[i];
+    }
+
+    @Override
+    public ItemStack getStackInSlotOnClosing(int i) {
+        if (slots[i] != null) {
+            ItemStack itemStack = slots[i];
+            slots[i] = null;
+            return itemStack;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void setInventorySlotContents(int i, ItemStack itemStack) {
+        slots[i] = itemStack;
+        if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
+            itemStack.stackSize = getInventoryStackLimit();
+        }
+    }
+
+    @Override
+    public String getInventoryName() {
+        return this.hasCustomInventoryName() ? this.customName : "container.satDock";
+    }
+
+    @Override
+    public boolean hasCustomInventoryName() {
+        return this.customName != null && this.customName.length() > 0;
+    }
+
+    public void setCustomName(String name) {
+        this.customName = name;
+    }
+
+    @Override
+    public int getInventoryStackLimit() {
+        return 64;
+    }
+
+    @Override
+    public boolean isUseableByPlayer(EntityPlayer player) {
+        if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
+            return false;
+        } else {
+            return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
+        }
+    }
+
+    //You scrubs aren't needed for anything (right now)
+    @Override
+    public void openInventory() {
+    }
+
+    @Override
+    public void closeInventory() {
+    }
+
+    @Override
+    public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return i != 2 && i != 3 && i != 4 && i != 5;
 	}
 
-	@Override
-	public int getSizeInventory() {
-		return slots.length;
-	}
+    @Override
+    public ItemStack decrStackSize(int i, int j) {
+        if (slots[i] != null) {
+            if (slots[i].stackSize <= j) {
+                ItemStack itemStack = slots[i];
+                slots[i] = null;
+                return itemStack;
+            }
+            ItemStack itemStack1 = slots[i].splitStack(j);
+            if (slots[i].stackSize == 0) {
+                slots[i] = null;
+            }
 
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
+            return itemStack1;
+        } else {
+            return null;
+        }
+    }
 
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if(slots[i] != null) {
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-			return null;
-		}
-	}
+    @Override
+    public void readFromNBT(NBTTagCompound nbt) {
+        super.readFromNBT(nbt);
+        NBTTagList list = nbt.getTagList("items", 10);
 
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
-			itemStack.stackSize = getInventoryStackLimit();
-		}
-	}
+        slots = new ItemStack[getSizeInventory()];
 
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.satDock";
-	}
+        for (int i = 0; i < list.tagCount(); i++) {
+            NBTTagCompound nbt1 = list.getCompoundTagAt(i);
+            byte b0 = nbt1.getByte("slot");
+            if (b0 >= 0 && b0 < slots.length) {
+                slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
+            }
+        }
+    }
 
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-	
-	public void setCustomName(String name) {
-		this.customName = name;
-	}
+    @Override
+    public void writeToNBT(NBTTagCompound nbt) {
+        super.writeToNBT(nbt);
+        NBTTagList list = new NBTTagList();
 
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
+        for (int i = 0; i < slots.length; i++) {
+            if (slots[i] != null) {
+                NBTTagCompound nbt1 = new NBTTagCompound();
+                nbt1.setByte("slot", (byte) i);
+                slots[i].writeToNBT(nbt1);
+                list.appendTag(nbt1);
+            }
+        }
+        nbt.setTag("items", list);
+    }
 
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
-			return false;
-		} else {
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
-		}
-	}
-	
-	//You scrubs aren't needed for anything (right now)
-	@Override
-	public void openInventory() {}
-	@Override
-	public void closeInventory() {}
+    @Override
+    public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+        return access;
+    }
 
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(i == 2 || i == 3 || i == 4 || i == 5) {
-			return false;
-		}
+    @Override
+    public boolean canInsertItem(int i, ItemStack itemStack, int j) {
+        return this.isItemValidForSlot(i, itemStack);
+    }
 
-		return true;
-	}
+    @Override
+    public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+        return true;
+    }
 
-	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(slots[i] != null) {
-			if(slots[i].stackSize <= j) {
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
-			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if(slots[i].stackSize == 0) {
-				slots[i] = null;
-			}
+    SatelliteSavedData data = null;
 
-			return itemStack1;
-		} else {
-			return null;
-		}
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
+    @Override
+    public void updateEntity() {
+        if (!worldObj.isRemote) {
+            if (data == null)
+                data = (SatelliteSavedData) worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 
-		slots = new ItemStack[getSizeInventory()];
+            if (data == null) {
+                worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData());
+                data = (SatelliteSavedData) worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
+            }
+            data.markDirty();
 
-		for(int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length) {
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		NBTTagList list = new NBTTagList();
+            if (data != null && slots[15] != null) {
+                int freq = ISatChip.getFreqS(slots[15]);
 
-		for(int i = 0; i < slots.length; i++) {
-			if(slots[i] != null) {
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte) i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
-	}
-	
-	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return access;
-	}
+                Satellite sat = data.getSatFromFreq(freq);
 
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
-	}
+                int delay = 10 * 60 * 1000;
 
-	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return true;
-	}
-	
-	SatelliteSavedData data = null;
-	
-	@Override
-	public void updateEntity() {
+                if (sat instanceof SatelliteMiner) {
+                    SatelliteMiner miner = (SatelliteMiner) sat;
 
-		if(!worldObj.isRemote) {
+                    if (miner.lastOp + delay < System.currentTimeMillis()) {
+                        EntityMinerRocket rocket = new EntityMinerRocket(worldObj);
+                        rocket.posX = xCoord + 0.5;
+                        rocket.posY = 300;
+                        rocket.posZ = zCoord + 0.5;
 
-			if(data == null)
-				data = (SatelliteSavedData) worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
+                        rocket.getDataWatcher().updateObject(17, freq);
+                        worldObj.spawnEntityInWorld(rocket);
+                        miner.lastOp = System.currentTimeMillis();
+                        data.markDirty();
+                    }
+                }
+            }
 
-			if(data == null) {
-				worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData());
-				data = (SatelliteSavedData) worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-			}
-			data.markDirty();
+            List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 0.25 + 0.5, yCoord + 0.75, zCoord - 0.25 + 0.5, xCoord + 0.25 + 0.5, yCoord + 2, zCoord + 0.25 + 0.5));
 
-			if(data != null && slots[15] != null) {
-				int freq = ISatChip.getFreqS(slots[15]);
+            for (Entity e : list) {
+                if (e instanceof EntityMinerRocket) {
+                    EntityMinerRocket rocket = (EntityMinerRocket) e;
 
-				Satellite sat = data.getSatFromFreq(freq);
+                    if (slots[15] != null && ISatChip.getFreqS(slots[15]) != rocket.getDataWatcher().getWatchableObjectInt(17)) {
+                        rocket.setDead();
+                        ExplosionNukeSmall.explode(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, ExplosionNukeSmall.PARAMS_TOTS);
+                        break;
+                    }
 
-				int delay = 10 * 60 * 1000;
+                    if (rocket.getDataWatcher().getWatchableObjectInt(16) == 1 && rocket.timer == 50) {
+                        Satellite sat = data.getSatFromFreq(ISatChip.getFreqS(slots[15]));
+                        unloadCargo((SatelliteMiner) sat);
+                    }
+                }
+            }
 
-				if(sat instanceof SatelliteMiner) {
+            ejectInto(xCoord + 2, yCoord, zCoord);
+            ejectInto(xCoord - 2, yCoord, zCoord);
+            ejectInto(xCoord, yCoord, zCoord + 2);
+            ejectInto(xCoord, yCoord, zCoord - 2);
+        }
+    }
 
-					SatelliteMiner miner = (SatelliteMiner) sat;
+    static final Random rand = new Random();
 
-					if(miner.lastOp + delay < System.currentTimeMillis()) {
+    private void unloadCargo(SatelliteMiner satellite) {
+        int items = rand.nextInt(6) + 10;
 
-						EntityMinerRocket rocket = new EntityMinerRocket(worldObj);
-						rocket.posX = xCoord + 0.5;
-						rocket.posY = 300;
-						rocket.posZ = zCoord + 0.5;
+        WeightedRandomObject[] cargo = satellite.getCargo();
 
-						rocket.satelliteClassName = miner.getClass().getName();
+        for (int i = 0; i < items; i++) {
+            ItemStack stack = ((WeightedRandomObject) WeightedRandom.getRandomItem(rand, cargo)).asStack();
+            addToInv(stack.copy());
+        }
+    }
 
-						rocket.getDataWatcher().updateObject(17, freq);
-						worldObj.spawnEntityInWorld(rocket);
-						miner.lastOp = System.currentTimeMillis();
-						data.markDirty();
-					}
-				}
-			}
+    private void addToInv(ItemStack stack) {
+        for (int i = 0; i < 15; i++) {
+            if (slots[i] != null && slots[i].getItem() == stack.getItem() && slots[i].getItemDamage() == stack.getItemDamage() && slots[i].stackSize < slots[i].getMaxStackSize()) {
+                int toAdd = Math.min(slots[i].getMaxStackSize() - slots[i].stackSize, stack.stackSize);
 
-			List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 0.25 + 0.5, yCoord + 0.75, zCoord - 0.25 + 0.5, xCoord + 0.25 + 0.5, yCoord + 2, zCoord + 0.25 + 0.5));
+                slots[i].stackSize += toAdd;
+                stack.stackSize -= toAdd;
 
-			for(Entity e : list) {
+                if (stack.stackSize <= 0) return;
+            }
+        }
 
-				if(e instanceof EntityMinerRocket) {
+        for (int i = 0; i < 15; i++) {
+            if (slots[i] == null) {
+                slots[i] = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
+                return;
+            }
+        }
+    }
 
-					EntityMinerRocket rocket = (EntityMinerRocket) e;
+    private void ejectInto(int x, int y, int z) {
+        TileEntity te = worldObj.getTileEntity(x, y, z);
 
-					if(slots[15] != null && ISatChip.getFreqS(slots[15]) != rocket.getDataWatcher().getWatchableObjectInt(17)) {
-						rocket.setDead();
-						ExplosionNukeSmall.explode(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, ExplosionNukeSmall.PARAMS_TOTS);
-						break;
-					}
+        if (te instanceof IInventory) {
+            IInventory chest = (IInventory) te;
 
-					if(rocket.getDataWatcher().getWatchableObjectInt(16) == 1 && rocket.timer == 50) {
-						unloadCargo(rocket.satelliteClassName);
-					}
-				}
-			}
+            for (int i = 0; i < 15; i++) {
+                if (slots[i] != null) {
+                    for (int j = 0; j < chest.getSizeInventory(); j++) {
+                        ItemStack sta = slots[i].copy();
+                        sta.stackSize = 1;
 
-			ejectInto(xCoord + 2, yCoord, zCoord);
-			ejectInto(xCoord - 2, yCoord, zCoord);
-			ejectInto(xCoord, yCoord, zCoord + 2);
-			ejectInto(xCoord, yCoord, zCoord - 2);
-		}
-	}
-	
-	static Random rand = new Random();
-	
-	private void unloadCargo(String satelliteClassName) {
-		int items = rand.nextInt(6) + 10;
+                        if (chest.getStackInSlot(j) != null && chest.getStackInSlot(j).isItemEqual(slots[i]) && ItemStack.areItemStackTagsEqual(chest.getStackInSlot(j), slots[i]) &&
+                                chest.getStackInSlot(j).stackSize < chest.getStackInSlot(j).getMaxStackSize()) {
 
-		WeightedRandomObject[] cargo = SatelliteMinerCargoRegistry.getCargo(satelliteClassName);
+                            slots[i].stackSize--;
 
-		for(int i = 0; i < items; i++) {
+                            if (slots[i].stackSize <= 0)
+                                slots[i] = null;
 
-			ItemStack stack = ((WeightedRandomObject)WeightedRandom.getRandomItem(rand, cargo)).asStack();
-			addToInv(stack.copy());
-		}
-	}
-	
-	private void addToInv(ItemStack stack) {
-		
-		for(int i = 0; i < 15; i++) {
-			
-			if(slots[i] != null && slots[i].getItem() == stack.getItem() && slots[i].getItemDamage() == stack.getItemDamage() && slots[i].stackSize < slots[i].getMaxStackSize()) {
-				
-				int toAdd = Math.min(slots[i].getMaxStackSize() - slots[i].stackSize, stack.stackSize);
-				
-				slots[i].stackSize += toAdd;
-				stack.stackSize -= toAdd;
-				
-				if(stack.stackSize <= 0) return;
-			}
-		}
-		
-		for(int i = 0; i < 15; i++) {
-			
-			if(slots[i] == null) {
-				slots[i] = new ItemStack(stack.getItem(), 1, stack.getItemDamage());
-				return;
-			}
-		}
-	}
-	
-	private void ejectInto(int x, int y, int z) {
+                            chest.getStackInSlot(j).stackSize++;
+                            return;
+                        }
+                    }
+                }
+            }
 
-		TileEntity te = worldObj.getTileEntity(x, y, z);
-		
-		if(te instanceof IInventory) {
-			
-			IInventory chest = (IInventory)te;
-			
-			for(int i = 0; i < 15; i++) {
-				
-				if(slots[i] != null) {
-					
-					for(int j = 0; j < chest.getSizeInventory(); j++) {
-						
-						ItemStack sta = slots[i].copy();
-						sta.stackSize = 1;
-						
-						if(chest.getStackInSlot(j) != null && chest.getStackInSlot(j).isItemEqual(slots[i]) && ItemStack.areItemStackTagsEqual(chest.getStackInSlot(j), slots[i]) &&
-								chest.getStackInSlot(j).stackSize < chest.getStackInSlot(j).getMaxStackSize()) {
-							
-							slots[i].stackSize--;
-							
-							if(slots[i].stackSize <= 0)
-								slots[i] = null;
-							
-							chest.getStackInSlot(j).stackSize++;
-							return;
-						}
-					}
-				}
-			}
-			
-			for(int i = 0; i < 15; i++) {
-				
-				if(slots[i] != null) {
-					
-					for(int j = 0; j < chest.getSizeInventory(); j++) {
-						
-						ItemStack sta = slots[i].copy();
-						sta.stackSize = 1;
-						
-						if(chest.getStackInSlot(j) == null && chest.isItemValidForSlot(j, sta)) {
-							
-							slots[i].stackSize--;
-							
-							if(slots[i].stackSize <= 0)
-								slots[i] = null;
-							
-							chest.setInventorySlotContents(j, sta);
-							return;
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	AxisAlignedBB bb = null;
-	
-	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		
-		if(bb == null) {
-			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 1,
-					yCoord,
-					zCoord - 1,
-					xCoord + 2,
-					yCoord + 1,
-					zCoord + 2
-					);
-		}
-		
-		return bb;
-	}
+            for (int i = 0; i < 15; i++) {
+                if (slots[i] != null) {
+                    for (int j = 0; j < chest.getSizeInventory(); j++) {
+                        ItemStack sta = slots[i].copy();
+                        sta.stackSize = 1;
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared() {
-		return 65536.0D;
-	}
+                        if (chest.getStackInSlot(j) == null && chest.isItemValidForSlot(j, sta)) {
+                            slots[i].stackSize--;
 
-	@Override
-	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new ContainerSatDock(player.inventory, this);
-	}
+                            if (slots[i].stackSize <= 0)
+                                slots[i] = null;
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUISatDock(player.inventory, this);
-	}
+                            chest.setInventorySlotContents(j, sta);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    AxisAlignedBB bb = null;
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        if (bb == null) {
+            bb = AxisAlignedBB.getBoundingBox(
+                    xCoord - 1,
+                    yCoord,
+                    zCoord - 1,
+                    xCoord + 2,
+                    yCoord + 1,
+                    zCoord + 2
+            );
+        }
+
+        return bb;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public double getMaxRenderDistanceSquared() {
+        return 65536.0D;
+    }
+
+    @Override
+    public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+        return new ContainerSatDock(player.inventory, this);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+        return new GUISatDock(player.inventory, this);
+    }
 }

@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.items.special.ItemDoorSkin;
 import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -54,12 +55,14 @@ public class BlockDoorGeneric extends BlockDummyable {
 			TileEntityDoorGeneric door = (TileEntityDoorGeneric) world.getTileEntity(pos1[0], pos1[1], pos1[2]);
 
 			if(door != null) {
-				return door.tryToggle(playerIn);
+				if(playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() instanceof ItemDoorSkin) {
+					return door.setSkinIndex((byte) playerIn.getHeldItem().getItemDamage());
+				} else {
+					return door.tryToggle(playerIn);
+				}
 			}
 		}
-		if(!playerIn.isSneaking())
-			return true;
-		return false;
+		return !playerIn.isSneaking();
 	}
 	
 	@Override

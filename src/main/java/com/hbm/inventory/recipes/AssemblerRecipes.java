@@ -1190,6 +1190,15 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.bolt_dura_steel, 12),
 				new OreDictStack(KEY_YELLOW, 4)
 			}, 1200);
+
+		makeRecipe(new ComparableStack(ModBlocks.sliding_blast_door, 1), new AStack[] {
+				new OreDictStack(STEEL.plate(), 16),
+				new OreDictStack(W.ingot(), 8),
+				new ComparableStack(ModBlocks.reinforced_glass, 4),
+				new ComparableStack(ModItems.plate_polymer, 4),
+				new ComparableStack(ModItems.bolt_dura_steel, 8),
+				new ComparableStack(ModItems.motor, 2)
+		}, 200);
 		
 		if(Loader.isModLoaded("Mekanism")) {
 			
