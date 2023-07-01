@@ -172,9 +172,6 @@ public class ItemGrenade extends Item {
 			if (this == ModItems.stick_dynamite) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadeDynamite(p_77659_2_, p_77659_3_));
 			}
-			if (this == ModItems.grenate_cats) {
-				p_77659_2_.spawnEntityInWorld(new EntityGrenadeCats(p_77659_2_, p_77659_3_));
-			}
 		}
 
 		return p_77659_1_;
