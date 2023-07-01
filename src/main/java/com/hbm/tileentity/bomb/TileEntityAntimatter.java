@@ -105,7 +105,7 @@ public class TileEntityAntimatter extends TileEntityMachineBase implements IGUIP
 	public int getRest() {
 		
 		if(slots[0] != null && slots[1] != null && slots[3] != null && slots[4] != null && slots[1].getItem() == ModItems.particle_lead && slots[0].getItem() == ModItems.particle_lead && 
-				slots[3].getItem() == ModItems.ingot_gaas && slots[4].getItem() == ModItems.ingot_gaas) {
+				slots[3].getItem() == ModItems.ingot_hafnium && slots[4].getItem() == ModItems.ingot_hafnium) {
 			return 1;
 		}
 		
