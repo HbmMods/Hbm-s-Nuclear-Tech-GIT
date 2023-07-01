@@ -35,7 +35,7 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 	public static final int maxHeatEnergy = 100_000;
 
 	public TileEntityHeaterOilburner() {
-		super(3, 2_000);
+		super(3, 100);
 		tank = new FluidTank(Fluids.HEATINGOIL, 16000);
 	}
 

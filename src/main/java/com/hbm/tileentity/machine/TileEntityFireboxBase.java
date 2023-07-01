@@ -34,7 +34,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 
 
 	public TileEntityFireboxBase() {
-		super(2, 1_200);
+		super(2, 50);
 	}
 	
 	@Override

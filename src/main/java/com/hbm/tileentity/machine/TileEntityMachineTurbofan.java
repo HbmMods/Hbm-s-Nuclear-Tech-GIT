@@ -64,7 +64,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 	private AudioWrapper audio;
 
 	public TileEntityMachineTurbofan() {
-		super(5, 4_000);
+		super(5, 150);
 		tank = new FluidTank(Fluids.KEROSENE, 24000);
 		blood = new FluidTank(Fluids.BLOOD, 24000);
 	}

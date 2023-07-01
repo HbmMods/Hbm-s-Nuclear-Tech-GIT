@@ -25,13 +25,15 @@ public abstract class TileEntityMachinePolluting extends TileEntityMachineBase i
 	public void pollute(PollutionType type, float amount) {
 		FluidTank tank = type == PollutionType.SOOT ? smoke : type == PollutionType.HEAVYMETAL ? smoke_leaded : smoke_poison;
 		
-		int fluidAmount = (int) Math.ceil(amount * 40);
+		int fluidAmount = (int) Math.ceil(amount * 100);
 		tank.setFill(tank.getFill() + fluidAmount);
 		
 		if(tank.getFill() > tank.getMaxFill()) {
 			int overflow = tank.getFill() - tank.getMaxFill();
 			tank.setFill(tank.getMaxFill());
-			PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, type, overflow / 40F);
+			PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, type, overflow / 100F);
+			
+			if(worldObj.rand.nextInt(3) == 0) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.fizz", 0.1F, 1.5F);
 		}
 	}
 	

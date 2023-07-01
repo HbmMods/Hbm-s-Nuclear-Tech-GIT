@@ -40,7 +40,7 @@ public class TileEntityDiFurnace extends TileEntityMachinePolluting implements I
 	public byte sideLower = 1;
 
 	public TileEntityDiFurnace() {
-		super(4, 1200);
+		super(4, 50);
 	}
 
 	@Override
