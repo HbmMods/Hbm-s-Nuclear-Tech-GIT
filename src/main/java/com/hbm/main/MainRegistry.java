@@ -1039,7 +1039,6 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.turret_cwis");
 		ignoreMappings.add("hbm:tile.turret_spitfire");
 		ignoreMappings.add("hbm:tile.turret_cheapo");
-		ignoreMappings.add("hbm:tile.tower_chimney");
 		ignoreMappings.add("hbm:item.turret_light_ammo");
 		ignoreMappings.add("hbm:item.turret_heavy_ammo");
 		ignoreMappings.add("hbm:item.turret_rocket_ammo");
