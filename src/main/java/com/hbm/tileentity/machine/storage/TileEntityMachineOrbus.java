@@ -97,8 +97,8 @@ public class TileEntityMachineOrbus extends TileEntityBarrel implements IOverpre
 	// apathy is a tragedy and boredom is a crime
 	@Override
 	public void explode(World world, int x, int y, int z) {
-    	float amat = Math.min(this.getFluidFill(Fluids.AMAT)/50,100);
-    	float aschrab = Math.min(this.getFluidFill(Fluids.ASCHRAB)/66,500);
+    	float amat = Math.min(this.getFluidFill(Fluids.AMAT)/100,90);
+    	float aschrab = Math.min(this.getFluidFill(Fluids.ASCHRAB)/100,90);
     	if(!worldObj.isRemote) {
 		if(amat>0)
 		{

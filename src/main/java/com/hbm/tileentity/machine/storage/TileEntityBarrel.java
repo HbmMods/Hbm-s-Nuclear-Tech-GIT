@@ -400,10 +400,9 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	@Override
 	public void explode(World world, int x, int y, int z) {
 		//if(this.hasExploded) return;
-	    	this.hasExploded = true;
-	    	float amat = Math.min(this.getFluidFill(Fluids.AMAT)/200,500);
-	    	float aschrab = Math.min(this.getFluidFill(Fluids.ASCHRAB)/66,500);
-	    	if(this.hasExploded) {
+	    	float amat = Math.min(this.getFluidFill(Fluids.AMAT)/100,90);
+	    	float aschrab = Math.min(this.getFluidFill(Fluids.ASCHRAB)/100,90);
+	    	if(this.hasExploded && !worldObj.isRemote) {
 	    		if(amat>0)
 	    		{
 	    			if(amat >= 25)
