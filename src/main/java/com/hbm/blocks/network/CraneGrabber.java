@@ -50,7 +50,7 @@ public class CraneGrabber extends BlockCraneBase {
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-		this.dropContents(world, x, y, z, block, meta, 0, 11);
+		this.dropContents(world, x, y, z, block, meta, 9, 11);
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 }
