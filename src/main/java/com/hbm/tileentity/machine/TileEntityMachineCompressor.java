@@ -34,13 +34,13 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 	
 	public FluidTank[] tanks;
 	public long power;
-	public static final long maxPower = 1_000_000;
+	public static final long maxPower = 100_000;
 	public boolean isOn;
 	public int progress;
 	public int processTime = 100;
 	public static final int processTimeBase = 100;
 	public int powerRequirement;
-	public static final int powerRequirementBase = 10_000;
+	public static final int powerRequirementBase = 2_500;
 	
 	public float fanSpin;
 	public float prevFanSpin;
