@@ -40,9 +40,12 @@ public class TileEntityChimneyBrick extends TileEntityLoadedBase implements IFlu
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("onTicks", onTicks);
 			INBTPacketReceiver.networkPack(this, data, 150);
+			
+			if(onTicks > 0) onTicks--;
+			
 		} else {
 			
-			if(onTicks < 0) {
+			if(onTicks > 0) {
 
 				if(worldObj.getTotalWorldTime() % 2 == 0) {
 					NBTTagCompound fx = new NBTTagCompound();
@@ -77,9 +80,9 @@ public class TileEntityChimneyBrick extends TileEntityLoadedBase implements IFlu
 		
 		fluid *= 0.25;
 
-		if(type == Fluids.SMOKE) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, fluid / 40F);
-		if(type == Fluids.SMOKE_LEADED) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, fluid / 40F);
-		if(type == Fluids.SMOKE_POISON) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.POISON, fluid / 40F);
+		if(type == Fluids.SMOKE) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, fluid / 100F);
+		if(type == Fluids.SMOKE_LEADED) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, fluid / 100F);
+		if(type == Fluids.SMOKE_POISON) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.POISON, fluid / 100F);
 		
 		return 0;
 	}

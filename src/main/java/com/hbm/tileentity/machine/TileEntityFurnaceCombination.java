@@ -42,7 +42,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachinePolluting imp
 	public FluidTank tank;
 
 	public TileEntityFurnaceCombination() {
-		super(4, 1_200);
+		super(4, 50);
 		this.tank = new FluidTank(Fluids.NONE, 24_000);
 	}
 

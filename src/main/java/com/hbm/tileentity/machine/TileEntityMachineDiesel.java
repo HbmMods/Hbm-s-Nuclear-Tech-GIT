@@ -61,7 +61,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	private static final int[] slots_side = new int[] { 2 };
 
 	public TileEntityMachineDiesel() {
-		super(5, 200);
+		super(5, 100);
 		tank = new FluidTank(Fluids.DIESEL, 4_000, 0);
 	}
 
@@ -323,6 +323,6 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 
 	@Override
 	public FluidTank[] getSendingTanks() {
-		return null;
+		return this.getSmokeTanks();
 	}
 }

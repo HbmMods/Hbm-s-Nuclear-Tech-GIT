@@ -51,7 +51,7 @@ public class TileEntityMachineCoal extends TileEntityMachinePolluting implements
 	public static double fuelMod = 0.5D;
 	
 	public TileEntityMachineCoal() {
-		super(4, 120);
+		super(4, 50);
 		tank = new FluidTank(Fluids.WATER, waterCap, 0);
 	}
 

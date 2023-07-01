@@ -419,6 +419,13 @@ public class AnvilRecipes {
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
+						new OreDictStack(STEEL.plate(), 4),
+						new ComparableStack(Blocks.brick_block, 16)
+				},
+				new AnvilOutput(new ItemStack(ModBlocks.chimney_brick))).setTier(2));
+		
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
 						new ComparableStack(ModItems.tank_steel, 1),
 						new OreDictStack(PB.plate528(), 2),
 						new ComparableStack(ModItems.nuclear_waste, 10)

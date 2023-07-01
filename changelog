@@ -6,9 +6,9 @@
   * Can be grilled
 * Fluid valves
   * come in manual and restone variants
-* Chimney
-  * Most polluting machines can now be connected to a chimney with exhaust pipes
-  * The chimney will vent the pollution created by the machines, reducing it by 75%
+* Smokestack
+  * Most polluting machines can now be connected to a smokestack with exhaust pipes
+  * The smokestack will vent the pollution created by the machines, reducing it by 75%
   * Compatible with soot, heavy metal and poison pollution
 
 ## Changed

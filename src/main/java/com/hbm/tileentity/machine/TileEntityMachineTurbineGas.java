@@ -69,7 +69,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachinePolluting impl
 	//TODO particles from heat exchanger maybe? maybe in a future
 	
 	public TileEntityMachineTurbineGas() {
-		super(2, 5_000);
+		super(2, 200);
 		this.tanks = new FluidTank[4];
 		tanks[0] = new FluidTank(Fluids.GAS, 100000);
 		tanks[1] = new FluidTank(Fluids.LUBRICANT, 16000);

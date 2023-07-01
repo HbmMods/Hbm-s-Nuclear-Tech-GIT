@@ -52,7 +52,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 	public int tenth = 0;
 
 	public TileEntityMachineCombustionEngine() {
-		super(5, 1_200);
+		super(5, 50);
 		this.tank = new FluidTank(Fluids.DIESEL, 24_000, 0);
 	}
 
