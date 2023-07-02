@@ -3072,7 +3072,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(glyphid_spawner, glyphid_spawner.getUnlocalizedName());
 		GameRegistry.registerBlock(moon_turf, moon_turf.getUnlocalizedName());
 		
-		GameRegistry.registerBlock(moon_turf, moon_turf.getUnlocalizedName());
 		GameRegistry.registerBlock(moon_rock, moon_rock.getUnlocalizedName());
 		GameRegistry.registerBlock(moon_nickel, moon_nickel.getUnlocalizedName());
 		GameRegistry.registerBlock(moon_titanium, moon_titanium.getUnlocalizedName());

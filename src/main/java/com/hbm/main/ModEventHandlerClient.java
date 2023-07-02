@@ -1008,9 +1008,6 @@ public class ModEventHandlerClient {
 						world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
 						return;
 					}
-				}
-			}
-			
 			if(world.provider.dimensionId == 0) {
 				
 				if(!(sky instanceof RenderNTMSkyboxChainloader)) {
@@ -1018,6 +1015,8 @@ public class ModEventHandlerClient {
 				}
 			}
 		}
+		
+		
 	}
 
 	@SideOnly(Side.CLIENT)

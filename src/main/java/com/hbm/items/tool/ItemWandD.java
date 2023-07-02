@@ -17,7 +17,6 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBookLore;
-import com.hbm.items.special.ItemBookLore.BookLoreType;
 import com.hbm.items.special.ItemKitCustom;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.blocks.ModBlocks;
