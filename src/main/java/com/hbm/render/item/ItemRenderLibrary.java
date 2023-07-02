@@ -1040,6 +1040,17 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.orbus_tex); ResourceManager.orbus.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
+		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_antimatter), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, 7, 0);
+				GL11.glScaled(3.25, 3.25, 3.25);
+				GL11.glRotatef(180, 90, 0, 0);
+			}
+			public void renderCommon() {
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.Antimatter_tex); ResourceManager.Antimatter.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.watz), new ItemRenderBase() {
 			public void renderInventory() {
@@ -1120,17 +1131,7 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.atmo_vent_tex); ResourceManager.atmo_vent.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
-		renderers.put(Item.getItemFromBlock(ModBlocks.machine_tower_chimney), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(3, 3, 3);
-			}
-			public void renderCommon() {
-				GL11.glScaled(0.25, 0.25, 0.25);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.tower_chimney_tex); ResourceManager.tower_chimney.renderAll(); //DO NOT LOOK AT THE UV MAP FOR YOUR OWN SAFTEY
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}});
+
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_fracking_tower), new ItemRenderBase() {
 			public void renderInventory() {

@@ -33,6 +33,7 @@ public class MineralRecipes {
 		add1To9Pair(ModItems.powder_gallium, ModItems.powder_gallium_tiny);
 		add1To9Pair(ModItems.ingot_mercury, ModItems.nugget_mercury);
 		add1To9Pair(ModItems.ingot_nickel, ModItems.nugget_nickel);
+		add1To9Pair(ModItems.ingot_hafnium, ModItems.nugget_hafnium);
 
 		add1To9Pair(ModBlocks.sand_gold, ModItems.powder_gold);
 		add1To9Pair(ModBlocks.sand_gold198, ModItems.powder_au198);
@@ -57,6 +58,9 @@ public class MineralRecipes {
 		
 		add1To9Pair(ModBlocks.bf_log, ModItems.woodemium_briquette);
 		//add1To9Pair(ModItems.powder_wd2004, ModItems.powder_wd2004_tiny);
+		add1To9Pair(ModBlocks.block_cadmium, ModItems.ingot_cadmium);
+		add1To9Pair(ModBlocks.block_tcalloy, ModItems.ingot_tcalloy);
+		add1To9Pair(ModBlocks.block_cdalloy, ModItems.ingot_cdalloy);
 		
 		for(int i = 0; i < EnumCokeType.values().length; i++) {
 			add1To9PairSameMeta(Item.getItemFromBlock(ModBlocks.block_coke), ModItems.coke, i);

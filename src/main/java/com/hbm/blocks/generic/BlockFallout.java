@@ -29,7 +29,7 @@ public class BlockFallout extends Block {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 		if(this==ModBlocks.salted_fallout)
 		{
-			this.setTickRandomly(true);
+			this.setTickRandomly(true);	
 		}
 	}
 
@@ -80,6 +80,10 @@ public class BlockFallout extends Block {
 		}
 	}
 	
+	public void onBlockAdded(World world, int x, int y, int z) {
+		super.onBlockAdded(world, x, y, z);
+	}
+
 	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
 		return true;
 	}
@@ -88,7 +92,7 @@ public class BlockFallout extends Block {
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		if(this==ModBlocks.salted_fallout)
 		{
-			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 50);	
+			ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 50);
 		}
 	}
 }

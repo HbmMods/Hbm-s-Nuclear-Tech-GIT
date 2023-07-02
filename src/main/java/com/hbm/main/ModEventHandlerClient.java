@@ -13,6 +13,10 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
+import com.hbm.blocks.rail.IRailNTM;
+import com.hbm.blocks.rail.IRailNTM.MoveContext;
+import com.hbm.blocks.rail.IRailNTM.RailCheckType;
+import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.config.GeneralConfig;
 import com.hbm.dim.eve.WorldProviderEve;
 import com.hbm.entity.effect.EntityNukeTorex;
@@ -70,6 +74,7 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
@@ -109,6 +114,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
@@ -178,13 +184,22 @@ public class ModEventHandlerClient {
 			World world = mc.theWorld;
 			MovingObjectPosition mop = mc.objectMouseOver;
 			
-			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK ) {
+			if(mop != null) {
 				
-				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ILookOverlay) {
-					((ILookOverlay) player.getHeldItem().getItem()).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+				if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
 					
-				} else if(world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
-					((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+					if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ILookOverlay) {
+						((ILookOverlay) player.getHeldItem().getItem()).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+						
+					} else if(world.getBlock(mop.blockX, mop.blockY, mop.blockZ) instanceof ILookOverlay) {
+						((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
+					}
+				} else if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
+					Entity entity = mop.entityHit;
+					
+					if(entity instanceof ILookOverlay) {
+						((ILookOverlay) entity).printHook(event, world, 0, 0, 0);
+					}
 				}
 			}
 			
@@ -256,12 +271,12 @@ public class ModEventHandlerClient {
 						boolean flip = distanceToCover < 0;
 						
 						if(it == 1) {
-							Vec3 snap = next = rail.getTravelLocation(world, x, y, z, next.xCoord, next.yCoord, next.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, 0, info);
+							Vec3 snap = next = rail.getTravelLocation(world, x, y, z, next.xCoord, next.yCoord, next.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, 0, info, new MoveContext(RailCheckType.CORE, 0));
 							if(i == 0) world.spawnParticle("reddust", snap.xCoord, snap.yCoord + 0.25, snap.zCoord, 0.1, 1, 0.1);
 						}
 						
 						Vec3 prev = next;
-						next = rail.getTravelLocation(world, x, y, z, prev.xCoord, prev.yCoord, prev.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, distanceToCover, info);
+						next = rail.getTravelLocation(world, x, y, z, prev.xCoord, prev.yCoord, prev.zCoord, rot.xCoord, rot.yCoord, rot.zCoord, distanceToCover, info, new MoveContext(i == 0 ? RailCheckType.FRONT : RailCheckType.BACK, 0));
 						distanceToCover = info.overshoot;
 						anchor = info.pos;
 						if(i == 0) world.spawnParticle("reddust", next.xCoord, next.yCoord + 0.25, next.zCoord, 0, distanceToCover != 0 ? 0.5 : 0, 0);
@@ -980,23 +995,27 @@ public class ModEventHandlerClient {
 		if(event.phase == Phase.START && GeneralConfig.enableSkyboxes) {
 			
 			World world = Minecraft.getMinecraft().theWorld;
+			if(world == null) return;
 			
-			if(world != null && world.provider instanceof WorldProviderSurface) {
-				
-				IRenderHandler sky = world.provider.getSkyRenderer();
+			IRenderHandler sky = world.provider.getSkyRenderer();
+			
+			if(world.provider instanceof WorldProviderSurface) {
 				
 				/*if(ImpactWorldHandler.getDustForClient(world) > 0 || ImpactWorldHandler.getFireForClient(world) > 0) {
 
 					//using a chainloader isn't necessary since none of the sky effects should render anyway
 					if(!(sky instanceof RenderNTMSkyboxImpact)) {*/
 						world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
-				/*	}
-				} else {
-
-					if(!(sky instanceof RenderNTMSkyboxChainloader)) {
-						world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
+						return;
 					}
-				}*/
+				}
+			}
+			
+			if(world.provider.dimensionId == 0) {
+				
+				if(!(sky instanceof RenderNTMSkyboxChainloader)) {
+					world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
+				}
 			}
 		}
 	}
@@ -1207,6 +1226,9 @@ public class ModEventHandlerClient {
 	public static IIcon particleBase;
 	public static IIcon particleLeaf;
 	public static IIcon particleSwen;
+	public static IIcon particleLen;
+
+
 
 	@SubscribeEvent
 	public void onTextureStitch(TextureStitchEvent.Pre event) {
@@ -1215,6 +1237,7 @@ public class ModEventHandlerClient {
 			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
 			particleLeaf = event.map.registerIcon(RefStrings.MODID + ":particle/dead_leaf");
 			particleSwen = event.map.registerIcon(RefStrings.MODID + ":particle/particlenote2");
+			particleLen = event.map.registerIcon(RefStrings.MODID + ":particle/particlenote1");
 
 		}
 	}
@@ -1293,7 +1316,7 @@ public class ModEventHandlerClient {
 			
 			switch(rand) {
 			case 0: main.splashText = "Floppenheimer!"; break;
-			case 1: main.splashText = "i should dip my balls in sulfuic acid"; break;
+			case 1: main.splashText = "i should dip my balls in sulfuric acid"; break;
 			case 2: main.splashText = "All answers are popbob!"; break;
 			case 3: main.splashText = "None shall enter The Orb!"; break;
 			case 4: main.splashText = "Wacarb was here"; break;

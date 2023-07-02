@@ -105,8 +105,9 @@ public class ItemBedrockOre extends ItemEnumMulti {
 		BISMUTH("Bismuth", 0xffffff,	B_LEAD,		B_COPPER,	B_SULFUR), //seems to be similar, based off Aikinite
 		CAD("Cadmium", 0xA85400,		B_SULFUR,	B_CALCIUM,	B_SULFUR), //seems to be similar as well
 		URANIUM("Uranium", 0x868D82,	B_LEAD,		B_RADIUM,	B_POLONIUM), //uranium and its decay products
-		THORIUM("Thorium", 0x7D401D,	B_SILICON,	B_URANIUM,	B_TECHNETIUM); //thorium occours with uraninite and decay products
-		
+		THORIUM("Thorium", 0x7D401D,	B_SILICON,	B_URANIUM,	B_TECHNETIUM), //thorium occours with uraninite and decay products
+		CHLOROCALCITE("Chlorocalcite", 0xCDE036, 	B_LITHIUM, 	B_SILICON, 	B_SILICON); //i guess?
+
 		public String oreName;
 		public int color;
 		public EnumByproduct[] byproducts;

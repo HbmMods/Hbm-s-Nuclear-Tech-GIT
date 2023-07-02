@@ -41,7 +41,7 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 		super(11);
 		
 		this.tanks = new FluidTank[5];
-		this.tanks[0] = new FluidTank(Fluids.OIL, 64_000);
+		this.tanks[0] = new FluidTank(Fluids.OIL, 64_000).withPressure(2);
 		this.tanks[1] = new FluidTank(Fluids.HEAVYOIL_VACUUM, 24_000);
 		this.tanks[2] = new FluidTank(Fluids.REFORMATE, 24_000);
 		this.tanks[3] = new FluidTank(Fluids.LIGHTOIL_VACUUM, 24_000);

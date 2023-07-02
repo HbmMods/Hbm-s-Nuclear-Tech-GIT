@@ -22,7 +22,6 @@ import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -31,7 +30,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityNukeExplosionMK5 extends Entity {
+public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 	
 	//Strength of the blast
 	public int strength;
@@ -62,9 +61,12 @@ public class EntityNukeExplosionMK5 extends Entity {
 	public void onUpdate() {
 		
 		if(strength == 0) {
+			this.clearChunkLoader();
 			this.setDead();
 			return;
 		}
+
+		if(!worldObj.isRemote) loadChunk((int) Math.floor(posX / 16D), (int) Math.floor(posZ / 16D));
 		
 		for(Object player : this.worldObj.playerEntities) {
 			((EntityPlayer)player).triggerAchievement(MainRegistry.achManhattan);
@@ -105,9 +107,11 @@ public class EntityNukeExplosionMK5 extends Entity {
 				fallout.setSalted(true);
 			}
 			this.worldObj.spawnEntityInWorld(fallout);
-			
+
+			this.clearChunkLoader();
 			this.setDead();
 		} else {
+			this.clearChunkLoader();
 			this.setDead();
 		}
 	}

@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.container.ContainerOilburner;
@@ -7,6 +9,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Leaded;
 import com.hbm.inventory.gui.GUIOilburner;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
@@ -70,6 +73,11 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 					int heat = (int)(type.getHeatEnergy() / 1000);
 					
 					this.heatEnergy += heat * toBurn;
+
+					if(worldObj.getTotalWorldTime() % 20 == 0) {
+						PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * burnRate * 0.5F);
+						if(tank.getTankType().hasTrait(FT_Leaded.class))  PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * burnRate * 0.5F);
+					}
 					
 					shouldCool = false;
 				}

@@ -5,6 +5,8 @@ import java.io.IOException;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.machine.MachineCoal;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
@@ -289,6 +291,8 @@ public class TileEntityMachineCoal extends TileEntityLoadedBase implements ISide
 		
 		if(burnTime > 0) {
 			burnTime--;
+
+			if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND);
 
 			if(tank.getFill() > 0) {
 				tank.setFill(tank.getFill() - 1);

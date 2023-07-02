@@ -75,7 +75,8 @@ public class ItemChemistryTemplate extends Item {
 
 			for(int i = 0; i < 2; i++) {
 				if(recipe.outputFluids[i] != null) {
-					list.add(recipe.outputFluids[i].fill + "mB " + I18n.format(recipe.outputFluids[i].type.getUnlocalizedName()));
+					int p = recipe.outputFluids[i].pressure;
+					list.add(recipe.outputFluids[i].fill + "mB " + I18n.format(recipe.outputFluids[i].type.getUnlocalizedName()) + (p != 0 ? (" at " + p + "PU") : ""));
 				}
 			}
 
@@ -89,7 +90,8 @@ public class ItemChemistryTemplate extends Item {
 
 			for(int i = 0; i < 2; i++) {
 				if(recipe.inputFluids[i] != null) {
-					list.add(recipe.inputFluids[i].fill + "mB " + I18n.format(recipe.inputFluids[i].type.getUnlocalizedName()));
+					int p = recipe.inputFluids[i].pressure;
+					list.add(recipe.inputFluids[i].fill + "mB " + I18n.format(recipe.inputFluids[i].type.getUnlocalizedName()) + (p != 0 ? (" at " + p + "PU") : ""));
 				}
 			}
 

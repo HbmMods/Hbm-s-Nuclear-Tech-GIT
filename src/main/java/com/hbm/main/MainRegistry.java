@@ -71,6 +71,7 @@ import com.hbm.entity.logic.*;
 import com.hbm.entity.mob.siege.*;
 import com.hbm.handler.*;
 import com.hbm.handler.imc.*;
+import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.inventory.*;
@@ -930,6 +931,10 @@ public class MainRegistry {
 		ChunkRadiationManager radiationSystem = new ChunkRadiationManager();
 		MinecraftForge.EVENT_BUS.register(radiationSystem);
 		FMLCommonHandler.instance().bus().register(radiationSystem);
+
+		PollutionHandler pollution = new PollutionHandler();
+		MinecraftForge.EVENT_BUS.register(pollution);
+		FMLCommonHandler.instance().bus().register(pollution);
 		
 		if(event.getSide() == Side.CLIENT) {
 			HbmKeybinds.register();
@@ -1059,7 +1064,6 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.turret_cwis");
 		ignoreMappings.add("hbm:tile.turret_spitfire");
 		ignoreMappings.add("hbm:tile.turret_cheapo");
-		ignoreMappings.add("hbm:tile.tower_chimney");
 		ignoreMappings.add("hbm:item.turret_light_ammo");
 		ignoreMappings.add("hbm:item.turret_heavy_ammo");
 		ignoreMappings.add("hbm:item.turret_rocket_ammo");

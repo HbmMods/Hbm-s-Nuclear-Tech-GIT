@@ -42,8 +42,10 @@ import com.hbm.world.machine.FWatz;
 import com.hbm.world.machine.NuclearReactor;
 import com.hbm.world.machine.Watz;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.lib.Library;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -55,10 +57,7 @@ import net.minecraft.util.IntHashMap;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.structure.MapGenStronghold;
@@ -195,13 +194,15 @@ public class ItemWandD extends Item {
 			/*
 			return stack;
 			
-			ExplosionVNT vnt = new ExplosionVNT(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 7);
+			/*ExplosionVNT vnt = new ExplosionVNT(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 7);
 			vnt.setBlockAllocator(new BlockAllocatorBulkie(60));
 			vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorBulkie(ModBlocks.block_slag)).setNoDrop());
 			vnt.setEntityProcessor(new EntityProcessorStandard());
 			vnt.setPlayerProcessor(new PlayerProcessorStandard());
 			vnt.setSFX(new ExplosionEffectStandard());
-			vnt.explode();
+			vnt.explode();*/
+			
+			PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
 			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
@@ -211,6 +212,8 @@ public class ItemWandD extends Item {
 			TimeAnalyzer.dump();*/
 			
 			/*TomSaveData data = TomSaveData.forWorld(world);
+			/*
+			TomSaveData data = TomSaveData.forWorld(world);
 			data.impact = true;
 			data.fire = 0F;
 			data.dust = 0F;

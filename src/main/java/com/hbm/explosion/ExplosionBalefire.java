@@ -3,6 +3,7 @@ package com.hbm.explosion;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.util.ParticleUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -115,10 +116,11 @@ public class ExplosionBalefire
 					return;
 				}
 				Material m = worldObj.getBlock(pX, y, pZ).getMaterial();
-				if((m==Material.water || m==Material.craftedSnow || m==Material.snow || m==Material.ice || m==Material.packedIce) && antimatter)
+				if((m==Material.craftedSnow || m==Material.snow || m==Material.ice || m==Material.packedIce) && antimatter)
 				{
-					ExplosionChaos.plasma(worldObj, pX, y, pZ, 4);
-					//continue;
+					//ExplosionChaos.plasma(worldObj, pX, y, pZ, 4);
+					ParticleUtil.spawnGasFlame(worldObj, pX, y, pZ, x, y, z);
+					continue;
 				}
 				if(worldObj.getBlock(pX, y, pZ)!=ModBlocks.plasma)
 				{

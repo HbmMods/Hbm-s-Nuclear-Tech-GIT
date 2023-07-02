@@ -48,7 +48,7 @@ public class FluidType {
 	public double compression = DEFAULT_COMPRESSION;
 	
 	public HashMap<Class, Object> containers = new HashMap();
-	private HashMap<Class<? extends FluidTrait>, FluidTrait> traits = new HashMap();
+	public HashMap<Class<? extends FluidTrait>, FluidTrait> traits = new HashMap();
 	//public List<EnumFluidTrait> enumTraits = new ArrayList();
 	
 	private ResourceLocation texture;

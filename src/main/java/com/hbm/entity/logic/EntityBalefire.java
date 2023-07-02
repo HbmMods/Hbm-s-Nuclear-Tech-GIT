@@ -8,11 +8,13 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.explosion.ExplosionBalefire;
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.util.ParticleUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,7 +25,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityBalefire extends Entity {
+public class EntityBalefire extends EntityExplosionChunkloading  {
 	
 	public int age = 0;
 	public int destructionRange = 0;
@@ -89,6 +91,7 @@ public class EntityBalefire extends Entity {
         	flag = exp.update();
         	
         	if(flag) {
+				clearChunkLoader();
         		this.setDead();
         	}
         }
@@ -143,17 +146,15 @@ public class EntityBalefire extends Entity {
 				if(!(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode))
 				{
 					e.setHealth(0);
-					this.worldObj.createExplosion(this, e.posX, e.posY, e.posZ, 2.0F, true);
-					ExplosionChaos.plasma(this.worldObj, (int) e.posX, (int) e.posY, (int) e.posZ, 4);
+					//this.worldObj.createExplosion(this, e.posX, e.posY, e.posZ, 2.0F, true);
+					//ExplosionChaos.plasma(this.worldObj, (int) e.posX, (int) e.posY, (int) e.posZ, 4);
+					ExplosionLarge.spawnShock(worldObj, e.posX, e.posY, e.posZ, 10, 10);
 					e.setDead();
 				}
 			}
 		}
 	}
-    
-	@Override
-	protected void entityInit() { }
-	
+  
 	public EntityBalefire mute() {
 		this.mute = true;
 		return this;

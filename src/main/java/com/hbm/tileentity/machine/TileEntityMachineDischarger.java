@@ -179,28 +179,22 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 			
 			slots[0].stackSize--;
 			if (slots[0].stackSize <= 0 && slots[0].getItem() == ModItems.ingot_u233) {
-				power += Gen;
+				power += Gen * 0.8;
 				slots[0] = null;
 				slots[0] = new ItemStack(ModItems.ingot_titanium);
-				if (slots[0].getItem() == ModItems.ingot_titanium && slots[0].stackSize < slots[0].getMaxStackSize()) {
-					  slots[0].stackSize++;
-				}
 			}
 			if (slots[0].stackSize <= 0 && slots[0].getItem() == ModItems.ingot_schrabidium) {
 				power += Gen * 2;
 				slots[0] = null;
 				slots[0] = new ItemStack(ModItems.ingot_lanthanium);
-				if (slots[0].getItem() == ModItems.ingot_lanthanium && slots[0].stackSize < slots[0].getMaxStackSize()) {
-					  slots[0].stackSize++;
-				}
+				//if (slots[0].getItem() == ModItems.ingot_lanthanium && slots[0].stackSize < slots[0].getMaxStackSize()) {
+				//	  slots[0].stackSize++;
+				//}
 			}
 			if (slots[0].stackSize <= 0 && slots[0].getItem() == ModItems.ingot_electronium) {
 				power += Gen * 4;
 				slots[0] = null;
 				slots[0] = new ItemStack(ModItems.ingot_dineutronium);
-				if (slots[0].getItem() == ModItems.ingot_dineutronium && slots[0].stackSize < slots[0].getMaxStackSize()) {
-					  slots[0].stackSize++;
-				}
 			}
 			if (slots[0].stackSize <= 0 && slots[0].getItem() == ModItems.battery_creative) {
 				EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, (int) 120);
@@ -215,9 +209,7 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "ambient.weather.thunder", 10000.0F,
 					0.8F + this.worldObj.rand.nextFloat() * 0.2F);
 			}
-		
-	
-		
+
 	}
 
 	@Override
@@ -246,8 +238,6 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 				
 			}
 
-
-			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("progress", process);

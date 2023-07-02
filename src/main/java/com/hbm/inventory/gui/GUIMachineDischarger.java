@@ -32,6 +32,12 @@ public class GUIMachineDischarger extends GuiInfoContainer {
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 106 - 88, 16, 88, diFurnace.power, diFurnace.maxPower);
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 30, guiTop + 25, 8, 80, mouseX, mouseY, new String[] {"Temperature: " + (diFurnace.temp) + "°C"});
+		String[] text = new String[] { "Accepted Fuels:",
+				"Uranium-233",
+				"Schrabidium",
+				"Dineutronium" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+
 	}
 	
 	@Override
@@ -51,7 +57,8 @@ public class GUIMachineDischarger extends GuiInfoContainer {
 	    Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 	    drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-
+	    drawTexturedModalRect(guiLeft -16, guiTop + 35, 176, 106, 16, 50);		    
+		//this.drawInfoPanel(guiLeft - 16, guiTop + 10, 16, 16, 2);
 	    if (diFurnace.getPower() > 0) {
 	        int i = (int) diFurnace.getPowerScaled(88);
 	        drawTexturedModalRect(guiLeft + 8, guiTop + 106 - i, 176, 88 - i, 16, i);
@@ -67,14 +74,15 @@ public class GUIMachineDischarger extends GuiInfoContainer {
 	    	 int i = (int) diFurnace.getTempScaled(88);
 	    	 drawTexturedModalRect(guiLeft + 30, guiTop + 106 - i, 192, 88 - i, 20, i);
 	 	    if(diFurnace.temp < 2000) {
-	 		    drawTexturedModalRect(guiLeft + 28, guiTop + 108, 176, 88, 8, 19);		    
+	 		    drawTexturedModalRect(guiLeft + 28, guiTop + 108, 176, 88, 8, 18);		    
 	 		    }
 	 		    if(diFurnace.temp < 800) {
-	 		    drawTexturedModalRect(guiLeft + 28, guiTop + 108, 184, 88, 8, 19);	
+	 		    drawTexturedModalRect(guiLeft + 28, guiTop + 108, 184, 88, 8, 18);	
 	 		    }
 	 		    if(diFurnace.temp < 200) {
-	 		    drawTexturedModalRect(guiLeft + 28, guiTop + 108, 192, 88, 8, 19);	
+	 		    drawTexturedModalRect(guiLeft + 28, guiTop + 108, 192, 88, 8, 18);	
 	 		    }	 
+	 		    
 	    }
 	}
 }

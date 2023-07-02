@@ -347,6 +347,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		
 		if(progress > this.duration) {
 			
+			this.progress = 0;
+			
 			if(slots[2] != null) {
 				slots[2].stackSize++;
 			} else {
