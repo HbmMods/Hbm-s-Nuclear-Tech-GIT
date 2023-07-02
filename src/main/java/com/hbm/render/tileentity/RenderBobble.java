@@ -47,8 +47,6 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_cirno = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/cirno.png");
 	public static final ResourceLocation bobble_gwen = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/gwen.png");
 	public static final ResourceLocation bobble_juice = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/Juicy_Lad.png");
-	public static final ResourceLocation bobble_divine_ray = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/Divine_Ray.png");
-	public static final ResourceLocation bobble_saerkal= new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/Saerkal.png");
 	public static final ResourceLocation bobble_jamesh_2= new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/JamesH_2.png");
 	public static final ResourceLocation bobble_peep= new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/PeepV1.png");
 	
@@ -105,8 +103,6 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case GWEN:		bindTexture(bobble_gwen); break;
 		case JUICE:		bindTexture(bobble_juice); break;
 		case JAMESH_2:	bindTexture(bobble_jamesh_2); break;
-		case DIVINE_RAY:bindTexture(bobble_divine_ray); break;
-		case SAERKAL:	bindTexture(bobble_saerkal); break;
 		case PEEP:	bindTexture(bobble_peep); break;
 		case MICROWAVE: bindTexture(bobble_microwave); break;
 		default:		bindTexture(ResourceManager.universal);
