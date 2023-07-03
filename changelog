@@ -1,37 +1,7 @@
 ## Added
-* Configs for all things pollution related
-  * Pollution in general can be turned off, smog can be disabled and adjusted, different poison types can be disabled and the threshold for spawning tougher mobs can also be changed
-* Glyphid meat
-  * Dropped by glyphids (duh)
-  * Can be grilled
-* Glyphid eggs
-  * Dropped from glyphid spawners
-  * Currently unused
-* Fluid valves
-  * come in manual and restone variants
-* Smokestack
-  * Most polluting machines can now be connected to a smokestack with exhaust pipes
-  * The smokestack will vent the pollution created by the machines, reducing it by 75%
-  * Compatible with soot, heavy metal and poison pollution
-* Sliding blast door
-  * Everyone's favorite from 1.12
-  * Has multiple skins that can be applied
-* Helium-4
-  * Used in helium-4-oxygen plasma
-  * Made from ionized particles in a liquefactor
 
 ## Changed
-* Glyphids now have a config for a global spawn limit, which is 50 by default, no more than this many glyphids can be created at once
-* Removed the old oil and gas ducts for good
-* FBI agents and drones no longer take damage from rosenberg pest control boxes
-* Compressors now have a base comsumption of 2,500 HE/t instwad of 10,000
-* On 528 mode, gas shale now only contains 50mB of petroleum instead of 250mB
-* Xenon-mercury plasma has been changed into helium-4-oxygen plasma
-  * This means that current xenon-mercury setups will no longer work
 
 ## Fixed
-* Fixed player extprops like the HUD or backpack toggles not saving
-* Fixed desync caused by teleporting between dimensions, switching toggles for HUD or backpack
-* Fixed potential issue causing the plasma heater to overfill
-* Fixed back connector of the compressor not working properly
-* Fixed a dupe regarind one of the conveyor blocks, not telling you which, though
+* Fixed quantity of the fusion reactor's construction recipe not being displayed right
+* Fixed fluid valve and redstone fluid valves having the wrong names

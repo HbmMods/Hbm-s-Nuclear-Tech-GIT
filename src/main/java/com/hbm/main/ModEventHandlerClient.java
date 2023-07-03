@@ -1266,14 +1266,16 @@ public class ModEventHandlerClient {
 			case 3: main.splashText = "None shall enter The Orb!"; break;
 			case 4: main.splashText = "Wacarb was here"; break;
 			case 5: main.splashText = "SpongeBoy me Bob I am overdosing on keramine agagagagaga"; break;
-			case 6: main.splashText = "I know where you live, " + System.getProperty("user.name"); break;
+			case 6: main.splashText = EnumChatFormatting.RED + "I know where you live, " + System.getProperty("user.name"); break;
 			case 7: main.splashText = "Nice toes, now hand them over."; break;
 			case 8: main.splashText = "I smell burnt toast!"; break;
 			case 9: main.splashText = "There are bugs under your skin!"; break;
 			case 10: main.splashText = "Fentanyl!"; break;
 			case 11: main.splashText = "Do drugs!"; break;
-			case 12: main.splashText = "post this on r/feedthememes for free internet points!"; break;
+			//case 12: main.splashText = "post this on r/feedthememes for free internet points!"; break;
 			}
+			
+			if(Math.random() < 0.1) main.splashText = "Visit r/feedthebeast if you hate yourself!";
 		}
 	}
 }
