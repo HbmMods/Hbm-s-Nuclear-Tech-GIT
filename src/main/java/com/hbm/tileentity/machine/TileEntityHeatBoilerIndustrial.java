@@ -1,19 +1,9 @@
 package com.hbm.tileentity.machine;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.blocks.BlockDummyable;
-import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
-import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
-import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
@@ -36,29 +26,25 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumSkyBlock;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluidSource, IFluidAcceptor, INBTPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine {
+public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine {
 
 	public int heat;
 	public FluidTank[] tanks;
-	public List<IFluidAcceptor> list = new ArrayList();
 	public boolean isOn;
-	public boolean hasExploded = false;
 	
 	private AudioWrapper audio;
 	private int audioTime;
 	
 	/* CONFIGURABLE */
-	public static int maxHeat = 3_200_000;
+	public static int maxHeat = 12_800_000;
 	public static double diffusion = 0.1D;
-	public static boolean canExplode = true;
 
-	public TileEntityHeatBoiler() {
+	public TileEntityHeatBoilerIndustrial() {
 		this.tanks = new FluidTank[2];
 
-		this.tanks[0] = new FluidTank(Fluids.WATER, 16_000);
-		this.tanks[1] = new FluidTank(Fluids.STEAM, 16_000 * 100);
+		this.tanks[0] = new FluidTank(Fluids.WATER, 64_000, 0);
+		this.tanks[1] = new FluidTank(Fluids.STEAM, 64_000 * 100, 1);
 	}
 	
 	@Override
@@ -67,32 +53,27 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 		if(!worldObj.isRemote) {
 			
 			NBTTagCompound data = new NBTTagCompound();
+			this.setupTanks();
+			this.updateConnections();
+			this.tryPullHeat();
+			int lastHeat = this.heat;
 			
-			if(!this.hasExploded) {
-				this.setupTanks();
-				this.updateConnections();
-				this.tryPullHeat();
-				int lastHeat = this.heat;
-				
-				int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
-				if(light > 7 && TomSaveData.forWorld(worldObj).fire > 1e-5) {
-					this.heat += ((maxHeat - heat) * 0.000005D); //constantly heat up 0.0005% of the remaining heat buffer for rampant but diminishing heating
-				}
-				
-				data.setInteger("heat", lastHeat);
+			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
+			if(light > 7 && TomSaveData.forWorld(worldObj).fire > 1e-5) {
+				this.heat += ((maxHeat - heat) * 0.000005D); //constantly heat up 0.0005% of the remaining heat buffer for rampant but diminishing heating
+			}
+			
+			data.setInteger("heat", lastHeat);
 
-				tanks[0].writeToNBT(data, "0");
-				this.isOn = false;
-				this.tryConvert();
-				tanks[1].writeToNBT(data, "1");
-				
-				if(this.tanks[1].getFill() > 0) {
-					this.sendFluid();
-					fillFluidInit(tanks[1].getTankType());
-				}
+			tanks[0].writeToNBT(data, "0");
+			this.isOn = false;
+			this.tryConvert();
+			tanks[1].writeToNBT(data, "1");
+			
+			if(this.tanks[1].getFill() > 0) {
+				this.sendFluid();
 			}
 
-			data.setBoolean("exploded", this.hasExploded);
 			data.setBoolean("isOn", this.isOn);
 			INBTPacketReceiver.networkPack(this, data, 25);
 		} else {
@@ -149,7 +130,6 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
-		this.hasExploded = nbt.getBoolean("exploded");
 		this.heat = nbt.getInteger("heat");
 		this.tanks[0].readFromNBT(nbt, "0");
 		this.tanks[1].readFromNBT(nbt, "1");
@@ -220,27 +200,6 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 				if(ops > 0) {
 					this.isOn = true;
 				}
-				
-				if(outputOps == 0 && canExplode) {
-					this.hasExploded = true;
-					BlockDummyable.safeRem = true;
-					for(int x = xCoord - 1; x <= xCoord + 1; x++) {
-						for(int y = yCoord + 2; y <= yCoord + 3; y++) {
-							for(int z = zCoord - 1; z <= zCoord + 1; z++) {
-								worldObj.setBlockToAir(x, y, z);
-							}
-						}
-					}
-					worldObj.setBlockToAir(xCoord, yCoord + 1, zCoord);
-					
-					ExplosionVNT xnt = new ExplosionVNT(worldObj, xCoord + 0.5, yCoord + 2, zCoord + 0.5, 5F);
-					xnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(3F));
-					xnt.setPlayerProcessor(new PlayerProcessorStandard());
-					xnt.setSFX(new ExplosionEffectStandard());
-					xnt.explode();
-					
-					BlockDummyable.safeRem = false;
-				}
 			}
 		}
 	}
@@ -260,11 +219,12 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 	}
 	
 	private DirPos[] getConPos() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getRotation(ForgeDirection.UP);
 		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, dir),
-				new DirPos(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, dir.getOpposite()),
-				new DirPos(xCoord, yCoord + 4, zCoord, Library.POS_Y),
+				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z),
+				new DirPos(xCoord, yCoord + 5, zCoord, Library.POS_Y),
 		};
 	}
 	
@@ -274,7 +234,6 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "steam");
 		heat = nbt.getInteger("heat");
-		hasExploded = nbt.getBoolean("exploded");
 	}
 	
 	@Override
@@ -283,63 +242,6 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "steam");
 		nbt.setInteger("heat", heat);
-		nbt.setBoolean("exploded", hasExploded);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				tank.setFill(fill);
-				return;
-			}
-		}
-	}
-
-	@Override public void setFillForSync(int fill, int index) { }
-	@Override public void setTypeForSync(FluidType type, int index) { }
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				return tank.getFill();
-			}
-		}
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return type == tanks[0].getTankType() ? tanks[0].getMaxFill() : 0;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getRotation(ForgeDirection.UP);
-		this.fillFluid(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, this.getTact(), type);
-		this.fillFluid(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, this.getTact(), type);
-		this.fillFluid(xCoord, yCoord + 4, zCoord, this.getTact(), type);
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 2 == 0;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return this.list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		this.list.clear();
 	}
 
 	@Override
@@ -368,7 +270,7 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 					yCoord,
 					zCoord - 1,
 					xCoord + 2,
-					yCoord + 4,
+					yCoord + 5,
 					zCoord + 2
 					);
 		}
@@ -384,20 +286,18 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 
 	@Override
 	public String getConfigName() {
-		return "boiler";
+		return "boilerIndustrial";
 	}
 
 	@Override
 	public void readIfPresent(JsonObject obj) {
 		maxHeat = IConfigurableMachine.grab(obj, "I:maxHeat", maxHeat);
 		diffusion = IConfigurableMachine.grab(obj, "D:diffusion", diffusion);
-		canExplode = IConfigurableMachine.grab(obj, "B:canExplode", canExplode);
 	}
 
 	@Override
 	public void writeConfig(JsonWriter writer) throws IOException {
 		writer.name("I:maxHeat").value(maxHeat);
 		writer.name("D:diffusion").value(diffusion);
-		writer.name("B:canExplode").value(canExplode);
 	}
 }

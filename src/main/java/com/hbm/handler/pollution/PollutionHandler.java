@@ -320,8 +320,9 @@ public class PollutionHandler {
 		if(living instanceof IMob) {
 			
 			if(data.pollution[PollutionType.SOOT.ordinal()] > RadiationConfig.buffMobThreshold) {
-				if(living.getEntityAttribute(SharedMonsterAttributes.maxHealth) != null) living.getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(new AttributeModifier("Soot Anger Health Increase", 2D, 1));
+				if(living.getEntityAttribute(SharedMonsterAttributes.maxHealth) != null) living.getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(new AttributeModifier("Soot Anger Health Increase", 1D, 1));
 				if(living.getEntityAttribute(SharedMonsterAttributes.attackDamage) != null) living.getEntityAttribute(SharedMonsterAttributes.attackDamage).applyModifier(new AttributeModifier("Soot Anger Damage Increase", 1.5D, 1));
+				living.heal(living.getMaxHealth());
 			}
 		}
 	}
