@@ -81,7 +81,9 @@ import com.hbm.util.EnumUtil;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 import com.hbm.util.ParticleUtil;
+import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.world.generator.TimedGenerator;
 
@@ -594,9 +596,13 @@ public class ModEventHandler {
 			}
 		}
 		//TODO: Add spacesuits
-		if(!ArmorUtil.checkForAsbestos(event.entityLiving) && event.entityLiving.worldObj.provider.dimensionId==WorldConfig.eveDimension)
+		if(!ArmorUtil.checkForAsbestos(event.entityLiving) && PlanetaryTraitUtil.isDimensionWithTrait(event.entityLiving.worldObj, Hospitality.HOT))
 		{
 			event.entityLiving.attackEntityFrom(ModDamageSource.eve, 4);
+		}
+		if(!ArmorUtil.checkForAsbestos(event.entityLiving) && PlanetaryTraitUtil.isDimensionWithTrait(event.entityLiving.worldObj, Hospitality.VACUUM))
+		{
+			event.entityLiving.attackEntityFrom(ModDamageSource.oxyprime, 1);
 		}
 		EntityEffectHandler.onUpdate(event.entityLiving);
 		

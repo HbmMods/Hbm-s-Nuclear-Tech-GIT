@@ -1,7 +1,9 @@
 package com.hbm.items.tool;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import com.hbm.dim.DebugTeleporter;
 
@@ -34,6 +36,8 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.ParticleUtil;
+import com.hbm.util.PlanetaryTraitUtil;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.world.feature.OilSpot;
 import com.hbm.world.generator.DungeonToolbox;
@@ -49,6 +53,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
@@ -189,7 +194,14 @@ public class ItemWandD extends Item {
 					}
 				}
 			}
-			
+		//what this code SHOULD do is strip the traits from moho, and then add the trait that makes it breatheable
+			if(world.provider.dimensionId == WorldConfig.mohoDimension) {
+				Set<Hospitality> traits = EnumSet.of(Hospitality.HOT, Hospitality.VACUUM);
+				Set<Hospitality> newtraits = EnumSet.of(Hospitality.BREATHEABLE);
+				PlanetaryTraitUtil.removeTraitsFromDimension(world.provider.dimensionId, traits);
+				PlanetaryTraitUtil.addTraitsToDimension(world.provider.dimensionId, newtraits);
+				player.addChatMessage(new ChatComponentText("added!" + newtraits));
+			}
 			/*
 			return stack;
 			
@@ -201,7 +213,7 @@ public class ItemWandD extends Item {
 			vnt.setSFX(new ExplosionEffectStandard());
 			vnt.explode();*/
 			
-			PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
+			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
 			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);

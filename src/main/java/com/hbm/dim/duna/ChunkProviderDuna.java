@@ -36,8 +36,7 @@ import java.util.Random;
 public class ChunkProviderDuna implements IChunkProvider
 {
     /** RNG. */
-    //private final BiomeDecoratorPluto plutoBiomeDecorator = new BiomeDecoratorPluto();
-//    private final MapGenCaveVenus cavernGenerator = new MapGenCavePluto();
+
     private Random rand;
     private NoiseGeneratorOctaves noiseGen1;
     private NoiseGeneratorOctaves noiseGen2;
@@ -493,7 +492,6 @@ public class ChunkProviderDuna implements IChunkProvider
     {
         BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(par2, par4);
         return null;
-//        return par1EnumCreatureType == EnumCreatureType.monster && this.scatteredFeatureGenerator.func_143030_a(par2, par3, par4) ? this.scatteredFeatureGenerator.getScatteredFeatureSpawnList() : biomegenbase.getSpawnableList(par1EnumCreatureType);
     }
 
     @Override
@@ -511,9 +509,6 @@ public class ChunkProviderDuna implements IChunkProvider
     @Override
     public void recreateStructures(int par1, int par2)
     {
-//        if (this.mapFeaturesEnabled)
-//        {
-//            this.scatteredFeatureGenerator.func_151539_a(this, this.worldObj, par1, par2, (Block[])null);
-//        }
+
     }
 }

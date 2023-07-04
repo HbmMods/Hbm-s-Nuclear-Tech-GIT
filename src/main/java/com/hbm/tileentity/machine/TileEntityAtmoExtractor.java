@@ -16,6 +16,8 @@ import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.PlanetaryTraitUtil;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardSender;
@@ -73,7 +75,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 			tanks.setTankType(Fluids.CARBONDIOXIDE);
 			this.markDirty();
 			}
-		if(worldObj.provider.dimensionId != WorldConfig.dunaDimension && worldObj.provider.dimensionId != WorldConfig.eveDimension ) {
+		if(PlanetaryTraitUtil.isDimensionWithTrait(worldObj, Hospitality.VACUUM)) {
 			tanks.setTankType(Fluids.NONE);
 			this.markDirty();
 			return;

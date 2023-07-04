@@ -3,6 +3,8 @@ package com.hbm.dim.moho;
 import com.hbm.config.WorldConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.AstronomyUtil;
+import com.hbm.util.PlanetaryTraitUtil;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -43,7 +45,13 @@ public class WorldProviderMoho extends WorldProvider {
     }
     
     public Vec3 getSkyColor(Entity camera, float partialTicks) {
-      return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
+        if(PlanetaryTraitUtil.isDimensionWithTrait(worldObj, Hospitality.BREATHEABLE)) {
+        	return Vec3.createVectorHelper(0.3D, 0.2D, 0.1D);
+        }
+        else {
+            return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
+
+        }
     }
     
     @SideOnly(Side.CLIENT)

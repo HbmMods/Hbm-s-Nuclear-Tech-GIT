@@ -15,6 +15,8 @@ import com.hbm.tileentity.machine.TileEntityAtmoVent;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBurner;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.PlanetaryTraitUtil;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -86,7 +88,7 @@ public class AtmoVent extends BlockDummyable implements ILookOverlay {
 		TileEntityAtmoVent tower = (TileEntityAtmoVent) te;
 
 		List<String> text = new ArrayList();
-		if(world.provider.dimensionId != WorldConfig.dunaDimension && world.provider.dimensionId != WorldConfig.eveDimension && world.provider.dimensionId != 1) {
+		if(PlanetaryTraitUtil.isDimensionWithTrait(world, Hospitality.VACUUM)) {
 			text.add(((EnumChatFormatting.RED + "ERROR: ")) + EnumChatFormatting.RESET + I18nUtil.resolveKey("CANNOT COLLECT IN VACUUM"));
 		}
 		else {
