@@ -24,6 +24,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -207,19 +208,19 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 			TileEntity te1 = null;
 			TileEntity te2 = null;
 			
-			if(meta == 2) {
+			if(meta == 14) {
 				te1 = worldObj.getTileEntity(xCoord - 2, yCoord, zCoord);
 				te2 = worldObj.getTileEntity(xCoord + 3, yCoord, zCoord - 1);
 			}
-			if(meta == 3) {
+			if(meta == 15) {
 				te1 = worldObj.getTileEntity(xCoord + 2, yCoord, zCoord);
 				te2 = worldObj.getTileEntity(xCoord - 3, yCoord, zCoord + 1);
 			}
-			if(meta == 4) {
+			if(meta == 13) {
 				te1 = worldObj.getTileEntity(xCoord, yCoord, zCoord + 2);
 				te2 = worldObj.getTileEntity(xCoord - 1, yCoord, zCoord - 3);
 			}
-			if(meta == 5) {
+			if(meta == 12) {
 				te1 = worldObj.getTileEntity(xCoord, yCoord, zCoord - 2);
 				te2 = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord + 3);
 			}
@@ -284,32 +285,23 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 	}
 	
 	private void updateConnections() {
-		this.getBlockMetadata();
 		
-		if(this.blockMetadata == 5) {
-			this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
-			this.trySubscribe(worldObj, xCoord - 2, yCoord, zCoord + 1, Library.NEG_X);
-			this.trySubscribe(worldObj, xCoord + 3, yCoord, zCoord, Library.POS_X);
-			this.trySubscribe(worldObj, xCoord + 3, yCoord, zCoord + 1, Library.POS_X);
-			
-		} else if(this.blockMetadata == 3) {
-			this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 2, Library.NEG_Z);
-			this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z);
-			this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 3, Library.POS_Z);
-			this.trySubscribe(worldObj, xCoord - 1, yCoord, zCoord + 3, Library.POS_Z);
-			
-		} else if(this.blockMetadata == 4) {
-			this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
-			this.trySubscribe(worldObj, xCoord + 2, yCoord, zCoord - 1, Library.POS_X);
-			this.trySubscribe(worldObj, xCoord - 3, yCoord, zCoord, Library.NEG_X);
-			this.trySubscribe(worldObj, xCoord - 3, yCoord, zCoord - 1, Library.NEG_X);
-			
-		} else if(this.blockMetadata == 2) {
-			this.trySubscribe(worldObj, xCoord, yCoord, zCoord + 2, Library.POS_Z);
-			this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord + 2, Library.POS_Z);
-			this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 3, Library.NEG_Z);
-			this.trySubscribe(worldObj, xCoord + 1, yCoord, zCoord - 3, Library.NEG_Z);
+		for(DirPos pos : getConPos()) {
+			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
+	}
+	
+	public DirPos[] getConPos() {
+
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+		
+		return new DirPos[] {
+				new DirPos(xCoord + rot.offsetX * 3,				yCoord,	zCoord + rot.offsetZ * 3,				rot),
+				new DirPos(xCoord - rot.offsetX * 2,				yCoord,	zCoord - rot.offsetZ * 2,				rot.getOpposite()),
+				new DirPos(xCoord + rot.offsetX * 3 + dir.offsetX,	yCoord,	zCoord + rot.offsetZ * 3 + dir.offsetZ, rot),
+				new DirPos(xCoord - rot.offsetX * 2 + dir.offsetX,	yCoord,	zCoord - rot.offsetZ * 2 + dir.offsetZ, rot.getOpposite())
+		};
 	}
 	
     public void onChunkUnload() {
