@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.UpgradeManager;
@@ -38,6 +40,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineAssembler extends TileEntityMachineBase implements IEnergyUser, IGUIProvider {
 
@@ -51,7 +54,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 	int speed = 100;
 	
 	@SideOnly(Side.CLIENT)
-	public int recipe;
+	public int recipe = -1;
 	
 	private AudioWrapper audio;
 	
@@ -126,6 +129,27 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			//meta below 12 means that it's an old multiblock configuration
+			if(this.getBlockMetadata() < 12) {
+				int meta = this.getBlockMetadata();
+				if(meta == 2 || meta == 14) meta = 4;
+				else if(meta == 4 || meta == 13) meta = 3;
+				else if(meta == 3 || meta == 15) meta = 5;
+				else if(meta == 5 || meta == 12) meta = 2;
+				//get old direction
+				ForgeDirection dir = ForgeDirection.getOrientation(meta);
+				//remove tile from the world to prevent inventory dropping
+				worldObj.removeTileEntity(xCoord, yCoord, zCoord);
+				//use fillspace to create a new multiblock configuration
+				worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.machine_assembler, dir.ordinal() + 10, 3);
+				MultiblockHandlerXR.fillSpace(worldObj, xCoord, yCoord, zCoord, ((BlockDummyable) ModBlocks.machine_assembler).getDimensions(), ModBlocks.machine_assembler, dir);
+				//load the tile data to restore the old values
+				NBTTagCompound data = new NBTTagCompound();
+				this.writeToNBT(data);
+				worldObj.getTileEntity(xCoord, yCoord, zCoord).readFromNBT(data);
+				return;
+			}
 			
 			this.updateConnections();
 
