@@ -532,6 +532,12 @@ entity.hbm.entity_bullet.name=Patrone
 entity.hbm.entity_rocket.name=Rakete
 entity.hbm.entity_schrabnel.name=Schrabnel
 
+excavator.crusher=Brecher
+excavator.drill=Bohrer
+excavator.silktouch=Behutsamkeit
+excavator.veinminer=Erzadern-Miner
+excavator.walling=Verschalung
+
 flare.ignition=Zündung
 flare.valve=Flussventil
 

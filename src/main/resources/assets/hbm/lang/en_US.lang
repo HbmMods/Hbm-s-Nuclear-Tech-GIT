@@ -1023,6 +1023,12 @@ entity.hbm.entity_bullet.name=Bullet
 entity.hbm.entity_rocket.name=Rocket
 entity.hbm.entity_schrabnel.name=Schrabnel
 
+excavator.crusher=Toggle Crusher
+excavator.drill=Toggle Drill
+excavator.silktouch=Toggle Silk Touch
+excavator.veinminer=Toggle Vein Miner
+excavator.walling=Toggle Walling
+
 flare.ignition=Ignition
 flare.valve=Flow Valve
 

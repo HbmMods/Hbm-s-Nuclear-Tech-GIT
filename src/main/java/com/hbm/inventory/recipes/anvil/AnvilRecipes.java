@@ -942,6 +942,14 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(ModItems.plate_lead, 2)),
 						new AnvilOutput(new ItemStack(ModItems.nuclear_waste_vitrified, 10))
 				}).setTier(3));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.egg_glyphid), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.glyphid_meat, 2)),
+						new AnvilOutput(new ItemStack(ModItems.glyphid_meat, 1), 0.5F),
+						new AnvilOutput(new ItemStack(Items.bone, 1), 0.75F),
+						new AnvilOutput(new ItemStack(Items.experience_bottle, 1), 0.5F)
+				}).setTier(1));
 	}
 	
 	public static void pullFromAssembler(ComparableStack result, int tier) {

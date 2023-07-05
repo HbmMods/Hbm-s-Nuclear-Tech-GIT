@@ -7,6 +7,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineExcavator;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -32,6 +33,12 @@ public class GUIMachineExcavator extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int x, int y, float interp) {
 		super.drawScreen(x, y, interp);
+
+		this.drawCustomInfoStat(x, y, guiLeft + 6, guiTop + 42, 20, 40, x, y, I18nUtil.resolveKey("excavator.drill"));
+		this.drawCustomInfoStat(x, y, guiLeft + 30, guiTop + 42, 20, 40, x, y, I18nUtil.resolveKey("excavator.crusher"));
+		this.drawCustomInfoStat(x, y, guiLeft + 54, guiTop + 42, 20, 40, x, y, I18nUtil.resolveKey("excavator.walling"));
+		this.drawCustomInfoStat(x, y, guiLeft + 78, guiTop + 42, 20, 40, x, y, I18nUtil.resolveKey("excavator.veinminer"));
+		this.drawCustomInfoStat(x, y, guiLeft + 102, guiTop + 42, 20, 40, x, y, I18nUtil.resolveKey("excavator.silktouch"));
 		
 		this.drawElectricityInfo(this, x, y, guiLeft + 220, guiTop + 18, 16, 52, drill.getPower(), drill.maxPower);
 		this.drill.tank.renderTankInfo(this, x, y, guiLeft + 202, guiTop + 18, 16, 52);

@@ -1,7 +1,14 @@
 ## Added
+* Industrial boiler
+  * A slightly taller variant of the boiler with higher capacity
+  * Unlike the regular boiler, it can't explode
 
 ## Changed
+* The regular boiler now only holds 16k instead of 64k (which is still a lot)
+* Added labels to the large mining drill's levers
+* Glyphid eggs can now be broken apart using an anvil, yielding glyphid meat, bones and experience bottles
 
 ## Fixed
 * Fixed quantity of the fusion reactor's construction recipe not being displayed right
 * Fixed fluid valve and redstone fluid valves having the wrong names
+* Fixed mobs' max health getting buffed by pollution, but the actual health staying the same
