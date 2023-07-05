@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 
 public class SatelliteLunarMiner extends SatelliteMiner {
     static {
-        registerCargo(new WeightedRandomObject[] {
+        registerCargo(SatelliteLunarMiner.class, new WeightedRandomObject[] {
                 new WeightedRandomObject(new ItemStack(ModBlocks.moon_turf, 48), 5),
                 new WeightedRandomObject(new ItemStack(ModBlocks.moon_turf, 32), 7),
                 new WeightedRandomObject(new ItemStack(ModBlocks.moon_turf, 16), 5),
