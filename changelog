@@ -2,13 +2,23 @@
 * Industrial boiler
   * A slightly taller variant of the boiler with higher capacity
   * Unlike the regular boiler, it can't explode
+* Redstone-over-radio counter
+  * Can count and send the amount of an item stored in a container
+  * Counting supports filters by item ID, ID+meta and ore dictionary names
+  * Each torch can count up to three items and output the results on different channels
+  * This allows for more precise control over things like assembler chests, like turning off the ejector for an item that is already full but not other ejectors
+  * This property makes automating things with multiple inputs a lot easier
+  * Due to the ore dictionary ability of the counter, buffered items can precisely match the requirements of the recipe
 
 ## Changed
 * The regular boiler now only holds 16k instead of 64k (which is still a lot)
 * Added labels to the large mining drill's levers
 * Glyphid eggs can now be broken apart using an anvil, yielding glyphid meat, bones and experience bottles
+* The assembler now uses the new multiblock system, making it less annoying to playe and less ear-piercing to break
+  * The conversion happens automatically so it's not necessary to remove the assemblers beforehand
 
 ## Fixed
 * Fixed quantity of the fusion reactor's construction recipe not being displayed right
 * Fixed fluid valve and redstone fluid valves having the wrong names
 * Fixed mobs' max health getting buffed by pollution, but the actual health staying the same
+* Fixed bug regarding the loot pools of satellite miners
