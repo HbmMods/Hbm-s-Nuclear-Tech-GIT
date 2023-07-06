@@ -9,6 +9,12 @@
   * This allows for more precise control over things like assembler chests, like turning off the ejector for an item that is already full but not other ejectors
   * This property makes automating things with multiple inputs a lot easier
   * Due to the ore dictionary ability of the counter, buffered items can precisely match the requirements of the recipe
+* Particle collider cooling unit
+  * A block that can replace coils in a particle collider
+  * Will increment a new "cooling" value which depletes over time and makes coils more effective
+  * Overcooling causes a penalty, so coolers cannot be spammed and need to be carefully spaced out
+  * Allows for even more compact particle accelerator setups
+  * Comes in two tiers, both tiers use a different cooling variable with different effectiveness, the higher tier will override the lower tier if both tiers of coolers are present
 
 ## Changed
 * The regular boiler now only holds 16k instead of 64k (which is still a lot)

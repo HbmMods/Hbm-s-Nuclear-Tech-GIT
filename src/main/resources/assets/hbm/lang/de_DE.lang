@@ -3884,6 +3884,8 @@ tile.hadron_coil_neodymium.name=Dichte Neodymspule
 tile.hadron_coil_schrabidate.name=Dichte Schrabidatspule
 tile.hadron_coil_schrabidium.name=Dichte Schrabidiumspule
 tile.hadron_coil_starmetal.name=Dichte Sternenmetallspule
+tile.hadron_cooler.name=Teilchenbeschleuniger-Kühlungseinheit
+tile.hadron_cooler_mk2.nameTeilchenbeschleuniger-Kühlungseinheit - Das Palindrome-Spezial
 tile.hadron_core.name=Teilchenbeschleuniger-Kernkomponente
 tile.hadron_diode.name=Schottky-Partikeldiode
 tile.hadron_plating.name=Teilchenbeschleuniger-Außenwand

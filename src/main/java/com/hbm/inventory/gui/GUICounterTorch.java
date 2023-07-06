@@ -91,7 +91,7 @@ public class GUICounterTorch extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 		
-		/*for(int j = 0; j < 3; j++) this.frequency[j].mouseClicked(x, y, i);
+		for(int j = 0; j < 3; j++) this.frequency[j].mouseClicked(x, y, i);
 
 		if(guiLeft + 193 <= x && guiLeft + 193 + 18 > x && guiTop + 8 < y && guiTop + 8 + 18 >= y) {
 
@@ -107,13 +107,13 @@ public class GUICounterTorch extends GuiInfoContainer {
 			
 			for(int j = 0; j < 3; j++) data.setString("c" + j, this.frequency[j].getText());
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, counter.xCoord, counter.yCoord, counter.zCoord));
-		}*/
+		}
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y) {
 		String name = I18nUtil.resolveKey(this.counter.getInventoryName());
-		this.fontRendererObj.drawString(name, 184 / 2 - this.fontRendererObj.getStringWidth(name) / 2, this.guiTop + 6, 4210752);
+		this.fontRendererObj.drawString(name, 184 / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 16, this.ySize - 96 + 2, 4210752);
 	}
 
@@ -133,7 +133,7 @@ public class GUICounterTorch extends GuiInfoContainer {
 	@Override
 	protected void keyTyped(char c, int i) {
 		
-		//for(int j = 0; j < 3; j++) if(this.frequency[j].textboxKeyTyped(c, i)) return;
+		for(int j = 0; j < 3; j++) if(this.frequency[j].textboxKeyTyped(c, i)) return;
 		
 		super.keyTyped(c, i);
 	}

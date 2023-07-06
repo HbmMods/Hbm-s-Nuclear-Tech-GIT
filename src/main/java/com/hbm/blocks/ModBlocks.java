@@ -742,6 +742,7 @@ public class ModBlocks {
 	public static Block hadron_analysis_glass;
 	public static Block hadron_access;
 	public static Block hadron_core;
+	public static Block hadron_cooler;
 	
 	public static Block machine_electric_furnace_off;
 	public static Block machine_electric_furnace_on;
@@ -1875,6 +1876,7 @@ public class ModBlocks {
 		hadron_analysis_glass = new BlockNTMGlass(0, RefStrings.MODID + ":hadron_analysis_glass", Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_analysis_glass").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_analysis_glass");
 		hadron_access = new BlockHadronAccess(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_access").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_access");
 		hadron_core = new BlockHadronCore(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_core");
+		hadron_cooler = new BlockHadronCooler(Material.iron).setBlockName("hadron_cooler").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F);
 		
 		machine_electric_furnace_off = new MachineElectricFurnace(false).setBlockName("machine_electric_furnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_electric_furnace_on = new MachineElectricFurnace(true).setBlockName("machine_electric_furnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
@@ -3123,6 +3125,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(hadron_analysis_glass, hadron_analysis_glass.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_access, hadron_access.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_core, hadron_core.getUnlocalizedName());
+		register(hadron_cooler);
 		
 		GameRegistry.registerBlock(rbmk_rod, rbmk_rod.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_rod_mod, rbmk_rod_mod.getUnlocalizedName());
