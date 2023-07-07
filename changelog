@@ -15,6 +15,8 @@
   * Overcooling causes a penalty, so coolers cannot be spammed and need to be carefully spaced out
   * Allows for even more compact particle accelerator setups
   * Comes in two tiers, both tiers use a different cooling variable with different effectiveness, the higher tier will override the lower tier if both tiers of coolers are present
+* Benelli M4
+  * Automatic 12 gauge shotgun with a drum mag
 
 ## Changed
 * The regular boiler now only holds 16k instead of 64k (which is still a lot)
@@ -22,6 +24,9 @@
 * Glyphid eggs can now be broken apart using an anvil, yielding glyphid meat, bones and experience bottles
 * The assembler now uses the new multiblock system, making it less annoying to playe and less ear-piercing to break
   * The conversion happens automatically so it's not necessary to remove the assemblers beforehand
+* Reload canceling is no longer possible if no rounds have been loaded yet, preventing single round weapons like dart guns to be reload canceled
+* The saturnite rifle now has a functional scope
+* Rechambered the bolt action rifles to 7.62mm, with a mag of 5 rounds
 
 ## Fixed
 * Fixed quantity of the fusion reactor's construction recipe not being displayed right

@@ -9,6 +9,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo762NATO;
 import com.hbm.lib.HbmCollection;
+import com.hbm.lib.RefStrings;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -20,14 +21,19 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
 
 public class Gun762mmFactory {
 	
+	public static final ResourceLocation scope_bolt = new ResourceLocation(RefStrings.MODID, "textures/misc/scope_bolt.png");
+	
 	private static final CasingEjector EJECTOR_RIFLE;
+	private static final CasingEjector EJECTOR_BOLT;
 	private static final SpentCasing CASING762NATO;
 
 	static {
 		EJECTOR_RIFLE = new CasingEjector().setMotion(-0.35, 0.6, 0).setOffset(-0.35, 0, 0.35).setAngleRange(0.01F, 0.03F);
+		EJECTOR_BOLT = new CasingEjector().setMotion(-0.35, 0.6, 0).setOffset(-0.35, 0, 0.35).setAngleRange(0.01F, 0.03F).setDelay(15);
 		CASING762NATO = new SpentCasing(CasingType.BOTTLENECK).setScale(1.7F).setBounceMotion(0.01F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS);
 	}
 	
@@ -155,6 +161,127 @@ public class Gun762mmFactory {
 		
 		config.ejector = EJECTOR_RIFLE;
 
+		return config;
+	}
+	
+	public static GunConfiguration getBoltConfig() {
+
+		GunConfiguration config = Gun20GaugeFactory.getShotgunConfig();
+
+		config.ammoCap = 5;
+		config.durability = 3000;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingSound = "hbm:weapon.revolverShoot";
+		config.firingPitch = 0.75F;
+		config.crosshair = Crosshair.CIRCLE;
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+						)
+				.addBus("LEVER_PULL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 375)) //wait out recoil and lever flick
+						.addKeyframe(new BusAnimationKeyframe(-1, 0, 0, 375)) //pull back bolt
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 375)) //release bolt
+						)
+				.addBus("LEVER_ROTATE", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250)) //wait out recoil
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 125)) //flick up lever in  125ms
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 750)) //pull action
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 125)) //flick down lever again
+						)
+				);
+		
+		config.name = "win20Inox";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER;
+		
+		config.ejector = EJECTOR_BOLT;
+		
+		config.config = HbmCollection.r762;
+		
+		return config;
+	}
+	
+	public static GunConfiguration getBoltGreenConfig() {
+
+		GunConfiguration config = Gun20GaugeFactory.getShotgunConfig();
+
+		config.ammoCap = 5;
+		config.durability = 2500;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingSound = "hbm:weapon.revolverShoot";
+		config.firingPitch = 0.75F;
+		config.crosshair = Crosshair.CIRCLE;
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+						)
+				.addBus("LEVER_PULL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 375)) //wait out recoil and lever flick
+						.addKeyframe(new BusAnimationKeyframe(-1, 0, 0, 375)) //pull back bolt
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 375)) //release bolt
+						)
+				.addBus("LEVER_ROTATE", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250)) //wait out recoil
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 125)) //flick up lever in  125ms
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 750)) //pull action
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 125)) //flick down lever again
+						)
+				);
+		
+		config.name = "win20Poly";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER;
+		
+		config.ejector = EJECTOR_BOLT;
+		
+		config.config = HbmCollection.r762;
+		
+		return config;
+	}
+	
+	public static GunConfiguration getBoltSaturniteConfig() {
+		
+		GunConfiguration config = Gun20GaugeFactory.getShotgunConfig();
+		
+		config.ammoCap = 5;
+		config.durability = 4000;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingSound = "hbm:weapon.revolverShoot";
+		config.firingPitch = 0.75F;
+		config.hasSights = true;
+		config.absoluteFOV = true;
+		config.zoomFOV = 0.25F;
+		config.scopeTexture = scope_bolt;
+		config.crosshair = Crosshair.CIRCLE;
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+						)
+				.addBus("LEVER_PULL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 375)) //wait out recoil and lever flick
+						.addKeyframe(new BusAnimationKeyframe(-1, 0, 0, 375)) //pull back bolt
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 375)) //release bolt
+						)
+				.addBus("LEVER_ROTATE", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250)) //wait out recoil
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 125)) //flick up lever in  125ms
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 750)) //pull action
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 125)) //flick down lever again
+						)
+				);
+		
+		config.name = "win20Satur";
+		config.manufacturer = EnumGunManufacturer.WINCHESTER_BIGMT;
+		
+		config.ejector = EJECTOR_BOLT;
+		
+		config.config = HbmCollection.r762;
+		
 		return config;
 	}
 
