@@ -6,13 +6,17 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
+import com.hbm.config.MobConfig;
 import com.hbm.config.StructureConfig;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 
+import com.hbm.world.feature.GlyphidHive;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWeb;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -663,7 +667,36 @@ abstract public class Component extends StructureComponent {
 			}
 		}
 	}
-	
+	/** Have you ever wanted Glyphids in your building? No? Too bad! **/
+	protected void infest(World world, StructureBoundingBox box, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, int maxSize, Random rand){
+		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
+			return;
+		int nestCount = 1;
+		for(int x = minX; x <= maxX; x++) {
+
+			for(int z = minZ; z <= maxZ; z++) {
+				int posX = getXWithOffset(x, z);
+				int posZ = getZWithOffset(x, z);
+
+				if(posX >= box.minX && posX <= box.maxX && posZ >= box.minZ && posZ <= box.maxZ) {
+					for(int y = minY; y <= maxY; y++) {
+						int posY = getYWithOffset(y);
+
+						int soot = (int) PollutionHandler.getPollution(world, posX, posY, posZ, PollutionHandler.PollutionType.SOOT);
+
+						int sootAdd = 3 - 3/(soot+1);
+
+						int chance = (int)(MobConfig.baseInfestChance + sootAdd)/nestCount;
+						if (rand.nextInt(3000) + 1 <= chance && !(nestCount-1 >= maxSize)) {
+							GlyphidHive.generateBigOrb(world, posX, posY, posZ, world.rand);
+							nestCount++;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	@Override
 	protected void fillWithMetadataBlocks(World world, StructureBoundingBox box, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Block block, int meta, Block replaceBlock, int replaceMeta, boolean onlyReplace) {
 		

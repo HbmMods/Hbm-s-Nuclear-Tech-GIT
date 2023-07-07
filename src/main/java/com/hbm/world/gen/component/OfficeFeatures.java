@@ -203,7 +203,9 @@ public class OfficeFeatures {
 			placeDoor(world, box, ModBlocks.door_office, 3, false, rand.nextBoolean(), 2, 1, 7);
 			placeDoor(world, box, ModBlocks.door_office, 3, true, rand.nextBoolean(), 3, 1, 7);
 			placeDoor(world, box, ModBlocks.door_office, 0, false, rand.nextBoolean(), 5, 1, 6);
-			
+			//the bugs
+			infest(world, box, 1, 0, 3, sizeX - 1, sizeY + 2, sizeZ - 1, 2, rand);
+
 			//Woot
 			if(!this.hasPlacedLoot[0])
 				this.hasPlacedLoot[0] = generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), sizeX - 4, 1, sizeZ - 1, HbmChestContents.officeTrash, 8);
@@ -532,7 +534,11 @@ public class OfficeFeatures {
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 10, 5, 12, HbmChestContents.filingCabinet, 4);
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 10, 6, 12, HbmChestContents.filingCabinet, 4);
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 2, 9, 5, HbmChestContents.filingCabinet, 4);
-			
+			fillWithRandomizedBlocks(world, box, 4, 14, 0, 8, 14, 0, rand, ConcreteBricks);
+
+			//the bugs
+			infest(world, box, 1, 0, 3, sizeX - 1, 14, sizeZ - 1, 3, rand);
+
 			generateLockableContents(world, box, rand, ModBlocks.safe, getDecoMeta(2), 1, 9, 13, HbmChestContents.officeTrash, 10, 1.0D);
 			if(rand.nextInt(2) == 0)
 				generateLoreBook(world, box, 1, 9, 13, 7, HbmChestContents.generateOfficeBook(rand));

@@ -113,6 +113,9 @@ public class CivilianFeatures {
 			this.fillWithRandomizedBlocks(world, box, 4, 0, 1, 4, 1, 3, false, rand, RandomSandstone);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.reinforced_sand, 0, 4, 0, 4, box);
 			
+			//BUGS!
+			infest(world, box, 1, 0, 3, sizeX - 1, 1, sizeZ - 1, 1, rand);
+
 			//Loot/Sand
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_weapon, 0, 1, 0, 1, box);
 			if(!this.hasPlacedChest)
@@ -253,6 +256,7 @@ public class CivilianFeatures {
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_weapon, 0, 5, 2, 5, box);
 			
 			//House 2
+
 			if(!hasPlacedLoot[1]) {
 				this.placeBlockAtCurrentPosition(world, Blocks.chest, this.getMetadataWithOffset(Blocks.chest, 3), sizeX - 5, 1, 1, box);
 				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.antenna, (TileEntityChest)world.getTileEntity(this.getXWithOffset(sizeX - 5, 1), 
@@ -527,6 +531,9 @@ public class CivilianFeatures {
 			int westMeta = this.getDecoMeta(5);
 			int northMeta = this.getDecoMeta(3);
 			int southMeta = this.getDecoMeta(2);
+			//BUGS!
+			infest(world, box, 1, 0, 3, sizeX - 1, sizeY, sizeZ - 1, 1, rand);
+
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crashed_balefire, southMeta, 6, sizeY - 2, 3, box);
 			
 			int doorMeta = this.getMetadataWithOffset(Blocks.wooden_door, 1);

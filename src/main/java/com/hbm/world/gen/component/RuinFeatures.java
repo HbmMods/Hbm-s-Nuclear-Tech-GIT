@@ -85,6 +85,8 @@ public class RuinFeatures {
 			this.fillWithRandomizedBlocks(world, box, sizeX, 2, sizeZ - 1, sizeX, 2, sizeZ - 1, false, rand, RandomConcreteBricks);
 			
 			this.randomlyFillWithBlocks(world, box, rand, 0.25F, 1, 0, 1, sizeX - 1, 0, sizeZ - 1, Blocks.gravel, Blocks.air, false);
+			//BUGS!
+			infest(world, box, 0, 0, 0, sizeX - 1, 1, sizeZ - 1, 1, rand);
 			
 			return true;
 		}
@@ -148,7 +150,8 @@ public class RuinFeatures {
 			this.fillWithRandomizedBlocks(world, box, sizeX, 1, sizeZ - 1, sizeX, 2, sizeZ - 1, false, rand, RandomConcreteBricks);
 			
 			this.randomlyFillWithBlocks(world, box, rand, 0.25F, 1, 0, 1, sizeX - 1, 0, sizeZ - 1, Blocks.gravel, Blocks.air, false);
-			
+			//BUGS!
+			infest(world, box, 0, 0, 0, sizeX - 1, 1, sizeZ - 1, 1, rand);
 			return true;
 		}
 	}
@@ -205,7 +208,8 @@ public class RuinFeatures {
 			
 			this.randomlyFillWithBlocks(world, box, rand, 0.05F, 1, 0, 1, sizeX - 1, 0, 3, Blocks.gravel, Blocks.air, false);
 			this.randomlyFillWithBlocks(world, box, rand, 0.05F, 1, 0, 5, sizeX - 1, 0, sizeZ - 1, Blocks.gravel, Blocks.air, false);
-			
+			//BUGS!
+			infest(world, box, 0, 0, 0, sizeX - 1, 1, sizeZ - 1, 1, rand);
 			return true;
 		}
 	}
@@ -266,7 +270,8 @@ public class RuinFeatures {
 			
 			this.randomlyFillWithBlocks(world, box, rand, 0.05F, 1, 0, 1, 4, 0, 5, Blocks.gravel, Blocks.air, false);
 			this.randomlyFillWithBlocks(world, box, rand, 0.05F, 1, 0, 6, sizeX - 1, 0, sizeZ - 1, Blocks.gravel, Blocks.air, false);
-			
+			//BUGS!
+			infest(world, box, 0, 0, 0, sizeX - 1, 1, sizeZ - 1, 1, rand);
 			return true;
 		}
 	}

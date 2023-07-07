@@ -100,7 +100,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 				if(b.getMaterial() != Material.air && b.isNormalCube() && b != ModBlocks.glyphid_base) {
 					this.setDead();
 					worldObj.newExplosion(this, posX, posY, posZ, 5F, false, false);
-					GlyphidHive.generate(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), rand);
+					GlyphidHive.generateBigGround(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), rand);
 				}
 			}
 		}
