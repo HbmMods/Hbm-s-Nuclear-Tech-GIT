@@ -1240,7 +1240,6 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.circuit_copper, 1),
 				new ComparableStack(ModItems.billet_gaas, 1),
 				new ComparableStack(ModItems.magnetron, 4)
-			}, 500);
 			}, 1200);
 
 		makeRecipe(new ComparableStack(ModBlocks.sliding_blast_door, 1), new AStack[] {
@@ -1251,6 +1250,7 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.bolt_dura_steel, 8),
 				new ComparableStack(ModItems.motor, 2)
 		}, 200);
+
 		
 		if(Loader.isModLoaded("Mekanism")) {
 			
