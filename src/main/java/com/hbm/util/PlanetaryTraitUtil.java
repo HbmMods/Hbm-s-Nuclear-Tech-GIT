@@ -23,10 +23,11 @@ import net.minecraftforge.common.util.Constants;
 public class PlanetaryTraitUtil {
 	
 	public enum Hospitality{
-		TOXIC,
+		TOXIC, //this would be interesting, what if we made it so that if laythe was breatheable but toxic, we would need to have it so that you wear a gas mask at all times?
 		VACUUM,
 		BREATHEABLE,
-		HOT;
+		HOT,
+		
 		
 	}
 

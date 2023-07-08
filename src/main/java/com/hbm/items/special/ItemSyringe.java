@@ -297,7 +297,30 @@ public class ItemSyringe extends Item {
 				stack.stackSize--;
 			}
 		}
+		if(this == ModItems.lox_tank && player.inventory.armorInventory[2] != null) {
 
+			if(!world.isRemote) {
+
+				ItemStack space = player.inventory.armorInventory[2];
+
+				if(space == null)
+					return stack;
+
+				if(space == null || !(space.getItem() instanceof IFillableItem))
+					return stack;
+
+				IFillableItem fillable = (IFillableItem) space.getItem();
+				
+				if(!fillable.acceptsFluid(Fluids.OXYGEN, space))
+					return stack;
+				
+				fillable.tryFill(Fluids.OXYGEN, 1000, space);
+				
+				world.playSoundAtEntity(player, "hbm:item.jetpackTank", 1.0F, 1.0F);
+
+				stack.stackSize--;
+			}
+		}
 		if(this == ModItems.gun_kit_1 || this == ModItems.gun_kit_2) {
 			if(!world.isRemote) {
 				float repair = 0;

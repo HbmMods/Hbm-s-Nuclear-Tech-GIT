@@ -7,6 +7,8 @@ import java.util.Locale;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ArmorFSB;
+import com.hbm.items.armor.ArmorFSBOxy;
 import com.hbm.lib.Library;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry.HazardClass;
@@ -62,7 +64,8 @@ public class ArmorUtil {
 		ArmorRegistry.registerHazard(ModItems.schrabidium_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		ArmorRegistry.registerHazard(ModItems.euphemium_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		ArmorRegistry.registerHazard(ModItems.rpa_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
-		
+		ArmorRegistry.registerHazard(ModItems.oxy_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND); //its a fucking space suit...
+
 		//Ob ihr wirklich richtig steht, seht ihr wenn das Licht angeht!
 		registerIfExists(Compat.MOD_GT6, "gt.armor.hazmat.universal.head", HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		registerIfExists(Compat.MOD_GT6, "gt.armor.hazmat.biochemgas.head", HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_CHLORINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
@@ -140,6 +143,7 @@ public class ArmorUtil {
 				checkArmor(player, ModItems.liquidator_helmet, ModItems.liquidator_plate, ModItems.liquidator_legs, ModItems.liquidator_boots) || 
 				checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots) || 
 				checkArmor(player, ModItems.rpa_helmet, ModItems.rpa_plate, ModItems.rpa_legs, ModItems.rpa_boots) || 
+				checkArmor(player, ModItems.oxy_helmet, ModItems.oxy_plate, ModItems.oxy_legs, ModItems.oxy_boots) || 
 				checkArmor(player, ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots) || 
 				checkArmor(player, ModItems.dns_helmet, ModItems.dns_plate, ModItems.dns_legs, ModItems.dns_boots))
 		{
@@ -156,7 +160,22 @@ public class ArmorUtil {
 
 		return false;
 	}
-	
+	public static boolean checkForOxy(EntityLivingBase player) {
+	    if (player instanceof EntityPlayer) {
+	        EntityPlayer play = (EntityPlayer) player;
+
+	        ItemStack plate = play.inventory.armorInventory[2];
+			if(checkArmor(player, ModItems.oxy_helmet, ModItems.oxy_plate, ModItems.oxy_legs, ModItems.oxy_boots)) {
+	        if (plate != null && plate.getItem() instanceof ArmorFSBOxy) {
+				if(((ArmorFSBOxy) plate.getItem()).isArmorEnabled(plate)) {					
+					return true;					
+				}
+	        }
+	    }
+	    }
+		
+		return false;
+	}
 	public static boolean checkForDigamma(EntityPlayer player) {
 		
 		if(checkArmor(player, ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots))
