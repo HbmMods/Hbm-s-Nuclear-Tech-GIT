@@ -23,11 +23,11 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -38,7 +38,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDiesel extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IConfigurableMachine, IGUIProvider {
+public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider {
 
 	public long power;
 	public int soundCycle = 0;
@@ -61,7 +61,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	private static final int[] slots_side = new int[] { 2 };
 
 	public TileEntityMachineDiesel() {
-		super(5);
+		super(5, 100);
 		tank = new FluidTank(Fluids.DIESEL, 4_000, 0);
 	}
 
@@ -130,8 +130,10 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 		
 		if(!worldObj.isRemote) {
 			
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+				this.sendSmoke(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			}
 
 			//Tank Management
 			FluidType last = tank.getTankType();
@@ -207,8 +209,8 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 				if(tank.getFill() < 0)
 					tank.setFill(0);
 				
-				PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 0.5F);
-				if(tank.getTankType().hasTrait(FT_Leaded.class))  PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * 0.5F);
+				this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 0.5F);
+				if(tank.getTankType().hasTrait(FT_Leaded.class)) this.pollute(PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * 0.5F);
 
 				if(power + getHEFromFuel() <= powerCap) {
 					power += getHEFromFuel();
@@ -317,5 +319,10 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineDiesel(player.inventory, this);
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return this.getSmokeTanks();
 	}
 }

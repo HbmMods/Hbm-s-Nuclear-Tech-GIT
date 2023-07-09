@@ -1,33 +1,35 @@
 ## Added
-* Machines now emit soot. Soot collects in units of 4x4 chunks, and spreads into neighboring regions. High levels of soot cause visible smog.
-  * The system has yet to be balanced, it's possible that only a few machines cause way too much soot or barely any
-* Gas artillery shells
-  * Chlorine
-  * Phosgene
-  * Mustard gas
-* Euphemium capacitor
-  * Used for schrabidium transmutation, has infinite durability
-* Capacitor blocks
-  * Like batteries without GUIs that are constantly in input/output mode
-  * Input is on the top of the capacitor block, for output the capacitor has to be placed onto a capaictor bus
-  * Capacitor buses have one side for the output, multiple buses can be chained up given they are placed in a straight line
-  * Incentivizes splitting the power grid, looping the output back into the input will yield the same weirdness as combining multiple IO energy storage blocks
-* Desh bullet stamps
-  * Like regular bullets stamps but with infinite durability
+* Industrial boiler
+  * A slightly taller variant of the boiler with higher capacity
+  * Unlike the regular boiler, it can't explode
+* Redstone-over-radio counter
+  * Can count and send the amount of an item stored in a container
+  * Counting supports filters by item ID, ID+meta and ore dictionary names
+  * Each torch can count up to three items and output the results on different channels
+  * This allows for more precise control over things like assembler chests, like turning off the ejector for an item that is already full but not other ejectors
+  * This property makes automating things with multiple inputs a lot easier
+  * Due to the ore dictionary ability of the counter, buffered items can precisely match the requirements of the recipe
+* Particle collider cooling unit
+  * A block that can replace coils in a particle collider
+  * Will increment a new "cooling" value which depletes over time and makes coils more effective
+  * Overcooling causes a penalty, so coolers cannot be spammed and need to be carefully spaced out
+  * Allows for even more compact particle accelerator setups
+  * Comes in two tiers, both tiers use a different cooling variable with different effectiveness, the higher tier will override the lower tier if both tiers of coolers are present
+* Benelli M4
+  * Automatic 12 gauge shotgun with a drum mag
 
 ## Changed
-* Updated russian and chinese localization
-* Mist now spawns cloud particles with the correct color instead of standard white
-* HE artillery shells and rockets now turn blocks into slag
-* The old static bunker structure has been removed and replaced with dynamically generated ones, using the same style of generation as vanilla strongholds.
-* Changed the processing for chlorocalcite, instead of using a combination furnace it now requires a six step cleaning and electrolysis process
+* The regular boiler now only holds 16k instead of 64k (which is still a lot)
+* Added labels to the large mining drill's levers
+* Glyphid eggs can now be broken apart using an anvil, yielding glyphid meat, bones and experience bottles
+* The assembler now uses the new multiblock system, making it less annoying to playe and less ear-piercing to break
+  * The conversion happens automatically so it's not necessary to remove the assemblers beforehand
+* Reload canceling is no longer possible if no rounds have been loaded yet, preventing single round weapons like dart guns to be reload canceled
+* The saturnite rifle now has a functional scope
+* Rechambered the bolt action rifles to 7.62mm, with a mag of 5 rounds
 
 ## Fixed
-* Fixed the TOXIC trait not respecting protection when applying potion effects
-* Fixed some armor recipes only accepting polymer and not bakelite
-* Fixed turbofans not sucking in players
-* Fixed NTM skybox not applying to superflat worlds
-* Fixed breeding slot in the fusion reactor never resettingthe progress after completing an operation
-* Fixed potential issue where tanks would send fluids to invalidated tile entities, voiding themselves almost instantly
-* Fixed cadmium and technetium steel blocks not having ore dict names
-* Fixed potential crash regarding certain potion code running clientside
+* Fixed quantity of the fusion reactor's construction recipe not being displayed right
+* Fixed fluid valve and redstone fluid valves having the wrong names
+* Fixed mobs' max health getting buffed by pollution, but the actual health staying the same
+* Fixed bug regarding the loot pools of satellite miners

@@ -109,10 +109,10 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 	}
 	
 	private void setupTanks(ChemRecipe recipe, int index) {
-		if(recipe.inputFluids[0] != null) tanks[index * 4].setTankType(recipe.inputFluids[0].type);
-		if(recipe.inputFluids[1] != null) tanks[index * 4 + 1].setTankType(recipe.inputFluids[1].type);
-		if(recipe.outputFluids[0] != null) tanks[index * 4 + 2].setTankType(recipe.outputFluids[0].type);
-		if(recipe.outputFluids[1] != null) tanks[index * 4 + 3].setTankType(recipe.outputFluids[1].type);
+		if(recipe.inputFluids[0] != null) tanks[index * 4].withPressure(recipe.inputFluids[0].pressure).setTankType(recipe.inputFluids[0].type);		else tanks[index * 4].setTankType(Fluids.NONE);
+		if(recipe.inputFluids[1] != null) tanks[index * 4 + 1].withPressure(recipe.inputFluids[1].pressure).setTankType(recipe.inputFluids[1].type);	else tanks[index * 4 + 1].setTankType(Fluids.NONE);
+		if(recipe.outputFluids[0] != null) tanks[index * 4 + 2].withPressure(recipe.outputFluids[0].pressure).setTankType(recipe.outputFluids[0].type);	else tanks[index * 4 + 2].setTankType(Fluids.NONE);
+		if(recipe.outputFluids[1] != null) tanks[index * 4 + 3].withPressure(recipe.outputFluids[1].pressure).setTankType(recipe.outputFluids[1].type);	else tanks[index * 4 + 3].setTankType(Fluids.NONE);
 	}
 	
 	private boolean hasRequiredFluids(ChemRecipe recipe, int index) {

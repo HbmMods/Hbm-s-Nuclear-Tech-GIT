@@ -164,7 +164,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	//whether or not the gun can shoot in its current state
 	protected boolean tryShoot(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
-		if(getIsReloading(stack) && mainConfig.reloadType == mainConfig.RELOAD_SINGLE) {
+		//cancel reload when trying to shoot if it's a single reload weapon and at least one round is loaded
+		if(getIsReloading(stack) && mainConfig.reloadType == mainConfig.RELOAD_SINGLE && this.getMag(stack) > 0) {
 			setReloadCycle(stack, 0);
 			setIsReloading(stack, false);
 		}

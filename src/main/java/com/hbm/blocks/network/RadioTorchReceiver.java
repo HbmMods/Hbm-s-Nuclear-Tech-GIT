@@ -10,7 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class RadioTorchReceiver extends RadioTorchBase {
+public class RadioTorchReceiver extends RadioTorchRWBase {
 
 	public RadioTorchReceiver() {
 		super();
