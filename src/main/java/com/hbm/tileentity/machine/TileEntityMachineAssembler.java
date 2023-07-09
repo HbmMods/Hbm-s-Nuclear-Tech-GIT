@@ -55,7 +55,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 	int speed = 100;
 	
 	@SideOnly(Side.CLIENT)
-	public int recipe = -1;
+	public int recipe; //don't initialize this, retard
 	
 	private AudioWrapper audio;
 	
