@@ -150,6 +150,7 @@ public class TileEntityMachineCoal extends TileEntityMachinePolluting implements
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
+			data.setInteger("burnTime", burnTime);
 			tank.writeToNBT(data, "tank");
 			this.networkPack(data, 15);
 		}
@@ -158,6 +159,7 @@ public class TileEntityMachineCoal extends TileEntityMachinePolluting implements
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
+		this.burnTime = nbt.getInteger("burnTime");
 		this.tank.readFromNBT(nbt, "tank");
 	}
 	

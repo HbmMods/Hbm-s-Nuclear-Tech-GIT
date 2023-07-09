@@ -180,6 +180,34 @@ public class GunEnergyFactory {
 		return config;
 	}
 	
+	public static GunConfiguration getCoilgunConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 5;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.reloadDuration = 20;
+		config.firingDuration = 0;
+		config.ammoCap = 1;
+		config.durability = 1500;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.CIRCLE;
+		config.firingSound = "hbm:weapon.coilgunShoot";
+		config.reloadSoundEnd = false;
+		config.reloadSound = "hbm:weapon.coilgunReload";
+		
+		config.name = "ArmsKore Coilgun";
+		config.manufacturer = EnumGunManufacturer.DRG;
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.SPECIAL_COIL);
+		
+		return config;
+	}
+	
 	public static GunConfiguration getVortexConfig() {
 		
 		GunConfiguration config = new GunConfiguration();
@@ -217,6 +245,31 @@ public class GunEnergyFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 1));
 		bullet.effects.add(new PotionEffect(Potion.weakness.id, 10 * 20, 4));
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getCoilConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.ammo = new ComparableStack(ModItems.gun_coilgun_ammo);
+		
+		bullet.velocity = 5F;
+		bullet.spread = 0.0F;
+		bullet.wear = 10;
+		bullet.bulletsMin = 1;
+		bullet.bulletsMax = 1;
+		bullet.dmgMin = 35;
+		bullet.dmgMax = 45;
+		bullet.gravity = 0D;
+		bullet.maxAge = 100;
+		bullet.doesPenetrate = true;
+		bullet.isSpectral = true;
+
+		bullet.style = bullet.STYLE_BOLT;
+		bullet.trail = bullet.BOLT_NIGHTMARE;
+		bullet.vPFX = "fireworks";
 		
 		return bullet;
 	}

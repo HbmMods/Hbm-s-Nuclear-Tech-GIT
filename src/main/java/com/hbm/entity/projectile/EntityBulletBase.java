@@ -511,16 +511,18 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		if(worldObj.isRemote && !config.vPFX.isEmpty()) {
 			
-			double motion = Math.min(Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector(), 0.1);
+			Vec3 vec = Vec3.createVectorHelper(posX - prevPosX, posY - prevPosY, posZ - prevPosZ);
+			double motion = Math.max(vec.lengthVector(), 0.1);
+			vec = vec.normalize();
 			
-			for(double d = 0; d < motion; d += 0.0625) {
+			for(double d = 0; d < motion; d += 0.5) {
 				
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("type", "vanillaExt");
 				nbt.setString("mode", config.vPFX);
-				nbt.setDouble("posX", (this.lastTickPosX - this.posX) * d + this.posX);
-				nbt.setDouble("posY", (this.lastTickPosY - this.posY) * d + this.posY);
-				nbt.setDouble("posZ", (this.lastTickPosZ - this.posZ) * d + this.posZ);
+				nbt.setDouble("posX", this.posX - vec.xCoord * d);
+				nbt.setDouble("posY", this.posY - vec.yCoord * d);
+				nbt.setDouble("posZ", this.posZ - vec.zCoord * d);
 				MainRegistry.proxy.effectNT(nbt);
 			}
 		}

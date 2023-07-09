@@ -83,10 +83,10 @@ public class ItemRenderBenelli implements IItemRenderer
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED:// In hand from other's POV
-			GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
-			GL11.glRotatef(-50.0F, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(90.0F, 0.0F, 0.0F, 1.0F);
-			GL11.glTranslatef(-0.0F, -0.2F, -1.28F);
+			GL11.glRotatef(15F, 0.0F, 0.0F, 1.0F);
+			GL11.glRotatef(-170, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(-15F, 1.0F, 0.0F, 0.0F);
+			GL11.glTranslatef(-0.4F, 0.05F, -0.5F);
 			GL11.glRotated(recoil[0], 1, 0, 0);
 			GL11.glScaled(scale2 - scale2 * 2, scale2, scale2);
 

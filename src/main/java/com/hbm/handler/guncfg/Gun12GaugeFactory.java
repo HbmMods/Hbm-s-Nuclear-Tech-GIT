@@ -248,8 +248,8 @@ public class Gun12GaugeFactory {
 		config.hasSights = true;
 		config.durability = 250000;
 		config.allowsInfinity = true;
-		config.firingSound = "hbm:weapon.autoshotgunFirePB3";
-		config.reloadSound = "hbm:weapon.shotgunReloadPB3";
+		config.firingSound = "hbm:weapon.deagleShoot";
+		config.firingPitch = 0.75F;
 		config.reloadType = 2;
 		config.reloadSoundEnd = true;
 

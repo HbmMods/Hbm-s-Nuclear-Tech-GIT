@@ -22,6 +22,7 @@ public class CompressorRecipes extends SerializableRecipe {
 		recipes.put(new Pair(Fluids.STEAM, 0), new CompressorRecipe(1_000, new FluidStack(Fluids.HOTSTEAM, 100)));
 		recipes.put(new Pair(Fluids.HOTSTEAM, 0), new CompressorRecipe(1_000, new FluidStack(Fluids.SUPERHOTSTEAM, 100)));
 		recipes.put(new Pair(Fluids.SUPERHOTSTEAM, 0), new CompressorRecipe(1_000, new FluidStack(Fluids.ULTRAHOTSTEAM, 100)));
+		recipes.put(new Pair(Fluids.PETROLEUM, 0), new CompressorRecipe(4_000, new FluidStack(Fluids.LPG, 2_000)));
 	}
 	
 	public static class CompressorRecipe {

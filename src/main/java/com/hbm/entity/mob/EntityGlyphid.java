@@ -96,7 +96,7 @@ public class EntityGlyphid extends EntityMob {
 				int chance = getArmorBreakChance(amount); //chances of armor being broken off
 				if(this.rand.nextInt(chance) == 0 && amount > 1) {
 					breakOffArmor();
-					amount = 0;
+					amount *= 0.25F;
 				}
 				
 				amount -= getDamageThreshold();

@@ -178,6 +178,8 @@
     "weapon.shotgunPump": {"category": "player", "sounds": [{"name": "weapon/shotgunShootPump", "stream": false}]},
     "weapon.explosionMedium": {"category": "player", "sounds": [{"name": "weapon/explosion_medium", "stream": false}]},
     "weapon.hicalShot": {"category": "player", "sounds": [{"name": "weapon/hicalShot", "stream": false}]},
+    "weapon.coilgunReload": {"category": "player", "sounds": [{"name": "weapon/coilgunReload", "stream": false}]},
+    "weapon.coilgunShoot": {"category": "player", "sounds": [{"name": "weapon/coilgunShoot", "stream": false}]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 

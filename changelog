@@ -2,11 +2,14 @@
 * Industrial boiler
   * A slightly taller variant of the boiler with higher capacity
   * Unlike the regular boiler, it can't explode
+  * This is ideal for applications where closed cycles are not possible, like crude oil refineries, as the machines after the boiler are usually the bottleneck, causing the boiler to run full
 * Redstone-over-radio counter
   * Can count and send the amount of an item stored in a container
   * Counting supports filters by item ID, ID+meta and ore dictionary names
   * Each torch can count up to three items and output the results on different channels
   * This allows for more precise control over things like assembler chests, like turning off the ejector for an item that is already full but not other ejectors
+    * This process works fine with the chemical plant, chemical factory and the assembly factory. The small assembler currently still uses older code which doesn't limit the amount of items pulled, so fully preventing clogs is not possible as of now.
+    * Expect a fix next week
   * This property makes automating things with multiple inputs a lot easier
   * Due to the ore dictionary ability of the counter, buffered items can precisely match the requirements of the recipe
 * Particle collider cooling unit
@@ -14,22 +17,35 @@
   * Will increment a new "cooling" value which depletes over time and makes coils more effective
   * Overcooling causes a penalty, so coolers cannot be spammed and need to be carefully spaced out
   * Allows for even more compact particle accelerator setups
-  * Comes in two tiers, both tiers use a different cooling variable with different effectiveness, the higher tier will override the lower tier if both tiers of coolers are present
+  * Comes in two tiers
+    * The first tier has a flat bonus if the particle is cooled, with a penalty after the overcooling threshold has been crossed
+    * The second tier has a cooling function that peaks at a certain point and slowly decreases below 1 if overcooled, requiring more precise placement to get the full efficiency
 * Benelli M4
   * Automatic 12 gauge shotgun with a drum mag
+* Coilgun
+  * A single-shot gauss pistol that fires tungsten balls
+  * Shots penetrate blocks
 
 ## Changed
 * The regular boiler now only holds 16k instead of 64k (which is still a lot)
 * Added labels to the large mining drill's levers
 * Glyphid eggs can now be broken apart using an anvil, yielding glyphid meat, bones and experience bottles
 * The assembler now uses the new multiblock system, making it less annoying to playe and less ear-piercing to break
-  * The conversion happens automatically so it's not necessary to remove the assemblers beforehand
+  * The conversion happens automatically so it's not necessary to remove the assemblers
+  * While this process has been tested, it's still good practice to make a backup of your world beforehand
 * Reload canceling is no longer possible if no rounds have been loaded yet, preventing single round weapons like dart guns to be reload canceled
 * The saturnite rifle now has a functional scope
 * Rechambered the bolt action rifles to 7.62mm, with a mag of 5 rounds
+* The compressor can now turn 4,000mB of petroleum into 2,000mB of LPG
+* The lunatic marksman now has a crafting recipe
+* Glyphid armor no longer absorbs all incoming damage when breaking off, instead 25% of the damage will bleed through, making it possible to oneshot them with powerful enough weapons
 
 ## Fixed
 * Fixed quantity of the fusion reactor's construction recipe not being displayed right
-* Fixed fluid valve and redstone fluid valves having the wrong names
+* Fixed fluid valve and redstone fluid valves having the wrong behaviors, being effectively switched
 * Fixed mobs' max health getting buffed by pollution, but the actual health staying the same
 * Fixed bug regarding the loot pools of satellite miners
+* Fixed rocket artillery creating the wrong type of slag
+* Fixed fluid valves not being able to have a fluid assigned by clicking directly on them
+* Fixed the kyiv special not actually exploding
+* Fixed combuston generator not properly syncing the burntime
