@@ -442,22 +442,28 @@ public class EntityEffectHandler {
 			}
 		}
 	}
-	private static void handlePollution(EntityLivingBase entity){
-		World world = entity.worldObj;
-
-		if(!world.isRemote){
-			int ix = (int)MathHelper.floor_double(entity.posX);
-			int iy = (int)MathHelper.floor_double(entity.posY);
-			int iz = (int)MathHelper.floor_double(entity.posZ);
-			PollutionHandler.PollutionData data = PollutionHandler.getPollutionData(world, ix, iy, iz);
-			if(data == null) return;
-			int poison = (int)data.pollution[PollutionHandler.PollutionType.POISON.ordinal()];
-			float soot = data.pollution[PollutionHandler.PollutionType.SOOT.ordinal()];
-			if(entity instanceof EntityLivingBase) {
-				if(soot > 5) {
-					if (!ArmorRegistry.hasProtection(entity, 3, ArmorRegistry.HazardClass.PARTICLE_COARSE)) {
-						HbmLivingProps.incrementBlackLung(entity, (int)data.pollution[PollutionHandler.PollutionType.SOOT.ordinal()]);
-					}
+	
+	private static void handlePollution(EntityLivingBase entity) {
+		
+		if(!RadiationConfig.enablePollution) return;
+		if(PollutionHandler.getPollution(entity.worldObj, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY + entity.getEyeHeight()), (int) Math.floor(entity.posZ), PollutionType.SOOT)>5) {
+			if (!ArmorRegistry.hasProtection(entity, 3, ArmorRegistry.HazardClass.PARTICLE_COARSE)) {
+			HbmLivingProps.incrementBlackLung(entity, (int)PollutionHandler.getPollution(entity.worldObj, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY + entity.getEyeHeight()), (int) Math.floor(entity.posZ), PollutionType.SOOT));
+			}
+		}
+		
+		if(RadiationConfig.enablePoison && !ArmorRegistry.hasProtection(entity, 3, HazardClass.GAS_CORROSIVE) && entity.ticksExisted % 60 == 0) {
+			
+			float poison = PollutionHandler.getPollution(entity.worldObj, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY + entity.getEyeHeight()), (int) Math.floor(entity.posZ), PollutionType.POISON);
+			
+			if(poison > 10) {
+				
+				if(poison < 25) {
+					entity.addPotionEffect(new PotionEffect(Potion.poison.id, 100, 0));
+				} else if(poison < 50) {
+					entity.addPotionEffect(new PotionEffect(Potion.poison.id, 100, 1));
+				} else {
+					entity.addPotionEffect(new PotionEffect(Potion.wither.id, 100, 2));
 				}
 				if(!ArmorRegistry.hasProtection(entity, 3, ArmorRegistry.HazardClass.GAS_CHLORINE)) {
 					if (poison > 5) {
