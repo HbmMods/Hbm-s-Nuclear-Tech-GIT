@@ -23,7 +23,7 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 
 		Tessellator tessellator = Tessellator.instance;
 		FluidDuctBox duct = (FluidDuctBox) block;
-		int type = metadata % 3;
+		int type = duct.rectify(metadata);
 
 		float lower = 0.125F;
 		float upper = 0.875F;
@@ -65,7 +65,23 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 		tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 		int meta = world.getBlockMetadata(x, y, z);
 
+		boolean pX = false;
+		boolean nX = false;
+		boolean pY = false;
+		boolean nY = false;
+		boolean pZ = false;
+		boolean nZ = false;
+
 		FluidDuctBox.cachedColor = 0xffffff;
+		FluidDuctBox duct = (FluidDuctBox) block;
+		
+		pX = duct.canConnectTo(world, x, y, z, Library.POS_X, te);
+		nX = duct.canConnectTo(world, x, y, z, Library.NEG_X, te);
+		pY = duct.canConnectTo(world, x, y, z, Library.POS_Y, te);
+		nY = duct.canConnectTo(world, x, y, z, Library.NEG_Y, te);
+		pZ = duct.canConnectTo(world, x, y, z, Library.POS_Z, te);
+		nZ = duct.canConnectTo(world, x, y, z, Library.NEG_Z, te);
+		
 		if(te instanceof TileEntityPipeBaseNT) {
 			TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
 			type = pipe.getType();
@@ -73,13 +89,6 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 				FluidDuctBox.cachedColor = ColorUtil.lightenColor(type.getColor(), 0.25D); //making very dark things not vantablack
 			}
 		}
-
-		boolean pX = Library.canConnectFluid(world, x + 1, y, z, Library.POS_X, type);
-		boolean nX = Library.canConnectFluid(world, x - 1, y, z, Library.NEG_X, type);
-		boolean pY = Library.canConnectFluid(world, x, y + 1, z, Library.POS_Y, type);
-		boolean nY = Library.canConnectFluid(world, x, y - 1, z, Library.NEG_Y, type);
-		boolean pZ = Library.canConnectFluid(world, x, y, z + 1, Library.POS_Z, type);
-		boolean nZ = Library.canConnectFluid(world, x, y, z - 1, Library.NEG_Z, type);
 
 		int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
 		int count = 0 + (pX ? 1 : 0) + (nX ? 1 : 0) + (pY ? 1 : 0) + (nY ? 1 : 0) + (pZ ? 1 : 0) + (nZ ? 1 : 0);

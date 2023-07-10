@@ -7,6 +7,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.entity.mob.EntityFBI;
+import com.hbm.entity.mob.EntityFBIDrone;
 import com.hbm.entity.mob.EntityGhost;
 import com.hbm.entity.mob.EntityMaskMan;
 import com.hbm.entity.mob.EntityRADBeast;
@@ -96,6 +97,15 @@ public class BossSpawnHandler {
 							double spawnY = world.getHeightValue((int)spawnX, (int)spawnZ);
 							
 							trySpawn(world, (float)spawnX, (float)spawnY, (float)spawnZ, new EntityFBI(world));
+						}
+						
+						for(int i = 0; i < MobConfig.raidDrones; i++) {
+	
+							double spawnX = player.posX + vec.xCoord + world.rand.nextGaussian() * 5;
+							double spawnZ = player.posZ + vec.zCoord + world.rand.nextGaussian() * 5;
+							double spawnY = world.getHeightValue((int)spawnX, (int)spawnZ);
+							
+							trySpawn(world, (float)spawnX, (float)spawnY + 10, (float)spawnZ, new EntityFBIDrone(world));
 						}
 					}
 				}

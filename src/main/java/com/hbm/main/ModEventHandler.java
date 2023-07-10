@@ -19,6 +19,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
+import com.hbm.config.RadiationConfig;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.mob.EntityCyberCrab;
@@ -41,6 +42,8 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
@@ -65,12 +68,14 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.util.AchievementHandler;
+import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.InventoryUtil;
+import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.world.generator.TimedGenerator;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -214,7 +219,7 @@ public class ModEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onPlayerChaangeDimension(PlayerChangedDimensionEvent event) {
+	public void onPlayerChangeDimension(PlayerChangedDimensionEvent event) {
 		EntityPlayer player = event.player;
 		HbmPlayerProps data = HbmPlayerProps.getData(player);
 		data.setKeyPressed(EnumKeybind.JETPACK, false);
@@ -1149,10 +1154,12 @@ public class ModEventHandler {
 	@SubscribeEvent
 	public void onBlockBreak(BreakEvent event) {
 		
-		if(!(event.getPlayer() instanceof EntityPlayerMP))
+		EntityPlayer player = event.getPlayer();
+		
+		if(!(player instanceof EntityPlayerMP))
 			return;
 		
-		if(event.block == ModBlocks.stone_gneiss && !((EntityPlayerMP) event.getPlayer()).func_147099_x().hasAchievementUnlocked(MainRegistry.achStratum)) {
+		if(event.block == ModBlocks.stone_gneiss && !((EntityPlayerMP) player).func_147099_x().hasAchievementUnlocked(MainRegistry.achStratum)) {
 			event.getPlayer().triggerAchievement(MainRegistry.achStratum);
 			event.setExpToDrop(500);
 		}
@@ -1167,6 +1174,23 @@ public class ModEventHandler {
 				
 				if(event.world.rand.nextInt(2) == 0 && event.world.getBlock(x, y, z) == Blocks.air)
 					event.world.setBlock(x, y, z, ModBlocks.gas_coal);
+			}
+		}
+		
+		if(RadiationConfig.enablePollution && RadiationConfig.enableLeadFromBlocks) {
+			if(!ArmorRegistry.hasProtection(player, 3, HazardClass.PARTICLE_FINE)) {
+				
+				float metal = PollutionHandler.getPollution(player.worldObj, event.x, event.y, event.z, PollutionType.HEAVYMETAL);
+				
+				if(metal < 5) return;
+				
+				if(metal < 10) {
+					player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 0));
+				} else if(metal < 25) {
+					player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 1));
+				} else {
+					player.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 2));
+				}
 			}
 		}
 	}

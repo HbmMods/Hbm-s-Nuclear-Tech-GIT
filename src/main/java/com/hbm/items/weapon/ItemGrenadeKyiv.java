@@ -1,5 +1,7 @@
 package com.hbm.items.weapon;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
 public class ItemGrenadeKyiv extends ItemGenericGrenade {
@@ -8,7 +10,8 @@ public class ItemGrenadeKyiv extends ItemGenericGrenade {
 		super(fuse);
 	}
 
-	public void explode(World world, double x, double y, double z) {
-		world.newExplosion(null, x, y, z, 5F, true, true);
+	@Override
+	public void explode(Entity grenade, EntityLivingBase thrower, World world, double x, double y, double z) {
+		world.newExplosion(grenade, x, y, z, 5F, true, true);
 	}
 }

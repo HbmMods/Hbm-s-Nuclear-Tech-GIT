@@ -568,7 +568,8 @@ public class CivilianFeatures {
 			this.fillWithBlocks(world, box, sizeX - 4, 3, sizeZ - 2, sizeX - 2, 3, sizeZ - 2, ModBlocks.steel_roof, Blocks.air, false);
 			if(!hasPlacedLoot[1]) {
 				this.hasPlacedLoot[1] = this.generateInvContents(world, box, rand, ModBlocks.crate_iron, sizeX - 2, 1, 3, HbmChestContents.nukeTrash, 9);
-				generateLoreBook(world, box, rand, sizeX - 2, 1, 3, 1, HbmChestContents.books_office_sch);
+				if(rand.nextInt(2) == 0)
+					generateLoreBook(world, box, sizeX - 2, 1, 3, 1, HbmChestContents.generateOfficeBook(rand));
 			}
 			
 			return true;

@@ -35,7 +35,7 @@ public class FluidTank {
 	FluidType type;
 	int fluid;
 	int maxFluid;
-	public int index = 0;
+	@Deprecated public int index = 0;
 	int pressure = 0;
 	
 	public FluidTank(FluidType type, int maxFluid) {
@@ -44,6 +44,9 @@ public class FluidTank {
 	}
 	
 	public FluidTank withPressure(int pressure) {
+		
+		if(this.pressure != pressure) this.setFill(0);
+		
 		this.pressure = pressure;
 		return this;
 	}
@@ -238,7 +241,7 @@ public class FluidTank {
 			list.add(fluid + "/" + maxFluid + "mB");
 			
 			if(this.pressure != 0) {
-				list.add(EnumChatFormatting.RED + "" + this.pressure + "mB/l");
+				list.add(EnumChatFormatting.RED + "Pressure: " + this.pressure + " PU");
 			}
 			
 			type.addInfo(list);

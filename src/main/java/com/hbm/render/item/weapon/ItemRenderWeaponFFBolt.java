@@ -2,6 +2,7 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.ModItems;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
@@ -40,6 +41,8 @@ public class ItemRenderWeaponFFBolt implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+		
+		if(item.getItem() == ModItems.gun_bolt_action_saturnite && Minecraft.getMinecraft().thePlayer.isSneaking()) return;
 		
 		GL11.glPushMatrix();
 		

@@ -11,7 +11,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIFurnaceCombo;
 import com.hbm.inventory.recipes.CombinationRecipes;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.Tuple.Pair;
 
 import api.hbm.fluid.IFluidStandardSender;
@@ -29,7 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFurnaceCombination extends TileEntityMachineBase implements IFluidStandardSender, IGUIProvider {
+public class TileEntityFurnaceCombination extends TileEntityMachinePolluting implements IFluidStandardSender, IGUIProvider {
 
 	public boolean wasOn;
 	public int progress;
@@ -42,7 +42,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 	public FluidTank tank;
 
 	public TileEntityFurnaceCombination() {
-		super(4);
+		super(4, 50);
 		this.tank = new FluidTank(Fluids.NONE, 24_000);
 	}
 
@@ -65,6 +65,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 					for(int y = yCoord; y <= yCoord + 1; y++) {
 						for(int j = -1; j <= 1; j++) {
 							if(tank.getFill() > 0) this.sendFluid(tank, worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * j, y, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
+							this.sendSmoke(xCoord + dir.offsetX * 2 + rot.offsetX * j, y, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
 						}
 					}
 				}
@@ -72,6 +73,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 				for(int x = xCoord - 1; x <= xCoord + 1; x++) {
 					for(int z = zCoord - 1; z <= zCoord + 1; z++) {
 						if(tank.getFill() > 0) this.sendFluid(tank, worldObj, x, yCoord + 2, z, ForgeDirection.UP);
+						this.sendSmoke(x, yCoord + 2, z, ForgeDirection.UP);
 					}
 				}
 			}
@@ -122,7 +124,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 					if(worldObj.getTotalWorldTime() % 10 == 0) this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 1, this.zCoord, "hbm:weapon.flamethrowerShoot", 0.25F, 0.5F);
 				}
 
-				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
+				if(worldObj.getTotalWorldTime() % 20 == 0) this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
 			} else {
 				this.progress = 0;
 			}
@@ -274,6 +276,6 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 
 	@Override
 	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] {tank};
+		return new FluidTank[] {tank, smoke, smoke_leaded, smoke_poison};
 	}
 }

@@ -4,21 +4,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.hbm.entity.pathfinder.PathFinderUtils;
+import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -28,14 +23,14 @@ public class EntityGlyphid extends EntityMob {
 
 	public EntityGlyphid(World world) {
 		super(world);
-		this.tasks.addTask(0, new EntityAISwimming(this));
+		/*this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
 		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));*/
 		this.setSize(1.75F, 1F);
 	}
 	
@@ -63,6 +58,32 @@ public class EntityGlyphid extends EntityMob {
 	}
 	
 	@Override
+	protected void dropFewItems(boolean byPlayer, int looting) {
+		if(rand.nextInt(3) == 0) this.entityDropItem(new ItemStack(ModItems.glyphid_meat, 1 + rand.nextInt(2) + looting), 0F);
+	}
+
+	@Override
+	protected Entity findPlayerToAttack() {
+		EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, 128.0D);
+		return entityplayer != null && this.canEntityBeSeen(entityplayer) ? entityplayer : null;
+	}
+
+	@Override
+	protected void updateEntityActionState() {
+		super.updateEntityActionState();
+
+		// hell yeah!!
+		if(this.entityToAttack != null && !this.hasPath()) {
+			this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, false, true));
+		}
+	}
+
+	@Override
+	protected boolean canDespawn() {
+		return entityToAttack == null;
+	}
+	
+	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		
 		if(!source.isDamageAbsolute() && !source.isUnblockable() && !worldObj.isRemote) {
@@ -75,7 +96,7 @@ public class EntityGlyphid extends EntityMob {
 				int chance = getArmorBreakChance(amount); //chances of armor being broken off
 				if(this.rand.nextInt(chance) == 0 && amount > 1) {
 					breakOffArmor();
-					amount = 0;
+					amount *= 0.25F;
 				}
 				
 				amount -= getDamageThreshold();
@@ -123,6 +144,7 @@ public class EntityGlyphid extends EntityMob {
 				armor &= ~bit;
 				armor = (byte) (armor & 0b11111);
 				this.dataWatcher.updateObject(17, armor);
+				worldObj.playSoundAtEntity(this, "mob.zombie.woodbreak", 1.0F, 1.25F);
 				break;
 			}
 		}
