@@ -76,8 +76,8 @@ public class ItemRenderUACPistol implements IItemRenderer {
 				GL11.glRotatef(-5F, 0F, 1F, 0F);
 				GL11.glTranslatef(20.15F, 3.5F, 18F);
 			} else {
-				GL11.glRotatef(-35F, 1F, 0F, 0F);
-				GL11.glTranslatef(0F, -12F, 25F);
+				GL11.glRotatef(-25F, 1F, 0F, 0F);
+				GL11.glTranslatef(-3F, -5F, 20F);
 			}
 			GL11.glPushMatrix();
 			GL11.glTranslated(slideAnim[0], slideAnim[1], slideAnim[2] * 2);

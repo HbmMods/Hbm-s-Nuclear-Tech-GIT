@@ -1,0 +1,10 @@
+## Added
+* UAC pistol
+  * Uses the .45 caliber
+
+## Changed
+* Making LPG in the compressor now requires two compression steps
+  * This fixes an issue where polymer is unobtainable in 528 mode since petroleum at 1PU not being obtainable
+
+## Fixed
+* Fixed issue where mk5 explosions would behave weirdly in their origin chunk, often blowing through bedrock and thick layers of concrete
