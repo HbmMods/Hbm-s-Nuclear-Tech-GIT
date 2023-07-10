@@ -5020,6 +5020,7 @@ tile.rbmk_loader.name=RBMK Steam Connector
 tile.rbmk_moderator.name=RBMK Graphite Moderator
 tile.rbmk_outgasser.name=RBMK Irradiation Channel
 tile.rbmk_reflector.name=RBMK Tungsten Carbide Neutron Reflector
+tile.rbmk_reflector_advance.name=RBMK Advance Neutron Reflector
 tile.rbmk_rod.name=RBMK Fuel Rod
 tile.rbmk_rod_mod.name=RBMK Moderated Fuel Rod
 tile.rbmk_rod_reasim.name=RBMK Fuel Rod (ReaSim)

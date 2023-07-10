@@ -218,17 +218,22 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		
 		//return the neutrons back to this with no further action required
 		if(te instanceof TileEntityRBMKReflector) {
+			this.receiveFlux(this.isModerated() ? NType.SLOW : stream, flux);
+			return 0;
+		}
+
+		if(te instanceof TileEntityRBMKAdvanceReflector) {
 			int range = RBMKDials.getFluxRange(worldObj);
-			switch (((TileEntityRBMKReflector) te).setting) {
+			switch (((TileEntityRBMKAdvanceReflector) te).setting) {
 				case 0:
 					this.receiveFlux(this.isModerated() ? NType.SLOW : stream, flux);
 					return 0;
 				case 1:
-						for (int i = 1; i <= range; i++) {
-							flux = runInteraction(te.xCoord + ForgeDirection.NORTH.offsetX * i, te.yCoord, te.zCoord + ForgeDirection.NORTH.offsetZ * i, flux);
-							if (flux <= 0)
-								break;
-						}
+					for (int i = 1; i <= range; i++) {
+						flux = runInteraction(te.xCoord + ForgeDirection.NORTH.offsetX * i, te.yCoord, te.zCoord + ForgeDirection.NORTH.offsetZ * i, flux);
+						if (flux <= 0)
+							break;
+					}
 					return 0;
 				case 2:
 					for (int i = 1; i <= range; i++) {
@@ -254,7 +259,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			}
 
 		}
-		
+
 		//break the neutron flow and nothign else
 		if(te instanceof TileEntityRBMKAbsorber) {
 			return 0;

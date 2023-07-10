@@ -339,6 +339,7 @@ public class TileMappings {
 		put(TileEntityRBMKBlank.class, "tileentity_rbmk_blank");
 		put(TileEntityRBMKBoiler.class, "tileentity_rbmk_boiler");
 		put(TileEntityRBMKReflector.class, "tileentity_rbmk_reflector");
+		put(TileEntityRBMKAdvanceReflector.class, "tileentity_rbmk_reflector_advance");
 		put(TileEntityRBMKAbsorber.class, "tileentity_rbmk_absorber");
 		put(TileEntityRBMKModerator.class, "tileentity_rbmk_moderator");
 		put(TileEntityRBMKOutgasser.class, "tileentity_rbmk_outgasser");
