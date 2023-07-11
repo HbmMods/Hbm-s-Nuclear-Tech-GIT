@@ -2660,6 +2660,7 @@ item.gun_super_shotgun.name=Super Shotgun
 item.gun_super_shotgun.desc=It's super broken!
 item.gun_supershotgun.name=Super Shotgun
 item.gun_thompson.name=Thompson Submachine Gun
+item.gun_uac_pistol.name=UAC .45 Pistol
 item.gun_uboinik.name=Uboinik
 item.gun_uboinik_ammo.name=12x70 Buckshot (LEGACY)
 item.gun_uzi.name=IMI Uzi
