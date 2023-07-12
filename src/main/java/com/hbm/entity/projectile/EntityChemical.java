@@ -185,9 +185,15 @@ public class EntityChemical extends EntityThrowableNT {
 		if(style == ChemicalStyle.LIQUID || style == ChemicalStyle.GAS) {
 			if(type.temperature < -20) {
 				if(living != null) { //only living things are affected
-					EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_cryolator), 5F + (type.temperature + 20) * -0.05F); //5 damage at -20°C with one extra damage every -20°C
-					living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 2));
-					living.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 100, 4));
+					
+					HbmLivingProps.setTemperature(living, HbmLivingProps.getTemperature(living) + type.temperature / 20);
+					
+					if(HbmLivingProps.isFrozen(living)) {
+						if(!EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_cryolator), living.getMaxHealth() * -type.temperature / 273 * 0.01F))
+							e.attackEntityFrom(getDamage(ModDamageSource.s_cryolator), living.getMaxHealth() * -type.temperature / 273);
+						living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 2));
+						living.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 100, 4));
+					}
 				}
 			}
 			

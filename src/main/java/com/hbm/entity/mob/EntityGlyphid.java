@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.hbm.entity.pathfinder.PathFinderUtils;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.Entity;
@@ -86,7 +87,7 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		
-		if(!source.isDamageAbsolute() && !source.isUnblockable() && !worldObj.isRemote) {
+		if(!source.isDamageAbsolute() && !source.isUnblockable() && !worldObj.isRemote && !source.isFireDamage() && !source.getDamageType().equals(ModDamageSource.s_cryolator)) {
 			byte armor = this.dataWatcher.getWatchableObjectByte(17);
 			
 			if(armor != 0) { //if at least one bit of armor is present
@@ -105,6 +106,8 @@ public class EntityGlyphid extends EntityMob {
 			
 			amount = this.calculateDamage(amount);
 		}
+		
+		if(source.isFireDamage()) amount *= 4F;
 		
 		return super.attackEntityFrom(source, amount);
 	}

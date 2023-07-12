@@ -3,6 +3,7 @@ package com.hbm.handler;
 import java.util.List;
 
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT.*;
 import com.hbm.handler.guncfg.BulletConfigFactory;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletHurtBehavior;
@@ -92,6 +93,11 @@ public class BulletConfiguration implements Cloneable {
 	public IBulletRicochetBehavior bRicochet;
 	public IBulletImpactBehavior bImpact;
 	public IBulletUpdateBehavior bUpdate;
+	public IBulletHurtBehaviorNT bntHurt;
+	public IBulletHitBehaviorNT bntHit;
+	public IBulletRicochetBehaviorNT bntRicochet;
+	public IBulletImpactBehaviorNT bntImpact;
+	public IBulletUpdateBehaviorNT bntUpdate;
 	
 	//appearance
 	public int style;

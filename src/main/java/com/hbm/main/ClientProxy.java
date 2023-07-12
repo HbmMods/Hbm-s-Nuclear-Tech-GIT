@@ -1883,6 +1883,14 @@ public class ClientProxy extends ServerProxy {
 			ParticleFoundry sploosh = new ParticleFoundry(man, world, x, y, z, color, dir, length, base, offset);
 			Minecraft.getMinecraft().effectRenderer.addEffect(sploosh);
 		}
+		
+		if("frozen".equals(type)) {
+			player.motionX = 0;
+			player.motionZ = 0;
+			player.motionY = Math.min(player.motionY, 0);
+			player.moveForward = 0;
+			player.moveStrafing = 0;
+		}
 	}
 	
 	private HashMap<Integer, Long> vanished = new HashMap();

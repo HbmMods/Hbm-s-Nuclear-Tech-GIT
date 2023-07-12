@@ -156,7 +156,8 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 	
 			Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
 			Vec3 nextPos = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-			MovingObjectPosition mop = this.worldObj.rayTraceBlocks(pos, nextPos);
+			MovingObjectPosition mop = null;
+			if(!this.isSpectral()) mop = this.worldObj.rayTraceBlocks(pos, nextPos);
 			pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
 			nextPos = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 	
@@ -180,17 +181,25 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 						MovingObjectPosition hitMop = aabb.calculateIntercept(pos, nextPos);
 	
 						if(hitMop != null) {
-							double dist = pos.distanceTo(hitMop.hitVec);
-	
-							if(dist < nearest || nearest == 0.0D) {
-								hitEntity = entity;
-								nearest = dist;
+							
+							// if penetration is enabled, run impact for all intersecting entities
+							if(this.doesPenetrate()) {
+								this.onImpact(hitMop);
+							} else {
+								
+								double dist = pos.distanceTo(hitMop.hitVec);
+		
+								if(dist < nearest || nearest == 0.0D) {
+									hitEntity = entity;
+									nearest = dist;
+								}
 							}
 						}
 					}
 				}
 	
-				if(hitEntity != null) {
+				// if not, only run it for the closest MOP
+				if(!this.doesPenetrate() && hitEntity != null) {
 					mop = new MovingObjectPosition(hitEntity);
 				}
 			}
@@ -249,8 +258,12 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 		}
 	}
 	
-	public boolean alowMultiImpact() {
-		return false; //TODO
+	public boolean doesPenetrate() {
+		return false;
+	}
+	
+	public boolean isSpectral() {
+		return false;
 	}
 	
 	public void getStuck(int x, int y, int z) {
