@@ -81,8 +81,16 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 		return 1.5F;
 	}
 
+	protected double headingForceMult() {
+		return 0.0075D;
+	}
+
 	protected float throwAngle() {
 		return 0.0F;
+	}
+
+	protected double motionMult() {
+		return 1.0D;
 	}
 
 	@Override
@@ -91,9 +99,9 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 		motionX /= (double) throwLen;
 		motionY /= (double) throwLen;
 		motionZ /= (double) throwLen;
-		motionX += this.rand.nextGaussian() * 0.0075D * (double) inaccuracy;
-		motionY += this.rand.nextGaussian() * 0.0075D * (double) inaccuracy;
-		motionZ += this.rand.nextGaussian() * 0.0075D * (double) inaccuracy;
+		motionX += this.rand.nextGaussian() * headingForceMult() * (double) inaccuracy;
+		motionY += this.rand.nextGaussian() * headingForceMult() * (double) inaccuracy;
+		motionZ += this.rand.nextGaussian() * headingForceMult() * (double) inaccuracy;
 		motionX *= (double) velocity;
 		motionY *= (double) velocity;
 		motionZ *= (double) velocity;
@@ -155,11 +163,11 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 			++this.ticksInAir;
 	
 			Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-			Vec3 nextPos = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+			Vec3 nextPos = Vec3.createVectorHelper(this.posX + this.motionX * motionMult(), this.posY + this.motionY * motionMult(), this.posZ + this.motionZ * motionMult());
 			MovingObjectPosition mop = null;
 			if(!this.isSpectral()) mop = this.worldObj.rayTraceBlocks(pos, nextPos);
 			pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-			nextPos = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+			nextPos = Vec3.createVectorHelper(this.posX + this.motionX * motionMult(), this.posY + this.motionY * motionMult(), this.posZ + this.motionZ * motionMult());
 	
 			if(mop != null) {
 				nextPos = Vec3.createVectorHelper(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
@@ -168,7 +176,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 			if(!this.worldObj.isRemote) {
 				
 				Entity hitEntity = null;
-				List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+				List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX * motionMult(), this.motionY * motionMult(), this.motionZ * motionMult()).expand(1.0D, 1.0D, 1.0D));
 				double nearest = 0.0D;
 				EntityLivingBase thrower = this.getThrower();
 	
@@ -212,9 +220,9 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 				}
 			}
 	
-			this.posX += this.motionX;
-			this.posY += this.motionY;
-			this.posZ += this.motionZ;
+			this.posX += this.motionX * motionMult();
+			this.posY += this.motionY * motionMult();
+			this.posZ += this.motionZ * motionMult();
 			
 			float hyp = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);

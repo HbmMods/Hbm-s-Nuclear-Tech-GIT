@@ -47,7 +47,15 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityBulletBase extends Entity implements IProjectile {
+public class EntityBulletBase extends Entity implements IProjectile, IBulletBase {
+	
+	@Override public double prevX() { return prevRenderX; }
+	@Override public double prevY() { return prevRenderY; }
+	@Override public double prevZ() { return prevRenderZ; }
+	@Override public void prevX(double d) { prevRenderX = d; }
+	@Override public void prevY(double d) { prevRenderY = d; }
+	@Override public void prevZ(double d) { prevRenderZ = d; }
+	@Override public List<Pair<Vec3, Double>> nodes() { return this.trailNodes; }
 	
 	private BulletConfiguration config;
 	public EntityLivingBase shooter;

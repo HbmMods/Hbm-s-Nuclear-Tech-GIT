@@ -17,3 +17,4 @@
 ## Fixed
 * Fixed issue where mk5 explosions would behave weirdly in their origin chunk, often blowing through bedrock and thick layers of concrete
 * Fixed saturnite rifle disappearing in third person when scoping
+* Fixed cables not visually connecting to assemblers

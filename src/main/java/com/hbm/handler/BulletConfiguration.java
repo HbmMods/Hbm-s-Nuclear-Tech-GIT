@@ -3,6 +3,7 @@ package com.hbm.handler;
 import java.util.List;
 
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.EntityBulletBaseNT.*;
 import com.hbm.handler.guncfg.BulletConfigFactory;
 import com.hbm.interfaces.IBulletHitBehavior;
@@ -10,7 +11,6 @@ import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
-import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -219,8 +219,29 @@ public class BulletConfiguration implements Cloneable {
 		return this;
 	}
 	
-	@Untested
 	public DamageSource getDamage(EntityBulletBase bullet, EntityLivingBase shooter) {
+		
+		DamageSource dmg;
+		
+		String unloc = damageType;
+		
+		if(unloc.equals(ModDamageSource.s_zomg_prefix))
+			unloc += (bullet.worldObj.rand.nextInt(5) + 1); //pain
+		
+		if(shooter != null)
+			dmg = new EntityDamageSourceIndirect(unloc, bullet, shooter);
+		else
+			dmg = new DamageSource(unloc);
+		
+		if(this.dmgProj) dmg.setProjectile();
+		if(this.dmgFire) dmg.setFireDamage();
+		if(this.dmgExplosion) dmg.setExplosion();
+		if(this.dmgBypass) dmg.setDamageBypassesArmor();
+		
+		return dmg;
+	}
+	
+	public DamageSource getDamage(EntityBulletBaseNT bullet, EntityLivingBase shooter) {
 		
 		DamageSource dmg;
 		
