@@ -39,8 +39,11 @@ public class ItemWandD extends Item {
 			vnt.setSFX(new ExplosionEffectStandard());
 			vnt.explode();*/
 			
-			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
-			
+
+			PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionHandler.PollutionType.SOOT, 30);
+			//world.newExplosion(null, pos.blockX, pos.blockY, pos.blockZ, 5F, false, false);
+			//GlyphidHive.generateBigOrb(world, pos.blockX, pos.blockY, pos.blockZ, new Random());
+
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
 			TimeAnalyzer.startEndCount("getBlock");

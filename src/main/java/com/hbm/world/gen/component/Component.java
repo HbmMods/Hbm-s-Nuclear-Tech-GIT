@@ -22,11 +22,14 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import static com.hbm.config.MobConfig.enableInfestation;
 
 abstract public class Component extends StructureComponent {
 	/** The size of the bounding box for this feature in the X axis */
@@ -669,9 +672,13 @@ abstract public class Component extends StructureComponent {
 	}
 	/** Have you ever wanted Glyphids in your building? No? Too bad! **/
 	protected void infest(World world, StructureBoundingBox box, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, int maxSize, Random rand){
-		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
+		PollutionHandler.PollutionPerWorld ppw = 	PollutionHandler.perWorld.get(world);
+
+		int infestChance = Math.max((int)MobConfig.baseInfestChance - (ppw.pollution.size()/10), 1);
+		if(!enableInfestation || rand.nextInt(infestChance + 1) != 0 || getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
 			return;
-		int nestCount = 1;
+		int nestCount = 0;
+
 		for(int x = minX; x <= maxX; x++) {
 
 			for(int z = minZ; z <= maxZ; z++) {
@@ -682,12 +689,7 @@ abstract public class Component extends StructureComponent {
 					for(int y = minY; y <= maxY; y++) {
 						int posY = getYWithOffset(y);
 
-						int soot = (int) PollutionHandler.getPollution(world, posX, posY, posZ, PollutionHandler.PollutionType.SOOT);
-
-						int sootAdd = 3 - 3/(soot+1);
-
-						int chance = (int)(MobConfig.baseInfestChance + sootAdd)/nestCount;
-						if (rand.nextInt(3000) + 1 <= chance && !(nestCount-1 >= maxSize)) {
+						if (rand.nextInt(1000) <= 8 + (ppw.pollution.size()/10) - maxSize*2 && !(nestCount >= maxSize)) {
 							GlyphidHive.generateBigOrb(world, posX, posY, posZ, world.rand);
 							nestCount++;
 						}

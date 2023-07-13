@@ -18,6 +18,7 @@ import com.hbm.items.ModItems;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -51,7 +52,9 @@ public class BlockGlyphidSpawner extends BlockContainer {
 		public void updateEntity() {
 			
 			if(!worldObj.isRemote && worldObj.getTotalWorldTime() % 60 == 0 && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
-				
+				if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) != Blocks.air)	{
+					return;
+				}
 				int count = 0;
 				
 				for(Object e : worldObj.loadedEntityList) {
