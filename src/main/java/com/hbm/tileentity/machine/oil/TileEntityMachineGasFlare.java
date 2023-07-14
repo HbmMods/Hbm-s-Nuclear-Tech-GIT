@@ -23,6 +23,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ParticleUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardReceiver;
@@ -95,15 +96,10 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 
 		if(!worldObj.isRemote) {
 
-			this.sendPower(worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
-			this.sendPower(worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
-			this.sendPower(worldObj, xCoord, yCoord, zCoord + 2, Library.POS_Z);
-			this.sendPower(worldObj, xCoord, yCoord, zCoord - 2, Library.NEG_Z);
-
-			this.trySubscribe(tank.getTankType(), worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
-			this.trySubscribe(tank.getTankType(), worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
-			this.trySubscribe(tank.getTankType(), worldObj, xCoord, yCoord, zCoord + 2, Library.POS_Z);
-			this.trySubscribe(tank.getTankType(), worldObj, xCoord, yCoord, zCoord - 2, Library.NEG_Z);
+			for(DirPos pos : getConPos()) {
+				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 
 			tank.setType(3, slots);
 			tank.loadTank(1, 2, slots);
@@ -221,7 +217,15 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 				}
 			}
 		}
-
+	}
+	
+	public DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z)
+		};
 	}
 	
 	@Override

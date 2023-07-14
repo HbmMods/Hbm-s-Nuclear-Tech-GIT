@@ -5,6 +5,8 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.UpgradeManager;
@@ -24,7 +26,7 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
@@ -44,7 +46,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbofan extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IGUIProvider {
+public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IGUIProvider {
 
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -62,7 +64,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	private AudioWrapper audio;
 
 	public TileEntityMachineTurbofan() {
-		super(5);
+		super(5, 150);
 		tank = new FluidTank(Fluids.KEROSENE, 24000);
 		blood = new FluidTank(Fluids.BLOOD, 24000);
 	}
@@ -161,6 +163,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 				this.wasOn = true;
 				this.tank.setFill(this.tank.getFill() - amountToBurn);
 				this.power += burnValue * amountToBurn;
+				
+				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * amountToBurn);
 			}
 			
 			power = Library.chargeItemsFromTE(slots, 3, power, power);
@@ -169,6 +173,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				if(this.blood.getFill() > 0) this.sendFluid(blood, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			if(burnValue > 0 && amountToBurn > 0) {
@@ -470,7 +475,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 
 	@Override
 	public FluidTank[] getAllTanks() {
-		return new FluidTank[] { tank, blood };
+		return new FluidTank[] { tank, blood, smoke, smoke_leaded, smoke_poison };
 	}
 
 	@Override

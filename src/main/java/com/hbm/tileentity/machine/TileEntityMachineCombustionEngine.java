@@ -17,12 +17,12 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -34,7 +34,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCombustionEngine extends TileEntityMachineBase implements IEnergyGenerator, IFluidStandardReceiver, IControlReceiver, IGUIProvider {
+public class TileEntityMachineCombustionEngine extends TileEntityMachinePolluting implements IEnergyGenerator, IFluidStandardTransceiver, IControlReceiver, IGUIProvider {
 	
 	public boolean isOn = false;
 	public static long maxPower = 2_500_000;
@@ -52,7 +52,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 	public int tenth = 0;
 
 	public TileEntityMachineCombustionEngine() {
-		super(5);
+		super(5, 50);
 		this.tank = new FluidTank(Fluids.DIESEL, 24_000, 0);
 	}
 
@@ -88,8 +88,8 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 					fill -= toBurn;
 					
 					if(worldObj.getTotalWorldTime() % 20 == 0) {
-						PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * setting * 0.1F);
-						if(tank.getTankType().hasTrait(FT_Leaded.class))  PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * setting * 0.1F);
+						this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * setting * 0.1F);
+						if(tank.getTankType().hasTrait(FT_Leaded.class)) this.pollute(PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * setting * 0.1F);
 					}
 					
 					if(toBurn > 0) {
@@ -109,6 +109,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 			for(DirPos pos : getConPos()) {
 				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			if(power > maxPower)
@@ -274,6 +275,11 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return this.getSmokeTanks();
 	}
 	
 	AxisAlignedBB bb = null;

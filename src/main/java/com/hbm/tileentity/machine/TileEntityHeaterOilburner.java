@@ -3,9 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.container.ContainerOilburner;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
@@ -13,9 +11,10 @@ import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Leaded;
 import com.hbm.inventory.gui.GUIOilburner;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +25,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityHeaterOilburner extends TileEntityMachineBase implements IGUIProvider, IFluidStandardReceiver, IHeatSource, IControlReceiver, IFluidAcceptor {
+public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implements IGUIProvider, IFluidStandardTransceiver, IHeatSource, IControlReceiver {
 	
 	public boolean isOn = false;
 	public FluidTank tank;
@@ -36,13 +35,22 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 	public static final int maxHeatEnergy = 100_000;
 
 	public TileEntityHeaterOilburner() {
-		super(3);
-		tank = new FluidTank(Fluids.HEATINGOIL, 16000, 0);
+		super(3, 100);
+		tank = new FluidTank(Fluids.HEATINGOIL, 16000);
 	}
 
 	@Override
 	public String getName() {
 		return "container.heaterOilburner";
+	}
+	
+	public DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z)
+		};
 	}
 
 	@Override
@@ -53,10 +61,10 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 			tank.loadTank(0, 1, slots);
 			tank.setType(2, slots);
 
-			this.trySubscribe(tank.getTankType(), worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
-			this.trySubscribe(tank.getTankType(), worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
-			this.trySubscribe(tank.getTankType(), worldObj, xCoord, yCoord, zCoord + 2, Library.POS_Z);
-			this.trySubscribe(tank.getTankType(), worldObj, xCoord, yCoord, zCoord - 2, Library.NEG_Z);
+			for(DirPos pos : this.getConPos()) {
+				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 			
 			boolean shouldCool = true;
 			
@@ -75,8 +83,8 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 					this.heatEnergy += heat * toBurn;
 
 					if(worldObj.getTotalWorldTime() % 20 == 0) {
-						PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * burnRate * 0.5F);
-						if(tank.getTankType().hasTrait(FT_Leaded.class))  PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * burnRate * 0.5F);
+						this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * burnRate * 0.5F);
+						if(tank.getTankType().hasTrait(FT_Leaded.class)) this.pollute(PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * burnRate * 0.5F);
 					}
 					
 					shouldCool = false;
@@ -158,28 +166,6 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 	}
 
 	@Override
-	public void setFillForSync(int fill, int index) { }
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		if(type == tank.getTankType())
-			tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) { }
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		return type == tank.getTankType() ? tank.getFill() : 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return type == tank.getTankType() ? tank.getMaxFill() : 0;
-	}
-
-	@Override
 	public boolean hasPermission(EntityPlayer player) {
 		return player.getDistanceSq(xCoord, yCoord, zCoord) <= 256;
 	}
@@ -220,5 +206,10 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 	@Override
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return this.getSmokeTanks();
 	}
 }

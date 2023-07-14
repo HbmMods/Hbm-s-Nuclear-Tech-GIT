@@ -67,7 +67,6 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 					if(slots[i] != null) {
 						
 						int fuel = burnModule.getBurnTime(slots[i]);
-						//int fuel = TileEntityFurnace.getItemBurnTime(slots[i]);
 						
 						if(fuel > 0) {
 							this.maxBurnTime = this.burnTime = fuel;

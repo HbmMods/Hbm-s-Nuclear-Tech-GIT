@@ -631,6 +631,8 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.fluid_duct, 8), new Object[] { "SAS", " D ", "SAS", 'S', STEEL.plate(), 'A', AL.plate(), 'D', ModItems.ducttape });
 		addShapelessAuto(new ItemStack(ModBlocks.fluid_duct_neo, 1, 0), new Object[] { ModBlocks.fluid_duct });
 		addRecipeAuto(new ItemStack(ModBlocks.fluid_duct_solid, 8), new Object[] { "SAS", "ADA", "SAS", 'S', STEEL.ingot(), 'A', AL.plate(), 'D', ModItems.ducttape });
+		addRecipeAuto(new ItemStack(ModBlocks.fluid_valve, 1), new Object[] { "S", "W", 'S', Blocks.lever, 'W', ModBlocks.fluid_duct_paintable });
+		addRecipeAuto(new ItemStack(ModBlocks.fluid_switch, 1), new Object[] { "S", "W", 'S', REDSTONE.dust(), 'W', ModBlocks.fluid_duct_paintable });
 		addRecipeAuto(new ItemStack(ModItems.template_folder, 1), new Object[] { "LPL", "BPB", "LPL", 'P', Items.paper, 'L', "dye", 'B', "dye" });
 		addRecipeAuto(new ItemStack(ModItems.pellet_antimatter, 1), new Object[] { "###", "###", "###", '#', ModItems.cell_antimatter });
 		addRecipeAuto(new ItemStack(ModItems.fluid_tank_empty, 8), new Object[] { "121", "1G1", "121", '1', AL.plate(), '2', IRON.plate(), 'G', KEY_ANYPANE });
@@ -1103,6 +1105,11 @@ public class CraftingManager {
 				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BOARD_TRANSISTOR),
 				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BOARD_BLANK)
 		});
+
+		addRecipeAuto(new ItemStack(ModItems.sliding_blast_door_skin), "SPS", "DPD", "SPS", 'P', Items.paper, 'D', "dye", 'S', STEEL.plate());
+		addShapelessAuto(new ItemStack(ModItems.sliding_blast_door_skin, 1, 1), new ItemStack(ModItems.sliding_blast_door_skin, 1, 0));
+		addShapelessAuto(new ItemStack(ModItems.sliding_blast_door_skin, 1, 2), new ItemStack(ModItems.sliding_blast_door_skin, 1, 1));
+		addShapelessAuto(new ItemStack(ModItems.sliding_blast_door_skin), new ItemStack(ModItems.sliding_blast_door_skin, 1, 2));
 	}
 	
 	public static void crumple() {

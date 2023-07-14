@@ -59,6 +59,9 @@
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},
     "door.wghStop": {"category": "block", "sounds": [{"name": "block/door/wgh_stop", "stream": true}]},
     "door.alarm6": {"category": "block", "sounds": [{"name": "block/door/alarm6", "stream": true}]},
+    "door.sliding_door_shut": {"category": "block", "sounds": [{"name": "block/door/sliding_door_shut", "stream": false}]},
+    "door.sliding_door_opened": {"category": "block", "sounds": [{"name": "block/door/sliding_door_opened", "stream": false}]},
+    "door.sliding_door_opening": {"category": "block", "sounds": [{"name": "block/door/sliding_door_opening", "stream": false}]},
     
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

@@ -35,6 +35,7 @@ public class MobConfig {
 	public static double tier3Threshold = 10;
 	public static double tier4Threshold = 50;
 	public static double tier5Threshold = 100;
+	public static double spawnMax = 50;
 	
 	
 	public static void loadFromConfig(Configuration config) {
@@ -72,5 +73,6 @@ public class MobConfig {
 		tier3Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G04_tier3Threshold", "Minimum amount of soot for tier 3 glyphids to spawn", 10);
 		tier4Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G05_tier4Threshold", "Minimum amount of soot for tier 4 glyphids to spawn", 50);
 		tier5Threshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G06_tier5Threshold", "Minimum amount of soot for tier 5 glyphids to spawn", 100);
+		spawnMax = CommonConfig.createConfigDouble(config, CATEGORY, "12.G07_spawnMax", "Maximum amount of glyphids being able to exist at once through natural spawning", 50);
 	}
 }

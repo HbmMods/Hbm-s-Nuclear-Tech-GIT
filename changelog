@@ -1,16 +1,7 @@
-## Added
-* Antimatter Bomb
-  * New Bomb with a unique explosion
-  * Requires Hafnium to craft
-  * needs 2 lead ion capsules, 2 hafnium ingots, and 1 antimatter cluster to operate
-
-* Hafnium
 
 ## Changed
-* The radius of the tank explosions, they should no longer kill your world if you have a tank full of antimatter
-* Removed some useless, unused junk
-* WARNING: FLUID IDS WILL SHIFT.
-* Finally Updated to bobs version, you will be fine.
+* Finally Updated to bobs version, you will be fine (again)
 
 ## Fixed
-    * The Magnetic Storage Containers now use the `IOverpressurable` interface instead of the legacy `invalidate()` method, this means that your tanks full of anitmatter wont explode when broken by hand.
+    *ID shifting, do NOT download the last version.
+    *if you did, i am very sorry

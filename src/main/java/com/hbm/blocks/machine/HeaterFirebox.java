@@ -29,7 +29,7 @@ public class HeaterFirebox extends BlockDummyable implements ITooltipProvider {
 		/*if(lastCore.getX() == lastBlockSet.getX() && lastCore.getY() + 1 == lastBlockSet.getY() && lastCore.getZ() == lastBlockSet.getZ())
 			return new TileEntityProxyCombo().inventory().heatSource();*/
 		
-		return new TileEntityProxyCombo(true, false, false);
+		return new TileEntityProxyCombo().inventory().fluid();
 	}
 	
 	@Override

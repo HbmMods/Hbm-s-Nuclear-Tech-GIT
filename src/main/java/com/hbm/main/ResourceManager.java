@@ -83,6 +83,7 @@ public class ResourceManager {
 
 	//Flare Stack
 	public static final IModelCustom oilflare = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/flare_stack.obj"));
+	public static final IModelCustom chimney_brick = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/chimney_brick.obj"));
 
 	//Tank
 	public static final IModelCustom fluidtank = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/fluidtank.obj"));
@@ -297,7 +298,15 @@ public class ResourceManager {
 	public static final IModelCustom blast_door_tooth = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blast_door_tooth.obj"));
 	public static final IModelCustom blast_door_slider = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blast_door_slider.obj"));
 	public static final IModelCustom blast_door_block = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blast_door_block.obj"));
-	
+
+	//Sliding Blast Door
+	public static final ResourceLocation sliding_blast_door_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/sliding_blast_door.png");
+	public static final ResourceLocation sliding_blast_door_variant1_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/sliding_blast_door_variant1.png");
+	public static final ResourceLocation sliding_blast_door_variant2_tex = new ResourceLocation(RefStrings.MODID, "textures/models/doors/sliding_blast_door_variant2.png");
+
+	public static AnimatedModel sliding_blast_door;
+	public static Animation sliding_blast_door_anim;
+
 	//Doors
 	public static AnimatedModel transition_seal;
 	public static Animation transition_seal_anim;
@@ -423,6 +432,7 @@ public class ResourceManager {
 
 	//Flare Stack
 	public static final ResourceLocation oilflare_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/flare_stack.png");
+	public static final ResourceLocation chimney_brick_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/chimney_brick.png");
 	
 	//Tank
 	public static final ResourceLocation tank_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank.png");
@@ -1037,6 +1047,7 @@ public class ResourceManager {
 	public static final IModelCustom cart_powder = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/vehicles/cart_powder.obj"));
 	public static final IModelCustom train_cargo_tram = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/vehicles/tram.obj"));
 	public static final IModelCustom train_cargo_tram_trailer = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/vehicles/tram_trailer.obj"));
+	public static final IModelCustom tunnel_bore = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/vehicles/tunnel_bore.obj"));
 	
 	////Texture Entities
 	
@@ -1382,5 +1393,8 @@ public class ResourceManager {
 	public static void loadAnimatedModels(){
 		transition_seal = ColladaLoader.load(new ResourceLocation(RefStrings.MODID, "models/doors/seal.dae"), true);
 		transition_seal_anim = ColladaLoader.loadAnim(24040, new ResourceLocation(RefStrings.MODID, "models/doors/seal.dae"));
+
+		sliding_blast_door = ColladaLoader.load(new ResourceLocation(RefStrings.MODID, "models/doors/sliding_blast_door.dae"));
+		sliding_blast_door_anim = ColladaLoader.loadAnim(1200, new ResourceLocation(RefStrings.MODID, "models/doors/sliding_blast_door.dae"));
 	}
 }
