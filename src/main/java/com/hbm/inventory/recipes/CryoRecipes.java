@@ -35,7 +35,30 @@ public class CryoRecipes extends SerializableRecipe {
 				new FluidStack(Fluids.METHANE, 15),
 				new FluidStack(Fluids.GAS, 5)
 				));
-		
+		recipes.put(Fluids.JOOLGAS, new Quartet(
+				new FluidStack(Fluids.HELIUM3, 25),
+				new FluidStack(Fluids.HYDROGEN, 25),
+				new FluidStack(Fluids.CHLORINE, 20),
+				new FluidStack(Fluids.FLUORINE, 12)
+				));
+		recipes.put(Fluids.NGAS, new Quartet(
+				new FluidStack(Fluids.METHANE, 35),
+				new FluidStack(Fluids.AMMONIA, 24),
+				new FluidStack(Fluids.UNSATURATEDS, 12),
+				new FluidStack(Fluids.KMnO4, 8)
+				));
+		recipes.put(Fluids.UGAS, new Quartet(
+				new FluidStack(Fluids.OXYGEN, 35),
+				new FluidStack(Fluids.NITROGEN, 25),
+				new FluidStack(Fluids.METHANOL, 15),
+				new FluidStack(Fluids.AROMATICS, 10)
+				));
+		recipes.put(Fluids.SARNUSGAS, new Quartet(
+				new FluidStack(Fluids.HYDROGEN, 45),
+				new FluidStack(Fluids.HELIUM4, 25),
+				new FluidStack(Fluids.METHANE, 15),
+				new FluidStack(Fluids.NITROGEN, 5)
+				));
 		recipes.put(Fluids.EVEAIR, new Quartet(
 				new FluidStack(Fluids.KMnO4, 30),
 				new FluidStack(Fluids.MERCURY, 25),
