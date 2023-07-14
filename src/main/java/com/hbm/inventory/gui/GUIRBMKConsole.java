@@ -305,7 +305,23 @@ public class GUIRBMKConsole extends GuiScreen {
 			case REFLECTOR: break;
 			case OUTGASSER: break;
 			case BREEDER: break;
-			
+
+			case REDSTONE:
+
+				switch(col.data.getInteger("mode")) {
+					case 2: // slow flux
+						drawTexturedModalRect(guiLeft + x + 3, guiTop + y + size - 2, 142, 183 - 8, 3, 8);
+						break;
+					case 3: // fast flux
+						drawTexturedModalRect(guiLeft + x + 3, guiTop + y + size - 2, 142, 193 - 8, 3, 8);
+						break;
+				}
+
+				if(col.data.getBoolean("active")) { //set active texture afterwards or it will override
+					drawTexturedModalRect(guiLeft + x + 4, guiTop + y + size - 2, 145, 204, 2, 8);
+				}
+				break;
+
 			case CONTROL:
 				int color = col.data.getShort("color");
 				if(color > -1)
@@ -341,7 +357,7 @@ public class GUIRBMKConsole extends GuiScreen {
 					drawTexturedModalRect(guiLeft + x + 4, guiTop + y + 5, 44, 187, 2, 2);
 				if(col.data.getShort("type") == Fluids.ULTRAHOTSTEAM.ordinal())
 					drawTexturedModalRect(guiLeft + x + 4, guiTop + y + 7, 44, 189, 2, 2);
-				
+
 				break;
 				
 			case HEATEX:

@@ -384,19 +384,24 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				stats.add(EnumChatFormatting.WHITE + I18nUtil.resolveKey("rbmk.boiler.steam", this.data.getInteger("steam"), this.data.getInteger("maxSteam")));
 				stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.boiler.type", I18nUtil.resolveKey(Fluids.fromID(this.data.getShort("type")).getUnlocalizedName())));
 				break;
+			case REDSTONE:
+				stats.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("rbmk.redstone.active", Boolean.toString(data.getBoolean("active"))));
+				stats.add(EnumChatFormatting.WHITE + I18nUtil.resolveKey("rbmk.redstone.value", this.data.getString("value"), this.data.getInteger("threshold")));
+				stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.redstone.channel", this.data.getString("channel")));
+				break;
 			case CONTROL:
-				
+
 				if(this.data.hasKey("color")) {
 					short col = this.data.getShort("color");
-					
+
 					if(col >= 0 && col < RBMKColor.values().length)
 						stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.control." + RBMKColor.values()[col].name().toLowerCase(Locale.US)));
 				}
-				
+
 			case CONTROL_AUTO:
 				stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.control.level", ((int)((this.data.getDouble("level") * 100D))) + "%"));
 				break;
-				
+
 			case HEATEX:
 				stats.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey(I18nUtil.resolveKey(Fluids.fromID(this.data.getShort("type")).getUnlocalizedName()) + " " +
 			this.data.getInteger("water") + "/" + this.data.getInteger("maxWater") + "mB"));
@@ -404,7 +409,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			this.data.getInteger("steam") + "/" + this.data.getInteger("maxSteam") + "mB"));
 				break;
 			}
-			
+
 			if(data.getBoolean("moderated"))
 				stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.moderated"));
 			
@@ -426,9 +431,10 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		BREEDER(100),
 		STORAGE(110),
 		COOLER(120),
-		HEATEX(130);
-		
-		public int offset;
+		HEATEX(130),
+		REDSTONE(140);
+
+        public int offset;
 		
 		private ColumnType(int offset) {
 			this.offset = offset;
