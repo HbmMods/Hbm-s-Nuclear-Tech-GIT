@@ -9,7 +9,7 @@ import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.logic.IChunkLoader;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.BulletConfigSyncingUtil;
@@ -371,7 +371,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 			Vec3 vec = Vec3.createVectorHelper(0.5, 0, 0);
 
 			for(int i = 0; i < count; i++) {
-				EntityBulletBase blade = new EntityBulletBase(worldObj, BulletConfigSyncingUtil.TURBINE);
+				EntityBulletBaseNT blade = new EntityBulletBaseNT(worldObj, BulletConfigSyncingUtil.TURBINE);
 				blade.setPositionAndRotation(this.posX - this.motionX, this.posY - this.motionY + rand.nextGaussian(), this.posZ - this.motionZ, 0, 0);
 				blade.motionX = vec.xCoord;
 				blade.motionZ = vec.zCoord;

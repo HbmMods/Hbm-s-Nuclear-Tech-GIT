@@ -7,7 +7,6 @@ import java.util.Set;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.ai.EntityAIBreaking;
-import com.hbm.entity.mob.ai.EntityAI_MLPF;
 import com.hbm.entity.pathfinder.PathFinderUtils;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.items.ModItems;

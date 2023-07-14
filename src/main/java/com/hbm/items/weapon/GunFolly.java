@@ -1,7 +1,7 @@
 package com.hbm.items.weapon;
 
 import com.hbm.entity.particle.EntitySSmokeFX;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
@@ -63,7 +63,7 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				player.motionZ -= player.getLookVec().zCoord * mult;
 
 				if (!world.isRemote) {
-					EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigSyncingUtil.TEST_CONFIG, player);
+					EntityBulletBaseNT bullet = new EntityBulletBaseNT(world, BulletConfigSyncingUtil.TEST_CONFIG, player);
 					world.spawnEntityInWorld(bullet);
 					
 					for(int i = 0; i < 25; i++) {

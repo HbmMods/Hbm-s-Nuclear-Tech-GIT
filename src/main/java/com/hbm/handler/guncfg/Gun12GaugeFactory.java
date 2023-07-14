@@ -2,12 +2,9 @@ package com.hbm.handler.guncfg;
 
 import java.util.List;
 
-import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletHurtBehavior;
-import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo12Gauge;
 import com.hbm.items.ModItems;
@@ -372,14 +369,10 @@ public class Gun12GaugeFactory {
 		bullet.dmgMax = 500;
 		bullet.leadChance = 50;
 		
-		bullet.bHurt = new IBulletHurtBehavior() {
-
-			@Override
-			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
+		bullet.bntHurt = (bulletnt, hit) -> {
 				
-				if(hit instanceof EntityLivingBase)
-					((EntityLivingBase)hit).addPotionEffect(new PotionEffect(HbmPotion.bang.id, 20, 0));
-			}
+			if(hit instanceof EntityLivingBase)
+				((EntityLivingBase)hit).addPotionEffect(new PotionEffect(HbmPotion.bang.id, 20, 0));
 			
 		};
 		
@@ -413,38 +406,34 @@ public class Gun12GaugeFactory {
 		
 		bullet.spentCasing = CASING12GAUGE.clone().register("12GaPerc").setColor(0x9E1616, SpentCasing.COLOR_CASE_12GA).setupSmoke(1F, 0.5D, 60, 40);
 
-		bullet.bUpdate = new IBulletUpdateBehavior() {
-
-			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+		bullet.bntUpdate = (bulletnt) -> {
+			
+			if(!bulletnt.worldObj.isRemote) {
+					
+				Vec3 vec = Vec3.createVectorHelper(bulletnt.motionX, bulletnt.motionY, bulletnt.motionZ);
+				double radius = 4;
+				double x = bulletnt.posX + vec.xCoord;
+				double y = bulletnt.posY + vec.yCoord;
+				double z = bulletnt.posZ + vec.zCoord;
+				AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(radius, radius, radius);
+				List<Entity> list = bulletnt.worldObj.getEntitiesWithinAABBExcludingEntity(bulletnt.getThrower(), aabb);
 				
-				if(!bullet.worldObj.isRemote) {
-					
-					Vec3 vec = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ);
-					double radius = 4;
-					double x = bullet.posX + vec.xCoord;
-					double y = bullet.posY + vec.yCoord;
-					double z = bullet.posZ + vec.zCoord;
-					AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(x, y, z, x, y, z).expand(radius, radius, radius);
-					List<Entity> list = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet.shooter, aabb);
-					
-					for(Entity e : list) {
-						DamageSource source = bullet.shooter instanceof EntityPlayer ? DamageSource.causePlayerDamage((EntityPlayer) bullet.shooter) : DamageSource.magic;
-						e.attackEntityFrom(source, 30F);
-					}
-	
-					NBTTagCompound data = new NBTTagCompound();
-					data.setString("type", "plasmablast");
-					data.setFloat("r", 0.75F);
-					data.setFloat("g", 0.75F);
-					data.setFloat("b", 0.75F);
-					data.setFloat("pitch", (float) -bullet.rotationPitch + 90);
-					data.setFloat("yaw", (float) bullet.rotationYaw);
-					data.setFloat("scale", 2F);
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(bullet.dimension, x, y, z, 100));
-					
-					bullet.setDead();
+				for(Entity e : list) {
+					DamageSource source = bulletnt.getThrower() instanceof EntityPlayer ? DamageSource.causePlayerDamage((EntityPlayer) bulletnt.getThrower()) : DamageSource.magic;
+					e.attackEntityFrom(source, 30F);
 				}
+	
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "plasmablast");
+				data.setFloat("r", 0.75F);
+				data.setFloat("g", 0.75F);
+				data.setFloat("b", 0.75F);
+				data.setFloat("pitch", (float) -bulletnt.rotationPitch + 90);
+				data.setFloat("yaw", (float) bulletnt.rotationYaw);
+				data.setFloat("scale", 2F);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(bulletnt.dimension, x, y, z, 100));
+				
+				bulletnt.setDead();
 			}
 		};
 		

@@ -2,13 +2,11 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletHitBehavior;
-import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo556mm;
 import com.hbm.items.ModItems;
@@ -26,7 +24,6 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 
@@ -185,19 +182,15 @@ public class Gun556mmFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(eff));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
 
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "vanillaburst");
-				data.setString("mode", "flame");
-				data.setInteger("count", 15);
-				data.setDouble("motion", 0.05D);
-				
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
-			}
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaburst");
+			data.setString("mode", "flame");
+			data.setInteger("count", 15);
+			data.setDouble("motion", 0.05D);
+
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bulletnt.posX, bulletnt.posY, bulletnt.posZ), new TargetPoint(bulletnt.dimension, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 50));
 		};
 		
 		bullet.spentCasing = CASING556.clone().register("556Phos");
@@ -261,39 +254,31 @@ public class Gun556mmFactory {
 		bullet.leadChance = 100;
 		bullet.doesPenetrate = false;
 		
-		bullet.bHit = new IBulletHitBehavior() {
+		bullet.bntHit = (bulletnt, hit) -> {
 
-			@Override
-			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				EntityBulletBase meteor = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
-				meteor.setPosition(hit.posX, hit.posY + 30 + meteor.worldObj.rand.nextInt(10), hit.posZ);
-				meteor.motionY = -1D;
-				meteor.shooter = bullet.shooter;
-				bullet.worldObj.spawnEntityInWorld(meteor);
-			}
+			if(bulletnt.worldObj.isRemote)
+				return;
+
+			EntityBulletBaseNT meteor = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
+			meteor.setPosition(hit.posX, hit.posY + 30 + meteor.worldObj.rand.nextInt(10), hit.posZ);
+			meteor.motionY = -1D;
+			meteor.setThrower(bulletnt.getThrower());
+			bulletnt.worldObj.spawnEntityInWorld(meteor);
 		};
-		
-		bullet.bImpact = new IBulletImpactBehavior() {
 
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				if(y == -1)
-					return;
-				
-				EntityBulletBase meteor = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
-				meteor.setPosition(bullet.posX, bullet.posY + 30 + meteor.worldObj.rand.nextInt(10), bullet.posZ);
-				meteor.motionY = -1D;
-				meteor.shooter = bullet.shooter;
-				bullet.worldObj.spawnEntityInWorld(meteor);
-			}
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
+
+			if(bulletnt.worldObj.isRemote)
+				return;
+
+			if(y == -1)
+				return;
+
+			EntityBulletBaseNT meteor = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
+			meteor.setPosition(bulletnt.posX, bulletnt.posY + 30 + meteor.worldObj.rand.nextInt(10), bulletnt.posZ);
+			meteor.motionY = -1D;
+			meteor.setThrower(bulletnt.getThrower());
+			bulletnt.worldObj.spawnEntityInWorld(meteor);
 		};
 		
 		bullet.spentCasing = CASING556.clone().register("556IF");
@@ -355,19 +340,15 @@ public class Gun556mmFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(eff));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
 
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "vanillaburst");
-				data.setString("mode", "flame");
-				data.setInteger("count", 15);
-				data.setDouble("motion", 0.05D);
-				
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
-			}
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaburst");
+			data.setString("mode", "flame");
+			data.setInteger("count", 15);
+			data.setDouble("motion", 0.05D);
+
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bulletnt.posX, bulletnt.posY, bulletnt.posZ), new TargetPoint(bulletnt.dimension, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 50));
 		};
 		
 		bullet.spentCasing = CASING556.clone().register("556FlecPhos");
@@ -402,39 +383,31 @@ public class Gun556mmFactory {
 		bullet.leadChance = 50;
 		bullet.doesPenetrate = false;
 		
-		bullet.bHit = new IBulletHitBehavior() {
+		bullet.bntHit = (bulletnt, hit) -> {
 
-			@Override
-			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				EntityBulletBase meteor = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
-				meteor.setPosition(hit.posX, hit.posY + 30 + meteor.worldObj.rand.nextInt(10), hit.posZ);
-				meteor.motionY = -1D;
-				meteor.shooter = bullet.shooter;
-				bullet.worldObj.spawnEntityInWorld(meteor);
-			}
+			if(bulletnt.worldObj.isRemote)
+				return;
+
+			EntityBulletBaseNT meteor = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
+			meteor.setPosition(hit.posX, hit.posY + 30 + meteor.worldObj.rand.nextInt(10), hit.posZ);
+			meteor.motionY = -1D;
+			meteor.setThrower(bulletnt.getThrower());
+			bulletnt.worldObj.spawnEntityInWorld(meteor);
 		};
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
 
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				if(y == -1)
-					return;
-				
-				EntityBulletBase meteor = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
-				meteor.setPosition(bullet.posX, bullet.posY + 30 + meteor.worldObj.rand.nextInt(10), bullet.posZ);
-				meteor.motionY = -1D;
-				meteor.shooter = bullet.shooter;
-				bullet.worldObj.spawnEntityInWorld(meteor);
-			}
+			if(bulletnt.worldObj.isRemote)
+				return;
+
+			if(y == -1)
+				return;
+
+			EntityBulletBaseNT meteor = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
+			meteor.setPosition(bulletnt.posX, bulletnt.posY + 30 + meteor.worldObj.rand.nextInt(10), bulletnt.posZ);
+			meteor.motionY = -1D;
+			meteor.setThrower(bulletnt.getThrower());
+			bulletnt.worldObj.spawnEntityInWorld(meteor);
 		};
 		
 		bullet.spentCasing = CASING556.clone().register("556FlecIF");

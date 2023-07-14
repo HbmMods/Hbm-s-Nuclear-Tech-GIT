@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.TrappedBrick.Trap;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.items.ModItems;
@@ -77,7 +77,7 @@ public class TileEntityTrappedBrick extends TileEntity {
 				worldObj.setBlock(xCoord, yCoord - 1 - i, zCoord, ModBlocks.concrete_pillar);
 			break;
 		case POISON_DART:
-			EntityBulletBase dart = new EntityBulletBase(worldObj, BulletConfigSyncingUtil.G20_CAUSTIC);
+			EntityBulletBaseNT dart = new EntityBulletBaseNT(worldObj, BulletConfigSyncingUtil.G20_CAUSTIC);
 			dart.setPosition(xCoord + 0.5 + dir.offsetX, yCoord + 0.5, zCoord + 0.5 + dir.offsetZ);
 			dart.motionX = dir.offsetX;
 			dart.motionZ = dir.offsetZ;

@@ -211,12 +211,12 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		if(!worldObj.isRemote) {
 			
 			if(config.maxAge == 0) {
-				if(this.config.bUpdate != null) this.config.bntUpdate.behaveUpdate(this);
+				if(this.config.bntUpdate != null) this.config.bntUpdate.behaveUpdate(this);
 				this.setDead();
 				return;
 			}
 			
-			if(this.config.bUpdate != null) this.config.bntUpdate.behaveUpdate(this);
+			if(this.config.bntUpdate != null) this.config.bntUpdate.behaveUpdate(this);
 			
 			if(this.ticksExisted > config.maxAge) this.setDead();
 		}
@@ -568,9 +568,9 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		nbt.setFloat("damage", this.overrideDamage);
 	}
 	
-	public interface IBulletHurtBehaviorNT { public void behaveEntityHurt(EntityBulletBaseNT bullet, Entity hit); }
-	public interface IBulletHitBehaviorNT { public void behaveEntityHit(EntityBulletBaseNT bullet, Entity hit); }
-	public interface IBulletRicochetBehaviorNT { public void behaveBlockRicochet(EntityBulletBaseNT bullet, int x, int y, int z); }
-	public interface IBulletImpactBehaviorNT { public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z); }
-	public interface IBulletUpdateBehaviorNT { public void behaveUpdate(EntityBulletBaseNT bullet); }
+	public static interface IBulletHurtBehaviorNT { public void behaveEntityHurt(EntityBulletBaseNT bullet, Entity hit); }
+	public static interface IBulletHitBehaviorNT { public void behaveEntityHit(EntityBulletBaseNT bullet, Entity hit); }
+	public static interface IBulletRicochetBehaviorNT { public void behaveBlockRicochet(EntityBulletBaseNT bullet, int x, int y, int z); }
+	public static interface IBulletImpactBehaviorNT { public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z); }
+	public static interface IBulletUpdateBehaviorNT { public void behaveUpdate(EntityBulletBaseNT bullet); }
 }

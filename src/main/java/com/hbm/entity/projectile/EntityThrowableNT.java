@@ -327,6 +327,10 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 	public float getShadowSize() {
 		return 0.0F;
 	}
+	
+	public void setThrower(EntityLivingBase thrower) {
+		this.thrower = thrower;
+	}
 
 	public EntityLivingBase getThrower() {
 		if(this.thrower == null && this.throwerName != null && this.throwerName.length() > 0) {

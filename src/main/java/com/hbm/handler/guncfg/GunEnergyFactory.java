@@ -3,14 +3,14 @@ package com.hbm.handler.guncfg;
 import java.util.ArrayList;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
+import com.hbm.entity.projectile.EntityBulletBaseNT.IBulletImpactBehaviorNT;
+import com.hbm.entity.projectile.EntityBulletBaseNT.IBulletUpdateBehaviorNT;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletImpactBehavior;
-import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.AmmoFireExt;
 import com.hbm.items.ItemAmmoEnums.AmmoFlamethrower;
@@ -326,10 +326,10 @@ public class GunEnergyFactory {
 		bullet.dmgProj = false;
 		bullet.dmgFire = true;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
 				
 				if(!bullet.worldObj.isRemote) {
 					NBTTagCompound data = new NBTTagCompound();
@@ -373,7 +373,7 @@ public class GunEnergyFactory {
 		bullet.maxAge = 200;
 		bullet.vPFX = "smoke";
 		
-		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(5, 60 * 20, 25, 0.25, 0.1F);
+		bullet.bntImpact = BulletConfigFactory.getPhosphorousEffect(5, 60 * 20, 25, 0.25, 0.1F);
 		
 		return bullet;
 	}
@@ -420,7 +420,7 @@ public class GunEnergyFactory {
 		
 		bullet.dmgFire = false;
 		
-		bullet.bImpact = BulletConfigFactory.getGasEffect(5, 60 * 20);
+		bullet.bntImpact = BulletConfigFactory.getGasEffect(5, 60 * 20);
 		
 		return bullet;
 	}
@@ -447,12 +447,12 @@ public class GunEnergyFactory {
 		bullet.style = BulletConfiguration.STYLE_NONE;
 		bullet.plink = BulletConfiguration.PLINK_NONE;
 		
-		bullet.bHurt = (bulletEntity, target) -> { target.extinguish(); };
+		bullet.bntHurt = (bulletEntity, target) -> { target.extinguish(); };
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
 				
 				if(!bullet.worldObj.isRemote) {
 					
@@ -485,10 +485,10 @@ public class GunEnergyFactory {
 			}
 		};
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
+		bullet.bntUpdate = new IBulletUpdateBehaviorNT() {
 
 			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+			public void behaveUpdate(EntityBulletBaseNT bullet) {
 				
 				if(bullet.worldObj.isRemote) {
 					
@@ -527,10 +527,10 @@ public class GunEnergyFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.FOAM));
 		bullet.spread = 0.05F;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
 				
 				if(!bullet.worldObj.isRemote) {
 					
@@ -582,10 +582,10 @@ public class GunEnergyFactory {
 			}
 		};
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
+		bullet.bntUpdate = new IBulletUpdateBehaviorNT() {
 
 			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+			public void behaveUpdate(EntityBulletBaseNT bullet) {
 				
 				if(bullet.worldObj.isRemote) {
 					
@@ -614,12 +614,12 @@ public class GunEnergyFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.SAND));
 		bullet.spread = 0.1F;
 		
-		bullet.bHurt = null; // does not extinguish entities
+		bullet.bntHurt = null; // does not extinguish entities
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
 				
 				if(!bullet.worldObj.isRemote) {
 					
@@ -655,10 +655,10 @@ public class GunEnergyFactory {
 			}
 		};
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
+		bullet.bntUpdate = new IBulletUpdateBehaviorNT() {
 
 			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+			public void behaveUpdate(EntityBulletBaseNT bullet) {
 				
 				if(bullet.worldObj.isRemote) {
 					
@@ -707,10 +707,10 @@ public class GunEnergyFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(HbmPotion.bang.id, 10 * 20, 0));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
 				
 				if(!bullet.worldObj.isRemote) {
 					ExplosionChaos.explodeZOMG(bullet.worldObj, (int)Math.floor(bullet.posX), (int)Math.floor(bullet.posY), (int)Math.floor(bullet.posZ), 5);

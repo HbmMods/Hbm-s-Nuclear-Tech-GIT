@@ -2,15 +2,9 @@ package com.hbm.handler;
 
 import java.util.List;
 
-import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.EntityBulletBaseNT.*;
 import com.hbm.handler.guncfg.BulletConfigFactory;
-import com.hbm.interfaces.IBulletHitBehavior;
-import com.hbm.interfaces.IBulletHurtBehavior;
-import com.hbm.interfaces.IBulletImpactBehavior;
-import com.hbm.interfaces.IBulletRicochetBehavior;
-import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -88,11 +82,11 @@ public class BulletConfiguration implements Cloneable {
 	public int caustic;
 	public boolean destroysBlocks;
 	public boolean instakill;
-	public IBulletHurtBehavior bHurt;
+	/*public IBulletHurtBehavior bHurt;
 	public IBulletHitBehavior bHit;
 	public IBulletRicochetBehavior bRicochet;
 	public IBulletImpactBehavior bImpact;
-	public IBulletUpdateBehavior bUpdate;
+	public IBulletUpdateBehavior bUpdate;*/
 	public IBulletHurtBehaviorNT bntHurt;
 	public IBulletHitBehaviorNT bntHit;
 	public IBulletRicochetBehaviorNT bntRicochet;
@@ -179,13 +173,13 @@ public class BulletConfiguration implements Cloneable {
 	
 	public BulletConfiguration setToGuided() {
 		
-		this.bUpdate = BulletConfigFactory.getLaserSteering();
+		this.bntUpdate = BulletConfigFactory.getLaserSteering();
 		this.doesRicochet = false;
 		return this;
 	}
 	
 	public BulletConfiguration getChlorophyte() {
-		this.bUpdate = BulletConfigFactory.getHomingBehavior(200, 45);
+		this.bntUpdate = BulletConfigFactory.getHomingBehavior(200, 45);
 		this.dmgMin *= 1.5F;
 		this.dmgMax *= 1.5F;
 		this.wear *= 0.5;
@@ -217,28 +211,6 @@ public class BulletConfiguration implements Cloneable {
 		
 		this.spread *= mod;
 		return this;
-	}
-	
-	public DamageSource getDamage(EntityBulletBase bullet, EntityLivingBase shooter) {
-		
-		DamageSource dmg;
-		
-		String unloc = damageType;
-		
-		if(unloc.equals(ModDamageSource.s_zomg_prefix))
-			unloc += (bullet.worldObj.rand.nextInt(5) + 1); //pain
-		
-		if(shooter != null)
-			dmg = new EntityDamageSourceIndirect(unloc, bullet, shooter);
-		else
-			dmg = new DamageSource(unloc);
-		
-		if(this.dmgProj) dmg.setProjectile();
-		if(this.dmgFire) dmg.setFireDamage();
-		if(this.dmgExplosion) dmg.setExplosion();
-		if(this.dmgBypass) dmg.setDamageBypassesArmor();
-		
-		return dmg;
 	}
 	
 	public DamageSource getDamage(EntityBulletBaseNT bullet, EntityLivingBase shooter) {

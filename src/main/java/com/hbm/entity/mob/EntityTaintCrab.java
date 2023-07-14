@@ -3,7 +3,7 @@ package com.hbm.entity.mob;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -72,7 +72,7 @@ public class EntityTaintCrab extends EntityCyberCrab {
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase entity, float f) {
 		
-		EntityBulletBase bullet = new EntityBulletBase(worldObj, BulletConfigSyncingUtil.BMG50_STAR, this);
+		EntityBulletBaseNT bullet = new EntityBulletBaseNT(worldObj, BulletConfigSyncingUtil.BMG50_STAR, this);
 		Vec3 motion = Vec3.createVectorHelper(posX - entity.posX, posY - entity.posZ - entity.height / 2, posZ - entity.posZ);
 		motion = motion.normalize();
 		NBTTagCompound data = new NBTTagCompound();
