@@ -144,9 +144,6 @@ public class ItemWandD extends Item {
 					data.z=pos.blockZ;
 					data.markDirty();
 					break;
-				case 9:
-					PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
-					break;	
 				}
 				
 				
@@ -162,7 +159,7 @@ public class ItemWandD extends Item {
 					int i = stack.stackTagCompound.getInteger("dim");
 					i++;
 					stack.stackTagCompound.setInteger("dim", i);
-					if(i >= 10) {
+					if(i >= 9) {
 						stack.stackTagCompound.setInteger("dim", 0);
 					}
 					
@@ -195,10 +192,6 @@ public class ItemWandD extends Item {
 						case 8:
 							player.addChatMessage(new ChatComponentText("Impact Event"));
 							break;
-						case 9:
-							player.addChatMessage(new ChatComponentText("Pollution"));
-							break;
-							
 						default:
 							player.addChatMessage(new ChatComponentText("Dim: Moon"));
 							break;
@@ -392,10 +385,10 @@ public class ItemWandD extends Item {
 				list.add("Dim: Moho");
 				break;
 			case 7:
-				list.add("Impact");
+				list.add("Dim: Minmus");
 				break;
 			case 8:
-				list.add("Pollution");
+				list.add("Impact");
 				break;
 	}
 }

@@ -47,7 +47,7 @@ public class AstronomyUtil
     //public static final float PlockAU=39.5F;
     
     public static final float MohoP=102.58F;
-    public static final float EveP=225F;//261.94F;
+    public static final float EveP=261.94F;
     public static final float KerbinP=365.25F;    
     public static final float DunaP=801.6389F;
     public static final float DresP=2217.27F;
