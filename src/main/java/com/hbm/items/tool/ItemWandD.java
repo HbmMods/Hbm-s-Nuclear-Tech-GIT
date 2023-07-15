@@ -47,7 +47,6 @@ import com.hbm.world.machine.Watz;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
-import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -133,6 +132,8 @@ public class ItemWandD extends Item {
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				case 7:
+					DebugTeleporter.teleport(player, WorldConfig.minmusDimension, player.posX, 300, player.posZ);
+				case 8:
 					TomSaveData data = TomSaveData.forWorld(world);
 					data.impact = false;
 					data.fire = 0F;
@@ -143,7 +144,11 @@ public class ItemWandD extends Item {
 					data.z=pos.blockZ;
 					data.markDirty();
 					break;
+				case 9:
+					PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
+					break;	
 				}
+				
 				
 				
 			}
@@ -157,7 +162,7 @@ public class ItemWandD extends Item {
 					int i = stack.stackTagCompound.getInteger("dim");
 					i++;
 					stack.stackTagCompound.setInteger("dim", i);
-					if(i >= 8) {
+					if(i >= 10) {
 						stack.stackTagCompound.setInteger("dim", 0);
 					}
 					
@@ -185,8 +190,15 @@ public class ItemWandD extends Item {
 							player.addChatMessage(new ChatComponentText("Dim: Moho"));
 							break;
 						case 7:
+							player.addChatMessage(new ChatComponentText("Dim: Minmus"));
+							break;
+						case 8:
 							player.addChatMessage(new ChatComponentText("Impact Event"));
 							break;
+						case 9:
+							player.addChatMessage(new ChatComponentText("Pollution"));
+							break;
+							
 						default:
 							player.addChatMessage(new ChatComponentText("Dim: Moon"));
 							break;
@@ -381,6 +393,9 @@ public class ItemWandD extends Item {
 				break;
 			case 7:
 				list.add("Impact");
+				break;
+			case 8:
+				list.add("Pollution");
 				break;
 	}
 }

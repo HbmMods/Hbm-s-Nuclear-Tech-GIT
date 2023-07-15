@@ -47,7 +47,7 @@ public class AstronomyUtil
     //public static final float PlockAU=39.5F;
     
     public static final float MohoP=102.58F;
-    public static final float EveP=261.94F;
+    public static final float EveP=225F;//261.94F;
     public static final float KerbinP=365.25F;    
     public static final float DunaP=801.6389F;
     public static final float DresP=2217.27F;
@@ -62,6 +62,8 @@ public class AstronomyUtil
     
     public static final float MunKerbinKm=12000;
     public static final float MinmusKerbinKm=47000;
+    public static final float MunKerbinAU=MunKerbinKm/AUToKm;
+    public static final float MinmusKerbinAU=MinmusKerbinKm/AUToKm;
     public static final float IkeDunaKm=9377.2F-DunaRadius;
     
     public static ResourceLocation mohoTexture = new ResourceLocation("hbm:textures/misc/moho.png");
@@ -82,29 +84,17 @@ public class AstronomyUtil
     }
     
     public static double getInterplanetaryDistance(World world, Float planet1AU, Float planet1Period, Float planet2AU, Float planet2Period) {
-    	//System.out.println(planet1+" "+planet2);
-    	Complex PlanetAAu = new Complex(planet1AU,0);
-    	Complex PlanetBAu = new Complex(planet2AU,0);
-    	double time = ((double)(world.getWorldTime()+offset)/day);
-    	double timeFactor1 = (time/planet1Period)*Math.pow(planet1AU, (-3/2));
-    	Complex PlanetImaginary = new Complex(0,1);
-    	Complex PlanetATime = new Complex(timeFactor1,0);
-    	Complex Pi = new Complex(Math.PI*2,0);
-    	Complex PlanetAPeriodFactor = PlanetImaginary.times(PlanetATime.times(Pi));
-    	Complex PlanetAExp = PlanetAPeriodFactor.exp();
-    	Complex PlanetAFinal = PlanetAExp.times(PlanetAAu);
+    	double PlanetAYear = day*planet1Period;
+    	double PlanetBYear = day*planet2Period;
     	
-    	double timeFactor2 = (time/planet2Period)*Math.pow(planet2AU, (-3/2));
-    	Complex PlanetBTime = new Complex(timeFactor2,0);
-    	Complex PlanetBPeriodFactor = PlanetImaginary.times(PlanetBTime.times(Pi));
-    	Complex PlanetBExp = PlanetBPeriodFactor.exp();
-    	Complex PlanetBFinal = PlanetBExp.times(PlanetBAu);
+    	double PlanetACos = planet1AU*Math.cos((2*Math.PI*world.getWorldTime())/PlanetAYear);
+    	double PlanetASin = planet1AU*Math.sin((2*Math.PI*world.getWorldTime())/PlanetAYear);
     	
-    	Complex FinalTotal = PlanetAFinal.minus(PlanetBFinal);
+    	double PlanetBCos = planet2AU*Math.cos((2*Math.PI*world.getWorldTime())/PlanetBYear);
+    	double PlanetBSin = planet2AU*Math.sin((2*Math.PI*world.getWorldTime())/PlanetBYear);
     	
-    	double distance = FinalTotal.mod();
-    	return distance;
-    	//}
+		double distance = Math.sqrt(Math.pow(PlanetBCos-PlanetACos, 2)+Math.pow(PlanetBSin-PlanetASin, 2));
+		return distance; 
     }
     
     /**
@@ -115,6 +105,7 @@ public class AstronomyUtil
     	float subperiod = (1/planet1Period)-(1/planet2Period);
 		//float period = 24000*(1/(1/planet1Period)-(1/planet2Period));
     	float period = day*(1/subperiod);
+    	//System.out.println("planet1Period: "+planet1Period+" planet2Period: "+planet2Period+" period: "+period);
     	return period;
     }
     /**
@@ -140,6 +131,7 @@ public class AstronomyUtil
         float f2 = f1;
         f1 = 0.5F - MathHelper.cos(f1 * 3.1415927F) / 2.0F;
         return f2 + (f1 - f2) / 3.0F;
+
     }
     public static float calculateStarAngle(long par1, float par3, float planetPeriod)
     {

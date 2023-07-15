@@ -11,6 +11,7 @@ import com.hbm.dim.duna.WorldGeneratorDuna;
 import com.hbm.dim.duna.WorldProviderDuna;
 import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
 import com.hbm.dim.eve.WorldProviderEve;
+import com.hbm.dim.minmus.WorldProviderMinmus;
 import com.hbm.dim.moho.WorldGeneratorMoho;
 import com.hbm.dim.moho.WorldProviderMoho;
 
@@ -52,6 +53,9 @@ public class PlanetGen {
 		GameRegistry.registerWorldGenerator(worldGenMoho, 1);
 		DimensionManager.registerProviderType(WorldConfig.mohoDimension, WorldProviderMoho.class, false);
 	    DimensionManager.registerDimension(WorldConfig.mohoDimension, WorldConfig.mohoDimension);
+	    
+		DimensionManager.registerProviderType(WorldConfig.minmusDimension, WorldProviderMinmus.class, false);
+	    DimensionManager.registerDimension(WorldConfig.minmusDimension, WorldConfig.minmusDimension);
     }
 }
 

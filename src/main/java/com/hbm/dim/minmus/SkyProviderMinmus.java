@@ -1,4 +1,4 @@
-package com.hbm.dim;
+package com.hbm.dim.minmus;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
@@ -21,7 +21,7 @@ import java.util.Random;
 
 import javax.swing.text.Position;
 
-public class SkyProviderMoon extends IRenderHandler {
+public class SkyProviderMinmus extends IRenderHandler {
 	
 	private static final ResourceLocation sunTexture = new ResourceLocation("textures/environment/sun.png");
 	private static final ResourceLocation kerbin = new ResourceLocation("hbm:textures/misc/space/kerbin.png");
@@ -32,6 +32,7 @@ public class SkyProviderMoon extends IRenderHandler {
 	private static final ResourceLocation flash = new ResourceLocation("hbm:textures/misc/space/flare.png");
 	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/space/night.png");
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/space/star_digamma.png");
+	private static final ResourceLocation moonTexture = new ResourceLocation("hbm:textures/misc/space/mun.png");
 
 	public static boolean displayListsInitialized = false;
 	public static int starGLCallList;
@@ -42,7 +43,7 @@ public class SkyProviderMoon extends IRenderHandler {
 	protected double y;
 	protected double z;
 
-	public SkyProviderMoon() {
+	public SkyProviderMinmus() {
 	    if (!displayListsInitialized) {
 	        initializeDisplayLists();
 	    }
@@ -96,15 +97,16 @@ public class SkyProviderMoon extends IRenderHandler {
 
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
-		boolean impact = ImpactWorldHandler.getImpactForClient(world);
-		float fire = ImpactWorldHandler.getFireForClient(world);
-		float atmosphericDust = ImpactWorldHandler.getDustForClient(world);
-        float solar = (AstronomyUtil.KerbolRadius*4/(AstronomyUtil.KerbinAU*AstronomyUtil.AUToKm))*360;
-        double MohoKerbin = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.MohoAU, AstronomyUtil.MohoP, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP);
-        double EveKerbin = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.EveAU, AstronomyUtil.EveP, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP);
+		boolean impact = ImpactWorldHandler.getImpactForClient(world.provider.getProviderForDimension(0).worldObj);
+		float fire = ImpactWorldHandler.getFireForClient(world.provider.getProviderForDimension(0).worldObj);
+		float atmosphericDust = ImpactWorldHandler.getDustForClient(world.provider.getProviderForDimension(0).worldObj);
+		float solar = (AstronomyUtil.KerbolRadius*4/(AstronomyUtil.KerbinAU*AstronomyUtil.AUToKm))*360;
+		double MohoKerbin = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.MohoAU, AstronomyUtil.MohoP, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP);
+		double EveKerbin = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.EveAU, AstronomyUtil.EveP, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP);
         double KerbinDuna = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP, AstronomyUtil.DunaAU, AstronomyUtil.DunaP);
         double KerbinJool = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.KerbinAU, AstronomyUtil.KerbinP, AstronomyUtil.JoolAU, AstronomyUtil.JoolP);
-
+        double MunMinmus = AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.MunKerbinKm, AstronomyUtil.MunP, AstronomyUtil.MinmusKerbinKm, AstronomyUtil.MinmusP);
+        
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		Vec3 vec3 = world.getSkyColor(mc.renderViewEntity, partialTicks);
 		float f1 = (float) vec3.xCoord;
@@ -135,7 +137,7 @@ public class SkyProviderMoon extends IRenderHandler {
 		float f7;
 		float f8;
 		float f9;
-		float f10;
+		double f10;
 		float f18 = world.getStarBrightness(partialTicks);
 
 		if(f18 > 0.0F) {
@@ -207,7 +209,7 @@ public class SkyProviderMoon extends IRenderHandler {
 		GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
 		// Some blanking to conceal the stars
 		f10 = (AstronomyUtil.KerbolRadius/(AstronomyUtil.KerbinAU*AstronomyUtil.AUToKm))*360;
-		float f11 = f10*2;
+		double f11 = f10*2;
 		tessellator.startDrawingQuads();
 		tessellator.addVertex(-f10, 99.9D, -f10);
 		tessellator.addVertex(f10, 99.9D, -f10);
@@ -258,7 +260,7 @@ public class SkyProviderMoon extends IRenderHandler {
     		//GL11.glDisable(GL11.GL_BLEND);
     		f10 = (float) (0.15F/KerbinDuna);
     		GL11.glColor4d(0.6471f, 0.2824f, 0.1608f, 1/KerbinDuna);
-    		GL11.glRotatef(AstronomyUtil.calculatePlanetAngle(world.getWorldTime(), partialTicks, AstronomyUtil.KerbinP, AstronomyUtil.DunaP) * -360.0F, 1.0F, 0.0F, 0.0F);        		
+    		GL11.glRotatef(AstronomyUtil.calculatePlanetAngle(world.getWorldTime(), partialTicks, AstronomyUtil.DunaP, AstronomyUtil.KerbinP) * -360.0F, 1.0F, 0.0F, 0.0F);        		
     		GL11.glRotatef(280F, 1.0F, 0.0F, 0.0F);
     		mc.renderEngine.bindTexture(this.planet);
     		tessellator.startDrawingQuads();
@@ -273,7 +275,7 @@ public class SkyProviderMoon extends IRenderHandler {
         {
         	GL11.glPushMatrix();        	
         	float EveRad = 0.15F;
-        	float EveSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.EveP, AstronomyUtil.KerbinP);
+        	double EveSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.EveP, AstronomyUtil.KerbinP);
         		//System.out.println("Venus-Earth distance: "+VenusEarth);
         	float sine = (float) Math.sin(((Math.PI/2)/(EveSyn/4))*(world.getWorldTime()+AstronomyUtil.offset));
         	double elong = AstronomyUtil.getMaxPlanetaryElongation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.EveAU, AstronomyUtil.KerbinAU);
@@ -281,7 +283,7 @@ public class SkyProviderMoon extends IRenderHandler {
         	GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
         	GL11.glEnable(GL11.GL_TEXTURE_2D);
         	GL11.glColor4d(0.408F, 0.298F, 0.553F, 1/EveKerbin);
-        	f10 = (float) (EveRad/EveKerbin);
+        	f10 = (float) (1F);
         	mc.renderEngine.bindTexture(this.planet);
         	tessellator.startDrawingQuads();
         	tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -294,14 +296,14 @@ public class SkyProviderMoon extends IRenderHandler {
     	{
     		GL11.glPushMatrix();
         	float MohoRad = 0.15F;
-        	float MohoSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.MohoP, AstronomyUtil.KerbinP);
+        	double MohoSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.MohoP, AstronomyUtil.KerbinP);
         	float sine = (float) Math.sin(((Math.PI/2)/(MohoSyn/4))*(world.getWorldTime()+AstronomyUtil.offset));
         	double elong = AstronomyUtil.getMaxPlanetaryElongation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.MohoAU, AstronomyUtil.KerbinAU);
         	GL11.glRotatef((float) (sine*elong), 1.0F, 0.0F, 0.0F);
         	GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
         	GL11.glEnable(GL11.GL_TEXTURE_2D);
         	GL11.glColor4d(0.4863F, 0.4F, 0.3456, 1/MohoKerbin);
-        	f10 = Math.max(0.1F, (float) (MohoRad/MohoKerbin));
+        	f10 = 1;
         	mc.renderEngine.bindTexture(this.planet);
         	tessellator.startDrawingQuads();
         	tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -311,6 +313,39 @@ public class SkyProviderMoon extends IRenderHandler {
         	tessellator.draw();
         	GL11.glPopMatrix();
         }
+    	
+    	{
+    		//if(world.getWorldTime()%20==0)
+    		//{
+    			//System.out.println("MunMinmus: "+(MunMinmus*1)+" MinmusKerbinKm: "+AstronomyUtil.MinmusKerbinKm);	
+    		//}    		
+    		if(MunMinmus>AstronomyUtil.MinmusKerbinKm)
+    		{
+    			GL11.glPushMatrix();
+    			GL11.glDisable(GL11.GL_BLEND);
+    			double MunRad = AstronomyUtil.MunRadius;
+    			double MunSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.MunP, AstronomyUtil.MinmusP);
+    			float sine = (float) Math.sin(((Math.PI/2)/(MunSyn/4))*(world.getWorldTime()+AstronomyUtil.offset));
+    			double elong = AstronomyUtil.getMaxPlanetaryElongation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.MunKerbinKm, AstronomyUtil.MinmusKerbinKm);
+
+    			GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
+        		GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
+        		GL11.glRotatef((float) (sine*elong), 1.0F, 0.0F, 0.0F);
+        		GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+        		GL11.glEnable(GL11.GL_TEXTURE_2D);
+        		GL11.glColor4d(1, 1, 1, 1);
+        		f10 = Math.max(0.0F, (float) (MunRad/(MunMinmus*1)))*180;
+        		mc.renderEngine.bindTexture(this.moonTexture);
+        		tessellator.startDrawingQuads();
+        		tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
+        		tessellator.addVertexWithUV(f10, 100.0D, -f10, 1.0D, 0.0D);
+        		tessellator.addVertexWithUV(f10, 100.0D, f10, 1.0D, 1.0D);
+        		tessellator.addVertexWithUV(-f10, 100.0D, f10, 0.0D, 1.0D);
+        		tessellator.draw();
+        		GL11.glEnable(GL11.GL_BLEND);
+        		GL11.glPopMatrix();
+    		}
+        }
 
 		{
 			GL11.glPushMatrix();
@@ -319,7 +354,7 @@ public class SkyProviderMoon extends IRenderHandler {
 			GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-			f10 = (float) ((AstronomyUtil.KerbinRadius/AstronomyUtil.MunKerbinKm)*180);
+			f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MinmusKerbinKm)*180;
 			//FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.kerbin);
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -341,7 +376,7 @@ public class SkyProviderMoon extends IRenderHandler {
 							//GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
 							//GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
 							//GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-							f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MunKerbinKm)*180;
+							f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MinmusKerbinKm)*180;
 							FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.kerbin);
 							tessellator.startDrawingQuads();
 							tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -358,7 +393,7 @@ public class SkyProviderMoon extends IRenderHandler {
 						//GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
 						GL11.glRotatef(-6.0F, 1.0F, 0.0F, 0.0F);
 						//GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-						f10 = ((200F/AstronomyUtil.MunKerbinKm)*360)*Math.min(fire,(1-fire)*200);
+						f10 = ((200F/AstronomyUtil.MinmusKerbinKm)*180)*Math.min(fire,(1-fire)*200);
 						FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.flash);
 						tessellator.startDrawingQuads();
 						tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -374,7 +409,7 @@ public class SkyProviderMoon extends IRenderHandler {
 						//GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
 						//GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
 						//GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-						f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MunKerbinKm)*360;
+						f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MinmusKerbinKm)*180;
 						FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.kerbinBurning);
 						tessellator.startDrawingQuads();
 						tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -393,7 +428,7 @@ public class SkyProviderMoon extends IRenderHandler {
 						//GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
 						//GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
 						//GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-						f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MunKerbinKm)*360;
+						f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MinmusKerbinKm)*180;
 						FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.kerbinTom);
 						tessellator.startDrawingQuads();
 						tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -410,7 +445,7 @@ public class SkyProviderMoon extends IRenderHandler {
 					//GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
 					//GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
 					//GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-					f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MunKerbinKm)*360;
+					f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MinmusKerbinKm)*180;
 					FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.kerbinDust);
 					tessellator.startDrawingQuads();
 					tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -428,7 +463,7 @@ public class SkyProviderMoon extends IRenderHandler {
 				//GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
 				//GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
 				//GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-				f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MunKerbinKm)*180;
+				f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MinmusKerbinKm)*180;
 				FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.kerbin);
 				tessellator.startDrawingQuads();
 				tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -439,6 +474,32 @@ public class SkyProviderMoon extends IRenderHandler {
 				GL11.glPopMatrix();
 			}
 			GL11.glPopMatrix();
+		}
+		if(MunMinmus<=AstronomyUtil.MinmusKerbinKm)
+		{
+			GL11.glPushMatrix();
+			GL11.glDisable(GL11.GL_BLEND);
+			double MunRad = AstronomyUtil.MunRadius;
+			double MunSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.MunP, AstronomyUtil.MinmusP);
+			float sine = (float) Math.sin(((Math.PI/2)/(MunSyn/4))*(world.getWorldTime()+AstronomyUtil.offset));
+			double elong = AstronomyUtil.getMaxPlanetaryElongation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.MunKerbinKm, AstronomyUtil.MinmusKerbinKm);
+
+			GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
+    		GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
+    		GL11.glRotatef((float) (sine*elong), 1.0F, 0.0F, 0.0F);
+    		GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+    		GL11.glEnable(GL11.GL_TEXTURE_2D);
+    		GL11.glColor4d(1, 1, 1, 1);
+    		f10 = Math.max(0.0F, (float) (MunRad/(MunMinmus*1)))*180;
+    		mc.renderEngine.bindTexture(this.moonTexture);
+    		tessellator.startDrawingQuads();
+    		tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
+    		tessellator.addVertexWithUV(f10, 100.0D, -f10, 1.0D, 0.0D);
+    		tessellator.addVertexWithUV(f10, 100.0D, f10, 1.0D, 1.0D);
+    		tessellator.addVertexWithUV(-f10, 100.0D, f10, 0.0D, 1.0D);
+    		tessellator.draw();
+    		GL11.glEnable(GL11.GL_BLEND);
+    		GL11.glPopMatrix();
 		}
 		{
 			OpenGlHelper.glBlendFunc(770, 1, 1, 0);
