@@ -132,7 +132,6 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
 
-		System.out.println("" + this.config.spread);
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread * (offsetShot ? 1F : 0.25F));
 	}
 
@@ -378,8 +377,10 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		if(config.bntImpact != null)
 			config.bntImpact.behaveBlockHit(this, bX, bY, bZ);
 		
-		if(!worldObj.isRemote && !config.liveAfterImpact)
-			this.setDead();
+		if(!worldObj.isRemote) {
+			if(!config.liveAfterImpact && !config.isSpectral && bY > -1) this.setDead();
+			if(!config.doesPenetrate && bY == -1) this.setDead();
+		}
 		
 		if(config.incendiary > 0 && !this.worldObj.isRemote) {
 			if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock((int)posX, (int)posY, (int)posZ) == Blocks.air) worldObj.setBlock((int)posX, (int)posY, (int)posZ, Blocks.fire);
@@ -472,6 +473,8 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		
 		if(config.bntHit != null)
 			config.bntHit.behaveEntityHit(this, e);
+		
+		//this.setDead();
 	}
 	
 	//for when a bullet hurts an entity, not necessarily dying

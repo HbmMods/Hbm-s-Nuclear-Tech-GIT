@@ -192,7 +192,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 							
 							// if penetration is enabled, run impact for all intersecting entities
 							if(this.doesPenetrate()) {
-								this.onImpact(hitMop);
+								this.onImpact(new MovingObjectPosition(entity));
 							} else {
 								
 								double dist = pos.distanceTo(hitMop.hitVec);

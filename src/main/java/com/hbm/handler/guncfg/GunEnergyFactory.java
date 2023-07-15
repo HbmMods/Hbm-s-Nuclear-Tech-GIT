@@ -34,6 +34,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 
 public class GunEnergyFactory {
 	
@@ -294,6 +295,30 @@ public class GunEnergyFactory {
 		bullet.style = bullet.STYLE_BOLT;
 		bullet.trail = bullet.BOLT_NIGHTMARE;
 		bullet.vPFX = "fireworks";
+		
+		bullet.bntUpdate = (entity) -> {
+			
+			if(entity.worldObj.isRemote) return;
+			
+			Vec3 vec = Vec3.createVectorHelper(entity.posX - entity.prevPosX, entity.posY - entity.prevPosY, entity.posZ - entity.prevPosZ);
+			double motion = Math.max(vec.lengthVector(), 0.1);
+			vec = vec.normalize();
+			
+			for(double d = 0; d < motion; d += 0.5) {
+
+				int x = (int) Math.floor(entity.posX - vec.xCoord * d);
+				int y = (int) Math.floor(entity.posY - vec.yCoord * d);
+				int z = (int) Math.floor(entity.posZ - vec.zCoord * d);
+				
+				Block b = entity.worldObj.getBlock(x, y, z);
+				float hardness = b.getBlockHardness(entity.worldObj, x, y, z);
+				
+				if(b.getMaterial() != Material.air && hardness >= 0 && hardness < 1.25) {
+					System.out.println(b.getUnlocalizedName() + " " + hardness);
+					entity.worldObj.func_147480_a(x, y, z, false);
+				}
+			}
+		};
 		
 		return bullet;
 	}

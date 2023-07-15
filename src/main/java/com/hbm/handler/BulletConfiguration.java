@@ -57,11 +57,11 @@ public class BulletConfiguration implements Cloneable {
 
 	//whether or not the bullet should penetrate mobs
 	public boolean doesPenetrate;
-	//whether or not the bullet should phase through blocks
+	//disables collisions with blocks entirely
 	public boolean isSpectral;
 	//whether or not the bullet should break glass
 	public boolean doesBreakGlass;
-	//whether the bullet should stay alive after colliding with a block
+	//bullets still call the impact function when hitting blocks but do not get destroyed
 	public boolean liveAfterImpact;
 	
 	//creates a "muzzle flash" and a ton of smoke with every projectile spawned

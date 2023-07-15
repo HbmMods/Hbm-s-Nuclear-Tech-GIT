@@ -72,6 +72,9 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side");
 		}
+		if(this == ModBlocks.crate_template) {
+			this.iconTop = this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":crate_template");
+		}
 	}
 
 	@Override
@@ -90,6 +93,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti {
 		if(this == ModBlocks.crate_steel) return new TileEntityCrateSteel();
 		if(this == ModBlocks.crate_desh) return new TileEntityCrateDesh();
 		if(this == ModBlocks.crate_tungsten) return new TileEntityCrateTungsten();
+		if(this == ModBlocks.crate_template) return new TileEntityCrateTemplate();
 		if(this == ModBlocks.safe) return new TileEntitySafe();
 		return null;
 	}
