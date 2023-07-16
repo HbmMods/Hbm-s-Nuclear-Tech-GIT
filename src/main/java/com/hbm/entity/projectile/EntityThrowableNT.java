@@ -172,7 +172,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 			if(mop != null) {
 				nextPos = Vec3.createVectorHelper(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 			}
-	
+			
 			if(!this.worldObj.isRemote) {
 				
 				Entity hitEntity = null;
@@ -182,8 +182,8 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 	
 				for(int j = 0; j < list.size(); ++j) {
 					Entity entity = (Entity) list.get(j);
-	
-					if(entity.canBeCollidedWith() && (entity != thrower || this.ticksInAir >= 5)) {
+					
+					if(entity.canBeCollidedWith() && (entity != thrower || this.ticksInAir >= this.selfDamageDelay())) {
 						double hitbox = 0.3F;
 						AxisAlignedBB aabb = entity.boundingBox.expand(hitbox, hitbox, hitbox);
 						MovingObjectPosition hitMop = aabb.calculateIntercept(pos, nextPos);
@@ -212,6 +212,10 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 				}
 			}
 	
+			this.posX += this.motionX * motionMult();
+			this.posY += this.motionY * motionMult();
+			this.posZ += this.motionZ * motionMult();
+	
 			if(mop != null) {
 				if(mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ) == Blocks.portal) {
 					this.setInPortal();
@@ -219,10 +223,6 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 					this.onImpact(mop);
 				}
 			}
-	
-			this.posX += this.motionX * motionMult();
-			this.posY += this.motionY * motionMult();
-			this.posZ += this.motionZ * motionMult();
 			
 			float hyp = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
@@ -272,6 +272,10 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 	
 	public boolean isSpectral() {
 		return false;
+	}
+	
+	public int selfDamageDelay() {
+		return 5;
 	}
 	
 	public void getStuck(int x, int y, int z) {

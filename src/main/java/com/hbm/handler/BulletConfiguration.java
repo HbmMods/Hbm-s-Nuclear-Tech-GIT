@@ -54,6 +54,8 @@ public class BulletConfiguration implements Cloneable {
 	public int HBRC;
 	//how much of the initial velocity is kept after bouncing
 	public double bounceMod;
+	//how many ticks until the projectile can hurt the shooter
+	public int selfDamageDelay = 5;
 
 	//whether or not the bullet should penetrate mobs
 	public boolean doesPenetrate;

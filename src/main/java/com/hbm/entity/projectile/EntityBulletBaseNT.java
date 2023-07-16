@@ -294,7 +294,10 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 						if(config.plink == 2)
 							worldObj.playSoundAtEntity(this, "hbm:weapon.gBounce", 1.0F, 1.0F);
 
+						this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 						onRicochet(mop.blockX, mop.blockY, mop.blockZ);
+						
+						//worldObj.setBlock((int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), Blocks.dirt);
 
 					} else {
 						if(!worldObj.isRemote) {
@@ -303,10 +306,10 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 						}
 					}
 
-					this.posX += (mop.hitVec.xCoord - this.posX) * 0.6;
+					/*this.posX += (mop.hitVec.xCoord - this.posX) * 0.6;
 					this.posY += (mop.hitVec.yCoord - this.posY) * 0.6;
-					this.posZ += (mop.hitVec.zCoord - this.posZ) * 0.6;
-
+					this.posZ += (mop.hitVec.zCoord - this.posZ) * 0.6;*/
+					
 					this.motionX *= config.bounceMod;
 					this.motionY *= config.bounceMod;
 					this.motionZ *= config.bounceMod;
@@ -520,6 +523,11 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	@Override
 	public boolean isSpectral() {
 		return this.config.isSpectral;
+	}
+
+	@Override
+	public int selfDamageDelay() {
+		return this.config.selfDamageDelay;
 	}
 
 	@Override

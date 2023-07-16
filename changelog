@@ -10,6 +10,9 @@
   * Assemblers will insert their loaded template into the template crate after doing one operation with it
   * Assemblers will also pull templates from template crates if no template is currently loaded
   * This hopefully makes certain types of automation like AE2 easier as the template is therefore treated like a crafting ingredient that is returned afterwards
+* More coilgun ammo
+  * Ferrouranium ball that has higher damage, higher wear and breaks blocks with higher resistance
+  * Rubber ball that deals immense knockback to entities and bounces around
 
 ## Changed
 * Making LPG in the compressor now requires two compression steps
