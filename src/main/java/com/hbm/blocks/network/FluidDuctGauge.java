@@ -151,6 +151,7 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 			this.deltaLastSecond = Math.max(nbt.getLong("deltaS"), 0);
 		}
 
+
 		@Override
 		public String getComponentName() {
 			return "ntm_fluid_gauge";
