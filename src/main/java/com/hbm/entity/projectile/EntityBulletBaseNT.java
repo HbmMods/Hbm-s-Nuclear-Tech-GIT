@@ -132,7 +132,6 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
 
-		System.out.println("" + this.config.spread);
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread * (offsetShot ? 1F : 0.25F));
 	}
 
@@ -211,12 +210,12 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		if(!worldObj.isRemote) {
 			
 			if(config.maxAge == 0) {
-				if(this.config.bUpdate != null) this.config.bntUpdate.behaveUpdate(this);
+				if(this.config.bntUpdate != null) this.config.bntUpdate.behaveUpdate(this);
 				this.setDead();
 				return;
 			}
 			
-			if(this.config.bUpdate != null) this.config.bntUpdate.behaveUpdate(this);
+			if(this.config.bntUpdate != null) this.config.bntUpdate.behaveUpdate(this);
 			
 			if(this.ticksExisted > config.maxAge) this.setDead();
 		}
@@ -295,7 +294,10 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 						if(config.plink == 2)
 							worldObj.playSoundAtEntity(this, "hbm:weapon.gBounce", 1.0F, 1.0F);
 
+						this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 						onRicochet(mop.blockX, mop.blockY, mop.blockZ);
+						
+						//worldObj.setBlock((int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), Blocks.dirt);
 
 					} else {
 						if(!worldObj.isRemote) {
@@ -304,10 +306,10 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 						}
 					}
 
-					this.posX += (mop.hitVec.xCoord - this.posX) * 0.6;
+					/*this.posX += (mop.hitVec.xCoord - this.posX) * 0.6;
 					this.posY += (mop.hitVec.yCoord - this.posY) * 0.6;
-					this.posZ += (mop.hitVec.zCoord - this.posZ) * 0.6;
-
+					this.posZ += (mop.hitVec.zCoord - this.posZ) * 0.6;*/
+					
 					this.motionX *= config.bounceMod;
 					this.motionY *= config.bounceMod;
 					this.motionZ *= config.bounceMod;
@@ -378,8 +380,10 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		if(config.bntImpact != null)
 			config.bntImpact.behaveBlockHit(this, bX, bY, bZ);
 		
-		if(!worldObj.isRemote && !config.liveAfterImpact)
-			this.setDead();
+		if(!worldObj.isRemote) {
+			if(!config.liveAfterImpact && !config.isSpectral && bY > -1) this.setDead();
+			if(!config.doesPenetrate && bY == -1) this.setDead();
+		}
 		
 		if(config.incendiary > 0 && !this.worldObj.isRemote) {
 			if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock((int)posX, (int)posY, (int)posZ) == Blocks.air) worldObj.setBlock((int)posX, (int)posY, (int)posZ, Blocks.fire);
@@ -472,6 +476,8 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		
 		if(config.bntHit != null)
 			config.bntHit.behaveEntityHit(this, e);
+		
+		//this.setDead();
 	}
 	
 	//for when a bullet hurts an entity, not necessarily dying
@@ -517,6 +523,11 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	@Override
 	public boolean isSpectral() {
 		return this.config.isSpectral;
+	}
+
+	@Override
+	public int selfDamageDelay() {
+		return this.config.selfDamageDelay;
 	}
 
 	@Override
@@ -568,9 +579,9 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		nbt.setFloat("damage", this.overrideDamage);
 	}
 	
-	public interface IBulletHurtBehaviorNT { public void behaveEntityHurt(EntityBulletBaseNT bullet, Entity hit); }
-	public interface IBulletHitBehaviorNT { public void behaveEntityHit(EntityBulletBaseNT bullet, Entity hit); }
-	public interface IBulletRicochetBehaviorNT { public void behaveBlockRicochet(EntityBulletBaseNT bullet, int x, int y, int z); }
-	public interface IBulletImpactBehaviorNT { public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z); }
-	public interface IBulletUpdateBehaviorNT { public void behaveUpdate(EntityBulletBaseNT bullet); }
+	public static interface IBulletHurtBehaviorNT { public void behaveEntityHurt(EntityBulletBaseNT bullet, Entity hit); }
+	public static interface IBulletHitBehaviorNT { public void behaveEntityHit(EntityBulletBaseNT bullet, Entity hit); }
+	public static interface IBulletRicochetBehaviorNT { public void behaveBlockRicochet(EntityBulletBaseNT bullet, int x, int y, int z); }
+	public static interface IBulletImpactBehaviorNT { public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z); }
+	public static interface IBulletUpdateBehaviorNT { public void behaveUpdate(EntityBulletBaseNT bullet); }
 }

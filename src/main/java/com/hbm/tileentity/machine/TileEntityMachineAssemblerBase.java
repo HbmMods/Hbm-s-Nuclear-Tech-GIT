@@ -9,6 +9,7 @@ import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.machine.storage.TileEntityCrateTemplate;
 import com.hbm.util.InventoryUtil;
 
 import api.hbm.energy.IEnergyUser;
@@ -24,6 +25,7 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 	public int[] progress;
 	public int[] maxProgress;
 	public boolean isProgressing;
+	public boolean[] needsTemplateSwitch;
 	
 	int consumption = 100;
 	int speed = 100;
@@ -35,6 +37,7 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 
 		progress = new int[count];
 		maxProgress = new int[count];
+		needsTemplateSwitch = new boolean[count];
 	}
 
 	@Override
@@ -45,11 +48,11 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 			int count = this.getRecipeCount();
 			
 			this.isProgressing = false;
-			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
+			this.power = Library.chargeTEFromItems(slots, getPowerSlot(), power, this.getMaxPower());
 			
 			for(int i = 0; i < count; i++) {
-				loadItems(i);
 				unloadItems(i);
+				loadItems(i);
 			}
 
 			
@@ -114,6 +117,7 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 			consumeItems(recipe, index);
 			produceItems(output, index);
 			this.progress[index] = 0;
+			this.needsTemplateSwitch[index] = true;
 			this.markDirty();
 		}
 	}
@@ -140,53 +144,76 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 	private void loadItems(int index) {
 		
 		int template = getTemplateIndex(index);
-		if(slots[template] == null || slots[template].getItem() != ModItems.assembly_template)
-			return;
 
-		List<AStack> recipe = AssemblerRecipes.getRecipeFromTempate(slots[template]);
-		
-		if(recipe != null) {
-			
-			ChunkCoordinates[] positions = getInputPositions();
-			int[] indices = getSlotIndicesFromIndex(index);
-			
-			for(ChunkCoordinates coord : positions) {
+		ChunkCoordinates[] positions = getInputPositions();
+		int[] indices = getSlotIndicesFromIndex(index);
+
+		for(ChunkCoordinates coord : positions) {
+
+			TileEntity te = worldObj.getTileEntity(coord.posX, coord.posY, coord.posZ);
 				
-				TileEntity te = worldObj.getTileEntity(coord.posX, coord.posY, coord.posZ);
-				
-				if(te instanceof IInventory) {
+			if(te instanceof IInventory) {
+
+				IInventory inv = (IInventory) te;
+				ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
+				boolean templateCrate = te instanceof TileEntityCrateTemplate;
+
+				if(templateCrate && slots[template] == null) {
+
+					for(int i = 0; i < inv.getSizeInventory(); i++) {
+						ItemStack stack = inv.getStackInSlot(i);
+
+						if(stack != null && stack.getItem() == ModItems.assembly_template && (sided == null || sided.canExtractItem(i, stack, 0))) {
+							slots[template] = stack.copy();
+							sided.setInventorySlotContents(i, null);
+							this.needsTemplateSwitch[index] = false;
+							break;
+						}
+					}
+				}
 					
-					IInventory inv = (IInventory) te;
-					ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
-					
-					for(AStack ingredient : recipe) {
-						
-						if(!InventoryUtil.doesArrayHaveIngredients(slots, indices[0], indices[1], ingredient)) {
-							
-							for(int i = 0; i < inv.getSizeInventory(); i++) {
-								
-								ItemStack stack = inv.getStackInSlot(i);
-								if(ingredient.matchesRecipe(stack, true) && (sided == null || sided.canExtractItem(i, stack, 0))) {
-									
-									for(int j = indices[0]; j <= indices[1]; j++) {
-										
-										if(slots[j] != null && slots[j].stackSize < slots[j].getMaxStackSize() & InventoryUtil.doesStackDataMatch(slots[j], stack)) {
-											inv.decrStackSize(i, 1);
-											slots[j].stackSize++;
-											return;
+				boolean noTemplate = slots[template] == null || slots[template].getItem() != ModItems.assembly_template;
+
+				if(!noTemplate) {
+
+					List<AStack> recipe = AssemblerRecipes.getRecipeFromTempate(slots[template]);
+
+					if(recipe != null) {
+
+						for(AStack ingredient : recipe) {
+
+							outer: while(!InventoryUtil.doesArrayHaveIngredients(slots, indices[0], indices[1], ingredient)) {
+
+								boolean found = false;
+
+								for(int i = 0; i < inv.getSizeInventory(); i++) {
+
+									ItemStack stack = inv.getStackInSlot(i);
+									if(ingredient.matchesRecipe(stack, true) && (sided == null || sided.canExtractItem(i, stack, 0))) {
+										found = true;
+
+										for(int j = indices[0]; j <= indices[1]; j++) {
+
+											if(slots[j] != null && slots[j].stackSize < slots[j].getMaxStackSize() & InventoryUtil.doesStackDataMatch(slots[j], stack)) {
+												inv.decrStackSize(i, 1);
+												slots[j].stackSize++;
+												continue outer;
+											}
 										}
-									}
-									
-									for(int j = indices[0]; j <= indices[1]; j++) {
-										
-										if(slots[j] == null) {
-											slots[j] = stack.copy();
-											slots[j].stackSize = 1;
-											inv.decrStackSize(i, 1);
-											return;
+
+										for(int j = indices[0]; j <= indices[1]; j++) {
+
+											if(slots[j] == null) {
+												slots[j] = stack.copy();
+												slots[j].stackSize = 1;
+												inv.decrStackSize(i, 1);
+												continue outer;
+											}
 										}
 									}
 								}
+
+								if(!found) return;
 							}
 						}
 					}
@@ -209,8 +236,13 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 				IInventory inv = (IInventory) te;
 				
 				int i = indices[2];
-
 				ItemStack out = slots[i];
+				
+				int template = getTemplateIndex(index);
+				if(this.needsTemplateSwitch[index] && te instanceof TileEntityCrateTemplate && slots[template] != null) {
+					out = slots[template];
+					i = template;
+				}
 
 				if(out != null) {
 
@@ -266,4 +298,5 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 	public abstract int[] getSlotIndicesFromIndex(int index);
 	public abstract ChunkCoordinates[] getInputPositions();
 	public abstract ChunkCoordinates[] getOutputPositions();
+	public abstract int getPowerSlot();
 }

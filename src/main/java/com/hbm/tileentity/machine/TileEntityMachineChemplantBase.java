@@ -214,7 +214,10 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 					
 					for(AStack ingredient : recipe.inputs) {
 						
-						if(!InventoryUtil.doesArrayHaveIngredients(slots, indices[0], indices[1], ingredient)) {
+						outer:
+						while(!InventoryUtil.doesArrayHaveIngredients(slots, indices[0], indices[1], ingredient)) {
+							
+							boolean found = false;
 							
 							for(int i = 0; i < inv.getSizeInventory(); i++) {
 								
@@ -226,7 +229,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 										if(slots[j] != null && slots[j].stackSize < slots[j].getMaxStackSize() & InventoryUtil.doesStackDataMatch(slots[j], stack)) {
 											inv.decrStackSize(i, 1);
 											slots[j].stackSize++;
-											return;
+											continue outer;
 										}
 									}
 									
@@ -236,11 +239,13 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 											slots[j] = stack.copy();
 											slots[j].stackSize = 1;
 											inv.decrStackSize(i, 1);
-											return;
+											continue outer;
 										}
 									}
 								}
 							}
+							
+							if(!found) return;
 						}
 					}
 				}

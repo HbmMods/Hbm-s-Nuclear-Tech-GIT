@@ -183,7 +183,7 @@ public class SmeltingRecipes {
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
 			int i = ore.ordinal();
-			GameRegistry.addSmelting(new ItemStack(ModBlocks.ore_bedrock, 1, i), new ItemStack(Blocks.cobblestone, 16), 0.1F);
+			GameRegistry.addSmelting(new ItemStack(ModItems.ore_bedrock, 1, i), new ItemStack(Blocks.cobblestone, 16), 0.1F);
 		}
 		
 		for(int i = 0; i < 10; i++)

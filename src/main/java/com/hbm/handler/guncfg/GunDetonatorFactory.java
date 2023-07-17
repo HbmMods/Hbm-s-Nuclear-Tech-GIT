@@ -2,14 +2,12 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
-import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.main.MainRegistry;
-import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.PacketDispatcher;
@@ -90,22 +88,20 @@ public class GunDetonatorFactory {
 		bullet.doesRicochet = false;
 		bullet.setToBolt(BulletConfiguration.BOLT_LASER);
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
 				
-				World world = bullet.worldObj;
-				if(!world.isRemote && y > 0) {
-					Block b = world.getBlock(x, y, z);
-					if(b instanceof IBomb) {
-						BombReturnCode ret = ((IBomb)b).explode(world, x, y, z);
-						
-						if(ret.wasSuccessful() && bullet.shooter instanceof EntityPlayerMP) {
-							EntityPlayerMP player = (EntityPlayerMP) bullet.shooter;
-							world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
-							PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation(ret.getUnlocalizedMessage()).color(EnumChatFormatting.YELLOW).flush(), MainRegistry.proxy.ID_DETONATOR), (EntityPlayerMP) player);
-						}
+			World world = bulletnt.worldObj;
+			if(!world.isRemote && y > 0) {
+				Block b = world.getBlock(x, y, z);
+				if(b instanceof IBomb) {
+					BombReturnCode ret = ((IBomb) b).explode(world, x, y, z);
+
+					if(ret.wasSuccessful() && bulletnt.getThrower() instanceof EntityPlayerMP) {
+						EntityPlayerMP player = (EntityPlayerMP) bulletnt.getThrower();
+						world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+						PacketDispatcher.wrapper.sendTo(
+								new PlayerInformPacket(ChatBuilder.start("").nextTranslation(ret.getUnlocalizedMessage()).color(EnumChatFormatting.YELLOW).flush(), MainRegistry.proxy.ID_DETONATOR),
+								(EntityPlayerMP) player);
 					}
 				}
 			}
