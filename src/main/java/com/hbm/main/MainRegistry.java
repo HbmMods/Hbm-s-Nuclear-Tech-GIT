@@ -838,6 +838,8 @@ public class MainRegistry {
 		AnvilRecipes.register();
 		RefineryRecipes.registerRefinery();
 		GasCentrifugeRecipes.register();
+		
+		CustomMachineConfigJSON.initialize();
 
 		//the good stuff
 		SerializableRecipe.registerAllHandlers();

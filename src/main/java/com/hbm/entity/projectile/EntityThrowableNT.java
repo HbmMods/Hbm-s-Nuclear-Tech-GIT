@@ -179,6 +179,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 				List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX * motionMult(), this.motionY * motionMult(), this.motionZ * motionMult()).expand(1.0D, 1.0D, 1.0D));
 				double nearest = 0.0D;
 				EntityLivingBase thrower = this.getThrower();
+				MovingObjectPosition nonPenImpact = null;
 	
 				for(int j = 0; j < list.size(); ++j) {
 					Entity entity = (Entity) list.get(j);
@@ -192,7 +193,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 							
 							// if penetration is enabled, run impact for all intersecting entities
 							if(this.doesPenetrate()) {
-								this.onImpact(new MovingObjectPosition(entity));
+								this.onImpact(new MovingObjectPosition(entity, hitMop.hitVec));
 							} else {
 								
 								double dist = pos.distanceTo(hitMop.hitVec);
@@ -200,6 +201,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 								if(dist < nearest || nearest == 0.0D) {
 									hitEntity = entity;
 									nearest = dist;
+									nonPenImpact = hitMop;
 								}
 							}
 						}
@@ -208,7 +210,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 	
 				// if not, only run it for the closest MOP
 				if(!this.doesPenetrate() && hitEntity != null) {
-					mop = new MovingObjectPosition(hitEntity);
+					mop = new MovingObjectPosition(hitEntity, nonPenImpact.hitVec);
 				}
 			}
 	
