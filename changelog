@@ -1,3 +1,11 @@
-## Fixed
-* Fixed bedrock ore to cobblestone being wrong, using actual ore blocks instead of the extracted item
-* Fixed missing mapping on the template chest, causing crashes
+## Added
+* Rubber ball
+  * can be thrown at people
+* New chlorine processing chain
+  * Involves 240 processing steps of washing, electrolyzing, centrifuging and treating chlorocalcite
+
+## Changed
+* Glyphids now have a higher tracking range, being 256 blocks
+* Standard glyphids now have a base health of 100
+* Glyphid scouts are now immune to fire and explosive damage, have a 50% damage reduction against projectiles and have passive regeneration
+* Increased hive block blast resistance, they can no longer be blown up wiith conventional explosives

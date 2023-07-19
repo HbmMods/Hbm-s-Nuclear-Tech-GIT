@@ -25,6 +25,7 @@ import com.hbm.inventory.material.MatDistribution;
 import com.hbm.inventory.recipes.*;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -62,6 +63,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new OutgasserRecipes());
 		recipeHandlers.add(new CompressorRecipes());
 		recipeHandlers.add(new MatDistribution());
+		recipeHandlers.add(new CustomMachineRecipes());
 	}
 	
 	public static void initialize() {
@@ -166,7 +168,9 @@ public abstract class SerializableRecipe {
 			writer.endArray();						//end recipe array
 			writer.endObject();						//final '}'
 			writer.close();
-		} catch(Exception ex) { }
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public void readRecipeFile(File file) {
@@ -243,6 +247,18 @@ public abstract class SerializableRecipe {
 		return new ItemStack(ModItems.nothing);
 	}
 	
+	protected static Pair<ItemStack, Float> readItemStackChance(JsonArray array) {
+		try {
+			Item item = (Item) Item.itemRegistry.getObject(array.get(0).getAsString());
+			int stacksize = array.size() > 2 ? array.get(1).getAsInt() : 1;
+			int meta = array.size() > 3 ? array.get(2).getAsInt() : 0;
+			float chance = array.get(array.size() - 1).getAsFloat();
+			if(item != null) return new Pair(new ItemStack(item, stacksize, meta), chance);
+		} catch(Exception ex) { }
+		MainRegistry.logger.error("Error reading stack array " + array.toString() + " - defaulting to NOTHING item!");
+		return new Pair(new ItemStack(ModItems.nothing), 1F);
+	}
+	
 	protected static ItemStack[] readItemStackArray(JsonArray array) {
 		try {
 			ItemStack[] items = new ItemStack[array.size()];
@@ -253,12 +269,33 @@ public abstract class SerializableRecipe {
 		return new ItemStack[0];
 	}
 	
+	protected static Pair<ItemStack, Float>[] readItemStackArrayChance(JsonArray array) {
+		try {
+			Pair<ItemStack, Float>[] items = new Pair[array.size()];
+			for(int i = 0; i < items.length; i++) { items[i] = readItemStackChance((JsonArray) array.get(i)); }
+			return items;
+		} catch(Exception ex) { }
+		MainRegistry.logger.error("Error reading stack array " + array.toString());
+		return new Pair[0];
+	}
+	
 	protected static void writeItemStack(ItemStack stack, JsonWriter writer) throws IOException {
 		writer.beginArray();
 		writer.setIndent("");
 		writer.value(Item.itemRegistry.getNameForObject(stack.getItem()));						//item name
 		if(stack.stackSize != 1 || stack.getItemDamage() != 0) writer.value(stack.stackSize);	//stack size
 		if(stack.getItemDamage() != 0) writer.value(stack.getItemDamage());						//metadata
+		writer.endArray();
+		writer.setIndent("  ");
+	}
+	
+	protected static void writeItemStackChance(Pair<ItemStack, Float> stack, JsonWriter writer) throws IOException {
+		writer.beginArray();
+		writer.setIndent("");
+		writer.value(Item.itemRegistry.getNameForObject(stack.getKey().getItem()));											//item name
+		if(stack.getKey().stackSize != 1 || stack.getKey().getItemDamage() != 0) writer.value(stack.getKey().stackSize);	//stack size
+		if(stack.getKey().getItemDamage() != 0) writer.value(stack.getKey().getItemDamage());								//metadata
+		writer.value(stack.value);																							//chance
 		writer.endArray();
 		writer.setIndent("  ");
 	}
