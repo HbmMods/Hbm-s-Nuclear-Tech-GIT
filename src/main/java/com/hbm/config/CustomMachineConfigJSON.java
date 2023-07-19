@@ -1,0 +1,197 @@
+package com.hbm.config;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
+import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration.ComponentDefinition;
+import com.hbm.main.MainRegistry;
+
+import net.minecraft.block.Block;
+
+public class CustomMachineConfigJSON {
+
+	public static final Gson gson = new Gson();
+	public static HashMap<String, MachineConfiguration> customMachines = new HashMap();
+	
+	public static void initialize() {
+		File folder = MainRegistry.configHbmDir;
+
+		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmCustomMachines.json");
+		
+		if(!config.exists()) {
+			writeDefault(config);
+		}
+		
+		readConfig(config);
+	}
+	
+	public static void writeDefault(File config) {
+
+		try {
+			JsonWriter writer = new JsonWriter(new FileWriter(config));
+			writer.setIndent("  ");
+			writer.beginObject();
+			writer.name("machines").beginArray();
+			
+			writer.beginObject();
+			writer.name("recipeKey").value("paperPress");
+			writer.name("unlocalizedName").value("paperPress");
+			writer.name("localizedName").value("Paper Press");
+			writer.name("fluidInCount").value(1);
+			writer.name("fluidInCap").value(1_000);
+			writer.name("itemInCount").value(1);
+			writer.name("fluidOutCount").value(0);
+			writer.name("fluidOutCap").value(0);
+			writer.name("itemOutCount").value(1);
+			writer.name("generatorMode").value(false);
+			writer.name("recipeSpeedMult").value(1.0D);
+			writer.name("recipeConsumptionMult").value(1.0D);
+			writer.name("maxPower").value(10_000L);
+			
+			writer.name("components").beginArray();
+			
+			for(int x = -1; x <= 1; x++) {
+				for(int y = -1; y <= 1; y++) {
+					for(int z = 0; z <= 2; z++) {
+						if(!(x == 0 && y == 0 && z == 1) && !(x == 0 && z == 0)) {
+							writer.beginObject().setIndent("");
+							writer.name("block").value(y == 0 ? "hbm:tile.cm_sheet" : "hbm:tile.cm_block");
+							writer.name("x").value(x);
+							writer.name("y").value(y);
+							writer.name("z").value(z);
+							writer.name("metas").beginArray();
+							writer.value(0);
+							writer.endArray();
+							writer.endObject().setIndent("  ");
+						}
+					}
+				}
+			}
+			
+			writer.beginObject().setIndent("");
+			writer.name("block").value("hbm:tile.cm_port");
+			writer.name("x").value(0);
+			writer.name("y").value(-1);
+			writer.name("z").value(0);
+			writer.name("metas").beginArray();
+			writer.value(0);
+			writer.endArray();
+			writer.endObject().setIndent("  ");
+			
+			writer.beginObject().setIndent("");
+			writer.name("block").value("hbm:tile.cm_port");
+			writer.name("x").value(0);
+			writer.name("y").value(1);
+			writer.name("z").value(0);
+			writer.name("metas").beginArray();
+			writer.value(0);
+			writer.endArray();
+			writer.endObject().setIndent("  ");
+			
+			writer.endArray();
+			writer.endObject();
+			
+			writer.endArray();
+			writer.endObject();
+			writer.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void readConfig(File config) {
+		
+		try {
+			JsonObject json = gson.fromJson(new FileReader(config), JsonObject.class);
+			JsonArray machines = json.get("machines").getAsJsonArray();
+			
+			for(int i = 0; i < machines.size(); i++) {
+				JsonObject machineObject = machines.get(i).getAsJsonObject();
+				
+				MachineConfiguration configuration = new MachineConfiguration();
+				configuration.recipeKey = machineObject.get("recipeKey").getAsString();
+				configuration.unlocalizedName = machineObject.get("unlocalizedName").getAsString();
+				configuration.localizedName = machineObject.get("localizedName").getAsString();
+				configuration.fluidInCount = machineObject.get("fluidInCount").getAsInt();
+				configuration.fluidInCap = machineObject.get("fluidInCap").getAsInt();
+				configuration.itemInCount = machineObject.get("itemInCount").getAsInt();
+				configuration.fluidOutCount = machineObject.get("fluidOutCount").getAsInt();
+				configuration.fluidOutCap = machineObject.get("fluidOutCap").getAsInt();
+				configuration.itemOutCount = machineObject.get("itemOutCount").getAsInt();
+				configuration.generatorMode = machineObject.get("generatorMode").getAsBoolean();
+				configuration.recipeSpeedMult = machineObject.get("recipeSpeedMult").getAsDouble();
+				configuration.recipeConsumptionMult = machineObject.get("recipeConsumptionMult").getAsDouble();
+				configuration.maxPower = machineObject.get("maxPower").getAsLong();
+				
+				JsonArray components = machineObject.get("components").getAsJsonArray();
+				configuration.components = new ArrayList();
+				
+				for(int j = 0; j < components.size(); j++) {
+					JsonObject compObject = components.get(j).getAsJsonObject();
+					ComponentDefinition compDef = new ComponentDefinition();
+					compDef.block = (Block) Block.blockRegistry.getObject(compObject.get("block").getAsString());
+					compDef.x = compObject.get("x").getAsInt();
+					compDef.y = compObject.get("y").getAsInt();
+					compDef.z = compObject.get("z").getAsInt();
+					compDef.allowedMetas = new HashSet();
+					JsonArray metas = compObject.get("metas").getAsJsonArray();
+					for(int k = 0; k < metas.size(); k++) {
+						compDef.allowedMetas.add(metas.get(k).getAsInt());
+					}
+					
+					configuration.components.add(compDef);
+				}
+				
+				customMachines.put(configuration.unlocalizedName, configuration);
+			}
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public static class MachineConfiguration {
+		
+		/** The name of the recipe set that this machine can handle */
+		public String recipeKey;
+		/** The internal name of this machine */
+		public String unlocalizedName;
+		/** The display name of this machine */
+		public String localizedName;
+
+		public int fluidInCount;
+		public int fluidInCap;
+		public int itemInCount;
+		public int fluidOutCount;
+		public int fluidOutCap;
+		public int itemOutCount;
+		/** Whether inputs should be used up when the process begins */
+		public boolean generatorMode;
+		
+		public double recipeSpeedMult = 1D;
+		public double recipeConsumptionMult = 1D;
+		public long maxPower;
+		
+		/** Definitions of blocks that this machine is composed of */
+		public List<ComponentDefinition> components;
+		
+		public static class ComponentDefinition {
+			public Block block;
+			public Set<Integer> allowedMetas;
+			public int x;
+			public int y;
+			public int z;
+		}
+	}
+}

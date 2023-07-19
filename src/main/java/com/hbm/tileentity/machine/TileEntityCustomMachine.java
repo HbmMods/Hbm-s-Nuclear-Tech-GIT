@@ -22,6 +22,7 @@ import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,7 +36,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCustomMachine extends TileEntityMachineBase implements IFluidStandardTransceiver, IGUIProvider {
+public class TileEntityCustomMachine extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyUser, IGUIProvider {
 	
 	public String machineType;
 	public MachineConfiguration config;
@@ -110,6 +111,13 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 					for(FluidTank tank : this.inputTanks) {
 						this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 					}
+					if(!config.generatorMode) this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				}
+			}
+			
+			if(config.generatorMode && power > 0) {
+				for(DirPos pos : this.connectionPos) {
+					this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
 			
@@ -118,7 +126,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 				if(config.generatorMode) {
 					if(this.cachedRecipe == null) {
 						CustomMachineRecipe recipe = this.getMatchingRecipe();
-						if(this.hasRequiredQuantities(recipe) && this.hasSpace(recipe)) {
+						if(recipe != null && this.hasRequiredQuantities(recipe) && this.hasSpace(recipe)) {
 							this.cachedRecipe = recipe;
 							this.useUpInput(recipe);
 						}
@@ -384,6 +392,11 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 			
 			this.matcher.readFromNBT(nbt);
 		}
+		
+		int index = nbt.getInteger("cachedIndex");
+		if(index != -1) {
+			this.cachedRecipe = CustomMachineRecipes.recipes.get(this.machineType).get(index);
+		}
 	}
 	
 	@Override
@@ -402,6 +415,13 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 		for(int i = 0; i < outputTanks.length; i++) outputTanks[i].writeToNBT(nbt, "o" + i);
 		
 		this.matcher.writeToNBT(nbt);
+		
+		if(this.cachedRecipe != null) {
+			int index = CustomMachineRecipes.recipes.get(this.machineType).indexOf(this.cachedRecipe);
+			nbt.setInteger("cachedIndex", index);
+		} else {
+			nbt.setInteger("cachedIndex", -1);
+		}
 	}
 
 	@Override
@@ -436,5 +456,43 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		if(this.config == null) return null;
 		return new GUIMachineCustom(player.inventory, this);
+	}
+
+	@Override
+	public long getPower() {
+		return this.power;
+	}
+
+	@Override
+	public long getMaxPower() {
+		return this.config != null ? this.getMaxPower() : 1;
+	}
+
+	@Override
+	public void setPower(long power) {
+		this.power = power;
+	}
+	
+	@Override
+	public long transferPower(long power) {
+		if(this.config != null && this.config.generatorMode) return power;
+		
+		this.setPower(this.getPower() + power);
+		
+		if(this.getPower() > this.getMaxPower()) {
+			
+			long overshoot = this.getPower() - this.getMaxPower();
+			this.setPower(this.getMaxPower());
+			return overshoot;
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public long getTransferWeight() {
+		if(this.config != null && this.config.generatorMode) return 0;
+
+		return Math.max(getMaxPower() - getPower(), 0);
 	}
 }
