@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.machine.storage.TileEntityBarrel;
+import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -162,6 +163,23 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
 		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
 		player.addExhaustion(0.025F);
+	}
+
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+
+		TileEntity te = world.getTileEntity(x, y, z);
+
+		if(!(te instanceof TileEntityBarrel))
+			return 0;
+
+		TileEntityBarrel barrel = (TileEntityBarrel) te;
+		return barrel.getComparatorPower();
 	}
 
 	@Override
