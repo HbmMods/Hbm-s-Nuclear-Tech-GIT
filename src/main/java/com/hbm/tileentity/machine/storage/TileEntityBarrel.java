@@ -16,6 +16,7 @@ import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -31,6 +32,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
@@ -48,6 +50,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	public int age = 0;
 	public List<IFluidAcceptor> list = new ArrayList();
 	protected boolean sendingBrake = false;
+	public byte lastRedstone = 0;
 
 	public TileEntityBarrel() {
 		super(6);
@@ -64,11 +67,22 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		return "container.barrel";
 	}
 
+	public byte getComparatorPower() {
+		if(tank.getFill() == 0) return 0;
+		double frac = (double) tank.getFill() / (double) tank.getMaxFill() * 15D;
+		return (byte) (MathHelper.clamp_int((int) frac + 1, 0, 15));
+	}
+
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
+
+			byte comp = this.getComparatorPower(); //do comparator shenanigans
+			if(comp != this.lastRedstone)
+				this.markDirty();
+			this.lastRedstone = comp;
+
 			tank.setType(0, 1, slots);
 			tank.loadTank(2, 3, slots);
 			tank.unloadTank(4, 5, slots);
@@ -375,12 +389,12 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTypeStored(Context context, Arguments args) {
-		return new Object[] {tank.getTankType().getName()};
+		return new Object[] {tank.getTankType().getUnlocalizedName()};
 	}
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};
+		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getUnlocalizedName()};
 	}
 }

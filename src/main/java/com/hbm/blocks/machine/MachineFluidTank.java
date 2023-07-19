@@ -14,6 +14,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.IRepairable;
 import com.hbm.tileentity.TileEntityProxyCombo;
+import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
 import com.hbm.util.I18nUtil;
 
@@ -133,6 +134,23 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 		} else {
 			world.setBlock(pos[0], pos[1], pos[2], Blocks.air);
 		}
+	}
+
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+
+		TileEntity te = world.getTileEntity(x, y, z);
+
+		if(!(te instanceof TileEntityMachineFluidTank))
+			return 0;
+
+		TileEntityMachineFluidTank tank = (TileEntityMachineFluidTank) te;
+		return tank.getComparatorPower();
 	}
 
 	@Override
