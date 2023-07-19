@@ -191,12 +191,6 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				return flux;
 			}
 		}
-
-		if(te instanceof TileEntityRBMKRedstone) {
-			TileEntityRBMKRedstone rod = (TileEntityRBMKRedstone)te;
-			rod.processFlux(flux, stream);
-			return flux;
-		}
 		
 		if(te instanceof IRBMKFluxReceiver) {
 			IRBMKFluxReceiver rod = (IRBMKFluxReceiver)te;
