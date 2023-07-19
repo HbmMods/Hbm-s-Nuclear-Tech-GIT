@@ -22,6 +22,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class BlockCustomMachine extends BlockContainer {
@@ -115,7 +116,7 @@ public class BlockCustomMachine extends BlockContainer {
 		Item item = getItemDropped(metadata, world.rand, fortune);
 		if(item != null) {
 
-			ItemStack stack = new ItemStack(item, 1, damageDropped(metadata));
+			ItemStack stack = new ItemStack(item);
 			TileEntityCustomMachine tile = (TileEntityCustomMachine) world.getTileEntity(x, y, z);
 			
 			if(tile != null) {
@@ -127,5 +128,21 @@ public class BlockCustomMachine extends BlockContainer {
 		}
 		
 		return ret;
+	}
+	
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) { //using the deprecated one to make NEI happy
+		
+		TileEntityCustomMachine tile = (TileEntityCustomMachine) world.getTileEntity(x, y, z);
+
+		ItemStack stack = new ItemStack(this);
+		
+		if(tile != null && tile.machineType != null && !tile.machineType.isEmpty()) {
+			stack.stackTagCompound = new NBTTagCompound();
+			stack.stackTagCompound.setString("machineType", tile.machineType);
+			return stack;
+		}
+		
+		return super.getPickBlock(target, world, x, y, z);
 	}
 }

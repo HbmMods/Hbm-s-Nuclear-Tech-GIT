@@ -20,7 +20,9 @@ public class ContainerMachineCustom extends Container {
 		//Input
 		this.addSlotToContainer(new Slot(tile, 0, 150, 72));
 		//Fluid IDs
-		for(int i = 0; i < tile.inputTanks.length; i++) this.addSlotToContainer(new Slot(tile, 1 + i, 8, 54 + 18 * i));
+		for(int i = 0; i < tile.inputTanks.length; i++) {
+			this.addSlotToContainer(new Slot(tile, 1 + i, 8 + 18 * i, 54));
+		}
 		//Item inputs
 		if(tile.config.itemInCount > 0) this.addSlotToContainer(new Slot(tile, 4, 8, 72));
 		if(tile.config.itemInCount > 1) this.addSlotToContainer(new Slot(tile, 5, 26, 72));
