@@ -173,7 +173,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	
 	private void sendFluid() {
 		for(DirPos pos : getConPos()) {
-			this.sendFluid(amat.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.sendFluid(amat, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 	

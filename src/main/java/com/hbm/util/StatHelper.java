@@ -36,7 +36,7 @@ public class StatHelper {
 	 */
 	public static void resetStatShitFuck() {
 		
-		publicReferenceToOneshotStatListPleaseAllPointAndLaugh = ReflectionHelper.getPrivateValue(StatList.class, null, "field_75942_a", "oneShotStats"); //TODO: not fuck up the mapping here
+		publicReferenceToOneshotStatListPleaseAllPointAndLaugh = ReflectionHelper.getPrivateValue(StatList.class, null, "field_75942_a", "oneShotStats");
 		
 		for(int i = 0; i < StatList.objectCraftStats.length; i++) StatList.objectCraftStats[i] = null;
 		for(int i = 0; i < StatList.mineBlockStatArray.length; i++) StatList.mineBlockStatArray[i] = null;
@@ -45,10 +45,12 @@ public class StatHelper {
 		StatList.objectMineStats.clear();
 		StatList.itemStats.clear();
 		
-		initCraftItemStats();
-		initBlockMineStats();
-		initItemUseStats();
-		initItemBreakStats();
+		try {
+			initCraftItemStats();
+			initBlockMineStats();
+			initItemUseStats();
+			initItemBreakStats();
+		} catch(Throwable ex) { } // just to be sure
 	}
 	
 	/**
@@ -59,42 +61,15 @@ public class StatHelper {
 	 * 2) The system just will never work with items that don't have crafting table recipes
 	 */
 	private static void initCraftItemStats() {
-		/*HashSet hashset = new HashSet();
-		Iterator iterator = CraftingManager.getInstance().getRecipeList().iterator();
-
-		while(iterator.hasNext()) {
-			IRecipe irecipe = (IRecipe) iterator.next();
-
-			if(irecipe.getRecipeOutput() != null) {
-				hashset.add(irecipe.getRecipeOutput().getItem());
-			}
-		}
-
-		iterator = FurnaceRecipes.smelting().getSmeltingList().values().iterator();
-
-		while(iterator.hasNext()) {
-			ItemStack itemstack = (ItemStack) iterator.next();
-			hashset.add(itemstack.getItem());
-		}
-
-		iterator = hashset.iterator();
-
-		while(iterator.hasNext()) {
-			Item item = (Item) iterator.next();
-
-			if(item != null) {
-				int i = Item.getIdFromItem(item);
-				StatList.objectCraftStats[i] = registerStat(new StatCrafting("stat.craftItem." + i, new ChatComponentTranslation("stat.craftItem", new Object[] { (new ItemStack(item)).func_151000_E() }), item));
-			}
-		}*/
-
 		Iterator iterator = Item.itemRegistry.iterator();
 		while(iterator.hasNext()) {
 			Item item = (Item) iterator.next();
 
 			if(item != null) {
 				int i = Item.getIdFromItem(item);
-				StatList.objectCraftStats[i] = registerStat(new StatCrafting("stat.craftItem." + i, new ChatComponentTranslation("stat.craftItem", new Object[] { (new ItemStack(item)).func_151000_E() }), item));
+				try {
+					StatList.objectCraftStats[i] = registerStat(new StatCrafting("stat.craftItem." + i, new ChatComponentTranslation("stat.craftItem", new Object[] { (new ItemStack(item)).func_151000_E() }), item));
+				} catch(Throwable ex) { }
 			}
 		}
 
@@ -109,11 +84,12 @@ public class StatHelper {
 
 			if(Item.getItemFromBlock(block) != null) {
 				int i = Block.getIdFromBlock(block);
-
-				if(block.getEnableStats()) {
-					StatList.mineBlockStatArray[i] = registerStat(new StatCrafting("stat.mineBlock." + i, new ChatComponentTranslation("stat.mineBlock", new Object[] { (new ItemStack(block)).func_151000_E() }), Item.getItemFromBlock(block)));
-					StatList.objectMineStats.add((StatCrafting) StatList.mineBlockStatArray[i]);
-				}
+				try {
+					if(block.getEnableStats()) {
+						StatList.mineBlockStatArray[i] = registerStat(new StatCrafting("stat.mineBlock." + i, new ChatComponentTranslation("stat.mineBlock", new Object[] { (new ItemStack(block)).func_151000_E() }), Item.getItemFromBlock(block)));
+						StatList.objectMineStats.add((StatCrafting) StatList.mineBlockStatArray[i]);
+					}
+				} catch(Throwable ex) { }
 			}
 		}
 
@@ -128,11 +104,12 @@ public class StatHelper {
 
 			if(item != null) {
 				int i = Item.getIdFromItem(item);
-				StatList.objectUseStats[i] = registerStat(new StatCrafting("stat.useItem." + i, new ChatComponentTranslation("stat.useItem", new Object[] { (new ItemStack(item)).func_151000_E() }), item));
-
-				if(!(item instanceof ItemBlock)) {
-					StatList.itemStats.add((StatCrafting) StatList.objectUseStats[i]);
-				}
+				try {
+					StatList.objectUseStats[i] = registerStat(new StatCrafting("stat.useItem." + i, new ChatComponentTranslation("stat.useItem", new Object[] { (new ItemStack(item)).func_151000_E() }), item));
+					if(!(item instanceof ItemBlock)) {
+						StatList.itemStats.add((StatCrafting) StatList.objectUseStats[i]);
+					}
+				} catch(Throwable ex) { }
 			}
 		}
 
@@ -147,9 +124,11 @@ public class StatHelper {
 
 			if(item != null) {
 				int i = Item.getIdFromItem(item);
-				if(item.isDamageable()) {
-					StatList.objectBreakStats[i] = registerStat(new StatCrafting("stat.breakItem." + i, new ChatComponentTranslation("stat.breakItem", new Object[] { (new ItemStack(item)).func_151000_E() }), item));
-				}
+				try {
+					if(item.isDamageable()) {
+						StatList.objectBreakStats[i] = registerStat(new StatCrafting("stat.breakItem." + i, new ChatComponentTranslation("stat.breakItem", new Object[] { (new ItemStack(item)).func_151000_E() }), item));
+					}
+				} catch(Throwable ex) { }
 			}
 		}
 

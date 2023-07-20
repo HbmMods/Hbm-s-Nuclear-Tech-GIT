@@ -1,6 +1,7 @@
 package com.hbm.entity.projectile;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
@@ -22,6 +23,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.Tuple.Pair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -50,6 +52,11 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	private BulletConfiguration config;
 	public EntityLivingBase shooter;
 	public float overrideDamage;
+
+	public double prevRenderX;
+	public double prevRenderY;
+	public double prevRenderZ;
+	public final List<Pair<Vec3, Double>> trailNodes = new ArrayList();
 	
 	public BulletConfiguration getConfig() {
 		return config;
@@ -234,6 +241,15 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		if(config == null){
 			this.setDead();
 			return;
+		}
+		
+		if(worldObj.isRemote && config.style == config.STYLE_TAU) {
+			if(trailNodes.isEmpty()) {
+				this.ignoreFrustumCheck = true;
+				trailNodes.add(new Pair<Vec3, Double>(Vec3.createVectorHelper(-motionX * 2, -motionY * 2, -motionZ * 2), 0D));
+			} else {
+				trailNodes.add(new Pair<Vec3, Double>(Vec3.createVectorHelper(0, 0, 0), 1D));
+			}
 		}
 		
 		if(this.config.blackPowder && this.ticksExisted == 1) {

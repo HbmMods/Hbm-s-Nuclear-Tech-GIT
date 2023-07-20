@@ -2,6 +2,8 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.container.ContainerFurnaceSteel;
 import com.hbm.inventory.gui.GUIFurnaceSteel;
 import com.hbm.tileentity.IGUIProvider;
@@ -67,6 +69,7 @@ public class TileEntityFurnaceSteel extends TileEntityMachineBase implements IGU
 					progress[i] += burn;
 					this.heat -= burn;
 					this.wasOn = true;
+					if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 2);
 				}
 				
 				lastItems[i] = slots[i];

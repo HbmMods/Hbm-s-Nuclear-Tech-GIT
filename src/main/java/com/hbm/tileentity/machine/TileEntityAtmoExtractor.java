@@ -56,7 +56,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 	
 		}
 		
-		this.sendFluidToAll(tanks.getTankType(), this);
+		this.sendFluidToAll(tanks, this);
 		fillFluidInit(tanks.getTankType());
 
 		NBTTagCompound data = new NBTTagCompound();

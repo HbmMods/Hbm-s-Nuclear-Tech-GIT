@@ -69,7 +69,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			int powerReq = 10000;
 			
 			int convert = Math.min(tanks[0].getFill(), tanks[1].getFill());
-			convert = Math.min(convert, (plasma.getMaxFill() - plasma.getFill()));
+			convert = Math.min(convert, (plasma.getMaxFill() - plasma.getFill()) / 2);
 			convert = Math.min(convert, maxConv);
 			convert = (int) Math.min(convert, power / powerReq);
 			convert = Math.max(0, convert);
@@ -174,7 +174,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			plasma.setTankType(Fluids.PLASMA_HT);
 			return;
 		}
-		if(types.contains(Fluids.XENON) && types.contains(Fluids.MERCURY)) {
+		if(types.contains(Fluids.HELIUM4) && types.contains(Fluids.OXYGEN)) {
 			plasma.setTankType(Fluids.PLASMA_XM);
 			return;
 		}

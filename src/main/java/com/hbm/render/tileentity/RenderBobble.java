@@ -47,11 +47,10 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_cirno = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/cirno.png");
 	public static final ResourceLocation bobble_gwen = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/gwen.png");
 	public static final ResourceLocation bobble_juice = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/Juicy_Lad.png");
-	public static final ResourceLocation bobble_divine_ray = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/Divine_Ray.png");
-	public static final ResourceLocation bobble_saerkal= new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/Saerkal.png");
 	public static final ResourceLocation bobble_jamesh_2= new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/JamesH_2.png");
 	public static final ResourceLocation bobble_peep= new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/PeepV1.png");
 	
+	public static final ResourceLocation bobble_microwave = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/microwave.png");
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float intero) {
@@ -104,9 +103,8 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case GWEN:		bindTexture(bobble_gwen); break;
 		case JUICE:		bindTexture(bobble_juice); break;
 		case JAMESH_2:	bindTexture(bobble_jamesh_2); break;
-		case DIVINE_RAY:bindTexture(bobble_divine_ray); break;
-		case SAERKAL:	bindTexture(bobble_saerkal); break;
 		case PEEP:	bindTexture(bobble_peep); break;
+		case MICROWAVE: bindTexture(bobble_microwave); break;
 		default:		bindTexture(ResourceManager.universal);
 		}
 		
@@ -324,19 +322,19 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public void renderPellet(BobbleType type) {
 
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		
+
 		GL11.glPushMatrix();
 		GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		bobble.renderPart("Pellet");
-		
+
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0);
-		
+
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-		GL11.glColor4f(1.0F, 1.0F, 0.0F, 0.1F + (float)Math.sin(System.currentTimeMillis() * 0.001D) * 0.05F);
+		GL11.glColor4f(1.0F, 1.0F, 0.0F, 0.1F + (float) Math.sin(System.currentTimeMillis() * 0.001D) * 0.05F);
 		bobble.renderPart("PelletShine");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 

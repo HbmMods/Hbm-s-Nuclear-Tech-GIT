@@ -5,11 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 public class GunConfiguration implements Cloneable {
 	
@@ -32,6 +37,11 @@ public class GunConfiguration implements Cloneable {
 	//weapon won't fire after weapon breaks (main only)
 	public int durability;
 	
+	public World dimWorld;
+	public int x;
+	public int y;
+	public int z;
+	
 	//animations!
 	public HashMap<AnimType, BusAnimation> animations = new HashMap();
 	//when sneaking, disables crosshair and centers the bullet spawn point
@@ -52,6 +62,7 @@ public class GunConfiguration implements Cloneable {
 	public String reloadSound = "";
 	//sound path to the shooting sound
 	public String firingSound = "";
+	public float firingVolume = 1.0F;
 	public float firingPitch = 1.0F;
 	//whether the reload sound should be played at the beginning or at the end of the reload
 	public boolean reloadSoundEnd = true;
@@ -110,5 +121,12 @@ public class GunConfiguration implements Cloneable {
 		this.firingSound = "hbm:weapon.silencerShoot";
 		return this;
 	}
-
+	public static void spawnParticles(World world, double x, double y, double z, int count) {
+		
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "smoke");
+		data.setString("mode", "cloud");
+		data.setInteger("count", count);
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z),  new TargetPoint(world.provider.dimensionId, x, y, z, 250));
+	}
 }

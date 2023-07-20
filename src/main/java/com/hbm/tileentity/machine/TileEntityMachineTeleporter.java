@@ -3,16 +3,25 @@ package com.hbm.tileentity.machine;
 import java.util.Iterator;
 import java.util.List;
 
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.WorldConfig;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityTracker;
 import net.minecraft.entity.EntityTrackerEntry;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetHandlerPlayServer;
@@ -28,7 +37,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.IChunkProvider;
 
-public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements IEnergyUser, INBTPacketReceiver {
+public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements IEnergyUser, IFluidStandardReceiver, INBTPacketReceiver {
 
 	public long power = 0;
 	public int targetX = -1;
@@ -37,13 +46,22 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 	public int targetDim = 0;
 	public static final int maxPower = 1_500_000;
 	public static final int consumption = 1_000_000;
+	public static final int flucu = 900;
+
+	public FluidTank tank;
+
+	public TileEntityMachineTeleporter() {
+		tank = new FluidTank(Fluids.NMASS, 16000);
+		
+	}
 
 	@Override
 	public void updateEntity() {
 		
 		if(!this.worldObj.isRemote) {
 			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
-			
+			this.subscribeToAllAround(tank.getTankType(), this);
+
 			if(this.targetY != -1) {
 				List<Entity> entities = this.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(this.xCoord + 0.25, this.yCoord, this.zCoord + 0.25, this.xCoord + 0.75, this.yCoord + 2, this.zCoord + 0.75));
 				
@@ -55,13 +73,14 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
+			tank.writeToNBT(data, "t");
 			data.setLong("power", power);
 			data.setIntArray("target", new int[] {targetX, targetY, targetZ, targetDim});
 			INBTPacketReceiver.networkPack(this, data, 15);
 			
 		} else {
 
-			if(this.targetY != -1 && power >= consumption) {
+			if(this.targetY != -1 && power >= consumption && this.tank.getFill() >= flucu) {
 				double x = xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25D;
 				double y = yCoord + 1 + worldObj.rand.nextDouble() * 2D;
 				double z = zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25D;
@@ -78,6 +97,8 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 		this.targetY = target[1];
 		this.targetZ = target[2];
 		this.targetDim = target[3];
+		this.tank.readFromNBT(nbt, "t");
+
 	}
 
 	@Override
@@ -89,6 +110,8 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 		targetY = nbt.getInteger("y1");
 		targetZ = nbt.getInteger("z1");
 		targetDim = nbt.getInteger("dim");
+		this.tank.readFromNBT(nbt, "tt");
+
 	}
 
 	@Override
@@ -100,12 +123,14 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 		nbt.setInteger("y1", targetY);
 		nbt.setInteger("z1", targetZ);
 		nbt.setInteger("dim", targetDim);
+		tank.writeToNBT(nbt, "tt");
+
 	}
 
 	public void teleport(Entity entity) {
 		
 		if(this.power < consumption) return;
-		
+		if(GeneralConfig.enable528 && tank.getFill() < flucu)return; //renders N-MASS useless unless you like punching yourself in the balls
 		worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, "mob.endermen.portal", 1.0F, 1.0F);
 		
 		if((entity instanceof EntityPlayerMP)) {
@@ -118,6 +143,7 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 			}
 			
 		} else {
+			
 			
 			if(entity.dimension == this.targetDim) {
 				entity.setPositionAndRotation(this.targetX + 0.5D, this.targetY + 1.5D + entity.getYOffset(), this.targetZ + 0.5D, entity.rotationYaw, entity.rotationPitch);
@@ -141,6 +167,14 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 		worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "mob.endermen.portal", 1.0F, 1.0F);
 		
 		this.power -= consumption;
+
+		//this.tank.setFill(this.tank.getFill() - 120);
+		if(GeneralConfig.enable528) {
+			int amountToBurn = Math.min(1000, this.tank.getFill());
+			if(amountToBurn > 0) {
+				this.tank.setFill(this.tank.getFill() - amountToBurn);
+			}	
+		}
 		this.markDirty();
 	}
 	
@@ -226,5 +260,15 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tank};
 	}
 }

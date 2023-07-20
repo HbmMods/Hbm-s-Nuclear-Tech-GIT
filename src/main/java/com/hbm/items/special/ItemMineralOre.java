@@ -145,7 +145,6 @@ public class ItemMineralOre extends Item {
 		
 	}
 	private void init() {
-		/* STANDARD SHELLS */
 		this.itemTypes[CLUMP_PEROXIDE] = new Mineral("clump_peroxide"){};
 		this.itemTypes[CLUMP_NITRIC] = new Mineral("clump_nitric") {};
 		this.itemTypes[CLUMP_SULFURIC] = new Mineral("clump_sulfuric") {};
@@ -154,33 +153,5 @@ public class ItemMineralOre extends Item {
 		this.itemTypes[CLUMP_SCHRABIDIC] = new Mineral("clump_schrabidic") {};
 	}
 
-	/*
-	 * BYPRODUCT TIER 1: NITRIC ACID - CHEMPLANT GATE / NO GATE
-	 * BYPRODUCT TIER 2: ORGANIC SOLVENT - CRACKING OIL GATE
-	 * BYPRODUCT TIER 3: ??? - RBMK GATE?
-	 * BYPRODUCT TIER 4: SCHRABIDIC ACID - FUSION GATE?
-	 */
-	//i made a flow chart for this already
-
-	/*
-	public static enum EnumMineralOre {
-		//Ore					Byproduct	1,			2,			3
-		PEROXIDE("Peroxide",			B_SULFUR,	B_TITANIUM,	B_TITANIUM), 
-		NITRIC("Nitric",			B_SULFUR,	B_SULFUR,	B_SULFUR), 
-		SULFURIC("Sulfuric",		B_LITHIUM, 	B_CALCIUM, 	B_CALCIUM), 
-		SOLVENT("Solvent",			B_ARSENIC,	B_NICKEL,	B_SILICON), 
-		HYDROCHLORIC("Hydrochloric",	B_IRON,		B_IRON,		B_IRON);
-		
-		public String oreName;
-		public int color;
-		
-		public EnumProduct[] byproducts;
-		
-		 Byproduct count must be consistent with current tier count, use NULL if no byproduct should be generated! 
-	
-	 	private EnumMineralOre(String name, EnumProduct... by) {
-			this.oreName = name;
-	 	}
-	 	*/
 	
 }

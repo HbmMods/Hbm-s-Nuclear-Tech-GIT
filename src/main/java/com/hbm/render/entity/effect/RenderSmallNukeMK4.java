@@ -106,9 +106,12 @@ public class RenderSmallNukeMK4 extends Render {
 		GL11.glScalef(size, size, size);
 		
 		boolean balefire = cloud.getDataWatcher().getWatchableObjectByte(19) == 1;
+		boolean antimatter = cloud.getDataWatcher().getWatchableObjectByte(19) == 2;
 		
 		if(balefire)
 			bindTexture(ResourceManager.balefire);
+		else if(antimatter)
+			bindTexture(ResourceManager.antimatter);
 		else
 			bindTexture(ResourceManager.fireball);
 
@@ -123,6 +126,8 @@ public class RenderSmallNukeMK4 extends Render {
 		
 		if(balefire)
 			GL11.glColor4f(1.0F - (1.0F - 0.64F) * func, 1.0F, 1.0F - (1.0F - 0.5F) * func, 1F);
+		else if(antimatter)
+			GL11.glColor4f(1.0F * func,1.0F* func, 1.0F* func, 1F * func);
 		else
 			GL11.glColor4f(1.0F, 1.0F - (1.0F - 0.7F) * func, 1.0F - (1.0F - 0.48F) * func, 1F);
 		
@@ -365,6 +370,8 @@ public class RenderSmallNukeMK4 extends Render {
 
         if(type == 1) {
         	tess.setColorRGBA_F(0.25F * alphaorig, alphaorig - brightness * 0.5F, 0.25F * alphaorig, alpha);
+        } else if(type == 2) {
+        	tess.setColorRGBA_F(alphaorig - brightness * 0.5F, 0.25F *alphaorig, alphaorig - brightness * 0.5F, alpha);
         } else {
     		
         	tess.setColorRGBA_F(brightness, brightness, brightness, alpha);

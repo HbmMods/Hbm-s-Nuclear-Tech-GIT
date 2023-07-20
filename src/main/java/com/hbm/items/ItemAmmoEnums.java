@@ -11,7 +11,8 @@ public class ItemAmmoEnums {
 	public enum AmmoLunaticSniper implements IAmmoItemEnum {
 		SABOT("ammo_luna"),
 		INCENDIARY("ammo_luna_incendiary"),
-		EXPLOSIVE("ammo_luna_explosive");
+		EXPLOSIVE("ammo_luna_explosive"),
+		DANGER("ammo_luna_danger");
 		
 		private final Set<AmmoItemTrait> traits;
 		private final String unloc;
@@ -534,6 +535,8 @@ public class ItemAmmoEnums {
 		CLAW("ammo_4gauge_claw"),
 		VAMPIRE("ammo_4gauge_vampire"),
 		VOID("ammo_4gauge_void"),
+		LTBL("ammo_4gauge_flash1",AmmoItemTrait.PRO_FLASH, AmmoItemTrait.NEU_WARCRIME1, AmmoItemTrait.CON_WEAR, AmmoItemTrait.CON_SING_PROJECTILE),
+		LTBL_SUPER("ammo_4gauge_flash2", AmmoItemTrait.PRO_FLASH, AmmoItemTrait.PRO_RADIUS, AmmoItemTrait.PRO_STUNNING, AmmoItemTrait.NEU_WARCRIME2, AmmoItemTrait.CON_SUPER_WEAR, AmmoItemTrait.CON_SING_PROJECTILE),
 		QUACK("ammo_4gauge_titan", AmmoItemTrait.PRO_MARAUDER, AmmoItemTrait.NEU_NO_CON);
 		
 		private final Set<AmmoItemTrait> traits;

@@ -142,8 +142,8 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			for(DirPos pos : getConPos()) {
 				this.sendPower(worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
-				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
+				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
@@ -222,14 +222,20 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 				if(slots[12].stackSize <= 0)
 					slots[12] = null;
 				slots[13] = output;
-				slots[13].stackTagCompound.setBoolean("ntmContagion", false);
+				slots[13].stackTagCompound.removeTag("ntmContagion");
+				if(slots[13].stackTagCompound.hasNoTags()) {
+					slots[13].stackTagCompound = null;
+				}
 			} else if(slots[13].isItemEqual(output) && slots[13].stackSize + output.stackSize <= slots[13].getMaxStackSize()) {
 				slots[12].stackSize -= output.stackSize;
 				if(slots[12].stackSize <= 0)
 					slots[12] = null;
 			
 				slots[13].stackSize += output.stackSize;
-				slots[13].stackTagCompound.setBoolean("ntmContagion", false);
+				slots[13].stackTagCompound.removeTag("ntmContagion");
+				if(slots[13].stackTagCompound.hasNoTags()) {
+					slots[13].stackTagCompound = null;
+				}
 			}
 		}
 	}

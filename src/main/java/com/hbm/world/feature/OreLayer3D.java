@@ -16,6 +16,10 @@ public class OreLayer3D {
 	NoiseGeneratorPerlin noiseY;
 	NoiseGeneratorPerlin noiseZ;
 	
+	double scaleH;
+	double scaleV;
+	double threshold;
+	
 	Block block;
 	int meta;
 	int dim = 0;
@@ -30,26 +34,35 @@ public class OreLayer3D {
 		this.dim = dim;
 		return this;
 	}
+	
+	public OreLayer3D setScaleH(double scale) {
+		this.scaleH = scale;
+		return this;
+	}
+	
+	public OreLayer3D setScaleV(double scale) {
+		this.scaleV = scale;
+		return this;
+	}
+	
+	public OreLayer3D setThreshold(double threshold) {
+		this.threshold = threshold;
+		return this;
+	}
 
 	@SubscribeEvent
 	public void onDecorate(DecorateBiomeEvent.Pre event) {
+
+		World world = event.world;
 		
-		if(event.world.provider.dimensionId != this.dim) return;
+		if(world.provider == null || world.provider.dimensionId != this.dim) return;
 
 		if(this.noiseX == null) this.noiseX = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 101), 4);
 		if(this.noiseY == null) this.noiseY = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 102), 4);
 		if(this.noiseZ == null) this.noiseZ = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 103), 4);
-
-		World world = event.world;
-		
-		if(world.provider.dimensionId != 0)
-			return;
 		
 		int cX = event.chunkX;
 		int cZ = event.chunkZ;
-
-		double scaleH = 0.04D;
-		double scaleV = 0.25D;
 		
 		for(int x = cX + 8; x < cX + 24; x++) {
 			for(int z = cZ + 8; z < cZ + 24; z++) {
@@ -58,7 +71,7 @@ public class OreLayer3D {
 					double nY = this.noiseY.func_151601_a(x * scaleH, z * scaleH);
 					double nZ = this.noiseZ.func_151601_a(x * scaleH, y * scaleV);
 					
-					if(nX * nY * nZ > 220) {
+					if(nX * nY * nZ > threshold) {
 						Block target = world.getBlock(x, y, z);
 						
 						if(target.isNormalCube() && target.getMaterial() == Material.rock) {

@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
@@ -38,37 +39,45 @@ public class ItemFluidIcon extends Item {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		if(stack.hasTagCompound()) {
-			if(stack.getTagCompound().getInteger("fill") > 0)
-				list.add(stack.getTagCompound().getInteger("fill") + "mB");
+			if(getQuantity(stack) > 0) list.add(getQuantity(stack) + "mB");
+			if(getPressure(stack) > 0) list.add(EnumChatFormatting.RED + "" + getPressure(stack) + "PU");
 		}
 		
 		Fluids.fromID(stack.getItemDamage()).addInfo(list);
 	}
 
 	public static ItemStack addQuantity(ItemStack stack, int i) {
-
-		if(!stack.hasTagCompound())
-			stack.stackTagCompound = new NBTTagCompound();
-
+		if(!stack.hasTagCompound()) stack.stackTagCompound = new NBTTagCompound();
 		stack.getTagCompound().setInteger("fill", i);
+		return stack;
+	}
 
+	public static ItemStack addPressure(ItemStack stack, int i) {
+		if(!stack.hasTagCompound()) stack.stackTagCompound = new NBTTagCompound();
+		stack.getTagCompound().setInteger("pressure", i);
 		return stack;
 	}
 
 	public static ItemStack make(FluidStack stack) {
-		return make(stack.type, stack.fill);
+		return make(stack.type, stack.fill, stack.pressure);
 	}
 
 	public static ItemStack make(FluidType fluid, int i) {
-		return addQuantity(new ItemStack(ModItems.fluid_icon, 1, fluid.ordinal()), i);
+		return make(fluid, i, 0);
+	}
+
+	public static ItemStack make(FluidType fluid, int i, int pressure) {
+		return addPressure(addQuantity(new ItemStack(ModItems.fluid_icon, 1, fluid.ordinal()), i), pressure);
 	}
 
 	public static int getQuantity(ItemStack stack) {
-
-		if(!stack.hasTagCompound())
-			return 0;
-
+		if(!stack.hasTagCompound()) return 0;
 		return stack.getTagCompound().getInteger("fill");
+	}
+
+	public static int getPressure(ItemStack stack) {
+		if(!stack.hasTagCompound()) return 0;
+		return stack.getTagCompound().getInteger("pressure");
 	}
 
 	@Override

@@ -52,11 +52,16 @@
     "block.turbinegasRunning": {"category": "block", "sounds": [{"name": "block/turbinegasRunning", "stream": false}]},
     "block.turbinegasShutdown": {"category": "block", "sounds": [{"name": "block/turbinegasShutdown", "stream": true}]},
     "block.damage": {"category": "block", "sounds": ["block/dam1", "block/dam2", "block/dam3", "block/dam4"]},
+    "block.electricHum": {"category": "block", "sounds": [{"name": "block/electricHum", "stream": false}]},
+    "block.boiler": {"category": "block", "sounds": [{"name": "block/boiler", "stream": false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},
     "door.wghStop": {"category": "block", "sounds": [{"name": "block/door/wgh_stop", "stream": true}]},
     "door.alarm6": {"category": "block", "sounds": [{"name": "block/door/alarm6", "stream": true}]},
+    "door.sliding_door_shut": {"category": "block", "sounds": [{"name": "block/door/sliding_door_shut", "stream": false}]},
+    "door.sliding_door_opened": {"category": "block", "sounds": [{"name": "block/door/sliding_door_opened", "stream": false}]},
+    "door.sliding_door_opening": {"category": "block", "sounds": [{"name": "block/door/sliding_door_opening", "stream": false}]},
     
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},
@@ -78,11 +83,15 @@
     "item.vice": {"category": "player", "sounds": [{"name": "tool/vice", "stream": false}]},
     "item.upgradePlug": {"category": "player", "sounds": [{"name": "tool/upgradePlug", "stream": false}]},
     "item.battery": {"category": "player", "sounds": [{"name": "tool/battery", "stream": false}]},
+    "item.boltgun": {"category": "player", "sounds": [{"name": "tool/boltgun", "stream": false}]},
 
 	"music.recordLambdaCore": {"category": "record", "sounds": [{"name": "music/recordLambdaCore", "stream": true}]},
 	"music.recordSectorSweep": {"category": "record", "sounds": [{"name": "music/recordSectorSweep", "stream": true}]},
 	"music.recordVortalCombat": {"category": "record", "sounds": [{"name": "music/recordVortalCombat", "stream": true}]},
 	"music.transmission": {"category": "record", "sounds": [{"name": "music/recordGlass", "stream": true}]},
+    "music.recordGodSpeed": {"category": "record", "sounds": [{"name": "music/recordGodSpeed", "stream": true}]},
+    "music.recordGoop": {"category": "record", "sounds": [{"name": "music/recordGoop", "stream": true}]},
+    "music.recordEthereal": {"category": "record", "sounds": [{"name": "music/recordEthereal", "stream": true}]},
 
 	"weapon.tauShoot": {"category": "player", "sounds": [{"name": "weapon/tauShoot", "stream": false}]},
     "weapon.tauChargeLoop": {"category": "player", "sounds": [{"name": "weapon/tauChargeLoop", "stream": true}]},
@@ -105,6 +114,7 @@
 	"weapon.zomgShoot": {"category": "player", "sounds": [{"name": "weapon/zomgShoot", "stream": false}]},
 	"weapon.flamethrowerIgnite": {"category": "player", "sounds": [{"name": "weapon/flamethrowerIgnite", "stream": false}]},
 	"weapon.flamethrowerShoot": {"category": "player", "sounds": [{"name": "weapon/flamethrowerShoot", "stream": false}]},
+   "weapon.flashbang": {"category": "hostile", "sounds": [{"name": "weapon/flashbang", "stream": false}]},
 	"weapon.immolatorIgnite": {"category": "player", "sounds": [{"name": "weapon/immolatorIgnite", "stream": false}]},
 	"weapon.immolatorShoot": {"category": "player", "sounds": [{"name": "weapon/immolatorShoot", "stream": false}]},
 	"weapon.cryolatorShoot": {"category": "player", "sounds": [{"name": "weapon/cryolatorShoot", "stream": false}]},
@@ -171,7 +181,7 @@
     "weapon.robin_explosion": {"category": "player", "sounds": [{"name": "weapon/robin_explosion", "stream": false}]},
     "weapon.shotgunPump": {"category": "player", "sounds": [{"name": "weapon/shotgunShootPump", "stream": false}]},
     "weapon.explosionMedium": {"category": "player", "sounds": [{"name": "weapon/explosion_medium", "stream": false}]},
-    "weapon.hicalShot": {"category": "player", "sounds": [{"name": "weapon/hicalShot", "stream": false}]},
+    "weapon.hicalShot": {"category": "player", "sounds": ["weapon/hicalShot", "weapon/hicalShot3", "weapon/hicalShot4"]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 
@@ -222,6 +232,7 @@
     "step.iron": {"category": "player", "sounds": ["footsteps/iron1", "footsteps/iron2", "footsteps/iron3", "footsteps/iron4"]},
     "step.metalBlock": {"category": "block", "sounds": ["footsteps/metalStep1", "footsteps/metalStep2", "footsteps/metalStep3", "footsteps/metalStep4"]},
     "step.powered": {"category": "player", "sounds": ["footsteps/powered1", "footsteps/powered2", "footsteps/powered3"]},
+    "step.morkite": {"category": "player", "sounds": ["mining/MorkiteMiningB_3", "mining/MorkiteMiningB_2", "mining/MorkiteMiningB_1"]},
     
     "player.vomit": {"category": "player", "sounds": [{"name": "player/vomit", "stream": false}]},
     "player.oil": {"category": "player", "sounds": [{"name": "player/oil", "stream": false}]},

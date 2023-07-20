@@ -1,3 +1,9 @@
+import org.gradle.plugins.ide.eclipse.model.internal.FileReferenceFactory
+
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+
 buildscript {
 	repositories {
 		maven { url = 'https://maven.minecraftforge.net/' }
@@ -10,6 +16,14 @@ buildscript {
 }
 
 apply plugin: 'forge'
+apply plugin: 'curseforge'
+
+
+if(Files.exists(Paths.get("curseforge.properties"))) {
+	// Load CurseForge configuration
+	ext.cfprops = parseConfig(file("curseforge.properties"))
+}
+
 def version_name = version = mod_version
 if(!mod_build_number.isEmpty()) {
 	version_name = mod_version + "_X" + mod_build_number
@@ -42,7 +56,7 @@ eclipse.classpath.file.whenMerged { cp ->
 	}
 	
 	// Create file reference factory
-	def fileref = new org.gradle.plugins.ide.eclipse.model.internal.FileReferenceFactory()
+	def fileref = new FileReferenceFactory()
 	
 	// Find all codechicken development jars
 	cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-dev.jar") }.forEach { entry ->
@@ -102,8 +116,50 @@ processResources {
 	}
 }
 
+// add AT to meta-inf
+jar {
+    manifest {
+        attributes 'FMLAT': 'HBM_at.cfg'
+    }
+}
+
 task version {
 	doFirst {
 		println project.version
+	}
+}
+
+if(Files.exists(Paths.get("curseforge.properties"))) {
+	curse {
+		apiKey = cfprops.api_key
+		projectId = cfprops.project_id
+		releaseType = "release"
+
+		displayName = "Hbm's Nuclear Tech Mod " + version_name.replace("_", "") + " for Minecraft 1.7.10"
+
+		gameVersions.addAll([
+				"Forge",
+				"Java 8",
+				"Client", "Server"
+		])
+
+		if (Files.exists(Paths.get("changelog"))) {
+			changelog = String.join("\r\n", Files.readAllLines(Paths.get("changelog")))
+
+			// Perform a backup of the changelog and create a new file for next changes
+			doLast {
+				Files.move(Paths.get("changelog"), Paths.get("changelog.bak"), StandardCopyOption.REPLACE_EXISTING)
+				Files.createFile(Paths.get("changelog"))
+			}
+		}
+	}
+}
+
+// Properties file parsing helper
+static def parseConfig(File config) {
+	config.withReader {
+		def prop = new Properties()
+		prop.load(it)
+		return (new ConfigSlurper().parse(prop))
 	}
 }

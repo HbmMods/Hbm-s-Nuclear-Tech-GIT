@@ -14,14 +14,18 @@ import com.hbm.entity.mob.botprime.*;
 import com.hbm.entity.mob.siege.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
-import com.hbm.entity.qic.*;
+import com.hbm.entity.train.EntityRailCarBase.BoundingBoxDummyEntity;
+import com.hbm.entity.train.EntityRailCarRidable.SeatDummyEntity;
+import com.hbm.entity.train.*;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Quartet;
 
 import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 
 public class EntityMappings {
 
@@ -106,7 +110,7 @@ public class EntityMappings {
 		addEntity(EntityTSmokeFX.class, "entity_t_smoke_fx", 1000);
 		addEntity(EntityNukeExplosionMK3.class, "entity_nuke_mk3", 1000);
 		addEntity(EntityVortex.class, "entity_vortex", 250);
-		addEntity(EntityMeteor.class, "entity_meteor", 1000);
+		addEntity(EntityMeteor.class, "entity_meteor", 250);
 		addEntity(EntityLaser.class, "entity_laser", 1000);
 		addEntity(EntityBoxcar.class, "entity_boxcar", 1000);
 		addEntity(EntityMissileTaint.class, "entity_missile_taint", 1000);
@@ -203,13 +207,26 @@ public class EntityMappings {
 		addEntity(EntityArtilleryShell.class, "entity_artillery_shell", 1000);
 		addEntity(EntityArtilleryRocket.class, "entity_himars", 1000);
 		addEntity(EntitySiegeTunneler.class, "entity_meme_tunneler", 1000);
-		addEntity(EntitySPV.class, "entity_self_propelled_vehicle_mark_1", 1000);
 		addEntity(EntityCog.class, "entity_stray_cog", 1000);
 		addEntity(EntitySawblade.class, "entity_stray_saw", 1000);
 		addEntity(EntityChemical.class, "entity_chemthrower_splash", 1000);
+		addEntity(EntityMist.class, "entity_mist", 250, false);
+		addEntity(EntityAcidBomb.class, "entity_acid_bomb", 1000);
+
+		addEntity(EntityItemWaste.class, "entity_item_waste", 100);
+		addEntity(EntityItemBuoyant.class, "entity_item_buoyant", 100);
+
+		addEntity(SeatDummyEntity.class, "entity_ntm_seat_dummy", 250, false);
+		addEntity(BoundingBoxDummyEntity.class, "entity_ntm_bounding_dummy", 250, false);
+		addEntity(TrainCargoTram.class, "entity_ntm_cargo_tram", 250, false);
+		addEntity(TrainCargoTramTrailer.class, "entity_ntm_cargo_tram_trailer", 250, false);
+		addEntity(TrainTunnelBore.class, "entity_ntm_tunnel_bore", 250, false);
 		
-		addMob(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", 0x204131, 0x75CE00);
-		addMob(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", 0x813b9b, 0xd71fdd);
+		addMob(EntityCreeperNuclear.class, "entity_mob_nuclear_creeper", 0x204131, 0x75CE00);
+		addMob(EntityCreeperTainted.class, "entity_mob_tainted_creeper", 0x813b9b, 0xd71fdd);
+		addMob(EntityCreeperPhosgene.class, "entity_mob_phosgene_creeper", 0xE3D398, 0xB8A06B);
+		addMob(EntityCreeperVolatile.class, "entity_mob_volatile_creeper", 0xC28153, 0x4D382C);
+		addMob(EntityCreeperGold.class, "entity_mob_gold_creeper", 0xECC136, 0x9E8B3E);
 		addMob(EntityHunterChopper.class, "entity_mob_hunter_chopper", 0x000020, 0x2D2D72);
 		addMob(EntityCyberCrab.class, "entity_cyber_crab", 0xAAAAAA, 0x444444);
 		addMob(EntityTeslaCrab.class, "entity_tesla_crab", 0xAAAAAA, 0x440000);
@@ -218,11 +235,25 @@ public class EntityMappings {
 		addMob(EntityDuck.class, "entity_fucc_a_ducc", 0xd0d0d0, 0xFFBF00);
 		addMob(EntityQuackos.class, "entity_elder_one", 0xd0d0d0, 0xFFBF00);
 		addMob(EntityFBI.class, "entity_ntm_fbi", 0x008000, 0x404040);
+		addMob(EntityFBIDrone.class, "entity_ntm_fbi_drone", 0x008000, 0x404040);
 		addMob(EntityRADBeast.class, "entity_ntm_radiation_blaze", 0x303030, 0x008000);
 		addMob(EntitySiegeZombie.class, "entity_meme_zombie", 0x303030, 0x008000);
 		addMob(EntitySiegeSkeleton.class, "entity_meme_skeleton", 0x303030, 0x000080);
 		addMob(EntitySiegeUFO.class, "entity_meme_ufo", 0x303030, 0x800000);
 		addMob(EntitySiegeCraft.class, "entity_meme_craft", 0x303030, 0x808000);
+		addMob(EntityGlyphid.class, "entity_glyphid", 0x724A21, 0xD2BB72);
+		addMob(EntityGlyphidBrawler.class, "entity_glyphid_brawler", 0x273038, 0xD2BB72);
+		addMob(EntityGlyphidBehemoth.class, "entity_glyphid_behemoth", 0x267F00, 0xD2BB72);
+		addMob(EntityGlyphidBrenda.class, "entity_glyphid_brenda", 0x4FC0C0, 0xA0A0A0);
+		addMob(EntityGlyphidBombardier.class, "entity_glyphid_bombardier", 0xDDD919, 0xDBB79D);
+		addMob(EntityGlyphidBlaster.class, "entity_glyphid_blaster", 0xD83737, 0xDBB79D);
+		addMob(EntityGlyphidScout.class, "entity_glyphid_scout", 0x273038, 0xB9E36B);
+		addMob(EntityGlyphidNuclear.class, "entity_glyphid_nuclear", 0x267F00, 0xA0A0A0);
+
+		addSpawn(EntityCreeperPhosgene.class, 5, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
+		addSpawn(EntityCreeperVolatile.class, 10, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
+		addSpawn(EntityCreeperGold.class, 1, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
+		
 		int id = 0;
 		for(Quartet<Class<? extends Entity>, String, Integer, Boolean> entry : entityMappings) {
 			EntityRegistry.registerModEntity(entry.getW(), entry.getX(), id++, MainRegistry.instance, entry.getY(), 1, entry.getZ());
@@ -247,5 +278,27 @@ public class EntityMappings {
 	
 	private static void addMob(Class<? extends Entity> clazz, String name, int color1, int color2) {
 		mobMappings.add(new Quartet(clazz, name, color1, color2));
+	}
+
+	public static void addSpawn(Class<? extends EntityLiving> entityClass, int weightedProb, int min, int max, EnumCreatureType typeOfCreature, BiomeGenBase... biomes) {
+		
+		for(BiomeGenBase biome : biomes) {
+			
+			if(biome == null) continue;
+			
+			List<SpawnListEntry> spawns = biome.getSpawnableList(typeOfCreature);
+
+			for(SpawnListEntry entry : spawns) {
+				// Adjusting an existing spawn entry
+				if(entry.entityClass == entityClass) {
+					entry.itemWeight = weightedProb;
+					entry.minGroupCount = min;
+					entry.maxGroupCount = max;
+					break;
+				}
+			}
+
+			spawns.add(new SpawnListEntry(entityClass, weightedProb, min, max));
+		}
 	}
 }

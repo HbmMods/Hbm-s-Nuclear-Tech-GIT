@@ -151,9 +151,10 @@ public class TileEntityITERStruct extends TileEntity {
 					
 					int b = layout[ly][x][z];
 					Block block = worldObj.getBlock(xCoord + x - width, yCoord + y, zCoord + z - width);
+					int meta = worldObj.getBlockMetadata(xCoord + x - width, yCoord + y, zCoord + z - width);
 					
 					switch(b) {
-					case 1: if(block != ModBlocks.fusion_conductor) { return; } break;
+					case 1: if(block != ModBlocks.fusion_conductor || meta != 1) { return; } break;
 					case 2: if(block != ModBlocks.fusion_center) { return; } break;
 					case 3: if(block != ModBlocks.fusion_motor) { return; } break;
 					case 4: if(block != ModBlocks.reinforced_glass) { return; } break;

@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 import com.hbm.config.RadiationConfig;
 import com.hbm.entity.mob.EntityDuck;
-import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
@@ -66,10 +66,10 @@ public class ContaminationUtil {
 			return true;
 		
 		if(immuneEntities.isEmpty()) {
-			//immuneEntities.add(EntityNuclearCreeper.class);
-			//immuneEntities.add(EntityMooshroom.class);
-			//immuneEntities.add(EntityZombie.class);
-			//immuneEntities.add(EntitySkeleton.class);
+			immuneEntities.add(EntityCreeperNuclear.class);
+			immuneEntities.add(EntityMooshroom.class);
+			immuneEntities.add(EntityZombie.class);
+			immuneEntities.add(EntitySkeleton.class);
 			immuneEntities.add(EntityQuackos.class);
 			//immuneEntities.add(EntityOcelot.class);
 			immuneEntities.add(IRadiationImmune.class);

@@ -1,14 +1,7 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
@@ -16,17 +9,16 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, IEnergyUser, IFluidStandardTransceiver {
+public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implements IEnergyUser, IFluidStandardTransceiver {
 	
 	public long power = 0;
 	public FluidTank[] tanks;
-	public List<IFluidAcceptor> list = new ArrayList();
 
 	public TileEntityDeuteriumExtractor() {
 		super(0);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.WATER, 1000, 0);
-		tanks[1] = new FluidTank(Fluids.HEAVYWATER, 100, 1);
+		tanks[0] = new FluidTank(Fluids.WATER, 1000);
+		tanks[1] = new FluidTank(Fluids.HEAVYWATER, 100);
 	}
 
 	@Override
@@ -51,8 +43,7 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 			}
 			
 			this.subscribeToAllAround(tanks[0].getTankType(), this);
-			this.sendFluidToAll(tanks[1].getTankType(), this);
-			fillFluidInit(tanks[1].getTankType());
+			this.sendFluidToAll(tanks[1], this);
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
@@ -99,66 +90,6 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 		tanks[1].writeToNBT(nbt, "heavyWater");
 	}
 
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			fillFluid(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, getTact(), type);
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-	
-	@Override
-	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 20 < 10;
-	}
-	
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type == tanks[0].getTankType())
-			tanks[0].setFill(i);
-		else if(type == tanks[1].getTankType())
-			tanks[1].setFill(i);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if(type == tanks[0].getTankType())
-			return tanks[0].getFill();
-		else if(type == tanks[1].getTankType())
-			return tanks[1].getFill();
-
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(type == tanks[0].getTankType())
-			return tanks[0].getMaxFill();
-
-		return 0;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) { }
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) { }
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		list.clear();
-	}
-
 	@Override
 	public void setPower(long i) {
 		power = i;
@@ -171,7 +102,7 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 
 	@Override
 	public long getMaxPower() {
-		return 100000;
+		return 10_000;
 	}
 
 	@Override

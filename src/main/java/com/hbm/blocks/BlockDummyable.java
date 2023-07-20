@@ -490,12 +490,10 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		
 		int[] pos = this.findCore(world, x, y, z);
 		if(pos == null) return;
-		TileEntity tile = world.getTileEntity(pos[0], pos[1], pos[2]);
-		if(tile == null) return;
 		
-		x = tile.xCoord;
-		y = tile.yCoord;
-		z = tile.zCoord;
+		x = pos[0];
+		y = pos[1];
+		z = pos[2];
 		
 		EntityPlayer player = event.player;
 		float interp = event.partialTicks;
@@ -503,9 +501,11 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) interp;
 		double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
 		float exp = 0.002F;
+		
+		int meta = world.getBlockMetadata(x, y, z);
 
 		ICustomBlockHighlight.setup();
-		for(AxisAlignedBB aabb : this.bounding) event.context.drawOutlinedBoundingBox(getAABBRotationOffset(aabb.expand(exp, exp, exp), 0, 0, 0, ForgeDirection.getOrientation(tile.getBlockMetadata() - offset).getRotation(ForgeDirection.UP)).getOffsetBoundingBox(x - dX + 0.5, y - dY, z - dZ + 0.5), -1);
+		for(AxisAlignedBB aabb : this.bounding) event.context.drawOutlinedBoundingBox(getAABBRotationOffset(aabb.expand(exp, exp, exp), 0, 0, 0, ForgeDirection.getOrientation(meta - offset).getRotation(ForgeDirection.UP)).getOffsetBoundingBox(x - dX + 0.5, y - dY, z - dZ + 0.5), -1);
 		ICustomBlockHighlight.cleanup();
 	}
 }

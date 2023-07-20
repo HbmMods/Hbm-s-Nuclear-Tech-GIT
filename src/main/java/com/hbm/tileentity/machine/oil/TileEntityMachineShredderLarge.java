@@ -98,7 +98,7 @@ public class TileEntityMachineShredderLarge extends TileEntityMachineBase implem
 	
 	private void sendFluid() {
 		for(DirPos pos : getConPos()) {
-			this.sendFluid(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.sendFluid(tank.getTankType(), 1 ,worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 	

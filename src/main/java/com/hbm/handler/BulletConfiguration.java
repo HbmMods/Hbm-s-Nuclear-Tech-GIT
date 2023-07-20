@@ -9,6 +9,7 @@ import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
+import com.hbm.interfaces.IFlashBehaviour;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.lib.ModDamageSource;
@@ -92,7 +93,7 @@ public class BulletConfiguration implements Cloneable {
 	public IBulletRicochetBehavior bRicochet;
 	public IBulletImpactBehavior bImpact;
 	public IBulletUpdateBehavior bUpdate;
-	
+	public IFlashBehaviour lupdate;
 	//appearance
 	public int style;
 	//additional appearance data, i.e. particle effects
@@ -119,6 +120,7 @@ public class BulletConfiguration implements Cloneable {
 	public boolean dmgExplosion = false;
 	public boolean dmgBypass = false;
 
+
 	public static final int STYLE_NONE = -1;
 	public static final int STYLE_NORMAL = 0;
 	public static final int STYLE_PISTOL = 1;
@@ -137,6 +139,7 @@ public class BulletConfiguration implements Cloneable {
 	public static final int STYLE_APDS = 14;
 	public static final int STYLE_BLADE = 15;
 	public static final int STYLE_BARREL = 16;
+	public static final int STYLE_TAU = 17;
 
 	public static final int PLINK_NONE = 0;
 	public static final int PLINK_BULLET = 1;
@@ -205,7 +208,6 @@ public class BulletConfiguration implements Cloneable {
 		this.ammo = new ComparableStack(ammo);
 		return getChlorophyte();
 	}
-	
 	public BulletConfiguration accuracyMod(float mod) {
 		
 		this.spread *= mod;

@@ -6,9 +6,11 @@ import com.hbm.util.I18nUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.inventory.fluid.Fluids;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -85,16 +87,17 @@ public class MachineTurbineGas extends BlockDummyable implements ILookOverlay {
 		List<String> text = new ArrayList();
 		
 		if(hitCheck(dir, pos[0], pos[1], pos[2], -1, -1, 0, x, y, z) || hitCheck(dir, pos[0], pos[1], pos[2], 1, -1, 0, x, y, z)) {
-			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[0].getTankType().getName().toLowerCase()));
-			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[1].getTankType().getName().toLowerCase()));
+			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[0].getTankType().getName().toLowerCase(Locale.US)));
+			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[1].getTankType().getName().toLowerCase(Locale.US)));
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey(Fluids.SMOKE.getUnlocalizedName()));
 		}
 		
 		if(hitCheck(dir, pos[0], pos[1], pos[2], -1, 4, 0, x, y, z) || hitCheck(dir, pos[0], pos[1], pos[2], 1, 4, 0, x, y, z)) {
-			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[2].getTankType().getName().toLowerCase()));
+			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[2].getTankType().getName().toLowerCase(Locale.US)));
 		}
 		
 		if(hitCheck(dir, pos[0], pos[1], pos[2], 0, 5, 1, x, y, z)) {
-			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[3].getTankType().getName().toLowerCase()));
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + turbine.tanks[3].getTankType().getName().toLowerCase(Locale.US)));
 		}
 		
 		if(hitCheck(dir, pos[0], pos[1], pos[2], 0, -4, 1, x, y, z)) {

@@ -129,10 +129,14 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					{
 						if(slots[i].hasTagCompound())
 						{
+							//NBTTagCompound itemNBT = slots[i].getTagCompound(); 
 							float activation = slots[i].stackTagCompound.getFloat("ntmNeutron");
 							slots[i].stackTagCompound.setFloat("ntmNeutron",activation*0.9899916f);
 							if(activation<1e-5)
 								slots[i].stackTagCompound.removeTag("ntmNeutron");
+							if (slots[i].stackTagCompound.hasNoTags()){ 
+							    slots[i].setTagCompound((NBTTagCompound)null); //fuck you nbt 
+							}
 						}
 					}
 				}
@@ -163,8 +167,8 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 				fillFluidInit(tanks[1].getTankType());
 			}
 
-			this.sendFluidToAll(tanks[0].getTankType(), this);
-			this.sendFluidToAll(tanks[1].getTankType(), this);
+			this.sendFluidToAll(tanks[0], this);
+			this.sendFluidToAll(tanks[1], this);
 
 			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);

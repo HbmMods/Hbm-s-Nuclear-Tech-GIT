@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.FluidType;
@@ -12,7 +13,9 @@ import com.hbm.inventory.fluid.trait.FT_Combustible;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FT_Poison;
+import com.hbm.inventory.fluid.trait.FT_Toxin;
 import com.hbm.inventory.fluid.trait.FT_VentRadiation;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_EXPLOSIVE;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_ULTRAKILL;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -58,10 +61,6 @@ public class EntityChemical extends EntityThrowableNT {
 	 * if FLAMMABLE: if GAS or EVAP apply, do the same as COMBUSTIBLE, otherwise create a neutral spray that adds the "soaked" effect
 	 * if CORROSIVE: apply extra acid damage, poison effect as well as armor degradation
 	 */
-
-	public double lastClientPosX = -1;
-	public double lastClientPosY = -1;
-	public double lastClientPosZ = -1;
 
 	public EntityChemical(World world) {
 		super(world);
@@ -243,13 +242,10 @@ public class EntityChemical extends EntityThrowableNT {
 		}
 		if(type.hasTrait(FT_ULTRAKILL.class)) {
 			FT_ULTRAKILL trait = type.getTrait(FT_ULTRAKILL.class);
-			if(living != null) {
-				for(int i = 0; i < 1; i++) {
-					attackEntityFrom(DamageSource.magic, 20F);
-				}
+			if(living != null && living.isEntityAlive()) {
+				living.heal(10F * (float) intensity); //blood is simply better lole
 			}
 		}
-		
 		if(type.hasTrait(FT_VentRadiation.class)) {
 			FT_VentRadiation trait = type.getTrait(FT_VentRadiation.class);
 			if(living != null) {
@@ -263,6 +259,14 @@ public class EntityChemical extends EntityThrowableNT {
 			
 			if(living != null) {
 				living.addPotionEffect(new PotionEffect(trait.isWithering() ? Potion.wither.id : Potion.poison.id, (int) (5 * 20 * intensity)));
+			}
+		}
+		
+		if(type.hasTrait(FT_Toxin.class)) {
+			FT_Toxin trait = type.getTrait(FT_Toxin.class);
+			
+			if(living != null) {
+				trait.affect(living, intensity);
 			}
 		}
 		
@@ -399,7 +403,7 @@ public class EntityChemical extends EntityThrowableNT {
 						}
 					}
 				}
-				
+
 				if(this.isExtinguishing()) {
 					
 					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
@@ -419,6 +423,12 @@ public class EntityChemical extends EntityThrowableNT {
 				}
 				
 				Block block = worldObj.getBlock(x, y, z);
+				if(type.hasTrait(FT_EXPLOSIVE.class)) {
+					int eX = mop.blockX;
+					int eY = mop.blockY;
+					int eZ = mop.blockZ;
+					worldObj.createExplosion(thrower, eX, eY, eZ, 1, addedToChunk);
+				}
 				if(type == Fluids.SEEDSLURRY) {
 					if(block == Blocks.dirt || block == ModBlocks.waste_earth || block == ModBlocks.dirt_dead || block == ModBlocks.dirt_oily) {
 						
@@ -436,6 +446,7 @@ public class EntityChemical extends EntityThrowableNT {
 				
 				this.setDead();
 			}
+			
 		}
 	}
 

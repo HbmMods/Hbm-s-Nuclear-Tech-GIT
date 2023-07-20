@@ -1,6 +1,7 @@
 package com.hbm.items.machine;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.util.EnumUtil;
@@ -27,14 +28,14 @@ public class ItemDrillbit extends ItemEnumMulti {
 		
 		for(int i = 0; i < icons.length; i++) {
 			Enum num = enums[i];
-			this.icons[i] = reg.registerIcon(this.getIconString() + "_" + num.name().toLowerCase());
+			this.icons[i] = reg.registerIcon(this.getIconString() + "_" + num.name().toLowerCase(Locale.US));
 		}
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		Enum num = EnumUtil.grabEnumSafely(theEnum, stack.getItemDamage());
-		return super.getUnlocalizedName() + "_" + num.name().toLowerCase();
+		return super.getUnlocalizedName() + "_" + num.name().toLowerCase(Locale.US);
 	}
 	
 	@Override

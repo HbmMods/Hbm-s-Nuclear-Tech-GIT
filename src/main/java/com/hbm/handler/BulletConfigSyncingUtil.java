@@ -77,6 +77,14 @@ public class BulletConfigSyncingUtil {
 	public static int G12_SLEEK = i++;
 	public static int G12_PERCUSSION = i++;
 
+	public static int G12HS_NORMAL = i++;
+	public static int G12HS_INCENDIARY = i++;
+	public static int G12HS_SHRAPNEL = i++;
+	public static int G12HS_DU = i++;
+	public static int G12HS_AM = i++;
+	public static int G12HS_SLEEK = i++;
+	public static int G12HS_PERCUSSION = i++;
+
 	public static int LR22_NORMAL = i++;
 	public static int LR22_AP = i++;
 	public static int LR22_NORMAL_FIRE = i++;
@@ -116,6 +124,7 @@ public class BulletConfigSyncingUtil {
 	public static int ROUND_LUNA_SNIPER_SABOT = i++;
 	public static int ROUND_LUNA_SNIPER_INCENDIARY = i++;
 	public static int ROUND_LUNA_SNIPER_EXPLOSIVE = i++;
+	public static int ROUND_LUNA_SNIPER_DANGER = i++;
 
 	public static int R5_NORMAL = i++;
 	public static int R5_EXPLOSIVE = i++;
@@ -145,6 +154,8 @@ public class BulletConfigSyncingUtil {
 	public static int G4_VOID = i++;
 	public static int G4_TITAN = i++;
 	public static int G4_SLEEK = i++;
+	public static int G4_LTBL = i++;
+	public static int G4_LTBL_SUPER = i++;
 
 	public static int SPECIAL_OSIPR = i++;
 	public static int SPECIAL_OSIPR_CHARGED = i++;
@@ -183,6 +194,13 @@ public class BulletConfigSyncingUtil {
 	public static int R762_DU = i++;
 	public static int R762_TRACER = i++;
 	public static int R762_K = i++;
+	
+	public static int R762_NORMAL_HS = i++;
+	public static int R762_PHOSPHORUS_HS = i++;
+	public static int R762_AP_HS = i++;
+	public static int R762_DU_HS = i++;
+	public static int R762_TRACER_HS = i++;
+	public static int R762_K_HS = i++;
 
 	public static int B75_NORMAL = i++;
 	public static int B75_INCENDIARY = i++;
@@ -359,11 +377,18 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G12_AM, Gun12GaugeFactory.get12GaugeAMConfig());
 		configSet.put(G12_SLEEK, Gun12GaugeFactory.get12GaugeSleekConfig());
 		configSet.put(G12_PERCUSSION, Gun12GaugeFactory.get12GaugePercussionConfig());
+		configSet.put(G12HS_NORMAL, Gun12GaugeFactory.get12GaugeConfig().setHeadshot(2F));
+		configSet.put(G12HS_INCENDIARY, Gun12GaugeFactory.get12GaugeFireConfig().setHeadshot(2F));
+		configSet.put(G12HS_SHRAPNEL, Gun12GaugeFactory.get12GaugeShrapnelConfig().setHeadshot(2F));
+		configSet.put(G12HS_DU, Gun12GaugeFactory.get12GaugeDUConfig().setHeadshot(2F));
+		configSet.put(G12HS_AM, Gun12GaugeFactory.get12GaugeAMConfig().setHeadshot(2F));
+		configSet.put(G12HS_SLEEK, Gun12GaugeFactory.get12GaugeSleekConfig().setHeadshot(2F));
+		configSet.put(G12HS_PERCUSSION, Gun12GaugeFactory.get12GaugePercussionConfig().setHeadshot(2F));
 
 		configSet.put(LR22_NORMAL, Gun22LRFactory.get22LRConfig());
 		configSet.put(LR22_AP, Gun22LRFactory.get22LRAPConfig());
-		configSet.put(LR22_NORMAL_FIRE, Gun22LRFactory.get22LRConfig().setToFire(3));
-		configSet.put(LR22_AP_FIRE, Gun22LRFactory.get22LRAPConfig().setToFire(3));
+		configSet.put(LR22_NORMAL_FIRE, Gun22LRFactory.get22LRSatConfig().setToFire(6));
+		configSet.put(LR22_AP_FIRE, Gun22LRFactory.get22LRAPConfig().setToFire(5));
 
 		configSet.put(M44_NORMAL, Gun44MagnumFactory.getNoPipConfig());
 		configSet.put(M44_AP, Gun44MagnumFactory.getNoPipAPConfig());
@@ -399,6 +424,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(ROUND_LUNA_SNIPER_SABOT, Gun50BMGFactory.getLunaticSabotRound());
 		configSet.put(ROUND_LUNA_SNIPER_INCENDIARY, Gun50BMGFactory.getLunaticIncendiaryRound());
 		configSet.put(ROUND_LUNA_SNIPER_EXPLOSIVE, Gun50BMGFactory.getLunaticExplosiveRound());
+		configSet.put(ROUND_LUNA_SNIPER_DANGER, Gun50BMGFactory.getLunaticDangerRound());
+
 		
 		configSet.put(R5_NORMAL, Gun5mmFactory.get5mmConfig());
 		configSet.put(R5_EXPLOSIVE, Gun5mmFactory.get5mmExplosiveConfig());
@@ -428,6 +455,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G4_VOID, Gun4GaugeFactory.get4GaugeVoidConfig());
 		configSet.put(G4_TITAN, Gun4GaugeFactory.get4GaugeQuackConfig());
 		configSet.put(G4_SLEEK, Gun4GaugeFactory.get4GaugeSleekConfig());
+		configSet.put(G4_LTBL, Gun4GaugeFactory.get4GaugeLTBLConfig());
+		configSet.put(G4_LTBL_SUPER, Gun4GaugeFactory.get4GaugeLTBLSConfig());
 
 		configSet.put(SPECIAL_OSIPR, GunOSIPRFactory.getPulseConfig());
 		configSet.put(SPECIAL_OSIPR_CHARGED, GunOSIPRFactory.getPulseChargedConfig());
@@ -466,6 +495,13 @@ public class BulletConfigSyncingUtil {
 		configSet.put(R762_DU, Gun762mmFactory.get762DUConfig());
 		configSet.put(R762_TRACER, Gun762mmFactory.get762TracerConfig());
 		configSet.put(R762_K, Gun762mmFactory.get762BlankConfig());
+		
+		configSet.put(R762_NORMAL_HS, Gun762mmFactory.get762NATOConfig().setHeadshot(2.5F));
+		configSet.put(R762_PHOSPHORUS_HS, Gun762mmFactory.get762WPConfig().setHeadshot(2.5F));
+		configSet.put(R762_AP_HS, Gun762mmFactory.get762APConfig().setHeadshot(2.5F));
+		configSet.put(R762_DU_HS, Gun762mmFactory.get762DUConfig().setHeadshot(2.5F));
+		configSet.put(R762_TRACER_HS, Gun762mmFactory.get762TracerConfig().setHeadshot(2.5F));
+		configSet.put(R762_K_HS, Gun762mmFactory.get762BlankConfig().setHeadshot(2.5F));
 		
 		configSet.put(B75_NORMAL, Gun75BoltFactory.get75BoltConfig());
 		configSet.put(B75_INCENDIARY, Gun75BoltFactory.get75BoltIncConfig());

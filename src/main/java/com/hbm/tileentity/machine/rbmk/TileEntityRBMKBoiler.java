@@ -1,8 +1,8 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluid.IFluidUser;
+import api.hbm.fluid.IPipeNet;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.interfaces.IControlReceiver;
@@ -16,10 +16,6 @@ import com.hbm.inventory.gui.GUIRBMKBoiler;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.fauxpointtwelve.DirPos;
-
-import api.hbm.fluid.IFluidStandardTransceiver;
-import api.hbm.fluid.IFluidUser;
-import api.hbm.fluid.IPipeNet;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,6 +29,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent {
@@ -96,7 +95,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 			
 			this.trySubscribe(feed.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			for(DirPos pos : getOutputPos()) {
-				if(this.steam.getFill() > 0) this.sendFluid(steam.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.steam.getFill() > 0) this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 		}
 		
@@ -333,35 +332,41 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		return "rbmk_boiler";
 	}
 	
-	@Callback
+	@Callback(direct = true, limit = 16)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
 		return new Object[] {heat};
 	}
 	
-	@Callback
+	@Callback(direct = true, limit = 16)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getSteam(Context context, Arguments args) {
 		return new Object[] {steam.getFill()};
 	}
-	@Callback
+	@Callback(direct = true, limit = 16)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getSteamMax(Context context, Arguments args) {
 		return new Object[] {steam.getMaxFill()};
 	}
 	
-	@Callback
+	@Callback(direct = true, limit = 16)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getWater(Context context, Arguments args) {
 		return new Object[] {feed.getFill()};
 	}
-	@Callback
+	@Callback(direct = true, limit = 16)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getWaterMax(Context context, Arguments args) {
 		return new Object[] {feed.getMaxFill()};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 16)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoordinates(Context context, Arguments args) {
+		return new Object[] {xCoord, yCoord, zCoord};
+	}
+
+	@Callback(direct = true, limit = 16)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		FluidType type = steam.getTankType();
@@ -370,21 +375,23 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		else if(type == Fluids.HOTSTEAM) {type_1 = "1";}
 		else if(type == Fluids.SUPERHOTSTEAM) {type_1 = "2";}
 		else if(type == Fluids.ULTRAHOTSTEAM) {type_1 = "3";}
-		else {type_1 = "Unknown Error";}
-		return new Object[] {heat, steam.getFill(), steam.getMaxFill(), feed.getFill(), feed.getMaxFill(), type_1};
+		else {type_1 = "Steam out-of-bounds";}
+		return new Object[] {heat, steam.getFill(), steam.getMaxFill(), feed.getFill(), feed.getMaxFill(), type_1, xCoord, yCoord, zCoord};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 16)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getSteamType(Context context, Arguments args) {
 		FluidType type = steam.getTankType();
-		if(type == Fluids.STEAM) {return new Object[] {"0"};}
-		else if(type == Fluids.HOTSTEAM) {return new Object[] {"1"};}
-		else if(type == Fluids.SUPERHOTSTEAM) {return new Object[] {"2"};}
-		else if(type == Fluids.ULTRAHOTSTEAM) {return new Object[] {"3"};}
+		if(type == Fluids.STEAM) {return new Object[] {0};}
+		else if(type == Fluids.HOTSTEAM) {return new Object[] {1};}
+		else if(type == Fluids.SUPERHOTSTEAM) {return new Object[] {2};}
+		else if(type == Fluids.ULTRAHOTSTEAM) {return new Object[] {3};}
 		else {return new Object[] {"Unknown Error"};}
 	}
 
+	@Callback(direct = true, limit = 16)
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] setSteamType(Context context, Arguments args) {
 		int type = args.checkInteger(0);
 		if(type > 3) {
@@ -394,16 +401,16 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		}
 		if(type == 0) {
 			steam.setTankType(Fluids.STEAM);
-			return new Object[] {"true"};
+			return new Object[] {true};
 		} else if(type == 1) {
 			steam.setTankType(Fluids.HOTSTEAM);
-			return new Object[] {"true"};
+			return new Object[] {true};
 		} else if(type == 2) {
 			steam.setTankType(Fluids.SUPERHOTSTEAM);
-			return new Object[] {"true"};
+			return new Object[] {true};
 		} else {
 			steam.setTankType(Fluids.ULTRAHOTSTEAM);
-			return new Object[] {"true"};
+			return new Object[] {true};
 		}
 	}
 

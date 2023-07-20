@@ -28,8 +28,11 @@ import net.minecraft.world.World;
 public class ItemBlowtorch extends Item implements IFillableItem {
 
 	public ItemBlowtorch() {
+		this.setMaxStackSize(1);
 		this.setFull3D();
 		this.setCreativeTab(MainRegistry.controlTab);
+		
+		ToolType.TORCH.register(new ItemStack(this));
 	}
 	
 	@Override
@@ -134,7 +137,7 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 				if(!world.isRemote) {
 					
 					if(this == ModItems.blowtorch) {
-						this.setFill(stack, Fluids.GAS, this.getFill(stack, Fluids.GAS) - 1000);
+						this.setFill(stack, Fluids.GAS, this.getFill(stack, Fluids.GAS) - 250);
 					}
 					
 					if(this == ModItems.acetylene_torch) {

@@ -3,6 +3,9 @@ package com.hbm.items.special;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.special.ItemByproduct.EnumByproduct;
 import static com.hbm.items.special.ItemByproduct.EnumByproduct.*;
+
+import java.util.Locale;
+
 import com.hbm.lib.RefStrings;
 import com.hbm.util.EnumUtil;
 
@@ -16,6 +19,7 @@ import net.minecraft.util.StatCollector;
 public class ItemBedrockOre extends ItemEnumMulti {
 
 	protected IIcon overlayIcon;
+	protected IIcon overlayIconBismuth;
 
 	public ItemBedrockOre() {
 		super(EnumBedrockOre.class, false, false);
@@ -30,14 +34,22 @@ public class ItemBedrockOre extends ItemEnumMulti {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister p_94581_1_) {
-		super.registerIcons(p_94581_1_);
+	    super.registerIcons(p_94581_1_);
 
-		this.overlayIcon = p_94581_1_.registerIcon(RefStrings.MODID + ":ore_overlay");
+	    this.overlayIconBismuth = p_94581_1_.registerIcon(RefStrings.MODID + ":ore_overlay_b");
+	    this.overlayIcon = p_94581_1_.registerIcon(RefStrings.MODID + ":ore_overlay");
 	}
+	
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamageForRenderPass(int meta, int pass) {
+	    if (meta >= 0 && meta < EnumBedrockOre.values().length) {
+	        EnumBedrockOre ore = EnumBedrockOre.values()[meta];
+	        if (ore == EnumBedrockOre.BISMUTH) {
+	    		return pass == 1 ? this.overlayIconBismuth : super.getIconFromDamageForRenderPass(meta, pass);
+	        }
+	    }
 		return pass == 1 ? this.overlayIcon : super.getIconFromDamageForRenderPass(meta, pass);
 	}
 
@@ -57,7 +69,7 @@ public class ItemBedrockOre extends ItemEnumMulti {
 	public String getItemStackDisplayName(ItemStack stack) {
 		
 		EnumBedrockOre ore = EnumUtil.grabEnumSafely(EnumBedrockOre.class, stack.getItemDamage());
-		String oreName = StatCollector.translateToLocal("item.ore." + ore.oreName.toLowerCase());
+		String oreName = StatCollector.translateToLocal("item.ore." + ore.oreName.toLowerCase(Locale.US));
 		return StatCollector.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", oreName);
 	}
 	
@@ -89,8 +101,13 @@ public class ItemBedrockOre extends ItemEnumMulti {
 		NIOBIUM("Niobium", 0xAF58D8,	B_IRON,		B_IRON,		B_IRON), //iron in columbite, often found along tantalite
 		TITANIUM("Titanium", 0xF2EFE2,	B_SILICON,	B_CALCIUM,	B_ALUMINIUM), //titanite is titanium + calcium + silicon with traces of iron and aluminium
 		TUNGSTEN("Tungsten", 0x2C293C,	B_LEAD,		B_IRON,		B_BISMUTH), //ferberite has iron, raspite has lead, russelite is bismuth tungsten
-		GOLD("Gold", 0xF9D738,			B_LEAD,		B_COPPER,	B_BISMUTH); //occurs with copper, lead and rare bismuthide
-		
+		GOLD("Gold", 0xF9D738,			B_LEAD,		B_COPPER,	B_BISMUTH), //occurs with copper, lead and rare bismuthide
+		BISMUTH("Bismuth", 0xffffff,	B_LEAD,		B_COPPER,	B_SULFUR), //seems to be similar, based off Aikinite
+		CAD("Cadmium", 0xA85400,		B_SULFUR,	B_CALCIUM,	B_SULFUR), //seems to be similar as well
+		URANIUM("Uranium", 0x868D82,	B_LEAD,		B_RADIUM,	B_POLONIUM), //uranium and its decay products
+		THORIUM("Thorium", 0x7D401D,	B_SILICON,	B_URANIUM,	B_TECHNETIUM), //thorium occours with uraninite and decay products
+		CHLOROCALCITE("Chlorocalcite", 0xCDE036, 	B_LITHIUM, 	B_SILICON, 	B_SILICON); //i guess?
+
 		public String oreName;
 		public int color;
 		public EnumByproduct[] byproducts;

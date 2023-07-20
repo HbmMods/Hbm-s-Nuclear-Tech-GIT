@@ -1,5 +1,7 @@
 package com.hbm.util;
 
+import java.util.Random;
+
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -27,4 +29,35 @@ public class ParticleUtil {
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
 		}
 	}
+	public static void spawnJesusFlame(World world, double x, double y, double z) {
+		Random rand = new Random();
+
+		if(rand.nextInt(12) == 0) {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "duodec");
+		if(world.isRemote) {
+			data.setDouble("posX", x);
+			data.setDouble("posY", y);
+			data.setDouble("posZ", z);
+			MainRegistry.proxy.effectNT(data);
+		} else {
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
+		}
+	}
+	}
+	public static void spawnTuneFlame(World world, double x, double y, double z) {
+		Random rand = new Random();
+		if(rand.nextInt(12) == 0) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "duoewe");
+			if(world.isRemote) {
+				data.setDouble("posX", x);
+				data.setDouble("posY", y);
+				data.setDouble("posZ", z);
+				MainRegistry.proxy.effectNT(data);
+			} else {
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
+			}
+		}	
+		}
 }

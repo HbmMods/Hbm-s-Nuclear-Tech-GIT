@@ -203,21 +203,22 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(Items.apple, new ItemStack(Items.sugar, 1));
 		ShredderRecipes.setRecipe(Items.carrot, new ItemStack(Items.sugar, 1));
 		ShredderRecipes.setRecipe(ModItems.crystal_cleaned, new ItemStack(ModItems.mineral_dust, 4));
-		
+		ShredderRecipes.setRecipe(ModBlocks.ore_mineral, new ItemStack(ModItems.mineral_dust, 1)); // it was deserved
+
 		
 		ShredderRecipes.setRecipe(ModItems.bean_roast,  new ItemStack(ModItems.powder_coffee, 1));
 		
 		//BYPRODUCTS
-		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 0), new ItemStack(ModItems.powder_iron, 10));
-		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 1), new ItemStack(ModItems.powder_copper, 10));
-		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 2), new ItemStack(ModItems.powder_lithium, 10));
-		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 3), new ItemStack(ModItems.powder_quartz, 8));
-		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 4), new ItemStack(ModItems.powder_lead, 6));
-		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 5), new ItemStack(ModItems.powder_titanium, 9));
-		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 6), new ItemStack(ModItems.powder_aluminium, 12));
-		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 7), new ItemStack(ModItems.sulfur, 6));
-		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 8), new ItemStack(Items.bone, 4));
-		ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 9), new ItemStack(ModItems.nugget_bismuth, 5));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 0), new ItemStack(ModItems.powder_iron, 10));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 1), new ItemStack(ModItems.powder_copper, 10));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 2), new ItemStack(ModItems.powder_lithium, 10));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 3), new ItemStack(ModItems.powder_quartz, 8));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 4), new ItemStack(ModItems.powder_lead, 6));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 5), new ItemStack(ModItems.powder_titanium, 9));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 6), new ItemStack(ModItems.powder_aluminium, 12));
+	//	ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 7), new ItemStack(ModItems.sulfur, 6));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 1, 8), new ItemStack(Items.bone, 4));
+		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 2, 9), new ItemStack(ModItems.nugget_bismuth, 1));
 		
 
 		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), new ItemStack(ModItems.powder_calcium, 4));
@@ -306,10 +307,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.chain, new ItemStack(ModItems.powder_steel_tiny, 1));
 		ShredderRecipes.setRecipe(ModBlocks.steel_grate, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModItems.pipes_steel, new ItemStack(ModItems.powder_steel, 27));
-		ShredderRecipes.setRecipe(ModBlocks.oil_duct, new ItemStack(ModItems.powder_steel_tiny, 3));
-		ShredderRecipes.setRecipe(ModBlocks.oil_duct_solid, new ItemStack(ModItems.powder_steel_tiny, 3));
-		ShredderRecipes.setRecipe(ModBlocks.gas_duct, new ItemStack(ModItems.powder_steel, 1));
-		ShredderRecipes.setRecipe(ModBlocks.gas_duct_solid, new ItemStack(ModItems.powder_steel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.machine_fluidtank, new ItemStack(ModItems.powder_steel, 32));
 
 		/* Sellafite scrapping */

@@ -1,12 +1,15 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCombustionEngine;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Leaded;
 import com.hbm.inventory.gui.GUICombustionEngine;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPistons.EnumPistonType;
@@ -14,12 +17,12 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -31,7 +34,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCombustionEngine extends TileEntityMachineBase implements IEnergyGenerator, IFluidStandardReceiver, IControlReceiver, IGUIProvider {
+public class TileEntityMachineCombustionEngine extends TileEntityMachinePolluting implements IEnergyGenerator, IFluidStandardTransceiver, IControlReceiver, IGUIProvider {
 	
 	public boolean isOn = false;
 	public static long maxPower = 2_500_000;
@@ -49,7 +52,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 	public int tenth = 0;
 
 	public TileEntityMachineCombustionEngine() {
-		super(5);
+		super(5, 50);
 		this.tank = new FluidTank(Fluids.DIESEL, 24_000, 0);
 	}
 
@@ -84,6 +87,11 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 					this.power += toBurn * (trait.getCombustionEnergy() / 10_000D) * eff;
 					fill -= toBurn;
 					
+					if(worldObj.getTotalWorldTime() % 20 == 0) {
+						this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * setting * 0.1F);
+						if(tank.getTankType().hasTrait(FT_Leaded.class)) this.pollute(PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * setting * 0.1F);
+					}
+					
 					if(toBurn > 0) {
 						wasOn = true;
 					}
@@ -101,6 +109,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 			for(DirPos pos : getConPos()) {
 				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			if(power > maxPower)
@@ -134,6 +143,8 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 					audio = rebootAudio(audio);
 				}
 				
+				audio.keepAlive();
+				
 			} else {
 				
 				if(audio != null) {
@@ -157,7 +168,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 	}
 	
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.igeneratorOperate", xCoord, yCoord, zCoord, 2.0F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.igeneratorOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F, 20);
 	}
 
 	@Override
@@ -264,6 +275,11 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return this.getSmokeTanks();
 	}
 	
 	AxisAlignedBB bb = null;

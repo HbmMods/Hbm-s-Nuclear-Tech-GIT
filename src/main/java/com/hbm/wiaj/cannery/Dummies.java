@@ -11,8 +11,8 @@ public class Dummies {
 	public static class JarDummyConnector extends TileEntity implements IEnergyConnector, IFluidConnector {
 
 		@Override public boolean isLoaded() { return false; }
-		@Override public long transferFluid(FluidType type, long fluid) { return 0; }
-		@Override public long getDemand(FluidType type) { return 0; }
+		@Override public long transferFluid(FluidType type, int pressure, long fluid) { return 0; }
+		@Override public long getDemand(FluidType type, int pressure) { return 0; }
 		@Override public long transferPower(long power) { return 0; }
 		@Override public long getPower() { return 0; }
 		@Override public long getMaxPower() { return 0; }
