@@ -9,3 +9,4 @@
 * Standard glyphids now have a base health of 100
 * Glyphid scouts are now immune to fire and explosive damage, have a 50% damage reduction against projectiles and have passive regeneration
 * Increased hive block blast resistance, they can no longer be blown up wiith conventional explosives
+* Rebar reinforced concrete and concrete bricks now have an appropriate blast resistance.
