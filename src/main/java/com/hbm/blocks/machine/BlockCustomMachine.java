@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
 
+import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -49,6 +50,7 @@ public class BlockCustomMachine extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
+		if(metadata >= 100) return side == 3 ? this.iconFront : this.blockIcon;
 		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.blockIcon);
 	}
 	
@@ -116,15 +118,14 @@ public class BlockCustomMachine extends BlockContainer {
 		Item item = getItemDropped(metadata, world.rand, fortune);
 		if(item != null) {
 
-			ItemStack stack = new ItemStack(item);
 			TileEntityCustomMachine tile = (TileEntityCustomMachine) world.getTileEntity(x, y, z);
 			
 			if(tile != null) {
+				ItemStack stack = new ItemStack(item, 1, CustomMachineConfigJSON.niceList.indexOf(tile.config) + 100);
 				stack.stackTagCompound = new NBTTagCompound();
 				stack.stackTagCompound.setString("machineType", tile.machineType);
+				ret.add(stack);
 			}
-			
-			ret.add(stack);
 		}
 		
 		return ret;
@@ -134,10 +135,9 @@ public class BlockCustomMachine extends BlockContainer {
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) { //using the deprecated one to make NEI happy
 		
 		TileEntityCustomMachine tile = (TileEntityCustomMachine) world.getTileEntity(x, y, z);
-
-		ItemStack stack = new ItemStack(this);
 		
 		if(tile != null && tile.machineType != null && !tile.machineType.isEmpty()) {
+			ItemStack stack = new ItemStack(this, 1, CustomMachineConfigJSON.niceList.indexOf(tile.config) + 100);
 			stack.stackTagCompound = new NBTTagCompound();
 			stack.stackTagCompound.setString("machineType", tile.machineType);
 			return stack;
