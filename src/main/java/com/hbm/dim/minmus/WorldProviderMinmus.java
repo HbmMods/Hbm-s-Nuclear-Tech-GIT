@@ -95,7 +95,7 @@ public class WorldProviderMinmus extends WorldProvider {
 	
     public long getDayLength()
     {
-    	return (long) (AstronomyUtil.MinmusP*24000);
+    	return (long) (AstronomyUtil.MinmusP*2400);
     }
     
     @Override

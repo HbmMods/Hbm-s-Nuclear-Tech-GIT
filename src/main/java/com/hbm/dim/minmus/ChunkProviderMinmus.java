@@ -86,11 +86,11 @@ public class ChunkProviderMinmus implements IChunkProvider {
 		
 	}
 
-	public ChunkProviderMinmus(World DresWorld, long il, boolean ib)
+	public ChunkProviderMinmus(World minworld, long il, boolean ib)
 	{
-		this.worldObj = DresWorld;
+		this.worldObj = minworld;
 		this.mapFeaturesEnabled = ib;
-		this.field_147435_p = DresWorld.getWorldInfo().getTerrainType();
+		this.field_147435_p = minworld.getWorldInfo().getTerrainType();
 		this.rand = new Random(il);
 		this.octave1 = new NoiseGeneratorOctaves(this.rand, 16);
 		this.octave2 = new NoiseGeneratorOctaves(this.rand, 16);
@@ -119,7 +119,7 @@ public class ChunkProviderMinmus implements IChunkProvider {
 		fillblock = Blocks.snow;
 		
 		NoiseGenerator[] noiseGens = {octave1, octave2, octave3, octave4, noiseGen5, noiseGen6, mobSpawnerNoise};
-		noiseGens = TerrainGen.getModdedNoiseGenerators(DresWorld, this.rand, noiseGens);
+		noiseGens = TerrainGen.getModdedNoiseGenerators(minworld, this.rand, noiseGens);
 		this.octave1 = (NoiseGeneratorOctaves)noiseGens[0];
 		this.octave2 = (NoiseGeneratorOctaves)noiseGens[1];
 		this.octave3 = (NoiseGeneratorOctaves)noiseGens[2];
@@ -128,13 +128,6 @@ public class ChunkProviderMinmus implements IChunkProvider {
 		this.noiseGen6 = (NoiseGeneratorOctaves)noiseGens[5];
 		this.mobSpawnerNoise = (NoiseGeneratorOctaves)noiseGens[6];
 
-		//TODO: may break on little planets
-		//float atmDensity = ((WorldProviderPlanet)worldObj.provider).getAtmosphereDensity(0,0);
-
-		//if(atmDensity < 0.75f)
-		//	craterGenerator = new MapGenCrater( (int)(10 + 26 ));
-		//else 
-		//	craterGenerator = null;		
 	}
 
 	public void func_147424_a(int p_147424_1_, int p_147424_2_, Block[] p_147424_3_)
@@ -437,33 +430,9 @@ public class ChunkProviderMinmus implements IChunkProvider {
 
 
 		biomegenbase.decorate(this.worldObj, this.rand, k, l);
-		/*if (TerrainGen.populate(p_73153_1_, worldObj, rand, p_73153_2_, p_73153_3_, flag, ANIMALS))
-		{
-			SpawnerAnimals.performWorldGenSpawning(this.worldObj, biomegenbase, k + 8, l + 8, 16, 16, this.rand);
-		}*/
 		k += 8;
 		l += 8;
 
-		//If a planet is terraformed chenge upper blocks
-		/*if(zmaster587.advancedRocketry.api.Configuration.allowTerraforming && worldObj.provider.getClass() == WorldProviderPlanet.class) {
-
-			if(DimensionManager.getInstance().getDimensionProperties(worldObj.provider.dimensionId).isTerraformed()) {
-				Chunk chunk = worldObj.getChunkFromChunkCoords(p_73153_2_, p_73153_3_);
-				PlanetEventHandler.modifyChunk(worldObj, (WorldProviderPlanet)worldObj.provider, chunk);
-			}
-		}
-		
-		if (populationFlag)
-			MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Post(p_73153_1_, worldObj, rand, p_73153_2_, p_73153_3_, flag));
-
-		OreGenProperties oreGenProperties = DimensionManager.getInstance().getDimensionProperties(this.worldObj.provider.dimensionId).getOreGenProperties(this.worldObj);
-		
-		if(oreGenProperties != null) {
-			for(OreEntry entry : oreGenProperties.getOreEntries()) {
-				new CustomizableOreGen(entry).generate(rand, p_73153_2_, p_73153_3_, this.worldObj, this, this.worldObj.getChunkProvider());
-			}
-		}
-		*/
 		BlockFalling.fallInstantly = false;
 	}
 

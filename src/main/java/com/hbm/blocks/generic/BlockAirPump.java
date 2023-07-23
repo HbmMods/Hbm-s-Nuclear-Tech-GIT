@@ -50,7 +50,7 @@ public class BlockAirPump extends BlockContainer implements ILookOverlay {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityAirPump();
+		return new TileEntityAirPump(p_149915_1_);
 	}
 
 	@Override

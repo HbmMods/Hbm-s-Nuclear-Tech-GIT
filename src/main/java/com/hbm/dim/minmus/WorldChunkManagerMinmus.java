@@ -13,6 +13,8 @@ import java.util.Random;
 
 import com.hbm.dim.dres.GenLayerDres.GenLayerDres;
 import com.hbm.dim.dres.biome.BiomeGenBaseDres;
+import com.hbm.dim.minmus.GenLayerMinmus.GenLayerMinmus;
+import com.hbm.dim.minmus.biome.BiomeGenBaseMinmus;
 
 //import com.hbm.dim.duna.GenLayerDuna.GenLayerDuna;
 //import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
@@ -37,14 +39,14 @@ public class WorldChunkManagerMinmus extends WorldChunkManager
 	{
 		this.myBiomeCache = new BiomeCache(this);
 		this.myBiomesToSpawnIn = new ArrayList();
-		this.myBiomesToSpawnIn.add(BiomeGenBaseDres.dresPlains);
-		this.myBiomesToSpawnIn.add(BiomeGenBaseDres.dresCanyon);;
+		this.myBiomesToSpawnIn.add(BiomeGenBaseMinmus.minmusPlains);
+		this.myBiomesToSpawnIn.add(BiomeGenBaseMinmus.minmusCanyon);
 	}
 
 	public WorldChunkManagerMinmus(long seed, WorldType type)
 	{
 		this();
-		GenLayer[] genLayers = GenLayerDres.makeTheWorld(seed);
+		GenLayer[] genLayers = GenLayerMinmus.makeTheWorld(seed);
 		this.unzoomedBiomes = genLayers[0];
 		this.zoomedBiomes = genLayers[1];
 	}
@@ -67,7 +69,7 @@ public class WorldChunkManagerMinmus extends WorldChunkManager
 
 		if (biome == null)
 		{
-			return BiomeGenBaseDres.dresPlains;
+			return BiomeGenBaseMinmus.minmusPlains;
 		}
 		return biome;
 	}
@@ -118,7 +120,7 @@ public class WorldChunkManagerMinmus extends WorldChunkManager
 			}
 			else
 			{
-				par1ArrayOfBiomeGenBase[i] = BiomeGenBaseDres.dresPlains;
+				par1ArrayOfBiomeGenBase[i] = BiomeGenBaseMinmus.minmusPlains;
 			}
 		}
 		return par1ArrayOfBiomeGenBase;
@@ -155,7 +157,7 @@ public class WorldChunkManagerMinmus extends WorldChunkManager
 			}
 			else
 			{
-				par1ArrayOfBiomeGenBase[i] = BiomeGenBaseDres.dresPlains;
+				par1ArrayOfBiomeGenBase[i] = BiomeGenBaseMinmus.minmusPlains;
 			}
 		}
 		return par1ArrayOfBiomeGenBase;

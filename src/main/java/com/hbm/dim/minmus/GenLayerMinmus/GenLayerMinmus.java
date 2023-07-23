@@ -28,14 +28,6 @@ public abstract class GenLayerMinmus extends GenLayer
          biomes = new GenLayerZoom(1003L, biomes);
          biomes = new GenLayerSmooth(700L, biomes);
          biomes = new GenLayerMinmusPlains(200L, biomes);
-
-         //biomes = new GenLayerZoom(1005L, biomes);
-         //biomes = new GenLayerSmooth(703L, biomes);
-        // biomes = new GenLayerFuzzyZoom(1000L, biomes);
-        // biomes = new GenLayerSmooth(705L, biomes);
-        // biomes = new GenLayerFuzzyZoom(1001L, biomes);
-       //  biomes = new GenLayerSmooth(706L, biomes);
-       //  biomes = new GenLayerFuzzyZoom(1002L, biomes);
          biomes = new GenLayerZoom(1006L, biomes);
          
          GenLayer genLayerVeronoiZoom = new GenLayerVoronoiZoom(10L, biomes);
