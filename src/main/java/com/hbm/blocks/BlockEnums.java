@@ -20,6 +20,27 @@ public class BlockEnums {
 		SULFUR,
 		ASBESTOS
 	}
+
+	public static enum EnumCMMaterials {
+		STEEL,
+		ALLOY,
+		DESH,
+		TCALLOY
+	}
+
+	public static enum EnumCMEngines {
+		STANDARD,
+		DESH,
+		BISMUTH
+	}
+
+	public static enum EnumCMCircuit {
+		ALUMINIUM,
+		COPPER,
+		RED_COPPER,
+		GOLD,
+		SCHRABIDIUM
+	}
 	
 	/** DECO / STRUCTURE ENUMS */
 	//i apologize in advance

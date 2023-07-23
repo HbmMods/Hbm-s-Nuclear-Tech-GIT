@@ -2,8 +2,6 @@ package com.hbm.world.gen;
 
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.StructureConfig;
 
 import cpw.mods.fml.common.IWorldGenerator;
@@ -13,7 +11,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import static net.minecraftforge.common.BiomeDictionary.*;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate;
 import net.minecraftforge.event.terraingen.InitMapGenEvent.EventType;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import static net.minecraftforge.event.terraingen.TerrainGen.*;

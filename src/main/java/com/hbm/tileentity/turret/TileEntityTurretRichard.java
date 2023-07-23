@@ -3,7 +3,7 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -155,7 +155,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 		vec.rotateAroundZ((float) -this.rotationPitch);
 		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 		
-		EntityBulletBase proj = new EntityBulletBase(worldObj, BulletConfigSyncingUtil.getKey(bullet));
+		EntityBulletBaseNT proj = new EntityBulletBaseNT(worldObj, BulletConfigSyncingUtil.getKey(bullet));
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
 		
 		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, bullet.velocity * 0.75F, bullet.spread);

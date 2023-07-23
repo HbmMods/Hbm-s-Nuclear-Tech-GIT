@@ -163,11 +163,17 @@ public class BulletConfigSyncingUtil {
 	public static int SPECIAL_GAUSS_CHARGED = i++;
 	public static int SPECIAL_EMP = i++;
 
+	public static int COIL_NORMAL = i++;
+	public static int COIL_DU = i++;
+	public static int COIL_RUBBER = i++;
+
 	public static int FLAMER_NORMAL = i++;
 	public static int FLAMER_NAPALM = i++;
 	public static int FLAMER_WP = i++;
 	public static int FLAMER_VAPORIZER = i++;
 	public static int FLAMER_GAS = i++;
+
+	public static int CRYO_NORMAL = i++;
 
 	public static int FEXT_NORMAL = i++;
 	public static int FEXT_FOAM = i++;
@@ -464,11 +470,17 @@ public class BulletConfigSyncingUtil {
 		configSet.put(SPECIAL_GAUSS_CHARGED, GunGaussFactory.getAltConfig());
 		configSet.put(SPECIAL_EMP, GunEnergyFactory.getOrbusConfig());
 
+		configSet.put(COIL_NORMAL, GunEnergyFactory.getCoilConfig());
+		configSet.put(COIL_DU, GunEnergyFactory.getCoilDUConfig());
+		configSet.put(COIL_RUBBER, GunEnergyFactory.getCoilRubberConfig());
+
 		configSet.put(FLAMER_NORMAL, GunEnergyFactory.getFlameConfig());
 		configSet.put(FLAMER_NAPALM, GunEnergyFactory.getNapalmConfig());
 		configSet.put(FLAMER_WP, GunEnergyFactory.getPhosphorusConfig());
 		configSet.put(FLAMER_VAPORIZER, GunEnergyFactory.getVaporizerConfig());
 		configSet.put(FLAMER_GAS, GunEnergyFactory.getGasConfig());
+		
+		configSet.put(CRYO_NORMAL, GunEnergyFactory.getCryoConfig());
 		
 		configSet.put(FEXT_NORMAL, GunEnergyFactory.getFextConfig());
 		configSet.put(FEXT_FOAM, GunEnergyFactory.getFextFoamConfig());

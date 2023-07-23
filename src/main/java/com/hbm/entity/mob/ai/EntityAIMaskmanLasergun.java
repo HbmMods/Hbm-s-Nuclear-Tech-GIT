@@ -1,6 +1,6 @@
 package com.hbm.entity.mob.ai;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 
 import net.minecraft.entity.EntityCreature;
@@ -52,7 +52,7 @@ public class EntityAIMaskmanLasergun extends EntityAIBase {
 
 			switch(attack) {
 			case ORB:
-				EntityBulletBase orb = new EntityBulletBase(owner.worldObj, BulletConfigSyncingUtil.MASKMAN_ORB, owner, target, 2.0F, 0);
+				EntityBulletBaseNT orb = new EntityBulletBaseNT(owner.worldObj, BulletConfigSyncingUtil.MASKMAN_ORB, owner, target, 2.0F, 0);
 				orb.motionY += 0.5D;
 				
 				owner.worldObj.spawnEntityInWorld(orb);
@@ -60,7 +60,7 @@ public class EntityAIMaskmanLasergun extends EntityAIBase {
 				break;
 				
 			case MISSILE:
-				EntityBulletBase missile = new EntityBulletBase(owner.worldObj, BulletConfigSyncingUtil.MASKMAN_ROCKET, owner, target, 1.0F, 0);
+				EntityBulletBaseNT missile = new EntityBulletBaseNT(owner.worldObj, BulletConfigSyncingUtil.MASKMAN_ROCKET, owner, target, 1.0F, 0);
 				Vec3 vec = Vec3.createVectorHelper(target.posX - owner.posX, 0, target.posZ - owner.posZ);
 				missile.motionX = vec.xCoord * 0.05D;
 				missile.motionY = 0.5D + owner.getRNG().nextDouble() * 0.5D;
@@ -73,7 +73,7 @@ public class EntityAIMaskmanLasergun extends EntityAIBase {
 			case SPLASH:
 				
 				for(int i = 0; i < 5; i++) {
-					EntityBulletBase tracer = new EntityBulletBase(owner.worldObj, BulletConfigSyncingUtil.MASKMAN_TRACER, owner, target, 1.0F, 0.05F);
+					EntityBulletBaseNT tracer = new EntityBulletBaseNT(owner.worldObj, BulletConfigSyncingUtil.MASKMAN_TRACER, owner, target, 1.0F, 0.05F);
 					owner.worldObj.spawnEntityInWorld(tracer);
 				}
 				break;

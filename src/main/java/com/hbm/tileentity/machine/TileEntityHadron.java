@@ -322,6 +322,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		int charge;
 		int analysis;
 		boolean isCheckExempt = false;
+		int cl0 = 0;
+		int cl1 = 0;
 		
 		boolean expired = false;
 		
@@ -375,6 +377,34 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			
 			if(charge < 0)
 				this.expire(EnumHadronState.ERROR_NO_CHARGE);
+
+			if(cl0 > 0) cl0--;
+			if(cl1 > 0) cl1--;
+		}
+
+		public void incrementCharge(Block block, int meta, int coilVal) {
+
+			if(block == ModBlocks.hadron_cooler) {
+				if(meta == 0) cl0 += 10;
+				if(meta == 1) cl1 += 5;
+			}
+			
+			//not the best code ever made but it works, dammit
+			if(cl1 > 0) {
+				
+				double mult = 2D - (cl1 - 15D) * (cl1 - 15D) / 225D;
+				mult = Math.max(mult, 0.1D);
+				coilVal *= mult;
+				
+			} else if(cl0 > 0) {
+				if(cl0 > 10) {
+					coilVal *= 0.75;
+				} else {
+					coilVal *= 1.10;
+				}
+			}
+			
+			this.momentum += coilVal;
 		}
 	}
 	
@@ -414,7 +444,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		if(block == ModBlocks.hadron_diode)
 			p.isCheckExempt = true;
 		
-		if(coilValue(worldObj.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) > 0)
+		if(isValidCoil(worldObj.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)))
 			p.isCheckExempt = true;
 	}
 	
@@ -445,6 +475,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 				for(int c = z - dZ * 2; c <= z + dZ * 2;c++) {
 					
 					Block block = worldObj.getBlock(a, b, c);
+					int meta = worldObj.getBlockMetadata(a, b, c);
 					
 					/** ignore the center for now */
 					if(a == x && b == y && c == z) {
@@ -479,11 +510,11 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 						int coilVal = coilValue(block);
 						
 						//not a valid coil: kablam!
-						if(coilVal == 0) {
+						if(!isValidCoil(block)) {
 							p.expire(EnumHadronState.ERROR_EXPECTED_COIL);
 						} else {
-							p.momentum += coilVal;
 							p.charge -= coilVal;
+							p.incrementCharge(block, meta, coilVal);
 						}
 
 						continue;
@@ -641,7 +672,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			return;
 		
 		//so, the next block is most certainly a wall. not good. perhaps we could try turning?
-		if(coilValue(next) > 0) {
+		if(isValidCoil(next)) {
 			
 			ForgeDirection validDir = ForgeDirection.UNKNOWN;
 			
@@ -690,6 +721,14 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			dirs.add(ForgeDirection.getOrientation(i));
 		}
 		return dirs;
+	}
+	
+	public boolean isValidCoil(Block b) {
+		if(coilValue(b) > 0) return true;
+		
+		if(b == ModBlocks.hadron_cooler) return true;
+		
+		return false;
 	}
 	
 	public int coilValue(Block b) {

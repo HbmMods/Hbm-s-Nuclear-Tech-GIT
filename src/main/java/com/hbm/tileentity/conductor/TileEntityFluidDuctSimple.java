@@ -21,7 +21,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityFluidDuctSimple extends TileEntity implements IFluidDuct {
 
-	private FluidType lastType = Fluids.NONE;
 	protected FluidType type = Fluids.NONE;
 	public List<UnionOfTileEntitiesAndBooleansForFluids> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForFluids>();
 	

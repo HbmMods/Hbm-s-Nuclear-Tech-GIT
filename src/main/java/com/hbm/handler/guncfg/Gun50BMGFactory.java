@@ -3,17 +3,11 @@ package com.hbm.handler.guncfg;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.entity.effect.EntityCloudFleija;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.entity.projectile.EntityBulletBase;
-import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletHitBehavior;
-import com.hbm.interfaces.IBulletImpactBehavior;
-import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo50BMG;
@@ -36,7 +30,6 @@ import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -79,7 +72,7 @@ public class Gun50BMGFactory {
 		bullet.leadChance = 20;
 
 		bullet.blockDamage = false;
-		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 2.0F, false, false);
+		bullet.bntImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 2.0F, false, false);
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaStock");
 		bullet.bUpdate = new IBulletUpdateBehavior() {
@@ -122,7 +115,7 @@ public class Gun50BMGFactory {
 
 		bullet.ammo.meta = 1;
 		bullet.incendiary = 10;
-		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 5.0F, true, false);
+		bullet.bntImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 5.0F, true, false);
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaInc");
 
@@ -137,7 +130,7 @@ public class Gun50BMGFactory {
 		bullet.ammo.meta = 2;
 		bullet.explosive = 25;
 		bullet.destroysBlocks = true;
-		bullet.bImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 25.0F, true, false);
+		bullet.bntImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 25.0F, true, false);
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaExp");
 
@@ -338,19 +331,15 @@ public class Gun50BMGFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(eff));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
 
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "vanillaburst");
-				data.setString("mode", "flame");
-				data.setInteger("count", 15);
-				data.setDouble("motion", 0.05D);
-				
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
-			}
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaburst");
+			data.setString("mode", "flame");
+			data.setInteger("count", 15);
+			data.setDouble("motion", 0.05D);
+
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bulletnt.posX, bulletnt.posY, bulletnt.posZ), new TargetPoint(bulletnt.dimension, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 50));
 		};
 		
 		bullet.spentCasing = CASING50BMG.clone().register("50BMGPhos");
@@ -434,39 +423,31 @@ public class Gun50BMGFactory {
 		bullet.leadChance = 100;
 		bullet.doesPenetrate = false;
 		
-		bullet.bHit = new IBulletHitBehavior() {
+		bullet.bntHit = (bulletnt, hit) -> {
 
-			@Override
-			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				EntityBulletBase meteor = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
-				meteor.setPosition(hit.posX, hit.posY + 30 + meteor.worldObj.rand.nextInt(10), hit.posZ);
-				meteor.motionY = -1D;
-				meteor.shooter = bullet.shooter;
-				bullet.worldObj.spawnEntityInWorld(meteor);
-			}
+			if(bulletnt.worldObj.isRemote)
+				return;
+
+			EntityBulletBaseNT meteor = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
+			meteor.setPosition(hit.posX, hit.posY + 30 + meteor.worldObj.rand.nextInt(10), hit.posZ);
+			meteor.motionY = -1D;
+			meteor.setThrower(bulletnt.getThrower());
+			bulletnt.worldObj.spawnEntityInWorld(meteor);
 		};
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
 
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				if(y == -1)
-					return;
-				
-				EntityBulletBase meteor = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
-				meteor.setPosition(bullet.posX, bullet.posY + 30 + meteor.worldObj.rand.nextInt(10), bullet.posZ);
-				meteor.motionY = -1D;
-				meteor.shooter = bullet.shooter;
-				bullet.worldObj.spawnEntityInWorld(meteor);
-			}
+			if(bulletnt.worldObj.isRemote)
+				return;
+
+			if(y == -1)
+				return;
+
+			EntityBulletBaseNT meteor = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
+			meteor.setPosition(bulletnt.posX, bulletnt.posY + 30 + meteor.worldObj.rand.nextInt(10), bulletnt.posZ);
+			meteor.motionY = -1D;
+			meteor.setThrower(bulletnt.getThrower());
+			bulletnt.worldObj.spawnEntityInWorld(meteor);
 		};
 		
 		bullet.spentCasing = CASING50BMG.clone().register("50BMGIF");
@@ -499,17 +480,13 @@ public class Gun50BMGFactory {
 		bullet.dmgMax = 64;
 		bullet.style = bullet.STYLE_FLECHETTE;
 		
-		bullet.bHit = new IBulletHitBehavior() {
+		bullet.bntHit = (bulletnt, hit) -> {
 
-			@Override
-			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				if(hit instanceof EntityLivingBase) {
-					ContaminationUtil.contaminate((EntityLivingBase) hit, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 100F);
-				}
+			if(bulletnt.worldObj.isRemote)
+				return;
+
+			if(hit instanceof EntityLivingBase) {
+				ContaminationUtil.contaminate((EntityLivingBase) hit, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 100F);
 			}
 		};
 		
@@ -528,17 +505,13 @@ public class Gun50BMGFactory {
 		bullet.dmgMax = 64;
 		bullet.style = bullet.STYLE_FLECHETTE;
 		
-		bullet.bHit = new IBulletHitBehavior() {
+		bullet.bntHit = (bulletnt, hit) -> {
 
-			@Override
-			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				if(hit instanceof EntityLivingBase) {
-					ContaminationUtil.contaminate((EntityLivingBase) hit, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 50F);
-				}
+			if(bulletnt.worldObj.isRemote)
+				return;
+
+			if(hit instanceof EntityLivingBase) {
+				ContaminationUtil.contaminate((EntityLivingBase) hit, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 50F);
 			}
 		};
 		

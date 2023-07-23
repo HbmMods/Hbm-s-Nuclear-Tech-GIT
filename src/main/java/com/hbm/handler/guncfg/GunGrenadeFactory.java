@@ -2,13 +2,11 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
-import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.AmmoGrenade;
@@ -131,7 +129,7 @@ public class GunGrenadeFactory {
 		bullet.trail = 0;
 		bullet.incendiary = 2;
 		
-		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D, 1F);
+		bullet.bntImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D, 1F);
 		
 		bullet.spentCasing = CASING40MM.clone().register("40MMPhos");
 		
@@ -213,12 +211,8 @@ public class GunGrenadeFactory {
 		bullet.velocity = 4;
 		bullet.explosive = 0.0F;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_TOTS);
-			}
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
+			BulletConfigFactory.nuclearExplosion(bulletnt, x, y, z, ExplosionNukeSmall.PARAMS_TOTS);
 		};
 		
 		bullet.spentCasing = CASING40MM.clone().register("40MMNuke");

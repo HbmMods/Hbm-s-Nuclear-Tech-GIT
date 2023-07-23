@@ -78,12 +78,19 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 			int overLevel = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+			
+			CompressorRecipe rec = CompressorRecipes.recipes.get(new Pair(tanks[0].getTankType(), tanks[0].getPressure()));
+			int timeBase = this.processTimeBase;
+			if(rec != null) timeBase = rec.duration;
 
 			//there is a reason to do this but i'm not telling you
-			this.processTime = speedLevel == 3 ? 10 : speedLevel == 2 ? 20 : speedLevel == 1 ? 60 : this.processTimeBase;
+			if(timeBase == this.processTimeBase) this.processTime = speedLevel == 3 ? 10 : speedLevel == 2 ? 20 : speedLevel == 1 ? 60 : timeBase;
+			else this.processTime = timeBase / (speedLevel + 1);
 			this.powerRequirement = this.powerRequirementBase / (powerLevel + 1);
 			this.processTime = this.processTime / (overLevel + 1);
 			this.powerRequirement = this.powerRequirement * ((overLevel * 2) + 1);
+			
+			if(processTime <= 0) processTime = 1;
 			
 			if(canProcess()) {
 				this.progress++;

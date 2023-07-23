@@ -50,15 +50,15 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 	private int audioTime;
 	
 	/* CONFIGURABLE */
-	public static int maxHeat = 12_800_000; //the heat required to turn 64k of water into steam
+	public static int maxHeat = 3_200_000;
 	public static double diffusion = 0.1D;
 	public static boolean canExplode = true;
 
 	public TileEntityHeatBoiler() {
 		this.tanks = new FluidTank[2];
 
-		this.tanks[0] = new FluidTank(Fluids.WATER, 64_000, 0);
-		this.tanks[1] = new FluidTank(Fluids.STEAM, 64_000 * 100, 1);
+		this.tanks[0] = new FluidTank(Fluids.WATER, 16_000);
+		this.tanks[1] = new FluidTank(Fluids.STEAM, 16_000 * 100);
 	}
 	
 	@Override

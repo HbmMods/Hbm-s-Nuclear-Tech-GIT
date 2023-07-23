@@ -33,6 +33,7 @@ import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.IRepairable;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
@@ -49,6 +50,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -66,7 +68,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	public boolean hasExploded = false;
 	protected boolean sendingBrake = false;
 	public boolean onFire = false;
-	
+	public byte lastRedstone = 0;
 	public Explosion lastExplosion = null;
 	
 	public int age = 0;
@@ -81,7 +83,13 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	public String getName() {
 		return "container.fluidtank";
 	}
-	
+
+	public byte getComparatorPower() {
+		if(tank.getFill() == 0) return 0;
+		double frac = (double) tank.getFill() / (double) tank.getMaxFill() * 15D;
+		return (byte) (MathHelper.clamp_int((int) frac + 1, 0, 15));
+	}
+
 	@Override
 	public void updateEntity() {
 
@@ -119,7 +127,12 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 				tank.loadTank(2, 3, slots);
 				tank.setType(0, 1, slots);
 			}
-			
+
+			byte comp = this.getComparatorPower(); //comparator shit
+			if(comp != this.lastRedstone)
+				this.markDirty();
+			this.lastRedstone = comp;
+
 			if(tank.getFill() > 0) {
 				if(tank.getTankType().isAntimatter()) {
 					new ExplosionVNT(worldObj, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, 5F).makeAmat().setBlockAllocator(null).setBlockProcessor(null).explode();
@@ -474,12 +487,12 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTypeStored(Context context, Arguments args) {
-		return new Object[] {tank.getTankType().getName()};
+		return new Object[] {tank.getTankType().getUnlocalizedName()};
 	}
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};
+		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getUnlocalizedName()};
 	}
 }
