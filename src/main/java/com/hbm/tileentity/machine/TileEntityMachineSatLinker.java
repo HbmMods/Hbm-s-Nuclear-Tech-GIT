@@ -19,8 +19,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class TileEntityMachineSatLinker extends TileEntity implements ISidedInventory, IGUIProvider {
-	private SatelliteSavedData satelliteData;
-
 	private ItemStack[] slots;
 	
 	//public static final int maxFill = 64 * 3;
@@ -176,9 +174,7 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 			}
 			
 			if(slots[2] != null && slots[2].getItem() instanceof ISatChip) {
-				if(satelliteData == null) {
-					satelliteData = SatelliteSavedData.getData(worldObj);
-				}
+				SatelliteSavedData satelliteData = SatelliteSavedData.getData(worldObj);
 				int newId = worldObj.rand.nextInt(100000);
 				if(!satelliteData.isFreqTaken(newId)) {
 					ISatChip.setFreqS(slots[2], newId);

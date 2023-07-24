@@ -12,6 +12,17 @@ public class SatelliteSavedData extends WorldSavedData {
 	
 	public final HashMap<Integer, Satellite> sats = new HashMap<>();
 
+	/**
+	 * Constructor used for deserialization
+	 * @param name - Map data name
+	 */
+	public SatelliteSavedData(String name) {
+		super(name);
+	}
+
+	/**
+	 * Default constructor for satellites map data.
+	 */
     public SatelliteSavedData() {
         super("satellites");
         this.markDirty();
@@ -62,7 +73,6 @@ public class SatelliteSavedData extends WorldSavedData {
 	        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData());
 	        
 	        data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-			data.markDirty();
 	    }
 	    
 	    return data;

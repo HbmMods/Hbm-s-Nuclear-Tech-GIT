@@ -28,8 +28,6 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class TileEntityMachineSatDock extends TileEntity implements ISidedInventory, IGUIProvider {
-    private SatelliteSavedData data;
-
     private ItemStack[] slots;
 
     private static final int[] access = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
@@ -182,8 +180,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
     @Override
     public void updateEntity() {
         if (!worldObj.isRemote) {
-            if (data == null)
-                data = SatelliteSavedData.getData(worldObj);
+            SatelliteSavedData data = SatelliteSavedData.getData(worldObj);
 
             if (slots[15] != null) {
                 int freq = ISatChip.getFreqS(slots[15]);
