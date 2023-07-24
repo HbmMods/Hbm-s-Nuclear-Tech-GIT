@@ -284,7 +284,7 @@ public class Gun4GaugeFactory {
 			bullet.trail = 1;
 			bullet.explosive = 0.0F;
 
-			bullet.bImpact = BulletConfigFactory.getFlashbangEffect(4,4*20,false);
+			bullet.bntImpact = BulletConfigFactory.getFlashbangEffect(4,4*20,false);
 		bullet.spentCasing = CASING4GAUGE.clone().register("4GaSem").setColor(0x5C5C5C, SpentCasing.COLOR_CASE_4GA);
 
 		return bullet;
@@ -303,7 +303,7 @@ public class Gun4GaugeFactory {
 		bullet.trail = 1;
 		bullet.explosive = 0.0F;
 
-		bullet.bImpact = BulletConfigFactory.getFlashbangEffect(8,6*20,true);
+		bullet.bntImpact = BulletConfigFactory.getFlashbangEffect(8,6*20,true);
 		bullet.spentCasing = CASING4GAUGE.clone().register("4GaSem").setColor(0x5C5C5C, SpentCasing.COLOR_CASE_4GA);
 
 		return bullet;

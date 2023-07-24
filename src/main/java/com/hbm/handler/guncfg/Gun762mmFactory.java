@@ -287,77 +287,9 @@ public class Gun762mmFactory {
 		
 		return config;
 	}
-
-		GunConfiguration config = Gun20GaugeFactory.getShotgunConfig();
-
-		config.ammoCap = 5;
-		config.rateOfFire = 35;
-		config.durability = 3000;
-		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
-		config.firingSound = "hbm:weapon.revolverShoot";
-		config.firingPitch = 0.75F;
-		config.hasSights = true;
-		config.absoluteFOV = true;
-		config.zoomFOV = 0.4F;
-		config.crosshair = Crosshair.CLASSIC;
-
-		config.animations.put(AnimType.CYCLE, new BusAnimation()
-				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
-				)
-				.addBus("LEVER_PULL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 375)) //wait out recoil and lever flick
-						.addKeyframe(new BusAnimationKeyframe(-1, 0, 0, 375)) //pull back bolt
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 375)) //release bolt
-				)
-				.addBus("LEVER_ROTATE", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250)) //wait out recoil
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 125)) //flick up lever in  125ms
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 750)) //pull action
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 125)) //flick down lever again
-				)
-		);
-
-		config.name = "win20Inox";
-		config.manufacturer = EnumGunManufacturer.WINCHESTER;
-		config.ejector = EJECTOR_RIFLE;
-		config.config = HbmCollection.r762;
-		return config;
-	}
-	public static GunConfiguration getBoltGreenConfig() {
-
-		GunConfiguration config = getBoltConfig();
+	
 
 
-		config.durability = 2500;
-		config.name = "win20Poly";
-
-
-
-		return config;
-	}
-
-	public static GunConfiguration getBoltSaturniteConfig() {
-
-		GunConfiguration config = getBoltConfig();
-
-
-		config.durability = 5500;
-		config.rateOfFire = 30;
-		config.ammoCap = 8;
-		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
-		config.firingSound = "hbm:weapon.revolverShoot";
-		config.firingPitch = 0.65F;
-		config.hasSights = true;
-		config.zoomFOV = 0.2F;
-		config.scopeTexture = Gun50BMGFactory.scope_luna;
-		config.name = "win20Satur";
-		config.reloadType = RELOAD_FULL;
-		config.manufacturer = EnumGunManufacturer.WINCHESTER_BIGMT;
-		config.config = HbmCollection.r762_hs;
-		return config;
-	}
 	public static BulletConfiguration get762NATOConfig() {
 		final BulletConfiguration bullet = Gun556mmFactory.get556Config().clone();
 

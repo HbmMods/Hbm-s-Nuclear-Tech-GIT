@@ -1,6 +1,6 @@
 package com.hbm.interfaces;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 
 import net.minecraft.entity.player.EntityPlayer;
 
