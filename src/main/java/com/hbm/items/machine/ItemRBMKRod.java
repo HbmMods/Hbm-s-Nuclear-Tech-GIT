@@ -275,7 +275,7 @@ public class ItemRBMKRod extends Item {
 			break;
 		case ARCH: function = "(%1$s - %1$s² / 10000) / 100 * %2$s [0;∞]";
 			break;
-		case SIGMOID: function = "%2$s / (1 + e^(-(%1$s - 50) / 10)";
+		case SIGMOID: function = "%2$s / (1 + e^(-(%1$s - 50) / 10))";
 			break;
 		case SQUARE_ROOT: function = "sqrt(%1$s) * %2$s / 10";
 			break;

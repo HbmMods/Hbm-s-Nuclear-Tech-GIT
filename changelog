@@ -1,11 +1,24 @@
 ## Added
-* Rubber ball
-  * can be thrown at people
-* New chlorine processing chain
-  * Involves 240 processing steps of washing, electrolyzing, centrifuging and treating chlorocalcite
+* Custom machines
+  * Simple processing multiblocks that can be created via config
+  * The config found in `hbmConfig/hbmCustomMachines.json` defines the input and output slots, fluid amount, speed and consumption multipliers as well as the multiblock
+  * The config in `hbmRecipes/hbmCustomMachines.json` defines the recipes for all multiblocks with inputs, outputs base speed and consumption rates
+  * Currently, custom machine recipes do not show up in NEI, a handler will be added soon
+  * All recipes are shaped, even the fluid types, this was done to improve performance
+  * Item inputs have filter slots for automation, this allows the right ingredients to be inserted into the right slot easily. For simple machines, this slot can be left empty so any item can be inserted.
+  * By default, the standard config creates one custom machine with one recipe called the paper press, turning sawdust and water into paper
+  * More examples can be found in the configs attached to this github release
+  * Custom machines can also be configured as generators, using up item and fluid inputs and turning them into energy
+  * While changing the configs and adding/removing machines in an existing world is possible, this is not recommended because of potential ID shifts of the machines, breaking existing custom machines in the world
+  * With custom machines, quite a few otherwise unused construction blocks have been added which are recommended to be used for custom machines as they come in tiers, have reasonable cost and mesh well visually with the multiblocks
+    * However, using them is not mandatory, the only functional block is the port which is most likely needed for automation, although the machine's controller itself also serves as a port
 
 ## Changed
-* Glyphids now have a higher tracking range, being 256 blocks
-* Standard glyphids now have a base health of 100
-* Glyphid scouts are now immune to fire and explosive damage, have a 50% damage reduction against projectiles and have passive regeneration
-* Increased hive block blast resistance, they can no longer be blown up wiith conventional explosives
+* Additional OC compat for fluid gauges
+* Crates now display their contents when in item form
+
+## Fixed
+* Hopefully fixed an issue where pollution-based mob buffs apply multiple times, resulting in near-unkillable mobs
+* Fixed exploit allowing the cap for shield infusions to be bypassed
+* Fixed tier detection mode in the radar detecting the Y-position instead of the actual tier
+* Fixed missing parenthesis in sigmoid curve's description

@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration;
 import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration.ComponentDefinition;
-import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerMachineCustom;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -465,7 +464,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 
 	@Override
 	public long getMaxPower() {
-		return this.config != null ? this.getMaxPower() : 1;
+		return this.config != null ? this.config.maxPower : 1;
 	}
 
 	@Override
