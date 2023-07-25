@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import com.hbm.commands.CommandSatellites;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
@@ -926,6 +927,7 @@ public class MainRegistry {
 		SiegeOrchestrator.createGameRules(world);
 		event.registerServerCommand(new CommandReloadRecipes());
 		event.registerServerCommand(new CommandDebugChunkLoad());
+		event.registerServerCommand(new CommandSatellites());
 	}
 	
 	@EventHandler
