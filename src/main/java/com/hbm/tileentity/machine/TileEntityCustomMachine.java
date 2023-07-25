@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration;
 import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration.ComponentDefinition;
-import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerMachineCustom;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -175,6 +174,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", this.machineType);
 			data.setLong("power", power);
+			data.setBoolean("structureOK", structureOK);
 			data.setInteger("progress", progress);
 			data.setInteger("maxProgress", maxProgress);
 			for(int i = 0; i < inputTanks.length; i++) inputTanks[i].writeToNBT(data, "i" + i);
@@ -370,6 +370,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 		
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
+		this.structureOK = nbt.getBoolean("structureOK");
 		this.maxProgress = nbt.getInteger("maxProgress");
 		for(int i = 0; i < inputTanks.length; i++) inputTanks[i].readFromNBT(nbt, "i" + i);
 		for(int i = 0; i < outputTanks.length; i++) outputTanks[i].readFromNBT(nbt, "o" + i);
@@ -465,7 +466,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 
 	@Override
 	public long getMaxPower() {
-		return this.config != null ? this.getMaxPower() : 1;
+		return this.config != null ? this.config.maxPower : 1;
 	}
 
 	@Override

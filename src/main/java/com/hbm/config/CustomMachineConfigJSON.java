@@ -14,15 +14,26 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration.ComponentDefinition;
+import com.hbm.inventory.OreDictManager;
+import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ModItems;
+import com.hbm.main.CraftingManager;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class CustomMachineConfigJSON {
 
 	public static final Gson gson = new Gson();
 	public static HashMap<String, MachineConfiguration> customMachines = new HashMap();
+	public static List<MachineConfiguration> niceList = new ArrayList();
 	
 	public static void initialize() {
 		File folder = MainRegistry.configHbmDir;
@@ -58,6 +69,21 @@ public class CustomMachineConfigJSON {
 			writer.name("recipeSpeedMult").value(1.0D);
 			writer.name("recipeConsumptionMult").value(1.0D);
 			writer.name("maxPower").value(10_000L);
+			
+			writer.name("recipeShape").beginArray();
+			writer.value("IPI").value("PCP").value("IPI");
+			writer.endArray();
+			
+			writer.name("recipeParts").beginArray().setIndent("");
+			writer.value("I");
+			SerializableRecipe.writeAStack(new OreDictStack(OreDictManager.STEEL.ingot()), writer);
+			writer.setIndent("");
+			writer.value("P");
+			SerializableRecipe.writeAStack(new OreDictStack(OreDictManager.STEEL.plate()), writer);
+			writer.setIndent("");
+			writer.value("C");
+			SerializableRecipe.writeAStack(new ComparableStack(ModItems.circuit_aluminium), writer);
+			writer.endArray().setIndent("  ");
 			
 			writer.name("components").beginArray();
 			
@@ -134,6 +160,38 @@ public class CustomMachineConfigJSON {
 				configuration.recipeConsumptionMult = machineObject.get("recipeConsumptionMult").getAsDouble();
 				configuration.maxPower = machineObject.get("maxPower").getAsLong();
 				
+				if(machineObject.has("recipeShape") && machineObject.has("recipeParts")) {
+					JsonArray recipeShape = machineObject.get("recipeShape").getAsJsonArray();
+					JsonArray recipeParts = machineObject.get("recipeParts").getAsJsonArray();
+					
+					Object[] parts = new Object[recipeShape.size() + recipeParts.size()];
+					
+					for(int j = 0; j < recipeShape.size(); j++) {
+						parts[j] = recipeShape.get(j).getAsString();
+					}
+					
+					for(int j = 0; j < recipeParts.size(); j++) {
+						Object o = null;
+						
+						if(j % 2 == 0) {
+							o = recipeParts.get(j).getAsString().charAt(0); //god is dead and we killed him
+						} else {
+							AStack a = SerializableRecipe.readAStack(recipeParts.get(j).getAsJsonArray());
+							
+							if(a instanceof ComparableStack) o = ((ComparableStack) a).toStack();
+							if(a instanceof OreDictStack) o = ((OreDictStack) a).name;
+						}
+						
+						parts[j + recipeShape.size()] = o;
+					}
+					
+					ItemStack stack = new ItemStack(ModBlocks.custom_machine, 1, i + 100);
+					stack.stackTagCompound = new NBTTagCompound();
+					stack.stackTagCompound.setString("machineType", configuration.unlocalizedName);
+
+					CraftingManager.addRecipeAuto(stack, parts);
+				}
+				
 				JsonArray components = machineObject.get("components").getAsJsonArray();
 				configuration.components = new ArrayList();
 				
@@ -145,15 +203,16 @@ public class CustomMachineConfigJSON {
 					compDef.y = compObject.get("y").getAsInt();
 					compDef.z = compObject.get("z").getAsInt();
 					compDef.allowedMetas = new HashSet();
-					JsonArray metas = compObject.get("metas").getAsJsonArray();
-					for(int k = 0; k < metas.size(); k++) {
-						compDef.allowedMetas.add(metas.get(k).getAsInt());
+					compDef.metas = compObject.get("metas").getAsJsonArray();
+					for(int k = 0; k < compDef.metas.size(); k++) {
+						compDef.allowedMetas.add(compDef.metas.get(k).getAsInt());
 					}
 					
 					configuration.components.add(compDef);
 				}
 				
 				customMachines.put(configuration.unlocalizedName, configuration);
+				niceList.add(configuration);
 			}
 			
 		} catch(Exception ex) {
@@ -189,6 +248,7 @@ public class CustomMachineConfigJSON {
 		public static class ComponentDefinition {
 			public Block block;
 			public Set<Integer> allowedMetas;
+			public JsonArray metas;
 			public int x;
 			public int y;
 			public int z;
