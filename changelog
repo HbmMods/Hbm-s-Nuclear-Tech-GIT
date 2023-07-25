@@ -1,35 +1,24 @@
 ## Added
-* Industrial boiler
-  * A slightly taller variant of the boiler with higher capacity
-  * Unlike the regular boiler, it can't explode
-* Redstone-over-radio counter
-  * Can count and send the amount of an item stored in a container
-  * Counting supports filters by item ID, ID+meta and ore dictionary names
-  * Each torch can count up to three items and output the results on different channels
-  * This allows for more precise control over things like assembler chests, like turning off the ejector for an item that is already full but not other ejectors
-  * This property makes automating things with multiple inputs a lot easier
-  * Due to the ore dictionary ability of the counter, buffered items can precisely match the requirements of the recipe
-* Particle collider cooling unit
-  * A block that can replace coils in a particle collider
-  * Will increment a new "cooling" value which depletes over time and makes coils more effective
-  * Overcooling causes a penalty, so coolers cannot be spammed and need to be carefully spaced out
-  * Allows for even more compact particle accelerator setups
-  * Comes in two tiers, both tiers use a different cooling variable with different effectiveness, the higher tier will override the lower tier if both tiers of coolers are present
-* Benelli M4
-  * Automatic 12 gauge shotgun with a drum mag
+* Custom machines
+  * Simple processing multiblocks that can be created via config
+  * The config found in `hbmConfig/hbmCustomMachines.json` defines the input and output slots, fluid amount, speed and consumption multipliers as well as the multiblock
+  * The config in `hbmRecipes/hbmCustomMachines.json` defines the recipes for all multiblocks with inputs, outputs base speed and consumption rates
+  * Currently, custom machine recipes do not show up in NEI, a handler will be added soon
+  * All recipes are shaped, even the fluid types, this was done to improve performance
+  * Item inputs have filter slots for automation, this allows the right ingredients to be inserted into the right slot easily. For simple machines, this slot can be left empty so any item can be inserted.
+  * By default, the standard config creates one custom machine with one recipe called the paper press, turning sawdust and water into paper
+  * More examples can be found in the configs attached to this github release
+  * Custom machines can also be configured as generators, using up item and fluid inputs and turning them into energy
+  * While changing the configs and adding/removing machines in an existing world is possible, this is not recommended because of potential ID shifts of the machines, breaking existing custom machines in the world
+  * With custom machines, quite a few otherwise unused construction blocks have been added which are recommended to be used for custom machines as they come in tiers, have reasonable cost and mesh well visually with the multiblocks
+    * However, using them is not mandatory, the only functional block is the port which is most likely needed for automation, although the machine's controller itself also serves as a port
 
 ## Changed
-* The regular boiler now only holds 16k instead of 64k (which is still a lot)
-* Added labels to the large mining drill's levers
-* Glyphid eggs can now be broken apart using an anvil, yielding glyphid meat, bones and experience bottles
-* The assembler now uses the new multiblock system, making it less annoying to playe and less ear-piercing to break
-  * The conversion happens automatically so it's not necessary to remove the assemblers beforehand
-* Reload canceling is no longer possible if no rounds have been loaded yet, preventing single round weapons like dart guns to be reload canceled
-* The saturnite rifle now has a functional scope
-* Rechambered the bolt action rifles to 7.62mm, with a mag of 5 rounds
+* Additional OC compat for fluid gauges
+* Crates now display their contents when in item form
 
 ## Fixed
-* Fixed quantity of the fusion reactor's construction recipe not being displayed right
-* Fixed fluid valve and redstone fluid valves having the wrong names
-* Fixed mobs' max health getting buffed by pollution, but the actual health staying the same
-* Fixed bug regarding the loot pools of satellite miners
+* Hopefully fixed an issue where pollution-based mob buffs apply multiple times, resulting in near-unkillable mobs
+* Fixed exploit allowing the cap for shield infusions to be bypassed
+* Fixed tier detection mode in the radar detecting the Y-position instead of the actual tier
+* Fixed missing parenthesis in sigmoid curve's description

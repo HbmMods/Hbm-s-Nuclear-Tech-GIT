@@ -181,6 +181,8 @@ public class ExplosionNukeRayBatched {
 				Math.abs(posX - (chunkX << 4)),
 				Math.abs(posZ - (chunkZ << 4)))) - 16; //jump ahead to cut back on NOPs
 		
+		enter = Math.max(enter, 0);
+		
 		for(FloatTriplet triplet : list) {
 			float x = triplet.xCoord;
 			float y = triplet.yCoord;

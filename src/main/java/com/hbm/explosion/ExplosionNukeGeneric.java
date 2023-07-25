@@ -24,7 +24,7 @@ import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
 import com.hbm.entity.grenade.EntityGrenadeNuclear;
 import com.hbm.entity.missile.EntityMIRV;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.EntityExplosiveBeam;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
@@ -108,7 +108,7 @@ public class ExplosionNukeGeneric {
 				e instanceof EntityGrenadeASchrab ||
 				e instanceof EntityGrenadeNuclear ||
 				e instanceof EntityExplosiveBeam ||
-				e instanceof EntityBulletBase ||
+				e instanceof EntityBulletBaseNT ||
 				e instanceof EntityPlayer &&
 				ArmorUtil.checkArmor((EntityPlayer) e, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {
 			return true;

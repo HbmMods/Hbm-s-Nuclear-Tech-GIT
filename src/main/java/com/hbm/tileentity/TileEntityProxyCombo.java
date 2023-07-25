@@ -217,7 +217,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			return ((IEnergyConnector)getTile()).canConnect(dir);
 		}
 		
-		return false;
+		return true;
 	}
 
 	@Override
@@ -459,7 +459,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(getTile() instanceof IFluidConnector) {
 			return ((IFluidConnector)getTile()).canConnect(type, dir);
 		}
-		return false;
+		return true;
 	}
 
 	@Override

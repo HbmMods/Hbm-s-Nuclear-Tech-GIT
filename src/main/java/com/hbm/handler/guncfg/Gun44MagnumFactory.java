@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityBuilding;
-import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityDuchessGambit;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletHitBehavior;
-import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo44Magnum;
@@ -27,7 +24,6 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
@@ -227,19 +223,15 @@ public class Gun44MagnumFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(eff));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "vanillaburst");
-				data.setString("mode", "flame");
-				data.setInteger("count", 15);
-				data.setDouble("motion", 0.05D);
-				
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
-			}
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaburst");
+			data.setString("mode", "flame");
+			data.setInteger("count", 15);
+			data.setDouble("motion", 0.05D);
+			
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bulletnt.posX, bulletnt.posY, bulletnt.posZ), new TargetPoint(bulletnt.dimension, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 50));
 		};
 		
 		bullet.spentCasing = CASING44.clone().register("44Phos");
@@ -272,27 +264,21 @@ public class Gun44MagnumFactory {
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
 		
-		bullet.bHit = new IBulletHitBehavior() {
-
-			@Override
-			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
+		bullet.bntHit = (bulletnt, hit) -> {
 				
-				if(!bullet.worldObj.isRemote) {
-					EntityBoxcar pippo = new EntityBoxcar(bullet.worldObj);
-					pippo.posX = hit.posX;
-					pippo.posY = hit.posY + 50;
-					pippo.posZ = hit.posZ;
-					
-					for(int j = 0; j < 50; j++) {
-						EntityBSmokeFX fx = new EntityBSmokeFX(bullet.worldObj, pippo.posX + (bullet.worldObj.rand.nextDouble() - 0.5) * 4, pippo.posY + (bullet.worldObj.rand.nextDouble() - 0.5) * 12, pippo.posZ + (bullet.worldObj.rand.nextDouble() - 0.5) * 4, 0, 0, 0);
-						bullet.worldObj.spawnEntityInWorld(fx);
-					}
-					bullet.worldObj.spawnEntityInWorld(pippo);
-					
-					bullet.worldObj.playSoundEffect(pippo.posX, 
-							pippo.posY + 50, 
-							pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
+			if(!bulletnt.worldObj.isRemote) {
+				EntityBoxcar pippo = new EntityBoxcar(bulletnt.worldObj);
+				pippo.posX = hit.posX;
+				pippo.posY = hit.posY + 50;
+				pippo.posZ = hit.posZ;
+				
+				for(int j = 0; j < 50; j++) {
+					EntityBSmokeFX fx = new EntityBSmokeFX(bulletnt.worldObj, pippo.posX + (bulletnt.worldObj.rand.nextDouble() - 0.5) * 4, pippo.posY + (bulletnt.worldObj.rand.nextDouble() - 0.5) * 12, pippo.posZ + (bulletnt.worldObj.rand.nextDouble() - 0.5) * 4, 0, 0, 0);
+					bulletnt.worldObj.spawnEntityInWorld(fx);
 				}
+				bulletnt.worldObj.spawnEntityInWorld(pippo);
+				
+				bulletnt.worldObj.playSoundEffect(pippo.posX, pippo.posY + 50, pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
 			}
 		};
 		
@@ -311,29 +297,22 @@ public class Gun44MagnumFactory {
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
 		
-		bullet.bHit = new IBulletHitBehavior() {
-
-			@Override
-			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
+		bullet.bntHit = (bulletnt, hit) -> {
 				
-				if(!bullet.worldObj.isRemote) {
-					EntityDuchessGambit pippo = new EntityDuchessGambit(bullet.worldObj);
-					pippo.posX = hit.posX;
-					pippo.posY = hit.posY + 50;
-					pippo.posZ = hit.posZ;
-					
-					for(int j = 0; j < 150; j++) {
-						EntityBSmokeFX fx = new EntityBSmokeFX(bullet.worldObj, pippo.posX + (bullet.worldObj.rand.nextDouble() - 0.5) * 7, pippo.posY + (bullet.worldObj.rand.nextDouble() - 0.5) * 8, pippo.posZ + (bullet.worldObj.rand.nextDouble() - 0.5) * 18, 0, 0, 0);
-						bullet.worldObj.spawnEntityInWorld(fx);
-					}
-					bullet.worldObj.spawnEntityInWorld(pippo);
-					
-					bullet.worldObj.playSoundEffect(pippo.posX, 
-							pippo.posY + 50, 
-							pippo.posZ, "hbm:weapon.boat", 100F, 1F);
+			if(!bulletnt.worldObj.isRemote) {
+				EntityDuchessGambit pippo = new EntityDuchessGambit(bulletnt.worldObj);
+				pippo.posX = hit.posX;
+				pippo.posY = hit.posY + 50;
+				pippo.posZ = hit.posZ;
+				
+				for(int j = 0; j < 150; j++) {
+					EntityBSmokeFX fx = new EntityBSmokeFX(bulletnt.worldObj, pippo.posX + (bulletnt.worldObj.rand.nextDouble() - 0.5) * 7, pippo.posY + (bulletnt.worldObj.rand.nextDouble() - 0.5) * 8, pippo.posZ + (bulletnt.worldObj.rand.nextDouble() - 0.5) * 18, 0, 0, 0);
+					bulletnt.worldObj.spawnEntityInWorld(fx);
 				}
+				bulletnt.worldObj.spawnEntityInWorld(pippo);
+				
+				bulletnt.worldObj.playSoundEffect(pippo.posX, pippo.posY + 50, pippo.posZ, "hbm:weapon.boat", 100F, 1F);
 			}
-			
 		};
 		
 		bullet.spentCasing = CASING44.clone().register("44BJ").setColor(0x632B2C);
@@ -351,29 +330,22 @@ public class Gun44MagnumFactory {
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
 		
-		bullet.bHit = new IBulletHitBehavior() {
-
-			@Override
-			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
+		bullet.bntHit = (bulletnt, hit) -> {
 				
-				if(!bullet.worldObj.isRemote) {
-					EntityBuilding pippo = new EntityBuilding(bullet.worldObj);
-					pippo.posX = hit.posX;
-					pippo.posY = hit.posY + 50;
-					pippo.posZ = hit.posZ;
-					
-					for(int j = 0; j < 150; j++) {
-						EntityBSmokeFX fx = new EntityBSmokeFX(bullet.worldObj, pippo.posX + (bullet.worldObj.rand.nextDouble() - 0.5) * 15, pippo.posY + (bullet.worldObj.rand.nextDouble() - 0.5) * 15, pippo.posZ + (bullet.worldObj.rand.nextDouble() - 0.5) * 15, 0, 0, 0);
-						bullet.worldObj.spawnEntityInWorld(fx);
-					}
-					bullet.worldObj.spawnEntityInWorld(pippo);
-					
-					bullet.worldObj.playSoundEffect(pippo.posX, 
-							pippo.posY + 50, 
-							pippo.posZ, "hbm:block.debris", 100F, 1F);
+			if(!bulletnt.worldObj.isRemote) {
+				EntityBuilding pippo = new EntityBuilding(bulletnt.worldObj);
+				pippo.posX = hit.posX;
+				pippo.posY = hit.posY + 50;
+				pippo.posZ = hit.posZ;
+				
+				for(int j = 0; j < 150; j++) {
+					EntityBSmokeFX fx = new EntityBSmokeFX(bulletnt.worldObj, pippo.posX + (bulletnt.worldObj.rand.nextDouble() - 0.5) * 15, pippo.posY + (bulletnt.worldObj.rand.nextDouble() - 0.5) * 15, pippo.posZ + (bulletnt.worldObj.rand.nextDouble() - 0.5) * 15, 0, 0, 0);
+					bulletnt.worldObj.spawnEntityInWorld(fx);
 				}
+				bulletnt.worldObj.spawnEntityInWorld(pippo);
+				
+				bulletnt.worldObj.playSoundEffect(pippo.posX, pippo.posY + 50, pippo.posZ, "hbm:block.debris", 100F, 1F);
 			}
-			
 		};
 		
 		bullet.spentCasing = CASING44.clone().register("44Silver").setColor(0x2B5963);

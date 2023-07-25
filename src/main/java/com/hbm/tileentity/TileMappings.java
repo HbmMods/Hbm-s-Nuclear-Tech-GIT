@@ -96,6 +96,7 @@ public class TileMappings {
 		put(TileEntityMachineFluidTank.class, "tileentity_fluid_tank");
 		put(TileEntityMachineTurbofan.class, "tileentity_machine_turbofan");
 		put(TileEntityMachineTurbineGas.class, "tileentity_machine_gasturbine");
+		put(TileEntityCrateTemplate.class, "tileentity_crate_template");
 		put(TileEntityCrateIron.class, "tileentity_crate_iron");
 		put(TileEntityCrateSteel.class, "tileentity_crate_steel");
 		put(TileEntityCrateDesh.class, "tileentity_crate_desh");
@@ -193,6 +194,7 @@ public class TileMappings {
 		put(TileEntityMachineBAT9000.class, "tileentity_bat9000");
 		put(TileEntityMachineOrbus.class, "tileentity_orbus");
 		put(TileEntityGlpyhidSpawner.class, "tileentity_glyphid_spawner");
+		put(TileEntityCustomMachine.class, "tileentity_custom_machine");
 		
 		put(TileEntityLoot.class, "tileentity_ntm_loot");
 		put(TileEntityBobble.class, "tileentity_ntm_bobblehead");
@@ -265,6 +267,7 @@ public class TileMappings {
 		put(TileEntitySawmill.class, "tileentity_sawmill");
 		put(TileEntityCrucible.class, "tileentity_crucible");
 		put(TileEntityHeatBoiler.class, "tileentity_heat_boiler");
+		put(TileEntityHeatBoilerIndustrial.class, "tileentity_heat_boiler_industrial");
 
 		put(TileEntityFoundryMold.class, "tileentity_foundry_mold");
 		put(TileEntityFoundryBasin.class, "tileentity_foundry_basin");

@@ -25,6 +25,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
@@ -46,6 +47,9 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private int bombTimer;
 	private int contagion;
 	private int oil;
+	private int temperature;
+	private boolean frozen = false;
+	private boolean burning = false;
 	private List<ContaminationEffect> contamination = new ArrayList();
 	
 	public HbmLivingProps(EntityLivingBase entity) {
@@ -270,6 +274,24 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static void setOil(EntityLivingBase entity, int oil) {
 		getData(entity).oil = oil;
 	}
+	
+	/// TEMPERATURE ///
+	public static int getTemperature(EntityLivingBase entity) {
+		return getData(entity).temperature;
+	}
+	
+	public static void setTemperature(EntityLivingBase entity, int temperature) {
+		HbmLivingProps data = getData(entity);
+		temperature = MathHelper.clamp_int(temperature, -2500, 2500);
+		data.temperature = temperature;
+		if(temperature > 1000)  data.burning = true;
+		if(temperature < 800)  data.burning = false;
+		if(temperature < -1000)  data.frozen = true;
+		if(temperature > -800)  data.frozen = false;
+	}
+
+	public static boolean isFrozen(EntityLivingBase entity) { return getData(entity).frozen; };
+	public static boolean isBurning(EntityLivingBase entity) { return getData(entity).burning; };
 
 	@Override
 	public void init(Entity entity, World world) { }

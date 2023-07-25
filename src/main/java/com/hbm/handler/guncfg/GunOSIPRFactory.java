@@ -101,17 +101,17 @@ public class GunOSIPRFactory {
 		bullet.maxAge = 150;
 		bullet.velocity = 2;
 
-		bullet.bHurt = (ball, entity) -> {
+		bullet.bntHurt = (ball, entity) -> {
 			if(entity instanceof EntityLivingBase) {
 				EntityLivingBase entityLiving = (EntityLivingBase) entity;
 				entity.addVelocity(ball.motionX / 2, ball.motionY / 2, ball.motionZ / 2);
 
-				if(entity == ball.shooter)
+				if(entity == ball.getThrower())
 					return;
 
 				if(entityLiving.getHealth() <= 1000) {
 					entityLiving.addPotionEffect(new PotionEffect(HbmPotion.bang.id, 1, 0));
-					entityLiving.setLastAttacker(ball.shooter);
+					entityLiving.setLastAttacker(ball.getThrower());
 				} else if(entityLiving.getHealth() > 1000) {
 					ball.setDead();
 					return;
@@ -120,14 +120,14 @@ public class GunOSIPRFactory {
 			}
 		};
 
-		bullet.bRicochet = (ball, x, y, z) -> {
+		bullet.bntRicochet = (ball, x, y, z) -> {
 			Block block = ball.worldObj.getBlock(x, y, z);
 			if(block instanceof RedBarrel)
 				((RedBarrel) block).explode(ball.worldObj, x, y, z);
 
 		};
 
-		bullet.bImpact = (ball, x, y, z) -> {
+		bullet.bntImpact = (ball, x, y, z) -> {
 			final Block block = ball.worldObj.getBlock(x, y, z);
 			if(block instanceof RedBarrel)
 				((RedBarrel) block).explode(ball.worldObj, x, y, z);

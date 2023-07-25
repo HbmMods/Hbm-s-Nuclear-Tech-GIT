@@ -89,11 +89,11 @@ public class MachineHeatBoilerIndustrial extends BlockDummyable implements ILook
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 
-		this.makeExtra(world, x + dir.offsetX + 1, y, z + dir.offsetZ);
-		this.makeExtra(world, x + dir.offsetX - 1, y, z + dir.offsetZ);
-		this.makeExtra(world, x + dir.offsetX, y, z + dir.offsetZ + 1);
-		this.makeExtra(world, x + dir.offsetX, y, z + dir.offsetZ - 1);
-		this.makeExtra(world, x + dir.offsetX, y + 4, z + dir.offsetZ);
+		this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ);
+		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ);
+		this.makeExtra(world, x - dir.offsetX, y, z - dir.offsetZ + 1);
+		this.makeExtra(world, x - dir.offsetX, y, z - dir.offsetZ - 1);
+		this.makeExtra(world, x - dir.offsetX, y + 4, z - dir.offsetZ);
 	}
 
 	@Override

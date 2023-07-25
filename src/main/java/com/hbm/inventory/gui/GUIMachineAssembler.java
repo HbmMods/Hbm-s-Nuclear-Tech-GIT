@@ -30,7 +30,7 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 70 - 52, 16, 52, assembler.power, assembler.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 70 - 52, 16, 52, assembler.power, assembler.getMaxPower());
 		
 		if(assembler.getStackInSlot(4) == null || assembler.getStackInSlot(4).getItem()!= ModItems.assembly_template) {
 
@@ -63,14 +63,15 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = (int)assembler.getPowerScaled(52);
+		int i = (int) (assembler.power * 52 / assembler.getMaxPower());
 		drawTexturedModalRect(guiLeft + 116, guiTop + 70 - i, 176, 52 - i, 16, i);
 
-		int j = assembler.getProgressScaled(83);
-		drawTexturedModalRect(guiLeft + 45, guiTop + 82, 2, 222, j, 32);
+		if(assembler.isProgressing) {
+			int j = assembler.progress[0] * 83 / assembler.maxProgress[0];
+			drawTexturedModalRect(guiLeft + 45, guiTop + 82, 2, 222, j, 32);
+		}
 		
 		if(assembler.getStackInSlot(4) == null || assembler.getStackInSlot(4).getItem()!= ModItems.assembly_template) {
-
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 6);
 		}
 		

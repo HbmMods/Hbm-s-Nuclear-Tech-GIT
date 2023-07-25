@@ -184,8 +184,8 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 				
 				for(int i = 0; i < nearbyMissiles.size(); i++) {
 					
-					if(nearbyMissiles.get(i)[3] + 1 > power) {
-						power = nearbyMissiles.get(i)[3] + 1;
+					if(nearbyMissiles.get(i)[2] + 1 > power) {
+						power = nearbyMissiles.get(i)[2] + 1;
 					}
 				}
 				

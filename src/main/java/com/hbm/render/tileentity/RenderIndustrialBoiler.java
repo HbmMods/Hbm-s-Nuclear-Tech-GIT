@@ -30,7 +30,7 @@ public class RenderIndustrialBoiler extends TileEntitySpecialRenderer implements
 
 	@Override
 	public Item getItemForRenderer() {
-		return Item.getItemFromBlock(ModBlocks.machine_boiler);
+		return Item.getItemFromBlock(ModBlocks.machine_industrial_boiler);
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class RenderIndustrialBoiler extends TileEntitySpecialRenderer implements
 		return new ItemRenderBase( ) {
 			public void renderInventory() {
 				GL11.glTranslated(0, -3, 0);
-				GL11.glScaled(3, 3, 3);
+				GL11.glScaled(2.5, 2.5, 2.5);
 			}
 			public void renderCommonWithStack(ItemStack item) {
 				GL11.glRotatef(90, 0F, 1F, 0F);

@@ -17,7 +17,6 @@ import com.hbm.items.armor.*;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.items.bomb.*;
 import com.hbm.items.food.*;
-import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.machine.*;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
@@ -1506,6 +1505,7 @@ public class ModItems {
 	public static ItemEnumMulti ammo_dart;
 	public static ItemEnumMulti ammo_stinger_rocket;
 	public static ItemEnumMulti ammo_luna_sniper;
+	public static ItemEnumMulti ammo_coilgun;
 
 	public static Item ammo_cell;
 
@@ -1573,6 +1573,7 @@ public class ModItems {
 	public static Item gun_b92;
 	public static Item gun_b92_ammo;
 	public static Item gun_b93;
+	public static Item gun_coilgun;
 	public static Item gun_xvl1456;
 	public static Item gun_xvl1456_ammo;
 	public static Item gun_osipr;
@@ -1582,6 +1583,7 @@ public class ModItems {
 	public static Item gun_immolator_ammo;
 	public static Item gun_flamer;
 	public static Item gun_cryolator;
+	public static Item gun_cryocannon;
 	public static Item gun_cryolator_ammo;
 	public static Item gun_fireext;
 	public static Item gun_mp;
@@ -1615,6 +1617,7 @@ public class ModItems {
 	public static Item gun_glass_cannon;
 	public static Item gun_m2;
 	public static Item gun_lunatic_marksman;
+	public static Item gun_uac_pistol;
 	
 	// We'll figure this part out later
 	//public static Item gun_llr, gun_mlr, gun_hlr, gun_twr, gun_lunatic, gun_lunatic_shotty;
@@ -3448,34 +3451,6 @@ public class ModItems {
 		coffee = new ItemEnergy().setUnlocalizedName("coffee").setTextureName(RefStrings.MODID + ":coffee");
 		coffee_radium = new ItemEnergy().setUnlocalizedName("coffee_radium").setTextureName(RefStrings.MODID + ":coffee_radium");
 		chocolate = new ItemPill(0).setUnlocalizedName("chocolate").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":chocolate");
-
-		//canned_beef = new ItemLemon(8, 5, false).setUnlocalizedName("canned_beef").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_beef");
-		//canned_tuna = new ItemLemon(4, 5, false).setUnlocalizedName("canned_tuna").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_tuna");
-		//canned_mystery = new ItemLemon(6, 5, false).setUnlocalizedName("canned_mystery").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_mystery");
-		//canned_pashtet = new ItemLemon(4, 5, false).setUnlocalizedName("canned_pashtet").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_pashtet");
-		//canned_cheese = new ItemLemon(3, 5, false).setUnlocalizedName("canned_cheese").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_cheese");
-		//canned_jizz = new ItemLemon(15, 5, false).setUnlocalizedName("canned_jizz").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_jizz");
-		//canned_milk = new ItemLemon(5, 5, false).setUnlocalizedName("canned_milk").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_milk");
-		//canned_ass = new ItemLemon(6, 5, false).setUnlocalizedName("canned_ass").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_ass");
-		//canned_pizza = new ItemLemon(8, 5, false).setUnlocalizedName("canned_pizza").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_pizza");
-		//canned_tube = new ItemLemon(2, 5, false).setUnlocalizedName("canned_tube").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_tube");
-		//canned_tomato = new ItemLemon(4, 5, false).setUnlocalizedName("canned_tomato").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_tomato");
-		//canned_asbestos = new ItemLemon(7, 5, false).setUnlocalizedName("canned_asbestos").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_asbestos");
-		//canned_bhole = new ItemLemon(10, 5, false).setUnlocalizedName("canned_bhole").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_bhole");
-		//canned_hotdogs = new ItemLemon(5, 5, false).setUnlocalizedName("canned_hotdogs").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_hotdogs");
-		//canned_leftovers = new ItemLemon(1, 5, false).setUnlocalizedName("canned_leftovers").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_leftovers");
-		//canned_yogurt = new ItemLemon(3, 5, false).setUnlocalizedName("canned_yogurt").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_yogurt");
-		//canned_stew = new ItemLemon(5, 5, false).setUnlocalizedName("canned_stew").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_stew");
-		//canned_chinese = new ItemLemon(6, 5, false).setUnlocalizedName("canned_chinese").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_chinese");
-		//canned_oil = new ItemLemon(3, 5, false).setUnlocalizedName("canned_oil").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_oil");
-		//canned_fist = new ItemLemon(6, 5, false).setUnlocalizedName("canned_fist").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_fist");
-		//canned_spam = new ItemLemon(8, 5, false).setUnlocalizedName("canned_spam").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_spam");
-		//canned_fried = new ItemLemon(10, 5, false).setUnlocalizedName("canned_fried").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_fried");
-		//canned_napalm = new ItemLemon(6, 5, false).setUnlocalizedName("canned_napalm").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_napalm");
-		//canned_diesel = new ItemLemon(6, 5, false).setUnlocalizedName("canned_diesel").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_diesel");
-		//canned_kerosene = new ItemLemon(6, 5, false).setUnlocalizedName("canned_kerosene").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_kerosene");
-		//canned_recursion = new ItemLemon(1, 5, false).setUnlocalizedName("canned_recursion").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_recursion");
-		//canned_bark = new ItemLemon(2, 5, false).setUnlocalizedName("canned_bark").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_bark");
 		canned_conserve = (ItemEnumMulti) new ItemConserve().setUnlocalizedName("canned_conserve").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned");
 		can_key = new Item().setUnlocalizedName("can_key").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_key");
 		
@@ -4131,6 +4106,7 @@ public class ModItems {
 		ammo_fuel = new ItemAmmo(AmmoFlamethrower.class).setUnlocalizedName("ammo_fuel");
 		ammo_fireext = new ItemAmmo(AmmoFireExt.class).setUnlocalizedName("ammo_fireext");
 		ammo_cell = new ItemCustomLore().setCreativeTab(MainRegistry.weaponTab).setUnlocalizedName("ammo_cell").setMaxStackSize(16);
+		ammo_coilgun = new ItemAmmo(AmmoCoilgun.class).setUnlocalizedName("ammo_coilgun");
 		ammo_dart = (ItemEnumMulti) new ItemAmmo(AmmoDart.class).setUnlocalizedName("ammo_dart").setMaxStackSize(16);
 		ammo_stinger_rocket = new ItemAmmo(AmmoStinger.class).setUnlocalizedName("ammo_stinger_rocket");
 		ammo_luna_sniper = new ItemAmmo(AmmoLunaticSniper.class).setUnlocalizedName("ammo_luna_sniper");
@@ -4198,6 +4174,7 @@ public class ModItems {
 		gun_b92_ammo = new GunB92Cell().setUnlocalizedName("gun_b92_ammo").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92_ammo_alt");
 		gun_b92 = new GunB92().setUnlocalizedName("gun_b92").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92");
 		gun_b93 = new GunB93().setUnlocalizedName("gun_b93").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b93");
+		gun_coilgun = new ItemCoilgun(GunEnergyFactory.getCoilgunConfig()).setUnlocalizedName("gun_coilgun").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_coilgun");
 		gun_xvl1456_ammo = new Item().setUnlocalizedName("gun_xvl1456_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_xvl1456_ammo");
 		gun_xvl1456 = new ItemGunGauss(GunGaussFactory.getXVLConfig(), GunGaussFactory.getChargedConfig()).setUnlocalizedName("gun_xvl1456").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_xvl1456");
 		gun_osipr_ammo = new Item().setUnlocalizedName("gun_osipr_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_osipr_ammo");
@@ -4208,6 +4185,7 @@ public class ModItems {
 		gun_flamer = new ItemGunBase(GunEnergyFactory.getFlamerConfig()).setUnlocalizedName("gun_flamer").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_flamer");
 		gun_cryolator_ammo = new Item().setUnlocalizedName("gun_cryolator_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_cryolator_ammo");
 		gun_cryolator = new GunCryolator().setUnlocalizedName("gun_cryolator").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_cryolator");
+		gun_cryocannon = new ItemCryoCannon(GunEnergyFactory.getCryoCannonConfig()).setUnlocalizedName("gun_cryocannon").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_cryocannon");
 		gun_fireext = new ItemGunBase(GunEnergyFactory.getExtConfig()).setUnlocalizedName("gun_fireext").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fireext");
 		gun_mp = new ItemGunBase(Gun556mmFactory.getEuphieConfig()).setUnlocalizedName("gun_mp").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_pm");
 		gun_bolter = new ItemGunBase(Gun75BoltFactory.getBolterConfig()).setUnlocalizedName("gun_bolter").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_bolter");
@@ -4239,6 +4217,7 @@ public class ModItems {
 		gun_glass_cannon = new ItemEnergyGunBase(GunPoweredFactory.getGlassCannonConfig()).setFull3D().setUnlocalizedName("gun_glass_cannon").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_darter");
 		gun_m2 = new  ItemGunBase(Gun50BMGFactory.getM2Config()).setFull3D().setUnlocalizedName("gun_m2").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_darter");
 		gun_lunatic_marksman = new ItemGunBase(Gun50BMGFactory.getLunaticMarksman()).setFull3D().setUnlocalizedName("gun_lunatic_marksman").setCreativeTab(MainRegistry.weaponTab);
+		gun_uac_pistol = new ItemGunBase(Gun45ACPFactory.getUACPistolConfig()).setFull3D().setUnlocalizedName("gun_uac_pistol").setCreativeTab(MainRegistry.weaponTab);
 		
 		ToolMaterial matCrucible = EnumHelper.addToolMaterial("CRUCIBLE", 10, 3, 50.0F, 100.0F, 0);
 		crucible = new ItemCrucible(5000, 1F, matCrucible).setUnlocalizedName("crucible").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":crucible");
@@ -6976,6 +6955,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_revolver_red, gun_revolver_red.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bio_revolver, gun_bio_revolver.getUnlocalizedName());
 		GameRegistry.registerItem(gun_deagle, gun_deagle.getUnlocalizedName());
+		GameRegistry.registerItem(gun_uac_pistol, gun_uac_pistol.getUnlocalizedName());
 		GameRegistry.registerItem(gun_flechette, gun_flechette.getUnlocalizedName());
 		GameRegistry.registerItem(gun_ar15, gun_ar15.getUnlocalizedName());
 		GameRegistry.registerItem(gun_calamity, gun_calamity.getUnlocalizedName());
@@ -7017,11 +6997,13 @@ public class ModItems {
 		GameRegistry.registerItem(gun_bolt_action_green, gun_bolt_action_green.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolt_action_saturnite, gun_bolt_action_saturnite.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mymy, gun_mymy.getUnlocalizedName());
+		GameRegistry.registerItem(gun_coilgun, gun_coilgun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_xvl1456, gun_xvl1456.getUnlocalizedName());
 		GameRegistry.registerItem(gun_osipr, gun_osipr.getUnlocalizedName());
 		GameRegistry.registerItem(gun_immolator, gun_immolator.getUnlocalizedName());
 		GameRegistry.registerItem(gun_flamer, gun_flamer.getUnlocalizedName());
 		GameRegistry.registerItem(gun_cryolator, gun_cryolator.getUnlocalizedName());
+		GameRegistry.registerItem(gun_cryocannon, gun_cryocannon.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fireext, gun_fireext.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mp, gun_mp.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolter, gun_bolter.getUnlocalizedName());
@@ -7106,6 +7088,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_rocket, ammo_rocket.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_stinger_rocket, ammo_stinger_rocket.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_luna_sniper, ammo_luna_sniper.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_coilgun, ammo_coilgun.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_grenade, ammo_grenade.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_shell, ammo_shell.getUnlocalizedName());
 		
@@ -8105,35 +8088,6 @@ public class ModItems {
 		GameRegistry.registerItem(mysteryshovel, mysteryshovel.getUnlocalizedName());
 		GameRegistry.registerItem(memory, memory.getUnlocalizedName());
 		
-		//CONSERVE REMAP
-		addRemap("canned_beef", canned_conserve, EnumFoodType.BEEF);
-		addRemap("canned_tuna", canned_conserve, EnumFoodType.TUNA);
-		addRemap("canned_mystery", canned_conserve, EnumFoodType.MYSTERY);
-		addRemap("canned_pashtet", canned_conserve, EnumFoodType.PASHTET);
-		addRemap("canned_cheese", canned_conserve, EnumFoodType.CHEESE);
-		addRemap("canned_jizz", canned_conserve, EnumFoodType.JIZZ);
-		addRemap("canned_milk", canned_conserve, EnumFoodType.MILK);
-		addRemap("canned_ass", canned_conserve, EnumFoodType.ASS);
-		addRemap("canned_pizza", canned_conserve, EnumFoodType.PIZZA);
-		addRemap("canned_tube", canned_conserve, EnumFoodType.TUBE);
-		addRemap("canned_tomato", canned_conserve, EnumFoodType.TOMATO);
-		addRemap("canned_asbestos", canned_conserve, EnumFoodType.ASBESTOS);
-		addRemap("canned_bhole", canned_conserve, EnumFoodType.BHOLE);
-		addRemap("canned_hotdogs", canned_conserve, EnumFoodType.HOTDOGS);
-		addRemap("canned_leftovers", canned_conserve, EnumFoodType.LEFTOVERS);
-		addRemap("canned_yogurt", canned_conserve, EnumFoodType.YOGURT);
-		addRemap("canned_stew", canned_conserve, EnumFoodType.STEW);
-		addRemap("canned_chinese", canned_conserve, EnumFoodType.CHINESE);
-		addRemap("canned_oil", canned_conserve, EnumFoodType.OIL);
-		addRemap("canned_fist", canned_conserve, EnumFoodType.FIST);
-		addRemap("canned_spam", canned_conserve, EnumFoodType.SPAM);
-		addRemap("canned_fried", canned_conserve, EnumFoodType.FRIED);
-		addRemap("canned_napalm", canned_conserve, EnumFoodType.NAPALM);
-		addRemap("canned_diesel", canned_conserve, EnumFoodType.DIESEL);
-		addRemap("canned_kerosene", canned_conserve, EnumFoodType.KEROSENE);
-		addRemap("canned_recursion", canned_conserve, EnumFoodType.RECURSION);
-		addRemap("canned_bark", canned_conserve, EnumFoodType.BARK);
-		
 		addRemap("rod_zirnox_natural_uranium_fuel", rod_zirnox, EnumZirnoxType.NATURAL_URANIUM_FUEL);
 		addRemap("rod_zirnox_uranium_fuel", rod_zirnox, EnumZirnoxType.URANIUM_FUEL);
 		addRemap("rod_zirnox_th232", rod_zirnox, EnumZirnoxType.TH232);
@@ -8149,6 +8103,8 @@ public class ModItems {
 		addRemap("gas_petroleum", gas_full, Fluids.PETROLEUM.getID());
 		addRemap("gas_biogas", gas_full, Fluids.BIOGAS.getID());
 		addRemap("gas_lpg", gas_full, Fluids.LPG.getID());
+		
+		addRemap("gun_coilgun_ammo", ammo_coilgun, AmmoCoilgun.STOCK);
 	}
 	
 	public static void addRemap(String unloc, Item item, Enum sub) {

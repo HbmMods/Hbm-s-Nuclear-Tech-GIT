@@ -6,25 +6,15 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.hbm.items.ModItems;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.loader.HFRWavefrontObject;
-import com.hbm.render.util.HorsePronter;
 
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
 
 public class RendererObjTester extends TileEntitySpecialRenderer {
 	
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/TestObj.obj");
+	//private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/TestObj.obj");
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {

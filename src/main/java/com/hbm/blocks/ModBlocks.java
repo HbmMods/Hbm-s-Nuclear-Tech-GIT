@@ -637,11 +637,12 @@ public class ModBlocks {
 	public static Block sat_dock;
 	
 	public static Block soyuz_capsule;
-	
+
 	public static Block crate_iron;
 	public static Block crate_steel;
 	public static Block crate_desh;
 	public static Block crate_tungsten;
+	public static Block crate_template;
 	public static Block safe;
 	public static Block mass_storage;
 	
@@ -862,6 +863,14 @@ public class ModBlocks {
 	public static Block factory_advanced_hull;
 	@Deprecated public static Block factory_advanced_furnace;
 	@Deprecated public static Block factory_advanced_conductor;
+
+	public static Block cm_block;
+	public static Block cm_sheet;
+	public static Block cm_engine;
+	public static Block cm_tank;
+	public static Block cm_circuit;
+	public static Block cm_port;
+	public static Block custom_machine;
 
 	public static Block reactor_element;
 	public static Block reactor_control;
@@ -1811,7 +1820,7 @@ public class ModBlocks {
 		machine_sawmill = new MachineSawmill().setBlockName("machine_sawmill").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_crucible = new MachineCrucible().setBlockName("machine_crucible").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
 		machine_boiler = new MachineHeatBoiler().setBlockName("machine_boiler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_copper");
-		machine_industrial_boiler = new MachineHeatBoilerIndustrial().setBlockName("machine_industrial_boiler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_copper");
+		machine_industrial_boiler = new MachineHeatBoilerIndustrial().setBlockName("machine_industrial_boiler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		foundry_mold = new FoundryMold().setBlockName("foundry_mold").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
 		foundry_basin = new FoundryBasin().setBlockName("foundry_basin").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
@@ -2012,6 +2021,14 @@ public class ModBlocks {
 		factory_advanced_furnace = new FactoryHatch(Material.iron).setBlockName("factory_advanced_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_advanced_furnace");
 		factory_advanced_conductor = new BlockPillar(Material.iron, RefStrings.MODID + ":factory_advanced_conductor").setBlockName("factory_advanced_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_advanced_hull");
 
+		cm_block = new BlockCM(Material.iron, EnumCMMaterials.class, true, true).setBlockName("cm_block").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":cm_block");
+		cm_sheet = new BlockCM(Material.iron, EnumCMMaterials.class, true, true).setBlockName("cm_sheet").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":cm_sheet");
+		cm_engine = new BlockCM(Material.iron, EnumCMEngines.class, true, true).setBlockName("cm_engine").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":cm_engine");
+		cm_tank = new BlockCMGlass(Material.iron, EnumCMMaterials.class, true, true).setBlockName("cm_tank").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":cm_tank");
+		cm_circuit = new BlockCM(Material.iron, EnumCMCircuit.class, true, true).setBlockName("cm_circuit").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":cm_circuit");
+		cm_port = new BlockCMPort(Material.iron, EnumCMMaterials.class, true, true).setBlockName("cm_port").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":cm_port");
+		custom_machine = new BlockCustomMachine().setBlockName("custom_machine").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(10.0F);
+
 		reactor_element = new BlockPillar(Material.iron, RefStrings.MODID + ":reactor_element_top", RefStrings.MODID + ":reactor_element_base").setBlockName("reactor_element").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":reactor_element_side");
 		reactor_control = new BlockPillar(Material.iron, RefStrings.MODID + ":reactor_control_top").setBlockName("reactor_control").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":reactor_control_side");
 		reactor_hatch = new ReactorHatch(Material.iron).setBlockName("reactor_hatch").setHardness(5.0F).setResistance(1000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
@@ -2182,6 +2199,7 @@ public class ModBlocks {
 		crate_steel = new BlockStorageCrate(Material.iron).setBlockName("crate_steel").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crate_desh = new BlockStorageCrate(Material.iron).setBlockName("crate_desh").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crate_tungsten = new BlockStorageCrate(Material.iron).setBlockName("crate_tungsten").setStepSound(Block.soundTypeMetal).setHardness(7.5F).setResistance(300.0F).setCreativeTab(MainRegistry.machineTab);
+		crate_template = new BlockStorageCrate(Material.iron).setBlockName("crate_template").setStepSound(Block.soundTypeMetal).setHardness(7.5F).setResistance(300.0F).setCreativeTab(MainRegistry.machineTab);
 		safe = new BlockStorageCrate(Material.iron).setBlockName("safe").setStepSound(Block.soundTypeMetal).setHardness(7.5F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
 		mass_storage = new BlockMassStorage().setBlockName("mass_storage").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		
@@ -3009,6 +3027,7 @@ public class ModBlocks {
 		register(crate_steel);
 		register(crate_desh);
 		register(crate_tungsten);
+		register(crate_template);
 		register(safe);
 		register(mass_storage);
 		
@@ -3327,6 +3346,15 @@ public class ModBlocks {
 		//Literal fucking garbage
 		GameRegistry.registerBlock(factory_titanium_hull, factory_titanium_hull.getUnlocalizedName());
 		GameRegistry.registerBlock(factory_advanced_hull, factory_advanced_hull.getUnlocalizedName());
+		
+		//CM stuff
+		register(custom_machine, ItemCustomMachine.class);
+		register(cm_block);
+		register(cm_sheet);
+		register(cm_engine);
+		register(cm_tank);
+		register(cm_circuit);
+		register(cm_port);
 		
 		//Multiblock Generators
 		GameRegistry.registerBlock(reactor_element, reactor_element.getUnlocalizedName());

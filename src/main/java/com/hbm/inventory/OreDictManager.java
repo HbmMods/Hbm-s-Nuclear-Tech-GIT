@@ -884,7 +884,7 @@ public class OreDictManager {
 		public String gem() {			return GEM			+ groupName; }
 		public String crystal() {		return CRYSTAL		+ groupName; }
 		public String plate() {			return PLATE		+ groupName; }
-		public String plateTriple() {	return PLATECAST	+ groupName; }
+		public String plateCast() {		return PLATECAST	+ groupName; }
 		public String billet() {		return BILLET		+ groupName; }
 		public String block() {			return BLOCK		+ groupName; }
 		public String ore() {			return ORE			+ groupName; }

@@ -391,11 +391,11 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			
 			//not the best code ever made but it works, dammit
 			if(cl1 > 0) {
-				if(cl1 > 15) {
-					coilVal *= 0.90;
-				} else {
-					coilVal *= 1.25;
-				}
+				
+				double mult = 2D - (cl1 - 15D) * (cl1 - 15D) / 225D;
+				mult = Math.max(mult, 0.1D);
+				coilVal *= mult;
+				
 			} else if(cl0 > 0) {
 				if(cl0 > 10) {
 					coilVal *= 0.75;

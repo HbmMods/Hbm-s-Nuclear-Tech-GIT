@@ -42,8 +42,6 @@ public class ItemRenderWeaponFFBolt implements IItemRenderer {
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		
-		if(item.getItem() == ModItems.gun_bolt_action_saturnite && Minecraft.getMinecraft().thePlayer.isSneaking()) return;
-		
 		GL11.glPushMatrix();
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
@@ -54,6 +52,11 @@ public class ItemRenderWeaponFFBolt implements IItemRenderer {
 		switch(type) {
 		
 		case EQUIPPED_FIRST_PERSON:
+			
+			if(item.getItem() == ModItems.gun_bolt_action_saturnite && Minecraft.getMinecraft().thePlayer.isSneaking()) {
+				GL11.glPopMatrix();
+				return;
+			}
 			
 			double s0 = 0.5D;
 			GL11.glTranslated(0.5, 0.25, -0.2);

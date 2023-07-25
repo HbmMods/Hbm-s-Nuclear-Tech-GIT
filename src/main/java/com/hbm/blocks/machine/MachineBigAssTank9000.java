@@ -12,6 +12,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.storage.TileEntityMachineBAT9000;
+import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -96,6 +97,23 @@ public class MachineBigAssTank9000 extends BlockDummyable implements IPersistent
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		return IPersistentNBT.getDrops(world, x, y, z, this);
+	}
+
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+
+		TileEntity te = world.getTileEntity(x, y, z);
+
+		if(!(te instanceof TileEntityMachineBAT9000))
+			return 0;
+
+		TileEntityMachineBAT9000 tank = (TileEntityMachineBAT9000) te;
+		return tank.getComparatorPower();
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
@@ -273,7 +273,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	//spawns the actual projectile, can be overridden to change projectile entity
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
 		
-		EntityBulletBase bullet = new EntityBulletBase(world, config, player);
+		EntityBulletBaseNT bullet = new EntityBulletBaseNT(world, config, player);
 		world.spawnEntityInWorld(bullet);
 		
 		if(player instanceof EntityPlayerMP)

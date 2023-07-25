@@ -2,8 +2,6 @@ package com.hbm.items.special;
 
 import java.util.List;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
 import com.hbm.inventory.gui.GUIBookLore;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
