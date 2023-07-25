@@ -203,9 +203,9 @@ public class CustomMachineConfigJSON {
 					compDef.y = compObject.get("y").getAsInt();
 					compDef.z = compObject.get("z").getAsInt();
 					compDef.allowedMetas = new HashSet();
-					JsonArray metas = compObject.get("metas").getAsJsonArray();
-					for(int k = 0; k < metas.size(); k++) {
-						compDef.allowedMetas.add(metas.get(k).getAsInt());
+					compDef.metas = compObject.get("metas").getAsJsonArray();
+					for(int k = 0; k < compDef.metas.size(); k++) {
+						compDef.allowedMetas.add(compDef.metas.get(k).getAsInt());
 					}
 					
 					configuration.components.add(compDef);
@@ -248,6 +248,7 @@ public class CustomMachineConfigJSON {
 		public static class ComponentDefinition {
 			public Block block;
 			public Set<Integer> allowedMetas;
+			public JsonArray metas;
 			public int x;
 			public int y;
 			public int z;
