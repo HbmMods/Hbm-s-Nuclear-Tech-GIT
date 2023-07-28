@@ -1,7 +1,6 @@
 package com.hbm.items.block;
 
 import java.util.List;
-import java.util.Map.Entry;
 
 import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration;
@@ -24,10 +23,11 @@ public class ItemCustomMachine extends ItemBlock {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		
-		for(Entry<String, MachineConfiguration> entry : CustomMachineConfigJSON.customMachines.entrySet()) {
-			ItemStack stack = new ItemStack(item);
+		for(int i = 0; i < CustomMachineConfigJSON.niceList.size(); i++) {
+			MachineConfiguration conf = CustomMachineConfigJSON.niceList.get(i);
+			ItemStack stack = new ItemStack(item, 1, i + 100);
 			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setString("machineType", entry.getKey());
+			stack.stackTagCompound.setString("machineType", conf.unlocalizedName);
 			list.add(stack);
 		}
 	}

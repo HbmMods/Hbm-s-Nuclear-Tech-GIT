@@ -1,7 +1,9 @@
 package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -10,11 +12,14 @@ import com.hbm.tileentity.machine.TileEntityCustomMachine;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -49,6 +54,7 @@ public class BlockCustomMachine extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
+		if(metadata >= 100) return side == 3 ? this.iconFront : this.blockIcon;
 		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.blockIcon);
 	}
 	
@@ -116,15 +122,14 @@ public class BlockCustomMachine extends BlockContainer {
 		Item item = getItemDropped(metadata, world.rand, fortune);
 		if(item != null) {
 
-			ItemStack stack = new ItemStack(item);
 			TileEntityCustomMachine tile = (TileEntityCustomMachine) world.getTileEntity(x, y, z);
 			
 			if(tile != null) {
+				ItemStack stack = new ItemStack(item, 1, CustomMachineConfigJSON.niceList.indexOf(tile.config) + 100);
 				stack.stackTagCompound = new NBTTagCompound();
 				stack.stackTagCompound.setString("machineType", tile.machineType);
+				ret.add(stack);
 			}
-			
-			ret.add(stack);
 		}
 		
 		return ret;
@@ -134,15 +139,62 @@ public class BlockCustomMachine extends BlockContainer {
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) { //using the deprecated one to make NEI happy
 		
 		TileEntityCustomMachine tile = (TileEntityCustomMachine) world.getTileEntity(x, y, z);
-
-		ItemStack stack = new ItemStack(this);
 		
 		if(tile != null && tile.machineType != null && !tile.machineType.isEmpty()) {
+			ItemStack stack = new ItemStack(this, 1, CustomMachineConfigJSON.niceList.indexOf(tile.config) + 100);
 			stack.stackTagCompound = new NBTTagCompound();
 			stack.stackTagCompound.setString("machineType", tile.machineType);
 			return stack;
 		}
 		
 		return super.getPickBlock(target, world, x, y, z);
+	}
+	
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+
+		ISidedInventory sided = (ISidedInventory) world.getTileEntity(x, y, z);
+		Random rand = world.rand;
+
+		if(sided != null) {
+			for(int i1 = 0; i1 < sided.getSizeInventory(); ++i1) {
+
+				if(i1 >= 10 && i1 <= 15)
+					continue; // do NOT drop the filters
+
+				ItemStack itemstack = sided.getStackInSlot(i1);
+
+				if(itemstack != null) {
+					float f = rand.nextFloat() * 0.8F + 0.1F;
+					float f1 = rand.nextFloat() * 0.8F + 0.1F;
+					float f2 = rand.nextFloat() * 0.8F + 0.1F;
+
+					while(itemstack.stackSize > 0) {
+						int j1 = rand.nextInt(21) + 10;
+
+						if(j1 > itemstack.stackSize) {
+							j1 = itemstack.stackSize;
+						}
+
+						itemstack.stackSize -= j1;
+						EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+
+						if(itemstack.hasTagCompound()) {
+							entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+						}
+
+						float f3 = 0.05F;
+						entityitem.motionX = (float) rand.nextGaussian() * f3;
+						entityitem.motionY = (float) rand.nextGaussian() * f3 + 0.2F;
+						entityitem.motionZ = (float) rand.nextGaussian() * f3;
+						world.spawnEntityInWorld(entityitem);
+					}
+				}
+			}
+
+			world.func_147453_f(x, y, z, block);
+		}
+
+		super.breakBlock(world, x, y, z, block, meta);
 	}
 }

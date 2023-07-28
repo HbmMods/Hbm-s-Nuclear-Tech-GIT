@@ -1,9 +1,12 @@
 package com.hbm.blocks.generic;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.IBlockMulti;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemLock;
@@ -36,7 +39,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockStorageCrate extends BlockContainer implements IBlockMulti {
+public class BlockStorageCrate extends BlockContainer implements IBlockMulti, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
@@ -281,5 +284,36 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti {
 	@Override
 	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
 		return Container.calcRedstoneFromInventory((IInventory) world.getTileEntity(x, y, z));
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		if(stack.hasTagCompound()) {
+			
+			List<String> contents = new ArrayList();
+			int amount = 0;
+			
+			for(int i = 0; i < 100; i++) { //whatever the biggest container is, i can't be bothered to check
+				ItemStack content = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("slot" + i));
+				
+				if(content != null) {
+					amount++;
+					
+					if(contents.size() < 10) {
+						contents.add(EnumChatFormatting.AQUA + " - " + content.getDisplayName() + (content.stackSize > 1 ? (" x" + content.stackSize) : ""));
+					}
+				}
+			}
+			
+			if(!contents.isEmpty()) {
+				list.add(EnumChatFormatting.AQUA + "Contains:");
+				list.addAll(contents);
+				amount -= contents.size();
+				
+				if(amount > 0) {
+					list.add(EnumChatFormatting.AQUA + "...and " + amount + " more.");
+				}
+			}
+		}
 	}
 }
