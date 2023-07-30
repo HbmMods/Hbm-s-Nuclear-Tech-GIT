@@ -22,7 +22,7 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		if(world.provider.dimensionId == SpaceConfig.dunaDimension) {
+		if(world.provider.dimensionId == SpaceConfig.mohoDimension) {
 			generateMoho(world, random, chunkX * 16, chunkZ * 16);
 		}
 	}
