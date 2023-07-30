@@ -26,12 +26,12 @@ public class MachineElectrolyser extends BlockDummyable {
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {0, 0, 4, 4, 2, 2};
+		return new int[] {0, 0, 5, 5, 1, 3};
 	}
 
 	@Override
 	public int getOffset() {
-		return 4;
+		return 5;
 	}
 	
 	@Override
@@ -42,33 +42,39 @@ public class MachineElectrolyser extends BlockDummyable {
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {1, 0, 4, 4, 1, 1}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, -1, 4, 4, 0, 0}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, 0, 1, -1, -2, 2}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , 3 + y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {0, 0, 1, -1, -1, 1}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, 0, 3, -3, -2, 2}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , 3 + y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {0, 0, 3, -3, -1, 1}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, 0, -1, 1, -2, 2}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , 3 + y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {0, 0, -1, 1, -1, 1}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, 0, -3, 3, -2, 2}, this, dir);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , 3 + y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {0, 0, -3, 3, -1, 1}, this, dir);
+		
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {2, -1, 5, 5, 1, 1}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {3, -3, 5, 5, 0, 0}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {3, -1, 4, -4, -3, 3}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {3, -1, 2, -2, -3, 3}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {3, -1, 0, 0, -3, 3}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {3, -1, -2, 2, -3, 3}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {3, -1, -4, 4, -3, 3}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + 3, z + dir.offsetZ * o, new int[] {0, 0, 4, -4, -1, 2}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + 3, z + dir.offsetZ * o, new int[] {0, 0, 2, -2, -1, 2}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + 3, z + dir.offsetZ * o, new int[] {0, 0, 0, 0, -1, 2}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + 3, z + dir.offsetZ * o, new int[] {0, 0, -2, 2, -1, 2}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + 3, z + dir.offsetZ * o, new int[] {0, 0, -4, 4, -1, 2}, this, dir);
 
 	}
 
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), x, y, z, dir)) return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {1, 0, 4, 4, 1, 1}, x, y, z, dir)) return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, -1, 4, 4, 0, 0}, x, y, z, dir)) return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, 0, 1, -1, -2, 2}, x, y, z, dir)) return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , 3 +  y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {0, 0, 1, -1, -1, 1}, x, y, z, dir)) return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, 0, 3, -3, -2, 2}, x, y, z, dir)) return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , 3 +  y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {0, 0, 3, -3, -1, 1}, x, y, z, dir)) return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, 0, -1, 1, -2, 2}, x, y, z, dir)) return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , 3 +  y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {0, 0, -1, 1, -1, 1}, x, y, z, dir)) return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {3, 0, -3, 3, -2, 2}, x, y, z, dir)) return false;
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , 3 + y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {0, 0, -3, 3, -1, 1}, x, y, z, dir)) return false;
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y , z + dir.offsetZ * o, getDimensions(), x, y, z, dir)) return false;
+
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {2, -1, 5, 5, 1, 1}, x, y, z, dir)) return false;
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {3, -3, 5, 5, 0, 0}, x, y, z, dir)) return false;
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {3, -1, 4, -4, -3, 3}, x, y, z, dir)) return false;
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {3, -1, 2, -2, -3, 3}, x, y, z, dir)) return false;
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {3, -1, 0, 0, -3, 3}, x, y, z, dir)) return false;
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {3, -1, -2, 2, -3, 3}, x, y, z, dir)) return false;
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y, z + dir.offsetZ * o, new int[] {3, -1, -4, 4, -3, 3}, x, y, z, dir)) return false;
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + 3, z + dir.offsetZ * o, new int[] {0, 0, 4, -4, -1, 2}, x, y, z, dir)) return false;
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + 3, z + dir.offsetZ * o, new int[] {0, 0, 2, -2, -1, 2}, x, y, z, dir)) return false;
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + 3, z + dir.offsetZ * o, new int[] {0, 0, 0, 0, -1, 2}, x, y, z, dir)) return false;
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + 3, z + dir.offsetZ * o, new int[] {0, 0, -2, 2, -1, 2}, x, y, z, dir)) return false;
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + 3, z + dir.offsetZ * o, new int[] {0, 0, -4, 4, -1, 2}, x, y, z, dir)) return false;
 		
 		return true;
 	}

@@ -1,17 +1,10 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hbm.blocks.BlockDummyable;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.container.ContainerElectrolyser;
-import com.hbm.inventory.fluid.FluidType;
+import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.container.ContainerElectrolyserFluid;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.gui.GUIElectrolyser;
-import com.hbm.lib.Library;
+import com.hbm.inventory.gui.GUIElectrolyserFluid;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -24,9 +17,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor, IGUIProvider /* TODO: new fluid API */ {
+public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyUser, IControlReceiver, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 20000000;
@@ -43,11 +35,19 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public FluidTank[] tanks;
 
 	public TileEntityElectrolyser() {
-		super(24);
-		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(Fluids.WATER, 16000, 0);
-		tanks[1] = new FluidTank(Fluids.HYDROGEN, 16000, 1);
-		tanks[2] = new FluidTank(Fluids.OXYGEN, 16000, 2);
+		//0: Battery
+		//1-2: Upgrades
+		//// FLUID
+		//3-4: Fluid ID
+		//5-10: Fluid IO
+		//11-13: Byproducts
+		//// METAL
+		super(21);
+		tanks = new FluidTank[4];
+		tanks[0] = new FluidTank(Fluids.WATER, 16000);
+		tanks[1] = new FluidTank(Fluids.HYDROGEN, 16000);
+		tanks[2] = new FluidTank(Fluids.OXYGEN, 16000);
+		tanks[3] = new FluidTank(Fluids.NITRIC_ACID, 16000);
 	}
 
 	@Override
@@ -60,9 +60,6 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 		if(!worldObj.isRemote) {
 			
-			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			
-			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
 			data.setInteger("progressFluid", this.progressFluid);
@@ -70,25 +67,20 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			data.setInteger("usage", this.usage);
 			data.setInteger("processFluidTime", this.processFluidTime);
 			data.setInteger("processOreTime", this.processOreTime);
+			for(int i = 0; i < 4; i++) tanks[i].writeToNBT(data, "t" + i);
 			this.networkPack(data, 50);
-			
-			fillFluidInit(tanks[1].getTankType());
-			fillFluidInit(tanks[2].getTankType());
 		}
-
 	}
-	
+
 	@Override
-	public void fillFluidInit(FluidType type) {
-		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * -1, yCoord-1, zCoord + dir.offsetZ * 5 + rot.offsetZ * -1, getTact(), type);
-		fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * -1, yCoord-1, zCoord + dir.offsetZ * 5 + rot.offsetZ * 1, getTact(), type);
-		fillFluid(xCoord + dir.offsetX * -5 + rot.offsetX * -1, yCoord-1, zCoord + dir.offsetZ * 5 + rot.offsetZ * -1, getTact(), type);
-		fillFluid(xCoord + dir.offsetX * -5 + rot.offsetX * -1, yCoord-1, zCoord + dir.offsetZ * 5 + rot.offsetZ * 1, getTact(), type);
-
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		this.progressFluid = nbt.getInteger("progressFluid");
+		this.progressOre = nbt.getInteger("progressOre");
+		this.usage = nbt.getInteger("usage");
+		this.processFluidTime = nbt.getInteger("processFluidTime");
+		this.processOreTime = nbt.getInteger("processOreTime");
+		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "t" + i);
 	}
 	
 	AxisAlignedBB bb = null;
@@ -98,12 +90,12 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 3,
+					xCoord - 5,
 					yCoord - 0,
-					zCoord - 4,
-					xCoord + 3,
+					zCoord - 5,
+					xCoord + 6,
 					yCoord + 4,
-					zCoord + 4
+					zCoord + 6
 					);
 		}
 		
@@ -127,78 +119,33 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	}
 
 	@Override
-	public void setFillForSync(int fill, int index) {
-		tanks[index].setFill(fill);
-		
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		for(int i = 0; i < 3; i++) {
-			if(type == tanks[i].getTankType())
-				tanks[i].setFill(fill);
-		}
-		
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tanks[index].setTankType(type);
-		
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		for(int i = 0; i < 3; i++) {
-			if(type == tanks[i].getTankType() && tanks[i].getFill() != 0)
-				return tanks[i].getFill();
-		}
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		for(int i = 0; i < 3; i++) {
-			if(type == tanks[i].getTankType() && tanks[i].getMaxFill() != 0)
-				return tanks[i].getMaxFill();
-		}
-		return 0;
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 20 < 10;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return new ArrayList<IFluidAcceptor>();
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		return;
-	}
-
-	@Override
 	public void setPower(long power) {
 		this.power = power;
 	}
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new ContainerElectrolyser(player.inventory, this);
+		return new ContainerElectrolyserFluid(player.inventory, this);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUIElectrolyser(player.inventory, this);
+		return new GUIElectrolyserFluid(player.inventory, this);
 	}
 
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		
+	}
+	
+	@Override
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
+		
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return this.isUseableByPlayer(player);
+	}
 }
