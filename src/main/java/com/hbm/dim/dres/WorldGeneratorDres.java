@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.world.feature.OreLayer3D;
@@ -22,9 +23,8 @@ public class WorldGeneratorDres implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		switch (world.provider.dimensionId) {
-		case 19:
-			generateDres(world, random, chunkX * 16, chunkZ * 16); break;
+		if(world.provider.dimensionId == SpaceConfig.dresDimension) {
+			generateDres(world, random, chunkX * 16, chunkZ * 16);
 		}
 	}
 	private void generateDres(World world, Random rand, int i, int j) {
@@ -34,7 +34,7 @@ public class WorldGeneratorDres implements IWorldGenerator {
 	        DungeonToolbox.generateOre(world, rand, i, j, 12,  8, 1, 33, ModBlocks.dres_niobium, ModBlocks.block_meteor_broken);
 	        DungeonToolbox.generateOre(world, rand, i, j, 1, 1, 1, 33, ModBlocks.ore_meteor_osmiridium, ModBlocks.block_meteor_broken);
 		
-		if (WorldConfig.drescfreq > 0 && rand.nextInt(WorldConfig.drescfreq) == 0) {
+		if (SpaceConfig.drescfreq > 0 && rand.nextInt(SpaceConfig.drescfreq) == 0) {
 			
 			for (int a = 0; a < 1; a++) {
 				int x = i + rand.nextInt(16);

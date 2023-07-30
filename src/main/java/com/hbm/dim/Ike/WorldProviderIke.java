@@ -1,6 +1,7 @@
 package com.hbm.dim.Ike;
 
-import com.hbm.config.WorldConfig;
+import com.hbm.config.SpaceConfig;
+import com.hbm.config.SpaceConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.AstronomyUtil;
 
@@ -19,8 +20,8 @@ public class WorldProviderIke extends WorldProvider {
 	
 	public void registerWorldChunkManager() {
 		
-		this.worldChunkMgr = new WorldChunkManagerHell(new BiomeGenIke(WorldConfig.ikeBiome), dimensionId);
-		this.dimensionId = WorldConfig.ikeDimension;
+		this.worldChunkMgr = new WorldChunkManagerHell(new BiomeGenIke(SpaceConfig.ikeBiome), dimensionId);
+		this.dimensionId = SpaceConfig.ikeDimension;
 		this.hasNoSky = false;
 	}
 

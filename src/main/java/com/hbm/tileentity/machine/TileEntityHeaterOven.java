@@ -57,7 +57,7 @@ public class TileEntityHeaterOven extends TileEntityFireboxBase implements IConf
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			if(PlanetaryTraitUtil.isDimensionWithTrait(worldObj, Hospitality.VACUUM)) {
+			if(PlanetaryTraitUtil.isDimensionWithTrait(worldObj, Hospitality.OXYNEG)) {
 				return;
 			}
 			this.tryPullHeat();

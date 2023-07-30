@@ -23,6 +23,7 @@ import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.WorldProviderMoon;
 import com.hbm.config.RadiationConfig;
+import com.hbm.config.SpaceConfig;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.mob.EntityCyberCrab;
@@ -602,7 +603,7 @@ public class ModEventHandler {
 		{
 			event.entityLiving.attackEntityFrom(ModDamageSource.eve, 4); // hot planets should require a much more durable suit, preferably one operating coolant.
 		}
-		if(!ArmorUtil.checkForOxy(event.entityLiving) && PlanetaryTraitUtil.isDimensionWithTrait(event.entityLiving.worldObj, Hospitality.VACUUM) && !(event.entityLiving instanceof EntityGlyphid))
+		if(!ArmorUtil.checkForOxy(event.entityLiving) && PlanetaryTraitUtil.isDimensionWithTrait(event.entityLiving.worldObj, Hospitality.OXYNEG) && !(event.entityLiving instanceof EntityGlyphid))
 		{
 			event.entityLiving.attackEntityFrom(ModDamageSource.oxyprime, 2); // suffocation is a long and painful death, but not too long, or else they get wise...
 		}
@@ -1079,21 +1080,21 @@ public class ModEventHandler {
 				step.onPlayerStep(player.worldObj, x, y, z, player);
 			}
 		}
-		if(player.worldObj.provider.dimensionId == WorldConfig.moonDimension) {
+		if(player.worldObj.provider.dimensionId == SpaceConfig.moonDimension) {
 			
 			if(!player.capabilities.isFlying) {
 					player.motionY += 0.029D; // i could really do better
 				}
 				player.fallDistance = 0;
 			}
-		if(player.worldObj.provider.dimensionId == WorldConfig.dunaDimension) {
+		if(player.worldObj.provider.dimensionId == SpaceConfig.dunaDimension) {
 			
 			if(!player.capabilities.isFlying) {
 					player.motionY += 0.02D; // i could really do better
 				}
 				player.fallDistance = 0;
 			}
-		if(player.worldObj.provider.dimensionId == WorldConfig.ikeDimension) {
+		if(player.worldObj.provider.dimensionId == SpaceConfig.ikeDimension) {
 			
 			if(!player.capabilities.isFlying) {
 					player.motionY += 0.0299D; // i could really do better
@@ -1101,7 +1102,7 @@ public class ModEventHandler {
 				player.fallDistance = 0;
 			}
 		
-		if(player.worldObj.provider.dimensionId == WorldConfig.dresDimension) {
+		if(player.worldObj.provider.dimensionId == SpaceConfig.dresDimension) {
 			
 			if(!player.capabilities.isFlying) {
 					player.motionY += 0.0260D; // i could really do better

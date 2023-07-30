@@ -1,5 +1,6 @@
 package com.hbm.dim.moho;
 
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.AstronomyUtil;
@@ -21,8 +22,8 @@ public class WorldProviderMoho extends WorldProvider {
 	
 	public void registerWorldChunkManager() {
 		
-		this.worldChunkMgr = new WorldChunkManagerHell(new BiomeGenMoho(WorldConfig.mohoBiome), dimensionId);
-		this.dimensionId = WorldConfig.mohoDimension;
+		this.worldChunkMgr = new WorldChunkManagerHell(new BiomeGenMoho(SpaceConfig.mohoBiome), dimensionId);
+		this.dimensionId = SpaceConfig.mohoDimension;
 		this.hasNoSky = false;
 	}
 

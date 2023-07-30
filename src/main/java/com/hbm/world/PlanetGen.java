@@ -1,6 +1,6 @@
 package com.hbm.world;
 
-import com.hbm.config.WorldConfig;
+import com.hbm.config.SpaceConfig;
 import com.hbm.dim.WorldGeneratorMoon;
 import com.hbm.dim.dres.WorldGeneratorDres;
 import com.hbm.dim.WorldProviderMoon;
@@ -30,32 +30,32 @@ public class PlanetGen {
     public static void init()
     {
 		GameRegistry.registerWorldGenerator(worldGenMoon, 0);
-		DimensionManager.registerProviderType(WorldConfig.moonDimension, WorldProviderMoon.class, false);
-	    DimensionManager.registerDimension(WorldConfig.moonDimension, WorldConfig.moonDimension);
+		DimensionManager.registerProviderType(SpaceConfig.moonDimension, WorldProviderMoon.class, false);
+	    DimensionManager.registerDimension(SpaceConfig.moonDimension, SpaceConfig.moonDimension);
 
 		GameRegistry.registerWorldGenerator(worldGenDuna, 1);
-		DimensionManager.registerProviderType(WorldConfig.dunaDimension, WorldProviderDuna.class, false);
-	    DimensionManager.registerDimension(WorldConfig.dunaDimension, WorldConfig.dunaDimension);
+		DimensionManager.registerProviderType(SpaceConfig.dunaDimension, WorldProviderDuna.class, false);
+	    DimensionManager.registerDimension(SpaceConfig.dunaDimension, SpaceConfig.dunaDimension);
 	    
 
 		GameRegistry.registerWorldGenerator(worldGenIke, 1);
-		DimensionManager.registerProviderType(WorldConfig.ikeDimension, WorldProviderIke.class, false);
-	    DimensionManager.registerDimension(WorldConfig.ikeDimension, WorldConfig.ikeDimension);
+		DimensionManager.registerProviderType(SpaceConfig.ikeDimension, WorldProviderIke.class, false);
+	    DimensionManager.registerDimension(SpaceConfig.ikeDimension, SpaceConfig.ikeDimension);
 	    
-		DimensionManager.registerProviderType(WorldConfig.eveDimension, WorldProviderEve.class, false);
-	    DimensionManager.registerDimension(WorldConfig.eveDimension, WorldConfig.eveDimension);
+		DimensionManager.registerProviderType(SpaceConfig.eveDimension, WorldProviderEve.class, false);
+	    DimensionManager.registerDimension(SpaceConfig.eveDimension, SpaceConfig.eveDimension);
 	    
-		DimensionManager.registerProviderType(WorldConfig.dresDimension, WorldProviderDres.class, false);
-	    DimensionManager.registerDimension(WorldConfig.dresDimension, WorldConfig.dresDimension);
+		DimensionManager.registerProviderType(SpaceConfig.dresDimension, WorldProviderDres.class, false);
+	    DimensionManager.registerDimension(SpaceConfig.dresDimension, SpaceConfig.dresDimension);
 		GameRegistry.registerWorldGenerator(worldGenDres, 2);
 
 	    
 		GameRegistry.registerWorldGenerator(worldGenMoho, 1);
-		DimensionManager.registerProviderType(WorldConfig.mohoDimension, WorldProviderMoho.class, false);
-	    DimensionManager.registerDimension(WorldConfig.mohoDimension, WorldConfig.mohoDimension);
+		DimensionManager.registerProviderType(SpaceConfig.mohoDimension, WorldProviderMoho.class, false);
+	    DimensionManager.registerDimension(SpaceConfig.mohoDimension, SpaceConfig.mohoDimension);
 	    
-		DimensionManager.registerProviderType(WorldConfig.minmusDimension, WorldProviderMinmus.class, false);
-	    DimensionManager.registerDimension(WorldConfig.minmusDimension, WorldConfig.minmusDimension);
+		DimensionManager.registerProviderType(SpaceConfig.minmusDimension, WorldProviderMinmus.class, false);
+	    DimensionManager.registerDimension(SpaceConfig.minmusDimension, SpaceConfig.minmusDimension);
     }
 }
 

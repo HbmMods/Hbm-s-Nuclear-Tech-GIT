@@ -1,5 +1,6 @@
 package com.hbm.dim.minmus;
 
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.AstronomyUtil;
@@ -20,7 +21,7 @@ public class WorldProviderMinmus extends WorldProvider {
 	public void registerWorldChunkManager() {
 		
 		this.worldChunkMgr = new WorldChunkManagerMinmus(worldObj);
-		this.dimensionId = WorldConfig.minmusDimension;
+		this.dimensionId = SpaceConfig.minmusDimension;
 		this.hasNoSky = false;
 	}
 

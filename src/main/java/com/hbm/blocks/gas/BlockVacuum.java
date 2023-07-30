@@ -3,6 +3,7 @@ package com.hbm.blocks.gas;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.lib.ModDamageSource;
 
@@ -80,7 +81,8 @@ public class BlockVacuum extends Block {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-		if(world.provider.dimensionId==WorldConfig.moonDimension)
+		//wait what the fuck
+		if(world.provider.dimensionId == SpaceConfig.moonDimension)
 		{
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);

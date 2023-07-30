@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.world.feature.OreLayer3D;
 import com.hbm.world.generator.DungeonToolbox;
@@ -19,9 +20,8 @@ public class WorldGeneratorMoon implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		switch (world.provider.dimensionId) {
-		case 15:
-			generateMoon(world, random, chunkX * 16, chunkZ * 16); break;
+		if(world.provider.dimensionId == SpaceConfig.moonDimension) {
+			generateMoon(world, random, chunkX * 16, chunkZ * 16); 
 		}
 	}
 	private void generateMoon(World world, Random rand, int i, int j) {

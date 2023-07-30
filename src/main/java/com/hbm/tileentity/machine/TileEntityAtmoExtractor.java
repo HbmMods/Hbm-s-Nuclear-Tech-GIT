@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
@@ -65,17 +66,17 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 				//this.power -= this.consumption;
 		}
 			
-		if(worldObj.provider.dimensionId == WorldConfig.eveDimension) {
+		if(worldObj.provider.dimensionId == SpaceConfig.eveDimension) {
 			tanks.setTankType(Fluids.EVEAIR);
 			this.markDirty();
 			//player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase())).appendSibling(new ChatComponentText("!")));
 			//System.out.println("among us has been detected at " + WorldConfig.eveDimension);
 			}
-		if(worldObj.provider.dimensionId == WorldConfig.dunaDimension) {
+		if(worldObj.provider.dimensionId == SpaceConfig.dunaDimension) {
 			tanks.setTankType(Fluids.CARBONDIOXIDE);
 			this.markDirty();
 			}
-		if(PlanetaryTraitUtil.isDimensionWithTrait(worldObj, Hospitality.VACUUM)) {
+		if(PlanetaryTraitUtil.isDimensionWithTrait(worldObj, Hospitality.OXYNEG)) {
 			tanks.setTankType(Fluids.NONE);
 			this.markDirty();
 			return;

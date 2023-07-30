@@ -1,5 +1,6 @@
 package com.hbm.dim.dres;
 
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.AstronomyUtil;
@@ -20,7 +21,7 @@ public class WorldProviderDres extends WorldProvider {
 	public void registerWorldChunkManager() {
 		
 		this.worldChunkMgr = new WorldChunkManagerDres(worldObj);
-		this.dimensionId = WorldConfig.dresDimension;
+		this.dimensionId = SpaceConfig.dresDimension;
 		this.hasNoSky = false;
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
@@ -84,7 +85,7 @@ public class MeltedFlesh extends Block {
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		super.randomDisplayTick(world, x, y, z, rand);
 
-		if(world.provider.dimensionId==WorldConfig.eveDimension)
+		if(world.provider.dimensionId== SpaceConfig.eveDimension)
 		{
 			float f;
             float f1;
@@ -106,7 +107,7 @@ public class MeltedFlesh extends Block {
 	
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
-    	if(world.provider.dimensionId==WorldConfig.eveDimension)
+    	if(world.provider.dimensionId==SpaceConfig.eveDimension)
 		{
 			if(this==ModBlocks.flesh_block)
 			{

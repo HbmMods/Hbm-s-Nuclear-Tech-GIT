@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.world.feature.OreLayer3D;
@@ -22,9 +23,9 @@ public class WorldGeneratorIke implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		switch (world.provider.dimensionId) {
-		case 17:
-			generateIke(world, random, chunkX * 16, chunkZ * 16); break;
+		if(world.provider.dimensionId == SpaceConfig.ikeDimension) {
+
+			generateIke(world, random, chunkX * 16, chunkZ * 16);
 		}
 	}
 	private void generateIke(World world, Random rand, int i, int j) {
@@ -32,7 +33,7 @@ public class WorldGeneratorIke implements IWorldGenerator {
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperSpawn, 9, 4, 27, ModBlocks.ike_copper, ModBlocks.ike_stone);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.ironClusterSpawn,  8, 1, 33, ModBlocks.ike_iron, ModBlocks.ike_stone);
 		
-		if (WorldConfig.ikecfreq > 0 && rand.nextInt(WorldConfig.ikecfreq) == 0) {
+		if (SpaceConfig.ikecfreq > 0 && rand.nextInt(SpaceConfig.ikecfreq) == 0) {
 			
 			for (int a = 0; a < 1; a++) {
 				int x = i + rand.nextInt(16);

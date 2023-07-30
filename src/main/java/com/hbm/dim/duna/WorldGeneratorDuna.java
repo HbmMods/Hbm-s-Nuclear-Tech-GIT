@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.world.feature.OilBubble;
 import com.hbm.world.feature.OilBubbleDuna;
@@ -21,9 +22,8 @@ public class WorldGeneratorDuna implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		switch (world.provider.dimensionId) {
-		case 16:
-			generateDuna(world, random, chunkX * 16, chunkZ * 16); break;
+		if(world.provider.dimensionId == SpaceConfig.dunaDimension) {
+			generateDuna(world, random, chunkX * 16, chunkZ * 16);
 		}
 	}
 	private void generateDuna(World world, Random rand, int i, int j) {
@@ -42,7 +42,8 @@ public class WorldGeneratorDuna implements IWorldGenerator {
 
 			OilBubbleDuna.spawnOil(world, randPosX, randPosY, randPosZ, 10 + rand.nextInt(7));
 		}
-		
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.nickelSpawn, 8, 1, 43, ModBlocks.duna_iron, ModBlocks.duna_rock);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumSpawn, 9, 4, 27, ModBlocks.duna_zinc, ModBlocks.duna_rock);
 	}
 	
 }

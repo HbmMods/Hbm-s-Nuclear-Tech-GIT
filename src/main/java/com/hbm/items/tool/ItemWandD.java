@@ -9,6 +9,7 @@ import com.hbm.dim.DebugTeleporter;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.DebugTeleporter;
 import com.hbm.entity.effect.EntityNukeTorex;
@@ -102,15 +103,15 @@ public class ItemWandD extends Item {
 				switch(stack.stackTagCompound.getInteger("dim"))
 				{
 				case 0:
-					DebugTeleporter.teleport(player, WorldConfig.moonDimension, player.posX, 300, player.posZ);
+					DebugTeleporter.teleport(player, SpaceConfig.moonDimension, player.posX, 300, player.posZ);
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.moonDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				case 1:
-					DebugTeleporter.teleport(player, WorldConfig.ikeDimension, player.posX, 300, player.posZ);
+					DebugTeleporter.teleport(player, SpaceConfig.ikeDimension, player.posX, 300, player.posZ);
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.ikeDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				case 2:
-					DebugTeleporter.teleport(player, WorldConfig.dunaDimension, player.posX, 300, player.posZ);
+					DebugTeleporter.teleport(player, SpaceConfig.dunaDimension, player.posX, 300, player.posZ);
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				case 3:
@@ -118,21 +119,21 @@ public class ItemWandD extends Item {
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				case 4:
-					DebugTeleporter.teleport(player, WorldConfig.eveDimension, player.posX, 300, player.posZ);
+					DebugTeleporter.teleport(player, SpaceConfig.eveDimension, player.posX, 300, player.posZ);
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				case 5:
-					DebugTeleporter.teleport(player, WorldConfig.dresDimension, player.posX, 300, player.posZ);
+					DebugTeleporter.teleport(player, SpaceConfig.dresDimension, player.posX, 300, player.posZ);
 					//DebugTeleporter.teleport(player, WorldConfig.eveDimension, player.posX, 300, player.posZ);
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				case 6:
-					DebugTeleporter.teleport(player, WorldConfig.mohoDimension, player.posX, 300, player.posZ);
+					DebugTeleporter.teleport(player, SpaceConfig.mohoDimension, player.posX, 300, player.posZ);
 					//DebugTeleporter.teleport(player, WorldConfig.eveDimension, player.posX, 300, player.posZ);
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
 					break;
 				case 7:
-					DebugTeleporter.teleport(player, WorldConfig.minmusDimension, player.posX, 300, player.posZ);
+					DebugTeleporter.teleport(player, SpaceConfig.minmusDimension, player.posX, 300, player.posZ);
 				case 8:
 					TomSaveData data = TomSaveData.forWorld(world);
 					data.impact = false;
@@ -200,8 +201,8 @@ public class ItemWandD extends Item {
 				}
 			}
 		//what this code SHOULD do is strip the traits from moho, and then add the trait that makes it breatheable
-			if(world.provider.dimensionId == WorldConfig.mohoDimension) {
-				Set<Hospitality> traits = EnumSet.of(Hospitality.HOT, Hospitality.VACUUM);
+			if(world.provider.dimensionId == SpaceConfig.mohoDimension) {
+				Set<Hospitality> traits = EnumSet.of(Hospitality.HOT, Hospitality.OXYNEG);
 				Set<Hospitality> newtraits = EnumSet.of(Hospitality.BREATHEABLE);
 				PlanetaryTraitUtil.removeTraitsFromDimension(world.provider.dimensionId, traits);
 				PlanetaryTraitUtil.addTraitsToDimension(world.provider.dimensionId, newtraits);

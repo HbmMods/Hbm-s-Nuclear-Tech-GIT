@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,7 +25,7 @@ public class PlanetaryTraitUtil {
 	
 	public enum Hospitality{
 		TOXIC, //this would be interesting, what if we made it so that if laythe was breatheable but toxic, we would need to have it so that you wear a gas mask at all times?
-		VACUUM,
+		OXYNEG,
 		BREATHEABLE,
 		HOT,
 		
@@ -34,11 +35,11 @@ public class PlanetaryTraitUtil {
     public static Map<Integer, Set<Hospitality>> idToDimensionMap = new HashMap<>();
     
     static {
-        idToDimensionMap.put(DimensionManager.getProviderType(WorldConfig.eveDimension), EnumSet.of(Hospitality.TOXIC, Hospitality.HOT));
-        idToDimensionMap.put(DimensionManager.getProviderType(WorldConfig.dresDimension), EnumSet.of(Hospitality.VACUUM));
-        idToDimensionMap.put(DimensionManager.getProviderType(WorldConfig.moonDimension), EnumSet.of(Hospitality.VACUUM));
-        idToDimensionMap.put(DimensionManager.getProviderType(WorldConfig.ikeDimension), EnumSet.of(Hospitality.VACUUM));
-        idToDimensionMap.put(DimensionManager.getProviderType(WorldConfig.mohoDimension), EnumSet.of(Hospitality.VACUUM, Hospitality.HOT));
+        idToDimensionMap.put(DimensionManager.getProviderType(SpaceConfig.eveDimension), EnumSet.of(Hospitality.TOXIC, Hospitality.HOT));
+        idToDimensionMap.put(DimensionManager.getProviderType(SpaceConfig.dresDimension), EnumSet.of(Hospitality.OXYNEG));
+        idToDimensionMap.put(DimensionManager.getProviderType(SpaceConfig.moonDimension), EnumSet.of(Hospitality.OXYNEG));
+        idToDimensionMap.put(DimensionManager.getProviderType(SpaceConfig.ikeDimension), EnumSet.of(Hospitality.OXYNEG));
+        idToDimensionMap.put(DimensionManager.getProviderType(SpaceConfig.mohoDimension), EnumSet.of(Hospitality.OXYNEG, Hospitality.HOT));
     }
 
     public static boolean isDimensionWithTrait(World world, Hospitality trait) {

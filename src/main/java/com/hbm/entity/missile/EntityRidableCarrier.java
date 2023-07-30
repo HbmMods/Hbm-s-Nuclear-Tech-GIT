@@ -3,6 +3,7 @@ package com.hbm.entity.missile;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.DebugTeleporter;
 import com.hbm.explosion.ExplosionLarge;
@@ -161,35 +162,33 @@ public class EntityRidableCarrier extends Entity {
 			//this.setDead();
 		
 		if(this.posY > 600) {
-			EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
-			DebugTeleporter.teleport(riding, WorldConfig.moonDimension, riding.posX, 300, riding.posZ);
-			this.setDead();
+			//EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
+			//DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
+			//this.setDead();
+			DieAndCry();
 		}
 	}
 
 
 	
-	private void deployPayload() {
+	private void DieAndCry() {
 
 		if(payload != null) {
 			
 			if(payload.getItem() == ModItems.flame_pony) {
-				ExplosionLarge.spawnTracers(worldObj, posX, posY, posZ, 25);
-				for(Object p : worldObj.playerEntities)
-					((EntityPlayer)p).triggerAchievement(MainRegistry.achSpace);
+				EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
+				if(riding != null) {
+				DebugTeleporter.teleport(riding, SpaceConfig.dunaDimension, riding.posX, 300, riding.posZ);
+				}
 			}
 			
 			if(payload.getItem() == ModItems.sat_foeq) {
-				for(Object p : worldObj.playerEntities)
-					((EntityPlayer)p).triggerAchievement(MainRegistry.achFOEQ);
+				EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
+				if(riding != null) {
+				DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
+				}
 			}
-			
-			if(payload.getItem() instanceof ISatChip) {
-				
-			    int freq = ISatChip.getFreqS(payload);
-		    	
-		    	Satellite.orbit(worldObj, Satellite.getIDFromItem(payload.getItem()), freq, posX, posY, posZ);
-			}
+		
 		}
 		this.setDead();
 	}
