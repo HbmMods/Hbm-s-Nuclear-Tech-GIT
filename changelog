@@ -1,13 +1,10 @@
 ## Added
-* New command `/ntmsatellites`
-  * `/ntmsatellites orbit` will send the held saatellite into orbit
-  * `/ntmsatellites descend <frequency>` will delete the given satellite
 
 ## Changed
-* Updated russian localization
-* It's no longer possible to insert items into the satellite cargo pad, it's only for unloading
-* The satellite linker will no longer assign new frequencies in the randomizer slot if that frequency is already taken
-* Custom machines will now show a hologram showing how they are built
+* Bedrock ores now spawn in the nether
+  * Nether bedrock ores include red phosphorus and glowstone, both yielding powders instead of ores
+  * All current nether bedrock ores are tier 1 and do not require any bore fluid
+* Custom machines now show their recipes in NEI
+  * All it took was battling NEI's source code for 3 hours and my sanity
 
 ## Fixed
-* Fixed crash caused by mobs spawning in highly polluted area

@@ -62,6 +62,8 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new MixerRecipes());
 		recipeHandlers.add(new OutgasserRecipes());
 		recipeHandlers.add(new CompressorRecipes());
+		recipeHandlers.add(new ElectrolyserFluidRecipes());
+		
 		recipeHandlers.add(new MatDistribution());
 		recipeHandlers.add(new CustomMachineRecipes());
 	}

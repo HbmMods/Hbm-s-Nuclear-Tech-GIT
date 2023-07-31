@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.hbm.config.CustomMachineConfigJSON;
+import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -92,10 +93,19 @@ public class BlockCustomMachine extends BlockContainer {
 		
 		TileEntityCustomMachine tile = (TileEntityCustomMachine) world.getTileEntity(x, y, z);
 		
-		if(tile != null && stack.hasTagCompound()) {
-			tile.machineType = stack.stackTagCompound.getString("machineType");
-			tile.init();
-			tile.markChanged();
+		if(tile != null) {
+			int id = stack.getItemDamage() - 100;
+			
+			if(id >= 0 && id < CustomMachineConfigJSON.customMachines.size()) {
+				
+				MachineConfiguration config = CustomMachineConfigJSON.niceList.get(id);
+				
+				if(config != null) {
+					tile.machineType = config.unlocalizedName;
+					tile.init();
+					tile.markChanged();
+				}
+			}
 		}
 	}
 
@@ -126,8 +136,6 @@ public class BlockCustomMachine extends BlockContainer {
 			
 			if(tile != null) {
 				ItemStack stack = new ItemStack(item, 1, CustomMachineConfigJSON.niceList.indexOf(tile.config) + 100);
-				stack.stackTagCompound = new NBTTagCompound();
-				stack.stackTagCompound.setString("machineType", tile.machineType);
 				ret.add(stack);
 			}
 		}
@@ -142,8 +150,6 @@ public class BlockCustomMachine extends BlockContainer {
 		
 		if(tile != null && tile.machineType != null && !tile.machineType.isEmpty()) {
 			ItemStack stack = new ItemStack(this, 1, CustomMachineConfigJSON.niceList.indexOf(tile.config) + 100);
-			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setString("machineType", tile.machineType);
 			return stack;
 		}
 		
