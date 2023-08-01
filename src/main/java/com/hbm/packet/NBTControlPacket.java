@@ -32,7 +32,6 @@ public class NBTControlPacket implements IMessage {
 		
 		try {
 			buffer.writeNBTTagCompoundToBuffer(nbt);
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -45,9 +44,8 @@ public class NBTControlPacket implements IMessage {
 		y = buf.readInt();
 		z = buf.readInt();
 		
-		if (buffer == null) {
-			buffer = new PacketBuffer(Unpooled.buffer());
-		}
+		if(buffer == null) buffer = new PacketBuffer(Unpooled.buffer());
+		
 		buffer.writeBytes(buf);
 	}
 
@@ -58,9 +56,8 @@ public class NBTControlPacket implements IMessage {
 		buf.writeInt(y);
 		buf.writeInt(z);
 		
-		if (buffer == null) {
-			buffer = new PacketBuffer(Unpooled.buffer());
-		}
+		if (buffer == null) buffer = new PacketBuffer(Unpooled.buffer());
+		
 		buf.writeBytes(buffer);
 	}
 
@@ -85,8 +82,10 @@ public class NBTControlPacket implements IMessage {
 						
 						IControlReceiver tile = (IControlReceiver)te;
 						
-						if(tile.hasPermission(p))
+						if(tile.hasPermission(p)) {
+							tile.receiveControl(p, nbt);
 							tile.receiveControl(nbt);
+						}
 					}
 				}
 				
