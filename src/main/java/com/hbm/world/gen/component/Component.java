@@ -520,42 +520,6 @@ abstract public class Component extends StructureComponent {
 		}
 	}
 	
-	/** Fills an area with cobwebs. Cobwebs will concentrate on corners and surfaces without floating cobwebs. */
-	protected void fillWithCobwebs(World world, StructureBoundingBox box, Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
-		
-		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
-			return;
-		
-		for(int x = minX; x <= maxX; x++) {
-			
-			for(int z = minZ; z <= maxZ; z++) {
-				int posX = getXWithOffset(x, z);
-				int posZ = getZWithOffset(x, z);
-				
-				if(posX >= box.minX && posX <= box.maxX && posZ >= box.minZ && posZ <= box.maxZ) {
-					for(int y = minY; y <= maxY; y++) {
-						int posY = getYWithOffset(y);
-						Block genTarget = world.getBlock(posX, posY, posZ);
-						
-						if(!genTarget.isAir(world, posX, posY, posZ))
-							continue;
-						
-						int validNeighbors = 0;
-						for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-							Block neighbor = world.getBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
-							
-							if(neighbor.getMaterial().blocksMovement() || neighbor instanceof BlockWeb)
-								validNeighbors++;
-						}
-						
-						if(validNeighbors > 5 || (validNeighbors > 1 && rand.nextInt(6 - validNeighbors) == 0))
-							world.setBlock(posX, posY, posZ, Blocks.web);
-					}
-				}
-			}
-		}
-	}
-	
 	/** getXWithOffset & getZWithOffset Methods that are actually fixed **/
 	//Turns out, this entire time every single minecraft structure is mirrored instead of rotated when facing East and North
 	//Also turns out, it's a scarily easy fix that they somehow didn't see *entirely*

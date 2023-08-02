@@ -3,11 +3,19 @@ package com.hbm.world.gen.component;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.world.gen.NTMWorldGenerator;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.gen.feature.WorldGenShrub;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraft.world.gen.structure.StructureComponent;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
 //civilian features is fucking cringe :P
 public class BrutalistFeatures {
@@ -22,7 +30,7 @@ public class BrutalistFeatures {
 		public ElevatedLab1() { super(); }
 		
 		public ElevatedLab1(Random rand, int minX, int minY, int minZ) {
-			super(rand, minX, minY, minZ, 11, 15, 14);
+			super(rand, minX, minY, minZ, 16, 11, 14);
 		}
 		
 		@Override
@@ -32,13 +40,16 @@ public class BrutalistFeatures {
 				return false;
 			}
 			
+			BiomeGenBase biome = world.getBiomeGenForCoords(this.boundingBox.minX, this.boundingBox.maxX);
+			DirtyGlass glass = new DirtyGlass(biome, 0.1F, true);
+			
 			final int stairMetaW = getStairMeta(0);
 			final int stairMetaE = getStairMeta(1);
 			final int stairMetaN = getStairMeta(2);
 			final int stairMetaS = getStairMeta(3);
 			
 			//greater pillars
-			for(int i = 2; i < 12; i+=5) {
+			for(int i = 2; i <= 12; i+=5) {
 				fillWithBlocks(world, box, i, 0, 2, i, 1, 4, ModBlocks.concrete_smooth);
 				fillWithBlocks(world, box, i, 4, 2, i, 5, 4, ModBlocks.concrete_smooth);
 				fillWithBlocks(world, box, i+1, 0, 2, i+1, 5, 4, ModBlocks.concrete_pillar);
@@ -48,36 +59,36 @@ public class BrutalistFeatures {
 				for(int j = 0; j <= 1; j++) {
 					final int u = j * 4;
 					placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaN | u, i, 2 + j, 2, box);
-					placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaN | u, i+=2, 2 + j, 2, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaN | u, i+2, 2 + j, 2, box);
 					placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaW | u, i, 2 + j, 3, box);
-					placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaE | u, i+=2, 2 + j, 3, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaE | u, i+2, 2 + j, 3, box);
 					placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS | u, i, 2 + j, 4, box);
-					placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS | u, i+=2, 2 + j, 4, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS | u, i+2, 2 + j, 4, box);
 				}
 				
 				placeFoundationUnderneath(world, ModBlocks.concrete_smooth, 0, i, 2, i, 4, -1, box);
-				placeFoundationUnderneath(world, ModBlocks.concrete_pillar, 0, i+=1, 2, i+=1, 4, -1, box);
-				placeFoundationUnderneath(world, ModBlocks.concrete_smooth, 0, i+=2, 2, i+=2, 4, -1, box);
+				placeFoundationUnderneath(world, ModBlocks.concrete_pillar, 0, i+1, 2, i+1, 4, -1, box);
+				placeFoundationUnderneath(world, ModBlocks.concrete_smooth, 0, i+2, 2, i+2, 4, -1, box);
 			}
 			
 			//lesser pillars
-			for(int i = 2; i < 12; i+=5) {
+			for(int i = 2; i <= 12; i+=5) {
 				fillWithBlocks(world, box, i, 0, 10, i, 1, 12, ModBlocks.concrete_smooth);
 				fillWithBlocks(world, box, i, 3, 10, i, 3, 12, ModBlocks.concrete_smooth);
 				fillWithBlocks(world, box, i+1, 0, 10, i+1, 3, 12, ModBlocks.concrete_pillar);
 				fillWithBlocks(world, box, i+2, 0, 10, i+2, 1, 12, ModBlocks.concrete_smooth);
 				fillWithBlocks(world, box, i+2, 3, 10, i+2, 3, 12, ModBlocks.concrete_smooth);
 				
-				placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaN, i, 2, 2, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaN, i+=2, 2, 2, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaW, i, 2, 3, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaE, i+=2, 2, 3, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS, i, 2, 4, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS, i+=2, 2, 4, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaN, i, 2, 10, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaN, i+2, 2, 10, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaW, i, 2, 11, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaE, i+2, 2, 11, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS, i, 2, 12, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS, i+2, 2, 12, box);
 				
 				placeFoundationUnderneath(world, ModBlocks.concrete_smooth, 0, i, 10, i, 12, -1, box);
-				placeFoundationUnderneath(world, ModBlocks.concrete_pillar, 0, i+=1, 10, i+=1, 12, -1, box);
-				placeFoundationUnderneath(world, ModBlocks.concrete_smooth, 0, i+=2, 10, i+=2, 12, -1, box);
+				placeFoundationUnderneath(world, ModBlocks.concrete_pillar, 0, i+1, 10, i+1, 12, -1, box);
+				placeFoundationUnderneath(world, ModBlocks.concrete_smooth, 0, i+2, 10, i+2, 12, -1, box);
 			}
 			
 			fillWithAir(world, box, 1, 5, 9, 15, 7, 13);
@@ -105,7 +116,7 @@ public class BrutalistFeatures {
 			fillWithBlocks(world, box, 0, 5, 8, 1, 6, 8, ModBlocks.concrete_colored_ext);
 			fillWithBlocks(world, box, 4, 5, 8, 12, 6, 8, ModBlocks.concrete_colored_ext);
 			fillWithBlocks(world, box, 0, 7, 8, 12, 7, 8, ModBlocks.concrete_smooth);
-			fillWithBlocks(world, box, 15, 5, 8, 16, 5, 8, ModBlocks.concrete_colored_ext);
+			fillWithBlocks(world, box, 15, 5, 8, 16, 6, 8, ModBlocks.concrete_colored_ext);
 			fillWithBlocks(world, box, 15, 7, 8, 16, 7, 8, ModBlocks.concrete_smooth);
 			
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 0, 0, 5, 9, box);
@@ -122,45 +133,44 @@ public class BrutalistFeatures {
 			fillWithBlocks(world, box, 10, 5, 14, 10, 6, 14, ModBlocks.concrete_colored_ext);
 			fillWithBlocks(world, box, 12, 5, 14, 12, 6, 14, ModBlocks.concrete_colored_ext);
 			fillWithBlocks(world, box, 16, 5, 14, 16, 6, 14, ModBlocks.concrete_colored_ext);
-			fillWithMetadataBlocks(world, box, 1, 7, 14, 3, 7, 14, ModBlocks.concrete_smooth_stairs, 7);
+			fillWithMetadataBlocks(world, box, 1, 7, 14, 3, 7, 14, ModBlocks.concrete_smooth_stairs, stairMetaS | 4);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth, 0, 4, 7, 14, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 1, 6, 7, 14, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 1, 8, 7, 14, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 1, 10, 7, 14, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth, 0, 12, 7, 14, box);
-			fillWithMetadataBlocks(world, box, 13, 7, 14, 15, 7, 14, ModBlocks.concrete_smooth_stairs, 7);
+			fillWithMetadataBlocks(world, box, 13, 7, 14, 15, 7, 14, ModBlocks.concrete_smooth_stairs, stairMetaS | 4);
 			
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 0, 16, 5, 13, box);
 			fillWithBlocks(world, box, 16, 5, 11, 16, 6, 11, ModBlocks.concrete_colored_ext);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 0, 16, 5, 9, box);
-			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth, 0, 16, 7, 13, box);
+			fillWithBlocks(world, box, 16, 7, 13, 16, 7, 14, ModBlocks.concrete_smooth);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 1, 16, 7, 11, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth, 0, 16, 7, 9, box);
 			//windows
-			final float limit = 0.9F;
-			randomlyFillWithBlocks(world, box, rand, limit, 0, 6, 9, 0, 6, 9, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 0, 5, 10, 0, 7, 10, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 0, 5, 12, 0, 7, 12, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 0, 6, 13, 0, 6, 13, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 1, 5, 14, 3, 6, 14, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 5, 5, 14, 5, 7, 14, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 7, 5, 14, 7, 7, 14, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 9, 5, 14, 9, 7, 14, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 11, 5, 14, 11, 7, 14, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 13, 5, 14, 15, 6, 14, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 16, 6, 13, 16, 6, 13, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 16, 5, 12, 16, 7, 12, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 16, 5, 10, 16, 7, 10, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 16, 6, 9, 16, 6, 9, Blocks.glass_pane);
+			fillWithRandomizedBlocks(world, box, 0, 6, 9, 0, 6, 9, rand, glass);
+			fillWithRandomizedBlocks(world, box, 0, 5, 10, 0, 7, 10, rand, glass);
+			fillWithRandomizedBlocks(world, box, 0, 5, 12, 0, 7, 12, rand, glass);
+			fillWithRandomizedBlocks(world, box, 0, 6, 13, 0, 6, 13, rand, glass);
+			fillWithRandomizedBlocks(world, box, 1, 5, 14, 3, 6, 14, rand, glass);
+			fillWithRandomizedBlocks(world, box, 5, 5, 14, 5, 7, 14, rand, glass);
+			fillWithRandomizedBlocks(world, box, 7, 5, 14, 7, 7, 14, rand, glass);
+			fillWithRandomizedBlocks(world, box, 9, 5, 14, 9, 7, 14, rand, glass);
+			fillWithRandomizedBlocks(world, box, 11, 5, 14, 11, 7, 14, rand, glass);
+			fillWithRandomizedBlocks(world, box, 13, 5, 14, 15, 6, 14, rand, glass);
+			fillWithRandomizedBlocks(world, box, 16, 6, 13, 16, 6, 13, rand, glass);
+			fillWithRandomizedBlocks(world, box, 16, 5, 12, 16, 7, 12, rand, glass);
+			fillWithRandomizedBlocks(world, box, 16, 5, 10, 16, 7, 10, rand, glass);
+			fillWithRandomizedBlocks(world, box, 16, 6, 9, 16, 6, 9, rand, glass);
 			//ceiling with liner
 			fillWithMetadataBlocks(world, box, 1, 8, 9, 15, 8, 13, ModBlocks.vinyl_tile, 1);
-			fillWithMetadataBlocks(world, box, 0, 8, 8, 11, 8, 8, ModBlocks.concrete_smooth_stairs, 2);
+			fillWithMetadataBlocks(world, box, 0, 8, 8, 11, 8, 8, ModBlocks.concrete_smooth_stairs, stairMetaN);
 			fillWithBlocks(world, box, 12, 8, 8, 12, 8, 9, ModBlocks.concrete_smooth);
-			fillWithMetadataBlocks(world, box, 13, 8, 9, 14, 8, 9, ModBlocks.concrete_smooth_stairs, 6);
+			fillWithMetadataBlocks(world, box, 13, 8, 9, 14, 8, 9, ModBlocks.concrete_smooth_stairs, stairMetaN | 4);
 			fillWithBlocks(world, box, 15, 8, 8, 15, 8, 9, ModBlocks.concrete_smooth);
-			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, 2, 16, 8, 8, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaN, 16, 8, 8, box);
 			fillWithBlocks(world, box, 16, 8, 9, 16, 8, 13, ModBlocks.concrete_smooth);
-			fillWithMetadataBlocks(world, box, 0, 8, 14, 16, 8, 14, ModBlocks.concrete_smooth_stairs, 3);
+			fillWithMetadataBlocks(world, box, 0, 8, 14, 16, 8, 14, ModBlocks.concrete_smooth_stairs, stairMetaS);
 			fillWithBlocks(world, box, 0, 8, 9, 0, 8, 13, ModBlocks.concrete_smooth);
 			//upper slabs
 			fillWithBlocks(world, box, 0, 9, 9, 16, 9, 9, ModBlocks.concrete_slab);
@@ -172,14 +182,14 @@ public class BrutalistFeatures {
 			
 			/* middle stairs */
 			//stairs
-			fillWithMetadataBlocks(world, box, 13, 5, 8, 14, 5, 8, ModBlocks.concrete_smooth_stairs, 3);
-			fillWithMetadataBlocks(world, box, 13, 6, 7, 14, 6, 7, ModBlocks.concrete_smooth_stairs, 3);
-			fillWithMetadataBlocks(world, box, 12, 5, 7, 15, 5, 7, ModBlocks.concrete_smooth_stairs, 6);
+			fillWithMetadataBlocks(world, box, 13, 5, 8, 14, 5, 8, ModBlocks.concrete_smooth_stairs, stairMetaS);
+			fillWithMetadataBlocks(world, box, 13, 6, 7, 14, 6, 7, ModBlocks.concrete_smooth_stairs, stairMetaS);
+			fillWithMetadataBlocks(world, box, 12, 5, 7, 15, 5, 7, ModBlocks.concrete_smooth_stairs, stairMetaN | 4);
 			//walls
 			fillWithBlocks(world, box, 12, 6, 7, 12, 8, 7, ModBlocks.concrete_smooth);
 			fillWithBlocks(world, box, 15, 6, 7, 15, 8, 7, ModBlocks.concrete_smooth);
 			//ceiling
-			fillWithMetadataBlocks(world, box, 12, 9, 7, 15, 9, 7, ModBlocks.concrete_smooth_stairs, 3);
+			fillWithMetadataBlocks(world, box, 12, 9, 7, 15, 9, 7, ModBlocks.concrete_smooth_stairs, stairMetaS);
 			fillWithMetadataBlocks(world, box, 13, 9, 6, 14, 9, 6, ModBlocks.concrete_slab, 8);
 			
 			/* upper floor */
@@ -196,12 +206,12 @@ public class BrutalistFeatures {
 			//floor and lining
 			fillWithBlocks(world, box, 1, 6, 1, 15, 6, 5, ModBlocks.deco_titanium);
 			fillWithBlocks(world, box, 13, 6, 6, 14, 6, 6, ModBlocks.deco_titanium);
-			fillWithMetadataBlocks(world, box, 0, 6, 0, 16, 6, 0, ModBlocks.concrete_smooth_stairs, 6);
+			fillWithMetadataBlocks(world, box, 0, 6, 0, 16, 6, 0, ModBlocks.concrete_smooth_stairs, stairMetaN | 4);
 			fillWithBlocks(world, box, 0, 6, 1, 0, 6, 5, ModBlocks.concrete_smooth);
-			fillWithMetadataBlocks(world, box, 0, 6, 6, 11, 6, 6, ModBlocks.concrete_smooth_stairs, 7);
+			fillWithMetadataBlocks(world, box, 0, 6, 6, 11, 6, 6, ModBlocks.concrete_smooth_stairs, stairMetaS | 4);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth, 0, 12, 6, 6, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth, 0, 15, 6, 6, box);
-			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, 7, 16, 6, 6, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS | 4, 16, 6, 6, box);
 			fillWithBlocks(world, box, 16, 6, 1, 16, 6, 5, ModBlocks.concrete_smooth);
 			//walls
 			fillWithBlocks(world, box, 0, 7, 0, 0, 8, 0, ModBlocks.concrete_colored_ext);
@@ -210,12 +220,12 @@ public class BrutalistFeatures {
 			fillWithBlocks(world, box, 10, 7, 0, 10, 8, 0, ModBlocks.concrete_colored_ext);
 			fillWithBlocks(world, box, 12, 7, 0, 12, 8, 0, ModBlocks.concrete_colored_ext);
 			fillWithBlocks(world, box, 16, 7, 0, 16, 8, 0, ModBlocks.concrete_colored_ext);
-			fillWithMetadataBlocks(world, box, 1, 9, 0, 3, 9, 0, ModBlocks.concrete_smooth_stairs, 6);
+			fillWithMetadataBlocks(world, box, 1, 9, 0, 3, 9, 0, ModBlocks.concrete_smooth_stairs, stairMetaN | 4);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth, 0, 4, 9, 0, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 1, 6, 9, 0, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 1, 10, 9, 0, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth, 0, 12, 9, 0, box);
-			fillWithMetadataBlocks(world, box, 13, 9, 0, 15, 9, 0, ModBlocks.concrete_smooth_stairs, 6);
+			fillWithMetadataBlocks(world, box, 13, 9, 0, 15, 9, 0, ModBlocks.concrete_smooth_stairs, stairMetaN | 4);
 			
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 0, 0, 7, 1, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 0, 0, 7, 5, box);
@@ -232,22 +242,22 @@ public class BrutalistFeatures {
 			fillWithBlocks(world, box, 16, 9, 5, 16, 9, 6, ModBlocks.concrete_smooth);
 			fillWithBlocks(world, box, 16, 9, 0, 16, 9, 1, ModBlocks.concrete_smooth);
 			//windows
-			randomlyFillWithBlocks(world, box, rand, limit, 1, 7, 0, 3, 8, 0, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 5, 7, 0, 5, 9, 0, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 7, 7, 0, 9, 9, 0, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 11, 7, 0, 11, 9, 0, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 13, 7, 0, 15, 8, 0, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 0, 8, 1, 0, 8, 1, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 0, 7, 2, 0, 9, 4, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 0, 8, 5, 0, 8, 5, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 16, 8, 5, 16, 8, 5, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 16, 7, 2, 16, 9, 4, Blocks.glass_pane);
-			randomlyFillWithBlocks(world, box, rand, limit, 16, 8, 1, 16, 8, 1, Blocks.glass_pane);
+			fillWithRandomizedBlocks(world, box, 1, 7, 0, 3, 8, 0, rand, glass);
+			fillWithRandomizedBlocks(world, box, 5, 7, 0, 5, 9, 0, rand, glass);
+			fillWithRandomizedBlocks(world, box, 7, 7, 0, 9, 9, 0, rand, glass);
+			fillWithRandomizedBlocks(world, box, 11, 7, 0, 11, 9, 0, rand, glass);
+			fillWithRandomizedBlocks(world, box, 13, 7, 0, 15, 8, 0, rand, glass);
+			fillWithRandomizedBlocks(world, box, 0, 8, 1, 0, 8, 1, rand, glass);
+			fillWithRandomizedBlocks(world, box, 0, 7, 2, 0, 9, 4, rand, glass);
+			fillWithRandomizedBlocks(world, box, 0, 8, 5, 0, 8, 5, rand, glass);
+			fillWithRandomizedBlocks(world, box, 16, 8, 5, 16, 8, 5, rand, glass);
+			fillWithRandomizedBlocks(world, box, 16, 7, 2, 16, 9, 4, rand, glass);
+			fillWithRandomizedBlocks(world, box, 16, 8, 1, 16, 8, 1, rand, glass);
 			//ceiling with liner
 			fillWithMetadataBlocks(world, box, 1, 10, 1, 15, 10, 5, ModBlocks.vinyl_tile, 1);
-			fillWithMetadataBlocks(world, box, 0, 10, 0, 16, 10, 0, ModBlocks.concrete_smooth_stairs, 2);
+			fillWithMetadataBlocks(world, box, 0, 10, 0, 16, 10, 0, ModBlocks.concrete_smooth_stairs, stairMetaN);
 			fillWithBlocks(world, box, 0, 10, 1, 0, 10, 5, ModBlocks.concrete_smooth);
-			fillWithMetadataBlocks(world, box, 0, 10, 6, 16, 10, 6, ModBlocks.concrete_smooth_stairs, 3);
+			fillWithMetadataBlocks(world, box, 0, 10, 6, 16, 10, 6, ModBlocks.concrete_smooth_stairs, stairMetaS);
 			fillWithBlocks(world, box, 16, 10, 1, 16, 10, 5, ModBlocks.concrete_smooth);
 			//slabs
 			fillWithBlocks(world, box, 0, 11, 1, 16, 11, 1, ModBlocks.concrete_slab);
@@ -267,9 +277,10 @@ public class BrutalistFeatures {
 			placeBlockAtCurrentPosition(world, ModBlocks.steel_grate, 3, 10, 1, 7, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.steel_grate, 7, 11, 0, 7, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.steel_grate, 3, 12, 0, 7, box);
-			placeBlockAtCurrentPosition(world, ModBlocks.steel_wall, 4, 1, 5, 7, box);
 			final int decoMetaS = getDecoMeta(2);
 			final int decoMetaN = getDecoMeta(3);
+			final int decoMetaE = getDecoMeta(4);
+			placeBlockAtCurrentPosition(world, ModBlocks.steel_wall, decoMetaE, 1, 5, 7, box);
 			fillWithMetadataBlocks(world, box, 2, 4, 6, 3, 5, 6, ModBlocks.steel_wall, decoMetaS);
 			fillWithMetadataBlocks(world, box, 4, 4, 6, 5, 4, 6, ModBlocks.steel_wall, decoMetaS);
 			fillWithMetadataBlocks(world, box, 5, 3, 6, 7, 3, 6, ModBlocks.steel_wall, decoMetaS);
@@ -281,11 +292,134 @@ public class BrutalistFeatures {
 			fillWithMetadataBlocks(world, box, 9, 1, 8, 11, 1, 8, ModBlocks.steel_wall, decoMetaN);
 			fillWithMetadataBlocks(world, box, 11, 0, 8, 12, 0, 8, ModBlocks.steel_wall, decoMetaN);
 			
+			/* Deco */
 			
+			//webs
+			randomlyFillWithBlocks(world, box, rand, 0.15F, 0, 6, 7, 10, 8, 7, Blocks.web);
+			randomlyFillWithBlocks(world, box, rand, 0.4F, 11, 5, 7, 11, 9, 7, Blocks.web);
+			randomlyFillWithBlocks(world, box, rand, 0.4F, 16, 5, 7, 16, 9, 7, Blocks.web);
+			
+			placeWebs(world, box, rand, 1, 5, 9, 15, 7, 13, 0.10F, 0.025F);
+			placeWebs(world, box, rand, 13, 7, 6, 14, 8, 8, 0.20F, 0F);
+			placeWebs(world, box, rand, 1, 7, 1, 15, 9, 5, 0.10F, 0.025F);
+			
+			//test
+			//plan is: biome-dependent overgrowth, integrated neatly
+			/*generateShrubs(world, box, rand, 0, 0, 16, 1, 4);
+			generateShrubs(world, box, rand, 0, 13, 16, 14, 2);
+			generateShrubs(world, box, rand, 0, 4, 16, 8, 2);*/
 			
 			
 			return true;
 		}
 		
+		protected void placeWebs(World world, StructureBoundingBox box, Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, float chance, float bigWebChance) {
+			if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
+				return;
+			
+			for(int x = minX; x <= maxX; x++) {
+				
+				for(int z = minZ; z <= maxZ; z++) {
+					int posX = getXWithOffset(x, z);
+					int posZ = getZWithOffset(x, z);
+					
+					if(posX >= box.minX && posX <= box.maxX && posZ >= box.minZ && posZ <= box.maxZ) {
+						for(int y = minY; y <= maxY; y++) {
+							int posY = getYWithOffset(y);
+							
+							if(world.getBlock(posX, posY, posZ) == Blocks.web) continue;
+							
+							boolean onWall = (x == minX || x == maxX || z == minZ || z == maxZ);
+							boolean onCeiling = (y == minY || y == maxY); //floor or ceiling, really
+							//this will go over the subchunk boundaries, but trees already do that all the time; it's only really an issue if it causes updates or
+							//goes over the 2x2 chunk area entirely
+							if(onWall && onCeiling && rand.nextFloat() <= bigWebChance) {
+								
+								for(int j = Math.max(minY, y - 1); j <= Math.min(maxY, y + 1); j++) { //on one hand, eugh. on the other, good-looking webs!
+									int fac = 2 - Math.abs(j - y); //rounds out the edges with distance from starting block
+									
+									int maxI = Math.min(maxX, x + 1);
+									for(int i = Math.max(minX, x - 1); i <= maxI; i++) {
+										
+										int maxK = Math.min(maxZ, z + 1);
+										for(int k = Math.max(minZ, z - 1); k <= maxK; k++) {
+											int posI = getXWithOffset(i, k);
+											int posJ = getYWithOffset(j);
+											int posK = getZWithOffset(i, k);
+											
+											if(world.isAirBlock(posI, posJ, posK) && (Math.abs(i - x) != fac || Math.abs(k - z) != fac || rand.nextInt(2) == 0))
+												world.setBlock(posI, posJ, posK, Blocks.web, 0, 2);
+												
+										}
+									}
+								}
+							} else if((onWall || onCeiling) && rand.nextFloat() <= chance)
+								world.setBlock(posX, posY, posZ, Blocks.web, 0, 2);	
+						}
+					}
+				}
+			}
+		}
+		
+		/*protected void generateShrubs(World world, StructureBoundingBox box, Random rand, int minX, int minZ, int maxX, int maxZ, int startY) {
+			int startX = Math.min(this.getXWithOffset(minX, minZ), this.getXWithOffset(maxX, maxZ));
+			int startZ = Math.min(this.getZWithOffset(minX, minZ), this.getZWithOffset(maxX, maxZ));
+			int endX = Math.max(this.getXWithOffset(minX, minZ), this.getXWithOffset(maxX, maxZ)) - startX;
+			int endZ = Math.max(this.getZWithOffset(minX, minZ), this.getZWithOffset(maxX, maxZ)) - startZ;
+			
+			int attempts = rand.nextInt(2);
+			WorldGenShrub shrub = new WorldGenShrub(0, 0);
+			
+			for(int i = 0; i < attempts; i++) {
+				int posX = startX + rand.nextInt(endX <= 0 ? 1 : endX);
+				int posY = this.getYWithOffset(startY);
+				int posZ = startZ + rand.nextInt(endZ <= 0 ? 1 : endZ);
+				
+				if(box.isVecInside(posX, posY, posZ)) {
+					int brake = 0;
+					
+					do {
+						Block block = world.getBlock(posX, posY, posZ);
+						
+						if(!((block.isAir(world, posX, posY, posZ) || block.isFoliage(world, posX, posY, posZ) || block.isLeaves(world, posX, posY, posZ)) && posY > 0)) {
+							shrub.generate(world, rand, posX, posY, posZ);
+							break;
+						}
+						
+						posY--;
+					} while(brake++ <= 15);
+				}
+			}
+		}*/
+	}
+	
+	//the block selector in general is kinda mid, i might just replace it entirely
+	public static class DirtyGlass extends StructureComponent.BlockSelector {
+		protected boolean webs;
+		protected float chance;
+		
+		public DirtyGlass(BiomeGenBase biome, float chance, boolean webs) {
+			if(NTMWorldGenerator.isBiomeOfTypes(biome, Type.WASTELAND, Type.JUNGLE, Type.SANDY, Type.SAVANNA))
+				this.selectedBlockMetaData = 12; //super dirty
+			else if(BiomeDictionary.isBiomeOfType(biome, Type.COLD))
+				this.selectedBlockMetaData = 8; //fogged-up
+			else
+				this.selectedBlockMetaData = 7; //dirty
+			
+			this.field_151562_a = Blocks.stained_glass_pane;
+			this.chance = chance;
+			this.webs = webs;
+		}
+		
+		@Override
+		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean notInterior) {
+			if(rand.nextFloat() <= chance) {
+				if(webs && rand.nextInt(3) == 0)
+					this.field_151562_a = Blocks.web;
+				else
+					this.field_151562_a = Blocks.air;
+			} else
+				this.field_151562_a = Blocks.stained_glass_pane;
+		}
 	}
 }

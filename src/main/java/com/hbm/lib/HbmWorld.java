@@ -2,6 +2,7 @@ package com.hbm.lib;
 
 import com.hbm.world.gen.MapGenNTMFeatures;
 import com.hbm.world.gen.NTMWorldGenerator;
+import com.hbm.world.gen.component.BrutalistFeatures;
 import com.hbm.world.gen.component.BunkerComponents;
 import com.hbm.world.gen.component.CivilianFeatures;
 import com.hbm.world.gen.component.OfficeFeatures;
@@ -45,5 +46,6 @@ public class HbmWorld {
 		OfficeFeatures.registerComponents();
 		RuinFeatures.registerComponents();
 		BunkerComponents.registerComponents();
+		BrutalistFeatures.registerComponents();
 	}
 }

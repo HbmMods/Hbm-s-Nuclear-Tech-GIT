@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.StructureConfig;
+import com.hbm.world.gen.component.BrutalistFeatures.*;
 import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
 import com.hbm.world.gen.component.CivilianFeatures.*;
 import com.hbm.world.gen.component.OfficeFeatures.*;
@@ -112,7 +113,8 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			 * Rainfall & Temperature Check
 			 */
 			//TODO: Do something about this so it's nice-looking and easily readable. Plus, test compatibility against mods like BoP
-			if(rand.nextInt(3) == 0) { //Empty Ruin Structures
+			
+			/*if(rand.nextInt(3) == 0) { //Empty Ruin Structures
 				switch(rand.nextInt(4)) {
 				case 0:
 					NTMRuin1 ruin1 = new NTMRuin1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
@@ -158,7 +160,9 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					LargeOfficeCorner officeCorner = new LargeOfficeCorner(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
 					this.components.add(officeCorner); break;
 				}
-			}
+			}*/
+			ElevatedLab1 lab1 = new ElevatedLab1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+			this.components.add(lab1);
 			
 			if(GeneralConfig.enableDebugMode) {
 				System.out.print("[Debug] StructureStart at " + (chunkX * 16 + 8) + ", " + posY + ", " + (chunkZ * 16 + 8) + "\n[Debug] Components: ");
