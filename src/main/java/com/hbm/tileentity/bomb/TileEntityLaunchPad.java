@@ -280,12 +280,18 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyStored(Context context, Arguments args) {
-		return new Object[] {getPower()};
+		return new Object[] {getPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
 	}
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getMaxEnergy(Context context, Arguments args) {
-		return new Object[] {getMaxPower()};
+		return new Object[] {getMaxPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
 	}
 	
 	@Callback
@@ -296,13 +302,15 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 			int zCoord2 = slots[1].stackTagCompound.getInteger("zCoord");
 
 			// Not sure if i should have this
+			/*
 			if(xCoord2 == xCoord && zCoord2 == zCoord) {
 				xCoord2 += 1;
 			}
+			*/
 			
 			return new Object[] {xCoord2, zCoord2};
 		}
-		return new Object[] {"Designator not found"};
+		return new Object[] {false, "Designator not found"};
 	}
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
@@ -311,9 +319,9 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 			slots[1].stackTagCompound.setInteger("xCoord", args.checkInteger(0));
 			slots[1].stackTagCompound.setInteger("zCoord", args.checkInteger(1));
 			
-			return new Object[] {"Success"};
+			return new Object[] {true};
 		}
-		return new Object[] {"Designator not found"};
+		return new Object[] {false, "Designator not found"};
 	}
 	
 	@Callback

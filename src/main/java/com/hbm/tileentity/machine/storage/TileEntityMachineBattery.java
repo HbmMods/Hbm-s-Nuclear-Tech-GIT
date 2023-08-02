@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine.storage;
 
 import api.hbm.energy.*;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.inventory.gui.GUIMachineBattery;
@@ -15,6 +16,7 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -392,19 +394,35 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	// do some opencomputer stuff
 	@Override
 	public String getComponentName() {
-		return "ntm_energy_storage"; // need a way to somehow detect the first word of the energy storage block so people wont get confused when it comes to multiple energy storage blocks
+		Block block = worldObj.getBlock(xCoord, yCoord, zCoord);
+		if (block.equals(ModBlocks.machine_battery_potato)) {
+			return "ntm_energy_storage_potato";
+		} else if (block.equals(ModBlocks.machine_lithium_battery)) {
+			return "ntm_energy_storage_lithium";
+		} else if (block.equals(ModBlocks.machine_schrabidium_battery)) {
+			return "ntm_energy_storage_schrabidum";
+		} else if (block.equals(ModBlocks.machine_dineutronium_battery)) {
+			return "ntm_energy_storage_dineutronium";
+		} else
+			return "ntm_energy_storage";
 	}
 
 	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getEnergyStored(Context context, Arguments args) {
-		return new Object[] {getPower()};
+	public Object[] getEnergyStored(Context context, Arguments args) { //TODO for gamma: when ready remove these deprecated functions in all components
+		return new Object[] {getPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
 	}
 
 	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getMaxEnergy(Context context, Arguments args) {
-		return new Object[] {getMaxPower()};
+		return new Object[] {getMaxPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
 	}
 
 	@Callback(direct = true, limit = 8)

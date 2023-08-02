@@ -401,15 +401,19 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		}
 		if(type == 0) {
 			steam.setTankType(Fluids.STEAM);
+			steam.setFill(0); //too lazy to add a ton of additional code to divide the fill amount, fuck your steam
 			return new Object[] {true};
 		} else if(type == 1) {
 			steam.setTankType(Fluids.HOTSTEAM);
+			steam.setFill(0);
 			return new Object[] {true};
 		} else if(type == 2) {
 			steam.setTankType(Fluids.SUPERHOTSTEAM);
+			steam.setFill(0);
 			return new Object[] {true};
 		} else {
 			steam.setTankType(Fluids.ULTRAHOTSTEAM);
+			steam.setFill(0);
 			return new Object[] {true};
 		}
 	}
