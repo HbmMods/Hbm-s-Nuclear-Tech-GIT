@@ -185,7 +185,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		return new Object[] {getMaxPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower()};
