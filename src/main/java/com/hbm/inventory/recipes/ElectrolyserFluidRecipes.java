@@ -2,8 +2,10 @@ package com.hbm.inventory.recipes;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
@@ -43,12 +45,31 @@ public class ElectrolyserFluidRecipes extends SerializableRecipe {
 
 	@Override
 	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+
+		FluidStack input = this.readFluidStack(obj.get("input").getAsJsonArray());
+		FluidStack output1 = this.readFluidStack(obj.get("output1").getAsJsonArray());
+		FluidStack output2 = this.readFluidStack(obj.get("output2").getAsJsonArray());
 		
+		ItemStack[] byproducts = new ItemStack[0];
+		if(obj.has("byproducts")) byproducts = this.readItemStackArray(obj.get("byproducts").getAsJsonArray());
+		
+		recipes.put(input.type, new ElectrolysisRecipe(input.fill, output1, output2, byproducts));
 	}
 
 	@Override
 	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		Entry<FluidType, ElectrolysisRecipe> rec = (Entry) recipe;
 		
+		writer.name("input"); this.writeFluidStack(new FluidStack(rec.getKey(), rec.getValue().amount), writer);
+		writer.name("output1"); this.writeFluidStack(rec.getValue().output1, writer);
+		writer.name("output2"); this.writeFluidStack(rec.getValue().output2, writer);
+		
+		if(rec.getValue().byproduct != null && rec.getValue().byproduct.length > 0) {
+			writer.name("byproducts").beginArray();
+			for(ItemStack stack : rec.getValue().byproduct) this.writeItemStack(stack, writer);
+			writer.endArray();
+		}
 	}
 
 	public static class ElectrolysisRecipe {
