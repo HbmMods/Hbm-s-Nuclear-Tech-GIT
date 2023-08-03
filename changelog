@@ -8,3 +8,5 @@
   * All it took was battling NEI's source code for 3 hours and my sanity
 
 ## Fixed
+* Fixed custom machines not sending fluid
+* Fixed custom machine item IO not working beyond the first slot

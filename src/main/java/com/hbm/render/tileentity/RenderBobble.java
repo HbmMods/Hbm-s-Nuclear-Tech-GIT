@@ -404,9 +404,9 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			renderItem(new ItemStack(ModItems.coin_maskman, 1, 5));
 			break;
 		case ADAM29:
-			GL11.glTranslated(0.45, 1.15, 0.4);
+			GL11.glTranslated(0.4, 1.15, 0.4);
 			GL11.glScaled(0.5, 0.5, 0.5);
-			renderItem(new ItemStack(ModItems.coffee));
+			renderItem(new ItemStack(ModItems.can_redbomb));
 			break;
 		case PHEO:
 			GL11.glTranslated(0.5, 1.15, 0.45);
