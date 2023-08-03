@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.storage;
 
 import api.hbm.energy.*;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.inventory.gui.GUIMachineBattery;
@@ -394,17 +395,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	// do some opencomputer stuff
 	@Override
 	public String getComponentName() {
-		Block block = worldObj.getBlock(xCoord, yCoord, zCoord);
-		if (block.equals(ModBlocks.machine_battery_potato)) {
-			return "ntm_energy_storage_potato";
-		} else if (block.equals(ModBlocks.machine_lithium_battery)) {
-			return "ntm_energy_storage_lithium";
-		} else if (block.equals(ModBlocks.machine_schrabidium_battery)) {
-			return "ntm_energy_storage_schrabidum";
-		} else if (block.equals(ModBlocks.machine_dineutronium_battery)) {
-			return "ntm_energy_storage_dineutronium";
-		} else
-			return "ntm_energy_storage";
+		return "ntm_energy_storage"; //ok if someone else can figure out how to do this that'd be nice (change the component name based on the type of storage block)
 	}
 
 	@Callback(direct = true, limit = 8)

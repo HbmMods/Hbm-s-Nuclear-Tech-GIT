@@ -4,6 +4,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.inventory.container.ContainerLaunchPadTier1;
 import com.hbm.inventory.gui.GUILaunchPadTier1;
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemDesingator;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -298,8 +300,13 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoords(Context context, Arguments args) {
 		if (slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
-			int xCoord2 = slots[1].stackTagCompound.getInteger("xCoord");
-			int zCoord2 = slots[1].stackTagCompound.getInteger("zCoord");
+			int xCoord2;
+			int zCoord2;
+			if (slots[1].stackTagCompound != null) {
+				xCoord2 = slots[1].stackTagCompound.getInteger("xCoord");
+				zCoord2 = slots[1].stackTagCompound.getInteger("zCoord");
+			} else
+				return new Object[] {false};
 
 			// Not sure if i should have this
 			/*
@@ -307,7 +314,7 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 				xCoord2 += 1;
 			}
 			*/
-			
+
 			return new Object[] {xCoord2, zCoord2};
 		}
 		return new Object[] {false, "Designator not found"};
@@ -316,9 +323,10 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setCoords(Context context, Arguments args) {
 		if (slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			slots[1].stackTagCompound = new NBTTagCompound();
 			slots[1].stackTagCompound.setInteger("xCoord", args.checkInteger(0));
 			slots[1].stackTagCompound.setInteger("zCoord", args.checkInteger(1));
-			
+
 			return new Object[] {true};
 		}
 		return new Object[] {false, "Designator not found"};

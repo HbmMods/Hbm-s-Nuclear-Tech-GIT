@@ -645,10 +645,15 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoords(Context context, Arguments args) {
 		if (slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
-			int xCoord2 = slots[1].stackTagCompound.getInteger("xCoord");
-			int zCoord2 = slots[1].stackTagCompound.getInteger("zCoord");
+			int xCoord2;
+			int zCoord2;
+			if (slots[1].stackTagCompound != null) {
+				xCoord2 = slots[1].stackTagCompound.getInteger("xCoord");
+				zCoord2 = slots[1].stackTagCompound.getInteger("zCoord");
+			} else
+				return new Object[] {false};
 
-			//unsure if this is needed, leaving here in case it is
+			// Not sure if i should have this
 			/*
 			if(xCoord2 == xCoord && zCoord2 == zCoord) {
 				xCoord2 += 1;
@@ -663,6 +668,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setCoords(Context context, Arguments args) {
 		if (slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			slots[1].stackTagCompound = new NBTTagCompound();
 			slots[1].stackTagCompound.setInteger("xCoord", args.checkInteger(0));
 			slots[1].stackTagCompound.setInteger("zCoord", args.checkInteger(1));
 
