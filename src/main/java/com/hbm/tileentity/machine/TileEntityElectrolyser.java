@@ -1,5 +1,9 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerElectrolyserFluid;
@@ -9,18 +13,25 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIElectrolyserFluid;
 import com.hbm.inventory.gui.GUIElectrolyserMetal;
 import com.hbm.inventory.material.MaterialShapes;
+import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.ElectrolyserFluidRecipes;
 import com.hbm.inventory.recipes.ElectrolyserFluidRecipes.ElectrolysisRecipe;
 import com.hbm.inventory.recipes.ElectrolyserMetalRecipes;
+import com.hbm.inventory.recipes.ElectrolyserMetalRecipes.ElectrolysisMetalRecipe;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CrucibleUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,9 +39,9 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -98,6 +109,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 		if(!worldObj.isRemote) {
 			
+			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			this.tanks[0].setType(3, 4, slots);
 			this.tanks[0].loadTank(5, 6, slots);
 			this.tanks[1].unloadTank(7, 8, slots);
@@ -133,6 +145,63 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				}
 			}
 			
+			if(this.canProcesMetal()) {
+				this.progressOre++;
+				this.power -= this.usage;
+				
+				if(this.progressOre >= this.processOreTime) {
+					this.processMetal();
+					this.progressOre = 0;
+					this.markChanged();
+				}
+			}
+			
+			if(this.leftStack != null) {
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+				List<MaterialStack> toCast = new ArrayList();
+				toCast.add(this.leftStack);
+				
+				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.NUGGET.q(1), impact);
+
+				if(didPour != null) {
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "foundry");
+					data.setInteger("color", didPour.material.moltenColor);
+					data.setByte("dir", (byte) dir.ordinal());
+					data.setFloat("off", 0.625F);
+					data.setFloat("base", 0.625F);
+					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875) + 2));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2, zCoord + 0.5D + dir.offsetZ * 5.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+					
+					if(this.leftStack.amount <= 0) this.leftStack = null;
+				}
+			}
+			
+			if(this.rightStack != null) {
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+				List<MaterialStack> toCast = new ArrayList();
+				toCast.add(this.rightStack);
+				
+				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.NUGGET.q(1), impact);
+
+				if(didPour != null) {
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "foundry");
+					data.setInteger("color", didPour.material.moltenColor);
+					data.setByte("dir", (byte) dir.ordinal());
+					data.setFloat("off", 0.625F);
+					data.setFloat("base", 0.625F);
+					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875) + 2));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2, zCoord + 0.5D + dir.offsetZ * 5.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+					
+					if(this.rightStack.amount <= 0) this.rightStack = null;
+				}
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
 			data.setInteger("progressFluid", this.progressFluid);
@@ -140,6 +209,14 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			data.setInteger("usage", this.usage);
 			data.setInteger("processFluidTime", this.processFluidTime);
 			data.setInteger("processOreTime", this.processOreTime);
+			if(this.leftStack != null) {
+				data.setInteger("leftType", leftStack.material.id);
+				data.setInteger("leftAmount", leftStack.amount);
+			}
+			if(this.rightStack != null) {
+				data.setInteger("rightType", rightStack.material.id);
+				data.setInteger("rightAmount", rightStack.amount);
+			}
 			for(int i = 0; i < 4; i++) tanks[i].writeToNBT(data, "t" + i);
 			this.networkPack(data, 50);
 		}
@@ -167,6 +244,10 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		this.usage = nbt.getInteger("usage");
 		this.processFluidTime = nbt.getInteger("processFluidTime");
 		this.processOreTime = nbt.getInteger("processOreTime");
+		if(nbt.hasKey("leftType")) this.leftStack = new MaterialStack(Mats.matById.get(nbt.getInteger("leftType")), nbt.getInteger("leftAmount"));
+		else this.leftStack = null;
+		if(nbt.hasKey("rightType")) this.rightStack = new MaterialStack(Mats.matById.get(nbt.getInteger("rightType")), nbt.getInteger("rightAmount"));
+		else this.rightStack = null;
 		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "t" + i);
 	}
 	
@@ -218,6 +299,73 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				}
 			}
 		}
+	}
+	
+	public boolean canProcesMetal() {
+		
+		if(slots[14] == null) return false;
+		if(this.power < usage) return false;
+		if(this.tanks[3].getFill() < 100) return false;
+		
+		ElectrolysisMetalRecipe recipe = ElectrolyserMetalRecipes.getRecipe(slots[14]);
+		
+		if(leftStack != null) {
+			if(recipe.output1.material != leftStack.material) return false;
+			if(recipe.output1.amount + leftStack.amount > this.maxMaterial) return false;
+		}
+		
+		if(rightStack != null) {
+			if(recipe.output2.material != rightStack.material) return false;
+			if(recipe.output2.amount + rightStack.amount > this.maxMaterial) return false;
+		}
+		
+		if(recipe.byproduct != null) {
+			
+			for(int i = 0; i < recipe.byproduct.length; i++) {
+				ItemStack slot = slots[15 + i];
+				ItemStack byproduct = recipe.byproduct[i];
+				
+				if(slot == null) continue;
+				if(!slot.isItemEqual(byproduct)) return false;
+				if(slot.stackSize + byproduct.stackSize > slot.getMaxStackSize()) return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public void processMetal() {
+		
+		ElectrolysisMetalRecipe recipe = ElectrolyserMetalRecipes.getRecipe(slots[14]);
+		
+		if(leftStack == null) {
+			leftStack = new MaterialStack(recipe.output1.material, recipe.output1.amount);
+		} else {
+			leftStack.amount += recipe.output1.amount;
+		}
+		
+		if(rightStack == null) {
+			rightStack = new MaterialStack(recipe.output2.material, recipe.output2.amount);
+		} else {
+			rightStack.amount += recipe.output2.amount;
+		}
+		
+		if(recipe.byproduct != null) {
+			
+			for(int i = 0; i < recipe.byproduct.length; i++) {
+				ItemStack slot = slots[15 + i];
+				ItemStack byproduct = recipe.byproduct[i];
+				
+				if(slot == null) {
+					slots[15 + i] = byproduct.copy();
+				} else {
+					slots[15 + i].stackSize += byproduct.stackSize;
+				}
+			}
+		}
+		
+		this.tanks[3].setFill(this.tanks[3].getFill() - 100);
+		this.decrStackSize(14, 1);
 	}
 	
 	AxisAlignedBB bb = null;
@@ -289,9 +437,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
-		
-	}
+	public void receiveControl(NBTTagCompound data) { }
 	
 	@Override
 	public void receiveControl(EntityPlayer player, NBTTagCompound data) {

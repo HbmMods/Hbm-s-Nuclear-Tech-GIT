@@ -439,10 +439,10 @@ book_lore.beacon.page.2=refer to the circuit diagram found on the inside of the 
 book_lore.beacon.page.3=for the bulb can be ordered from our stores. Third party bulbs are not recommended, as we cannot ensure safe operation. The case is made from a specialized zinc-coated stainless steel and is resistant to weathering.
 book_lore.beacon.page.4=Chapter 2: Lantern $ The lantern's primary uses are providing light for ease of maintenance in harsh weather conditions as well as a status indicator. Should the power-on self test (POST) fail, the lantern will
 book_lore.beacon.page.5=light up red, otherwise it will light up green. Note that colors can vary depending on the replacement bulb.
-book_lore.beacon.page.6=Chapter 3: Fog Horn $ The fog horn is the primary communication device of the beacon. The beacon is designed for peer-to-peer (P2P) commincation as well as for message boradcasting.
+book_lore.beacon.page.6=Chapter 3: Fog Horn $ The fog horn is the primary communication device of the beacon. The beacon is designed for peer-to-peer (P2P) communication as well as for message broadcasting.
 book_lore.beacon.page.7=Chapter 4: Peer-to-Peer $ For details on communication, refer to the communications handbook. A short rundown of establishing a P2P connection follows: First, the beacon has to give the "START CONNECTION" signal,
 book_lore.beacon.page.8=being a single long tone. All available peers should respond with a single long tone as well (order specified by proximity, as well as the communication guidelines outlined in the handbook, section "Responding to a Connection")
-book_lore.beacon.page.9=Once the desired peer has responded, give the "ACCEPT CONNECTION" signal, being two long tones, the peer will then also respon with two long tones. All communication afterwards has to happen using pre-negotiated signals,
+book_lore.beacon.page.9=Once the desired peer has responded, give the "ACCEPT CONNECTION" signal, being two long tones, the peer will then also respond with two long tones. All communication afterwards has to happen using pre-negotiated signals,
 book_lore.beacon.page.10=most commonly using the FAR-5M standard. Communication will end immediately if no standard has been negotiated, serving as a "ping". Should communication continue, the connection can be ended using another long single tone "END CONNECTION".
 book_lore.beacon.page.11=Chapter 5: Warranty $ [ page intentionally left blank ]
 
