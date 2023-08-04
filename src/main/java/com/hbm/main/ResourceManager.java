@@ -775,6 +775,7 @@ public class ResourceManager {
 	public static final IModelCustom armor_wings = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/murk.obj"));
 	public static final IModelCustom armor_solstice = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/solstice.obj"));
 	public static final IModelCustom player_manly_af = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/armor/player_fem.obj"));
+	public static final IModelCustom armor_envsuit = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/envsuit.obj"));
 	
 	////Texture Items
 
@@ -872,6 +873,12 @@ public class ResourceManager {
 	public static final ResourceLocation bj_chest = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_chest.png");
 	public static final ResourceLocation bj_jetpack = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_jetpack.png");
 	public static final ResourceLocation bj_arm = new ResourceLocation(RefStrings.MODID, "textures/armor/bj_arm.png");
+
+	public static final ResourceLocation envsuit_helmet = new ResourceLocation(RefStrings.MODID, "textures/armor/envsuit_helmet.png");
+	public static final ResourceLocation envsuit_leg = new ResourceLocation(RefStrings.MODID, "textures/armor/envsuit_leg.png");
+	public static final ResourceLocation envsuit_chest = new ResourceLocation(RefStrings.MODID, "textures/armor/envsuit_chest.png");
+	public static final ResourceLocation envsuit_arm = new ResourceLocation(RefStrings.MODID, "textures/armor/envsuit_arm.png");
+	public static final ResourceLocation envsuit_tail = new ResourceLocation(RefStrings.MODID, "textures/armor/envsuit_tail.png");
 
 	public static final ResourceLocation hev_helmet = new ResourceLocation(RefStrings.MODID, "textures/armor/hev_helmet.png");
 	public static final ResourceLocation hev_leg = new ResourceLocation(RefStrings.MODID, "textures/armor/hev_leg.png");

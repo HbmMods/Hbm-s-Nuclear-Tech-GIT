@@ -1,18 +1,24 @@
 package com.hbm.inventory.gui;
 
+import java.awt.Color;
+
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerElectrolyserMetal;
+import com.hbm.inventory.material.Mats;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityElectrolyser;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIElectrolyserMetal extends GuiInfoContainer {
@@ -33,6 +39,18 @@ public class GUIElectrolyserMetal extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 		
 		electrolyser.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 36, guiTop + 18, 16, 52);
+		
+		if(electrolyser.leftStack != null) {
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 58, guiTop + 18, 34, 42, mouseX, mouseY, EnumChatFormatting.YELLOW + I18nUtil.resolveKey(electrolyser.leftStack.material.getUnlocalizedName()) + ": " + Mats.formatAmount(electrolyser.leftStack.amount, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)));
+		} else {
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 58, guiTop + 18, 34, 42, mouseX, mouseY, EnumChatFormatting.RED + "Empty");
+		}
+		
+		if(electrolyser.rightStack != null) {
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 96, guiTop + 18, 34, 42, mouseX, mouseY, EnumChatFormatting.YELLOW + I18nUtil.resolveKey(electrolyser.rightStack.material.getUnlocalizedName()) + ": " + Mats.formatAmount(electrolyser.rightStack.amount, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)));
+		} else {
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 96, guiTop + 18, 34, 42, mouseX, mouseY, EnumChatFormatting.RED + "Empty");
+		}
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 186, guiTop + 18, 16, 89, electrolyser.power, electrolyser.maxPower);
 	}
@@ -61,7 +79,32 @@ public class GUIElectrolyserMetal extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		if(electrolyser.leftStack != null) {
+			int p = electrolyser.leftStack.amount * 42 / electrolyser.maxMaterial;
+			Color color = new Color(electrolyser.leftStack.material.moltenColor);
+			GL11.glColor3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+			drawTexturedModalRect(guiLeft + 58, guiTop + 60 - p, 210, 131 - p, 34, p);
+		}
+		
+		if(electrolyser.rightStack != null) {
+			int p = electrolyser.rightStack.amount * 42 / electrolyser.maxMaterial;
+			Color color = new Color(electrolyser.rightStack.material.moltenColor);
+			GL11.glColor3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+			drawTexturedModalRect(guiLeft + 96, guiTop + 60 - p, 210, 131 - p, 34, p);
+		}
 
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		
+		int p = (int) (electrolyser.power * 89 / electrolyser.maxPower);
+		drawTexturedModalRect(guiLeft + 186, guiTop + 107 - p, 210, 89 - p, 16, p);
+		
+		if(electrolyser.power >= electrolyser.usage)
+			drawTexturedModalRect(guiLeft + 190, guiTop + 4, 226, 25, 9, 12);
+		
+		int o = electrolyser.progressOre * 26 / electrolyser.processOreTime;
+		drawTexturedModalRect(guiLeft + 7, guiTop + 71 - o, 226, 25 - o, 22, o);
+		
 		electrolyser.tanks[3].renderTank(guiLeft + 36, guiTop + 70, this.zLevel, 16, 52);
 	}
 }
