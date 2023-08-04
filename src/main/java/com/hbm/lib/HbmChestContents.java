@@ -415,7 +415,7 @@ public class HbmChestContents {
 	public static ItemStack generateOfficeBook(Random rand) { //TODO rework this lore in general
 		String key;
 		int pages;
-		switch(rand.nextInt(10)) {
+		switch(rand.nextInt(5)) {
 		case 0:
 			key = "resignation_note"; pages = 3; break;
 		case 1:
@@ -426,20 +426,32 @@ public class HbmChestContents {
 			key = "memo_schrab_rd"; pages = 4; break;
 		case 4:
 			key = "memo_schrab_nuke"; pages = 3; break;
-		case 5:
-			key = "bf_bomb_1"; pages = 4; break;
-		case 6:
-			key = "bf_bomb_2"; pages = 6; break;
-		case 7:
-			key = "bf_bomb_3"; pages = 6; break;
-		case 8:
-			key = "bf_bomb_4"; pages = 5; break;
-		case 9:
-			key = "bf_bomb_5"; pages = 9; break;
 		default:
 			return null;
 		}
 		
 		return ItemBookLore.createBook(key, pages, 0x6BC8FF, 0x0A0A0A);
+	}
+	
+	public static ItemStack generateLabBook(Random rand) {
+		String key;
+		int pages;
+		
+		switch(rand.nextInt(4)) {
+		case 0:
+			key = "bf_bomb_1"; pages = 4; break;
+		case 1:
+			key = "bf_bomb_2"; pages = 6; break;
+		case 2:
+			key = "bf_bomb_3"; pages = 6; break;
+		case 3:
+			key = "bf_bomb_4"; pages = 5; break;
+		case 4:
+			key = "bf_bomb_5"; pages = 9; break;
+		default:
+			return null;
+		}
+		
+		return ItemBookLore.createBook(key, pages, 0x1E1E1E, 0x46EA44);
 	}
 }

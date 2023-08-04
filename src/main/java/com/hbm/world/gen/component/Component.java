@@ -47,7 +47,7 @@ abstract public class Component extends StructureComponent {
 		this.sizeX = maxX;
 		this.sizeY = maxY;
 		this.sizeZ = maxZ;
-		this.coordBaseMode = rand.nextInt(4);
+		this.coordBaseMode = 0;//rand.nextInt(4);
 		
 		switch(this.coordBaseMode) {
 		case 0:

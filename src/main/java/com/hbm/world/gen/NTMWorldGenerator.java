@@ -120,4 +120,13 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		
 		return true;
 	}
+	
+	/** utility method, same as above but inclusive. useful for catch-alls, like the dirty glass structures have */
+	public static boolean doesBiomeHaveTypes(BiomeGenBase biome, Type... types) {
+		for(Type type : types) {
+			if(isBiomeOfType(biome, type)) return true;
+		}
+		
+		return false;
+	}
 }

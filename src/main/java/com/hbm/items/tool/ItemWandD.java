@@ -5,12 +5,15 @@ import java.util.List;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.lib.Library;
+import com.hbm.world.gen.MapGenNTMFeatures;
+import com.hbm.world.gen.component.BrutalistFeatures.ElevatedLab1;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
 
@@ -32,7 +35,10 @@ public class ItemWandD extends Item {
 			vnt.setSFX(new ExplosionEffectStandard());
 			vnt.explode();*/
 			
-			PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
+			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
+			ElevatedLab1 lab = new ElevatedLab1(world.rand, pos.blockX, pos.blockY, pos.blockZ);
+			
+			lab.addComponentParts(world, world.rand, new StructureBoundingBox(pos.blockX, 1, pos.blockZ, pos.blockX + 32, 255, pos.blockZ + 32));
 			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);

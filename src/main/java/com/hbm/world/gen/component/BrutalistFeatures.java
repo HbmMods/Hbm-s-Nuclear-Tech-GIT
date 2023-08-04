@@ -3,11 +3,13 @@ package com.hbm.world.gen.component;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.lib.HbmChestContents;
 import com.hbm.world.gen.NTMWorldGenerator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenShrub;
@@ -27,20 +29,36 @@ public class BrutalistFeatures {
 	//might be other than a lab, placeholder :P
 	public static class ElevatedLab1 extends Component {
 		
+		protected int type;
+		
 		public ElevatedLab1() { super(); }
 		
 		public ElevatedLab1(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 16, 11, 14);
+			
+			this.type = rand.nextInt(1);
+		}
+		
+		/** Set to NBT */
+		protected void func_143012_a(NBTTagCompound nbt) {
+			super.func_143012_a(nbt);
+			nbt.setInteger("type", type);
+		}
+		
+		/** Get from NBT */
+		protected void func_143011_b(NBTTagCompound nbt) {
+			super.func_143011_b(nbt);
+			this.type = nbt.getInteger("type");
 		}
 		
 		@Override
 		public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 			
-			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
+			if(hpos == -1 && !this.setAverageHeight(world, box, this.boundingBox.minY)) {
 				return false;
 			}
 			
-			BiomeGenBase biome = world.getBiomeGenForCoords(this.boundingBox.minX, this.boundingBox.maxX);
+			BiomeGenBase biome = world.getBiomeGenForCoords(this.boundingBox.minX, this.boundingBox.minZ);
 			DirtyGlass glass = new DirtyGlass(biome, 0.1F, true);
 			
 			final int stairMetaW = getStairMeta(0);
@@ -293,15 +311,108 @@ public class BrutalistFeatures {
 			fillWithMetadataBlocks(world, box, 11, 0, 8, 12, 0, 8, ModBlocks.steel_wall, decoMetaN);
 			
 			/* Deco */
+			//lights
+			for(int j = 4; j <= 12; j+=4)
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_lamp_off, 0, j, 8, 11, box);
+			for(int j = 4; j <= 12; j+=4)
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_lamp_off, 0, j, 10, 3, box);
+			//doors
+			placeDoor(world, box, ModBlocks.door_office, 1, false, false, 3, 5, 8);
+			placeDoor(world, box, ModBlocks.door_office, 1, true, false, 2, 5, 8);
+			
+			final int decoModelMetaN = getDecoModelMeta(0);
+			final int decoModelMetaS = getDecoModelMeta(1);
+			final int decoMetaW = getDecoMeta(5);
+			switch(this.type) {
+			default:
+				//lower floor
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_rim, 0, 1, 5, 9, box);
+				placeBlockAtCurrentPosition(world, Blocks.fence, 0, 1, 5, 11, box);
+				placeBlockAtCurrentPosition(world, Blocks.wooden_pressure_plate, 0, 1, 6, 11, box);
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaE | 4, 1, 5, 13, box);
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaW | 4, 2, 5, 13, box);
+				placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 1, 6, 13, box);
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaS | 4, 5, 5, 9, box); //desk 1
+				fillWithMetadataBlocks(world, box, 5, 5, 10, 5, 5, 11, Blocks.spruce_stairs, stairMetaE | 4);
+				placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 9, 6, 5, 11, box);
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaW | 4, 7, 5, 11, box);
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaS, 7, 5, 9, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelMetaN, 6, 6, 11, box);
+				placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, stairMetaW | 4, 11, 5, 9, box); //desk 2
+				fillWithMetadataBlocks(world, box, 9, 5, 9, 10, 5, 9, Blocks.dark_oak_stairs, stairMetaS | 4);
+				placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 13, 9, 5, 10, box);
+				placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, stairMetaN | 4, 9, 5, 11, box);
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaW, 11, 5, 10, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelMetaS, 10, 6, 9, box);
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaE | 4, 13, 5, 13, box); //desk 3
+				fillWithMetadataBlocks(world, box, 14, 5, 13, 15, 5, 13, Blocks.wooden_slab, 9);
+				placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 9, 15, 5, 12, box);
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaS | 4, 15, 5, 11, box);
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaE, 14, 5, 12, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelMetaN, 14, 6, 13, box);
+				placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 15, 5, 10, box);
+				placeBlockAtCurrentPosition(world, Blocks.fence, 0, 15, 5, 9, box);
+				placeBlockAtCurrentPosition(world, Blocks.wooden_pressure_plate, 0, 15, 6, 9, box);
+				//loot
+				generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelMetaS, 8, 5, 9, HbmChestContents.officeTrash, 4);
+				generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelMetaN, 12, 5, 13, HbmChestContents.filingCabinet, 6);
+				//there were supposed to be paintings included, but i don't want to figure out how to
+				//force the art type on both the server and clientside
+				//upper floor
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_rim, 0, 15, 7, 5, box);
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaW | 4, 15, 7, 1, box);
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaE | 4, 14, 7, 1, box);
+				placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 14, 8, 1, box);
+				fillWithBlocks(world, box, 8, 7, 3, 11, 7, 3, ModBlocks.tile_lab); //central table
+				placeBlockAtCurrentPosition(world, ModBlocks.steel_wall, decoMetaW, 12, 7, 3, box);
+				fillWithMetadataBlocks(world, box, 8, 7, 2, 11, 7, 2, ModBlocks.steel_wall, decoMetaS);
+				placeBlockAtCurrentPosition(world, ModBlocks.steel_wall, decoMetaE, 7, 7, 3, box);
+				fillWithMetadataBlocks(world, box, 8, 7, 4, 11, 7, 4, ModBlocks.steel_wall, decoMetaN);
+				fillWithBlocks(world, box, 10, 7, 5, 12, 7, 5, ModBlocks.cm_sheet); //machine 1
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_block, 0, 12, 8, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.tape_recorder, decoMetaS, 11, 8, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_block, 0, 10, 8, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_sheet, 0, 12, 9, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_port, 0, 11, 9, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_sheet, 0, 10, 9, 5, box);
+				placeBlockAtCurrentPosition(world, Blocks.stone_button, getButtonMeta(4), 11, 9, 4, box);
+				fillWithMetadataBlocks(world, box, 9, 7, 5, 9, 8, 5, ModBlocks.steel_wall, decoMetaW); //locker
+				placeBlockAtCurrentPosition(world, ModBlocks.steel_roof, decoMetaN, 8, 9, 5, box);
+				fillWithMetadataBlocks(world, box, 7, 7, 5, 7, 8, 5, ModBlocks.steel_wall, decoMetaE);
+				fillWithBlocks(world, box, 4, 7, 5, 6, 7, 5, ModBlocks.cm_block); //machine 2
+				placeBlockAtCurrentPosition(world, ModBlocks.tape_recorder, decoMetaS, 6, 8, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_circuit, 0, 5, 8, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.tape_recorder, decoMetaS, 4, 8, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_engine, 0, 6, 9, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.reinforced_lamp_off, 0, 5, 9, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_engine, 0, 4, 9, 5, box);
+				placeLever(world, box, 4, false, 5, 8, 4);
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaE | 4, 4, 7, 1, box); //table
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaW | 4, 5, 7, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_rim, 0, 1, 7, 1, box);
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaW | 4, 2, 7, 5, box); //desk
+				placeBlockAtCurrentPosition(world, Blocks.spruce_stairs, stairMetaE | 4, 1, 7, 5, box);
+				placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 2, 2, 7, 4, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelMetaN, 2, 8, 5, box);
+				//loot
+				generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelMetaS, 13, 7, 1, HbmChestContents.filingCabinet, 4);
+				if(rand.nextInt(2) == 0)
+					generateLoreBook(world, box, 13, 7, 1, 4, HbmChestContents.generateLabBook(rand));
+				generateInvContents(world, box, rand, Blocks.chest, decoMetaS, 8, 7, 5, HbmChestContents.labVault, 4);
+				generateInvContents(world, box, rand, Blocks.chest, decoMetaS, 8, 8, 5, HbmChestContents.machineParts, 5);
+				break;
+			case 1:
+				
+			}
 			
 			//webs
 			randomlyFillWithBlocks(world, box, rand, 0.15F, 0, 6, 7, 10, 8, 7, Blocks.web);
 			randomlyFillWithBlocks(world, box, rand, 0.4F, 11, 5, 7, 11, 9, 7, Blocks.web);
 			randomlyFillWithBlocks(world, box, rand, 0.4F, 16, 5, 7, 16, 9, 7, Blocks.web);
 			
-			placeWebs(world, box, rand, 1, 5, 9, 15, 7, 13, 0.10F, 0.025F);
+			placeWebs(world, box, rand, 1, 5, 9, 15, 7, 13, 0.10F, 0.01F);
 			placeWebs(world, box, rand, 13, 7, 6, 14, 8, 8, 0.20F, 0F);
-			placeWebs(world, box, rand, 1, 7, 1, 15, 9, 5, 0.10F, 0.025F);
+			placeWebs(world, box, rand, 1, 7, 1, 15, 9, 5, 0.10F, 0.01F);
 			
 			//test
 			//plan is: biome-dependent overgrowth, integrated neatly
@@ -347,13 +458,13 @@ public class BrutalistFeatures {
 											int posJ = getYWithOffset(j);
 											int posK = getZWithOffset(i, k);
 											
-											if(world.isAirBlock(posI, posJ, posK) && (Math.abs(i - x) != fac || Math.abs(k - z) != fac || rand.nextInt(2) == 0))
+											if(world.isAirBlock(posI, posJ, posK) && (Math.abs(i - x) != fac || Math.abs(k - z) != fac || rand.nextInt(3) == 0))
 												world.setBlock(posI, posJ, posK, Blocks.web, 0, 2);
 												
 										}
 									}
 								}
-							} else if((onWall || onCeiling) && rand.nextFloat() <= chance)
+							} else if((onWall || onCeiling) && world.isAirBlock(posX, posY, posZ) && rand.nextFloat() <= chance)
 								world.setBlock(posX, posY, posZ, Blocks.web, 0, 2);	
 						}
 					}
@@ -397,14 +508,15 @@ public class BrutalistFeatures {
 	public static class DirtyGlass extends StructureComponent.BlockSelector {
 		protected boolean webs;
 		protected float chance;
+		protected int meta; //argh
 		
 		public DirtyGlass(BiomeGenBase biome, float chance, boolean webs) {
-			if(NTMWorldGenerator.isBiomeOfTypes(biome, Type.WASTELAND, Type.JUNGLE, Type.SANDY, Type.SAVANNA))
-				this.selectedBlockMetaData = 12; //super dirty
-			else if(BiomeDictionary.isBiomeOfType(biome, Type.COLD))
-				this.selectedBlockMetaData = 8; //fogged-up
+			if(BiomeDictionary.isBiomeOfType(biome, Type.COLD))
+				this.meta = 12; //super dirty
+			else if(NTMWorldGenerator.doesBiomeHaveTypes(biome, Type.WASTELAND, Type.JUNGLE, Type.SANDY, Type.SAVANNA, Type.SWAMP))
+				this.meta = 8; //fogged-up
 			else
-				this.selectedBlockMetaData = 7; //dirty
+				this.meta = 7; //dirty
 			
 			this.field_151562_a = Blocks.stained_glass_pane;
 			this.chance = chance;
@@ -414,12 +526,15 @@ public class BrutalistFeatures {
 		@Override
 		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean notInterior) {
 			if(rand.nextFloat() <= chance) {
+				this.selectedBlockMetaData = 0;
 				if(webs && rand.nextInt(3) == 0)
 					this.field_151562_a = Blocks.web;
 				else
 					this.field_151562_a = Blocks.air;
-			} else
+			} else {
 				this.field_151562_a = Blocks.stained_glass_pane;
+				this.selectedBlockMetaData = meta;
+			}
 		}
 	}
 }
