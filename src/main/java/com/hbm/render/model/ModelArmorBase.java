@@ -40,6 +40,7 @@ public class ModelArmorBase extends ModelBiped {
 	}
 
 	public void setRotationAngles(float walkCycle, float walkAmplitude, float idleCycle, float headYaw, float headPitch, float scale, Entity entity) {
+		//super.setRotationAngles(walkCycle, walkAmplitude, idleCycle, headYaw, headPitch, scale, entity);
 
 		head.rotateAngleY = headYaw / (180F / (float) Math.PI);
 		head.rotateAngleX = headPitch / (180F / (float) Math.PI);

@@ -1191,17 +1191,6 @@ public class ItemRenderLibrary {
 			GL11.glShadeModel(GL11.GL_FLAT);
 		}});
 		
-		renderers.put(Item.getItemFromBlock(ModBlocks.machine_electrolyser), new ItemRenderBase( ) {
-			public void renderInventory() {
-				GL11.glScaled(3, 3, 3);
-			}
-			public void renderCommon() {
-				GL11.glScaled(0.5, 0.5, 0.5);
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.electrolyser_tex); ResourceManager.electrolyser.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-		}});
-		
 		renderers.put(Item.getItemFromBlock(ModBlocks.red_pylon_large), new ItemRenderBase( ) {
 		public void renderInventory() {
 			GL11.glTranslated(0, -5, 0);

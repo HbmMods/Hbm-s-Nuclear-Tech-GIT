@@ -368,6 +368,44 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		this.decrStackSize(14, 1);
 	}
 	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.power = nbt.getLong("power");
+		this.progressFluid = nbt.getInteger("progressFluid");
+		this.progressOre = nbt.getInteger("progressOre");
+		this.usage = nbt.getInteger("usage");
+		this.processFluidTime = nbt.getInteger("processFluidTime");
+		this.processOreTime = nbt.getInteger("processOreTime");
+		if(nbt.hasKey("leftType")) this.leftStack = new MaterialStack(Mats.matById.get(nbt.getInteger("leftType")), nbt.getInteger("leftAmount"));
+		else this.leftStack = null;
+		if(nbt.hasKey("rightType")) this.rightStack = new MaterialStack(Mats.matById.get(nbt.getInteger("rightType")), nbt.getInteger("rightAmount"));
+		else this.rightStack = null;
+		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "t" + i);
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setLong("power", this.power);
+		nbt.setInteger("progressFluid", this.progressFluid);
+		nbt.setInteger("progressOre", this.progressOre);
+		nbt.setInteger("usage", this.usage);
+		nbt.setInteger("processFluidTime", this.processFluidTime);
+		nbt.setInteger("processOreTime", this.processOreTime);
+		if(this.leftStack != null) {
+			nbt.setInteger("leftType", leftStack.material.id);
+			nbt.setInteger("leftAmount", leftStack.amount);
+		}
+		if(this.rightStack != null) {
+			nbt.setInteger("rightType", rightStack.material.id);
+			nbt.setInteger("rightAmount", rightStack.amount);
+		}
+		for(int i = 0; i < 4; i++) tanks[i].writeToNBT(nbt, "t" + i);
+	}
+	
 	AxisAlignedBB bb = null;
 	
 	@Override

@@ -320,9 +320,11 @@ public class GUIRBMKConsole extends GuiScreen {
 			case FUEL_SIM:
 				if(col.data.hasKey("c_heat")) {
 					int fh = (int)Math.ceil((col.data.getDouble("c_heat") - 20) * 8 / col.data.getDouble("c_maxHeat"));
+					if(fh > 8) fh = 8;
 					drawTexturedModalRect(guiLeft + x + 1, guiTop + y + size - fh - 1, 11, 191 - fh, 2, fh);
 					
 					int fe = (int)Math.ceil((col.data.getDouble("enrichment")) * 8);
+					if(fe > 8) fe = 8;
 					drawTexturedModalRect(guiLeft + x + 4, guiTop + y + size - fe - 1, 14, 191 - fe, 2, fe);
 				}
 				break;

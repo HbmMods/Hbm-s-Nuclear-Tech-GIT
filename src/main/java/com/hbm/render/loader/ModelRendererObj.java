@@ -12,6 +12,9 @@ public class ModelRendererObj {
 	public float rotationPointX;
 	public float rotationPointY;
 	public float rotationPointZ;
+	public float originPointX;
+	public float originPointY;
+	public float originPointZ;
 	public float rotateAngleX;
 	public float rotateAngleY;
 	public float rotateAngleZ;
@@ -35,9 +38,9 @@ public class ModelRendererObj {
 	}
 
 	public ModelRendererObj setRotationPoint(float x, float y, float z) {
-		this.rotationPointX = x;
-		this.rotationPointY = y;
-		this.rotationPointZ = z;
+		this.originPointX = this.rotationPointX = x;
+		this.originPointY = this.rotationPointY = y;
+		this.originPointZ = this.rotationPointZ = z;
 		return this;
 	}
 
@@ -90,7 +93,7 @@ public class ModelRendererObj {
 			GL11.glRotatef(this.rotateAngleX * (180F / (float) Math.PI), 1.0F, 0.0F, 0.0F);
 		}
 
-		GL11.glTranslatef(-this.rotationPointX * scale, -this.rotationPointY * scale, -this.rotationPointZ * scale);
+		GL11.glTranslatef(-this.rotationPointX * scale, -this.rotationPointY * scale, -this.originPointZ * scale); //yes, that is correct
 
 		GL11.glScalef(scale, scale, scale);
 

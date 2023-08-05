@@ -1,4 +1,12 @@
 ## Added
+* Electrolysis machine
+  * A large machine that can do the chemical plant's electrolysis recipes, as well as crystal processing
+  * Crystals are turned into molten metals as well as byproducts, the metal can be cast using foundry blocks
+  * Processing crystals requires nitric acid and yields more than what the centrifuge would give
+* Environment suit
+  * An airtight suit for diving with high radiation resistance
+  * Relatively cheap, but protection is comparatively low
+  * Has sprint assist and accelerated diving
 
 ## Changed
 * Bedrock ores now spawn in the nether
@@ -10,3 +18,4 @@
 ## Fixed
 * Fixed custom machines not sending fluid
 * Fixed custom machine item IO not working beyond the first slot
+* Fixed the player's arms clipping through the armor model when punching

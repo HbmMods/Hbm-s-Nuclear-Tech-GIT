@@ -41,58 +41,60 @@ public class ItemPowerNetTool extends Item {
 		
 		TileEntity te = world.getTileEntity(x, y, z);
 		
-		if(!(te instanceof IEnergyConductor))
-			return false;
-		
 		if(world.isRemote)
 			return true;
 		
-		IEnergyConductor con = (IEnergyConductor) te;
-		IPowerNet net = con.getPowerNet();
-		
-		if(net == null) {
-			player.addChatComponentMessage(ChatBuilder.start("Error: No network found! This should be impossible!").color(EnumChatFormatting.RED).flush());
+		if((te instanceof IEnergyConductor)) {
+			
+			IEnergyConductor con = (IEnergyConductor) te;
+			IPowerNet net = con.getPowerNet();
+			
+			if(net == null) {
+				player.addChatComponentMessage(ChatBuilder.start("Error: No network found! This should be impossible!").color(EnumChatFormatting.RED).flush());
+				return true;
+			}
+			
+			if(!(net instanceof PowerNet)) {
+				player.addChatComponentMessage(ChatBuilder.start("Error: Cannot print diagnostic for non-standard power net implementation!").color(EnumChatFormatting.RED).flush());
+			}
+			
+			PowerNet network = (PowerNet) net;
+			String id = Integer.toHexString(net.hashCode());
+	
+			player.addChatComponentMessage(ChatBuilder.start("Start of diagnostic for network " + id).color(EnumChatFormatting.GOLD).flush());
+			player.addChatComponentMessage(ChatBuilder.start("Links: " + network.getLinks().size()).color(EnumChatFormatting.YELLOW).flush());
+			player.addChatComponentMessage(ChatBuilder.start("Proxies: " + network.getProxies().size()).color(EnumChatFormatting.YELLOW).flush());
+			player.addChatComponentMessage(ChatBuilder.start("Subscribers: " + network.getSubscribers().size()).color(EnumChatFormatting.YELLOW).flush());
+			player.addChatComponentMessage(ChatBuilder.start("End of diagnostic for network " + id).color(EnumChatFormatting.GOLD).flush());
+			
+			for(IEnergyConductor link : network.getLinks()) {
+				Vec3 pos = link.getDebugParticlePos();
+				
+				boolean errored = link.getPowerNet() != net;
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "debug");
+				data.setInteger("color", errored ? 0xff0000 : 0xffff00);
+				data.setFloat("scale", 0.5F);
+				data.setString("text", id);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord, pos.yCoord, pos.zCoord), new TargetPoint(world.provider.dimensionId, pos.xCoord, pos.yCoord, pos.zCoord, radius));
+			}
+			
+			for(IEnergyConnector subscriber : network.getSubscribers()) {
+				Vec3 pos = subscriber.getDebugParticlePos();
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "debug");
+				data.setInteger("color", 0x0000ff);
+				data.setFloat("scale", 1.5F);
+				data.setString("text", id);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord, pos.yCoord, pos.zCoord), new TargetPoint(world.provider.dimensionId, pos.xCoord, pos.yCoord, pos.zCoord, radius));
+			}
+			
 			return true;
 		}
 		
-		if(!(net instanceof PowerNet)) {
-			player.addChatComponentMessage(ChatBuilder.start("Error: Cannot print diagnostic for non-standard power net implementation!").color(EnumChatFormatting.RED).flush());
-		}
-		
-		PowerNet network = (PowerNet) net;
-		String id = Integer.toHexString(net.hashCode());
-
-		player.addChatComponentMessage(ChatBuilder.start("Start of diagnostic for network " + id).color(EnumChatFormatting.GOLD).flush());
-		player.addChatComponentMessage(ChatBuilder.start("Links: " + network.getLinks().size()).color(EnumChatFormatting.YELLOW).flush());
-		player.addChatComponentMessage(ChatBuilder.start("Proxies: " + network.getProxies().size()).color(EnumChatFormatting.YELLOW).flush());
-		player.addChatComponentMessage(ChatBuilder.start("Subscribers: " + network.getSubscribers().size()).color(EnumChatFormatting.YELLOW).flush());
-		player.addChatComponentMessage(ChatBuilder.start("End of diagnostic for network " + id).color(EnumChatFormatting.GOLD).flush());
-		
-		for(IEnergyConductor link : network.getLinks()) {
-			Vec3 pos = link.getDebugParticlePos();
-			
-			boolean errored = link.getPowerNet() != net;
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setString("type", "debug");
-			data.setInteger("color", errored ? 0xff0000 : 0xffff00);
-			data.setFloat("scale", 0.5F);
-			data.setString("text", id);
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord, pos.yCoord, pos.zCoord), new TargetPoint(world.provider.dimensionId, pos.xCoord, pos.yCoord, pos.zCoord, radius));
-		}
-		
-		for(IEnergyConnector subscriber : network.getSubscribers()) {
-			Vec3 pos = subscriber.getDebugParticlePos();
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setString("type", "debug");
-			data.setInteger("color", 0x0000ff);
-			data.setFloat("scale", 1.5F);
-			data.setString("text", id);
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord, pos.yCoord, pos.zCoord), new TargetPoint(world.provider.dimensionId, pos.xCoord, pos.yCoord, pos.zCoord, radius));
-		}
-		
-		return true;
+		return false;
 	}
 	
 	private static final int radius = 20;
