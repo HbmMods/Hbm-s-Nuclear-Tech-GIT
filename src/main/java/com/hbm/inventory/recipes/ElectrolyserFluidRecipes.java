@@ -1,7 +1,9 @@
 package com.hbm.inventory.recipes;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import com.google.gson.JsonElement;
@@ -10,8 +12,10 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFluidIcon;
 
 import net.minecraft.item.ItemStack;
 
@@ -26,6 +30,25 @@ public class ElectrolyserFluidRecipes extends SerializableRecipe {
 
 		recipes.put(Fluids.POTASSIUM_CHLORIDE, new ElectrolysisRecipe(250, new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.NONE, 0), new ItemStack(ModItems.dust)));
 		recipes.put(Fluids.CALCIUM_CHLORIDE, new ElectrolysisRecipe(250, new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.CALCIUM_SOLUTION, 125)));
+	}
+
+	public static HashMap getRecipes() {
+		
+		HashMap<Object, Object[]> recipes = new HashMap<Object, Object[]>();
+		
+		for(Entry<FluidType, ElectrolysisRecipe> entry : ElectrolyserFluidRecipes.recipes.entrySet()) {
+			
+			ElectrolysisRecipe recipe = entry.getValue();
+			FluidStack input = new FluidStack(entry.getKey(), recipe.amount);
+			List outputs = new ArrayList();
+			if(recipe.output1.type != Fluids.NONE) outputs.add(ItemFluidIcon.make(recipe.output1));
+			if(recipe.output2.type != Fluids.NONE) outputs.add(ItemFluidIcon.make(recipe.output2));
+			for(ItemStack byproduct : recipe.byproduct) outputs.add(byproduct);
+			
+			recipes.put(new ComparableStack(ItemFluidIcon.make(input)), outputs.toArray());
+		}
+		
+		return recipes;
 	}
 
 	@Override
