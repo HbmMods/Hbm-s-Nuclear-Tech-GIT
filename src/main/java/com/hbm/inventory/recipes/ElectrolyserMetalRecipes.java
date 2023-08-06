@@ -1,6 +1,7 @@
 package com.hbm.inventory.recipes;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -12,11 +13,14 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.items.machine.ItemScraps;
 import com.hbm.util.ItemStackUtil;
 
 import net.minecraft.item.ItemStack;
@@ -53,6 +57,25 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 		}
 		
 		return null;
+	}
+
+	public static HashMap getRecipes() {
+		
+		HashMap<Object[], Object[]> recipes = new HashMap<Object[], Object[]>();
+		
+		for(Entry<AStack, ElectrolysisMetalRecipe> entry : ElectrolyserMetalRecipes.recipes.entrySet()) {
+			
+			ElectrolysisMetalRecipe recipe = entry.getValue();
+			Object[] input = new Object[] { entry.getKey().copy(), new ComparableStack(ItemFluidIcon.make(Fluids.NITRIC_ACID, 100)) };
+			List outputs = new ArrayList();
+			if(recipe.output1 != null) outputs.add(ItemScraps.create(recipe.output1, true));
+			if(recipe.output2 != null) outputs.add(ItemScraps.create(recipe.output2, true));
+			for(ItemStack byproduct : recipe.byproduct) outputs.add(byproduct);
+			
+			recipes.put(input, outputs.toArray());
+		}
+		
+		return recipes;
 	}
 
 	@Override

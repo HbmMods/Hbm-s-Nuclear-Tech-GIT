@@ -63,9 +63,10 @@ public class ArmorEnvsuit extends ArmorFSBPowered {
 			
 			if(player.isInWater()) {
 				
-				player.setAir(300);
-				
-				player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 15 * 20, 0));
+				if(!world.isRemote) {
+					player.setAir(300);
+					player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 15 * 20, 0));
+				}
 
 				double mo = 0.1 * player.moveForward;
 				Vec3 vec = player.getLookVec();
@@ -77,7 +78,7 @@ public class ArmorEnvsuit extends ArmorFSBPowered {
 				player.motionY += vec.yCoord;
 				player.motionZ += vec.zCoord;
 			} else {
-				if(player.isPotionActive(Potion.nightVision.id) && player.getActivePotionEffect(Potion.nightVision).getDuration() > 15 * 20) {
+				if(!world.isRemote) {
 					player.removePotionEffect(Potion.nightVision.id);
 				}
 			}
