@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.config.VersatileConfig;
+import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.container.ContainerMachineSchrabidiumTransmutator;
 import com.hbm.inventory.gui.GUIMachineSchrabidiumTransmutator;
 import com.hbm.inventory.recipes.MachineRecipes;
@@ -50,11 +51,11 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		switch (i) {
 		case 0:
-			if (MachineRecipes.mODE(stack, "ingotUranium"))
+			if (MachineRecipes.mODE(stack, OreDictManager.U.ingot()))
 				return true;
 			break;
 		case 2:
-			if (stack.getItem() == ModItems.redcoil_capacitor)
+			if (stack.getItem() == ModItems.redcoil_capacitor || stack.getItem() == ModItems.euphemium_capacitor)
 				return true;
 			break;
 		case 3:
@@ -88,7 +89,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
 		
-		if (i == 2 && stack.getItem() != null && stack.getItem() == ModItems.redcoil_capacitor && ItemCapacitor.getDura(stack) <= 0) {
+		if (i == 2 && stack.getItem() != null && (stack.getItem() == ModItems.redcoil_capacitor && ItemCapacitor.getDura(stack) <= 0) || stack.getItem() == ModItems.euphemium_capacitor) {
 			return true;
 		}
 
@@ -113,9 +114,8 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 	}
 
 	public boolean canProcess() {
-		if (power >= 4990000 && slots[0] != null && MachineRecipes.mODE(slots[0], "ingotUranium") && slots[2] != null
-				&& slots[2].getItem() == ModItems.redcoil_capacitor
-				&& ItemCapacitor.getDura(slots[2]) > 0
+		if (power >= 4990000 && slots[0] != null && MachineRecipes.mODE(slots[0], OreDictManager.U.ingot()) && slots[2] != null
+				&& (slots[2].getItem() == ModItems.redcoil_capacitor && ItemCapacitor.getDura(slots[2]) > 0 || slots[2].getItem() == ModItems.euphemium_capacitor)
 				&& (slots[1] == null || (slots[1] != null && slots[1].getItem() == VersatileConfig.getTransmutatorItem()
 						&& slots[1].stackSize < slots[1].getMaxStackSize()))) {
 			return true;
@@ -145,7 +145,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			} else {
 				slots[1].stackSize++;
 			}
-			if (slots[2] != null) {
+			if (slots[2] != null && slots[2].getItem() == ModItems.redcoil_capacitor) {
 				ItemCapacitor.setDura(slots[2], ItemCapacitor.getDura(slots[2]) - 1);
 			}
 
@@ -194,8 +194,9 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 		}
 	}
 	
+	@Override
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
 	}
 	
 	private void updateConnections() {
@@ -204,6 +205,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 
+	@Override
 	public void onChunkUnload() {
 
 		if(audio != null) {
@@ -212,6 +214,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 		}
 	}
 
+	@Override
 	public void invalidate() {
 
 		super.invalidate();

@@ -1,10 +1,15 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
 
+import api.hbm.fluid.IFluidStandardSender;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,7 +19,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityFireboxBase extends TileEntityMachineBase implements IGUIProvider, IHeatSource {
+public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting implements IFluidStandardSender, IGUIProvider, IHeatSource {
 
 	public int maxBurnTime;
 	public int burnTime;
@@ -29,7 +34,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachineBase implem
 
 
 	public TileEntityFireboxBase() {
-		super(2);
+		super(2, 50);
 	}
 	
 	@Override
@@ -46,6 +51,15 @@ public abstract class TileEntityFireboxBase extends TileEntityMachineBase implem
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			for(int i = 2; i < 6; i++) {
+				ForgeDirection dir = ForgeDirection.getOrientation(i);
+				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+				
+				for(int j = -1; j <= 1; j++) {
+					this.sendSmoke(xCoord + dir.offsetX * 2 + rot.offsetX * j, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
+				}
+			}
 			
 			wasOn = false;
 			
@@ -74,6 +88,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachineBase implem
 				
 				if(this.heatEnergy < getMaxHeat()) {
 					burnTime--;
+					if(worldObj.getTotalWorldTime() % 20 == 0) this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
 				}
 				this.wasOn = true;
 				
@@ -197,5 +212,20 @@ public abstract class TileEntityFireboxBase extends TileEntityMachineBase implem
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[0];
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return this.getSmokeTanks();
+	}
+	
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.DOWN;
 	}
 }

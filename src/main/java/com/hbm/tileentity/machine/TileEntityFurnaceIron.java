@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerFurnaceIron;
 import com.hbm.inventory.gui.GUIFurnaceIron;
@@ -65,7 +67,6 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 					if(slots[i] != null) {
 						
 						int fuel = burnModule.getBurnTime(slots[i]);
-						//int fuel = TileEntityFurnace.getItemBurnTime(slots[i]);
 						
 						if(fuel > 0) {
 							this.maxBurnTime = this.burnTime = fuel;
@@ -104,6 +105,7 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 					this.progress = 0;
 					this.markDirty();
 				}
+				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND);
 			} else {
 				this.progress = 0;
 			}

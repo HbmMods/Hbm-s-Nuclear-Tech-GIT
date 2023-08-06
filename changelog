@@ -1,0 +1,15 @@
+## Added
+
+## Changed
+* Bedrock ores now spawn in the nether
+  * Nether bedrock ores include red phosphorus and glowstone, both yielding powders instead of ores
+  * All current nether bedrock ores are tier 1 and do not require any bore fluid
+* Custom machines now show their recipes in NEI
+  * All it took was battling NEI's source code for 3 hours and my sanity
+* Changed energy OC compatibility
+  * Make sure to update your programs, as the getEnergyStored and getMaxEnergy have been deprecated.
+
+## Fixed
+* Fixed custom machines not sending fluid
+* Fixed custom machine item IO not working beyond the first slot
+* Fixed target designators not accepting coordinates when not designated first (OC compatibility)

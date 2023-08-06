@@ -3,6 +3,7 @@ package com.hbm.sound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+/** Only used for doors */
 public class AudioWrapperClientStartStop extends AudioWrapperClient {
 
 	public String start;

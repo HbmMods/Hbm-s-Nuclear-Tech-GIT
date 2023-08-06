@@ -3,15 +3,10 @@ package com.hbm.world.generator;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
-import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
-import com.hbm.world.feature.BedrockOre;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenFlowers;
@@ -25,11 +20,8 @@ public class DungeonToolbox {
 			return;
 		
 		for(int i = x; i < x + sx; i++) {
-			
 			for(int j = y; j < y + sy; j++) {
-				
 				for(int k = z; k < z + sz; k++) {
-					
 					MetaBlock b = getRandom(blocks, world.rand);
 					world.setBlock(i, j, k, b.block, b.meta, 2);
 				}
@@ -92,24 +84,6 @@ public class DungeonToolbox {
 	
 			(new WorldGenMinable(ore, meta, amount, target)).generate(world, rand, x, y, z);
 		}
-	}
-	
-	public static void generateBedrockOreWithChance(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore, int tier, int chance) {
-		if(chance > 0 && rand.nextInt(chance) == 0) generateBedrockOre(world, rand, chunkX, chunkZ, ore, null, tier);
-	}
-
-	public static void generateBedrockOreWithChance(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore, FluidStack stack, int tier, int chance) {
-		if(chance > 0 && rand.nextInt(chance) == 0) generateBedrockOre(world, rand, chunkX, chunkZ, ore, stack, tier);
-	}
-	
-	public static void generateBedrockOre(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore, int tier) {
-		generateBedrockOre(world, rand, chunkX, chunkZ, ore, null, tier);
-	}
-	
-	public static void generateBedrockOre(World world, Random rand, int chunkX, int chunkZ, EnumBedrockOre ore, FluidStack stack, int tier) {
-		int randPosX = chunkX + rand.nextInt(16) + 8;
-		int randPosZ = chunkZ + rand.nextInt(16) + 8;
-		BedrockOre.generate(world, randPosX, randPosZ, new ItemStack(ModItems.ore_bedrock, 1, ore.ordinal()), stack, ore.color, tier);
 	}
 
 	private static WorldGenFlowers genFlowers = new WorldGenFlowers(null);

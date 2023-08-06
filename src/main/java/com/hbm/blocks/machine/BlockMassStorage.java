@@ -47,8 +47,8 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = new IIcon[3];
-		this.iconSide = new IIcon[3];
+		this.iconTop = new IIcon[4];
+		this.iconSide = new IIcon[4];
 
 		this.iconTop[0] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top_iron");
 		this.iconSide[0] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side_iron");
@@ -56,14 +56,17 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 		this.iconSide[1] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side_desh");
 		this.iconTop[2] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top");
 		this.iconSide[2] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side");
+		this.iconTop[3] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top_wood");
+		this.iconSide[3] = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side_wood");
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-		for(int i = 0; i < getSubCount(); ++i) {
-			list.add(new ItemStack(item, 1, i));
-		}
+		list.add(new ItemStack(item, 1, 3));
+		list.add(new ItemStack(item, 1, 0));
+		list.add(new ItemStack(item, 1, 1));
+		list.add(new ItemStack(item, 1, 2));
 	}
 
 	@Override
@@ -84,7 +87,7 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 	}
 	
 	public int getCapacity(int meta) {
-		return meta == 0 ? 10_000 : meta == 1 ? 100_000 : meta == 2 ? 1_000_000 : 0;
+		return meta == 3 ? 100 : meta == 0 ? 10_000 : meta == 1 ? 100_000 : meta == 2 ? 1_000_000 : 0;
 	}
 
 	@Override
@@ -242,7 +245,7 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 
 	@Override
 	public int getSubCount() {
-		return 3;
+		return 4;
 	}
 
 	@Override
@@ -285,5 +288,15 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 			list.add(EnumChatFormatting.GOLD + type.getDisplayName());
 			list.add(String.format("%,d", stack.stackTagCompound.getInteger("stack")) + " / " + String.format("%,d", getCapacity(stack.getItemDamage())));
 		}
+	}
+	
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+	
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+		return ((TileEntityMassStorage) world.getTileEntity(x, y, z)).redstone;
 	}
 }

@@ -3,14 +3,11 @@ package com.hbm.handler.guncfg;
 import java.util.ArrayList;
 
 import com.hbm.entity.effect.EntitySpear;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletImpactBehavior;
-import com.hbm.interfaces.IBulletRicochetBehavior;
-import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.AmmoRocket;
@@ -287,12 +284,8 @@ public class GunRocketFactory {
 		bullet.incendiary = 0;
 		bullet.trail = 7;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_MEDIUM);
-			}
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
+			BulletConfigFactory.nuclearExplosion(bulletnt, x, y, z, ExplosionNukeSmall.PARAMS_MEDIUM);
 		};
 		
 		return bullet;
@@ -331,18 +324,14 @@ public class GunRocketFactory {
 		bullet.LBRC = 100;
 		bullet.doesPenetrate = true;
 		
-		bullet.bRicochet = new IBulletRicochetBehavior() {
+		bullet.bntRicochet = (bulletnt, bX, bY, bZ) -> {
+			World worldObj = bulletnt.worldObj;
+			if(!worldObj.isRemote && (worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.wood ||
+					worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.plants ||
+					worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.glass ||
+					worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.leaves))
+				worldObj.func_147480_a(bX, bY, bZ, false);
 
-			@Override
-			public void behaveBlockRicochet(EntityBulletBase bullet, int bX, int bY, int bZ) {
-				World worldObj = bullet.worldObj;
-				if(!worldObj.isRemote && 
-						(worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.wood ||
-						worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.plants ||
-						worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.glass ||
-						worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.leaves))
-					worldObj.func_147480_a(bX, bY, bZ, false);}
-			
 		};
 		
 		return bullet;
@@ -360,7 +349,7 @@ public class GunRocketFactory {
 		bullet.incendiary = 5;
 		bullet.trail = 9;
 		
-		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D, 1F);
+		bullet.bntImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D, 1F);
 		
 		return bullet;
 	}
@@ -375,23 +364,16 @@ public class GunRocketFactory {
 		bullet.explosive = 2F;
 		bullet.trail = 0;
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
-
-			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
-				
-				if(!bullet.worldObj.isRemote) {
-					
-					if(bullet.ticksExisted > 10) {
-						bullet.setDead();
-						
-						for(int i = 0; i < 50; i++) {
-							
-							EntityBulletBase bolt = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.M44_AP);
-							bolt.setPosition(bullet.posX, bullet.posY, bullet.posZ);
-							bolt.setThrowableHeading(bullet.motionX, bullet.motionY, bullet.motionZ, 0.25F, 0.1F);
-							bullet.worldObj.spawnEntityInWorld(bolt);
-						}
+		bullet.bntUpdate = (bulletnt) -> {
+			if(!bulletnt.worldObj.isRemote) {
+				if(bulletnt.ticksExisted > 10) {
+					bulletnt.setDead();
+					for(int i = 0; i < 50; i++) {
+						EntityBulletBaseNT bolt = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.M44_AP);
+						bolt.setPosition(bulletnt.posX, bulletnt.posY, bulletnt.posZ);
+						bolt.setThrowableHeading(bulletnt.motionX, bulletnt.motionY, bulletnt.motionZ, 0.25F, 0.1F);
+						bolt.setThrower(bulletnt.getThrower());
+						bulletnt.worldObj.spawnEntityInWorld(bolt);
 					}
 				}
 			}
@@ -413,21 +395,17 @@ public class GunRocketFactory {
 		bullet.incendiary = 0;
 		bullet.trail = 7;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
 
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				EntitySpear spear = new EntitySpear(bullet.worldObj);
-				spear.posX = bullet.posX;
-				spear.posZ = bullet.posZ;
-				spear.posY = bullet.posY + 100;
-				
-				bullet.worldObj.spawnEntityInWorld(spear);
-			}
+			if(bulletnt.worldObj.isRemote)
+				return;
+
+			EntitySpear spear = new EntitySpear(bulletnt.worldObj);
+			spear.posX = bulletnt.posX;
+			spear.posZ = bulletnt.posZ;
+			spear.posY = bulletnt.posY + 100;
+
+			bulletnt.worldObj.spawnEntityInWorld(spear);
 		};
 		
 		return bullet;

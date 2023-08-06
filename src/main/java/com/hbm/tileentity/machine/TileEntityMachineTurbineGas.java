@@ -3,6 +3,8 @@ package com.hbm.tileentity.machine;
 import java.util.HashMap;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
@@ -16,7 +18,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -31,7 +33,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyGenerator, IControlReceiver, IGUIProvider {
+public class TileEntityMachineTurbineGas extends TileEntityMachinePolluting implements IFluidStandardTransceiver, IEnergyGenerator, IControlReceiver, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 1000000L;
@@ -60,13 +62,14 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		fuelMaxCons.put(Fluids.GAS, 50D);			// natgas doesn't burn well so it burns faster to compensate
 		fuelMaxCons.put(Fluids.SYNGAS, 10D);		// syngas just fucks
 		fuelMaxCons.put(Fluids.OXYHYDROGEN, 100D);	// oxyhydrogen is terrible so it needs to burn a ton for the bare minimum
+		fuelMaxCons.put(Fluids.REFORMGAS, 2.5D);	// halved because it's too powerful
 		// default to 5 if not in list
 	}
 	
 	//TODO particles from heat exchanger maybe? maybe in a future
 	
 	public TileEntityMachineTurbineGas() {
-		super(2);
+		super(2, 200);
 		this.tanks = new FluidTank[4];
 		tanks[0] = new FluidTank(Fluids.GAS, 100000);
 		tanks[1] = new FluidTank(Fluids.LUBRICANT, 16000);
@@ -121,7 +124,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 			
 			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power); //set first to get an unmodified view of how much power was generated before deductions from the net
+			data.setLong("power", Math.min(this.power, this.maxPower)); //set first to get an unmodified view of how much power was generated before deductions from the net
 			
 			//do net/battery deductions first...
 			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
@@ -134,15 +137,15 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			for(int i = 0; i < 2; i++) { //fuel and lube
 				this.trySubscribe(tanks[i].getTankType(), worldObj, xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite());
 				this.trySubscribe(tanks[i].getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, dir);
+
+				this.sendSmoke(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite());
+				this.sendSmoke(xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, dir);
 			}
 			//water
 			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord - dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * -4, dir.getOpposite());
 			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -4, dir);
 			//steam
-			this.sendFluid(tanks[3].getTankType(), worldObj, xCoord + dir.offsetZ * 6, yCoord + 1, zCoord - dir.offsetX * 6, rot.getOpposite());
-			
-			//if(audio != null) // audio shouldn't even exist serverside
-			//	audio.updatePitch((float) (0.45 + 0.05 * rpm / 10));
+			this.sendFluid(tanks[3], worldObj, xCoord + dir.offsetZ * 6, yCoord + 1, zCoord - dir.offsetX * 6, rot.getOpposite());
 			
 			data.setInteger("rpm",  this.rpm);
 			data.setInteger("temp",  this.temp);
@@ -170,12 +173,12 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				
 				if(audio == null) { //if there is no sound playing, start it
 					
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F);
 					audio.startSound();
 					
 				} else if(!audio.isPlaying()) {
 					audio.stopSound();
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F);
 					audio.startSound();
 				}
 				
@@ -300,6 +303,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 		
 		double consumption = fuelMaxCons.containsKey(tanks[0].getTankType()) ? fuelMaxCons.get(tanks[0].getTankType()) : 5D;
+		if(worldObj.getTotalWorldTime() % 20 == 0 && tanks[0].getTankType() != Fluids.OXYHYDROGEN) this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * (float) consumption * 0.25F);
 		makePower(consumption, throttle);
 	}
 	
@@ -532,7 +536,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 
 	@Override
 	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] { tanks[3] };
+		return new FluidTank[] { tanks[3], smoke, smoke_leaded, smoke_poison };
 	}
 	
 	@Override

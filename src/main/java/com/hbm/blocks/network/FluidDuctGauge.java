@@ -100,7 +100,7 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 	public int getRenderType(){
 		return IBlockMultiPass.getRenderType();
 	}
-	
+
 	public static class TileEntityPipeGauge extends TileEntityPipeBaseNT implements INBTPacketReceiver {
 
 		private BigInteger lastMeasurement = BigInteger.valueOf(10);
@@ -144,5 +144,6 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 			this.deltaTick = Math.max(nbt.getLong("deltaT"), 0);
 			this.deltaLastSecond = Math.max(nbt.getLong("deltaS"), 0);
 		}
+
 	}
 }

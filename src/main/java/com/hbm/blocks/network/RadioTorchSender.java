@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class RadioTorchSender extends RadioTorchBase {
+public class RadioTorchSender extends RadioTorchRWBase {
 
 	public RadioTorchSender() {
 		super();

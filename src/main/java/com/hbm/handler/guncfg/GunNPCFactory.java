@@ -3,12 +3,11 @@ package com.hbm.handler.guncfg;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
+import com.hbm.entity.projectile.EntityBulletBaseNT.IBulletUpdateBehaviorNT;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.interfaces.IBulletImpactBehavior;
-import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
@@ -51,30 +50,26 @@ public class GunNPCFactory {
 		bullet.trail = 1;
 		bullet.explosive = 1.5F;
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
+		bullet.bntUpdate = (bulletnt) -> {
+				
+			if(bulletnt.worldObj.isRemote)
+				return;
 
-			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				if(bullet.ticksExisted % 10 != 5)
-					return;
-				
-				List<EntityPlayer> players = bullet.worldObj.getEntitiesWithinAABB(EntityPlayer.class, bullet.boundingBox.expand(50, 50, 50));
-				
-				for(EntityPlayer player : players) {
-					
-					Vec3 motion = Vec3.createVectorHelper(player.posX - bullet.posX, (player.posY + player.getEyeHeight()) - bullet.posY, player.posZ - bullet.posZ);
-					motion = motion.normalize();
-					
-					EntityBulletBase bolt = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.MASKMAN_BOLT);
-					bolt.shooter = bullet.shooter;
-					bolt.setPosition(bullet.posX, bullet.posY, bullet.posZ);
-					bolt.setThrowableHeading(motion.xCoord, motion.yCoord, motion.zCoord, 0.5F, 0.05F);
-					bullet.worldObj.spawnEntityInWorld(bolt);
-				}
+			if(bulletnt.ticksExisted % 10 != 5)
+				return;
+
+			List<EntityPlayer> players = bulletnt.worldObj.getEntitiesWithinAABB(EntityPlayer.class, bulletnt.boundingBox.expand(50, 50, 50));
+
+			for(EntityPlayer player : players) {
+
+				Vec3 motion = Vec3.createVectorHelper(player.posX - bulletnt.posX, (player.posY + player.getEyeHeight()) - bulletnt.posY, player.posZ - bulletnt.posZ);
+				motion = motion.normalize();
+
+				EntityBulletBaseNT bolt = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.MASKMAN_BOLT);
+				bolt.setThrower(bulletnt.getThrower());
+				bolt.setPosition(bulletnt.posX, bulletnt.posY, bulletnt.posZ);
+				bolt.setThrowableHeading(motion.xCoord, motion.yCoord, motion.zCoord, 0.5F, 0.05F);
+				bulletnt.worldObj.spawnEntityInWorld(bolt);
 			}
 		};
 		
@@ -129,20 +124,16 @@ public class GunNPCFactory {
 		bullet.vPFX = "reddust";
 		bullet.damageType = ModDamageSource.s_laser;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
+				
+			if(bulletnt.worldObj.isRemote)
+				return;
 
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				EntityBulletBase meteor = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
-				meteor.setPosition(bullet.posX, bullet.posY + 30 + meteor.worldObj.rand.nextInt(10), bullet.posZ);
-				meteor.motionY = -1D;
-				meteor.shooter = bullet.shooter;
-				bullet.worldObj.spawnEntityInWorld(meteor);
-			}
+			EntityBulletBaseNT meteor = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
+			meteor.setPosition(bulletnt.posX, bulletnt.posY + 30 + meteor.worldObj.rand.nextInt(10), bulletnt.posZ);
+			meteor.motionY = -1D;
+			meteor.setThrower(bulletnt.getThrower());
+			bulletnt.worldObj.spawnEntityInWorld(meteor);
 		};
 		
 		return bullet;
@@ -178,25 +169,21 @@ public class GunNPCFactory {
 		bullet.explosive = 2.5F;
 		bullet.style = BulletConfiguration.STYLE_METEOR;
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
+		bullet.bntUpdate = (bulletnt) -> {
 
-			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
-				
-				if(!bullet.worldObj.isRemote)
-					return;
-				
-				Random rand = bullet.worldObj.rand;
-				
-				for(int i = 0; i < 5; i++) {
-					NBTTagCompound nbt = new NBTTagCompound();
-					nbt.setString("type", "vanillaExt");
-					nbt.setString("mode", "flame");
-					nbt.setDouble("posX", bullet.posX + rand.nextDouble() * 0.5 - 0.25);
-					nbt.setDouble("posY", bullet.posY + rand.nextDouble() * 0.5 - 0.25);
-					nbt.setDouble("posZ", bullet.posZ + rand.nextDouble() * 0.5 - 0.25);
-					MainRegistry.proxy.effectNT(nbt);
-				}
+			if(!bulletnt.worldObj.isRemote)
+				return;
+
+			Random rand = bulletnt.worldObj.rand;
+
+			for(int i = 0; i < 5; i++) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "vanillaExt");
+				nbt.setString("mode", "flame");
+				nbt.setDouble("posX", bulletnt.posX + rand.nextDouble() * 0.5 - 0.25);
+				nbt.setDouble("posY", bulletnt.posY + rand.nextDouble() * 0.5 - 0.25);
+				nbt.setDouble("posZ", bulletnt.posZ + rand.nextDouble() * 0.5 - 0.25);
+				MainRegistry.proxy.effectNT(nbt);
 			}
 		};
 		
@@ -245,13 +232,13 @@ public class GunNPCFactory {
 		bullet.destroysBlocks = false;
 		bullet.explosive = 0F;
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
+		bullet.bntUpdate = new IBulletUpdateBehaviorNT() {
 			
 			double angle = 90;
 			double range = 100;
 
 			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+			public void behaveUpdate(EntityBulletBaseNT bullet) {
 				
 				if(bullet.worldObj.isRemote)
 					return;
@@ -265,7 +252,7 @@ public class GunNPCFactory {
 				if(target != null) {
 					
 					if(bullet.getDistanceSqToEntity(target) < 5) {
-						bullet.getConfig().bImpact.behaveBlockHit(bullet, -1, -1, -1);
+						bullet.getConfig().bntImpact.behaveBlockHit(bullet, -1, -1, -1);
 						bullet.setDead();
 						return;
 					}
@@ -281,7 +268,7 @@ public class GunNPCFactory {
 				}
 			}
 			
-			private void chooseTarget(EntityBulletBase bullet) {
+			private void chooseTarget(EntityBulletBaseNT bullet) {
 				
 				List<EntityLivingBase> entities = bullet.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bullet.boundingBox.expand(range, range, range));
 				
@@ -292,7 +279,7 @@ public class GunNPCFactory {
 				
 				for(EntityLivingBase e : entities) {
 					
-					if(!e.isEntityAlive() || e == bullet.shooter)
+					if(!e.isEntityAlive() || e == bullet.getThrower())
 						continue;
 					
 					Vec3 delta = Vec3.createVectorHelper(e.posX - bullet.posX, e.posY + e.height / 2 - bullet.posY, e.posZ - bullet.posZ);
@@ -319,27 +306,23 @@ public class GunNPCFactory {
 			}
 		};
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
 
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			bulletnt.worldObj.playSoundEffect(bulletnt.posX, bulletnt.posY, bulletnt.posZ, "hbm:entity.ufoBlast", 5.0F, 0.9F + bulletnt.worldObj.rand.nextFloat() * 0.2F);
+			bulletnt.worldObj.playSoundEffect(bulletnt.posX, bulletnt.posY, bulletnt.posZ, "fireworks.blast", 5.0F, 0.5F);
+			ExplosionNukeGeneric.dealDamage(bulletnt.worldObj, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 10, 50);
 
-				bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:entity.ufoBlast", 5.0F, 0.9F + bullet.worldObj.rand.nextFloat() * 0.2F);
-				bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "fireworks.blast", 5.0F, 0.5F);
-				ExplosionNukeGeneric.dealDamage(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 10, 50);
-				
-				for(int i = 0; i < 3; i++) {
-					NBTTagCompound data = new NBTTagCompound();
-					data.setString("type", "plasmablast");
-					data.setFloat("r", 0.0F);
-					data.setFloat("g", 0.75F);
-					data.setFloat("b", 1.0F);
-					data.setFloat("pitch", -30F + 30F * i);
-					data.setFloat("yaw", bullet.worldObj.rand.nextFloat() * 180F);
-					data.setFloat("scale", 5F);
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ),
-							new TargetPoint(bullet.worldObj.provider.dimensionId, bullet.posX, bullet.posY, bullet.posZ, 100));
-				}
+			for(int i = 0; i < 3; i++) {
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "plasmablast");
+				data.setFloat("r", 0.0F);
+				data.setFloat("g", 0.75F);
+				data.setFloat("b", 1.0F);
+				data.setFloat("pitch", -30F + 30F * i);
+				data.setFloat("yaw", bulletnt.worldObj.rand.nextFloat() * 180F);
+				data.setFloat("scale", 5F);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bulletnt.posX, bulletnt.posY, bulletnt.posZ),
+						new TargetPoint(bulletnt.worldObj.provider.dimensionId, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 100));
 			}
 		};
 		

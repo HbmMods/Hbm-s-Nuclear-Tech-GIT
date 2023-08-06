@@ -29,17 +29,17 @@ public class ParticleEngine {
 	}
 	
 	public void updateParticles() {
-		
+		for(FXLayer layer : layers) layer.updateLayer();
 	}
 	
 	public void renderParticles(float interp) {
-		
+		for(FXLayer layer : layers) layer.renderLayer(interp);
 	}
 	
 	public static class FXLayer {
 		
 		protected ResourceLocation batchTexture;
-		protected List particles;
+		protected List<PSysFX> particles;
 		
 		public FXLayer() { }
 		
@@ -51,7 +51,7 @@ public class ParticleEngine {
 			
 		}
 		
-		protected void renderLayer() {
+		protected void renderLayer(float interp) {
 			
 		}
 	}

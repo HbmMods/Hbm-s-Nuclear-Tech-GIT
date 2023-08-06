@@ -2,6 +2,7 @@ package com.hbm.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HazmatRegistry;
@@ -241,7 +242,7 @@ public class ArmorUtil {
 		
 		for(String metal : metals) {
 			
-			if(name.toLowerCase().contains(metal))
+			if(name.toLowerCase(Locale.US).contains(metal))
 				return true;
 		}
 		

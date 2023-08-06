@@ -18,8 +18,8 @@ public abstract class EntityUFOBase extends EntityFlying implements IMob {
 	protected int courseChangeCooldown;
 	protected Entity target;
 
-	public EntityUFOBase(World p_i1587_1_) {
-		super(p_i1587_1_);
+	public EntityUFOBase(World world) {
+		super(world);
 	}
 
 	@Override

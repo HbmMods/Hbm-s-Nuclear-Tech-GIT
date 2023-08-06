@@ -9,24 +9,21 @@ import net.minecraft.world.World;
 
 public class EntityWaterSplash extends EntityThrowable {
 
-    public EntityWaterSplash(World p_i1773_1_)
-    {
-        super(p_i1773_1_);
-    }
+	public EntityWaterSplash(World p_i1773_1_) {
+		super(p_i1773_1_);
+	}
 
-    public EntityWaterSplash(World p_i1774_1_, EntityLivingBase p_i1774_2_)
-    {
-        super(p_i1774_1_, p_i1774_2_);
-    }
+	public EntityWaterSplash(World p_i1774_1_, EntityLivingBase p_i1774_2_) {
+		super(p_i1774_1_, p_i1774_2_);
+	}
 
-    @Override
+	@Override
 	public void entityInit() {
-    }
+	}
 
-    public EntityWaterSplash(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_)
-    {
-        super(p_i1775_1_, p_i1775_2_, p_i1775_4_, p_i1775_6_);
-    }
+	public EntityWaterSplash(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_) {
+		super(p_i1775_1_, p_i1775_2_, p_i1775_4_, p_i1775_6_);
+	}
     
 	@Override
 	public void onUpdate() {
@@ -51,9 +48,12 @@ public class EntityWaterSplash extends EntityThrowable {
 		}
 	}
 
+	@Override
 	public boolean writeToNBTOptional(NBTTagCompound nbt) {
 		return false;
 	}
+
+	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
 		this.setDead();

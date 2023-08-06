@@ -52,6 +52,7 @@ public class GunConfiguration implements Cloneable {
 	public String reloadSound = "";
 	//sound path to the shooting sound
 	public String firingSound = "";
+	public float firingVolume = 1.0F;
 	public float firingPitch = 1.0F;
 	//whether the reload sound should be played at the beginning or at the end of the reload
 	public boolean reloadSoundEnd = true;

@@ -1,21 +1,19 @@
 package com.hbm.blocks.generic;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.IBlockMulti;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemLock;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
-import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
-import com.hbm.tileentity.machine.storage.TileEntityCrateDesh;
-import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
-import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
-import com.hbm.tileentity.machine.storage.TileEntityCrateTungsten;
-import com.hbm.tileentity.machine.storage.TileEntitySafe;
+import com.hbm.tileentity.machine.storage.*;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -27,6 +25,8 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -39,7 +39,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockStorageCrate extends BlockContainer implements IBlockMulti {
+public class BlockStorageCrate extends BlockContainer implements IBlockMulti, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
@@ -75,6 +75,9 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":mass_storage_side");
 		}
+		if(this == ModBlocks.crate_template) {
+			this.iconTop = this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":crate_template");
+		}
 	}
 
 	@Override
@@ -93,6 +96,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti {
 		if(this == ModBlocks.crate_steel) return new TileEntityCrateSteel();
 		if(this == ModBlocks.crate_desh) return new TileEntityCrateDesh();
 		if(this == ModBlocks.crate_tungsten) return new TileEntityCrateTungsten();
+		if(this == ModBlocks.crate_template) return new TileEntityCrateTemplate();
 		if(this == ModBlocks.safe) return new TileEntitySafe();
 		return null;
 	}
@@ -140,6 +144,7 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti {
 					
 					if(abyte.length > 6000) {
 						player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Warning: Container NBT exceeds 6kB, contents will be ejected!"));
+						world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(this)));
 						return world.setBlockToAir(x, y, z);
 					}
 					
@@ -269,5 +274,46 @@ public class BlockStorageCrate extends BlockContainer implements IBlockMulti {
 	@Override
 	public int getSubCount() {
 		return 0;
+	}
+	
+	@Override
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+	
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
+		return Container.calcRedstoneFromInventory((IInventory) world.getTileEntity(x, y, z));
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		if(stack.hasTagCompound()) {
+			
+			List<String> contents = new ArrayList();
+			int amount = 0;
+			
+			for(int i = 0; i < 100; i++) { //whatever the biggest container is, i can't be bothered to check
+				ItemStack content = ItemStack.loadItemStackFromNBT(stack.stackTagCompound.getCompoundTag("slot" + i));
+				
+				if(content != null) {
+					amount++;
+					
+					if(contents.size() < 10) {
+						contents.add(EnumChatFormatting.AQUA + " - " + content.getDisplayName() + (content.stackSize > 1 ? (" x" + content.stackSize) : ""));
+					}
+				}
+			}
+			
+			if(!contents.isEmpty()) {
+				list.add(EnumChatFormatting.AQUA + "Contains:");
+				list.addAll(contents);
+				amount -= contents.size();
+				
+				if(amount > 0) {
+					list.add(EnumChatFormatting.AQUA + "...and " + amount + " more.");
+				}
+			}
+		}
 	}
 }

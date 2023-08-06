@@ -22,7 +22,8 @@ public class HbmKeybinds {
 	public static KeyBinding jetpackKey = new KeyBinding(category + ".toggleBack", Keyboard.KEY_C, category);
 	public static KeyBinding hudKey = new KeyBinding(category + ".toggleHUD", Keyboard.KEY_V, category);
 	public static KeyBinding reloadKey = new KeyBinding(category + ".reload", Keyboard.KEY_R, category);
-	public static KeyBinding dashKey = new KeyBinding(category + ".dash", Keyboard.KEY_F, category);
+	public static KeyBinding dashKey = new KeyBinding(category + ".dash", Keyboard.KEY_LSHIFT, category);
+	public static KeyBinding trainKey = new KeyBinding(category + ".trainInv", Keyboard.KEY_R, category);
 
 	public static KeyBinding craneUpKey = new KeyBinding(category + ".craneMoveUp", Keyboard.KEY_UP, category);
 	public static KeyBinding craneDownKey = new KeyBinding(category + ".craneMoveDown", Keyboard.KEY_DOWN, category);
@@ -36,6 +37,7 @@ public class HbmKeybinds {
 		ClientRegistry.registerKeyBinding(hudKey);
 		ClientRegistry.registerKeyBinding(reloadKey);
 		ClientRegistry.registerKeyBinding(dashKey);
+		ClientRegistry.registerKeyBinding(trainKey);
 
 		ClientRegistry.registerKeyBinding(craneUpKey);
 		ClientRegistry.registerKeyBinding(craneDownKey);
@@ -69,6 +71,7 @@ public class HbmKeybinds {
 		TOGGLE_HEAD,
 		RELOAD,
 		DASH,
+		TRAIN,
 		CRANE_UP,
 		CRANE_DOWN,
 		CRANE_LEFT,

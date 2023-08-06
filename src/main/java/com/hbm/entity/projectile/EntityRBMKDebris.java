@@ -68,30 +68,6 @@ public class EntityRBMKDebris extends EntityDebrisBase {
 			hasSizeSet = true;
 		}
 		
-		this.prevPosX = this.posX;
-		this.prevPosY = this.posY;
-		this.prevPosZ = this.posZ;
-		
-		this.motionY -= 0.04D;
-		this.moveEntity(this.motionX, this.motionY, this.motionZ);
-		
-		this.lastRot = this.rot;
-
-		if(this.onGround) {
-			this.motionX *= 0.85D;
-			this.motionZ *= 0.85D;
-			this.motionY *= -0.5D;
-			
-		} else {
-			
-			this.rot += 10F;
-			
-			if(rot >= 360F) {
-				this.rot -= 360F;
-				this.lastRot -= 360F;
-			}
-		}
-		
 		if(!worldObj.isRemote) {
 			if(this.getType() == DebrisType.LID && motionY > 0) {
 	
@@ -132,6 +108,30 @@ public class EntityRBMKDebris extends EntityDebrisBase {
 			
 			if(!RBMKDials.getPermaScrap(worldObj) && this.ticksExisted > getLifetime() + this.getEntityId() % 50)
 				this.setDead();
+		}
+		
+		this.prevPosX = this.posX;
+		this.prevPosY = this.posY;
+		this.prevPosZ = this.posZ;
+		
+		this.motionY -= 0.04D;
+		this.moveEntity(this.motionX, this.motionY, this.motionZ);
+		
+		this.lastRot = this.rot;
+
+		if(this.onGround) {
+			this.motionX *= 0.85D;
+			this.motionZ *= 0.85D;
+			this.motionY *= -0.5D;
+			
+		} else {
+			
+			this.rot += 10F;
+			
+			if(rot >= 360F) {
+				this.rot -= 360F;
+				this.lastRot -= 360F;
+			}
 		}
 	}
 	

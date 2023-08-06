@@ -8,10 +8,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.world.World;
 
-public class TileEntityCrateSteel extends TileEntityCrateBase implements ISidedInventory {
+public class TileEntityCrateSteel extends TileEntityCrateBase {
 
 	public TileEntityCrateSteel() {
 		super(54);

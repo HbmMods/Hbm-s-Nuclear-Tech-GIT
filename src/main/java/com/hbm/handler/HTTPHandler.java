@@ -17,15 +17,22 @@ public class HTTPHandler {
 	public static String versionNumber = "";
 
 	public static void loadStats() {
-
-		try {
-
-			loadVersion();
-			loadSoyuz();
-
-		} catch(IOException e) {
-			MainRegistry.logger.warn("Version checker failed!");
-		}
+		
+		Thread versionChecker = new Thread("NTM Version Checker") {
+			
+			@Override
+			public void run() {
+				try {
+					loadVersion();
+					loadSoyuz();
+				} catch(IOException e) {
+					MainRegistry.logger.warn("Version checker failed!");
+				}
+			}
+			
+		};
+		
+		versionChecker.start();
 	}
 
 	private static void loadVersion() throws IOException {

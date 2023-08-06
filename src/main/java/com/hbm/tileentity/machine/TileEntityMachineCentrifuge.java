@@ -223,15 +223,17 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			}
 		}
 	}
-	
+
+	@Override
 	public void networkUnpack(NBTTagCompound data) {
 		this.power = data.getLong("power");
 		this.progress = data.getInteger("progress");
 		this.isProgressing = data.getBoolean("isProgressing");
 	}
-	
+
+	@Override
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.centrifugeOperate", xCoord, yCoord, zCoord, 2.0F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.centrifugeOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
 	}
 
 	@Override

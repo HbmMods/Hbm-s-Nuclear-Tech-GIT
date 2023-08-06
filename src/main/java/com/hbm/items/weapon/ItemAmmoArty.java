@@ -3,7 +3,9 @@ package com.hbm.items.weapon;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityMist;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityArtilleryShell;
@@ -12,10 +14,14 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -46,8 +52,7 @@ import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 public class ItemAmmoArty extends Item {
 	
 	public static Random rand = new Random();
-	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 9 /* <<< */ ];
-	//public static ArtilleryShell[] shellTypes =	new ArtilleryShell[ /* >>> */ 8 /* <<< */ ];
+	public static ArtilleryShell[] itemTypes =	new ArtilleryShell[ /* >>> */ 12 /* <<< */ ];
 	/* item types */
 	public final int NORMAL = 0;
 	public final int CLASSIC = 1;
@@ -58,6 +63,9 @@ public class ItemAmmoArty extends Item {
 	public final int MINI_NUKE_MULTI = 6;
 	public final int PHOSPHORUS_MULTI = 7;
 	public final int CARGO = 8;
+	public final int CHLORINE = 9;
+	public final int PHOSGENE = 10;
+	public final int MUSTARD = 11;
 	/* non-item shell types */
 	
 	public ItemAmmoArty() {
@@ -78,6 +86,9 @@ public class ItemAmmoArty extends Item {
 		list.add(new ItemStack(item, 1, MINI_NUKE_MULTI));
 		list.add(new ItemStack(item, 1, NUKE));
 		list.add(new ItemStack(item, 1, CARGO));
+		list.add(new ItemStack(item, 1, CHLORINE));
+		list.add(new ItemStack(item, 1, PHOSGENE));
+		list.add(new ItemStack(item, 1, MUSTARD));
 	}
 
 	@Override
@@ -195,7 +206,7 @@ public class ItemAmmoArty extends Item {
 		ExplosionVNT xnt = new ExplosionVNT(shell.worldObj, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, size);
 		if(breaksBlocks) {
 			xnt.setBlockAllocator(new BlockAllocatorStandard(48));
-			xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
+			xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop().withBlockEffect(new BlockMutatorDebris(ModBlocks.block_slag, 1)));
 		}
 		xnt.setEntityProcessor(new EntityProcessorCross(7.5D).withRangeMod(rangeMod));
 		xnt.setPlayerProcessor(new PlayerProcessorStandard());
@@ -297,6 +308,65 @@ public class ItemAmmoArty extends Item {
 				shell.getStuck(mop.blockX, mop.blockY, mop.blockZ);
 			}
 		}};
+		
+		/* GAS */
+		this.itemTypes[CHLORINE] = new ArtilleryShell("ammo_arty_chlorine", SpentCasing.COLOR_CASE_16INCH) {
+			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
+				shell.killAndClear();
+				Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
+				shell.worldObj.createExplosion(shell, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, 5F, false);
+				EntityMist mist = new EntityMist(shell.worldObj);
+				mist.setType(Fluids.CHLORINE);
+				mist.setPosition(mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord - 3, mop.hitVec.zCoord - vec.zCoord);
+				mist.setArea(15, 7.5F);
+				shell.worldObj.spawnEntityInWorld(mist);
+				PollutionHandler.incrementPollution(shell.worldObj, mop.blockX, mop.blockY, mop.blockZ, PollutionType.HEAVYMETAL, 5F);
+			}
+		};
+		this.itemTypes[PHOSGENE] = new ArtilleryShell("ammo_arty_phosgene", SpentCasing.COLOR_CASE_16INCH_NUKE) {
+			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
+				shell.killAndClear();
+				Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
+				shell.worldObj.createExplosion(shell, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, 5F, false);
+				for(int i = 0; i < 3; i++) {
+					EntityMist mist = new EntityMist(shell.worldObj);
+					mist.setType(Fluids.PHOSGENE);
+					double x = mop.hitVec.xCoord - vec.xCoord;
+					double z = mop.hitVec.zCoord - vec.zCoord;
+					if(i > 0) {
+						x += rand.nextGaussian() * 15;
+						z += rand.nextGaussian() * 15;
+					}
+					mist.setPosition(x, mop.hitVec.yCoord - vec.yCoord - 5, z);
+					mist.setArea(15, 10);
+					shell.worldObj.spawnEntityInWorld(mist);
+				}
+				PollutionHandler.incrementPollution(shell.worldObj, mop.blockX, mop.blockY, mop.blockZ, PollutionType.HEAVYMETAL, 10F);
+				PollutionHandler.incrementPollution(shell.worldObj, mop.blockX, mop.blockY, mop.blockZ, PollutionType.POISON, 15F);
+			}
+		};
+		this.itemTypes[MUSTARD] = new ArtilleryShell("ammo_arty_mustard_gas", SpentCasing.COLOR_CASE_16INCH_NUKE) {
+			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
+				shell.killAndClear();
+				Vec3 vec = Vec3.createVectorHelper(shell.motionX, shell.motionY, shell.motionZ).normalize();
+				shell.worldObj.createExplosion(shell, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, 5F, false);
+				for(int i = 0; i < 5; i++) {
+					EntityMist mist = new EntityMist(shell.worldObj);
+					mist.setType(Fluids.MUSTARDGAS);
+					double x = mop.hitVec.xCoord - vec.xCoord;
+					double z = mop.hitVec.zCoord - vec.zCoord;
+					if(i > 0) {
+						x += rand.nextGaussian() * 25;
+						z += rand.nextGaussian() * 25;
+					}
+					mist.setPosition(x, mop.hitVec.yCoord - vec.yCoord - 5, z);
+					mist.setArea(20, 10);
+					shell.worldObj.spawnEntityInWorld(mist);
+				}
+				PollutionHandler.incrementPollution(shell.worldObj, mop.blockX, mop.blockY, mop.blockZ, PollutionType.HEAVYMETAL, 15F);
+				PollutionHandler.incrementPollution(shell.worldObj, mop.blockX, mop.blockY, mop.blockZ, PollutionType.POISON, 30F);
+			}
+		};
 		
 		/* CLUSTER SHELLS */
 		this.itemTypes[PHOSPHORUS_MULTI] = new ArtilleryShell("ammo_arty_phosphorus_multi", SpentCasing.COLOR_CASE_16INCH_PHOS) {

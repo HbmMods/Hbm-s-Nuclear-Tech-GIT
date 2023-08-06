@@ -3,7 +3,7 @@ package com.hbm.handler.guncfg;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
@@ -12,9 +12,6 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletHurtBehavior;
-import com.hbm.interfaces.IBulletImpactBehavior;
-import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
@@ -33,7 +30,6 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -209,19 +205,15 @@ public class Gun4GaugeFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(eff));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "vanillaburst");
-				data.setString("mode", "flame");
-				data.setInteger("count", 15);
-				data.setDouble("motion", 0.05D);
-				
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
-			}
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaburst");
+			data.setString("mode", "flame");
+			data.setInteger("count", 15);
+			data.setDouble("motion", 0.05D);
+			
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bulletnt.posX, bulletnt.posY, bulletnt.posZ), new TargetPoint(bulletnt.dimension, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 50));
 		};
 		
 		bullet.spentCasing = CASING4GAUGE.clone().register("4GaPhos").setColor(0xF6871A, SpentCasing.COLOR_CASE_4GA);
@@ -259,22 +251,18 @@ public class Gun4GaugeFactory {
 		bullet.trail = 1;
 		bullet.explosive = 0.0F;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				ExplosionNT explosion = new ExplosionNT(bullet.worldObj, null, bullet.posX, bullet.posY, bullet.posZ, 4);
-				explosion.atttributes.add(ExAttrib.ALLDROP);
-				explosion.atttributes.add(ExAttrib.NOHURT);
-				explosion.doExplosionA();
-				explosion.doExplosionB(false);
-				
-				ExplosionLarge.spawnParticles(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 15);
-			}
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
+			
+			if(bulletnt.worldObj.isRemote)
+				return;
+			
+			ExplosionNT explosion = new ExplosionNT(bulletnt.worldObj, null, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 4);
+			explosion.atttributes.add(ExAttrib.ALLDROP);
+			explosion.atttributes.add(ExAttrib.NOHURT);
+			explosion.doExplosionA();
+			explosion.doExplosionB(false);
+			
+			ExplosionLarge.spawnParticles(bulletnt.worldObj, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 15);
 		};
 		
 		bullet.spentCasing = CASING4GAUGE.clone().register("4GaSem").setColor(0x5C5C5C, SpentCasing.COLOR_CASE_4GA);
@@ -295,21 +283,17 @@ public class Gun4GaugeFactory {
 		bullet.trail = 1;
 		bullet.explosive = 0.0F;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				ExplosionNT explosion = new ExplosionNT(bullet.worldObj, null, bullet.posX, bullet.posY, bullet.posZ, 6);
-				explosion.atttributes.add(ExAttrib.BALEFIRE);
-				explosion.doExplosionA();
-				explosion.doExplosionB(false);
-				
-				ExplosionLarge.spawnParticles(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 30);
-			}
+		bullet.bntImpact = (bulletnt, x, y, z) -> {
+			
+			if(bulletnt.worldObj.isRemote)
+				return;
+			
+			ExplosionNT explosion = new ExplosionNT(bulletnt.worldObj, null, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 6);
+			explosion.atttributes.add(ExAttrib.BALEFIRE);
+			explosion.doExplosionA();
+			explosion.doExplosionB(false);
+			
+			ExplosionLarge.spawnParticles(bulletnt.worldObj, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 30);
 		};
 		
 		bullet.spentCasing = CASING4GAUGE.clone().register("4GaBale").setColor(0x7BFF44, SpentCasing.COLOR_CASE_4GA);
@@ -348,23 +332,20 @@ public class Gun4GaugeFactory {
 		bullet.trail = 4;
 		bullet.vPFX = "smoke";
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
-
-			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+		bullet.bntUpdate = (bulletnt) -> {
+			
+			if(!bulletnt.worldObj.isRemote) {
 				
-				if(!bullet.worldObj.isRemote) {
+				if(bulletnt.ticksExisted > 10) {
+					bulletnt.setDead();
 					
-					if(bullet.ticksExisted > 10) {
-						bullet.setDead();
+					for(int i = 0; i < 50; i++) {
 						
-						for(int i = 0; i < 50; i++) {
-							
-							EntityBulletBase bolt = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.M44_AP);
-							bolt.setPosition(bullet.posX, bullet.posY, bullet.posZ);
-							bolt.setThrowableHeading(bullet.motionX, bullet.motionY, bullet.motionZ, 0.25F, 0.1F);
-							bullet.worldObj.spawnEntityInWorld(bolt);
-						}
+						EntityBulletBaseNT bolt = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.M44_AP);
+						bolt.setPosition(bulletnt.posX, bulletnt.posY, bulletnt.posZ);
+						bolt.setThrowableHeading(bulletnt.motionX, bulletnt.motionY, bulletnt.motionZ, 0.25F, 0.1F);
+						bolt.setThrower(bulletnt.getThrower());
+						bulletnt.worldObj.spawnEntityInWorld(bolt);
 					}
 				}
 			}
@@ -397,25 +378,21 @@ public class Gun4GaugeFactory {
 		bullet.bulletsMax *= 2;
 		bullet.leadChance = 100;
 		
-		bullet.bHurt = new IBulletHurtBehavior() {
-
-			@Override
-			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
+		bullet.bntHurt = (bulletnt, hit) -> {
+			
+			if(bulletnt.worldObj.isRemote)
+				return;
+			
+			if(hit instanceof EntityLivingBase) {
+				EntityLivingBase living = (EntityLivingBase) hit;
+				float f = living.getHealth();
 				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				if(hit instanceof EntityLivingBase) {
-					EntityLivingBase living = (EntityLivingBase) hit;
-					float f = living.getHealth();
+				if(f > 0) {
+					f = Math.max(0, f - 2);
+					living.setHealth(f);
 					
-					if(f > 0) {
-						f = Math.max(0, f - 2);
-						living.setHealth(f);
-						
-						if(f == 0)
-							living.onDeath(ModDamageSource.causeBulletDamage(bullet, hit));
-					}
+					if(f == 0)
+						living.onDeath(ModDamageSource.causeBulletDamage(bulletnt, hit));
 				}
 			}
 		};
@@ -437,25 +414,21 @@ public class Gun4GaugeFactory {
 		bullet.leadChance = 100;
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		
-		bullet.bHurt = new IBulletHurtBehavior() {
+		bullet.bntHurt = (bulletnt, hit) -> {
 
-			@Override
-			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				if(hit instanceof EntityPlayer) {
-					EntityPlayer player = (EntityPlayer) hit;
-					
-					IExtendedEntityProperties prop = player.getExtendedProperties("WitcheryExtendedPlayer");
-					
-					NBTTagCompound blank = new NBTTagCompound();
-					blank.setTag("WitcheryExtendedPlayer", new NBTTagCompound());
-					
-					if(prop != null) {
-						prop.loadNBTData(blank);
-					}
+			if(bulletnt.worldObj.isRemote)
+				return;
+
+			if(hit instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) hit;
+
+				IExtendedEntityProperties prop = player.getExtendedProperties("WitcheryExtendedPlayer");
+
+				NBTTagCompound blank = new NBTTagCompound();
+				blank.setTag("WitcheryExtendedPlayer", new NBTTagCompound());
+
+				if(prop != null) {
+					prop.loadNBTData(blank);
 				}
 			}
 		};
@@ -476,20 +449,16 @@ public class Gun4GaugeFactory {
 		bullet.bulletsMax *= 2;
 		bullet.leadChance = 0;
 		
-		bullet.bHurt = new IBulletHurtBehavior() {
+		bullet.bntHurt = (bulletnt, hit) -> {
+				
+			if(bulletnt.worldObj.isRemote)
+				return;
 
-			@Override
-			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				if(hit instanceof EntityPlayer) {
-					EntityPlayer player = (EntityPlayer) hit;
-					
-					player.inventory.dropAllItems();
-					player.worldObj.newExplosion(bullet.shooter, player.posX, player.posY, player.posZ, 5.0F, true, true);
-				}
+			if(hit instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) hit;
+
+				player.inventory.dropAllItems();
+				player.worldObj.newExplosion(bulletnt.getThrower(), player.posX, player.posY, player.posZ, 5.0F, true, true);
 			}
 		};
 		
@@ -512,27 +481,20 @@ public class Gun4GaugeFactory {
 		bullet.trail = 4;
 		bullet.vPFX = "explode";
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
+		bullet.bntUpdate = (bulletnt) -> {
 
-			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
-				
-				if(!bullet.worldObj.isRemote) {
-					
-					if(bullet.ticksExisted % 2 == 0) {
-						
-						List<EntityCreature> creatures = bullet.worldObj.getEntitiesWithinAABB(EntityCreature.class, bullet.boundingBox.expand(10, 10, 10));
-						
-						for(EntityCreature creature : creatures) {
-							
-							if(creature.getClass().getCanonicalName().startsWith("net.minecraft.entity.titan")) {
-								BulletConfigFactory.nuclearExplosion(creature, 0, 0, 0, ExplosionNukeSmall.PARAMS_TOTS);
+			if(!bulletnt.worldObj.isRemote) {
+				if(bulletnt.ticksExisted % 2 == 0) {
 
-								bullet.worldObj.removeEntity(creature);
-								bullet.worldObj.unloadEntities(new ArrayList() {{ add(creature); }});
-							}
+					List<EntityCreature> creatures = bulletnt.worldObj.getEntitiesWithinAABB(EntityCreature.class, bulletnt.boundingBox.expand(10, 10, 10));
+					for(EntityCreature creature : creatures) {
+
+						if(creature.getClass().getCanonicalName().startsWith("net.minecraft.entity.titan")) {
+							BulletConfigFactory.nuclearExplosion(creature, 0, 0, 0, ExplosionNukeSmall.PARAMS_TOTS);
+
+							bulletnt.worldObj.removeEntity(creature);
+							bulletnt.worldObj.unloadEntities(new ArrayList() {{ add(creature); }});
 						}
-						
 					}
 				}
 			}

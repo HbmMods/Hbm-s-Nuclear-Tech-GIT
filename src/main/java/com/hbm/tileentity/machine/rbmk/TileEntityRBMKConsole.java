@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.rbmk;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import com.hbm.interfaces.IControlReceiver;
@@ -389,7 +390,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 					short col = this.data.getShort("color");
 					
 					if(col >= 0 && col < RBMKColor.values().length)
-						stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.control." + RBMKColor.values()[col].name().toLowerCase()));
+						stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.control." + RBMKColor.values()[col].name().toLowerCase(Locale.US)));
 				}
 				
 			case CONTROL_AUTO:

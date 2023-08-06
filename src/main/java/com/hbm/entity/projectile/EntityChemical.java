@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.trait.FT_Combustible;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FT_Poison;
+import com.hbm.inventory.fluid.trait.FT_Toxin;
 import com.hbm.inventory.fluid.trait.FT_VentRadiation;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -57,10 +58,6 @@ public class EntityChemical extends EntityThrowableNT {
 	 * if FLAMMABLE: if GAS or EVAP apply, do the same as COMBUSTIBLE, otherwise create a neutral spray that adds the "soaked" effect
 	 * if CORROSIVE: apply extra acid damage, poison effect as well as armor degradation
 	 */
-
-	public double lastClientPosX = -1;
-	public double lastClientPosY = -1;
-	public double lastClientPosZ = -1;
 
 	public EntityChemical(World world) {
 		super(world);
@@ -178,7 +175,7 @@ public class EntityChemical extends EntityThrowableNT {
 		}
 		
 		if(type.temperature >= 100) {
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_boil), 5F + (type.temperature - 100) * 0.02F); //5 damage at 100°C with one extra damage every 50°C
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_boil), 0.25F + (type.temperature - 100) * 0.001F); //.25 damage at 100°C with one extra damage every 1000°C
 			
 			if(type.temperature >= 500) {
 				e.setFire(10); //afterburn for 10 seconds
@@ -188,9 +185,15 @@ public class EntityChemical extends EntityThrowableNT {
 		if(style == ChemicalStyle.LIQUID || style == ChemicalStyle.GAS) {
 			if(type.temperature < -20) {
 				if(living != null) { //only living things are affected
-					EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_cryolator), 5F + (type.temperature + 20) * -0.05F); //5 damage at -20°C with one extra damage every -20°C
-					living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 2));
-					living.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 100, 4));
+					
+					HbmLivingProps.setTemperature(living, HbmLivingProps.getTemperature(living) + type.temperature / 20);
+					
+					if(HbmLivingProps.isFrozen(living)) {
+						if(!EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_cryolator), living.getMaxHealth() * -type.temperature / 273 * 0.01F))
+							e.attackEntityFrom(getDamage(ModDamageSource.s_cryolator), living.getMaxHealth() * -type.temperature / 273);
+						living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 2));
+						living.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 100, 4));
+					}
 				}
 			}
 			
@@ -232,11 +235,11 @@ public class EntityChemical extends EntityThrowableNT {
 		
 		if(type.hasTrait(FT_Corrosive.class)) {
 			FT_Corrosive trait = type.getTrait(FT_Corrosive.class);
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_acid), trait.getRating() / 20F);
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, getDamage(ModDamageSource.s_acid), trait.getRating() / 50F);
 			
 			if(living != null) {
 				for(int i = 0; i < 4; i++) {
-					ArmorUtil.damageSuit(living, i, trait.getRating() / 5);
+					ArmorUtil.damageSuit(living, i, (int) Math.ceil(trait.getRating() / 50));
 				}
 			}
 		}
@@ -254,6 +257,14 @@ public class EntityChemical extends EntityThrowableNT {
 			
 			if(living != null) {
 				living.addPotionEffect(new PotionEffect(trait.isWithering() ? Potion.wither.id : Potion.poison.id, (int) (5 * 20 * intensity)));
+			}
+		}
+		
+		if(type.hasTrait(FT_Toxin.class)) {
+			FT_Toxin trait = type.getTrait(FT_Toxin.class);
+			
+			if(living != null) {
+				trait.affect(living, intensity);
 			}
 		}
 		

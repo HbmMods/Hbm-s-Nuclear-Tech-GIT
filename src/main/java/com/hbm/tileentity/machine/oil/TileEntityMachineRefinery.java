@@ -7,6 +7,8 @@ import java.util.Random;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -24,6 +26,8 @@ import com.hbm.inventory.gui.GUIMachineRefinery;
 import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.IPersistentNBT;
@@ -65,6 +69,10 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	public boolean hasExploded = false;
 	public boolean onFire = false;
 	public Explosion lastExplosion = null;
+	
+	private AudioWrapper audio;
+	private int audioTime;
+	public boolean isOn;
 
 	private static final int[] slot_access = new int[] {11};
 	
@@ -138,6 +146,8 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 
 		if(!worldObj.isRemote) {
 			
+			this.isOn = false;
+			
 			if(this.getBlockMetadata() < 12) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getRotation(ForgeDirection.DOWN);
 				worldObj.removeTileEntity(xCoord, yCoord, zCoord);
@@ -174,7 +184,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 				for(DirPos pos : getConPos()) {
 					for(int i = 1; i < 5; i++) {
 						if(tanks[i].getFill() > 0) {
-							this.sendFluid(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+							this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 						}
 					}
 				}
@@ -193,6 +203,10 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 					for(Entity e : affected) e.setFire(5);
 					Random rand = worldObj.rand;
 					ParticleUtil.spawnGasFlame(worldObj, xCoord + rand.nextDouble(), yCoord + 1.5 + rand.nextDouble() * 3, zCoord + rand.nextDouble(), rand.nextGaussian() * 0.05, 0.1, rand.nextGaussian() * 0.05);
+
+					if(worldObj.getTotalWorldTime() % 20 == 0) {
+						PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 70);
+					}
 				}
 			}
 			
@@ -201,7 +215,57 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			for(int i = 0; i < 5; i++) tanks[i].writeToNBT(data, "" + i);
 			data.setBoolean("exploded", hasExploded);
 			data.setBoolean("onFire", onFire);
+			data.setBoolean("isOn", this.isOn);
 			this.networkPack(data, 150);
+		} else {
+			
+			if(this.isOn) audioTime = 20;
+			
+			if(audioTime > 0) {
+				
+				audioTime--;
+				
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+				
+				audio.keepAlive();
+				
+			} else {
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
+		}
+	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.boiler", xCoord, yCoord, zCoord, 0.25F, 15F, 1.0F, 20);
+	}
+
+	@Override
+	public void onChunkUnload() {
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
 	}
 	
@@ -211,6 +275,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		for(int i = 0; i < 5; i++) tanks[i].readFromNBT(nbt, "" + i);
 		this.hasExploded = nbt.getBoolean("exploded");
 		this.onFire = nbt.getBoolean("onFire");
+		this.isOn = nbt.getBoolean("isOn");
 	}
 	
 	private void refine() {
@@ -233,6 +298,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			}
 		}
 		
+		this.isOn = true;
 		tanks[0].setFill(tanks[0].getFill() - 100);
 
 		for(int i = 0; i < stacks.length; i++)
@@ -259,6 +325,8 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			
 			this.markDirty();
 		}
+
+		if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 5);
 		
 		this.power -= 5;
 	}

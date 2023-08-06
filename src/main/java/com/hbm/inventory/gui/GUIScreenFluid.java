@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import java.awt.Color;
 import java.util.Arrays;
+import java.util.Locale;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -166,10 +167,10 @@ public class GUIScreenFluid extends GuiScreen {
 		this.searchArray = new FluidType[9];
 		
 		int next = 0;
-		String subs = this.search.getText().toLowerCase();
+		String subs = this.search.getText().toLowerCase(Locale.US);
 		
 		for(FluidType type : Fluids.getInNiceOrder()) {
-			String name = I18nUtil.resolveKey(type.getUnlocalizedName()).toLowerCase();
+			String name = I18nUtil.resolveKey(type.getUnlocalizedName()).toLowerCase(Locale.US);
 			
 			if(name.contains(subs) && !type.hasNoID()) {
 				this.searchArray[next] = type;

@@ -14,26 +14,26 @@ public class ContainerCraneExtractor extends Container {
 	
 	protected TileEntityCraneExtractor extractor;
 	
-	public ContainerCraneExtractor(InventoryPlayer invPlayer, TileEntityCraneExtractor inserter) {
-		this.extractor = inserter;
+	public ContainerCraneExtractor(InventoryPlayer invPlayer, TileEntityCraneExtractor extractor) {
+		this.extractor = extractor;
 		
 		//filter
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new Slot(inserter, j + i * 3, 71 + j * 18, 17 + i * 18));
+				this.addSlotToContainer(new Slot(extractor, j + i * 3, 71 + j * 18, 17 + i * 18));
 			}
 		}
 		
 		//buffer
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new Slot(inserter, 9 + j + i * 3, 8 + j * 18, 17 + i * 18));
+				this.addSlotToContainer(new Slot(extractor, 9 + j + i * 3, 8 + j * 18, 17 + i * 18));
 			}
 		}
 		
 		//upgrades
-		this.addSlotToContainer(new SlotUpgrade(inserter, 18, 152, 23));
-		this.addSlotToContainer(new SlotUpgrade(inserter, 19, 152, 47));
+		this.addSlotToContainer(new SlotUpgrade(extractor, 18, 152, 23));
+		this.addSlotToContainer(new SlotUpgrade(extractor, 19, 152, 47));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -102,8 +102,6 @@ public class ContainerCraneExtractor extends Container {
 		//M3: 3
 		//SHIFT: 1
 		//DRAG: 5
-		//System.out.println("Mode " + mode);
-		//System.out.println("Slot " + index);
 		
 		if(index < 0 || index > 8) {
 			return super.slotClick(index, button, mode, player);

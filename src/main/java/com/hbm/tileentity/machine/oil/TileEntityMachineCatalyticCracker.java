@@ -1,17 +1,10 @@
 package com.hbm.tileentity.machine.oil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.CrackingRecipes;
-import com.hbm.lib.Library;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.Tuple.Pair;
@@ -24,20 +17,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase implements IFluidSource, IFluidAcceptor, INBTPacketReceiver, IFluidStandardTransceiver {
+public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardTransceiver {
 	
 	public FluidTank[] tanks;
-	public List<IFluidAcceptor> list1 = new ArrayList();
-	public List<IFluidAcceptor> list2 = new ArrayList();
-	public List<IFluidAcceptor> list3 = new ArrayList();
 	
 	public TileEntityMachineCatalyticCracker() {
 		tanks = new FluidTank[5];
-		tanks[0] = new FluidTank(Fluids.BITUMEN, 4000, 0);
-		tanks[1] = new FluidTank(Fluids.STEAM, 8000, 1);
-		tanks[2] = new FluidTank(Fluids.OIL, 4000, 2);
-		tanks[3] = new FluidTank(Fluids.PETROLEUM, 4000, 3);
-		tanks[4] = new FluidTank(Fluids.SPENTSTEAM, 800, 4);
+		tanks[0] = new FluidTank(Fluids.BITUMEN, 4000);
+		tanks[1] = new FluidTank(Fluids.STEAM, 8000);
+		tanks[2] = new FluidTank(Fluids.OIL, 4000);
+		tanks[3] = new FluidTank(Fluids.PETROLEUM, 4000);
+		tanks[4] = new FluidTank(Fluids.SPENTSTEAM, 800);
 	}
 	
 	@Override
@@ -51,18 +41,15 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 			updateConnections();
 
 			this.worldObj.theProfiler.endStartSection("catalyticCracker_do_recipe");
-			if(worldObj.getTotalWorldTime() % 20 == 0)
+			if(worldObj.getTotalWorldTime() % 5 == 0)
 				crack();
 
 			this.worldObj.theProfiler.endStartSection("catalyticCracker_send_fluid");
 			if(worldObj.getTotalWorldTime() % 10 == 0) {
-				fillFluidInit(tanks[2].getTankType());
-				fillFluidInit(tanks[3].getTankType());
-				fillFluidInit(tanks[4].getTankType());
 				
 				for(DirPos pos : getConPos()) {
 					for(int i = 2; i <= 4; i++) {
-						if(tanks[i].getFill() > 0) this.sendFluid(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+						if(tanks[i].getFill() > 0) this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 					}
 				}
 				
@@ -149,63 +136,6 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 		for(int i = 0; i < 5; i++)
 			tanks[i].writeToNBT(nbt, "tank" + i);
 	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if(index < 5 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				tank.setFill(fill);
-			}
-		}
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		this.tanks[index].setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				return tank.getFill();
-			}
-		}
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(type == tanks[0].getTankType())
-			return tanks[0].getMaxFill();
-		else if(type == tanks[1].getTankType())
-			return tanks[1].getMaxFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		fillFluid(xCoord + dir.offsetX * 4 + rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 1, this.getTact(), type);
-		fillFluid(xCoord + dir.offsetX * 4 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 2, this.getTact(), type);
-		fillFluid(xCoord - dir.offsetX * 4 + rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 4 + rot.offsetZ * 1, this.getTact(), type);
-		fillFluid(xCoord - dir.offsetX * 4 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 4 - rot.offsetZ * 2, this.getTact(), type);
-
-		fillFluid(xCoord + dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 3, this.getTact(), type);
-		fillFluid(xCoord + dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 2 - rot.offsetZ * 4, this.getTact(), type);
-		fillFluid(xCoord - dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 3, this.getTact(), type);
-		fillFluid(xCoord - dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4, this.getTact(), type);
-	}
 	
 	protected DirPos[] getConPos() {
 		
@@ -222,31 +152,6 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX * 3, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 3, rot.getOpposite()),
 				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4, rot.getOpposite())
 		};
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 20 < 10;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		if(type == tanks[2].getTankType()) return list1;
-		if(type == tanks[3].getTankType()) return list2;
-		if(type == tanks[4].getTankType()) return list3;
-		return new ArrayList<IFluidAcceptor>();
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		if(type == tanks[2].getTankType()) list1.clear();
-		if(type == tanks[3].getTankType()) list2.clear();
-		if(type == tanks[4].getTankType()) list3.clear();
 	}
 	
 	AxisAlignedBB bb = null;

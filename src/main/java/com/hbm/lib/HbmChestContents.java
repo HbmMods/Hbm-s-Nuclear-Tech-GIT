@@ -1,16 +1,20 @@
 package com.hbm.lib;
 
+import java.util.Random;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBreedingRod.*;
+import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
-import com.hbm.items.special.ItemBookLore.BookLoreType;
+import com.hbm.items.special.ItemBookLore;
+import com.hbm.items.tool.ItemBlowtorch;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 
 public class HbmChestContents {
@@ -136,12 +140,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.nugget_pu240, 0, 3, 8, 5),
 			new WeightedRandomChestContent(ModItems.nugget_neptunium, 0, 1, 4, 3),
 			new WeightedRandomChestContent(ModItems.rod, BreedingRodType.U238.ordinal(), 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.rod, BreedingRodType.NP237.ordinal(), 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.rod, BreedingRodType.RGP.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_dual, BreedingRodType.U238.ordinal(), 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.rod_dual, BreedingRodType.RGP.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_quad, BreedingRodType.U238.ordinal(), 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.rod_quad, BreedingRodType.RGP.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.hazmat_kit, 0, 1, 1, 1),
@@ -150,17 +150,14 @@ public class HbmChestContents {
 	
 	public static WeightedRandomChestContent[] nuclearFuel = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.billet_uranium, 0, 1, 4, 4),
-			new WeightedRandomChestContent(ModItems.billet_pu_mix, 0, 1, 2, 4),
 			new WeightedRandomChestContent(ModItems.billet_th232, 0, 1, 3, 3),
 			new WeightedRandomChestContent(ModItems.billet_uranium_fuel, 0, 1, 3, 5),
 			new WeightedRandomChestContent(ModItems.billet_mox_fuel, 0, 1, 3, 5),
-			new WeightedRandomChestContent(ModItems.billet_plutonium_fuel, 0, 1, 3, 4),
 			new WeightedRandomChestContent(ModItems.billet_thorium_fuel, 0, 1, 3, 3),
 			new WeightedRandomChestContent(ModItems.billet_ra226be, 0, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.billet_beryllium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.nugget_u233, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.nugget_u235, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.nugget_pu239, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.nugget_uranium_fuel, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.rod_zirnox_empty, 0, 1, 3, 3),
 			new WeightedRandomChestContent(ModItems.ingot_graphite, 0, 1, 4, 3),
 			new WeightedRandomChestContent(ModItems.pile_rod_uranium, 0, 2, 5, 3),
@@ -172,15 +169,11 @@ public class HbmChestContents {
 	public static WeightedRandomChestContent[] nuclear = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_u235, 0, 3, 12, 5),
 			new WeightedRandomChestContent(ModItems.nugget_pu238, 0, 3, 12, 5),
-			new WeightedRandomChestContent(ModItems.nugget_pu239, 0, 3, 12, 5),
+			new WeightedRandomChestContent(ModItems.nugget_ra226, 0, 3, 6, 5),
 			new WeightedRandomChestContent(ModItems.rod, BreedingRodType.U235.ordinal(), 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.rod, BreedingRodType.PU239.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_dual, BreedingRodType.U235.ordinal(), 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.rod_dual, BreedingRodType.PU239.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_quad, BreedingRodType.U235.ordinal(), 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.rod_quad, BreedingRodType.PU239.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_zirnox, EnumZirnoxType.URANIUM_FUEL.ordinal(), 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.rod_zirnox, EnumZirnoxType.PLUTONIUM_FUEL.ordinal(), 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.rod_zirnox, EnumZirnoxType.MOX_FUEL.ordinal(), 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.rod_zirnox, EnumZirnoxType.LITHIUM.ordinal(), 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_zirnox, EnumZirnoxType.THORIUM_FUEL.ordinal(), 1, 1, 3),
@@ -366,15 +359,87 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.ink, 0, 1, 1, 1), //make that mf rare; 1:555 weight
 	};
 	
-	/** ITEMBOOKLORE ARRAYS */
-	//might make a wrapper class for this, if game-state knowledge using the nbt system becomes that relevant
-	public final static BookLoreType[] books_office_sch = new BookLoreType[] {
-			BookLoreType.RESIGNATION_NOTE,
-			BookLoreType.MEMO_STOCKS,
-			BookLoreType.MEMO_SCHRAB_GSA,
-			BookLoreType.MEMO_SCHRAB_RD,
-			BookLoreType.MEMO_SCHRAB_NUKE,
+	public static WeightedRandomChestContent[] solidFuel = new WeightedRandomChestContent[] {
+			new WeightedRandomChestContent(ModItems.solid_fuel, 0, 1, 5, 1),
+			new WeightedRandomChestContent(ModItems.solid_fuel_presto, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.ball_dynamite, 0, 1, 4, 2),
+			new WeightedRandomChestContent(Items.redstone, 0, 1, 3, 1),
+			new WeightedRandomChestContent(ModItems.niter, 0, 1, 3, 1)
 	};
 	
+	public static WeightedRandomChestContent[] labVault = new WeightedRandomChestContent[] {
+			new WeightedRandomChestContent(ItemBlowtorch.getEmptyTool(ModItems.blowtorch), 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.chemistry_set, 0, 1, 1, 15),
+			new WeightedRandomChestContent(ModItems.screwdriver, 0, 1, 1, 10),
+			new WeightedRandomChestContent(ModItems.nugget_mercury, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.morning_glory, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.filter_coal, 0, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.dust, 0, 1, 3, 25),
+			new WeightedRandomChestContent(Items.paper, 0, 1, 2, 15),
+			new WeightedRandomChestContent(ModItems.cell_empty, 0, 1, 1, 5),
+			new WeightedRandomChestContent(Items.glass_bottle, 0, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.powder_iodine, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.powder_bromine, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.powder_cobalt, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.powder_neodymium, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.powder_boron, 0, 1, 1, 1),
+	};
 	
+	public static WeightedRandomChestContent[] lockersVault = new WeightedRandomChestContent[] {
+			new WeightedRandomChestContent(ModItems.robes_helmet, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.robes_plate, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.robes_legs, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.robes_boots, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.jackt, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.jackt2, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.gas_mask_m65, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.gas_mask_mono, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.goggles, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.flame_opinion, 0, 1, 3, 5),
+			new WeightedRandomChestContent(ModItems.flame_conspiracy, 0, 1, 3, 5),
+			new WeightedRandomChestContent(ModItems.flame_politics, 0, 1, 3, 5),
+			new WeightedRandomChestContent(ModItems.cigarette, 0, 1, 8, 5),
+			new WeightedRandomChestContent(ModItems.canteen_13, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.armor_polish, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.gun_kit_1, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.rag, 0, 1, 3, 5),
+			new WeightedRandomChestContent(Items.paper, 0, 1, 6, 7),
+			new WeightedRandomChestContent(Items.clock, 0, 1, 1, 3),
+			new WeightedRandomChestContent(Items.book, 0, 1, 5, 10),
+			new WeightedRandomChestContent(Items.experience_bottle, 0, 1, 3, 1),
+	};
+	
+	/** ITEMBOOKLORE SHIT */
+	//one downside of all this huge flexibility, make a wrapper if it's too annoying
+	public static ItemStack generateOfficeBook(Random rand) { //TODO rework this lore in general
+		String key;
+		int pages;
+		switch(rand.nextInt(10)) {
+		case 0:
+			key = "resignation_note"; pages = 3; break;
+		case 1:
+			key = "memo_stocks"; pages = 1; break;
+		case 2:
+			key = "memo_schrab_gsa"; pages = 2; break;
+		case 3:
+			key = "memo_schrab_rd"; pages = 4; break;
+		case 4:
+			key = "memo_schrab_nuke"; pages = 3; break;
+		case 5:
+			key = "bf_bomb_1"; pages = 4; break;
+		case 6:
+			key = "bf_bomb_2"; pages = 6; break;
+		case 7:
+			key = "bf_bomb_3"; pages = 6; break;
+		case 8:
+			key = "bf_bomb_4"; pages = 5; break;
+		case 9:
+			key = "bf_bomb_5"; pages = 9; break;
+		default:
+			return null;
+		}
+		
+		return ItemBookLore.createBook(key, pages, 0x6BC8FF, 0x0A0A0A);
+	}
 }

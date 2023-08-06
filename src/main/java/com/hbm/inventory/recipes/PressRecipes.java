@@ -2,6 +2,7 @@ package com.hbm.inventory.recipes;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 import static com.hbm.inventory.OreDictManager.*;
@@ -151,7 +152,7 @@ public class PressRecipes extends SerializableRecipe {
 		
 		writer.name("input");
 		this.writeAStack(entry.getKey().getKey(), writer);
-		writer.name("stamp").value(entry.getKey().getValue().name().toLowerCase());
+		writer.name("stamp").value(entry.getKey().getValue().name().toLowerCase(Locale.US));
 		writer.name("output");
 		this.writeItemStack(entry.getValue(), writer);
 	}

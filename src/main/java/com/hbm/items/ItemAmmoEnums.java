@@ -748,6 +748,23 @@ public class ItemAmmoEnums {
 		}
 	}
 
+	public enum AmmoCoilgun implements IAmmoItemEnum {
+		STOCK("ammo_coilgun"),
+		DU("ammo_coilgun_du", AmmoItemTrait.PRO_HEAVY_DAMAGE, AmmoItemTrait.CON_HEAVY_WEAR),
+		RUBBER("ammo_coilgun_rubber", AmmoItemTrait.NEU_MORE_BOUNCY, AmmoItemTrait.CON_DAMAGE);
+		
+		private final Set<AmmoItemTrait> traits;
+		private final String unloc;
+
+		private AmmoCoilgun(String unloc, AmmoItemTrait... traits) {
+			this.traits = safeAssign(traits);
+			this.unloc = unloc;
+		}
+
+		@Override public Set<AmmoItemTrait> getTraits() { return traits; }
+		@Override public String getInternalName() { return unloc; }
+	}
+
 	public interface IAmmoItemEnum {
 		public Set<AmmoItemTrait> getTraits();
 		public String getInternalName();

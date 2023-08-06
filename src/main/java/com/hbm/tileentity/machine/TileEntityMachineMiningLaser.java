@@ -99,10 +99,10 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			if (age == 9 || age == 19)
 				fillFluidInit(tank.getTankType());
 
-			this.sendFluid(tank.getTankType(), worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
-			this.sendFluid(tank.getTankType(), worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
-			this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord + 2, zCoord, Library.POS_Z);
-			this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord - 2, zCoord, Library.NEG_Z);
+			this.sendFluid(tank, worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
+			this.sendFluid(tank, worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
+			this.sendFluid(tank, worldObj, xCoord, yCoord + 2, zCoord, Library.POS_Z);
+			this.sendFluid(tank, worldObj, xCoord, yCoord - 2, zCoord, Library.NEG_Z);
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tank.updateTank(xCoord, yCoord, zCoord, this.worldObj.provider.dimensionId);
@@ -262,7 +262,9 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			if(hasCrystallizer()) {
 
 				CrystallizerRecipe result = CrystallizerRecipes.getOutput(stack, Fluids.ACID);
-				if(result != null && result.output.getItem() != ModItems.scrap) {
+				if(result == null) result = CrystallizerRecipes.getOutput(stack, Fluids.SULFURIC_ACID);
+				
+				if(result != null) {
 					worldObj.spawnEntityInWorld(new EntityItem(worldObj, targetX + 0.5, targetY + 0.5, targetZ + 0.5, result.output.copy()));
 					normal = false;
 				}

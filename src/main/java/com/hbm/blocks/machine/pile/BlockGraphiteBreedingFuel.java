@@ -64,4 +64,5 @@ public class BlockGraphiteBreedingFuel extends BlockGraphiteDrilledTE implements
 	protected Item getInsertedItem() {
 		return ModItems.pile_rod_lithium;
 	}
+	
 }

@@ -1,6 +1,7 @@
 package com.hbm.inventory.material;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import com.hbm.inventory.OreDictManager.DictFrame;
@@ -45,7 +46,7 @@ public class NTMMaterial {
 	}
 	
 	public String getUnlocalizedName() {
-		return "hbmmat." + this.names[0].toLowerCase();
+		return "hbmmat." + this.names[0].toLowerCase(Locale.US);
 	}
 	
 	public NTMMaterial setConversion(NTMMaterial mat, int in, int out) {

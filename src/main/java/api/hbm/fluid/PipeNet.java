@@ -85,7 +85,7 @@ public class PipeNet implements IPipeNet {
 	}
 
 	@Override
-	public long transferFluid(long fill) {
+	public long transferFluid(long fill, int pressure) {
 		
 		this.subscribers.removeIf(x -> 
 			x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid()
@@ -97,16 +97,16 @@ public class PipeNet implements IPipeNet {
 		trackingInstances = new ArrayList();
 		trackingInstances.add(this);
 		List<IFluidConnector> subList = new ArrayList(subscribers);
-		return fairTransfer(subList, type, fill);
+		return fairTransfer(subList, type, pressure, fill);
 	}
 	
-	public static long fairTransfer(List<IFluidConnector> subList, FluidType type, long fill) {
+	public static long fairTransfer(List<IFluidConnector> subList, FluidType type, int pressure, long fill) {
 		
 		List<Long> weight = new ArrayList();
 		long totalReq = 0;
 		
 		for(IFluidConnector con : subList) {
-			long req = con.getDemand(type);
+			long req = con.getDemand(type, pressure);
 			weight.add(req);
 			totalReq += req;
 		}
@@ -123,7 +123,7 @@ public class PipeNet implements IPipeNet {
 			
 			long given = (long) Math.floor(fraction * fill);
 			
-			totalGiven += (given - con.transferFluid(type, given));
+			totalGiven += (given - con.transferFluid(type, pressure, given));
 		}
 		
 		if(trackingInstances != null) {

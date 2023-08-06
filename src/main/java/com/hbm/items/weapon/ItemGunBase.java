@@ -5,7 +5,7 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
@@ -164,7 +164,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	//whether or not the gun can shoot in its current state
 	protected boolean tryShoot(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
-		if(getIsReloading(stack) && mainConfig.reloadType == mainConfig.RELOAD_SINGLE) {
+		//cancel reload when trying to shoot if it's a single reload weapon and at least one round is loaded
+		if(getIsReloading(stack) && mainConfig.reloadType == mainConfig.RELOAD_SINGLE && this.getMag(stack) > 0) {
 			setReloadCycle(stack, 0);
 			setIsReloading(stack, false);
 		}
@@ -229,7 +230,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			setItemWear(stack, getItemWear(stack) + wear);
 		}
 		
-		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
+		world.playSoundAtEntity(player, mainConfig.firingSound, mainConfig.firingVolume, mainConfig.firingPitch);
 		
 		if(mainConfig.ejector != null && !mainConfig.ejector.getAfterReload())
 			queueCasing(player, mainConfig.ejector, config, stack);
@@ -263,7 +264,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			setItemWear(stack, getItemWear(stack) + config.wear);
 		}
 		
-		world.playSoundAtEntity(player, altConfig.firingSound, 1.0F, altConfig.firingPitch);
+		world.playSoundAtEntity(player, altConfig.firingSound, mainConfig.firingVolume, altConfig.firingPitch);
 		
 		if(altConfig.ejector != null)
 			queueCasing(player, altConfig.ejector, config, stack);
@@ -272,7 +273,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	//spawns the actual projectile, can be overridden to change projectile entity
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
 		
-		EntityBulletBase bullet = new EntityBulletBase(world, config, player);
+		EntityBulletBaseNT bullet = new EntityBulletBaseNT(world, config, player);
 		world.spawnEntityInWorld(bullet);
 		
 		if(player instanceof EntityPlayerMP)
@@ -458,6 +459,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	{
 		final BulletConfiguration bulletConfig = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
 		list.add(I18nUtil.resolveKey(HbmCollection.gunDamage, bulletConfig.dmgMin, bulletConfig.dmgMax));
+		if(bulletConfig.bulletsMax != 1)
+			list.add(I18nUtil.resolveKey(HbmCollection.gunPellets, bulletConfig.bulletsMin, bulletConfig.bulletsMax));
 		int dura = Math.max(mainConfig.durability - getItemWear(stack), 0);
 		
 		list.add(I18nUtil.resolveKey(HbmCollection.durability, dura + " / " + mainConfig.durability));
@@ -690,7 +693,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		GunConfiguration gcfg = gun.mainConfig;
 		
 		if(type == ElementType.HOTBAR) {
-			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(stack)));
+			int mag = ItemGunBase.getMagType(stack);
+			if(gun.mainConfig.config.size() == 0) return;
+			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(mag < gun.mainConfig.config.size() ? mag : 0));
 			
 			if(bcfg == null) {
 				return;

@@ -22,6 +22,8 @@ public class SmeltingRecipes {
 	
 	public static void AddSmeltingRec()
 	{
+		GameRegistry.addSmelting(ModItems.glyphid_meat, new ItemStack(ModItems.glyphid_meat_grilled), 1.0F);
+		
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_thorium), new ItemStack(ModItems.ingot_th232), 3.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_uranium), new ItemStack(ModItems.ingot_uranium), 6.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_uranium_scorched), new ItemStack(ModItems.ingot_uranium), 6.0F);
@@ -181,7 +183,7 @@ public class SmeltingRecipes {
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
 			int i = ore.ordinal();
-			GameRegistry.addSmelting(new ItemStack(ModBlocks.ore_bedrock, 1, i), new ItemStack(Blocks.cobblestone, 16), 0.1F);
+			GameRegistry.addSmelting(new ItemStack(ModItems.ore_bedrock, 1, i), new ItemStack(Blocks.cobblestone, 16), 0.1F);
 		}
 		
 		for(int i = 0; i < 10; i++)

@@ -1,5 +1,7 @@
 package com.hbm.config;
 
+import java.util.Locale;
+
 import net.minecraftforge.common.config.Configuration;
 
 public class PotionConfig {
@@ -37,9 +39,9 @@ public class PotionConfig {
 
 		String s = CommonConfig.createConfigString(config, CATEGORY_POTION, "8.S0_potionSickness", "Valid configs include \"NORMAL\" and \"TERRARIA\", otherwise potion sickness is turned off", "OFF");
 
-		if("normal".equals(s.toLowerCase()))
+		if("normal".equals(s.toLowerCase(Locale.US)))
 			potionSickness = 1;
-		if("terraria".equals(s.toLowerCase()))
+		if("terraria".equals(s.toLowerCase(Locale.US)))
 			potionSickness = 2;
 		
 	}

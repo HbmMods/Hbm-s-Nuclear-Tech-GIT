@@ -19,15 +19,13 @@ public class DeepLayer {
 
 	@SubscribeEvent
 	public void onDecorate(DecorateBiomeEvent.Pre event) {
+
+		World world = event.world;
+		if(world.provider == null || world.provider.dimensionId != 0) return;
 		
 		if(this.noise == null) {
 			this.noise = new NoiseGeneratorPerlin(new Random(event.world.getSeed() + 19), 4);
 		}
-
-		World world = event.world;
-		
-		if(world.provider.dimensionId != 0)
-			return;
 		
 		int cX = event.chunkX;
 		int cZ = event.chunkZ;

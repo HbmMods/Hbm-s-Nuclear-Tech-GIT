@@ -77,6 +77,14 @@ public class BulletConfigSyncingUtil {
 	public static int G12_SLEEK = i++;
 	public static int G12_PERCUSSION = i++;
 
+	public static int G12HS_NORMAL = i++;
+	public static int G12HS_INCENDIARY = i++;
+	public static int G12HS_SHRAPNEL = i++;
+	public static int G12HS_DU = i++;
+	public static int G12HS_AM = i++;
+	public static int G12HS_SLEEK = i++;
+	public static int G12HS_PERCUSSION = i++;
+
 	public static int LR22_NORMAL = i++;
 	public static int LR22_AP = i++;
 	public static int LR22_NORMAL_FIRE = i++;
@@ -152,11 +160,17 @@ public class BulletConfigSyncingUtil {
 	public static int SPECIAL_GAUSS_CHARGED = i++;
 	public static int SPECIAL_EMP = i++;
 
+	public static int COIL_NORMAL = i++;
+	public static int COIL_DU = i++;
+	public static int COIL_RUBBER = i++;
+
 	public static int FLAMER_NORMAL = i++;
 	public static int FLAMER_NAPALM = i++;
 	public static int FLAMER_WP = i++;
 	public static int FLAMER_VAPORIZER = i++;
 	public static int FLAMER_GAS = i++;
+
+	public static int CRYO_NORMAL = i++;
 
 	public static int FEXT_NORMAL = i++;
 	public static int FEXT_FOAM = i++;
@@ -359,6 +373,13 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G12_AM, Gun12GaugeFactory.get12GaugeAMConfig());
 		configSet.put(G12_SLEEK, Gun12GaugeFactory.get12GaugeSleekConfig());
 		configSet.put(G12_PERCUSSION, Gun12GaugeFactory.get12GaugePercussionConfig());
+		configSet.put(G12HS_NORMAL, Gun12GaugeFactory.get12GaugeConfig().setHeadshot(2F));
+		configSet.put(G12HS_INCENDIARY, Gun12GaugeFactory.get12GaugeFireConfig().setHeadshot(2F));
+		configSet.put(G12HS_SHRAPNEL, Gun12GaugeFactory.get12GaugeShrapnelConfig().setHeadshot(2F));
+		configSet.put(G12HS_DU, Gun12GaugeFactory.get12GaugeDUConfig().setHeadshot(2F));
+		configSet.put(G12HS_AM, Gun12GaugeFactory.get12GaugeAMConfig().setHeadshot(2F));
+		configSet.put(G12HS_SLEEK, Gun12GaugeFactory.get12GaugeSleekConfig().setHeadshot(2F));
+		configSet.put(G12HS_PERCUSSION, Gun12GaugeFactory.get12GaugePercussionConfig().setHeadshot(2F));
 
 		configSet.put(LR22_NORMAL, Gun22LRFactory.get22LRConfig());
 		configSet.put(LR22_AP, Gun22LRFactory.get22LRAPConfig());
@@ -435,11 +456,17 @@ public class BulletConfigSyncingUtil {
 		configSet.put(SPECIAL_GAUSS_CHARGED, GunGaussFactory.getAltConfig());
 		configSet.put(SPECIAL_EMP, GunEnergyFactory.getOrbusConfig());
 
+		configSet.put(COIL_NORMAL, GunEnergyFactory.getCoilConfig());
+		configSet.put(COIL_DU, GunEnergyFactory.getCoilDUConfig());
+		configSet.put(COIL_RUBBER, GunEnergyFactory.getCoilRubberConfig());
+
 		configSet.put(FLAMER_NORMAL, GunEnergyFactory.getFlameConfig());
 		configSet.put(FLAMER_NAPALM, GunEnergyFactory.getNapalmConfig());
 		configSet.put(FLAMER_WP, GunEnergyFactory.getPhosphorusConfig());
 		configSet.put(FLAMER_VAPORIZER, GunEnergyFactory.getVaporizerConfig());
 		configSet.put(FLAMER_GAS, GunEnergyFactory.getGasConfig());
+		
+		configSet.put(CRYO_NORMAL, GunEnergyFactory.getCryoConfig());
 		
 		configSet.put(FEXT_NORMAL, GunEnergyFactory.getFextConfig());
 		configSet.put(FEXT_FOAM, GunEnergyFactory.getFextFoamConfig());
