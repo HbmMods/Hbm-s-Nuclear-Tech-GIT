@@ -12,7 +12,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class ItemCustomMachine extends ItemBlock {
 
@@ -24,10 +23,7 @@ public class ItemCustomMachine extends ItemBlock {
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
 		
 		for(int i = 0; i < CustomMachineConfigJSON.niceList.size(); i++) {
-			MachineConfiguration conf = CustomMachineConfigJSON.niceList.get(i);
 			ItemStack stack = new ItemStack(item, 1, i + 100);
-			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setString("machineType", conf.unlocalizedName);
 			list.add(stack);
 		}
 	}
@@ -35,15 +31,14 @@ public class ItemCustomMachine extends ItemBlock {
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		
-		if(stack.hasTagCompound()) {
-			String name = stack.getTagCompound().getString("machineType");
-			MachineConfiguration conf = CustomMachineConfigJSON.customMachines.get(name);
+		int id = stack.getItemDamage() - 100;
+		
+		if(id >= 0 && id < CustomMachineConfigJSON.customMachines.size()) {
+			MachineConfiguration conf = CustomMachineConfigJSON.niceList.get(id);
 			
 			if(conf != null) {
 				return conf.localizedName;
 			}
-			
-			return "INVALID MACHINE CONTROLLER (" + name + ")";
 		}
 		
 		return "INVALID MACHINE CONTROLLER";

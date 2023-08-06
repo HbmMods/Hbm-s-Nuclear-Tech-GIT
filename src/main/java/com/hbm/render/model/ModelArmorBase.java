@@ -39,16 +39,17 @@ public class ModelArmorBase extends ModelBiped {
 		rightFoot = new ModelRendererObj(null).setRotationPoint(-1.9F, 12.0F, 0.0F);
 	}
 
-	public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entity) {
+	public void setRotationAngles(float walkCycle, float walkAmplitude, float idleCycle, float headYaw, float headPitch, float scale, Entity entity) {
+		//super.setRotationAngles(walkCycle, walkAmplitude, idleCycle, headYaw, headPitch, scale, entity);
 
-		head.rotateAngleY = p_78087_4_ / (180F / (float) Math.PI);
-		head.rotateAngleX = p_78087_5_ / (180F / (float) Math.PI);
-		rightArm.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F + (float) Math.PI) * 2.0F * p_78087_2_ * 0.5F;
-		leftArm.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F) * 2.0F * p_78087_2_ * 0.5F;
+		head.rotateAngleY = headYaw / (180F / (float) Math.PI);
+		head.rotateAngleX = headPitch / (180F / (float) Math.PI);
+		rightArm.rotateAngleX = MathHelper.cos(walkCycle * 0.6662F + (float) Math.PI) * 2.0F * walkAmplitude * 0.5F;
+		leftArm.rotateAngleX = MathHelper.cos(walkCycle * 0.6662F) * 2.0F * walkAmplitude * 0.5F;
 		rightArm.rotateAngleZ = 0.0F;
 		leftArm.rotateAngleZ = 0.0F;
-		rightFoot.rotateAngleX = rightLeg.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F) * 1.4F * p_78087_2_;
-		leftFoot.rotateAngleX = leftLeg.rotateAngleX = MathHelper.cos(p_78087_1_ * 0.6662F + (float) Math.PI) * 1.4F * p_78087_2_;
+		rightFoot.rotateAngleX = rightLeg.rotateAngleX = MathHelper.cos(walkCycle * 0.6662F) * 1.4F * walkAmplitude;
+		leftFoot.rotateAngleX = leftLeg.rotateAngleX = MathHelper.cos(walkCycle * 0.6662F + (float) Math.PI) * 1.4F * walkAmplitude;
 		rightFoot.rotateAngleY = rightLeg.rotateAngleY = 0.0F;
 		leftFoot.rotateAngleY = leftLeg.rotateAngleY = 0.0F;
 
@@ -143,10 +144,10 @@ public class ModelArmorBase extends ModelBiped {
 			head.offsetY = 0.0F;
 		}
 
-		rightArm.rotateAngleZ += MathHelper.cos(p_78087_3_ * 0.09F) * 0.05F + 0.05F;
-		leftArm.rotateAngleZ -= MathHelper.cos(p_78087_3_ * 0.09F) * 0.05F + 0.05F;
-		rightArm.rotateAngleX += MathHelper.sin(p_78087_3_ * 0.067F) * 0.05F;
-		leftArm.rotateAngleX -= MathHelper.sin(p_78087_3_ * 0.067F) * 0.05F;
+		rightArm.rotateAngleZ += MathHelper.cos(idleCycle * 0.09F) * 0.05F + 0.05F;
+		leftArm.rotateAngleZ -= MathHelper.cos(idleCycle * 0.09F) * 0.05F + 0.05F;
+		rightArm.rotateAngleX += MathHelper.sin(idleCycle * 0.067F) * 0.05F;
+		leftArm.rotateAngleX -= MathHelper.sin(idleCycle * 0.067F) * 0.05F;
 
 		if(this.aimedBow) {
 			f6 = 0.0F;
@@ -159,10 +160,10 @@ public class ModelArmorBase extends ModelBiped {
 			leftArm.rotateAngleX = -((float) Math.PI / 2F) + head.rotateAngleX;
 			rightArm.rotateAngleX -= f6 * 1.2F - f7 * 0.4F;
 			leftArm.rotateAngleX -= f6 * 1.2F - f7 * 0.4F;
-			rightArm.rotateAngleZ += MathHelper.cos(p_78087_3_ * 0.09F) * 0.05F + 0.05F;
-			leftArm.rotateAngleZ -= MathHelper.cos(p_78087_3_ * 0.09F) * 0.05F + 0.05F;
-			rightArm.rotateAngleX += MathHelper.sin(p_78087_3_ * 0.067F) * 0.05F;
-			leftArm.rotateAngleX -= MathHelper.sin(p_78087_3_ * 0.067F) * 0.05F;
+			rightArm.rotateAngleZ += MathHelper.cos(idleCycle * 0.09F) * 0.05F + 0.05F;
+			leftArm.rotateAngleZ -= MathHelper.cos(idleCycle * 0.09F) * 0.05F + 0.05F;
+			rightArm.rotateAngleX += MathHelper.sin(idleCycle * 0.067F) * 0.05F;
+			leftArm.rotateAngleX -= MathHelper.sin(idleCycle * 0.067F) * 0.05F;
 		}
 	}
 

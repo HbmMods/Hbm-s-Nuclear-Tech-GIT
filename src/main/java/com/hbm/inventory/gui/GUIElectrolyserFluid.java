@@ -4,11 +4,15 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerElectrolyserFluid;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.NBTControlPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityElectrolyser;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIElectrolyserFluid extends GuiInfoContainer {
@@ -37,6 +41,13 @@ public class GUIElectrolyserFluid extends GuiInfoContainer {
 	
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
+
+		if(guiLeft + 8 <= x && guiLeft + 8 + 54 > x && guiTop + 82 < y && guiTop + 82 + 12 >= y) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			NBTTagCompound data = new NBTTagCompound();
+			data.setBoolean("sgm", true);
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, electrolyser.xCoord, electrolyser.yCoord, electrolyser.zCoord));
+		}
 	}
 	
 	@Override
@@ -52,6 +63,15 @@ public class GUIElectrolyserFluid extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		int p = (int) (electrolyser.power * 89 / electrolyser.maxPower);
+		drawTexturedModalRect(guiLeft + 186, guiTop + 107 - p, 210, 89 - p, 16, p);
+		
+		if(electrolyser.power >= electrolyser.usage)
+			drawTexturedModalRect(guiLeft + 190, guiTop + 4, 226, 40, 9, 12);
+		
+		int e = electrolyser.progressFluid * 41 / electrolyser.processFluidTime;
+		drawTexturedModalRect(guiLeft + 62, guiTop + 26, 226, 0, 12, e);
 
 		electrolyser.tanks[0].renderTank(guiLeft + 42, guiTop + 70, this.zLevel, 16, 52);
 		electrolyser.tanks[1].renderTank(guiLeft + 96, guiTop + 70, this.zLevel, 16, 52);

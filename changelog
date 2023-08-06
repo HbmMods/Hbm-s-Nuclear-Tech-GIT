@@ -1,13 +1,25 @@
 ## Added
-* New command `/ntmsatellites`
-  * `/ntmsatellites orbit` will send the held saatellite into orbit
-  * `/ntmsatellites descend <frequency>` will delete the given satellite
+* Electrolysis machine
+  * A large machine that can do the chemical plant's electrolysis recipes, as well as crystal processing
+  * Crystals are turned into molten metals as well as byproducts, the metal can be cast using foundry blocks
+  * Processing crystals requires nitric acid and yields more than what the centrifuge would give
+* Environment suit
+  * An airtight suit for diving with high radiation resistance
+  * Relatively cheap, but protection is comparatively low
+  * Has sprint assist and accelerated diving
 
 ## Changed
-* Updated russian localization
-* It's no longer possible to insert items into the satellite cargo pad, it's only for unloading
-* The satellite linker will no longer assign new frequencies in the randomizer slot if that frequency is already taken
-* Custom machines will now show a hologram showing how they are built
+* Bedrock ores now spawn in the nether
+  * Nether bedrock ores include red phosphorus and glowstone, both yielding powders instead of ores
+  * All current nether bedrock ores are tier 1 and do not require any bore fluid
+* Custom machines now show their recipes in NEI
+  * All it took was battling NEI's source code for 3 hours and my sanity
+* The chlorocalcite centrifugation process now requires 8,000mB of sulfuric acid instead of 100mB of water
+* Mixed chlorocalcite solution now requires flux as a reducing agent
+* All chlorine producing electrolysis recipes have been moved to the electrolysis machine and can no longer be done in the chemical plant
+  * If only there was a much simpler recipe that may have existed at some point, life could be a dream
 
 ## Fixed
-* Fixed crash caused by mobs spawning in highly polluted area
+* Fixed custom machines not sending fluid
+* Fixed custom machine item IO not working beyond the first slot
+* Fixed the player's arms clipping through the armor model when punching
