@@ -1001,6 +1001,16 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.motor, 3),
 				new ComparableStack(ModItems.circuit_red_copper, 1)
 			}, 200);
+
+		makeRecipe(new ComparableStack(ModBlocks.machine_electrolyser, 1), new AStack[] {
+				new OreDictStack(STEEL.plateCast(), 8),
+				new OreDictStack(CU.plate528(), 16),
+				new OreDictStack(RUBBER.ingot(), 8),
+				new ComparableStack(ModItems.ingot_firebrick, 16),
+				new ComparableStack(ModItems.tank_steel, 3),
+				new ComparableStack(ModItems.coil_copper, 16),
+				new ComparableStack(ModItems.circuit_gold, 2)
+			}, 200);
 		
 		makeRecipe(new ComparableStack(ModItems.euphemium_capacitor, 1), new AStack[]
 				{
