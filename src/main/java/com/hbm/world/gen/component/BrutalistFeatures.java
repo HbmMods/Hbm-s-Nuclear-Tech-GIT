@@ -36,7 +36,7 @@ public class BrutalistFeatures {
 		public ElevatedLab1(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 16, 11, 14);
 			
-			this.type = rand.nextInt(1);
+			this.type = rand.nextInt(2);
 		}
 		
 		/** Set to NBT */
@@ -322,9 +322,11 @@ public class BrutalistFeatures {
 			
 			final int decoModelMetaN = getDecoModelMeta(0);
 			final int decoModelMetaS = getDecoModelMeta(1);
+			final int decoModelMetaW = getDecoModelMeta(2);
+			final int decoModelMetaE = getDecoModelMeta(3);
 			final int decoMetaW = getDecoMeta(5);
 			switch(this.type) {
-			default:
+			default: //machinery lab
 				//lower floor
 				placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_rim, 0, 1, 5, 9, box);
 				placeBlockAtCurrentPosition(world, Blocks.fence, 0, 1, 5, 11, box);
@@ -401,8 +403,89 @@ public class BrutalistFeatures {
 				generateInvContents(world, box, rand, Blocks.chest, decoMetaS, 8, 7, 5, HbmChestContents.labVault, 4);
 				generateInvContents(world, box, rand, Blocks.chest, decoMetaS, 8, 8, 5, HbmChestContents.machineParts, 5);
 				break;
-			case 1:
+			case 1: //hazmat 
+				//lower floor
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaS | 4, 1, 5, 9, box); //table
+				placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 10, 1, 5, 10, box);
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaN | 4, 1, 5, 11, box);
+				placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 1, 6, 10, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_rim, 0, 1, 5, 13, box);
+				fillWithMetadataBlocks(world, box, 5, 5, 9, 11, 5, 9, ModBlocks.concrete_asbestos_stairs, stairMetaS | 4); //con. desk
+				fillWithMetadataBlocks(world, box, 5, 5, 10, 7, 5, 10, ModBlocks.concrete_slab, 10);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_asbestos_stairs, stairMetaN | 4, 7, 5, 11, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_slab, 10, 11, 5, 10, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.concrete_asbestos_stairs, stairMetaN | 4, 11, 5, 11, box);
+				fillWithMetadataBlocks(world, box, 4, 6, 9, 4, 7, 9, ModBlocks.steel_wall, decoMetaE); //bank of tape recorders
+				fillWithMetadataBlocks(world, box, 5, 6, 9, 5, 7, 9, ModBlocks.tape_recorder, decoMetaN);
+				placeBlockAtCurrentPosition(world, ModBlocks.tape_recorder, decoMetaN, 6, 6, 9, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_block, 0, 7, 6, 9, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_block, 0, 6, 7, 9, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.tape_recorder, decoMetaN, 7, 7, 9, box);
+				placeBlockAtCurrentPosition(world, Blocks.lever, 3, 6, 7, 10, box);
+				placeBlockAtCurrentPosition(world, Blocks.stone_button, 3, 7, 6, 10, box);
+				fillWithMetadataBlocks(world, box, 8, 6, 9, 8, 7, 9, ModBlocks.steel_corner, decoMetaW);
+				placeBlockAtCurrentPosition(world, ModBlocks.tape_recorder, decoMetaN, 9, 6, 9, box);
+				fillWithMetadataBlocks(world, box, 10, 6, 9, 10, 7, 9, ModBlocks.steel_corner, decoMetaN);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_block, 0, 11, 6, 9, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.tape_recorder, decoMetaN, 11, 7, 9, box);
+				fillWithMetadataBlocks(world, box, 12, 6, 9, 12, 7, 9, ModBlocks.steel_wall, decoMetaW);
+				placeBlockAtCurrentPosition(world, Blocks.stone_button, 3, 11, 6, 10, box);
+				placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaN, 5, 5, 11, box); //chairs and computers
+				placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaN, 8, 5, 12, box);
+				placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaE, 10, 5, 11, box);
+				placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 6, 6, 10, box);
+				placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 7, 5, 12, box);
+				placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 10, 5, 10, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelMetaE, 7, 6, 11, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelMetaW, 11, 6, 11, box);
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaE | 4, 14, 5, 13, box); //table
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaW | 4, 15, 5, 13, box);
+				placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaS, 15, 5, 11, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_rim, 0, 15, 5, 9, box);
+				//loot
+				generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelMetaS | 1, 9, 7, 9, HbmChestContents.filingCabinet, 3);
+				generateInvContents(world, box, rand, Blocks.chest, decoMetaS, 14, 6, 13, HbmChestContents.modGeneric, 3);
+				//upper floor
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaW | 4, 15, 7, 5, box); //desks
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaE | 4, 15, 7, 4, box);
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaS | 4, 15, 7, 2, box);
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaW | 4, 15, 7, 1, box);
+				placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 0, 13, 7, 2, box);
+				placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 0, 14, 7, 4, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelMetaW, 15, 8, 4, box);
+				for(int i = 3; i <= 9; i+=6) { //hazmat tables
+					fillWithMetadataBlocks(world, box, i, 7, 3, i, 7, 5, ModBlocks.concrete_asbestos_stairs, stairMetaW | 4);
+					placeBlockAtCurrentPosition(world, ModBlocks.concrete_asbestos_stairs, stairMetaN | 4, i+1, 7, 3, box);
+					fillWithMetadataBlocks(world, box, i+2, 7, 3, i+2, 7, 5, ModBlocks.concrete_asbestos_stairs, stairMetaE | 4);
+					fillWithMetadataBlocks(world, box, i+1, 7, 4, i+1, 7, 5, ModBlocks.concrete_colored_ext, 5);
+				}
+				placeBlockAtCurrentPosition(world, ModBlocks.block_electrical_scrap, 0, 10, 8, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.crate_lead, 0, 4, 8, 4, box);
+				fillWithMetadataBlocks(world, box, 6, 7, 5, 8, 7, 5, ModBlocks.cm_block, 1); //machine
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_circuit, 2, 6, 8, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_port, 1, 7, 8, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_circuit, 2, 8, 8, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_sheet, 1, 6, 9, 5, box);
+				placeBlockAtCurrentPosition(world, Blocks.redstone_lamp, 0, 7, 9, 5, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.cm_sheet, 1, 8, 9, 5, box);
+				placeBlockAtCurrentPosition(world, Blocks.lever, 4, 7, 8, 4, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.geiger, decoMetaE, 6, 7, 4, box); //geiger
+				if(rand.nextInt(2) == 0)
+					placeBlockAtCurrentPosition(world, ModBlocks.crate_metal, 0, 6, 7, 1, box);
+				else
+					placeRandomBobble(world, box, rand, 6, 7, 1 );
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaS | 4, 1, 7, 1, box); //desk
+				placeBlockAtCurrentPosition(world, Blocks.birch_stairs, stairMetaE | 4, 2, 7, 1, box);
+				placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 0, 1, 7, 3, box);
+				placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 2, 8, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.crate_lead, 0, 1, 7, 5, box);
+				//loot
+				generateInvContents(world, box, rand, ModBlocks.crate_iron, 8, 7, 3, HbmChestContents.nuclearFuel, 8);
+				generateInvContents(world, box, rand, ModBlocks.crate_iron, 2, 7, 5, HbmChestContents.nukeTrash, 6);
+				//other crate
+				placeBlockAtCurrentPosition(world, ModBlocks.crate_lead, 0, 2, 8, 5, box);
 				
+				break;
 			}
 			
 			//webs
@@ -512,9 +595,9 @@ public class BrutalistFeatures {
 		
 		public DirtyGlass(BiomeGenBase biome, float chance, boolean webs) {
 			if(BiomeDictionary.isBiomeOfType(biome, Type.COLD))
-				this.meta = 12; //super dirty
-			else if(NTMWorldGenerator.doesBiomeHaveTypes(biome, Type.WASTELAND, Type.JUNGLE, Type.SANDY, Type.SAVANNA, Type.SWAMP))
 				this.meta = 8; //fogged-up
+			else if(NTMWorldGenerator.doesBiomeHaveTypes(biome, Type.WASTELAND, Type.JUNGLE, Type.SANDY, Type.SAVANNA, Type.SWAMP))
+				this.meta = 12; //super dirty
 			else
 				this.meta = 7; //dirty
 			

@@ -377,6 +377,7 @@ abstract public class Component extends StructureComponent {
 		return generateInvContents(world, box, rand, block, 0, featureX, featureY, featureZ, content, amount);
 	}
 	
+	//TODO: explore min / max item generations: e.g., between 3 and 5 separate items are generated
 	protected boolean generateInvContents(World world, StructureBoundingBox box, Random rand, Block block, int meta, int featureX, int featureY, int featureZ, WeightedRandomChestContent[] content, int amount) {
 		int posX = this.getXWithOffset(featureX, featureZ);
 		int posY = this.getYWithOffset(featureY);
