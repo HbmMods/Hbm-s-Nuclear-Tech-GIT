@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -113,7 +113,7 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 			vec.rotateAroundZ((float) -this.rotationPitch);
 			vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 			
-			EntityBulletBase proj = new EntityBulletBase(worldObj, BulletConfigSyncingUtil.getKey(conf));
+			EntityBulletBaseNT proj = new EntityBulletBaseNT(worldObj, BulletConfigSyncingUtil.getKey(conf));
 			proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
 			proj.overrideDamage = (float) (trait.getHeatEnergy() / 500_000F);
 			

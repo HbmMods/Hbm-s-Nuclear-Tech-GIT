@@ -83,11 +83,10 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
+		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
 			return false;
-		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=128;
+		} else {
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 128;
 		}
 	}
 	

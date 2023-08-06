@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import com.hbm.commands.CommandSatellites;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
@@ -862,6 +863,8 @@ public class MainRegistry {
 		AnvilRecipes.register();
 		RefineryRecipes.registerRefinery();
 		GasCentrifugeRecipes.register();
+		
+		CustomMachineConfigJSON.initialize();
 
 		//the good stuff
 		SerializableRecipe.registerAllHandlers();
@@ -951,6 +954,7 @@ public class MainRegistry {
 		SiegeOrchestrator.createGameRules(world);
 		event.registerServerCommand(new CommandReloadRecipes());
 		event.registerServerCommand(new CommandDebugChunkLoad());
+		event.registerServerCommand(new CommandSatellites());
 	}
 	
 	@EventHandler
@@ -1155,6 +1159,35 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.oil_duct");
 		ignoreMappings.add("hbm:tile.gas_duct_solid");
 		ignoreMappings.add("hbm:tile.gas_duct");
+		ignoreMappings.add("hbm:tile.dummy_block_assembler");
+		ignoreMappings.add("hbm:tile.dummy_port_assembler");
+		ignoreMappings.add("hbm:item.canned_beef");
+		ignoreMappings.add("hbm:item.canned_tuna");
+		ignoreMappings.add("hbm:item.canned_mystery");
+		ignoreMappings.add("hbm:item.canned_pashtet");
+		ignoreMappings.add("hbm:item.canned_cheese");
+		ignoreMappings.add("hbm:item.canned_jizz");
+		ignoreMappings.add("hbm:item.canned_milk");
+		ignoreMappings.add("hbm:item.canned_ass");
+		ignoreMappings.add("hbm:item.canned_pizza");
+		ignoreMappings.add("hbm:item.canned_tube");
+		ignoreMappings.add("hbm:item.canned_tomato");
+		ignoreMappings.add("hbm:item.canned_asbestos");
+		ignoreMappings.add("hbm:item.canned_bhole");
+		ignoreMappings.add("hbm:item.canned_hotdogs");
+		ignoreMappings.add("hbm:item.canned_leftovers");
+		ignoreMappings.add("hbm:item.canned_yogurt");
+		ignoreMappings.add("hbm:item.canned_stew");
+		ignoreMappings.add("hbm:item.canned_chinese");
+		ignoreMappings.add("hbm:item.canned_oil");
+		ignoreMappings.add("hbm:item.canned_fist");
+		ignoreMappings.add("hbm:item.canned_spam");
+		ignoreMappings.add("hbm:item.canned_fried");
+		ignoreMappings.add("hbm:item.canned_napalm");
+		ignoreMappings.add("hbm:item.canned_diesel");
+		ignoreMappings.add("hbm:item.canned_kerosene");
+		ignoreMappings.add("hbm:item.canned_recursion");
+		ignoreMappings.add("hbm:item.canned_bark");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

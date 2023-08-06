@@ -53,9 +53,8 @@ public class ItemFlask extends ItemEnumMulti {
 			
 		if(stack.getItemDamage() == EnumInfusion.SHIELD.ordinal()) {
 			float infusion = 5F;
-			
-			props.maxShield = Math.min(props.shieldCap, props.shield + infusion);
-			props.shield += infusion;
+			props.maxShield = Math.min(props.shieldCap, props.maxShield + infusion);
+			props.shield = Math.min(props.shield + infusion, props.maxShield);
 		}
 		
 		if(stack.getItemDamage() == EnumInfusion.NITAN.ordinal()) {

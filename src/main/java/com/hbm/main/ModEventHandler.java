@@ -32,7 +32,7 @@ import com.hbm.entity.mob.EntityGlyphid;
 import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.entity.mob.EntityCreeperTainted;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.extprop.HbmLivingProps;
@@ -933,7 +933,7 @@ public class ModEventHandler {
 					}
 					
 					for(int i = 0; i < bullets; i++) {
-						EntityBulletBase bullet = new EntityBulletBase(player.worldObj, BulletConfigSyncingUtil.getKey(firedConfig), player);
+						EntityBulletBaseNT bullet = new EntityBulletBaseNT(player.worldObj, BulletConfigSyncingUtil.getKey(firedConfig), player);
 						player.worldObj.spawnEntityInWorld(bullet);
 					}
 					

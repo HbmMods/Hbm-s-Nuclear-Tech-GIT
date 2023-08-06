@@ -3,7 +3,7 @@ package com.hbm.entity.mob;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.items.ModItems;
@@ -326,8 +326,8 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 		Vec3 heading = Vec3.createVectorHelper(e.posX - pivotX, e.posY + e.height / 2 - pivotY, e.posZ - pivotZ);
 		heading = heading.normalize();
 
-		EntityBulletBase bullet = new EntityBulletBase(this.worldObj, BulletConfigSyncingUtil.WORM_LASER);
-		bullet.shooter = this;
+		EntityBulletBaseNT bullet = new EntityBulletBaseNT(this.worldObj, BulletConfigSyncingUtil.WORM_LASER);
+		bullet.setThrower(this);
 		bullet.setPosition(pivotX, pivotY, pivotZ);
 		bullet.setThrowableHeading(heading.xCoord, heading.yCoord, heading.zCoord, 2F, 0.02F);
 		this.worldObj.spawnEntityInWorld(bullet);
@@ -339,8 +339,8 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 		Vec3 heading = Vec3.createVectorHelper(e.posX - this.posX, e.posY + e.height / 2 - posY - 0.5D, e.posZ - this.posZ);
 		heading = heading.normalize();
 
-		EntityBulletBase bullet = new EntityBulletBase(this.worldObj, BulletConfigSyncingUtil.UFO_ROCKET);
-		bullet.shooter = this;
+		EntityBulletBaseNT bullet = new EntityBulletBaseNT(this.worldObj, BulletConfigSyncingUtil.UFO_ROCKET);
+		bullet.setThrower(this);
 		bullet.setPosition(this.posX, this.posY - 0.5D, this.posZ);
 		bullet.setThrowableHeading(heading.xCoord, heading.yCoord, heading.zCoord, 2F, 0.02F);
 		bullet.getEntityData().setInteger("homingTarget", e.getEntityId());
@@ -350,7 +350,7 @@ public class EntityUFO extends EntityFlying implements IMob, IBossDisplayData, I
 	
 	@Override
 	public boolean canAttackClass(Class clazz) {
-		return clazz != this.getClass() && clazz != EntityBulletBase.class;
+		return clazz != this.getClass() && clazz != EntityBulletBaseNT.class;
 	}
 
 	@Override

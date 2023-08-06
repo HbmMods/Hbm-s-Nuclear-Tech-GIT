@@ -97,6 +97,7 @@ public class EntityEffectHandler {
 		handleLungDisease(entity);
 		handleOil(entity);
 		handlePollution(entity);
+		handleTemperature(entity);
 
 		handleDashing(entity);
 		handlePlinking(entity);
@@ -377,6 +378,8 @@ public class EntityEffectHandler {
 		double asbestos = Math.min(HbmLivingProps.getAsbestos(entity), HbmLivingProps.maxAsbestos);
 		double soot = PollutionHandler.getPollution(entity.worldObj, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY + entity.getEyeHeight()), (int) Math.floor(entity.posZ), PollutionType.SOOT);
 		
+		if(!(entity instanceof EntityPlayer)) soot = 0;
+		
 		if(ArmorRegistry.hasProtection(entity, 3, HazardClass.PARTICLE_COARSE)) soot = 0;
 		
 		boolean coughs = blacklung / HbmLivingProps.maxBlacklung > 0.25D || asbestos / HbmLivingProps.maxAsbestos > 0.25D || soot > 30;
@@ -452,7 +455,7 @@ public class EntityEffectHandler {
 				nbt.setInteger("count", 1);
 				nbt.setInteger("block", Block.getIdFromBlock(Blocks.coal_block));
 				nbt.setInteger("entity", entity.getEntityId());
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			}
 		}
 	}
@@ -491,6 +494,43 @@ public class EntityEffectHandler {
 					entity.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 100, 2));
 				}
 			}
+		}
+	}
+	
+	private static void handleTemperature(Entity entity) {
+		
+		if(!(entity instanceof EntityLivingBase)) return;
+		if(entity.worldObj.isRemote) return;
+		
+		EntityLivingBase living = (EntityLivingBase) entity;
+		int temp = HbmLivingProps.getTemperature(living);
+
+		if(temp < 0) HbmLivingProps.setTemperature(living, temp + Math.min(-temp, 5));
+		if(temp > 0) HbmLivingProps.setTemperature(living, temp - Math.min(temp, 5));
+		
+		if(HbmLivingProps.isFrozen(living)) {
+			living.motionX = 0;
+			living.motionZ = 0;
+			living.motionY = Math.min(living.motionY, 0);
+			
+			if(entity.ticksExisted % 5 == 0) {
+				NBTTagCompound nbt0 = new NBTTagCompound();
+				nbt0.setString("type", "sweat");
+				nbt0.setInteger("count", 1);
+				nbt0.setInteger("block", Block.getIdFromBlock(Blocks.snow));
+				nbt0.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt0, 0, 0, 0), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				
+				if(entity instanceof EntityPlayerMP) {
+					NBTTagCompound nbt1 = new NBTTagCompound();
+					nbt1.setString("type", "frozen");
+					PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(nbt1, 0, 0, 0), (EntityPlayerMP) entity);
+				}
+			}
+		}
+		
+		if(HbmLivingProps.isBurning(living)) {
+			living.setFire(1);
 		}
 	}
 	

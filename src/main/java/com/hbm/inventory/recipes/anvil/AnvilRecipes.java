@@ -334,6 +334,13 @@ public class AnvilRecipes {
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
+						new OreDictStack(STEEL.plateCast(), 8),
+						new OreDictStack(CU.ingot(), 8),
+						new OreDictStack(ANY_PLASTIC.ingot(), 4)
+				}, new AnvilOutput(new ItemStack(ModBlocks.machine_industrial_boiler))).setTier(3));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
 						new OreDictStack(STEEL.plate(), 4),
 						new OreDictStack(IRON.ingot(), 12),
 						new OreDictStack(CU.ingot(), 2),
@@ -966,6 +973,14 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(ModItems.plate_lead, 2)),
 						new AnvilOutput(new ItemStack(ModItems.nuclear_waste_vitrified, 10))
 				}).setTier(3));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModItems.egg_glyphid), new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.glyphid_meat, 2)),
+						new AnvilOutput(new ItemStack(ModItems.glyphid_meat, 1), 0.5F),
+						new AnvilOutput(new ItemStack(Items.bone, 1), 0.75F),
+						new AnvilOutput(new ItemStack(Items.experience_bottle, 1), 0.5F)
+				}).setTier(1));
 	}
 	
 	public static void pullFromAssembler(ComparableStack result, int tier) {

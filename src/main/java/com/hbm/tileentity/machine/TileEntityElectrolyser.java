@@ -4,29 +4,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.container.ContainerElectrolyser;
-import com.hbm.inventory.fluid.FluidType;
+import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.container.ContainerElectrolyserFluid;
+import com.hbm.inventory.container.ContainerElectrolyserMetal;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.gui.GUIElectrolyser;
+import com.hbm.inventory.gui.GUIElectrolyserFluid;
+import com.hbm.inventory.gui.GUIElectrolyserMetal;
+import com.hbm.inventory.material.MaterialShapes;
+import com.hbm.inventory.material.Mats;
+import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.inventory.recipes.ElectrolyserFluidRecipes;
+import com.hbm.inventory.recipes.ElectrolyserFluidRecipes.ElectrolysisRecipe;
+import com.hbm.inventory.recipes.ElectrolyserMetalRecipes;
+import com.hbm.inventory.recipes.ElectrolyserMetalRecipes.ElectrolysisMetalRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CrucibleUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor, IGUIProvider /* TODO: new fluid API */ {
+public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyUser, IFluidStandardTransceiver, IControlReceiver, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 20000000;
@@ -39,15 +58,45 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public int progressOre;
 	public static final int processOreTimeBase = 1000;
 	public int processOreTime;
+
+	public MaterialStack leftStack;
+	public MaterialStack rightStack;
+	public int maxMaterial = MaterialShapes.BLOCK.q(16);
 	
 	public FluidTank[] tanks;
 
 	public TileEntityElectrolyser() {
-		super(24);
-		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(Fluids.WATER, 16000, 0);
-		tanks[1] = new FluidTank(Fluids.HYDROGEN, 16000, 1);
-		tanks[2] = new FluidTank(Fluids.OXYGEN, 16000, 2);
+		//0: Battery
+		//1-2: Upgrades
+		//// FLUID
+		//3-4: Fluid ID
+		//5-10: Fluid IO
+		//11-13: Byproducts
+		//// METAL
+		//14: Crystal
+		//15-20: Outputs
+		super(21);
+		tanks = new FluidTank[4];
+		tanks[0] = new FluidTank(Fluids.WATER, 16000);
+		tanks[1] = new FluidTank(Fluids.HYDROGEN, 16000);
+		tanks[2] = new FluidTank(Fluids.OXYGEN, 16000);
+		tanks[3] = new FluidTank(Fluids.NITRIC_ACID, 16000);
+	}
+	
+	@Override
+	public int[] getAccessibleSlotsFromSide(int meta) {
+		return new int[] { 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		if(i == 14) return ElectrolyserMetalRecipes.getRecipe(itemStack) != null;
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return i != 14;
 	}
 
 	@Override
@@ -60,8 +109,98 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 		if(!worldObj.isRemote) {
 			
-			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+			this.tanks[0].setType(3, 4, slots);
+			this.tanks[0].loadTank(5, 6, slots);
+			this.tanks[1].unloadTank(7, 8, slots);
+			this.tanks[2].unloadTank(9, 10, slots);
 			
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				for(DirPos pos : this.getConPos()) {
+					this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.trySubscribe(tanks[3].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+
+					if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				}
+			}
+			
+			UpgradeManager.eval(slots, 1, 2);
+			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+
+			processFluidTime = processFluidTimeBase - processFluidTimeBase * speedLevel / 4;
+			processOreTime = processOreTimeBase - processOreTimeBase * speedLevel / 4;
+			usage = usageBase - usageBase * powerLevel / 4;
+			
+			if(this.canProcessFluid()) {
+				this.progressFluid++;
+				this.power -= this.usage;
+				
+				if(this.progressFluid >= this.processFluidTime) {
+					this.processFluids();
+					this.progressFluid = 0;
+					this.markChanged();
+				}
+			}
+			
+			if(this.canProcesMetal()) {
+				this.progressOre++;
+				this.power -= this.usage;
+				
+				if(this.progressOre >= this.processOreTime) {
+					this.processMetal();
+					this.progressOre = 0;
+					this.markChanged();
+				}
+			}
+			
+			if(this.leftStack != null) {
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
+				List<MaterialStack> toCast = new ArrayList();
+				toCast.add(this.leftStack);
+				
+				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.NUGGET.q(1), impact);
+
+				if(didPour != null) {
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "foundry");
+					data.setInteger("color", didPour.material.moltenColor);
+					data.setByte("dir", (byte) dir.ordinal());
+					data.setFloat("off", 0.625F);
+					data.setFloat("base", 0.625F);
+					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875) + 2));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2, zCoord + 0.5D + dir.offsetZ * 5.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+					
+					if(this.leftStack.amount <= 0) this.leftStack = null;
+				}
+			}
+			
+			if(this.rightStack != null) {
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+				List<MaterialStack> toCast = new ArrayList();
+				toCast.add(this.rightStack);
+				
+				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.NUGGET.q(1), impact);
+
+				if(didPour != null) {
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "foundry");
+					data.setInteger("color", didPour.material.moltenColor);
+					data.setByte("dir", (byte) dir.ordinal());
+					data.setFloat("off", 0.625F);
+					data.setFloat("base", 0.625F);
+					data.setFloat("len", Math.max(1F, yCoord - (float) (Math.ceil(impact.yCoord) - 0.875) + 2));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2, zCoord + 0.5D + dir.offsetZ * 5.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+					
+					if(this.rightStack.amount <= 0) this.rightStack = null;
+				}
+			}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", this.power);
@@ -70,25 +209,201 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			data.setInteger("usage", this.usage);
 			data.setInteger("processFluidTime", this.processFluidTime);
 			data.setInteger("processOreTime", this.processOreTime);
+			if(this.leftStack != null) {
+				data.setInteger("leftType", leftStack.material.id);
+				data.setInteger("leftAmount", leftStack.amount);
+			}
+			if(this.rightStack != null) {
+				data.setInteger("rightType", rightStack.material.id);
+				data.setInteger("rightAmount", rightStack.amount);
+			}
+			for(int i = 0; i < 4; i++) tanks[i].writeToNBT(data, "t" + i);
 			this.networkPack(data, 50);
-			
-			fillFluidInit(tanks[1].getTankType());
-			fillFluidInit(tanks[2].getTankType());
 		}
+	}
+	
+	public DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		
+		return new DirPos[] {
+				new DirPos(xCoord - dir.offsetX * 6, yCoord, zCoord - dir.offsetZ * 6, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 6 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 6 + rot.offsetZ, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 6 - rot.offsetX, yCoord, zCoord - dir.offsetZ * 6 - rot.offsetZ, dir.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 6, yCoord, zCoord + dir.offsetZ * 6, dir),
+				new DirPos(xCoord + dir.offsetX * 6 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 6 + rot.offsetZ, dir),
+				new DirPos(xCoord + dir.offsetX * 6 - rot.offsetX, yCoord, zCoord + dir.offsetZ * 6 - rot.offsetZ, dir)
+		};
+	}
 
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		this.progressFluid = nbt.getInteger("progressFluid");
+		this.progressOre = nbt.getInteger("progressOre");
+		this.usage = nbt.getInteger("usage");
+		this.processFluidTime = nbt.getInteger("processFluidTime");
+		this.processOreTime = nbt.getInteger("processOreTime");
+		if(nbt.hasKey("leftType")) this.leftStack = new MaterialStack(Mats.matById.get(nbt.getInteger("leftType")), nbt.getInteger("leftAmount"));
+		else this.leftStack = null;
+		if(nbt.hasKey("rightType")) this.rightStack = new MaterialStack(Mats.matById.get(nbt.getInteger("rightType")), nbt.getInteger("rightAmount"));
+		else this.rightStack = null;
+		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "t" + i);
+	}
+	
+	public boolean canProcessFluid() {
+		
+		if(this.power < usage) return false;
+		
+		ElectrolysisRecipe recipe = ElectrolyserFluidRecipes.recipes.get(tanks[0].getTankType());
+		
+		if(recipe == null) return false;
+		if(recipe.amount > tanks[0].getFill()) return false;
+		if(recipe.output1.type == tanks[1].getTankType() && recipe.output1.fill + tanks[1].getFill() > tanks[1].getMaxFill()) return false;
+		if(recipe.output2.type == tanks[2].getTankType() && recipe.output2.fill + tanks[2].getFill() > tanks[2].getMaxFill()) return false;
+		
+		if(recipe.byproduct != null) {
+			
+			for(int i = 0; i < recipe.byproduct.length; i++) {
+				ItemStack slot = slots[11 + i];
+				ItemStack byproduct = recipe.byproduct[i];
+				
+				if(slot == null) continue;
+				if(!slot.isItemEqual(byproduct)) return false;
+				if(slot.stackSize + byproduct.stackSize > slot.getMaxStackSize()) return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public void processFluids() {
+		
+		ElectrolysisRecipe recipe = ElectrolyserFluidRecipes.recipes.get(tanks[0].getTankType());
+		tanks[0].setFill(tanks[0].getFill() - recipe.amount);
+		tanks[1].setTankType(recipe.output1.type);
+		tanks[2].setTankType(recipe.output2.type);
+		tanks[1].setFill(tanks[1].getFill() + recipe.output1.fill);
+		tanks[2].setFill(tanks[2].getFill() + recipe.output2.fill);
+		
+		if(recipe.byproduct != null) {
+			
+			for(int i = 0; i < recipe.byproduct.length; i++) {
+				ItemStack slot = slots[11 + i];
+				ItemStack byproduct = recipe.byproduct[i];
+				
+				if(slot == null) {
+					slots[11 + i] = byproduct.copy();
+				} else {
+					slots[11 + i].stackSize += byproduct.stackSize;
+				}
+			}
+		}
+	}
+	
+	public boolean canProcesMetal() {
+		
+		if(slots[14] == null) return false;
+		if(this.power < usage) return false;
+		if(this.tanks[3].getFill() < 100) return false;
+		
+		ElectrolysisMetalRecipe recipe = ElectrolyserMetalRecipes.getRecipe(slots[14]);
+		
+		if(leftStack != null) {
+			if(recipe.output1.material != leftStack.material) return false;
+			if(recipe.output1.amount + leftStack.amount > this.maxMaterial) return false;
+		}
+		
+		if(rightStack != null) {
+			if(recipe.output2.material != rightStack.material) return false;
+			if(recipe.output2.amount + rightStack.amount > this.maxMaterial) return false;
+		}
+		
+		if(recipe.byproduct != null) {
+			
+			for(int i = 0; i < recipe.byproduct.length; i++) {
+				ItemStack slot = slots[15 + i];
+				ItemStack byproduct = recipe.byproduct[i];
+				
+				if(slot == null) continue;
+				if(!slot.isItemEqual(byproduct)) return false;
+				if(slot.stackSize + byproduct.stackSize > slot.getMaxStackSize()) return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public void processMetal() {
+		
+		ElectrolysisMetalRecipe recipe = ElectrolyserMetalRecipes.getRecipe(slots[14]);
+		
+		if(leftStack == null) {
+			leftStack = new MaterialStack(recipe.output1.material, recipe.output1.amount);
+		} else {
+			leftStack.amount += recipe.output1.amount;
+		}
+		
+		if(rightStack == null) {
+			rightStack = new MaterialStack(recipe.output2.material, recipe.output2.amount);
+		} else {
+			rightStack.amount += recipe.output2.amount;
+		}
+		
+		if(recipe.byproduct != null) {
+			
+			for(int i = 0; i < recipe.byproduct.length; i++) {
+				ItemStack slot = slots[15 + i];
+				ItemStack byproduct = recipe.byproduct[i];
+				
+				if(slot == null) {
+					slots[15 + i] = byproduct.copy();
+				} else {
+					slots[15 + i].stackSize += byproduct.stackSize;
+				}
+			}
+		}
+		
+		this.tanks[3].setFill(this.tanks[3].getFill() - 100);
+		this.decrStackSize(14, 1);
 	}
 	
 	@Override
-	public void fillFluidInit(FluidType type) {
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.power = nbt.getLong("power");
+		this.progressFluid = nbt.getInteger("progressFluid");
+		this.progressOre = nbt.getInteger("progressOre");
+		this.usage = nbt.getInteger("usage");
+		this.processFluidTime = nbt.getInteger("processFluidTime");
+		this.processOreTime = nbt.getInteger("processOreTime");
+		if(nbt.hasKey("leftType")) this.leftStack = new MaterialStack(Mats.matById.get(nbt.getInteger("leftType")), nbt.getInteger("leftAmount"));
+		else this.leftStack = null;
+		if(nbt.hasKey("rightType")) this.rightStack = new MaterialStack(Mats.matById.get(nbt.getInteger("rightType")), nbt.getInteger("rightAmount"));
+		else this.rightStack = null;
+		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "t" + i);
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
 		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * -1, yCoord-1, zCoord + dir.offsetZ * 5 + rot.offsetZ * -1, getTact(), type);
-		fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * -1, yCoord-1, zCoord + dir.offsetZ * 5 + rot.offsetZ * 1, getTact(), type);
-		fillFluid(xCoord + dir.offsetX * -5 + rot.offsetX * -1, yCoord-1, zCoord + dir.offsetZ * 5 + rot.offsetZ * -1, getTact(), type);
-		fillFluid(xCoord + dir.offsetX * -5 + rot.offsetX * -1, yCoord-1, zCoord + dir.offsetZ * 5 + rot.offsetZ * 1, getTact(), type);
-
+		nbt.setLong("power", this.power);
+		nbt.setInteger("progressFluid", this.progressFluid);
+		nbt.setInteger("progressOre", this.progressOre);
+		nbt.setInteger("usage", this.usage);
+		nbt.setInteger("processFluidTime", this.processFluidTime);
+		nbt.setInteger("processOreTime", this.processOreTime);
+		if(this.leftStack != null) {
+			nbt.setInteger("leftType", leftStack.material.id);
+			nbt.setInteger("leftAmount", leftStack.amount);
+		}
+		if(this.rightStack != null) {
+			nbt.setInteger("rightType", rightStack.material.id);
+			nbt.setInteger("rightAmount", rightStack.amount);
+		}
+		for(int i = 0; i < 4; i++) tanks[i].writeToNBT(nbt, "t" + i);
 	}
 	
 	AxisAlignedBB bb = null;
@@ -98,12 +413,12 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 3,
+					xCoord - 5,
 					yCoord - 0,
-					zCoord - 4,
-					xCoord + 3,
+					zCoord - 5,
+					xCoord + 6,
 					yCoord + 4,
-					zCoord + 4
+					zCoord + 6
 					);
 		}
 		
@@ -127,78 +442,50 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	}
 
 	@Override
-	public void setFillForSync(int fill, int index) {
-		tanks[index].setFill(fill);
-		
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		for(int i = 0; i < 3; i++) {
-			if(type == tanks[i].getTankType())
-				tanks[i].setFill(fill);
-		}
-		
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tanks[index].setTankType(type);
-		
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		for(int i = 0; i < 3; i++) {
-			if(type == tanks[i].getTankType() && tanks[i].getFill() != 0)
-				return tanks[i].getFill();
-		}
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		for(int i = 0; i < 3; i++) {
-			if(type == tanks[i].getTankType() && tanks[i].getMaxFill() != 0)
-				return tanks[i].getMaxFill();
-		}
-		return 0;
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 20 < 10;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return new ArrayList<IFluidAcceptor>();
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		return;
-	}
-
-	@Override
 	public void setPower(long power) {
 		this.power = power;
 	}
 
 	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks[1], tanks[2]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0], tanks[3]};
+	}
+
+	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new ContainerElectrolyser(player.inventory, this);
+		if(ID == 0) return new ContainerElectrolyserFluid(player.inventory, this);
+		return new ContainerElectrolyserMetal(player.inventory, this);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUIElectrolyser(player.inventory, this);
+		if(ID == 0) return new GUIElectrolyserFluid(player.inventory, this);
+		return new GUIElectrolyserMetal(player.inventory, this);
 	}
 
+	@Override
+	public void receiveControl(NBTTagCompound data) { }
+	
+	@Override
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
+
+		if(data.hasKey("sgm")) FMLNetworkHandler.openGui(player, MainRegistry.instance, 1, worldObj, xCoord, yCoord, zCoord);
+		if(data.hasKey("sgf")) FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, worldObj, xCoord, yCoord, zCoord);
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return this.isUseableByPlayer(player);
+	}
 }

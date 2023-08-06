@@ -67,9 +67,11 @@ public class Gun45ACPFactory {
 		config.reloadType = 1;
 		config.allowsInfinity = true;
 		config.hasSights = true;
+		config.absoluteFOV = true;
+		config.zoomFOV = 0.5F;
 		config.crosshair = Crosshair.CROSS;
-		config.reloadSound = "hbm:weapon.pistolReloadPB3";
-		config.firingSound = "hbm:weapon.pistolFirePB3";
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.firingSound = "hbm:weapon.deagleShoot";
 		config.reloadSoundEnd = true;
 
 		config.name = "uacPistol";

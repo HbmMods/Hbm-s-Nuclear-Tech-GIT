@@ -97,6 +97,8 @@ public class HbmCollection {
 		COMBINE,
 		/**Cube 2: Sauerbraten**/
 		CUBE,
+		/**Deep Rock Galactic**/
+		DRG,
 		/**Enzinger Union**/
 		ENZINGER,
 		/**Equestria Missile Systems**/

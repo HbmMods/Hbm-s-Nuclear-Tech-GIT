@@ -84,7 +84,8 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 	public boolean canReload(ItemStack stack, World world, EntityPlayer player) {
 		return false;
 	}
-	
+
+	@Override
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
 		
 		//spawn fluid projectile
@@ -96,6 +97,7 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 		if(player instanceof EntityPlayerMP)
 			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
 	}
+	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		

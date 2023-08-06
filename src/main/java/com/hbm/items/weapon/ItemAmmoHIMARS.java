@@ -171,10 +171,10 @@ public class ItemAmmoHIMARS extends Item {
 	
 	private void init() {
 		/* STANDARD ROCKETS */
-		this.itemTypes[SMALL] = new HIMARSRocket("standard", "himars_standard",					0) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 20F, 3F, false, ModBlocks.slag, 1); }};
-		this.itemTypes[SMALL_HE] = new HIMARSRocket("standard_he", "himars_standard_he",		0) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 20F, 3F, true, ModBlocks.slag, 1); }};
+		this.itemTypes[SMALL] = new HIMARSRocket("standard", "himars_standard",					0) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 20F, 3F, false, ModBlocks.block_slag, 1); }};
+		this.itemTypes[SMALL_HE] = new HIMARSRocket("standard_he", "himars_standard_he",		0) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 20F, 3F, true, ModBlocks.block_slag, 1); }};
 		this.itemTypes[SMALL_LAVA] = new HIMARSRocket("standard_lava", "himars_standard_lava",	0) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 20F, 3F, true, ModBlocks.volcanic_lava_block, 0); }};
-		this.itemTypes[LARGE] = new HIMARSRocket("single", "himars_single",						1) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 50F, 5F, true, ModBlocks.slag, 1); }};
+		this.itemTypes[LARGE] = new HIMARSRocket("single", "himars_single",						1) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 50F, 5F, true, ModBlocks.block_slag, 1); }};
 
 		this.itemTypes[SMALL_MINI_NUKE] = new HIMARSRocket("standard_mini_nuke", "himars_standard_mini_nuke", 0) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
@@ -186,7 +186,7 @@ public class ItemAmmoHIMARS extends Item {
 		
 		this.itemTypes[SMALL_WP] = new HIMARSRocket("standard_wp", "himars_standard_wp", 0) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
-				standardExplosion(rocket, mop, 20F, 3F, false, ModBlocks.slag, 1);
+				standardExplosion(rocket, mop, 20F, 3F, false, ModBlocks.block_slag, 1);
 				ExplosionLarge.spawnShrapnels(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 30);
 				ExplosionChaos.burn(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 20);
 				int radius = 30;
@@ -209,7 +209,7 @@ public class ItemAmmoHIMARS extends Item {
 			
 		this.itemTypes[SMALL_TB] = new HIMARSRocket("standard_tb", "himars_standard_tb", 0) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
-				standardExplosion(rocket, mop, 20F, 10F, true, ModBlocks.slag, 1);
+				standardExplosion(rocket, mop, 20F, 10F, true, ModBlocks.block_slag, 1);
 				ExplosionLarge.spawnShrapnels(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 30);
 				standardMush(rocket, mop, 20);
 			}};

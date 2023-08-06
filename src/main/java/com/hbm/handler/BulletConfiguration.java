@@ -2,15 +2,9 @@ package com.hbm.handler;
 
 import java.util.List;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
+import com.hbm.entity.projectile.EntityBulletBaseNT.*;
 import com.hbm.handler.guncfg.BulletConfigFactory;
-import com.hbm.interfaces.IBulletHitBehavior;
-import com.hbm.interfaces.IBulletHurtBehavior;
-import com.hbm.interfaces.IBulletImpactBehavior;
-import com.hbm.interfaces.IBulletRicochetBehavior;
-import com.hbm.interfaces.IBulletUpdateBehavior;
-import com.hbm.interfaces.IFlashBehaviour;
-import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -60,14 +54,16 @@ public class BulletConfiguration implements Cloneable {
 	public int HBRC;
 	//how much of the initial velocity is kept after bouncing
 	public double bounceMod;
+	//how many ticks until the projectile can hurt the shooter
+	public int selfDamageDelay = 5;
 
 	//whether or not the bullet should penetrate mobs
 	public boolean doesPenetrate;
-	//whether or not the bullet should phase through blocks
+	//disables collisions with blocks entirely
 	public boolean isSpectral;
 	//whether or not the bullet should break glass
 	public boolean doesBreakGlass;
-	//whether the bullet should stay alive after colliding with a block
+	//bullets still call the impact function when hitting blocks but do not get destroyed
 	public boolean liveAfterImpact;
 	
 	//creates a "muzzle flash" and a ton of smoke with every projectile spawned
@@ -88,12 +84,17 @@ public class BulletConfiguration implements Cloneable {
 	public int caustic;
 	public boolean destroysBlocks;
 	public boolean instakill;
-	public IBulletHurtBehavior bHurt;
+	/*public IBulletHurtBehavior bHurt;
 	public IBulletHitBehavior bHit;
 	public IBulletRicochetBehavior bRicochet;
 	public IBulletImpactBehavior bImpact;
-	public IBulletUpdateBehavior bUpdate;
-	public IFlashBehaviour lupdate;
+	public IBulletUpdateBehavior bUpdate;*/
+	public IBulletHurtBehaviorNT bntHurt;
+	public IBulletHitBehaviorNT bntHit;
+	public IBulletRicochetBehaviorNT bntRicochet;
+	public IBulletImpactBehaviorNT bntImpact;
+	public IBulletUpdateBehaviorNT bntUpdate;
+	
 	//appearance
 	public int style;
 	//additional appearance data, i.e. particle effects
@@ -175,13 +176,13 @@ public class BulletConfiguration implements Cloneable {
 	
 	public BulletConfiguration setToGuided() {
 		
-		this.bUpdate = BulletConfigFactory.getLaserSteering();
+		this.bntUpdate = BulletConfigFactory.getLaserSteering();
 		this.doesRicochet = false;
 		return this;
 	}
 	
 	public BulletConfiguration getChlorophyte() {
-		this.bUpdate = BulletConfigFactory.getHomingBehavior(200, 45);
+		this.bntUpdate = BulletConfigFactory.getHomingBehavior(200, 45);
 		this.dmgMin *= 1.5F;
 		this.dmgMax *= 1.5F;
 		this.wear *= 0.5;
@@ -214,8 +215,7 @@ public class BulletConfiguration implements Cloneable {
 		return this;
 	}
 	
-	@Untested
-	public DamageSource getDamage(EntityBulletBase bullet, EntityLivingBase shooter) {
+	public DamageSource getDamage(EntityBulletBaseNT bullet, EntityLivingBase shooter) {
 		
 		DamageSource dmg;
 		

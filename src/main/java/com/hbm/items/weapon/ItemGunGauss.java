@@ -1,6 +1,6 @@
 package com.hbm.items.weapon;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
@@ -31,7 +31,7 @@ public class ItemGunGauss extends ItemGunBase {
 		}
 		
 		if(!main && getStored(stack) > 0) {
-			EntityBulletBase bullet = new EntityBulletBase(world, altConfig.config.get(0), player);
+			EntityBulletBaseNT bullet = new EntityBulletBaseNT(world, altConfig.config.get(0), player);
 			bullet.overrideDamage = Math.max(getStored(stack), 1) * 10F;
 			world.spawnEntityInWorld(bullet);
 			world.playSoundAtEntity(player, "hbm:weapon.tauShoot", 0.5F, 0.75F);
