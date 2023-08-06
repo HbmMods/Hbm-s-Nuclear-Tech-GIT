@@ -11,6 +11,8 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.Compat;
+import com.hbm.util.ParticleUtil;
+
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -83,10 +85,17 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				
 				super.updateEntity();
 				
-				if(this.heat > this.maxHeat() && !RBMKDials.getMeltdownsDisabled(worldObj)) {
-					this.meltdown();
+				if(this.heat > this.maxHeat()) {
+					
+					if(RBMKDials.getMeltdownsDisabled(worldObj)) {
+						ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5, yCoord + RBMKDials.getColumnHeight(worldObj) + 0.5, zCoord + 0.5, 0, 0.2, 0);
+					} else {
+						this.meltdown();
+					}
 					return;
 				}
+				
+				if(this.heat > 10_000) this.heat = 10_000;
 				
 				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
 				this.fluxFast = 0;

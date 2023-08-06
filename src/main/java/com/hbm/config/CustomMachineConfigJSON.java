@@ -90,7 +90,7 @@ public class CustomMachineConfigJSON {
 			for(int x = -1; x <= 1; x++) {
 				for(int y = -1; y <= 1; y++) {
 					for(int z = 0; z <= 2; z++) {
-						if(!(x == 0 && y == 0 && z == 1) && !(x == 0 && z == 1) && !(x == 0 && y == 0 && z == 0)) {
+						if(!(x == 0 && y == 0 && z == 1) && !(x == 0 && z == 0)) {
 							writer.beginObject().setIndent("");
 							writer.name("block").value(y == 0 ? "hbm:tile.cm_sheet" : "hbm:tile.cm_block");
 							writer.name("x").value(x);
@@ -109,7 +109,7 @@ public class CustomMachineConfigJSON {
 			writer.name("block").value("hbm:tile.cm_port");
 			writer.name("x").value(0);
 			writer.name("y").value(-1);
-			writer.name("z").value(1);
+			writer.name("z").value(0);
 			writer.name("metas").beginArray();
 			writer.value(0);
 			writer.endArray();
@@ -119,7 +119,7 @@ public class CustomMachineConfigJSON {
 			writer.name("block").value("hbm:tile.cm_port");
 			writer.name("x").value(0);
 			writer.name("y").value(1);
-			writer.name("z").value(1);
+			writer.name("z").value(0);
 			writer.name("metas").beginArray();
 			writer.value(0);
 			writer.endArray();
@@ -203,9 +203,9 @@ public class CustomMachineConfigJSON {
 					compDef.y = compObject.get("y").getAsInt();
 					compDef.z = compObject.get("z").getAsInt();
 					compDef.allowedMetas = new HashSet();
-					JsonArray metas = compObject.get("metas").getAsJsonArray();
-					for(int k = 0; k < metas.size(); k++) {
-						compDef.allowedMetas.add(metas.get(k).getAsInt());
+					compDef.metas = compObject.get("metas").getAsJsonArray();
+					for(int k = 0; k < compDef.metas.size(); k++) {
+						compDef.allowedMetas.add(compDef.metas.get(k).getAsInt());
 					}
 					
 					configuration.components.add(compDef);
@@ -248,6 +248,7 @@ public class CustomMachineConfigJSON {
 		public static class ComponentDefinition {
 			public Block block;
 			public Set<Integer> allowedMetas;
+			public JsonArray metas;
 			public int x;
 			public int y;
 			public int z;

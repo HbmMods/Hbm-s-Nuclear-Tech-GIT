@@ -20,7 +20,7 @@ public class TileEntityProxyBase extends TileEntityLoadedBase {
 		
 		if(cachedPosition != null) {
 			TileEntity te = Compat.getTileStandard(worldObj, cachedPosition.getX(), cachedPosition.getY(), cachedPosition.getZ());
-			if(te != null && te != this) return te;
+			if(te != null && !(te instanceof TileEntityProxyBase)) return te;
 			cachedPosition = null;
 			this.markDirty();
 		}
@@ -34,7 +34,7 @@ public class TileEntityProxyBase extends TileEntityLoadedBase {
 			if(pos != null) {
 
 				TileEntity te = Compat.getTileStandard(worldObj, pos[0], pos[1], pos[2]);
-				if(te != null && te != this) return te;
+				if(te != null && !(te instanceof TileEntityProxyBase)) return te;
 			}
 		}
 
@@ -42,7 +42,7 @@ public class TileEntityProxyBase extends TileEntityLoadedBase {
 			IProxyController controller = (IProxyController) this.getBlockType();
 			TileEntity tile = controller.getCore(worldObj, xCoord, yCoord, zCoord);
 			
-			if(tile != null && tile != this) return tile;
+			if(tile != null && !(tile instanceof TileEntityProxyBase)) return tile;
 		}
 
 		return null;

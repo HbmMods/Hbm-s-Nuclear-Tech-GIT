@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration;
 import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration.ComponentDefinition;
-import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerMachineCustom;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -115,10 +114,9 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 				}
 			}
 			
-			if(config.generatorMode && power > 0) {
-				for(DirPos pos : this.connectionPos) {
-					this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				}
+			for(DirPos pos : this.connectionPos) {
+				if(config.generatorMode && power > 0) this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				for(FluidTank tank : this.outputTanks) if(tank.getFill() > 0) this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			if(this.structureOK) {
@@ -175,6 +173,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", this.machineType);
 			data.setLong("power", power);
+			data.setBoolean("structureOK", structureOK);
 			data.setInteger("progress", progress);
 			data.setInteger("maxProgress", maxProgress);
 			for(int i = 0; i < inputTanks.length; i++) inputTanks[i].writeToNBT(data, "i" + i);
@@ -337,12 +336,12 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		if(this.config == null) return new int[] { };
-		if(this.config.itemInCount > 0) return new int[] { 4, 16, 17, 18, 19, 20, 21 };
-		if(this.config.itemInCount > 1) return new int[] { 4, 5, 16, 17, 18, 19, 20, 21 };
-		if(this.config.itemInCount > 2) return new int[] { 4, 5, 6, 16, 17, 18, 19, 20, 21 };
-		if(this.config.itemInCount > 3) return new int[] { 4, 5, 6, 7, 16, 17, 18, 19, 20, 21 };
-		if(this.config.itemInCount > 4) return new int[] { 4, 5, 6, 7, 8, 16, 17, 18, 19, 20, 21 };
 		if(this.config.itemInCount > 5) return new int[] { 4, 5, 6, 7, 8, 9, 16, 17, 18, 19, 20, 21 };
+		if(this.config.itemInCount > 4) return new int[] { 4, 5, 6, 7, 8, 16, 17, 18, 19, 20, 21 };
+		if(this.config.itemInCount > 3) return new int[] { 4, 5, 6, 7, 16, 17, 18, 19, 20, 21 };
+		if(this.config.itemInCount > 2) return new int[] { 4, 5, 6, 16, 17, 18, 19, 20, 21 };
+		if(this.config.itemInCount > 1) return new int[] { 4, 5, 16, 17, 18, 19, 20, 21 };
+		if(this.config.itemInCount > 0) return new int[] { 4, 16, 17, 18, 19, 20, 21 };
 		return new int[] { };
 	}
 
@@ -370,6 +369,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 		
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
+		this.structureOK = nbt.getBoolean("structureOK");
 		this.maxProgress = nbt.getInteger("maxProgress");
 		for(int i = 0; i < inputTanks.length; i++) inputTanks[i].readFromNBT(nbt, "i" + i);
 		for(int i = 0; i < outputTanks.length; i++) outputTanks[i].readFromNBT(nbt, "o" + i);
@@ -465,7 +465,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 
 	@Override
 	public long getMaxPower() {
-		return this.config != null ? this.getMaxPower() : 1;
+		return this.config != null ? this.config.maxPower : 1;
 	}
 
 	@Override

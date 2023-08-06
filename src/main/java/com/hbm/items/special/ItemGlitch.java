@@ -12,6 +12,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -21,7 +22,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-public class ItemGlitch extends Item {
+public class ItemGlitch extends Item implements IBatteryItem {
 
     public ItemGlitch()
     {
@@ -235,4 +236,12 @@ public class ItemGlitch extends Item {
 		}
 	}
 
+
+	@Override public void chargeBattery(ItemStack stack, long i) { }
+	@Override public void setCharge(ItemStack stack, long i) { }
+	@Override public void dischargeBattery(ItemStack stack, long i) { }
+	@Override public long getCharge(ItemStack stack) { return 200; }
+	@Override public long getMaxCharge() { return 200; }
+	@Override public long getChargeRate() { return 0; }
+	@Override public long getDischargeRate() { return 200; }
 }

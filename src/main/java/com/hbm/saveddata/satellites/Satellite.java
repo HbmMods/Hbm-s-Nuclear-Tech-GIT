@@ -1,23 +1,22 @@
 package com.hbm.saveddata.satellites;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import com.hbm.items.ModItems;
 import com.hbm.saveddata.SatelliteSavedData;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public abstract class Satellite {
 	
-	public static List<Class> satellites = new ArrayList();
-	public static HashMap<Item, Class> itemToClass = new HashMap();
+	public static final List<Class<? extends Satellite>> satellites = new ArrayList<>();
+	public static final HashMap<Item, Class<? extends Satellite>> itemToClass = new HashMap<>();
 	
-	public static enum InterfaceActions {
+	public enum InterfaceActions {
 		HAS_MAP,		//lets the interface display loaded chunks
 		CAN_CLICK,		//enables onClick events
 		SHOW_COORDS,	//enables coordinates as a mouse tooltip
@@ -25,18 +24,18 @@ public abstract class Satellite {
 		HAS_ORES		//like HAS_MAP but only shows ores
 	}
 	
-	public static enum CoordActions {
+	public enum CoordActions {
 		HAS_Y		//enables the Y-coord field which is disabled by default
 	}
 	
-	public static enum Interfaces {
+	public enum Interfaces {
 		NONE,		//does not interact with any sat interface (i.e. asteroid miners)
 		SAT_PANEL,	//allows to interact with the sat interface panel (for graphical applications)
 		SAT_COORD	//allows to interact with the sat coord remote (for teleportation or other coord related actions)
 	}
 
-	public List<InterfaceActions> ifaceAcs = new ArrayList();
-	public List<CoordActions> coordAcs = new ArrayList();
+	public List<InterfaceActions> ifaceAcs = new ArrayList<>();
+	public List<CoordActions> coordAcs = new ArrayList<>();
 	public Interfaces satIface = Interfaces.NONE;
 	
 	public static void register() {
@@ -64,10 +63,13 @@ public abstract class Satellite {
 	}
 	
 	public static void orbit(World world, int id, int freq, double x, double y, double z) {
-		
+		if(world.isRemote) {
+			return;
+		}
+
 		Satellite sat = create(id);
 		
-		if(sat != null && !world.isRemote) {
+		if(sat != null) {
 			SatelliteSavedData data = SatelliteSavedData.getData(world);
 			data.sats.put(freq, sat);
 			sat.onOrbit(world, x, y, z);
@@ -76,25 +78,22 @@ public abstract class Satellite {
 	}
 	
 	public static Satellite create(int id) {
-		
 		Satellite sat = null;
 		
 		try {
-			Class c = satellites.get(id);
-			sat = (Satellite) c.newInstance();
-		} catch(Exception ex) {
-			
+			Class<? extends Satellite> c = satellites.get(id);
+			sat = c.newInstance();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		
 		return sat;
 	}
 	
 	public static int getIDFromItem(Item item) {
-		
 		Class<? extends Satellite> sat = itemToClass.get(item);
-		int i = satellites.indexOf(sat);
-		
-		return i;
+
+		return satellites.indexOf(sat);
 	}
 	
 	public int getID() {

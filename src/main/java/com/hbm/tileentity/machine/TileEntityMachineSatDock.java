@@ -13,7 +13,6 @@ import com.hbm.util.WeightedRandomObject;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -27,14 +26,15 @@ import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 
 import java.util.List;
-import java.util.Random;
 
 public class TileEntityMachineSatDock extends TileEntity implements ISidedInventory, IGUIProvider {
     private ItemStack[] slots;
 
-    private static final int[] access = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
+    private static final int[] access = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
 
     private String customName;
+
+    private AxisAlignedBB renderBoundingBox;
 
     public TileEntityMachineSatDock() {
         slots = new ItemStack[16];
@@ -177,21 +177,12 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
         return true;
     }
 
-    SatelliteSavedData data = null;
-
     @Override
     public void updateEntity() {
         if (!worldObj.isRemote) {
-            if (data == null)
-                data = (SatelliteSavedData) worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
+            SatelliteSavedData data = SatelliteSavedData.getData(worldObj);
 
-            if (data == null) {
-                worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData());
-                data = (SatelliteSavedData) worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-            }
-            data.markDirty();
-
-            if (data != null && slots[15] != null) {
+            if (slots[15] != null) {
                 int freq = ISatChip.getFreqS(slots[15]);
 
                 Satellite sat = data.getSatFromFreq(freq);
@@ -215,22 +206,23 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
                 }
             }
 
-            List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 0.25 + 0.5, yCoord + 0.75, zCoord - 0.25 + 0.5, xCoord + 0.25 + 0.5, yCoord + 2, zCoord + 0.25 + 0.5));
+            @SuppressWarnings("unchecked")
+            List<EntityMinerRocket> list = worldObj.getEntitiesWithinAABBExcludingEntity(
+                    null,
+                    AxisAlignedBB.getBoundingBox(xCoord - 0.25 + 0.5, yCoord + 0.75, zCoord - 0.25 + 0.5, xCoord + 0.25 + 0.5, yCoord + 2, zCoord + 0.25 + 0.5),
+                    entity -> entity instanceof EntityMinerRocket
+            );
 
-            for (Entity e : list) {
-                if (e instanceof EntityMinerRocket) {
-                    EntityMinerRocket rocket = (EntityMinerRocket) e;
+            for (EntityMinerRocket rocket : list) {
+                if (slots[15] != null && ISatChip.getFreqS(slots[15]) != rocket.getDataWatcher().getWatchableObjectInt(17)) {
+                    rocket.setDead();
+                    ExplosionNukeSmall.explode(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, ExplosionNukeSmall.PARAMS_TOTS);
+                    break;
+                }
 
-                    if (slots[15] != null && ISatChip.getFreqS(slots[15]) != rocket.getDataWatcher().getWatchableObjectInt(17)) {
-                        rocket.setDead();
-                        ExplosionNukeSmall.explode(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, ExplosionNukeSmall.PARAMS_TOTS);
-                        break;
-                    }
-
-                    if (rocket.getDataWatcher().getWatchableObjectInt(16) == 1 && rocket.timer == 50) {
-                        Satellite sat = data.getSatFromFreq(ISatChip.getFreqS(slots[15]));
-                        unloadCargo((SatelliteMiner) sat);
-                    }
+                if (rocket.getDataWatcher().getWatchableObjectInt(16) == 1 && rocket.timer == 50) {
+                    Satellite sat = data.getSatFromFreq(ISatChip.getFreqS(slots[15]));
+                    unloadCargo((SatelliteMiner) sat);
                 }
             }
 
@@ -241,15 +233,13 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
         }
     }
 
-    static final Random rand = new Random();
-
     private void unloadCargo(SatelliteMiner satellite) {
-        int items = rand.nextInt(6) + 10;
+        int itemAmount = worldObj.rand.nextInt(6) + 10;
 
         WeightedRandomObject[] cargo = satellite.getCargo();
 
-        for (int i = 0; i < items; i++) {
-            ItemStack stack = ((WeightedRandomObject) WeightedRandom.getRandomItem(rand, cargo)).asStack();
+        for (int i = 0; i < itemAmount; i++) {
+            ItemStack stack = ((WeightedRandomObject) WeightedRandom.getRandomItem(worldObj.rand, cargo)).asStack();
             addToInv(stack.copy());
         }
     }
@@ -322,12 +312,10 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
         }
     }
 
-    AxisAlignedBB bb = null;
-
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
-        if (bb == null) {
-            bb = AxisAlignedBB.getBoundingBox(
+        if (renderBoundingBox == null) {
+            renderBoundingBox = AxisAlignedBB.getBoundingBox(
                     xCoord - 1,
                     yCoord,
                     zCoord - 1,
@@ -337,7 +325,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
             );
         }
 
-        return bb;
+        return renderBoundingBox;
     }
 
     @Override
