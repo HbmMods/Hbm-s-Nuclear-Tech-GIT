@@ -1,8 +1,6 @@
 package com.hbm.tileentity.machine.storage;
 
 import api.hbm.energy.*;
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.inventory.gui.GUIMachineBattery;
@@ -17,7 +15,6 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
