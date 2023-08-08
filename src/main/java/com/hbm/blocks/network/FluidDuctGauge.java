@@ -152,7 +152,7 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 		}
 
 		public String getComponentName() {
-			return "rbmk_boiler";
+			return "ntm_fluid_gauge";
 		}
 
 		@Callback(direct = true, limit = 8)
@@ -163,8 +163,14 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 
 		@Callback(direct = true, limit = 8)
 		@Optional.Method(modid = "OpenComputers")
+		public Object[] getFluid(Context context, Arguments args) {
+			return new Object[] {getType().getName()};
+		}
+
+		@Callback(direct = true, limit = 8)
+		@Optional.Method(modid = "OpenComputers")
 		public Object[] getInfo(Context context, Arguments args) {
-			return new Object[] {deltaTick, deltaSecond};
+			return new Object[] {deltaTick, deltaSecond, getType().getName(), xCoord, yCoord, zCoord};
 		}
 	}
 }
