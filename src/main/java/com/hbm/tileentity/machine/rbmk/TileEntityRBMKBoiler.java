@@ -375,7 +375,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		else if(type == Fluids.HOTSTEAM) {type_1 = "1";}
 		else if(type == Fluids.SUPERHOTSTEAM) {type_1 = "2";}
 		else if(type == Fluids.ULTRAHOTSTEAM) {type_1 = "3";}
-		else {type_1 = "Steam out-of-bounds";}
+		else {type_1 = "Unknown Error";}
 		return new Object[] {heat, steam.getFill(), steam.getMaxFill(), feed.getFill(), feed.getMaxFill(), type_1, xCoord, yCoord, zCoord};
 	}
 
@@ -401,19 +401,15 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		}
 		if(type == 0) {
 			steam.setTankType(Fluids.STEAM);
-			steam.setFill(0); //too lazy to add a ton of additional code to divide the fill amount, fuck your steam
 			return new Object[] {true};
 		} else if(type == 1) {
 			steam.setTankType(Fluids.HOTSTEAM);
-			steam.setFill(0);
 			return new Object[] {true};
 		} else if(type == 2) {
 			steam.setTankType(Fluids.SUPERHOTSTEAM);
-			steam.setFill(0);
 			return new Object[] {true};
 		} else {
 			steam.setTankType(Fluids.ULTRAHOTSTEAM);
-			steam.setFill(0);
 			return new Object[] {true};
 		}
 	}
