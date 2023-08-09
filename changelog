@@ -10,7 +10,7 @@
 
 ## Changed
 * Bedrock ores now spawn in the nether
-  * Nether bedrock ores include red phosphorus and glowstone, both yielding powders instead of ores
+  * Nether bedrock ores include red phosphorus, quartz and glowstone, all yielding the items directly instead of ores
   * All current nether bedrock ores are tier 1 and do not require any bore fluid
 * Custom machines now show their recipes in NEI
   * All it took was battling NEI's source code for 3 hours and my sanity
@@ -18,6 +18,8 @@
 * Mixed chlorocalcite solution now requires flux as a reducing agent
 * All chlorine producing electrolysis recipes have been moved to the electrolysis machine and can no longer be done in the chemical plant
   * If only there was a much simpler recipe that may have existed at some point, life could be a dream
+* Zirconium and lithium are now recognized crucible materials
+* Glowstone now yields 100mB of chlorine in the combination oven instead of the initial 50mB
 
 ## Fixed
 * Fixed custom machines not sending fluid

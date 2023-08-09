@@ -35,12 +35,99 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(ModItems.crystal_iron), new ElectrolysisMetalRecipe(
 				new MaterialStack(Mats.MAT_IRON, MaterialShapes.INGOT.q(6)),
 				new MaterialStack(Mats.MAT_TITANIUM, MaterialShapes.INGOT.q(2)),
-				new ItemStack(ModItems.powder_lithium_tiny, 1)));
+				new ItemStack(ModItems.powder_lithium_tiny, 3)));
+		
 		recipes.put(new ComparableStack(ModItems.crystal_gold), new ElectrolysisMetalRecipe(
-				new MaterialStack(Mats.MAT_IRON, MaterialShapes.INGOT.q(6)),
+				new MaterialStack(Mats.MAT_GOLD, MaterialShapes.INGOT.q(6)),
 				new MaterialStack(Mats.MAT_LEAD, MaterialShapes.INGOT.q(2)),
-				new ItemStack(ModItems.powder_lithium_tiny, 1),
-				new ItemStack(ModItems.ingot_mercury, 1)));
+				new ItemStack(ModItems.powder_lithium_tiny, 3),
+				new ItemStack(ModItems.ingot_mercury, 2)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_uranium), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_URANIUM, MaterialShapes.INGOT.q(6)),
+				new MaterialStack(Mats.MAT_RADIUM, MaterialShapes.NUGGET.q(4)),
+				new ItemStack(ModItems.powder_lithium_tiny, 3)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_thorium), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_THORIUM, MaterialShapes.INGOT.q(6)),
+				new MaterialStack(Mats.MAT_URANIUM, MaterialShapes.INGOT.q(2)),
+				new ItemStack(ModItems.powder_lithium_tiny, 3)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_plutonium), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_PLUTONIUM, MaterialShapes.INGOT.q(6)),
+				new MaterialStack(Mats.MAT_POLONIUM, MaterialShapes.INGOT.q(2)),
+				new ItemStack(ModItems.powder_lithium_tiny, 3)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_titanium), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_TITANIUM, MaterialShapes.INGOT.q(6)),
+				new MaterialStack(Mats.MAT_IRON, MaterialShapes.INGOT.q(2)),
+				new ItemStack(ModItems.powder_lithium_tiny, 3)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_copper), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_COPPER, MaterialShapes.INGOT.q(6)),
+				new MaterialStack(Mats.MAT_LEAD, MaterialShapes.NUGGET.q(4)),
+				new ItemStack(ModItems.powder_lithium_tiny, 3),
+				new ItemStack(ModItems.sulfur, 2)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_tungsten), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_TUNGSTEN, MaterialShapes.INGOT.q(6)),
+				new MaterialStack(Mats.MAT_IRON, MaterialShapes.INGOT.q(2)),
+				new ItemStack(ModItems.powder_lithium_tiny, 3)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_aluminium), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_ALUMINIUM, MaterialShapes.INGOT.q(6)),
+				new MaterialStack(Mats.MAT_IRON, MaterialShapes.INGOT.q(2)),
+				new ItemStack(ModItems.powder_lithium_tiny, 3)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_beryllium), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_BERYLLIUM, MaterialShapes.INGOT.q(6)),
+				new MaterialStack(Mats.MAT_LEAD, MaterialShapes.NUGGET.q(4)),
+				new ItemStack(ModItems.powder_lithium_tiny, 3),
+				new ItemStack(ModItems.powder_quartz, 2)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_lead), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_LEAD, MaterialShapes.INGOT.q(6)),
+				new MaterialStack(Mats.MAT_GOLD, MaterialShapes.INGOT.q(2)),
+				new ItemStack(ModItems.powder_lithium_tiny, 3)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_schraranium), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_SCHRABIDIUM, MaterialShapes.NUGGET.q(5)),
+				new MaterialStack(Mats.MAT_URANIUM, MaterialShapes.NUGGET.q(2)),
+				new ItemStack(ModItems.nugget_plutonium, 2)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_schrabidium), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_SCHRABIDIUM, MaterialShapes.INGOT.q(6)),
+				new MaterialStack(Mats.MAT_PLUTONIUM, MaterialShapes.INGOT.q(2)),
+				new ItemStack(ModItems.powder_lithium_tiny, 3)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_rare), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_ZIRCONIUM, MaterialShapes.NUGGET.q(6)),
+				new MaterialStack(Mats.MAT_BORON, MaterialShapes.NUGGET.q(2)),
+				new ItemStack(ModItems.powder_desh_mix, 3)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_trixite), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_PLUTONIUM, MaterialShapes.INGOT.q(3)),
+				new MaterialStack(Mats.MAT_COBALT, MaterialShapes.INGOT.q(4)),
+				new ItemStack(ModItems.powder_niobium, 4),
+				new ItemStack(ModItems.powder_nitan_mix, 2)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_lithium), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_LITHIUM, MaterialShapes.INGOT.q(6)),
+				new MaterialStack(Mats.MAT_BORON, MaterialShapes.INGOT.q(2)),
+				new ItemStack(ModItems.powder_quartz, 2),
+				new ItemStack(ModItems.fluorite, 2)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_starmetal), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_DURA, MaterialShapes.INGOT.q(4)),
+				new MaterialStack(Mats.MAT_COBALT, MaterialShapes.INGOT.q(4)),
+				new ItemStack(ModItems.powder_astatine, 3),
+				new ItemStack(ModItems.ingot_mercury, 8)));
+		
+		recipes.put(new ComparableStack(ModItems.crystal_cobalt), new ElectrolysisMetalRecipe(
+				new MaterialStack(Mats.MAT_COBALT, MaterialShapes.INGOT.q(3)),
+				new MaterialStack(Mats.MAT_IRON, MaterialShapes.INGOT.q(4)),
+				new ItemStack(ModItems.powder_copper, 4),
+				new ItemStack(ModItems.powder_lithium_tiny, 3)));
 	}
 	
 	public static ElectrolysisMetalRecipe getRecipe(ItemStack stack) {
@@ -66,7 +153,7 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 		for(Entry<AStack, ElectrolysisMetalRecipe> entry : ElectrolyserMetalRecipes.recipes.entrySet()) {
 			
 			ElectrolysisMetalRecipe recipe = entry.getValue();
-			Object[] input = new Object[] { entry.getKey().copy(), new ComparableStack(ItemFluidIcon.make(Fluids.NITRIC_ACID, 100)) };
+			Object[] input = new Object[] { entry.getKey().copy(), ItemFluidIcon.make(Fluids.NITRIC_ACID, 100) };
 			List outputs = new ArrayList();
 			if(recipe.output1 != null) outputs.add(ItemScraps.create(recipe.output1, true));
 			if(recipe.output2 != null) outputs.add(ItemScraps.create(recipe.output2, true));
