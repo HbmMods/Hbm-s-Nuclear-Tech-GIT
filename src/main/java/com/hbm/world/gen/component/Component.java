@@ -25,12 +25,7 @@ import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraftforge.common.util.ForgeDirection;
 
 abstract public class Component extends StructureComponent {
-	/** The size of the bounding box for this feature in the X axis */
-	protected int sizeX;
-	/** The size of the bounding box for this feature in the Y axis */
-	protected int sizeY;
-	/** The size of the bounding box for this feature in the Z axis */
-	protected int sizeZ;
+
 	/** Average height (Presumably stands for height position) */
 	protected int hpos = -1;
 	
@@ -44,10 +39,7 @@ abstract public class Component extends StructureComponent {
 	
 	protected Component(Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ ) {
 		super(0);
-		this.sizeX = maxX;
-		this.sizeY = maxY;
-		this.sizeZ = maxZ;
-		this.coordBaseMode = 0;//rand.nextInt(4);
+		this.coordBaseMode = rand.nextInt(4);
 		
 		switch(this.coordBaseMode) {
 		case 0:
@@ -70,17 +62,11 @@ abstract public class Component extends StructureComponent {
 	
 	/** Set to NBT */
 	protected void func_143012_a(NBTTagCompound nbt) {
-		nbt.setInteger("Width", this.sizeX);
-		nbt.setInteger("Height", this.sizeY);
-		nbt.setInteger("Depth", this.sizeZ);
 		nbt.setInteger("HPos", this.hpos);
 	}
 	
 	/** Get from NBT */
 	protected void func_143011_b(NBTTagCompound nbt) {
-		this.sizeX = nbt.getInteger("Width");
-		this.sizeY = nbt.getInteger("Height");
-		this.sizeZ = nbt.getInteger("Depth");
 		this.hpos = nbt.getInteger("HPos");
 	}
 	

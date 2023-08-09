@@ -36,9 +36,14 @@ public class ItemWandD extends Item {
 			vnt.explode();*/
 			
 			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
-			ElevatedLab1 lab = new ElevatedLab1(world.rand, pos.blockX, pos.blockY, pos.blockZ);
 			
-			lab.addComponentParts(world, world.rand, new StructureBoundingBox(pos.blockX, 1, pos.blockZ, pos.blockX + 32, 255, pos.blockZ + 32));
+			int i = pos.blockX >> 4;
+			int j = pos.blockZ >> 4;
+			
+			MapGenNTMFeatures.Start start = new MapGenNTMFeatures.Start(world, world.rand, i, j);
+			i = (i << 4) + 8;
+			j = (j << 4) + 8;
+			start.generateStructure(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));
 			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
