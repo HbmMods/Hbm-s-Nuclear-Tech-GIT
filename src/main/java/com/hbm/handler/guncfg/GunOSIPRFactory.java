@@ -127,7 +127,7 @@ public class GunOSIPRFactory {
 
 		};
 
-		bullet.bntImpact = (ball, x, y, z) -> {
+		bullet.bntImpact = (ball, x, y, z, sideHit) -> {
 			final Block block = ball.worldObj.getBlock(x, y, z);
 			if(block instanceof RedBarrel)
 				((RedBarrel) block).explode(ball.worldObj, x, y, z);

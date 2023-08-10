@@ -431,7 +431,7 @@ public class GunEnergyFactory {
 		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				if(!bullet.worldObj.isRemote) {
 					NBTTagCompound data = new NBTTagCompound();
@@ -554,7 +554,7 @@ public class GunEnergyFactory {
 		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				if(!bullet.worldObj.isRemote) {
 					
@@ -632,7 +632,7 @@ public class GunEnergyFactory {
 		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				if(!bullet.worldObj.isRemote) {
 					
@@ -721,7 +721,7 @@ public class GunEnergyFactory {
 		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				if(!bullet.worldObj.isRemote) {
 					
@@ -812,7 +812,7 @@ public class GunEnergyFactory {
 		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				if(!bullet.worldObj.isRemote) {
 					ExplosionChaos.explodeZOMG(bullet.worldObj, (int)Math.floor(bullet.posX), (int)Math.floor(bullet.posY), (int)Math.floor(bullet.posZ), 5);

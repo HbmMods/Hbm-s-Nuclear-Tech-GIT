@@ -2,6 +2,8 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
+import com.hbm.util.TrackerUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -32,7 +34,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 	public int throwableShake;
 	protected EntityLivingBase thrower;
 	private String throwerName;
-	private int ticksInGround;
+	public int ticksInGround;
 	private int ticksInAir;
 
 	public EntityThrowableNT(World world) {
@@ -41,7 +43,17 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 	}
 
 	@Override
-	protected void entityInit() { }
+	protected void entityInit() {
+		this.dataWatcher.addObject(2, Byte.valueOf((byte)0));
+	}
+	
+	public void setStuckIn(int side) {
+		this.dataWatcher.updateObject(2, (byte) side);
+	}
+	
+	public int getStuckIn() {
+		return this.dataWatcher.getWatchableObjectByte(2);
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -214,10 +226,6 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 				}
 			}
 	
-			this.posX += this.motionX * motionMult();
-			this.posY += this.motionY * motionMult();
-			this.posZ += this.motionZ * motionMult();
-	
 			if(mop != null) {
 				if(mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ) == Blocks.portal) {
 					this.setInPortal();
@@ -250,6 +258,10 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 			float drag = this.getAirDrag();
 			double gravity = this.getGravityVelocity();
 	
+			this.posX += this.motionX * motionMult();
+			this.posY += this.motionY * motionMult();
+			this.posZ += this.motionZ * motionMult();
+	
 			if(this.isInWater()) {
 				for(int i = 0; i < 4; ++i) {
 					float f = 0.25F;
@@ -264,7 +276,6 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 			this.motionZ *= (double) drag;
 			this.motionY -= gravity;
 			this.setPosition(this.posX, this.posY, this.posZ);
-
 		}
 	}
 	
@@ -280,7 +291,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 		return 5;
 	}
 	
-	public void getStuck(int x, int y, int z) {
+	public void getStuck(int x, int y, int z, int side) {
 		this.stuckBlockX = x;
 		this.stuckBlockY = y;
 		this.stuckBlockZ = z;
@@ -289,6 +300,8 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 		this.motionX = 0;
 		this.motionY = 0;
 		this.motionZ = 0;
+		this.setStuckIn(side);
+		TrackerUtil.sendTeleport(worldObj, this);
 	}
 	
 	public double getGravityVelocity() {

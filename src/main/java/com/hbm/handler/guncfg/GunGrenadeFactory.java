@@ -60,6 +60,7 @@ public class GunGrenadeFactory {
 		config.config.add(BulletConfigSyncingUtil.GRENADE_NUCLEAR);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_TRACER);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_KAMPF);
+		config.config.add(BulletConfigSyncingUtil.GRENADE_LEADBURSTER);
 		config.durability = 300;
 		
 		config.ejector = EJECTOR_LAUNCHER;
@@ -211,7 +212,7 @@ public class GunGrenadeFactory {
 		bullet.velocity = 4;
 		bullet.explosive = 0.0F;
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 			BulletConfigFactory.nuclearExplosion(bulletnt, x, y, z, ExplosionNukeSmall.PARAMS_TOTS);
 		};
 		
@@ -250,6 +251,21 @@ public class GunGrenadeFactory {
 		bullet.vPFX = "smoke";
 		
 		//bullet.spentCasing = CASING40MM.clone().register("40MMKampf").setColor(0xEBC35E); //does not eject, whole cartridge leaves the gun
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration getGrenadeLeadbursterConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.LEADBURSTER));
+		bullet.spread = 0.0F;
+		bullet.gravity = 0.01D;
+		bullet.explosive = 0F;
+		bullet.style = BulletConfiguration.STYLE_APDS;
+		bullet.doesRicochet = false;
+		BulletConfigFactory.makeFlechette(bullet);
 		
 		return bullet;
 	}
