@@ -133,8 +133,10 @@ public class HbmCollection {
 		METRO,
 		/**MWT Prototype Labs**/
 		MWT,
+		/**Naval Air Weapons Station**/
+		NAWS,
 		/**Erfurter Maschinenfabrik Geipel**/
-		NAZI,
+		ERFURT,
 		/**No manufacturer, just puts "-" **/
 		NONE,
 		/**OxfordEM Technologies**/
