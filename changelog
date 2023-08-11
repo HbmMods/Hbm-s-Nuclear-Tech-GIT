@@ -14,6 +14,8 @@
   * All current nether bedrock ores are tier 1 and do not require any bore fluid
 * Custom machines now show their recipes in NEI
   * All it took was battling NEI's source code for 3 hours and my sanity
+* Changed energy OC compatibility
+  * Make sure to update your programs, as the getEnergyStored and getMaxEnergy have been deprecated.
 * The chlorocalcite centrifugation process now requires 8,000mB of sulfuric acid instead of 100mB of water
 * Mixed chlorocalcite solution now requires flux as a reducing agent
 * All chlorine producing electrolysis recipes have been moved to the electrolysis machine and can no longer be done in the chemical plant
@@ -24,4 +26,5 @@
 ## Fixed
 * Fixed custom machines not sending fluid
 * Fixed custom machine item IO not working beyond the first slot
+* Fixed target designators not accepting coordinates when not designated first (OC compatibility)
 * Fixed the player's arms clipping through the armor model when punching
