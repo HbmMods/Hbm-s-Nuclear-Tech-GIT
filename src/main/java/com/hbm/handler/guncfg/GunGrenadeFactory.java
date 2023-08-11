@@ -15,7 +15,6 @@ import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
-import com.hbm.util.TrackerUtil;
 
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -50,7 +49,6 @@ public class GunGrenadeFactory {
 		config.crosshair = Crosshair.L_CIRCUMFLEX;
 		config.firingSound = "hbm:weapon.hkShoot";
 		config.reloadSound = GunConfiguration.RSOUND_GRENADE;
-		config.reloadSoundEnd = false;
 		
 		config.name = "gPistol";
 		config.manufacturer = EnumGunManufacturer.H_AND_K;
@@ -311,14 +309,15 @@ public class GunGrenadeFactory {
 		bullet.spread = 0.0F;
 		bullet.gravity = 0.01D;
 		bullet.explosive = 0F;
-		bullet.style = BulletConfiguration.STYLE_APDS;
+		bullet.style = BulletConfiguration.STYLE_LEADBURSTER;
 		bullet.doesRicochet = false;
+		bullet.doesPenetrate = true;
 
 		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 			
 			Vec3 vec = Vec3.createVectorHelper(0, 0, 1);
-			vec.rotateAroundX((float) -Math.toRadians(bulletnt.rotationPitch));
-			vec.rotateAroundY((float) Math.toRadians(bulletnt.rotationYaw));
+			vec.rotateAroundX((float) (bulletnt.rotationPitch * Math.PI / 180D));
+			vec.rotateAroundY((float) (bulletnt.rotationYaw * Math.PI / 180));
 
 			bulletnt.posX -= vec.xCoord * 0.1;
 			bulletnt.posY -= vec.yCoord * 0.1;
@@ -343,6 +342,12 @@ public class GunGrenadeFactory {
 			int timer = bulletnt.ticksInGround - 20;
 			if(timer > 60) return;
 			
+			Vec3 offset = Vec3.createVectorHelper(0, 0, -0.5);
+			offset.rotateAroundX((float) (bulletnt.rotationPitch * Math.PI / 180D));
+			offset.rotateAroundY((float) (bulletnt.rotationYaw * Math.PI / 180));
+			
+			bulletnt.worldObj.playSoundEffect(bulletnt.posX, bulletnt.posY, bulletnt.posZ, "hbm:weapon.silencerShoot", 2F, 1F);
+			
 			for(int i = 0; i < 5; i++) {
 				Vec3 vec = Vec3.createVectorHelper(0, 1, 0);
 				vec.rotateAroundX((float) Math.toRadians(11.25 * i));
@@ -352,7 +357,7 @@ public class GunGrenadeFactory {
 				
 				EntityBulletBaseNT pellet = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.R556_NORMAL);
 				double dist = 0.5;
-				pellet.setPosition(bulletnt.posX + vec.xCoord * dist, bulletnt.posY + vec.yCoord * dist, bulletnt.posZ + vec.zCoord * dist);
+				pellet.setPosition(bulletnt.posX + vec.xCoord * dist + offset.xCoord, bulletnt.posY + vec.yCoord * dist + offset.yCoord, bulletnt.posZ + vec.zCoord * dist + offset.zCoord);
 				double vel = 0.5;
 				pellet.motionX = vec.xCoord * vel;
 				pellet.motionY = vec.yCoord * vel;
