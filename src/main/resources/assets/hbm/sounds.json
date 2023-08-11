@@ -180,6 +180,8 @@
     "weapon.hicalShot": {"category": "player", "sounds": [{"name": "weapon/hicalShot", "stream": false}]},
     "weapon.coilgunReload": {"category": "player", "sounds": [{"name": "weapon/coilgunReload", "stream": false}]},
     "weapon.coilgunShoot": {"category": "player", "sounds": [{"name": "weapon/coilgunShoot", "stream": false}]},
+    "weapon.glReload": {"category": "player", "sounds": [{"name": "weapon/glReload", "stream": false}]},
+    "weapon.glShoot": {"category": "player", "sounds": [{"name": "weapon/glShoot", "stream": false}]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 

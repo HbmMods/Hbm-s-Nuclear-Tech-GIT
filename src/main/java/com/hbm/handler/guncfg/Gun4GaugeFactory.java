@@ -179,6 +179,7 @@ public class Gun4GaugeFactory {
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.HBRC = 2;
 		bullet.LBRC = 95;
+		BulletConfigFactory.makeFlechette(bullet);
 		
 		bullet.spentCasing = CASING4GAUGE.clone().register("4GaFlech").setColor(0x1537FF, SpentCasing.COLOR_CASE_4GA);
 		

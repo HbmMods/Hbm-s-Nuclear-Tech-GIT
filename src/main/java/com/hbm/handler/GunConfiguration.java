@@ -105,6 +105,7 @@ public class GunConfiguration implements Cloneable {
 	public static final String RSOUND_SHOTGUN = "hbm:weapon.shotgunReload";
 	public static final String RSOUND_LAUNCHER = "hbm:weapon.rpgReload";
 	public static final String RSOUND_GRENADE = "hbm:weapon.hkReload";
+	public static final String RSOUND_GRENADE_NEW = "hbm:weapon.glReload";
 	public static final String RSOUND_FATMAN = "hbm:weapon.fatmanReload";
 	
 	public GunConfiguration silenced() {

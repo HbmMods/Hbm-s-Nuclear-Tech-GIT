@@ -1,7 +1,5 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
@@ -11,11 +9,16 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.AmmoGrenade;
+import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
@@ -49,23 +52,12 @@ public class GunGrenadeFactory {
 		config.crosshair = Crosshair.L_CIRCUMFLEX;
 		config.firingSound = "hbm:weapon.hkShoot";
 		config.reloadSound = GunConfiguration.RSOUND_GRENADE;
+		config.reloadSoundEnd = false;
 		
 		config.name = "gPistol";
 		config.manufacturer = EnumGunManufacturer.H_AND_K;
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.GRENADE_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_HE);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_CHEMICAL);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_CONCUSSION);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_FINNED);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_SLEEK);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_NUCLEAR);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_TRACER);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_KAMPF);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_LEADBURSTER);
+
+		config.config = HbmCollection.grenade;
 		config.durability = 300;
 		
 		config.ejector = EJECTOR_LAUNCHER;
@@ -77,7 +69,7 @@ public class GunGrenadeFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 30;
+		config.rateOfFire = 20;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
@@ -87,27 +79,14 @@ public class GunGrenadeFactory {
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCUMFLEX;
-		config.firingSound = "hbm:weapon.hkShoot";
-		config.reloadSound = GunConfiguration.RSOUND_GRENADE;
-		config.reloadSoundEnd = false;
+		config.firingSound = "hbm:weapon.glShoot";
+		config.reloadSound = GunConfiguration.RSOUND_GRENADE_NEW;
 		
 		config.name = "congoLake";
 		config.manufacturer = EnumGunManufacturer.NAWS;
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.GRENADE_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_HE);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_CHEMICAL);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_CONCUSSION);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_FINNED);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_SLEEK);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_NUCLEAR);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_TRACER);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_KAMPF);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_LEADBURSTER);
-		config.durability = 1500;
+
+		config.config = HbmCollection.grenade;
+		config.durability = 2500;
 		
 		config.ejector = EJECTOR_CONGOLAKE;
 		
@@ -312,17 +291,29 @@ public class GunGrenadeFactory {
 		bullet.style = BulletConfiguration.STYLE_LEADBURSTER;
 		bullet.doesRicochet = false;
 		bullet.doesPenetrate = true;
+		bullet.vPFX = "";
 
 		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
+			
+			switch(sideHit) {
+			case 0: bulletnt.rotationPitch = (float) (90); break;
+			case 1: bulletnt.rotationPitch = (float) (-90); break;
+			case 2: bulletnt.rotationPitch = 0; bulletnt.rotationYaw = 0; break;
+			case 3: bulletnt.rotationPitch = 0; bulletnt.rotationYaw = (float) 180; break;
+			case 4: bulletnt.rotationPitch = 0; bulletnt.rotationYaw = 90; break;
+			case 5: bulletnt.rotationPitch = 0; bulletnt.rotationYaw = (float) -90; break;
+			}
 			
 			Vec3 vec = Vec3.createVectorHelper(0, 0, 1);
 			vec.rotateAroundX((float) (bulletnt.rotationPitch * Math.PI / 180D));
 			vec.rotateAroundY((float) (bulletnt.rotationYaw * Math.PI / 180));
 
-			bulletnt.posX -= vec.xCoord * 0.1;
-			bulletnt.posY -= vec.yCoord * 0.1;
-			bulletnt.posZ -= vec.zCoord * 0.1;
+			double offset = 0.1;
+			bulletnt.posX -= vec.xCoord * offset;
+			bulletnt.posY -= vec.yCoord * offset;
+			bulletnt.posZ -= vec.zCoord * offset;
 			
+			bulletnt.ticksExisted = 0;
 			bulletnt.getStuck(x, y, z, sideHit);
 		};
 		
@@ -340,11 +331,22 @@ public class GunGrenadeFactory {
 			
 			if(bulletnt.ticksInGround < 20) return;
 			int timer = bulletnt.ticksInGround - 20;
-			if(timer > 60) return;
 			
 			Vec3 offset = Vec3.createVectorHelper(0, 0, -0.5);
 			offset.rotateAroundX((float) (bulletnt.rotationPitch * Math.PI / 180D));
 			offset.rotateAroundY((float) (bulletnt.rotationYaw * Math.PI / 180));
+			
+			if(bulletnt.ticksExisted >= 100) {
+				bulletnt.setDead();
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "vanillaExt");
+				data.setString("mode", "largeexplode");
+				data.setFloat("size", 1F);
+				data.setByte("count", (byte)1);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bulletnt.posX + offset.xCoord, bulletnt.posY + offset.yCoord, bulletnt.posZ + offset.zCoord), new TargetPoint(bulletnt.dimension, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 50));
+			}
+			
+			if(timer > 60) return;
 			
 			bulletnt.worldObj.playSoundEffect(bulletnt.posX, bulletnt.posY, bulletnt.posZ, "hbm:weapon.silencerShoot", 2F, 1F);
 			
@@ -357,7 +359,8 @@ public class GunGrenadeFactory {
 				
 				EntityBulletBaseNT pellet = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.R556_NORMAL);
 				double dist = 0.5;
-				pellet.setPosition(bulletnt.posX + vec.xCoord * dist + offset.xCoord, bulletnt.posY + vec.yCoord * dist + offset.yCoord, bulletnt.posZ + vec.zCoord * dist + offset.zCoord);
+				double off = 0.5;
+				pellet.setPosition(bulletnt.posX + vec.xCoord * dist + offset.xCoord * off, bulletnt.posY + vec.yCoord * dist + offset.yCoord * off, bulletnt.posZ + vec.zCoord * dist + offset.zCoord * off);
 				double vel = 0.5;
 				pellet.motionX = vec.xCoord * vel;
 				pellet.motionY = vec.yCoord * vel;

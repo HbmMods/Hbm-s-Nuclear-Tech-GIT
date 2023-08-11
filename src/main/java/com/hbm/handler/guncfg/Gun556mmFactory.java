@@ -310,6 +310,7 @@ public class Gun556mmFactory {
 		bullet.wear = 15;
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.doesPenetrate = false;
+		BulletConfigFactory.makeFlechette(bullet);
 		
 		bullet.spentCasing = CASING556.clone().register("556Flec");
 		

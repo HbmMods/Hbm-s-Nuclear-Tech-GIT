@@ -3,7 +3,9 @@ package com.hbm.render.entity.projectile;
 import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.IBulletBase;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.items.ModItems;
@@ -72,6 +74,7 @@ public class RenderBullet extends Render {
 			case BulletConfiguration.STYLE_BLADE: renderBlade(); break;
 			case BulletConfiguration.STYLE_BARREL: renderNuke(3); break;
 			case BulletConfiguration.STYLE_TAU: renderTau(bullet, trail, f1); break;
+			case BulletConfiguration.STYLE_LEADBURSTER: renderLeadburster(bullet, f1); break;
 			default: renderBullet(trail); break;
 		}
 		
@@ -587,6 +590,24 @@ public class RenderBullet extends Render {
 		iface.prevX(pX);
 		iface.prevY(pY);
 		iface.prevZ(pZ);
+	}
+
+	private void renderLeadburster(Entity bullet, float interp) {
+		EntityBulletBaseNT bulletnt = (EntityBulletBaseNT) bullet;
+		GL11.glPushMatrix();
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		GL11.glRotated(90, 0, 0, -1);
+		double scale = 0.05;
+		GL11.glScaled(scale, scale, scale);
+		bindTexture(ResourceManager.leadburster_tex);
+		ResourceManager.leadburster.renderPart("Based");
+		if(bulletnt.getStuckIn() != -1) {
+			GL11.glRotated((bullet.ticksExisted + interp) * -18, 0, 1, 0);
+		}
+		ResourceManager.leadburster.renderPart("Based.001");
+		ResourceManager.leadburster.renderPart("Backlight");
+		GL11.glPopMatrix();
 	}
 
 	@Override
