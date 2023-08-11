@@ -43,6 +43,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 	public long power;
 	public int progress;
 	public int maxProgress = 1;
+	public double gain;
 	public FluidTank[] inputTanks;
 	public FluidTank[] outputTanks;
 	public ModulePatternMatcher matcher;
@@ -131,7 +132,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 					}
 					
 					if(this.cachedRecipe != null) {
-						this.maxProgress = (int) Math.max(cachedRecipe.duration / this.config.recipeSpeedMult, 1);
+						this.maxProgress = (int) Math.max(cachedRecipe.duration*(1-this.gain) / this.config.recipeSpeedMult, 1);
 						int powerReq = (int) Math.max(cachedRecipe.consumptionPerTick * this.config.recipeConsumptionMult, 1);
 						
 						this.progress++;
@@ -149,7 +150,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 					CustomMachineRecipe recipe = this.getMatchingRecipe();
 					
 					if(recipe != null) {
-						this.maxProgress = (int) Math.max(recipe.duration / this.config.recipeSpeedMult, 1);
+						this.maxProgress = (int) Math.max(recipe.duration*(1-this.gain) / this.config.recipeSpeedMult, 1);
 						int powerReq = (int) Math.max(recipe.consumptionPerTick * this.config.recipeConsumptionMult, 1);
 						
 						if(this.power >= powerReq && this.hasRequiredQuantities(recipe) && this.hasSpace(recipe)) {
@@ -176,6 +177,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 			data.setBoolean("structureOK", structureOK);
 			data.setInteger("progress", progress);
 			data.setInteger("maxProgress", maxProgress);
+			data.setDouble("gain", gain);
 			for(int i = 0; i < inputTanks.length; i++) inputTanks[i].writeToNBT(data, "i" + i);
 			for(int i = 0; i < outputTanks.length; i++) outputTanks[i].writeToNBT(data, "o" + i);
 			this.matcher.writeToNBT(data);
@@ -271,7 +273,8 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
+		double gain=0;
+		int normal = 0;
 		for(ComponentDefinition comp : config.components) {
 			
 			/* vvv precisely the same method used for defining ports vvv */
@@ -290,6 +293,13 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 			if(b != comp.block) return false;
 			
 			int meta = worldObj.getBlockMetadata(x, y, z);
+			if(comp.allowedMetas.size() == 1) {normal++;}
+            for(int i=0;i<comp.allowedMetas.size();i++){
+				if((int)comp.allowedMetas.toArray()[i] == meta && i!=0) {
+					gain = gain+i/(comp.allowedMetas.size()-1);
+					break;
+				}
+			}
 			if(!comp.allowedMetas.contains(meta)) return false;
 			
 			TileEntity tile = Compat.getTileStandard(worldObj, x, y, z);
@@ -303,7 +313,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 				}
 			}
 		}
-		
+		this.gain=gain/(1.6*(config.components.size()-normal));
 		for(ForgeDirection facing : ForgeDirection.VALID_DIRECTIONS) {
 			this.connectionPos.add(new DirPos(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ, facing));
 		}
@@ -371,6 +381,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 		this.progress = nbt.getInteger("progress");
 		this.structureOK = nbt.getBoolean("structureOK");
 		this.maxProgress = nbt.getInteger("maxProgress");
+		this.gain = nbt.getDouble("gain");
 		for(int i = 0; i < inputTanks.length; i++) inputTanks[i].readFromNBT(nbt, "i" + i);
 		for(int i = 0; i < outputTanks.length; i++) outputTanks[i].readFromNBT(nbt, "o" + i);
 		

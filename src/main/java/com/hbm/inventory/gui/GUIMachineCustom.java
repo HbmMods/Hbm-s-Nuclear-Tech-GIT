@@ -34,7 +34,8 @@ public class GUIMachineCustom extends GuiInfoContainer {
 		super.drawScreen(x, y, interp);
 		
 		this.drawElectricityInfo(this, x, y, guiLeft + 150, guiTop + 18, 16, 52, custom.power, custom.config.maxPower);
-
+		String[] text = custom.gain>0 ? new String[]{ "Structural Gain:" + String.format("%.2f",custom.gain*100) + "%" }:new String[]{ "No Structural Gain" };
+		this.drawCustomInfoStat(x,y, guiLeft + 78, guiTop + 119,96,18,guiLeft + 78, guiTop + 119,text);
 		if(this.mc.thePlayer.inventory.getItemStack() == null) {
 			for(int i = 0; i < this.inventorySlots.inventorySlots.size(); ++i) {
 				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
