@@ -282,7 +282,7 @@ public class GunGrenadeFactory {
 
 	public static BulletConfiguration getGrenadeLeadbursterConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.LEADBURSTER));
 		bullet.spread = 0.0F;

@@ -336,6 +336,9 @@ public class ModBlocks {
 	public static Block lamp_uv_on;
 	public static Block lamp_demon;
 
+	public static Block lantern;
+	public static Block lantern_behemoth;
+
 	public static Block reinforced_stone;
 	public static Block concrete_smooth;
 	public static Block concrete_colored;
@@ -1546,6 +1549,8 @@ public class ModBlocks {
 		lamp_uv_off = new UVLamp(false).setBlockName("lamp_uv_off").setCreativeTab(MainRegistry.blockTab);
 		lamp_uv_on = new UVLamp(true).setBlockName("lamp_uv_on").setCreativeTab(null);
 		lamp_demon = new DemonLamp().setBlockName("lamp_demon").setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setLightLevel(1F).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":lamp_demon");
+		lantern = new BlockLantern().setBlockName("lantern").setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setLightLevel(1F).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":lantern");
+		lantern_behemoth = new BlockLanternBehemoth().setBlockName("lantern_behemoth").setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":lantern");
 		
 		reinforced_stone = new BlockGeneric(Material.rock).setBlockName("reinforced_stone").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(3000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_stone");
 		concrete_smooth = new BlockRadResistant(Material.rock).setBlockName("concrete_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":concrete");
@@ -2697,6 +2702,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(lamp_uv_off, lamp_uv_off.getUnlocalizedName());
 		GameRegistry.registerBlock(lamp_uv_on, lamp_uv_on.getUnlocalizedName());
 		GameRegistry.registerBlock(lamp_demon, lamp_demon.getUnlocalizedName());
+		GameRegistry.registerBlock(lantern, lantern.getUnlocalizedName());
+		GameRegistry.registerBlock(lantern_behemoth, lantern_behemoth.getUnlocalizedName());
 
 		//Reinforced Blocks
 		GameRegistry.registerBlock(asphalt, ItemBlockBlastInfo.class, asphalt.getUnlocalizedName());

@@ -1010,6 +1010,7 @@ item.ammo_grenade_finned.name=40mm Granate (Geflügelt)
 item.ammo_grenade_he.name=40mm Granate (HE)
 item.ammo_grenade_incendiary.name=40mm Granate (Brand)
 item.ammo_grenade_kampf.name=40mm Rakete
+item.ammo_grenade_leadburster.name=40mm Leadburster
 item.ammo_grenade_nuclear.name=40mm Granate (Привет)
 item.ammo_grenade_phosphorus.name=40mm Granate (WP)
 item.ammo_grenade_sleek.name=40mm Granate (IF-F&E)
