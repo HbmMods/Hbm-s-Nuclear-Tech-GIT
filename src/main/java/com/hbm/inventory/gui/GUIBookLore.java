@@ -102,13 +102,13 @@ public class GUIBookLore extends GuiScreen {
 				
 				if(argTag.hasNoTags())
 					text = I18nUtil.resolveKey(k + defacto);
-				else {
+				else { //TODO consider caching the text per page
 					List<String> args = new ArrayList();
 					int index = 1;
 					String arg = argTag.getString("a1");
 					
 					while(!arg.isEmpty()) {
-						args.add(arg);
+						args.add(I18nUtil.resolveKey(arg)); //TODO check if this works fine
 						index++;
 						arg = argTag.getString("a" + index);
 					}
