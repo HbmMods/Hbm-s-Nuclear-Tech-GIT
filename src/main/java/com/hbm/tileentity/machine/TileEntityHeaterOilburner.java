@@ -82,7 +82,7 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 					
 					this.heatEnergy += heat * toBurn;
 
-					if(worldObj.getTotalWorldTime() % 20 == 0) {
+					if(worldObj.getTotalWorldTime() % 20 == 0 && toBurn > 0) {
 						this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * burnRate * 0.5F);
 						if(tank.getTankType().hasTrait(FT_Leaded.class)) this.pollute(PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * burnRate * 0.5F);
 					}
