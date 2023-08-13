@@ -8,7 +8,6 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WorldConfig;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
@@ -120,11 +119,6 @@ public class Meteorite {
 				list10.add(new ItemStack(ModBlocks.block_meteor_broken));
 				generateSphere5x5(world, rand, x, y, z, list10);
 				setBlock(world, x, y, z, ModBlocks.taint, 9, 2);
-				return;
-			case 11:
-				// Atomic meteorite
-				
-				ExplosionNukeSmall.explode(world, x + 0.5, y + 0.5, z + 0.5, safe ? ExplosionNukeSmall.PARAMS_SAFE : ExplosionNukeSmall.PARAMS_MEDIUM);
 				return;
 			case 12:
 				// Star Blaster

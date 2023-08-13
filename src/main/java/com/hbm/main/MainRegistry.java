@@ -957,6 +957,8 @@ public class MainRegistry {
 		WeaponConfig.loadFromConfig(config);
 		MobConfig.loadFromConfig(config);
 		StructureConfig.loadFromConfig(config);
+
+		config.save();
 		
 		try {
 			if(GeneralConfig.enableThermosPreventer && Class.forName("thermos.Thermos") != null) {
@@ -969,8 +971,6 @@ public class MainRegistry {
 						+ "change Thermos' config anyway so that extra change in NTM's config can't be that big of a burden.");
 			}
 		} catch(ClassNotFoundException e) { }
-
-		config.save();
 	}
 	
 	private static HashSet<String> ignoreMappings = new HashSet();

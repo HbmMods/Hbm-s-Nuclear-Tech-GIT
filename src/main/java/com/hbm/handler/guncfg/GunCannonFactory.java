@@ -84,7 +84,7 @@ public class GunCannonFactory {
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 150;
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 			BulletConfigFactory.nuclearExplosion(bulletnt, x, y, z, ExplosionNukeSmall.PARAMS_TOTS);
 		};
 		

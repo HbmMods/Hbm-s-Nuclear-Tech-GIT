@@ -68,6 +68,7 @@ public class BulletConfigSyncingUtil {
 	public static int GRENADE_PHOSPHORUS = i++;
 	public static int GRENADE_TRACER = i++;
 	public static int GRENADE_KAMPF = i++;
+	public static int GRENADE_LEADBURSTER = i++;
 
 	public static int G12_NORMAL = i++;
 	public static int G12_INCENDIARY = i++;
@@ -375,6 +376,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(GRENADE_NUCLEAR, GunGrenadeFactory.getGrenadeNuclearConfig());
 		configSet.put(GRENADE_TRACER, GunGrenadeFactory.getGrenadeTracerConfig());
 		configSet.put(GRENADE_KAMPF, GunGrenadeFactory.getGrenadeKampfConfig());
+		configSet.put(GRENADE_LEADBURSTER, GunGrenadeFactory.getGrenadeLeadbursterConfig());
 
 		configSet.put(G12_NORMAL, Gun12GaugeFactory.get12GaugeConfig());
 		configSet.put(G12_INCENDIARY, Gun12GaugeFactory.get12GaugeFireConfig());

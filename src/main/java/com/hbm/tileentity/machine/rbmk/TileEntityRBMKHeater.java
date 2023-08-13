@@ -312,19 +312,19 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFillType(Context context, Arguments args) {
-		return new Object[] {feed.getTankType().getID()};
+		return new Object[] {feed.getTankType().getName()};
 	}
 
 	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getExportType(Context context, Arguments args) {
-		return new Object[] {steam.getTankType().getID()};
+		return new Object[] {steam.getTankType().getName()};
 	}
 
 	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {heat, feed.getFill(), feed.getMaxFill(), steam.getFill(), steam.getMaxFill(), feed.getTankType().getID(), steam.getTankType().getID(), xCoord, yCoord, zCoord};
+		return new Object[] {heat, feed.getFill(), feed.getMaxFill(), steam.getFill(), steam.getMaxFill(), feed.getTankType().getName(), steam.getTankType().getName(), xCoord, yCoord, zCoord};
 	}
 
 	@Callback(direct = true, limit = 8)

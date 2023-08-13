@@ -166,6 +166,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 
 	@Override
 	protected void entityInit() {
+		super.entityInit();
 		//style
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 		//trail
@@ -251,11 +252,11 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
 			
 			boolean hRic = rand.nextInt(100) < config.HBRC;
-			boolean doesRic = config.doesRicochet || hRic;
+			boolean doesRic = config.doesRicochet && hRic;
 
 			if(!config.isSpectral && !doesRic) {
 				this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-				this.onBlockImpact(mop.blockX, mop.blockY, mop.blockZ);
+				this.onBlockImpact(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
 			}
 
 			if(doesRic) {
@@ -302,7 +303,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 					} else {
 						if(!worldObj.isRemote) {
 							this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-							onBlockImpact(mop.blockX, mop.blockY, mop.blockZ);
+							onBlockImpact(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
 						}
 					}
 
@@ -375,13 +376,13 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	}
 	
 	//for when a bullet dies by hitting a block
-	private void onBlockImpact(int bX, int bY, int bZ) {
+	private void onBlockImpact(int bX, int bY, int bZ, int sideHit) {
 		
 		if(config.bntImpact != null)
-			config.bntImpact.behaveBlockHit(this, bX, bY, bZ);
+			config.bntImpact.behaveBlockHit(this, bX, bY, bZ, sideHit);
 		
 		if(!worldObj.isRemote) {
-			if(!config.liveAfterImpact && !config.isSpectral && bY > -1) this.setDead();
+			if(!config.liveAfterImpact && !config.isSpectral && bY > -1 && !this.inGround) this.setDead();
 			if(!config.doesPenetrate && bY == -1) this.setDead();
 		}
 		
@@ -472,7 +473,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	//for when a bullet dies by hitting an entity
 	private void onEntityImpact(Entity e) {
 		onEntityHurt(e);
-		onBlockImpact(-1, -1, -1);
+		onBlockImpact(-1, -1, -1, -1);
 		
 		if(config.bntHit != null)
 			config.bntHit.behaveEntityHit(this, e);
@@ -582,6 +583,6 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	public static interface IBulletHurtBehaviorNT { public void behaveEntityHurt(EntityBulletBaseNT bullet, Entity hit); }
 	public static interface IBulletHitBehaviorNT { public void behaveEntityHit(EntityBulletBaseNT bullet, Entity hit); }
 	public static interface IBulletRicochetBehaviorNT { public void behaveBlockRicochet(EntityBulletBaseNT bullet, int x, int y, int z); }
-	public static interface IBulletImpactBehaviorNT { public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z); }
+	public static interface IBulletImpactBehaviorNT { public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit); }
 	public static interface IBulletUpdateBehaviorNT { public void behaveUpdate(EntityBulletBaseNT bullet); }
 }

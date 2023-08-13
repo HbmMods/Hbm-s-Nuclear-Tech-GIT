@@ -19,6 +19,7 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
@@ -421,7 +422,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(ModBlocks.block_slag), new ItemStack[] {
 				new ItemStack(Blocks.gravel, 1),
 				new ItemStack(ModItems.powder_fire, 1),
-				new ItemStack(ModItems.powder_calcium), //temp
+				new ItemStack(ModItems.powder_calcium),
 				new ItemStack(ModItems.dust) });
 
 		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 0), new ItemStack[] { //peroxide, easy to use and get
@@ -459,6 +460,11 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget_bismuth, 1),
 				new ItemStack(ModItems.powder_asbestos, 6), //temp
 				new ItemStack(ModItems.nugget_technetium, 1) });
+		
+		recipes.put(new ComparableStack(ModItems.powder_ash, 1, EnumAshType.COAL.ordinal()), new ItemStack[] {
+				new ItemStack(ModItems.powder_coal_tiny, 2),
+				new ItemStack(ModItems.powder_boron_tiny, 1),
+				new ItemStack(ModItems.dust_tiny, 6)});
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
 			int i = ore.ordinal();
