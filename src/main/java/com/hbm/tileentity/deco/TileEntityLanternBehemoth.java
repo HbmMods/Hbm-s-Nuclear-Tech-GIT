@@ -48,9 +48,8 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 						new ItemStack(ModItems.circuit_copper, 4 + worldObj.rand.nextInt(2)),
 						new ItemStack(ModItems.circuit_red_copper, 2 + worldObj.rand.nextInt(3)),
 						new ItemStack(ModItems.circuit_gold, 1 + worldObj.rand.nextInt(2)),
-						new ItemStack(Items.diamond, 6 + worldObj.rand.nextInt(6)),
-						new ItemStack(Blocks.red_flower)/*,
-						ItemBookLore.createBook("beacon", 12, 0x808080, 0xDFBE26)*/);
+						worldObj.rand.nextInt(3) == 0 ? new ItemStack(ModItems.gem_alexandrite) : new ItemStack(Items.diamond, 6 + worldObj.rand.nextInt(6)),
+						new ItemStack(Blocks.red_flower));
 				shuttle.payload = payload;
 				
 				worldObj.spawnEntityInWorld(shuttle);
@@ -62,7 +61,7 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("isBroken", isBroken);
-			INBTPacketReceiver.networkPack(this, data, 150);
+			INBTPacketReceiver.networkPack(this, data, 250);
 		}
 	}
 

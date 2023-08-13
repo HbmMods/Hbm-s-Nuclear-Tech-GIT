@@ -1,30 +1,33 @@
 ## Added
-* Electrolysis machine
-  * A large machine that can do the chemical plant's electrolysis recipes, as well as crystal processing
-  * Crystals are turned into molten metals as well as byproducts, the metal can be cast using foundry blocks
-  * Processing crystals requires nitric acid and yields more than what the centrifuge would give
-* Environment suit
-  * An airtight suit for diving with high radiation resistance
-  * Relatively cheap, but protection is comparatively low
-  * Has sprint assist and accelerated diving
+* Analysis tool
+  * A more universal version of the power net analyzer
+  * Currently only works on fluid networks though
+  * In addition to seeing links and subscribers, the analysis tool also displays subscriber positions as well as a log (up to 50 entries) of what block received how much fluid
+  * This should finally give more insight in the bug that rarely causes fluids to disappear
+* Leadburster
+  * A 40mm launcher grenade that doesn't explode, instead it attaches itself to a block and starts firing bullets
+  * Fires in circles for 2 seconds before it self-destructs
+* Congo lake
+  * A 40mm pump-action grenade launcher with a capacity of 4 rounds
+* Lantern
+  * Cheap and fancy illumination
+  * Will blind glyphids in a small radius
+  * Glyphids don't actually have eyes, just don't think about it too much
+* Ashpit
+  * An optional part that can be placed under fireboxes and heating ovens
+  * Collects ashes, producing one ash pile for every 10 furnace operations worth of fuel
+  * Ash comes in different types like wood (from planks, logs and saplings), coal (coal, lignite and coke) and generic (everything else)
+  * Ashes can be used as dyes, for making industrial fertilizer, as low-efficiency furnace fuel or for carbon in the crucible
+  * Coal ashes can also be centrifuged, returning the flammable content as unburned coal dust as well as a small amount of boron
 
 ## Changed
-* Bedrock ores now spawn in the nether
-  * Nether bedrock ores include red phosphorus, quartz and glowstone, all yielding the items directly instead of ores
-  * All current nether bedrock ores are tier 1 and do not require any bore fluid
-* Custom machines now show their recipes in NEI
-  * All it took was battling NEI's source code for 3 hours and my sanity
-* Changed energy OC compatibility
-  * Make sure to update your programs, as the getEnergyStored and getMaxEnergy have been deprecated.
-* The chlorocalcite centrifugation process now requires 8,000mB of sulfuric acid instead of 100mB of water
-* Mixed chlorocalcite solution now requires flux as a reducing agent
-* All chlorine producing electrolysis recipes have been moved to the electrolysis machine and can no longer be done in the chemical plant
-  * If only there was a much simpler recipe that may have existed at some point, life could be a dream
-* Zirconium and lithium are now recognized crucible materials
-* Glowstone now yields 100mB of chlorine in the combination oven instead of the initial 50mB
+* Updated polish and chinese localization
+* Flechettes now get stuck in blocks for a few seconds
+* NBT kits now display the amount of items in a stack
+* Removed the special nuclear meteorite
 
 ## Fixed
-* Fixed custom machines not sending fluid
-* Fixed custom machine item IO not working beyond the first slot
-* Fixed target designators not accepting coordinates when not designated first (OC compatibility)
-* Fixed the player's arms clipping through the armor model when punching
+* Fixed thermos craching config hitting before the config is saved, resulting in an empty config the first time the server is launched
+* Fixed heating oven not visually connecting to exhaust pipes
+* Fixed loot blocks not correctly rendering items that require multiple render passes
+* Fixed special meteorites spawning in worldgen

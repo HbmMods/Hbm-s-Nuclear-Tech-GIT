@@ -19,6 +19,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -68,6 +69,7 @@ public class EntityGlyphid extends EntityMob {
 
 	@Override
 	protected Entity findPlayerToAttack() {
+		if(this.isPotionActive(Potion.blindness)) return null;
 		EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() ? 128D : 16D);
 		return entityplayer != null && this.canEntityBeSeen(entityplayer) ? entityplayer : null;
 	}
@@ -75,11 +77,18 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected void updateEntityActionState() {
 		super.updateEntityActionState();
-
-		// hell yeah!!
-		if(useExtendedTargeting() && this.entityToAttack != null && !this.hasPath()) {
-			this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, false, true));
+		
+		if(this.isPotionActive(Potion.blindness)) {
+			this.entityToAttack = null;
+			this.setPathToEntity(null);
+		} else {
+			
+			// hell yeah!!
+			if(useExtendedTargeting() && this.entityToAttack != null && !this.hasPath()) {
+				this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, false, true));
+			}
 		}
+
 	}
 	
 	public boolean useExtendedTargeting() {
