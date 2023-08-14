@@ -176,13 +176,19 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyStored(Context context, Arguments args) {
-		return new Object[] {power};
+		return new Object[] {getPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
 	}
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getMaxEnergy(Context context, Arguments args) {
-		return new Object[] {maxPower};
+		return new Object[] {getMaxPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
 	}
 
 	@Callback(direct = true, limit = 4)

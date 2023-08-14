@@ -182,6 +182,8 @@ public class TileMappings {
 		put(TileEntitySILEX.class, "tileentity_silex");
 		put(TileEntityFEL.class, "tileentity_fel");
 		put(TileEntityDemonLamp.class, "tileentity_demonlamp");
+		put(TileEntityLantern.class, "tileentity_lantern_ordinary");
+		put(TileEntityLanternBehemoth.class, "tileentity_lantern_behemoth");
 		put(TileEntityStorageDrum.class, "tileentity_waste_storage_drum");
 		put(TileEntityDeaerator.class, "tileentity_deaerator");
 		put(TileEntityCableBaseNT.class, "tileentity_ohgod"); // what?
@@ -257,6 +259,7 @@ public class TileMappings {
 	private static void putMachines() {
 		put(TileEntityHeaterFirebox.class, "tileentity_firebox");
 		put(TileEntityHeaterOven.class, "tileentity_heating_oven");
+		put(TileEntityAshpit.class, "tileentity_ashpit");
 		put(TileEntityHeaterOilburner.class, "tileentity_oilburner");
 		put(TileEntityHeaterElectric.class, "tileentity_electric_heater");
 		put(TileEntityHeaterHeatex.class, "tileentity_heater_heatex");

@@ -151,33 +151,26 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 			this.deltaLastSecond = Math.max(nbt.getLong("deltaS"), 0);
 		}
 
-		@Override
 		public String getComponentName() {
 			return "ntm_fluid_gauge";
 		}
 
-		@Callback(direct = true, limit = 16)
+		@Callback(direct = true, limit = 8)
 		@Optional.Method(modid = "OpenComputers")
-		public Object[] getTick(Context context, Arguments args) {
-			return new Object[] {deltaTick};
+		public Object[] getTransfer(Context context, Arguments args) {
+			return new Object[] {deltaTick, deltaSecond};
 		}
 
-		@Callback(direct = true, limit = 16)
+		@Callback(direct = true, limit = 8)
 		@Optional.Method(modid = "OpenComputers")
-		public Object[] getSecond(Context context, Arguments args) {
-			return new Object[] {deltaSecond};
+		public Object[] getFluid(Context context, Arguments args) {
+			return new Object[] {getType().getName()};
 		}
 
-		@Callback(direct = true, limit = 16)
-		@Optional.Method(modid = "OpenComputers")
-		public Object[] getType(Context context, Arguments args) {
-			return new Object[] {I18nUtil.resolveKey(getType().getUnlocalizedName())};
-		}
-
-		@Callback(direct = true, limit = 16)
+		@Callback(direct = true, limit = 8)
 		@Optional.Method(modid = "OpenComputers")
 		public Object[] getInfo(Context context, Arguments args) {
-			return new Object[] {deltaTick, deltaSecond, I18nUtil.resolveKey(getType().getUnlocalizedName()), xCoord, yCoord, zCoord};
+			return new Object[] {deltaTick, deltaSecond, getType().getName(), xCoord, yCoord, zCoord};
 		}
 	}
 }

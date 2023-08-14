@@ -147,6 +147,7 @@ public class Gun20GaugeFactory {
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.HBRC = 2;
 		bullet.LBRC = 95;
+		BulletConfigFactory.makeFlechette(bullet);
 		
 		bullet.spentCasing = CASING20GAUGE.clone().register("20GaFlech").setColor(0x2847FF, SpentCasing.COLOR_CASE_BRASS);
 		

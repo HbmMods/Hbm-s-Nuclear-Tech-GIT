@@ -124,7 +124,7 @@ public class GunNPCFactory {
 		bullet.vPFX = "reddust";
 		bullet.damageType = ModDamageSource.s_laser;
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 				
 			if(bulletnt.worldObj.isRemote)
 				return;
@@ -252,7 +252,7 @@ public class GunNPCFactory {
 				if(target != null) {
 					
 					if(bullet.getDistanceSqToEntity(target) < 5) {
-						bullet.getConfig().bntImpact.behaveBlockHit(bullet, -1, -1, -1);
+						bullet.getConfig().bntImpact.behaveBlockHit(bullet, -1, -1, -1, -1);
 						bullet.setDead();
 						return;
 					}
@@ -306,7 +306,7 @@ public class GunNPCFactory {
 			}
 		};
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 
 			bulletnt.worldObj.playSoundEffect(bulletnt.posX, bulletnt.posY, bulletnt.posZ, "hbm:entity.ufoBlast", 5.0F, 0.9F + bulletnt.worldObj.rand.nextFloat() * 0.2F);
 			bulletnt.worldObj.playSoundEffect(bulletnt.posX, bulletnt.posY, bulletnt.posZ, "fireworks.blast", 5.0F, 0.5F);

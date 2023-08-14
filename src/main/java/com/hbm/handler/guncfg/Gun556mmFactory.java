@@ -182,7 +182,7 @@ public class Gun556mmFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(eff));
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "vanillaburst");
@@ -266,7 +266,7 @@ public class Gun556mmFactory {
 			bulletnt.worldObj.spawnEntityInWorld(meteor);
 		};
 
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 
 			if(bulletnt.worldObj.isRemote)
 				return;
@@ -310,6 +310,7 @@ public class Gun556mmFactory {
 		bullet.wear = 15;
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.doesPenetrate = false;
+		BulletConfigFactory.makeFlechette(bullet);
 		
 		bullet.spentCasing = CASING556.clone().register("556Flec");
 		
@@ -322,6 +323,7 @@ public class Gun556mmFactory {
 		
 		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE_INCENDIARY));
 		bullet.incendiary = 5;
+		BulletConfigFactory.makeFlechette(bullet);
 		
 		bullet.spentCasing = CASING556.clone().register("556FlecInc");
 		
@@ -340,7 +342,7 @@ public class Gun556mmFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(eff));
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "vanillaburst");
@@ -395,7 +397,7 @@ public class Gun556mmFactory {
 			bulletnt.worldObj.spawnEntityInWorld(meteor);
 		};
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 
 			if(bulletnt.worldObj.isRemote)
 				return;

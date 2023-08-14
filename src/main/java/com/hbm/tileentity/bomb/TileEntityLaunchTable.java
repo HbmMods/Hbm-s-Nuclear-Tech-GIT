@@ -2,6 +2,8 @@ package com.hbm.tileentity.bomb;
 
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.handler.MissileStruct;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -28,9 +30,14 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.item.IDesignatorItem;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -43,7 +50,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider, SimpleComponent {
 
 	private ItemStack slots[];
 
@@ -595,6 +603,86 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return tanks;
+	}
+
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "large_launch_pad";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyStored(Context context, Arguments args) {
+		return new Object[] {getPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getMaxEnergy(Context context, Arguments args) {
+		return new Object[] {getMaxPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getContents(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[0].getTankType().getName(), tanks[1].getFill(), tanks[1].getMaxFill(), tanks[1].getTankType().getName(), solid, maxSolid};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getLaunchInfo(Context context, Arguments args) {
+		return new Object[] {canLaunch(), isMissileValid(), hasDesignator(), hasFuel()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoords(Context context, Arguments args) {
+		if (slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			int xCoord2;
+			int zCoord2;
+			if (slots[1].stackTagCompound != null) {
+				xCoord2 = slots[1].stackTagCompound.getInteger("xCoord");
+				zCoord2 = slots[1].stackTagCompound.getInteger("zCoord");
+			} else
+				return new Object[] {false};
+
+			// Not sure if i should have this
+			/*
+			if(xCoord2 == xCoord && zCoord2 == zCoord) {
+				xCoord2 += 1;
+			}
+			*/
+
+			return new Object[] {xCoord2, zCoord2};
+		}
+		return new Object[] {false, "Designator not found"};
+	}
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setCoords(Context context, Arguments args) {
+		if (slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			slots[1].stackTagCompound = new NBTTagCompound();
+			slots[1].stackTagCompound.setInteger("xCoord", args.checkInteger(0));
+			slots[1].stackTagCompound.setInteger("zCoord", args.checkInteger(1));
+
+			return new Object[] {true};
+		}
+		return new Object[] {false, "Designator not found"};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] launch(Context context, Arguments args) {
+		//worldObj.getBlock(xCoord, yCoord, zCoord).explode(worldObj, xCoord, yCoord, zCoord);
+		((LaunchPad) ModBlocks.launch_pad).explode(worldObj, xCoord, yCoord, zCoord);
+		return new Object[] {};
 	}
 
 	@Override

@@ -23,6 +23,12 @@ public class ItemEnums {
 		PARAFFIN
 	}
 
+	public static enum EnumAshType {
+		WOOD,
+		COAL,
+		MISC
+	}
+
 	public static enum EnumBriquetteType {
 		COAL,
 		LIGNITE,
