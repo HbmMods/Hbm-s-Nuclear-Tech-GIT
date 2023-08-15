@@ -37,7 +37,7 @@ public class RenderBlocksCT extends RenderBlocks {
 		this.blockAccess = acc;
 	}
 	
-	private void initSideInfo() {
+	private void initSideInfo(int side) {
 		
 		if(!this.enableAO)
 			return;
@@ -49,15 +49,42 @@ public class RenderBlocksCT extends RenderBlocks {
 		 * it's only the color in ONE PARTICULAR SIDE. well thanks for that i think that's rather poggers, lex.
 		 */
 
-		float red = (colorRedTopLeft + colorRedTopRight + colorRedBottomLeft + colorRedBottomRight) / 4F;
+		/*float red = (colorRedTopLeft + colorRedTopRight + colorRedBottomLeft + colorRedBottomRight) / 4F;
 		float green = (colorGreenTopLeft + colorGreenTopRight + colorGreenBottomLeft + colorGreenBottomRight) / 4F;
 		float blue = (colorBlueTopLeft + colorBlueTopRight + colorBlueBottomLeft + colorBlueBottomRight) / 4F;
-		int light = (brightnessTopLeft + brightnessTopRight + brightnessBottomLeft + brightnessBottomRight) / 4;
+		int light = (brightnessTopLeft + brightnessTopRight + brightnessBottomLeft + brightnessBottomRight) / 4;*/
 		
-		this.tl = new VertInfo(red, green, blue, light);
-		this.tr = new VertInfo(red, green, blue, light);
-		this.bl = new VertInfo(red, green, blue, light);
-		this.br = new VertInfo(red, green, blue, light);
+		if(side == ForgeDirection.SOUTH.ordinal()) {
+			this.tl = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.tr = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.bl = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.br = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+		} else if(side == ForgeDirection.NORTH.ordinal()) {
+			this.tr = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.br = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.tl = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.bl = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+		} else if(side == ForgeDirection.EAST.ordinal()) {
+			this.bl = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.tl = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.br = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.tr = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+		} else if(side == ForgeDirection.WEST.ordinal()) {
+			this.tr = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.br = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.tl = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.bl = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+		} else if(side == ForgeDirection.UP.ordinal()) {
+			this.br = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.bl = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.tr = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.tl = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+		} else {
+			this.tl = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.tr = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.bl = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.br = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+		}
 
 		this.tc = VertInfo.avg(tl, tr);
 		this.bc = VertInfo.avg(bl, br);
@@ -82,7 +109,7 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceXPos(Block block, double x, double y, double z, IIcon icon) {
-		initSideInfo();
+		initSideInfo(ForgeDirection.EAST.ordinal());
 		CTFace face = CTContext.faces[ForgeDirection.EAST.ordinal()];
 
 		/// ORDER: LEXICAL ///
@@ -99,7 +126,7 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceXNeg(Block block, double x, double y, double z, IIcon icon) {
-		initSideInfo();
+		initSideInfo(ForgeDirection.WEST.ordinal());
 		CTFace face = CTContext.faces[ForgeDirection.WEST.ordinal()];
 
 		/// ORDER: LEXICAL ///
@@ -116,7 +143,7 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceYPos(Block block, double x, double y, double z, IIcon icon) {
-		initSideInfo();
+		initSideInfo(ForgeDirection.UP.ordinal());
 		CTFace face = CTContext.faces[ForgeDirection.UP.ordinal()];
 
 		/// ORDER: LEXICAL ///
@@ -133,7 +160,7 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceYNeg(Block block, double x, double y, double z, IIcon icon) {
-		initSideInfo();
+		initSideInfo(ForgeDirection.DOWN.ordinal());
 		CTFace face = CTContext.faces[ForgeDirection.DOWN.ordinal()];
 
 		/// ORDER: LEXICAL ///
@@ -150,7 +177,7 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceZPos(Block block, double x, double y, double z, IIcon icon) {
-		initSideInfo();
+		initSideInfo(ForgeDirection.SOUTH.ordinal());
 		CTFace face = CTContext.faces[ForgeDirection.SOUTH.ordinal()];
 
 		/// ORDER: LEXICAL ///
@@ -167,7 +194,7 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceZNeg(Block block, double x, double y, double z, IIcon icon) {
-		initSideInfo();
+		initSideInfo(ForgeDirection.NORTH.ordinal());
 		CTFace face = CTContext.faces[ForgeDirection.NORTH.ordinal()];
 
 		/// ORDER: LEXICAL ///
