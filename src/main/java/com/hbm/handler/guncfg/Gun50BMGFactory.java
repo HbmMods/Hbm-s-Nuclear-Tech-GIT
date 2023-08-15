@@ -154,7 +154,7 @@ public class Gun50BMGFactory {
 		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sidehit) {
 				EntityNukeExplosionMK3 ex = EntityNukeExplosionMK3.statFacFleija(bullet.worldObj, x + 0.5, y + 0.5, z + 0.5, (int) 12);
 				if(!ex.isDead) {
 					bullet.worldObj.spawnEntityInWorld(ex);
