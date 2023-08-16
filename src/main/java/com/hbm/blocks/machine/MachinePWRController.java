@@ -7,6 +7,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityPWRController;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
@@ -19,7 +21,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
@@ -73,7 +77,7 @@ public class MachinePWRController extends BlockContainer {
 			TileEntityPWRController controller = (TileEntityPWRController) world.getTileEntity(x, y, z);
 			
 			if(!controller.assembled) {
-				assemble(world, x, y, z);
+				assemble(world, x, y, z, player);
 			} else {
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			}
@@ -89,16 +93,19 @@ public class MachinePWRController extends BlockContainer {
 	private static boolean errored;
 	private static final int maxSize = 1024;
 	
-	public void assemble(World world, int x, int y, int z) {
+	public void assemble(World world, int x, int y, int z, EntityPlayer player) {
 		assembly.clear();
+		fuelRods.clear();
 		assembly.put(new BlockPos(x, y, z), this);
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
 		
 		errored = false;
-		floodFill(world, x + dir.offsetX, y, z + dir.offsetZ);
+		floodFill(world, x + dir.offsetX, y, z + dir.offsetZ, player);
 		
 		if(fuelRods.size() == 0) errored = true;
+		
+		TileEntityPWRController controller = (TileEntityPWRController) world.getTileEntity(x, y, z);
 		
 		if(!errored) {
 			for(Entry<BlockPos, Block> entry : assembly.entrySet()) {
@@ -122,21 +129,23 @@ public class MachinePWRController extends BlockContainer {
 					pwr.markDirty();
 				}
 			}
+			
+			controller.setup(assembly, fuelRods);
 		}
-		
-		TileEntityPWRController controller = (TileEntityPWRController) world.getTileEntity(x, y, z);
 		controller.assembled = !errored;
 		
 		assembly.clear();
+		fuelRods.clear();
 	}
 	
-	private void floodFill(World world, int x, int y, int z) {
+	private void floodFill(World world, int x, int y, int z, EntityPlayer player) {
 		
 		BlockPos pos = new BlockPos(x, y, z);
 		
 		if(assembly.containsKey(pos)) return;
 		if(assembly.size() >= maxSize) {
 			errored = true;
+			sendError(world, x, y, z, "Max size exceeded", player);
 			return;
 		}
 		
@@ -150,16 +159,30 @@ public class MachinePWRController extends BlockContainer {
 		if(isValidCore(block)) {
 			assembly.put(pos, block);
 			if(block == ModBlocks.pwr_fuel) fuelRods.put(pos, block);
-			floodFill(world, x + 1, y, z);
-			floodFill(world, x - 1, y, z);
-			floodFill(world, x, y + 1, z);
-			floodFill(world, x, y - 1, z);
-			floodFill(world, x, y, z + 1);
-			floodFill(world, x, y, z - 1);
+			floodFill(world, x + 1, y, z, player);
+			floodFill(world, x - 1, y, z, player);
+			floodFill(world, x, y + 1, z, player);
+			floodFill(world, x, y - 1, z, player);
+			floodFill(world, x, y, z + 1, player);
+			floodFill(world, x, y, z - 1, player);
 			return;
 		}
-		
+
+		sendError(world, x, y, z, "Non-reactor block", player);
 		errored = true;
+	}
+	
+	private void sendError(World world, int x, int y, int z, String message, EntityPlayer player) {
+
+		if(player instanceof EntityPlayerMP) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "marker");
+			data.setInteger("color", 0xff0000);
+			data.setInteger("expires", 5_000);
+			data.setDouble("dist", 128D);
+			if(message != null) data.setString("label", message);
+			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(data, x, y, z), (EntityPlayerMP) player);
+		}
 	}
 	
 	private boolean isValidCore(Block block) {
