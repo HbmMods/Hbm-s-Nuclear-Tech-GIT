@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.machine.TileEntityPWRController;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -35,7 +37,7 @@ public class MachinePWRController extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return null;
+		return new TileEntityPWRController();
 	}
 	
 	@Override
@@ -67,10 +69,15 @@ public class MachinePWRController extends BlockContainer {
 		if(world.isRemote) {
 			return true;
 		} else if(!player.isSneaking()) {
+
+			TileEntityPWRController controller = (TileEntityPWRController) world.getTileEntity(x, y, z);
 			
-			assemble(world, x, y, z);
+			if(!controller.assembled) {
+				assemble(world, x, y, z);
+			} else {
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+			}
 			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 		} else {
 			return false;
@@ -87,29 +94,39 @@ public class MachinePWRController extends BlockContainer {
 		assembly.put(new BlockPos(x, y, z), this);
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
-		x += dir.offsetX;
-		z += dir.offsetZ;
 		
 		errored = false;
-		floodFill(world, x, y, z);
+		floodFill(world, x + dir.offsetX, y, z + dir.offsetZ);
 		
 		if(fuelRods.size() == 0) errored = true;
 		
 		if(!errored) {
 			for(Entry<BlockPos, Block> entry : assembly.entrySet()) {
 				
+				BlockPos pos = entry.getKey();
 				Block block = entry.getValue();
 				
 				if(block != ModBlocks.pwr_controller) {
 					
 					if(block == ModBlocks.pwr_port) {
-						world.setBlock(entry.getKey().getX(), entry.getKey().getY(), entry.getKey().getZ(), ModBlocks.pwr_block, 1, 3);
+						world.setBlock(pos.getX(), pos.getY(), pos.getZ(), ModBlocks.pwr_block, 1, 3);
 					} else {
-						world.setBlock(entry.getKey().getX(), entry.getKey().getY(), entry.getKey().getZ(), ModBlocks.pwr_block, 0, 3);
+						world.setBlock(pos.getX(), pos.getY(), pos.getZ(), ModBlocks.pwr_block, 0, 3);
 					}
+					
+					TileEntityBlockPWR pwr = (TileEntityBlockPWR) world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
+					pwr.block = block;
+					pwr.coreX = x;
+					pwr.coreY = y;
+					pwr.coreZ = z;
+					pwr.markDirty();
 				}
 			}
 		}
+		
+		TileEntityPWRController controller = (TileEntityPWRController) world.getTileEntity(x, y, z);
+		controller.assembled = !errored;
+		
 		assembly.clear();
 	}
 	

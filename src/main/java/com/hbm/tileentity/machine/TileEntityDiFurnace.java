@@ -132,32 +132,19 @@ public class TileEntityDiFurnace extends TileEntityMachinePolluting implements I
 	}
 
 	public boolean canProcess() {
-		if(slots[0] == null || slots[1] == null) {
-			return false;
-		}
+		if(slots[0] == null || slots[1] == null) return false;
+		if(!this.hasPower()) return false;
 		
-		if(!this.hasPower()) {
-			return false;
-		}
-		
-		ItemStack itemStack = BlastFurnaceRecipes.getOutput(slots[0], slots[1]);
-		if(itemStack == null) {
-			return false;
-		}
+		ItemStack output = BlastFurnaceRecipes.getOutput(slots[0], slots[1]);
+		if(output == null) return false;
+		if(slots[3] == null) return true;
+		if(!slots[3].isItemEqual(output)) return false;
 
-		if(slots[3] == null) {
+		if(slots[3].stackSize + output.stackSize <= slots[3].getMaxStackSize()) {
 			return true;
 		}
-
-		if(!slots[3].isItemEqual(itemStack)) {
-			return false;
-		}
-
-		if(slots[3].stackSize < getInventoryStackLimit() && slots[3].stackSize < slots[3].getMaxStackSize()) {
-			return true;
-		} else {
-			return slots[3].stackSize < itemStack.getMaxStackSize();
-		}
+		
+		return false;
 	}
 
 	private void processItem() {
