@@ -153,8 +153,10 @@ public class PollutionHandler {
 	
 	public String getDataDir(WorldServer world) {
 		String dir = world.getSaveHandler().getWorldDirectory().getAbsolutePath();
-		if(world.provider.dimensionId != 0) {
-			dir += File.separator + "DIM" + world.provider.dimensionId;
+		// Crucible and probably Thermos provide dimId by themselves
+		String dimId = File.separator + "DIM" + world.provider.dimensionId;
+		if(world.provider.dimensionId != 0 && !dir.endsWith(dimId)) {
+			dir += dimId;
 		}
 		dir += File.separator + "data";
 		return dir;
