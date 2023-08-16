@@ -883,9 +883,9 @@ public class ModBlocks {
 	public static Block pwr_neutron_source;
 	public static Block pwr_reflector;
 	public static Block pwr_casing;
+	public static Block pwr_port;
 	public static Block pwr_controller;
 	public static Block pwr_block;
-	public static Block pwr_port;
 
 	public static Block reactor_element;
 	public static Block reactor_control;

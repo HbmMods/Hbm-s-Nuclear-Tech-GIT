@@ -4,8 +4,12 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.machine.TileEntityPWRController;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -17,7 +21,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
@@ -35,7 +41,7 @@ public class MachinePWRController extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return null;
+		return new TileEntityPWRController();
 	}
 	
 	@Override
@@ -67,10 +73,15 @@ public class MachinePWRController extends BlockContainer {
 		if(world.isRemote) {
 			return true;
 		} else if(!player.isSneaking()) {
+
+			TileEntityPWRController controller = (TileEntityPWRController) world.getTileEntity(x, y, z);
 			
-			assemble(world, x, y, z);
+			if(!controller.assembled) {
+				assemble(world, x, y, z, player);
+			} else {
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
+			}
 			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 		} else {
 			return false;
@@ -82,44 +93,59 @@ public class MachinePWRController extends BlockContainer {
 	private static boolean errored;
 	private static final int maxSize = 1024;
 	
-	public void assemble(World world, int x, int y, int z) {
+	public void assemble(World world, int x, int y, int z, EntityPlayer player) {
 		assembly.clear();
+		fuelRods.clear();
 		assembly.put(new BlockPos(x, y, z), this);
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
-		x += dir.offsetX;
-		z += dir.offsetZ;
 		
 		errored = false;
-		floodFill(world, x, y, z);
+		floodFill(world, x + dir.offsetX, y, z + dir.offsetZ, player);
 		
 		if(fuelRods.size() == 0) errored = true;
+		
+		TileEntityPWRController controller = (TileEntityPWRController) world.getTileEntity(x, y, z);
 		
 		if(!errored) {
 			for(Entry<BlockPos, Block> entry : assembly.entrySet()) {
 				
+				BlockPos pos = entry.getKey();
 				Block block = entry.getValue();
 				
 				if(block != ModBlocks.pwr_controller) {
 					
 					if(block == ModBlocks.pwr_port) {
-						world.setBlock(entry.getKey().getX(), entry.getKey().getY(), entry.getKey().getZ(), ModBlocks.pwr_block, 1, 3);
+						world.setBlock(pos.getX(), pos.getY(), pos.getZ(), ModBlocks.pwr_block, 1, 3);
 					} else {
-						world.setBlock(entry.getKey().getX(), entry.getKey().getY(), entry.getKey().getZ(), ModBlocks.pwr_block, 0, 3);
+						world.setBlock(pos.getX(), pos.getY(), pos.getZ(), ModBlocks.pwr_block, 0, 3);
 					}
+					
+					TileEntityBlockPWR pwr = (TileEntityBlockPWR) world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
+					pwr.block = block;
+					pwr.coreX = x;
+					pwr.coreY = y;
+					pwr.coreZ = z;
+					pwr.markDirty();
 				}
 			}
+			
+			controller.setup(assembly, fuelRods);
 		}
+		controller.assembled = !errored;
+		
 		assembly.clear();
+		fuelRods.clear();
 	}
 	
-	private void floodFill(World world, int x, int y, int z) {
+	private void floodFill(World world, int x, int y, int z, EntityPlayer player) {
 		
 		BlockPos pos = new BlockPos(x, y, z);
 		
 		if(assembly.containsKey(pos)) return;
 		if(assembly.size() >= maxSize) {
 			errored = true;
+			sendError(world, x, y, z, "Max size exceeded", player);
 			return;
 		}
 		
@@ -133,16 +159,30 @@ public class MachinePWRController extends BlockContainer {
 		if(isValidCore(block)) {
 			assembly.put(pos, block);
 			if(block == ModBlocks.pwr_fuel) fuelRods.put(pos, block);
-			floodFill(world, x + 1, y, z);
-			floodFill(world, x - 1, y, z);
-			floodFill(world, x, y + 1, z);
-			floodFill(world, x, y - 1, z);
-			floodFill(world, x, y, z + 1);
-			floodFill(world, x, y, z - 1);
+			floodFill(world, x + 1, y, z, player);
+			floodFill(world, x - 1, y, z, player);
+			floodFill(world, x, y + 1, z, player);
+			floodFill(world, x, y - 1, z, player);
+			floodFill(world, x, y, z + 1, player);
+			floodFill(world, x, y, z - 1, player);
 			return;
 		}
-		
+
+		sendError(world, x, y, z, "Non-reactor block", player);
 		errored = true;
+	}
+	
+	private void sendError(World world, int x, int y, int z, String message, EntityPlayer player) {
+
+		if(player instanceof EntityPlayerMP) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "marker");
+			data.setInteger("color", 0xff0000);
+			data.setInteger("expires", 5_000);
+			data.setDouble("dist", 128D);
+			if(message != null) data.setString("label", message);
+			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(data, x, y, z), (EntityPlayerMP) player);
+		}
 	}
 	
 	private boolean isValidCore(Block block) {
