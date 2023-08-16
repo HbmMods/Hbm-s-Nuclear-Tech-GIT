@@ -27,7 +27,7 @@
 * Removed the special nuclear meteorite
 
 ## Fixed
-* Fixed thermos craching config hitting before the config is saved, resulting in an empty config the first time the server is launched
+* Fixed thermos crashing config hitting before the config is saved, resulting in an empty config the first time the server is launched
 * Fixed heating oven not visually connecting to exhaust pipes
 * Fixed loot blocks not correctly rendering items that require multiple render passes
 * Fixed special meteorites spawning in worldgen
