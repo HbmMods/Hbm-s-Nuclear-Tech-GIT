@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.Set;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.world.gen.component.BrutalistFeatures.ElevatedLab1;
+import com.hbm.world.gen.component.SpecialFeatures.SpecialContainer;
 
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
@@ -45,6 +45,9 @@ public class MapGenSpecialFeatures extends MapGenStructure {
 				ChunkCoordIntPair pair = new ChunkCoordIntPair(cX, cZ);
 				locs.add(pair);
 				
+				if(GeneralConfig.enableDebugMode)
+					System.out.println("SpecialFeature: " + (pair.chunkXPos * 16 + 8) + ", Y, " + (pair.chunkZPos * 16 + 8));
+				
 				theta += Math.PI * 2 / ringMax;
 				
 				if(i == (ringDist - 1) * 4 + ringMax) {
@@ -74,8 +77,8 @@ public class MapGenSpecialFeatures extends MapGenStructure {
 			super(chunkX, chunkZ);
 			
 			//test
-			ElevatedLab1 lab1 = new ElevatedLab1(rand, chunkX * 16 + 8, 64, chunkZ * 16 + 8);
-			this.components.add(lab1);
+			SpecialContainer shipping = new SpecialContainer(rand, chunkX * 16 + 8, 64, chunkZ * 16 + 8);
+			this.components.add(shipping);
 			
 			if(GeneralConfig.enableDebugMode) {
 				System.out.print("[Debug] StructureStart at " + (chunkX * 16 + 8) + ", " + 64 + ", " + (chunkZ * 16 + 8) + "\n[Debug] Components: ");

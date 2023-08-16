@@ -6,7 +6,7 @@ import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.lib.Library;
 import com.hbm.world.gen.MapGenNTMFeatures;
-import com.hbm.world.gen.component.BrutalistFeatures.ElevatedLab1;
+import com.hbm.world.gen.component.BrutalistFeatures.ElevatedPrefab1;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

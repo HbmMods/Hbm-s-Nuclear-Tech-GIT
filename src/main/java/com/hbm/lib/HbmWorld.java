@@ -8,6 +8,7 @@ import com.hbm.world.gen.component.BunkerComponents;
 import com.hbm.world.gen.component.CivilianFeatures;
 import com.hbm.world.gen.component.OfficeFeatures;
 import com.hbm.world.gen.component.RuinFeatures;
+import com.hbm.world.gen.component.SpecialFeatures;
 import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
 
 import cpw.mods.fml.common.IWorldGenerator;
@@ -49,5 +50,6 @@ public class HbmWorld {
 		RuinFeatures.registerComponents();
 		BunkerComponents.registerComponents();
 		BrutalistFeatures.registerComponents();
+		SpecialFeatures.registerComponents();
 	}
 }

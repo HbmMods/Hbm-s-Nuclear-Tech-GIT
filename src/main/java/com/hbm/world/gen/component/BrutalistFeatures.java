@@ -23,17 +23,17 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 public class BrutalistFeatures {
 	
 	public static void registerComponents() {
-		MapGenStructureIO.func_143031_a(ElevatedLab1.class, "NTMElevatedLab1");
+		MapGenStructureIO.func_143031_a(ElevatedPrefab1.class, "NTMElevatedPrefab1");
 	}
 	
 	//might be other than a lab, placeholder :P
-	public static class ElevatedLab1 extends Component {
+	public static class ElevatedPrefab1 extends Component {
 		
 		protected int type;
 		
-		public ElevatedLab1() { super(); }
+		public ElevatedPrefab1() { super(); }
 		
-		public ElevatedLab1(Random rand, int minX, int minY, int minZ) {
+		public ElevatedPrefab1(Random rand, int minX, int minY, int minZ) {
 			super(rand, minX, minY, minZ, 16, 11, 14);
 			
 			this.type = rand.nextInt(2);
