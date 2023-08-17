@@ -15,6 +15,7 @@ public abstract class Function {
 	protected double div = 1D;
 	protected double off = 0;
 
+	//the german prononciation of f(x) - "F von X", tee hee
 	public abstract double effonix(double x);
 	public abstract String getLabelForFuel();
 	public abstract String getDangerFromFuel();

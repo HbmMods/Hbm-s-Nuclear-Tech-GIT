@@ -1,5 +1,7 @@
 package com.hbm.items.machine;
 
+import java.util.List;
+
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.function.Function;
@@ -8,8 +10,7 @@ import com.hbm.util.function.Function.FunctionSqrt;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
+import net.minecraft.util.EnumChatFormatting;
 
 public class ItemPWRFuel extends ItemEnumMulti {
 
@@ -26,7 +27,7 @@ public class ItemPWRFuel extends ItemEnumMulti {
 		MOX(	07.5D,	new FunctionLogarithmic(25)),
 		MEP(	07.5D,	new FunctionLogarithmic(25)),
 		HEP239(	10.0D,	new FunctionSqrt(25)),
-		HEP24(	10.0D,	new FunctionSqrt(25)),
+		HEP241(	10.0D,	new FunctionSqrt(25)),
 		MEA(	07.5D,	new FunctionLogarithmic(25)),
 		HEA242(	10.0D,	new FunctionSqrt(25)),
 		HES326(	15.0D,	new FunctionSqrt(25)),
@@ -41,48 +42,17 @@ public class ItemPWRFuel extends ItemEnumMulti {
 			this.function = function;
 		}
 	}
-
-	@Override
-	public boolean showDurabilityBar(ItemStack stack) {
-		return getDurabilityForDisplay(stack) > 0D;
-	}
-
-	@Override
-	public double getDurabilityForDisplay(ItemStack stack) {
-		return 1D - getEnrichment(stack);
-	}
 	
-	public static double getEnrichment(ItemStack stack) {
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		
 		EnumPWRFuel num = EnumUtil.grabEnumSafely(EnumPWRFuel.class, stack.getItemDamage());
-		return getYield(stack) / num.yield;
-	}
-	
-	public static double getYield(ItemStack stack) {
-		return getDouble(stack, "yield");
-	}
-	
-	public static void setYield(ItemStack stack, double yield) {
-		setDouble(stack, "yield", yield);
-	}
-	
-	public static void setDouble(ItemStack stack, String key, double yield) {
-		if(!stack.hasTagCompound()) setNBTDefaults(stack);
-		stack.stackTagCompound.setDouble(key, yield);
-	}
-	
-	public static double getDouble(ItemStack stack, String key) {
-		if(!stack.hasTagCompound()) setNBTDefaults(stack);
-		return stack.stackTagCompound.getDouble(key);
-	}
-	
-	private static void setNBTDefaults(ItemStack stack) {
-		EnumPWRFuel num = EnumUtil.grabEnumSafely(EnumPWRFuel.class, stack.getItemDamage());
-		stack.stackTagCompound = new NBTTagCompound();
-		setYield(stack, num.yield);
-	}
-	
-	@Override
-	public void onCreated(ItemStack stack, World world, EntityPlayer player) {
-		setNBTDefaults(stack);
+		
+		String color = EnumChatFormatting.GOLD + "";
+		String reset = EnumChatFormatting.RESET + "";
+		
+		list.add(color + "Heat per flux: " + reset + num.heatEmission + " TU");
+		list.add(color + "Reacton function: " + reset + num.function.getLabelForFuel());
+		list.add(color + "Fuel type: " + reset + num.function.getDangerFromFuel());
 	}
 }
