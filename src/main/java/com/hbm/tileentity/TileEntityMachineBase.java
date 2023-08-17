@@ -102,17 +102,16 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	
 	@Override
 	public ItemStack decrStackSize(int slot, int amount) {
-		if(slots[slot] != null)
-		{
-			if(slots[slot].stackSize <= amount)
-			{
+		if(slots[slot] != null) {
+			
+			if(slots[slot].stackSize <= amount) {
 				ItemStack itemStack = slots[slot];
 				slots[slot] = null;
 				return itemStack;
 			}
+			
 			ItemStack itemStack1 = slots[slot].splitStack(amount);
-			if (slots[slot].stackSize == 0)
-			{
+			if(slots[slot].stackSize == 0) {
 				slots[slot] = null;
 			}
 			

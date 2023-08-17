@@ -959,8 +959,8 @@ public class MainRegistry {
 		config.save();
 		
 		try {
-			if(GeneralConfig.enableThermosPreventer && Class.forName("thermos.Thermos") != null) {
-				throw new IllegalStateException("The mod tried to start on a Thermos server and therefore stopped. To allow the server to start on Thermos, change the appropriate "
+			if(GeneralConfig.enableThermosPreventer && Class.forName("thermos.ThermosClassTransformer") != null) {
+				throw new IllegalStateException("The mod tried to start on a Thermos or it's fork server and therefore stopped. To allow the server to start on Thermos, change the appropriate "
 						+ "config entry (0.00 in hbm.cfg). This was done because, by default, Thermos "
 						+ "uses a so-called \"optimization\" feature that reduces tile ticking a lot, which will inevitably break a lot of machines. Most people aren't even aware "
 						+ "of this, and start blaming random mods for all their stuff breaking. In order to adjust or even disable this feature, edit \"tileentities.yml\" in your "
@@ -1161,6 +1161,11 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.canned_kerosene");
 		ignoreMappings.add("hbm:item.canned_recursion");
 		ignoreMappings.add("hbm:item.canned_bark");
+		ignoreMappings.add("hbm:item.primer_357");
+		ignoreMappings.add("hbm:item.primer_44");
+		ignoreMappings.add("hbm:item.primer_9");
+		ignoreMappings.add("hbm:item.primer_50");
+		ignoreMappings.add("hbm:item.primer_buckshot");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

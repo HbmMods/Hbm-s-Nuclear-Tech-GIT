@@ -90,12 +90,14 @@ public class MachinePWRController extends BlockContainer {
 
 	private static HashMap<BlockPos, Block> assembly = new HashMap();
 	private static HashMap<BlockPos, Block> fuelRods = new HashMap();
+	private static HashMap<BlockPos, Block> sources = new HashMap();
 	private static boolean errored;
 	private static final int maxSize = 1024;
 	
 	public void assemble(World world, int x, int y, int z, EntityPlayer player) {
 		assembly.clear();
 		fuelRods.clear();
+		sources.clear();
 		assembly.put(new BlockPos(x, y, z), this);
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
@@ -103,7 +105,7 @@ public class MachinePWRController extends BlockContainer {
 		errored = false;
 		floodFill(world, x + dir.offsetX, y, z + dir.offsetZ, player);
 		
-		if(fuelRods.size() == 0) errored = true;
+		if(fuelRods.size() == 0 || sources.size() == 0) errored = true;
 		
 		TileEntityPWRController controller = (TileEntityPWRController) world.getTileEntity(x, y, z);
 		
@@ -136,6 +138,7 @@ public class MachinePWRController extends BlockContainer {
 		
 		assembly.clear();
 		fuelRods.clear();
+		sources.clear();
 	}
 	
 	private void floodFill(World world, int x, int y, int z, EntityPlayer player) {
@@ -159,6 +162,7 @@ public class MachinePWRController extends BlockContainer {
 		if(isValidCore(block)) {
 			assembly.put(pos, block);
 			if(block == ModBlocks.pwr_fuel) fuelRods.put(pos, block);
+			if(block == ModBlocks.pwr_neutron_source) sources.put(pos, block);
 			floodFill(world, x + 1, y, z, player);
 			floodFill(world, x - 1, y, z, player);
 			floodFill(world, x, y + 1, z, player);

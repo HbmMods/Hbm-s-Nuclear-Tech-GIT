@@ -34,8 +34,6 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.ammo_20gauge, 0, 2, 6, 3),
 			new WeightedRandomChestContent(ModItems.casing_9, 0, 4, 10, 3),
 			new WeightedRandomChestContent(ModItems.casing_50, 0, 4, 10, 3),
-			new WeightedRandomChestContent(ModItems.primer_9, 0, 4, 10, 3),
-			new WeightedRandomChestContent(ModItems.primer_50, 0, 4, 10, 3),
 			new WeightedRandomChestContent(ModItems.cordite, 0, 4, 6, 5),
 			new WeightedRandomChestContent(ModItems.battery_generic, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 2),
