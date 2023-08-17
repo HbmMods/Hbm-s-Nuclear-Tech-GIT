@@ -33,8 +33,9 @@ public class GUIPWR extends GuiInfoContainer {
 		this.drawCustomInfoStat(x, y, guiLeft + 115, guiTop + 31, 18, 18, x, y, new String[] { "Core: " + String.format("%,d", controller.coreHeat) + " / " + String.format("%,d", controller.coreHeatCapacity) + " TU" });
 		this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 31, 18, 18, x, y, new String[] { "Hull: " + String.format("%,d", controller.hullHeat) + " / " + String.format("%,d", controller.hullHeatCapacity) + " TU" });
 		
-		int timeLeft = (controller.processTime - controller.progress) / 20;
-		this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 31, 36, 18, x, y, new String[] { "Cycle: " + (timeLeft / 60) + ":" + String.format("%02d", timeLeft % 60)});
+		//TODO: calculate some prediction using extrapolation (or some math sector that ends with -ic)
+		//int timeLeft = (controller.processTime - controller.progress) / 20;
+		//this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 31, 36, 18, x, y, new String[] { "Cycle: " + (timeLeft / 60) + ":" + String.format("%02d", timeLeft % 60)});
 		
 		controller.tanks[0].renderTankInfo(this, x, y, guiLeft + 8, guiTop + 5, 16, 52);
 		controller.tanks[1].renderTankInfo(this, x, y, guiLeft + 26, guiTop + 5, 16, 52);

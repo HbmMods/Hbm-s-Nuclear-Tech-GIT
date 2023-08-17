@@ -609,11 +609,6 @@ public class ModItems {
 	public static Item mechanism_launcher_2;
 	public static Item mechanism_special;
 
-	public static Item primer_357;
-	public static Item primer_44;
-	public static Item primer_9;
-	public static Item primer_50;
-	public static Item primer_buckshot;
 	public static Item casing_357;
 	public static Item casing_44;
 	public static Item casing_9;
@@ -3100,11 +3095,6 @@ public class ModItems {
 		mechanism_launcher_1 = new Item().setUnlocalizedName("mechanism_launcher_1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_5");
 		mechanism_launcher_2 = new Item().setUnlocalizedName("mechanism_launcher_2").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_6");
 		mechanism_special = new Item().setUnlocalizedName("mechanism_special").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_7");
-		primer_357 = new Item().setUnlocalizedName("primer_357").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":primer_357");
-		primer_44 = new Item().setUnlocalizedName("primer_44").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":primer_44");
-		primer_9 = new Item().setUnlocalizedName("primer_9").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":primer_9");
-		primer_50 = new Item().setUnlocalizedName("primer_50").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":primer_50");
-		primer_buckshot = new Item().setUnlocalizedName("primer_buckshot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":primer_buckshot");
 		casing_357 = new Item().setUnlocalizedName("casing_357").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_357");
 		casing_44 = new Item().setUnlocalizedName("casing_44").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_44");
 		casing_9 = new Item().setUnlocalizedName("casing_9").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_9");
@@ -6178,13 +6168,6 @@ public class ModItems {
 		GameRegistry.registerItem(mechanism_launcher_1, mechanism_launcher_1.getUnlocalizedName());
 		GameRegistry.registerItem(mechanism_launcher_2, mechanism_launcher_2.getUnlocalizedName());
 		GameRegistry.registerItem(mechanism_special, mechanism_special.getUnlocalizedName());
-		
-		//Primers
-		GameRegistry.registerItem(primer_357, primer_357.getUnlocalizedName());
-		GameRegistry.registerItem(primer_44, primer_44.getUnlocalizedName());
-		GameRegistry.registerItem(primer_9, primer_9.getUnlocalizedName());
-		GameRegistry.registerItem(primer_50, primer_50.getUnlocalizedName());
-		GameRegistry.registerItem(primer_buckshot, primer_buckshot.getUnlocalizedName());
 		
 		//Casings
 		GameRegistry.registerItem(casing_357, casing_357.getUnlocalizedName());

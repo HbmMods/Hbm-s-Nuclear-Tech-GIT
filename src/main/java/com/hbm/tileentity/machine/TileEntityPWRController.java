@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerPWR;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.inventory.gui.GUIPWR;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -19,19 +21,24 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
 	
 	public FluidTank[] tanks;
 	public int coreHeat;
 	public int coreHeatCapacity;
 	public int hullHeat;
 	public int hullHeatCapacity;
+	
 	public int rodLevel;
 	public int rodTarget;
-	public int progress;
+	
+	public int typeLoaded;
+	public int amountLoaded;
+	public double progress;
 	public int processTime;
 	
 	public int rodCount;
@@ -129,6 +136,16 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			this.tanks[0].setType(2, slots);
 			setupTanks();
 			
+			if(typeLoaded == -1 || amountLoaded <= 0 && slots[0] != null && slots[0].getItem() == ModItems.pwr_fuel) {
+				typeLoaded = slots[0].getItemDamage();
+				amountLoaded++;
+				this.decrStackSize(0, 1);
+				this.markChanged();
+			}
+
+			if(this.rodTarget > this.rodLevel) this.rodLevel++;
+			if(this.rodTarget < this.rodLevel) this.rodLevel--;
+			
 			NBTTagCompound data = new NBTTagCompound();
 			tanks[0].writeToNBT(data, "t0");
 			tanks[1].writeToNBT(data, "t1");
@@ -147,6 +164,20 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		tanks[1].setTankType(trait.getFirstStep().typeProduced);
 	}
 	
+	public double getTotalProcessMultiplier() {
+		double totalConnections = this.connections + this.connectionsControlled * (1D - (this.rodLevel / 100D));
+		double connectionsEff = connectinFunc(totalConnections);
+		return connectionsEff;
+	}
+	
+	public double connectinFunc(double connections) {
+		return connections * (1D - getXOverE(connections, 300D)) + connections / 2D * getXOverE(connections, 300D); //creates a curve that smoothly transitions from f(x)=x to f(x)=x/2
+	}
+	
+	public double getXOverE(double x, double d) {
+		return -Math.pow(Math.E, -x / d);
+	}
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -159,6 +190,19 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		super.writeToNBT(nbt);
 		
 		nbt.setBoolean("assembled", assembled);
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return this.isUseableByPlayer(player);
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		
+		if(data.hasKey("control")) {
+			this.rodTarget = MathHelper.clamp_int(data.getInteger("control"), 0, 100);
+		}
 	}
 
 	@Override

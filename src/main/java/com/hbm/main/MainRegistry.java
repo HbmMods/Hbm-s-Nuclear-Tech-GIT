@@ -1161,6 +1161,11 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.canned_kerosene");
 		ignoreMappings.add("hbm:item.canned_recursion");
 		ignoreMappings.add("hbm:item.canned_bark");
+		ignoreMappings.add("hbm:item.primer_357");
+		ignoreMappings.add("hbm:item.primer_44");
+		ignoreMappings.add("hbm:item.primer_9");
+		ignoreMappings.add("hbm:item.primer_50");
+		ignoreMappings.add("hbm:item.primer_buckshot");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
