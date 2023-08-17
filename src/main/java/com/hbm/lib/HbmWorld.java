@@ -22,6 +22,8 @@ public class HbmWorld {
 		initWorldGen();
 	}
 	
+	public static NTMWorldGenerator worldGenerator;
+	
 	public static void initWorldGen() {
 
 		//MapGenStructureIO.registerStructure(StructureStartTest.class, "HFR_STRUCTURE");
@@ -33,7 +35,7 @@ public class HbmWorld {
 		
 		registerWorldGen(new HbmWorldGen(), 1);
 		
-		NTMWorldGenerator worldGenerator = new NTMWorldGenerator();
+		worldGenerator = new NTMWorldGenerator();
 		registerWorldGen(worldGenerator, 1); //Ideally, move everything over from HbmWorldGen to NTMWorldGenerator
 		MinecraftForge.EVENT_BUS.register(worldGenerator);
 		//registerWorldGen(new WorldGenTest(), 1);

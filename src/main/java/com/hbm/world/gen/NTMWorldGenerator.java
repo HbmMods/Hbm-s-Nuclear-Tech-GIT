@@ -26,8 +26,8 @@ public class NTMWorldGenerator implements IWorldGenerator {
 	/** Inits all MapGen upon the loading of a new world. Hopefully clears out structureMaps and structureData when a different world is loaded. */
 	@SubscribeEvent
 	public void onLoad(WorldEvent.Load event) {
-		scatteredFeatureGen = (MapGenNTMFeatures) getModdedMapGen(new MapGenNTMFeatures(), EventType.CUSTOM);
-		specialFeatureGen = (MapGenSpecialFeatures) getModdedMapGen(new MapGenSpecialFeatures(), EventType.CUSTOM);
+		scatteredFeatureGen = (MapGenNTMFeatures) getModdedMapGen(new MapGenNTMFeatures(), EventType.CUSTOM); //TODO: set worlds to a non-null value here.
+		specialFeatureGen = (MapGenSpecialFeatures) getModdedMapGen(new MapGenSpecialFeatures(), EventType.CUSTOM); //we've got access to it plain n simple here anyway
 		hasPopulationEvent = false;
 	}
 	
