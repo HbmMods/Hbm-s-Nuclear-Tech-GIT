@@ -41,6 +41,8 @@ public class GUIPWR extends GuiInfoContainer {
 		//TODO: calculate some prediction using extrapolation (or some math sector that ends with -ic)
 		//int timeLeft = (controller.processTime - controller.progress) / 20;
 		//this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 31, 36, 18, x, y, new String[] { "Cycle: " + (timeLeft / 60) + ":" + String.format("%02d", timeLeft % 60)});
+		
+		this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 31, 36, 18, x, y, new String[] { ((int) (controller.progress * 100 / controller.processTime)) + "%" });
 
 		
 		if(controller.typeLoaded != -1 && controller.amountLoaded > 0) {
@@ -89,6 +91,9 @@ public class GUIPWR extends GuiInfoContainer {
 		if(System.currentTimeMillis() % 1000 < 500)
 			drawTexturedModalRect(guiLeft + 147, guiTop, 176, 14, 26, 26);
 
+		int p = (int) (controller.progress * 33 / controller.processTime);
+		drawTexturedModalRect(guiLeft + 54, guiTop + 33, 176, 0, p, 14);
+
 		GaugeUtil.renderGauge(Gauge.ROUND_SMALL, guiLeft + 115, guiTop + 31, this.zLevel, (double) controller.coreHeat / (double) controller.coreHeatCapacity);
 		GaugeUtil.renderGauge(Gauge.ROUND_SMALL, guiLeft + 151, guiTop + 31, this.zLevel, (double) controller.hullHeat / (double) controller.hullHeatCapacity);
 		
@@ -96,6 +101,10 @@ public class GUIPWR extends GuiInfoContainer {
 			ItemStack display = new ItemStack(ModItems.pwr_fuel, 1, controller.typeLoaded);
 			this.drawItemStack(display, guiLeft + 89, guiTop + 5, EnumChatFormatting.YELLOW + "" + controller.amountLoaded + "/" + controller.rodCount);
 			RenderHelper.enableGUIStandardItemLighting();
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		}
+
+		controller.tanks[0].renderTank(guiLeft + 8, guiTop + 57, this.zLevel, 16, 52);
+		controller.tanks[1].renderTank(guiLeft + 26, guiTop + 57, this.zLevel, 16, 52);
 	}
 }

@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
@@ -9,6 +11,7 @@ import com.hbm.inventory.container.ContainerPWR;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
+import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.inventory.gui.GUIPWR;
 import com.hbm.items.ModItems;
@@ -18,6 +21,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,13 +32,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
+public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, IFluidStandardTransceiver {
 	
 	public FluidTank[] tanks;
 	public int coreHeat;
-	public static final int coreHeatCapacity = 25_000_000;
+	public static final int coreHeatCapacity = 10_000_000;
 	public int hullHeat;
-	public static final int hullHeatCapacity = 25_000_000;
+	public static final int hullHeatCapacity = 10_000_000;
 	public double flux;
 	
 	public int rodLevel;
@@ -53,6 +57,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public int sourceCount;
 	
 	public boolean assembled;
+	
+	protected List<BlockPos> ports = new ArrayList();
 
 	public TileEntityPWRController() {
 		super(3);
@@ -82,6 +88,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			if(block == ModBlocks.pwr_heatex) heatexCount++;
 			if(block == ModBlocks.pwr_channel) channelCount++;
 			if(block == ModBlocks.pwr_neutron_source) sourceCount++;
+			if(block == ModBlocks.pwr_port) ports.add(entry.getKey());
 		}
 		
 		for(Entry<BlockPos, Block> entry : rodMap.entrySet()) {
@@ -141,6 +148,15 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			this.tanks[0].setType(2, slots);
 			setupTanks();
 			
+			for(BlockPos pos : ports) {
+				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+					BlockPos portPos = pos.offset(dir);
+					
+					if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
+					if(worldObj.getTotalWorldTime() % 20 == 0) this.trySubscribe(tanks[0].getTankType(), worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
+				}
+			}
+			
 			if((typeLoaded == -1 || amountLoaded <= 0) && slots[0] != null && slots[0].getItem() == ModItems.pwr_fuel) {
 				typeLoaded = slots[0].getItemDamage();
 				amountLoaded++;
@@ -190,12 +206,14 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			}
 			
 			/* CORE COOLING */
-			double coreCoolingApproachNum = getXOverE(this.heatexCount, 10) / 2D;
+			double coreCoolingApproachNum = getXOverE((double) this.heatexCount / (double) this.rodCount, 2) / 2D;
 			int averageCoreHeat = (this.coreHeat + this.hullHeat) / 2;
 			this.coreHeat -= (coreHeat - averageCoreHeat) * coreCoolingApproachNum;
 			this.hullHeat -= (hullHeat - averageCoreHeat) * coreCoolingApproachNum;
 			
-			this.hullHeat *= 0.99D;
+			updateCoolant();
+			
+			this.hullHeat *= 0.999D;
 			
 			this.flux = newFlux;
 			
@@ -212,6 +230,26 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			data.setInteger("amountLoaded", amountLoaded);
 			this.networkPack(data, 150);
 		}
+	}
+	
+	protected void updateCoolant() {
+		
+		FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
+		if(trait == null || trait.getEfficiency(HeatingType.PWR) <= 0) return;
+		
+		double coolingEff = (double) this.channelCount / (double) this.rodCount * 0.1D; //10% cooling if numbers match
+		if(coolingEff > 1D) coolingEff = 1D;
+		
+		int heatToUse = (int) (this.hullHeat * coolingEff);
+		HeatingStep step = trait.getFirstStep();
+		int coolCycles = tanks[0].getFill() / step.amountReq;
+		int hotCycles = (tanks[1].getMaxFill() - tanks[1].getFill()) / step.amountProduced;
+		int heatCycles = heatToUse / step.heatReq;
+		int cycles = Math.min(coolCycles, Math.min(hotCycles, heatCycles));
+		
+		this.hullHeat -= step.heatReq * cycles;
+		this.tanks[0].setFill(tanks[0].getFill() - step.amountReq * cycles);
+		this.tanks[1].setFill(tanks[1].getFill() + step.amountProduced * cycles);
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
@@ -234,6 +272,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		if(trait == null || trait.getEfficiency(HeatingType.PWR) <= 0) {
 			tanks[0].setTankType(Fluids.NONE);
 			tanks[1].setTankType(Fluids.NONE);
+			return;
 		}
 		
 		tanks[1].setTankType(trait.getFirstStep().typeProduced);
@@ -258,6 +297,29 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		super.readFromNBT(nbt);
 		
 		this.assembled = nbt.getBoolean("assembled");
+		this.coreHeat = nbt.getInteger("coreHeat");
+		this.hullHeat = nbt.getInteger("hullHeat");
+		this.flux = nbt.getDouble("flux");
+		this.rodLevel = nbt.getInteger("rodLevel");
+		this.rodTarget = nbt.getInteger("rodTarget");
+		this.typeLoaded = nbt.getInteger("typeLoaded");
+		this.amountLoaded = nbt.getInteger("amountLoaded");
+		this.progress = nbt.getDouble("progress");
+		this.processTime = nbt.getDouble("processTime");
+
+		this.rodCount = nbt.getInteger("rodCount");
+		this.connections = nbt.getInteger("connections");
+		this.connectionsControlled = nbt.getInteger("connectionsControlled");
+		this.heatexCount = nbt.getInteger("heatexCount");
+		this.channelCount = nbt.getInteger("channelCount");
+		this.sourceCount = nbt.getInteger("sourceCount");
+		
+		ports.clear();
+		int portCount = nbt.getInteger("portCount");
+		for(int i = 0; i < portCount; i++) {
+			int[] port = nbt.getIntArray("p" + i);
+			ports.add(new BlockPos(port[0], port[1], port[2]));
+		}
 	}
 	
 	@Override
@@ -265,6 +327,28 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		super.writeToNBT(nbt);
 		
 		nbt.setBoolean("assembled", assembled);
+		nbt.setInteger("coreHeat", coreHeat);
+		nbt.setInteger("hullHeat", hullHeat);
+		nbt.setDouble("flux", flux);
+		nbt.setInteger("rodLevel", rodLevel);
+		nbt.setInteger("rodTarget", rodTarget);
+		nbt.setInteger("typeLoaded", typeLoaded);
+		nbt.setInteger("amountLoaded", amountLoaded);
+		nbt.setDouble("progress", progress);
+		nbt.setDouble("processTime", processTime);
+
+		nbt.setInteger("rodCount", rodCount);
+		nbt.setInteger("connections", connections);
+		nbt.setInteger("connectionsControlled", connectionsControlled);
+		nbt.setInteger("heatexCount", heatexCount);
+		nbt.setInteger("channelCount", channelCount);
+		nbt.setInteger("sourceCount", sourceCount);
+		
+		nbt.setInteger("portCount", ports.size());
+		for(int i = 0; i < ports.size(); i++) {
+			BlockPos pos = ports.get(i);
+			nbt.setIntArray("p" + i, new int[] { pos.getX(), pos.getY(), pos.getZ() });
+		}
 	}
 
 	@Override
@@ -288,5 +372,20 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Override
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIPWR(player.inventory, this);
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tanks[1] };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[0] };
 	}
 }

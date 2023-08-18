@@ -1,6 +1,7 @@
 package com.hbm.inventory.recipes;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -188,8 +189,9 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget_pu238, 6),
 				new ItemStack(ModItems.nuclear_waste, 2) });
 		
-		if(OreDictionary.doesOreNameExist("nuggetNaquadria")) {
-			ItemStack nuggetNQR = OreDictionary.getOres("nuggetNaquadria").get(0);
+		ArrayList<ItemStack> naquadriaNuggets = OreDictionary.getOres("nuggetNaquadria");
+		if(naquadriaNuggets.size() != 0) {
+			ItemStack nuggetNQR = naquadriaNuggets.get(0);
 			ItemStack copy = nuggetNQR.copy();
 			copy.stackSize = 12;
 			recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.watz_pellet_depleted, EnumWatzType.NQD)), new ItemStack[] {
