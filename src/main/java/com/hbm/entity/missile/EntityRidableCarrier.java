@@ -175,14 +175,14 @@ public class EntityRidableCarrier extends Entity {
 
 		if(payload != null) {
 			
-			if(payload.getItem() == ModItems.flame_pony) {
+			if(payload.getItem() == ModItems.ingot_tt) {
 				EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
 				if(riding != null) {
 				DebugTeleporter.teleport(riding, SpaceConfig.dunaDimension, riding.posX, 300, riding.posZ);
 				}
 			}
 			
-			if(payload.getItem() == ModItems.sat_foeq) {
+			if(payload.getItem() == ModItems.ingot_ttas) {
 				EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
 				if(riding != null) {
 				DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
