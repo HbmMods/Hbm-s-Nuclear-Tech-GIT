@@ -19,15 +19,17 @@ import net.minecraftforge.event.world.WorldEvent;
 public class NTMWorldGenerator implements IWorldGenerator {
 	
 	private MapGenNTMFeatures scatteredFeatureGen; //looks like it's based! thank god!
-	private MapGenSpecialFeatures specialFeatureGen; //change back if it's actually cringe and throws NPEs
+	public MapGenSpecialFeatures specialFeatureGen; //change back if it's actually cringe and throws NPEs
 	
 	private final Random rand = new Random(); //A central random, used to cleanly generate our stuff without affecting vanilla or modded seeds.
 	
 	/** Inits all MapGen upon the loading of a new world. Hopefully clears out structureMaps and structureData when a different world is loaded. */
 	@SubscribeEvent
 	public void onLoad(WorldEvent.Load event) {
-		scatteredFeatureGen = (MapGenNTMFeatures) getModdedMapGen(new MapGenNTMFeatures(), EventType.CUSTOM); //TODO: set worlds to a non-null value here.
-		specialFeatureGen = (MapGenSpecialFeatures) getModdedMapGen(new MapGenSpecialFeatures(), EventType.CUSTOM); //we've got access to it plain n simple here anyway
+		scatteredFeatureGen = (MapGenNTMFeatures) getModdedMapGen(new MapGenNTMFeatures(), EventType.CUSTOM);
+		specialFeatureGen = (MapGenSpecialFeatures) getModdedMapGen(new MapGenSpecialFeatures(), EventType.CUSTOM);
+		specialFeatureGen.setWorld(event.world); //doesn't matter on the client so we're good anyway
+		
 		hasPopulationEvent = false;
 	}
 	

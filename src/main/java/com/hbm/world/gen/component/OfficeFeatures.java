@@ -3,10 +3,16 @@ package com.hbm.world.gen.component;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.special.ItemBookLore;
 import com.hbm.lib.HbmChestContents;
+import com.hbm.lib.HbmWorld;
 import com.hbm.util.LootGenerator;
+
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -546,6 +552,11 @@ public class OfficeFeatures {
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_loot, 0, 1, 10, 11, box);
 			LootGenerator.lootMedicine(world, this.getXWithOffset(1, 11), this.getYWithOffset(10), this.getZWithOffset(1, 11));
 			
+			//if(rand.nextInt(3) == 0) {
+				Vec3 pair = HbmWorld.worldGenerator.specialFeatureGen.findClosestPosition(this.boundingBox.minX >> 4, this.boundingBox.minZ >> 4);
+				ItemStack book = ItemBookLore.createBook(pair.xCoord * 16 + ", " + pair.zCoord * 16, 1, 0x7F0037, 0xFFFFFF);
+				placeLootBlock(world, box, rand, 8, 10, 10, book);
+			//}
 			//this hurt my soul
 			
 			return true;

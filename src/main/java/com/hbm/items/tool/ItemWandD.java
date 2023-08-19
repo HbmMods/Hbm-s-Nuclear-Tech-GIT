@@ -2,18 +2,15 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
-import com.hbm.world.gen.MapGenNTMFeatures;
-import com.hbm.world.gen.component.BrutalistFeatures.ElevatedPrefab1;
+import com.hbm.world.gen.component.OfficeFeatures.LargeOfficeCorner;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
 
@@ -37,13 +34,17 @@ public class ItemWandD extends Item {
 			
 			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
 			
+			//HbmWorld.worldGenerator.specialFeatureGen.findClosestPosition(pos.blockX >> 4, pos.blockZ >> 4);
+			
 			int i = pos.blockX >> 4;
 			int j = pos.blockZ >> 4;
 			
-			MapGenNTMFeatures.Start start = new MapGenNTMFeatures.Start(world, world.rand, i, j);
+			//MapGenNTMFeatures.Start start = new MapGenNTMFeatures.Start(world, world.rand, i, j);
 			i = (i << 4) + 8;
 			j = (j << 4) + 8;
-			start.generateStructure(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));
+			LargeOfficeCorner corner = new LargeOfficeCorner(world.rand, i, 64, j);
+			corner.addComponentParts(world, world.rand, corner.getBoundingBox());
+			//start.generateStructure(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));
 			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);

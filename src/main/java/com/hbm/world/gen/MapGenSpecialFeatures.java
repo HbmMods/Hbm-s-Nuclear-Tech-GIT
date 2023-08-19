@@ -32,6 +32,10 @@ public class MapGenSpecialFeatures extends MapGenStructure {
 		return "NTMSpecialFeatures";
 	}
 	
+	public void setWorld(World world) {
+		this.worldObj = world;
+	}
+	
 	@Override
 	protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
 		if(locs.isEmpty())
@@ -43,10 +47,8 @@ public class MapGenSpecialFeatures extends MapGenStructure {
 	//i'll probs make a system to predict which locations are what in advance
 	//seems like biomes can be cached/gen'd without creating the chunk, thankfully
 	//vec3 will be the angle + distance from provided coords, given in chunk coords
-	/*public Vec3 findClosestPosition(int chunkX, int chunkZ) {
+	public Vec3 findClosestPosition(int chunkX, int chunkZ) {
 		createBookList();
-		
-		long time = System.nanoTime();
 		
 		ChunkCoordIntPair pair = new ChunkCoordIntPair(0, 0);
 		long dist = Long.MAX_VALUE;
@@ -61,8 +63,6 @@ public class MapGenSpecialFeatures extends MapGenStructure {
 			}
 		}
 		
-		System.out.print(System.nanoTime() - time);
-		
 		return Vec3.createVectorHelper(pair.chunkXPos - chunkX, 0, pair.chunkZPos - chunkZ);
 	}
 	
@@ -72,18 +72,14 @@ public class MapGenSpecialFeatures extends MapGenStructure {
 		
 		if(!bookLocs.isEmpty()) return;
 		
-		long time = System.nanoTime();
-		
 		for(ChunkCoordIntPair loc : locs) {
 			bookLocs.add(loc);
 		}
-		
-		System.out.print(System.nanoTime() - time);
-	}*/
+	}
 	
 	protected void generatePositions() {
 		//for safety: maybe mandate interactions with these methods to an outside class/wrapper who say "fuck you"
-		Random rand = new Random(this.worldObj.getSeed()); //TODO: worldObj is null until func_15139_a is called!! very bad!!!
+		Random rand = new Random(this.worldObj.getSeed());
 		double theta = rand.nextDouble() * Math.PI * 2;
 		int ringMax = 4; //each ring of structures has more (and is farther) than the last
 		int ringDist = 1;

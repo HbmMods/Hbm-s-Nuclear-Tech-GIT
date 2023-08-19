@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
+import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.config.StructureConfig;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
@@ -39,7 +40,7 @@ abstract public class Component extends StructureComponent {
 	
 	protected Component(Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ ) {
 		super(0);
-		this.coordBaseMode = rand.nextInt(4);
+		this.coordBaseMode = 0;//rand.nextInt(4);
 		
 		switch(this.coordBaseMode) {
 		case 0:
@@ -435,6 +436,22 @@ abstract public class Component extends StructureComponent {
 		}
 	}
 	
+	protected void placeLootBlock(World world, StructureBoundingBox box, Random rand, int featureX, int featureY, int featureZ, ItemStack stack) {
+		int posX = this.getXWithOffset(featureX, featureZ);
+		int posY = this.getYWithOffset(featureY);
+		int posZ = this.getZWithOffset(featureX, featureZ);
+		
+		if(!box.isVecInside(posX, posY, posZ)) return;
+		
+		world.setBlock(posX, posY, posZ, ModBlocks.deco_loot, 0, 2);
+		
+		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(posX, posY, posZ);
+		
+		if(loot != null && loot.items.isEmpty()) {
+			loot.addItem(stack, rand.nextGaussian() * 0.02, 0, rand.nextGaussian() * 0.02);
+		}
+	}
+	
 	/**
 	 * Places random bobblehead with a randomized orientation at specified location
 	 */
@@ -690,7 +707,7 @@ abstract public class Component extends StructureComponent {
 			}
 		}
 	}
-	
+	//TODO replace the shitty block selector with something else. probably a lambda that returns a metablock for convenience
 	protected void fillWithRandomizedBlocks(World world, StructureBoundingBox box, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Random rand, BlockSelector selector) { //so i don't have to replace shit
 		
 		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
