@@ -16,6 +16,8 @@ import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.inventory.gui.GUIPWR;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.EnumUtil;
@@ -41,8 +43,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public static final int hullHeatCapacity = 10_000_000;
 	public double flux;
 	
-	public int rodLevel;
-	public int rodTarget;
+	public int rodLevel = 100;
+	public int rodTarget = 100;
 	
 	public int typeLoaded;
 	public int amountLoaded;
@@ -57,6 +59,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public int sourceCount;
 	
 	public boolean assembled;
+	
+	private AudioWrapper audio;
 	
 	protected List<BlockPos> ports = new ArrayList();
 
@@ -228,7 +232,54 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			data.setDouble("progress", progress);
 			data.setInteger("typeLoaded", typeLoaded);
 			data.setInteger("amountLoaded", amountLoaded);
+			data.setInteger("rodLevel", rodLevel);
+			data.setInteger("rodTarget", rodTarget);
 			this.networkPack(data, 150);
+		} else {
+			
+			if(amountLoaded > 0) {
+				
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+				
+				audio.keepAlive();
+				
+			} else {
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
+		}
+	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.reactorLoop", xCoord, yCoord, zCoord, 1F, 10F, 1.0F, 20);
+	}
+
+	@Override
+	public void onChunkUnload() {
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
 	}
 	
@@ -263,6 +314,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		progress = nbt.getDouble("progress");
 		typeLoaded = nbt.getInteger("typeLoaded");
 		amountLoaded = nbt.getInteger("amountLoaded");
+		rodLevel = nbt.getInteger("rodLevel");
+		rodTarget = nbt.getInteger("rodTarget");
 	}
 	
 	protected void setupTanks() {
@@ -295,6 +348,9 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+
+		tanks[0].readFromNBT(nbt, "t0");
+		tanks[1].readFromNBT(nbt, "t1");
 		
 		this.assembled = nbt.getBoolean("assembled");
 		this.coreHeat = nbt.getInteger("coreHeat");
@@ -325,6 +381,9 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+
+		tanks[0].writeToNBT(nbt, "t0");
+		tanks[1].writeToNBT(nbt, "t1");
 		
 		nbt.setBoolean("assembled", assembled);
 		nbt.setInteger("coreHeat", coreHeat);
@@ -361,6 +420,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		
 		if(data.hasKey("control")) {
 			this.rodTarget = MathHelper.clamp_int(data.getInteger("control"), 0, 100);
+			this.markChanged();
 		}
 	}
 
