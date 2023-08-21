@@ -129,7 +129,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 						
 						Block b = worldObj.getBlock(x, y, z);
 						
-						if(b != Blocks.air) {
+						if(!b.isAir(worldObj, x, y, z)) {
 							
 							if(b.getMaterial().isLiquid()) {
 								worldObj.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.fizz", 1.0F, 1.0F);

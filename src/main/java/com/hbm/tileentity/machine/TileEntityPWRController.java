@@ -11,6 +11,7 @@ import com.hbm.inventory.container.ContainerPWR;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
+import com.hbm.inventory.fluid.trait.FT_PWRModerator;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.inventory.gui.GUIPWR;
@@ -221,6 +222,10 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			
 			this.flux = newFlux;
 			
+			if(tanks[0].getTankType().hasTrait(FT_PWRModerator.class)) {
+				this.flux *= tanks[0].getTankType().getTrait(FT_PWRModerator.class).getMultiplier();
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			tanks[0].writeToNBT(data, "t0");
 			tanks[1].writeToNBT(data, "t1");
@@ -291,7 +296,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		double coolingEff = (double) this.channelCount / (double) this.rodCount * 0.1D; //10% cooling if numbers match
 		if(coolingEff > 1D) coolingEff = 1D;
 		
-		int heatToUse = (int) (this.hullHeat * coolingEff);
+		int heatToUse = (int) (this.hullHeat * coolingEff * trait.getEfficiency(HeatingType.PWR));
 		HeatingStep step = trait.getFirstStep();
 		int coolCycles = tanks[0].getFill() / step.amountReq;
 		int hotCycles = (tanks[1].getMaxFill() - tanks[1].getFill()) / step.amountProduced;

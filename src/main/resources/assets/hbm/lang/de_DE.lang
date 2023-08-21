@@ -3959,6 +3959,7 @@ tile.machine_assembler.name=Fertigungsmaschine
 tile.machine_assemfac.name=Fertigungsfabrik
 tile.machine_autocrafter.name=Automatische Werkbank
 tile.machine_autosaw.name=Automatische Kreissäge
+tile.machine_autosaw.desc=Schneidet Pflanzen nieder, pflanzt Bäume nach$Akzeptiert:$-Holzöl$-Ethanol$-Fischöl$-Schweröl
 tile.machine_bat9000.name=Big-Ass Tank 9000
 tile.machine_battery.name=Energiespeicherblock
 tile.machine_battery_potato.name=Kartoffelbatterieblock

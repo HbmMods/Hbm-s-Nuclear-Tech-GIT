@@ -24,6 +24,7 @@ public abstract class FluidTrait {
 		traitNameMap.put("poison", FT_Poison.class);				// x
 		traitNameMap.put("toxin", FT_Toxin.class);					// x
 		traitNameMap.put("ventradiation", FT_VentRadiation.class);	// x
+		traitNameMap.put("pwrmoderator", FT_PWRModerator.class);	// x
 
 		traitNameMap.put("gaseous", FT_Gaseous.class);
 		traitNameMap.put("gaseous_art", FT_Gaseous_ART.class);

@@ -1,33 +1,27 @@
 ## Added
-* Analysis tool
-  * A more universal version of the power net analyzer
-  * Currently only works on fluid networks though
-  * In addition to seeing links and subscribers, the analysis tool also displays subscriber positions as well as a log (up to 50 entries) of what block received how much fluid
-  * This should finally give more insight in the bug that rarely causes fluids to disappear
-* Leadburster
-  * A 40mm launcher grenade that doesn't explode, instead it attaches itself to a block and starts firing bullets
-  * Fires in circles for 2 seconds before it self-destructs
-* Congo lake
-  * A 40mm pump-action grenade launcher with a capacity of 4 rounds
-* Lantern
-  * Cheap and fancy illumination
-  * Will blind glyphids in a small radius
-  * Glyphids don't actually have eyes, just don't think about it too much
-* Ashpit
-  * An optional part that can be placed under fireboxes and heating ovens
-  * Collects ashes, producing one ash pile for every 10 furnace operations worth of fuel
-  * Ash comes in different types like wood (from planks, logs and saplings), coal (coal, lignite and coke) and generic (everything else)
-  * Ashes can be used as dyes, for making industrial fertilizer, as low-efficiency furnace fuel or for carbon in the crucible
-  * Coal ashes can also be centrifuged, returning the flammable content as unburned coal dust as well as a small amount of boron
+* PWR
+  * The successor to the old large nuclear reactor
+  * Has some design similarities with the RBMK, but in 3D
+  * Relatively easy to build and safe to operate
+  * Does not use any tile entity rendering and all math is pre-calculated when the reactor is assembled, making this one even more performant than the old large reactor
+* Sodalite
+  * A gem that can be extracted from fluorite ore
+  * Can be heated in the combination oven to make sodium dust and chlorine
 
 ## Changed
-* Updated polish and chinese localization
-* Flechettes now get stuck in blocks for a few seconds
-* NBT kits now display the amount of items in a stack
-* Removed the special nuclear meteorite
+* Bedrock fluorite ore now yields actual ore instead of fluorite directly
+* Blocks that fall from fallout effects no longer drop items when falling on small blocks, preventing issues like gas blocks being dropped
+* Bullets no longer need primers to be crafted, primers no longer exist at all
+* The automatic buzzsaw can now use wood oil, ethanol, fish oil and heavy oil to run
+* Fluorite ore is now centrifugable
+* Fluorite crystals now centrifuge into slightly less fluorite but also yield sodalite
 
 ## Fixed
-* Fixed thermos crashing config hitting before the config is saved, resulting in an empty config the first time the server is launched
-* Fixed heating oven not visually connecting to exhaust pipes
-* Fixed loot blocks not correctly rendering items that require multiple render passes
-* Fixed special meteorites spawning in worldgen
+* Fixed FEnSU's IO limit not working properly
+* Fixed overflow caused by uncapped Spk values of DFC beams, they are now capped at 9,200,000 Spk
+* Fixed smooth lighting not working on connected textures
+* Fixed the Thermos preventer not working on Crucible type servers
+* Fixed pollution save files not working correctly on certain Thermos forks
+* Fixed blast furnace output overstacking
+* Fixed potential crash caused by centrifuges trying to create a recipe using non-registered items
+* Fixed chemplant GUI crashing when too many upgrades are applied to a short duration recipe
