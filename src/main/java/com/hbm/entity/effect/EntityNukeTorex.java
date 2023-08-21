@@ -37,6 +37,17 @@ public class EntityNukeTorex extends Entity {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
+	public int getBrightnessForRender(float p_70070_1_) {
+		return 15728880;
+	}
+
+	@Override
+	public float getBrightness(float p_70013_1_) {
+		return 1.0F;
+	}
+
+	@Override
 	public void onUpdate() {
 		
 		double s = this.getScale();
