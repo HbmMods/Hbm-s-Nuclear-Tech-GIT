@@ -41,4 +41,13 @@ public class TrackerUtil {
 			entry.ticks = 0;
 		}
 	}
+	
+	public static void setTrackingRange(World world, Entity e, int range) {
+		
+		if(world instanceof WorldServer) {
+			WorldServer server = (WorldServer) world;
+			EntityTrackerEntry entry = getTrackerEntry(server, e.getEntityId());
+			entry.blocksDistanceThreshold = range;
+		}
+	}
 }

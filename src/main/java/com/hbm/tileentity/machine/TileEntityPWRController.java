@@ -202,6 +202,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 						slots[1].stackSize++;
 					}
 					
+					this.amountLoaded--;
 					this.markChanged();
 				}
 			}

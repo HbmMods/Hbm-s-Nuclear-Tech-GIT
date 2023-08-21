@@ -151,7 +151,7 @@ public class EntityNukeTorex extends Entity {
 		
 		if(life > fadeOut) {
 			float fac = (float)(life - fadeOut) / (float)(lifetime - fadeOut);
-			return 1F - fac * fac;
+			return 1F - fac;
 		}
 		
 		return 1.0F;

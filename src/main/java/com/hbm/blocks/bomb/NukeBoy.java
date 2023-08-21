@@ -5,10 +5,12 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeBoy;
+import com.hbm.util.TrackerUtil;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -124,7 +126,13 @@ public class NukeBoy extends BlockContainer implements IBomb {
 			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
 
 			world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, BombConfig.boyRadius, x + 0.5, y + 0.5, z + 0.5));
-			world.spawnEntityInWorld(EntityNukeCloudSmall.statFac(world, x, y, z, BombConfig.boyRadius));
+			//world.spawnEntityInWorld(EntityNukeCloudSmall.statFac(world, x, y, z, BombConfig.boyRadius));
+			
+			EntityNukeTorex torex = new EntityNukeTorex(world);
+			torex.setPositionAndRotation(x + 0.5, y + 1, z + 0.5, 0, 0);
+			torex.getDataWatcher().updateObject(10, 1.5F);
+			world.spawnEntityInWorld(torex);
+			TrackerUtil.setTrackingRange(world, torex, 1000);
 		}
 		return false;
 	}
