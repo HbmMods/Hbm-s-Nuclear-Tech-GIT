@@ -19,7 +19,6 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -97,7 +96,7 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 					break;
 				}
 				
-				if(worldObj.getBlock(x, y, z) != Blocks.air)
+				if(!worldObj.getBlock(x, y, z).isAir(worldObj, x, y, z))
 					break;
 			}
 			

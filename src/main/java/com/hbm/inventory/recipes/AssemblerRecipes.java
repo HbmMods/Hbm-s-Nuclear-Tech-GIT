@@ -626,7 +626,6 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.STOCK.ordinal()), new AStack[] {
 				new OreDictStack(STEEL.plate(), 2),
 				new OreDictStack(CU.plate(), 1),
-				new ComparableStack(ModItems.primer_50, 5),
 				new ComparableStack(ModItems.casing_50, 5),
 				new OreDictStack(ANY_PLASTICEXPLOSIVE.ingot(), 2),
 				new ComparableStack(ModItems.cordite, 3),
@@ -636,7 +635,6 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.INCENDIARY.ordinal()), new AStack[] {
 				new OreDictStack(STEEL.plate(), 2),
 				new OreDictStack(CU.plate(), 1),
-				new ComparableStack(ModItems.primer_50, 5),
 				new ComparableStack(ModItems.casing_50, 5),
 				new OreDictStack(ANY_PLASTICEXPLOSIVE.ingot(), 3),
 				new ComparableStack(ModItems.cordite, 3),
@@ -646,7 +644,6 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.HE.ordinal()), new AStack[] {
 				new OreDictStack(STEEL.plate(), 2),
 				new OreDictStack(CU.plate(), 1),
-				new ComparableStack(ModItems.primer_50, 5),
 				new ComparableStack(ModItems.casing_50, 5),
 				new OreDictStack(ANY_HIGHEXPLOSIVE.ingot(), 5),
 				new ComparableStack(ModItems.cordite, 5),

@@ -304,6 +304,8 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 		
 		this.maxProgress = recipe.getDuration() * this.speed / 100;
 		
+		if(maxProgress <= 0) maxProgress = 1;
+		
 		if(this.progress >= this.maxProgress) {
 			consumeFluids(recipe);
 			produceFluids(recipe);

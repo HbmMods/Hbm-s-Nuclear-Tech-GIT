@@ -100,6 +100,19 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		return this.fontRendererObj;
 	}
 
+	protected void drawItemStack(ItemStack stack, int x, int y, String label) {
+		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
+		this.zLevel = 200.0F;
+		itemRender.zLevel = 200.0F;
+		FontRenderer font = null;
+		if(stack != null) font = stack.getItem().getFontRenderer(stack);
+		if(font == null) font = fontRendererObj;
+		itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), stack, x, y);
+		itemRender.renderItemOverlayIntoGUI(font, this.mc.getTextureManager(), stack, x, y, label);
+		this.zLevel = 0.0F;
+		itemRender.zLevel = 0.0F;
+	}
+
 	protected void drawStackText(List lines, int x, int y, FontRenderer font) {
 		
 		if(!lines.isEmpty()) {
