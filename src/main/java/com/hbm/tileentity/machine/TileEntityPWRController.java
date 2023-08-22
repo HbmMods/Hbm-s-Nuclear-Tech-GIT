@@ -350,6 +350,22 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public double getXOverE(double x, double d) {
 		return 1 - Math.pow(Math.E, -x / d);
 	}
+
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+		if(slot == 0) return stack.getItem() == ModItems.pwr_fuel;
+		return false;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] {0, 1};
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+		return slot == 1;
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
