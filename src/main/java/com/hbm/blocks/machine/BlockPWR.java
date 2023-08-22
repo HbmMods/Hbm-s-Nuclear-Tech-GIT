@@ -3,12 +3,14 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.ct.CT;
 import com.hbm.render.block.ct.CTStitchReceiver;
 import com.hbm.render.block.ct.IBlockCT;
 import com.hbm.tileentity.machine.TileEntityPWRController;
 
+import api.hbm.fluid.IFluidConnector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -22,6 +24,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockPWR extends BlockContainer implements IBlockCT {
 	
@@ -91,7 +94,7 @@ public class BlockPWR extends BlockContainer implements IBlockCT {
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 	
-	public static class TileEntityBlockPWR extends TileEntity {
+	public static class TileEntityBlockPWR extends TileEntity implements IFluidConnector {
 		
 		public Block block;
 		public int coreX;
@@ -153,6 +156,47 @@ public class BlockPWR extends BlockContainer implements IBlockCT {
 			if(this.worldObj != null) {
 				this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 			}
+		}
+
+		@Override
+		public long transferFluid(FluidType type, int pressure, long fluid) {
+			
+			if(this.getBlockMetadata() != 1) return fluid;
+			if(block == null) return fluid;
+			
+			if(worldObj.getChunkProvider().chunkExists(coreX >> 4, coreZ >> 4)) {
+				
+				TileEntity tile = worldObj.getTileEntity(coreX, coreY, coreZ);
+				if(tile instanceof TileEntityPWRController) {
+					TileEntityPWRController controller = (TileEntityPWRController) tile;
+					return controller.transferFluid(type, pressure, fluid);
+				}
+			}
+			
+			return fluid;
+		}
+
+		@Override
+		public long getDemand(FluidType type, int pressure) {
+			
+			if(this.getBlockMetadata() != 1) return 0;
+			if(block == null) return 0;
+			
+			if(worldObj.getChunkProvider().chunkExists(coreX >> 4, coreZ >> 4)) {
+				
+				TileEntity tile = worldObj.getTileEntity(coreX, coreY, coreZ);
+				if(tile instanceof TileEntityPWRController) {
+					TileEntityPWRController controller = (TileEntityPWRController) tile;
+					return controller.getDemand(type, pressure);
+				}
+			}
+			
+			return 0;
+		}
+
+		@Override
+		public boolean canConnect(FluidType type, ForgeDirection dir) {
+			return this.getBlockMetadata() == 1;
 		}
 	}
 }
