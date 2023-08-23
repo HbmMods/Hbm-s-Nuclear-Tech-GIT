@@ -84,7 +84,7 @@ public class EntityNukeTorex extends Entity {
 			if(ticksExisted < 50) {
 				
 				int cloudCount = ticksExisted * 5;
-				int shockLife = 200 - ticksExisted * 9 / 10;
+				int shockLife = Math.max(300 - ticksExisted * 20, 50);
 				
 				for(int i = 0; i < cloudCount; i++) {
 					Vec3 vec = Vec3.createVectorHelper((ticksExisted * 2 + rand.nextDouble()) * 2, 0, 0);

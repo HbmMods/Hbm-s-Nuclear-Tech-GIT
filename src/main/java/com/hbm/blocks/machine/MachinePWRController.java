@@ -1,8 +1,10 @@
 package com.hbm.blocks.machine;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
 import com.hbm.lib.RefStrings;
@@ -30,7 +32,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachinePWRController extends BlockContainer {
+public class MachinePWRController extends BlockContainer implements ITooltipProvider {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
@@ -197,5 +199,10 @@ public class MachinePWRController extends BlockContainer {
 	private boolean isValidCasing(Block block) {
 		if(block == ModBlocks.pwr_casing || block == ModBlocks.pwr_reflector || block == ModBlocks.pwr_port) return true;
 		return false;
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

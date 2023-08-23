@@ -42,6 +42,7 @@ public class FT_Coolable extends FluidTrait {
 	
 	@Override
 	public void addInfoHidden(List<String> info) {
+		info.add(EnumChatFormatting.AQUA + "Thermal capacity: " + heatEnergy + " TU");
 		for(CoolingType type : CoolingType.values()) {
 			
 			double eff = getEfficiency(type);

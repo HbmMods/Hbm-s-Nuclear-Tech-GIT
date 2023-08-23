@@ -5,8 +5,11 @@
   * Relatively easy to build and safe to operate
   * Does not use any tile entity rendering and all math is pre-calculated when the reactor is assembled, making this one even more performant than the old large reactor
 * Sodalite
-  * A gem that can be extracted from fluorite ore
-  * Can be heated in the combination oven to make sodium dust and chlorine
+  * A gem that can be extracted from fluorite or lapis ore
+  * Can be heated in the combination oven to make sodium and chlorine
+* Liquid sodium
+  * Valid PWR coolant with high efficiency rating
+  * Made by liquefacting sodium
 
 ## Changed
 * Bedrock fluorite ore now yields actual ore instead of fluorite directly
