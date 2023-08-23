@@ -313,7 +313,8 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 				}
 			}
 		}
-		this.gain=gain/(1.6*(config.components.size()-normal));
+		if(config.components.size()>normal) this.gain=gain/(1.6*(config.components.size()-normal));
+		else this.gain=0;
 		for(ForgeDirection facing : ForgeDirection.VALID_DIRECTIONS) {
 			this.connectionPos.add(new DirPos(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ, facing));
 		}
