@@ -611,6 +611,7 @@ chem.SULFURIC_ACID=Sulfuric Acid Production
 chem.TATB=TATB Synthesis
 chem.TEL=TEL Mixing
 chem.TEST=Test
+chem.THORIUM_SALT=Thorium Salt Enrichment
 chem.TNT=TNT Synthesis
 chem.UF6=Uranium Hexafluoride Production
 chem.VIT_GAS=Gaseous Nuclear Waste Vitrification

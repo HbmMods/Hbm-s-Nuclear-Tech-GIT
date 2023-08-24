@@ -402,12 +402,12 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.SULFURIC_ACID, 8_000))
 				.outputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250), new FluidStack(Fluids.CALCIUM_CHLORIDE, 250)));
 		recipes.add(new ChemRecipe(102, "THORIUM_SALT", 60)
-				.inputFluids(new FluidStack(Fluids.THORIUM_SALT_DEPLETED, 8_000))
-				.inputItems(new OreDictStack(TH232.dust(), 1))
-				.outputFluids(new FluidStack(Fluids.THORIUM_SALT, 8_000))
+				.inputFluids(new FluidStack(Fluids.THORIUM_SALT_DEPLETED, 16_000))
+				.inputItems(new OreDictStack(TH232.nugget(), 2))
+				.outputFluids(new FluidStack(Fluids.THORIUM_SALT, 16_000))
 				.outputItems(
-						new ItemStack(ModItems.nugget_u233, 4, 10),
-						new ItemStack(ModItems.nuclear_waste_tiny, 5, 10)));
+						new ItemStack(ModItems.nugget_u233, 1),
+						new ItemStack(ModItems.nuclear_waste_tiny, 1)));
 	}
 	
 	public static void registerFuelProcessing() {

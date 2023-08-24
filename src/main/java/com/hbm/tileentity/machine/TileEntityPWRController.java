@@ -212,7 +212,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			}
 			
 			/* CORE COOLING */
-			double coreCoolingApproachNum = getXOverE((double) this.heatexCount / (double) this.rodCount, 2) / 2D;
+			double coreCoolingApproachNum = getXOverE((double) this.heatexCount * 5 / (double) this.rodCount, 2) / 2D;
 			int averageCoreHeat = (this.coreHeat + this.hullHeat) / 2;
 			this.coreHeat -= (coreHeat - averageCoreHeat) * coreCoolingApproachNum;
 			this.hullHeat -= (hullHeat - averageCoreHeat) * coreCoolingApproachNum;

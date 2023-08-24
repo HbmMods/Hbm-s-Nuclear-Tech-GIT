@@ -260,6 +260,7 @@ chem.SULFURIC_ACID=Schwefelsäureherstellung
 chem.TATB=TATB-Synthese
 chem.TEL=TEL mischen
 chem.TEST=Test
+chem.THORIUM_SALT=Thoriumsalz-Anreicherung
 chem.TNT=TNT-Synthese
 chem.UF6=Uranhexafluoridproduktion
 chem.VIT_GAS=Gas-Atommüllvitrifizierung
