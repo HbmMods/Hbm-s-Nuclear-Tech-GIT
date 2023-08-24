@@ -10,6 +10,10 @@
 * Liquid sodium
   * Valid PWR coolant with high efficiency rating
   * Made by liquefacting sodium
+* Liquid thorium salt
+  * Valid PWR coolant
+  * Has a high flux multiplication rate, boosting fuels
+  * After cooling, the depleted salt has to be reprocessed using a chemical plant
 
 ## Changed
 * Bedrock fluorite ore now yields actual ore instead of fluorite directly
@@ -18,6 +22,7 @@
 * The automatic buzzsaw can now use wood oil, ethanol, fish oil and heavy oil to run
 * Fluorite ore is now centrifugable
 * Fluorite crystals now centrifuge into slightly less fluorite but also yield sodalite
+* Blast resistance values for most resistant blocks have been changed, most blocks now have much lower resistance which means there's now a practical difference between concrete and ducrete. Resistance values also match the block's cost more closely.
 
 ## Fixed
 * Fixed FEnSU's IO limit not working properly
@@ -28,3 +33,6 @@
 * Fixed blast furnace output overstacking
 * Fixed potential crash caused by centrifuges trying to create a recipe using non-registered items
 * Fixed chemplant GUI crashing when too many upgrades are applied to a short duration recipe
+* Corium is now a finite fluid, fixing an issue where a single fuel rod can be used to create a giant blob of corium, lagging out the server
+* Fixed bullets not being able to pass things like tall grass
+* Whether the player has received a guide book is now saved as part of the extprop which might fix an issue where offline mode players get a new book on every start

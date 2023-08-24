@@ -2384,7 +2384,7 @@ public class ModBlocks {
 
 		corium_fluid = new CoriumFluid().setDensity(600000).setViscosity(12000).setLuminosity(10).setTemperature(1500).setUnlocalizedName("corium_fluid");
 		FluidRegistry.registerFluid(corium_fluid);
-		corium_block = new CoriumBlock(corium_fluid, fluidcorium).setBlockName("corium_block").setResistance(500F);
+		corium_block = new CoriumFinite(corium_fluid, fluidcorium).setBlockName("corium_block").setResistance(500F);
 
 		volcanic_lava_fluid = new VolcanicFluid().setLuminosity(15).setDensity(3000).setViscosity(3000).setTemperature(1300).setUnlocalizedName("volcanic_lava_fluid");
 		FluidRegistry.registerFluid(volcanic_lava_fluid);

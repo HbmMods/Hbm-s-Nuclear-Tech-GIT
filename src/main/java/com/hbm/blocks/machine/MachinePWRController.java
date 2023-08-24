@@ -94,7 +94,7 @@ public class MachinePWRController extends BlockContainer implements ITooltipProv
 	private static HashMap<BlockPos, Block> fuelRods = new HashMap();
 	private static HashMap<BlockPos, Block> sources = new HashMap();
 	private static boolean errored;
-	private static final int maxSize = 1024;
+	private static final int maxSize = 4096;
 	
 	public void assemble(World world, int x, int y, int z, EntityPlayer player) {
 		assembly.clear();
@@ -107,7 +107,15 @@ public class MachinePWRController extends BlockContainer implements ITooltipProv
 		errored = false;
 		floodFill(world, x + dir.offsetX, y, z + dir.offsetZ, player);
 		
-		if(fuelRods.size() == 0 || sources.size() == 0) errored = true;
+		if(fuelRods.size() == 0){
+			sendError(world, x, y, z, "Fuel rods required", player);
+			errored = true;
+		}
+		
+		if(sources.size() == 0) {
+			sendError(world, x, y, z, "Neutron sources required", player);
+			errored = true;
+		}
 		
 		TileEntityPWRController controller = (TileEntityPWRController) world.getTileEntity(x, y, z);
 		

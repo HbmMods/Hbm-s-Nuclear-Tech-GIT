@@ -9,8 +9,6 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.render.util.GaugeUtil;
-import com.hbm.render.util.GaugeUtil.Gauge;
 import com.hbm.tileentity.machine.TileEntityPWRController;
 
 import net.minecraft.client.Minecraft;
@@ -18,6 +16,7 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,6 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 
 public class GUIPWR extends GuiInfoContainer {
 
@@ -118,8 +118,11 @@ public class GUIPWR extends GuiInfoContainer {
 		int c = (int) (controller.rodLevel * 52 / 100);
 		drawTexturedModalRect(guiLeft + 53, guiTop + 54, 176, 40, c, 2);
 
-		GaugeUtil.renderGauge(Gauge.ROUND_SMALL, guiLeft + 115, guiTop + 31, this.zLevel, (double) controller.coreHeat / (double) controller.coreHeatCapacity);
-		GaugeUtil.renderGauge(Gauge.ROUND_SMALL, guiLeft + 151, guiTop + 31, this.zLevel, (double) controller.hullHeat / (double) controller.hullHeatCapacity);
+		//GaugeUtil.renderGauge(Gauge.ROUND_SMALL, guiLeft + 115, guiTop + 31, this.zLevel, (double) controller.coreHeat / (double) controller.coreHeatCapacity);
+		//GaugeUtil.renderGauge(Gauge.ROUND_SMALL, guiLeft + 151, guiTop + 31, this.zLevel, (double) controller.hullHeat / (double) controller.hullHeatCapacity);
+
+		drawGauge(guiLeft + 124, guiTop + 40, (double) controller.coreHeat / (double) controller.coreHeatCapacity);
+		drawGauge(guiLeft + 160, guiTop + 40, (double) controller.hullHeat / (double) controller.hullHeatCapacity);
 		
 		if(controller.typeLoaded != -1 && controller.amountLoaded > 0) {
 			ItemStack display = new ItemStack(ModItems.pwr_fuel, 1, controller.typeLoaded);
@@ -134,6 +137,37 @@ public class GUIPWR extends GuiInfoContainer {
 		controller.tanks[1].renderTank(guiLeft + 26, guiTop + 57, this.zLevel, 16, 52);
 		
 		this.field.drawTextBox();
+	}
+	
+	private void drawGauge(int x, int y, double d) {
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		
+		d = MathHelper.clamp_double(d, 0, 1);
+		
+		float angle = (float) Math.toRadians(-d * 270 - 45);
+		Vec3 tip = Vec3.createVectorHelper(0, 5, 0);
+		Vec3 left = Vec3.createVectorHelper(1, -2, 0);
+		Vec3 right = Vec3.createVectorHelper(-1, -2, 0);
+
+		tip.rotateAroundZ(angle);
+		left.rotateAroundZ(angle);
+		right.rotateAroundZ(angle);
+		
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawing(GL11.GL_TRIANGLES);
+		tess.setColorOpaque_F(0F, 0F, 0F);
+		double mult = 1.5;
+		tess.addVertex(x + tip.xCoord * mult, y + tip.yCoord * mult, this.zLevel);
+		tess.addVertex(x + left.xCoord * mult, y + left.yCoord * mult, this.zLevel);
+		tess.addVertex(x + right.xCoord * mult, y + right.yCoord * mult, this.zLevel);
+		tess.setColorOpaque_F(0.75F, 0F, 0F);
+		tess.addVertex(x + tip.xCoord, y + tip.yCoord, this.zLevel);
+		tess.addVertex(x + left.xCoord, y + left.yCoord, this.zLevel);
+		tess.addVertex(x + right.xCoord, y + right.yCoord, this.zLevel);
+		tess.draw();
+		
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
 
 	@Override

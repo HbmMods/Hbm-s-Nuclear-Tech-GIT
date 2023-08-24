@@ -297,7 +297,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		double coolingEff = (double) this.channelCount / (double) this.rodCount * 0.1D; //10% cooling if numbers match
 		if(coolingEff > 1D) coolingEff = 1D;
 		
-		int heatToUse = (int) (this.hullHeat * coolingEff * trait.getEfficiency(HeatingType.PWR));
+		int heatToUse = Math.min(this.hullHeat, (int) (this.hullHeat * coolingEff * trait.getEfficiency(HeatingType.PWR)));
 		HeatingStep step = trait.getFirstStep();
 		int coolCycles = tanks[0].getFill() / step.amountReq;
 		int hotCycles = (tanks[1].getMaxFill() - tanks[1].getFill()) / step.amountProduced;
