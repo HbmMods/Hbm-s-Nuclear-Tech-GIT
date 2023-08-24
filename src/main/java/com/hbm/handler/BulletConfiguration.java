@@ -1,6 +1,7 @@
 package com.hbm.handler;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.EntityBulletBaseNT.*;
@@ -245,5 +246,57 @@ public class BulletConfiguration implements Cloneable {
 			MainRegistry.logger.catching(e);
 			return new BulletConfiguration();
 		}
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(HBRC, LBRC, ammo, ammoCount, blackPowder, blockDamage, bntHit, bntHurt, bntImpact,
+				bntRicochet, bntUpdate, bounceMod, bulletsMax, bulletsMin, caustic, chatColour, chlorine, damageType,
+				destroysBlocks, dischargePerShot, dmgBypass, dmgExplosion, dmgFire, dmgMax, dmgMin, dmgProj,
+				doesBreakGlass, doesPenetrate, doesRicochet, effects, emp, explosive, firingRate, gravity, headshotMult,
+				incendiary, instakill, isSpectral, jolt, leadChance, liveAfterImpact, maxAge, modeName, nuke, plink,
+				rainbow, ricochetAngle, selfDamageDelay, shrapnel, spentCasing, spread, style, trail, vPFX, velocity,
+				wear);
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!(obj instanceof BulletConfiguration))
+			return false;
+		final BulletConfiguration other = (BulletConfiguration) obj;
+		return HBRC == other.HBRC && LBRC == other.LBRC && Objects.equals(ammo, other.ammo)
+				&& ammoCount == other.ammoCount && blackPowder == other.blackPowder && blockDamage == other.blockDamage
+				&& Objects.equals(bntHit, other.bntHit) && Objects.equals(bntHurt, other.bntHurt)
+				&& Objects.equals(bntImpact, other.bntImpact) && Objects.equals(bntRicochet, other.bntRicochet)
+				&& Objects.equals(bntUpdate, other.bntUpdate)
+				&& Double.doubleToLongBits(bounceMod) == Double.doubleToLongBits(other.bounceMod)
+				&& bulletsMax == other.bulletsMax && bulletsMin == other.bulletsMin && caustic == other.caustic
+				&& chatColour == other.chatColour && chlorine == other.chlorine
+				&& Objects.equals(damageType, other.damageType) && destroysBlocks == other.destroysBlocks
+				&& dischargePerShot == other.dischargePerShot && dmgBypass == other.dmgBypass
+				&& dmgExplosion == other.dmgExplosion && dmgFire == other.dmgFire
+				&& Float.floatToIntBits(dmgMax) == Float.floatToIntBits(other.dmgMax)
+				&& Float.floatToIntBits(dmgMin) == Float.floatToIntBits(other.dmgMin) && dmgProj == other.dmgProj
+				&& doesBreakGlass == other.doesBreakGlass && doesPenetrate == other.doesPenetrate
+				&& doesRicochet == other.doesRicochet && Objects.equals(effects, other.effects) && emp == other.emp
+				&& Float.floatToIntBits(explosive) == Float.floatToIntBits(other.explosive)
+				&& firingRate == other.firingRate
+				&& Double.doubleToLongBits(gravity) == Double.doubleToLongBits(other.gravity)
+				&& Float.floatToIntBits(headshotMult) == Float.floatToIntBits(other.headshotMult)
+				&& incendiary == other.incendiary && instakill == other.instakill && isSpectral == other.isSpectral
+				&& Double.doubleToLongBits(jolt) == Double.doubleToLongBits(other.jolt)
+				&& leadChance == other.leadChance && liveAfterImpact == other.liveAfterImpact && maxAge == other.maxAge
+				&& Objects.equals(modeName, other.modeName) && nuke == other.nuke && plink == other.plink
+				&& rainbow == other.rainbow
+				&& Double.doubleToLongBits(ricochetAngle) == Double.doubleToLongBits(other.ricochetAngle)
+				&& selfDamageDelay == other.selfDamageDelay && shrapnel == other.shrapnel
+				&& Objects.equals(spentCasing, other.spentCasing)
+				&& Float.floatToIntBits(spread) == Float.floatToIntBits(other.spread) && style == other.style
+				&& trail == other.trail && Objects.equals(vPFX, other.vPFX)
+				&& Float.floatToIntBits(velocity) == Float.floatToIntBits(other.velocity) && wear == other.wear;
 	}
 }

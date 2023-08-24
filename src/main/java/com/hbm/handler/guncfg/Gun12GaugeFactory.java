@@ -66,7 +66,7 @@ public class Gun12GaugeFactory {
 		config.name = "remington870";
 		config.manufacturer = EnumGunManufacturer.REMINGTON;
 		
-		config.config = HbmCollection.g12hs;
+		config.config = HbmCollection.g12hs.toList();
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("RECOIL_TRANSLATE", new BusAnimationSequence()
@@ -107,7 +107,7 @@ public class Gun12GaugeFactory {
 		config.comment.add("\"Here, I have a more suitable gun for you. You'll need it - Catch!\"");
 		config.comment.add("Alt-fire with Mouse 2 (Right-click) to fire 2 shells at once");
 		
-		config.config = HbmCollection.g12;
+		config.config = HbmCollection.g12.toList();
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("SPAS_RECOIL_TRANSLATE", new BusAnimationSequence()
@@ -144,7 +144,7 @@ public class Gun12GaugeFactory {
 		config.firingSound = "hbm:weapon.shotgunPump";
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		
-		config.config = HbmCollection.g12hs;
+		config.config = HbmCollection.g12hs.toList();
 		
 		config.ejector = EJECTOR_SPAS_ALT;
 
@@ -172,7 +172,7 @@ public class Gun12GaugeFactory {
 		config.name = "uboinik";
 		config.manufacturer = EnumGunManufacturer.METRO;
 
-		config.config = HbmCollection.g12hs;
+		config.config = HbmCollection.g12hs.toList();
 		
 		config.ejector = EJECTOR_UBOINIK;
 		
@@ -225,7 +225,7 @@ public class Gun12GaugeFactory {
 		config.manufacturer = EnumGunManufacturer.UAC;
 		config.comment.add("God-damned ARCH-VILES!");
 		
-		config.config = HbmCollection.g12hs;
+		config.config = HbmCollection.g12hs.toList();
 		
 		config.ejector = EJECTOR_SSG;
 		
@@ -278,7 +278,7 @@ public class Gun12GaugeFactory {
 		config.name = "benelli";
 		config.manufacturer = EnumGunManufacturer.BENELLI;
 		config.comment.add("Eat your heart out SPAS-12");
-		config.config = HbmCollection.g12;
+//		config.config = HbmCollection.g12.toList(); // Redundant
 
 		config.ejector = EJECTOR_BENELLI;
 
@@ -292,7 +292,7 @@ public class Gun12GaugeFactory {
 		config.reloadType = 1;
 		config.ammoCap = 24;
 		config.reloadDuration = 20;
-		config.reloadSound = config.RSOUND_MAG;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.reloadSoundEnd = true;
 		config.name += "Drum";
 		return config;
@@ -428,8 +428,8 @@ public class Gun12GaugeFactory {
 				data.setFloat("r", 0.75F);
 				data.setFloat("g", 0.75F);
 				data.setFloat("b", 0.75F);
-				data.setFloat("pitch", (float) -bulletnt.rotationPitch + 90);
-				data.setFloat("yaw", (float) bulletnt.rotationYaw);
+				data.setFloat("pitch", -bulletnt.rotationPitch + 90);
+				data.setFloat("yaw", bulletnt.rotationYaw);
 				data.setFloat("scale", 2F);
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(bulletnt.dimension, x, y, z, 100));
 				

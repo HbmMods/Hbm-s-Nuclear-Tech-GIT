@@ -1,15 +1,13 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.AmmoGrenade;
+import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -48,7 +46,7 @@ public class GunGrenadeFactory {
 		config.name = "gPistol";
 		config.manufacturer = EnumGunManufacturer.H_AND_K;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.GRENADE_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_HE);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_INCENDIARY);

@@ -119,7 +119,7 @@ public class Gun50BMGFactory {
 		config.name = "ar15_50";
 		config.manufacturer = EnumGunManufacturer.ARMALITE;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_AM);
 		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_PO);
 		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_NORMAL);
@@ -199,7 +199,7 @@ public class Gun50BMGFactory {
 		config.manufacturer = EnumGunManufacturer.LUNA;
 		config.comment.add("\"You do not spark joy\"");
 
-		config.config = new ArrayList();
+//		config.config = new ArrayList();
 		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_SABOT);
 		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_INCENDIARY);
 		config.config.add(BulletConfigSyncingUtil.ROUND_LUNA_SNIPER_EXPLOSIVE);

@@ -1,21 +1,20 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
-import com.hbm.entity.projectile.EntityBulletBaseNT.*;
+import com.hbm.entity.projectile.EntityBulletBaseNT.IBulletImpactBehaviorNT;
+import com.hbm.entity.projectile.EntityBulletBaseNT.IBulletUpdateBehaviorNT;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
-import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
+import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -49,7 +48,7 @@ public class GunFatmanFactory {
 		config.name = "m42";
 		config.manufacturer = EnumGunManufacturer.F_STRONG;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.NUKE_LOW);
 		config.config.add(BulletConfigSyncingUtil.NUKE_HIGH);
@@ -69,7 +68,7 @@ public class GunFatmanFactory {
 		config.name = "m42MIRV";
 		config.manufacturer = EnumGunManufacturer.F_STRONG;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_LOW);
 		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_HIGH);
@@ -87,7 +86,7 @@ public class GunFatmanFactory {
 		config.name = "bel";
 		config.manufacturer = EnumGunManufacturer.F_STRONG;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_AMAT);
 		
 		return config;
@@ -114,7 +113,7 @@ public class GunFatmanFactory {
 		config.name = "m42";
 		config.manufacturer = EnumGunManufacturer.F_STRONG;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_LOW);
 		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_HIGH);

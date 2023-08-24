@@ -26,3 +26,21 @@ run
 
 # Changelog backup
 /changelog.bak
+
+asm/
+
+config/
+
+crash-reports/
+
+doc/
+
+logs/
+
+saves/
+
+screenshots/
+
+options.txt
+
+usernamecache.json

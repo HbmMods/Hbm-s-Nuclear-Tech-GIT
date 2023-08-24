@@ -16,7 +16,7 @@ public class SpentCasing implements Cloneable {
 	public static final int COLOR_CASE_16INCH_PHOS = 0xC8C8C8;
 	public static final int COLOR_CASE_16INCH_NUKE = 0x495443;
 	
-	public static final HashMap<String, SpentCasing> casingMap = new HashMap();
+	public static final HashMap<String, SpentCasing> casingMap = new HashMap<>();
 	
 	public enum CasingType {
 		STRAIGHT("Straight"),

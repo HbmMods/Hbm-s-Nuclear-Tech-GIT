@@ -89,6 +89,9 @@ dependencies {
 
 	//compileOnly 'inventory-tweaks:InventoryTweaks:1.62+beta.84:api'
 	implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
+	
+	implementation 'org.eclipse.collections:eclipse-collections-api:11.1.0'
+	implementation 'org.eclipse.collections:eclipse-collections:11.1.0'
 }
 
 processResources {

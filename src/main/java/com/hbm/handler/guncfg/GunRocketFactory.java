@@ -1,7 +1,5 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
 import com.hbm.entity.effect.EntitySpear;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.explosion.ExplosionNukeSmall;
@@ -9,8 +7,8 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.AmmoRocket;
+import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
@@ -46,7 +44,7 @@ public class GunRocketFactory {
 		config.comment.add("Fun fact of the day: Recoilless");
 		config.comment.add("rifles don't actually fire rockets.");
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_HE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_INCENDIARY);
@@ -111,7 +109,7 @@ public class GunRocketFactory {
 		config.comment.add("This persisted until 1857, when the young bearded inventor named");
 		config.comment.add("President Abraham Lincoln invented stairs.");
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NORMAL_LASER);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_HE_LASER);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_INCENDIARY_LASER);
@@ -139,7 +137,7 @@ public class GunRocketFactory {
 		config.manufacturer = EnumGunManufacturer.UNKNOWN;
 		config.comment.clear();
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.ROCKET_HE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK);

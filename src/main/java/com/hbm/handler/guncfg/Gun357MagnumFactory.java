@@ -35,6 +35,8 @@ public class Gun357MagnumFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
+		config.independentChamber = false;
+		config.absorbsMag = false;
 		config.rateOfFire = 10;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
@@ -62,8 +64,9 @@ public class Gun357MagnumFactory {
 		
 		config.name = "ffiVInox";
 		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
+		config.drm = true;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.STEEL_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.IRON_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.LEAD_REVOLVER);
@@ -80,8 +83,9 @@ public class Gun357MagnumFactory {
 		
 		config.name = "ffivSatur";
 		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
+		config.drm = true;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SATURNITE_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
@@ -96,8 +100,9 @@ public class Gun357MagnumFactory {
 		
 		config.name = "ffivBling";
 		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
+		config.drm = true;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.GOLD_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.STEEL_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.IRON_REVOLVER);
@@ -119,7 +124,7 @@ public class Gun357MagnumFactory {
 		config.name = "revolverCursed";
 		config.manufacturer = EnumGunManufacturer.BAE;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.CURSED_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
@@ -135,8 +140,9 @@ public class Gun357MagnumFactory {
 		
 		config.name = "ffiVUltra";
 		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
+		config.drm = true;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SCHRABIDIUM_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.GOLD_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.STEEL_REVOLVER);
@@ -156,8 +162,9 @@ public class Gun357MagnumFactory {
 		
 		config.name = "ffiVN1";
 		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
+		config.drm = true;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NIGHT_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
@@ -174,8 +181,9 @@ public class Gun357MagnumFactory {
 		
 		config.name = "ffiVN2";
 		config.manufacturer = EnumGunManufacturer.FLIMFLAM;
+		config.drm = true;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NIGHT2_REVOLVER);
 		
 		return config;
@@ -242,7 +250,7 @@ public class Gun357MagnumFactory {
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<>();
 		bullet.effects.add(new PotionEffect(HbmPotion.radiation.id, 10 * 20, 4));
 		
 		bullet.spentCasing = CASING357.clone().register("357Nuc").setColor(0xFEFEFE);
@@ -328,8 +336,8 @@ public class Gun357MagnumFactory {
 		bullet.dmgMax = 100;
 		bullet.doesRicochet = false;
 		bullet.destroysBlocks = true;
-		bullet.style = bullet.STYLE_BOLT;
-		bullet.trail = bullet.BOLT_NIGHTMARE;
+		bullet.style = BulletConfiguration.STYLE_BOLT;
+		bullet.trail = BulletConfiguration.BOLT_NIGHTMARE;
 		
 		bullet.damageType = ModDamageSource.s_laser;
 		

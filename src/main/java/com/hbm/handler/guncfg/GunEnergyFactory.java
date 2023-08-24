@@ -56,7 +56,7 @@ public class GunEnergyFactory {
 		config.name = "Chemical Thrower";
 		config.manufacturer = EnumGunManufacturer.LANGFORD;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		
 		return config;
 	}
@@ -81,7 +81,7 @@ public class GunEnergyFactory {
 		config.name = "EMP Orb Projector";
 		config.manufacturer = EnumGunManufacturer.MWT;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SPECIAL_EMP);
 		
 		return config;
@@ -114,7 +114,7 @@ public class GunEnergyFactory {
 		config.comment.add("");
 		config.comment.add("Hope that helps.");
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.FLAMER_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.FLAMER_NAPALM);
 		config.config.add(BulletConfigSyncingUtil.FLAMER_WP);
@@ -148,7 +148,7 @@ public class GunEnergyFactory {
 
 		config.comment.add("Taste the rainbow!");
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.ZOMG_BOLT);
 		
 		return config;
@@ -176,7 +176,7 @@ public class GunEnergyFactory {
 		config.name = "PROTEX Fire Exinguisher 6kg";
 		config.manufacturer = EnumGunManufacturer.GLORIA;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.FEXT_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.FEXT_FOAM);
 		config.config.add(BulletConfigSyncingUtil.FEXT_SAND);
@@ -206,7 +206,7 @@ public class GunEnergyFactory {
 		config.name = "ArmsKore Coilgun";
 		config.manufacturer = EnumGunManufacturer.DRG;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.COIL_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.COIL_DU);
 		config.config.add(BulletConfigSyncingUtil.COIL_RUBBER);
@@ -232,7 +232,7 @@ public class GunEnergyFactory {
 		config.name = "Cryo Cannon";
 		config.manufacturer = EnumGunManufacturer.DRG;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.CRYO_NORMAL);
 		
 		return config;

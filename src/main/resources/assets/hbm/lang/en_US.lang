@@ -1120,6 +1120,11 @@ gun.make.WGW=Wilhelm-Gustloff-Werke
 gun.make.WINCHESTER=Winchester Repeating Arms Company
 gun.make.WINCHESTER_BIGMT=Winchester Repeating Arms Company / Big MT
 
+gun.msg.badRoundFired=The gun tried to fire an incompatible round and jammed...
+gun.msg.badRoundFiredDRM=Go fuck yourself ~ 
+gun.msg.badRoundLoaded=This magazine/speed loader contained a bullet that won't work in this gun...
+gun.msg.badRoundLoadedDRM=Using a special round not supported by this gun's DRM is against ToS
+
 gun.name.ar15_50=AR-15 .50 BMG Mod
 gun.name.baeAR=Britannian Standard Issue Assault Rifle
 gun.name.bel=Balefire Egg Launcher
@@ -2635,6 +2640,7 @@ item.gun_lever_action_dark.name=Mare's Leg (Dark)
 item.gun_lever_action_sonata.name=Flipped Mare's Leg
 item.gun_lever_action_sonata_2.name=§cSonata's Microphone§r
 item.gun_lunatic_marksman.name=Lunatic Sniper Rifle
+item.gun_magazine_test.name=Magazine Test
 item.gun_m2.name=Ma Deuce
 item.gun_minigun.name=CZ53 Personal Minigun
 item.gun_mirv.name=M42 Nuclear Catapult "Experimental MIRV"

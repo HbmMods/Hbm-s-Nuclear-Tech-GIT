@@ -827,7 +827,10 @@ public class ModEventHandler {
 				
 				BulletConfiguration firedConfig = null;
 
-				for(Integer config : HbmCollection.g12) {
+//				for(Integer config : HbmCollection.g12.toArray()) {
+				for (int i = 0; i < HbmCollection.g12.size(); i++)
+				{
+					final int config = HbmCollection.g12.get(i);
 					BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
 					
 					if(InventoryUtil.doesPlayerHaveAStack(player, cfg.ammo, true, true)) {

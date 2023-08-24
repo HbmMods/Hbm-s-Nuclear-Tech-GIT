@@ -1,12 +1,10 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo45ACP;
+import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
@@ -47,7 +45,7 @@ public class Gun45ACPFactory {
 		config.name = "tommy";
 		config.manufacturer = EnumGunManufacturer.AUTO_ORDINANCE;
 
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.addAll(HbmCollection.acp45);
 
 		return config;

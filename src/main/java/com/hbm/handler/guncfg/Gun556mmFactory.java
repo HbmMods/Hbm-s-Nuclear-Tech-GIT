@@ -67,7 +67,7 @@ public class Gun556mmFactory {
 		//config.config = new ArrayList();
 		//config.config.add(BulletConfigSyncingUtil.R556_GOLD);
 		
-		config.config = HbmCollection.r556;
+		config.config = HbmCollection.r556.toList();
 		
 		return config;
 	}
@@ -106,7 +106,7 @@ public class Gun556mmFactory {
 		config.comment.add("Find his arms nailed to the trees");
 		config.comment.add("Napalm sticks to kids");
 
-		config.config = HbmCollection.r556Flechette;
+		config.config = HbmCollection.r556Flechette.toList();
 		
 		config.ejector = EJECTOR_RIFLE;
 		
@@ -132,7 +132,7 @@ public class Gun556mmFactory {
 		config.reloadSound = GunConfiguration.RSOUND_GRENADE;
 		config.reloadSoundEnd = false;
 		
-		config.config = HbmCollection.grenade;
+		config.config = HbmCollection.grenade.toList();
 		
 		config.ejector = EJECTOR_GRENADE;
 		

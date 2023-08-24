@@ -26,8 +26,8 @@ public class ChatBuilder {
 		return builder;
 	}
 	
-	public static ChatBuilder startTranslation(String text) {
-		ChatBuilder builder = new ChatBuilder("").nextTranslation(text);
+	public static ChatBuilder startTranslation(String text, Object... objects) {
+		ChatBuilder builder = new ChatBuilder("").nextTranslation(text, objects);
 		return builder;
 	}
 	
@@ -38,8 +38,8 @@ public class ChatBuilder {
 		return this;
 	}
 	
-	public ChatBuilder nextTranslation(String text) {
-		ChatComponentTranslation append = new ChatComponentTranslation(text);
+	public ChatBuilder nextTranslation(String text, Object... objects) {
+		ChatComponentTranslation append = new ChatComponentTranslation(text, objects);
 		this.last.appendSibling(append);
 		this.last = append;
 		return this;
@@ -54,10 +54,10 @@ public class ChatBuilder {
 	/** Will recursively go over all IChatComponents added to the root and then set the style */
 	public ChatBuilder colorAll(EnumChatFormatting format) {
 		
-		List list = new ArrayList();
+		List<Object> list = new ArrayList<Object>();
 		list.add(text);
 		
-		ListIterator it = list.listIterator();
+		ListIterator<Object> it = list.listIterator();
 		
 		while(it.hasNext()) {
 			Object o = it.next();

@@ -1,14 +1,12 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo9mm;
+import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -46,7 +44,7 @@ public class Gun9mmFactory {
 		config.name = "mp40";
 		config.manufacturer = EnumGunManufacturer.NAZI;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.P9_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.P9_AP);
 		config.config.add(BulletConfigSyncingUtil.P9_DU);

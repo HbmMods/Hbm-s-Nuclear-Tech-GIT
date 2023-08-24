@@ -1,7 +1,12 @@
 package com.hbm.handler;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
+
+import java.util.Iterator;
+import java.util.Objects;
+
+import org.eclipse.collections.api.factory.primitive.IntObjectMaps;
+import org.eclipse.collections.api.map.primitive.MutableIntObjectMap;
+import org.eclipse.collections.api.tuple.primitive.IntObjectPair;
 
 import com.hbm.handler.guncfg.*;
 import com.hbm.items.ItemAmmoEnums.*;
@@ -9,7 +14,9 @@ import com.hbm.items.ModItems;
 
 public class BulletConfigSyncingUtil {
 
-	private static HashMap<Integer, BulletConfiguration> configSet = new HashMap();
+//	private static HashMap<Integer, BulletConfiguration> configSet = new HashMap<Integer, BulletConfiguration>();
+//	private static final TIntObjectHashMap<BulletConfiguration> configSet = new TIntObjectHashMap<>();
+	private static final MutableIntObjectMap<BulletConfiguration> configSet = IntObjectMaps.mutable.withInitialCapacity(300);
 
 	static int i = 0;
 
@@ -599,11 +606,40 @@ public class BulletConfigSyncingUtil {
 
 	public static int getKey(BulletConfiguration config) {
 
-		for(Entry<Integer, BulletConfiguration> e : configSet.entrySet()) {
-
-			if(e.getValue() == config)
-				return e.getKey();
+		if (configSet.containsValue(config))
+		{
+			final Iterator<IntObjectPair<BulletConfiguration>> iterator = configSet.keyValuesView().iterator();
+			while (iterator.hasNext())
+			{
+				final IntObjectPair<BulletConfiguration> entry = iterator.next();
+				if (Objects.equals(config, entry.getTwo()))
+					return entry.getOne();
+			}
+//			final IntIterator iterator = configSet.keySet().intIterator();
+//			while (iterator.hasNext())
+//			{
+//				final int key = iterator.next();
+//				if (Objects.equals(config, configSet.get(key)))
+//					return key;
+//			}
 		}
+		
+//		if (configSet.containsValue(config))
+//		{
+//			final TIntIterator iterator = configSet.keySet().iterator();
+//			while (iterator.hasNext())
+//			{
+//				final int key = iterator.next();
+//				if (Objects.equals(configSet.get(key), config))
+//					return key;
+//			}
+//		}
+		
+//		for(Entry<Integer, BulletConfiguration> e : configSet.entrySet()) {
+//
+//			if(e.getValue() == config)
+//				return e.getKey();
+//		}
 
 		return -1;
 	}

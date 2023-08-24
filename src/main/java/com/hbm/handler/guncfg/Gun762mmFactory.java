@@ -73,7 +73,7 @@ public class Gun762mmFactory {
 		config.name = "mg3";
 		config.manufacturer = EnumGunManufacturer.WGW;
 		
-		config.config = HbmCollection.r762;
+		config.config = HbmCollection.r762.toList();
 		
 		config.ejector = EJECTOR_RIFLE;
 		
@@ -198,7 +198,7 @@ public class Gun762mmFactory {
 		
 		config.ejector = EJECTOR_BOLT;
 		
-		config.config = HbmCollection.r762;
+		config.config = HbmCollection.r762.toList();
 		
 		return config;
 	}
@@ -237,7 +237,7 @@ public class Gun762mmFactory {
 		
 		config.ejector = EJECTOR_BOLT;
 		
-		config.config = HbmCollection.r762;
+		config.config = HbmCollection.r762.toList();
 		
 		return config;
 	}
@@ -280,7 +280,7 @@ public class Gun762mmFactory {
 		
 		config.ejector = EJECTOR_BOLT;
 		
-		config.config = HbmCollection.r762;
+		config.config = HbmCollection.r762.toList();
 		
 		return config;
 	}

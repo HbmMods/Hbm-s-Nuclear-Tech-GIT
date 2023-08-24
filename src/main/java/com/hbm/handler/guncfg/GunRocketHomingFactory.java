@@ -1,7 +1,5 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
 import com.hbm.entity.projectile.EntityRocketHoming;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -38,7 +36,7 @@ public class GunRocketHomingFactory {
 		config.manufacturer = EnumGunManufacturer.RAYTHEON;
 		config.comment.add("Woosh, beep-beep-beep!");
 
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.ROCKET_STINGER);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_STINGER_HE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_STINGER_INCENDIARY);
@@ -76,7 +74,7 @@ GunConfiguration config = new GunConfiguration();
 		config.comment.add("");
 		config.comment.add("[LEGENDARY WEAPON]");
 
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.ROCKET_STINGER);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_STINGER_HE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_STINGER_INCENDIARY);

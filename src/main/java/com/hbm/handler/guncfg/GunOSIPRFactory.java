@@ -1,7 +1,5 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
 import com.hbm.blocks.generic.RedBarrel;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -41,7 +39,7 @@ public class GunOSIPRFactory {
 		config.name = "osipr";
 		config.manufacturer = EnumGunManufacturer.COMBINE;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SPECIAL_OSIPR);
 		
 		return config;
@@ -62,7 +60,7 @@ public class GunOSIPRFactory {
 		config.allowsInfinity = true;
 		config.firingSound = "hbm:weapon.singFlyby";
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SPECIAL_OSIPR_CHARGED);
 		
 		return config;

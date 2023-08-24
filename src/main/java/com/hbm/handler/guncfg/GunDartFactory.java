@@ -45,7 +45,7 @@ public class GunDartFactory {
 		config.name = "dart";
 		config.manufacturer = EnumGunManufacturer.NONE;
 		
-		config.config = new ArrayList();
+//		config.config = new ArrayList();
 		config.config.add(BulletConfigSyncingUtil.NEEDLE_GPS);
 		config.config.add(BulletConfigSyncingUtil.NEEDLE_NUKE);
 		
@@ -76,7 +76,7 @@ public class GunDartFactory {
 		config.name = "nerf";
 		config.manufacturer = EnumGunManufacturer.HASBRO;
 		
-		config.config = new ArrayList();
+//		config.config = new ArrayList();
 		config.config.add(BulletConfigSyncingUtil.DART_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.NEEDLE_NUKE);
 		

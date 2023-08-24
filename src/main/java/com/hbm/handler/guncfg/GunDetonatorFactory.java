@@ -1,15 +1,13 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
-import com.hbm.main.MainRegistry;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -47,7 +45,7 @@ public class GunDetonatorFactory {
 		config.name = "laserDet";
 		config.manufacturer = EnumGunManufacturer.WESTTEK;
 		
-		config.config = new ArrayList();
+//		config.config = new ArrayList();
 		config.config.add(BulletConfigSyncingUtil.DET_BOLT);
 		config.config.add(BulletConfigSyncingUtil.R5_NORMAL_BOLT);
 		config.config.add(BulletConfigSyncingUtil.R5_EXPLOSIVE_BOLT);

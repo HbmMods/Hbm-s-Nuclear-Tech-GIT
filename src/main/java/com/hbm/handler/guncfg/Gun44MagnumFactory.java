@@ -43,6 +43,8 @@ public class Gun44MagnumFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
+		config.independentChamber = false;
+		config.absorbsMag = false;
 		config.rateOfFire = 10;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
@@ -88,6 +90,7 @@ public class Gun44MagnumFactory {
 		config.name = "ifScope";
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Poppin' mentats like tic tacs");
+		config.drm = true;
 		
 		config.allowsInfinity = false;
 		config.hasSights = true;
@@ -95,7 +98,7 @@ public class Gun44MagnumFactory {
 		config.zoomFOV = 0.25F;
 		config.scopeTexture = scope_lilmac;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_PIP);
 		config.config.addAll(HbmCollection.m44Normal);
 		
@@ -113,8 +116,9 @@ public class Gun44MagnumFactory {
 		config.name = "ifVanity";
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Alcoholism is cool!");
+		config.drm = true;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_BJ);
 		config.config.addAll(HbmCollection.m44Normal);
 		
@@ -135,8 +139,9 @@ public class Gun44MagnumFactory {
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Our friendship is based on abusive behaviour");
 		config.comment.add("and mutual hate. It's not that complicated.");
+		config.drm = true;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_SILVER);
 		config.config.addAll(HbmCollection.m44Normal);
 		
@@ -155,8 +160,9 @@ public class Gun44MagnumFactory {
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Explore the other side");
 		config.comment.add("...from afar!");
+		config.drm = true;
 		
-		config.config = new ArrayList<Integer>();
+//		config.config = new ArrayList<Integer>();
 		config.config.addAll(HbmCollection.m44All);
 		
 		config.ejector = EJECTOR_PIP.clone().setAmount(64);
@@ -220,7 +226,7 @@ public class Gun44MagnumFactory {
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		bullet.bntImpact = (bulletnt, x, y, z) -> {

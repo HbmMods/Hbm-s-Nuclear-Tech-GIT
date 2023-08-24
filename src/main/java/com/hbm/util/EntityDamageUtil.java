@@ -63,16 +63,17 @@ public class EntityDamageUtil {
 	}
 	
 	public static boolean attackEntityFromIgnoreIFrame(Entity victim, DamageSource src, float damage) {
-
-		if(!victim.attackEntityFrom(src, damage)) {
-			
-			if(victim instanceof EntityLivingBase) {
-				damage += ((EntityLivingBase) victim).lastDamage;
-			}
-			return victim.attackEntityFrom(src, damage);
-		} else {
-			return true;
-		}
+		// IDK what's going on here
+//		if(!victim.attackEntityFrom(src, damage)) {
+//			
+//			if(victim instanceof EntityLivingBase) {
+//				damage += ((EntityLivingBase) victim).lastDamage;
+//			}
+//			return victim.attackEntityFrom(src, damage);
+//		} else {
+//			return true;
+//		}
+		return true;
 	}
 	
 	/** Currently just a copy of the vanilla damage code */
@@ -85,7 +86,7 @@ public class EntityDamageUtil {
 		} else if(living.worldObj.isRemote) {
 			return false;
 		} else {
-			living.entityAge = 0;
+//			living.entityAge = 0;
 
 			if(living.getHealth() <= 0.0F) {
 				return false;
@@ -100,16 +101,16 @@ public class EntityDamageUtil {
 				living.limbSwingAmount = 1.5F;
 				boolean flag = true;
 
-				if((float) living.hurtResistantTime > (float) living.maxHurtResistantTime / 2.0F) {
-					if(amount <= living.lastDamage) {
-						return false;
-					}
+				if(living.hurtResistantTime > living.maxHurtResistantTime / 2.0F) {
+//					if(amount <= living.lastDamage) {
+//						return false;
+//					}
 
-					damageEntity(living, source, amount - living.lastDamage); //#
-					living.lastDamage = amount;
+//					damageEntity(living, source, amount - living.lastDamage); //#
+//					living.lastDamage = amount;
 					flag = false;
 				} else {
-					living.lastDamage = amount;
+//					living.lastDamage = amount;
 					living.prevHealth = living.getHealth();
 					living.hurtResistantTime = living.maxHurtResistantTime;
 					damageEntity(living, source, amount); //#
@@ -125,14 +126,14 @@ public class EntityDamageUtil {
 					}
 
 					if(entity instanceof EntityPlayer) {
-						living.recentlyHit = 100;
-						living.attackingPlayer = (EntityPlayer) entity;
+//						living.recentlyHit = 100;
+//						living.attackingPlayer = (EntityPlayer) entity;
 					} else if(entity instanceof net.minecraft.entity.passive.EntityTameable) {
 						net.minecraft.entity.passive.EntityTameable entitywolf = (net.minecraft.entity.passive.EntityTameable) entity;
 
 						if(entitywolf.isTamed()) {
-							living.recentlyHit = 100;
-							living.attackingPlayer = null;
+//							living.recentlyHit = 100;
+//							living.attackingPlayer = null;
 						}
 					}
 				}
@@ -155,7 +156,7 @@ public class EntityDamageUtil {
 						living.attackedAtYaw = (float) (Math.atan2(d0, d1) * 180.0D / Math.PI) - living.rotationYaw;
 						living.knockBack(entity, amount, d1, d0);
 					} else {
-						living.attackedAtYaw = (float) ((int) (Math.random() * 2.0D) * 180);
+						living.attackedAtYaw = (int) (Math.random() * 2.0D) * 180;
 					}
 				}
 
@@ -226,7 +227,7 @@ public class EntityDamageUtil {
 	public static float applyArmorCalculations(EntityLivingBase living, DamageSource source, float amount) {
 		if(!source.isUnblockable()) {
 			int i = 25 - living.getTotalArmorValue();
-			float armor = amount * (float) i;
+			float armor = amount * i;
 			//living.damageArmor(p_70655_2_); //unused
 			amount = armor / 25.0F;
 		}
@@ -246,7 +247,7 @@ public class EntityDamageUtil {
 			if(living.isPotionActive(Potion.resistance) && source != DamageSource.outOfWorld) {
 				resistance = (living.getActivePotionEffect(Potion.resistance).getAmplifier() + 1) * 5;
 				j = 25 - resistance;
-				f1 = amount * (float) j;
+				f1 = amount * j;
 				amount = f1 / 25.0F;
 			}
 
@@ -262,7 +263,7 @@ public class EntityDamageUtil {
 
 				if(resistance > 0 && resistance <= 20) {
 					j = 25 - resistance;
-					f1 = amount * (float) j;
+					f1 = amount * j;
 					amount = f1 / 25.0F;
 				}
 

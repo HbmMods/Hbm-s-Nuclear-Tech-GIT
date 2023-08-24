@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.collections.api.factory.primitive.IntLists;
+import org.eclipse.collections.api.list.primitive.MutableIntList;
+
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -32,8 +36,16 @@ public class GunConfiguration implements Cloneable {
 	//weapon won't fire after weapon breaks (main only)
 	public int durability;
 	
+	/// Mag related stuff
+	/**If the gun should support a +1 behavior, ie for semi-automatic and full automatic weapons like pistols, most rifles, pump shotguns, and machine guns, but not revolvers or breach loaded guns.**/
+	public boolean independentChamber = true;
+	/**If the gun has funny behavior when trying to load or fire a bullet incompatible. May overlap with messed up NBT rather than someone trying to force a bullet to work, but that's an edge case.**/
+	public boolean drm = false;
+	/**Whether or not the gun should "absorb" the magazine when reloading and relinquish when reloading again (if applicable). Pistols and most rifles should do this, but revolvers don't due to the nature of speed-loaders.**/
+	public boolean absorbsMag = true;
+	
 	//animations!
-	public HashMap<AnimType, BusAnimation> animations = new HashMap();
+	public HashMap<AnimType, BusAnimation> animations = new HashMap<AnimType, BusAnimation>();
 	//when sneaking, disables crosshair and centers the bullet spawn point
 	public boolean hasSights;
 	//texture overlay when sneaking
@@ -77,10 +89,11 @@ public class GunConfiguration implements Cloneable {
 	
 	public String name = "";
 	public EnumGunManufacturer manufacturer = EnumGunManufacturer.NONE;
-	public List<String> comment = new ArrayList();
+	public List<String> comment = new ArrayList<String>();
 
 	//bullet configs for main and alt fire
-	public List<Integer> config = new ArrayList();
+//	public List<Integer> config = new ArrayList<Integer>();
+	public MutableIntList config = IntLists.mutable.empty();
 
 	//crosshair
 	public Crosshair crosshair;
@@ -110,6 +123,19 @@ public class GunConfiguration implements Cloneable {
 	public GunConfiguration silenced() {
 		this.firingSound = "hbm:weapon.silencerShoot";
 		return this;
+	}
+	
+	@Override
+	public GunConfiguration clone()
+	{
+		try
+		{
+			return (GunConfiguration) super.clone();
+		} catch (CloneNotSupportedException e)
+		{
+			MainRegistry.logger.catching(e);
+			return new GunConfiguration();
+		}
 	}
 
 }

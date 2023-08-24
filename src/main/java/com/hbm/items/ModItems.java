@@ -1619,6 +1619,8 @@ public class ModItems {
 	public static Item gun_lunatic_marksman;
 	public static Item gun_uac_pistol;
 	
+	public static Item gun_magazine_test;
+	
 	// We'll figure this part out later
 	//public static Item gun_llr, gun_mlr, gun_hlr, gun_twr, gun_lunatic, gun_lunatic_shotty;
 	//public static Item gun_uac_pistol, gun_uac_dmr, gun_uac_carbine, gun_uac_lmg;
@@ -4222,6 +4224,8 @@ public class ModItems {
 		gun_m2 = new  ItemGunBase(Gun50BMGFactory.getM2Config()).setFull3D().setUnlocalizedName("gun_m2").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_darter");
 		gun_lunatic_marksman = new ItemGunBase(Gun50BMGFactory.getLunaticMarksman()).setFull3D().setUnlocalizedName("gun_lunatic_marksman").setCreativeTab(MainRegistry.weaponTab);
 		gun_uac_pistol = new ItemGunBase(Gun45ACPFactory.getUACPistolConfig()).setFull3D().setUnlocalizedName("gun_uac_pistol").setCreativeTab(MainRegistry.weaponTab);
+		
+		gun_magazine_test = new ItemMagazineTest(gun_uac_pistol).setUnlocalizedName("gun_magazine_test").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_magazine_test");
 		
 		ToolMaterial matCrucible = EnumHelper.addToolMaterial("CRUCIBLE", 10, 3, 50.0F, 100.0F, 0);
 		crucible = new ItemCrucible(5000, 1F, matCrucible).setUnlocalizedName("crucible").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":crucible");
@@ -7046,6 +7050,8 @@ public class ModItems {
 		GameRegistry.registerItem(crucible, crucible.getUnlocalizedName());
 		GameRegistry.registerItem(gun_glass_cannon, gun_glass_cannon.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lunatic_marksman, gun_lunatic_marksman.getUnlocalizedName());
+		
+		GameRegistry.registerItem(gun_magazine_test, gun_magazine_test.getUnlocalizedName());
 		
 		//Ammo
 		/*GameRegistry.registerItem(gun_revolver_iron_ammo, gun_revolver_iron_ammo.getUnlocalizedName());

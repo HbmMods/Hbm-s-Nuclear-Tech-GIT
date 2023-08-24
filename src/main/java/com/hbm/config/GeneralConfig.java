@@ -1,9 +1,22 @@
 package com.hbm.config;
 
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.config.Configuration;
 
 public class GeneralConfig {
 
+	public enum MagazineMode
+	{
+		/**Magazines are disabled**/
+		OFF,
+		/**Simple, but fast and easy method**/
+		FAST,
+		/**Similar to {@link #FAST} but one at a time and no connected belts**/
+		IMMERSIVE,
+		/**CBT**/
+		HIDEOUS;
+	}
+	
 	public static boolean enableThermosPreventer = true;
 	
 	public static boolean enableDebugMode = true;
@@ -58,6 +71,8 @@ public class GeneralConfig {
 	public static boolean enableLBSMSafeMEDrives = true;
 	public static boolean enableLBSMIGen = true;
 	public static int schrabRate = 20;
+	
+	public static MagazineMode magazineMode = MagazineMode.OFF;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -132,5 +147,9 @@ public class GeneralConfig {
 		schrabRate = CommonConfig.createConfigInt(config, CATEGORY_LBSM, "LBSM_schrabOreRate", "Changes the amount of uranium ore needed on average to create one schrabidium ore using nukes. Standard mode value is 100", 20);
 		
 		if(enable528) enableLBSM = false;
+		
+		final String CATEGORY_WEAPONS = CommonConfig.CATEGORY_WEAPONS;
+		// 528 mode forces HIDEOUS mode
+		magazineMode = enable528 ? MagazineMode.HIDEOUS : MagazineMode.values()[MathHelper.clamp_int(CommonConfig.createConfigInt(config, CATEGORY_WEAPONS, "17.01_gunMagazineMode", "Enables guns to use magazines (or proper belts), in the given modes:\n\t0 = OFF - behavior as it was before\n\t1 = FAST - fill magazines quickly and automatically, belts may be considered connected\n\t2 = IMMERSIVE - fill magazines more manually, belts are independent of each other\n\t3 = HIDEOUS - fill and unload magazines one round at a time, some magazines may only accept one type of ammo; Automatically enabled with 528 mode", 0), 0, 3)];
 	}
 }

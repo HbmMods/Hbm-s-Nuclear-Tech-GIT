@@ -103,6 +103,9 @@ public class RecipesCommon {
 			
 			return list.get((int)(System.currentTimeMillis() % (cycle * list.size()) / cycle));
 		}
+		
+		@Override
+		public abstract String toString();
 	}
 	
 	public static class ComparableStack extends AStack {
@@ -181,7 +184,8 @@ public class RecipesCommon {
 			if(item == null) {
 				if(!GeneralConfig.enableSilentCompStackErrors) {
 					MainRegistry.logger.error("ComparableStack has a null item! This is a serious issue!");
-					Thread.currentThread().dumpStack();
+					Thread.currentThread();
+					Thread.dumpStack();
 				}
 				item = ModItems.nothing;
 			}
@@ -191,7 +195,8 @@ public class RecipesCommon {
 			if(name == null) {
 				if(!GeneralConfig.enableSilentCompStackErrors) {
 					MainRegistry.logger.error("ComparableStack holds an item that does not seem to be registered. How does that even happen? This error can be turned off with the config <enableSilentCompStackErrors>. Item name: " + item.getUnlocalizedName());
-					Thread.currentThread().dumpStack();
+					Thread.currentThread();
+					Thread.dumpStack();
 				}
 				item = ModItems.nothing;
 			}
@@ -282,6 +287,15 @@ public class RecipesCommon {
 		public List<ItemStack> extractForNEI() {
 			return Arrays.asList(new ItemStack[] {this.toStack()});
 		}
+
+		@Override
+		public String toString()
+		{
+			final StringBuilder builder = new StringBuilder();
+			builder.append("ComparableStack [item=").append(item == null ? "null" : item.getUnlocalizedName()).append(", meta=").append(meta).append(", stacksize=")
+					.append(stacksize).append(']');
+			return builder.toString();
+		}
 	}
 	
 	/*
@@ -326,10 +340,20 @@ public class RecipesCommon {
 			return this;
 		}
 		
+		@Override
 		public ItemStack toStack() {
 			ItemStack stack = super.toStack();
 			stack.stackTagCompound = this.nbt;
 			return stack;
+		}
+
+		@Override
+		public String toString()
+		{
+			final StringBuilder builder = new StringBuilder();
+			builder.append("ComparableNBTStack [item=").append(item).append(", meta=").append(meta)
+					.append(", stacksize=").append(stacksize).append(", nbt=").append(nbt).append(']');
+			return builder.toString();
 		}
 	}
 	
@@ -398,7 +422,7 @@ public class RecipesCommon {
 		public List<ItemStack> extractForNEI() {
 			
 			List<ItemStack> fromDict = OreDictionary.getOres(name);
-			List<ItemStack> ores = new ArrayList();
+			List<ItemStack> ores = new ArrayList<>();
 			
 			for(ItemStack stack : fromDict) {
 
@@ -442,6 +466,14 @@ public class RecipesCommon {
 			if(this.stacksize != other.stacksize)
 				return false;
 			return true;
+		}
+
+		@Override
+		public String toString()
+		{
+			final StringBuilder builder = new StringBuilder();
+			builder.append("OreDictStack [name=").append(name).append(", stacksize=").append(stacksize).append(']');
+			return builder.toString();
 		}
 	}
 	
