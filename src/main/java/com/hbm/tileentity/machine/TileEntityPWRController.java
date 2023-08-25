@@ -131,13 +131,13 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		connections = connectionsDouble / 2;
 		connectionsControlled = connectionsControlledDouble / 2;
 
-		System.out.println("Finalized nuclear reactor!");
+		/*System.out.println("Finalized nuclear reactor!");
 		System.out.println("Rods: " + rodCount);
 		System.out.println("Connections: " + connections);
 		System.out.println("Controlled connections: " + connectionsControlled);
 		System.out.println("Heatex: " + heatexCount);
 		System.out.println("Channels: " + channelCount);
-		System.out.println("Sources: " + sourceCount);
+		System.out.println("Sources: " + sourceCount);*/
 	}
 
 	@Override

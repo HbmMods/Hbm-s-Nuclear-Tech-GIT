@@ -48,12 +48,12 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 			if(hasCog) {
 				tryPullHeat();
 				
-				this.powerBuffer = (long) (this.heat * this.efficiency);
+				this.powerBuffer = (long) (this.heat * (this.isCreative() ? 1 : this.efficiency));
 				
 				if(warnCooldown > 0)
 					warnCooldown--;
 				
-				if(heat > maxHeat()) {
+				if(heat > maxHeat() && !isCreative()) {
 					
 					this.overspeed++;
 					
@@ -109,6 +109,8 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 			
 			float momentum = powerBuffer * 50F / ((float) maxHeat());
 			
+			if(this.isCreative()) momentum = Math.min(momentum, 45F);
+			
 			this.lastSpin = this.spin;
 			this.spin += momentum;
 			
@@ -120,11 +122,15 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 	}
 	
 	public int getGeatMeta() {
-		return this.getBlockType() == ModBlocks.machine_stirling ? 0 : 1;
+		return this.getBlockType() == ModBlocks.machine_stirling ? 0 : this.getBlockType() == ModBlocks.machine_stirling_creative ? 2 : 1;
 	}
 	
 	public int maxHeat() {
 		return this.getBlockType() == ModBlocks.machine_stirling ? 300 : 1500;
+	}
+	
+	public boolean isCreative() {
+		return this.getBlockType() == ModBlocks.machine_stirling_creative;
 	}
 	
 	protected DirPos[] getConPos() {

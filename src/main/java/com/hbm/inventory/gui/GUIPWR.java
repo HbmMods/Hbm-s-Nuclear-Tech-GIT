@@ -9,6 +9,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.render.util.GaugeUtil;
 import com.hbm.tileentity.machine.TileEntityPWRController;
 
 import net.minecraft.client.Minecraft;
@@ -16,7 +17,6 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,7 +24,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
 
 public class GUIPWR extends GuiInfoContainer {
 
@@ -121,8 +120,8 @@ public class GUIPWR extends GuiInfoContainer {
 		//GaugeUtil.renderGauge(Gauge.ROUND_SMALL, guiLeft + 115, guiTop + 31, this.zLevel, (double) controller.coreHeat / (double) controller.coreHeatCapacity);
 		//GaugeUtil.renderGauge(Gauge.ROUND_SMALL, guiLeft + 151, guiTop + 31, this.zLevel, (double) controller.hullHeat / (double) controller.hullHeatCapacity);
 
-		drawGauge(guiLeft + 124, guiTop + 40, (double) controller.coreHeat / (double) controller.coreHeatCapacity);
-		drawGauge(guiLeft + 160, guiTop + 40, (double) controller.hullHeat / (double) controller.hullHeatCapacity);
+		GaugeUtil.drawSmoothGauge(guiLeft + 124, guiTop + 40, this.zLevel, (double) controller.coreHeat / (double) controller.coreHeatCapacity, 5, 2, 1, 0x7F0000);
+		GaugeUtil.drawSmoothGauge(guiLeft + 160, guiTop + 40, this.zLevel, (double) controller.hullHeat / (double) controller.hullHeatCapacity, 5, 2, 1, 0x7F0000);
 		
 		if(controller.typeLoaded != -1 && controller.amountLoaded > 0) {
 			ItemStack display = new ItemStack(ModItems.pwr_fuel, 1, controller.typeLoaded);
@@ -139,7 +138,7 @@ public class GUIPWR extends GuiInfoContainer {
 		this.field.drawTextBox();
 	}
 	
-	private void drawGauge(int x, int y, double d) {
+	/*private void drawGauge(int x, int y, double d) {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
 		d = MathHelper.clamp_double(d, 0, 1);
@@ -168,7 +167,7 @@ public class GUIPWR extends GuiInfoContainer {
 		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-	}
+	}*/
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int i) {

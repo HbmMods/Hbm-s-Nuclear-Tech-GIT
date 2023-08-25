@@ -7,6 +7,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityStirling;
@@ -156,26 +157,28 @@ public class MachineStirling extends BlockDummyable implements ILookOverlay, ITo
 			return;
 		
 		TileEntityStirling stirling = (TileEntityStirling) te;
-		int maxHeat = stirling.maxHeat();
 
 		List<String> text = new ArrayList();
 		text.add(stirling.heat + "TU/t");
 		text.add((stirling.hasCog ? stirling.powerBuffer : 0) + "HE/t");
 
-		double percent = (double) stirling.heat / (double) maxHeat;
-		int color = ((int) (0xFF - 0xFF * percent)) << 16 | ((int)(0xFF * percent) << 8);
-		
-		if(percent > 1D)
-			color = 0xff0000;
-		
-		text.add("&[" + color + "&]" + ((stirling.heat * 1000 / maxHeat) / 10D) + "%");
-		
-		if(stirling.heat > maxHeat) {
-			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! OVERSPEED ! ! !");
-		}
-		
-		if(!stirling.hasCog) {
-			text.add("&[" + 0xff0000 + "&]Gear missing!");
+		if(this != ModBlocks.machine_stirling_creative) {
+			int maxHeat = stirling.maxHeat();
+			double percent = (double) stirling.heat / (double) maxHeat;
+			int color = ((int) (0xFF - 0xFF * percent)) << 16 | ((int)(0xFF * percent) << 8);
+			
+			if(percent > 1D)
+				color = 0xff0000;
+			
+			text.add("&[" + color + "&]" + ((stirling.heat * 1000 / maxHeat) / 10D) + "%");
+			
+			if(stirling.heat > maxHeat) {
+				text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! OVERSPEED ! ! !");
+			}
+			
+			if(!stirling.hasCog) {
+				text.add("&[" + 0xff0000 + "&]Gear missing!");
+			}
 		}
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);

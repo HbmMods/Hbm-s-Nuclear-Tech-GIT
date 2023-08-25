@@ -14,6 +14,10 @@
   * Valid PWR coolant
   * Has a high flux multiplication rate, boosting fuels
   * After cooling, the depleted salt has to be reprocessed using a chemical plant
+* Creative stirling engine
+  * A stirling engine with 100% efficiency and no heat cap
+  * Still has the 10% delta-T heat transfer rate as the other stirlings
+  * Great for quickly benchmarking reactors without needing to set up a turbine cycle
 
 ## Changed
 * Bedrock fluorite ore now yields actual ore instead of fluorite directly
