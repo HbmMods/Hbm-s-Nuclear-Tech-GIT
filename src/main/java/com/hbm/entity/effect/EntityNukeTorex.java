@@ -51,6 +51,7 @@ public class EntityNukeTorex extends Entity {
 	public void onUpdate() {
 		
 		double s = this.getScale();
+		double cs = 1.5;
 		int maxAge = this.getMaxAge();
 		
 		if(worldObj.isRemote) {
@@ -77,7 +78,7 @@ public class EntityNukeTorex extends Entity {
 				double x = posX + rand.nextGaussian() * range;
 				double z = posZ + rand.nextGaussian() * range;
 				Cloudlet cloud = new Cloudlet(x, lastSpawnY, z, (float)(rand.nextDouble() * 2D * Math.PI), 0, lifetime);
-				cloud.setScale(1F + this.ticksExisted * 0.005F * (float) s, 5F * (float) s);
+				cloud.setScale(1F + this.ticksExisted * 0.005F * (float) cs, 5F * (float) cs);
 				cloudlets.add(cloud);
 			}
 			
@@ -99,7 +100,7 @@ public class EntityNukeTorex extends Entity {
 			if(ticksExisted < 200) {
 				for(int i = 0; i < 2; i++) {
 					Cloudlet cloud = new Cloudlet(posX, posY + coreHeight, posZ, (float)(rand.nextDouble() * 2D * Math.PI), 0, lifetime, TorexType.RING);
-					cloud.setScale(1F + this.ticksExisted * 0.005F * (float) s * 0.5F, 3F * (float) s);
+					cloud.setScale(1F + this.ticksExisted * 0.005F * (float) cs * 0.5F, 3F * (float) (cs * s));
 					cloudlets.add(cloud);
 				}
 			}
@@ -121,6 +122,15 @@ public class EntityNukeTorex extends Entity {
 		if(!worldObj.isRemote && this.ticksExisted > maxAge) {
 			this.setDead();
 		}
+	}
+	
+	public EntityNukeTorex setScale(float scale) {
+		getDataWatcher().updateObject(10, scale);
+		this.coreHeight = this.coreHeight / 1.5D * scale;
+		this.convectionHeight = this.convectionHeight / 1.5D * scale;
+		this.torusWidth = this.torusWidth / 1.5D * scale;
+		this.rollerSize = this.rollerSize / 1.5D * scale;
+		return this;
 	}
 	
 	public double getSimulationSpeed() {
