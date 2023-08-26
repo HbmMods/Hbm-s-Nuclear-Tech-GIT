@@ -397,18 +397,6 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 
 	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getEnergyStored(Context context, Arguments args) { //TODO for gamma: when ready remove these deprecated functions in all components
-		return new Object[] {getPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
-	}
-
-	@Callback(direct = true, limit = 8)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getMaxEnergy(Context context, Arguments args) {
-		return new Object[] {getMaxPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
-	}
-
-	@Callback(direct = true, limit = 8)
-	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower()};
 	}

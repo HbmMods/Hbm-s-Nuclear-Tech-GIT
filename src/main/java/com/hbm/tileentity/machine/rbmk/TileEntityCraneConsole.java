@@ -65,7 +65,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(worldObj.isRemote) {
 			lastTiltFront = tiltFront;
 			lastTiltLeft = tiltLeft;
@@ -342,9 +342,8 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] move(Context context, Arguments args) {
-		if(setUpCrane == true) {
+		if(setUpCrane) {
 			String textbruh = args.checkString(0);
-			
 			switch(textbruh) {
 				case "up":
 					tiltFront = 30;
@@ -372,13 +371,13 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] load(Context context, Arguments args) {
-		if (setUpCrane == true) {
+		if (setUpCrane) {
 			goesDown = true;
 			return new Object[] {};
 		}
 		return new Object[] {"Crane not found"};
 	}
-	
+
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getDepletion(Context context, Arguments args) {
