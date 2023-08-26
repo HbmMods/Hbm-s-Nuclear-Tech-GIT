@@ -1,7 +1,5 @@
 package com.hbm.tileentity.network;
 
-import java.util.List;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.network.CraneInserter;
 import com.hbm.entity.item.EntityMovingItem;
@@ -11,8 +9,6 @@ import com.hbm.inventory.gui.GUICraneGrabber;
 import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -29,7 +25,9 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCraneGrabber extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
+import java.util.List;
+
+public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIProvider, IControlReceiver {
 
 	public boolean isWhitelist = false;
 	public ModulePatternMatcher matcher;
@@ -50,7 +48,7 @@ public class TileEntityCraneGrabber extends TileEntityMachineBase implements IGU
 
 	@Override
 	public void updateEntity() {
-		
+		super.updateEntity();
 		if(!worldObj.isRemote) {
 			
 			int delay = 20;
@@ -74,15 +72,16 @@ public class TileEntityCraneGrabber extends TileEntityMachineBase implements IGU
 					}
 				}
 	
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-				TileEntity te = worldObj.getTileEntity(xCoord - dir.offsetX, yCoord - dir.offsetY, zCoord - dir.offsetZ);
+				ForgeDirection inputSide = getInputSide();
+				ForgeDirection outputSide = getOutputSide();
+				TileEntity te = worldObj.getTileEntity(xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ);
 				
 				int[] access = null;
 				ISidedInventory sided = null;
 				
 				if(te instanceof ISidedInventory) {
 					sided = (ISidedInventory) te;
-					access = CraneInserter.masquerade(sided, dir.ordinal());
+					access = CraneInserter.masquerade(sided, outputSide.getOpposite().ordinal());
 				}
 				
 				if(te instanceof IInventory) {
@@ -95,14 +94,14 @@ public class TileEntityCraneGrabber extends TileEntityMachineBase implements IGU
 					*/
 					double reach = 1D;
 					if(this.getBlockMetadata() > 1) { //ignore if pointing up or down
-						Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+						Block b = worldObj.getBlock(xCoord + inputSide.offsetX, yCoord + inputSide.offsetY, zCoord + inputSide.offsetZ);
 						if(b == ModBlocks.conveyor_double) reach = 0.5D;
 						if(b == ModBlocks.conveyor_triple) reach = 0.33D;
 					}
 
-					double x = xCoord + dir.offsetX * reach;
-					double y = yCoord + dir.offsetY * reach;
-					double z = zCoord + dir.offsetZ * reach;
+					double x = xCoord + inputSide.offsetX * reach;
+					double y = yCoord + inputSide.offsetY * reach;
+					double z = zCoord + inputSide.offsetZ * reach;
 					List<EntityMovingItem> items = worldObj.getEntitiesWithinAABB(EntityMovingItem.class, AxisAlignedBB.getBoundingBox(x + 0.1875D, y + 0.1875D, z + 0.1875D, x + 0.8125D, y + 0.8125D, z + 0.8125D));
 					
 					for(EntityMovingItem item : items) {
@@ -113,7 +112,7 @@ public class TileEntityCraneGrabber extends TileEntityMachineBase implements IGU
 						ItemStack copy = stack.copy();
 						int toAdd = Math.min(stack.stackSize, amount);
 						copy.stackSize = toAdd;
-						ItemStack ret = CraneInserter.addToInventory((IInventory) te, access, copy, dir.ordinal());
+						ItemStack ret = CraneInserter.addToInventory((IInventory) te, access, copy, outputSide.getOpposite().ordinal());
 						int didAdd = toAdd - (ret != null ? ret.stackSize : 0);
 						stack.stackSize -= didAdd;
 						
