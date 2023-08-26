@@ -6,7 +6,6 @@ import com.hbm.items.tool.ItemTooling;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.network.TileEntityCraneBase;
-import com.hbm.util.ChatBuilder;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -23,7 +22,6 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -92,10 +90,6 @@ public abstract class BlockCraneBase extends BlockContainer implements IBlockSid
 		world.setBlockMetadataWithNotify(x, y, z, l, 2);
 	}
 
-	protected boolean hasReversedIO() {
-		return false;
-	}
-
 	@Override
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 		if (tool != ToolType.SCREWDRIVER) return false;
@@ -105,28 +99,12 @@ public abstract class BlockCraneBase extends BlockContainer implements IBlockSid
 
 		TileEntityCraneBase craneTileEntity = (TileEntityCraneBase) te;
 
-		// some cranes like the ejector have reversed input and output sides
-		// so this bit of logic is to hide that away from the player
-		boolean actuallyCycleInput = player.isSneaking() != hasReversedIO();
-		ForgeDirection newDirection;
+		ForgeDirection newDirection = ForgeDirection.getOrientation(side);
 
-		if (actuallyCycleInput) { // cycle input
-			// it's in reverse because players are more likely to want to turn the output from DOWN to UP
-			int newValue = Math.floorMod(world.getBlockMetadata(x, y, z) - 1, 6);
-			newDirection = ForgeDirection.getOrientation(newValue);
-
-			world.setBlockMetadataWithNotify(x, y, z, newValue, 3);
-			craneTileEntity.ensureOutputOverrideValid();
-		} else { // cycle output
-			newDirection = craneTileEntity.cycleOutputOverride();
-		}
-
-		if (!world.isRemote) {
-			ChatBuilder message = player.isSneaking()
-					? ChatBuilder.start("Input: ").color(EnumChatFormatting.GREEN)
-					: ChatBuilder.start("Output: ").color(EnumChatFormatting.RED);
-			message.next(newDirection.name()).color(EnumChatFormatting.WHITE);
-			player.addChatComponentMessage(message.flush());
+		if (player.isSneaking()) {
+			craneTileEntity.setOutputOverride(newDirection);
+		} else {
+			craneTileEntity.setInput(newDirection);
 		}
 
 		return true;

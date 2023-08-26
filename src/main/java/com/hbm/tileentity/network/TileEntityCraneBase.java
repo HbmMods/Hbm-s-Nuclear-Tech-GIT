@@ -46,18 +46,31 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase {
 		return outputOverride;
 	}
 
-	public ForgeDirection cycleOutputOverride() {
-		do {
-			outputOverride = ForgeDirection.getOrientation(Math.floorMod(outputOverride.ordinal() - 1, 7));
-		} while (outputOverride.ordinal() == getBlockMetadata());
+	public void setOutputOverride(ForgeDirection direction) {
+		ForgeDirection oldSide = getOutputSide();
+		if (oldSide == direction)
+			direction = direction.getOpposite();
 
-		onBlockChanged();
-		return outputOverride;
+		outputOverride = direction;
+
+		if (direction == getInputSide())
+			setInput(oldSide);
+		else
+			onBlockChanged();
 	}
 
-	public void ensureOutputOverrideValid() {
-		if (outputOverride.ordinal() == getBlockMetadata())
-			cycleOutputOverride();
+	public void setInput(ForgeDirection direction) {
+		outputOverride = getOutputSide(); // save the current output, if it isn't saved yet
+
+		ForgeDirection oldSide = getInputSide();
+		if (oldSide == direction)
+			direction = direction.getOpposite();
+
+		boolean needSwapOutput = direction == getOutputSide();
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), needSwapOutput ? 4 : 3);
+
+		if (needSwapOutput)
+			setOutputOverride(oldSide);
 	}
 
 	protected void onBlockChanged() {
