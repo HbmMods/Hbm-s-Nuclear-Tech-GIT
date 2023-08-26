@@ -51,11 +51,6 @@ public class CraneUnboxer extends BlockCraneBase implements IEnterableBlock {
 	}
 
 	@Override
-	protected boolean hasReversedIO() {
-		return true;
-	}
-
-	@Override
 	public int getRotationFromSide(IBlockAccess world, int x, int y, int z, int side) {
 		int meta = world.getBlockMetadata(x, y, z);
 
