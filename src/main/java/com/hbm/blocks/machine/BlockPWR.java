@@ -17,8 +17,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -94,7 +97,7 @@ public class BlockPWR extends BlockContainer implements IBlockCT {
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 	
-	public static class TileEntityBlockPWR extends TileEntity implements IFluidConnector {
+	public static class TileEntityBlockPWR extends TileEntity implements IFluidConnector, ISidedInventory {
 		
 		public Block block;
 		public int coreX;
@@ -108,18 +111,14 @@ public class BlockPWR extends BlockContainer implements IBlockCT {
 				
 				if(worldObj.getTotalWorldTime() % 20 == 0 && block != null) {
 					
-					if(worldObj.getChunkProvider().chunkExists(coreX >> 4, coreZ >> 4)) {
-						
-						TileEntity tile = worldObj.getTileEntity(coreX, coreY, coreZ);
-						
-						if(tile instanceof TileEntityPWRController) {
-							TileEntityPWRController controller = (TileEntityPWRController) tile;
-							if(!controller.assembled) {
-								this.getBlockType().breakBlock(worldObj, xCoord, yCoord, zCoord, this.getBlockType(), this.getBlockMetadata());
-							}
-						} else {
+					TileEntityPWRController controller = getCore();
+					
+					if(controller != null) {
+						if(!controller.assembled) {
 							this.getBlockType().breakBlock(worldObj, xCoord, yCoord, zCoord, this.getBlockType(), this.getBlockMetadata());
 						}
+					} else if(worldObj.getChunkProvider().chunkExists(coreX >> 4, coreZ >> 4)) {
+						this.getBlockType().breakBlock(worldObj, xCoord, yCoord, zCoord, this.getBlockType(), this.getBlockMetadata());
 					}
 				}
 			}
@@ -157,21 +156,33 @@ public class BlockPWR extends BlockContainer implements IBlockCT {
 				this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 			}
 		}
+		
+		public TileEntityPWRController cachedCore;
+		
+		protected TileEntityPWRController getCore() {
+			
+			if(cachedCore != null && !cachedCore.isInvalid()) return cachedCore;
+
+			if(worldObj.getChunkProvider().chunkExists(coreX >> 4, coreZ >> 4)) {
+				
+				TileEntity tile = worldObj.getTileEntity(coreX, coreY, coreZ);
+				if(tile instanceof TileEntityPWRController) {
+					TileEntityPWRController controller = (TileEntityPWRController) tile;
+					cachedCore = controller;
+					return controller;
+				}
+			}
+			
+			return null;
+		}
 
 		@Override
 		public long transferFluid(FluidType type, int pressure, long fluid) {
 			
 			if(this.getBlockMetadata() != 1) return fluid;
 			if(block == null) return fluid;
-			
-			if(worldObj.getChunkProvider().chunkExists(coreX >> 4, coreZ >> 4)) {
-				
-				TileEntity tile = worldObj.getTileEntity(coreX, coreY, coreZ);
-				if(tile instanceof TileEntityPWRController) {
-					TileEntityPWRController controller = (TileEntityPWRController) tile;
-					return controller.transferFluid(type, pressure, fluid);
-				}
-			}
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) return controller.transferFluid(type, pressure, fluid);
 			
 			return fluid;
 		}
@@ -181,15 +192,8 @@ public class BlockPWR extends BlockContainer implements IBlockCT {
 			
 			if(this.getBlockMetadata() != 1) return 0;
 			if(block == null) return 0;
-			
-			if(worldObj.getChunkProvider().chunkExists(coreX >> 4, coreZ >> 4)) {
-				
-				TileEntity tile = worldObj.getTileEntity(coreX, coreY, coreZ);
-				if(tile instanceof TileEntityPWRController) {
-					TileEntityPWRController controller = (TileEntityPWRController) tile;
-					return controller.getDemand(type, pressure);
-				}
-			}
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) return controller.getDemand(type, pressure);
 			
 			return 0;
 		}
@@ -197,6 +201,120 @@ public class BlockPWR extends BlockContainer implements IBlockCT {
 		@Override
 		public boolean canConnect(FluidType type, ForgeDirection dir) {
 			return this.getBlockMetadata() == 1;
+		}
+
+		@Override
+		public int getSizeInventory() {
+			
+			if(this.getBlockMetadata() != 1) return 0;
+			if(block == null) return 0;
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) return controller.getSizeInventory();
+			
+			return 0;
+		}
+
+		@Override
+		public ItemStack getStackInSlot(int slot) {
+			
+			if(this.getBlockMetadata() != 1) return null;
+			if(block == null) return null;
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) return controller.getStackInSlot(slot);
+			
+			return null;
+		}
+
+		@Override
+		public ItemStack decrStackSize(int slot, int amount) {
+			
+			if(this.getBlockMetadata() != 1) return null;
+			if(block == null) return null;
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) return controller.decrStackSize(slot, amount);
+			
+			return null;
+		}
+
+		@Override
+		public ItemStack getStackInSlotOnClosing(int slot) {
+			
+			if(this.getBlockMetadata() != 1) return null;
+			if(block == null) return null;
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) return controller.getStackInSlotOnClosing(slot);
+			
+			return null;
+		}
+
+		@Override
+		public void setInventorySlotContents(int slot, ItemStack stack) {
+			
+			if(this.getBlockMetadata() != 1) return;
+			if(block == null) return;
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) controller.setInventorySlotContents(slot, stack);
+		}
+
+		@Override
+		public int getInventoryStackLimit() {
+			
+			if(this.getBlockMetadata() != 1) return 0;
+			if(block == null) return 0;
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) return controller.getInventoryStackLimit();
+			
+			return 0;
+		}
+
+		@Override public boolean isUseableByPlayer(EntityPlayer player) { return false; }
+		@Override public void openInventory() { }
+		@Override public void closeInventory() { }
+		@Override public String getInventoryName() { return ""; }
+		@Override public boolean hasCustomInventoryName() { return false; }
+
+		@Override
+		public boolean isItemValidForSlot(int slot, ItemStack stack) {
+			
+			if(this.getBlockMetadata() != 1) return false;
+			if(block == null) return false;
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) return controller.isItemValidForSlot(slot, stack);
+			
+			return false;
+		}
+
+		@Override
+		public int[] getAccessibleSlotsFromSide(int side) {
+			
+			if(this.getBlockMetadata() != 1) return new int[0];
+			if(block == null) return new int[0];
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) return controller.getAccessibleSlotsFromSide(side);
+			
+			return new int[0];
+		}
+
+		@Override
+		public boolean canInsertItem(int slot, ItemStack stack, int side) {
+			
+			if(this.getBlockMetadata() != 1) return false;
+			if(block == null) return false;
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) return controller.canInsertItem(slot, stack, side);
+			
+			return false;
+		}
+
+		@Override
+		public boolean canExtractItem(int slot, ItemStack stack, int side) {
+			
+			if(this.getBlockMetadata() != 1) return false;
+			if(block == null) return false;
+			TileEntityPWRController controller = this.getCore();
+			if(controller != null) return controller.canExtractItem(slot, stack, side);
+			
+			return false;
 		}
 	}
 }

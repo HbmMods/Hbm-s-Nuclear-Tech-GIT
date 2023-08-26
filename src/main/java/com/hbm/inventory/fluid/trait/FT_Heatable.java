@@ -42,6 +42,7 @@ public class FT_Heatable extends FluidTrait {
 
 	@Override
 	public void addInfoHidden(List<String> info) {
+		info.add(EnumChatFormatting.AQUA + "Thermal capacity: " + this.getFirstStep().heatReq + " TU");
 		for(HeatingType type : HeatingType.values()) {
 			
 			double eff = getEfficiency(type);

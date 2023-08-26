@@ -1,13 +1,11 @@
 package com.hbm.tileentity.network;
 
+import api.hbm.conveyor.IConveyorBelt;
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.inventory.container.ContainerCraneUnboxer;
 import com.hbm.inventory.gui.GUICraneUnboxer;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
-
-import api.hbm.conveyor.IConveyorBelt;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -19,7 +17,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCraneUnboxer extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityCraneUnboxer extends TileEntityCraneBase implements IGUIProvider {
 
 	public TileEntityCraneUnboxer() {
 		super(23);
@@ -32,7 +30,7 @@ public class TileEntityCraneUnboxer extends TileEntityMachineBase implements IGU
 
 	@Override
 	public void updateEntity() {
-		
+		super.updateEntity();
 		if(!worldObj.isRemote) {
 			
 			int delay = 20;
@@ -65,8 +63,8 @@ public class TileEntityCraneUnboxer extends TileEntityMachineBase implements IGU
 					}
 				}
 	
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+				ForgeDirection outputSide = getInputSide(); // note the switcheroo!
+				Block b = worldObj.getBlock(xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ);
 				
 				if(b instanceof IConveyorBelt) {
 					
@@ -82,8 +80,8 @@ public class TileEntityCraneUnboxer extends TileEntityMachineBase implements IGU
 							stack.stackSize = toSend;
 							
 							EntityMovingItem moving = new EntityMovingItem(worldObj);
-							Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + dir.offsetX * 0.55, yCoord + 0.5 + dir.offsetY * 0.55, zCoord + 0.5 + dir.offsetZ * 0.55);
-							Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, pos);
+							Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
+							Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, pos);
 							moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
 							moving.setItemStack(stack);
 							worldObj.spawnEntityInWorld(moving);
