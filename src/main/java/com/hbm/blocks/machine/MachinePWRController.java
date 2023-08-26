@@ -1,8 +1,10 @@
 package com.hbm.blocks.machine;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
 import com.hbm.lib.RefStrings;
@@ -30,7 +32,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachinePWRController extends BlockContainer {
+public class MachinePWRController extends BlockContainer implements ITooltipProvider {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
@@ -92,7 +94,7 @@ public class MachinePWRController extends BlockContainer {
 	private static HashMap<BlockPos, Block> fuelRods = new HashMap();
 	private static HashMap<BlockPos, Block> sources = new HashMap();
 	private static boolean errored;
-	private static final int maxSize = 1024;
+	private static final int maxSize = 4096;
 	
 	public void assemble(World world, int x, int y, int z, EntityPlayer player) {
 		assembly.clear();
@@ -105,7 +107,15 @@ public class MachinePWRController extends BlockContainer {
 		errored = false;
 		floodFill(world, x + dir.offsetX, y, z + dir.offsetZ, player);
 		
-		if(fuelRods.size() == 0 || sources.size() == 0) errored = true;
+		if(fuelRods.size() == 0){
+			sendError(world, x, y, z, "Fuel rods required", player);
+			errored = true;
+		}
+		
+		if(sources.size() == 0) {
+			sendError(world, x, y, z, "Neutron sources required", player);
+			errored = true;
+		}
 		
 		TileEntityPWRController controller = (TileEntityPWRController) world.getTileEntity(x, y, z);
 		
@@ -197,5 +207,10 @@ public class MachinePWRController extends BlockContainer {
 	private boolean isValidCasing(Block block) {
 		if(block == ModBlocks.pwr_casing || block == ModBlocks.pwr_reflector || block == ModBlocks.pwr_port) return true;
 		return false;
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

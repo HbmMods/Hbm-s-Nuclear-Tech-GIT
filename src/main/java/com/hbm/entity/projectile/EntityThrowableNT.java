@@ -177,7 +177,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 			Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
 			Vec3 nextPos = Vec3.createVectorHelper(this.posX + this.motionX * motionMult(), this.posY + this.motionY * motionMult(), this.posZ + this.motionZ * motionMult());
 			MovingObjectPosition mop = null;
-			if(!this.isSpectral()) mop = this.worldObj.rayTraceBlocks(pos, nextPos);
+			if(!this.isSpectral()) mop = this.worldObj.func_147447_a(pos, nextPos, false, true, false);
 			pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
 			nextPos = Vec3.createVectorHelper(this.posX + this.motionX * motionMult(), this.posY + this.motionY * motionMult(), this.posZ + this.motionZ * motionMult());
 	

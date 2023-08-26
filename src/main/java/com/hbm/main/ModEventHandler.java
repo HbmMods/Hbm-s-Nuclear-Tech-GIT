@@ -176,10 +176,13 @@ public class ModEventHandler {
 			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
 				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", MainRegistry.proxy.ID_DUCK, 30_000), (EntityPlayerMP) event.player);
 			
-			if(event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasGuide")) {
+			
+			HbmPlayerProps props = HbmPlayerProps.getData(event.player);
+			
+			if(!props.hasReceivedBook) {
 				event.player.inventory.addItemStackToInventory(new ItemStack(ModItems.book_guide, 1, BookType.STARTER.ordinal()));
 				event.player.inventoryContainer.detectAndSendChanges();
-				event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("hasGuide", true);
+				props.hasReceivedBook = true;
 			}
 		}
 	}
