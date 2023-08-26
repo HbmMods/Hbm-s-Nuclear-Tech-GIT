@@ -131,13 +131,13 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		connections = connectionsDouble / 2;
 		connectionsControlled = connectionsControlledDouble / 2;
 
-		System.out.println("Finalized nuclear reactor!");
+		/*System.out.println("Finalized nuclear reactor!");
 		System.out.println("Rods: " + rodCount);
 		System.out.println("Connections: " + connections);
 		System.out.println("Controlled connections: " + connectionsControlled);
 		System.out.println("Heatex: " + heatexCount);
 		System.out.println("Channels: " + channelCount);
-		System.out.println("Sources: " + sourceCount);
+		System.out.println("Sources: " + sourceCount);*/
 	}
 
 	@Override
@@ -212,7 +212,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			}
 			
 			/* CORE COOLING */
-			double coreCoolingApproachNum = getXOverE((double) this.heatexCount / (double) this.rodCount, 2) / 2D;
+			double coreCoolingApproachNum = getXOverE((double) this.heatexCount * 5 / (double) this.rodCount, 2) / 2D;
 			int averageCoreHeat = (this.coreHeat + this.hullHeat) / 2;
 			this.coreHeat -= (coreHeat - averageCoreHeat) * coreCoolingApproachNum;
 			this.hullHeat -= (hullHeat - averageCoreHeat) * coreCoolingApproachNum;
@@ -297,7 +297,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		double coolingEff = (double) this.channelCount / (double) this.rodCount * 0.1D; //10% cooling if numbers match
 		if(coolingEff > 1D) coolingEff = 1D;
 		
-		int heatToUse = (int) (this.hullHeat * coolingEff * trait.getEfficiency(HeatingType.PWR));
+		int heatToUse = Math.min(this.hullHeat, (int) (this.hullHeat * coolingEff * trait.getEfficiency(HeatingType.PWR)));
 		HeatingStep step = trait.getFirstStep();
 		int coolCycles = tanks[0].getFill() / step.amountReq;
 		int hotCycles = (tanks[1].getMaxFill() - tanks[1].getFill()) / step.amountProduced;
@@ -349,6 +349,22 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	
 	public double getXOverE(double x, double d) {
 		return 1 - Math.pow(Math.E, -x / d);
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+		if(slot == 0) return stack.getItem() == ModItems.pwr_fuel;
+		return false;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] {0, 1};
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+		return slot == 1;
 	}
 	
 	@Override

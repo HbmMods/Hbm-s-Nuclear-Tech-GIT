@@ -68,6 +68,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(ENDERJUICE,	100,			Items.ender_pearl);
 		registerRecipe(WATZ,		1000,			ModItems.ingot_mud);
 		registerRecipe(REDMUD,		1000,			Items.iron_ingot);
+		registerRecipe(SODIUM,		100,			ModItems.powder_sodium);
 
 		registerRecipe(OIL,				SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(CRACKOIL,		SF_CRACK,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));

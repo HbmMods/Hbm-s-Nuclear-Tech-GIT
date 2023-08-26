@@ -42,6 +42,7 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		recipes.put(KEY_COAL_TAR,									new FluidStack(50, Fluids.BITUMEN));
 		recipes.put(KEY_LOG,										new FluidStack(100, Fluids.MUG));
 		recipes.put(KNO.dust(),										new FluidStack(250, Fluids.NITRIC_ACID));
+		recipes.put(NA.dust(),										new FluidStack(100, Fluids.SODIUM));
 		//general utility recipes because why not
 		recipes.put(new ComparableStack(Blocks.netherrack),			new FluidStack(250, Fluids.LAVA));
 		recipes.put(new ComparableStack(Blocks.cobblestone),		new FluidStack(250, Fluids.LAVA));
