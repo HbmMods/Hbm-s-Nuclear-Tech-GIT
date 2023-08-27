@@ -88,8 +88,6 @@ public class ModBlocks {
 	public static Block ore_bedrock;
 	public static Block ore_volcano;
 	
-	public static Block ore_bedrock_coltan;
-
 	public static Block ore_nether_coal;
 	public static Block ore_nether_smoldering;
 	public static Block ore_nether_uranium;
@@ -1398,8 +1396,6 @@ public class ModBlocks {
 		ore_cinnebar = new BlockOre(Material.rock).setBlockName("ore_cinnebar").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_cinnebar");
 		ore_coltan = new BlockOre(Material.rock).setBlockName("ore_coltan").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_coltan");
 		
-		ore_bedrock_coltan = new BlockBedrockOre().setBlockName("ore_bedrock_coltan").setCreativeTab(null).setBlockUnbreakable().setResistance(1_000_000).setBlockTextureName(RefStrings.MODID + ":ore_bedrock_coltan");
-
 		ore_oil = new BlockOre(Material.rock).setBlockName("ore_oil").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil");
 		ore_oil_empty = new BlockGeneric(Material.rock).setBlockName("ore_oil_empty").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_empty");
 		ore_oil_sand = new BlockFalling(Material.sand).setBlockName("ore_oil_sand").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSand).setHardness(0.5F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_sand_alt");
@@ -1579,7 +1575,7 @@ public class ModBlocks {
 		brick_concrete_cracked = new BlockGeneric(Material.rock).setBlockName("brick_concrete_cracked").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_cracked");
 		brick_concrete_broken = new BlockGeneric(Material.rock).setBlockName("brick_concrete_broken").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(45.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_broken");
 		brick_concrete_marked = new BlockWriting(Material.rock, RefStrings.MODID + ":brick_concrete").setBlockName("brick_concrete_marked").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(160.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_marked");
-		brick_obsidian = new BlockGeneric(Material.rock).setBlockName("brick_obsidian").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(2400.0F).setBlockTextureName(RefStrings.MODID + ":brick_obsidian");
+		brick_obsidian = new BlockGeneric(Material.rock).setBlockName("brick_obsidian").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(120.0F).setBlockTextureName(RefStrings.MODID + ":brick_obsidian");
 		brick_light = new BlockGeneric(Material.rock).setBlockName("brick_light").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":brick_light");
 		brick_compound = new BlockGeneric(Material.rock).setBlockName("brick_compound").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(400.0F).setBlockTextureName(RefStrings.MODID + ":brick_compound");
 		cmb_brick = new BlockGeneric(Material.rock).setBlockName("cmb_brick").setCreativeTab(MainRegistry.blockTab).setHardness(25.0F).setResistance(5000.0F).setBlockTextureName(RefStrings.MODID + ":cmb_brick");
@@ -1990,7 +1986,6 @@ public class ModBlocks {
 		crane_unboxer = new CraneUnboxer().setBlockName("crane_unboxer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crane_splitter = new CraneSplitter().setBlockName("crane_splitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":crane_side");
 		fan = new MachineFan().setBlockName("fan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		
 		piston_inserter = new PistonInserter().setBlockName("piston_inserter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		chain = new BlockChain(Material.iron).setBlockName("dungeon_chain").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":chain");
@@ -2082,9 +2077,9 @@ public class ModBlocks {
 		watz_control = new BlockPillar(Material.iron, RefStrings.MODID + ":watz_control_top").setBlockName("watz_control").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_control_side");
 		watz_cooler = new BlockPillar(Material.iron, RefStrings.MODID + ":watz_cooler_top").setBlockName("watz_cooler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_cooler_side");
 		watz_end = new BlockToolConversion(Material.iron).addVariant("_bolted").setBlockName("watz_end").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_casing");
-		watz_hatch = new WatzHatch(Material.iron).setBlockName("watz_hatch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_hatch");
-		watz_conductor = new BlockCableConnect(Material.iron).setBlockName("watz_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_conductor_top");
-		watz_core = new WatzCore(Material.iron).setBlockName("watz_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_computer");
+		watz_hatch = new WatzHatch(Material.iron).setBlockName("watz_hatch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":watz_hatch");
+		watz_conductor = new BlockCableConnect(Material.iron).setBlockName("watz_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":watz_conductor_top");
+		watz_core = new WatzCore(Material.iron).setBlockName("watz_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":watz_computer");
 		watz = new Watz().setBlockName("watz").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		watz_pump = new WatzPump().setBlockName("watz_pump").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
@@ -2485,7 +2480,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(cluster_copper, ItemBlockBase.class, cluster_copper.getUnlocalizedName());
 		
 		//Bedrock ores
-		GameRegistry.registerBlock(ore_bedrock_coltan, ore_bedrock_coltan.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_bedrock_oil, ore_bedrock_oil.getUnlocalizedName());
 		
 		//Nice Meme
@@ -3233,21 +3227,20 @@ public class ModBlocks {
 		register(radio_torch_receiver);
 		register(radio_torch_counter);
 
-		GameRegistry.registerBlock(crane_extractor, crane_extractor.getUnlocalizedName());
-		GameRegistry.registerBlock(crane_inserter, crane_inserter.getUnlocalizedName());
-		GameRegistry.registerBlock(crane_grabber, crane_grabber.getUnlocalizedName());
-		GameRegistry.registerBlock(crane_router, crane_router.getUnlocalizedName());
-		GameRegistry.registerBlock(crane_boxer, crane_boxer.getUnlocalizedName());
-		GameRegistry.registerBlock(crane_unboxer, crane_unboxer.getUnlocalizedName());
-		GameRegistry.registerBlock(conveyor, conveyor.getUnlocalizedName());
-		GameRegistry.registerBlock(conveyor_double, conveyor_double.getUnlocalizedName());
-		GameRegistry.registerBlock(conveyor_triple, conveyor_triple.getUnlocalizedName());
-		GameRegistry.registerBlock(conveyor_chute, conveyor_chute.getUnlocalizedName());
-		GameRegistry.registerBlock(conveyor_lift, conveyor_lift.getUnlocalizedName());
-		GameRegistry.registerBlock(crane_splitter, crane_splitter.getUnlocalizedName());
-		GameRegistry.registerBlock(fan, fan.getUnlocalizedName());
-		
-		GameRegistry.registerBlock(piston_inserter, piston_inserter.getUnlocalizedName());
+		register(crane_extractor);
+		register(crane_inserter);
+		register(crane_grabber);
+		register(crane_router);
+		register(crane_boxer);
+		register(crane_unboxer);
+		register(conveyor);
+		register(conveyor_double);
+		register(conveyor_triple);
+		register(conveyor_chute);
+		register(conveyor_lift);
+		register(crane_splitter);
+		register(fan);
+		register(piston_inserter);
 		
 		GameRegistry.registerBlock(chain, chain.getUnlocalizedName());
 		GameRegistry.registerBlock(ladder_sturdy, ladder_sturdy.getUnlocalizedName());

@@ -231,7 +231,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			
 			this.flux = newFlux;
 			
-			if(tanks[0].getTankType().hasTrait(FT_PWRModerator.class)) {
+			if(tanks[0].getTankType().hasTrait(FT_PWRModerator.class) && tanks[0].getFill() > 0) {
 				this.flux *= tanks[0].getTankType().getTrait(FT_PWRModerator.class).getMultiplier();
 			}
 			

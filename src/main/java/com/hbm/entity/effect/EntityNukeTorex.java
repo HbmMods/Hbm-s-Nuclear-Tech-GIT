@@ -2,6 +2,8 @@ package com.hbm.entity.effect;
 
 import java.util.ArrayList;
 
+import com.hbm.util.TrackerUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -34,6 +36,7 @@ public class EntityNukeTorex extends Entity {
 	@Override
 	protected void entityInit() {
 		this.dataWatcher.addObject(10, new Float(1));
+		this.dataWatcher.addObject(11, new Integer(0));
 	}
 
 	@Override
@@ -60,7 +63,7 @@ public class EntityNukeTorex extends Entity {
 				lastSpawnY = posY - 3;
 			}
 			
-			int spawnTarget = worldObj.getHeightValue((int) Math.floor(posX), (int) Math.floor(posZ)) - 3;
+			int spawnTarget = Math.max(worldObj.getHeightValue((int) Math.floor(posX), (int) Math.floor(posZ)) - 3, 1);
 			double moveSpeed = 0.5D;
 			
 			if(Math.abs(spawnTarget - lastSpawnY) < moveSpeed) {
@@ -69,6 +72,7 @@ public class EntityNukeTorex extends Entity {
 				lastSpawnY += moveSpeed * Math.signum(spawnTarget - lastSpawnY);
 			}
 			
+			// spawn mush clouds
 			double range = (torusWidth - rollerSize) * 0.25;
 			double simSpeed = getSimulationSpeed();
 			int toSpawn = (int) Math.ceil(10 * simSpeed * simSpeed);
@@ -82,7 +86,8 @@ public class EntityNukeTorex extends Entity {
 				cloudlets.add(cloud);
 			}
 			
-			if(ticksExisted < 50) {
+			// spawn shock clouds
+			if(ticksExisted < 100) {
 				
 				int cloudCount = ticksExisted * 5;
 				int shockLife = Math.max(300 - ticksExisted * 20, 50);
@@ -97,6 +102,7 @@ public class EntityNukeTorex extends Entity {
 				}
 			}
 			
+			// spawn ring clouds
 			if(ticksExisted < 200) {
 				for(int i = 0; i < 2; i++) {
 					Cloudlet cloud = new Cloudlet(posX, posY + coreHeight, posZ, (float)(rand.nextDouble() * 2D * Math.PI), 0, lifetime, TorexType.RING);
@@ -130,6 +136,11 @@ public class EntityNukeTorex extends Entity {
 		this.convectionHeight = this.convectionHeight / 1.5D * scale;
 		this.torusWidth = this.torusWidth / 1.5D * scale;
 		this.rollerSize = this.rollerSize / 1.5D * scale;
+		return this;
+	}
+	
+	public EntityNukeTorex setType(int type) {
+		this.dataWatcher.updateObject(11, type);
 		return this;
 	}
 	
@@ -404,11 +415,21 @@ public class EntityNukeTorex extends Entity {
 			dist = Math.max(dist, 1);
 			double col = 2D / dist;
 			
-			this.color = Vec3.createVectorHelper(
-					Math.max(col * 2, 0.25),
-					Math.max(col * 1.5, 0.25),
-					Math.max(col * 0.5, 0.25)
-					);
+			int type = EntityNukeTorex.this.dataWatcher.getWatchableObjectInt(11);
+			
+			if(type == 1) {
+				this.color = Vec3.createVectorHelper(
+						Math.max(col * 1, 0.25),
+						Math.max(col * 2, 0.25),
+						Math.max(col * 0.5, 0.25)
+						);
+			} else {
+				this.color = Vec3.createVectorHelper(
+						Math.max(col * 2, 0.25),
+						Math.max(col * 1.5, 0.25),
+						Math.max(col * 0.5, 0.25)
+						);
+			}
 		}
 		
 		public Vec3 getInterpPos(float interp) {
@@ -461,15 +482,27 @@ public class EntityNukeTorex extends Entity {
 		RING
 	}
 
-	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbt) { }
-
-	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbt) { }
+	@Override protected void writeEntityToNBT(NBTTagCompound nbt) { }
+	@Override public boolean writeToNBTOptional(NBTTagCompound nbt) { return false; }
+	@Override public void readEntityFromNBT(NBTTagCompound nbt) { this.setDead(); }
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean isInRangeToRenderDist(double distance) {
 		return true;
+	}
+	
+	public static void statFac(World world, double x, double y, double z, float scale) {
+		EntityNukeTorex torex = new EntityNukeTorex(world).setScale(MathHelper.clamp_float(scale * 0.01F, 0.5F, 5F));
+		torex.setPosition(x, y, z);
+		world.spawnEntityInWorld(torex);
+		TrackerUtil.setTrackingRange(world, torex, 1000);
+	}
+	
+	public static void statFacBale(World world, double x, double y, double z, float scale) {
+		EntityNukeTorex torex = new EntityNukeTorex(world).setScale(MathHelper.clamp_float(scale * 0.01F, 0.5F, 5F)).setType(1);
+		torex.setPosition(x, y, z);
+		world.spawnEntityInWorld(torex);
+		TrackerUtil.setTrackingRange(world, torex, 1000);
 	}
 }

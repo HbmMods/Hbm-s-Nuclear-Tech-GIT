@@ -2,6 +2,7 @@ package com.hbm.blocks.network;
 
 import api.hbm.block.IToolable;
 import com.hbm.blocks.IBlockSideRotation;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.items.tool.ItemTooling;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -27,9 +28,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.List;
 import java.util.Random;
 
-public abstract class BlockCraneBase extends BlockContainer implements IBlockSideRotation, IToolable {
+public abstract class BlockCraneBase extends BlockContainer implements IBlockSideRotation, IToolable, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) protected IIcon iconSide;
 	@SideOnly(Side.CLIENT) protected IIcon iconIn;
@@ -303,5 +305,10 @@ public abstract class BlockCraneBase extends BlockContainer implements IBlockSid
 		}
 
 		super.breakBlock(world, x, y, z, block, meta);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

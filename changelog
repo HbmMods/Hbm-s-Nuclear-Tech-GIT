@@ -4,6 +4,7 @@
   * Has some design similarities with the RBMK, but in 3D
   * Relatively easy to build and safe to operate
   * Does not use any tile entity rendering and all math is pre-calculated when the reactor is assembled, making this one even more performant than the old large reactor
+  * Balancing might change, so keep that in mind when updating in the future
 * Sodalite
   * A gem that can be extracted from fluorite or lapis ore
   * Can be heated in the combination oven to make sodium and chlorine
@@ -27,6 +28,16 @@
 * Fluorite ore is now centrifugable
 * Fluorite crystals now centrifuge into slightly less fluorite but also yield sodalite
 * Blast resistance values for most resistant blocks have been changed, most blocks now have much lower resistance which means there's now a practical difference between concrete and ducrete. Resistance values also match the block's cost more closely.
+* Using a screwdriver, the input and output sides of conveyor cranes (inserters, ejectors, etc) can now be configured, allowing them to operate around corners
+* Sandstone's blast resistance is now as high as stone's, but only against nuclear explosions
+* The tsar bomba model has been updated
+* The nuclear explosion animation has been replaced with the TOREX system, instead of a static model that moves around, the mushroom clouds are now made of simulated particles
+* Sellafite now uses random ticks instead of scheduled ticks every second, while this does reduce its radioactivity quite a bit, it prevents the tick queue from slowing down to a crawl with large amounts of sellafite from nuclear explosions
+* Conveyor blocks now have tooltips explaining what they do and how they can be configured
+* The large reactor still works despite the PWR being added, but the parts have been made uncraftable
+* Unused watz parts have been hidden from the creative inventory
+* Removed the bedrok coltan ore, since it was replaced by generic bedrock ores anyway
+* Updated decal on the congo lake grenade launcher
 
 ## Fixed
 * Fixed FEnSU's IO limit not working properly
@@ -40,3 +51,4 @@
 * Corium is now a finite fluid, fixing an issue where a single fuel rod can be used to create a giant blob of corium, lagging out the server
 * Fixed bullets not being able to pass things like tall grass
 * Whether the player has received a guide book is now saved as part of the extprop which might fix an issue where offline mode players get a new book on every start
+* Fixed electrolyser fluid recipes not showing the input amount

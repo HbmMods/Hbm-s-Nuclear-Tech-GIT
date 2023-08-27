@@ -1166,6 +1166,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.primer_9");
 		ignoreMappings.add("hbm:item.primer_50");
 		ignoreMappings.add("hbm:item.primer_buckshot");
+		ignoreMappings.add("hbm:tile.ore_bedrock_coltan");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
