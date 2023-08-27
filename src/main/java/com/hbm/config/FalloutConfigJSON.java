@@ -84,6 +84,24 @@ public class FalloutConfigJSON {
 		entries.add(stoneCore.clone().mB(ModBlocks.sellafield_slaked));
 		entries.add(stoneInner.clone().mB(ModBlocks.sellafield_slaked));
 		
+
+
+		entries.add(new FalloutEntry()
+				.mB(Blocks.obsidian)
+				.prim(new Triplet(ModBlocks.gravel_obsidian, 0, 1))
+				.max(70)
+				.c(0.8));
+		entries.add(new FalloutEntry()
+				.mB(ModBlocks.brick_obsidian)
+				.prim(new Triplet(ModBlocks.brick_obsidian_cracked, 0, 1))
+				.max(45)
+				.c(0.8));
+		entries.add(new FalloutEntry()
+				.mB(ModBlocks.brick_obsidian_cracked)
+				.prim(new Triplet(ModBlocks.gravel_obsidian, 0, 1))
+				.max(70)
+				.c(1));
+
 		entries.add(new FalloutEntry()
 				.mB(Blocks.grass)
 				.prim(new Triplet(ModBlocks.waste_earth, 0, 1)));

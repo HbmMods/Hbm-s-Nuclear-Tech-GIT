@@ -357,6 +357,7 @@ public class ModBlocks {
 	public static Block brick_concrete_marked;
 	public static Block brick_ducrete;
 	public static Block brick_obsidian;
+	public static Block brick_obsidian_cracked;
 	public static Block brick_light;
 	public static Block brick_compound;
 	public static Block brick_asbestos;
@@ -1573,6 +1574,7 @@ public class ModBlocks {
 		concrete_asbestos = new BlockGeneric(Material.rock).setBlockName("concrete_asbestos").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(150.0F).setBlockTextureName(RefStrings.MODID + ":concrete_asbestos");
 		concrete_super = new BlockUberConcrete().setBlockName("concrete_super").setCreativeTab(MainRegistry.blockTab).setHardness(150.0F).setResistance(1000.0F);
 		concrete_super_broken = new BlockFalling(Material.rock).setBlockName("concrete_super_broken").setCreativeTab(MainRegistry.blockTab).setHardness(10.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":concrete_super_broken");
+
 		concrete_pillar = new BlockRotatablePillar(Material.rock, RefStrings.MODID + ":concrete_pillar_top").setBlockName("concrete_pillar").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(180.0F).setBlockTextureName(RefStrings.MODID + ":concrete_pillar_side");
 		brick_concrete = new BlockGeneric(Material.rock).setBlockName("brick_concrete").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(160.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
 		brick_concrete_mossy = new BlockGeneric(Material.rock).setBlockName("brick_concrete_mossy").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(160.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_mossy");
@@ -1582,6 +1584,8 @@ public class ModBlocks {
 		brick_obsidian = new BlockGeneric(Material.rock).setBlockName("brick_obsidian").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(2400.0F).setBlockTextureName(RefStrings.MODID + ":brick_obsidian");
 		brick_light = new BlockGeneric(Material.rock).setBlockName("brick_light").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":brick_light");
 		brick_compound = new BlockGeneric(Material.rock).setBlockName("brick_compound").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(400.0F).setBlockTextureName(RefStrings.MODID + ":brick_compound");
+		brick_obsidian_cracked = new BlockGeneric(Material.rock).setBlockName("brick_obsidian_cracked").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(160.0F).setBlockTextureName(RefStrings.MODID + ":brick_obsidian_cracked");
+
 		cmb_brick = new BlockGeneric(Material.rock).setBlockName("cmb_brick").setCreativeTab(MainRegistry.blockTab).setHardness(25.0F).setResistance(5000.0F).setBlockTextureName(RefStrings.MODID + ":cmb_brick");
 		cmb_brick_reinforced = new BlockGeneric(Material.rock).setBlockName("cmb_brick_reinforced").setCreativeTab(MainRegistry.blockTab).setHardness(25.0F).setResistance(50000.0F).setBlockTextureName(RefStrings.MODID + ":cmb_brick_reinforced");
 		brick_asbestos = new BlockOutgas(Material.rock, true, 5, true).setBlockName("brick_asbestos").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":brick_asbestos");
@@ -2764,6 +2768,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(brick_concrete_marked, ItemBlockBlastInfo.class, brick_concrete_marked.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_ducrete, ItemBlockBlastInfo.class, brick_ducrete.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_obsidian, ItemBlockBlastInfo.class, brick_obsidian.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_obsidian_cracked, ItemBlockBlastInfo.class, brick_obsidian_cracked.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_compound, ItemBlockBlastInfo.class, brick_compound.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_light, ItemBlockBlastInfo.class, brick_light.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_asbestos, brick_asbestos.getUnlocalizedName());
