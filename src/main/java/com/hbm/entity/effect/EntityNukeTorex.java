@@ -423,7 +423,14 @@ public class EntityNukeTorex extends Entity {
 						Math.max(col * 2, 0.25),
 						Math.max(col * 0.5, 0.25)
 						);
-			} else {
+			} 
+			if(type == 2) {
+				this.color = Vec3.createVectorHelper(
+						Math.max(col * 2, 0.25),
+						Math.max(col * 0.5, 0.25),
+						Math.max(col * 1.5, 0.25)
+						);
+			}else {
 				this.color = Vec3.createVectorHelper(
 						Math.max(col * 2, 0.25),
 						Math.max(col * 1.5, 0.25),
@@ -501,6 +508,12 @@ public class EntityNukeTorex extends Entity {
 	
 	public static void statFacBale(World world, double x, double y, double z, float scale) {
 		EntityNukeTorex torex = new EntityNukeTorex(world).setScale(MathHelper.clamp_float(scale * 0.01F, 0.5F, 5F)).setType(1);
+		torex.setPosition(x, y, z);
+		world.spawnEntityInWorld(torex);
+		TrackerUtil.setTrackingRange(world, torex, 1000);
+	}
+	public static void startFacAnti(World world, double x, double y, double z, float scale) {
+		EntityNukeTorex torex = new EntityNukeTorex(world).setScale(MathHelper.clamp_float(scale * 0.01F, 0.5F, 5F)).setType(2);
 		torex.setPosition(x, y, z);
 		world.spawnEntityInWorld(torex);
 		TrackerUtil.setTrackingRange(world, torex, 1000);
