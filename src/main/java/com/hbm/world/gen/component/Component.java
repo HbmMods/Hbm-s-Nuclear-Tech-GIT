@@ -528,7 +528,7 @@ abstract public class Component extends StructureComponent {
 	//Turns out, this entire time every single minecraft structure is mirrored instead of rotated when facing East and North
 	//Also turns out, it's a scarily easy fix that they somehow didn't see *entirely*
 	@Override
-	protected int getXWithOffset(int x, int z) {
+	public int getXWithOffset(int x, int z) {
 		switch(this.coordBaseMode) {
 		case 0:
 			return this.boundingBox.minX + x;
@@ -544,7 +544,7 @@ abstract public class Component extends StructureComponent {
 	}
 	
 	@Override
-	protected int getZWithOffset(int x, int z) {
+	public int getZWithOffset(int x, int z) {
 		switch(this.coordBaseMode) {
 		case 0:
 			return this.boundingBox.minZ + z;

@@ -17,9 +17,9 @@ import static net.minecraftforge.event.terraingen.TerrainGen.*;
 import net.minecraftforge.event.world.WorldEvent;
 
 public class NTMWorldGenerator implements IWorldGenerator {
-	
-	private MapGenNTMFeatures scatteredFeatureGen; //looks like it's based! thank god!
-	public MapGenSpecialFeatures specialFeatureGen; //change back if it's actually cringe and throws NPEs
+	//turns out minecraft is cringe and WorldEvent.Load can be/is called after chunks are provided
+	private MapGenNTMFeatures scatteredFeatureGen = new MapGenNTMFeatures();
+	public MapGenSpecialFeatures specialFeatureGen = new MapGenSpecialFeatures();
 	
 	private final Random rand = new Random(); //A central random, used to cleanly generate our stuff without affecting vanilla or modded seeds.
 	

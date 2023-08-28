@@ -161,8 +161,6 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					this.components.add(officeCorner); break;
 				}
 			}
-			//ElevatedLab1 lab1 = new ElevatedLab1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
-			//this.components.add(lab1);
 			
 			if(GeneralConfig.enableDebugMode) {
 				System.out.print("[Debug] StructureStart at " + (chunkX * 16 + 8) + ", " + posY + ", " + (chunkZ * 16 + 8) + "\n[Debug] Components: ");

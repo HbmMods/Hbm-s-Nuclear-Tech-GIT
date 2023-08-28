@@ -3,8 +3,10 @@ package com.hbm.world.gen.component;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.lib.HbmChestContents;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -16,6 +18,21 @@ public class RuinFeatures {
 		MapGenStructureIO.func_143031_a(NTMRuin2.class, "NTMRuin2");
 		MapGenStructureIO.func_143031_a(NTMRuin3.class, "NTMRuin3");
 		MapGenStructureIO.func_143031_a(NTMRuin4.class, "NTMRuin4");
+	}
+	
+	public static void placeBook(World world, StructureBoundingBox box, Random rand, int minX, int minZ, int maxX, int maxZ, Component com) {
+		int i = minX + rand.nextInt(maxX);
+		int j = minZ + rand.nextInt(maxZ);
+		
+		int posX = com.getXWithOffset(i, j);
+		int posZ = com.getZWithOffset(i, j);
+		
+		if(box.isVecInside(posX, 64, posZ)) {
+			int topHeight = world.getTopSolidOrLiquidBlock(posX, posZ);
+			
+			ItemStack book = HbmChestContents.generateRuinBook(rand, posX >> 4, posZ >> 4);
+			com.placeLootBlock(world, box, rand, i, topHeight - com.getBoundingBox().minY, j, book);
+		}
 	}
 	
 	public static class NTMRuin1 extends Component {
@@ -85,6 +102,9 @@ public class RuinFeatures {
 			this.fillWithRandomizedBlocks(world, box, 8, 2, 10 - 1, 8, 2, 10 - 1, false, rand, RandomConcreteBricks);
 			
 			this.randomlyFillWithBlocks(world, box, rand, 0.25F, 1, 0, 1, 8 - 1, 0, 10 - 1, Blocks.gravel, Blocks.air, false);
+			
+			if(rand.nextInt(3) == 0) //it's all in one chunk so it's fine
+				placeBook(world, box, rand, 1, 1, 7, 9, this);
 			
 			return true;
 		}
@@ -206,6 +226,9 @@ public class RuinFeatures {
 			this.randomlyFillWithBlocks(world, box, rand, 0.05F, 1, 0, 1, 8 - 1, 0, 3, Blocks.gravel, Blocks.air, false);
 			this.randomlyFillWithBlocks(world, box, rand, 0.05F, 1, 0, 5, 8 - 1, 0, 10 - 1, Blocks.gravel, Blocks.air, false);
 			
+			if(rand.nextInt(3) == 0)
+				placeBook(world, box, rand, 1, 5, 7, 9, this);
+			
 			return true;
 		}
 	}
@@ -266,6 +289,9 @@ public class RuinFeatures {
 			
 			this.randomlyFillWithBlocks(world, box, rand, 0.05F, 1, 0, 1, 4, 0, 5, Blocks.gravel, Blocks.air, false);
 			this.randomlyFillWithBlocks(world, box, rand, 0.05F, 1, 0, 6, 10 - 1, 0, 11 - 1, Blocks.gravel, Blocks.air, false);
+			
+			if(rand.nextInt(3) == 0)
+				placeBook(world, box, rand, 1, 1, 4, 10, this);
 			
 			return true;
 		}

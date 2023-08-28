@@ -23,8 +23,6 @@ public class MapGenSpecialFeatures extends MapGenStructure {
 	//suuuuuper efficient for .contains()
 	//do i even need chunkcoordintpairs? idk
 	Set<ChunkCoordIntPair> locs = new HashSet<ChunkCoordIntPair>();
-	//efficient enough for books n shit
-	List<ChunkCoordIntPair> bookLocs = new ArrayList<ChunkCoordIntPair>();
 	
 	/** String ID for this MapGen */
 	@Override
@@ -46,13 +44,13 @@ public class MapGenSpecialFeatures extends MapGenStructure {
 	
 	//i'll probs make a system to predict which locations are what in advance
 	//seems like biomes can be cached/gen'd without creating the chunk, thankfully
-	//vec3 will be the angle + distance from provided coords, given in chunk coords
-	public Vec3 findClosestPosition(int chunkX, int chunkZ) {
-		createBookList();
+	public ChunkCoordIntPair findClosestPosition(int chunkX, int chunkZ) {
+		if(locs.isEmpty())
+			generatePositions();
 		
 		ChunkCoordIntPair pair = new ChunkCoordIntPair(0, 0);
 		long dist = Long.MAX_VALUE;
-		for(ChunkCoordIntPair loc : bookLocs) {
+		for(ChunkCoordIntPair loc : locs) {
 			int x = loc.chunkXPos - chunkX;
 			int z = loc.chunkZPos - chunkZ;
 			long cont = x * x + z * z;
@@ -63,18 +61,7 @@ public class MapGenSpecialFeatures extends MapGenStructure {
 			}
 		}
 		
-		return Vec3.createVectorHelper(pair.chunkXPos - chunkX, 0, pair.chunkZPos - chunkZ);
-	}
-	
-	protected void createBookList() {
-		if(locs.isEmpty())
-			generatePositions();
-		
-		if(!bookLocs.isEmpty()) return;
-		
-		for(ChunkCoordIntPair loc : locs) {
-			bookLocs.add(loc);
-		}
+		return pair;
 	}
 	
 	protected void generatePositions() {
@@ -111,8 +98,6 @@ public class MapGenSpecialFeatures extends MapGenStructure {
 
 	@Override
 	protected StructureStart getStructureStart(int chunkX, int chunkZ) {
-		locs.remove(new ChunkCoordIntPair(chunkX, chunkZ));
-		
 		return new SpecialStart(this.worldObj, this.rand, chunkX, chunkZ);
 	}
 	

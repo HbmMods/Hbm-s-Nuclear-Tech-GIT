@@ -3,21 +3,16 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.entity.effect.EntityNukeTorex;
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.lib.Library;
 import com.hbm.util.TrackerUtil;
+import com.hbm.world.gen.MapGenNTMFeatures;
 
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import net.minecraft.entity.EntityTracker;
-import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IntHashMap;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
 
@@ -40,18 +35,14 @@ public class ItemWandD extends Item {
 			vnt.explode();*/
 			
 			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
-			
-			//HbmWorld.worldGenerator.specialFeatureGen.findClosestPosition(pos.blockX >> 4, pos.blockZ >> 4);
-			
+						
 			int i = pos.blockX >> 4;
 			int j = pos.blockZ >> 4;
 			
-			//MapGenNTMFeatures.Start start = new MapGenNTMFeatures.Start(world, world.rand, i, j);
+			MapGenNTMFeatures.Start start = new MapGenNTMFeatures.Start(world, world.rand, i, j);
 			i = (i << 4) + 8;
 			j = (j << 4) + 8;
-			LargeOfficeCorner corner = new LargeOfficeCorner(world.rand, i, 64, j);
-			corner.addComponentParts(world, world.rand, corner.getBoundingBox());
-			//start.generateStructure(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));
+			start.generateStructure(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));
 			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
@@ -73,7 +64,7 @@ public class ItemWandD extends Item {
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
 			
-			EntityNukeTorex torex = new EntityNukeTorex(world);
+			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
 			torex.getDataWatcher().updateObject(10, 1.5F);
 			world.spawnEntityInWorld(torex);
@@ -81,7 +72,7 @@ public class ItemWandD extends Item {
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
 			EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(torex.getEntityId());
 			entry.blocksDistanceThreshold = 1000;*/
-			TrackerUtil.setTrackingRange(world, torex, 1000);
+			//TrackerUtil.setTrackingRange(world, torex, 1000);
 			//world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));
 			
 			//DungeonToolbox.generateBedrockOreWithChance(world, world.rand, pos.blockX, pos.blockZ, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500), 2, 1);
