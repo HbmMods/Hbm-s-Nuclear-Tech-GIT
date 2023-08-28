@@ -1,8 +1,6 @@
 package com.hbm.tileentity.network;
 
 import com.hbm.tileentity.TileEntityMachineBase;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -11,6 +9,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class TileEntityCraneBase extends TileEntityMachineBase {
+	
 	public TileEntityCraneBase(int scount) {
 		super(scount);
 	}
@@ -19,15 +18,15 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase {
 	// for compatibility purposes, normal meta values are still used by default
 	private ForgeDirection outputOverride = ForgeDirection.UNKNOWN;
 
-	// for extra stability in case the screwdriver action doesn't get synced to other clients
-	@SideOnly(Side.CLIENT)
+	// for extra stability in case the screwdriver action doesn't get synced to
+	// other clients
 	private ForgeDirection cachedOutputOverride = ForgeDirection.UNKNOWN;
 
 	@Override
 	public void updateEntity() {
-		if (hasWorldObj() && worldObj.isRemote) {
-			if (cachedOutputOverride != outputOverride) {
-                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		if(hasWorldObj() && worldObj.isRemote) {
+			if(cachedOutputOverride != outputOverride) {
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				cachedOutputOverride = outputOverride;
 			}
 		}
@@ -48,12 +47,11 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase {
 
 	public void setOutputOverride(ForgeDirection direction) {
 		ForgeDirection oldSide = getOutputSide();
-		if (oldSide == direction)
-			direction = direction.getOpposite();
+		if(oldSide == direction) direction = direction.getOpposite();
 
 		outputOverride = direction;
 
-		if (direction == getInputSide())
+		if(direction == getInputSide())
 			setInput(oldSide);
 		else
 			onBlockChanged();
@@ -63,18 +61,17 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase {
 		outputOverride = getOutputSide(); // save the current output, if it isn't saved yet
 
 		ForgeDirection oldSide = getInputSide();
-		if (oldSide == direction)
-			direction = direction.getOpposite();
+		if(oldSide == direction) direction = direction.getOpposite();
 
 		boolean needSwapOutput = direction == getOutputSide();
 		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), needSwapOutput ? 4 : 3);
 
-		if (needSwapOutput)
+		if(needSwapOutput)
 			setOutputOverride(oldSide);
 	}
 
 	protected void onBlockChanged() {
-		if (!hasWorldObj()) return;
+		if(!hasWorldObj()) return;
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		worldObj.notifyBlockChange(xCoord, yCoord, zCoord, getBlockType());
 		markDirty();
@@ -95,7 +92,7 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		if (nbt.hasKey("CraneOutputOverride", Constants.NBT.TAG_BYTE))
+		if(nbt.hasKey("CraneOutputOverride", Constants.NBT.TAG_BYTE))
 			outputOverride = ForgeDirection.getOrientation(nbt.getByte("CraneOutputOverride"));
 	}
 
