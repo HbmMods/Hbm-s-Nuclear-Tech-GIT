@@ -147,6 +147,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					}
 				}
 			}
+		}
 
 			this.tanks[0].setFill(this.tanks[0].getFill() + liquid);
 			this.tanks[1].setFill(this.tanks[1].getFill() + gas);
@@ -183,6 +184,7 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 				radiate(worldObj, xCoord, yCoord, zCoord, rad, digamma);
 			}
 		}
+		
 	}
 	
 	private void radiate(World world, int x, int y, int z, float rads, float digamma) {
