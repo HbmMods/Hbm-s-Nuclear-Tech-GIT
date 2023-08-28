@@ -487,7 +487,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(118, "CC_CENTRIFUGE", 200)
 				.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.SULFURIC_ACID, 8_000))
 				.outputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250), new FluidStack(Fluids.CALCIUM_CHLORIDE, 250)));
-		recipes.add(new ChemRecipe(102, "THORIUM_SALT", 60)
+		recipes.add(new ChemRecipe(119, "THORIUM_SALT", 60)
 				.inputFluids(new FluidStack(Fluids.THORIUM_SALT_DEPLETED, 16_000))
 				.inputItems(new OreDictStack(TH232.nugget(), 2))
 				.outputFluids(new FluidStack(Fluids.THORIUM_SALT, 16_000))
