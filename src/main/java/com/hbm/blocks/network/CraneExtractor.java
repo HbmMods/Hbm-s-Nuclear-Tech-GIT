@@ -43,11 +43,6 @@ public class CraneExtractor extends BlockCraneBase {
 	}
 
 	@Override
-	protected boolean hasReversedIO() {
-		return true;
-	}
-
-	@Override
 	public int getRotationFromSide(IBlockAccess world, int x, int y, int z, int side) {
 		int meta = world.getBlockMetadata(x, y, z);
 

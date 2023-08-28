@@ -12,7 +12,6 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
@@ -45,7 +44,7 @@ public class ElectrolyserFluidRecipes extends SerializableRecipe {
 			if(recipe.output2.type != Fluids.NONE) outputs.add(ItemFluidIcon.make(recipe.output2));
 			for(ItemStack byproduct : recipe.byproduct) outputs.add(byproduct);
 			
-			recipes.put(new ComparableStack(ItemFluidIcon.make(input)), outputs.toArray());
+			recipes.put(ItemFluidIcon.make(input), outputs.toArray());
 		}
 		
 		return recipes;

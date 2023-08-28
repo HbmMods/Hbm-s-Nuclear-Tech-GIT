@@ -108,7 +108,7 @@ public class ExplosionNukeRayBatched {
 				Block block = world.getBlock(iX, iY, iZ);
 
 				if(!block.getMaterial().isLiquid())
-					res -= Math.pow(block.getExplosionResistance(null), 7.5D - fac);
+					res -= Math.pow(masqueradeResistance(block), 7.5D - fac);
 				//else
 				//	res -= Math.pow(Blocks.air.getExplosionResistance(null), 7.5D - fac); // air is 0, might want to raise that is necessary
 
@@ -148,6 +148,13 @@ public class ExplosionNukeRayBatched {
 		orderedChunks.sort(comparator);
 		
 		isAusf3Complete = true;
+	}
+	
+	public static float masqueradeResistance(Block block) {
+
+		if(block == Blocks.sandstone) return Blocks.stone.getExplosionResistance(null);
+		if(block == Blocks.obsidian) return Blocks.stone.getExplosionResistance(null) * 3;
+		return block.getExplosionResistance(null);
 	}
 	
 	/** little comparator for roughly sorting chunks by distance to the center */
