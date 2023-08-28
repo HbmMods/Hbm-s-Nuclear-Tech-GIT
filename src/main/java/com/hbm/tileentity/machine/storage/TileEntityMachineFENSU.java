@@ -146,4 +146,30 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
+	
+	@Override
+	public long transferPower(long power) {
+		
+		long overshoot = 0;
+		
+		// if power exceeds our transfer limit, truncate
+		if(power > maxTransfer) {
+			overshoot += power - maxTransfer;
+			power = maxTransfer;
+		}
+		
+		// this check is in essence the same as the default implementation, but re-arranged to never overflow the int64 range
+		// if the remaining power exceeds the power cap, truncate again
+		long freespace = this.getMaxPower() - this.getPower();
+		
+		if(freespace < power) {
+			overshoot += power - freespace;
+			power = freespace;
+		}
+		
+		// what remains is sure to not exceed the transfer limit and the power cap (and therefore the int64 range)
+		this.setPower(this.getPower() + power);
+		
+		return overshoot;
+	}
 }

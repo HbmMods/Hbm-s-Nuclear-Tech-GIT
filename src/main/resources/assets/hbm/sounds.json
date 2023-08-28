@@ -58,6 +58,7 @@
     "block.hornNearDual": {"category": "block", "sounds": [{"name": "block/hornNearDual", "stream": false}]},
     "block.hornFarSingle": {"category": "block", "sounds": [{"name": "block/hornFarSingle", "stream": false}]},
     "block.hornFarDual": {"category": "block", "sounds": [{"name": "block/hornFarDual", "stream": false}]},
+    "block.reactorLoop": {"category": "block", "sounds": [{"name": "block/reactorLoop", "stream": false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},

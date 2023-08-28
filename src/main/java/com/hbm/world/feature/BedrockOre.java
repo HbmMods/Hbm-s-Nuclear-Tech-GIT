@@ -36,9 +36,9 @@ public class BedrockOre {
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(EnumBedrockOre.GOLD,					1),													WorldConfig.bedrockGoldSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(EnumBedrockOre.URANIUM,				4,	new FluidStack(Fluids.SULFURIC_ACID, 500)),		WorldConfig.bedrockUraniumSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(EnumBedrockOre.THORIUM,				4,	new FluidStack(Fluids.SULFURIC_ACID, 500)),		WorldConfig.bedrockThoriumSpawn);
+		registerBedrockOre(weightedOres, new BedrockOreDefinition(EnumBedrockOre.FLUORITE,				1),													WorldConfig.bedrockFluoriteSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(new ItemStack(Items.coal, 4),			1,	0x202020),										WorldConfig.bedrockCoalSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(new ItemStack(ModItems.niter, 4),		2,	0x808080,	new FluidStack(Fluids.ACID, 500)),	WorldConfig.bedrockNiterSpawn);
-		registerBedrockOre(weightedOres, new BedrockOreDefinition(new ItemStack(ModItems.fluorite, 4),	1,	0xd0d0d0),										WorldConfig.bedrockFluoriteSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(new ItemStack(Items.redstone, 4),		1,	0xd01010),										WorldConfig.bedrockRedstoneSpawn);
 
 		registerBedrockOre(weightedOresNether, new BedrockOreDefinition(new ItemStack(Items.glowstone_dust, 4),		1,	0xF9FF4D),							WorldConfig.bedrockGlowstoneSpawn);

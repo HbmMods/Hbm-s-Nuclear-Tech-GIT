@@ -216,10 +216,10 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 				return;
 			}
 			
-			if(this.config.bntUpdate != null) this.config.bntUpdate.behaveUpdate(this);
-			
 			if(this.ticksExisted > config.maxAge) this.setDead();
 		}
+		
+		if(this.config.bntUpdate != null) this.config.bntUpdate.behaveUpdate(this);
 
 		this.prevPosX = posX;
 		this.prevPosY = posY;

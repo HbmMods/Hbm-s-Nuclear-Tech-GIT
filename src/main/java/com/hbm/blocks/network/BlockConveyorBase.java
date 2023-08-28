@@ -1,5 +1,8 @@
 package com.hbm.blocks.network;
 
+import java.util.List;
+
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.lib.RefStrings;
 
@@ -13,6 +16,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -22,7 +26,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class BlockConveyorBase extends Block implements IConveyorBelt {
+public abstract class BlockConveyorBase extends Block implements IConveyorBelt, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT)
 	protected IIcon sideIcon;
@@ -158,5 +162,10 @@ public abstract class BlockConveyorBase extends Block implements IConveyorBelt {
 		if(i == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

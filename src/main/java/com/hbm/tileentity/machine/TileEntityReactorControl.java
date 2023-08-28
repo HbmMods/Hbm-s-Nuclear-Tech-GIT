@@ -9,8 +9,13 @@ import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +28,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityReactorControl extends TileEntityMachineBase implements IControlReceiver, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityReactorControl extends TileEntityMachineBase implements IControlReceiver, IGUIProvider, SimpleComponent {
 
 	public TileEntityReactorControl() {
 		super(1);
@@ -101,9 +107,9 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 	
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			isLinked = establishLink();
 			
 			if(isLinked) { 
@@ -242,6 +248,67 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 		LINEAR,
 		QUAD,
 		LOG
+	}
+
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "reactor_control";
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isLinked(Context context, Arguments args) {
+		return new Object[] {isLinked};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getReactor(Context context, Arguments args) {
+		return new Object[] {getDisplayData()};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setParams(Context context, Arguments args) { //i hate my life
+		int newFunction = args.checkInteger(0);
+		double newMaxheat = args.checkDouble(1);
+		double newMinheat = args.checkDouble(2);
+		double newMaxlevel = args.checkDouble(3)/100.0;
+		double newMinlevel = args.checkDouble(4)/100.0;
+		if (newFunction > 2) {    //no more out of bounds for you (and yes there's integer values for functions, sue me)
+			newFunction = 0;
+		} else if (newFunction < 0) {
+			newFunction = 0;
+		}
+		if (newMaxheat < 0.0) {
+			newMaxheat = 0.0;
+		}
+		if (newMinheat < 0.0) {
+			newMinheat = 0.0;
+		}
+		if (newMaxlevel < 0.0) {
+			newMaxlevel = 0.0;
+		} else if (newMaxlevel > 1.0) {
+			newMaxlevel = 1.0;
+		}
+		if (newMinlevel < 0.0) {
+			newMinlevel = 0.0;
+		} else if (newMinlevel > 1.0) {
+			newMinlevel = 1.0;
+		}
+		function = RodFunction.values()[newFunction];
+		heatUpper = newMaxheat;
+		heatLower = newMinheat;
+		levelUpper = newMaxlevel;
+		levelLower = newMinlevel;
+		return new Object[] {};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getParams(Context context, Arguments args) {
+		return new Object[] {function.ordinal(), heatUpper, heatLower, levelUpper, levelLower};
 	}
 
 	@Override

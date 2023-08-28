@@ -9,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+@Deprecated
 public class EntityNukeCloudSmall extends Entity {
 	
 	public int maxAge = 1000;

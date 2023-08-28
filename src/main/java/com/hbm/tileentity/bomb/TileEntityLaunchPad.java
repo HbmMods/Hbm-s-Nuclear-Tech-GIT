@@ -4,8 +4,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.inventory.container.ContainerLaunchPadTier1;
 import com.hbm.inventory.gui.GUILaunchPadTier1;
-import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemDesingator;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -277,17 +275,6 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	@Override
 	public String getComponentName() {
 		return "launch_pad";
-	}
-	
-	@Callback
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getEnergyStored(Context context, Arguments args) {
-		return new Object[] {getPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
-	}
-	@Callback
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getMaxEnergy(Context context, Arguments args) {
-		return new Object[] {getMaxPower(), "Consider switching to the main function 'getEnergyInfo', as this function is deprecated and will soon be removed."};
 	}
 
 	@Callback

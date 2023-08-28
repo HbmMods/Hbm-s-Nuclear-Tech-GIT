@@ -96,23 +96,22 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	public void closeInventory() {}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
 		return false;
 	}
 	
 	@Override
 	public ItemStack decrStackSize(int slot, int amount) {
-		if(slots[slot] != null)
-		{
-			if(slots[slot].stackSize <= amount)
-			{
+		if(slots[slot] != null) {
+			
+			if(slots[slot].stackSize <= amount) {
 				ItemStack itemStack = slots[slot];
 				slots[slot] = null;
 				return itemStack;
 			}
+			
 			ItemStack itemStack1 = slots[slot].splitStack(amount);
-			if (slots[slot].stackSize == 0)
-			{
+			if(slots[slot].stackSize == 0) {
 				slots[slot] = null;
 			}
 			
@@ -123,17 +122,17 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	}
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
+	public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+		return this.isItemValidForSlot(slot, itemStack);
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
 		return false;
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+	public int[] getAccessibleSlotsFromSide(int side) {
 		return new int[] { };
 	}
 	
