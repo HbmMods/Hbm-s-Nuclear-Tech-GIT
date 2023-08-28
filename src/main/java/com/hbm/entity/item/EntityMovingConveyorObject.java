@@ -1,5 +1,7 @@
 package com.hbm.entity.item;
 
+import com.hbm.blocks.network.BlockConveyorDouble;
+import com.hbm.blocks.network.BlockConveyorTriple;
 import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
@@ -148,7 +150,11 @@ public abstract class EntityMovingConveyorObject extends Entity {
 	public abstract boolean onLeaveConveyor();
 	
 	public double getMoveSpeed() {
-		return 0.0625D;
+		double speed = 0.0625D; // this worked first try
+		Block b = worldObj.getBlock((int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ));
+		if (b.getClass().equals(BlockConveyorDouble.class)) return speed * 2;
+		else if (b.getClass().equals(BlockConveyorTriple.class)) return speed * 2.75;
+		else return speed;
 	}
 	
 	@SideOnly(Side.CLIENT)
