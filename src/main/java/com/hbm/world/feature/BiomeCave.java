@@ -13,7 +13,7 @@ import net.minecraft.world.biome.BiomeGenBase.TempCategory;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 
 public class BiomeCave {
 	
@@ -52,7 +52,7 @@ public class BiomeCave {
 	}
 
 	@SubscribeEvent
-	public void onDecorate(DecorateBiomeEvent.Pre event) {
+	public void onDecorate(PopulateChunkEvent.Pre event) {
 		
 		World world = event.world;
 		

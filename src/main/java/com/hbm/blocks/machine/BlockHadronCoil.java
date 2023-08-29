@@ -47,7 +47,7 @@ public class BlockHadronCoil extends Block implements IBlockCT, ITooltipProvider
 	}
 	
 	@Override
-	public boolean canConnect(IBlockAccess world, int x, int y, int z, IBlockCT block) {
+	public boolean canConnect(IBlockAccess world, int x, int y, int z, Block block) {
 		return block instanceof BlockHadronCoil;
 	}
 	

@@ -23,7 +23,6 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -403,13 +402,13 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTypeStored(Context context, Arguments args) {
-		return new Object[] {tank.getTankType().getUnlocalizedName()};
+		return new Object[] {tank.getTankType().getName()};
 	}
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getUnlocalizedName()};
+		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};
 	}
 
 	@Override

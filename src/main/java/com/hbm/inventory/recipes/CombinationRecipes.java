@@ -18,6 +18,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumTarType;
@@ -42,14 +43,16 @@ public class CombinationRecipes extends SerializableRecipe {
 		recipes.put(LIGNITE.dust(),										new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), new FluidStack(Fluids.COALCREOSOTE, 50)));
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.LIGNITE)), new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.LIGNITE), new FluidStack(Fluids.COALCREOSOTE, 100)));
 
-		recipes.put(CINNABAR.crystal(), new Pair(new ItemStack(ModItems.sulfur), new FluidStack(Fluids.MERCURY, 100)));
 		//recipes.put(CHLOROCALCITE.dust(), new Pair(new ItemStack(ModItems.powder_calcium), new FluidStack(Fluids.CHLORINE, 250)));
-		recipes.put(new ComparableStack(Items.glowstone_dust), new Pair(new ItemStack(ModItems.sulfur), new FluidStack(Fluids.CHLORINE, 100)));
+		recipes.put(CINNABAR.crystal(),							new Pair(new ItemStack(ModItems.sulfur), new FluidStack(Fluids.MERCURY, 100)));
+		recipes.put(new ComparableStack(Items.glowstone_dust),	new Pair(new ItemStack(ModItems.sulfur), new FluidStack(Fluids.CHLORINE, 100)));
+		recipes.put(SODALITE.gem(),								new Pair(new ItemStack(ModItems.powder_sodium), new FluidStack(Fluids.CHLORINE, 100)));
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.BAUXITE)), new Pair(new ItemStack(ModItems.ingot_aluminium, 2), new FluidStack(Fluids.REDMUD, 250)));
+		recipes.put(NA.dust(),									new Pair(null, new FluidStack(Fluids.SODIUM, 100)));
 
-		recipes.put(KEY_LOG,		new Pair(new ItemStack(Items.coal, 1 ,1),	new FluidStack(Fluids.WOODOIL, 250)));
-		recipes.put(KEY_SAPLING,	new Pair(null,								new FluidStack(Fluids.WOODOIL, 50)));
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.WOOD)), new Pair(new ItemStack(Items.coal, 1 ,1), new FluidStack(Fluids.WOODOIL, 500)));
+		recipes.put(KEY_LOG,		new Pair(new ItemStack(Items.coal, 1 ,1),							new FluidStack(Fluids.WOODOIL, 250)));
+		recipes.put(KEY_SAPLING,	new Pair(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.WOOD),	new FluidStack(Fluids.WOODOIL, 50)));
+		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.briquette, EnumBriquetteType.WOOD)), new Pair(new ItemStack(Items.coal, 1 ,1),	new FluidStack(Fluids.WOODOIL, 500)));
 
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE)),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), null));
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK)),	new Pair(DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), null));

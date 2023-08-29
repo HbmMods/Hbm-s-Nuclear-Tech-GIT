@@ -9,14 +9,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 
 public class SchistStratum {
 
 	NoiseGeneratorPerlin noise;
 
 	@SubscribeEvent
-	public void onDecorate(DecorateBiomeEvent.Pre event) {
+	public void onDecorate(PopulateChunkEvent.Pre event) {
 		
 		if(this.noise == null) {
 			this.noise = new NoiseGeneratorPerlin(new Random(event.world.getSeed()), 4);

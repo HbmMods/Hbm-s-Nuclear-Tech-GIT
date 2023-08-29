@@ -298,32 +298,41 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 		return "ntm_radar";
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getPower(Context context, Arguments args) {
-		return new Object[] {power};
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] isJammed(Context context, Arguments args) {
 		return new Object[] {jammed};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getEntities(Context context, Arguments args) {
-		int index = args.checkInteger(0);
-		boolean raw = args.checkBoolean(1);
-		if(!raw && !jammed) {
-			Entity e = entList.get(index);
-			double a = (e.posX);
-			double b = (e.posY);
-			double c = (e.posZ);
-			boolean d = (e instanceof EntityPlayer);
-			return new Object[] {a, b, c, d};
-		} else if (!jammed) {
-			return new Object[] {entList};
+	public Object[] getEntities(Context context, Arguments args) { //fuck fuck fuck
+		if(!jammed) {
+			List<Object> list = new ArrayList();
+			list.add(entList.size());     // small header of how many entities in the list
+			for (Entity e : entList) {
+				list.add(e.posX);   	  //  positions
+				list.add(e.posY);
+				list.add(e.posZ);
+				list.add(e.motionX);
+				list.add(e.motionY);
+				list.add(e.motionZ);
+				list.add(e.rotationYaw); //  just do rotation so you can calculate DOT
+				list.add(Math.sqrt(Math.pow(e.posX - xCoord, 2) + Math.pow(e.posZ - zCoord, 2))); //  distance
+				boolean player = e instanceof EntityPlayer;
+				list.add(player);         //  isPlayer boolean
+				if(!player)			      //  missile tier
+					list.add(((IRadarDetectable) e).getTargetType().ordinal());
+				else 				      //  player name (hopefully)
+					list.add(((EntityPlayer) e).getDisplayName());
+			}
+			return new Object[] {list};   // long-ass list (like 9 entries per entity)
 		} else {
 			return new Object[] {"Radar jammed!"};
 		}

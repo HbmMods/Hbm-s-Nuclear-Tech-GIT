@@ -375,7 +375,7 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		else if(type == Fluids.HOTSTEAM) {type_1 = "1";}
 		else if(type == Fluids.SUPERHOTSTEAM) {type_1 = "2";}
 		else if(type == Fluids.ULTRAHOTSTEAM) {type_1 = "3";}
-		else {type_1 = "Steam out-of-bounds";}
+		else {type_1 = "Unknown Error";}
 		return new Object[] {heat, steam.getFill(), steam.getMaxFill(), feed.getFill(), feed.getMaxFill(), type_1, xCoord, yCoord, zCoord};
 	}
 

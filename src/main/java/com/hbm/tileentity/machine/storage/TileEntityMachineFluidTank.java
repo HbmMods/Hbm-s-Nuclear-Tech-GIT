@@ -33,7 +33,6 @@ import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.IRepairable;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
@@ -487,12 +486,12 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTypeStored(Context context, Arguments args) {
-		return new Object[] {tank.getTankType().getUnlocalizedName()};
+		return new Object[] {tank.getTankType().getName()};
 	}
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getUnlocalizedName()};
+		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};
 	}
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.inventory.container.ContainerNukeN45;
@@ -262,12 +262,7 @@ public class TileEntityNukeN45 extends TileEntity implements ISidedInventory, IG
 				break;
 			case 4:
 				world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, (int)(BombConfig.missileRadius * 0.75F), x + 0.5, y + 0.5, z + 0.5));
-	
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, BombConfig.missileRadius * 0.005F * 0.75F);
-				entity2.posX = x;
-				entity2.posY = y;
-				entity2.posZ = z;
-				world.spawnEntityInWorld(entity2);
+				EntityNukeTorex.statFac(world, x + 0.5, y + 0.5, z + 0.5, BombConfig.missileRadius * 0.75F);
 				break;
 			}
 		}

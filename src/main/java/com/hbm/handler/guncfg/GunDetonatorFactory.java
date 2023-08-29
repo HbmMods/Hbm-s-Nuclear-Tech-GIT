@@ -88,7 +88,7 @@ public class GunDetonatorFactory {
 		bullet.doesRicochet = false;
 		bullet.setToBolt(BulletConfiguration.BOLT_LASER);
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 				
 			World world = bulletnt.worldObj;
 			if(!world.isRemote && y > 0) {

@@ -1,6 +1,9 @@
 package com.hbm.blocks.network;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityCraneSplitter;
@@ -14,6 +17,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -22,7 +26,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnterableBlock {
+public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnterableBlock, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) public IIcon iconTopLeft;
 	@SideOnly(Side.CLIENT) public IIcon iconTopRight;
@@ -153,5 +157,10 @@ public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnt
 		int meta = world.getBlockMetadata(x, y, z);
 		if(meta >= 12) return ForgeDirection.getOrientation(meta - offset);
 		return ForgeDirection.getOrientation(meta).getRotation(ForgeDirection.UP);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

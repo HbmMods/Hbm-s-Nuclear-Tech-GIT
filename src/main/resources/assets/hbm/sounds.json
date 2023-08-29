@@ -54,6 +54,11 @@
     "block.damage": {"category": "block", "sounds": ["block/dam1", "block/dam2", "block/dam3", "block/dam4"]},
     "block.electricHum": {"category": "block", "sounds": [{"name": "block/electricHum", "stream": false}]},
     "block.boiler": {"category": "block", "sounds": [{"name": "block/boiler", "stream": false}]},
+    "block.hornNearSingle": {"category": "block", "sounds": [{"name": "block/hornNearSingle", "stream": false}]},
+    "block.hornNearDual": {"category": "block", "sounds": [{"name": "block/hornNearDual", "stream": false}]},
+    "block.hornFarSingle": {"category": "block", "sounds": [{"name": "block/hornFarSingle", "stream": false}]},
+    "block.hornFarDual": {"category": "block", "sounds": [{"name": "block/hornFarDual", "stream": false}]},
+    "block.reactorLoop": {"category": "block", "sounds": [{"name": "block/reactorLoop", "stream": false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},
@@ -184,6 +189,8 @@
     "weapon.hicalShot": {"category": "player", "sounds": ["weapon/hicalShot", "weapon/hicalShot3", "weapon/hicalShot4"]},
     "weapon.coilgunReload": {"category": "player", "sounds": [{"name": "weapon/coilgunReload", "stream": false}]},
     "weapon.coilgunShoot": {"category": "player", "sounds": [{"name": "weapon/coilgunShoot", "stream": false}]},
+    "weapon.glReload": {"category": "player", "sounds": [{"name": "weapon/glReload", "stream": false}]},
+    "weapon.glShoot": {"category": "player", "sounds": [{"name": "weapon/glShoot", "stream": false}]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 

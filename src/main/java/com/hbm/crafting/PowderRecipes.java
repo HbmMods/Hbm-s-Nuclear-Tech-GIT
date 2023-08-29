@@ -67,6 +67,8 @@ public class PowderRecipes {
 		
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_fertilizer, 4), new Object[] { CA.dust(), P_RED.dust(), ModItems.ammonium_nitrate });
 
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_fertilizer, 4), new Object[] { ANY_ASH.any(), P_RED.dust(), KNO.dust(), ModItems.ammonium_nitrate});
+
 		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCrafting) {
 			CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_advanced_alloy, 4), new Object[] { REDSTONE.dust(), IRON.dust(), COAL.dust(), CU.dust() });
 			CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_advanced_alloy, 4), new Object[] { IRON.dust(), COAL.dust(), MINGRADE.dust(), MINGRADE.dust() });

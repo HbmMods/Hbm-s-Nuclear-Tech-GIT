@@ -276,44 +276,47 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	public String getComponentName() {
 		return "launch_pad";
 	}
-	
+
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getEnergyStored(Context context, Arguments args) {
-		return new Object[] {getPower()};
-	}
-	@Callback
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getMaxEnergy(Context context, Arguments args) {
-		return new Object[] {getMaxPower()};
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoords(Context context, Arguments args) {
 		if (slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
-			int xCoord2 = slots[1].stackTagCompound.getInteger("xCoord");
-			int zCoord2 = slots[1].stackTagCompound.getInteger("zCoord");
+			int xCoord2;
+			int zCoord2;
+			if (slots[1].stackTagCompound != null) {
+				xCoord2 = slots[1].stackTagCompound.getInteger("xCoord");
+				zCoord2 = slots[1].stackTagCompound.getInteger("zCoord");
+			} else
+				return new Object[] {false};
 
 			// Not sure if i should have this
+			/*
 			if(xCoord2 == xCoord && zCoord2 == zCoord) {
 				xCoord2 += 1;
 			}
-			
+			*/
+
 			return new Object[] {xCoord2, zCoord2};
 		}
-		return new Object[] {"Designator not found"};
+		return new Object[] {false, "Designator not found"};
 	}
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setCoords(Context context, Arguments args) {
 		if (slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			slots[1].stackTagCompound = new NBTTagCompound();
 			slots[1].stackTagCompound.setInteger("xCoord", args.checkInteger(0));
 			slots[1].stackTagCompound.setInteger("zCoord", args.checkInteger(1));
-			
-			return new Object[] {"Success"};
+
+			return new Object[] {true};
 		}
-		return new Object[] {"Designator not found"};
+		return new Object[] {false, "Designator not found"};
 	}
 	
 	@Callback

@@ -284,7 +284,7 @@ public class GunRocketFactory {
 		bullet.incendiary = 0;
 		bullet.trail = 7;
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 			BulletConfigFactory.nuclearExplosion(bulletnt, x, y, z, ExplosionNukeSmall.PARAMS_MEDIUM);
 		};
 		
@@ -395,7 +395,7 @@ public class GunRocketFactory {
 		bullet.incendiary = 0;
 		bullet.trail = 7;
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 
 			if(bulletnt.worldObj.isRemote)
 				return;

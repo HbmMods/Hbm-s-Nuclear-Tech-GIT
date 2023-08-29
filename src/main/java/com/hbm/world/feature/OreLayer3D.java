@@ -8,7 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 
 public class OreLayer3D {
 
@@ -51,7 +51,7 @@ public class OreLayer3D {
 	}
 
 	@SubscribeEvent
-	public void onDecorate(DecorateBiomeEvent.Pre event) {
+	public void onDecorate(PopulateChunkEvent.Pre event) {
 
 		World world = event.world;
 		

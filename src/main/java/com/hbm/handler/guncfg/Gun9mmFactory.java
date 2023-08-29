@@ -44,7 +44,7 @@ public class Gun9mmFactory {
 		config.reloadSoundEnd = false;
 		
 		config.name = "mp40";
-		config.manufacturer = EnumGunManufacturer.NAZI;
+		config.manufacturer = EnumGunManufacturer.ERFURT;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.P9_NORMAL);

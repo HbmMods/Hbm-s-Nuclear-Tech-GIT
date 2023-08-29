@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Level;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
@@ -133,13 +133,8 @@ public class NukeGadget extends BlockContainer implements IBomb {
 			tetn.clearSlots();
 			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
 
-	    	world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, BombConfig.gadgetRadius, x + 0.5, y + 0.5, z + 0.5));
-	    	
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, BombConfig.gadgetRadius * 0.005F);
-				entity2.posX = x;
-				entity2.posY = y;
-				entity2.posZ = z;
-				world.spawnEntityInWorld(entity2);
+			world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, BombConfig.gadgetRadius, x + 0.5, y + 0.5, z + 0.5));
+			EntityNukeTorex.statFac(world, x + 0.5, y + 0.5, z + 0.5, BombConfig.gadgetRadius);
 		}
 
 		return false;

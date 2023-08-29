@@ -18,6 +18,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public static final String key = "NTM_EXT_PLAYER";
 	public EntityPlayer player;
 	
+	public boolean hasReceivedBook = false;
+	
 	public boolean enableHUD = true;
 	public boolean enableBackpack = true;
 	
@@ -152,6 +154,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		
 		NBTTagCompound props = new NBTTagCompound();
 		
+		props.setBoolean("hasReceivedBook", hasReceivedBook);
 		props.setFloat("shield", shield);
 		props.setFloat("maxShield", maxShield);
 		props.setFloat("nitan", nitanCount);
@@ -167,6 +170,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		NBTTagCompound props = (NBTTagCompound) nbt.getTag("HbmPlayerProps");
 		
 		if(props != null) {
+			this.hasReceivedBook = props.getBoolean("hasReceivedBook");
 			this.shield = props.getFloat("shield");
 			this.nitanCount = props.getInteger("nitan");
 			this.maxShield = props.getFloat("maxShield");

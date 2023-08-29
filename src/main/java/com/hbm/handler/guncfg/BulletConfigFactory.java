@@ -150,7 +150,7 @@ public class BulletConfigFactory {
 		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				if(bullet.worldObj.isRemote)
 					return;
@@ -314,12 +314,19 @@ public class BulletConfigFactory {
 		}
 	}
 	
+	public static void makeFlechette(BulletConfiguration bullet) {
+
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
+			bulletnt.getStuck(x, y, z, sideHit);
+		};
+	}
+	
 	public static IBulletImpactBehaviorNT getPhosphorousEffect(final int radius, final int duration, final int count, final double motion, float hazeChance) {
 		
 		IBulletImpactBehaviorNT impact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				List<Entity> hit = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet, AxisAlignedBB.getBoundingBox(bullet.posX - radius, bullet.posY - radius, bullet.posZ - radius, bullet.posX + radius, bullet.posY + radius, bullet.posZ + radius));
 				
@@ -359,9 +366,9 @@ public class BulletConfigFactory {
 
 		IBulletImpactBehaviorNT impact = new IBulletImpactBehaviorNT() {
 
+
 			@Override
-			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
-				
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:weapon.flashbang", 1F,1F);
 				
 				List<Entity> hit = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet, AxisAlignedBB.getBoundingBox(bullet.posX - radius, bullet.posY - radius, bullet.posZ - radius, bullet.posX + radius, bullet.posY + radius, bullet.posZ + radius));
@@ -384,6 +391,7 @@ public class BulletConfigFactory {
 					}
 				}
 			}
+			
 		};
 
 		return impact;
@@ -394,7 +402,7 @@ public class BulletConfigFactory {
 		IBulletImpactBehaviorNT impact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				List<Entity> hit = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet, AxisAlignedBB.getBoundingBox(bullet.posX - radius, bullet.posY - radius, bullet.posZ - radius, bullet.posX + radius, bullet.posY + radius, bullet.posZ + radius));
 				

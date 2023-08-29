@@ -1,7 +1,6 @@
 package com.hbm.main;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -75,7 +74,6 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
-import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
@@ -155,10 +153,37 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public class ModEventHandlerClient {
 	
+	public static int flashTimer;
+	
 	@SubscribeEvent
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
+		/// NUKE FLASH ///
+		if(event.type == ElementType.CROSSHAIRS && flashTimer > 0) {
+			int width = event.resolution.getScaledWidth();
+			int height = event.resolution.getScaledHeight();
+			Tessellator tess = Tessellator.instance;
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.0F);
+			GL11.glDepthMask(false);
+			tess.startDrawingQuads();
+			float brightness = (flashTimer - event.partialTicks) / 200F;
+			tess.setColorRGBA_F(1F, 1F, 1F, brightness * 0.8F);
+			tess.addVertex(width, 0, 0);
+			tess.addVertex(0, 0, 0);
+			tess.addVertex(0, height, 0);
+			tess.addVertex(width, height, 0);
+			tess.draw();
+			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+			GL11.glDepthMask(true);
+			return;
+		}
 		
 		/// HANDLE GUN OVERLAYS ///
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemHUD) {
@@ -202,18 +227,6 @@ public class ModEventHandlerClient {
 						((ILookOverlay) entity).printHook(event, world, 0, 0, 0);
 					}
 				}
-			}
-			
-			List<EntityNukeTorex> torex = world.getEntitiesWithinAABB(EntityNukeTorex.class, player.boundingBox.expand(100, 100, 100));
-			
-			if(!torex.isEmpty()) {
-				EntityNukeTorex t = torex.get(0);
-				List<String> text = new ArrayList();
-				text.add("Speed: " + t.getSimulationSpeed());
-				text.add("Alpha: " + t.getAlpha());
-				text.add("Age: " + t.ticksExisted + " / " + t.getMaxAge());
-				text.add("Clouds: " + t.cloudlets.size());
-				ILookOverlay.printGeneric(event, "DEBUG", 0xff0000, 0x4040000, text);
 			}
 			
 			/*List<String> text = new ArrayList();
@@ -1330,6 +1343,8 @@ public class ModEventHandlerClient {
 				client.sendQueue.addToSendQueue(new C0CPacketInput(client.moveStrafing, client.moveForward, client.movementInput.jump, client.movementInput.sneak));
 			}
 		}
+		
+		if(event.phase == Phase.START) if(flashTimer > 0) flashTimer--;
 	}
 	
 	@SubscribeEvent

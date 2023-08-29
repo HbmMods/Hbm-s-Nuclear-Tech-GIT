@@ -43,6 +43,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	public boolean isOn;
 	public FluidTank tank;
 	public long prev;
+	public static long maxJoules = Long.MAX_VALUE / 100_000;
 	
 	public static final int range = 50;
 
@@ -98,6 +99,8 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 					for(int i = 1; i <= range; i++) {
 						
+						if(out > maxJoules) out = maxJoules;
+						
 						beam = i;
 		
 						int x = xCoord + dir.offsetX * i;
@@ -126,7 +129,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 						
 						Block b = worldObj.getBlock(x, y, z);
 						
-						if(b != Blocks.air) {
+						if(!b.isAir(worldObj, x, y, z)) {
 							
 							if(b.getMaterial().isLiquid()) {
 								worldObj.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.fizz", 1.0F, 1.0F);
@@ -278,14 +281,8 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getEnergyStored(Context context, Arguments args) {
-		return new Object[] {getPower()};
-	}
-
-	@Callback(direct = true, limit = 4)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getMaxEnergy(Context context, Arguments args) {
-		return new Object[] {getMaxPower()};
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
 	}
 
 	@Callback(direct = true, limit = 4)

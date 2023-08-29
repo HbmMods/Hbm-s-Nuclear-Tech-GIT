@@ -100,11 +100,22 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 		GL11.glRotated(90, 1, 0, 0);
 		
 		bindTexture(TextureMap.locationItemsTexture);
-		IIcon icon = stack.getIconIndex();
-		float f14 = icon.getMinU();
-		float f15 = icon.getMaxU();
-		float f4 = icon.getMinV();
-		float f5 = icon.getMaxV();
-		ItemRenderer.renderItemIn2D(Tessellator.instance, f15, f4, f14, f5, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
+		
+		for(int i = 0; i < stack.getItem().getRenderPasses(stack.getItemDamage()); i++) {
+			
+			IIcon icon = stack.getItem().getIcon(stack, i);
+			float f14 = icon.getMinU();
+			float f15 = icon.getMaxU();
+			float f4 = icon.getMinV();
+			float f5 = icon.getMaxV();
+
+			int k1 = stack.getItem().getColorFromItemStack(stack, i);
+			float f10 = (float) (k1 >> 16 & 255) / 255.0F;
+			float f11 = (float) (k1 >> 8 & 255) / 255.0F;
+			float f12 = (float) (k1 & 255) / 255.0F;
+			GL11.glColor4f(1.0F * f10, 1.0F * f11, 1.0F * f12, 1.0F);
+
+			ItemRenderer.renderItemIn2D(Tessellator.instance, f15, f4, f14, f5, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
+		}
 	}
 }
