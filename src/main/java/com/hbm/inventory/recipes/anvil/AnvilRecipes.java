@@ -526,8 +526,12 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CU.plate()), new AnvilOutput(new ItemStack(ModItems.casing_buckshot))).setTier(1));
 
 		pullFromAssembler(new ComparableStack(ModItems.pellet_buckshot), 1);
-		pullFromAssembler(new ComparableStack(ModItems.pellet_cluster), 1);
-		pullFromAssembler(new ComparableStack(ModItems.pellet_chlorophyte), 1);
+		pullFromAssembler(new ComparableStack(ModItems.pellet_canister), 1);
+
+		constructionRecipes.add(new AnvilConstructionRecipe( new AStack[]{
+				new ComparableStack(ModItems.powder_chlorophyte, 1),
+				new OreDictStack(PB.nugget(), 12),},
+				new AnvilOutput(new ItemStack(ModItems.pellet_chlorophyte, 2))).setTier(1));
 		
 		Object[][] recs = new Object[][] {
 			{ModItems.ammo_12gauge.stackFromEnum(12, Ammo12Gauge.STOCK),	P_RED.dust(),										ModItems.ammo_12gauge.stackFromEnum(12, Ammo12Gauge.INCENDIARY),	2},

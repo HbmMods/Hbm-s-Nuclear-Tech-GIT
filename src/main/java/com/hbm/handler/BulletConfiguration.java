@@ -186,7 +186,7 @@ public class BulletConfiguration implements Cloneable {
 		this.dmgMin *= 2F;
 		this.dmgMax *= 2F;
 		this.wear *= 0.5;
-		this.velocity *= 0.2;
+		this.velocity *= 0.3;
 		this.doesRicochet = false;
 		this.doesPenetrate = true;
 		this.vPFX = "greendust";
