@@ -1,4 +1,8 @@
+## Changed
+* Thorium salts can no longer be stored in normal tanks due to being corrosive
+* Updated russian localization
+
 ## Fixed
-* Fixed PWR still operating as normal even when the structure is dissolved
-* Fixed the new watz not giving the meltdown achievement
-* Fixed serverside crash caused by conveyor cranes
+* Fixed PWR crashing servers instantly
+* Fixed missing tank textures for sodium
+* Fixed missing lang entry for hot heavy water
