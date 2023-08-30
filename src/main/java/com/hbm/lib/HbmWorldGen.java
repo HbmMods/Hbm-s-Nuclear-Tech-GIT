@@ -668,7 +668,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			int x = i + rand.nextInt(16);
 			int z = j + rand.nextInt(16);
 			int y = world.getHeightValue(x, z) - rand.nextInt(10);
-			(new Meteorite()).generate(world, rand, x, y, z, false, false, false);
+			(new Meteorite()).generate(world, rand, x, y, z, false, false, false, false);
 		}
 
 		if (GeneralConfig.enableNITAN) {
