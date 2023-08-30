@@ -6,7 +6,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityMist;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.explosion.ExplosionChaos;
@@ -263,11 +263,7 @@ public class ItemAmmoArty extends Item {
 		this.itemTypes[NUKE] = new ArtilleryShell("ammo_arty_nuke", SpentCasing.COLOR_CASE_16INCH_NUKE) {
 			public void onImpact(EntityArtilleryShell shell, MovingObjectPosition mop) {
 				shell.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(shell.worldObj, BombConfig.missileRadius, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(shell.worldObj, 1000, BombConfig.missileRadius * 0.005F);
-				entity2.posX = mop.hitVec.xCoord;
-				entity2.posY = mop.hitVec.yCoord;
-				entity2.posZ = mop.hitVec.zCoord;
-				shell.worldObj.spawnEntityInWorld(entity2);
+				EntityNukeTorex.statFac(shell.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, BombConfig.missileRadius);
 				shell.setDead();
 			}
 		};

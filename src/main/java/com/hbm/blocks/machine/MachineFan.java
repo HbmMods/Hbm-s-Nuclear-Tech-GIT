@@ -2,6 +2,8 @@ package com.hbm.blocks.machine;
 
 import java.util.List;
 
+import com.hbm.blocks.ITooltipProvider;
+
 import api.hbm.block.IBlowable;
 import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;
@@ -20,7 +22,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineFan extends BlockContainer implements IToolable {
+public class MachineFan extends BlockContainer implements IToolable, ITooltipProvider {
 
 	public MachineFan() {
 		super(Material.iron);
@@ -141,5 +143,10 @@ public class MachineFan extends BlockContainer implements IToolable {
 		if(meta == 5) world.setBlockMetadataWithNotify(x, y, z, 4, 3);
 		
 		return true;
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

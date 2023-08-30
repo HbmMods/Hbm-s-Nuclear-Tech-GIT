@@ -5,7 +5,7 @@ import java.util.List;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.entity.effect.EntityVortex;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
@@ -490,7 +490,7 @@ public class EntityModBeam extends Entity implements IProjectile {
 				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
 				this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, BombConfig.gadgetRadius, posX, posY, posZ));
-				this.worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, posX, posY, posZ, BombConfig.gadgetRadius));
+				EntityNukeTorex.statFac(worldObj, posX, posY, posZ, BombConfig.gadgetRadius);
 			}
 		}
 	}

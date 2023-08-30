@@ -66,7 +66,8 @@ public class ItemWandD extends Item {
 			
 			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
-			torex.getDataWatcher().updateObject(10, 1.5F);
+			torex.setScale(1.5F);
+			torex.setType(1);
 			world.spawnEntityInWorld(torex);
 			/*EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");

@@ -11,14 +11,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 
 public class DeepLayer {
 
 	NoiseGeneratorPerlin noise;
 
 	@SubscribeEvent
-	public void onDecorate(DecorateBiomeEvent.Pre event) {
+	public void onDecorate(PopulateChunkEvent.Pre event) {
 
 		World world = event.world;
 		if(world.provider == null || world.provider.dimensionId != 0) return;
