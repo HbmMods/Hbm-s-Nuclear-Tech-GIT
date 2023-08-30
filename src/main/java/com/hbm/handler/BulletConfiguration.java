@@ -182,7 +182,8 @@ public class BulletConfiguration implements Cloneable {
 	}
 	
 	public BulletConfiguration getChlorophyte() {
-		this.bntUpdate = BulletConfigFactory.getHomingBehavior(20, 360);
+		this.bntUpdate = BulletConfigFactory.getHomingBehavior(30, 180);
+		this.bntHurt = BulletConfigFactory.getPenHomingBehavior();
 		this.dmgMin *= 2F;
 		this.dmgMax *= 2F;
 		this.wear *= 0.5;
