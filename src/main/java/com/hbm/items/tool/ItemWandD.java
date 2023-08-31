@@ -2,12 +2,15 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.lib.Library;
 import com.hbm.util.TrackerUtil;
 import com.hbm.world.gen.MapGenNTMFeatures;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
@@ -35,8 +38,29 @@ public class ItemWandD extends Item {
 			vnt.explode();*/
 			
 			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
+			
+			for(int i = 0; i < 2; i++) {
+				for(int k = 0; k < 2; k++) {
+					for(int j = 0; j < 6; j++) {
+						double r = world.rand.nextGaussian();
 						
-			int i = pos.blockX >> 4;
+						Block b;
+						int meta = 0;
+						if(r < -1) {
+							b = ModBlocks.steel_beam;
+						} else if(r < .15) {
+							b = ModBlocks.brick_concrete_stairs;
+							meta = world.rand.nextInt(16);
+						} else {
+							b = ModBlocks.brick_concrete;
+						}
+						
+						world.setBlock(pos.blockX + i, pos.blockY + j + 1, pos.blockZ + k, b, meta, 2);
+					}
+				}
+			}
+			
+			/*int i = pos.blockX >> 4;
 			int j = pos.blockZ >> 4;
 			
 			MapGenNTMFeatures.Start start = new MapGenNTMFeatures.Start(world, world.rand, i, j);
