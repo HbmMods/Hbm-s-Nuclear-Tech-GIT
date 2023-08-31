@@ -666,6 +666,7 @@ hbmfluid.heatingoil_vacuum=Schweres Heizöl
 hbmfluid.heavyoil=Schweröl
 hbmfluid.heavyoil_vacuum=Vakuum-Schweröl
 hbmfluid.heavywater=Schweres Wasser
+hbmfluid.heavywater_hot=Heißes Schweres Wasser
 hbmfluid.helium3=Helium-3
 hbmfluid.helium4=Helium-4
 hbmfluid.hotcrackoil=Heißes Crack-Öl
