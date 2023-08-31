@@ -188,7 +188,7 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_uzi, 32), new Object[] { " I", "GC", 'I', IRON.ingot(), 'G', ModItems.ballistite, 'C', ModItems.casing_9 });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_uzi, 32), new Object[] { " I", "GC", 'I', IRON.ingot(), 'G', ModItems.cordite, 'C', ModItems.casing_9 });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_uzi, 32), new Object[] { " I", "GC", 'I', IRON.ingot(), 'G', ModItems.ballistite, 'C', ModItems.casing_9 });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_lacunae, 32), new Object[] { " I", "GC", 'I', CU.ingot(), 'G', ModItems.cordite, 'C', ModItems.casing_9 });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_lacunae, 64), new Object[] { " I", "GC", 'I', CU.ingot(), 'G', ModItems.cordite, 'C', ModItems.casing_9 });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_nopip, 24), new Object[] { " I", "GC", 'I', PB.ingot(), 'G', ModItems.cordite, 'C', ModItems.casing_44 });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_nopip, 24), new Object[] { " I", "GC", 'I', PB.ingot(), 'G', ModItems.ballistite, 'C', ModItems.casing_44 });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_12gauge, 12), new Object[] { " I ", "GCL", 'I', ModItems.pellet_buckshot, 'G', ModItems.cordite, 'C', ModItems.casing_buckshot, 'L', ModItems.plate_polymer });

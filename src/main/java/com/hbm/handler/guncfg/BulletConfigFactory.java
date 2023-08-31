@@ -446,7 +446,7 @@ public class BulletConfigFactory {
 	}
 	
 	public static IBulletUpdateBehaviorNT getHomingBehavior(final double range, final double angle) {
-		
+
 		IBulletUpdateBehaviorNT onUpdate = new IBulletUpdateBehaviorNT() {
 
 			@Override
@@ -465,7 +465,6 @@ public class BulletConfigFactory {
 					
 					Vec3 delta = Vec3.createVectorHelper(target.posX - bullet.posX, target.posY + target.height / 2 - bullet.posY, target.posZ - bullet.posZ);
 					delta = delta.normalize();
-					
 					double vel = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).lengthVector();
 
 					bullet.motionX = delta.xCoord * vel;
@@ -500,6 +499,10 @@ public class BulletConfigFactory {
 						double deltaAngle = BobMathUtil.getCrossAngle(mot, delta);
 					
 						if(deltaAngle < targetAngle) {
+							//Checks if the bullet is not already inside the entity's bounding box, so it doesn't pick the same target
+							if(bullet.getConfig().doesPenetrate && bullet.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bullet.boundingBox.expand(2, 2, 2)) == null) {
+								continue;
+							}
 							target = e;
 							targetAngle = deltaAngle;
 						}
@@ -514,4 +517,9 @@ public class BulletConfigFactory {
 		
 		return onUpdate;
 	}
+	/** Resets the bullet's target **/
+	public static IBulletHurtBehaviorNT getPenHomingBehavior(){
+		return (bullet, hit) -> bullet.getEntityData().setInteger("homingTarget", 0);
+	}
+
 }
