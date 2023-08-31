@@ -108,6 +108,7 @@ public class Gun50BMGFactory {
 		config.firingMode = GunConfiguration.FIRE_AUTO;
 		config.reloadDuration = 20;
 		config.firingDuration = 0;
+		config.reloadSoundEnd = false;
 		config.ammoCap = 50;
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
@@ -134,7 +135,26 @@ public class Gun50BMGFactory {
 		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK);
 		
 		config.ejector = EJECTOR_BMG;
-		
+
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+				)
+		);
+		config.animations.put(AnimType.RELOAD, new BusAnimation()
+				.addBus("TILT", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 125))
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 750))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 125))
+				)
+				.addBus("MAG", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 200))
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 1, 200))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+				)
+		);
+
 		return config;
 	}
 	
