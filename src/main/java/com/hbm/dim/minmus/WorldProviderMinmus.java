@@ -21,8 +21,8 @@ public class WorldProviderMinmus extends WorldProvider {
 	public void registerWorldChunkManager() {
 		
 		this.worldChunkMgr = new WorldChunkManagerMinmus(worldObj);
-		this.dimensionId = SpaceConfig.minmusDimension;
-		this.hasNoSky = false;
+		//this.dimensionId = SpaceConfig.minmusDimension;
+		//this.hasNoSky = false;
 	}
 
 	@Override

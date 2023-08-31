@@ -1,8 +1,6 @@
 package com.hbm.dim.minmus.GenLayerMinmus;
 
-import com.hbm.dim.dres.biome.BiomeGenBaseDres;
-import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
-import com.hbm.dim.eve.biome.BiomeGenBaseEve;
+
 import com.hbm.dim.minmus.biome.BiomeGenBaseMinmus;
 
 import net.minecraft.world.biome.BiomeGenBase;

@@ -17,9 +17,7 @@ public class BiomeGenBaseMinmus extends BiomeGenBase
 {
     public static final BiomeGenBase minmusPlains = new BiomeGenMinmusHills(SpaceConfig.minmusBiome).setTemperatureRainfall(-1.0F, 0.0F);
     public static final BiomeGenBase minmusCanyon = new BiomeGenMinmusBasin(SpaceConfig.minmusBasins).setTemperatureRainfall(-1.0F, 0.0F);
-    //public static final BiomeGenBase eveHighlands = new BiomeGenDunaPolar(WorldConfig.dunaPolarBiome).setTemperatureRainfall(-1.0F, 0.0F);
-    //public static final BiomeGenBase eveHills = new BiomeGenDunaHills(WorldConfig.dunaHillsBiome).setTemperatureRainfall(-1.0F, 0.0F);
-    //public static final BiomeGenBase eveMountains = new BiomeGenEveMountains(WorldConfig.eveMountainsBiome).setTemperatureRainfall(-1.0F, 0.0F);
+    
     
     public BiomeGenBaseMinmus(int id)
     {
