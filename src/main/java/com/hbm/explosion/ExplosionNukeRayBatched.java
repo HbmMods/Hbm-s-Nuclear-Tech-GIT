@@ -6,10 +6,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
@@ -76,6 +80,8 @@ public class ExplosionNukeRayBatched {
 	}
 
 	public void collectTip(int count) {
+		
+		//count = Math.min(count, 10);
 
 		int amountProcessed = 0;
 
@@ -119,7 +125,16 @@ public class ExplosionNukeRayBatched {
 					chunkCoords.add(chunkPos);
 				}
 
-				if(res <= 0 || i + 1 >= this.length) {
+				if(res <= 0 || i + 1 >= this.length || i == length - 1) {
+					
+					/*NBTTagCompound fx = new NBTTagCompound();
+					fx.setString("type", "debugline");
+					fx.setDouble("mX", vec.xCoord * i);
+					fx.setDouble("mY", vec.yCoord * i);
+					fx.setDouble("mZ", vec.zCoord * i);
+					fx.setInteger("color", 0xff0000);
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(fx, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 200));*/
+					
 					break;
 				}
 			}
