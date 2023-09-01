@@ -160,7 +160,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 						} 
 						
 						float hardness = b.getExplosionResistance(null);
-						if(hardness < 2400 && worldObj.rand.nextInt(5) == 0) {
+						if(hardness < 75 && worldObj.rand.nextInt(5) == 0) {
 							worldObj.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.fizz", 1.0F, 1.0F);
 							Block block = (this.mode != EnumWavelengths.DRX) ? Blocks.fire : (MainRegistry.polaroidID == 11) ? ModBlocks.digamma_matter : ModBlocks.fire_digamma;
 							worldObj.setBlock(x, y, z, block);

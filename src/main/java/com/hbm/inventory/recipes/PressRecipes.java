@@ -92,28 +92,28 @@ public class PressRecipes extends SerializableRecipe {
 		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_arsenic_raw),	ModItems.circuit_arsenic);
 		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_tantalium_raw),	ModItems.circuit_tantalium);
 
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_iron),			ModItems.ammo_357.stackFromEnum(Ammo357Magnum.IRON));
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_steel),		ModItems.ammo_357.stackFromEnum(Ammo357Magnum.LEAD));
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_lead),			ModItems.ammo_357.stackFromEnum(Ammo357Magnum.NUCLEAR));
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_gold),			ModItems.ammo_357.stackFromEnum(Ammo357Magnum.GOLD));
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_schrabidium),	ModItems.ammo_357.stackFromEnum(Ammo357Magnum.SCHRABIDIUM));
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_nightmare),	ModItems.ammo_357.stackFromEnum(Ammo357Magnum.NIGHTMARE1));
-		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_desh),			ModItems.ammo_357.stackFromEnum(Ammo357Magnum.DESH));
+		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_iron),			ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.IRON));
+		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_steel),		ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.LEAD));
+		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_lead),			ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.NUCLEAR));
+		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_gold),			ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.GOLD));
+		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_schrabidium),	ModItems.ammo_357.stackFromEnum(6, Ammo357Magnum.SCHRABIDIUM));
+		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_nightmare),	ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.NIGHTMARE1));
+		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_desh),			ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.DESH));
 		makeRecipe(StampType.C357, new OreDictStack(STEEL.ingot()),						ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.STEEL));
 		
-		makeRecipe(StampType.C44, new ComparableStack(ModItems.assembly_nopip),		ModItems.ammo_44);
-		makeRecipe(StampType.C44, new ComparableStack(ModItems.assembly_45), 		ModItems.ammo_45);
+		makeRecipe(StampType.C44, new ComparableStack(ModItems.assembly_nopip),		new ItemStack(ModItems.ammo_44, 24));
+		makeRecipe(StampType.C44, new ComparableStack(ModItems.assembly_45), 		new ItemStack(ModItems.ammo_45, 32));
 
-		makeRecipe(StampType.C9, new ComparableStack(ModItems.assembly_smg),		ModItems.ammo_9mm);
-		makeRecipe(StampType.C9, new ComparableStack(ModItems.assembly_uzi),		ModItems.ammo_22lr);
+		makeRecipe(StampType.C9, new ComparableStack(ModItems.assembly_smg),		new ItemStack(ModItems.ammo_9mm, 32));
+		makeRecipe(StampType.C9, new ComparableStack(ModItems.assembly_uzi),		new ItemStack(ModItems.ammo_22lr, 32));
 		makeRecipe(StampType.C9, new OreDictStack(GOLD.ingot()),					ModItems.ammo_556.stackFromEnum(32, Ammo556mm.GOLD));
-		makeRecipe(StampType.C9, new ComparableStack(ModItems.assembly_lacunae),	ModItems.ammo_5mm);
-		makeRecipe(StampType.C9, new ComparableStack(ModItems.assembly_556),		ModItems.ammo_556);
+		makeRecipe(StampType.C9, new ComparableStack(ModItems.assembly_lacunae),	new ItemStack(ModItems.ammo_5mm, 64));
+		makeRecipe(StampType.C9, new ComparableStack(ModItems.assembly_556),		new ItemStack(ModItems.ammo_556, 32));
 
-		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_calamity),		ModItems.ammo_50bmg);
-		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_actionexpress),	ModItems.ammo_50ae);
-		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_luna), 			ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.SABOT));
-		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_762), 			ModItems.ammo_762);
+		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_calamity),		new ItemStack(ModItems.ammo_50bmg, 12));
+		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_actionexpress),	new ItemStack(ModItems.ammo_50ae, 12));
+		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_luna), 			ModItems.ammo_luna_sniper.stackFromEnum(4, AmmoLunaticSniper.SABOT));
+		makeRecipe(StampType.C50, new ComparableStack(ModItems.assembly_762), 			new ItemStack(ModItems.ammo_762, 32));
 	}
 
 	public static void makeRecipe(StampType type, AStack in, Item out) {

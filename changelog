@@ -1,8 +1,16 @@
 ## Changed
-* Thorium salts can no longer be stored in normal tanks due to being corrosive
-* Updated russian localization
+* Chlorophyte rounds now deal 2x more damage than their standard counterparts instead of 1.5x
+* Chlorophyte rounds now penetrate multiple enemies
+* Decreased chlorophyte targeting range from 200 to 30 blocks
+* Josh now has recoil and reload animations
+* Anvil recipes for upgrading ammo types have been adjusted to match the crafting batch size
+* Adjusted the corium block destruction function to be more in line with the recent concrete nerfs
+* Reduced the blast resistance threshold for FEL, making concrete once again resistant to lasers
+* Crafting bullet assemblies now only yields one item, it's that one assembly that turns into a full set of bullets after being pressed once. This should reduce the amount of press operations by up to a factor of 64.
+* 5mm assemblies now yield 64 instead of 32 bullets
+* The production complexity and time for making thermoelectric elements in the assembler has been reduced
+* Thermoelectric elements can now also be made in a tier 2 anvil
 
 ## Fixed
-* Fixed PWR crashing servers instantly
-* Fixed missing tank textures for sodium
-* Fixed missing lang entry for hot heavy water
+* Fixed logspam when pollution handler tries to save the pollution data for dimensions that have never been loaded before
+* Fixed dead leaves layer not being replacable by other blocks
