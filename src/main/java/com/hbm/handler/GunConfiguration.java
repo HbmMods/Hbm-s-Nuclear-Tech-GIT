@@ -25,6 +25,8 @@ public class GunConfiguration implements Cloneable {
 	public int rateOfFire;
 	//amount of bullets fired per delay passed
 	public int roundsPerCycle;
+	/** Amount of rounds per burst, irrelevant if not a burst fire weapon**/
+	public int roundsPerBurst;
 	//0 = normal, 1 = release, 2 = both
 	public int gunMode;
 	//0 = manual, 1 = automatic
@@ -46,7 +48,7 @@ public class GunConfiguration implements Cloneable {
 	//how long the reload animation will play
 	//MUST BE GREATER THAN ZERO ! ! !
 	public int reloadDuration;
-	//duration of every animation cycle
+	//duration of every animation cycle, used also for how quickly a burst fire rifle can fire
 	public int firingDuration;
 	//sound path to the reload sound
 	public String reloadSound = "";
