@@ -88,16 +88,6 @@ public class Gun45ACPFactory {
 						.addKeyframe(new BusAnimationKeyframe(15, 0, 0, 10))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 40))));
 
-		//faster version of the main one, so it doesn't cut out much on the bursts
-		config.animations.put(AnimType.ALT_CYCLE, new BusAnimation()
-				.addBus("SLIDE", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 5))// Wait for hammer
-						.addKeyframe(new BusAnimationKeyframe(0, 0, -3.5, 20))// Slide back
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 20)))// Return
-				.addBus("HAMMER", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(15, 0, 0, 5))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 20))));
-
 		return config;
 	}
 

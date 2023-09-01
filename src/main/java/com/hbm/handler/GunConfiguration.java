@@ -96,6 +96,7 @@ public class GunConfiguration implements Cloneable {
 
 	public static final int FIRE_MANUAL = 0;
 	public static final int FIRE_AUTO = 1;
+	public static final int FIRE_BURST = 2;
 
 	public static final int RELOAD_NONE = 0;
 	public static final int RELOAD_FULL = 1;
