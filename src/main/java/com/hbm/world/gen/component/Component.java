@@ -672,9 +672,11 @@ abstract public class Component extends StructureComponent {
 	}
 	/** Have you ever wanted Glyphids in your building? No? Too bad! **/
 	protected void infest(World world, StructureBoundingBox box, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, int maxSize, Random rand){
-		PollutionHandler.PollutionPerWorld ppw = 	PollutionHandler.perWorld.get(world);
 
-		int infestChance = Math.max((int)MobConfig.baseInfestChance - (ppw.pollution.size()/10), 1);
+		PollutionHandler.PollutionPerWorld ppw = PollutionHandler.perWorld.get(world);
+
+		int pollutedLocations = ppw == null ? 0 : ppw.pollution.size();
+		int infestChance = Math.max((int)MobConfig.baseInfestChance - (pollutedLocations/10), 1);
 		if(!enableInfestation || rand.nextInt(infestChance + 1) != 0 || getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
 			return;
 		int nestCount = 0;
