@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.ZirnoxDestroyed;
 import com.hbm.blocks.machine.rbmk.RBMKDebris;
 
@@ -99,6 +100,7 @@ public class BlockLayering extends Block {
 	}
 
 	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
+		if(this == ModBlocks.leaves_layer) return true;
 		int meta = world.getBlockMetadata(x, y, z);
 		return meta >= 7 ? false : blockMaterial.isReplaceable();
 	}

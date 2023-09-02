@@ -142,8 +142,11 @@ public class PollutionHandler {
 			try {
 				if(!pollutionFile.getParentFile().exists()) pollutionFile.getParentFile().mkdirs();
 				if(!pollutionFile.exists()) pollutionFile.createNewFile();
-				NBTTagCompound data = perWorld.get(world).writeToNBT();
-				CompressedStreamTools.writeCompressed(data, new FileOutputStream(pollutionFile));
+				PollutionPerWorld ppw = perWorld.get(world);
+				if(ppw != null) {
+					NBTTagCompound data = ppw.writeToNBT();
+					CompressedStreamTools.writeCompressed(data, new FileOutputStream(pollutionFile));
+				}
 			} catch(Exception ex) {
 				System.out.println("Failed to write " + pollutionFile.getAbsolutePath());
 				ex.printStackTrace();
