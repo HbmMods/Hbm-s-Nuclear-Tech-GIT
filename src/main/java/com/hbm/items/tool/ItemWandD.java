@@ -63,7 +63,7 @@ public class ItemWandD extends Item {
 			tom.posZ = pos.blockZ;
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
-			
+			/*
 			EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
 			torex.setScale(1.5F);
@@ -72,8 +72,9 @@ public class ItemWandD extends Item {
 			/*EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
 			EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(torex.getEntityId());
-			entry.blocksDistanceThreshold = 1000;*/
+			entry.blocksDistanceThreshold = 1000;
 			TrackerUtil.setTrackingRange(world, torex, 1000);
+
 			//world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));
 			
 			//DungeonToolbox.generateBedrockOreWithChance(world, world.rand, pos.blockX, pos.blockZ, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500), 2, 1);

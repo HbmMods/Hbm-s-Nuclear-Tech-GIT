@@ -93,7 +93,37 @@ public class LootGenerator {
 			}
 		}
 	}
-	
+	public static void lootScrapMetal(World world, int x, int y, int z) {
+
+		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
+		Item scrap;
+
+		if(loot != null && loot.items.isEmpty()) {
+			int scrapType = world.rand.nextInt(3);
+			int type = world.rand.nextInt(4);
+            switch(scrapType) {
+				case 0:
+					for (int i = 0; i < 8; i++) {
+						scrap = type < 2 ? ModItems.plate_steel : type == 2 ? ModItems.plate_copper : ModItems.plate_aluminium;
+						loot.addItem(new ItemStack(scrap), world.rand.nextGaussian() * 0.06, i * 0.01125, world.rand.nextGaussian() * 0.06);
+					}
+				break;
+
+				case 1:
+					for (int i = 0; i < 16; i++) {
+
+						scrap = type < 2 ? ModItems.bolt_tungsten : type == 2 ? ModItems.wire_tungsten : ModItems.bolt_dura_steel;
+						loot.addItem(new ItemStack(scrap), world.rand.nextGaussian() * 0.06, i * 0.01125,  world.rand.nextGaussian() * 0.06);
+					}
+				break;
+
+				default:
+					int type2 = world.rand.nextInt(8);
+					scrap = type < 2 ? ModItems.hull_big_steel : type2 < 4 ? ModItems.hull_big_titanium : type2 < 7 ? ModItems.pipes_steel : ModItems.tank_steel;
+					loot.addItem(new ItemStack(scrap), world.rand.nextGaussian() * 0.06, 0, world.rand.nextGaussian() * 0.06);
+			}
+		}
+	}
 	public static void lootMakeshiftGun(World world, int x, int y, int z) {
 
 		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);

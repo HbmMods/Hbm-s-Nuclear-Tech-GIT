@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 
+import com.hbm.util.LootGenerator;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
@@ -158,12 +159,12 @@ public class GlyphidHive {
 			{
 					{0,0,0,0,9,9,9,0,0,0,0},
 					{0,0,0,0,3,3,3,0,0,0,0},
-					{0,0,0,1,3,9,3,1,0,0,0},
+					{0,0,0,1,3,8,3,1,0,0,0},
 					{0,0,1,1,9,9,9,1,1,0,0},
+					{9,3,3,9,9,9,9,9,7,2,9},
+					{9,3,9,9,9,9,9,9,2,2,9},
 					{9,3,3,9,9,9,9,9,2,2,9},
-					{9,3,9,9,9,9,9,9,9,2,9},
-					{9,3,3,9,9,9,9,9,2,2,9},
-					{0,0,1,1,9,9,9,1,1,0,0},
+					{0,0,1,1,7,9,9,1,1,0,0},
 					{0,0,0,1,2,9,2,1,0,0,0},
 					{0,0,0,0,2,2,2,0,0,0,0},
 					{0,0,0,0,9,9,9,0,0,0,0},
@@ -173,9 +174,9 @@ public class GlyphidHive {
 					{0,0,0,0,0,0,0,0,0,0,0},
 					{0,0,0,0,1,1,1,0,0,0,0},
 					{0,0,0,1,1,9,1,1,0,0,0},
-					{0,0,1,1,9,9,9,1,1,0,0},
+					{0,0,1,1,9,7,9,1,1,0,0},
 					{0,0,1,9,9,9,9,9,1,0,0},
-					{0,0,1,1,9,9,9,1,1,0,0},
+					{0,0,1,1,7,9,9,1,1,0,0},
 					{0,0,0,1,1,9,1,1,0,0,0},
 					{0,0,0,0,1,1,1,0,0,0,0},
 					{0,0,0,0,0,0,0,0,0,0,0},
@@ -204,7 +205,7 @@ public class GlyphidHive {
 				for(int k = 0; k < 11; k++) {
 					
 					int block = schematicBigGround[6 - j][i][k];
-					
+
 					if(block == 1 || (block != orientation && block > 1 && block < 6)) {
 						world.setBlock(x + i - 5, y + j - 2, z + k - 5, ModBlocks.glyphid_base);
 					}
@@ -216,6 +217,7 @@ public class GlyphidHive {
 		}
 		
 		world.setBlock(x, y - 1, z, ModBlocks.glyphid_spawner);
+
 	}
 	public static void generateBigOrb(World world, int x, int y, int z, Random rand) {
 
@@ -227,11 +229,25 @@ public class GlyphidHive {
 
 					int block = schematicBigStructure[6 - j][i][k];
 
-					if(block == 1 || (block != orientation && block > 1 && block < 6)) {
-						world.setBlock(x + i - 5, y + j - 2, z + k - 5, ModBlocks.glyphid_base);
-					}
-					if(block == 9) {
-						world.setBlock(x + i - 5, y + j - 2, z + k - 5, Blocks.air);
+					switch (block) {
+						case 1:
+							world.setBlock(x + i - 5, y + j - 2, z + k - 5, ModBlocks.glyphid_base);
+							break;
+
+						case 7:
+						case 8:
+							world.setBlock(x + i - 5, y + j - 2, z + k - 5, ModBlocks.deco_loot);
+							if (block == 8) LootGenerator.lootMakeshiftGun(world, x + i - 5, y + j - 2, z + k - 5);
+							else LootGenerator.lootScrapMetal(world,x + i - 5, y + j - 2, z + k - 5);
+							break;
+						case 9:
+							world.setBlock(x + i - 5, y + j - 2, z + k - 5, Blocks.air);
+							break;
+
+						default:
+							if(block != orientation && block > 1 && block < 6){
+								world.setBlock(x + i - 5, y + j - 2, z + k - 5, ModBlocks.glyphid_base);
+							}
 					}
 				}
 			}
