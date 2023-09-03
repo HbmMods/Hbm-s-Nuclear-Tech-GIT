@@ -1,5 +1,7 @@
 package com.hbm.world.gen.component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
@@ -23,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -672,14 +675,18 @@ abstract public class Component extends StructureComponent {
 	}
 	/** Have you ever wanted Glyphids in your building? No? Too bad! **/
 	protected void infest(World world, StructureBoundingBox box, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, int maxSize, Random rand){
+		if(!enableInfestation)
+			return;
 
 		PollutionHandler.PollutionPerWorld ppw = PollutionHandler.perWorld.get(world);
 
 		int pollutedLocations = ppw == null ? 0 : ppw.pollution.size();
 		int infestChance = Math.max((int)MobConfig.baseInfestChance - (pollutedLocations/10), 1);
-		if(!enableInfestation || rand.nextInt(infestChance + 1) != 0 || getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
+
+		if(rand.nextInt(infestChance + 1) != 0 || getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
 			return;
-		int nestCount = 0;
+
+		ArrayList<Vec3> hives = new ArrayList<>();
 
 		for(int x = minX; x <= maxX; x++) {
 
@@ -688,12 +695,15 @@ abstract public class Component extends StructureComponent {
 				int posZ = getZWithOffset(x, z);
 
 				if(posX >= box.minX && posX <= box.maxX && posZ >= box.minZ && posZ <= box.maxZ) {
+
 					for(int y = minY; y <= maxY; y++) {
 						int posY = getYWithOffset(y);
 
-						if (rand.nextInt(1000) <= 8 + (ppw.pollution.size()/10) - maxSize*2 && !(nestCount >= maxSize)) {
-							GlyphidHive.generateBigOrb(world, posX, posY, posZ, world.rand);
-							nestCount++;
+						if (rand.nextInt(1000) <= 8 + (pollutedLocations/10) - maxSize * 2 && hives.size() < maxSize) {
+                            if(hives.size() < 3 || hives.get(hives.size() - 1).squareDistanceTo(hives.get(hives.size() - 2)) <= 64) {
+								GlyphidHive.generateBigOrb(world, posX, posY, posZ, world.rand);
+								hives.add(Vec3.createVectorHelper(posX, posY, posZ));
+							}
 						}
 					}
 				}
