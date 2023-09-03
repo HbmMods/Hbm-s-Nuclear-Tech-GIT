@@ -204,7 +204,7 @@ public class OfficeFeatures {
 			placeDoor(world, box, ModBlocks.door_office, 3, true, rand.nextBoolean(), 3, 1, 7);
 			placeDoor(world, box, ModBlocks.door_office, 0, false, rand.nextBoolean(), 5, 1, 6);
 			//the bugs
-			infest(world, box, 1, 0, 3, sizeX - 1, sizeY + 2, sizeZ - 1, 2, rand);
+			infest(world, box, 1, 0, 3, sizeX - 1, sizeY, sizeZ - 1, 2, rand);
 
 			//Woot
 			if(!this.hasPlacedLoot[0])
@@ -536,9 +536,6 @@ public class OfficeFeatures {
 			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 2, 9, 5, HbmChestContents.filingCabinet, 4);
 			fillWithRandomizedBlocks(world, box, 4, 14, 0, 8, 14, 0, rand, ConcreteBricks);
 
-			//the bugs
-			infest(world, box, 1, 0, 3, sizeX - 1, 14, sizeZ - 1, 3, rand);
-
 			generateLockableContents(world, box, rand, ModBlocks.safe, getDecoMeta(2), 1, 9, 13, HbmChestContents.officeTrash, 10, 1.0D);
 			if(rand.nextInt(2) == 0)
 				generateLoreBook(world, box, 1, 9, 13, 7, HbmChestContents.generateOfficeBook(rand));
@@ -551,6 +548,8 @@ public class OfficeFeatures {
 			LootGenerator.lootCapStash(world, this.getXWithOffset(6, 11), this.getYWithOffset(13), this.getZWithOffset(6, 11));
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_loot, 0, 1, 10, 11, box);
 			LootGenerator.lootMedicine(world, this.getXWithOffset(1, 11), this.getYWithOffset(10), this.getZWithOffset(1, 11));
+			//the bugs
+			infest(world, box, 1, 0, 3, sizeX - 1, 12, sizeZ - 1, 3, rand);
 			
 			//this hurt my soul
 			

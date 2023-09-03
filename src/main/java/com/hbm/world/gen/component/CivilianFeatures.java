@@ -532,7 +532,7 @@ public class CivilianFeatures {
 			int northMeta = this.getDecoMeta(3);
 			int southMeta = this.getDecoMeta(2);
 			//BUGS!
-			infest(world, box, 1, 0, 3, sizeX - 1, sizeY, sizeZ - 1, 1, rand);
+			infest(world, box, 1, 6, 3, sizeX - 1, sizeY, sizeZ - 1, 1, rand);
 
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crashed_balefire, southMeta, 6, sizeY - 2, 3, box);
 			

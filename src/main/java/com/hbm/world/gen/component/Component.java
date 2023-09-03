@@ -700,7 +700,7 @@ abstract public class Component extends StructureComponent {
 						int posY = getYWithOffset(y);
 
 						if (rand.nextInt(1000) <= 8 + (pollutedLocations/10) - maxSize * 2 && hives.size() < maxSize) {
-                            if(hives.size() < 3 || hives.get(hives.size() - 1).squareDistanceTo(hives.get(hives.size() - 2)) <= 64) {
+                            if(hives.size() < 3 || hives.get(hives.size() - 1).squareDistanceTo(hives.get(hives.size() - 2)) <= 100) {
 								GlyphidHive.generateBigOrb(world, posX, posY, posZ, world.rand);
 								hives.add(Vec3.createVectorHelper(posX, posY, posZ));
 							}
