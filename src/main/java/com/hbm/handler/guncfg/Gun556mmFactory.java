@@ -10,6 +10,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo556mm;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.EnumMagazine;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -69,6 +70,8 @@ public class Gun556mmFactory {
 		
 		config.config = HbmCollection.r556.toList();
 		
+		config.magazines.add((short) EnumMagazine.R_BAE.ordinal());
+		
 		return config;
 	}
 	
@@ -107,6 +110,8 @@ public class Gun556mmFactory {
 		config.comment.add("Napalm sticks to kids");
 
 		config.config = HbmCollection.r556Flechette.toList();
+		
+		config.magazines.add((short) EnumMagazine.R_FLECHETTE.ordinal());
 		
 		config.ejector = EJECTOR_RIFLE;
 		
@@ -179,7 +184,7 @@ public class Gun556mmFactory {
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		bullet.bntImpact = (bulletnt, x, y, z) -> {
@@ -337,7 +342,7 @@ public class Gun556mmFactory {
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		bullet.bntImpact = (bulletnt, x, y, z) -> {

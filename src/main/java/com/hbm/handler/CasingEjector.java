@@ -1,8 +1,9 @@
 package com.hbm.handler;
 
-import java.util.HashMap;
 import java.util.Random;
 
+import org.eclipse.collections.api.factory.primitive.IntObjectMaps;
+import org.eclipse.collections.api.map.primitive.MutableIntObjectMap;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
@@ -23,7 +24,8 @@ import net.minecraft.world.World;
  */
 public class CasingEjector implements Cloneable {
 	
-	public static HashMap<Integer, CasingEjector> mappings = new HashMap();
+//	public static HashMap<Integer, CasingEjector> mappings = new HashMap();
+	public static final MutableIntObjectMap<CasingEjector> mappings = IntObjectMaps.mutable.empty();
 	public static final Random rand = new Random();
 
 	private int id;
@@ -128,9 +130,9 @@ public class CasingEjector implements Cloneable {
 
 	private static Vec3 rotateVector(Vec3 vector, float pitch, float yaw, float pitchFactor, float yawFactor) {
 		// Apply randomness to vector
-		vector.xCoord += rand.nextGaussian() * yawFactor;
-		vector.yCoord += rand.nextGaussian() * pitchFactor;
-		vector.zCoord += rand.nextGaussian() * yawFactor;
+//		vector.xCoord += rand.nextGaussian() * yawFactor;
+//		vector.yCoord += rand.nextGaussian() * pitchFactor;
+//		vector.zCoord += rand.nextGaussian() * yawFactor;
 
 		final Matrix4f pitchMatrix = new Matrix4f(), yawMatrix = new Matrix4f();
 
@@ -139,8 +141,9 @@ public class CasingEjector implements Cloneable {
 
 		yawMatrix.setIdentity();
 		yawMatrix.rotate(-yaw, new Vector3f(0, 1, 0));
-
-		final Vector4f vector4f = new Vector4f((float) vector.xCoord, (float) vector.yCoord, (float) vector.zCoord, 1);
+		
+		// Apply randomness to vector
+		final Vector4f vector4f = new Vector4f((float) (vector.xCoord + rand.nextGaussian() * yawFactor), (float) (vector.yCoord + rand.nextGaussian() * pitchFactor), (float) (vector.zCoord + rand.nextGaussian() * yawFactor), 1);
 
 		Matrix4f.transform(pitchMatrix, vector4f, vector4f);
 		Matrix4f.transform(yawMatrix, vector4f, vector4f);

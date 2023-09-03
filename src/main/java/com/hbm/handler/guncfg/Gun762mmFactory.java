@@ -7,6 +7,7 @@ import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.EnumMagazine;
 import com.hbm.items.ItemAmmoEnums.Ammo762NATO;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.RefStrings;
@@ -75,6 +76,8 @@ public class Gun762mmFactory {
 		
 		config.config = HbmCollection.r762.toList();
 		
+		config.magazines.add((short) EnumMagazine.B_CALAMITY.ordinal());
+		
 		config.ejector = EJECTOR_RIFLE;
 		
 		return config;
@@ -104,6 +107,8 @@ public class Gun762mmFactory {
 
 		config.config.addAll(HbmCollection.r762);
 		
+		config.magazines.add((short) EnumMagazine.R_UAC_DMR.ordinal());
+		
 		config.ejector = EJECTOR_RIFLE;
 
 		return config;
@@ -112,7 +117,7 @@ public class Gun762mmFactory {
 	public static GunConfiguration getUACCarbineConfig() {
 		final GunConfiguration config = getUACDMRConfig();
 
-		config.rateOfFire = 2;
+		config.rateOfFire = 1;
 		config.reloadDuration = 20;
 		config.ammoCap = 40;
 		config.durability = 40000;
@@ -121,6 +126,9 @@ public class Gun762mmFactory {
 		config.firingSound = "hbm:weapon.carbineShootPB3";
 
 		config.name = "uacCarbine";
+		
+		config.magazines.clear();
+		config.magazines.add((short) EnumMagazine.R_UAC_CARBINE.ordinal());
 
 		return config;
 	}
@@ -135,6 +143,10 @@ public class Gun762mmFactory {
 		config.firingSound = "hbm:weapon.LMGShootPB3Alt";
 
 		config.name = "uacLMG";
+		
+		config.magazines.clear();
+		config.magazines.add((short) EnumMagazine.B_UAC_LMG.ordinal());
+		config.magazines.add((short) EnumMagazine.B_UAC_LMG_MISSILE.ordinal());
 
 		return config;
 	}
@@ -157,7 +169,10 @@ public class Gun762mmFactory {
 		config.manufacturer = EnumGunManufacturer.SACO;
 		config.comment.add("\"Get some!\"");
 		config.comment.add(" ~ Stuart Brown (aka Ahoy)");
+		
 		config.config.addAll(HbmCollection.r762);
+		
+		config.magazines.add((short) EnumMagazine.B_762.ordinal());
 		
 		config.ejector = EJECTOR_RIFLE;
 

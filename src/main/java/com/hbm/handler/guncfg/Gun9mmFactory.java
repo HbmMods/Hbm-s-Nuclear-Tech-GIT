@@ -1,12 +1,13 @@
 package com.hbm.handler.guncfg;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo9mm;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.EnumMagazine;
+import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -45,11 +46,15 @@ public class Gun9mmFactory {
 		config.manufacturer = EnumGunManufacturer.NAZI;
 		
 //		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.P9_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.P9_AP);
-		config.config.add(BulletConfigSyncingUtil.P9_DU);
-		config.config.add(BulletConfigSyncingUtil.CHL_P9);
-		config.config.add(BulletConfigSyncingUtil.P9_ROCKET);
+//		config.config.add(BulletConfigSyncingUtil.P9_NORMAL);
+//		config.config.add(BulletConfigSyncingUtil.P9_AP);
+//		config.config.add(BulletConfigSyncingUtil.P9_DU);
+//		config.config.add(BulletConfigSyncingUtil.CHL_P9);
+//		config.config.add(BulletConfigSyncingUtil.P9_ROCKET);
+		
+		config.config.addAll(HbmCollection.p9);
+		
+		config.magazines.add((short) EnumMagazine.R_MP40.ordinal());
 		
 		config.ejector = EJECTOR_SMG;
 		

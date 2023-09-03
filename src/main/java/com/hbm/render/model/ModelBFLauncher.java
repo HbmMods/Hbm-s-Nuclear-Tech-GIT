@@ -234,7 +234,7 @@ public class ModelBFLauncher extends ModelBase {
 		Shape32.render(f5);
 		Shape33.render(f5);
 
-		int ammo = ItemGunBase.getMag(item);
+		int ammo = ItemGunBase.getMag(item, true);
 		if(ammo > 0) {
 			Shape13.render(f5);
 			Shape14.render(f5);

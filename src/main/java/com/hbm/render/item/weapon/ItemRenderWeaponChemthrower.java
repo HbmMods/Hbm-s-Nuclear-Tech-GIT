@@ -2,6 +2,7 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.items.weapon.ItemGunChemthrower;
 import com.hbm.main.ResourceManager;
 
@@ -92,7 +93,7 @@ public class ItemRenderWeaponChemthrower implements IItemRenderer {
 		ResourceManager.chemthrower.renderPart("Nozzle");
 		
 		GL11.glTranslated(0, 0.875, 1.75);
-		double d = (double) chem.getMag(item) / (double) chem.mainConfig.ammoCap;
+		double d = (double) ItemGunBase.getMag(item, true) / (double) chem.mainConfig.ammoCap;
 		GL11.glRotated(135 - d * 270, 1, 0, 0);
 		GL11.glTranslated(0, -0.875, -1.75);
 		

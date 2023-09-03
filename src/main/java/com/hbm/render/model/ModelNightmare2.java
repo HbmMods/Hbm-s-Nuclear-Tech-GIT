@@ -8,6 +8,8 @@ package com.hbm.render.model;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.GeneralConfig.MagazineMode;
 import com.hbm.items.weapon.ItemGunBase;
 
 import net.minecraft.client.model.ModelBase;
@@ -218,7 +220,7 @@ public class ModelNightmare2 extends ModelBase {
 		Shape18.render(f5);
 		Shape19.render(f5);
 		
-		int ammo = ItemGunBase.getMag(item);
+		int ammo = ItemGunBase.getMag(item, GeneralConfig.magazineMode == MagazineMode.OFF);
 		
 		if(ammo > 0)
 			Bullet1.render(f5);

@@ -5,6 +5,7 @@ import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.EnumMagazine;
 import com.hbm.items.ItemAmmoEnums.Ammo50AE;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
@@ -57,6 +58,8 @@ public class Gun50AEFactory {
 		
 		config.hasSights = true;
 		config.config = HbmCollection.ae50.toList();
+		
+		config.magazines.add((short) EnumMagazine.P_DEAGLE.ordinal());
 		
 		config.ejector = EJECTOR_PISTOL;
 		

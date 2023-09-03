@@ -243,6 +243,7 @@ public class BulletConfiguration implements Cloneable {
 		try {
 			return (BulletConfiguration) super.clone();
 		} catch(CloneNotSupportedException e) {
+			// Shouldn't happen, but just in case...
 			MainRegistry.logger.catching(e);
 			return new BulletConfiguration();
 		}

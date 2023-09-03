@@ -2,6 +2,8 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.GeneralConfig.MagazineMode;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
@@ -40,7 +42,7 @@ public class ItemRenderBenelli implements IItemRenderer
 	
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-		int magSize = ItemGunBase.getMag(item);
+		int magSize = ItemGunBase.getMag(item, GeneralConfig.magazineMode == MagazineMode.OFF);
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		GL11.glPushMatrix();
 

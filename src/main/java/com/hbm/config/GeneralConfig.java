@@ -11,9 +11,9 @@ public class GeneralConfig {
 		OFF,
 		/**Simple, but fast and easy method**/
 		FAST,
-		/**Similar to {@link #FAST} but one at a time and no connected belts**/
+		/**Similar to {@link #FAST} but one at a time**/
 		IMMERSIVE,
-		/**CBT**/
+		/**They weren't lying, that destructor do be hideous**/
 		HIDEOUS;
 	}
 	
@@ -150,6 +150,6 @@ public class GeneralConfig {
 		
 		final String CATEGORY_WEAPONS = CommonConfig.CATEGORY_WEAPONS;
 		// 528 mode forces HIDEOUS mode
-		magazineMode = enable528 ? MagazineMode.HIDEOUS : MagazineMode.values()[MathHelper.clamp_int(CommonConfig.createConfigInt(config, CATEGORY_WEAPONS, "17.01_gunMagazineMode", "Enables guns to use magazines (or proper belts), in the given modes:\n\t0 = OFF - behavior as it was before\n\t1 = FAST - fill magazines quickly and automatically, belts may be considered connected\n\t2 = IMMERSIVE - fill magazines more manually, belts are independent of each other\n\t3 = HIDEOUS - fill and unload magazines one round at a time, some magazines may only accept one type of ammo; Automatically enabled with 528 mode", 0), 0, 3)];
+		magazineMode = enable528 ? MagazineMode.HIDEOUS : MagazineMode.values()[MathHelper.clamp_int(CommonConfig.createConfigInt(config, CATEGORY_WEAPONS, "17.01_gunMagazineMode", "Enables guns to use magazines (or proper belts), in the given modes:\n\t0 = OFF - behavior as it was before\n\t1 = FAST - fill magazines quickly and automatically, belts may be considered connected\n\t2 = IMMERSIVE - fill magazines more manually\n\t3 = HIDEOUS - fill and unload magazines one round at a time, some magazines may only accept one type of ammo; Belts are not interconnected; Automatically enabled with 528 mode", 0), 0, 3)];
 	}
 }

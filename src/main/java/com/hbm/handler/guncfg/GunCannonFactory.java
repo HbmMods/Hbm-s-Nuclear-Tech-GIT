@@ -10,7 +10,7 @@ import com.hbm.particle.SpentCasing.CasingType;
 
 public class GunCannonFactory {
 	
-	protected static SpentCasing CASINNG240MM;
+	protected static final SpentCasing CASINNG240MM;
 	
 	static {
 		CASINNG240MM = new SpentCasing(CasingType.BOTTLENECK).setScale(7.5F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(1F, 0.5D, 60, 20);

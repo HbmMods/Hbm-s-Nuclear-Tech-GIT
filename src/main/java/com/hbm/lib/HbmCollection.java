@@ -2,8 +2,10 @@ package com.hbm.lib;
 
 import java.util.Set;
 
+import org.eclipse.collections.api.factory.primitive.IntIntMaps;
 import org.eclipse.collections.api.factory.primitive.IntLists;
 import org.eclipse.collections.api.list.primitive.IntList;
+import org.eclipse.collections.api.map.primitive.MutableIntIntMap;
 
 import com.google.common.collect.ImmutableSet;
 import com.hbm.handler.BulletConfigSyncingUtil;
@@ -25,6 +27,7 @@ public class HbmCollection {
 	// SHOTGUNS
 	/** 12 GAUGE **/
 	public static final IntList g12 = IntLists.immutable.of(BulletConfigSyncingUtil.G12_NORMAL, BulletConfigSyncingUtil.G12_INCENDIARY, BulletConfigSyncingUtil.G12_SHRAPNEL, BulletConfigSyncingUtil.G12_DU, BulletConfigSyncingUtil.G12_AM, BulletConfigSyncingUtil.G12_SLEEK, BulletConfigSyncingUtil.G12_PERCUSSION);
+	/** 12 GAUGE (HEADSHOT MULTIPLIER) **/
 	public static final IntList g12hs = IntLists.immutable.of(BulletConfigSyncingUtil.G12HS_NORMAL, BulletConfigSyncingUtil.G12HS_INCENDIARY, BulletConfigSyncingUtil.G12HS_SHRAPNEL, BulletConfigSyncingUtil.G12HS_DU, BulletConfigSyncingUtil.G12HS_AM, BulletConfigSyncingUtil.G12HS_SLEEK, BulletConfigSyncingUtil.G12HS_PERCUSSION);
 	/** 20 GAUGE **/
 	public static final IntList g20 = IntLists.immutable.of(BulletConfigSyncingUtil.G20_NORMAL, BulletConfigSyncingUtil.G20_SLUG, BulletConfigSyncingUtil.G20_FLECHETTE, BulletConfigSyncingUtil.G20_FIRE, BulletConfigSyncingUtil.G20_SHRAPNEL, BulletConfigSyncingUtil.G20_EXPLOSIVE, BulletConfigSyncingUtil.G20_CAUSTIC, BulletConfigSyncingUtil.G20_SHOCK, BulletConfigSyncingUtil.G20_WITHER, BulletConfigSyncingUtil.G20_SLEEK);
@@ -74,7 +77,18 @@ public class HbmCollection {
 	public static final IntList grenade = IntLists.immutable.of(BulletConfigSyncingUtil.GRENADE_NORMAL, BulletConfigSyncingUtil.GRENADE_HE, BulletConfigSyncingUtil.GRENADE_INCENDIARY, BulletConfigSyncingUtil.GRENADE_PHOSPHORUS, BulletConfigSyncingUtil.GRENADE_CHEMICAL, BulletConfigSyncingUtil.GRENADE_CONCUSSION, BulletConfigSyncingUtil.GRENADE_FINNED, BulletConfigSyncingUtil.GRENADE_SLEEK, BulletConfigSyncingUtil.GRENADE_NUCLEAR, BulletConfigSyncingUtil.GRENADE_TRACER, BulletConfigSyncingUtil.GRENADE_KAMPF);
 	/** 84MM ROCKET **/
 	public static final IntList rocket = IntLists.immutable.of(BulletConfigSyncingUtil.ROCKET_NORMAL, BulletConfigSyncingUtil.ROCKET_HE, BulletConfigSyncingUtil.ROCKET_INCENDIARY, BulletConfigSyncingUtil.ROCKET_PHOSPHORUS, BulletConfigSyncingUtil.ROCKET_SHRAPNEL, BulletConfigSyncingUtil.ROCKET_EMP, BulletConfigSyncingUtil.ROCKET_GLARE, BulletConfigSyncingUtil.ROCKET_TOXIC, BulletConfigSyncingUtil.ROCKET_CANISTER, BulletConfigSyncingUtil.ROCKET_SLEEK, BulletConfigSyncingUtil.ROCKET_NUKE, BulletConfigSyncingUtil.ROCKET_CHAINSAW);
-		
+	
+	/// BULLET CONFIGURATION RE-MAPS
+	// PISTOL CALIBER
+	/** .22 LONG RIFLE -TO- .22 LONG RIFLE (INCENDIARY) **/
+	public static final MutableIntIntMap lr22_lr22Inc;
+	/** .357 MAGNUM -TO- .357 MAGNUM (HEADSHOT MULTIPLIER) **/
+	public static final MutableIntIntMap m357_m357HS;
+	/** 5MM -TO- 5MM BOLT **/ 
+	public static final MutableIntIntMap r5_r5Bolt;
+	/** 12 GAUGE -TO- 12 GAUGE (HEADSHOT MULTIPLIER) **/
+	public static final MutableIntIntMap g12_g12HS;
+	
 	/// FREQUENTLY USED TRANSLATION KEYS
 	// GUN MANUFACTURERS
 	public static enum EnumGunManufacturer {
@@ -199,4 +213,48 @@ public class HbmCollection {
 	public static final String meltPoint = "desc.misc.meltPoint";
 	public static final String lctrl = "desc.misc.lctrl";
 	public static final String lshift = "desc.misc.lshift";
+	
+	/// INITIALIZE COMPLEX OBJECTS
+	static
+	{
+		MutableIntIntMap map = IntIntMaps.mutable.withInitialCapacity(3);
+		
+		map.put(BulletConfigSyncingUtil.LR22_NORMAL, BulletConfigSyncingUtil.LR22_NORMAL_FIRE);
+		map.put(BulletConfigSyncingUtil.LR22_AP, BulletConfigSyncingUtil.LR22_AP_FIRE);
+		map.put(BulletConfigSyncingUtil.CHL_LR22, BulletConfigSyncingUtil.CHL_LR22_FIRE);
+		
+		lr22_lr22Inc = map.asUnmodifiable();// Might be more performant than making tons of copies. If you copy a gun configuration using something like this and want to add more, only then will you have to make a copy.
+		
+		map = IntIntMaps.mutable.withInitialCapacity(5);
+		
+		map.put(BulletConfigSyncingUtil.STEEL_REVOLVER, BulletConfigSyncingUtil.STEEL_HS);
+		map.put(BulletConfigSyncingUtil.GOLD_REVOLVER, BulletConfigSyncingUtil.GOLD_HS);
+		map.put(BulletConfigSyncingUtil.IRON_REVOLVER, BulletConfigSyncingUtil.IRON_HS);
+		map.put(BulletConfigSyncingUtil.LEAD_REVOLVER, BulletConfigSyncingUtil.LEAD_HS);
+		map.put(BulletConfigSyncingUtil.DESH_REVOLVER, BulletConfigSyncingUtil.DESH_HS);
+		
+		m357_m357HS = map.asUnmodifiable();
+		
+		map = IntIntMaps.mutable.withInitialCapacity(5);
+		
+		map.put(BulletConfigSyncingUtil.R5_NORMAL, BulletConfigSyncingUtil.R5_NORMAL_BOLT);
+		map.put(BulletConfigSyncingUtil.R5_EXPLOSIVE, BulletConfigSyncingUtil.R5_EXPLOSIVE_BOLT);
+		map.put(BulletConfigSyncingUtil.R5_DU, BulletConfigSyncingUtil.R5_DU_BOLT);
+		map.put(BulletConfigSyncingUtil.R5_STAR, BulletConfigSyncingUtil.R5_STAR_BOLT);
+		map.put(BulletConfigSyncingUtil.CHL_R5, BulletConfigSyncingUtil.CHL_R5_BOLT);
+		
+		r5_r5Bolt = map.asUnmodifiable();
+		
+		map = IntIntMaps.mutable.withInitialCapacity(7);
+		
+		map.put(BulletConfigSyncingUtil.G12_NORMAL, BulletConfigSyncingUtil.G12HS_NORMAL);
+		map.put(BulletConfigSyncingUtil.G12_INCENDIARY, BulletConfigSyncingUtil.G12HS_INCENDIARY);
+		map.put(BulletConfigSyncingUtil.G12_SHRAPNEL, BulletConfigSyncingUtil.G12HS_SHRAPNEL);
+		map.put(BulletConfigSyncingUtil.G12_DU, BulletConfigSyncingUtil.G12HS_DU);
+		map.put(BulletConfigSyncingUtil.G12_AM, BulletConfigSyncingUtil.G12HS_AM);
+		map.put(BulletConfigSyncingUtil.G12_SLEEK, BulletConfigSyncingUtil.G12HS_SLEEK);
+		map.put(BulletConfigSyncingUtil.G12_PERCUSSION, BulletConfigSyncingUtil.G12HS_PERCUSSION);
+		
+		g12_g12HS = map.asUnmodifiable();
+	}
 }

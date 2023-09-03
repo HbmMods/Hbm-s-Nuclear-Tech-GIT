@@ -5,6 +5,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo45ACP;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.EnumMagazine;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
@@ -47,6 +48,8 @@ public class Gun45ACPFactory {
 
 //		config.config = new ArrayList<Integer>();
 		config.config.addAll(HbmCollection.acp45);
+		
+		config.magazines.add((short) EnumMagazine.R_THOMPSON.ordinal());
 
 		return config;
 	}
@@ -76,6 +79,8 @@ public class Gun45ACPFactory {
 		config.manufacturer = EnumGunManufacturer.UAC;
 
 		config.config.addAll(HbmCollection.acp45);
+		
+		config.magazines.add((short) EnumMagazine.P_UAC.ordinal());
 
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("SLIDE", new BusAnimationSequence()
@@ -113,6 +118,9 @@ public class Gun45ACPFactory {
 		config.manufacturer = EnumGunManufacturer.UAC;
 
 		config.config.addAll(HbmCollection.acp45);
+		
+		config.magazines.add((short) EnumMagazine.R_UAC_SMG.ordinal());
+//		config.magazines.add((short) EnumMagazine.R_UAC_SMG_BIG.ordinal());
 
 		return config;
 	}

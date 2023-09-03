@@ -1516,6 +1516,8 @@ public class ModItems {
 	public static Item ammo_arty;
 	public static Item ammo_himars;
 	
+	public static Item ammo_link;
+	
 	public static Item gun_rpg;
 	public static Item gun_karl;
 	public static Item gun_panzerschreck;
@@ -1619,7 +1621,7 @@ public class ModItems {
 	public static Item gun_lunatic_marksman;
 	public static Item gun_uac_pistol;
 	
-	public static Item gun_magazine_test;
+	public static ItemEnumMulti gun_magazine;
 	
 	// We'll figure this part out later
 	//public static Item gun_llr, gun_mlr, gun_hlr, gun_twr, gun_lunatic, gun_lunatic_shotty;
@@ -4096,12 +4098,12 @@ public class ModItems {
 		ammo_5mm = new ItemAmmo(Ammo5mm.class).setUnlocalizedName("ammo_5mm");
 		ammo_9mm = new ItemAmmo(Ammo9mm.class).setUnlocalizedName("ammo_9mm");
 		ammo_45 = new ItemAmmo(Ammo45ACP.class).setUnlocalizedName("ammo_45");
-		ammo_556 = new ItemAmmo(Ammo556mm.class).setUnlocalizedName("ammo_556");
-		ammo_762 = new ItemAmmo(Ammo762NATO.class).setUnlocalizedName("ammo_762");
+		ammo_556 = new ItemAmmo(Ammo556mm.class, "desc.misc.556").setUnlocalizedName("ammo_556");
+		ammo_762 = new ItemAmmo(Ammo762NATO.class, "desc.misc.556").setUnlocalizedName("ammo_762");
 		ammo_50ae = new ItemAmmo(Ammo50AE.class).setUnlocalizedName("ammo_50ae");
 		ammo_50bmg = new ItemAmmo(Ammo50BMG.class).setUnlocalizedName("ammo_50bmg");
 		ammo_75bolt = new ItemAmmo(Ammo75Bolt.class).setUnlocalizedName("ammo_75bolt");
-		ammo_357 = new ItemAmmo(Ammo357Magnum.class).setUnlocalizedName("ammo_357");
+		ammo_357 = new ItemAmmo(Ammo357Magnum.class, "desc.misc.357").setUnlocalizedName("ammo_357");
 		ammo_44 = new ItemAmmo(Ammo44Magnum.class).setUnlocalizedName("ammo_44");
 		ammo_22lr = new ItemAmmo(Ammo22LR.class).setUnlocalizedName("ammo_22lr");
 		ammo_rocket = new ItemAmmo(AmmoRocket.class).setUnlocalizedName("ammo_rocket");
@@ -4115,13 +4117,15 @@ public class ModItems {
 		ammo_coilgun = new ItemAmmo(AmmoCoilgun.class).setUnlocalizedName("ammo_coilgun");
 		ammo_dart = (ItemEnumMulti) new ItemAmmo(AmmoDart.class).setUnlocalizedName("ammo_dart").setMaxStackSize(16);
 		ammo_stinger_rocket = new ItemAmmo(AmmoStinger.class).setUnlocalizedName("ammo_stinger_rocket");
-		ammo_luna_sniper = new ItemAmmo(AmmoLunaticSniper.class).setUnlocalizedName("ammo_luna_sniper");
+		ammo_luna_sniper = new ItemAmmo(AmmoLunaticSniper.class, "desc.misc.luna").setUnlocalizedName("ammo_luna_sniper");
 		ammo_misc = new ItemAmmo(AmmoMisc.class).setUnlocalizedName("ammo_misc");
 		ammo_folly = new ItemCustomLore().setUnlocalizedName("ammo_folly");
 		ammo_folly_nuclear = new ItemCustomLore().setUnlocalizedName("ammo_folly_nuclear");
 		ammo_folly_du = new ItemCustomLore().setUnlocalizedName("ammo_folly_du");
 		ammo_arty = new ItemAmmoArty().setUnlocalizedName("ammo_arty");
 		ammo_himars = new ItemAmmoHIMARS().setUnlocalizedName("ammo_himars");
+		
+		ammo_link = new ItemCustomLore().setUnlocalizedName("ammo_links").setCreativeTab(MainRegistry.weaponTab);
 		
 		gun_rpg = new ItemGunBase(GunRocketFactory.getGustavConfig()).setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_rpg");
 		gun_karl = new ItemGunBase(GunRocketFactory.getKarlConfig()).setUnlocalizedName("gun_karl").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_karl");
@@ -4225,7 +4229,7 @@ public class ModItems {
 		gun_lunatic_marksman = new ItemGunBase(Gun50BMGFactory.getLunaticMarksman()).setFull3D().setUnlocalizedName("gun_lunatic_marksman").setCreativeTab(MainRegistry.weaponTab);
 		gun_uac_pistol = new ItemGunBase(Gun45ACPFactory.getUACPistolConfig()).setFull3D().setUnlocalizedName("gun_uac_pistol").setCreativeTab(MainRegistry.weaponTab);
 		
-		gun_magazine_test = new ItemMagazineTest(gun_uac_pistol).setUnlocalizedName("gun_magazine_test").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_magazine_test");
+		gun_magazine = (ItemEnumMulti) new ItemMagazine().setUnlocalizedName("gun_magazine").setCreativeTab(MainRegistry.weaponTab);
 		
 		ToolMaterial matCrucible = EnumHelper.addToolMaterial("CRUCIBLE", 10, 3, 50.0F, 100.0F, 0);
 		crucible = new ItemCrucible(5000, 1F, matCrucible).setUnlocalizedName("crucible").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":crucible");
@@ -7051,7 +7055,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_glass_cannon, gun_glass_cannon.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lunatic_marksman, gun_lunatic_marksman.getUnlocalizedName());
 		
-		GameRegistry.registerItem(gun_magazine_test, gun_magazine_test.getUnlocalizedName());
+		GameRegistry.registerItem(gun_magazine, gun_magazine.getUnlocalizedName());
 		
 		//Ammo
 		/*GameRegistry.registerItem(gun_revolver_iron_ammo, gun_revolver_iron_ammo.getUnlocalizedName());
@@ -7269,6 +7273,8 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_folly, ammo_folly.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly_nuclear, ammo_folly_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly_du, ammo_folly_du.getUnlocalizedName());
+		
+		GameRegistry.registerItem(ammo_link, ammo_link.getUnlocalizedName());
 		
 		//-C-l-i-p-s- Magazines
 		GameRegistry.registerItem(clip_revolver_iron, clip_revolver_iron.getUnlocalizedName());

@@ -7,12 +7,14 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.EnumMagazine;
+import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
@@ -35,8 +37,6 @@ public class Gun357MagnumFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.independentChamber = false;
-		config.absorbsMag = false;
 		config.rateOfFire = 10;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
@@ -52,6 +52,18 @@ public class Gun357MagnumFactory {
 		config.reloadSoundEnd = false;
 		
 		config.ejector = EJECTOR_REVOLVER;
+
+		config.magazines.add((short) EnumMagazine.S_357_BASIC.ordinal());
+		config.magazines.add((short) EnumMagazine.S_357_SATURNITE.ordinal());
+		config.magazines.add((short) EnumMagazine.S_357_GOLD.ordinal());
+		config.magazines.add((short) EnumMagazine.P_CURSED.ordinal());
+		config.magazines.add((short) EnumMagazine.S_357_SCHRAB.ordinal());
+		config.magazines.add((short) EnumMagazine.S_357_NIGHTMARE2.ordinal());
+		config.magazines.add((short) EnumMagazine.S_357_NIGHTMARE2.ordinal());
+		
+		config.independentChamber = false;
+		config.absorbsMag = false;
+		config.fallback = true;
 		
 		return config;
 	}
@@ -72,6 +84,9 @@ public class Gun357MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.LEAD_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
+		config.badMagazines.addAll(config.magazines);
+		config.badMagazines.remove((short) EnumMagazine.S_357_BASIC.ordinal());
+		
 		return config;
 	}
 	
@@ -88,6 +103,9 @@ public class Gun357MagnumFactory {
 //		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SATURNITE_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
+
+		config.badMagazines.addAll(config.magazines);
+		config.badMagazines.remove((short) EnumMagazine.S_357_SATURNITE.ordinal());
 		
 		return config;
 	}
@@ -108,6 +126,9 @@ public class Gun357MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.IRON_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.LEAD_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
+
+		config.badMagazines.addAll(config.magazines);
+		config.badMagazines.remove((short) EnumMagazine.S_357_GOLD.ordinal());
 		
 		return config;
 	}
@@ -127,6 +148,9 @@ public class Gun357MagnumFactory {
 //		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.CURSED_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
+		
+		config.badMagazines.addAll(config.magazines);
+		config.badMagazines.remove((short) EnumMagazine.P_CURSED.ordinal());
 		
 		return config;
 	}
@@ -150,6 +174,9 @@ public class Gun357MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.LEAD_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
+		config.badMagazines.addAll(config.magazines);
+		config.badMagazines.remove((short) EnumMagazine.S_357_SCHRAB.ordinal());
+		
 		return config;
 	}
 	
@@ -168,6 +195,9 @@ public class Gun357MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.NIGHT_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
+		config.badMagazines.addAll(config.magazines);
+		config.badMagazines.remove((short) EnumMagazine.S_357_NIGHTMARE1.ordinal());
+		
 		return config;
 	}
 	
@@ -185,6 +215,9 @@ public class Gun357MagnumFactory {
 		
 //		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NIGHT2_REVOLVER);
+		
+		config.badMagazines.addAll(config.magazines);
+		config.badMagazines.remove((short) EnumMagazine.S_357_NIGHTMARE2.ordinal());
 		
 		return config;
 	}
@@ -206,6 +239,11 @@ public class Gun357MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.IRON_HS);
 		config.config.add(BulletConfigSyncingUtil.LEAD_HS);
 		config.config.add(BulletConfigSyncingUtil.DESH_HS);
+		
+		config.configMap = HbmCollection.m357_m357HS;
+		
+		config.magazines.clear();
+		config.magazines.add((short) EnumMagazine.S_357_BIO.ordinal());
 		
 		return config;
 	}

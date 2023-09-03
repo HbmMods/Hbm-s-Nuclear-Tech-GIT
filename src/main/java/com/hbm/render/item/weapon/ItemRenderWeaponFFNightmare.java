@@ -2,6 +2,8 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.GeneralConfig.MagazineMode;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
 
@@ -86,7 +88,7 @@ public class ItemRenderWeaponFFNightmare implements IItemRenderer {
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ff_nightmare_orig_tex);
 		ResourceManager.ff_nightmare.renderPart("Gun");
 		
-		int ammo = ItemGunBase.getMag(item);
+		int ammo = ItemGunBase.getMag(item, GeneralConfig.magazineMode == MagazineMode.OFF);
 		for(int i = 0; i < ammo; i++) {
 			ResourceManager.ff_nightmare.renderPart("Bullet" + (i + 1));
 		}

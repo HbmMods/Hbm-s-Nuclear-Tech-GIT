@@ -68,7 +68,7 @@ public class ItemRenderWeaponCryoCannon implements IItemRenderer {
 
 			ResourceManager.cryocannon.renderPart("Gun");
 			ResourceManager.cryocannon.renderPart("Rotor");
-			Minecraft.getMinecraft().renderEngine.bindTexture(fill_tex[MathHelper.clamp_int(ItemGunBase.getMag(item) * fill_tex.length / gun.mainConfig.ammoCap, 0, fill_tex.length - 1)]);
+			Minecraft.getMinecraft().renderEngine.bindTexture(fill_tex[MathHelper.clamp_int(ItemGunBase.getMag(item, true) * fill_tex.length / gun.mainConfig.ammoCap, 0, fill_tex.length - 1)]);
 			ResourceManager.cryocannon.renderPart("Fuel");
 			Minecraft.getMinecraft().renderEngine.bindTexture(turbine_tex[MathHelper.clamp_int(turbine_tex.length - 1 - ItemCryoCannon.getTurbine(item) * turbine_tex.length / 100, 0, turbine_tex.length - 1)]);
 			ResourceManager.cryocannon.renderPart("Spin");

@@ -236,20 +236,32 @@ public class ModelUboinik extends ModelBase {
 		DrumBack.render(f5);
 		DrumBottom.render(f5);
 		
-		int ammo = ItemGunBase.getMag(item);
+		int ammo = ItemGunBase.getMag(item, true);
 		
-		if(ammo > 5)
-			Shell5.render(f5);
-		if(ammo > 4)
-			Shell4.render(f5);
-		if(ammo > 3)
-			Shell3.render(f5);
-		if(ammo > 2)
-			Shell2.render(f5);
-		if(ammo > 1)
-			Shell1.render(f5);
-		if(ammo > 0)
-			Shell6.render(f5);
+		switch (ammo)
+		{
+			default:
+			case 6: Shell5.render(f5);
+			case 5: Shell4.render(f5);
+			case 4: Shell3.render(f5);
+			case 3: Shell2.render(f5);
+			case 2: Shell1.render(f5);
+			case 1: Shell6.render(f5); break;
+			case 0: break;
+		}
+		
+//		if(ammo > 5)
+//			Shell5.render(f5);
+//		if(ammo > 4)
+//			Shell4.render(f5);
+//		if(ammo > 3)
+//			Shell3.render(f5);
+//		if(ammo > 2)
+//			Shell2.render(f5);
+//		if(ammo > 1)
+//			Shell1.render(f5);
+//		if(ammo > 0)
+//			Shell6.render(f5);
 		
 		Clip1.render(f5);
 		Clip2.render(f5);

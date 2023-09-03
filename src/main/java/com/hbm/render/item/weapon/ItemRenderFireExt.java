@@ -41,7 +41,7 @@ public class ItemRenderFireExt implements IItemRenderer {
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
-		int magType = ItemGunBase.getMagType(item);
+		int magType = ItemGunBase.getMagType(item, false, true);
 		int config = ((ItemGunBase)ModItems.gun_fireext).mainConfig.config.get(magType);
 		int ammo = BulletConfigSyncingUtil.pullConfig(config).ammo.meta;
 		ResourceLocation tex;

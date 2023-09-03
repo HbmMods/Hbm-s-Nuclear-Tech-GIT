@@ -25,8 +25,8 @@ import net.minecraft.item.ItemStack;
 
 public class AnvilRecipes {
 
-	private static List<AnvilSmithingRecipe> smithingRecipes = new ArrayList();
-	private static List<AnvilConstructionRecipe> constructionRecipes = new ArrayList();
+	private static List<AnvilSmithingRecipe> smithingRecipes = new ArrayList<AnvilSmithingRecipe>();
+	private static List<AnvilConstructionRecipe> constructionRecipes = new ArrayList<AnvilConstructionRecipe>();
 	
 	public static void register() {
 		registerSmithing();
@@ -523,6 +523,8 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(IRON.plate()), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_50))).setTier(1));
 		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(IRON.plate()), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_buckshot))).setTier(1));
 		
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(AL.plate())}, new AnvilOutput(new ItemStack(ModItems.linker, 64))));
+		
 		Object[][] recs = new Object[][] {
 			{ModItems.ammo_12gauge.stackFromEnum(20, Ammo12Gauge.STOCK),	P_RED.dust(),										ModItems.ammo_12gauge.stackFromEnum(20, Ammo12Gauge.INCENDIARY),	2},
 			{ModItems.ammo_12gauge.stackFromEnum(20, Ammo12Gauge.STOCK),	Item.getItemFromBlock(ModBlocks.gravel_obsidian),	ModItems.ammo_12gauge.stackFromEnum(20, Ammo12Gauge.SHRAPNEL),		2},
@@ -977,8 +979,8 @@ public class AnvilRecipes {
 	}
 	
 	public static class AnvilConstructionRecipe {
-		public List<AStack> input = new ArrayList();
-		public List<AnvilOutput> output = new ArrayList();
+		public List<AStack> input = new ArrayList<AStack>();
+		public List<AnvilOutput> output = new ArrayList<AnvilOutput>();
 		public int tierLower = 0;
 		public int tierUpper = -1;
 		OverlayType overlay = OverlayType.NONE;

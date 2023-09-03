@@ -36,6 +36,7 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -66,12 +67,18 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ToolboxCraftingHandler());
 		GameRegistry.addRecipe(new CargoShellCraftingHandler());
 		GameRegistry.addRecipe(new ScrapsCraftingHandler());
+		GameRegistry.addRecipe(new MagazineFillCraftingHandler());// TODO Debug
+		GameRegistry.addRecipe(new BeltCreationCraftingHandler());
+		GameRegistry.addRecipe(new BeltFillCraftingHandler());
 		
 		RecipeSorter.register("hbm:rbmk", RBMKFuelCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 		RecipeSorter.register("hbm:toolbox", ToolboxCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 		RecipeSorter.register("hbm:cargo", CargoShellCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 		RecipeSorter.register("hbm:scraps", ScrapsCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 		RecipeSorter.register("hbm:mku", MKUCraftingHandler.class, RecipeSorter.Category.SHAPED, "after:minecraft:shaped before:minecraft:shapeless");
+		RecipeSorter.register("hbm:magazineFill", MagazineFillCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+		RecipeSorter.register("hbm:beltCreate", BeltCreationCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+		RecipeSorter.register("hbm:beltFill", BeltFillCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 	}
 
 	public static void AddCraftingRec() {
@@ -1122,7 +1129,7 @@ public class CraftingManager {
 		
 		if(Loader.isModLoaded("Mekanism")) {
 			
-			List<IRecipe> toDestroy = new ArrayList();
+			List<IRecipe> toDestroy = new ArrayList<>();
 			
 			Block mb = (Block) Block.blockRegistry.getObject("Mekanism:MachineBlock");
 			ItemStack digiminer = new ItemStack(mb, 1, 4);
@@ -1190,4 +1197,17 @@ public class CraftingManager {
 		else
 			GameRegistry.addShapelessRecipe(result, ins);
 	}
+	
+	public static int count(InventoryCrafting crafting)
+	{
+		int count = 0;
+		for (int i = 0; i < 9; i++)
+		{
+			final ItemStack stack = crafting.getStackInRowAndColumn(i % 3, i / 3);
+			if (stack != null)
+				count++;
+		}
+		return count;
+	}
+	
 }

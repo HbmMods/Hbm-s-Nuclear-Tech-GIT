@@ -8,6 +8,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo12Gauge;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.EnumMagazine;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -174,6 +175,8 @@ public class Gun12GaugeFactory {
 
 		config.config = HbmCollection.g12hs.toList();
 		
+		config.configMap = HbmCollection.g12_g12HS;
+		
 		config.ejector = EJECTOR_UBOINIK;
 		
 		return config;
@@ -295,6 +298,7 @@ public class Gun12GaugeFactory {
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.reloadSoundEnd = true;
 		config.name += "Drum";
+		config.magazines.add((short) EnumMagazine.D_M4.ordinal());
 		return config;
 	}
 	

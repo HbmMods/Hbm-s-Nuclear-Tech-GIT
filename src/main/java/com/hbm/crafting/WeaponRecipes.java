@@ -1,6 +1,9 @@
 package com.hbm.crafting;
 
+import static com.hbm.config.GeneralConfig.magazineMode;
+
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig.MagazineMode;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.fluid.Fluids;
 
@@ -187,7 +190,7 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_uzi, 32), new Object[] { " I", "GC", " P", 'I', IRON.ingot(), 'G', ModItems.ballistite, 'C', ModItems.casing_9, 'P', ModItems.primer_9 });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_uzi, 32), new Object[] { " I", "GC", " P", 'I', IRON.ingot(), 'G', ModItems.cordite, 'C', ModItems.casing_9, 'P', ModItems.primer_9 });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_uzi, 32), new Object[] { " I", "GC", " P", 'I', IRON.ingot(), 'G', ModItems.ballistite, 'C', ModItems.casing_9, 'P', ModItems.primer_9 });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_lacunae, 32), new Object[] { " I", "GC", " P", 'I', CU.ingot(), 'G', ModItems.cordite, 'C', ModItems.casing_9, 'P', ModItems.primer_9 });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_lacunae, 32), magazineMode == MagazineMode.OFF ? new Object[] { " I", "GC", " P", 'I', CU.ingot(), 'G', ModItems.cordite, 'C', ModItems.casing_9, 'P', ModItems.primer_9 } : new Object[] {" I ", "GCL", " P ", 'I', CU.ingot(), 'G', ModItems.cordite, 'C', ModItems.casing_9, 'P', ModItems.primer_9, 'L', ModItems.ammo_link});
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_nopip, 24), new Object[] { " I", "GC", " P", 'I', PB.ingot(), 'G', ModItems.cordite, 'C', ModItems.casing_44, 'P', ModItems.primer_44 });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.assembly_nopip, 24), new Object[] { " I", "GC", " P", 'I', PB.ingot(), 'G', ModItems.ballistite, 'C', ModItems.casing_44, 'P', ModItems.primer_44 });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_12gauge, 12), new Object[] { " I ", "GCL", " P ", 'I', ModItems.pellet_buckshot, 'G', ModItems.cordite, 'C', ModItems.casing_buckshot, 'P', ModItems.primer_buckshot, 'L', ModItems.plate_polymer });

@@ -137,7 +137,7 @@ public class ItemRenderWeaponBolter implements IItemRenderer {
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 
 		FontRenderer font = Minecraft.getMinecraft().fontRenderer;
-		String s = ((ItemGunBase) item.getItem()).getMag(item) + "";
+		String s = String.valueOf(ItemGunBase.getMag(item, true));
 		float f3 = 0.04F;
 		GL11.glTranslatef(0.025F - (font.getStringWidth(s) / 2) * 0.04F, 2.11F, 2.91F);
 		GL11.glScalef(f3, -f3, f3);

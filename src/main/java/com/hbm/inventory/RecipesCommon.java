@@ -285,7 +285,7 @@ public class RecipesCommon {
 
 		@Override
 		public List<ItemStack> extractForNEI() {
-			return Arrays.asList(new ItemStack[] {this.toStack()});
+			return Arrays.asList(this.toStack());
 		}
 
 		@Override
@@ -309,6 +309,7 @@ public class RecipesCommon {
 		
 		public ComparableNBTStack(ItemStack stack) {
 			super(stack);
+			nbt = stack.stackTagCompound;
 		}
 		
 		public ComparableNBTStack(Item item) {

@@ -6,6 +6,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo5mm;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.EnumMagazine;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
@@ -32,7 +33,7 @@ public class Gun5mmFactory {
 		config.firingMode = GunConfiguration.FIRE_AUTO;
 		config.reloadDuration = 20;
 		config.firingDuration = 0;
-		config.ammoCap = 0;
+		config.ammoCap = 200;
 		config.reloadType = GunConfiguration.RELOAD_NONE;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCLE;
@@ -41,7 +42,12 @@ public class Gun5mmFactory {
 		
 		config.config = HbmCollection.r5.toList();
 		
+		config.magazines.add((short) EnumMagazine.B_5MM.ordinal());
+		
 		config.ejector = EJECTOR_MINIGUN;
+		
+		config.links = true;
+		config.trueBelt = true;
 		
 		return config;
 	}
@@ -76,6 +82,8 @@ public class Gun5mmFactory {
 		config.manufacturer = EnumGunManufacturer.ROCKWELL_U;
 		
 		config.config = HbmCollection.r5Bolt.toList();
+		
+		config.configMap = HbmCollection.r5_r5Bolt;
 		
 		return config;
 	}

@@ -262,7 +262,7 @@ public class ModelMIRVLauncher extends ModelBase {
 		Shape32.render(f5);
 		Shape33.render(f5);
 		
-		int ammo = ItemGunBase.getMag(item);
+		int ammo = ItemGunBase.getMag(item, true);
 		if(ammo > 0) {
 			Shape19.render(f5);
 			Shape20.render(f5);

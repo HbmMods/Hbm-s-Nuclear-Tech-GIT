@@ -1,11 +1,16 @@
 package com.hbm.handler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Objects;
 
+import org.eclipse.collections.api.factory.primitive.IntIntMaps;
 import org.eclipse.collections.api.factory.primitive.IntLists;
+import org.eclipse.collections.api.factory.primitive.ShortSets;
 import org.eclipse.collections.api.list.primitive.MutableIntList;
+import org.eclipse.collections.api.map.primitive.MutableIntIntMap;
+import org.eclipse.collections.api.set.primitive.MutableShortSet;
 
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
@@ -36,16 +41,35 @@ public class GunConfiguration implements Cloneable {
 	//weapon won't fire after weapon breaks (main only)
 	public int durability;
 	
+	/*
+	 * All magazine related settings should be ignored if it is disabled.
+	 * 
+	 * Makes use of Eclipse Collections for efficient use of primitives,
+	 * but it should be possible to convert easily enough if too large. 
+	 */
+	
 	/// Mag related stuff
-	/**If the gun should support a +1 behavior, ie for semi-automatic and full automatic weapons like pistols, most rifles, pump shotguns, and machine guns, but not revolvers or breach loaded guns.**/
+	/**If the gun should support a +1 behavior, ie for semi-automatic and full automatic weapons like pistols, most rifles, pump shotguns, and machine guns, but not revolvers or breach loaded guns (which shouldn't use the magazine system anyway).**/
 	public boolean independentChamber = true;
 	/**If the gun has funny behavior when trying to load or fire a bullet incompatible. May overlap with messed up NBT rather than someone trying to force a bullet to work, but that's an edge case.**/
 	public boolean drm = false;
 	/**Whether or not the gun should "absorb" the magazine when reloading and relinquish when reloading again (if applicable). Pistols and most rifles should do this, but revolvers don't due to the nature of speed-loaders.**/
 	public boolean absorbsMag = true;
+	/**Whether or not the gun should fallback to using the default mode if an appropriate magazine cannot be found. Relevant for revolvers.**/
+	public boolean fallback = false;
+	/**If the gun uses a "true" belt, instead of just grabbing from inventory.**/
+	public boolean trueBelt = false;
+	/**Map configurations to another, so the magazine and gun can use the same ammo item, but use a different bullet config.**/
+	public MutableIntIntMap configMap = IntIntMaps.mutable.empty();
+	/**Magazine items that the gun uses, storing their meta value/ordinal.**/
+	public MutableShortSet magazines = ShortSets.mutable.empty();
+//	public EnumSet<EnumMagazine> magazines = EnumSet.noneOf(EnumMagazine.class); // EnumSet inappropriate, since itemstacks will only report the ordinal and getting an enum's ordinal is very easy
+	/**Magazines that are sort of allowed, but may contain rounds that aren't. DRM will have a say about this.**/
+	public MutableShortSet badMagazines = ShortSets.mutable.empty();
 	
 	//animations!
-	public HashMap<AnimType, BusAnimation> animations = new HashMap<AnimType, BusAnimation>();
+//	public HashMap<AnimType, BusAnimation> animations = new HashMap<AnimType, BusAnimation>();
+	public EnumMap<AnimType, BusAnimation> animations = new EnumMap<>(AnimType.class);// More efficient maybe??? (At the very least doesn't change behavior)
 	//when sneaking, disables crosshair and centers the bullet spawn point
 	public boolean hasSights;
 	//texture overlay when sneaking
@@ -100,6 +124,8 @@ public class GunConfiguration implements Cloneable {
 	
 	//casing eject behavior
 	public CasingEjector ejector = null;
+	/**If link particles should be spawned as well (currently unused). Spawns 2 particles per casing.**/
+	public boolean links = false;
 
 	public static final int MODE_NORMAL = 0;
 	public static final int MODE_RELEASE = 1;
@@ -133,9 +159,49 @@ public class GunConfiguration implements Cloneable {
 			return (GunConfiguration) super.clone();
 		} catch (CloneNotSupportedException e)
 		{
+			// Shouldn't happen, but just in case...
 			MainRegistry.logger.catching(e);
 			return new GunConfiguration();
 		}
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(absoluteFOV, absorbsMag, allowsInfinity, ammoCap, animations, chargeRate, comment, config,
+				configMap, crosshair, dischargePerShot, drm, durability, ejector, equipSound, firingDuration,
+				firingMode, firingPitch, firingSound, firingVolume, gunMode, hasSights, independentChamber, magazines,
+				manufacturer, maxCharge, name, rateOfFire, reloadDuration, reloadSound, reloadSoundEnd, reloadType,
+				roundsPerCycle, scopeTexture, showAmmo, zoomFOV);
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!(obj instanceof GunConfiguration))
+			return false;
+		final GunConfiguration other = (GunConfiguration) obj;
+		return absoluteFOV == other.absoluteFOV && absorbsMag == other.absorbsMag
+				&& allowsInfinity == other.allowsInfinity && ammoCap == other.ammoCap
+				&& Objects.equals(animations, other.animations) && chargeRate == other.chargeRate
+				&& Objects.equals(comment, other.comment) && Objects.equals(config, other.config)
+				&& Objects.equals(configMap, other.configMap) && crosshair == other.crosshair
+				&& dischargePerShot == other.dischargePerShot && drm == other.drm && durability == other.durability
+				&& Objects.equals(ejector, other.ejector) && Objects.equals(equipSound, other.equipSound)
+				&& firingDuration == other.firingDuration && firingMode == other.firingMode
+				&& Float.floatToIntBits(firingPitch) == Float.floatToIntBits(other.firingPitch)
+				&& Objects.equals(firingSound, other.firingSound)
+				&& Float.floatToIntBits(firingVolume) == Float.floatToIntBits(other.firingVolume)
+				&& gunMode == other.gunMode && hasSights == other.hasSights
+				&& independentChamber == other.independentChamber && Objects.equals(magazines, other.magazines)
+				&& manufacturer == other.manufacturer && maxCharge == other.maxCharge
+				&& Objects.equals(name, other.name) && rateOfFire == other.rateOfFire
+				&& reloadDuration == other.reloadDuration && Objects.equals(reloadSound, other.reloadSound)
+				&& reloadSoundEnd == other.reloadSoundEnd && reloadType == other.reloadType
+				&& roundsPerCycle == other.roundsPerCycle && Objects.equals(scopeTexture, other.scopeTexture)
+				&& showAmmo == other.showAmmo && Float.floatToIntBits(zoomFOV) == Float.floatToIntBits(other.zoomFOV);
 	}
 
 }

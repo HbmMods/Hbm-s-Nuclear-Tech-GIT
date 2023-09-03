@@ -12,6 +12,7 @@ import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.EnumMagazine;
 import com.hbm.items.ItemAmmoEnums.Ammo44Magnum;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.RefStrings;
@@ -43,8 +44,6 @@ public class Gun44MagnumFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.independentChamber = false;
-		config.absorbsMag = false;
 		config.rateOfFire = 10;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
@@ -61,7 +60,15 @@ public class Gun44MagnumFactory {
 		
 		config.config.addAll(HbmCollection.m44Normal);
 		
+		config.magazines.add((short) EnumMagazine.S_44_NOPIP.ordinal());
+		config.magazines.add((short) EnumMagazine.S_44_PIP.ordinal());
+		config.magazines.add((short) EnumMagazine.S_44_SILVER.ordinal());
+		
 		config.ejector = EJECTOR_PIP;
+		
+		config.independentChamber = false;
+		config.absorbsMag = false;
+		config.fallback = true;
 		
 		return config;
 	}
@@ -75,6 +82,9 @@ public class Gun44MagnumFactory {
 		config.name = "ifHorseshoe";
 		config.manufacturer = EnumGunManufacturer.IF;
 		config.comment.add("Fallout New Vegas wasn't THAT good.");
+		
+		config.badMagazines.addAll(config.magazines);
+		config.badMagazines.remove((short) EnumMagazine.S_44_NOPIP.ordinal());
 		
 		return config;
 	}
@@ -102,6 +112,8 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_PIP);
 		config.config.addAll(HbmCollection.m44Normal);
 		
+		config.badMagazines.add((short) EnumMagazine.S_44_SILVER.ordinal());
+		
 		return config;
 	}
 	
@@ -121,6 +133,8 @@ public class Gun44MagnumFactory {
 //		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_BJ);
 		config.config.addAll(HbmCollection.m44Normal);
+		
+		config.magazines.add((short) EnumMagazine.S_44_BJ.ordinal());
 		
 		config.ejector = EJECTOR_PIP.clone().setAmount(5);
 		
@@ -145,6 +159,8 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_SILVER);
 		config.config.addAll(HbmCollection.m44Normal);
 		
+		config.badMagazines.add((short) EnumMagazine.S_44_SILVER.ordinal());
+		
 		return config;
 	}
 	
@@ -164,6 +180,9 @@ public class Gun44MagnumFactory {
 		
 //		config.config = new ArrayList<Integer>();
 		config.config.addAll(HbmCollection.m44All);
+		
+		config.magazines.clear();
+		config.magazines.add((short) EnumMagazine.S_44_RED.ordinal());
 		
 		config.ejector = EJECTOR_PIP.clone().setAmount(64);
 		

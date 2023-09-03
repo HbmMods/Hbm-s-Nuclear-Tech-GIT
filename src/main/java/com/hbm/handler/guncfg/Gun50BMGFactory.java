@@ -9,6 +9,7 @@ import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.EnumMagazine;
 import com.hbm.items.ItemAmmoEnums.Ammo50BMG;
 import com.hbm.items.ItemAmmoEnums.AmmoLunaticSniper;
 import com.hbm.lib.HbmCollection;
@@ -45,7 +46,7 @@ public class Gun50BMGFactory {
 		EJECTOR_BMG = new CasingEjector().setMotion(-0.35, 0.9, 0).setOffset(-0.45, -0.2, 0.35).setAngleRange(0.01F, 0.05F);
 		EJECTOR_SNIPER = new CasingEjector().setMotion(-2, 0.15, 0).setOffset(-0.45, -0.2, 0.35).setAngleRange(0.02F, 0.05F);
 		CASING50BMG = new SpentCasing(CasingType.BOTTLENECK).setScale(3F).setBounceMotion(0.01F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(0.125F, 0.5D, 60, 20);
-		CASINGLUNA = new SpentCasing(CasingType.BOTTLENECK).setScale(4F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(0.125F, 0.5D, 60, 30);
+		CASINGLUNA = new SpentCasing(CasingType.BOTTLENECK).setScale(4F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_SATURNITE).setupSmoke(0.125F, 0.5D, 60, 30);
 	}
 	
 	public static BulletConfiguration getLunaticSabotRound() {
@@ -70,7 +71,7 @@ public class Gun50BMGFactory {
 	}
 
 	public static BulletConfiguration getLunaticIncendiaryRound() {
-		BulletConfiguration bullet = getLunaticSabotRound().clone();
+		BulletConfiguration bullet = getLunaticSabotRound();
 
 		bullet.ammo = new ComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.INCENDIARY));
 
@@ -84,7 +85,7 @@ public class Gun50BMGFactory {
 	}
 
 	public static BulletConfiguration getLunaticExplosiveRound() {
-		BulletConfiguration bullet = getLunaticSabotRound().clone();
+		BulletConfiguration bullet = getLunaticSabotRound();
 
 		bullet.ammo = new ComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.EXPLOSIVE));
 
@@ -120,18 +121,22 @@ public class Gun50BMGFactory {
 		config.manufacturer = EnumGunManufacturer.ARMALITE;
 		
 //		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_AM);
-		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_PO);
-		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.BMG50_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.BMG50_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
-		config.config.add(BulletConfigSyncingUtil.BMG50_AP);
-		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
-		config.config.add(BulletConfigSyncingUtil.BMG50_STAR);
-		config.config.add(BulletConfigSyncingUtil.CHL_BMG50);
-		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK);
+//		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_AM);
+//		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_PO);
+//		config.config.add(BulletConfigSyncingUtil.BMG50_FLECHETTE_NORMAL);
+//		config.config.add(BulletConfigSyncingUtil.BMG50_NORMAL);
+//		config.config.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
+//		config.config.add(BulletConfigSyncingUtil.BMG50_PHOSPHORUS);
+//		config.config.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
+//		config.config.add(BulletConfigSyncingUtil.BMG50_AP);
+//		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
+//		config.config.add(BulletConfigSyncingUtil.BMG50_STAR);
+//		config.config.add(BulletConfigSyncingUtil.CHL_BMG50);
+//		config.config.add(BulletConfigSyncingUtil.BMG50_SLEEK);
+		config.config.addAll(HbmCollection.bmg50Flechette);
+		config.config.addAll(HbmCollection.bmg50);
+		
+		config.magazines.add((short) EnumMagazine.R_AR15.ordinal());
 		
 		config.ejector = EJECTOR_BMG;
 		
@@ -143,13 +148,13 @@ public class Gun50BMGFactory {
 		
 		config.rateOfFire = 2;
 		config.durability *= 10;
-		config.ammoCap = 0;
+		config.ammoCap = 100;
 		config.crosshair = Crosshair.L_BOX;
 		config.reloadType = GunConfiguration.RELOAD_NONE;
 		config.hasSights = true;
 		config.zoomFOV = 0.66F;
 		config.allowsInfinity = true;
-		config.durability = 10_000;
+//		config.durability = 10_000;
 		config.firingSound = "hbm:turret.chekhov_fire";
 		config.equipSound = "hbm:turret.howard_reload";
 		
@@ -167,8 +172,14 @@ public class Gun50BMGFactory {
 		
 		config.ejector = EJECTOR_BMG;
 		
+		config.links = true;
+		config.trueBelt = true;
+		
 		config.config.clear();
 		config.config.addAll(HbmCollection.bmg50);
+		
+		config.magazines.clear();
+		config.magazines.add((short) EnumMagazine.B_50BMG.ordinal());
 		
 		return config;
 	}
@@ -261,7 +272,7 @@ public class Gun50BMGFactory {
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		bullet.bntImpact = (bulletnt, x, y, z) -> {
@@ -396,7 +407,7 @@ public class Gun50BMGFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 54;
-		bullet.style = bullet.STYLE_FLECHETTE;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		
 		bullet.spentCasing = CASING50BMG.clone().register("50BMGFlech");
 		
@@ -411,7 +422,7 @@ public class Gun50BMGFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 60;
 		bullet.dmgMax = 64;
-		bullet.style = bullet.STYLE_FLECHETTE;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		
 		bullet.bntHit = (bulletnt, hit) -> {
 
@@ -436,7 +447,7 @@ public class Gun50BMGFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 60;
 		bullet.dmgMax = 64;
-		bullet.style = bullet.STYLE_FLECHETTE;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		
 		bullet.bntHit = (bulletnt, hit) -> {
 

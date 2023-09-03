@@ -4,8 +4,9 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo22LR;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.EnumMagazine;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
@@ -47,6 +48,8 @@ public class Gun22LRFactory {
 		
 		config.config = HbmCollection.lr22.toList();
 		
+		config.magazines.add((short) EnumMagazine.R_UZI.ordinal());
+		
 		config.ejector = EJECTOR_22LR;
 		
 		return config;
@@ -61,7 +64,9 @@ public class Gun22LRFactory {
 		config.name = "uziSatur";
 		config.manufacturer = EnumGunManufacturer.IMI_BIGMT;
 
-//		config.config = HbmCollection.lr22Inc.toList(); // Redundant
+		config.config = HbmCollection.lr22Inc.toList();
+		
+		config.configMap = HbmCollection.lr22_lr22Inc;
 		
 		return config;
 	}
