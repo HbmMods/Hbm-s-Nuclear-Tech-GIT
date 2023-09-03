@@ -2226,6 +2226,8 @@ tile.machine_ashpit.name=Зольник
 tile.machine_ashpit.desc=Собирает золу из топок и нагревательных печей
 tile.machine_stirling_creative.name=Творческий генератор Стирлинга
 tile.machine_stirling_creative.desc=Превращает тепло в энергию. Требует внешний источник тепла.$Скорость теплопередачи: T*0.1 TU/t$Бесконечное потребление/t$Эффективность: 100%%
+tile.machine_conveyor_press.name=Конвейерный пресс
+tile.machine_conveyor_press.desc=Лента двигается слево-направо$ПКМ чтобы установить штамп$ПКМ отвёрткой чтобы снять штамп
 
 tile.cm_block.alloy.name=Корпус машины из продвинутого сплава
 tile.cm_block.desh.name=Корпус машины из деша
@@ -3079,6 +3081,7 @@ item.ore.asbestos=Асбестовая
 item.ore.borax=Буровая
 item.ore.chlorocalcite=Хлоркальцитовая
 item.ore.copper=Медная
+item.ore.fluorite=Флюоритная
 item.ore.gold=Золотая
 item.ore.iron=Железная
 item.ore.niobium=Ниобиевая
