@@ -56,6 +56,7 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 
 	@Override
 	protected void entityInit() {
+		super.entityInit();
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
 		this.dataWatcher.addObject(10, new Integer(0));
 	}
