@@ -21,6 +21,7 @@
 * Changed electric press recipe, crafting complexity has been reduced and the press now uses hydraulic pistons
 * Removed DFC emitter beam cap again since the core already imposes a natural limit due to fuel consumption
   * I don't know why anyone would need a DFC that strong anyway, but now you can have them again
+* The UAC pistol now has a crafting recipe and can also be found in structures
 
 ## Fixed
 * Fixed logspam when pollution handler tries to save the pollution data for dimensions that have never been loaded before
@@ -33,3 +34,4 @@
 * Fixed crash caused by express delivery shells
 * Fixed 4 gauge solid steel slugs not being made from steel
 * Fixed missing lang entry for fluorite ore
+* Fixed UAC pistol UV
