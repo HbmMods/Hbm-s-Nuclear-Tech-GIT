@@ -39,23 +39,85 @@ public class ItemWandD extends Item {
 			
 			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
 			
-			for(int i = 0; i < 2; i++) {
-				for(int k = 0; k < 2; k++) {
-					for(int j = 0; j < 6; j++) {
+			int mI = 2;
+			int mK = 2;
+			
+			if(!player.isSneaking()) {
+				for(int i = 0; i < mI; i++) {
+					for(int k = 0; k < mK; k++) {
+						for(int j = 0; j < 6; j++) {
+							double r = world.rand.nextGaussian();
+							
+							Block b;
+							int meta = 0;
+							if(r < -1) {
+								b = Blocks.iron_bars;
+							} else if(r < .1) {
+								
+								int h = world.rand.nextInt(20);
+								if(h < 5)
+									b = ModBlocks.brick_concrete_broken_stairs;
+								else if(h < 10)
+									b = ModBlocks.brick_concrete_cracked_stairs;
+								else
+									b = ModBlocks.brick_concrete_stairs;
+								
+								meta = world.rand.nextInt(16);
+							} else {
+								int h = world.rand.nextInt(20);
+								if(h < 5)
+									b = ModBlocks.brick_concrete_broken;
+								else if(h < 10)
+									b = ModBlocks.brick_concrete_cracked;
+								else
+									b = ModBlocks.brick_concrete;
+							}
+							
+							world.setBlock(pos.blockX + i, pos.blockY + j + 1, pos.blockZ + k, b, meta, 2);
+						}
+					}
+				}
+			} else {
+				for(int i = 0; i < mI; i++) {
+					for(int k = 0; k < mK; k++) {
 						double r = world.rand.nextGaussian();
 						
 						Block b;
 						int meta = 0;
-						if(r < -1) {
-							b = ModBlocks.steel_beam;
-						} else if(r < .15) {
-							b = ModBlocks.brick_concrete_stairs;
+						if(r < -2) {
+							b = Blocks.iron_bars;
+						} else if(r < -1) {
+							b = ModBlocks.concrete_brick_slab;
+							meta = 8;
+							int h = world.rand.nextInt(20);
+							
+							if(h < 5)
+								meta |= 3;
+							else if(h < 10)
+								meta |= 2;
+							
+						} else if(r < .1) {
+							
+							int h = world.rand.nextInt(20);
+							if(h < 5)
+								b = ModBlocks.brick_concrete_broken_stairs;
+							else if(h < 10)
+								b = ModBlocks.brick_concrete_cracked_stairs;
+							else
+								b = ModBlocks.brick_concrete_stairs;
+							
 							meta = world.rand.nextInt(16);
 						} else {
-							b = ModBlocks.brick_concrete;
+							int h = world.rand.nextInt(20);
+							if(h < 5)
+								b = ModBlocks.brick_concrete_broken;
+							else if(h < 10)
+								b = ModBlocks.brick_concrete_cracked;
+							else
+								b = ModBlocks.brick_concrete;
 						}
 						
-						world.setBlock(pos.blockX + i, pos.blockY + j + 1, pos.blockZ + k, b, meta, 2);
+						world.setBlock(pos.blockX + i, pos.blockY + 1, pos.blockZ + k, b, meta, 2);
 					}
 				}
 			}
