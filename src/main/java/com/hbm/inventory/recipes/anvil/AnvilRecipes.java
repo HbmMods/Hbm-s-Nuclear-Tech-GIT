@@ -523,7 +523,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(IRON.plate()), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_50))).setTier(1));
 		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(IRON.plate()), new ComparableStack(Items.redstone)}, new AnvilOutput(new ItemStack(ModItems.primer_buckshot))).setTier(1));
 		
-		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(AL.plate())}, new AnvilOutput(new ItemStack(ModItems.linker, 64))));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[] {new OreDictStack(AL.plate())}, new AnvilOutput(new ItemStack(ModItems.ammo_link, 100))));
 		
 		Object[][] recs = new Object[][] {
 			{ModItems.ammo_12gauge.stackFromEnum(20, Ammo12Gauge.STOCK),	P_RED.dust(),										ModItems.ammo_12gauge.stackFromEnum(20, Ammo12Gauge.INCENDIARY),	2},

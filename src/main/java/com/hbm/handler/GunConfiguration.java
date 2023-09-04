@@ -58,7 +58,7 @@ public class GunConfiguration implements Cloneable {
 	/**Whether or not the gun should fallback to using the default mode if an appropriate magazine cannot be found. Relevant for revolvers.**/
 	public boolean fallback = false;
 	/**If the gun uses a "true" belt, instead of just grabbing from inventory.**/
-	public boolean trueBelt = false;
+//	public boolean trueBelt = false;
 	/**Map configurations to another, so the magazine and gun can use the same ammo item, but use a different bullet config.**/
 	public MutableIntIntMap configMap = IntIntMaps.mutable.empty();
 	/**Magazine items that the gun uses, storing their meta value/ordinal.**/

@@ -606,6 +606,8 @@ public class BulletConfigSyncingUtil {
 
 	public static int getKey(BulletConfiguration config) {
 
+		// Could make it a BiMap or have an additional map with reverse key-value, but I think that'd be overkill
+		// since this method isn't used that much anyway
 		if (configSet.containsValue(config))
 		{
 			final Iterator<IntObjectPair<BulletConfiguration>> iterator = configSet.keyValuesView().iterator();

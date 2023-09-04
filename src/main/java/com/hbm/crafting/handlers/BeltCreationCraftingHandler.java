@@ -26,7 +26,7 @@ public class BeltCreationCraftingHandler extends MagazineSystemCraftingHandlerBa
 			if (ammo == null)
 				continue;
 			
-			if (count(crafting) <= 2 && (magazineType.links ? link != null : link == null))
+			if (count(crafting) <= (magazineType.links ? 2 : 1) && (magazineType.links ? link != null : link == null))
 				return true;
 		}
 		return false;
@@ -42,7 +42,7 @@ public class BeltCreationCraftingHandler extends MagazineSystemCraftingHandlerBa
 			
 			final ItemStack ammo = getAmmo(magazineType, crafting), link = getLink(crafting);
 			
-			if (ammo != null && count(crafting) <= 2 && magazineType.links ? link != null : link == null)
+			if (ammo != null && count(crafting) <= (magazineType.links ? 2 : 1) && magazineType.links ? link != null : link == null)
 			{
 				final ItemStack belt = ModItems.gun_magazine.stackFromEnum(magazineType);
 				ItemMagazine.initNBT(belt, magazineType.capacity);

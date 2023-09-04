@@ -4099,7 +4099,7 @@ public class ModItems {
 		ammo_9mm = new ItemAmmo(Ammo9mm.class).setUnlocalizedName("ammo_9mm");
 		ammo_45 = new ItemAmmo(Ammo45ACP.class).setUnlocalizedName("ammo_45");
 		ammo_556 = new ItemAmmo(Ammo556mm.class, "desc.misc.556").setUnlocalizedName("ammo_556");
-		ammo_762 = new ItemAmmo(Ammo762NATO.class, "desc.misc.556").setUnlocalizedName("ammo_762");
+		ammo_762 = new ItemAmmo(Ammo762NATO.class, "desc.misc.762").setUnlocalizedName("ammo_762");
 		ammo_50ae = new ItemAmmo(Ammo50AE.class).setUnlocalizedName("ammo_50ae");
 		ammo_50bmg = new ItemAmmo(Ammo50BMG.class).setUnlocalizedName("ammo_50bmg");
 		ammo_75bolt = new ItemAmmo(Ammo75Bolt.class).setUnlocalizedName("ammo_75bolt");

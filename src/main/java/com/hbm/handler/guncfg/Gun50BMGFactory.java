@@ -2,6 +2,8 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.GeneralConfig.MagazineMode;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -148,7 +150,7 @@ public class Gun50BMGFactory {
 		
 		config.rateOfFire = 2;
 		config.durability *= 10;
-		config.ammoCap = 100;
+		config.ammoCap = GeneralConfig.magazineMode == MagazineMode.OFF ? 0 : 100;
 		config.crosshair = Crosshair.L_BOX;
 		config.reloadType = GunConfiguration.RELOAD_NONE;
 		config.hasSights = true;
@@ -156,7 +158,7 @@ public class Gun50BMGFactory {
 		config.allowsInfinity = true;
 //		config.durability = 10_000;
 		config.firingSound = "hbm:turret.chekhov_fire";
-		config.equipSound = "hbm:turret.howard_reload";
+		config.equipSound = config.reloadSound = "hbm:turret.howard_reload";
 		
 		config.name = "m2";
 		config.manufacturer = EnumGunManufacturer.COLT;
@@ -173,7 +175,7 @@ public class Gun50BMGFactory {
 		config.ejector = EJECTOR_BMG;
 		
 		config.links = true;
-		config.trueBelt = true;
+//		config.trueBelt = true;
 		
 		config.config.clear();
 		config.config.addAll(HbmCollection.bmg50);

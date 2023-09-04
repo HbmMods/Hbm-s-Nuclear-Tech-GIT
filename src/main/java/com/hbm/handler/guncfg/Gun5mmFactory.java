@@ -1,5 +1,7 @@
 package com.hbm.handler.guncfg;
 
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.GeneralConfig.MagazineMode;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
@@ -33,12 +35,13 @@ public class Gun5mmFactory {
 		config.firingMode = GunConfiguration.FIRE_AUTO;
 		config.reloadDuration = 20;
 		config.firingDuration = 0;
-		config.ammoCap = 200;
+		config.ammoCap = GeneralConfig.magazineMode == MagazineMode.OFF ? 0 : 200;
 		config.reloadType = GunConfiguration.RELOAD_NONE;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCLE;
 		config.durability = 10000;
 		config.firingSound = "hbm:weapon.lacunaeShoot";
+		config.equipSound = config.reloadSound = "hbm:turret.howard_reload";
 		
 		config.config = HbmCollection.r5.toList();
 		
@@ -47,7 +50,7 @@ public class Gun5mmFactory {
 		config.ejector = EJECTOR_MINIGUN;
 		
 		config.links = true;
-		config.trueBelt = true;
+//		config.trueBelt = true;
 		
 		return config;
 	}

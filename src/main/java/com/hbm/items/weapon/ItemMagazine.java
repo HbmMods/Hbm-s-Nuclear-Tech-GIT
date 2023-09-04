@@ -105,6 +105,7 @@ public class ItemMagazine extends ItemEnumMulti
 		// If player is sneaking, unload instead
 		if (player.isSneaking())
 		{
+			// Fast exit if nothing to unload
 			if (getUsedAmount(magazine) <= 0)
 				return magazine;
 			switch (magazineMode)
@@ -164,6 +165,9 @@ public class ItemMagazine extends ItemEnumMulti
 			return magazine;
 		} else// Standard load behavior
 		{
+			// Fast exit if already full
+			if (getUsedAmount(magazine) >= mag.capacity)
+				return magazine;
 			switch (magazineMode)
 			{
 				case FAST:
