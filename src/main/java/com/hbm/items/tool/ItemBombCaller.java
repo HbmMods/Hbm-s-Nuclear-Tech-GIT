@@ -7,6 +7,7 @@ import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import com.hbm.world.WorldUtil;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -23,26 +24,38 @@ public class ItemBombCaller extends Item {
 	}
 	
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
 		list.add("Aim & click to call an airstrike!");
 
-        if(itemstack.getItemDamage() == 0)
-    		list.add("Type: Carpet bombing");
-        if(itemstack.getItemDamage() == 1)
-    		list.add("Type: Napalm");
-        if(itemstack.getItemDamage() == 2)
-    		list.add("Type: Poison gas");
-        if(itemstack.getItemDamage() == 3)
-    		list.add("Type: Agent orange");
-        if(itemstack.getItemDamage() == 4)
-    		list.add("Type: Atomic bomb");
-        if(itemstack.getItemDamage() == 5)
-    		list.add("Type: VT stinger rockets");
-        if(itemstack.getItemDamage() == 6)
-    		list.add("Type: PIP OH GOD");
-        if(itemstack.getItemDamage() == 7)
-    		list.add("Type: Cloud the cloud oh god the cloud");
+        switch (stack.getItemDamage()) {
+
+			case 1:
+				list.add("Type: Napalm");
+				break;
+			case 2:
+				list.add("Type: Poison gas");
+				break;
+			case 3:
+				list.add("Type: Agent orange");
+				break;
+			case 4:
+				list.add("Type: Atomic bomb");
+				break;
+			case 5:
+				list.add("Type: VT stinger rockets");
+				break;
+			case 6:
+				list.add("Type: PIP OH GOD");
+				break;
+			case 7:
+				list.add("Type: Cloud the cloud oh god the cloud");
+				break;
+			default:
+				list.add("Type: Carpet bombing");
+
+		}
+
 	}
 	
 	@Override
@@ -53,45 +66,40 @@ public class ItemBombCaller extends Item {
 		int y = pos.blockY;
 		int z = pos.blockZ;
 		
-		boolean b = false;
-		
 	    if(!world.isRemote)
 		{
+            switch(stack.getItemDamage()) {
+				case 1:
+					WorldUtil.loadAndSpawnEntityInWorld(EntityBomber.statFacNapalm(world, x, y, z));
+					break;
+				case 2:
+					WorldUtil.loadAndSpawnEntityInWorld(EntityBomber.statFacChlorine(world, x, y, z));
+					break;
+				case 3:
+					WorldUtil.loadAndSpawnEntityInWorld(EntityBomber.statFacOrange(world, x, y, z));
+					break;
+				case 4:
+					WorldUtil.loadAndSpawnEntityInWorld(EntityBomber.statFacABomb(world, x, y, z));
+					break;
+				case 5:
+					WorldUtil.loadAndSpawnEntityInWorld(EntityBomber.statFacStinger(world, x, y, z));
+					break;
+				case 6:
+					WorldUtil.loadAndSpawnEntityInWorld(EntityBomber.statFacBoxcar(world, x, y, z));
+					break;
+				case 7:
+					WorldUtil.loadAndSpawnEntityInWorld(EntityBomber.statFacPC(world, x, y, z));
 
-	        if(stack.getItemDamage() == 0)
-	        	if(world.spawnEntityInWorld(EntityBomber.statFacCarpet(world, x, y, z)))
-	        		b = true;
-	        if(stack.getItemDamage() == 1)
-	        	if(world.spawnEntityInWorld(EntityBomber.statFacNapalm(world, x, y, z)))
-	        		b = true;
-	        if(stack.getItemDamage() == 2)
-	        	if(world.spawnEntityInWorld(EntityBomber.statFacChlorine(world, x, y, z)))
-	        		b = true;
-	        if(stack.getItemDamage() == 3)
-	        	if(world.spawnEntityInWorld(EntityBomber.statFacOrange(world, x, y, z)))
-	        		b = true;
-	        if(stack.getItemDamage() == 4)
-	        	if(world.spawnEntityInWorld(EntityBomber.statFacABomb(world, x, y, z)))
-	        		b = true;
-	        if(stack.getItemDamage() == 5)
-	        	if(world.spawnEntityInWorld(EntityBomber.statFacStinger(world, x, y, z)))
-	        		b = true;
-	        if(stack.getItemDamage() == 6)
-	        	if(world.spawnEntityInWorld(EntityBomber.statFacBoxcar(world, x, y, z)))
-	        		b = true;
-	        if(stack.getItemDamage() == 7)
-	        	if(world.spawnEntityInWorld(EntityBomber.statFacPC(world, x, y, z)))
-	        		b = true;
-	        
-	        if(b) {
-		    	player.addChatMessage(new ChatComponentText("Called in airstrike!"));
-		        world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
-	        } else {
-		        world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
-	        }
+				default:
+					WorldUtil.loadAndSpawnEntityInWorld(EntityBomber.statFacCarpet(world, x, y, z));
+			}
+
+			player.addChatMessage(new ChatComponentText("Called in airstrike!"));
+			world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+
 		}
 	    
-	    stack.stackSize -= b ? 1 : 0;
+	    stack.stackSize -= 1;
 	    
         return stack;
     }
