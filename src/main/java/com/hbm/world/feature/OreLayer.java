@@ -3,6 +3,7 @@ package com.hbm.world.feature;
 import java.util.Random;
 
 import com.hbm.inventory.RecipesCommon.MetaBlock;
+import com.hbm.world.generator.DungeonToolbox;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
@@ -10,7 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 
 public class OreLayer {
 
@@ -65,7 +66,7 @@ public class OreLayer {
 	}
 
 	@SubscribeEvent
-	public void onDecorate(PopulateChunkEvent.Pre event) {
+	public void onDecorate(DecorateBiomeEvent.Pre event) {
 		
 		World world = event.world;
 		
@@ -99,7 +100,7 @@ public class OreLayer {
 						if(event.rand.nextFloat() < density) {
 							Block genTarget = world.getBlock(x, y, z);
 							
-							if(genTarget.isReplaceableOreGen(world, x, y, z, target)) {
+							if(genTarget.isReplaceableOreGen(world, x, y, z, target) && DungeonToolbox.allowedToReplace(genTarget)) {
 								world.setBlock(x, y, z, ore.block, ore.meta, 2);
 							}
 						}

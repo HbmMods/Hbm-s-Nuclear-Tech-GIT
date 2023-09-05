@@ -55,7 +55,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	public boolean m1;// = false;
 	@SideOnly(Side.CLIENT)
 	public boolean m2;// = false;
-	
+
 	public ItemGunBase(GunConfiguration config) {
 		mainConfig = config;
 		this.setMaxStackSize(1);
@@ -131,13 +131,27 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		if(getIsMouseDown(stack) && !(player.getHeldItem() == stack)) {
 			setIsMouseDown(stack, false);
 		}
-		
+
+		if(getBurstDuration(stack) > 0) {
+			if(altConfig == null) {
+				if (world.getWorldTime() % mainConfig.firingDuration == 0 && tryShoot(stack, world, player, true)) {
+					fire(stack, world, player);
+				}
+			} else {
+				boolean canFire = altConfig.firingDuration == 1 ||  world.getWorldTime() % altConfig.firingDuration == 0;
+				if (canFire && tryShoot(stack, world, player, false)) {
+					altFire(stack, world, player);
+				}
+			}
+
+			setBurstDuration(stack, getBurstDuration(stack) - 1);
+			if(getBurstDuration(stack) == 0) setDelay(stack, mainConfig.rateOfFire);
+		}
 		if(getIsAltDown(stack) && !isCurrentItem) {
 			setIsAltDown(stack, false);
 		}
 			
 		if(GeneralConfig.enableGuns && mainConfig.firingMode == 1 && getIsMouseDown(stack) && tryShoot(stack, world, player, isCurrentItem)) {
-			
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
 		}
@@ -284,17 +298,32 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	//called on click (server side, called by mouse packet) for semi-automatics and specific events
 	public void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 
-		if(mainConfig.firingMode == mainConfig.FIRE_MANUAL && main && tryShoot(stack, world, player, main)) {
-			fire(stack, world, player);
-			setDelay(stack, mainConfig.rateOfFire);
+		boolean validConfig = mainConfig.firingMode == GunConfiguration.FIRE_MANUAL || mainConfig.firingMode == GunConfiguration.FIRE_BURST;
+
+		if(validConfig && main && tryShoot(stack, world, player, main)) {
+
+			if(mainConfig.firingMode == GunConfiguration.FIRE_BURST){
+				if(getBurstDuration(stack) <= 0)
+					setBurstDuration(stack,mainConfig.firingDuration * mainConfig.roundsPerBurst);
+			} else {
+				fire(stack, world, player);
+				setDelay(stack, mainConfig.rateOfFire);
+			}
+
 			//setMag(stack, getMag(stack) - 1);
 			//useUpAmmo(player, stack, main);
 			//player.inventoryContainer.detectAndSendChanges();
 		}
 		
 		if(!main && altConfig != null && tryShoot(stack, world, player, main)) {
-			altFire(stack, world, player);
-			setDelay(stack, altConfig.rateOfFire);
+
+			if(altConfig.firingMode == GunConfiguration.FIRE_BURST && getBurstDuration(stack) <= 0){
+				setBurstDuration(stack,altConfig.firingDuration * altConfig.roundsPerBurst);
+			} else {
+				altFire(stack, world, player);
+				setDelay(stack, altConfig.rateOfFire);
+			}
+
 			//useUpAmmo(player, stack, main);
 			//player.inventoryContainer.detectAndSendChanges();
 		}
@@ -643,6 +672,14 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	
 	public static int getMagType(ItemStack stack) {
 		return readNBT(stack, "magazineType");
+	}
+	/// Sets how long a burst fires for, only useful for burst fire weapons ///
+	public static void setBurstDuration(ItemStack stack, int i) {
+		writeNBT(stack, "bduration", i);
+	}
+
+	public static int getBurstDuration(ItemStack stack) {
+		return readNBT(stack, "bduration");
 	}
 	
 	/// queued casing for ejection ///

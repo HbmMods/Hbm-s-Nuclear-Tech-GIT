@@ -1,8 +1,37 @@
+## Added
+* Conveyor press
+  * An upgraded version of the electric press that can be integrated directly into conveyor belts
+  * Each pressing operation will process however many items happen to be at the belt at the time, so given enough conveyor infrastructure it can be much faster than a normal electric press
+  * Has no GUI, stamps are installed either by hand or via automation
+  * Stamps can be removed with a screwdriver
+  * Can only stamp single items to avoid issues with stack limits, so it's best to use ejection speed instead of stack ejection upgrades for the conveyor ejectors
+
 ## Changed
-* Thorium salts can no longer be stored in normal tanks due to being corrosive
-* Updated russian localization
+* Chlorophyte rounds now deal 2x more damage than their standard counterparts instead of 1.5x
+* Chlorophyte rounds now penetrate multiple enemies
+* Decreased chlorophyte targeting range from 200 to 30 blocks
+* Josh now has recoil and reload animations
+* Anvil recipes for upgrading ammo types have been adjusted to match the crafting batch size
+* Adjusted the corium block destruction function to be more in line with the recent concrete nerfs
+* Reduced the blast resistance threshold for FEL, making concrete once again resistant to lasers
+* Crafting bullet assemblies now only yields one item, it's that one assembly that turns into a full set of bullets after being pressed once. This should reduce the amount of press operations by up to a factor of 64.
+* 5mm assemblies now yield 64 instead of 32 bullets
+* The production complexity and time for making thermoelectric elements in the assembler has been reduced
+* Thermoelectric elements can now also be made in a tier 2 anvil
+* Changed electric press recipe, crafting complexity has been reduced and the press now uses hydraulic pistons
+* Removed DFC emitter beam cap again since the core already imposes a natural limit due to fuel consumption
+  * I don't know why anyone would need a DFC that strong anyway, but now you can have them again
+* The UAC pistol now has a crafting recipe and can also be found in structures
 
 ## Fixed
-* Fixed PWR crashing servers instantly
-* Fixed missing tank textures for sodium
-* Fixed missing lang entry for hot heavy water
+* Fixed logspam when pollution handler tries to save the pollution data for dimensions that have never been loaded before
+* Fixed dead leaves layer not being replacable by other blocks
+* Fixed rock layers like schist, hematite and sulfur caves not spawning at all
+* Fixed rock layers replacing end portal frames or bedrock
+* Fixed FEnSU instantly voiding all energy when sending
+* Fixed some conflict causing the nuke flash to be applied permanently
+* Fixed flux level not resetting when rods are above melting point with meltdowns disabled
+* Fixed crash caused by express delivery shells
+* Fixed 4 gauge solid steel slugs not being made from steel
+* Fixed missing lang entry for fluorite ore
+* Fixed UAC pistol UV

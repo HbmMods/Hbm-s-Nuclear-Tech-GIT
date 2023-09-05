@@ -37,7 +37,7 @@ public class RenderTorex extends Render {
 		EntityNukeTorex cloud = (EntityNukeTorex)entity;
 		cloudletWrapper(cloud, interp);
 		if(cloud.ticksExisted < 101) flashWrapper(cloud, interp);
-		if(cloud.ticksExisted < 10 && ModEventHandlerClient.flashTimer < 100) ModEventHandlerClient.flashTimer = 200;
+		if(cloud.ticksExisted < 10 && System.currentTimeMillis() - ModEventHandlerClient.flashTimestamp > 1_000) ModEventHandlerClient.flashTimestamp = System.currentTimeMillis();
 		if(fog) GL11.glEnable(GL11.GL_FOG);
 		GL11.glPopMatrix();
 	}
