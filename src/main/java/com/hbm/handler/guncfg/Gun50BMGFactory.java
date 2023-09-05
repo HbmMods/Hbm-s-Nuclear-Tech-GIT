@@ -157,7 +157,18 @@ public class Gun50BMGFactory {
 
 		return config;
 	}
-	
+
+	public static GunConfiguration getAR15BurstConfig(){
+		GunConfiguration config = getAR15Config();
+		config.rateOfFire = 4;
+		config.roundsPerBurst = 3;
+		config.firingDuration = 2;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_BURST;
+
+		return config;
+	}
+
 	public static GunConfiguration getM2Config() {
 		GunConfiguration config = getAR15Config();
 		
