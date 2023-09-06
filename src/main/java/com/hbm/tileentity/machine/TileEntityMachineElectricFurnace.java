@@ -8,6 +8,7 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -156,6 +157,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 	@Override
 	public void updateEntity() {
+		if(FactionRelations.isWarday())
+			return;
 		boolean markDirty = false;
 
 		if(!worldObj.isRemote) {

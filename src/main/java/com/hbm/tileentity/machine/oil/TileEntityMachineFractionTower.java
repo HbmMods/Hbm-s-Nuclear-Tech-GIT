@@ -15,6 +15,7 @@ import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
@@ -39,7 +40,8 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 	
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			TileEntity stack = worldObj.getTileEntity(xCoord, yCoord + 3, zCoord);

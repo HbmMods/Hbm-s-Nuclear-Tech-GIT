@@ -13,6 +13,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -54,7 +55,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			this.updateConnections();

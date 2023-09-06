@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.Watz;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,7 +16,8 @@ public class TileEntityWatzStruct extends TileEntity {
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(worldObj.isRemote) return;
 		if(worldObj.getTotalWorldTime() % 20 != 0) return;
 

@@ -8,6 +8,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICoreReceiver;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.block.ILaserable;
 import api.hbm.energy.IEnergyGenerator;
@@ -48,7 +49,8 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if (!worldObj.isRemote) {
 			
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);

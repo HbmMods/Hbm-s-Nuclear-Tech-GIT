@@ -22,7 +22,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.STOCK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.STOCK));
 		bullet.dmgMin = 25;
 		bullet.dmgMax = 35;
 		bullet.explosive = 4F;
@@ -37,7 +37,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.EXPLOSIVE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.EXPLOSIVE));
 		bullet.dmgMin = 35;
 		bullet.dmgMax = 45;
 		bullet.explosive = 4F;
@@ -52,7 +52,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_T));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_T));
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 55;
 		bullet.doesPenetrate = true;
@@ -67,7 +67,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_DU));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_DU));
 		bullet.dmgMin = 70;
 		bullet.dmgMax = 80;
 		bullet.doesPenetrate = true;
@@ -82,7 +82,7 @@ public class GunCannonFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardShellConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.W9));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.W9));
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 150;
 		

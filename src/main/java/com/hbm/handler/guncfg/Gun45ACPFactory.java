@@ -119,22 +119,23 @@ public class Gun45ACPFactory {
 	
 	static float inaccuracy = 5;
 	public static BulletConfiguration get45AutoConfig() {
-		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
-
-		bullet.ammo = new ComparableStack(ModItems.ammo_45.stackFromEnum(Ammo45ACP.STOCK));
-		bullet.spread *= inaccuracy;
-		bullet.dmgMax = 12;
-		bullet.dmgMin = 16;
-		
-		bullet.spentCasing = CASING45;
-
-		return bullet;
+//		BulletConfiguration bullet = BulletConfigFactory.standardPistolConfig();
+//
+//		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_45.stackFromEnum(Ammo45ACP.STOCK));
+//		bullet.spread *= inaccuracy;
+//		bullet.dmgMax = 12;
+//		bullet.dmgMin = 16;
+//		
+//		bullet.spentCasing = CASING45;
+//
+//		return bullet;
+		return null;
 	}
 
 	public static BulletConfiguration get45AutoAPConfig() {
 		BulletConfiguration bullet = get45AutoConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_45.stackFromEnum(Ammo45ACP.AP));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_45.stackFromEnum(Ammo45ACP.AP));
 		bullet.dmgMax = 18;
 		bullet.dmgMin = 26;
 		bullet.wear = 15;
@@ -148,7 +149,7 @@ public class Gun45ACPFactory {
 	public static BulletConfiguration get45AutoDUConfig() {
 		BulletConfiguration bullet = get45AutoConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_45.stackFromEnum(Ammo45ACP.DU));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_45.stackFromEnum(Ammo45ACP.DU));
 		bullet.dmgMax = 30;
 		bullet.dmgMin = 44;
 		bullet.wear = 25;

@@ -203,7 +203,7 @@ public class BulletConfiguration implements Cloneable {
 	}
 	
 	public BulletConfiguration setToHoming(ItemStack ammo) {
-		this.ammo = new ComparableStack(ammo);
+		this.ammo = ComparableStack.getComparableStack(ammo);
 		return getChlorophyte();
 	}
 	

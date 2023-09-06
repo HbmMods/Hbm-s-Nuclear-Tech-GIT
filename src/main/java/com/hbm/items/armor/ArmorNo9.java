@@ -30,7 +30,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-public class ArmorNo9 extends ArmorModel implements IAttackHandler, IDamageHandler {
+public class ArmorNo9 extends ArmorModel /*implements IAttackHandler, IDamageHandler*/ {
 	
 	protected ModelNo9 model;
 
@@ -45,28 +45,28 @@ public class ArmorNo9 extends ArmorModel implements IAttackHandler, IDamageHandl
 		list.add(EnumChatFormatting.YELLOW + "Lets you breathe coal, neat!");
 	}
 
-	@Override
-	public void handleDamage(LivingHurtEvent event, ItemStack stack) {
-		
-		if(event.source.isUnblockable())
-			return;
-		
-		event.ammount -= 0.5F;
-		
-		if(event.ammount < 0)
-			event.ammount = 0;
-	}
-
-	@Override
-	public void handleAttack(LivingAttackEvent event, ItemStack armor) {
-		
-		if(event.source.isUnblockable())
-			return;
-		
-		if(event.ammount <= 0.5F) {
-			event.setCanceled(true);
-		}
-	}
+//	@Override
+//	public void handleDamage(LivingHurtEvent event, ItemStack stack) {
+//		
+//		if(event.source.isUnblockable())
+//			return;
+//		
+//		event.ammount -= 0.5F;
+//		
+//		if(event.ammount < 0)
+//			event.ammount = 0;
+//	}
+//
+//	@Override
+//	public void handleAttack(LivingAttackEvent event, ItemStack armor) {
+//		
+//		if(event.source.isUnblockable())
+//			return;
+//		
+//		if(event.ammount <= 0.5F) {
+//			event.setCanceled(true);
+//		}
+//	}
 
 	@Override
 	@SideOnly(Side.CLIENT)

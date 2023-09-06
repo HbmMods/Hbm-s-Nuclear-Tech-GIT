@@ -9,6 +9,7 @@ import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
@@ -32,7 +33,8 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 
 			this.worldObj.theProfiler.startSection("catalyticCracker_setup_tanks");

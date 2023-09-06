@@ -176,7 +176,7 @@ public class Mats {
 			}
 		}
 		
-		List<MaterialStack> entries = materialEntries.get(new ComparableStack(stack).makeSingular());
+		List<MaterialStack> entries = materialEntries.get(ComparableStack.getComparableStack(stack).makeSingular());
 		
 		if(entries != null) {
 			list.addAll(entries);

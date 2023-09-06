@@ -316,8 +316,6 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.piston_selenium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.piston_selenium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.piston_selenium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.canister_fuel, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.canister_biofuel, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_advanced_cell_4, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_advanced_cell_4, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_lithium, 1));
@@ -351,7 +349,7 @@ public class ItemStarterKit extends Item {
 		
 		if(this == ModItems.boy_kit)
 		{
-//			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_boy), 1));
+			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_boy), 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.boy_shielding, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.boy_target, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.boy_bullet, 1));

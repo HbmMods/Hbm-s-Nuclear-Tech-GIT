@@ -13,7 +13,7 @@ public class AmmoIndex {
 	private static final HashMap<ComparableStack, Set<AmmoTrait>> ammo = new HashMap();
 
 	public static void registerAmmo(Item ammo, AmmoTrait... traits) {
-		registerAmmo(new ComparableStack(ammo), traits);
+		registerAmmo(ComparableStack.getComparableStack(ammo), traits);
 	}
 	
 	public static void registerAmmo(ComparableStack ammo, AmmoTrait... traits) {

@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -28,7 +29,8 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			this.updateConnections();

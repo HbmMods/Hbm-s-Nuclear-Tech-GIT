@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IMultiblock;
+import com.hfr.faction.relations.FactionRelations;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

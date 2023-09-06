@@ -303,7 +303,8 @@ public class GUIAnvil extends GuiContainer {
 		list.add(EnumChatFormatting.YELLOW + "Outputs:");
 		
 		for(AnvilOutput stack : recipe.output) {
-			list.add(">" + stack.stack.stackSize + "x " + stack.stack.getDisplayName() + (stack.chance != 1F ? (" (" + (stack.chance * 100) + "%)" ) : ""));
+			if(stack != null && stack.stack != null)
+				list.add(">" + stack.stack.stackSize + "x " + stack.stack.getDisplayName() + (stack.chance != 1F ? (" (" + (stack.chance * 100) + "%)" ) : ""));
 		}
 		
 		return list;
@@ -319,25 +320,28 @@ public class GUIAnvil extends GuiContainer {
 		List<String> list = new ArrayList();
 		
 		for(AStack stack : recipe.input) {
-			if(stack instanceof ComparableStack)  {
-				ItemStack input = ((ComparableStack) stack).toStack();
-				list.add(input.getDisplayName().toLowerCase(Locale.US));
-				
-			} else if(stack instanceof OreDictStack) {
-				OreDictStack input = (OreDictStack) stack;
-				ArrayList<ItemStack> ores = OreDictionary.getOres(input.name);
-				
-				if(ores.size() > 0) {
-					for(ItemStack ore : ores) {
-						list.add(ore.getDisplayName().toLowerCase(Locale.US));
+			if(stack != null) {
+				if(stack instanceof ComparableStack)  {
+					ItemStack input = ((ComparableStack) stack).toStack();
+					list.add(input.getDisplayName().toLowerCase(Locale.US));
+
+				} else if(stack instanceof OreDictStack) {
+					OreDictStack input = (OreDictStack) stack;
+					ArrayList<ItemStack> ores = OreDictionary.getOres(input.name);
+
+					if(ores.size() > 0) {
+						for(ItemStack ore : ores) {
+							list.add(ore.getDisplayName().toLowerCase(Locale.US));
+						}
+
 					}
-					
 				}
 			}
 		}
 		
 		for(AnvilOutput stack : recipe.output) {
-			list.add(stack.stack.getDisplayName().toLowerCase(Locale.US));
+			if(stack != null && stack.stack != null)
+				list.add(stack.stack.getDisplayName().toLowerCase(Locale.US));
 		}
 		
 		return list;
@@ -400,11 +404,14 @@ public class GUIAnvil extends GuiContainer {
 			ItemStack display = recipe.getDisplay();
 			
 			FontRenderer font = null;
-			if (display != null) font = display.getItem().getFontRenderer(display);
-			if (font == null) font = fontRendererObj;
+			if (display != null && display.getItem() != null) 
+				font = display.getItem().getFontRenderer(display);
+			if (font == null) 
+				font = fontRendererObj;
 			
 			itemRender.zLevel = 100.0F;
-			itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), recipe.getDisplay(), guiLeft + 17 + 18 * (ind / 2), guiTop + 72 + 18 * (ind % 2));
+			if (display != null && display.getItem() != null) 
+				itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), recipe.getDisplay(), guiLeft + 17 + 18 * (ind / 2), guiTop + 72 + 18 * (ind % 2));
 			itemRender.zLevel = 0.0F;
 			
 			GL11.glEnable(GL11.GL_ALPHA_TEST);

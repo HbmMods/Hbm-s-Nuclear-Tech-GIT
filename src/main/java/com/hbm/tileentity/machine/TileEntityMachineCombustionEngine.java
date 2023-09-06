@@ -17,6 +17,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardReceiver;
@@ -60,7 +61,8 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachineBase imp
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 
 			this.tank.loadTank(0, 1, slots);

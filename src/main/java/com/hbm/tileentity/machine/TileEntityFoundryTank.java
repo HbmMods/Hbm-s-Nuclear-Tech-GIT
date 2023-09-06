@@ -7,6 +7,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.block.ICrucibleAcceptor;
 import net.minecraft.block.Block;
@@ -19,7 +20,8 @@ public class TileEntityFoundryTank extends TileEntityFoundryBase {
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			if(this.type == null && this.amount != 0) {

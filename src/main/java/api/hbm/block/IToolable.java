@@ -32,16 +32,16 @@ public interface IToolable {
 		public static ToolType getType(ItemStack stack) {
 			
 			if(!map.isEmpty()) {
-				return map.get(new ComparableStack(stack));
+				return map.get(ComparableStack.getComparableStack(stack));
 			}
 			
 			for(ToolType type : ToolType.values()) {
 				for(ItemStack tool : type.stacksForDisplay) {
-					map.put(new ComparableStack(tool), type);
+					map.put(ComparableStack.getComparableStack(tool), type);
 				}
 			}
 			
-			return map.get(new ComparableStack(stack));
+			return map.get(ComparableStack.getComparableStack(stack));
 		}
 	}
 }

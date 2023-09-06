@@ -9,6 +9,8 @@ import java.util.Map;
 
 import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 

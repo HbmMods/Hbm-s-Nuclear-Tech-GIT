@@ -15,21 +15,21 @@ public class EntityCreeperGold extends EntityCreeper {
 		super(world);
 	}
 
-	@Override
-	public void func_146077_cc() {
-		
-		if(!this.worldObj.isRemote) {
-			this.setDead();
-			
-			ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, this.getPowered() ? 14 : 7, this);
-			vnt.setBlockAllocator(new BlockAllocatorBulkie(60, this.getPowered() ? 32 : 16));
-			vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorBulkie(Blocks.gold_ore)));
-			vnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(0.5F));
-			vnt.setPlayerProcessor(new PlayerProcessorStandard());
-			vnt.setSFX(new ExplosionEffectStandard());
-			vnt.explode();
-		}
-	}
+//	@Override
+//	public void func_146077_cc() {
+//		
+//		if(!this.worldObj.isRemote) {
+//			this.setDead();
+//			
+//			ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, this.getPowered() ? 14 : 7, this);
+//			vnt.setBlockAllocator(new BlockAllocatorBulkie(60, this.getPowered() ? 32 : 16));
+//			vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorBulkie(Blocks.gold_ore)));
+//			vnt.setEntityProcessor(new EntityProcessorStandard().withRangeMod(0.5F));
+//			vnt.setPlayerProcessor(new PlayerProcessorStandard());
+//			vnt.setSFX(new ExplosionEffectStandard());
+//			vnt.explode();
+//		}
+//	}
 	
 	@Override
 	public boolean getCanSpawnHere() {

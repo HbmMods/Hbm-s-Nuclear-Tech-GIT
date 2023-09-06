@@ -14,6 +14,7 @@ import com.hbm.inventory.gui.GUIElectrolyser;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
@@ -57,7 +58,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			this.tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);

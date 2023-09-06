@@ -27,6 +27,7 @@ import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IHeatSource;
@@ -63,7 +64,8 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 	
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			NBTTagCompound data = new NBTTagCompound();

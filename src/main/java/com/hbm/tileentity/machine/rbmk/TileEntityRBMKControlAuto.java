@@ -5,6 +5,7 @@ import com.hbm.inventory.container.ContainerRBMKControlAuto;
 import com.hbm.inventory.gui.GUIRBMKControlAuto;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -36,7 +37,8 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			double fauxLevel = 0;

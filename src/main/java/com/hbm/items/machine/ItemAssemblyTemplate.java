@@ -86,7 +86,7 @@ public class ItemAssemblyTemplate extends Item {
 		int count = stack.stackTagCompound.getByte("count");
 		int meta = stack.stackTagCompound.getShort("meta");
 		
-		return new ComparableStack(Item.getItemById(id), count, meta);
+		return ComparableStack.getComparableStack(Item.getItemById(id), count, meta);
 	}
 
 	public String getItemStackDisplayName(ItemStack stack) {

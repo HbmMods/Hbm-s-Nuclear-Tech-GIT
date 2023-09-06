@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyGenerator;
 import net.minecraft.block.Block;
@@ -16,7 +17,8 @@ public class TileEntityMachineAmgen extends TileEntityLoadedBase implements IEne
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 
 			Block block = worldObj.getBlock(xCoord, yCoord, zCoord);

@@ -96,7 +96,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.STOCK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.STOCK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 14;
@@ -110,7 +110,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.AP));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.AP));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 20;
@@ -126,7 +126,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.DU));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.DU));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 22;
 		bullet.dmgMax = 26;
@@ -142,7 +142,7 @@ public class Gun9mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.ROCKET));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.ROCKET));
 		bullet.velocity = 5;
 		bullet.explosive = 7.5F;
 		bullet.trail = 5;

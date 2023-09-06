@@ -14,6 +14,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPlateFuel;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -59,13 +60,13 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	
 	private static final HashMap<ComparableStack, ItemStack> fuelMap = new HashMap<ComparableStack, ItemStack>();
 	static {
-		fuelMap.put(new ComparableStack(ModItems.plate_fuel_u233), new ItemStack(ModItems.waste_plate_u233, 1, 1));
-		fuelMap.put(new ComparableStack(ModItems.plate_fuel_u235), new ItemStack(ModItems.waste_plate_u235, 1, 1));
-		fuelMap.put(new ComparableStack(ModItems.plate_fuel_mox), new ItemStack(ModItems.waste_plate_mox, 1, 1));
-		fuelMap.put(new ComparableStack(ModItems.plate_fuel_pu239), new ItemStack(ModItems.waste_plate_pu239, 1, 1));
-		fuelMap.put(new ComparableStack(ModItems.plate_fuel_sa326), new ItemStack(ModItems.waste_plate_sa326, 1, 1));
-		fuelMap.put(new ComparableStack(ModItems.plate_fuel_ra226be), new ItemStack(ModItems.waste_plate_ra226be, 1, 1));
-		fuelMap.put(new ComparableStack(ModItems.plate_fuel_pu238be), new ItemStack(ModItems.waste_plate_pu238be, 1, 1));
+		fuelMap.put(ComparableStack.getComparableStack(ModItems.plate_fuel_u233), new ItemStack(ModItems.waste_plate_u233, 1, 1));
+		fuelMap.put(ComparableStack.getComparableStack(ModItems.plate_fuel_u235), new ItemStack(ModItems.waste_plate_u235, 1, 1));
+		fuelMap.put(ComparableStack.getComparableStack(ModItems.plate_fuel_mox), new ItemStack(ModItems.waste_plate_mox, 1, 1));
+		fuelMap.put(ComparableStack.getComparableStack(ModItems.plate_fuel_pu239), new ItemStack(ModItems.waste_plate_pu239, 1, 1));
+		fuelMap.put(ComparableStack.getComparableStack(ModItems.plate_fuel_sa326), new ItemStack(ModItems.waste_plate_sa326, 1, 1));
+		fuelMap.put(ComparableStack.getComparableStack(ModItems.plate_fuel_ra226be), new ItemStack(ModItems.waste_plate_ra226be, 1, 1));
+		fuelMap.put(ComparableStack.getComparableStack(ModItems.plate_fuel_pu238be), new ItemStack(ModItems.waste_plate_pu238be, 1, 1));
 	}
 	
 	public String getName() {
@@ -115,7 +116,8 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		rodControl();
 
 		if(!worldObj.isRemote) {
@@ -270,7 +272,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 				int[] neighborSlots = getNeighboringSlots(i);
 				
 				if(ItemPlateFuel.getLifeTime(slots[i]) > rod.lifeTime) {
-					slots[i] = fuelMap.get(new ComparableStack(slots[i])).copy();
+					slots[i] = fuelMap.get(ComparableStack.getComparableStack(slots[i])).copy();
 				}
 				
 				for(byte j = 0; j < neighborSlots.length; j++) {

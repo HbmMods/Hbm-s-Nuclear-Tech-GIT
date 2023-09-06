@@ -4,6 +4,7 @@ import com.hbm.inventory.container.ContainerMachineSatLinker;
 import com.hbm.inventory.gui.GUIMachineSatLinker;
 import com.hbm.items.ISatChip;
 import com.hbm.tileentity.IGUIProvider;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -179,7 +180,8 @@ public class TileEntityMachineSatLinker extends TileEntity implements ISidedInve
 	
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote)
 		{
 			if(slots[0] != null && slots[1] != null && slots[0].getItem() instanceof ISatChip && slots[1].getItem() instanceof ISatChip) {

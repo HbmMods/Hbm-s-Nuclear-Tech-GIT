@@ -25,6 +25,7 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple;
 import com.hbm.util.Tuple.Triplet;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -99,7 +100,8 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			this.updateConnections();

@@ -19,6 +19,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -212,7 +213,8 @@ public class TileEntityMachineBoiler extends TileEntityLoadedBase implements ISi
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		boolean mark = false;
 		
 		if(!worldObj.isRemote) {

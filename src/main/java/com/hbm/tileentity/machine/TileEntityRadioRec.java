@@ -9,6 +9,7 @@ import com.hbm.util.NoteBuilder.Instrument;
 import com.hbm.util.NoteBuilder.Note;
 import com.hbm.util.NoteBuilder.Octave;
 import com.hbm.util.Tuple.Triplet;
+import com.hfr.faction.relations.FactionRelations;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,7 +22,8 @@ public class TileEntityRadioRec extends TileEntity implements INBTPacketReceiver
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			if(this.isOn && !this.channel.isEmpty()) {

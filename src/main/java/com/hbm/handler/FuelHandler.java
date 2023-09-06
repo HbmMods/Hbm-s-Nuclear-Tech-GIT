@@ -58,7 +58,7 @@ public class FuelHandler implements IFuelHandler {
 	
 	public static int getBurnTimeFromCache(ItemStack stack) {
 		
-		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		ComparableStack comp = ComparableStack.getComparableStack(stack).makeSingular();
 		
 		if(burnCache.containsKey(comp)) {
 			return burnCache.get(comp);

@@ -90,9 +90,9 @@ public class MatDistribution extends SerializableRecipe {
 	public static void registerEntry(Object key, Object... matDef) {
 		ComparableStack comp = null;
 
-		if(key instanceof Item) comp = new ComparableStack((Item) key);
-		if(key instanceof Block) comp = new ComparableStack((Block) key);
-		if(key instanceof ItemStack) comp = new ComparableStack((ItemStack) key);
+		if(key instanceof Item) comp = ComparableStack.getComparableStack((Item) key);
+		if(key instanceof Block) comp = ComparableStack.getComparableStack((Block) key);
+		if(key instanceof ItemStack) comp = ComparableStack.getComparableStack((ItemStack) key);
 		
 		if(comp == null) return;
 		if(matDef.length % 2 == 1) return;

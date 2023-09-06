@@ -19,6 +19,8 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.Compat;
 import com.hbm.util.I18nUtil;
+import com.hfr.faction.relations.FactionRelations;
+
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -95,7 +97,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			this.worldObj.theProfiler.startSection("rbmkBase_heat_movement");

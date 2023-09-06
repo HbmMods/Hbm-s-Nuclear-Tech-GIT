@@ -17,7 +17,7 @@ public class AnvilSmithingMold extends AnvilSmithingRecipe {
 	ItemStack[] matchesStack;
 
 	public AnvilSmithingMold(int meta, AStack demo, Object o) {
-		super(1, new ItemStack(ModItems.mold, 1, meta), demo, new ComparableStack(ModItems.mold_base));
+		super(1, new ItemStack(ModItems.mold, 1, meta), demo, ComparableStack.getComparableStack(ModItems.mold_base));
 		
 		if(o instanceof OreDictStack)
 			matchesPrefix = (OreDictStack) o;

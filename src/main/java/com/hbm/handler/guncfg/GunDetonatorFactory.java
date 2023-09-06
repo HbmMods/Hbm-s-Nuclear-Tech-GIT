@@ -81,7 +81,7 @@ public class GunDetonatorFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(Items.redstone);
+		bullet.ammo = ComparableStack.getComparableStack(Items.redstone);
 		bullet.spread = 0.0F;
 		bullet.maxAge = 100;
 		bullet.dmgMin = 0;

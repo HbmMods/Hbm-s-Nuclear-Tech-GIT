@@ -34,6 +34,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.Tuple.Quintet;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -141,7 +142,8 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			this.isOn = false;
@@ -541,7 +543,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 			return repair;
 
 		repair.add(new OreDictStack(OreDictManager.STEEL.plate(), 8));
-		repair.add(new ComparableStack(ModItems.ducttape, 4));
+		repair.add(ComparableStack.getComparableStack(ModItems.ducttape, 4));
 		return repair;
 	}
 

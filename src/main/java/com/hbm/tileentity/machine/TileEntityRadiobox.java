@@ -6,6 +6,7 @@ import com.hbm.inventory.container.ContainerRadiobox;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
@@ -28,7 +29,8 @@ public class TileEntityRadiobox extends TileEntityLoadedBase implements IEnergyU
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote)
 			this.updateConnections();
 

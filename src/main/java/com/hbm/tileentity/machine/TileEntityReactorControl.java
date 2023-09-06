@@ -8,6 +8,7 @@ import com.hbm.inventory.gui.GUIReactorControl;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -101,7 +102,8 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			isLinked = establishLink();

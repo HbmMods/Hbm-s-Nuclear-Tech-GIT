@@ -22,6 +22,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.fluid.IFluidStandardSender;
 import cpw.mods.fml.relauncher.Side;
@@ -59,7 +60,8 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			float rad = 0;

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.CrystallizerRecipes.CrystallizerRecipe;
@@ -46,7 +47,7 @@ public class IMCCrystallizer extends IMCHandler {
 		recipe.acidAmount = acid.fill;
 		
 		if(in != null) {
-			buffer.put(new Pair(new RecipesCommon.ComparableStack(in), acid.type), recipe);
+			buffer.put(new Pair(ComparableStack.getComparableStack(in), acid.type), recipe);
 		} else {
 			String dict = data.getString("oredict");
 			

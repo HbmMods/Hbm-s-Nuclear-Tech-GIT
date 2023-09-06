@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.tileentity.TileEntityTickingBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -19,7 +20,8 @@ public class TileEntityHadronDiode extends TileEntityTickingBase {
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			age++;
 			

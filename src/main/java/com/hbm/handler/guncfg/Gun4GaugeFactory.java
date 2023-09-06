@@ -141,7 +141,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.STOCK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.STOCK));
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 8;
 		bullet.bulletsMin *= 2;
@@ -156,7 +156,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.SLUG));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.SLUG));
 		bullet.dmgMin = 25;
 		bullet.dmgMax = 32;
 		bullet.wear = 7;
@@ -171,7 +171,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.FLECHETTE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.FLECHETTE));
 		bullet.dmgMin = 8;
 		bullet.dmgMax = 15;
 		bullet.bulletsMin *= 2;
@@ -190,7 +190,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.FLECHETTE_PHOSPHORUS));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.FLECHETTE_PHOSPHORUS));
 		bullet.dmgMin = 8;
 		bullet.dmgMax = 15;
 		bullet.bulletsMin *= 2;
@@ -230,7 +230,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.EXPLOSIVE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.EXPLOSIVE));
 		bullet.velocity *= 2;
 		bullet.gravity *= 2;
 		bullet.dmgMin = 20;
@@ -247,7 +247,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.MINING));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.MINING));
 		bullet.velocity *= 2;
 		bullet.gravity *= 2;
 		bullet.dmgMin = 10;
@@ -283,7 +283,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.BALEFIRE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.BALEFIRE));
 		bullet.velocity *= 2;
 		bullet.gravity *= 2;
 		bullet.dmgMin = 50;
@@ -318,7 +318,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.KAMPF));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.KAMPF));
 		bullet.spread = 0.0F;
 		bullet.gravity = 0.0D;
 		bullet.wear = 15;
@@ -336,7 +336,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.CANISTER));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.CANISTER));
 		bullet.spread = 0.0F;
 		bullet.gravity = 0.0D;
 		bullet.wear = 15;
@@ -376,7 +376,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.SLEEK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.SLEEK));
 		
 		bullet.spentCasing = CASING4GAUGE.clone().register("4GaIF").setColor(0x1D1D1D, SpentCasing.COLOR_CASE_4GA);
 		
@@ -387,7 +387,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.CLAW));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.CLAW));
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 9;
 		bullet.bulletsMin *= 2;
@@ -426,7 +426,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.VAMPIRE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.VAMPIRE));
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 9;
 		bullet.bulletsMin *= 2;
@@ -466,7 +466,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.VOID));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.VOID));
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 9;
 		bullet.bulletsMin *= 2;
@@ -499,7 +499,7 @@ public class Gun4GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.QUACK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.QUACK));
 		bullet.velocity *= 2D;
 		bullet.spread = 0.0F;
 		bullet.gravity = 0.0D;
@@ -518,17 +518,17 @@ public class Gun4GaugeFactory {
 					
 					if(bullet.ticksExisted % 2 == 0) {
 						
-						List<EntityCreature> creatures = bullet.worldObj.getEntitiesWithinAABB(EntityCreature.class, bullet.boundingBox.expand(10, 10, 10));
-						
-						for(EntityCreature creature : creatures) {
-							
-							if(creature.getClass().getCanonicalName().startsWith("net.minecraft.entity.titan")) {
-								BulletConfigFactory.nuclearExplosion(creature, 0, 0, 0, ExplosionNukeSmall.PARAMS_TOTS);
-
-								bullet.worldObj.removeEntity(creature);
-								bullet.worldObj.unloadEntities(new ArrayList() {{ add(creature); }});
-							}
-						}
+//						List<EntityCreature> creatures = bullet.worldObj.getEntitiesWithinAABB(EntityCreature.class, bullet.boundingBox.expand(10, 10, 10));
+//						
+//						for(EntityCreature creature : creatures) {
+//							
+//							if(creature.getClass().getCanonicalName().startsWith("net.minecraft.entity.titan")) {
+//								BulletConfigFactory.nuclearExplosion(creature, 0, 0, 0, ExplosionNukeSmall.PARAMS_TOTS);
+//
+//								bullet.worldObj.removeEntity(creature);
+//								bullet.worldObj.unloadEntities(new ArrayList() {{ add(creature); }});
+//							}
+//						}
 						
 					}
 				}

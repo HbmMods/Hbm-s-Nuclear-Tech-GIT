@@ -116,7 +116,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		if(in != null) {
 			
 			if(in.getItem() != null) {
-				setRecipe(new ComparableStack(in), dust);
+				setRecipe(ComparableStack.getComparableStack(in), dust);
 			} else {
 				MainRegistry.logger.error("Ore dict entry '" + name + "' has a null item in its stack! How does that even happen?");
 				Thread.currentThread().dumpStack();
@@ -405,18 +405,20 @@ public class ShredderRecipes extends SerializableRecipe {
 	}
 	
 	public static void setRecipe(Item in, ItemStack out) {
-		setRecipe(new ComparableStack(in), out);
+		setRecipe(ComparableStack.getComparableStack(in), out);
 	}
 	
 	public static void setRecipe(Block in, ItemStack out) {
-		setRecipe(new ComparableStack(in), out);
+		setRecipe(ComparableStack.getComparableStack(in), out);
 	}
 	
 	public static void setRecipe(ItemStack in, ItemStack out) {
-		setRecipe(new ComparableStack(in), out);
+		setRecipe(ComparableStack.getComparableStack(in), out);
 	}
 	
 	public static void setRecipe(ComparableStack in, ItemStack out) {
+		if(in == null || in.toStack() == null || in.toStack().getItem() == null || out == null || out.getItem() == null)
+			return;
 		if(!shredderRecipes.containsKey(in)) {
 			shredderRecipes.put(in, out);
 		}
@@ -436,7 +438,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		if(stack == null || stack.getItem() == null)
 			return new ItemStack(ModItems.scrap);
 		
-		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		ComparableStack comp = ComparableStack.getComparableStack(stack).makeSingular();
 		ItemStack sta = shredderRecipes.get(comp);
 		
 		if(sta == null) {
@@ -461,7 +463,7 @@ public class ShredderRecipes extends SerializableRecipe {
 	public void readRecipe(JsonElement recipe) {
 		JsonObject obj = (JsonObject) recipe;
 		ItemStack stack = this.readItemStack(obj.get("input").getAsJsonArray());
-		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		ComparableStack comp = ComparableStack.getComparableStack(stack).makeSingular();
 		ItemStack out = this.readItemStack(obj.get("output").getAsJsonArray());
 		this.shredderRecipes.put(comp, out);
 	}

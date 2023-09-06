@@ -10,6 +10,8 @@ import com.hbm.inventory.gui.GUICoreEmitter;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
+
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -58,7 +60,8 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if (!worldObj.isRemote) {
 			
 			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);

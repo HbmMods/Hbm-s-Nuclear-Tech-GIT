@@ -5,6 +5,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.tile.IHeatSource;
@@ -26,7 +27,8 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) { //doesn't have to happen constantly

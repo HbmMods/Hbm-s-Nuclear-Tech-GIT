@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEStructurePacket;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,7 +17,8 @@ public class TileEntityStructureMarker extends TileEntity {
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(this.type > 2)
 			type -= 3;
 

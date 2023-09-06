@@ -38,7 +38,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 			ChunkCoordIntPair coords = new ChunkCoordIntPair(x >> 4, z >> 4);
 			Float rad = radWorld.radiation.get(coords);
 			lock = false;
-			return rad == null ? 0F : MathHelper.clamp_float(rad, 0, maxRad);
+			return rad == null ? 0F : MathHelper.clamp_float(rad, 0, maxRad) / 100;
 		}
 		
 		return 0;

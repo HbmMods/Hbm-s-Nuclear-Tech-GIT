@@ -83,6 +83,8 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 		if((outputId.equals("shredding")) && getClass() == ShredderRecipeHandler.class) {
 			Map<Object, Object> recipes = ShredderRecipes.getShredderRecipes();
 			for(Map.Entry<Object, Object> recipe : recipes.entrySet()) {
+				if(recipe.getKey() == null)
+					continue;
 				this.arecipes.add(new SmeltingSet(((ComparableStack) recipe.getKey()).toStack(), (ItemStack) recipe.getValue()));
 			}
 		} else {
@@ -94,6 +96,8 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 	public void loadCraftingRecipes(ItemStack result) {
 		Map<Object, Object> recipes = ShredderRecipes.getShredderRecipes();
 		for(Map.Entry<Object, Object> recipe : recipes.entrySet()) {
+			if(recipe.getKey() == null)
+				continue;
 			if(NEIServerUtils.areStacksSameType((ItemStack) recipe.getValue(), result))
 				this.arecipes.add(new SmeltingSet(((ComparableStack) recipe.getKey()).toStack(), (ItemStack) recipe.getValue()));
 		}
@@ -112,6 +116,8 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 	public void loadUsageRecipes(ItemStack ingredient) {
 		Map<Object, Object> recipes = ShredderRecipes.getShredderRecipes();
 		for(Map.Entry<Object, Object> recipe : recipes.entrySet()) {
+			if(recipe.getKey() == null)
+				continue;
 			if(NEIServerUtils.areStacksSameTypeCrafting(ingredient, ((ComparableStack) recipe.getKey()).toStack()))
 				this.arecipes.add(new SmeltingSet(((ComparableStack) recipe.getKey()).toStack(), (ItemStack) recipe.getValue()));
 		}

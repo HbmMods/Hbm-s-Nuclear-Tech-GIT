@@ -101,7 +101,7 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory, 
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return FuelPoolRecipes.recipes.keySet().contains(new ComparableStack(itemStack)) || itemStack.getItem() instanceof ItemRBMKRod;
+		return FuelPoolRecipes.recipes.keySet().contains(ComparableStack.getComparableStack(itemStack)) || itemStack.getItem() instanceof ItemRBMKRod;
 	}
 	
 	@Override
@@ -178,7 +178,7 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory, 
 		if(itemStack.getItem() instanceof ItemRBMKRod) {
 			return ItemRBMKRod.getCoreHeat(itemStack) < 50 && ItemRBMKRod.getHullHeat(itemStack) < 50;
 		} else {
-			return !FuelPoolRecipes.recipes.containsKey(new ComparableStack(getStackInSlot(i)));
+			return !FuelPoolRecipes.recipes.containsKey(ComparableStack.getComparableStack(getStackInSlot(i)));
 		}
 	}
 
@@ -211,7 +211,7 @@ public class TileEntityWasteDrum extends TileEntity implements ISidedInventory, 
 							
 						} else if(worldObj.rand.nextInt(r) == 0) {
 
-							ComparableStack comp = new ComparableStack(getStackInSlot(i));
+							ComparableStack comp = ComparableStack.getComparableStack(getStackInSlot(i));
 							if(FuelPoolRecipes.recipes.containsKey(comp)) {
 								slots[i] = FuelPoolRecipes.recipes.get(comp).copy();
 							}

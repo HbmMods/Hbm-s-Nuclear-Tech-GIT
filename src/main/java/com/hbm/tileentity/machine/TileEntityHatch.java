@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockSeal;
+import com.hfr.faction.relations.FactionRelations;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -16,7 +17,8 @@ public class TileEntityHatch extends TileEntity {
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		Block b = worldObj.getBlock(x, y, z);
 		
 		if(b != ModBlocks.seal_controller && !worldObj.isRemote) {

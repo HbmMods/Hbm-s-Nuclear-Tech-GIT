@@ -9,6 +9,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.RTGUtil;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -207,7 +208,8 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)

@@ -147,7 +147,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.STOCK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.STOCK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 16;
 		bullet.dmgMax = 20;
@@ -161,7 +161,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.GOLD));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.GOLD));
 		bullet.dmgMin = 250;
 		bullet.dmgMax = 320;
 		bullet.spread = 0.0F;
@@ -175,7 +175,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.PHOSPHORUS));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.PHOSPHORUS));
 		bullet.wear = 15;
 		bullet.incendiary = 5;
 		bullet.doesPenetrate = false;
@@ -209,7 +209,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.AP));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.AP));
 		bullet.dmgMin = 20;
 		bullet.dmgMax = 26;
 		bullet.wear = 15;
@@ -224,7 +224,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.DU));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.DU));
 		bullet.dmgMin = 24;
 		bullet.dmgMax = 32;
 		bullet.wear = 25;
@@ -239,7 +239,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.STAR));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.STAR));
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
@@ -254,7 +254,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.SLEEK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.SLEEK));
 		bullet.dmgMin = 45;
 		bullet.dmgMax = 50;
 		bullet.wear = 10;
@@ -305,7 +305,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.TRACER));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.TRACER));
 		bullet.vPFX = "reddust";
 		
 		bullet.spentCasing = CASING556.clone().register("556Trac");
@@ -317,7 +317,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556Config();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE));
 		bullet.dmgMin = 26;
 		bullet.dmgMax = 32;
 		bullet.HBRC = 2;
@@ -335,7 +335,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556FlechetteConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE_INCENDIARY));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE_INCENDIARY));
 		bullet.incendiary = 5;
 		
 		bullet.spentCasing = CASING556.clone().register("556FlecInc");
@@ -347,7 +347,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556FlechetteConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE_PHOSPHORUS));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE_PHOSPHORUS));
 		bullet.incendiary = 5;
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
@@ -379,7 +379,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556FlechetteConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE_DU));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE_DU));
 		bullet.dmgMin = 46;
 		bullet.dmgMax = 52;
 		bullet.wear = 25;
@@ -395,7 +395,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = get556FlechetteConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE_SLEEK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE_SLEEK));
 		bullet.dmgMin = 45;
 		bullet.dmgMax = 50;
 		bullet.wear = 10;
@@ -446,7 +446,7 @@ public class Gun556mmFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.K));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_556.stackFromEnum(Ammo556mm.K));
 		bullet.dmgMin = 0;
 		bullet.dmgMax = 0;
 		bullet.maxAge = 0;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityTeslaCrab;
+import com.hfr.faction.relations.FactionRelations;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -16,7 +17,8 @@ public class TileEntityCyberCrab extends TileEntity {
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if (!this.worldObj.isRemote) {
 			
 			age++;

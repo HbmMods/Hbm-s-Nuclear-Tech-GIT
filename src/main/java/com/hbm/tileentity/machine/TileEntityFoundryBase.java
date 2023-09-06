@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.block.ICrucibleAcceptor;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,7 +29,8 @@ public abstract class TileEntityFoundryBase extends TileEntity implements ICruci
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(worldObj.isRemote) {
 			
 			if(shouldClientReRender() && this.lastType != this.type || this.lastAmount != this.amount) {

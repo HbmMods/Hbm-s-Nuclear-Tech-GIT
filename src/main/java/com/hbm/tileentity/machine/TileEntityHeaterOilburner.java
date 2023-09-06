@@ -11,6 +11,7 @@ import com.hbm.inventory.gui.GUIOilburner;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.tile.IHeatSource;
@@ -44,7 +45,8 @@ public class TileEntityHeaterOilburner extends TileEntityMachineBase implements 
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			tank.loadTank(0, 1, slots);

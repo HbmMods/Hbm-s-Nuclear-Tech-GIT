@@ -3,6 +3,7 @@ package com.hbm.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.EconomyPlus.registry.EraRegistry;
 import com.hbm.blocks.BlockEnums.DecoCabinetEnum;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockConcreteColoredExt.EnumConcreteType;
@@ -27,7 +28,7 @@ import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemCircuitStarComponent.CircuitComponentType;
-import com.hbm.items.special.ItemHolotapeImage.EnumHoloImage;
+//import com.hbm.items.special.ItemHolotapeImage.EnumHoloImage;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.util.EnchantmentUtil;
@@ -44,7 +45,6 @@ import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CraftingManager {
 	
@@ -61,11 +61,11 @@ public class CraftingManager {
 		ConsumableRecipes.register();
 		PowderRecipes.register();
 		
-		GameRegistry.addRecipe(new RBMKFuelCraftingHandler());
-		GameRegistry.addRecipe(new MKUCraftingHandler());
-		GameRegistry.addRecipe(new ToolboxCraftingHandler());
-		GameRegistry.addRecipe(new CargoShellCraftingHandler());
-		GameRegistry.addRecipe(new ScrapsCraftingHandler());
+		EraRegistry.addRecipe(new RBMKFuelCraftingHandler());
+		EraRegistry.addRecipe(new MKUCraftingHandler());
+		EraRegistry.addRecipe(new ToolboxCraftingHandler());
+		EraRegistry.addRecipe(new CargoShellCraftingHandler());
+		EraRegistry.addRecipe(new ScrapsCraftingHandler());
 		
 		RecipeSorter.register("hbm:rbmk", RBMKFuelCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 		RecipeSorter.register("hbm:toolbox", ToolboxCraftingHandler.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
@@ -928,8 +928,8 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.teleanchor), new Object[] { "ODO", "EAE", "ODO", 'O', Blocks.obsidian, 'D', DIAMOND.gem(), 'E', ModItems.powder_magic, 'A', ModItems.gem_alexandrite });
 		addRecipeAuto(new ItemStack(ModBlocks.field_disturber), new Object[] { "ICI", "CAC", "ICI", 'I', STAR.ingot(), 'C', KEY_CIRCUIT_BISMUTH, 'A', ModItems.gem_alexandrite });
 		
-		addShapelessAuto(new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_RESTORED.ordinal()), new Object[] { new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_DIGAMMA.ordinal()), KEY_TOOL_SCREWDRIVER, ModItems.ducttape, ModItems.armor_polish });
-		addShapelessAuto(new ItemStack(ModItems.holotape_damaged), new Object[] { DictFrame.fromOne(ModItems.holotape_image, EnumHoloImage.HOLO_RESTORED), ModBlocks.muffler, ModItems.crt_display, ModItems.gem_alexandrite /* placeholder for amplifier */ });
+//		addShapelessAuto(new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_RESTORED.ordinal()), new Object[] { new ItemStack(ModItems.holotape_image, 1, EnumHoloImage.HOLO_DIGAMMA.ordinal()), KEY_TOOL_SCREWDRIVER, ModItems.ducttape, ModItems.armor_polish });
+//		addShapelessAuto(new ItemStack(ModItems.holotape_damaged), new Object[] { DictFrame.fromOne(ModItems.holotape_image, EnumHoloImage.HOLO_RESTORED), ModBlocks.muffler, ModItems.crt_display, ModItems.gem_alexandrite /* placeholder for amplifier */ });
 
 		addRecipeAuto(DictFrame.fromOne(ModItems.part_generic, EnumPartType.PISTON_PNEUMATIC, 4), new Object[] { " I ", "CPC", " I ", 'I', IRON.ingot(), 'C', CU.ingot(), 'P', IRON.plate() });
 		addRecipeAuto(DictFrame.fromOne(ModItems.part_generic, EnumPartType.PISTON_HYDRAULIC, 4), new Object[] { " I ", "CPC", " I ", 'I', STEEL.ingot(), 'C', TI.ingot(), 'P', Fluids.LUBRICANT.getDict(1000) });
@@ -1120,9 +1120,9 @@ public class CraftingManager {
 		}
 		
 		if(shouldUseOD)
-			GameRegistry.addRecipe(new ShapedOreRecipe(result, ins));
+			EraRegistry.addRecipe(new ShapedOreRecipe(result, ins));
 		else
-			GameRegistry.addRecipe(result, ins);
+			EraRegistry.addRecipe(result, ins);
 	}
 	
 	public static void addShapelessAuto(ItemStack result, Object... ins) {
@@ -1139,8 +1139,8 @@ public class CraftingManager {
 		}
 		
 		if(shouldUseOD)
-			GameRegistry.addRecipe(new ShapelessOreRecipe(result, ins));
+			EraRegistry.addRecipe(new ShapelessOreRecipe(result, ins));
 		else
-			GameRegistry.addShapelessRecipe(result, ins);
+			EraRegistry.addShapelessRecipe(result, ins);
 	}
 }

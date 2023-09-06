@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hfr.faction.relations.FactionRelations;
+
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityGeiger extends TileEntity {
@@ -13,7 +15,6 @@ public class TileEntityGeiger extends TileEntity {
 	
 	@Override
 	public void updateEntity() {
-		
 		timer++;
 		
 		if(timer == 10) {

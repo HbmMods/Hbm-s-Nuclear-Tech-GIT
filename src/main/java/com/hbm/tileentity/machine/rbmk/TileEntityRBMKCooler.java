@@ -7,6 +7,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hfr.faction.relations.FactionRelations;
+
 import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
@@ -33,7 +35,8 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if (!worldObj.isRemote) {
 
 			if (this.worldObj.getTotalWorldTime() % 20 == 0)

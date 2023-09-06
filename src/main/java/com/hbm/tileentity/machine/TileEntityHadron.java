@@ -19,6 +19,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityHadronDiode.DiodeConfig;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -86,7 +87,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			power = Library.chargeTEFromItems(slots, 4, power, maxPower);

@@ -16,6 +16,8 @@ import com.hbm.inventory.gui.GUIRBMKBoiler;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
+
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -54,7 +56,8 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			feed.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			steam.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);

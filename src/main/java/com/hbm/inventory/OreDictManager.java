@@ -96,8 +96,6 @@ public class OreDictManager {
 
 	public static final String KEY_CIRCUIT_BISMUTH = "circuitVersatile";
 
-	
-	public static final DictFrame RUBBER = new DictFrame("Rubber");
 	/*
 	 * MATERIALS
 	 */
@@ -676,16 +674,32 @@ public class OreDictManager {
 		
 		/** Returns an ItemStack composed of the supplied item with the meta being the enum's ordinal. Purely syntactic candy */
 		public static ItemStack fromOne(Item item, Enum en) {
-			return new ItemStack(item, 1, en.ordinal());
+			try {
+				return new ItemStack(item, 1, en.ordinal());
+			} catch(Exception e) {
+					return null;
+				}
 		}
 		public static ItemStack fromOne(Block block, Enum en) {
-			return new ItemStack(block, 1, en.ordinal());
+			try {
+				return new ItemStack(block, 1, en.ordinal());
+			} catch(Exception e) {
+				return null;
+			}
 		}
 		public static ItemStack fromOne(Item item, Enum en, int stacksize) {
-			return new ItemStack(item, stacksize, en.ordinal());
+			try {
+				return new ItemStack(item, stacksize, en.ordinal());
+			} catch(Exception e) {
+				return null;
+			}
 		}
 		public static ItemStack fromOne(Block block, Enum en, int stacksize) {
-			return new ItemStack(block, stacksize, en.ordinal());
+			try {
+				return new ItemStack(block, stacksize, en.ordinal());
+			} catch(Exception e) {
+				return null;
+			}
 		}
 		/** Same as fromOne but with an array of ItemStacks. The array type is Object[] so that the ODM methods work with it. Generates ItemStacks for the entire enum class. */
 		public static Object[] fromAll(Item item, Class<? extends Enum> en) {

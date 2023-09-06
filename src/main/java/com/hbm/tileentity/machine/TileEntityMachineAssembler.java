@@ -24,6 +24,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateBase;
 import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -126,7 +127,8 @@ public class TileEntityMachineAssembler extends TileEntityMachineBase implements
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			this.updateConnections();

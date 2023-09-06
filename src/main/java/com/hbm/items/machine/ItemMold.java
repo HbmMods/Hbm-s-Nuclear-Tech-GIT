@@ -116,10 +116,14 @@ public class ItemMold extends Item {
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int meta) {
 		Mold mold = this.moldById.get(meta);
-		if(mold != null)
-			return this.icons[mold.order];
+		if (icons != null) {
+			if(mold != null)
+				return this.icons[mold.order];
+			else
+				return icons[0];
+		}
 		
-		return this.icons[0];
+		return ModItems.nothing.getIconFromDamage(0);
 	}
 	
 	@Override

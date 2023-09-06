@@ -42,4 +42,14 @@ public class FluidLoaderInfinite extends FluidLoadingHandler {
 		
 		return true;
 	}
+
+	@Override
+	public boolean canFillItem(ItemStack stack, FluidTank tank) {
+		return false;
+	}
+
+	@Override
+	public boolean canEmptyItem(ItemStack stack, FluidTank tank) {
+		return stack != null && stack.getItem() instanceof ItemInfiniteFluid && ((ItemInfiniteFluid) stack.getItem()).getType() == tank.type;
+	}
 }

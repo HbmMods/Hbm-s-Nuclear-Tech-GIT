@@ -77,7 +77,7 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 			}
 			for(Map.Entry<Object[], Object> recipe : HBMRecipes.NEIpressRecipes().entrySet()) {
 				for(ItemStack a : (List<ItemStack>) recipe.getKey()[0])
-					this.arecipes.add(new SmeltingSet(a, new ComparableStack((ItemStack) recipe.getKey()[1]), (ItemStack) recipe.getValue()));
+					this.arecipes.add(new SmeltingSet(a, ComparableStack.getComparableStack((ItemStack) recipe.getKey()[1]), (ItemStack) recipe.getValue()));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -96,7 +96,7 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 		for(Map.Entry<Object[], Object> recipe :  HBMRecipes.NEIpressRecipes().entrySet()) {
 			if(NEIServerUtils.areStacksSameType((ItemStack) recipe.getValue(), result))
 				for(ItemStack a : (List<ItemStack>) recipe.getKey()[0])
-					this.arecipes.add(new SmeltingSet(a, new ComparableStack((ItemStack) recipe.getKey()[1]), (ItemStack) recipe.getValue()));	
+					this.arecipes.add(new SmeltingSet(a, ComparableStack.getComparableStack((ItemStack) recipe.getKey()[1]), (ItemStack) recipe.getValue()));	
 		}
 	}
 
@@ -119,7 +119,7 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 			StampType stamp = recipe.getKey().getValue();
 			
 			if(in.matchesRecipe(ingredient, true))
-				this.arecipes.add(new SmeltingSet(ItemStamp.stamps.get(recipe.getKey().getValue()), new ComparableStack(ingredient), recipe.getValue()));
+				this.arecipes.add(new SmeltingSet(ItemStamp.stamps.get(recipe.getKey().getValue()), ComparableStack.getComparableStack(ingredient), recipe.getValue()));
 			else if(ingredient.getItem() instanceof ItemStamp && ((ItemStamp)ingredient.getItem()).type == stamp)
 				this.arecipes.add(new SmeltingSet(ingredient, recipe.getKey().getKey(), recipe.getValue()));
 			for(Map.Entry<Object[], Object> _recipe : HBMRecipes.NEIpressRecipes().entrySet()) {

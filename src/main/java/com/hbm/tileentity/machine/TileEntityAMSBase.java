@@ -19,6 +19,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.SatelliteResonator;
 import com.hbm.tileentity.IGUIProvider;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -235,7 +236,8 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IF
 	
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if (!worldObj.isRemote) {
 			
 			for(int i = 0; i < tanks.length; i++)

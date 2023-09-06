@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -20,7 +21,8 @@ public class TileEntityBroadcaster extends TileEntity {
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - 25, yCoord + 0.5 - 25, zCoord + 0.5 - 25, xCoord + 0.5 + 25, yCoord + 0.5 + 25, zCoord + 0.5 + 25));
 		
 		for(int i = 0; i < list.size(); i++) {

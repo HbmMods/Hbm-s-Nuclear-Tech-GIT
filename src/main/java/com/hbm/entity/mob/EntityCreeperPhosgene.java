@@ -11,7 +11,7 @@ public class EntityCreeperPhosgene extends EntityCreeper {
 
 	public EntityCreeperPhosgene(World world) {
 		super(world);
-		this.fuseTime = 20; //ehehehehehe
+//		this.fuseTime = 20; //ehehehehehe
 	}
 
 	@Override
@@ -25,19 +25,19 @@ public class EntityCreeperPhosgene extends EntityCreeper {
 		
 		return super.attackEntityFrom(source, amount);
 	}
-
-	@Override
-	public void func_146077_cc() {
-		
-		if(!this.worldObj.isRemote) {
-			this.setDead();
-			
-			worldObj.createExplosion(this, posX, posY + this.height / 2, posZ, 2F, false);
-			EntityMist mist = new EntityMist(worldObj);
-			mist.setType(Fluids.PHOSGENE);
-			mist.setPosition(posX, posY, posZ);
-			mist.setArea(10, 5);
-			worldObj.spawnEntityInWorld(mist);
-		}
-	}
+//
+//	@Override
+//	public void func_146077_cc() {
+//		
+//		if(!this.worldObj.isRemote) {
+//			this.setDead();
+//			
+//			worldObj.createExplosion(this, posX, posY + this.height / 2, posZ, 2F, false);
+//			EntityMist mist = new EntityMist(worldObj);
+//			mist.setType(Fluids.PHOSGENE);
+//			mist.setPosition(posX, posY, posZ);
+//			mist.setArea(10, 5);
+//			worldObj.spawnEntityInWorld(mist);
+//		}
+//	}
 }

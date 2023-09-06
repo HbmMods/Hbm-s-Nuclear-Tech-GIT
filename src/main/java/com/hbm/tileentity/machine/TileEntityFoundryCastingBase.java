@@ -4,6 +4,7 @@ import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMold;
 import com.hbm.items.machine.ItemMold.Mold;
+import com.hfr.faction.relations.FactionRelations;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -25,6 +26,8 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 	
 	@Override
 	public void updateEntity() {
+		if(FactionRelations.isWarday())
+			return;
 		super.updateEntity();
 		
 		if(!worldObj.isRemote) {

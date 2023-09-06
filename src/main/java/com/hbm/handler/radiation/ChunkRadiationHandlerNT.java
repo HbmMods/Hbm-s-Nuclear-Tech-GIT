@@ -81,7 +81,7 @@ public class ChunkRadiationHandlerNT extends ChunkRadiationHandler {
 	public float getRadiation(World world, int x, int y, int z) {
 		if(!isSubChunkLoaded(world, x, y, z))
 			return 0;
-		return getPocket(world, x, y, z).radiation;
+		return getPocket(world, x, y, z).radiation / 100;
 	}
 	
 	public static void jettisonData(World world){

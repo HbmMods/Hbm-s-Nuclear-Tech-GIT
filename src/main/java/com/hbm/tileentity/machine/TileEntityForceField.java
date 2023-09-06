@@ -11,6 +11,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFFPacket;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -237,7 +238,8 @@ public class TileEntityForceField extends TileEntityLoadedBase implements ISided
 	
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			updateConnections();

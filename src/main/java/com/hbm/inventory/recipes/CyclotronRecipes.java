@@ -31,74 +31,74 @@ public class CyclotronRecipes extends SerializableRecipe {
 		/// LITHIUM START ///
 		int liA = 50;
 
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack("dustLithium"), new ItemStack(ModItems.powder_beryllium), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack("dustBeryllium"), new ItemStack(ModItems.powder_boron), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack("dustBoron"), new ItemStack(ModItems.powder_coal), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack("dustNetherQuartz"), new ItemStack(ModItems.powder_fire), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack("dustPhosphorus"), new ItemStack(ModItems.sulfur), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack("dustIron"), new ItemStack(ModItems.powder_cobalt), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new ComparableStack(ModItems.powder_strontium), new ItemStack(ModItems.powder_zirconium), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack("dustGold"), new ItemStack(ModItems.ingot_mercury), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack("dustPolonium"), new ItemStack(ModItems.powder_astatine), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack("dustLanthanium"), new ItemStack(ModItems.powder_cerium), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack("dustActinium"), new ItemStack(ModItems.powder_thorium), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack(U.dust()), new ItemStack(ModItems.powder_neptunium), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack(NP237.dust()), new ItemStack(ModItems.powder_plutonium), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new ComparableStack(ModItems.powder_reiium), new ItemStack(ModItems.powder_weidanium), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), new OreDictStack("dustLithium"), new ItemStack(ModItems.powder_beryllium), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), new OreDictStack("dustBeryllium"), new ItemStack(ModItems.powder_boron), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), new OreDictStack("dustBoron"), new ItemStack(ModItems.powder_coal), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), new OreDictStack("dustNetherQuartz"), new ItemStack(ModItems.powder_fire), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), new OreDictStack("dustPhosphorus"), new ItemStack(ModItems.sulfur), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), new OreDictStack("dustIron"), new ItemStack(ModItems.powder_cobalt), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), ComparableStack.getComparableStack(ModItems.powder_strontium), new ItemStack(ModItems.powder_zirconium), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), new OreDictStack("dustGold"), new ItemStack(ModItems.ingot_mercury), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), new OreDictStack("dustPolonium"), new ItemStack(ModItems.powder_astatine), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), new OreDictStack("dustLanthanium"), new ItemStack(ModItems.powder_cerium), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), new OreDictStack("dustActinium"), new ItemStack(ModItems.powder_thorium), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), new OreDictStack(U.dust()), new ItemStack(ModItems.powder_neptunium), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), new OreDictStack(NP237.dust()), new ItemStack(ModItems.powder_plutonium), liA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_lithium), ComparableStack.getComparableStack(ModItems.powder_reiium), new ItemStack(ModItems.powder_weidanium), liA);
 		/// LITHIUM END ///
 
 		/// BERYLLIUM START ///
 		int beA = 25;
 
-		makeRecipe(new ComparableStack(ModItems.part_beryllium), new OreDictStack("dustLithium"), new ItemStack(ModItems.powder_boron), beA);
-		makeRecipe(new ComparableStack(ModItems.part_beryllium), new OreDictStack("dustNetherQuartz"), new ItemStack(ModItems.sulfur), beA);
-		makeRecipe(new ComparableStack(ModItems.part_beryllium), new OreDictStack("dustTitanium"), new ItemStack(ModItems.powder_iron), beA);
-		makeRecipe(new ComparableStack(ModItems.part_beryllium), new OreDictStack("dustCobalt"), new ItemStack(ModItems.powder_copper), beA);
-		makeRecipe(new ComparableStack(ModItems.part_beryllium), new ComparableStack(ModItems.powder_strontium), new ItemStack(ModItems.powder_niobium), beA);
-		makeRecipe(new ComparableStack(ModItems.part_beryllium), new ComparableStack(ModItems.powder_cerium), new ItemStack(ModItems.powder_neodymium), beA);
-		makeRecipe(new ComparableStack(ModItems.part_beryllium), new OreDictStack("dustThorium"), new ItemStack(ModItems.powder_uranium), beA);
-		makeRecipe(new ComparableStack(ModItems.part_beryllium), new ComparableStack(ModItems.powder_weidanium), new ItemStack(ModItems.powder_australium), beA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_beryllium), new OreDictStack("dustLithium"), new ItemStack(ModItems.powder_boron), beA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_beryllium), new OreDictStack("dustNetherQuartz"), new ItemStack(ModItems.sulfur), beA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_beryllium), new OreDictStack("dustTitanium"), new ItemStack(ModItems.powder_iron), beA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_beryllium), new OreDictStack("dustCobalt"), new ItemStack(ModItems.powder_copper), beA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_beryllium), ComparableStack.getComparableStack(ModItems.powder_strontium), new ItemStack(ModItems.powder_niobium), beA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_beryllium), ComparableStack.getComparableStack(ModItems.powder_cerium), new ItemStack(ModItems.powder_neodymium), beA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_beryllium), new OreDictStack("dustThorium"), new ItemStack(ModItems.powder_uranium), beA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_beryllium), ComparableStack.getComparableStack(ModItems.powder_weidanium), new ItemStack(ModItems.powder_australium), beA);
 		/// BERYLLIUM END ///
 		
 		/// CARBON START ///
 		int caA = 10;
 
-		makeRecipe(new ComparableStack(ModItems.part_carbon), new OreDictStack("dustBoron"), new ItemStack(ModItems.powder_aluminium), caA);
-		makeRecipe(new ComparableStack(ModItems.part_carbon), new OreDictStack("dustSulfur"), new ItemStack(ModItems.powder_titanium), caA);
-		makeRecipe(new ComparableStack(ModItems.part_carbon), new OreDictStack("dustTitanium"), new ItemStack(ModItems.powder_cobalt), caA);
-		makeRecipe(new ComparableStack(ModItems.part_carbon), new ComparableStack(ModItems.powder_caesium), new ItemStack(ModItems.powder_lanthanium), caA);
-		makeRecipe(new ComparableStack(ModItems.part_carbon), new ComparableStack(ModItems.powder_neodymium), new ItemStack(ModItems.powder_gold), caA);
-		makeRecipe(new ComparableStack(ModItems.part_carbon), new ComparableStack(ModItems.ingot_mercury), new ItemStack(ModItems.powder_polonium), caA);
-		makeRecipe(new ComparableStack(ModItems.part_carbon), new OreDictStack(PB.dust()), new ItemStack(ModItems.powder_ra226),caA);
-		makeRecipe(new ComparableStack(ModItems.part_carbon), new ComparableStack(ModItems.powder_astatine), new ItemStack(ModItems.powder_actinium), caA);
-		makeRecipe(new ComparableStack(ModItems.part_carbon), new ComparableStack(ModItems.powder_australium), new ItemStack(ModItems.powder_verticium), caA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_carbon), new OreDictStack("dustBoron"), new ItemStack(ModItems.powder_aluminium), caA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_carbon), new OreDictStack("dustSulfur"), new ItemStack(ModItems.powder_titanium), caA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_carbon), new OreDictStack("dustTitanium"), new ItemStack(ModItems.powder_cobalt), caA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_carbon), ComparableStack.getComparableStack(ModItems.powder_caesium), new ItemStack(ModItems.powder_lanthanium), caA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_carbon), ComparableStack.getComparableStack(ModItems.powder_neodymium), new ItemStack(ModItems.powder_gold), caA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_carbon), ComparableStack.getComparableStack(ModItems.ingot_mercury), new ItemStack(ModItems.powder_polonium), caA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_carbon), new OreDictStack(PB.dust()), new ItemStack(ModItems.powder_ra226),caA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_carbon), ComparableStack.getComparableStack(ModItems.powder_astatine), new ItemStack(ModItems.powder_actinium), caA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_carbon), ComparableStack.getComparableStack(ModItems.powder_australium), new ItemStack(ModItems.powder_verticium), caA);
 		/// CARBON END ///
 		
 		/// COPPER START ///
 		int coA = 15;
 		
-		makeRecipe(new ComparableStack(ModItems.part_copper), new OreDictStack("dustBeryllium"), new ItemStack(ModItems.powder_quartz), coA);
-		makeRecipe(new ComparableStack(ModItems.part_copper), new OreDictStack("dustCoal"), new ItemStack(ModItems.powder_bromine), coA);
-		makeRecipe(new ComparableStack(ModItems.part_copper), new OreDictStack("dustTitanium"), new ItemStack(ModItems.powder_strontium), coA);
-		makeRecipe(new ComparableStack(ModItems.part_copper), new OreDictStack("dustIron"), new ItemStack(ModItems.powder_niobium), coA);
-		makeRecipe(new ComparableStack(ModItems.part_copper), new ComparableStack(ModItems.powder_bromine), new ItemStack(ModItems.powder_iodine), coA);
-		makeRecipe(new ComparableStack(ModItems.part_copper), new ComparableStack(ModItems.powder_strontium), new ItemStack(ModItems.powder_neodymium), coA);
-		makeRecipe(new ComparableStack(ModItems.part_copper), new ComparableStack(ModItems.powder_niobium), new ItemStack(ModItems.powder_caesium), coA);
-		makeRecipe(new ComparableStack(ModItems.part_copper), new ComparableStack(ModItems.powder_iodine), new ItemStack(ModItems.powder_polonium), coA);
-		makeRecipe(new ComparableStack(ModItems.part_copper), new ComparableStack(ModItems.powder_caesium), new ItemStack(ModItems.powder_actinium), coA);
-		makeRecipe(new ComparableStack(ModItems.part_copper), new OreDictStack("dustGold"), new ItemStack(ModItems.powder_uranium), coA);
-		makeRecipe(new ComparableStack(ModItems.part_copper), new ComparableStack(ModItems.powder_verticium), new ItemStack(ModItems.powder_unobtainium), coA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_copper), new OreDictStack("dustBeryllium"), new ItemStack(ModItems.powder_quartz), coA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_copper), new OreDictStack("dustCoal"), new ItemStack(ModItems.powder_bromine), coA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_copper), new OreDictStack("dustTitanium"), new ItemStack(ModItems.powder_strontium), coA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_copper), new OreDictStack("dustIron"), new ItemStack(ModItems.powder_niobium), coA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_copper), ComparableStack.getComparableStack(ModItems.powder_bromine), new ItemStack(ModItems.powder_iodine), coA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_copper), ComparableStack.getComparableStack(ModItems.powder_strontium), new ItemStack(ModItems.powder_neodymium), coA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_copper), ComparableStack.getComparableStack(ModItems.powder_niobium), new ItemStack(ModItems.powder_caesium), coA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_copper), ComparableStack.getComparableStack(ModItems.powder_iodine), new ItemStack(ModItems.powder_polonium), coA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_copper), ComparableStack.getComparableStack(ModItems.powder_caesium), new ItemStack(ModItems.powder_actinium), coA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_copper), new OreDictStack("dustGold"), new ItemStack(ModItems.powder_uranium), coA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_copper), ComparableStack.getComparableStack(ModItems.powder_verticium), new ItemStack(ModItems.powder_unobtainium), coA);
 		/// COPPER END ///
 
 		/// PLUTONIUM START ///
 		int plA = 100;
 		
-		makeRecipe(new ComparableStack(ModItems.part_plutonium), new OreDictStack("dustPhosphorus"), new ItemStack(ModItems.powder_tennessine), plA);
-		makeRecipe(new ComparableStack(ModItems.part_plutonium), new OreDictStack(PU.dust()), new ItemStack(ModItems.powder_tennessine), plA);
-		makeRecipe(new ComparableStack(ModItems.part_plutonium), new ComparableStack(ModItems.powder_tennessine), new ItemStack(ModItems.powder_reiium), plA);
-		makeRecipe(new ComparableStack(ModItems.part_plutonium), new ComparableStack(ModItems.pellet_charged), new ItemStack(ModItems.nugget_schrabidium), 1000);
-		makeRecipe(new ComparableStack(ModItems.part_plutonium), new ComparableStack(ModItems.powder_unobtainium), new ItemStack(ModItems.powder_daffergon), plA);
-		makeRecipe(new ComparableStack(ModItems.part_plutonium), new ComparableStack(ModItems.cell_antimatter), new ItemStack(ModItems.cell_anti_schrabidium), 0);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_plutonium), new OreDictStack("dustPhosphorus"), new ItemStack(ModItems.powder_tennessine), plA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_plutonium), new OreDictStack(PU.dust()), new ItemStack(ModItems.powder_tennessine), plA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_plutonium), ComparableStack.getComparableStack(ModItems.powder_tennessine), new ItemStack(ModItems.powder_reiium), plA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_plutonium), ComparableStack.getComparableStack(ModItems.pellet_charged), new ItemStack(ModItems.nugget_schrabidium), 1000);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_plutonium), ComparableStack.getComparableStack(ModItems.powder_unobtainium), new ItemStack(ModItems.powder_daffergon), plA);
+		makeRecipe(ComparableStack.getComparableStack(ModItems.part_plutonium), ComparableStack.getComparableStack(ModItems.cell_antimatter), new ItemStack(ModItems.cell_anti_schrabidium), 0);
 		/// PLUTONIUM END ///
 		
 		///TODO: fictional elements
@@ -113,8 +113,8 @@ public class CyclotronRecipes extends SerializableRecipe {
 		if(stack == null || stack.getItem() == null || box == null)
 			return null;
 
-		ComparableStack boxStack = new ComparableStack(box).makeSingular();
-		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		ComparableStack boxStack = ComparableStack.getComparableStack(box).makeSingular();
+		ComparableStack comp = ComparableStack.getComparableStack(stack).makeSingular();
 		
 		//boo hoo we iterate over a hash map, cry me a river
 		for(Entry<Pair<ComparableStack, AStack>, Pair<ItemStack, Integer>> entry : recipes.entrySet()) {
@@ -134,7 +134,7 @@ public class CyclotronRecipes extends SerializableRecipe {
 		
 		for(String name : ItemStackUtil.getOreDictNames(stack)) {
 			OreDictStack ods = new OreDictStack(name);
-			output = recipes.get(new Pair(new ComparableStack(ModItems.part_beryllium), new OreDictStack("dustCobalt")));
+			output = recipes.get(new Pair(ComparableStack.getComparableStack(ModItems.part_beryllium), new OreDictStack("dustCobalt")));
 			
 			if(output != null) {
 				return new Object[] { output.getKey().copy(), output.getValue() };
@@ -179,7 +179,7 @@ public class CyclotronRecipes extends SerializableRecipe {
 		AStack inStack = this.readAStack(input);
 		ItemStack outStack = this.readItemStack(output);
 		
-		this.recipes.put(new Pair(new ComparableStack(partStack), inStack),  new Pair(outStack, antimatter));
+		this.recipes.put(new Pair(ComparableStack.getComparableStack(partStack), inStack),  new Pair(outStack, antimatter));
 	}
 
 	@Override

@@ -24,6 +24,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
@@ -237,7 +238,8 @@ public class TileEntityMachineSeleniumEngine extends TileEntityLoadedBase implem
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if (!worldObj.isRemote) {
 			
 			this.subscribeToAllAround(tank.getTankType(), this);

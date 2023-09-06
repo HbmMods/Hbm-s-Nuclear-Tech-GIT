@@ -9,6 +9,7 @@ import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -226,6 +227,8 @@ public class TileEntityMachineShredder extends TileEntityLoadedBase implements I
 	
 	@Override
 	public void updateEntity() {
+		if(FactionRelations.isWarday())
+			return;
 		boolean flag1 = false;
 		
 		if(!worldObj.isRemote) {
@@ -300,7 +303,7 @@ public class TileEntityMachineShredder extends TileEntityLoadedBase implements I
 				
 				for (int outSlot = 9; outSlot < 27; outSlot++)
 				{
-					if (slots[outSlot] != null && slots[outSlot].getItem() == outp.getItem() && 
+					if (slots[outSlot] != null && slots[outSlot].getItem() != null && slots[outSlot].getItem() == outp.getItem() && 
 							slots[outSlot].getItemDamage() == outp.getItemDamage() &&
 							slots[outSlot].stackSize + outp.stackSize <= outp.getMaxStackSize()) {
 						
@@ -347,10 +350,12 @@ public class TileEntityMachineShredder extends TileEntityLoadedBase implements I
 	public boolean hasSpace(ItemStack stack) {
 		
 		ItemStack result = ShredderRecipes.getShredderResult(stack);
+		if(result == null || result.getItem() == null)
+			return true;
 		
 		if (result != null)
 			for (int i = 9; i < 27; i++) {
-				if (slots[i] == null) {
+				if (slots[i] == null || slots[i].getItem() == null) {
 					return true;
 				}
 

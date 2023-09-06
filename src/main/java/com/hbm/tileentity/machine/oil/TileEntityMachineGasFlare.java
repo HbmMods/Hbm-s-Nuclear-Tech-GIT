@@ -20,6 +20,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ParticleUtil;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardReceiver;
@@ -89,7 +90,8 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 
 			this.sendPower(worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);

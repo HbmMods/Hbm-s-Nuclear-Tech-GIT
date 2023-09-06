@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -198,7 +199,8 @@ public class TileEntityMachineShredderLarge extends TileEntity implements ISided
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 		}

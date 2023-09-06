@@ -10,6 +10,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import net.minecraft.inventory.IInventory;
@@ -39,7 +40,8 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			int count = this.getRecipeCount();

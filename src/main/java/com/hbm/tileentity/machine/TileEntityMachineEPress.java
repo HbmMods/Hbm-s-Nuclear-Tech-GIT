@@ -2,6 +2,9 @@ package com.hbm.tileentity.machine;
 
 import com.EconomyPlus.compatibility.ntm.HBMRecipes;
 import com.EconomyPlus.lib.dataStructures.CraftingStack;
+import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.container.ContainerMachineEPress;
+import com.hbm.inventory.gui.GUIMachineEPress;
 import com.hbm.inventory.recipes.MachineRecipes;
 import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
@@ -9,6 +12,7 @@ import com.hbm.items.machine.ItemStamp;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import akka.japi.Pair;
 import api.hbm.energy.IEnergyUser;
@@ -36,9 +40,9 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	public final static int maxPress = 200;
 	boolean isRetracting = false;
 	private int delay;
-	
+
 	public ItemStack syncStack;
-	
+
 	public TileEntityMachineEPress() {
 		super(5);
 	}
@@ -47,59 +51,90 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	public String getName() {
 		return "container.epress";
 	}
-	
+
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
-			
+
 			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			
+
 			boolean canProcess = this.canProcess();
-			
+
 			if((canProcess || this.isRetracting || this.delay > 0) && power >= 100) {
-				
+
 				power -= 100;
-				
+
 				if(delay <= 0) {
-					
+
 					UpgradeManager.eval(slots, 4, 4);
 					int speed = 1 + Math.min(3, UpgradeManager.getLevel(UpgradeType.SPEED));
-					
+
 					int stampSpeed = this.isRetracting ? 20 : 45;
 					stampSpeed *= (1D + (double) speed / 4D);
-					
+
 					if(this.isRetracting) {
 						this.press -= stampSpeed;
-						
+
 						if(this.press <= 0) {
 							this.isRetracting = false;
 							this.delay = 5 - speed + 1;
 						}
 					} else if(canProcess) {
 						this.press += stampSpeed;
-						
+
 						if(this.press >= this.maxPress) {
 							this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
 							ItemStack output = PressRecipes.getOutput(slots[2], slots[1]);
+
+							boolean damageStamp = output != null;
+							int inputCount = 1;
+							int stackSize = slots[2] == null ? 0 : slots[2].stackSize;
+							{
+								CraftingStack a = slots[1] == null ? null : new CraftingStack(slots[1]);
+								CraftingStack b = slots[2] == null ? null : new CraftingStack(slots[2]);
+
+								Pair<CraftingStack, CraftingStack> inputs = new Pair<CraftingStack, CraftingStack>(a, b);
+
+								if (output == null && HBMRecipes.pressRecipes.containsKey(inputs)) {
+									Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(inputs);
+									output = out.first();
+									damageStamp = out.second();
+									for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
+										if (c.second().hashCode() == b.hashCode())
+											inputCount = c.second().amount;
+								}
+
+								if(output == null) {
+									for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
+										if (a != null && b != null && c != null && c.second() != null && c.first() != null && c.second().hashCode2() == b.hashCode2() && c.first().hashCode2() == a.hashCode2()) {
+											inputCount = c.second().amount;
+											Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(c);
+											output = out.first();
+											damageStamp = out.second();
+										}
+								}
+							}
+
 							if(slots[3] == null) {
 								slots[3] = output.copy();
 							} else {
 								slots[3].stackSize += output.stackSize;
 							}
-							this.decrStackSize(2, 1);
-							
-							if(slots[1].getMaxDamage() != 0) {
+							this.decrStackSize(2, inputCount);
+
+							if(slots[1].getMaxDamage() != 0 && damageStamp) {
 								slots[1].setItemDamage(slots[1].getItemDamage() + 1);
 								if(slots[1].getItemDamage() >= slots[1].getMaxDamage()) {
 									slots[1] = null;
 								}
 							}
-							
+
 							this.isRetracting = true;
 							this.delay = 5 - speed + 1;
-							
+
 							this.markDirty();
 						}
 					} else if(this.press > 0){
@@ -109,7 +144,7 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 					delay--;
 				}
 			}
-			
+
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("press", press);
@@ -118,14 +153,14 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 				slots[2].writeToNBT(stack);
 				data.setTag("stack", stack);
 			}
-			
+
 			this.networkPack(data, 50);
-			
+
 		} else {
-			
+
 			// approach-based interpolation, GO!
 			this.lastPress = this.renderPress;
-			
+
 			if(this.turnProgress > 0) {
 				this.renderPress = this.renderPress + ((this.syncPress - this.renderPress) / (double) this.turnProgress);
 				--this.turnProgress;
@@ -134,50 +169,70 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 			}
 		}
 	}
-	
+
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.power = nbt.getLong("power");
 		this.syncPress = nbt.getInteger("press");
-		
+
 		if(nbt.hasKey("stack")) {
 			NBTTagCompound stack = nbt.getCompoundTag("stack");
 			this.syncStack = ItemStack.loadItemStackFromNBT(stack);
 		} else {
 			this.syncStack = null;
 		}
-		
+
 		this.turnProgress = 2;
 	}
-	
+
 	public boolean canProcess() {
 		if(power < 100) return false;
 		if(slots[1] == null || slots[2] == null) return false;
-		
+
 		ItemStack output = PressRecipes.getOutput(slots[2], slots[1]);
-		
+		boolean damageStamp = output != null;
+		int inputCount = 1;
+		int stackSize = slots[2] == null ? 0 : slots[2].stackSize;
+		{
+			CraftingStack a = slots[1] == null ? null : new CraftingStack(slots[1]);
+			CraftingStack b = slots[2] == null ? null : new CraftingStack(slots[2]);
+			
+			Pair<CraftingStack, CraftingStack> inputs = new Pair<CraftingStack, CraftingStack>(a, b);
+			
+			if (output == null && HBMRecipes.pressRecipes.containsKey(inputs)) {
+				Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(inputs);
+				output = out.first();
+				damageStamp = out.second();
+				for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
+					if (c.second().hashCode() == b.hashCode())
+						inputCount = c.second().amount;
+			}
+			if(output == null) {
+				for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
+					if (a != null && b != null && c != null && c.second() != null && c.first() != null && c.second().hashCode2() == b.hashCode2() && c.first().hashCode2() == a.hashCode2()) {
+						inputCount = c.second().amount;
+						Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(c);
+						output = out.first();
+						damageStamp = out.second();
+					}
+			}
+		}
 		if(output == null) return false;
-		
+
 		if(slots[3] == null) return true;
 		if(slots[3].stackSize + output.stackSize <= slots[3].getMaxStackSize() && slots[3].getItem() == output.getItem() && slots[3].getItemDamage() == output.getItemDamage()) return true;
 		return false;
 	}
-	
-	private void updateConnections() {
-		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		
+
 		if(stack.getItem() instanceof ItemStamp && i == 1)
 			return true;
-		
+
 		return i == 2;
 	}
-	
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return new int[] { 1, 2, 3 };
@@ -192,119 +247,12 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return i == 3;
 	}
-	
-	@Override
-	public void updateEntity() {
-		if(!worldObj.isRemote) {
-			
-			this.updateConnections();
-			
-			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			
-			if(!worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-				if(power >= 100) {
-	
-					int speed = 25;
-					
-					if(slots[1] != null && slots[2] != null) {
-						ItemStack stack = PressRecipes.getOutput(slots[2], slots[1]);
-						boolean damageStamp = stack != null;
-						int inputCount = 1;
-						int stackSize = slots[2] == null ? 0 : slots[2].stackSize;
-						{
-							CraftingStack a = slots[1] == null ? null : new CraftingStack(slots[1]);
-							CraftingStack b = slots[2] == null ? null : new CraftingStack(slots[2]);
-							
-							Pair<CraftingStack, CraftingStack> inputs = new Pair<CraftingStack, CraftingStack>(a, b);
-							
-							if (stack == null && HBMRecipes.pressRecipes.containsKey(inputs)) {
-								Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(inputs);
-								stack = out.first();
-								damageStamp = out.second();
-								for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
-									if (c.second().hashCode() == b.hashCode())
-										inputCount = c.second().amount;
-							}
-							
-							if(stack == null) {
-								for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
-									if (a != null && b != null && c != null && c.second() != null && c.first() != null && c.second().hashCode2() == b.hashCode2() && c.first().hashCode2() == a.hashCode2()) {
-										inputCount = c.second().amount;
-										Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(c);
-										stack = out.first();
-										damageStamp = out.second();
-									}
-							}
-						}
-						
-						if (stack != null) {
-							if ((slots[3] == null || (slots[3].getItem() == stack.getItem()
-									&& slots[3].stackSize + stack.stackSize <= slots[3].getMaxStackSize())) && stackSize >= inputCount) {
 
-								power -= 100;
-
-								if (progress >= maxProgress) {
-
-									isRetracting = true;
-
-									if (slots[3] == null)
-										slots[3] = stack.copy();
-									else
-										slots[3].stackSize += stack.stackSize;
-
-									if (slots[2] != null) {
-										slots[2].stackSize-= inputCount;
-										if (slots[2].stackSize <= 0)
-											slots[2] = null;
-									}
-
-									if (slots[1] != null && damageStamp) {
-										slots[1].setItemDamage(slots[1].getItemDamage() + 1);
-										if (slots[1].getItemDamage() >= slots[1].getMaxDamage())
-											slots[1] = null;
-									}
-
-									this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord,
-											"hbm:block.pressOperate", 1.5F, 1.0F);
-								}
-
-								if (!isRetracting)
-									progress += speed;
-
-							} else {
-								isRetracting = true;
-							}
-						} else {
-							isRetracting = true;
-						}
-					} else {
-						isRetracting = true;
-					}
-	
-					if(isRetracting)
-						progress -= speed;
-				} else {
-					isRetracting = true;
-				}
-				
-				if(progress <= 0) {
-					isRetracting = false;
-					progress = 0;
-				}
-			}
-
-			PacketDispatcher.wrapper.sendToAllAround(new TEPressPacket(xCoord, yCoord, zCoord, slots[2], progress), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-		}
-	}
-	
 	private void updateConnections() {
-		
-		press = nbt.getInteger("press");
-		power = nbt.getInteger("power");
-		isRetracting = nbt.getBoolean("ret");
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -317,7 +265,7 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	@Override
 	public void setPower(long i) {
 		power = i;
-		
+
 	}
 
 	@Override
@@ -329,19 +277,19 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	public long getMaxPower() {
 		return maxPower;
 	}
-	
+
 	AxisAlignedBB aabb;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(aabb != null)
 			return aabb;
-		
+
 		aabb = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 3, zCoord + 1);
 		return aabb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {

@@ -8,6 +8,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICoreInjector;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.Optional;
@@ -48,7 +49,8 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			this.subscribeToAllAround(tanks[0].getTankType(), this);

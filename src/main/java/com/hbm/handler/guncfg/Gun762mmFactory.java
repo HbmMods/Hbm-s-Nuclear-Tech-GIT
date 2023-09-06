@@ -161,7 +161,7 @@ public class Gun762mmFactory {
 	public static BulletConfiguration get762NATOConfig() {
 		final BulletConfiguration bullet = Gun556mmFactory.get556Config().clone();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.STOCK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.STOCK));
 		bullet.dmgMax = 20;
 		bullet.dmgMin = 24;
 		bullet.velocity *= 2.5;
@@ -176,7 +176,7 @@ public class Gun762mmFactory {
 	public static BulletConfiguration get762APConfig() {
 		final BulletConfiguration bullet = get762NATOConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.AP));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.AP));
 		bullet.dmgMax = 24;
 		bullet.dmgMin = 28;
 		
@@ -188,7 +188,7 @@ public class Gun762mmFactory {
 	public static BulletConfiguration get762DUConfig() {
 		final BulletConfiguration bullet = get762NATOConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.DU));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.DU));
 		bullet.dmgMax = 36;
 		bullet.dmgMin = 40;
 		
@@ -200,7 +200,7 @@ public class Gun762mmFactory {
 	public static BulletConfiguration get762TracerConfig() {
 		final BulletConfiguration bullet = get762NATOConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.TRACER));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.TRACER));
 		bullet.vPFX = "reddust";
 		
 		bullet.spentCasing = CASING762NATO.clone().register("762NATOTrac");
@@ -211,7 +211,7 @@ public class Gun762mmFactory {
 	public static BulletConfiguration get762WPConfig() {
 		final BulletConfiguration bullet = get762NATOConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.PHOSPHORUS));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.PHOSPHORUS));
 		bullet.setToFire(20 * 5);
 		bullet.vPFX = "reddust";
 		final PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
@@ -227,7 +227,7 @@ public class Gun762mmFactory {
 	public static BulletConfiguration get762BlankConfig() {
 		final BulletConfiguration bullet = get762NATOConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.BLANK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_762.stackFromEnum(Ammo762NATO.BLANK));
 		bullet.dmgMax = 0;
 		bullet.dmgMin = 0;
 		bullet.maxAge = 0;

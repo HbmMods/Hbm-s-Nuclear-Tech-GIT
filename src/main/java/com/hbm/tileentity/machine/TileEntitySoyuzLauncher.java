@@ -19,6 +19,7 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
@@ -68,7 +69,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if (!worldObj.isRemote) {
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {

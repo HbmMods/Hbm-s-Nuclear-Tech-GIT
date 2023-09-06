@@ -71,7 +71,7 @@ public class Gun22LRFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_22lr.stackFromEnum(Ammo22LR.STOCK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_22lr.stackFromEnum(Ammo22LR.STOCK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 6;
 		bullet.dmgMax = 8;
@@ -85,7 +85,7 @@ public class Gun22LRFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_22lr.stackFromEnum(Ammo22LR.AP));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_22lr.stackFromEnum(Ammo22LR.AP));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 12;
 		bullet.dmgMax = 16;

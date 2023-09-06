@@ -17,6 +17,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.WeightedRandomObject;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
@@ -61,7 +62,8 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 
 			tank.setType(1, 1, slots);
@@ -107,7 +109,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		this.mode = EnumWavelengths.valueOf(nbt.getString("mode"));
 
 		if(this.currentFill > 0) {
-			this.current = new ComparableStack(Item.getItemById(nbt.getInteger("item")), 1, nbt.getInteger("meta"));
+			this.current = ComparableStack.getComparableStack(Item.getItemById(nbt.getInteger("item")), 1, nbt.getInteger("meta"));
 
 		} else {
 			this.current = null;
@@ -141,7 +143,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	}
 
 	private static void putFluid(FluidType fluid) {
-		fluidConversion.put(fluid, new ComparableStack(ModItems.fluid_icon, 1, fluid.getID()));
+		fluidConversion.put(fluid, ComparableStack.getComparableStack(ModItems.fluid_icon, 1, fluid.getID()));
 	}
 
 	int loadDelay;
@@ -169,7 +171,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		if(loadDelay > 20)
 			loadDelay = 0;
 
-		if(loadDelay == 0 && slots[0] != null && tank.getTankType() == Fluids.ACID && (this.current == null || this.current.equals(new ComparableStack(slots[0]).makeSingular()))) {
+		if(loadDelay == 0 && slots[0] != null && tank.getTankType() == Fluids.ACID && (this.current == null || this.current.equals(ComparableStack.getComparableStack(slots[0]).makeSingular()))) {
 			SILEXRecipe recipe = SILEXRecipes.getOutput(slots[0]);
 
 			if(recipe == null)
@@ -179,7 +181,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 
 			if(load <= this.maxFill - this.currentFill && load <= tank.getFill()) {
 				this.currentFill += load;
-				this.current = new ComparableStack(slots[0]).makeSingular();
+				this.current = ComparableStack.getComparableStack(slots[0]).makeSingular();
 				tank.setFill(tank.getFill() - load);
 				this.decrStackSize(0, 1);
 			}
@@ -273,7 +275,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		this.mode = EnumWavelengths.valueOf(nbt.getString("mode"));
 
 		if(this.currentFill > 0) {
-			this.current = new ComparableStack(Item.getItemById(nbt.getInteger("item")), 1, nbt.getInteger("meta"));
+			this.current = ComparableStack.getComparableStack(Item.getItemById(nbt.getInteger("item")), 1, nbt.getInteger("meta"));
 		}
 	}
 

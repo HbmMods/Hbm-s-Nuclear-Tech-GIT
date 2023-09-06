@@ -441,11 +441,13 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	private void renderItem(ItemStack stack) {
 		bindTexture(TextureMap.locationItemsTexture);
 		IIcon icon = stack.getIconIndex();
-		float f14 = icon.getMinU();
-		float f15 = icon.getMaxU();
-		float f4 = icon.getMinV();
-		float f5 = icon.getMaxV();
-		ItemRenderer.renderItemIn2D(Tessellator.instance, f15, f4, f14, f5, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
+		if(icon != null) {
+			float f14 = icon.getMinU();
+			float f15 = icon.getMaxU();
+			float f4 = icon.getMinV();
+			float f5 = icon.getMaxV();
+			ItemRenderer.renderItemIn2D(Tessellator.instance, f15, f4, f14, f5, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
+		}
 	}
 	
 	/*

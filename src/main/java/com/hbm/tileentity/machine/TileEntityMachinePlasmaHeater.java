@@ -15,6 +15,7 @@ import com.hbm.inventory.gui.GUIPlasmaHeater;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
@@ -52,7 +53,8 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			if(this.worldObj.getTotalWorldTime() % 20 == 0)

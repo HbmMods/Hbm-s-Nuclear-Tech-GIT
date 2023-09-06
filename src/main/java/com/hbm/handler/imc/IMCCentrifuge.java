@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
@@ -37,7 +38,7 @@ public class IMCCentrifuge extends IMCHandler {
 		ItemStack in = ItemStack.loadItemStackFromNBT(input);
 		
 		if(in != null) {
-			buffer.put(new RecipesCommon.ComparableStack(in), outs);
+			buffer.put(ComparableStack.getComparableStack(in), outs);
 		} else {
 			String dict = data.getString("oredict");
 			

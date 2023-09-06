@@ -12,6 +12,7 @@ import com.hbm.items.special.ItemWasteShort;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Triplet;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyGenerator;
 import cpw.mods.fml.relauncher.Side;
@@ -50,7 +51,8 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
@@ -212,19 +214,19 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 	static {
 
 		for(int i = 0; i < ItemWasteShort.WasteClass.values().length; i++) {
-			fuels.put(	new ComparableStack(ModItems.nuclear_waste_short, 1, i),		new Triplet<Integer, Integer, ItemStack>(150,	30 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_short_depleted, 1, i)));
-			fuels.put(	new ComparableStack(ModItems.nuclear_waste_short_tiny, 1, i),	new Triplet<Integer, Integer, ItemStack>(15,	3 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_short_depleted_tiny, 1, i)));
+			fuels.put(	ComparableStack.getComparableStack(ModItems.nuclear_waste_short, 1, i),		new Triplet<Integer, Integer, ItemStack>(150,	30 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_short_depleted, 1, i)));
+			fuels.put(	ComparableStack.getComparableStack(ModItems.nuclear_waste_short_tiny, 1, i),	new Triplet<Integer, Integer, ItemStack>(15,	3 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_short_depleted_tiny, 1, i)));
 		}
 		for(int i = 0; i < ItemWasteLong.WasteClass.values().length; i++) {
-			fuels.put(	new ComparableStack(ModItems.nuclear_waste_long, 1, i),			new Triplet<Integer, Integer, ItemStack>(50,	2 * 60 * 60 * 20,	new ItemStack(ModItems.nuclear_waste_long_depleted, 1, i)));
-			fuels.put(	new ComparableStack(ModItems.nuclear_waste_long_tiny, 1, i),	new Triplet<Integer, Integer, ItemStack>(5,		12 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_long_depleted_tiny, 1, i)));
+			fuels.put(	ComparableStack.getComparableStack(ModItems.nuclear_waste_long, 1, i),			new Triplet<Integer, Integer, ItemStack>(50,	2 * 60 * 60 * 20,	new ItemStack(ModItems.nuclear_waste_long_depleted, 1, i)));
+			fuels.put(	ComparableStack.getComparableStack(ModItems.nuclear_waste_long_tiny, 1, i),	new Triplet<Integer, Integer, ItemStack>(5,		12 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_long_depleted_tiny, 1, i)));
 		}
 		
-		fuels.put(		new ComparableStack(ModItems.scrap_nuclear),					new Triplet<Integer, Integer, ItemStack>(5,		5 * 60 * 20,		null));
+		fuels.put(		ComparableStack.getComparableStack(ModItems.scrap_nuclear),					new Triplet<Integer, Integer, ItemStack>(5,		5 * 60 * 20,		null));
 	}
 	
 	private Triplet<Integer, Integer, ItemStack> grabResult(ItemStack stack) {
-		return fuels.get(new ComparableStack(stack).makeSingular());
+		return fuels.get(ComparableStack.getComparableStack(stack).makeSingular());
 	}
 	
 	private int getPowerFromItem(ItemStack stack) {

@@ -36,7 +36,7 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
         	
         	input = new ArrayList();
         	
-        	ComparableStack comp = new ComparableStack(result);
+        	ComparableStack comp = ComparableStack.getComparableStack(result);
         	ItemStack template = ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template), comp);
         	
         	for(int i = 0; i < Math.min(in.size(), 17); i++) {

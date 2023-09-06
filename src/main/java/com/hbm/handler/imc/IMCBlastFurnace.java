@@ -46,7 +46,7 @@ public class IMCBlastFurnace extends IMCHandler {
 			break;
 			
 		case "itemstack":
-			input1 = new ComparableStack(ItemStack.loadItemStackFromNBT(data.getCompoundTag("input1")));
+			input1 = ComparableStack.getComparableStack(ItemStack.loadItemStackFromNBT(data.getCompoundTag("input1")));
 			break;
 			
 		default:
@@ -68,7 +68,7 @@ public class IMCBlastFurnace extends IMCHandler {
 			break;
 			
 		case "itemstack":
-			input2 = new ComparableStack(ItemStack.loadItemStackFromNBT(data.getCompoundTag("input2")));
+			input2 = ComparableStack.getComparableStack(ItemStack.loadItemStackFromNBT(data.getCompoundTag("input2")));
 			break;
 			
 		default:

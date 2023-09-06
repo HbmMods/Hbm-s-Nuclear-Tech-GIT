@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyGenerator;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -13,7 +14,8 @@ public class TileEntityMachineMiniRTG extends TileEntityLoadedBase implements IE
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 
 //			if(this.getBlockType() == ModBlocks.machine_powerrtg)

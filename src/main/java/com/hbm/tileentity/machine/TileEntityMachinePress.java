@@ -9,6 +9,7 @@ import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import akka.japi.Pair;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -53,7 +54,8 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			boolean preheated = false;
@@ -97,14 +99,41 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 					if(this.press >= this.maxPress) {
 						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
 						ItemStack output = PressRecipes.getOutput(slots[2], slots[1]);
+						boolean damageStamp = output != null;
+						int inputCount = 1;
+						int stackSize = slots[2] == null ? 0 : slots[2].stackSize;
+						{
+							CraftingStack a = slots[1] == null ? null : new CraftingStack(slots[1]);
+							CraftingStack b = slots[2] == null ? null : new CraftingStack(slots[2]);
+							
+							Pair<CraftingStack, CraftingStack> inputs = new Pair<CraftingStack, CraftingStack>(a, b);
+							
+							if (output == null && HBMRecipes.pressRecipes.containsKey(inputs)) {
+								Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(inputs);
+								output = out.first();
+								damageStamp = out.second();
+								for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
+									if (c.second().hashCode() == b.hashCode())
+										inputCount = c.second().amount;
+							}
+							if(output == null) {
+								for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
+									if (a != null && b != null && c != null && c.second() != null && c.first() != null && c.second().hashCode2() == b.hashCode2() && c.first().hashCode2() == a.hashCode2()) {
+										inputCount = c.second().amount;
+										Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(c);
+										output = out.first();
+										damageStamp = out.second();
+									}
+							}
+						}
 						if(slots[3] == null) {
 							slots[3] = output.copy();
 						} else {
 							slots[3].stackSize += output.stackSize;
 						}
-						this.decrStackSize(2, 1);
+						this.decrStackSize(2, inputCount);
 						
-						if(slots[1].getMaxDamage() != 0) {
+						if(slots[1].getMaxDamage() != 0 && damageStamp) {
 							slots[1].setItemDamage(slots[1].getItemDamage() + 1);
 							if(slots[1].getItemDamage() >= slots[1].getMaxDamage()) {
 								slots[1] = null;
@@ -185,6 +214,34 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 		
 		ItemStack output = PressRecipes.getOutput(slots[2], slots[1]);
 		
+		boolean damageStamp = output != null;
+		int inputCount = 1;
+		int stackSize = slots[2] == null ? 0 : slots[2].stackSize;
+		{
+			CraftingStack a = slots[1] == null ? null : new CraftingStack(slots[1]);
+			CraftingStack b = slots[2] == null ? null : new CraftingStack(slots[2]);
+			
+			Pair<CraftingStack, CraftingStack> inputs = new Pair<CraftingStack, CraftingStack>(a, b);
+			
+			if (output == null && HBMRecipes.pressRecipes.containsKey(inputs)) {
+				Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(inputs);
+				output = out.first();
+				damageStamp = out.second();
+				for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
+					if (c.second().hashCode() == b.hashCode())
+						inputCount = c.second().amount;
+			}
+			if(output == null) {
+				for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
+					if (a != null && b != null && c != null && c.second() != null && c.first() != null && c.second().hashCode2() == b.hashCode2() && c.first().hashCode2() == a.hashCode2()) {
+						inputCount = c.second().amount;
+						Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(c);
+						output = out.first();
+						damageStamp = out.second();
+					}
+			}
+		}
+		
 		if(output == null) return false;
 		
 		if(slots[3] == null) return true;
@@ -219,142 +276,6 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 		return i == 3;
 	}
 	
-	@Override
-	public void updateEntity() {
-		if(!worldObj.isRemote) {
-			
-			boolean preheated = false;
-			
-			if(power < maxPower / 3 - 5) {
-				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-					if(worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ) == ModBlocks.press_preheater) {
-						preheated = true;
-						break;
-					}
-				}
-			}
-			
-			if(preheated)
-				power += 2;
-			
-			if(burnTime > 0) {
-				this.burnTime--;
-				this.power++;
-				if(power > maxPower) {
-					power = maxPower;
-				}
-			} else {
-				if(power > 0) {
-					power--;
-				}
-			}
-			
-			if(!worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-				if(slots[0] != null && this.burnTime == 0 && TileEntityFurnace.getItemBurnTime(slots[0]) > 0) {
-					this.maxBurn = this.burnTime = TileEntityFurnace.getItemBurnTime(slots[0]) / 8;
-					slots[0].stackSize--;
-					if(slots[0].stackSize <= 0) {
-						
-						if(slots[0].getItem().getContainerItem() != null)
-							slots[0] = new ItemStack(slots[0].getItem().getContainerItem());
-						else
-							slots[0] = null;
-					}
-				}
-				
-				if(power >= maxPower / 3) {
-	
-					int speed = power * 25 / maxPower;
-					
-					if(slots[1] != null && slots[2] != null) {
-						ItemStack stack = PressRecipes.getOutput(slots[2], slots[1]);
-						boolean damageStamp = stack != null;
-						int inputCount = 1;
-						int stackSize = slots[2] == null ? 0 : slots[2].stackSize;
-						{
-							CraftingStack a = slots[1] == null ? null : new CraftingStack(slots[1]);
-							CraftingStack b = slots[2] == null ? null : new CraftingStack(slots[2]);
-							
-							Pair<CraftingStack, CraftingStack> inputs = new Pair<CraftingStack, CraftingStack>(a, b);
-							
-							if (stack == null && HBMRecipes.pressRecipes.containsKey(inputs)) {
-								Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(inputs);
-								stack = out.first();
-								damageStamp = out.second();
-								for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
-									if (c.second().hashCode() == b.hashCode())
-										inputCount = c.second().amount;
-							}
-							if(stack == null) {
-								for (Pair<CraftingStack, CraftingStack> c : HBMRecipes.pressRecipes.keySet())
-									if (a != null && b != null && c != null && c.second() != null && c.first() != null && c.second().hashCode2() == b.hashCode2() && c.first().hashCode2() == a.hashCode2()) {
-										inputCount = c.second().amount;
-										Pair<ItemStack, Boolean> out = HBMRecipes.pressRecipes.get(c);
-										stack = out.first();
-										damageStamp = out.second();
-									}
-							}
-						}
-						
-						if (stack != null) {
-							if(
-									(slots[3] == null ||
-									(slots[3].getItem() == stack.getItem() &&
-									slots[3].stackSize + stack.stackSize <= slots[3].getMaxStackSize()))) {
-								
-								if(progress >= maxProgress) {
-									
-									isRetracting = true;
-									
-									if (slots[3] == null)
-										slots[3] = stack.copy();
-									else
-										slots[3].stackSize += stack.stackSize;
-
-									if (slots[2] != null) {
-										slots[2].stackSize-= inputCount;
-										if (slots[2].stackSize <= 0)
-											slots[2] = null;
-									}
-
-									if (slots[1] != null && damageStamp) {
-										slots[1].setItemDamage(slots[1].getItemDamage() + 1);
-										if (slots[1].getItemDamage() >= slots[1].getMaxDamage())
-											slots[1] = null;
-									}
-		
-							        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
-								}
-								
-								if(!isRetracting)
-									progress += speed;
-								
-							} else {
-								isRetracting = true;
-							}
-						} else {
-							isRetracting = true;
-						}
-					} else {
-						isRetracting = true;
-					}
-	
-					if(isRetracting)
-						progress -= speed;
-				} else {
-					isRetracting = true;
-				}
-				
-				if(progress <= 0) {
-					isRetracting = false;
-					progress = 0;
-				}
-			}
-			
-			PacketDispatcher.wrapper.sendToAllAround(new TEPressPacket(xCoord, yCoord, zCoord, slots[2], progress), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
-		}
-	}
-
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);

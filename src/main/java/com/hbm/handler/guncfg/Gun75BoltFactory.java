@@ -88,7 +88,7 @@ public class Gun75BoltFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt.stackFromEnum(Ammo75Bolt.STOCK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_75bolt.stackFromEnum(Ammo75Bolt.STOCK));
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 74;
@@ -126,7 +126,7 @@ public class Gun75BoltFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt.stackFromEnum(Ammo75Bolt.INCENDIARY));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_75bolt.stackFromEnum(Ammo75Bolt.INCENDIARY));
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 72;
@@ -164,7 +164,7 @@ public class Gun75BoltFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_75bolt.stackFromEnum(Ammo75Bolt.HE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_75bolt.stackFromEnum(Ammo75Bolt.HE));
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 94;

@@ -22,6 +22,7 @@ import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CrucibleUtil;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.block.ICrucibleAcceptor;
 import api.hbm.tile.IHeatSource;
@@ -98,7 +99,8 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			tryPullHeat();
 			

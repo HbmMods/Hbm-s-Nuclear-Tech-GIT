@@ -21,6 +21,7 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ArmorUtil;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -56,7 +57,8 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			int chunkX = xCoord >> 4;

@@ -73,7 +73,7 @@ public class GunOSIPRFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.gun_osipr_ammo);
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.gun_osipr_ammo);
 		bullet.ammoCount = 30;
 		bullet.doesRicochet = false;
 		bullet.spread *= inaccuracy;
@@ -88,7 +88,7 @@ public class GunOSIPRFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.gun_osipr_ammo2);
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.gun_osipr_ammo2);
 		bullet.ricochetAngle = 360;
 		bullet.LBRC = 100;
 		bullet.HBRC = 100;

@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -11,7 +12,8 @@ public class TileEntityMachineDetector extends TileEntityLoadedBase implements I
 
 	@Override
     public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			this.updateConnections();

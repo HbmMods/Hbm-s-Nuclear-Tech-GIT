@@ -228,7 +228,7 @@ public class BlockMotherOfAllOres extends BlockContainer implements IBlockMultiP
 				this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 			}
 			
-			return stack != null ? stack : new ComparableStack(ModItems.nothing);
+			return stack != null ? stack : ComparableStack.getComparableStack(ModItems.nothing);
 		}
 
 		@Override
@@ -294,21 +294,21 @@ public class BlockMotherOfAllOres extends BlockContainer implements IBlockMultiP
 			for(Object b : Block.blockRegistry.getKeys()) {
 				Block block = Block.getBlockFromName((String) b);
 				if(block != null && Item.getItemFromBlock(block) != null)
-					uniqueItems.add(new ComparableStack(block));
+					uniqueItems.add(ComparableStack.getComparableStack(block));
 			}
 			
 			for(Object i : Item.itemRegistry.getKeys()) {
 				Item item = (Item) Item.itemRegistry.getObject((String) i);
-				uniqueItems.add(new ComparableStack(item));
+				uniqueItems.add(ComparableStack.getComparableStack(item));
 			}
 			
 			for(String i : OreDictionary.getOreNames()) {
 				for(ItemStack stack : OreDictionary.getOres(i)) {
-					uniqueItems.add(new ComparableStack(stack));
+					uniqueItems.add(ComparableStack.getComparableStack(stack));
 				}
 			}
 		} else {
-			uniqueItems.add(new ComparableStack(ModItems.nothing));
+			uniqueItems.add(ComparableStack.getComparableStack(ModItems.nothing));
 		}
 		
 		int i = 0;

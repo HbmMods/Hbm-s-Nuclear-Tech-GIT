@@ -19,6 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,6 +44,8 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 	public boolean scanPlayers = true;
 	public boolean smartMode = true;
 	public boolean redMode = true;
+	
+	public boolean jammed = false;
 
 	public float prevRotation;
 	public float rotation;
@@ -121,6 +124,7 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 		
 		nearbyMissiles.clear();
 		entList.clear();
+		jammed = false;
 		
 		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - WeaponConfig.radarRange, 0, zCoord + 0.5 - WeaponConfig.radarRange, xCoord + 0.5 + WeaponConfig.radarRange, 5000, zCoord + 0.5 + WeaponConfig.radarRange));
 
@@ -128,6 +132,13 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 			
 			if(e.posY < yCoord + WeaponConfig.radarBuffer)
 				continue;
+			
+			if(e instanceof EntityLivingBase && HbmLivingProps.getDigamma((EntityLivingBase) e) > 0.001) {
+				this.jammed = true;
+				nearbyMissiles.clear();
+				entList.clear();
+				return;
+			}
 
 			if(e instanceof EntityPlayer && this.scanPlayers) {
 				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, RadarTargetType.PLAYER.ordinal(), (int)e.posY });
@@ -193,6 +204,7 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 		data.setBoolean("scanPlayers", scanPlayers);
 		data.setBoolean("smartMode", smartMode);
 		data.setBoolean("redMode", redMode);
+		data.setBoolean("jammed", jammed);
 		data.setInteger("count", this.nearbyMissiles.size());
 		
 		for(int i = 0; i < this.nearbyMissiles.size(); i++) {
@@ -213,6 +225,7 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 		this.scanPlayers = data.getBoolean("scanPlayers");
 		this.smartMode = data.getBoolean("smartMode");
 		this.redMode = data.getBoolean("redMode");
+		this.jammed = data.getBoolean("jammed");
 		
 		int count = data.getInteger("count");
 		

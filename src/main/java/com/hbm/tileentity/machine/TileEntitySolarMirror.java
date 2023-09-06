@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.tileentity.TileEntityTickingBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,7 +25,8 @@ public class TileEntitySolarMirror extends TileEntityTickingBase {
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0)

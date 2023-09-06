@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.ModBlocks;
+import com.hfr.faction.relations.FactionRelations;
 
 import net.minecraft.tileentity.TileEntity;
 
@@ -8,7 +9,8 @@ public class TileEntityChlorineSeal extends TileEntity {
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
 			spread(xCoord, yCoord, zCoord, 0);
 	}

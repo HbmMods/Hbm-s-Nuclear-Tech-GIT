@@ -13,6 +13,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -57,7 +58,8 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
+			if(FactionRelations.isWarday())
+				return;
 			this.isOn = false;
 			
 			this.updateConnections();

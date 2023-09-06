@@ -756,7 +756,7 @@ public class ModEventHandlerClient {
 		}
 		
 		/// CUSTOM NUKE ///
-		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		ComparableStack comp = ComparableStack.getComparableStack(stack).makeSingular();
 		CustomNukeEntry entry = TileEntityNukeCustom.entries.get(comp);
 		
 		if(entry != null) {
@@ -918,7 +918,7 @@ public class ModEventHandlerClient {
 						
 						if((boolean) isMouseOverSlot.invoke(container, slot, mouseX, mouseY)) {
 							
-							ComparableStack comp = new ComparableStack(slot.getStack()).makeSingular();
+							ComparableStack comp = ComparableStack.getComparableStack(slot.getStack()).makeSingular();
 							CanneryBase cannery = Jars.canneries.get(comp);
 							
 							if(cannery != null) {
@@ -1243,21 +1243,21 @@ public class ModEventHandlerClient {
 			GuiMainMenu main = (GuiMainMenu) event.gui;
 			int rand = (int)(Math.random() * 150);
 			
-			switch(rand) {
-			case 0: main.splashText = "Floppenheimer!"; break;
-			case 1: main.splashText = "i should dip my balls in sulfuic acid"; break;
-			case 2: main.splashText = "All answers are popbob!"; break;
-			case 3: main.splashText = "None shall enter The Orb!"; break;
-			case 4: main.splashText = "Wacarb was here"; break;
-			case 5: main.splashText = "SpongeBoy me Bob I am overdosing on keramine agagagagaga"; break;
-			case 6: main.splashText = "I know where you live, " + System.getProperty("user.name"); break;
-			case 7: main.splashText = "Nice toes, now hand them over."; break;
-			case 8: main.splashText = "I smell burnt toast!"; break;
-			case 9: main.splashText = "There are bugs under your skin!"; break;
-			case 10: main.splashText = "Fentanyl!"; break;
-			case 11: main.splashText = "Do drugs!"; break;
-			case 12: main.splashText = "post this on r/feedthememes for free internet points!"; break;
-			}
+//			switch(rand) {
+//			case 0: main.splashText = "Floppenheimer!"; break;
+//			case 1: main.splashText = "i should dip my balls in sulfuic acid"; break;
+//			case 2: main.splashText = "All answers are popbob!"; break;
+//			case 3: main.splashText = "None shall enter The Orb!"; break;
+//			case 4: main.splashText = "Wacarb was here"; break;
+//			case 5: main.splashText = "SpongeBoy me Bob I am overdosing on keramine agagagagaga"; break;
+//			case 6: main.splashText = "I know where you live, " + System.getProperty("user.name"); break;
+//			case 7: main.splashText = "Nice toes, now hand them over."; break;
+//			case 8: main.splashText = "I smell burnt toast!"; break;
+//			case 9: main.splashText = "There are bugs under your skin!"; break;
+//			case 10: main.splashText = "Fentanyl!"; break;
+//			case 11: main.splashText = "Do drugs!"; break;
+//			case 12: main.splashText = "post this on r/feedthememes for free internet points!"; break;
+//			}
 		}
 	}
 }

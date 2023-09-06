@@ -18,6 +18,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
@@ -64,7 +65,8 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 	@Override
 	@Spaghetti ("What the fuck were you thinking")
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);

@@ -42,27 +42,27 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		recipes.put(KEY_LOG,										new FluidStack(100, Fluids.MUG));
 		recipes.put(KNO.dust(),										new FluidStack(250, Fluids.NITRIC_ACID));
 		//general utility recipes because why not
-		recipes.put(new ComparableStack(Blocks.netherrack),			new FluidStack(250, Fluids.LAVA));
-		recipes.put(new ComparableStack(Blocks.cobblestone),		new FluidStack(250, Fluids.LAVA));
-		recipes.put(new ComparableStack(Blocks.stone),				new FluidStack(250, Fluids.LAVA));
-		recipes.put(new ComparableStack(Blocks.obsidian),			new FluidStack(500, Fluids.LAVA));
-		recipes.put(new ComparableStack(Items.snowball),			new FluidStack(125, Fluids.WATER));
-		recipes.put(new ComparableStack(Blocks.snow),				new FluidStack(500, Fluids.WATER));
-		recipes.put(new ComparableStack(Blocks.ice),				new FluidStack(1000, Fluids.WATER));
-		recipes.put(new ComparableStack(Blocks.packed_ice),			new FluidStack(1000, Fluids.WATER));
-		recipes.put(new ComparableStack(Items.ender_pearl),			new FluidStack(100, Fluids.ENDERJUICE));
+		recipes.put(ComparableStack.getComparableStack(Blocks.netherrack),			new FluidStack(250, Fluids.LAVA));
+		recipes.put(ComparableStack.getComparableStack(Blocks.cobblestone),		new FluidStack(250, Fluids.LAVA));
+		recipes.put(ComparableStack.getComparableStack(Blocks.stone),				new FluidStack(250, Fluids.LAVA));
+		recipes.put(ComparableStack.getComparableStack(Blocks.obsidian),			new FluidStack(500, Fluids.LAVA));
+		recipes.put(ComparableStack.getComparableStack(Items.snowball),			new FluidStack(125, Fluids.WATER));
+		recipes.put(ComparableStack.getComparableStack(Blocks.snow),				new FluidStack(500, Fluids.WATER));
+		recipes.put(ComparableStack.getComparableStack(Blocks.ice),				new FluidStack(1000, Fluids.WATER));
+		recipes.put(ComparableStack.getComparableStack(Blocks.packed_ice),			new FluidStack(1000, Fluids.WATER));
+		recipes.put(ComparableStack.getComparableStack(Items.ender_pearl),			new FluidStack(100, Fluids.ENDERJUICE));
 
-		recipes.put(new ComparableStack(Items.sugar),				new FluidStack(100, Fluids.ETHANOL));
-		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 3), new FluidStack(150, Fluids.ETHANOL));
-		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 4), new FluidStack(50, Fluids.ETHANOL));
-		recipes.put(new ComparableStack(ModItems.biomass),			new FluidStack(125, Fluids.BIOGAS));
+		recipes.put(ComparableStack.getComparableStack(Items.sugar),				new FluidStack(100, Fluids.ETHANOL));
+		recipes.put(ComparableStack.getComparableStack(ModBlocks.plant_flower, 1, 3), new FluidStack(150, Fluids.ETHANOL));
+		recipes.put(ComparableStack.getComparableStack(ModBlocks.plant_flower, 1, 4), new FluidStack(50, Fluids.ETHANOL));
+		recipes.put(ComparableStack.getComparableStack(ModItems.biomass),			new FluidStack(125, Fluids.BIOGAS));
 
-		recipes.put(new ComparableStack(Items.wheat_seeds),			new FluidStack(50, Fluids.SEEDSLURRY));
-		recipes.put(new ComparableStack(Blocks.tallgrass, 1, 1),	new FluidStack(100, Fluids.SEEDSLURRY));
-		recipes.put(new ComparableStack(Blocks.tallgrass, 1, 2),	new FluidStack(100, Fluids.SEEDSLURRY));
-		recipes.put(new ComparableStack(Blocks.vine),				new FluidStack(100, Fluids.SEEDSLURRY));
+		recipes.put(ComparableStack.getComparableStack(Items.wheat_seeds),			new FluidStack(50, Fluids.SEEDSLURRY));
+		recipes.put(ComparableStack.getComparableStack(Blocks.tallgrass, 1, 1),	new FluidStack(100, Fluids.SEEDSLURRY));
+		recipes.put(ComparableStack.getComparableStack(Blocks.tallgrass, 1, 2),	new FluidStack(100, Fluids.SEEDSLURRY));
+		recipes.put(ComparableStack.getComparableStack(Blocks.vine),				new FluidStack(100, Fluids.SEEDSLURRY));
 		
-		//recipes.put(new ComparableStack(ModItems.solid_fuel_bf),	new FluidStack(250, Fluids.BALEFIRE));
+		//recipes.put(ComparableStack.getComparableStack(ModItems.solid_fuel_bf),	new FluidStack(250, Fluids.BALEFIRE));
 		
 		//TODO: more recipes as the crack oil derivatives are added
 	}
@@ -72,7 +72,7 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		if(stack == null || stack.getItem() == null)
 			return null;
 		
-		ComparableStack comp = new ComparableStack(stack.getItem(), 1, stack.getItemDamage());
+		ComparableStack comp = ComparableStack.getComparableStack(stack.getItem(), 1, stack.getItemDamage());
 		
 		if(recipes.containsKey(comp))
 			return recipes.get(comp);

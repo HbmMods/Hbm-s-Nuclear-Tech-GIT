@@ -25,6 +25,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.block.IDrillInteraction;
 import api.hbm.block.IMiningDrill;
@@ -86,7 +87,8 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			this.updateConnections();

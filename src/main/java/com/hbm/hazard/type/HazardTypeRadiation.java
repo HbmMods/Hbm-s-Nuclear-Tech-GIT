@@ -31,6 +31,7 @@ public class HazardTypeRadiation extends HazardTypeBase {
 			reacher = ((EntityPlayer) target).inventory.hasItem(ModItems.reacher);
 		
 		level *= stack.stackSize;
+		level /= 100;
 		
 		if(level > 0) {
 			float rad = level / 20F;
@@ -53,6 +54,7 @@ public class HazardTypeRadiation extends HazardTypeBase {
 	public void addHazardInformation(EntityPlayer player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
 		
 		level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
+		level /= 100;
 		
 		if(level < 1e-5)
 			return;

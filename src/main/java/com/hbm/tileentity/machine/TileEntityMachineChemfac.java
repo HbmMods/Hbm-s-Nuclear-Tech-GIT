@@ -14,6 +14,7 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -54,6 +55,8 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 
 	@Override
 	public void updateEntity() {
+		if(FactionRelations.isWarday())
+			return;
 		super.updateEntity();
 		
 		if(!worldObj.isRemote) {

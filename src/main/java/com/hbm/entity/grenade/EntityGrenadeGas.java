@@ -58,4 +58,10 @@ public class EntityGrenadeGas extends EntityGrenadeBouncyBase {
 		return 0.25D;
 	}
 
+	@Override
+	protected int getMaxTimer() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

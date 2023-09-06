@@ -110,49 +110,77 @@ public class RecipesCommon {
 		public Item item;
 		public int meta;
 		
-		public ComparableStack(ItemStack stack) {
+		private ComparableStack(ItemStack stack) {
 			this.item = stack.getItem();
 			this.stacksize = stack.stackSize;
 			this.meta = stack.getItemDamage();
 		}
 		
-		public ComparableStack makeSingular() {
+		public static ComparableStack getComparableStack(ItemStack stack) {
+			return stack == null || stack.getItem() == null ? null : new ComparableStack(stack);
+		}
+		
+		public  ComparableStack makeSingular() {
 			stacksize = 1;
 			return this;
 		}
 		
-		public ComparableStack(Item item) {
+		private ComparableStack(Item item) {
 			this.item = item;
 			this.stacksize = 1;
 			this.meta = 0;
 		}
 		
-		public ComparableStack(Block item) {
+		public static ComparableStack getComparableStack(Item item) {
+			return item == null ? null : new ComparableStack(item);
+		}
+		
+		private ComparableStack(Block item) {
 			this.item = Item.getItemFromBlock(item);
 			this.stacksize = 1;
 			this.meta = 0;
 		}
 		
-		public ComparableStack(Block item, int stacksize) {
+		public static ComparableStack getComparableStack(Block block) {
+			return block == null ? null : new ComparableStack(block);
+		}
+		
+		private ComparableStack(Block item, int stacksize) {
 			this.item = Item.getItemFromBlock(item);
 			this.stacksize = stacksize;
 			this.meta = 0;
 		}
 		
-		public ComparableStack(Block item, int stacksize, int meta) {
+		public static ComparableStack getComparableStack(Block block, int stacksize) {
+			return block == null ? null : new ComparableStack(block, stacksize);
+		}
+		
+		private ComparableStack(Block item, int stacksize, int meta) {
 			this.item = Item.getItemFromBlock(item);
 			this.stacksize = stacksize;
 			this.meta = meta;
 		}
 		
-		public ComparableStack(Item item, int stacksize) {
+		public static ComparableStack getComparableStack(Block block, int stacksize, int meta) {
+			return block == null ? null : new ComparableStack(block, stacksize, meta);
+		}
+		
+		private ComparableStack(Item item, int stacksize) {
 			this(item);
 			this.stacksize = stacksize;
 		}
 		
-		public ComparableStack(Item item, int stacksize, int meta) {
+		public static ComparableStack getComparableStack(Item item, int stacksize) {
+			return item == null ? null : new ComparableStack(item, stacksize);
+		}
+		
+		private ComparableStack(Item item, int stacksize, int meta) {
 			this(item, stacksize);
 			this.meta = meta;
+		}
+		
+		public static ComparableStack getComparableStack(Item item, int stacksize, int meta) {
+			return item == null ? null : new ComparableStack(item, stacksize, meta);
 		}
 		
 		public ItemStack toStack() {
@@ -332,6 +360,16 @@ public class RecipesCommon {
 			stack.stackTagCompound = this.nbt;
 			return stack;
 		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			return super.equals(obj) && 
+				(
+					(nbt == null && !((ComparableStack)obj).toStack().hasTagCompound()) 
+					|| (nbt != null && ((ComparableStack)obj).toStack().hasTagCompound()
+						&& nbt.equals(((ComparableStack)obj).toStack().stackTagCompound))
+				);
+		}
 	}
 	
 	public static class OreDictStack extends AStack {
@@ -460,7 +498,7 @@ public class RecipesCommon {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + Block.blockRegistry.getNameForObject(block).hashCode();
+			result = prime * result + (block == null || Block.blockRegistry.getNameForObject(block) == null ? "missing" : Block.blockRegistry.getNameForObject(block)).hashCode();
 			result = prime * result + meta;
 			return result;
 		}

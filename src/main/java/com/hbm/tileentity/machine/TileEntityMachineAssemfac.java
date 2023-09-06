@@ -17,6 +17,7 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
@@ -66,6 +67,8 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 
 	@Override
 	public void updateEntity() {
+		if(FactionRelations.isWarday())
+			return;
 		super.updateEntity();
 		
 		if(!worldObj.isRemote) {

@@ -3,6 +3,8 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hfr.faction.relations.FactionRelations;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -30,7 +32,8 @@ public class TileEntityFF extends TileEntity {
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		//if(!worldObj.isRemote)
 			prototype(10F);
 	}

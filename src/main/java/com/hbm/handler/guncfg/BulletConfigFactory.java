@@ -41,7 +41,7 @@ public class BulletConfigFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.LEAD));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_357.stackFromEnum(Ammo357Magnum.LEAD));
 		bullet.velocity = 5.0F;
 		bullet.spread = 0.05F;
 		bullet.wear = 10;

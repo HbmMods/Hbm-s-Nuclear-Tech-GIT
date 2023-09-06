@@ -10,6 +10,7 @@ import com.hbm.items.weapon.ItemMissile.PartType;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 import com.hbm.tileentity.IGUIProvider;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -179,7 +180,8 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 	
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			MissileStruct multipart = new MissileStruct(slots[1], slots[2], slots[3], slots[4]);

@@ -14,6 +14,7 @@ import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter.InventoryCraftingAuto;
 import com.hbm.util.ItemStackUtil;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -55,7 +56,8 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			if(hasBlade) {

@@ -29,7 +29,7 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
 			int yReg = MathHelper.clamp_int(y >> 4, 0, 15);
 			
 			Float rad = radWorld.radiation.get(coords)[yReg];
-			return rad == null ? 0F : rad;
+			return rad == null ? 0F : rad / 100;
 		}
 		
 		return 0;

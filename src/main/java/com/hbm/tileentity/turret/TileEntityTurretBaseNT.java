@@ -646,7 +646,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			if(e instanceof EntityMinecart) return true;
 			if(e instanceof EntityRailCarBase) return true;
 			if(e instanceof EntityBomber) return true;
-			if(e instanceof EntitySiegeDropship) return true;
+//			if(e instanceof EntitySiegeDropship) return true;
 			for(Class c : CompatExternal.turretTargetMachine) if(c.isAssignableFrom(e.getClass())) return true;
 		}
 		

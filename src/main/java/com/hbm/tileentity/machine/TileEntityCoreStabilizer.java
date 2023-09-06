@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemLens;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.Optional;
@@ -47,7 +48,8 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			this.updateConnections();

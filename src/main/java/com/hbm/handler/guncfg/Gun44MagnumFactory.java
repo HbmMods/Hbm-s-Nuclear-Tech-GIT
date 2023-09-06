@@ -172,7 +172,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.STOCK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.STOCK));
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 26;
 		
@@ -185,7 +185,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.AP));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.AP));
 		bullet.dmgMin = 25;
 		bullet.dmgMax = 32;
 		bullet.wear = 15;
@@ -200,7 +200,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.DU));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.DU));
 		bullet.dmgMin = 28;
 		bullet.dmgMax = 40;
 		bullet.wear = 25;
@@ -215,7 +215,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.PHOSPHORUS));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.PHOSPHORUS));
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 26;
 		bullet.wear = 15;
@@ -251,7 +251,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.STAR));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.STAR));
 		bullet.dmgMin = 42;
 		bullet.dmgMax = 50;
 		bullet.wear = 25;
@@ -266,7 +266,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.PIP));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.PIP));
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
@@ -305,7 +305,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.BJ));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.BJ));
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
@@ -345,7 +345,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.SILVER));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.SILVER));
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
 		bullet.wear = 25;
@@ -385,7 +385,7 @@ public class Gun44MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.ROCKET));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_44.stackFromEnum(Ammo44Magnum.ROCKET));
 		bullet.velocity = 5;
 		bullet.explosive = 15F;
 		bullet.trail = 1;

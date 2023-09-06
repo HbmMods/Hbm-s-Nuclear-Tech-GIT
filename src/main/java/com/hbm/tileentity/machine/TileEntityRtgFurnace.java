@@ -5,6 +5,7 @@ import com.hbm.inventory.container.ContainerRtgFurnace;
 import com.hbm.inventory.gui.GUIRtgFurnace;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.RTGUtil;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -256,6 +257,8 @@ public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory,
 	
 	@Override
 	public void updateEntity() {
+		if(FactionRelations.isWarday())
+			return;
 		this.hasPower();
 		boolean flag1 = false;
 		

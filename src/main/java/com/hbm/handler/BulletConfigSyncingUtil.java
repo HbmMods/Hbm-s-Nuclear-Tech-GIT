@@ -291,219 +291,219 @@ public class BulletConfigSyncingUtil {
 
 	public static void loadConfigsForSync() {
 
-		configSet.put(TEST_CONFIG, BulletConfigFactory.getTestConfig());
-
-		configSet.put(IRON_REVOLVER, Gun357MagnumFactory.getRevIronConfig());
-		configSet.put(STEEL_REVOLVER, Gun357MagnumFactory.getRevLeadConfig());
-		configSet.put(LEAD_REVOLVER, Gun357MagnumFactory.getRevNuclearConfig());
-		configSet.put(GOLD_REVOLVER, Gun357MagnumFactory.getRevGoldConfig());
+//		configSet.put(TEST_CONFIG, BulletConfigFactory.getTestConfig());
+//
+//		configSet.put(IRON_REVOLVER, Gun357MagnumFactory.getRevIronConfig());
+//		configSet.put(STEEL_REVOLVER, Gun357MagnumFactory.getRevLeadConfig());
+//		configSet.put(LEAD_REVOLVER, Gun357MagnumFactory.getRevNuclearConfig());
+//		configSet.put(GOLD_REVOLVER, Gun357MagnumFactory.getRevGoldConfig());
 		configSet.put(CURSED_REVOLVER, Gun357MagnumFactory.getRevCursedConfig());
-		configSet.put(SCHRABIDIUM_REVOLVER, Gun357MagnumFactory.getRevSchrabidiumConfig());
-		configSet.put(NIGHT_REVOLVER, Gun357MagnumFactory.getRevNightmare1Config());
-		configSet.put(NIGHT2_REVOLVER, Gun357MagnumFactory.getRevNightmare2Config());
-		configSet.put(SATURNITE_REVOLVER, Gun357MagnumFactory.getRevLeadConfig().setToFire(3));
-		configSet.put(DESH_REVOLVER, Gun357MagnumFactory.getRevDeshConfig());
+//		configSet.put(SCHRABIDIUM_REVOLVER, Gun357MagnumFactory.getRevSchrabidiumConfig());
+//		configSet.put(NIGHT_REVOLVER, Gun357MagnumFactory.getRevNightmare1Config());
+//		configSet.put(NIGHT2_REVOLVER, Gun357MagnumFactory.getRevNightmare2Config());
+//		configSet.put(SATURNITE_REVOLVER, Gun357MagnumFactory.getRevLeadConfig().setToFire(3));
+//		configSet.put(DESH_REVOLVER, Gun357MagnumFactory.getRevDeshConfig());
 
-		configSet.put(IRON_HS, Gun357MagnumFactory.getRevIronConfig().setHeadshot(3F));
-		configSet.put(STEEL_HS, Gun357MagnumFactory.getRevCursedConfig().setHeadshot(3F));
-		configSet.put(GOLD_HS, Gun357MagnumFactory.getRevGoldConfig().setHeadshot(3F));
-		configSet.put(LEAD_HS, Gun357MagnumFactory.getRevLeadConfig().setHeadshot(3F));
-		configSet.put(DESH_HS, Gun357MagnumFactory.getRevDeshConfig().setHeadshot(3F));
-
-		configSet.put(G20_NORMAL, Gun20GaugeFactory.get20GaugeConfig());
-		configSet.put(G20_SLUG, Gun20GaugeFactory.get20GaugeSlugConfig());
-		configSet.put(G20_FLECHETTE, Gun20GaugeFactory.get20GaugeFlechetteConfig());
-		configSet.put(G20_FIRE, Gun20GaugeFactory.get20GaugeFireConfig());
-		configSet.put(G20_SHRAPNEL, Gun20GaugeFactory.get20GaugeShrapnelConfig());
-		configSet.put(G20_EXPLOSIVE, Gun20GaugeFactory.get20GaugeExplosiveConfig());
-		configSet.put(G20_CAUSTIC, Gun20GaugeFactory.get20GaugeCausticConfig());
-		configSet.put(G20_SHOCK, Gun20GaugeFactory.get20GaugeShockConfig());
-		configSet.put(G20_WITHER, Gun20GaugeFactory.get20GaugeWitherConfig());
-		configSet.put(G20_SLEEK, Gun20GaugeFactory.get20GaugeSleekConfig());
-
-		configSet.put(ROCKET_NORMAL, GunRocketFactory.getRocketConfig());
-		configSet.put(ROCKET_HE, GunRocketFactory.getRocketHEConfig());
-		configSet.put(ROCKET_INCENDIARY, GunRocketFactory.getRocketIncendiaryConfig());
-		configSet.put(ROCKET_PHOSPHORUS, GunRocketFactory.getRocketPhosphorusConfig());
-		configSet.put(ROCKET_SHRAPNEL, GunRocketFactory.getRocketShrapnelConfig());
-		configSet.put(ROCKET_EMP, GunRocketFactory.getRocketEMPConfig());
-		configSet.put(ROCKET_GLARE, GunRocketFactory.getRocketGlareConfig());
-		configSet.put(ROCKET_SLEEK, GunRocketFactory.getRocketSleekConfig());
-		configSet.put(ROCKET_NUKE, GunRocketFactory.getRocketNukeConfig());
-		configSet.put(ROCKET_CHAINSAW, GunRocketFactory.getRocketRPCConfig());
-		configSet.put(ROCKET_TOXIC, GunRocketFactory.getRocketChlorineConfig());
-		configSet.put(ROCKET_CANISTER, GunRocketFactory.getRocketCanisterConfig());
-		configSet.put(ROCKET_ERROR, GunRocketFactory.getRocketErrorConfig());
-
-		configSet.put(GRENADE_NORMAL, GunGrenadeFactory.getGrenadeConfig());
-		configSet.put(GRENADE_HE, GunGrenadeFactory.getGrenadeHEConfig());
-		configSet.put(GRENADE_INCENDIARY, GunGrenadeFactory.getGrenadeIncendirayConfig());
-		configSet.put(GRENADE_PHOSPHORUS, GunGrenadeFactory.getGrenadePhosphorusConfig());
-		configSet.put(GRENADE_CHEMICAL, GunGrenadeFactory.getGrenadeChlorineConfig());
-		configSet.put(GRENADE_SLEEK, GunGrenadeFactory.getGrenadeSleekConfig());
-		configSet.put(GRENADE_CONCUSSION, GunGrenadeFactory.getGrenadeConcussionConfig());
-		configSet.put(GRENADE_FINNED, GunGrenadeFactory.getGrenadeFinnedConfig());
-		configSet.put(GRENADE_NUCLEAR, GunGrenadeFactory.getGrenadeNuclearConfig());
-		configSet.put(GRENADE_TRACER, GunGrenadeFactory.getGrenadeTracerConfig());
-		configSet.put(GRENADE_KAMPF, GunGrenadeFactory.getGrenadeKampfConfig());
-
-		configSet.put(G12_NORMAL, Gun12GaugeFactory.get12GaugeConfig());
-		configSet.put(G12_INCENDIARY, Gun12GaugeFactory.get12GaugeFireConfig());
-		configSet.put(G12_SHRAPNEL, Gun12GaugeFactory.get12GaugeShrapnelConfig());
-		configSet.put(G12_DU, Gun12GaugeFactory.get12GaugeDUConfig());
-		configSet.put(G12_AM, Gun12GaugeFactory.get12GaugeAMConfig());
-		configSet.put(G12_SLEEK, Gun12GaugeFactory.get12GaugeSleekConfig());
-		configSet.put(G12_PERCUSSION, Gun12GaugeFactory.get12GaugePercussionConfig());
-		configSet.put(G12HS_NORMAL, Gun12GaugeFactory.get12GaugeConfig().setHeadshot(2F));
-		configSet.put(G12HS_INCENDIARY, Gun12GaugeFactory.get12GaugeFireConfig().setHeadshot(2F));
-		configSet.put(G12HS_SHRAPNEL, Gun12GaugeFactory.get12GaugeShrapnelConfig().setHeadshot(2F));
-		configSet.put(G12HS_DU, Gun12GaugeFactory.get12GaugeDUConfig().setHeadshot(2F));
-		configSet.put(G12HS_AM, Gun12GaugeFactory.get12GaugeAMConfig().setHeadshot(2F));
-		configSet.put(G12HS_SLEEK, Gun12GaugeFactory.get12GaugeSleekConfig().setHeadshot(2F));
-		configSet.put(G12HS_PERCUSSION, Gun12GaugeFactory.get12GaugePercussionConfig().setHeadshot(2F));
-
-		configSet.put(LR22_NORMAL, Gun22LRFactory.get22LRConfig());
-		configSet.put(LR22_AP, Gun22LRFactory.get22LRAPConfig());
-		configSet.put(LR22_NORMAL_FIRE, Gun22LRFactory.get22LRConfig().setToFire(3));
-		configSet.put(LR22_AP_FIRE, Gun22LRFactory.get22LRAPConfig().setToFire(3));
-
-		configSet.put(M44_NORMAL, Gun44MagnumFactory.getNoPipConfig());
-		configSet.put(M44_AP, Gun44MagnumFactory.getNoPipAPConfig());
-		configSet.put(M44_DU, Gun44MagnumFactory.getNoPipDUConfig());
-		configSet.put(M44_PHOSPHORUS, Gun44MagnumFactory.getPhosphorusConfig());
-		configSet.put(M44_STAR, Gun44MagnumFactory.getNoPipStarConfig());
-		configSet.put(M44_PIP, Gun44MagnumFactory.getPipConfig());
-		configSet.put(M44_BJ, Gun44MagnumFactory.getBJConfig());
-		configSet.put(M44_SILVER, Gun44MagnumFactory.getSilverStormConfig());
-		configSet.put(M44_ROCKET, Gun44MagnumFactory.getRocketConfig());
-
-		configSet.put(P9_NORMAL, Gun9mmFactory.get9mmConfig());
-		configSet.put(P9_AP, Gun9mmFactory.get9mmAPConfig());
-		configSet.put(P9_DU, Gun9mmFactory.get9mmDUConfig());
-		configSet.put(P9_ROCKET, Gun9mmFactory.get9mmRocketConfig());
-
-		configSet.put(ACP_45, Gun45ACPFactory.get45AutoConfig());
-		configSet.put(ACP_45_AP, Gun45ACPFactory.get45AutoAPConfig());
-		configSet.put(ACP_45_DU, Gun45ACPFactory.get45AutoDUConfig());
-		
-		configSet.put(BMG50_NORMAL, Gun50BMGFactory.get50BMGConfig());
-		configSet.put(BMG50_INCENDIARY, Gun50BMGFactory.get50BMGFireConfig());
-		configSet.put(BMG50_PHOSPHORUS, Gun50BMGFactory.get50BMGPhosphorusConfig());
-		configSet.put(BMG50_EXPLOSIVE, Gun50BMGFactory.get50BMGExplosiveConfig());
-		configSet.put(BMG50_AP, Gun50BMGFactory.get50BMGAPConfig());
-		configSet.put(BMG50_DU, Gun50BMGFactory.get50BMGDUConfig());
-		configSet.put(BMG50_STAR, Gun50BMGFactory.get50BMGStarConfig());
-		configSet.put(BMG50_SLEEK, Gun50BMGFactory.get50BMGSleekConfig());
-		configSet.put(BMG50_FLECHETTE_NORMAL, Gun50BMGFactory.get50BMGFlechetteConfig());
-		configSet.put(BMG50_FLECHETTE_AM, Gun50BMGFactory.get50BMGFlechetteAMConfig());
-		configSet.put(BMG50_FLECHETTE_PO, Gun50BMGFactory.get50BMGFlechettePOConfig());
-
-		configSet.put(ROUND_LUNA_SNIPER_SABOT, Gun50BMGFactory.getLunaticSabotRound());
-		configSet.put(ROUND_LUNA_SNIPER_INCENDIARY, Gun50BMGFactory.getLunaticIncendiaryRound());
-		configSet.put(ROUND_LUNA_SNIPER_EXPLOSIVE, Gun50BMGFactory.getLunaticExplosiveRound());
-		
-		configSet.put(R5_NORMAL, Gun5mmFactory.get5mmConfig());
-		configSet.put(R5_EXPLOSIVE, Gun5mmFactory.get5mmExplosiveConfig());
-		configSet.put(R5_DU, Gun5mmFactory.get5mmDUConfig());
-		configSet.put(R5_STAR, Gun5mmFactory.get5mmStarConfig());
-		configSet.put(R5_NORMAL_BOLT, Gun5mmFactory.get5mmConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE));
-		configSet.put(R5_EXPLOSIVE_BOLT, Gun5mmFactory.get5mmExplosiveConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE));
-		configSet.put(R5_DU_BOLT, Gun5mmFactory.get5mmDUConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE));
-		configSet.put(R5_STAR_BOLT, Gun5mmFactory.get5mmStarConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE));
-
-		configSet.put(AE50_NORMAL, Gun50AEFactory.get50AEConfig());
-		configSet.put(AE50_AP, Gun50AEFactory.get50APConfig());
-		configSet.put(AE50_DU, Gun50AEFactory.get50DUConfig());
-		configSet.put(AE50_STAR, Gun50AEFactory.get50StarConfig());
-
-		configSet.put(G4_NORMAL, Gun4GaugeFactory.get4GaugeConfig());
-		configSet.put(G4_SLUG, Gun4GaugeFactory.get4GaugeSlugConfig());
-		configSet.put(G4_FLECHETTE, Gun4GaugeFactory.get4GaugeFlechetteConfig());
-		configSet.put(G4_FLECHETTE_PHOSPHORUS, Gun4GaugeFactory.get4GaugeFlechettePhosphorusConfig());
-		configSet.put(G4_EXPLOSIVE, Gun4GaugeFactory.get4GaugeExplosiveConfig());
-		configSet.put(G4_SEMTEX, Gun4GaugeFactory.get4GaugeMiningConfig());
-		configSet.put(G4_BALEFIRE, Gun4GaugeFactory.get4GaugeBalefireConfig());
-		configSet.put(G4_KAMPF, Gun4GaugeFactory.getGrenadeKampfConfig());
-		configSet.put(G4_CANISTER, Gun4GaugeFactory.getGrenadeCanisterConfig());
-		configSet.put(G4_CLAW, Gun4GaugeFactory.get4GaugeClawConfig());
-		configSet.put(G4_VAMPIRE, Gun4GaugeFactory.get4GaugeVampireConfig());
-		configSet.put(G4_VOID, Gun4GaugeFactory.get4GaugeVoidConfig());
-		configSet.put(G4_SLEEK, Gun4GaugeFactory.get4GaugeSleekConfig());
-
-		configSet.put(SPECIAL_OSIPR, GunOSIPRFactory.getPulseConfig());
-		configSet.put(SPECIAL_OSIPR_CHARGED, GunOSIPRFactory.getPulseChargedConfig());
-		configSet.put(SPECIAL_GAUSS, GunGaussFactory.getGaussConfig());
-		configSet.put(SPECIAL_GAUSS_CHARGED, GunGaussFactory.getAltConfig());
-		configSet.put(SPECIAL_EMP, GunEnergyFactory.getOrbusConfig());
-
-		configSet.put(FLAMER_NORMAL, GunEnergyFactory.getFlameConfig());
-		configSet.put(FLAMER_NAPALM, GunEnergyFactory.getNapalmConfig());
-		configSet.put(FLAMER_WP, GunEnergyFactory.getPhosphorusConfig());
-		configSet.put(FLAMER_VAPORIZER, GunEnergyFactory.getVaporizerConfig());
-		configSet.put(FLAMER_GAS, GunEnergyFactory.getGasConfig());
-		
-		configSet.put(FEXT_NORMAL, GunEnergyFactory.getFextConfig());
-		configSet.put(FEXT_FOAM, GunEnergyFactory.getFextFoamConfig());
-		configSet.put(FEXT_SAND, GunEnergyFactory.getFextSandConfig());
-
-		configSet.put(R556_NORMAL, Gun556mmFactory.get556Config());
-		configSet.put(R556_GOLD, Gun556mmFactory.get556GoldConfig());
-		configSet.put(R556_PHOSPHORUS, Gun556mmFactory.get556PhosphorusConfig());
-		configSet.put(R556_AP, Gun556mmFactory.get556APConfig());
-		configSet.put(R556_DU, Gun556mmFactory.get556DUConfig());
-		configSet.put(R556_STAR, Gun556mmFactory.get556StarConfig());
-		configSet.put(R556_SLEEK, Gun556mmFactory.get556SleekConfig());
-		configSet.put(R556_TRACER, Gun556mmFactory.get556TracerConfig());
-		configSet.put(R556_FLECHETTE, Gun556mmFactory.get556FlechetteConfig());
-		configSet.put(R556_FLECHETTE_INCENDIARY, Gun556mmFactory.get556FlechetteIncendiaryConfig());
-		configSet.put(R556_FLECHETTE_PHOSPHORUS, Gun556mmFactory.get556FlechettePhosphorusConfig());
-		configSet.put(R556_FLECHETTE_DU, Gun556mmFactory.get556FlechetteDUConfig());
-		configSet.put(R556_FLECHETTE_SLEEK, Gun556mmFactory.get556FlechetteSleekConfig());
-		configSet.put(R556_K, Gun556mmFactory.get556KConfig());
-
-		configSet.put(R762_NORMAL, Gun762mmFactory.get762NATOConfig());
-		configSet.put(R762_PHOSPHORUS, Gun762mmFactory.get762WPConfig());
-		configSet.put(R762_AP, Gun762mmFactory.get762APConfig());
-		configSet.put(R762_DU, Gun762mmFactory.get762DUConfig());
-		configSet.put(R762_TRACER, Gun762mmFactory.get762TracerConfig());
-		configSet.put(R762_K, Gun762mmFactory.get762BlankConfig());
-		
-		configSet.put(B75_NORMAL, Gun75BoltFactory.get75BoltConfig());
-		configSet.put(B75_INCENDIARY, Gun75BoltFactory.get75BoltIncConfig());
-		configSet.put(B75_HE, Gun75BoltFactory.get75BoltHEConfig());
-
-		configSet.put(NEEDLE_GPS, GunDartFactory.getGPSConfig());
-		configSet.put(NEEDLE_NUKE, GunDartFactory.getNukeConfig());
-		configSet.put(DART_NORMAL, GunDartFactory.getNERFConfig());
-
-		configSet.put(G20_NORMAL_FIRE, Gun20GaugeFactory.get20GaugeConfig().setToFire(3));
-		configSet.put(G20_SHRAPNEL_FIRE, Gun20GaugeFactory.get20GaugeShrapnelConfig().setToFire(3));
-		configSet.put(G20_SLUG_FIRE, Gun20GaugeFactory.get20GaugeSlugConfig().setToFire(3));
-		configSet.put(G20_FLECHETTE_FIRE, Gun20GaugeFactory.get20GaugeFlechetteConfig().setToFire(3));
-		configSet.put(G20_EXPLOSIVE_FIRE, Gun20GaugeFactory.get20GaugeExplosiveConfig().setToFire(3));
-		configSet.put(G20_CAUSTIC_FIRE, Gun20GaugeFactory.get20GaugeCausticConfig().setToFire(3));
-		configSet.put(G20_SHOCK_FIRE, Gun20GaugeFactory.get20GaugeShockConfig().setToFire(3));
-		configSet.put(G20_WITHER_FIRE, Gun20GaugeFactory.get20GaugeWitherConfig().setToFire(3));
-
-		configSet.put(ROCKET_NORMAL_LASER, GunRocketFactory.getRocketConfig().setToGuided());
-		configSet.put(ROCKET_HE_LASER, GunRocketFactory.getRocketHEConfig().setToGuided());
-		configSet.put(ROCKET_INCENDIARY_LASER, GunRocketFactory.getRocketIncendiaryConfig().setToGuided());
-		configSet.put(ROCKET_PHOSPHORUS_LASER, GunRocketFactory.getRocketPhosphorusConfig().setToGuided());
-		configSet.put(ROCKET_SHRAPNEL_LASER, GunRocketFactory.getRocketShrapnelConfig().setToGuided());
-		configSet.put(ROCKET_EMP_LASER, GunRocketFactory.getRocketEMPConfig().setToGuided());
-		configSet.put(ROCKET_GLARE_LASER, GunRocketFactory.getRocketGlareConfig().setToGuided());
-		configSet.put(ROCKET_SLEEK_LASER, GunRocketFactory.getRocketSleekConfig().setToGuided());
-		configSet.put(ROCKET_NUKE_LASER, GunRocketFactory.getRocketNukeConfig().setToGuided());
-		configSet.put(ROCKET_CHAINSAW_LASER, GunRocketFactory.getRocketRPCConfig().setToGuided());
-		configSet.put(ROCKET_TOXIC_LASER, GunRocketFactory.getRocketChlorineConfig().setToGuided());
-
-		configSet.put(SHELL_NORMAL, GunCannonFactory.getShellConfig());
-		configSet.put(SHELL_EXPLOSIVE, GunCannonFactory.getShellExplosiveConfig());
-		configSet.put(SHELL_AP, GunCannonFactory.getShellAPConfig());
-		configSet.put(SHELL_DU, GunCannonFactory.getShellDUConfig());
-		configSet.put(SHELL_W9, GunCannonFactory.getShellW9Config());
-		configSet.put(DGK_NORMAL, GunDGKFactory.getDGKConfig());
-		configSet.put(FLA_NORMAL, GunEnergyFactory.getTurretConfig());
+//		configSet.put(IRON_HS, Gun357MagnumFactory.getRevIronConfig().setHeadshot(3F));
+//		configSet.put(STEEL_HS, Gun357MagnumFactory.getRevCursedConfig().setHeadshot(3F));
+//		configSet.put(GOLD_HS, Gun357MagnumFactory.getRevGoldConfig().setHeadshot(3F));
+//		configSet.put(LEAD_HS, Gun357MagnumFactory.getRevLeadConfig().setHeadshot(3F));
+//		configSet.put(DESH_HS, Gun357MagnumFactory.getRevDeshConfig().setHeadshot(3F));
+//
+//		configSet.put(G20_NORMAL, Gun20GaugeFactory.get20GaugeConfig());
+//		configSet.put(G20_SLUG, Gun20GaugeFactory.get20GaugeSlugConfig());
+//		configSet.put(G20_FLECHETTE, Gun20GaugeFactory.get20GaugeFlechetteConfig());
+//		configSet.put(G20_FIRE, Gun20GaugeFactory.get20GaugeFireConfig());
+//		configSet.put(G20_SHRAPNEL, Gun20GaugeFactory.get20GaugeShrapnelConfig());
+//		configSet.put(G20_EXPLOSIVE, Gun20GaugeFactory.get20GaugeExplosiveConfig());
+//		configSet.put(G20_CAUSTIC, Gun20GaugeFactory.get20GaugeCausticConfig());
+//		configSet.put(G20_SHOCK, Gun20GaugeFactory.get20GaugeShockConfig());
+//		configSet.put(G20_WITHER, Gun20GaugeFactory.get20GaugeWitherConfig());
+//		configSet.put(G20_SLEEK, Gun20GaugeFactory.get20GaugeSleekConfig());
+//
+//		configSet.put(ROCKET_NORMAL, GunRocketFactory.getRocketConfig());
+//		configSet.put(ROCKET_HE, GunRocketFactory.getRocketHEConfig());
+//		configSet.put(ROCKET_INCENDIARY, GunRocketFactory.getRocketIncendiaryConfig());
+//		configSet.put(ROCKET_PHOSPHORUS, GunRocketFactory.getRocketPhosphorusConfig());
+//		configSet.put(ROCKET_SHRAPNEL, GunRocketFactory.getRocketShrapnelConfig());
+//		configSet.put(ROCKET_EMP, GunRocketFactory.getRocketEMPConfig());
+//		configSet.put(ROCKET_GLARE, GunRocketFactory.getRocketGlareConfig());
+//		configSet.put(ROCKET_SLEEK, GunRocketFactory.getRocketSleekConfig());
+//		configSet.put(ROCKET_NUKE, GunRocketFactory.getRocketNukeConfig());
+//		configSet.put(ROCKET_CHAINSAW, GunRocketFactory.getRocketRPCConfig());
+//		configSet.put(ROCKET_TOXIC, GunRocketFactory.getRocketChlorineConfig());
+//		configSet.put(ROCKET_CANISTER, GunRocketFactory.getRocketCanisterConfig());
+//		configSet.put(ROCKET_ERROR, GunRocketFactory.getRocketErrorConfig());
+//
+//		configSet.put(GRENADE_NORMAL, GunGrenadeFactory.getGrenadeConfig());
+//		configSet.put(GRENADE_HE, GunGrenadeFactory.getGrenadeHEConfig());
+//		configSet.put(GRENADE_INCENDIARY, GunGrenadeFactory.getGrenadeIncendirayConfig());
+//		configSet.put(GRENADE_PHOSPHORUS, GunGrenadeFactory.getGrenadePhosphorusConfig());
+//		configSet.put(GRENADE_CHEMICAL, GunGrenadeFactory.getGrenadeChlorineConfig());
+//		configSet.put(GRENADE_SLEEK, GunGrenadeFactory.getGrenadeSleekConfig());
+//		configSet.put(GRENADE_CONCUSSION, GunGrenadeFactory.getGrenadeConcussionConfig());
+//		configSet.put(GRENADE_FINNED, GunGrenadeFactory.getGrenadeFinnedConfig());
+//		configSet.put(GRENADE_NUCLEAR, GunGrenadeFactory.getGrenadeNuclearConfig());
+//		configSet.put(GRENADE_TRACER, GunGrenadeFactory.getGrenadeTracerConfig());
+//		configSet.put(GRENADE_KAMPF, GunGrenadeFactory.getGrenadeKampfConfig());
+//
+//		configSet.put(G12_NORMAL, Gun12GaugeFactory.get12GaugeConfig());
+//		configSet.put(G12_INCENDIARY, Gun12GaugeFactory.get12GaugeFireConfig());
+//		configSet.put(G12_SHRAPNEL, Gun12GaugeFactory.get12GaugeShrapnelConfig());
+//		configSet.put(G12_DU, Gun12GaugeFactory.get12GaugeDUConfig());
+//		configSet.put(G12_AM, Gun12GaugeFactory.get12GaugeAMConfig());
+//		configSet.put(G12_SLEEK, Gun12GaugeFactory.get12GaugeSleekConfig());
+//		configSet.put(G12_PERCUSSION, Gun12GaugeFactory.get12GaugePercussionConfig());
+//		configSet.put(G12HS_NORMAL, Gun12GaugeFactory.get12GaugeConfig().setHeadshot(2F));
+//		configSet.put(G12HS_INCENDIARY, Gun12GaugeFactory.get12GaugeFireConfig().setHeadshot(2F));
+//		configSet.put(G12HS_SHRAPNEL, Gun12GaugeFactory.get12GaugeShrapnelConfig().setHeadshot(2F));
+//		configSet.put(G12HS_DU, Gun12GaugeFactory.get12GaugeDUConfig().setHeadshot(2F));
+//		configSet.put(G12HS_AM, Gun12GaugeFactory.get12GaugeAMConfig().setHeadshot(2F));
+//		configSet.put(G12HS_SLEEK, Gun12GaugeFactory.get12GaugeSleekConfig().setHeadshot(2F));
+//		configSet.put(G12HS_PERCUSSION, Gun12GaugeFactory.get12GaugePercussionConfig().setHeadshot(2F));
+//
+//		configSet.put(LR22_NORMAL, Gun22LRFactory.get22LRConfig());
+//		configSet.put(LR22_AP, Gun22LRFactory.get22LRAPConfig());
+//		configSet.put(LR22_NORMAL_FIRE, Gun22LRFactory.get22LRConfig().setToFire(3));
+//		configSet.put(LR22_AP_FIRE, Gun22LRFactory.get22LRAPConfig().setToFire(3));
+//
+//		configSet.put(M44_NORMAL, Gun44MagnumFactory.getNoPipConfig());
+//		configSet.put(M44_AP, Gun44MagnumFactory.getNoPipAPConfig());
+//		configSet.put(M44_DU, Gun44MagnumFactory.getNoPipDUConfig());
+//		configSet.put(M44_PHOSPHORUS, Gun44MagnumFactory.getPhosphorusConfig());
+//		configSet.put(M44_STAR, Gun44MagnumFactory.getNoPipStarConfig());
+//		configSet.put(M44_PIP, Gun44MagnumFactory.getPipConfig());
+//		configSet.put(M44_BJ, Gun44MagnumFactory.getBJConfig());
+//		configSet.put(M44_SILVER, Gun44MagnumFactory.getSilverStormConfig());
+//		configSet.put(M44_ROCKET, Gun44MagnumFactory.getRocketConfig());
+//
+//		configSet.put(P9_NORMAL, Gun9mmFactory.get9mmConfig());
+//		configSet.put(P9_AP, Gun9mmFactory.get9mmAPConfig());
+//		configSet.put(P9_DU, Gun9mmFactory.get9mmDUConfig());
+//		configSet.put(P9_ROCKET, Gun9mmFactory.get9mmRocketConfig());
+//
+//		configSet.put(ACP_45, Gun45ACPFactory.get45AutoConfig());
+//		configSet.put(ACP_45_AP, Gun45ACPFactory.get45AutoAPConfig());
+//		configSet.put(ACP_45_DU, Gun45ACPFactory.get45AutoDUConfig());
+//		
+//		configSet.put(BMG50_NORMAL, Gun50BMGFactory.get50BMGConfig());
+//		configSet.put(BMG50_INCENDIARY, Gun50BMGFactory.get50BMGFireConfig());
+//		configSet.put(BMG50_PHOSPHORUS, Gun50BMGFactory.get50BMGPhosphorusConfig());
+//		configSet.put(BMG50_EXPLOSIVE, Gun50BMGFactory.get50BMGExplosiveConfig());
+//		configSet.put(BMG50_AP, Gun50BMGFactory.get50BMGAPConfig());
+//		configSet.put(BMG50_DU, Gun50BMGFactory.get50BMGDUConfig());
+//		configSet.put(BMG50_STAR, Gun50BMGFactory.get50BMGStarConfig());
+//		configSet.put(BMG50_SLEEK, Gun50BMGFactory.get50BMGSleekConfig());
+//		configSet.put(BMG50_FLECHETTE_NORMAL, Gun50BMGFactory.get50BMGFlechetteConfig());
+//		configSet.put(BMG50_FLECHETTE_AM, Gun50BMGFactory.get50BMGFlechetteAMConfig());
+//		configSet.put(BMG50_FLECHETTE_PO, Gun50BMGFactory.get50BMGFlechettePOConfig());
+//
+//		configSet.put(ROUND_LUNA_SNIPER_SABOT, Gun50BMGFactory.getLunaticSabotRound());
+//		configSet.put(ROUND_LUNA_SNIPER_INCENDIARY, Gun50BMGFactory.getLunaticIncendiaryRound());
+//		configSet.put(ROUND_LUNA_SNIPER_EXPLOSIVE, Gun50BMGFactory.getLunaticExplosiveRound());
+//		
+//		configSet.put(R5_NORMAL, Gun5mmFactory.get5mmConfig());
+//		configSet.put(R5_EXPLOSIVE, Gun5mmFactory.get5mmExplosiveConfig());
+//		configSet.put(R5_DU, Gun5mmFactory.get5mmDUConfig());
+//		configSet.put(R5_STAR, Gun5mmFactory.get5mmStarConfig());
+//		configSet.put(R5_NORMAL_BOLT, Gun5mmFactory.get5mmConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE));
+//		configSet.put(R5_EXPLOSIVE_BOLT, Gun5mmFactory.get5mmExplosiveConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE));
+//		configSet.put(R5_DU_BOLT, Gun5mmFactory.get5mmDUConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE));
+//		configSet.put(R5_STAR_BOLT, Gun5mmFactory.get5mmStarConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE));
+//
+//		configSet.put(AE50_NORMAL, Gun50AEFactory.get50AEConfig());
+//		configSet.put(AE50_AP, Gun50AEFactory.get50APConfig());
+//		configSet.put(AE50_DU, Gun50AEFactory.get50DUConfig());
+//		configSet.put(AE50_STAR, Gun50AEFactory.get50StarConfig());
+//
+//		configSet.put(G4_NORMAL, Gun4GaugeFactory.get4GaugeConfig());
+//		configSet.put(G4_SLUG, Gun4GaugeFactory.get4GaugeSlugConfig());
+//		configSet.put(G4_FLECHETTE, Gun4GaugeFactory.get4GaugeFlechetteConfig());
+//		configSet.put(G4_FLECHETTE_PHOSPHORUS, Gun4GaugeFactory.get4GaugeFlechettePhosphorusConfig());
+//		configSet.put(G4_EXPLOSIVE, Gun4GaugeFactory.get4GaugeExplosiveConfig());
+//		configSet.put(G4_SEMTEX, Gun4GaugeFactory.get4GaugeMiningConfig());
+//		configSet.put(G4_BALEFIRE, Gun4GaugeFactory.get4GaugeBalefireConfig());
+//		configSet.put(G4_KAMPF, Gun4GaugeFactory.getGrenadeKampfConfig());
+//		configSet.put(G4_CANISTER, Gun4GaugeFactory.getGrenadeCanisterConfig());
+//		configSet.put(G4_CLAW, Gun4GaugeFactory.get4GaugeClawConfig());
+//		configSet.put(G4_VAMPIRE, Gun4GaugeFactory.get4GaugeVampireConfig());
+//		configSet.put(G4_VOID, Gun4GaugeFactory.get4GaugeVoidConfig());
+//		configSet.put(G4_SLEEK, Gun4GaugeFactory.get4GaugeSleekConfig());
+//
+//		configSet.put(SPECIAL_OSIPR, GunOSIPRFactory.getPulseConfig());
+//		configSet.put(SPECIAL_OSIPR_CHARGED, GunOSIPRFactory.getPulseChargedConfig());
+//		configSet.put(SPECIAL_GAUSS, GunGaussFactory.getGaussConfig());
+//		configSet.put(SPECIAL_GAUSS_CHARGED, GunGaussFactory.getAltConfig());
+//		configSet.put(SPECIAL_EMP, GunEnergyFactory.getOrbusConfig());
+//
+//		configSet.put(FLAMER_NORMAL, GunEnergyFactory.getFlameConfig());
+//		configSet.put(FLAMER_NAPALM, GunEnergyFactory.getNapalmConfig());
+//		configSet.put(FLAMER_WP, GunEnergyFactory.getPhosphorusConfig());
+//		configSet.put(FLAMER_VAPORIZER, GunEnergyFactory.getVaporizerConfig());
+//		configSet.put(FLAMER_GAS, GunEnergyFactory.getGasConfig());
+//		
+//		configSet.put(FEXT_NORMAL, GunEnergyFactory.getFextConfig());
+//		configSet.put(FEXT_FOAM, GunEnergyFactory.getFextFoamConfig());
+//		configSet.put(FEXT_SAND, GunEnergyFactory.getFextSandConfig());
+//
+//		configSet.put(R556_NORMAL, Gun556mmFactory.get556Config());
+//		configSet.put(R556_GOLD, Gun556mmFactory.get556GoldConfig());
+//		configSet.put(R556_PHOSPHORUS, Gun556mmFactory.get556PhosphorusConfig());
+//		configSet.put(R556_AP, Gun556mmFactory.get556APConfig());
+//		configSet.put(R556_DU, Gun556mmFactory.get556DUConfig());
+//		configSet.put(R556_STAR, Gun556mmFactory.get556StarConfig());
+//		configSet.put(R556_SLEEK, Gun556mmFactory.get556SleekConfig());
+//		configSet.put(R556_TRACER, Gun556mmFactory.get556TracerConfig());
+//		configSet.put(R556_FLECHETTE, Gun556mmFactory.get556FlechetteConfig());
+//		configSet.put(R556_FLECHETTE_INCENDIARY, Gun556mmFactory.get556FlechetteIncendiaryConfig());
+//		configSet.put(R556_FLECHETTE_PHOSPHORUS, Gun556mmFactory.get556FlechettePhosphorusConfig());
+//		configSet.put(R556_FLECHETTE_DU, Gun556mmFactory.get556FlechetteDUConfig());
+//		configSet.put(R556_FLECHETTE_SLEEK, Gun556mmFactory.get556FlechetteSleekConfig());
+//		configSet.put(R556_K, Gun556mmFactory.get556KConfig());
+//
+//		configSet.put(R762_NORMAL, Gun762mmFactory.get762NATOConfig());
+//		configSet.put(R762_PHOSPHORUS, Gun762mmFactory.get762WPConfig());
+//		configSet.put(R762_AP, Gun762mmFactory.get762APConfig());
+//		configSet.put(R762_DU, Gun762mmFactory.get762DUConfig());
+//		configSet.put(R762_TRACER, Gun762mmFactory.get762TracerConfig());
+//		configSet.put(R762_K, Gun762mmFactory.get762BlankConfig());
+//		
+//		configSet.put(B75_NORMAL, Gun75BoltFactory.get75BoltConfig());
+//		configSet.put(B75_INCENDIARY, Gun75BoltFactory.get75BoltIncConfig());
+//		configSet.put(B75_HE, Gun75BoltFactory.get75BoltHEConfig());
+//
+//		configSet.put(NEEDLE_GPS, GunDartFactory.getGPSConfig());
+//		configSet.put(NEEDLE_NUKE, GunDartFactory.getNukeConfig());
+//		configSet.put(DART_NORMAL, GunDartFactory.getNERFConfig());
+//
+//		configSet.put(G20_NORMAL_FIRE, Gun20GaugeFactory.get20GaugeConfig().setToFire(3));
+//		configSet.put(G20_SHRAPNEL_FIRE, Gun20GaugeFactory.get20GaugeShrapnelConfig().setToFire(3));
+//		configSet.put(G20_SLUG_FIRE, Gun20GaugeFactory.get20GaugeSlugConfig().setToFire(3));
+//		configSet.put(G20_FLECHETTE_FIRE, Gun20GaugeFactory.get20GaugeFlechetteConfig().setToFire(3));
+//		configSet.put(G20_EXPLOSIVE_FIRE, Gun20GaugeFactory.get20GaugeExplosiveConfig().setToFire(3));
+//		configSet.put(G20_CAUSTIC_FIRE, Gun20GaugeFactory.get20GaugeCausticConfig().setToFire(3));
+//		configSet.put(G20_SHOCK_FIRE, Gun20GaugeFactory.get20GaugeShockConfig().setToFire(3));
+//		configSet.put(G20_WITHER_FIRE, Gun20GaugeFactory.get20GaugeWitherConfig().setToFire(3));
+//
+//		configSet.put(ROCKET_NORMAL_LASER, GunRocketFactory.getRocketConfig().setToGuided());
+//		configSet.put(ROCKET_HE_LASER, GunRocketFactory.getRocketHEConfig().setToGuided());
+//		configSet.put(ROCKET_INCENDIARY_LASER, GunRocketFactory.getRocketIncendiaryConfig().setToGuided());
+//		configSet.put(ROCKET_PHOSPHORUS_LASER, GunRocketFactory.getRocketPhosphorusConfig().setToGuided());
+//		configSet.put(ROCKET_SHRAPNEL_LASER, GunRocketFactory.getRocketShrapnelConfig().setToGuided());
+//		configSet.put(ROCKET_EMP_LASER, GunRocketFactory.getRocketEMPConfig().setToGuided());
+//		configSet.put(ROCKET_GLARE_LASER, GunRocketFactory.getRocketGlareConfig().setToGuided());
+//		configSet.put(ROCKET_SLEEK_LASER, GunRocketFactory.getRocketSleekConfig().setToGuided());
+//		configSet.put(ROCKET_NUKE_LASER, GunRocketFactory.getRocketNukeConfig().setToGuided());
+//		configSet.put(ROCKET_CHAINSAW_LASER, GunRocketFactory.getRocketRPCConfig().setToGuided());
+//		configSet.put(ROCKET_TOXIC_LASER, GunRocketFactory.getRocketChlorineConfig().setToGuided());
+//
+//		configSet.put(SHELL_NORMAL, GunCannonFactory.getShellConfig());
+//		configSet.put(SHELL_EXPLOSIVE, GunCannonFactory.getShellExplosiveConfig());
+//		configSet.put(SHELL_AP, GunCannonFactory.getShellAPConfig());
+//		configSet.put(SHELL_DU, GunCannonFactory.getShellDUConfig());
+//		configSet.put(SHELL_W9, GunCannonFactory.getShellW9Config());
+//		configSet.put(DGK_NORMAL, GunDGKFactory.getDGKConfig());
+//		configSet.put(FLA_NORMAL, GunEnergyFactory.getTurretConfig());
 
 		configSet.put(NUKE_NORMAL, GunFatmanFactory.getNukeConfig());
 		configSet.put(NUKE_LOW, GunFatmanFactory.getNukeLowConfig());

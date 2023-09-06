@@ -35,14 +35,14 @@ public class BreederRecipes extends SerializableRecipe {
 		setRecipe(BreedingRodType.URANIUM, BreedingRodType.RGP, 200);
 		setRecipe(BreedingRodType.RGP, BreedingRodType.WASTE, 200);
 		
-//		recipes.put(new ComparableStack(ModItems.meteorite_sword_etched), new BreederRecipe(new ItemStack(ModItems.meteorite_sword_bred), 1000));
+//		recipes.put(ComparableStack.getComparableStack(ModItems.meteorite_sword_etched), new BreederRecipe(new ItemStack(ModItems.meteorite_sword_bred), 1000));
 	}
 	
 	/** Sets recipes for single, dual, and quad rods **/
 	public static void setRecipe(BreedingRodType inputType, BreedingRodType outputType, int flux) {
-		recipes.put(new ComparableStack(new ItemStack(ModItems.rod, 1, inputType.ordinal())), new BreederRecipe(new ItemStack(ModItems.rod, 1, outputType.ordinal()), flux));
-		recipes.put(new ComparableStack(new ItemStack(ModItems.rod_dual, 1, inputType.ordinal())), new BreederRecipe(new ItemStack(ModItems.rod_dual, 1, outputType.ordinal()), flux * 2));
-		recipes.put(new ComparableStack(new ItemStack(ModItems.rod_quad, 1, inputType.ordinal())), new BreederRecipe(new ItemStack(ModItems.rod_quad, 1, outputType.ordinal()), flux * 3));
+		recipes.put(ComparableStack.getComparableStack(new ItemStack(ModItems.rod, 1, inputType.ordinal())), new BreederRecipe(new ItemStack(ModItems.rod, 1, outputType.ordinal()), flux));
+		recipes.put(ComparableStack.getComparableStack(new ItemStack(ModItems.rod_dual, 1, inputType.ordinal())), new BreederRecipe(new ItemStack(ModItems.rod_dual, 1, outputType.ordinal()), flux * 2));
+		recipes.put(ComparableStack.getComparableStack(new ItemStack(ModItems.rod_quad, 1, inputType.ordinal())), new BreederRecipe(new ItemStack(ModItems.rod_quad, 1, outputType.ordinal()), flux * 3));
 	}
 	
 	public static HashMap<ItemStack, BreederRecipe> getAllRecipes() {
@@ -61,7 +61,7 @@ public class BreederRecipes extends SerializableRecipe {
 		if(stack == null)
 			return null;
 		
-		ComparableStack sta = new ComparableStack(stack).makeSingular();
+		ComparableStack sta = ComparableStack.getComparableStack(stack).makeSingular();
 		return BreederRecipes.recipes.get(sta);
 	}
 	

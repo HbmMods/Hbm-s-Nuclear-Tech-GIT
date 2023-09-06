@@ -124,10 +124,8 @@ public class AnvilRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		
 		if(outputId.equals("ntmAnvil")) {
 			List<AnvilConstructionRecipe> recipes = AnvilRecipes.getConstruction();
-			
 			for(AnvilConstructionRecipe recipe : recipes) {
 				this.addRecipeToList(recipe);
 			}

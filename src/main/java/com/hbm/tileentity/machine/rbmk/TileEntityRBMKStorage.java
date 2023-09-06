@@ -4,6 +4,8 @@ import com.hbm.inventory.container.ContainerRBMKStorage;
 import com.hbm.inventory.gui.GUIRBMKStorage;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hfr.faction.relations.FactionRelations;
+
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,7 +33,8 @@ public class TileEntityRBMKStorage extends TileEntityRBMKSlottedBase implements 
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote && worldObj.getTotalWorldTime() % 10 == 0) {
 			
 			for(int i = 0; i < slots.length - 1; i++) {

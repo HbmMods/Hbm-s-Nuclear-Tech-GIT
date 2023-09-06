@@ -10,6 +10,7 @@ import com.hbm.items.ItemCustomLore;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.tileentity.IGUIProvider;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -303,6 +304,8 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 	
 	@Override
 	public void updateEntity() {
+		if(FactionRelations.isWarday())
+			return;
 		this.hasPower();
 		boolean flag1 = false;
 		
@@ -378,9 +381,9 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 	
 	/** Sets power for single, dual, and quad rods **/
 	public static void setRecipe(BreedingRodType type, int power) {
-		fuels.put(new ComparableStack(new ItemStack(ModItems.rod, 1, type.ordinal())), power);
-		fuels.put(new ComparableStack(new ItemStack(ModItems.rod_dual, 1, type.ordinal())), power * 2);
-		fuels.put(new ComparableStack(new ItemStack(ModItems.rod_quad, 1, type.ordinal())), power * 4);
+		fuels.put(ComparableStack.getComparableStack(new ItemStack(ModItems.rod, 1, type.ordinal())), power);
+		fuels.put(ComparableStack.getComparableStack(new ItemStack(ModItems.rod_dual, 1, type.ordinal())), power * 2);
+		fuels.put(ComparableStack.getComparableStack(new ItemStack(ModItems.rod_quad, 1, type.ordinal())), power * 4);
 	}
 	
 	/**
@@ -393,7 +396,7 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 		if(stack == null)
 			return 0;
 		
-		ComparableStack sta = new ComparableStack(stack).makeSingular();
+		ComparableStack sta = ComparableStack.getComparableStack(stack).makeSingular();
 		if(fuels.get(sta) != null)
 			return fuels.get(sta);
 		

@@ -9,6 +9,7 @@ import com.hbm.inventory.gui.GUIFirebox;
 import com.hbm.lib.RefStrings;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
@@ -52,7 +53,8 @@ public class TileEntityHeaterOven extends TileEntityFireboxBase implements IConf
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			this.tryPullHeat();
 		}

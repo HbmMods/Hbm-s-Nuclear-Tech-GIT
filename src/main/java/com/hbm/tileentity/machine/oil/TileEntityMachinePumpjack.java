@@ -11,6 +11,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.gui.GUIMachineOilWell;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -61,6 +62,8 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 
 	@Override
 	public void updateEntity() {
+		if(FactionRelations.isWarday())
+			return;
 		super.updateEntity();
 		
 		if(worldObj.isRemote) {

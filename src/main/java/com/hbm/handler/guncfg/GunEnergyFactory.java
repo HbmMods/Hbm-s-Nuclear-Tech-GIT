@@ -192,7 +192,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = new ComparableStack(ModItems.gun_emp_ammo);
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.gun_emp_ammo);
 		
 		bullet.velocity = 1F;
 		bullet.spread = 0.0F;
@@ -225,7 +225,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.DIESEL));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.DIESEL));
 		bullet.ammoCount = 100;
 		
 		bullet.velocity = 0.75F;
@@ -273,7 +273,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.NAPALM));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.NAPALM));
 		bullet.wear = 2;
 		bullet.dmgMin = 4;
 		bullet.dmgMax = 6;
@@ -286,7 +286,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.PHOSPHORUS));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.PHOSPHORUS));
 		bullet.wear = 2;
 		bullet.spread = 0.0F;
 		bullet.bulletsMin = 1;
@@ -305,7 +305,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.VAPORIZER));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.VAPORIZER));
 		bullet.wear = 4;
 		bullet.spread = 0.25F;
 		bullet.bulletsMin = 8;
@@ -330,7 +330,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFlameConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.CHLORINE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_fuel.stackFromEnum(AmmoFlamethrower.CHLORINE));
 		bullet.wear = 1;
 		bullet.spread = 0.05F;
 		bullet.gravity = 0D;
@@ -352,7 +352,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.WATER));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.WATER));
 		bullet.ammoCount = 300;
 		
 		bullet.velocity = 0.75F;
@@ -447,7 +447,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFextConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.FOAM));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.FOAM));
 		bullet.spread = 0.05F;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -534,7 +534,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = getFextConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.SAND));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_fireext.stackFromEnum(AmmoFireExt.SAND));
 		bullet.spread = 0.1F;
 		
 		bullet.bHurt = null; // does not extinguish entities
@@ -607,7 +607,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = new ComparableStack(ModItems.nugget_euphemium);
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.nugget_euphemium);
 		bullet.ammoCount = 1000;
 		bullet.wear = 1;
 		bullet.velocity = 1F;
@@ -650,7 +650,7 @@ public class GunEnergyFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.ammo = new ComparableStack(ModItems.nothing);
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.nothing);
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 150;
 		bullet.velocity = 1F;

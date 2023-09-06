@@ -6,6 +6,7 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.util.CrucibleUtil;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.block.ICrucibleAcceptor;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -32,6 +33,8 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase {
 	
 	@Override
 	public void updateEntity() {
+		if(FactionRelations.isWarday())
+			return;
 		super.updateEntity();
 		
 		if(worldObj.isRemote) {

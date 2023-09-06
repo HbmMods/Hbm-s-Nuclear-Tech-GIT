@@ -6,6 +6,7 @@ import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemKeyPin;
 import com.hbm.tileentity.IGUIProvider;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -179,7 +180,8 @@ public class TileEntityMachineKeyForge extends TileEntity implements ISidedInven
 	
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote)
 		{
 			if(slots[0] != null && slots[1] != null && slots[0].getItem() instanceof ItemKeyPin && slots[1].getItem() instanceof ItemKeyPin && 

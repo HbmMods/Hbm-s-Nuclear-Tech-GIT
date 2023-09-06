@@ -54,7 +54,7 @@ public class Gun50BMGFactory {
 	public static BulletConfiguration getLunaticSabotRound() {
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.SABOT));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.SABOT));
 		bullet.spread = 0.0F;
 		bullet.dmgMax = 500F;
 		bullet.dmgMin = 450F;
@@ -75,7 +75,7 @@ public class Gun50BMGFactory {
 	public static BulletConfiguration getLunaticIncendiaryRound() {
 		BulletConfiguration bullet = getLunaticSabotRound().clone();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.INCENDIARY));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.INCENDIARY));
 
 		bullet.ammo.meta = 1;
 		bullet.incendiary = 10;
@@ -89,7 +89,7 @@ public class Gun50BMGFactory {
 	public static BulletConfiguration getLunaticExplosiveRound() {
 		BulletConfiguration bullet = getLunaticSabotRound().clone();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.EXPLOSIVE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_luna_sniper.stackFromEnum(AmmoLunaticSniper.EXPLOSIVE));
 
 		bullet.ammo.meta = 2;
 		bullet.explosive = 25;
@@ -224,7 +224,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.STOCK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.STOCK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
@@ -238,7 +238,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.INCENDIARY));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.INCENDIARY));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
@@ -254,7 +254,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.PHOSPHORUS));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.PHOSPHORUS));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 30;
 		bullet.dmgMax = 36;
@@ -291,7 +291,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.EXPLOSIVE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.EXPLOSIVE));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 60;
 		bullet.dmgMax = 64;
@@ -307,7 +307,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.AP));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.AP));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 62;
 		bullet.dmgMax = 68;
@@ -323,7 +323,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.DU));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.DU));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 80;
 		bullet.dmgMax = 86;
@@ -339,7 +339,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.STAR));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.STAR));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 98;
 		bullet.dmgMax = 102;
@@ -355,7 +355,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.SLEEK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.SLEEK));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 70;
@@ -407,7 +407,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.FLECHETTE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.FLECHETTE));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 54;
@@ -422,7 +422,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.FLECHETTE_AM));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.FLECHETTE_AM));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 60;
 		bullet.dmgMax = 64;
@@ -451,7 +451,7 @@ public class Gun50BMGFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.FLECHETTE_PO));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.FLECHETTE_PO));
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 60;
 		bullet.dmgMax = 64;

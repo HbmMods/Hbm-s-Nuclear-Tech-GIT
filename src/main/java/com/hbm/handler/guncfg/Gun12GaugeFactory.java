@@ -239,7 +239,7 @@ public class Gun12GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.STOCK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.STOCK));
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 7;
 		
@@ -252,7 +252,7 @@ public class Gun12GaugeFactory {
 		
 		BulletConfiguration bullet = get12GaugeConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.INCENDIARY));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.INCENDIARY));
 		bullet.wear = 15;
 		bullet.dmgMin = 5;
 		bullet.dmgMax = 7;
@@ -267,7 +267,7 @@ public class Gun12GaugeFactory {
 		
 		BulletConfiguration bullet = get12GaugeConfig();
 
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SHRAPNEL));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SHRAPNEL));
 		bullet.wear = 15;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 17;
@@ -284,7 +284,7 @@ public class Gun12GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.DU));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.DU));
 		bullet.wear = 20;
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 22;
@@ -300,7 +300,7 @@ public class Gun12GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.MARAUDER));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.MARAUDER));
 		bullet.wear = 20;
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 500;
@@ -326,7 +326,7 @@ public class Gun12GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SLEEK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SLEEK));
 		
 		bullet.spentCasing = CASING12GAUGE.clone().register("12GaIF").setColor(0x2A2A2A, SpentCasing.COLOR_CASE_12GA);
 		
@@ -337,7 +337,7 @@ public class Gun12GaugeFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.PERCUSSION));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.PERCUSSION));
 		bullet.velocity = 2F;
 		bullet.spread = 0F;
 		bullet.wear = 10;

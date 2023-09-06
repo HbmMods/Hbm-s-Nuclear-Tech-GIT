@@ -74,7 +74,7 @@ public class GunGaussFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.gun_xvl1456_ammo);
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.gun_xvl1456_ammo);
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 27;
 		bullet.style = bullet.STYLE_TAU;

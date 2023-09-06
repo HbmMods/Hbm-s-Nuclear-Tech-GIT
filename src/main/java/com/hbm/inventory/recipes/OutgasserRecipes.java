@@ -49,21 +49,21 @@ public class OutgasserRecipes extends SerializableRecipe {
 		recipes.put(new OreDictStack(TH232.billet()),	new Pair(new ItemStack(ModItems.billet_thorium_fuel), null));
 
 		/* mushrooms to glowing mushrooms */
-		recipes.put(new ComparableStack(Blocks.brown_mushroom),	new Pair(new ItemStack(ModBlocks.mush), null));
-		recipes.put(new ComparableStack(Blocks.red_mushroom),	new Pair(new ItemStack(ModBlocks.mush), null));
-		recipes.put(new ComparableStack(Items.mushroom_stew),	new Pair(new ItemStack(ModItems.glowing_stew), null));
+		recipes.put(ComparableStack.getComparableStack(Blocks.brown_mushroom),	new Pair(new ItemStack(ModBlocks.mush), null));
+		recipes.put(ComparableStack.getComparableStack(Blocks.red_mushroom),	new Pair(new ItemStack(ModBlocks.mush), null));
+		recipes.put(ComparableStack.getComparableStack(Items.mushroom_stew),	new Pair(new ItemStack(ModItems.glowing_stew), null));
 
 		recipes.put(new OreDictStack(COAL.gem()),		new Pair(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL, 1), new FluidStack(Fluids.SYNGAS, 50)));
 		recipes.put(new OreDictStack(COAL.dust()),		new Pair(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL, 1), new FluidStack(Fluids.SYNGAS, 50)));
 		recipes.put(new OreDictStack(COAL.block()),		new Pair(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL, 9), new FluidStack(Fluids.SYNGAS, 500)));
 
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL)),	new Pair(null, new FluidStack(Fluids.COALOIL, 100)));
-		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WAX)),	new Pair(null, new FluidStack(Fluids.RADIOSOLVENT, 100)));
+		recipes.put(ComparableStack.getComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL)),	new Pair(null, new FluidStack(Fluids.COALOIL, 100)));
+		recipes.put(ComparableStack.getComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WAX)),	new Pair(null, new FluidStack(Fluids.RADIOSOLVENT, 100)));
 	}
 	
 	public static Pair<ItemStack, FluidStack> getOutput(ItemStack input) {
 		
-		ComparableStack comp = new ComparableStack(input).makeSingular();
+		ComparableStack comp = ComparableStack.getComparableStack(input).makeSingular();
 		
 		if(recipes.containsKey(comp)) {
 			return recipes.get(comp);

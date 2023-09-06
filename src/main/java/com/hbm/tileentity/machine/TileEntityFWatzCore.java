@@ -18,6 +18,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.world.machine.FWatz;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardReceiver;
@@ -278,6 +279,8 @@ public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedI
 
 	@Override
 	public void updateEntity() {
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote && this.isStructureValid(this.worldObj)) {
 
 			for(DirPos pos : this.getConPos()) {

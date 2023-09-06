@@ -30,6 +30,7 @@ import com.hbm.util.EnumUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.conveyor.IConveyorBelt;
 import api.hbm.energy.IEnergyUser;
@@ -96,7 +97,8 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		//needs to happen on client too for GUI rendering
 		UpgradeManager.eval(slots, 2, 3);
 		int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);

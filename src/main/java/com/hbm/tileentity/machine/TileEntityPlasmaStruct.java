@@ -4,6 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachinePlasmaHeater;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,7 +18,8 @@ public class TileEntityPlasmaStruct extends TileEntity {
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 		
 		if(worldObj.isRemote) {

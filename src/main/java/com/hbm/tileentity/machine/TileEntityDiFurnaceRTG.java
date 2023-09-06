@@ -7,6 +7,7 @@ import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.RTGUtil;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -51,7 +52,8 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(worldObj.isRemote)
 			return;
 		

@@ -5,6 +5,7 @@ import com.hbm.inventory.gui.GUIMicrowave;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
@@ -40,7 +41,8 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);

@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
+import com.hfr.faction.relations.FactionRelations;
+
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -30,7 +32,8 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(worldObj.isRemote) {
 			
 			this.lastLevel = this.level;

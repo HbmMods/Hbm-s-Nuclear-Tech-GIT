@@ -199,7 +199,7 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 								HIMARSRocket type = ItemAmmoHIMARS.itemTypes[available];
 								this.typeLoaded = available;
 								this.ammo = type.amount;
-								this.conusmeAmmo(new ComparableStack(ModItems.ammo_himars, 1, available));
+								this.conusmeAmmo(ComparableStack.getComparableStack(ModItems.ammo_himars, 1, available));
 							}
 						}
 					}

@@ -6,6 +6,7 @@ import java.util.Random;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
+import com.hfr.faction.relations.FactionRelations;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,7 +17,8 @@ public class TileEntityDecon extends TileEntity {
 
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!this.worldObj.isRemote) {
 
 			List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(this.xCoord - 0.5, this.yCoord, this.zCoord - 0.5, this.xCoord + 1.5, this.yCoord + 2, this.zCoord + 1.5));

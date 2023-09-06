@@ -190,7 +190,7 @@ public abstract class SerializableRecipe {
 			if("item".equals(type)) {
 				Item item = (Item) Item.itemRegistry.getObject(array.get(1).getAsString());
 				int meta = array.size() > 3 ? array.get(3).getAsInt() : 0;
-				return new ComparableStack(item, stacksize, meta);
+				return ComparableStack.getComparableStack(item, stacksize, meta);
 			}
 			if("dict".equals(type)) {
 				String dict = array.get(1).getAsString();
@@ -198,7 +198,7 @@ public abstract class SerializableRecipe {
 			}
 		} catch(Exception ex) { }
 		MainRegistry.logger.error("Error reading stack array " + array.toString());
-		return new ComparableStack(ModItems.nothing);
+		return ComparableStack.getComparableStack(ModItems.nothing);
 	}
 	
 	protected static AStack[] readAStackArray(JsonArray array) {

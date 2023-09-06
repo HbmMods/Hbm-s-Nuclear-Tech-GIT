@@ -7,6 +7,7 @@ import com.hbm.inventory.gui.GUIFurnaceSteel;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ItemStackUtil;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
@@ -48,7 +49,8 @@ public class TileEntityFurnaceSteel extends TileEntityMachineBase implements IGU
 
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			tryPullHeat();
 			

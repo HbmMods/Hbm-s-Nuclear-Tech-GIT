@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyGenerator;
 import net.minecraft.init.Blocks;
@@ -16,7 +17,8 @@ public class TileEntityMachineSPP extends TileEntityLoadedBase implements IEnerg
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 
 			this.sendPower(worldObj, xCoord + 1, yCoord, zCoord, Library.POS_X);

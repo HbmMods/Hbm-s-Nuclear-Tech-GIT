@@ -49,13 +49,13 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		addRecipe(IRON,			ANY_COKE,									new ItemStack(ModItems.ingot_steel, 1));
 		addRecipe(IRON.ore(),	COAL,										new ItemStack(ModItems.ingot_steel, 2));
 		addRecipe(IRON.ore(),	ANY_COKE,									new ItemStack(ModItems.ingot_steel, 3));
-		addRecipe(IRON.ore(),	new ComparableStack(ModItems.powder_flux),	new ItemStack(ModItems.ingot_steel, 3));
+		addRecipe(IRON.ore(),	ComparableStack.getComparableStack(ModItems.powder_flux),	new ItemStack(ModItems.ingot_steel, 3));
 		
 		addRecipe(CU,									REDSTONE,										new ItemStack(ModItems.ingot_red_copper, 2));
 		addRecipe(STEEL,								MINGRADE,										new ItemStack(ModItems.ingot_advanced_alloy, 2));
 		addRecipe(W,									COAL,											new ItemStack(ModItems.neutron_reflector, 2));
 		addRecipe(W,									ANY_COKE,										new ItemStack(ModItems.neutron_reflector, 2));
-		addRecipe(new ComparableStack(ModItems.canister_full, 1, Fluids.GASOLINE.getID()), "slimeball",	new ItemStack(ModItems.canister_napalm));
+		addRecipe(ComparableStack.getComparableStack(ModItems.canister_full, 1, Fluids.GASOLINE.getID()), "slimeball",	new ItemStack(ModItems.canister_napalm));
 		addRecipe(W,									SA326.nugget(),									new ItemStack(ModItems.ingot_magnetized_tungsten));
 		addRecipe(STEEL,								TC99.nugget(),									new ItemStack(ModItems.ingot_tcalloy));
 		addRecipe(GOLD.plate(),							ModItems.plate_mixed,							new ItemStack(ModItems.plate_paa, 2));
@@ -74,15 +74,15 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 			IMCBlastFurnace.buffer.clear();
 		}
 
-		hiddenRecipes.add(new ComparableStack(ModItems.meteorite_sword_alloyed));
+		hiddenRecipes.add(ComparableStack.getComparableStack(ModItems.meteorite_sword_alloyed));
 	}
 
 	private static void addRecipe(Object in1, Object in2, ItemStack out) {
 
-		if(in1 instanceof Item) in1 = new ComparableStack((Item) in1);
-		if(in1 instanceof Block) in1 = new ComparableStack((Block) in1);
-		if(in2 instanceof Item) in2 = new ComparableStack((Item) in2);
-		if(in2 instanceof Block) in2 = new ComparableStack((Block) in2);
+		if(in1 instanceof Item) in1 = ComparableStack.getComparableStack((Item) in1);
+		if(in1 instanceof Block) in1 = ComparableStack.getComparableStack((Block) in1);
+		if(in2 instanceof Item) in2 = ComparableStack.getComparableStack((Item) in2);
+		if(in2 instanceof Block) in2 = ComparableStack.getComparableStack((Block) in2);
 		
 		blastFurnaceRecipes.add(new Triplet<Object, Object, ItemStack>(in1, in2, out));
 	}
@@ -141,7 +141,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		HashMap<List<ItemStack>[], ItemStack> recipes = new HashMap<>();
 
 		for(Triplet<Object, Object, ItemStack> recipe : blastFurnaceRecipes) {
-			if(!hiddenRecipes.contains(new ComparableStack(recipe.getZ()))) {
+			if(!hiddenRecipes.contains(ComparableStack.getComparableStack(recipe.getZ()))) {
 				ItemStack nothing = new ItemStack(ModItems.nothing).setStackDisplayName("If you're reading this, an error has occured! Check the console.");
 				List<ItemStack> in1 = new ArrayList();
 				List<ItemStack> in2 = new ArrayList();
@@ -228,7 +228,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 			addRecipe(input1, input2, output);
 			
 			if(rec.has("hidden") && rec.get("hidden").getAsBoolean()) {
-				this.hiddenRecipes.add(new ComparableStack(output));
+				this.hiddenRecipes.add(ComparableStack.getComparableStack(output));
 			}
 		}
 	}
@@ -249,7 +249,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		if(rec.getY() instanceof String) this.writeAStack(new OreDictStack((String) rec.getY()), writer);
 		if(rec.getY() instanceof DictFrame) this.writeDictFrame((DictFrame) rec.getY(), writer);
 		
-		if(this.hiddenRecipes.contains(new ComparableStack(rec.getZ()))) {
+		if(this.hiddenRecipes.contains(ComparableStack.getComparableStack(rec.getZ()))) {
 			writer.name("hidden").value(true);
 		}
 	}

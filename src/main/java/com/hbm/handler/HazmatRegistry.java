@@ -62,7 +62,6 @@ public class HazmatRegistry {
 		double cmb = 1.3D; // 95%
 		double schrab = 3D; // 99.9%
 		double euph = 10D; // <100%
-		double rpa = 2D; // 99%
 		
 		//Removed
 //		HazmatRegistry.registerHazmat(ModItems.t45_helmet, t45 * helmet);

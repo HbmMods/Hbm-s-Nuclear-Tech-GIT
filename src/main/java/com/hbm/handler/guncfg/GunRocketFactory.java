@@ -177,7 +177,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.STOCK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.STOCK));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.explosive = 4F;
@@ -190,7 +190,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.HE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.HE));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.wear = 15;
@@ -204,7 +204,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.INCENDIARY));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.INCENDIARY));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.wear = 15;
@@ -219,7 +219,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.EMP));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.EMP));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.explosive = 2.5F;
@@ -233,7 +233,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.SLEEK));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.SLEEK));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.explosive = 10F;
@@ -248,7 +248,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.SHRAPNEL));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.SHRAPNEL));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.explosive = 4F;
@@ -262,7 +262,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.GLARE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.GLARE));
 		bullet.velocity = 5.0F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
@@ -278,7 +278,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.NUCLEAR));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.NUCLEAR));
 		bullet.velocity = 1.5F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
@@ -302,7 +302,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.CHLORINE));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.CHLORINE));
 		bullet.velocity = 1.5F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
@@ -318,7 +318,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.RPC));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.RPC));
 		bullet.velocity = 3.0F;
 		bullet.dmgMin = 20;
 		bullet.dmgMax = 25;
@@ -352,7 +352,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.PHOSPHORUS));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.PHOSPHORUS));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.wear = 15;
@@ -369,7 +369,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.CANISTER));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.CANISTER));
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		bullet.explosive = 2F;
@@ -404,7 +404,7 @@ public class GunRocketFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
 		
-		bullet.ammo = new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.DIGAMMA));
+		bullet.ammo = ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.DIGAMMA));
 		bullet.velocity = 0.5F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;

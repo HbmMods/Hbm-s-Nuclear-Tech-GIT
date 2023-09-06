@@ -50,7 +50,6 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 
 	public static class Fuel {
 		public Fuel(ItemStack ingred) {
-
 			this.stack = new PositionedStack(ingred, 3, 25, false);
 		}
 
@@ -72,7 +71,9 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 		if((outputId.equals("alloysmelting")) && getClass() == AlloyFurnaceRecipeHandler.class) {
 			Map<List<ItemStack>[], ItemStack> recipes = BlastFurnaceRecipes.getRecipesForNEI();
 			for(Entry<List<ItemStack>[], ItemStack> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()));
+				try {
+					this.arecipes.add(new SmeltingSet(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()));
+				} catch(Exception e){}
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -84,7 +85,9 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 		Map<List<ItemStack>[], ItemStack> recipes = BlastFurnaceRecipes.getRecipesForNEI();
 		for(Entry<List<ItemStack>[], ItemStack> recipe : recipes.entrySet()) {
 			if(NEIServerUtils.areStacksSameType(recipe.getValue(), result))
-				this.arecipes.add(new SmeltingSet(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()));
+				try {
+					this.arecipes.add(new SmeltingSet(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()));
+				} catch(Exception e){}
 		}
 	}
 
@@ -106,7 +109,9 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 			combined.addAll(recipe.getKey()[1]);
 			for(ItemStack combinedStack : combined)
 				if(NEIServerUtils.areStacksSameType(ingredient, combinedStack) || NEIServerUtils.areStacksSameType(ingredient, combinedStack))
-					this.arecipes.add(new SmeltingSet(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()));
+					try {
+						this.arecipes.add(new SmeltingSet(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()));
+					} catch(Exception e){}
 		}
 	}
 
@@ -134,7 +139,8 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 		if(fuels == null || fuels.isEmpty())
 			fuels = new ArrayList<Fuel>();
 		for(ItemStack i : MachineRecipes.instance().getAlloyFuels()) {
-			fuels.add(new Fuel(i));
+			if(i != null && i.getItem() != null)
+				fuels.add(new Fuel(i));
 		}
 		return super.newInstance();
 	}

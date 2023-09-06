@@ -145,7 +145,7 @@ public abstract class JSONLoaderBase {
 				return null;
 			}
 			
-			return new ComparableStack(it, stacksize, meta);
+			return ComparableStack.getComparableStack(it, stacksize, meta);
 		}
 	}
 	

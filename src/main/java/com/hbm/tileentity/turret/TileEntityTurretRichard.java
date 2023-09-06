@@ -138,7 +138,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.richard_fire", 2.0F, 1.0F);
 				this.loaded--;
 				
-				if(conf.ammo.equals(new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.NUCLEAR))))
+				if(conf.ammo.equals(ComparableStack.getComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.NUCLEAR))))
 					timer = -50;
 				
 			} else {

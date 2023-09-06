@@ -149,7 +149,7 @@ public class BlockToolConversion extends BlockMulti implements IToolable, ILookO
 	public static HashMap<Pair<ToolType, MetaBlock>, Pair<AStack[], MetaBlock>> conversions = new HashMap();
 	
 	public static void registerRecipes() {
-		conversions.put(new Pair(ToolType.BOLT, new MetaBlock(ModBlocks.watz_end, 0)), new Pair(new AStack[] {new ComparableStack(ModItems.bolt_dura_steel, 4)}, new MetaBlock(ModBlocks.watz_end, 1)));
+		conversions.put(new Pair(ToolType.BOLT, new MetaBlock(ModBlocks.watz_end, 0)), new Pair(new AStack[] {ComparableStack.getComparableStack(ModItems.bolt_dura_steel, 4)}, new MetaBlock(ModBlocks.watz_end, 1)));
 	}
 
 	public static HashMap<Object[], Object> bufferedRecipes = new HashMap();
@@ -166,7 +166,7 @@ public class BlockToolConversion extends BlockMulti implements IToolable, ILookO
 			for(AStack stack : entry.getValue().getKey()) {
 				list.add(stack);
 			}
-			list.add(new ComparableStack(entry.getKey().getValue().block, 1, entry.getKey().getValue().meta));
+			list.add(ComparableStack.getComparableStack(entry.getKey().getValue().block, 1, entry.getKey().getValue().meta));
 
 			Object[] inputInstance = list.toArray(new AStack[0]); // the instance has to match for the machine lookup to succeed
 			bufferedRecipes.put(inputInstance, new ItemStack(entry.getValue().getValue().block, 1, entry.getValue().getValue().meta));

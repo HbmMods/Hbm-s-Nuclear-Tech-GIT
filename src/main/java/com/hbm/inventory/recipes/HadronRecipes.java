@@ -161,8 +161,8 @@ public class HadronRecipes extends SerializableRecipe {
 		public boolean analysisOnly;
 		
 		public HadronRecipe(ItemStack in1, ItemStack in2, int momentum, ItemStack out1, ItemStack out2, boolean analysisOnly) {
-			this.in1 = new ComparableStack(in1).makeSingular();
-			this.in2 = new ComparableStack(in2).makeSingular();
+			this.in1 = ComparableStack.getComparableStack(in1).makeSingular();
+			this.in2 = ComparableStack.getComparableStack(in2).makeSingular();
 			this.momentum = momentum;
 			this.out1 = out1;
 			this.out2 = out2;

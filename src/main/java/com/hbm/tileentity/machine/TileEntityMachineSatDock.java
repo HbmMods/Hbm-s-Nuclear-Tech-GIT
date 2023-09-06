@@ -14,6 +14,7 @@ import com.hbm.saveddata.satellites.SatelliteMiner;
 import com.hbm.saveddata.satellites.SatelliteMinerCargoRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.WeightedRandomObject;
+import com.hfr.faction.relations.FactionRelations;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -185,7 +186,8 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 	
 	@Override
 	public void updateEntity() {
-
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 
 			if(data == null)

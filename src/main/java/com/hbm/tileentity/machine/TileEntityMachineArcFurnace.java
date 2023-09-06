@@ -11,6 +11,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -310,6 +311,8 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 	//TODO: fix this punjabi trash
 	@Override
 	public void updateEntity() {
+		if(FactionRelations.isWarday())
+			return;
 		boolean flag1 = false;
 		
 		if(!worldObj.isRemote) {

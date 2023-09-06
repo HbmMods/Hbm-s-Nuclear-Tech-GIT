@@ -12,6 +12,7 @@ import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.nbt.NBTTagCompound;
@@ -34,7 +35,8 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidA
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			
 			age++;

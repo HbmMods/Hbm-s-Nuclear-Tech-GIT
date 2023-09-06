@@ -25,7 +25,7 @@ private TileEntityMachineAssembler assembler;
 		//Schematic
 		this.addSlotToContainer(new Slot(te, 4, 152, 54));
 		//Output was 134 90
-		this.addSlotToContainer(new SlotMachineOutput(te, 5, 206, 90));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, te, 5, 206, 90));
 		//Input Added 24 more slots - LordWeeder
 		int index = 6;
 		for(int i = 0; i < 6; i++)

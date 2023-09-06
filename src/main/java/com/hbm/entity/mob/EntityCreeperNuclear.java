@@ -33,7 +33,7 @@ public class EntityCreeperNuclear extends EntityCreeper {
 
 	public EntityCreeperNuclear(World world) {
 		super(world);
-		this.fuseTime = 75;
+		this.attackTime = 75;
 	}
 
 	@Override
@@ -104,34 +104,36 @@ public class EntityCreeperNuclear extends EntityCreeper {
 		}
 	}
 
-	@Override
-	public void func_146077_cc() {
-		if(!this.worldObj.isRemote) {
-
-			this.setDead();
-			
-			boolean flag = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
-
-			if(this.getPowered()) {
-
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "muke");
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
-				worldObj.playSoundEffect(posX, posY + 0.5, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
-
-				if(flag) {
-					worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, 50, posX, posY, posZ).mute());
-				} else {
-					ExplosionNukeGeneric.dealDamage(worldObj, posX, posY + 0.5, posZ, 100);
-				}
-			} else {
-
-				if(flag) {
-					ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
-				} else {
-					ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.PARAMS_SAFE);
-				}
-			}
-		}
-	}
+	
+	
+//	@Override
+//	public void func_146077_cc() {
+//		if(!this.worldObj.isRemote) {
+//
+//			this.setDead();
+//			
+//			boolean flag = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
+//
+//			if(this.getPowered()) {
+//
+//				NBTTagCompound data = new NBTTagCompound();
+//				data.setString("type", "muke");
+//				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
+//				worldObj.playSoundEffect(posX, posY + 0.5, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+//
+//				if(flag) {
+//					worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, 50, posX, posY, posZ).mute());
+//				} else {
+//					ExplosionNukeGeneric.dealDamage(worldObj, posX, posY + 0.5, posZ, 100);
+//				}
+//			} else {
+//
+//				if(flag) {
+//					ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
+//				} else {
+//					ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.PARAMS_SAFE);
+//				}
+//			}
+//		}
+//	}
 }

@@ -22,6 +22,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.RTGUtil;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hfr.faction.relations.FactionRelations;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -111,7 +112,8 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	
 	@Override
 	public void updateEntity() {
-		
+		if(FactionRelations.isWarday())
+			return;
 		if(!worldObj.isRemote) {
 			power = Library.chargeItemsFromTE(slots, 14, power, maxPower);
 			
