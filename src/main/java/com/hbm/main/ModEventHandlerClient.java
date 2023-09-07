@@ -953,6 +953,25 @@ public class ModEventHandlerClient {
 				}
 			}
 		}
+		
+		if(event.phase == Phase.START) {
+			EntityPlayer player = mc.thePlayer;
+			
+			float discriminator = 0.003F;
+			float defaultStepSize = 0.5F;
+			int newStepSize = 0;
+			
+			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB) {
+				ArmorFSB plate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
+				if(plate.hasFSBArmor(player)) newStepSize = plate.stepSize;
+			}
+			
+			if(newStepSize > 0) {
+				player.stepHeight = newStepSize + discriminator;
+			} else {
+				for(int i = 1; i < 4; i++) if(player.stepHeight == i + discriminator) player.stepHeight = defaultStepSize;
+			}
+		}
 	}
 	
 	@SideOnly(Side.CLIENT)
