@@ -289,6 +289,10 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.gravity", gravity));
 		}
 		
+		if(stepSize != 0) {
+			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.stepSize", stepSize));
+		}
+		
 		if(dashCount > 0) {
 			list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.dash", dashCount));
 		}

@@ -37,8 +37,11 @@ public interface IFluidUser extends IFluidConnector {
 			
 			if(con.canConnect(type, dir.getOpposite())) {
 				long toSend = this.getTotalFluidForSend(type, pressure);
-				long transfer = toSend - con.transferFluid(type, pressure, toSend);
-				this.removeFluidForTransfer(type, pressure, transfer);
+				
+				if(toSend > 0) {
+					long transfer = toSend - con.transferFluid(type, pressure, toSend);
+					this.removeFluidForTransfer(type, pressure, transfer);
+				}
 				red = true;
 			}
 		}

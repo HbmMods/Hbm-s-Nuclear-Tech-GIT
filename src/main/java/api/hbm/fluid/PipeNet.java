@@ -127,14 +127,17 @@ public class PipeNet implements IPipeNet {
 			
 			long given = (long) Math.floor(fraction * fill);
 			
-			totalGiven += (given - con.transferFluid(type, pressure, given));
-
-			if(trackingInstances != null) {
-				for(int j = 0; j < trackingInstances.size(); j++) {
-					PipeNet net = trackingInstances.get(j);
-					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss:SSS");
-					sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-					log(net, sdf.format(new Date(System.currentTimeMillis())) + " Sending " + given + "mB to " + conToString(con));
+			if(given > 0) {
+				
+				totalGiven += (given - con.transferFluid(type, pressure, given));
+	
+				if(trackingInstances != null) {
+					for(int j = 0; j < trackingInstances.size(); j++) {
+						PipeNet net = trackingInstances.get(j);
+						SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss:SSS");
+						sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+						log(net, sdf.format(new Date(System.currentTimeMillis())) + " Sending " + given + "mB to " + conToString(con));
+					}
 				}
 			}
 		}

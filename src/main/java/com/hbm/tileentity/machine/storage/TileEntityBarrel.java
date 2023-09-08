@@ -73,6 +73,24 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	}
 
 	@Override
+	public long getDemand(FluidType type, int pressure) {
+		
+		if(this.mode == 2 || this.mode == 3 || this.sendingBrake)
+			return 0;
+		
+		if(tank.getPressure() != pressure) return 0;
+		
+		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
+	}
+
+	@Override
+	public long transferFluid(FluidType type, int pressure, long fluid) {
+		long toTransfer = Math.min(getDemand(type, pressure), fluid);
+		tank.setFill(tank.getFill() + (int) toTransfer);
+		return fluid - toTransfer;
+	}
+
+	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {

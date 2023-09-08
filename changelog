@@ -1,0 +1,13 @@
+## Added
+
+## Changed
+* Updated russian localization
+* The UAC pistol's UV now looks prettier
+* The UAC pistol now fires a burst on right click
+* CCGTs can no longer have smoke removed from them, on the count of there not being enough connections anyway. The pollution rate is now equivalent to three small furnaces
+
+## Fixed
+* Fixed the bomber not spawning if the chunkloading radios is too small
+* Fixed a couple spelling mistakes like BFB fuel being called ZFB and the broken ZIRNOX
+* Potentially fixed a compat issue where galacticraft moon soil isn't shreddable into NTM moon turf
+* Hopefully fixed the disappearing fluid buf once and for all
