@@ -909,6 +909,8 @@ public class ModItems {
 	public static Item crystal_xen;
 	public static Item inf_water;
 	public static Item inf_water_mk2;
+	public static Item inf_water_mk3;
+	public static Item inf_water_mk4;
 
 	public static Item antiknock;
 
@@ -3221,6 +3223,8 @@ public class ModItems {
 		crystal_xen = new ItemDrop().setUnlocalizedName("crystal_xen").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":crystal_xen");
 		inf_water = new ItemInfiniteFluid(Fluids.WATER, 50).setUnlocalizedName("inf_water").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water");
 		inf_water_mk2 = new ItemInfiniteFluid(Fluids.WATER, 500).setUnlocalizedName("inf_water_mk2").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water_mk2");
+		inf_water_mk3 = new ItemInfiniteFluid(Fluids.WATER, 5000).setUnlocalizedName("inf_water_mk3").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water_mk3");
+		inf_water_mk4 = new ItemInfiniteFluid(Fluids.WATER, 50000).setUnlocalizedName("inf_water_mk4").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water_mk4");
 
 		stamp_stone_flat = new ItemStamp(10, StampType.FLAT).setUnlocalizedName("stamp_stone_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_stone_flat");
 		stamp_stone_plate = new ItemStamp(10, StampType.PLATE).setUnlocalizedName("stamp_stone_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_stone_plate");
@@ -6327,7 +6331,9 @@ public class ModItems {
 		//Infinite Tanks
 		GameRegistry.registerItem(inf_water, inf_water.getUnlocalizedName());
 		GameRegistry.registerItem(inf_water_mk2, inf_water_mk2.getUnlocalizedName());
-		
+		GameRegistry.registerItem(inf_water_mk3, inf_water_mk3.getUnlocalizedName());
+		GameRegistry.registerItem(inf_water_mk4, inf_water_mk4.getUnlocalizedName());
+
 		//Canisters
 		GameRegistry.registerItem(antiknock, antiknock.getUnlocalizedName());
 		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());
