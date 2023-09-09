@@ -40,7 +40,7 @@ public class ArmorTrenchmaster extends ArmorFSB {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		super.addInformation(stack, player, list, ext);
 
-		list.add(EnumChatFormatting.RED + "  + " + I18nUtil.resolveKey("armor.fasterReload"));
-		list.add(EnumChatFormatting.GRAY + "  + " + I18nUtil.resolveKey("armor.moreAmmo"));
+		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.fasterReload"));
+		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.moreAmmo"));
 	}
 }
