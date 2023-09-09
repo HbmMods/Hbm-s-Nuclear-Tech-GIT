@@ -21,8 +21,6 @@ public class BiomeGenBaseEve extends BiomeGenBase
 {
     public static final BiomeGenBase evePlains = new BiomeGenEve(SpaceConfig.eveBiome).setTemperatureRainfall(-1.0F, 0.0F);
     public static final BiomeGenBase eveOcean = new BiomeGenEveOcean(SpaceConfig.eveOceanBiome).setTemperatureRainfall(-1.0F, 0.0F);
-    //public static final BiomeGenBase eveHighlands = new BiomeGenDunaPolar(SpaceConfig.dunaPolarBiome).setTemperatureRainfall(-1.0F, 0.0F);
-    //public static final BiomeGenBase eveHills = new BiomeGenDunaHills(SpaceConfig.dunaHillsBiome).setTemperatureRainfall(-1.0F, 0.0F);
     public static final BiomeGenBase eveMountains = new BiomeGenEveMountains(SpaceConfig.eveMountainsBiome).setTemperatureRainfall(-1.0F, 0.0F);
     
     public BiomeGenBaseEve(int id)

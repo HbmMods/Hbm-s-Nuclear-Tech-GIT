@@ -11,6 +11,7 @@ import com.hbm.dim.duna.WorldGeneratorDuna;
 import com.hbm.dim.duna.WorldProviderDuna;
 import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
 import com.hbm.dim.eve.WorldProviderEve;
+import com.hbm.dim.minmus.WorldGeneratorMinmus;
 import com.hbm.dim.minmus.WorldProviderMinmus;
 import com.hbm.dim.moho.WorldGeneratorMoho;
 import com.hbm.dim.moho.WorldProviderMoho;
@@ -25,6 +26,7 @@ public class PlanetGen {
 	public static WorldGeneratorDuna worldGenDuna = new WorldGeneratorDuna(); 
 	public static WorldGeneratorIke worldGenIke = new WorldGeneratorIke(); 
 	public static WorldGeneratorDres worldGenDres = new WorldGeneratorDres(); //eventually i will need to rewrite this shit.
+	public static WorldGeneratorMinmus WorldGenMinmus = new WorldGeneratorMinmus(); 
 
 	public static WorldGeneratorMoho worldGenMoho = new WorldGeneratorMoho(); 
     public static void init()
@@ -56,6 +58,8 @@ public class PlanetGen {
 	    
 		DimensionManager.registerProviderType(SpaceConfig.minmusDimension, WorldProviderMinmus.class, false);
 	    DimensionManager.registerDimension(SpaceConfig.minmusDimension, SpaceConfig.minmusDimension);
+		GameRegistry.registerWorldGenerator(WorldGenMinmus, 1);
+
     }
 }
 

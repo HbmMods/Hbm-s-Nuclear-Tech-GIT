@@ -30,4 +30,5 @@ public class BiomeGenMinmusHills extends BiomeGenBase {
         this.topBlock = Blocks.snow;
         this.fillerBlock = Blocks.snow; //thiccer regolith due to uhhhhhh...................
 	}
+	
 }

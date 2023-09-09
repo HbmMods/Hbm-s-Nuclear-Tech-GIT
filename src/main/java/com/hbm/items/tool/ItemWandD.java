@@ -269,7 +269,7 @@ public class ItemWandD extends Item {
 			//startS.generateStructure(world, world.rand, new StructureBoundingBox(k - 124, l - 124, k + 15 + 124, l + 15 + 124));
 			
 			//OilSpot.generateOilSpot(world, pos.blockX, pos.blockZ, 3, 50, true);
-			
+			/*
 			EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
 			torex.setScale(1.5F);
@@ -279,7 +279,7 @@ public class ItemWandD extends Item {
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
 			EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(torex.getEntityId());
 			entry.blocksDistanceThreshold = 1000;*/
-			TrackerUtil.setTrackingRange(world, torex, 1000);
+			//TrackerUtil.setTrackingRange(world, torex, 1000);
 			//world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));
 			
 			//DungeonToolbox.generateBedrockOreWithChance(world, world.rand, pos.blockX, pos.blockZ, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500), 2, 1);
