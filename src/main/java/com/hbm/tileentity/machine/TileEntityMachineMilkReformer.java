@@ -140,16 +140,16 @@ public class TileEntityMachineMilkReformer extends TileEntityMachineBase impleme
 		
 		if(power < 10_000) return;
 		if(tanks[0].getFill() < 100) return;
-		if(tanks[1].getFill() + RefineryRecipes.vac_frac_heavy > tanks[1].getMaxFill()) return;
-		if(tanks[2].getFill() + RefineryRecipes.vac_frac_reform > tanks[2].getMaxFill()) return;
-		if(tanks[3].getFill() + RefineryRecipes.vac_frac_light > tanks[3].getMaxFill()) return;
+		if(tanks[1].getFill() + 50 > tanks[1].getMaxFill()) return;
+		if(tanks[2].getFill() + 35 > tanks[2].getMaxFill()) return;
+		if(tanks[3].getFill() + 15 > tanks[3].getMaxFill()) return;
 
 		this.isOn = true;
 		power -= 10_000;
 		tanks[0].setFill(tanks[0].getFill() - 100);
-		tanks[1].setFill(tanks[1].getFill() + RefineryRecipes.vac_frac_heavy);
-		tanks[2].setFill(tanks[2].getFill() + RefineryRecipes.vac_frac_reform);
-		tanks[3].setFill(tanks[3].getFill() + RefineryRecipes.vac_frac_light);
+		tanks[1].setFill(tanks[1].getFill() + 50);
+		tanks[2].setFill(tanks[2].getFill() + 35);
+		tanks[3].setFill(tanks[3].getFill() + 15);
 	}
 	
 	private void updateConnections() {
