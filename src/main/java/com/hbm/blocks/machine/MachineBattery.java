@@ -54,30 +54,55 @@ public class MachineBattery extends BlockContainer implements ILookOverlay, IPer
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		if(this == ModBlocks.machine_battery) {
-			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_front_alt");
-			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_top");
-			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_side_alt");
-		}
 		if(this == ModBlocks.machine_battery_potato) {
 			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_potato_front");
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_potato_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_potato_side");
+		}
+		if(this == ModBlocks.machine_battery) {
+			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_front_alt");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_side_alt");
 		}
 		if(this == ModBlocks.machine_lithium_battery) {
 			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_lithium_front");
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_lithium_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_lithium_side");
 		}
+		if(this == ModBlocks.machine_saturnite_battery) {
+			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_saturnite_front");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_saturnite_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_saturnite_side");
+		}
+		if(this == ModBlocks.machine_desh_battery) {
+			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_desh_front");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_desh_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_desh_side");
+		}
 		if(this == ModBlocks.machine_schrabidium_battery) {
 			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_schrabidium_front");
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_schrabidium_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_schrabidium_side");
 		}
+		if(this == ModBlocks.machine_euphemium_battery) {
+			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_euphemium_front");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_euphemium_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_euphemium_side");
+		}
+		if(this == ModBlocks.machine_verticium_battery) {
+			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_radspice_front");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_radspice_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_radspice_side");
+		}
 		if(this == ModBlocks.machine_dineutronium_battery) {
 			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_dineutronium_front");
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_dineutronium_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_dineutronium_side");
+		}
+		if(this == ModBlocks.machine_electronium_battery) {
+			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_electronium_front");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_electronium_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_electronium_side");
 		}
 	}
 

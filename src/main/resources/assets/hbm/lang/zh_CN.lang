@@ -377,13 +377,15 @@ book_lore.bf_bomb_2.page.1=And yet I can't even blame them. Swirlmat makes no go
 book_lore.bf_bomb_2.page.2=Even worse, this thing is an energy source. The existence of our sample is a violation of ALARA: the lab was vacated when it arrived, and the only person brave enough (one Dr. Melfyn) donned a level A hazmat just to carry it 20 meters.
 book_lore.bf_bomb_2.page.3=The empirical data isn't better, as we're breaking the first law of thermodynamics with how much energy it radiates. Being anywhere near that thing - even behind a meter of lead - was terrifying. We sprinted out of the chamber upon conclusion of the spectroscopy
 book_lore.bf_bomb_2.page.4=and we got nothing new out of it. Those idiots in the science team, god, did not even waver after all that. Sitting through those "discussions" was horrible; that quack of a head researcher even rumored that the test ban would be lifted, that we could be
-book_lore.bf_bomb_2.page.5=building bombs out of the shit in the coming weeks, who in their right mind would work on that? Hell, the one sane assistant (an Andrew) nicknamed it "balefire" - because burning to death on a funeral pyre would be painless by comparison.  
+book_lore.bf_bomb_2.page.5=building bombs out of the shit in the coming weeks, who in their right mind would work on that? Hell, the one sane assistant (an Andrew) nicknamed it "balefire" - because burning to death on a funeral pyre would be painless by comparison. 
+ 
 book_lore.bf_bomb_3.name=私人笔记
 book_lore.bf_bomb_3.author=M. 波特
 book_lore.bf_bomb_3.page.0=The team and I have made some breakthroughs. Emphasis on the separation - isolating myself from the more devout has made working there so much more bearable. While we still have no idea about the actual properties of balefire (it's difficult to analyze
 book_lore.bf_bomb_3.page.1=a sample that fries your equipment) its interactions with other matter has proved fruitful. Notably, they synthesized a "gaseous" form: Andrew, of all people, informed me that it was really a colloid consisting of microscopic balefire particles, suspended in some
 book_lore.bf_bomb_3.page.2=noble gas. Each particle is enveloped by a positively-charged 'bubble' of ionized gas, preventing it from settling. Who could've guessed that fatal gamma radiation had a benefit? Not me. $ I'm choosing not to think about how they transformed the sample into
-book_lore.bf_bomb_3.page.3=particulate, but I can't understate the utility of this gaseous balefire - it's made it much safer to experiment on. $ Speaking of safety, the head researcher (in an act of callous disregard) made a discovery that also nearly took his head off.  
+book_lore.bf_bomb_3.page.3=particulate, but I can't understate the utility of this gaseous balefire - it's made it much safer to experiment on. $ Speaking of safety, the head researcher (in an act of callous disregard) made a discovery that also nearly took his head off. 
+ 
 book_lore.bf_bomb_3.page.4=He decided to get "dirty" by letting a cell of our new colloid interact directly with some very expensive antimatter: the resulting explosion turned the table it was on into a piece of radiation-bleached slag, carved a near-perfect hemisphere through
 book_lore.bf_bomb_3.page.5=the top, and gave the head a healthy dose of ARS. I guess we know how to make it explode now, but god, some people...
 book_lore.bf_bomb_4.name=私人笔记
@@ -949,7 +951,8 @@ desc.item.kitArmor=装甲将被新的装备取代。
 desc.item.kitHaz=装甲将被防护服取代。
 desc.item.kitPack=真便宜！
 desc.item.kitPool=请在打开前清空背包库存！
-desc.item.pileRod=§e使用钻孔石墨插入$§E使用螺丝刀拔出$ 
+desc.item.pileRod=§e使用钻孔石墨插入$§E使用螺丝刀拔出$
+ 
 desc.item.rtgDecay=衰变为：%s
 desc.item.rtgHeat=功率级别：%s
 desc.item.storage.capacity=容量 %s%%s
@@ -4842,6 +4845,7 @@ tile.machine_converter_rf_he.name=RF→HE转换器
 tile.machine_crucible.name=坩埚
 tile.machine_crystallizer.name=矿物酸化器
 tile.machine_cyclotron.name=回旋加速器
+tile.machine_desh_battery.name=Desh蓄电池
 tile.machine_detector.name=功率检测器
 tile.machine_deuterium_extractor.name=氘提取器
 tile.machine_deuterium_tower.name=氘萃取塔
@@ -4856,7 +4860,9 @@ tile.machine_drill.name=自动采矿钻机
 tile.machine_electric_furnace_off.name=电炉
 tile.machine_electric_furnace_on.name=电炉
 tile.machine_electrolyser.name=电解机
+tile.machine_electronium_battery.name=电素蓄电池
 tile.machine_epress.name=电动锻压机
+tile.machine_euphemium_battery.name=Ep蓄电池
 tile.machine_excavator.name=大型采矿钻机
 tile.machine_fel.name=FEL自由电子激光器
 tile.machine_fensu.name=FEnSU飞轮储能系统
@@ -4908,6 +4914,7 @@ tile.machine_rtg_purple.name=反物质湮灭发发电机
 tile.machine_rtg_red.name=离子发生器
 tile.machine_rtg_yellow.name=奥斯超级燃料反应堆
 tile.machine_satlinker.name=卫星ID管理器
+tile.machine_saturnite_battery.name=土星蓄电池
 tile.machine_sawmill.name=斯特林锯木机
 tile.machine_sawmill.desc=需要外部热源$传热速率：T*0.1 TU/T$最小进气量：100 TU/T，最大进气量：300 TU/T
 tile.machine_schrabidium_battery.name=Sa326蓄电池
