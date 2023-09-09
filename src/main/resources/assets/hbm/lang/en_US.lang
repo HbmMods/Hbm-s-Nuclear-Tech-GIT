@@ -4596,6 +4596,7 @@ tile.burning_earth.name=Burning Grass
 tile.c4.name=C-4
 tile.cable_detector.name=Redstone Power Switch
 tile.cable_diode.name=Red Copper Diode
+tile.cable_inverted_diode.name=Inverted Red Copper Diode
 tile.cable_switch.name=Power Switch
 tile.capacitor_bus.name=Capacitor Bus
 tile.capacitor_bus.desc=Output block for capacitors$Can be chained up in a straight line
