@@ -102,7 +102,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 						}
 						
 						float rad = radiation.get(newCoord);
-						if(rad > RadiationConfig.fogRad && world != null && world.rand.nextInt(RadiationConfig.fogCh) == 0 && world.getChunkFromChunkCoords(coord.chunkXPos, coord.chunkZPos).isChunkLoaded) {
+						if(rad > RadiationConfig.fogRad && world != null && world.rand.nextInt(RadiationConfig.fogCh) == 0 && world.getChunkProvider().chunkExists(coord.chunkXPos, coord.chunkZPos)) {
 							
 							int x = coord.chunkXPos * 16 + world.rand.nextInt(16);
 							int z = coord.chunkZPos * 16 + world.rand.nextInt(16);

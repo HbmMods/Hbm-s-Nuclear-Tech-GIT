@@ -1,5 +1,8 @@
 package com.hbm.tileentity.network;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GuiScreenRadioTelex;
 import com.hbm.tileentity.IGUIProvider;
@@ -104,6 +107,7 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 						this.deleteOnReceive = true;
 					} else if(c == eol) {
 						if(this.writingLine < 4) this.writingLine++;
+						this.markDirty();
 					} else if(c == bell) {
 						worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.orb", 2F, 0.5F);
 					} else if(c == print) {
@@ -113,6 +117,7 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 						this.writingLine = 0;
 					} else {
 						this.rxBuffer[this.writingLine] += c;
+						this.markDirty();
 					}
 				}
 			}
@@ -174,7 +179,11 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 	
 	public void print() {
 		ItemStack stack = new ItemStack(Items.paper);
-		ItemStackUtil.addTooltipToStack(stack, rxBuffer);
+		List<String> text = new ArrayList();
+		for(int i = 0; i < 5; i++) {
+			if(!rxBuffer[i].isEmpty()) text.add(rxBuffer[i]);
+		}
+		ItemStackUtil.addTooltipToStack(stack, text.toArray(new String[0]));
 		stack.setStackDisplayName("Message");
 		worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord + 0.5, yCoord + 1, zCoord + 0.5, stack));
 	}
@@ -182,6 +191,30 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
 		return player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 16 * 16;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		for(int i = 0; i < 5; i++) {
+			txBuffer[i] = nbt.getString("tx" + i);
+			rxBuffer[i] = nbt.getString("rx" + i);
+		}
+		this.txChannel = nbt.getString("txChan");
+		this.rxChannel = nbt.getString("rxChan");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		for(int i = 0; i < 5; i++) {
+			nbt.setString("tx" + i, txBuffer[i]);
+			nbt.setString("rx" + i, rxBuffer[i]);
+		}
+		nbt.setString("txChan", txChannel);
+		nbt.setString("rxChan", rxChannel);
 	}
 
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return null; }

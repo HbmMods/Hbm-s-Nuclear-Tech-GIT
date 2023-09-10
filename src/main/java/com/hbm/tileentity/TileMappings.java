@@ -277,6 +277,9 @@ public class TileMappings {
 		put(TileEntityHeatBoiler.class, "tileentity_heat_boiler");
 		put(TileEntityHeatBoilerIndustrial.class, "tileentity_heat_boiler_industrial");
 
+		put(TileEntityMachinePumpSteam.class, "tileentity_steam_pump");
+		put(TileEntityMachinePumpElectric.class, "tileentity_electric_pump");
+		
 		put(TileEntityFoundryMold.class, "tileentity_foundry_mold");
 		put(TileEntityFoundryBasin.class, "tileentity_foundry_basin");
 		put(TileEntityFoundryChannel.class, "tileentity_foundry_channel");

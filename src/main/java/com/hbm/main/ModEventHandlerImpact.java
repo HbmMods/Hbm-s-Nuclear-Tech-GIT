@@ -125,6 +125,8 @@ public class ModEventHandlerImpact {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLoad(WorldEvent.Load event) {
 		
+		TomSaveData.resetLastCached();
+		
 		if(GeneralConfig.enableImpactWorldProvider) {
 			DimensionManager.unregisterProviderType(0);
 			DimensionManager.registerProviderType(0, WorldProviderNTM.class, true);

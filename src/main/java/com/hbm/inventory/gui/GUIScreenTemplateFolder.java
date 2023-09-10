@@ -101,8 +101,11 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
 				
 				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) != null &&
-						AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)).contains(player.getHeldItem().getItem()))
-					allStacks.add(new ItemStack(ModItems.assembly_template, 1, i));
+						AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)).contains(player.getHeldItem().getItem())) {
+					
+					ComparableStack comp = AssemblerRecipes.recipeList.get(i);
+					allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template, 1, i), comp));
+				}
 			}
 			
 			isJournal = true;
