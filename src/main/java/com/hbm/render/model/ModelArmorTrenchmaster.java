@@ -23,8 +23,8 @@ public class ModelArmorTrenchmaster extends ModelArmorBase {
 		rightArm = new ModelRendererObj(ResourceManager.armor_trenchmaster, "RightArm").setRotationPoint(5.0F, 2.0F, 0.0F);
 		leftLeg = new ModelRendererObj(ResourceManager.armor_trenchmaster, "LeftLeg").setRotationPoint(1.9F, 12.0F, 0.0F);
 		rightLeg = new ModelRendererObj(ResourceManager.armor_trenchmaster, "RightLeg").setRotationPoint(-1.9F, 12.0F, 0.0F);
-		leftFoot = new ModelRendererObj(ResourceManager.armor_trenchmaster, "LeftFoot").setRotationPoint(1.9F, 12.0F, 0.0F);
-		rightFoot = new ModelRendererObj(ResourceManager.armor_trenchmaster, "RightFoot").setRotationPoint(-1.9F, 12.0F, 0.0F);
+		leftFoot = new ModelRendererObj(ResourceManager.armor_trenchmaster, "LeftBoot").setRotationPoint(1.9F, 12.0F, 0.0F);
+		rightFoot = new ModelRendererObj(ResourceManager.armor_trenchmaster, "RightBoot").setRotationPoint(-1.9F, 12.0F, 0.0F);
 	}
 
 	@Override

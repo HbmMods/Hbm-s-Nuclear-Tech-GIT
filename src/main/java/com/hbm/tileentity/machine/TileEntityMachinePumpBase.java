@@ -75,6 +75,7 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 				this.lastRotor -= 360F;
 				
 				MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:block.steamEngineOperate", 0.5F, 0.75F);
+				MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "game.neutral.swim.splash", 1F, 0.5F);
 			}
 		}
 	}
