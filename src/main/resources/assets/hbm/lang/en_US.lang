@@ -5258,6 +5258,7 @@ tile.pwr_port.name=PWR Access Port
 tile.pwr_port.desc=Allows item and fluid IO$Placement: Casing
 tile.pwr_reflector.name=PWR Neutron Reflector
 tile.pwr_reflector.desc=Reflects neutrons back to fuel rods$Placement: Grid, for increased reactivity$Valid casing material
+tile.radio_telex.name=Telex Machine
 tile.radio_torch_counter.name=Redstone-over-Radio Item Counter
 tile.radio_torch_counter.desc=Placable on flat surfaces or comparator-compatible blocks$Bases signal on the amount of matching items
 tile.radio_torch_receiver.name=Redstone-over-Radio Receiver

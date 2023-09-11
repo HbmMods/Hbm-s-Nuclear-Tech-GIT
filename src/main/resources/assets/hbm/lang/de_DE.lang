@@ -4278,6 +4278,7 @@ tile.pwr_port.name=PWR Zugangsport
 tile.pwr_port.desc=Erlaubt IO für Items und Flüssigkeiten$Platzierung: Hülle
 tile.pwr_reflector.name=PWR Neutronenreflektor
 tile.pwr_reflector.desc=Reflektier Neutronen auf Brennstäbe zurück$Platzierung: Hülle, für höhere Reaktivität$Gültiger Block für Hülle
+tile.radio_telex.name=Telex-Maschine
 tile.radio_torch_counter.name=Redstone-over-Radio Itemzähler
 tile.radio_torch_counter.desc=Kann auf ebenen Flächen oder Komparator-kompatiblen Blöcken platziert werden$Signal basiert auf Anzahl passender Items
 tile.radio_torch_receiver.name=Redstone-over-Radio Empfänger

@@ -8,6 +8,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityProxyCombo;
+import com.hbm.tileentity.machine.TileEntityMachinePumpBase;
 import com.hbm.tileentity.machine.TileEntityMachinePumpElectric;
 import com.hbm.tileentity.machine.TileEntityMachinePumpSteam;
 import com.hbm.util.BobMathUtil;
@@ -75,6 +76,8 @@ public class MachinePump extends BlockDummyable implements ITooltipProvider, ILo
 			return;
 		
 		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		
+		if(!(te instanceof TileEntityMachinePumpBase)) return;
 
 		List<String> text = new ArrayList();
 		
@@ -93,6 +96,10 @@ public class MachinePump extends BlockDummyable implements ITooltipProvider, ILo
 		
 		if(pos[1] > 70) {
 			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! ALTITUDE ! ! !");
+		}
+		
+		if(!((TileEntityMachinePumpBase) te).onGround) {
+			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! NO VALID GROUND ! ! !");
 		}
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
