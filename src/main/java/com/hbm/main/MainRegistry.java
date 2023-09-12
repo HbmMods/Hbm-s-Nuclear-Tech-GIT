@@ -289,6 +289,9 @@ public class MainRegistry {
 		SiegeTier.registerTiers();
 		HazardRegistry.registerItems();
 		HazardRegistry.registerTrafos();
+		
+		OreDictManager oreMan = new OreDictManager();
+		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
 		OreDictManager.registerGroups(); //important to run first
 		OreDictManager.registerOres();
 
@@ -898,9 +901,6 @@ public class MainRegistry {
 		FMLCommonHandler.instance().bus().register(impactHandler);
 		MinecraftForge.EVENT_BUS.register(impactHandler);
 		MinecraftForge.TERRAIN_GEN_BUS.register(impactHandler);
-		
-		OreDictManager oreMan = new OreDictManager();
-		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
 		
 		PacketDispatcher.registerPackets();
 
