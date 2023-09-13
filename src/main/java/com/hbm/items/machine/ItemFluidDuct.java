@@ -1,12 +1,9 @@
 package com.hbm.items.machine;
 
-import java.util.List;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,6 +15,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ItemFluidDuct extends Item {
 
@@ -125,8 +124,6 @@ public class ItemFluidDuct extends Item {
 			if(world.getTileEntity(x, y, z) instanceof TileEntityPipeBaseNT) {
 				((TileEntityPipeBaseNT) world.getTileEntity(x, y, z)).setType(Fluids.fromID(stack.getItemDamage()));
 			}
-
-			world.playSoundEffect(x, y, z, "hbm:block.pipePlaced", 1.0F, 0.65F + world.rand.nextFloat() * 0.2F);
 
 			return true;
 		}
