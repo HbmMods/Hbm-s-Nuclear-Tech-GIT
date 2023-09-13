@@ -134,13 +134,15 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			setIsMouseDown(stack, false);
 		}
 
-		if(getBurstDuration(stack) > 0) {
+		int burstDuration = getBurstDuration(stack);
+		if(burstDuration > 0) {
+			
 			if(altConfig == null) {
-				if (world.getWorldTime() % mainConfig.firingDuration == 0 && tryShoot(stack, world, player, true)) {
+				if (burstDuration % mainConfig.firingDuration == 0 && tryShoot(stack, world, player, true)) {
 					fire(stack, world, player);
 				}
 			} else {
-				boolean canFire = altConfig.firingDuration == 1 ||  world.getWorldTime() % altConfig.firingDuration == 0;
+				boolean canFire = altConfig.firingDuration == 1 ||  burstDuration % altConfig.firingDuration == 0;
 				if (canFire && tryShoot(stack, world, player, false)) {
 					altFire(stack, world, player);
 				}
