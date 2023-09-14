@@ -396,8 +396,8 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 								}
 							}
 						}
-						
-						if(!found) return;
+
+						if(!found) break outer;
 					}
 				}
 			}

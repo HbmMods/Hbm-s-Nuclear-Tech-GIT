@@ -246,8 +246,8 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 									}
 								}
 							}
-							
-							if(!found) return;
+
+							if(!found) break outer;
 						}
 					}
 				}

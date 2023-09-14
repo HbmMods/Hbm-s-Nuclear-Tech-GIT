@@ -213,7 +213,7 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 									}
 								}
 
-								if(!found) return;
+								if(!found) break outer;
 							}
 						}
 					}

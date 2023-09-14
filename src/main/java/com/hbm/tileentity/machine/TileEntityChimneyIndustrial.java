@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityChimneyBrick extends TileEntityChimneyBase {
+public class TileEntityChimneyIndustrial extends TileEntityChimneyBase {
 	
 	@Override
 	public void spawnParticles() {
@@ -16,12 +16,12 @@ public class TileEntityChimneyBrick extends TileEntityChimneyBase {
 			NBTTagCompound fx = new NBTTagCompound();
 			fx.setString("type", "tower");
 			fx.setFloat("lift", 10F);
-			fx.setFloat("base", 0.5F);
+			fx.setFloat("base", 0.75F);
 			fx.setFloat("max", 3F);
 			fx.setInteger("life", 250 + worldObj.rand.nextInt(50));
 			fx.setInteger("color",0x404040);
 			fx.setDouble("posX", xCoord + 0.5);
-			fx.setDouble("posY", yCoord + 12);
+			fx.setDouble("posY", yCoord + 22);
 			fx.setDouble("posZ", zCoord + 0.5);
 			MainRegistry.proxy.effectNT(fx);
 		}
@@ -43,7 +43,7 @@ public class TileEntityChimneyBrick extends TileEntityChimneyBase {
 					yCoord,
 					zCoord - 1,
 					xCoord + 2,
-					yCoord + 13,
+					yCoord + 23,
 					zCoord + 2
 					);
 		}
