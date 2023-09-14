@@ -64,12 +64,6 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		addRecipe(ModItems.meteorite_sword_hardened,	CO,												new ItemStack(ModItems.meteorite_sword_alloyed));
 		addRecipe(ModBlocks.block_meteor,				CO,												new ItemStack(ModItems.ingot_meteorite));
 
-		addRecipe(ModItems.cobalt_sword, ModItems.ingot_meteorite, new ItemStack(ModItems.cobalt_decorated_sword));
-		addRecipe(ModItems.cobalt_pickaxe, ModItems.ingot_meteorite, new ItemStack(ModItems.cobalt_decorated_pickaxe));
-		addRecipe(ModItems.cobalt_axe, ModItems.ingot_meteorite, new ItemStack(ModItems.cobalt_decorated_axe));
-		addRecipe(ModItems.cobalt_shovel, ModItems.ingot_meteorite, new ItemStack(ModItems.cobalt_decorated_shovel));
-		addRecipe(ModItems.cobalt_hoe, ModItems.ingot_meteorite, new ItemStack(ModItems.cobalt_decorated_hoe));
-
 		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) {
 			addRecipe(ModItems.canister_empty, COAL, new ItemStack(ModItems.canister_full, 1, Fluids.OIL.getID()));
 		}
