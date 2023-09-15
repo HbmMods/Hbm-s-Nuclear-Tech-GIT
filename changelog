@@ -1,13 +1,51 @@
 ## Added
+* Telex
+  * A basic message system using redstone over radio
+  * Allows messages to be sent at a rate of 20 characters per second
+  * Features things like text formatting, printing and the terminal bell
+* Ground water pumps
+  * Come in steam-powered and electric variants
+  * Faster than their infinite barrel counterpart
+  * Need to be placed below Y:70 and on solid ground to work
+  * Compatible floor blocks include all dirt variants and sand, the pump will not work when placed on pure rock
+* Schrabidate capacitor
+  * Can store 50GHE
+* Express conveyor belts
+  * Work like regular single-lane conveyor belts but 3x faster
+* Industrial smokestack
+  * An even larger smokestack, matching the size of the coker unit
+  * Reduced pollution by 90%, as opposed to the brick smokestack's 75%
 
 ## Changed
 * Updated russian localization
 * The UAC pistol's UV now looks prettier
 * The UAC pistol now fires a burst on right click
 * CCGTs can no longer have smoke removed from them, on the count of there not being enough connections anyway. The pollution rate is now equivalent to three small furnaces
+* The DFC receiver is now crafted with a block of DNT instead of sellafite corium, on the count of sellafite corium being near impossible to get
+* Fireclay now has a third recipe, being craftable from clay, limestone and sand
+* A whole clay block can now be combination smelted into a block of bricks
+* The pipe clanking sound is now also used when placing regular pipes as opposed to only when pre-defined pipe items are used
+* Josh now has a burst fire mode using RMB
+* The smokestack's recipe has changed, now requiring a steel grate for catching ashes
+* Simplified the decorated cobalt tool recipes, they now only require one cobalt tool and one hot bar of meteorite in an anvil
+* Changed the starmetal tool recipes
+* Cobalt armor is now crafted with steel armor and cobalt billets, making the armor substantially cheaper
+* Sightly increased protection levels for the security armor and cobalt gear
+* Cobalt, decorated cobalt and starmetal gear is now a lot more enchantable
+* The ashpit now has a NEI handler, showing roughly how ash types are made
+* Smokestacks now capture fly ash and are now compatible with ashpits
+* Industrial smokestacks can also capture fine soot
+* Reduced strings required for making coal filters, filters are now also available in tier 2 anvils
 
 ## Fixed
 * Fixed the bomber not spawning if the chunkloading radios is too small
 * Fixed a couple spelling mistakes like BFB fuel being called ZFB and the broken ZIRNOX
 * Potentially fixed a compat issue where galacticraft moon soil isn't shreddable into NTM moon turf
-* Hopefully fixed the disappearing fluid buf once and for all
+* Hopefully fixed the disappearing fluid bug once and for all
+* Fixed lag caused by the radiation system needlessly loading chunks
+* Fixed secret folders giving volatile templates instead of persistent ones
+* Fixed the ore dict registry happening in a later loading phase instead of PreInit which should fix some compatibility issues
+* Hopefully fixed issue where the tom impact effects will last even when switching worlds
+* Fixed logspam caused by custom machine crafting handler
+* Fixed issue with the assemblers and chemplants where recipes with larger input requirements would break the input funnel
+* Fixed crash caused by reloading when the ammo item is in the last slot

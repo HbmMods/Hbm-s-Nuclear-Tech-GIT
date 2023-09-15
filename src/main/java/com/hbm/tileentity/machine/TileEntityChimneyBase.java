@@ -11,10 +11,13 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.fluid.IFluidUser;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class TileEntityChimneyBase extends TileEntityLoadedBase implements IFluidUser, INBTPacketReceiver {
-	
+
+	public long ashTick = 0;
+	public long sootTick = 0;
 	public int onTicks;
 	
 	@Override
@@ -33,6 +36,19 @@ public abstract class TileEntityChimneyBase extends TileEntityLoadedBase impleme
 				}
 			}
 			
+			if(ashTick > 0 || sootTick > 0) {
+
+				TileEntity below = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
+				
+				if(below instanceof TileEntityAshpit) {
+					TileEntityAshpit ashpit = (TileEntityAshpit) below;
+					ashpit.ashLevelFly += ashTick;
+					ashpit.ashLevelSoot += sootTick;
+				}
+				this.ashTick = 0;
+				this.sootTick = 0;
+			}
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("onTicks", onTicks);
 			INBTPacketReceiver.networkPack(this, data, 150);
@@ -45,6 +61,14 @@ public abstract class TileEntityChimneyBase extends TileEntityLoadedBase impleme
 				this.spawnParticles();
 			}
 		}
+	}
+
+	public boolean cpaturesAsh() {
+		return true;
+	}
+	
+	public boolean cpaturesSoot() {
+		return false;
 	}
 	
 	public void spawnParticles() { }
@@ -62,6 +86,9 @@ public abstract class TileEntityChimneyBase extends TileEntityLoadedBase impleme
 	@Override
 	public long transferFluid(FluidType type, int pressure, long fluid) {
 		onTicks = 20;
+
+		if(cpaturesAsh()) ashTick += fluid;
+		if(cpaturesSoot()) sootTick += fluid;
 		
 		fluid *= getPollutionMod();
 

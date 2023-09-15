@@ -1163,6 +1163,16 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.primer_50");
 		ignoreMappings.add("hbm:item.primer_buckshot");
 		ignoreMappings.add("hbm:tile.ore_bedrock_coltan");
+		ignoreMappings.add("hbm:item.recycled_ground");
+		ignoreMappings.add("hbm:item.recycled_rock");
+		ignoreMappings.add("hbm:item.recycled_metal");
+		ignoreMappings.add("hbm:item.recycled_refined");
+		ignoreMappings.add("hbm:item.recycled_organic");
+		ignoreMappings.add("hbm:item.recycled_crystal");
+		ignoreMappings.add("hbm:item.recycled_explosive");
+		ignoreMappings.add("hbm:item.recycled_electronic");
+		ignoreMappings.add("hbm:item.recycled_nuclear");
+		ignoreMappings.add("hbm:item.recycled_misc");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

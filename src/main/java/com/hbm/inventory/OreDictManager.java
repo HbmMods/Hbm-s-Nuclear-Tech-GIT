@@ -466,7 +466,7 @@ public class OreDictManager {
 		for(int i = 0; i < 16; i++) { ANY_CONCRETE.any(new ItemStack(ModBlocks.concrete_colored_ext, 1, i)); }
 		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class)).block(fromAll(block_coke, EnumCokeType.class));
 		ANY_BISMOID				.ingot(ingot_bismuth, ingot_arsenic).nugget(nugget_bismuth, nugget_arsenic).block(block_bismuth);
-		ANY_ASH					.any(fromOne(ModItems.powder_ash, EnumAshType.WOOD), fromOne(ModItems.powder_ash, EnumAshType.COAL), fromOne(ModItems.powder_ash, EnumAshType.MISC));
+		ANY_ASH					.any(fromOne(ModItems.powder_ash, EnumAshType.WOOD), fromOne(ModItems.powder_ash, EnumAshType.COAL), fromOne(ModItems.powder_ash, EnumAshType.MISC), fromOne(ModItems.powder_ash, EnumAshType.FLY), fromOne(ModItems.powder_ash, EnumAshType.SOOT));
 
 		/*
 		 * TAR
@@ -575,6 +575,8 @@ public class OreDictManager {
 		OreDictionary.registerOre("dyeLightGray", fromOne(powder_ash, EnumAshType.WOOD));
 		OreDictionary.registerOre("dyeBlack", fromOne(powder_ash, EnumAshType.COAL));
 		OreDictionary.registerOre("dyeGray", fromOne(powder_ash, EnumAshType.MISC));
+		OreDictionary.registerOre("dyeBrown", fromOne(powder_ash, EnumAshType.FLY));
+		OreDictionary.registerOre("dyeBlack", fromOne(powder_ash, EnumAshType.SOOT));
 		OreDictionary.registerOre("dye", new ItemStack(powder_ash, 1, OreDictionary.WILDCARD_VALUE));
 
 		OreDictionary.registerOre("blockGlass", glass_boron);

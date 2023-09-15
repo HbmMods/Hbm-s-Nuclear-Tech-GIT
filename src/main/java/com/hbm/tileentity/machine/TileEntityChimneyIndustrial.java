@@ -29,7 +29,12 @@ public class TileEntityChimneyIndustrial extends TileEntityChimneyBase {
 
 	@Override
 	public double getPollutionMod() {
-		return 0.25D;
+		return 0.1D;
+	}
+
+	@Override
+	public boolean cpaturesSoot() {
+		return true;
 	}
 	
 	AxisAlignedBB bb = null;

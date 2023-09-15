@@ -386,7 +386,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			if(mainConfig.ejector != null && mainConfig.ejector.getAfterReload())
 				queueCasing(player, mainConfig.ejector, prevCfg, stack);
 			
-			InventoryUtil.tryConsumeAStack(player.inventory.mainInventory, 0, player.inventory.mainInventory.length, ammo);
+			InventoryUtil.tryConsumeAStack(player.inventory.mainInventory, 0, player.inventory.mainInventory.length - 1, ammo);
 		} else {
 			setReloadCycle(stack, getReloadCycle(stack) - 1);
 		}

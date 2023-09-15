@@ -375,6 +375,10 @@ public class InventoryUtil {
 			return stacks;
 		}
 		
+		if(o instanceof ItemStack[][]) {
+			return (ItemStack[][]) o;
+		}
+		
 		if(o instanceof AStack) {
 			AStack astack = (AStack) o;
 			ItemStack[] ext = astack.extractForNEI().toArray(new ItemStack[0]);

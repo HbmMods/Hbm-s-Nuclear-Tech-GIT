@@ -26,7 +26,9 @@ public class ItemEnums {
 	public static enum EnumAshType {
 		WOOD,
 		COAL,
-		MISC
+		MISC,
+		FLY,
+		SOOT
 	}
 
 	public static enum EnumBriquetteType {

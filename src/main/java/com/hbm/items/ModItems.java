@@ -1203,17 +1203,6 @@ public class ModItems {
 	public static Item debris_element;
 
 	public static Item containment_box;
-
-	public static Item recycled_ground;
-	public static Item recycled_rock;
-	public static Item recycled_metal;
-	public static Item recycled_refined;
-	public static Item recycled_organic;
-	public static Item recycled_crystal;
-	public static Item recycled_explosive;
-	public static Item recycled_electronic;
-	public static Item recycled_nuclear;
-	public static Item recycled_misc;
 	
 	public static Item test_nuke_igniter;
 	public static Item test_nuke_propellant;
@@ -3474,17 +3463,6 @@ public class ModItems {
 		coin_worm = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_worm").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_worm");
 		coin_ufo = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_ufo").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_ufo");
 
-		recycled_ground = new Item().setUnlocalizedName("recycled_ground").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_ground");
-		recycled_rock = new Item().setUnlocalizedName("recycled_rock").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_rock");
-		recycled_metal = new Item().setUnlocalizedName("recycled_metal").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_metal");
-		recycled_refined = new Item().setUnlocalizedName("recycled_refined").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_refined");
-		recycled_organic = new Item().setUnlocalizedName("recycled_organic").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_organic");
-		recycled_crystal = new Item().setUnlocalizedName("recycled_crystal").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_crystal");
-		recycled_explosive = new Item().setUnlocalizedName("recycled_explosive").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_explosive");
-		recycled_electronic = new Item().setUnlocalizedName("recycled_electronic").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_electronic");
-		recycled_nuclear = new Item().setUnlocalizedName("recycled_nuclear").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_nuclear");
-		recycled_misc = new Item().setUnlocalizedName("recycled_misc").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_misc");
-		
 		rod_empty = new Item().setUnlocalizedName("rod_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_empty");
 		rod = (ItemEnumMulti) new ItemBreedingRod().setUnlocalizedName("rod").setContainerItem(ModItems.rod_empty).setCreativeTab(MainRegistry.controlTab);
 		rod_dual_empty = new Item().setUnlocalizedName("rod_dual_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_dual_empty");
@@ -6522,18 +6500,6 @@ public class ModItems {
 		GameRegistry.registerItem(laser_crystal_cmb, laser_crystal_cmb.getUnlocalizedName());
 		GameRegistry.registerItem(laser_crystal_dnt, laser_crystal_dnt.getUnlocalizedName());
 		GameRegistry.registerItem(laser_crystal_digamma, laser_crystal_digamma.getUnlocalizedName());
-		
-		//Recycled Units
-		GameRegistry.registerItem(recycled_ground, recycled_ground.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_rock, recycled_rock.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_metal, recycled_metal.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_refined, recycled_refined.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_organic, recycled_organic.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_crystal, recycled_crystal.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_explosive, recycled_explosive.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_electronic, recycled_electronic.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_nuclear, recycled_nuclear.getUnlocalizedName());
-		GameRegistry.registerItem(recycled_misc, recycled_misc.getUnlocalizedName());
 		
 		//Catalyst Rune Sigils
 		GameRegistry.registerItem(rune_blank, rune_blank.getUnlocalizedName());

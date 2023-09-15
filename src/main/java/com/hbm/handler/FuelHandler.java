@@ -57,6 +57,8 @@ public class FuelHandler implements IFuelHandler {
 			case 0: return single / 2;
 			case 1: return single;
 			case 2: return single / 2;
+			case 3: return single;
+			case 4: return single / 2;
 			}
 		}
 		

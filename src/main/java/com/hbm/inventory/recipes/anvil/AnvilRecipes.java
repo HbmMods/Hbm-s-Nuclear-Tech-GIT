@@ -212,7 +212,8 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new ComparableStack(ModItems.motor), new OreDictStack(ANY_PLASTIC.ingot(), 2), new OreDictStack(DESH.ingot(), 2), new ComparableStack(ModItems.coil_gold_torus)},
 				new AnvilOutput(new ItemStack(ModItems.motor_desh, 1))).setTier(3));
-		
+
+		pullFromAssembler(new ComparableStack(ModItems.filter_coal), 2);
 		pullFromAssembler(new ComparableStack(ModItems.thermo_element), 2);
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
