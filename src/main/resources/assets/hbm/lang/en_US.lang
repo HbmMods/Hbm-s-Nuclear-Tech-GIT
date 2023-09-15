@@ -4845,6 +4845,7 @@ tile.capacitor_copper.name=Copper Capacitor
 tile.capacitor_gold.name=Golden Capacitor
 tile.capacitor_niobium.name=Niobium Capacitor
 tile.capacitor_tantalium.name=Tantalium Capacitor
+tile.capacitor_complex.name=TaCdSa236-7 N-Boosted Anti Mass core surrounded by Flashlead antimatter lattice in a BF Stabilization Matrix subjected to the Ferric Osmiridium-Lutece ψ(x,t)=Aeiℏ(px−Et) Wavefunction Capacitor
 tile.capacitor.desc=Input: Top$Output: Bottom, via Capacitor Bus
 tile.charge_c4.name=Demolition Charge
 tile.charge_dynamite.name=Time Bomb
