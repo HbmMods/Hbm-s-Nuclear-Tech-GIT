@@ -237,7 +237,7 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 					yCoord,
 					zCoord - 1,
 					xCoord + 2,
-					yCoord + 1,
+					yCoord + 2,
 					zCoord + 2
 					);
 		}

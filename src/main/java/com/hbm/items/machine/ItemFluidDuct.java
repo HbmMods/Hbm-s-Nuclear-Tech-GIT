@@ -124,6 +124,8 @@ public class ItemFluidDuct extends Item {
 			if(world.getTileEntity(x, y, z) instanceof TileEntityPipeBaseNT) {
 				((TileEntityPipeBaseNT) world.getTileEntity(x, y, z)).setType(Fluids.fromID(stack.getItemDamage()));
 			}
+			
+			world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, ModBlocks.fluid_duct_neo.stepSound.func_150496_b(), (ModBlocks.fluid_duct_neo.stepSound.getVolume() + 1.0F) / 2.0F, ModBlocks.fluid_duct_neo.stepSound.getPitch() * 0.8F);
 
 			return true;
 		}
