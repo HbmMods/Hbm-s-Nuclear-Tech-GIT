@@ -2195,6 +2195,7 @@ tile.radio_torch_sender.name=Редстоун-радио передатчик
 tile.radio_torch_sender.desc=Ставится на плоские поверхности или совместимые компараторные блоки$Считывает редстоун сигнал или вход компаратора
 container.rttyReceiver=Редстоун-радио приёмник
 container.rttySender=Редстоун-радио передатчик
+tile.radio_telex.name=Телекс
 tile.machine_combustion_engine.name=Промышленный двигатель внутреннего сгорания
 tile.machine_mixer.name=Промышленный смеситель
 container.machineMixer=Промышленный смеситель
