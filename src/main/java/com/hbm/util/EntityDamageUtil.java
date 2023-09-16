@@ -67,7 +67,11 @@ public class EntityDamageUtil {
 		if(!victim.attackEntityFrom(src, damage)) {
 			
 			if(victim instanceof EntityLivingBase) {
-				damage += ((EntityLivingBase) victim).lastDamage;
+				EntityLivingBase living = (EntityLivingBase) victim;
+				
+				if(living.hurtResistantTime > living.maxHurtResistantTime / 2.0F) {
+					damage += living.lastDamage;
+				}
 			}
 			return victim.attackEntityFrom(src, damage);
 		} else {

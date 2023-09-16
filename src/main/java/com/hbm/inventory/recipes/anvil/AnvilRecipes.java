@@ -693,6 +693,23 @@ public class AnvilRecipes {
 	}
 	
 	public static void registerConstructionRecycling() {
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.heater_firebox),
+				new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.plate_steel, 8)),
+						new AnvilOutput(new ItemStack(ModItems.ingot_copper, 6))
+				}
+		).setTier(2));
+		
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.heater_oven),
+				new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.ingot_firebrick, 16)),
+						new AnvilOutput(new ItemStack(ModItems.ingot_copper, 8))
+				}
+		).setTier(2));
+		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.barrel_tcalloy),
 				new AnvilOutput[] {

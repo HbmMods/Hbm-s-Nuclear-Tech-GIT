@@ -393,7 +393,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if(rand.nextInt(1000) == 0) {
+			if(rand.nextInt(2000) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);

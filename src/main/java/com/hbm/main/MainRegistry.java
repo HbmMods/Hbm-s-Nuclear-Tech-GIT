@@ -1173,6 +1173,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.recycled_electronic");
 		ignoreMappings.add("hbm:item.recycled_nuclear");
 		ignoreMappings.add("hbm:item.recycled_misc");
+		ignoreMappings.add("hbm:item.gun_bf_ammo");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

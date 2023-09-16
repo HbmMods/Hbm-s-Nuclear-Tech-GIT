@@ -15,6 +15,12 @@
 * Industrial smokestack
   * An even larger smokestack, matching the size of the coker unit
   * Reduced pollution by 90%, as opposed to the brick smokestack's 75%
+* Power gauge
+  * Like the flow gauge pipe for cable networks
+  * Shows the total amount of power being transferred within the connected network
+* Trenchmaster armor
+  * A new unique set of armor that is currently unobtainable
+  * Has new traits like faster reloads, a 33% chance of not using up ammo and step-assist
 
 ## Changed
 * Updated russian localization
@@ -36,6 +42,8 @@
 * Smokestacks now capture fly ash and are now compatible with ashpits
 * Industrial smokestacks can also capture fine soot
 * Reduced strings required for making coal filters, filters are now also available in tier 2 anvils
+* Fireboxes and heating ovens can now be disassembled in tier 2 anvils, yielding most of the resources used for making them
+* Signal beacons now only spawn half as often
 
 ## Fixed
 * Fixed the bomber not spawning if the chunkloading radios is too small
@@ -49,3 +57,6 @@
 * Fixed logspam caused by custom machine crafting handler
 * Fixed issue with the assemblers and chemplants where recipes with larger input requirements would break the input funnel
 * Fixed crash caused by reloading when the ammo item is in the last slot
+* Power and fluid networks will no longer transfer amounts less or equal than 0, preventing negative values and removing unnecessary operations where nothing would happen anyways
+* Fixed bug where damage sources that bypass iframes would deal significantly more damage if the victim has taken a lot of damage prior
+* Fixed duplicate balefire shell existing, the one that was usable was not the one that was craftable
