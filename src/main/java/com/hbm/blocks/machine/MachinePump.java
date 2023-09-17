@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
@@ -83,15 +84,15 @@ public class MachinePump extends BlockDummyable implements ITooltipProvider, ILo
 		
 		if(te instanceof TileEntityMachinePumpSteam) {
 			TileEntityMachinePumpSteam pump = (TileEntityMachinePumpSteam) te;
-			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + I18nUtil.resolveKey(pump.steam.getTankType().getUnlocalizedName()) + ": " + String.format("%,d", pump.steam.getFill()) + " / " + String.format("%,d", pump.steam.getMaxFill()) + "mB");
-			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey(pump.lps.getTankType().getUnlocalizedName()) + ": " + String.format("%,d", pump.lps.getFill()) + " / " + String.format("%,d", pump.lps.getMaxFill()) + "mB");
-			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey(pump.water.getTankType().getUnlocalizedName()) + ": " + String.format("%,d", pump.water.getFill()) + " / " + String.format("%,d", pump.water.getMaxFill()) + "mB");
+			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + I18nUtil.resolveKey(pump.steam.getTankType().getUnlocalizedName()) + ": " + String.format(Locale.US, "%,d", pump.steam.getFill()) + " / " + String.format(Locale.US, "%,d", pump.steam.getMaxFill()) + "mB");
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey(pump.lps.getTankType().getUnlocalizedName()) + ": " + String.format(Locale.US, "%,d", pump.lps.getFill()) + " / " + String.format(Locale.US, "%,d", pump.lps.getMaxFill()) + "mB");
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey(pump.water.getTankType().getUnlocalizedName()) + ": " + String.format(Locale.US, "%,d", pump.water.getFill()) + " / " + String.format(Locale.US, "%,d", pump.water.getMaxFill()) + "mB");
 		}
 		
 		if(te instanceof TileEntityMachinePumpElectric) {
 			TileEntityMachinePumpElectric pump = (TileEntityMachinePumpElectric) te;
-			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + String.format("%,d", pump.power) + " / " + String.format("%,d", pump.maxPower) + "HE");
-			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey(pump.water.getTankType().getUnlocalizedName()) + ": " + String.format("%,d", pump.water.getFill()) + " / " + String.format("%,d", pump.water.getMaxFill()) + "mB");
+			text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + String.format(Locale.US, "%,d", pump.power) + " / " + String.format(Locale.US, "%,d", pump.maxPower) + "HE");
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + I18nUtil.resolveKey(pump.water.getTankType().getUnlocalizedName()) + ": " + String.format(Locale.US, "%,d", pump.water.getFill()) + " / " + String.format(Locale.US, "%,d", pump.water.getMaxFill()) + "mB");
 		}
 		
 		if(pos[1] > 70) {

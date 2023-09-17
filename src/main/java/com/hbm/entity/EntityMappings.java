@@ -174,6 +174,7 @@ public class EntityMappings {
 		addEntity(EntitySoyuzCapsule.class, "entity_soyuz_capsule", 1000);
 		addEntity(EntityMovingItem.class, "entity_c_item", 1000);
 		addEntity(EntityMovingPackage.class, "entity_c_package", 1000);
+		addEntity(EntityDeliveryDrone.class, "entity_delivery_drone", 250, false);
 		addEntity(EntityCloudTom.class, "entity_moonstone_blast", 1000);
 		addEntity(EntityBeamVortex.class, "entity_vortex_beam", 1000);
 		addEntity(EntityFireworks.class, "entity_firework_ball", 1000);

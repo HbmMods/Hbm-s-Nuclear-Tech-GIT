@@ -1,5 +1,7 @@
 package com.hbm.inventory.gui;
 
+import java.util.Locale;
+
 import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -59,8 +61,8 @@ public class GUIPWR extends GuiInfoContainer {
 	public void drawScreen(int x, int y, float interp) {
 		super.drawScreen(x, y, interp);
 		
-		this.drawCustomInfoStat(x, y, guiLeft + 115, guiTop + 31, 18, 18, x, y, new String[] { "Core: " + String.format("%,d", controller.coreHeat) + " / " + String.format("%,d", controller.coreHeatCapacity) + " TU" });
-		this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 31, 18, 18, x, y, new String[] { "Hull: " + String.format("%,d", controller.hullHeat) + " / " + String.format("%,d", controller.hullHeatCapacity) + " TU" });
+		this.drawCustomInfoStat(x, y, guiLeft + 115, guiTop + 31, 18, 18, x, y, new String[] { "Core: " + String.format(Locale.US, "%,d", controller.coreHeat) + " / " + String.format(Locale.US, "%,d", controller.coreHeatCapacity) + " TU" });
+		this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 31, 18, 18, x, y, new String[] { "Hull: " + String.format(Locale.US, "%,d", controller.hullHeat) + " / " + String.format(Locale.US, "%,d", controller.hullHeatCapacity) + " TU" });
 
 		this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 31, 36, 18, x, y, new String[] { ((int) (controller.progress * 100 / controller.processTime)) + "%" });
 		this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 53, 54, 4, x, y, "Control rod level: " + (100 - controller.rodLevel) + "%");
@@ -96,7 +98,7 @@ public class GUIPWR extends GuiInfoContainer {
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 		
 		double scale = 1.25;
-		String flux = String.format("%,.1f", controller.flux);
+		String flux = String.format(Locale.US, "%,.1f", controller.flux);
 		GL11.glScaled(1 / scale, 1 / scale, 1);
 		this.fontRendererObj.drawString(flux, (int) (165 * scale - this.fontRendererObj.getStringWidth(flux)), (int)(64 * scale), 0x00ff00);
 		GL11.glScaled(scale, scale, 1);

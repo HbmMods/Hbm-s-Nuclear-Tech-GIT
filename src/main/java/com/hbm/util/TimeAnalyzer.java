@@ -3,6 +3,7 @@ package com.hbm.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 import com.hbm.util.Tuple.Pair;
@@ -44,11 +45,11 @@ public class TimeAnalyzer {
 		
 		for(Entry<String, Long> entry : milliTime.entrySet()) {
 			total += entry.getValue();
-			String time = String.format("%,d", entry.getValue());
+			String time = String.format(Locale.US, "%,d", entry.getValue());
 			System.out.println(entry.getKey() + ": " + time + "ns");
 		}
 
-		System.out.println("Total time passed: " + String.format("%,d", total) + "ns (" + (total / 1_000_000_000) + "s)");
+		System.out.println("Total time passed: " + String.format(Locale.US, "%,d", total) + "ns (" + (total / 1_000_000_000) + "s)");
 		
 		currentSection = "";
 		sectionStartTime = 0;
