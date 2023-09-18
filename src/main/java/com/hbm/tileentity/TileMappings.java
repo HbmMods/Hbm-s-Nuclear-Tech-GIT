@@ -393,6 +393,7 @@ public class TileMappings {
 		put(TileEntityRadioTelex.class, "tileentity_rtty_telex");
 		
 		put(TileEntityDroneWaypoint.class, "tileentity_drone_waypoint");
+		put(TileEntityDroneCrate.class, "tileentity_drone_crate");
 	}
 	
 	private static void put(Class<? extends TileEntity> clazz, String... names) {

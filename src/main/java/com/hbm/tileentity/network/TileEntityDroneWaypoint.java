@@ -30,7 +30,7 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 				List<EntityDeliveryDrone> drones = worldObj.getEntitiesWithinAABB(EntityDeliveryDrone.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).offset(dir.offsetX * height, dir.offsetY * height, dir.offsetZ * height));
 				for(EntityDeliveryDrone drone : drones) {
 					if(Vec3.createVectorHelper(drone.motionX, drone.motionY, drone.motionZ).lengthVector() < 0.05) {
-						drone.setTarget(nextX + 0.5, nextY + 0.5, nextZ + 0.5);
+						drone.setTarget(nextX + 0.5, nextY, nextZ + 0.5);
 					}
 				}
 			}
