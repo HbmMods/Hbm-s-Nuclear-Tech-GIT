@@ -97,6 +97,7 @@ public class ItemBombCaller extends Item {
 		p_150895_3_.add(new ItemStack(p_150895_1_, 1, 2));
 		p_150895_3_.add(new ItemStack(p_150895_1_, 1, 3));
 		p_150895_3_.add(new ItemStack(p_150895_1_, 1, 4));
+		p_150895_3_.add(new ItemStack(p_150895_1_, 1, 8));
 	}
 
 	@Override

@@ -10,4 +10,8 @@ public class ModSoundTypes {
 		if(type == ModSoundType.SubType.BREAK) in -= 0.15F;
 		return in + rand.nextFloat() * 0.2F;
 	});
+	public static final ModSoundType mork = ModSoundType.customBreak(Block.soundTypeStone, "hbm:step.morkite", 0.85F, 0.85F).enveloped(MainRegistry.instance.rand).pitchFunction((in, rand, type) -> {
+		if(type == ModSoundType.SubType.BREAK) in -= 0.15F;
+		return in + rand.nextFloat() * 0.2F;
+	});
 }
