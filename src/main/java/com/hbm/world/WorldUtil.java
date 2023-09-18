@@ -2,12 +2,15 @@ package com.hbm.world;
 
 import com.hbm.packet.BiomeSyncPacket;
 import com.hbm.packet.PacketDispatcher;
-
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class WorldUtil {
 
@@ -29,6 +32,38 @@ public class WorldUtil {
 		/* this sucks ass */
 		ChunkCoordIntPair coord = chunk.getChunkCoordIntPair();
 		PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(coord.chunkXPos, coord.chunkZPos, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, coord.getCenterXPos(), 128, coord.getCenterZPosition() /* who named you? */, 1024D));
+	}
+
+    /**Chunkloads the chunk the entity is going to spawn in and then spawns it
+	 * @param entity The entity to be spawned**/
+
+	/*fun fact: this is based off of joinEntityInSurroundings in World
+	  however, since mojang is staffed by field mice, that function is client side only and half-baked
+	 */
+	public static void loadAndSpawnEntityInWorld(Entity entity) {
+
+		World world = entity.worldObj;
+		int chunkX = MathHelper.floor_double(entity.posX / 16.0D);
+		int chunkZ = MathHelper.floor_double(entity.posZ / 16.0D);
+		byte loadRadius = 2;
+
+		for (int k = chunkX - loadRadius; k <= chunkX + loadRadius; ++k)
+		{
+			for (int l = chunkZ - loadRadius; l <= chunkZ + loadRadius; ++l)
+			{
+				world.getChunkFromChunkCoords(k, l);
+			}
+		}
+
+		if (!world.loadedEntityList.contains(entity))
+		{
+			if (!MinecraftForge.EVENT_BUS.post(new EntityJoinWorldEvent(entity, world)))
+			{
+				world.getChunkFromChunkCoords(chunkX, chunkZ).addEntity(entity);
+				world.loadedEntityList.add(entity);
+				world.onEntityAdded(entity);
+			}
+		}
 	}
 
 	public static void syncBiomeChange(World world, int x, int z) {

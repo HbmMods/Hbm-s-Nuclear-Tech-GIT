@@ -3,6 +3,7 @@ package com.hbm.items.machine;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.CheckForNull;
 
@@ -156,17 +157,17 @@ public class ItemRTGPellet extends Item {
 			list.add(BobMathUtil.toPercentage(instance.getLifespan(stack), instance.getMaxLifespan()));
 			if (bool) {
 				list.add("EXTENDED INFO:");
-				list.add(String.format("%s / %s ticks", instance.getLifespan(stack), instance.getMaxLifespan()));
+				list.add(String.format(Locale.US, "%s / %s ticks", instance.getLifespan(stack), instance.getMaxLifespan()));
 				final String[] timeLeft = BobMathUtil.ticksToDate(instance.getLifespan(stack));
 				final String[] maxLife = BobMathUtil.ticksToDate(instance.getMaxLifespan());
-				list.add(String.format("Time remaining: %s y, %s d, %s h", (Object[]) timeLeft));
-				list.add(String.format("Maximum life: %s y, %s d, %s h", (Object[]) maxLife));
+				list.add(String.format(Locale.US, "Time remaining: %s y, %s d, %s h", (Object[]) timeLeft));
+				list.add(String.format(Locale.US, "Maximum life: %s y, %s d, %s h", (Object[]) maxLife));
 			}
 		}
 	}
 
 	public String getData() {
-		return String.format("%s (%s HE/t) %s", I18nUtil.resolveKey(getUnlocalizedName().concat(".name")), getHeat(), (getDoesDecay() ? " (decays)" : ""));
+		return String.format(Locale.US, "%s (%s HE/t) %s", I18nUtil.resolveKey(getUnlocalizedName().concat(".name")), getHeat(), (getDoesDecay() ? " (decays)" : ""));
 	}
 	
 	public static HashMap<ItemStack, ItemStack> getRecipeMap() {

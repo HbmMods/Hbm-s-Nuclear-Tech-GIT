@@ -18,7 +18,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -33,7 +33,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbineGas extends TileEntityMachinePolluting implements IFluidStandardTransceiver, IEnergyGenerator, IControlReceiver, IGUIProvider {
+public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyGenerator, IControlReceiver, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 1000000L;
@@ -69,7 +69,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachinePolluting impl
 	//TODO particles from heat exchanger maybe? maybe in a future
 	
 	public TileEntityMachineTurbineGas() {
-		super(2, 200);
+		super(2);
 		this.tanks = new FluidTank[4];
 		tanks[0] = new FluidTank(Fluids.GAS, 100000);
 		tanks[1] = new FluidTank(Fluids.LUBRICANT, 16000);
@@ -137,9 +137,6 @@ public class TileEntityMachineTurbineGas extends TileEntityMachinePolluting impl
 			for(int i = 0; i < 2; i++) { //fuel and lube
 				this.trySubscribe(tanks[i].getTankType(), worldObj, xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite());
 				this.trySubscribe(tanks[i].getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, dir);
-
-				this.sendSmoke(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite());
-				this.sendSmoke(xCoord + dir.offsetX * 2 + rot.offsetX, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ, dir);
 			}
 			//water
 			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord - dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * -4, dir.getOpposite());
@@ -303,7 +300,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachinePolluting impl
 		}
 		
 		double consumption = fuelMaxCons.containsKey(tanks[0].getTankType()) ? fuelMaxCons.get(tanks[0].getTankType()) : 5D;
-		if(worldObj.getTotalWorldTime() % 20 == 0 && tanks[0].getTankType() != Fluids.OXYHYDROGEN) this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * (float) consumption * 0.25F);
+		if(worldObj.getTotalWorldTime() % 20 == 0 && tanks[0].getTankType() != Fluids.OXYHYDROGEN) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, 3F);
 		makePower(consumption, throttle);
 	}
 	
@@ -536,7 +533,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachinePolluting impl
 
 	@Override
 	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] { tanks[3], smoke, smoke_leaded, smoke_poison };
+		return new FluidTank[] { tanks[3] };
 	}
 	
 	@Override

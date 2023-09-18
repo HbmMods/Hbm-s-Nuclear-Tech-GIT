@@ -3,20 +3,21 @@ package com.hbm.world.feature;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.world.generator.DungeonToolbox;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
-import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 
 public class SchistStratum {
 
 	NoiseGeneratorPerlin noise;
 
 	@SubscribeEvent
-	public void onDecorate(PopulateChunkEvent.Pre event) {
+	public void onDecorate(DecorateBiomeEvent.Pre event) {
 		
 		if(this.noise == null) {
 			this.noise = new NoiseGeneratorPerlin(new Random(event.world.getSeed()), 4);
@@ -51,7 +52,7 @@ public class SchistStratum {
 						
 						Block target = world.getBlock(x, y, z);
 						
-						if(target.isNormalCube() && target.getMaterial() == Material.rock) {
+						if(target.isNormalCube() && target.getMaterial() == Material.rock && DungeonToolbox.allowedToReplace(target)) {
 							world.setBlock(x, y, z, ModBlocks.stone_gneiss, 0, 2);
 						}
 					}

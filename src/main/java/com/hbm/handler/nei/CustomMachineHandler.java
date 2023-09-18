@@ -132,8 +132,6 @@ public class CustomMachineHandler extends TemplateRecipeHandler {
 		
 		List<CustomMachineRecipe> recipes = CustomMachineRecipes.recipes.get(conf.recipeKey);
 		
-		System.out.println(conf.recipeKey);
-
 		if(recipes != null) outer:for(CustomMachineRecipe recipe : recipes) {
 			
 			for(Pair<ItemStack, Float> stack : recipe.outputItems) {

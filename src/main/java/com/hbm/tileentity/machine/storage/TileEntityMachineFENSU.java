@@ -1,9 +1,16 @@
 package com.hbm.tileentity.machine.storage;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import com.hbm.lib.Library;
 
 import api.hbm.energy.IEnergyConductor;
 import api.hbm.energy.IEnergyConnector;
+import api.hbm.energy.IPowerNet;
+import api.hbm.energy.PowerNet;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,7 +35,7 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
 			
 			//////////////////////////////////////////////////////////////////////
-			this.transmitPowerFairly();
+			this.transmitPower();
 			//////////////////////////////////////////////////////////////////////
 			
 			byte comp = this.getComparatorPower();
@@ -71,54 +78,61 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 		
 		short mode = (short) this.getRelevantMode();
 		
-		ForgeDirection dir = ForgeDirection.DOWN;
+		//HasSets to we don'T have any duplicates
+		Set<IPowerNet> nets = new HashSet();
+		Set<IEnergyConnector> consumers = new HashSet();
+		
+		//iterate over all sides
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			
-		TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-
-		if(te instanceof IEnergyConductor) {
-			IEnergyConductor con = (IEnergyConductor) te;
-
-			if(con.getPowerNet() != null && con.getPowerNet().isSubscribed(this))
-				con.getPowerNet().unsubscribe(this);
-		}
-
-		if(mode == 1 || mode == 2) {
-			if(te instanceof IEnergyConnector) {
+			TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+			
+			//if it's a cable, buffer both the network and all subscribers of the net
+			if(te instanceof IEnergyConductor) {
+				IEnergyConductor con = (IEnergyConductor) te;
+				if(con.canConnect(dir.getOpposite()) && con.getPowerNet() != null) {
+					nets.add(con.getPowerNet());
+					con.getPowerNet().unsubscribe(this);
+					consumers.addAll(con.getPowerNet().getSubscribers());
+				}
+				
+			//if it's just a consumer, buffer it as a subscriber
+			} else if(te instanceof IEnergyConnector) {
 				IEnergyConnector con = (IEnergyConnector) te;
-				
-				long max = maxTransfer;
-				long toTransfer = Math.min(max, this.power);
-				long remainder = this.power - toTransfer;
-				this.power = toTransfer;
-				
-				long oldPower = this.power;
-				long transfer = this.power - con.transferPower(this.power);
-				this.power = oldPower - transfer;
-				
-				power += remainder;
-			}
-		}
-
-		if(te instanceof IEnergyConductor) {
-			IEnergyConductor con = (IEnergyConductor) te;
-			
-			if(con.getPowerNet() != null) {
-				if(mode == 2 || mode == 3) {
-					if(con.getPowerNet().isSubscribed(this)) {
-						con.getPowerNet().unsubscribe(this);
-					}
-				} else if(!con.getPowerNet().isSubscribed(this)) {
-					con.getPowerNet().subscribe(this);
+				if(con.canConnect(dir.getOpposite())) {
+					consumers.add((IEnergyConnector) te);
 				}
 			}
+		}
+
+		//send power to buffered consumers, independent of nets
+		if(this.power > 0 && (mode == mode_buffer || mode == mode_output)) {
+			List<IEnergyConnector> con = new ArrayList();
+			con.addAll(consumers);
+			
+			if(PowerNet.trackingInstances == null) {
+				PowerNet.trackingInstances = new ArrayList();
+			}
+			PowerNet.trackingInstances.clear();
+			
+			nets.forEach(x -> {
+				if(x instanceof PowerNet) PowerNet.trackingInstances.add((PowerNet) x);
+			});
+			
+			long toSend = Math.min(this.power, maxTransfer);
+			long powerRemaining = this.power - toSend;
+			this.power = PowerNet.fairTransfer(con, toSend) + powerRemaining;
+		}
+		
+		//resubscribe to buffered nets, if necessary
+		if(mode == mode_buffer || mode == mode_input) {
+			nets.forEach(x -> x.subscribe(this));
 		}
 	}
 
 	@Override
 	public long getPowerRemainingScaled(long i) {
-		
 		double powerScaled = (double)power / (double)getMaxPower();
-		
 		return (long)(i * powerScaled);
 	}
 

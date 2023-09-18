@@ -77,6 +77,7 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new OutgasserHandler());
 		registerHandler(new ElectrolyserFluidHandler());
 		registerHandler(new ElectrolyserMetalHandler());
+		registerHandler(new AshpitHandler());
 
 		for(MachineConfiguration conf : CustomMachineConfigJSON.niceList) registerHandlerBypass(new CustomMachineHandler(conf));
 		

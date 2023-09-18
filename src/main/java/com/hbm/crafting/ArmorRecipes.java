@@ -44,15 +44,14 @@ public class ArmorRecipes {
 		addChest(	CMB.ingot(), ModItems.cmb_plate);
 		addLegs(	CMB.ingot(), ModItems.cmb_legs);
 		addBoots(	CMB.ingot(), ModItems.cmb_boots);
-		addHelmet(	CO.ingot(), ModItems.cobalt_helmet);
-		addChest(	CO.ingot(), ModItems.cobalt_plate);
-		addLegs(	CO.ingot(), ModItems.cobalt_legs);
-		addBoots(	CO.ingot(), ModItems.cobalt_boots);
 		addHelmet(	ModItems.rag, ModItems.robes_helmet);
 		addChest(	ModItems.rag, ModItems.robes_plate);
 		addLegs(	ModItems.rag, ModItems.robes_legs);
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.robes_boots, 1), new Object[] { "R R", "P P", 'R', ModItems.rag, 'P', ModItems.plate_polymer });
-		
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.cobalt_helmet, 1), new Object[] {"ECE", 'E', CO.billet(), 'C', ModItems.steel_helmet });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.cobalt_plate, 1), new Object[] { " E ", "ECE"," E ", 'E', CO.billet(), 'C', ModItems.steel_plate });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.cobalt_legs, 1), new Object[] { "ECE", "E E", 'E', CO.billet(), 'C', ModItems.steel_legs });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.cobalt_boots, 1), new Object[] {"ECE", 'E', CO.billet(), 'C', ModItems.steel_boots });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.security_helmet, 1), new Object[] { "SSS", "IGI", 'S', STEEL.plate(), 'I', ModItems.plate_polymer, 'G', KEY_ANYPANE });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.security_plate, 1), new Object[] { "KWK", "IKI", "WKW", 'K', ModItems.plate_kevlar, 'I', ANY_PLASTIC.ingot(), 'W', new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.security_legs, 1), new Object[] { "IWI", "K K", "W W", 'K', ModItems.plate_kevlar, 'I', ANY_PLASTIC.ingot(), 'W', new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });

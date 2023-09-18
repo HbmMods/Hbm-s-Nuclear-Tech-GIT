@@ -153,6 +153,8 @@ public class PowerNet implements IPowerNet {
 	
 	public static long fairTransfer(List<IEnergyConnector> subscribers, long power) {
 		
+		if(power <= 0) return 0;
+		
 		if(subscribers.isEmpty())
 			return power;
 		

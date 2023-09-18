@@ -1,5 +1,7 @@
 package com.hbm.util.function;
 
+import java.util.Locale;
+
 import com.hbm.util.BobMathUtil;
 
 import net.minecraft.util.EnumChatFormatting;
@@ -28,8 +30,8 @@ public abstract class Function {
 	public String getXName(boolean brackets) {
 		String x = "x";
 		boolean mod = false;
-		if(div != 1D) x += " / " + String.format("%,.1f", div);
-		if(off != 0D) x += " + " + String.format("%,.1f", off);
+		if(div != 1D) x += " / " + String.format(Locale.US, "%,.1f", div);
+		if(off != 0D) x += " + " + String.format(Locale.US, "%,.1f", off);
 		if(mod && brackets) x = "(" + x + ")";
 		return x;
 	}
@@ -47,21 +49,21 @@ public abstract class Function {
 	public static class FunctionLogarithmic extends FunctionSingleArg {
 		public FunctionLogarithmic(double level) { super(level); this.withOff(1D); }
 		@Override public double effonix(double x) { return Math.log10(getX(x)) * level; }
-		@Override public String getLabelForFuel() { return "log10(" + getXName(false) + ") * " + String.format("%,.1f", this.level); }
+		@Override public String getLabelForFuel() { return "log10(" + getXName(false) + ") * " + String.format(Locale.US, "%,.1f", this.level); }
 		@Override public String getDangerFromFuel() { return EnumChatFormatting.YELLOW + "MEDIUM / LOGARITHMIC"; }
 	}
 	
 	public static class FunctionPassive extends FunctionSingleArg {
 		public FunctionPassive(double level) { super(level); }
 		@Override public double effonix(double x) { return this.level; }
-		@Override public String getLabelForFuel() { return "" + String.format("%,.1f", this.level); }
+		@Override public String getLabelForFuel() { return "" + String.format(Locale.US, "%,.1f", this.level); }
 		@Override public String getDangerFromFuel() { return EnumChatFormatting.DARK_GREEN + "SAFE / PASSIVE"; }
 	}
 	
 	public static class FunctionSqrt extends FunctionSingleArg {
 		public FunctionSqrt(double level) { super(level); }
 		@Override public double effonix(double x) { return BobMathUtil.squirt(getX(x)) * this.level; }
-		@Override public String getLabelForFuel() { return "sqrt(" + getXName(false) + ") * " + String.format("%,.3f", this.level); } //not entirely correct but good enough
+		@Override public String getLabelForFuel() { return "sqrt(" + getXName(false) + ") * " + String.format(Locale.US, "%,.3f", this.level); } //not entirely correct but good enough
 		@Override public String getDangerFromFuel() { return EnumChatFormatting.YELLOW + "MEDIUM / SQUARE ROOT"; }
 	}
 	
@@ -75,7 +77,7 @@ public abstract class Function {
 	public static class FunctionLinear extends FunctionSingleArg {
 		public FunctionLinear(double level) { super(level); }
 		@Override public double effonix(double x) { return getX(x) * this.level; }
-		@Override public String getLabelForFuel() { return getXName(true) + " * " + String.format("%,.1f", this.level); }
+		@Override public String getLabelForFuel() { return getXName(true) + " * " + String.format(Locale.US, "%,.1f", this.level); }
 		@Override public String getDangerFromFuel() { return EnumChatFormatting.RED + "DANGEROUS / LINEAR"; }
 	}
 	
@@ -83,7 +85,7 @@ public abstract class Function {
 		public FunctionQuadratic(double level) { super(level, 0D); }
 		public FunctionQuadratic(double level, double vOff) { super(level, vOff); }
 		@Override public double effonix(double x) { return getX(x) * getX(x) * this.level + this.vOff; }
-		@Override public String getLabelForFuel() { return getXName(true) + "² * " + String.format("%,.1f", this.level) + (vOff != 0 ? (" + " + String.format("%,.1f", vOff)) : ""); }
+		@Override public String getLabelForFuel() { return getXName(true) + "² * " + String.format(Locale.US, "%,.1f", this.level) + (vOff != 0 ? (" + " + String.format(Locale.US, "%,.1f", vOff)) : ""); }
 		@Override public String getDangerFromFuel() { return EnumChatFormatting.RED + "DANGEROUS / QUADRATIC"; }
 	}
 }

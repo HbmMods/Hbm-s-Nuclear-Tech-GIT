@@ -1,5 +1,7 @@
 package com.hbm.inventory.gui;
 
+import java.util.Locale;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerWatz;
@@ -35,7 +37,7 @@ public class GUIWatz extends GuiInfoContainer {
 	public void drawScreen(int x, int y, float interp) {
 		super.drawScreen(x, y, interp);
 
-		this.drawCustomInfoStat(x, y, guiLeft + 13, guiTop + 100, 18, 18, x, y, new String[] { String.format("%,d", watz.heat) + " TU" });
+		this.drawCustomInfoStat(x, y, guiLeft + 13, guiTop + 100, 18, 18, x, y, new String[] { String.format(Locale.US, "%,d", watz.heat) + " TU" });
 		this.drawCustomInfoStat(x, y, guiLeft + 143, guiTop + 71, 16, 16, x, y, new String[] { watz.isLocked ? "Unlock pellet IO configuration" : "Lock pellet IO configuration" });
 
 		watz.tanks[0].renderTankInfo(this, x, y, guiLeft + 142, guiTop + 23, 6, 45);
@@ -48,7 +50,7 @@ public class GUIWatz extends GuiInfoContainer {
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 93, 4210752);
 		
 		double scale = 1.25;
-		String flux = String.format("%,.1f", watz.fluxDisplay);
+		String flux = String.format(Locale.US, "%,.1f", watz.fluxDisplay);
 		GL11.glScaled(1 / scale, 1 / scale, 1);
 		this.fontRendererObj.drawString(flux, (int) (161 * scale - this.fontRendererObj.getStringWidth(flux)), (int)(107 * scale), 0x00ff00);
 		GL11.glScaled(scale, scale, 1);

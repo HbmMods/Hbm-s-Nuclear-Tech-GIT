@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.render.block.ct.CT;
@@ -53,6 +54,6 @@ public class BlockHadronCoil extends Block implements IBlockCT, ITooltipProvider
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add(I18nUtil.resolveKey("info.coil") + ": " + String.format("%,d", factor));
+		list.add(I18nUtil.resolveKey("info.coil") + ": " + String.format(Locale.US, "%,d", factor));
 	}
 }

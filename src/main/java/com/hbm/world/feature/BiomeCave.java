@@ -3,6 +3,7 @@ package com.hbm.world.feature;
 import java.util.Random;
 
 import com.hbm.blocks.BlockEnums.EnumBiomeType;
+import com.hbm.world.generator.DungeonToolbox;
 import com.hbm.blocks.ModBlocks;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -13,7 +14,7 @@ import net.minecraft.world.biome.BiomeGenBase.TempCategory;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 
 public class BiomeCave {
 	
@@ -52,7 +53,7 @@ public class BiomeCave {
 	}
 
 	@SubscribeEvent
-	public void onDecorate(PopulateChunkEvent.Pre event) {
+	public void onDecorate(DecorateBiomeEvent.Pre event) {
 		
 		World world = event.world;
 		
@@ -95,7 +96,7 @@ public class BiomeCave {
 	private static void handleBiome(World world, int x, int y, int z, EnumBiomeType type) {
 		Block target = world.getBlock(x, y, z);
 		
-		if(target.isNormalCube()) {
+		if(target.isNormalCube() && DungeonToolbox.allowedToReplace(target)) {
 			
 			boolean shouldGen = false;
 			
