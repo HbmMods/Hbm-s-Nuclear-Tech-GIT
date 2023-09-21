@@ -1,7 +1,8 @@
-package com.hbm.render.item;
+package com.hbm.render.entity.item;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.item.EntityDeliveryDrone;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -16,17 +17,25 @@ public class RenderDeliveryDrone extends Render {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
 		
+		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.delivery_drone_tex);
 		ResourceManager.delivery_drone.renderPart("Drone");
-		ResourceManager.delivery_drone.renderPart("Barrel");
+		
+		EntityDeliveryDrone drone = (EntityDeliveryDrone) entity;
+		int style = drone.getAppearance();
+
+		if(style == 1) ResourceManager.delivery_drone.renderPart("Crate");
+		if(style == 2) ResourceManager.delivery_drone.renderPart("Barrel");
+		
 		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glEnable(GL11.GL_CULL_FACE);
 
 		GL11.glPopMatrix();
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return null;
+	protected ResourceLocation getEntityTexture(Entity drone) {
+		return ResourceManager.delivery_drone_tex;
 	}
 }

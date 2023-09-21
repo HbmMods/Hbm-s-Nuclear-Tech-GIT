@@ -47,15 +47,6 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 				double z = zCoord + height * dir.offsetZ + 0.5;
 				
 				worldObj.spawnParticle("reddust", x, y, z, 0, 0, 0);
-				
-				/*Vec3 vec = Vec3.createVectorHelper(nextX + 0.5 - x, nextY + 0.5 - y, nextZ + 0.5 - z);
-				double speed = Math.min(vec.lengthVector(), 0.5);
-				double mX = vec.xCoord * speed;
-				double mY = vec.yCoord * speed;
-				double mZ = vec.zCoord * speed;
-				vec = vec.normalize();
-				
-				worldObj.spawnParticle("crit", x, y, z, mX, mY, mZ);*/
 			}
 		}
 	}
@@ -86,5 +77,22 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 	public void addHeight(int h) {
 		height += h;
 		height = MathHelper.clamp_int(height, 1, 15);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		int[] pos = nbt.getIntArray("pos");
+		this.nextX = pos[0];
+		this.nextY = pos[1];
+		this.nextZ = pos[2];
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setIntArray("pos", new int[] {nextX, nextY, nextZ});
 	}
 }

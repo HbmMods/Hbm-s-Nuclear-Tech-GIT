@@ -1,14 +1,20 @@
 package com.hbm.entity.item;
 
+import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.fluid.Fluids;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityDeliveryDrone extends Entity {
+public class EntityDeliveryDrone extends Entity implements IInventory {
 	
 	protected int turnProgress;
 	protected double syncPosX;
@@ -17,6 +23,9 @@ public class EntityDeliveryDrone extends Entity {
 	@SideOnly(Side.CLIENT) protected double velocityX;
 	@SideOnly(Side.CLIENT) protected double velocityY;
 	@SideOnly(Side.CLIENT) protected double velocityZ;
+	
+	protected ItemStack[] slots = new ItemStack[this.getSizeInventory()];
+	public FluidStack fluid;
 
 	public double targetX = -1;
 	public double targetY = -1;
@@ -60,7 +69,20 @@ public class EntityDeliveryDrone extends Entity {
 
 	@Override
 	protected void entityInit() {
-		this.dataWatcher.addObject(10, new Integer(0));
+		this.dataWatcher.addObject(10, new Byte((byte) 0));
+	}
+	
+	/**
+	 * 0: Empty<br>
+	 * 1: Crate<br>
+	 * 2: Barrel<br>
+	 */
+	public void setAppearance(int style) {
+		this.dataWatcher.updateObject(10, (byte) style);
+	}
+	
+	public int getAppearance() {
+		return this.dataWatcher.getWatchableObjectByte(10);
 	}
 
 	@Override
@@ -107,15 +129,57 @@ public class EntityDeliveryDrone extends Entity {
 	public double getSpeed() {
 		return 0.125D;
 	}
-
+	
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
+	protected void writeEntityToNBT(NBTTagCompound nbt) {
+
+		nbt.setDouble("tX", targetX);
+		nbt.setDouble("tY", targetY);
+		nbt.setDouble("tZ", targetZ);
 		
+		NBTTagList nbttaglist = new NBTTagList();
+
+		for(int i = 0; i < this.slots.length; ++i) {
+			if(this.slots[i] != null) {
+				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+				nbttagcompound1.setByte("Slot", (byte) i);
+				this.slots[i].writeToNBT(nbttagcompound1);
+				nbttaglist.appendTag(nbttagcompound1);
+			}
+		}
+
+		nbt.setTag("Items", nbttaglist);
+		
+		if(fluid != null) {
+			nbt.setString("fluidType", fluid.type.getUnlocalizedName());
+			nbt.setInteger("fluidAmount", fluid.fill);
+		}
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
+
+		if(nbt.hasKey("tY")) {
+			this.targetX = nbt.getDouble("tX");
+			this.targetY = nbt.getDouble("tY");
+			this.targetZ = nbt.getDouble("tZ");
+		}
 		
+		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
+		this.slots = new ItemStack[this.getSizeInventory()];
+
+		for(int i = 0; i < nbttaglist.tagCount(); ++i) {
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
+			int j = nbttagcompound1.getByte("Slot") & 255;
+
+			if(j >= 0 && j < this.slots.length) {
+				this.slots[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+			}
+		}
+		
+		if(nbt.hasKey("fluidType")) {
+			this.fluid = new FluidStack(Fluids.fromName(nbt.getString("fluidType")), nbt.getInteger("fluidAmount"));
+		}
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -135,4 +199,63 @@ public class EntityDeliveryDrone extends Entity {
 		this.motionY = this.velocityY;
 		this.motionZ = this.velocityZ;
 	}
+
+	@Override
+	public ItemStack getStackInSlot(int slot) {
+		return slots[slot];
+	}
+	
+	@Override
+	public ItemStack decrStackSize(int slot, int amount) {
+		if(this.slots[slot] != null) {
+			ItemStack itemstack;
+
+			if(this.slots[slot].stackSize <= amount) {
+				itemstack = this.slots[slot];
+				this.slots[slot] = null;
+				return itemstack;
+			} else {
+				itemstack = this.slots[slot].splitStack(amount);
+
+				if(this.slots[slot].stackSize == 0) {
+					this.slots[slot] = null;
+				}
+
+				return itemstack;
+			}
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public ItemStack getStackInSlotOnClosing(int slot) {
+		if(this.slots[slot] != null) {
+			ItemStack itemstack = this.slots[slot];
+			this.slots[slot] = null;
+			return itemstack;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public void setInventorySlotContents(int slot, ItemStack stack) {
+		this.slots[slot] = stack;
+
+		if(stack != null && stack.stackSize > this.getInventoryStackLimit()) {
+			stack.stackSize = this.getInventoryStackLimit();
+		}
+	}
+
+	@Override public int getSizeInventory() { return 18; }
+	@Override public String getInventoryName() { return "container.drone"; }
+	@Override public int getInventoryStackLimit() { return 64; }
+	@Override public boolean hasCustomInventoryName() { return false; }
+	@Override public boolean isUseableByPlayer(EntityPlayer player) { return false; }
+	@Override public boolean isItemValidForSlot(int slot, ItemStack stack) { return false; }
+
+	@Override public void markDirty() { }
+	@Override public void openInventory() { }
+	@Override public void closeInventory() { }
 }
