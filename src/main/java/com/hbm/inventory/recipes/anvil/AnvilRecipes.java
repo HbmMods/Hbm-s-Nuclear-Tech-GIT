@@ -15,6 +15,7 @@ import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.food.ItemFlask.EnumInfusion;
+import com.hbm.items.weapon.EnumMagazine;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -163,6 +164,7 @@ public class AnvilRecipes {
 		registerConstructionAmmo();
 		registerConstructionUpgrades();
 		registerConstructionRecycling();
+		registerConstructionMagazines();
 	}
 	
 	public static void registerConstructionRecipes() {
@@ -959,6 +961,202 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(Items.bone, 1), 0.75F),
 						new AnvilOutput(new ItemStack(Items.experience_bottle, 1), 0.5F)
 				}).setTier(1));
+	}
+	
+	public static void registerConstructionMagazines()
+	{
+		// Speedloaders
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(IRON.plate()),
+				new ComparableStack(ModItems.wire_copper)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(8, EnumMagazine.S_357_BASIC))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new ComparableStack(ModItems.plate_saturnite),
+				new ComparableStack(ModItems.wire_aluminium)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(8, EnumMagazine.S_357_SATURNITE))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(GOLD.plate()),
+				new ComparableStack(ModItems.wire_gold)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(8, EnumMagazine.S_357_GOLD))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(SA326.plate()),
+				new ComparableStack(ModItems.wire_schrabidium)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(8, EnumMagazine.S_357_SCHRAB))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate()),
+				new ComparableStack(ModItems.wire_aluminium)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(8, EnumMagazine.S_357_NIGHTMARE1))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate()),
+				new ComparableStack(ModItems.wire_tungsten)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(8, EnumMagazine.S_357_NIGHTMARE2))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate()),
+				new ComparableStack(ModItems.wire_aluminium)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(8, EnumMagazine.S_357_NIGHTMARE2))).setTier(1));
+		
+
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(CU.plate()),
+				new ComparableStack(ModItems.wire_aluminium)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(8, EnumMagazine.S_44_PIP))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate()),
+				new ComparableStack(ModItems.wire_aluminium)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(8, EnumMagazine.S_44_NOPIP))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate()),
+				new ComparableStack(ModItems.wire_aluminium)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(8, EnumMagazine.S_44_BJ))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(AL.plate()),
+				new ComparableStack(ModItems.wire_aluminium)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(8, EnumMagazine.S_44_SILVER))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new ComparableStack(ModItems.plate_desh, 12),
+				new OreDictStack(DESH.ingot(), 6),
+				new ComparableStack(ModItems.wire_aluminium, 2)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(EnumMagazine.S_44_RED))).setTier(1));
+		
+		// Pistol magazines
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate(), 2),
+				new OreDictStack(CU.plate()),
+				new ComparableStack(ModItems.wire_aluminium, 2)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.P_CURSED))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(AL.plate(), 2),
+				new OreDictStack(CU.plate()),
+				new ComparableStack(ModItems.wire_aluminium, 2)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.P_UAC))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate(), 4),
+				new OreDictStack(CU.plate()),
+				new ComparableStack(ModItems.wire_aluminium, 2)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.P_DEAGLE))).setTier(1));
+		
+		// Rifle(-like) magazines
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(IRON.plate(), 3),
+				new OreDictStack(IRON.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.R_MP40))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate(), 3),
+				new OreDictStack(STEEL.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.R_THOMPSON))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(AL.plate()),
+				new OreDictStack(STEEL.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.R_UZI))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate(), 4),
+				new OreDictStack(STEEL.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.R_BAE))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new ComparableStack(ModItems.plate_saturnite, 4),
+				new OreDictStack(AL.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.R_LLR))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(AL.plate(), 4),
+				new OreDictStack(AL.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(2, EnumMagazine.R_UAC_SMG))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate(), 4),
+				new OreDictStack(STEEL.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.R_UAC_DMR))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate(), 6),
+				new OreDictStack(STEEL.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.R_UAC_HDMR))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate(), 2),
+				new ComparableStack(ModItems.plate_polymer, 2),
+				new OreDictStack(STEEL.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.R_UAC_HDMR_SNIPER))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(AL.plate(), 4),
+				new OreDictStack(STEEL.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.R_UAC_CARBINE))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate(), 4),
+				new OreDictStack(STEEL.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.R_FLECHETTE))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate(), 6),
+				new OreDictStack(STEEL.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(2, EnumMagazine.R_AR15))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new ComparableStack(ModItems.plate_saturnite),
+				new OreDictStack(STEEL.ingot()),
+				new ComparableStack(ModItems.wire_aluminium, 4)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(4, EnumMagazine.R_MLR))).setTier(1));
+		
+		// Boxes
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate(), 4),
+				new ComparableStack(ModItems.wire_aluminium, 4),
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(EnumMagazine.B_CALAMITY))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate(), 4),
+				new ComparableStack(ModItems.plate_polymer, 2),
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(EnumMagazine.B_UAC_LMG))).setTier(1));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new OreDictStack(STEEL.plate(), 4),
+				new ComparableStack(ModItems.plate_polymer, 4),
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(EnumMagazine.B_UAC_LMG_MISSILE))).setTier(1));
+		
+		// Drums
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]
+		{
+				new ComparableStack(ModItems.hull_big_aluminium),
+				new OreDictStack(STEEL.plate(), 6),
+				new ComparableStack(ModItems.plate_polymer, 2),
+				new ComparableStack(ModItems.wire_aluminium, 4),
+				new ComparableStack(ModItems.mechanism_revolver_2)
+		}, new AnvilOutput(ModItems.gun_magazine.stackFromEnum(EnumMagazine.D_M4))).setTier(1));
 	}
 	
 	public static void pullFromAssembler(ComparableStack result, int tier) {

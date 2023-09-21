@@ -57,6 +57,10 @@ public class GunConfiguration implements Cloneable {
 	public boolean absorbsMag = true;
 	/**Whether or not the gun should fallback to using the default mode if an appropriate magazine cannot be found. Relevant for revolvers.**/
 	public boolean fallback = false;
+	/**Usually used by revolvers, caches fired bullets for post-reload casing ejection.**/
+	public boolean cacheBulletsForPostReloadCasingEjection = false;
+	/**Ejector config for cached rounds**/
+	public CasingEjector cacheEjector;
 	/**If the gun uses a "true" belt, instead of just grabbing from inventory.**/
 //	public boolean trueBelt = false;
 	/**Map configurations to another, so the magazine and gun can use the same ammo item, but use a different bullet config.**/

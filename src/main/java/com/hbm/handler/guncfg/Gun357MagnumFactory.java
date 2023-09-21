@@ -23,12 +23,13 @@ import net.minecraft.util.Vec3;
 
 public class Gun357MagnumFactory {
 	
-	private static final CasingEjector EJECTOR_REVOLVER;
+	private static final CasingEjector EJECTOR_REVOLVER, EJECTOR_SINGLE;
 	private static final SpentCasing CASING357;
 	private static final SpentCasing CASINGNM;
 	
 	static {
 		EJECTOR_REVOLVER = new CasingEjector().setMotion(Vec3.createVectorHelper(0, 0, -0.03)).setOffset(Vec3.createVectorHelper(0, -0.15, 0)).setAngleRange(0.01F, 0.05F).setAfterReload().setAmount(6);
+		EJECTOR_SINGLE = EJECTOR_REVOLVER.clone().setAmount(1).reregister();
 		CASING357 = new SpentCasing(CasingType.STRAIGHT).setBounceMotion(0.01F, 0.05F);
 		CASINGNM = new SpentCasing(CasingType.SHOTGUN).setScale(1.25F).setBounceMotion(0.01F, 0.05F).setColor(0xC7AB1C, 0x6D63A6).register("357N2");
 	}
@@ -64,6 +65,8 @@ public class Gun357MagnumFactory {
 		config.independentChamber = false;
 		config.absorbsMag = false;
 		config.fallback = true;
+		config.cacheBulletsForPostReloadCasingEjection = true;
+		config.cacheEjector = EJECTOR_SINGLE;
 		
 		return config;
 	}

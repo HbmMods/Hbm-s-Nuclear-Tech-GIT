@@ -235,7 +235,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		BulletConfiguration config = mainConfig.reloadType == GunConfiguration.RELOAD_NONE && (magazineMode == MagazineMode.OFF || mainConfig.magazines.isEmpty())
 				? getBeltCfg(player, stack, true)
 						: BulletConfigSyncingUtil.pullConfig(magazineMode == MagazineMode.OFF || mainConfig.magazines.isEmpty()
-							? mainConfig.config.get(clamp_int(magType, 0, mainConfig.config.size() - 1)) : clamp_int(magType, mainConfig.config.getFirst(), mainConfig.config.getLast()));
+							? mainConfig.config.get(clamp_int(magType, 0, mainConfig.config.size() - 1)) : clamp_int(magType, mainConfig.config.min(), mainConfig.config.max()));
 		
 //		if(mainConfig.reloadType == GunConfiguration.RELOAD_NONE) {
 //			config = getBeltCfg(player, stack, true);
@@ -299,10 +299,11 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			if(config.bulletsMax > config.bulletsMin)
 				bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);
 			
+			final int bulletConfig = mainConfig.reloadType == GunConfiguration.RELOAD_NONE && (magazineMode == MagazineMode.OFF || mainConfig.magazines.isEmpty()) ? getBeltID(player, mainConfig) : magazineMode == MagazineMode.OFF ? mainConfig.config.get(magType) : magType;
 			for(int i = 0; i < bullets; i++) {
 //				spawnProjectile(world, player, stack, magazineMode == MagazineMode.OFF || mainConfig.magazines.isEmpty() ? mainConfig.config.get(magType) : magType);//BulletConfigSyncingUtil.getKey(config));
 //				spawnProjectile(world, player, stack, mainConfig.reloadType == GunConfiguration.RELOAD_NONE && (magazineMode == MagazineMode.OFF || !mainConfig.trueBelt) ? getBeltID(player, mainConfig) : magazineMode == MagazineMode.OFF ? mainConfig.config.get(magType) : magType);
-				spawnProjectile(world, player, stack, mainConfig.reloadType == GunConfiguration.RELOAD_NONE && (magazineMode == MagazineMode.OFF || mainConfig.config.isEmpty()) ? getBeltID(player, mainConfig) : magazineMode == MagazineMode.OFF ? mainConfig.config.get(magType) : magType);
+				spawnProjectile(world, player, stack, bulletConfig);
 			}
 			useUpAmmo(player, stack, true);
 			
@@ -333,7 +334,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				return config;
 		}
 	
-		return guncfg.config.getFirst();
+		return guncfg.config.min();
 	}
 	
 	//unlike fire(), being called does not automatically imply success, some things may still have to be handled before spawning the projectile
@@ -424,13 +425,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		if(getReloadCycle(stack) <= 0) {
 			// Don't have to mess with mag type retrieval here since this method is not used when magazines are on
 			BulletConfiguration prevCfg = BulletConfigSyncingUtil.pullConfig(magazineMode == MagazineMode.OFF || mainConfig.magazines.isEmpty()
-					? mainConfig.config.get(clamp_int(getMagType(stack, mainConfig.independentChamber, true), 0, mainConfig.config.size() - 1)) : clamp_int(getMagType(stack, mainConfig.independentChamber, false), mainConfig.config.getFirst(), mainConfig.config.getLast()));
+					? mainConfig.config.get(clamp_int(getMagType(stack, mainConfig.independentChamber, true), 0, mainConfig.config.size() - 1)) : clamp_int(getMagType(stack, mainConfig.independentChamber, false), mainConfig.config.min(), mainConfig.config.max()));
 
-			if(getMag(stack, true) == 0)
+			if(getMag(stack, true) == 0 || getMagType(stack, mainConfig.independentChamber, mainConfig.magazines.isEmpty()) < 0)
 				resetAmmoType(stack, world, player);
 			
 			BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(magazineMode == MagazineMode.OFF || mainConfig.magazines.isEmpty()
-					? mainConfig.config.get(clamp_int(getMagType(stack, mainConfig.independentChamber, true), 0, mainConfig.config.size() - 1)) : clamp_int(getMagType(stack, mainConfig.independentChamber, false), mainConfig.config.getFirst(), mainConfig.config.getLast()));
+					? mainConfig.config.get(clamp_int(getMagType(stack, mainConfig.independentChamber, true), 0, mainConfig.config.size() - 1)) : clamp_int(getMagType(stack, mainConfig.independentChamber, false), mainConfig.config.min(), mainConfig.config.max()));
 			ComparableStack ammo = (ComparableStack) cfg.ammo.copy();
 			
 			final int countNeeded = (mainConfig.reloadType == GunConfiguration.RELOAD_FULL) ? mainConfig.ammoCap - getMag(stack, true) : 1;
@@ -456,7 +457,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			if(hasLoaded && mainConfig.reloadSoundEnd)
 				world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 			
-			if(mainConfig.ejector != null && mainConfig.ejector.getAfterReload())
+			if (mainConfig.cacheBulletsForPostReloadCasingEjection && mainConfig.cacheEjector != null)
+				trySpawnCachedCasings(player, mainConfig.cacheEjector, stack, mainConfig);
+			else if (mainConfig.ejector != null && mainConfig.ejector.getAfterReload())
 				queueCasing(player, mainConfig.ejector, prevCfg, stack);
 			
 			InventoryUtil.tryConsumeAStack(player.inventory.mainInventory, 0, player.inventory.mainInventory.length, ammo);
@@ -490,12 +493,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				final EnumMagazine magazineType = getMagazineEnum(stack, mainConfig);
 				magStack = new ItemStack(ModItems.gun_magazine, 1, magazineType.ordinal());
 				magStack.stackTagCompound = getMagazineNBT(stack);
-				System.out.println("ItemGunBase.reloadMagazine()");
-				if (!player.inventory.addItemStackToInventory(magStack))
-				{
-					System.out.println("ItemGunBase.reloadMagazine()");
-					player.entityDropItem(magStack, 0);
-				}
+				
+				if (!magazineType.belt || ItemMagazine.getUsedAmount(magStack) > 0)
+					if (!player.inventory.addItemStackToInventory(magStack))
+						player.entityDropItem(magStack, 0);
 			}
 			
 			// Try find first magazine
@@ -564,6 +565,11 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				}
 				if (normalReload && mainConfig.reloadSoundEnd && !mainConfig.reloadSound.isEmpty())
 					world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
+				
+				// Logically, the cache ejector is only used for revolvers and so is spawning after reloads
+				if (mainConfig.cacheEjector != null)
+					trySpawnCachedCasings(player, mainConfig.cacheEjector, stack, mainConfig);
+				
 			} else if (mainConfig.fallback)// Fallback if no magazine found
 			{
 				reload2(stack, world, player);
@@ -688,17 +694,17 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			final EnumMagazine magazineType = EnumUtil.grabEnumSafely(EnumMagazine.class, getMagazineType(stack, mainConfig));
 			final int bulletType = getMagType(stack, mainConfig.independentChamber, mainConfig.magazines.isEmpty());
 			ComparableStack ammo = BulletConfigSyncingUtil.pullConfig(magazineMode == MagazineMode.OFF ||  mainConfig.magazines.isEmpty()
-					? mainConfig.config.get(clamp_int(bulletType, 0, mainConfig.config.size() - 1)) : clamp_int(bulletType, mainConfig.config.getFirst(), mainConfig.config.getLast())).ammo;
+					? mainConfig.config.get(clamp_int(bulletType, 0, mainConfig.config.size() - 1)) : clamp_int(bulletType, mainConfig.config.min(), mainConfig.config.max())).ammo;
 			
 			// +1 to account for it being the stack pointer and the round in the chamber
 			list.add(I18nUtil.resolveKey(HbmCollection.ammo, mainConfig.ammoCap > 0
-					? I18nUtil.resolveKey(HbmCollection.ammoMag, magazineMode == MagazineMode.OFF || !magazineType.belt ? getMag(stack, mainConfig.magazines.isEmpty()) + (mainConfig.independentChamber && isChambered(stack) ? 1 : 0) : getAllFromValid(player, magazineType) + getMag(stack, false) + (isChambered(stack) ? 1 : 0), magazineMode == MagazineMode.OFF || mainConfig.magazines.isEmpty() ? mainConfig.ammoCap : magazineType.belt ? "∞" : magazineType.capacity)
+					? I18nUtil.resolveKey(HbmCollection.ammoMag, magazineMode == MagazineMode.OFF || magazineMode == MagazineMode.HIDEOUS || !magazineType.belt ? getMag(stack, mainConfig.magazines.isEmpty()) + (mainConfig.independentChamber && isChambered(stack) ? 1 : 0) : getAllFromValid(player, magazineType) + getMag(stack, false) + (isChambered(stack) ? 1 : 0), magazineMode == MagazineMode.OFF || mainConfig.magazines.isEmpty() ? mainConfig.ammoCap : magazineType.belt && magazineMode != MagazineMode.HIDEOUS ? "∞" : magazineType.capacity)
 							: I18nUtil.resolveKey(HbmCollection.ammoBelt)));
 			
 			list.add(I18nUtil.resolveKey(HbmCollection.ammoType, ammo.toStack().getDisplayName()));
 
 			if(altConfig != null && altConfig.ammoCap == 0) {
-				ComparableStack ammo2 = BulletConfigSyncingUtil.pullConfig(altConfig.config.getFirst()).ammo;
+				ComparableStack ammo2 = BulletConfigSyncingUtil.pullConfig(altConfig.config.min()).ammo;
 				if(!ammo.isApplicable(ammo2)) {
 					list.add(I18nUtil.resolveKey(HbmCollection.altAmmoType, ammo2.toStack().getDisplayName()));
 				}
@@ -722,7 +728,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		{
 			final int ammoType = getMagType(stack, mainConfig.independentChamber, mainConfig.magazines.isEmpty());
 			final BulletConfiguration bulletConfig = BulletConfigSyncingUtil.pullConfig(magazineMode == MagazineMode.OFF || mainConfig.magazines.isEmpty()
-					? mainConfig.config.get(clamp_int(ammoType, 0, mainConfig.config.size() - 1)) : clamp_int(ammoType, mainConfig.config.getFirst(), mainConfig.config.getLast()));
+					? mainConfig.config.get(clamp_int(ammoType, 0, mainConfig.config.size() - 1)) : clamp_int(ammoType, mainConfig.config.min(), mainConfig.config.max()));
 			list.add(I18nUtil.resolveKey(HbmCollection.gunDamage, bulletConfig.dmgMin, bulletConfig.dmgMax));
 			if(bulletConfig.bulletsMax != 1)
 				list.add(I18nUtil.resolveKey(HbmCollection.gunPellets, bulletConfig.bulletsMin, bulletConfig.bulletsMax));
@@ -757,6 +763,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 					list.add("Stack pointer: " + ItemMagazine.getStackPointer(magNBT));
 					list.add("Stack capacity: " + magNBT.getShort(ItemMagazine.CAPACITY_KEY));// TODO Make method
 					list.add("One chambered? " + isChambered(stack));
+				}
+				
+				if (mainConfig.cacheBulletsForPostReloadCasingEjection)
+				{
+					final int[] bulletCache = getBulletCache(stack, mainConfig.ammoCap);
+					list.add("Bullet cache: " + Arrays.toString(bulletCache));
+					list.add("Bullet cache stack pointer: " + getBulletCachePointer(stack));
 				}
 			}
 		} catch (Exception e)
@@ -839,8 +852,12 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		} else if ((config.reloadType != GunConfiguration.RELOAD_NONE || !config.magazines.isEmpty()) && magazineMode != MagazineMode.OFF)
 		{
 			if (ItemMagazine.getStackPointer(getMagazineNBT(stack)) >= 0)
-				popMag(stack, config);
-			else
+			{
+				final int oldType = popMag(stack, config);
+				// If ejector is null, caching bullets is pointless
+				if (config.cacheBulletsForPostReloadCasingEjection && config.cacheEjector != null)
+					tryPushToCache(stack, oldType, config.ammoCap);
+			} else
 			{
 //				if (mainConfig.reloadType == GunConfiguration.RELOAD_NONE && mainConfig.trueBelt)
 				if (mainConfig.reloadType == GunConfiguration.RELOAD_NONE && magazineMode != MagazineMode.HIDEOUS && !mainConfig.magazines.isEmpty() && canReload(stack, player.worldObj, player))
@@ -940,31 +957,19 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		{
 			// A bit hacky, but should work
 			final NBTTagCompound magazineNBT = getMagazineNBT(stack);
-			final int type = Math.max(getMagType(stack, false, false), config.config.getFirst()), sp = ItemMagazine.getStackPointer(magazineNBT) + 1, toFill = Math.min(i, magazineNBT.getShort(ItemMagazine.CAPACITY_KEY) - sp), newSp = sp + toFill - 1;
+			if (!hasMagazineNBT(stack))
+			{
+				ItemMagazine.initNBT(magazineNBT, config.ammoCap);
+				stack.stackTagCompound.setTag("magazineNBT", magazineNBT);
+			}
+			final int type = Math.max(getMagType(stack, false, false), config.config.min()), sp = Math.max(ItemMagazine.getStackPointer(magazineNBT) + (config.independentChamber ? 1 : 0), 0), toFill = Math.min(i, config.ammoCap - sp), newSp = sp + toFill;
 			final int[] magStack = ItemMagazine.getStack(magazineNBT);
-			Arrays.fill(magStack, sp, newSp + 1, type);
-			ItemMagazine.setStackPointer(magazineNBT, newSp);
+			Arrays.fill(magStack, sp, newSp, type);
+			ItemMagazine.setStackPointer(magazineNBT, newSp - 1);
 		}
 	}
 	
 	public static int getMag(ItemStack stack, boolean noMags) {
-		/*
-		 * ———————————No magazines?———————————
-		 * ⠀⣞⢽⢪⢣⢣⢣⢫⡺⡵⣝⡮⣗⢷⢽⢽⢽⣮⡷⡽⣜⣜⢮⢺⣜⢷⢽⢝⡽⣝
-		 * ⠸⡸⠜⠕⠕⠁⢁⢇⢏⢽⢺⣪⡳⡝⣎⣏⢯⢞⡿⣟⣷⣳⢯⡷⣽⢽⢯⣳⣫⠇
-		 * ⠀⠀⢀⢀⢄⢬⢪⡪⡎⣆⡈⠚⠜⠕⠇⠗⠝⢕⢯⢫⣞⣯⣿⣻⡽⣏⢗⣗⠏
-		 * ⠀⠪⡪⡪⣪⢪⢺⢸⢢⢓⢆⢤⢀⠀⠀⠀⠀⠈⢊⢞⡾⣿⡯⣏⢮⠷⠁
-		 * ⠀⠀⠀⠈⠊⠆⡃⠕⢕⢇⢇⢇⢇⢇⢏⢎⢎⢆⢄⠀⢑⣽⣿⢝⠲⠉
-		 * ⠀⠀⠀⠀⠀⡿⠂⠠⠀⡇⢇⠕⢈⣀⠀⠁⠡⠣⡣⡫⣂⣿⠯⢪⠰⠂
-		 * ⠀⠀⠀⠀⡦⡙⡂⢀⢤⢣⠣⡈⣾⡃⠠⠄⠀⡄⢱⣌⣶⢏⢊⠂
-		 * ⠀⠀⠀⠀⢝⡲⣜⡮⡏⢎⢌⢂⠙⠢⠐⢀⢘⢵⣽⣿⡿⠁⠁
-		 * ⠀⠀⠀⠀⠨⣺⡺⡕⡕⡱⡑⡆⡕⡅⡕⡜⡼⢽⡻⠏
-		 * ⠀⠀⠀⠀⣼⣳⣫⣾⣵⣗⡵⡱⡡⢣⢑⢕⢜⢕⡝
-		 * ⠀⠀⠀⣴⣿⣾⣿⣿⣿⡿⡽⡑⢌⠪⡢⡣⣣⡟
-		 * ⠀⠀⠀⡟⡾⣿⢿⢿⢵⣽⣾⣼⣘⢸⢸⣞⡟
-		 * ⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋
-		 * ————————————————————————————————
-		 */
 		return magazineMode == MagazineMode.OFF || noMags
 				? readNBT(stack, "magazine")
 						: hasMagazineNBT(stack) ? ItemMagazine.getStackPointer(getMagazineNBT(stack)) + 1 : 0;
@@ -1092,6 +1097,57 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		return stack.hasTagCompound() ? stack.stackTagCompound.hasKey("magazineNBT") : false;
 	}
 	
+	public static void tryPushToCache(ItemStack stack, int i, int capacity)
+	{
+		final int[] cache = getBulletCache(stack, capacity);
+		int sp = getBulletCachePointer(stack);
+		if (sp >= cache.length - 1)
+			return;
+		cache[++sp] = i;
+		setBulletCachePointer(stack, sp);
+	}
+	
+	public static int getBulletCachePointer(ItemStack stack)
+	{
+		if (!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+		if (!stack.stackTagCompound.hasKey("bulletCacheSP"))
+			stack.stackTagCompound.setShort("bulletCacheSP", (short) -1);
+		
+		return stack.stackTagCompound.getShort("bulletCacheSP");
+	}
+	
+	public static void setBulletCachePointer(ItemStack stack, int sp)
+	{
+		if (!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+		
+		stack.stackTagCompound.setShort("bulletCacheSP", (short) sp);
+	}
+	
+	public static int[] getBulletCache(ItemStack stack, int capacity)
+	{
+		if (!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+		
+		if (!stack.stackTagCompound.hasKey("bulletCache"))
+		{
+			final int[] cache = new int[capacity];
+			Arrays.fill(cache, -1);
+			stack.stackTagCompound.setIntArray("bulletCache", cache);
+		}
+		
+		return stack.stackTagCompound.getIntArray("bulletCache");
+	}
+	
+	public static void setBulletCache(ItemStack stack, int[] cache)
+	{
+		if (!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+		
+		stack.stackTagCompound.setIntArray("bulletCache", cache);
+	}
+	
 	/// NBT utility ///
 	public static void writeNBT(ItemStack stack, String key, int value) {
 		
@@ -1127,7 +1183,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			if (gun.mainConfig.config.isEmpty()) return;
 			// Gotta make sure it's in range
 			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(magazineMode == MagazineMode.OFF || !hasMagazines
-					? gcfg.config.get(clamp_int(mag, 0, gcfg.config.size() - 1)) : clamp_int(mag, gcfg.config.getFirst(), gcfg.config.getLast()));
+					? gcfg.config.get(clamp_int(mag, 0, gcfg.config.size() - 1)) : clamp_int(mag, gcfg.config.min(), gcfg.config.max()));
 			
 			if(bcfg == null) {
 				return;
@@ -1139,7 +1195,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			if (magazineMode != MagazineMode.OFF && mainConfig.independentChamber && isChambered(stack))
 				count++;// To account for the round in the chamber
 //			if (magazineType.belt && gcfg.trueBelt && magazineMode != MagazineMode.HIDEOUS)// To account for other belts
-			if (magazineType.belt && hasMagazines && (magazineMode != MagazineMode.HIDEOUS || magazineMode != MagazineMode.OFF))// To account for other belts
+			if (magazineType.belt && hasMagazines && (magazineMode != MagazineMode.HIDEOUS && magazineMode != MagazineMode.OFF))// To account for other belts
 				count += getAllFromValid(player, magazineType);
 			int max = magazineMode == MagazineMode.OFF || !hasMagazines
 					? gcfg.ammoCap
@@ -1152,8 +1208,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				{
 					ammo = getBeltType(player, stack, true);
 					count = getBeltSize(player, ammo);
-				}
-				max = -1;
+				} else if (magazineMode != MagazineMode.HIDEOUS)
+					max = -1;
 			}
 			
 			int dura = getItemWear(stack) * 50 / gcfg.durability;
@@ -1214,6 +1270,20 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			setCasing(stack, bullet);
 			setCasingTimer(stack, ejector.getDelay());
 		}
+	}
+	
+	protected static void trySpawnCachedCasings(Entity entity, CasingEjector ejector, ItemStack stack, GunConfiguration config)
+	{
+		final int[] bulletCache = getBulletCache(stack, config.ammoCap);
+		int sp;
+		for (sp = getBulletCachePointer(stack); sp >= 0; sp--)
+		{
+			final int bulletID = Math.max(bulletCache[sp], config.config.min());
+			bulletCache[sp] = -1;
+			final BulletConfiguration bulletCfg = BulletConfigSyncingUtil.pullConfig(bulletID);
+			trySpawnCasing(entity, ejector, bulletCfg, stack);
+		}
+		setBulletCachePointer(stack, sp);
 	}
 	
 	protected static void trySpawnCasing(Entity entity, CasingEjector ejector, BulletConfiguration bullet, ItemStack stack) {

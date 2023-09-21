@@ -433,7 +433,7 @@ public class ItemMagazine extends ItemEnumMulti
 		
 		final int[] bulletStack = magazine.getIntArray(STACK_KEY);
 		final short index = magazine.getShort(STACK_POINTER_KEY);
-		final int key = bulletStack[index];
+		final int key = bulletStack[Math.min(index, bulletStack.length - 1)];
 		
 		return key;
 	}

@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 public class CasingEjector implements Cloneable {
 	
 //	public static HashMap<Integer, CasingEjector> mappings = new HashMap();
+	// Could also just be a list
 	public static final MutableIntObjectMap<CasingEjector> mappings = IntObjectMaps.mutable.empty();
 	public static final Random rand = new Random();
 
@@ -153,6 +154,13 @@ public class CasingEjector implements Cloneable {
 	
 	public static CasingEjector fromId(int id) {
 		return mappings.get(id);
+	}
+	
+	public CasingEjector reregister()
+	{
+		this.id = nextId++;
+		mappings.put(id, this);
+		return this;
 	}
 	
 	@Override

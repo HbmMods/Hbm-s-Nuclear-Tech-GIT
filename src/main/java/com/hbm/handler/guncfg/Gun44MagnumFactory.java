@@ -32,11 +32,12 @@ import net.minecraft.util.Vec3;
 
 public class Gun44MagnumFactory {
 	
-	private static final CasingEjector EJECTOR_PIP;
+	private static final CasingEjector EJECTOR_PIP, EJECTOR_SINGLE;
 	private static final SpentCasing CASING44;
 
 	static {
 		EJECTOR_PIP = new CasingEjector().setMotion(Vec3.createVectorHelper(0, 0, -0.05)).setOffset(Vec3.createVectorHelper(0, -0.15, 0)).setAngleRange(0.01F, 0.05F).setAfterReload().setAmount(6);
+		EJECTOR_SINGLE = EJECTOR_PIP.clone().setAmount(1).reregister();
 		CASING44 = new SpentCasing(CasingType.STRAIGHT).setScale(1.5F, 1.0F, 1.5F).setBounceMotion(0.01F, 0.05F).setColor(SpentCasing.COLOR_CASE_44);
 	}
 	
@@ -69,6 +70,8 @@ public class Gun44MagnumFactory {
 		config.independentChamber = false;
 		config.absorbsMag = false;
 		config.fallback = true;
+		config.cacheBulletsForPostReloadCasingEjection = true;
+		config.cacheEjector = EJECTOR_SINGLE;
 		
 		return config;
 	}
@@ -134,6 +137,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_BJ);
 		config.config.addAll(HbmCollection.m44Normal);
 		
+		config.magazines.clear();
 		config.magazines.add((short) EnumMagazine.S_44_BJ.ordinal());
 		
 		config.ejector = EJECTOR_PIP.clone().setAmount(5);
@@ -169,7 +173,7 @@ public class Gun44MagnumFactory {
 		GunConfiguration config = getBaseConfig();
 		
 		config.durability = 4000;
-		config.ammoCap = 8;
+		config.ammoCap = 64;
 
 		config.allowsInfinity = false;
 		config.name = "ifPit";
