@@ -921,6 +921,7 @@ public class MainRegistry {
 		World world = event.getServer().getEntityWorld();
 		RBMKDials.createDials(world);
 		SiegeOrchestrator.createGameRules(world);
+		CompatHandler.createCompat(world);
 		event.registerServerCommand(new CommandReloadRecipes());
 		event.registerServerCommand(new CommandDebugChunkLoad());
 		event.registerServerCommand(new CommandSatellites());

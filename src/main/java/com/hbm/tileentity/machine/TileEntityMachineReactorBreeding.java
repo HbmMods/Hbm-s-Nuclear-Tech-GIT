@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.ReactorResearch;
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.container.ContainerMachineReactorBreeding;
 import com.hbm.inventory.gui.GUIMachineReactorBreeding;
 import com.hbm.inventory.recipes.BreederRecipes;
@@ -15,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
+import li.cil.oc.api.network.SidedComponent;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,8 +28,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineReactorBreeding extends TileEntityMachineBase implements SimpleComponent, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SidedComponent", modid = "OpenComputers")})
+public class TileEntityMachineReactorBreeding extends TileEntityMachineBase implements SidedComponent, IGUIProvider {
 
 	public int flux;
 	public float progress;
@@ -216,9 +217,14 @@ public class TileEntityMachineReactorBreeding extends TileEntityMachineBase impl
 	}
 	
 	// do some opencomputer stuff
-	@Override
+
 	public String getComponentName() {
 		return "breeding_reactor";
+	}
+
+	@Override
+	public boolean canConnectNode(ForgeDirection side) {
+		return (CompatHandler.canConnect(worldObj, side, this));
 	}
 
 	@Callback
