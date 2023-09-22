@@ -714,6 +714,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityMovingPackage.class, new RenderMovingPackage());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTNTPrimedBase.class, new RenderTNTPrimedBase());
 		RenderingRegistry.registerEntityRenderingHandler(EntityDeliveryDrone.class, new RenderDeliveryDrone());
+		RenderingRegistry.registerEntityRenderingHandler(EntityFallingBlockNT.class, new RenderFallingBlockNT());
 		//mobs
 		RenderingRegistry.registerEntityRenderingHandler(EntityCreeperNuclear.class, new RenderCreeperUniversal(RefStrings.MODID + ":" + "textures/entity/creeper.png", RefStrings.MODID + ":" + "textures/entity/creeper_armor.png").setSwellMod(5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityCreeperTainted.class, new RenderCreeperUniversal(RefStrings.MODID + ":" + "textures/entity/creeper_tainted.png", RefStrings.MODID + ":" + "textures/entity/creeper_armor_taint.png"));

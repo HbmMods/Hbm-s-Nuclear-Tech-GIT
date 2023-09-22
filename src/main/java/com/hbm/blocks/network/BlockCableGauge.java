@@ -14,13 +14,8 @@ import com.hbm.tileentity.network.TileEntityCableBaseNT;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
-import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
@@ -103,8 +98,7 @@ public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, 
 		return IBlockMultiPass.getRenderType();
 	}
 
-	@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-	public static class TileEntityCableGauge extends TileEntityCableBaseNT implements INBTPacketReceiver, SimpleComponent {
+	public static class TileEntityCableGauge extends TileEntityCableBaseNT implements INBTPacketReceiver {
 
 		private BigInteger lastMeasurement = BigInteger.valueOf(10);
 		private long deltaTick = 0;
@@ -144,22 +138,6 @@ public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, 
 		public void networkUnpack(NBTTagCompound nbt) {
 			this.deltaTick = Math.max(nbt.getLong("deltaT"), 0);
 			this.deltaLastSecond = Math.max(nbt.getLong("deltaS"), 0);
-		}
-
-		public String getComponentName() {
-			return "ntm_cable_gauge";
-		}
-
-		@Callback(direct = true, limit = 8)
-		@Optional.Method(modid = "OpenComputers")
-		public Object[] getTransfer(Context context, Arguments args) {
-			return new Object[] {deltaTick, deltaSecond};
-		}
-
-		@Callback(direct = true, limit = 8)
-		@Optional.Method(modid = "OpenComputers")
-		public Object[] getInfo(Context context, Arguments args) {
-			return new Object[] {deltaTick, deltaSecond, xCoord, yCoord, zCoord};
 		}
 	}
 }

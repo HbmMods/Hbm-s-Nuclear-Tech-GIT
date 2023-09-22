@@ -213,6 +213,7 @@ public class EntityMappings {
 		addEntity(EntityChemical.class, "entity_chemthrower_splash", 1000);
 		addEntity(EntityMist.class, "entity_mist", 250, false);
 		addEntity(EntityAcidBomb.class, "entity_acid_bomb", 1000);
+		addEntity(EntityFallingBlockNT.class, "entity_falling_block_nt", 1000);
 
 		addEntity(EntityItemWaste.class, "entity_item_waste", 100);
 		addEntity(EntityItemBuoyant.class, "entity_item_buoyant", 100);
