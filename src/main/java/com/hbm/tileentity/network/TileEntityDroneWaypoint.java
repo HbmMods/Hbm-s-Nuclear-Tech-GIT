@@ -19,7 +19,8 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 	public int nextX = -1;
 	public int nextY = -1;
 	public int nextZ = -1;
-	
+
+	@Override
 	public void updateEntity() {
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
@@ -82,7 +83,8 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
+		this.height = nbt.getInteger("height");
 		int[] pos = nbt.getIntArray("pos");
 		this.nextX = pos[0];
 		this.nextY = pos[1];
@@ -92,7 +94,8 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
+		nbt.setInteger("height", height);
 		nbt.setIntArray("pos", new int[] {nextX, nextY, nextZ});
 	}
 }

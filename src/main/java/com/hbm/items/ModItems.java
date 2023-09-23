@@ -1038,6 +1038,7 @@ public class ModItems {
 
 	public static Item cart;
 	public static Item train;
+	public static Item drone;
 
 	public static Item coin_creeper;
 	public static Item coin_radiation;
@@ -3456,6 +3457,7 @@ public class ModItems {
 		
 		cart = new ItemModMinecart().setUnlocalizedName("cart");
 		train = new ItemTrain().setUnlocalizedName("train");
+		drone = new ItemDrone().setUnlocalizedName("drone");
 		
 		coin_creeper = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_creeper").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_creeper");
 		coin_radiation = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("coin_radiation").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":coin_radiation");
@@ -7696,6 +7698,7 @@ public class ModItems {
 		//Minecarts
 		GameRegistry.registerItem(cart, cart.getUnlocalizedName());
 		GameRegistry.registerItem(train, train.getUnlocalizedName());
+		GameRegistry.registerItem(drone, drone.getUnlocalizedName());
 		
 		//High Explosive Lenses
 		GameRegistry.registerItem(early_explosive_lenses, early_explosive_lenses.getUnlocalizedName());

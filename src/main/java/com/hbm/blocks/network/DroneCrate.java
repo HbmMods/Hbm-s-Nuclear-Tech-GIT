@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.network.TileEntityDroneCrate;
@@ -59,6 +60,9 @@ public class DroneCrate extends BlockContainer implements ILookOverlay, ITooltip
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.drone_linker) return false;
+		
 		if(world.isRemote) {
 			return true;
 		} else if(!player.isSneaking()) {

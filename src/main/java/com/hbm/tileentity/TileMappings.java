@@ -393,6 +393,7 @@ public class TileMappings {
 		put(TileEntityRadioTelex.class, "tileentity_rtty_telex");
 		
 		put(TileEntityDroneWaypoint.class, "tileentity_drone_waypoint");
+		put(TileEntityDroneWaypointRequest.class, "tileentity_drone_waypoint_request");
 		put(TileEntityDroneCrate.class, "tileentity_drone_crate");
 	}
 	

@@ -225,10 +225,6 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		int firstDigitX = 66;
 		int firstDigitY = 62;
 		
-		int width = 5;
-		int height = 11;
-		int spaceBetweenBumbers = 3;
-		
 		int[] digit = new int[6];
 		
 		for(int i = 5; i >= 0; i--) { //creates an array of digits that represent the numbers

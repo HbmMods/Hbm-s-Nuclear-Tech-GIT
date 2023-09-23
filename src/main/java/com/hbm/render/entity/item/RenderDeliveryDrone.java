@@ -19,7 +19,11 @@ public class RenderDeliveryDrone extends Render {
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		bindTexture(ResourceManager.delivery_drone_tex);
+		
+		if(entity.getDataWatcher().getWatchableObjectByte(11) == 1)
+			bindTexture(ResourceManager.delivery_drone_express_tex);
+		else
+			bindTexture(ResourceManager.delivery_drone_tex);
 		ResourceManager.delivery_drone.renderPart("Drone");
 		
 		EntityDeliveryDrone drone = (EntityDeliveryDrone) entity;
