@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration;
 import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration.ComponentDefinition;
@@ -275,6 +276,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		double gain=0;
 		int normal = 0;
+		int part = 0;
 		for(ComponentDefinition comp : config.components) {
 			
 			/* vvv precisely the same method used for defining ports vvv */
@@ -293,11 +295,21 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 			if(b != comp.block) return false;
 			
 			int meta = worldObj.getBlockMetadata(x, y, z);
-			if(comp.allowedMetas.size() == 1) {normal++;}
-            for(int i=0;i<comp.allowedMetas.size();i++){
-				if((int)comp.allowedMetas.toArray()[i] == meta && i!=0) {
-					gain = gain+i/(comp.allowedMetas.size()-1);
-					break;
+			if(b == ModBlocks.cm_block||
+			   b == ModBlocks.cm_port||
+			   b == ModBlocks.cm_circuit||
+			   b == ModBlocks.cm_tank||
+			   b == ModBlocks.cm_engine||
+			   b == ModBlocks.cm_sheet) {
+				part++;
+				if (comp.allowedMetas.size() == 1) {
+					normal++;
+				}
+				for (int i = 0; i < comp.allowedMetas.size(); i++) {
+					if ((int) comp.allowedMetas.toArray()[i] == meta && i != 0) {
+						gain = gain + i / (comp.allowedMetas.size() - 1);
+						break;
+					}
 				}
 			}
 			if(!comp.allowedMetas.contains(meta)) return false;
@@ -313,7 +325,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 				}
 			}
 		}
-		if(config.components.size()>normal) this.gain=gain/(1.6*(config.components.size()-normal));
+		if(part>normal) this.gain=gain/(1.6*(part-normal));
 		else this.gain=0;
 		for(ForgeDirection facing : ForgeDirection.VALID_DIRECTIONS) {
 			this.connectionPos.add(new DirPos(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ, facing));
