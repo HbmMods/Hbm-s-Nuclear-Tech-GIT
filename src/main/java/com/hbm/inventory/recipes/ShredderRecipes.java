@@ -46,6 +46,8 @@ public class ShredderRecipes extends SerializableRecipe {
 			if(name == null || name.isEmpty())
 				continue;
 			
+			if(name.contains("Any")) continue;
+			
 			List<ItemStack> matches = OreDictionary.getOres(name);
 			
 			//if the name isn't assigned to an ore, also skip
@@ -93,10 +95,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		if(name.length() > len && name.substring(0, len).equals(prefix)) {
 			
 			String matName = name.substring(len);
-			
-			//skip over genericized names so we don't accidentally convert item groups
-			if(matName.startsWith("Any"))
-				return;
 			
 			ItemStack dust = getDustByName(matName);
 			

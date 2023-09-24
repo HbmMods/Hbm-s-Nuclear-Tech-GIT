@@ -4410,7 +4410,7 @@ public class ModItems {
 		fuse = new ItemCustomLore().setUnlocalizedName("fuse").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fuse");
 		redcoil_capacitor = new ItemCapacitor(10).setUnlocalizedName("redcoil_capacitor").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":redcoil_capacitor");
 		euphemium_capacitor = new ItemCustomLore().setRarity(EnumRarity.epic).setUnlocalizedName("euphemium_capacitor").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":redcoil_capacitor_euphemium");
-		titanium_filter = new ItemCapacitor(6 * 60 * 60 * 20).setUnlocalizedName("titanium_filter").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":titanium_filter");
+		titanium_filter = new ItemTitaniumFilter(6 * 60 * 60 * 20).setUnlocalizedName("titanium_filter").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":titanium_filter");
 		screwdriver = new ItemTooling(ToolType.SCREWDRIVER, 100).setUnlocalizedName("screwdriver");
 		screwdriver_desh = new ItemTooling(ToolType.SCREWDRIVER, 0).setUnlocalizedName("screwdriver_desh");
 		hand_drill = new ItemTooling(ToolType.HAND_DRILL, 100).setUnlocalizedName("hand_drill");
