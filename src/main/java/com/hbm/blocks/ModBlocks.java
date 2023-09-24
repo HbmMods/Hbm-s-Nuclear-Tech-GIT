@@ -831,6 +831,7 @@ public class ModBlocks {
 	public static Block crane_splitter;
 
 	public static Block drone_waypoint;
+	public static Block drone_waypoint_request;
 	public static Block drone_crate;
 	public static Block drone_waypoint_request;
 	public static Block drone_dock;
@@ -2013,6 +2014,7 @@ public class ModBlocks {
 		piston_inserter = new PistonInserter().setBlockName("piston_inserter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		drone_waypoint = new DroneWaypoint().setBlockName("drone_waypoint").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":drone_waypoint");
+		drone_waypoint_request = new DroneWaypointRequest().setBlockName("drone_waypoint_request").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":drone_waypoint_request");
 		drone_crate = new DroneCrate().setBlockName("drone_crate").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		drone_waypoint_request = new DroneWaypointRequest().setBlockName("drone_waypoint_request").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":drone_waypoint_request");
 		drone_dock = new DroneDock().setBlockName("drone_dock").setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":drone_dock");
@@ -3296,6 +3298,7 @@ public class ModBlocks {
 		register(conveyor_lift);
 		register(crane_splitter);
 		register(drone_waypoint);
+		register(drone_waypoint_request);
 		register(drone_crate);
 		register(drone_waypoint_request);
 		register(drone_dock);
