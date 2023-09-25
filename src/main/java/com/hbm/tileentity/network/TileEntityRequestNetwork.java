@@ -14,6 +14,16 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 
+/**
+ * i can see it clearly
+ * this simple idea, this concept of 4 individually acting objects performing basic tasks
+ * it is all spiraling out of control
+ * in a giant mess of nested generics, magic numbers and static global variables
+ * may god have mercy on my soul
+ * 
+ * @author hbm
+ *
+ */
 public class TileEntityRequestNetwork extends TileEntity {
 	
 	public static HashMap<World, HashMap<ChunkCoordIntPair, Set<BlockPos>>> activeWaypoints = new HashMap();

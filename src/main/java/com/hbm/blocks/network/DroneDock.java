@@ -1,5 +1,8 @@
 package com.hbm.blocks.network;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.tileentity.network.TileEntityDroneDock;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
@@ -20,6 +23,9 @@ public class DroneDock extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
+		
+		if(this == ModBlocks.drone_dock) return new TileEntityDroneDock();
+		
 		return null;
 	}
 
