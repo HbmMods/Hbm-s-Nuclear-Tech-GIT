@@ -222,7 +222,7 @@ public class SkyProviderMoho extends IRenderHandler {
 		}
 		{
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.6f);
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.0f);
 			mc.renderEngine.bindTexture(this.flare);
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(-f11, 100.0D, -f11, 0.0D, 0.0D);
