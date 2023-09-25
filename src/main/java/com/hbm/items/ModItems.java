@@ -19,6 +19,7 @@ import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ItemEnums.*;
+import com.hbm.items.ItemVOTVdrive.DestinationType;
 import com.hbm.items.armor.*;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.items.bomb.*;
@@ -1184,6 +1185,9 @@ public class ModItems {
 	public static Item rod_zirnox_tritium;
 	public static ItemEnumMulti rod_zirnox;
 
+	public static ItemEnumMulti full_drive;
+	public static Item hard_drive;
+	
 	public static Item rod_zirnox_natural_uranium_fuel_depleted;
 	public static Item rod_zirnox_uranium_fuel_depleted;
 	public static Item rod_zirnox_thorium_fuel_depleted;
@@ -3686,6 +3690,8 @@ public class ModItems {
 		cap_sunset = new Item().setUnlocalizedName("cap_sunset").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_sunset");
 		cap_star = new Item().setUnlocalizedName("cap_star").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_star");
 		ring_pull = new Item().setUnlocalizedName("ring_pull").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ring_pull");
+		hard_drive = new Item().setUnlocalizedName("hard_drive").setMaxStackSize(64).setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":votv_e");
+
 		
 		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_empty");
 		can_smart = new ItemEnergy().makeCan().setUnlocalizedName("can_smart").setTextureName(RefStrings.MODID + ":can_smart");
@@ -3801,6 +3807,9 @@ public class ModItems {
 		rod_zirnox_tritium = new Item().setUnlocalizedName("rod_zirnox_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_zirnox_empty).setTextureName(RefStrings.MODID + ":rod_zirnox_tritium");
 		//rod_zirnox_zfb_mox = new ItemZirnoxRodDeprecated(50000, 35).setUnlocalizedName("rod_zirnox_zfb_mox").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_zirnox_zfb_mox");
 		rod_zirnox = (ItemEnumMulti) new ItemZirnoxRod().setUnlocalizedName("rod_zirnox").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_zirnox");
+		
+		full_drive = (ItemEnumMulti) new ItemVOTVdrive().setUnlocalizedName("hard_drive_full").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":votv_f");
+
 		
 		rod_zirnox_natural_uranium_fuel_depleted = new Item().setUnlocalizedName("rod_zirnox_natural_uranium_fuel_depleted").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_zirnox_empty).setTextureName(RefStrings.MODID + ":rod_zirnox_uranium_fuel_depleted");
 		rod_zirnox_uranium_fuel_depleted = new Item().setUnlocalizedName("rod_zirnox_uranium_fuel_depleted").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_zirnox_empty).setTextureName(RefStrings.MODID + ":rod_zirnox_uranium_fuel_depleted");
@@ -6535,7 +6544,9 @@ public class ModItems {
 		GameRegistry.registerItem(parts_legendary, parts_legendary.getUnlocalizedName());
 		GameRegistry.registerItem(gear_large, gear_large.getUnlocalizedName());
 		GameRegistry.registerItem(sawblade, sawblade.getUnlocalizedName());
-		
+		GameRegistry.registerItem(hard_drive, hard_drive.getUnlocalizedName());
+		GameRegistry.registerItem(full_drive, full_drive.getUnlocalizedName());
+
 		//Plant Products
 		GameRegistry.registerItem(plant_item, plant_item.getUnlocalizedName());
 		
@@ -8661,6 +8672,10 @@ public class ModItems {
 		addRemap("rod_zirnox_les_fuel", rod_zirnox, EnumZirnoxType.LES_FUEL);
 		addRemap("rod_zirnox_lithium", rod_zirnox, EnumZirnoxType.LITHIUM);
 		addRemap("rod_zirnox_zfb_mox", rod_zirnox, EnumZirnoxType.ZFB_MOX);
+		
+		addRemap("hard_drive_duna", full_drive, DestinationType.DUNA);
+		addRemap("hard_drive_moho", full_drive, DestinationType.MOHO);
+
 
 		addRemap("gas_petroleum", gas_full, Fluids.PETROLEUM.getID());
 		addRemap("gas_biogas", gas_full, Fluids.BIOGAS.getID());
