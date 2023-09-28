@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotPattern;
 import com.hbm.inventory.SlotUpgrade;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.network.TileEntityCraneExtractor;
@@ -20,7 +21,7 @@ public class ContainerCraneExtractor extends Container {
 		//filter
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new Slot(extractor, j + i * 3, 71 + j * 18, 17 + i * 18));
+				this.addSlotToContainer(new SlotPattern(extractor, j + i * 3, 71 + j * 18, 17 + i * 18));
 			}
 		}
 		

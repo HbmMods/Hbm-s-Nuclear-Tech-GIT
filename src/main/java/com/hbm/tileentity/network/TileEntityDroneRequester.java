@@ -1,10 +1,19 @@
 package com.hbm.tileentity.network;
 
+import com.hbm.inventory.container.ContainerDroneRequester;
+import com.hbm.inventory.gui.GUIDroneRequester;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IGUIProvider;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
-public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer {
+public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer implements IGUIProvider {
 	
 	public ModulePatternMatcher matcher;
 
@@ -48,5 +57,16 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
 		return true;
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerDroneRequester(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIDroneRequester(player.inventory, this);
 	}
 }
