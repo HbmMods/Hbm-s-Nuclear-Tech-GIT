@@ -4999,6 +4999,7 @@ tile.machine_combine_factory.name=CMB Steel Furnace
 tile.machine_combustion_engine.name=Industrial Combustion Engine
 tile.machine_compressor.name=Compressor
 tile.machine_condenser.name=Steam Condenser
+tile.machine_condenser_powered.name=High-Power Steam Condenser
 tile.machine_controller.name=Reactor Remote Control Block
 tile.machine_converter_he_rf.name=HE to RF Converter
 tile.machine_converter_rf_he.name=RF to HE Converter

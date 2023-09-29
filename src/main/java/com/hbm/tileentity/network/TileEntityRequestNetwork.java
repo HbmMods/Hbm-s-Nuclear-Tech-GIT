@@ -1,10 +1,11 @@
 package com.hbm.tileentity.network;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
+import com.hbm.tileentity.network.RequestNetwork.PathNode;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
@@ -24,16 +25,11 @@ import net.minecraft.world.World;
  * @author hbm
  *
  */
-public class TileEntityRequestNetwork extends TileEntity {
-	
-	public static HashMap<World, HashMap<ChunkCoordIntPair, Set<BlockPos>>> activeWaypoints = new HashMap();
-	public static HashMap<BlockPos, Long> lastActive = new HashMap();
-	public static long lastWipe = 0;
+public abstract class TileEntityRequestNetwork extends TileEntity {
 
-	public Set<BlockPos> reachableNodes = new HashSet();
-	public Set<BlockPos> knownNodes = new HashSet();
+	public Set<PathNode> reachableNodes = new HashSet();
+	public Set<PathNode> knownNodes = new HashSet();
 	public static final int maxRange = 24;
-	public static final int maxAge = 2_000;
 	
 	@Override
 	public void updateEntity() {
@@ -42,52 +38,58 @@ public class TileEntityRequestNetwork extends TileEntity {
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				BlockPos pos = getCoord();
-				push(worldObj, pos);
+				// push new node
+				push(worldObj, createNode(pos));
 				
-				for(BlockPos known : knownNodes) {
+				// remove known nodes that no longer exist
+				// since we can assume a sane number of nodes to exist at any given time, we can run this check in full every second
+				Iterator<PathNode> it = knownNodes.iterator();
+				Set<PathNode> localNodes = this.getAllLocalNodes(worldObj, xCoord, zCoord, 2); // this bit may spiral into multiple nested hashtable lookups but it's limited to only a few chunks so it shouldn't be an issue
+				while(it.hasNext()) {
+					PathNode node = it.next();
+					if(!localNodes.contains(node)) {
+						reachableNodes.remove(node);
+						it.remove();
+					}
+				}
+				
+				// draw debug crap
+				for(PathNode known : knownNodes) {
 					ParticleUtil.spawnDebugLine(worldObj,
 							pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-							(known.getX()  - pos.getX()) / 2D, (known.getY() - pos.getY()) / 2D, (known.getZ() - pos.getZ()) / 2D,
+							(known.pos.getX()  - pos.getX()) / 2D, (known.pos.getY() - pos.getY()) / 2D, (known.pos.getZ() - pos.getZ()) / 2D,
 							reachableNodes.contains(known) ? 0x00ff00 : 0xff0000);
 				}
 				
+				//both following checks run the `hasPath` function which is costly, so it only runs one op at a time
+				
 				//rescan known nodes
-				if(worldObj.getTotalWorldTime() % 40 == 0 && knownNodes.size() > 0) {
+				for(PathNode known : knownNodes) {
 					
-					BlockPos node = (BlockPos) new ArrayList(knownNodes).get(knownNodes.size() > 1 ? worldObj.rand.nextInt(knownNodes.size() - 1) : 0);
-					
-					if(node != null) {
-						
-						Long timestamp = lastActive.get(node);
-						
-						if(timestamp == null || timestamp < System.currentTimeMillis() - maxAge) {
-							knownNodes.remove(node);
-							reachableNodes.remove(node);
-							lastActive.remove(node);
-						} else if(!hasPath(worldObj, pos, node)) {
-							reachableNodes.remove(node);
-						} else {
-							reachableNodes.add(node);
-						}
+					if(!hasPath(worldObj, pos, known.pos)) {
+						reachableNodes.remove(known);
+					} else {
+						reachableNodes.add(known);
 					}
+				}
 					
 				//discover new nodes
-				} else {
-
-					Set<BlockPos> nodes = getAllLocalNodes(worldObj, pos.getX(), pos.getZ());
-					
-					for(BlockPos node : nodes) {
+				int newNodeLimit = 5;
+				for(PathNode node : localNodes) {
 						
-						if(!knownNodes.contains(node) && !node.equals(pos)) {
-							knownNodes.add(node);
-							if(hasPath(worldObj, pos, node)) reachableNodes.add(node);
-							break;
-						}
+					if(!knownNodes.contains(node) && !node.equals(pos)) {
+						newNodeLimit--;
+						knownNodes.add(node);
+						if(hasPath(worldObj, pos, node.pos)) reachableNodes.add(node);
 					}
+					
+					if(newNodeLimit <= 0) break;
 				}
 			}
 		}
 	}
+	
+	public abstract PathNode createNode(BlockPos pos);
 	
 	public BlockPos getCoord() {
 		return new BlockPos(xCoord, yCoord + 1, zCoord);
@@ -120,26 +122,24 @@ public class TileEntityRequestNetwork extends TileEntity {
 	 * @param y
 	 * @param z
 	 */
-	public static void push(World world, BlockPos pos) {
+	public static void push(World world, PathNode node) {
 		
-		HashMap<ChunkCoordIntPair, Set<BlockPos>> coordMap = activeWaypoints.get(world);
+		HashMap<ChunkCoordIntPair, Set<PathNode>> coordMap = RequestNetwork.activeWaypoints.get(world);
 		
 		if(coordMap == null) {
 			coordMap = new HashMap();
-			activeWaypoints.put(world, coordMap);
+			RequestNetwork.activeWaypoints.put(world, coordMap);
 		}
 		
-		ChunkCoordIntPair chunkPos = new ChunkCoordIntPair(pos.getX() >> 4, pos.getZ() >> 4);
-		Set<BlockPos> posList = coordMap.get(chunkPos);
+		ChunkCoordIntPair chunkPos = new ChunkCoordIntPair(node.pos.getX() >> 4, node.pos.getZ() >> 4);
+		Set<PathNode> posList = coordMap.get(chunkPos);
 		
 		if(posList == null) {
 			posList = new HashSet();
 			coordMap.put(chunkPos, posList);
 		}
 		
-		posList.add(pos);
-		
-		lastActive.put(pos, System.currentTimeMillis());
+		posList.add(node);
 	}
 	
 	/**
@@ -150,28 +150,24 @@ public class TileEntityRequestNetwork extends TileEntity {
 	 * @param z
 	 * @return
 	 */
-	public static Set<BlockPos> getAllLocalNodes(World world, int x, int z) {
+	public static Set<PathNode> getAllLocalNodes(World world, int x, int z, int range) {
 		
-		Set<BlockPos> nodes = new HashSet();
+		Set<PathNode> nodes = new HashSet();
 
 		x >>= 4;
 		z >>= 4;
 		
-		HashMap<ChunkCoordIntPair, Set<BlockPos>> coordMap = activeWaypoints.get(world);
+		HashMap<ChunkCoordIntPair, Set<PathNode>> coordMap = RequestNetwork.activeWaypoints.get(world);
 		
 		if(coordMap == null) return nodes;
 		
-		for(int i = -2; i <= 2; i++) {
-			for(int j = -2; j <= 2; j++) {
+		for(int i = -range; i <= range; i++) {
+			for(int j = -range; j <= range; j++) {
 				
-				Set<BlockPos> posList = coordMap.get(new ChunkCoordIntPair(x + i, z + j));
+				Set<PathNode> nodeList = coordMap.get(new ChunkCoordIntPair(x + i, z + j));
 				
-				if(posList != null) for(BlockPos node : posList) {
-					Long timestamp = lastActive.get(node);
-					
-					if(timestamp != null && timestamp >= System.currentTimeMillis() - maxAge) {
-						nodes.add(node);
-					}
+				if(nodeList != null) for(PathNode node : nodeList) {
+					nodes.add(node);
 				}
 			}
 		}

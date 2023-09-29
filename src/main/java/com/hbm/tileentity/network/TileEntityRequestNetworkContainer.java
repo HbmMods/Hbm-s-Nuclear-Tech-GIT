@@ -111,8 +111,6 @@ public abstract class TileEntityRequestNetworkContainer extends TileEntityReques
 		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 	
-	public void networkUnpack(NBTTagCompound nbt) { }
-	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);

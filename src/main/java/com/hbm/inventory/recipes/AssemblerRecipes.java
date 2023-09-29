@@ -571,6 +571,15 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.bolt_compound, 16),
 				new ComparableStack(ModItems.pipes_steel, 3)
 			}, 600);
+		
+		makeRecipe(new ComparableStack(ModBlocks.machine_condenser_powered, 1), new AStack[] {
+				new OreDictStack(STEEL.plateCast(), 16),
+				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 16),
+				new OreDictStack(CU.plate528(), 16),
+				new ComparableStack(ModItems.motor_desh, 3),
+				new ComparableStack(ModItems.pipes_steel, 4),
+				new OreDictStack(Fluids.LUBRICANT.getDict(1_000), 4)
+			}, 600);
 
 		makeRecipe(new ComparableStack(ModItems.pellet_chlorophyte, 2), new AStack[] {
 				new ComparableStack(ModItems.powder_chlorophyte, 1),

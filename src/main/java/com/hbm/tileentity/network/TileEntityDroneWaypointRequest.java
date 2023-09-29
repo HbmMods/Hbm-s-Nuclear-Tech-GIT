@@ -1,5 +1,6 @@
 package com.hbm.tileentity.network;
 
+import com.hbm.tileentity.network.RequestNetwork.PathNode;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,5 +34,10 @@ public class TileEntityDroneWaypointRequest extends TileEntityRequestNetwork {
 		super.writeToNBT(nbt);
 
 		nbt.setInteger("height", height);
+	}
+
+	@Override
+	public PathNode createNode(BlockPos pos) {
+		return new PathNode(pos);
 	}
 }

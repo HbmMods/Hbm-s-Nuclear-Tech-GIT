@@ -3,6 +3,7 @@ package com.hbm.render.entity.item;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.item.EntityDeliveryDrone;
+import com.hbm.entity.item.EntityRequestDrone;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -20,7 +21,9 @@ public class RenderDeliveryDrone extends Render {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
-		if(entity.getDataWatcher().getWatchableObjectByte(11) == 1)
+		if(entity instanceof EntityRequestDrone) {
+			bindTexture(ResourceManager.delivery_drone_request_tex);
+		} else if(entity.getDataWatcher().getWatchableObjectByte(11) == 1)
 			bindTexture(ResourceManager.delivery_drone_express_tex);
 		else
 			bindTexture(ResourceManager.delivery_drone_tex);
