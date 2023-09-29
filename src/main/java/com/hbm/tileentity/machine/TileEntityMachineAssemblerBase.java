@@ -17,6 +17,7 @@ import api.hbm.energy.IEnergyUser;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBase implements IEnergyUser, IGUIProvider {
@@ -285,6 +286,24 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 				}
 			}
 		}
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		this.power = nbt.getLong("power");
+		if(nbt.hasKey("progress")) this.progress = nbt.getIntArray("progress");
+		if(nbt.hasKey("maxProgress")) this.maxProgress = nbt.getIntArray("maxProgress");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setLong("power", power);
+		nbt.setIntArray("progress", progress);
+		nbt.setIntArray("maxProgress", maxProgress);
 	}
 
 	@Override

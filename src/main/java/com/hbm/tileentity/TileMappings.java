@@ -397,6 +397,8 @@ public class TileMappings {
 		put(TileEntityDroneCrate.class, "tileentity_drone_crate");
 		put(TileEntityDroneWaypointRequest.class, "tileentity_drone_waypoint_request");
 		put(TileEntityDroneDock.class, "tileentity_drone_dock");
+		put(TileEntityDroneProvider.class, "tileentity_drone_provider");
+		put(TileEntityDroneRequester.class, "tileentity_drone_requester");
 	}
 	
 	private static void put(Class<? extends TileEntity> clazz, String... names) {
