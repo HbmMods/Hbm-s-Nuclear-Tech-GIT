@@ -56,19 +56,6 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 		this.matcher.readFromNBT(nbt);
 	}
 	
-	public boolean matchesFilter(ItemStack stack) {
-		
-		for(int i = 0; i < 9; i++) {
-			ItemStack filter = slots[i];
-			
-			if(filter != null && this.matcher.isValidForFilter(filter, i, stack)) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
 	public void nextMode(int i) {
 		this.matcher.nextMode(worldObj, slots[i], i);
 	}
@@ -104,6 +91,7 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 		List<AStack> request = new ArrayList();
 		for(int i = 0; i < 9; i++) {
 			ItemStack filter = slots[i];
+			ItemStack stock = slots[i + 9];
 			if(filter == null) continue;
 			String mode = this.matcher.modes[i];
 			AStack aStack = null;
@@ -112,12 +100,14 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 				aStack = new ComparableStack(filter).makeSingular();
 			} else if(ModulePatternMatcher.MODE_WILDCARD.equals(mode)) {
 				aStack = new ComparableStack(filter.getItem(), 1, OreDictionary.WILDCARD_VALUE);
-			} else {
+			} else if(mode != null) {
 				aStack = new OreDictStack(mode);
 			}
 			
-			request.add(aStack);
+			if(aStack == null) continue;
+			
+			if(stock == null || !this.matcher.isValidForFilter(filter, i, stock)) request.add(aStack);
 		}
-		return new RequestNode(pos, request);
+		return new RequestNode(pos, this.reachableNodes, request);
 	}
 }

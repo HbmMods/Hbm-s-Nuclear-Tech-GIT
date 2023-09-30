@@ -1,6 +1,7 @@
 package com.hbm.tileentity.network;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -47,6 +48,7 @@ public class RequestNetwork {
 					
 					// if the lease timestamp is too far back, time out the node
 					if(node.lease < System.currentTimeMillis() - maxAge) {
+						node.reachableNodes.clear(); // just to be sure there's no cyclical references happening creating memory leaks
 						pathIt.remove();
 					}
 				}
@@ -69,8 +71,10 @@ public class RequestNetwork {
 	public static class PathNode {
 		public BlockPos pos;
 		public long lease;
-		public PathNode(BlockPos pos) {
+		public Set<PathNode> reachableNodes = new HashSet();
+		public PathNode(BlockPos pos, Set<PathNode> reachableNodes) {
 			this.pos = pos;
+			this.reachableNodes = new HashSet(reachableNodes);
 			this.lease = System.currentTimeMillis();
 		}
 		@Override public int hashCode() { return pos.hashCode(); }
@@ -80,8 +84,8 @@ public class RequestNetwork {
 	/** Node created by providers, lists available items */
 	public static class OfferNode extends PathNode {
 		public List<ItemStack> offer;
-		public OfferNode(BlockPos pos, List<ItemStack> offer) {
-			super(pos);
+		public OfferNode(BlockPos pos, Set<PathNode> reachableNodes, List<ItemStack> offer) {
+			super(pos, reachableNodes);
 			this.offer = offer;
 		}
 	}
@@ -89,8 +93,8 @@ public class RequestNetwork {
 	/** Node created by requesters, lists requested AStacks */
 	public static class RequestNode extends PathNode {
 		public List<AStack> request;
-		public RequestNode(BlockPos pos, List<AStack> request) {
-			super(pos);
+		public RequestNode(BlockPos pos, Set<PathNode> reachableNodes, List<AStack> request) {
+			super(pos, reachableNodes);
 			this.request = request;
 		}
 	}

@@ -4,6 +4,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public abstract class EntityDroneBase extends Entity {
@@ -16,8 +18,19 @@ public abstract class EntityDroneBase extends Entity {
 	@SideOnly(Side.CLIENT) protected double velocityY;
 	@SideOnly(Side.CLIENT) protected double velocityZ;
 
+	public double targetX = -1;
+	public double targetY = -1;
+	public double targetZ = -1;
+
 	public EntityDroneBase(World world) {
 		super(world);
+		this.setSize(1.5F, 2.0F);
+	}
+	
+	public void setTarget(double x, double y, double z) {
+		this.targetX = x;
+		this.targetY = y;
+		this.targetZ = z;
 	}
 
 	@Override
@@ -81,6 +94,26 @@ public abstract class EntityDroneBase extends Entity {
 			worldObj.spawnParticle("smoke", posX - 1.125, posY + 0.75, posZ, 0, -0.2, 0);
 			worldObj.spawnParticle("smoke", posX, posY + 0.75, posZ + 1.125, 0, -0.2, 0);
 			worldObj.spawnParticle("smoke", posX, posY + 0.75, posZ - 1.125, 0, -0.2, 0);
+		} else {
+
+			this.motionX = 0;
+			this.motionY = 0;
+			this.motionZ = 0;
+			
+			if(this.targetY != -1) {
+				
+				Vec3 dist = Vec3.createVectorHelper(targetX - posX, targetY - posY, targetZ - posZ);
+				double speed = getSpeed();
+				
+				if(dist.lengthVector() >= speed) {
+					dist = dist.normalize();
+					this.motionX = dist.xCoord * speed;
+					this.motionY = dist.yCoord * speed;
+					this.motionZ = dist.zCoord * speed;
+				}
+			}
+			
+			this.moveEntity(motionX, motionY, motionZ);
 		}
 	}
 	
@@ -93,5 +126,38 @@ public abstract class EntityDroneBase extends Entity {
 		this.velocityX = this.motionX = motionX;
 		this.velocityY = this.motionY = motionY;
 		this.velocityZ = this.motionZ = motionZ;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int theNumberThree) {
+		this.syncPosX = x;
+		this.syncPosY = y;
+		this.syncPosZ = z;
+		this.turnProgress = theNumberThree;
+		this.motionX = this.velocityX;
+		this.motionY = this.velocityY;
+		this.motionZ = this.velocityZ;
+	}
+	
+	@Override
+	protected void writeEntityToNBT(NBTTagCompound nbt) {
+
+		nbt.setDouble("tX", targetX);
+		nbt.setDouble("tY", targetY);
+		nbt.setDouble("tZ", targetZ);
+
+		nbt.setByte("app", this.dataWatcher.getWatchableObjectByte(10));
+	}
+
+	@Override
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
+
+		if(nbt.hasKey("tY")) {
+			this.targetX = nbt.getDouble("tX");
+			this.targetY = nbt.getDouble("tY");
+			this.targetZ = nbt.getDouble("tZ");
+		}
+		
+		this.dataWatcher.updateObject(10, nbt.getByte("app"));
 	}
 }

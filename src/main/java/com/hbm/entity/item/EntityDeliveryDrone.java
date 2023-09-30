@@ -5,14 +5,11 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.MainRegistry;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -23,17 +20,12 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 	
 	protected ItemStack[] slots = new ItemStack[this.getSizeInventory()];
 	public FluidStack fluid;
-
-	public double targetX = -1;
-	public double targetY = -1;
-	public double targetZ = -1;
 	
 	private Ticket loaderTicket;
 	public boolean isChunkLoading = false;
 	
 	public EntityDeliveryDrone(World world) {
 		super(world);
-		this.setSize(1.5F, 2.0F);
 	}
 
 	@Override
@@ -46,40 +38,15 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
 		return this;
 	}
-	
-	public void setTarget(double x, double y, double z) {
-		this.targetX = x;
-		this.targetY = y;
-		this.targetZ = z;
-	}
 
 	@Override
 	public void onUpdate() {
-		super.onUpdate();
 		
 		if(!worldObj.isRemote) {
-
-			this.motionX = 0;
-			this.motionY = 0;
-			this.motionZ = 0;
-			
-			if(this.targetY != -1) {
-				
-				Vec3 dist = Vec3.createVectorHelper(targetX - posX, targetY - posY, targetZ - posZ);
-				double speed = getSpeed();
-				
-				if(dist.lengthVector() >= speed) {
-					dist = dist.normalize();
-					this.motionX = dist.xCoord * speed;
-					this.motionY = dist.yCoord * speed;
-					this.motionZ = dist.zCoord * speed;
-				}
-			}
-			
 			loadNeighboringChunks((int)Math.floor(posX / 16D), (int)Math.floor(posZ / 16D));
-			
-			this.moveEntity(motionX, motionY, motionZ);
 		}
+		
+		super.onUpdate();
 	}
 
 	@Override
@@ -89,10 +56,7 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 	
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
-
-		nbt.setDouble("tX", targetX);
-		nbt.setDouble("tY", targetY);
-		nbt.setDouble("tZ", targetZ);
+		super.writeEntityToNBT(nbt);
 		
 		NBTTagList nbttaglist = new NBTTagList();
 
@@ -112,18 +76,12 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 			nbt.setInteger("fluidAmount", fluid.fill);
 		}
 
-		nbt.setByte("app", this.dataWatcher.getWatchableObjectByte(10));
 		nbt.setByte("load", this.dataWatcher.getWatchableObjectByte(11));
 	}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
-
-		if(nbt.hasKey("tY")) {
-			this.targetX = nbt.getDouble("tX");
-			this.targetY = nbt.getDouble("tY");
-			this.targetZ = nbt.getDouble("tZ");
-		}
+		super.readEntityFromNBT(nbt);
 		
 		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
 		this.slots = new ItemStack[this.getSizeInventory()];
@@ -141,19 +99,7 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 			this.fluid = new FluidStack(Fluids.fromName(nbt.getString("fluidType")), nbt.getInteger("fluidAmount"));
 		}
 
-		this.dataWatcher.updateObject(10, nbt.getByte("app"));
 		this.dataWatcher.updateObject(11, nbt.getByte("load"));
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int theNumberThree) {
-		this.syncPosX = x;
-		this.syncPosY = y;
-		this.syncPosZ = z;
-		this.turnProgress = theNumberThree;
-		this.motionX = this.velocityX;
-		this.motionY = this.velocityY;
-		this.motionZ = this.velocityZ;
 	}
 
 	@Override

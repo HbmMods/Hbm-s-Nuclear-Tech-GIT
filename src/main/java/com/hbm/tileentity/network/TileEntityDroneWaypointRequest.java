@@ -38,6 +38,6 @@ public class TileEntityDroneWaypointRequest extends TileEntityRequestNetwork {
 
 	@Override
 	public PathNode createNode(BlockPos pos) {
-		return new PathNode(pos);
+		return new PathNode(pos, this.reachableNodes);
 	}
 }
