@@ -2,7 +2,7 @@ package com.hbm.render.entity.item;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.item.EntityDeliveryDrone;
+import com.hbm.entity.item.EntityDroneBase;
 import com.hbm.entity.item.EntityRequestDrone;
 import com.hbm.main.ResourceManager;
 
@@ -29,7 +29,7 @@ public class RenderDeliveryDrone extends Render {
 			bindTexture(ResourceManager.delivery_drone_tex);
 		ResourceManager.delivery_drone.renderPart("Drone");
 		
-		EntityDeliveryDrone drone = (EntityDeliveryDrone) entity;
+		EntityDroneBase drone = (EntityDroneBase) entity;
 		int style = drone.getAppearance();
 
 		if(style == 1) ResourceManager.delivery_drone.renderPart("Crate");

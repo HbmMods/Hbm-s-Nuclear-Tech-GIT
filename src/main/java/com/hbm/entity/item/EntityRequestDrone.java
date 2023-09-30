@@ -21,6 +21,7 @@ public class EntityRequestDrone extends EntityDroneBase {
 	
 	public ItemStack heldItem;
 	public List program = new ArrayList();
+	int nextActionTimer = 0;
 	
 	public static enum DroneProgram {
 		UNLOAD, DOCK
@@ -37,90 +38,108 @@ public class EntityRequestDrone extends EntityDroneBase {
 		if(!worldObj.isRemote) {
 			
 			if(Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector() < 0.01) {
-				if(program.isEmpty()) {
-					this.setDead(); //self-destruct if no further operations are pending
-					this.entityDropItem(new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal()), 1F);
-					return;
-				}
 				
-				Object next = program.get(0);
-				program.remove(0);
-				
-				if(next instanceof BlockPos) {
-					BlockPos pos = (BlockPos) next;
-					this.setTarget(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-				} else if(next instanceof AStack && heldItem == null) {
+				if(nextActionTimer > 0) {
+					nextActionTimer--;
+				} else {
+					nextActionTimer = 5;
 					
-					AStack aStack = (AStack) next;
-					TileEntity tile = worldObj.getTileEntity((int) Math.floor(posX), (int) Math.floor(posY - 1), (int) Math.floor(posZ));
-					
-					if(tile instanceof TileEntityDroneProvider) {
-						TileEntityDroneProvider provider = (TileEntityDroneProvider) tile;
-						
-						for(int i = 0; i < provider.slots.length; i++) {
-							ItemStack stack = provider.slots[i];
-							
-							if(stack != null && aStack.matchesRecipe(stack, true)) {
-								this.heldItem = stack.copy();
-								this.setAppearance(1);
-								provider.slots[i] = null;
-								provider.markDirty();
-								break;
-							}
-						}
-					}
-				} else if(next == DroneProgram.UNLOAD && this.heldItem != null) {
-
-					TileEntity tile = worldObj.getTileEntity((int) Math.floor(posX), (int) Math.floor(posY - 1), (int) Math.floor(posZ));
-					if(tile instanceof TileEntityDroneRequester) {
-						TileEntityDroneRequester requester = (TileEntityDroneRequester) tile;
-						
-						for(int i = 9; i < 18; i++) {
-							ItemStack stack = requester.slots[i];
-							if(stack != null && stack.getItem() == heldItem.getItem() && stack.getItemDamage() == heldItem.getItemDamage()) {
-								int toTransfer = Math.min(stack.getMaxStackSize() - stack.stackSize, heldItem.stackSize);
-								requester.slots[i].stackSize += toTransfer;
-								this.heldItem.stackSize -= toTransfer;
-							}
-						}
-						
-						if(this.heldItem.stackSize <= 0) this.heldItem = null;
-						
-						if(this.heldItem != null) for(int i = 9; i < 18; i++) {
-							if(requester.slots[i] == null) {
-								requester.slots[i] = this.heldItem.copy();
-								this.heldItem = null;
-								break;
-							}
-						}
-						
-						if(this.heldItem == null) {
-							this.setAppearance(0);
-						}
-						
-						requester.markDirty();
-					}
-				} else if(next == DroneProgram.DOCK) {
-
-					TileEntity tile = worldObj.getTileEntity((int) Math.floor(posX), (int) Math.floor(posY - 1), (int) Math.floor(posZ));
-					if(tile instanceof TileEntityDroneDock) {
-						TileEntityDroneDock dock = (TileEntityDroneDock) tile;
-						
-						for(int i = 0; i < dock.slots.length; i++) {
-							if(dock.slots[i] == null) {
-								this.setDead();
-								dock.slots[i] = new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal());
-							}
-						}
-					}
-					
-					if(!this.isDead) {
-						this.setDead();
+					if(program.isEmpty()) {
+						this.setDead(); //self-destruct if no further operations are pending
 						this.entityDropItem(new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal()), 1F);
+						return;
+					}
+					
+					Object next = program.get(0);
+					System.out.println("next action: " + next);
+					program.remove(0);
+					
+					if(next instanceof BlockPos) {
+						BlockPos pos = (BlockPos) next;
+						this.setTarget(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+						System.out.println("targetting");
+					} else if(next instanceof AStack && heldItem == null) {
+						
+						AStack aStack = (AStack) next;
+						TileEntity tile = worldObj.getTileEntity((int) Math.floor(posX), (int) Math.floor(posY - 1), (int) Math.floor(posZ));
+						
+						if(tile instanceof TileEntityDroneProvider) {
+							TileEntityDroneProvider provider = (TileEntityDroneProvider) tile;
+							
+							for(int i = 0; i < provider.slots.length; i++) {
+								ItemStack stack = provider.slots[i];
+								
+								if(stack != null && aStack.matchesRecipe(stack, true)) {
+									this.heldItem = stack.copy();
+									this.setAppearance(1);
+									provider.slots[i] = null;
+									provider.markDirty();
+									break;
+								}
+							}
+						}
+						System.out.println("loading");
+					} else if(next == DroneProgram.UNLOAD && this.heldItem != null) {
+	
+						TileEntity tile = worldObj.getTileEntity((int) Math.floor(posX), (int) Math.floor(posY - 1), (int) Math.floor(posZ));
+						if(tile instanceof TileEntityDroneRequester) {
+							TileEntityDroneRequester requester = (TileEntityDroneRequester) tile;
+							
+							for(int i = 9; i < 18; i++) {
+								ItemStack stack = requester.slots[i];
+								if(stack != null && stack.getItem() == heldItem.getItem() && stack.getItemDamage() == heldItem.getItemDamage()) {
+									int toTransfer = Math.min(stack.getMaxStackSize() - stack.stackSize, heldItem.stackSize);
+									requester.slots[i].stackSize += toTransfer;
+									this.heldItem.stackSize -= toTransfer;
+								}
+							}
+							
+							if(this.heldItem.stackSize <= 0) this.heldItem = null;
+							
+							if(this.heldItem != null) for(int i = 9; i < 18; i++) {
+								if(requester.slots[i] == null) {
+									requester.slots[i] = this.heldItem.copy();
+									this.heldItem = null;
+									break;
+								}
+							}
+							
+							if(this.heldItem == null) {
+								this.setAppearance(0);
+							}
+							
+							requester.markDirty();
+						}
+						System.out.println("unloading");
+					} else if(next == DroneProgram.DOCK) {
+	
+						TileEntity tile = worldObj.getTileEntity((int) Math.floor(posX), (int) Math.floor(posY - 1), (int) Math.floor(posZ));
+						if(tile instanceof TileEntityDroneDock) {
+							TileEntityDroneDock dock = (TileEntityDroneDock) tile;
+							
+							for(int i = 0; i < dock.slots.length; i++) {
+								if(dock.slots[i] == null) {
+									this.setDead();
+									dock.slots[i] = new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal());
+									break;
+								}
+							}
+						}
+						
+						if(!this.isDead) {
+							this.setDead();
+							this.entityDropItem(new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal()), 1F);
+						}
+						System.out.println("docking");
 					}
 				}
 			}
 		}
+	}
+
+	@Override
+	public double getSpeed() {
+		return 0.5D;
 	}
 
 	@Override
