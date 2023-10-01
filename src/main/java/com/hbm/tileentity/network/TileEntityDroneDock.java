@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 
 public class TileEntityDroneDock extends TileEntityRequestNetworkContainer implements IGUIProvider {
 
-	public static final int pathingDepth = 5;
+	public static final int pathingDepth = 10;
 	
 	public TileEntityDroneDock() {
 		super(9);
@@ -122,6 +122,7 @@ public class TileEntityDroneDock extends TileEntityRequestNetworkContainer imple
 		drone.program.add(DroneProgram.DOCK);
 		
 		worldObj.spawnEntityInWorld(drone);
+		this.worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.storageOpen", 2.0F, 1.0F);
 		
 		return true;
 	}

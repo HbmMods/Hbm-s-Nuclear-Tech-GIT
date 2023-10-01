@@ -300,7 +300,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 		
 		double consumption = fuelMaxCons.containsKey(tanks[0].getTankType()) ? fuelMaxCons.get(tanks[0].getTankType()) : 5D;
-		if(worldObj.getTotalWorldTime() % 20 == 0 && tanks[0].getTankType() != Fluids.OXYHYDROGEN) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, 3F);
+		if(worldObj.getTotalWorldTime() % 20 == 0 && tanks[0].getTankType() != Fluids.OXYHYDROGEN) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
 		makePower(consumption, throttle);
 	}
 	

@@ -9,10 +9,13 @@ import java.util.Set;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**
- * Through whichever mechanism, HashSets allow for multiple instances with the same hash, even though they already has that hash during instantiation
- * How is this possible? I don't know and I don't want to know.
+ * A crude implementation of the HashSet with a few key differences:
+ * - instead of being stored as the key, the objects are stored as values in the underlying HashMap with the hash being the key
+ *   - consequently, things with matching hash are considered the same, skipping the equals check
+ * - no equals check means that collisions are possible, so be careful
+ * - the underlying HashMap is accessible, which means that the instances can be grabbed out of the HashedSet if a hash is supplied
  * 
- * This is a crude recreation using a HashMap and, instead of whichever braindead bullshit HashSet does, this HashMap uses the hashCode() as the key and the object as the value.
+ * This sack of crap was only intended for the drone request network code
  * 
  * @author hbm
  *

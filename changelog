@@ -1,62 +1,44 @@
 ## Added
-* Telex
-  * A basic message system using redstone over radio
-  * Allows messages to be sent at a rate of 20 characters per second
-  * Features things like text formatting, printing and the terminal bell
-* Ground water pumps
-  * Come in steam-powered and electric variants
-  * Faster than their infinite barrel counterpart
-  * Need to be placed below Y:70 and on solid ground to work
-  * Compatible floor blocks include all dirt variants and sand, the pump will not work when placed on pure rock
-* Schrabidate capacitor
-  * Can store 50GHE
-* Express conveyor belts
-  * Work like regular single-lane conveyor belts but 3x faster
-* Industrial smokestack
-  * An even larger smokestack, matching the size of the coker unit
-  * Reduced pollution by 90%, as opposed to the brick smokestack's 75%
-* Power gauge
-  * Like the flow gauge pipe for cable networks
-  * Shows the total amount of power being transferred within the connected network
-* Trenchmaster armor
-  * A new unique set of armor that is currently unobtainable
-  * Has new traits like faster reloads, a 33% chance of not using up ammo and step-assist
+* Powered condenser
+  * A large form of the condenser that is 10x faster than the large cooling tower
+  * Needs 10HE per mB condensed (roughly 5% of the power output from steam, using industrial turbines)
+  * Allows for more compact setups, setups underground where cooling towers wouldn't fit, and ones with ridiculously high LPS throughput where multiple large cooling towers were necessary
+* Transport drones
+  * Will move in a circular path between transport drone crates, loading and unloading either items or fluids
+  * Finally allows for automated long-range transport without ridiculously long conveyor belts or impractical pipelines
+  * Come in 4 variants, slow and express, each can be chunkloading or not
+  * To create a route, place crates in input and output mode, then add waypoints for avoiding obstacles, get a transport drone linker and click on each waypoint/crate in order, then shift-click to delete the last cached position from the linker (in order to not screw up future links)
+  * Waypoints can be adjusted in height, right click or shift-click to adjust the offset of the actual waypoint compared to the waypoint block. Make sure to adjust the waypoints before linking.
+  * Waypoints are unlimited in range, as all they do is tell drones "go to XYZ position", it's just necessary for the previous waypoint to be loaded during the linking process
+  * If there are no obstacles between the two crates, waypoints are entirely optional.
+* Logistic drones
+  * An automated system that detects supply and demand and sends logistics drones to transport items
+  * Drone docks will detect logistics waypoints (different from transport waypoints!), providers and requesters in a 11x11 chunk range
+  * Docks, providers, requesters and waypoints will connect to each other automatically in a 5x5 chunk detection range with a maximum range of 24 blocks
+  * Logistics waypoints have an offset of 5 blocks which cannot be changed, unlike transport waypoints. The offset's direction obviously changes with the orientation of the waypoint block
+  * For debugging purposes, the connections are currently visible, this will be cchanged in the future
+  * Drones have a path depth of only 10 hops, pathfinding cannot go further than 10 waypoints/crates/docks
+  * Requests are created by requester crates if a request filter is set, and the requested item is not present in its buffer
+  * Provider offers are created automatically if a provider holds an item
+  * Docks will spawn a logistics drone if a drone is loaded (it can hold up to 9), the drone will path to the provider, then the requester, then back to the dock where it will try to jump back into its inventory
+  * A dock will randomly choose a provider-requester pair in its range every 5 seconds, to supply larger logistics networks, use more docks
 
 ## Changed
 * Updated russian localization
-* The UAC pistol's UV now looks prettier
-* The UAC pistol now fires a burst on right click
-* CCGTs can no longer have smoke removed from them, on the count of there not being enough connections anyway. The pollution rate is now equivalent to three small furnaces
-* The DFC receiver is now crafted with a block of DNT instead of sellafite corium, on the count of sellafite corium being near impossible to get
-* Fireclay now has a third recipe, being craftable from clay, limestone and sand
-* A whole clay block can now be combination smelted into a block of bricks
-* The pipe clanking sound is now also used when placing regular pipes as opposed to only when pre-defined pipe items are used
-* Josh now has a burst fire mode using RMB
-* The smokestack's recipe has changed, now requiring a steel grate for catching ashes
-* Simplified the decorated cobalt tool recipes, they now only require one cobalt tool and one hot bar of meteorite in an anvil
-* Changed the starmetal tool recipes
-* Cobalt armor is now crafted with steel armor and cobalt billets, making the armor substantially cheaper
-* Sightly increased protection levels for the security armor and cobalt gear
-* Cobalt, decorated cobalt and starmetal gear is now a lot more enchantable
-* The ashpit now has a NEI handler, showing roughly how ash types are made
-* Smokestacks now capture fly ash and are now compatible with ashpits
-* Industrial smokestacks can also capture fine soot
-* Reduced strings required for making coal filters, filters are now also available in tier 2 anvils
-* Fireboxes and heating ovens can now be disassembled in tier 2 anvils, yielding most of the resources used for making them
-* Signal beacons now only spawn half as often
+* Retextured the groundwater pumps to be more NTM-like and less GTCE-like
+* There is now a custom implementation used for falling block entities used by things like impulse grenades, the nuke's shockwave and anvils
+  * This should fix crashes caused by improper implementation of certain modded blocks not working with the falling block code
+  * This also makes it so that anvils render properly when falling
+  * The new falling blocks are a bit more janky and less smooth, most likely because of some hardcoded mojang hack that smoothens out the vanilla one that I couldn't find
+* The redcoil capacitor has been reverted to use meta instead of NBT, making it easier to automate with meta-based filters
 
 ## Fixed
-* Fixed the bomber not spawning if the chunkloading radios is too small
-* Fixed a couple spelling mistakes like BFB fuel being called ZFB and the broken ZIRNOX
-* Potentially fixed a compat issue where galacticraft moon soil isn't shreddable into NTM moon turf
-* Hopefully fixed the disappearing fluid bug once and for all
-* Fixed lag caused by the radiation system needlessly loading chunks
-* Fixed secret folders giving volatile templates instead of persistent ones
-* Fixed the ore dict registry happening in a later loading phase instead of PreInit which should fix some compatibility issues
-* Hopefully fixed issue where the tom impact effects will last even when switching worlds
-* Fixed logspam caused by custom machine crafting handler
-* Fixed issue with the assemblers and chemplants where recipes with larger input requirements would break the input funnel
-* Fixed crash caused by reloading when the ammo item is in the last slot
-* Power and fluid networks will no longer transfer amounts less or equal than 0, preventing negative values and removing unnecessary operations where nothing would happen anyways
-* Fixed bug where damage sources that bypass iframes would deal significantly more damage if the victim has taken a lot of damage prior
-* Fixed duplicate balefire shell existing, the one that was usable was not the one that was craftable
+* Fixed issue where for certain system locales, the thousand separator would display as an NBS which can't be rendered using mc's font renderer, yielding an ugly unknown glyph
+* Fixed critical IO issue where assemblers and chemical plants would ignore side IO restrictions and import/export items from slots that they really shouldn't
+* Combination ovens no longer produce soot when not in use
+* The power detector now has the connection priority "HIGH", which should fix issues where they don't receive any power in larger networks due to their low network weight
+* Fixed power gauge blocks sometimes crashing servers because of improper OC compat, the compat has been removed for the time being
+* Fixed blocks with the "Any" ore dict prefix being shreddable, converting things from ore dict groups
+* Fixed fusion reactor exploding into un-welded magnets, wasting tons of steel in the process
+* Fixed assemblers not saving their power buffer or progress
+* Fixed combined cycle gas turbine creating 25x more soot than it's supposed to

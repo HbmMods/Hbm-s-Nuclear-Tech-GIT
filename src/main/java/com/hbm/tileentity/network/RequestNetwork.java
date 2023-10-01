@@ -76,8 +76,24 @@ public class RequestNetwork {
 			this.reachableNodes = new HashedSet(reachableNodes);
 			this.lease = System.currentTimeMillis();
 		}
+		
 		@Override public int hashCode() { return pos.hashCode(); }
-		@Override public boolean equals(Object o) { return pos.equals(o); }
+		@Override public boolean equals(Object toCompare) {
+			if(this == toCompare) {
+				return true;
+			} else if(!(toCompare instanceof PathNode)) {
+				return false;
+			} else {
+				PathNode node = (PathNode) toCompare;
+				if(this.pos.getX() != node.pos.getX()) {
+					return false;
+				} else if(this.pos.getY() != node.pos.getY()) {
+					return false;
+				} else {
+					return this.pos.getZ() == node.pos.getZ();
+				}
+			}
+		}
 	}
 	
 	/** Node created by providers, lists available items */

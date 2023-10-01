@@ -26,8 +26,8 @@ public class WorldConfig {
 	public static int cinnebarSpawn = 1;
 	public static int oilcoalSpawn = 128;
 	public static int gassshaleSpawn = 5;
-	public static int gasbubbleSpawn = 4;
-	public static int explosivebubbleSpawn = 8;
+	public static int gasbubbleSpawn = 12;
+	public static int explosivebubbleSpawn = 0;
 	public static int cobaltSpawn = 2;
 	public static int oilSpawn = 100;
 	public static int bedrockOilSpawn = 200;
@@ -133,10 +133,10 @@ public class WorldConfig {
 		rareSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.14_rareEarthSpawnRate", "Amount of rare earth ore veins per chunk", 6);
 		oilcoalSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.15_oilCoalSpawnRate", "Spawns an oily coal vein every nTH chunk", 128);
 		gassshaleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.16_gasShaleSpawnRate", "Amount of oil shale veins per chunk", 5);
-		gasbubbleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.17_gasBubbleSpawnRate", "Spawns a gas bubble every nTH chunk", 4);
+		gasbubbleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.17_gasBubbleSpawnRate", "Spawns a gas bubble every nTH chunk", 12);
 		cinnebarSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.18_cinnebarSpawnRate", "Amount of cinnebar ore veins per chunk", 1);
 		cobaltSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.18_cobaltSpawnRate", "Amount of cobalt ore veins per chunk", 2);
-		explosivebubbleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.19_explosiveBubbleSpawnRate", "Spawns an explosive gas bubble every nTH chunk", 8);
+		explosivebubbleSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.19_explosiveBubbleSpawnRate", "Spawns an explosive gas bubble every nTH chunk", 0);
 		alexandriteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.20_alexandriteSpawnRate", "Spawns an alexandrite vein every nTH chunk", 100);
 		oilSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.21_oilSpawnRate", "Spawns an oil bubble every nTH chunk", 100);
 		bedrockOilSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.22_bedrockOilSpawnRate", "Spawns a bedrock oil node every nTH chunk", 200);

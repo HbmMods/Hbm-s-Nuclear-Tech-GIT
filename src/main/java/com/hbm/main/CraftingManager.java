@@ -29,6 +29,7 @@ import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemCircuitStarComponent.CircuitComponentType;
 import com.hbm.items.special.ItemHolotapeImage.EnumHoloImage;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
+import com.hbm.items.tool.ItemDrone.EnumDroneType;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.util.EnchantmentUtil;
 
@@ -993,6 +994,23 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.crane_splitter), new Object[] { "III", "PCP", "III", 'P', DictFrame.fromOne(ModItems.part_generic, EnumPartType.PISTON_PNEUMATIC), 'I', STEEL.ingot(), 'C', ModItems.circuit_aluminium });
 
 		addRecipeAuto(new ItemStack(ModBlocks.machine_conveyor_press), new Object[] { "CPC", "CBC", "CCC", 'C', CU.plate(), 'P', ModBlocks.machine_epress, 'B', ModBlocks.conveyor });
+
+		addRecipeAuto(new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL.ordinal()), new Object[] { "PPP", "HCH", " B ", 'P', STEEL.plate(), 'H', ModItems.hull_small_steel, 'C', ModItems.circuit_copper, 'B', ModBlocks.crate_steel });
+		addRecipeAuto(new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL_CHUNKLOADING.ordinal()), new Object[] { "E", "D", 'E', Items.ender_pearl, 'D', new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL.ordinal()) });
+		addRecipeAuto(new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL_EXPRESS.ordinal()), new Object[] { " P ", "KDK", " P ", 'P', ModItems.plate_desh, 'K', Fluids.KEROSENE.getDict(1_000), 'D', new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL.ordinal()) });
+		addRecipeAuto(new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL_EXPRESS_CHUNKLOADING.ordinal()), new Object[] { "E", "D", 'E', Items.ender_pearl, 'D', new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL_EXPRESS.ordinal()) });
+		addRecipeAuto(new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL_EXPRESS_CHUNKLOADING.ordinal()), new Object[] { " P ", "KDK", " P ", 'P', ModItems.plate_desh, 'K', Fluids.KEROSENE.getDict(1_000), 'D', new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL_CHUNKLOADING.ordinal()) });
+		addShapelessAuto(new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL.ordinal()), new Object[] { new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL_CHUNKLOADING.ordinal()) });
+		addShapelessAuto(new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL_EXPRESS.ordinal()), new Object[] { new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL_EXPRESS_CHUNKLOADING.ordinal()) });
+		addRecipeAuto(new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal()), new Object[] { "E", "D", 'E', ModItems.circuit_red_copper, 'D', new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL_EXPRESS.ordinal()) });
+
+		addRecipeAuto(new ItemStack(ModItems.drone_linker), new Object[] { "T", "C", 'T', ModBlocks.drone_waypoint, 'C', ModItems.circuit_copper });
+		addRecipeAuto(new ItemStack(ModBlocks.drone_waypoint, 4), new Object[] { "G", "T", "C", 'G', KEY_GREEN, 'T', Blocks.redstone_torch, 'C', ModItems.circuit_aluminium });
+		addRecipeAuto(new ItemStack(ModBlocks.drone_crate), new Object[] { "T", "C", 'T', ModBlocks.drone_waypoint, 'C', ModBlocks.crate_steel });
+		addRecipeAuto(new ItemStack(ModBlocks.drone_waypoint_request, 4), new Object[] { "G", "T", "C", 'G', KEY_BLUE, 'T', Blocks.redstone_torch, 'C', ModItems.circuit_copper });
+		addRecipeAuto(new ItemStack(ModBlocks.drone_crate), new Object[] { "T", "C", "B", 'T', ModBlocks.drone_waypoint_request, 'C', ModBlocks.crate_steel, 'B', ModItems.circuit_red_copper });
+		addRecipeAuto(new ItemStack(ModBlocks.drone_crate_requester), new Object[] { "T", "C", "B", 'T', ModBlocks.drone_waypoint_request, 'C', ModBlocks.crate_steel, 'B', KEY_YELLOW });
+		addRecipeAuto(new ItemStack(ModBlocks.drone_crate_provider), new Object[] { "T", "C", "B", 'T', ModBlocks.drone_waypoint_request, 'C', ModBlocks.crate_steel, 'B', KEY_ORANGE });
 		
 		addShapelessAuto(DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER1), new Object[] { ModItems.ingot_chainsteel, ASBESTOS.ingot(), ModItems.gem_alexandrite });
 		addShapelessAuto(DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER1, 3), new Object[] { DictFrame.fromOne(ModItems.parts_legendary, EnumLegendaryType.TIER2) });

@@ -114,6 +114,7 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 		if(loaded) {
 			this.markDirty();
 			drone.setAppearance(1);
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.unpack", 0.5F, 0.75F);
 		}
 	}
 	
@@ -136,7 +137,10 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 		
 		this.markDirty();
 		
-		if(emptied) drone.setAppearance(0);
+		if(emptied) {
+			drone.setAppearance(0);
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.unpack", 0.5F, 0.75F);
+		}
 	}
 	
 	protected void loadFluid(EntityDeliveryDrone drone) {
@@ -147,6 +151,7 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 			drone.fluid = new FluidStack(tank.getTankType(), tank.getFill());
 			this.tank.setFill(0);
 			drone.setAppearance(2);
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.unpack", 0.5F, 0.75F);
 			
 			this.markDirty();
 		}
@@ -167,6 +172,7 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 				tank.setFill(tank.getMaxFill());
 				drone.fluid.fill = overshoot;
 			}
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.unpack", 0.5F, 0.75F);
 			
 			this.markDirty();
 		}

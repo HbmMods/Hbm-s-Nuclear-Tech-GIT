@@ -74,6 +74,18 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
 		return true;
 	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.matcher.readFromNBT(nbt);
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		this.matcher.writeToNBT(nbt);
+	}
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {

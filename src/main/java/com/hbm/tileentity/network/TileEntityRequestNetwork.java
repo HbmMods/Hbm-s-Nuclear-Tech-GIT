@@ -3,15 +3,11 @@ package com.hbm.tileentity.network;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.network.RequestNetwork.PathNode;
 import com.hbm.util.HashedSet;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -59,18 +55,19 @@ public abstract class TileEntityRequestNetwork extends TileEntity {
 				
 				// draw debug crap
 				for(PathNode known : knownNodes) {
-					ParticleUtil.spawnDebugLine(worldObj,
+					if(reachableNodes.contains(known)) ParticleUtil.spawnDebugLine(worldObj,
 							pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
 							(known.pos.getX()  - pos.getX()) / 2D, (known.pos.getY() - pos.getY()) / 2D, (known.pos.getZ() - pos.getZ()) / 2D,
 							reachableNodes.contains(known) ? 0x00ff00 : 0xff0000);
 				}
 
-				NBTTagCompound data = new NBTTagCompound();
+				/*NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "debug");
 				data.setInteger("color", 0x0000ff);
 				data.setFloat("scale", 1.5F);
 				data.setString("text", knownNodes.size() + " / " + reachableNodes.size() + " / " + localNodes.size());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+				*/
 				
 				//both following checks run the `hasPath` function which is costly, so it only runs one op at a time
 				

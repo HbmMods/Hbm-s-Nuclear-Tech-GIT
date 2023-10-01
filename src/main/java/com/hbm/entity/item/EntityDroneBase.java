@@ -55,7 +55,7 @@ public abstract class EntityDroneBase extends Entity {
 
 	@Override
 	protected boolean canTriggerWalking() {
-		return true;
+		return false;
 	}
 
 	@Override

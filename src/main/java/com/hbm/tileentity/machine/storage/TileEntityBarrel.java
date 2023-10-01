@@ -110,8 +110,10 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			this.sendingBrake = false;
 			
 			age++;
-			if(age >= 20)
+			if(age >= 20) {
 				age = 0;
+				this.markChanged();
+			}
 			
 			if((mode == 1 || mode == 2) && (age == 9 || age == 19))
 				fillFluidInit(tank.getTankType());

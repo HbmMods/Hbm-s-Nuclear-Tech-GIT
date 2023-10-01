@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemDrone.EnumDroneType;
 import com.hbm.tileentity.network.TileEntityDroneDock;
@@ -11,6 +13,7 @@ import com.hbm.tileentity.network.TileEntityDroneProvider;
 import com.hbm.tileentity.network.TileEntityDroneRequester;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -42,7 +45,6 @@ public class EntityRequestDrone extends EntityDroneBase {
 				if(nextActionTimer > 0) {
 					nextActionTimer--;
 				} else {
-					nextActionTimer = 5;
 					
 					if(program.isEmpty()) {
 						this.setDead(); //self-destruct if no further operations are pending
@@ -51,13 +53,11 @@ public class EntityRequestDrone extends EntityDroneBase {
 					}
 					
 					Object next = program.get(0);
-					System.out.println("next action: " + next);
 					program.remove(0);
 					
 					if(next instanceof BlockPos) {
 						BlockPos pos = (BlockPos) next;
 						this.setTarget(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-						System.out.println("targetting");
 					} else if(next instanceof AStack && heldItem == null) {
 						
 						AStack aStack = (AStack) next;
@@ -72,13 +72,14 @@ public class EntityRequestDrone extends EntityDroneBase {
 								if(stack != null && aStack.matchesRecipe(stack, true)) {
 									this.heldItem = stack.copy();
 									this.setAppearance(1);
+									worldObj.playSoundEffect(posX, posY, posZ, "hbm:item.unpack", 0.5F, 0.75F);
 									provider.slots[i] = null;
 									provider.markDirty();
 									break;
 								}
 							}
 						}
-						System.out.println("loading");
+						nextActionTimer = 5;
 					} else if(next == DroneProgram.UNLOAD && this.heldItem != null) {
 	
 						TileEntity tile = worldObj.getTileEntity((int) Math.floor(posX), (int) Math.floor(posY - 1), (int) Math.floor(posZ));
@@ -106,11 +107,12 @@ public class EntityRequestDrone extends EntityDroneBase {
 							
 							if(this.heldItem == null) {
 								this.setAppearance(0);
+								worldObj.playSoundEffect(posX, posY, posZ, "hbm:item.unpack", 0.5F, 0.75F);
 							}
 							
 							requester.markDirty();
 						}
-						System.out.println("unloading");
+						nextActionTimer = 5;
 					} else if(next == DroneProgram.DOCK) {
 	
 						TileEntity tile = worldObj.getTileEntity((int) Math.floor(posX), (int) Math.floor(posY - 1), (int) Math.floor(posZ));
@@ -121,6 +123,7 @@ public class EntityRequestDrone extends EntityDroneBase {
 								if(dock.slots[i] == null) {
 									this.setDead();
 									dock.slots[i] = new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal());
+									this.worldObj.playSoundEffect(dock.xCoord + 0.5, dock.yCoord + 0.5, dock.zCoord + 0.5, "hbm:block.storageClose", 2.0F, 1.0F);
 									break;
 								}
 							}
@@ -130,7 +133,6 @@ public class EntityRequestDrone extends EntityDroneBase {
 							this.setDead();
 							this.entityDropItem(new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal()), 1F);
 						}
-						System.out.println("docking");
 					}
 				}
 			}
@@ -144,17 +146,43 @@ public class EntityRequestDrone extends EntityDroneBase {
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
+		super.readEntityFromNBT(nbt);
 		
 		if(nbt.hasKey("held")) {
 			NBTTagCompound stack = nbt.getCompoundTag("held");
 			this.heldItem = ItemStack.loadItemStackFromNBT(stack);
 		}
+		
+		nextActionTimer = 5;
 
 		this.dataWatcher.updateObject(10, nbt.getByte("app"));
+		
+		int size = nbt.getInteger("programSize");
+		
+		for(int i = 0; i < size; i++) {
+			NBTTagCompound data = nbt.getCompoundTag("program" + i);
+			String pType = data.getString("type");
+			
+			if("pos".equals(pType)) {
+				int[] pos = data.getIntArray("pos");
+				this.program.add(new BlockPos(pos[0], pos[1], pos[2]));
+			} else if("unload".equals(pType)) {
+				this.program.add(DroneProgram.UNLOAD);
+			} else if("dock".equals(pType)) {
+				this.program.add(DroneProgram.DOCK);
+			} else if("comp".equals(pType)) {
+				ComparableStack comp = new ComparableStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta"));
+				this.program.add(comp);
+			} else if("dict".equals(pType)) {
+				OreDictStack dict = new OreDictStack(nbt.getString("dict"));
+				this.program.add(dict);
+			}
+		}
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
+		super.writeEntityToNBT(nbt);
 		
 		if(heldItem != null) {
 			NBTTagCompound stack = new NBTTagCompound();
@@ -163,5 +191,42 @@ public class EntityRequestDrone extends EntityDroneBase {
 		}
 
 		nbt.setByte("app", this.dataWatcher.getWatchableObjectByte(10));
+		
+		int size = this.program.size();
+		nbt.setInteger("programSize", size);
+		
+		for(int i = 0; i < size; i++) {
+			NBTTagCompound data = new NBTTagCompound();
+			Object p = this.program.get(i);
+			
+			if(p instanceof BlockPos) {
+				BlockPos pos = (BlockPos) p;
+				data.setString("type", "pos");
+				data.setIntArray("pos", new int[] {pos.getX(), pos.getY(), pos.getZ()});
+			} else if(p instanceof AStack) {
+				
+				// neither of these wretched fungii works correctly, but so long as the pathing works (which it does), it means that the drone will
+				// eventually return to the dock and not got lost, and simply retry the task
+				if(p instanceof ComparableStack) {
+					ComparableStack comp = (ComparableStack) p;
+					data.setString("type", "comp");
+					data.setInteger("id", Item.getIdFromItem(comp.item));
+					data.setInteger("meta", comp.meta);
+				} else {
+					OreDictStack dict = (OreDictStack) p;
+					data.setString("type", "dict");
+					data.setString("dict", dict.name);
+				}
+				
+			} else if(p == DroneProgram.UNLOAD) {
+				data.setString("type", "unload");
+				
+			} else if(p == DroneProgram.DOCK) {
+				data.setString("type", "dock");
+				
+			}
+			
+			nbt.setTag("program" + i, data);
+		}
 	}
 }
