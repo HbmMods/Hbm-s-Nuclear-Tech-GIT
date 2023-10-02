@@ -24,7 +24,7 @@ import javax.swing.text.Position;
 public class SkyProviderDuna extends IRenderHandler {
 	
 	private static final ResourceLocation sunTexture = new ResourceLocation("textures/environment/sun.png");
-	private static final ResourceLocation ike = new ResourceLocation("hbm:textures/misc/space/shresh.png");
+	private static final ResourceLocation ike = new ResourceLocation("hbm:textures/misc/space/ike.png");
 	private static final ResourceLocation planet = new ResourceLocation("hbm:textures/misc/space/planet.png");
 	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/space/night.png");
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/space/star_digamma.png");
@@ -302,15 +302,15 @@ public class SkyProviderDuna extends IRenderHandler {
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glColor4d(1, 1, 1, 1);
 			GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
-			GL11.glRotatef(80.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(-80.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(0.0F, 0.0F, 1.0F, 0.0F);
 			f10 = (AstronomyUtil.IkeRadius/AstronomyUtil.IkeDunaKm)*470;
 			FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.ike);
 			tessellator.startDrawingQuads();
-        	tessellator.addVertexWithUV(-f10, -100.0D, -f10, 0.0D, 0.0D);
-        	tessellator.addVertexWithUV(f10, 10.0D, -f10, 1.0D, 0.0D);
-        	tessellator.addVertexWithUV(f10, 10.0D, f10, 1.0D, 1.0D);
-        	tessellator.addVertexWithUV(-f10, -100.0D, f10, 0.0D, 1.0D);
+			tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
+			tessellator.addVertexWithUV(f10, 100.0D, -f10, 1.0D, 0.0D);
+			tessellator.addVertexWithUV(f10, 100.0D, f10, 1.0D, 1.0D);
+			tessellator.addVertexWithUV(-f10, 100.0D, f10, 0.0D, 1.0D);
 			tessellator.draw();
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glPopMatrix();
