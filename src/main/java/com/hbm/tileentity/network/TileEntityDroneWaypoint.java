@@ -19,7 +19,8 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 	public int nextX = -1;
 	public int nextY = -1;
 	public int nextZ = -1;
-	
+
+	@Override
 	public void updateEntity() {
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
@@ -30,7 +31,7 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 				List<EntityDeliveryDrone> drones = worldObj.getEntitiesWithinAABB(EntityDeliveryDrone.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).offset(dir.offsetX * height, dir.offsetY * height, dir.offsetZ * height));
 				for(EntityDeliveryDrone drone : drones) {
 					if(Vec3.createVectorHelper(drone.motionX, drone.motionY, drone.motionZ).lengthVector() < 0.05) {
-						drone.setTarget(nextX + 0.5, nextY + 0.5, nextZ + 0.5);
+						drone.setTarget(nextX + 0.5, nextY, nextZ + 0.5);
 					}
 				}
 			}
@@ -47,15 +48,6 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 				double z = zCoord + height * dir.offsetZ + 0.5;
 				
 				worldObj.spawnParticle("reddust", x, y, z, 0, 0, 0);
-				
-				/*Vec3 vec = Vec3.createVectorHelper(nextX + 0.5 - x, nextY + 0.5 - y, nextZ + 0.5 - z);
-				double speed = Math.min(vec.lengthVector(), 0.5);
-				double mX = vec.xCoord * speed;
-				double mY = vec.yCoord * speed;
-				double mZ = vec.zCoord * speed;
-				vec = vec.normalize();
-				
-				worldObj.spawnParticle("crit", x, y, z, mX, mY, mZ);*/
 			}
 		}
 	}
@@ -86,5 +78,24 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 	public void addHeight(int h) {
 		height += h;
 		height = MathHelper.clamp_int(height, 1, 15);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.height = nbt.getInteger("height");
+		int[] pos = nbt.getIntArray("pos");
+		this.nextX = pos[0];
+		this.nextY = pos[1];
+		this.nextZ = pos[2];
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setInteger("height", height);
+		nbt.setIntArray("pos", new int[] {nextX, nextY, nextZ});
 	}
 }

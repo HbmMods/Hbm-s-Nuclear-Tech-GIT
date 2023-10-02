@@ -303,6 +303,7 @@ public class TileMappings {
 		put(TileEntityCondenser.class, "tileentity_condenser");
 		put(TileEntityTowerSmall.class, "tileentity_cooling_tower_small");
 		put(TileEntityTowerLarge.class, "tileentity_cooling_tower_large");
+		put(TileEntityCondenserPowered.class, "tileentity_condenser_powered");
 		put(TileEntityDeuteriumExtractor.class, "tileentity_deuterium_extractor");
 		put(TileEntityDeuteriumTower.class, "tileentity_deuterium_tower");
 		put(TileEntityAtmoTower.class, "tileentity_atmospheric_tower");
@@ -403,6 +404,11 @@ public class TileMappings {
 		put(TileEntityRadioTelex.class, "tileentity_rtty_telex");
 		
 		put(TileEntityDroneWaypoint.class, "tileentity_drone_waypoint");
+		put(TileEntityDroneCrate.class, "tileentity_drone_crate");
+		put(TileEntityDroneWaypointRequest.class, "tileentity_drone_waypoint_request");
+		put(TileEntityDroneDock.class, "tileentity_drone_dock");
+		put(TileEntityDroneProvider.class, "tileentity_drone_provider");
+		put(TileEntityDroneRequester.class, "tileentity_drone_requester");
 	}
 	
 	private static void put(Class<? extends TileEntity> clazz, String... names) {

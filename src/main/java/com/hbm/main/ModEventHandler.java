@@ -69,6 +69,7 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.network.RTTYSystem;
+import com.hbm.tileentity.network.RequestNetwork;
 import com.hbm.util.AchievementHandler;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
@@ -1169,6 +1170,7 @@ public class ModEventHandler {
 		
 		if(event.phase == event.phase.START) {
 			RTTYSystem.updateBroadcastQueue();
+			RequestNetwork.updateEntries();
 		}
 	}
 	

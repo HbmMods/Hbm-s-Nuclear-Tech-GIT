@@ -35,6 +35,15 @@ public class ParticleUtil {
 		if(rand.nextInt(12) == 0) {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "duodec");
+	
+	public static void spawnDebugLine(World world, double x, double y, double z, double x0, double y0, double z0, int color) {
+
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "debugline");
+		data.setDouble("mX", x0);
+		data.setDouble("mY", y0);
+		data.setDouble("mZ", z0);
+		data.setInteger("color", color);
 		if(world.isRemote) {
 			data.setDouble("posX", x);
 			data.setDouble("posY", y);

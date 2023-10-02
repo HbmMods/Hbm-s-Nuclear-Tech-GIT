@@ -175,6 +175,7 @@ public class EntityMappings {
 		addEntity(EntityMovingItem.class, "entity_c_item", 1000);
 		addEntity(EntityMovingPackage.class, "entity_c_package", 1000);
 		addEntity(EntityDeliveryDrone.class, "entity_delivery_drone", 250, false);
+		addEntity(EntityRequestDrone.class, "entity_request_drone", 250, false);
 		addEntity(EntityCloudTom.class, "entity_moonstone_blast", 1000);
 		addEntity(EntityBeamVortex.class, "entity_vortex_beam", 1000);
 		addEntity(EntityFireworks.class, "entity_firework_ball", 1000);
@@ -213,6 +214,7 @@ public class EntityMappings {
 		addEntity(EntityChemical.class, "entity_chemthrower_splash", 1000);
 		addEntity(EntityMist.class, "entity_mist", 250, false);
 		addEntity(EntityAcidBomb.class, "entity_acid_bomb", 1000);
+		addEntity(EntityFallingBlockNT.class, "entity_falling_block_nt", 1000);
 
 		addEntity(EntityItemWaste.class, "entity_item_waste", 100);
 		addEntity(EntityItemBuoyant.class, "entity_item_buoyant", 100);

@@ -6,6 +6,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
+import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBase;
 import com.hbm.entity.particle.EntityChlorineFX;
@@ -29,7 +30,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
@@ -406,7 +406,7 @@ public class ExplosionChaos {
 
 	public static void pDestruction(World world, int x, int y, int z) {
 
-		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
+		EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
 		world.spawnEntityInWorld(entityfallingblock);
 	}
 

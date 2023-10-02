@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.blocks.BlockFallingNT;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.inventory.container.ContainerAnvil;
 import com.hbm.inventory.gui.GUIAnvil;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.ResourceManager;
+import com.hbm.render.util.ObjUtil;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -17,9 +21,10 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,8 +36,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.obj.WavefrontObject;
 
-public class NTMAnvil extends BlockFalling implements ITooltipProvider, IGUIProvider {
+public class NTMAnvil extends BlockFallingNT implements ITooltipProvider, IGUIProvider {
 	
 	public final int tier;
 	
@@ -179,5 +185,37 @@ public class NTMAnvil extends BlockFalling implements ITooltipProvider, IGUIProv
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIAnvil(player.inventory, ((NTMAnvil)world.getBlock(x, y, z)).tier);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldOverrideRenderer() {
+		return true;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void overrideRenderer(EntityFallingBlockNT falling, RenderBlocks renderBlocks, Tessellator tessellator) {
+
+		World world = falling.worldObj;
+		float rotation = 0;
+
+		if(falling.getMeta() == 2)
+			rotation = 90F / 180F * (float) Math.PI;
+
+		if(falling.getMeta() == 3)
+			rotation = 270F / 180F * (float) Math.PI;
+
+		if(falling.getMeta() == 4)
+			rotation = 180F / 180F * (float)Math.PI;
+
+		tessellator.addTranslation(0F, -0.5F, 0F);
+		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Top", getIcon(1, 0), tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Bottom", getIcon(0, 0), tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Front", getIcon(0, 0), tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Back", getIcon(0, 0), tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Left", getIcon(0, 0), tessellator, rotation, true);
+		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Right", getIcon(0, 0), tessellator, rotation, true);
+		tessellator.addTranslation(0F, 0.5F, 0F);
 	}
 }

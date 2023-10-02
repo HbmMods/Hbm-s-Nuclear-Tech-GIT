@@ -14,6 +14,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidUser;
@@ -22,7 +23,6 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
 
 /**
  * Base class for single and multi chemplants.
@@ -202,17 +202,18 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		
 		if(recipe != null) {
 			
-			ChunkCoordinates[] positions = getInputPositions();
+			DirPos[] positions = getInputPositions();
 			int[] indices = getSlotIndicesFromIndex(index);
 			
-			for(ChunkCoordinates coord : positions) {
-				
-				TileEntity te = worldObj.getTileEntity(coord.posX, coord.posY, coord.posZ);
+			for(DirPos coord : positions) {
+
+				TileEntity te = worldObj.getTileEntity(coord.getX(), coord.getY(), coord.getZ());
 				
 				if(te instanceof IInventory) {
 					
 					IInventory inv = (IInventory) te;
 					ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
+					int[] access = sided != null ? sided.getAccessibleSlotsFromSide(coord.getDir().ordinal()) : null;
 					
 					for(AStack ingredient : recipe.inputs) {
 						
@@ -221,15 +222,16 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 							
 							boolean found = false;
 							
-							for(int i = 0; i < inv.getSizeInventory(); i++) {
-								
-								ItemStack stack = inv.getStackInSlot(i);
-								if(ingredient.matchesRecipe(stack, true) && (sided == null || sided.canExtractItem(i, stack, 0))) {
+							for(int i = 0; i < (access != null ? access.length : inv.getSizeInventory()); i++) {
+
+								int slot = access != null ? access[i] : i;
+								ItemStack stack = inv.getStackInSlot(slot);
+								if(ingredient.matchesRecipe(stack, true) && (sided == null || sided.canExtractItem(slot, stack, 0))) {
 									
 									for(int j = indices[0]; j <= indices[1]; j++) {
 										
 										if(slots[j] != null && slots[j].stackSize < slots[j].getMaxStackSize() & InventoryUtil.doesStackDataMatch(slots[j], stack)) {
-											inv.decrStackSize(i, 1);
+											inv.decrStackSize(slot, 1);
 											slots[j].stackSize++;
 											continue outer;
 										}
@@ -240,7 +242,7 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 										if(slots[j] == null) {
 											slots[j] = stack.copy();
 											slots[j].stackSize = 1;
-											inv.decrStackSize(i, 1);
+											inv.decrStackSize(slot, 1);
 											continue outer;
 										}
 									}
@@ -257,17 +259,18 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 	
 	private void unloadItems(int index) {
 
-		ChunkCoordinates[] positions = getOutputPositions();
+		DirPos[] positions = getOutputPositions();
 		int[] indices = getSlotIndicesFromIndex(index);
 		
-		for(ChunkCoordinates coord : positions) {
-			
-			TileEntity te = worldObj.getTileEntity(coord.posX, coord.posY, coord.posZ);
+		for(DirPos coord : positions) {
+
+			TileEntity te = worldObj.getTileEntity(coord.getX(), coord.getY(), coord.getZ());
 			
 			if(te instanceof IInventory) {
 				
 				IInventory inv = (IInventory) te;
-				//ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
+				ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
+				int[] access = sided != null ? sided.getAccessibleSlotsFromSide(coord.getDir().ordinal()) : null;
 				
 				for(int i = indices[2]; i <= indices[3]; i++) {
 					
@@ -275,12 +278,14 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 					
 					if(out != null) {
 						
-						for(int j = 0; j < inv.getSizeInventory(); j++) {
+						for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
+
+							int slot = access != null ? access[j] : j;
 							
-							if(!inv.isItemValidForSlot(j, out))
+							if(!inv.isItemValidForSlot(slot, out))
 								continue;
 							
-							ItemStack target = inv.getStackInSlot(j);
+							ItemStack target = inv.getStackInSlot(slot);
 							
 							if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize() && target.stackSize < inv.getInventoryStackLimit()) {
 								this.decrStackSize(i, 1);
@@ -289,15 +294,17 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 							}
 						}
 						
-						for(int j = 0; j < inv.getSizeInventory(); j++) {
+						for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
+
+							int slot = access != null ? access[j] : j;
 							
-							if(!inv.isItemValidForSlot(j, out))
+							if(!inv.isItemValidForSlot(slot, out))
 								continue;
 							
-							if(inv.getStackInSlot(j) == null && inv.isItemValidForSlot(j, out)) {
+							if(inv.getStackInSlot(slot) == null && (sided != null ? sided.canInsertItem(slot, out, coord.getDir().ordinal()) : inv.isItemValidForSlot(slot, out))) {
 								ItemStack copy = out.copy();
 								copy.stackSize = 1;
-								inv.setInventorySlotContents(j, copy);
+								inv.setInventorySlotContents(slot, copy);
 								this.decrStackSize(i, 1);
 								return;
 							}
@@ -585,6 +592,6 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 	 * @return A size 4 int array containing min input, max input, min output and max output indices in that order.
 	 */
 	public abstract int[] getSlotIndicesFromIndex(int index);
-	public abstract ChunkCoordinates[] getInputPositions();
-	public abstract ChunkCoordinates[] getOutputPositions();
+	public abstract DirPos[] getInputPositions();
+	public abstract DirPos[] getOutputPositions();
 }

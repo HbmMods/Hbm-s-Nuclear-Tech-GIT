@@ -69,10 +69,10 @@ public class BlockPos {
 		return this.z;
 	}
 	
-	/** 1.12 vanilla implementation */
+	/** modified 1.12 vanilla implementation */
 	@Override
 	public int hashCode() {
-		return (this.getY() + this.getZ() * 31) * 31 + this.getX();
+		return (this.getY() + this.getZ() * 27644437) * 27644437 + this.getX();
 	}
 
 	@Override
