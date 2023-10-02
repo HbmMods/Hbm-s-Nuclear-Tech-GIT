@@ -93,6 +93,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockIce;
 import net.minecraft.block.BlockLever;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -645,7 +646,6 @@ public class ModEventHandler {
 			        		entity.setDead();
 							continue;
 			        	}
-						
 						if(eRad < 200 || ContaminationUtil.isRadImmune(entity))
 							continue;
 						
@@ -1013,7 +1013,36 @@ public class ModEventHandler {
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		
 		EntityPlayer player = event.player;
-		
+		if(player.isPotionActive(HbmPotion.slippery.id) && !player.capabilities.isFlying) {
+		    if (player.onGround) {
+		        double slipperiness = 0.6; 
+		        double inertia = 0.1;
+		        boolean isMoving = player.moveForward != 0.0 || player.moveStrafing != 0.0;
+		        double playerMotion = Math.sqrt(player.motionX * player.motionX + player.motionZ * player.motionZ);
+
+		        double angle = Math.atan2(player.motionZ, player.motionX);
+
+		        double targetXMotion = Math.cos(angle) * slipperiness;
+		        double targetZMotion = Math.sin(angle) * slipperiness;
+
+		        double diffX = targetXMotion - player.motionX;
+		        double diffZ = targetZMotion - player.motionZ;
+
+		        player.motionX += diffX * inertia;
+		        player.motionZ += diffZ * inertia;
+		        
+		        System.out.println(playerMotion);
+		        if (!isMoving) {
+		            player.motionX *= (1.0 - 0.1);
+
+		            double totalVelocity = Math.sqrt(player.motionX * player.motionX + player.motionZ * player.motionZ);
+		            double smoothingAmount = totalVelocity * 0.02;
+		                player.motionX -= player.motionX / totalVelocity * smoothingAmount;
+		                player.motionZ -= player.motionZ / totalVelocity * smoothingAmount;
+		        }
+		}
+	}
+
 		if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
 			((ArmorFSB)player.inventory.armorInventory[2].getItem()).handleTick(event);
 		

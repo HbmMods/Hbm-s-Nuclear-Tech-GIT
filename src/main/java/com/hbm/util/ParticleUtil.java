@@ -35,6 +35,8 @@ public class ParticleUtil {
 		if(rand.nextInt(12) == 0) {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "duodec");
+		}
+	}
 	
 	public static void spawnDebugLine(World world, double x, double y, double z, double x0, double y0, double z0, int color) {
 
@@ -53,7 +55,7 @@ public class ParticleUtil {
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
 		}
 	}
-	}
+	
 	public static void spawnTuneFlame(World world, double x, double y, double z) {
 		Random rand = new Random();
 		if(rand.nextInt(12) == 0) {
