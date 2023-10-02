@@ -2758,6 +2758,7 @@ item.heart_booster.name=Heart Booster
 item.heart_container.name=Heart Container
 item.heart_fab.name=Fab Heart
 item.heart_piece.name=Heart Piece
+item.heavy_component.name=Heavy %s Component
 item.hev_battery.name=Suit Battery
 item.hev_boots.name=HEV Mark IV Boots
 item.hev_plate.name=HEV Mark IV Chestplate

@@ -1,44 +1,11 @@
 ## Added
-* Powered condenser
-  * A large form of the condenser that is 10x faster than the large cooling tower
-  * Needs 10HE per mB condensed (roughly 5% of the power output from steam, using industrial turbines)
-  * Allows for more compact setups, setups underground where cooling towers wouldn't fit, and ones with ridiculously high LPS throughput where multiple large cooling towers were necessary
-* Transport drones
-  * Will move in a circular path between transport drone crates, loading and unloading either items or fluids
-  * Finally allows for automated long-range transport without ridiculously long conveyor belts or impractical pipelines
-  * Come in 4 variants, slow and express, each can be chunkloading or not
-  * To create a route, place crates in input and output mode, then add waypoints for avoiding obstacles, get a transport drone linker and click on each waypoint/crate in order, then shift-click to delete the last cached position from the linker (in order to not screw up future links)
-  * Waypoints can be adjusted in height, right click or shift-click to adjust the offset of the actual waypoint compared to the waypoint block. Make sure to adjust the waypoints before linking.
-  * Waypoints are unlimited in range, as all they do is tell drones "go to XYZ position", it's just necessary for the previous waypoint to be loaded during the linking process
-  * If there are no obstacles between the two crates, waypoints are entirely optional.
-* Logistic drones
-  * An automated system that detects supply and demand and sends logistics drones to transport items
-  * Drone docks will detect logistics waypoints (different from transport waypoints!), providers and requesters in a 11x11 chunk range
-  * Docks, providers, requesters and waypoints will connect to each other automatically in a 5x5 chunk detection range with a maximum range of 24 blocks
-  * Logistics waypoints have an offset of 5 blocks which cannot be changed, unlike transport waypoints. The offset's direction obviously changes with the orientation of the waypoint block
-  * For debugging purposes, the connections are currently visible, this will be cchanged in the future
-  * Drones have a path depth of only 10 hops, pathfinding cannot go further than 10 waypoints/crates/docks
-  * Requests are created by requester crates if a request filter is set, and the requested item is not present in its buffer
-  * Provider offers are created automatically if a provider holds an item
-  * Docks will spawn a logistics drone if a drone is loaded (it can hold up to 9), the drone will path to the provider, then the requester, then back to the dock where it will try to jump back into its inventory
-  * A dock will randomly choose a provider-requester pair in its range every 5 seconds, to supply larger logistics networks, use more docks
+* Expensive mode
+  * Horrible new config option that replaces several crafting items in key machine recipes with the all new heavy components
+  * Heavy components are 256 cast plates combined in an assembler
+  * <insert some vague point about automation incentives here>
 
 ## Changed
-* Updated russian localization
-* Retextured the groundwater pumps to be more NTM-like and less GTCE-like
-* There is now a custom implementation used for falling block entities used by things like impulse grenades, the nuke's shockwave and anvils
-  * This should fix crashes caused by improper implementation of certain modded blocks not working with the falling block code
-  * This also makes it so that anvils render properly when falling
-  * The new falling blocks are a bit more janky and less smooth, most likely because of some hardcoded mojang hack that smoothens out the vanilla one that I couldn't find
-* The redcoil capacitor has been reverted to use meta instead of NBT, making it easier to automate with meta-based filters
+* Drones are now made from plastic
 
 ## Fixed
-* Fixed issue where for certain system locales, the thousand separator would display as an NBS which can't be rendered using mc's font renderer, yielding an ugly unknown glyph
-* Fixed critical IO issue where assemblers and chemical plants would ignore side IO restrictions and import/export items from slots that they really shouldn't
-* Combination ovens no longer produce soot when not in use
-* The power detector now has the connection priority "HIGH", which should fix issues where they don't receive any power in larger networks due to their low network weight
-* Fixed power gauge blocks sometimes crashing servers because of improper OC compat, the compat has been removed for the time being
-* Fixed blocks with the "Any" ore dict prefix being shreddable, converting things from ore dict groups
-* Fixed fusion reactor exploding into un-welded magnets, wasting tons of steel in the process
-* Fixed assemblers not saving their power buffer or progress
-* Fixed combined cycle gas turbine creating 25x more soot than it's supposed to
+* Fixed the new falling block implementation crashing on certain blocks

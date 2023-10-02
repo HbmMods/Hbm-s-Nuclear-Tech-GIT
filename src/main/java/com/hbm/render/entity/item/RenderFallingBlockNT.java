@@ -47,7 +47,7 @@ public class RenderFallingBlockNT extends Render {
 				tessellator.draw();
 			} else {
 				this.renderBlocks.setRenderBoundsFromBlock(block);
-				this.renderBlocks.renderBlockSandFalling(block, world, iX, iY, iZ, entity.fallingMeta);
+				this.renderBlocks.renderBlockSandFalling(block, world, iX, iY, iZ, entity.getDataWatcher().getWatchableObjectInt(11));
 			}
 
 			GL11.glEnable(GL11.GL_LIGHTING);

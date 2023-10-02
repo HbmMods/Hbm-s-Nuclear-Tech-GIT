@@ -502,8 +502,9 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_arsenic);
 		
 		for(NTMMaterial mat : Mats.orderedList) {
-			if(mat.smeltable == SmeltingBehavior.SMELTABLE && mat.shapes.contains(MaterialShapes.CASTPLATE)) {
-				for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.CASTPLATE.name() + name, new ItemStack(ModItems.plate_cast, 1, mat.id));
+			if(mat.smeltable == SmeltingBehavior.SMELTABLE) {
+				if(mat.shapes.contains(MaterialShapes.CASTPLATE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.CASTPLATE.name() + name, new ItemStack(ModItems.plate_cast, 1, mat.id));
+				if(mat.shapes.contains(MaterialShapes.HEAVY_COMPONENT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.HEAVY_COMPONENT.name() + name, new ItemStack(ModItems.heavy_component, 1, mat.id));
 			}
 		}
 		
@@ -602,7 +603,7 @@ public class OreDictManager {
 	public static void registerGroups() {
 		ANY_PLASTIC.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(BLOCK, true);
 		ANY_HARDPLASTIC.addPrefix(INGOT, true);
-		ANY_RESISTANTALLOY.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(PLATECAST, true).addPrefix(BLOCK, true);
+		ANY_RESISTANTALLOY.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(PLATECAST, true).addPrefix(HEAVY_COMPONENT, true).addPrefix(BLOCK, true);
 		ANY_TAR.addPrefix(ANY, false);
 	}
 	
@@ -640,19 +641,20 @@ public class OreDictManager {
 		/*
 		 * Quick access methods to grab ore names for recipes.
 		 */
-		public String any() {			return ANY			+ mats[0]; }
-		public String nugget() {		return NUGGET		+ mats[0]; }
-		public String tiny() {			return TINY			+ mats[0]; }
-		public String ingot() {			return INGOT		+ mats[0]; }
-		public String dustTiny() {		return DUSTTINY		+ mats[0]; }
-		public String dust() {			return DUST			+ mats[0]; }
-		public String gem() {			return GEM			+ mats[0]; }
-		public String crystal() {		return CRYSTAL		+ mats[0]; }
-		public String plate() {			return PLATE		+ mats[0]; }
-		public String plateCast() {		return PLATECAST	+ mats[0]; }
-		public String billet() {		return BILLET		+ mats[0]; }
-		public String block() {			return BLOCK		+ mats[0]; }
-		public String ore() {			return ORE			+ mats[0]; }
+		public String any() {			return ANY				+ mats[0]; }
+		public String nugget() {		return NUGGET			+ mats[0]; }
+		public String tiny() {			return TINY				+ mats[0]; }
+		public String ingot() {			return INGOT			+ mats[0]; }
+		public String dustTiny() {		return DUSTTINY			+ mats[0]; }
+		public String dust() {			return DUST				+ mats[0]; }
+		public String gem() {			return GEM				+ mats[0]; }
+		public String crystal() {		return CRYSTAL			+ mats[0]; }
+		public String plate() {			return PLATE			+ mats[0]; }
+		public String plateCast() {		return PLATECAST		+ mats[0]; }
+		public String heavyComp() {		return HEAVY_COMPONENT	+ mats[0]; }
+		public String billet() {		return BILLET			+ mats[0]; }
+		public String block() {			return BLOCK			+ mats[0]; }
+		public String ore() {			return ORE				+ mats[0]; }
 		public String[] anys() {		return appendToAll(ANY); }
 		public String[] nuggets() {		return appendToAll(NUGGET); }
 		public String[] tinys() {		return appendToAll(TINY); }
