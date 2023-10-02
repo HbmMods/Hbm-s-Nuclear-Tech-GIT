@@ -1028,10 +1028,9 @@ public class ModEventHandler {
 		        double diffX = targetXMotion - player.motionX;
 		        double diffZ = targetZMotion - player.motionZ;
 
-		        player.motionX += diffX * inertia;
+		        player.motionX += diffX * inertia; //god weeps
 		        player.motionZ += diffZ * inertia;
 		        
-		        System.out.println(playerMotion);
 		        if (!isMoving) {
 		            player.motionX *= (1.0 - 0.1);
 

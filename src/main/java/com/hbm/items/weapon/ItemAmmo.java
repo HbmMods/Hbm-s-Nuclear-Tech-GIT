@@ -106,7 +106,8 @@ public class ItemAmmo extends ItemEnumMulti {
 		PRO_STUNNING,
 		PRO_TOXIC,
 		PRO_WEAR,
-		PRO_WITHERING;
+		PRO_WITHERING,
+		PRO_BUTTER;
 		
 		public String key = "desc.item.ammo.";
 		
