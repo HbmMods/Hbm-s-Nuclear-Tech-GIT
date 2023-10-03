@@ -98,6 +98,7 @@ import net.minecraft.block.BlockLever;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCaveSpider;
@@ -1006,6 +1007,42 @@ public class ModEventHandler {
 					}
 				}
 			}
+		}
+	}
+	@SubscribeEvent
+	public void onEntityTick(LivingUpdateEvent event) {
+		//because fuck you and your scrubs 
+		//eventually i will condesne this to one eventhandler just give me a minute
+		Entity e = event.entityLiving;
+		if(e.worldObj.isRemote) return;
+		if(((EntityLivingBase) e).isPotionActive(HbmPotion.slippery.id) && e instanceof EntityLiving) {
+			EntityLiving ent = (EntityLiving) e;
+		    if (ent.onGround) {
+		        double slipperiness = 0.6; 
+		        double inertia = 0.1;
+		        boolean isMoving = ent.moveForward != 0.0 || ent.moveStrafing != 0.0;
+		        double entMotion = Math.sqrt(ent.motionX * ent.motionX + ent.motionZ * ent.motionZ);
+
+		        double angle = Math.atan2(ent.motionZ, ent.motionX);
+
+		        double targetXMotion = Math.cos(angle) * slipperiness;
+		        double targetZMotion = Math.sin(angle) * slipperiness;
+
+		        double diffX = targetXMotion - ent.motionX;
+		        double diffZ = targetZMotion - ent.motionZ;
+
+		        ent.motionX += diffX * inertia; //god weeps
+		        ent.motionZ += diffZ * inertia;
+		        
+		        if (!isMoving) {
+		            ent.motionX *= (1.0 - 0.1);
+
+		            double totalVelocity = Math.sqrt(ent.motionX * ent.motionX + ent.motionZ * ent.motionZ);
+		            double smoothingAmount = totalVelocity * 0.02;
+		                ent.motionX -= ent.motionX / totalVelocity * smoothingAmount;
+		                ent.motionZ -= ent.motionZ / totalVelocity * smoothingAmount;
+		        }
+		    }
 		}
 	}
 	
