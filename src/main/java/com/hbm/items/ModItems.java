@@ -76,6 +76,7 @@ public class ModItems {
 	
 	public static Item redstone_sword;
 	public static Item big_sword;
+	public static Item butter_sword;
 
 	public static Item test_helmet;
 	public static Item test_chestplate;
@@ -2616,6 +2617,7 @@ public class ModItems {
 	{			
 		redstone_sword = new RedstoneSword(ToolMaterial.STONE).setUnlocalizedName("redstone_sword").setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":redstone_sword");
 		big_sword = new BigSword(ToolMaterial.EMERALD).setUnlocalizedName("big_sword").setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":big_sword");
+		butter_sword = new BSword(ToolMaterial.WOOD).setUnlocalizedName("butter_sword").setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":budder_sword");
 
 		test_helmet = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 0).setUnlocalizedName("test_helmet").setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_helmet");
 		test_chestplate = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 1).setUnlocalizedName("test_chestplate").setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_chestplate");
@@ -5898,7 +5900,8 @@ public class ModItems {
 		//Weapons
 		GameRegistry.registerItem(redstone_sword, redstone_sword.getUnlocalizedName());
 		GameRegistry.registerItem(big_sword, big_sword.getUnlocalizedName());
-		
+		GameRegistry.registerItem(butter_sword, butter_sword.getUnlocalizedName());
+
 		//Test Armor
 		GameRegistry.registerItem(test_helmet, test_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(test_chestplate, test_chestplate.getUnlocalizedName());
