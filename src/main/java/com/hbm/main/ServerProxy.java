@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.util.PlanetaryTraitWorldSavedData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -75,6 +76,10 @@ public class ServerProxy {
 	
 	public float getImpactDust(World world) {
 		return TomSaveData.forWorld(world).dust;
+	}
+	
+	public NBTTagCompound getPlanetaryTags(World world) {
+		return PlanetaryTraitWorldSavedData.get(world).data;
 	}
 	
 	public float getImpactFire(World world) {

@@ -42,11 +42,14 @@ public class WorldProviderMoho extends WorldProvider {
     
     @SideOnly(Side.CLIENT)
     public Vec3 getFogColor(float x, float y) {
+        if(PlanetaryTraitUtil.isDimensionWithTraitNBT(dimensionId, Hospitality.BREATHEABLE)) {
+        	return Vec3.createVectorHelper(0.4D, 0.2D, 0.1D);
+        }
       return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
     }
     
     public Vec3 getSkyColor(Entity camera, float partialTicks) {
-        if(PlanetaryTraitUtil.isDimensionWithTrait(worldObj, Hospitality.BREATHEABLE)) {
+        if(PlanetaryTraitUtil.isDimensionWithTraitNBT(dimensionId, Hospitality.BREATHEABLE)) {
         	return Vec3.createVectorHelper(0.3D, 0.2D, 0.1D);
         }
         else {

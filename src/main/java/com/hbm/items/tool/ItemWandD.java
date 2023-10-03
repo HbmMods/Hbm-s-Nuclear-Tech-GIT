@@ -39,6 +39,7 @@ import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.PlanetaryTraitUtil.Hospitality;
+import com.hbm.util.PlanetaryTraitWorldSavedData;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.world.feature.OilSpot;
 import com.hbm.world.generator.DungeonToolbox;
@@ -212,6 +213,15 @@ public class ItemWandD extends Item {
 				Set<Hospitality> newtraits = EnumSet.of(Hospitality.BREATHEABLE);
 				PlanetaryTraitUtil.removeTraitsFromDimension(world.provider.dimensionId, traits);
 				PlanetaryTraitUtil.addTraitsToDimension(world.provider.dimensionId, newtraits);
+				
+			    // Get the PlanetaryTraitWorldSavedData instance for the world
+			    PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
+
+			    // Set the updated traits in the saved data
+			    traitsData.setTraits(world.provider.dimensionId, newtraits);
+
+			    // Mark the saved data as dirty to ensure changes are saved
+			    traitsData.markDirty();
 				player.addChatMessage(new ChatComponentText("added!" + newtraits));
 			}
 			/*

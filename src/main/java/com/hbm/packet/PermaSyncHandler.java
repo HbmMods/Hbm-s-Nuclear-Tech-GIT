@@ -1,8 +1,10 @@
 package com.hbm.packet;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.pollution.PollutionHandler;
@@ -10,6 +12,8 @@ import com.hbm.handler.pollution.PollutionHandler.PollutionData;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.util.PlanetaryTraitUtil;
+import com.hbm.util.PlanetaryTraitWorldSavedData;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,6 +40,7 @@ public class PermaSyncHandler {
 		buf.writeLong(data.time);
 		/// TOM IMPACT DATA ///
 
+		
 		/// SHITTY MEMES ///
 		List<Integer> ids = new ArrayList();
 		for(Object o : world.playerEntities) {
@@ -44,6 +49,19 @@ public class PermaSyncHandler {
 				ids.add(p.getEntityId());
 			}
 		}
+		
+        /// PLANETARY TRAITS ///
+        int dimensionId = player.dimension;
+        PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
+        Set<PlanetaryTraitUtil.Hospitality> traits = traitsData.getTraits(dimensionId);
+
+        buf.writeInt(dimensionId);
+        buf.writeShort(traits.size());
+        for (PlanetaryTraitUtil.Hospitality trait : traits) {
+            buf.writeInt(trait.ordinal());
+        }
+        /// PLANETARY TRAITS ///
+		
 		buf.writeShort((short) ids.size());
 		for(Integer i : ids) buf.writeInt(i);
 		/// SHITTY MEMES ///
@@ -67,6 +85,16 @@ public class PermaSyncHandler {
 		ImpactWorldHandler.time = buf.readLong();
 		/// TOM IMPACT DATA ///
 
+        int dimensionId = buf.readInt();
+        int traitCount = buf.readShort();
+        Set<PlanetaryTraitUtil.Hospitality> traits = EnumSet.allOf(PlanetaryTraitUtil.Hospitality.class);
+
+        for (int i = 0; i < traitCount; i++) {
+            int traitOrdinal = buf.readInt();
+            PlanetaryTraitUtil.Hospitality trait = PlanetaryTraitUtil.Hospitality.values()[traitOrdinal];
+            traits.add(trait);
+        }
+		
 		/// SHITTY MEMES ///
 		boykissers.clear();
 		int ids = buf.readShort();
