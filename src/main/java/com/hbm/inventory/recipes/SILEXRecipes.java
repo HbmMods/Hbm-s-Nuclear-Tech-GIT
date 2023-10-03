@@ -825,9 +825,11 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_tantalium), 30))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 3))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_caesium), 2))
+				);
 		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.FULLERENE.getID()), new SILEXRecipe(1_000, 1_000, EnumWavelengths.UV)
 				.addOut(new WeightedRandomObject(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.FULLERENE), 1))
 				);
+	
 	}
 	
 	public static SILEXRecipe getOutput(ItemStack stack) {
