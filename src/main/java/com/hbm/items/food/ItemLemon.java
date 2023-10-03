@@ -134,6 +134,9 @@ public class ItemLemon extends ItemFood {
 			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 1));
 			player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 20 * 20, 2));
 		}
+		if(this == ModItems.s_cream) {
+			player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 20 * 20, 2));
+		}
     }
 
     public ItemStack onEaten(ItemStack stack, World worldObj, EntityPlayer player)
