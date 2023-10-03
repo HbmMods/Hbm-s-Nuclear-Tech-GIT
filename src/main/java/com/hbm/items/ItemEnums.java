@@ -28,7 +28,8 @@ public class ItemEnums {
 		COAL,
 		MISC,
 		FLY,
-		SOOT
+		SOOT,
+		FULLERENE
 	}
 
 	public static enum EnumBriquetteType {

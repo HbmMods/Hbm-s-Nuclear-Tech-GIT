@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 public class EntityFallingBlockNT extends Entity {
 
 	private Block fallingBlock;
-	public int fallingMeta = -1;
+	private int fallingMeta = -1;
 	public int fallingTicks;
 	public boolean canDrop;
 	private boolean destroyOnLand;
