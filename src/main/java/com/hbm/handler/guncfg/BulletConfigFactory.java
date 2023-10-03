@@ -27,6 +27,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
@@ -416,6 +417,15 @@ public class BulletConfigFactory {
 							EntityLivingBase entity = (EntityLivingBase) e;
 							PotionEffect eff = new PotionEffect(HbmPotion.slippery.id, duration, 0, true);
 							((EntityLivingBase)e).addPotionEffect(eff);
+							
+							if(e instanceof EntitySquid) {
+								double ex = e.posX;
+								double ey = e.posY;
+								double ez = e.posZ;
+								
+								e.worldObj.createExplosion(bullet, ex, ey, ez, 2, e.addedToChunk);
+								
+							}
 						}
 					}
 				}
