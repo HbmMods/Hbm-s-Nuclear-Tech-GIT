@@ -1,9 +1,5 @@
 package com.hbm.items;
 
-import static com.hbm.items.ModItems.billet_cm_mix;
-import static com.hbm.items.ModItems.ingot_cm_mix;
-import static com.hbm.items.ModItems.nugget_cm_mix;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.VersatileConfig;
 import com.hbm.handler.BucketHandler;
