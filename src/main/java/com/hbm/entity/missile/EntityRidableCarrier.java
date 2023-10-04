@@ -8,6 +8,7 @@ import com.hbm.config.WorldConfig;
 import com.hbm.dim.DebugTeleporter;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ISatChip;
+import com.hbm.items.ItemVOTVdrive.DestinationType;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -30,6 +31,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import com.hbm.items.ItemVOTVdrive;
 
 public class EntityRidableCarrier extends Entity {
 
@@ -178,14 +180,14 @@ public class EntityRidableCarrier extends Entity {
 			if(payload.getItem() == ModItems.ingot_tt) {
 				EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
 				if(riding != null) {
-				DebugTeleporter.teleport(riding, SpaceConfig.dunaDimension, riding.posX, 300, riding.posZ);
+				DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
 				}
 			}
 			
-			if(payload.getItem() == ModItems.ingot_ttas) {
+			if(payload.getItem() == ModItems.full_drive && payload.getItemDamage() == DestinationType.DUNA.ordinal() && payload.getTagCompound().getBoolean("Processed") == true ) {
 				EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
 				if(riding != null) {
-				DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
+				DebugTeleporter.teleport(riding, SpaceConfig.dunaDimension, riding.posX, 300, riding.posZ);
 				}
 			}
 		

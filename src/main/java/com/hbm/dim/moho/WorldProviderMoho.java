@@ -17,6 +17,7 @@ import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.client.IRenderHandler;
+import scala.reflect.internal.Trees.Return;
 
 public class WorldProviderMoho extends WorldProvider {
 	
@@ -76,9 +77,9 @@ public class WorldProviderMoho extends WorldProvider {
             float f5 = (f3 - f4) / f2 * 0.5F + 0.5F;
             float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * (float)Math.PI)) * 0.99F;
             f6 *= f6;
-            this.colorsSunriseSunset[0] = f5 * 0.2F + 0.2F;
-            this.colorsSunriseSunset[1] = f5 * f5 * 0.7F + 0.2F;
-            this.colorsSunriseSunset[2] = f5 * f5 * 0.3F + 0.7F;
+            this.colorsSunriseSunset[0] = f5 * 0.2F + 0.0F;
+            this.colorsSunriseSunset[1] = f5 * f5 * 0.6F + 0.1F;
+            this.colorsSunriseSunset[2] = f5 * f5 * 0.2F + 0.0F;
             this.colorsSunriseSunset[3] = f6;
             return this.colorsSunriseSunset;
         }
@@ -103,17 +104,22 @@ public class WorldProviderMoho extends WorldProvider {
 	@SideOnly(Side.CLIENT)
 	public float getStarBrightness(float par1) {
 		//float starBr = worldObj.getStarBrightnessBody(par1);
-		float f1 = worldObj.getCelestialAngle(par1);
-		float f2 = 1.0F - (MathHelper.cos(f1 * (float) Math.PI * 2.0F) * 2.0F + 0.25F);
+		if(PlanetaryTraitUtil.isDimensionWithTraitNT(worldObj, Hospitality.BREATHEABLE)) {
+			float f1 = worldObj.getCelestialAngle(par1);
+			float f2 = 1.0F - (MathHelper.cos(f1 * (float) Math.PI * 2.0F) * 2.0F + 0.25F);
 
-		if(f2 < 0.0F) {
-			f2 = 0.0F;
-		}
+			if(f2 < 0.0F) {
+				f2 = 0.0F;
+			}
 
-		if(f2 > 1.0F) {
-			f2 = 1.0F;
+			if(f2 > 1.0F) {
+				f2 = 1.0F;
+			}
+			return f2;
+			
 		}
-		return f2;
+	return 1F;
+	
 	}
     public boolean canRespawnHere()
     {
@@ -133,7 +139,7 @@ public class WorldProviderMoho extends WorldProvider {
 	
     public long getDayLength()
     {
-    	return (long) (AstronomyUtil.MohoP*24);
+    	return (long) (AstronomyUtil.MohoP*84);
     }
     
     @Override
