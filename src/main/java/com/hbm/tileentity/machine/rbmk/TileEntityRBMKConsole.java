@@ -382,7 +382,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			case BOILER:
 				stats.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("rbmk.boiler.water", this.data.getInteger("water"), this.data.getInteger("maxWater")));
 				stats.add(EnumChatFormatting.WHITE + I18nUtil.resolveKey("rbmk.boiler.steam", this.data.getInteger("steam"), this.data.getInteger("maxSteam")));
-				stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.boiler.type", I18nUtil.resolveKey(Fluids.fromID(this.data.getShort("type")).getUnlocalizedName())));
+				stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.boiler.type", Fluids.fromID(this.data.getShort("type")).getLocalizedName()));
 				break;
 			case CONTROL:
 				
@@ -398,10 +398,10 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				break;
 				
 			case HEATEX:
-				stats.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey(I18nUtil.resolveKey(Fluids.fromID(this.data.getShort("type")).getUnlocalizedName()) + " " +
-			this.data.getInteger("water") + "/" + this.data.getInteger("maxWater") + "mB"));
-				stats.add(EnumChatFormatting.RED + I18nUtil.resolveKey(I18nUtil.resolveKey(Fluids.fromID(this.data.getShort("hottype")).getUnlocalizedName()) + " " +
-			this.data.getInteger("steam") + "/" + this.data.getInteger("maxSteam") + "mB"));
+				stats.add(EnumChatFormatting.BLUE + Fluids.fromID(this.data.getShort("type")).getLocalizedName() + " " +
+			this.data.getInteger("water") + "/" + this.data.getInteger("maxWater") + "mB");
+				stats.add(EnumChatFormatting.RED + Fluids.fromID(this.data.getShort("hottype")).getLocalizedName() + " " +
+			this.data.getInteger("steam") + "/" + this.data.getInteger("maxSteam") + "mB");
 				break;
 			}
 			

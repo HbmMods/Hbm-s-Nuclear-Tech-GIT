@@ -78,9 +78,9 @@ public class FluidDuctBoxExhaust extends FluidDuctBox {
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		List<String> text = new ArrayList();
-		text.add(I18nUtil.resolveKey(Fluids.SMOKE.getUnlocalizedName()));
-		text.add(I18nUtil.resolveKey(Fluids.SMOKE_LEADED.getUnlocalizedName()));
-		text.add(I18nUtil.resolveKey(Fluids.SMOKE_POISON.getUnlocalizedName()));
+		text.add(Fluids.SMOKE.getLocalizedName());
+		text.add(Fluids.SMOKE_LEADED.getLocalizedName());
+		text.add(Fluids.SMOKE_POISON.getLocalizedName());
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 }

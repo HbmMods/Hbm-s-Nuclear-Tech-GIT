@@ -15,7 +15,6 @@ import com.hbm.packet.TEFluidPacket;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -205,6 +204,12 @@ public class FluidTank {
 	public void renderTank(int x, int y, double z, int width, int height) {
 
 		GL11.glEnable(GL11.GL_BLEND);
+		
+		int color = type.getTint();
+		double r = ((color & 0xff0000) >> 16) / 255D;
+		double g = ((color & 0x00ff00) >> 8) / 255D;
+		double b = ((color & 0x0000ff) >> 0) / 255D;
+		GL11.glColor3d(r, g, b);
 
 		y -= height;
 		
@@ -230,6 +235,7 @@ public class FluidTank {
 		tessellator.addVertexWithUV(minX, minY, z, minU, minV);
 		tessellator.draw();
 
+		GL11.glColor3d(1D, 1D, 1D);
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
@@ -237,7 +243,7 @@ public class FluidTank {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
 			
 			List<String> list = new ArrayList();
-			list.add(I18n.format(this.type.getUnlocalizedName()));
+			list.add(this.type.getLocalizedName());
 			list.add(fluid + "/" + maxFluid + "mB");
 			
 			if(this.pressure != 0) {

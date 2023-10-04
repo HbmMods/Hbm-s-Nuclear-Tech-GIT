@@ -163,9 +163,12 @@ public class Fluids {
 	public static FluidType THORIUM_SALT_HOT;
 	public static FluidType THORIUM_SALT_DEPLETED;
 	public static FluidType FULLERENE;
+	
+	public static List<FluidType> customFluids = new ArrayList();
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
+	protected static final List<FluidType> registerOrder = new ArrayList();
 	protected static final List<FluidType> metaOrder = new ArrayList();
 
 	public static final FT_Liquid LIQUID = new FT_Liquid();
@@ -197,10 +200,10 @@ public class Fluids {
 		
 		NONE =					new FluidType("NONE",				0x888888, 0, 0, 0, EnumSymbol.NONE);
 		WATER =					new FluidType("WATER",				0x3333FF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		STEAM =					new FluidType("STEAM",				0xe5e5e5, 3, 0, 0, EnumSymbol.NONE).setTemp(100).setCompression(0.01D).addTraits(GASEOUS);
-		HOTSTEAM =				new FluidType("HOTSTEAM",			0xE7D6D6, 4, 0, 0, EnumSymbol.NONE).setTemp(300).setCompression(0.1D).addTraits(GASEOUS);
-		SUPERHOTSTEAM =			new FluidType("SUPERHOTSTEAM",		0xE7B7B7, 4, 0, 0, EnumSymbol.NONE).setTemp(450).setCompression(1D).addTraits(GASEOUS);
-		ULTRAHOTSTEAM =			new FluidType("ULTRAHOTSTEAM",		0xE39393, 4, 0, 0, EnumSymbol.NONE).setTemp(600).setCompression(10D).addTraits(GASEOUS);
+		STEAM =					new FluidType("STEAM",				0xe5e5e5, 3, 0, 0, EnumSymbol.NONE).setTemp(100).addTraits(GASEOUS);
+		HOTSTEAM =				new FluidType("HOTSTEAM",			0xE7D6D6, 4, 0, 0, EnumSymbol.NONE).setTemp(300).addTraits(GASEOUS);
+		SUPERHOTSTEAM =			new FluidType("SUPERHOTSTEAM",		0xE7B7B7, 4, 0, 0, EnumSymbol.NONE).setTemp(450).addTraits(GASEOUS);
+		ULTRAHOTSTEAM =			new FluidType("ULTRAHOTSTEAM",		0xE39393, 4, 0, 0, EnumSymbol.NONE).setTemp(600).addTraits(GASEOUS);
 		COOLANT =				new FluidType("COOLANT",			0xd8fcff, 1, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		LAVA =					new FluidType("LAVA",				0xFF3300, 4, 0, 0, EnumSymbol.NOWATER).setTemp(1200).addTraits(LIQUID, VISCOUS);
 		DEUTERIUM =				new FluidType("DEUTERIUM",			0x0000FF, 3, 4, 0, EnumSymbol.NONE).addTraits(new FT_Flammable(5_000), new FT_Combustible(FuelGrade.HIGH, 10_000), GASEOUS);
@@ -243,7 +246,7 @@ public class Fluids {
 		WASTEGAS =				new FluidType("WASTEGAS",			0xB8B8B8, 2, 0, 1, EnumSymbol.RADIATION).addTraits(new FT_VentRadiation(0.5F), NOCON, GASEOUS);
 		GASOLINE =				new FluidType("GASOLINE",			0x445772, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x2F7747)).addTraits(new FT_Flammable(400_000), new FT_Combustible(FuelGrade.HIGH, 1_000_000), LIQUID);
 		COALGAS =				new FluidType("COALGAS",			0x445772, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x2E155F)).addTraits(new FT_Flammable(75_000), new FT_Combustible(FuelGrade.MEDIUM, 150_000), LIQUID);
-		SPENTSTEAM =			new FluidType("SPENTSTEAM",			0x445772, 2, 0, 0, EnumSymbol.NONE).setCompression(1D).addTraits(NOCON, GASEOUS);
+		SPENTSTEAM =			new FluidType("SPENTSTEAM",			0x445772, 2, 0, 0, EnumSymbol.NONE).addTraits(NOCON, GASEOUS);
 		FRACKSOL =				new FluidType("FRACKSOL",			0x798A6B, 1, 3, 3, EnumSymbol.ACID).addContainers(new CD_Canister(0x4F887F)).addTraits(new FT_Corrosive(15), new FT_Poison(false, 0), LIQUID, VISCOUS);
 		PLASMA_DT =				new FluidType("PLASMA_DT",			0xF7AFDE, 0, 4, 0, EnumSymbol.RADIATION).setTemp(3250).addTraits(NOCON, NOID, PLASMA);
 		PLASMA_HD =				new FluidType("PLASMA_HD",			0xF0ADF4, 0, 4, 0, EnumSymbol.RADIATION).setTemp(2500).addTraits(NOCON, NOID, PLASMA);
@@ -329,6 +332,12 @@ public class Fluids {
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
+		
+		File folder = MainRegistry.configHbmDir;
+		File customTypes = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFluidTypes.json");
+		if(!customTypes.exists()) initDefaultFluids(customTypes);
+		readCustomFluids(customTypes);
+		
 		//AND DON'T FORGET THE META DOWN HERE
 		// V V V V V V V V
 		
@@ -477,6 +486,8 @@ public class Fluids {
 		metaOrder.add(SMOKE);
 		metaOrder.add(SMOKE_LEADED);
 		metaOrder.add(SMOKE_POISON);
+		
+		for(FluidType custom : customFluids) metaOrder.add(custom);
 
 		CHLORINE.addTraits(new FT_Toxin().addEntry(new ToxinDirectDamage(ModDamageSource.cloud, 2F, 20, HazardClass.GAS_CHLORINE, false)));
 		PHOSGENE.addTraits(new FT_Toxin().addEntry(new ToxinDirectDamage(ModDamageSource.cloud, 4F, 20, HazardClass.GAS_CHLORINE, false)));
@@ -619,19 +630,72 @@ public class Fluids {
 		registerCalculatedFuel(SYNGAS, (coalHeat * (1000 /* bucket */ / 100 /* mB per coal */) * flammabilityLow * demandLow * complexityChemplant) * 1.5, 1.25, FuelGrade.GAS); //same as coal oil, +50% bonus
 		registerCalculatedFuel(OXYHYDROGEN, 5_000, 3, FuelGrade.GAS); // whatever
 		
-		File folder = MainRegistry.configHbmDir;
-
-		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFluids.json");
-		File template = new File(folder.getAbsolutePath() + File.separatorChar + "_hbmFluids.json");
+		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFluidTraits.json");
+		File template = new File(folder.getAbsolutePath() + File.separatorChar + "_hbmFluidTraits.json");
 		
 		if(!config.exists()) {
-			writeDefault(template);
+			writeDefaultTraits(template);
 		} else {
-			readConfig(config);
+			readTraits(config);
 		}
 	}
 	
-	private static void writeDefault(File file) {
+	private static void initDefaultFluids(File file) {
+		
+		try {
+			JsonWriter writer = new JsonWriter(new FileWriter(file));
+			writer.setIndent("  ");
+			writer.beginObject();
+			
+			writer.name("CUSTOM_DEMO").beginObject();
+			writer.name("name").value("Custom Fluid Demo");
+			writer.name("id").value(1000);
+			writer.name("color").value(0xff0000);
+			writer.name("tint").value(0xff0000);
+			writer.name("p").value(1).name("f").value(2).name("r").value(0);
+			writer.name("symbol").value(EnumSymbol.OXIDIZER.name());
+			writer.name("texture").value("custom_water");
+			writer.name("temperature").value(20);
+			writer.endObject();
+			
+			writer.endObject();
+			writer.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void readCustomFluids(File file) {
+		
+		try {
+			JsonObject json = gson.fromJson(new FileReader(file), JsonObject.class);
+			
+			for(Entry<String, JsonElement> entry : json.entrySet()) {
+				
+				JsonObject obj = (JsonObject) entry.getValue();
+
+				String name = entry.getKey();
+				int id = obj.get("id").getAsInt();
+				String displayName = obj.get("name").getAsString();
+				int color = obj.get("color").getAsInt();
+				int tint = obj.get("tint").getAsInt();
+				int p = obj.get("p").getAsInt();
+				int f = obj.get("f").getAsInt();
+				int r = obj.get("r").getAsInt();
+				EnumSymbol symbol = EnumSymbol.valueOf(obj.get("symbol").getAsString());
+				String texture = obj.get("texture").getAsString();
+				int temperature = obj.get("temperature").getAsInt();
+				
+				FluidType type = new FluidType(name, color, p, f, r, symbol, texture, tint, id, displayName).setTemp(temperature);
+				customFluids.add(type);
+			}
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	private static void writeDefaultTraits(File file) {
 
 		try {
 			JsonWriter writer = new JsonWriter(new FileWriter(file));
@@ -639,7 +703,7 @@ public class Fluids {
 			writer.beginObject();
 			
 			for(FluidType type : metaOrder) {
-				writer.name(type.getUnlocalizedName()).beginObject();
+				writer.name(type.getName()).beginObject();
 				
 				for(Entry<Class<? extends FluidTrait>, FluidTrait> entry : type.traits.entrySet()) {
 					writer.name(FluidTrait.traitNameMap.inverse().get(entry.getKey())).beginObject();
@@ -657,14 +721,14 @@ public class Fluids {
 		}
 	}
 	
-	private static void readConfig(File config) {
+	private static void readTraits(File config) {
 		
 		try {
 			JsonObject json = gson.fromJson(new FileReader(config), JsonObject.class);
 			
 			for(FluidType type : metaOrder) {
 				
-				JsonElement element = json.get(type.getUnlocalizedName());
+				JsonElement element = json.get(type.getName());
 				if(element != null) {
 					type.traits.clear();
 					JsonObject obj = element.getAsJsonObject();
@@ -715,8 +779,15 @@ public class Fluids {
 	protected static int registerSelf(FluidType fluid) {
 		int id = idMapping.size();
 		idMapping.put(id, fluid);
+		registerOrder.add(fluid);
 		nameMapping.put(fluid.getName(), fluid);
 		return id;
+	}
+	
+	protected static void register(FluidType fluid, int id) {
+		idMapping.put(id, fluid);
+		registerOrder.add(fluid);
+		nameMapping.put(fluid.getName(), fluid);
 	}
 	
 	public static FluidType fromID(int id) {
@@ -749,7 +820,7 @@ public class Fluids {
 		FluidType[] all = new FluidType[idMapping.size()];
 		
 		for(int i = 0; i < all.length; i++) {
-			FluidType type = nice ? metaOrder.get(i) : idMapping.get(i);
+			FluidType type = nice ? metaOrder.get(i) : registerOrder.get(i);
 			
 			if(type == null) {
 				throw new IllegalStateException("A severe error has occoured with NTM's fluid system! Fluid of the ID " + i + " has returned NULL in the registry!");

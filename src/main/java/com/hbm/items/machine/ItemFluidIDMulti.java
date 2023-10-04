@@ -20,7 +20,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
@@ -45,7 +44,7 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 			setType(stack, secondary, true);
 			setType(stack, primary, false);
 			world.playSoundAtEntity(player, "random.orb", 0.25F, 1.25F);
-			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.startTranslation(secondary.getUnlocalizedName()).flush(), /*MainRegistry.proxy.ID_DETONATOR*/ 7, 3000), (EntityPlayerMP) player);
+			PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.startTranslation(secondary.getConditionalName()).flush(), /*MainRegistry.proxy.ID_DETONATOR*/ 7, 3000), (EntityPlayerMP) player);
 		}
 		
 		if(world.isRemote && player.isSneaking()) {
@@ -68,9 +67,9 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".info"));
-		list.add("   " + I18n.format(getType(stack, true).getUnlocalizedName()));
+		list.add("   " + getType(stack, true).getLocalizedName());
 		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".info2"));
-		list.add("   " + I18n.format(getType(stack, false).getUnlocalizedName()));
+		list.add("   " + getType(stack, false).getLocalizedName());
 	}
 
 	@Override

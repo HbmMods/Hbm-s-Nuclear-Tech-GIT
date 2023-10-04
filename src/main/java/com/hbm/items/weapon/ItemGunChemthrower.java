@@ -20,7 +20,6 @@ import api.hbm.fluid.IFillableItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -103,7 +102,7 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 		
 		list.add("Ammo: " + getMag(stack) + " / " + mainConfig.ammoCap + "mB");
 		
-		list.add("Ammo Type: " + I18n.format(this.getFluidType(stack).getUnlocalizedName()));
+		list.add("Ammo Type: " + this.getFluidType(stack).getLocalizedName());
 		
 		int dura = mainConfig.durability - getItemWear(stack);
 		

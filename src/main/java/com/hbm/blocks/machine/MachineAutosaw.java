@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
@@ -62,7 +61,7 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay, IToo
 				if(saw.acceptedFuels.contains(type)) {
 					saw.tank.setTankType(type);
 					saw.markDirty();
-					player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase(Locale.US))).appendSibling(new ChatComponentText("!")));
+					player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation(type.getConditionalName())).appendSibling(new ChatComponentText("!")));
 					return true;
 				}
 			}
@@ -84,7 +83,7 @@ public class MachineAutosaw extends BlockContainer implements ILookOverlay, IToo
 		TileEntityMachineAutosaw saw = (TileEntityMachineAutosaw) te;
 		
 		List<String> text = new ArrayList();
-		text.add(I18nUtil.resolveKey("hbmfluid." + saw.tank.getTankType().getName().toLowerCase(Locale.US)) + ": " + saw.tank.getFill() + "/" + saw.tank.getMaxFill() + "mB");
+		text.add(saw.tank.getTankType().getLocalizedName() + ": " + saw.tank.getFill() + "/" + saw.tank.getMaxFill() + "mB");
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
