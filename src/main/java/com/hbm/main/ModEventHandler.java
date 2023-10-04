@@ -602,11 +602,11 @@ public class ModEventHandler {
 			}
 		}
 		//TODO: Add spacesuits
-		if(!ArmorUtil.checkForAsbestos(event.entityLiving) && PlanetaryTraitUtil.isDimensionWithTrait(event.entityLiving.worldObj, Hospitality.HOT))
+		if(!ArmorUtil.checkForAsbestos(event.entityLiving) && PlanetaryTraitUtil.isDimensionWithTraitNT(event.entityLiving.worldObj, Hospitality.HOT))
 		{
 			event.entityLiving.attackEntityFrom(ModDamageSource.eve, 4); // hot planets should require a much more durable suit, preferably one operating coolant.
 		}
-		if(!ArmorUtil.checkForOxy(event.entityLiving) && PlanetaryTraitUtil.isDimensionWithTrait(event.entityLiving.worldObj, Hospitality.OXYNEG) && !(event.entityLiving instanceof EntityGlyphid))
+		if(!ArmorUtil.checkForOxy(event.entityLiving) && PlanetaryTraitUtil.isDimensionWithTraitNT(event.entityLiving.worldObj, Hospitality.OXYNEG) && !(event.entityLiving instanceof EntityGlyphid))
 		{
 			event.entityLiving.attackEntityFrom(ModDamageSource.oxyprime, 2); // suffocation is a long and painful death, but not too long, or else they get wise...
 		}

@@ -48,22 +48,26 @@ public class PlanetaryTraitUtil {
         return traits.contains(trait);
         
     }
-    public static boolean isDimensionWithTraitNBT(int dimensionId, Hospitality trait) {
-        World world = DimensionManager.getWorld(dimensionId);
-        PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
-        Set<Hospitality> traits = traitsData.getTraits(dimensionId); 
-        // If traits for this dimension are not available in the map, try loading them from saved data.
-        if (traits.isEmpty()) {
 
-            if (traitsData != null) {
-                traits = traitsData.getTraits(dimensionId);
+    public static boolean isDimensionWithTraitNT(World world, Hospitality trait) {
+        int dimensionId = world.provider.dimensionId;
+        world = DimensionManager.getWorld(dimensionId);
+        Set<Hospitality> traits = idToDimensionMap.getOrDefault(dimensionId, Collections.emptySet());
+
+        PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
+        
+        // Check if saved data exists and has traits for the dimension
+        if (traitsData != null) {
+            Set<Hospitality> savedTraits = traitsData.getTraits(dimensionId);
+            
+            // If saved traits exist, use them instead
+            if (!savedTraits.isEmpty()) {
+                traits = savedTraits;
             }
         }
+        
         return traits.contains(trait);
-
     }
-
-    
     public static void removeTraitsFromDimension(int dimensionId, Set<Hospitality> traits) {
         Set<Hospitality> existingTraits = idToDimensionMap.getOrDefault(dimensionId, new HashSet<>());
         existingTraits.removeAll(traits);
@@ -87,7 +91,6 @@ public class PlanetaryTraitUtil {
         World world = DimensionManager.getWorld(dimensionId); // Fetch the world based on the dimension ID
 	    PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
 	    traitsData.setTraits(world.provider.dimensionId, existingTraits);
-
 	    traitsData.markDirty();
     }
 }

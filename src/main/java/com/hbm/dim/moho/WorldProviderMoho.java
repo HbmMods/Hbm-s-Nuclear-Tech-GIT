@@ -20,6 +20,8 @@ import net.minecraftforge.client.IRenderHandler;
 
 public class WorldProviderMoho extends WorldProvider {
 	
+    private float[] colorsSunriseSunset = new float[4];
+    
 	public void registerWorldChunkManager() {
 		
 		this.worldChunkMgr = new WorldChunkManagerHell(new BiomeGenMoho(SpaceConfig.mohoBiome), dimensionId);
@@ -42,15 +44,19 @@ public class WorldProviderMoho extends WorldProvider {
     
     @SideOnly(Side.CLIENT)
     public Vec3 getFogColor(float x, float y) {
-        if(PlanetaryTraitUtil.isDimensionWithTraitNBT(dimensionId, Hospitality.BREATHEABLE)) {
-        	return Vec3.createVectorHelper(0.4D, 0.2D, 0.1D);
+        if(PlanetaryTraitUtil.isDimensionWithTraitNT(worldObj, Hospitality.BREATHEABLE)) {
+            float f = 1.0F - this.getStarBrightness(1.0F);
+
+        	return Vec3.createVectorHelper(0.4D * f , 0.2D * f, 0.1D * f);
         }
       return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
     }
-    
+
     public Vec3 getSkyColor(Entity camera, float partialTicks) {
-        if(PlanetaryTraitUtil.isDimensionWithTraitNBT(dimensionId, Hospitality.BREATHEABLE)) {
-        	return Vec3.createVectorHelper(0.3D, 0.2D, 0.1D);
+        if(PlanetaryTraitUtil.isDimensionWithTraitNT(worldObj, Hospitality.BREATHEABLE)) {
+            float f = 1.0F - this.getStarBrightness(1.0F);
+
+        	return Vec3.createVectorHelper(0.3D* f, 0.2D * f, 0.1D * f);
         }
         else {
             return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
@@ -60,6 +66,27 @@ public class WorldProviderMoho extends WorldProvider {
     
     @SideOnly(Side.CLIENT)
     public float[] calcSunriseSunsetColors(float p_76560_1_, float p_76560_2_) {
+        float f2 = 0.4F;
+        float f3 = MathHelper.cos(p_76560_1_ * (float)Math.PI * 2.0F) - 0.0F;
+        float f4 = -0.0F;
+
+        if(PlanetaryTraitUtil.isDimensionWithTraitNT(worldObj, Hospitality.BREATHEABLE)) {
+        if (f3 >= f4 - f2 && f3 <= f4 + f2)
+        {
+            float f5 = (f3 - f4) / f2 * 0.5F + 0.5F;
+            float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * (float)Math.PI)) * 0.99F;
+            f6 *= f6;
+            this.colorsSunriseSunset[0] = f5 * 0.2F + 0.2F;
+            this.colorsSunriseSunset[1] = f5 * f5 * 0.7F + 0.2F;
+            this.colorsSunriseSunset[2] = f5 * f5 * 0.3F + 0.7F;
+            this.colorsSunriseSunset[3] = f6;
+            return this.colorsSunriseSunset;
+        }
+        else
+        {
+            return null;
+        }
+      }
     	return null;
     }
 
@@ -75,19 +102,18 @@ public class WorldProviderMoho extends WorldProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getStarBrightness(float par1) {
-		/*float starBr = worldObj.getStarBrightnessBody(par1);
-		float dust = MainRegistry.proxy.getImpactDust(worldObj);
+		//float starBr = worldObj.getStarBrightnessBody(par1);
 		float f1 = worldObj.getCelestialAngle(par1);
 		float f2 = 1.0F - (MathHelper.cos(f1 * (float) Math.PI * 2.0F) * 2.0F + 0.25F);
 
-		if(f2 < 0.2F) {
-			f2 = 0.2F;
+		if(f2 < 0.0F) {
+			f2 = 0.0F;
 		}
 
 		if(f2 > 1.0F) {
 			f2 = 1.0F;
-		}*/
-		return 1f;
+		}
+		return f2;
 	}
     public boolean canRespawnHere()
     {
@@ -107,7 +133,7 @@ public class WorldProviderMoho extends WorldProvider {
 	
     public long getDayLength()
     {
-    	return (long) (56.019*24000);
+    	return (long) (AstronomyUtil.MohoP*24);
     }
     
     @Override
