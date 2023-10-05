@@ -147,6 +147,9 @@ public class ResourceManager {
 	//Mixer
 	public static final IModelCustom mixer = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/mixer.obj"));
 	
+	//Arc Welder
+	public static final IModelCustom arc_welder = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/arc_welder.obj"));
+	
 	//F6 TANKS
 	public static final IModelCustom tank = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/tank.obj"));
 	
@@ -513,6 +516,9 @@ public class ResourceManager {
 	
 	//Mixer
 	public static final ResourceLocation mixer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/mixer.png");
+	
+	//Welder
+	public static final ResourceLocation arc_welder_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/arc_welder.png");
 
 	//F6 TANKS
 	public static final ResourceLocation uf6_tex = new ResourceLocation(RefStrings.MODID, "textures/models/UF6Tank.png");
