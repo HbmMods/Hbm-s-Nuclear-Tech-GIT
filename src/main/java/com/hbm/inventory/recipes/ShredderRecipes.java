@@ -47,6 +47,8 @@ public class ShredderRecipes extends SerializableRecipe {
 			if(name == null || name.isEmpty())
 				continue;
 			
+			if(name.contains("Any")) continue;
+			
 			List<ItemStack> matches = OreDictionary.getOres(name);
 			
 			//if the name isn't assigned to an ore, also skip
@@ -94,10 +96,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		if(name.length() > len && name.substring(0, len).equals(prefix)) {
 			
 			String matName = name.substring(len);
-			
-			//skip over genericized names so we don't accidentally convert item groups
-			if(matName.startsWith("Any"))
-				return;
 			
 			ItemStack dust = getDustByName(matName);
 			
@@ -384,17 +382,17 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModItems.debris_graphite, new ItemStack(ModItems.powder_coal, 1));
 		
 		/* GC COMPAT */
-		Item gcMoonBlock = Compat.tryLoadItem(Compat.MOD_GCC, "moonBlock");
-		if(gcMoonBlock != null) {
+		Block gcMoonBlock = Compat.tryLoadBlock(Compat.MOD_GCC, "moonBlock");
+		if(gcMoonBlock != null && gcMoonBlock != Blocks.air) {
 			ShredderRecipes.setRecipe(new ItemStack(gcMoonBlock, 1, 3), new ItemStack(ModBlocks.moon_turf)); //Moon dirt
 			ShredderRecipes.setRecipe(new ItemStack(gcMoonBlock, 1, 5), new ItemStack(ModBlocks.moon_turf)); //Moon topsoil
 		}
 		
 		/* AR COMPAT */
-		Item arMoonTurf = Compat.tryLoadItem(Compat.MOD_AR, "turf");
-		if(arMoonTurf != null) ShredderRecipes.setRecipe(arMoonTurf, new ItemStack(ModBlocks.moon_turf)); //i assume it's moon turf
-		Item arMoonTurfDark = Compat.tryLoadItem(Compat.MOD_AR, "turfDark");
-		if(arMoonTurfDark != null) ShredderRecipes.setRecipe(arMoonTurfDark, new ItemStack(ModBlocks.moon_turf)); //probably moon dirt? would have helped if i had ever played AR for more than 5 seconds
+		Block arMoonTurf = Compat.tryLoadBlock(Compat.MOD_AR, "turf");
+		if(arMoonTurf != null && gcMoonBlock != Blocks.air) ShredderRecipes.setRecipe(arMoonTurf, new ItemStack(ModBlocks.moon_turf)); //i assume it's moon turf
+		Block arMoonTurfDark = Compat.tryLoadBlock(Compat.MOD_AR, "turfDark");
+		if(arMoonTurfDark != null && gcMoonBlock != Blocks.air) ShredderRecipes.setRecipe(arMoonTurfDark, new ItemStack(ModBlocks.moon_turf)); //probably moon dirt? would have helped if i had ever played AR for more than 5 seconds
 	}
 	
 	/**

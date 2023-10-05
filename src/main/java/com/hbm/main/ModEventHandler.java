@@ -74,6 +74,7 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.network.RTTYSystem;
+import com.hbm.tileentity.network.RequestNetwork;
 import com.hbm.util.AchievementHandler;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
@@ -101,10 +102,12 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockIce;
 import net.minecraft.block.BlockLever;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCaveSpider;
@@ -697,7 +700,6 @@ public class ModEventHandler {
 			        		entity.setDead();
 							continue;
 			        	}
-						
 						if(eRad < 200 || ContaminationUtil.isRadImmune(entity))
 							continue;
 						
@@ -1060,12 +1062,76 @@ public class ModEventHandler {
 			}
 		}
 	}
+	@SubscribeEvent
+	public void onEntityTick(LivingUpdateEvent event) {
+		//because fuck you and your scrubs 
+		//eventually i will condesne this to one eventhandler just give me a minute
+		Entity e = event.entityLiving;
+		if(e.worldObj.isRemote) return;
+		if(((EntityLivingBase) e).isPotionActive(HbmPotion.slippery.id) && e instanceof EntityLiving) {
+			EntityLiving ent = (EntityLiving) e;
+		    if (ent.onGround) {
+		        double slipperiness = 0.6; 
+		        double inertia = 0.1;
+		        boolean isMoving = ent.moveForward != 0.0 || ent.moveStrafing != 0.0;
+		        double entMotion = Math.sqrt(ent.motionX * ent.motionX + ent.motionZ * ent.motionZ);
+
+		        double angle = Math.atan2(ent.motionZ, ent.motionX);
+
+		        double targetXMotion = Math.cos(angle) * slipperiness;
+		        double targetZMotion = Math.sin(angle) * slipperiness;
+
+		        double diffX = targetXMotion - ent.motionX;
+		        double diffZ = targetZMotion - ent.motionZ;
+
+		        ent.motionX += diffX * inertia; //god weeps
+		        ent.motionZ += diffZ * inertia;
+		        
+		        if (!isMoving) {
+		            ent.motionX *= (1.0 - 0.1);
+
+		            double totalVelocity = Math.sqrt(ent.motionX * ent.motionX + ent.motionZ * ent.motionZ);
+		            double smoothingAmount = totalVelocity * 0.02;
+		                ent.motionX -= ent.motionX / totalVelocity * smoothingAmount;
+		                ent.motionZ -= ent.motionZ / totalVelocity * smoothingAmount;
+		        }
+		    }
+		}
+	}
 	
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		
 		EntityPlayer player = event.player;
-		
+		if(player.isPotionActive(HbmPotion.slippery.id) && !player.capabilities.isFlying) {
+		    if (player.onGround) {
+		        double slipperiness = 0.6; 
+		        double inertia = 0.1;
+		        boolean isMoving = player.moveForward != 0.0 || player.moveStrafing != 0.0;
+		        double playerMotion = Math.sqrt(player.motionX * player.motionX + player.motionZ * player.motionZ);
+
+		        double angle = Math.atan2(player.motionZ, player.motionX);
+
+		        double targetXMotion = Math.cos(angle) * slipperiness;
+		        double targetZMotion = Math.sin(angle) * slipperiness;
+
+		        double diffX = targetXMotion - player.motionX;
+		        double diffZ = targetZMotion - player.motionZ;
+
+		        player.motionX += diffX * inertia; //god weeps
+		        player.motionZ += diffZ * inertia;
+		        
+		        if (!isMoving) {
+		            player.motionX *= (1.0 - 0.1);
+
+		            double totalVelocity = Math.sqrt(player.motionX * player.motionX + player.motionZ * player.motionZ);
+		            double smoothingAmount = totalVelocity * 0.02;
+		                player.motionX -= player.motionX / totalVelocity * smoothingAmount;
+		                player.motionZ -= player.motionZ / totalVelocity * smoothingAmount;
+		        }
+		}
+	}
+
 		if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
 			((ArmorFSB)player.inventory.armorInventory[2].getItem()).handleTick(event);
 		
@@ -1297,6 +1363,7 @@ public class ModEventHandler {
 		
 		if(event.phase == event.phase.START) {
 			RTTYSystem.updateBroadcastQueue();
+			RequestNetwork.updateEntries();
 		}
 	}
 	

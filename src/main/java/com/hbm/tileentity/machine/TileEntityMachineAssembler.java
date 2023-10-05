@@ -25,7 +25,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -211,16 +210,16 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase {
 	}
 
 	@Override
-	public ChunkCoordinates[] getInputPositions() {
+	public DirPos[] getInputPositions() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new ChunkCoordinates[] {new ChunkCoordinates(xCoord - dir.offsetX * 3 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 3 + rot.offsetZ)};
+		return new DirPos[] {new DirPos(xCoord - dir.offsetX * 3 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 3 + rot.offsetZ, dir.getOpposite())};
 	}
 
 	@Override
-	public ChunkCoordinates[] getOutputPositions() {
+	public DirPos[] getOutputPositions() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		return new ChunkCoordinates[] {new ChunkCoordinates(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2)};
+		return new DirPos[] {new DirPos(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, dir)};
 	}
 
 	@Override

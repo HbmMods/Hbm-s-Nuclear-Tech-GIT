@@ -1,6 +1,7 @@
 package com.hbm.items.tool;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -199,7 +200,7 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 
 	@SideOnly(Side.CLIENT)
 	private String getFillGauge(ItemStack stack, FluidType type) {
-		return I18nUtil.resolveKey(type.getUnlocalizedName()) + ": " + String.format("%,d", this.getFill(stack, type)) + " / " + String.format("%,d", this.getMaxFill(type));
+		return I18nUtil.resolveKey(type.getUnlocalizedName()) + ": " + String.format(Locale.US, "%,d", this.getFill(stack, type)) + " / " + String.format(Locale.US, "%,d", this.getMaxFill(type));
 	}
 
 	@Override public boolean providesFluid(FluidType type, ItemStack stack) { return false; }

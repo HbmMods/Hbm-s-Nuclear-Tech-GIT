@@ -29,6 +29,8 @@ public class TileEntityAshpit extends TileEntityMachineBase implements IGUIProvi
 	public int ashLevelWood;
 	public int ashLevelCoal;
 	public int ashLevelMisc;
+	public int ashLevelFly;
+	public int ashLevelSoot;
 	
 	public TileEntityAshpit() {
 		super(5);
@@ -59,6 +61,8 @@ public class TileEntityAshpit extends TileEntityMachineBase implements IGUIProvi
 			if(processAsh(ashLevelWood, EnumAshType.WOOD, threshold)) ashLevelWood -= threshold;
 			if(processAsh(ashLevelCoal, EnumAshType.COAL, threshold)) ashLevelCoal -= threshold;
 			if(processAsh(ashLevelMisc, EnumAshType.MISC, threshold)) ashLevelMisc -= threshold;
+			if(processAsh(ashLevelFly, EnumAshType.FLY, threshold)) ashLevelFly -= threshold;
+			if(processAsh(ashLevelSoot, EnumAshType.SOOT, threshold * 4)) ashLevelSoot -= threshold * 4;
 			
 			isFull = false;
 			
@@ -126,6 +130,8 @@ public class TileEntityAshpit extends TileEntityMachineBase implements IGUIProvi
 		this.ashLevelWood = nbt.getInteger("ashLevelWood");
 		this.ashLevelCoal = nbt.getInteger("ashLevelCoal");
 		this.ashLevelMisc = nbt.getInteger("ashLevelMisc");
+		this.ashLevelFly = nbt.getInteger("ashLevelFly");
+		this.ashLevelSoot = nbt.getInteger("ashLevelSoot");
 	}
 	
 	@Override
@@ -135,6 +141,8 @@ public class TileEntityAshpit extends TileEntityMachineBase implements IGUIProvi
 		nbt.setInteger("ashLevelWood", ashLevelWood);
 		nbt.setInteger("ashLevelCoal", ashLevelCoal);
 		nbt.setInteger("ashLevelMisc", ashLevelMisc);
+		nbt.setInteger("ashLevelFly", ashLevelFly);
+		nbt.setInteger("ashLevelSoot", ashLevelSoot);
 	}
 	
 	AxisAlignedBB bb = null;

@@ -538,8 +538,9 @@ public class ItemAmmoEnums {
 		VOID("ammo_4gauge_void"),
 		LTBL("ammo_4gauge_flash1",AmmoItemTrait.PRO_FLASH, AmmoItemTrait.NEU_WARCRIME1, AmmoItemTrait.CON_WEAR, AmmoItemTrait.CON_SING_PROJECTILE),
 		LTBL_SUPER("ammo_4gauge_flash2", AmmoItemTrait.PRO_FLASH, AmmoItemTrait.PRO_RADIUS, AmmoItemTrait.PRO_STUNNING, AmmoItemTrait.NEU_WARCRIME2, AmmoItemTrait.CON_SUPER_WEAR, AmmoItemTrait.CON_SING_PROJECTILE),
-		QUACK("ammo_4gauge_titan", AmmoItemTrait.PRO_MARAUDER, AmmoItemTrait.NEU_NO_CON);
-		
+		QUACK("ammo_4gauge_titan", AmmoItemTrait.PRO_MARAUDER, AmmoItemTrait.NEU_NO_CON),
+		BUTTER("ammo_4gauge_butter", AmmoItemTrait.PRO_BUTTER, AmmoItemTrait.CON_SUPER_WEAR, AmmoItemTrait.CON_SING_PROJECTILE);
+
 		private final Set<AmmoItemTrait> traits;
 		private final String unloc;
 

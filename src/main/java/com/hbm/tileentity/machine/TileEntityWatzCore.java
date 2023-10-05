@@ -18,8 +18,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIWatzCore;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemCapacitor;
 import com.hbm.items.special.WatzFuel;
+import com.hbm.items.tool.ItemTitaniumFilter;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
@@ -504,7 +504,7 @@ public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedIn
 
 	@Override
 	public boolean hasFuse() {
-		return slots[38] != null && slots[38].getItem() == ModItems.titanium_filter && ItemCapacitor.getDura(slots[38]) > 0;
+		return slots[38] != null && slots[38].getItem() == ModItems.titanium_filter && ItemTitaniumFilter.getDura(slots[38]) > 0;
 	}
 	
 	@Override
@@ -576,7 +576,7 @@ public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedIn
 	
 				//Only damages filter when heat is present (thus waste being created)
 				if (heatList > 0) {
-					ItemCapacitor.setDura(slots[38], ItemCapacitor.getDura(slots[38]) - 1);
+					ItemTitaniumFilter.setDura(slots[38], ItemTitaniumFilter.getDura(slots[38]) - 1);
 				}
 	
 				heatList *= heatMultiplier;

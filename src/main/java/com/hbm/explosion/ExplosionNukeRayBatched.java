@@ -76,6 +76,8 @@ public class ExplosionNukeRayBatched {
 	}
 
 	public void collectTip(int count) {
+		
+		//count = Math.min(count, 10);
 
 		int amountProcessed = 0;
 
@@ -119,7 +121,16 @@ public class ExplosionNukeRayBatched {
 					chunkCoords.add(chunkPos);
 				}
 
-				if(res <= 0 || i + 1 >= this.length) {
+				if(res <= 0 || i + 1 >= this.length || i == length - 1) {
+					
+					/*NBTTagCompound fx = new NBTTagCompound();
+					fx.setString("type", "debugline");
+					fx.setDouble("mX", vec.xCoord * i);
+					fx.setDouble("mY", vec.yCoord * i);
+					fx.setDouble("mZ", vec.zCoord * i);
+					fx.setInteger("color", 0xff0000);
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(fx, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 200));*/
+					
 					break;
 				}
 			}

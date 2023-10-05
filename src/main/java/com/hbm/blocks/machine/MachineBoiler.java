@@ -147,30 +147,10 @@ public class MachineBoiler extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
+		if(world.isRemote) {
 			return true;
-		} else if(!player.isSneaking())
-		{
-			TileEntity te = world.getTileEntity(x, y, z);
-			
-			if(te instanceof TileEntityMachineBoiler) {
-				
-				TileEntityMachineBoiler entity = (TileEntityMachineBoiler) te;
-				if(entity != null)
-				{
-					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
-				}
-			}
-			
-			if(te instanceof TileEntityMachineBoilerElectric) {
-				
-				TileEntityMachineBoilerElectric entity = (TileEntityMachineBoilerElectric) te;
-				if(entity != null)
-				{
-					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
-				}
-			}
+		} else if(!player.isSneaking()) {
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 		} else {
 			return false;

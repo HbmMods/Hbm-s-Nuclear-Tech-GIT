@@ -107,7 +107,7 @@ public class MachineHephaestus extends BlockDummyable implements ILookOverlay {
 		TileEntityMachineHephaestus heatex = (TileEntityMachineHephaestus) te;
 		
 		List<String> text = new ArrayList();
-		text.add(String.format("%,d", heatex.bufferedHeat) + " TU");
+		text.add(String.format(Locale.US, "%,d", heatex.bufferedHeat) + " TU");
 
 		for(int i = 0; i < heatex.getAllTanks().length; i++) {
 			FluidTank tank = heatex.getAllTanks()[i];

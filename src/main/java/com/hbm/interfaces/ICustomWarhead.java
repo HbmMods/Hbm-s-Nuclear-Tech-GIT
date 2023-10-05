@@ -3,6 +3,7 @@ package com.hbm.interfaces;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.logging.log4j.Level;
 
@@ -198,7 +199,7 @@ public interface ICustomWarhead
 	{
 		for (Enum<?> f : combinedFuels)
 			if (data.getFloat(f.toString()) > 0)
-				tooltip.add(String.format("%s: %skg (%s)", I18nUtil.resolveKey("warheadFuel.".concat(f.toString())), df.format(data.getFloat(f.toString())), BobMathUtil.toPercentage(data.getFloat(f.toString()), data.getFloat(NBT_MASS))));
+				tooltip.add(String.format(Locale.US, "%s: %skg (%s)", I18nUtil.resolveKey("warheadFuel.".concat(f.toString())), df.format(data.getFloat(f.toString())), BobMathUtil.toPercentage(data.getFloat(f.toString()), data.getFloat(NBT_MASS))));
 	}
 	
 	public default void addTooltip(ItemStack stack, List<String> tooltip)

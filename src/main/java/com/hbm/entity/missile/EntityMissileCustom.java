@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;

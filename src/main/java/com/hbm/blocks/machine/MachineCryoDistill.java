@@ -9,8 +9,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineCryoDistill;
-import com.hbm.tileentity.machine.TileEntityMachineTurbineGas;
-import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticReformer;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 

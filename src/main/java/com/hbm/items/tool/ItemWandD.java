@@ -50,14 +50,9 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.entity.effect.EntityNukeTorex;
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.lib.Library;
 import com.hbm.util.TrackerUtil;
 
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import net.minecraft.entity.EntityTracker;
-import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -70,10 +65,8 @@ import net.minecraft.util.IntHashMap;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IntHashMap;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 
 public class ItemWandD extends Item {
 

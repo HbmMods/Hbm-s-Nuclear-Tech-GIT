@@ -290,6 +290,24 @@ public class Gun4GaugeFactory {
 
 		return bullet;
 	}
+		public static BulletConfiguration get4GaugeButterConfig() {
+
+			BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
+
+			bullet.ammo = new ComparableStack(ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.BUTTER));
+			bullet.velocity *= 5;
+			bullet.gravity *= 2;
+			bullet.dmgMin = 1;
+			bullet.dmgMax = 2;
+			bullet.wear = 75;
+			bullet.trail = 0;
+			bullet.explosive = 0.0F;
+
+			bullet.bntImpact = BulletConfigFactory.getButterBulletImpactBehaviorNT(4,4*80,false);
+		bullet.spentCasing = CASING4GAUGE.clone().register("4GaSem").setColor(0x5C5C5C, SpentCasing.COLOR_CASE_4GA);
+
+		return bullet;
+	}
 	public static BulletConfiguration get4GaugeLTBLSConfig() {
 
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();

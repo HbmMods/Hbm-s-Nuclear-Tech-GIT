@@ -25,6 +25,7 @@ public class PotionConfig {
 
 	
 	public static int potionSickness = 0;
+	public static int slipperyID = 77;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -43,7 +44,8 @@ public class PotionConfig {
 		deathID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.11_deathID", "What potion ID the death effect will have", 73);
 		nitanID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.11_nitanID", "What potion ID the NITAN Ambrosia will have", 74);
 		flashbangID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.12_flashbangID", "What potion ID the flashbang effect will have", 75);
-		runID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.12_runID", "What potion ID the run effect will have", 76);
+		runID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.13_runID", "What potion ID the run effect will have", 76);
+		slipperyID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.14_slipperyID", "What potion ID the slippery effect will have", 77);
 
 
 		

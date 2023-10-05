@@ -113,8 +113,10 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			if(!hasExploded) {
 				age++;
 				
-				if(age >= 20)
+				if(age >= 20) {
 					age = 0;
+					this.markChanged();
+				}
 				
 				this.sendingBrake = true;
 				tank.setFill(TileEntityBarrel.transmitFluidFairly(worldObj, tank, this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));

@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
+import com.hbm.blocks.machine.BlockSeal;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.PotionConfig;
 import com.hbm.entity.mob.EntityRADBeast;
@@ -29,6 +30,7 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -55,6 +57,7 @@ public class HbmPotion extends Potion {
 	public static HbmPotion nitan;
 	public static HbmPotion flashbang;
 	
+	public static HbmPotion slippery; //t
 
 
 	public HbmPotion(int id, boolean isBad, int color) {
@@ -77,6 +80,7 @@ public class HbmPotion extends Potion {
 		run = registerPotion(PotionConfig.runID, true, 1118481, "potion.hbm_run", 14, 0);
 		nitan = registerPotion(PotionConfig.nitanID, false, 8388736, "potion.hbm_nitan", 3, 1);
 		flashbang = registerPotion(PotionConfig.flashbangID, false, 0xD0D0D0, "potion.hbm_flashbang", 15, 1);
+		slippery = registerPotion(PotionConfig.slipperyID, false, 0xD0D0D0, "potion.hbm_slippery", 15, 0);
 
 	}
 
@@ -147,6 +151,10 @@ public class HbmPotion extends Potion {
 			HbmLivingProps.incrementRadiation(entity, -(level + 1));
 			
 		}
+		if(this == slippery) {
+			entity.motionY += 0.026D;
+		
+		}
 		if(this == bang) {
 			
 			entity.attackEntityFrom(ModDamageSource.bang, 1000);
@@ -207,7 +215,7 @@ public class HbmPotion extends Potion {
 		}
 		
 
-		if(this == radiation || this == radaway || this == phosphorus || this == nitan) {
+		if(this == radiation || this == radaway || this == phosphorus || this == nitan || this == slippery) {
 
 			return true;
 		}

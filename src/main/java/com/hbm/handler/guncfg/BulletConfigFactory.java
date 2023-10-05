@@ -27,6 +27,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
@@ -396,6 +397,44 @@ public class BulletConfigFactory {
 
 		return impact;
 	}
+	public static IBulletImpactBehaviorNT getButterBulletImpactBehaviorNT(final int radius, final int duration, boolean isSuper) {
+
+		IBulletImpactBehaviorNT impact = new IBulletImpactBehaviorNT() {
+
+
+			@Override
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
+				bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:weapon.splort", 1F,1F);
+				
+				List<Entity> hit = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet, AxisAlignedBB.getBoundingBox(bullet.posX - radius, bullet.posY - radius, bullet.posZ - radius, bullet.posX + radius, bullet.posY + radius, bullet.posZ + radius));
+
+				
+				for(Entity e : hit) {
+
+					if(!Library.isObstructed(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
+
+						if(e instanceof EntityLivingBase) {
+							EntityLivingBase entity = (EntityLivingBase) e;
+							PotionEffect eff = new PotionEffect(HbmPotion.slippery.id, duration, 0, true);
+							((EntityLivingBase)e).addPotionEffect(eff);
+							
+							if(e instanceof EntitySquid) {
+								double ex = e.posX;
+								double ey = e.posY;
+								double ez = e.posZ;
+								
+								e.worldObj.createExplosion(bullet, ex, ey, ez, 2, e.addedToChunk);
+								
+							}
+						}
+					}
+				}
+			}
+			
+		};
+
+		return impact;
+	}
 	
 	public static IBulletImpactBehaviorNT getGasEffect(final int radius, final int duration) {
 		
@@ -484,7 +523,7 @@ public class BulletConfigFactory {
 	}
 	
 	public static IBulletUpdateBehaviorNT getHomingBehavior(final double range, final double angle) {
-		
+
 		IBulletUpdateBehaviorNT onUpdate = new IBulletUpdateBehaviorNT() {
 
 			@Override
@@ -503,7 +542,6 @@ public class BulletConfigFactory {
 					
 					Vec3 delta = Vec3.createVectorHelper(target.posX - bullet.posX, target.posY + target.height / 2 - bullet.posY, target.posZ - bullet.posZ);
 					delta = delta.normalize();
-					
 					double vel = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).lengthVector();
 
 					bullet.motionX = delta.xCoord * vel;
@@ -538,6 +576,10 @@ public class BulletConfigFactory {
 						double deltaAngle = BobMathUtil.getCrossAngle(mot, delta);
 					
 						if(deltaAngle < targetAngle) {
+							//Checks if the bullet is not already inside the entity's bounding box, so it doesn't pick the same target
+							if(bullet.getConfig().doesPenetrate && bullet.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bullet.boundingBox.expand(2, 2, 2)) == null) {
+								continue;
+							}
 							target = e;
 							targetAngle = deltaAngle;
 						}
@@ -552,4 +594,9 @@ public class BulletConfigFactory {
 		
 		return onUpdate;
 	}
+	/** Resets the bullet's target **/
+	public static IBulletHurtBehaviorNT getPenHomingBehavior(){
+		return (bullet, hit) -> bullet.getEntityData().setInteger("homingTarget", 0);
+	}
+
 }

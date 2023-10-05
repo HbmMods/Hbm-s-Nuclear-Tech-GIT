@@ -1,6 +1,71 @@
 package com.hbm.main;
 
+import com.google.common.collect.ImmutableList;
+import com.hbm.blocks.BlockEnums.EnumStoneType;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockMotherOfAllOres;
+import com.hbm.blocks.generic.BlockToolConversion;
+import com.hbm.commands.CommandDebugChunkLoad;
+import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.commands.CommandSatellites;
+import com.hbm.config.*;
+import com.hbm.crafting.RodRecipes;
+import com.hbm.creativetabs.*;
+import com.hbm.entity.EntityMappings;
+import com.hbm.entity.grenade.*;
+import com.hbm.entity.logic.IChunkLoader;
+import com.hbm.entity.mob.siege.SiegeTier;
+import com.hbm.handler.*;
+import com.hbm.handler.imc.IMCBlastFurnace;
+import com.hbm.handler.imc.IMCCentrifuge;
+import com.hbm.handler.imc.IMCCrystallizer;
+import com.hbm.handler.imc.IMCHandler;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.hazard.HazardRegistry;
+import com.hbm.inventory.FluidContainerRegistry;
+import com.hbm.inventory.OreDictManager;
+import com.hbm.inventory.OreDictManager.DictFrame;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.*;
+import com.hbm.inventory.recipes.anvil.AnvilRecipes;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
+import com.hbm.items.ItemEnums.EnumAchievementType;
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemFertilizer;
+import com.hbm.items.weapon.ItemGenericGrenade;
+import com.hbm.lib.HbmWorld;
+import com.hbm.lib.Library;
+import com.hbm.lib.RefStrings;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.tileentity.TileMappings;
+import com.hbm.tileentity.bomb.TileEntityNukeCustom;
+import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
+import com.hbm.tileentity.machine.TileEntityNukeFurnace;
+import com.hbm.tileentity.machine.rbmk.RBMKDials;
+import com.hbm.util.*;
+import com.hbm.world.feature.BedrockOre;
+import com.hbm.world.feature.OreCave;
+import com.hbm.world.feature.OreLayer3D;
+import com.hbm.world.feature.SchistStratum;
+import com.hbm.world.generator.CellularDungeonFactory;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.Metadata;
+import cpw.mods.fml.common.ModMetadata;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
+import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
+import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
@@ -31,12 +96,8 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.Metadata;
-import cpw.mods.fml.common.ModMetadata;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.HashMap;
@@ -145,7 +206,7 @@ public class MainRegistry {
 	public static ToolMaterial tMatCMB = EnumHelper.addToolMaterial("HBM_CMB", 3, 8500, 40.0F, 55F, 100);
 	public static ToolMaterial tMatElec = EnumHelper.addToolMaterial("HBM_ELEC", 3, 0, 30.0F, 12.0F, 2);
 	public static ToolMaterial tMatDesh = EnumHelper.addToolMaterial("HBM_DESH", 2, 0, 7.5F, 2.0F, 10);
-	public static ToolMaterial tMatCobalt = EnumHelper.addToolMaterial("HBM_COBALT", 3, 750, 9.0F, 2.5F, 15);
+	public static ToolMaterial tMatCobalt = EnumHelper.addToolMaterial("HBM_COBALT", 3, 750, 9.0F, 2.5F, 60);
 
 	public static ToolMaterial enumToolMaterialSaw = EnumHelper.addToolMaterial("SAW", 2, 750, 2.0F, 3.5F, 25);
 	public static ToolMaterial enumToolMaterialBat = EnumHelper.addToolMaterial("BAT", 0, 500, 1.5F, 3F, 25);
@@ -174,7 +235,7 @@ public class MainRegistry {
 	public static ArmorMaterial aMatCMB = EnumHelper.addArmorMaterial("HBM_CMB", 60, new int[] { 3, 8, 6, 3 }, 50);
 	public static ArmorMaterial aMatAus3 = EnumHelper.addArmorMaterial("HBM_AUSIII", 375, new int[] { 2, 6, 5, 2 }, 0);
 	public static ArmorMaterial aMatSecurity = EnumHelper.addArmorMaterial("HBM_SECURITY", 100, new int[] { 3, 8, 6, 3 }, 15);
-	public static ArmorMaterial aMatCobalt = EnumHelper.addArmorMaterial("HBM_COBALT", 70, new int[] { 3, 8, 6, 3 }, 25);
+	public static ArmorMaterial aMatCobalt = EnumHelper.addArmorMaterial("HBM_COBALT", 70, new int[] { 3, 8, 6, 3 }, 60);
 	public static ArmorMaterial aMatStarmetal = EnumHelper.addArmorMaterial("HBM_STARMETAL", 150, new int[] { 3, 8, 6, 3 }, 100);
 	public static ArmorMaterial aMatBismuth = EnumHelper.addArmorMaterial("HBM_BISMUTH", 100, new int[] { 3, 8, 6, 3 }, 100);
 
@@ -267,7 +328,7 @@ public class MainRegistry {
 	public static File configDir;
 	public static File configHbmDir;
 
-	Random rand = new Random();
+	public Random rand = new Random();
 
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent) {
@@ -308,7 +369,11 @@ public class MainRegistry {
 		SiegeTier.registerTiers();
 		HazardRegistry.registerItems();
 		HazardRegistry.registerTrafos();
-		OreDictManager.registerGroups();
+		
+		OreDictManager oreMan = new OreDictManager();
+		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
+		OreDictManager.registerGroups(); //important to run first
+		OreDictManager.registerOres();
 
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");
@@ -828,7 +893,6 @@ public class MainRegistry {
 
 		// MUST be initialized AFTER achievements!!
 		BobmazonOfferFactory.init();
-		OreDictManager.registerOres();
 
 		IMCHandler.registerHandler("blastfurnace", new IMCBlastFurnace());
 		IMCHandler.registerHandler("crystallizer", new IMCCrystallizer());
@@ -925,9 +989,6 @@ public class MainRegistry {
 		FMLCommonHandler.instance().bus().register(impactHandler);
 		MinecraftForge.EVENT_BUS.register(impactHandler);
 		MinecraftForge.TERRAIN_GEN_BUS.register(impactHandler);
-		
-		OreDictManager oreMan = new OreDictManager();
-		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
 		
 		PacketDispatcher.registerPackets();
 
@@ -1194,6 +1255,17 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.primer_50");
 		ignoreMappings.add("hbm:item.primer_buckshot");
 		ignoreMappings.add("hbm:tile.ore_bedrock_coltan");
+		ignoreMappings.add("hbm:item.recycled_ground");
+		ignoreMappings.add("hbm:item.recycled_rock");
+		ignoreMappings.add("hbm:item.recycled_metal");
+		ignoreMappings.add("hbm:item.recycled_refined");
+		ignoreMappings.add("hbm:item.recycled_organic");
+		ignoreMappings.add("hbm:item.recycled_crystal");
+		ignoreMappings.add("hbm:item.recycled_explosive");
+		ignoreMappings.add("hbm:item.recycled_electronic");
+		ignoreMappings.add("hbm:item.recycled_nuclear");
+		ignoreMappings.add("hbm:item.recycled_misc");
+		ignoreMappings.add("hbm:item.gun_bf_ammo");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

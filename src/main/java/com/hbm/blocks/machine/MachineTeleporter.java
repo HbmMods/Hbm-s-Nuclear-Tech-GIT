@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.config.GeneralConfig;

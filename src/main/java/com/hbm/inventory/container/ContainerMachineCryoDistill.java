@@ -4,7 +4,6 @@ import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineCryoDistill;
-import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticReformer;
 
 import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,25 +21,15 @@ public class ContainerMachineCryoDistill extends Container {
 		
 		cryo = tedf;
 		
-		//Battery
 		this.addSlotToContainer(new Slot(tedf, 0, 145,  71));
-		//Reformate Input
 		this.addSlotToContainer(new Slot(tedf, 1, 57,  71));
-		//Reformate Output
 		this.addSlotToContainer(new SlotTakeOnly(tedf, 2, 57,  89));
-		//Gas Input
 		this.addSlotToContainer(new Slot(tedf, 3, 79,  71));
-		//Gas Output
 		this.addSlotToContainer(new SlotTakeOnly(tedf, 4,  79,  89));
-		//Hydrogen Input
 		this.addSlotToContainer(new Slot(tedf, 5,  101, 71));
-		//Hydrogen Oil Output
 		this.addSlotToContainer(new SlotTakeOnly(tedf, 6, 101,  89));
-		//Fluid ID
 		this.addSlotToContainer(new Slot(tedf, 7, 19, 71));
-		//4th
 		this.addSlotToContainer(new Slot(tedf, 8, 123,  71));
-		//Hydrogen Oil Output
 		this.addSlotToContainer(new SlotTakeOnly(tedf, 9, 123, 89));
 		int offset = 6;
 		for(int i = 0; i < 3; i++) {

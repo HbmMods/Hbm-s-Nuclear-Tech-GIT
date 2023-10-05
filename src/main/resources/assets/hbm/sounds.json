@@ -120,6 +120,7 @@
 	"weapon.flamethrowerIgnite": {"category": "player", "sounds": [{"name": "weapon/flamethrowerIgnite", "stream": false}]},
 	"weapon.flamethrowerShoot": {"category": "player", "sounds": [{"name": "weapon/flamethrowerShoot", "stream": false}]},
    "weapon.flashbang": {"category": "hostile", "sounds": [{"name": "weapon/flashbang", "stream": false}]},
+   "weapon.splort": {"category": "hostile", "sounds": [{"name": "weapon/splort", "stream": false}]},
 	"weapon.immolatorIgnite": {"category": "player", "sounds": [{"name": "weapon/immolatorIgnite", "stream": false}]},
 	"weapon.immolatorShoot": {"category": "player", "sounds": [{"name": "weapon/immolatorShoot", "stream": false}]},
 	"weapon.cryolatorShoot": {"category": "player", "sounds": [{"name": "weapon/cryolatorShoot", "stream": false}]},

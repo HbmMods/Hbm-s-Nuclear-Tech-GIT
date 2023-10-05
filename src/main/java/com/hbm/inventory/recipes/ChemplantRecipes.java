@@ -494,6 +494,27 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(
 						new ItemStack(ModItems.nugget_u233, 1),
 						new ItemStack(ModItems.nuclear_waste_tiny, 1)));
+		
+		recipes.add(new ChemRecipe(120, "MASS_CAKE", 30)
+				.inputFluids(new FluidStack(Fluids.CMILK, 4000), new FluidStack(Fluids.CREAM, 1000)) // why not regular milk? well its because the refined products allow for higher mass cakes while still needing less milk
+				.inputItems(
+						new ComparableStack(Items.sugar, 8),				// if there is a hole in my logic i will shoot myself
+						new ComparableStack(Items.egg, 4))				//ex: since a cake needs 3 buckets of milk, c-milk is more dense, leading to it being only 4 buckets of condensed milk, thats 1 bucket per cake. 
+				.outputItems(
+						new ItemStack(Items.cake, 4)));
+		
+		recipes.add(new ChemRecipe(121, "BUTTER", 50)
+				.inputFluids(new FluidStack(Fluids.EMILK, 1000)) 
+				.outputItems(
+						new ItemStack(ModItems.butter)));
+		recipes.add(new ChemRecipe(122, "STRAWICE", 50)
+				.inputFluids(new FluidStack(Fluids.CREAM, 1000)) 
+				.inputItems(
+				new ComparableStack(ModItems.butter, 2),
+				new ComparableStack(Blocks.packed_ice, 1),
+				new ComparableStack(ModItems.strawberry, 4))
+				.outputItems(
+						new ItemStack(ModItems.s_cream, 4)));
 	}
 	
 	

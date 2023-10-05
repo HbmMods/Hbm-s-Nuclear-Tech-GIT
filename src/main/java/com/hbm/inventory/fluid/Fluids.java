@@ -201,6 +201,11 @@ public class Fluids {
 	public static FluidType THORIUM_SALT;
 	public static FluidType THORIUM_SALT_HOT;
 	public static FluidType THORIUM_SALT_DEPLETED;
+	public static FluidType EMILK; //ghostycore
+	public static FluidType CMILK;
+	public static FluidType CREAM;
+
+	public static FluidType FULLERENE;
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
 	private static final HashMap<String, FluidType> nameMapping = new HashMap();
@@ -396,9 +401,13 @@ public class Fluids {
 		HEAVYWATER_HOT =		new FluidType("HEAVYWATER_HOT",		0x4D007B, 1, 0, 0, EnumSymbol.NONE).setTemp(600).addTraits(LIQUID);
 		SODIUM =				new FluidType("SODIUM",				0xCCD4D5, 1, 2, 3, EnumSymbol.NONE).setTemp(400).addTraits(LIQUID);
 		SODIUM_HOT =			new FluidType("SODIUM_HOT",			0xE2ADC1, 1, 2, 3, EnumSymbol.NONE).setTemp(1200).addTraits(LIQUID);
-		THORIUM_SALT =			new FluidType("THORIUM_SALT",		0x7A5542, 2, 0, 3, EnumSymbol.NONE).setTemp(800).addTraits(LIQUID);
-		THORIUM_SALT_HOT =		new FluidType("THORIUM_SALT_HOT",	0x3E3627, 2, 0, 3, EnumSymbol.NONE).setTemp(1600).addTraits(LIQUID);
-		THORIUM_SALT_DEPLETED =	new FluidType(163, "THORIUM_SALT_DEPLETED",	0x302D1C, 2, 0, 3, EnumSymbol.NONE).setTemp(800).addTraits(LIQUID);
+		THORIUM_SALT =			new FluidType("THORIUM_SALT",		0x7A5542, 2, 0, 3, EnumSymbol.NONE).setTemp(800).addTraits(LIQUID, new FT_Corrosive(65));
+		THORIUM_SALT_HOT =		new FluidType("THORIUM_SALT_HOT",	0x3E3627, 2, 0, 3, EnumSymbol.NONE).setTemp(1600).addTraits(LIQUID, new FT_Corrosive(65));
+		THORIUM_SALT_DEPLETED =	new FluidType(150, "THORIUM_SALT_DEPLETED",	0x302D1C, 2, 0, 3, EnumSymbol.NONE).setTemp(800).addTraits(LIQUID, new FT_Corrosive(65));
+		EMILK =					new FluidType("EMILK",				0xCFCFCF, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);//F5DEE4
+		CMILK =					new FluidType("CMILK",				0xCFCFCF, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);//F5DEE4
+		CREAM =					new FluidType("CREAM",				0xCFCFCF, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);//F5DEE4
+		FULLERENE =				new FluidType(154, "FULLERENE",		0xFF7FED, 3, 3, 3, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(65));
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -540,6 +549,7 @@ public class Fluids {
 		metaOrder.add(DEATH);
 		metaOrder.add(WATZ);
 		metaOrder.add(REDMUD);
+		metaOrder.add(FULLERENE);
 		metaOrder.add(EGG);
 		metaOrder.add(CHOLESTEROL);
 		metaOrder.add(CHLOROCALCITE_SOLUTION);
@@ -586,6 +596,10 @@ public class Fluids {
 		metaOrder.add(SMILK);
 		metaOrder.add(OLIVEOIL);
 		metaOrder.add(ELBOWGREASE);
+		metaOrder.add(EMILK);
+		metaOrder.add(CMILK);
+		metaOrder.add(CREAM);
+
 
 
 

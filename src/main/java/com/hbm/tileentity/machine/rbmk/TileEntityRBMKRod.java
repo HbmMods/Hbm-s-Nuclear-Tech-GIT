@@ -91,6 +91,8 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 					} else {
 						this.meltdown();
 					}
+					this.fluxFast = 0;
+					this.fluxSlow = 0;
 					return;
 				}
 				

@@ -54,7 +54,7 @@ public class GUIHadron extends GuiInfoContainer {
 		stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("hadron.stats"));
 		stats.add((hadron.stat_success ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + I18n.format("hadron." + this.hadron.stat_state.name().toLowerCase(Locale.US)));
 		if(this.hadron.state.showCoord) stats.add(EnumChatFormatting.RED + I18nUtil.resolveKey("hadron.stats_coord", hadron.stat_x, hadron.stat_y, hadron.stat_z));
-		stats.add(EnumChatFormatting.GRAY + I18nUtil.resolveKey("hadron.stats_momentum", String.format("%,d", hadron.stat_charge)));
+		stats.add(EnumChatFormatting.GRAY + I18nUtil.resolveKey("hadron.stats_momentum", String.format(Locale.US, "%,d", hadron.stat_charge)));
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 41, guiTop + 92, 25, 11, mouseX, mouseY, stats.toArray(new String[0]));
 
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 4, guiTop + 36, 16, 16, guiLeft + 4, guiTop + 36 + 16, new String[] {"Initial particle momentum: 750"});
