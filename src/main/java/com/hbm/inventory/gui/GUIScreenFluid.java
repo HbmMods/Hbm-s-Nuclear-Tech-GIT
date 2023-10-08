@@ -169,7 +169,7 @@ public class GUIScreenFluid extends GuiScreen {
 		String subs = this.search.getText().toLowerCase(Locale.US);
 		
 		for(FluidType type : Fluids.getInNiceOrder()) {
-			String name = type.getLocalizedName();
+			String name = type.getLocalizedName().toLowerCase();
 			
 			if(name.contains(subs) && !type.hasNoID()) {
 				this.searchArray[next] = type;
