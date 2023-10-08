@@ -96,7 +96,7 @@ public class ExplosionFleija
 			dist = (int) Math.sqrt(dist);
 			for (int y = (int)(dist / this.explosionCoefficient2); y > -dist / this.explosionCoefficient; y--)
 			{
-				if(!(this.worldObj.getBlock(this.posX+x, this.posY+y, this.posZ+z) == Blocks.bedrock && this.posY+y <= 0) && !(this.worldObj.getBlock(this.posX+x, this.posY+y, this.posZ+z) instanceof DecoBlockAlt))this.worldObj.setBlock(this.posX+x, this.posY+y, this.posZ+z, Blocks.air);
+				if(this.posY + y > 0 && !(this.worldObj.getBlock(this.posX+x, this.posY+y, this.posZ+z) instanceof DecoBlockAlt))this.worldObj.setBlock(this.posX+x, this.posY+y, this.posZ+z, Blocks.air);
 			}
 		}
 	}

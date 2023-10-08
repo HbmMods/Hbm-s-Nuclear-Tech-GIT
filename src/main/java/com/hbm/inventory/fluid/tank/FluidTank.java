@@ -200,8 +200,11 @@ public class FluidTank {
 	 * @param width
 	 * @param height
 	 */
-	//TODO: add a directional parameter to allow tanks to grow horizontally
 	public void renderTank(int x, int y, double z, int width, int height) {
+		renderTank(x, y, z, width, height, 0);
+	}
+	
+	public void renderTank(int x, int y, double z, int width, int height, int orientation) {
 
 		GL11.glEnable(GL11.GL_BLEND);
 		
@@ -218,14 +221,31 @@ public class FluidTank {
 		int i = (fluid * height) / maxFluid;
 		
 		double minX = x;
-		double maxX = x + width;
-		double minY = y + (height - i);
-		double maxY = y + height;
+		double maxX = x;
+		double minY = y;
+		double maxY = y;
 		
 		double minV = 1D - i / 16D;
 		double maxV = 1D;
 		double minU = 0D;
 		double maxU = width / 16D;
+		
+		if(orientation == 0) {
+			maxX += width;
+			minY += height - i;
+			maxY += height;
+		}
+		
+		if(orientation == 1) {
+			i = (fluid * width) / maxFluid;
+			maxX += i;
+			maxY += height;
+			
+			minV = 0;
+			maxV = height / 16D;
+			minU = 0D;
+			maxU = width / 16D;
+		}
 		
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();

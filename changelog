@@ -1,11 +1,30 @@
 ## Added
-* Expensive mode
-  * Horrible new config option that replaces several crafting items in key machine recipes with the all new heavy components
-  * Heavy components are 256 cast plates combined in an assembler
-  * <insert some vague point about automation incentives here>
+* Crystalline fullerite
+  * A late-game crafting material that is currenly only used to make the FEnSU
+  * Made from extracting fullerene from fine soot using high-performance solvent and a SILEX
+* Arc welder
+  * Similar to an assembler, but without templates
+  * Can combine up to 3 items and one fluid
+  * Recipes vary in duration and energy consumption, welding together osmiridium plates requires the output of powerful reactors
+* Custom fluids
+  * A config for adding custom fluid types
+  * Sets basic stats, color and textures
+  * Fluid tratis can be applied using the already existing fluid trait config
+  * The fluid trait config has been renamed to prevent name clashes
+  * Recommended greyscale textures recommended for the custom fluids are `custom_water`, `custom_lava`, `custom_oil` and `custom_toxin`
+  * 256k tanks do not have a label for custom fluids, but the tank's color will match the fluid's tint
+* Custom machine structure positioning anchor
+  * Allows automatic generation of custom machine block configurations
+  * Simply replace the controller of your custom machine mockup with the anchor, then link it to a custom machine structure output wand and select the two diagonal points
+  * The resulting JSON structure will be saved in the config folder
+* Welded plates
+  * Made from welding together two cast plates in an arc welder
+  * Now used in many progression-relevant machines, meaning that energy demand now more closely matches the energy production of progression-based generators
+  * Many recipes have been adjusted to now use cast plates or welded plates
 
 ## Changed
-* Drones are now made from plastic
+* Schrabidium explosions now ignore all blocks at Y:0, not just bedrock. This means that bedrock ores and oil are spared
+* Drone waypoint connections only show up if a drone or a logistic block is held
 
 ## Fixed
-* Fixed the new falling block implementation crashing on certain blocks
+* Fixed RTG energy connectors being backwards

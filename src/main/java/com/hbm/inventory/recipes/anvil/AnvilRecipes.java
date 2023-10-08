@@ -366,6 +366,14 @@ public class AnvilRecipes {
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
+						new OreDictStack(STEEL.plateCast(), 4),
+						new OreDictStack(W.ingot(), 8),
+						new ComparableStack(ModBlocks.machine_transformer, 1),
+						new ComparableStack(ModItems.arc_electrode, 2)
+				}, new AnvilOutput(new ItemStack(ModBlocks.machine_arc_welder))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
 						new OreDictStack(STEEL.plateCast(), 8),
 						new OreDictStack(CU.ingot(), 8),
 						new OreDictStack(ANY_PLASTIC.ingot(), 4)

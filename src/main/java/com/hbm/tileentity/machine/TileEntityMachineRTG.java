@@ -209,7 +209,7 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 		if(!worldObj.isRemote) {
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir.getOpposite());
+				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			
 			heat = RTGUtil.updateRTGs(slots, slot_io);
 			
