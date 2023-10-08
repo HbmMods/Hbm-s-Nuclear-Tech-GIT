@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
+import com.hbm.entity.mob.EntityGlyphid;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
@@ -27,9 +28,11 @@ import com.hbm.saveddata.AuxSavedData;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
@@ -98,7 +101,7 @@ public class EntityEffectHandler {
 		handleOil(entity);
 		handlePollution(entity);
 		handleTemperature(entity);
-
+		handleOxy(entity);
 		handleDashing(entity);
 		handlePlinking(entity);
 	}
@@ -219,7 +222,17 @@ public class EntityEffectHandler {
 			}
 		}
 	}
-	
+	private static void handleOxy(EntityLivingBase entity) {
+
+		if(!ArmorUtil.checkForOxy(entity) && PlanetaryTraitUtil.isDimensionWithTraitNT(entity.worldObj, Hospitality.OXYNEG) && !(entity instanceof EntityGlyphid))
+		{
+			HbmLivingProps.SsetOxy(entity, HbmLivingProps.getOxy(entity) - 1);
+			return;
+			
+			
+		}
+		
+	}
 	private static void handleDigamma(EntityLivingBase entity) {
 		
 		if(!entity.worldObj.isRemote) {

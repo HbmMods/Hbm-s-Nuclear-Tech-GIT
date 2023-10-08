@@ -50,7 +50,7 @@ public class BlockAirPump extends BlockContainer implements ILookOverlay {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityAirPump(p_149915_1_);
+		return new TileEntityAirPump();
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class BlockAirPump extends BlockContainer implements ILookOverlay {
 		
 		List<String> text = new ArrayList();
 		
-
+		
 		text.add(I18nUtil.resolveKey("hbmfluid." + tele.tank.getTankType().getName().toLowerCase()) + ": " + tele.tank.getFill() + "/" + tele.tank.getMaxFill() + "mB");
 	
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
