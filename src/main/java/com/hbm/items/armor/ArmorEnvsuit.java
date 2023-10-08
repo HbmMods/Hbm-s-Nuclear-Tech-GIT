@@ -1,10 +1,14 @@
 package com.hbm.items.armor;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.google.common.collect.Multimap;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.render.model.ModelArmorEnvsuit;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,13 +20,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class ArmorEnvsuit extends ArmorFSBPowered {
+public class ArmorEnvsuit extends ArmorFSBOxy {
+	
 
-	public ArmorEnvsuit(ArmorMaterial material, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
-		super(material, slot, texture, maxPower, chargeRate, consumption, drain);
+	
+	public ArmorEnvsuit(ArmorMaterial material, int slot, String texture, FluidType fuelType, int maxFuel, int fillRate, int consumption, int drain) {
+		super(material, slot, texture, fuelType, maxFuel, fillRate, consumption, drain);
 	}
 
 	@SideOnly(Side.CLIENT)

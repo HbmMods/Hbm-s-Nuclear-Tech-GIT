@@ -67,6 +67,7 @@ public class GenericFluidBlock extends BlockFluidClassic {
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 		
+		if(this != ModBlocks.sulfuric_acid_block) return;
 		if(damageSource != null) {
 			
 			if(entity instanceof EntityItem) {
