@@ -5,6 +5,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
+@Deprecated
 public class TileEntityProxyInventory extends TileEntityProxyBase implements ISidedInventory {
 
 	@Override

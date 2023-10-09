@@ -15,7 +15,6 @@ import com.hbm.packet.TEFluidPacket;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -201,10 +200,19 @@ public class FluidTank {
 	 * @param width
 	 * @param height
 	 */
-	//TODO: add a directional parameter to allow tanks to grow horizontally
 	public void renderTank(int x, int y, double z, int width, int height) {
+		renderTank(x, y, z, width, height, 0);
+	}
+	
+	public void renderTank(int x, int y, double z, int width, int height, int orientation) {
 
 		GL11.glEnable(GL11.GL_BLEND);
+		
+		int color = type.getTint();
+		double r = ((color & 0xff0000) >> 16) / 255D;
+		double g = ((color & 0x00ff00) >> 8) / 255D;
+		double b = ((color & 0x0000ff) >> 0) / 255D;
+		GL11.glColor3d(r, g, b);
 
 		y -= height;
 		
@@ -213,14 +221,31 @@ public class FluidTank {
 		int i = (fluid * height) / maxFluid;
 		
 		double minX = x;
-		double maxX = x + width;
-		double minY = y + (height - i);
-		double maxY = y + height;
+		double maxX = x;
+		double minY = y;
+		double maxY = y;
 		
 		double minV = 1D - i / 16D;
 		double maxV = 1D;
 		double minU = 0D;
 		double maxU = width / 16D;
+		
+		if(orientation == 0) {
+			maxX += width;
+			minY += height - i;
+			maxY += height;
+		}
+		
+		if(orientation == 1) {
+			i = (fluid * width) / maxFluid;
+			maxX += i;
+			maxY += height;
+			
+			minV = 0;
+			maxV = height / 16D;
+			minU = 0D;
+			maxU = width / 16D;
+		}
 		
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
@@ -230,6 +255,7 @@ public class FluidTank {
 		tessellator.addVertexWithUV(minX, minY, z, minU, minV);
 		tessellator.draw();
 
+		GL11.glColor3d(1D, 1D, 1D);
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
@@ -237,7 +263,7 @@ public class FluidTank {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
 			
 			List<String> list = new ArrayList();
-			list.add(I18n.format(this.type.getUnlocalizedName()));
+			list.add(this.type.getLocalizedName());
 			list.add(fluid + "/" + maxFluid + "mB");
 			
 			if(this.pressure != 0) {

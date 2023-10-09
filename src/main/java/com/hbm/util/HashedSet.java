@@ -105,7 +105,15 @@ public class HashedSet<T> implements Set<T> {
 
 	@Override
 	public boolean remove(Object o) {
-		return false;
+		T obj = this.map.get(o.hashCode());
+		boolean rem = false;
+		
+		if(obj != null) {
+			rem = true;
+			this.map.remove(o.hashCode());
+		}
+		
+		return rem;
 	}
 
 	@Override

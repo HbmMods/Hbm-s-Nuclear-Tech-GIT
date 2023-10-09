@@ -299,6 +299,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRadioTelex.class, new RenderTelex());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachinePumpSteam.class, new RenderPump());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachinePumpElectric.class, new RenderPump());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineArcWelder.class, new RenderArcWelder());
 		//Foundry
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoundryBasin.class, new RenderFoundry());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoundryMold.class, new RenderFoundry());
@@ -1868,6 +1869,23 @@ public class ClientProxy extends ServerProxy {
 			int color = data.getInteger("color");
 			ParticleDebugLine text = new ParticleDebugLine(world, x, y, z, mX, mY, mZ, color);
 			Minecraft.getMinecraft().effectRenderer.addEffect(text);
+		}
+		
+		if("debugdrone".equals(type)) {
+			Item held = player.getHeldItem() == null ? null : player.getHeldItem().getItem();
+			
+			if(held == ModItems.drone ||
+					held == Item.getItemFromBlock(ModBlocks.drone_crate_provider) ||
+					held == Item.getItemFromBlock(ModBlocks.drone_crate_requester) ||
+					held == Item.getItemFromBlock(ModBlocks.drone_dock) ||
+					held == Item.getItemFromBlock(ModBlocks.drone_waypoint_request)) {
+				double mX = data.getDouble("mX");
+				double mY = data.getDouble("mY");
+				double mZ = data.getDouble("mZ");
+				int color = data.getInteger("color");
+				ParticleDebugLine text = new ParticleDebugLine(world, x, y, z, mX, mY, mZ, color);
+				Minecraft.getMinecraft().effectRenderer.addEffect(text);
+			}
 		}
 		
 		if("network".equals(type)) {

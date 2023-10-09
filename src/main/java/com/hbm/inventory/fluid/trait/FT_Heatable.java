@@ -87,7 +87,7 @@ public class FT_Heatable extends FluidTrait {
 		
 		for(HeatingStep step : steps) {
 			writer.beginObject();
-			writer.name("typeProduced").value(step.typeProduced.getUnlocalizedName());
+			writer.name("typeProduced").value(step.typeProduced.getName());
 			writer.name("amountReq").value(step.amountReq);
 			writer.name("amountProd").value(step.amountProduced);
 			writer.name("heatReq").value(step.heatReq);

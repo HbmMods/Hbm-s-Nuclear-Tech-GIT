@@ -56,8 +56,10 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 		PositionedStack[] input;
 		PositionedStack[] output;
 		PositionedStack machinePositioned;
+		Object originalInputInstance;
 
 		public RecipeSet(ItemStack[][] in, ItemStack[][] out, Object originalInputInstance /* for custom machine lookup */) {
+			this.originalInputInstance = originalInputInstance;
 			
 			input = new PositionedStack[in.length];
 			int[][] inPos = NEIUniversalHandler.getInputCoords(in.length);

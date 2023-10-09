@@ -68,7 +68,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 		if(!worldObj.isRemote) {
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			this.trySubscribe(worldObj, xCoord + dir.offsetX * -5, yCoord + 1, zCoord + dir.offsetZ  * -5, dir);
+			this.trySubscribe(worldObj, xCoord + dir.offsetX * -5, yCoord + 1, zCoord + dir.offsetZ  * -5, dir.getOpposite());
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 			if(this.isOn && !(this.slots[1] == null)) {

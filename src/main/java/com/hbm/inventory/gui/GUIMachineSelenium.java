@@ -10,7 +10,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -45,7 +44,7 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 			long energy = selenium.getHEFromFuel(type);
 			
 			if(energy > 0)
-				text.add("  " + I18nUtil.resolveKey(type.getUnlocalizedName()) + " (" + BobMathUtil.getShortNumber(energy) + "HE/t)");
+				text.add("  " + type.getLocalizedName() + " (" + BobMathUtil.getShortNumber(energy) + "HE/t)");
 		}
 
 		text.add(EnumChatFormatting.ITALIC + "(These numbers are base values,");
