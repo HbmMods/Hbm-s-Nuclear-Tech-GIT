@@ -159,12 +159,12 @@ public class ModEventHandlerImpact {
 			}		
 		}		
 	}
-	
-	  @SubscribeEvent
+
+	  @SubscribeEvent()
 	  public void preQuackosianDuckSpawn(LivingSpawnEvent.CheckSpawn event)
 	  {
 		  TomSaveData data = TomSaveData.forWorld(event.world);
-		  if(event.entity instanceof EntityDuck && !data.impact)
+		  if(event.entity instanceof EntityDuck && data.dust > 0)
 		  {
 			  event.setResult(Result.DENY);
 		  }
@@ -269,26 +269,6 @@ public class ModEventHandlerImpact {
 		}
 	}
 
-	@SubscribeEvent
-	public void populateChunkPre(PopulateChunkEvent.Pre event) {
-		TomSaveData.forWorld(event.world); /* forces the data to be cached so it is accurate by the time ModEventHandlerImpact#modifyVillageGen is called. */
-		TomSaveData data = TomSaveData.forWorld(event.world);
-		if(data.impact)
-		{
-			Chunk chunk = event.world.getChunkFromChunkCoords(event.chunkX, event.chunkZ);
-			for(int x = 0; x < 16; x++) {
-				for(int z = 0; z < 16; z++) {
-					for (int y = chunk.getHeightValue(x, z)-30; y < chunk.getHeightValue(x, z)+1; ++y) 
-					{
-						if(chunk.getBlock(x, y, z)instanceof BlockGrass && chunk.getBlock(x, y-1, z)==Blocks.dirt)
-						{
-							chunk.func_150807_a(x, y-1, z, ModBlocks.qq_dirt, 0);
-						}
-					}
-				}
-			}	
-		}
-	}
 
 	@SubscribeEvent
 	public void populateChunkPost(PopulateChunkEvent.Post event) {
