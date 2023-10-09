@@ -7,7 +7,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Adjusted code from MC 1.12 (com.minecraft.util.math.BlockPos)
  */
-public class BlockPos {
+public class BlockPos implements Cloneable {
 
 	private final int x;
 	private final int y;
@@ -91,5 +91,13 @@ public class BlockPos {
 				return this.getZ() == pos.getZ();
 			}
 		}
+	}
+	
+	@Override
+	public BlockPos clone() {
+		try {
+			return (BlockPos) super.clone();
+		} catch(Exception x) { }
+		return null;
 	}
 }

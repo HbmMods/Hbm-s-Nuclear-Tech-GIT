@@ -55,7 +55,7 @@ public abstract class TileEntityRequestNetwork extends TileEntity {
 				
 				// draw debug crap
 				for(PathNode known : knownNodes) {
-					if(reachableNodes.contains(known)) ParticleUtil.spawnDebugLine(worldObj,
+					if(reachableNodes.contains(known)) ParticleUtil.spawnDroneLine(worldObj,
 							pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
 							(known.pos.getX()  - pos.getX()) / 2D, (known.pos.getY() - pos.getY()) / 2D, (known.pos.getZ() - pos.getZ()) / 2D,
 							reachableNodes.contains(known) ? 0x00ff00 : 0xff0000);

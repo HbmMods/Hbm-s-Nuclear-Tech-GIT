@@ -72,7 +72,7 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 		nbt.setTag("Items", nbttaglist);
 		
 		if(fluid != null) {
-			nbt.setString("fluidType", fluid.type.getUnlocalizedName());
+			nbt.setString("fluidType", fluid.type.getName());
 			nbt.setInteger("fluidAmount", fluid.fill);
 		}
 

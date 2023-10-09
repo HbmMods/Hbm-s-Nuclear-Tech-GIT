@@ -15,7 +15,6 @@ import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.IRepairable;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
-import com.hbm.util.I18nUtil;
 
 import api.hbm.block.IToolable;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -99,7 +98,7 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 	public void addInformation(ItemStack stack, NBTTagCompound persistentTag, EntityPlayer player, List list, boolean ext) {
 		FluidTank tank = new FluidTank(Fluids.NONE, 0);
 		tank.readFromNBT(persistentTag, "tank");
-		list.add(EnumChatFormatting.YELLOW + "" + tank.getFill() + "/" + tank.getMaxFill() + "mB " + I18nUtil.resolveKey(tank.getTankType().getUnlocalizedName()));
+		list.add(EnumChatFormatting.YELLOW + "" + tank.getFill() + "/" + tank.getMaxFill() + "mB " + tank.getTankType().getLocalizedName());
 	}
 
 	@Override
