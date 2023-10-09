@@ -195,15 +195,7 @@ public class ModEventHandler {
 			}
 		}
 	}
-    @SubscribeEvent
-    public void preQuackosianDuckSpawn(LivingSpawnEvent.CheckSpawn event)
-    {
-        TomSaveData data = TomSaveData.forWorld(event.world);
-        if(event.entity instanceof EntityDuck && !data.impact)
-        {
-            event.setResult(Result.DENY);
-        }
-    }
+
 	@SubscribeEvent
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		

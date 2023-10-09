@@ -159,6 +159,16 @@ public class ModEventHandlerImpact {
 			//}
 		}		
 	}
+
+	  @SubscribeEvent()
+	  public void preQuackosianDuckSpawn(LivingSpawnEvent.CheckSpawn event)
+	  {
+		  TomSaveData data = TomSaveData.forWorld(event.world);
+		  if(event.entity instanceof EntityDuck && data.dust > 0)
+		  {
+			  event.setResult(Result.DENY);
+		  }
+	  }
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLoad(WorldEvent.Load event) {
