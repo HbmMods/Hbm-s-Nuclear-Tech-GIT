@@ -30,6 +30,7 @@ public class SkyProviderMoon extends IRenderHandler {
 	private static final ResourceLocation kerbinDust = new ResourceLocation("hbm:textures/misc/space/kerbinDust.png");
 	private static final ResourceLocation planet = new ResourceLocation("hbm:textures/misc/space/planet.png");
 	private static final ResourceLocation flash = new ResourceLocation("hbm:textures/misc/space/flare.png");
+	private static final ResourceLocation flash2 = new ResourceLocation("hbm:textures/misc/space/SunSpikes.png");
 	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/space/night.png");
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/space/star_digamma.png");
 
@@ -206,8 +207,8 @@ public class SkyProviderMoon extends IRenderHandler {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
 		// Some blanking to conceal the stars
-		f10 = (AstronomyUtil.KerbolRadius/(AstronomyUtil.KerbinAU*AstronomyUtil.AUToKm))*360;
-		float f11 = f10*2;
+		f10 = (AstronomyUtil.KerbolRadius/(AstronomyUtil.KerbinAU*AstronomyUtil.AUToKm))*720;
+		float f11 = f10*3;
 		tessellator.startDrawingQuads();
 		tessellator.addVertex(-f10, 99.9D, -f10);
 		tessellator.addVertex(f10, 99.9D, -f10);
@@ -227,8 +228,8 @@ public class SkyProviderMoon extends IRenderHandler {
 		}
 		{
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
-			mc.renderEngine.bindTexture(this.flash);
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1f);
+			mc.renderEngine.bindTexture(this.flash2);
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(-f11, 100.0D, -f11, 0.0D, 0.0D);
 			tessellator.addVertexWithUV(f11, 100.0D, -f11, 1.0D, 0.0D);
@@ -272,7 +273,7 @@ public class SkyProviderMoon extends IRenderHandler {
     	}
         {
         	GL11.glPushMatrix();        	
-        	float EveRad = 0.15F;
+        	float EveRad = 0.05F;
         	float EveSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.EveP, AstronomyUtil.KerbinP);
         		//System.out.println("Venus-Earth distance: "+VenusEarth);
         	float sine = (float) Math.sin(((Math.PI/2)/(EveSyn/4))*(world.getWorldTime()+AstronomyUtil.offset));
