@@ -139,7 +139,7 @@ public class WorldProviderMoho extends WorldProvider {
 	
     public long getDayLength()
     {
-    	return (long) (AstronomyUtil.MohoP*84);
+    	return (long) (AstronomyUtil.MohoP*195);
     }
     
     @Override
