@@ -79,20 +79,20 @@ public class ItemCMStructure extends Item implements ILookOverlay {
 						int compX = 0;
 						int compZ = 0;
 
-						if(dir == ForgeDirection.NORTH) {
+						if(dir == ForgeDirection.SOUTH) {
 							compX = anchorX - x;
 							compZ = anchorZ - z;
 						}
-						if(dir == ForgeDirection.SOUTH) {
+						if(dir == ForgeDirection.NORTH) {
 							compX = x - anchorX;
 							compZ = z - anchorZ;
 						}
 
-						if(dir == ForgeDirection.EAST) {
+						if(dir == ForgeDirection.WEST) {
 							compZ = x - anchorX;
 							compX = anchorZ - z;
 						}
-						if(dir == ForgeDirection.WEST) {
+						if(dir == ForgeDirection.EAST) {
 							compZ = anchorX - x;
 							compX = z - anchorZ;
 						}
