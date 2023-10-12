@@ -58,46 +58,57 @@ public class ItemCMStructure extends Item implements ILookOverlay {
 		int y2 = stack.stackTagCompound.getInteger("y2");
 		int z2 = stack.stackTagCompound.getInteger("z2");
 		ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(anchorX, anchorY, anchorZ));
-		// ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		int z = z1;
-		z1 = z < z2 ? z : z2;
-		z2 = z < z2 ? z2 : z;
-		int y = y1;
-		y1 = y < y2 ? y : y2;
-		y2 = y < y2 ? y2 : y;
-		int x = x1;
-		x1 = x < x2 ? x : x2;
-		x2 = x < x2 ? x2 : x;
-		if(dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
-			z = x1;
-			x1 = z1;
-			z1 = z;
-			z = x2;
-			x2 = z2;
-			z2 = z;
-			int anchor = anchorX;
-			anchorX = anchorZ;
-			anchorZ = anchor;
-		}
+		int minX = Math.min(x1, x2);
+		int maxX = Math.max(x1, x2);
+		int minY = Math.min(y1, y2);
+		int maxY = Math.max(y1, y2);
+		int minZ = Math.min(z1, z2);
+		int maxZ = Math.max(z1, z2);
+		
 		try {
 			JsonWriter writer = new JsonWriter(new FileWriter(config));
 			writer.setIndent("  ");
 			writer.beginObject();
 			writer.name("components").beginArray();
-			for(x = x1; x <= x2; x++) {
-				for(y = y1; y <= y2; y++) {
-					for(z = z1; z <= z2; z++) {
-						if(!((x == anchorX && y == anchorY && z == anchorZ) || ((dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) ? world.getBlock(z, y, x) == Blocks.air : world.getBlock(x, y, z) == Blocks.air))) {
-							writer.beginObject().setIndent("");
-							writer.name("block").value("hbm:" + ((dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) ? world.getBlock(z, y, x).getUnlocalizedName() : world.getBlock(x, y, z).getUnlocalizedName()));
-							writer.name("x").value(x - anchorX);
-							writer.name("y").value(y - anchorY);
-							writer.name("z").value((dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) ? anchorZ - z : z - anchorZ);
-							writer.name("metas").beginArray();
-							writer.value(((dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) ? world.getBlockMetadata(z, y, x) : world.getBlockMetadata(x, y, z)));
-							writer.endArray();
-							writer.endObject().setIndent("  ");
+			
+			for(int x = minX; x <= maxX; x++) {
+				for(int y = minY; y <= maxY; y++) {
+					for(int z = minZ; z <= maxZ; z++) {
+						
+						int compY = y - anchorY; 
+						int compX = 0;
+						int compZ = 0;
+
+						if(dir == ForgeDirection.NORTH) {
+							compX = anchorX - x;
+							compZ = anchorZ - z;
 						}
+						if(dir == ForgeDirection.SOUTH) {
+							compX = x - anchorX;
+							compZ = z - anchorZ;
+						}
+
+						if(dir == ForgeDirection.EAST) {
+							compZ = x - anchorX;
+							compX = anchorZ - z;
+						}
+						if(dir == ForgeDirection.WEST) {
+							compZ = anchorX - x;
+							compX = z - anchorZ;
+						}
+						
+						if(x == anchorX && y == anchorY && z == anchorZ) continue;
+						Block block = world.getBlock(x, y, z);
+						int meta = world.getBlockMetadata(x, y, z);
+						if(block == Blocks.air) continue;
+						
+						writer.beginObject().setIndent("");
+						writer.name("block").value(Block.blockRegistry.getNameForObject(block));
+						writer.name("x").value(compX);
+						writer.name("y").value(compY);
+						writer.name("z").value(compZ);
+						writer.name("metas").beginArray().value(meta).endArray();
+						writer.endObject().setIndent("  ");
 					}
 				}
 			}
