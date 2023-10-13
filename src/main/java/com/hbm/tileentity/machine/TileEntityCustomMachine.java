@@ -254,6 +254,9 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 			
 			if(worldObj.rand.nextFloat() < recipe.outputItems[i].value) {
 				if(slots[i + 16] == null) {
+					if(recipe.outputItems[i].key.hasTagCompound()&&recipe.outputItems[i].key.stackTagCompound.hasKey("display")){
+						recipe.outputItems[i].key.stackTagCompound.removeTag("display");
+					}
 					slots[i + 16] = recipe.outputItems[i].key.copy();
 				} else {
 					slots[i + 16].stackSize += recipe.outputItems[i].key.stackSize;
