@@ -1,0 +1,22 @@
+## Added
+
+## Changed
+* Updated chinese localization
+* Tweaked certain assembler recipes
+  * Some welded plate requirements have been lowered
+  * The plasma heater now requires slightly more resources, but yields 4 blocks per operation instead of 1
+* The fractioning tower now requires welded plates, but the total steel cost has been reduced by roughly a third
+* The cyclotron now has three automation ports on each side, corresponding with the colors of the three input pairs
+* Updated the PWR sound
+
+## Fixed
+* Fixed multi fluid ID's search not behaving correctly
+* Fixed jetpack's description using unlocalized fluid names
+* Fixed the CM structure wand being broken when used in most directions
+* Fixed the custom machine recipe handler using the original references to the output stacks, causing the chance percentage indicator getting stuck on the actual outputs
+* Fixed the desh suit's boot models not being separated from the legs
+* Fixed dupe caused by defusing TNT-like blocks
+* Fixed containment box being able to contain itself when using the number keys, crashing the game
+* Fixed a critical game-breaking error where the custom tool's ability toggle is misspelled
+* (Hopefully) fixed the vampire ability not firing the onDeath event, causing the target to not drop any items and any death releated events to not happen
+* Fixed water creatures vomitting when irradiated, when they logically shouldn't

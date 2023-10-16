@@ -35,6 +35,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 
@@ -86,6 +87,7 @@ public abstract class WeaponAbility {
 				EntityLivingBase living = (EntityLivingBase) victim;
 				
 				living.setHealth(living.getHealth() - amount);
+				if(living.getHealth() <= 0) living.onDeath(DamageSource.magic);
 				player.heal(amount);
 			}
 		}
