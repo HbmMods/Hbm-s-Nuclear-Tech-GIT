@@ -1291,7 +1291,7 @@ public class ModEventHandlerClient {
 			case 0: main.splashText = "Floppenheimer!"; break;
 			case 1: main.splashText = "i should dip my balls in sulfuric acid"; break;
 			case 2: main.splashText = "All answers are popbob!"; break;
-			case 3: main.splashText = "None shall enter The Orb!"; break;
+			case 3: main.splashText = "None may enter The Orb!"; break;
 			case 4: main.splashText = "Wacarb was here"; break;
 			case 5: main.splashText = "SpongeBoy me Bob I am overdosing on keramine agagagagaga"; break;
 			case 6: main.splashText = EnumChatFormatting.RED + "I know where you live, " + System.getProperty("user.name"); break;
@@ -1300,10 +1300,10 @@ public class ModEventHandlerClient {
 			case 9: main.splashText = "There are bugs under your skin!"; break;
 			case 10: main.splashText = "Fentanyl!"; break;
 			case 11: main.splashText = "Do drugs!"; break;
-			//case 12: main.splashText = "post this on r/feedthememes for free internet points!"; break;
+			case 12: main.splashText = "Imagine being scared by splash texts!"; break;
 			}
 			
-			if(Math.random() < 0.1) main.splashText = "Visit r/feedthebeast if you hate yourself!";
+			if(Math.random() < 0.1) main.splashText = "Redditors aren't people!";
 		}
 	}
 }

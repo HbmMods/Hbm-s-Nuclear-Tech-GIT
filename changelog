@@ -20,3 +20,4 @@
 * Fixed a critical game-breaking error where the custom tool's ability toggle is misspelled
 * (Hopefully) fixed the vampire ability not firing the onDeath event, causing the target to not drop any items and any death releated events to not happen
 * Fixed water creatures vomitting when irradiated, when they logically shouldn't
+* Fixed arc welder recipe template file not being generated properly
