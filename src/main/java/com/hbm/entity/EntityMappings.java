@@ -26,7 +26,8 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
-import net.minecraft.world.biome.BiomeGenBase.TempCategory;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
 public class EntityMappings {
 
@@ -258,7 +259,7 @@ public class EntityMappings {
 		addSpawn(EntityCreeperPhosgene.class, 5, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityCreeperVolatile.class, 10, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityCreeperGold.class, 1, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
-		addSpawn(EntityPlasticBag.class, 1, 1, 3, EnumCreatureType.waterCreature, getOceanBiomes());
+		addSpawn(EntityPlasticBag.class, 1, 1, 3, EnumCreatureType.waterCreature, BiomeDictionary.getBiomesForType(Type.OCEAN));
 		
 		int id = 0;
 		for(Quartet<Class<? extends Entity>, String, Integer, Boolean> entry : entityMappings) {
@@ -302,16 +303,5 @@ public class EntityMappings {
 
 			spawns.add(new SpawnListEntry(entityClass, weightedProb, min, max));
 		}
-	}
-	
-	public static BiomeGenBase[] getOceanBiomes() {
-		List<BiomeGenBase> biomes = new ArrayList();
-		
-		for(BiomeGenBase biome : BiomeGenBase.getBiomeGenArray()) {
-			if(biome != null && biome.getTempCategory() == TempCategory.OCEAN) {
-				biomes.add(biome);
-			}
-		}
-		return biomes.toArray(new BiomeGenBase[0]);
 	}
 }
