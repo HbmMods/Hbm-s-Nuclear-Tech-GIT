@@ -63,7 +63,7 @@ public class ContainerPlasticBag extends Container {
 	public ItemStack slotClick(int index, int button, int mode, EntityPlayer player) {
 		// prevents the player from moving around the currently open box
 		if(mode == 2 && button == player.inventory.currentItem) return null;
-		if(index == player.inventory.currentItem + 47) return null;
+		if(index == player.inventory.currentItem + 28) return null;
 		return super.slotClick(index, button, mode, player);
 	}
 

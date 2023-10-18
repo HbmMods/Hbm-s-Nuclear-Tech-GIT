@@ -26,6 +26,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
+import net.minecraft.world.biome.BiomeGenBase.TempCategory;
 
 public class EntityMappings {
 
@@ -252,10 +253,12 @@ public class EntityMappings {
 		addMob(EntityGlyphidBlaster.class, "entity_glyphid_blaster", 0xD83737, 0xDBB79D);
 		addMob(EntityGlyphidScout.class, "entity_glyphid_scout", 0x273038, 0xB9E36B);
 		addMob(EntityGlyphidNuclear.class, "entity_glyphid_nuclear", 0x267F00, 0xA0A0A0);
+		addMob(EntityPlasticBag.class, "entity_plastic_bag", 0xd0d0d0, 0x808080);
 
 		addSpawn(EntityCreeperPhosgene.class, 5, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityCreeperVolatile.class, 10, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
 		addSpawn(EntityCreeperGold.class, 1, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray());
+		addSpawn(EntityPlasticBag.class, 1, 1, 3, EnumCreatureType.waterCreature, getOceanBiomes());
 		
 		int id = 0;
 		for(Quartet<Class<? extends Entity>, String, Integer, Boolean> entry : entityMappings) {
@@ -299,5 +302,16 @@ public class EntityMappings {
 
 			spawns.add(new SpawnListEntry(entityClass, weightedProb, min, max));
 		}
+	}
+	
+	public static BiomeGenBase[] getOceanBiomes() {
+		List<BiomeGenBase> biomes = new ArrayList();
+		
+		for(BiomeGenBase biome : BiomeGenBase.getBiomeGenArray()) {
+			if(biome != null && biome.getTempCategory() == TempCategory.OCEAN) {
+				biomes.add(biome);
+			}
+		}
+		return biomes.toArray(new BiomeGenBase[0]);
 	}
 }
