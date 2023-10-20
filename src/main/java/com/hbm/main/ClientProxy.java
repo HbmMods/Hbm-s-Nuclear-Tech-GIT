@@ -107,6 +107,7 @@ import com.hbm.tileentity.machine.storage.*;
 import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.wiaj.cannery.Jars;
 
@@ -2073,6 +2074,11 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public boolean getImpact(World world) {
 		return ImpactWorldHandler.getImpactForClient(world);
+	}
+	
+	@Override
+	public NBTTagCompound getPlanetaryTags(World world) {
+		return PlanetaryTraitUtil.getTagsForClient(world);
 	}
 
 	@Override

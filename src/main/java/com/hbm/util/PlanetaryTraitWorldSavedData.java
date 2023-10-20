@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.Level;
+
+import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
@@ -26,25 +29,33 @@ public class PlanetaryTraitWorldSavedData extends WorldSavedData {
 
     public NBTTagCompound data = new NBTTagCompound();
 	private static PlanetaryTraitWorldSavedData lastCachedUnsafe = null;
-
+	public static PlanetaryTraitWorldSavedData result2;
     public PlanetaryTraitWorldSavedData(String name) {
         super(name);
     }
 
 
 	public static PlanetaryTraitWorldSavedData get(World world) {
-		PlanetaryTraitWorldSavedData result = (PlanetaryTraitWorldSavedData) world.perWorldStorage.loadData(PlanetaryTraitWorldSavedData.class, "PlanetaryTraitsData");
+		try {
+			PlanetaryTraitWorldSavedData result = (PlanetaryTraitWorldSavedData) world.perWorldStorage.loadData(PlanetaryTraitWorldSavedData.class, "PlanetaryTraitsData");
 
-		if(result == null) {
-			world.perWorldStorage.setData(DATA_NAME, new PlanetaryTraitWorldSavedData(DATA_NAME));
-			result = (PlanetaryTraitWorldSavedData) world.perWorldStorage.loadData(PlanetaryTraitWorldSavedData.class, "PlanetaryTraitsData");
+			if(result == null) {
+				world.perWorldStorage.setData(DATA_NAME, new PlanetaryTraitWorldSavedData(DATA_NAME));
+				result = (PlanetaryTraitWorldSavedData) world.perWorldStorage.loadData(PlanetaryTraitWorldSavedData.class, "PlanetaryTraitsData");
+			}
+			
+			lastCachedUnsafe = result;
+			result2 = lastCachedUnsafe;
+			return result;
+		} catch (NullPointerException e) {
+			MainRegistry.logger.log(Level.INFO, "[HBM]: You didnt Terraform yet, so while the game would start shitting its pants and crying to its mom, im not allowing that");
 		}
-		lastCachedUnsafe = result;
-		return result;
+		return result2;		
 	}
 	public static PlanetaryTraitWorldSavedData getLastCachedOrNull() {
 		return lastCachedUnsafe;
 	}
+
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         data = nbt.getCompoundTag("Traits");
@@ -53,12 +64,13 @@ public class PlanetaryTraitWorldSavedData extends WorldSavedData {
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
         nbt.setTag("Traits", data);
+        System.out.println(data);
     }
 
     // Add methods to get and set traits as needed
     public void setTraits(int dimensionId, Set<Hospitality> traits) {
         data.setTag(Integer.toString(dimensionId), writeTraitsToNBT(traits));
-        markDirty(); // Mark as dirty to save changes
+        markDirty(); 
     }
 
     public Set<Hospitality> getTraits(int dimensionId) {
@@ -82,6 +94,13 @@ public class PlanetaryTraitWorldSavedData extends WorldSavedData {
         }
         return traits;
     }
+
+
+	public static void resetLastCached() {
+		lastCachedUnsafe = null;		
+	}
+
+
 }
     
 

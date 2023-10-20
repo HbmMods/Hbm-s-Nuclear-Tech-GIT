@@ -1,8 +1,15 @@
 package com.hbm.dim.moho;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.handler.ImpactWorldHandler;
+import com.hbm.main.ClientProxy;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.ServerProxy;
+import com.hbm.packet.PermaSyncHandler;
 import com.hbm.util.AstronomyUtil;
 import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.PlanetaryTraitUtil.Hospitality;
@@ -10,6 +17,7 @@ import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
@@ -17,12 +25,13 @@ import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.client.IRenderHandler;
+import net.minecraftforge.common.util.Constants;
 import scala.reflect.internal.Trees.Return;
 
 public class WorldProviderMoho extends WorldProvider {
 	
     private float[] colorsSunriseSunset = new float[4];
-    
+
 	public void registerWorldChunkManager() {
 		
 		this.worldChunkMgr = new WorldChunkManagerHell(new BiomeGenMoho(SpaceConfig.mohoBiome), dimensionId);
@@ -45,10 +54,15 @@ public class WorldProviderMoho extends WorldProvider {
     
     @SideOnly(Side.CLIENT)
     public Vec3 getFogColor(float x, float y) {
-        if(PlanetaryTraitUtil.isDimensionWithTraitNT(worldObj, Hospitality.BREATHEABLE)) {
-            float f = 1.0F - this.getStarBrightness(1.0F);
+    	NBTTagCompound tagger = PlanetaryTraitUtil.getTagsForClient(MainRegistry.proxy.me().worldObj);  
+        if (tagger != null) {
+            String traitKey = Hospitality.BREATHEABLE.toString();
+            if ((tagger).hasKey(traitKey)) {
+            	System.out.println("netic arseinc");
+                float f = 1.0F - this.getStarBrightness(1.0F);
 
-        	return Vec3.createVectorHelper(0.4D * f , 0.2D * f, 0.1D * f);
+            	return Vec3.createVectorHelper(0.4D * f , 0.2D * f, 0.1D * f);
+            }
         }
       return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
     }

@@ -15,9 +15,11 @@ import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.PlanetaryTraitWorldSavedData;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 /**
@@ -60,6 +62,8 @@ public class PermaSyncHandler {
         for (PlanetaryTraitUtil.Hospitality trait : traits) {
             buf.writeInt(trait.ordinal());
         }
+        
+        
         /// PLANETARY TRAITS ///
 		
 		buf.writeShort((short) ids.size());
@@ -85,16 +89,27 @@ public class PermaSyncHandler {
 		ImpactWorldHandler.time = buf.readLong();
 		/// TOM IMPACT DATA ///
 
+		
         int dimensionId = buf.readInt();
         int traitCount = buf.readShort();
         Set<PlanetaryTraitUtil.Hospitality> traits = EnumSet.allOf(PlanetaryTraitUtil.Hospitality.class);
-
+        PlanetaryTraitUtil.lastSyncWorld = player.worldObj;
+        
         for (int i = 0; i < traitCount; i++) {
             int traitOrdinal = buf.readInt();
             PlanetaryTraitUtil.Hospitality trait = PlanetaryTraitUtil.Hospitality.values()[traitOrdinal];
             traits.add(trait);
         }
-		
+        
+        // Convert the set to an NBTTagCompound
+        NBTTagCompound tag = new NBTTagCompound();
+        for (PlanetaryTraitUtil.Hospitality trait : traits) {
+            tag.setBoolean(trait.name(), true);
+        }
+
+        // Assign it to the static field for client-side access
+        PlanetaryTraitUtil.tag = tag;
+        
 		/// SHITTY MEMES ///
 		boykissers.clear();
 		int ids = buf.readShort();

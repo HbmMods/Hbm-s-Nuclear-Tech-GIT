@@ -86,6 +86,7 @@ import com.hbm.util.InventoryUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.util.PlanetaryTraitUtil.Hospitality;
+import com.hbm.util.PlanetaryTraitWorldSavedData;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;

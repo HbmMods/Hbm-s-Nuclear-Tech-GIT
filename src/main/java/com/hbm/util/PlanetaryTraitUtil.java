@@ -10,9 +10,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.TomSaveData;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
@@ -53,11 +59,14 @@ public class PlanetaryTraitUtil {
         int dimensionId = world.provider.dimensionId;
         world = DimensionManager.getWorld(dimensionId);
         Set<Hospitality> traits = idToDimensionMap.getOrDefault(dimensionId, Collections.emptySet());
-
-        PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
+        PlanetaryTraitWorldSavedData data = PlanetaryTraitWorldSavedData.getLastCachedOrNull();
         
+  
         // Check if saved data exists and has traits for the dimension
-        if (traitsData != null) {
+        // you retard, you didnt even check if the data even existed in the FIRST PLACE
+        if (data != null) {
+            PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
+
             Set<Hospitality> savedTraits = traitsData.getTraits(dimensionId);
             
             // If saved traits exist, use them instead
@@ -93,5 +102,13 @@ public class PlanetaryTraitUtil {
 	    traitsData.setTraits(world.provider.dimensionId, existingTraits);
 	    traitsData.markDirty();
     }
+	public static World lastSyncWorld = null;
+	public static NBTTagCompound tag;
+
+	@SideOnly(Side.CLIENT)
+	public static NBTTagCompound getTagsForClient(World world) {
+		if(world != lastSyncWorld) return null;
+		return tag;
+	}
 }
 
