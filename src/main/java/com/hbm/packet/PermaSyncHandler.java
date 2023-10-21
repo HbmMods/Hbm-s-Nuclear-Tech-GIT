@@ -90,13 +90,14 @@ public class PermaSyncHandler {
 		ImpactWorldHandler.time = buf.readLong();
 		/// TOM IMPACT DATA ///
 
+        PlanetaryTraitUtil.lastSyncWorld = player.worldObj;
+
 		
         int dimensionId = buf.readInt();
         int traitCount = buf.readShort();
 
         PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
         Set<PlanetaryTraitUtil.Hospitality> traits = traitsData.getTraits(dimensionId);
-        PlanetaryTraitUtil.lastSyncWorld = player.worldObj;
         
         for (int i = 0; i < traitCount; i++) {
             int traitOrdinal = buf.readInt();

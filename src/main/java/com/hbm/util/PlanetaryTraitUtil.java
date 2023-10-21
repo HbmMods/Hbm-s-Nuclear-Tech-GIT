@@ -107,7 +107,7 @@ public class PlanetaryTraitUtil {
 
 	@SideOnly(Side.CLIENT)
 	public static NBTTagCompound getTagsForClient(World world) {
-		if(world != lastSyncWorld) return null;
+		if(world != lastSyncWorld) return tag;
 		return tag;
 	}
 }

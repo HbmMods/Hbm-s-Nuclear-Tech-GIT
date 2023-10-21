@@ -36,22 +36,19 @@ public class PlanetaryTraitWorldSavedData extends WorldSavedData {
 
 
 	public static PlanetaryTraitWorldSavedData get(World world) {
-		try {
-			PlanetaryTraitWorldSavedData result = (PlanetaryTraitWorldSavedData) world.perWorldStorage.loadData(PlanetaryTraitWorldSavedData.class, "PlanetaryTraitsData");
-
+		if(world == null) {
+			return lastCachedUnsafe;
+		}
+		PlanetaryTraitWorldSavedData result = (PlanetaryTraitWorldSavedData) world.perWorldStorage.loadData(PlanetaryTraitWorldSavedData.class, "PlanetaryTraitsData");
+		
 			if(result == null) {
 				world.perWorldStorage.setData(DATA_NAME, new PlanetaryTraitWorldSavedData(DATA_NAME));
 				result = (PlanetaryTraitWorldSavedData) world.perWorldStorage.loadData(PlanetaryTraitWorldSavedData.class, "PlanetaryTraitsData");
 			}
 			
 			lastCachedUnsafe = result;
-			result2 = lastCachedUnsafe;
 			return result;
-		} catch (NullPointerException e) {
-			//shush
-		}
-		
-		return result2;		
+
 	}
 	public static PlanetaryTraitWorldSavedData getLastCachedOrNull() {
 		return lastCachedUnsafe;
