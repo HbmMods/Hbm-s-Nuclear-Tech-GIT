@@ -48,8 +48,9 @@ public class PlanetaryTraitWorldSavedData extends WorldSavedData {
 			result2 = lastCachedUnsafe;
 			return result;
 		} catch (NullPointerException e) {
-			MainRegistry.logger.log(Level.INFO, "[HBM]: You didnt Terraform yet, so while the game would start shitting its pants and crying to its mom, im not allowing that");
+			//shush
 		}
+		
 		return result2;		
 	}
 	public static PlanetaryTraitWorldSavedData getLastCachedOrNull() {

@@ -57,54 +57,60 @@ public class WorldProviderMoho extends WorldProvider {
     
     @SideOnly(Side.CLIENT)
     public Vec3 getFogColor(float x, float y) {
-    	NBTTagCompound tagger = PlanetaryTraitUtil.getTagsForClient(this.worldObj);  
-    	NBTTagCompound tagger2 = PlanetaryTraitUtil.getTagsForClient(MainRegistry.proxy.me().worldObj);  
-        if (tagger2 != null) {
+    	//NBTTagCompound tagger = PlanetaryTraitUtil.getTagsForClient(this.worldObj);  
+    	//NBTTagCompound tagger2 = PlanetaryTraitUtil.getTagsForClient(MainRegistry.proxy.me().worldObj);  
+    	
+    	//NBTTagCompound tagger4 = MainRegistry.proxy.getPlanetaryTags(MainRegistry.proxy.me().worldObj); 
+    	NBTTagCompound tagger3 = MainRegistry.proxy.getPlanetaryTags(worldObj);
+        if (tagger3 != null) {
             String traitKey = Hospitality.BREATHEABLE.toString();
-            if (tagger2.hasKey(traitKey)) {
+            if (tagger3.hasKey(traitKey)) {
                 float f = 1.0F - this.getStarBrightness(1.0F);
-                return SkyColorManager.currentSkyColor = Vec3.createVectorHelper(0.4D, 0.2D, 0.1D);
-            	//return Vec3.createVectorHelper(0.4D * f , 0.2D * f, 0.1D * f);
+                return Vec3.createVectorHelper(0.4D * f , 0.2D * f, 0.1D * f);
             }
         }
       return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
     }
 
     public Vec3 getSkyColor(Entity camera, float partialTicks) {
-        if(PlanetaryTraitUtil.isDimensionWithTraitNT(MainRegistry.proxy.me().worldObj, Hospitality.BREATHEABLE)) {
-            float f = 1.0F - this.getStarBrightness(1.0F);
+    	NBTTagCompound tagger3 = MainRegistry.proxy.getPlanetaryTags(worldObj);
+        if (tagger3 != null) {
+            String traitKey = Hospitality.BREATHEABLE.toString();
+            if (tagger3.hasKey(traitKey)) {
+                float f = 1.0F - this.getStarBrightness(1.0F);
 
-            return SkyColorManager.currentSkyColor = Vec3.createVectorHelper(0.3D* f, 0.2D * f, 0.1D * f);
+                return SkyColorManager.currentSkyColor = Vec3.createVectorHelper(0.3D* f, 0.2D * f, 0.1D * f);
+            }
         }
-        else {
-            return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
-
-        }
-    }
+        return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);    
+     }
     
     @SideOnly(Side.CLIENT)
     public float[] calcSunriseSunsetColors(float p_76560_1_, float p_76560_2_) {
         float f2 = 0.4F;
         float f3 = MathHelper.cos(p_76560_1_ * (float)Math.PI * 2.0F) - 0.0F;
         float f4 = -0.0F;
-
-        if(PlanetaryTraitUtil.isDimensionWithTraitNT(worldObj, Hospitality.BREATHEABLE)) {
-        if (f3 >= f4 - f2 && f3 <= f4 + f2)
-        {
-            float f5 = (f3 - f4) / f2 * 0.5F + 0.5F;
-            float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * (float)Math.PI)) * 0.99F;
-            f6 *= f6;
-            this.colorsSunriseSunset[0] = f5 * 0.2F + 0.0F;
-            this.colorsSunriseSunset[1] = f5 * f5 * 0.6F + 0.1F;
-            this.colorsSunriseSunset[2] = f5 * f5 * 0.2F + 0.0F;
-            this.colorsSunriseSunset[3] = f6;
-            return this.colorsSunriseSunset;
+    	NBTTagCompound tagger3 = MainRegistry.proxy.getPlanetaryTags(worldObj);
+        if (tagger3 != null) {
+            String traitKey = Hospitality.BREATHEABLE.toString();
+            if (tagger3.hasKey(traitKey)) {
+                if (f3 >= f4 - f2 && f3 <= f4 + f2)
+                {
+                    float f5 = (f3 - f4) / f2 * 0.5F + 0.5F;
+                    float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * (float)Math.PI)) * 0.99F;
+                    f6 *= f6;
+                    this.colorsSunriseSunset[0] = f5 * 0.2F + 0.0F;
+                    this.colorsSunriseSunset[1] = f5 * f5 * 0.6F + 0.1F;
+                    this.colorsSunriseSunset[2] = f5 * f5 * 0.2F + 0.0F;
+                    this.colorsSunriseSunset[3] = f6;
+                    return this.colorsSunriseSunset;
+                }
+                else
+                {
+                    return null;
+                }            	
+            }           
         }
-        else
-        {
-            return null;
-        }
-      }
     	return null;
     }
 
@@ -121,7 +127,10 @@ public class WorldProviderMoho extends WorldProvider {
 	@SideOnly(Side.CLIENT)
 	public float getStarBrightness(float par1) {
 		//float starBr = worldObj.getStarBrightnessBody(par1);
-		if(PlanetaryTraitUtil.isDimensionWithTraitNT(worldObj, Hospitality.BREATHEABLE)) {
+    	NBTTagCompound tagger3 = MainRegistry.proxy.getPlanetaryTags(worldObj);
+        if (tagger3 != null) {
+            String traitKey = Hospitality.BREATHEABLE.toString();
+            if (tagger3.hasKey(traitKey)) {
 			float f1 = worldObj.getCelestialAngle(par1);
 			float f2 = 1.0F - (MathHelper.cos(f1 * (float) Math.PI * 2.0F) * 2.0F + 0.25F);
 
@@ -133,6 +142,7 @@ public class WorldProviderMoho extends WorldProvider {
 				f2 = 1.0F;
 			}
 			return f2;
+           }
 			
 		}
 	return 1F;
