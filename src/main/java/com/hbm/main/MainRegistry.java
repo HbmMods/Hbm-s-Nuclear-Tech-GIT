@@ -64,6 +64,7 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.BlockDispenser;
@@ -157,11 +158,6 @@ import com.hbm.tileentity.TileMappings;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
-import com.hbm.util.AchievementHandler;
-import com.hbm.util.ArmorUtil;
-import com.hbm.util.Compat;
-import com.hbm.util.StatHelper;
-import com.hbm.util.SuicideThreadDump;
 import com.hbm.world.ModBiomes;
 import com.hbm.world.PlanetGen;
 import com.hbm.world.feature.*;
@@ -193,7 +189,7 @@ public class MainRegistry {
 	@Metadata
 	public static ModMetadata meta;
 	
-	
+	public static SimpleNetworkWrapper network;
 	public static Logger logger = LogManager.getLogger("HBM");
 
 	// Tool Materials
@@ -446,7 +442,9 @@ public class MainRegistry {
 				}
 			}
 		});
-		
+        network = NetworkRegistry.INSTANCE.newSimpleChannel("YourModChannel");
+        network.registerMessage(FogColorMessageHandler.class, FogMessage.class, 0, Side.CLIENT);
+
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_generic, new BehaviorProjectileDispense() {
 
 			protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_) {
@@ -999,6 +997,10 @@ public class MainRegistry {
 		PollutionHandler pollution = new PollutionHandler();
 		MinecraftForge.EVENT_BUS.register(pollution);
 		FMLCommonHandler.instance().bus().register(pollution);
+		
+		MainThreadQueue queue = new MainThreadQueue();
+		MinecraftForge.EVENT_BUS.register(queue);
+		FMLCommonHandler.instance().bus().register(queue);
 		
 		if(event.getSide() == Side.CLIENT) {
 			HbmKeybinds.register();

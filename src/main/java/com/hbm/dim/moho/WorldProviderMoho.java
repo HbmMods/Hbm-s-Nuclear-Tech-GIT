@@ -11,8 +11,10 @@ import com.hbm.main.MainRegistry;
 import com.hbm.main.ServerProxy;
 import com.hbm.packet.PermaSyncHandler;
 import com.hbm.util.AstronomyUtil;
+import com.hbm.util.FogMessage;
 import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.PlanetaryTraitUtil.Hospitality;
+import com.hbm.util.SkyColorManager;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,6 +33,7 @@ import scala.reflect.internal.Trees.Return;
 public class WorldProviderMoho extends WorldProvider {
 	
     private float[] colorsSunriseSunset = new float[4];
+    protected boolean kms = false;
 
 	public void registerWorldChunkManager() {
 		
@@ -54,24 +57,24 @@ public class WorldProviderMoho extends WorldProvider {
     
     @SideOnly(Side.CLIENT)
     public Vec3 getFogColor(float x, float y) {
-    	NBTTagCompound tagger = PlanetaryTraitUtil.getTagsForClient(MainRegistry.proxy.me().worldObj);  
-        if (tagger != null) {
+    	NBTTagCompound tagger = PlanetaryTraitUtil.getTagsForClient(this.worldObj);  
+    	NBTTagCompound tagger2 = PlanetaryTraitUtil.getTagsForClient(MainRegistry.proxy.me().worldObj);  
+        if (tagger2 != null) {
             String traitKey = Hospitality.BREATHEABLE.toString();
-            if ((tagger).hasKey(traitKey)) {
-            	System.out.println("netic arseinc");
+            if (tagger2.hasKey(traitKey)) {
                 float f = 1.0F - this.getStarBrightness(1.0F);
-
-            	return Vec3.createVectorHelper(0.4D * f , 0.2D * f, 0.1D * f);
+                return SkyColorManager.currentSkyColor = Vec3.createVectorHelper(0.4D, 0.2D, 0.1D);
+            	//return Vec3.createVectorHelper(0.4D * f , 0.2D * f, 0.1D * f);
             }
         }
       return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
     }
 
     public Vec3 getSkyColor(Entity camera, float partialTicks) {
-        if(PlanetaryTraitUtil.isDimensionWithTraitNT(worldObj, Hospitality.BREATHEABLE)) {
+        if(PlanetaryTraitUtil.isDimensionWithTraitNT(MainRegistry.proxy.me().worldObj, Hospitality.BREATHEABLE)) {
             float f = 1.0F - this.getStarBrightness(1.0F);
 
-        	return Vec3.createVectorHelper(0.3D* f, 0.2D * f, 0.1D * f);
+            return SkyColorManager.currentSkyColor = Vec3.createVectorHelper(0.3D* f, 0.2D * f, 0.1D * f);
         }
         else {
             return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);

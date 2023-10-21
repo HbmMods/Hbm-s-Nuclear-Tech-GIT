@@ -617,6 +617,7 @@ public class ModEventHandler {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLoad(WorldEvent.Load event) {
+		PlanetaryTraitWorldSavedData.resetLastCached();
 		BobmazonOfferFactory.init();
 	}
 	

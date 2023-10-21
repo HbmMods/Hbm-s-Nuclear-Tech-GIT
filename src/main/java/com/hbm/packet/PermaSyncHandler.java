@@ -14,6 +14,7 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.PlanetaryTraitWorldSavedData;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
@@ -92,7 +93,9 @@ public class PermaSyncHandler {
 		
         int dimensionId = buf.readInt();
         int traitCount = buf.readShort();
-        Set<PlanetaryTraitUtil.Hospitality> traits = EnumSet.allOf(PlanetaryTraitUtil.Hospitality.class);
+
+        PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(player.worldObj);
+        Set<PlanetaryTraitUtil.Hospitality> traits = traitsData.getTraits(player.dimension);
         PlanetaryTraitUtil.lastSyncWorld = player.worldObj;
         
         for (int i = 0; i < traitCount; i++) {
@@ -100,11 +103,14 @@ public class PermaSyncHandler {
             PlanetaryTraitUtil.Hospitality trait = PlanetaryTraitUtil.Hospitality.values()[traitOrdinal];
             traits.add(trait);
         }
-        
+
+
         // Convert the set to an NBTTagCompound
         NBTTagCompound tag = new NBTTagCompound();
         for (PlanetaryTraitUtil.Hospitality trait : traits) {
-            tag.setBoolean(trait.name(), true);
+            if (traits.contains(trait)) {
+                tag.setBoolean(trait.name(), true);
+            }
         }
 
         // Assign it to the static field for client-side access
