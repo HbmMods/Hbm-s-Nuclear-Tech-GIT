@@ -99,6 +99,10 @@ public class CrucibleRecipes extends SerializableRecipe {
 		recipes.add(new CrucibleRecipe(13, "crucible.cmb", 3, new ItemStack(ModItems.ingot_combine_steel))
 				.inputs(new MaterialStack(Mats.MAT_MAGTUNG, n * 6), new MaterialStack(Mats.MAT_MUD, n * 3))
 				.outputs(new MaterialStack(Mats.MAT_CMB, i)));
+
+		recipes.add(new CrucibleRecipe(14, "crucible.HPA", 2, new ItemStack(ModItems.ingot_HPA))
+			        .inputs(new MaterialStack(Mats.MAT_U238 n * 2), new MaterialStack(Mats.MAT_PLACEHOLDER, n * 2))
+			        .outputs(new MaterialStack(Mats.MAT_HPA, i)));
 		
 		registerMoldsForNEI();
 	}
