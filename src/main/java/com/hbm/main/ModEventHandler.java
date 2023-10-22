@@ -732,7 +732,7 @@ public class ModEventHandler {
 				EntityRailCarBase.updateMotion(event.world);
 			}
 		}
-		
+
 		if(event.phase == Phase.START) {
 			BossSpawnHandler.rollTheDice(event.world);
 			TimedGenerator.automaton(event.world, 100);

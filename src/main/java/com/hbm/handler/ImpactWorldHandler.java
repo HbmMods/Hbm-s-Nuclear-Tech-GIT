@@ -12,6 +12,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockVine;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.EnumSkyBlock;
@@ -39,6 +41,7 @@ public class ImpactWorldHandler {
 		float increment = 0.2f;
 
 		float easeOutFactor = 0.15f; 
+		if(data.divinity == false) {
 		if(data.flash <= 100) {
 			data.flash -= 1;
 			if(data.flash <= 0) {
@@ -46,17 +49,20 @@ public class ImpactWorldHandler {
 				return;
 			}
 		}
-		System.out.println(data.flash);
-		System.out.println("client " + flash);
-		System.out.println("fuck " + size);
-		System.out.println("serversize " + data.size);
-		if(divinity == true) {
+		//System.out.println(data.flash);
+		}
+
+		if(data.divinity == true) {
 			if (data.size < maxSize) {
 			    data.size += increment;
 			    data.size = Math.min(maxSize, data.size + increment * (maxSize - data.size) * easeOutFactor);
+				if( data.size <= 4) {
+			 	    for(Object p : world.playerEntities) {
+		    	((EntityPlayer)p).worldObj.playSoundEffect(((EntityPlayer)p).posX, ((EntityPlayer)p).posY, ((EntityPlayer)p).posZ, "hbm:misc.flashe", 10F, 1F);
+			 	    }
+				}
 			}	
 		}
-		
 		
 		List<Chunk> list = serv.theChunkProviderServer.loadedChunks;
 		int listSize = list.size();

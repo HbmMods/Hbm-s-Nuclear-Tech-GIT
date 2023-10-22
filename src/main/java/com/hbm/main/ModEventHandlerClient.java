@@ -53,6 +53,7 @@ import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.SoyuzPronter;
 import com.hbm.render.world.RenderNTMSkyboxChainloader;
 import com.hbm.render.world.RenderNTMSkyboxImpact;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.MovingSoundChopper;
 import com.hbm.sound.MovingSoundChopperMine;
 import com.hbm.sound.MovingSoundCrashing;
@@ -337,6 +338,11 @@ public class ModEventHandlerClient {
 		/// HANDLE FLASHBANG OVERLAY///
 		if(player.isPotionActive(HbmPotion.flashbang)) {		
 			RenderScreenOverlay.renderFlashbangOverlay(event.resolution);
+		}
+		float size = ImpactWorldHandler.getFlashForClient(player.worldObj);
+		if(size <= 90 && size > 0) {
+			this.flashTimestamp = System.currentTimeMillis();
+			System.out.println(size);
 		}
 		/// HANDLE FSB HUD ///
 		ItemStack helmet = player.inventory.armorInventory[3];
@@ -1076,7 +1082,6 @@ public class ModEventHandlerClient {
 		GL11.glPushMatrix();
 
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-
 		double dx = player.prevPosX + (player.posX - player.prevPosX) * event.partialTicks;
 		double dy = player.prevPosY + (player.posY - player.prevPosY) * event.partialTicks;
 		double dz = player.prevPosZ + (player.posZ - player.prevPosZ) * event.partialTicks;
