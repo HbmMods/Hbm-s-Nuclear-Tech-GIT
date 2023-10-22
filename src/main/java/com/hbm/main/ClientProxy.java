@@ -2072,6 +2072,22 @@ public class ClientProxy extends ServerProxy {
 	public boolean getImpact(World world) {
 		return ImpactWorldHandler.getImpactForClient(world);
 	}
+	
+	@Override
+	public float getFlash(World world) {
+		return ImpactWorldHandler.getFlashForClient(world);
+	}
+
+	@Override
+	public float getSize(World world) {
+		return ImpactWorldHandler.getSizeForClient(world);
+	}
+
+	@Override
+	public boolean getDivinity(World world) {
+		return ImpactWorldHandler.getDivinityForClient(world);
+	}
+
 
 	@Override
 	public void playSoundClient(double x, double y, double z, String sound, float volume, float pitch) {

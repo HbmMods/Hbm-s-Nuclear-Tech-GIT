@@ -1,8 +1,14 @@
 package com.hbm.render.world;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.handler.ImpactWorldHandler;
+import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.TomSaveData;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
@@ -12,6 +18,7 @@ import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IRenderHandler;
+import scala.languageFeature.implicitConversions;
 
 public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstract class uses the I-prefix is beyond me but ok, alright, whatever
 	
@@ -24,7 +31,10 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
 	private static final ResourceLocation bobmazonSat = new ResourceLocation("hbm:textures/misc/sat_bobmazon.png");
-	
+	private static final ResourceLocation nova = new ResourceLocation("hbm:textures/misc/sunSpikes.png");
+	private static final ResourceLocation flash = new ResourceLocation(RefStrings.MODID + ":textures/particle/flare.png");
+	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/particle/shockwave.png");
+
 	/*
 	 * If the skybox was rendered successfully in the last tick (even from other mods' skyboxes chainloading this one) then we don't need to add it again
 	 */
@@ -36,7 +46,10 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 	
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
-		
+		boolean test = ImpactWorldHandler.getDivinityForClient(world);
+		float flash = ImpactWorldHandler.getFlashForClient(world);
+		TomSaveData rataData = TomSaveData.forWorld(world);
+
 		if(parent != null) {
 			
 			//basically a recursion-brake to prevent endless rendering loops from other mods' chainloaders.
@@ -88,7 +101,74 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 		tessellator.addVertexWithUV(-var12, dist, var12, 1.0D, 0.0D);
 		tessellator.draw();
 		GL11.glPopMatrix();
-		
+			if(test) {
+			brightness *= brightness;
+			
+			GL11.glColor4f(brightness, brightness, brightness, 1.0F);
+			
+			GL11.glPushMatrix();
+			GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(140.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(-39.7F, 0.0F, 0.0F, 1.0F);
+			
+			mc.renderEngine.bindTexture(nova);
+			float var13 = flash / 2;
+			tessellator.startDrawingQuads();
+			tessellator.addVertexWithUV(-var13, 100.0D, -var13, 0.0D, 0.0D);
+			tessellator.addVertexWithUV(var13, 100.0D, -var13, 1.0D, 0.0D);
+			tessellator.addVertexWithUV(var13, 100.0D, var13, 1.0D, 1.0D);
+			tessellator.addVertexWithUV(-var13, 100.0D, var13, 0.0D, 1.0D);
+			tessellator.draw();
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glPopMatrix();
+			{
+				brightness *= brightness;
+				float var14 = flash;
+				float alpha = 1.0F - Math.min(1.0F, var14 / 100);
+				GL11.glColor4f(brightness, brightness, brightness, alpha);
+				
+				GL11.glPushMatrix();
+				GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(140.0F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(-39.7F, 0.0F, 0.0F, 1.0F);
+				
+				mc.renderEngine.bindTexture(texture);
+				// flashMaxValue is the maximum value flash can reach
+
+				tessellator.startDrawingQuads();
+				tessellator.addVertexWithUV(-var14, 100.0D, -var14, 0.0D, 0.0D);
+				tessellator.addVertexWithUV(var14, 100.0D, -var14, 1.0D, 0.0D);
+				tessellator.addVertexWithUV(var14, 100.0D, var14, 1.0D, 1.0D);
+				tessellator.addVertexWithUV(-var14, 100.0D, var14, 0.0D, 1.0D);
+				tessellator.draw();
+				GL11.glEnable(GL11.GL_BLEND);
+				GL11.glPopMatrix();
+			}
+			{
+				float var14 = flash / 30;
+				GL11.glColor4f(brightness, brightness, brightness, (float) 1.0);
+				
+				GL11.glPushMatrix();
+				GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(140.0F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(-39.7F, 0.0F, 0.0F, 1.0F);
+				
+				mc.renderEngine.bindTexture(RenderNTMSkyboxChainloader.flash);
+				// flashMaxValue is the maximum value flash can reach
+
+				tessellator.startDrawingQuads();
+				tessellator.addVertexWithUV(-var14, 100.0D, -var14, 0.0D, 0.0D);
+				tessellator.addVertexWithUV(var14, 100.0D, -var14, 1.0D, 0.0D);
+				tessellator.addVertexWithUV(var14, 100.0D, var14, 1.0D, 1.0D);
+				tessellator.addVertexWithUV(-var14, 100.0D, var14, 0.0D, 1.0D);
+				tessellator.draw();
+				GL11.glEnable(GL11.GL_BLEND);
+				GL11.glPopMatrix();
+			}
+			}
 		GL11.glPushMatrix();
 		GL11.glRotatef(-40.0F, 1.0F, 0.0F, 0.0F);
 		GL11.glRotatef((System.currentTimeMillis() % (360 * 1000) / 1000F), 0.0F, 1.0F, 0.0F);

@@ -82,7 +82,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
 		float atmosphericDust = ImpactWorldHandler.getDustForClient(world);
-
+		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		Vec3 vec3 = world.getSkyColor(mc.renderViewEntity, partialTicks);
 		float f1 = (float) vec3.xCoord;

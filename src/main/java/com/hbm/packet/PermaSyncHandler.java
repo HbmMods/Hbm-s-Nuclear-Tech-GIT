@@ -34,6 +34,9 @@ public class PermaSyncHandler {
 		buf.writeFloat(data.dust);
 		buf.writeBoolean(data.impact);
 		buf.writeLong(data.time);
+		buf.writeFloat(data.flash);
+		buf.writeFloat(data.size);
+		buf.writeBoolean(data.divinity);
 		/// TOM IMPACT DATA ///
 
 		/// SHITTY MEMES ///
@@ -65,6 +68,9 @@ public class PermaSyncHandler {
 		ImpactWorldHandler.dust = buf.readFloat();
 		ImpactWorldHandler.impact = buf.readBoolean();
 		ImpactWorldHandler.time = buf.readLong();
+		ImpactWorldHandler.size = buf.readFloat();
+		ImpactWorldHandler.flash = buf.readFloat();
+		ImpactWorldHandler.divinity = buf.readBoolean();
 		/// TOM IMPACT DATA ///
 
 		/// SHITTY MEMES ///

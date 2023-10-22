@@ -86,5 +86,18 @@ public class ServerProxy {
 		return TomSaveData.forWorld(world).impact;
 	}
 	
+	public float getSize(World world) {
+		return TomSaveData.forWorld(world).size;
+	}
+	
+	public float getFlash(World world) {
+		return TomSaveData.forWorld(world).flash;
+	}
+	
+	public boolean getDivinity(World world) {
+		return TomSaveData.forWorld(world).divinity;
+	}
+	
 	public void playSoundClient(double x, double y, double z, String sound, float volume, float pitch) { }
+
 }

@@ -64,6 +64,7 @@ public class ModEventHandlerImpact {
 				data.markDirty();
 			}
 			
+			
 			if(data.fire > 0) {
 				data.fire = Math.max(0, (data.fire - cool));
 				data.dust = Math.min(1, (data.dust + cool));

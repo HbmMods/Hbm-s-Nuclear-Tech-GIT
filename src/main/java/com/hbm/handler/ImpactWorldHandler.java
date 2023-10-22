@@ -32,7 +32,32 @@ public class ImpactWorldHandler {
 		}
 
 		WorldServer serv = (WorldServer) world;
+		TomSaveData data = TomSaveData.forWorld(world);
+		
+		float maxSize = 100.0f;
 
+		float increment = 0.2f;
+
+		float easeOutFactor = 0.15f; 
+		if(data.flash <= 100) {
+			data.flash -= 1;
+			if(data.flash <= 0) {
+				data.divinity = true;
+				return;
+			}
+		}
+		System.out.println(data.flash);
+		System.out.println("client " + flash);
+		System.out.println("fuck " + size);
+		System.out.println("serversize " + data.size);
+		if(divinity == true) {
+			if (data.size < maxSize) {
+			    data.size += increment;
+			    data.size = Math.min(maxSize, data.size + increment * (maxSize - data.size) * easeOutFactor);
+			}	
+		}
+		
+		
 		List<Chunk> list = serv.theChunkProviderServer.loadedChunks;
 		int listSize = list.size();
 		
@@ -49,7 +74,6 @@ public class ImpactWorldHandler {
 						int Z = coord.getCenterZPosition() - 8 + z;
 						int Y = world.getHeightValue(X, Z) - world.rand.nextInt(Math.max(1, world.getHeightValue(X, Z)));
 
-						TomSaveData data = TomSaveData.forWorld(world);
 						
 						if(data.dust > 0) {
 							die(world, X, Y, Z);
@@ -106,6 +130,10 @@ public class ImpactWorldHandler {
 	public static float dust = 0F;
 	public static long time = 0;
 	public static boolean impact = false;
+	
+	public static float flash = 0F;
+	public static float size = 0F;
+	public static boolean divinity = false;
 
 	@SideOnly(Side.CLIENT)
 	public static float getFireForClient(World world) {
@@ -129,5 +157,23 @@ public class ImpactWorldHandler {
 	public static long getTimeForClient(World world) {
 		if(world != lastSyncWorld) return 0;
 		return time;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static float getSizeForClient(World world) {
+		if(world != lastSyncWorld) return 0F;
+		return size;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static float getFlashForClient(World world) {
+		if(world != lastSyncWorld) return 0F;
+		return flash;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static boolean getDivinityForClient(World world) {
+		if(world != lastSyncWorld) return false;
+		return divinity;
 	}
 }

@@ -3,12 +3,18 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.entity.effect.EntityNukeTorex;
+import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.lib.Library;
+import com.hbm.main.ModEventHandlerClient;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.TrackerUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -43,24 +49,26 @@ public class ItemWandD extends Item {
 			world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
 			TimeAnalyzer.endCount();
 			TimeAnalyzer.dump();*/
-			/*
+			
 			TomSaveData data = TomSaveData.forWorld(world);
-			data.impact = true;
-			data.fire = 0F;
-			data.dust = 0F;
+			//data.divinity = true;
 			//data.dtime=(600-pos.blockY);
 			//data.time=3600;
 			//data.x=pos.blockX;
 			//data.z=pos.blockZ;
+			data.flash = 100;
+			data.size = 0;
 			data.markDirty();
-			
+
+			ModEventHandlerClient.flashTimestamp = System.currentTimeMillis() - 11;
+			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(EnumChatFormatting.RED + "Stellar Event Imminent!"));
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;
 			tom.posY = pos.blockY;
 			tom.posZ = pos.blockZ;
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
-			
+			/*
 			EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
 			torex.setScale(1.5F);
@@ -70,7 +78,7 @@ public class ItemWandD extends Item {
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
 			EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(torex.getEntityId());
 			entry.blocksDistanceThreshold = 1000;*/
-			TrackerUtil.setTrackingRange(world, torex, 1000);
+			//TrackerUtil.setTrackingRange(world, torex, 1000);
 			//world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));
 			
 			//DungeonToolbox.generateBedrockOreWithChance(world, world.rand, pos.blockX, pos.blockZ, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500), 2, 1);
