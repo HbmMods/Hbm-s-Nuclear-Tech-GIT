@@ -340,7 +340,7 @@ public class HazardRegistry {
 		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
 		
 		registerRTGPellet(pellet_rtg, pu238 * rtg, 0, 3F);
-		registerRTGPellet(pellet_rtg_HPA, pu238 * rtg, 0 3F);
+		registerRTGPellet(pellet_rtg_HPA, pu238 * rtg, 0, 3F);
 		registerRTGPellet(pellet_rtg_radium, ra226 * rtg, 0);
 		registerRTGPellet(pellet_rtg_weak, (pu238 + (u238 * 2)) * billet, 0);
 		registerRTGPellet(pellet_rtg_strontium, sr90 * rtg, 0);
