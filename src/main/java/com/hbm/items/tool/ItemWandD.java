@@ -51,14 +51,9 @@ public class ItemWandD extends Item {
 			TimeAnalyzer.dump();*/
 			
 			TomSaveData data = TomSaveData.forWorld(world);
-			//data.divinity = true;
-			//data.dtime=(600-pos.blockY);
-			//data.time=3600;
-			//data.x=pos.blockX;
-			//data.z=pos.blockZ;
-			data.flash = 100;
-			data.size = 0;
-			data.divinity = false;
+
+			data.stime = 100;
+			data.flash = 0;
 			data.markDirty();
 
 			//ModEventHandlerClient.flashTimestamp = System.currentTimeMillis() - 1000;

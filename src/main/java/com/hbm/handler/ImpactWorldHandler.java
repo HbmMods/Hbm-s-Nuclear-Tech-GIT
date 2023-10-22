@@ -35,35 +35,7 @@ public class ImpactWorldHandler {
 
 		WorldServer serv = (WorldServer) world;
 		TomSaveData data = TomSaveData.forWorld(world);
-		
-		float maxSize = 100.0f;
 
-		float increment = 0.2f;
-
-		float easeOutFactor = 0.15f; 
-		if(data.divinity == false) {
-		if(data.flash <= 100) {
-			data.flash -= 1;
-			if(data.flash <= 0) {
-				data.divinity = true;
-				return;
-			}
-		}
-		//System.out.println(data.flash);
-		}
-
-		if(data.divinity == true) {
-			if (data.size < maxSize) {
-			    data.size += increment;
-			    data.size = Math.min(maxSize, data.size + increment * (maxSize - data.size) * easeOutFactor);
-				if( data.size <= 4) {
-			 	    for(Object p : world.playerEntities) {
-		    	((EntityPlayer)p).worldObj.playSoundEffect(((EntityPlayer)p).posX, ((EntityPlayer)p).posY, ((EntityPlayer)p).posZ, "hbm:misc.flashe", 10F, 1F);
-			 	    }
-				}
-			}	
-		}
-		
 		List<Chunk> list = serv.theChunkProviderServer.loadedChunks;
 		int listSize = list.size();
 		
@@ -138,7 +110,7 @@ public class ImpactWorldHandler {
 	public static boolean impact = false;
 	
 	public static float flash = 0F;
-	public static float size = 0F;
+	//public static float size = 0F;
 	public static boolean divinity = false;
 
 	@SideOnly(Side.CLIENT)
@@ -164,12 +136,7 @@ public class ImpactWorldHandler {
 		if(world != lastSyncWorld) return 0;
 		return time;
 	}
-	
-	@SideOnly(Side.CLIENT)
-	public static float getSizeForClient(World world) {
-		if(world != lastSyncWorld) return 0F;
-		return size;
-	}
+
 
 	@SideOnly(Side.CLIENT)
 	public static float getFlashForClient(World world) {

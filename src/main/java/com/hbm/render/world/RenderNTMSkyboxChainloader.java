@@ -48,7 +48,6 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
 		boolean test = ImpactWorldHandler.getDivinityForClient(world);
 		float flash = ImpactWorldHandler.getFlashForClient(world);
-		TomSaveData rataData = TomSaveData.forWorld(world);
 
 		if(parent != null) {
 			

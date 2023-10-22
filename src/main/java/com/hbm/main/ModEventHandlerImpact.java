@@ -70,7 +70,30 @@ public class ModEventHandlerImpact {
 				data.dust = Math.min(1, (data.dust + cool));
 				data.markDirty();
 			}
+			TomSaveData rata = TomSaveData.getLastCachedOrNull();
 			
+			
+			if (data.stime <= 0) {
+			    data.divinity = true;
+			    data.markDirty();
+			    return;
+			} else {
+			    data.stime -= 1; 
+			}
+			System.out.println(data.stime);
+			if (data.divinity && data.flash < 100f) {
+		    // Check if divinity is true and flash is less than maxSize
+		    data.flash += 0.2f;
+		    data.flash = Math.min(100.0f, data.flash + 0.2f * (100.0f - data.flash) * 0.15f);
+			data.markDirty();
+		    if (data.flash <= 4) {
+		        // Play sound if flash is less than or equal to 4
+		        for (Object p : event.world.playerEntities) {
+		            ((EntityPlayer)p).worldObj.playSoundEffect(((EntityPlayer)p).posX, ((EntityPlayer)p).posY, ((EntityPlayer)p).posZ, "hbm:misc.flashe", 10F, 1F);
+		        }
+		    }
+		}
+		
 			if(data.time > 0) {
 				data.time--;
 				if(data.time==data.dtime)

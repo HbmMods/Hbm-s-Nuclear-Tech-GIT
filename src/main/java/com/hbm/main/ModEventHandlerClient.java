@@ -340,9 +340,9 @@ public class ModEventHandlerClient {
 			RenderScreenOverlay.renderFlashbangOverlay(event.resolution);
 		}
 		float size = ImpactWorldHandler.getFlashForClient(player.worldObj);
-		if(size <= 90 && size > 0) {
+		boolean impact = ImpactWorldHandler.getDivinityForClient(player.worldObj);
+		if(size <= 90 && size > 0 && impact) {
 			this.flashTimestamp = System.currentTimeMillis();
-			System.out.println(size);
 		}
 		/// HANDLE FSB HUD ///
 		ItemStack helmet = player.inventory.armorInventory[3];

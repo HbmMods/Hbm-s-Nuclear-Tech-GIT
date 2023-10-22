@@ -2080,11 +2080,6 @@ public class ClientProxy extends ServerProxy {
 	}
 
 	@Override
-	public float getSize(World world) {
-		return ImpactWorldHandler.getSizeForClient(world);
-	}
-
-	@Override
 	public boolean getDivinity(World world) {
 		return ImpactWorldHandler.getDivinityForClient(world);
 	}

@@ -16,7 +16,8 @@ public class TomSaveData extends WorldSavedData {
 	public int z;
 	public boolean divinity;
 	public float flash;
-	public float size;
+	public float stime;
+	//public float size;
 	
 	private static TomSaveData lastCachedUnsafe = null;
 
@@ -58,8 +59,9 @@ public class TomSaveData extends WorldSavedData {
 		this.x = compound.getInteger("x");
 		this.z = compound.getInteger("z");
 		this.flash = compound.getFloat("flash");
-		this.size = compound.getFloat("size");
 		this.divinity = compound.getBoolean("divinity");
+		this.flash = compound.getFloat("stime");
+
 	}
 
 	@Override
@@ -74,6 +76,7 @@ public class TomSaveData extends WorldSavedData {
 		
 		nbt.setBoolean("divinity", divinity);
 		nbt.setFloat("flash", flash);
-		nbt.setFloat("size", size);
+		nbt.setFloat("stime", stime);
+
 	}
 }
