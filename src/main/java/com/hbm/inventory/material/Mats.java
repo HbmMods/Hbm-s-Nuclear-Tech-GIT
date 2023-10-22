@@ -72,6 +72,7 @@ public class Mats {
 	public static final NTMMaterial MAT_THORIUM		= makeSmeltable(9032,		TH232,		0xBF825F, 0x1C0000, 0xBF825F).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_PLUTONIUM	= makeSmeltable(9400,		PU,			0x9AA3A0, 0x111A17, 0x78817E).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_RGP			= makeSmeltable(9401,		PURG,		0x9AA3A0, 0x111A17, 0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK);
+	public static final NTMMaterial MAT_HPA                 = makeSmeltable(9401,           HPA,            0x93767B).setShapes(NUGGET, BILLET, INGOT);
 	public static final NTMMaterial MAT_PU238		= makeSmeltable(9438,		PU238,		0xFFBC59, 0xFF8E2B, 0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK);
 	public static final NTMMaterial MAT_PU239		= makeSmeltable(9439,		PU239,		0x9AA3A0, 0x111A17, 0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK);
 	public static final NTMMaterial MAT_PU240		= makeSmeltable(9440,		PU240,		0x9AA3A0, 0x111A17, 0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK);
