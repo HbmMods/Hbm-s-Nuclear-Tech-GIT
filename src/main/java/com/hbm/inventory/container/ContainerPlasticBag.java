@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.items.tool.ItemLeadBox.InventoryLeadBox;
+import com.hbm.items.tool.ItemPlasticBag.InventoryPlasticBag;
 import com.hbm.util.InventoryUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,28 +9,24 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerLeadBox extends Container {
+public class ContainerPlasticBag extends Container {
 	
-	private InventoryLeadBox box;
+	private InventoryPlasticBag bag;
 	
-	public ContainerLeadBox(InventoryPlayer invPlayer, InventoryLeadBox box) {
-		this.box = box;
-		this.box.openInventory();
-		
-		for(int i = 0; i < 4; i++) {
-			for(int j = 0; j < 5; j++) {
-				this.addSlotToContainer(new Slot(box, j + i * 5, 43 + j * 18, 18 + i * 18));
-			}
-		}
+	public ContainerPlasticBag(InventoryPlayer invPlayer, InventoryPlasticBag bag) {
+		this.bag = bag;
+		this.bag.openInventory();
+
+		this.addSlotToContainer(new Slot(bag, 0, 80, 65));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 104 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 134 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 162));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 192));
 		}
 	}
 
@@ -43,11 +39,11 @@ public class ContainerLeadBox extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= box.getSizeInventory() - 1) {
-				if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, box.getSizeInventory(), this.inventorySlots.size(), true)) {
+			if(par2 <= bag.getSizeInventory() - 1) {
+				if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, bag.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, 0, box.getSizeInventory(), false)) {
+			} else if(!InventoryUtil.mergeItemStack(this.inventorySlots, var5, 0, bag.getSizeInventory(), false)) {
 				return null;
 			}
 
@@ -67,18 +63,18 @@ public class ContainerLeadBox extends Container {
 	public ItemStack slotClick(int index, int button, int mode, EntityPlayer player) {
 		// prevents the player from moving around the currently open box
 		if(mode == 2 && button == player.inventory.currentItem) return null;
-		if(index == player.inventory.currentItem + 47) return null;
+		if(index == player.inventory.currentItem + 28) return null;
 		return super.slotClick(index, button, mode, player);
 	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return box.isUseableByPlayer(player);
+		return bag.isUseableByPlayer(player);
 	}
 	
 	@Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
-		this.box.closeInventory();
+		this.bag.closeInventory();
 	}
 }

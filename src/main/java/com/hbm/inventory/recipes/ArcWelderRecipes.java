@@ -171,6 +171,7 @@ public class ArcWelderRecipes extends SerializableRecipe {
 			this.writeFluidStack(recipe.fluid, writer);
 		}
 		
+		writer.name("output");
 		this.writeItemStack(recipe.output, writer);
 
 		writer.name("duration").value(recipe.duration);

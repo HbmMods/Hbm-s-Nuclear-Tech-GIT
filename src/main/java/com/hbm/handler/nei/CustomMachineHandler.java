@@ -63,7 +63,7 @@ public class CustomMachineHandler extends TemplateRecipeHandler {
 			
 			for(int i = 0; i < 3; i++) if(recipe.outputItems.length > i) {
 				Pair<ItemStack, Float> pair = recipe.outputItems[i];
-				ItemStack out = pair.getKey();
+				ItemStack out = pair.getKey().copy();
 				if(pair.getValue() != 1) {
 					ItemStackUtil.addTooltipToStack(out, EnumChatFormatting.RED + "" + (((int)(pair.getValue() * 1000)) / 10D) + "%");
 				}
@@ -72,7 +72,7 @@ public class CustomMachineHandler extends TemplateRecipeHandler {
 			
 			for(int i = 3; i < 6; i++) if(recipe.outputItems.length > i) {
 				Pair<ItemStack, Float> pair = recipe.outputItems[i];
-				ItemStack out = pair.getKey();
+				ItemStack out = pair.getKey().copy();
 				if(pair.getValue() != 1) {
 					ItemStackUtil.addTooltipToStack(out, EnumChatFormatting.RED + "" + (((int)(pair.getValue() * 1000)) / 10D) + "%");
 				}
