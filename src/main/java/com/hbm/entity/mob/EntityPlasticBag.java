@@ -155,6 +155,6 @@ public class EntityPlasticBag extends EntityWaterMob {
 
 	@Override
 	public boolean getCanSpawnHere() {
-		return this.posY > 45.0D && this.posY < 63.0D && super.getCanSpawnHere();
+		return this.posY > 45.0D && this.posY < 63.0D && this.getRNG().nextInt(10) == 0 && super.getCanSpawnHere();
 	}
 }

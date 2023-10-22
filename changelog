@@ -1,4 +1,8 @@
 ## Added
+* Plastic bag
+  * Rarely spawns in water with similar spawn conditions as squids
+  * Will slowly drift into random directions
+  * Can be picked up, the resulting item can be used like a backpack that stores one item
 
 ## Changed
 * Updated chinese localization
