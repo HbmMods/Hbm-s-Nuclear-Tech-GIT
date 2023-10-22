@@ -298,6 +298,9 @@ public class HazardRegistry {
 		HazardSystem.register(billet_plutonium_fuel, makeData(RADIATION, puf * billet));
 		HazardSystem.register(ingot_plutonium_fuel, makeData(RADIATION, puf * ingot));
 		HazardSystem.register(block_plutonium_fuel, makeData(RADIATION, puf * block));
+		HazardSystem.register(nugget_HPA, makeData (RADIATION, puf * nugget));
+		HazardSystem.register(billet_HPA, makeData (RADIATION, puf * billet));
+		HazardSystem.register(ingot_HPA, makeData (RADIATION, puf * ingot));
 		
 		HazardSystem.register(nugget_thorium_fuel, makeData(RADIATION, thf * nugget));
 		HazardSystem.register(billet_thorium_fuel, makeData(RADIATION, thf * billet));
@@ -337,6 +340,7 @@ public class HazardRegistry {
 		HazardSystem.register(billet_pu238be, makeData(RADIATION, pube * billet));
 		
 		registerRTGPellet(pellet_rtg, pu238 * rtg, 0, 3F);
+		registerRTGPellet(pellet_rtg_HPA, pu238 * rtg, 0 3F);
 		registerRTGPellet(pellet_rtg_radium, ra226 * rtg, 0);
 		registerRTGPellet(pellet_rtg_weak, (pu238 + (u238 * 2)) * billet, 0);
 		registerRTGPellet(pellet_rtg_strontium, sr90 * rtg, 0);
@@ -377,6 +381,7 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_mep, purg * rod_rbmk, wst * rod_rbmk * 30F);
 		registerRBMKRod(rbmk_fuel_hep239, pu239 * rod_rbmk, wst * rod_rbmk * 32.5F);
 		registerRBMKRod(rbmk_fuel_hep241, pu241 * rod_rbmk, wst * rod_rbmk * 35F);
+		registerRBMKRod(rbmk_fuel_HPA, puf * rod_rbmk, wst * rod_rbmk * 25F);
 		registerRBMKRod(rbmk_fuel_lea, amf * rod_rbmk, wst * rod_rbmk * 26F);
 		registerRBMKRod(rbmk_fuel_mea, amrg * rod_rbmk, wst * rod_rbmk * 30.5F);
 		registerRBMKRod(rbmk_fuel_hea241, am241 * rod_rbmk, wst * rod_rbmk * 33.5F);
@@ -409,6 +414,7 @@ public class HazardRegistry {
 		registerRBMKPellet(rbmk_pellet_mep, purg * billet, wst * billet * 30F);
 		registerRBMKPellet(rbmk_pellet_hep239, pu239 * billet, wst * billet * 32.5F);
 		registerRBMKPellet(rbmk_pellet_hep241, pu241 * billet, wst * billet * 35F);
+		registerRBMKPellet(rbmk_pellet_HPA, puf * billet, wst * billet * 35F);
 		registerRBMKPellet(rbmk_pellet_lea, amf * billet, wst * billet * 26F);
 		registerRBMKPellet(rbmk_pellet_mea, amrg * billet, wst * billet * 30.5F);
 		registerRBMKPellet(rbmk_pellet_hea241, am241 * billet, wst * billet * 33.5F);
