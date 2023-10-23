@@ -126,6 +126,7 @@ public class OreDictManager {
 	public static final DictFrame PU239 = new DictFrame("Plutonium239", "Pu239");
 	public static final DictFrame PU240 = new DictFrame("Plutonium240", "Pu240");
 	public static final DictFrame PU241 = new DictFrame("Plutonium241", "Pu241");
+	public static final DictFrame HPA = new DictFrame ("HighRadioAlloy", "HPAAlloy");
 	public static final DictFrame AM241 = new DictFrame("Americium241", "Am241");
 	public static final DictFrame AM242 = new DictFrame("Americium242", "Am242");
 	public static final DictFrame AMRG = new DictFrame("AmericiumRG");
