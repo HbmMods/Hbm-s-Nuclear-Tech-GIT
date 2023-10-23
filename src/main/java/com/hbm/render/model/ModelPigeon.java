@@ -67,7 +67,6 @@ public class ModelPigeon extends ModelBase {
 	}
 
 	public void render(Entity entity, float f0, float f1, float f2, float f3, float f4, float scale) {
-		//this.initModel();
 		this.setRotationAngles(f0, f1, f2, f3, f4, scale, entity);
 		this.head.render(scale);
 		this.beak.render(scale);

@@ -31,14 +31,5 @@ public class EntityAIFlutterAroundAimlessly extends EntityAIBase {
 		/*this.living.motionX = this.living.getRNG().nextGaussian() * 0.1;
 		this.living.motionY = this.living.getRNG().nextGaussian() * 0.1;
 		this.living.motionZ = this.living.getRNG().nextGaussian() * 0.1;*/
-
-		this.living.motionX = 0;
-		this.living.motionY = this.living.getRNG().nextGaussian() * 0.1;
-		this.living.motionZ = 0;
-		
-		if(living.onGround) this.living.motionY = Math.abs(this.living.motionY) + 0.1D;
-		
-		this.living.moveForward = 0.5F;
-		this.living.rotationYaw += this.living.getRNG().nextGaussian() * 0.1;
 	}
 }

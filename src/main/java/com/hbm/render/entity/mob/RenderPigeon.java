@@ -6,6 +6,8 @@ import com.hbm.lib.RefStrings;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderPigeon extends RenderLiving {
@@ -22,5 +24,16 @@ public class RenderPigeon extends RenderLiving {
 
 	protected ResourceLocation getEntityTexture(EntityPigeon entity) {
 		return texture;
+	}
+	
+	protected float handleRotationFloat(EntityPigeon entity, float interp) {
+		float f1 = entity.prevFallTime + (entity.fallTime - entity.prevFallTime) * interp;
+		float f2 = entity.prevDest + (entity.dest - entity.prevDest) * interp;
+		return (MathHelper.sin(f1) + 1.0F) * f2;
+	}
+
+	@Override
+	protected float handleRotationFloat(EntityLivingBase entity, float interp) {
+		return this.handleRotationFloat((EntityPigeon) entity, interp);
 	}
 }
