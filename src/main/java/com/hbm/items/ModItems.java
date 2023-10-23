@@ -2918,7 +2918,7 @@ public class ModItems {
 		butter = new Item().setUnlocalizedName("butter").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ingot_butter");
 		s_cream	= new ItemLemon(2, 4F, false).setUnlocalizedName("s_cream").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ice_cream_s");
 		ingot_money = new Item().setUnlocalizedName("ingot_money").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_money");
-		piss_burger = new Item().setUnlocalizedName("piss_burger").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":piss_burger");
+		piss_burger = new ItemLemon(4, 4F, false).setUnlocalizedName("piss_burger").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":piss_burger");
 
 		powder_ash = new ItemEnumMulti(EnumAshType.class, true, true).setUnlocalizedName("powder_ash").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_ash");
 		

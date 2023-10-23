@@ -72,15 +72,16 @@ public class ModEventHandlerImpact {
 			}
 			TomSaveData rata = TomSaveData.getLastCachedOrNull();
 			
-			
-			if (data.stime <= 0) {
-			    data.divinity = true;
-			    data.markDirty();
-			    return;
-			} else {
-			    data.stime -= 1; 
+
+			if(data.stime < 1000 && data.stime > 0) {
+				data.stime++;
+				data.markDirty();	
 			}
-			if (data.divinity == true && data.flash < 100f) {
+			System.out.println("rata " + data.divinity);
+			System.out.println("flata " +data.flash);
+			System.out.println("clata " + data.stime);
+			if (data.stime >= 1000 ) {
+			data.divinity = true;
 		    data.flash += 0.2f;
 		    data.flash = Math.min(100.0f, data.flash + 0.2f * (100.0f - data.flash) * 0.15f);
 		    if (data.flash <= 4) {
