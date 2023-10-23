@@ -32,6 +32,7 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
 	private static final ResourceLocation bobmazonSat = new ResourceLocation("hbm:textures/misc/sat_bobmazon.png");
 	private static final ResourceLocation nova = new ResourceLocation("hbm:textures/misc/sunSpikes.png");
+	private static final ResourceLocation nova2 = new ResourceLocation("hbm:textures/misc/sunSpikes2.png");
 	private static final ResourceLocation flash = new ResourceLocation(RefStrings.MODID + ":textures/particle/flare.png");
 	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/particle/shockwave.png");
 
@@ -121,6 +122,7 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 			tessellator.draw();
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glPopMatrix();
+
 			{
 				brightness *= brightness;
 				float var14 = flash;
@@ -146,8 +148,10 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 				GL11.glPopMatrix();
 			}
 			{
-				float var14 = flash / 30;
-				GL11.glColor4f(brightness, brightness, brightness, (float) 1.0);
+				float var14 = flash;
+				float var15 = Math.min(70, flash * 2 );
+				float alpha = 1.0F - Math.min(1.0F, var14 / 100);
+				GL11.glColor4f(brightness, brightness, brightness, alpha);
 				
 				GL11.glPushMatrix();
 				GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
@@ -159,10 +163,32 @@ public class RenderNTMSkyboxChainloader extends IRenderHandler { //why an abstra
 				// flashMaxValue is the maximum value flash can reach
 
 				tessellator.startDrawingQuads();
-				tessellator.addVertexWithUV(-var14, 100.0D, -var14, 0.0D, 0.0D);
-				tessellator.addVertexWithUV(var14, 100.0D, -var14, 1.0D, 0.0D);
-				tessellator.addVertexWithUV(var14, 100.0D, var14, 1.0D, 1.0D);
-				tessellator.addVertexWithUV(-var14, 100.0D, var14, 0.0D, 1.0D);
+				tessellator.addVertexWithUV(-var15, 100.0D, -var15, 0.0D, 0.0D);
+				tessellator.addVertexWithUV(var15, 100.0D, -var15, 1.0D, 0.0D);
+				tessellator.addVertexWithUV(var15, 100.0D, var15, 1.0D, 1.0D);
+				tessellator.addVertexWithUV(-var15, 100.0D, var15, 0.0D, 1.0D);
+				tessellator.draw();
+				GL11.glEnable(GL11.GL_BLEND);
+				GL11.glPopMatrix();
+			}
+			{
+				float var19 = flash;
+				float var16 = Math.max(0, flash);
+				float alpha = 1.0F - Math.min(1.0F, var19 / 100);
+				GL11.glColor4f(brightness, brightness, brightness, alpha);
+				
+				GL11.glPushMatrix();
+				GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(140.0F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(-39.7F, 0.0F, 0.0F, 1.0F);
+				
+				mc.renderEngine.bindTexture(nova2);
+				tessellator.startDrawingQuads();
+				tessellator.addVertexWithUV(-var16, 100.0D, -var16, 0.0D, 0.0D);
+				tessellator.addVertexWithUV(var16, 100.0D, -var16, 1.0D, 0.0D);
+				tessellator.addVertexWithUV(var16, 100.0D, var16, 1.0D, 1.0D);
+				tessellator.addVertexWithUV(-var16, 100.0D, var16, 0.0D, 1.0D);
 				tessellator.draw();
 				GL11.glEnable(GL11.GL_BLEND);
 				GL11.glPopMatrix();

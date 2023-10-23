@@ -80,14 +80,11 @@ public class ModEventHandlerImpact {
 			} else {
 			    data.stime -= 1; 
 			}
-			System.out.println(data.stime);
 			if (data.divinity && data.flash < 100f) {
-		    // Check if divinity is true and flash is less than maxSize
 		    data.flash += 0.2f;
 		    data.flash = Math.min(100.0f, data.flash + 0.2f * (100.0f - data.flash) * 0.15f);
 			data.markDirty();
-		    if (data.flash <= 4) {
-		        // Play sound if flash is less than or equal to 4
+		    if (data.flash >= 100) {
 		        for (Object p : event.world.playerEntities) {
 		            ((EntityPlayer)p).worldObj.playSoundEffect(((EntityPlayer)p).posX, ((EntityPlayer)p).posY, ((EntityPlayer)p).posZ, "hbm:misc.flashe", 10F, 1F);
 		        }
