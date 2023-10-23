@@ -134,7 +134,6 @@ public class ModItems {
 	public static Item nugget_plutonium_fuel;
 	public static Item nugget_neptunium_fuel;
 	public static Item nugget_mox_fuel;
-	public static Item nugget_mox_fuel;
 	public static Item nugget_americium_fuel;
 	public static Item nugget_schrabidium_fuel;
 	public static Item ingot_advanced_alloy;
