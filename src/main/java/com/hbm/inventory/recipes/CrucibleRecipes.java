@@ -101,7 +101,7 @@ public class CrucibleRecipes extends SerializableRecipe {
 				.outputs(new MaterialStack(Mats.MAT_CMB, i)));
 
 		recipes.add(new CrucibleRecipe(14, "crucible.HPA", 2, new ItemStack(ModItems.ingot_HPA))
-			        .inputs(new MaterialStack(Mats.MAT_U238, n * 2), new MaterialStack(Mats.MAT_RGP, n * 2))
+			        .inputs(new MaterialStack(Mats.MAT_U, n * 2), new MaterialStack(Mats.MAT_RGP, n * 2))
 			        .outputs(new MaterialStack(Mats.MAT_HPA, i)));
 		
 		registerMoldsForNEI();
