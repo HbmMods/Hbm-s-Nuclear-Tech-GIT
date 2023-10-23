@@ -4,11 +4,11 @@ import com.hbm.entity.mob.EntityPigeon;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.entity.RenderChicken;
+import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderPigeon extends RenderChicken {
+public class RenderPigeon extends RenderLiving {
 
 	public static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/entity/pigeon.png");
 
