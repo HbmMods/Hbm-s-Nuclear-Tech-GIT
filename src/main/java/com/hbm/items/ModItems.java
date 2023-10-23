@@ -77,6 +77,8 @@ public class ModItems {
 	public static Item redstone_sword;
 	public static Item big_sword;
 	public static Item butter_sword;
+	public static Item ingot_money;
+	public static Item piss_burger;
 
 	public static Item test_helmet;
 	public static Item test_chestplate;
@@ -2915,6 +2917,8 @@ public class ModItems {
 		woodemium_briquette = new Item().setUnlocalizedName("woodemium_briquette").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":briquette_woodemium");
 		butter = new Item().setUnlocalizedName("butter").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ingot_butter");
 		s_cream	= new ItemLemon(2, 4F, false).setUnlocalizedName("s_cream").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ice_cream_s");
+		ingot_money = new Item().setUnlocalizedName("ingot_money").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_money");
+		piss_burger = new Item().setUnlocalizedName("piss_burger").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":piss_burger");
 
 		powder_ash = new ItemEnumMulti(EnumAshType.class, true, true).setUnlocalizedName("powder_ash").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_ash");
 		
@@ -6529,6 +6533,8 @@ public class ModItems {
 		GameRegistry.registerItem(parts_legendary, parts_legendary.getUnlocalizedName());
 		GameRegistry.registerItem(gear_large, gear_large.getUnlocalizedName());
 		GameRegistry.registerItem(sawblade, sawblade.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_money, ingot_money.getUnlocalizedName());
+
 		
 		//Plant Products
 		GameRegistry.registerItem(plant_item, plant_item.getUnlocalizedName());
@@ -8026,6 +8032,7 @@ public class ModItems {
 		GameRegistry.registerItem(pancake, pancake.getUnlocalizedName());
 		GameRegistry.registerItem(butter, butter.getUnlocalizedName());
 		GameRegistry.registerItem(s_cream, s_cream.getUnlocalizedName());
+		GameRegistry.registerItem(piss_burger, piss_burger.getUnlocalizedName());
 		GameRegistry.registerItem(nugget, nugget.getUnlocalizedName());
 		GameRegistry.registerItem(peas, peas.getUnlocalizedName());
 		GameRegistry.registerItem(marshmallow, marshmallow.getUnlocalizedName());

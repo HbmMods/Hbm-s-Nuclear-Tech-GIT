@@ -80,17 +80,16 @@ public class ModEventHandlerImpact {
 			} else {
 			    data.stime -= 1; 
 			}
-			if (data.divinity && data.flash < 100f) {
+			if (data.divinity == true && data.flash < 100f) {
 		    data.flash += 0.2f;
 		    data.flash = Math.min(100.0f, data.flash + 0.2f * (100.0f - data.flash) * 0.15f);
-			data.markDirty();
-		    if (data.flash >= 100) {
+		    if (data.flash <= 4) {
 		        for (Object p : event.world.playerEntities) {
 		            ((EntityPlayer)p).worldObj.playSoundEffect(((EntityPlayer)p).posX, ((EntityPlayer)p).posY, ((EntityPlayer)p).posZ, "hbm:misc.flashe", 10F, 1F);
 		        }
 		    }
 		}
-		
+			
 			if(data.time > 0) {
 				data.time--;
 				if(data.time==data.dtime)

@@ -57,7 +57,7 @@ public class ItemWandD extends Item {
 			data.markDirty();
 
 			//ModEventHandlerClient.flashTimestamp = System.currentTimeMillis() - 1000;
-			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(EnumChatFormatting.RED + "Stellar Event Imminent!"));
+			//MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(EnumChatFormatting.RED + "Stellar Event Imminent!"));
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;
 			tom.posY = pos.blockY;
