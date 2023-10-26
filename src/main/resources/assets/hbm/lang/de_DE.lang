@@ -537,6 +537,7 @@ entity.entity_mob_nuclear_creeper.name=Nuklearer Creeper
 entity.entity_mob_phosgene_creeper.name=Phosgen-Creeper
 entity.entity_mob_tainted_creeper.name=Verseuchter Creeper
 entity.entity_mob_volatile_creeper.name=Instabiler Creeper
+entity.entity_pigeon.name=Taube
 entity.entity_plastic_bag.name=Plastiktüte
 entity.entity_taint_crab.name=Verseuchte Krabbe
 entity.entity_tesla_crab.name=Tesla-Krabbe

@@ -1050,6 +1050,7 @@ entity.entity_mob_nuclear_creeper.name=Nuclear Creeper
 entity.entity_mob_phosgene_creeper.name=Phosgene Creeper
 entity.entity_mob_tainted_creeper.name=Tainted Creeper
 entity.entity_mob_volatile_creeper.name=Volatile Creeper
+entity.entity_pigeon.name=Pigeon
 entity.entity_plastic_bag.name=Plastic Bag
 entity.entity_taint_crab.name=Taint Crab
 entity.entity_tesla_crab.name=Tesla Crab

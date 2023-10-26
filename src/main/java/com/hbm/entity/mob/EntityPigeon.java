@@ -2,17 +2,24 @@ package com.hbm.entity.mob;
 
 import java.util.function.Predicate;
 
-import com.hbm.entity.mob.ai.EntityAIFlutterAroundAimlessly;
+import com.hbm.entity.mob.ai.EntityAIEatBread;
 import com.hbm.entity.mob.ai.EntityAIStartFlying;
 import com.hbm.entity.mob.ai.EntityAIStopFlying;
 import com.hbm.entity.mob.ai.EntityAISwimmingConditional;
 import com.hbm.entity.mob.ai.EntityAIWanderConditional;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityPigeon extends EntityCreature implements IFlyingCreature, IAnimals {
@@ -29,12 +36,35 @@ public class EntityPigeon extends EntityCreature implements IFlyingCreature, IAn
 		this.tasks.addTask(0, new EntityAIStartFlying(this, this));
 		this.tasks.addTask(0, new EntityAIStopFlying(this, this));
 		this.tasks.addTask(1, new EntityAISwimmingConditional(this, noFlyCondition));
-		this.tasks.addTask(2, new EntityAIFlutterAroundAimlessly(this, this));
-		//this.tasks.addTask(2, new EntityAIPanicConditional(this, 1.4D, noFlyCondition));
+		this.tasks.addTask(2, new EntityAIEatBread(this, 0.4D));
 		this.tasks.addTask(5, new EntityAIWanderConditional(this, 0.2D, noFlyCondition));
 		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(7, new EntityAILookIdle(this));
 		this.setSize(0.5F, 1.0F);
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		
+		if(amount >= this.getMaxHealth() * 2 && !worldObj.isRemote) {
+			this.setDead();
+			
+			for(int i = 0; i < 10; i++) {
+				Vec3 vec = Vec3.createVectorHelper(rand.nextGaussian(), rand.nextGaussian(), rand.nextGaussian()).normalize();
+				
+				EntityItem feather = new EntityItem(worldObj);
+				feather.setEntityItemStack(new ItemStack(Items.feather));
+				feather.setPosition(posX + vec.xCoord, posY + height / 2D + vec.yCoord, posZ + vec.zCoord);
+				feather.motionX = vec.xCoord * 0.5;
+				feather.motionY = vec.yCoord * 0.5;
+				feather.motionZ = vec.zCoord * 0.5;
+				worldObj.spawnEntityInWorld(feather);
+			}
+			
+			return true;
+		}
+		
+		return super.attackEntityFrom(source, amount);
 	}
 	
 	@Override
@@ -46,6 +76,32 @@ public class EntityPigeon extends EntityCreature implements IFlyingCreature, IAn
 	protected void entityInit() {
 		super.entityInit();
 		this.dataWatcher.addObject(12, Byte.valueOf((byte) 0));
+		this.dataWatcher.addObject(13, Byte.valueOf((byte) 0));
+	}
+
+	@Override
+	protected Item getDropItem() {
+		return Items.feather;
+	}
+	
+	@Override
+	protected void func_145780_a(int x, int y, int z, Block block) {
+		this.playSound("mob.chicken.step", 0.15F, 1.0F);
+	}
+
+	@Override
+	protected void dropFewItems(boolean byPlayer, int looting) {
+		int j = this.rand.nextInt(3) + this.rand.nextInt(1 + looting);
+
+		for(int k = 0; k < j; ++k) {
+			this.dropItem(Items.feather, 1);
+		}
+
+		if(this.isBurning()) {
+			this.dropItem(Items.cooked_chicken, this.isFat() ? 3 : 1);
+		} else {
+			this.dropItem(Items.chicken, this.isFat() ? 3 : 1);
+		}
 	}
 
 	@Override
@@ -56,6 +112,14 @@ public class EntityPigeon extends EntityCreature implements IFlyingCreature, IAn
 	@Override
 	public void setFlyingState(int state) {
 		this.dataWatcher.updateObject(12, (byte) state);
+	}
+	
+	public boolean isFat() {
+		return this.dataWatcher.getWatchableObjectByte(13) == 1;
+	}
+	
+	public void setFat(boolean fat) {
+		this.dataWatcher.updateObject(13, (byte) (fat ? 1 : 0));
 	}
 	
 	protected String getLivingSound() {
