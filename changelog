@@ -1,0 +1,14 @@
+## Added
+* Pigeons
+
+## Changed
+* Changed many tool recipes that exclusively used polymer to now also accept bakelite
+* Reduced the value of hematite and malachite blocks in the crucible down to one ingot
+  * Hematite veins are still giant, so a single vein will still yield many stacks of iron
+  * Malachite's rebalance was done to be consistent with the bedrock ores which now exist. Malachite veins are now larger to compensate.
+* 1000mB of red mud now makes one ingot of iron in the coker
+* Doubled coal bedrock ore's coal output to 8 coal
+* A new config option now replaces the iron and copper bedrock ores in 528 mode with hematite and malachite
+
+## Fixed
+* Pipe and power networks now force the chunk to be saved on transfer, ensuring that rapid changes in the fluid/energy level aren't lost when the tile entity is unloaded

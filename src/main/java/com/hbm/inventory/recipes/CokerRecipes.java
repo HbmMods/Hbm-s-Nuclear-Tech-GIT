@@ -56,7 +56,7 @@ public class CokerRecipes extends SerializableRecipe {
 		registerSFAuto(WOODOIL, 340_000L, new ItemStack(Items.coal, 1, 1), GAS_COKER);
 
 		registerRecipe(WATZ, 4_000, new ItemStack(ModItems.ingot_mud, 4), null);
-		registerRecipe(REDMUD, 1_000, new ItemStack(Items.iron_ingot, 2), new FluidStack(MERCURY, 50));
+		registerRecipe(REDMUD, 1_000, new ItemStack(Items.iron_ingot, 1), new FluidStack(MERCURY, 50));
 		registerRecipe(BITUMEN, 16_000, DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), new FluidStack(OIL_COKER, 1_600));
 		registerRecipe(LUBRICANT, 12_000, DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), new FluidStack(OIL_COKER, 1_200));
 		registerRecipe(CALCIUM_SOLUTION, 125, new ItemStack(ModItems.powder_calcium), new FluidStack(SPENTSTEAM, 100));
