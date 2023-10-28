@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
+import com.hbm.config.SpaceConfig;
+import com.hbm.dim.DebugTeleporter;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
@@ -14,6 +16,8 @@ import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.MissileStruct;
+import com.hbm.items.ModItems;
+import com.hbm.items.ItemVOTVdrive.DestinationType;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.FuelType;
 import com.hbm.items.weapon.ItemMissile.PartSize;
@@ -24,8 +28,10 @@ import api.hbm.entity.IRadarDetectable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -50,6 +56,8 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 	private Ticket loaderTicket;
 	public int health = 50;
 	MissileStruct template;
+	private ItemStack payload;
+
 
 	public EntityMissileCustom(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -59,7 +67,9 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 		targetX = (int) posX;
 		targetZ = (int) posZ;
 	}
-
+	public void setPayload(ItemStack stack) {
+		this.payload = stack.copy();
+	}
 	public boolean canBeCollidedWith() {
 		return true;
 	}
@@ -217,6 +227,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 	@Override
 	public void onUpdate() {
 		this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
+		EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
 
 		this.setLocationAndAngles(posX + this.motionX * velocity, posY + this.motionY * velocity, posZ + this.motionZ * velocity, 0, 0);
 
@@ -229,10 +240,27 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 			this.motionY -= decelY * velocity;
 
 			Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
+			
 			vector = vector.normalize();
 			vector.xCoord *= accelXZ * velocity;
 			vector.zCoord *= accelXZ * velocity;
-
+			if(payload.stackTagCompound != null) {
+			if(payload.getItem() == ModItems.full_drive && payload.getItemDamage() == DestinationType.DUNA.ordinal() && payload.getTagCompound().getBoolean("Processed") == true) {
+		        this.motionX = 0;
+		        this.motionY = 1;  // or any positive value for upward speed
+		        this.motionZ = 0;
+		        
+				
+			if(posY > 600) {
+				if(riding != null) {
+				DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
+				riding.dismountEntity(riding);
+				}
+			}
+				this.setDead();
+				}
+			}
+			
 			if(motionY > 0) {
 				motionX += vector.xCoord;
 				motionZ += vector.zCoord;
@@ -267,7 +295,6 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 
 			Vec3 v = Vec3.createVectorHelper(motionX, motionY, motionZ);
 			v = v.normalize();
-
 			String smoke = "";
 
 			ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(10));
@@ -378,6 +405,17 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 		default:
 			break;
 
+		}
+	}
+	@Override
+	public boolean interactFirst(EntityPlayer player) {
+		if(super.interactFirst(player)) {
+			return true;
+		} else if(!this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == player)) {
+			player.mountEntity(this);
+			return true;
+		} else {
+			return false;
 		}
 	}
 

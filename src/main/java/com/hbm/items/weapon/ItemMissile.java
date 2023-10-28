@@ -86,7 +86,8 @@ public class ItemMissile extends Item {
 		SCHRAB,
 		TAINT,
 		CLOUD,
-		TURBINE
+		TURBINE,
+		APOLLO 
 	}
 	
 	public enum FuelType {
