@@ -2852,7 +2852,7 @@ public class ModItems {
 		powder_polonium = new Item().setUnlocalizedName("powder_polonium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_polonium");
 		powder_co60 = new Item().setUnlocalizedName("powder_co60").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_co60");
 		powder_sr90 = new Item().setUnlocalizedName("powder_sr90").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_sr90");
-		powder_HPA = new Item().setUnlocalizedName("powder_sr90").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_HPA");
+		powder_HPA = new Item().setUnlocalizedName("powder_HPA").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_HPA");
 		powder_sr90_tiny = new Item().setUnlocalizedName("powder_sr90_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_sr90_tiny");
 		powder_i131 = new Item().setUnlocalizedName("powder_i131").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_i131");
 		powder_i131_tiny = new Item().setUnlocalizedName("powder_i131_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_i131_tiny");
