@@ -77,6 +77,7 @@ public class RodRecipes {
 		addBreedingRod(PU238, ModItems.billet_pu238, BreedingRodType.PU238);
 		addBreedingRod(PU239, ModItems.billet_pu239, BreedingRodType.PU239);
 		addBreedingRod(ModItems.billet_pu_mix, BreedingRodType.RGP);
+		addBreedingRod(ModItems.billet_HPA, BreedingRodType.HPA);
 		addBreedingRod(ModItems.billet_nuclear_waste, BreedingRodType.WASTE);
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.rod, 1, BreedingRodType.LEAD.ordinal()), new Object[] { ModItems.rod_empty, PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget(), PB.nugget() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.nugget_lead, 6), new Object[] { new ItemStack(ModItems.rod, 1, BreedingRodType.LEAD.ordinal()) });
