@@ -302,6 +302,7 @@ public class HazardRegistry {
 		HazardSystem.register(nugget_HPA, makeData (RADIATION, puf * nugget));
 		HazardSystem.register(billet_HPA, makeData (RADIATION, puf * billet));
 		HazardSystem.register(ingot_HPA, makeData (RADIATION, puf * ingot));
+		HazardSystem.register(powder_HPA, makeData (RADIATION, puf * powder));
 		
 		HazardSystem.register(nugget_thorium_fuel, makeData(RADIATION, thf * nugget));
 		HazardSystem.register(billet_thorium_fuel, makeData(RADIATION, thf * billet));
