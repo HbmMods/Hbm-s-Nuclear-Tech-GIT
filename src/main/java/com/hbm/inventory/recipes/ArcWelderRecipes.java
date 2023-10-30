@@ -30,9 +30,9 @@ public class ArcWelderRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor), 100, 200L,
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor, 2), 100, 200L,
 				new OreDictStack(IRON.plate(), 2), new ComparableStack(ModItems.coil_copper), new ComparableStack(ModItems.coil_copper_torus)));
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor), 100, 400L,
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor, 2), 100, 400L,
 				new OreDictStack(STEEL.plate(), 1), new ComparableStack(ModItems.coil_copper), new ComparableStack(ModItems.coil_copper_torus)));
 
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.circuit_copper), 100, 1_000L, new FluidStack(Fluids.GAS, 250),
