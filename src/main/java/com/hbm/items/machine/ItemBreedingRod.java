@@ -22,7 +22,6 @@ public class ItemBreedingRod extends ItemEnumMulti {
 		PU239,
 		RGP,
 		WASTE,
-		HPA,
 		
 		//Required for prototype
 		LEAD,
