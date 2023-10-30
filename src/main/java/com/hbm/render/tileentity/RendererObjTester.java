@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.render.model.ModelPigeon;
 
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -15,6 +16,8 @@ import net.minecraft.tileentity.TileEntity;
 public class RendererObjTester extends TileEntitySpecialRenderer {
 	
 	//private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/TestObj.obj");
+	
+	ModelPigeon pigeon = new ModelPigeon();
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
@@ -22,155 +25,9 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
-
-		/*GL11.glTranslated(0, 0, 0.75);
-		this.bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/horse/dyx.png"));
-		HorsePronter.reset();
-		//HorsePronter.pose(HorsePronter.id_lfl, 0, System.currentTimeMillis() % 360 / 10D, 0);
-		double r = 60;
-		HorsePronter.pose(HorsePronter.id_body, 0, -r, 0);
-		HorsePronter.pose(HorsePronter.id_tail, 0, 45, 90);
-		HorsePronter.pose(HorsePronter.id_lbl, 0, -90 + r, 35);
-		HorsePronter.pose(HorsePronter.id_rbl, 0, -90 + r, -35);
-		HorsePronter.pose(HorsePronter.id_lfl, 0, r - 10, 5);
-		HorsePronter.pose(HorsePronter.id_rfl, 0, r - 10, -5);
-		HorsePronter.pose(HorsePronter.id_head, 0, r, 0);
-		HorsePronter.enableHorn();
-		HorsePronter.enableWings();
-		HorsePronter.pront();
 		
-		ItemStack stack = new ItemStack(ModItems.cigarette);
-		double scale = 0.25;
-		GL11.glTranslated(0.02, 1.13, -0.42);
-		GL11.glScaled(scale, scale, scale);
-		GL11.glRotated(90, 0, -1, 0);
-		GL11.glRotated(60, 0, 0, -1);
-		bindTexture(TextureMap.locationItemsTexture);
-		IIcon icon = stack.getIconIndex();
-		float f14 = icon.getMinU();
-		float f15 = icon.getMaxU();
-		float f4 = icon.getMinV();
-		float f5 = icon.getMaxV();
-		ItemRenderer.renderItemIn2D(Tessellator.instance, f15, f4, f14, f5, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);*/
-
-		double speed = 100D;
-		double chewing = 200D;
-		double cy0 = Math.sin(System.currentTimeMillis() / speed % (Math.PI * 2));
-		double cy1 = Math.sin(System.currentTimeMillis() / speed % (Math.PI * 2) - Math.PI * 0.5);
-		double cy2 = Math.sin(System.currentTimeMillis() / speed % (Math.PI * 2) - Math.PI);
-		double cy3 = Math.sin(System.currentTimeMillis() / speed % (Math.PI * 2) - Math.PI * 0.75);
-
-		double cy4 = Math.sin(System.currentTimeMillis() / chewing % (Math.PI * 2));
-		double cy5 = Math.sin(System.currentTimeMillis() / chewing % (Math.PI * 2) - Math.PI * 0.5);
-		
-		this.bindTexture(ResourceManager.glyphid_tex);
-		ResourceManager.glyphid.renderPart("Body");
-		ResourceManager.glyphid.renderPart("ArmorFront");
-		ResourceManager.glyphid.renderPart("ArmorLeft");
-		ResourceManager.glyphid.renderPart("ArmorRight");
-
-		/// LEFT ARM ///
-		GL11.glPushMatrix();
-		GL11.glTranslated(0.25, 0.625, 0.0625);
-		GL11.glRotated(10, 0, 1, 0);
-		GL11.glRotated(35 + cy1 * 20, 1, 0, 0);
-		GL11.glTranslated(-0.25, -0.625, -0.0625);
-		ResourceManager.glyphid.renderPart("ArmLeftUpper");
-		GL11.glTranslated(0.25, 0.625, 0.4375);
-		GL11.glRotated(-75 - cy1 * 20 + cy0 * 20, 1, 0, 0);
-		GL11.glTranslated(-0.25, -0.625, -0.4375);
-		ResourceManager.glyphid.renderPart("ArmLeftMid");
-		GL11.glTranslated(0.25, 0.625, 0.9375);
-		GL11.glRotated(90 - cy0 * 45, 1, 0, 0);
-		GL11.glTranslated(-0.25, -0.625, -0.9375);
-		ResourceManager.glyphid.renderPart("ArmLeftLower");
-		ResourceManager.glyphid.renderPart("ArmLeftArmor");
-		GL11.glPopMatrix();
-
-		/// RIGHT ARM ///
-		GL11.glPushMatrix();
-		GL11.glTranslated(-0.25, 0.625, 0.0625);
-		GL11.glRotated(-10, 0, 1, 0);
-		GL11.glRotated(35 + cy2 * 20, 1, 0, 0);
-		GL11.glTranslated(0.25, -0.625, -0.0625);
-		ResourceManager.glyphid.renderPart("ArmRightUpper");
-		GL11.glTranslated(-0.25, 0.625, 0.4375);
-		GL11.glRotated(-75 - cy2 * 20 + cy3 * 20, 1, 0, 0);
-		GL11.glTranslated(0.25, -0.625, -0.4375);
-		ResourceManager.glyphid.renderPart("ArmRightMid");
-		GL11.glTranslated(-0.25, 0.625, 0.9375);
-		GL11.glRotated(90 - cy3 * 45, 1, 0, 0);
-		GL11.glTranslated(0.25, -0.625, -0.9375);
-		ResourceManager.glyphid.renderPart("ArmRightLower");
-		ResourceManager.glyphid.renderPart("ArmRightArmor");
-		GL11.glPopMatrix();
-
-		GL11.glPushMatrix();
-		
-		GL11.glTranslated(0, 0.5, 0.25);
-		GL11.glRotated(cy5 * 15 + 15, 0, 0, 1);
-		GL11.glTranslated(0, -0.5, -0.25);
-		
-		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0.5, 0.25);
-		GL11.glRotated(-7.5 - cy4 * 7.5, 1, 0, 0);
-		GL11.glTranslated(0, -0.5, -0.25);
-		ResourceManager.glyphid.renderPart("JawTop");
-		GL11.glPopMatrix();
-
-		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0.5, 0.25);
-		GL11.glRotated(7.5 + cy4 * 7.5, 0, 1, 0);
-		GL11.glRotated(7.5 + cy4 * 7.5, 1, 0, 0);
-		GL11.glTranslated(0, -0.5, -0.25);
-		ResourceManager.glyphid.renderPart("JawLeft");
-		GL11.glPopMatrix();
-
-		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0.5, 0.25);
-		GL11.glRotated(-7.5 - cy4 * 7.5, 0, 1, 0);
-		GL11.glRotated(7.5 + cy4 * 7.5, 1, 0, 0);
-		GL11.glTranslated(0, -0.5, -0.25);
-		ResourceManager.glyphid.renderPart("JawRight");
-		GL11.glPopMatrix();
-		GL11.glPopMatrix();
-
-		double steppy = 15;
-		double bend = 60;
-		
-		for(int i = 0; i < 3; i++) {
-			
-			double c0 = cy0 * (i == 1 ? -1 : 1);
-			double c1 = cy1 * (i == 1 ? -1 : 1);
-			
-			GL11.glPushMatrix();
-			GL11.glTranslated(0, 0.25, 0);
-			GL11.glRotated(i * 30 - 15 + c0 * 7.5, 0, 1, 0);
-			GL11.glRotated(steppy + c1 * steppy, 0, 0, 1);
-			GL11.glTranslated(0, -0.25, 0);
-			ResourceManager.glyphid.renderPart("LegLeftUpper");
-			GL11.glTranslated(0.5625, 0.25, 0);
-			GL11.glRotated(-bend - c1 * steppy, 0, 0, 1);
-			GL11.glTranslated(-0.5625, -0.25, 0);
-			ResourceManager.glyphid.renderPart("LegLeftLower");
-			GL11.glPopMatrix();
-			
-			GL11.glPushMatrix();
-			GL11.glTranslated(0, 0.25, 0);
-			GL11.glRotated(i * 30 - 45 + c0 * 7.5, 0, 1, 0);
-			GL11.glRotated(-steppy + c1 * steppy, 0, 0, 1);
-			GL11.glTranslated(0, -0.25, 0);
-			ResourceManager.glyphid.renderPart("LegRightUpper");
-			GL11.glTranslated(-0.5625, 0.25, 0);
-			GL11.glRotated(bend - c1 * steppy, 0, 0, 1);
-			GL11.glTranslated(0.5625, -0.25, 0);
-			ResourceManager.glyphid.renderPart("LegRightLower");
-			GL11.glPopMatrix();
-		}
-
-		this.bindTexture(ResourceManager.universal);
-		GL11.glScaled(0.05, 0.05, 0.05);
-		ResourceManager.sphere_uv.renderAll();
+		bindTexture(ResourceManager.universal);
+		pigeon.render(null, 0, 0, 0, 0, 0, 0.0625F);
 		
 		GL11.glPopMatrix();
 	}
