@@ -33,7 +33,6 @@ public class BreederRecipes extends SerializableRecipe {
 		setRecipe(BreedingRodType.PU238, BreedingRodType.PU239, 1000);
 		setRecipe(BreedingRodType.U238, BreedingRodType.RGP, 300);
 		setRecipe(BreedingRodType.URANIUM, BreedingRodType.RGP, 200);
-		setRecipe(BreedingRodType.RGP, BreedingRodType.HPA, 200);
 		
 		recipes.put(new ComparableStack(ModItems.meteorite_sword_etched), new BreederRecipe(new ItemStack(ModItems.meteorite_sword_bred), 1000));
 	}
