@@ -38,7 +38,7 @@ public class ItemWandD extends Item {
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		Block[] ores = { ModBlocks.ore_copper, ModBlocks.ore_beryllium, ModBlocks.ore_aluminium, Blocks.coal_ore, Blocks.iron_ore, ModBlocks.ore_fluorite, ModBlocks.ore_nickel, ModBlocks.ore_niter, ModBlocks.ore_mineral, ModBlocks.ore_cobalt, ModBlocks.ore_lead, ModBlocks.ore_tungsten, ModBlocks.ore_uranium, ModBlocks.ore_sulfur, ModBlocks.ore_thorium, ModBlocks.ore_zinc, ModBlocks.cluster_aluminium, ModBlocks.cluster_copper, ModBlocks.cluster_iron, ModBlocks.cluster_titanium, ModBlocks.ore_titanium };
 		double[] chances = { 2.08,0.52,1.67,4.17,5.21,1.25,4.69,2.60,0.94,1.04,2.29,3.54,1.46,3.85,2.81,1.88,0.83,1.25,2.08,2.08,3.75 };
-
+		// what a gross fucking array, but what can i say, this is what you get for not fucking populating the terrain
 		if(world.isRemote)
 			return stack;
 		
