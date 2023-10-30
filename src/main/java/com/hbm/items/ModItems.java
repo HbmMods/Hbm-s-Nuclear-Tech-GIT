@@ -650,7 +650,8 @@ public class ModItems {
 	public static Item biomass_compressed;
 	public static Item bio_wafer;
 	public static Item plant_item;
-	
+	public static Item doner;
+
 	public static Item coil_copper;
 	public static Item coil_copper_torus;
 	public static Item coil_tungsten;
@@ -2919,6 +2920,7 @@ public class ModItems {
 		s_cream	= new ItemLemon(2, 4F, false).setUnlocalizedName("s_cream").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ice_cream_s");
 		ingot_money = new Item().setUnlocalizedName("ingot_money").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_money");
 		piss_burger = new ItemLemon(4, 4F, false).setUnlocalizedName("piss_burger").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":piss_burger");
+		doner = new ItemLemon(8, 6F, false).setUnlocalizedName("doner").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":donerr");
 
 		powder_ash = new ItemEnumMulti(EnumAshType.class, true, true).setUnlocalizedName("powder_ash").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_ash");
 		
@@ -6351,6 +6353,7 @@ public class ModItems {
 		GameRegistry.registerItem(flesh_wafer, flesh_wafer.getUnlocalizedName());
 		GameRegistry.registerItem(grilled_flesh, grilled_flesh.getUnlocalizedName());
 		GameRegistry.registerItem(flesh_burger, flesh_burger.getUnlocalizedName());
+		GameRegistry.registerItem(doner, doner.getUnlocalizedName());
 
 		//Nuggets
 		GameRegistry.registerItem(nugget_uranium, nugget_uranium.getUnlocalizedName());

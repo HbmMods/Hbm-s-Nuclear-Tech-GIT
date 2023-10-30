@@ -671,7 +671,7 @@ container.centrifuge=Centrifuge
 container.chemplant=Chemical Plant
 container.compactLauncher=Compact Launch Pad
 container.craneBoxer=Conveyor Boxer
-container.craneExtractor=Conveyor Ejectorcontainer.craneGrabber=Conveyor Grabber
+container.craneExtractor=Conveyor Ejector
 container.craneGrabber=Conveyor Grabber
 container.craneInserter=Conveyor Inserter
 container.craneRouter=Conveyor Router
@@ -4800,7 +4800,7 @@ tile.block_semtex.name=Block of Semtex
 tile.block_slag.name=Block of Slag
 tile.block_smore.name=Block of S'more
 tile.block_solinium.name=Block of Solinium
-tile.block_starmetal.name==§9Block of Starmetal§r
+tile.block_starmetal.name=§9Block of Starmetal§r
 tile.block_steel.name=Block of Steel
 tile.block_sulfur.name=Block of Sulfur
 tile.block_tantalium.name=Block of Tantalium

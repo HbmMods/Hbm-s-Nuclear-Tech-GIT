@@ -1,15 +1,28 @@
 package com.hbm.items.tool;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.config.WorldConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
+import com.hbm.entity.mob.EntityDoner;
+import com.hbm.entity.mob.EntityGhost;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.lib.Library;
 import com.hbm.main.ModEventHandlerClient;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.TrackerUtil;
+import com.hbm.world.feature.OilBubble;
+import com.hbm.world.generator.DungeonToolbox;
 
+import cpw.mods.fml.common.eventhandler.Event.Result;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLiving;
+import com.hbm.entity.mob.EntityDoner;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -17,12 +30,15 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class ItemWandD extends Item {
-
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		
+		Block[] ores = { ModBlocks.ore_copper, ModBlocks.ore_beryllium, ModBlocks.ore_aluminium, Blocks.coal_ore, Blocks.iron_ore, ModBlocks.ore_fluorite, ModBlocks.ore_nickel, ModBlocks.ore_niter, ModBlocks.ore_mineral, ModBlocks.ore_cobalt, ModBlocks.ore_lead, ModBlocks.ore_tungsten, ModBlocks.ore_uranium, ModBlocks.ore_sulfur, ModBlocks.ore_thorium, ModBlocks.ore_zinc, ModBlocks.cluster_aluminium, ModBlocks.cluster_copper, ModBlocks.cluster_iron, ModBlocks.cluster_titanium, ModBlocks.ore_titanium };
+		double[] chances = { 2.08,0.52,1.67,4.17,5.21,1.25,4.69,2.60,0.94,1.04,2.29,3.54,1.46,3.85,2.81,1.88,0.83,1.25,2.08,2.08,3.75 };
+
 		if(world.isRemote)
 			return stack;
 		
@@ -49,14 +65,63 @@ public class ItemWandD extends Item {
 			world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
 			TimeAnalyzer.endCount();
 			TimeAnalyzer.dump();*/
-			
-			TomSaveData data = TomSaveData.forWorld(world);
+			//trySpawn(world,  (float)player.posX, (float)player.posY, (float)player.posZ, new EntityDoner(world));
+			//TomSaveData data = TomSaveData.forWorld(world);
+	        int playerChunkX = player.chunkCoordX;
+	        int playerChunkZ = player.chunkCoordZ;
+	        Random rand = new Random();
+	        // Loop over a 4x4 area of chunks centered on the player's chunk
+	        for (int dX = -2; dX <= 2; dX++) {
+	            for (int dZ = -2; dZ <= 2; dZ++) {
+	                int chunkX = playerChunkX + dX;
+	                int chunkZ = playerChunkZ + dZ;
+	                Chunk chunk = world.getChunkFromChunkCoords(chunkX, chunkZ);
+	                
+	                // Your logic for seeding ores in each chunk
+	                for (int x = 0; x < 16; x++) {
+	                    for (int z = 0; z < 16; z++) {
+	                        for (int y = 0; y < world.getHeight(); y++) {
+	                            if (world.getBlock(chunkX * 16 + x, y, chunkZ * 16 + z) == Blocks.stone) {
+	                            	if (rand.nextInt(100) < 50) { // 50% chance to spawn an ore
+	                            	    int randomChance = rand.nextInt(50);
 
-			data.stime = 1;
-			data.markDirty();
+	                            	    for (int i = 0; i < ores.length; i++) {
+	                            	        randomChance -= chances[i];
+	                            	        
+	                            	        if (randomChance <= 0) {
+	                            	        	if (rand.nextInt(100) < 1) {
+	                            	        	generateVein(world, chunkX * 16 + x, y, chunkZ * 16 + z, ores[i], 4); 
+	                            	        	break;
+	                            	        	}
+	                            	        	
+	                            	        }
+	                            	    }
+                        	        	if (rand.nextInt(400) < 1) {
+                        	        	    // Random coordinates within the chunk
+                        	        	    int oilX = chunkX * 16 + rand.nextInt(16);
+                        	        	    int oilY = rand.nextInt(world.getHeight()); // You might want to limit this to a specific range
+                        	        	    int oilZ = chunkZ * 16 + rand.nextInt(16);
+
+                        	        	    // Random radius between 2 and 5 (inclusive)
+                        	        	    int oilRadius = 4 + rand.nextInt(6);
+
+                        	        	    // Spawn the oil bubble
+                        	        	    OilBubble.spawnOil(world, oilX, oilY, oilZ, oilRadius);
+                        	        	}
+	                            	
+	                                }
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        
+	   
+			//data.stime = 1;
+			//data.markDirty();
 
 			//ModEventHandlerClient.flashTimestamp = System.currentTimeMillis() - 1000;
-			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(EnumChatFormatting.RED + "Stellar Event Imminent!"));
+			//MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(EnumChatFormatting.RED + "Stellar Event Imminent!"));
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;
 			tom.posY = pos.blockY;
@@ -150,11 +215,38 @@ public class ItemWandD extends Item {
 			}*/
 		}
 		
+		}
 		return stack;
 	}
 
+	public void generateVein(World world, int startX, int startY, int startZ, Block oreBlock, int veinSize) {
+	    Random rand = new Random();
+	    
+	    LinkedList<int[]> blocksToCheck = new LinkedList<>();
+	    blocksToCheck.add(new int[]{ startX, startY, startZ });
+	    
+	    int blocksChanged = 0;
 
+	    while (!blocksToCheck.isEmpty() && blocksChanged < veinSize) {
+	        int[] coords = blocksToCheck.poll();
+	        int x = coords[0], y = coords[1], z = coords[2];
 
+	        if (world.getBlock(x, y, z) == Blocks.stone) {
+	            world.setBlock(x, y, z, oreBlock);
+	            blocksChanged++;
+
+	            for (int dx = -1; dx <= 1; dx++) {
+	                for (int dy = -1; dy <= 1; dy++) {
+	                    for (int dz = -1; dz <= 1; dz++) {
+	                        if (rand.nextInt(100) < 20) {  // Reduced to 20% chance to continue the vein
+	                            blocksToCheck.add(new int[]{ x + dx, y + dy, z + dz });
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+	}
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{

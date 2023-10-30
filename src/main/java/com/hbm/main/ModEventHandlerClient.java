@@ -1,6 +1,8 @@
 package com.hbm.main;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -93,8 +95,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -127,6 +131,7 @@ import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -140,11 +145,11 @@ import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
-public class ModEventHandlerClient {
+public class ModEventHandlerClient  {
 	
 	public static final int flashDuration = 5_000;
 	public static long flashTimestamp;
-	
+	private static final ResourceLocation customBackground = new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png");
 	@SubscribeEvent
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
 		
@@ -1331,6 +1336,42 @@ public class ModEventHandlerClient {
 			}
 			
 			if(Math.random() < 0.1) main.splashText = "Redditors aren't people!";
+			
+			if(GeneralConfig.enableTMode) {
+			    Minecraft.getMinecraft().getSoundHandler().stopSounds();
+
+			    Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(RefStrings.MODID, "misc.turk"), 1.0F));	
+			}
 		}
+	}
+	@SubscribeEvent
+	public void DrawGuiPost(GuiScreenEvent.DrawScreenEvent.Pre event ) {
+	    if (event.gui instanceof GuiMainMenu && GeneralConfig.enableTMode) { // reflection is horrifying
+	    	try {
+	    	    Field modifiersField = Field.class.getDeclaredField("modifiers");
+	    	    modifiersField.setAccessible(true);
+
+	    	    Field panoramaPathsField = GuiMainMenu.class.getDeclaredField("titlePanoramaPaths");
+
+	    	    modifiersField.setInt(panoramaPathsField, panoramaPathsField.getModifiers() & ~Modifier.FINAL);
+
+	    	    panoramaPathsField.setAccessible(true);
+
+	    	    ResourceLocation[] yourPanoramaPaths = new ResourceLocation[] {
+	    	    new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png"),
+	    	    new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png"),	    	   
+	    	    new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png"),	    	    
+	    	    new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png"),	    	    
+	    	    new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png"),
+	    	    new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png")
+	    	    };
+
+	    	    panoramaPathsField.set(null, yourPanoramaPaths);
+
+	    	} catch (Exception e) {
+	    	    e.printStackTrace();
+	    	}
+	    }
+	    
 	}
 }

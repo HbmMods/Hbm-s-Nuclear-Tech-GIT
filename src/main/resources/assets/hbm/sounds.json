@@ -290,6 +290,15 @@
           }
         ]
       },
+    "misc.turk": {
+        "category": "record",
+        "sounds": [
+          {
+            "name": "music/izzy",
+            "stream": false
+          }
+        ]
+      },
       "alarm.mama": {
         "category": "record",
         "sounds": [
