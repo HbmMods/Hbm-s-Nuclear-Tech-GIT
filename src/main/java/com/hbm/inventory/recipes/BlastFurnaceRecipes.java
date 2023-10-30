@@ -54,6 +54,7 @@ public class BlastFurnaceRecipes extends SerializableRecipe {
 		addRecipe(CU,									REDSTONE,										new ItemStack(ModItems.ingot_red_copper, 2));
 		addRecipe(STEEL,								MINGRADE,										new ItemStack(ModItems.ingot_advanced_alloy, 2));
 		addRecipe(W,									COAL,											new ItemStack(ModItems.neutron_reflector, 2));
+		addRecipe(PURG,                                                                 U,                                                                                      new ItemStack(ModItems.ingot_HPA, 2)); 
 		addRecipe(W,									ANY_COKE,										new ItemStack(ModItems.neutron_reflector, 2));
 		addRecipe(new ComparableStack(ModItems.canister_full, 1, Fluids.GASOLINE.getID()), "slimeball",	new ItemStack(ModItems.canister_napalm));
 		addRecipe(W,									SA326.nugget(),									new ItemStack(ModItems.ingot_magnetized_tungsten));
