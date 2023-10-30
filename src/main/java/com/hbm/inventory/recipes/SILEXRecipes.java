@@ -216,7 +216,7 @@ public class SILEXRecipes {
 				        .addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_HPA), 85 - i * 20))
 				        .addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short, 1, ItemWasteShort.WasteClass.PLUTONIUM241.ordinal()), 15 + 20 * i)) );
 
-	                recipes.put(new ComparableStack(ModItems.rbmk_pellet_HPA, 1, i), new SILEXRECIPE(600, 100, 2)
+	                recipes.put(new ComparableStack(ModItems.rbmk_pellet_HPA, 1, i), new SILEXRecipe(600, 100, 2)
 				        .addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135), 1))
 				        .addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_HPA), 85 - i * 20))
 				        .addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short, 1, ItemWasteShort.WasteClass.PLUTONIUM241.ordinal()), 15 + 20 * i)) );
