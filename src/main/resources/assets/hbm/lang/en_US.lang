@@ -4291,6 +4291,7 @@ item.waste_plate_ra226be.name=Depleted Ra226Be Plate Fuel
 item.waste_plate_sa326.name=Depleted HES-326 Plate Fuel
 item.waste_plate_u233.name=Depleted HEU-233 Plate Fuel
 item.waste_plate_u235.name=Depleted HEU-235 Plate Fuel
+item.waste_plate_HPA.name=Depleted HPA Amalgam Plate Fuel
 item.waste_plutonium.name=Depleted Plutonium Fuel
 item.waste_schrabidium.name=Depleted Schrabidium Fuel
 item.waste_thorium.name=Depleted Thorium Fuel
