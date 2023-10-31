@@ -1336,42 +1336,8 @@ public class ModEventHandlerClient  {
 			}
 			
 			if(Math.random() < 0.1) main.splashText = "Redditors aren't people!";
-			
-			if(GeneralConfig.enableTMode) {
-			    Minecraft.getMinecraft().getSoundHandler().stopSounds();
 
-			    Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(RefStrings.MODID, "misc.turk"), 1.0F));	
-			}
-		}
-	}
-	@SubscribeEvent
-	public void DrawGuiPost(GuiScreenEvent.DrawScreenEvent.Pre event ) {
-	    if (event.gui instanceof GuiMainMenu && GeneralConfig.enableTMode) { // reflection is horrifying
-	    	try {
-	    	    Field modifiersField = Field.class.getDeclaredField("modifiers");
-	    	    modifiersField.setAccessible(true);
+		}	
 
-	    	    Field panoramaPathsField = GuiMainMenu.class.getDeclaredField("titlePanoramaPaths");
-
-	    	    modifiersField.setInt(panoramaPathsField, panoramaPathsField.getModifiers() & ~Modifier.FINAL);
-
-	    	    panoramaPathsField.setAccessible(true);
-
-	    	    ResourceLocation[] yourPanoramaPaths = new ResourceLocation[] {
-	    	    new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png"),
-	    	    new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png"),	    	   
-	    	    new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png"),	    	    
-	    	    new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png"),	    	    
-	    	    new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png"),
-	    	    new ResourceLocation(RefStrings.MODID, "textures/misc/fl.png")
-	    	    };
-
-	    	    panoramaPathsField.set(null, yourPanoramaPaths);
-
-	    	} catch (Exception e) {
-	    	    e.printStackTrace();
-	    	}
-	    }
-	    
 	}
 }

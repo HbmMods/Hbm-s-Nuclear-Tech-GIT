@@ -32,7 +32,6 @@ public class GeneralConfig {
 	public static boolean enableStatReRegistering = true;
 	public static boolean enableKeybindOverlap = true;
 	public static int hintPos = 0;
-	public static boolean enableTMode = true;
 
 	public static boolean enableExpensiveMode = false;
 	
@@ -93,7 +92,6 @@ public class GeneralConfig {
 		enableImpactWorldProvider = config.get(CATEGORY_GENERAL, "1.32_enableImpactWorldProvider", true, "If enabled, registers custom world provider which modifies lighting and sky colors for post impact effects.").getBoolean(true);
 		enableStatReRegistering = config.get(CATEGORY_GENERAL, "1.33_enableStatReRegistering", true, "If enabled, will re-register item crafting/breaking/usage stats in order to fix a forge bug where modded items just won't show up.").getBoolean(true);
 		enableKeybindOverlap = config.get(CATEGORY_GENERAL, "1.34_enableKeybindOverlap", true, "If enabled, will handle keybinds that would otherwise be ignored due to overlapping.").getBoolean(true);
-		enableTMode = config.get(CATEGORY_GENERAL, "1.35_enableTurkMode", true, "If enabled, will replace the title screen.").getBoolean(true);
 
 		enableExpensiveMode = config.get(CATEGORY_GENERAL, "1.99_enableExpensiveMode", false, "It does what the name implies.").getBoolean(false);
 		
