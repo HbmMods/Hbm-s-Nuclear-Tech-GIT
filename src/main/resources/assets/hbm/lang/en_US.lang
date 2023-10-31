@@ -3505,6 +3505,7 @@ item.plate_fuel_ra226be.name=Ra226Be Plate Fuel
 item.plate_fuel_sa326.name=HES-326 Plate Fuel
 item.plate_fuel_u233.name=HEU-233 Plate Fuel
 item.plate_fuel_u235.name=HEU-235 Plate Fuel
+item.plate_fuel_HPA.name=HPA Amalgam Plate Fuel
 item.plate_gold.name=Gold Plate
 item.plate_iron.name=Iron Plate
 item.plate_kevlar.name=Kevlar-Ceramic Compound
