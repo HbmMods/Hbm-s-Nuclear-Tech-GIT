@@ -38,6 +38,7 @@ public class FuelPoolRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(ModItems.waste_plate_sa326, 1, 1), new ItemStack(ModItems.waste_plate_sa326));
 		recipes.put(new ComparableStack(ModItems.waste_plate_ra226be, 1, 1), new ItemStack(ModItems.waste_plate_ra226be));
 		recipes.put(new ComparableStack(ModItems.waste_plate_pu238be, 1, 1), new ItemStack(ModItems.waste_plate_pu238be));
+		recipes.put(new ComparableStack(ModItems.waste_plate_hpa, 1, 1), new ItemStack(ModItems.waste_plate_hpa));
 		
 		for(EnumPWRFuel pwr : EnumPWRFuel.values()) recipes.put(new ComparableStack(ModItems.pwr_fuel_hot, 1, pwr.ordinal()), new ItemStack(ModItems.pwr_fuel_depleted, 1, pwr.ordinal()));
 	}
