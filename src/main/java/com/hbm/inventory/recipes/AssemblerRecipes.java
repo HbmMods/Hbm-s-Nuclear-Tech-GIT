@@ -999,7 +999,15 @@ public class AssemblerRecipes {
 				new OreDictStack(KEY_ANYPANE, 6),
 				new OreDictStack(STEEL.plate(), 4),
 			}, 100);
-		
+		makeRecipe(new ComparableStack(ModBlocks.aa_battery, 1), new AStack[] {
+				new ComparableStack(ModBlocks.machine_battery, 1),
+				new OreDictStack(STAINLESS.plate(), 13),
+				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 8),
+				new ComparableStack(ModItems.coil_magnetized_tungsten, 5),
+				new ComparableStack(ModItems.circuit_targeting_tier3, 2),
+				new ComparableStack(ModItems.circuit_schrabidium, 1),
+				new ComparableStack(ModItems.coil_gold_torus, 3),
+			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_difurnace_rtg_off, 1), new AStack[] {
 				new ComparableStack(ModBlocks.machine_difurnace_off, 1),
 				new ComparableStack(ModItems.rtg_unit, 3),

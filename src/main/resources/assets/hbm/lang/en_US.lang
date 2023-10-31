@@ -5713,6 +5713,7 @@ tile.tape_recorder.name=Tape Recorder
 tile.tektite.name=Tektite
 tile.teleanchor.name=Teleportation Anchor
 tile.tesla.name=Tesla Coil
+tile.aa_battery.name=Anti Artillery Battery
 tile.test_nuke.name=Test Nuke
 tile.therm_endo.name=Endothermic Bomb
 tile.therm_exo.name=Exothermic Bomb

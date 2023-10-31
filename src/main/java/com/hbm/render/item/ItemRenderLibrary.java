@@ -386,7 +386,16 @@ public class ItemRenderLibrary {
 		        bindTexture(ResourceManager.tesla_tex); ResourceManager.tesla.renderAll();
 	            GL11.glEnable(GL11.GL_CULL_FACE);
 			}});
-		
+		renderers.put(Item.getItemFromBlock(ModBlocks.aa_battery), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -5, 0);
+				GL11.glScaled(5, 5, 5);
+			}
+			public void renderCommon() {
+	            GL11.glDisable(GL11.GL_CULL_FACE);
+		        bindTexture(ResourceManager.aa_tex); ResourceManager.emp.renderAll();
+	            GL11.glEnable(GL11.GL_CULL_FACE);
+			}});
 		renderers.put(Item.getItemFromBlock(ModBlocks.boxcar), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glRotated(90, 0, 1, 0);

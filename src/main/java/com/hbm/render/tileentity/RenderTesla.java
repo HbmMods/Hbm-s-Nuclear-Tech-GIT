@@ -2,10 +2,12 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
+import com.hbm.tileentity.machine.TileEntityAABattery;
 import com.hbm.tileentity.machine.TileEntityTesla;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -24,6 +26,7 @@ public class RenderTesla extends TileEntitySpecialRenderer {
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
         bindTexture(ResourceManager.tesla_tex);
+
         ResourceManager.tesla.renderAll();
         
         GL11.glEnable(GL11.GL_CULL_FACE);

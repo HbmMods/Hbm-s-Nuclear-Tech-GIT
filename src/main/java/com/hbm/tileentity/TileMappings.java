@@ -161,6 +161,7 @@ public class TileMappings {
 		put(TileEntityChlorineSeal.class, "tileentity_chlorine_seal");
 		put(TileEntitySoyuzLauncher.class, "tileentity_soyuz_launcher");
 		put(TileEntityTesla.class, "tileentity_tesla_coil");
+		put(TileEntityAABattery.class, "tileentity_aa_battery");
 		put(TileEntityBarrel.class, "tileentity_fluid_barrel");
 		put(TileEntityCyberCrab.class, "tileentity_crabs");
 		put(TileEntitySoyuzCapsule.class, "tileentity_soyuz_capsule");
