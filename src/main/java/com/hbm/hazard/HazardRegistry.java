@@ -273,6 +273,7 @@ public class HazardRegistry {
 		registerOtherFuel(plate_fuel_sa326, sa326 * ingot, wst * ingot * 10F, true);
 		registerOtherFuel(plate_fuel_ra226be, rabe * billet, pobe * nugget * 3, false);
 		registerOtherFuel(plate_fuel_pu238be, pube * billet, pube * nugget * 1, false);
+		registerOtherFuel(plate_fuel_HPA, HPA * billet, HPA * nugget * 10F, false);
 		
 		registerOtherWaste(waste_plate_u233, wst * ingot * 13F);
 		registerOtherWaste(waste_plate_u235, wst * ingot * 10F);
@@ -281,6 +282,7 @@ public class HazardRegistry {
 		registerOtherWaste(waste_plate_sa326, wst * ingot * 10F);
 		registerRadSourceWaste(waste_plate_ra226be, pobe * nugget * 3);
 		registerRadSourceWaste(waste_plate_pu238be, pube * nugget * 1);
+		registerOtherWaste(waste_plate_HPA, HPA * nugget * 16F);
 		
 		HazardSystem.register(debris_graphite, makeData().addEntry(RADIATION, 70F).addEntry(HOT, 5F));
 		HazardSystem.register(debris_metal, makeData(RADIATION, 5F));
