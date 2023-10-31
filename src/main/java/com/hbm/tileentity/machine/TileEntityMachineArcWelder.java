@@ -60,7 +60,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 		
 		if(!worldObj.isRemote) {
 			
-			this.power = Library.chargeTEFromItems(slots, 4, power, maxPower);
+			this.power = Library.chargeTEFromItems(slots, 4, this.getPower(), this.getMaxPower());
 			this.tank.setType(5, slots);
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
@@ -230,7 +230,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 
 	@Override
 	public long getPower() {
-		return power;
+		return Math.max(Math.min(power, maxPower), 0);
 	}
 
 	@Override

@@ -1,16 +1,19 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineWoodBurner;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.gui.GUIMachineWoodBurner;
+import com.hbm.lib.Library;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.tileentity.TileEntityMachineBase;
 
-import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -19,7 +22,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityMachineWoodBurner extends TileEntityMachinePolluting implements IFluidStandardTransceiver, IControlReceiver, IGUIProvider {
+public class TileEntityMachineWoodBurner extends TileEntityMachineBase implements IFluidStandardReceiver, IControlReceiver, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 100_000;
@@ -37,7 +40,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachinePolluting impl
 	public int ashLevelMisc;
 
 	public TileEntityMachineWoodBurner() {
-		super(6, 60);
+		super(6);
 		this.tank = new FluidTank(Fluids.WOODOIL, 16_000);
 	}
 
@@ -50,6 +53,10 @@ public class TileEntityMachineWoodBurner extends TileEntityMachinePolluting impl
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.tank.setType(2, slots);
+			this.tank.loadTank(3, 4, slots);
+			this.power = Library.chargeItemsFromTE(slots, 5, power, maxPower);
 			
 			if(!liquidBurn) {
 				
@@ -68,6 +75,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachinePolluting impl
 					this.burnTime--;
 					this.power += 100;
 					if(power > maxPower) this.power = this.maxPower;
+					if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND);
 				}
 				
 			} else {
@@ -78,6 +86,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachinePolluting impl
 					if(trait != null) {
 						this.power += trait.getHeatEnergy() / 2L;
 						tank.setFill(tank.getFill() - 1);
+						if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND);
 					}
 				}
 			}
@@ -131,12 +140,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachinePolluting impl
 
 	@Override
 	public FluidTank[] getAllTanks() {
-		return new FluidTank[] {tank, smoke, smoke_leaded, smoke_poison};
-	}
-
-	@Override
-	public FluidTank[] getSendingTanks() {
-		return this.getSmokeTanks();
+		return new FluidTank[] {tank};
 	}
 
 	@Override
