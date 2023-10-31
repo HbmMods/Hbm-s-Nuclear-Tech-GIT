@@ -139,7 +139,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget_technetium, 1),
 				new ItemStack(ModItems.nuclear_waste_tiny, 6) });
 
-		recipes.put(new ComparableStack(ModItems.waste_plate_HPA), new ItemStack[] {
+		recipes.put(new ComparableStack(ModItems.waste_plate_hpa), new ItemStack[] {
 			        new ItemStack(ModItems.nugget_HPA, 1),
 			        new ItemStack(ModItems.nugget_beryllium, 1),
 			        new ItemStack(ModItems.nugget_pu238, 1),
