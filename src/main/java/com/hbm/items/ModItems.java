@@ -1094,7 +1094,7 @@ public class ModItems {
 	public static Item waste_plate_sa326;
 	public static Item waste_plate_ra226be;
 	public static Item waste_plate_pu238be;
-	public static Item waste_plate_HPA;
+	public static Item waste_plate_hpa;
 	
 	public static Item pile_rod_uranium;
 	public static Item pile_rod_pu239;
@@ -1111,7 +1111,7 @@ public class ModItems {
 	public static Item plate_fuel_sa326;
 	public static Item plate_fuel_ra226be;
 	public static Item plate_fuel_pu238be;
-	public static Item waste_plate_HPA;
+	public static Item plate_fuel_hpa;
 
 	public static Item pwr_fuel;
 	public static Item pwr_fuel_hot;
@@ -3538,7 +3538,7 @@ public class ModItems {
 		waste_plate_sa326 = new ItemDepletedFuel().setUnlocalizedName("waste_plate_sa326").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_plate_sa326");
 		waste_plate_ra226be = new ItemDepletedFuel().setUnlocalizedName("waste_plate_ra226be").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_plate_ra226be");
 		waste_plate_pu238be = new ItemDepletedFuel().setUnlocalizedName("waste_plate_pu238be").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_plate_pu238be");
-		waste_plate_HPA = new ItemDepletedFuel().setUnlocalizedName("waste_plate_HPA").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_plate_HPA");
+		waste_plate_hpa = new ItemDepletedFuel().setUnlocalizedName("waste_plate_hpa").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_plate_hpa");
 		
 		pile_rod_uranium = new ItemPileRod().setUnlocalizedName("pile_rod_uranium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_uranium");
 		pile_rod_pu239 = new ItemPileRod().setUnlocalizedName("pile_rod_pu239").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pile_rod_pu239");
@@ -3552,10 +3552,10 @@ public class ModItems {
 		plate_fuel_u235 = new ItemPlateFuel(2200000).setFunction(FunctionEnum.SQUARE_ROOT, 40).setUnlocalizedName("plate_fuel_u235").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":plate_fuel_u235");
 		plate_fuel_mox = new ItemPlateFuel(2400000).setFunction(FunctionEnum.LOGARITHM, 50).setUnlocalizedName("plate_fuel_mox").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":plate_fuel_mox");
 		plate_fuel_pu239 = new ItemPlateFuel(2000000).setFunction(FunctionEnum.NEGATIVE_QUADRATIC, 50).setUnlocalizedName("plate_fuel_pu239").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":plate_fuel_pu239");
+		plate_fuel_hpa = new ItemPlateFuel(2300000).setFunction(FunctionEnum.LOGARITHM, 50).setUnlocalizedName("plate_fuel_hpa").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":plate_fuel_hpa");
 		plate_fuel_sa326 = new ItemPlateFuel(2000000).setFunction(FunctionEnum.LINEAR, 80).setUnlocalizedName("plate_fuel_sa326").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":plate_fuel_sa326");
 		plate_fuel_ra226be = new ItemPlateFuel(1300000).setFunction(FunctionEnum.PASSIVE, 30).setUnlocalizedName("plate_fuel_ra226be").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":plate_fuel_ra226be");
 		plate_fuel_pu238be = new ItemPlateFuel(1000000).setFunction(FunctionEnum.PASSIVE, 50).setUnlocalizedName("plate_fuel_pu238be").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":plate_fuel_pu238be");
-		plate_fuel_HPA = new ItemPlateFuel(2300000).setFunction(FunctionEnum.LOGARITHM, 50).setUnlocalizedName("plate_fuel_HPA").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":plate_fuel_HPA");
 
 		pwr_fuel = new ItemPWRFuel().setUnlocalizedName("pwr_fuel").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel");
 		pwr_fuel_hot = new ItemEnumMulti(EnumPWRFuel.class, true, false).setUnlocalizedName("pwr_fuel_hot").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pwr_fuel_hot");
@@ -6655,6 +6655,7 @@ public class ModItems {
 		GameRegistry.registerItem(waste_plate_ra226be, waste_plate_ra226be.getUnlocalizedName());
 		GameRegistry.registerItem(waste_plate_sa326, waste_plate_sa326.getUnlocalizedName());
 		GameRegistry.registerItem(waste_plate_pu238be, waste_plate_pu238be.getUnlocalizedName());
+		GameRegistry.registerItem(waste_plate_hpa, waste_plate_hpa.getUnlocalizedName());
 		
 		//Pile parts
 		GameRegistry.registerItem(pile_rod_uranium, pile_rod_uranium.getUnlocalizedName());
@@ -6673,7 +6674,7 @@ public class ModItems {
 		GameRegistry.registerItem(plate_fuel_sa326, plate_fuel_sa326.getUnlocalizedName());
 		GameRegistry.registerItem(plate_fuel_ra226be, plate_fuel_ra226be.getUnlocalizedName());
 		GameRegistry.registerItem(plate_fuel_pu238be, plate_fuel_pu238be.getUnlocalizedName());
-		GameRegistry.registerItem(plate_fuel_HPA, plate_fuel_HPA.getUnlocalizedName());
+		GameRegistry.registerItem(plate_fuel_hpa, plate_fuel_hpa.getUnlocalizedName());
 		
 		//PWR Parts
 		GameRegistry.registerItem(pwr_fuel, pwr_fuel.getUnlocalizedName());
