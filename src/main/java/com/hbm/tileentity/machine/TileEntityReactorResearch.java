@@ -66,6 +66,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 		fuelMap.put(new ComparableStack(ModItems.plate_fuel_sa326), new ItemStack(ModItems.waste_plate_sa326, 1, 1));
 		fuelMap.put(new ComparableStack(ModItems.plate_fuel_ra226be), new ItemStack(ModItems.waste_plate_ra226be, 1, 1));
 		fuelMap.put(new ComparableStack(ModItems.plate_fuel_pu238be), new ItemStack(ModItems.waste_plate_pu238be, 1, 1));
+		fuelMap.put(new ComparableStack(ModItems.plate_fuel_hpa), new ItemStack(ModItems.waste_plate_hpa, 1, 1));
 	}
 	
 	public String getName() {
