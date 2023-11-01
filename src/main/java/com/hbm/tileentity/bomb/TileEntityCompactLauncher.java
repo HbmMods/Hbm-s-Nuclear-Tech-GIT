@@ -295,10 +295,10 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 			EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX + (int)target.xCoord, tZ + (int)target.zCoord, getStruct(slots[0]));
 			subtractFuel();
 		}
+		
 		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, 0, 0, getStruct(slots[0]));
 
 
-		
 		worldObj.spawnEntityInWorld(missile);
 		subtractFuel();
 		missile.setPayload(slots[1]);

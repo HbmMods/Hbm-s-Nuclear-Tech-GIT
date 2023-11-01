@@ -16,6 +16,7 @@ import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.MissileStruct;
+import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemVOTVdrive.DestinationType;
 import com.hbm.items.weapon.ItemMissile;
@@ -41,6 +42,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
+import scala.reflect.internal.Trees.This;
 
 public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarDetectable {
 
@@ -244,23 +246,30 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 			vector = vector.normalize();
 			vector.xCoord *= accelXZ * velocity;
 			vector.zCoord *= accelXZ * velocity;
-			if(payload.stackTagCompound != null) {
-			if(payload.getItem() == ModItems.full_drive && payload.getItemDamage() == DestinationType.DUNA.ordinal() && payload.getTagCompound().getBoolean("Processed") == true) {
+			if(payload != null) {
+				if(payload.getTagCompound().getBoolean("Processed") == true ) {
 		        this.motionX = 0;
 		        this.motionY = 1;  // or any positive value for upward speed
 		        this.motionZ = 0;
-		        
-				
-			if(posY > 600) {
-				if(riding != null) {
-				DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
-				riding.dismountEntity(riding);
-				}
-			}
+				if(posY > 600) {
+			        if(payload.getItemDamage() == DestinationType.DUNA.ordinal()) {
+						if(riding != null) {
+							DebugTeleporter.teleport(riding, SpaceConfig.dunaDimension, riding.posX, 300, riding.posZ);
+							riding.dismountEntity(riding);	
+			        }
+			       }
+			        if(payload.getItemDamage() == DestinationType.MOHO.ordinal()) {
+						if(riding != null) {
+							DebugTeleporter.teleport(riding, SpaceConfig.mohoDimension, riding.posX, 300, riding.posZ);
+							riding.dismountEntity(riding);	
+			        }
+			       }
+						
 				this.setDead();
 				}
 			}
-			
+		}
+
 			if(motionY > 0) {
 				motionX += vector.xCoord;
 				motionZ += vector.zCoord;
@@ -270,7 +279,6 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 				motionX -= vector.xCoord;
 				motionZ -= vector.zCoord;
 			}
-
 			if(velocity < 5)
 				velocity += 0.01;
 		} else {

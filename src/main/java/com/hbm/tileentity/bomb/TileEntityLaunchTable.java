@@ -14,6 +14,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineLaunchTable;
 import com.hbm.items.ItemVOTVdrive;
+import com.hbm.items.ItemVOTVdrive.DestinationType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.items.weapon.ItemMissile;
@@ -268,24 +269,22 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	
 	public void launch() {
 
+		//worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
+
+
+		int tX = slots[1].stackTagCompound.getInteger("xCoord");
+		int tZ = slots[1].stackTagCompound.getInteger("zCoord");
+			
+		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX, tZ, getStruct(slots[0]));
+		worldObj.spawnEntityInWorld(missile);
 		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
 
-		if(slots[1].stackTagCompound != null) {
-
-			int tX = slots[1].stackTagCompound.getInteger("xCoord");
-			int tZ = slots[1].stackTagCompound.getInteger("zCoord");
-			
-			EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX, tZ, getStruct(slots[0]));
-			worldObj.spawnEntityInWorld(missile);
-			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
-
+		
+		if(slots[1].stackTagCompound.getBoolean("Processed")) {
+			missile.setPayload(slots[1]);
 		}
 
-		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, 0, 0, getStruct(slots[0]));
-		worldObj.spawnEntityInWorld(missile);
-
 		subtractFuel();
-		missile.setPayload(slots[1]);
 		
 		slots[0] = null;
 	}
@@ -357,7 +356,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			return true;
 		}
 		else {
-			if (slots[1] != null && slots[1].getItem()== ModItems.full_drive && slots[1].stackTagCompound != null && slots[1].getTagCompound().getBoolean("processed") == true) {
+			if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != DestinationType.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true) {
 				return true;
 			}
 		}

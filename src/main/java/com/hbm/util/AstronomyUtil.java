@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 public class AstronomyUtil
 {
 	public static final float AUToKm = 149598000F;
-	public static final long offset = 1000000;
+	public static final long offset = 0;
 	public static final float day = 24000;
 	//public static final long offset = 0;
 	//https://www.desmos.com/calculator/h2v3nfaopa
@@ -31,9 +31,9 @@ public class AstronomyUtil
     public static final float DresRadius=138;
     public static final float JoolRadius=6000;
     public static final float SarnusRadius=5300;
-    //public static final float UrlumRadius=25559;
-    //public static final float NeidonRadius=24766;
-    //public static final float PlockRadius=1184;
+    public static final float UrlumRadius=25559;
+    public static final float NeidonRadius=24766;
+    public static final float PlockRadius=1184;
 	
 	public static final float MohoAU=5263138.304F/AUToKm;
     public static final float EveAU=9832684.544F/AUToKm;
@@ -42,9 +42,9 @@ public class AstronomyUtil
     public static final float DresAU=40839348.203F/AUToKm;
     public static final float JoolAU=68773560.320F/AUToKm;
     public static final float SarnusAU=125798522.368F/AUToKm;
-    //public static final float UrlumAU=19.19F;
-    //public static final float NeidonAU=30.1F;
-    //public static final float PlockAU=39.5F;
+    public static final float UrlumAU=19.19F;
+    public static final float NeidonAU=30.1F;
+    public static final float PlockAU=39.5F;
     
     public static final float MohoP=102.58F;
     public static final float EveP=261.94F;
@@ -53,9 +53,9 @@ public class AstronomyUtil
     public static final float DresP=2217.27F;
     public static final float JoolP=4845.4367F;
     public static final float SarnusP=11987.096F;
-   // public static final float UrlumP=30687;
-   // public static final float NeidonP=60190;
-   // public static final float PlockP=90553;
+    public static final float UrlumP=30687;
+    public static final float NeidonP=60190;
+    public static final float PlockP=90553;
     
     public static final float MunP=6.43F;
     public static final float MinmusP=49.88F;
@@ -87,14 +87,31 @@ public class AstronomyUtil
     	double PlanetAYear = day*planet1Period;
     	double PlanetBYear = day*planet2Period;
     	
-    	double PlanetACos = planet1AU*Math.cos((2*Math.PI*world.getWorldTime())/PlanetAYear);
-    	double PlanetASin = planet1AU*Math.sin((2*Math.PI*world.getWorldTime())/PlanetAYear);
+    	double PlanetACos = planet1AU*Math.cos((2*(Math.PI*world.getWorldTime()+offset))/PlanetAYear);
+    	double PlanetASin = planet1AU*Math.sin((2*(Math.PI*world.getWorldTime()+offset))/PlanetAYear);
     	
-    	double PlanetBCos = planet2AU*Math.cos((2*Math.PI*world.getWorldTime())/PlanetBYear);
-    	double PlanetBSin = planet2AU*Math.sin((2*Math.PI*world.getWorldTime())/PlanetBYear);
+    	double PlanetBCos = planet2AU*Math.cos((2*(Math.PI*world.getWorldTime()+offset))/PlanetBYear);
+    	double PlanetBSin = planet2AU*Math.sin((2*(Math.PI*world.getWorldTime()+offset))/PlanetBYear);
     	
 		double distance = Math.sqrt(Math.pow(PlanetBCos-PlanetACos, 2)+Math.pow(PlanetBSin-PlanetASin, 2));
 		return distance; 
+    }
+    /**
+     * Calculates the visual angle between two planets. The first planet is the one you are on, and the second planet is the one you are observing.
+     */
+    public static double getInterplanetaryAngle(World world, Float planet1AU, Float planet1Period, Float planet2AU, Float planet2Period) {
+    	double PlanetAYear = day*planet1Period;
+    	double PlanetBYear = day*planet2Period;
+    	
+    	double PlanetACos = planet1AU*Math.cos((2*(Math.PI*world.getWorldTime()+offset))/PlanetAYear);
+    	double PlanetASin = planet1AU*Math.sin((2*(Math.PI*world.getWorldTime()+offset))/PlanetAYear);
+    	
+    	double PlanetBCos = planet2AU*Math.cos((2*(Math.PI*world.getWorldTime()+offset))/PlanetBYear);
+    	double PlanetBSin = planet2AU*Math.sin((2*(Math.PI*world.getWorldTime()+offset))/PlanetBYear);
+    	
+    	
+		double angle = (360D+(Math.atan2(PlanetBSin-PlanetASin,PlanetBCos-PlanetACos)-Math.atan2(0-PlanetASin,0-PlanetACos))*(180/Math.PI))%360;//Math.sqrt(Math.pow(PlanetBCos-PlanetACos, 2)+Math.pow(PlanetBSin-PlanetASin, 2));
+		return angle; 
     }
     
     /**

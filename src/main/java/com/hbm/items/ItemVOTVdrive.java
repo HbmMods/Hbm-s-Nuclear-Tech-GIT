@@ -149,6 +149,12 @@ public class ItemVOTVdrive extends ItemEnumMulti {
         		stack.stackTagCompound.setBoolean("Processed", true);
             }
             System.out.println("DUNA processing: true");
+            
+        }
+        if (destinationType == DestinationType.MOHO) {
+            if(!isProcessed(stack)) {
+        		stack.stackTagCompound.setBoolean("Processed", true);
+            }
         }
     
         return stack;

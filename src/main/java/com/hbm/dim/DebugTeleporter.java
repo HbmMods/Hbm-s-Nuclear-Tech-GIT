@@ -65,9 +65,9 @@ public class DebugTeleporter extends Teleporter {
 		Side sidex = FMLCommonHandler.instance().getEffectiveSide();
 		if (sidex == Side.SERVER){
 			if (player instanceof EntityPlayerMP){
-				WorldServer worldserver = (WorldServer)mServer.worldServerForDimension(dim);;
+				WorldServer worldserver = (WorldServer)mServer.worldServerForDimension(dim);
 				EntityPlayerMP playerMP = (EntityPlayerMP)player;
-				if (player.ridingEntity == null && player.riddenByEntity == null && player instanceof EntityPlayer){
+				if (player.ridingEntity == null && player instanceof EntityPlayer){
 					FMLCommonHandler.instance().getMinecraftServerInstance();
 					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dim, new com.hbm.dim.DebugTeleporter(mServer.worldServerForDimension(dim), x, y, z));
 					}else if (player.ridingEntity != null && player instanceof EntityPlayer) {
