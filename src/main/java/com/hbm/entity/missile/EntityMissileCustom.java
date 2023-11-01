@@ -229,7 +229,6 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 	@Override
 	public void onUpdate() {
 		this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
-		EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
 
 		this.setLocationAndAngles(posX + this.motionX * velocity, posY + this.motionY * velocity, posZ + this.motionZ * velocity, 0, 0);
 
@@ -253,19 +252,22 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 		        this.motionZ = 0;
 				if(posY > 600) {
 			        if(payload.getItemDamage() == DestinationType.DUNA.ordinal()) {
+						EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
 						if(riding != null) {
-							DebugTeleporter.teleport(riding, SpaceConfig.dunaDimension, riding.posX, 300, riding.posZ);
+							DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
 							riding.dismountEntity(riding);	
 			        }
 			       }
 			        if(payload.getItemDamage() == DestinationType.MOHO.ordinal()) {
+						EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
 						if(riding != null) {
 							DebugTeleporter.teleport(riding, SpaceConfig.mohoDimension, riding.posX, 300, riding.posZ);
 							riding.dismountEntity(riding);	
-			        }
-			       }
-						
-				this.setDead();
+						}
+			       }		
+				}
+				if(posY > 604) {
+					this.setDead();
 				}
 			}
 		}
