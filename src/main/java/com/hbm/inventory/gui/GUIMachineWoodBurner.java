@@ -1,5 +1,8 @@
 package com.hbm.inventory.gui;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineWoodBurner;
@@ -12,7 +15,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineWoodBurner extends GuiInfoContainer {
@@ -32,8 +37,27 @@ public class GUIMachineWoodBurner extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 143, guiTop + 18, 16, 34, burner.power, burner.maxPower);
+
+		if(this.mc.thePlayer.inventory.getItemStack() == null) {
+			
+			Slot slot = (Slot) this.inventorySlots.inventorySlots.get(0);
+			if(this.isMouseOverSlot(slot, mouseX, mouseY) && !slot.getHasStack()) {
+				List<String> bonuses = burner.burnModule.getDesc();
+				if(!bonuses.isEmpty()) {
+					this.func_146283_a(bonuses, mouseX, mouseY);
+				}
+			}
+		}
 		
 		if(burner.liquidBurn) burner.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 70, guiTop + 28, 34, 52);
+		
+		if(!burner.liquidBurn && guiLeft + 16 <= mouseX && guiLeft + 16 + 8 > mouseX && guiTop + 17 < mouseY && guiTop + 17 + 54 >= mouseY) {
+			func_146283_a(Arrays.asList(new String[] { (burner.burnTime / 20) + "s" }), mouseX, mouseY);
+		}
+		
+		if(guiLeft + 53 <= mouseX && guiLeft + 53 + 16 > mouseX && guiTop + 17 < mouseY && guiTop + 17 + 15 >= mouseY) {
+			func_146283_a(Arrays.asList(new String[] { burner.isOn ? EnumChatFormatting.GREEN + "ON" : EnumChatFormatting.RED + "OFF" }), mouseX, mouseY);
+		}
 	}
 
 	@Override
@@ -80,6 +104,11 @@ public class GUIMachineWoodBurner extends GuiInfoContainer {
 		
 		int p = (int) (burner.power * 34 / burner.maxPower);
 		drawTexturedModalRect(guiLeft + 143, guiTop + 52 - p, 176, 52 - p, 16, p);
+		
+		if(burner.maxBurnTime > 0 && !burner.liquidBurn) {
+			int b = (int) (burner.burnTime * 52 / burner.maxBurnTime);
+			drawTexturedModalRect(guiLeft + 17, guiTop + 70 - b, 192, 52 - b, 4, b);
+		}
 		
 		if(burner.liquidBurn) burner.tank.renderTank(guiLeft + 70, guiTop + 80, this.zLevel, 34, 52);
 	}

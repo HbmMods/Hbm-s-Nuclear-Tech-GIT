@@ -70,7 +70,7 @@ public class ContainerMachineWoodBurner extends Container {
 						return null;
 					}
 				} else if(TileEntityFurnace.isItemFuel(stack)) {
-					if(!this.mergeItemStack(originalStack, 2, 3, false)) {
+					if(!this.mergeItemStack(originalStack, 0, 1, false)) {
 						return null;
 					}
 				} else {
