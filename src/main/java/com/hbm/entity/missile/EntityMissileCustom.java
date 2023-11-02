@@ -228,6 +228,8 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 
 	@Override
 	public void onUpdate() {
+		EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
+
 		this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
 
 		this.setLocationAndAngles(posX + this.motionX * velocity, posY + this.motionY * velocity, posZ + this.motionZ * velocity, 0, 0);
@@ -247,20 +249,18 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 			vector.zCoord *= accelXZ * velocity;
 			if(payload != null) {
 				if(payload.getTagCompound().getBoolean("Processed") == true ) {
-		        this.motionX = 0;
-		        this.motionY = 1;  // or any positive value for upward speed
-		        this.motionZ = 0;
+				vector.xCoord = 0;
+				this.motionY = 1; // or any positive value for upward speed
+				vector.zCoord = 0;		        
 				if(posY > 600) {
 			        if(payload.getItemDamage() == DestinationType.DUNA.ordinal()) {
-						EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
 						if(riding != null) {
 							DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
 							riding.dismountEntity(riding);	
 			        }
 			       }
 			        if(payload.getItemDamage() == DestinationType.MOHO.ordinal()) {
-						EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
-						if(riding != null) {
+			        	if(riding != null) {
 							DebugTeleporter.teleport(riding, SpaceConfig.mohoDimension, riding.posX, 300, riding.posZ);
 							riding.dismountEntity(riding);	
 						}
