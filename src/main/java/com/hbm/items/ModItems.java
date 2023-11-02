@@ -780,6 +780,7 @@ public class ModItems {
 	public static Item plate_cast;
 	public static Item plate_welded;
 	public static Item heavy_component;
+	public static Item wire_dense;
 
 	public static Item part_lithium;
 	public static Item part_beryllium;
@@ -3263,6 +3264,7 @@ public class ModItems {
 		plate_cast = new ItemAutogen(MaterialShapes.CASTPLATE).aot(Mats.MAT_BISMUTH, "plate_cast_bismuth").setUnlocalizedName("plate_cast").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_cast");
 		plate_welded = new ItemAutogen(MaterialShapes.WELDEDPLATE).setUnlocalizedName("plate_welded").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_welded");
 		heavy_component = new ItemAutogen(MaterialShapes.HEAVY_COMPONENT).setUnlocalizedName("heavy_component").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":heavy_component");
+		wire_dense = new ItemAutogen(MaterialShapes.DENSEWIRE).setUnlocalizedName("wire_dense").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_dense");
 
 		part_lithium = new Item().setUnlocalizedName("part_lithium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_lithium");
 		part_beryllium = new Item().setUnlocalizedName("part_beryllium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_beryllium");
@@ -6028,6 +6030,7 @@ public class ModItems {
 		GameRegistry.registerItem(wire_gold, wire_gold.getUnlocalizedName());
 		GameRegistry.registerItem(wire_schrabidium, wire_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(wire_magnetized_tungsten, wire_magnetized_tungsten.getUnlocalizedName());
+		GameRegistry.registerItem(wire_dense, wire_dense.getUnlocalizedName());
 		
 		//Parts
 		GameRegistry.registerItem(coil_copper, coil_copper.getUnlocalizedName());

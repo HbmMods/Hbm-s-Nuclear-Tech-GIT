@@ -1459,6 +1459,7 @@ hbmmat.magnetizedtungsten=Magnetized Tungsten
 hbmmat.malachite=Malachite
 hbmmat.meteoriciron=Meteoric Iron
 hbmmat.mingrade=Minecraft Grade Copper
+hbmmat.neodymium=Neodymium
 hbmmat.neptunium237=Neptunium-237
 hbmmat.niobium=Niobium
 hbmmat.obsidian=Obsidian
@@ -4322,6 +4323,7 @@ item.wings_murk.name=Murky Wings
 item.wire_advanced_alloy.name=Super Conductor
 item.wire_aluminium.name=Aluminium Wire
 item.wire_copper.name=Copper Wire
+item.wire_dense.name=Dense %s Wire
 item.wire_gold.name=Gold Wire
 item.wire_magnetized_tungsten.name=4000K High Temperature Super Conductor
 item.wire_red_copper.name=Red Copper Wire
@@ -4409,6 +4411,8 @@ shape.plate=Plate
 shape.plateTriple=Cast Plate
 shape.stamp=Press Stamp
 shape.wire=Wire
+shape.wireDense=Dense Wire
+shape.wiresDense=Dense Wires
 
 soundCategory.ntmMachines=NTM Machines
 

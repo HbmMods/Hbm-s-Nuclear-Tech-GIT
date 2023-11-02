@@ -1,5 +1,20 @@
 ## Added
 * Pigeons
+* Wood burner
+  * Replaces the old combustion generator
+  * A larger machine, has higher efficiency when burning logs or planks
+  * Collects ashes at the same rate as ashpits
+  * Also has an option to burn flammable liquids at 50% efficiency
+* `/ntmrad`
+  * `set` operator can change the radiation amount in the current chunk
+  * `clear` operator will remove the radiation data from all loaded chunks
+* Dense wires
+  * Can be made in a crucible
+  * Material cost is equivalent to 1 ingot
+  * For ease of mass-production, 9-fold molds are also available
+  * Used to craft hadron magnets, reducing crafting complexity be removing annoying upgrade recipes which make automation more complicated and needlessly inflate the amount of materials required for a magnet tier that isn't even the one that's being made
+* Neodymium os now a valid crucible material
+* Particle accelerators will now evenly distribute items using IO if both inputs are equal, making the antischrabidium recipe a lot easier to automate
 
 ## Changed
 * Changed many tool recipes that exclusively used polymer to now also accept bakelite
@@ -9,6 +24,7 @@
 * 1000mB of red mud now makes one ingot of iron in the coker
 * Doubled coal bedrock ore's coal output to 8 coal
 * A new config option now replaces the iron and copper bedrock ores in 528 mode with hematite and malachite
+* the industrial generator now has three additional ports on its underside, meaning it is now a lot easier to properly automate all necessary IO
 
 ## Fixed
 * Pipe and power networks now force the chunk to be saved on transfer, ensuring that rapid changes in the fluid/energy level aren't lost when the tile entity is unloaded

@@ -825,14 +825,27 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.mech_key, 1), new Object[] { "MCM", "MKM", "MMM", 'M', ModItems.ingot_meteorite_forged, 'C', ModItems.coin_maskman, 'K', ModItems.key });
 		addRecipeAuto(new ItemStack(ModItems.spawn_ufo, 1), new Object[] { "MMM", "DCD", "MMM", 'M', ModItems.ingot_meteorite, 'D', DNT.ingot(), 'C', ModItems.coin_worm });
 
+		addRecipeAuto(new ItemStack(ModItems.wire_dense, 1, Mats.MAT_ALLOY.id), new Object[] { "WWW", "W W", "WWW", 'W', ModItems.wire_advanced_alloy });
+		addRecipeAuto(new ItemStack(ModItems.wire_dense, 1, Mats.MAT_GOLD.id), new Object[] { "WWW", "W W", "WWW", 'W', ModItems.wire_gold });
+		addRecipeAuto(new ItemStack(ModItems.wire_dense, 1, Mats.MAT_TUNGSTEN.id), new Object[] { "WWW", "W W", "WWW", 'W', ModItems.wire_tungsten });
+		addRecipeAuto(new ItemStack(ModItems.wire_dense, 1, Mats.MAT_MAGTUNG.id), new Object[] { "WWW", "W W", "WWW", 'W', ModItems.wire_magnetized_tungsten });
+		
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_alloy, 1), new Object[] { "WWW", "WCW", "WWW", 'W', ModItems.wire_advanced_alloy, 'C', ModBlocks.fusion_conductor });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_alloy, 1), new Object[] { "WW", "WW", 'W', ALLOY.wireDense() });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_gold, 1), new Object[] { "PGP", "PCP", "PGP", 'G', GOLD.dust(), 'C', ModBlocks.hadron_coil_alloy, 'P', IRON.plate() });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_gold, 1), new Object[] { "WG", "GW", 'W', ALLOY.wireDense(), 'G', GOLD.wireDense() });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_neodymium, 1), new Object[] { "G", "C", "G", 'G', ND.dust(), 'C', ModBlocks.hadron_coil_gold });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_neodymium, 1), new Object[] { "WG", "GW", 'W', ND.wireDense(), 'G', GOLD.wireDense() });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_magtung, 1), new Object[] { "WWW", "WCW", "WWW", 'W', ModItems.wire_magnetized_tungsten, 'C', ModBlocks.fwatz_conductor });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_magtung, 1), new Object[] { "WW", "WW", 'W', MAGTUNG.wireDense() });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_schrabidium, 1), new Object[] { "WWW", "WCW", "WWW", 'W', ModItems.wire_schrabidium, 'C', ModBlocks.hadron_coil_magtung });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_schrabidium, 1), new Object[] { "WS", "SW", 'W', MAGTUNG.wireDense(), 'S', SA326.wireDense() });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_schrabidate, 1), new Object[] { " S ", "SCS", " S ", 'S', SBD.dust(), 'C', ModBlocks.hadron_coil_schrabidium });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_schrabidate, 1), new Object[] { "WS", "SW", 'W', SBD.wireDense(), 'S', SA326.wireDense() });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_starmetal, 1), new Object[] { "SNS", "SCS", "SNS", 'S', STAR.ingot(), 'N', ModBlocks.hadron_coil_neodymium, 'C', ModBlocks.hadron_coil_schrabidate });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_starmetal, 1), new Object[] { "SW", "WS", 'W', SBD.wireDense(), 'S', STAR.wireDense() });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_chlorophyte, 1), new Object[] { "TCT", "TST", "TCT", 'T', ModItems.coil_tungsten, 'C', ModItems.powder_chlorophyte, 'S', ModBlocks.hadron_coil_starmetal });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_coil_chlorophyte, 1), new Object[] { "TC", "CT", 'T', W.wireDense(), 'C', ModItems.powder_chlorophyte });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_diode, 1), new Object[] { "CIC", "ISI", "CIC", 'C', ModBlocks.hadron_coil_alloy, 'I', STEEL.ingot(), 'S', ModItems.circuit_gold });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_plating, 16), new Object[] { "CC", "CC", 'C', STEEL.plateCast()});
 		addShapelessAuto(new ItemStack(ModBlocks.hadron_plating_blue, 1), new Object[] { ModBlocks.hadron_plating, KEY_BLUE });

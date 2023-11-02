@@ -15,7 +15,9 @@ import com.hbm.lib.Library;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,10 +26,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineWoodBurner extends TileEntityMachineBase implements IFluidStandardReceiver, IControlReceiver, IGUIProvider {
+public class TileEntityMachineWoodBurner extends TileEntityMachineBase implements IFluidStandardReceiver, IControlReceiver, IEnergyGenerator, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 100_000;
@@ -62,6 +65,11 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 			this.tank.setType(2, slots);
 			this.tank.loadTank(3, 4, slots);
 			this.power = Library.chargeItemsFromTE(slots, 5, power, maxPower);
+			
+			for(DirPos pos : getConPos()) {
+				if(power > 0) this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(worldObj.getTotalWorldTime() % 20 == 0) this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 			
 			if(!liquidBurn) {
 				
@@ -120,6 +128,15 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 				worldObj.spawnParticle("smoke", xCoord + 0.5 - dir.offsetX + rot.offsetX, yCoord + 4, zCoord + 0.5 - dir.offsetZ + rot.offsetZ, 0, 0.05, 0);
 			}
 		}
+	}
+	
+	private DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		return new DirPos[] {
+				new DirPos(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetX, dir.getOpposite())
+		};
 	}
 
 	@Override
@@ -191,6 +208,21 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 	}
 
 	@Override
+	public void setPower(long power) {
+		this.power = power;
+	}
+
+	@Override
+	public long getPower() {
+		return power;
+	}
+
+	@Override
+	public long getMaxPower() {
+		return maxPower;
+	}
+
+	@Override
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] {tank};
 	}
@@ -198,5 +230,30 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tank};
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 1,
+					yCoord,
+					zCoord - 1,
+					xCoord + 2,
+					yCoord + 6,
+					zCoord + 2
+					);
+		}
+		
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 }

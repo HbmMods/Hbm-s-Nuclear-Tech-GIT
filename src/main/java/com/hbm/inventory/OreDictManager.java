@@ -506,6 +506,7 @@ public class OreDictManager {
 				if(mat.shapes.contains(MaterialShapes.CASTPLATE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.CASTPLATE.name() + name, new ItemStack(ModItems.plate_cast, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.WELDEDPLATE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.WELDEDPLATE.name() + name, new ItemStack(ModItems.plate_welded, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.HEAVY_COMPONENT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.HEAVY_COMPONENT.name() + name, new ItemStack(ModItems.heavy_component, 1, mat.id));
+				if(mat.shapes.contains(MaterialShapes.DENSEWIRE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.DENSEWIRE.name() + name, new ItemStack(ModItems.wire_dense, 1, mat.id));
 			}
 		}
 		
@@ -654,6 +655,7 @@ public class OreDictManager {
 		public String plateCast() {		return PLATECAST		+ mats[0]; }
 		public String plateWelded() {	return PLATEWELDED		+ mats[0]; }
 		public String heavyComp() {		return HEAVY_COMPONENT	+ mats[0]; }
+		public String wireDense() {		return WIREDENSE		+ mats[0]; }
 		public String billet() {		return BILLET			+ mats[0]; }
 		public String block() {			return BLOCK			+ mats[0]; }
 		public String ore() {			return ORE				+ mats[0]; }
@@ -906,6 +908,7 @@ public class OreDictManager {
 		public String plateCast() {		return PLATECAST		+ groupName; }
 		public String plateWelded() {	return PLATEWELDED		+ groupName; }
 		public String heavyComp() {		return HEAVY_COMPONENT	+ groupName; }
+		public String wireDense() {		return WIREDENSE		+ groupName; }
 		public String billet() {		return BILLET			+ groupName; }
 		public String block() {			return BLOCK			+ groupName; }
 		public String ore() {			return ORE				+ groupName; }

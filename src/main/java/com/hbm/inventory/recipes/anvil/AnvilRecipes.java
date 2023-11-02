@@ -126,6 +126,8 @@ public class AnvilRecipes {
 		smithingRecipes.add(new AnvilSmithingMold(16, new ComparableStack(ModItems.casing_9), new ItemStack[] {new ItemStack(ModItems.casing_9)}));
 		smithingRecipes.add(new AnvilSmithingMold(17, new ComparableStack(ModItems.casing_50), new ItemStack[] {new ItemStack(ModItems.casing_50)}));
 		smithingRecipes.add(new AnvilSmithingMold(18, new ComparableStack(ModItems.casing_buckshot), new ItemStack[] {new ItemStack(ModItems.casing_buckshot)}));
+		smithingRecipes.add(new AnvilSmithingMold(20, new OreDictStack(ALLOY.wireDense(), 1),  new OreDictStack("wireDense", 1)));
+		smithingRecipes.add(new AnvilSmithingMold(21, new OreDictStack(ALLOY.wireDense(), 9),  new OreDictStack("wireDense", 9)));
 		
 		smithingRecipes.add(new AnvilSmithingCyanideRecipe());
 		smithingRecipes.add(new AnvilSmithingRenameRecipe());

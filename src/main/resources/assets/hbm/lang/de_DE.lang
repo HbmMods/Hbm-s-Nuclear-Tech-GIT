@@ -809,6 +809,7 @@ hbmmat.magnetizedtungsten=Magnetisierter Wolfram
 hbmmat.malachite=Malachit
 hbmmat.meteoriciron=Meteoriteneisen
 hbmmat.mingrade=Minecraft-Kupfer
+hbmmat.neodymium=Neodym
 hbmmat.neptunium237=Neptunium-237
 hbmmat.niobium=Niob
 hbmmat.obsidian=Obsidian
@@ -3394,6 +3395,7 @@ item.wings_murk.name=Trübe Flügel
 item.wire_advanced_alloy.name=Supraleiter
 item.wire_aluminium.name=Aluminiumdraht
 item.wire_copper.name=Kupferdraht
+item.wire_dense.name=Dichter %sdraht
 item.wire_gold.name=Golddraht
 item.wire_magnetized_tungsten.name=4000K Hochtemperaturensupraleiter
 item.wire_red_copper.name=Roter Kupferdraht
@@ -3468,6 +3470,8 @@ shape.plate=Platte
 shape.plateTriple=Gussplatte
 shape.stamp=Stempel
 shape.wire=Draht
+shape.wireDense=Dichter Draht
+shape.wiresDense=Dichte Drähte
 
 soundCategory.ntmMachines=NTM Maschinen
 
