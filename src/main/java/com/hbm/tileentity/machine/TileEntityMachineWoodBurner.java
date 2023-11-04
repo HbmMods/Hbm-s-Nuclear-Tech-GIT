@@ -5,6 +5,7 @@ import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.container.ContainerMachineWoodBurner;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
@@ -40,6 +41,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 	public boolean isOn = false;
 	
 	public FluidTank tank;
+	public int millis = 0;
 	
 	public static ModuleBurnTime burnModule = new ModuleBurnTime().setLogTimeMod(4).setWoodTimeMod(2);
 
@@ -106,12 +108,24 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 					FT_Flammable trait = tank.getTankType().getTrait(FT_Flammable.class);
 					
 					if(trait != null) {
-						this.power += trait.getHeatEnergy() / 2L;
-						tank.setFill(tank.getFill() - 1);
-						if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND);
+						
+						if(millis <= 900) {
+							this.tank.setFill(tank.getFill() - 1);
+							this.millis += 100;
+						}
+						
+						int toBurn = Math.min(millis, 5);
+						
+						if(toBurn > 0) {
+							this.power += trait.getHeatEnergy() * toBurn / 4_000L;
+							this.millis -= toBurn;
+							if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND);
+						}
 					}
 				}
 			}
+			
+			if(this.power > this.maxPower) this.power = this.maxPower;
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
@@ -119,6 +133,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 			data.setInteger("maxBurnTime", maxBurnTime);
 			data.setBoolean("isOn", isOn);
 			data.setBoolean("liquidBurn", liquidBurn);
+			tank.writeToNBT(data, "t");
 			this.networkPack(data, 25);
 		} else {
 			
@@ -146,6 +161,30 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 		this.maxBurnTime = nbt.getInteger("maxBurnTime");
 		this.isOn = nbt.getBoolean("isOn");
 		this.liquidBurn = nbt.getBoolean("liquidBurn");
+		tank.readFromNBT(nbt, "t");
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.power = nbt.getLong("power");
+		this.burnTime = nbt.getInteger("burnTime");
+		this.maxBurnTime = nbt.getInteger("maxBurnTime");
+		this.isOn = nbt.getBoolean("isOn");
+		this.liquidBurn = nbt.getBoolean("liquidBurn");
+		tank.readFromNBT(nbt, "t");
+		this.millis = nbt.getInteger("millis");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		nbt.setLong("power", power);
+		nbt.setInteger("burnTime", burnTime);
+		nbt.setInteger("maxBurnTime", maxBurnTime);
+		nbt.setBoolean("isOn", isOn);
+		nbt.setBoolean("liquidBurn", liquidBurn);
+		tank.writeToNBT(nbt, "t");
+		nbt.setInteger("millis", millis);
 	}
 	
 	protected boolean processAsh(int level, EnumAshType type, int threshold) {
@@ -220,6 +259,18 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+
+	@Override
+	public boolean canConnect(ForgeDirection dir) {
+		ForgeDirection rot = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		return dir == rot.getOpposite();
+	}
+	
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		ForgeDirection rot = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		return dir == rot.getOpposite();
 	}
 
 	@Override

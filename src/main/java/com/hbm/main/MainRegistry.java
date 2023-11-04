@@ -5,9 +5,7 @@ import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockToolConversion;
-import com.hbm.commands.CommandDebugChunkLoad;
-import com.hbm.commands.CommandReloadRecipes;
-import com.hbm.commands.CommandSatellites;
+import com.hbm.commands.*;
 import com.hbm.config.*;
 import com.hbm.crafting.RodRecipes;
 import com.hbm.creativetabs.*;
@@ -924,6 +922,7 @@ public class MainRegistry {
 		event.registerServerCommand(new CommandReloadRecipes());
 		event.registerServerCommand(new CommandDebugChunkLoad());
 		event.registerServerCommand(new CommandSatellites());
+		event.registerServerCommand(new CommandRadiation());
 	}
 	
 	@EventHandler

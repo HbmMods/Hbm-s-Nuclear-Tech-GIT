@@ -25,6 +25,9 @@
 * the industrial generator now has three additional ports on its underside, meaning it is now a lot easier to properly automate all necessary IO
 * Neodymium is now a valid crucible material
 * Particle accelerators will now evenly distribute items using IO if both inputs are equal, making the antischrabidium recipe a lot easier to automate
+* Due to multiple complaints regarding the plastic bag's ability to contain radiation, plastic bags now *double* the radiation of the item they contain
+* The post impact spawning restrictions have changed, meaning that spawning things with spawn eggs is no longer broken. Due to technical limitations, this means that post impact, no mobs will spawn as part of world gen, only via random spawns.
+* All energy storage blocks now have a fixed transfer limit of 5% of their capacity per tick, reducing the impact of ping-ponging considerably
 
 ## Fixed
 * Pipe and power networks now force the chunk to be saved on transfer, ensuring that rapid changes in the fluid/energy level aren't lost when the tile entity is unloaded

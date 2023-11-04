@@ -35,6 +35,7 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.terraingen.BiomeEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType;
 import net.minecraftforge.event.world.WorldEvent;
 
@@ -109,14 +110,29 @@ public class ModEventHandlerImpact {
 				if(event.world.provider.dimensionId == 0) {
 					if(event.entityLiving.height >= 0.85F || event.entityLiving.width >= 0.85F && !(event.entity instanceof EntityWaterMob) && !event.entityLiving.isChild()) {
 						event.setResult(Result.DENY);
+						event.entityLiving.setDead();
 					}
 				}
 				if(event.entityLiving instanceof EntityWaterMob) {
 					Random rand = new Random();
 					if(rand.nextInt(5) != 0) {
 						event.setResult(Result.DENY);
+						event.entityLiving.setDead();
 					}
 				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onPopulate(Populate event) {
+		
+		if(event.type == Populate.EventType.ANIMALS) {
+			
+			TomSaveData data = TomSaveData.forWorld(event.world);
+			
+			if(data.impact) {
+				event.setResult(Result.DENY);
 			}
 		}
 	}

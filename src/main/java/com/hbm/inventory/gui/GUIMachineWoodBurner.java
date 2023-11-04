@@ -49,7 +49,7 @@ public class GUIMachineWoodBurner extends GuiInfoContainer {
 			}
 		}
 		
-		if(burner.liquidBurn) burner.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 70, guiTop + 28, 34, 52);
+		if(burner.liquidBurn) burner.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 18, 16, 52);
 		
 		if(!burner.liquidBurn && guiLeft + 16 <= mouseX && guiLeft + 16 + 8 > mouseX && guiTop + 17 < mouseY && guiTop + 17 + 54 >= mouseY) {
 			func_146283_a(Arrays.asList(new String[] { (burner.burnTime / 20) + "s" }), mouseX, mouseY);
@@ -110,6 +110,6 @@ public class GUIMachineWoodBurner extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 17, guiTop + 70 - b, 192, 52 - b, 4, b);
 		}
 		
-		if(burner.liquidBurn) burner.tank.renderTank(guiLeft + 70, guiTop + 80, this.zLevel, 34, 52);
+		if(burner.liquidBurn) burner.tank.renderTank(guiLeft + 80, guiTop + 70, this.zLevel, 16, 52);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.tileentity.IRepairable;
 import com.hbm.tileentity.deco.TileEntityLanternBehemoth;
 
@@ -48,7 +49,14 @@ public class BlockLanternBehemoth extends BlockDummyable implements IToolable, I
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 		
 		if(tool != ToolType.TORCH) return false;
-		return IRepairable.tryRepairMultiblock(world, x, y, z, this, player);
+		boolean didRepair = IRepairable.tryRepairMultiblock(world, x, y, z, this, player);
+		
+		if(didRepair) {
+			HbmPlayerProps data = HbmPlayerProps.getData(player);
+			data.reputation++;
+		}
+		
+		return didRepair;
 	}
 
 	@Override
