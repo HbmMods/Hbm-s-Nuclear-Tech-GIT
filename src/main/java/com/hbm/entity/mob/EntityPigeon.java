@@ -7,7 +7,11 @@ import com.hbm.entity.mob.ai.EntityAIStartFlying;
 import com.hbm.entity.mob.ai.EntityAIStopFlying;
 import com.hbm.entity.mob.ai.EntityAISwimmingConditional;
 import com.hbm.entity.mob.ai.EntityAIWanderConditional;
+import com.hbm.items.tool.ItemFertilizer;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -15,12 +19,16 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.FakePlayerFactory;
 
 public class EntityPigeon extends EntityCreature implements IFlyingCreature, IAnimals {
 	
@@ -149,6 +157,34 @@ public class EntityPigeon extends EntityCreature implements IFlyingCreature, IAn
 			
 			this.moveForward = 1.5F;
 			if(this.getRNG().nextInt(20) == 0) this.rotationYaw += this.getRNG().nextGaussian() * 30;
+			
+			if(this.isFat() && this.getRNG().nextInt(50) == 0) {
+				
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "sweat");
+				nbt.setInteger("count", 3);
+				nbt.setInteger("block", Block.getIdFromBlock(Blocks.wool));
+				nbt.setInteger("entity", getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(dimension, posX, posY, posZ, 50));
+
+				int x = (int) Math.floor(posX);
+				int y = (int) Math.floor(posY) - 1;
+				int z = (int) Math.floor(posZ);
+				EntityPlayer player = FakePlayerFactory.getMinecraft((WorldServer)worldObj);
+				
+				for(int i = 0; i < 25; i++) {
+					
+					if(ItemFertilizer.fertilize(worldObj, x, y - i, z, player, true)) {
+						worldObj.playAuxSFX(2005, x, y - i, z, 0);
+						break;
+					}
+				}
+				
+				if(this.getRNG().nextInt(10) == 0) {
+					this.setFat(false);
+				}
+			}
+			
 		} else if(!this.onGround && this.motionY < 0.0D) {
 			this.motionY *= 0.8D;
 		}

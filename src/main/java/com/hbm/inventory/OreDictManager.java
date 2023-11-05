@@ -580,6 +580,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("dyeGray", fromOne(powder_ash, EnumAshType.MISC));
 		OreDictionary.registerOre("dyeBrown", fromOne(powder_ash, EnumAshType.FLY));
 		OreDictionary.registerOre("dyeBlack", fromOne(powder_ash, EnumAshType.SOOT));
+		OreDictionary.registerOre("dyeMagenta", fromOne(powder_ash, EnumAshType.FULLERENE));
 		OreDictionary.registerOre("dye", new ItemStack(powder_ash, 1, OreDictionary.WILDCARD_VALUE));
 
 		OreDictionary.registerOre("blockGlass", glass_boron);

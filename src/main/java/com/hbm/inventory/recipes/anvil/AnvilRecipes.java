@@ -311,9 +311,8 @@ public class AnvilRecipes {
 				new AStack[] {
 						new ComparableStack(Blocks.stonebrick, 8),
 						new OreDictStack(KEY_LOG, 16),
-						new OreDictStack(CU.ingot(), 8),
-						new OreDictStack(KEY_BRICK, 16),
-						new ComparableStack(Items.blaze_powder, 4)
+						new OreDictStack(CU.plateWelded(), 2),
+						new OreDictStack(KEY_BRICK, 16)
 				}, new AnvilOutput(new ItemStack(ModBlocks.furnace_combination))).setTier(2));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
@@ -339,7 +338,7 @@ public class AnvilRecipes {
 						new ComparableStack(ModBlocks.reinforced_stone, 16),
 						new OreDictStack(STEEL.plate(), 12),
 						new ComparableStack(ModItems.hull_small_steel, 2),
-						new ComparableStack(ModItems.coil_copper, 8),
+						new ComparableStack(ModItems.coil_copper, 4),
 						new ComparableStack(ModItems.gear_large, 1)
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_steam_engine))).setTier(2));
 

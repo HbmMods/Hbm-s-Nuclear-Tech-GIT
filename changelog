@@ -1,15 +1,23 @@
 ## Added
 * Pigeons
+  * Spawn on plains in large flocks
+  * Will alternate between walking on the ground and flying around aimlessly
+  * When on the ground, they can eat dropped bread (the item has a 33% of being used up)
+  * Fat pigeons will spawn droppings when flying, these droppings will fertilize the ground below them
+  * When hit with damage equivalent to twice their health or higher, pigeons will explode, dropping 10 feathers
+  * when killed otherwise, they only drop a few feathers and sometimes raw chicken
 * Wood burner
   * Replaces the old combustion generator
   * A larger machine, has higher efficiency when burning logs or planks
   * Collects ashes at the same rate as ashpits
   * Also has an option to burn flammable liquids at 50% efficiency
+  * Will automatically shut off if the energy buffer is full
 * `/ntmrad`
   * `set` operator can change the radiation amount in the current chunk
   * `clear` operator will remove the radiation data from all loaded chunks
 * Dense wires
   * Can be made in a crucible
+  * Alloy and gold ones can also be made using the arc welder
   * Material cost is equivalent to 1 ingot
   * For ease of mass-production, 9-fold molds are also available
   * Used to craft hadron magnets, reducing crafting complexity be removing annoying upgrade recipes which make automation more complicated and needlessly inflate the amount of materials required for a magnet tier that isn't even the one that's being made
@@ -23,11 +31,16 @@
 * Doubled coal bedrock ore's coal output to 8 coal
 * A new config option now replaces the iron and copper bedrock ores in 528 mode with hematite and malachite
 * the industrial generator now has three additional ports on its underside, meaning it is now a lot easier to properly automate all necessary IO
-* Neodymium is now a valid crucible material
+* Neodymium and DNT are now valid crucible materials
 * Particle accelerators will now evenly distribute items using IO if both inputs are equal, making the antischrabidium recipe a lot easier to automate
 * Due to multiple complaints regarding the plastic bag's ability to contain radiation, plastic bags now *double* the radiation of the item they contain
 * The post impact spawning restrictions have changed, meaning that spawning things with spawn eggs is no longer broken. Due to technical limitations, this means that post impact, no mobs will spawn as part of world gen, only via random spawns.
 * All energy storage blocks now have a fixed transfer limit of 5% of their capacity per tick, reducing the impact of ping-ponging considerably
+* Trenchmaster armor no longer takes damage from self-inflicted explosions, knockback is still applied though
+* The combination oven no longer needs blaze powder to be made, instead it uses welded copper plates. Welded copper needs 1kHE/t to make, twice as much as welded steel.
+* The steam engine now only needs 4 copper coils instead of 8
 
 ## Fixed
 * Pipe and power networks now force the chunk to be saved on transfer, ensuring that rapid changes in the fluid/energy level aren't lost when the tile entity is unloaded
+* Fixed Fwatz access hatch not visually connecting to cables
+* Fixed most projectiles creating explosions with the projectile itself as the attacker instead of the player that fired that projectile

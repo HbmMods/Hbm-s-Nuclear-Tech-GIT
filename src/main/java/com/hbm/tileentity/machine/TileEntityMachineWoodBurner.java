@@ -178,6 +178,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
 		nbt.setLong("power", power);
 		nbt.setInteger("burnTime", burnTime);
 		nbt.setInteger("maxBurnTime", maxBurnTime);

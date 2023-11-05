@@ -35,6 +35,11 @@ public class ArcWelderRecipes extends SerializableRecipe {
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.motor, 2), 100, 400L,
 				new OreDictStack(STEEL.plate(), 1), new ComparableStack(ModItems.coil_copper), new ComparableStack(ModItems.coil_copper_torus)));
 
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.wire_dense, 1, Mats.MAT_ALLOY.id), 100, 10_000L,
+				new ComparableStack(ModItems.wire_advanced_alloy, 8)));
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.wire_dense, 1, Mats.MAT_GOLD.id), 100, 10_000L,
+				new ComparableStack(ModItems.wire_gold, 8)));
+
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.circuit_copper), 100, 1_000L, new FluidStack(Fluids.GAS, 250),
 				new ComparableStack(ModItems.circuit_aluminium, 1), new OreDictStack(NETHERQUARTZ.dust()), new ComparableStack(ModItems.wire_copper, 8)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.circuit_red_copper), 100, 2_500L, new FluidStack(Fluids.PETROLEUM, 250),
@@ -50,6 +55,9 @@ public class ArcWelderRecipes extends SerializableRecipe {
 		//high-demand mid-game parts
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_STEEL.id), 100, 500L,
 				new OreDictStack(STEEL.plateCast(), 2)));
+		//literally just the combination oven
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_COPPER.id), 200, 1_000L,
+				new OreDictStack(CU.plateCast(), 2)));
 		//mid-game, single combustion engine running on LPG
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_TITANIUM.id), 600, 50_000L,
 				new OreDictStack(TI.plateCast(), 2)));
