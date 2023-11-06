@@ -43,7 +43,10 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 	
 	public boolean isOn = false;
 	public boolean analysisOnly = false;
-	public boolean hopperMode = false;
+	public int ioMode = 0;
+	public static final int MODE_DEFAULT = 0;
+	public static final int MODE_HOPPER = 1;
+	public static final int MODE_SINGLE = 2;
 	
 	private int delay;
 	public EnumHadronState state = EnumHadronState.IDLE;
@@ -71,8 +74,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 	
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-        return access;
-    }
+		return access;
+	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
@@ -82,6 +85,10 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		if(i != 0 && i != 1) return false;
+		
+		if(this.ioMode == MODE_SINGLE) {
+			return slots[i] == null;
+		}
 		
 		//makes sure that equal items like the antimatter capsules are spread out evenly
 		if(slots[0] != null && slots[1] != null && slots[0].getItem() == slots[1].getItem() && slots[0].getItemDamage() == slots[1].getItemDamage()) {
@@ -102,7 +109,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			
 			if(delay <= 0 && this.isOn && particles.size() < maxParticles && slots[0] != null && slots[1] != null && power >= maxPower * 0.75) {
 				
-				if(!hopperMode || (slots[0].stackSize > 1 && slots[1].stackSize > 1)) {
+				if(ioMode != MODE_HOPPER || (slots[0].stackSize > 1 && slots[1].stackSize > 1)) {
 					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 					particles.add(new Particle(slots[0], slots[1], dir, xCoord, yCoord, zCoord));
 					this.decrStackSize(0, 1);
@@ -131,7 +138,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			data.setBoolean("isOn", isOn);
 			data.setLong("power", power);
 			data.setBoolean("analysis", analysisOnly);
-			data.setBoolean("hopperMode", hopperMode);
+			data.setInteger("ioMode", ioMode);
 			data.setByte("state", (byte) state.ordinal());
 			
 			data.setBoolean("stat_success", stat_success);
@@ -189,7 +196,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		this.isOn = data.getBoolean("isOn");
 		this.power = data.getLong("power");
 		this.analysisOnly = data.getBoolean("analysis");
-		this.hopperMode = data.getBoolean("hopperMode");
+		this.ioMode = data.getInteger("ioMode");
 		this.state = EnumHadronState.values()[data.getByte("state")];
 
 		this.stat_success = data.getBoolean("stat_success");
@@ -207,8 +214,12 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			this.isOn = !this.isOn;
 		if(meta == 1)
 			this.analysisOnly = !this.analysisOnly;
-		if(meta == 2)
-			this.hopperMode = !this.hopperMode;
+		if(meta == 2) {
+			this.ioMode++;
+			if(ioMode > 2) ioMode = 0;
+		}
+		
+		this.markChanged();
 	}
 	
 	private void drawPower() {
@@ -262,7 +273,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		this.isOn = nbt.getBoolean("isOn");
 		this.power = nbt.getLong("power");
 		this.analysisOnly = nbt.getBoolean("analysis");
-		this.hopperMode = nbt.getBoolean("hopperMode");
+		this.ioMode = nbt.getInteger("ioMode");
 	}
 	
 	@Override
@@ -272,7 +283,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		nbt.setBoolean("isOn", isOn);
 		nbt.setLong("power", power);
 		nbt.setBoolean("analysis", analysisOnly);
-		nbt.setBoolean("hopperMode", hopperMode);
+		nbt.setInteger("ioMode", ioMode);
 	}
 	
 	public int getPowerScaled(int i) {

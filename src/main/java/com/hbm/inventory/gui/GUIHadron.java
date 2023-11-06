@@ -40,8 +40,10 @@ public class GUIHadron extends GuiInfoContainer {
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 108, 70, 16, hadron.power, hadron.maxPower);
 
-		if(hadron.hopperMode)
+		if(hadron.ioMode == 1)
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 89, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.hopper1"));
+		else if(hadron.ioMode == 2)
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 89, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.hopper2"));
 		else
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 89, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.hopper0"));
 		
@@ -105,9 +107,9 @@ public class GUIHadron extends GuiInfoContainer {
 		
 		if(hadron.analysisOnly)
 			drawTexturedModalRect(guiLeft + 142, guiTop + 107, 206, 18, 18, 18);
-		
-		if(hadron.hopperMode)
-			drawTexturedModalRect(guiLeft + 142, guiTop + 89, 206, 36, 18, 18);
+
+		if(hadron.ioMode == hadron.MODE_HOPPER) drawTexturedModalRect(guiLeft + 142, guiTop + 89, 206, 36, 18, 18);
+		if(hadron.ioMode == hadron.MODE_SINGLE) drawTexturedModalRect(guiLeft + 142, guiTop + 89, 224, 36, 18, 18);
 
 		if(hadron.state == EnumHadronState.SUCCESS) {
 			drawTexturedModalRect(guiLeft + 73, guiTop + 29, 176, 0, 30, 30);
