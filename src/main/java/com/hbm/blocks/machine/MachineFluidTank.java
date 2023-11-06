@@ -7,9 +7,11 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.entity.projectile.EntityBombletZeta;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.IRepairable;
@@ -27,6 +29,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -61,7 +66,8 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 		
 		if(world.isRemote) {
 			return true;
-		} else if(!player.isSneaking()) {
+		} 
+		else if(!player.isSneaking()) {
 			int[] pos = this.findCore(world, x, y, z);
 
 			if(pos == null)
@@ -74,9 +80,30 @@ public class MachineFluidTank extends BlockDummyable implements IPersistentInfoP
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			}
 			return true;
-		} else {
+		}
+		else if(player.isSneaking()){
+			int[] pos = this.findCore(world, x, y, z);
+
+			if(pos == null)
+				return false;
+			
+			TileEntityMachineFluidTank tank = (TileEntityMachineFluidTank) world.getTileEntity(pos[0], pos[1], pos[2]);
+			
+			if(tank != null) {
+				if(tank.hasExploded) return false;
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
+				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
+
+				tank.tank.setTankType(type);
+				tank.markDirty();
+				player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation(type.getConditionalName())).appendSibling(new ChatComponentText("!")));
+				}
+			} 
+			return true;
+		}else {
 			return true;
 		}
+		
 	}
 
 	@Override
