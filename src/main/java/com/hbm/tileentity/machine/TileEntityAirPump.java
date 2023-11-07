@@ -140,11 +140,16 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	}
 
 	public void revalidateRoom() {
-	    sealedRoomAABB = findSealedRoom(worldObj, xCoord, yCoord, zCoord);
-	    if (sealedRoomAABB != null && needsRevalidate == false) {
+	    List<AxisAlignedBB> roomSections = findRoomSections(worldObj, xCoord, yCoord, zCoord);
+	    AxisAlignedBB newSealedRoomAABB = mergeAABBs(roomSections);
+
+	    // Finalize the sealing process with the new AABB
+	    if (newSealedRoomAABB != null) {
+	        sealedRoomAABB = newSealedRoomAABB;
 	        processEntitiesWithinAABB(worldObj, sealedRoomAABB);
 	    }
 	}
+	
 
 	private void updateConnections() {
 		
@@ -171,9 +176,10 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		
 		return ret;
 	}
-	private AxisAlignedBB findSealedRoom(World world, int startX, int startY, int startZ) {
+	private List<AxisAlignedBB> findRoomSections(World world, int startX, int startY, int startZ) {
 	    Set<BlockPos> visited = new HashSet<>();
 	    Stack<BlockPos> stack = new Stack<>();
+	    List<AxisAlignedBB> sectionAABBs = new ArrayList<>();
 
 	    stack.push(new BlockPos(startX, startY, startZ));
 
@@ -182,12 +188,17 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 
 	    while (!stack.isEmpty()) {
 	        BlockPos current = stack.pop();
+
 	        if (Math.abs(maxX - minX) > MAX_RANGE_X || Math.abs(maxY - minY) > MAX_RANGE_Y || Math.abs(maxZ - minZ) > MAX_RANGE_Z) {
-	            return null; 
+	            // If current stack led to a section that is too big, we discard it and continue
+	            continue;
 	        }
-	    
-	        if (!visited.contains(current) && isWithinBounds(current, minX, maxX, minY, maxY, minZ, maxZ)) {
+
+	        if (!visited.contains(current)) {
 	            visited.add(current);
+
+	            // Logic to identify if we've entered a new section could go here
+
 	            for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 	                BlockPos neighbor = current.offset(dir);
 	                Block block = world.getBlock(neighbor.getX(), neighbor.getY(), neighbor.getZ());
@@ -200,23 +211,43 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	                    maxX = Math.max(maxX, neighbor.getX());
 	                    maxY = Math.max(maxY, neighbor.getY());
 	                    maxZ = Math.max(maxZ, neighbor.getZ());
-	                    
 	                }
 	            }
 	        }
+
+	        // After a section has been fully traversed, we add its AABB to the list
+	        if (stack.isEmpty() && !visited.isEmpty()) {
+	            AxisAlignedBB sectionAABB = AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+	            sectionAABBs.add(sectionAABB);
+	            
+	            // Reset the bounds for the next section
+	            minX = maxX = current.getX();
+	            minY = maxY = current.getY();
+	            minZ = maxZ = current.getZ();
+	        }
 	    }
 
-	    if (!visited.isEmpty()) {
-	        AxisAlignedBB roomAABB = AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
-	        
-	        processEntitiesWithinAABB(world, roomAABB);
-	        
-	        return roomAABB;
-	    }
-
-	    return null;
+	    return sectionAABBs;
 	}
+	private AxisAlignedBB mergeAABBs(List<AxisAlignedBB> aabbs) {
+	    if (aabbs == null || aabbs.isEmpty()) return null;
 
+	    AxisAlignedBB combined = aabbs.get(0); // Start with the first AABB
+
+	    // Use the func_111270_a() method to merge AABBs if it exists,
+	    // or replace with your custom logic if it doesn't.
+	    for (int i = 1; i < aabbs.size(); i++) {
+	        combined = combined.func_111270_a(aabbs.get(i));
+	    }
+
+	    return combined;
+	}
+	public AxisAlignedBB mergeRoomSections(World world, int startX, int startY, int startZ) {
+	    List<AxisAlignedBB> sectionAABBs = findRoomSections(world, startX, startY, startZ);
+	    AxisAlignedBB mergedAABB = mergeAABBs(sectionAABBs);
+	    return mergedAABB;
+	}
+	
 	private void processEntitiesWithinAABB(World world, AxisAlignedBB aabb) {
 	    List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
 
