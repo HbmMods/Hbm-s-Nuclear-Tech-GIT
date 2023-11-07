@@ -57,7 +57,7 @@ public class CustomMachineHandler extends TemplateRecipeHandler {
 
 			for(int i = 0; i < 3; i++) if(recipe.inputFluids.length > i) inputs.add(new PositionedStack(ItemFluidIcon.make(recipe.inputFluids[i]), 12 + i * 18, 6));
 			for(int i = 0; i < 3; i++) if(recipe.inputItems.length > i) inputs.add(new PositionedStack(recipe.inputItems[i].extractForNEI(), 12 + i * 18, 24));
-			for(int i = 3; i < 6; i++) if(recipe.inputItems.length > i) inputs.add(new PositionedStack(recipe.inputItems[i].extractForNEI(), 12 + i * 18, 42));
+			for(int i = 3; i < 6; i++) if(recipe.inputItems.length > i) inputs.add(new PositionedStack(recipe.inputItems[i].extractForNEI(), 12 + (i - 3) * 18, 42));
 
 			for(int i = 0; i < 3; i++) if(recipe.outputFluids.length > i) outputs.add(new PositionedStack(ItemFluidIcon.make(recipe.outputFluids[i]), 102 + i * 18, 6));
 			
@@ -76,7 +76,7 @@ public class CustomMachineHandler extends TemplateRecipeHandler {
 				if(pair.getValue() != 1) {
 					ItemStackUtil.addTooltipToStack(out, EnumChatFormatting.RED + "" + (((int)(pair.getValue() * 1000)) / 10D) + "%");
 				}
-				outputs.add(new PositionedStack(out, 102 + i * 18, 42));
+				outputs.add(new PositionedStack(out, 102 + (i - 3) * 18, 42));
 			}
 			
 			this.machine = new PositionedStack(new ItemStack(ModBlocks.custom_machine, 1, 100 + CustomMachineConfigJSON.niceList.indexOf(conf)), 75, 42);
