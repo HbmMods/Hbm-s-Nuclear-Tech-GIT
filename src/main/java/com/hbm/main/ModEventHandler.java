@@ -73,6 +73,7 @@ import com.hbm.packet.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.tileentity.machine.TileEntityAirPump;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RequestNetwork;
 import com.hbm.util.AchievementHandler;
@@ -134,7 +135,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EntityDamageSource;
@@ -166,6 +169,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
 public class ModEventHandler {
@@ -206,7 +210,32 @@ public class ModEventHandler {
 			}
 		}
 	}
+	
+	@SubscribeEvent
+	public void onBlockChange(BlockEvent event) {
+	    if (event.world.isRemote) {
+	        return; 
+	    }
 
+
+	    for (TileEntity te : (Iterable<TileEntity>) event.world.loadedTileEntityList) { 
+	        if (te instanceof TileEntityAirPump) {
+	            TileEntityAirPump airPump = (TileEntityAirPump) te;
+	            AxisAlignedBB sealedRoomAABB = airPump.getSealedRoomAABB();
+	            if (sealedRoomAABB != null) {
+	                int x = event.x;
+	                int y = event.y;
+	                int z = event.z;
+	                if (sealedRoomAABB.minX <= x && x <= sealedRoomAABB.maxX &&
+	                    sealedRoomAABB.minY <= y && y <= sealedRoomAABB.maxY &&
+	                    sealedRoomAABB.minZ <= z && z <= sealedRoomAABB.maxZ) {
+	                    airPump.setNeedsRevalidate(true);
+	                    break;
+	                }
+	            }
+	        }
+	    }
+	}
 	@SubscribeEvent
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		
