@@ -100,14 +100,9 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 				double dy = yCoord + offset;
 				double dz = zCoord + 0.5;
 
-	            if(needsRevalidate) {
-	                AxisAlignedBB sealedRoomAABB = findSealedRoom(worldObj, xCoord, yCoord, zCoord);
-
-	            }
-	            if (sealedRoomAABB != null) {
-	                    processEntitiesWithinAABB(worldObj, sealedRoomAABB);
+				revalidateRoom();
 	            
-	            }
+	            
 	        }
 
 			NBTTagCompound data = new NBTTagCompound();
@@ -131,6 +126,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 			}
 		}
 	}
+	
 		
 		
 		
@@ -138,17 +134,16 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	    return sealedRoomAABB;
 	}
 
-	// Method to set the needsRevalidate flag
 	public void setNeedsRevalidate(boolean flag) {
 	    needsRevalidate = flag;
+	    System.out.print("SEVENT RETURNED " + needsRevalidate);
 	}
 
 	public void revalidateRoom() {
 	    sealedRoomAABB = findSealedRoom(worldObj, xCoord, yCoord, zCoord);
-	    if (sealedRoomAABB != null) {
+	    if (sealedRoomAABB != null && needsRevalidate == false) {
 	        processEntitiesWithinAABB(worldObj, sealedRoomAABB);
 	    }
-	    needsRevalidate = false;
 	}
 
 	private void updateConnections() {
