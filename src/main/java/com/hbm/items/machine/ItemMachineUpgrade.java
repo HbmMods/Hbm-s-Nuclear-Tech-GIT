@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.items.ModItems;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -33,132 +34,131 @@ public class ItemMachineUpgrade extends Item {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		
 		if(this.type == UpgradeType.SPEED) {
-			list.add(EnumChatFormatting.RED + "Mining Drill:");
-			list.add("Delay -" + (15 * this.tier) + "% / Consumption +" + (300 * this.tier) + "HE/t");
-			list.add(EnumChatFormatting.RED + "Laser Miner:");
-			list.add("Delay ÷" + (1 + this.tier) + " / Consumption +" + (625 * this.tier) + "HE/t");
-			list.add(EnumChatFormatting.RED + "Electric Furnace:");
-			list.add("Delay -" + (25 * this.tier) + "% / Consumption +" + (50 * this.tier) + "HE/t");
-			list.add(EnumChatFormatting.RED + "Assembly Machine:");
-			list.add("Delay -" + (25 * this.tier) + "% / Consumption +" + (300 * this.tier) + "HE/t");
-			list.add(EnumChatFormatting.RED + "Chemical Plant:");
-			list.add("Delay -" + (25 * this.tier) + "% / Consumption +" + (300 * this.tier) + "HE/t");
-			list.add(EnumChatFormatting.RED + "Oil Wells:");
-			list.add("Delay -" + (25 * this.tier) + "% / Consumption +" + (25 * this.tier) + "%");
-			list.add(EnumChatFormatting.RED + "Crystallizer:");
-			list.add("Delay -" + (20 * this.tier) + "% / Consumption +" + (1000 * this.tier) + "HE/t");
-			list.add(EnumChatFormatting.RED + "Cyclotron:");
-			list.add("Speed x" + (1 + this.tier));
-			list.add(EnumChatFormatting.RED + "Flare Stack:");
-			list.add("Speed x" + (1 + this.tier));
-			list.add(EnumChatFormatting.RED + "Maxwell:");
-			list.add("Damage +" + (0.25 * (double)this.tier) + "dmg/t");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[0]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.speed",(15 * this.tier),(300 * this.tier),"","","","","","")[0]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[1]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.speed","","",(1 + this.tier),(625 * this.tier),"","","","")[1]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[2]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.speed",(25 * this.tier),(50 * this.tier),"","","","","","")[0]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[3]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.speed",(25 * this.tier),(300 * this.tier),"","","","","","")[0]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[4]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.speed",(25 * this.tier),(300 * this.tier),"","","","","","")[0]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[5]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.speed","","","","",(25 * this.tier),(25 * this.tier),"","")[2]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[6]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.speed",(20 * this.tier),(1000 * this.tier),"","","","","","")[0]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[7]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.speed","","","","","","",(1 + this.tier),"")[3]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[8]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.speed","","","","","","",(1 + this.tier),"")[3]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[9]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.speed","","","","","","","",(0.25 * (double)this.tier))[4]);
 		}
 		
 		if(this.type == UpgradeType.EFFECT) {
-			list.add(EnumChatFormatting.RED + "Mining Drill:");
-			list.add("Radius +" + this.tier + "m / Consumption +" + (80 * this.tier) + "HE/t");
-			list.add(EnumChatFormatting.RED + "Crystallizer:");
-			list.add("+" + (5 * this.tier) + "% chance of not consuming an item / Acid consumption +" + (1000 * this.tier) + "mB");
-			list.add(EnumChatFormatting.RED + "Cyclotron:");
-			list.add("-" + (100 - 100 / (this.tier + 1)) + "% chance of incrementing overheat counter");
-			list.add(EnumChatFormatting.RED + "Flare Stack:");
-			list.add("+" + (100 * this.tier / 3) + "% power production");
-			list.add(EnumChatFormatting.RED + "Maxwell:");
-			list.add("Range +" + (3 * this.tier) + "m");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[0]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.effect",this.tier,(80 * this.tier),"","","","","")[0]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[6]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.effect","","",(5 * this.tier),(1000 * this.tier),"","","")[1]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[7]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.effect","","","","",(100 - 100 / (this.tier + 1)),"","")[2]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[8]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.effect","","","","","",(100 * this.tier / 3),"")[3]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[9]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.effect","","","","","","",(3 * this.tier))[4]);
 		}
 		
 		if(this.type == UpgradeType.POWER) {
-			list.add(EnumChatFormatting.RED + "Mining Drill:");
-			list.add("Consumption -" + (30 * this.tier) + "HE/t / Delay +" + (5 * this.tier) + "%");
-			list.add(EnumChatFormatting.RED + "Electric Furnace:");
-			list.add("Consumption -" + (15 * this.tier) + "HE/t / Delay +" + (10 * this.tier) + "%");
-			list.add(EnumChatFormatting.RED + "Assembly Machine:");
-			list.add("Consumption -" + (30 * this.tier) + "HE/t / Delay +" + (5 * this.tier) + "%");
-			list.add(EnumChatFormatting.RED + "Chemical Plant:");
-			list.add("Consumption -" + (30 * this.tier) + "HE/t / Delay +" + (5 * this.tier) + "%");
-			list.add(EnumChatFormatting.RED + "Oil Wells:");
-			list.add("Consumption -" + (25 * this.tier) + "% / Delay +" + (10 * this.tier) + "%");
-			list.add(EnumChatFormatting.RED + "Cyclotron:");
-			list.add("Consumption -" + (100 * this.tier) + "kHE/t");
-			list.add(EnumChatFormatting.RED + "Maxwell:");
-			list.add("Consumption -" + (150 * this.tier) + "HE/t");
-			list.add("Consumption when firing -" + (1500 * this.tier) + "HE/t");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[0]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.power",(30 * this.tier),(5 * this.tier),"","","","","")[0]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[2]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.power",(15 * this.tier),(10 * this.tier),"","","","","")[0]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[3]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.power",(30 * this.tier),(5 * this.tier),"","","","","")[0]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[4]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.power",(30 * this.tier),(5 * this.tier),"","","","","")[0]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[5]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.power","","",(25 * this.tier),(10 * this.tier),"","","")[1]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[7]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.power","","","","",(100 * this.tier),"","")[2]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[9]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.power","","","","","",(150 * this.tier),"")[3]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.power","","","","","","",(1500 * this.tier))[4]);
 		}
 		
 		if(this == ModItems.upgrade_fortune_1) {
-			list.add(EnumChatFormatting.RED + "Mining Drill:");
-			list.add("Fortune +1 / Delay +15");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[0]);
+			list.add(I18nUtil.resolveKey("desc.item.upgrade.fortune","1","15"));
 		}
 		
 		if(this == ModItems.upgrade_fortune_2) {
-			list.add(EnumChatFormatting.RED + "Mining Drill:");
-			list.add("Fortune +2 / Delay +30");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[0]);
+			list.add(I18nUtil.resolveKey("desc.item.upgrade.fortune","2","30"));
 		}
 		
 		if(this == ModItems.upgrade_fortune_3) {
-			list.add(EnumChatFormatting.RED + "Mining Drill:");
-			list.add("Fortune +3 / Delay +45");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[0]);
+			list.add(I18nUtil.resolveKey("desc.item.upgrade.fortune","3","45"));
 		}
 		
 		if(this.type == UpgradeType.AFTERBURN) {
-			list.add(EnumChatFormatting.RED + "Turbofan:");
-			list.add("Production x" + (this.tier + 1) + " / Consumption x" + (this.tier + 2));
-			list.add(EnumChatFormatting.RED + "Maxwell:");
-			list.add("Afterburn +" + (this.tier * 3) + "s");
-			list.add(EnumChatFormatting.RED + "Oil Wells:");
-			list.add("Burn " + (this.tier * 10) + "mB of gas for " + (this.tier * 50) + "HE/t");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[10]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.afterburn",(this.tier + 1),(this.tier + 2),"","","")[0]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[9]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.afterburn","","",(this.tier * 3),"","")[1]);
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[5]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.afterburn","","","",(this.tier * 10),(this.tier * 50))[2]);
 		}
 		
 		if(this == ModItems.upgrade_radius) {
-			list.add(EnumChatFormatting.RED + "Forcefield Range Upgrade");
-			list.add("Radius +16 / Consumption +500");
-			list.add("Stacks to 16");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[11]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.forcefield","16","500")[0]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.forcefield")[2]);
 		}
 		
 		if(this == ModItems.upgrade_health) {
-			list.add(EnumChatFormatting.RED + "Forcefield Health Upgrade");
-			list.add("Max. Health +50 / Consumption +250");
-			list.add("Stacks to 16");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[12]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.forcefield","50","250")[1]);
+			list.add(I18nUtil.resolveKeyArray("desc.item.upgrade.forcefield")[2]);
 		}
 		
 		if(this == ModItems.upgrade_smelter) {
-			list.add(EnumChatFormatting.RED + "Mining Laser Upgrade");
-			list.add("Smelts blocks. Easy enough.");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[13]);
+			list.add(I18nUtil.resolveKey("desc.item.upgrade.smelter"));
 		}
 		
 		if(this == ModItems.upgrade_shredder) {
-			list.add(EnumChatFormatting.RED + "Mining Laser Upgrade");
-			list.add("Crunches ores");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[13]);
+			list.add(I18nUtil.resolveKey("desc.item.upgrade.shredder"));
 		}
 		
 		if(this == ModItems.upgrade_centrifuge) {
-			list.add(EnumChatFormatting.RED + "Mining Laser Upgrade");
-			list.add("Hopefully self-explanatory");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[13]);
+			list.add(I18nUtil.resolveKey("desc.item.upgrade.centrifuge"));
 		}
 		
 		if(this == ModItems.upgrade_crystallizer) {
-			list.add(EnumChatFormatting.RED + "Mining Laser Upgrade");
-			list.add("Your new best friend");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[13]);
+			list.add(I18nUtil.resolveKey("desc.item.upgrade.crystallizer"));
 		}
 		
 		if(this == ModItems.upgrade_screm) {
-			list.add(EnumChatFormatting.RED + "Mining Laser Upgrade");
-			list.add("It's like in Super Mario where all blocks are");
-			list.add("actually Toads, but here it's Half-Life scientists");
-			list.add("and they scream. A lot.");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[13]);
+			for(String s : I18nUtil.resolveKeyArray("desc.item.upgrade.screm"))
+				list.add(s);
 		}
 		
 		if(this == ModItems.upgrade_nullifier) {
-			list.add(EnumChatFormatting.RED + "Mining Laser Upgrade");
-			list.add("50% chance to override worthless items with /dev/zero");
-			list.add("50% chance to move worthless items to /dev/null");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[13]);
+			for(String s : I18nUtil.resolveKeyArray("desc.item.upgrade.nullifier"))
+				list.add(s);
 		}
 		
 		if(this == ModItems.upgrade_gc_speed) {
-			list.add(EnumChatFormatting.RED + "Gas Centrifuge Upgrade");
-			list.add("Allows for total isotopic separation of HEUF6");
-			list.add(EnumChatFormatting.YELLOW + "also your centrifuge goes sicko mode");
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("desc.item.upgrade.machine")[14]);
+			for(String s : I18nUtil.resolveKeyArray("desc.item.upgrade.gc_speed"))
+				list.add(s);
 		}
 	}
 	

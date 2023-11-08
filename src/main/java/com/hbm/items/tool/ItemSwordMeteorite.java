@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.items.ModItems;
 
+import com.hbm.util.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,63 +27,63 @@ public class ItemSwordMeteorite extends ItemSwordAbility {
 		super.addInformation(stack, player, list, ext);
 
 		if(this == ModItems.meteorite_sword) {
-			list.add(EnumChatFormatting.ITALIC + "Forged from a fallen star");
-			list.add(EnumChatFormatting.ITALIC + "Sharper than most terrestrial blades");
+			for(String s : I18nUtil.resolveKeyArray("item.meteorite_sword.desc"))
+				list.add(EnumChatFormatting.ITALIC + s);
 		}
 
 		if(this == ModItems.meteorite_sword_seared) {
-			list.add(EnumChatFormatting.ITALIC + "Fire strengthens the blade");
-			list.add(EnumChatFormatting.ITALIC + "Making it even more powerful");
+			for(String s : I18nUtil.resolveKeyArray("item.meteorite_sword_seared.desc"))
+				list.add(EnumChatFormatting.ITALIC + s);
 		}
 
 		if(this == ModItems.meteorite_sword_reforged) {
-			list.add(EnumChatFormatting.ITALIC + "The sword has been reforged");
-			list.add(EnumChatFormatting.ITALIC + "To rectify past imperfections");
+			for(String s : I18nUtil.resolveKeyArray("item.meteorite_sword_reforged.desc"))
+				list.add(EnumChatFormatting.ITALIC + s);
 		}
 
 		if(this == ModItems.meteorite_sword_hardened) {
-			list.add(EnumChatFormatting.ITALIC + "Extremely high pressure has been used");
-			list.add(EnumChatFormatting.ITALIC + "To harden the blade further");
+			for(String s : I18nUtil.resolveKeyArray("item.meteorite_sword_hardened.desc"))
+				list.add(EnumChatFormatting.ITALIC + s);
 		}
 
 		if(this == ModItems.meteorite_sword_alloyed) {
-			list.add(EnumChatFormatting.ITALIC + "Cobalt fills the fissures");
-			list.add(EnumChatFormatting.ITALIC + "Strengthening the sword");
+			for(String s : I18nUtil.resolveKeyArray("item.meteorite_sword_alloyed.desc"))
+				list.add(EnumChatFormatting.ITALIC + s);
 		}
 
 		if(this == ModItems.meteorite_sword_machined) {
-			list.add(EnumChatFormatting.ITALIC + "Advanced machinery was used");
-			list.add(EnumChatFormatting.ITALIC + "To refine the blade even more");
+			for(String s : I18nUtil.resolveKeyArray("item.meteorite_sword_machined.desc"))
+				list.add(EnumChatFormatting.ITALIC + s);
 		}
 
 		if(this == ModItems.meteorite_sword_treated) {
-			list.add(EnumChatFormatting.ITALIC + "Chemicals have been applied");
-			list.add(EnumChatFormatting.ITALIC + "Making the sword more powerful");
+			for(String s : I18nUtil.resolveKeyArray("item.meteorite_sword_treated.desc"))
+				list.add(EnumChatFormatting.ITALIC + s);
 		}
 
 		if(this == ModItems.meteorite_sword_etched) {
-			list.add(EnumChatFormatting.ITALIC + "Acids clean the material");
-			list.add(EnumChatFormatting.ITALIC + "To make this the perfect sword");
+			for(String s : I18nUtil.resolveKeyArray("item.meteorite_sword_etched.desc"))
+				list.add(EnumChatFormatting.ITALIC + s);
 		}
 
 		if(this == ModItems.meteorite_sword_bred) {
-			list.add(EnumChatFormatting.ITALIC + "Immense heat and radiation");
-			list.add(EnumChatFormatting.ITALIC + "Compress the material");
+			for(String s : I18nUtil.resolveKeyArray("item.meteorite_sword_bred.desc"))
+				list.add(EnumChatFormatting.ITALIC + s);
 		}
 
 		if(this == ModItems.meteorite_sword_irradiated) {
-			list.add(EnumChatFormatting.ITALIC + "The power of the Atom");
-			list.add(EnumChatFormatting.ITALIC + "Gives the sword might");
+			for(String s : I18nUtil.resolveKeyArray("item.meteorite_sword_irradiated.desc"))
+				list.add(EnumChatFormatting.ITALIC + s);
 		}
 
 		if(this == ModItems.meteorite_sword_fused) {
-			list.add(EnumChatFormatting.ITALIC + "This blade has met");
-			list.add(EnumChatFormatting.ITALIC + "With the forces of the stars");
+			for(String s : I18nUtil.resolveKeyArray("item.meteorite_sword_fused.desc"))
+				list.add(EnumChatFormatting.ITALIC + s);
 		}
 
 		if(this == ModItems.meteorite_sword_baleful) {
-			list.add(EnumChatFormatting.ITALIC + "This sword has met temperatures");
-			list.add(EnumChatFormatting.ITALIC + "Far beyond what normal material can endure");
+			for(String s : I18nUtil.resolveKeyArray("item.meteorite_sword_baleful.desc"))
+				list.add(EnumChatFormatting.ITALIC + s);
 		}
 
 		/*

@@ -173,7 +173,7 @@ public class ArmorDNT extends ArmorFSBPowered {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 
-		list.add("Charge: " + BobMathUtil.getShortNumber(getCharge(stack)) + " / " + BobMathUtil.getShortNumber(maxPower));
+		list.add(I18nUtil.resolveKey("armor.charge",BobMathUtil.getShortNumber(getCharge(stack)),BobMathUtil.getShortNumber(maxPower)));
 
 		list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("armor.fullSetBonus"));
 
