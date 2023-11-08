@@ -223,15 +223,15 @@ public class ItemRBMKRod extends Item {
 	}
 	
 	public static enum EnumBurnFunc {
-		PASSIVE(EnumChatFormatting.DARK_GREEN + "SAFE / PASSIVE"),			//const, no reactivity
-		LOG_TEN(EnumChatFormatting.YELLOW + "MEDIUM / LOGARITHMIC"),		//log10(x + 1) * reactivity * 50
-		PLATEU(EnumChatFormatting.GREEN + "SAFE / EULER"),					//(1 - e^(-x/25)) * reactivity * 100
-		ARCH(EnumChatFormatting.RED + "DANGEROUS / NEGATIVE-QUADRATIC"),	//x-(x²/1000) * reactivity
-		SIGMOID(EnumChatFormatting.GREEN + "SAFE / SIGMOID"),				//100 / (1 + e^(-(x - 50) / 10)) <- tiny amount of reactivity at x=0 !
-		SQUARE_ROOT(EnumChatFormatting.YELLOW + "MEDIUM / SQUARE ROOT"),	//sqrt(x) * 10 * reactivity
-		LINEAR(EnumChatFormatting.RED + "DANGEROUS / LINEAR"),				//x * reactivity
-		QUADRATIC(EnumChatFormatting.RED + "DANGEROUS / QUADRATIC"),		//x^2 / 100 * reactivity
-		EXPERIMENTAL(EnumChatFormatting.RED + "EXPERIMENTAL / SINE SLOPE");		//x * (sin(x) + 1)
+		PASSIVE(EnumChatFormatting.DARK_GREEN + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[0]),			//const, no reactivity
+		LOG_TEN(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[1]),		//log10(x + 1) * reactivity * 50
+		PLATEU(EnumChatFormatting.GREEN + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[2]),					//(1 - e^(-x/25)) * reactivity * 100
+		ARCH(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[3]),	//x-(x²/1000) * reactivity
+		SIGMOID(EnumChatFormatting.GREEN + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[4]),				//100 / (1 + e^(-(x - 50) / 10)) <- tiny amount of reactivity at x=0 !
+		SQUARE_ROOT(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[5]),	//sqrt(x) * 10 * reactivity
+		LINEAR(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[6]),				//x * reactivity
+		QUADRATIC(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[7]),		//x^2 / 100 * reactivity
+		EXPERIMENTAL(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[8]);		//x * (sin(x) + 1)
 		
 		public String title = "";
 		

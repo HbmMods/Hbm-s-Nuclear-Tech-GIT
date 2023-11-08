@@ -717,9 +717,8 @@ public class ModEventHandlerClient {
 				}
 			} else {
 				
-				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
-						EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
-						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display protection info");
+				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + I18nUtil.resolveKey("tooltip.show" ,
+						EnumChatFormatting.YELLOW +"" + EnumChatFormatting.ITALIC + "LSHIFT"));
 			}
 		}
 		
@@ -733,13 +732,12 @@ public class ModEventHandlerClient {
 			
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && !(Minecraft.getMinecraft().currentScreen instanceof GUIArmorTable)) {
 				
-				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
-						EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
-						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display installed armor mods");
+				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + I18nUtil.resolveKey("tooltip.armormodsshow" ,
+						EnumChatFormatting.YELLOW +"" + EnumChatFormatting.ITALIC + "LSHIFT" ));
 				
 			} else {
 				
-				list.add(EnumChatFormatting.YELLOW + "Mods:");
+				list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("tooltip.armormods"));
 				
 				ItemStack[] mods = ArmorModHandler.pryMods(stack);
 				
@@ -760,12 +758,12 @@ public class ModEventHandlerClient {
 			List<String> names = ItemStackUtil.getOreDictNames(stack);
 			
 			if(names.size() > 0) {
-				list.add(EnumChatFormatting.BLUE + "Ore Dict:");
+				list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("tooltip.oredict"));
 				for(String s : names) {
 					list.add(EnumChatFormatting.AQUA + " -" + s);
 				}
 			} else {
-				list.add(EnumChatFormatting.RED + "No Ore Dict data!");
+				list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("tooltip.oredict.null"));
 			}
 		}
 		
@@ -786,10 +784,10 @@ public class ModEventHandlerClient {
 				list.add("");
 			
 			if(entry.entry == EnumEntryType.ADD)
-				list.add(EnumChatFormatting.GOLD + "Adds " + entry.value + " to the custom nuke stage " + entry.type);
+				list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("tooltip.customnuke",entry.value,entry.type));
 
 			if(entry.entry == EnumEntryType.MULT)
-				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
+				list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("tooltip.customnukemultiplier",entry.value ,entry.type));
 		}
 		
 		try {

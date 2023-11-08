@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.util.BobMathUtil;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.util.EnumChatFormatting;
 
 public class FT_Combustible extends FluidTrait {
@@ -25,11 +26,11 @@ public class FT_Combustible extends FluidTrait {
 	public void addInfo(List<String> info) {
 		super.addInfo(info);
 
-		info.add(EnumChatFormatting.GOLD + "[Combustible]");
+		info.add(EnumChatFormatting.GOLD + I18nUtil.resolveKeyArray("hbmfluid.Trait.Combustible","","")[0]);
 		
 		if(combustionEnergy > 0) {
-			info.add(EnumChatFormatting.GOLD + "Provides " + EnumChatFormatting.RED + "" + BobMathUtil.getShortNumber(combustionEnergy) + "HE " + EnumChatFormatting.GOLD + "per bucket");
-			info.add(EnumChatFormatting.GOLD + "Fuel grade: " + EnumChatFormatting.RED + this.fuelGrade.getGrade());
+			info.add(EnumChatFormatting.GOLD + I18nUtil.resolveKeyArray("hbmfluid.Trait.Combustible",BobMathUtil.getShortNumber(combustionEnergy),"")[1]);
+			info.add(EnumChatFormatting.GOLD + I18nUtil.resolveKeyArray("hbmfluid.Trait.Combustible","",this.fuelGrade.getGrade())[2]);
 		}
 	}
 	
@@ -42,11 +43,11 @@ public class FT_Combustible extends FluidTrait {
 	}
 	
 	public static enum FuelGrade {
-		LOW("Low"),			//heating and industrial oil				< star engine, iGen
-		MEDIUM("Medium"),	//petroil									< diesel generator
-		HIGH("High"),		//diesel, gasoline							< HP engine
-		AERO("Aviation"),	//kerosene and other light aviation fuels	< turbofan
-		GAS("Gaseous");		//fuel gasses like NG, PG and syngas		< gas turbine
+		LOW(I18nUtil.resolveKeyArray("hbmfluid.Trait.Combustible.FuelGrade")[0]),			//heating and industrial oil				< star engine, iGen
+		MEDIUM(I18nUtil.resolveKeyArray("hbmfluid.Trait.Combustible.FuelGrade")[1]),	//petroil									< diesel generator
+		HIGH(I18nUtil.resolveKeyArray("hbmfluid.Trait.Combustible.FuelGrade")[2]),		//diesel, gasoline							< HP engine
+		AERO(I18nUtil.resolveKeyArray("hbmfluid.Trait.Combustible.FuelGrade")[3]),	//kerosene and other light aviation fuels	< turbofan
+		GAS(I18nUtil.resolveKeyArray("hbmfluid.Trait.Combustible.FuelGrade")[4]);		//fuel gasses like NG, PG and syngas		< gas turbine
 		
 		private String grade;
 		
