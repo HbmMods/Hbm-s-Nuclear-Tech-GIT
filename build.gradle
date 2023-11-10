@@ -8,6 +8,7 @@ buildscript {
 	repositories {
 		maven { url = 'https://maven.minecraftforge.net/' }
 		maven { url = 'https://plugins.gradle.org/m2' }
+		maven { url = "https://gregtech.overminddl1.com/" }
 		mavenCentral()
 	}
 	dependencies {
@@ -71,6 +72,10 @@ repositories {
 		name = 'ModMaven'
 		url = 'https://modmaven.dev'
 	}
+	maven {
+		name = "gt"
+		url = "https://gregtech.overminddl1.com/"
+	}
 	//maven {
 	//	name = "CurseForge"
 	//	url = "https://minecraft.curseforge.com/api/maven/"
@@ -89,6 +94,8 @@ dependencies {
 
 	//compileOnly 'inventory-tweaks:InventoryTweaks:1.62+beta.84:api'
 	implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
+
+	compileOnly "com.gregoriust.gregtech:gregtech_1.7.10:6.17.00:dev"
 }
 
 processResources {
