@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.gas.BlockGasAir;
 import com.hbm.config.GeneralConfig;
@@ -28,6 +30,7 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -142,7 +145,6 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	public void revalidateRoom() {
 	    List<AxisAlignedBB> roomSections = findRoomSections(worldObj, xCoord, yCoord, zCoord);
 	    AxisAlignedBB newSealedRoomAABB = mergeAABBs(roomSections);
-
 	    // Finalize the sealing process with the new AABB
 	    if (newSealedRoomAABB != null) {
 	        sealedRoomAABB = newSealedRoomAABB;
@@ -208,9 +210,11 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	                    minX = Math.min(minX, neighbor.getX());
 	                    minY = Math.min(minY, neighbor.getY());
 	                    minZ = Math.min(minZ, neighbor.getZ());
-	                    maxX = Math.max(maxX, neighbor.getX());
-	                    maxY = Math.max(maxY, neighbor.getY());
-	                    maxZ = Math.max(maxZ, neighbor.getZ());
+	                    maxX = Math.max(maxX, current.getX() + 1); // +1 because block positions are at the corner
+	                    maxY = Math.max(maxY, current.getY() + 1);
+	                    maxZ = Math.max(maxZ, current.getZ() + 1);
+	                    
+	                    
 	                }
 	            }
 	        }
@@ -230,24 +234,23 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	    return sectionAABBs;
 	}
 	private AxisAlignedBB mergeAABBs(List<AxisAlignedBB> aabbs) {
-	    if (aabbs == null || aabbs.isEmpty()) return null;
+	    if (aabbs.isEmpty()) return null;
 
-	    AxisAlignedBB combined = aabbs.get(0); // Start with the first AABB
+	    AxisAlignedBB combinedAABB = aabbs.get(0); // Start with the first AABB
 
-	    // Use the func_111270_a() method to merge AABBs if it exists,
-	    // or replace with your custom logic if it doesn't.
+	    // Expand the combined AABB to include all other AABBs
 	    for (int i = 1; i < aabbs.size(); i++) {
-	        combined = combined.func_111270_a(aabbs.get(i));
+	        combinedAABB = combinedAABB.func_111270_a(aabbs.get(i));
 	    }
 
-	    return combined;
+	    return combinedAABB;
 	}
 	public AxisAlignedBB mergeRoomSections(World world, int startX, int startY, int startZ) {
 	    List<AxisAlignedBB> sectionAABBs = findRoomSections(world, startX, startY, startZ);
 	    AxisAlignedBB mergedAABB = mergeAABBs(sectionAABBs);
 	    return mergedAABB;
 	}
-	
+
 	private void processEntitiesWithinAABB(World world, AxisAlignedBB aabb) {
 	    List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
 
@@ -275,7 +278,25 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	           pos.getZ() >= startZ - MAX_RANGE_Z && pos.getZ() <= startZ + MAX_RANGE_Z;
 	}
 	
+	/*
+	private boolean isValidRoomBlock(World world, BlockPos pos) {
+	    Block block = world.getBlock(pos.getX(), pos.getY(), pos.getZ());
+	    if (!block.isAir(world, pos.getX(), pos.getY(), pos.getZ())) {
+	        return false;
+	    }
 
+	    int solidNeighbors = 0;
+	    for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+	        BlockPos neighbor = pos.offset(dir);
+	        Block neighborBlock = world.getBlock(neighbor.getX(), neighbor.getY(), neighbor.getZ());
+	        if (!neighborBlock.isAir(world, neighbor.getX(), neighbor.getY(), neighbor.getZ())) {
+	            solidNeighbors++;
+	        }
+	    }
+
+	    return solidNeighbors >= 6;
+	}
+	*/
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
