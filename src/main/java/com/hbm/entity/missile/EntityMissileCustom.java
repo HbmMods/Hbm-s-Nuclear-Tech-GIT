@@ -19,6 +19,7 @@ import com.hbm.handler.MissileStruct;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemVOTVdrive.DestinationType;
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.FuelType;
 import com.hbm.items.weapon.ItemMissile.PartSize;
@@ -269,6 +270,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 				if(posY > 604) {
 					this.setDead();
 				}
+				
 			}
 		}
 

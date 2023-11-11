@@ -373,7 +373,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 			return true;
 		}
 		else {
-			if (slots[1] != null && slots[1].getItem()== ModItems.full_drive && slots[1].stackTagCompound != null && slots[1].getTagCompound().getBoolean("processed") == true) {
+			if (slots[1] != null && slots[1].getItem() == ModItems.full_drive) {
 				return true;
 			}
 		}
