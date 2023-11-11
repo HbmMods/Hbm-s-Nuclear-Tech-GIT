@@ -30,7 +30,7 @@ public class ExplosionEffectStandard implements IExplosionSFX {
 		if(size >= 2.0F) {
 			world.spawnParticle("hugeexplosion", x, y, z, 1.0D, 0.0D, 0.0D);
 		} else {
-			world.spawnParticle("largeexplode", x, z, z, 1.0D, 0.0D, 0.0D);
+			world.spawnParticle("largeexplode", x, y, z, 1.0D, 0.0D, 0.0D);
 		}
 
 		int count = affectedBlocks.size();

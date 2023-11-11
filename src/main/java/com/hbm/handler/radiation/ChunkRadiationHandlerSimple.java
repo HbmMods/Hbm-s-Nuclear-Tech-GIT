@@ -117,6 +117,15 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 	}
 
 	@Override
+	public void clearSystem(World world) {
+		SimpleRadiationPerWorld radWorld = perWorld.get(world);
+		
+		if(radWorld != null) {
+			radWorld.radiation.clear();
+		}
+	}
+
+	@Override
 	public void receiveWorldLoad(WorldEvent.Load event) {
 		if(!event.world.isRemote)
 			perWorld.put(event.world, new SimpleRadiationPerWorld());

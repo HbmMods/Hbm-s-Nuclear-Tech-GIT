@@ -81,7 +81,15 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return i == 0 || i == 1;
+		if(i != 0 && i != 1) return false;
+		
+		//makes sure that equal items like the antimatter capsules are spread out evenly
+		if(slots[0] != null && slots[1] != null && slots[0].getItem() == slots[1].getItem() && slots[0].getItemDamage() == slots[1].getItemDamage()) {
+			if(i == 0) return slots[1].stackSize - slots[0].stackSize >= 0;
+			if(i == 1) return slots[0].stackSize - slots[1].stackSize >= 0;
+		}
+		
+		return true;
 	}
 
 	@Override

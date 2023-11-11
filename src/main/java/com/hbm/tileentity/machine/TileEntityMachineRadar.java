@@ -34,7 +34,7 @@ import li.cil.oc.api.network.SimpleComponent;
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityMachineRadar extends TileEntityTickingBase implements IEnergyUser, IGUIProvider, SimpleComponent {
 
-	public List<Entity> entList = new ArrayList();
+	public List<Entity> detectedEntities = new ArrayList();
 	public List<int[]> nearbyMissiles = new ArrayList();
 	int pingTimer = 0;
 	int lastPower;
@@ -61,8 +61,7 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 	@Override
 	public void updateEntity() {
 		
-		if(this.yCoord < WeaponConfig.radarAltitude)
-			return;
+		if(this.yCoord < WeaponConfig.radarAltitude) return;
 		
 		if(!worldObj.isRemote) {
 			
@@ -71,17 +70,13 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 			nearbyMissiles.clear();
 			
 			if(power > 0) {
-				
 				allocateMissiles();
-				
 				power -= 500;
 				
-				if(power < 0)
-					power = 0;
+				if(power < 0) power = 0;
 			}
 			
-			if(this.lastPower != getRedPower())
-				worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
+			if(this.lastPower != getRedPower()) worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
 			
 			sendMissileData();
 			lastPower = getRedPower();
@@ -96,12 +91,8 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 				}
 			}
 		} else {
-
 			prevRotation = rotation;
-			
-			if(power > 0) {
-				rotation += 5F;
-			}
+			if(power > 0) rotation += 5F;
 			
 			if(rotation >= 360) {
 				rotation -= 360F;
@@ -123,7 +114,7 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 	private void allocateMissiles() {
 		
 		nearbyMissiles.clear();
-		entList.clear();
+		detectedEntities.clear();
 		jammed = false;
 		
 		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - WeaponConfig.radarRange, 0, zCoord + 0.5 - WeaponConfig.radarRange, xCoord + 0.5 + WeaponConfig.radarRange, 5000, zCoord + 0.5 + WeaponConfig.radarRange));
@@ -136,27 +127,27 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 			if(e instanceof EntityLivingBase && HbmLivingProps.getDigamma((EntityLivingBase) e) > 0.001) {
 				this.jammed = true;
 				nearbyMissiles.clear();
-				entList.clear();
+				detectedEntities.clear();
 				return;
 			}
 
 			if(e instanceof EntityPlayer && this.scanPlayers) {
 				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, RadarTargetType.PLAYER.ordinal(), (int)e.posY });
-				entList.add(e);
+				detectedEntities.add(e);
 			}
 			
 			if(e instanceof IRadarDetectable && this.scanMissiles) {
 				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, ((IRadarDetectable)e).getTargetType().ordinal(), (int)e.posY });
 				
 				if(!this.smartMode || e.motionY <= 0)
-					entList.add(e);
+					detectedEntities.add(e);
 			}
 		}
 	}
 	
 	public int getRedPower() {
 		
-		if(!entList.isEmpty()) {
+		if(!detectedEntities.isEmpty()) {
 			
 			/// PROXIMITY ///
 			if(redMode) {
@@ -165,9 +156,9 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 				
 				int power = 0;
 				
-				for(int i = 0; i < entList.size(); i++) {
+				for(int i = 0; i < detectedEntities.size(); i++) {
 					
-					Entity e = entList.get(i);
+					Entity e = detectedEntities.get(i);
 					double dist = Math.sqrt(Math.pow(e.posX - xCoord, 2) + Math.pow(e.posZ - zCoord, 2));
 					int p = 15 - (int)Math.floor(dist / maxRange * 15);
 					
@@ -315,8 +306,8 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 	public Object[] getEntities(Context context, Arguments args) { //fuck fuck fuck
 		if(!jammed) {
 			List<Object> list = new ArrayList();
-			list.add(entList.size());     // small header of how many entities in the list
-			for (Entity e : entList) {
+			list.add(detectedEntities.size());     // small header of how many entities in the list
+			for (Entity e : detectedEntities) {
 				list.add(e.posX);   	  //  positions
 				list.add(e.posY);
 				list.add(e.posZ);

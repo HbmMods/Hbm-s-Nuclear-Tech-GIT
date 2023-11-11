@@ -15,8 +15,8 @@ public class MachineTab extends CreativeTabs {
 	@Override
 	public Item getTabIconItem() {
 		
-		if(ModBlocks.reactor_element != null)
-			return Item.getItemFromBlock(ModBlocks.reactor_element);
+		if(ModBlocks.pwr_controller != null)
+			return Item.getItemFromBlock(ModBlocks.pwr_controller);
 		
 		return Items.iron_pickaxe;
 	}

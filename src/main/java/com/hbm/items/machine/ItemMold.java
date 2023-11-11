@@ -46,8 +46,9 @@ public class ItemMold extends Item {
 		registerMold(new MoldShape(		2, S, "ingot", MaterialShapes.INGOT));
 		registerMold(new MoldShape(		3, S, "plate", MaterialShapes.PLATE));
 		registerMold(new MoldWire(		4, S, "wire"));
-		
+
 		registerMold(new MoldShape(		19, S, "plate_cast", MaterialShapes.CASTPLATE));
+		registerMold(new MoldShape(		20, S, "wire_dense", MaterialShapes.DENSEWIRE));
 		
 		registerMold(new MoldMulti(		5, S, "blade", MaterialShapes.INGOT.q(3),
 				Mats.MAT_TITANIUM, new ItemStack(ModItems.blade_titanium),
@@ -76,6 +77,7 @@ public class ItemMold extends Item {
 		
 		registerMold(new MoldShape(		10, L, "ingots", MaterialShapes.INGOT, 9));
 		registerMold(new MoldShape(		11, L, "plates", MaterialShapes.PLATE, 9));
+		registerMold(new MoldShape(		21, L, "wires_dense", MaterialShapes.DENSEWIRE, 9));
 		registerMold(new MoldBlock(		12, L, "block", MaterialShapes.BLOCK));
 		registerMold(new MoldSingle(	13, L, "pipes", new ItemStack(ModItems.pipes_steel), Mats.MAT_STEEL, MaterialShapes.BLOCK.q(3)));
 

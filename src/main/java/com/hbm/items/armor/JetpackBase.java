@@ -37,7 +37,7 @@ public abstract class JetpackBase extends ItemArmorMod implements IFillableItem 
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add(EnumChatFormatting.LIGHT_PURPLE + fuel.getUnlocalizedName() + ": " + this.getFuel(itemstack) + "mB / " + this.maxFuel + "mB");
+		list.add(EnumChatFormatting.LIGHT_PURPLE + fuel.getLocalizedName() + ": " + this.getFuel(itemstack) + "mB / " + this.maxFuel + "mB");
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 		list.add(EnumChatFormatting.GOLD + "Can be worn on its own!");

@@ -51,6 +51,7 @@ import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.lib.Library;
+import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.TrackerUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -278,6 +279,8 @@ public class ItemWandD extends Item {
 			torex.setScale(1.5F);
 			torex.setType(2);
 			world.spawnEntityInWorld(torex);
+			TrackerUtil.setTrackingRange(world, torex, 1000);*/
+			
 			/*EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
 			EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(torex.getEntityId());

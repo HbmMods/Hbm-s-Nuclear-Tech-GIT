@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class ArmorTrenchmaster extends ArmorFSB {
 
@@ -44,6 +45,24 @@ public class ArmorTrenchmaster extends ArmorFSB {
 
 		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.fasterReload"));
 		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.moreAmmo"));
+	}
+
+	@Override
+	public void handleHurt(LivingHurtEvent event) {
+
+		EntityLivingBase e = event.entityLiving;
+
+		if(e instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) e;
+
+			if(ArmorFSB.hasFSBArmor(player)) {
+				
+				if(event.source.isExplosion() && event.source.getSourceOfDamage() == player) {
+					event.ammount = 0;
+					return;
+				}
+			}
+		}
 	}
 	
 	@Override

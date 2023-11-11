@@ -32,7 +32,9 @@ public class HazardTransformerRadiationContainer extends HazardTransformerBase {
 		boolean isCrate = Block.getBlockFromItem(stack.getItem()) instanceof BlockStorageCrate;
 		boolean isDissed = Block.getBlockFromItem(stack.getItem()) instanceof MachineDischarger;
 		boolean isBox = stack.getItem() == ModItems.containment_box;
-		if(!isCrate && !isBox && !isDissed) return;
+		boolean isBag = stack.getItem() == ModItems.plastic_bag;
+		
+		if(!isCrate && !isBox && !isBag && !isDissed) return;
 		if(!stack.hasTagCompound()) return;
 		
 		float radiation = 0;
@@ -61,6 +63,20 @@ public class HazardTransformerRadiationContainer extends HazardTransformerBase {
 			}
 			
 			radiation = (float) BobMathUtil.squirt(radiation);
+		}
+		
+		if(isBag) {
+
+			ItemStack[] fromNBT = ItemStackUtil.readStacksFromNBT(stack, 1);
+			if(fromNBT == null) return;
+			
+			for(ItemStack held : fromNBT) {
+				if(held != null) {
+					radiation += HazardSystem.getHazardLevelFromStack(held, HazardRegistry.RADIATION) * held.stackSize;
+				}
+			}
+			
+			radiation *= 2F;
 		}
 		
 		if(radiation > 0) {

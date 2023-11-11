@@ -124,6 +124,9 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		return new DirPos[] {
 				new DirPos(xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, dir.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * -2, yCoord - 1, zCoord + dir.offsetZ * -2, ForgeDirection.DOWN),
+				new DirPos(xCoord + dir.offsetX * -1, yCoord - 1, zCoord + dir.offsetZ * -1, ForgeDirection.DOWN),
+				new DirPos(xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN),
 				new DirPos(xCoord + dir.offsetX * 3, yCoord, zCoord + dir.offsetZ * 3, dir),
 		};
 	}
