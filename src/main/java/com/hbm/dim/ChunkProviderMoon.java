@@ -68,7 +68,7 @@ public class ChunkProviderMoon implements IChunkProvider {
 	private MapGenScatteredFeature scatteredFeatureGenerator = new MapGenScatteredFeature();
 	private int seaLevel;
 	protected Block fillblock;
-	
+	static ExperimentalCaveGenerator gen = new ExperimentalCaveGenerator();
 
 //	private MapGenCrater craterGenerator;
 	/** The biomes that are used to generate the chunk */
@@ -83,7 +83,8 @@ public class ChunkProviderMoon implements IChunkProvider {
 	{
 		caveGenerator = TerrainGen.getModdedMapGen(caveGenerator, CAVE);
 		scatteredFeatureGenerator = (MapGenScatteredFeature) TerrainGen.getModdedMapGen(scatteredFeatureGenerator, SCATTERED_FEATURE);
-		
+		gen = (ExperimentalCaveGenerator) TerrainGen.getModdedMapGen(gen, CUSTOM);
+		//holy shit??
 	}
 
 	public ChunkProviderMoon(World p_i2006_1_, long p_i2006_2_, boolean p_i2006_4_)
@@ -252,9 +253,9 @@ public class ChunkProviderMoon implements IChunkProvider {
 		this.func_147424_a(p_73154_1_, p_73154_2_, ablock.ablock);
 		this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, p_73154_1_ * 16, p_73154_2_ * 16, 16, 16);
 		this.replaceBlocksForBiome(p_73154_1_, p_73154_2_, ablock.ablock, ablock.abyte, this.biomesForGeneration);
-		this.caveGenerator.func_151539_a(this, this.worldObj, p_73154_1_, p_73154_2_, ablock.ablock);
+		//this.caveGenerator.func_151539_a(this, this.worldObj, p_73154_1_, p_73154_2_, ablock.ablock);
 		//this.ravineGenerator.func_151539_a(this, this.worldObj, p_73154_1_, p_73154_2_, ablock.ablock);
-
+		this.gen.func_151539_a(this, worldObj, p_73154_1_, p_73154_2_, ablock.ablock);
 		//if(this.craterGenerator != null)
 		//	this.craterGenerator.func_151539_a(this, this.worldObj, p_73154_1_, p_73154_2_, ablock.ablock);
 
@@ -270,6 +271,8 @@ public class ChunkProviderMoon implements IChunkProvider {
 	 * Will return back a chunk, if it doesn't exist and its not a MP client it will generates all the blocks for the
 	 * specified chunk from the map seed and chunk seed
 	 */
+
+
 	@Override
 	public Chunk provideChunk(int x, int z)
 	{
@@ -286,6 +289,7 @@ public class ChunkProviderMoon implements IChunkProvider {
 		{
 			abyte1[k] = (byte) this.biomesForGeneration[k].biomeID;
 		}
+
 
 		chunk.generateSkylightMap();
 		return chunk;

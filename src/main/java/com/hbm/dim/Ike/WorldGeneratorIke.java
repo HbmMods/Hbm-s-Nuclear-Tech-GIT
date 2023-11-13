@@ -44,7 +44,7 @@ public class WorldGeneratorIke implements IWorldGenerator {
 				if(rand.nextInt(50) == 0)
 					r = 50;
 
-				new Crater().generate(world, x, z, r, r * 0.35D);
+				new Crater().generate(world, x, z, r, r * 0.35D, ModBlocks.ike_regolith, ModBlocks.ike_stone);
 
 				if(GeneralConfig.enableDebugMode)
 					MainRegistry.logger.info("[Debug] Successfully spawned crater at " + x + " " + z);

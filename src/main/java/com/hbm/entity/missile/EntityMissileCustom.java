@@ -272,7 +272,6 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 				}
 				
 			}
-		}
 
 			if(motionY > 0) {
 				motionX += vector.xCoord;
@@ -337,6 +336,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 		}
 
 		loadNeighboringChunks((int) (posX / 16), (int) (posZ / 16));
+	}
 	}
 
 	@Override

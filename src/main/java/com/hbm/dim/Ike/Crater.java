@@ -14,7 +14,7 @@ public class Crater {
 		return -Math.pow(x, 4) / Math.pow(rad, 4) * depth + depth;
 	}
 	
-	public void generate(World world, int x, int z, double radius, double depth) {
+	public void generate(World world, int x, int z, double radius, double depth, Block block, Block randomBlock) {
 		
 		if(world.isRemote)
 			return;
@@ -35,11 +35,11 @@ public class Crater {
 					dig(world, x + a, z + b, dep);
 
 					if(r + rand.nextInt(3) <= radius / 3D) {
-						place(world, x + a, z + b, 3, ModBlocks.ike_regolith, 1);
+						place(world, x + a, z + b, 3, block, 1);
 					} else if(r - rand.nextInt(3) <= radius / 3D * 2D) {
-						place(world, x + a, z + b, 3, ModBlocks.ike_stone);
+						place(world, x + a, z + b, 3, randomBlock);
 					} else {
-						place(world, x + a, z + b, 3, ModBlocks.ike_stone);
+						place(world, x + a, z + b, 3, randomBlock);
 					}
 				}
 			}
