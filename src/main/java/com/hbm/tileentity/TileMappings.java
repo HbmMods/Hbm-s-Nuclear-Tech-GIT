@@ -231,6 +231,9 @@ public class TileMappings {
 		putMachines();
 		putPile();
 		putRBMK();
+
+		TileEntityMachineRadarNT.registerEntityClasses();
+		TileEntityMachineRadarNT.registerConverters();
 	}
 	
 	private static void putBombs() {
