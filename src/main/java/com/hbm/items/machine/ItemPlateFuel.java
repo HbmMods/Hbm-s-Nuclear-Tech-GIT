@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.util.BobMathUtil;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -27,10 +28,8 @@ public class ItemPlateFuel extends ItemFuelRod {
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		
-		list.add(EnumChatFormatting.YELLOW + "[Research Reactor Plate Fuel]");
-		list.add(EnumChatFormatting.DARK_AQUA + "   " + getFunctionDesc());
-		list.add(EnumChatFormatting.DARK_AQUA + "   Yield of " + BobMathUtil.getShortNumber(lifeTime) + " events");
+		for(String s : I18nUtil.resolveKeyArray("trait.platefuel", getFunctionDesc(), BobMathUtil.getShortNumber(lifeTime)))
+			list.add(EnumChatFormatting.YELLOW + s);
 		
 		super.addInformation(itemstack, player, list, bool);
 	}

@@ -2,6 +2,7 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,22 +16,20 @@ public class ItemWand extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		list.add("Creative-only item");
-		list.add("\"Destruction brings creation\"");
-		list.add("(Set positions with right click,");
-		list.add("set block with shift-right click!)");
+		for(String s : I18nUtil.resolveKeyArray( "item.wand_k.desc"))
+			list.add(s);
 		
 		if(itemstack.stackTagCompound != null &&
 				!(itemstack.stackTagCompound.getInteger("x") == 0 &&
 						itemstack.stackTagCompound.getInteger("y") == 0 &&
 								itemstack.stackTagCompound.getInteger("z") == 0))
 		{
-			list.add("Pos: " + itemstack.stackTagCompound.getInteger("x") + ", " + itemstack.stackTagCompound.getInteger("y") + ", " + itemstack.stackTagCompound.getInteger("z"));
+			list.add(I18nUtil.resolveKey("item.wand_k.pos" , itemstack.stackTagCompound.getInteger("x") , itemstack.stackTagCompound.getInteger("y") , itemstack.stackTagCompound.getInteger("z")));
 		} else {
-			list.add("Positions not set!");
+			list.add(I18nUtil.resolveKey("item.wand_k.null"));
 		}
 		if(itemstack.stackTagCompound != null)
-			list.add("Block saved: " + Block.getBlockById(itemstack.stackTagCompound.getInteger("block")).getUnlocalizedName());
+			list.add(I18nUtil.resolveKey("item.wand_k.block" , Block.getBlockById(itemstack.stackTagCompound.getInteger("block")).getUnlocalizedName()));
 	}
 	
 	@Override

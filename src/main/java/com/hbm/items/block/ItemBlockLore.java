@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -21,35 +22,21 @@ public class ItemBlockLore extends ItemBlockBase {
 		super.addInformation(itemstack, player, list, bool);
 		
 		if(this.field_150939_a instanceof RedBarrel) {
-			list.add("Static fluid barrel");
+			list.add(I18nUtil.resolveKey("tile.red_barrel.desc"));
 		}
 		
 		if(this.field_150939_a == ModBlocks.meteor_battery) {
-			list.add("Provides infinite charge to tesla coils");
+			list.add(I18nUtil.resolveKey("tile.meteor_battery.desc"));
 		}
 		
 		if(this.field_150939_a == ModBlocks.ore_oil) {
-			list.add("You weren't supposed to mine that.");
-			list.add("Come on, get a derrick you doofus.");
+			for(String s : I18nUtil.resolveKeyArray("tile.ore_oil.desc"))
+				list.add(s);
 		}
 		
 		if(this.field_150939_a == ModBlocks.gravel_diamond) {
-			list.add("There is some kind of joke here,");
-			list.add("but I can't quite tell what it is.");
-			list.add("");
-			list.add("Update, 2020-07-04:");
-			list.add("We deny any implications of a joke on");
-			list.add("the basis that it was so severely unfunny");
-			list.add("that people started stabbing their eyes out.");
-			list.add("");
-			list.add("Update, 2020-17-04:");
-			list.add("As it turns out, \"Diamond Gravel\" was");
-			list.add("never really a thing, rendering what might");
-			list.add("have been a joke as totally nonsensical.");
-			list.add("We apologize for getting your hopes up with");
-			list.add("this non-joke that hasn't been made.");
-			list.add("");
-			list.add("i added an item for a joke that isn't even here, what am i, stupid? can't even tell the difference between gravel and a gavel, how did i not forget how to breathe yet?");
+			for(String s : I18nUtil.resolveKeyArray("tile.gravel_diamond.desc"))
+				list.add(s);
 		}
 	}
 

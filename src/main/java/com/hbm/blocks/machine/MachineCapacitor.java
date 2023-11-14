@@ -113,9 +113,8 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 			for(String s : I18nUtil.resolveKeyArray("tile.capacitor.desc")) list.add(EnumChatFormatting.YELLOW + s);
 		} else {
-			list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
-					EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
-					EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
+			list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +I18nUtil.resolveKey("tooltip.block" ,
+					EnumChatFormatting.YELLOW +"" + EnumChatFormatting.ITALIC + "LSHIFT"));
 		}
 	}
 	

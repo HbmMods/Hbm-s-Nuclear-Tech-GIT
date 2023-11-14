@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
+import com.hbm.util.I18nUtil;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -67,9 +69,8 @@ public class JetpackBooster extends JetpackBase {
 
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-
-		list.add("High-powered vectorized jetpack.");
-		list.add("Highly increased fuel consumption.");
+		for(String s : I18nUtil.resolveKeyArray("item.jetpack_boost.desc"))
+			list.add(s);
 
 		super.addInformation(stack, player, list, ext);
 	}

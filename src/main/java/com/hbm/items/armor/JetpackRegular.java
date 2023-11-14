@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
+import com.hbm.util.I18nUtil;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -56,7 +57,7 @@ public class JetpackRegular extends JetpackBase {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 
-		list.add("Regular jetpack for simple upwards momentum.");
+		list.add(I18nUtil.resolveKey("item.jetpack_fly.desc"));
 
 		super.addInformation(stack, player, list, ext);
 	}

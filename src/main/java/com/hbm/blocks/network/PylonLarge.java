@@ -7,6 +7,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.network.TileEntityPylonBase;
 import com.hbm.tileentity.network.TileEntityPylonLarge;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,9 +34,8 @@ public class PylonLarge extends BlockDummyable implements ITooltipProvider {
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		list.add(EnumChatFormatting.GOLD + "Connection Type: " + EnumChatFormatting.YELLOW + "Quadruple");
-		list.add(EnumChatFormatting.GOLD + "Connection Range: " + EnumChatFormatting.YELLOW + "100m");
-		list.add(EnumChatFormatting.GOLD + "This pylon requires a substation!");
+		for(String s : I18nUtil.resolveKeyArray("tile.red_pylon_large.desc"))
+			list.add(EnumChatFormatting.GOLD + s);
 	}
 
 	@Override
