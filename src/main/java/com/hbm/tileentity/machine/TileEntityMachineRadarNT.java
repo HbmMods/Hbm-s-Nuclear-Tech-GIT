@@ -8,31 +8,41 @@ import java.util.function.Function;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.inventory.gui.GUIMachineRadarNT;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Pair;
 
 import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectableNT;
 import api.hbm.entity.RadarEntry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
 /**
  * Now with SmЯt™ lag-free entity detection! (patent pending)
  * @author hbm
  */
-public class TileEntityMachineRadarNT extends TileEntityMachineBase implements IConfigurableMachine {
-	
+public class TileEntityMachineRadarNT extends TileEntityMachineBase implements IGUIProvider, IConfigurableMachine {
+
 	public boolean scanMissiles = true;
+	public boolean scanShells = true;
 	public boolean scanPlayers = true;
 	public boolean smartMode = true;
 	public boolean redMode = true;
+	public boolean showMap = false;
 	
 	public boolean jammed = false;
 
@@ -133,9 +143,11 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	public void serialize(ByteBuf buf) {
 		buf.writeLong(this.power);
 		buf.writeBoolean(this.scanMissiles);
+		buf.writeBoolean(this.scanShells);
 		buf.writeBoolean(this.scanPlayers);
 		buf.writeBoolean(this.smartMode);
 		buf.writeBoolean(this.redMode);
+		buf.writeBoolean(this.showMap);
 		buf.writeBoolean(this.jammed);
 		buf.writeInt(entries.size());
 		for(RadarEntry entry : entries) entry.toBytes(buf);
@@ -145,9 +157,11 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	public void deserialize(ByteBuf buf) {
 		this.power = buf.readLong();
 		this.scanMissiles = buf.readBoolean();
+		this.scanShells = buf.readBoolean();
 		this.scanPlayers = buf.readBoolean();
 		this.smartMode = buf.readBoolean();
 		this.redMode = buf.readBoolean();
+		this.showMap = buf.readBoolean();
 		this.jammed = buf.readBoolean();
 		int count = buf.readInt();
 		for(int i = 0; i < count; i++) {
@@ -155,6 +169,40 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			entry.fromBytes(buf);
 			this.entries.add(entry);
 		}
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 1,
+					yCoord,
+					zCoord - 1,
+					xCoord + 2,
+					yCoord + 3,
+					zCoord + 2
+					);
+		}
+		
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
+	}
+
+	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return null; }
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineRadarNT(this);
 	}
 	
 	/** List of lambdas that are supplied a Pair with the entity and radar in question to generate a RadarEntry

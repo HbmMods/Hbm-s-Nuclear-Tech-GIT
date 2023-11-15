@@ -2,6 +2,7 @@ package com.hbm.items.block;
 
 import java.util.List;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -25,6 +26,6 @@ public class ItemBlockBlastInfo extends ItemBlockBase {
 		if(block == null)
 			return;
 		
-		list.add(EnumChatFormatting.GOLD + "Blast Resistance: " + block.getExplosionResistance(null));
+		list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("desc.block.blastinfo", block.getExplosionResistance(null)));
 	}
 }

@@ -7,6 +7,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineGasFlare;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -61,13 +62,7 @@ public class MachineGasFlare extends BlockDummyable implements ITooltipProvider 
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-
-		list.add(EnumChatFormatting.GOLD + "Can burn fluids and vent gasses");
-		list.add(EnumChatFormatting.GOLD + "Burns up to " + EnumChatFormatting.RED + "10mB/t");
-		list.add(EnumChatFormatting.GOLD + "Vents up to " + EnumChatFormatting.RED + "50mB/t");
-		list.add("");
-		list.add(EnumChatFormatting.YELLOW + "Fuel efficiency:");
-		list.add(EnumChatFormatting.YELLOW + "-Flammable Gasses: " + EnumChatFormatting.RED + "50%");
-		list.add(EnumChatFormatting.YELLOW + "-Flammable Liquids: " + EnumChatFormatting.RED + "10%");
+		for(String s : I18nUtil.resolveKeyArray("tile.machine_flare.desc"))
+			list.add(EnumChatFormatting.GOLD + s);
 	}
 }
