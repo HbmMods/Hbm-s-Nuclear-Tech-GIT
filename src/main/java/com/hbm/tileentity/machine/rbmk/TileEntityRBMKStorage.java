@@ -4,21 +4,15 @@ import com.hbm.inventory.container.ContainerRBMKStorage;
 import com.hbm.inventory.gui.GUIRBMKStorage;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
-import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRBMKStorage extends TileEntityRBMKSlottedBase implements IRBMKLoadable, SimpleComponent {
+public class TileEntityRBMKStorage extends TileEntityRBMKSlottedBase implements IRBMKLoadable {
 
 	public TileEntityRBMKStorage() {
 		super(12);
@@ -89,35 +83,6 @@ public class TileEntityRBMKStorage extends TileEntityRBMKSlottedBase implements 
 	@Override
 	public void unload() {
 		slots[0] = null;
-	}
-
-	@Override
-	public String getComponentName() {
-		return "rbmk_storage_rod";
-	}
-	@Callback(direct = true, limit = 8)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getCoordinates(Context context, Arguments args) {
-		return new Object[] {xCoord, yCoord, zCoord};
-	}
-
-	@Callback(direct = true, limit = 8)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getHeat(Context context, Arguments args) {
-		return new Object[] {heat};
-	}
-
-
-	@Callback(direct = true, limit = 8)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getStored(Context context, Arguments args) {
-		return new Object[] {slots[0], slots[1], slots[2], slots[3], slots[4], slots[5], slots[6], slots[7], slots[8], slots[9], slots[10], slots[11]};
-	}
-
-	@Callback(direct = true, limit = 8)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {heat, slots[0], slots[1], slots[2], slots[3], slots[4], slots[5], slots[6], slots[7], slots[8], slots[9], slots[10], slots[11], xCoord, yCoord, zCoord};
 	}
 
 	@Override
