@@ -393,25 +393,25 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		return "ntm_fluid_tank";
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFluidStored(Context context, Arguments args) {
 		return new Object[] {tank.getFill()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getMaxStored(Context context, Arguments args) {
 		return new Object[] {tank.getMaxFill()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTypeStored(Context context, Arguments args) {
 		return new Object[] {tank.getTankType().getName()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};

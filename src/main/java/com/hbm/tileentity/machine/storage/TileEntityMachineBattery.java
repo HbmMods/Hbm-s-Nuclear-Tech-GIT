@@ -420,13 +420,13 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		return "ntm_energy_storage"; //ok if someone else can figure out how to do this that'd be nice (change the component name based on the type of storage block)
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower()};
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower()};

@@ -32,6 +32,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -429,12 +430,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setLevel(Context context, Arguments args) {
 		double newLevel = args.checkDouble(0)/100.0;
-		if (newLevel > 1.0) {
-			newLevel = 1.0;
-		} else if (newLevel < 0.0) {
-			newLevel = 0.0;
-		}
-		targetLevel = newLevel;
+		targetLevel = MathHelper.clamp_double(newLevel, 0, 100.0);
 		return new Object[] {};
 	}
 
