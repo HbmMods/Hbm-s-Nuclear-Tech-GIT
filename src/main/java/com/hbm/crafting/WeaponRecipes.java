@@ -166,6 +166,20 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_coilgun, 16, 0), new Object[] { " T ", "TST", " T ", 'T', W.ingot(), 'S', BIGMT.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_coilgun, 16, 1), new Object[] { " T ", "TST", " T ", 'T', FERRO.ingot(), 'S', BIGMT.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ammo_coilgun, 16, 2), new Object[] { " T ", "TST", " T ", 'T', RUBBER.ingot(), 'S', ANY_PLASTIC.ingot() });
+
+		//TODO: somehow add more variance, 4 gauge is still missing
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_22lr, 16), new Object[] { ModItems.nitra_small });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_9mm, 16), new Object[] { ModItems.nitra_small, ModItems.nitra_small });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_5mm, 16), new Object[] { ModItems.nitra_small, ModItems.nitra_small, ModItems.nitra_small });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_357, 16, Ammo357Magnum.LEAD.ordinal()), new Object[] { ModItems.nitra, ModItems.nitra_small });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_44, 16), new Object[] { ModItems.nitra, ModItems.nitra_small, ModItems.nitra_small });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_45, 16), new Object[] { ModItems.nitra, ModItems.nitra_small, ModItems.nitra_small, ModItems.nitra_small });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_50ae, 16), new Object[] { ModItems.nitra, ModItems.nitra });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_556, 16), new Object[] { ModItems.nitra, ModItems.nitra, ModItems.nitra_small });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_20gauge, 16), new Object[] { ModItems.nitra, ModItems.nitra, ModItems.nitra_small, ModItems.nitra_small });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_12gauge, 16), new Object[] { ModItems.nitra, ModItems.nitra, ModItems.nitra });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_762, 16), new Object[] { ModItems.nitra, ModItems.nitra, ModItems.nitra, ModItems.nitra_small });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ammo_50bmg, 16), new Object[] { ModItems.nitra, ModItems.nitra, ModItems.nitra, ModItems.nitra });
 		
 		//Ammo assemblies
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pellet_flechette, 1), new Object[] { " L ", " L ", "LLL", 'L', PB.nugget() });
