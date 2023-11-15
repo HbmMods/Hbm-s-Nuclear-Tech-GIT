@@ -1,6 +1,14 @@
+## Added
+* Nitra
+  * Dropped by the painsaw ability when killing a mob
+  * Can be used to quickly craft standard ammo types in the 2x2 crafting grid
+  * Can also refill empty syringes, making stimpaks
+
 ## Changed
 * Light oil and cracked light oil can now be refomred into large quantities of aromatic hydrocarbons a well as some reformate gas
+* The painsaw ability no longer drops ammo and syringes, instead it drops nitra
 
 ## Fixed
 * Fixed thorium bedrock ore using the wrong ore dict key, making it unable to be processed via centrifuge or acidizer
 * Fixed custom machine NEI slots going out of bounds after the third slot
+* Fixed bismuth billets not being oredicted, making BFB PWR rods uncraftable
