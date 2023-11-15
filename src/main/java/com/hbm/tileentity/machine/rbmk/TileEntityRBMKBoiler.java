@@ -5,6 +5,7 @@ import api.hbm.fluid.IFluidUser;
 import api.hbm.fluid.IPipeNet;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
@@ -369,25 +370,14 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	@Callback(direct = true, limit = 16)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		FluidType type = steam.getTankType();
-		Object type_1;
-		if(type == Fluids.STEAM) {type_1 = "0";}
-		else if(type == Fluids.HOTSTEAM) {type_1 = "1";}
-		else if(type == Fluids.SUPERHOTSTEAM) {type_1 = "2";}
-		else if(type == Fluids.ULTRAHOTSTEAM) {type_1 = "3";}
-		else {type_1 = "Unknown Error";}
+		int type_1 = (int) CompatHandler.steamTypeToInt(steam.getTankType())[0];
 		return new Object[] {heat, steam.getFill(), steam.getMaxFill(), feed.getFill(), feed.getMaxFill(), type_1, xCoord, yCoord, zCoord};
 	}
 
 	@Callback(direct = true, limit = 16)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getSteamType(Context context, Arguments args) {
-		FluidType type = steam.getTankType();
-		if(type == Fluids.STEAM) {return new Object[] {0};}
-		else if(type == Fluids.HOTSTEAM) {return new Object[] {1};}
-		else if(type == Fluids.SUPERHOTSTEAM) {return new Object[] {2};}
-		else if(type == Fluids.ULTRAHOTSTEAM) {return new Object[] {3};}
-		else {return new Object[] {"Unknown Error"};}
+		return CompatHandler.steamTypeToInt(steam.getTankType());
 	}
 
 	@Callback(direct = true, limit = 16)
