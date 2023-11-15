@@ -256,19 +256,19 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 		return "reactor_control";
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] isLinked(Context context, Arguments args) {
 		return new Object[] {isLinked};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getReactor(Context context, Arguments args) {
 		return new Object[] {getDisplayData()};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setParams(Context context, Arguments args) { //i hate my life
 		int newFunction = args.checkInteger(0);
@@ -284,7 +284,7 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 		return new Object[] {};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getParams(Context context, Arguments args) {
 		return new Object[] {function.ordinal(), heatUpper, heatLower, levelUpper, levelLower};

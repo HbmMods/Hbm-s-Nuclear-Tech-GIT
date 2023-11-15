@@ -68,7 +68,7 @@ public class TileEntityGeiger extends TileEntity implements SimpleComponent {
 		return "ntm_geiger";
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getRads(Context context, Arguments args) {
 		return new Object[] {check()};

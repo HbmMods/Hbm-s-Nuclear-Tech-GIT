@@ -149,31 +149,31 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 		return "rbmk_cooler";
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
 		return new Object[]{heat};
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCryo(Context context, Arguments args) {
 		return new Object[]{tank.getFill()};
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCryoMax(Context context, Arguments args) {
 		return new Object[]{tank.getMaxFill()};
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoordinates(Context context, Arguments args) {
 		return new Object[] {xCoord, yCoord, zCoord};
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[]{heat, tank.getFill(), tank.getMaxFill(), xCoord, yCoord, zCoord};

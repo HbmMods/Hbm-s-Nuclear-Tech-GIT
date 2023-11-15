@@ -199,19 +199,19 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 		return "dfc_injector";
 	}
 
-	@Callback(direct = true, limit = 2)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFuel(Context context, Arguments args) {
 		return new Object[] {tanks[0].getFill(), tanks[1].getFill()};
 	}
 
-	@Callback(direct = true, limit = 2)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTypes(Context context, Arguments args) {
 		return new Object[] {tanks[0].getTankType().getName(), tanks[1].getTankType().getName()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {tanks[0].getFill(), tanks[0].getTankType().getName(), tanks[1].getFill(), tanks[1].getTankType().getName()};
