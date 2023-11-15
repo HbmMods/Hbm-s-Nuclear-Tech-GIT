@@ -389,25 +389,25 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		return "rbmk_fuel_rod";
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
 		return new Object[] {heat};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFluxSlow(Context context, Arguments args) {
 		return new Object[] {fluxSlow};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFluxFast(Context context, Arguments args) {
 		return new Object[] {fluxFast};
 	}
 	
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getDepletion(Context context, Arguments args) {
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
@@ -416,7 +416,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		return new Object[] {"N/A"};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getXenonPoison(Context context, Arguments args) {
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
@@ -425,7 +425,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		return new Object[] {"N/A"};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoreHeat(Context context, Arguments args) {
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
@@ -434,7 +434,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		return new Object[] {"N/A"};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getSkinHeat(Context context, Arguments args) {
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
@@ -443,7 +443,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		return new Object[] {"N/A"};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		Object OC_enrich_buf;
@@ -464,13 +464,13 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		return new Object[] {heat, OC_hull_buf, OC_core_buf, fluxSlow, fluxFast, OC_enrich_buf, OC_poison_buf, ((RBMKRod)this.getBlockType()).moderated, xCoord, yCoord, zCoord};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getModerated(Context context, Arguments args) {
 		return new Object[] {((RBMKRod)this.getBlockType()).moderated};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoordinates(Context context, Arguments args) {
 		return new Object[] {xCoord, yCoord, zCoord};

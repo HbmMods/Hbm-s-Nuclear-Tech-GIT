@@ -332,76 +332,60 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	public String getComponentName() {
 		return "rbmk_boiler";
 	}
-	
-	@Callback(direct = true, limit = 16)
+
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
 		return new Object[] {heat};
 	}
 	
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getSteam(Context context, Arguments args) {
 		return new Object[] {steam.getFill()};
 	}
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getSteamMax(Context context, Arguments args) {
 		return new Object[] {steam.getMaxFill()};
 	}
 	
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getWater(Context context, Arguments args) {
 		return new Object[] {feed.getFill()};
 	}
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getWaterMax(Context context, Arguments args) {
 		return new Object[] {feed.getMaxFill()};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoordinates(Context context, Arguments args) {
 		return new Object[] {xCoord, yCoord, zCoord};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		int type_1 = (int) CompatHandler.steamTypeToInt(steam.getTankType())[0];
 		return new Object[] {heat, steam.getFill(), steam.getMaxFill(), feed.getFill(), feed.getMaxFill(), type_1, xCoord, yCoord, zCoord};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getSteamType(Context context, Arguments args) {
 		return CompatHandler.steamTypeToInt(steam.getTankType());
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setSteamType(Context context, Arguments args) {
 		int type = args.checkInteger(0);
-		if(type > 3) {
-			type = 3;
-		} else if(type < 0) {
-			type = 0;
-		}
-		if(type == 0) {
-			steam.setTankType(Fluids.STEAM);
-			return new Object[] {true};
-		} else if(type == 1) {
-			steam.setTankType(Fluids.HOTSTEAM);
-			return new Object[] {true};
-		} else if(type == 2) {
-			steam.setTankType(Fluids.SUPERHOTSTEAM);
-			return new Object[] {true};
-		} else {
-			steam.setTankType(Fluids.ULTRAHOTSTEAM);
-			return new Object[] {true};
-		}
+		steam.setTankType(CompatHandler.intToSteamType(type));
+		return new Object[] {true};
 	}
 
 	@Override

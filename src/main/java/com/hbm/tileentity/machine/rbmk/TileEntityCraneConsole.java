@@ -378,7 +378,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		return new Object[] {"Crane not found"};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getDepletion(Context context, Arguments args) {
 		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
@@ -387,7 +387,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		return new Object[] {"N/A"};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getXenonPoison(Context context, Arguments args) {
 		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {

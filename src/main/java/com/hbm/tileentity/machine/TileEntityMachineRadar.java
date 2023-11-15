@@ -289,19 +289,19 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements IEn
 		return "ntm_radar";
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower()};
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] isJammed(Context context, Arguments args) {
 		return new Object[] {jammed};
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEntities(Context context, Arguments args) { //fuck fuck fuck
 		if(!jammed) {

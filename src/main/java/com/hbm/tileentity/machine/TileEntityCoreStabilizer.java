@@ -172,19 +172,19 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		return "dfc_stabilizer";
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInput(Context context, Arguments args) {
 		return new Object[] {watts};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getDurability(Context context, Arguments args) {
 		if(slots[0] != null && slots[0].getItem() == ModItems.ams_lens && ItemLens.getLensDamage(slots[0]) < ((ItemLens)ModItems.ams_lens).maxDamage) {
@@ -193,7 +193,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		return new Object[] {"N/A"};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		Object lens_damage_buf;
@@ -205,7 +205,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		return new Object[] {power, maxPower, watts, lens_damage_buf};
 	}
 
-	@Callback(direct = true, limit = 2)
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setInput(Context context, Arguments args) {
 		int newOutput = args.checkInteger(0);
