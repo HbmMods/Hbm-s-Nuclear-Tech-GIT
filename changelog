@@ -3,6 +3,11 @@
   * Dropped by the painsaw ability when killing a mob
   * Can be used to quickly craft standard ammo types in the 2x2 crafting grid
   * Can also refill empty syringes, making stimpaks
+* Latex
+  * Made from crafting dandelions into dandelion milk, then smelting it
+  * Replaces insulator in many recipes where electrical insulation that is potentially made from brick doesn't make sense, like rubber gas masks, jackets, tools and so on
+  * Latex is interchangable with rubber in all recipes where it's used, but not the other way round
+  * The old insulator is now mainly used for electrical and heat insulation as well as PWR rods
 
 ## Changed
 * Light oil and cracked light oil can now be refomred into large quantities of aromatic hydrocarbons a well as some reformate gas

@@ -99,7 +99,7 @@ public class MagicRecipes {
 				new OreDictStack(GOLD.plate())));
 
 		recipes.add(new MagicRecipe(new ItemStack(ModItems.ammo_dart, 4, ItemAmmoEnums.AmmoDart.NUCLEAR.ordinal()),
-				new ComparableStack(ModItems.plate_polymer),
+				new OreDictStack(ANY_RUBBER.ingot()),
 				new ComparableStack(ModItems.nugget_pu239),
 				new ComparableStack(ModItems.circuit_aluminium)));
 	}
