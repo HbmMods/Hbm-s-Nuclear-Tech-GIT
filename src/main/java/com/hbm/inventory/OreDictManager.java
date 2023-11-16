@@ -185,6 +185,7 @@ public class OreDictManager {
 	public static final DictFrame PET = new DictFrame("PET");
 	public static final DictFrame PC = new DictFrame("Polycarbonate");
 	public static final DictFrame PVC = new DictFrame("PVC");
+	public static final DictFrame LATEX = new DictFrame("Latex");
 	public static final DictFrame RUBBER = new DictFrame("Rubber");
 	public static final DictFrame MAGTUNG = new DictFrame("MagnetizedTungsten");
 	public static final DictFrame CMB = new DictFrame("CMBSteel");
@@ -277,6 +278,8 @@ public class OreDictManager {
 	/*
 	 * COLLECTIONS
 	 */
+	/** Any form of elastic polymer */
+	public static final DictGroup ANY_RUBBER = new DictGroup("AnyRubber", LATEX, RUBBER);	
 	/** Any post oil polymer like teflon ("polymer") or bakelite */
 	public static final DictGroup ANY_PLASTIC = new DictGroup("AnyPlastic", POLYMER, BAKELITE);		//using the Any prefix means that it's just the secondary prefix, and that shape prefixes are applicable
 	/** Any post vacuum polymer like PET or PVC */
@@ -370,6 +373,7 @@ public class OreDictManager {
 		DURA																.ingot(ingot_dura_steel)											.dust(powder_dura_steel)										.block(block_dura_steel);
 		POLYMER																.ingot(ingot_polymer)												.dust(powder_polymer)											.block(block_polymer);
 		BAKELITE															.ingot(ingot_bakelite)												.dust(powder_bakelite)											.block(block_bakelite);
+		LATEX									.gem(ball_resin)			.ingot(ingot_biorubber);
 		RUBBER																.ingot(ingot_rubber)																												.block(block_rubber);
 		//PET																	.ingot(ingot_pet);
 		PC																	.ingot(ingot_pc);
@@ -604,6 +608,7 @@ public class OreDictManager {
 	}
 	
 	public static void registerGroups() {
+		ANY_RUBBER.addPrefix(INGOT, true);
 		ANY_PLASTIC.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(BLOCK, true);
 		ANY_HARDPLASTIC.addPrefix(INGOT, true);
 		ANY_RESISTANTALLOY.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(PLATECAST, true).addPrefix(PLATEWELDED, true).addPrefix(HEAVY_COMPONENT, true).addPrefix(BLOCK, true);
