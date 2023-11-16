@@ -254,19 +254,37 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 				this.motionY = 1; // or any positive value for upward speed
 				vector.zCoord = 0;		        
 				if(posY > 600) {
-			        if(payload.getItemDamage() == DestinationType.DUNA.ordinal()) {
-						if(riding != null) {
-							DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
-							riding.dismountEntity(riding);	
-			        }
-			       }
-			        if(payload.getItemDamage() == DestinationType.MOHO.ordinal()) {
-			        	if(riding != null) {
-							DebugTeleporter.teleport(riding, SpaceConfig.mohoDimension, riding.posX, 300, riding.posZ);
-							riding.dismountEntity(riding);	
-						}
-			       }		
+					if(riding != null) {
+					switch (DestinationType.values()[payload.getItemDamage()]) {
+					case MOHO:
+			            DebugTeleporter.teleport(riding, SpaceConfig.mohoDimension, riding.posX, 300, riding.posZ);
+						break;
+					case DUNA:
+			            DebugTeleporter.teleport(riding, SpaceConfig.dunaDimension, riding.posX, 300, riding.posZ);
+			            break;
+					case DRES:
+			            DebugTeleporter.teleport(riding, SpaceConfig.dresDimension, riding.posX, 300, riding.posZ);
+						break;
+					case MUN:
+			            DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
+			            break;
+					case MINMUS:
+			            DebugTeleporter.teleport(riding, SpaceConfig.minmusDimension, riding.posX, 300, riding.posZ);
+			            break;
+					case EVE:
+			            DebugTeleporter.teleport(riding, SpaceConfig.eveDimension, riding.posX, 300, riding.posZ);
+			            break;
+					case IKE:
+			            DebugTeleporter.teleport(riding, SpaceConfig.ikeDimension, riding.posX, 300, riding.posZ);
+			            break;
+					default: 
+						riding.dismountEntity(riding);
+						break;
+					}
 				}
+					riding.dismountEntity(riding);
+
+			}
 				if(posY > 604) {
 					this.setDead();
 				}

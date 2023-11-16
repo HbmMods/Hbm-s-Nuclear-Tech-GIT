@@ -133,7 +133,8 @@ public class ModItems {
 	public static Item ingot_gaas;
 	public static Item ingot_iridium;
 	public static Item sulfur;
-	
+	public static Item ingot_palladium;
+
 	public static Item coke;
 	public static Item lignite;
 	public static Item powder_lignite;
@@ -3043,6 +3044,7 @@ public class ModItems {
 		nugget_hes = new Item().setUnlocalizedName("nugget_hes").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_hes");
 		nugget_les = new Item().setUnlocalizedName("nugget_les").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_les");
 		plate_combine_steel = new Item().setUnlocalizedName("plate_combine_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_combine_steel");
+		ingot_palladium = new ItemCustomLore().setUnlocalizedName("ingot_palladium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_palladium");
 
 		crystal_coal = new Item().setUnlocalizedName("crystal_coal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_coal");
 		crystal_iron = new Item().setUnlocalizedName("crystal_iron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_iron");
@@ -6009,6 +6011,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_ttas, ingot_ttas.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_platnium, ingot_platnium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_iridium, ingot_iridium.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_palladium, ingot_palladium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_aluminium, ingot_aluminium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_steel, ingot_steel.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_stainless, ingot_stainless.getUnlocalizedName());

@@ -429,6 +429,13 @@ public class ModBlocks {
 	public static Block moon_titanium;
 	public static Block moon_lithium;
 	public static Block moon_aluminium;
+	public static Block moon_palladium;
+	public static Block moon_copper;
+
+	public static Block tumor;
+	public static Block tumor2;
+	public static Block tumor3;
+
 	
 	public static Block duna_sands;
 	public static Block duna_rock;
@@ -1763,7 +1770,13 @@ public class ModBlocks {
 		moon_lithium = new BlockOre(Material.rock).noFortune().setBlockName("moon_lithium").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":moon_lithium_ore");
 		moon_aluminium = new BlockOre(Material.rock).noFortune().setBlockName("moon_aluminium").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":moon_aluminum_ore");
 		//moon_conglomerate = new BlockOre(Material.rock).noFortune().setBlockName("moon_conglomerate").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":moon_conglomerate_ore");
+		moon_copper = new BlockOre(Material.rock).noFortune().setBlockName("moon_copper").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":moon_copper");
+		moon_palladium = new BlockOre(Material.rock).noFortune().setBlockName("moon_palladium").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":moon_palladium");
 		
+		tumor = new BlockGeneric(Material.clay).setBlockName("tumor").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":tumor_base");
+		tumor2 = new BlockGeneric(Material.clay).setBlockName("tumor2").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":tumor_base2");
+		tumor3 = new BlockGeneric(Material.clay).setBlockName("tumor3").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":tumor_base3");
+
 		duna_sands = new BlockFalling(Material.sand).setBlockName("duna_sands").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":duna_sands");
 		duna_rock = new BlockGeneric(Material.rock).setBlockName("duna_rock").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_rock");
 		duna_zinc = new BlockGeneric(Material.rock).setBlockName("duna_zinc").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_zinc");
@@ -3141,7 +3154,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(moon_titanium, moon_titanium.getUnlocalizedName());
 		GameRegistry.registerBlock(moon_lithium, moon_lithium.getUnlocalizedName());
 		GameRegistry.registerBlock(moon_aluminium, moon_aluminium.getUnlocalizedName());
-	
+		GameRegistry.registerBlock(moon_palladium, moon_palladium.getUnlocalizedName());
+		GameRegistry.registerBlock(moon_copper, moon_copper.getUnlocalizedName());
+
 		GameRegistry.registerBlock(duna_sands, duna_sands.getUnlocalizedName());
 		GameRegistry.registerBlock(duna_rock, duna_rock.getUnlocalizedName());
 		GameRegistry.registerBlock(duna_oil, duna_oil.getUnlocalizedName());
@@ -3206,6 +3221,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_tektite_osmiridium, ore_tektite_osmiridium.getUnlocalizedName());
 		GameRegistry.registerBlock(impact_dirt, impact_dirt.getUnlocalizedName());
 		GameRegistry.registerBlock(qq_dirt, qq_dirt.getUnlocalizedName());
+		GameRegistry.registerBlock(tumor, tumor.getUnlocalizedName());
+		GameRegistry.registerBlock(tumor2, tumor2.getUnlocalizedName());
+		GameRegistry.registerBlock(tumor3, tumor3.getUnlocalizedName());
+
 		
 		
 		//oops

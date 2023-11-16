@@ -298,12 +298,22 @@ public class SkyProviderDuna extends IRenderHandler {
         }
 
 		{
+			float brightness = (float) Math.sin(world.getCelestialAngle(partialTicks) * Math.PI);
+
 			GL11.glPushMatrix();
-			GL11.glDisable(GL11.GL_BLEND);
-			GL11.glColor4d(1, 1, 1, 1);
+			if (brightness > 0.60) {
+			    GL11.glDisable(GL11.GL_BLEND);
+			    OpenGlHelper.glBlendFunc(770, 1, 1, 0);
+				GL11.glColor4d(brightness, brightness, brightness, brightness);
+			} else {
+			    GL11.glEnable(GL11.GL_BLEND);
+			}
+			//GL11.glDisable(GL11.GL_BLEND);
+			OpenGlHelper.glBlendFunc(770, 1, 1, 0);
 			GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(-80.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(0.0F, 0.0F, 1.0F, 0.0F);
+
 			f10 = (AstronomyUtil.IkeRadius/AstronomyUtil.IkeDunaKm)*470;
 			FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.ike);
 			tessellator.startDrawingQuads();

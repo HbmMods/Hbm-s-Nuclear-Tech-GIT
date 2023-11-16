@@ -64,7 +64,9 @@ public class FluidContainerRegistry {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.teacup), new ItemStack(ModItems.teacup_empty), Fluids.TEA, 100));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bottle_honey), new ItemStack(Items.glass_bottle), Fluids.HONEY, 100));
 
-		
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.dry_ice), null, Fluids.CARBONDIOXIDE, 1000)); //literal block of carbon dioxide
+		//will be useful to heat up atmospheres, trust me.
+
 		FluidType[] fluids = Fluids.getAll();
 		for(int i = 1; i < fluids.length; i++) {
 			

@@ -31,9 +31,15 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 	}
 	public enum DestinationType {
 		BLANK("blank", 0, true),
-	    DUNA("duna", 3, false),
-	    MOHO("moho", 0, true);
-
+	    DUNA("duna", 1, false),
+	    MOHO("moho", 2, true),
+	    DRES("dres", 2, false),
+	    EVE("eve", 1, false), //eve is inherently hard to get to regardless
+	    MINMUS("minmus", 0, false),
+	    IKE("ike", 1, false),
+	    LAYTHE("laythe", 3, false),
+	    TEKTO("tekto", 3, false),
+	    MUN("mun", 0, true); //lvl 0 drives are inherently processed, no need for them to be otherwise
 	    private String destination;
 	    private int processingLevel; // for the te 
 	    private boolean isprocessed; // the level will stay the same, trick is is that the te will match the level and pretend to "process it" which is a fancy way of setting this to true.
@@ -144,18 +150,10 @@ public class ItemVOTVdrive extends ItemEnumMulti {
         DestinationType destinationType = DestinationType.values()[metadata];
 
         // Now you can work with destinationType
-        if (destinationType == DestinationType.DUNA) {
             if(!isProcessed(stack)) {
         		stack.stackTagCompound.setBoolean("Processed", true);
             }
             System.out.println("DUNA processing: true");
-            
-        }
-        if (destinationType == DestinationType.MOHO) {
-            if(!isProcessed(stack)) {
-        		stack.stackTagCompound.setBoolean("Processed", true);
-            }
-        }
     
         return stack;
 

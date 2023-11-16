@@ -240,7 +240,7 @@ public class SkyProviderMoon extends IRenderHandler {
 		{
     		GL11.glPushMatrix();
     		//GL11.glDisable(GL11.GL_BLEND);
-    		f10 = (float) (0.15F/KerbinJool);
+    		f10 = 0.75f;
     		GL11.glColor4d(0.4588f, 0.6784f, 0.3059f, 1/KerbinJool);
     		GL11.glRotatef(AstronomyUtil.calculatePlanetAngle(world.getWorldTime(), partialTicks, AstronomyUtil.KerbinP, AstronomyUtil.JoolP) * -360.0F, 1.0F, 0.0F, 0.0F);        		
     		GL11.glRotatef(280F, 1.0F, 0.0F, 0.0F);
@@ -257,7 +257,7 @@ public class SkyProviderMoon extends IRenderHandler {
 		{
     		GL11.glPushMatrix();
     		//GL11.glDisable(GL11.GL_BLEND);
-    		f10 = (float) (0.15F/KerbinDuna);
+    		f10 = 0.75f;
     		GL11.glColor4d(0.6471f, 0.2824f, 0.1608f, 1/KerbinDuna);
     		GL11.glRotatef(AstronomyUtil.calculatePlanetAngle(world.getWorldTime(), partialTicks, AstronomyUtil.KerbinP, AstronomyUtil.DunaP) * -360.0F, 1.0F, 0.0F, 0.0F);        		
     		GL11.glRotatef(280F, 1.0F, 0.0F, 0.0F);
@@ -273,7 +273,7 @@ public class SkyProviderMoon extends IRenderHandler {
     	}
         {
         	GL11.glPushMatrix();        	
-        	float EveRad = 0.05F;
+        	float EveRad = 0.15F;
         	float EveSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.EveP, AstronomyUtil.KerbinP);
         		//System.out.println("Venus-Earth distance: "+VenusEarth);
         	float sine = (float) Math.sin(((Math.PI/2)/(EveSyn/4))*(world.getWorldTime()+AstronomyUtil.offset));
@@ -282,7 +282,7 @@ public class SkyProviderMoon extends IRenderHandler {
         	GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
         	GL11.glEnable(GL11.GL_TEXTURE_2D);
         	GL11.glColor4d(0.408F, 0.298F, 0.553F, 1/EveKerbin);
-        	f10 = (float) (EveRad/EveKerbin);
+        	f10 = 0.75f;
         	mc.renderEngine.bindTexture(this.planet);
         	tessellator.startDrawingQuads();
         	tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -302,7 +302,7 @@ public class SkyProviderMoon extends IRenderHandler {
         	GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
         	GL11.glEnable(GL11.GL_TEXTURE_2D);
         	GL11.glColor4d(0.4863F, 0.4F, 0.3456, 1/MohoKerbin);
-        	f10 = Math.max(0.1F, (float) (MohoRad/MohoKerbin));
+        	f10 = 0.75f;
         	mc.renderEngine.bindTexture(this.planet);
         	tessellator.startDrawingQuads();
         	tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -573,7 +573,7 @@ public class SkyProviderMoon extends IRenderHandler {
 		}
 		tessellator.draw();
 	}
-	
+	//with all due respect i have zero idea how people manage to write this without any help
 	  private void renderSkyboxSide(Tessellator tessellator, int side)
 	  {
 	    double u = side % 3 / 3.0D;
