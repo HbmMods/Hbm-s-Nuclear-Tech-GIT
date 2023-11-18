@@ -13,6 +13,7 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.IRenderHandler;
 
 public class WorldProviderLaythe extends WorldProvider {
@@ -41,7 +42,7 @@ public class WorldProviderLaythe extends WorldProvider {
     @SideOnly(Side.CLIENT)
     public Vec3 getFogColor(float x, float y) {
         float f = 1.0F - this.getStarBrightness(1.0F);
-      return Vec3.createVectorHelper(145F / 255F * f, 122F / 255F * f, 78F / 255F * f);
+      return Vec3.createVectorHelper(125F / 255F * f, 122F / 255F * f, 198F / 255F * f);
     }
     
     public Vec3 getSkyColor(Entity camera, float partialTicks) {
@@ -52,7 +53,7 @@ public class WorldProviderLaythe extends WorldProvider {
     @SideOnly(Side.CLIENT)
     public float[] calcSunriseSunsetColors(float p_76560_1_, float p_76560_2_)
     {
-        float f2 = 0.4F;
+        float f2 = 0.7F;
         float f3 = MathHelper.cos(p_76560_1_ * (float)Math.PI * 2.0F) - 0.0F;
         float f4 = -0.0F;
 
@@ -61,10 +62,11 @@ public class WorldProviderLaythe extends WorldProvider {
             float f5 = (f3 - f4) / f2 * 0.5F + 0.5F;
             float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * (float)Math.PI)) * 0.99F;
             f6 *= f6;
-            this.colorsSunriseSunset[0] = f5 * 0.2F + 0.2F;
-            this.colorsSunriseSunset[1] = f5 * f5 * 0.7F + 0.2F;
-            this.colorsSunriseSunset[2] = f5 * f5 * 0.3F + 0.7F;
+            this.colorsSunriseSunset[0] = f5 * 0.5F + 0.3F;
+            this.colorsSunriseSunset[1] = f5 * f5 * 0.2F + 0.2F;
+            this.colorsSunriseSunset[2] = f5 * f5 * 0.1F + 0.1F;
             this.colorsSunriseSunset[3] = f6;
+
             return this.colorsSunriseSunset;
         }
         else

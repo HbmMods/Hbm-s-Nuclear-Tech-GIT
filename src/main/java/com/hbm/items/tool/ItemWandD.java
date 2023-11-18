@@ -138,17 +138,6 @@ public class ItemWandD extends Item {
 					break;
 				case 8:
 					DebugTeleporter.teleport(player, SpaceConfig.laytheDimension, player.posX, 300, player.posZ);
-				case 9:
-					TomSaveData data = TomSaveData.forWorld(world);
-					data.impact = false;
-					data.fire = 0F;
-					data.dust = 0F;
-					data.dtime=(600-pos.blockY)*2;
-					data.time=3600;
-					data.x=pos.blockX;
-					data.z=pos.blockZ;
-					data.markDirty();
-					break;
 				}
 				
 				
@@ -196,9 +185,6 @@ public class ItemWandD extends Item {
 							break;
 						case 8:
 							player.addChatMessage(new ChatComponentText("Dim: Laythe"));
-							break;
-						case 9:
-							player.addChatMessage(new ChatComponentText("Impact Event"));
 							break;
 						default:
 							player.addChatMessage(new ChatComponentText("Dim: Moon"));
@@ -407,9 +393,6 @@ public class ItemWandD extends Item {
 				break;
 			case 7:
 				list.add("Dim: Minmus");
-				break;
-			case 8:
-				list.add("Impact");
 				break;
 	}
 }

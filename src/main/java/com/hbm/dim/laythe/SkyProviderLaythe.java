@@ -32,6 +32,7 @@ public class SkyProviderLaythe extends IRenderHandler {
 	private static final ResourceLocation tylo = new ResourceLocation("hbm:textures/misc/space/tylo.png");
 	private static final ResourceLocation vall = new ResourceLocation("hbm:textures/misc/space/vall.png");
 	private static final ResourceLocation bop = new ResourceLocation("hbm:textures/misc/space/bop.png");
+	private static final ResourceLocation joolv3 = new ResourceLocation("hbm:textures/misc/space/jool32.png");
 
 	public static boolean displayListsInitialized = false;
 	public static int starGLCallList;
@@ -354,22 +355,26 @@ public class SkyProviderLaythe extends IRenderHandler {
 		}
 
 		{
-		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1f);
-		GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
-		GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
-		OpenGlHelper.glBlendFunc(770, 1, 1, 0);
-		f10 = 42;
-		FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.jool);
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
-		tessellator.addVertexWithUV(f10, 100.0D, -f10, 1.0D, 0.0D);
-		tessellator.addVertexWithUV(f10, 100.0D, f10, 1.0D, 1.0D);
-		tessellator.addVertexWithUV(-f10, 100.0D, f10, 0.0D, 1.0D);
-		tessellator.draw();
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glPopMatrix();
+			long worldTime = world.getWorldTime();
+			float textureOffsetX = (worldTime % 100000L) / 4000.0F; // Adjust the divisor for speed
+
+		    GL11.glPushMatrix();
+		    
+		    GL11.glDisable(GL11.GL_BLEND);
+		    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1f);
+		    GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
+		    GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
+		    OpenGlHelper.glBlendFunc(770, 1, 1, 0);
+		    f10 = 42;
+		    FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.jool);
+		    tessellator.startDrawingQuads();
+		    tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D + textureOffsetX, 0.0D);
+		    tessellator.addVertexWithUV(f10, 100.0D, -f10, 1.0D + textureOffsetX, 0.0D);
+		    tessellator.addVertexWithUV(f10, 100.0D, f10, 1.0D + textureOffsetX, 1.0D);
+		    tessellator.addVertexWithUV(-f10, 100.0D, f10, 0.0D + textureOffsetX, 1.0D);
+		    tessellator.draw();
+		    GL11.glEnable(GL11.GL_BLEND);
+		    GL11.glPopMatrix();
 		}
 
 	
