@@ -13,7 +13,8 @@ public class SpaceConfig {
 	public static int eveDimension = 18;
 	public static int mohoDimension = 20;
 	public static int minmusDimension = 21;
-	
+	public static int laytheDimension = 22;
+
 	public static int moonBiome = 111;
 	public static int dunaBiome = 112;
 	public static int dunaLowlandsBiome = 113;
@@ -23,6 +24,8 @@ public class SpaceConfig {
 	public static int eveBiome = 117;
 	public static int eveMountainsBiome = 118;
 	public static int eveOceanBiome = 119;
+	public static int laytheBiome = 123;
+	public static int laytheOceanBiome = 124;
 	public static int ikeBiome = 145;
 	public static int ikecfreq = 90;
 	public static int drescfreq = 90;
@@ -57,7 +60,8 @@ public class SpaceConfig {
 		eveMountainsBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.09_eveMountainsBiome", "Eve Mountains Biome ID", 118);
 		eveOceanBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.10_eveOceanBiome", "Eve Ocean Biome ID", 119);
 		ikeBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.11_IkeBiome", "Ike Biome ID", 145);
-		
+		laytheBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.12_LaytheBiome", "Laythe Biome ID", 123);
+		laytheOceanBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.13_LaytheOceanBiome", "Laythe Ocean Biome ID", 124);
 		
 		
 		ikecfreq = CommonConfig.setDefZero(ikecfreq, 90);

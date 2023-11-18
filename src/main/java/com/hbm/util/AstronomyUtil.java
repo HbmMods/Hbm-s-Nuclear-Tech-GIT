@@ -16,12 +16,12 @@ public class AstronomyUtil
 	//public static final float GillyRadius=13F;
 	public static final float MunRadius=200F;
 	public static final float MinmusRadius=60F;
-	/*public static final float IkeRadius=13F;
+	//public static final float IkeRadius=13F;
 	public static final float LaytheRadius=13F;
-	public static final float VallRadius=13F;
-	public static final float TyloRadius=13F;
-	public static final float BopRadius=13F;
-	public static final float PolRadius=13F;*/
+	public static final float VallRadius=300F;
+	//public static final float TyloRadius=13F;
+	public static final float BopRadius=65F;
+	//public static final float PolRadius=13F;*/
 	
     public static final float MohoRadius=250;
     public static final float EveRadius=700;
@@ -34,6 +34,7 @@ public class AstronomyUtil
     public static final float UrlumRadius=25559;
     public static final float NeidonRadius=24766;
     public static final float PlockRadius=1184;
+    public static final float TyloRadius=580F;
 	
 	public static final float MohoAU=5263138.304F/AUToKm;
     public static final float EveAU=9832684.544F/AUToKm;
@@ -59,13 +60,21 @@ public class AstronomyUtil
     
     public static final float MunP=6.43F;
     public static final float MinmusP=49.88F;
+    public static final float LaytheP=7.48F;
+    public static final float VallP=9.86F;
+	public static final float TyloP = 18.22F;
+    public static final float BopP=21.45F;
     
     public static final float MunKerbinKm=12000;
     public static final float MinmusKerbinKm=47000;
     public static final float MunKerbinAU=MunKerbinKm/AUToKm;
     public static final float MinmusKerbinAU=MinmusKerbinKm/AUToKm;
     public static final float IkeDunaKm=9377.2F-DunaRadius;
-    
+    public static final float LaytheJoolKm = 27184F; 
+    public static final float VallJoolKm = 29620F; 
+    public static final float TyloJoolKm = 58500F;
+    public static final float BopJoolKm = 89520F; 
+
     public static ResourceLocation mohoTexture = new ResourceLocation("hbm:textures/misc/moho.png");
     public static ResourceLocation eveTexture = new ResourceLocation("hbm:textures/misc/eve.png");
     public static ResourceLocation kerbinTexture = new ResourceLocation("hbm:textures/misc/kerbin.png");
@@ -189,5 +198,21 @@ public class AstronomyUtil
         float f2 = f1;
         f1 = 0.5F - MathHelper.cos(f1 * 3.1415927F) / 2.0F;
         return f2 + (f1 - f2) / 3.0F;
+    }
+    
+    public static double[] getOuterOrbitObservation(World world, Float innerPlanetAU, Float innerPlanetPeriod, Float outerPlanetAU, Float outerPlanetPeriod) {
+        double innerPlanetYear = day * innerPlanetPeriod;
+        double outerPlanetYear = day * outerPlanetPeriod;
+
+        double innerPlanetCos = innerPlanetAU * Math.cos((2 * (Math.PI * world.getWorldTime() + offset)) / innerPlanetYear);
+        double innerPlanetSin = innerPlanetAU * Math.sin((2 * (Math.PI * world.getWorldTime() + offset)) / innerPlanetYear);
+
+        double outerPlanetCos = outerPlanetAU * Math.cos((2 * (Math.PI * world.getWorldTime() + offset)) / outerPlanetYear);
+        double outerPlanetSin = outerPlanetAU * Math.sin((2 * (Math.PI * world.getWorldTime() + offset)) / outerPlanetYear);
+
+        double distance = Math.sqrt(Math.pow(outerPlanetCos - innerPlanetCos, 2) + Math.pow(outerPlanetSin - innerPlanetSin, 2));
+        double angle = (360D + (Math.atan2(outerPlanetSin - innerPlanetSin, outerPlanetCos - innerPlanetCos) - Math.atan2(0 - innerPlanetSin, 0 - innerPlanetCos)) * (180 / Math.PI)) % 360;
+
+        return new double[] { distance, angle };
     }
 }

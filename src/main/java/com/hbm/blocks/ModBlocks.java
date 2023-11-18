@@ -435,6 +435,7 @@ public class ModBlocks {
 	public static Block tumor;
 	public static Block tumor2;
 	public static Block tumor3;
+	public static Block tumor4;
 
 	
 	public static Block duna_sands;
@@ -458,6 +459,8 @@ public class ModBlocks {
 	//public static Block dres_lithium;
 	public static Block dres_niobium;
 	public static Block dres_diamond;
+	
+	public static Block laythe_silt;
 
 	public static Block eve_silt;
 	public static Block eve_rock;
@@ -567,7 +570,8 @@ public class ModBlocks {
 	public static Block plant_tall;
 	public static Block plant_dead;
 	public static Block reeds;
-	
+	public static Block plant_tall_laythe;
+
 	public static Block crop_strawberry;
 	public static Block crop_coffee;
 	public static Block crop_tea;
@@ -1776,6 +1780,7 @@ public class ModBlocks {
 		tumor = new BlockGeneric(Material.clay).setBlockName("tumor").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":tumor_base");
 		tumor2 = new BlockGeneric(Material.clay).setBlockName("tumor2").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":tumor_base2");
 		tumor3 = new BlockGeneric(Material.clay).setBlockName("tumor3").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":tumor_base3");
+		tumor4 = new BlockGeneric(Material.clay).setBlockName("tumor4").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":fleshv2");
 
 		duna_sands = new BlockFalling(Material.sand).setBlockName("duna_sands").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":duna_sands");
 		duna_rock = new BlockGeneric(Material.rock).setBlockName("duna_rock").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_rock");
@@ -1787,6 +1792,9 @@ public class ModBlocks {
 		
 		eve_silt = new BlockFalling(Material.sand).setBlockName("eve_silt").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":eve_silt");
 		eve_rock = new BlockGeneric(Material.rock).setBlockName("eve_rock").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":eve_stone_2");
+		
+		laythe_silt = new BlockFalling(Material.sand).setBlockName("laythe_silt").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":laythe_silt");
+
 		
 		ike_regolith = new BlockGeneric(Material.rock).setBlockName("ike_regolith").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_regolith");
 		ike_stone = new BlockGeneric(Material.rock).setBlockName("ike_stone").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_stone");
@@ -1904,6 +1912,7 @@ public class ModBlocks {
 		plant_tall = new BlockTallPlant().setBlockName("plant_tall").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 		plant_dead = new BlockDeadPlant().setBlockName("plant_dead").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 		reeds = new BlockReeds().setBlockName("plant_reeds").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
+		plant_tall_laythe = new BlockTallPlantLaythe().setBlockName("plant_tall_laythe").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 
 		crop_strawberry = new CropStrawberry().setBlockName("crop_strawberry").setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 		crop_coffee = new CropCoffee().setBlockName("crop_coffee").setStepSound(Block.soundTypeGrass).setHardness(0.0F);
@@ -3136,6 +3145,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(deco_pipe_quad_marked, ItemBlockBase.class, deco_pipe_quad_marked.getUnlocalizedName());
 		register(plant_flower);
 		register(plant_tall);
+		register(plant_tall_laythe);
 		register(plant_dead);
 		register(reeds);
 		register(fissure_bomb);  
@@ -3167,6 +3177,8 @@ public class ModBlocks {
 		
 		GameRegistry.registerBlock(eve_silt, eve_silt.getUnlocalizedName());
 		GameRegistry.registerBlock(eve_rock, eve_rock.getUnlocalizedName());
+		
+		GameRegistry.registerBlock(laythe_silt, laythe_silt.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(ike_regolith, ike_regolith.getUnlocalizedName());
 		GameRegistry.registerBlock(ike_stone, ike_stone.getUnlocalizedName());
@@ -3224,6 +3236,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(tumor, tumor.getUnlocalizedName());
 		GameRegistry.registerBlock(tumor2, tumor2.getUnlocalizedName());
 		GameRegistry.registerBlock(tumor3, tumor3.getUnlocalizedName());
+		GameRegistry.registerBlock(tumor4, tumor4.getUnlocalizedName());
 
 		
 		
