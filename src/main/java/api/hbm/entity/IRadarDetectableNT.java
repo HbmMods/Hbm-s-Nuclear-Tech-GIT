@@ -19,4 +19,19 @@ public interface IRadarDetectableNT {
 	public String getUnlocalizedName();
 	public int getBlipLevel();
 	public boolean canBeSeenBy(Object radar);
+	public boolean paramsApplicable(RadarScanParams params);
+	
+	public static class RadarScanParams {
+		public boolean scanMissiles = true;
+		public boolean scanShells = true;
+		public boolean scanPlayers = true;
+		public boolean smartMode = true;
+		
+		public RadarScanParams(boolean m, boolean s, boolean p, boolean smart) {
+			this.scanMissiles = m;
+			this.scanShells = s;
+			this.scanPlayers = p;
+			this.smartMode = smart;
+		}
+	}
 }
