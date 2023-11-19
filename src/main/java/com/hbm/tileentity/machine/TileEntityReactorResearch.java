@@ -212,7 +212,10 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 
 		Block b = worldObj.getBlock(x, y, z);
 
-		if(b == ModBlocks.block_lead || b == ModBlocks.block_desh || b == ModBlocks.reactor_research || b == ModBlocks.machine_reactor_breeding || b == Blocks.water)
+		if((b == Blocks.water || b == Blocks.flowing_water) && worldObj.getBlockMetadata(x, y, z) == 0)
+			return true;
+
+		if(b == ModBlocks.block_lead || b == ModBlocks.block_desh || b == ModBlocks.reactor_research || b == ModBlocks.machine_reactor_breeding)
 			return true;
 
 		if(b.getExplosionResistance(null) >= 100)
