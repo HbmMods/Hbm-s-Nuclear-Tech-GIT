@@ -4,7 +4,7 @@
   * Can be used to quickly craft standard ammo types in the 2x2 crafting grid
   * Can also refill empty syringes, making stimpaks
 * Latex
-  * Made from crafting dandelions into dandelion milk, then smelting it
+  * Can be made from dandelions or from pressing jungle wood
   * Replaces insulator in many recipes where electrical insulation that is potentially made from brick doesn't make sense, like rubber gas masks, jackets, tools and so on
   * Latex is interchangable with rubber in all recipes where it's used, but not the other way round
   * The old insulator is now mainly used for electrical and heat insulation as well as PWR rods
@@ -12,8 +12,25 @@
 ## Changed
 * Light oil and cracked light oil can now be refomred into large quantities of aromatic hydrocarbons a well as some reformate gas
 * The painsaw ability no longer drops ammo and syringes, instead it drops nitra
+* Radars have been completely rewritten
+  * Dots will now move smoothly across the screen, instead of jittering and being bound to the pixel grid
+  * Radars no longer use CPU-intensive full scans of the map, instead of using an optimized search for nearby scannable entities
+  * There's now a dedicated toggle for detecing artillery shells
+  * Radars now have a local area map that can be enabled
+    * The map scans up to 100 points per tick, the display can show 40,000 points
+    * The map will scan loaded chunks instantly, unloaded chunks have a limit of 5 chunk loads per tick to prevent excessive lag
+    * The chunk load limit can be adjusted in the machine config file
+    * The map will show terrain height between Y:50 and Y:128, anything outside that range is truncated
+* The turbofan's afterburner now adds a 33% efficiency bonus for every level. This means that instead of the efficiency remaining constant between levels, a tier 3 upgrade will yield double efficiency.
+* Reduced the flarestack's base energy efficiency
+* Trenchmaster armor is now unbreakable
+* The arc welder recipe for advanced circuits now uses simple insulator instead of gold dust
+* The arc welder recipes for enhanced and advanced circuits now use only 100mB of fluid instead of 250mB
 
 ## Fixed
 * Fixed thorium bedrock ore using the wrong ore dict key, making it unable to be processed via centrifuge or acidizer
 * Fixed custom machine NEI slots going out of bounds after the third slot
 * Fixed bismuth billets not being oredicted, making BFB PWR rods uncraftable
+* Fixed missile chunkloading having rounding issues, sometimes causing them to get stuck in unloaded chunks while crossing chunk borders
+* Fixed drones not being listed in the creative tabs
+* Fixed pre-defined fluid duct items not being being able to be placed where replacable blocks are, eg. water

@@ -20,6 +20,7 @@ public class ArmorTrenchmaster extends ArmorFSB {
 
 	public ArmorTrenchmaster(ArmorMaterial material, int slot, String texture) {
 		super(material, slot, texture);
+		this.setMaxDamage(0);
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -150,7 +150,7 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 
 			loadedChunks.clear();
 			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX + (int) Math.ceil((this.posX + this.motionX) / 16D), newChunkZ + (int) Math.ceil((this.posZ + this.motionZ) / 16D)));
+			//loadedChunks.add(new ChunkCoordIntPair(newChunkX + (int) Math.floor((this.posX + this.motionX) / 16D), newChunkZ + (int) Math.floor((this.posZ + this.motionZ) / 16D)));
 
 			for(ChunkCoordIntPair chunk : loadedChunks) {
 				ForgeChunkManager.forceChunk(loaderTicket, chunk);
