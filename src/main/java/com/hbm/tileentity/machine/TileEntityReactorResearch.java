@@ -22,6 +22,7 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
+import net.minecraft.init.Blocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.GuiScreen;
@@ -211,7 +212,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 
 		Block b = worldObj.getBlock(x, y, z);
 
-		if(b == ModBlocks.block_lead || b == ModBlocks.block_desh || b == ModBlocks.reactor_research || b == ModBlocks.machine_reactor_breeding)
+		if(b == ModBlocks.block_lead || b == ModBlocks.block_desh || b == ModBlocks.reactor_research || b == ModBlocks.machine_reactor_breeding || b == Blocks.water)
 			return true;
 
 		if(b.getExplosionResistance(null) >= 100)
