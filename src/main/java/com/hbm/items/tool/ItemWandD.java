@@ -117,8 +117,6 @@ public class ItemWandD extends Item {
 					break;
 				case 3:
 					DebugTeleporter.teleport(player, 0, player.posX, 300, player.posZ);
-					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
-					break;
 				case 4:
 					DebugTeleporter.teleport(player, SpaceConfig.eveDimension, player.posX, 300, player.posZ);
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
