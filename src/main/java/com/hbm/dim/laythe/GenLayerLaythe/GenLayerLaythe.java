@@ -28,7 +28,7 @@ public abstract class GenLayerLaythe extends GenLayer
         biomes = new GenLayerDiversifyLaythe(1000L, biomes);
         biomes = new GenLayerZoom(1000L, biomes);
         biomes = new GenLayerZoom(1001L, biomes);
-        biomes = new GenLayerLaytheOceans(3000L, biomes);
+        biomes = new GenLayerLaytheOceans(4000L, biomes);
         biomes = new GenLayerZoom(1003L, biomes);
         biomes = new GenLayerSmooth(700L, biomes);
         biomes = new GenLayerLaytheIslands(200L, biomes);

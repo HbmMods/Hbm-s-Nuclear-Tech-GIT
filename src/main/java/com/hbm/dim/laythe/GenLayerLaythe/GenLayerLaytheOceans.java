@@ -37,7 +37,7 @@ public class GenLayerLaytheOceans extends GenLayer
                 this.initChunkSeed((long)(j1 + p_151626_1_), (long)(i1 + p_151626_2_));
                 int k1 = aint[j1 + 1 + (i1 + 1) * k];
 
-                if (k1 == BiomeGenBaseLaythe.laytheOcean.biomeID)
+                if (k1 == BiomeGenBaseLaythe.laytheIsland.biomeID)
                 {
                     int l1 = aint[j1 + 1 + (i1 + 1 - 1) * k];
                     int i2 = aint[j1 + 1 + 1 + (i1 + 1) * k];
