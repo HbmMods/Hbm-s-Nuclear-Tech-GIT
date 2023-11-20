@@ -6,6 +6,7 @@ import com.hbm.inventory.fluid.Fluids;
 
 import static com.hbm.inventory.OreDictManager.*;
 
+import com.hbm.items.ItemEnums.EnumPlantType;
 import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
@@ -88,6 +89,7 @@ public class ToolRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.euphemium_stopper, 1), new Object[] { "I", "S", "S", 'I', EUPH.ingot(), 'S', KEY_STICK });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.crowbar, 1), new Object[] { "II", " I", " I", 'I', STEEL.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bottle_opener, 1), new Object[] { "S", "P", 'S', STEEL.plate(), 'P', KEY_PLANKS });
+		CraftingManager.addRecipeAuto(new ItemStack(Items.saddle, 1), new Object[] { "LLL", "LRL", " S ", 'S', STEEL.ingot(), 'L', Items.leather, 'R', DictFrame.fromOne(ModItems.plant_item, EnumPlantType.ROPE) });
 
 		//Matches
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.matchstick, 16), new Object[] { "I", "S", 'I', S.dust(), 'S', KEY_STICK });
