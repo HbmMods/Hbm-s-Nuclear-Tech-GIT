@@ -3,13 +3,19 @@ package com.hbm.blocks.gas;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.SpaceConfig;
+import com.hbm.extprop.HbmLivingProps;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.PlanetaryTraitUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -28,143 +34,38 @@ public class BlockGasAir extends BlockGasBase {
 
 	@Override
 	public int getRenderType() {
-		return 0;
+		return -1;
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public int getRenderBlockPass() {
 		return 1;
 	}
+    public boolean isAir(IBlockAccess world, int x, int y, int z)
+    {
+        return true;
+    }
+    @Override
+    public void updateTick(World world, int x, int y, int z, Random rand) {
+        if (!world.isRemote && PlanetaryTraitUtil.isDimensionWithTraitNT(world, Hospitality.OXYNEG)) {
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    for (int k = -1; k <= 1; k++) {
+                        if (i == 0 && j == 0 && k == 0) continue; // Skip the block itself
 
-	@Override
-	public void updateTick(World world, int x, int y, int z, Random rand) {
-		int meta = world.getBlockMetadata(x, y, z);
-		//System.out.println("Update");
-		//System.out.println("Meta: "+meta);
-		if(!world.isRemote)
-		{
-			//System.out.println("Meta Test");
-			Random diff = new Random();
-			if(diff.nextInt(5) == 0)
-			{
-				Block b = world.getBlock(x, y+1, z);
-				if(b==Blocks.air || b==ModBlocks.vacuum)
-				{
-					world.setBlock(x, y, z, getResult());
-					if(this!=ModBlocks.air_block)
-					{
-						world.setBlock(x, y+1, z, ModBlocks.air_block);	
-					}
-				}
-				else if(b instanceof BlockGasAir)
-				{
-					world.setBlock(x, y, z, b);
-					world.setBlock(x, y+1, z, this);
-				}
-			}
-			if(diff.nextInt(5) == 1)
-			{
-				Block b = world.getBlock(x, y-1, z);
-				if(b==Blocks.air || b==ModBlocks.vacuum)
-				{
-					world.setBlock(x, y, z, getResult());
-					if(this!=ModBlocks.air_block)
-					{
-						world.setBlock(x, y-1, z, ModBlocks.air_block);	
-					}
-				}
-				else if(b instanceof BlockGasAir)
-				{
-					world.setBlock(x, y, z, b);
-					world.setBlock(x, y-1, z, this);
-				}
-			}
-			if(diff.nextInt(5) == 2)
-			{
-				Block b = world.getBlock(x+1, y, z);
-				if(b==Blocks.air || b==ModBlocks.vacuum)
-				{
-					world.setBlock(x, y, z, getResult());
-					if(this!=ModBlocks.air_block)
-					{
-						world.setBlock(x+1, y, z, ModBlocks.air_block);	
-					}
-				}
-				else if(b instanceof BlockGasAir)
-				{
-					world.setBlock(x, y, z, b);
-					world.setBlock(x+1, y, z, this);
-				}
-			}
-			if(diff.nextInt(5) == 3)
-			{
-				Block b = world.getBlock(x-1, y, z);
-				if(b==Blocks.air || b==ModBlocks.vacuum)
-				{
-					world.setBlock(x, y, z, getResult());
-					if(this!=ModBlocks.air_block)
-					{
-						world.setBlock(x-1, y, z, ModBlocks.air_block);	
-					}
-				}
-				else if(b instanceof BlockGasAir)
-				{
-					world.setBlock(x, y, z, b);
-					world.setBlock(x-1, y, z, this);
-				}
-			}
-			if(diff.nextInt(5) == 4)
-			{
-				Block b = world.getBlock(x, y, z+1);
-				if(b==Blocks.air || b==ModBlocks.vacuum)
-				{
-					world.setBlock(x, y, z, getResult());
-					if(this!=ModBlocks.air_block)
-					{
-						world.setBlock(x, y, z+1, ModBlocks.air_block);	
-					}
-				}
-				else if(b instanceof BlockGasAir)
-				{
-					world.setBlock(x, y, z, b);
-					world.setBlock(x, y, z+1, this);
-				}
-			}
-			if(diff.nextInt(5) == 5)
-			{
-				Block b = world.getBlock(x, y, z-1);
-				if(b==Blocks.air || b==ModBlocks.vacuum)
-				{
-					world.setBlock(x, y, z, getResult());
-					if(this!=ModBlocks.air_block)
-					{
-						world.setBlock(x, y, z-1, ModBlocks.air_block);	
-					}
-				}
-				else if(b instanceof BlockGasAir)
-				{
-					world.setBlock(x, y, z, b);
-					world.setBlock(x, y, z-1, this);
-				}
-			}
-		}
-		if(!world.isRemote && rand.nextInt(10) == 0 && meta == 0) {
-			boolean up = world.getBlock(x, y+1, z)==Blocks.air || world.getBlock(x, y+1, z)==ModBlocks.vacuum;
-			boolean down = world.getBlock(x, y-1, z)==Blocks.air || world.getBlock(x, y-1, z)==ModBlocks.vacuum;
-			boolean north = world.getBlock(x, y, z-1)==Blocks.air || world.getBlock(x, y, z-1)==ModBlocks.vacuum;
-			boolean south = world.getBlock(x, y, z+1)==Blocks.air || world.getBlock(x, y, z+1)==ModBlocks.vacuum;
-			boolean east = world.getBlock(x+1, y, z)==Blocks.air || world.getBlock(x+1, y, z)==ModBlocks.vacuum;
-			boolean west = world.getBlock(x+1, y, z)==Blocks.air || world.getBlock(x+1, y, z)==ModBlocks.vacuum;
-			if(up && down && north && south && east && west)
-			{
-				world.setBlockToAir(x, y, z);
-				return;
-			}
-			//world.setBlockToAir(x, y, z);
-			//return;
-		}
-		super.updateTick(world, x, y, z, rand);
-	}
+                        Block b = world.getBlock(x + i, y + j, z + k);
+                        if (b == Blocks.air) {
+                            // Collapse this block into regular air if adjacent to a regular air block
+                            world.setBlockToAir(x, y, z);
+							world.scheduleBlockUpdate(x+i, y+j, z+k, this, 1);
+
+                        }
+                    }
+                }
+            }
+        }
+        super.updateTick(world, x, y, z, rand);
+    }
 
 	private Block[] airBlocks = {ModBlocks.air_block, ModBlocks.air_block1, ModBlocks.air_block2, ModBlocks.air_block3, ModBlocks.air_block4, ModBlocks.air_block5, ModBlocks.air_block6, ModBlocks.air_block7, ModBlocks.air_block8, ModBlocks.air_block9};
 
@@ -184,12 +85,12 @@ public class BlockGasAir extends BlockGasBase {
 			return side == 0 || side == 1;
 		}*/
 		
-		final Block blockSide = blockAccess.getBlock(x, y, z);
+		/*final Block blockSide = blockAccess.getBlock(x, y, z);
 		if (blockSide instanceof BlockGasAir) {
 			return false;
-		}
+		}*/
 		
-		return blockAccess.isAirBlock(x, y, z);
+		return false;///blockAccess.isAirBlock(x, y, z);
 	}
 
 	@Override
@@ -228,5 +129,14 @@ public class BlockGasAir extends BlockGasBase {
 		}
 		
 		return air;
+	}
+	
+	@Override
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+		
+		if(!(entity instanceof EntityLivingBase))
+			return;
+		
+		HbmLivingProps.SsetOxy((EntityLivingBase)entity, 20);
 	}
 }

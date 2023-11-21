@@ -24,6 +24,18 @@ public class WorldProviderMoon extends WorldProvider {
 	}
 
 	@Override
+	public void updateWeather()
+	{
+		this.worldObj.getWorldInfo().setRainTime(0);
+		this.worldObj.getWorldInfo().setRaining(false);
+		this.worldObj.getWorldInfo().setThunderTime(0);
+		this.worldObj.getWorldInfo().setThundering(false);
+		this.worldObj.rainingStrength = 0.0F;
+		this.worldObj.thunderingStrength = 0.0F;
+	}
+
+	
+	@Override
 	public String getDimensionName() {
 		return "Moon";
 	}
