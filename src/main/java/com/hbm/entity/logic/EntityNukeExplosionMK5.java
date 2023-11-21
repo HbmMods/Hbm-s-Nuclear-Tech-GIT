@@ -144,8 +144,11 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 			eRads /= (float)res;
 			eRads /= (float)(len * len);
 			
+			float nRads = (float) ((eRads/len )* 0.2);
+			nRads = (float) Math.max(nRads, 0.5);
+			
 			ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, eRads);
-			ContaminationUtil.contaminate(e, HazardType.NEUTRON, ContaminationType.CREATIVE, eRads);
+			System.out.println(nRads);
 			if(e instanceof EntityPlayer && !RadiationConfig.disableNeutron) {
 				//Random rand = target.getRNG();
 				EntityPlayer player = (EntityPlayer) e;
@@ -157,7 +160,7 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 							if(!stack2.hasTagCompound())
 								stack2.stackTagCompound = new NBTTagCompound();
 							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(eRads/stack2.stackSize));
+							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(nRads/stack2.stackSize));
 							
 						//}
 					}
@@ -171,7 +174,7 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 							if(!stack2.hasTagCompound())
 								stack2.stackTagCompound = new NBTTagCompound();
 							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(eRads/stack2.stackSize));
+							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(nRads/stack2.stackSize));
 					}
 				}	
 			}

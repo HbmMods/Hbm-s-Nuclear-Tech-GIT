@@ -149,7 +149,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	    // Finalize the sealing process with the new AABB
 	    if (newSealedRoomAABB != null) {
 	        sealedRoomAABB = newSealedRoomAABB;
-	        processEntitiesWithinAABB(worldObj, sealedRoomAABB);
+	       // processEntitiesWithinAABB(worldObj, sealedRoomAABB);
 	    }
 	}
 	
