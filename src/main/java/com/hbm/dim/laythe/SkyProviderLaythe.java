@@ -32,7 +32,6 @@ public class SkyProviderLaythe extends IRenderHandler {
 	private static final ResourceLocation tylo = new ResourceLocation("hbm:textures/misc/space/tylo.png");
 	private static final ResourceLocation vall = new ResourceLocation("hbm:textures/misc/space/vall.png");
 	private static final ResourceLocation bop = new ResourceLocation("hbm:textures/misc/space/bop.png");
-	private static final ResourceLocation joolv3 = new ResourceLocation("hbm:textures/misc/space/jool32.png");
 
 	public static boolean displayListsInitialized = false;
 	public static int starGLCallList;
@@ -268,11 +267,11 @@ public class SkyProviderLaythe extends IRenderHandler {
    		    double BopSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.LaytheP, AstronomyUtil.BopP);
 
    		    double[] observationDetails = AstronomyUtil.getOuterOrbitObservation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.LaytheJoolKm, AstronomyUtil.LaytheP, AstronomyUtil.BopJoolKm, AstronomyUtil.BopP);
-   			double distanceBetweenLaytheAndTylo = observationDetails[0];
-   			double angleBetweenLaytheAndTylo = observationDetails[1];
+   			double distanceBetweenLaytheAndBop = observationDetails[0];
+   			double angleBetweenLaytheAndBop = observationDetails[1];
 
 			//GL11.glRotatef((float) (world.getCelestialAngle(partialTicks) * 360.0F * LaytheTylo / TyloSyn  ), 1.0F, 0.0F, 0.0F);
-   			GL11.glRotatef((float) angleBetweenLaytheAndTylo, 1.0F, 0.0F, 0.0F);
+   			GL11.glRotatef((float) angleBetweenLaytheAndBop, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef((float) (world.getCelestialAngle(partialTicks) * 360.0F), 1.0F, 0.0F, 0.0F);
 
 
