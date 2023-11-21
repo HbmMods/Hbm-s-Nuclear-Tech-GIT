@@ -95,7 +95,7 @@ dependencies {
 	//compileOnly 'inventory-tweaks:InventoryTweaks:1.62+beta.84:api'
 	implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
 
-	compileOnly "com.gregoriust.gregtech:gregtech_1.7.10:6.17.00:dev"
+	implementation "com.gregoriust.gregtech:gregtech_1.7.10:6-SNAPSHOT:dev"
 }
 
 processResources {
