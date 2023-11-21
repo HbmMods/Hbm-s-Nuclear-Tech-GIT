@@ -18,7 +18,7 @@ public class BiomeGenLaythe extends BiomeGenBase {
 	public BiomeGenLaythe(int id) {
 		super(id);
 		this.setBiomeName("Laythe Islands");
-		this.setDisableRain();
+		//this.setDisableRain();
 		this.waterColorMultiplier=0x5b009a;
 		
         this.spawnableCreatureList.clear();

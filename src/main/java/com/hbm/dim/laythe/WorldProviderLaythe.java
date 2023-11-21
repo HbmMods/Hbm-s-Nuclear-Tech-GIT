@@ -78,12 +78,12 @@ public class WorldProviderLaythe extends WorldProvider {
 
     public boolean canDoLightning(Chunk chunk)
     {
-        return false;
+        return true;
     }
 
     public boolean canDoRainSnowIce(Chunk chunk)
     {
-        return false;
+        return true;
     }
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -109,7 +109,7 @@ public class WorldProviderLaythe extends WorldProvider {
     @SideOnly(Side.CLIENT)
     public float getCloudHeight()
     {
-		return -100;
+		return 128;
 	}
 
 	@SideOnly(Side.CLIENT)

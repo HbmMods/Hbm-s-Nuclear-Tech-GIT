@@ -204,7 +204,7 @@ public class SkyProviderLaythe extends IRenderHandler {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
 		// Some blanking to conceal the stars
-		f10 = (AstronomyUtil.KerbolRadius/(AstronomyUtil.JoolAU*AstronomyUtil.AUToKm))*600;
+		f10 = (float) (2*Math.atan((AstronomyUtil.KerbolRadius*4)/(2*AstronomyUtil.JoolAU*AstronomyUtil.AUToKm))*57.2958);
 		float f11 = f10*4;
 		tessellator.startDrawingQuads();
 		tessellator.addVertex(-f10, 99.9D, -f10);
@@ -296,13 +296,8 @@ public class SkyProviderLaythe extends IRenderHandler {
 		{
    		    GL11.glPushMatrix();
    		    GL11.glDisable(GL11.GL_BLEND);
-   		    double TyloRad = AstronomyUtil.TyloRadius;
-   		    double TyloSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.LaytheP, AstronomyUtil.TyloP);
 
-   		    double[] observationDetails = AstronomyUtil.getOuterOrbitObservation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.LaytheJoolKm, AstronomyUtil.LaytheP, AstronomyUtil.TyloJoolKm, AstronomyUtil.TyloP);
-   			double angleBetweenLaytheAndVall = observationDetails[1];
-
-   			GL11.glRotatef((float) angleBetweenLaytheAndVall, 1.0F, 0.0F, 0.0F);
+   			GL11.glRotatef((float) (AstronomyUtil.getInterplanetaryAngle(world, AstronomyUtil.LaytheJoolKm, AstronomyUtil.LaytheP, AstronomyUtil.TyloJoolKm, AstronomyUtil.TyloP)), 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef((float) (world.getCelestialAngle(partialTicks) * 360.0F), 1.0F, 0.0F, 0.0F);
 
 
@@ -311,7 +306,7 @@ public class SkyProviderLaythe extends IRenderHandler {
     		GL11.glColor4d(1, 1, 1, 1);
 
 
-    		f10 = Math.max(0.0F, (float) (TyloRad / LaytheTylo)) * 180;
+    		f10 = (float) (2*Math.atan(AstronomyUtil.TyloRadius/(2*AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.LaytheJoolKm, AstronomyUtil.LaytheP, AstronomyUtil.TyloJoolKm, AstronomyUtil.TyloP)))*57.2958);
     		mc.renderEngine.bindTexture(this.tylo);
     		tessellator.startDrawingQuads();
     		tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -326,13 +321,8 @@ public class SkyProviderLaythe extends IRenderHandler {
 		{
    		    GL11.glPushMatrix();
    		    GL11.glDisable(GL11.GL_BLEND);
-   		    double VallRad = AstronomyUtil.VallRadius;
-   		    double VallSyn = AstronomyUtil.calculateSynodicPeriod(AstronomyUtil.LaytheP, AstronomyUtil.VallP);
 
-   		    double[] observationDetails = AstronomyUtil.getOuterOrbitObservation(FMLClientHandler.instance().getClient().theWorld, AstronomyUtil.LaytheJoolKm, AstronomyUtil.LaytheP, AstronomyUtil.VallJoolKm, AstronomyUtil.VallP);
-   			double angleBetweenLaytheAndVall = observationDetails[1];
-
-   			GL11.glRotatef((float) angleBetweenLaytheAndVall, 1.0F, 0.0F, 0.0F);
+   			GL11.glRotatef((float) (AstronomyUtil.getInterplanetaryAngle(world, AstronomyUtil.LaytheJoolKm, AstronomyUtil.LaytheP, AstronomyUtil.VallJoolKm, AstronomyUtil.VallP)), 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef((float) (world.getCelestialAngle(partialTicks) * 360.0F), 1.0F, 0.0F, 0.0F);
 
 
@@ -341,7 +331,7 @@ public class SkyProviderLaythe extends IRenderHandler {
     		GL11.glColor4d(1, 1, 1, 1);
 
 
-    		f10 = Math.max(0.0F, (float) (VallRad / LaytheTylo)) * 180;
+    		f10 = (float)(2*Math.atan(AstronomyUtil.VallRadius/(2*AstronomyUtil.getInterplanetaryDistance(world, AstronomyUtil.LaytheJoolKm, AstronomyUtil.LaytheP, AstronomyUtil.VallJoolKm, AstronomyUtil.VallP)))*57.2958);
     		mc.renderEngine.bindTexture(this.vall);
     		tessellator.startDrawingQuads();
     		tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
@@ -365,7 +355,7 @@ public class SkyProviderLaythe extends IRenderHandler {
 		    GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
 		    GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
 		    OpenGlHelper.glBlendFunc(770, 1, 1, 0);
-		    f10 = 42;
+		    f10 = (float) (2*Math.atan(AstronomyUtil.JoolRadius/(2*AstronomyUtil.LaytheJoolKm))*57.2958);
 		    FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.jool);
 		    tessellator.startDrawingQuads();
 		    tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D + textureOffsetX, 0.0D);

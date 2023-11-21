@@ -60,10 +60,10 @@ public class AstronomyUtil
     
     public static final float MunP=6.43F;
     public static final float MinmusP=49.88F;
-    public static final float LaytheP=7.48F;
-    public static final float VallP=9.86F;
-	public static final float TyloP = 18.22F;
-    public static final float BopP=21.45F;
+    public static final float LaytheP=2.45F;
+    public static final float VallP=4.91F;
+	public static final float TyloP = 9.81F;
+    public static final float BopP=25.21F;
     
     public static final float MunKerbinKm=12000;
     public static final float MinmusKerbinKm=47000;
@@ -71,9 +71,9 @@ public class AstronomyUtil
     public static final float MinmusKerbinAU=MinmusKerbinKm/AUToKm;
     public static final float IkeDunaKm=9377.2F-DunaRadius;
     public static final float LaytheJoolKm = 27184F; 
-    public static final float VallJoolKm = 29620F; 
+    public static final float VallJoolKm = 43152F; 
     public static final float TyloJoolKm = 58500F;
-    public static final float BopJoolKm = 89520F; 
+    public static final float BopJoolKm = 128500F; 
 
     public static ResourceLocation mohoTexture = new ResourceLocation("hbm:textures/misc/moho.png");
     public static ResourceLocation eveTexture = new ResourceLocation("hbm:textures/misc/eve.png");

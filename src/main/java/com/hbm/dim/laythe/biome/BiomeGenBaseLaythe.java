@@ -19,8 +19,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenBaseLaythe extends BiomeGenBase
 {
-    public static final BiomeGenBase laytheIsland = new BiomeGenLaythe(SpaceConfig.laytheBiome).setTemperatureRainfall(-1.0F, 0.0F);
-    public static final BiomeGenBase laytheOcean = new BiomeGenLaytheOcean(SpaceConfig.laytheOceanBiome).setTemperatureRainfall(-1.0F, 0.0F);
+    public static final BiomeGenBase laytheIsland = new BiomeGenLaythe(SpaceConfig.laytheBiome).setTemperatureRainfall(0.2F, 0.2F);
+    public static final BiomeGenBase laytheOcean = new BiomeGenLaytheOcean(SpaceConfig.laytheOceanBiome).setTemperatureRainfall(0.2F, 0.2F);
     
     public BiomeGenBaseLaythe(int id)
     {
