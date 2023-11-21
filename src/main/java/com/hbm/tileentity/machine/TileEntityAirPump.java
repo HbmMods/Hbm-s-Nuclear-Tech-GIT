@@ -36,6 +36,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -180,6 +181,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	}
 	private List<AxisAlignedBB> findRoomSections(World world, int startX, int startY, int startZ) {
 	    Set<BlockPos> visited = new HashSet<>();
+	    Set<BlockPos> air = new HashSet<>();
 	    Stack<BlockPos> stack = new Stack<>();
 	    List<AxisAlignedBB> sectionAABBs = new ArrayList<>();
 
@@ -205,7 +207,9 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	                BlockPos neighbor = current.offset(dir);
 	                Block block = world.getBlock(neighbor.getX(), neighbor.getY(), neighbor.getZ());
 
-	                if (block.isAir(world, neighbor.getX(), neighbor.getY(), neighbor.getZ())) {
+	                if (block.isAir(world, neighbor.getX(), neighbor.getY(), neighbor.getZ()) || block == ModBlocks.vacuum) {
+	                	air.add(neighbor);
+	                	//world.setBlock(neighbor.getX(), neighbor.getY(), neighbor.getZ(), Blocks.water);
 	                    stack.push(neighbor);
 	                    minX = Math.min(minX, neighbor.getX());
 	                    minY = Math.min(minY, neighbor.getY());
@@ -223,7 +227,14 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	        if (stack.isEmpty() && !visited.isEmpty()) {
 	            AxisAlignedBB sectionAABB = AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
 	            sectionAABBs.add(sectionAABB);
-	            
+	            for(BlockPos pos : air)
+	            {
+	            	if((pos.getX()<sectionAABB.minX || pos.getX()>sectionAABB.maxX) || (pos.getY()<sectionAABB.minY || pos.getY()>sectionAABB.maxY) || (pos.getZ()<sectionAABB.minZ || pos.getZ()>sectionAABB.maxZ))
+	            	{
+	            		air.remove(pos);
+	            	}
+	            	world.setBlock(pos.getX(), pos.getY(), pos.getZ(), ModBlocks.air_block);
+	            }
 	            // Reset the bounds for the next section
 	            minX = maxX = current.getX();
 	            minY = maxY = current.getY();

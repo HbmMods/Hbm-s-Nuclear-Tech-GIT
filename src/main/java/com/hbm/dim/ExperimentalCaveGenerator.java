@@ -3,7 +3,8 @@ package com.hbm.dim;
 import java.util.Random;
 
 import com.hbm.world.test.MapGenTest;
-
+import com.hbm.blocks.ModBlocks;
+import com.hbm.config.SpaceConfig;
 import com.hbm.dim.PerlinFestival;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -307,7 +308,14 @@ public class ExperimentalCaveGenerator extends MapGenBase {
             }
             else
             {
-                data[index] = null;
+            	if(this.worldObj.provider.dimensionId==SpaceConfig.moonDimension)
+            	{
+            		 data[index] = ModBlocks.vacuum;
+            	}
+            	else
+            	{
+                    data[index] = null;
+            	}
 
                 if (foundTop && data[index - 1] == filler)
                 {
