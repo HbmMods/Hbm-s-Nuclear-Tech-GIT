@@ -308,14 +308,7 @@ public class ExperimentalCaveGenerator extends MapGenBase {
             }
             else
             {
-            	if(this.worldObj.provider.dimensionId==SpaceConfig.moonDimension)
-            	{
-            		 data[index] = ModBlocks.vacuum;
-            	}
-            	else
-            	{
-                    data[index] = null;
-            	}
+                data[index] = null;
 
                 if (foundTop && data[index - 1] == filler)
                 {

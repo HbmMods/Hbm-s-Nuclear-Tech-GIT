@@ -194,11 +194,11 @@ public class ChunkProviderMoon implements IChunkProvider {
 								}
 								else if (k2 * 8 + l2 < b0)
 								{
-									p_147424_3_[j3 += short1] = ModBlocks.vacuum;
+									p_147424_3_[j3 += short1] = Blocks.air;
 								}
 								else
 								{
-									p_147424_3_[j3 += short1] = ModBlocks.vacuum;
+									p_147424_3_[j3 += short1] = Blocks.air;
 								}
 							}
 
