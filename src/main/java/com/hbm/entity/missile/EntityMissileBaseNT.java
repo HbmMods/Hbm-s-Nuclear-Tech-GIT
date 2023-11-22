@@ -87,21 +87,29 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 		
 		if(!worldObj.isRemote) {
 
-			this.motionY -= decelY * velocity;
+			if(hasPropulsion()) {
+				this.motionY -= decelY * velocity;
+	
+				Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
+				vector = vector.normalize();
+				vector.xCoord *= accelXZ;
+				vector.zCoord *= accelXZ;
+	
+				if(motionY > 0) {
+					motionX += vector.xCoord * velocity;
+					motionZ += vector.zCoord * velocity;
+				}
+	
+				if(motionY < 0) {
+					motionX -= vector.xCoord * velocity;
+					motionZ -= vector.zCoord * velocity;
+				}
+			} else {
+				motionX *= 0.99;
+				motionZ *= 0.99;
 
-			Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
-			vector = vector.normalize();
-			vector.xCoord *= accelXZ;
-			vector.zCoord *= accelXZ;
-
-			if(motionY > 0) {
-				motionX += vector.xCoord * velocity;
-				motionZ += vector.zCoord * velocity;
-			}
-
-			if(motionY < 0) {
-				motionX -= vector.xCoord * velocity;
-				motionZ -= vector.zCoord * velocity;
+				if(motionY > -1.5)
+					motionY -= 0.05;
 			}
 	
 			if(motionY < -velocity && this.isCluster) {
@@ -121,6 +129,10 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 		while(this.rotationPitch - this.prevRotationPitch >= 180.0F) this.prevRotationPitch += 360.0F;
 		while(this.rotationYaw - this.prevRotationYaw < -180.0F) this.prevRotationYaw -= 360.0F;
 		while(this.rotationYaw - this.prevRotationYaw >= 180.0F) this.prevRotationYaw += 360.0F;
+	}
+	
+	public boolean hasPropulsion() {
+		return true;
 	}
 	
 	protected void spawnContrail() {
