@@ -165,7 +165,9 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 			{
 				GL11.glScalef(1.0F, 1.0F, 1.0F);
 				bindTexture(ResourceManager.missileAA_tex);
-				ResourceManager.missileV2.renderAll();
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				ResourceManager.missileABM.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 			if(state == 22)
 			{

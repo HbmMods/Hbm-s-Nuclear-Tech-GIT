@@ -73,6 +73,21 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
 		ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
 	}
+	
+	@Override
+	public void onUpdate() {
+		
+		if(!worldObj.isRemote) {
+			if(this.hasPropulsion()) this.fuel -= this.consumption;
+		}
+		
+		super.onUpdate();
+	}
+
+	@Override
+	public boolean hasPropulsion() {
+		return this.fuel > 0;
+	}
 
 	@Override
 	protected void entityInit() {
