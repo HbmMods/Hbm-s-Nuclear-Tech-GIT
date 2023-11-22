@@ -16,6 +16,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+/*
+ * COME ON
+ * STEP 1: GET 24 EGGS
+ * STEP 2: FUCK EVERY EGG
+ * STEP 3: BLOW UP ALL THE FUCKING EGGS
+ * AND FROM THE ASHES THE MOTHER OF ALL OMELETTES WILL BE BORN!
+ */
 public class EntityMissileAntiBallistic extends Entity implements IRadarDetectable {
 
 	int activationTimer;

@@ -65,8 +65,8 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 
 	@Override
 	protected void entityInit() {
+		super.entityInit();
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
-		this.dataWatcher.addObject(8, Integer.valueOf(this.health));
 	}
 
 	@Override
@@ -112,8 +112,7 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 
 			loadNeighboringChunks((int) Math.floor(posX / 16), (int) Math.floor(posZ / 16));
 		} else {
-			Vec3 vec = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
-			MainRegistry.proxy.particleControl(posX - vec.xCoord, posY - vec.yCoord, posZ - vec.zCoord, 2);
+			this.spawnContrail();
 		}
 		
 		float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -122,6 +121,11 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 		while(this.rotationPitch - this.prevRotationPitch >= 180.0F) this.prevRotationPitch += 360.0F;
 		while(this.rotationYaw - this.prevRotationYaw < -180.0F) this.prevRotationYaw -= 360.0F;
 		while(this.rotationYaw - this.prevRotationYaw >= 180.0F) this.prevRotationYaw += 360.0F;
+	}
+	
+	protected void spawnContrail() {
+		Vec3 vec = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
+		MainRegistry.proxy.particleControl(posX - vec.xCoord, posY - vec.yCoord, posZ - vec.zCoord, 2);
 	}
 
 	@Override
@@ -180,7 +184,7 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 		}
 	}
 
-	private void killMissile() {
+	protected void killMissile() {
 		ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
 		ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
 		ExplosionLarge.spawnMissileDebris(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 0.25, getDebris(), getDebrisRareDrop());
