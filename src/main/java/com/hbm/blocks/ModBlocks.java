@@ -606,7 +606,15 @@ public class ModBlocks {
 	public static Block sliding_blast_door;
 	public static Block fire_door;
 	public static Block transition_seal;
+
+	// 1.12.2 Doors
 	public static Block secure_access_door;
+	public static Block large_vehicle_door;
+	public static Block qe_containment;
+	public static Block qe_sliding_door;
+	public static Block round_airlock_door;
+	public static Block sliding_seal_door;
+	public static Block water_door;
 
 	public static Block door_metal;
 	public static Block door_office;
@@ -2143,6 +2151,12 @@ public class ModBlocks {
 		fire_door = new BlockDoorGeneric(Material.iron, DoorDecl.FIRE_DOOR).setBlockName("fire_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fire_door");
 		transition_seal = new BlockDoorGeneric(Material.iron, DoorDecl.TRANSITION_SEAL).setBlockName("transition_seal").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":transition_seal");
 		secure_access_door = new BlockDoorGeneric(Material.iron, DoorDecl.SECURE_ACCESS_DOOR).setBlockName("secure_access_door").setHardness(200.0F).setResistance(20000.0F).setCreativeTab(MainRegistry.machineTab);
+		large_vehicle_door = new BlockDoorGeneric(Material.iron, DoorDecl.LARGE_VEHICLE_DOOR).setBlockName("large_vehicle_door").setHardness(100.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		qe_containment = new BlockDoorGeneric(Material.iron, DoorDecl.QE_CONTAINMENT).setBlockName("qe_containment").setHardness(100.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		qe_sliding_door = new BlockDoorGeneric(Material.iron, DoorDecl.QE_SLIDING).setBlockName("qe_sliding_door").setHardness(100.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		round_airlock_door = new BlockDoorGeneric(Material.iron, DoorDecl.ROUND_AIRLOCK_DOOR).setBlockName("round_airlock_door").setHardness(100.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		sliding_seal_door = new BlockDoorGeneric(Material.iron, DoorDecl.SLIDING_SEAL_DOOR).setBlockName("sliding_seal_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		water_door = new BlockDoorGeneric(Material.iron, DoorDecl.WATER_DOOR).setBlockName("water_door").setHardness(50.0F).setResistance(500.0F).setCreativeTab(MainRegistry.machineTab);
 
 		door_metal = new BlockModDoor(Material.iron).setBlockName("door_metal").setHardness(5.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":door_metal");
 		door_office = new BlockModDoor(Material.iron).setBlockName("door_office").setHardness(10.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":door_office");
@@ -3076,6 +3090,12 @@ public class ModBlocks {
 		GameRegistry.registerBlock(door_office, door_office.getUnlocalizedName());
 		GameRegistry.registerBlock(door_bunker, door_bunker.getUnlocalizedName());
 		GameRegistry.registerBlock(secure_access_door, secure_access_door.getUnlocalizedName());
+		GameRegistry.registerBlock(large_vehicle_door, large_vehicle_door.getUnlocalizedName());
+		GameRegistry.registerBlock(qe_containment, qe_containment.getUnlocalizedName());
+		GameRegistry.registerBlock(qe_sliding_door, qe_sliding_door.getUnlocalizedName());
+		GameRegistry.registerBlock(round_airlock_door, round_airlock_door.getUnlocalizedName());
+		GameRegistry.registerBlock(sliding_seal_door, sliding_seal_door.getUnlocalizedName());
+		GameRegistry.registerBlock(water_door, water_door.getUnlocalizedName());
 		
 		//Crates
 		register(crate_iron);

@@ -739,6 +739,83 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		});
+
+		renderers.put(Item.getItemFromBlock(ModBlocks.large_vehicle_door), new ItemRenderBase(){
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(1.8, 1.8, 1.8);
+			}
+			public void renderCommon() {
+				bindTexture(ResourceManager.large_vehicle_door_tex);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				ResourceManager.large_vehicle_door.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}
+		});
+		renderers.put(Item.getItemFromBlock(ModBlocks.water_door), new ItemRenderBase(){
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(4, 4, 4);
+			}
+			public void renderCommon() {
+				bindTexture(ResourceManager.water_door_tex);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				ResourceManager.water_door.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}
+		});
+		renderers.put(Item.getItemFromBlock(ModBlocks.qe_containment), new ItemRenderBase(){
+			public void renderInventory() {
+				GL11.glTranslated(0, -3.5, 0);
+				GL11.glScaled(3.8, 3.8, 3.8);
+			}
+			public void renderCommon() {
+				bindTexture(ResourceManager.qe_containment_tex);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				ResourceManager.qe_containment.renderAllExcept("decal");
+				bindTexture(ResourceManager.qe_containment_decal);
+				ResourceManager.qe_containment.renderPart("decal");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}
+		});
+		renderers.put(Item.getItemFromBlock(ModBlocks.qe_sliding_door), new ItemRenderBase(){
+			public void renderInventory() {
+				GL11.glTranslated(0, -3.5, 0);
+				GL11.glScaled(6, 6, 6);
+			}
+			public void renderCommon() {
+				bindTexture(ResourceManager.qe_sliding_door_tex);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				ResourceManager.qe_sliding_door.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}
+		});
+
+		renderers.put(Item.getItemFromBlock(ModBlocks.round_airlock_door), new ItemRenderBase(){
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(3, 3, 3);
+			}
+			public void renderCommon() {
+				bindTexture(ResourceManager.round_airlock_door_tex);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				ResourceManager.round_airlock_door.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}
+		});
+
+		renderers.put(Item.getItemFromBlock(ModBlocks.sliding_seal_door), new ItemRenderBase(){
+			public void renderInventory() {
+				GL11.glTranslated(0, -5, 0);
+				GL11.glScaled(7, 7, 7);
+			}
+			public void renderCommon() {
+				bindTexture(ResourceManager.sliding_seal_door_tex);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				ResourceManager.sliding_seal_door.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}
+		});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.blast_door), new ItemRenderBase() {
 			public void renderInventory() {
