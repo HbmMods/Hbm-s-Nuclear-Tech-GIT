@@ -237,6 +237,7 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 		return 1F;
 	}
 	
+	@Override
 	public void init(Ticket ticket) {
 		if(!worldObj.isRemote) {
 
