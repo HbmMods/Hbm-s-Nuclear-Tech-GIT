@@ -727,6 +727,18 @@ public class ItemRenderLibrary {
 		        bindTexture(ResourceManager.vault_cog_tex); ResourceManager.vault_cog.renderAll();
 		        bindTexture(ResourceManager.vault_label_101_tex); ResourceManager.vault_label.renderAll();
 			}});
+		renderers.put(Item.getItemFromBlock(ModBlocks.secure_access_door), new ItemRenderBase(){
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(2.4, 2.4, 2.4);
+			}
+			public void renderCommon() {
+				bindTexture(ResourceManager.secure_access_door_tex);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				ResourceManager.secure_access_door.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}
+		});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.blast_door), new ItemRenderBase() {
 			public void renderInventory() {
