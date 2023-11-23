@@ -568,7 +568,7 @@ public abstract class DoorDecl {
         };
         @Override
         public String getCloseSoundEnd() {
-            return "hbmsound:door.qe_sliding_shut";
+            return "hbm:door.qe_sliding_shut";
         };
         @Override
         public String getOpenSoundLoop() {
