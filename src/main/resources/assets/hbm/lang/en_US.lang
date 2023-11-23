@@ -5664,6 +5664,14 @@ tile.watz_pump.name=Watz Pressure Pump
 tile.yellow_barrel.name=Radioactive Barrel
 tile.zirnox_destroyed.name=Destroyed ZIRNOX
 
+tile.large_vehicle_door.name=Large Vehicle Door
+tile.water_door.name=Water Door
+tile.qe_containment.name=QE Containment Door
+tile.qe_sliding.name=QE Sliding Door
+tile.round_airlock_door.name=Round Airlock Door
+tile.secure_access_door.name=Secure Access Door
+tile.sliding_seal_door.name=Sliding Seal Door
+
 trait.asbestos=Asbestos
 trait.blinding=Blinding
 trait.coal=Coal Dust
