@@ -26,6 +26,12 @@
 * Trenchmaster armor is now unbreakable
 * The arc welder recipe for advanced circuits now uses simple insulator instead of gold dust
 * The arc welder recipes for enhanced and advanced circuits now use only 100mB of fluid instead of 250mB
+* Completely rewrote the missile base code, missiles now accelerate smoothly instead of in increments and use interpolated movement, making them less jittery
+* Missiles now have a slightly higher top-speed
+* Remodeled the anti-ballistic missile
+* Anti-ballistic missiles now use predictive targeting as well as a heightened sensor range of 1,000 blocks (instead of 500) which should make them a lot more effective
+* Anti-ballistic missiles accelerate 4x faster than normal missiles and have a 50% higher top-speed
+* PWRs that have recently been close to unloaded chunks now have a 40 tick timeframe where they are "frozen", only trying to connect to a fluid network but not doing any fission, this should reduce the amount of meltdowns caused by chunkloading
 
 ## Fixed
 * Fixed thorium bedrock ore using the wrong ore dict key, making it unable to be processed via centrifuge or acidizer

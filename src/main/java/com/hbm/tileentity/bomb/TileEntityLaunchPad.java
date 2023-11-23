@@ -5,16 +5,13 @@ import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.inventory.container.ContainerLaunchPadTier1;
 import com.hbm.inventory.gui.GUILaunchPadTier1;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEMissilePacket;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import li.cil.oc.api.machine.Arguments;
@@ -25,6 +22,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -34,9 +32,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, SimpleComponent, IGUIProvider {
+public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedInventory, INBTPacketReceiver, IEnergyUser, SimpleComponent, IGUIProvider {
 
 	public ItemStack slots[];
+	public ItemStack toRender;
 	
 	public long power;
 	public final long maxPower = 100000;
@@ -44,7 +43,6 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] { 0, 1, 2};
 	private static final int[] slots_side = new int[] {0};
-	public int state = 0;
 	private String customName;
 	
 	public TileEntityLaunchPad() {
@@ -209,8 +207,25 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 			power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 			this.updateConnections();
 			
-			PacketDispatcher.wrapper.sendToAllAround(new TEMissilePacket(xCoord, yCoord, zCoord, slots[0]), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			if(slots[0] != null) {
+				data.setInteger("id", Item.getIdFromItem(slots[0].getItem()));
+				data.setShort("meta", (short) slots[0].getItemDamage());
+			}
+			
+			INBTPacketReceiver.networkPack(this, data, 250);
+		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		
+		if(nbt.hasKey("id")) {
+			this.toRender = new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getShort("meta"));
+		} else {
+			this.toRender = null;
 		}
 	}
 	

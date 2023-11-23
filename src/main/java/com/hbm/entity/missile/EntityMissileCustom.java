@@ -229,7 +229,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_20) return RadarTargetType.MISSILE_15_20;
 		if(top == PartSize.SIZE_20 && bottom == PartSize.SIZE_20) return RadarTargetType.MISSILE_20;
 
-		return RadarTargetType.PLAYER;
+		return RadarTargetType.MISSILE_TIER1;
 	}
 
 	@Override public List<ItemStack> getDebris() { return new ArrayList(); }
