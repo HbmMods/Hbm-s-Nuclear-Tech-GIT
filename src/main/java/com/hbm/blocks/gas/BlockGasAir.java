@@ -48,21 +48,26 @@ public class BlockGasAir extends BlockGasBase {
     @Override
     public void updateTick(World world, int x, int y, int z, Random rand) {
         if (!world.isRemote && PlanetaryTraitUtil.isDimensionWithTraitNT(world, Hospitality.OXYNEG)) {
-            for (int i = -1; i <= 1; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    for (int k = -1; k <= 1; k++) {
-                        if (i == 0 && j == 0 && k == 0) continue; // Skip the block itself
-
-                        Block b = world.getBlock(x + i, y + j, z + k);
-                        if (b == Blocks.air) {
-                            // Collapse this block into regular air if adjacent to a regular air block
-                            world.setBlockToAir(x, y, z);
-							world.scheduleBlockUpdate(x+i, y+j, z+k, this, 1);
-
-                        }
-                    }
-                }
-            }
+    		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+    			
+    			Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+    			
+    			if(b == this)
+    				continue;
+    			
+    			if(isAirBlock(b)) {
+    				
+    				if(b.isReplaceable(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
+    					if(getAirCount(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == 0) {
+    						world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.vacuum);
+    						return;
+    					}
+    				}
+    				
+    				world.setBlockToAir(x, y, z);
+    				return;
+    			}
+    		}
         }
         super.updateTick(world, x, y, z, rand);
     }
@@ -138,5 +143,14 @@ public class BlockGasAir extends BlockGasBase {
 			return;
 		
 		HbmLivingProps.SsetOxy((EntityLivingBase)entity, 20);
+	}
+	@Override
+	public void onBlockAdded(World world, int x, int y, int z) {
+		if(!world.isRemote) world.scheduleBlockUpdate(x, y, z, this, 1);
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		if(!world.isRemote) world.scheduleBlockUpdate(x, y, z, this, 1);
 	}
 }
