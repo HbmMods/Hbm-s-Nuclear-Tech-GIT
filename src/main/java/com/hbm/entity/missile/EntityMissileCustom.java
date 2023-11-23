@@ -44,6 +44,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		startZ = (int) z;
 		targetX = a;
 		targetZ = b;
+		this.motionY = 2;
 
 		Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
 		accelXZ = decelY = 1 / vector.lengthVector();
