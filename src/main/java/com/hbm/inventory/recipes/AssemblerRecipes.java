@@ -1214,6 +1214,13 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.bolt_dura_steel, 8),
 				new ComparableStack(ModItems.motor, 2)
 		}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.large_vehicle_door, 1), new AStack[]{new OreDictStack(STEEL.plate(), 36), new OreDictStack("plateAdvancedAlloy", 4), new ComparableStack(ModItems.plate_polymer, 2), new OreDictStack("blockSteel", 4), new ComparableStack(ModItems.motor, 4), new ComparableStack(ModItems.bolt_dura_steel, 12), new OreDictStack("dyeGreen", 4)}, 500);
+		makeRecipe(new ComparableStack(ModBlocks.water_door, 1), new AStack[]{new OreDictStack(STEEL.plate(), 12), new OreDictStack("plateAdvancedAlloy", 2), new ComparableStack(ModItems.bolt_dura_steel, 2), new OreDictStack("dyeRed", 1)}, 500);
+		makeRecipe(new ComparableStack(ModBlocks.qe_containment, 1), new AStack[]{new OreDictStack(STEEL.plate(), 24), new OreDictStack("plateAdvancedAlloy", 8), new ComparableStack(ModItems.plate_polymer, 8), new OreDictStack("blockSteel", 2), new ComparableStack(ModItems.motor, 4), new ComparableStack(ModItems.bolt_dura_steel, 16), new OreDictStack("dyeBlack", 4)}, 500);
+		makeRecipe(new ComparableStack(ModBlocks.qe_sliding_door, 1), new AStack[]{new OreDictStack(STEEL.plate(), 12), new ComparableStack(ModItems.plate_polymer, 2), new OreDictStack("blockSteel", 1), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.bolt_dura_steel, 2), new OreDictStack("dyeWhite", 4), new ComparableStack(Blocks.glass, 4)}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.round_airlock_door, 1), new AStack[]{new OreDictStack(STEEL.plate(), 32), new OreDictStack("plateAdvancedAlloy", 12), new ComparableStack(ModItems.plate_polymer, 12), new OreDictStack("blockSteel", 6), new ComparableStack(ModItems.motor, 6), new ComparableStack(ModItems.bolt_dura_steel, 12), new OreDictStack("dyeGreen", 4)}, 500);
+		makeRecipe(new ComparableStack(ModBlocks.secure_access_door, 1), new AStack[]{new OreDictStack(STEEL.plate(), 48), new OreDictStack("plateAdvancedAlloy", 16), new ComparableStack(ModItems.plate_polymer, 2), new OreDictStack("blockSteel", 6), new ComparableStack(ModItems.motor, 4), new ComparableStack(ModItems.bolt_dura_steel, 24), new OreDictStack("dyeRed", 8)}, 1000);
+		makeRecipe(new ComparableStack(ModBlocks.sliding_seal_door, 1), new AStack[]{new OreDictStack(STEEL.plate(), 12), new OreDictStack("plateAdvancedAlloy", 4), new ComparableStack(ModItems.plate_polymer, 2), new OreDictStack("blockSteel", 1), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.bolt_dura_steel, 2), new OreDictStack("dyeWhite", 2)}, 500);
 		
 		if(Loader.isModLoaded("Mekanism")) {
 			
