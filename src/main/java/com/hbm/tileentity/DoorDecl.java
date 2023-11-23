@@ -4,11 +4,13 @@ import com.hbm.animloader.AnimatedModel;
 import com.hbm.animloader.Animation;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.loader.WavefrontObjDisplayList;
+import com.hbm.sound.MovingSoundPlayerLoop;
 import com.hbm.util.BobMathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.sound.SoundEvent;
 import org.lwjgl.opengl.GL11;
 
 public abstract class DoorDecl {
@@ -284,6 +286,105 @@ public abstract class DoorDecl {
         @Override
         public AnimatedModel getAnimatedModel() {
             return ResourceManager.sliding_blast_door;
+        }
+    };
+
+    public static final DoorDecl SECURE_ACCESS_DOOR = new DoorDecl(){
+
+        @Override
+        public String getCloseSoundLoop() {
+            return "hbm:door.garage_move";
+        }
+
+        @Override
+        public String getCloseSoundEnd() {
+            return "hbm:door.garage_stop";
+        }
+
+        @Override
+        public String getOpenSoundEnd() {
+            return "hbm:door.garage_stop";
+        }
+
+        @Override
+        public String getOpenSoundLoop() {
+            return "hbm:door.garage_move";
+        }
+
+        @Override
+        public float getSoundVolume(){
+            return 2;
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
+            if(!partName.equals("base")){
+                set(trans, 0, 3.5F*getNormTime(openTicks), 0);
+            } else {
+                super.getTranslation(partName, openTicks, child, trans);
+            }
+        };
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public void doOffsetTransform() {
+            GL11.glRotated(90, 0, 1, 0);
+        };
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public double[][] getClippingPlanes() {
+            return new double[][]{{0, -1, 0, 5}};
+        };
+
+        @Override
+        public int timeToOpen() {
+            return 120;
+        };
+
+        @Override
+        public int[][] getDoorOpenRanges(){
+            return new int[][]{{-2, 1, 0, 4, 5, 1}};
+        }
+
+        @Override
+        public int[] getDimensions(){
+            return new int[]{4, 0, 0, 0, 2, 2};
+        }
+
+        @Override
+        public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
+            if(!open){
+                if(y > 0){
+                    return AxisAlignedBB.getBoundingBox(0, 0, 0.375, 1, 1, 0.625);
+                }
+                return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
+            }
+            if(y == 1) {
+                return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.0625, 1);
+            } else if(y == 4){
+                return AxisAlignedBB.getBoundingBox(0, 0.5, 0.15, 1, 1, 0.85);
+            } else {
+                return super.getBlockBound(x, y, z, open);
+            }
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public ResourceLocation getTextureForPart(String partName){
+            return ResourceManager.secure_access_door_tex;
+        }
+
+        @Override
+        public ResourceLocation getTextureForPart(int skinIndex, String partName) {
+            return ResourceManager.secure_access_door_tex;
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public WavefrontObjDisplayList getModel(){
+            return ResourceManager.secure_access_door;
         }
     };
 
