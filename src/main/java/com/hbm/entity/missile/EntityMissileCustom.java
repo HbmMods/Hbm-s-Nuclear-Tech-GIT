@@ -28,6 +28,7 @@ import com.hbm.main.MainRegistry;
 
 import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectableNT;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -91,13 +92,25 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		
 		if(!worldObj.isRemote) {
 			if(this.hasPropulsion()) this.fuel -= this.consumption;
-
+			EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
 
 				if(payload != null) {
 				if(payload.getTagCompound().getBoolean("Processed") == true ) {
-				vector.xCoord = 0;
-				this.motionY = 1; // or any positive value for upward speed
-				vector.zCoord = 0;		        
+					
+				if(posY < 7 && riding == null) {
+					this.motionY = 0.01;
+					this.velocity = 0.01;
+
+					this.prevRotationPitch = 90;
+					this.prevRotationYaw = 90;
+
+				}else {
+					this.motionX = 0;
+					this.motionY = 1; 
+					this.motionZ = 0;
+					}
+				}
+
 				if(posY > 600) {
 					if(riding != null) {
 					switch (DestinationType.values()[payload.getItemDamage()]) {
@@ -127,16 +140,19 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 						break;
 					}
 				}
+					if(riding != null) {
 					riding.dismountEntity(riding);
+					}
 
 			}
-				if(posY > 604) {
+				if(this.posY > 610) {
 					this.setDead();
 				}
 				
 			}
 
 		}
+		
 		
 		super.onUpdate();
 	}
@@ -192,9 +208,16 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		case KEROSENE: smoke = "exKerosene"; break;
 		case SOLID: smoke = "exSolid"; break;
 		case XENON: break;
-		}
+		case HYDRAZINE: break;
 
-		if(!smoke.isEmpty()) for(int i = 0; i < velocity; i++) MainRegistry.proxy.spawnParticle(posX - v.xCoord * i, posY - v.yCoord * i, posZ - v.zCoord * i, smoke, null);
+		}
+		EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
+
+			if(!smoke.isEmpty()) {
+				if(this.posY > 10) {
+				for(int i = 0; i < velocity; i++) MainRegistry.proxy.spawnParticle(posX - v.xCoord * i, posY - v.yCoord * i, posZ - v.zCoord * i, smoke, null);
+			}
+		}
 	}
 
 	@Override

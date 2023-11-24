@@ -231,8 +231,8 @@ public class ItemRBMKRod extends Item {
 		SQUARE_ROOT(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[5]),	//sqrt(x) * 10 * reactivity
 		LINEAR(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[6]),				//x * reactivity
 		QUADRATIC(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[7]),		//x^2 / 100 * reactivity
-		EXPERIMENTAL(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[8]);		//x * (sin(x) + 1)
-		
+		EXPERIMENTAL(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("trait.rbmk.BurnFunc")[8]),		//x * (sin(x) + 1)
+		SLOW_LINEAR(EnumChatFormatting.YELLOW + "MEDIUM / SLOW LINEAR");  
 		public String title = "";
 		
 		private EnumBurnFunc(String title) {

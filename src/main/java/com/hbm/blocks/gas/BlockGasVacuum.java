@@ -56,7 +56,7 @@ public class BlockGasVacuum extends BlockGasBase {
 					for(int j = -1; j < 2; j++) {
 						for(int k = -1; k < 2; k++) {
 							Block b = world.getBlock(x+i, y+j, z+k);
-							if(b.isAir(world, x+i, y+j, z+k)&& b !=this)
+							if(b == ModBlocks.air_block)
 							{
 								world.setBlock(x+i, y+j, z+k, ModBlocks.vacuum);
 								world.scheduleBlockUpdate(x+i, y+j, z+k, this, 1);

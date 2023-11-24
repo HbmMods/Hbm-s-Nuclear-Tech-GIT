@@ -33,8 +33,8 @@ public class GasCentrifugeRecipes {
 		public static PseudoFluidType MUD_HEAVY	= new PseudoFluidType("MUD_HEAVY",	500,	0,		NONE,		false,	new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.dust, 1), new ItemStack(ModItems.nuclear_waste_tiny, 1));
 		public static PseudoFluidType MUD		= new PseudoFluidType("MUD", 		1000,	500,	MUD_HEAVY,	false,	new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.dust, 1));
 		
-		public static PseudoFluidType MINSOLEE =	("NONETWO", 1000, 0,		NONE,		false,	new ItemStack(ModItems.crystal_cleaned, 1));
-		public static PseudoFluidType MINSOLE	=	("MINSOL", 1000, 1000,	MINSOLEE,	false,	new ItemStack(ModItems.powder_iron, 1));
+		public static PseudoFluidType MINSOLEE =	new PseudoFluidType ("NONETWO", 1000, 0,		NONE,		false,	new ItemStack(ModItems.crystal_cleaned, 1));
+		public static PseudoFluidType MINSOLE	=	new PseudoFluidType ("MINSOL", 1000, 1000,	MINSOLEE,	false,	new ItemStack(ModItems.powder_iron, 1));
 
 		public String name;
 		int fluidConsumed;

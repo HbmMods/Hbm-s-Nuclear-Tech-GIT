@@ -207,6 +207,22 @@ public class ItemWandD extends Item {
 			    traitsData.markDirty();
 				player.addChatMessage(new ChatComponentText("added!" + newtraits));
 			}
+			if(world.provider.dimensionId == SpaceConfig.moonDimension) {
+				Set<Hospitality> traits = EnumSet.of(Hospitality.OXYNEG);
+				Set<Hospitality> newtraits = EnumSet.of(Hospitality.BREATHEABLE);
+				PlanetaryTraitUtil.removeTraitsFromDimension(world.provider.dimensionId, traits);
+				PlanetaryTraitUtil.addTraitsToDimension(world.provider.dimensionId, newtraits);
+				
+			    // Get the PlanetaryTraitWorldSavedData instance for the world
+			    PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
+
+			    // Set the updated traits in the saved data
+			    traitsData.setTraits(world.provider.dimensionId, newtraits);
+
+			    // Mark the saved data as dirty to ensure changes are saved
+			    traitsData.markDirty();
+				player.addChatMessage(new ChatComponentText("added!" + newtraits));
+			}
 			/*
 			return stack;
 			

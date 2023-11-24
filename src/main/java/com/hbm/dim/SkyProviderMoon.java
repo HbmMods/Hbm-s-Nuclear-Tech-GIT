@@ -16,6 +16,8 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.util.AstronomyUtil;
+import com.hbm.util.PlanetaryTraitUtil;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
 import java.util.Random;
 
@@ -229,6 +231,10 @@ public class SkyProviderMoon extends IRenderHandler {
 		{
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1f);
+			if(PlanetaryTraitUtil.isDimensionWithTraitNT(world, Hospitality.BREATHEABLE)){
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
+
+			}
 			mc.renderEngine.bindTexture(this.flash2);
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(-f11, 100.0D, -f11, 0.0D, 0.0D);

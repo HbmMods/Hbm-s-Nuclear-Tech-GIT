@@ -235,8 +235,9 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 					boolean dir = worldObj.rand.nextBoolean();
 					float moX = (float) (dir ? 0 : worldObj.rand.nextGaussian() * 0.65F);
 					float moZ = (float) (!dir ? 0 : worldObj.rand.nextGaussian() * 0.65F);
-					
+					if (slots[1] != null && !(slots[1].getItem() instanceof ItemVOTVdrive)) {
 					MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
+					}
 				}
 			}
 		}
