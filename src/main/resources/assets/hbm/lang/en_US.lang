@@ -3129,7 +3129,7 @@ item.mike_kit.name=Ivy Mike Kit
 item.mirror_tool.name=Mirror Adjustment Tool
 item.mirror_tool.linked=Alignment position set!
 item.mirror_tool.desc=Right-click boiler to memorize the position.$Click on mirrors to turn them towards the boiler.
-item.missile_anti_ballistic.name=Anti Ballistic Missile
+item.missile_anti_ballistic.name=Anti-Ballistic Missile
 item.missile_assembly.name=Small Missile Assembly
 item.missile_bhole.name=Black Hole Missile
 item.missile_burst.name=Spare Missile
@@ -4503,10 +4503,28 @@ potion.hbm_stability=Stability
 potion.hbm_taint=Tainted
 potion.hbm_telekinesis=! ! !
 
+radar.clearMap=Clear Map
 radar.detectMissiles=Detect Missiles
 radar.detectPlayers=Detect Players
+radar.detectShells=Detect Shells
 radar.redMode=Redstone Mode$On: Redstone output based on range$Off: Redstone output based on tier
+radar.showMap=Show Map
 radar.smartMode=Smart Mode$Redstone output ignores ascending missiles
+radar.toggleGui=Switch View
+
+radar.target.abm=Anti-Ballsitic Missile
+radar.target.custom10=Size 10 Custom Missile
+radar.target.custom1015=Size 10/15 Custom Missile
+radar.target.custom15=Size 15 Custom Missile
+radar.target.custom1520=Size 15/20 Custom Missile
+radar.target.custom20=Size 20 Custom Missile
+radar.target.doomsday=Doomsday Missile
+radar.target.shuttle=Reliant Robin Space Shuttle
+radar.target.tier0=Tier 0 Missile
+radar.target.tier1=Tier 1 Missile
+radar.target.tier2=Tier 2 Missile
+radar.target.tier3=Tier 3 Missile
+radar.target.tier4=Tier 4 Missile
 
 rbmk.heat=Column temperature: %s
 rbmk.boiler.water=Feedwater: %s / %s

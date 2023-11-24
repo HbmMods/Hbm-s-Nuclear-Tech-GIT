@@ -13,6 +13,9 @@ import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.items.ModItems;
+
+import api.hbm.entity.IRadarDetectableNT;
+
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 
 import net.minecraft.item.ItemStack;
@@ -37,6 +40,16 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 	@Override
 	public RadarTargetType getTargetType() {
 		return RadarTargetType.MISSILE_TIER0;
+	}
+
+	@Override
+	public String getUnlocalizedName() {
+		return "radar.target.tier0";
+	}
+
+	@Override
+	public int getBlipLevel() {
+		return IRadarDetectableNT.TIER0;
 	}
 	
 	public static class EntityMissileMicro extends EntityMissileTier0 {

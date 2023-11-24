@@ -8,6 +8,7 @@ import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 
+import api.hbm.entity.IRadarDetectableNT;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -31,6 +32,16 @@ public abstract class EntityMissileTier2 extends EntityMissileBaseNT {
 	@Override
 	public RadarTargetType getTargetType() {
 		return RadarTargetType.MISSILE_TIER2;
+	}
+
+	@Override
+	public String getUnlocalizedName() {
+		return "radar.target.tier2";
+	}
+
+	@Override
+	public int getBlipLevel() {
+		return IRadarDetectableNT.TIER2;
 	}
 
 	public static class EntityMissileStrong extends EntityMissileTier2 {

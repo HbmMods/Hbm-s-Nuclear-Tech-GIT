@@ -53,6 +53,8 @@ public class GUIMachineRadarNT extends GuiScreen {
 		if(checkClick(x, y, -10, 118, 8, 8)) cmd = "smart";
 		if(checkClick(x, y, -10, 128, 8, 8)) cmd = "red";
 		if(checkClick(x, y, -10, 138, 8, 8)) cmd = "map";
+		if(checkClick(x, y, -10, 158, 8, 8)) cmd = "gui1";
+		if(checkClick(x, y, -10, 178, 8, 8)) cmd = "clear";
 		
 		if(cmd != null) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
@@ -81,6 +83,8 @@ public class GUIMachineRadarNT extends GuiScreen {
 		if(checkClick(mouseX, mouseY, -10, 118, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.smartMode")), mouseX, mouseY);
 		if(checkClick(mouseX, mouseY, -10, 128, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.redMode")), mouseX, mouseY);
 		if(checkClick(mouseX, mouseY, -10, 138, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.showMap")), mouseX, mouseY);
+		if(checkClick(mouseX, mouseY, -10, 158, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.toggleGui")), mouseX, mouseY);
+		if(checkClick(mouseX, mouseY, -10, 178, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.clearMap")), mouseX, mouseY);
 
 		if(!radar.entries.isEmpty()) {
 			for(RadarEntry m : radar.entries) {
@@ -102,6 +106,7 @@ public class GUIMachineRadarNT extends GuiScreen {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		drawTexturedModalRect(guiLeft - 14, guiTop + 84, 224, 0, 14, 66);
+		drawTexturedModalRect(guiLeft - 14, guiTop + 154, 224, 66, 14, 36);
 		
 		if(radar.power > 0) {
 			int i = (int) (radar.power * 200 / radar.maxPower);

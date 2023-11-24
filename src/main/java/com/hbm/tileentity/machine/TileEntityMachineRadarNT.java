@@ -11,8 +11,11 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WeaponConfig;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.container.ContainerMachineRadarNT;
 import com.hbm.inventory.gui.GUIMachineRadarNT;
+import com.hbm.inventory.gui.GUIMachineRadarNTSlots;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -23,6 +26,7 @@ import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectableNT;
 import api.hbm.entity.IRadarDetectableNT.RadarScanParams;
 import api.hbm.entity.RadarEntry;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -70,6 +74,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	public static int chunkLoadCap = 5;
 	
 	public byte[] map = new byte[40_000];
+	public boolean clearFlag = false;
 	
 	public List<RadarEntry> entries = new ArrayList();
 
@@ -99,12 +104,12 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	}
 
 	public TileEntityMachineRadarNT() {
-		super(1);
+		super(10);
 	}
 
 	@Override
 	public String getName() {
-		return "";
+		return "container.radar";
 	}
 
 	@Override
@@ -113,6 +118,8 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		if(this.map == null || this.map.length != 40_000) this.map = new byte[40_000];
 		
 		if(!worldObj.isRemote) {
+			
+			this.power = Library.chargeTEFromItems(slots, 9, power, maxPower);
 
 			if(worldObj.getTotalWorldTime() % 20 == 0) this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 			
@@ -158,6 +165,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			}
 			
 			this.networkPackNT(50);
+			if(this.clearFlag) this.clearFlag = false;
 		} else {
 			prevRotation = rotation;
 			if(power > 0) rotation += 5F;
@@ -181,15 +189,20 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		buf.writeBoolean(this.jammed);
 		buf.writeInt(entries.size());
 		for(RadarEntry entry : entries) entry.toBytes(buf);
-		if(this.showMap) {
+		if(this.clearFlag) {
 			buf.writeBoolean(true);
-			short index = (short) (worldObj.getTotalWorldTime() % 400);
-			buf.writeShort(index);
-			for(int i = index * 100; i < (index + 1) * 100; i++) {
-				buf.writeByte(this.map[i]);
-			}
 		} else {
 			buf.writeBoolean(false);
+			if(this.showMap) {
+				buf.writeBoolean(true);
+				short index = (short) (worldObj.getTotalWorldTime() % 400);
+				buf.writeShort(index);
+				for(int i = index * 100; i < (index + 1) * 100; i++) {
+					buf.writeByte(this.map[i]);
+				}
+			} else {
+				buf.writeBoolean(false);
+			}
 		}
 	}
 	
@@ -210,10 +223,14 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			entry.fromBytes(buf);
 			this.entries.add(entry);
 		}
-		if(buf.readBoolean()) {
-			int index = buf.readShort();
-			for(int i = index * 100; i < (index + 1) * 100; i++) {
-				this.map[i] = buf.readByte();
+		if(buf.readBoolean()) { // clear flag
+			this.map = new byte[40_000];
+		} else {
+			if(buf.readBoolean()) { // map enabled
+				int index = buf.readShort();
+				for(int i = index * 100; i < (index + 1) * 100; i++) {
+					this.map[i] = buf.readByte();
+				}
 			}
 		}
 	}
@@ -289,6 +306,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 				
 				for(int i = 0; i < entries.size(); i++) {
 					RadarEntry e = entries.get(i);
+					if(!e.redstone) continue;
 					double dist = Math.sqrt(Math.pow(e.posX - xCoord, 2) + Math.pow(e.posZ - zCoord, 2));
 					int p = 15 - (int)Math.floor(dist / maxRange * 15);
 					
@@ -303,9 +321,10 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 				int power = 0;
 				
 				for(int i = 0; i < entries.size(); i++) {
-					
-					if(entries.get(i).blipLevel + 1 > power) {
-						power = entries.get(i).blipLevel + 1;
+					RadarEntry e = entries.get(i);
+					if(!e.redstone) continue;
+					if(e.blipLevel + 1 > power) {
+						power = e.blipLevel + 1;
 					}
 				}
 				
@@ -340,14 +359,20 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		return this.isUseableByPlayer(player);
 	}
 
+	@Override public void receiveControl(NBTTagCompound data) { }
+	
 	@Override
-	public void receiveControl(NBTTagCompound data) {
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
+		
 		if(data.hasKey("missiles")) this.scanMissiles = !this.scanMissiles;
 		if(data.hasKey("shells")) this.scanShells = !this.scanShells;
 		if(data.hasKey("players")) this.scanPlayers = !this.scanPlayers;
 		if(data.hasKey("smart")) this.smartMode = !this.smartMode;
 		if(data.hasKey("red")) this.redMode = !this.redMode;
 		if(data.hasKey("map")) this.showMap = !this.showMap;
+		if(data.hasKey("clear")) this.clearFlag = true;
+
+		if(data.hasKey("gui1")) FMLNetworkHandler.openGui(player, MainRegistry.instance, 1, worldObj, xCoord, yCoord, zCoord);
 	}
 	
 	AxisAlignedBB bb = null;
@@ -375,12 +400,18 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		return 65536.0D;
 	}
 
-	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return null; }
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		if(ID == 1) return new ContainerMachineRadarNT(player.inventory, this);
+		return null;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUIMachineRadarNT(this);
+		if(ID == 0) return new GUIMachineRadarNT(this);
+		if(ID == 1) return new GUIMachineRadarNTSlots(player.inventory, this);
+		return null;
 	}
 	
 	/** List of lambdas that are supplied a Pair with the entity and radar in question to generate a RadarEntry
@@ -422,7 +453,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			Entity e = x.getX();
 			if(e instanceof IRadarDetectableNT) {
 				IRadarDetectableNT detectable = (IRadarDetectableNT) e;
-				if(detectable.canBeSeenBy(x.getY()) && detectable.paramsApplicable(x.getZ())) return new RadarEntry(detectable, e);
+				if(detectable.canBeSeenBy(x.getY()) && detectable.paramsApplicable(x.getZ())) return new RadarEntry(detectable, e, detectable.suppliesRedstone(x.getZ()));
 			}
 			return null;
 		});
