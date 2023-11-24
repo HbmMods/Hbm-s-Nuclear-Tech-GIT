@@ -7,6 +7,7 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.render.model.ModelBackTesla;
 import com.hbm.tileentity.machine.TileEntityTesla;
 
+import com.hbm.util.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
@@ -30,14 +31,14 @@ public class ItemModTesla extends ItemArmorMod {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add(EnumChatFormatting.YELLOW + "Zaps nearby entities (requires full electric set)");
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("armorMod.mod.Tesla")[0]);
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-		list.add(EnumChatFormatting.YELLOW + stack.getDisplayName() + " (zaps nearby entities)");
+		list.add(EnumChatFormatting.YELLOW + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.Tesla")[1]);
 	}
 	
 	@Override

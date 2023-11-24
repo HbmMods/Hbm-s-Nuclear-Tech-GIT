@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.util.EnumChatFormatting;
 
 @Deprecated //use FT_Toxin instead
@@ -31,7 +32,7 @@ public class FT_Poison extends FluidTrait {
 	
 	@Override
 	public void addInfoHidden(List<String> info) {
-		info.add(EnumChatFormatting.GREEN + "[Toxic Fumes]");
+		info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("hbmfluid.Trait.Poison"));
 	}
 	
 	@Override public void serializeJSON(JsonWriter writer) throws IOException {

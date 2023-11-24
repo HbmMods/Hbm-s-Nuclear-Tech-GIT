@@ -41,7 +41,6 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 	public boolean isOn = false;
 	
 	public FluidTank tank;
-	public int millis = 0;
 	
 	public static ModuleBurnTime burnModule = new ModuleBurnTime().setLogTimeMod(4).setWoodTimeMod(2);
 
@@ -109,17 +108,12 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 					
 					if(trait != null) {
 						
-						if(millis <= 900) {
-							this.tank.setFill(tank.getFill() - 1);
-							this.millis += 100;
-						}
-						
-						int toBurn = Math.min(millis, 5);
+						int toBurn = Math.min(tank.getFill(), 2);
 						
 						if(toBurn > 0) {
-							this.power += trait.getHeatEnergy() * toBurn / 4_000L;
-							this.millis -= toBurn;
-							if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND);
+							this.power += trait.getHeatEnergy() * toBurn / 2_000L;
+							this.tank.setFill(this.tank.getFill() - toBurn);
+							if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * toBurn / 2F);
 						}
 					}
 				}
@@ -173,7 +167,6 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 		this.isOn = nbt.getBoolean("isOn");
 		this.liquidBurn = nbt.getBoolean("liquidBurn");
 		tank.readFromNBT(nbt, "t");
-		this.millis = nbt.getInteger("millis");
 	}
 
 	@Override
@@ -185,7 +178,6 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 		nbt.setBoolean("isOn", isOn);
 		nbt.setBoolean("liquidBurn", liquidBurn);
 		tank.writeToNBT(nbt, "t");
-		nbt.setInteger("millis", millis);
 	}
 	
 	protected boolean processAsh(int level, EnumAshType type, int threshold) {

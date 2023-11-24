@@ -74,6 +74,7 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.machine.TileEntityAirPump;
+import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RequestNetwork;
 import com.hbm.util.AchievementHandler;
@@ -1388,19 +1389,20 @@ public class ModEventHandler {
 		if(event.phase == event.phase.START) {
 			RTTYSystem.updateBroadcastQueue();
 			RequestNetwork.updateEntries();
+			TileEntityMachineRadarNT.updateSystem();
 		}
 	}
 	
 	@SubscribeEvent
 	public void enteringChunk(EnteringChunk evt) {
 		
-		if(evt.entity instanceof EntityMissileBaseAdvanced) {
-			((EntityMissileBaseAdvanced) evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
+		/*if(evt.entity instanceof EntityMissileBaseNT) {
+			((EntityMissileBaseNT) evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
 		}
 
 		if(evt.entity instanceof EntityMissileCustom) {
 			((EntityMissileCustom) evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
-		}
+		}*/
 	}
 	
 	@SubscribeEvent

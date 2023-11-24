@@ -8,6 +8,7 @@ import com.hbm.render.model.ModelJetPack;
 import com.hbm.util.ArmorUtil;
 
 import api.hbm.fluid.IFillableItem;
+import com.hbm.util.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -40,7 +41,7 @@ public abstract class JetpackBase extends ItemArmorMod implements IFillableItem 
 		list.add(EnumChatFormatting.LIGHT_PURPLE + fuel.getLocalizedName() + ": " + this.getFuel(itemstack) + "mB / " + this.maxFuel + "mB");
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
-		list.add(EnumChatFormatting.GOLD + "Can be worn on its own!");
+		list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("item.jetpack.desc"));
 	}
 	
 	@Override

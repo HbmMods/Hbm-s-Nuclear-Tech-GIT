@@ -162,7 +162,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			if(amountToBurn > 0) {
 				this.wasOn = true;
 				this.tank.setFill(this.tank.getFill() - amountToBurn);
-				this.power += burnValue * amountToBurn;
+				this.power += burnValue * amountToBurn * (1 + Math.min(this.afterburner / 3D, 4));
 				
 				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * amountToBurn);
 			}

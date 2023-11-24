@@ -45,22 +45,30 @@ public class MatDistribution extends SerializableRecipe {
 		registerEntry(Items.minecart, MAT_IRON, INGOT.q(5));
 		
 		//castables
-		registerEntry(ModItems.blade_titanium,			MAT_TITANIUM,		INGOT.q(2));
-		registerEntry(ModItems.blade_tungsten,			MAT_TUNGSTEN,		INGOT.q(2));
-		registerEntry(ModItems.blades_steel,			MAT_STEEL,			INGOT.q(4));
-		registerEntry(ModItems.blades_titanium,			MAT_TITANIUM, 		INGOT.q(4));
-		registerEntry(ModItems.blades_advanced_alloy,	MAT_ALLOY,			INGOT.q(4));
-		registerEntry(ModItems.stamp_stone_flat,		MAT_STONE,			INGOT.q(3));
-		registerEntry(ModItems.stamp_iron_flat,			MAT_IRON,			INGOT.q(3));
-		registerEntry(ModItems.stamp_steel_flat,		MAT_STEEL,			INGOT.q(3));
-		registerEntry(ModItems.stamp_titanium_flat,		MAT_TITANIUM,		INGOT.q(3));
-		registerEntry(ModItems.stamp_obsidian_flat,		MAT_OBSIDIAN,		INGOT.q(3));
-		registerEntry(ModItems.hull_small_steel,		MAT_STEEL,			INGOT.q(2));
-		registerEntry(ModItems.hull_small_aluminium,	MAT_ALUMINIUM,		INGOT.q(2));
-		registerEntry(ModItems.hull_big_steel,			MAT_STEEL,			INGOT.q(6));
-		registerEntry(ModItems.hull_big_aluminium,		MAT_ALUMINIUM,		INGOT.q(6));
-		registerEntry(ModItems.hull_big_titanium,		MAT_TITANIUM,		INGOT.q(6));
-		registerEntry(ModItems.pipes_steel,				MAT_STEEL,			BLOCK.q(3));
+		registerEntry(ModItems.blade_titanium,				MAT_TITANIUM,		INGOT.q(2));
+		registerEntry(ModItems.blade_tungsten,				MAT_TUNGSTEN,		INGOT.q(2));
+		registerEntry(ModItems.blades_steel,				MAT_STEEL,			INGOT.q(4));
+		registerEntry(ModItems.blades_titanium,				MAT_TITANIUM, 		INGOT.q(4));
+		registerEntry(ModItems.blades_advanced_alloy,		MAT_ALLOY,			INGOT.q(4));
+		registerEntry(ModItems.stamp_stone_flat,			MAT_STONE,			INGOT.q(3));
+		registerEntry(ModItems.stamp_iron_flat,				MAT_IRON,			INGOT.q(3));
+		registerEntry(ModItems.stamp_steel_flat,			MAT_STEEL,			INGOT.q(3));
+		registerEntry(ModItems.stamp_titanium_flat,			MAT_TITANIUM,		INGOT.q(3));
+		registerEntry(ModItems.stamp_obsidian_flat,			MAT_OBSIDIAN,		INGOT.q(3));
+		registerEntry(ModItems.hull_small_steel,			MAT_STEEL,			INGOT.q(2));
+		registerEntry(ModItems.hull_small_aluminium,		MAT_ALUMINIUM,		INGOT.q(2));
+		registerEntry(ModItems.hull_big_steel,				MAT_STEEL,			INGOT.q(6));
+		registerEntry(ModItems.hull_big_aluminium,			MAT_ALUMINIUM,		INGOT.q(6));
+		registerEntry(ModItems.hull_big_titanium,			MAT_TITANIUM,		INGOT.q(6));
+		registerEntry(ModItems.pipes_steel,					MAT_STEEL,			BLOCK.q(3));
+		registerEntry(ModItems.wire_aluminium,				MAT_ALUMINIUM,		WIRE.q(1));
+		registerEntry(ModItems.wire_copper,					MAT_COPPER,			WIRE.q(1));
+		registerEntry(ModItems.wire_red_copper,				MAT_MINGRADE,		WIRE.q(1));
+		registerEntry(ModItems.wire_tungsten,				MAT_TUNGSTEN,		WIRE.q(1));
+		registerEntry(ModItems.wire_gold,					MAT_GOLD,			WIRE.q(1));
+		registerEntry(ModItems.wire_advanced_alloy,			MAT_ALLOY,			WIRE.q(1));
+		registerEntry(ModItems.wire_magnetized_tungsten,	MAT_MAGTUNG,		WIRE.q(1));
+		registerEntry(ModItems.wire_schrabidium,			MAT_SCHRABIDIUM,	WIRE.q(1));
 
 		//actual ores
 		if(!Compat.isModLoaded(Compat.MOD_GT6)) {

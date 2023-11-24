@@ -31,6 +31,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -282,6 +283,9 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	private boolean blocksRad(int x, int y, int z) {
 
 		Block b = worldObj.getBlock(x, y, z);
+
+		if((b == Blocks.water || b == Blocks.flowing_water) && worldObj.getBlockMetadata(x, y, z) == 0)
+			return true;
 
 		if(b == ModBlocks.block_lead || b == ModBlocks.block_desh || b == ModBlocks.reactor_research || b == ModBlocks.machine_reactor_breeding)
 			return true;
