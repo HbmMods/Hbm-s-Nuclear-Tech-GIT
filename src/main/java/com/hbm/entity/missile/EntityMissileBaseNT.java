@@ -9,6 +9,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
 
 import api.hbm.entity.IRadarDetectable;
+import api.hbm.entity.IRadarDetectableNT;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
@@ -23,7 +24,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 
-public abstract class EntityMissileBaseNT extends EntityThrowableInterp implements IChunkLoader, IRadarDetectable {
+public abstract class EntityMissileBaseNT extends EntityThrowableInterp implements IChunkLoader, IRadarDetectable, IRadarDetectableNT {
 	
 	public int startX;
 	public int startZ;
@@ -61,6 +62,23 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 		velocity = 0;
 
 		this.setSize(1.5F, 1.5F);
+	}
+	
+	@Override
+	public boolean canBeSeenBy(Object radar) {
+		return true;
+	}
+	
+	@Override
+	public boolean paramsApplicable(RadarScanParams params) {
+		if(!params.scanMissiles) return false;
+		return true;
+	}
+	
+	@Override
+	public boolean suppliesRedstone(RadarScanParams params) {
+		if(params.smartMode && this.motionY >= 0) return false;
+		return true;
 	}
 
 	@Override

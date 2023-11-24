@@ -75,6 +75,10 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		return this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y);
 	}
 	
+	protected boolean checkClick(int x, int y, int left, int top, int sizeX, int sizeY) {
+		return guiLeft + left <= x && guiLeft + left + sizeX > x && guiTop + top < y && guiTop + top + sizeY >= y;
+	}
+	
 	/* Getters for external use of the GUI's rect rendering, such as NumberDisplay */
 	public int getGuiTop() {
 		return this.guiTop;

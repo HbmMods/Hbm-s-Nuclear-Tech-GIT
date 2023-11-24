@@ -21,6 +21,7 @@ import com.hbm.items.weapon.ItemMissile.WarheadType;
 import com.hbm.main.MainRegistry;
 
 import api.hbm.entity.IRadarDetectable;
+import api.hbm.entity.IRadarDetectableNT;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -231,6 +232,38 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		if(top == PartSize.SIZE_20 && bottom == PartSize.SIZE_20) return RadarTargetType.MISSILE_20;
 
 		return RadarTargetType.MISSILE_TIER1;
+	}
+
+	@Override
+	public String getUnlocalizedName() {
+
+		ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(10));
+		PartSize top = part.top;
+		PartSize bottom = part.bottom;
+
+		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_10) return "radar.target.custom10";
+		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_15) return "radar.target.custom1015";
+		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_15) return "radar.target.custom15";
+		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_20) return "radar.target.custom1520";
+		if(top == PartSize.SIZE_20 && bottom == PartSize.SIZE_20) return "radar.target.custom20";
+		
+		return "radar.target.custom";
+	}
+
+	@Override
+	public int getBlipLevel() {
+
+		ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(10));
+		PartSize top = part.top;
+		PartSize bottom = part.bottom;
+
+		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_10) return IRadarDetectableNT.TIER10;
+		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_15) return IRadarDetectableNT.TIER10_15;
+		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_15) return IRadarDetectableNT.TIER15;
+		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_20) return IRadarDetectableNT.TIER15_20;
+		if(top == PartSize.SIZE_20 && bottom == PartSize.SIZE_20) return IRadarDetectableNT.TIER20;
+		
+		return IRadarDetectableNT.TIER1;
 	}
 
 	@Override public List<ItemStack> getDebris() { return new ArrayList(); }

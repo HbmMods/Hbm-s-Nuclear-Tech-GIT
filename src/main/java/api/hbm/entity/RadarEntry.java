@@ -7,34 +7,39 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class RadarEntry {
 
+	/** Name use for radar display, uses I18n for lookup */
 	public String unlocalizedName;
+	/** The type of dot to show on the radar as well as the redstone level in tier mode */
 	public int blipLevel;
 	public int posX;
 	public int posY;
 	public int posZ;
 	public int dim;
+	/** Whether this radar entry should be counted for the redstone output */
+	public boolean redstone;
 	
 	public RadarEntry() { } //blank ctor for packets
 	
-	public RadarEntry(String name, int level, int x, int y, int z, int dim) {
+	public RadarEntry(String name, int level, int x, int y, int z, int dim, boolean redstone) {
 		this.unlocalizedName = name;
 		this.blipLevel = level;
 		this.posX = x;
 		this.posY = y;
 		this.posZ = z;
 		this.dim = dim;
+		this.redstone = redstone;
 	}
 	
-	public RadarEntry(IRadarDetectableNT detectable, Entity entity) {
-		this(detectable.getUnlocalizedName(), detectable.getBlipLevel(), (int) Math.floor(entity.posX), (int) Math.floor(entity.posY), (int) Math.floor(entity.posZ), entity.dimension);
+	public RadarEntry(IRadarDetectableNT detectable, Entity entity, boolean redstone) {
+		this(detectable.getUnlocalizedName(), detectable.getBlipLevel(), (int) Math.floor(entity.posX), (int) Math.floor(entity.posY), (int) Math.floor(entity.posZ), entity.dimension, redstone);
 	}
 	
 	public RadarEntry(IRadarDetectable detectable, Entity entity) {
-		this(detectable.getTargetType().name, detectable.getTargetType().ordinal(), (int) Math.floor(entity.posX), (int) Math.floor(entity.posY), (int) Math.floor(entity.posZ), entity.dimension);
+		this(detectable.getTargetType().name, detectable.getTargetType().ordinal(), (int) Math.floor(entity.posX), (int) Math.floor(entity.posY), (int) Math.floor(entity.posZ), entity.dimension, entity.motionY < 0);
 	}
 	
 	public RadarEntry(EntityPlayer player) {
-		this(player.getDisplayName(), IRadarDetectableNT.PLAYER, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ), player.dimension);
+		this(player.getDisplayName(), IRadarDetectableNT.PLAYER, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ), player.dimension, true);
 	}
 	
 	public void fromBytes(ByteBuf buf) {

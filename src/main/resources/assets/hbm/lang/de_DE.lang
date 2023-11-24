@@ -3439,10 +3439,14 @@ potion.hbm_stability=Stabilität
 potion.hbm_taint=Verdorben
 potion.hbm_telekinesis=! ! !
 
+radar.clearMap=Karte zurücksetzen
 radar.detectMissiles=Raketen erkennen
 radar.detectPlayers=Spieler erkennen
+radar.detectShells=Geschosse erkennen
 radar.redMode=Redstone Mode$Ein: Redstonesignal basiert auf Nähe$Aus: Redstonesignal basiert auf Größe
+radar.showMap=Karte anzeigen
 radar.smartMode=Smart Mode$Redstonesignal ignoriert aufsteigende Raketen
+radar.toggleGui=Ansicht umschalten
 
 rbmk.heat=Komponententemperatur: %s
 rbmk.boiler.water=Wasser: %s / %s

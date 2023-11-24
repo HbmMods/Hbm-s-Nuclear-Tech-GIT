@@ -10,6 +10,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
 
 import api.hbm.entity.IRadarDetectable;
+import api.hbm.entity.IRadarDetectableNT;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -23,7 +24,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 
-public class EntityMissileAntiBallistic extends EntityThrowableInterp implements IChunkLoader, IRadarDetectable {
+public class EntityMissileAntiBallistic extends EntityThrowableInterp implements IChunkLoader, IRadarDetectable, IRadarDetectableNT {
 
 	private Ticket loaderTicket;
 	public Entity tracking;
@@ -225,5 +226,30 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 	@Override
 	public RadarTargetType getTargetType() {
 		return RadarTargetType.MISSILE_AB;
+	}
+
+	@Override
+	public String getUnlocalizedName() {
+		return "radar.target.abm";
+	}
+
+	@Override
+	public int getBlipLevel() {
+		return IRadarDetectableNT.TIER_AB;
+	}
+
+	@Override
+	public boolean canBeSeenBy(Object radar) {
+		return true;
+	}
+
+	@Override
+	public boolean paramsApplicable(RadarScanParams params) {
+		return params.scanMissiles;
+	}
+
+	@Override
+	public boolean suppliesRedstone(RadarScanParams params) {
+		return false;
 	}
 }
