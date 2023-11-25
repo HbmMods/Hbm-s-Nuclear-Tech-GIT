@@ -47,7 +47,6 @@ public class BlockGasAir extends BlockGasBase {
     }
     @Override
     public void updateTick(World world, int x, int y, int z, Random rand) {
-        if (!world.isRemote && PlanetaryTraitUtil.isDimensionWithTraitNT(world, Hospitality.OXYNEG)) {
     		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
     			
     			Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
@@ -68,7 +67,7 @@ public class BlockGasAir extends BlockGasBase {
     				return;
     			}
     		}
-        }
+        
         super.updateTick(world, x, y, z, rand);
     }
 

@@ -89,7 +89,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
+			if(worldObj.getBlock(xCoord, yCoord+1, zCoord).isAir(worldObj, xCoord, yCoord+1, zCoord)) {
 			this.updateConnections();
 			if(onTicks > 0) onTicks--;
 			this.targets.clear();
@@ -104,9 +104,12 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 				double dy = yCoord + offset;
 				double dz = zCoord + 0.5;
 
-				revalidateRoom();
-	            
-	            
+				revalidateRoom();  
+				
+			}else {
+	        	worldObj.setBlockToAir(xCoord, yCoord+1, zCoord);
+	        	findRoomSections(worldObj, xCoord, yCoord, zCoord);
+				}
 	        }
 
 			NBTTagCompound data = new NBTTagCompound();
@@ -179,6 +182,8 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		
 		return ret;
 	}
+	
+	//TODO: Rewrite this fucking mess of a class
 	private List<AxisAlignedBB> findRoomSections(World world, int startX, int startY, int startZ) {
 	    Set<BlockPos> visited = new HashSet<>();
 	    Set<BlockPos> air = new HashSet<>();
@@ -240,6 +245,14 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	            minY = maxY = current.getY();
 	            minZ = maxZ = current.getZ();
 	        }
+			if(tank.getFill() <= 0) {
+			    for (BlockPos pos : air) {
+			        if (worldObj.getBlock(pos.getX(), pos.getY(), pos.getZ()) == ModBlocks.air_block) {
+			            worldObj.setBlock(pos.getX(), pos.getY(), pos.getZ(), Blocks.air);
+			        }
+			    }
+			    air.clear(); // Clear the set after resetting blocks
+			}
 	    }
 
 	    return sectionAABBs;
