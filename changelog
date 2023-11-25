@@ -21,6 +21,8 @@
     * The map will scan loaded chunks instantly, unloaded chunks have a limit of 5 chunk loads per tick to prevent excessive lag
     * The chunk load limit can be adjusted in the machine config file
     * The map will show terrain height between Y:50 and Y:128, anything outside that range is truncated
+    * Radars now have a second GUI which allows the use of a battery, as well as linking the radar to other machines
+      * By using the number keys, the radar can now launch missiles, ABMs or artillery at the current aimed at position
 * The turbofan's afterburner now adds a 33% efficiency bonus for every level. This means that instead of the efficiency remaining constant between levels, a tier 3 upgrade will yield double efficiency.
 * Reduced the flarestack's base energy efficiency
 * Trenchmaster armor is now unbreakable
@@ -31,6 +33,7 @@
 * Remodeled the anti-ballistic missile
 * Anti-ballistic missiles now use predictive targeting as well as a heightened sensor range of 1,000 blocks (instead of 500) which should make them a lot more effective
 * Anti-ballistic missiles accelerate 4x faster than normal missiles and have a 50% higher top-speed
+* Anti-ballistic missiles can now load their own chunks, allowing them to get to far away incoming missiles without getting stuck
 * PWRs that have recently been close to unloaded chunks now have a 40 tick timeframe where they are "frozen", only trying to connect to a fluid network but not doing any fission, this should reduce the amount of meltdowns caused by chunkloading
 
 ## Fixed

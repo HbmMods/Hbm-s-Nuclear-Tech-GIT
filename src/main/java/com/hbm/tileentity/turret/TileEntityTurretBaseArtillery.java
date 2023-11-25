@@ -3,12 +3,24 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.tileentity.IRadarCommandReceiver;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 
-public abstract class TileEntityTurretBaseArtillery extends TileEntityTurretBaseNT {
+public abstract class TileEntityTurretBaseArtillery extends TileEntityTurretBaseNT implements IRadarCommandReceiver {
 	
 	protected List<Vec3> targetQueue = new ArrayList();
+
+	public boolean sendCommandPosition(int x, int y, int z) {
+		this.enqueueTarget(x + 0.5, y, z + 0.5);
+		return true;
+	}
+	
+	public boolean sendCommandEntity(Entity target) {
+		this.enqueueTarget(target.posX, target.posY, target.posZ);
+		return true;
+	}
 	
 	public void enqueueTarget(double x, double y, double z) {
 		

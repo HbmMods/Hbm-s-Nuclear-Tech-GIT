@@ -12,6 +12,7 @@ import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.network.play.client.C0DPacketCloseWindow;
@@ -35,6 +36,7 @@ public class GUIMachineRadarNTSlots extends GuiInfoContainer {
 		super.mouseClicked(x, y, i);
 		
 		if(checkClick(x, y, 5, 5, 8, 8)) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			this.mc.thePlayer.sendQueue.addToSendQueue(new C0DPacketCloseWindow(this.mc.thePlayer.openContainer.windowId)); // closes the server-side GUI component without resetting the client's cursor position
 			FMLNetworkHandler.openGui(this.mc.thePlayer, MainRegistry.instance, 0, radar.getWorldObj(), radar.xCoord, radar.yCoord, radar.zCoord);
 		}

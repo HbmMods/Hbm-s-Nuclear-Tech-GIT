@@ -49,7 +49,7 @@ public class MachineRadar extends BlockContainer {
 			return true;
 		}
 		
-		if(world.isRemote) {
+		if(world.isRemote && !player.isSneaking()) {
 			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 			return true;
 		} else if(!player.isSneaking()) {

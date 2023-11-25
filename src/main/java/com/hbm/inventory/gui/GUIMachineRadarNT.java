@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -22,13 +23,16 @@ import net.minecraft.util.Vec3;
 
 public class GUIMachineRadarNT extends GuiScreen {
 	
-	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_radar_nt.png");
+	public static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_radar_nt.png");
 	
 	protected TileEntityMachineRadarNT radar;
 	protected int xSize = 216;
 	protected int ySize = 234;
 	protected int guiLeft;
 	protected int guiTop;
+
+	public int lastMouseX;
+	public int lastMouseY;
 	
 	public GUIMachineRadarNT(TileEntityMachineRadarNT tile) {
 		this.radar = tile;
@@ -71,6 +75,9 @@ public class GUIMachineRadarNT extends GuiScreen {
 		GL11.glDisable(GL11.GL_LIGHTING);
 		this.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		GL11.glEnable(GL11.GL_LIGHTING);
+
+		this.lastMouseX = mouseX;
+		this.lastMouseY = mouseY;
 	}
 
 	private void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
@@ -98,6 +105,12 @@ public class GUIMachineRadarNT extends GuiScreen {
 					return;
 				}
 			}
+		}
+
+		if(checkClick(mouseX, mouseY, 8, 17, 200, 200)) {
+			int tX = (int) ((lastMouseX - guiLeft - 108) * ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) / 192D + radar.xCoord);
+			int tZ = (int) ((lastMouseY - guiTop - 117) * ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) / 192D + radar.zCoord);
+			this.func_146283_a(Arrays.asList(tX + " / " + tZ), lastMouseX, lastMouseY);
 		}
 	}
 
@@ -206,6 +219,37 @@ public class GUIMachineRadarNT extends GuiScreen {
 	protected void keyTyped(char c, int key) {
 		if(key == 1 || key == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
 			this.mc.thePlayer.closeScreen();
+		}
+
+		if(checkClick(lastMouseX, lastMouseY, 8, 17, 200, 200) && c >= '1' && c <= '8') {
+			
+			int id = c - '1';
+			
+			if(radar.slots[id] != null && radar.slots[id].getItem() == ModItems.radar_linker) {
+	
+				if(!radar.entries.isEmpty()) {
+					for(RadarEntry m : radar.entries) {
+						int x = guiLeft + (int)((m.posX - radar.xCoord) / ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) * (200D - 8D)) + 108;
+						int z = guiTop + (int)((m.posZ - radar.zCoord) / ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) * (200D - 8D)) + 117;
+						
+						if(lastMouseX + 5 > x && lastMouseX - 4 <= x && lastMouseY + 5 > z && lastMouseY - 4 <= z) {
+							NBTTagCompound data = new NBTTagCompound();
+							data.setInteger("launchEntity", m.entityID);
+							data.setInteger("link", id);
+							PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, radar.xCoord, radar.yCoord, radar.zCoord));
+							return;
+						}
+					}
+				}
+
+				int tX = (int) ((lastMouseX - guiLeft - 108) * ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) / 192D + radar.xCoord);
+				int tZ = (int) ((lastMouseY - guiTop - 117) * ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) / 192D + radar.zCoord);
+				NBTTagCompound data = new NBTTagCompound();
+				data.setInteger("launchPosX", tX);
+				data.setInteger("launchPosZ", tZ);
+				data.setInteger("link", id);
+				PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, radar.xCoord, radar.yCoord, radar.zCoord));
+			}
 		}
 	}
 	
