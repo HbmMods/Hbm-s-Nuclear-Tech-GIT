@@ -79,6 +79,8 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 					this.aimAtTarget();
 				}
 			}
+
+			loadNeighboringChunks((int) Math.floor(posX / 16), (int) Math.floor(posZ / 16));
 			
 			if(this.posY > 2000 && (this.tracking == null || this.tracking.isDead)) this.setDead();
 			
@@ -195,8 +197,7 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 			clearChunkLoader();
 
 			loadedChunks.clear();
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
-			//loadedChunks.add(new ChunkCoordIntPair(newChunkX + (int) Math.floor((this.posX + this.motionX * this.motionMult()) / 16D), newChunkZ + (int) Math.floor((this.posZ + this.motionZ * this.motionMult()) / 16D)));
+			for(int i = -1; i <= 1; i++) for(int j = -1; j <= 1; j++) loadedChunks.add(new ChunkCoordIntPair(newChunkX + i, newChunkZ + j));
 
 			for(ChunkCoordIntPair chunk : loadedChunks) {
 				ForgeChunkManager.forceChunk(loaderTicket, chunk);

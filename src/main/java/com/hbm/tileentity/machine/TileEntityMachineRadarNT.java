@@ -14,12 +14,16 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineRadarNT;
 import com.hbm.inventory.gui.GUIMachineRadarNT;
 import com.hbm.inventory.gui.GUIMachineRadarNTSlots;
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemCoordinateBase;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Triplet;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.entity.IRadarDetectable;
@@ -36,7 +40,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -164,8 +170,27 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 				}
 			}
 			
+			if(slots[8] != null && slots[8].getItem() == ModItems.radar_linker) {
+				BlockPos pos = ItemCoordinateBase.getPosition(slots[8]);
+				if(pos != null) {
+					TileEntity tile = worldObj.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
+					if(tile instanceof TileEntityMachineRadarScreen) {
+						TileEntityMachineRadarScreen screen = (TileEntityMachineRadarScreen) tile;
+						screen.entries.clear();
+						screen.entries.addAll(this.entries);
+						screen.refX = xCoord;
+						screen.refY = yCoord;
+						screen.refZ = zCoord;
+						screen.linked = true;
+					}
+				}
+			}
+			
 			this.networkPackNT(50);
-			if(this.clearFlag) this.clearFlag = false;
+			if(this.clearFlag) {
+				this.map = new byte[40_000];
+				this.clearFlag = false;
+			}
 		} else {
 			prevRotation = rotation;
 			if(power > 0) rotation += 5F;
@@ -373,6 +398,37 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		if(data.hasKey("clear")) this.clearFlag = true;
 
 		if(data.hasKey("gui1")) FMLNetworkHandler.openGui(player, MainRegistry.instance, 1, worldObj, xCoord, yCoord, zCoord);
+		
+		if(data.hasKey("link")) {
+			int id = data.getInteger("link");
+			ItemStack link = slots[id];
+			
+			if(link != null && link.getItem() == ModItems.radar_linker) {
+				BlockPos pos = ItemCoordinateBase.getPosition(link);
+				
+				if(pos != null) {
+					TileEntity tile = worldObj.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
+					if(tile instanceof IRadarCommandReceiver) {
+						IRadarCommandReceiver rec = (IRadarCommandReceiver) tile;
+						
+						if(data.hasKey("launchEntity")) {
+							Entity entity = worldObj.getEntityByID(data.getInteger("launchEntity"));
+							if(entity != null) {
+								if(rec.sendCommandEntity(entity)) {
+									worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+								}
+							}
+						} else if(data.hasKey("launchPosX")) {
+							int x = data.getInteger("launchPosX");
+							int z = data.getInteger("launchPosZ");
+							if(rec.sendCommandPosition(x, yCoord, z)) {
+								worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	AxisAlignedBB bb = null;
@@ -398,6 +454,15 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
+			return false;
+		} else {
+			return player.getDistance(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 128;
+		}
 	}
 
 	@Override
