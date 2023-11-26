@@ -34,6 +34,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -109,6 +110,8 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	@Override
 	public void updateEntity() {
 		
+		if(this.map == null || this.map.length != 40_000) this.map = new byte[40_000];
+		
 		if(!worldObj.isRemote) {
 
 			if(worldObj.getTotalWorldTime() % 20 == 0) this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
@@ -117,7 +120,10 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			this.jammed = false;
 			allocateTargets();
 			
-			if(this.lastPower != getRedPower()) worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
+			if(this.lastPower != getRedPower()) {
+				this.markDirty();
+			}
+			lastPower = getRedPower();
 			
 			if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) != ModBlocks.muffler) {
 				
@@ -130,7 +136,6 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			}
 			
 			if(this.showMap) {
-				int chunkLoadCap = 5;
 				int chunkLoads = 0;
 				for(int i = 0; i < 100; i++) {
 					int index = (int) (worldObj.getTotalWorldTime() % 400) * 100 + i;
@@ -141,18 +146,18 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 					int z = zCoord - radarRange + iZ;
 					
 					if(worldObj.getChunkProvider().chunkExists(x >> 4, z >> 4)) {
-						this.map[index] = (byte) worldObj.getHeightValue(x, z);
+						this.map[index] = (byte) MathHelper.clamp_int(worldObj.getHeightValue(x, z), 50, 128);
 					} else {
 						if(this.map[index] == 0 && chunkLoads < chunkLoadCap) {
 							worldObj.getChunkFromChunkCoords(x >> 4, z >> 4);
-							this.map[index] = (byte) worldObj.getHeightValue(x, z);
+							this.map[index] = (byte) MathHelper.clamp_int(worldObj.getHeightValue(x, z), 50, 128);
 							chunkLoads++;
 						}
 					}
 				}
 			}
 			
-			this.networkPackNT(25);
+			this.networkPackNT(50);
 		} else {
 			prevRotation = rotation;
 			if(power > 0) rotation += 5F;
@@ -212,12 +217,38 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			}
 		}
 	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.power = nbt.getLong("power");
+		this.scanMissiles = nbt.getBoolean("scanMissiles");
+		this.scanShells = nbt.getBoolean("scanShells");
+		this.scanPlayers = nbt.getBoolean("scanPlayers");
+		this.smartMode = nbt.getBoolean("smartMode");
+		this.redMode = nbt.getBoolean("redMode");
+		this.showMap = nbt.getBoolean("showMap");
+		if(nbt.hasKey("map")) this.map = nbt.getByteArray("map");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setLong("power", power);
+		nbt.setBoolean("scanMissiles", scanMissiles);
+		nbt.setBoolean("scanShells", scanShells);
+		nbt.setBoolean("scanPlayers", scanPlayers);
+		nbt.setBoolean("smartMode", smartMode);
+		nbt.setBoolean("redMode", redMode);
+		nbt.setBoolean("showMap", showMap);
+		nbt.setByteArray("map", map);
+	}
 	
 	protected void allocateTargets() {
 		this.entries.clear();
 		
 		if(this.yCoord < radarAltitude) return;
-		if(this.power <= consumption) return;
+		if(this.power < consumption) return;
 		this.power -= consumption;
 		
 		int scan = this.scanRange();

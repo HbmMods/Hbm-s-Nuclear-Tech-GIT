@@ -110,7 +110,7 @@ public class ItemFluidDuct extends Item {
 				++x;
 			}
 
-			if(!world.isAirBlock(x, y, z)) {
+			if(!world.getBlock(x, y, z).isReplaceable(world, x, y, z)) {
 				return false;
 			}
 		}

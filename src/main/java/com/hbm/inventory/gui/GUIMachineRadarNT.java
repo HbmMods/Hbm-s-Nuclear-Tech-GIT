@@ -103,12 +103,19 @@ public class GUIMachineRadarNT extends GuiScreen {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		drawTexturedModalRect(guiLeft - 14, guiTop + 84, 224, 0, 14, 66);
 		
+		if(radar.power > 0) {
+			int i = (int) (radar.power * 200 / radar.maxPower);
+			drawTexturedModalRect(guiLeft + 8, guiTop + 221, 0, 234, i, 16);
+		}
+		
 		if(radar.scanMissiles ^ (radar.jammed && radar.getWorldObj().rand.nextBoolean())) drawTexturedModalRect(guiLeft - 10, guiTop + 88, 238, 4, 8, 8);
 		if(radar.scanShells ^ (radar.jammed && radar.getWorldObj().rand.nextBoolean())) drawTexturedModalRect(guiLeft - 10, guiTop + 98, 238, 14, 8, 8);
 		if(radar.scanPlayers ^ (radar.jammed && radar.getWorldObj().rand.nextBoolean())) drawTexturedModalRect(guiLeft - 10, guiTop + 108, 238, 24, 8, 8);
 		if(radar.smartMode ^ (radar.jammed && radar.getWorldObj().rand.nextBoolean())) drawTexturedModalRect(guiLeft - 10, guiTop + 118, 238, 34, 8, 8);
 		if(radar.redMode ^ (radar.jammed && radar.getWorldObj().rand.nextBoolean())) drawTexturedModalRect(guiLeft - 10, guiTop + 128, 238, 44, 8, 8);
 		if(radar.showMap ^ (radar.jammed && radar.getWorldObj().rand.nextBoolean())) drawTexturedModalRect(guiLeft - 10, guiTop + 138, 238, 54, 8, 8);
+		
+		if(radar.power < radar.consumption) return;
 		
 		if(radar.jammed) {
 			for(int i = 0; i < 5; i++) {
@@ -128,7 +135,7 @@ public class GUIMachineRadarNT extends GuiScreen {
 				int iZ = i / 200;
 				byte b = radar.map[i];
 				if(b > 0) {
-					int color = ((b * 8) % 256) << 8;
+					int color = ((b - 50) * 255 / 78) << 8;
 					tess.setColorOpaque_I(color);
 					tess.addVertex(guiLeft + 8 + iX,	guiTop + 18 + iZ,	this.zLevel);
 					tess.addVertex(guiLeft + 9 + iX,	guiTop + 18 + iZ,	this.zLevel);
@@ -143,7 +150,7 @@ public class GUIMachineRadarNT extends GuiScreen {
 		Vec3 tr = Vec3.createVectorHelper(100, 0, 0);
 		Vec3 tl = Vec3.createVectorHelper(100, 0, 0);
 		Vec3 bl = Vec3.createVectorHelper(0, -5, 0);
-		float rot = -(radar.getWorldObj().getTotalWorldTime() + f) / 20F % (float) (Math.PI * 2);
+		float rot = (float) -Math.toRadians(radar.prevRotation + (radar.rotation - radar.prevRotation) * f + 180F);
 		tr.rotateAroundZ(rot);
 		tl.rotateAroundZ(rot + 0.25F);
 		bl.rotateAroundZ(rot);
