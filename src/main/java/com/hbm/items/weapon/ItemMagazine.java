@@ -110,6 +110,7 @@ public class ItemMagazine extends ItemEnumMulti
 				return magazine;
 			switch (magazineMode)
 			{
+				default:
 				case FAST:
 				{
 					final int[] stack = magazine.stackTagCompound.getIntArray(STACK_KEY);
@@ -160,7 +161,6 @@ public class ItemMagazine extends ItemEnumMulti
 					}
 					break;
 				}
-				default: break;
 			}
 			return magazine;
 		} else// Standard load behavior
