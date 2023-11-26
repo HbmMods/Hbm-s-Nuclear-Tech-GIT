@@ -1,5 +1,6 @@
  package com.hbm.main;
 
+import com.hbm.render.item.block.door.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -458,8 +459,13 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.chainsaw, new ItemRenderChainsaw());
 		MinecraftForgeClient.registerItemRenderer(ModItems.boltgun, new ItemRenderBoltgun());
 		// 1.12.2 Doors
-		ItemRenderSlidingSealDoor door = new ItemRenderSlidingSealDoor();
-		MinecraftForgeClient.registerItemRenderer(door.getItemForRenderer(), door.getRenderer());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.sliding_seal_door), new ItemRenderSlidingSealDoor());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.water_door), new ItemRenderWaterDoor());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.secure_access_door), new ItemRenderSecureAccessDoor());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.round_airlock_door), new ItemRenderRoundAirlockDoor());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.qe_sliding_door), new ItemRenderQeSlidingDoor());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.qe_containment), new ItemRenderQeContainment());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.large_vehicle_door), new ItemRenderLargeVehicleDoor());
 		//guns
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg, new ItemRenderRpg());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_karl, new ItemRenderRpg());
