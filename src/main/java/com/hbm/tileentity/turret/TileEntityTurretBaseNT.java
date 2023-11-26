@@ -7,7 +7,7 @@ import java.util.function.BiFunction;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.logic.EntityBomber;
-import com.hbm.entity.missile.EntityMissileBaseAdvanced;
+import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.missile.EntitySiegeDropship;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
@@ -642,7 +642,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		
 		if(targetMachines) {
 
-			if(e instanceof EntityMissileBaseAdvanced) return true;
+			if(e instanceof EntityMissileBaseNT) return true;
 			if(e instanceof EntityMissileCustom) return true;
 			if(e instanceof EntityMinecart) return true;
 			if(e instanceof EntityRailCarBase) return true;

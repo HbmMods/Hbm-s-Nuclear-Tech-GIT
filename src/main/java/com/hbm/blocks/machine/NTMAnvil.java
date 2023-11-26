@@ -197,17 +197,10 @@ public class NTMAnvil extends BlockFallingNT implements ITooltipProvider, IGUIPr
 	@SideOnly(Side.CLIENT)
 	public void overrideRenderer(EntityFallingBlockNT falling, RenderBlocks renderBlocks, Tessellator tessellator) {
 
-		World world = falling.worldObj;
 		float rotation = 0;
-
-		if(falling.getMeta() == 2)
-			rotation = 90F / 180F * (float) Math.PI;
-
-		if(falling.getMeta() == 3)
-			rotation = 270F / 180F * (float) Math.PI;
-
-		if(falling.getMeta() == 4)
-			rotation = 180F / 180F * (float)Math.PI;
+		if(falling.getMeta() == 2) rotation = 90F / 180F * (float) Math.PI;
+		if(falling.getMeta() == 3) rotation = 270F / 180F * (float) Math.PI;
+		if(falling.getMeta() == 4) rotation = 180F / 180F * (float)Math.PI;
 
 		tessellator.addTranslation(0F, -0.5F, 0F);
 		ObjUtil.renderPartWithIcon((WavefrontObject) ResourceManager.anvil, "Top", getIcon(1, 0), tessellator, rotation, true);

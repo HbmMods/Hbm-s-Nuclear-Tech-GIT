@@ -5,12 +5,20 @@ import java.util.Arrays;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.NBTControlPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
+import api.hbm.entity.RadarEntry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 
 public class GUIMachineRadarNT extends GuiScreen {
 	
@@ -34,6 +42,27 @@ public class GUIMachineRadarNT extends GuiScreen {
 	}
 
 	@Override
+	protected void mouseClicked(int x, int y, int i) {
+		super.mouseClicked(x, y, i);
+		
+		String cmd = null;
+
+		if(checkClick(x, y, -10, 88, 8, 8)) cmd = "missiles";
+		if(checkClick(x, y, -10, 98, 8, 8)) cmd = "shells";
+		if(checkClick(x, y, -10, 108, 8, 8)) cmd = "players";
+		if(checkClick(x, y, -10, 118, 8, 8)) cmd = "smart";
+		if(checkClick(x, y, -10, 128, 8, 8)) cmd = "red";
+		if(checkClick(x, y, -10, 138, 8, 8)) cmd = "map";
+		
+		if(cmd != null) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			NBTTagCompound data = new NBTTagCompound();
+			data.setBoolean(cmd, true);
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, radar.xCoord, radar.yCoord, radar.zCoord));
+		}
+	}
+
+	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		this.drawDefaultBackground();
 		this.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
@@ -42,22 +71,143 @@ public class GUIMachineRadarNT extends GuiScreen {
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 
-	private void drawGuiContainerForegroundLayer(int x, int y) {
-		if(checkClick(x, y, -10, 88, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.detectMissiles")), x, y);
-		if(checkClick(x, y, -10, 98, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.detectShells")), x, y);
-		if(checkClick(x, y, -10, 108, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.detectPlayers")), x, y);
-		if(checkClick(x, y, -10, 118, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.smartMode")), x, y);
-		if(checkClick(x, y, -10, 128, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.redMode")), x, y);
-		if(checkClick(x, y, -10, 138, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.showMap")), x, y);
+	private void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+
+		if(checkClick(mouseX, mouseY, 8, 221, 200, 7)) this.func_146283_a(Arrays.asList(BobMathUtil.getShortNumber(radar.power) + "/" + BobMathUtil.getShortNumber(radar.maxPower) + "HE"), mouseX, mouseY);
+		
+		if(checkClick(mouseX, mouseY, -10, 88, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.detectMissiles")), mouseX, mouseY);
+		if(checkClick(mouseX, mouseY, -10, 98, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.detectShells")), mouseX, mouseY);
+		if(checkClick(mouseX, mouseY, -10, 108, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.detectPlayers")), mouseX, mouseY);
+		if(checkClick(mouseX, mouseY, -10, 118, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.smartMode")), mouseX, mouseY);
+		if(checkClick(mouseX, mouseY, -10, 128, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.redMode")), mouseX, mouseY);
+		if(checkClick(mouseX, mouseY, -10, 138, 8, 8)) this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.showMap")), mouseX, mouseY);
+
+		if(!radar.entries.isEmpty()) {
+			for(RadarEntry m : radar.entries) {
+				int x = guiLeft + (int)((m.posX - radar.xCoord) / ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) * (200D - 8D)) + 108;
+				int z = guiTop + (int)((m.posZ - radar.zCoord) / ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) * (200D - 8D)) + 117;
+				
+				if(mouseX + 5 > x && mouseX - 4 <= x && mouseY + 5 > z && mouseY - 4 <= z) {
+
+					String[] text = new String[] { I18nUtil.resolveKey(m.unlocalizedName), m.posX + " / " + m.posZ, "Alt.: " + m.posY };
+					this.func_146283_a(Arrays.asList(text), x, z);
+					return;
+				}
+			}
+		}
 	}
 
 	private void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		drawTexturedModalRect(guiLeft - 14, guiTop + 84, 224, 0, 14, 66);
+		
+		if(radar.scanMissiles ^ (radar.jammed && radar.getWorldObj().rand.nextBoolean())) drawTexturedModalRect(guiLeft - 10, guiTop + 88, 238, 4, 8, 8);
+		if(radar.scanShells ^ (radar.jammed && radar.getWorldObj().rand.nextBoolean())) drawTexturedModalRect(guiLeft - 10, guiTop + 98, 238, 14, 8, 8);
+		if(radar.scanPlayers ^ (radar.jammed && radar.getWorldObj().rand.nextBoolean())) drawTexturedModalRect(guiLeft - 10, guiTop + 108, 238, 24, 8, 8);
+		if(radar.smartMode ^ (radar.jammed && radar.getWorldObj().rand.nextBoolean())) drawTexturedModalRect(guiLeft - 10, guiTop + 118, 238, 34, 8, 8);
+		if(radar.redMode ^ (radar.jammed && radar.getWorldObj().rand.nextBoolean())) drawTexturedModalRect(guiLeft - 10, guiTop + 128, 238, 44, 8, 8);
+		if(radar.showMap ^ (radar.jammed && radar.getWorldObj().rand.nextBoolean())) drawTexturedModalRect(guiLeft - 10, guiTop + 138, 238, 54, 8, 8);
+		
+		if(radar.jammed) {
+			for(int i = 0; i < 5; i++) {
+				for(int j = 0; j < 5; j++) {
+					drawTexturedModalRect(guiLeft + 8 + i * 40, guiTop + 17 + j * 40, 216, 118 + radar.getWorldObj().rand.nextInt(81), 40, 40);
+				}
+			}
+			return;
+		}
+		
+		if(radar.showMap) {
+			Tessellator tess = Tessellator.instance;
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			tess.startDrawingQuads();
+			for(int i = 0; i < 40_000; i++) {
+				int iX = i % 200;
+				int iZ = i / 200;
+				byte b = radar.map[i];
+				if(b > 0) {
+					int color = ((b * 8) % 256) << 8;
+					tess.setColorOpaque_I(color);
+					tess.addVertex(guiLeft + 8 + iX,	guiTop + 18 + iZ,	this.zLevel);
+					tess.addVertex(guiLeft + 9 + iX,	guiTop + 18 + iZ,	this.zLevel);
+					tess.addVertex(guiLeft + 9 + iX,	guiTop + 17 + iZ,	this.zLevel);
+					tess.addVertex(guiLeft + 8 + iX,	guiTop + 17 + iZ,	this.zLevel);
+				}
+			}
+			tess.draw();
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+		}
+
+		Vec3 tr = Vec3.createVectorHelper(100, 0, 0);
+		Vec3 tl = Vec3.createVectorHelper(100, 0, 0);
+		Vec3 bl = Vec3.createVectorHelper(0, -5, 0);
+		float rot = -(radar.getWorldObj().getTotalWorldTime() + f) / 20F % (float) (Math.PI * 2);
+		tr.rotateAroundZ(rot);
+		tl.rotateAroundZ(rot + 0.25F);
+		bl.rotateAroundZ(rot);
+		
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawingQuads();
+		tess.setColorRGBA_I(0x00ff00, 0);	tess.addVertex(guiLeft + 108,				guiTop + 117,				this.zLevel);
+		tess.setColorRGBA_I(0x00ff00, 255);	tess.addVertex(guiLeft + 108 + tr.xCoord,	guiTop + 117 + tr.yCoord,	this.zLevel);
+		tess.setColorRGBA_I(0x00ff00, 0);	tess.addVertex(guiLeft + 108 + tl.xCoord,	guiTop + 117 + tl.yCoord,	this.zLevel);
+		tess.setColorRGBA_I(0x00ff00, 0);	tess.addVertex(guiLeft + 108 + bl.xCoord,	guiTop + 117 + bl.yCoord,	this.zLevel);
+		tess.draw();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		if(!radar.entries.isEmpty()) {
+			for(RadarEntry m : radar.entries) {
+				double x = (m.posX - radar.xCoord) / ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) * (200D - 8D) - 4D;
+				double z = (m.posZ - radar.zCoord) / ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) * (200D - 8D) - 4D;
+				int t = m.blipLevel;
+				drawTexturedModalRectDouble(guiLeft + 108 + x, guiTop + 117 + z, 216, 8 * t, 8, 8);
+			}
+		}
+	}
+	
+	public void drawTexturedModalRectDouble(double x, double y, int sourceX, int sourceY, int sizeX, int sizeY) {
+		float f = 0.00390625F;
+		float f1 = 0.00390625F;
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		tessellator.addVertexWithUV(x,			y + sizeY,	this.zLevel,	(sourceX + 0) * f,		(sourceY + sizeY) * f1);
+		tessellator.addVertexWithUV(x + sizeX,	y + sizeY,	this.zLevel,	(sourceX + sizeX) * f,	(sourceY + sizeY) * f1);
+		tessellator.addVertexWithUV(x + sizeX,	y,			this.zLevel,	(sourceX + sizeX) * f,	(sourceY + 0) * f1);
+		tessellator.addVertexWithUV(x,			y,			this.zLevel,	(sourceX + 0) * f,		(sourceY + 0) * f1);
+		tessellator.draw();
 	}
 	
 	protected boolean checkClick(int x, int y, int left, int top, int sizeX, int sizeY) {
 		return guiLeft + left <= x && guiLeft + left + sizeX > x && guiTop + top < y && guiTop + top + sizeY >= y;
+	}
+	
+	@Override
+	protected void keyTyped(char c, int key) {
+		if(key == 1 || key == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
+			this.mc.thePlayer.closeScreen();
+		}
+	}
+	
+	@Override
+	public boolean doesGuiPauseGame() {
+		return false;
+	}
+
+	@Override
+	public void updateScreen() {
+		super.updateScreen();
+
+		if(!this.mc.thePlayer.isEntityAlive() || this.mc.thePlayer.isDead) {
+			this.mc.thePlayer.closeScreen();
+		}
 	}
 }
