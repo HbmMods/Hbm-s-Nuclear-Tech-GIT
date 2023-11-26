@@ -29,13 +29,14 @@ public class ItemCryoCannon extends ItemGunBase {
 		if(getPressure(stack) >= 1000) return;
 		if(getTurbine(stack) < 100) return;
 
-		BulletConfiguration config = null;
+		final int bulletID = mainConfig.reloadType == GunConfiguration.RELOAD_NONE ? getBeltID(player, mainConfig) : mainConfig.config.get(getMagType(stack, false, true));
+		final BulletConfiguration config = BulletConfigSyncingUtil.pullConfig(bulletID);
 		
-		if(mainConfig.reloadType == GunConfiguration.RELOAD_NONE) {
-			config = getBeltCfg(player, stack, true);
-		} else {
-			config = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack, false, true)));
-		}
+//		if(mainConfig.reloadType == GunConfiguration.RELOAD_NONE) {
+//			config = getBeltCfg(player, stack, true);
+//		} else {
+//			config = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack, false, true)));
+//		}
 		
 		int bullets = config.bulletsMin;
 		
@@ -48,7 +49,7 @@ public class ItemCryoCannon extends ItemGunBase {
 				bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);
 			
 			for(int i = 0; i < bullets; i++) {
-				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
+				spawnProjectile(world, player, stack, bulletID);
 			}
 			
 			useUpAmmo(player, stack, true);

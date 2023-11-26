@@ -129,7 +129,7 @@ public class ItemEnergyGunBase extends ItemGunBase implements IBatteryItem {
 				bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);
 			
 			for(int i = 0; i < bullets; i++) {
-				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
+				spawnProjectile(world, player, stack, stack.hasTagCompound() ? stack.stackTagCompound.getByte("mode") : 0);
 			}
 			
 			setCharge(stack, getCharge(stack) - config.dischargePerShot);;

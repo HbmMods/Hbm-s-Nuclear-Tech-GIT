@@ -90,9 +90,9 @@ public enum EnumMagazine
 //	BOLTER				(30, false, b75);
 	
 	/*
-	 * Duplicates not an issue but not recommended (for obvious reasons), order important.
+	 * Duplicates not an issue but not recommended (for obvious reasons), order important, like with the main gun configurations.
 	 * Performance difference between sets likely marginal with generally small config sizes.
-	 * Empty lists not recommended.
+	 * Empty lists not recommended, but possible.
 	 */
 	public final IntList bullets;
 	public final short capacity;

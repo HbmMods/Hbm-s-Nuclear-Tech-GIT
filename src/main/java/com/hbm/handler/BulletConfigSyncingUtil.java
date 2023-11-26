@@ -608,15 +608,13 @@ public class BulletConfigSyncingUtil {
 
 		// Could make it a BiMap or have an additional map with reverse key-value, but I think that'd be overkill
 		// since this method isn't used that much anyway
-		if (configSet.containsValue(config))
+		final Iterator<IntObjectPair<BulletConfiguration>> iterator = configSet.keyValuesView().iterator();
+		while (iterator.hasNext())
 		{
-			final Iterator<IntObjectPair<BulletConfiguration>> iterator = configSet.keyValuesView().iterator();
-			while (iterator.hasNext())
-			{
-				final IntObjectPair<BulletConfiguration> entry = iterator.next();
-				if (Objects.equals(config, entry.getTwo()))
-					return entry.getOne();
-			}
+			final IntObjectPair<BulletConfiguration> entry = iterator.next();
+			if (Objects.equals(config, entry.getTwo()))
+				return entry.getOne();
+		}
 //			final IntIterator iterator = configSet.keySet().intIterator();
 //			while (iterator.hasNext())
 //			{
@@ -624,7 +622,6 @@ public class BulletConfigSyncingUtil {
 //				if (Objects.equals(config, configSet.get(key)))
 //					return key;
 //			}
-		}
 		
 //		if (configSet.containsValue(config))
 //		{

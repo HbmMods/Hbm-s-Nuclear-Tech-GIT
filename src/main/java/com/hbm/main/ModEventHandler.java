@@ -826,11 +826,11 @@ public class ModEventHandler {
 			if(servo != null && servo.getItem() == ModItems.ballistic_gauntlet) {
 				
 				BulletConfiguration firedConfig = null;
-
+				int config = HbmCollection.g12.getFirst();
 //				for(Integer config : HbmCollection.g12.toArray()) {
 				for (int i = 0; i < HbmCollection.g12.size(); i++)
 				{
-					final int config = HbmCollection.g12.get(i);
+					config = HbmCollection.g12.get(i);
 					BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
 					
 					if(InventoryUtil.doesPlayerHaveAStack(player, cfg.ammo, true, true)) {
@@ -847,7 +847,7 @@ public class ModEventHandler {
 					}
 					
 					for(int i = 0; i < bullets; i++) {
-						EntityBulletBaseNT bullet = new EntityBulletBaseNT(player.worldObj, BulletConfigSyncingUtil.getKey(firedConfig), player);
+						EntityBulletBaseNT bullet = new EntityBulletBaseNT(player.worldObj, config, player);
 						player.worldObj.spawnEntityInWorld(bullet);
 					}
 					
