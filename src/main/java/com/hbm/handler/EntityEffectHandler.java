@@ -35,6 +35,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -159,7 +160,7 @@ public class EntityEffectHandler {
 			
 			if(HbmLivingProps.getRadiation(entity) > 600) {
 				
-				if((world.getTotalWorldTime() + r600) % 600 < 20) {
+				if((world.getTotalWorldTime() + r600) % 600 < 20 && canVomit(entity)) {
 					NBTTagCompound nbt = new NBTTagCompound();
 					nbt.setString("type", "vomit");
 					nbt.setString("mode", "blood");
@@ -173,7 +174,7 @@ public class EntityEffectHandler {
 					}
 				}
 				
-			} else if(HbmLivingProps.getRadiation(entity) > 200 && (world.getTotalWorldTime() + r1200) % 1200 < 20) {
+			} else if(HbmLivingProps.getRadiation(entity) > 200 && (world.getTotalWorldTime() + r1200) % 1200 < 20 && canVomit(entity)) {
 				
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("type", "vomit");
@@ -329,7 +330,7 @@ public class EntityEffectHandler {
 					entity.attackEntityFrom(ModDamageSource.mku, 2F);
 				}
 				
-				if(contagion < 30 * minute && (contagion + entity.getEntityId()) % 200 < 20) {
+				if(contagion < 30 * minute && (contagion + entity.getEntityId()) % 200 < 20 && canVomit(entity)) {
 					NBTTagCompound nbt = new NBTTagCompound();
 					nbt.setString("type", "vomit");
 					nbt.setString("mode", "blood");
@@ -632,5 +633,10 @@ public class EntityEffectHandler {
 			if(props.plinkCooldown > 0)
 				props.plinkCooldown--;
 		}
+	}
+	
+	private static boolean canVomit(Entity e) {
+		if(e.isCreatureType(EnumCreatureType.waterCreature, false)) return false;
+		return true;
 	}
 }

@@ -1,7 +1,6 @@
 package com.hbm.main;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -13,12 +12,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
-import com.hbm.blocks.rail.IRailNTM;
-import com.hbm.blocks.rail.IRailNTM.MoveContext;
-import com.hbm.blocks.rail.IRailNTM.RailCheckType;
-import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.config.GeneralConfig;
-import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.entity.train.EntityRailCarRidable;
@@ -70,7 +64,6 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
-import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
@@ -147,10 +140,38 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public class ModEventHandlerClient {
 	
+	public static final int flashDuration = 5_000;
+	public static long flashTimestamp;
+	
 	@SubscribeEvent
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
+		/// NUKE FLASH ///
+		if(event.type == ElementType.CROSSHAIRS && (flashTimestamp + flashDuration - System.currentTimeMillis()) > 0) {
+			int width = event.resolution.getScaledWidth();
+			int height = event.resolution.getScaledHeight();
+			Tessellator tess = Tessellator.instance;
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.0F);
+			GL11.glDepthMask(false);
+			tess.startDrawingQuads();
+			float brightness = (flashTimestamp + flashDuration - System.currentTimeMillis()) / (float) flashDuration;
+			tess.setColorRGBA_F(1F, 1F, 1F, brightness * 0.8F);
+			tess.addVertex(width, 0, 0);
+			tess.addVertex(0, 0, 0);
+			tess.addVertex(0, height, 0);
+			tess.addVertex(width, height, 0);
+			tess.draw();
+			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+			GL11.glDepthMask(true);
+			return;
+		}
 		
 		/// HANDLE GUN OVERLAYS ///
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemHUD) {
@@ -194,18 +215,6 @@ public class ModEventHandlerClient {
 						((ILookOverlay) entity).printHook(event, world, 0, 0, 0);
 					}
 				}
-			}
-			
-			List<EntityNukeTorex> torex = world.getEntitiesWithinAABB(EntityNukeTorex.class, player.boundingBox.expand(100, 100, 100));
-			
-			if(!torex.isEmpty()) {
-				EntityNukeTorex t = torex.get(0);
-				List<String> text = new ArrayList();
-				text.add("Speed: " + t.getSimulationSpeed());
-				text.add("Alpha: " + t.getAlpha());
-				text.add("Age: " + t.ticksExisted + " / " + t.getMaxAge());
-				text.add("Clouds: " + t.cloudlets.size());
-				ILookOverlay.printGeneric(event, "DEBUG", 0xff0000, 0x4040000, text);
 			}
 			
 			/*List<String> text = new ArrayList();
@@ -708,9 +717,8 @@ public class ModEventHandlerClient {
 				}
 			} else {
 				
-				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
-						EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
-						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display protection info");
+				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + I18nUtil.resolveKey("tooltip.show" ,
+						EnumChatFormatting.YELLOW +"" + EnumChatFormatting.ITALIC + "LSHIFT"));
 			}
 		}
 		
@@ -724,13 +732,12 @@ public class ModEventHandlerClient {
 			
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && !(Minecraft.getMinecraft().currentScreen instanceof GUIArmorTable)) {
 				
-				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
-						EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
-						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display installed armor mods");
+				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + I18nUtil.resolveKey("tooltip.armormodsshow" ,
+						EnumChatFormatting.YELLOW +"" + EnumChatFormatting.ITALIC + "LSHIFT" ));
 				
 			} else {
 				
-				list.add(EnumChatFormatting.YELLOW + "Mods:");
+				list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("tooltip.armormods"));
 				
 				ItemStack[] mods = ArmorModHandler.pryMods(stack);
 				
@@ -751,12 +758,12 @@ public class ModEventHandlerClient {
 			List<String> names = ItemStackUtil.getOreDictNames(stack);
 			
 			if(names.size() > 0) {
-				list.add(EnumChatFormatting.BLUE + "Ore Dict:");
+				list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("tooltip.oredict"));
 				for(String s : names) {
 					list.add(EnumChatFormatting.AQUA + " -" + s);
 				}
 			} else {
-				list.add(EnumChatFormatting.RED + "No Ore Dict data!");
+				list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("tooltip.oredict.null"));
 			}
 		}
 		
@@ -777,10 +784,10 @@ public class ModEventHandlerClient {
 				list.add("");
 			
 			if(entry.entry == EnumEntryType.ADD)
-				list.add(EnumChatFormatting.GOLD + "Adds " + entry.value + " to the custom nuke stage " + entry.type);
+				list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("tooltip.customnuke",entry.value,entry.type));
 
 			if(entry.entry == EnumEntryType.MULT)
-				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
+				list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("tooltip.customnukemultiplier",entry.value ,entry.type));
 		}
 		
 		try {
@@ -942,6 +949,25 @@ public class ModEventHandlerClient {
 						
 					} catch(Exception ex) { }
 				}
+			}
+		}
+		
+		if(event.phase == Phase.START) {
+			EntityPlayer player = mc.thePlayer;
+			
+			float discriminator = 0.003F;
+			float defaultStepSize = 0.5F;
+			int newStepSize = 0;
+			
+			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB) {
+				ArmorFSB plate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
+				if(plate.hasFSBArmor(player)) newStepSize = plate.stepSize;
+			}
+			
+			if(newStepSize > 0) {
+				player.stepHeight = newStepSize + discriminator;
+			} else {
+				for(int i = 1; i < 4; i++) if(player.stepHeight == i + discriminator) player.stepHeight = defaultStepSize;
 			}
 		}
 	}
@@ -1263,7 +1289,7 @@ public class ModEventHandlerClient {
 			case 0: main.splashText = "Floppenheimer!"; break;
 			case 1: main.splashText = "i should dip my balls in sulfuric acid"; break;
 			case 2: main.splashText = "All answers are popbob!"; break;
-			case 3: main.splashText = "None shall enter The Orb!"; break;
+			case 3: main.splashText = "None may enter The Orb!"; break;
 			case 4: main.splashText = "Wacarb was here"; break;
 			case 5: main.splashText = "SpongeBoy me Bob I am overdosing on keramine agagagagaga"; break;
 			case 6: main.splashText = EnumChatFormatting.RED + "I know where you live, " + System.getProperty("user.name"); break;
@@ -1272,10 +1298,10 @@ public class ModEventHandlerClient {
 			case 9: main.splashText = "There are bugs under your skin!"; break;
 			case 10: main.splashText = "Fentanyl!"; break;
 			case 11: main.splashText = "Do drugs!"; break;
-			//case 12: main.splashText = "post this on r/feedthememes for free internet points!"; break;
+			case 12: main.splashText = "Imagine being scared by splash texts!"; break;
 			}
 			
-			if(Math.random() < 0.1) main.splashText = "Visit r/feedthebeast if you hate yourself!";
+			if(Math.random() < 0.1) main.splashText = "Redditors aren't people!";
 		}
 	}
 }

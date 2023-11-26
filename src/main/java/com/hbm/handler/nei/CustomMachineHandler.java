@@ -14,6 +14,7 @@ import com.hbm.inventory.recipes.CustomMachineRecipes;
 import com.hbm.inventory.recipes.CustomMachineRecipes.CustomMachineRecipe;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.Tuple.Pair;
 
@@ -57,13 +58,13 @@ public class CustomMachineHandler extends TemplateRecipeHandler {
 
 			for(int i = 0; i < 3; i++) if(recipe.inputFluids.length > i) inputs.add(new PositionedStack(ItemFluidIcon.make(recipe.inputFluids[i]), 12 + i * 18, 6));
 			for(int i = 0; i < 3; i++) if(recipe.inputItems.length > i) inputs.add(new PositionedStack(recipe.inputItems[i].extractForNEI(), 12 + i * 18, 24));
-			for(int i = 3; i < 6; i++) if(recipe.inputItems.length > i) inputs.add(new PositionedStack(recipe.inputItems[i].extractForNEI(), 12 + i * 18, 42));
+			for(int i = 3; i < 6; i++) if(recipe.inputItems.length > i) inputs.add(new PositionedStack(recipe.inputItems[i].extractForNEI(), 12 + (i - 3) * 18, 42));
 
 			for(int i = 0; i < 3; i++) if(recipe.outputFluids.length > i) outputs.add(new PositionedStack(ItemFluidIcon.make(recipe.outputFluids[i]), 102 + i * 18, 6));
 			
 			for(int i = 0; i < 3; i++) if(recipe.outputItems.length > i) {
 				Pair<ItemStack, Float> pair = recipe.outputItems[i];
-				ItemStack out = pair.getKey();
+				ItemStack out = pair.getKey().copy();
 				if(pair.getValue() != 1) {
 					ItemStackUtil.addTooltipToStack(out, EnumChatFormatting.RED + "" + (((int)(pair.getValue() * 1000)) / 10D) + "%");
 				}
@@ -72,11 +73,11 @@ public class CustomMachineHandler extends TemplateRecipeHandler {
 			
 			for(int i = 3; i < 6; i++) if(recipe.outputItems.length > i) {
 				Pair<ItemStack, Float> pair = recipe.outputItems[i];
-				ItemStack out = pair.getKey();
+				ItemStack out = pair.getKey().copy();
 				if(pair.getValue() != 1) {
 					ItemStackUtil.addTooltipToStack(out, EnumChatFormatting.RED + "" + (((int)(pair.getValue() * 1000)) / 10D) + "%");
 				}
-				outputs.add(new PositionedStack(out, 102 + i * 18, 42));
+				outputs.add(new PositionedStack(out, 102 + (i - 3) * 18, 42));
 			}
 			
 			this.machine = new PositionedStack(new ItemStack(ModBlocks.custom_machine, 1, 100 + CustomMachineConfigJSON.niceList.indexOf(conf)), 75, 42);
@@ -104,7 +105,7 @@ public class CustomMachineHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getRecipeName() {
-		return conf.localizedName;
+		return (I18nUtil.resolveKey("tile.cm_" + conf.unlocalizedName + ".name").startsWith("tile.cm_")) ? conf.localizedName : I18nUtil.resolveKey("tile.cm_" + conf.unlocalizedName + ".name");
 	}
 
 	@Override
@@ -132,8 +133,6 @@ public class CustomMachineHandler extends TemplateRecipeHandler {
 		
 		List<CustomMachineRecipe> recipes = CustomMachineRecipes.recipes.get(conf.recipeKey);
 		
-		System.out.println(conf.recipeKey);
-
 		if(recipes != null) outer:for(CustomMachineRecipe recipe : recipes) {
 			
 			for(Pair<ItemStack, Float> stack : recipe.outputItems) {

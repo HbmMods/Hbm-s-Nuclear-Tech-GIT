@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 public class ItemMirrorTool extends Item {
 	
 	@Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fX, float fY, float fZ) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fX, float fY, float fZ) {
 		
 		Block b = world.getBlock(x, y, z);
 		

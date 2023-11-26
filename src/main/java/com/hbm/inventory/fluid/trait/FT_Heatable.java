@@ -6,6 +6,7 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.io.IOException;
@@ -42,13 +43,14 @@ public class FT_Heatable extends FluidTrait {
 
 	@Override
 	public void addInfoHidden(List<String> info) {
+		info.add(EnumChatFormatting.AQUA + I18nUtil.resolveKeyArray("hbmfluid.Trait.Coolable",this.getFirstStep().heatReq,"")[0]);
 		for(HeatingType type : HeatingType.values()) {
 			
 			double eff = getEfficiency(type);
 			
 			if(eff > 0) {
 				info.add(EnumChatFormatting.AQUA + "[" + type.name + "]");
-				info.add(EnumChatFormatting.AQUA + "Efficiency: " + ((int) (eff * 100D)) + "%");
+				info.add(EnumChatFormatting.AQUA + I18nUtil.resolveKeyArray("hbmfluid.Trait.Coolable","",((int) (eff * 100D)))[1]);
 			}
 		}
 	}
@@ -69,7 +71,8 @@ public class FT_Heatable extends FluidTrait {
 	
 	public static enum HeatingType {
 		BOILER("Boilable"),
-		HEATEXCHANGER("Heatable");
+		HEATEXCHANGER("Heatable"),
+		PWR("PWR Coolant");
 		
 		public String name;
 		
@@ -85,7 +88,7 @@ public class FT_Heatable extends FluidTrait {
 		
 		for(HeatingStep step : steps) {
 			writer.beginObject();
-			writer.name("typeProduced").value(step.typeProduced.getUnlocalizedName());
+			writer.name("typeProduced").value(step.typeProduced.getName());
 			writer.name("amountReq").value(step.amountReq);
 			writer.name("amountProd").value(step.amountProduced);
 			writer.name("heatReq").value(step.heatReq);

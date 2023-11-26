@@ -122,9 +122,8 @@ public class TileEntityFurnaceCombination extends TileEntityMachinePolluting imp
 					for(Entity e : entities) e.setFire(5);
 					
 					if(worldObj.getTotalWorldTime() % 10 == 0) this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 1, this.zCoord, "hbm:weapon.flamethrowerShoot", 0.25F, 0.5F);
+					if(worldObj.getTotalWorldTime() % 20 == 0) this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
 				}
-
-				if(worldObj.getTotalWorldTime() % 20 == 0) this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
 			} else {
 				this.progress = 0;
 			}

@@ -2,38 +2,27 @@ package com.hbm.blocks.bomb;
 
 import java.util.Random;
 
-import org.apache.logging.log4j.Level;
-
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.GeneralConfig;
-import com.hbm.entity.missile.*;
 import com.hbm.interfaces.IBomb;
-import com.hbm.interfaces.Spaghetti;
-import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 
-import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class LaunchPad extends BlockContainer implements IBomb {
 
-	public TileEntityLaunchPad tetn = new TileEntityLaunchPad();
 	public static boolean keepInventory = false;
 	private final static Random field_149933_a = new Random();
 
@@ -44,11 +33,6 @@ public class LaunchPad extends BlockContainer implements IBomb {
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityLaunchPad();
-	}
-
-	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-		return Item.getItemFromBlock(ModBlocks.launch_pad);
 	}
 
 	@Override
@@ -133,185 +117,15 @@ public class LaunchPad extends BlockContainer implements IBomb {
 	}
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-
-		if(i == 0) {
-			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
-		}
-		if(i == 1) {
-			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
-		}
-		if(i == 2) {
-			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-		}
-		if(i == 3) {
-			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-		}
-	}
-
-	/*
-	 * @Override public void setBlockBoundsBasedOnState(IBlockAccess
-	 * p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_) { float f
-	 * = 0.0625F; this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F); }
-	 * 
-	 * @Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World
-	 * world, int x, int y, int z) { float f = 0.0625F;
-	 * this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 8*f, 1.0F); return
-	 * AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ,
-	 * x + this.maxX, y + this.maxY, z + this.maxZ); }
-	 */
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_) {
 		return Item.getItemFromBlock(ModBlocks.launch_pad);
 	}
 
-	@Spaghetti("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA *takes breath* AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 	@Override
 	public BombReturnCode explode(World world, int x, int y, int z) {
-
 		TileEntityLaunchPad entity = (TileEntityLaunchPad) world.getTileEntity(x, y, z);
-		
-		if(entity.slots[0] == null || world.isRemote)
-			return BombReturnCode.ERROR_MISSING_COMPONENT;
-		
-		if(entity.slots[1] != null && entity.slots[1].getItem() instanceof IDesignatorItem && entity.power >= 75000) {
-			
-			if(!((IDesignatorItem)entity.slots[1].getItem()).isReady(world, entity.slots[1], x, y, z))
-				return BombReturnCode.ERROR_MISSING_COMPONENT;
-			
-			int xCoord = entity.slots[1].stackTagCompound.getInteger("xCoord");
-			int zCoord = entity.slots[1].stackTagCompound.getInteger("zCoord");
-
-			if(xCoord == entity.xCoord && zCoord == entity.zCoord) {
-				xCoord += 1;
-			}
-			
-			Entity missile = null;
-
-			if(entity.slots[0].getItem() == ModItems.missile_generic) {
-				missile = new EntityMissileGeneric(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_incendiary) {
-				missile = new EntityMissileIncendiary(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_cluster) {
-				missile = new EntityMissileCluster(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_buster) {
-				missile = new EntityMissileBunkerBuster(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_strong) {
-				missile = new EntityMissileStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_incendiary_strong) {
-				missile = new EntityMissileIncendiaryStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_cluster_strong) {
-				missile = new EntityMissileClusterStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_buster_strong) {
-				missile = new EntityMissileBusterStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_burst) {
-				missile = new EntityMissileBurst(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_inferno) {
-				missile = new EntityMissileInferno(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_rain) {
-				missile = new EntityMissileRain(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_drill) {
-				missile = new EntityMissileDrill(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_nuclear) {
-				missile = new EntityMissileNuclear(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_endo) {
-				missile = new EntityMissileEndo(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_exo) {
-				missile = new EntityMissileExo(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_nuclear_cluster) {
-				missile = new EntityMissileMirv(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_doomsday) {
-				missile = new EntityMissileDoomsday(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_taint) {
-				missile = new EntityMissileTaint(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_micro) {
-				missile = new EntityMissileMicro(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_bhole) {
-				missile = new EntityMissileBHole(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_schrabidium) {
-				missile = new EntityMissileSchrabidium(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_emp) {
-				missile = new EntityMissileEMP(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_emp_strong) {
-				missile = new EntityMissileEMPStrong(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_volcano) {
-				missile = new EntityMissileVolcano(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-			if(entity.slots[0].getItem() == ModItems.missile_shuttle) {
-				missile = new EntityMissileShuttle(world, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-			}
-
-			if(missile != null) {
-				world.spawnEntityInWorld(missile);
-				world.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
-				entity.power -= 75000;
-				entity.slots[0] = null;
-	
-				if(GeneralConfig.enableExtendedLogging)
-					MainRegistry.logger.log(Level.INFO, "[MISSILE] Tried to launch missile at " + x + " / " + y + " / " + z + " to " + xCoord + " / " + zCoord + "!");
-				return BombReturnCode.LAUNCHED;
-			}
-		}
-		
-		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_carrier && entity.power >= 75000) {
-			EntityCarrier missile = new EntityCarrier(world);
-			missile.posX = x + 0.5F;
-			missile.posY = y + 1F;
-			missile.posZ = z + 0.5F;
-
-			if(entity.slots[1] != null)
-				missile.setPayload(entity.slots[1]);
-
-			world.spawnEntityInWorld(missile);
-			entity.power -= 75000;
-
-			entity.slots[0] = null;
-			entity.slots[1] = null;
-			world.playSoundEffect(x, y, z, "hbm:entity.rocketTakeoff", 100.0F, 1.0F);
-			return BombReturnCode.LAUNCHED;
-		}
-
-		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_anti_ballistic && entity.power >= 75000) {
-			EntityMissileAntiBallistic missile = new EntityMissileAntiBallistic(world);
-			missile.posX = x + 0.5F;
-			missile.posY = y + 0.5F;
-			missile.posZ = z + 0.5F;
-			
-			world.spawnEntityInWorld(missile);
-			entity.power -= 75000;
-
-			entity.slots[0] = null;
-			world.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
-			return BombReturnCode.LAUNCHED;
-		}
-		
-		return BombReturnCode.ERROR_MISSING_COMPONENT;
+		return entity.launchFromDesignator();
 	}
 
 }

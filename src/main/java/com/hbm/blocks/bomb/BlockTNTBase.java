@@ -145,8 +145,8 @@ public abstract class BlockTNTBase extends BlockFlammable implements IToolable {
 		
 		if(tool == ToolType.DEFUSER) {
 			if(!world.isRemote) {
-				world.func_147480_a(x, y, z, true);
-				this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+				world.func_147480_a(x, y, z, false);
+				this.dropBlockAsItem(world, x, y, z, 0, 0);
 			}
 			return true;
 		}

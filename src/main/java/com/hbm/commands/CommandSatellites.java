@@ -13,6 +13,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class CommandSatellites extends CommandBase {
@@ -23,7 +24,7 @@ public class CommandSatellites extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender iCommandSender) {
-        return String.format(
+        return String.format(Locale.US, 
                 "%s/%s orbit %s- Launch the held satellite\n" +
                 "%s/%s descend <frequency> %s- Deletes satellite by frequency.",
                 EnumChatFormatting.GREEN, getCommandName(), EnumChatFormatting.LIGHT_PURPLE,

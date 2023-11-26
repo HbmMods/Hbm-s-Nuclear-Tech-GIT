@@ -16,7 +16,6 @@ import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -74,6 +73,24 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	}
 
 	@Override
+	public long getDemand(FluidType type, int pressure) {
+		
+		if(this.mode == 2 || this.mode == 3 || this.sendingBrake)
+			return 0;
+		
+		if(tank.getPressure() != pressure) return 0;
+		
+		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
+	}
+
+	@Override
+	public long transferFluid(FluidType type, int pressure, long fluid) {
+		long toTransfer = Math.min(getDemand(type, pressure), fluid);
+		tank.setFill(tank.getFill() + (int) toTransfer);
+		return fluid - toTransfer;
+	}
+
+	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
@@ -93,8 +110,10 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			this.sendingBrake = false;
 			
 			age++;
-			if(age >= 20)
+			if(age >= 20) {
 				age = 0;
+				this.markChanged();
+			}
 			
 			if((mode == 1 || mode == 2) && (age == 9 || age == 19))
 				fillFluidInit(tank.getTankType());
@@ -389,12 +408,12 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTypeStored(Context context, Arguments args) {
-		return new Object[] {tank.getTankType().getUnlocalizedName()};
+		return new Object[] {tank.getTankType().getName()};
 	}
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getUnlocalizedName()};
+		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};
 	}
 }

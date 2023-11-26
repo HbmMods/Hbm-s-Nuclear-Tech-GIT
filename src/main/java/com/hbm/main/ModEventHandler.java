@@ -20,8 +20,6 @@ import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.RadiationConfig;
-import com.hbm.entity.missile.EntityMissileBaseAdvanced;
-import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityCreeperNuclear;
@@ -66,7 +64,9 @@ import com.hbm.packet.PermaSyncPacket;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
+import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
 import com.hbm.tileentity.network.RTTYSystem;
+import com.hbm.tileentity.network.RequestNetwork;
 import com.hbm.util.AchievementHandler;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
@@ -176,10 +176,13 @@ public class ModEventHandler {
 			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
 				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", MainRegistry.proxy.ID_DUCK, 30_000), (EntityPlayerMP) event.player);
 			
-			if(event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasGuide")) {
+			
+			HbmPlayerProps props = HbmPlayerProps.getData(event.player);
+			
+			if(!props.hasReceivedBook) {
 				event.player.inventory.addItemStackToInventory(new ItemStack(ModItems.book_guide, 1, BookType.STARTER.ordinal()));
 				event.player.inventoryContainer.detectAndSendChanges();
-				event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).setBoolean("hasGuide", true);
+				props.hasReceivedBook = true;
 			}
 		}
 	}
@@ -1097,19 +1100,21 @@ public class ModEventHandler {
 		
 		if(event.phase == event.phase.START) {
 			RTTYSystem.updateBroadcastQueue();
+			RequestNetwork.updateEntries();
+			TileEntityMachineRadarNT.updateSystem();
 		}
 	}
 	
 	@SubscribeEvent
 	public void enteringChunk(EnteringChunk evt) {
 		
-		if(evt.entity instanceof EntityMissileBaseAdvanced) {
-			((EntityMissileBaseAdvanced) evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
+		/*if(evt.entity instanceof EntityMissileBaseNT) {
+			((EntityMissileBaseNT) evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
 		}
 
 		if(evt.entity instanceof EntityMissileCustom) {
 			((EntityMissileCustom) evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
-		}
+		}*/
 	}
 	
 	@SubscribeEvent

@@ -75,6 +75,10 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		return this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y);
 	}
 	
+	protected boolean checkClick(int x, int y, int left, int top, int sizeX, int sizeY) {
+		return guiLeft + left <= x && guiLeft + left + sizeX > x && guiTop + top < y && guiTop + top + sizeY >= y;
+	}
+	
 	/* Getters for external use of the GUI's rect rendering, such as NumberDisplay */
 	public int getGuiTop() {
 		return this.guiTop;
@@ -98,6 +102,19 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	
 	public FontRenderer getFontRenderer() {
 		return this.fontRendererObj;
+	}
+
+	protected void drawItemStack(ItemStack stack, int x, int y, String label) {
+		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
+		this.zLevel = 200.0F;
+		itemRender.zLevel = 200.0F;
+		FontRenderer font = null;
+		if(stack != null) font = stack.getItem().getFontRenderer(stack);
+		if(font == null) font = fontRendererObj;
+		itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), stack, x, y);
+		itemRender.renderItemOverlayIntoGUI(font, this.mc.getTextureManager(), stack, x, y, label);
+		this.zLevel = 0.0F;
+		itemRender.zLevel = 0.0F;
 	}
 
 	protected void drawStackText(List lines, int x, int y, FontRenderer font) {

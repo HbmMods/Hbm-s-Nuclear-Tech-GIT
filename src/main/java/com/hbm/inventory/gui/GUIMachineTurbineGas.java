@@ -137,7 +137,7 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		fuels.add(I18nUtil.resolveKey("desc.gui.turbinegas.fuels"));
 		for(FluidType type : Fluids.getInNiceOrder()) {
 			if(type.hasTrait(FT_Combustible.class) && type.getTrait(FT_Combustible.class).getGrade() == FuelGrade.GAS) {
-				fuels.add("  " + I18nUtil.resolveKey(type.getUnlocalizedName()));
+				fuels.add("  " + type.getLocalizedName());
 			}
 		}
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 34 + 16, 16, 16, guiLeft - 8, guiTop + 44 + 16, fuels);
@@ -224,10 +224,6 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		
 		int firstDigitX = 66;
 		int firstDigitY = 62;
-		
-		int width = 5;
-		int height = 11;
-		int spaceBetweenBumbers = 3;
 		
 		int[] digit = new int[6];
 		

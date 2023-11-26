@@ -9,11 +9,14 @@ import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.tileentity.deco.TileEntityLanternBehemoth;
 import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import com.hbm.tileentity.machine.storage.TileEntitySoyuzCapsule;
+import com.hbm.util.LootGenerator;
 import com.hbm.util.WeightedRandomGeneric;
 import com.hbm.world.dungeon.AncientTomb;
 import com.hbm.world.dungeon.Antenna;
@@ -58,7 +61,9 @@ import net.minecraft.world.biome.BiomeGenForest;
 import net.minecraft.world.biome.BiomeGenJungle;
 import net.minecraft.world.biome.BiomeGenRiver;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class HbmWorldGen implements IWorldGenerator {
@@ -156,12 +161,18 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.aluminiumClusterSpawn, 6, 15, 35, ModBlocks.cluster_aluminium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperClusterSpawn, 6, 15, 20, ModBlocks.cluster_copper);
 
-			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn, 10, 6, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal());
+			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn, 16, 6, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal());
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.limestoneSpawn, 12, 25, 30, ModBlocks.stone_resource, EnumStoneType.LIMESTONE.ordinal());
 			
 			if(rand.nextInt(3) == 0) {
 				WeightedRandomGeneric<BedrockOreDefinition> item = (WeightedRandomGeneric<BedrockOreDefinition>) WeightedRandom.getRandomItem(rand, BedrockOre.weightedOres);
 				BedrockOreDefinition def = item.get();
+				
+				if(GeneralConfig.enable528 && GeneralConfig.enable528BedrockReplacement) {
+					BedrockOreDefinition replacement = BedrockOre.replacements.get(def.id);
+					if(replacement != null) def = replacement;
+				}
+				
 				int randPosX = i + rand.nextInt(2) + 8;
 				int randPosZ = j + rand.nextInt(2) + 8;
 				BedrockOre.generate(world, randPosX, randPosZ, def.stack, def.acid, def.color, def.tier);
@@ -217,8 +228,16 @@ public class HbmWorldGen implements IWorldGenerator {
 					(new WorldGenMinable(ModBlocks.ore_australium, 50)).generate(world, rand, randPosX, randPosY, randPosZ);
 			}
 		}
+		
+		boolean enableDungeons = true;
+		
+		if(world.getChunkProvider() instanceof ChunkProviderFlat) {
+			ChunkProviderFlat provider = (ChunkProviderFlat) world.getChunkProvider();
+			// FIXME Bobert issue, not mine
+//			enableDungeons = provider.hasDungeons;
+		}
 
-		if(GeneralConfig.enableDungeons && world.provider.isSurfaceWorld()) {
+		if(GeneralConfig.enableDungeons && world.provider.isSurfaceWorld() && enableDungeons) {
 			
 			if(MobConfig.enableHives && rand.nextInt(MobConfig.hiveSpawn) == 0) {
 				int x = i + rand.nextInt(16) + 8;
@@ -386,6 +405,29 @@ public class HbmWorldGen implements IWorldGenerator {
 
 					if(GeneralConfig.enableDebugMode)
 						MainRegistry.logger.info("[Debug] Successfully spawned landmine at " + x + " " + (y) + " " + z);
+				}
+			}
+
+			if(rand.nextInt(2000) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = world.getHeightValue(x, z);
+
+				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z) && world.getBlock(x, y, z).isReplaceable(world, x, y, z)) {
+					
+					world.setBlock(x, y, z, ModBlocks.lantern_behemoth, 12, 3);
+					MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {4, 0, 0, 0, 0, 0}, ModBlocks.lantern_behemoth, ForgeDirection.NORTH);
+					
+					TileEntityLanternBehemoth lantern = (TileEntityLanternBehemoth) world.getTileEntity(x, y, z);
+					lantern.isBroken = true;
+					
+					if(rand.nextInt(2) == 0) {
+						LootGenerator.setBlock(world, x, y, z - 2);
+						LootGenerator.lootBooklet(world, x, y, z - 2);
+					}
+
+					if(GeneralConfig.enableDebugMode)
+						MainRegistry.logger.info("[Debug] Successfully spawned lantern at " + x + " " + (y) + " " + z);
 				}
 			}
 
@@ -629,7 +671,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			int x = i + rand.nextInt(16);
 			int z = j + rand.nextInt(16);
 			int y = world.getHeightValue(x, z) - rand.nextInt(10);
-			(new Meteorite()).generate(world, rand, x, y, z, false, true, false);
+			(new Meteorite()).generate(world, rand, x, y, z, false, false, false);
 		}
 
 		if (GeneralConfig.enableNITAN) {

@@ -142,8 +142,11 @@ public class PollutionHandler {
 			try {
 				if(!pollutionFile.getParentFile().exists()) pollutionFile.getParentFile().mkdirs();
 				if(!pollutionFile.exists()) pollutionFile.createNewFile();
-				NBTTagCompound data = perWorld.get(world).writeToNBT();
-				CompressedStreamTools.writeCompressed(data, new FileOutputStream(pollutionFile));
+				PollutionPerWorld ppw = perWorld.get(world);
+				if(ppw != null) {
+					NBTTagCompound data = ppw.writeToNBT();
+					CompressedStreamTools.writeCompressed(data, new FileOutputStream(pollutionFile));
+				}
 			} catch(Exception ex) {
 				System.out.println("Failed to write " + pollutionFile.getAbsolutePath());
 				ex.printStackTrace();
@@ -153,8 +156,10 @@ public class PollutionHandler {
 	
 	public String getDataDir(WorldServer world) {
 		String dir = world.getSaveHandler().getWorldDirectory().getAbsolutePath();
-		if(world.provider.dimensionId != 0) {
-			dir += File.separator + "DIM" + world.provider.dimensionId;
+		// Crucible and probably Thermos provide dimId by themselves
+		String dimId = File.separator + "DIM" + world.provider.dimensionId;
+		if(world.provider.dimensionId != 0 && !dir.endsWith(dimId)) {
+			dir += dimId;
 		}
 		dir += File.separator + "data";
 		return dir;

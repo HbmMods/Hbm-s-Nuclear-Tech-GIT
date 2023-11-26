@@ -56,6 +56,7 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 
 	@Override
 	protected void entityInit() {
+		super.entityInit();
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
 		this.dataWatcher.addObject(10, new Integer(0));
 	}
@@ -197,7 +198,7 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 
 			loadedChunks.clear();
 			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX + (int) Math.ceil((this.posX + this.motionX) / 16D), newChunkZ + (int) Math.ceil((this.posZ + this.motionZ) / 16D)));
+			//loadedChunks.add(new ChunkCoordIntPair(newChunkX + (int) Math.floor((this.posX + this.motionX) / 16D), newChunkZ + (int) Math.floor((this.posZ + this.motionZ) / 16D)));
 
 			for(ChunkCoordIntPair chunk : loadedChunks) {
 				ForgeChunkManager.forceChunk(loaderTicket, chunk);

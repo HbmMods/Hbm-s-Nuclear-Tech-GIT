@@ -1,9 +1,15 @@
 package com.hbm.blocks.network;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hbm.blocks.IAnalyzable;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 
+import api.hbm.fluid.IPipeNet;
+import api.hbm.fluid.PipeNet;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -12,7 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class FluidDuctBase extends BlockContainer implements IBlockFluidDuct {
+public class FluidDuctBase extends BlockContainer implements IBlockFluidDuct, IAnalyzable {
 
 	public FluidDuctBase(Material mat) {
 		super(mat);
@@ -79,5 +85,36 @@ public class FluidDuctBase extends BlockContainer implements IBlockFluidDuct {
 				}
 			}
 		}
+	}
+
+	@Override
+	public List<String> getDebugInfo(World world, int x, int y, int z) {
+		
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(te instanceof TileEntityPipeBaseNT) {
+			TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
+			FluidType type = pipe.getType();
+			
+			if(type != null) {
+				
+				IPipeNet net = pipe.getPipeNet(type);
+				
+				if(net instanceof PipeNet) {
+					PipeNet pipeNet = (PipeNet) net;
+					
+					List<String> debug = new ArrayList();
+					debug.add("=== DEBUG START ===");
+					debug.addAll(pipeNet.debug);
+					debug.add("=== DEBUG END ===");
+					debug.add("Links: " + pipeNet.getLinks().size());
+					debug.add("Subscribers: " + pipeNet.getSubscribers().size());
+					debug.add("Transfer: " + pipeNet.getTotalTransfer());
+					return debug;
+				}
+			}
+		}
+		
+		return null;
 	}
 }

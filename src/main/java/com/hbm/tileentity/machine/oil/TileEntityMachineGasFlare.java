@@ -133,7 +133,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 						int eject = Math.min(maxBurn, tank.getFill());
 						tank.setFill(tank.getFill() - eject);
 						
-						int penalty = 2;
+						int penalty = 5;
 						if(!tank.getTankType().hasTrait(FT_Gaseous.class) && !tank.getTankType().hasTrait(FT_Gaseous_ART.class))
 							penalty = 10;
 						

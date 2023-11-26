@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.inventory.gui.GUIHadron;
 import com.hbm.inventory.recipes.HadronRecipes;
@@ -141,7 +142,7 @@ public class HadronRecipeHandler extends TemplateRecipeHandler {
 
 		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
-		String mom = String.format("%,d", rec.momentum);
+		String mom = String.format(Locale.US, "%,d", rec.momentum);
 		fontRenderer.drawString(mom, -fontRenderer.getStringWidth(mom) / 2 + 30, 42, 0x404040);
 	}
 

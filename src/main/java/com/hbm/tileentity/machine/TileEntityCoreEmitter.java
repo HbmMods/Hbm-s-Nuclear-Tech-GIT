@@ -108,13 +108,11 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 						TileEntity te = worldObj.getTileEntity(x, y, z);
 						
 						if(block instanceof ILaserable) {
-							
 							((ILaserable)block).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
 							break;
 						}
 						
 						if(te instanceof ILaserable) {
-							
 							((ILaserable)te).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
 							break;
 						}
@@ -126,7 +124,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 						
 						Block b = worldObj.getBlock(x, y, z);
 						
-						if(b != Blocks.air) {
+						if(!b.isAir(worldObj, x, y, z)) {
 							
 							if(b.getMaterial().isLiquid()) {
 								worldObj.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.fizz", 1.0F, 1.0F);
@@ -278,14 +276,8 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getEnergyStored(Context context, Arguments args) {
-		return new Object[] {getPower()};
-	}
-
-	@Callback(direct = true, limit = 4)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getMaxEnergy(Context context, Arguments args) {
-		return new Object[] {getMaxPower()};
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
 	}
 
 	@Callback(direct = true, limit = 4)

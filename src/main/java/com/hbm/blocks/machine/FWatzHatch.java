@@ -8,6 +8,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityFWatzCore;
 
+import api.hbm.energy.IEnergyConnectorBlock;
 import api.hbm.fluid.IFluidConnectorBlock;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -26,7 +27,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class FWatzHatch extends Block implements IFluidConnectorBlock {
+public class FWatzHatch extends Block implements IEnergyConnectorBlock, IFluidConnectorBlock {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
@@ -157,5 +158,10 @@ public class FWatzHatch extends Block implements IFluidConnectorBlock {
 	@Override
 	public boolean canConnect(FluidType type, IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
 		return type == Fluids.AMAT || type == Fluids.ASCHRAB;
+	}
+
+	@Override
+	public boolean canConnect(IBlockAccess world, int x, int y, int z, ForgeDirection dir) {
+		return true;
 	}
 }

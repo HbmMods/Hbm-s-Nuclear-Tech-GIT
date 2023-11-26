@@ -22,7 +22,6 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -92,6 +91,8 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 					} else {
 						this.meltdown();
 					}
+					this.fluxFast = 0;
+					this.fluxSlow = 0;
 					return;
 				}
 				
@@ -305,12 +306,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		if(corium) {
 			
 			for(int i = h; i >= 0; i--) {
-				
-				if(i <= h + 1 - reduce) {
-					worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.corium_block);
-				} else {
-					worldObj.setBlock(xCoord, yCoord + i, zCoord, Blocks.air);
-				}
+				worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.corium_block, 5, 3);
 				worldObj.markBlockForUpdate(xCoord, yCoord + i, zCoord);
 			}
 			

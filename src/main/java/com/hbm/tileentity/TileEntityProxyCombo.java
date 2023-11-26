@@ -361,6 +361,9 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			return false;
 		
 		if(getTile() instanceof ISidedInventory) {
+			
+			if(getTile() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getTile()).isItemValidForSlot(xCoord, yCoord, zCoord, slot, stack);
+			
 			return ((ISidedInventory)getTile()).isItemValidForSlot(slot, stack);
 		}
 		
@@ -374,6 +377,9 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			return new int[0];
 		
 		if(getTile() instanceof ISidedInventory) {
+			
+			if(getTile() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getTile()).getAccessibleSlotsFromSide(xCoord, yCoord, zCoord, side);
+			
 			return ((ISidedInventory)getTile()).getAccessibleSlotsFromSide(side);
 		}
 		
@@ -387,6 +393,9 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			return false;
 		
 		if(getTile() instanceof ISidedInventory) {
+			
+			if(getTile() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getTile()).canInsertItem(xCoord, yCoord, zCoord, i, stack, j);
+			
 			return ((ISidedInventory)getTile()).canInsertItem(i, stack, j);
 		}
 		
@@ -400,6 +409,9 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			return false;
 		
 		if(getTile() instanceof ISidedInventory) {
+			
+			if(getTile() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getTile()).canExtractItem(xCoord, yCoord, zCoord, i, stack, j);
+			
 			return ((ISidedInventory)getTile()).canExtractItem(i, stack, j);
 		}
 		

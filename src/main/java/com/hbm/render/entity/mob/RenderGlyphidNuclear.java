@@ -108,8 +108,6 @@ public class RenderGlyphidNuclear extends RenderLiving {
 			
 			double walkCycle = limbSwing;
 
-			double speed = 100000D;
-			double chewing = 200000D;
 			double cy0 = Math.sin(walkCycle % (Math.PI * 2));
 			double cy1 = Math.sin(walkCycle % (Math.PI * 2) - Math.PI * 0.5);
 			double cy2 = Math.sin(walkCycle % (Math.PI * 2) - Math.PI);

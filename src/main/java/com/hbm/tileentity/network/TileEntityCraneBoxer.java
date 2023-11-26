@@ -1,13 +1,11 @@
 package com.hbm.tileentity.network;
 
+import api.hbm.conveyor.IConveyorBelt;
 import com.hbm.entity.item.EntityMovingPackage;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneBoxer;
 import com.hbm.inventory.gui.GUICraneBoxer;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
-
-import api.hbm.conveyor.IConveyorBelt;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -20,7 +18,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
+public class TileEntityCraneBoxer extends TileEntityCraneBase implements IGUIProvider, IControlReceiver {
 	
 	public byte mode = 0;
 	public static final byte MODE_4 = 0;
@@ -42,15 +40,15 @@ public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIP
 
 	@Override
 	public void updateEntity() {
-		
+		super.updateEntity();
 		if(!worldObj.isRemote) {
 			
 			boolean redstone = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
 			
 			if(mode == MODE_REDSTONE && redstone && !lastRedstone) {
 				
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
-				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+				ForgeDirection outputSide = getOutputSide();
+				Block b = worldObj.getBlock(xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ);
 				IConveyorBelt belt = null;
 				
 				if(b instanceof IConveyorBelt) {
@@ -58,7 +56,7 @@ public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIP
 				}
 				
 				int pack = 0;
-				
+
 				for(int i = 0; i < slots.length; i++) {
 					if(slots[i] != null) {
 						pack++;
@@ -79,8 +77,8 @@ public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIP
 					}
 					
 					EntityMovingPackage moving = new EntityMovingPackage(worldObj);
-					Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + dir.offsetX * 0.55, yCoord + 0.5 + dir.offsetY * 0.55, zCoord + 0.5 + dir.offsetZ * 0.55);
-					Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, pos);
+					Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
+					Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, pos);
 					moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
 					moving.setItemStacks(box);
 					worldObj.spawnEntityInWorld(moving);
@@ -116,8 +114,8 @@ public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIP
 					}
 				}
 				
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
-				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+				ForgeDirection outputSide = getOutputSide();
+				Block b = worldObj.getBlock(xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ);
 				IConveyorBelt belt = null;
 				
 				if(b instanceof IConveyorBelt) {
@@ -138,8 +136,8 @@ public class TileEntityCraneBoxer extends TileEntityMachineBase implements IGUIP
 					}
 					
 					EntityMovingPackage moving = new EntityMovingPackage(worldObj);
-					Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + dir.offsetX * 0.55, yCoord + 0.5 + dir.offsetY * 0.55, zCoord + 0.5 + dir.offsetZ * 0.55);
-					Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, pos);
+					Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
+					Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, pos);
 					moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
 					moving.setItemStacks(box);
 					worldObj.spawnEntityInWorld(moving);

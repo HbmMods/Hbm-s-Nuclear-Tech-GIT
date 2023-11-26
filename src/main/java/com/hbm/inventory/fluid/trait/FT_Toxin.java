@@ -3,6 +3,7 @@ package com.hbm.inventory.fluid.trait;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -30,7 +31,7 @@ public class FT_Toxin extends FluidTrait {
 	
 	@Override
 	public void addInfoHidden(List<String> info) {
-		info.add(EnumChatFormatting.LIGHT_PURPLE + "[Toxin]");
+		info.add(EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey("hbmfluid.Trait.Toxin"));
 		
 		for(ToxinEntry entry : entries) {
 			entry.addInfo(info);
@@ -100,7 +101,7 @@ public class FT_Toxin extends FluidTrait {
 
 		@Override
 		public void addInfo(List<String> info) {
-			info.add(EnumChatFormatting.YELLOW + "- " + I18nUtil.resolveKey(clazz.lang) + (fullBody ? EnumChatFormatting.RED + " (requires hazmat suit)" : "") + ": " + EnumChatFormatting.YELLOW + String.format("%,.1f", amount * 20 / delay) + " DPS");
+			info.add(EnumChatFormatting.YELLOW + "- " + I18nUtil.resolveKey(clazz.lang) + (fullBody ? EnumChatFormatting.RED + " (requires hazmat suit)" : "") + ": " + EnumChatFormatting.YELLOW + String.format(Locale.US, "%,.1f", amount * 20 / delay) + " DPS");
 		}
 	}
 

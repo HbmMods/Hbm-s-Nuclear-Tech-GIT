@@ -28,8 +28,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
 public class ModEventHandlerRenderer {
@@ -375,6 +377,17 @@ public class ModEventHandlerRenderer {
 			event.red = event.red * (1 - interp) + sootColor * interp;
 			event.green = event.green * (1 - interp) + sootColor * interp;
 			event.blue = event.blue * (1 - interp) + sootColor * interp;
+		}
+	}
+	
+	@SubscribeEvent
+	public void onRenderHUD(RenderGameOverlayEvent.Pre event) {
+		
+		if(event.type == ElementType.HOTBAR && (ModEventHandlerClient.flashTimestamp + ModEventHandlerClient.flashDuration - System.currentTimeMillis()) > 0) {
+			double mult = (ModEventHandlerClient.flashTimestamp + ModEventHandlerClient.flashDuration - System.currentTimeMillis()) / (double) ModEventHandlerClient.flashDuration * 2;
+			double horizontal = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 5;
+			double vertical = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 1;
+			GL11.glTranslated(horizontal * mult, vertical * mult, 0);
 		}
 	}
 }

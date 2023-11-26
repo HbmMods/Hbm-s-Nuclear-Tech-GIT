@@ -19,7 +19,6 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -97,7 +96,7 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 					break;
 				}
 				
-				if(worldObj.getBlock(x, y, z) != Blocks.air)
+				if(!worldObj.getBlock(x, y, z).isAir(worldObj, x, y, z))
 					break;
 			}
 			
@@ -202,20 +201,20 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 
 	@Callback(direct = true, limit = 2)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getFirstFuel(Context context, Arguments args) {
-		return new Object[] {tanks[0].getFill()};
+	public Object[] getFuel(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill(), tanks[1].getFill()};
 	}
 
 	@Callback(direct = true, limit = 2)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getSecondFuel(Context context, Arguments args) {
-		return new Object[] {tanks[1].getFill()};
+	public Object[] getTypes(Context context, Arguments args) {
+		return new Object[] {tanks[0].getTankType().getName(), tanks[1].getTankType().getName()};
 	}
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {tanks[0].getFill(), tanks[1].getFill()};
+		return new Object[] {tanks[0].getFill(), tanks[0].getTankType().getName(), tanks[1].getFill(), tanks[1].getTankType().getName()};
 	}
 
 	@Override

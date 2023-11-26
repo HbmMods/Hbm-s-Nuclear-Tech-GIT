@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.storage;
 
 import api.hbm.energy.*;
 import com.hbm.blocks.machine.MachineBattery;
+import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.inventory.gui.GUIMachineBattery;
 import com.hbm.lib.Library;
@@ -36,6 +37,8 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public long[] log = new long[20];
 	public long delta = 0;
 	public long power = 0;
+	public long prevPowerState = 0;
+	public int pingPongTicks = 0;
 	
 	//0: input only
 	//1: buffer
@@ -180,7 +183,22 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 				this.log[i - 1] = this.log[i];
 			}
 			
+			if(GeneralConfig.enable528) {
+				long threshold = this.getMaxPower() / 3;
+				if(Math.abs(prevPower - power) > threshold && Math.abs(prevPower - prevPowerState) > threshold) {
+					this.pingPongTicks++;
+					if(this.pingPongTicks > 10) {
+						worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
+						worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 10F, false, false);
+					}
+				} else {
+					if(this.pingPongTicks > 0) this.pingPongTicks--;
+				}
+			}
+			
 			this.log[19] = avg;
+			
+			prevPowerState = power;
 			
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setLong("power", avg);
@@ -237,7 +255,9 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 				if(x instanceof PowerNet) PowerNet.trackingInstances.add((PowerNet) x);
 			});
 			
-			this.power = PowerNet.fairTransfer(con, this.power);
+			long toSend = Math.min(this.power, this.getMaxTransfer());
+			long powerRemaining = this.power - toSend;
+			this.power = PowerNet.fairTransfer(con, toSend) + powerRemaining;
 		}
 		
 		//resubscribe to buffered nets, if necessary
@@ -246,7 +266,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		}
 	}
 	
-	protected void transmitPower() {
+	@Deprecated protected void transmitPower() {
 		
 		short mode = (short) this.getRelevantMode();
 		
@@ -298,7 +318,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	}
 	
 	public long getMaxTransfer() {
-		return this.getMaxPower();
+		return this.getMaxPower() / 20;
 	}
 
 	@Override
@@ -342,24 +362,29 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	 */
 	@Override
 	public long transferPower(long power) {
-
-		int mode = this.getRelevantMode();
 		
-		if(mode == mode_output || mode == mode_none) {
-			return power;
+		long overshoot = 0;
+		
+		// if power exceeds our transfer limit, truncate
+		if(power > getMaxTransfer()) {
+			overshoot += power - getMaxTransfer();
+			power = getMaxTransfer();
 		}
 		
-		this.power += power;
+		// this check is in essence the same as the default implementation, but re-arranged to never overflow the int64 range
+		// if the remaining power exceeds the power cap, truncate again
+		long freespace = this.getMaxPower() - this.getPower();
+		
+		if(freespace < power) {
+			overshoot += power - freespace;
+			power = freespace;
+		}
+		
+		// what remains is sure to not exceed the transfer limit and the power cap (and therefore the int64 range)
+		this.setPower(this.getPower() + power);
 		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 		
-		if(this.power > this.getMaxPower()) {
-			
-			long overshoot = this.power - this.getMaxPower();
-			this.power = this.getMaxPower();
-			return overshoot;
-		}
-		
-		return 0;
+		return overshoot;
 	}
 	
 	@Override
@@ -371,7 +396,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			return 0;
 		}
 		
-		return Math.max(getMaxPower() - getPower(), 0);
+		return Math.min(Math.max(getMaxPower() - getPower(), 0), this.getMaxTransfer());
 	}
 
 	@Override
@@ -392,19 +417,13 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	// do some opencomputer stuff
 	@Override
 	public String getComponentName() {
-		return "ntm_energy_storage"; // need a way to somehow detect the first word of the energy storage block so people wont get confused when it comes to multiple energy storage blocks
+		return "ntm_energy_storage"; //ok if someone else can figure out how to do this that'd be nice (change the component name based on the type of storage block)
 	}
 
 	@Callback(direct = true, limit = 8)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getEnergyStored(Context context, Arguments args) {
-		return new Object[] {getPower()};
-	}
-
-	@Callback(direct = true, limit = 8)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getMaxEnergy(Context context, Arguments args) {
-		return new Object[] {getMaxPower()};
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
 	}
 
 	@Callback(direct = true, limit = 8)
@@ -417,6 +436,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public void writeNBT(NBTTagCompound nbt) {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setLong("power", power);
+		data.setLong("prevPowerState", prevPowerState);
 		data.setShort("redLow", redLow);
 		data.setShort("redHigh", redHigh);
 		data.setInteger("priority", this.priority.ordinal());
@@ -427,6 +447,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	public void readNBT(NBTTagCompound nbt) {
 		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
 		this.power = data.getLong("power");
+		this.prevPowerState = data.getLong("prevPowerState");
 		this.redLow = data.getShort("redLow");
 		this.redHigh = data.getShort("redHigh");
 		this.priority = ConnectionPriority.values()[data.getInteger("priority")];

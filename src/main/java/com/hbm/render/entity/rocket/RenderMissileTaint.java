@@ -2,10 +2,7 @@ package com.hbm.render.entity.rocket;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.missile.EntityMissileBHole;
-import com.hbm.entity.missile.EntityMissileEMP;
-import com.hbm.entity.missile.EntityMissileSchrabidium;
-import com.hbm.entity.missile.EntityMissileTaint;
+import com.hbm.entity.missile.EntityMissileTier0.*;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;

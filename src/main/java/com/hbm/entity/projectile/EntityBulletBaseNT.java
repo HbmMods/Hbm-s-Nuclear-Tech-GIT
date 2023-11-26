@@ -13,6 +13,14 @@ import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
+import com.hbm.explosion.vanillant.standard.BlockProcessorNoDamage;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -166,6 +174,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 
 	@Override
 	protected void entityInit() {
+		super.entityInit();
 		//style
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 		//trail
@@ -215,10 +224,10 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 				return;
 			}
 			
-			if(this.config.bntUpdate != null) this.config.bntUpdate.behaveUpdate(this);
-			
 			if(this.ticksExisted > config.maxAge) this.setDead();
 		}
+		
+		if(this.config.bntUpdate != null) this.config.bntUpdate.behaveUpdate(this);
 
 		this.prevPosX = posX;
 		this.prevPosY = posY;
@@ -251,11 +260,11 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
 			
 			boolean hRic = rand.nextInt(100) < config.HBRC;
-			boolean doesRic = config.doesRicochet || hRic;
+			boolean doesRic = config.doesRicochet && hRic;
 
 			if(!config.isSpectral && !doesRic) {
 				this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-				this.onBlockImpact(mop.blockX, mop.blockY, mop.blockZ);
+				this.onBlockImpact(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
 			}
 
 			if(doesRic) {
@@ -302,7 +311,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 					} else {
 						if(!worldObj.isRemote) {
 							this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-							onBlockImpact(mop.blockX, mop.blockY, mop.blockZ);
+							onBlockImpact(mop.blockX, mop.blockY, mop.blockZ, mop.sideHit);
 						}
 					}
 
@@ -375,13 +384,13 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	}
 	
 	//for when a bullet dies by hitting a block
-	private void onBlockImpact(int bX, int bY, int bZ) {
+	private void onBlockImpact(int bX, int bY, int bZ, int sideHit) {
 		
 		if(config.bntImpact != null)
-			config.bntImpact.behaveBlockHit(this, bX, bY, bZ);
+			config.bntImpact.behaveBlockHit(this, bX, bY, bZ, sideHit);
 		
 		if(!worldObj.isRemote) {
-			if(!config.liveAfterImpact && !config.isSpectral && bY > -1) this.setDead();
+			if(!config.liveAfterImpact && !config.isSpectral && bY > -1 && !this.inGround) this.setDead();
 			if(!config.doesPenetrate && bY == -1) this.setDead();
 		}
 		
@@ -413,8 +422,17 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		if(config.jolt > 0 && !worldObj.isRemote)
     		ExplosionLarge.jolt(worldObj, posX, posY, posZ, config.jolt, 150, 0.25);
 		
-		if(config.explosive > 0 && !worldObj.isRemote)
-			worldObj.newExplosion(this, posX, posY, posZ, config.explosive, config.incendiary > 0, config.blockDamage);
+		if(config.explosive > 0 && !worldObj.isRemote) {
+			//worldObj.newExplosion(this.thrower, posX, posY, posZ, config.explosive, config.incendiary > 0, config.blockDamage);
+			ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, config.explosive, this.thrower);
+			vnt.setBlockAllocator(new BlockAllocatorStandard());
+			if(config.blockDamage)	vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(config.incendiary > 0 ? new BlockMutatorFire() : null));
+			else					vnt.setBlockProcessor(new BlockProcessorNoDamage().withBlockEffect(config.incendiary > 0 ? new BlockMutatorFire() : null));
+			vnt.setEntityProcessor(new EntityProcessorStandard().allowSelfDamage());
+			vnt.setPlayerProcessor(new PlayerProcessorStandard());
+			vnt.setSFX(new ExplosionEffectStandard());
+			vnt.explode();
+		}
 		
 		if(config.shrapnel > 0 && !worldObj.isRemote)
 			ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, config.shrapnel);
@@ -472,7 +490,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	//for when a bullet dies by hitting an entity
 	private void onEntityImpact(Entity e) {
 		onEntityHurt(e);
-		onBlockImpact(-1, -1, -1);
+		onBlockImpact(-1, -1, -1, -1);
 		
 		if(config.bntHit != null)
 			config.bntHit.behaveEntityHit(this, e);
@@ -582,6 +600,6 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	public static interface IBulletHurtBehaviorNT { public void behaveEntityHurt(EntityBulletBaseNT bullet, Entity hit); }
 	public static interface IBulletHitBehaviorNT { public void behaveEntityHit(EntityBulletBaseNT bullet, Entity hit); }
 	public static interface IBulletRicochetBehaviorNT { public void behaveBlockRicochet(EntityBulletBaseNT bullet, int x, int y, int z); }
-	public static interface IBulletImpactBehaviorNT { public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z); }
+	public static interface IBulletImpactBehaviorNT { public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit); }
 	public static interface IBulletUpdateBehaviorNT { public void behaveUpdate(EntityBulletBaseNT bullet); }
 }

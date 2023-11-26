@@ -56,6 +56,7 @@ public class HazmatRegistry {
 		double env = 2D; // 99%
 		double hev = 2.3D; // 99.5%
 		double rpa = 2D; // 99%
+		double trench = 1D; // 90%
 		double fau = 4D; // 99.99%
 		double dns = 5D; // 99.999%
 		double security = 0.825D; // 85%
@@ -123,6 +124,11 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.rpa_plate, rpa * chest);
 		HazmatRegistry.registerHazmat(ModItems.rpa_legs, rpa * legs);
 		HazmatRegistry.registerHazmat(ModItems.rpa_boots, rpa * boots);
+
+		HazmatRegistry.registerHazmat(ModItems.trenchmaster_helmet, trench * helmet);
+		HazmatRegistry.registerHazmat(ModItems.trenchmaster_plate, trench * chest);
+		HazmatRegistry.registerHazmat(ModItems.trenchmaster_legs, trench * legs);
+		HazmatRegistry.registerHazmat(ModItems.trenchmaster_boots, trench * boots);
 
 		HazmatRegistry.registerHazmat(ModItems.fau_helmet, fau * helmet);
 		HazmatRegistry.registerHazmat(ModItems.fau_plate, fau * chest);

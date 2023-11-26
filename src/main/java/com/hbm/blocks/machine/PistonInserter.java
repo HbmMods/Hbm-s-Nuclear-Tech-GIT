@@ -1,6 +1,9 @@
 package com.hbm.blocks.machine;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockContainerBase;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
 
 import api.hbm.block.IInsertable;
@@ -21,7 +24,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class PistonInserter extends BlockContainerBase {
+public class PistonInserter extends BlockContainerBase implements ITooltipProvider {
 
 	public PistonInserter() {
 		super(Material.iron);
@@ -382,5 +385,10 @@ public class PistonInserter extends BlockContainerBase {
 		
 		@Override public boolean isItemValidForSlot(int slot, ItemStack stack) { return true; }
 		
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		this.addStandardInfo(stack, player, list, ext);
 	}
 }

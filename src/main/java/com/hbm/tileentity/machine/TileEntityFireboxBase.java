@@ -1,13 +1,17 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.util.ItemStackUtil;
 
 import api.hbm.fluid.IFluidStandardSender;
 import api.hbm.tile.IHeatSource;
@@ -15,6 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -68,9 +73,21 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 				for(int i = 0; i < 2; i++) {
 					if(slots[i] != null) {
 						
-						int fuel = (int) (getModule().getBurnTime(slots[i]) * getTimeMult());
+						int baseTime = getModule().getBurnTime(slots[i]);
 						
-						if(fuel > 0) {
+						if(baseTime > 0) {
+							int fuel = (int) (baseTime * getTimeMult());
+							
+							TileEntity below = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
+							
+							if(below instanceof TileEntityAshpit) {
+								TileEntityAshpit ashpit = (TileEntityAshpit) below;
+								EnumAshType type = this.getAshFromFuel(slots[i]);
+								if(type == EnumAshType.WOOD) ashpit.ashLevelWood += baseTime;
+								if(type == EnumAshType.COAL) ashpit.ashLevelCoal += baseTime;
+								if(type == EnumAshType.MISC) ashpit.ashLevelMisc += baseTime;
+							}
+							
 							this.maxBurnTime = this.burnTime = fuel;
 							this.burnHeat = getModule().getBurnHeat(getBaseHeat(), slots[i]);
 							slots[i].stackSize--;
@@ -132,6 +149,22 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 				worldObj.spawnParticle("flame", x + worldObj.rand.nextDouble() * 0.5 - 0.25, y + worldObj.rand.nextDouble() * 0.25, z + worldObj.rand.nextDouble() * 0.5 - 0.25, 0, 0, 0);
 			}
 		}
+	}
+	
+	public static EnumAshType getAshFromFuel(ItemStack stack) {
+
+		List<String> names = ItemStackUtil.getOreDictNames(stack);
+		
+		for(String name : names) {
+			if(name.contains("Coke"))		return EnumAshType.COAL;
+			if(name.contains("Coal"))		return EnumAshType.COAL;
+			if(name.contains("Lignite"))	return EnumAshType.COAL;
+			if(name.startsWith("log"))		return EnumAshType.WOOD;
+			if(name.contains("Wood"))		return EnumAshType.WOOD;
+			if(name.contains("Sapling"))	return EnumAshType.WOOD;
+		}
+
+		return EnumAshType.MISC;
 	}
 
 	public abstract ModuleBurnTime getModule();

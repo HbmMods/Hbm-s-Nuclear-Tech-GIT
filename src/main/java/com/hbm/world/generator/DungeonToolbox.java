@@ -94,4 +94,12 @@ public class DungeonToolbox {
 		genFlowers.func_150550_a(flower, meta);
 		genFlowers.generate(world, rand, x, y, z);
 	}
+	
+	public static boolean allowedToReplace(Block block) {
+		
+		if(block == Blocks.end_portal_frame) return false;
+		if(block == Blocks.bedrock) return false;
+		
+		return true;
+	}
 }

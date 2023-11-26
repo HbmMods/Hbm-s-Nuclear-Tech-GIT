@@ -3,7 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
-import com.hbm.tileentity.machine.TileEntityMachineRadar;
+import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -21,8 +21,8 @@ public class RenderRadar extends TileEntitySpecialRenderer {
 		bindTexture(ResourceManager.radar_base_tex);
 		ResourceManager.radar.renderPart("Base");
 
-		TileEntityMachineRadar radar = (TileEntityMachineRadar) tileEntity;
-		GL11.glRotatef(radar.prevRotation + (radar.rotation - radar.prevRotation) * f, 0F, 1F, 0F);
+		TileEntityMachineRadarNT radar = (TileEntityMachineRadarNT) tileEntity;
+		GL11.glRotatef(radar.prevRotation + (radar.rotation - radar.prevRotation) * f, 0F, -1F, 0F);
 		GL11.glTranslated(-0.125D, 0, 0);
 
 		bindTexture(ResourceManager.radar_dish_tex);
@@ -30,5 +30,4 @@ public class RenderRadar extends TileEntitySpecialRenderer {
 
 		GL11.glPopMatrix();
 	}
-
 }

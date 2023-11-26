@@ -303,12 +303,13 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			if(tPos != null)
 				this.alignTurret();
 		} else {
-
 			this.target = null;
 			this.tPos = null;
 		}
 		
 		if(!worldObj.isRemote) {
+			
+			if(!isOn()) this.targetQueue.clear();
 			
 			if(this.target != null && !target.isEntityAlive()) {
 				this.target = null;

@@ -10,6 +10,7 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.util.EnumChatFormatting;
 
 public class FT_Coolable extends FluidTrait {
@@ -42,13 +43,14 @@ public class FT_Coolable extends FluidTrait {
 	
 	@Override
 	public void addInfoHidden(List<String> info) {
+		info.add(EnumChatFormatting.AQUA + I18nUtil.resolveKeyArray("hbmfluid.Trait.Coolable",heatEnergy,"")[0]);
 		for(CoolingType type : CoolingType.values()) {
 			
 			double eff = getEfficiency(type);
 			
 			if(eff > 0) {
 				info.add(EnumChatFormatting.AQUA + "[" + type.name + "]");
-				info.add(EnumChatFormatting.AQUA + "Efficiency: " + ((int) (eff * 100D)) + "%");
+				info.add(EnumChatFormatting.AQUA + I18nUtil.resolveKeyArray("hbmfluid.Trait.Coolable","",((int) (eff * 100D)))[1]);
 			}
 		}
 	}
@@ -66,7 +68,7 @@ public class FT_Coolable extends FluidTrait {
 
 	@Override
 	public void serializeJSON(JsonWriter writer) throws IOException {
-		writer.name("coolsTo").value(this.coolsTo.getUnlocalizedName());
+		writer.name("coolsTo").value(this.coolsTo.getName());
 		writer.name("amountReq").value(this.amountReq);
 		writer.name("amountProd").value(this.amountProduced);
 		writer.name("heatEnergy").value(this.heatEnergy);

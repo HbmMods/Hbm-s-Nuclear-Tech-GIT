@@ -3,6 +3,7 @@ package com.hbm.world.feature;
 import java.util.Random;
 
 import com.hbm.blocks.BlockEnums.EnumBiomeType;
+import com.hbm.world.generator.DungeonToolbox;
 import com.hbm.blocks.ModBlocks;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -95,7 +96,7 @@ public class BiomeCave {
 	private static void handleBiome(World world, int x, int y, int z, EnumBiomeType type) {
 		Block target = world.getBlock(x, y, z);
 		
-		if(target.isNormalCube()) {
+		if(target.isNormalCube() && DungeonToolbox.allowedToReplace(target)) {
 			
 			boolean shouldGen = false;
 			

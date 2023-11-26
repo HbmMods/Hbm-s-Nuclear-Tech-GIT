@@ -3,6 +3,7 @@ package com.hbm.blocks.network;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
@@ -95,9 +96,9 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 		TileEntityPipeGauge duct = (TileEntityPipeGauge) te;
 		
 		List<String> text = new ArrayList();
-		text.add("&[" + duct.getType().getColor() + "&]" +I18nUtil.resolveKey(duct.getType().getUnlocalizedName()));
-		text.add(String.format("%,d", duct.deltaTick) + " mB/t");
-		text.add(String.format("%,d", duct.deltaLastSecond) + " mB/s");
+		text.add("&[" + duct.getType().getColor() + "&]" + duct.getType().getLocalizedName());
+		text.add(String.format(Locale.US, "%,d", duct.deltaTick) + " mB/t");
+		text.add(String.format(Locale.US, "%,d", duct.deltaLastSecond) + " mB/s");
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 	
@@ -151,33 +152,26 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 			this.deltaLastSecond = Math.max(nbt.getLong("deltaS"), 0);
 		}
 
-		@Override
 		public String getComponentName() {
 			return "ntm_fluid_gauge";
 		}
 
-		@Callback(direct = true, limit = 16)
+		@Callback(direct = true, limit = 8)
 		@Optional.Method(modid = "OpenComputers")
-		public Object[] getTick(Context context, Arguments args) {
-			return new Object[] {deltaTick};
+		public Object[] getTransfer(Context context, Arguments args) {
+			return new Object[] {deltaTick, deltaSecond};
 		}
 
-		@Callback(direct = true, limit = 16)
+		@Callback(direct = true, limit = 8)
 		@Optional.Method(modid = "OpenComputers")
-		public Object[] getSecond(Context context, Arguments args) {
-			return new Object[] {deltaSecond};
+		public Object[] getFluid(Context context, Arguments args) {
+			return new Object[] {getType().getName()};
 		}
 
-		@Callback(direct = true, limit = 16)
-		@Optional.Method(modid = "OpenComputers")
-		public Object[] getType(Context context, Arguments args) {
-			return new Object[] {I18nUtil.resolveKey(getType().getUnlocalizedName())};
-		}
-
-		@Callback(direct = true, limit = 16)
+		@Callback(direct = true, limit = 8)
 		@Optional.Method(modid = "OpenComputers")
 		public Object[] getInfo(Context context, Arguments args) {
-			return new Object[] {deltaTick, deltaSecond, I18nUtil.resolveKey(getType().getUnlocalizedName()), xCoord, yCoord, zCoord};
+			return new Object[] {deltaTick, deltaSecond, getType().getName(), xCoord, yCoord, zCoord};
 		}
 	}
 }

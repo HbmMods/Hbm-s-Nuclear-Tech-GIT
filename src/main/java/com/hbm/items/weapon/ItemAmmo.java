@@ -65,6 +65,7 @@ public class ItemAmmo extends ItemEnumMulti {
 		NEU_STARMETAL,
 		NEU_TRACER,
 		NEU_UHH,
+		NEU_LEADBURSTER,
 		NEU_WARCRIME1,
 		NEU_WARCRIME2,
 		PRO_ACCURATE1,

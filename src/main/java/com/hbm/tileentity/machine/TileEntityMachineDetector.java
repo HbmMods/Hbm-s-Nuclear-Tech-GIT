@@ -52,4 +52,9 @@ public class TileEntityMachineDetector extends TileEntityLoadedBase implements I
 		return 5;
 	}
 
+	@Override
+	public ConnectionPriority getPriority() {
+		return ConnectionPriority.HIGH;
+	}
+
 }

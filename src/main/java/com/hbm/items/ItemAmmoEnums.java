@@ -186,7 +186,8 @@ public class ItemAmmoEnums {
 		FINNED("ammo_grenade_finned", AmmoItemTrait.PRO_GRAVITY, AmmoItemTrait.CON_RADIUS),
 		NUCLEAR("ammo_grenade_nuclear", AmmoItemTrait.PRO_NUCLEAR, AmmoItemTrait.PRO_RANGE, AmmoItemTrait.CON_HEAVY_WEAR),
 		TRACER("ammo_grenade_tracer", AmmoItemTrait.NEU_BLANK),
-		KAMPF("ammo_grenade_kampf", AmmoItemTrait.PRO_ROCKET_PROPELLED, AmmoItemTrait.PRO_RADIUS, AmmoItemTrait.PRO_ACCURATE1, AmmoItemTrait.CON_WEAR);
+		KAMPF("ammo_grenade_kampf", AmmoItemTrait.PRO_ROCKET_PROPELLED, AmmoItemTrait.PRO_RADIUS, AmmoItemTrait.PRO_ACCURATE1, AmmoItemTrait.CON_WEAR),
+		LEADBURSTER("ammo_grenade_leadburster", AmmoItemTrait.NEU_LEADBURSTER, AmmoItemTrait.CON_NO_EXPLODE1);
 		
 		private final Set<AmmoItemTrait> traits;
 		private final String unloc;

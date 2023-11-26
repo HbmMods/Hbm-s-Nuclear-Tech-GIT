@@ -65,7 +65,7 @@ public class Gun50BMGFactory {
 		bullet.leadChance = 20;
 
 		bullet.blockDamage = false;
-		bullet.bntImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 2.0F, false, false);
+		bullet.bntImpact = (projectile, x, y, z, sideHit) -> projectile.worldObj.newExplosion(projectile, x, y, z, 2.0F, false, false);
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaStock");
 
@@ -79,7 +79,7 @@ public class Gun50BMGFactory {
 
 		bullet.ammo.meta = 1;
 		bullet.incendiary = 10;
-		bullet.bntImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 5.0F, true, false);
+		bullet.bntImpact = (projectile, x, y, z, sideHit) -> projectile.worldObj.newExplosion(projectile, x, y, z, 5.0F, true, false);
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaInc");
 
@@ -94,7 +94,7 @@ public class Gun50BMGFactory {
 		bullet.ammo.meta = 2;
 		bullet.explosive = 25;
 		bullet.destroysBlocks = true;
-		bullet.bntImpact = (projectile, x, y, z) -> projectile.worldObj.newExplosion(projectile, x, y, z, 25.0F, true, false);
+		bullet.bntImpact = (projectile, x, y, z, sideHit) -> projectile.worldObj.newExplosion(projectile, x, y, z, 25.0F, true, false);
 		
 		bullet.spentCasing = CASINGLUNA.clone().register("LunaExp");
 
@@ -111,6 +111,7 @@ public class Gun50BMGFactory {
 		config.firingMode = GunConfiguration.FIRE_AUTO;
 		config.reloadDuration = 20;
 		config.firingDuration = 0;
+		config.reloadSoundEnd = false;
 		config.ammoCap = 50;
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
@@ -141,10 +142,40 @@ public class Gun50BMGFactory {
 		config.magazines.add((short) EnumMagazine.R_AR15.ordinal());
 		
 		config.ejector = EJECTOR_BMG;
-		
+
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+				)
+		);
+		config.animations.put(AnimType.RELOAD, new BusAnimation()
+				.addBus("TILT", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 125))
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 750))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 125))
+				)
+				.addBus("MAG", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 200))
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 1, 200))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+				)
+		);
+
 		return config;
 	}
-	
+
+	public static GunConfiguration getAR15BurstConfig(){
+		GunConfiguration config = getAR15Config();
+		config.rateOfFire = 4;
+		config.roundsPerBurst = 3;
+		config.firingDuration = 2;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_BURST;
+
+		return config;
+	}
+
 	public static GunConfiguration getM2Config() {
 		GunConfiguration config = getAR15Config();
 		
@@ -277,7 +308,7 @@ public class Gun50BMGFactory {
 		bullet.effects = new ArrayList<>();
 		bullet.effects.add(new PotionEffect(eff));
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "vanillaburst");
@@ -381,7 +412,7 @@ public class Gun50BMGFactory {
 			bulletnt.worldObj.spawnEntityInWorld(meteor);
 		};
 		
-		bullet.bntImpact = (bulletnt, x, y, z) -> {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 
 			if(bulletnt.worldObj.isRemote)
 				return;
@@ -409,7 +440,8 @@ public class Gun50BMGFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 54;
-		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
+		bullet.style = bullet.STYLE_FLECHETTE;
+		BulletConfigFactory.makeFlechette(bullet);
 		
 		bullet.spentCasing = CASING50BMG.clone().register("50BMGFlech");
 		
@@ -424,7 +456,8 @@ public class Gun50BMGFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 60;
 		bullet.dmgMax = 64;
-		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
+		bullet.style = bullet.STYLE_FLECHETTE;
+		BulletConfigFactory.makeFlechette(bullet);
 		
 		bullet.bntHit = (bulletnt, hit) -> {
 
@@ -449,7 +482,8 @@ public class Gun50BMGFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 60;
 		bullet.dmgMax = 64;
-		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
+		bullet.style = bullet.STYLE_FLECHETTE;
+		BulletConfigFactory.makeFlechette(bullet);
 		
 		bullet.bntHit = (bulletnt, hit) -> {
 

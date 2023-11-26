@@ -2,9 +2,8 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.lib.Library;
+import com.hbm.saveddata.TomSaveData;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -32,7 +31,7 @@ public class ItemWandD extends Item {
 			vnt.setSFX(new ExplosionEffectStandard());
 			vnt.explode();*/
 			
-			PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
+			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
 			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
@@ -41,11 +40,11 @@ public class ItemWandD extends Item {
 			TimeAnalyzer.endCount();
 			TimeAnalyzer.dump();*/
 			
-			/*TomSaveData data = TomSaveData.forWorld(world);
-			data.impact = false;
+			TomSaveData data = TomSaveData.forWorld(world);
+			data.impact = true;
 			data.fire = 0F;
 			data.dust = 0F;
-			data.markDirty();*/
+			data.markDirty();
 			
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;
@@ -56,13 +55,16 @@ public class ItemWandD extends Item {
 			
 			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
-			torex.getDataWatcher().updateObject(10, 1.5F);
+			torex.setScale(1.5F);
+			torex.setType(1);
 			world.spawnEntityInWorld(torex);
-			EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
+			TrackerUtil.setTrackingRange(world, torex, 1000);*/
+			
+			/*EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
 			EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(torex.getEntityId());
-			entry.blocksDistanceThreshold = 1000;
-			world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));*/
+			entry.blocksDistanceThreshold = 1000;*/
+			//world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));
 			
 			//DungeonToolbox.generateBedrockOreWithChance(world, world.rand, pos.blockX, pos.blockZ, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500), 2, 1);
 			

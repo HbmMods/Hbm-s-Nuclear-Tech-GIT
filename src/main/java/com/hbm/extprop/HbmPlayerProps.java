@@ -18,6 +18,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public static final String key = "NTM_EXT_PLAYER";
 	public EntityPlayer player;
 	
+	public boolean hasReceivedBook = false;
+	
 	public boolean enableHUD = true;
 	public boolean enableBackpack = true;
 	
@@ -38,6 +40,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public float maxShield = 0;
 	public int lastDamage = 0;
 	public static final float shieldCap = 100;
+	
+	public int reputation;
 	
 	public HbmPlayerProps(EntityPlayer player) {
 		this.player = player;
@@ -150,10 +154,12 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		
 		NBTTagCompound props = new NBTTagCompound();
 		
+		props.setBoolean("hasReceivedBook", hasReceivedBook);
 		props.setFloat("shield", shield);
 		props.setFloat("maxShield", maxShield);
 		props.setBoolean("enableBackpack", enableBackpack);
 		props.setBoolean("enableHUD", enableHUD);
+		props.setInteger("reputation", reputation);
 		
 		nbt.setTag("HbmPlayerProps", props);
 	}
@@ -164,10 +170,12 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		NBTTagCompound props = (NBTTagCompound) nbt.getTag("HbmPlayerProps");
 		
 		if(props != null) {
+			this.hasReceivedBook = props.getBoolean("hasReceivedBook");
 			this.shield = props.getFloat("shield");
 			this.maxShield = props.getFloat("maxShield");
 			this.enableBackpack = props.getBoolean("enableBackpack");
 			this.enableHUD = props.getBoolean("enableHUD");
+			this.reputation = props.getInteger("reputation");
 		}
 	}
 }

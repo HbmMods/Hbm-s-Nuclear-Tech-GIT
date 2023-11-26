@@ -17,7 +17,6 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -86,7 +85,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 						break;
 					}
 					
-					if(worldObj.getBlock(x, y, z) != Blocks.air)
+					if(!worldObj.getBlock(x, y, z).isAir(worldObj, x, y, z))
 						break;
 				}
 			}
@@ -175,14 +174,8 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getEnergyStored(Context context, Arguments args) {
-		return new Object[] {power};
-	}
-
-	@Callback(direct = true, limit = 4)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getMaxEnergy(Context context, Arguments args) {
-		return new Object[] {maxPower};
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
 	}
 
 	@Callback(direct = true, limit = 4)

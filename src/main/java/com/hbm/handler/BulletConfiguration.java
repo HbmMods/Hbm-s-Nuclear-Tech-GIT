@@ -141,6 +141,7 @@ public class BulletConfiguration implements Cloneable {
 	public static final int STYLE_BLADE = 15;
 	public static final int STYLE_BARREL = 16;
 	public static final int STYLE_TAU = 17;
+	public static final int STYLE_LEADBURSTER = 18;
 
 	public static final int PLINK_NONE = 0;
 	public static final int PLINK_BULLET = 1;
@@ -182,12 +183,14 @@ public class BulletConfiguration implements Cloneable {
 	}
 	
 	public BulletConfiguration getChlorophyte() {
-		this.bntUpdate = BulletConfigFactory.getHomingBehavior(200, 45);
-		this.dmgMin *= 1.5F;
-		this.dmgMax *= 1.5F;
+		this.bntUpdate = BulletConfigFactory.getHomingBehavior(30, 180);
+		this.bntHurt = BulletConfigFactory.getPenHomingBehavior();
+		this.dmgMin *= 2F;
+		this.dmgMax *= 2F;
 		this.wear *= 0.5;
+		this.velocity *= 0.3;
 		this.doesRicochet = false;
-		this.doesPenetrate = false;
+		this.doesPenetrate = true;
 		this.vPFX = "greendust";
 		
 		if(this.spentCasing != null) {

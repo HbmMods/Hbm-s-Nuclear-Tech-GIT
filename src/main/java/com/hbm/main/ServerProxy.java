@@ -20,13 +20,14 @@ public class ServerProxy {
 	public static final int ID_FILTER = 1;
 	public static final int ID_COMPASS = 2;
 	public static final int ID_CABLE = 3;
-	public static final int ID_JETPACK = 4;
-	public static final int ID_HUD = 5;
-	public static final int ID_DETONATOR = 6;
-	public static final int ID_FLUID_ID = 7;
-	public static final int ID_TOOLABILITY = 8;
-	public static final int ID_GUN_MODE = 9;
-	public static final int ID_GAS_HAZARD = 10;
+	public static final int ID_DRONE = 4;
+	public static final int ID_JETPACK = 5;
+	public static final int ID_HUD = 6;
+	public static final int ID_DETONATOR = 7;
+	public static final int ID_FLUID_ID = 8;
+	public static final int ID_TOOLABILITY = 9;
+	public static final int ID_GUN_MODE = 10;
+	public static final int ID_GAS_HAZARD = 11;
 	
 	public void registerRenderInfo() { }
 	public void registerTileEntitySpecialRenderer() { }

@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
@@ -63,7 +64,7 @@ public class HeaterHeatex extends BlockDummyable implements ILookOverlay, IToolt
 		TileEntityHeaterHeatex heater = (TileEntityHeaterHeatex) te;
 
 		List<String> text = new ArrayList();
-		text.add(String.format("%,d", heater.heatEnergy) + " TU");
+		text.add(String.format(Locale.US, "%,d", heater.heatEnergy) + " TU");
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 

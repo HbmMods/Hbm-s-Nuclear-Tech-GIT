@@ -34,8 +34,6 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.ammo_20gauge, 0, 2, 6, 3),
 			new WeightedRandomChestContent(ModItems.casing_9, 0, 4, 10, 3),
 			new WeightedRandomChestContent(ModItems.casing_50, 0, 4, 10, 3),
-			new WeightedRandomChestContent(ModItems.primer_9, 0, 4, 10, 3),
-			new WeightedRandomChestContent(ModItems.primer_50, 0, 4, 10, 3),
 			new WeightedRandomChestContent(ModItems.cordite, 0, 4, 6, 5),
 			new WeightedRandomChestContent(ModItems.battery_generic, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 2),
@@ -247,7 +245,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.powder_niobium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.fusion_conductor), 0, 2, 4, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.fusion_heater), 0, 1, 3, 5),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.reactor_element), 0, 1, 2, 5),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.pwr_fuel), 0, 1, 2, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_tungsten), 0, 3, 8, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_wire_coated), 0, 4, 8, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_cable), 0, 8, 16, 5) };
@@ -268,11 +266,13 @@ public class HbmChestContents {
 
 	public static WeightedRandomChestContent[] vault1 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(Items.gold_ingot, 0, 3, 14, 1),
+			new WeightedRandomChestContent(ModItems.gun_uac_pistol, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.pin, 0, 8, 8, 1),
 			new WeightedRandomChestContent(ModItems.gun_calamity, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 3, 1),
 			new WeightedRandomChestContent(ModItems.ingot_advanced_alloy, 0, 4, 12, 1),
 			new WeightedRandomChestContent(ModItems.ammo_50bmg, 0, 24, 48, 1),
+			new WeightedRandomChestContent(ModItems.ammo_45, 0, 48, 64, 2),
 			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 6, 12, 1),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.grenade_if_he, 0, 1, 1, 1),
@@ -388,6 +388,8 @@ public class HbmChestContents {
 	public static WeightedRandomChestContent[] lockersVault = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.robes_helmet, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.robes_plate, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.ammo_45, 0, 48, 64, 2),
+			new WeightedRandomChestContent(ModItems.gun_uac_pistol, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.robes_legs, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.robes_boots, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.jackt, 0, 1, 1, 1),
@@ -416,26 +418,16 @@ public class HbmChestContents {
 		String key;
 		int pages;
 		switch(rand.nextInt(10)) {
-		case 0:
-			key = "resignation_note"; pages = 3; break;
-		case 1:
-			key = "memo_stocks"; pages = 1; break;
-		case 2:
-			key = "memo_schrab_gsa"; pages = 2; break;
-		case 3:
-			key = "memo_schrab_rd"; pages = 4; break;
-		case 4:
-			key = "memo_schrab_nuke"; pages = 3; break;
-		case 5:
-			key = "bf_bomb_1"; pages = 4; break;
-		case 6:
-			key = "bf_bomb_2"; pages = 6; break;
-		case 7:
-			key = "bf_bomb_3"; pages = 6; break;
-		case 8:
-			key = "bf_bomb_4"; pages = 5; break;
-		case 9:
-			key = "bf_bomb_5"; pages = 9; break;
+		case 0: key = "resignation_note"; pages = 3; break;
+		case 1: key = "memo_stocks"; pages = 1; break;
+		case 2: key = "memo_schrab_gsa"; pages = 2; break;
+		case 3: key = "memo_schrab_rd"; pages = 4; break;
+		case 4: key = "memo_schrab_nuke"; pages = 3; break;
+		case 5: key = "bf_bomb_1"; pages = 4; break;
+		case 6: key = "bf_bomb_2"; pages = 6; break;
+		case 7: key = "bf_bomb_3"; pages = 6; break;
+		case 8: key = "bf_bomb_4"; pages = 5; break;
+		case 9: key = "bf_bomb_5"; pages = 9; break;
 		default:
 			return null;
 		}

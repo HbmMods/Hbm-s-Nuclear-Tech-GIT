@@ -153,6 +153,8 @@ public class PowerNet implements IPowerNet {
 	
 	public static long fairTransfer(List<IEnergyConnector> subscribers, long power) {
 		
+		if(power <= 0) return 0;
+		
 		if(subscribers.isEmpty())
 			return power;
 		
@@ -196,6 +198,11 @@ public class PowerNet implements IPowerNet {
 				long given = (long) Math.floor(fraction * power);
 				
 				totalGiven += (given - con.transferPower(given));
+				
+				if(con instanceof TileEntity) {
+					TileEntity tile = (TileEntity) con;
+					tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
+				}
 			}
 			
 			power -= totalGiven;

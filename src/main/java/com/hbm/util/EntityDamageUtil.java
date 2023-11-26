@@ -63,17 +63,20 @@ public class EntityDamageUtil {
 	}
 	
 	public static boolean attackEntityFromIgnoreIFrame(Entity victim, DamageSource src, float damage) {
-		// IDK what's going on here
-//		if(!victim.attackEntityFrom(src, damage)) {
-//			
-//			if(victim instanceof EntityLivingBase) {
-//				damage += ((EntityLivingBase) victim).lastDamage;
-//			}
-//			return victim.attackEntityFrom(src, damage);
-//		} else {
-//			return true;
-//		}
-		return true;
+
+		if(!victim.attackEntityFrom(src, damage)) {
+			
+			if(victim instanceof EntityLivingBase) {
+				EntityLivingBase living = (EntityLivingBase) victim;
+				
+				if(living.hurtResistantTime > living.maxHurtResistantTime / 2.0F) {
+					damage += living.lastDamage;
+				}
+			}
+			return victim.attackEntityFrom(src, damage);
+		} else {
+			return true;
+		}
 	}
 	
 	/** Currently just a copy of the vanilla damage code */
