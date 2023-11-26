@@ -137,7 +137,7 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.pink_stairs));
 		
 		if (GeneralConfig.magazineMode == MagazineMode.OFF)
-			API.hideItem(new ItemStack(ModItems.gun_magazine, 0, OreDictionary.WILDCARD_VALUE));
+			API.hideItem(new ItemStack(ModItems.gun_magazine, 1, OreDictionary.WILDCARD_VALUE));
 		
 		API.registerHighlightIdentifier(ModBlocks.ore_random, new IHighlightHandler() {
 
