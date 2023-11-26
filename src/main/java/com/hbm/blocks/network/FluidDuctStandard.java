@@ -7,6 +7,7 @@ import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.test.TestPipe;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
@@ -18,11 +19,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
@@ -70,7 +73,42 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 	public int damageDropped(int meta) {
 		return rectify(meta);
 	}
+	/*
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Item getItem(World world, int x, int y, int z) {
+	    Block block = world.getBlock(x, y, z); // Get the block at the specified coordinates
+	    int blockMetadata = world.getBlockMetadata(x, y, z); // Get the metadata of the block at the specified coordinates
+	    TileEntity tileEntity = world.getTileEntity(x, y, z); // Get the tile entity at the specified coordinates
 
+	        TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) tileEntity;
+
+	        // Get the metadata (FluidType) from the pipe
+	        FluidType fluidType = pipe.getType();
+	        int metadata = fluidType.getID();
+
+	        // Create an ItemStack with the item and metadata
+	        ItemStack itemStack = new ItemStack(ModItems.fluid_duct, 1, metadata);
+	        System.out.println(metadata);
+	        System.out.println(itemStack);
+
+	        return new ItemStack(ModItems.fluid_duct, 1, metadata).getItem();
+	}
+	*/
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+	    TileEntity tileEntity = world.getTileEntity(x, y, z);
+	    if (tileEntity instanceof TileEntityPipeBaseNT) {
+	        TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) tileEntity;
+	        FluidType fluidType = pipe.getType();
+	        int retadata = fluidType.getID(); //florf
+
+	        return new ItemStack(ModItems.fluid_duct, 1, retadata);
+	    }
+	    return super.getPickBlock(target, world, x, y, z, player); 
+	}
 	@Override
 	public int getRenderType() {
 		return TestPipe.renderID;

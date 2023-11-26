@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.tileentity.network.TileEntityPylon;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,7 +25,7 @@ public class PylonRedWire extends PylonBase {
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		list.add(EnumChatFormatting.GOLD + "Connection Type: " + EnumChatFormatting.YELLOW + "Single");
-		list.add(EnumChatFormatting.GOLD + "Connection Range: " + EnumChatFormatting.YELLOW + "25m");
+		for(String s : I18nUtil.resolveKeyArray("tile.red_pylon.desc"))
+			list.add(EnumChatFormatting.GOLD + s);
 	}
 }

@@ -1,20 +1,35 @@
 package com.hbm.tileentity.bomb;
 
+import java.util.HashMap;
+
+import org.apache.logging.log4j.Level;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.LaunchPad;
+import com.hbm.config.GeneralConfig;
+import com.hbm.entity.missile.EntityCarrier;
+import com.hbm.entity.missile.EntityMissileAntiBallistic;
+import com.hbm.entity.missile.EntityMissileBaseNT;
+import com.hbm.entity.missile.EntityMissileShuttle;
+import com.hbm.entity.missile.EntityMissileTier0.*;
+import com.hbm.entity.missile.EntityMissileTier1.*;
+import com.hbm.entity.missile.EntityMissileTier2.*;
+import com.hbm.entity.missile.EntityMissileTier3.*;
+import com.hbm.entity.missile.EntityMissileTier4.*;
+import com.hbm.interfaces.IBomb.BombReturnCode;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerLaunchPadTier1;
 import com.hbm.inventory.gui.GUILaunchPadTier1;
+import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEMissilePacket;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.IRadarCommandReceiver;
+import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import li.cil.oc.api.machine.Arguments;
@@ -22,183 +37,72 @@ import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, SimpleComponent, IGUIProvider {
+public class TileEntityLaunchPad extends TileEntityMachineBase implements IEnergyUser, SimpleComponent, IGUIProvider, IRadarCommandReceiver {
+	
+	/** Automatic instantiation of generic missiles, i.e. everything that both extends EntityMissileBaseNT and needs a designator */
+	public static final HashMap<ComparableStack, Class<? extends EntityMissileBaseNT>> missiles = new HashMap();
+	
+	public static void registerLaunchables() {
 
-	public ItemStack slots[];
+		//Tier 0
+		missiles.put(new ComparableStack(ModItems.missile_micro), EntityMissileMicro.class);
+		missiles.put(new ComparableStack(ModItems.missile_schrabidium), EntityMissileSchrabidium.class);
+		missiles.put(new ComparableStack(ModItems.missile_bhole), EntityMissileBHole.class);
+		missiles.put(new ComparableStack(ModItems.missile_taint), EntityMissileTaint.class);
+		missiles.put(new ComparableStack(ModItems.missile_emp), EntityMissileEMP.class);
+		//Tier 1
+		missiles.put(new ComparableStack(ModItems.missile_generic), EntityMissileGeneric.class);
+		missiles.put(new ComparableStack(ModItems.missile_incendiary), EntityMissileIncendiary.class);
+		missiles.put(new ComparableStack(ModItems.missile_cluster), EntityMissileCluster.class);
+		missiles.put(new ComparableStack(ModItems.missile_buster), EntityMissileBunkerBuster.class);
+		//Tier 2
+		missiles.put(new ComparableStack(ModItems.missile_strong), EntityMissileStrong.class);
+		missiles.put(new ComparableStack(ModItems.missile_incendiary_strong), EntityMissileIncendiaryStrong.class);
+		missiles.put(new ComparableStack(ModItems.missile_cluster_strong), EntityMissileClusterStrong.class);
+		missiles.put(new ComparableStack(ModItems.missile_buster_strong), EntityMissileBusterStrong.class);
+		missiles.put(new ComparableStack(ModItems.missile_emp_strong), EntityMissileEMPStrong.class);
+		//Tier 3
+		missiles.put(new ComparableStack(ModItems.missile_burst), EntityMissileBurst.class);
+		missiles.put(new ComparableStack(ModItems.missile_inferno), EntityMissileInferno.class);
+		missiles.put(new ComparableStack(ModItems.missile_rain), EntityMissileRain.class);
+		missiles.put(new ComparableStack(ModItems.missile_drill), EntityMissileDrill.class);
+		missiles.put(new ComparableStack(ModItems.missile_endo), EntityMissileEndo.class);
+		missiles.put(new ComparableStack(ModItems.missile_exo), EntityMissileExo.class);
+		missiles.put(new ComparableStack(ModItems.missile_shuttle), EntityMissileShuttle.class);
+		//Tier 4
+		missiles.put(new ComparableStack(ModItems.missile_nuclear), EntityMissileNuclear.class);
+		missiles.put(new ComparableStack(ModItems.missile_nuclear_cluster), EntityMissileMirv.class);
+		missiles.put(new ComparableStack(ModItems.missile_volcano), EntityMissileVolcano.class);
+	}
+
+	public ItemStack toRender;
 	
 	public long power;
 	public final long maxPower = 100000;
 	
-	private static final int[] slots_top = new int[] {0};
-	private static final int[] slots_bottom = new int[] { 0, 1, 2};
+	private static final int[] slots_bottom = new int[] {0, 1, 2};
 	private static final int[] slots_side = new int[] {0};
-	public int state = 0;
-	private String customName;
 	
 	public TileEntityLaunchPad() {
-		slots = new ItemStack[3];
+		super(3);
 	}
 
 	@Override
-	public int getSizeInventory() {
-		return slots.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if(slots[i] != null)
-		{
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-		return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit())
-		{
-			itemStack.stackSize = getInventoryStackLimit();
-		}
-	}
-
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.launchPad";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-	
-	public void setCustomName(String name) {
-		this.customName = name;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
-			return false;
-		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
-		}
-	}
-	
-	//You scrubs aren't needed for anything (right now)
-	@Override
-	public void openInventory() {}
-	@Override
-	public void closeInventory() {}
-
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return true;
-	}
-	
-	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(slots[i] != null)
-		{
-			if(slots[i].stackSize <= j)
-			{
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
-			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0)
-			{
-				slots[i] = null;
-			}
-			
-			return itemStack1;
-		} else {
-			return null;
-		}
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
-		power = nbt.getLong("power");
-		slots = new ItemStack[getSizeInventory()];
-		
-		for(int i = 0; i < list.tagCount(); i++)
-		{
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length)
-			{
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		NBTTagList list = new NBTTagList();
-		nbt.setLong("power", power);
-		
-		for(int i = 0; i < slots.length; i++)
-		{
-			if(slots[i] != null)
-			{
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte)i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
-	}
-	
-	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-    }
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
-	}
-
-	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return false;
-	}
-
-	public long getPowerScaled(long i) {
-		return (power * i) / maxPower;
+	public String getName() {
+		return "container.launchPad";
 	}
 
 	@Override
@@ -209,8 +113,24 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 			power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 			this.updateConnections();
 			
-			PacketDispatcher.wrapper.sendToAllAround(new TEMissilePacket(xCoord, yCoord, zCoord, slots[0]), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			if(slots[0] != null) {
+				data.setInteger("id", Item.getIdFromItem(slots[0].getItem()));
+				data.setShort("meta", (short) slots[0].getItemDamage());
+			}
+			networkPack(data, 250);
+		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
+		
+		if(nbt.hasKey("id")) {
+			this.toRender = new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getShort("meta"));
+		} else {
+			this.toRender = null;
 		}
 	}
 	
@@ -221,6 +141,34 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 		this.trySubscribe(worldObj, xCoord, yCoord, zCoord - 1, Library.NEG_Z);
 		this.trySubscribe(worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return true;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		power = nbt.getLong("power");
+		
+		if(slots == null || slots.length != 3) slots = new ItemStack[3];
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setLong("power", power);
+	}
+	
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return side == 0 ? slots_bottom : (side == 1 ? new int[0] : slots_side);
+	}
+
+	public long getPowerScaled(long i) {
+		return (power * i) / maxPower;
+	}
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
@@ -230,13 +178,11 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	@Override
 	public void setPower(long i) {
 		power = i;
-		
 	}
 
 	@Override
 	public long getPower() {
 		return power;
-		
 	}
 
 	@Override
@@ -246,16 +192,12 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	
 	@Override
 	public long transferPower(long power) {
-		
 		this.power += power;
-		
 		if(this.power > this.getMaxPower()) {
-			
 			long overshoot = this.power - this.getMaxPower();
 			this.power = this.getMaxPower();
 			return overshoot;
 		}
-		
 		return 0;
 	}
 
@@ -266,9 +208,119 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+	
+	public boolean hasPower() {
+		return this.power >= 75_000;
+	}
+
+	@Override
+	public boolean sendCommandPosition(int x, int y, int z) {
+		return this.launchToCoordinate(x, z) == BombReturnCode.LAUNCHED;
+	}
+
+	@Override
+	public boolean sendCommandEntity(Entity target) {
+		return this.launchToEntity(target) == BombReturnCode.LAUNCHED;
+	}
+	
+	public BombReturnCode launchFromDesignator() {
+		if(slots[0] == null) return BombReturnCode.ERROR_MISSING_COMPONENT;
+		
+		boolean needsDesignator = missiles.containsKey(new ComparableStack(slots[0]).makeSingular());
+
+		int targetX = 0;
+		int targetZ = 0;
+		
+		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			
+			IDesignatorItem designator = (IDesignatorItem) slots[1].getItem();
+			
+			if(!designator.isReady(worldObj, slots[1], xCoord, yCoord, zCoord) && needsDesignator) return BombReturnCode.ERROR_MISSING_COMPONENT;
+			
+			Vec3 coords = designator.getCoords(worldObj, slots[1], xCoord, yCoord, zCoord);
+			targetX = (int) Math.floor(coords.xCoord);
+			targetZ = (int) Math.floor(coords.zCoord);
+			
+		} else {
+			if(needsDesignator) return BombReturnCode.ERROR_MISSING_COMPONENT;
+		}
+		
+		return this.launchToCoordinate(targetX, targetZ);
+	}
+	
+	public BombReturnCode launchToEntity(Entity entity) {
+		if(!hasPower()) return BombReturnCode.ERROR_MISSING_COMPONENT;
+		Entity e = instantiateMissile((int) Math.floor(entity.posX), (int) Math.floor(entity.posZ));
+		if(e != null) {
+			
+			if(e instanceof EntityMissileAntiBallistic) {
+				EntityMissileAntiBallistic abm = (EntityMissileAntiBallistic) e;
+				abm.tracking = entity;
+			}
+			
+			finalizeLaunch(e);
+			return BombReturnCode.LAUNCHED;
+		}
+		return BombReturnCode.ERROR_MISSING_COMPONENT;
+	}
+	
+	public BombReturnCode launchToCoordinate(int targetX, int targetZ) {
+		if(!hasPower()) return BombReturnCode.ERROR_MISSING_COMPONENT;
+		Entity e = instantiateMissile(targetX, targetZ);
+		if(e != null) {
+			finalizeLaunch(e);
+			return BombReturnCode.LAUNCHED;
+		}
+		return BombReturnCode.ERROR_MISSING_COMPONENT;
+	}
+	
+	public Entity instantiateMissile(int targetX, int targetZ) {
+		
+		if(slots[0] == null) return null;
+		
+		if(slots[0].getItem() == ModItems.missile_carrier) {
+			EntityCarrier missile = new EntityCarrier(worldObj);
+			missile.posX = xCoord + 0.5F;
+			missile.posY = yCoord + 1F;
+			missile.posZ = zCoord + 0.5F;
+			if(slots[1] != null) {
+				missile.setPayload(slots[1]);
+				this.slots[1] = null;
+			}
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord, zCoord + 0.5, "hbm:entity.rocketTakeoff", 100.0F, 1.0F);
+			return missile;
+		}
+		
+		Class<? extends EntityMissileBaseNT> clazz = this.missiles.get(new ComparableStack(slots[0]).makeSingular());
+		
+		if(clazz != null) {
+			try {
+				EntityMissileBaseNT missile = clazz.getConstructor(World.class, float.class, float.class, float.class, int.class, int.class).newInstance(worldObj, xCoord + 0.5F, yCoord + 2F, zCoord + 0.5F, targetX, targetZ);
+				worldObj.playSoundEffect(xCoord + 0.5, yCoord, zCoord + 0.5, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+				if(GeneralConfig.enableExtendedLogging) MainRegistry.logger.log(Level.INFO, "[MISSILE] Tried to launch missile at " + xCoord + " / " + yCoord + " / " + zCoord + " to " + xCoord + " / " + zCoord + "!");
+				return missile;
+			} catch(Exception e) { }
+		}
+
+		if(slots[0].getItem() == ModItems.missile_anti_ballistic) {
+			EntityMissileAntiBallistic missile = new EntityMissileAntiBallistic(worldObj);
+			missile.posX = xCoord + 0.5F;
+			missile.posY = yCoord + 0.5F;
+			missile.posZ = zCoord + 0.5F;
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord, zCoord + 0.5, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+			return missile;
+		}
+		
+		return null;
+	}
+	
+	public void finalizeLaunch(Entity missile) {
+		this.power -= 75_000;
+		worldObj.spawnEntityInWorld(missile);
+		this.decrStackSize(0, 1);
 	}
 	
 	// do some opencomputer stuff
@@ -322,7 +374,6 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ISidedI
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] launch(Context context, Arguments args) {
-		//worldObj.getBlock(xCoord, yCoord, zCoord).explode(worldObj, xCoord, yCoord, zCoord);	
 		((LaunchPad) ModBlocks.launch_pad).explode(worldObj, xCoord, yCoord, zCoord);
 		return new Object[] {};
 	}

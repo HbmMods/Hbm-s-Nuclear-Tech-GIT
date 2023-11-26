@@ -1,14 +1,12 @@
 package com.hbm.tileentity.machine;
 
-import java.util.HashMap;
-
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.container.ContainerMachineGasCent;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineGasCent;
+import com.hbm.inventory.recipes.GasCentrifugeRecipes;
 import com.hbm.inventory.recipes.GasCentrifugeRecipes.PseudoFluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
@@ -36,7 +34,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 //epic!
-public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider {
+public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver, IGUIProvider {
 	
 	public long power;
 	public int progress;
@@ -50,17 +48,9 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	
 	private static final int[] slots_io = new int[] { 0, 1, 2, 3 };
 	
-	private static HashMap<FluidType, PseudoFluidType> fluidConversions = new HashMap();
-	
-	static {
-		fluidConversions.put(Fluids.UF6, PseudoFluidType.NUF6);
-		fluidConversions.put(Fluids.PUF6, PseudoFluidType.PF6);
-		fluidConversions.put(Fluids.WATZ, PseudoFluidType.MUD);
-	}
-	
 	public TileEntityMachineGasCent() {
 		super(7); 
-		tank = new FluidTank(Fluids.UF6, 2000, 0);
+		tank = new FluidTank(Fluids.UF6, 2000);
 		inputTank = new PseudoFluidTank(PseudoFluidType.NUF6, 8000);
 		outputTank = new PseudoFluidTank(PseudoFluidType.LEUF6, 8000);
 	}
@@ -180,10 +170,11 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		this.power = data.getLong("power");
 		this.progress = data.getInteger("progress");
 		this.isProgressing = data.getBoolean("isProgressing");
-		this.inputTank.setTankType(PseudoFluidType.valueOf(data.getString("inputType")));
-		this.outputTank.setTankType(PseudoFluidType.valueOf(data.getString("outputType")));
+		this.inputTank.setTankType(PseudoFluidType.types.get(data.getString("inputType")));
+		this.outputTank.setTankType(PseudoFluidType.types.get(data.getString("outputType")));
 		this.inputTank.setFill(data.getInteger("inputFill"));
 		this.outputTank.setFill(data.getInteger("outputFill"));
+		this.tank.readFromNBT(data, "t");
 	}
 	
 	@Override
@@ -195,9 +186,8 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 
 			power = Library.chargeTEFromItems(slots, 4, power, maxPower);
 			setTankType(5);
-			tank.updateTank(this);
 			
-			if(fluidConversions.containsValue(inputTank.getTankType())) {
+			if(GasCentrifugeRecipes.fluidConversions.containsValue(inputTank.getTankType())) {
 				attemptConversion();
 			}
 			
@@ -246,8 +236,9 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			data.setBoolean("isProgressing", isProgressing);
 			data.setInteger("inputFill", inputTank.getFill());
 			data.setInteger("outputFill", outputTank.getFill());
-			data.setString("inputType", inputTank.getTankType().toString());
-			data.setString("outputType", outputTank.getTankType().toString());
+			data.setString("inputType", inputTank.getTankType().name);
+			data.setString("outputType", outputTank.getTankType().name);
+			tank.writeToNBT(data, "t");
 			this.networkPack(data, 50);
 
 			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
@@ -258,7 +249,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		for(DirPos pos : getConPos()) {
 			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			
-			if(fluidConversions.containsValue(inputTank.getTankType())) {
+			if(GasCentrifugeRecipes.fluidConversions.containsValue(inputTank.getTankType())) {
 				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 		}
@@ -301,10 +292,10 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		
 		if(slots[in] != null && slots[in].getItem() instanceof IItemFluidIdentifier) {
 			IItemFluidIdentifier id = (IItemFluidIdentifier) slots[in].getItem();
-			FluidType newType = id.getType(null, 0, 0, 0, slots[in]);
+			FluidType newType = id.getType(worldObj, xCoord, yCoord, zCoord, slots[in]);
 			
 			if(tank.getTankType() != newType) {
-				PseudoFluidType pseudo = fluidConversions.get(newType);
+				PseudoFluidType pseudo = GasCentrifugeRecipes.fluidConversions.get(newType);
 				
 				if(pseudo != null) {
 					inputTank.setTankType(pseudo);
@@ -314,32 +305,6 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			}
 			
 		}
-	}
-	
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
-	}
-	
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		if(type == tank.getTankType())
-			tank.setFill(fill);
-	}
-	
-	@Override
-	public int getFluidFill(FluidType type) {
-		return tank.getTankType() == type ? tank.getFill() : 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return tank.getTankType() == type ? tank.getMaxFill() : 0;
 	}
 	
 	@Override
@@ -413,16 +378,16 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		public void writeToNBT(NBTTagCompound nbt, String s) {
 			nbt.setInteger(s, fluid);
 			nbt.setInteger(s + "_max", maxFluid);
-			nbt.setString(s + "_type", type.toString());
+			nbt.setString(s + "_type", type.name);
 		}
 		
 		//Called by TE to load fillstate
 		public void readFromNBT(NBTTagCompound nbt, String s) {
 			fluid = nbt.getInteger(s);
 			int max = nbt.getInteger(s + "_max");
-			if(max > 0)
-				maxFluid = nbt.getInteger(s + "_max");
-			type = PseudoFluidType.valueOf(nbt.getString(s + "_type"));
+			if(max > 0) maxFluid = nbt.getInteger(s + "_max");
+			type = PseudoFluidType.types.get(nbt.getString(s + "_type"));
+			if(type == null) type = PseudoFluidType.NONE;
 		}
 		
 		/*        ______      ______

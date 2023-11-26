@@ -61,6 +61,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public int channelCount;
 	public int sourceCount;
 	
+	public int unloadDelay = 0;
 	public boolean assembled;
 	
 	private AudioWrapper audio;
@@ -160,6 +161,20 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			this.tanks[0].setType(2, slots);
 			setupTanks();
 			
+			if(unloadDelay > 0) unloadDelay--;
+			
+			int chunkX = xCoord >> 4;
+			int chunkZ = zCoord >> 4;
+			
+			//since fluid sources are often not within 1 chunk, we just do 2 chunks distance and call it a day
+			if(!worldObj.getChunkProvider().chunkExists(chunkX, chunkZ) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX + 2, chunkZ + 2) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX + 2, chunkZ - 2) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ + 2) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ - 2)) {
+				this.unloadDelay = 40;
+			}
+			
 			if(this.assembled) {
 				for(BlockPos pos : ports) {
 					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
@@ -170,76 +185,80 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					}
 				}
 				
-				if((typeLoaded == -1 || amountLoaded <= 0) && slots[0] != null && slots[0].getItem() == ModItems.pwr_fuel) {
-					typeLoaded = slots[0].getItemDamage();
-					amountLoaded++;
-					this.decrStackSize(0, 1);
-					this.markChanged();
-				} else if(slots[0] != null && slots[0].getItem() == ModItems.pwr_fuel && slots[0].getItemDamage() == typeLoaded && amountLoaded < rodCount){
-					amountLoaded++;
-					this.decrStackSize(0, 1);
-					this.markChanged();
-				}
-	
-				if(this.rodTarget > this.rodLevel) this.rodLevel++;
-				if(this.rodTarget < this.rodLevel) this.rodLevel--;
-				
-				int newFlux = this.sourceCount * 20;
-				
-				if(typeLoaded != -1 && amountLoaded > 0) {
+				//only perform fission if the area has been loaded for 40 ticks or more
+				if(this.unloadDelay <= 0) {
 					
-					EnumPWRFuel fuel = EnumUtil.grabEnumSafely(EnumPWRFuel.class, typeLoaded);
-					double usedRods = getTotalProcessMultiplier();
-					double fluxPerRod = this.flux / this.rodCount;
-					double outputPerRod = fuel.function.effonix(fluxPerRod);
-					double totalOutput = outputPerRod * amountLoaded * usedRods;
-					double totalHeatOutput = totalOutput * fuel.heatEmission;
-					
-					this.coreHeat += totalHeatOutput;
-					newFlux += totalOutput;
-					
-					this.processTime = (int) fuel.yield;
-					this.progress += totalOutput;
-					
-					if(this.progress >= this.processTime) {
-						this.progress -= this.processTime;
-						
-						if(slots[1] == null) {
-							slots[1] = new ItemStack(ModItems.pwr_fuel_hot, 1, typeLoaded);
-						} else if(slots[1].getItem() == ModItems.pwr_fuel_hot && slots[1].getItemDamage() == typeLoaded && slots[1].stackSize < slots[1].getMaxStackSize()) {
-							slots[1].stackSize++;
-						}
-						
-						this.amountLoaded--;
+					if((typeLoaded == -1 || amountLoaded <= 0) && slots[0] != null && slots[0].getItem() == ModItems.pwr_fuel) {
+						typeLoaded = slots[0].getItemDamage();
+						amountLoaded++;
+						this.decrStackSize(0, 1);
+						this.markChanged();
+					} else if(slots[0] != null && slots[0].getItem() == ModItems.pwr_fuel && slots[0].getItemDamage() == typeLoaded && amountLoaded < rodCount){
+						amountLoaded++;
+						this.decrStackSize(0, 1);
 						this.markChanged();
 					}
-				}
-				
-				if(this.amountLoaded <= 0) {
-					this.typeLoaded = -1;
-				}
-				
-				if(amountLoaded > rodCount) amountLoaded = rodCount;
-				
-				/* CORE COOLING */
-				double coreCoolingApproachNum = getXOverE((double) this.heatexCount * 5 / (double) this.rodCount, 2) / 2D;
-				int averageCoreHeat = (this.coreHeat + this.hullHeat) / 2;
-				this.coreHeat -= (coreHeat - averageCoreHeat) * coreCoolingApproachNum;
-				this.hullHeat -= (hullHeat - averageCoreHeat) * coreCoolingApproachNum;
-				
-				updateCoolant();
-	
-				this.coreHeat *= 0.999D;
-				this.hullHeat *= 0.999D;
-				
-				this.flux = newFlux;
-				
-				if(tanks[0].getTankType().hasTrait(FT_PWRModerator.class) && tanks[0].getFill() > 0) {
-					this.flux *= tanks[0].getTankType().getTrait(FT_PWRModerator.class).getMultiplier();
-				}
-				
-				if(this.coreHeat > this.coreHeatCapacity) {
-					meltDown();
+		
+					if(this.rodTarget > this.rodLevel) this.rodLevel++;
+					if(this.rodTarget < this.rodLevel) this.rodLevel--;
+					
+					int newFlux = this.sourceCount * 20;
+					
+					if(typeLoaded != -1 && amountLoaded > 0) {
+						
+						EnumPWRFuel fuel = EnumUtil.grabEnumSafely(EnumPWRFuel.class, typeLoaded);
+						double usedRods = getTotalProcessMultiplier();
+						double fluxPerRod = this.flux / this.rodCount;
+						double outputPerRod = fuel.function.effonix(fluxPerRod);
+						double totalOutput = outputPerRod * amountLoaded * usedRods;
+						double totalHeatOutput = totalOutput * fuel.heatEmission;
+						
+						this.coreHeat += totalHeatOutput;
+						newFlux += totalOutput;
+						
+						this.processTime = (int) fuel.yield;
+						this.progress += totalOutput;
+						
+						if(this.progress >= this.processTime) {
+							this.progress -= this.processTime;
+							
+							if(slots[1] == null) {
+								slots[1] = new ItemStack(ModItems.pwr_fuel_hot, 1, typeLoaded);
+							} else if(slots[1].getItem() == ModItems.pwr_fuel_hot && slots[1].getItemDamage() == typeLoaded && slots[1].stackSize < slots[1].getMaxStackSize()) {
+								slots[1].stackSize++;
+							}
+							
+							this.amountLoaded--;
+							this.markChanged();
+						}
+					}
+					
+					if(this.amountLoaded <= 0) {
+						this.typeLoaded = -1;
+					}
+					
+					if(amountLoaded > rodCount) amountLoaded = rodCount;
+					
+					/* CORE COOLING */
+					double coreCoolingApproachNum = getXOverE((double) this.heatexCount * 5 / (double) this.rodCount, 2) / 2D;
+					int averageCoreHeat = (this.coreHeat + this.hullHeat) / 2;
+					this.coreHeat -= (coreHeat - averageCoreHeat) * coreCoolingApproachNum;
+					this.hullHeat -= (hullHeat - averageCoreHeat) * coreCoolingApproachNum;
+					
+					updateCoolant();
+		
+					this.coreHeat *= 0.999D;
+					this.hullHeat *= 0.999D;
+					
+					this.flux = newFlux;
+					
+					if(tanks[0].getTankType().hasTrait(FT_PWRModerator.class) && tanks[0].getFill() > 0) {
+						this.flux *= tanks[0].getTankType().getTrait(FT_PWRModerator.class).getMultiplier();
+					}
+					
+					if(this.coreHeat > this.coreHeatCapacity) {
+						meltDown();
+					}
 				}
 			}
 			

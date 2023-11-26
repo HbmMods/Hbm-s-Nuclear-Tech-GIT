@@ -11,13 +11,14 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.entity.IRadarDetectableNT;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class EntityMissileShuttle extends EntityMissileBaseAdvanced {
+public class EntityMissileShuttle extends EntityMissileBaseNT {
 
 	public EntityMissileShuttle(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -63,5 +64,15 @@ public class EntityMissileShuttle extends EntityMissileBaseAdvanced {
 	@Override
 	public RadarTargetType getTargetType() {
 		return RadarTargetType.MISSILE_TIER3;
+	}
+
+	@Override
+	public String getUnlocalizedName() {
+		return "radar.target.shuttle";
+	}
+
+	@Override
+	public int getBlipLevel() {
+		return IRadarDetectableNT.TIER3;
 	}
 }

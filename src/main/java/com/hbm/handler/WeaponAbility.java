@@ -2,14 +2,12 @@ package com.hbm.handler;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
-import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
-import com.hbm.util.WeightedRandomObject;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
@@ -36,7 +34,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 
 public abstract class WeaponAbility {
@@ -208,28 +205,10 @@ public abstract class WeaponAbility {
 				
 				if(living.getHealth() <= 0.0F) {
 					
-					WeightedRandomObject[] ammo = new WeightedRandomObject[] {
-							new WeightedRandomObject(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.STOCK), 10),
-							new WeightedRandomObject(ModItems.ammo_12gauge.stackFromEnum(Ammo12Gauge.SHRAPNEL), 5),
-							new WeightedRandomObject(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.STOCK), 10),
-							new WeightedRandomObject(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.FLECHETTE), 5),
-							new WeightedRandomObject(ModItems.ammo_20gauge.stackFromEnum(Ammo20Gauge.SLUG), 5),
-							new WeightedRandomObject(ModItems.ammo_9mm.stackFromEnum(Ammo9mm.STOCK), 10),
-							new WeightedRandomObject(ModItems.ammo_5mm.stackFromEnum(Ammo5mm.STOCK), 10),
-							new WeightedRandomObject(ModItems.ammo_556.stackFromEnum(Ammo556mm.STOCK), 10),
-							new WeightedRandomObject(ModItems.ammo_556.stackFromEnum(Ammo556mm.FLECHETTE), 10),
-							new WeightedRandomObject(ModItems.ammo_50bmg.stackFromEnum(Ammo50BMG.STOCK), 3),
-							new WeightedRandomObject(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.STOCK), 3),
-							new WeightedRandomObject(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.STOCK), 1),
-							new WeightedRandomObject(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.GLARE), 1),
-							new WeightedRandomObject(new ItemStack(ModItems.syringe_metal_stimpak), 20),
-					};
-					
 					int count = Math.min((int)Math.ceil(living.getMaxHealth() / divider), 250); //safeguard to prevent funnies from bosses with obscene health
 					
 					for(int i = 0; i < count; i++) {
-						
-						living.entityDropItem(((WeightedRandomObject)WeightedRandom.getRandomItem(living.getRNG(), ammo)).asStack(), 1);
+						living.entityDropItem(new ItemStack(ModItems.nitra_small), 1);
 						world.spawnEntityInWorld(new EntityXPOrb(world, living.posX, living.posY, living.posZ, 1));
 					}
 					

@@ -11,6 +11,7 @@ import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.saveddata.satellites.SatelliteScanner;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,7 +31,7 @@ public class ItemModLens extends ItemArmorMod implements ISatChip {
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add(EnumChatFormatting.AQUA + "Satellite Frequency: " + this.getFreq(itemstack));
+		list.add(EnumChatFormatting.AQUA + I18nUtil.resolveKeyArray("armorMod.mod.Lens")[0] + this.getFreq(itemstack));
 		list.add("");
 		
 		super.addInformation(itemstack, player, list, bool);
@@ -38,7 +39,7 @@ public class ItemModLens extends ItemArmorMod implements ISatChip {
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-		list.add(EnumChatFormatting.AQUA + "  " + stack.getDisplayName() + " (Freq: " + getFreq(stack) + ")");
+		list.add(EnumChatFormatting.AQUA + "  " + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.Lens",getFreq(stack))[1] );
 	}
 
 	@Override

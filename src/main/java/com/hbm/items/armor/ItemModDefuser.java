@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAICreeperSwell;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
@@ -25,14 +26,14 @@ public class ItemModDefuser extends ItemArmorMod {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add(EnumChatFormatting.YELLOW + "Defuses nearby creepers");
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("armorMod.mod.defuser")[0]);
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 	}
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-		list.add(EnumChatFormatting.YELLOW + "  " + stack.getDisplayName() + " (Defuses creepers)");
+		list.add(EnumChatFormatting.YELLOW + "  " + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.defuser")[1]);
 	}
 
 	@Override
