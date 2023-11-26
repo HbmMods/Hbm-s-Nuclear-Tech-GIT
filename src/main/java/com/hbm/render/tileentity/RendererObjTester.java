@@ -6,19 +6,27 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import com.hbm.items.ModItems;
+import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.model.ModelPigeon;
+import com.hbm.render.util.HorsePronter;
 
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
 
 public class RendererObjTester extends TileEntitySpecialRenderer {
 	
 	//private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/TestObj.obj");
 	
-	ModelPigeon pigeon = new ModelPigeon();
-
+	private static ResourceLocation extra = new ResourceLocation(RefStrings.MODID, "textures/models/horse/dyx.png");
+	
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
 		GL11.glPushMatrix();
@@ -26,8 +34,32 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		
-		bindTexture(ResourceManager.universal);
-		pigeon.render(null, 0, 0, 0, 0, 0, 0.0625F);
+		GL11.glRotated(System.currentTimeMillis() / 5D % 360D, 0, -1, 0);
+		GL11.glTranslated(0, 0.1, 0.5);
+		
+		this.bindTexture(extra);
+		HorsePronter.reset();
+		double r = 60;
+		HorsePronter.pose(HorsePronter.id_body, 0, -r, 0);
+		HorsePronter.pose(HorsePronter.id_tail, 0, 45, 90);
+		HorsePronter.pose(HorsePronter.id_lbl, 0, -90 + r, 35);
+		HorsePronter.pose(HorsePronter.id_rbl, 0, -90 + r, -35);
+		HorsePronter.pose(HorsePronter.id_lfl, 0, r - 10, 5);
+		HorsePronter.pose(HorsePronter.id_rfl, 0, r - 10, -5);
+		HorsePronter.pose(HorsePronter.id_head, 0, r, 0);
+		HorsePronter.enableHorn();
+		HorsePronter.enableWings();
+		HorsePronter.pront();
+		
+		ItemStack stack = new ItemStack(ModItems.cigarette);
+		double scale = 0.25;
+		GL11.glTranslated(0.02, 1.13, -0.42);
+		GL11.glScaled(scale, scale, scale);
+		GL11.glRotated(90, 0, -1, 0);
+		GL11.glRotated(60, 0, 0, -1);
+		bindTexture(TextureMap.locationItemsTexture);
+		IIcon icon = stack.getIconIndex();
+		ItemRenderer.renderItemIn2D(Tessellator.instance, icon.getMaxU(), icon.getMinV(), icon.getMinU(), icon.getMaxV(), icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
 		
 		GL11.glPopMatrix();
 	}

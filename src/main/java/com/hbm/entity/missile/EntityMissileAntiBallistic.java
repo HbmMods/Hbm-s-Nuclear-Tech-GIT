@@ -77,6 +77,8 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 				
 				if(this.tracking != null) {
 					this.aimAtTarget();
+				} else {
+					if(this.ticksExisted > 600) this.setDead();
 				}
 			}
 
@@ -127,8 +129,9 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 		Vec3 motion = Vec3.createVectorHelper(predicted.xCoord - posX, predicted.yCoord - posY, predicted.zCoord - posZ).normalize();
 		
 		if(delta.lengthVector() < 10 && activationTimer >= 40) {
+			this.setDead();
 			ExplosionLarge.explode(worldObj, posX, posY, posZ, 15F, true, false, false);
-			this.killAndClear();
+
 		}
 
 		this.motionX = motion.xCoord * baseSpeed;
@@ -139,8 +142,8 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		if(this.activationTimer >= 40) {
+			this.setDead();
 			ExplosionLarge.explode(worldObj, posX, posY, posZ, 20F, true, false, false);
-			this.killAndClear();
 		}
 	}
 
@@ -205,8 +208,9 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 		}
 	}
 	
-	public void killAndClear() {
-		this.setDead();
+	@Override
+	public void setDead() {
+		super.setDead();
 		this.clearChunkLoader();
 	}
 	

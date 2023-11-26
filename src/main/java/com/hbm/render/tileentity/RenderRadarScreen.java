@@ -3,17 +3,22 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.gui.GUIMachineRadarNT;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
 import com.hbm.tileentity.machine.TileEntityMachineRadarScreen;
 
 import api.hbm.entity.RadarEntry;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.client.IItemRenderer;
 
-public class RenderRadarScreen extends TileEntitySpecialRenderer {
+public class RenderRadarScreen extends TileEntitySpecialRenderer implements IItemRendererProvider {
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
@@ -91,4 +96,22 @@ public class RenderRadarScreen extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 	}
 
+	@Override
+	public Item getItemForRenderer() {
+		return Item.getItemFromBlock(ModBlocks.radar_screen);
+	}
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase( ) {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(5.5, 5.5, 5.5);
+			}
+			public void renderCommonWithStack(ItemStack item) {
+				GL11.glTranslated(0, 0, -0.5);
+				bindTexture(ResourceManager.radar_screen_tex);
+				ResourceManager.radar_screen.renderAll();
+			}};
+	}
 }

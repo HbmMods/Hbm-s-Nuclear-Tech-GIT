@@ -24,6 +24,7 @@ import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Triplet;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.world.WorldUtil;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.entity.IRadarDetectable;
@@ -34,7 +35,6 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -42,6 +42,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -77,7 +78,8 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	public static int radarRange = 1_000;
 	public static int radarBuffer = 30;
 	public static int radarAltitude = 55;
-	public static int chunkLoadCap = 5;
+	public static int chunkLoadCap = 10;
+	public static boolean generateChunks = false;
 	
 	public byte[] map = new byte[40_000];
 	public boolean clearFlag = false;
@@ -97,6 +99,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		radarBuffer = IConfigurableMachine.grab(obj, "I:radarBuffer", radarBuffer);
 		radarAltitude = IConfigurableMachine.grab(obj, "I:radarAltitude", radarAltitude);
 		chunkLoadCap = IConfigurableMachine.grab(obj, "I:chunkLoadCap", chunkLoadCap);
+		generateChunks = IConfigurableMachine.grab(obj, "B:generateChunks", generateChunks);
 	}
 
 	@Override
@@ -106,7 +109,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		writer.name("I:radarRange").value(radarRange);
 		writer.name("I:radarBuffer").value(radarBuffer);
 		writer.name("I:radarAltitude").value(radarAltitude);
-		writer.name("I:chunkLoadCap").value(chunkLoadCap);
+		writer.name("B:generateChunks").value(generateChunks);
 	}
 
 	public TileEntityMachineRadarNT() {
@@ -162,9 +165,15 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 						this.map[index] = (byte) MathHelper.clamp_int(worldObj.getHeightValue(x, z), 50, 128);
 					} else {
 						if(this.map[index] == 0 && chunkLoads < chunkLoadCap) {
-							worldObj.getChunkFromChunkCoords(x >> 4, z >> 4);
-							this.map[index] = (byte) MathHelper.clamp_int(worldObj.getHeightValue(x, z), 50, 128);
-							chunkLoads++;
+							if(this.generateChunks) {
+								worldObj.getChunkFromChunkCoords(x >> 4, z >> 4);
+								this.map[index] = (byte) MathHelper.clamp_int(worldObj.getHeightValue(x, z), 50, 128);
+								chunkLoads++;
+							} else {
+								WorldUtil.provideChunk((WorldServer) worldObj, x >> 4, z >> 4);
+								this.map[index] = (byte) MathHelper.clamp_int(worldObj.getHeightValue(x, z), 50, 128);
+								if(worldObj.getChunkProvider().chunkExists(x >> 4, z >> 4)) chunkLoads++;
+							}
 						}
 					}
 				}
@@ -492,7 +501,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	public static void updateSystem() {
 		matchingEntities.clear();
 		
-		for(WorldServer world : Minecraft.getMinecraft().getIntegratedServer().worldServers) {
+		for(WorldServer world : MinecraftServer.getServer().worldServers) {
 			for(Object entity : world.loadedEntityList) {
 				for(Class clazz : classes) {
 					if(clazz.isAssignableFrom(entity.getClass())) {
