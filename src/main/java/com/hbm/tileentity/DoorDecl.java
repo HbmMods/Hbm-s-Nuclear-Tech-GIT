@@ -314,35 +314,30 @@ public abstract class DoorDecl {
             } else {
                 set(trans, 0, 0, 0);
             }
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
         public double[][] getClippingPlanes() {
             return new double[][]{{0, 0, -1, 0.5001}};
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
         public void doOffsetTransform() {
             GL11.glTranslated(0.375, 0, 0);
-        };
-
-        @Override
-        public int timeToOpen() {
-            return 20;
-        };
+        }
 
         @Override
         public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
             if(open){
                 if(y == 0)
                     return AxisAlignedBB.getBoundingBox(0, 0, 1-0.25, 1, 0.125, 1);
-                return super.getBlockBound(x, y, z, open);
+                return super.getBlockBound(x, y, z, true);
             } else {
                 return AxisAlignedBB.getBoundingBox(0, 0, 1-0.25, 1, 1, 1);
             }
-        };
+        }
 
         @Override
         public int[][] getDoorOpenRanges(){
@@ -407,24 +402,24 @@ public abstract class DoorDecl {
             } else {
                 super.getTranslation(partName, openTicks, child, trans);
             }
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
         public void doOffsetTransform() {
             GL11.glRotated(90, 0, 1, 0);
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
         public double[][] getClippingPlanes() {
             return new double[][]{{0, -1, 0, 5}};
-        };
+        }
 
         @Override
         public int timeToOpen() {
             return 120;
-        };
+        }
 
         @Override
         public int[][] getDoorOpenRanges(){
@@ -449,7 +444,7 @@ public abstract class DoorDecl {
             } else if(y == 4){
                 return AxisAlignedBB.getBoundingBox(0, 0.5, 0.15, 1, 1, 0.85);
             } else {
-                return super.getBlockBound(x, y, z, open);
+                return super.getBlockBound(x, y, z, true);
             }
         }
 
@@ -497,24 +492,24 @@ public abstract class DoorDecl {
             } else {
                 super.getTranslation(partName, openTicks, child, trans);
             }
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
         public void doOffsetTransform() {
             GL11.glTranslated(0, 0, 0.5);
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
         public double[][] getClippingPlanes() {
             return new double[][]{{0.0, 0.0, 1.0, 2.0001}, {0.0, 0.0, -1.0, 2.0001}};
-        };
+        }
 
         @Override
         public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
             if(!open)
-                return super.getBlockBound(x, y, z, open);
+                return super.getBlockBound(x, y, z, false);
             if(z == 1){
                 return AxisAlignedBB.getBoundingBox(0.4, 0, 0, 1, 1, 1);
             } else if(z == -2){
@@ -524,13 +519,13 @@ public abstract class DoorDecl {
             } else if(y == 0){
                 return AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 0.0625, 1);
             }
-            return super.getBlockBound(x, y, z, open);
-        };
+            return super.getBlockBound(x, y, z, true);
+        }
 
         @Override
         public int timeToOpen() {
             return 60;
-        };
+        }
 
         @Override
         public int[][] getDoorOpenRanges(){
@@ -540,7 +535,7 @@ public abstract class DoorDecl {
         @Override
         public int[] getDimensions() {
             return new int[]{3, 0, 0, 0, 2, 1};
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
@@ -565,15 +560,17 @@ public abstract class DoorDecl {
         @Override
         public String getOpenSoundEnd() {
             return "hbm:door.qe_sliding_opened";
-        };
+        }
+
         @Override
         public String getCloseSoundEnd() {
             return "hbm:door.qe_sliding_shut";
-        };
+        }
+
         @Override
         public String getOpenSoundLoop() {
             return "hbm:door.qe_sliding_opening";
-        };
+        }
 
         public float getSoundVolume(){
             return 2;
@@ -587,18 +584,18 @@ public abstract class DoorDecl {
             } else {
                 set(trans, 0, 0, -1*getNormTime(openTicks));
             }
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
         public void doOffsetTransform() {
             GL11.glTranslated(0.4375, 0, 0.5);
-        };
+        }
 
         @Override
         public int timeToOpen() {
             return 10;
-        };
+        }
 
         @Override
         public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
@@ -611,7 +608,7 @@ public abstract class DoorDecl {
             } else {
                 return AxisAlignedBB.getBoundingBox(0, 0, 1-0.125, 1, 1, 1);
             }
-        };
+        }
 
         @Override
         public int[][] getDoorOpenRanges(){
@@ -646,12 +643,13 @@ public abstract class DoorDecl {
 
         @Override
         public String getOpenSoundEnd() {
-            return "hbm:door.wgh_stop";
-        };
+            return "hbm:door.wghStop";
+        }
+
         @Override
         public String getOpenSoundLoop() {
-            return "hbm:door.wgh_start";
-        };
+            return "hbm:door.wghStart";
+        }
 
         @Override
         public float getSoundVolume(){
@@ -666,24 +664,24 @@ public abstract class DoorDecl {
             } else {
                 super.getTranslation(partName, openTicks, child, trans);
             }
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
         public void doOffsetTransform() {
             GL11.glTranslated(0.25, 0, 0);
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
         public double[][] getClippingPlanes() {
             return new double[][]{{0, -1, 0, 3.0001}};
-        };
+        }
 
         @Override
         public int timeToOpen() {
             return 160;
-        };
+        }
 
         @Override
         public int[][] getDoorOpenRanges(){
@@ -703,8 +701,8 @@ public abstract class DoorDecl {
                 return AxisAlignedBB.getBoundingBox(0, 0.5, 0.5, 1, 1, 1);
             else if(y == 0)
                 return AxisAlignedBB.getBoundingBox(0, 0, 0.5, 1, 0.1, 1);
-            return super.getBlockBound(x, y, z, open);
-        };
+            return super.getBlockBound(x, y, z, true);
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
@@ -732,23 +730,27 @@ public abstract class DoorDecl {
         @Override
         public String getOpenSoundEnd() {
             return "hbm:door.wgh_big_stop";
-        };
+        }
+
         @Override
         public String getOpenSoundLoop() {
             return "hbm:door.wgh_big_start";
-        };
+        }
+
         @Override
         public String getOpenSoundStart() {
             return "hbm:door.door.lever";
-        };
+        }
+
         @Override
         public String getCloseSoundStart() {
             return null;
-        };
+        }
+
         @Override
         public String getCloseSoundEnd() {
             return "hbm:door.door.lever";
-        };
+        }
 
         @Override
         public float getSoundVolume(){
@@ -763,7 +765,7 @@ public abstract class DoorDecl {
             } else {
                 set(trans, 0, 0, 0);
             }
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
@@ -785,7 +787,7 @@ public abstract class DoorDecl {
                 return;
             }
             super.getOrigin(partName, orig);
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
@@ -798,13 +800,13 @@ public abstract class DoorDecl {
                 return;
             }
             super.getRotation(partName, openTicks, rot);
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
         public boolean doesRender(String partName, boolean child) {
             return child || !partName.startsWith("spinny");
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)
@@ -812,7 +814,7 @@ public abstract class DoorDecl {
             if("door".equals(partName))
                 return new String[]{"spinny_lower", "spinny_upper"};
             return super.getChildren(partName);
-        };
+        }
 
         @Override
         public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
@@ -823,13 +825,13 @@ public abstract class DoorDecl {
             } else if(y == 0){
                 return  AxisAlignedBB.getBoundingBox(0, 0, 0.75, 1, 0.15, 1);
             }
-            return super.getBlockBound(x, y, z, open);
-        };
+            return super.getBlockBound(x, y, z, true);
+        }
 
         @Override
         public int timeToOpen() {
             return 60;
-        };
+        }
 
         @Override
         public int[][] getDoorOpenRanges(){
@@ -838,7 +840,7 @@ public abstract class DoorDecl {
 
         public float getDoorRangeOpenTime(int ticks, int idx) {
             return getNormTime(ticks, 35, 40);
-        };
+        }
 
         @Override
         public int[] getDimensions(){
@@ -876,7 +878,7 @@ public abstract class DoorDecl {
             } else {
                 super.getTranslation(partName, openTicks, child, trans);
             }
-        };
+        }
 
         @Override
         public String getOpenSoundEnd() {
@@ -886,7 +888,7 @@ public abstract class DoorDecl {
         @Override
         public String getOpenSoundLoop() {
             return "hbm:door.garage_move";
-        };
+        }
 
         public float getSoundVolume(){
             return 2;
@@ -896,24 +898,24 @@ public abstract class DoorDecl {
         @SideOnly(Side.CLIENT)
         public double[][] getClippingPlanes() {
             return new double[][]{{0.0, 0.0, 1.0, 3.50001}, {0.0, 0.0, -1.0, 3.50001}};
-        };
+        }
 
         @Override
         public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
             if(!open)
-                return super.getBlockBound(x, y, z, open);
+                return super.getBlockBound(x, y, z, false);
             if(z == 3){
                 return AxisAlignedBB.getBoundingBox(0.4, 0, 0, 1, 1, 1);
             } else if(z == -3){
                 return AxisAlignedBB.getBoundingBox(0, 0, 0, 0.6, 1, 1);
             }
-            return super.getBlockBound(x, y, z, open);
-        };
+            return super.getBlockBound(x, y, z, true);
+        }
 
         @Override
         public int timeToOpen() {
             return 60;
-        };
+        }
 
         @Override
         public int[][] getDoorOpenRanges(){
@@ -923,7 +925,7 @@ public abstract class DoorDecl {
         @Override
         public int[] getDimensions() {
             return new int[]{5, 0, 0, 0, 3, 3};
-        };
+        }
 
         @Override
         @SideOnly(Side.CLIENT)

@@ -457,6 +457,9 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.crucible, new ItemRenderCrucible());
 		MinecraftForgeClient.registerItemRenderer(ModItems.chainsaw, new ItemRenderChainsaw());
 		MinecraftForgeClient.registerItemRenderer(ModItems.boltgun, new ItemRenderBoltgun());
+		// 1.12.2 Doors
+		ItemRenderSlidingSealDoor door = new ItemRenderSlidingSealDoor();
+		MinecraftForgeClient.registerItemRenderer(door.getItemForRenderer(), door.getRenderer());
 		//guns
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg, new ItemRenderRpg());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_karl, new ItemRenderRpg());
