@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.function.Function;
 import com.hbm.util.function.Function.FunctionLogarithmic;
 import com.hbm.util.function.Function.FunctionSqrt;
@@ -56,7 +55,10 @@ public class ItemPWRFuel extends ItemEnumMulti {
 		EnumPWRFuel num = EnumUtil.grabEnumSafely(EnumPWRFuel.class, stack.getItemDamage());
 		
 		String color = EnumChatFormatting.GOLD + "";
-		for(String s : I18nUtil.resolveKeyArray("trait.pwr_fuel" , num.heatEmission, num.function.getLabelForFuel(), num.function.getDangerFromFuel()))
-			list.add(color + s);
+		String reset = EnumChatFormatting.RESET + "";
+		
+		list.add(color + "Heat per flux: " + reset + num.heatEmission + " TU");
+		list.add(color + "Reacton function: " + reset + num.function.getLabelForFuel());
+		list.add(color + "Fuel type: " + reset + num.function.getDangerFromFuel());
 	}
 }

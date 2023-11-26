@@ -6,7 +6,6 @@ import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
-import com.hbm.util.I18nUtil;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -31,57 +30,72 @@ public class ItemLemon extends ItemFood {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
 		if(this == ModItems.lemon) {
-			list.add(I18nUtil.resolveKey("item.lemon.desc"));
+			list.add("Eh, good enough.");
 		}
 		
 		if(this == ModItems.definitelyfood) {
-			for(String s : I18nUtil.resolveKeyArray("item.definitelyfood.desc"))
-			    list.add(s);
+			list.add("A'right, I got sick and tired of");
+			list.add("having to go out, kill things just");
+			list.add("to get food and not die, so here is ");
+			list.add("my absolutely genius solution:");
+			list.add("");
+			list.add("Have some edible dirt.");
 		}
 		
 		if(this == ModItems.med_ipecac) {
-			for(String s : I18nUtil.resolveKeyArray("item.med_ipecac.desc"))
-				list.add(s);
+			list.add("Bitter juice that will cause your stomach");
+			list.add("to forcefully eject its contents.");
 		}
 		
 		if(this == ModItems.med_ptsd) {
-			for(String s : I18nUtil.resolveKeyArray("item.med_ptsd.desc"))
-				list.add(s);
+			list.add("This isn't even PTSD mediaction, it's just");
+			list.add("Ipecac in a different bottle!");
 		}
 		
 		if(this == ModItems.med_schizophrenia) {
-			for(String s : I18nUtil.resolveKeyArray("item.med_schiziphrenia.desc"))
-				list.add(s);
+			list.add("Makes the voices go away. Just for a while.");
+			list.add("");
+			list.add("...");
+			list.add("Better not take it.");
+		}
+		
+		if(this == ModItems.med_schizophrenia) {
+			list.add("Makes the voices go away. Just for a while.");
+			list.add("");
+			list.add("...");
+			list.add("Better not take it.");
 		}
 		
 		if(this == ModItems.loops) {
-			list.add(I18nUtil.resolveKey("item.loops.desc"));
+			list.add("Brøther, may I have some lööps?");
 		}
 		
 		if(this == ModItems.loop_stew) {
-			list.add(I18nUtil.resolveKey("item.loop_stew.desc"));
+			list.add("A very, very healthy breakfast.");
 		}
 		
 		if(this == ModItems.twinkie) {
-			list.add(I18nUtil.resolveKey("item.twinkie.desc"));
+			list.add("Expired 600 years ago!");
 		}
 		
 		if(this == ModItems.pudding) {
-			for(String s : I18nUtil.resolveKeyArray("item.pudding.desc"))
-				list.add(s);
+			list.add("What if he did?");
+			list.add("What if he didn't?");
+			list.add("What if the world was made of pudding?");
 		}
 
 		if(this == ModItems.ingot_semtex) {
-			for(String s : I18nUtil.resolveKeyArray("item.ingot_semtex.desc"))
-				list.add(s);
+			list.add("Semtex H Plastic Explosive");
+			list.add("Performant explosive for many applications.");
+			list.add("Edible");
 		}
 
 		if(this == ModItems.peas) {
-			list.add(I18nUtil.resolveKey("item.peas.desc"));
+			list.add("He accepts your offering.");
 		}
 
 		if(this == ModItems.quesadilla) {
-			list.add(I18nUtil.resolveKey("item.cheese_quesadilla.desc"));
+			list.add("That's what a 50 year old yeast infection does to you.");
 		}
 	}
 

@@ -21,8 +21,9 @@ public interface ITooltipProvider {
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 			for(String s : I18nUtil.resolveKeyArray(((Block)this).getUnlocalizedName() + ".desc")) list.add(EnumChatFormatting.YELLOW + s);
 		} else {
-			list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +I18nUtil.resolveKey("tooltip.block" ,
-					EnumChatFormatting.YELLOW +"" + EnumChatFormatting.ITALIC + "LSHIFT"));
+			list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
+					EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
+					EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
 		}
 	}
 	

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hbm.items.ModItems;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,7 +39,7 @@ public class ItemRag extends Item {
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		for(String s : I18nUtil.resolveKeyArray("item.rag.desc"))
-		    list.add(s);
+		list.add("Drop into water to make damp cloth.");
+		list.add("Right-click to urinate on the cloth.");
 	}
 }

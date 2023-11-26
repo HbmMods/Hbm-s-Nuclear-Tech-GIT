@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hbm.handler.ArmorModHandler;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -22,14 +21,14 @@ public class ItemModMorningGlory extends ItemArmorMod {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add(EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKeyArray("armorMod.mod.MorningGlory")[0]);
+		list.add(EnumChatFormatting.LIGHT_PURPLE + "5% chance to apply resistance when hit, wither immunity");
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 	}
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-		list.add(EnumChatFormatting.LIGHT_PURPLE + "  " + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.MorningGlory")[1]);
+		list.add(EnumChatFormatting.LIGHT_PURPLE + "  " + stack.getDisplayName() + " (5% for resistance, wither immunity)");
 	}
 	
 	@Override

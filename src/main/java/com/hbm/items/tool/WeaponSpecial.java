@@ -12,7 +12,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorUtil;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -249,52 +248,58 @@ public class WeaponSpecial extends ItemSword {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
 		if(this == ModItems.schrabidium_hammer) {
-			for(String s : I18nUtil.resolveKeyArray("item.schrabidium_hammer.desc"))
-				list.add(s);
+			list.add("Even though it says \"+1000000000");
+			list.add("damage\", it's actually \"onehit anything\"");
 		}
 		if(this == ModItems.ullapool_caber) {
-			for(String s : I18nUtil.resolveKeyArray("item.ullapool_caber.desc"))
-				list.add(s);
+			list.add("High-yield Scottish face removal.");
+			list.add("A sober person would throw it...");
 		}
 		if(this == ModItems.bottle_opener) {
-			for(String s : I18nUtil.resolveKeyArray("item.bottle_opener.desc"))
-				list.add(s);
+			list.add("My very own bottle opener.");
+			list.add("Use with caution!");
 		}
 		if(this == ModItems.shimmer_sledge) {
 			if(MainRegistry.polaroidID == 11) {
-				for(String s : I18nUtil.resolveKeyArray("item.shimmer_sledge.desc.hide"))
-					list.add(s);
+				list.add("shimmer no");
+				list.add("drop that hammer");
+				list.add("you're going to hurt somebody");
+				list.add("shimmer no");
+				list.add("shimmer pls");
 			} else {
-				list.add(I18nUtil.resolveKey("item.shimmer_sledge.desc"));
+				list.add("Breaks everything, even portals.");
 			}
 		}
 		if(this == ModItems.shimmer_axe) {
 			if(MainRegistry.polaroidID == 11) {
-				list.add(I18nUtil.resolveKey("item.shimmer_axe.desc.hide"));
+				list.add("shim's toolbox does an e-x-p-a-n-d");
 			} else {
-				list.add(I18nUtil.resolveKey("item.shimmer_axe.desc"));
+				list.add("Timber!");
 			}
 		}
 		if(this == ModItems.wrench) {
-			list.add(I18nUtil.resolveKey("item.wrench.desc"));
+			list.add("Mechanic Richard");
 		}
 		if(this == ModItems.wrench_flipped) {
-			list.add(I18nUtil.resolveKey("item.wrench_flipped.desc"));
+			list.add("Wrench 2: The Wrenchening");
 		}
 		if(this == ModItems.memespoon) {
-			for(String s : I18nUtil.resolveKeyArray("item.memespoon.desc"))
-				list.add(s);
+			list.add(EnumChatFormatting.DARK_GRAY + "Level 10 Shovel");
+			list.add(EnumChatFormatting.AQUA + "Deals crits while the wielder is rocket jumping");
+			list.add(EnumChatFormatting.RED + "20% slower firing speed");
+			list.add(EnumChatFormatting.RED + "No random critical hits");
 		}
 
 		if(this == ModItems.wood_gavel) {
-			list.add(I18nUtil.resolveKey("item.wood_gavel.desc"));
+			list.add("Thunk!");
 		}
 		if(this == ModItems.lead_gavel) {
-			list.add(I18nUtil.resolveKey("item.lead_gavel.desc"));
+			list.add("You are hereby sentenced to lead poisoning.");
 		}
 		if(this == ModItems.diamond_gavel) {
-			for(String s : I18nUtil.resolveKeyArray("item.diamond_gavel.desc"))
-				list.add(s);
+			list.add("The joke! It makes sense now!!");
+			list.add("");
+			list.add(EnumChatFormatting.BLUE + "Deals as much damage as it needs to.");
 		}
 	}
 

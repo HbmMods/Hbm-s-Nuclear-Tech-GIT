@@ -7,7 +7,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.util.BobMathUtil;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,14 +27,14 @@ public class ItemAnchorRemote extends ItemBattery {
 			charge = getCharge(itemstack);
 
 		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.energy_core) {
-			list.add(I18nUtil.resolveKey("desc.item.battery.charge",BobMathUtil.getShortNumber(charge),BobMathUtil.getShortNumber(maxCharge)));
+			list.add("Energy stored: " + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE");
 		} else {
 			String charge1 = BobMathUtil.getShortNumber((charge * 100) / this.maxCharge);
-			list.add(I18nUtil.resolveKey("desc.item.battery.chargePerc", charge1));
+			list.add("Charge: " + charge1 + "%");
 			list.add("(" + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE)");
 		}
 		
-		list.add(I18nUtil.resolveKey("desc.item.battery.chargeRate",BobMathUtil.getShortNumber(chargeRate)));
+		list.add("Charge rate: " + BobMathUtil.getShortNumber(chargeRate) + "HE/t");
 	}
 
 	@Override

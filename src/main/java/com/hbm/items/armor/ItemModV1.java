@@ -7,7 +7,6 @@ import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.interfaces.IArmorModDash;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,14 +31,14 @@ public class ItemModV1 extends ItemArmorMod implements IArmorModDash {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		
-		list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("armorMod.mod.V1")[0]);
+		list.add(EnumChatFormatting.RED + "BLOOD IS FUEL");
 		list.add("");
 		super.addInformation(stack, player, list, bool);
 	}
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-		list.add(EnumChatFormatting.RED + "  " + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.V1")[1]);
+		list.add(EnumChatFormatting.RED + "  " + stack.getDisplayName() + " (BLOOD IS FUEL)");
 	}
 	
 	public int getDashes() {

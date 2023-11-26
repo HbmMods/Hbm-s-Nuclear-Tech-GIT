@@ -5,7 +5,6 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.ArmorModHandler;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,15 +22,15 @@ public class ItemModSensor extends ItemArmorMod {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("armorMod.mod.Sensor")[0]);
-		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("armorMod.mod.Sensor")[1]);
+		list.add(EnumChatFormatting.YELLOW + "Beeps near hazardous gasses");
+		list.add(EnumChatFormatting.YELLOW + "Works in the inventory or when applied to armor");
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 	}
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-		list.add(EnumChatFormatting.YELLOW + "  " + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.Sensor")[2]);
+		list.add(EnumChatFormatting.YELLOW + "  " + stack.getDisplayName() + " (Detects gasses)");
 	}
 
 	@Override

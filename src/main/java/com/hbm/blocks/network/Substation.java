@@ -8,7 +8,6 @@ import com.hbm.tileentity.TileEntityProxyConductor;
 import com.hbm.tileentity.network.TileEntityPylonBase;
 import com.hbm.tileentity.network.TileEntitySubstation;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,8 +37,8 @@ public class Substation extends BlockDummyable implements ITooltipProvider {
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		for(String s : I18nUtil.resolveKeyArray("tile.substation.desc"))
-			list.add(EnumChatFormatting.GOLD + s);
+		list.add(EnumChatFormatting.GOLD + "Connection Type: " + EnumChatFormatting.YELLOW + "Quadruple");
+		list.add(EnumChatFormatting.GOLD + "Connection Range: " + EnumChatFormatting.YELLOW + "20m");
 	}
 
 	@Override

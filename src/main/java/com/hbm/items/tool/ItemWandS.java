@@ -3,7 +3,6 @@ package com.hbm.items.tool;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.util.I18nUtil;
 import com.hbm.world.machine.FWatz;
 import com.hbm.world.machine.NuclearReactor;
 import com.hbm.world.machine.Watz;
@@ -20,8 +19,10 @@ public class ItemWandS extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		for(String s : I18nUtil.resolveKeyArray( "item.wand_s.desc"))
-			list.add(s);
+		list.add("Creative-only item");
+		list.add("\"Instant structures for everyone!\"");
+		list.add("(Cycle with shift-right click,");
+		list.add("spawn structures with right click!)");
 		if(itemstack.stackTagCompound != null)
 		{
 			switch(itemstack.stackTagCompound.getInteger("building"))
