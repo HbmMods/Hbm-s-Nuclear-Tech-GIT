@@ -5,6 +5,8 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
 import com.hbm.config.CustomMachineConfigJSON;
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.GeneralConfig.MagazineMode;
 import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration;
 import com.hbm.config.VersatileConfig;
 import com.hbm.handler.nei.*;
@@ -25,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class NEIConfig implements IConfigureNEI {
 
@@ -132,6 +135,9 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.pink_slab));
 		API.hideItem(new ItemStack(ModBlocks.pink_double_slab));
 		API.hideItem(new ItemStack(ModBlocks.pink_stairs));
+		
+		if (GeneralConfig.magazineMode == MagazineMode.OFF)
+			API.hideItem(new ItemStack(ModItems.gun_magazine, 0, OreDictionary.WILDCARD_VALUE));
 		
 		API.registerHighlightIdentifier(ModBlocks.ore_random, new IHighlightHandler() {
 

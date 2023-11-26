@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.GeneralConfig.MagazineMode;
 import com.hbm.inventory.OreDictManager;
 import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -174,7 +175,8 @@ public class AnvilRecipes {
 		registerConstructionAmmo();
 		registerConstructionUpgrades();
 		registerConstructionRecycling();
-		registerConstructionMagazines();
+		if (GeneralConfig.magazineMode != MagazineMode.OFF)
+			registerConstructionMagazines();
 	}
 	
 	public static void registerConstructionRecipes() {
