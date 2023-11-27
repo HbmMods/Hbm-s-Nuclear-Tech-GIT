@@ -2062,4 +2062,3 @@ public class ClientProxy extends ServerProxy {
 		Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(sound), volume, pitch, (float) x, (float) y, (float) z));
 	}
 }
-

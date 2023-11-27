@@ -1,52 +1,12 @@
 ## Added
-* Nitra
-  * Dropped by the painsaw ability when killing a mob
-  * Can be used to quickly craft standard ammo types in the 2x2 crafting grid
-  * Can also refill empty syringes, making stimpaks
-* Latex
-  * Can be made from dandelions or from pressing jungle wood
-  * Replaces insulator in many recipes where electrical insulation that is potentially made from brick doesn't make sense, like rubber gas masks, jackets, tools and so on
-  * Latex is interchangable with rubber in all recipes where it's used, but not the other way round
-  * The old insulator is now mainly used for electrical and heat insulation as well as PWR rods
-* Radar screen
-  * Radars can be linked to one radar screen, which will display all detected blips
-  * Right-clicking the radar screen will open the GUI of the radar that it is linked to
+* Doors!
+  * Your favorites from 1.12, the 7 remaining doors have finally been ported
+  * Thanks to KoblizekXD for biting the bullet
 
 ## Changed
-* Light oil and cracked light oil can now be reformed into large quantities of aromatic hydrocarbons a well as some reformate gas
-* The painsaw ability no longer drops ammo and syringes, instead it drops nitra
-* Radars have been completely rewritten
-  * Dots will now move smoothly across the screen, instead of jittering and being bound to the pixel grid
-  * Radars no longer use CPU-intensive full scans of the map, instead of using an optimized search for nearby scannable entities
-  * There's now a dedicated toggle for detecting artillery shells
-  * Radars now have a local area map that can be enabled
-    * The map scans up to 100 points per tick, the display can show 40,000 points
-    * The map will scan loaded chunks instantly, unloaded chunks have a limit 10 chunkloads per tick to prevent excessive lag. Chunks that have not yet been generated yet will show up as black spots, and will never be loaded
-    * The chunk load limit as well as whether chunks should be generated can be adjusted in the machine config file
-    * The map will show terrain height between Y:50 and Y:128, anything outside that range is truncated
-    * Radars now have a second GUI which allows the use of a battery, as well as linking the radar to other machines
-      * By using the number keys, the radar can now launch missiles, ABMs or artillery at the current aimed at position
-      * Radars can be linked to one additional radar screen which shows part of the radar's GUI in-world
-* The turbofan's afterburner now adds a 33% efficiency bonus for every level. This means that instead of the efficiency remaining constant between levels, a tier 3 upgrade will yield double efficiency.
-* Reduced the flarestack's base energy efficiency
-* Trenchmaster armor is now unbreakable
-* The arc welder recipe for advanced circuits now uses simple insulator instead of gold dust
-* The arc welder recipes for enhanced and advanced circuits now use only 100mB of fluid instead of 250mB
-* Completely rewrote the missile base code, missiles now accelerate smoothly instead of in increments and use interpolated movement, making them less jittery
-* Missiles now have a slightly higher top-speed
-* Remodeled tier 1, 2 and 3 missiles as well as the anti-ballistic missile
-* Anti-ballistic missiles now use predictive targeting as well as a heightened sensor range of 1,000 blocks (instead of 500) which should make them a lot more effective
-* Anti-ballistic missiles accelerate 4x faster than normal missiles and have a 50% higher top-speed
-* Anti-ballistic missiles can now load their own chunks, allowing them to get to far away incoming missiles without getting stuck
-* PWRs that have recently been close to unloaded chunks now have a 40 tick timeframe where they are "frozen", only trying to connect to a fluid network but not doing any fission, this should reduce the amount of meltdowns caused by chunkloading
-* Glyphid hive blocks now have some color variance
-* Glpyhid spawners now have a unique texture
+* Reduced the blast resistance of the large doors from absurdly high to still very but not quite as high
+* Custom missiles are now launchable using the radar
+* NTM's structures should no longer spawn in dimensions besides the overworld. Ores will still generate, assuming the config option is set.
 
 ## Fixed
-* Fixed thorium bedrock ore using the wrong ore dict key, making it unable to be processed via centrifuge or acidizer
-* Fixed custom machine NEI slots going out of bounds after the third slot
-* Fixed bismuth billets not being oredicted, making BFB PWR rods uncraftable
-* Fixed missile chunkloading having rounding issues, sometimes causing them to get stuck in unloaded chunks while crossing chunk borders
-* Fixed drones not being listed in the creative tabs
-* Fixed pre-defined fluid duct items not being being able to be placed where replacable blocks are, eg. water
-* Fixed horrible gamebreaking bug where the reinforced glass pane has too much blast resistance
+* Fixed ancient bug where custom missiles launched using the launch table would not use the accuracy calculation and always be pin-point accurate
