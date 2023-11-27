@@ -1336,8 +1336,4 @@ public class ItemRenderLibrary {
 		//hi there! it seems you are trying to register a new item renderer, most likely for a tile entity.
 		//please refer to the comment at the start of the file on how to do this without adding to this gigantic pile of feces.
 	}
-	
-	private static void bindTexture(ResourceLocation res) {
-		Minecraft.getMinecraft().renderEngine.bindTexture(res);
-	}
 }

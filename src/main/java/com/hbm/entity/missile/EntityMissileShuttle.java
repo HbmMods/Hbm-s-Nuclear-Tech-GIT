@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class EntityMissileShuttle extends EntityMissileBaseAdvanced {
+public class EntityMissileShuttle extends EntityMissileBaseNT {
 
 	public EntityMissileShuttle(World p_i1582_1_) {
 		super(p_i1582_1_);

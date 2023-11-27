@@ -16,6 +16,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+/*
+ * COME ON
+ * STEP 1: GET 24 EGGS
+ * STEP 2: FUCK EVERY EGG
+ * STEP 3: BLOW UP ALL THE FUCKING EGGS
+ * AND FROM THE ASHES THE MOTHER OF ALL OMELETTES WILL BE BORN!
+ */
 public class EntityMissileAntiBallistic extends Entity implements IRadarDetectable {
 
 	int activationTimer;
@@ -58,7 +65,7 @@ public class EntityMissileAntiBallistic extends Entity implements IRadarDetectab
 				List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(posX - 5, posY - 5, posZ - 5, posX + 5, posY + 5, posZ + 5));
 
 				for(Entity e : list) {
-					if(e instanceof EntityMissileBaseAdvanced || e instanceof EntityMissileCustom) {
+					if(e instanceof EntityMissileBaseNT || e instanceof EntityMissileCustom) {
 						ExplosionLarge.explode(worldObj, posX, posY, posZ, 15F, true, false, true);
 						this.setDead();
 						return;
@@ -110,7 +117,7 @@ public class EntityMissileAntiBallistic extends Entity implements IRadarDetectab
 		double closest = 1000D;
 
 		for(Entity e : list) {
-			if(e instanceof EntityMissileBaseAdvanced || e instanceof EntityMissileCustom) {
+			if(e instanceof EntityMissileBaseNT || e instanceof EntityMissileCustom) {
 				double dis = Math.sqrt(Math.pow(e.posX - posX, 2) + Math.pow(e.posY - posY, 2) + Math.pow(e.posZ - posZ, 2));
 
 				if(dis < closest) {

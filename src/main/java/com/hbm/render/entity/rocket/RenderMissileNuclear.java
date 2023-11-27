@@ -2,7 +2,7 @@ package com.hbm.render.entity.rocket;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.missile.EntityMissileVolcano;
+import com.hbm.entity.missile.EntityMissileTier4.EntityMissileVolcano;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;

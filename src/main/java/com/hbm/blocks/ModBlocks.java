@@ -32,6 +32,7 @@ import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fluids.Fluid;
@@ -606,6 +607,15 @@ public class ModBlocks {
 	public static Block sliding_blast_door;
 	public static Block fire_door;
 	public static Block transition_seal;
+
+	// 1.12.2 Doors
+	public static Block secure_access_door;
+	public static Block large_vehicle_door;
+	public static Block qe_containment;
+	public static Block qe_sliding_door;
+	public static Block round_airlock_door;
+	public static Block sliding_seal_door;
+	public static Block water_door;
 
 	public static Block door_metal;
 	public static Block door_office;
@@ -1728,8 +1738,8 @@ public class ModBlocks {
 		mush = new BlockMush(Material.plants).setBlockName("mush").setCreativeTab(MainRegistry.blockTab).setLightLevel(0.5F).setStepSound(Block.soundTypeGrass).setBlockTextureName(RefStrings.MODID + ":mush");
 		mush_block = new BlockMushHuge(Material.plants).setBlockName("mush_block").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_skin");
 		mush_block_stem = new BlockMushHuge(Material.plants).setBlockName("mush_block_stem").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_stem");
-		glyphid_base = new BlockBase(Material.coral).setBlockName("glyphid_base").setStepSound(Block.soundTypeCloth).setHardness(0.5F);
-		glyphid_spawner = new BlockGlyphidSpawner(Material.coral).setBlockName("glyphid_spawner").setStepSound(Block.soundTypeCloth).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":glyphid_base");
+		glyphid_base = new BlockGlyphid(Material.coral).setBlockName("glyphid_base").setStepSound(Block.soundTypeCloth).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":glyphid_base");
+		glyphid_spawner = new BlockGlyphidSpawner(Material.coral).setBlockName("glyphid_spawner").setStepSound(Block.soundTypeCloth).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":glyphid_eggs_alt");
 		
 		plant_flower = new BlockNTMFlower().setBlockName("plant_flower").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
 		plant_tall = new BlockTallPlant().setBlockName("plant_tall").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGrass).setHardness(0.0F);
@@ -2141,6 +2151,13 @@ public class ModBlocks {
 
 		fire_door = new BlockDoorGeneric(Material.iron, DoorDecl.FIRE_DOOR).setBlockName("fire_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fire_door");
 		transition_seal = new BlockDoorGeneric(Material.iron, DoorDecl.TRANSITION_SEAL).setBlockName("transition_seal").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":transition_seal");
+		secure_access_door = new BlockDoorGeneric(Material.iron, DoorDecl.SECURE_ACCESS_DOOR).setBlockName("secure_access_door").setHardness(200.0F).setResistance(20000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":secure_access_door");
+		large_vehicle_door = new BlockDoorGeneric(Material.iron, DoorDecl.LARGE_VEHICLE_DOOR).setBlockName("large_vehicle_door").setHardness(100.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		qe_containment = new BlockDoorGeneric(Material.iron, DoorDecl.QE_CONTAINMENT).setBlockName("qe_containment").setHardness(100.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		qe_sliding_door = new BlockDoorGeneric(Material.iron, DoorDecl.QE_SLIDING).setBlockName("qe_sliding_door").setHardness(100.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		round_airlock_door = new BlockDoorGeneric(Material.iron, DoorDecl.ROUND_AIRLOCK_DOOR).setBlockName("round_airlock_door").setHardness(100.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		sliding_seal_door = new BlockDoorGeneric(Material.iron, DoorDecl.SLIDING_SEAL_DOOR).setBlockName("sliding_seal_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		water_door = new BlockDoorGeneric(Material.iron, DoorDecl.WATER_DOOR).setBlockName("water_door").setHardness(50.0F).setResistance(500.0F).setCreativeTab(MainRegistry.machineTab);
 
 		door_metal = new BlockModDoor(Material.iron).setBlockName("door_metal").setHardness(5.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":door_metal");
 		door_office = new BlockModDoor(Material.iron).setBlockName("door_office").setHardness(10.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":door_office");
@@ -3073,6 +3090,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(door_metal, door_metal.getUnlocalizedName());
 		GameRegistry.registerBlock(door_office, door_office.getUnlocalizedName());
 		GameRegistry.registerBlock(door_bunker, door_bunker.getUnlocalizedName());
+		GameRegistry.registerBlock(secure_access_door, secure_access_door.getUnlocalizedName());
+		GameRegistry.registerBlock(large_vehicle_door, large_vehicle_door.getUnlocalizedName());
+		GameRegistry.registerBlock(qe_containment, qe_containment.getUnlocalizedName());
+		GameRegistry.registerBlock(qe_sliding_door, qe_sliding_door.getUnlocalizedName());
+		GameRegistry.registerBlock(round_airlock_door, round_airlock_door.getUnlocalizedName());
+		GameRegistry.registerBlock(sliding_seal_door, sliding_seal_door.getUnlocalizedName());
+		GameRegistry.registerBlock(water_door, water_door.getUnlocalizedName());
 		
 		//Crates
 		register(crate_iron);

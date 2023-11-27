@@ -2,10 +2,8 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
-import com.hbm.util.TrackerUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

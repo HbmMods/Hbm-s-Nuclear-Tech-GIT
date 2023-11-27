@@ -7,7 +7,7 @@ import com.hbm.explosion.ExplosionLarge;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityMissileDoomsday extends EntityMissileBaseAdvanced {
+public class EntityMissileDoomsday extends EntityMissileBaseNT {
 
 	public EntityMissileDoomsday(World p_i1582_1_) {
 		super(p_i1582_1_);

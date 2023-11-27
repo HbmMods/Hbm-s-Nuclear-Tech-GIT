@@ -1,5 +1,7 @@
 package com.hbm.render.item;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.renderer.RenderHelper;
@@ -62,4 +64,8 @@ public abstract class ItemRenderBase implements IItemRenderer {
 	public void renderInventory() { }
 	public void renderCommon() { }
 	public void renderCommonWithStack(ItemStack item) { }
+
+	public final void bindTexture(ResourceLocation res) {
+		Minecraft.getMinecraft().renderEngine.bindTexture(res);
+	}
 }

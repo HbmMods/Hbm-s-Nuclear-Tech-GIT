@@ -6,6 +6,7 @@ import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,11 +28,11 @@ public class ItemModHealth extends ItemArmorMod {
 		
 		String color = "" + (System.currentTimeMillis() % 1000 < 500 ? EnumChatFormatting.RED : EnumChatFormatting.LIGHT_PURPLE);
 
-		list.add(color + "+" + (Math.round(health * 10 / 2) * 0.1) + " health");
+		list.add(color + "+" + (Math.round(health * 10 / 2) * 0.1) + I18nUtil.resolveKeyArray("armorMod.mod.health")[0]);
 		list.add("");
 		
 		if(this == ModItems.black_diamond) {
-			list.add(EnumChatFormatting.DARK_GRAY + "Nostalgia");
+			list.add(EnumChatFormatting.DARK_GRAY + I18nUtil.resolveKeyArray("armorMod.mod.health")[1]);
 			list.add("");
 		}
 		
@@ -43,7 +44,7 @@ public class ItemModHealth extends ItemArmorMod {
 		
 		String color = "" + (System.currentTimeMillis() % 1000 < 500 ? EnumChatFormatting.RED : EnumChatFormatting.LIGHT_PURPLE);
 		
-		list.add(color + "  " + stack.getDisplayName() + " (+" + (Math.round(health * 10 / 2) * 0.1) + " health)");
+		list.add(color + "  " + stack.getDisplayName() + " (+" + (Math.round(health * 10 / 2) * 0.1) + I18nUtil.resolveKeyArray("armorMod.mod.health")[0]);
 	}
 	
 	@Override

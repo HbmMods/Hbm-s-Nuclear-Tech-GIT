@@ -10,6 +10,7 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 
+import com.hbm.util.I18nUtil;
 import net.minecraft.util.EnumChatFormatting;
 
 public class FT_Coolable extends FluidTrait {
@@ -42,14 +43,14 @@ public class FT_Coolable extends FluidTrait {
 	
 	@Override
 	public void addInfoHidden(List<String> info) {
-		info.add(EnumChatFormatting.AQUA + "Thermal capacity: " + heatEnergy + " TU");
+		info.add(EnumChatFormatting.AQUA + I18nUtil.resolveKeyArray("hbmfluid.Trait.Coolable",heatEnergy,"")[0]);
 		for(CoolingType type : CoolingType.values()) {
 			
 			double eff = getEfficiency(type);
 			
 			if(eff > 0) {
 				info.add(EnumChatFormatting.AQUA + "[" + type.name + "]");
-				info.add(EnumChatFormatting.AQUA + "Efficiency: " + ((int) (eff * 100D)) + "%");
+				info.add(EnumChatFormatting.AQUA + I18nUtil.resolveKeyArray("hbmfluid.Trait.Coolable","",((int) (eff * 100D)))[1]);
 			}
 		}
 	}

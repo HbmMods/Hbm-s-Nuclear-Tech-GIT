@@ -33,6 +33,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
@@ -528,7 +529,18 @@ public class Library {
 		
 		return flag;
 	}
-	
+
+	// Added for sake of doors
+	// Original: Drillgon200: https://thebookofshaders.com/glossary/?search=smoothstep
+	public static double smoothstep(double t, double edge0, double edge1){
+		t = MathHelper.clamp_double((t - edge0) / (edge1 - edge0), 0.0, 1.0);
+		return t * t * (3.0 - 2.0 * t);
+	}
+	public static float smoothstep(float t, float edge0, float edge1){
+		t = MathHelper.clamp_float((t - edge0) / (edge1 - edge0), 0.0F, 1.0F);
+		return t * t * (3.0F - 2.0F * t);
+	}
+
 	public static boolean isObstructed(World world, double x, double y, double z, double a, double b, double c) {
 		MovingObjectPosition pos = world.rayTraceBlocks(Vec3.createVectorHelper(x, y, z), Vec3.createVectorHelper(a, b, c));
 		return pos != null;
