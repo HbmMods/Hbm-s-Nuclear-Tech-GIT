@@ -5,10 +5,6 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.IPersistentInfoProvider;
-import com.hbm.entity.projectile.EntityBombletZeta;
-import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -21,16 +17,13 @@ import com.hbm.tileentity.machine.storage.TileEntityMachineOrbus;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -113,25 +106,7 @@ public class MachineOrbus extends BlockDummyable implements IPersistentInfoProvi
 			this.makeExtra(world, x + dir.offsetX + d2.offsetX, y + i, z + dir.offsetZ + d2.offsetZ);
 		}
 	}
-	@Override
-	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion) {
-
-		int[] pos = this.findCore(world, x, y, z);
-		if(pos == null) return;
-		TileEntity core = world.getTileEntity(pos[0], pos[1], pos[2]);
-		if(!(core instanceof TileEntityMachineOrbus)) return;
-		
-		TileEntityMachineOrbus tank = (TileEntityMachineOrbus) core;
-		if(tank.lastExplosion == explosion) return;
-		tank.lastExplosion = explosion;
-		
-		if(!tank.hasExploded) {
-			tank.explode(world, x, y, z);
-			world.setBlock(pos[0], pos[1], pos[2], Blocks.air);
-		} else {
-			world.setBlock(pos[0], pos[1], pos[2], Blocks.air);
-		}
-	}
+	
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		return IPersistentNBT.getDrops(world, x, y, z, this);

@@ -7,9 +7,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.storage.AnvilChunkLoader;
+import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.chunkio.ChunkIOExecutor;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class WorldUtil {
@@ -34,7 +38,7 @@ public class WorldUtil {
 		PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(coord.chunkXPos, coord.chunkZPos, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, coord.getCenterXPos(), 128, coord.getCenterZPosition() /* who named you? */, 1024D));
 	}
 
-    /**Chunkloads the chunk the entity is going to spawn in and then spawns it
+	/**Chunkloads the chunk the entity is going to spawn in and then spawns it
 	 * @param entity The entity to be spawned**/
 
 	/*fun fact: this is based off of joinEntityInSurroundings in World
@@ -68,7 +72,31 @@ public class WorldUtil {
 
 	public static void syncBiomeChange(World world, int x, int z) {
 		Chunk chunk = world.getChunkFromBlockCoords(x, z);
-		byte biome = chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)];
+		//byte biome = chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)];
 		PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x, z, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
+	}
+	
+	public static Chunk provideChunk(WorldServer world, int chunkX, int chunkZ) {
+		ChunkProviderServer provider = world.theChunkProviderServer;
+		Chunk chunk = (Chunk) provider.loadedChunkHashMap.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ));
+		if(chunk != null) return chunk;
+		return loadChunk(world, provider, chunkX, chunkZ);
+	}
+
+	private static Chunk loadChunk(WorldServer world, ChunkProviderServer provider, int chunkX, int chunkZ) {
+		long chunkCoord = ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ);
+		provider.chunksToUnload.remove(Long.valueOf(chunkCoord));
+		Chunk chunk = (Chunk) provider.loadedChunkHashMap.getValueByKey(chunkCoord);
+		AnvilChunkLoader loader = null;
+
+		if(provider.currentChunkLoader instanceof AnvilChunkLoader) {
+			loader = (AnvilChunkLoader) provider.currentChunkLoader;
+		}
+
+		if(chunk == null && loader != null && loader.chunkExists(world, chunkX, chunkZ)) {
+			chunk = ChunkIOExecutor.syncChunkLoad(world, loader, provider, chunkX, chunkZ);
+		}
+
+		return chunk;
 	}
 }

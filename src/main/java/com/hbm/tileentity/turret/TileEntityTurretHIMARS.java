@@ -222,6 +222,8 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 		
 		if(!worldObj.isRemote) {
 			
+			if(!isOn()) this.targetQueue.clear();
+			
 			if(this.target != null && !target.isEntityAlive()) {
 				this.target = null;
 				this.tPos = null;

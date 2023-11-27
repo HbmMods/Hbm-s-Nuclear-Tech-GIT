@@ -1019,6 +1019,8 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.crane_splitter), new Object[] { "III", "PCP", "III", 'P', DictFrame.fromOne(ModItems.part_generic, EnumPartType.PISTON_PNEUMATIC), 'I', STEEL.ingot(), 'C', ModItems.circuit_aluminium });
 
 		addRecipeAuto(new ItemStack(ModBlocks.machine_conveyor_press), new Object[] { "CPC", "CBC", "CCC", 'C', CU.plate(), 'P', ModBlocks.machine_epress, 'B', ModBlocks.conveyor });
+		addRecipeAuto(new ItemStack(ModBlocks.radar_screen), new Object[] { "PCP", "SRS", "PCP", 'P', ANY_PLASTIC.ingot(), 'C', ModItems.circuit_aluminium, 'S', STEEL.plate(), 'R', ModItems.crt_display });
+		addRecipeAuto(new ItemStack(ModItems.radar_linker), new Object[] { "S", "C", "P", 'S', ModItems.crt_display, 'C', ModItems.circuit_copper, 'P', STEEL.plate() });
 
 		addRecipeAuto(new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL.ordinal()), new Object[] { "PPP", "HCH", " B ", 'P', ANY_PLASTIC.ingot(), 'H', ModItems.hull_small_steel, 'C', ModItems.circuit_copper, 'B', ModBlocks.crate_steel });
 		addRecipeAuto(new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL_CHUNKLOADING.ordinal()), new Object[] { "E", "D", 'E', Items.ender_pearl, 'D', new ItemStack(ModItems.drone, 1, EnumDroneType.PATROL.ordinal()) });

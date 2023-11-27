@@ -680,6 +680,15 @@ public class ModBlocks {
 	public static Block fire_door;
 	public static Block transition_seal;
 
+	// 1.12.2 Doors
+	public static Block secure_access_door;
+	public static Block large_vehicle_door;
+	public static Block qe_containment;
+	public static Block qe_sliding_door;
+	public static Block round_airlock_door;
+	public static Block sliding_seal_door;
+	public static Block water_door;
+
 	public static Block door_metal;
 	public static Block door_office;
 	public static Block door_bunker;
@@ -1144,8 +1153,9 @@ public class ModBlocks {
 	public static Block launch_table;
 	
 	public static Block soyuz_launcher;
-	
+
 	public static Block machine_radar;
+	public static Block radar_screen;
 	
 	public static Block machine_turbofan;
 	public static Block machine_turbinegas;
@@ -1670,8 +1680,8 @@ public class ModBlocks {
 		asphalt_light = new BlockSpeedy(Material.rock, 1.5).setBlockName("asphalt_light").setCreativeTab(MainRegistry.blockTab).setLightLevel(1F).setHardness(15.0F).setResistance(120.0F).setBlockTextureName(RefStrings.MODID + ":asphalt_light");
 
 		reinforced_brick = new BlockGeneric(Material.rock).setBlockName("reinforced_brick").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(300.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_brick");
-		reinforced_glass = new BlockNTMGlassCT(0, RefStrings.MODID + ":reinforced_glass", Material.rock).setBlockName("reinforced_glass").setCreativeTab(MainRegistry.blockTab).setLightOpacity(0).setHardness(15.0F).setResistance(25.0F);
-		reinforced_glass_pane = new BlockNTMGlassPane(0, RefStrings.MODID + ":reinforced_glass_pane", RefStrings.MODID + ":reinforced_glass_pane_edge", Material.rock, false).setBlockName("reinforced_glass_pane").setCreativeTab(MainRegistry.blockTab).setLightOpacity(1).setHardness(15.0F).setResistance(200.0F);
+		reinforced_glass = new BlockNTMGlassCT(0, RefStrings.MODID + ":reinforced_glass", Material.rock).setBlockName("reinforced_glass").setCreativeTab(MainRegistry.blockTab).setLightOpacity(0).setHardness(2.0F).setResistance(25.0F);
+		reinforced_glass_pane = new BlockNTMGlassPane(0, RefStrings.MODID + ":reinforced_glass_pane", RefStrings.MODID + ":reinforced_glass_pane_edge", Material.rock, false).setBlockName("reinforced_glass_pane").setCreativeTab(MainRegistry.blockTab).setLightOpacity(1).setHardness(2.0F).setResistance(25.0F);
 		reinforced_light = new BlockGeneric(Material.rock).setBlockName("reinforced_light").setCreativeTab(MainRegistry.blockTab).setLightLevel(1.0F).setHardness(15.0F).setResistance(80.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_light");
 		reinforced_sand = new BlockGeneric(Material.rock).setBlockName("reinforced_sand").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_sand");
 		reinforced_lamp_off = new ReinforcedLamp(Material.rock, false).setBlockName("reinforced_lamp_off").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(80.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_lamp_off");
@@ -2333,6 +2343,13 @@ public class ModBlocks {
 
 		fire_door = new BlockDoorGeneric(Material.iron, DoorDecl.FIRE_DOOR).setBlockName("fire_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fire_door");
 		transition_seal = new BlockDoorGeneric(Material.iron, DoorDecl.TRANSITION_SEAL).setBlockName("transition_seal").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":transition_seal");
+		secure_access_door = new BlockDoorGeneric(Material.iron, DoorDecl.SECURE_ACCESS_DOOR).setBlockName("secure_access_door").setHardness(200.0F).setResistance(20000.0F).setCreativeTab(MainRegistry.machineTab);
+		large_vehicle_door = new BlockDoorGeneric(Material.iron, DoorDecl.LARGE_VEHICLE_DOOR).setBlockName("large_vehicle_door").setHardness(100.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		qe_containment = new BlockDoorGeneric(Material.iron, DoorDecl.QE_CONTAINMENT).setBlockName("qe_containment").setHardness(100.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		qe_sliding_door = new BlockDoorGeneric(Material.iron, DoorDecl.QE_SLIDING).setBlockName("qe_sliding_door").setHardness(100.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		round_airlock_door = new BlockDoorGeneric(Material.iron, DoorDecl.ROUND_AIRLOCK_DOOR).setBlockName("round_airlock_door").setHardness(100.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		sliding_seal_door = new BlockDoorGeneric(Material.iron, DoorDecl.SLIDING_SEAL_DOOR).setBlockName("sliding_seal_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
+		water_door = new BlockDoorGeneric(Material.iron, DoorDecl.WATER_DOOR).setBlockName("water_door").setHardness(50.0F).setResistance(500.0F).setCreativeTab(MainRegistry.machineTab);
 
 		door_metal = new BlockModDoor(Material.iron).setBlockName("door_metal").setHardness(5.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":door_metal");
 		door_office = new BlockModDoor(Material.iron).setBlockName("door_office").setHardness(10.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":door_office");
@@ -2357,6 +2374,7 @@ public class ModBlocks {
 		launch_pad_passenger = new LaunchPadPassenger(Material.iron).setBlockName("launch_pad_passenger").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		machine_radar = new MachineRadar(Material.iron).setBlockName("machine_radar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":machine_radar");
+		radar_screen = new MachineRadarScreen(Material.iron).setBlockName("radar_screen").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		machine_missile_assembly = new MachineMissileAssembly(Material.iron).setBlockName("machine_missile_assembly").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":machine_missile_assembly");
 		compact_launcher = new CompactLauncher(Material.iron).setBlockName("compact_launcher").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":compact_launcher");
@@ -3374,6 +3392,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(door_metal, door_metal.getUnlocalizedName());
 		GameRegistry.registerBlock(door_office, door_office.getUnlocalizedName());
 		GameRegistry.registerBlock(door_bunker, door_bunker.getUnlocalizedName());
+		GameRegistry.registerBlock(secure_access_door, secure_access_door.getUnlocalizedName());
+		GameRegistry.registerBlock(large_vehicle_door, large_vehicle_door.getUnlocalizedName());
+		GameRegistry.registerBlock(qe_containment, qe_containment.getUnlocalizedName());
+		GameRegistry.registerBlock(qe_sliding_door, qe_sliding_door.getUnlocalizedName());
+		GameRegistry.registerBlock(round_airlock_door, round_airlock_door.getUnlocalizedName());
+		GameRegistry.registerBlock(sliding_seal_door, sliding_seal_door.getUnlocalizedName());
+		GameRegistry.registerBlock(water_door, water_door.getUnlocalizedName());
 		
 		//Crates
 		register(crate_iron);
@@ -3824,6 +3849,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(sat_dock, sat_dock.getUnlocalizedName());
 		GameRegistry.registerBlock(soyuz_capsule, soyuz_capsule.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_radar, machine_radar.getUnlocalizedName());
+		GameRegistry.registerBlock(radar_screen, radar_screen.getUnlocalizedName());
 		
 		//Guide
 		GameRegistry.registerBlock(book_guide, book_guide.getUnlocalizedName());

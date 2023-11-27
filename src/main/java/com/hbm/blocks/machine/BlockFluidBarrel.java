@@ -7,10 +7,6 @@ import java.util.Random;
 import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.projectile.EntityBombletZeta;
-import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -19,7 +15,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.machine.storage.TileEntityBarrel;
 
-import com.hbm.util.I18nUtil;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -28,7 +23,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,7 +33,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -165,24 +158,7 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 		super.onBlockPlacedBy(world, x, y, z, player, stack);
 		IPersistentNBT.restoreData(world, x, y, z, stack);
 	}
-	@Override
-	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion) {
-		
-		TileEntity core = world.getTileEntity(x, y, z);
-		if(!(core instanceof TileEntityBarrel)) return;
-		
-		TileEntityBarrel tank = (TileEntityBarrel) core;
-		if(tank.lastExplosion == explosion) return;
-		tank.lastExplosion = explosion;
-		
-		if(!tank.hasExploded) {
-			tank.explode(world, x, y, z);
-			
-		} else {
-			world.setBlock(x, y, z, Blocks.air);
-		}
-		
-	}
+	
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		return IPersistentNBT.getDrops(world, x, y, z, this);
@@ -232,47 +208,47 @@ public class BlockFluidBarrel extends BlockContainer implements ITooltipProvider
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		
 		if(this == ModBlocks.barrel_plastic) {
-			list.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("trait.tile.barrel.capacity","12,000"));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("trait.tile.barrel.hot")[1]);
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("trait.tile.barrel.corrosive")[4]);
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("trait.tile.barrel.antimatter")[1]);
+			list.add(EnumChatFormatting.AQUA + "Capacity: 12,000mB");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store hot fluids");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store corrosive fluids");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
 		}
 		
 		if(this == ModBlocks.barrel_corroded) {
-			list.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("trait.tile.barrel.capacity","6,000"));
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKeyArray("trait.tile.barrel.hot")[0]);
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKeyArray("trait.tile.barrel.corrosive")[0]);
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("trait.tile.barrel.antimatter")[1]);
-			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.tile.barrel.leak"));
+			list.add(EnumChatFormatting.AQUA + "Capacity: 6,000mB");
+			list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
+			list.add(EnumChatFormatting.GREEN + "Can store highly corrosive fluids");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
+			list.add(EnumChatFormatting.RED + "Leaky");
 		}
 		
 		if(this == ModBlocks.barrel_iron) {
-			list.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("trait.tile.barrel.capacity","8,000"));
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKeyArray("trait.tile.barrel.hot")[0]);
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("trait.tile.barrel.corrosive")[3]);
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("trait.tile.barrel.antimatter")[1]);
+			list.add(EnumChatFormatting.AQUA + "Capacity: 8,000mB");
+			list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store corrosive fluids properly");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
 		}
 		
 		if(this == ModBlocks.barrel_steel) {
-			list.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("trait.tile.barrel.capacity","16,000"));
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKeyArray("trait.tile.barrel.hot")[0]);
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKeyArray("trait.tile.barrel.corrosive")[1]);
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("trait.tile.barrel.corrosive")[2]);
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("trait.tile.barrel.antimatter")[1]);
+			list.add(EnumChatFormatting.AQUA + "Capacity: 16,000mB");
+			list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
+			list.add(EnumChatFormatting.GREEN + "Can store corrosive fluids");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store highly corrosive fluids properly");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
 		}
 		
 		if(this == ModBlocks.barrel_antimatter) {
-			list.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("trait.tile.barrel.capacity","16,000"));
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKeyArray("trait.tile.barrel.hot")[0]);
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKeyArray("trait.tile.barrel.corrosive")[0]);
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKeyArray("trait.tile.barrel.antimatter")[0]);
+			list.add(EnumChatFormatting.AQUA + "Capacity: 16,000mB");
+			list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
+			list.add(EnumChatFormatting.GREEN + "Can store highly corrosive fluids");
+			list.add(EnumChatFormatting.GREEN + "Can store antimatter");
 		}
 		
 		if(this == ModBlocks.barrel_tcalloy) {
-			list.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("trait.tile.barrel.capacity","24,000"));
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKeyArray("trait.tile.barrel.hot")[0]);
-			list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKeyArray("trait.tile.barrel.corrosive")[0]);
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("trait.tile.barrel.antimatter")[1]);
+			list.add(EnumChatFormatting.AQUA + "Capacity: 24,000mB");
+			list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
+			list.add(EnumChatFormatting.GREEN + "Can store highly corrosive fluids");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
 		}
 	}
 }

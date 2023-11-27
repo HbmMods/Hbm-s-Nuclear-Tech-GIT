@@ -26,7 +26,6 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 
 public abstract class EntityMissileBaseNT extends EntityThrowableInterp implements IChunkLoader, IRadarDetectable, IRadarDetectableNT {
-
 	public int startX;
 	public int startZ;
 	public int targetX;
@@ -216,10 +215,10 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	}
 
 	protected void killMissile() {
+		this.setDead();
 		ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
 		ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
 		ExplosionLarge.spawnMissileDebris(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 0.25, getDebris(), getDebrisRareDrop());
-		this.killAndClear();
 	}
 	
 	@Override
@@ -232,7 +231,7 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	protected void onImpact(MovingObjectPosition mop) {
 		if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
 			this.onImpact();
-			this.killAndClear();
+			this.setDead();
 		}
 	}
 
@@ -291,8 +290,9 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 		}
 	}
 	
-	public void killAndClear() {
-		this.setDead();
+	@Override
+	public void setDead() {
+		super.setDead();
 		this.clearChunkLoader();
 	}
 	

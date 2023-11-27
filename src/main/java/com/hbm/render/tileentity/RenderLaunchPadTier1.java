@@ -41,7 +41,9 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 				if(toRender.getItem() == ModItems.missile_strong) {
 					GL11.glScalef(1.5F, 1.5F, 1.5F);
 					bindTexture(ResourceManager.missileStrong_HE_tex);
+					GL11.glShadeModel(GL11.GL_SMOOTH);
 					ResourceManager.missileStrong.renderAll();
+					GL11.glShadeModel(GL11.GL_FLAT);
 				}
 				if(toRender.getItem() == ModItems.missile_cluster) {
 					GL11.glScalef(1.0F, 1.0F, 1.0F);
@@ -72,37 +74,47 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 				if(toRender.getItem() == ModItems.missile_incendiary_strong) {
 					GL11.glScalef(1.5F, 1.5F, 1.5F);
 					bindTexture(ResourceManager.missileStrong_IN_tex);
+					GL11.glShadeModel(GL11.GL_SMOOTH);
 					ResourceManager.missileStrong.renderAll();
+					GL11.glShadeModel(GL11.GL_FLAT);
 				}
 				if(toRender.getItem() == ModItems.missile_cluster_strong) {
 					GL11.glScalef(1.5F, 1.5F, 1.5F);
 					bindTexture(ResourceManager.missileStrong_CL_tex);
+					GL11.glShadeModel(GL11.GL_SMOOTH);
 					ResourceManager.missileStrong.renderAll();
+					GL11.glShadeModel(GL11.GL_FLAT);
 				}
 				if(toRender.getItem() == ModItems.missile_buster_strong) {
 					GL11.glScalef(1.5F, 1.5F, 1.5F);
 					bindTexture(ResourceManager.missileStrong_BU_tex);
+					GL11.glShadeModel(GL11.GL_SMOOTH);
 					ResourceManager.missileStrong.renderAll();
+					GL11.glShadeModel(GL11.GL_FLAT);
 				}
 				if(toRender.getItem() == ModItems.missile_burst) {
-					GL11.glScalef(2.0F, 2.0F, 2.0F);
 					bindTexture(ResourceManager.missileHuge_HE_tex);
+					GL11.glShadeModel(GL11.GL_SMOOTH);
 					ResourceManager.missileHuge.renderAll();
+					GL11.glShadeModel(GL11.GL_FLAT);
 				}
 				if(toRender.getItem() == ModItems.missile_inferno) {
-					GL11.glScalef(2.0F, 2.0F, 2.0F);
 					bindTexture(ResourceManager.missileHuge_IN_tex);
+					GL11.glShadeModel(GL11.GL_SMOOTH);
 					ResourceManager.missileHuge.renderAll();
+					GL11.glShadeModel(GL11.GL_FLAT);
 				}
 				if(toRender.getItem() == ModItems.missile_rain) {
-					GL11.glScalef(2.0F, 2.0F, 2.0F);
 					bindTexture(ResourceManager.missileHuge_CL_tex);
+					GL11.glShadeModel(GL11.GL_SMOOTH);
 					ResourceManager.missileHuge.renderAll();
+					GL11.glShadeModel(GL11.GL_FLAT);
 				}
 				if(toRender.getItem() == ModItems.missile_drill) {
-					GL11.glScalef(2.0F, 2.0F, 2.0F);
 					bindTexture(ResourceManager.missileHuge_BU_tex);
+					GL11.glShadeModel(GL11.GL_SMOOTH);
 					ResourceManager.missileHuge.renderAll();
+					GL11.glShadeModel(GL11.GL_FLAT);
 				}
 				if(toRender.getItem() == ModItems.missile_endo) {
 					GL11.glScalef(1.5F, 1.5F, 1.5F);
@@ -176,7 +188,9 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 				if(toRender.getItem() == ModItems.missile_emp_strong) {
 					GL11.glScalef(1.5F, 1.5F, 1.5F);
 					bindTexture(ResourceManager.missileStrong_EMP_tex);
+					GL11.glShadeModel(GL11.GL_SMOOTH);
 					ResourceManager.missileStrong.renderAll();
+					GL11.glShadeModel(GL11.GL_FLAT);
 				}
 				if(toRender.getItem() == ModItems.missile_volcano) {
 					GL11.glScalef(1.5F, 1.5F, 1.5F);

@@ -77,8 +77,12 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 				
 				if(this.tracking != null) {
 					this.aimAtTarget();
+				} else {
+					if(this.ticksExisted > 600) this.setDead();
 				}
 			}
+
+			loadNeighboringChunks((int) Math.floor(posX / 16), (int) Math.floor(posZ / 16));
 			
 			if(this.posY > 2000 && (this.tracking == null || this.tracking.isDead)) this.setDead();
 			
@@ -125,8 +129,9 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 		Vec3 motion = Vec3.createVectorHelper(predicted.xCoord - posX, predicted.yCoord - posY, predicted.zCoord - posZ).normalize();
 		
 		if(delta.lengthVector() < 10 && activationTimer >= 40) {
+			this.setDead();
 			ExplosionLarge.explode(worldObj, posX, posY, posZ, 15F, true, false, false);
-			this.killAndClear();
+
 		}
 
 		this.motionX = motion.xCoord * baseSpeed;
@@ -137,8 +142,8 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		if(this.activationTimer >= 40) {
+			this.setDead();
 			ExplosionLarge.explode(worldObj, posX, posY, posZ, 20F, true, false, false);
-			this.killAndClear();
 		}
 	}
 
@@ -195,8 +200,7 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 			clearChunkLoader();
 
 			loadedChunks.clear();
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
-			//loadedChunks.add(new ChunkCoordIntPair(newChunkX + (int) Math.floor((this.posX + this.motionX * this.motionMult()) / 16D), newChunkZ + (int) Math.floor((this.posZ + this.motionZ * this.motionMult()) / 16D)));
+			for(int i = -1; i <= 1; i++) for(int j = -1; j <= 1; j++) loadedChunks.add(new ChunkCoordIntPair(newChunkX + i, newChunkZ + j));
 
 			for(ChunkCoordIntPair chunk : loadedChunks) {
 				ForgeChunkManager.forceChunk(loaderTicket, chunk);
@@ -204,8 +208,9 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 		}
 	}
 	
-	public void killAndClear() {
-		this.setDead();
+	@Override
+	public void setDead() {
+		super.setDead();
 		this.clearChunkLoader();
 	}
 	
