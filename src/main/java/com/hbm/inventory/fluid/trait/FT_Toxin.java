@@ -31,7 +31,7 @@ public class FT_Toxin extends FluidTrait {
 	
 	@Override
 	public void addInfoHidden(List<String> info) {
-		info.add(EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey("hbmfluid.Trait.Toxin"));
+		info.add(EnumChatFormatting.LIGHT_PURPLE + "[Toxin]");
 		
 		for(ToxinEntry entry : entries) {
 			entry.addInfo(info);

@@ -8,7 +8,6 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.tank.FluidTank;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
@@ -33,7 +32,7 @@ public class FT_VentRadiation extends FluidTrait {
 	
 	@Override
 	public void addInfo(List<String> info) {
-		info.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("hbmfluid.Trait.VentRadiation"));
+		info.add(EnumChatFormatting.YELLOW + "[Radioactive]");
 	}
 
 	@Override

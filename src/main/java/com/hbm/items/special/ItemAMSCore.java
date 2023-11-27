@@ -5,7 +5,6 @@ import java.util.List;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
-import com.hbm.util.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,26 +28,51 @@ public class ItemAMSCore extends Item {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
 		if (this == ModItems.ams_core_sing) {
-			for(String s : I18nUtil.resolveKeyArray("item.ams_core_sing.desc"))
-				list.add(s);
+			list.add("A modified undefined state of spacetime");
+			list.add("used to aid in inter-gluon fusion and");
+			list.add("spacetime annihilation. Yes, this destroys");
+			list.add("the universe itself, slowly but steadily,");
+			list.add("but at least you can power your toaster with");
+			list.add("this, so it's all good.");
 		}
 
 		if (this == ModItems.ams_core_wormhole) {
-			for(String s : I18nUtil.resolveKeyArray("item.ams_core_wormhole.desc"))
-				list.add(s);
+			list.add("A cloud of billions of nano-wormholes which");
+			list.add("deliberately fail at tunneling matter from");
+			list.add("another dimension, rather it converts all");
+			list.add("that matter into pure energy. That means");
+			list.add("you're actively contributing to the destruction");
+			list.add("of another dimension, sucking it dry like a");
+			list.add("juicebox.");
+			list.add("That dimension probably sucked, anyways. I");
+			list.add("bet it was full of wasps or some crap, man,");
+			list.add("I hate these things.");
 		}
 
 		if (this == ModItems.ams_core_eyeofharmony) {
-			for(String s : I18nUtil.resolveKeyArray("item.ams_core_eyeofharmony.desc"))
-				list.add(s);
+			list.add("A star collapsing in on itself, mere nanoseconds");
+			list.add("away from being turned into a black hole,");
+			list.add("frozen in time. If I didn't know better I");
+			list.add("would say this is some deep space magic");
+			list.add("bullcrap some guy made up to sound intellectual.");
+			list.add("Probably Steve from accounting. You still owe me");
+			list.add("ten bucks.");
 		}
 
 		if (this == ModItems.ams_core_thingy) {
 			if(MainRegistry.polaroidID == 11) {
-				list.add(I18nUtil.resolveKey("item.ams_core_thingy_hide.desc"));
+				list.add("Yeah I'm not even gonna question that one.");
 			} else {
-				for(String s : I18nUtil.resolveKeyArray("item.ams_core_thingy.desc"))
-					list.add(s);
+				list.add("...");
+				list.add("...");
+				list.add("...am I even holding this right?");
+				list.add("It's a small metal thing. I dunno where it's from");
+				list.add("or what it does, maybe they found it on a");
+				list.add("junkyard and sold it as some kind of antique");
+				list.add("artifact. If it weren't for the fact that I can");
+				list.add("actually stuff this into some great big laser");
+				list.add("reactor thing, I'd probably bring it back to where");
+				list.add("it belongs. In the trash.");
 			}
 		}
 	}

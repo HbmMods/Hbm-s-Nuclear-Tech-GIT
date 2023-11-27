@@ -7,7 +7,6 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
-import com.hbm.util.I18nUtil;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -69,8 +68,8 @@ public class JetpackVectorized extends JetpackBase {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 
-		for(String s : I18nUtil.resolveKeyArray("item.jetpack_vector.desc"))
-			list.add(s);
+		list.add("High-mobility jetpack.");
+		list.add("Higher fuel consumption.");
 
 		super.addInformation(stack, player, list, ext);
 	}
