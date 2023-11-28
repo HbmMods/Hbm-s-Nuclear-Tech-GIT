@@ -5,8 +5,13 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.hbm.config.SpaceConfig;
+import com.hbm.dim.DebugTeleporter;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.util.PlanetaryTraitUtil;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
+import com.hbm.util.PlanetaryTraitWorldSavedData;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
