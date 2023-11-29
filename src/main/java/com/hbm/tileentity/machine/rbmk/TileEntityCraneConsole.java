@@ -396,9 +396,14 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		}
 		return new Object[] {"N/A"};
 	}
+
 	@Callback(direct = true)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getCoords(Context context, Arguments args) {
-		return new Object[] {xCoord, yCoord, zCoord};
+	@Optional.Method(modid = "OpenComputers") //if this doesnt work im going to die
+	public Object[] getBoundPos(Context context, Arguments args) {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection left = dir.getRotation(ForgeDirection.DOWN);
+		int x = (int)Math.floor(this.centerX - dir.offsetX * this.posFront - left.offsetX * this.posLeft + 0.5D);
+		int z = (int)Math.floor(this.centerZ - dir.offsetZ * this.posFront - left.offsetZ * this.posLeft + 0.5D);
+		return new Object[] {x, z};
 	}
 }
