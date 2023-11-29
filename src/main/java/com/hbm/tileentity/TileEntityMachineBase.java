@@ -22,8 +22,8 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	
 	private String customName;
 	
-	public TileEntityMachineBase(int scount) {
-		slots = new ItemStack[scount];
+	public TileEntityMachineBase(int slotCount) {
+		slots = new ItemStack[slotCount];
 	}
 	
 	/** The "chunks is modified, pls don't forget to save me" effect of markDirty, minus the block updates */
