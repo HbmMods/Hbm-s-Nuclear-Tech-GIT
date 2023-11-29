@@ -1,12 +1,6 @@
-## Added
-* Doors!
-  * Your favorites from 1.12, the 7 remaining doors have finally been ported
-  * Thanks to KoblizekXD for biting the bullet
-
 ## Changed
-* Reduced the blast resistance of the large doors from absurdly high to still very but not quite as high
-* Custom missiles are now launchable using the radar
-* NTM's structures should no longer spawn in dimensions besides the overworld. Ores will still generate, assuming the config option is set.
+* Light oil and cracked light oil can now be refomred into large quantities of aromatic hydrocarbons a well as some reformate gas
 
 ## Fixed
-* Fixed ancient bug where custom missiles launched using the launch table would not use the accuracy calculation and always be pin-point accurate
+* Fixed thorium bedrock ore using the wrong ore dict key, making it unable to be processed via centrifuge or acidizer
+* Fixed custom machine NEI slots going out of bounds after the third slot

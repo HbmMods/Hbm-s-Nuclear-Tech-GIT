@@ -10,14 +10,12 @@ import com.hbm.inventory.fluid.Fluids;
  * Mostly just functions used across many TEs.
  */
 public class CompatHandler {
-
     public static Object[] steamTypeToInt(FluidType type) {
-        if(type == Fluids.STEAM) {return new Object[] {0};}  //switches break because objects
+        if(type == Fluids.STEAM) {return new Object[] {0};}
         else if(type == Fluids.HOTSTEAM) {return new Object[] {1};}
         else if(type == Fluids.SUPERHOTSTEAM) {return new Object[] {2};}
         return new Object[] {3};
     }
-
     public static FluidType intToSteamType(int arg) {
         switch(arg) {
             default:
@@ -30,5 +28,4 @@ public class CompatHandler {
                 return Fluids.ULTRAHOTSTEAM;
         }
     }
-
 }
