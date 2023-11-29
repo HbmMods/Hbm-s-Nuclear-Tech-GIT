@@ -339,12 +339,13 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		return "rbmk_crane";
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 2) //yknow computers are more efficient than humans, lets give an incentive to use OC
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] move(Context context, Arguments args) {
 		if(setUpCrane) {
-			String textbruh = args.checkString(0);
-			switch(textbruh) {
+			String direction = args.checkString(0);
+
+			switch(direction) {
 				case "up":
 					tiltFront = 30;
 					if(!worldObj.isRemote) posFront += speed;
@@ -368,7 +369,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		return new Object[] {"Crane not found"};
 	}
 	
-	@Callback(direct = true, limit = 4)
+	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] load(Context context, Arguments args) {
 		if (setUpCrane) {
@@ -394,5 +395,10 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 			return new Object[] {ItemRBMKRod.getPoison(loadedItem)};
 		}
 		return new Object[] {"N/A"};
+	}
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoords(Context context, Arguments args) {
+		return new Object[] {xCoord, yCoord, zCoord};
 	}
 }
