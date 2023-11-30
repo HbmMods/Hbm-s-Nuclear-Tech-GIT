@@ -728,8 +728,9 @@ public class ModBlocks {
 	public static Block machine_generator;
 
 	public static Block machine_industrial_generator;
-	
+
 	public static Block machine_cyclotron;
+	public static Block machine_exposure_chamber;
 	
 	public static Block hadron_plating;
 	public static Block hadron_plating_blue;
@@ -1892,6 +1893,7 @@ public class ModBlocks {
 		machine_generator = new MachineGenerator(Material.iron).setBlockName("machine_generator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
 		machine_industrial_generator = new MachineIGenerator(Material.iron).setBlockName("machine_industrial_generator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":industrial_generator");
 		machine_cyclotron = new MachineCyclotron(Material.iron).setBlockName("machine_cyclotron").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":cyclotron");
+		machine_exposure_chamber = new MachineExposureChamber(Material.iron).setBlockName("machine_exposure_chamber").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_aluminium");
 		machine_radgen = new MachineRadGen(Material.iron).setBlockName("machine_radgen").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_radgen");
 
 		hadron_plating = new BlockHadronPlating(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_plating").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_plating");
@@ -3190,6 +3192,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_industrial_generator, machine_industrial_generator.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_radgen, machine_radgen.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_cyclotron, machine_cyclotron.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_exposure_chamber, machine_exposure_chamber.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_rtg_grey, machine_rtg_grey.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_geo, machine_geo.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_amgen, machine_amgen.getUnlocalizedName());
