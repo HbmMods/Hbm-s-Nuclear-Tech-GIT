@@ -443,6 +443,12 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		return bb;
 	}
 	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
+	
 	private void disassemble() {
 
 		int count = 20;
@@ -514,12 +520,6 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 				worldObj.setBlock(xCoord + x, yCoord + i, zCoord + z, ModBlocks.mud_block);
 			}
 		}
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared() {
-		return 65536.0D;
 	}
 
 	@Override
