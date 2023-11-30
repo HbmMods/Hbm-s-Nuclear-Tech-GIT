@@ -8,7 +8,6 @@ import java.util.List;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.potion.HbmPotion;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,14 +24,14 @@ public class ItemModMilk extends ItemArmorMod {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add(EnumChatFormatting.WHITE + I18nUtil.resolveKeyArray("armorMod.mod.Milk")[0]);
+		list.add(EnumChatFormatting.WHITE + "Removes bad potion effects");
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 	}
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-		list.add(EnumChatFormatting.WHITE + "  " + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.Milk")[1]);
+		list.add(EnumChatFormatting.WHITE + "  " + stack.getDisplayName() + " (Removes bad potion effects)");
 	}
 	
 	@Override

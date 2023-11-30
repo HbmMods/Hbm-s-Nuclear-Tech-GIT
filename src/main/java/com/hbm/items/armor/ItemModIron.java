@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorModHandler;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,14 +20,14 @@ public class ItemModIron extends ItemArmorMod {
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add(EnumChatFormatting.WHITE + I18nUtil.resolveKeyArray("armorMod.mod.Iron")[0]);
+		list.add(EnumChatFormatting.WHITE + "+0.5 knockback resistance");
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 	}
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-		list.add(EnumChatFormatting.WHITE + "  " + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.Iron")[1]);
+		list.add(EnumChatFormatting.WHITE + "  " + stack.getDisplayName() + " (+0.5 knockback resistence)");
 	}
 	
 	@Override

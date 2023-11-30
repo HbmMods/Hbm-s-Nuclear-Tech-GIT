@@ -13,7 +13,6 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 
 import api.hbm.energy.IBatteryItem;
-import com.hbm.util.I18nUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -40,10 +39,10 @@ public class ItemGlitch extends Item implements IBatteryItem {
 		if(!world.isRemote)
 			switch(itemRand.nextInt(31)) {
 			case 0:
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[0]));
+				player.addChatMessage(new ChatComponentText("Sorry nothing."));
 				break;
 			case 1:
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[1]));
+				player.addChatMessage(new ChatComponentText("Prometheus was punished by the gods by giving the gift of knowledge to man. He was cast into the bowels of the earth and pecked by birds."));
 				break;
 			case 2:
 				player.attackEntityFrom(ModDamageSource.radiation, 1000);
@@ -67,7 +66,7 @@ public class ItemGlitch extends Item implements IBatteryItem {
 				break;
 			case 8:
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_container, 10));
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[2]));
+				player.addChatMessage(new ChatComponentText("Oh, and by the way: The polaroid shifts reality. Things can be different if the polaroid is broken."));
 				break;
 			case 9:
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.nuke_advanced_kit, 1));
@@ -95,7 +94,7 @@ public class ItemGlitch extends Item implements IBatteryItem {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_pip));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_sparkle));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.geiger_counter));
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[3]));
+				player.addChatMessage(new ChatComponentText("Have some free stuff. You'll need it for that one cryptic achievement."));
 				break;
 			case 14:
 				player.inventory.dropAllItems();
@@ -106,43 +105,43 @@ public class ItemGlitch extends Item implements IBatteryItem {
 					player.inventory.addItemStackToInventory(new ItemStack(Blocks.dirt, 64));
 				break;
 			case 16:
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[4]));
+				player.addChatMessage(new ChatComponentText("v yvxr lbhe nggvghqr!"));
 				break;
 			case 17:
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[5]));
+				player.addChatMessage(new ChatComponentText("89% of magic tricks are not magic. Technically, they are sorcery."));
 				break;
 			case 18:
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge, 12));
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[6]));
+				player.addChatMessage(new ChatComponentText("Here ya go."));
 				break;
 			case 19:
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[7]));
+				player.addChatMessage(new ChatComponentText("Ë"));
 				break;
 			case 20:
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[8]));
+				player.addChatMessage(new ChatComponentText("Good day, I am text"));
 				break;
 			case 21:
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear));
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[9]));
+				player.addChatMessage(new ChatComponentText("73616d706c652074657874!"));
 				break;
 			case 22:
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[10]));
+				player.addChatMessage(new ChatComponentText("Budget cuts, no effect for you."));
 				break;
 			case 23:
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[11]));
+				player.addChatMessage(new ChatComponentText("oof"));
 				break;
 			case 24:
 				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 60 * 20, 9));
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[12]));
+				player.addChatMessage(new ChatComponentText("Tank!"));
 				break;
 			case 25:
 				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 60 * 20, 9));
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[13]));
+				player.addChatMessage(new ChatComponentText("More devastating than a falling boxcar!"));
 				break;
 			case 26:
 				player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 60 * 20, 9));
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[14]));
+				player.addChatMessage(new ChatComponentText("Ha!"));
 				break;
 			case 27:
 				EntityVortex vortex = new EntityVortex(world, 2.5F);
@@ -157,15 +156,15 @@ public class ItemGlitch extends Item implements IBatteryItem {
 				mirv.posY = player.posY + 100;
 				mirv.posZ = player.posZ;
 				world.spawnEntityInWorld(mirv);
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[15]));
+				player.addChatMessage(new ChatComponentText("Watch your head!"));
 				break;
 			case 29:
 				ExplosionLarge.spawnBurst(world, player.posX, player.posY, player.posZ, 27, 3);
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[16]));
+				player.addChatMessage(new ChatComponentText("Bam!"));
 				break;
 			case 30:
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_saturnite));
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKeyArray("item.glitch.message")[17]));
+				player.addChatMessage(new ChatComponentText("It's dangerous to go alone, take this!"));
 				break;
 			}
 		
@@ -177,62 +176,62 @@ public class ItemGlitch extends Item implements IBatteryItem {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[0]);
+		list.add("It's a gamble!");
 		list.add("");
 		switch(MainRegistry.polaroidID) {
 		case 1: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[1]);
+			list.add("Click-click-click!");
 			break;
 		case 2: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[2]);
+			list.add("Creek!");
 			break;
 		case 3: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[3]);
+			list.add("Bzzzt!");
 			break;
 		case 4: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[4]);
+			list.add("TS staring off into space.");
 			break;
 		case 5: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[5]);
+			list.add("BANG!!");
 			break;
 		case 6: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[6]);
+			list.add("Woop!");
 			break;
 		case 7: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[7]);
+			list.add("Poow!");
 			break;
 		case 8: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[8]);
+			list.add("Pft!");
 			break;
 		case 9: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[9]);
+			list.add("GF fgnevat bss vagb fcnpr.");
 			break;
 		case 10: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[10]);
+			list.add("Backup memory #8 on 1.44 million bytes.");
 			break;
 		case 11: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[11]);
+			list.add("PTANG!");
 			break;
 		case 12: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[12]);
+			list.add("Bzzt-zrrt!");
 			break;
 		case 13: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[13]);
+			list.add("Clang, click-brrthththrtrtrtrtrtr!");
 			break;
 		case 14: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[14]);
+			list.add("KABLAM!");
 			break;
 		case 15: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[15]);
+			list.add("PLENG!");
 			break;
 		case 16: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[16]);
+			list.add("Wheeeeeeee-");
 			break;
 		case 17: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[17]);
+			list.add("Thump.");
 			break;
 		case 18: 
-			list.add(I18nUtil.resolveKeyArray("item.glitch.desc")[18]);
+			list.add("BANG! Choo-chooo! B A N G ! ! !");
 			break;
 		}
 	}

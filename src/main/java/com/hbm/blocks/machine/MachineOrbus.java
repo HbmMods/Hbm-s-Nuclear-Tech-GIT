@@ -12,7 +12,6 @@ import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
 import com.hbm.tileentity.machine.storage.TileEntityMachineOrbus;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;

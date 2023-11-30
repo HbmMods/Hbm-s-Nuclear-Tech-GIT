@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hbm.handler.ArmorModHandler;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,15 +23,15 @@ public class ItemModLodestone extends ItemArmorMod {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add(EnumChatFormatting.DARK_GRAY + I18nUtil.resolveKeyArray("armorMod.mod.Lodestone")[0]);
-		list.add(EnumChatFormatting.DARK_GRAY + I18nUtil.resolveKeyArray("armorMod.mod.Lodestone",range)[1]);
+		list.add(EnumChatFormatting.DARK_GRAY + "Attracts nearby items");
+		list.add(EnumChatFormatting.DARK_GRAY + "Item attraction range: " + range);
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 	}
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-		list.add(EnumChatFormatting.DARK_GRAY + "  " + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.Lodestone",range)[2] );
+		list.add(EnumChatFormatting.DARK_GRAY + "  " + stack.getDisplayName() + " (Magnetic range: " + range + ")");
 	}
 	
 	@Override

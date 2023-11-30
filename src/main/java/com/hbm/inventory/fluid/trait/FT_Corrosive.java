@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.util.EnumChatFormatting;
 
 public class FT_Corrosive extends FluidTrait {
@@ -32,9 +31,9 @@ public class FT_Corrosive extends FluidTrait {
 	public void addInfo(List<String> info) {
 		
 		if(isHighlyCorrosive())
-			info.add(EnumChatFormatting.GOLD + I18nUtil.resolveKeyArray("hbmfluid.Trait.Corrosive")[0]);
+			info.add(EnumChatFormatting.GOLD + "[Strongly Corrosive]");
 		else
-			info.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("hbmfluid.Trait.Corrosive")[1]);
+			info.add(EnumChatFormatting.YELLOW + "[Corrosive]");
 	}
 
 	@Override

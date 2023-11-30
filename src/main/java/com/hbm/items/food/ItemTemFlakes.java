@@ -2,7 +2,6 @@ package com.hbm.items.food;
 
 import java.util.List;
 
-import com.hbm.util.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
@@ -40,15 +39,15 @@ public class ItemTemFlakes extends ItemFood {
 	{
 		if(itemstack.getItemDamage() == 0)
 		{
-			list.add(I18nUtil.resolveKeyArray("item.tem_flakes.desc")[0]);
+			list.add("Heals 2HP DISCOUNT FOOD OF TEM!!!");
 		}
 		if(itemstack.getItemDamage() == 1)
 		{
-			list.add(I18nUtil.resolveKeyArray("item.tem_flakes.desc")[1]);
+			list.add("Heals 2HP food of tem");
 		}
 		if(itemstack.getItemDamage() == 2)
 		{
-			list.add(I18nUtil.resolveKeyArray("item.tem_flakes.desc")[2]);
+			list.add("Heals food of tem (expensiv)");
 		}
 	}
 

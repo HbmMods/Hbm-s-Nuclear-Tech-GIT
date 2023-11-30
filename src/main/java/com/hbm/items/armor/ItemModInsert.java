@@ -8,7 +8,6 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -38,18 +37,18 @@ public class ItemModInsert extends ItemArmorMod {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 
 		if(damageMod != 1F)
-			list.add(EnumChatFormatting.RED + (damageMod < 1 ? "-" : "+") + Math.abs(Math.round((1F - damageMod) * 100)) + I18nUtil.resolveKeyArray("armorMod.mod.Insert")[0]);
+			list.add(EnumChatFormatting.RED + (damageMod < 1 ? "-" : "+") + Math.abs(Math.round((1F - damageMod) * 100)) + "% damage");
 		if(projectileMod != 1F)
-			list.add(EnumChatFormatting.YELLOW + "-" + Math.round((1F - projectileMod) * 100) + I18nUtil.resolveKeyArray("armorMod.mod.Insert")[1]);
+			list.add(EnumChatFormatting.YELLOW + "-" + Math.round((1F - projectileMod) * 100) + "% projectile damage");
 		if(explosionMod != 1F)
-			list.add(EnumChatFormatting.YELLOW + "-" + Math.round((1F - explosionMod) * 100) + I18nUtil.resolveKeyArray("armorMod.mod.Insert")[2]);
+			list.add(EnumChatFormatting.YELLOW + "-" + Math.round((1F - explosionMod) * 100) + "% explosion damage");
 		if(speed != 1F)
-			list.add(EnumChatFormatting.BLUE + "-" + Math.round((1F - speed) * 100) + I18nUtil.resolveKeyArray("armorMod.mod.Insert")[3]);
+			list.add(EnumChatFormatting.BLUE + "-" + Math.round((1F - speed) * 100) + "% speed");
 		
 		if(this == ModItems.insert_polonium)
 			list.add(EnumChatFormatting.DARK_RED + "+100 RAD/s");
 		
-		list.add((stack.getMaxDamage() - stack.getItemDamage()) + "/" + stack.getMaxDamage() + I18nUtil.resolveKeyArray("armorMod.mod.Insert")[4]);
+		list.add((stack.getMaxDamage() - stack.getItemDamage()) + "/" + stack.getMaxDamage() + "HP");
 		
 		list.add("");
 		super.addInformation(stack, player, list, bool);
@@ -61,20 +60,20 @@ public class ItemModInsert extends ItemArmorMod {
 		List<String> desc = new ArrayList();
 
 		if(damageMod != 1F)
-			desc.add((damageMod < 1 ? "-" : "+") + Math.abs(Math.round((1F - damageMod) * 100)) + I18nUtil.resolveKeyArray("armorMod.mod.Insert")[0]);
+			desc.add((damageMod < 1 ? "-" : "+") + Math.abs(Math.round((1F - damageMod) * 100)) + "% dmg");
 		if(projectileMod != 1F)
-			desc.add("-" + Math.round((1F - projectileMod) * 100) + I18nUtil.resolveKeyArray("armorMod.mod.Insert")[1]);
+			desc.add("-" + Math.round((1F - projectileMod) * 100) + "% proj");
 		if(explosionMod != 1F)
-			desc.add("-" + Math.round((1F - explosionMod) * 100) + I18nUtil.resolveKeyArray("armorMod.mod.Insert")[2]);
+			desc.add("-" + Math.round((1F - explosionMod) * 100) + "% exp");
 		if(explosionMod != 1F)
-			desc.add("-" + Math.round((1F - speed) * 100) + I18nUtil.resolveKeyArray("armorMod.mod.Insert")[3]);
+			desc.add("-" + Math.round((1F - speed) * 100) + "% speed");
 
 		if(this == ModItems.insert_polonium)
 			desc.add("+100 RAD/s");
 		
 		String join = String.join(" / ", desc);
 		
-		list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + " (" + join + " / " + (stack.getMaxDamage() - stack.getItemDamage()) + I18nUtil.resolveKeyArray("armorMod.mod.Insert")[4] + ")");
+		list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + " (" + join + " / " + (stack.getMaxDamage() - stack.getItemDamage()) + "HP)");
 	}
 
 	@Override

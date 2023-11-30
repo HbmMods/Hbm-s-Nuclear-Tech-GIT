@@ -6,7 +6,6 @@ import com.hbm.items.ModItems;
 import com.hbm.util.BobMathUtil;
 
 import api.hbm.energy.IBatteryItem;
-import com.hbm.util.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
@@ -35,14 +34,14 @@ public class ItemBattery extends Item implements IBatteryItem {
 			charge = getCharge(itemstack);
 
 		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.energy_core) {
-			list.add(I18nUtil.resolveKey("desc.item.battery.charge",BobMathUtil.getShortNumber(charge),BobMathUtil.getShortNumber(maxCharge)));
+			list.add("Energy stored: " + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE");
 		} else {
 			String charge1 = BobMathUtil.getShortNumber((charge * 100) / this.maxCharge);
-			list.add(I18nUtil.resolveKey("desc.item.battery.chargePerc", charge1));
+			list.add("Charge: " + charge1 + "%");
 			list.add("(" + BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE)");
 		}
-		list.add(I18nUtil.resolveKey("desc.item.battery.chargeRate",BobMathUtil.getShortNumber(chargeRate)));
-		list.add(I18nUtil.resolveKey("desc.item.battery.dischargeRate",BobMathUtil.getShortNumber(dischargeRate)));
+		list.add("Charge rate: " + BobMathUtil.getShortNumber(chargeRate) + "HE/t");
+		list.add("Discharge rate: " + BobMathUtil.getShortNumber(dischargeRate) + "HE/t");
 	}
 
 	@Override

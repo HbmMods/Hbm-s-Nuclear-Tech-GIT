@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.util.EnumChatFormatting;
 
 public class FT_PWRModerator extends FluidTrait {
@@ -23,13 +22,13 @@ public class FT_PWRModerator extends FluidTrait {
 	
 	@Override
 	public void addInfo(List<String> info) {
-		info.add(EnumChatFormatting.BLUE + I18nUtil.resolveKeyArray("hbmfluid.Trait.PWRModerator","","")[0]);
+		info.add(EnumChatFormatting.BLUE + "[PWR Flux Multiplier]");
 	}
 
 	@Override
 	public void addInfoHidden(List<String> info) {
 		int mult = (int) (multiplier * 100 - 100);
-		info.add(EnumChatFormatting.BLUE + I18nUtil.resolveKeyArray("hbmfluid.Trait.PWRModerator",(mult >= 0 ? "+" : ""),mult)[1]);
+		info.add(EnumChatFormatting.BLUE + "Core flux " + (mult >= 0 ? "+" : "") + mult + "%");
 	}
 
 	@Override

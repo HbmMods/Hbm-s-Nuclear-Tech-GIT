@@ -6,7 +6,6 @@ import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
 
-import com.hbm.util.I18nUtil;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -27,12 +26,12 @@ public class ItemModServos extends ItemArmorMod {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		
 		if(this == ModItems.servo_set) {
-			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKeyArray("armorMod.mod.Servos")[0]);
-			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKeyArray("armorMod.mod.Servos")[1]);
+			list.add(EnumChatFormatting.DARK_PURPLE + "Chestplate: Haste I / Damage +50%");
+			list.add(EnumChatFormatting.DARK_PURPLE + "Leggings: Speed +25% / Jump II");
 		}
 		if(this == ModItems.servo_set_desh) {
-			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKeyArray("armorMod.mod.Servos.desh")[0]);
-			list.add(EnumChatFormatting.DARK_PURPLE + I18nUtil.resolveKeyArray("armorMod.mod.Servos.desh")[1]);
+			list.add(EnumChatFormatting.DARK_PURPLE + "Chestplate: Haste III / Damage +150%");
+			list.add(EnumChatFormatting.DARK_PURPLE + "Leggings: Speed +50% / Jump III");
 		}
 		
 		list.add("");
@@ -47,20 +46,20 @@ public class ItemModServos extends ItemArmorMod {
 		if(item.armorType == 1) {
 
 			if(this == ModItems.servo_set) {
-				list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.Servos")[2]);
+				list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + " (Haste I / Damage +50%)");
 			}
 			if(this == ModItems.servo_set_desh) {
-				list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.Servos.desh")[2]);
+				list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + " (Haste III / Damage +150%)");
 			}
 		}
 		
 		if(item.armorType == 2) {
 
 			if(this == ModItems.servo_set) {
-				list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.Servos")[3]);
+				list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + " (Speed +25% / Jump II)");
 			}
 			if(this == ModItems.servo_set_desh) {
-				list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + I18nUtil.resolveKeyArray("armorMod.mod.Servos.desh")[3]);
+				list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + " (Speed +50% / Jump III)");
 			}
 		}
 	}

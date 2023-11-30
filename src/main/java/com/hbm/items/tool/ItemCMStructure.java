@@ -7,7 +7,6 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
-import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -157,8 +156,10 @@ public class ItemCMStructure extends Item implements ILookOverlay {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		super.addInformation(stack, player, list, ext);
-		for(String s : I18nUtil.resolveKeyArray("item.structure_custommachine.desc"))
-			list.add(EnumChatFormatting.YELLOW + s);
+		list.add(EnumChatFormatting.YELLOW + "Click Custom Machine Structure Positioning Anchor to");
+		list.add(EnumChatFormatting.YELLOW + "Confirm the location of the custom machine core block.");
+		list.add(EnumChatFormatting.YELLOW + "Output all blocks between Position1 and Position2 with");
+		list.add(EnumChatFormatting.YELLOW + "metadata to \"CMstructureOutput.txt\" in hbmConfig.");
 	}
 
 	@Override

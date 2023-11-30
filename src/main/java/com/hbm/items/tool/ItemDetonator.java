@@ -2,7 +2,6 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.util.I18nUtil;
 import org.apache.logging.log4j.Level;
 
 import com.hbm.config.GeneralConfig;
@@ -22,12 +21,12 @@ public class ItemDetonator extends Item {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		for(String s : I18nUtil.resolveKeyArray("item.detonator.desc"))
-			list.add(s);
+		list.add("Shift right-click to set position,");
+		list.add("right-click to detonate!");
 		if(itemstack.getTagCompound() == null) {
-			list.add(EnumChatFormatting.RED + I18nUtil.resolveKeyArray("item.detonator.pos.desc")[0]);
+			list.add(EnumChatFormatting.RED + "No position set!");
 		} else {
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKeyArray("item.detonator.pos.desc" , itemstack.stackTagCompound.getInteger("x") , itemstack.stackTagCompound.getInteger("y") , itemstack.stackTagCompound.getInteger("z"))[1]);
+			list.add(EnumChatFormatting.YELLOW + "Linked to " + itemstack.stackTagCompound.getInteger("x") + ", " + itemstack.stackTagCompound.getInteger("y") + ", " + itemstack.stackTagCompound.getInteger("z"));
 		}
 	}
 
@@ -46,7 +45,7 @@ public class ItemDetonator extends Item {
 				player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
 						.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
 						.next("] ").color(EnumChatFormatting.DARK_AQUA)
-						.next(I18nUtil.resolveKeyArray("desc.item.detonator")[0]).color(EnumChatFormatting.GREEN).flush());
+						.next("Position set!").color(EnumChatFormatting.GREEN).flush());
 			}
 
 			world.playSoundAtEntity(player, "hbm:item.techBoop", 2.0F, 1.0F);
@@ -65,7 +64,7 @@ public class ItemDetonator extends Item {
 				player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
 						.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
 						.next("] ").color(EnumChatFormatting.DARK_AQUA)
-						.next(I18nUtil.resolveKeyArray("desc.item.detonator")[1]).color(EnumChatFormatting.RED).flush());
+						.next("No position set!").color(EnumChatFormatting.RED).flush());
 			}
 		} else {
 			int x = stack.stackTagCompound.getInteger("x");
