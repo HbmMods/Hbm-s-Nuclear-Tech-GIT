@@ -2,30 +2,11 @@
 * Doors!
   * Your favorites from 1.12, the 7 remaining doors have finally been ported
   * Thanks to KoblizekXD for biting the bullet
-* Rubber boat
-  * Made from latex or synthetic rubber
-  * A much less jankier alternative to the vanilla boat. Rotations are silky smooth and done via the strafe keys instead of based on the player's orientation
-  * Won't break from ramming into blocks
-  * Faster than a regular boat, but will decelerate quicker when there's nobody sitting in it, preventing the boat from drifting off too far when empty
 
 ## Changed
 * Reduced the blast resistance of the large doors from absurdly high to still very but not quite as high
 * Custom missiles are now launchable using the radar
 * NTM's structures should no longer spawn in dimensions besides the overworld. Ores will still generate, assuming the config option is set.
-* Decreased M1tty's radiation resistance
-  * It's really damn cheap, what did you expect
-* M1tty's helmet now acts like a protective mask
-* Most non-custom missiles except tier 0s are now assembled in the arc welder
-  * Crafting complexity has been reduced, the recipes only need the three major components without any extra loose plates
-* Non-custom missiles have been slightly buffed
-  * Explosions are now slightly larger and they use the new cross-detection entity damage code which still affects entities behind small hills that would otherwise be shielded
-  * Explosions now have a 2x larger entity damage radius
 
 ## Fixed
 * Fixed ancient bug where custom missiles launched using the launch table would not use the accuracy calculation and always be pin-point accurate
-* Fixed RBMK heat exchangers being able to use heatable fluids that don't have heat exchanger efficiency defined like liquid sodium, heavy water and thorium salt
-* Fixed RBMK heat exchangers not using the heat exchanger efficiency variable to determine cooling power
-* Fixed the ballistic gauntlet spawning a client-side ghost bullet that doesn't move or despawn
-* Fixed bug where different custom machine cores would merge in a stack when picked up, turning them into the same type
-* Fixed radar screen blips being visible through the back of the model
-* Fixed desh crate's last half of slots preventing radiation entirely
