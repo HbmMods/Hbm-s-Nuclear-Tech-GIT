@@ -1044,6 +1044,7 @@ public class ModItems {
 	public static ItemEnumMulti canned_conserve;
 	public static Item can_key;
 
+	public static Item boat_rubber;
 	public static Item cart;
 	public static Item train;
 	public static Item drone;
@@ -3473,6 +3474,7 @@ public class ModItems {
 		canned_conserve = (ItemEnumMulti) new ItemConserve().setUnlocalizedName("canned_conserve").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned");
 		can_key = new Item().setUnlocalizedName("can_key").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_key");
 		
+		boat_rubber = new ItemBoatRubber().setUnlocalizedName("boat_rubber").setTextureName(RefStrings.MODID + ":boat_rubber");
 		cart = new ItemModMinecart().setUnlocalizedName("cart");
 		train = new ItemTrain().setUnlocalizedName("train");
 		drone = new ItemDrone().setUnlocalizedName("drone");
@@ -7726,7 +7728,8 @@ public class ModItems {
 		GameRegistry.registerItem(injector_5htp, injector_5htp.getUnlocalizedName());
 		GameRegistry.registerItem(injector_knife, injector_knife.getUnlocalizedName());
 		
-		//Minecarts
+		//Vehicles
+		GameRegistry.registerItem(boat_rubber, boat_rubber.getUnlocalizedName());
 		GameRegistry.registerItem(cart, cart.getUnlocalizedName());
 		GameRegistry.registerItem(train, train.getUnlocalizedName());
 		GameRegistry.registerItem(drone, drone.getUnlocalizedName());

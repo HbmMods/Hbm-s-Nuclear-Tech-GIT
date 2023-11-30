@@ -2,6 +2,10 @@
 * Doors!
   * Your favorites from 1.12, the 7 remaining doors have finally been ported
   * Thanks to KoblizekXD for biting the bullet
+* Rubber boat
+  * Made from latex or synthetic rubber
+  * A much less jankier alternative to the vanilla boat. Rotations are silky smooth and done via the strafe keys instead of based on the player's orientation
+  * Won't break from ramming into blocks
 
 ## Changed
 * Reduced the blast resistance of the large doors from absurdly high to still very but not quite as high
@@ -10,3 +14,7 @@
 
 ## Fixed
 * Fixed ancient bug where custom missiles launched using the launch table would not use the accuracy calculation and always be pin-point accurate
+* Fixed RBMK heat exchangers being able to use heatable fluids that don't have heat exchanger efficiency defined like liquid sodium, heavy water and thorium salt
+* Fixed RBMK heat exchangers not using the heat exchanger efficiency variable to determine cooling power
+* Fixed the ballistic gauntlet spawning a client-side ghost bullet that doesn't move or despawn
+* Fixed bug where different custom machine cores would merge in a stack when picked up, turning them into the same type

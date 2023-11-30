@@ -65,9 +65,10 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 				HeatingStep step = trait.getFirstStep();
 				steam.setTankType(step.typeProduced);
 				double tempRange = this.heat - steam.getTankType().temperature;
+				double eff = trait.getEfficiency(HeatingType.HEATEXCHANGER);
 				
-				if(tempRange > 0) {
-					double TU_PER_DEGREE = 2_000D; //based on 1mB of water absorbing 200 TU as well as 0.1°C from an RBMK column
+				if(tempRange > 0 && eff > 0) {
+					double TU_PER_DEGREE = 2_000D * eff; //based on 1mB of water absorbing 200 TU as well as 0.1°C from an RBMK column
 					int inputOps = feed.getFill() / step.amountReq;
 					int outputOps = (steam.getMaxFill() - steam.getFill()) / step.amountProduced;
 					int tempOps = (int) Math.floor((tempRange * TU_PER_DEGREE) / step.heatReq);

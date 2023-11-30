@@ -822,7 +822,7 @@ public class ModEventHandler {
 		EntityPlayer player = event.entityPlayer;
 		ItemStack chestplate = player.inventory.armorInventory[2];
 		
-		if(player.getHeldItem() == null && chestplate != null && ArmorModHandler.hasMods(chestplate)) {
+		if(!player.worldObj.isRemote && player.getHeldItem() == null && chestplate != null && ArmorModHandler.hasMods(chestplate)) {
 			ItemStack[] mods = ArmorModHandler.pryMods(chestplate);
 			ItemStack servo = mods[ArmorModHandler.servos];
 			
