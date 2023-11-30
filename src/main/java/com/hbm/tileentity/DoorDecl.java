@@ -577,9 +577,9 @@ public abstract class DoorDecl {
 		@SideOnly(Side.CLIENT)
 		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
 			if(partName.startsWith("left")) {
-				set(trans, 0, 0, 1 * getNormTime(openTicks));
+				set(trans, 0, 0, 0.99F * getNormTime(openTicks));
 			} else {
-				set(trans, 0, 0, -1 * getNormTime(openTicks));
+				set(trans, 0, 0, -0.99F * getNormTime(openTicks));
 			}
 		};
 
@@ -736,7 +736,7 @@ public abstract class DoorDecl {
 
 		@Override
 		public String getOpenSoundStart() {
-			return "hbm:door.door.lever";
+			return "hbm:door.lever";
 		};
 
 		@Override
@@ -746,7 +746,7 @@ public abstract class DoorDecl {
 
 		@Override
 		public String getCloseSoundEnd() {
-			return "hbm:door.door.lever";
+			return "hbm:door.lever";
 		};
 
 		@Override
