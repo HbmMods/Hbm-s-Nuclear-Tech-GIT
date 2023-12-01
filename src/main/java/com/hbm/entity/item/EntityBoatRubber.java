@@ -167,7 +167,6 @@ public class EntityBoatRubber extends Entity {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		//this.prevRotationYaw = this.rotationYaw;
 
 		if(this.getTimeSinceHit() > 0) {
 			this.setTimeSinceHit(this.getTimeSinceHit() - 1);
@@ -194,30 +193,6 @@ public class EntityBoatRubber extends Entity {
 			}
 		}
 
-		double prevSpeedSq = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-
-		if(prevSpeedSq > 0.2625D) {
-			double cosYaw = Math.cos(this.rotationYaw * Math.PI / 180.0D);
-			double sinYaw = Math.sin(this.rotationYaw * Math.PI / 180.0D);
-
-			for(double j = 0; j < 1.0D + prevSpeedSq * 60.0D; ++j) {
-				double offset = (double) (this.rand.nextFloat() * 2.0F - 1.0F);
-				double side = (double) (this.rand.nextInt(2) * 2 - 1) * 0.7D;
-				double magX;
-				double magZ;
-
-				if(this.rand.nextBoolean()) {
-					magX = this.posX - cosYaw * offset * 0.8D + sinYaw * side;
-					magZ = this.posZ - sinYaw * offset * 0.8D - cosYaw * side;
-					this.worldObj.spawnParticle("splash", magX, this.posY - 0.125D, magZ, this.motionX, this.motionY, this.motionZ);
-				} else {
-					magX = this.posX + cosYaw + sinYaw * offset * 0.7D;
-					magZ = this.posZ + sinYaw - cosYaw * offset * 0.7D;
-					this.worldObj.spawnParticle("splash", magX, this.posY - 0.125D, magZ, this.motionX, this.motionY, this.motionZ);
-				}
-			}
-		}
-
 		if(this.worldObj.isRemote && this.isBoatEmpty) {
 			if(this.boatPosRotationIncrements > 0) {
 				double x = this.posX + (this.boatX - this.posX) / (double) this.boatPosRotationIncrements;
@@ -228,7 +203,6 @@ public class EntityBoatRubber extends Entity {
 				this.rotationPitch = (float) ((double) this.rotationPitch + (this.boatPitch - (double) this.rotationPitch) / (double) this.boatPosRotationIncrements);
 				--this.boatPosRotationIncrements;
 				this.setPosition(x, y, z);
-				//this.setRotation(this.rotationYaw, this.rotationPitch);
 				
 			} else {
 				double x = this.posX + this.motionX;
@@ -256,6 +230,8 @@ public class EntityBoatRubber extends Entity {
 				this.motionY += 0.007000000216066837D;
 			}
 			
+			double prevSpeedSq = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
+			
 			this.isAirBorne = false;
 
 			if(this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase) {
@@ -280,22 +256,26 @@ public class EntityBoatRubber extends Entity {
 					EntityTrackerEntry entry = TrackerUtil.getTrackerEntry((WorldServer) worldObj, this.getEntityId());
 					entry.lastYaw = MathHelper.floor_float(this.rotationYaw * 256.0F / 360.0F) + 10; //force-trigger rotation update
 				}
+			} else {
+				this.motionX *= 0.95D;
+				this.motionY *= 0.95D;
+				this.motionZ *= 0.95D;
 			}
 
 			double speedSq = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
-			if(speedSq > 0.35D) {
-				double d4 = 0.35D / speedSq;
+			if(speedSq > 0.5D) {
+				double d4 = 0.5D / speedSq;
 				this.motionX *= d4;
 				this.motionZ *= d4;
-				speedSq = 0.35D;
+				speedSq = 0.5D;
 			}
 
-			if(speedSq > prevSpeedSq && this.speedMultiplier < 0.35D) {
-				this.speedMultiplier += (0.35D - this.speedMultiplier) / 35.0D;
+			if(speedSq > prevSpeedSq && this.speedMultiplier < 0.5D) {
+				this.speedMultiplier += (0.5D - this.speedMultiplier) / 50.0D;
 
-				if(this.speedMultiplier > 0.35D) {
-					this.speedMultiplier = 0.35D;
+				if(this.speedMultiplier > 0.5D) {
+					this.speedMultiplier = 0.5D;
 				}
 			} else {
 				this.speedMultiplier -= (this.speedMultiplier - 0.07D) / 35.0D;
@@ -381,6 +361,32 @@ public class EntityBoatRubber extends Entity {
 
 				if(this.riddenByEntity != null && this.riddenByEntity.isDead) {
 					this.riddenByEntity = null;
+				}
+			}
+		}
+
+		double moX = this.prevPosX - this.posX;
+		double moZ = this.prevPosZ - this.posZ;
+		double prevSpeedSq = Math.sqrt(moX * moX + moZ * moZ);
+
+		if(prevSpeedSq > 0.2625D) {
+			double cosYaw = Math.cos(this.rotationYaw * Math.PI / 180.0D);
+			double sinYaw = Math.sin(this.rotationYaw * Math.PI / 180.0D);
+
+			for(double j = 0; j < 1.0D + prevSpeedSq * 60.0D; ++j) {
+				double offset = (double) (this.rand.nextFloat() * 2.0F - 1.0F);
+				double side = (double) (this.rand.nextInt(2) * 2 - 1) * 0.7D;
+				double magX;
+				double magZ;
+
+				if(this.rand.nextBoolean()) {
+					magX = this.posX - cosYaw * offset * 0.8D + sinYaw * side;
+					magZ = this.posZ - sinYaw * offset * 0.8D - cosYaw * side;
+					this.worldObj.spawnParticle("splash", magX, this.posY - 0.125D, magZ, moX, 0.1, moZ);
+				} else {
+					magX = this.posX + cosYaw + sinYaw * offset * 0.7D;
+					magZ = this.posZ + sinYaw - cosYaw * offset * 0.7D;
+					this.worldObj.spawnParticle("splash", magX, this.posY - 0.125D, magZ, moX, 0.1, moZ);
 				}
 			}
 		}
