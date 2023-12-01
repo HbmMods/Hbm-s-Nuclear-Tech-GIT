@@ -43,6 +43,7 @@ public class RenderRadarScreen extends TileEntitySpecialRenderer implements IIte
 		Tessellator tess = Tessellator.instance;
 		
 		if(screen.linked) {
+			GL11.glDepthMask(false);
 			tess.startDrawingQuads();
 			
 			double offset = ((tileEntity.getWorldObj().getTotalWorldTime() % 56) + f) / 30D;
@@ -77,10 +78,9 @@ public class RenderRadarScreen extends TileEntitySpecialRenderer implements IIte
 					tess.addVertexWithUV(0.38, 1 - sZ - size, 0.5 - sX - size, 224D / 256D, entry.blipLevel * 8F / 256F);
 					tess.addVertexWithUV(0.38, 1 - sZ - size, 0.5 - sX + size, 216D / 256D, entry.blipLevel * 8F / 256F);
 				}
-				GL11.glDisable(GL11.GL_DEPTH_TEST);
 				tess.draw();
-				GL11.glEnable(GL11.GL_DEPTH_TEST);
 			}
+			GL11.glDepthMask(true);
 		} else {
 			int offset = 118 + tileEntity.getWorldObj().rand.nextInt(81);
 			tess.startDrawingQuads();
