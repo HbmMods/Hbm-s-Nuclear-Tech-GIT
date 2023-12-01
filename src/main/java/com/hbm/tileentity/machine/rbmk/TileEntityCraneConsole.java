@@ -399,7 +399,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers") //if this doesnt work im going to die
-	public Object[] getBoundPos(Context context, Arguments args) {
+	public Object[] getCranePos(Context context, Arguments args) {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection left = dir.getRotation(ForgeDirection.DOWN);
 		int x = (int)Math.floor(this.centerX - dir.offsetX * this.posFront - left.offsetX * this.posLeft + 0.5D);

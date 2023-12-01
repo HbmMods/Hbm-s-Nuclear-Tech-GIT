@@ -470,7 +470,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 
 	@Override
 	public String getComponentName() {
-		return "ntm_tank";
+		return "ntm_fluid_tank";
 	}
 
 	@Callback(direct = true)

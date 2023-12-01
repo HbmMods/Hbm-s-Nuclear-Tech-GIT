@@ -34,7 +34,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -602,7 +601,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setThrottle(Context context, Arguments args) {
-		powerSliderPos = MathHelper.clamp_int(args.checkInteger(0) / 100 * 60, 0 , 60);
+		throttle = args.checkInteger(0);
 		return new Object[] {true};
 	}
 
@@ -610,6 +609,21 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setAuto(Context context, Arguments args) {
 		autoMode = args.checkBoolean(0);
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] start(Context context, Arguments args) {
+		stopIfNotReady();
+		startup();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] stop(Context context, Arguments args) {
+		shutdown();
 		return new Object[] {true};
 	}
 
