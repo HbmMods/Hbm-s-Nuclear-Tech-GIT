@@ -22,7 +22,8 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 
 	public ItemStack slots[] = new ItemStack[2];
 	public int cooloff = 100;
-	
+
+
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
