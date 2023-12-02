@@ -7,6 +7,9 @@
   * A much less jankier alternative to the vanilla boat. Rotations are silky smooth and done via the strafe keys instead of based on the player's orientation
   * Won't break from ramming into blocks
   * Faster than a regular boat, but will decelerate quicker when there's nobody sitting in it, preventing the boat from drifting off too far when empty
+* Exposure chamber
+  * Now performs the particle transmutation recipes that were previously done in the crafting table
+  * Stylish as hell
 
 ## Changed
 * Reduced the blast resistance of the large doors from absurdly high to still very but not quite as high
@@ -20,6 +23,7 @@
 * Non-custom missiles have been slightly buffed
   * Explosions are now slightly larger and they use the new cross-detection entity damage code which still affects entities behind small hills that would otherwise be shielded
   * Explosions now have a 2x larger entity damage radius
+* Updated the digiminer recipe for mekanism cocmpat
 
 ## Fixed
 * Fixed ancient bug where custom missiles launched using the launch table would not use the accuracy calculation and always be pin-point accurate
@@ -29,3 +33,4 @@
 * Fixed bug where different custom machine cores would merge in a stack when picked up, turning them into the same type
 * Fixed radar screen blips being visible through the back of the model
 * Fixed desh crate's last half of slots preventing radiation entirely
+* Fixed large mining drill shift-clicking

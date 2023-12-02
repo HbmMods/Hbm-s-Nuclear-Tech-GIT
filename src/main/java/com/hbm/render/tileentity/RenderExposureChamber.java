@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.machine.TileEntityMachineExposureChamber;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -11,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 public class RenderExposureChamber extends TileEntitySpecialRenderer {
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
+	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float interp) {
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5D, y, z + 0.5D);
@@ -25,18 +26,24 @@ public class RenderExposureChamber extends TileEntitySpecialRenderer {
 		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
 		}
 		
+		TileEntityMachineExposureChamber chamber = (TileEntityMachineExposureChamber) tileEntity;
+		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.exposure_chamber_tex);
 		ResourceManager.exposure_chamber.renderPart("Chamber");
 		
-		GL11.glPushMatrix();
-		GL11.glRotated((tileEntity.getWorldObj().getTotalWorldTime() % 360D + f) * 5, 0, 1, 0);
-		GL11.glTranslated(0, Math.sin((tileEntity.getWorldObj().getTotalWorldTime() % (Math.PI * 16D) + f) * 0.125) * 0.0625, 0);
-		ResourceManager.exposure_chamber.renderPart("Core");
-		GL11.glPopMatrix();
+		double rotation = chamber.prevRotation + (chamber.rotation - chamber.prevRotation) * interp;
+		
+		if(chamber.isOn) {
+			GL11.glPushMatrix();
+			GL11.glRotated(rotation / 2D, 0, 1, 0);
+			GL11.glTranslated(0, Math.sin((tileEntity.getWorldObj().getTotalWorldTime() % (Math.PI * 16D) + interp) * 0.125) * 0.0625, 0);
+			ResourceManager.exposure_chamber.renderPart("Core");
+			GL11.glPopMatrix();
+		}
 		
 		GL11.glPushMatrix();
-		GL11.glRotated((tileEntity.getWorldObj().getTotalWorldTime() % 360D + f) * 10, 0, 1, 0);
+		GL11.glRotated(rotation, 0, 1, 0);
 		ResourceManager.exposure_chamber.renderPart("Magnets");
 		GL11.glPopMatrix();
 		

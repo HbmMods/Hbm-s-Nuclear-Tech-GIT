@@ -1230,17 +1230,17 @@ public class AssemblerRecipes {
 	
 				makeRecipe(new ComparableStack(mb, 1, 4), new AStack[] {
 						new OreDictStack(DURA.ingot(), 16),
-						new OreDictStack(DESH.ingot(), 8),
-						new OreDictStack(STEEL.plate(), 48),
-						new OreDictStack(CU.plate(), 24),
+						new OreDictStack(DESH.ingot(), 16),
+						new OreDictStack(STEEL.plateWelded(), 32),
+						new OreDictStack(CU.plateWelded(), 24),
 						new ComparableStack(ModItems.pipes_steel, 8),
-						new ComparableStack(ModItems.circuit_gold, 8),
-						new ComparableStack(ModItems.wire_advanced_alloy, 24),
+						new OreDictStack(KEY_CIRCUIT_BISMUTH, 4),
+						new ComparableStack(ModItems.wire_dense, 32, Mats.MAT_ALLOY.id),
 						new ComparableStack(ModBlocks.fusion_conductor, 12),
-						new ComparableStack(ModBlocks.machine_lithium_battery, 3),
-						new ComparableStack(ModItems.crystal_redstone, 12),
+						new ComparableStack(ModBlocks.capacitor_tantalium, 53),
+						new ComparableStack(ModItems.crystal_redstone, 16),
 						new ComparableStack(ModItems.crystal_diamond, 8),
-						new ComparableStack(ModItems.motor_desh, 16)
+						new ComparableStack(ModItems.motor_bismuth, 4)
 					}, 15 * 60 * 20);
 			}
 		}
