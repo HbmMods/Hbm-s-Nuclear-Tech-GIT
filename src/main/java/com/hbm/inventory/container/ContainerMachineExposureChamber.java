@@ -63,7 +63,7 @@ public class ContainerMachineExposureChamber extends Container {
 						return null;
 					}
 				} else {
-					if(!this.mergeItemStack(var5, 0, 2, false)) {
+					if(!this.mergeItemStack(var5, 0, 3, false)) {
 						return null;
 					}
 				}

@@ -23,7 +23,8 @@
 * Non-custom missiles have been slightly buffed
   * Explosions are now slightly larger and they use the new cross-detection entity damage code which still affects entities behind small hills that would otherwise be shielded
   * Explosions now have a 2x larger entity damage radius
-* Updated the digiminer recipe for mekanism cocmpat
+* Updated the digiminer recipe for mekanism compat
+* Added config options to the ground water pumps
 
 ## Fixed
 * Fixed ancient bug where custom missiles launched using the launch table would not use the accuracy calculation and always be pin-point accurate

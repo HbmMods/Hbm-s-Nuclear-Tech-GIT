@@ -328,9 +328,8 @@ public abstract class DoorDecl {
 		@Override
 		public AxisAlignedBB getBlockBound(int x, int y, int z, boolean open) {
 			if(open) {
-				if(y == 0)
-					return AxisAlignedBB.getBoundingBox(0, 0, 1 - 0.25, 1, 0.125, 1);
-				return super.getBlockBound(x, y, z, open);
+				if(y == 0) return AxisAlignedBB.getBoundingBox(0, 0, 1 - 0.25, 1, 0, 1);
+				return AxisAlignedBB.getBoundingBox(0, 0.9375, 1 - 0.25, 1, 1, 1);
 			} else {
 				return AxisAlignedBB.getBoundingBox(0, 0, 1 - 0.25, 1, 1, 1);
 			}
