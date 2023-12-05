@@ -23,21 +23,24 @@ public class RenderMissileGeneric extends Render {
 		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * interp, 0.0F, 0.0F, 1.0F);
 
-		if(entity instanceof EntityMissileGeneric)
-			bindTexture(ResourceManager.missileV2_HE_tex);
-		if(entity instanceof EntityMissileIncendiary)
-			bindTexture(ResourceManager.missileV2_IN_tex);
-		if(entity instanceof EntityMissileCluster)
-			bindTexture(ResourceManager.missileV2_CL_tex);
-		if(entity instanceof EntityMissileBunkerBuster)
-			bindTexture(ResourceManager.missileV2_BU_tex);
-
 		if(entity instanceof EntityMissileAntiBallistic) {
 			bindTexture(ResourceManager.missileAA_tex);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			ResourceManager.missileABM.renderAll();
 			GL11.glShadeModel(GL11.GL_FLAT);
 		} else {
+
+			if(entity instanceof EntityMissileGeneric)
+				bindTexture(ResourceManager.missileV2_HE_tex);
+			if(entity instanceof EntityMissileIncendiary)
+				bindTexture(ResourceManager.missileV2_IN_tex);
+			if(entity instanceof EntityMissileCluster)
+				bindTexture(ResourceManager.missileV2_CL_tex);
+			if(entity instanceof EntityMissileBunkerBuster)
+				bindTexture(ResourceManager.missileV2_BU_tex);
+			if(entity instanceof EntityMissileDecoy)
+				bindTexture(ResourceManager.missileV2_decoy_tex);
+			
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			ResourceManager.missileV2.renderAll();
 			GL11.glShadeModel(GL11.GL_FLAT);

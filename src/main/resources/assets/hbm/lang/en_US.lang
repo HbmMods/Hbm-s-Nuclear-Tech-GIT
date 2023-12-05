@@ -3029,6 +3029,7 @@ item.missile_carrier.name=HTR-01 Carrier Rocket
 item.missile_cluster.name=Cluster Missile
 item.missile_cluster_strong.name=Strong Cluster Missile
 item.missile_custom.name=Custom Missile
+item.missile_decoy.name=Decoy Missile
 item.missile_doomsday.name=Doomsday Missile
 item.missile_drill.name=The Concrete Cracker
 item.missile_emp.name=EMP Missile

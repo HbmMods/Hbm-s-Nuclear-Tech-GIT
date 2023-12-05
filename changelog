@@ -10,6 +10,8 @@
 * Exposure chamber
   * Now performs the particle transmutation recipes that were previously done in the crafting table
   * Stylish as hell
+* Decoy missile
+  * A cheap tier 1 missile that shows up on radar screens as tier 4 (eg. nuclear) missiles
 
 ## Changed
 * Reduced the blast resistance of the large doors from absurdly high to still very but not quite as high
@@ -25,6 +27,8 @@
   * Explosions now have a 2x larger entity damage radius
 * Updated the digiminer recipe for mekanism compat
 * Added config options to the ground water pumps
+* Missile parts such as non-custom thrusters and fuselages are now made in the arc welder, recipe ingredients have been adjusted as well
+* Null grenades now have a slightly larger radius, should no longer wipe playerdata and require UNDEFINED to make
 
 ## Fixed
 * Fixed ancient bug where custom missiles launched using the launch table would not use the accuracy calculation and always be pin-point accurate

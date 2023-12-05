@@ -2292,6 +2292,7 @@ item.missile_carrier.name=HTR-01 Trägerrakete
 item.missile_cluster.name=Streurakete
 item.missile_cluster_strong.name=Starke Streurakete
 item.missile_custom.name=Spezialgefertigte Rakete
+item.missile_decoy.name=Köderflugkörper
 item.missile_doomsday.name=Doomsday Rakete
 item.missile_drill.name=Der Betonbrecher
 item.missile_emp.name=EMP-Rakete
