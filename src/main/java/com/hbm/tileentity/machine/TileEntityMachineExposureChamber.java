@@ -9,18 +9,22 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineExposureChamber extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityMachineExposureChamber extends TileEntityMachineBase implements IGUIProvider, IEnergyUser {
 	
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -61,6 +65,10 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 			
 			this.isOn = false;
 			this.power = Library.chargeTEFromItems(slots, 5, power, maxPower);
+			
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				for(DirPos pos : getConPos()) this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
 			
 			UpgradeManager.eval(slots, 6, 7);
 			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
@@ -152,6 +160,18 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 		}
 	}
 	
+	public DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP).getOpposite();
+		return new DirPos[] {
+				new DirPos(xCoord + rot.offsetX * 7 + dir.offsetX * 2, yCoord, zCoord + rot.offsetZ * 7 + dir.offsetZ * 2, dir),
+				new DirPos(xCoord + rot.offsetX * 7 - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ * 7 - dir.offsetZ * 2, dir.getOpposite()),
+				new DirPos(xCoord + rot.offsetX * 8 + dir.offsetX * 2, yCoord, zCoord + rot.offsetZ * 8 + dir.offsetZ * 2, dir),
+				new DirPos(xCoord + rot.offsetX * 8 - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ * 8 - dir.offsetZ * 2, dir.getOpposite()),
+				new DirPos(xCoord + rot.offsetX * 9, yCoord, zCoord + rot.offsetZ * 9, rot)
+		};
+	}
+	
 	public ExposureChamberRecipe getRecipe(ItemStack particle, ItemStack ingredient) {
 		return ExposureChamberRecipes.getRecipe(particle, ingredient);
 	}
@@ -176,6 +196,21 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 		this.savedParticles = buf.readByte();
 	}
 
+	@Override
+	public long getPower() {
+		return power;
+	}
+
+	@Override
+	public void setPower(long power) {
+		this.power = power;
+	}
+
+	@Override
+	public long getMaxPower() {
+		return maxPower;
+	}
+
 	AxisAlignedBB bb = null;
 	
 	@Override
@@ -183,12 +218,12 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 		
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 2,
+					xCoord - 8,
 					yCoord,
-					zCoord - 2,
-					xCoord + 3,
+					zCoord - 8,
+					xCoord + 9,
 					yCoord + 5,
-					zCoord + 3
+					zCoord + 9
 					);
 		}
 		
