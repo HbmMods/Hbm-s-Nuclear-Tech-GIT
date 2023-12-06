@@ -29,6 +29,7 @@
 * Added config options to the ground water pumps
 * Missile parts such as non-custom thrusters and fuselages are now made in the arc welder, recipe ingredients have been adjusted as well
 * Null grenades now have a slightly larger radius, should no longer wipe playerdata and require UNDEFINED to make
+* Added some breedable material to BFB PWR fuel rods, meaning that the recycling recipes now actually yield a net positive instead of being a massive waste of time
 
 ## Fixed
 * Fixed ancient bug where custom missiles launched using the launch table would not use the accuracy calculation and always be pin-point accurate
