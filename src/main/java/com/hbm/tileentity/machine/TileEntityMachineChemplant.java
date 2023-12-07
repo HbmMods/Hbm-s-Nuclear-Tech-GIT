@@ -124,7 +124,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			this.speed -= speedLevel * 25;
 			this.consumption += speedLevel * 300;
 			this.speed += powerLevel * 5;
-			this.consumption -= powerLevel * 30;
+			this.consumption -= powerLevel * 20;
 			this.speed /= (overLevel + 1);
 			this.consumption *= (overLevel + 1);
 			

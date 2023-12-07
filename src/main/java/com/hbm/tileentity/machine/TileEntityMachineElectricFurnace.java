@@ -277,14 +277,21 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 	@Override
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
-		info.add(EnumChatFormatting.GREEN.YELLOW + ">>> " + I18nUtil.resolveKey(ModBlocks.machine_electric_furnace_off.getUnlocalizedName() + ".name") + " <<<");
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_electric_furnace_off));
 		if(type == UpgradeType.SPEED) {
-			info.add(EnumChatFormatting.GREEN + "Process time -" + (level * 25) + "%");
-			info.add(EnumChatFormatting.RED + "Consumption +" + (level * 100) + "%");
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_SPEED, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
 		}
 		if(type == UpgradeType.POWER) {
-			info.add(EnumChatFormatting.GREEN + "Consumption -" + (level * 30) + "%");
-			info.add(EnumChatFormatting.RED + "Process time +" + (level * 10) + "%");
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 30) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_SPEED, "+" + (level * 10) + "%"));
 		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		if(type == UpgradeType.POWER) return 3;
+		return 0;
 	}
 }

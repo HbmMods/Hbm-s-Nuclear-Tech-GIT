@@ -4617,6 +4617,9 @@ turret.off=AUS
 turret.on=AN
 turret.players=Spieler anzielen: %s
 
+upgrade.consumption=Verbrauch %s
+upgrade.speed=Verarbeitungszeit %s
+
 wavelengths.name.ir=Infrarot
 wavelengths.name.visible=Sichtbares Licht
 wavelengths.name.uv=Ultraviolett

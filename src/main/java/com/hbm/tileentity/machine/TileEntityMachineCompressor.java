@@ -84,6 +84,7 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 			if(rec != null) timeBase = rec.duration;
 
 			//there is a reason to do this but i'm not telling you
+			// ^ a few months later i have to wonder what the fuck this guy was on about, and if i ever see him i will punch him in the nuts
 			if(timeBase == this.processTimeBase) this.processTime = speedLevel == 3 ? 10 : speedLevel == 2 ? 20 : speedLevel == 1 ? 60 : timeBase;
 			else this.processTime = timeBase / (speedLevel + 1);
 			this.powerRequirement = this.powerRequirementBase / (powerLevel + 1);
