@@ -4,6 +4,7 @@ import com.hbm.entity.mob.EntityGlyphid;
 import com.hbm.lib.ModDamageSource;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -27,7 +28,7 @@ public class EntityAcidBomb extends EntityThrowableInterp {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
 			
 			if(!(mop.entityHit instanceof EntityGlyphid)) {
-				mop.entityHit.attackEntityFrom(ModDamageSource.acid, damage);
+				mop.entityHit.attackEntityFrom(new EntityDamageSourceIndirect(ModDamageSource.s_acid, this, thrower), damage);
 				this.setDead();
 			}
 		}

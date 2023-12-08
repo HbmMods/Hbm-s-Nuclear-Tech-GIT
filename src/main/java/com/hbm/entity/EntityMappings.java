@@ -232,7 +232,10 @@ public class EntityMappings {
 		addEntity(TrainCargoTram.class, "entity_ntm_cargo_tram", 250, false);
 		addEntity(TrainCargoTramTrailer.class, "entity_ntm_cargo_tram_trailer", 250, false);
 		addEntity(TrainTunnelBore.class, "entity_ntm_tunnel_bore", 250, false);
-		
+
+		addEntity(EntityDisperserCanister.class, "entity_disperser", 250, false);
+		addEntity(EntityWaypoint.class, "entity_waypoint", 250, false);
+
 		addMob(EntityCreeperNuclear.class, "entity_mob_nuclear_creeper", 0x204131, 0x75CE00);
 		addMob(EntityCreeperTainted.class, "entity_mob_tainted_creeper", 0x813b9b, 0xd71fdd);
 		addMob(EntityCreeperPhosgene.class, "entity_mob_phosgene_creeper", 0xE3D398, 0xB8A06B);

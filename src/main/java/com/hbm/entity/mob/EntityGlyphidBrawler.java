@@ -32,19 +32,19 @@ public class EntityGlyphidBrawler extends EntityGlyphid {
 	}
 
 	@Override
-	public int getArmorBreakChance(float amount) {
-		return amount < 10 ? 10 : amount < 25 ? 5 : amount > 100 ? 1 : 3;
+	public boolean isArmorBroken(float amount) {
+		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.25, 2), 100);
 	}
 
 	@Override
 	public float calculateDamage(float amount) {
 
 		byte armor = this.dataWatcher.getWatchableObjectByte(17);
-		int divisor = 1;
+		float divisor = 1;
 		
 		for(int i = 0; i < 5; i++) {
 			if((armor & (1 << i)) > 0) {
-				divisor += 2;
+				divisor += 3;
 			}
 		}
 		

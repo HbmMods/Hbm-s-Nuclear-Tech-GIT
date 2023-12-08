@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+
+import com.hbm.config.MobConfig;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -29,7 +31,7 @@ public class TileEntityChimneyBrick extends TileEntityChimneyBase {
 
 	@Override
 	public double getPollutionMod() {
-		return 0.25D;
+		return MobConfig.rampantMode ? MobConfig.rampantSmokeStackOverride : 0.25D;
 	}
 	
 	AxisAlignedBB bb = null;
