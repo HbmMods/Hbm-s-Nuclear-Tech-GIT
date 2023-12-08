@@ -51,15 +51,15 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 	public void onUpdate() {
 		super.onUpdate();
 		if (ticksExisted % 20 == 0) {
-			if (isAtDestination() && getCurrentTask() == 4) {
-				setCurrentTask(0, null);
+			if (isAtDestination() && getCurrentTask() == follow) {
+				setCurrentTask(none, null);
 			}
 
-			if(getCurrentTask() == 2 && getAITarget() == null){
+			if(getCurrentTask() == expand && getAITarget() == null){
 				this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 10 * 20, 3));
 			}
 
-			if (getCurrentTask() == 5) {
+			if (getCurrentTask() == terraform) {
 				this.setHealth(0);
 			}
 
@@ -131,7 +131,7 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		++this.deathTicks;
 
 		if(!hasWaypoint) {
-			communicate(3, null);
+			communicate(reinforcements, null);
 			hasWaypoint = true;
 		}
 		if(deathTicks == 90){

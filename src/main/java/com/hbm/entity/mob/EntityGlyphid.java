@@ -62,6 +62,15 @@ public class EntityGlyphid extends EntityMob {
     public int blastResToDig = Math.min((int) (50 * (getScale() * 2)), 150);
 	public boolean shouldDig;
 
+	// Tasks
+
+	public static final int none = 0;
+	public static final int comm = 1;
+	public static final int expand = 2;
+	public static final int reinforcements = 3;
+	public static final int follow = 4;
+	public static final int terraform = 5;
+	public static final int dig = 6;
 	EntityWaypoint taskWaypoint = null;
 	public EntityGlyphid(World world) {
 		super(world);
@@ -115,14 +124,14 @@ public class EntityGlyphid extends EntityMob {
 				onBlinded();
 			}
 
-            if(getCurrentTask() == 4){
+            if(getCurrentTask() == follow){
 
 				//incase the waypoint somehow doesn't exist and it got this task anyway
-				if(isAtDestination() && taskX == 0) {
-					setCurrentTask(0, null);
+				if(isAtDestination() && taskX == none) {
+					setCurrentTask(none, null);
 				}
 			//the task cannot be 6 outside of rampant, so this is a non issue p much
-			} else if (getCurrentTask() == 6 && ticksExisted % 20 == 0 && isAtDestination()) {
+			} else if (getCurrentTask() == dig && ticksExisted % 20 == 0 && isAtDestination()) {
 				swingItem();
 
 				ExplosionVNT vnt = new ExplosionVNT(worldObj, taskX, taskY + 2, taskZ, blastSize, this);
@@ -161,7 +170,7 @@ public class EntityGlyphid extends EntityMob {
 
 	@Override
 	protected void updateWanderPath() {
-		if(getCurrentTask() == 0) {
+		if(getCurrentTask() == none) {
 			super.updateWanderPath();
 		}
 	}
@@ -176,7 +185,8 @@ public class EntityGlyphid extends EntityMob {
 				// hell yeah!!
 				if (useExtendedTargeting() && this.entityToAttack != null) {
 					this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, true, true));
-				} else if (getCurrentTask() != 0) {
+				} else if (getCurrentTask() != none) {
+
 					this.worldObj.theProfiler.startSection("stroll");
 
 					if (!isAtDestination()) {
@@ -193,11 +203,11 @@ public class EntityGlyphid extends EntityMob {
 
 						}
 
-						if (taskX != 0) {
+						if (taskX != none) {
                             if(MobConfig.rampantDig) {
 
 								MovingObjectPosition obstacle = findWaypointObstruction();
-								if (getScale() >= 1 && getCurrentTask() != 6 && obstacle != null) {
+								if (getScale() >= 1 && getCurrentTask() != dig && obstacle != null) {
 									digToWaypoint(obstacle);
 								} else {
 									Vec3 vec = Vec3.createVectorHelper(posX, posY, posZ);
@@ -260,7 +270,7 @@ public class EntityGlyphid extends EntityMob {
 
 	@Override
 	protected boolean canDespawn() {
-		return ticksExisted > 3500 && entityToAttack == null && getCurrentTask() == 0;
+		return ticksExisted > 3500 && entityToAttack == null && getCurrentTask() == none;
 	}
 
 	@Override
@@ -444,16 +454,16 @@ public class EntityGlyphid extends EntityMob {
 		switch(task){
 
 			//call for reinforcements
-			case 1: if(taskWaypoint != null){
-				communicate(4, taskWaypoint);
-				setCurrentTask(4, taskWaypoint);
+			case comm: if(taskWaypoint != null){
+				communicate(follow, taskWaypoint);
+				setCurrentTask(follow, taskWaypoint);
 			}  break;
 
 			//expand the hive, used by the scout
 			//case 2: expandHive(null);
 
 			//retreat
-			case 3:
+			case reinforcements:
 
 				if (!worldObj.isRemote && taskWaypoint == null) {
 
@@ -463,15 +473,15 @@ public class EntityGlyphid extends EntityMob {
 
 					//First, go home and get reinforcements
 					EntityWaypoint home = new EntityWaypoint(worldObj);
-					home.setWaypointType(1);
+					home.setWaypointType(comm);
  					home.setAdditionalWaypoint(additional);
 					home.setHighPriority();
 					home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
 					worldObj.spawnEntityInWorld(home);
 
 					this.taskWaypoint = home;
-					communicate(4, home);
-					setCurrentTask(4, taskWaypoint);
+					communicate(follow, home);
+					setCurrentTask(follow, taskWaypoint);
 
 					break;
 				}
@@ -482,7 +492,7 @@ public class EntityGlyphid extends EntityMob {
 			//fifth task is used only in the scout and big man johnson, for terraforming
 
 			//dig
-			case 6:
+			case dig:
 				shouldDig = true;
 				break;
 
@@ -554,13 +564,13 @@ public class EntityGlyphid extends EntityMob {
 		previousTask = getCurrentTask();
 		previousWaypoint =  getWaypoint();
 
-		setCurrentTask(6, target);
+		setCurrentTask(dig, target);
 
 		Vec3 vec = Vec3.createVectorHelper(posX, posY, posZ);
 		int maxDist = (int) (Math.sqrt(vec.squareDistanceTo(taskX, taskY, taskZ)) * 1.2);
 		this.setPathToEntity(PathFinderUtils.getPathEntityToCoordPartial(worldObj, this, taskX, taskY, taskZ, maxDist, true, false, true, true));
 
-		communicate(6, target);
+		communicate(dig, target);
 
 	}
 	///DIGGING END

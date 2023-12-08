@@ -69,7 +69,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 
 		super.onUpdate();
 
-		if((getCurrentTask() != 2 || getCurrentTask() != 5) && taskWaypoint == null) {
+		if((getCurrentTask() != expand || getCurrentTask() != terraform) && taskWaypoint == null) {
 
 			    if(MobConfig.rampantGlyphidGuidance && PollutionHandler.targetCoords != null){
 					if(!hasTarget) {
@@ -98,7 +98,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 
 		}
 
-		if(getCurrentTask() == 2 || getCurrentTask() == 5) {
+		if(getCurrentTask() == expand || getCurrentTask() == terraform) {
 
 			if(!worldObj.isRemote && !hasTarget) {
 				//Check for whether a big man johnson is nearby, this makes the scout switch into its terraforming task
@@ -123,8 +123,8 @@ public class EntityGlyphidScout extends EntityGlyphid {
 				}
 			}
 
-			if (getCurrentTask() == 5 && super.isAtDestination() && doubleCheckHive()) {
-				communicate(5, taskWaypoint);
+			if (getCurrentTask() == terraform && super.isAtDestination() && doubleCheckHive()) {
+				communicate(terraform, taskWaypoint);
 			}
 
 			if (ticksExisted % 10 == 0 && isAtDestination()) {
@@ -135,11 +135,11 @@ public class EntityGlyphidScout extends EntityGlyphid {
 
 						 EntityWaypoint additional = new EntityWaypoint(worldObj);
 						 additional.setLocationAndAngles(posX, posY, posZ, 0, 0);
-						 additional.setWaypointType(0);
+						 additional.setWaypointType(none);
 
 						 //First, go home and get reinforcements
 						 EntityWaypoint home = new EntityWaypoint(worldObj);
-						 home.setWaypointType(1);
+						 home.setWaypointType(comm);
 						 home.setAdditionalWaypoint(additional);
 						 home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
 						 home.maxAge = 1200;
@@ -149,7 +149,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 
 						 this.taskWaypoint = home;
 						 this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 40 * 20, 10));
-						 communicate(1, taskWaypoint);
+						 communicate(comm, taskWaypoint);
 
 					 } else if (timer >= 5) {
 
@@ -161,7 +161,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 							 this.setDead();
 
 					 } else {
-						 communicate(4, taskWaypoint);
+						 communicate(follow, taskWaypoint);
 					 }
 				}
 			}
@@ -182,7 +182,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 				Block block = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
 
 				if (block == ModBlocks.glyphid_base) {
-					setCurrentTask(0 ,null);
+					setCurrentTask(none ,null);
 					hasTarget = false;
 					return false;
 				}
@@ -194,7 +194,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 
 	@Override
 	public boolean isAtDestination() {
-		return this.getCurrentTask() == 2 && super.isAtDestination();
+		return this.getCurrentTask() == expand && super.isAtDestination();
 	}
 
 	public boolean findJohnson(){
@@ -252,7 +252,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 
                //updates the task coordinates
 			   setCurrentTask(getCurrentTask(), taskWaypoint);
-			   communicate(2, taskWaypoint);
+			   communicate(expand, taskWaypoint);
 		   }
 		   return true;
 	   }
@@ -264,7 +264,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	public void carryOutTask() {
 		if (!worldObj.isRemote && taskWaypoint == null) {
 			switch(getCurrentTask()){
-				case 3:
+				case reinforcements:
 					this.removePotionEffect(Potion.moveSlowdown.id);
 					this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 20 * 20, 4));
 
@@ -286,7 +286,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 				break;
 
 				//terraforming task, only used if a big man johnson is near the scout
-				case 5:
+				case terraform:
 					scoutingRange = 60;
 					minDistanceToHive = 20;
 			}
