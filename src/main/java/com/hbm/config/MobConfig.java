@@ -151,7 +151,6 @@ public class MobConfig {
 
 		config.addCustomCategoryComment(CATEGORY,rampantDesc);
 
-        //TODO: Disable this before release
 		rampantMode = CommonConfig.createConfigBool(config, CATEGORY, "12.R01_rampantMode", "The main rampant mode toggle, enables all other features associated with it", false);
 
 		config.addCustomCategoryComment(CATEGORY, "The individual features of rampant can be used regardless of whether the main rampant toggle is enabled or not");

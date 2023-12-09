@@ -206,18 +206,16 @@ public class EntityMist extends Entity {
 			FT_Pheromone pheromone = type.getTrait(FT_Pheromone.class);
 
 			if(living != null) {
-				living.addPotionEffect(new PotionEffect(Potion.moveSpeed.id,  60 * 20, 1));
-				living.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 2 * 60 * 20, 1));
-				living.addPotionEffect(new PotionEffect(Potion.regeneration.id,  2 * 20, 0));
+				if ((living instanceof EntityGlyphid && pheromone.getType() == 1) || (living instanceof EntityPlayer && pheromone.getType() == 2)) {
+					int mult = pheromone.getType();
 
-				if (living instanceof EntityGlyphid && pheromone.getType() == 1) {
-					living.addPotionEffect(new PotionEffect(Potion.resistance.id,  60 * 20, 0));
-					living.addPotionEffect(new PotionEffect(Potion.damageBoost.id,  60 * 20, 1));
-					living.addPotionEffect(new PotionEffect(Potion.fireResistance.id,  60 * 20, 0));
+					living.addPotionEffect(new PotionEffect(Potion.moveSpeed.id,  mult * 60 * 20, 1));
+					living.addPotionEffect(new PotionEffect(Potion.digSpeed.id, mult * 60 * 20, 1));
+					living.addPotionEffect(new PotionEffect(Potion.regeneration.id,  mult * 2 * 20, 0));
+					living.addPotionEffect(new PotionEffect(Potion.resistance.id,  mult * 60 * 20, 0));
+					living.addPotionEffect(new PotionEffect(Potion.damageBoost.id,  mult * 60 * 20, 1));
+					living.addPotionEffect(new PotionEffect(Potion.fireResistance.id,  mult * 60 * 20, 0));
 
-				} else if (living instanceof EntityPlayer && pheromone.getType() == 2) {
-					living.addPotionEffect(new PotionEffect(Potion.resistance.id,  2 * 60 * 20, 0));
-					living.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 2 * 60 * 20, 1));
 				}
 			}
 		}
