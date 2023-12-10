@@ -18,6 +18,7 @@
   * With all 8 stamps, allows you to print your own black book
 
 ## Changed
+* Updated russian localization
 * Reduced the blast resistance of the large doors from absurdly high to still very but not quite as high
 * Custom missiles are now launchable using the radar
 * NTM's structures should no longer spawn in dimensions besides the overworld. Ores will still generate, assuming the config option is set.

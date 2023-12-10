@@ -5680,3 +5680,10 @@ weapon.elecGun.glass_cannon.visible=Visible Light
 weapon.elecGun.glass_cannon.uv=Ultraviolet Light
 weapon.elecGun.glass_cannon.xray=X-rays
 weapon.elecGun.glass_cannon.gamma=Gamma rays
+
+desc.gui.upgrade=§lAcceptable Upgrades:§r
+desc.gui.upgrade.afterburner= * §dAfterburner§r: Stacks to level 3
+desc.gui.upgrade.effectiveness= * §aEffectiveness§r: Stacks to level 3
+desc.gui.upgrade.overdrive= * §7Overdrive§r: Stacks to level 3
+desc.gui.upgrade.power= * §1Power-Saving§r: Stacks to level 3
+desc.gui.upgrade.speed= * §4Speed§r: Stacks to level 3
