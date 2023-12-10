@@ -762,6 +762,7 @@ public class ModItems {
 	public static Item stamp_desh_plate;
 	public static Item stamp_desh_wire;
 	public static Item stamp_desh_circuit;
+	public static Item stamp_book;
 
 	public static Item stamp_357;
 	public static Item stamp_44;
@@ -1294,6 +1295,7 @@ public class ModItems {
 	public static Item missile_incendiary;
 	public static Item missile_cluster;
 	public static Item missile_buster;
+	public static Item missile_decoy;
 	public static Item missile_strong;
 	public static Item missile_incendiary_strong;
 	public static Item missile_cluster_strong;
@@ -2363,6 +2365,7 @@ public class ModItems {
 	public static Item letter;
 	public static Item book_secret;
 	public static Item book_of_;
+	public static Item page_of_;
 	public static Item burnt_bark;
 
 	public static Item smoke1;
@@ -3257,6 +3260,7 @@ public class ModItems {
 		stamp_44 = new ItemStamp(1000, StampType.C44).setUnlocalizedName("stamp_44").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_44");
 		stamp_9 = new ItemStamp(1000, StampType.C9).setUnlocalizedName("stamp_9").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_9");
 		stamp_50 = new ItemStamp(1000, StampType.C50).setUnlocalizedName("stamp_50").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_50");
+		stamp_book = new ItemStampBook().setUnlocalizedName("stamp_book").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":stamp_book");
 
 		stamp_desh_357 = new ItemStamp(0, StampType.C357).setUnlocalizedName("stamp_desh_357").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_357_desh");
 		stamp_desh_44 = new ItemStamp(0, StampType.C44).setUnlocalizedName("stamp_desh_44").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_44_desh");
@@ -3909,6 +3913,7 @@ public class ModItems {
 		missile_incendiary = new Item().setUnlocalizedName("missile_incendiary").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_incendiary");
 		missile_cluster = new Item().setUnlocalizedName("missile_cluster").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_cluster");
 		missile_buster = new Item().setUnlocalizedName("missile_buster").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_buster");
+		missile_decoy = new Item().setUnlocalizedName("missile_decoy").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_decoy");
 		missile_strong = new Item().setUnlocalizedName("missile_strong").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_strong");
 		missile_incendiary_strong = new Item().setUnlocalizedName("missile_incendiary_strong").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_incendiary_strong");
 		missile_cluster_strong = new Item().setUnlocalizedName("missile_cluster_strong").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_cluster_strong");
@@ -5410,6 +5415,7 @@ public class ModItems {
 		letter = new ItemStarterKit().setUnlocalizedName("letter").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":letter");
 		book_secret = new ItemCustomLore().setUnlocalizedName("book_secret").setCreativeTab(MainRegistry.polaroidID == 11 ? MainRegistry.consumableTab : null).setTextureName(RefStrings.MODID + ":book_secret");
 		book_of_ = new ItemBook().setUnlocalizedName("book_of_").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":book_of_");
+		page_of_ = new ItemEnumMulti(ItemEnums.EnumPages.class, true, false).setUnlocalizedName("page_of_").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":page_of_");
 		burnt_bark = new ItemCustomLore().setUnlocalizedName("burnt_bark").setCreativeTab(null).setTextureName(RefStrings.MODID + ":burnt_bark");
 
 		smoke1 = new Item().setUnlocalizedName("smoke1").setTextureName(RefStrings.MODID + ":smoke1");
@@ -6451,6 +6457,7 @@ public class ModItems {
 		GameRegistry.registerItem(stamp_desh_44, stamp_desh_44.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_desh_9, stamp_desh_9.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_desh_50, stamp_desh_50.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_book, stamp_book.getUnlocalizedName());
 		
 		//Molds
 		GameRegistry.registerItem(mold_base, mold_base.getUnlocalizedName());
@@ -6810,6 +6817,7 @@ public class ModItems {
 		//Missiles
 		GameRegistry.registerItem(missile_generic, missile_generic.getUnlocalizedName());
 		GameRegistry.registerItem(missile_anti_ballistic, missile_anti_ballistic.getUnlocalizedName());
+		GameRegistry.registerItem(missile_decoy, missile_decoy.getUnlocalizedName());
 		GameRegistry.registerItem(missile_incendiary, missile_incendiary.getUnlocalizedName());
 		GameRegistry.registerItem(missile_cluster, missile_cluster.getUnlocalizedName());
 		GameRegistry.registerItem(missile_buster, missile_buster.getUnlocalizedName());
@@ -7985,6 +7993,7 @@ public class ModItems {
 		GameRegistry.registerItem(glitch, glitch.getUnlocalizedName());
 		GameRegistry.registerItem(book_secret, book_secret.getUnlocalizedName());
 		GameRegistry.registerItem(book_of_, book_of_.getUnlocalizedName());
+		GameRegistry.registerItem(page_of_, page_of_.getUnlocalizedName());
 		GameRegistry.registerItem(burnt_bark, burnt_bark.getUnlocalizedName());
 		
 		//Kits

@@ -13,7 +13,7 @@ public class TileEntityMachinePumpSteam extends TileEntityMachinePumpBase {
 	
 	public TileEntityMachinePumpSteam() {
 		super();
-		water = new FluidTank(Fluids.WATER, 100_000);
+		water = new FluidTank(Fluids.WATER, steamSpeed * 100);
 		steam = new FluidTank(Fluids.STEAM, 1_000);
 		lps = new FluidTank(Fluids.SPENTSTEAM, 10);
 	}
@@ -71,6 +71,6 @@ public class TileEntityMachinePumpSteam extends TileEntityMachinePumpBase {
 	protected void operate() {
 		steam.setFill(steam.getFill() - 100);
 		lps.setFill(lps.getFill() + 1);
-		water.setFill(Math.min(water.getFill() + 1000, water.getMaxFill()));
+		water.setFill(Math.min(water.getFill() + steamSpeed, water.getMaxFill()));
 	}
 }

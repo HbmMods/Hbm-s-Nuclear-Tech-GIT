@@ -1,5 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMachineEPress;
 import com.hbm.inventory.gui.GUIMachineEPress;
@@ -8,7 +11,9 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.I18nUtil;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
@@ -19,10 +24,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineEPress extends TileEntityMachineBase implements IEnergyUser, IGUIProvider {
+public class TileEntityMachineEPress extends TileEntityMachineBase implements IEnergyUser, IGUIProvider, IUpgradeInfoProvider {
 
 	public long power = 0;
 	public final static long maxPower = 50000;
@@ -253,5 +259,24 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineEPress(player.inventory, this);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_epress));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (50 * level / 3) + "%"));
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		return 0;
 	}
 }

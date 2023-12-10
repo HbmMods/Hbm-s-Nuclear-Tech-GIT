@@ -22,6 +22,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
@@ -102,11 +103,12 @@ public class GUIRBMKConsole extends GuiScreen {
 			}
 		}
 		
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 6, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select red group" } );
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 17, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select yellow group" } );
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select green group" } );
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 39, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select blue group" } );
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 50, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ "Select purple group" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 6, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ EnumChatFormatting.RED + "Left click: Select red group", EnumChatFormatting.RED + "Right click: Assign red group" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 17, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ EnumChatFormatting.YELLOW + "Left click: Select yellow group", EnumChatFormatting.YELLOW + "Right click: Assign yellow group" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 28, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ EnumChatFormatting.GREEN + "Left click: Select green group", EnumChatFormatting.GREEN + "Right click: Assign green group" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 39, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ EnumChatFormatting.BLUE + "Left click: Select blue group", EnumChatFormatting.BLUE + "Right click: Assign blue group" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 50, guiTop + 70, 10, 10, mouseX, mouseY, new String[]{ EnumChatFormatting.LIGHT_PURPLE + "Left click: Select purple group", EnumChatFormatting.LIGHT_PURPLE + "Right click: Assign purple group" } );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 70, guiTop + 82, 12, 12, mouseX, mouseY, new String[]{ "Cycle steam channel compressor setting" } );
 	}
 	
 	public void drawCustomInfoStat(int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, String[] text) {
@@ -116,9 +118,12 @@ public class GUIRBMKConsole extends GuiScreen {
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int i) {
-		super.mouseClicked(mouseX, mouseY, i);
-		this.field.mouseClicked(mouseX, mouseY, i);
+	protected void mouseClicked(int mouseX, int mouseY, int key) {
+		super.mouseClicked(mouseX, mouseY, key);
+		this.field.mouseClicked(mouseX, mouseY, key);
+		
+		int LEFT_CLICK = 0;
+		int RIGTH_CLICK = 1;
 		
 		int bX = 86;
 		int bY = 11;
@@ -158,17 +163,52 @@ public class GUIRBMKConsole extends GuiScreen {
 			return;
 		}
 		
+		//compressor
+		if(guiLeft + 70 <= mouseX && guiLeft + 70 + 12 > mouseX && guiTop + 82 < mouseY && guiTop + 82 + 12 >= mouseY) {
+			NBTTagCompound control = new NBTTagCompound();
+			control.setBoolean("compressor", true);
+			List<Integer> ints = new ArrayList();
+			for(int j = 0; j < console.columns.length; j++) {
+				if(console.columns[j] != null && console.columns[j].type == ColumnType.BOILER && this.selection[j]) {
+					ints.add(j);
+				}
+			}
+			int[] cols = new int[ints.size()];
+			for(int i = 0; i < cols.length; i++) cols[i] = ints.get(i);
+			control.setIntArray("cols", cols);
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, console.xCoord, console.yCoord, console.zCoord));
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1F));
+		}
+		
 		//select color groups
 		for(int k = 0; k < 5; k++) {
 			
 			if(guiLeft + 6 + k * 11 <= mouseX && guiLeft + 6 + k * 11 + 10 > mouseX && guiTop + 70 < mouseY && guiTop + 70 + 10 >= mouseY) {
-				this.selection = new boolean[15 * 15];
 
-				for(int j = 0; j < console.columns.length; j++) {
+				if(key == LEFT_CLICK) {
+					this.selection = new boolean[15 * 15];
 					
-					if(console.columns[j] != null && console.columns[j].type == ColumnType.CONTROL && console.columns[j].data.getShort("color") == k) {
-						this.selection[j] = true;
+					for(int j = 0; j < console.columns.length; j++) {
+						
+						if(console.columns[j] != null && console.columns[j].type == ColumnType.CONTROL && console.columns[j].data.getShort("color") == k) {
+							this.selection[j] = true;
+						}
 					}
+				}
+				
+				if(key == RIGTH_CLICK) {
+					NBTTagCompound control = new NBTTagCompound();
+					control.setByte("assignColor", (byte) k);
+					List<Integer> ints = new ArrayList();
+					for(int j = 0; j < console.columns.length; j++) {
+						if(console.columns[j] != null && console.columns[j].type == ColumnType.CONTROL && this.selection[j]) {
+							ints.add(j);
+						}
+					}
+					int[] cols = new int[ints.size()];
+					for(int i = 0; i < cols.length; i++) cols[i] = ints.get(i);
+					control.setIntArray("cols", cols);
+					PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(control, console.xCoord, console.yCoord, console.zCoord));
 				}
 				
 				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 0.8F + k * 0.1F));
@@ -357,6 +397,41 @@ public class GUIRBMKConsole extends GuiScreen {
 			if(this.selection[i])
 				drawTexturedModalRect(guiLeft + x, guiTop + y, 0, 192, 10, 10);
 		}
+		
+		int highest = Integer.MIN_VALUE;
+		int lowest = Integer.MAX_VALUE;
+		
+		for(int i : console.fluxBuffer) {
+			if(i > highest) highest = i;
+			if(i < lowest) lowest = i;
+		}
+
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glLineWidth(2F);
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawing(GL11.GL_LINES);
+		tess.setColorOpaque_I(0x00ff00);
+		int range = highest - lowest;
+		for(int i = 0; i < console.fluxBuffer.length - 1; i++) {
+			for(int j = 0; j < 2; j++) {
+				int k = i + j;
+				int flux = console.fluxBuffer[k];
+				double x = guiLeft + 7 + k * 74D / console.fluxBuffer.length;
+				double y = guiTop + 127 - (flux - lowest) * 24D / Math.max(range, 1);
+				tess.addVertex(x, y, this.zLevel + 10);
+			}
+		}
+		tess.draw();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		
+		GL11.glPushMatrix();
+		double scale = 0.5D;
+		GL11.glScaled(scale, scale, 1);
+		this.fontRendererObj.drawString(highest + "", (int) ((guiLeft + 8) / scale), (int) ((guiTop + 98) / scale), 0x00ff00);
+		this.fontRendererObj.drawString(highest + "", (int) ((guiLeft + 80 - this.fontRendererObj.getStringWidth(highest + "") * scale) / scale), (int) ((guiTop + 98) / scale), 0x00ff00);
+		this.fontRendererObj.drawString(lowest + "", (int) ((guiLeft + 8) / scale), (int) ((guiTop + 133 - this.fontRendererObj.FONT_HEIGHT * scale) / scale), 0x00ff00);
+		this.fontRendererObj.drawString(lowest + "", (int) ((guiLeft + 80 - this.fontRendererObj.getStringWidth(lowest + "") * scale) / scale), (int) ((guiTop + 133 - this.fontRendererObj.FONT_HEIGHT * scale) / scale), 0x00ff00);
+		GL11.glPopMatrix();
 		
 		this.field.drawTextBox();
 	}

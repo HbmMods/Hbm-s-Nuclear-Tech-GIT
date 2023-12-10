@@ -30,6 +30,8 @@ public class GUIMachineArcWelder extends GuiInfoContainer {
 
 		welder.tank.renderTankInfo(this, x, y, guiLeft + 35, guiTop + 63, 34, 16);
 		this.drawElectricityInfo(this, x, y, guiLeft + 152, guiTop + 18, 16, 52, welder.getPower(), welder.getMaxPower());
+		
+		this.drawCustomInfoStat(x, y, guiLeft + 78, guiTop + 67, 8, 8, guiLeft + 78, guiTop + 67, this.getUpgradeInfo(welder));
 	}
 	
 	@Override
@@ -54,7 +56,8 @@ public class GUIMachineArcWelder extends GuiInfoContainer {
 		if(welder.power >= welder.consumption) {
 			drawTexturedModalRect(guiLeft + 156, guiTop + 4, 176, 52, 9, 12);
 		}
-		
+
+		this.drawInfoPanel(guiLeft + 78, guiTop + 67, 8, 8, 8);
 		welder.tank.renderTank(guiLeft + 35, guiTop + 79, this.zLevel, 34, 16, 1);
 	}
 }

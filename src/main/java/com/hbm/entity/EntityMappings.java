@@ -58,6 +58,7 @@ public class EntityMappings {
 		addEntity(EntityGrenadeNuke.class, "entity_grenade_nuke", 500);
 		addEntity(EntitySchrab.class, "entity_schrabnel", 500);
 		addEntity(EntityMissileGeneric.class, "entity_missile_generic", 1000);
+		addEntity(EntityMissileDecoy.class, "entity_missile_decoy", 1000);
 		addEntity(EntityMissileStrong.class, "entity_missile_strong", 1000);
 		addEntity(EntityMissileNuclear.class, "entity_missile_nuclear", 1000);
 		addEntity(EntityMissileCluster.class, "entity_missile_cluster", 1000);
