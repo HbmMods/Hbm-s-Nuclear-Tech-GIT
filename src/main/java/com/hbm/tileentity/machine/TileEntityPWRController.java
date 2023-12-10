@@ -25,8 +25,13 @@ import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,7 +42,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, IFluidStandardTransceiver {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, SimpleComponent, IFluidStandardTransceiver {
 	
 	public FluidTank[] tanks;
 	public int coreHeat;
@@ -519,6 +525,43 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			this.rodTarget = MathHelper.clamp_int(data.getInteger("control"), 0, 100);
 			this.markChanged();
 		}
+	}
+
+
+	public String getComponentName() {
+		return "ntm_pwr_control";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getHeat(Context context, Arguments args) {
+		return new Object[] {coreHeat, hullHeat};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFlux(Context context, Arguments args) {
+		return new Object[] {flux};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getLevel(Context context, Arguments args) {
+		return new Object[] {rodTarget};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {coreHeat, hullHeat, flux, rodTarget};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setLevel(Context context, Arguments args) {
+		rodTarget = MathHelper.clamp_int(args.checkInteger(0), 0, 100);
+		this.markChanged();
+		return new Object[] {true};
 	}
 
 	@Override

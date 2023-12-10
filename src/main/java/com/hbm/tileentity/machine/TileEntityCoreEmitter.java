@@ -274,53 +274,48 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 		return "dfc_emitter";
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCryogel(Context context, Arguments args) {
 		return new Object[] {tank.getFill()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInput(Context context, Arguments args) {
 		return new Object[] {watts};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower(), tank.getFill(), watts, isOn};
 	}
 
-	@Callback(direct = true, limit = 2)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] isActive(Context context, Arguments args) {
 		return new Object[] {isOn};
 	}
 
-	@Callback(direct = true, limit = 2)
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setActive(Context context, Arguments args) {
 		isOn = args.checkBoolean(0);
 		return new Object[] {};
 	}
 
-	@Callback(direct = true, limit = 2)
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setInput(Context context, Arguments args) {
 		int newOutput = args.checkInteger(0);
-		if (newOutput > 100) {
-			newOutput = 100;
-		} else if (newOutput < 0) {
-			newOutput = 0;
-		}
-		watts = newOutput;
+		watts = MathHelper.clamp_int(newOutput, 0, 100);
 		return new Object[] {};
 	}
 

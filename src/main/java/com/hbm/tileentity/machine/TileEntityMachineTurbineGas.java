@@ -22,8 +22,13 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -33,7 +38,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyGenerator, IControlReceiver, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyGenerator, IControlReceiver, IGUIProvider, SimpleComponent {
 	
 	public long power;
 	public static final long maxPower = 1000000L;
@@ -544,6 +550,92 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
 		return dir != ForgeDirection.DOWN;
+	}
+
+	@Override
+	public String getComponentName() {
+		return "ntm_gas_turbine";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {
+				tanks[0].getFill(), tanks[0].getMaxFill(),
+				tanks[1].getFill(), tanks[1].getMaxFill(),
+				tanks[2].getFill(), tanks[2].getMaxFill(),
+				tanks[3].getFill(), tanks[3].getMaxFill()
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getType(Context context, Arguments args) {
+		return new Object[] {tanks[0].getTankType().getName()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPower(Context context, Arguments args) {
+		return new Object[] {power};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getThrottle(Context context, Arguments args) {
+		return new Object[] {throttle};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getState(Context context, Arguments args) {
+		return new Object[] {state};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getAuto(Context context, Arguments args) {
+		return new Object[] {autoMode};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setThrottle(Context context, Arguments args) {
+		throttle = args.checkInteger(0);
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setAuto(Context context, Arguments args) {
+		autoMode = args.checkBoolean(0);
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] start(Context context, Arguments args) {
+		stopIfNotReady();
+		startup();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] stop(Context context, Arguments args) {
+		shutdown();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+
+		return new Object[] {throttle, state,
+				tanks[0].getFill(), tanks[0].getMaxFill(),
+				tanks[1].getFill(), tanks[1].getMaxFill(),
+				tanks[2].getFill(), tanks[2].getMaxFill(),
+				tanks[3].getFill(), tanks[3].getMaxFill()};
 	}
 
 	@Override
