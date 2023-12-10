@@ -250,7 +250,7 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.furnace_iron));
 		if(type == UpgradeType.SPEED) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_SPEED, "-" + (level * 50 / 3) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 50 / 3) + "%"));
 		}
 	}
 

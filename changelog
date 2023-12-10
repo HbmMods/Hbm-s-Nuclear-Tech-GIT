@@ -12,6 +12,10 @@
   * Stylish as hell
 * Decoy missile
   * A cheap tier 1 missile that shows up on radar screens as tier 4 (eg. nuclear) missiles
+* Printing press stamps
+  * 8 different stamps for printing certain pages
+  * If a meteor dungeon safe is generated without a black book inside, it will generate tow random stamps instead
+  * With all 8 stamps, allows you to print your own black book
 
 ## Changed
 * Reduced the blast resistance of the large doors from absurdly high to still very but not quite as high
@@ -36,6 +40,8 @@
   * The flux display is now functional. It will display the flux curve of the last 30 seconds, as well as labels for the total flux level.
   * With the color assigning buttons and the flux display finished, the console is now finally complete
 * Compressing blood at 4 PU now turns it into crude oil at a ratio of 2:1
+* Increased the cap for the overdrive upgrade in acidizers, tier 2 should now yield the proper amount and tier 3 should now be better than tier 2
+* The tooltip of valid upgrades now changes when a compatible machine GUI is open
 
 ## Fixed
 * Fixed ancient bug where custom missiles launched using the launch table would not use the accuracy calculation and always be pin-point accurate

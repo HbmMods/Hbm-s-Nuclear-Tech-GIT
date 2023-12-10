@@ -2,6 +2,7 @@ package com.hbm.inventory.recipes;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.JsonElement;
@@ -31,6 +32,25 @@ public class ExposureChamberRecipes extends SerializableRecipe {
 	public static ExposureChamberRecipe getRecipe(ItemStack particle, ItemStack input) {
 		for(ExposureChamberRecipe recipe : recipes) if(recipe.particle.matchesRecipe(particle, true) && recipe.ingredient.matchesRecipe(input, true)) return recipe;
 		return null;
+	}
+
+	public static HashMap getRecipes() {
+
+		HashMap<Object, Object> recipes = new HashMap<Object, Object>();
+		
+		for(ExposureChamberRecipe recipe : ExposureChamberRecipes.recipes) {
+			
+			Object[] array = new Object[2];
+			
+			array[1] = recipe.particle;
+			AStack stack = recipe.ingredient.copy();
+			stack.stacksize = 8;
+			array[0] = stack;
+			
+			recipes.put(array, recipe.output);
+		}
+		
+		return recipes;
 	}
 
 	@Override

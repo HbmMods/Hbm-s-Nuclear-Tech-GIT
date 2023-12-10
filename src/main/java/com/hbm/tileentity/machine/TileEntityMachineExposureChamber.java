@@ -1,5 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMachineExposureChamber;
 import com.hbm.inventory.gui.GUIMachineExposureChamber;
@@ -8,7 +11,10 @@ import com.hbm.inventory.recipes.ExposureChamberRecipes.ExposureChamberRecipe;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
@@ -17,14 +23,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineExposureChamber extends TileEntityMachineBase implements IGUIProvider, IEnergyUser {
+public class TileEntityMachineExposureChamber extends TileEntityMachineBase implements IGUIProvider, IEnergyUser, IUpgradeInfoProvider {
 	
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -177,6 +183,52 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 	}
 
 	@Override
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		
+		//will only load new capsules if there's no cached particles, this should prevent clogging
+
+		//accept items when the slots are already partially filled, i.e. applicable
+		if(i == 0 && slots[0] != null) return true;
+		if(i == 3 && slots[3] != null) return true;
+		
+		//if there's no particle stored, use the un-consumed capsule for reference
+		ItemStack particle = slots[1] != null ? slots[1] : slots[0];
+		
+		//if no particle is loaded and an ingot is present
+		if(i == 0 && particle == null && slots[3] != null) {
+			ExposureChamberRecipe recipe = getRecipe(stack, slots[3]);
+			return recipe != null;
+		}
+		
+		//if a particle is loaded but no ingot present
+		if(i == 3 && particle != null && slots[3] == null) {
+			ExposureChamberRecipe recipe = getRecipe(slots[0], stack);
+			return recipe != null;
+		}
+		
+		//if there's nothing at all, find a reference recipe and see if the item matches anything
+		if(particle == null && slots[3] == null) {
+			
+			for(ExposureChamberRecipe recipe : ExposureChamberRecipes.recipes) {
+				if(i == 0 && recipe.particle.matchesRecipe(stack, true)) return true;
+				if(i == 3 && recipe.ingredient.matchesRecipe(stack, true)) return true; 
+			}
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return i == 2 || i == 4;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] {0, 2, 3, 4};
+	}
+
+	@Override
 	public void serialize(ByteBuf buf) {
 		buf.writeBoolean(this.isOn);
 		buf.writeInt(this.progress);
@@ -245,5 +297,34 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineExposureChamber(player.inventory, this);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_exposure_chamber));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 50) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 50) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		if(type == UpgradeType.POWER) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 3;
+		return 0;
 	}
 }

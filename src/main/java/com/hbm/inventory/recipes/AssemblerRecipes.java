@@ -998,6 +998,17 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.coil_copper, 16),
 				new ComparableStack(ModItems.circuit_gold, 2)
 			}, 200);
+
+		makeRecipe(new ComparableStack(ModBlocks.machine_exposure_chamber, 1), new AStack[] {
+				!exp ? new OreDictStack(AL.plateCast(), 12) : new OreDictStack(AL.heavyComp(), 1),
+				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 4),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 12),
+				new OreDictStack(ALLOY.wireDense(), 32),
+				new ComparableStack(ModItems.motor_desh, 2),
+				new ComparableStack(ModItems.circuit_gold, 3),
+				new ComparableStack(ModBlocks.capacitor_tantalium, 1),
+				new ComparableStack(ModBlocks.glass_quartz, 16)
+			}, 200);
 		
 		makeRecipe(new ComparableStack(ModItems.euphemium_capacitor, 1), new AStack[]
 				{

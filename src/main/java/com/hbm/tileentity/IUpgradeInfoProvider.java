@@ -19,6 +19,11 @@ public interface IUpgradeInfoProvider {
 		return EnumChatFormatting.GREEN.YELLOW + ">>> " + I18nUtil.resolveKey(block.getUnlocalizedName() + ".name") + " <<<";
 	}
 
+	public static final String KEY_ACID = "upgrade.acid";
+	public static final String KEY_BURN = "upgrade.burn";
 	public static final String KEY_CONSUMPTION = "upgrade.consumption";
-	public static final String KEY_SPEED = "upgrade.speed";
+	public static final String KEY_DELAY = "upgrade.delay";
+	public static final String KEY_EFFICIENCY = "upgrade.efficiency";
+	public static final String KEY_FORTUNE = "upgrade.fortune";
+	public static final String KEY_RANGE = "upgrade.range";
 }
