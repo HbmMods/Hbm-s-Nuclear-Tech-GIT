@@ -14,7 +14,7 @@
   * A cheap tier 1 missile that shows up on radar screens as tier 4 (eg. nuclear) missiles
 * Printing press stamps
   * 8 different stamps for printing certain pages
-  * If a meteor dungeon safe is generated without a black book inside, it will generate tow random stamps instead
+  * If a meteor dungeon safe is generated without a black book inside, it will generate two random stamps instead
   * With all 8 stamps, allows you to print your own black book
 
 ## Changed

@@ -22,6 +22,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo50BMG;
 import com.hbm.items.ItemAmmoEnums.Ammo5mm;
 import com.hbm.items.ItemEnums.EnumLegendaryType;
+import com.hbm.items.ItemEnums.EnumPages;
 import com.hbm.items.ItemEnums.EnumPlantType;
 import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.food.ItemConserve.EnumFoodType;
@@ -1052,6 +1053,8 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModItems.upgrade_5g), new Object[] { ModItems.upgrade_template, ModItems.gem_alexandrite });
 		
 		addShapelessAuto(new ItemStack(ModItems.bdcl), new Object[] { ANY_TAR.any(), Fluids.WATER.getDict(1_000), KEY_WHITE });
+		
+		addShapelessAuto(new ItemStack(ModItems.book_of_), new Object[] { DictFrame.fromOne(ModItems.page_of_, EnumPages.PAGE1), DictFrame.fromOne(ModItems.page_of_, EnumPages.PAGE2), DictFrame.fromOne(ModItems.page_of_, EnumPages.PAGE3), DictFrame.fromOne(ModItems.page_of_, EnumPages.PAGE4), DictFrame.fromOne(ModItems.page_of_, EnumPages.PAGE5), DictFrame.fromOne(ModItems.page_of_, EnumPages.PAGE6), DictFrame.fromOne(ModItems.page_of_, EnumPages.PAGE7), DictFrame.fromOne(ModItems.page_of_, EnumPages.PAGE8), ModItems.egg_balefire });
 		
 		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCrafting) {
 			addShapelessAuto(new ItemStack(ModItems.cordite, 3), new Object[] { ModItems.ballistite, Items.gunpowder, new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });
