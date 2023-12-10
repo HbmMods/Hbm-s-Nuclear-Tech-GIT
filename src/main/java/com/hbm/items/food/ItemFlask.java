@@ -1,5 +1,7 @@
 package com.hbm.items.food;
 
+import java.util.Locale;
+
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.items.ItemEnumMulti;
 
@@ -30,7 +32,7 @@ public class ItemFlask extends ItemEnumMulti {
 
 		for(int i = 0; i < icons.length; i++) {
 			Enum num = enums[i];
-			this.icons[i] = reg.registerIcon(this.getIconString() + "_" + num.name().toLowerCase());
+			this.icons[i] = reg.registerIcon(this.getIconString() + "_" + num.name().toLowerCase(Locale.US));
 		}
 	}
 
@@ -47,8 +49,8 @@ public class ItemFlask extends ItemEnumMulti {
 		if(stack.getItemDamage() == EnumInfusion.SHIELD.ordinal()) {
 			float infusion = 5F;
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
-			props.maxShield = Math.min(props.shieldCap, props.shield + infusion);
-			props.shield += infusion;
+			props.maxShield = Math.min(props.shieldCap, props.maxShield + infusion);
+			props.shield = Math.min(props.shield + infusion, props.maxShield);
 		}
 		
 		return stack;

@@ -3,6 +3,7 @@ package com.hbm.inventory.gui;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -23,7 +24,6 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -100,8 +100,11 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
 				
 				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) != null &&
-						AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)).contains(player.getHeldItem().getItem()))
-					allStacks.add(new ItemStack(ModItems.assembly_template, 1, i));
+						AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)).contains(player.getHeldItem().getItem())) {
+					
+					ComparableStack comp = AssemblerRecipes.recipeList.get(i);
+					allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template, 1, i), comp));
+				}
 			}
 			
 			isJournal = true;
@@ -122,7 +125,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			return;
 		}
 		
-		sub = sub.toLowerCase();
+		sub = sub.toLowerCase(Locale.US);
 		
 		outer:
 		for(ItemStack stack : allStacks) {
@@ -132,7 +135,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				if(o instanceof String) {
 					String text = (String) o;
 					
-					if(text.toLowerCase().contains(sub)) {
+					if(text.toLowerCase(Locale.US).contains(sub)) {
 						stacks.add(stack);
 						continue outer;
 					}
@@ -142,7 +145,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			if(stack.getItem() == ModItems.fluid_identifier) {
 				FluidType fluid = Fluids.fromID(stack.getItemDamage());
 				
-				if(I18nUtil.resolveKey(fluid.getUnlocalizedName()).toLowerCase().contains(sub)) {
+				if(fluid.getLocalizedName().contains(sub)) {
 					stacks.add(stack);
 				}
 			}

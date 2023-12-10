@@ -1,0 +1,54 @@
+## Added
+* Doors!
+  * Your favorites from 1.12, the 7 remaining doors have finally been ported
+  * Thanks to KoblizekXD for biting the bullet
+* Rubber boat
+  * Made from latex or synthetic rubber
+  * A much less jankier alternative to the vanilla boat. Rotations are silky smooth and done via the strafe keys instead of based on the player's orientation
+  * Won't break from ramming into blocks
+  * Faster than a regular boat, but will decelerate quicker when there's nobody sitting in it, preventing the boat from drifting off too far when empty
+* Exposure chamber
+  * Now performs the particle transmutation recipes that were previously done in the crafting table
+  * Stylish as hell
+* Decoy missile
+  * A cheap tier 1 missile that shows up on radar screens as tier 4 (eg. nuclear) missiles
+* Printing press stamps
+  * 8 different stamps for printing certain pages
+  * If a meteor dungeon safe is generated without a black book inside, it will generate two random stamps instead
+  * With all 8 stamps, allows you to print your own black book
+
+## Changed
+* Reduced the blast resistance of the large doors from absurdly high to still very but not quite as high
+* Custom missiles are now launchable using the radar
+* NTM's structures should no longer spawn in dimensions besides the overworld. Ores will still generate, assuming the config option is set.
+* Decreased M1tty's radiation resistance
+  * It's really damn cheap, what did you expect
+* M1tty's helmet now acts like a protective mask
+* Most non-custom missiles except tier 0s are now assembled in the arc welder
+  * Crafting complexity has been reduced, the recipes only need the three major components without any extra loose plates
+* Non-custom missiles have been slightly buffed
+  * Explosions are now slightly larger and they use the new cross-detection entity damage code which still affects entities behind small hills that would otherwise be shielded
+  * Explosions now have a 2x larger entity damage radius
+* Updated the digiminer recipe for mekanism compat
+* Added config options to the ground water pumps
+* Missile parts such as non-custom thrusters and fuselages are now made in the arc welder, recipe ingredients have been adjusted as well
+* Null grenades now have a slightly larger radius, should no longer wipe playerdata and require UNDEFINED to make
+* Added some breedable material to BFB PWR fuel rods, meaning that the recycling recipes now actually yield a net positive instead of being a massive waste of time
+* The RBMK control panel has been upgraded
+  * Right.clicking the color buttons will now assign the color to the selected control rods
+  * There's now a new button that allows to cycle through compressor settings on RBMK steam channels
+  * The flux display is now functional. It will display the flux curve of the last 30 seconds, as well as labels for the total flux level.
+  * With the color assigning buttons and the flux display finished, the console is now finally complete
+* Compressing blood at 4 PU now turns it into crude oil at a ratio of 2:1
+* Increased the cap for the overdrive upgrade in acidizers, tier 2 should now yield the proper amount and tier 3 should now be better than tier 2
+* The tooltip of valid upgrades now changes when a compatible machine GUI is open
+
+## Fixed
+* Fixed ancient bug where custom missiles launched using the launch table would not use the accuracy calculation and always be pin-point accurate
+* Fixed RBMK heat exchangers being able to use heatable fluids that don't have heat exchanger efficiency defined like liquid sodium, heavy water and thorium salt
+* Fixed RBMK heat exchangers not using the heat exchanger efficiency variable to determine cooling power
+* Fixed the ballistic gauntlet spawning a client-side ghost bullet that doesn't move or despawn
+* Fixed bug where different custom machine cores would merge in a stack when picked up, turning them into the same type
+* Fixed radar screen blips being visible through the back of the model
+* Fixed desh crate's last half of slots preventing radiation entirely
+* Fixed large mining drill shift-clicking

@@ -139,7 +139,7 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		power = nbt.getInteger("power");
+		power = nbt.getLong("power");
 		heat = nbt.getInteger("heat");
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -157,16 +157,14 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("power", (short) (power));
-		nbt.setInteger("heat", (short) (heat));
+		nbt.setLong("power", power);
+		nbt.setInteger("heat", heat);
 		NBTTagList list = new NBTTagList();
 		
-		for(int i = 0; i < slots.length; i++)
-		{
-			if(slots[i] != null)
-			{
+		for(int i = 0; i < slots.length; i++) {
+			if(slots[i] != null) {
 				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte)i);
+				nbt1.setByte("slot", (byte) i);
 				slots[i].writeToNBT(nbt1);
 				list.appendTag(nbt1);
 			}
@@ -175,9 +173,9 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_){
-        return slot_io;
-    }
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return slot_io;
+	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
@@ -211,7 +209,7 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 		if(!worldObj.isRemote) {
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir.getOpposite());
+				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			
 			heat = RTGUtil.updateRTGs(slots, slot_io);
 			

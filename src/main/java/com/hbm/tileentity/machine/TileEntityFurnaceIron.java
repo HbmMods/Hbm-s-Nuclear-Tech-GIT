@@ -1,12 +1,19 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerFurnaceIron;
 import com.hbm.inventory.gui.GUIFurnaceIron;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,10 +24,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUIProvider, IUpgradeInfoProvider {
 	
 	public int maxBurnTime;
 	public int burnTime;
@@ -65,7 +73,6 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 					if(slots[i] != null) {
 						
 						int fuel = burnModule.getBurnTime(slots[i]);
-						//int fuel = TileEntityFurnace.getItemBurnTime(slots[i]);
 						
 						if(fuel > 0) {
 							this.maxBurnTime = this.burnTime = fuel;
@@ -104,6 +111,7 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 					this.progress = 0;
 					this.markDirty();
 				}
+				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND);
 			} else {
 				this.progress = 0;
 			}
@@ -231,5 +239,24 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.furnace_iron));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 50 / 3) + "%"));
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		return 0;
 	}
 }

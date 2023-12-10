@@ -1,15 +1,24 @@
 package com.hbm.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.BiFunction;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.machine.TileEntityDummy;
+import com.hbm.tileentity.turret.TileEntityTurretSentry;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidUser;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -124,5 +133,61 @@ public class CompatExternal {
 		}
 		
 		return list;
+	}
+
+	public static Set<Class> turretTargetPlayer = new HashSet();
+	public static Set<Class> turretTargetFriendly = new HashSet();
+	public static Set<Class> turretTargetHostile = new HashSet();
+	public static Set<Class> turretTargetMachine = new HashSet();
+	
+	/**
+	 * Registers a class for turret targeting
+	 * @param clazz is the class that should be targeted.
+	 * @param type determines what setting the turret needs to have enabled to target this class. 0 is player, 1 is friendly, 2 is hostile and 3 is machine.
+	 */
+	public static void registerTurretTargetSimple(Class clazz, int type) {
+		
+		switch(type) {
+		case 0: turretTargetPlayer.add(clazz); break;
+		case 1: turretTargetFriendly.add(clazz); break;
+		case 2: turretTargetHostile.add(clazz); break;
+		case 3: turretTargetMachine.add(clazz); break;
+		}
+	}
+	
+	public static Set<Class> turretTargetBlacklist = new HashSet();
+	
+	/**
+	 * Registers a class to be fully ignored by turrets
+	 * @param clazz is the class that should be ignored.
+	 */
+	public static void registerTurretTargetBlacklist(Class clazz) {
+		turretTargetBlacklist.add(clazz);
+	}
+	
+	public static HashMap<Class, BiFunction<Entity, Object, Integer>> turretTargetCondition = new HashMap();
+	
+	/**
+	 * Registers a BiFunction lambda for more complex targeting compatibility
+	 * @param clazz is the class that this rule should apply to
+	 * @param bi is the lambda. The function should return 0 to continue with other targeting checks (i.e. do nothing), -1 to ignore this entity or 1 to target it.
+	 * The params for this lambda are the entity and the turret in question. The type for the turret is omitted on purpose as to not require any reference of the tile entity
+	 * class on the side of whoever is adding compat, allowing the compat class to be used entirely with reflection.
+	 */
+	public static void registerTurretTargetingCondition(Class clazz, BiFunction<Entity, Object, Integer> bi) {
+		turretTargetBlacklist.add(clazz);
+	}
+	
+	public static void compatExamples() {
+		// Makes all cows be targeted by turrets if player mode is active in addition to the existing rules. Applies to all entities that inherit EntityCow.
+		CompatExternal.registerTurretTargetSimple(EntityCow.class, 0);
+		// Makes all chickens ignored by turrets, also applies to entities that inherit EntityChicken like ducks.
+		CompatExternal.registerTurretTargetBlacklist(EntityChicken.class);
+		// An example for more complex turret behavior. Turrets will always target players named "Target Practice", and sentry turrets will never target players.
+		CompatExternal.registerTurretTargetingCondition(EntityPlayer.class, (entity, turret) -> {
+			if(entity.getCommandSenderName().equals("Target Practice")) return 1;
+			if(turret instanceof TileEntityTurretSentry) return -1;
+			return 0;
+		});
 	}
 }

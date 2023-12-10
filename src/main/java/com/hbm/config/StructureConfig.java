@@ -1,5 +1,7 @@
 package com.hbm.config;
 
+import java.util.Locale;
+
 import com.hbm.main.MainRegistry;
 
 import net.minecraftforge.common.config.Configuration;
@@ -28,7 +30,7 @@ public class StructureConfig {
 		
 		if(structureMinChunks > structureMaxChunks) {
 			MainRegistry.logger.error("Fatal error config: Minimum value has been set higher than the maximum value!");
-			MainRegistry.logger.error(String.format("Errored values will default back to %1$d and %2$d respectively, PLEASE REVIEW CONFIGURATION DESCRIPTION BEFORE MEDDLING WITH VALUES!", 8, 24));
+			MainRegistry.logger.error(String.format(Locale.US, "Errored values will default back to %1$d and %2$d respectively, PLEASE REVIEW CONFIGURATION DESCRIPTION BEFORE MEDDLING WITH VALUES!", 8, 24));
 			structureMinChunks = 8;
 			structureMaxChunks = 24;
 		}

@@ -477,6 +477,9 @@ item.plate_titanium.name=Plaque en titane
 item.plate_aluminium.name=Plaque d'aluminium
 item.wire_red_copper.name=Fil de cuivre rouge
 item.neutron_reflector.name=Reflecteur neutronique
+item.night_vision.name=Lunettes de vision nocturne
+item.night_vision.description.item=Donne la vision nocturne (nécessite un set électrique complet)
+item.night_vision.description.in_armor=%s (donne la vision nocturne)
 item.nugget_beryllium.name=Pépite de béryllium
 
 item.wire_aluminium.name=Fil d'aluminium
@@ -913,6 +916,7 @@ item.grenade_strong.name=Grenade ameliorée
 item.grenade_frag.name=Grenade Frag
 item.grenade_fire.name=Grenade Frag incendiaire
 item.grenade_shrapnel.name=Grenade à fragmentation
+item.grenate_cats.name=Grenade à chats
 item.grenade_cluster.name=Grenade à fragmentation
 item.grenade_flare.name=Flare
 item.grenade_electric.name=Grenade à éclairs

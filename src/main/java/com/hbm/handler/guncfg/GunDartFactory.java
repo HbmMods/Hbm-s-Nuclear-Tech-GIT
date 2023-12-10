@@ -2,12 +2,10 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
-import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.AmmoDart;
 import com.hbm.items.ModItems;
@@ -16,7 +14,6 @@ import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
@@ -103,27 +100,23 @@ public class GunDartFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(Potion.wither.id, 60 * 20, 2));
 		
-		bullet.bHurt = new IBulletHurtBehavior() {
+		bullet.bntHurt = (bulletnt, hit) -> {
 
-			@Override
-			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
-				
-				if(bullet.worldObj.isRemote)
+			if(bulletnt.worldObj.isRemote)
+				return;
+
+			if(hit instanceof EntityPlayer) {
+
+				if(((EntityPlayer) hit).inventory.hasItem(ModItems.ingot_meteorite_forged))
 					return;
-				
-				if(hit instanceof EntityPlayer) {
-					
-					if(((EntityPlayer) hit).inventory.hasItem(ModItems.ingot_meteorite_forged))
-						return;
-					
-					if(bullet.shooter instanceof EntityPlayer) {
-						
-						EntityPlayer shooter = (EntityPlayer) bullet.shooter;
-						
-						if(shooter.getHeldItem() != null && shooter.getHeldItem().getItem() == ModItems.gun_darter) {
-							ItemGunDart.writePlayer(shooter.getHeldItem(), (EntityPlayer)hit);
-							shooter.playSound("random.orb", 1.0F, 1.0F);
-						}
+
+				if(bulletnt.getThrower() instanceof EntityPlayer) {
+
+					EntityPlayer shooter = (EntityPlayer) bulletnt.getThrower();
+
+					if(shooter.getHeldItem() != null && shooter.getHeldItem().getItem() == ModItems.gun_darter) {
+						ItemGunDart.writePlayer(shooter.getHeldItem(), (EntityPlayer) hit);
+						shooter.playSound("random.orb", 1.0F, 1.0F);
 					}
 				}
 			}
@@ -146,23 +139,19 @@ public class GunDartFactory {
 		bullet.style = bullet.STYLE_FLECHETTE;
 		bullet.leadChance = 0;
 		
-		bullet.bHurt = new IBulletHurtBehavior() {
+		bullet.bntHurt = (bulletnt, hit) -> {
 
-			@Override
-			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				if(hit instanceof EntityLivingBase) {
-					
-					EntityLivingBase e = (EntityLivingBase) hit;
+			if(bulletnt.worldObj.isRemote)
+				return;
 
-					if(HbmLivingProps.getRadiation(e) < 250)
-						HbmLivingProps.setRadiation(e, 250);
-					if(HbmLivingProps.getTimer(e) <= 0)
-						HbmLivingProps.setTimer(e, MainRegistry.polaroidID * 60 * 20);
-				}
+			if(hit instanceof EntityLivingBase) {
+
+				EntityLivingBase e = (EntityLivingBase) hit;
+
+				if(HbmLivingProps.getRadiation(e) < 250)
+					HbmLivingProps.setRadiation(e, 250);
+				if(HbmLivingProps.getTimer(e) <= 0)
+					HbmLivingProps.setTimer(e, MainRegistry.polaroidID * 60 * 20);
 			}
 		};
 		

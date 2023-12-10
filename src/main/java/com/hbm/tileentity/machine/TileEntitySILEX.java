@@ -158,9 +158,25 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 
 			if(current != null && current.equals(conv)) {
 
-				int toFill = Math.min(10, Math.min(maxFill - currentFill, tank.getFill()));
+				int toFill = Math.min(50, Math.min(maxFill - currentFill, tank.getFill()));
 				currentFill += toFill;
 				tank.setFill(tank.getFill() - toFill);
+			}
+		} else {
+			ComparableStack direct = new ComparableStack(ModItems.fluid_icon, 1, tank.getTankType().getID());
+			
+			if(SILEXRecipes.getOutput(direct.toStack()) != null) {
+
+				if(currentFill == 0) {
+					current = (ComparableStack) direct.copy();
+				}
+
+				if(current != null && current.equals(direct)) {
+
+					int toFill = Math.min(50, Math.min(maxFill - currentFill, tank.getFill()));
+					currentFill += toFill;
+					tank.setFill(tank.getFill() - toFill);
+				}
 			}
 		}
 

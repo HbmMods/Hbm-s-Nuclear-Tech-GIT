@@ -191,28 +191,22 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 		return "dfc_receiver";
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getInput(Context context, Arguments args) {
-		return new Object[] {joules};
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {joules, getPower()}; //literally only doing this for the consistency between components
 	}
 
-	@Callback
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getOutput(Context context, Arguments args) {
-		return new Object[] {power};
-	}
-
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCryogel(Context context, Arguments args) {
 		return new Object[] {tank.getFill()};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {joules, power, tank.getFill()};
+		return new Object[] {joules, getPower(), tank.getFill()};
 	}
 
 	@Override

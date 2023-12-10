@@ -3,7 +3,8 @@ package com.hbm.handler.guncfg;
 import java.util.ArrayList;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
+import com.hbm.entity.projectile.EntityBulletBaseNT.*;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNukeSmall;
@@ -12,8 +13,6 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.interfaces.IBulletImpactBehavior;
-import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
@@ -133,10 +132,10 @@ public class GunFatmanFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
 		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.STOCK));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_MEDIUM);
 			}
 		};
@@ -149,10 +148,10 @@ public class GunFatmanFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
 		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.LOW));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_LOW);
 			}
 		};
@@ -165,10 +164,10 @@ public class GunFatmanFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
 		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.HIGH));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_HIGH);
 			}
 		};
@@ -185,10 +184,10 @@ public class GunFatmanFactory {
 		bullet.spread = 0.1F;
 		bullet.style = bullet.STYLE_GRENADE;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_TOTS);
 			}
 		};
@@ -201,10 +200,10 @@ public class GunFatmanFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
 		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.SAFE));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_SAFE);
 			}
 		};
@@ -218,10 +217,10 @@ public class GunFatmanFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.PUMPKIN));
 		bullet.explosive = 10F;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				if(!bullet.worldObj.isRemote) {
 
@@ -250,10 +249,10 @@ public class GunFatmanFactory {
 		bullet.explosive = 3F;
 		bullet.style = bullet.STYLE_BARREL;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
 
 			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+			public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				if(!bullet.worldObj.isRemote) {
 
@@ -308,10 +307,10 @@ public class GunFatmanFactory {
 		bullet.style = BulletConfiguration.STYLE_MIRV;
 		bullet.velocity *= 3;
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
+		bullet.bntUpdate = new IBulletUpdateBehaviorNT() {
 
 			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+			public void behaveUpdate(EntityBulletBaseNT bullet) {
 				
 				if(bullet.worldObj.isRemote)
 					return;
@@ -321,7 +320,7 @@ public class GunFatmanFactory {
 					
 					for(int i = 0; i < 6; i++) {
 						
-						EntityBulletBase nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_NORMAL);
+						EntityBulletBaseNT nuke = new EntityBulletBaseNT(bullet.worldObj, BulletConfigSyncingUtil.NUKE_NORMAL);
 						nuke.setPosition(bullet.posX, bullet.posY, bullet.posZ);
 						double mod = 0.1D;
 						nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
@@ -345,10 +344,10 @@ public class GunFatmanFactory {
 		bullet.style = BulletConfiguration.STYLE_MIRV;
 		bullet.velocity *= 3;
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
+		bullet.bntUpdate = new IBulletUpdateBehaviorNT() {
 
 			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+			public void behaveUpdate(EntityBulletBaseNT bullet) {
 				
 				if(bullet.worldObj.isRemote)
 					return;
@@ -358,7 +357,7 @@ public class GunFatmanFactory {
 					
 					for(int i = 0; i < 6; i++) {
 						
-						EntityBulletBase nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_LOW);
+						EntityBulletBaseNT nuke = new EntityBulletBaseNT(bullet.worldObj, BulletConfigSyncingUtil.NUKE_LOW);
 						nuke.setPosition(bullet.posX, bullet.posY, bullet.posZ);
 						double mod = 0.1D;
 						nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
@@ -382,10 +381,10 @@ public class GunFatmanFactory {
 		bullet.style = BulletConfiguration.STYLE_MIRV;
 		bullet.velocity *= 3;
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
+		bullet.bntUpdate = new IBulletUpdateBehaviorNT() {
 
 			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+			public void behaveUpdate(EntityBulletBaseNT bullet) {
 				
 				if(bullet.worldObj.isRemote)
 					return;
@@ -395,7 +394,7 @@ public class GunFatmanFactory {
 					
 					for(int i = 0; i < 6; i++) {
 						
-						EntityBulletBase nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_HIGH);
+						EntityBulletBaseNT nuke = new EntityBulletBaseNT(bullet.worldObj, BulletConfigSyncingUtil.NUKE_HIGH);
 						nuke.setPosition(bullet.posX, bullet.posY, bullet.posZ);
 						double mod = 0.1D;
 						nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
@@ -419,10 +418,10 @@ public class GunFatmanFactory {
 		bullet.style = BulletConfiguration.STYLE_MIRV;
 		bullet.velocity *= 3;
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
+		bullet.bntUpdate = new IBulletUpdateBehaviorNT() {
 
 			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+			public void behaveUpdate(EntityBulletBaseNT bullet) {
 				
 				if(bullet.worldObj.isRemote)
 					return;
@@ -432,7 +431,7 @@ public class GunFatmanFactory {
 					
 					for(int i = 0; i < 6; i++) {
 						
-						EntityBulletBase nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_SAFE);
+						EntityBulletBaseNT nuke = new EntityBulletBaseNT(bullet.worldObj, BulletConfigSyncingUtil.NUKE_SAFE);
 						nuke.setPosition(bullet.posX, bullet.posY, bullet.posZ);
 						double mod = 0.1D;
 						nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
@@ -456,10 +455,10 @@ public class GunFatmanFactory {
 		bullet.style = BulletConfiguration.STYLE_MIRV;
 		bullet.velocity *= 3;
 		
-		bullet.bUpdate = new IBulletUpdateBehavior() {
+		bullet.bntUpdate = new IBulletUpdateBehaviorNT() {
 
 			@Override
-			public void behaveUpdate(EntityBulletBase bullet) {
+			public void behaveUpdate(EntityBulletBaseNT bullet) {
 				
 				if(bullet.worldObj.isRemote)
 					return;
@@ -469,16 +468,16 @@ public class GunFatmanFactory {
 					
 					for(int i = 0; i < 24; i++) {
 						
-						EntityBulletBase nuke = null;
+						EntityBulletBaseNT nuke = null;
 						
 						if(i < 6)
-							nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_LOW);
+							nuke = new EntityBulletBaseNT(bullet.worldObj, BulletConfigSyncingUtil.NUKE_LOW);
 						else if(i < 12)
-							nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_TOTS);
+							nuke = new EntityBulletBaseNT(bullet.worldObj, BulletConfigSyncingUtil.NUKE_TOTS);
 						else if(i < 18)
-							nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_NORMAL);
+							nuke = new EntityBulletBaseNT(bullet.worldObj, BulletConfigSyncingUtil.NUKE_NORMAL);
 						else
-							nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_AMAT);
+							nuke = new EntityBulletBaseNT(bullet.worldObj, BulletConfigSyncingUtil.NUKE_AMAT);
 						
 						nuke.setPosition(bullet.posX, bullet.posY, bullet.posZ);
 						
@@ -503,8 +502,8 @@ public class GunFatmanFactory {
 		bullet.ammo = new ComparableStack(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.BALEFIRE));
 		bullet.style = BulletConfiguration.STYLE_BF;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+		bullet.bntImpact = new IBulletImpactBehaviorNT() {
+			@Override public void behaveBlockHit(EntityBulletBaseNT bullet, int x, int y, int z, int sideHit) {
 				
 				if(!bullet.worldObj.isRemote) {
 

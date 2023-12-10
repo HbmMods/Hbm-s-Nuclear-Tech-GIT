@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine.oil;
 
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerMachineCoker;
 import com.hbm.inventory.fluid.Fluids;
@@ -98,10 +100,12 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 						tanks[0].setFill(tanks[0].getFill() - fillReq);
 					}
 				}
+
+				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 20);
 			}
 			
 			for(DirPos pos : getConPos()) {
-				if(this.tanks[1].getFill() > 0) this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();

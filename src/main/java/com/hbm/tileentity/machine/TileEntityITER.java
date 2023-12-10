@@ -156,7 +156,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			
 			for(DirPos pos : getConPos()) {
 				if(tanks[1].getFill() > 0) {
-					this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
 			
@@ -292,6 +292,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		progress++;
 		
 		if(progress > this.duration) {
+			
+			this.progress = 0;
 			
 			if(slots[2] != null) {
 				slots[2].stackSize++;
@@ -542,7 +544,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 					int b = layout[ly][x][z];
 					
 					switch(b) {
-					case 1: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.fusion_conductor); break;
+					case 1: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.fusion_conductor, 1, 3); break;
 					case 2: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.fusion_center); break;
 					case 3: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.fusion_motor); break;
 					case 4: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.reinforced_glass); break;

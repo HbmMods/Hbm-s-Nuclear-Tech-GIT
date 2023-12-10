@@ -65,6 +65,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 	public boolean hardLanding = false;
 	public double gravity = 0;
 	public int dashCount = 0;
+	public int stepSize = 0;
 	public String step;
 	public String jump;
 	public String fall;
@@ -158,6 +159,11 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		this.dashCount = dashCount;
 		return this;
 	}
+	
+	public ArmorFSB setStepSize(int stepSize) {
+		this.stepSize = stepSize;
+		return this;
+	}
 
 	public ArmorFSB setStep(String step) {
 		this.step = step;
@@ -199,6 +205,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		this.hardLanding = original.hardLanding;
 		this.gravity = original.gravity;
 		this.dashCount = original.dashCount;
+		this.stepSize = original.stepSize;
 		this.step = original.step;
 		this.jump = original.jump;
 		this.fall = original.fall;
@@ -280,6 +287,10 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 
 		if(gravity != 0) {
 			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.gravity", gravity));
+		}
+		
+		if(stepSize != 0) {
+			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.stepSize", stepSize));
 		}
 		
 		if(dashCount > 0) {

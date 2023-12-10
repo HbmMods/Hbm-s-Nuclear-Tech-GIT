@@ -1,9 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockTallPlant.EnumTallFlower;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.ModDamageSource;
@@ -28,6 +30,15 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardReceiver {
+	
+	public static final HashSet<FluidType> acceptedFuels = new HashSet();
+	
+	static {
+		acceptedFuels.add(Fluids.WOODOIL);
+		acceptedFuels.add(Fluids.ETHANOL);
+		acceptedFuels.add(Fluids.FISHOIL);
+		acceptedFuels.add(Fluids.HEAVYOIL);
+	}
 	
 	public FluidTank tank;
 	

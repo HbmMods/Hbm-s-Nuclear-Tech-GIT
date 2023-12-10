@@ -54,8 +54,8 @@ public class ContainerMachineExcavator extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= 4) {
-				if(!this.mergeItemStack(var5, 5, this.inventorySlots.size(), true)) {
+			if(par2 <= 13) {
+				if(!this.mergeItemStack(var5, 14, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {

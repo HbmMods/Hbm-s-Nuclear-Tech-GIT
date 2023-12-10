@@ -1,5 +1,6 @@
 package api.hbm.energy;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,9 @@ public class PowerNet implements IPowerNet {
 	private HashMap<Integer, IEnergyConductor> links = new HashMap();
 	private HashMap<Integer, Integer> proxies = new HashMap();
 	private List<IEnergyConnector> subscribers = new ArrayList();
+	
+	public static List<PowerNet> trackingInstances = null;
+	protected BigInteger totalTransfer = BigInteger.ZERO;
 
 	@Override
 	public void joinNetworks(IPowerNet network) {
@@ -119,6 +123,11 @@ public class PowerNet implements IPowerNet {
 	public boolean isValid() {
 		return this.valid;
 	}
+
+	@Override
+	public BigInteger getTotalTransfer() {
+		return this.totalTransfer;
+	}
 	
 	public long lastCleanup = System.currentTimeMillis();
 	
@@ -129,7 +138,9 @@ public class PowerNet implements IPowerNet {
 			cleanup(this.subscribers);
 			lastCleanup = System.currentTimeMillis();
 		}*/
-		
+
+		trackingInstances = new ArrayList();
+		trackingInstances.add(this);
 		return fairTransfer(this.subscribers, power);
 	}
 	
@@ -142,12 +153,16 @@ public class PowerNet implements IPowerNet {
 	
 	public static long fairTransfer(List<IEnergyConnector> subscribers, long power) {
 		
+		if(power <= 0) return 0;
+		
 		if(subscribers.isEmpty())
 			return power;
 		
 		cleanup(subscribers);
 		
 		ConnectionPriority[] priorities = new ConnectionPriority[] {ConnectionPriority.HIGH, ConnectionPriority.NORMAL, ConnectionPriority.LOW};
+		
+		long totalTransfer = 0;
 		
 		for(ConnectionPriority p : priorities) {
 			
@@ -183,9 +198,23 @@ public class PowerNet implements IPowerNet {
 				long given = (long) Math.floor(fraction * power);
 				
 				totalGiven += (given - con.transferPower(given));
+				
+				if(con instanceof TileEntity) {
+					TileEntity tile = (TileEntity) con;
+					tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
+				}
 			}
 			
 			power -= totalGiven;
+			totalTransfer += totalGiven;
+		}
+		
+		if(trackingInstances != null) {
+			
+			for(int i = 0; i < trackingInstances.size(); i++) {
+				PowerNet net = trackingInstances.get(i);
+				net.totalTransfer = net.totalTransfer.add(BigInteger.valueOf(totalTransfer));
+			}
 		}
 		
 		return power;

@@ -1,29 +1,36 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.AmmoGrenade;
+import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
+
 public class GunGrenadeFactory {
-	
+
 	private static final CasingEjector EJECTOR_LAUNCHER;
+	private static final CasingEjector EJECTOR_CONGOLAKE;
 	private static final SpentCasing CASING40MM;
 
 	static {
 		EJECTOR_LAUNCHER = new CasingEjector().setAngleRange(0.02F, 0.03F).setAfterReload();
+		EJECTOR_CONGOLAKE = new CasingEjector().setMotion(0.3, 0.1, 0).setAngleRange(0.02F, 0.03F).setDelay(15);
 		CASING40MM = new SpentCasing(CasingType.STRAIGHT).setScale(4F, 4F, 3F).setBounceMotion(0.02F, 0.03F).setColor(0x777777).setupSmoke(1F, 0.5D, 60, 40);
 	}
 	
@@ -49,22 +56,39 @@ public class GunGrenadeFactory {
 		
 		config.name = "gPistol";
 		config.manufacturer = EnumGunManufacturer.H_AND_K;
-		
-		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.GRENADE_NORMAL);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_HE);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_INCENDIARY);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_PHOSPHORUS);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_CHEMICAL);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_CONCUSSION);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_FINNED);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_SLEEK);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_NUCLEAR);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_TRACER);
-		config.config.add(BulletConfigSyncingUtil.GRENADE_KAMPF);
+
+		config.config = HbmCollection.grenade;
 		config.durability = 300;
 		
 		config.ejector = EJECTOR_LAUNCHER;
+		
+		return config;
+	}
+	
+	public static GunConfiguration getCongoConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 20;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.reloadDuration = 20;
+		config.firingDuration = 0;
+		config.ammoCap = 4;
+		config.reloadType = GunConfiguration.RELOAD_SINGLE;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_CIRCUMFLEX;
+		config.firingSound = "hbm:weapon.glShoot";
+		config.reloadSound = GunConfiguration.RSOUND_GRENADE_NEW;
+		
+		config.name = "congoLake";
+		config.manufacturer = EnumGunManufacturer.NAWS;
+
+		config.config = HbmCollection.grenade;
+		config.durability = 2500;
+		
+		config.ejector = EJECTOR_CONGOLAKE;
 		
 		return config;
 	}
@@ -131,7 +155,7 @@ public class GunGrenadeFactory {
 		bullet.trail = 0;
 		bullet.incendiary = 2;
 		
-		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D, 1F);
+		bullet.bntImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D, 1F);
 		
 		bullet.spentCasing = CASING40MM.clone().register("40MMPhos");
 		
@@ -213,12 +237,8 @@ public class GunGrenadeFactory {
 		bullet.velocity = 4;
 		bullet.explosive = 0.0F;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_TOTS);
-			}
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
+			BulletConfigFactory.nuclearExplosion(bulletnt, x, y, z, ExplosionNukeSmall.PARAMS_TOTS);
 		};
 		
 		bullet.spentCasing = CASING40MM.clone().register("40MMNuke");
@@ -256,6 +276,103 @@ public class GunGrenadeFactory {
 		bullet.vPFX = "smoke";
 		
 		//bullet.spentCasing = CASING40MM.clone().register("40MMKampf").setColor(0xEBC35E); //does not eject, whole cartridge leaves the gun
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration getGrenadeLeadbursterConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
+		
+		bullet.ammo = new ComparableStack(ModItems.ammo_grenade.stackFromEnum(AmmoGrenade.LEADBURSTER));
+		bullet.spread = 0.0F;
+		bullet.gravity = 0.01D;
+		bullet.explosive = 0F;
+		bullet.style = BulletConfiguration.STYLE_LEADBURSTER;
+		bullet.doesRicochet = false;
+		bullet.doesPenetrate = true;
+		bullet.vPFX = "";
+
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
+			
+			switch(sideHit) {
+			case 0: bulletnt.rotationPitch = (float) (90); break;
+			case 1: bulletnt.rotationPitch = (float) (-90); break;
+			case 2: bulletnt.rotationPitch = 0; bulletnt.rotationYaw = 0; break;
+			case 3: bulletnt.rotationPitch = 0; bulletnt.rotationYaw = (float) 180; break;
+			case 4: bulletnt.rotationPitch = 0; bulletnt.rotationYaw = 90; break;
+			case 5: bulletnt.rotationPitch = 0; bulletnt.rotationYaw = (float) -90; break;
+			}
+			
+			Vec3 vec = Vec3.createVectorHelper(0, 0, 1);
+			vec.rotateAroundX((float) (bulletnt.rotationPitch * Math.PI / 180D));
+			vec.rotateAroundY((float) (bulletnt.rotationYaw * Math.PI / 180));
+
+			double offset = 0.1;
+			bulletnt.posX -= vec.xCoord * offset;
+			bulletnt.posY -= vec.yCoord * offset;
+			bulletnt.posZ -= vec.zCoord * offset;
+			
+			bulletnt.ticksExisted = 0;
+			bulletnt.getStuck(x, y, z, sideHit);
+		};
+		
+		bullet.bntUpdate = (bulletnt) -> {
+			if(bulletnt.worldObj.isRemote) return;
+			
+			switch(bulletnt.getStuckIn()) {
+			case 0: bulletnt.rotationPitch = (float) (90); break;
+			case 1: bulletnt.rotationPitch = (float) (-90); break;
+			case 2: bulletnt.rotationPitch = 0; bulletnt.rotationYaw = 0; break;
+			case 3: bulletnt.rotationPitch = 0; bulletnt.rotationYaw = (float) 180; break;
+			case 4: bulletnt.rotationPitch = 0; bulletnt.rotationYaw = 90; break;
+			case 5: bulletnt.rotationPitch = 0; bulletnt.rotationYaw = (float) -90; break;
+			}
+			
+			if(bulletnt.ticksInGround < 20) return;
+			int timer = bulletnt.ticksInGround - 20;
+			
+			Vec3 offset = Vec3.createVectorHelper(0, 0, -0.5);
+			offset.rotateAroundX((float) (bulletnt.rotationPitch * Math.PI / 180D));
+			offset.rotateAroundY((float) (bulletnt.rotationYaw * Math.PI / 180));
+			
+			if(bulletnt.ticksExisted >= 100) {
+				bulletnt.setDead();
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "vanillaExt");
+				data.setString("mode", "largeexplode");
+				data.setFloat("size", 1F);
+				data.setByte("count", (byte)1);
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bulletnt.posX + offset.xCoord, bulletnt.posY + offset.yCoord, bulletnt.posZ + offset.zCoord), new TargetPoint(bulletnt.dimension, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 50));
+			}
+			
+			if(timer > 60) return;
+			
+			bulletnt.worldObj.playSoundEffect(bulletnt.posX, bulletnt.posY, bulletnt.posZ, "hbm:weapon.silencerShoot", 2F, 1F);
+			
+			for(int i = 0; i < 5; i++) {
+				Vec3 vec = Vec3.createVectorHelper(0, 1, 0);
+				vec.rotateAroundX((float) Math.toRadians(11.25 * i));
+				vec.rotateAroundZ((float) -Math.toRadians(13 * timer));
+				vec.rotateAroundX((float) (bulletnt.rotationPitch * Math.PI / 180D));
+				vec.rotateAroundY((float) (bulletnt.rotationYaw * Math.PI / 180));
+				
+				EntityBulletBaseNT pellet = new EntityBulletBaseNT(bulletnt.worldObj, BulletConfigSyncingUtil.R556_NORMAL);
+				double dist = 0.5;
+				double off = 0.5;
+				pellet.setPosition(bulletnt.posX + vec.xCoord * dist + offset.xCoord * off, bulletnt.posY + vec.yCoord * dist + offset.yCoord * off, bulletnt.posZ + vec.zCoord * dist + offset.zCoord * off);
+				double vel = 0.5;
+				pellet.motionX = vec.xCoord * vel;
+				pellet.motionY = vec.yCoord * vel;
+				pellet.motionZ = vec.zCoord * vel;
+				
+				float hyp = MathHelper.sqrt_double(pellet.motionX * pellet.motionX + pellet.motionZ * pellet.motionZ);
+				pellet.prevRotationYaw = pellet.rotationYaw = (float) (Math.atan2(pellet.motionX, pellet.motionZ) * 180.0D / Math.PI);
+				pellet.prevRotationPitch = pellet.rotationPitch = (float) (Math.atan2(pellet.motionY, (double) hyp) * 180.0D / Math.PI);
+				
+				bulletnt.worldObj.spawnEntityInWorld(pellet);
+			}
+		};
 		
 		return bullet;
 	}

@@ -22,6 +22,7 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.util.Compat;
 
 import net.minecraft.block.Block;
@@ -44,22 +45,30 @@ public class MatDistribution extends SerializableRecipe {
 		registerEntry(Items.minecart, MAT_IRON, INGOT.q(5));
 		
 		//castables
-		registerEntry(ModItems.blade_titanium,			MAT_TITANIUM,		INGOT.q(2));
-		registerEntry(ModItems.blade_tungsten,			MAT_TUNGSTEN,		INGOT.q(2));
-		registerEntry(ModItems.blades_steel,			MAT_STEEL,			INGOT.q(4));
-		registerEntry(ModItems.blades_titanium,			MAT_TITANIUM, 		INGOT.q(4));
-		registerEntry(ModItems.blades_advanced_alloy,	MAT_ALLOY,			INGOT.q(4));
-		registerEntry(ModItems.stamp_stone_flat,		MAT_STONE,			INGOT.q(3));
-		registerEntry(ModItems.stamp_iron_flat,			MAT_IRON,			INGOT.q(3));
-		registerEntry(ModItems.stamp_steel_flat,		MAT_STEEL,			INGOT.q(3));
-		registerEntry(ModItems.stamp_titanium_flat,		MAT_TITANIUM,		INGOT.q(3));
-		registerEntry(ModItems.stamp_obsidian_flat,		MAT_OBSIDIAN,		INGOT.q(3));
-		registerEntry(ModItems.hull_small_steel,		MAT_STEEL,			INGOT.q(2));
-		registerEntry(ModItems.hull_small_aluminium,	MAT_ALUMINIUM,		INGOT.q(2));
-		registerEntry(ModItems.hull_big_steel,			MAT_STEEL,			INGOT.q(6));
-		registerEntry(ModItems.hull_big_aluminium,		MAT_ALUMINIUM,		INGOT.q(6));
-		registerEntry(ModItems.hull_big_titanium,		MAT_TITANIUM,		INGOT.q(6));
-		registerEntry(ModItems.pipes_steel,				MAT_STEEL,			BLOCK.q(3));
+		registerEntry(ModItems.blade_titanium,				MAT_TITANIUM,		INGOT.q(2));
+		registerEntry(ModItems.blade_tungsten,				MAT_TUNGSTEN,		INGOT.q(2));
+		registerEntry(ModItems.blades_steel,				MAT_STEEL,			INGOT.q(4));
+		registerEntry(ModItems.blades_titanium,				MAT_TITANIUM, 		INGOT.q(4));
+		registerEntry(ModItems.blades_advanced_alloy,		MAT_ALLOY,			INGOT.q(4));
+		registerEntry(ModItems.stamp_stone_flat,			MAT_STONE,			INGOT.q(3));
+		registerEntry(ModItems.stamp_iron_flat,				MAT_IRON,			INGOT.q(3));
+		registerEntry(ModItems.stamp_steel_flat,			MAT_STEEL,			INGOT.q(3));
+		registerEntry(ModItems.stamp_titanium_flat,			MAT_TITANIUM,		INGOT.q(3));
+		registerEntry(ModItems.stamp_obsidian_flat,			MAT_OBSIDIAN,		INGOT.q(3));
+		registerEntry(ModItems.hull_small_steel,			MAT_STEEL,			INGOT.q(2));
+		registerEntry(ModItems.hull_small_aluminium,		MAT_ALUMINIUM,		INGOT.q(2));
+		registerEntry(ModItems.hull_big_steel,				MAT_STEEL,			INGOT.q(6));
+		registerEntry(ModItems.hull_big_aluminium,			MAT_ALUMINIUM,		INGOT.q(6));
+		registerEntry(ModItems.hull_big_titanium,			MAT_TITANIUM,		INGOT.q(6));
+		registerEntry(ModItems.pipes_steel,					MAT_STEEL,			BLOCK.q(3));
+		registerEntry(ModItems.wire_aluminium,				MAT_ALUMINIUM,		WIRE.q(1));
+		registerEntry(ModItems.wire_copper,					MAT_COPPER,			WIRE.q(1));
+		registerEntry(ModItems.wire_red_copper,				MAT_MINGRADE,		WIRE.q(1));
+		registerEntry(ModItems.wire_tungsten,				MAT_TUNGSTEN,		WIRE.q(1));
+		registerEntry(ModItems.wire_gold,					MAT_GOLD,			WIRE.q(1));
+		registerEntry(ModItems.wire_advanced_alloy,			MAT_ALLOY,			WIRE.q(1));
+		registerEntry(ModItems.wire_magnetized_tungsten,	MAT_MAGTUNG,		WIRE.q(1));
+		registerEntry(ModItems.wire_schrabidium,			MAT_SCHRABIDIUM,	WIRE.q(1));
 
 		//actual ores
 		if(!Compat.isModLoaded(Compat.MOD_GT6)) {
@@ -69,7 +78,7 @@ public class MatDistribution extends SerializableRecipe {
 			registerOre(OreDictManager.AL.ore(), MAT_ALUMINIUM, INGOT.q(2), MAT_STONE, QUART.q(1));
 		}
 		
-		registerOre(OreDictManager.COAL.ore(), MAT_COAL, GEM.q(4), MAT_STONE, QUART.q(1));
+		registerOre(OreDictManager.COAL.ore(), MAT_CARBON, GEM.q(3), MAT_STONE, QUART.q(1));
 		registerOre(OreDictManager.GOLD.ore(), MAT_GOLD, INGOT.q(2), MAT_LEAD, NUGGET.q(3), MAT_STONE, QUART.q(1));
 		registerOre(OreDictManager.U.ore(), MAT_URANIUM, INGOT.q(2), MAT_LEAD, NUGGET.q(3), MAT_STONE, QUART.q(1));
 		registerOre(OreDictManager.TH232.ore(), MAT_THORIUM, INGOT.q(2), MAT_URANIUM, NUGGET.q(3), MAT_STONE, QUART.q(1));
@@ -79,11 +88,16 @@ public class MatDistribution extends SerializableRecipe {
 		registerOre(OreDictManager.CO.ore(), MAT_COBALT, INGOT.q(1), MAT_STONE, QUART.q(1));
 		registerOre(OreDictManager.REDSTONE.ore(), MAT_REDSTONE, INGOT.q(4), MAT_STONE, QUART.q(1));
 
-		registerOre(OreDictManager.HEMATITE.ore(), MAT_HEMATITE, INGOT.q(4));
-		registerOre(OreDictManager.MALACHITE.ore(), MAT_MALACHITE, INGOT.q(4));
+		registerOre(OreDictManager.HEMATITE.ore(), MAT_HEMATITE, INGOT.q(1));
+		registerOre(OreDictManager.MALACHITE.ore(), MAT_MALACHITE, INGOT.q(1));
 		
 		registerEntry(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), MAT_FLUX, DUST.q(10));
 		registerEntry(ModItems.powder_flux, MAT_FLUX, DUST.q(1));
+		registerEntry(new ItemStack(Items.coal, 1, 1), MAT_CARBON, NUGGET.q(3));
+
+		registerEntry(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.WOOD), MAT_CARBON, NUGGET.q(1));
+		registerEntry(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.COAL), MAT_CARBON, NUGGET.q(2));
+		registerEntry(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.MISC), MAT_CARBON, NUGGET.q(1));
 	}
 	
 	public static void registerEntry(Object key, Object... matDef) {

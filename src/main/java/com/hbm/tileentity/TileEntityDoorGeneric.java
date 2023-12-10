@@ -33,6 +33,8 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 	public long animStartTime = 0;
 	public int redstonePower;
 	public boolean shouldUseBB = false;
+	private byte skinIndex = 0;
+
 	public Set<BlockPos> activatedBlocks = new HashSet<>(4);
 
 	private AudioWrapper audio;
@@ -52,9 +54,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 			}
 		}
 
-		if(worldObj.isRemote) {
-
-		} else {
+		if(!worldObj.isRemote) {
 			
 			BlockPos pos = new BlockPos(this);
 			
@@ -140,7 +140,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 			if(state == 2 && openTicks == 0) {
 				state = 0;
 			}
-			PacketDispatcher.wrapper.sendToAllAround(new TEDoorAnimationPacket(xCoord, yCoord, zCoord, state, (byte)(shouldUseBB ? 1 : 0)), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 100));
+			PacketDispatcher.wrapper.sendToAllAround(new TEDoorAnimationPacket(xCoord, yCoord, zCoord, state, skinIndex, (byte)(shouldUseBB ? 1 : 0)), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 100));
 			
 			if(redstonePower == -1 && state == 0){
 				tryToggle(-1);
@@ -282,10 +282,22 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 	//Ah yes piggy backing on this packet
 	@Override
 	public void setTextureState(byte tex){
-		if(tex > 0)
-			shouldUseBB = true;
-		else
-			shouldUseBB = false;
+		shouldUseBB = tex > 0;
+	}
+
+	public int getSkinIndex() {
+		return skinIndex;
+	}
+
+	@Override
+	public boolean setSkinIndex(byte skinIndex) {
+		if(!getDoorType().hasSkins())
+			return false;
+		if(getDoorType().getSkinCount() < skinIndex) {
+			return false;
+		}
+		this.skinIndex = skinIndex;
+		return true;
 	}
 
 	@Override
@@ -305,6 +317,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		this.animStartTime = tag.getInteger("animStartTime");
 		this.redstonePower = tag.getInteger("redstoned");
 		this.shouldUseBB = tag.getBoolean("shouldUseBB");
+		this.skinIndex = tag.getByte("skin");
 		NBTTagCompound activatedBlocks = tag.getCompoundTag("activatedBlocks");
 		this.activatedBlocks.clear();
 		for(int i = 0; i < activatedBlocks.func_150296_c().size()/3; i ++){
@@ -322,6 +335,8 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		tag.setLong("animStartTime", animStartTime);
 		tag.setInteger("redstoned", redstonePower);
 		tag.setBoolean("shouldUseBB", shouldUseBB);
+		if(getDoorType().hasSkins())
+			tag.setByte("skin", skinIndex);
 		NBTTagCompound activatedBlocks = new NBTTagCompound();
 		int i = 0;
 		for(BlockPos p : this.activatedBlocks){

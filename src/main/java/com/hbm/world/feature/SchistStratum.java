@@ -3,6 +3,7 @@ package com.hbm.world.feature;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.world.generator.DungeonToolbox;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
@@ -51,7 +52,7 @@ public class SchistStratum {
 						
 						Block target = world.getBlock(x, y, z);
 						
-						if(target.isNormalCube() && target.getMaterial() == Material.rock) {
+						if(target.isNormalCube() && target.getMaterial() == Material.rock && DungeonToolbox.allowedToReplace(target)) {
 							world.setBlock(x, y, z, ModBlocks.stone_gneiss, 0, 2);
 						}
 					}

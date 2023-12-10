@@ -58,7 +58,7 @@ public class RefineryRecipes {
 	public static HashMap<Object, Object[]> getVacuumRecipe() {
 
 		HashMap<Object, Object[]> recipes = new HashMap<Object, Object[]>();
-		recipes.put(ItemFluidIcon.make(Fluids.OIL, 1000),
+		recipes.put(ItemFluidIcon.make(Fluids.OIL, 1000, 2),
 				new ItemStack[] {
 						ItemFluidIcon.make(Fluids.HEAVYOIL_VACUUM,	vac_frac_heavy * 10),
 						ItemFluidIcon.make(Fluids.REFORMATE,		vac_frac_reform * 10),

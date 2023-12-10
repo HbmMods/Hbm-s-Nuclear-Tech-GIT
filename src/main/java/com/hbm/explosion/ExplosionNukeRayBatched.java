@@ -76,6 +76,8 @@ public class ExplosionNukeRayBatched {
 	}
 
 	public void collectTip(int count) {
+		
+		//count = Math.min(count, 10);
 
 		int amountProcessed = 0;
 
@@ -108,7 +110,7 @@ public class ExplosionNukeRayBatched {
 				Block block = world.getBlock(iX, iY, iZ);
 
 				if(!block.getMaterial().isLiquid())
-					res -= Math.pow(block.getExplosionResistance(null), 7.5D - fac);
+					res -= Math.pow(masqueradeResistance(block), 7.5D - fac);
 				//else
 				//	res -= Math.pow(Blocks.air.getExplosionResistance(null), 7.5D - fac); // air is 0, might want to raise that is necessary
 
@@ -119,7 +121,16 @@ public class ExplosionNukeRayBatched {
 					chunkCoords.add(chunkPos);
 				}
 
-				if(res <= 0 || i + 1 >= this.length) {
+				if(res <= 0 || i + 1 >= this.length || i == length - 1) {
+					
+					/*NBTTagCompound fx = new NBTTagCompound();
+					fx.setString("type", "debugline");
+					fx.setDouble("mX", vec.xCoord * i);
+					fx.setDouble("mY", vec.yCoord * i);
+					fx.setDouble("mZ", vec.zCoord * i);
+					fx.setInteger("color", 0xff0000);
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(fx, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 200));*/
+					
 					break;
 				}
 			}
@@ -148,6 +159,13 @@ public class ExplosionNukeRayBatched {
 		orderedChunks.sort(comparator);
 		
 		isAusf3Complete = true;
+	}
+	
+	public static float masqueradeResistance(Block block) {
+
+		if(block == Blocks.sandstone) return Blocks.stone.getExplosionResistance(null);
+		if(block == Blocks.obsidian) return Blocks.stone.getExplosionResistance(null) * 3;
+		return block.getExplosionResistance(null);
 	}
 	
 	/** little comparator for roughly sorting chunks by distance to the center */
@@ -180,6 +198,8 @@ public class ExplosionNukeRayBatched {
 		int enter = (int) (Math.min(
 				Math.abs(posX - (chunkX << 4)),
 				Math.abs(posZ - (chunkZ << 4)))) - 16; //jump ahead to cut back on NOPs
+		
+		enter = Math.max(enter, 0);
 		
 		for(FloatTriplet triplet : list) {
 			float x = triplet.xCoord;

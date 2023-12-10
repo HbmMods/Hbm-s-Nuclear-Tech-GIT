@@ -1,5 +1,6 @@
 package api.hbm.entity;
 
+@Deprecated //Use IRadarDetectableNT instead, old interface will still work though
 public interface IRadarDetectable {
 
 	public static enum RadarTargetType {
@@ -15,7 +16,7 @@ public interface IRadarDetectable {
 		MISSILE_20("Size 20 Custom Missile"),		//size 20 custom missiles
 		MISSILE_AB("Anti-Ballistic Missile"),		//anti ballistic missile
 		PLAYER("Player"),							//airborne players
-		ARTILLERY("Artillery Shell");				//airborne players
+		ARTILLERY("Artillery Shell");				//artillery shells
 		
 		public String name;
 		

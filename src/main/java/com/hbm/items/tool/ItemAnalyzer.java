@@ -75,7 +75,7 @@ public class ItemAnalyzer extends Item {
 				if(te instanceof IFluidDuct) {
 					
 					player.addChatMessage(new ChatComponentText(
-							"Duct Type: " + I18n.format(((IFluidDuct)te).getType().getUnlocalizedName())));
+							"Duct Type: " + ((IFluidDuct)te).getType().getLocalizedName()));
 				}
 				
 				if(te instanceof TileEntityPylon) {

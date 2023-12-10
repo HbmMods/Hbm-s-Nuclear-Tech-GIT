@@ -2,14 +2,18 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineDiFurnace;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.container.ContainerDiFurnace;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIDiFurnace;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
 
+import api.hbm.fluid.IFluidStandardSender;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -21,8 +25,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityDiFurnace extends TileEntityMachinePolluting implements IFluidStandardSender, IGUIProvider {
 
 	public int progress;
 	public int fuel;
@@ -35,7 +40,7 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 	public byte sideLower = 1;
 
 	public TileEntityDiFurnace() {
-		super(4);
+		super(4, 50);
 	}
 
 	@Override
@@ -127,32 +132,19 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 	}
 
 	public boolean canProcess() {
-		if(slots[0] == null || slots[1] == null) {
-			return false;
-		}
+		if(slots[0] == null || slots[1] == null) return false;
+		if(!this.hasPower()) return false;
 		
-		if(!this.hasPower()) {
-			return false;
-		}
-		
-		ItemStack itemStack = BlastFurnaceRecipes.getOutput(slots[0], slots[1]);
-		if(itemStack == null) {
-			return false;
-		}
+		ItemStack output = BlastFurnaceRecipes.getOutput(slots[0], slots[1]);
+		if(output == null) return false;
+		if(slots[3] == null) return true;
+		if(!slots[3].isItemEqual(output)) return false;
 
-		if(slots[3] == null) {
+		if(slots[3].stackSize + output.stackSize <= slots[3].getMaxStackSize()) {
 			return true;
 		}
-
-		if(!slots[3].isItemEqual(itemStack)) {
-			return false;
-		}
-
-		if(slots[3].stackSize < getInventoryStackLimit() && slots[3].stackSize < slots[3].getMaxStackSize()) {
-			return true;
-		} else {
-			return slots[3].stackSize < itemStack.getMaxStackSize();
-		}
+		
+		return false;
 	}
 
 	private void processItem() {
@@ -181,6 +173,14 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			boolean extension = worldObj.getBlock(xCoord, yCoord + 1, zCoord) == ModBlocks.machine_difurnace_extension;
+			
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				this.sendSmoke(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			}
+			
+			if(extension) this.sendSmoke(xCoord, yCoord + 2, zCoord, ForgeDirection.UP);
 
 			boolean markDirty = false;
 			
@@ -196,7 +196,6 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 			}
 
 			if(canProcess()) {
-				boolean extension = worldObj.getBlock(xCoord, yCoord + 1, zCoord) == ModBlocks.machine_difurnace_extension;
 
 				//fuel -= extension ? 2 : 1;
 				fuel -= 1; //switch it up on me, fuel efficiency, on fumes i'm running - running - running - running
@@ -211,6 +210,8 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 				if(fuel < 0) {
 					fuel = 0;
 				}
+
+				if(worldObj.getTotalWorldTime() % 20 == 0) this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * (extension ? 3 : 1));
 				
 			} else {
 				progress = 0;
@@ -258,5 +259,15 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIDiFurnace(player.inventory, this);
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[0];
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return this.getSmokeTanks();
 	}
 }

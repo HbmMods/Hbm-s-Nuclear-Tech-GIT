@@ -1,9 +1,7 @@
 package com.hbm.handler.guncfg;
 
-import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo240Shell;
 import com.hbm.items.ModItems;
@@ -86,12 +84,8 @@ public class GunCannonFactory {
 		bullet.dmgMin = 100;
 		bullet.dmgMax = 150;
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
-
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, ExplosionNukeSmall.PARAMS_TOTS);
-			}
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
+			BulletConfigFactory.nuclearExplosion(bulletnt, x, y, z, ExplosionNukeSmall.PARAMS_TOTS);
 		};
 		
 		bullet.spentCasing = CASINNG240MM;

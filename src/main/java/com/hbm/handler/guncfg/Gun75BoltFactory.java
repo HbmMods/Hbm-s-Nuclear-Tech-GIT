@@ -2,11 +2,8 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
-import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
-import com.hbm.interfaces.IBulletHurtBehavior;
-import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo75Bolt;
 import com.hbm.items.ModItems;
@@ -23,7 +20,6 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -96,25 +92,21 @@ public class Gun75BoltFactory {
 		bullet.doesRicochet = false;
 		bullet.explosive = 0.25F;
 		
-		bullet.bHurt = new IBulletHurtBehavior() {
+		bullet.bntHurt = (bulletnt, hit) -> {
 
-			@Override
-			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
-				
-				if(bullet.worldObj.isRemote)
-					return;
-				
-				if(hit instanceof EntityLivingBase) {
-					EntityLivingBase living = (EntityLivingBase) hit;
-					float f = living.getHealth();
-					
-					if(f > 0) {
-						f = Math.max(0, f - 2);
-						living.setHealth(f);
-						
-						if(f == 0)
-							living.onDeath(ModDamageSource.lead);
-					}
+			if(bulletnt.worldObj.isRemote)
+				return;
+
+			if(hit instanceof EntityLivingBase) {
+				EntityLivingBase living = (EntityLivingBase) hit;
+				float f = living.getHealth();
+
+				if(f > 0) {
+					f = Math.max(0, f - 2);
+					living.setHealth(f);
+
+					if(f == 0)
+						living.onDeath(ModDamageSource.lead);
 				}
 			}
 		};
@@ -142,19 +134,15 @@ public class Gun75BoltFactory {
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(eff));
 		
-		bullet.bImpact = new IBulletImpactBehavior() {
+		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {
 
-			@Override
-			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "vanillaburst");
-				data.setString("mode", "flame");
-				data.setInteger("count", 15);
-				data.setDouble("motion", 0.05D);
-				
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
-			}
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "vanillaburst");
+			data.setString("mode", "flame");
+			data.setInteger("count", 15);
+			data.setDouble("motion", 0.05D);
+
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bulletnt.posX, bulletnt.posY, bulletnt.posZ), new TargetPoint(bulletnt.dimension, bulletnt.posX, bulletnt.posY, bulletnt.posZ, 50));
 		};
 		
 		return bullet;

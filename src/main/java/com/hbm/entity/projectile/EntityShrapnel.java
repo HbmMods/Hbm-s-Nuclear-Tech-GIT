@@ -7,6 +7,7 @@ import com.hbm.lib.ModDamageSource;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -105,5 +106,16 @@ public class EntityShrapnel extends EntityThrowable {
 
 	public void setWatz(boolean b) {
 		this.dataWatcher.updateObject(16, (byte) (b ? 3 : 0));
+	}
+
+	@Override
+	public boolean writeToNBTOptional(NBTTagCompound nbt) {
+		return false;
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		super.readEntityFromNBT(nbt);
+		this.setDead();
 	}
 }

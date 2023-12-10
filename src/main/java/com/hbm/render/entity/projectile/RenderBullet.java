@@ -3,8 +3,10 @@ package com.hbm.render.entity.projectile;
 import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
+import com.hbm.entity.projectile.IBulletBase;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
@@ -71,7 +73,8 @@ public class RenderBullet extends Render {
 			case BulletConfiguration.STYLE_APDS: renderAPDS(); break;
 			case BulletConfiguration.STYLE_BLADE: renderBlade(); break;
 			case BulletConfiguration.STYLE_BARREL: renderNuke(3); break;
-			case BulletConfiguration.STYLE_TAU: renderTau((EntityBulletBase) bullet, trail, f1); break;
+			case BulletConfiguration.STYLE_TAU: renderTau(bullet, trail, f1); break;
+			case BulletConfiguration.STYLE_LEADBURSTER: renderLeadburster(bullet, f1); break;
 			default: renderBullet(trail); break;
 		}
 		
@@ -482,7 +485,7 @@ public class RenderBullet extends Render {
 		GL11.glPopMatrix();
 	}
 
-	private void renderTau(EntityBulletBase bullet, int trail, float interp) {
+	private void renderTau(Entity bullet, int trail, float interp) {
 		
 		Tessellator tessellator = Tessellator.instance;
 		
@@ -492,15 +495,17 @@ public class RenderBullet extends Render {
 		double pY = bullet.prevPosY + (bullet.posY - bullet.prevPosY) * interp;
 		double pZ = bullet.prevPosZ + (bullet.posZ - bullet.prevPosZ) * interp;
 		
-		if(bullet.prevRenderY == 0) {
-			bullet.prevRenderX = pX;
-			bullet.prevRenderY = pY;
-			bullet.prevRenderZ = pZ;
+		IBulletBase iface = (IBulletBase) bullet;
+		
+		if(iface.prevY() == 0) {
+			iface.prevX(pX);
+			iface.prevY(pY);
+			iface.prevZ(pZ);
 		}
 		
-		double deltaX = bullet.prevRenderX - pX;
-		double deltaY = bullet.prevRenderY - pY;
-		double deltaZ = bullet.prevRenderZ - pZ;
+		double deltaX = iface.prevX() - pX;
+		double deltaY = iface.prevY() - pY;
+		double deltaZ = iface.prevZ() - pZ;
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		double dX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)interp;
@@ -521,7 +526,7 @@ public class RenderBullet extends Render {
 			b = 1;
 		}
 		
-		for(Pair<Vec3, Double> pair : bullet.trailNodes) {
+		for(Pair<Vec3, Double> pair : iface.nodes()) {
 			Vec3 pos = pair.getKey();
 			
 			double mult = 1D;
@@ -533,8 +538,8 @@ public class RenderBullet extends Render {
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0F, 1F, 0F);
 
-		for(int i = 0; i < bullet.trailNodes.size() - 1; i++) {
-			final Pair<Vec3, Double> node = bullet.trailNodes.get(i), past = bullet.trailNodes.get(i + 1);
+		for(int i = 0; i < iface.nodes().size() - 1; i++) {
+			final Pair<Vec3, Double> node = iface.nodes().get(i), past = iface.nodes().get(i + 1);
 			final Vec3 nodeLoc = node.getKey(), pastLoc = past.getKey();
 			float nodeAlpha = node.getValue().floatValue();
 			float pastAlpha = past.getValue().floatValue();
@@ -582,9 +587,27 @@ public class RenderBullet extends Render {
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.1F);
 		
-		bullet.prevRenderX = pX;
-		bullet.prevRenderY = pY;
-		bullet.prevRenderZ = pZ;
+		iface.prevX(pX);
+		iface.prevY(pY);
+		iface.prevZ(pZ);
+	}
+
+	private void renderLeadburster(Entity bullet, float interp) {
+		EntityBulletBaseNT bulletnt = (EntityBulletBaseNT) bullet;
+		GL11.glPushMatrix();
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		GL11.glRotated(90, 0, 0, -1);
+		double scale = 0.05;
+		GL11.glScaled(scale, scale, scale);
+		bindTexture(ResourceManager.leadburster_tex);
+		ResourceManager.leadburster.renderPart("Based");
+		if(bulletnt.getStuckIn() != -1) {
+			GL11.glRotated((bullet.ticksExisted + interp) * -18, 0, 1, 0);
+		}
+		ResourceManager.leadburster.renderPart("Based.001");
+		ResourceManager.leadburster.renderPart("Backlight");
+		GL11.glPopMatrix();
 	}
 
 	@Override

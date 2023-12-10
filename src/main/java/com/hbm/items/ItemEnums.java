@@ -23,6 +23,15 @@ public class ItemEnums {
 		PARAFFIN
 	}
 
+	public static enum EnumAshType {
+		WOOD,
+		COAL,
+		MISC,
+		FLY,
+		SOOT,
+		FULLERENE
+	}
+
 	public static enum EnumBriquetteType {
 		COAL,
 		LIGNITE,
@@ -39,5 +48,21 @@ public class ItemEnums {
 		TOBACCO,
 		ROPE,
 		MUSTARDWILLOW
+	}
+
+	public static enum EnumAchievementType {
+		GOFISH,
+		ACID,
+		BALLS,
+		DIGAMMASEE,
+		DIGAMMAFEEL,
+		DIGAMMAKNOW,
+		DIGAMMAKAUAIMOHO,
+		DIGAMMAUPONTOP,
+		DIGAMMAFOROURRIGHT
+	}
+
+	public static enum EnumPages {
+		PAGE1, PAGE2, PAGE3, PAGE4, PAGE5, PAGE6, PAGE7, PAGE8
 	}
 }

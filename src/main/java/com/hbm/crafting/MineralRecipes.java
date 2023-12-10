@@ -1,6 +1,7 @@
 package com.hbm.crafting;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
@@ -51,6 +52,9 @@ public class MineralRecipes {
 		add1To9Pair(ModBlocks.block_polymer, ModItems.ingot_polymer);
 		add1To9Pair(ModBlocks.block_bakelite, ModItems.ingot_bakelite);
 		add1To9Pair(ModBlocks.block_rubber, ModItems.ingot_rubber);
+		add1To9Pair(ModBlocks.block_cadmium, ModItems.ingot_cadmium);
+		add1To9Pair(ModBlocks.block_tcalloy, ModItems.ingot_tcalloy);
+		add1To9Pair(ModBlocks.block_cdalloy, ModItems.ingot_cdalloy);
 		
 		for(int i = 0; i < EnumCokeType.values().length; i++) {
 			add1To9PairSameMeta(Item.getItemFromBlock(ModBlocks.block_coke), ModItems.coke, i);
@@ -414,6 +418,8 @@ public class MineralRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_mercury, 8), new Object[] { "#", '#', ModItems.bottle_mercury });
 		GameRegistry.addRecipe(new ItemStack(ModItems.egg_balefire, 1), new Object[] { "###", "###", "###", '#', ModItems.egg_balefire_shard });
 		GameRegistry.addRecipe(new ItemStack(ModItems.egg_balefire_shard, 9), new Object[] { "#", '#', ModItems.egg_balefire });
+		GameRegistry.addRecipe(new ItemStack(ModItems.nitra, 1), new Object[] { "##", "##", '#', ModItems.nitra_small });
+		GameRegistry.addRecipe(new ItemStack(ModItems.nitra_small, 4), new Object[] { "#", '#', ModItems.nitra });
 		add1To9Pair(ModItems.powder_paleogenite, ModItems.powder_paleogenite_tiny);
 		add1To9Pair(ModItems.ingot_osmiridium, ModItems.nugget_osmiridium);
 
@@ -443,6 +449,7 @@ public class MineralRecipes {
 		
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_fireclay, 4), new Object[] { Items.clay_ball, Items.clay_ball, Items.clay_ball, AL.dust() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_fireclay, 4), new Object[] { Items.clay_ball, Items.clay_ball, Items.clay_ball, AL.ore() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_fireclay, 4), new Object[] { Items.clay_ball, Items.clay_ball, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), KEY_SAND });
 
 		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_IRON), new ItemStack(ModItems.powder_iron));
 		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_COPPER), new ItemStack(ModItems.powder_copper));
@@ -454,6 +461,10 @@ public class MineralRecipes {
 		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_SULFUR), new ItemStack(ModItems.sulfur));
 		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_CALCIUM), new ItemStack(ModItems.powder_calcium));
 		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_BISMUTH), new ItemStack(ModItems.powder_bismuth));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_RADIUM), new ItemStack(ModItems.powder_ra226));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_TECHNETIUM), new ItemStack(ModItems.billet_technetium));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_POLONIUM), new ItemStack(ModItems.billet_polonium));
+		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_URANIUM), new ItemStack(ModItems.powder_uranium));
 	}
 	
 	//Bundled 1/9 recipes

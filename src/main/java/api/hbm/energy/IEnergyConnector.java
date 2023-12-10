@@ -75,7 +75,7 @@ public interface IEnergyConnector extends ILoadedTile {
 				red = true;
 		}
 		
-		if(particleDebug) {//
+		if(particleDebug) {
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "network");
 			data.setString("mode", "power");

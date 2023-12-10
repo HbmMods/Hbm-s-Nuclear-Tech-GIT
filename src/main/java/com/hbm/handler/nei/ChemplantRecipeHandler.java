@@ -45,7 +45,7 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 			for(int i = 0; i < recipe.inputFluids.length; i++) {
 				FluidStack in = recipe.inputFluids[i];
 				if(in == null) continue;
-				ItemStack drop = ItemFluidIcon.make(in.type, in.fill);
+				ItemStack drop = ItemFluidIcon.make(in);
 				this.fluidIn[i] = new PositionedStack(drop, 30 + (i % 2) * 18, 6);
 			}
 			
@@ -58,7 +58,7 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 			for(int i = 0; i < recipe.outputFluids.length; i++) {
 				FluidStack out = recipe.outputFluids[i];
 				if(out == null) continue;
-				ItemStack drop = ItemFluidIcon.make(out.type, out.fill);
+				ItemStack drop = ItemFluidIcon.make(out);
 				this.fluidOut[i] = new PositionedStack(drop, 120 + (i % 2) * 18, 6);
 			}
 			

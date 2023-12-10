@@ -9,14 +9,16 @@ import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.machine.storage.TileEntityCrateTemplate;
 import com.hbm.util.InventoryUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
 
 public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBase implements IEnergyUser, IGUIProvider {
 
@@ -24,6 +26,7 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 	public int[] progress;
 	public int[] maxProgress;
 	public boolean isProgressing;
+	public boolean[] needsTemplateSwitch;
 	
 	int consumption = 100;
 	int speed = 100;
@@ -35,6 +38,7 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 
 		progress = new int[count];
 		maxProgress = new int[count];
+		needsTemplateSwitch = new boolean[count];
 	}
 
 	@Override
@@ -45,11 +49,11 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 			int count = this.getRecipeCount();
 			
 			this.isProgressing = false;
-			this.power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
+			this.power = Library.chargeTEFromItems(slots, getPowerSlot(), power, this.getMaxPower());
 			
 			for(int i = 0; i < count; i++) {
-				loadItems(i);
 				unloadItems(i);
+				loadItems(i);
 			}
 
 			
@@ -114,6 +118,7 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 			consumeItems(recipe, index);
 			produceItems(output, index);
 			this.progress[index] = 0;
+			this.needsTemplateSwitch[index] = true;
 			this.markDirty();
 		}
 	}
@@ -140,53 +145,79 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 	private void loadItems(int index) {
 		
 		int template = getTemplateIndex(index);
-		if(slots[template] == null || slots[template].getItem() != ModItems.assembly_template)
-			return;
 
-		List<AStack> recipe = AssemblerRecipes.getRecipeFromTempate(slots[template]);
-		
-		if(recipe != null) {
-			
-			ChunkCoordinates[] positions = getInputPositions();
-			int[] indices = getSlotIndicesFromIndex(index);
-			
-			for(ChunkCoordinates coord : positions) {
+		DirPos[] positions = getInputPositions();
+		int[] indices = getSlotIndicesFromIndex(index);
+
+		for(DirPos coord : positions) {
+
+			TileEntity te = worldObj.getTileEntity(coord.getX(), coord.getY(), coord.getZ());
 				
-				TileEntity te = worldObj.getTileEntity(coord.posX, coord.posY, coord.posZ);
-				
-				if(te instanceof IInventory) {
+			if(te instanceof IInventory) {
+
+				IInventory inv = (IInventory) te;
+				ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
+				int[] access = sided != null ? sided.getAccessibleSlotsFromSide(coord.getDir().ordinal()) : null;
+				boolean templateCrate = te instanceof TileEntityCrateTemplate;
+
+				if(templateCrate && slots[template] == null) {
+
+					for(int i = 0; i < (access != null ? access.length : inv.getSizeInventory()); i++) {
+						int slot = access != null ? access[i] : i;
+						ItemStack stack = inv.getStackInSlot(slot);
+
+						if(stack != null && stack.getItem() == ModItems.assembly_template && (sided == null || sided.canExtractItem(slot, stack, 0))) {
+							slots[template] = stack.copy();
+							sided.setInventorySlotContents(slot, null);
+							this.needsTemplateSwitch[index] = false;
+							break;
+						}
+					}
+				}
 					
-					IInventory inv = (IInventory) te;
-					ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
-					
-					for(AStack ingredient : recipe) {
-						
-						if(!InventoryUtil.doesArrayHaveIngredients(slots, indices[0], indices[1], ingredient)) {
-							
-							for(int i = 0; i < inv.getSizeInventory(); i++) {
-								
-								ItemStack stack = inv.getStackInSlot(i);
-								if(ingredient.matchesRecipe(stack, true) && (sided == null || sided.canExtractItem(i, stack, 0))) {
+				boolean noTemplate = slots[template] == null || slots[template].getItem() != ModItems.assembly_template;
+
+				if(!noTemplate) {
+
+					List<AStack> recipe = AssemblerRecipes.getRecipeFromTempate(slots[template]);
+
+					if(recipe != null) {
+
+						for(AStack ingredient : recipe) {
+
+							outer: while(!InventoryUtil.doesArrayHaveIngredients(slots, indices[0], indices[1], ingredient)) {
+
+								boolean found = false;
+
+								for(int i = 0; i < (access != null ? access.length : inv.getSizeInventory()); i++) {
 									
-									for(int j = indices[0]; j <= indices[1]; j++) {
-										
-										if(slots[j] != null && slots[j].stackSize < slots[j].getMaxStackSize() & InventoryUtil.doesStackDataMatch(slots[j], stack)) {
-											inv.decrStackSize(i, 1);
-											slots[j].stackSize++;
-											return;
+									int slot = access != null ? access[i] : i;
+									ItemStack stack = inv.getStackInSlot(slot);
+									if(ingredient.matchesRecipe(stack, true) && (sided == null || sided.canExtractItem(slot, stack, 0))) {
+										found = true;
+
+										for(int j = indices[0]; j <= indices[1]; j++) {
+
+											if(slots[j] != null && slots[j].stackSize < slots[j].getMaxStackSize() & InventoryUtil.doesStackDataMatch(slots[j], stack)) {
+												inv.decrStackSize(slot, 1);
+												slots[j].stackSize++;
+												continue outer;
+											}
 										}
-									}
-									
-									for(int j = indices[0]; j <= indices[1]; j++) {
-										
-										if(slots[j] == null) {
-											slots[j] = stack.copy();
-											slots[j].stackSize = 1;
-											inv.decrStackSize(i, 1);
-											return;
+
+										for(int j = indices[0]; j <= indices[1]; j++) {
+
+											if(slots[j] == null) {
+												slots[j] = stack.copy();
+												slots[j].stackSize = 1;
+												inv.decrStackSize(slot, 1);
+												continue outer;
+											}
 										}
 									}
 								}
+
+								if(!found) break outer;
 							}
 						}
 					}
@@ -197,29 +228,38 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 	
 	private void unloadItems(int index) {
 
-		ChunkCoordinates[] positions = getOutputPositions();
+		DirPos[] positions = getOutputPositions();
 		int[] indices = getSlotIndicesFromIndex(index);
 		
-		for(ChunkCoordinates coord : positions) {
+		for(DirPos coord : positions) {
 			
-			TileEntity te = worldObj.getTileEntity(coord.posX, coord.posY, coord.posZ);
+			TileEntity te = worldObj.getTileEntity(coord.getX(), coord.getY(), coord.getZ());
 			
 			if(te instanceof IInventory) {
 				
 				IInventory inv = (IInventory) te;
+				ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
+				int[] access = sided != null ? sided.getAccessibleSlotsFromSide(coord.getDir().ordinal()) : null;
 				
 				int i = indices[2];
-
 				ItemStack out = slots[i];
+				
+				int template = getTemplateIndex(index);
+				if(this.needsTemplateSwitch[index] && te instanceof TileEntityCrateTemplate && slots[template] != null) {
+					out = slots[template];
+					i = template;
+				}
 
 				if(out != null) {
 
-					for(int j = 0; j < inv.getSizeInventory(); j++) {
+					for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
+
+						int slot = access != null ? access[j] : j;
 						
-						if(!inv.isItemValidForSlot(j, out))
+						if(!(sided != null ? sided.canInsertItem(slot, out, coord.getDir().ordinal()) : inv.isItemValidForSlot(slot, out)))
 							continue;
 						
-						ItemStack target = inv.getStackInSlot(j);
+						ItemStack target = inv.getStackInSlot(slot);
 
 						if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize() && target.stackSize < inv.getInventoryStackLimit()) {
 							this.decrStackSize(i, 1);
@@ -228,15 +268,17 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 						}
 					}
 
-					for(int j = 0; j < inv.getSizeInventory(); j++) {
+					for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
+
+						int slot = access != null ? access[j] : j;
 						
-						if(!inv.isItemValidForSlot(j, out))
+						if(!inv.isItemValidForSlot(slot, out))
 							continue;
 
-						if(inv.getStackInSlot(j) == null && inv.isItemValidForSlot(j, out)) {
+						if(inv.getStackInSlot(slot) == null && (sided != null ? sided.canInsertItem(slot, out, coord.getDir().ordinal()) : inv.isItemValidForSlot(slot, out))) {
 							ItemStack copy = out.copy();
 							copy.stackSize = 1;
-							inv.setInventorySlotContents(j, copy);
+							inv.setInventorySlotContents(slot, copy);
 							this.decrStackSize(i, 1);
 							return;
 						}
@@ -244,6 +286,24 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 				}
 			}
 		}
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		this.power = nbt.getLong("power");
+		if(nbt.hasKey("progress")) this.progress = nbt.getIntArray("progress");
+		if(nbt.hasKey("maxProgress")) this.maxProgress = nbt.getIntArray("maxProgress");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setLong("power", power);
+		nbt.setIntArray("progress", progress);
+		nbt.setIntArray("maxProgress", maxProgress);
 	}
 
 	@Override
@@ -264,6 +324,7 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 	 * @return A size 3 int array containing min input, max input and output indices in that order.
 	 */
 	public abstract int[] getSlotIndicesFromIndex(int index);
-	public abstract ChunkCoordinates[] getInputPositions();
-	public abstract ChunkCoordinates[] getOutputPositions();
+	public abstract DirPos[] getInputPositions();
+	public abstract DirPos[] getOutputPositions();
+	public abstract int getPowerSlot();
 }

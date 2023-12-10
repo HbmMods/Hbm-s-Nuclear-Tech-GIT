@@ -9,7 +9,6 @@ import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -75,7 +74,8 @@ public class ItemChemistryTemplate extends Item {
 
 			for(int i = 0; i < 2; i++) {
 				if(recipe.outputFluids[i] != null) {
-					list.add(recipe.outputFluids[i].fill + "mB " + I18n.format(recipe.outputFluids[i].type.getUnlocalizedName()));
+					int p = recipe.outputFluids[i].pressure;
+					list.add(recipe.outputFluids[i].fill + "mB " + recipe.outputFluids[i].type.getLocalizedName() + (p != 0 ? (" at " + p + "PU") : ""));
 				}
 			}
 
@@ -89,7 +89,8 @@ public class ItemChemistryTemplate extends Item {
 
 			for(int i = 0; i < 2; i++) {
 				if(recipe.inputFluids[i] != null) {
-					list.add(recipe.inputFluids[i].fill + "mB " + I18n.format(recipe.inputFluids[i].type.getUnlocalizedName()));
+					int p = recipe.inputFluids[i].pressure;
+					list.add(recipe.inputFluids[i].fill + "mB " + recipe.inputFluids[i].type.getLocalizedName() + (p != 0 ? (" at " + p + "PU") : ""));
 				}
 			}
 

@@ -1,5 +1,9 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
+import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMixer;
 import com.hbm.inventory.fluid.Fluids;
@@ -11,7 +15,10 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
@@ -24,14 +31,16 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineMixer extends TileEntityMachineBase implements INBTPacketReceiver, IGUIProvider, IEnergyUser, IFluidStandardTransceiver {
+public class TileEntityMachineMixer extends TileEntityMachineBase implements INBTPacketReceiver, IControlReceiver, IGUIProvider, IEnergyUser, IFluidStandardTransceiver, IUpgradeInfoProvider {
 	
 	public long power;
 	public static final long maxPower = 10_000;
 	public int progress;
 	public int processTime;
+	public int recipeIndex;
 	
 	public float rotation;
 	public float prevRotation;
@@ -100,13 +109,14 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 			}
 			
 			for(DirPos pos : getConPos()) {
-				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("processTime", processTime);
 			data.setInteger("progress", progress);
+			data.setInteger("recipe", recipeIndex);
 			data.setBoolean("wasOn", wasOn);
 			for(int i = 0; i < 3; i++) {
 				tanks[i].writeToNBT(data, i + "");
@@ -133,6 +143,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		this.power = nbt.getLong("power");
 		this.processTime = nbt.getInteger("processTime");
 		this.progress = nbt.getInteger("progress");
+		this.recipeIndex = nbt.getInteger("recipe");
 		this.wasOn = nbt.getBoolean("wasOn");
 		for(int i = 0; i < 3; i++) {
 			tanks[i].readFromNBT(nbt, i + "");
@@ -140,10 +151,19 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 	}
 	
 	public boolean canProcess() {
+
+		MixerRecipe[] recipes = MixerRecipes.getOutput(tanks[2].getTankType());
+		if(recipes == null || recipes.length <= 0) {
+			this.recipeIndex = 0;
+			return false;
+		}
 		
-		MixerRecipe recipe = MixerRecipes.getOutput(tanks[2].getTankType());
-		
-		if(recipe == null) return false;
+		this.recipeIndex = this.recipeIndex % recipes.length;
+		MixerRecipe recipe = recipes[this.recipeIndex];
+		if(recipe == null) {
+			this.recipeIndex = 0;
+			return false;
+		}
 		
 		tanks[0].setTankType(recipe.input1 != null ? recipe.input1.type : Fluids.NONE);
 		tanks[1].setTankType(recipe.input2 != null ? recipe.input2.type : Fluids.NONE);
@@ -169,7 +189,8 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 	
 	protected void process() {
 		
-		MixerRecipe recipe = MixerRecipes.getOutput(tanks[2].getTankType());
+		MixerRecipe[] recipes = MixerRecipes.getOutput(tanks[2].getTankType());
+		MixerRecipe recipe = recipes[this.recipeIndex % recipes.length];
 
 		if(recipe.input1 != null) tanks[0].setFill(tanks[0].getFill() - recipe.input1.fill);
 		if(recipe.input2 != null) tanks[1].setFill(tanks[1].getFill() - recipe.input2.fill);
@@ -199,8 +220,10 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		
-		MixerRecipe recipe = MixerRecipes.getOutput(tanks[2].getTankType());
+		MixerRecipe[] recipes = MixerRecipes.getOutput(tanks[2].getTankType());
+		if(recipes == null || recipes.length <= 0) return false;
 		
+		MixerRecipe recipe = recipes[this.recipeIndex % recipes.length];
 		if(recipe == null || recipe.solidInput == null) return false;
 			
 		return recipe.solidInput.matchesRecipe(itemStack, true);
@@ -213,6 +236,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
 		this.processTime = nbt.getInteger("processTime");
+		this.recipeIndex = nbt.getInteger("recipe");
 		for(int i = 0; i < 3; i++) this.tanks[i].readFromNBT(nbt, i + "");
 	}
 	
@@ -223,6 +247,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		nbt.setLong("power", power);
 		nbt.setInteger("progress", progress);
 		nbt.setInteger("processTime", processTime);
+		nbt.setInteger("recipe", recipeIndex);
 		for(int i = 0; i < 3; i++) this.tanks[i].writeToNBT(nbt, i + "");
 	}
 
@@ -283,5 +308,43 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return player.getDistance(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) <= 16;
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		if(data.hasKey("toggle")) this.recipeIndex++;
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_assembler));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 300) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 25) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		if(type == UpgradeType.POWER) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 6;
+		return 0;
 	}
 }

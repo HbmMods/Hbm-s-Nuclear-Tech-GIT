@@ -17,7 +17,6 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -86,7 +85,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 						break;
 					}
 					
-					if(worldObj.getBlock(x, y, z) != Blocks.air)
+					if(!worldObj.getBlock(x, y, z).isAir(worldObj, x, y, z))
 						break;
 				}
 			}
@@ -173,25 +172,19 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		return "dfc_stabilizer";
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getEnergyStored(Context context, Arguments args) {
-		return new Object[] {power};
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
 	}
 
-	@Callback
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getMaxEnergy(Context context, Arguments args) {
-		return new Object[] {maxPower};
-	}
-
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInput(Context context, Arguments args) {
 		return new Object[] {watts};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getDurability(Context context, Arguments args) {
 		if(slots[0] != null && slots[0].getItem() == ModItems.ams_lens && ItemLens.getLensDamage(slots[0]) < ((ItemLens)ModItems.ams_lens).maxDamage) {
@@ -200,7 +193,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		return new Object[] {"N/A"};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		Object lens_damage_buf;
@@ -212,16 +205,11 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		return new Object[] {power, maxPower, watts, lens_damage_buf};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setInput(Context context, Arguments args) {
 		int newOutput = args.checkInteger(0);
-		if (newOutput > 100) {
-			newOutput = 100;
-		} else if (newOutput < 0) {
-			newOutput = 0;
-		}
-		watts = newOutput;
+		watts = MathHelper.clamp_int(newOutput, 0, 100);
 		return new Object[] {};
 	}
 

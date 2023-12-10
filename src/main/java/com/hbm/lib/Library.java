@@ -19,10 +19,6 @@ import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyBase;
 import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.conductor.TileEntityFluidDuctSimple;
-import com.hbm.tileentity.conductor.TileEntityGasDuct;
-import com.hbm.tileentity.conductor.TileEntityGasDuctSolid;
-import com.hbm.tileentity.conductor.TileEntityOilDuct;
-import com.hbm.tileentity.conductor.TileEntityOilDuctSolid;
 import com.hbm.tileentity.machine.TileEntityDummy;
 
 import api.hbm.energy.IBatteryItem;
@@ -37,6 +33,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
@@ -484,102 +481,6 @@ public class Library {
 					((TileEntityFluidDuctSimple)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
 				}
 			}
-			if(tileentity instanceof TileEntityGasDuct && ((TileEntityGasDuct)tileentity).type.name().equals(type.name()))
-			{
-				if(Library.checkUnionListForFluids(((TileEntityGasDuct)tileentity).uoteab, that))
-				{
-					for(int i = 0; i < ((TileEntityGasDuct)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityGasDuct)tileentity).uoteab.get(i).source == that)
-						{
-							if(((TileEntityGasDuct)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityGasDuct)tileentity).uoteab.get(i).ticked = newTact;
-								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x + 1, y, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y, z - 1, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y, z + 1, that.getTact(), that, worldObj, type);
-							}
-						}
-					}
-				} else {
-					((TileEntityGasDuct)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
-				}
-			}
-			if(tileentity instanceof TileEntityOilDuct && ((TileEntityOilDuct)tileentity).type.name().equals(type.name()))
-			{
-				if(Library.checkUnionListForFluids(((TileEntityOilDuct)tileentity).uoteab, that))
-				{
-					for(int i = 0; i < ((TileEntityOilDuct)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityOilDuct)tileentity).uoteab.get(i).source == that)
-						{
-							if(((TileEntityOilDuct)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityOilDuct)tileentity).uoteab.get(i).ticked = newTact;
-								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x + 1, y, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y, z - 1, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y, z + 1, that.getTact(), that, worldObj, type);
-							}
-						}
-					}
-				} else {
-					((TileEntityOilDuct)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
-				}
-			}
-			if(tileentity instanceof TileEntityGasDuctSolid && ((TileEntityGasDuctSolid)tileentity).type.name().equals(type.name()))
-			{
-				if(Library.checkUnionListForFluids(((TileEntityGasDuctSolid)tileentity).uoteab, that))
-				{
-					for(int i = 0; i < ((TileEntityGasDuctSolid)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityGasDuctSolid)tileentity).uoteab.get(i).source == that)
-						{
-							if(((TileEntityGasDuctSolid)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityGasDuctSolid)tileentity).uoteab.get(i).ticked = newTact;
-								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x + 1, y, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y, z - 1, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y, z + 1, that.getTact(), that, worldObj, type);
-							}
-						}
-					}
-				} else {
-					((TileEntityGasDuctSolid)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
-				}
-			}
-			if(tileentity instanceof TileEntityOilDuctSolid && ((TileEntityOilDuctSolid)tileentity).type.name().equals(type.name()))
-			{
-				if(Library.checkUnionListForFluids(((TileEntityOilDuctSolid)tileentity).uoteab, that))
-				{
-					for(int i = 0; i < ((TileEntityOilDuctSolid)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityOilDuctSolid)tileentity).uoteab.get(i).source == that)
-						{
-							if(((TileEntityOilDuctSolid)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityOilDuctSolid)tileentity).uoteab.get(i).ticked = newTact;
-								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x + 1, y, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y, z - 1, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y, z + 1, that.getTact(), that, worldObj, type);
-							}
-						}
-					}
-				} else {
-					((TileEntityOilDuctSolid)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
-				}
-			}
 		}
 		
 		if(tileentity instanceof IFluidAcceptor && newTact && ((IFluidAcceptor)tileentity).getMaxFluidFillForReceive(type) > 0 &&
@@ -628,7 +529,18 @@ public class Library {
 		
 		return flag;
 	}
-	
+
+	// Added for sake of doors
+	// Original: Drillgon200: https://thebookofshaders.com/glossary/?search=smoothstep
+	public static double smoothstep(double t, double edge0, double edge1){
+		t = MathHelper.clamp_double((t - edge0) / (edge1 - edge0), 0.0, 1.0);
+		return t * t * (3.0 - 2.0 * t);
+	}
+	public static float smoothstep(float t, float edge0, float edge1){
+		t = MathHelper.clamp_float((t - edge0) / (edge1 - edge0), 0.0F, 1.0F);
+		return t * t * (3.0F - 2.0F * t);
+	}
+
 	public static boolean isObstructed(World world, double x, double y, double z, double a, double b, double c) {
 		MovingObjectPosition pos = world.rayTraceBlocks(Vec3.createVectorHelper(x, y, z), Vec3.createVectorHelper(a, b, c));
 		return pos != null;

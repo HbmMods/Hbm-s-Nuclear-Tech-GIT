@@ -131,7 +131,7 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 		if(b == ModBlocks.foundry_outlet && meta == dir.ordinal())
 			return true;
 		
-		return b == ModBlocks.foundry_channel || b == ModBlocks.foundry_mold;
+		return b == ModBlocks.foundry_channel || b == ModBlocks.foundry_mold || b == ModBlocks.foundry_slagtap;
 	}
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();

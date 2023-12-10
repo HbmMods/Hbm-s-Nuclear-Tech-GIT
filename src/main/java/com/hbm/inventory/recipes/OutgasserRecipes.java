@@ -56,6 +56,8 @@ public class OutgasserRecipes extends SerializableRecipe {
 		recipes.put(new OreDictStack(COAL.gem()),		new Pair(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL, 1), new FluidStack(Fluids.SYNGAS, 50)));
 		recipes.put(new OreDictStack(COAL.dust()),		new Pair(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL, 1), new FluidStack(Fluids.SYNGAS, 50)));
 		recipes.put(new OreDictStack(COAL.block()),		new Pair(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL, 9), new FluidStack(Fluids.SYNGAS, 500)));
+		
+		recipes.put(new OreDictStack(PVC.ingot()),		new Pair(new ItemStack(ModItems.ingot_c4), new FluidStack(Fluids.COLLOID, 250)));
 
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL)),	new Pair(null, new FluidStack(Fluids.COALOIL, 100)));
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WAX)),	new Pair(null, new FluidStack(Fluids.RADIOSOLVENT, 100)));

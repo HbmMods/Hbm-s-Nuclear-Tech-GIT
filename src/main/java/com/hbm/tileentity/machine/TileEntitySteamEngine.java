@@ -120,7 +120,7 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IFlui
 				if(this.powerBuffer > 0)
 					this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			if(tanks[1].getFill() > 0) fillFluidInit(tanks[1].getTankType());
 			

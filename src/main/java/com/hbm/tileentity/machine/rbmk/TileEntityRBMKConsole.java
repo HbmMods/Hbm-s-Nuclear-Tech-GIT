@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.rbmk;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import com.hbm.interfaces.IControlReceiver;
@@ -11,6 +12,7 @@ import com.hbm.inventory.gui.GUIRBMKConsole;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
+import com.hbm.util.EnumUtil;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -32,7 +34,8 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 	private int targetY;
 	private int targetZ;
 	
-	public int[] fluxBuffer = new int[20];
+	public static final int fluxDisplayBuffer = 60;
+	public int[] fluxBuffer = new int[fluxDisplayBuffer];
 	
 	//made this one-dimensional because it's a lot easier to serialize
 	public RBMKColumn[] columns = new RBMKColumn[15 * 15];
@@ -103,7 +106,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			this.fluxBuffer[i] = this.fluxBuffer[i + 1];
 		}
 		
-		this.fluxBuffer[19] = (int) flux;
+		this.fluxBuffer[this.fluxBuffer.length - 1] = (int) flux;
 	}
 	
 	@SuppressWarnings("incomplete-switch") //shut up
@@ -286,6 +289,40 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			Integer[] cols = list.toArray(new Integer[0]);
 			this.screens[slot].columns = cols;
 		}
+		
+		if(data.hasKey("assignColor")) {
+			int color = data.getByte("assignColor");
+			int[] cols = data.getIntArray("cols");
+			
+			for(int i : cols) {
+				int x = i % 15 - 7;
+				int z = i / 15 - 7;
+				
+				TileEntity te = worldObj.getTileEntity(targetX + x, targetY, targetZ + z);
+				
+				if(te instanceof TileEntityRBMKControlManual) {
+					TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
+					rod.color = EnumUtil.grabEnumSafely(RBMKColor.class, color);
+					te.markDirty();
+				}
+			}
+		}
+		
+		if(data.hasKey("compressor")) {
+			int[] cols = data.getIntArray("cols");
+			
+			for(int i : cols) {
+				int x = i % 15 - 7;
+				int z = i / 15 - 7;
+				
+				TileEntity te = worldObj.getTileEntity(targetX + x, targetY, targetZ + z);
+				
+				if(te instanceof TileEntityRBMKBoiler) {
+					TileEntityRBMKBoiler rod = (TileEntityRBMKBoiler) te;
+					rod.cyceCompressor();
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -381,7 +418,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			case BOILER:
 				stats.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey("rbmk.boiler.water", this.data.getInteger("water"), this.data.getInteger("maxWater")));
 				stats.add(EnumChatFormatting.WHITE + I18nUtil.resolveKey("rbmk.boiler.steam", this.data.getInteger("steam"), this.data.getInteger("maxSteam")));
-				stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.boiler.type", I18nUtil.resolveKey(Fluids.fromID(this.data.getShort("type")).getUnlocalizedName())));
+				stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.boiler.type", Fluids.fromID(this.data.getShort("type")).getLocalizedName()));
 				break;
 			case CONTROL:
 				
@@ -389,7 +426,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 					short col = this.data.getShort("color");
 					
 					if(col >= 0 && col < RBMKColor.values().length)
-						stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.control." + RBMKColor.values()[col].name().toLowerCase()));
+						stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("rbmk.control." + RBMKColor.values()[col].name().toLowerCase(Locale.US)));
 				}
 				
 			case CONTROL_AUTO:
@@ -397,10 +434,10 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				break;
 				
 			case HEATEX:
-				stats.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey(I18nUtil.resolveKey(Fluids.fromID(this.data.getShort("type")).getUnlocalizedName()) + " " +
-			this.data.getInteger("water") + "/" + this.data.getInteger("maxWater") + "mB"));
-				stats.add(EnumChatFormatting.RED + I18nUtil.resolveKey(I18nUtil.resolveKey(Fluids.fromID(this.data.getShort("hottype")).getUnlocalizedName()) + " " +
-			this.data.getInteger("steam") + "/" + this.data.getInteger("maxSteam") + "mB"));
+				stats.add(EnumChatFormatting.BLUE + Fluids.fromID(this.data.getShort("type")).getLocalizedName() + " " +
+			this.data.getInteger("water") + "/" + this.data.getInteger("maxWater") + "mB");
+				stats.add(EnumChatFormatting.RED + Fluids.fromID(this.data.getShort("hottype")).getLocalizedName() + " " +
+			this.data.getInteger("steam") + "/" + this.data.getInteger("maxSteam") + "mB");
 				break;
 			}
 			

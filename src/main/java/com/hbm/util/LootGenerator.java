@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBookLore;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 
 import net.minecraft.item.Item;
@@ -19,6 +20,15 @@ public class LootGenerator {
 	
 	public static void addItemWithDeviation(TileEntityLoot loot, Random rand, ItemStack stack, double  x, double y, double z) {
 		loot.addItem(stack, x + rand.nextGaussian() * 0.02, y, z + rand.nextGaussian() * 0.02);
+	}
+	
+	public static void lootBooklet(World world, int x, int y, int z) {
+		
+		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
+		
+		if(loot != null && loot.items.isEmpty()) {
+			loot.addItem(ItemBookLore.createBook("beacon", 12, 0x404040, 0xD637B3), 0, 0, 0);;
+		}
 	}
 	
 	public static void lootCapNuke(World world, int x, int y, int z) {

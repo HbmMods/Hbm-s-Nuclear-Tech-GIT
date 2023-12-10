@@ -3,6 +3,8 @@ package com.hbm.tileentity.machine;
 import java.util.HashMap;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
@@ -20,8 +22,13 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -31,7 +38,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyGenerator, IControlReceiver, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyGenerator, IControlReceiver, IGUIProvider, SimpleComponent {
 	
 	public long power;
 	public static final long maxPower = 1000000L;
@@ -60,6 +68,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		fuelMaxCons.put(Fluids.GAS, 50D);			// natgas doesn't burn well so it burns faster to compensate
 		fuelMaxCons.put(Fluids.SYNGAS, 10D);		// syngas just fucks
 		fuelMaxCons.put(Fluids.OXYHYDROGEN, 100D);	// oxyhydrogen is terrible so it needs to burn a ton for the bare minimum
+		fuelMaxCons.put(Fluids.REFORMGAS, 2.5D);	// halved because it's too powerful
 		// default to 5 if not in list
 	}
 	
@@ -121,7 +130,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 			
 			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power); //set first to get an unmodified view of how much power was generated before deductions from the net
+			data.setLong("power", Math.min(this.power, this.maxPower)); //set first to get an unmodified view of how much power was generated before deductions from the net
 			
 			//do net/battery deductions first...
 			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
@@ -139,10 +148,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord - dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * -4, dir.getOpposite());
 			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -4, dir);
 			//steam
-			this.sendFluid(tanks[3].getTankType(), worldObj, xCoord + dir.offsetZ * 6, yCoord + 1, zCoord - dir.offsetX * 6, rot.getOpposite());
-			
-			//if(audio != null) // audio shouldn't even exist serverside
-			//	audio.updatePitch((float) (0.45 + 0.05 * rpm / 10));
+			this.sendFluid(tanks[3], worldObj, xCoord + dir.offsetZ * 6, yCoord + 1, zCoord - dir.offsetX * 6, rot.getOpposite());
 			
 			data.setInteger("rpm",  this.rpm);
 			data.setInteger("temp",  this.temp);
@@ -170,12 +176,12 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				
 				if(audio == null) { //if there is no sound playing, start it
 					
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F);
 					audio.startSound();
 					
 				} else if(!audio.isPlaying()) {
 					audio.stopSound();
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F);
 					audio.startSound();
 				}
 				
@@ -300,6 +306,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		}
 		
 		double consumption = fuelMaxCons.containsKey(tanks[0].getTankType()) ? fuelMaxCons.get(tanks[0].getTankType()) : 5D;
+		if(worldObj.getTotalWorldTime() % 20 == 0 && tanks[0].getTankType() != Fluids.OXYHYDROGEN) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
 		makePower(consumption, throttle);
 	}
 	
@@ -543,6 +550,92 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
 		return dir != ForgeDirection.DOWN;
+	}
+
+	@Override
+	public String getComponentName() {
+		return "ntm_gas_turbine";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {
+				tanks[0].getFill(), tanks[0].getMaxFill(),
+				tanks[1].getFill(), tanks[1].getMaxFill(),
+				tanks[2].getFill(), tanks[2].getMaxFill(),
+				tanks[3].getFill(), tanks[3].getMaxFill()
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getType(Context context, Arguments args) {
+		return new Object[] {tanks[0].getTankType().getName()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPower(Context context, Arguments args) {
+		return new Object[] {power};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getThrottle(Context context, Arguments args) {
+		return new Object[] {throttle};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getState(Context context, Arguments args) {
+		return new Object[] {state};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getAuto(Context context, Arguments args) {
+		return new Object[] {autoMode};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setThrottle(Context context, Arguments args) {
+		throttle = args.checkInteger(0);
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setAuto(Context context, Arguments args) {
+		autoMode = args.checkBoolean(0);
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] start(Context context, Arguments args) {
+		stopIfNotReady();
+		startup();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] stop(Context context, Arguments args) {
+		shutdown();
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+
+		return new Object[] {throttle, state,
+				tanks[0].getFill(), tanks[0].getMaxFill(),
+				tanks[1].getFill(), tanks[1].getMaxFill(),
+				tanks[2].getFill(), tanks[2].getMaxFill(),
+				tanks[3].getFill(), tanks[3].getMaxFill()};
 	}
 
 	@Override

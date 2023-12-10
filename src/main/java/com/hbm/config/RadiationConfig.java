@@ -22,6 +22,15 @@ public class RadiationConfig {
 	public static boolean disableHydro = false;
 	public static boolean disableBlinding = false;
 	public static boolean disableFibrosis = false;
+
+	public static boolean enablePollution = true;
+	public static boolean enableLeadFromBlocks = true;
+	public static boolean enableLeadPoisoning = true;
+	public static boolean enableSootFog = true;
+	public static boolean enablePoison = true;
+	public static double buffMobThreshold = 15D;
+	public static double sootFogThreshold = 35D;
+	public static double sootFogDivisor = 120D;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -49,5 +58,15 @@ public class RadiationConfig {
 		disableHydro = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_04_disableHydroactive", "When turned off, all hydroactive hazards are disabled", false);
 		disableBlinding = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_05_disableBlinding", "When turned off, all blinding hazards are disabled", false);
 		disableFibrosis = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_06_disableFibrosis", "When turned off, all fibrosis hazards are disabled", false);
+
+		final String CATEGORY_POL = CommonConfig.CATEGORY_POLLUTION;
+		enablePollution = CommonConfig.createConfigBool(config, CATEGORY_POL, "POL_00_enablePollution", "If disabled, none of the polltuion related things will work", true);
+		enableLeadFromBlocks = CommonConfig.createConfigBool(config, CATEGORY_POL, "POL_01_enableLeadFromBlocks", "Whether breaking blocks in heavy metal polluted areas will poison the player", true);
+		enableLeadPoisoning = CommonConfig.createConfigBool(config, CATEGORY_POL, "POL_02_enableLeadPoisoning", "Whether being in a heavy metal polluted area will poison the player", true);
+		enableSootFog = CommonConfig.createConfigBool(config, CATEGORY_POL, "POL_03_enableSootFog", "Whether smog should be visible", true);
+		enablePoison = CommonConfig.createConfigBool(config, CATEGORY_POL, "POL_04_enablePoison", "Whether being in a poisoned area will affect the player", true);
+		buffMobThreshold = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_05_buffMobThreshold", "The amount of soot required to buff naturally spawning mobs", 15D);
+		sootFogThreshold = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_06_sootFogThreshold", "How much soot is required for smog to become visible", 35D);
+		sootFogDivisor = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_07_sootFogDivisor", "The divisor for smog, higher numbers will require more soot for the same smog density", 120D);
 	}
 }

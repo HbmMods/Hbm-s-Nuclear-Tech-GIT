@@ -33,16 +33,16 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
 		GL11.glRotatef(180, 0F, 1F, 0F);
 		switch(tileEntity.getBlockMetadata())
 		{
-		case 2:
+		case 14:
 			GL11.glRotatef(180, 0F, 1F, 0F);
 	        GL11.glTranslated(0.5D, 0.0D, -0.5D); break;
-		case 4:
+		case 13:
 			GL11.glRotatef(270, 0F, 1F, 0F);
 	        GL11.glTranslated(0.5D, 0.0D, -0.5D); break;
-		case 3:
+		case 15:
 			GL11.glRotatef(0, 0F, 1F, 0F);
 	        GL11.glTranslated(0.5D, 0.0D, -0.5D); break;
-		case 5:
+		case 12:
 			GL11.glRotatef(90, 0F, 1F, 0F);
 	        GL11.glTranslated(0.5D, 0.0D, -0.5D); break;
 		}
@@ -99,15 +99,15 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
 		GL11.glRotatef(180, 0F, 1F, 0F);
 		switch(tileEntity.getBlockMetadata())
 		{
-		case 2:
+		case 14:
 			GL11.glTranslated(-1, 0, 0);
 			GL11.glRotatef(180, 0F, 1F, 0F); break;
-		case 4:
+		case 13:
 			GL11.glRotatef(270, 0F, 1F, 0F); break;
-		case 3:
+		case 15:
 			GL11.glTranslated(0, 0, -1);
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
-		case 5:
+		case 12:
 			GL11.glTranslated(-1, 0, -1);
 			GL11.glRotatef(90, 0F, 1F, 0F); break;
 		}
@@ -150,15 +150,15 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
 		GL11.glRotatef(180, 0F, 1F, 0F);
 		switch(tileEntity.getBlockMetadata())
 		{
-		case 2:
+		case 14:
 			GL11.glTranslated(-1, 0, 0);
 			GL11.glRotatef(180, 0F, 1F, 0F); break;
-		case 4:
+		case 13:
 			GL11.glRotatef(270, 0F, 1F, 0F); break;
-		case 3:
+		case 15:
 			GL11.glTranslated(0, 0, -1);
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
-		case 5:
+		case 12:
 			GL11.glTranslated(-1, 0, -1);
 			GL11.glRotatef(90, 0F, 1F, 0F); break;
 		}

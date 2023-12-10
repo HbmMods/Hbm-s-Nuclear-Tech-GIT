@@ -18,8 +18,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIWatzCore;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemCapacitor;
 import com.hbm.items.special.WatzFuel;
+import com.hbm.items.tool.ItemTitaniumFilter;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
@@ -504,7 +504,7 @@ public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedIn
 
 	@Override
 	public boolean hasFuse() {
-		return slots[38] != null && slots[38].getItem() == ModItems.titanium_filter && ItemCapacitor.getDura(slots[38]) > 0;
+		return slots[38] != null && slots[38].getItem() == ModItems.titanium_filter && ItemTitaniumFilter.getDura(slots[38]) > 0;
 	}
 	
 	@Override
@@ -565,10 +565,10 @@ public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedIn
 				this.sendPower(worldObj, xCoord, yCoord + 7, zCoord, ForgeDirection.UP);
 				this.sendPower(worldObj, xCoord, yCoord - 7, zCoord, ForgeDirection.DOWN);
 
-				this.sendFluid(tank.getTankType(), worldObj, xCoord + 4, yCoord, zCoord, Library.POS_X);
-				this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord, zCoord + 4, Library.POS_Z);
-				this.sendFluid(tank.getTankType(), worldObj, xCoord - 4, yCoord, zCoord, Library.NEG_X);
-				this.sendFluid(tank.getTankType(), worldObj, xCoord, yCoord, zCoord - 4, Library.NEG_Z);
+				this.sendFluid(tank, worldObj, xCoord + 4, yCoord, zCoord, Library.POS_X);
+				this.sendFluid(tank, worldObj, xCoord, yCoord, zCoord + 4, Library.POS_Z);
+				this.sendFluid(tank, worldObj, xCoord - 4, yCoord, zCoord, Library.NEG_X);
+				this.sendFluid(tank, worldObj, xCoord, yCoord, zCoord - 4, Library.NEG_Z);
 	
 				if (age == 9 || age == 19) {
 					fillFluidInit(tank.getTankType());
@@ -576,7 +576,7 @@ public class TileEntityWatzCore extends TileEntityLoadedBase implements ISidedIn
 	
 				//Only damages filter when heat is present (thus waste being created)
 				if (heatList > 0) {
-					ItemCapacitor.setDura(slots[38], ItemCapacitor.getDura(slots[38]) - 1);
+					ItemTitaniumFilter.setDura(slots[38], ItemTitaniumFilter.getDura(slots[38]) - 1);
 				}
 	
 				heatList *= heatMultiplier;

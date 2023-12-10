@@ -4,6 +4,7 @@ import com.hbm.blocks.machine.MachineDiFurnaceRTG;
 import com.hbm.inventory.container.ContainerMachineDiFurnaceRTG;
 import com.hbm.inventory.gui.GUIMachineDiFurnaceRTG;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
+import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.RTGUtil;
@@ -25,6 +26,8 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 	private static final short timeRequired = 1200;
 	private static final int[] rtgIn = new int[] {3, 4, 5, 6, 7, 8};
 	private String name;
+	public byte sideUpper = 1;
+	public byte sideLower = 1;
 	
 	public TileEntityDiFurnaceRTG() {
 		super(9);
@@ -70,6 +73,7 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 		NBTTagCompound data = new NBTTagCompound();
 		data.setShort("progress", progress);
 		data.setShort("speed", processSpeed);
+		data.setByteArray("modes", new byte[] {(byte) sideUpper, (byte) sideLower});
 		networkPack(data, 10);
 	}
 	
@@ -77,6 +81,9 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 	public void networkUnpack(NBTTagCompound nbt) {
 		progress = nbt.getShort("progress");
 		processSpeed = nbt.getShort("speed");
+		byte[] modes = nbt.getByteArray("modes");
+		this.sideUpper = modes[0];
+		this.sideLower = modes[1];
 	}
 	
 	private void processItem() {
@@ -105,6 +112,10 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 		super.readFromNBT(nbt);
 		progress = nbt.getShort("progress");
 		processSpeed = nbt.getShort("speed");
+		
+		byte[] modes = nbt.getByteArray("modes");
+		this.sideUpper = modes[0];
+		this.sideLower = modes[1];
 	}
 
 	@Override
@@ -112,6 +123,7 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 		super.writeToNBT(nbt);
 		nbt.setShort("progress", progress);
 		nbt.setShort("speed", processSpeed);
+		nbt.setByteArray("modes", new byte[] {(byte) sideUpper, (byte) sideLower});
 	}
 
 	public int getDiFurnaceProgressScaled(int i) {
@@ -160,20 +172,32 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 	}
 
 	@Override
+	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
+		if(i == 0 && this.sideUpper != j) return false;
+		if(i == 1 && this.sideLower != j) return false;
+		
+		return this.isItemValidForSlot(i, itemStack);
+	}
+
+	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		if(i == 2) {
-			return false;
-		}
-		return true;
+		if(i == 2) return false;
+		if(stack.getItem() instanceof ItemRTGPellet) return i > 2;
+		return !(stack.getItem() instanceof ItemRTGPellet);
 	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		return side == 0 ? new int[] {2} : side == 1 ? new int[] {0} : new int[] {1};
+		return new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
 	}
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+		
+		if(slot > 2) {
+			return !(stack.getItem() instanceof ItemRTGPellet);
+		}
+		
 		return slot == 2;
 	}
 

@@ -771,7 +771,7 @@ public class TileEntityMachineReactorLarge extends TileEntityLoadedBase implemen
 			if(worldObj.getBlock(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2) == ModBlocks.reactor_hatch) {
 				fillFluid(this.xCoord + dir.offsetX * 3, this.yCoord, this.zCoord + dir.offsetZ * 3, getTact(), type);
 				for(int i = 0; i < 2; i++) this.trySubscribe(tanks[i].getTankType(), worldObj, this.xCoord + dir.offsetX * 3, this.yCoord, this.zCoord + dir.offsetZ * 3, Library.NEG_X);
-				this.sendFluid(tanks[2].getTankType(), worldObj, this.xCoord + dir.offsetX * 3, this.yCoord, this.zCoord + dir.offsetZ * 3, Library.NEG_X);
+				this.sendFluid(tanks[2], worldObj, this.xCoord + dir.offsetX * 3, this.yCoord, this.zCoord + dir.offsetZ * 3, Library.NEG_X);
 			} else {
 				for(int i = 0; i < 2; i++) this.tryUnsubscribe(tanks[i].getTankType(), worldObj, this.xCoord + dir.offsetX * 3, this.yCoord, this.zCoord + dir.offsetZ * 3);
 			}
@@ -780,8 +780,8 @@ public class TileEntityMachineReactorLarge extends TileEntityLoadedBase implemen
 		fillFluid(this.xCoord, this.yCoord + height + 1, this.zCoord, getTact(), type);
 		fillFluid(this.xCoord, this.yCoord - depth - 1, this.zCoord, getTact(), type);
 		
-		this.sendFluid(tanks[2].getTankType(), worldObj, this.xCoord, this.yCoord + height + 1, this.zCoord, Library.POS_Y);
-		this.sendFluid(tanks[2].getTankType(), worldObj, this.xCoord, this.yCoord - depth - 1, this.zCoord, Library.NEG_Y);
+		this.sendFluid(tanks[2], worldObj, this.xCoord, this.yCoord + height + 1, this.zCoord, Library.POS_Y);
+		this.sendFluid(tanks[2], worldObj, this.xCoord, this.yCoord - depth - 1, this.zCoord, Library.NEG_Y);
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
+import com.hbm.entity.mob.EntityFBI;
+import com.hbm.entity.mob.EntityFBIDrone;
 import com.hbm.inventory.container.ContainerRadiobox;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
@@ -42,8 +44,13 @@ public class TileEntityRadiobox extends TileEntityLoadedBase implements IEnergyU
 			int range = 15;
 			
 			List<IMob> entities = worldObj.getEntitiesWithinAABB(IMob.class, AxisAlignedBB.getBoundingBox(xCoord - range, yCoord - range, zCoord - range, xCoord + range, yCoord + range, zCoord + range));
-			for(IMob entity : entities)
+			
+			for(IMob entity : entities) {
+				
+				if(entity instanceof EntityFBI || entity instanceof EntityFBIDrone) continue;
+				
 				((Entity)entity).attackEntityFrom(ModDamageSource.enervation, 20.0F);
+			}
 		}
 	}
 	

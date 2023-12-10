@@ -20,23 +20,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class RendererObjTester extends TileEntitySpecialRenderer {
 	
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/TestObj.obj");
-
+	//private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/TestObj.obj");
+	
+	private static ResourceLocation extra = new ResourceLocation(RefStrings.MODID, "textures/models/horse/dyx.png");
+	
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
 		GL11.glEnable(GL11.GL_LIGHTING);
-
-		GL11.glTranslated(0, 0, 0.75);
-		this.bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/horse/dyx.png"));
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		
+		GL11.glRotated(System.currentTimeMillis() / 5D % 360D, 0, -1, 0);
+		GL11.glTranslated(0, 0.1, 0.5);
+		
+		this.bindTexture(extra);
 		HorsePronter.reset();
-		//HorsePronter.pose(HorsePronter.id_lfl, 0, System.currentTimeMillis() % 360 / 10D, 0);
 		double r = 60;
 		HorsePronter.pose(HorsePronter.id_body, 0, -r, 0);
 		HorsePronter.pose(HorsePronter.id_tail, 0, 45, 90);
@@ -57,11 +59,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		GL11.glRotated(60, 0, 0, -1);
 		bindTexture(TextureMap.locationItemsTexture);
 		IIcon icon = stack.getIconIndex();
-		float f14 = icon.getMinU();
-		float f15 = icon.getMaxU();
-		float f4 = icon.getMinV();
-		float f5 = icon.getMaxV();
-		ItemRenderer.renderItemIn2D(Tessellator.instance, f15, f4, f14, f5, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
+		ItemRenderer.renderItemIn2D(Tessellator.instance, icon.getMaxU(), icon.getMinV(), icon.getMinU(), icon.getMaxV(), icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
 		
 		GL11.glPopMatrix();
 	}

@@ -1,5 +1,7 @@
 package com.hbm.config;
 
+import java.util.Locale;
+
 import com.hbm.main.MainRegistry;
 
 import net.minecraftforge.common.config.Configuration;
@@ -22,6 +24,7 @@ public class CommonConfig {
 	public static final String CATEGORY_RADIATION = "13_radiation";
 	public static final String CATEGORY_HAZARD = "14_hazard";
 	public static final String CATEGORY_STRUCTURES = "15_structures";
+	public static final String CATEGORY_POLLUTION = "16_pollution";
 
 	public static final String CATEGORY_528 = "528";
 	public static final String CATEGORY_LBSM = "LESS BULLSHIT MODE";
@@ -30,7 +33,7 @@ public class CommonConfig {
 
 		if(value < 0) {
 			MainRegistry.logger.error("Fatal error config: Randomizer value has been below zero, despite bound having to be positive integer!");
-			MainRegistry.logger.error(String.format("Errored value will default back to %d, PLEASE REVIEW CONFIGURATION DESCRIPTION BEFORE MEDDLING WITH VALUES!", def));
+			MainRegistry.logger.error(String.format(Locale.US, "Errored value will default back to %d, PLEASE REVIEW CONFIGURATION DESCRIPTION BEFORE MEDDLING WITH VALUES!", def));
 			return def;
 		}
 
@@ -41,7 +44,7 @@ public class CommonConfig {
 
 		if(value <= 0) {
 			MainRegistry.logger.error("Fatal error config: Randomizer value has been set to zero, despite bound having to be positive integer!");
-			MainRegistry.logger.error(String.format("Errored value will default back to %d, PLEASE REVIEW CONFIGURATION DESCRIPTION BEFORE MEDDLING WITH VALUES!", def));
+			MainRegistry.logger.error(String.format(Locale.US, "Errored value will default back to %d, PLEASE REVIEW CONFIGURATION DESCRIPTION BEFORE MEDDLING WITH VALUES!", def));
 			return def;
 		}
 

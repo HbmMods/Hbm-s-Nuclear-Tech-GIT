@@ -1,8 +1,11 @@
 package com.hbm.extprop;
 
+import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IGUIProvider;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,6 +17,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	
 	public static final String key = "NTM_EXT_PLAYER";
 	public EntityPlayer player;
+	
+	public boolean hasReceivedBook = false;
 	
 	public boolean enableHUD = true;
 	public boolean enableBackpack = true;
@@ -35,6 +40,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public float maxShield = 0;
 	public int lastDamage = 0;
 	public static final float shieldCap = 100;
+	
+	public int reputation;
 	
 	public HbmPlayerProps(EntityPlayer player) {
 		this.player = player;
@@ -63,20 +70,36 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		if(!getKeyPressed(key) && pressed) {
 			
 			if(key == EnumKeybind.TOGGLE_JETPACK) {
-				this.enableBackpack = !this.enableBackpack;
 				
-				if(this.enableBackpack)
-					MainRegistry.proxy.displayTooltip(EnumChatFormatting.GREEN + "Jetpack ON", MainRegistry.proxy.ID_JETPACK);
-				else
-					MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Jetpack OFF", MainRegistry.proxy.ID_JETPACK);
+				if(!player.worldObj.isRemote) {
+					this.enableBackpack = !this.enableBackpack;
+					
+					if(this.enableBackpack)
+						MainRegistry.proxy.displayTooltip(EnumChatFormatting.GREEN + "Jetpack ON", MainRegistry.proxy.ID_JETPACK);
+					else
+						MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Jetpack OFF", MainRegistry.proxy.ID_JETPACK);
+				}
 			}
 			if(key == EnumKeybind.TOGGLE_HEAD) {
-				this.enableHUD = !this.enableHUD;
 				
-				if(this.enableHUD)
-					MainRegistry.proxy.displayTooltip(EnumChatFormatting.GREEN + "HUD ON", MainRegistry.proxy.ID_HUD);
-				else
-					MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "HUD OFF", MainRegistry.proxy.ID_HUD);
+				if(!player.worldObj.isRemote) {
+					this.enableHUD = !this.enableHUD;
+					
+					if(this.enableHUD)
+						MainRegistry.proxy.displayTooltip(EnumChatFormatting.GREEN + "HUD ON", MainRegistry.proxy.ID_HUD);
+					else
+						MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "HUD OFF", MainRegistry.proxy.ID_HUD);
+				}
+			}
+			
+			if(key == EnumKeybind.TRAIN) {
+				
+				if(!this.player.worldObj.isRemote) {
+
+					if(player.ridingEntity != null && player.ridingEntity instanceof EntityRailCarBase && player.ridingEntity instanceof IGUIProvider) {
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, player.worldObj, player.ridingEntity.getEntityId(), 0, 0);
+					}
+				}
 			}
 		}
 		
@@ -131,8 +154,12 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		
 		NBTTagCompound props = new NBTTagCompound();
 		
+		props.setBoolean("hasReceivedBook", hasReceivedBook);
 		props.setFloat("shield", shield);
 		props.setFloat("maxShield", maxShield);
+		props.setBoolean("enableBackpack", enableBackpack);
+		props.setBoolean("enableHUD", enableHUD);
+		props.setInteger("reputation", reputation);
 		
 		nbt.setTag("HbmPlayerProps", props);
 	}
@@ -143,8 +170,12 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		NBTTagCompound props = (NBTTagCompound) nbt.getTag("HbmPlayerProps");
 		
 		if(props != null) {
+			this.hasReceivedBook = props.getBoolean("hasReceivedBook");
 			this.shield = props.getFloat("shield");
 			this.maxShield = props.getFloat("maxShield");
+			this.enableBackpack = props.getBoolean("enableBackpack");
+			this.enableHUD = props.getBoolean("enableHUD");
+			this.reputation = props.getInteger("reputation");
 		}
 	}
 }

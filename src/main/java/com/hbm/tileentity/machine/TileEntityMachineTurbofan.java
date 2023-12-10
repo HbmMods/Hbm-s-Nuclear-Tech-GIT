@@ -5,6 +5,8 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.UpgradeManager;
@@ -24,7 +26,9 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.IUpgradeInfoProvider;
+import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
@@ -41,10 +45,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbofan extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IGUIProvider {
+public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider {
 
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -62,7 +67,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	private AudioWrapper audio;
 
 	public TileEntityMachineTurbofan() {
-		super(5);
+		super(5, 150);
 		tank = new FluidTank(Fluids.KEROSENE, 24000);
 		blood = new FluidTank(Fluids.BLOOD, 24000);
 	}
@@ -160,7 +165,9 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			if(amountToBurn > 0) {
 				this.wasOn = true;
 				this.tank.setFill(this.tank.getFill() - amountToBurn);
-				this.power += burnValue * amountToBurn;
+				this.power += burnValue * amountToBurn * (1 + Math.min(this.afterburner / 3D, 4));
+				
+				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * amountToBurn);
 			}
 			
 			power = Library.chargeItemsFromTE(slots, 3, power, power);
@@ -168,7 +175,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			for(DirPos pos : getConPos()) {
 				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(this.blood.getFill() > 0) this.sendFluid(blood.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.blood.getFill() > 0) this.sendFluid(blood, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
 			if(burnValue > 0 && amountToBurn > 0) {
@@ -309,6 +317,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 					audio = rebootAudio(audio);
 				}
 
+				audio.keepAlive();
 				audio.updateVolume(momentum);
 				audio.updatePitch(momentum / 200F + 0.5F + this.afterburner * 0.16F);
 				
@@ -325,9 +334,9 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 			 * Otherwise this could lead to desync since the motion is never sent form the server
 			 */
 			if(tank.getFill() > 0 && !MainRegistry.proxy.me().capabilities.isCreativeMode) {
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10).getRotation(ForgeDirection.UP);
 				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-				
+
 				double minX = this.xCoord + 0.5 - dir.offsetX * 3.5 - rot.offsetX * 1.5;
 				double maxX = this.xCoord + 0.5 - dir.offsetX * 19.5 + rot.offsetX * 1.5;
 				double minZ = this.zCoord + 0.5 - dir.offsetZ * 3.5 - rot.offsetZ * 1.5;
@@ -382,7 +391,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	}
 	
 	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:block.turbofanOperate", xCoord, yCoord, zCoord, 5.0F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.turbofanOperate", xCoord, yCoord, zCoord, 1.0F, 50F, 1.0F, 20);
 	}
 
 	@Override
@@ -469,7 +478,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 
 	@Override
 	public FluidTank[] getAllTanks() {
-		return new FluidTank[] { tank, blood };
+		return new FluidTank[] { tank, blood, smoke, smoke_leaded, smoke_poison };
 	}
 
 	@Override
@@ -481,5 +490,25 @@ public class TileEntityMachineTurbofan extends TileEntityMachineBase implements 
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineTurbofan(player.inventory, this);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.AFTERBURN;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_assembler));
+		if(type == UpgradeType.AFTERBURN) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_EFFICIENCY, "+" + (int)(level * 100 * (1 + Math.min(level / 3D, 4D))) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.AFTERBURN) return 3;
+		return 0;
 	}
 }

@@ -1,21 +1,22 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerChemfac;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIChemfac;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IUpgradeInfoProvider;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
@@ -26,11 +27,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
+public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase implements IUpgradeInfoProvider {
 	
 	float rotSpeed;
 	public float rot;
@@ -76,7 +77,7 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 			
 			for(DirPos pos : getConPos()) for(FluidTank tank : outTanks()) {
 				if(tank.getTankType() != Fluids.NONE && tank.getFill() > 0) {
-					this.sendFluid(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
 			
@@ -92,7 +93,7 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 			this.speed -= speedLevel * 15;
 			this.consumption += speedLevel * 300;
 			this.speed += powerLevel * 5;
-			this.consumption -= powerLevel * 30;
+			this.consumption -= powerLevel * 20;
 			this.speed /= (overLevel + 1);
 			this.consumption *= (overLevel + 1);
 			
@@ -218,58 +219,6 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 	}
 
 	@Override
-	public void fillFluidInit(FluidType type) {
-		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
-		for(int i = 0; i < 6; i++) {
-			fillFluid(xCoord + dir.offsetX * (2 - i) + rot.offsetX * 3, yCoord + 4, zCoord + dir.offsetZ * (2 - i) + rot.offsetZ * 3, this.getTact(), type);
-			fillFluid(xCoord + dir.offsetX * (2 - i) - rot.offsetX * 2, yCoord + 4, zCoord + dir.offsetZ * (2 - i) - rot.offsetZ * 2, this.getTact(), type);
-
-			for(int j = 0; j < 2; j++) {
-				fillFluid(xCoord + dir.offsetX * (2 - i) + rot.offsetX * 5, yCoord + 1 + j, zCoord + dir.offsetZ * (2 - i) + rot.offsetZ * 5, this.getTact(), type);
-				fillFluid(xCoord + dir.offsetX * (2 - i) - rot.offsetX * 4, yCoord + 1 + j, zCoord + dir.offsetZ * (2 - i) - rot.offsetZ * 4, this.getTact(), type);
-			}
-		}
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		return this.worldObj.getTotalWorldTime() % 20 < 10;
-	}
-
-	private HashMap<FluidType, List<IFluidAcceptor>> fluidMap = new HashMap();
-	
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		
-		List<IFluidAcceptor> list = fluidMap.get(type);
-		
-		if(list == null) {
-			list = new ArrayList();
-			fluidMap.put(type, list);
-		}
-		
-		return list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		
-		List<IFluidAcceptor> list = fluidMap.get(type);
-		
-		if(list != null) {
-			list.clear();
-		}
-	}
-
-	@Override
 	public int getRecipeCount() {
 		return 8;
 	}
@@ -289,11 +238,11 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 		return new int[] {5 + index * 9, 8 + index * 9, 9 + index * 9, 12 + index * 9};
 	}
 
-	ChunkCoordinates[] inpos;
-	ChunkCoordinates[] outpos;
+	DirPos[] inpos;
+	DirPos[] outpos;
 	
 	@Override
-	public ChunkCoordinates[] getInputPositions() {
+	public DirPos[] getInputPositions() {
 		
 		if(inpos != null)
 			return inpos;
@@ -301,18 +250,18 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
-		inpos = new ChunkCoordinates[] {
-				new ChunkCoordinates(xCoord + dir.offsetX * 4 - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 1),
-				new ChunkCoordinates(xCoord - dir.offsetX * 5 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 5 + rot.offsetZ * 2),
-				new ChunkCoordinates(xCoord - dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4),
-				new ChunkCoordinates(xCoord + dir.offsetX * 1 + rot.offsetX * 5, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 5)
+		inpos = new DirPos[] {
+				new DirPos(xCoord + dir.offsetX * 4 - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 1, dir),
+				new DirPos(xCoord - dir.offsetX * 5 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 5 + rot.offsetZ * 2, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4, rot.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 1 + rot.offsetX * 5, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 5, rot)
 		};
 		
 		return inpos;
 	}
 
 	@Override
-	public ChunkCoordinates[] getOutputPositions() {
+	public DirPos[] getOutputPositions() {
 		
 		if(outpos != null)
 			return outpos;
@@ -320,11 +269,11 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
-		outpos = new ChunkCoordinates[] {
-				new ChunkCoordinates(xCoord + dir.offsetX * 4 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 2),
-				new ChunkCoordinates(xCoord - dir.offsetX * 5 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 5 - rot.offsetZ * 1),
-				new ChunkCoordinates(xCoord + dir.offsetX * 1 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 1 - rot.offsetZ * 4),
-				new ChunkCoordinates(xCoord - dir.offsetX * 2 + rot.offsetX * 5, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 5)
+		outpos = new DirPos[] {
+				new DirPos(xCoord + dir.offsetX * 4 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 2, dir),
+				new DirPos(xCoord - dir.offsetX * 5 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 5 - rot.offsetZ * 1, dir.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 1 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 1 - rot.offsetZ * 4, rot.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX * 5, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 5, rot)
 		};
 		
 		return outpos;
@@ -366,11 +315,6 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 		
 		return outTanks;
 	}
-
-	@Override
-	public int getMaxFluidFillForReceive(FluidType type) {
-		return super.getMaxFluidFillForReceive(type);
-	}
 	
 	AxisAlignedBB bb = null;
 	
@@ -406,5 +350,34 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase {
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIChemfac(player.inventory, this);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_chemfac));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 15) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 300) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 30) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 5) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 6;
+		if(type == UpgradeType.POWER) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 12;
+		return 0;
 	}
 }

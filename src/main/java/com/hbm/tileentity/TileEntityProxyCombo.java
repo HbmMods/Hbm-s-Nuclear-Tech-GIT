@@ -217,7 +217,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			return ((IEnergyConnector)getTile()).canConnect(dir);
 		}
 		
-		return false;
+		return true;
 	}
 
 	@Override
@@ -361,6 +361,9 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			return false;
 		
 		if(getTile() instanceof ISidedInventory) {
+			
+			if(getTile() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getTile()).isItemValidForSlot(xCoord, yCoord, zCoord, slot, stack);
+			
 			return ((ISidedInventory)getTile()).isItemValidForSlot(slot, stack);
 		}
 		
@@ -374,6 +377,9 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			return new int[0];
 		
 		if(getTile() instanceof ISidedInventory) {
+			
+			if(getTile() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getTile()).getAccessibleSlotsFromSide(xCoord, yCoord, zCoord, side);
+			
 			return ((ISidedInventory)getTile()).getAccessibleSlotsFromSide(side);
 		}
 		
@@ -387,6 +393,9 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			return false;
 		
 		if(getTile() instanceof ISidedInventory) {
+			
+			if(getTile() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getTile()).canInsertItem(xCoord, yCoord, zCoord, i, stack, j);
+			
 			return ((ISidedInventory)getTile()).canInsertItem(i, stack, j);
 		}
 		
@@ -400,6 +409,9 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			return false;
 		
 		if(getTile() instanceof ISidedInventory) {
+			
+			if(getTile() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getTile()).canExtractItem(xCoord, yCoord, zCoord, i, stack, j);
+			
 			return ((ISidedInventory)getTile()).canExtractItem(i, stack, j);
 		}
 		
@@ -427,25 +439,25 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	}
 
 	@Override
-	public long transferFluid(FluidType type, long fluid) {
+	public long transferFluid(FluidType type, int pressure, long fluid) {
 		
 		if(!this.fluid)
 			return fluid;
 		
 		if(getTile() instanceof IFluidConnector) {
-			return ((IFluidConnector)getTile()).transferFluid(type, fluid);
+			return ((IFluidConnector)getTile()).transferFluid(type, pressure, fluid);
 		}
 		return fluid;
 	}
 
 	@Override
-	public long getDemand(FluidType type) {
+	public long getDemand(FluidType type, int pressure) {
 		
 		if(!this.fluid)
 			return 0;
 		
 		if(getTile() instanceof IFluidConnector) {
-			return ((IFluidConnector)getTile()).getDemand(type);
+			return ((IFluidConnector)getTile()).getDemand(type, pressure);
 		}
 		return 0;
 	}
@@ -459,7 +471,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(getTile() instanceof IFluidConnector) {
 			return ((IFluidConnector)getTile()).canConnect(type, dir);
 		}
-		return false;
+		return true;
 	}
 
 	@Override

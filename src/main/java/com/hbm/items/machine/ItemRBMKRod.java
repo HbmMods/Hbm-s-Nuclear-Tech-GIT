@@ -1,6 +1,7 @@
 package com.hbm.items.machine;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -275,7 +276,7 @@ public class ItemRBMKRod extends Item {
 			break;
 		case ARCH: function = "(%1$s - %1$s² / 10000) / 100 * %2$s [0;∞]";
 			break;
-		case SIGMOID: function = "%2$s / (1 + e^(-(%1$s - 50) / 10)";
+		case SIGMOID: function = "%2$s / (1 + e^(-(%1$s - 50) / 10))";
 			break;
 		case SQUARE_ROOT: function = "sqrt(%1$s) * %2$s / 10";
 			break;
@@ -295,10 +296,10 @@ public class ItemRBMKRod extends Item {
 			String reactivity = EnumChatFormatting.YELLOW + "" + ((int)(this.reactivity * enrichment * 1000D) / 1000D) + EnumChatFormatting.WHITE;
 			String enrichmentPer = EnumChatFormatting.GOLD + " (" + ((int)(enrichment * 1000D) / 10D) + "%)";
 			
-			return String.format(function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")" : "x", reactivity).concat(enrichmentPer);
+			return String.format(Locale.US, function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")" : "x", reactivity).concat(enrichmentPer);
 		}
 		
-		return String.format(function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")" : "x", reactivity);
+		return String.format(Locale.US, function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")" : "x", reactivity);
 	}
 	
 	public static enum EnumDepleteFunc {

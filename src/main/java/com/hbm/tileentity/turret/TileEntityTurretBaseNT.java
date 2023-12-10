@@ -3,13 +3,15 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BiFunction;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.logic.EntityBomber;
-import com.hbm.entity.missile.EntityMissileBaseAdvanced;
+import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.missile.EntitySiegeDropship;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
+import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
@@ -24,6 +26,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.particle.SpentCasing;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatExternal;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -353,7 +356,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		vec.rotateAroundZ((float) -this.rotationPitch);
 		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 		
-		EntityBulletBase proj = new EntityBulletBase(worldObj, BulletConfigSyncingUtil.getKey(bullet));
+		EntityBulletBaseNT proj = new EntityBulletBaseNT(worldObj, BulletConfigSyncingUtil.getKey(bullet));
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
 		
 		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, bullet.velocity, bullet.spread);
@@ -592,8 +595,20 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		
 		if(e.isDead || !e.isEntityAlive())
 			return false;
-
 		
+		for(Class c : CompatExternal.turretTargetBlacklist) if(c.isAssignableFrom(e.getClass())) return false;
+		
+		for(Class c : CompatExternal.turretTargetCondition.keySet()) {
+			if(c.isAssignableFrom(e.getClass())) {
+				BiFunction<Entity, Object, Integer> lambda = CompatExternal.turretTargetCondition.get(c);
+				if(lambda != null) {
+					int result = lambda.apply(e, this);
+					if(result == -1) return false;
+					if(result == 1) return true;
+				}
+			}
+		}
+
 		List<String> wl = getWhitelist();
 		
 		if(wl != null) {
@@ -613,6 +628,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			
 			if(e instanceof IAnimals) return true;
 			if(e instanceof INpc) return true;
+			for(Class c : CompatExternal.turretTargetFriendly) if(c.isAssignableFrom(e.getClass())) return true;
 		}
 		
 		if(targetMobs) {
@@ -621,23 +637,27 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			if(e instanceof EntityDragon) return false;
 			if(e instanceof EntityDragonPart) return true;
 			if(e instanceof IMob) return true;
+			for(Class c : CompatExternal.turretTargetHostile) if(c.isAssignableFrom(e.getClass())) return true;
 		}
 		
 		if(targetMachines) {
 
-			if(e instanceof EntityMissileBaseAdvanced) return true;
+			if(e instanceof EntityMissileBaseNT) return true;
 			if(e instanceof EntityMissileCustom) return true;
 			if(e instanceof EntityMinecart) return true;
+			if(e instanceof EntityRailCarBase) return true;
 			if(e instanceof EntityBomber) return true;
 			if(e instanceof EntitySiegeDropship) return true;
+			for(Class c : CompatExternal.turretTargetMachine) if(c.isAssignableFrom(e.getClass())) return true;
 		}
 		
-		if(targetPlayers && e instanceof EntityPlayer) {
+		if(targetPlayers ) {
 			
 			if(e instanceof FakePlayer)
 				return false;
 			
-			return true;
+			if(e instanceof EntityPlayer) return true;
+			for(Class c : CompatExternal.turretTargetPlayer) if(c.isAssignableFrom(e.getClass())) return true;
 		}
 		
 		return false;

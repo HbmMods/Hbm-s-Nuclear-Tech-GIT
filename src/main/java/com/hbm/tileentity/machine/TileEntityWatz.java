@@ -318,8 +318,8 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	protected void sendOutBottom() {
 		
 		for(DirPos pos : getSendingPos()) {
-			if(tanks[1].getFill() > 0) this.sendFluid(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			if(tanks[2].getFill() > 0) this.sendFluid(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 	
@@ -443,6 +443,12 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		return bb;
 	}
 	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
+	
 	private void disassemble() {
 
 		int count = 20;
@@ -494,6 +500,12 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		setBrokenColumn(1, ModBlocks.watz_end, 1, 2, -2);
 		setBrokenColumn(1, ModBlocks.watz_end, 1, -2, 2);
 		setBrokenColumn(1, ModBlocks.watz_end, 1, -2, -2);
+		
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 50, 50));
+		
+		for(EntityPlayer player : players) {
+			player.triggerAchievement(MainRegistry.achWatzBoom);
+		}
 	}
 	
 	private void setBrokenColumn(int minHeight, Block b, int meta, int x, int z) {
@@ -508,12 +520,6 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 				worldObj.setBlock(xCoord + x, yCoord + i, zCoord + z, ModBlocks.mud_block);
 			}
 		}
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared() {
-		return 65536.0D;
 	}
 
 	@Override
