@@ -76,7 +76,7 @@ public class GunPoweredFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.velocity = 3.0F;
+		bullet.velocity = 4.0F;
 		bullet.spread = 0F;
 		bullet.dmgMin = 18;
 		bullet.dmgMax = 22;
@@ -105,7 +105,7 @@ public class GunPoweredFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.velocity = 2.0F;
+		bullet.velocity = 4.0F;
 		bullet.spread = 0F;
 		bullet.dmgMin = 9;
 		bullet.dmgMax = 11;
@@ -134,7 +134,7 @@ public class GunPoweredFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.velocity = 2.0F;
+		bullet.velocity = 4.0F;
 		bullet.spread = 0F;
 		bullet.dmgMin = 4;
 		bullet.dmgMax = 6;
@@ -163,7 +163,7 @@ public class GunPoweredFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.velocity = 2.0F;
+		bullet.velocity = 4.0F;
 		bullet.spread = 0F;
 		bullet.dmgMin = 3;
 		bullet.dmgMax = 3;
@@ -192,7 +192,7 @@ public class GunPoweredFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.velocity = 2.0F;
+		bullet.velocity = 4.0F;
 		bullet.spread = 0F;
 		bullet.dmgMin = 2;
 		bullet.dmgMax = 2;
@@ -221,7 +221,7 @@ public class GunPoweredFactory {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
-		bullet.velocity = 2.0F;
+		bullet.velocity = 4.0F;
 		bullet.spread = 0F;
 		bullet.dmgMin = 1;
 		bullet.dmgMax = 1;
