@@ -36,7 +36,7 @@ public class Gun5mmFactory {
 		config.reloadType = GunConfiguration.RELOAD_NONE;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCLE;
-		config.durability = 10000;
+		config.durability = 100000;
 		config.firingSound = "hbm:weapon.lacunaeShoot";
 		
 		config.config = HbmCollection.r5;
@@ -60,7 +60,7 @@ public class Gun5mmFactory {
 		
 		GunConfiguration config = getMinigunConfig();
 
-		config.durability = 15000;
+		config.durability = 150000;
 		config.name = "cz57";
 		config.manufacturer = EnumGunManufacturer.ROCKWELL;
 		
@@ -71,7 +71,7 @@ public class Gun5mmFactory {
 		
 		GunConfiguration config = getMinigunConfig();
 
-		config.durability = 25000;
+		config.durability = 250000;
 		config.name = "lacunae";
 		config.manufacturer = EnumGunManufacturer.ROCKWELL_U;
 		
