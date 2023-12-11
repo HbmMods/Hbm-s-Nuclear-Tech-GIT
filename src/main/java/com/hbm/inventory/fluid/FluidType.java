@@ -172,7 +172,7 @@ public class FluidType {
 		return this.traits.containsKey(FT_LeadContainer.class);
 	}
 	public boolean isDispersable() {
-		return !(this.traits.containsKey(FT_NoDispersable.class));
+		return !(this.traits.containsKey(FT_Amat.class) || this.traits.containsKey(FT_NoContainer.class) || this.traits.containsKey(FT_Viscous.class));
 	}
 
 	/**
