@@ -47,8 +47,8 @@ public class CrystallizerRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 
-		int baseTime = 600;
-		int utilityTime = 100;
+		int baseTime = 480;
+		int utilityTime = 80;
 		FluidStack sulfur = new FluidStack(Fluids.SULFURIC_ACID, 500);
 
 		registerRecipe(COAL.ore(),		new CrystallizerRecipe(ModItems.crystal_coal, baseTime));
@@ -117,7 +117,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		FluidStack organic = new FluidStack(Fluids.SOLVENT, 500);
 		FluidStack hiperf = new FluidStack(Fluids.RADIOSOLVENT, 500);
 		
-		int oreTime = 200;
+		int oreTime = 160;
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
 			int i = ore.ordinal();
