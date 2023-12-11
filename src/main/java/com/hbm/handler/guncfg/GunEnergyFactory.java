@@ -789,14 +789,14 @@ public class GunEnergyFactory {
 		bullet.ammo = new ComparableStack(ModItems.nugget_euphemium);
 		bullet.ammoCount = 1000;
 		bullet.wear = 1;
-		bullet.velocity = 1F;
-		bullet.spread = 0.125F;
-		bullet.maxAge = 100;
+		bullet.velocity = 4F;
+		bullet.spread = 0.05F;
+		bullet.maxAge = 25;
 		bullet.gravity = 0D;
 		bullet.bulletsMin = 5;
 		bullet.bulletsMax = 5;
-		bullet.dmgMin = 10000;
-		bullet.dmgMax = 25000;
+		bullet.dmgMin = 100000;
+		bullet.dmgMax = 250000;
 		bullet.liveAfterImpact = true;
 		
 		bullet.damageType = ModDamageSource.s_zomg_prefix;
