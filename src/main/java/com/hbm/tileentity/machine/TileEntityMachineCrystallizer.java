@@ -43,7 +43,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public static final long maxPower = 1000000;
 	public static final int demand = 1000;
 	public short progress;
-	public short duration = 600;
+	public short duration = 480;
 	
 	public float angle;
 	public float prevAngle;
@@ -211,7 +211,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public int getRequiredAcid(int base) {
 		int efficiency = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
 		if(efficiency > 0) {
-			return base * (efficiency + 2);
+			return base * (0.2 * efficiency + 1);
 		}
 		return base;
 	}
@@ -226,7 +226,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	
 	public short getDuration() {
 		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
-		int base = result != null ? result.duration : 600;
+		int base = result != null ? result.duration : 480;
 		int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 		if(speed > 0) {
 			return (short) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.25F)));
