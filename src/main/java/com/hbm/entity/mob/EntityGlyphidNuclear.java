@@ -1,7 +1,6 @@
 package com.hbm.entity.mob;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.effect.EntityMist;
 import com.hbm.entity.logic.EntityWaypoint;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
@@ -9,7 +8,6 @@ import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -50,22 +48,22 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if (ticksExisted % 20 == 0) {
-			if (isAtDestination() && getCurrentTask() == follow) {
-				setCurrentTask(none, null);
+		if(ticksExisted % 20 == 0) {
+			if(isAtDestination() && getCurrentTask() == TASK_FOLLOW) {
+				setCurrentTask(TASK_IDLE, null);
 			}
 
-			if(getCurrentTask() == expand && getAITarget() == null){
+			if(getCurrentTask() == TASK_BUILD_HIVE && getAITarget() == null) {
 				this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 10 * 20, 3));
 			}
 
-			if (getCurrentTask() == terraform) {
+			if(getCurrentTask() == TASK_TERRAFORM) {
 				this.setHealth(0);
 			}
-
 		}
 	}
 
+	/** Communicates only with glyphid scouts, unlike the super implementation which does the opposite */
 	@Override
 	public void communicate(int task, @Nullable EntityWaypoint waypoint) {
 		int radius = waypoint != null ? waypoint.radius : 4;
@@ -99,7 +97,6 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 
 	@Override
 	public boolean isArmorBroken(float amount) {
-		// amount < 5 ? 5 : amount < 10 ? 3 : 2;
 		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.12, 2), 100);
 	}
 
@@ -131,9 +128,11 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		++this.deathTicks;
 
 		if(!hasWaypoint) {
-			communicate(reinforcements, null);
+			// effectively causes neighboring EntityGlyphidScout to retreat
+			communicate(TASK_INITIATE_RETREAT, null);
 			hasWaypoint = true;
 		}
+		
 		if(deathTicks == 90){
 			int radius = 8;
 			AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(

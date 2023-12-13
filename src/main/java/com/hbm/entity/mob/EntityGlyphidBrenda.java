@@ -1,15 +1,12 @@
 package com.hbm.entity.mob;
 
 import com.hbm.entity.effect.EntityMist;
-import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;

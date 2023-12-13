@@ -4,8 +4,6 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 
-import net.minecraft.block.Block;
-import com.hbm.util.LootGenerator;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 

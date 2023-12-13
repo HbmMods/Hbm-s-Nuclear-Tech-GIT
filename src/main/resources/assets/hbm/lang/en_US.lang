@@ -2390,6 +2390,8 @@ item.dieselsuit_helmet.name=Diesel-Powered Head-Mounted Environmental Sensor
 item.dieselsuit_legs.name=Diesel-Powered Leg Servos
 item.dieselsuit_plate.name=Diesel-Powered Cybernetics
 item.digamma_diagnostic.name=Digamma Diagnostic
+item.disperser_canister.name= Disperser Canister:
+item.disperser_canister_empty.name= Disperser Canister
 item.dns_boots.name=DNT Nano Suit Boots
 item.dns_legs.name=DNT Nano Suit Leggings
 item.dns_helmet.name=DNT Nano Suit Helmet
@@ -2616,13 +2618,8 @@ item.grenade_smart.name=Smart Grenade
 item.grenade_strong.name=Enhanced Grenade
 item.grenade_tau.name=Tau Grenade
 item.grenade_zomg.name=Negative Energy Pair Annihilation Grenade
-
-item.disperser_canister.name= Disperser Canister:
-item.disperser_canister_empty.name= Disperser Canister
-
 item.glyphid_gland.name= Gland
 item.glyphid_gland_empty.name= Glyphid's Fluid Gland
-
 item.gun_ar15.name=Josh
 item.gun_avenger.name=CZ57 Avenger Minigun
 item.gun_b92.name=§9B92 Energy Pistol§r
@@ -4887,9 +4884,7 @@ tile.door_office.name=Office Door
 tile.ducrete.name=Ducrete Tile
 tile.ducrete_stairs.name=Ducrete Tile Stairs
 tile.ducrete_smooth.name=Ducrete
-
 tile.ducrete_smooth_stairs.name=Ducrete Stairs
-
 tile.dummy_block.name=Dummy Block
 tile.dummy_port.name=Dummy Block (Electricity Port)
 tile.dungeon_chain.name=Metal Chain

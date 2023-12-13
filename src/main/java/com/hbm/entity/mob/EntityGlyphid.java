@@ -3,15 +3,12 @@ package com.hbm.entity.mob;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockGlyphidSpawner;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.logic.EntityWaypoint;
 import com.hbm.entity.pathfinder.PathFinderUtils;
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
 import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
@@ -59,29 +56,30 @@ public class EntityGlyphid extends EntityMob {
 
 	//used for digging, bigger glyphids have a longer reach
 	public int blastSize = Math.min((int) (3 * (getScale()))/2, 5);
-    public int blastResToDig = Math.min((int) (50 * (getScale() * 2)), 150);
+	public int blastResToDig = Math.min((int) (50 * (getScale() * 2)), 150);
 	public boolean shouldDig;
 
 	// Tasks
 
-	public static final int none = 0;
-	public static final int comm = 1;
-	public static final int expand = 2;
-	public static final int reinforcements = 3;
-	public static final int follow = 4;
-	public static final int terraform = 5;
-	public static final int dig = 6;
+	/** Idle state, only makes glpyhids wander around randomly */
+	public static final int TASK_IDLE = 0;
+	/** Causes the glyphid to walk to the waypoint, then communicate the FOLLOW task to nearby glyphids */
+	public static final int TASK_RETREAT_FOR_REINFORCEMENTS = 1;
+	/** Task used by scouts, if the waypoint is reached it will construct a new hive */
+	public static final int TASK_BUILD_HIVE = 2;
+	/** Creates a waypoint at the home position and then immediately initiates the RETREAT_FOR_REINFORCEMENTS task */
+	public static final int TASK_INITIATE_RETREAT = 3;
+	/** Will simply walk to the waypoint and enter IDLE once it is reached */
+	public static final int TASK_FOLLOW = 4;
+	/** Causes nuclear glyphids to immediately self-destruct, also signaling nearby scouts to retreat */
+	public static final int TASK_TERRAFORM = 5;
+	/** Id any task other than IDLE is interrupted by an obstacle, initiates digging behavior which is also communicated to nearby glyohids */
+	public static final int TASK_DIG = 6;
+	
 	EntityWaypoint taskWaypoint = null;
+	
 	public EntityGlyphid(World world) {
 		super(world);
-		/*this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
-		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
-		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.tasks.addTask(8, new EntityAILookIdle(this));
-		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));*/
 		this.setSize(1.75F, 1F);
 	}
 
@@ -124,14 +122,14 @@ public class EntityGlyphid extends EntityMob {
 				onBlinded();
 			}
 
-            if(getCurrentTask() == follow){
+			if(getCurrentTask() == TASK_FOLLOW){
 
 				//incase the waypoint somehow doesn't exist and it got this task anyway
-				if(isAtDestination() && taskX == none) {
-					setCurrentTask(none, null);
+				if(isAtDestination() && taskX == TASK_IDLE) {
+					setCurrentTask(TASK_IDLE, null);
 				}
 			//the task cannot be 6 outside of rampant, so this is a non issue p much
-			} else if (getCurrentTask() == dig && ticksExisted % 20 == 0 && isAtDestination()) {
+			} else if (getCurrentTask() == TASK_DIG && ticksExisted % 20 == 0 && isAtDestination()) {
 				swingItem();
 
 				ExplosionVNT vnt = new ExplosionVNT(worldObj, taskX, taskY + 2, taskZ, blastSize, this);
@@ -156,8 +154,8 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected void dropFewItems(boolean byPlayer, int looting) {
 		super.dropFewItems(byPlayer, looting);
-        Item drop = isBurning() ? ModItems.glyphid_meat_grilled : ModItems.glyphid_meat;
-		if(rand.nextInt(2) == 0) this.entityDropItem(new ItemStack(drop, ((int)getScale()*2)  + looting), 0F);
+		Item drop = isBurning() ? ModItems.glyphid_meat_grilled : ModItems.glyphid_meat;
+		if(rand.nextInt(2) == 0) this.entityDropItem(new ItemStack(drop, ((int) getScale() * 2) + looting), 0F);
 	}
 
 	@Override
@@ -170,7 +168,7 @@ public class EntityGlyphid extends EntityMob {
 
 	@Override
 	protected void updateWanderPath() {
-		if(getCurrentTask() == none) {
+		if(getCurrentTask() == TASK_IDLE) {
 			super.updateWanderPath();
 		}
 	}
@@ -185,7 +183,7 @@ public class EntityGlyphid extends EntityMob {
 				// hell yeah!!
 				if (useExtendedTargeting() && this.entityToAttack != null) {
 					this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, true, true));
-				} else if (getCurrentTask() != none) {
+				} else if (getCurrentTask() != TASK_IDLE) {
 
 					this.worldObj.theProfiler.startSection("stroll");
 
@@ -203,11 +201,11 @@ public class EntityGlyphid extends EntityMob {
 
 						}
 
-						if (taskX != none) {
-                            if(MobConfig.rampantDig) {
+						if (taskX != TASK_IDLE) {
+							if(MobConfig.rampantDig) {
 
 								MovingObjectPosition obstacle = findWaypointObstruction();
-								if (getScale() >= 1 && getCurrentTask() != dig && obstacle != null) {
+								if (getScale() >= 1 && getCurrentTask() != TASK_DIG && obstacle != null) {
 									digToWaypoint(obstacle);
 								} else {
 									Vec3 vec = Vec3.createVectorHelper(posX, posY, posZ);
@@ -222,19 +220,18 @@ public class EntityGlyphid extends EntityMob {
 							}
 						}
 					}
+					
 					this.worldObj.theProfiler.endSection();
-
 				}
 			}
 		}
-
 	}
 
 
 	public void onBlinded(){
 		this.entityToAttack = null;
 		this.setPathToEntity(null);
-		fleeingTick = 80;
+		this.fleeingTick = 80;
 
 		if(getScale() >= 1.25){
 			if(ticksExisted % 20 == 0) {
@@ -253,8 +250,6 @@ public class EntityGlyphid extends EntityMob {
 						if (block == ModBlocks.lantern) {
 							rotationYaw = 360F / 16 * i;
 							swingItem();
-							//this function is incredibly useful for breaking blocks naturally but obfuscated
-							//jesus fucking christ who the fuck runs forge?
 							worldObj.func_147480_a(mop.blockX, mop.blockY, mop.blockZ, false);
 						}
 
@@ -270,7 +265,7 @@ public class EntityGlyphid extends EntityMob {
 
 	@Override
 	protected boolean canDespawn() {
-		return ticksExisted > 3500 && entityToAttack == null && getCurrentTask() == none;
+		return ticksExisted > 3500 && entityToAttack == null && getCurrentTask() == TASK_IDLE;
 	}
 
 	@Override
@@ -454,16 +449,16 @@ public class EntityGlyphid extends EntityMob {
 		switch(task){
 
 			//call for reinforcements
-			case comm: if(taskWaypoint != null){
-				communicate(follow, taskWaypoint);
-				setCurrentTask(follow, taskWaypoint);
+			case TASK_RETREAT_FOR_REINFORCEMENTS: if(taskWaypoint != null){
+				communicate(TASK_FOLLOW, taskWaypoint);
+				setCurrentTask(TASK_FOLLOW, taskWaypoint);
 			}  break;
 
 			//expand the hive, used by the scout
 			//case 2: expandHive(null);
 
 			//retreat
-			case reinforcements:
+			case TASK_INITIATE_RETREAT:
 
 				if (!worldObj.isRemote && taskWaypoint == null) {
 
@@ -473,15 +468,15 @@ public class EntityGlyphid extends EntityMob {
 
 					//First, go home and get reinforcements
 					EntityWaypoint home = new EntityWaypoint(worldObj);
-					home.setWaypointType(comm);
+					home.setWaypointType(TASK_RETREAT_FOR_REINFORCEMENTS);
  					home.setAdditionalWaypoint(additional);
 					home.setHighPriority();
 					home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
 					worldObj.spawnEntityInWorld(home);
 
 					this.taskWaypoint = home;
-					communicate(follow, home);
-					setCurrentTask(follow, taskWaypoint);
+					communicate(TASK_FOLLOW, home);
+					setCurrentTask(TASK_FOLLOW, taskWaypoint);
 
 					break;
 				}
@@ -492,7 +487,7 @@ public class EntityGlyphid extends EntityMob {
 			//fifth task is used only in the scout and big man johnson, for terraforming
 
 			//dig
-			case dig:
+			case TASK_DIG:
 				shouldDig = true;
 				break;
 
@@ -502,7 +497,8 @@ public class EntityGlyphid extends EntityMob {
 
 	}
 
-    public void communicate(int task, @Nullable EntityWaypoint waypoint) {
+	/** Copies tasks and waypoint to nearby glyphids. Does not work on glyphid scouts */
+	public void communicate(int task, @Nullable EntityWaypoint waypoint) {
 		int radius = waypoint != null ? waypoint.radius : 4;
 
 		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
@@ -523,7 +519,7 @@ public class EntityGlyphid extends EntityMob {
 		}
 	}
 
-    /** What each type of glyphid does when it is time to expand the hive.
+	/** What each type of glyphid does when it is time to expand the hive.
 	 * @return Whether it has expanded successfully or not
 	 * **/
 	public boolean expandHive(){
@@ -532,10 +528,9 @@ public class EntityGlyphid extends EntityMob {
 
 	public boolean isAtDestination() {
 		int destinationRadius = taskWaypoint != null ? (int) Math.pow(taskWaypoint.radius, 2) : 25;
-
 		return this.getDistanceSq(taskX, taskY, taskZ) <= destinationRadius;
 	}
-    ///TASK SYSTEM END
+	///TASK SYSTEM END
 
 	///DIGGING SYSTEM START
 
@@ -564,17 +559,17 @@ public class EntityGlyphid extends EntityMob {
 		previousTask = getCurrentTask();
 		previousWaypoint =  getWaypoint();
 
-		setCurrentTask(dig, target);
+		setCurrentTask(TASK_DIG, target);
 
 		Vec3 vec = Vec3.createVectorHelper(posX, posY, posZ);
 		int maxDist = (int) (Math.sqrt(vec.squareDistanceTo(taskX, taskY, taskZ)) * 1.2);
 		this.setPathToEntity(PathFinderUtils.getPathEntityToCoordPartial(worldObj, this, taskX, taskY, taskZ, maxDist, true, false, true, true));
 
-		communicate(dig, target);
+		communicate(TASK_DIG, target);
 
 	}
 	///DIGGING END
-
+	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
@@ -608,5 +603,4 @@ public class EntityGlyphid extends EntityMob {
 
 		this.currentTask = nbt.getInteger("task");
 	}
-
 }

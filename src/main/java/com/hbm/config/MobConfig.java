@@ -39,7 +39,7 @@ public class MobConfig {
 	public static int swarmCooldown = 120;
 
 	public static int baseSwarmSize = 5;
-    public static double swarmScalingMult = 1.2;
+	public static double swarmScalingMult = 1.2;
 	public static int sootStep = 50;
 
 	public static int[] glyphidChance = {50, -40};
@@ -119,10 +119,10 @@ public class MobConfig {
 						+ "The base chance is the stock chance of the bug to spawn within a swarm, unaffected by soot\n"
 						+ "As soot increases, the spawn rate of the bug increases until it reaches a limit determined by the modifier\n"
 						+ "If the default chance is negative, the mob will not spawn by default, and the lower it is,\n"
-		                + "The longer it takes for the modifier to make it positive\n"
-		                + "If the Modifier is negative, the bug will spawn less often in swarms,\n"
+						+ "The longer it takes for the modifier to make it positive\n"
+						+ "If the Modifier is negative, the bug will spawn less often in swarms,\n"
 						+ "And its place will be taken over by another one.\n"
-		                + "\n"
+						+ "\n"
 						+ "The formula for glyphid spawning chance is: (chance + (modifier - modifier / (soot/10)))"
 						+ "The formula for glyphid swarm scaling is: (baseSwarmSize * Math.max(swarmScalingMult * soot/sootStep, 1))");
 
@@ -140,7 +140,7 @@ public class MobConfig {
 		brendaChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC06_brendaChance", "Base Spawn chance and soot modifier for a glyphid brenda", new int[]{-50, 60});
 		johnsonChance = CommonConfig.createConfigIntList(config, CATEGORY, "12.GC07_johnsonChance", "Base Spawn chance and soot modifier for Big Man Johnson", new int[]{-50, 60});
 
-        String rampantDesc = "Rampant Mode changes glyphid behavior and spawning to be more aggressive, changes include:\n"
+		String rampantDesc = "Rampant Mode changes glyphid behavior and spawning to be more aggressive, changes include:\n"
 				+ "\n"
 				+ "Glyphid Scouts will naturally spawn alongside normal mobs if soot levels are above a certain threshold\n"
 				+ "Glyphids will always have the extended targetting enabled\n"

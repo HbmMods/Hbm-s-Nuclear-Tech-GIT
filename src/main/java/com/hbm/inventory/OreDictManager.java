@@ -302,7 +302,6 @@ public class OreDictManager {
 	/** Any special post-RBMK gating material, namely bismuth and arsenic */
 	public static final DictFrame ANY_BISMOID = new DictFrame("AnyBismoid");
 	public static final DictFrame ANY_ASH = new DictFrame("Ash");
-	/** Any, nevermind, this should be self-explanatory**/
 
 	
 	public static void registerOres() {

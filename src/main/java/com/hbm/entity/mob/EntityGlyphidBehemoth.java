@@ -2,8 +2,6 @@ package com.hbm.entity.mob;
 
 import com.hbm.entity.effect.EntityMist;
 import com.hbm.entity.projectile.EntityChemical;
-import com.hbm.inventory.FluidContainerRegistry;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
@@ -11,14 +9,12 @@ import com.hbm.main.ResourceManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 
 public class EntityGlyphidBehemoth extends EntityGlyphid {
 
@@ -100,7 +96,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 
 	@Override
 	protected void dropFewItems(boolean byPlayer, int looting) {
-	    this.entityDropItem(new ItemStack(ModItems.glyphid_gland, 1, Fluids.SULFURIC_ACID.getID()), 1);
+		this.entityDropItem(new ItemStack(ModItems.glyphid_gland, 1, Fluids.SULFURIC_ACID.getID()), 1);
 		super.dropFewItems(byPlayer, looting);
 	}
 	@Override
