@@ -14,7 +14,7 @@ public class TileEntityMachinePumpElectric extends TileEntityMachinePumpBase imp
 	
 	public TileEntityMachinePumpElectric() {
 		super();
-		water = new FluidTank(Fluids.WATER, 1_000_000);
+		water = new FluidTank(Fluids.WATER, electricSpeed * 100);
 	}
 	
 	public void updateEntity() {
@@ -49,7 +49,7 @@ public class TileEntityMachinePumpElectric extends TileEntityMachinePumpBase imp
 	@Override
 	protected void operate() {
 		this.power -= 1_000;
-		water.setFill(Math.min(water.getFill() + 10_000, water.getMaxFill()));
+		water.setFill(Math.min(water.getFill() + electricSpeed, water.getMaxFill()));
 	}
 
 	@Override

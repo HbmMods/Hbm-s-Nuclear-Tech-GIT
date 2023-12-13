@@ -1,5 +1,6 @@
 package com.hbm.inventory.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -7,8 +8,11 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -18,6 +22,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class GuiInfoContainer extends GuiContainer {
@@ -43,6 +48,33 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	
 	public void drawInfo(String[] text, int x, int y) {
 		this.func_146283_a(Arrays.asList(text), x, y);
+	}
+	
+	/** Automatically grabs upgrade info out of the tile entity if it's a IUpgradeInfoProvider and crams the available info into a list for display. Automation, yeah! */
+	public List<String> getUpgradeInfo(TileEntity tile) {
+		List<String> lines = new ArrayList();
+		
+		if(tile instanceof IUpgradeInfoProvider) {
+			IUpgradeInfoProvider provider = (IUpgradeInfoProvider) tile;
+			
+			lines.add(I18nUtil.resolveKey("upgrade.gui.title"));
+			
+			for(UpgradeType type : UpgradeType.values()) {
+				if(provider.canProvideInfo(type, 0, false)) {
+					int maxLevel = provider.getMaxLevel(type);
+					switch(type) {
+					case SPEED: lines.add(I18nUtil.resolveKey("upgrade.gui.speed", maxLevel)); break;
+					case POWER: lines.add(I18nUtil.resolveKey("upgrade.gui.power", maxLevel)); break;
+					case EFFECT: lines.add(I18nUtil.resolveKey("upgrade.gui.effectiveness", maxLevel)); break;
+					case AFTERBURN: lines.add(I18nUtil.resolveKey("upgrade.gui.afterburner", maxLevel)); break;
+					case OVERDRIVE: lines.add(I18nUtil.resolveKey("upgrade.gui.overdrive", maxLevel)); break;
+					default: break;
+					}
+				}
+			}
+		}
+		
+		return lines;
 	}
 	
 	@Deprecated

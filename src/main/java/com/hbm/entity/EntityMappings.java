@@ -58,6 +58,7 @@ public class EntityMappings {
 		addEntity(EntityGrenadeNuke.class, "entity_grenade_nuke", 500);
 		addEntity(EntitySchrab.class, "entity_schrabnel", 500);
 		addEntity(EntityMissileGeneric.class, "entity_missile_generic", 1000);
+		addEntity(EntityMissileDecoy.class, "entity_missile_decoy", 1000);
 		addEntity(EntityMissileStrong.class, "entity_missile_strong", 1000);
 		addEntity(EntityMissileNuclear.class, "entity_missile_nuclear", 1000);
 		addEntity(EntityMissileCluster.class, "entity_missile_cluster", 1000);
@@ -223,6 +224,7 @@ public class EntityMappings {
 		addEntity(EntityMist.class, "entity_mist", 250, false);
 		addEntity(EntityAcidBomb.class, "entity_acid_bomb", 1000);
 		addEntity(EntityFallingBlockNT.class, "entity_falling_block_nt", 1000);
+		addEntity(EntityBoatRubber.class, "entity_rubber_boat", 250, false);
 
 		addEntity(EntityItemWaste.class, "entity_item_waste", 100);
 		addEntity(EntityItemBuoyant.class, "entity_item_buoyant", 100);

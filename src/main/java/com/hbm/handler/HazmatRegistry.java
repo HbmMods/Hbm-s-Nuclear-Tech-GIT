@@ -53,7 +53,7 @@ public class HazmatRegistry {
 		double t45 = 1D; // 90%
 		double ajr = 1.3D; // 95%
 		double bj = 1D; // 90%
-		double env = 2D; // 99%
+		double env = 1.0D; // 99%
 		double hev = 2.3D; // 99.5%
 		double rpa = 2D; // 99%
 		double trench = 1D; // 90%

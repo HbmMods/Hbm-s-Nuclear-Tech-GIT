@@ -248,7 +248,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			enableDungeons = provider.hasDungeons;
 		}
 
-		if(GeneralConfig.enableDungeons && world.provider.isSurfaceWorld() && enableDungeons) {
+		if(GeneralConfig.enableDungeons && world.provider.dimensionId == 0 && enableDungeons) {
 			
 			if(MobConfig.enableHives && rand.nextInt(MobConfig.hiveSpawn) == 0) {
 				int x = i + rand.nextInt(16) + 8;
@@ -682,7 +682,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			int x = i + rand.nextInt(16);
 			int z = j + rand.nextInt(16);
 			int y = world.getHeightValue(x, z) - rand.nextInt(10);
-			(new Meteorite()).generate(world, rand, x, y, z, false, false, false, false);
+			if(y > 1) (new Meteorite()).generate(world, rand, x, y, z, false, false, false);
 		}
 
 		if (GeneralConfig.enableNITAN) {

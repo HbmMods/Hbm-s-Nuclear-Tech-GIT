@@ -27,6 +27,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energy.IEnergyUser;
@@ -41,6 +42,7 @@ import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
@@ -55,7 +57,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider, SimpleComponent {
+public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider, SimpleComponent, IRadarCommandReceiver {
 
 	public ItemStack slots[];
 
@@ -220,7 +222,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				for(int z = -4; z <= 4; z++) {
 					
 					if(worldObj.isBlockIndirectlyGettingPowered(xCoord + x, yCoord, zCoord + z) && canLaunch()) {
-						launch();
+						launchFromDesignator();
 						break outer;
 					}
 				}
@@ -267,16 +269,47 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		return false;
 	}
+
+	@Override
+	public boolean sendCommandEntity(Entity target) {
+		return sendCommandPosition((int) Math.floor(target.posX), yCoord, (int) Math.floor(target.posX));
+	}
+
+	@Override
+	public boolean sendCommandPosition(int x, int y, int z) {
+		if(!canLaunch()) return false;
+		this.launchTo(x, z);
+		return true;
+	}
 	
-	public void launch() {
-
-		//worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
-
+	public void launchFromDesignator() {
 
 		int tX = slots[1].stackTagCompound.getInteger("xCoord");
 		int tZ = slots[1].stackTagCompound.getInteger("zCoord");
-			
-		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX, tZ, getStruct(slots[0]));
+		
+		this.launchTo(tX, tZ);
+	}
+	
+	public void launchTo(int tX, int tZ) {
+
+		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
+		
+		ItemMissile chip = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "chip"));
+		float c = (Float)chip.attributes[0];
+		float f = 1.0F;
+		
+		if(getStruct(slots[0]).fins != null) {
+			ItemMissile fins = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "stability"));
+			f = (Float) fins.attributes[0];
+		}
+		
+		Vec3 target = Vec3.createVectorHelper(xCoord - tX, 0, zCoord - tZ);
+		target.xCoord *= c * f;
+		target.zCoord *= c * f;
+		
+		target.rotateAroundY(worldObj.rand.nextFloat() * 360);
+		
+		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX + (int)target.xCoord, tZ + (int)target.zCoord, getStruct(slots[0]));
 		worldObj.spawnEntityInWorld(missile);
 		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
 

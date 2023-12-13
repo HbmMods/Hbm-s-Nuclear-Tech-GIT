@@ -1,11 +1,15 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
 import java.util.HashSet;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -18,8 +22,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
-public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase implements IFluidStandardTransceiver, INBTPacketReceiver {
-	
+public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase implements IFluidStandardTransceiver, INBTPacketReceiver, IConfigurableMachine {
+
 	public static final HashSet<Block> validBlocks = new HashSet();
 	
 	static {
@@ -41,6 +45,32 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 	public float lastRotor;
 	public boolean onGround = false;
 	public int groundCheckDelay = 0;
+
+	public static int groundHeight = 70;
+	public static int groundDepth = 4;
+	public static int steamSpeed = 1_000;
+	public static int electricSpeed = 10_000;
+	
+	@Override
+	public String getConfigName() {
+		return "waterpump";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		groundHeight = IConfigurableMachine.grab(obj, "I:groundHeight", groundHeight);
+		groundDepth = IConfigurableMachine.grab(obj, "I:groundDepth", groundDepth);
+		steamSpeed = IConfigurableMachine.grab(obj, "I:steamSpeed", steamSpeed);
+		electricSpeed = IConfigurableMachine.grab(obj, "I:electricSpeed", electricSpeed);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:groundHeight").value(groundHeight);
+		writer.name("I:groundDepth").value(groundDepth);
+		writer.name("I:steamSpeed").value(steamSpeed);
+		writer.name("I:electricSpeed").value(electricSpeed);
+	}
 	
 	public void updateEntity() {
 		
@@ -57,7 +87,7 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 			}
 			
 			this.isOn = false;
-			if(this.canOperate() && yCoord <= 70 && onGround) {
+			if(this.canOperate() && yCoord <= groundHeight && onGround) {
 				this.isOn = true;
 				this.operate();
 			}
@@ -88,7 +118,7 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 		int invalidBlocks = 0;
 		
 		for(int x = -1; x <= 1; x++) {
-			for(int y = -1; y >= -4; y--) {
+			for(int y = -1; y >= -groundDepth; y--) {
 				for(int z = -1; z <= 1; z++) {
 					
 					Block b = worldObj.getBlock(xCoord + x, yCoord + y, zCoord + z);

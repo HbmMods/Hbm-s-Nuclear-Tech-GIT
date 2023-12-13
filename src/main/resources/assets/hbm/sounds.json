@@ -71,6 +71,8 @@
     "door.garage_move": { "category": "block", "sounds": [{"name": "block/door/garage_move", "stream": false}] },
     "door.garage_stop": { "category": "block", "sounds": [{"name": "block/door/garage_stop", "stream": false}] },
     "door.lever": {"category": "block", "sounds": [{"name": "block/door/lever1", "stream": false}]},
+    "door.wgh_start": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": false}]},
+    "door.wgh_stop": {"category": "block", "sounds": [{"name": "block/door/wgh_stop", "stream": false}]},
     "door.wgh_big_start": {"category": "block", "sounds": [{"name": "block/door/door_wgh_big_start", "stream": false}]},
     "door.wgh_big_stop": {"category": "block", "sounds": [{"name": "block/door/door_wgh_big_stop", "stream": false}]},
     "door.qe_sliding_shut": {"category": "block", "sounds": [{"name": "block/door/doorshut_1", "stream": false}]},

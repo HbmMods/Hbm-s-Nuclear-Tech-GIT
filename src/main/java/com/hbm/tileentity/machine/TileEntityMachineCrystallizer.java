@@ -1,17 +1,24 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerCrystallizer;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICrystallizer;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.inventory.recipes.CrystallizerRecipes.CrystallizerRecipe;
-import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IBatteryItem;
@@ -26,10 +33,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver, IGUIProvider {
+public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver, IGUIProvider, IUpgradeInfoProvider {
 	
 	public long power;
 	public static final long maxPower = 1000000;
@@ -62,6 +70,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			tank.setType(7, slots);
 			tank.loadTank(3, 4, slots);
+			
+			UpgradeManager.eval(slots, 5, 6);
 			
 			for(int i = 0; i < getCycleCount(); i++) {
 				
@@ -156,7 +166,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		else if(slots[2].stackSize + stack.stackSize <= slots[2].getMaxStackSize())
 			slots[2].stackSize += stack.stackSize;
 		
-		tank.setFill(tank.getFill() - result.acidAmount);
+		tank.setFill(tank.getFill() - getRequiredAcid(result.acidAmount));
 		
 		float freeChance = this.getFreeChance();
 		
@@ -183,7 +193,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		if(slots[0].stackSize < result.itemAmount)
 			return false;
 		
-		if(tank.getFill() < result.acidAmount) return false;
+		if(tank.getFill() < getRequiredAcid(result.acidAmount)) return false;
 		
 		ItemStack stack = result.output.copy();
 		
@@ -199,89 +209,39 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 	
 	public int getRequiredAcid(int base) {
-		
-		for(int i = 5; i <= 6; i++) {
-
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_effect_1)
-				base *= 3;
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_effect_2)
-				base *= 4;
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_effect_3)
-				base *= 5;
+		int efficiency = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
+		if(efficiency > 0) {
+			return base * (efficiency + 2);
 		}
-		
 		return base;
 	}
 	
 	public float getFreeChance() {
-		
-		float chance = 0.0F;
-		
-		for(int i = 5; i <= 6; i++) {
-
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_effect_1)
-				chance += 0.05F;
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_effect_2)
-				chance += 0.1F;
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_effect_3)
-				chance += 0.15F;
+		int efficiency = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
+		if(efficiency > 0) {
+			return Math.min(efficiency * 0.05F, 0.15F);
 		}
-		
-		return Math.min(chance, 0.15F);
+		return 0;
 	}
 	
 	public short getDuration() {
-		
-		float durationMod = 1;
 		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
-		
 		int base = result != null ? result.duration : 600;
-		
-		for(int i = 5; i <= 6; i++) {
-
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_speed_1)
-				durationMod -= 0.25F;
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_speed_2)
-				durationMod -= 0.50F;
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_speed_3)
-				durationMod -= 0.75F;
+		int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+		if(speed > 0) {
+			return (short) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.25F)));
 		}
-		
-		return (short) Math.ceil((base * Math.max(durationMod, 0.25F)));
+		return (short) base;
 	}
 	
 	public int getPowerRequired() {
-		
-		int consumption = 0;
-		
-		for(int i = 5; i <= 6; i++) {
-
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_speed_1)
-				consumption += 1000;
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_speed_2)
-				consumption += 2000;
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_speed_3)
-				consumption += 3000;
-		}
-		
-		return (int) (demand + Math.min(consumption, 3000));
+		int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+		return (int) (demand + Math.min(speed * 1000, 3000));
 	}
 	
 	public float getCycleCount() {
-		
-		int cycles = 1;
-		
-		for(int i = 5; i <= 6; i++) {
-
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_overdrive_1)
-				cycles += 2;
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_overdrive_2)
-				cycles += 4;
-			if(slots[i] != null && slots[i].getItem() == ModItems.upgrade_overdrive_3)
-				cycles += 6;
-		}
-		
-		return Math.min(cycles, 4);
+		int speed = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+		return Math.min(1 + speed * 2, 7);
 	}
 	
 	public long getPowerScaled(int i) {
@@ -387,5 +347,34 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICrystallizer(player.inventory, this);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.EFFECT || type == UpgradeType.OVERDRIVE;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_crystallizer));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
+		}
+		if(type == UpgradeType.EFFECT) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_EFFICIENCY, "+" + (level * 5) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_ACID, "+" + (level * 100 + 100) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		if(type == UpgradeType.EFFECT) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 2;
+		return 0;
 	}
 }

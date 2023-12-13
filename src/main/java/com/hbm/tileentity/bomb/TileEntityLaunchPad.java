@@ -65,6 +65,7 @@ public class TileEntityLaunchPad extends TileEntityMachineBase implements IEnerg
 		missiles.put(new ComparableStack(ModItems.missile_emp), EntityMissileEMP.class);
 		//Tier 1
 		missiles.put(new ComparableStack(ModItems.missile_generic), EntityMissileGeneric.class);
+		missiles.put(new ComparableStack(ModItems.missile_decoy), EntityMissileDecoy.class);
 		missiles.put(new ComparableStack(ModItems.missile_incendiary), EntityMissileIncendiary.class);
 		missiles.put(new ComparableStack(ModItems.missile_cluster), EntityMissileCluster.class);
 		missiles.put(new ComparableStack(ModItems.missile_buster), EntityMissileBunkerBuster.class);

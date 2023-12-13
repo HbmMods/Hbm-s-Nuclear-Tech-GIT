@@ -7,8 +7,13 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -19,7 +24,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityMicrowave extends TileEntityMachineBase implements IEnergyUser, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityMicrowave extends TileEntityMachineBase implements IEnergyUser, IGUIProvider, SimpleComponent {
 	
 	public long power;
 	public static final long maxPower = 50000;
@@ -207,6 +213,17 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 
 		nbt.setLong("power", power);
 		nbt.setInteger("speed", speed);
+	}
+
+	@Override
+	public String getComponentName() {
+		return "microwave";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] test(Context context, Arguments args) {
+		return new Object[] {"This is a testing device for everything OC."};
 	}
 
 	@Override

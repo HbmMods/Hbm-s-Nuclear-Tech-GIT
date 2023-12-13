@@ -156,19 +156,19 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 			return "ntm_fluid_gauge";
 		}
 
-		@Callback(direct = true, limit = 8)
+		@Callback(direct = true)
 		@Optional.Method(modid = "OpenComputers")
 		public Object[] getTransfer(Context context, Arguments args) {
 			return new Object[] {deltaTick, deltaSecond};
 		}
 
-		@Callback(direct = true, limit = 8)
+		@Callback(direct = true)
 		@Optional.Method(modid = "OpenComputers")
 		public Object[] getFluid(Context context, Arguments args) {
 			return new Object[] {getType().getName()};
 		}
 
-		@Callback(direct = true, limit = 8)
+		@Callback(direct = true)
 		@Optional.Method(modid = "OpenComputers")
 		public Object[] getInfo(Context context, Arguments args) {
 			return new Object[] {deltaTick, deltaSecond, getType().getName(), xCoord, yCoord, zCoord};

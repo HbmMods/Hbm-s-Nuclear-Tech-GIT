@@ -133,7 +133,7 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 		return data;
 	}
 	
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getColor(Context context, Arguments args) {
 		return new Object[] {this.color};

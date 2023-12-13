@@ -24,6 +24,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -48,7 +49,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyUser, IFluidStandardReceiver, IGUIProvider {
+public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyUser, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
 
 	public ItemStack slots[];
 
@@ -208,7 +209,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 				for(int z = -1; z <= 1; z++) {
 						
 					if(worldObj.isBlockIndirectlyGettingPowered(xCoord + x, yCoord, zCoord + z) && canLaunch()) {
-						launch();
+						launchFromDesignator();
 						break outer;
 					}
 				}
@@ -269,10 +270,20 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		
 		return false;
 	}
-	
-	public void launch() {
 
-		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
+	@Override
+	public boolean sendCommandEntity(Entity target) {
+		return sendCommandPosition((int) Math.floor(target.posX), yCoord, (int) Math.floor(target.posX));
+	}
+
+	@Override
+	public boolean sendCommandPosition(int x, int y, int z) {
+		if(!canLaunch()) return false;
+		this.launchTo(x, z);
+		return true;
+	}
+	
+	public void launchFromDesignator() {
 
 		if(slots[1].stackTagCompound != null) {
 			int tX = slots[1].stackTagCompound.getInteger("xCoord");

@@ -17,6 +17,8 @@ public class ItemCustomMachine extends ItemBlock {
 
 	public ItemCustomMachine(Block block) {
 		super(block);
+		this.setMaxDamage(0);
+		this.setHasSubtypes(true);
 	}
 	
 	@SideOnly(Side.CLIENT)

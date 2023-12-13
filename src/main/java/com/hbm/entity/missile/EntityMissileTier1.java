@@ -43,14 +43,23 @@ public abstract class EntityMissileTier1 extends EntityMissileBaseNT {
 	public static class EntityMissileGeneric extends EntityMissileTier1 {
 		public EntityMissileGeneric(World world) { super(world); }
 		public EntityMissileGeneric(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
-		@Override public void onImpact() { ExplosionLarge.explode(worldObj, posX, posY, posZ, 10.0F, true, true, true); }
+		@Override public void onImpact() { this.explodeStandard(15F, 24, false, true); }
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_generic_small); }
+	}
+
+	public static class EntityMissileDecoy extends EntityMissileTier1 {
+		public EntityMissileDecoy(World world) { super(world); }
+		public EntityMissileDecoy(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
+		@Override public void onImpact() { worldObj.newExplosion(this, posX, posY, posZ, 4F, false, false); }
+		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.ingot_steel); }
+		@Override public String getUnlocalizedName() { return "radar.target.tier4"; }
+		@Override public int getBlipLevel() { return IRadarDetectableNT.TIER4; }
 	}
 
 	public static class EntityMissileIncendiary extends EntityMissileTier1 {
 		public EntityMissileIncendiary(World world) { super(world); }
 		public EntityMissileIncendiary(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
-		@Override public void onImpact() { ExplosionLarge.explodeFire(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 10.0F, true, true, true); }
+		@Override public void onImpact() { this.explodeStandard(15F, 24, true, true); }
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_incendiary_small); }
 	}
 

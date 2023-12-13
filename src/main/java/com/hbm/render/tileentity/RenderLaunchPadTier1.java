@@ -38,6 +38,13 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 					ResourceManager.missileV2.renderAll();
 					GL11.glShadeModel(GL11.GL_FLAT);
 				}
+				if(toRender.getItem() == ModItems.missile_decoy) {
+					GL11.glScalef(1.0F, 1.0F, 1.0F);
+					bindTexture(ResourceManager.missileV2_decoy_tex);
+					GL11.glShadeModel(GL11.GL_SMOOTH);
+					ResourceManager.missileV2.renderAll();
+					GL11.glShadeModel(GL11.GL_FLAT);
+				}
 				if(toRender.getItem() == ModItems.missile_strong) {
 					GL11.glScalef(1.5F, 1.5F, 1.5F);
 					bindTexture(ResourceManager.missileStrong_HE_tex);

@@ -339,12 +339,13 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		return "rbmk_crane";
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true, limit = 2) //yknow computers are more efficient than humans, lets give an incentive to use OC
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] move(Context context, Arguments args) {
 		if(setUpCrane) {
-			String textbruh = args.checkString(0);
-			switch(textbruh) {
+			String direction = args.checkString(0);
+
+			switch(direction) {
 				case "up":
 					tiltFront = 30;
 					if(!worldObj.isRemote) posFront += speed;
@@ -368,7 +369,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		return new Object[] {"Crane not found"};
 	}
 	
-	@Callback(direct = true, limit = 4)
+	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] load(Context context, Arguments args) {
 		if (setUpCrane) {
@@ -378,7 +379,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		return new Object[] {"Crane not found"};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getDepletion(Context context, Arguments args) {
 		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
@@ -387,12 +388,22 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		return new Object[] {"N/A"};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getXenonPoison(Context context, Arguments args) {
 		if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
 			return new Object[] {ItemRBMKRod.getPoison(loadedItem)};
 		}
 		return new Object[] {"N/A"};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers") //if this doesnt work im going to die
+	public Object[] getCranePos(Context context, Arguments args) {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection left = dir.getRotation(ForgeDirection.DOWN);
+		int x = (int)Math.floor(this.centerX - dir.offsetX * this.posFront - left.offsetX * this.posLeft + 0.5D);
+		int z = (int)Math.floor(this.centerZ - dir.offsetZ * this.posFront - left.offsetZ * this.posLeft + 0.5D);
+		return new Object[] {x, z};
 	}
 }
