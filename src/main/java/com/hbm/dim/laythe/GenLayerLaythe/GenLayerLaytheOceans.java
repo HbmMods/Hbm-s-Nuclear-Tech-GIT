@@ -1,7 +1,5 @@
 package com.hbm.dim.laythe.GenLayerLaythe;
 
-import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
-import com.hbm.dim.eve.biome.BiomeGenBaseEve;
 import com.hbm.dim.laythe.biome.BiomeGenBaseLaythe;
 
 import net.minecraft.util.ResourceLocation;
