@@ -4,7 +4,8 @@ import net.minecraftforge.common.config.Configuration;
 
 public class SpaceConfig {
 
-
+	//thanks minecraft, for making the biome id limit 128 because apparently anything after that spawns in the overworld.
+	//THANKS MOJANG..
 	public static int dunaoilSpawn = 100;
 
 	public static int moonDimension = 15;
@@ -24,6 +25,7 @@ public class SpaceConfig {
 	public static int eveBiome = 117;
 	public static int eveMountainsBiome = 118;
 	public static int eveOceanBiome = 119;
+	public static int eveSeismicBiome = 125;
 	public static int laytheBiome = 123;
 	public static int laytheOceanBiome = 124;
 	public static int ikeBiome = 145;

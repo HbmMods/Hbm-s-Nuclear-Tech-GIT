@@ -20,6 +20,7 @@ public abstract class GenLayerEve extends GenLayer
     	GenLayer biomes = new GenLayerEveBiomes(l);
     	 biomes = new GenLayerFuzzyZoom(2000L, biomes);
          biomes = new GenLayerZoom(2001L, biomes);
+         biomes = new GenLayerEveSeismicPlains(1006L, biomes);
          biomes = new GenLayerDiversifyEve(1000L, biomes);
          biomes = new GenLayerZoom(1000L, biomes);
          biomes = new GenLayerDiversifyEve(1001L, biomes);
@@ -34,7 +35,6 @@ public abstract class GenLayerEve extends GenLayer
          biomes = new GenLayerFuzzyZoom(1001L, biomes);
          biomes = new GenLayerSmooth(706L, biomes);
          biomes = new GenLayerFuzzyZoom(1002L, biomes);
-         biomes = new GenLayerZoom(1006L, biomes);
          
          GenLayer genLayerVeronoiZoom = new GenLayerVoronoiZoom(10L, biomes);
  

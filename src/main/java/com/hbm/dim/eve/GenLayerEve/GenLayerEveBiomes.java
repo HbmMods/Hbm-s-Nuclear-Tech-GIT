@@ -9,7 +9,7 @@ import net.minecraft.world.gen.layer.IntCache;
 
 public class GenLayerEveBiomes extends GenLayer
 {
-    private static final BiomeGenBase[] biomes = new BiomeGenBase[] { BiomeGenBaseEve.evePlains, BiomeGenBaseEve.eveOcean, BiomeGenBaseEve.eveMountains};
+    private static final BiomeGenBase[] biomes = new BiomeGenBase[] { BiomeGenBaseEve.evePlains, BiomeGenBaseEve.eveOcean, BiomeGenBaseEve.eveMountains, BiomeGenBaseEve.SeismicPlains};
 
     public GenLayerEveBiomes(long l)
     {

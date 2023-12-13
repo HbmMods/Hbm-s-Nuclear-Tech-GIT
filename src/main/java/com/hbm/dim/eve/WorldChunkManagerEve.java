@@ -41,6 +41,8 @@ public class WorldChunkManagerEve extends WorldChunkManager
 		this.myBiomesToSpawnIn.add(BiomeGenBaseEve.evePlains);
 		this.myBiomesToSpawnIn.add(BiomeGenBaseEve.eveOcean);
 		this.myBiomesToSpawnIn.add(BiomeGenBaseEve.eveMountains);
+		this.myBiomesToSpawnIn.add(BiomeGenBaseEve.SeismicPlains);
+
 	}
 
 	public WorldChunkManagerEve(long seed, WorldType type)

@@ -76,7 +76,6 @@ public class ChunkProviderEve implements IChunkProvider
     double[] field_147425_f;
     double[] field_147426_g;
     int[][] field_73219_j = new int[32][32];
-    private static final String __OBFID = "CL_00000396";
 
     public ChunkProviderEve(World par1World, long seed, boolean mapFeaturesEnabled)
     {

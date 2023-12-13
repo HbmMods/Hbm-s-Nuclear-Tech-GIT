@@ -8,6 +8,7 @@ import java.util.Random;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLContext;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
@@ -1278,19 +1279,23 @@ public class ModEventHandlerClient {
 	
 	@SubscribeEvent
 	public void setupFog(RenderFogEvent event) {
-		if(event.entity.worldObj.provider instanceof WorldProviderEve)
-		{
-			event.setResult(Result.DENY);
-		}
+	    if (event.entity.worldObj.provider instanceof WorldProviderEve) {
+	        event.setResult(Result.DENY);
+	    }
 	}
-	
+
 	@SubscribeEvent
 	public void thickenFog(FogDensity event) {
-		if(event.entity.worldObj.provider instanceof WorldProviderEve)
-		{
-			event.density = 0.045F;
-			event.setCanceled(true);
-		}
+	    if (event.entity.worldObj.provider instanceof WorldProviderEve) {
+				if(GLContext.getCapabilities().GL_NV_fog_distance) {
+					GL11.glFogi(34138, 34139);
+				}
+				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+
+	            event.density = 0.045F;
+	            event.setCanceled(true);
+	        
+	    }
 	}
 	
 	/*@SubscribeEvent
