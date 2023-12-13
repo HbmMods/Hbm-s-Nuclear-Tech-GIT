@@ -936,6 +936,11 @@ public class ModItems {
 	public static Item fluid_barrel_empty;
 	public static Item fluid_barrel_infinite;
 
+	public static Item disperser_canister;
+	public static Item disperser_canister_empty;
+	public static Item glyphid_gland;
+	public static Item glyphid_gland_empty;
+
 	public static Item syringe_empty;
 	public static Item syringe_antidote;
 	public static Item syringe_poison;
@@ -4644,6 +4649,13 @@ public class ModItems {
 		fluid_barrel_full = new ItemFluidTank().setUnlocalizedName("fluid_barrel_full").setContainerItem(ModItems.fluid_barrel_empty).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fluid_barrel");
 		fluid_barrel_empty = new Item().setUnlocalizedName("fluid_barrel_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fluid_barrel");
 		fluid_barrel_infinite = new ItemInfiniteFluid(null, 1_000_000_000).setUnlocalizedName("fluid_barrel_infinite").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fluid_barrel_infinite");
+
+		disperser_canister = new ItemDisperser().setUnlocalizedName("disperser_canister").setContainerItem(ModItems.disperser_canister_empty).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":disperser_canister");
+		disperser_canister_empty = new Item().setUnlocalizedName("disperser_canister_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":disperser_canister");
+
+		glyphid_gland = new ItemDisperser().setUnlocalizedName("glyphid_gland").setContainerItem(ModItems.glyphid_gland_empty).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":glyphid_gland");
+		glyphid_gland_empty = new Item().setUnlocalizedName("glyphid_gland_empty").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":glyphid_gland");
+
 		siren_track = new ItemCassette().setUnlocalizedName("siren_track").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":cassette");
 		fluid_duct = new ItemFluidDuct().setUnlocalizedName("fluid_duct").setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":duct");
 
@@ -6365,7 +6377,14 @@ public class ModItems {
 		GameRegistry.registerItem(fluid_barrel_empty, fluid_barrel_empty.getUnlocalizedName());
 		GameRegistry.registerItem(fluid_barrel_full, fluid_barrel_full.getUnlocalizedName());
 		GameRegistry.registerItem(fluid_barrel_infinite, fluid_barrel_infinite.getUnlocalizedName());
-		
+
+		//Disperser Canister
+		GameRegistry.registerItem(disperser_canister_empty, disperser_canister_empty.getUnlocalizedName());
+		GameRegistry.registerItem(disperser_canister, disperser_canister.getUnlocalizedName());
+
+		GameRegistry.registerItem(glyphid_gland_empty, glyphid_gland_empty.getUnlocalizedName());
+		GameRegistry.registerItem(glyphid_gland, glyphid_gland.getUnlocalizedName());
+
 		//Batteries
 		GameRegistry.registerItem(battery_generic, battery_generic.getUnlocalizedName());
 		GameRegistry.registerItem(battery_red_cell, battery_red_cell.getUnlocalizedName());

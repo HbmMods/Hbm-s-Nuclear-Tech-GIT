@@ -4,12 +4,14 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 
+import net.minecraft.block.Block;
+import com.hbm.util.LootGenerator;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 public class GlyphidHive {
 
-	public static final int[][][] schematic = new int[][][] {
+	public static final int[][][] schematicBigGround = new int[][][] {
 		{
 			{0,0,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0},
@@ -38,38 +40,38 @@ public class GlyphidHive {
 		},
 		{
 			{0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,4,4,4,0,0,0,0},
+			{0,0,0,0,3,3,3,0,0,0,0},
 			{0,0,0,1,1,9,1,1,0,0,0},
 			{0,0,1,1,9,9,9,1,1,0,0},
-			{0,3,1,9,9,9,9,9,1,5,0},
-			{0,3,9,9,9,9,9,9,9,5,0},
-			{0,3,1,9,9,9,9,9,1,5,0},
+			{0,3,1,9,9,9,9,9,1,2,0},
+			{0,3,9,9,9,9,9,9,9,2,0},
+			{0,3,1,9,9,9,9,9,1,2,0},
 			{0,0,1,1,9,9,9,1,1,0,0},
 			{0,0,0,1,1,9,1,1,0,0,0},
 			{0,0,0,0,2,2,2,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0},
 		},
 		{
-			{0,0,0,0,0,4,0,0,0,0,0},
-			{0,0,0,0,4,4,4,0,0,0,0},
-			{0,0,0,1,4,9,4,1,0,0,0},
+			{0,0,0,0,0,3,0,0,0,0,0},
+			{0,0,0,0,3,3,3,0,0,0,0},
+			{0,0,0,1,3,9,3,1,0,0,0},
 			{0,0,1,1,9,9,9,1,1,0,0},
-			{0,3,3,9,9,9,9,9,5,5,0},
-			{3,3,9,9,9,9,9,9,9,5,5},
-			{0,3,3,9,9,9,9,9,5,5,0},
+			{0,3,3,9,9,9,9,9,2,2,0},
+			{3,3,9,9,9,9,9,9,9,2,2},
+			{0,3,3,9,9,9,9,9,2,2,0},
 			{0,0,1,1,9,9,9,1,1,0,0},
 			{0,0,0,1,2,9,2,1,0,0,0},
 			{0,0,0,0,2,2,2,0,0,0,0},
 			{0,0,0,0,0,2,0,0,0,0,0},
 		},
 		{
-			{0,0,0,0,4,4,4,0,0,0,0},
-			{0,0,0,1,4,4,4,1,0,0,0},
-			{0,0,1,1,4,9,4,1,1,0,0},
+			{0,0,0,0,3,3,3,0,0,0,0},
+			{0,0,0,1,3,3,3,1,0,0,0},
+			{0,0,1,1,3,9,3,1,1,0,0},
 			{0,1,1,1,9,9,0,1,1,1,0},
-			{3,3,3,9,9,9,9,9,5,5,5},
-			{3,3,9,9,9,9,9,9,9,5,5},
-			{3,3,3,9,9,9,9,9,5,5,5},
+			{3,3,3,9,9,9,9,9,2,2,2},
+			{3,3,9,9,9,9,9,9,9,2,2},
+			{3,3,3,9,9,9,9,9,2,2,2},
 			{0,1,1,1,9,9,9,1,1,1,0},
 			{0,0,1,1,2,9,2,1,1,0,0},
 			{0,0,0,1,2,2,2,1,0,0,0},
@@ -102,21 +104,21 @@ public class GlyphidHive {
 			{0,0,0,0,0,0,0,0,0,0,0},
 		}
 	};
-	
-	public static void generate(World world, int x, int y, int z, Random rand) {
+	public static void generateBigGround(World world, int x, int y, int z, Random rand, boolean openDesign) {
 		
-		int orientation = rand.nextInt(4) + 2;
+		int orientation = rand.nextInt(2) + 2;
 		
 		for(int i = 0; i < 11; i++) {
 			for(int j = 0; j < 7; j++) {
 				for(int k = 0; k < 11; k++) {
 					
-					int block = schematic[6 - j][i][k];
-					
-					if(block == 1 || (block != orientation && block > 1 && block < 6)) {
+					int block = schematicBigGround[6 - j][i][k];
+
+					boolean hasWall = !openDesign && (block != orientation && block > 1 && block < 6);
+
+					if(block == 1 || hasWall) {
 						world.setBlock(x + i - 5, y + j - 2, z + k - 5, ModBlocks.glyphid_base);
-					}
-					if(block == 9) {
+					} else if (block != 0) {
 						world.setBlock(x + i - 5, y + j - 2, z + k - 5, Blocks.air);
 					}
 				}
@@ -124,5 +126,8 @@ public class GlyphidHive {
 		}
 		
 		world.setBlock(x, y - 1, z, ModBlocks.glyphid_spawner);
+
 	}
+
 }
+

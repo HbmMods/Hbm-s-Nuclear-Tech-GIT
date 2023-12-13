@@ -577,6 +577,7 @@ chem.KEVLAR=Kevlar Compound Production
 chem.LPG=Petroleum Gas Liquefaction
 chem.LUBRICANT=Lubricant Mixing
 chem.METH=Methamphetamine Synthesis
+chem.MEAT_PROCESSING=Glyphid Meat Mineral Extraction
 chem.NITAN=NITAN Super Fuel Mixing
 chem.NITRIC_ACID=Nitric Acid Production
 chem.OIL_SAND=Tar Sand Extraction
@@ -1353,6 +1354,8 @@ hbmfluid.pain=Pandemonium(III)tantalite Solution
 hbmfluid.petroil=Petroil
 hbmfluid.petroil_leaded=Leaded Petroil
 hbmfluid.petroleum=Petroleum Gas
+hbmfluid.pheromone=Booster Pheromone
+hbmfluid.pheromone_m=Modified Booster Pheromone
 hbmfluid.phosgene=Phosgene
 hbmfluid.plasma_bf=Balefire Plasma
 hbmfluid.plasma_dh3=Deuterium-Helium-3 Plasma
@@ -1400,6 +1403,9 @@ hbmfluid.woodoil=Wood Oil
 hbmfluid.xenon=Xenon Gas
 hbmfluid.xpjuice=Experience Juice
 hbmfluid.xylene=BTX
+
+
+
 hbmpseudofluid.none=Empty
 hbmpseudofluid.heuf6=Highly Enriched UF6
 hbmpseudofluid.meuf6=Medium Enriched UF6
@@ -2610,6 +2616,13 @@ item.grenade_smart.name=Smart Grenade
 item.grenade_strong.name=Enhanced Grenade
 item.grenade_tau.name=Tau Grenade
 item.grenade_zomg.name=Negative Energy Pair Annihilation Grenade
+
+item.disperser_canister.name= Disperser Canister:
+item.disperser_canister_empty.name= Disperser Canister
+
+item.glyphid_gland.name= Gland
+item.glyphid_gland_empty.name= Glyphid's Fluid Gland
+
 item.gun_ar15.name=Josh
 item.gun_avenger.name=CZ57 Avenger Minigun
 item.gun_b92.name=§9B92 Energy Pistol§r
@@ -4874,7 +4887,9 @@ tile.door_office.name=Office Door
 tile.ducrete.name=Ducrete Tile
 tile.ducrete_stairs.name=Ducrete Tile Stairs
 tile.ducrete_smooth.name=Ducrete
+
 tile.ducrete_smooth_stairs.name=Ducrete Stairs
+
 tile.dummy_block.name=Dummy Block
 tile.dummy_port.name=Dummy Block (Electricity Port)
 tile.dungeon_chain.name=Metal Chain

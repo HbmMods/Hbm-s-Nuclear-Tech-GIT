@@ -1,5 +1,7 @@
 package com.hbm.render.entity.projectile;
 
+import com.hbm.entity.grenade.EntityDisperserCanister;
+import net.minecraft.item.Item;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -16,10 +18,14 @@ public class RenderGenericGrenade extends Render {
 
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float f0, float f1) {
-		
-		IGenericGrenade grenade = (IGenericGrenade) entity;
-		
-		IIcon iicon = grenade.getGrenade().getIconFromDamage(0);
+		IIcon iicon;
+		if(entity instanceof EntityDisperserCanister){
+			EntityDisperserCanister canister = (EntityDisperserCanister) entity;
+			iicon = canister.getType().getIconFromDamage(canister.getFluid().getID());
+		} else {
+			IGenericGrenade grenade = (IGenericGrenade) entity;
+			iicon = grenade.getGrenade().getIconFromDamage(0);
+		}
 
 		if(iicon != null) {
 			GL11.glPushMatrix();
