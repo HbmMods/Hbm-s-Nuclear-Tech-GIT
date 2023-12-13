@@ -55,7 +55,7 @@ public class EntityGlyphid extends EntityMob {
 	public int taskZ;
 
 	//used for digging, bigger glyphids have a longer reach
-	public int blastSize = Math.min((int) (3 * (getScale()))/2, 5);
+	public int blastSize = Math.min((int) (3 * (getScale())) / 2, 5);
 	public int blastResToDig = Math.min((int) (50 * (getScale() * 2)), 150);
 	public boolean shouldDig;
 
@@ -73,10 +73,12 @@ public class EntityGlyphid extends EntityMob {
 	public static final int TASK_FOLLOW = 4;
 	/** Causes nuclear glyphids to immediately self-destruct, also signaling nearby scouts to retreat */
 	public static final int TASK_TERRAFORM = 5;
-	/** Id any task other than IDLE is interrupted by an obstacle, initiates digging behavior which is also communicated to nearby glyohids */
+	/** If any task other than IDLE is interrupted by an obstacle, initiates digging behavior which is also communicated to nearby glyohids */
 	public static final int TASK_DIG = 6;
 	
-	EntityWaypoint taskWaypoint = null;
+	protected boolean hasWaypoint = false;
+	/** Yeah, fuck, whatever, anything goes now */
+	protected EntityWaypoint taskWaypoint = null;
 	
 	public EntityGlyphid(World world) {
 		super(world);
@@ -125,7 +127,7 @@ public class EntityGlyphid extends EntityMob {
 			if(getCurrentTask() == TASK_FOLLOW){
 
 				//incase the waypoint somehow doesn't exist and it got this task anyway
-				if(isAtDestination() && taskX == TASK_IDLE) {
+				if(isAtDestination() && !hasWaypoint) {
 					setCurrentTask(TASK_IDLE, null);
 				}
 			//the task cannot be 6 outside of rampant, so this is a non issue p much
@@ -201,7 +203,7 @@ public class EntityGlyphid extends EntityMob {
 
 						}
 
-						if (taskX != TASK_IDLE) {
+						if(hasWaypoint) {
 							if(MobConfig.rampantDig) {
 
 								MovingObjectPosition obstacle = findWaypointObstruction();
@@ -292,8 +294,6 @@ public class EntityGlyphid extends EntityMob {
 		}
 
 		if(source.isFireDamage()) {
-			//you might be thinking, why would fire damage be nerfed?
-			//thing is, it bypasses glyphid chitin, making it unbelievably powerful, so this was the most reasonable solution
 			amount *= 0.7F;
 		} else if(source.getDamageType().equals("player")) {
 			amount *= 1.5F;
@@ -423,8 +423,9 @@ public class EntityGlyphid extends EntityMob {
 	 * @param waypoint The waypoint for the task, can be null
 	 */
 	public void setCurrentTask(int task, @Nullable EntityWaypoint waypoint){
-		currentTask =  task;
-		taskWaypoint = waypoint;
+		this.currentTask =  task;
+		this.taskWaypoint = waypoint;
+		this.hasWaypoint = waypoint != null;
 		if (taskWaypoint != null) {
 
 			taskX = (int) taskWaypoint.posX;
@@ -448,50 +449,44 @@ public class EntityGlyphid extends EntityMob {
 
 		switch(task){
 
-			//call for reinforcements
-			case TASK_RETREAT_FOR_REINFORCEMENTS: if(taskWaypoint != null){
+		case TASK_RETREAT_FOR_REINFORCEMENTS:
+			if(taskWaypoint != null) {
 				communicate(TASK_FOLLOW, taskWaypoint);
 				setCurrentTask(TASK_FOLLOW, taskWaypoint);
-			}  break;
-
-			//expand the hive, used by the scout
-			//case 2: expandHive(null);
-
-			//retreat
-			case TASK_INITIATE_RETREAT:
-
-				if (!worldObj.isRemote && taskWaypoint == null) {
-
-					//Then, Come back later
-					EntityWaypoint additional =  new EntityWaypoint(worldObj);
-					additional.setLocationAndAngles(posX, posY, posZ, 0 , 0);
-
-					//First, go home and get reinforcements
-					EntityWaypoint home = new EntityWaypoint(worldObj);
-					home.setWaypointType(TASK_RETREAT_FOR_REINFORCEMENTS);
- 					home.setAdditionalWaypoint(additional);
-					home.setHighPriority();
-					home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
-					worldObj.spawnEntityInWorld(home);
-
-					this.taskWaypoint = home;
-					communicate(TASK_FOLLOW, home);
-					setCurrentTask(TASK_FOLLOW, taskWaypoint);
-
-					break;
-				}
-
+			}
 			break;
 
-			//the fourth task (case 4) is to just follow the waypoint path
-			//fifth task is used only in the scout and big man johnson, for terraforming
+		case TASK_INITIATE_RETREAT:
 
-			//dig
-			case TASK_DIG:
-				shouldDig = true;
+			if(!worldObj.isRemote && taskWaypoint == null) {
+
+				// Then, Come back later
+				EntityWaypoint additional = new EntityWaypoint(worldObj);
+				additional.setLocationAndAngles(posX, posY, posZ, 0, 0);
+
+				// First, go home and get reinforcements
+				EntityWaypoint home = new EntityWaypoint(worldObj);
+				home.setWaypointType(TASK_RETREAT_FOR_REINFORCEMENTS);
+				home.setAdditionalWaypoint(additional);
+				home.setHighPriority();
+				home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
+				worldObj.spawnEntityInWorld(home);
+
+				this.taskWaypoint = home;
+				communicate(TASK_FOLLOW, home);
+				setCurrentTask(TASK_FOLLOW, taskWaypoint);
+
 				break;
+			}
 
-			default: break;
+			break;
+			
+		case TASK_DIG:
+			shouldDig = true;
+			break;
+
+		default:
+			break;
 			
 		}
 
@@ -500,19 +495,12 @@ public class EntityGlyphid extends EntityMob {
 	/** Copies tasks and waypoint to nearby glyphids. Does not work on glyphid scouts */
 	public void communicate(int task, @Nullable EntityWaypoint waypoint) {
 		int radius = waypoint != null ? waypoint.radius : 4;
-
-		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
-				this.posX - radius,
-				this.posY - radius,
-				this.posZ - radius,
-				this.posX + radius,
-				this.posY + radius,
-				this.posZ + radius);
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(this.posX, this.posY, this.posZ, this.posX, this.posY, this.posZ).expand(radius, radius, radius);
 
 		List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
-		for (Entity e: bugs){
-			if(e instanceof EntityGlyphid && !(e instanceof EntityGlyphidScout)){
-				if(((EntityGlyphid) e).getCurrentTask() != task){
+		for(Entity e : bugs) {
+			if(e instanceof EntityGlyphid && !(e instanceof EntityGlyphidScout)) {
+				if(((EntityGlyphid) e).getCurrentTask() != task) {
 					((EntityGlyphid) e).setCurrentTask(task, waypoint);
 				}
 			}
@@ -580,6 +568,7 @@ public class EntityGlyphid extends EntityMob {
 		nbt.setInteger("homeY", homeY);
 		nbt.setInteger("homeZ", homeZ);
 
+		nbt.setBoolean("hasWaypoint", hasWaypoint);
 		nbt.setInteger("taskX", taskX);
 		nbt.setInteger("taskY", taskY);
 		nbt.setInteger("taskZ", taskZ);
@@ -597,6 +586,7 @@ public class EntityGlyphid extends EntityMob {
 		this.homeY = nbt.getInteger("homeY");
 		this.homeZ = nbt.getInteger("homeZ");
 
+		this.hasWaypoint = nbt.getBoolean("hasWaypoint");
 		this.taskX = nbt.getInteger("taskX");
 		this.taskY = nbt.getInteger("taskY");
 		this.taskZ = nbt.getInteger("taskZ");

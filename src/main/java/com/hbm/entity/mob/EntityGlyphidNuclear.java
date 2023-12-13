@@ -135,13 +135,7 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		
 		if(deathTicks == 90){
 			int radius = 8;
-			AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
-					this.posX - radius,
-					this.posY - radius,
-					this.posZ - radius,
-					this.posX + radius,
-					this.posY + radius,
-					this.posZ + radius);
+			AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(this.posX, this.posY, this.posZ, this.posX, this.posY, this.posZ).expand(radius, radius, radius);
 
 			List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
 			for (Entity e: bugs){

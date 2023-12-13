@@ -74,9 +74,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 
 				if(MobConfig.rampantGlyphidGuidance && PollutionHandler.targetCoords != null){
 					if(!hasTarget) {
-						Vec3 dirVec = playerBaseDirFinder(
-								Vec3.createVectorHelper(posX, posY, posZ),
-								PollutionHandler.targetCoords);
+					Vec3 dirVec = playerBaseDirFinder(Vec3.createVectorHelper(posX, posY, posZ), getPlayerTargetDirection());
 
 						EntityWaypoint target = new EntityWaypoint(worldObj);
 						target.setLocationAndAngles(dirVec.xCoord, dirVec.yCoord, dirVec.zCoord, 0, 0);
@@ -157,7 +155,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 			}
 		}
 	}
-	
+
 	/** Returns true if the position is far enough away from other hives. Also resets the task if unsuccessful. */
 	public boolean canBuildHiveHere() {
 		int length = useLargeHive ? 16 : 8;
@@ -308,5 +306,9 @@ public class EntityGlyphidScout extends EntityGlyphid {
 				currentLocation.zCoord + dirVec.zCoord * 10
 		);
 	}
-
+	
+	//TODO: replace that with some actual directions
+	protected Vec3 getPlayerTargetDirection() {
+		return PollutionHandler.targetCoords;
+	}
 }
