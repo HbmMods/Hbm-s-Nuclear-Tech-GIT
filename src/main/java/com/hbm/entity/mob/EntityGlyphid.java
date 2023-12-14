@@ -32,7 +32,7 @@ import net.minecraft.util.*;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -79,6 +79,9 @@ public class EntityGlyphid extends EntityMob {
 	protected boolean hasWaypoint = false;
 	/** Yeah, fuck, whatever, anything goes now */
 	protected EntityWaypoint taskWaypoint = null;
+
+	public static final int TYPE_NORMAL = 0;
+	public static final int TYPE_INFECTED = 1;
 	
 	public EntityGlyphid(World world) {
 		super(world);
@@ -98,6 +101,7 @@ public class EntityGlyphid extends EntityMob {
 		super.entityInit();
 		this.dataWatcher.addObject(16, new Byte((byte) 0)); //wall climbing
 		this.dataWatcher.addObject(17, new Byte((byte) 0b11111)); //armor
+		this.dataWatcher.addObject(18, new Byte((byte) 0)); //subtype (i.e. normal, infected, etc)
 	}
 
 	@Override
@@ -204,7 +208,8 @@ public class EntityGlyphid extends EntityMob {
 						}
 
 						if(hasWaypoint) {
-							if(MobConfig.rampantDig) {
+							
+							if(canDig()) {
 
 								MovingObjectPosition obstacle = findWaypointObstruction();
 								if (getScale() >= 1 && getCurrentTask() != TASK_DIG && obstacle != null) {
@@ -229,6 +234,9 @@ public class EntityGlyphid extends EntityMob {
 		}
 	}
 
+	protected boolean canDig() {
+		return MobConfig.rampantDig;
+	}
 
 	public void onBlinded(){
 		this.entityToAttack = null;
@@ -592,5 +600,10 @@ public class EntityGlyphid extends EntityMob {
 		this.taskZ = nbt.getInteger("taskZ");
 
 		this.currentTask = nbt.getInteger("task");
+	}
+
+	@Override
+	public boolean getCanSpawnHere() {
+		return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.worldObj.checkNoEntityCollision(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox);
 	}
 }
