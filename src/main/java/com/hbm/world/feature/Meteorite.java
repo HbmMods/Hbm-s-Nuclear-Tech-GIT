@@ -77,7 +77,7 @@ public class Meteorite {
 				ExplosionLarge.spawnRubble(world, x, y, z, 25);
 				return;
 			case 5:
-				// Large treasure-only meteorite
+				// Large treasure-only meteoritew
 				List<ItemStack> list4 = new ArrayList<ItemStack>();
 				list4.add(new ItemStack(ModBlocks.block_meteor_treasure));
 				list4.add(new ItemStack(ModBlocks.block_meteor_broken));
