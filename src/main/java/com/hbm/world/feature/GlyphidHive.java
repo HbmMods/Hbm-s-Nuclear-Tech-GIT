@@ -105,6 +105,7 @@ public class GlyphidHive {
 	public static void generateBigGround(World world, int x, int y, int z, Random rand, boolean openDesign) {
 		
 		int orientation = rand.nextInt(2) + 2;
+		int overrideMeta = 0;
 		
 		for(int i = 0; i < 11; i++) {
 			for(int j = 0; j < 7; j++) {
@@ -115,7 +116,7 @@ public class GlyphidHive {
 					boolean hasWall = !openDesign && (block != orientation && block > 1 && block < 6);
 
 					if(block == 1 || hasWall) {
-						world.setBlock(x + i - 5, y + j - 2, z + k - 5, ModBlocks.glyphid_base);
+						world.setBlock(x + i - 5, y + j - 2, z + k - 5, ModBlocks.glyphid_base, overrideMeta, 2);
 					} else if (block != 0) {
 						world.setBlock(x + i - 5, y + j - 2, z + k - 5, Blocks.air);
 					}
@@ -123,7 +124,7 @@ public class GlyphidHive {
 			}
 		}
 		
-		world.setBlock(x, y - 1, z, ModBlocks.glyphid_spawner);
+		world.setBlock(x, y - 1, z, ModBlocks.glyphid_spawner, overrideMeta, 2);
 
 	}
 

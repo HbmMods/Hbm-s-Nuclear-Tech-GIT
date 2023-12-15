@@ -8,18 +8,25 @@ import com.hbm.entity.mob.*;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.ModItems;
-
+import com.hbm.lib.RefStrings;
 import com.hbm.util.Tuple.Pair;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class BlockGlyphidSpawner extends BlockContainer {
+	
+	public IIcon[] icons = new IIcon[2];
 
 	public BlockGlyphidSpawner(Material mat) {
 		super(mat);
@@ -28,6 +35,19 @@ public class BlockGlyphidSpawner extends BlockContainer {
 	@Override
 	public Item getItemDropped(int meta, Random rand, int fortune) {
 		return ModItems.egg_glyphid;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta) {
+		return icons[meta % icons.length];
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister reg) {
+		icons[0] = reg.registerIcon(RefStrings.MODID + ":glyphid_eggs_alt");
+		icons[1] = reg.registerIcon(RefStrings.MODID + ":glyphid_eggs_infested");
 	}
 
 	private static final ArrayList<Pair<Function<World, EntityGlyphid>, int[]>> spawnMap = new ArrayList<>();
@@ -80,7 +100,7 @@ public class BlockGlyphidSpawner extends BlockContainer {
 
 					if(list.size() <= 3) {
 
-						ArrayList<EntityGlyphid> currentSwarm = createSwarm(soot);
+						ArrayList<EntityGlyphid> currentSwarm = createSwarm(soot, this.getBlockMetadata());
 
 						for(EntityGlyphid glyphid : currentSwarm) {
 							trySpawnEntity(glyphid);
@@ -109,7 +129,7 @@ public class BlockGlyphidSpawner extends BlockContainer {
 			}
 		}
 
-		public ArrayList<EntityGlyphid> createSwarm(float soot) {
+		public ArrayList<EntityGlyphid> createSwarm(float soot, int meta) {
 
 			Random rand = new Random();
 			ArrayList<EntityGlyphid> currentSpawns = new ArrayList<>();
@@ -121,7 +141,9 @@ public class BlockGlyphidSpawner extends BlockContainer {
 					int[] chance = glyphid.getValue();
 					int adjustedChance = (int) (chance[0] + (chance[1] - chance[1] / Math.max(((soot + 1) / 3), 1)));
 					if(rand.nextInt(100) <= adjustedChance) {
-						currentSpawns.add(glyphid.getKey().apply(worldObj));
+						EntityGlyphid entity = glyphid.getKey().apply(worldObj);
+						if(meta == 1) entity.getDataWatcher().updateObject(EntityGlyphid.DW_SUBTYPE, (byte) EntityGlyphid.TYPE_INFECTED);
+						currentSpawns.add(entity);
 					}
 				}
 			}

@@ -508,7 +508,7 @@ death.attack.tauBlast=%1$s lud die XVL1456 zu lange auf und wurde in Stücke ger
 death.attack.teleporter=%1$s wurde ins Nichts teleportiert.
 
 desc.item.rtgHeat=Hitzelevel: %s
-desc.gui.rtgBFurnace.desc=Bönitigt mindestens 15 Hitze um zu starten$Je mehr Hitze, desto schneller der Vorgang$Hitze über dem maximalen Level hat keinen Effekt$Gold-198 kann zu Quecksilber zerfallen
+desc.gui.rtgBFurnace.desc=Benötigt mindestens 15 Hitze um zu starten$Je mehr Hitze, desto schneller der Vorgang$Hitze über dem maximalen Level hat keinen Effekt$Gold-198 kann zu Quecksilber zerfallen
 desc.gui.rtgBFurnace.heat=§eHitzelevel: %s
 desc.gui.rtgBFurnace.pellets=Akzeptierte Pellets:
 desc.gui.rtgBFurnace.pellet=%s (%s Hitze)
@@ -527,6 +527,7 @@ entity.entity_glyphid_blaster.name=Glyphid-Blaster
 entity.entity_glyphid_bombardier.name=Glyphid-Bombardierer
 entity.entity_glyphid_brawler.name=Glyphid-Schläger
 entity.entity_glyphid_brenda.name=Brenda
+entity.entity_glyphid_digger.name=Glyphid-Gräber
 entity.entity_glyphid_nuclear.name=Der dicke Johnson
 entity.entity_glyphid_scout.name=Glyphid-Späher
 entity.entity_ntm_fbi.name=FBI Agent

@@ -80,8 +80,14 @@ public class EntityGlyphid extends EntityMob {
 	/** Yeah, fuck, whatever, anything goes now */
 	protected EntityWaypoint taskWaypoint = null;
 
+	//subtypes
 	public static final int TYPE_NORMAL = 0;
 	public static final int TYPE_INFECTED = 1;
+
+	//data watcher keys
+	public static final int DW_WALL = 16;
+	public static final int DW_ARMOR = 17;
+	public static final int DW_SUBTYPE = 18;
 	
 	public EntityGlyphid(World world) {
 		super(world);
@@ -99,9 +105,9 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(16, new Byte((byte) 0)); //wall climbing
-		this.dataWatcher.addObject(17, new Byte((byte) 0b11111)); //armor
-		this.dataWatcher.addObject(18, new Byte((byte) 0)); //subtype (i.e. normal, infected, etc)
+		this.dataWatcher.addObject(DW_WALL, new Byte((byte) 0));			//wall climbing
+		this.dataWatcher.addObject(DW_ARMOR, new Byte((byte) 0b11111));	//armor
+		this.dataWatcher.addObject(DW_SUBTYPE, new Byte((byte) 0));			//subtype (i.e. normal, infected, etc)
 	}
 
 	@Override
@@ -282,7 +288,7 @@ public class EntityGlyphid extends EntityMob {
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 
 		if(!source.isDamageAbsolute() && !source.isUnblockable() && !worldObj.isRemote && !source.isFireDamage() && !source.getDamageType().equals(ModDamageSource.s_cryolator)) {
-			byte armor = this.dataWatcher.getWatchableObjectByte(17);
+			byte armor = this.dataWatcher.getWatchableObjectByte(DW_ARMOR);
 
 			if(armor != 0) { //if at least one bit of armor is present
 
@@ -322,7 +328,7 @@ public class EntityGlyphid extends EntityMob {
 
 	public float calculateDamage(float amount) {
 
-		byte armor = this.dataWatcher.getWatchableObjectByte(17);
+		byte armor = this.dataWatcher.getWatchableObjectByte(DW_ARMOR);
 		int divisor = 1;
 
 		for(int i = 0; i < 5; i++) {
@@ -341,7 +347,7 @@ public class EntityGlyphid extends EntityMob {
 	}
 
 	public void breakOffArmor() {
-		byte armor = this.dataWatcher.getWatchableObjectByte(17);
+		byte armor = this.dataWatcher.getWatchableObjectByte(DW_ARMOR);
 		List<Integer> indices = Arrays.asList(0, 1, 2, 3, 4);
 		Collections.shuffle(indices);
 
@@ -350,7 +356,7 @@ public class EntityGlyphid extends EntityMob {
 			if((armor & bit) > 0) {
 				armor &= ~bit;
 				armor = (byte) (armor & 0b11111);
-				this.dataWatcher.updateObject(17, armor);
+				this.dataWatcher.updateObject(DW_ARMOR, armor);
 				worldObj.playSoundAtEntity(this, "mob.zombie.woodbreak", 1.0F, 1.25F);
 				break;
 			}
@@ -388,11 +394,11 @@ public class EntityGlyphid extends EntityMob {
 	}
 
 	public boolean isBesideClimbableBlock() {
-		return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+		return (this.dataWatcher.getWatchableObjectByte(DW_WALL) & 1) != 0;
 	}
 
 	public void setBesideClimbableBlock(boolean climbable) {
-		byte watchable = this.dataWatcher.getWatchableObjectByte(16);
+		byte watchable = this.dataWatcher.getWatchableObjectByte(DW_WALL);
 
 		if(climbable) {
 			watchable = (byte) (watchable | 1);
@@ -400,7 +406,7 @@ public class EntityGlyphid extends EntityMob {
 			watchable &= -2;
 		}
 
-		this.dataWatcher.updateObject(16, Byte.valueOf(watchable));
+		this.dataWatcher.updateObject(DW_WALL, Byte.valueOf(watchable));
 	}
 
 	@Override
@@ -569,7 +575,8 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
-		nbt.setByte("armor", this.dataWatcher.getWatchableObjectByte(17));
+		nbt.setByte("armor", this.dataWatcher.getWatchableObjectByte(DW_ARMOR));
+		nbt.setByte("subtype", this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE));
 
 		nbt.setBoolean("hasHome", hasHome);
 		nbt.setInteger("homeX", homeX);
@@ -587,7 +594,8 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
-		this.dataWatcher.updateObject(17, nbt.getByte("armor"));
+		this.dataWatcher.updateObject(DW_ARMOR, nbt.getByte("armor"));
+		this.dataWatcher.updateObject(DW_SUBTYPE, nbt.getByte("subtype"));
 
 		this.hasHome = nbt.getBoolean("hasHome");
 		this.homeX = nbt.getInteger("homeX");
