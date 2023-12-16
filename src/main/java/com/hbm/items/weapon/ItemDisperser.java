@@ -18,59 +18,57 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class ItemDisperser extends ItemFluidTank {
-    @Override
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+	@Override
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
-        if (!player.capabilities.isCreativeMode) {
-            --stack.stackSize;
-        }
+		if(!player.capabilities.isCreativeMode) {
+			--stack.stackSize;
+		}
 
-        world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+		world.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-        if (!world.isRemote) {
+		if(!world.isRemote) {
 
-            EntityDisperserCanister canister = new EntityDisperserCanister(world, player);
+			EntityDisperserCanister canister = new EntityDisperserCanister(world, player);
+			canister.setType(Item.getIdFromItem(this));
+			canister.setFluid(stack.getItemDamage());
+			world.spawnEntityInWorld(canister);
+		}
+		return stack;
+	}
 
-            canister.setType(Item.getIdFromItem(this));
-            canister.setFluid(stack.getItemDamage());
-            world.spawnEntityInWorld(canister);
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item item, CreativeTabs tabs, List list) {
 
-        }
+		FluidType[] order = Fluids.getInNiceOrder();
 
-        return stack;
-    }
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tabs, List list) {
+		for(int i = 1; i < order.length; ++i) {
+			FluidType type = order[i];
+			int id = type.getID();
+			if(type.isDispersable() && this == ModItems.disperser_canister) {
+				list.add(new ItemStack(item, 1, id));
+			} else if(type == Fluids.PHEROMONE || type == Fluids.SULFURIC_ACID && this == ModItems.glyphid_gland) {
+				list.add(new ItemStack(item, 1, id));
+			}
 
-        FluidType[] order = Fluids.getInNiceOrder();
+		}
+	}
 
-        for(int i = 1; i < order.length; ++i) {
-            FluidType type = order[i];
-            int id = type.getID();
-           if(type.isDispersable() && this == ModItems.disperser_canister) {
-               list.add(new ItemStack(item, 1, id));
-           } else if (type == Fluids.PHEROMONE || type == Fluids.SULFURIC_ACID && this == ModItems.glyphid_gland) {
-               list.add(new ItemStack(item, 1, id));
-           }
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
 
-        }
-    }
+		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+		String s1 = ("" + StatCollector.translateToLocal(Fluids.fromID(stack.getItemDamage()).getUnlocalizedName())).trim();
 
-    @Override
-    public String getItemStackDisplayName(ItemStack stack) {
+		s = this == ModItems.glyphid_gland ? s1 + " " + s : s + " " + s1;
+		return s;
+	}
 
-        String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-        String s1 = ("" + StatCollector.translateToLocal(Fluids.fromID(stack.getItemDamage()).getUnlocalizedName())).trim();
-
-        s = this == ModItems.glyphid_gland ? s1 + " " + s : s + " " + s1 ;
-        return s;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister p_94581_1_) {
-        super.registerIcons(p_94581_1_);
-        this.overlayIcon = this == ModItems.disperser_canister ?  p_94581_1_.registerIcon("hbm:disperser_canister_overlay") : p_94581_1_.registerIcon("hbm:fluid_identifier_overlay");
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister p_94581_1_) {
+		super.registerIcons(p_94581_1_);
+		this.overlayIcon = this == ModItems.disperser_canister ? p_94581_1_.registerIcon("hbm:disperser_canister_overlay") : p_94581_1_.registerIcon("hbm:fluid_identifier_overlay");
+	}
 }

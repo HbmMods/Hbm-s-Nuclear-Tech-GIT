@@ -65,7 +65,7 @@ public class EntityGlyphidBlaster extends EntityGlyphidBombardier {
 
 	@Override
 	public int getBombCount() {
-		return 20;
+		return 10;
 	}
 
 	@Override

@@ -229,7 +229,13 @@ public class HbmWorldGen implements IWorldGenerator {
 				int x = i + rand.nextInt(16) + 8;
 				int z = j + rand.nextInt(16) + 8;
 				int y = world.getHeightValue(x, z);
-				if(world.getBlock(x, y - 1, z).isNormalCube()) GlyphidHive.generateBigGround(world, x, y, z, rand, false);
+				
+				for(int k = 3; k >= -1; k--) {
+					if(world.getBlock(x, y - 1 + k, z).isNormalCube()) {
+						GlyphidHive.generateSmall(world, x, y + k, z, rand, rand.nextInt(10) == 0, true);
+						break;
+					}
+				}
 			}
 
 			if(biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {

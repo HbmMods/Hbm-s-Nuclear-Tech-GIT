@@ -44,7 +44,7 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 				this.lastZ = e.posZ;
 			}
 			
-			if(this.ticksExisted % 20 == 1) {
+			if(this.ticksExisted % 60 == 1) {
 				
 				boolean topAttack = rand.nextBoolean();
 
@@ -95,7 +95,7 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 	}
 	
 	public int getBombCount() {
-		return 10;
+		return 5;
 	}
 	
 	public float getSpreadMult() {

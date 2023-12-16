@@ -85,7 +85,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 
 
 	public void acidAttack(){
-		if (!worldObj.isRemote && entityToAttack instanceof EntityLivingBase) {
+		if(!worldObj.isRemote && entityToAttack instanceof EntityLivingBase && this.getDistanceToEntity(entityToAttack) < 20) {
 			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 20, 6));
 			EntityChemical chem = new EntityChemical(worldObj, this);
 

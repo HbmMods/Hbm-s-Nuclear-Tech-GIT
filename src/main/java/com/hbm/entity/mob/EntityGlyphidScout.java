@@ -12,6 +12,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.*;
@@ -119,38 +120,35 @@ public class EntityGlyphidScout extends EntityGlyphid {
 				timer++;
 
 				if (!worldObj.isRemote && canBuildHiveHere()) {
-					 if(timer == 1) {
+					if(timer == 1) {
 
-						 EntityWaypoint additional = new EntityWaypoint(worldObj);
-						 additional.setLocationAndAngles(posX, posY, posZ, 0, 0);
-						 additional.setWaypointType(TASK_IDLE);
+						EntityWaypoint additional = new EntityWaypoint(worldObj);
+						additional.setLocationAndAngles(posX, posY, posZ, 0, 0);
+						additional.setWaypointType(TASK_IDLE);
 
-						 //First, go home and get reinforcements
-						 EntityWaypoint home = new EntityWaypoint(worldObj);
-						 home.setWaypointType(TASK_RETREAT_FOR_REINFORCEMENTS);
-						 home.setAdditionalWaypoint(additional);
-						 home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
-						 home.maxAge = 1200;
-						 home.radius = 6;
+						// First, go home and get reinforcements
+						EntityWaypoint home = new EntityWaypoint(worldObj);
+						home.setWaypointType(TASK_RETREAT_FOR_REINFORCEMENTS);
+						home.setAdditionalWaypoint(additional);
+						home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
+						home.maxAge = 1200;
+						home.radius = 6;
 
-						 worldObj.spawnEntityInWorld(home);
+						worldObj.spawnEntityInWorld(home);
 
-						 this.taskWaypoint = home;
-						 this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 40 * 20, 10));
-						 communicate(TASK_RETREAT_FOR_REINFORCEMENTS, taskWaypoint);
+						this.taskWaypoint = home;
+						this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 40 * 20, 10));
+						communicate(TASK_RETREAT_FOR_REINFORCEMENTS, taskWaypoint);
 
-					 } else if (timer >= 5) {
+					} else if(timer >= 5) {
 
-							 worldObj.newExplosion(this, posX, posY, posZ, 5F, false, false);
-							 GlyphidHive.generateBigGround(worldObj,
-									 (int) Math.floor(posX),
-									 (int) Math.floor(posY),
-									 (int) Math.floor(posZ), rand, true);
-							 this.setDead();
+						worldObj.newExplosion(this, posX, posY, posZ, 5F, false, false);
+						GlyphidHive.generateSmall(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), rand, this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) != TYPE_NORMAL, false);
+						this.setDead();
 
-					 } else {
-						 communicate(TASK_FOLLOW, taskWaypoint);
-					 }
+					} else {
+						communicate(TASK_FOLLOW, taskWaypoint);
+					}
 				}
 			}
 		}
@@ -307,8 +305,11 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		);
 	}
 	
-	//TODO: replace that with some actual directions
 	protected Vec3 getPlayerTargetDirection() {
+		EntityPlayer player = worldObj.getClosestPlayerToEntity(this, 300);
+		if(player != null) {
+			return Vec3.createVectorHelper(player.posX, player.posY, player.posZ);
+		}
 		return PollutionHandler.targetCoords;
 	}
 }

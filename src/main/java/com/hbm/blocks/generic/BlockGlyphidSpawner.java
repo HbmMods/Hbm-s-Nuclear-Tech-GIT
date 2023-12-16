@@ -3,12 +3,14 @@ package com.hbm.blocks.generic;
 import java.util.*;
 import java.util.function.Function;
 
+import com.hbm.blocks.IBlockMulti;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.*;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.Tuple.Pair;
 
 import cpw.mods.fml.relauncher.Side;
@@ -16,7 +18,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -24,12 +28,13 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-public class BlockGlyphidSpawner extends BlockContainer {
+public class BlockGlyphidSpawner extends BlockContainer implements IBlockMulti {
 	
 	public IIcon[] icons = new IIcon[2];
 
 	public BlockGlyphidSpawner(Material mat) {
 		super(mat);
+		this.setCreativeTab(MainRegistry.blockTab);
 	}
 
 	@Override
@@ -48,6 +53,17 @@ public class BlockGlyphidSpawner extends BlockContainer {
 	public void registerBlockIcons(IIconRegister reg) {
 		icons[0] = reg.registerIcon(RefStrings.MODID + ":glyphid_eggs_alt");
 		icons[1] = reg.registerIcon(RefStrings.MODID + ":glyphid_eggs_infested");
+	}
+
+	@Override
+	public int getSubCount() {
+		return 2;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+		for(int i = 0; i < getSubCount(); ++i) list.add(new ItemStack(item, 1, i));
 	}
 
 	private static final ArrayList<Pair<Function<World, EntityGlyphid>, int[]>> spawnMap = new ArrayList<>();
@@ -90,8 +106,7 @@ public class BlockGlyphidSpawner extends BlockContainer {
 					for(Object e : worldObj.loadedEntityList) {
 						if(e instanceof EntityGlyphid) {
 							count++;
-							//if(count >= MobConfig.spawnMax)
-							//	return;
+							if(count >= MobConfig.spawnMax) return;
 						}
 					}
 
@@ -134,18 +149,21 @@ public class BlockGlyphidSpawner extends BlockContainer {
 			Random rand = new Random();
 			ArrayList<EntityGlyphid> currentSpawns = new ArrayList<>();
 			int swarmAmount = (int) Math.min(MobConfig.baseSwarmSize * Math.max(MobConfig.swarmScalingMult * (soot / MobConfig.sootStep), 1), 10);
-
-			while(currentSpawns.size() <= swarmAmount) {
+			int cap = 100;
+			
+			while(currentSpawns.size() <= swarmAmount && cap >= 0) {
 				// (dys)functional programing
 				for(Pair<Function<World, EntityGlyphid>, int[]> glyphid : spawnMap) {
 					int[] chance = glyphid.getValue();
 					int adjustedChance = (int) (chance[0] + (chance[1] - chance[1] / Math.max(((soot + 1) / 3), 1)));
-					if(rand.nextInt(100) <= adjustedChance) {
+					if(soot >= chance[2] && rand.nextInt(100) <= adjustedChance) {
 						EntityGlyphid entity = glyphid.getKey().apply(worldObj);
 						if(meta == 1) entity.getDataWatcher().updateObject(EntityGlyphid.DW_SUBTYPE, (byte) EntityGlyphid.TYPE_INFECTED);
 						currentSpawns.add(entity);
 					}
 				}
+				
+				cap--;
 			}
 			return currentSpawns;
 		}

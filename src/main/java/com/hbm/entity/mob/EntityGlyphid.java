@@ -174,8 +174,8 @@ public class EntityGlyphid extends EntityMob {
 	protected Entity findPlayerToAttack() {
 		if(this.isPotionActive(Potion.blindness)) return null;
 
-		EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() && getCurrentTask() != 0 ? 128D : 16D);
-		return entityplayer != null && (MobConfig.rampantExtendedTargetting || canEntityBeSeen(entityplayer)) ? entityplayer : null;
+		EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() ? 128D : 16D);
+		return entityplayer;
 	}
 
 	@Override
@@ -193,7 +193,7 @@ public class EntityGlyphid extends EntityMob {
 			if (!this.hasPath()) {
 
 				// hell yeah!!
-				if (useExtendedTargeting() && this.entityToAttack != null) {
+				if(useExtendedTargeting() && this.entityToAttack != null) {
 					this.setPathToEntity(PathFinderUtils.getPathEntityToEntityPartial(worldObj, this, this.entityToAttack, 16F, true, false, true, true));
 				} else if (getCurrentTask() != TASK_IDLE) {
 
@@ -281,11 +281,15 @@ public class EntityGlyphid extends EntityMob {
 
 	@Override
 	protected boolean canDespawn() {
-		return ticksExisted > 3500 && entityToAttack == null && getCurrentTask() == TASK_IDLE;
+		return entityToAttack == null && getCurrentTask() == TASK_IDLE && this.ticksExisted > 100;
 	}
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
+		
+		if(source.getEntity() instanceof EntityGlyphid) {
+			return false;
+		}
 
 		if(!source.isDamageAbsolute() && !source.isUnblockable() && !worldObj.isRemote && !source.isFireDamage() && !source.getDamageType().equals(ModDamageSource.s_cryolator)) {
 			byte armor = this.dataWatcher.getWatchableObjectByte(DW_ARMOR);
@@ -318,8 +322,29 @@ public class EntityGlyphid extends EntityMob {
 		if(this.isPotionActive(HbmPotion.phosphorus.getId())){
 			amount *= 1.5F;
 		}
+		
+		boolean alive = this.getHealth() > 0;
+		boolean wasAttacked = super.attackEntityFrom(source, amount);
+		
+		if(alive && this.getHealth() <= 0) {
+			if(this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) == TYPE_INFECTED) {
 
-		return super.attackEntityFrom(source, amount);
+				int j = 2 + this.rand.nextInt(3);
+
+				for(int k = 0; k < j; ++k) {
+					float f = ((float) (k % 2) - 0.5F) * 0.5F;
+					float f1 = ((float) (k / 2) - 0.5F) * 0.5F;
+					EntityParasiteMaggot maggot = new EntityParasiteMaggot(worldObj);
+					maggot.setLocationAndAngles(this.posX + (double) f, this.posY + 0.5D, this.posZ + (double) f1, this.rand.nextFloat() * 360.0F, 0.0F);
+					maggot.motionX = f;
+					maggot.motionZ = f1;
+					maggot.velocityChanged = true;
+					this.worldObj.spawnEntityInWorld(maggot);
+				}
+			}
+		}
+
+		return wasAttacked;
 	}
 
 	public boolean isArmorBroken(float amount) {
@@ -437,16 +462,16 @@ public class EntityGlyphid extends EntityMob {
 	 * @param waypoint The waypoint for the task, can be null
 	 */
 	public void setCurrentTask(int task, @Nullable EntityWaypoint waypoint){
-		this.currentTask =  task;
+		this.currentTask = task;
 		this.taskWaypoint = waypoint;
 		this.hasWaypoint = waypoint != null;
-		if (taskWaypoint != null) {
+		if(taskWaypoint != null) {
 
 			taskX = (int) taskWaypoint.posX;
 			taskY = (int) taskWaypoint.posY;
 			taskZ = (int) taskWaypoint.posZ;
 
-			if (taskWaypoint.highPriority) {
+			if(taskWaypoint.highPriority) {
 				this.entityToAttack = null;
 				this.setPathToEntity(null);
 			}

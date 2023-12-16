@@ -1,22 +1,30 @@
 package com.hbm.blocks.generic;
 
+import java.util.List;
+
+import com.hbm.blocks.IBlockMulti;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockGlyphid extends Block {
+public class BlockGlyphid extends Block implements IBlockMulti {
 
 	public IIcon[] iconsStandard = new IIcon[2];
 	public IIcon[] iconsInfested = new IIcon[2];
 
 	public BlockGlyphid(Material mat) {
 		super(mat);
+		this.setCreativeTab(MainRegistry.blockTab);
 	}
 
 	@Override
@@ -48,5 +56,16 @@ public class BlockGlyphid extends Block {
 	protected IIcon[] getIconArray(int meta) {
 		if(meta == 1) return this.iconsInfested;
 		return this.iconsStandard;
+	}
+
+	@Override
+	public int getSubCount() {
+		return 2;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+		for(int i = 0; i < getSubCount(); ++i) list.add(new ItemStack(item, 1, i));
 	}
 }
