@@ -61,11 +61,8 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public static int waterCap = 16000;
 	public static int oilCap = 16000;
 	public static int lubeCap = 4000;
-	public static int coalGenRate = 20;
+	public static int coalGenRate = 100;
 	public static double rtgHeatMult = 0.15D;
-	public static double waterPowerMult = 1.0D;
-	public static double lubePowerMult = 1.5D;
-	public static double heatExponent = 1.15D;
 	public static int waterRate = 10;
 	public static int lubeRate = 1;
 	public static long fluidHeatDiv = 1_000L;
@@ -81,11 +78,8 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		waterCap = IConfigurableMachine.grab(obj, "I:waterCap", waterCap);
 		oilCap = IConfigurableMachine.grab(obj, "I:oilCap", oilCap);
 		lubeCap = IConfigurableMachine.grab(obj, "I:lubeCap", lubeCap);
-		coalGenRate = IConfigurableMachine.grab(obj, "I:solidFuelRate", coalGenRate);
+		coalGenRate = IConfigurableMachine.grab(obj, "I:solidFuelRate2", coalGenRate);
 		rtgHeatMult = IConfigurableMachine.grab(obj, "D:rtgHeatMult", rtgHeatMult);
-		waterPowerMult = IConfigurableMachine.grab(obj, "D:waterPowerMult", waterPowerMult);
-		lubePowerMult = IConfigurableMachine.grab(obj, "D:lubePowerMult", lubePowerMult);
-		heatExponent = IConfigurableMachine.grab(obj, "D:heatExponent", heatExponent);
 		waterRate = IConfigurableMachine.grab(obj, "I:waterRate", waterRate);
 		lubeRate = IConfigurableMachine.grab(obj, "I:lubeRate", lubeRate);
 		fluidHeatDiv = IConfigurableMachine.grab(obj, "D:fluidHeatDiv", fluidHeatDiv);
@@ -97,11 +91,8 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		writer.name("I:waterCap").value(waterCap);
 		writer.name("I:oilCap").value(oilCap);
 		writer.name("I:lubeCap").value(lubeCap);
-		writer.name("I:solidFuelRate").value(coalGenRate);
+		writer.name("I:solidFuelRate2").value(coalGenRate);
 		writer.name("D:rtgHeatMult").value(rtgHeatMult);
-		writer.name("D:waterPowerMult").value(waterPowerMult);
-		writer.name("D:lubePowerMult").value(lubePowerMult);
-		writer.name("D:heatExponent").value(heatExponent);
 		writer.name("I:waterRate").value(waterRate);
 		writer.name("I:lubeRate").value(lubeRate);
 		writer.name("D:fluidHeatDiv").value(fluidHeatDiv);
@@ -215,19 +206,20 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			
 			if(this.spin > 0) {
 				
-				int powerGen = this.spin;
+				double genMult = 0.5D;
+				
 				
 				if(this.tanks[0].getFill() >= 10) {
-					powerGen += this.spin * waterPowerMult;
+					genMult += 0.5D;
 					this.tanks[0].setFill(this.tanks[0].getFill() - waterRate);
 				}
 				
 				if(this.tanks[2].getFill() >= 1) {
-					powerGen += this.spin * lubePowerMult;
+					genMult += 0.25D;
 					this.tanks[2].setFill(this.tanks[2].getFill() - lubeRate);
 				}
 				
-				this.power += Math.pow(powerGen, heatExponent);
+				this.power += this.spin * genMult;
 				
 				if(this.power > this.maxPower)
 					this.power = this.maxPower;
