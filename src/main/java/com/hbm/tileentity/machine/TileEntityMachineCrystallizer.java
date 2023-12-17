@@ -211,7 +211,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public int getRequiredAcid(int base) {
 		int efficiency = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
 		if(efficiency > 0) {
-			return base * (0.2 * efficiency + 1);
+			return (int) (base * (0.2 * efficiency + 1));
 		}
 		return base;
 	}
