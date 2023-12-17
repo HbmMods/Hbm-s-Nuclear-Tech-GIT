@@ -32,8 +32,8 @@ public class EntityGlyphidBlaster extends EntityGlyphidBombardier {
 	}
 
 	@Override
-	public int getArmorBreakChance(float amount) {
-		return amount < 10 ? 10 : amount < 25 ? 5 : amount > 100 ? 1 : 3;
+	public boolean isArmorBroken(float amount) {
+		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.25, 2), 100);
 	}
 
 	@Override
@@ -65,12 +65,12 @@ public class EntityGlyphidBlaster extends EntityGlyphidBombardier {
 
 	@Override
 	public int getBombCount() {
-		return 20;
+		return 10;
 	}
 
 	@Override
 	public float getSpreadMult() {
-		return 0.75F;
+		return 0.5F;
 	}
 
 	@Override

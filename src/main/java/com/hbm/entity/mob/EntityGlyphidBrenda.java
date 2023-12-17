@@ -1,10 +1,13 @@
 package com.hbm.entity.mob;
 
+import com.hbm.entity.effect.EntityMist;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -30,13 +33,14 @@ public class EntityGlyphidBrenda extends EntityGlyphid {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.8D);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.2D);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(50D);
 	}
 
 	@Override
-	public int getArmorBreakChance(float amount) {
-		return amount < 25 ? 100 : amount > 1000 ? 1 : 10;
+	public boolean isArmorBroken(float amount) {
+		// amount < 5 ? 5 : amount < 10 ? 3 : 2;
+		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.12, 2), 100);
 	}
 
 	@Override
@@ -62,20 +66,27 @@ public class EntityGlyphidBrenda extends EntityGlyphid {
 	}
 
 	@Override
-	public void setDead() {
+	public void onDeath(DamageSource source) {
+		super.onDeath(source);
 		if(!this.worldObj.isRemote && this.getHealth() <= 0.0F) {
+			EntityMist mist = new EntityMist(worldObj);
+			mist.setType(Fluids.PHEROMONE);
+			mist.setPosition(posX, posY, posZ);
+			mist.setArea(14, 6);
+			mist.setDuration(80);
+			worldObj.spawnEntityInWorld(mist);
 			for(int i = 0; i < 12; ++i) {
 				EntityGlyphid glyphid = new EntityGlyphid(worldObj);
 				glyphid.setLocationAndAngles(this.posX, this.posY + 0.5D, this.posZ, rand.nextFloat() * 360.0F, 0.0F);
-				glyphid.addPotionEffect(new PotionEffect(Potion.resistance.id, 5 * 60 * 20, 2));
-				glyphid.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 5 * 60 * 20, 0));
-				glyphid.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 5 * 60 * 20, 4));
-				glyphid.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 5 * 60 * 20, 19));
 				this.worldObj.spawnEntityInWorld(glyphid);
 				glyphid.moveEntity(rand.nextGaussian(), 0, rand.nextGaussian());
 			}
 		}
-
-		super.setDead();
 	}
+	@Override
+	protected void dropFewItems(boolean byPlayer, int looting) {
+		super.dropFewItems(byPlayer, looting);
+		if(rand.nextInt(3) == 0) this.entityDropItem(new ItemStack(ModItems.glyphid_gland, 1, Fluids.PHEROMONE.getID()), 1);
+	}
+
 }

@@ -98,6 +98,8 @@ public class OreDictManager {
 
 	public static final String KEY_CIRCUIT_BISMUTH = "circuitVersatile";
 
+	public static final String KEY_GLYPHID_MEAT = "glyphidMeat";
+
 	/*
 	 * MATERIALS
 	 */
@@ -300,6 +302,7 @@ public class OreDictManager {
 	/** Any special post-RBMK gating material, namely bismuth and arsenic */
 	public static final DictFrame ANY_BISMOID = new DictFrame("AnyBismoid");
 	public static final DictFrame ANY_ASH = new DictFrame("Ash");
+
 	
 	public static void registerOres() {
 
@@ -504,7 +507,13 @@ public class OreDictManager {
 		 */
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_bismuth);
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_arsenic);
-		
+
+		/*
+		 * GLYPHID M E A T
+		 */
+		OreDictionary.registerOre(KEY_GLYPHID_MEAT, new ItemStack(glyphid_meat));
+		OreDictionary.registerOre(KEY_GLYPHID_MEAT, new ItemStack(glyphid_meat_grilled));
+
 		for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.smeltable == SmeltingBehavior.SMELTABLE) {
 				if(mat.shapes.contains(MaterialShapes.CASTPLATE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.CASTPLATE.name() + name, new ItemStack(ModItems.plate_cast, 1, mat.id));
