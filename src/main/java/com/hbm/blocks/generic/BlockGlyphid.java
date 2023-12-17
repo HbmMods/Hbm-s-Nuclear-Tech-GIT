@@ -1,6 +1,7 @@
 package com.hbm.blocks.generic;
 
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.lib.RefStrings;
@@ -25,6 +26,11 @@ public class BlockGlyphid extends Block implements IBlockMulti {
 	public BlockGlyphid(Material mat) {
 		super(mat);
 		this.setCreativeTab(MainRegistry.blockTab);
+	}
+
+	@Override
+	public Item getItemDropped(int meta, Random rand, int fortune) {
+		return null;
 	}
 
 	@Override

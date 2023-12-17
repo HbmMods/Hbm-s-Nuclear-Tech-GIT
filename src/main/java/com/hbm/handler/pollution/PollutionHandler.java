@@ -180,8 +180,6 @@ public class PollutionHandler {
 		
 		if(event.side == Side.SERVER && event.phase == Phase.END) {
 
-			int spreadThreshold = RadiationConfig.pollutionSpreadThreshold;
-			double spreadEff = RadiationConfig.pollutionSpreadEfficiency;
 			eggTimer++;
 			if(eggTimer < 60) return;
 			eggTimer = 0;
@@ -200,11 +198,11 @@ public class PollutionHandler {
 					int P = PollutionType.POISON.ordinal();
 					
 					/* CALCULATION */
-					if(data.pollution[S] > spreadThreshold) {
-						pollutionForNeightbors[S] = (float) (data.pollution[S] * spreadEff);
-						data.pollution[S] *= 1-spreadEff*4;
+					if(data.pollution[S] > 15) {
+						pollutionForNeightbors[S] = (float) (data.pollution[S] * 0.05F);
+						data.pollution[S] *= 0.8F;
 					} else {
-						data.pollution[S] *= 0.8;
+						data.pollution[S] *= 0.99F;
 					}
 
 					data.pollution[H] *= 0.9995F;

@@ -32,8 +32,6 @@ public class RadiationConfig {
 	public static double sootFogThreshold = 35D;
 	public static double sootFogDivisor = 120D;
 	public static double smokeStackSootMult = 0.8;
-	public static int pollutionSpreadThreshold = 15;
-	public static double pollutionSpreadEfficiency = 0.05D;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -72,7 +70,5 @@ public class RadiationConfig {
 		sootFogThreshold = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_06_sootFogThreshold", "How much soot is required for smog to become visible", 35D);
 		sootFogDivisor = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_07_sootFogDivisor", "The divisor for smog, higher numbers will require more soot for the same smog density", 120D);
 		smokeStackSootMult = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_08_smokeStackSootMult", "How much does smokestack multiply soot by, with decimal values reducing the soot", 0.8);
-		pollutionSpreadThreshold = CommonConfig.createConfigInt(config, CATEGORY_POL, "POL_09_pollutionSpreadThreshold", "The amount of soot required for it to be spread to nearby chunks, causes it to concentrate more", 15);
-		pollutionSpreadEfficiency = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_10_pollutionSpreadEfficiency", "How much soot will be spread to nearby chunks at once (percentage), values higher than 0.05 may cause infinite feedback loop of soot", 0.05);
 	}
 }

@@ -1,11 +1,11 @@
 package com.hbm.render.entity.projectile;
 
 import com.hbm.entity.grenade.EntityDisperserCanister;
-import net.minecraft.item.Item;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.hbm.entity.grenade.IGenericGrenade;
+import com.hbm.inventory.fluid.FluidType;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -18,26 +18,44 @@ public class RenderGenericGrenade extends Render {
 
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float f0, float f1) {
-		IIcon iicon;
-		if(entity instanceof EntityDisperserCanister){
-			EntityDisperserCanister canister = (EntityDisperserCanister) entity;
-			iicon = canister.getType().getIconFromDamage(canister.getFluid().getID());
-		} else {
-			IGenericGrenade grenade = (IGenericGrenade) entity;
-			iicon = grenade.getGrenade().getIconFromDamage(0);
-		}
-
-		if(iicon != null) {
-			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x, (float) y, (float) z);
-			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-			GL11.glScalef(0.5F, 0.5F, 0.5F);
-			this.bindEntityTexture(entity);
-			Tessellator tessellator = Tessellator.instance;
-
-			this.renderItem(tessellator, iicon);
-			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-			GL11.glPopMatrix();
+		
+		boolean disperser = entity instanceof EntityDisperserCanister;
+		
+		for(int i = 0; i < (disperser ? 2 : 1); i++) {
+			
+			IIcon iicon;
+			if(disperser){
+				EntityDisperserCanister canister = (EntityDisperserCanister) entity;
+				FluidType fluid = canister.getFluid();
+				iicon = canister.getType().getIconFromDamageForRenderPass(fluid.getID(), i);
+				
+				if(i == 1) {
+					int hex = fluid.getColor();
+					int r = (hex & 0xFF0000) >> 16;
+					int g = (hex & 0xFF00) >> 8;
+					int b = (hex & 0xFF);
+					GL11.glColor3b((byte) (r / 2), (byte) (g / 2), (byte) (b / 2));
+				}
+				
+			} else {
+				IGenericGrenade grenade = (IGenericGrenade) entity;
+				iicon = grenade.getGrenade().getIconFromDamage(i);
+			}
+	
+			if(iicon != null) {
+				GL11.glPushMatrix();
+				GL11.glTranslatef((float) x, (float) y, (float) z);
+				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+				GL11.glScalef(0.5F, 0.5F, 0.5F);
+				this.bindEntityTexture(entity);
+				Tessellator tessellator = Tessellator.instance;
+	
+				this.renderItem(tessellator, iicon);
+				GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+				GL11.glPopMatrix();
+			}
+			
+			GL11.glColor3f(1F, 1F, 1F);
 		}
 	}
 

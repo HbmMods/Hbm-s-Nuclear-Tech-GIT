@@ -19,6 +19,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.potion.HbmPotion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
@@ -30,6 +31,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.EnumDifficulty;
@@ -317,6 +319,8 @@ public class EntityGlyphid extends EntityMob {
 			amount *= 1.5F;
 		} else if(source == ModDamageSource.acid || source.equals(new DamageSource(ModDamageSource.s_acid))){
 			amount = 0;
+		} else if(source == DamageSource.inWall) {
+			amount *= 15F;
 		}
 
 		if(this.isPotionActive(HbmPotion.phosphorus.getId())){
@@ -327,7 +331,7 @@ public class EntityGlyphid extends EntityMob {
 		boolean wasAttacked = super.attackEntityFrom(source, amount);
 		
 		if(alive && this.getHealth() <= 0) {
-			if(this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) == TYPE_INFECTED) {
+			if(doesInfectedSpawnMaggots() && this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) == TYPE_INFECTED) {
 
 				int j = 2 + this.rand.nextInt(3);
 
@@ -345,6 +349,10 @@ public class EntityGlyphid extends EntityMob {
 		}
 
 		return wasAttacked;
+	}
+	
+	public boolean doesInfectedSpawnMaggots() {
+		return true;
 	}
 
 	public boolean isArmorBroken(float amount) {
@@ -435,10 +443,16 @@ public class EntityGlyphid extends EntityMob {
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity victum) {
+	public boolean attackEntityAsMob(Entity victim) {
 		if(this.isSwingInProgress) return false;
 		this.swingItem();
-		return super.attackEntityAsMob(victum);
+		
+		if(this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) == TYPE_INFECTED && victim instanceof EntityLivingBase) {
+			((EntityLivingBase) victim).addPotionEffect(new PotionEffect(Potion.poison.id, 100, 2));
+			((EntityLivingBase) victim).addPotionEffect(new PotionEffect(Potion.confusion.id, 100, 0));
+		}
+		
+		return super.attackEntityAsMob(victim);
 	}
 
 

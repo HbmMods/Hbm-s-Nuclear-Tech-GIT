@@ -234,7 +234,7 @@ public class EntityMappings {
 		addEntity(TrainCargoTramTrailer.class, "entity_ntm_cargo_tram_trailer", 250, false);
 		addEntity(TrainTunnelBore.class, "entity_ntm_tunnel_bore", 250, false);
 
-		addEntity(EntityDisperserCanister.class, "entity_disperser", 250, false);
+		addEntity(EntityDisperserCanister.class, "entity_disperser", 250);
 		addEntity(EntityWaypoint.class, "entity_waypoint", 250, false);
 
 		addMob(EntityCreeperNuclear.class, "entity_mob_nuclear_creeper", 0x204131, 0x75CE00);

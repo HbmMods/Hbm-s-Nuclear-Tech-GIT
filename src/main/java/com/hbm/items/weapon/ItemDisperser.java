@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class ItemDisperser extends ItemFluidTank {
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
@@ -59,7 +60,7 @@ public class ItemDisperser extends ItemFluidTank {
 	public String getItemStackDisplayName(ItemStack stack) {
 
 		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-		String s1 = ("" + StatCollector.translateToLocal(Fluids.fromID(stack.getItemDamage()).getUnlocalizedName())).trim();
+		String s1 = ("" + StatCollector.translateToLocal(Fluids.fromID(stack.getItemDamage()).getConditionalName())).trim();
 
 		s = this == ModItems.glyphid_gland ? s1 + " " + s : s + " " + s1;
 		return s;

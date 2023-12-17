@@ -170,14 +170,10 @@ public class MobConfig {
 			rampantGlyphidGuidance = true;
 			scoutSwarmSpawnChance = 1;
 			scoutThreshold = 0.1;
-			RadiationConfig.pollutionSpreadThreshold = 25;
 			if(pollutionMult == 1) {
 				pollutionMult = 2;
-				RadiationConfig.pollutionSpreadEfficiency = 0.2 / pollutionMult;
 			}
-			else RadiationConfig.pollutionSpreadEfficiency = 0.1 / pollutionMult;
 			RadiationConfig.sootFogThreshold *= pollutionMult;
-
 		}
 	}
 }

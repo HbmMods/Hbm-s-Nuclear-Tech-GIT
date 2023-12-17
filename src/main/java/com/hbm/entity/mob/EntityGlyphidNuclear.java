@@ -122,6 +122,11 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		return 10F;
 	}
 
+	@Override
+	public boolean doesInfectedSpawnMaggots() {
+		return false;
+	}
+
 	public boolean hasWaypoint = false;
 	@Override
 	protected void onDeathUpdate() {
@@ -148,10 +153,25 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		if(this.deathTicks == 100) {
 			
 			if(!worldObj.isRemote) {
-
 				ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, 25, this);
-				vnt.setBlockAllocator(new BlockAllocatorStandard(24));
-				vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorDebris(ModBlocks.volcanic_lava_block, 0)).setNoDrop());
+
+				if(this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) == TYPE_INFECTED) {
+					int j = 15 + this.rand.nextInt(6);
+					for(int k = 0; k < j; ++k) {
+						float f = ((float) (k % 2) - 0.5F) * 0.5F;
+						float f1 = ((float) (k / 2) - 0.5F) * 0.5F;
+						EntityParasiteMaggot maggot = new EntityParasiteMaggot(worldObj);
+						maggot.setLocationAndAngles(this.posX + (double) f, this.posY + 0.5D, this.posZ + (double) f1, this.rand.nextFloat() * 360.0F, 0.0F);
+						maggot.motionX = f;
+						maggot.motionZ = f1;
+						maggot.velocityChanged = true;
+						this.worldObj.spawnEntityInWorld(maggot);
+					}
+				} else {
+					vnt.setBlockAllocator(new BlockAllocatorStandard(24));
+					vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorDebris(ModBlocks.volcanic_lava_block, 0)).setNoDrop());
+				}
+				
 				vnt.setEntityProcessor(new EntityProcessorStandard());
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());
 				vnt.explode();
