@@ -171,6 +171,9 @@ public class FluidType {
 	public boolean needsLeadContainer() {
 		return this.traits.containsKey(FT_LeadContainer.class);
 	}
+	public boolean isDispersable() {
+		return !(this.traits.containsKey(FT_Amat.class) || this.traits.containsKey(FT_NoContainer.class) || this.traits.containsKey(FT_Viscous.class));
+	}
 
 	/**
 	 * Called when the tile entity is broken, effectively voiding the fluids.

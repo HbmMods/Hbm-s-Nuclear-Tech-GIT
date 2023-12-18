@@ -2,15 +2,13 @@ package com.hbm.entity.effect;
 
 import java.util.List;
 
+import com.hbm.entity.mob.EntityGlyphid;
+import com.hbm.entity.projectile.EntityChemical;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.trait.FT_Corrosive;
-import com.hbm.inventory.fluid.trait.FT_Flammable;
-import com.hbm.inventory.fluid.trait.FT_Poison;
-import com.hbm.inventory.fluid.trait.FT_Toxin;
-import com.hbm.inventory.fluid.trait.FT_VentRadiation;
+import com.hbm.inventory.fluid.trait.*;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
@@ -25,13 +23,16 @@ import com.hbm.util.ContaminationUtil.HazardType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityMist extends Entity {
@@ -40,10 +41,14 @@ public class EntityMist extends Entity {
 		super(world);
 		this.noClip = true;
 	}
-	
+	public int maxAge = 150;
 	public EntityMist setArea(float width, float height) {
 		this.dataWatcher.updateObject(11, width);
 		this.dataWatcher.updateObject(12, height);
+		return this;
+	}
+	public EntityMist setDuration(int duration){
+		this.maxAge = duration;
 		return this;
 	}
 
@@ -74,7 +79,7 @@ public class EntityMist extends Entity {
 		
 		if(!worldObj.isRemote) {
 			
-			if(this.ticksExisted > this.getMaxAge()) {
+			if(this.ticksExisted >= this.getMaxAge()) {
 				this.setDead();
 			}
 
@@ -128,7 +133,7 @@ public class EntityMist extends Entity {
 		EntityLivingBase living = e instanceof EntityLivingBase ? (EntityLivingBase) e : null;
 		
 		if(type.temperature >= 100) {
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, new DamageSource(ModDamageSource.s_boil), 5F + (type.temperature - 100) * 0.02F);
+			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, new DamageSource(ModDamageSource.s_boil), 0.2F + (type.temperature - 100) * 0.02F);
 			
 			if(type.temperature >= 500) {
 				e.setFire(10); //afterburn for 10 seconds
@@ -136,7 +141,7 @@ public class EntityMist extends Entity {
 		}
 		if(type.temperature < -20) {
 			if(living != null) { //only living things are affected
-				EntityDamageUtil.attackEntityFromIgnoreIFrame(e, new DamageSource(ModDamageSource.s_cryolator), 5F + (type.temperature + 20) * -0.05F); //5 damage at -20°C with one extra damage every -20°C
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(e, new DamageSource(ModDamageSource.s_cryolator), 0.2F + (type.temperature + 20) * -0.05F); //5 damage at -20°C with one extra damage every -20°C
 				living.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100, 2));
 				living.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 100, 4));
 			}
@@ -160,11 +165,11 @@ public class EntityMist extends Entity {
 		
 		if(type.hasTrait(FT_Corrosive.class)) {
 			FT_Corrosive trait = type.getTrait(FT_Corrosive.class);
-			EntityDamageUtil.attackEntityFromIgnoreIFrame(e, new DamageSource(ModDamageSource.s_acid), trait.getRating() / 20F);
 			
 			if(living != null) {
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(living, ModDamageSource.acid, trait.getRating() / 60F);
 				for(int i = 0; i < 4; i++) {
-					ArmorUtil.damageSuit(living, i, trait.getRating() / 5);
+					ArmorUtil.damageSuit(living, i, trait.getRating() / 50);
 				}
 			}
 		}
@@ -191,14 +196,37 @@ public class EntityMist extends Entity {
 				trait.affect(living, intensity);
 			}
 		}
+
+		if(type == Fluids.ENDERJUICE && living != null){
+			teleportRandomly(living);
+		}
+
+		if(type.hasTrait(FT_Pheromone.class)){
+
+			FT_Pheromone pheromone = type.getTrait(FT_Pheromone.class);
+
+			if(living != null) {
+				if ((living instanceof EntityGlyphid && pheromone.getType() == 1) || (living instanceof EntityPlayer && pheromone.getType() == 2)) {
+					int mult = pheromone.getType();
+
+					living.addPotionEffect(new PotionEffect(Potion.moveSpeed.id,  mult * 60 * 20, 1));
+					living.addPotionEffect(new PotionEffect(Potion.digSpeed.id, mult * 60 * 20, 1));
+					living.addPotionEffect(new PotionEffect(Potion.regeneration.id,  mult * 2 * 20, 0));
+					living.addPotionEffect(new PotionEffect(Potion.resistance.id,  mult * 60 * 20, 0));
+					living.addPotionEffect(new PotionEffect(Potion.damageBoost.id,  mult * 60 * 20, 1));
+					living.addPotionEffect(new PotionEffect(Potion.fireResistance.id,  mult * 60 * 20, 0));
+
+				}
+			}
+		}
 	}
 	
 	protected boolean isExtinguishing(FluidType type) {
-		return this.getStyleFromType(type) == SprayStyle.MIST && this.getType().temperature < 50 && !type.hasTrait(FT_Flammable.class);
+		return this.getType().temperature < 50 && !type.hasTrait(FT_Flammable.class);
 	}
 
 	public int getMaxAge() {
-		return getStyleFromType(this.getType()) == SprayStyle.GAS ? 600 : 150;
+		return maxAge;
 	}
 
 	@Override
@@ -242,10 +270,76 @@ public class EntityMist extends Entity {
 		
 		return SprayStyle.NULL;
 	}
-	
+
 	public static enum SprayStyle {
 		MIST,	//liquids that have been sprayed into a mist
 		GAS,	//things that were already gaseous
 		NULL
+	}
+
+	//terribly copy-pasted from EntityChemical.class, whose method was terribly copy-pasted from EntityEnderman.class
+	//the fun never ends
+	public void teleportRandomly(Entity e) {
+		double x = this.posX + (this.rand.nextDouble() - 0.5D) * 64.0D;
+		double y = this.posY + (double) (this.rand.nextInt(64) - 32);
+		double z = this.posZ + (this.rand.nextDouble() - 0.5D) * 64.0D;
+		this.teleportTo(e, x, y, z);
+	}
+
+	public void teleportTo(Entity e, double x, double y, double z) {
+
+		double targetX = e.posX;
+		double targetY = e.posY;
+		double targetZ = e.posZ;
+		e.posX = x;
+		e.posY = y;
+		e.posZ = z;
+		boolean flag = false;
+		int i = MathHelper.floor_double(e.posX);
+		int j = MathHelper.floor_double(e.posY);
+		int k = MathHelper.floor_double(e.posZ);
+
+		if(e.worldObj.blockExists(i, j, k)) {
+			boolean flag1 = false;
+
+			while(!flag1 && j > 0) {
+				Block block = e.worldObj.getBlock(i, j - 1, k);
+
+				if(block.getMaterial().blocksMovement()) {
+					flag1 = true;
+				} else {
+					--e.posY;
+					--j;
+				}
+			}
+
+			if(flag1) {
+				e.setPosition(e.posX, e.posY, e.posZ);
+
+				if(e.worldObj.getCollidingBoundingBoxes(e, e.boundingBox).isEmpty() && !e.worldObj.isAnyLiquid(e.boundingBox)) {
+					flag = true;
+				}
+			}
+		}
+
+		if(!flag) {
+			e.setPosition(targetX, targetY, targetZ);
+		} else {
+			short short1 = 128;
+
+			for(int l = 0; l < short1; ++l) {
+				double d6 = (double) l / ((double) short1 - 1.0D);
+				float f = (this.rand.nextFloat() - 0.5F) * 0.2F;
+				float f1 = (this.rand.nextFloat() - 0.5F) * 0.2F;
+				float f2 = (this.rand.nextFloat() - 0.5F) * 0.2F;
+				double d7 = targetX + (e.posX - targetX) * d6 + (this.rand.nextDouble() - 0.5D) * (double) e.width * 2.0D;
+				double d8 = targetY + (e.posY - targetY) * d6 + this.rand.nextDouble() * (double) e.height;
+				double d9 = targetZ + (e.posZ - targetZ) * d6 + (this.rand.nextDouble() - 0.5D) * (double) e.width * 2.0D;
+				e.worldObj.spawnParticle("portal", d7, d8, d9, (double) f, (double) f1, (double) f2);
+			}
+
+			e.worldObj.playSoundEffect(targetX, targetY, targetZ, "mob.endermen.portal", 1.0F, 1.0F);
+			e.playSound("mob.endermen.portal", 1.0F, 1.0F);
+		}
 	}
 }

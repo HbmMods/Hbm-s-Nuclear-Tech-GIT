@@ -3,6 +3,7 @@ package com.hbm.render.entity.mob;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.mob.EntityGlyphid;
+import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.model.ModelBase;
@@ -13,16 +14,34 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderGlyphid extends RenderLiving {
+
+	public static final ResourceLocation glyphid_infested_tex = new ResourceLocation(RefStrings.MODID, "textures/entity/glyphid_infestation.png");
 	
 	public RenderGlyphid() {
 		super(new ModelGlyphid(), 1.0F);
 		this.shadowOpaque = 0.0F;
+		this.setRenderPassModel(this.mainModel);
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
 		EntityGlyphid glyphid = (EntityGlyphid) entity;
 		return glyphid.getSkin();
+	}
+
+	@Override
+	protected int shouldRenderPass(EntityLivingBase entity, int pass, float interp) {
+		if(pass != 0) {
+			return -1;
+		} else {
+			if(entity.getDataWatcher().getWatchableObjectByte(EntityGlyphid.DW_SUBTYPE) == EntityGlyphid.TYPE_INFECTED) {
+				this.bindTexture(glyphid_infested_tex);
+				GL11.glEnable(GL11.GL_BLEND);
+				GL11.glDisable(GL11.GL_ALPHA_TEST);
+				return 1;
+			}
+			return -1;
+		}
 	}
 	
 	public static class ModelGlyphid extends ModelBase {
@@ -43,11 +62,20 @@ public class RenderGlyphid extends RenderLiving {
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_CULL_FACE);
 			
+			this.renderModel(entity, limbSwing);
+			
+			GL11.glPopMatrix();
+		}
+		
+		public void renderModel(Entity entity, float limbSwing) {
+			
+			GL11.glPushMatrix();
+			
 			double s = ((EntityGlyphid) entity).getScale();
 			GL11.glScaled(s, s, s);
 			
 			EntityLivingBase living = (EntityLivingBase) entity;
-			byte armor = living.getDataWatcher().getWatchableObjectByte(17);
+			byte armor = living.getDataWatcher().getWatchableObjectByte(EntityGlyphid.DW_ARMOR);
 			
 			double walkCycle = limbSwing;
 

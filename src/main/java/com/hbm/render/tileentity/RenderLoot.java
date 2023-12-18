@@ -1,6 +1,7 @@
 package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.items.ModItems;
@@ -82,16 +83,20 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 
 	protected ModelLeverAction shotgun;
 	private void renderShotgun() {
-		
-		if(shotgun == null)
-			shotgun = new ModelLeverAction();
 
-		GL11.glScaled(0.25, 0.25, 0.25);
-		GL11.glTranslated(3, 0.0625, 2);
-		GL11.glRotated(-25, 0, 1, 0);
+		GL11.glScaled(0.5, 0.5, 0.5);
+		GL11.glTranslated(1, 0, 0);
+		GL11.glRotated(25, 0, 1, 0);
 		GL11.glRotated(90, 1, 0, 0);
-		bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLeverAction.png"));
-		shotgun.render(null, 0F, 0F, 0F, 0F, 0F, 0.0625F);
+		GL11.glRotated(90, 0, 1, 0);
+		
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		bindTexture(ResourceManager.ff_wood);
+		ResourceManager.ff_maresleg.renderPart("Grip");
+		bindTexture(ResourceManager.ff_gun_bright);
+		ResourceManager.ff_maresleg.renderPart("Gun");
+		ResourceManager.ff_maresleg.renderPart("Lever");
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 	}
 	
 	private void renderStandardItem(ItemStack stack) {

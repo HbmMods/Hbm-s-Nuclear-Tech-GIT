@@ -2935,8 +2935,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(mush, mush.getUnlocalizedName());
 		GameRegistry.registerBlock(mush_block, mush_block.getUnlocalizedName());
 		GameRegistry.registerBlock(mush_block_stem, mush_block_stem.getUnlocalizedName());
-		GameRegistry.registerBlock(glyphid_base, glyphid_base.getUnlocalizedName());
-		GameRegistry.registerBlock(glyphid_spawner, glyphid_spawner.getUnlocalizedName());
+		register(glyphid_base);
+		register(glyphid_spawner);
 		GameRegistry.registerBlock(moon_turf, moon_turf.getUnlocalizedName());
 		
 		//Waste
