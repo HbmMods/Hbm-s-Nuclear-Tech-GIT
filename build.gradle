@@ -24,6 +24,7 @@ if(Files.exists(Paths.get("curseforge.properties"))) {
 	ext.cfprops = parseConfig(file("curseforge.properties"))
 }
 
+//OlorinIV Special
 def version_name = version = mod_version
 if(!mod_build_number.isEmpty()) {
 	version_name = mod_version + "_X" + mod_build_number + "_Olorin"
