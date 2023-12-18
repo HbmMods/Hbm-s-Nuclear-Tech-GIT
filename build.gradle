@@ -26,8 +26,8 @@ if(Files.exists(Paths.get("curseforge.properties"))) {
 
 def version_name = version = mod_version
 if(!mod_build_number.isEmpty()) {
-	version_name = mod_version + "_X" + mod_build_number
-	version = "[${version_name}]"
+	version_name = mod_version + "_X" + mod_build_number + "_Olorin"
+	version = "${version_name}"
 }
 group = "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HBM-NTM"
@@ -89,6 +89,9 @@ dependencies {
 
 	//compileOnly 'inventory-tweaks:InventoryTweaks:1.62+beta.84:api'
 	implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
+	implementation 'org.apache.logging.log4j:log4j:2.17.2'
+	// https://mvnrepository.com/artifact/com.google.code.gson/gson
+	implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 processResources {
