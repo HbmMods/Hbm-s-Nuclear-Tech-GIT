@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerCrystallizer;
 import com.hbm.inventory.fluid.Fluids;
@@ -110,6 +111,15 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 					prevAngle -= 360;
 				}
 			}
+		}
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 6.875, zCoord + 1).offset(dir.offsetX * 0.75 + rot.offsetX * 1.25, 0, dir.offsetZ * 0.75 + rot.offsetZ * 1.25));
+		
+		for(EntityPlayer player : players) {
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			props.isOnLadder = true;
 		}
 	}
 	
